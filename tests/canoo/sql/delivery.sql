@@ -1,21 +1,115 @@
--- phpMyAdmin SQL Dump
--- version 2.8.0.2
--- http://www.phpmyadmin.net
--- 
--- Host: localhost
--- Generation Time: Nov 21, 2007 at 11:23 AM
--- Server version: 5.0.22
--- PHP Version: 5.2.5
--- 
--- Database: `canoo`
--- 
+-- MySQL dump 10.11
+--
+-- Host: localhost    Database: oa_canoo
+-- ------------------------------------------------------
+-- Server version	5.0.22
 
--- --------------------------------------------------------
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- 
+--
+-- Table structure for table `oa_account_preference_assoc`
+--
+
+DROP TABLE IF EXISTS `oa_account_preference_assoc`;
+CREATE TABLE `oa_account_preference_assoc` (
+  `account_id` mediumint(9) NOT NULL,
+  `preference_id` mediumint(9) NOT NULL,
+  `value` text NOT NULL,
+  PRIMARY KEY  (`account_id`,`preference_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `oa_account_preference_assoc`
+--
+
+LOCK TABLES `oa_account_preference_assoc` WRITE;
+/*!40000 ALTER TABLE `oa_account_preference_assoc` DISABLE KEYS */;
+INSERT INTO `oa_account_preference_assoc` VALUES (1,1,'english'),(1,2,'0'),(1,3,'2'),(1,4,'t'),(1,5,'t'),(1,6,'t'),(1,7,'100'),(1,8,'1'),(1,9,'t'),(1,10,'1'),(1,11,'1'),(1,12,''),(1,13,''),(1,14,'t'),(1,15,'t'),(1,16,'t'),(1,17,'t'),(1,18,'t'),(1,19,'t'),(1,20,'t'),(1,21,'t'),(1,22,'1'),(1,23,'1'),(1,24,'f'),(1,25,'t'),(1,26,''),(1,27,'0'),(1,28,'t'),(1,29,''),(1,30,'0'),(1,31,'t'),(1,32,''),(1,33,'0'),(1,34,'t'),(1,35,''),(1,36,'0'),(1,37,'t'),(1,38,''),(1,39,'0'),(1,40,'t'),(1,41,''),(1,42,'0'),(1,43,'t'),(1,44,''),(1,45,'0'),(1,46,'t'),(1,47,''),(1,48,'0'),(1,49,'t'),(1,50,''),(1,51,'0'),(1,52,'t'),(1,53,''),(1,54,'0'),(1,55,'t'),(1,56,''),(1,57,'0'),(1,58,'t'),(1,59,''),(1,60,'0'),(1,61,'t'),(1,62,''),(1,63,'0'),(1,64,'t'),(1,65,''),(1,66,'0'),(1,67,'t'),(1,68,''),(1,69,'0'),(1,70,'t'),(1,71,''),(1,72,'0'),(1,73,'t'),(1,74,''),(1,75,'0'),(1,76,'t'),(1,77,''),(1,78,'0'),(1,79,'t'),(1,80,''),(1,81,'0'),(1,82,'t'),(1,83,''),(1,84,'0'),(1,85,'t'),(1,86,''),(1,87,'0'),(1,88,'t'),(1,89,''),(1,90,'0'),(1,91,'t'),(1,92,''),(1,93,'0'),(1,94,'t'),(1,95,''),(1,96,'0'),(1,97,'t'),(1,98,''),(1,99,'0'),(1,100,'t'),(1,101,''),(1,102,'0'),(1,103,'t'),(1,104,''),(1,105,'0'),(1,106,'t'),(1,107,''),(1,108,'0'),(1,109,'t'),(1,110,''),(1,111,'0'),(1,112,'t'),(1,113,''),(1,114,'0');
+/*!40000 ALTER TABLE `oa_account_preference_assoc` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `oa_account_user_assoc`
+--
+
+DROP TABLE IF EXISTS `oa_account_user_assoc`;
+CREATE TABLE `oa_account_user_assoc` (
+  `account_id` mediumint(9) NOT NULL,
+  `user_id` mediumint(9) NOT NULL,
+  `linked` datetime NOT NULL,
+  PRIMARY KEY  (`account_id`,`user_id`),
+  KEY `oa_account_user_assoc_user_id` (`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `oa_account_user_assoc`
+--
+
+LOCK TABLES `oa_account_user_assoc` WRITE;
+/*!40000 ALTER TABLE `oa_account_user_assoc` DISABLE KEYS */;
+INSERT INTO `oa_account_user_assoc` VALUES (1,1,'2008-01-11 14:45:32'),(2,1,'2008-01-11 14:45:32'),(3,2,'2008-01-11 14:45:32'),(4,3,'2008-01-11 14:45:32'),(5,4,'2008-01-11 14:45:32');
+/*!40000 ALTER TABLE `oa_account_user_assoc` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `oa_account_user_permission_assoc`
+--
+
+DROP TABLE IF EXISTS `oa_account_user_permission_assoc`;
+CREATE TABLE `oa_account_user_permission_assoc` (
+  `account_id` mediumint(9) NOT NULL,
+  `user_id` mediumint(9) NOT NULL,
+  `permission_id` mediumint(9) NOT NULL,
+  `is_allowed` tinyint(1) NOT NULL default '1',
+  PRIMARY KEY  (`account_id`,`user_id`,`permission_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `oa_account_user_permission_assoc`
+--
+
+LOCK TABLES `oa_account_user_permission_assoc` WRITE;
+/*!40000 ALTER TABLE `oa_account_user_permission_assoc` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oa_account_user_permission_assoc` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `oa_accounts`
+--
+
+DROP TABLE IF EXISTS `oa_accounts`;
+CREATE TABLE `oa_accounts` (
+  `account_id` mediumint(9) NOT NULL auto_increment,
+  `account_type` varchar(16) NOT NULL default '',
+  `account_name` varchar(255) default NULL,
+  PRIMARY KEY  (`account_id`),
+  KEY `oa_accounts_account_type` (`account_type`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `oa_accounts`
+--
+
+LOCK TABLES `oa_accounts` WRITE;
+/*!40000 ALTER TABLE `oa_accounts` DISABLE KEYS */;
+INSERT INTO `oa_accounts` VALUES (1,'ADMIN','Administrator'),(2,'MANAGER','Default manager'),(3,'MANAGER','Test Agency'),(4,'ADVERTISER','Advertiser 1'),(5,'TRAFFICKER','Publisher 1'),(6,'TRAFFICKER','Agency Publisher 1');
+/*!40000 ALTER TABLE `oa_accounts` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `oa_acls`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_acls`;
 CREATE TABLE `oa_acls` (
   `bannerid` mediumint(9) NOT NULL default '0',
   `logical` varchar(3) NOT NULL default 'and',
@@ -27,18 +121,21 @@ CREATE TABLE `oa_acls` (
   KEY `bannerid` (`bannerid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_acls`
--- 
+--
 
-INSERT INTO `oa_acls` (`bannerid`, `logical`, `type`, `comparison`, `data`, `executionorder`) VALUES (1, 'and', 'Site:Channel', '=~', '7', 0);
+LOCK TABLES `oa_acls` WRITE;
+/*!40000 ALTER TABLE `oa_acls` DISABLE KEYS */;
+INSERT INTO `oa_acls` VALUES (1,'and','Site:Channel','=~','7',0);
+/*!40000 ALTER TABLE `oa_acls` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_acls_channel`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_acls_channel`;
 CREATE TABLE `oa_acls_channel` (
   `channelid` mediumint(9) NOT NULL default '0',
   `logical` varchar(3) NOT NULL default 'and',
@@ -50,35 +147,41 @@ CREATE TABLE `oa_acls_channel` (
   KEY `channelid` (`channelid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_acls_channel`
--- 
+--
 
+LOCK TABLES `oa_acls_channel` WRITE;
+/*!40000 ALTER TABLE `oa_acls_channel` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oa_acls_channel` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_ad_category_assoc`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_ad_category_assoc`;
 CREATE TABLE `oa_ad_category_assoc` (
   `ad_category_assoc_id` int(10) unsigned NOT NULL auto_increment,
   `category_id` int(10) unsigned NOT NULL,
   `ad_id` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`ad_category_assoc_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_ad_category_assoc`
--- 
+--
 
+LOCK TABLES `oa_ad_category_assoc` WRITE;
+/*!40000 ALTER TABLE `oa_ad_category_assoc` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oa_ad_category_assoc` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_ad_zone_assoc`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_ad_zone_assoc`;
 CREATE TABLE `oa_ad_zone_assoc` (
   `ad_zone_assoc_id` mediumint(9) NOT NULL auto_increment,
   `zone_id` mediumint(9) default NULL,
@@ -90,26 +193,23 @@ CREATE TABLE `oa_ad_zone_assoc` (
   PRIMARY KEY  (`ad_zone_assoc_id`),
   KEY `ad_zone_assoc_zone_id` (`zone_id`),
   KEY `ad_id` (`ad_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_ad_zone_assoc`
--- 
+--
 
-INSERT INTO `oa_ad_zone_assoc` (`ad_zone_assoc_id`, `zone_id`, `ad_id`, `priority`, `link_type`, `priority_factor`, `to_be_delivered`) VALUES (1, 0, 1, 1, 0, 1670960, 1),
-(2, 1, 1, 0.9, 1, 100, 1),
-(3, 0, 2, 0, 0, 1, 1),
-(4, 1, 2, 0, 1, 1, 1),
-(5, 2, 1, 0.9, 1, 100, 1),
-(6, 0, 3, 0, 0, 0, 1),
-(7, 1, 3, 0, 1, 1, 1);
+LOCK TABLES `oa_ad_zone_assoc` WRITE;
+/*!40000 ALTER TABLE `oa_ad_zone_assoc` DISABLE KEYS */;
+INSERT INTO `oa_ad_zone_assoc` VALUES (1,0,1,1,0,1670960,1),(2,1,1,0.9,1,100,1),(3,0,2,0,0,1,1),(4,1,2,0,1,1,1),(5,2,1,0.9,1,100,1),(6,0,3,0,0,0,1),(7,1,3,0,1,1,1);
+/*!40000 ALTER TABLE `oa_ad_zone_assoc` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_affiliates`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_affiliates`;
 CREATE TABLE `oa_affiliates` (
   `affiliateid` mediumint(9) NOT NULL auto_increment,
   `agencyid` mediumint(9) NOT NULL default '0',
@@ -119,35 +219,33 @@ CREATE TABLE `oa_affiliates` (
   `contact` varchar(255) default NULL,
   `email` varchar(64) NOT NULL default '',
   `website` varchar(255) default NULL,
-  `username` varchar(64) default NULL,
-  `password` varchar(64) default NULL,
-  `permissions` mediumint(9) default NULL,
-  `language` varchar(64) default NULL,
-  `publiczones` enum('t','f') NOT NULL default 'f',
-  `last_accepted_agency_agreement` datetime default NULL,
   `updated` datetime default NULL,
   `an_website_id` int(11) default NULL,
   `oac_country_code` char(2) NOT NULL default '',
   `oac_language_id` int(11) default NULL,
   `oac_category_id` int(11) default NULL,
   `as_website_id` int(11) default NULL,
+  `account_id` mediumint(9) default NULL,
   PRIMARY KEY  (`affiliateid`),
+  UNIQUE KEY `oa_affiliates_account_id` (`account_id`),
   KEY `oa_affiliates_agencyid` (`agencyid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_affiliates`
--- 
+--
 
-INSERT INTO `oa_affiliates` (`affiliateid`, `agencyid`, `name`, `mnemonic`, `comments`, `contact`, `email`, `website`, `username`, `password`, `permissions`, `language`, `publiczones`, `last_accepted_agency_agreement`, `updated`, `an_website_id`, `oac_country_code`, `oac_language_id`, `oac_category_id`, `as_website_id`) VALUES (1, 0, 'Publisher 1', '', '', 'Andrew Hill', 'andrew.hill@openads.org', 'http://www.fornax.net/blog/', 'publisher', '5f4dcc3b5aa765d61d8327deb882cf99', 0, '', 'f', NULL, '2007-05-15 13:29:57', NULL, '', NULL, NULL, NULL),
-(2, 1, 'Agency Publisher 1', '', '', 'Andrew Hill', 'andrew.hill@openads.org', 'http://fornax.net', NULL, '', 0, NULL, 'f', NULL, '2007-05-15 13:41:40', NULL, '', NULL, NULL, NULL);
+LOCK TABLES `oa_affiliates` WRITE;
+/*!40000 ALTER TABLE `oa_affiliates` DISABLE KEYS */;
+INSERT INTO `oa_affiliates` VALUES (1,2,'Publisher 1','','','Andrew Hill','andrew.hill@openads.org','http://www.fornax.net/blog/','2007-05-15 13:29:57',NULL,'',NULL,NULL,NULL,5),(2,1,'Agency Publisher 1','','','Andrew Hill','andrew.hill@openads.org','http://fornax.net','2007-05-15 13:41:40',NULL,'',NULL,NULL,NULL,6);
+/*!40000 ALTER TABLE `oa_affiliates` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_affiliates_extra`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_affiliates_extra`;
 CREATE TABLE `oa_affiliates_extra` (
   `affiliateid` mediumint(9) NOT NULL,
   `address` text,
@@ -169,66 +267,70 @@ CREATE TABLE `oa_affiliates_extra` (
   PRIMARY KEY  (`affiliateid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_affiliates_extra`
--- 
+--
 
-INSERT INTO `oa_affiliates_extra` (`affiliateid`, `address`, `city`, `postcode`, `country`, `phone`, `fax`, `account_contact`, `payee_name`, `tax_id`, `mode_of_payment`, `currency`, `unique_users`, `unique_views`, `page_rank`, `category`, `help_file`) VALUES (1, '', '', '', '', '', '', '', '', '', 'Cheque by post', 'GBP', 0, 0, 0, '', ''),
-(2, '', '', '', '', '', '', '', '', '', 'Cheque by post', 'GBP', 0, 0, 0, NULL, NULL);
+LOCK TABLES `oa_affiliates_extra` WRITE;
+/*!40000 ALTER TABLE `oa_affiliates_extra` DISABLE KEYS */;
+INSERT INTO `oa_affiliates_extra` VALUES (1,'','','','','','','','','','Cheque by post','GBP',0,0,0,'',''),(2,'','','','','','','','','','Cheque by post','GBP',0,0,0,NULL,NULL);
+/*!40000 ALTER TABLE `oa_affiliates_extra` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_agency`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_agency`;
 CREATE TABLE `oa_agency` (
   `agencyid` mediumint(9) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL default '',
   `contact` varchar(255) default NULL,
   `email` varchar(64) NOT NULL default '',
-  `username` varchar(64) default NULL,
-  `password` varchar(64) default NULL,
-  `permissions` mediumint(9) default NULL,
-  `language` varchar(64) default NULL,
   `logout_url` varchar(255) default NULL,
   `active` smallint(1) default '0',
   `updated` datetime NOT NULL,
-  PRIMARY KEY  (`agencyid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+  `account_id` mediumint(9) default NULL,
+  PRIMARY KEY  (`agencyid`),
+  UNIQUE KEY `oa_agency_account_id` (`account_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_agency`
--- 
+--
 
-INSERT INTO `oa_agency` (`agencyid`, `name`, `contact`, `email`, `username`, `password`, `permissions`, `language`, `logout_url`, `active`, `updated`) VALUES (1, 'Test Agency', 'Andrew Hill', 'andrew.hill@openads.org', 'agency', '5f4dcc3b5aa765d61d8327deb882cf99', 0, '', '', 0, '2007-05-15 12:54:16');
+LOCK TABLES `oa_agency` WRITE;
+/*!40000 ALTER TABLE `oa_agency` DISABLE KEYS */;
+INSERT INTO `oa_agency` VALUES (1,'Test Agency','Andrew Hill','andrew.hill@openads.org','',0,'2007-05-15 12:54:16',3),(2,'Default manager',NULL,'andrew.hill@openads.org',NULL,1,'0000-00-00 00:00:00',2);
+/*!40000 ALTER TABLE `oa_agency` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_application_variable`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_application_variable`;
 CREATE TABLE `oa_application_variable` (
   `name` varchar(255) NOT NULL default '',
-  `value` varchar(255) NOT NULL default '',
+  `value` text NOT NULL,
   PRIMARY KEY  (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_application_variable`
--- 
+--
 
-INSERT INTO `oa_application_variable` (`name`, `value`) VALUES ('oa_version', '2.5.1-dev'),
-('platform_hash', '39adcaa8840247618ff928521ba95397770c5b67'),
-('tables_core', '516');
+LOCK TABLES `oa_application_variable` WRITE;
+/*!40000 ALTER TABLE `oa_application_variable` DISABLE KEYS */;
+INSERT INTO `oa_application_variable` VALUES ('admin_account_id','1'),('oa_version','2.5.48-dev'),('platform_hash','39adcaa8840247618ff928521ba95397770c5b67'),('sync_cache','b:0;'),('sync_last_run','2008-01-11 14:47:04'),('sync_timestamp','1200062824'),('tables_core','546');
+/*!40000 ALTER TABLE `oa_application_variable` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_audit`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_audit`;
 CREATE TABLE `oa_audit` (
   `auditid` mediumint(9) NOT NULL auto_increment,
   `actionid` mediumint(9) NOT NULL,
@@ -246,19 +348,23 @@ CREATE TABLE `oa_audit` (
   KEY `oa_audit_usertype` (`usertype`),
   KEY `oa_audit_username` (`username`),
   KEY `oa_audit_context_actionid` (`context`,`actionid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_audit`
--- 
+--
 
+LOCK TABLES `oa_audit` WRITE;
+/*!40000 ALTER TABLE `oa_audit` DISABLE KEYS */;
+INSERT INTO `oa_audit` VALUES (1,1,'Account User Association',0,NULL,'a:4:{s:10:\"account_id\";i:1;s:7:\"user_id\";i:1;s:6:\"linked\";s:19:\"2008-01-11 14:45:32\";s:8:\"key_desc\";s:21:\"Account #1 -> User #1\";}',0,'admin',0,'2008-01-11 14:45:32'),(2,1,'Account User Association',0,NULL,'a:4:{s:10:\"account_id\";i:2;s:7:\"user_id\";i:1;s:6:\"linked\";s:19:\"2008-01-11 14:45:32\";s:8:\"key_desc\";s:21:\"Account #2 -> User #1\";}',0,'admin',0,'2008-01-11 14:45:32'),(3,1,'Account User Association',0,NULL,'a:4:{s:10:\"account_id\";i:3;s:7:\"user_id\";i:2;s:6:\"linked\";s:19:\"2008-01-11 14:45:32\";s:8:\"key_desc\";s:21:\"Account #3 -> User #2\";}',0,'admin',0,'2008-01-11 14:45:32'),(4,1,'Account User Association',0,NULL,'a:4:{s:10:\"account_id\";i:4;s:7:\"user_id\";i:3;s:6:\"linked\";s:19:\"2008-01-11 14:45:32\";s:8:\"key_desc\";s:21:\"Account #4 -> User #3\";}',0,'admin',0,'2008-01-11 14:45:32'),(5,1,'Account User Association',0,NULL,'a:4:{s:10:\"account_id\";i:5;s:7:\"user_id\";i:4;s:6:\"linked\";s:19:\"2008-01-11 14:45:32\";s:8:\"key_desc\";s:21:\"Account #5 -> User #4\";}',0,'admin',0,'2008-01-11 14:45:32');
+/*!40000 ALTER TABLE `oa_audit` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_banners`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_banners`;
 CREATE TABLE `oa_banners` (
   `bannerid` mediumint(9) NOT NULL auto_increment,
   `campaignid` mediumint(9) NOT NULL default '0',
@@ -303,22 +409,23 @@ CREATE TABLE `oa_banners` (
   `as_banner_id` int(11) default NULL,
   PRIMARY KEY  (`bannerid`),
   KEY `oa_banners_campaignid` (`campaignid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_banners`
--- 
+--
 
-INSERT INTO `oa_banners` (`bannerid`, `campaignid`, `contenttype`, `pluginversion`, `storagetype`, `filename`, `imageurl`, `htmltemplate`, `htmlcache`, `width`, `height`, `weight`, `seq`, `target`, `url`, `alt`, `statustext`, `status`, `bannertext`, `description`, `autohtml`, `adserver`, `block`, `capping`, `session_capping`, `compiledlimitation`, `acl_plugins`, `append`, `appendtype`, `bannertype`, `alt_filename`, `alt_imageurl`, `alt_contenttype`, `comments`, `updated`, `acls_updated`, `keyword`, `transparent`, `parameters`, `an_banner_id`, `as_banner_id`) VALUES (1, 1, 'html', 0, 'html', '', '', 'Test HTML Banner!', 'Test HTML Banner!', 468, 60, 1, 0, '', '', '', '', 0, '', '', 't', '', 0, 0, 0, '(MAX_checkSite_Channel(''7'', ''=~''))', 'Site:Channel', '', 0, 0, '', '', 'gif', '', '2007-08-29 14:38:32', '2007-05-15 15:01:43', '', 0, 'N;', NULL, NULL),
-(2, 2, 'html', 0, 'html', '', '', 'html test banner', '<a href="{clickurl}" target="{target}">html test banner</a>', 468, 60, 1, 0, '', 'http://www.example.com', '', '', 0, '', 'test banner', 't', 'max', 0, 0, 0, '', '', '', 0, 0, '', '', 'gif', '', '2007-08-29 14:38:32', '0000-00-00 00:00:00', '', 0, 'N;', NULL, NULL),
-(3, 3, 'gif', 0, 'sql', '468x60.gif', '', '', '', 468, 60, 1, 0, '', 'http://www.example.com', 'alt text', '', 0, '', 'sample gif banner', 'f', '', 0, 0, 0, '', '', '', 0, 0, '', '', 'gif', '', '2007-08-29 14:38:32', '0000-00-00 00:00:00', '', 0, 'N;', NULL, NULL);
+LOCK TABLES `oa_banners` WRITE;
+/*!40000 ALTER TABLE `oa_banners` DISABLE KEYS */;
+INSERT INTO `oa_banners` VALUES (1,1,'html',0,'html','','','Test HTML Banner!','Test HTML Banner!',468,60,1,0,'','','','',0,'','','t','',0,0,0,'(MAX_checkSite_Channel(\'7\', \'=~\'))','Site:Channel','',0,0,'','','gif','','2007-08-29 14:38:32','2007-05-15 15:01:43','',0,'N;',NULL,NULL),(2,2,'html',0,'html','','','html test banner','<a href=\"{clickurl}\" target=\"{target}\">html test banner</a>',468,60,1,0,'','http://canoo.dev.openads.org/live-openads/www/delivery_test/example.php','','',0,'','test banner','t','max',0,0,0,'','','',0,0,'','','gif','','2007-08-29 14:38:32','0000-00-00 00:00:00','',0,'N;',NULL,NULL),(3,3,'gif',0,'sql','468x60.gif','','','',468,60,1,0,'','http://canoo.dev.openads.org/live-openads/www/delivery_test/example.php','alt text','',0,'','sample gif banner','f','',0,0,0,'','','',0,0,'','','gif','','2007-08-29 14:38:32','0000-00-00 00:00:00','',0,'N;',NULL,NULL);
+/*!40000 ALTER TABLE `oa_banners` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_campaigns`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_campaigns`;
 CREATE TABLE `oa_campaigns` (
   `campaignid` mediumint(9) NOT NULL auto_increment,
   `campaignname` varchar(255) NOT NULL default '',
@@ -348,22 +455,23 @@ CREATE TABLE `oa_campaigns` (
   `an_status` int(11) NOT NULL default '0',
   PRIMARY KEY  (`campaignid`),
   KEY `oa_campaigns_clientid` (`clientid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_campaigns`
--- 
+--
 
-INSERT INTO `oa_campaigns` (`campaignid`, `campaignname`, `clientid`, `views`, `clicks`, `conversions`, `expire`, `activate`, `priority`, `weight`, `target_impression`, `target_click`, `target_conversion`, `anonymous`, `companion`, `comments`, `revenue`, `revenue_type`, `updated`, `block`, `capping`, `session_capping`, `an_campaign_id`, `as_campaign_id`, `status`, `an_status`) VALUES (1, 'Advertiser 1 - Default Campaign', 1, 100000000, -1, -1, '2007-07-01', '0000-00-00', 10, 0, 0, 0, 0, 'f', 0, '', NULL, NULL, '2007-05-15 09:54:06', 0, 0, 0, NULL, NULL, 0, 0),
-(2, 'test campaign', 1, -1, -1, -1, '0000-00-00', '0000-00-00', -1, 1, 0, 0, 0, 't', 0, '', NULL, NULL, '2007-05-16 12:55:24', 0, 0, 0, NULL, NULL, 0, 0),
-(3, 'campaign 2 (gif)', 1, -1, -1, -1, '0000-00-00', '0000-00-00', 0, 1, 0, 0, 0, 't', 0, '', NULL, NULL, '2007-05-17 13:14:43', 0, 0, 0, NULL, NULL, 0, 0);
+LOCK TABLES `oa_campaigns` WRITE;
+/*!40000 ALTER TABLE `oa_campaigns` DISABLE KEYS */;
+INSERT INTO `oa_campaigns` VALUES (1,'Advertiser 1 - Default Campaign',1,100000000,-1,-1,'2007-07-01','0000-00-00',10,0,0,0,0,'f',0,'',NULL,NULL,'2007-05-15 09:54:06',0,0,0,NULL,NULL,0,0),(2,'test campaign',1,-1,-1,-1,'0000-00-00','0000-00-00',-1,1,0,0,0,'t',0,'',NULL,NULL,'2007-05-16 12:55:24',0,0,0,NULL,NULL,0,0),(3,'campaign 2 (gif)',1,-1,-1,-1,'0000-00-00','0000-00-00',0,1,0,0,0,'t',0,'',NULL,NULL,'2007-05-17 13:14:43',0,0,0,NULL,NULL,0,0);
+/*!40000 ALTER TABLE `oa_campaigns` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_campaigns_trackers`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_campaigns_trackers`;
 CREATE TABLE `oa_campaigns_trackers` (
   `campaign_trackerid` mediumint(9) NOT NULL auto_increment,
   `campaignid` mediumint(9) NOT NULL default '0',
@@ -374,37 +482,43 @@ CREATE TABLE `oa_campaigns_trackers` (
   PRIMARY KEY  (`campaign_trackerid`),
   KEY `campaigns_trackers_campaignid` (`campaignid`),
   KEY `campaigns_trackers_trackerid` (`trackerid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_campaigns_trackers`
--- 
+--
 
-INSERT INTO `oa_campaigns_trackers` (`campaign_trackerid`, `campaignid`, `trackerid`, `viewwindow`, `clickwindow`, `status`) VALUES (1, 3, 1, 3, 3, 4);
+LOCK TABLES `oa_campaigns_trackers` WRITE;
+/*!40000 ALTER TABLE `oa_campaigns_trackers` DISABLE KEYS */;
+INSERT INTO `oa_campaigns_trackers` VALUES (1,3,1,3,3,4);
+/*!40000 ALTER TABLE `oa_campaigns_trackers` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_category`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_category`;
 CREATE TABLE `oa_category` (
   `category_id` int(10) unsigned NOT NULL auto_increment,
   `name` varchar(255) default NULL,
   PRIMARY KEY  (`category_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_category`
--- 
+--
 
+LOCK TABLES `oa_category` WRITE;
+/*!40000 ALTER TABLE `oa_category` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oa_category` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_channel`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_channel`;
 CREATE TABLE `oa_channel` (
   `channelid` mediumint(9) NOT NULL auto_increment,
   `agencyid` mediumint(9) NOT NULL default '0',
@@ -418,30 +532,29 @@ CREATE TABLE `oa_channel` (
   `updated` datetime NOT NULL,
   `acls_updated` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`channelid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_channel`
--- 
+--
 
-INSERT INTO `oa_channel` (`channelid`, `agencyid`, `affiliateid`, `name`, `description`, `compiledlimitation`, `acl_plugins`, `active`, `comments`, `updated`, `acls_updated`) VALUES (7, 0, 0, 'Test Admin Channel 2', '', 'true', 'true', 1, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+LOCK TABLES `oa_channel` WRITE;
+/*!40000 ALTER TABLE `oa_channel` DISABLE KEYS */;
+INSERT INTO `oa_channel` VALUES (7,2,0,'Test Admin Channel 2','','true','true',1,'','0000-00-00 00:00:00','0000-00-00 00:00:00');
+/*!40000 ALTER TABLE `oa_channel` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_clients`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_clients`;
 CREATE TABLE `oa_clients` (
   `clientid` mediumint(9) NOT NULL auto_increment,
   `agencyid` mediumint(9) NOT NULL default '0',
   `clientname` varchar(255) NOT NULL default '',
   `contact` varchar(255) default NULL,
   `email` varchar(64) NOT NULL default '',
-  `clientusername` varchar(64) NOT NULL default '',
-  `clientpassword` varchar(64) NOT NULL default '',
-  `permissions` mediumint(9) default NULL,
-  `language` varchar(64) default NULL,
   `report` enum('t','f') NOT NULL default 't',
   `reportinterval` mediumint(9) NOT NULL default '7',
   `reportlastdate` date NOT NULL default '0000-00-00',
@@ -451,22 +564,27 @@ CREATE TABLE `oa_clients` (
   `lb_reporting` tinyint(1) NOT NULL default '0',
   `an_adnetwork_id` int(11) default NULL,
   `as_advertiser_id` int(11) default NULL,
+  `account_id` mediumint(9) default NULL,
   PRIMARY KEY  (`clientid`),
+  UNIQUE KEY `oa_clients_account_id` (`account_id`),
   KEY `oa_clients_agencyid` (`agencyid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_clients`
--- 
+--
 
-INSERT INTO `oa_clients` (`clientid`, `agencyid`, `clientname`, `contact`, `email`, `clientusername`, `clientpassword`, `permissions`, `language`, `report`, `reportinterval`, `reportlastdate`, `reportdeactivate`, `comments`, `updated`, `lb_reporting`, `an_adnetwork_id`, `as_advertiser_id`) VALUES (1, 0, 'Advertiser 1', 'advertiser', 'example@example.com', 'advertiser1', 'fe1f4b7940d69cf3eb289fad37c3ae40', 0, '', 'f', 7, '2007-04-27', 't', '', '2007-05-16 12:54:09', 2, NULL, NULL);
+LOCK TABLES `oa_clients` WRITE;
+/*!40000 ALTER TABLE `oa_clients` DISABLE KEYS */;
+INSERT INTO `oa_clients` VALUES (1,2,'Advertiser 1','advertiser','example@example.com','f',7,'2007-04-27','t','','2007-05-16 12:54:09',2,NULL,NULL,4);
+/*!40000 ALTER TABLE `oa_clients` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_data_intermediate_ad`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_data_intermediate_ad`;
 CREATE TABLE `oa_data_intermediate_ad` (
   `data_intermediate_ad_id` bigint(20) NOT NULL auto_increment,
   `date_time` datetime NOT NULL,
@@ -489,19 +607,22 @@ CREATE TABLE `oa_data_intermediate_ad` (
   KEY `oa_data_intermediate_ad_zone_id_date_time` (`zone_id`,`date_time`),
   KEY `oa_data_intermediate_ad_date_time` (`date_time`),
   KEY `oa_data_intermediate_ad_interval_start` (`interval_start`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_data_intermediate_ad`
--- 
+--
 
+LOCK TABLES `oa_data_intermediate_ad` WRITE;
+/*!40000 ALTER TABLE `oa_data_intermediate_ad` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oa_data_intermediate_ad` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_data_intermediate_ad_connection`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_data_intermediate_ad_connection`;
 CREATE TABLE `oa_data_intermediate_ad_connection` (
   `data_intermediate_ad_connection_id` bigint(20) NOT NULL auto_increment,
   `server_raw_ip` varchar(16) NOT NULL default '',
@@ -556,19 +677,22 @@ CREATE TABLE `oa_data_intermediate_ad_connection` (
   KEY `data_intermediate_ad_connection_ad_id` (`ad_id`),
   KEY `data_intermediate_ad_connection_zone_id` (`zone_id`),
   KEY `data_intermediate_ad_connection_viewer_id` (`viewer_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_data_intermediate_ad_connection`
--- 
+--
 
+LOCK TABLES `oa_data_intermediate_ad_connection` WRITE;
+/*!40000 ALTER TABLE `oa_data_intermediate_ad_connection` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oa_data_intermediate_ad_connection` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_data_intermediate_ad_variable_value`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_data_intermediate_ad_variable_value`;
 CREATE TABLE `oa_data_intermediate_ad_variable_value` (
   `data_intermediate_ad_variable_value_id` bigint(20) NOT NULL auto_increment,
   `data_intermediate_ad_connection_id` bigint(20) NOT NULL,
@@ -578,19 +702,22 @@ CREATE TABLE `oa_data_intermediate_ad_variable_value` (
   KEY `data_intermediate_ad_connection_id` (`data_intermediate_ad_connection_id`),
   KEY `data_intermediate_ad_variable_value_tracker_variable_id` (`tracker_variable_id`),
   KEY `data_intermediate_ad_variable_value_tracker_value` (`value`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_data_intermediate_ad_variable_value`
--- 
+--
 
+LOCK TABLES `oa_data_intermediate_ad_variable_value` WRITE;
+/*!40000 ALTER TABLE `oa_data_intermediate_ad_variable_value` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oa_data_intermediate_ad_variable_value` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_data_raw_ad_click`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_data_raw_ad_click`;
 CREATE TABLE `oa_data_raw_ad_click` (
   `viewer_id` varchar(32) default NULL,
   `viewer_session_id` varchar(32) default NULL,
@@ -630,18 +757,21 @@ CREATE TABLE `oa_data_raw_ad_click` (
   KEY `data_raw_ad_click_zone_id` (`zone_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_data_raw_ad_click`
--- 
+--
 
-INSERT INTO `oa_data_raw_ad_click` (`viewer_id`, `viewer_session_id`, `date_time`, `ad_id`, `creative_id`, `zone_id`, `channel`, `channel_ids`, `language`, `ip_address`, `host_name`, `country`, `https`, `domain`, `page`, `query`, `referer`, `search_term`, `user_agent`, `os`, `browser`, `max_https`, `geo_region`, `geo_city`, `geo_postal_code`, `geo_latitude`, `geo_longitude`, `geo_dma_code`, `geo_area_code`, `geo_organisation`, `geo_netspeed`, `geo_continent`) VALUES ('1d0b8f22878ee21edac4d01eeb8793bd', '', '2007-08-29 15:19:19', 2, 0, 0, NULL, NULL, '', '127.0.0.1', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, '', 'Mozilla/4.0 (compatible; MSIE 6.0b; Windows 98)', '', '', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+LOCK TABLES `oa_data_raw_ad_click` WRITE;
+/*!40000 ALTER TABLE `oa_data_raw_ad_click` DISABLE KEYS */;
+INSERT INTO `oa_data_raw_ad_click` VALUES ('1d0b8f22878ee21edac4d01eeb8793bd','','2007-08-29 15:19:19',2,0,0,NULL,NULL,'','127.0.0.1','127.0.0.1',NULL,NULL,NULL,NULL,NULL,NULL,'','Mozilla/4.0 (compatible; MSIE 6.0b; Windows 98)','','',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+/*!40000 ALTER TABLE `oa_data_raw_ad_click` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_data_raw_ad_impression`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_data_raw_ad_impression`;
 CREATE TABLE `oa_data_raw_ad_impression` (
   `viewer_id` varchar(32) default NULL,
   `viewer_session_id` varchar(32) default NULL,
@@ -681,17 +811,20 @@ CREATE TABLE `oa_data_raw_ad_impression` (
   KEY `data_raw_ad_impression_zone_id` (`zone_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_data_raw_ad_impression`
--- 
+--
 
+LOCK TABLES `oa_data_raw_ad_impression` WRITE;
+/*!40000 ALTER TABLE `oa_data_raw_ad_impression` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oa_data_raw_ad_impression` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_data_raw_ad_request`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_data_raw_ad_request`;
 CREATE TABLE `oa_data_raw_ad_request` (
   `viewer_id` varchar(32) default NULL,
   `viewer_session_id` varchar(32) default NULL,
@@ -720,17 +853,20 @@ CREATE TABLE `oa_data_raw_ad_request` (
   KEY `oa_data_raw_ad_request_zone_id` (`zone_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_data_raw_ad_request`
--- 
+--
 
+LOCK TABLES `oa_data_raw_ad_request` WRITE;
+/*!40000 ALTER TABLE `oa_data_raw_ad_request` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oa_data_raw_ad_request` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_data_raw_tracker_impression`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_data_raw_tracker_impression`;
 CREATE TABLE `oa_data_raw_tracker_impression` (
   `server_raw_tracker_impression_id` bigint(20) NOT NULL auto_increment,
   `server_raw_ip` varchar(16) NOT NULL default '',
@@ -767,25 +903,23 @@ CREATE TABLE `oa_data_raw_tracker_impression` (
   PRIMARY KEY  (`server_raw_tracker_impression_id`,`server_raw_ip`),
   KEY `data_raw_tracker_impression_viewer_id` (`viewer_id`),
   KEY `data_raw_tracker_impression_date_time` (`date_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_data_raw_tracker_impression`
--- 
+--
 
-INSERT INTO `oa_data_raw_tracker_impression` (`server_raw_tracker_impression_id`, `server_raw_ip`, `viewer_id`, `viewer_session_id`, `date_time`, `tracker_id`, `channel`, `channel_ids`, `language`, `ip_address`, `host_name`, `country`, `https`, `domain`, `page`, `query`, `referer`, `search_term`, `user_agent`, `os`, `browser`, `max_https`, `geo_region`, `geo_city`, `geo_postal_code`, `geo_latitude`, `geo_longitude`, `geo_dma_code`, `geo_area_code`, `geo_organisation`, `geo_netspeed`, `geo_continent`) VALUES (1, 'singleDB', '6e8928c9063f85e75c8a457b42f50257', '', '2007-06-01 15:13:26', 1, '', '', 'en-us,en;q=0.5', '127.0.0.1', '127.0.0.1', '', 0, '', '', '', '', '', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11', '', '', 0, '', '', '', 0.0000, 0.0000, '', '', '', '', ''),
-(2, 'singleDB', '6e8928c9063f85e75c8a457b42f50257', '', '2007-06-01 15:13:37', 1, '', '', 'en-us,en;q=0.5', '127.0.0.1', '127.0.0.1', '', 0, '', '', '', '', '', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11', '', '', 0, '', '', '', 0.0000, 0.0000, '', '', '', '', ''),
-(3, 'singleDB', '6e8928c9063f85e75c8a457b42f50257', '', '2007-06-01 15:23:06', 1, '', '', 'en-us,en;q=0.5', '127.0.0.1', '127.0.0.1', '', 0, '', '', '', '', '', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11', '', '', 0, '', '', '', 0.0000, 0.0000, '', '', '', '', ''),
-(4, 'singleDB', '6e8928c9063f85e75c8a457b42f50257', '', '2007-06-01 15:23:07', 1, '', '', 'en-us,en;q=0.5', '127.0.0.1', '127.0.0.1', '', 0, '', '', '', '', '', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11', '', '', 0, '', '', '', 0.0000, 0.0000, '', '', '', '', ''),
-(5, 'singleDB', '6e8928c9063f85e75c8a457b42f50257', '', '2007-06-01 15:24:37', 1, '', '', 'en-us,en;q=0.5', '127.0.0.1', '127.0.0.1', '', 0, '', '', '', '', '', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11', '', '', 0, '', '', '', 0.0000, 0.0000, '', '', '', '', ''),
-(6, 'singleDB', '6e8928c9063f85e75c8a457b42f50257', '', '2007-06-01 15:25:53', 1, '', '', 'en-us,en;q=0.5', '127.0.0.1', '127.0.0.1', '', 0, '', '', '', '', '', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11', '', '', 0, '', '', '', 0.0000, 0.0000, '', '', '', '', '');
+LOCK TABLES `oa_data_raw_tracker_impression` WRITE;
+/*!40000 ALTER TABLE `oa_data_raw_tracker_impression` DISABLE KEYS */;
+INSERT INTO `oa_data_raw_tracker_impression` VALUES (1,'singleDB','6e8928c9063f85e75c8a457b42f50257','','2007-06-01 15:13:26',1,'','','en-us,en;q=0.5','127.0.0.1','127.0.0.1','',0,'','','','','','Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11','','',0,'','','','0.0000','0.0000','','','','',''),(2,'singleDB','6e8928c9063f85e75c8a457b42f50257','','2007-06-01 15:13:37',1,'','','en-us,en;q=0.5','127.0.0.1','127.0.0.1','',0,'','','','','','Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11','','',0,'','','','0.0000','0.0000','','','','',''),(3,'singleDB','6e8928c9063f85e75c8a457b42f50257','','2007-06-01 15:23:06',1,'','','en-us,en;q=0.5','127.0.0.1','127.0.0.1','',0,'','','','','','Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11','','',0,'','','','0.0000','0.0000','','','','',''),(4,'singleDB','6e8928c9063f85e75c8a457b42f50257','','2007-06-01 15:23:07',1,'','','en-us,en;q=0.5','127.0.0.1','127.0.0.1','',0,'','','','','','Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11','','',0,'','','','0.0000','0.0000','','','','',''),(5,'singleDB','6e8928c9063f85e75c8a457b42f50257','','2007-06-01 15:24:37',1,'','','en-us,en;q=0.5','127.0.0.1','127.0.0.1','',0,'','','','','','Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11','','',0,'','','','0.0000','0.0000','','','','',''),(6,'singleDB','6e8928c9063f85e75c8a457b42f50257','','2007-06-01 15:25:53',1,'','','en-us,en;q=0.5','127.0.0.1','127.0.0.1','',0,'','','','','','Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11','','',0,'','','','0.0000','0.0000','','','','','');
+/*!40000 ALTER TABLE `oa_data_raw_tracker_impression` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_data_raw_tracker_variable_value`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_data_raw_tracker_variable_value`;
 CREATE TABLE `oa_data_raw_tracker_variable_value` (
   `server_raw_tracker_impression_id` bigint(20) NOT NULL,
   `server_raw_ip` varchar(16) NOT NULL default '',
@@ -795,29 +929,21 @@ CREATE TABLE `oa_data_raw_tracker_variable_value` (
   PRIMARY KEY  (`server_raw_tracker_impression_id`,`server_raw_ip`,`tracker_variable_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_data_raw_tracker_variable_value`
--- 
+--
 
-INSERT INTO `oa_data_raw_tracker_variable_value` (`server_raw_tracker_impression_id`, `server_raw_ip`, `tracker_variable_id`, `date_time`, `value`) VALUES (1, 'singleDB', 1, '2007-06-01 15:13:26', '123'),
-(1, 'singleDB', 2, '2007-06-01 15:13:26', 'test123'),
-(2, 'singleDB', 1, '2007-06-01 15:13:37', '123'),
-(2, 'singleDB', 2, '2007-06-01 15:13:37', 'test123'),
-(3, 'singleDB', 1, '2007-06-01 15:23:06', '123'),
-(3, 'singleDB', 2, '2007-06-01 15:23:06', 'test123'),
-(4, 'singleDB', 1, '2007-06-01 15:23:07', '123'),
-(4, 'singleDB', 2, '2007-06-01 15:23:07', 'test123'),
-(5, 'singleDB', 1, '2007-06-01 15:25:09', '123'),
-(5, 'singleDB', 2, '2007-06-01 15:25:09', 'test123'),
-(6, 'singleDB', 1, '2007-06-01 15:25:53', '123'),
-(6, 'singleDB', 2, '2007-06-01 15:25:53', 'test123');
+LOCK TABLES `oa_data_raw_tracker_variable_value` WRITE;
+/*!40000 ALTER TABLE `oa_data_raw_tracker_variable_value` DISABLE KEYS */;
+INSERT INTO `oa_data_raw_tracker_variable_value` VALUES (1,'singleDB',1,'2007-06-01 15:13:26','123'),(1,'singleDB',2,'2007-06-01 15:13:26','test123'),(2,'singleDB',1,'2007-06-01 15:13:37','123'),(2,'singleDB',2,'2007-06-01 15:13:37','test123'),(3,'singleDB',1,'2007-06-01 15:23:06','123'),(3,'singleDB',2,'2007-06-01 15:23:06','test123'),(4,'singleDB',1,'2007-06-01 15:23:07','123'),(4,'singleDB',2,'2007-06-01 15:23:07','test123'),(5,'singleDB',1,'2007-06-01 15:25:09','123'),(5,'singleDB',2,'2007-06-01 15:25:09','test123'),(6,'singleDB',1,'2007-06-01 15:25:53','123'),(6,'singleDB',2,'2007-06-01 15:25:53','test123');
+/*!40000 ALTER TABLE `oa_data_raw_tracker_variable_value` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_data_summary_ad_hourly`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_data_summary_ad_hourly`;
 CREATE TABLE `oa_data_summary_ad_hourly` (
   `data_summary_ad_hourly_id` bigint(20) NOT NULL auto_increment,
   `date_time` datetime NOT NULL,
@@ -838,19 +964,22 @@ CREATE TABLE `oa_data_summary_ad_hourly` (
   KEY `oa_data_summary_ad_hourly_date_time` (`date_time`),
   KEY `oa_data_summary_ad_hourly_ad_id_date_time` (`ad_id`,`date_time`),
   KEY `oa_data_summary_ad_hourly_zone_id_date_time` (`zone_id`,`date_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_data_summary_ad_hourly`
--- 
+--
 
+LOCK TABLES `oa_data_summary_ad_hourly` WRITE;
+/*!40000 ALTER TABLE `oa_data_summary_ad_hourly` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oa_data_summary_ad_hourly` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_data_summary_ad_zone_assoc`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_data_summary_ad_zone_assoc`;
 CREATE TABLE `oa_data_summary_ad_zone_assoc` (
   `data_summary_ad_zone_assoc_id` bigint(20) NOT NULL auto_increment,
   `operation_interval` int(10) unsigned NOT NULL,
@@ -876,19 +1005,22 @@ CREATE TABLE `oa_data_summary_ad_zone_assoc` (
   KEY `data_summary_ad_zone_assoc_ad_id` (`ad_id`),
   KEY `data_summary_ad_zone_assoc_zone_id` (`zone_id`),
   KEY `expired` (`expired`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_data_summary_ad_zone_assoc`
--- 
+--
 
+LOCK TABLES `oa_data_summary_ad_zone_assoc` WRITE;
+/*!40000 ALTER TABLE `oa_data_summary_ad_zone_assoc` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oa_data_summary_ad_zone_assoc` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_data_summary_channel_daily`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_data_summary_channel_daily`;
 CREATE TABLE `oa_data_summary_channel_daily` (
   `data_summary_channel_daily_id` bigint(20) NOT NULL auto_increment,
   `day` date NOT NULL,
@@ -900,19 +1032,22 @@ CREATE TABLE `oa_data_summary_channel_daily` (
   KEY `data_summary_channel_daily_day` (`day`),
   KEY `data_summary_channel_daily_channel_id` (`channel_id`),
   KEY `data_summary_channel_daily_zone_id` (`zone_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_data_summary_channel_daily`
--- 
+--
 
+LOCK TABLES `oa_data_summary_channel_daily` WRITE;
+/*!40000 ALTER TABLE `oa_data_summary_channel_daily` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oa_data_summary_channel_daily` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_data_summary_zone_impression_history`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_data_summary_zone_impression_history`;
 CREATE TABLE `oa_data_summary_zone_impression_history` (
   `data_summary_zone_impression_history_id` bigint(20) NOT NULL auto_increment,
   `operation_interval` int(10) unsigned NOT NULL,
@@ -926,68 +1061,22 @@ CREATE TABLE `oa_data_summary_zone_impression_history` (
   PRIMARY KEY  (`data_summary_zone_impression_history_id`),
   KEY `data_summary_zone_impression_history_operation_interval_id` (`operation_interval_id`),
   KEY `data_summary_zone_impression_history_zone_id` (`zone_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_data_summary_zone_impression_history`
--- 
+--
 
+LOCK TABLES `oa_data_summary_zone_impression_history` WRITE;
+/*!40000 ALTER TABLE `oa_data_summary_zone_impression_history` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oa_data_summary_zone_impression_history` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
--- Table structure for table `oa_database_action`
--- 
-
-CREATE TABLE `oa_database_action` (
-  `database_action_id` int(10) unsigned NOT NULL auto_increment,
-  `upgrade_action_id` int(10) unsigned default '0',
-  `schema_name` varchar(64) default NULL,
-  `version` int(11) NOT NULL,
-  `timing` int(2) NOT NULL,
-  `action` int(2) NOT NULL,
-  `info1` varchar(255) default NULL,
-  `info2` varchar(255) default NULL,
-  `tablename` varchar(64) default NULL,
-  `tablename_backup` varchar(64) default NULL,
-  `table_backup_schema` text,
-  `updated` datetime default NULL,
-  PRIMARY KEY  (`database_action_id`),
-  KEY `database_action_upgrade_action_id` (`upgrade_action_id`,`database_action_id`),
-  KEY `database_action_schema_version_timing_action` (`schema_name`,`version`,`timing`,`action`),
-  KEY `database_action_updated` (`updated`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
-
--- 
--- Dumping data for table `oa_database_action`
--- 
-
-INSERT INTO `oa_database_action` (`database_action_id`, `upgrade_action_id`, `schema_name`, `version`, `timing`, `action`, `info1`, `info2`, `tablename`, `tablename_backup`, `table_backup_schema`, `updated`) VALUES (1, 1, 'tables_core', 516, 0, 10, 'UPGRADE STARTED', NULL, NULL, NULL, NULL, '2007-08-29 14:38:20'),
-(2, 1, 'tables_core', 516, 0, 40, 'BACKUP UNNECESSARY', NULL, NULL, NULL, NULL, '2007-08-29 14:38:20'),
-(3, 1, 'tables_core', 516, 0, 60, 'UPGRADE SUCCEEDED', NULL, NULL, NULL, NULL, '2007-08-29 14:38:20'),
-(4, 1, 'tables_core', 516, 1, 10, 'UPGRADE STARTED', NULL, NULL, NULL, NULL, '2007-08-29 14:38:20'),
-(5, 1, 'tables_core', 516, 1, 20, 'BACKUP STARTED', NULL, NULL, NULL, NULL, '2007-08-29 14:38:20'),
-(6, 1, 'tables_core', 516, 1, 30, 'copied table', 'cleaned by user', 'data_summary_zone_country_daily', 'z_625015862981b344', 'a:2:{s:6:"fields";a:6:{s:34:"data_summary_zone_country_daily_id";a:7:{s:7:"notnull";b:1;s:10:"nativetype";s:6:"bigint";s:6:"length";s:2:"20";s:7:"default";i:0;s:13:"autoincrement";b:1;s:4:"type";s:14:"openads_bigint";s:8:"mdb2type";s:14:"openads_bigint";}s:3:"day";a:5:{s:7:"notnull";b:1;s:10:"nativetype";s:4:"date";s:7:"default";s:10:"0000-00-00";s:4:"type";s:12:"openads_date";s:8:"mdb2type";s:12:"openads_date";}s:7:"zone_id";a:7:{s:7:"notnull";b:1;s:10:"nativetype";s:3:"int";s:6:"length";s:2:"10";s:8:"unsigned";b:1;s:7:"default";s:1:"0";s:4:"type";s:11:"openads_int";s:8:"mdb2type";s:11:"openads_int";}s:7:"country";a:6:{s:7:"notnull";b:0;s:10:"nativetype";s:4:"char";s:6:"length";s:1:"2";s:7:"default";N;s:4:"type";s:12:"openads_char";s:8:"mdb2type";s:12:"openads_char";}s:11:"impressions";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:3:"int";s:6:"length";s:2:"10";s:8:"unsigned";b:1;s:7:"default";N;s:4:"type";s:11:"openads_int";s:8:"mdb2type";s:11:"openads_int";}s:6:"clicks";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:3:"int";s:6:"length";s:2:"10";s:8:"unsigned";b:1;s:7:"default";N;s:4:"type";s:11:"openads_int";s:8:"mdb2type";s:11:"openads_int";}}s:7:"indexes";a:3:{s:35:"data_summary_zone_country_daily_day";a:1:{s:6:"fields";a:1:{s:3:"day";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}s:39:"data_summary_zone_country_daily_zone_id";a:1:{s:6:"fields";a:1:{s:7:"zone_id";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}s:36:"data_summary_zone_country_daily_pkey";a:2:{s:7:"primary";b:1;s:6:"fields";a:1:{s:34:"data_summary_zone_country_daily_id";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}}}', '2007-08-29 14:38:20'),
-(7, 1, 'tables_core', 516, 1, 30, 'copied table', 'cleaned by user', 'data_summary_zone_country_forecast', 'z_a4aeea003f0c5148', 'a:2:{s:6:"fields";a:5:{s:37:"data_summary_zone_country_forecast_id";a:7:{s:7:"notnull";b:1;s:10:"nativetype";s:6:"bigint";s:6:"length";s:2:"20";s:7:"default";i:0;s:13:"autoincrement";b:1;s:4:"type";s:14:"openads_bigint";s:8:"mdb2type";s:14:"openads_bigint";}s:11:"day_of_week";a:6:{s:7:"notnull";b:1;s:10:"nativetype";s:8:"smallint";s:6:"length";s:1:"6";s:7:"default";s:0:"";s:4:"type";s:16:"openads_smallint";s:8:"mdb2type";s:16:"openads_smallint";}s:7:"zone_id";a:7:{s:7:"notnull";b:1;s:10:"nativetype";s:3:"int";s:6:"length";s:2:"10";s:8:"unsigned";b:1;s:7:"default";s:0:"";s:4:"type";s:11:"openads_int";s:8:"mdb2type";s:11:"openads_int";}s:7:"country";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:7:"varchar";s:6:"length";s:1:"2";s:5:"fixed";b:0;s:7:"default";N;s:4:"type";s:15:"openads_varchar";s:8:"mdb2type";s:15:"openads_varchar";}s:11:"impressions";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:3:"int";s:6:"length";s:2:"10";s:8:"unsigned";b:1;s:7:"default";N;s:4:"type";s:11:"openads_int";s:8:"mdb2type";s:11:"openads_int";}}s:7:"indexes";a:3:{s:46:"data_summary_zone_country_forecast_day_of_week";a:1:{s:6:"fields";a:1:{s:11:"day_of_week";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}s:42:"data_summary_zone_country_forecast_zone_id";a:1:{s:6:"fields";a:1:{s:7:"zone_id";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}s:39:"data_summary_zone_country_forecast_pkey";a:2:{s:7:"primary";b:1;s:6:"fields";a:1:{s:37:"data_summary_zone_country_forecast_id";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}}}', '2007-08-29 14:38:20'),
-(8, 1, 'tables_core', 516, 1, 30, 'copied table', 'cleaned by user', 'data_summary_zone_country_monthly', 'z_002cc0f7c6553837', 'a:2:{s:6:"fields";a:6:{s:36:"data_summary_zone_country_monthly_id";a:7:{s:7:"notnull";b:1;s:10:"nativetype";s:6:"bigint";s:6:"length";s:2:"20";s:7:"default";i:0;s:13:"autoincrement";b:1;s:4:"type";s:14:"openads_bigint";s:8:"mdb2type";s:14:"openads_bigint";}s:9:"yearmonth";a:6:{s:7:"notnull";b:1;s:10:"nativetype";s:9:"mediumint";s:6:"length";s:1:"6";s:7:"default";s:1:"0";s:4:"type";s:17:"openads_mediumint";s:8:"mdb2type";s:17:"openads_mediumint";}s:7:"zone_id";a:7:{s:7:"notnull";b:1;s:10:"nativetype";s:3:"int";s:6:"length";s:2:"10";s:8:"unsigned";b:1;s:7:"default";s:1:"0";s:4:"type";s:11:"openads_int";s:8:"mdb2type";s:11:"openads_int";}s:7:"country";a:6:{s:7:"notnull";b:0;s:10:"nativetype";s:4:"char";s:6:"length";s:1:"2";s:7:"default";N;s:4:"type";s:12:"openads_char";s:8:"mdb2type";s:12:"openads_char";}s:11:"impressions";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:3:"int";s:6:"length";s:2:"10";s:8:"unsigned";b:1;s:7:"default";N;s:4:"type";s:11:"openads_int";s:8:"mdb2type";s:11:"openads_int";}s:6:"clicks";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:3:"int";s:6:"length";s:2:"10";s:8:"unsigned";b:1;s:7:"default";N;s:4:"type";s:11:"openads_int";s:8:"mdb2type";s:11:"openads_int";}}s:7:"indexes";a:3:{s:43:"data_summary_zone_country_monthly_yearmonth";a:1:{s:6:"fields";a:1:{s:9:"yearmonth";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}s:41:"data_summary_zone_country_monthly_zone_id";a:1:{s:6:"fields";a:1:{s:7:"zone_id";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}s:38:"data_summary_zone_country_monthly_pkey";a:2:{s:7:"primary";b:1;s:6:"fields";a:1:{s:36:"data_summary_zone_country_monthly_id";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}}}', '2007-08-29 14:38:20'),
-(9, 1, 'tables_core', 516, 1, 30, 'copied table', 'cleaned by user', 'data_summary_zone_domain_page_daily', 'z_a121ecd0d9bd87c9', 'a:2:{s:6:"fields";a:7:{s:38:"data_summary_zone_domain_page_daily_id";a:7:{s:7:"notnull";b:1;s:10:"nativetype";s:6:"bigint";s:6:"length";s:2:"20";s:7:"default";i:0;s:13:"autoincrement";b:1;s:4:"type";s:14:"openads_bigint";s:8:"mdb2type";s:14:"openads_bigint";}s:3:"day";a:5:{s:7:"notnull";b:1;s:10:"nativetype";s:4:"date";s:7:"default";s:10:"0000-00-00";s:4:"type";s:12:"openads_date";s:8:"mdb2type";s:12:"openads_date";}s:7:"zone_id";a:7:{s:7:"notnull";b:1;s:10:"nativetype";s:3:"int";s:6:"length";s:2:"10";s:8:"unsigned";b:1;s:7:"default";s:1:"0";s:4:"type";s:11:"openads_int";s:8:"mdb2type";s:11:"openads_int";}s:6:"domain";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:7:"varchar";s:6:"length";s:3:"255";s:5:"fixed";b:0;s:7:"default";N;s:4:"type";s:15:"openads_varchar";s:8:"mdb2type";s:15:"openads_varchar";}s:4:"page";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:7:"varchar";s:6:"length";s:3:"255";s:5:"fixed";b:0;s:7:"default";N;s:4:"type";s:15:"openads_varchar";s:8:"mdb2type";s:15:"openads_varchar";}s:11:"impressions";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:3:"int";s:6:"length";s:2:"10";s:8:"unsigned";b:1;s:7:"default";N;s:4:"type";s:11:"openads_int";s:8:"mdb2type";s:11:"openads_int";}s:6:"clicks";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:3:"int";s:6:"length";s:2:"10";s:8:"unsigned";b:1;s:7:"default";N;s:4:"type";s:11:"openads_int";s:8:"mdb2type";s:11:"openads_int";}}s:7:"indexes";a:3:{s:39:"data_summary_zone_domain_page_daily_day";a:1:{s:6:"fields";a:1:{s:3:"day";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}s:43:"data_summary_zone_domain_page_daily_zone_id";a:1:{s:6:"fields";a:1:{s:7:"zone_id";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}s:40:"data_summary_zone_domain_page_daily_pkey";a:2:{s:7:"primary";b:1;s:6:"fields";a:1:{s:38:"data_summary_zone_domain_page_daily_id";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}}}', '2007-08-29 14:38:20'),
-(10, 1, 'tables_core', 516, 1, 30, 'copied table', 'cleaned by user', 'data_summary_zone_domain_page_forecast', 'z_2ee3a39f42a4561b', 'a:2:{s:6:"fields";a:6:{s:41:"data_summary_zone_domain_page_forecast_id";a:7:{s:7:"notnull";b:1;s:10:"nativetype";s:6:"bigint";s:6:"length";s:2:"20";s:7:"default";i:0;s:13:"autoincrement";b:1;s:4:"type";s:14:"openads_bigint";s:8:"mdb2type";s:14:"openads_bigint";}s:11:"day_of_week";a:6:{s:7:"notnull";b:1;s:10:"nativetype";s:8:"smallint";s:6:"length";s:1:"6";s:7:"default";s:0:"";s:4:"type";s:16:"openads_smallint";s:8:"mdb2type";s:16:"openads_smallint";}s:7:"zone_id";a:7:{s:7:"notnull";b:1;s:10:"nativetype";s:3:"int";s:6:"length";s:2:"10";s:8:"unsigned";b:1;s:7:"default";s:0:"";s:4:"type";s:11:"openads_int";s:8:"mdb2type";s:11:"openads_int";}s:6:"domain";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:7:"varchar";s:6:"length";s:3:"255";s:5:"fixed";b:0;s:7:"default";N;s:4:"type";s:15:"openads_varchar";s:8:"mdb2type";s:15:"openads_varchar";}s:4:"page";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:7:"varchar";s:6:"length";s:3:"255";s:5:"fixed";b:0;s:7:"default";N;s:4:"type";s:15:"openads_varchar";s:8:"mdb2type";s:15:"openads_varchar";}s:11:"impressions";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:3:"int";s:6:"length";s:2:"10";s:8:"unsigned";b:1;s:7:"default";N;s:4:"type";s:11:"openads_int";s:8:"mdb2type";s:11:"openads_int";}}s:7:"indexes";a:3:{s:50:"data_summary_zone_domain_page_forecast_day_of_week";a:1:{s:6:"fields";a:1:{s:11:"day_of_week";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}s:46:"data_summary_zone_domain_page_forecast_zone_id";a:1:{s:6:"fields";a:1:{s:7:"zone_id";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}s:43:"data_summary_zone_domain_page_forecast_pkey";a:2:{s:7:"primary";b:1;s:6:"fields";a:1:{s:41:"data_summary_zone_domain_page_forecast_id";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}}}', '2007-08-29 14:38:20'),
-(11, 1, 'tables_core', 516, 1, 30, 'copied table', 'cleaned by user', 'data_summary_zone_domain_page_monthly', 'z_28acb3ec69ccdab8', 'a:2:{s:6:"fields";a:7:{s:40:"data_summary_zone_domain_page_monthly_id";a:7:{s:7:"notnull";b:1;s:10:"nativetype";s:6:"bigint";s:6:"length";s:2:"20";s:7:"default";i:0;s:13:"autoincrement";b:1;s:4:"type";s:14:"openads_bigint";s:8:"mdb2type";s:14:"openads_bigint";}s:9:"yearmonth";a:6:{s:7:"notnull";b:1;s:10:"nativetype";s:9:"mediumint";s:6:"length";s:1:"6";s:7:"default";s:1:"0";s:4:"type";s:17:"openads_mediumint";s:8:"mdb2type";s:17:"openads_mediumint";}s:7:"zone_id";a:7:{s:7:"notnull";b:1;s:10:"nativetype";s:3:"int";s:6:"length";s:2:"10";s:8:"unsigned";b:1;s:7:"default";s:1:"0";s:4:"type";s:11:"openads_int";s:8:"mdb2type";s:11:"openads_int";}s:6:"domain";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:7:"varchar";s:6:"length";s:3:"255";s:5:"fixed";b:0;s:7:"default";N;s:4:"type";s:15:"openads_varchar";s:8:"mdb2type";s:15:"openads_varchar";}s:4:"page";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:7:"varchar";s:6:"length";s:3:"255";s:5:"fixed";b:0;s:7:"default";N;s:4:"type";s:15:"openads_varchar";s:8:"mdb2type";s:15:"openads_varchar";}s:11:"impressions";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:3:"int";s:6:"length";s:2:"10";s:8:"unsigned";b:1;s:7:"default";N;s:4:"type";s:11:"openads_int";s:8:"mdb2type";s:11:"openads_int";}s:6:"clicks";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:3:"int";s:6:"length";s:2:"10";s:8:"unsigned";b:1;s:7:"default";N;s:4:"type";s:11:"openads_int";s:8:"mdb2type";s:11:"openads_int";}}s:7:"indexes";a:3:{s:47:"data_summary_zone_domain_page_monthly_yearmonth";a:1:{s:6:"fields";a:1:{s:9:"yearmonth";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}s:45:"data_summary_zone_domain_page_monthly_zone_id";a:1:{s:6:"fields";a:1:{s:7:"zone_id";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}s:42:"data_summary_zone_domain_page_monthly_pkey";a:2:{s:7:"primary";b:1;s:6:"fields";a:1:{s:40:"data_summary_zone_domain_page_monthly_id";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}}}', '2007-08-29 14:38:20'),
-(12, 1, 'tables_core', 516, 1, 30, 'copied table', 'cleaned by user', 'data_summary_zone_site_keyword_daily', 'z_35f9fdcf51eac964', 'a:2:{s:6:"fields";a:7:{s:39:"data_summary_zone_site_keyword_daily_id";a:7:{s:7:"notnull";b:1;s:10:"nativetype";s:6:"bigint";s:6:"length";s:2:"20";s:7:"default";i:0;s:13:"autoincrement";b:1;s:4:"type";s:14:"openads_bigint";s:8:"mdb2type";s:14:"openads_bigint";}s:3:"day";a:5:{s:7:"notnull";b:1;s:10:"nativetype";s:4:"date";s:7:"default";s:10:"0000-00-00";s:4:"type";s:12:"openads_date";s:8:"mdb2type";s:12:"openads_date";}s:7:"zone_id";a:7:{s:7:"notnull";b:1;s:10:"nativetype";s:3:"int";s:6:"length";s:2:"10";s:8:"unsigned";b:1;s:7:"default";s:1:"0";s:4:"type";s:11:"openads_int";s:8:"mdb2type";s:11:"openads_int";}s:4:"site";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:7:"varchar";s:6:"length";s:3:"255";s:5:"fixed";b:0;s:7:"default";N;s:4:"type";s:15:"openads_varchar";s:8:"mdb2type";s:15:"openads_varchar";}s:7:"keyword";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:7:"varchar";s:6:"length";s:3:"255";s:5:"fixed";b:0;s:7:"default";N;s:4:"type";s:15:"openads_varchar";s:8:"mdb2type";s:15:"openads_varchar";}s:11:"impressions";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:3:"int";s:6:"length";s:2:"10";s:8:"unsigned";b:1;s:7:"default";N;s:4:"type";s:11:"openads_int";s:8:"mdb2type";s:11:"openads_int";}s:6:"clicks";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:3:"int";s:6:"length";s:2:"10";s:8:"unsigned";b:1;s:7:"default";N;s:4:"type";s:11:"openads_int";s:8:"mdb2type";s:11:"openads_int";}}s:7:"indexes";a:3:{s:40:"data_summary_zone_site_keyword_daily_day";a:1:{s:6:"fields";a:1:{s:3:"day";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}s:44:"data_summary_zone_site_keyword_daily_zone_id";a:1:{s:6:"fields";a:1:{s:7:"zone_id";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}s:41:"data_summary_zone_site_keyword_daily_pkey";a:2:{s:7:"primary";b:1;s:6:"fields";a:1:{s:39:"data_summary_zone_site_keyword_daily_id";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}}}', '2007-08-29 14:38:20'),
-(13, 1, 'tables_core', 516, 1, 30, 'copied table', 'cleaned by user', 'data_summary_zone_site_keyword_forecast', 'z_e2483eb008f13e7c', 'a:2:{s:6:"fields";a:6:{s:42:"data_summary_zone_site_keyword_forecast_id";a:7:{s:7:"notnull";b:1;s:10:"nativetype";s:6:"bigint";s:6:"length";s:2:"20";s:7:"default";i:0;s:13:"autoincrement";b:1;s:4:"type";s:14:"openads_bigint";s:8:"mdb2type";s:14:"openads_bigint";}s:11:"day_of_week";a:6:{s:7:"notnull";b:1;s:10:"nativetype";s:8:"smallint";s:6:"length";s:1:"6";s:7:"default";s:0:"";s:4:"type";s:16:"openads_smallint";s:8:"mdb2type";s:16:"openads_smallint";}s:7:"zone_id";a:7:{s:7:"notnull";b:1;s:10:"nativetype";s:3:"int";s:6:"length";s:2:"10";s:8:"unsigned";b:1;s:7:"default";s:0:"";s:4:"type";s:11:"openads_int";s:8:"mdb2type";s:11:"openads_int";}s:4:"site";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:7:"varchar";s:6:"length";s:3:"255";s:5:"fixed";b:0;s:7:"default";N;s:4:"type";s:15:"openads_varchar";s:8:"mdb2type";s:15:"openads_varchar";}s:7:"keyword";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:7:"varchar";s:6:"length";s:3:"255";s:5:"fixed";b:0;s:7:"default";N;s:4:"type";s:15:"openads_varchar";s:8:"mdb2type";s:15:"openads_varchar";}s:11:"impressions";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:3:"int";s:6:"length";s:2:"10";s:8:"unsigned";b:1;s:7:"default";N;s:4:"type";s:11:"openads_int";s:8:"mdb2type";s:11:"openads_int";}}s:7:"indexes";a:3:{s:51:"data_summary_zone_site_keyword_forecast_day_of_week";a:1:{s:6:"fields";a:1:{s:11:"day_of_week";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}s:47:"data_summary_zone_site_keyword_forecast_zone_id";a:1:{s:6:"fields";a:1:{s:7:"zone_id";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}s:44:"data_summary_zone_site_keyword_forecast_pkey";a:2:{s:7:"primary";b:1;s:6:"fields";a:1:{s:42:"data_summary_zone_site_keyword_forecast_id";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}}}', '2007-08-29 14:38:20'),
-(14, 1, 'tables_core', 516, 1, 30, 'copied table', 'cleaned by user', 'data_summary_zone_site_keyword_monthly', 'z_8f460958e301fcdc', 'a:2:{s:6:"fields";a:7:{s:41:"data_summary_zone_site_keyword_monthly_id";a:7:{s:7:"notnull";b:1;s:10:"nativetype";s:6:"bigint";s:6:"length";s:2:"20";s:7:"default";i:0;s:13:"autoincrement";b:1;s:4:"type";s:14:"openads_bigint";s:8:"mdb2type";s:14:"openads_bigint";}s:9:"yearmonth";a:6:{s:7:"notnull";b:1;s:10:"nativetype";s:9:"mediumint";s:6:"length";s:1:"6";s:7:"default";s:1:"0";s:4:"type";s:17:"openads_mediumint";s:8:"mdb2type";s:17:"openads_mediumint";}s:7:"zone_id";a:7:{s:7:"notnull";b:1;s:10:"nativetype";s:3:"int";s:6:"length";s:2:"10";s:8:"unsigned";b:1;s:7:"default";s:1:"0";s:4:"type";s:11:"openads_int";s:8:"mdb2type";s:11:"openads_int";}s:4:"site";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:7:"varchar";s:6:"length";s:3:"255";s:5:"fixed";b:0;s:7:"default";N;s:4:"type";s:15:"openads_varchar";s:8:"mdb2type";s:15:"openads_varchar";}s:7:"keyword";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:7:"varchar";s:6:"length";s:3:"255";s:5:"fixed";b:0;s:7:"default";N;s:4:"type";s:15:"openads_varchar";s:8:"mdb2type";s:15:"openads_varchar";}s:11:"impressions";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:3:"int";s:6:"length";s:2:"10";s:8:"unsigned";b:1;s:7:"default";N;s:4:"type";s:11:"openads_int";s:8:"mdb2type";s:11:"openads_int";}s:6:"clicks";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:3:"int";s:6:"length";s:2:"10";s:8:"unsigned";b:1;s:7:"default";N;s:4:"type";s:11:"openads_int";s:8:"mdb2type";s:11:"openads_int";}}s:7:"indexes";a:3:{s:48:"data_summary_zone_site_keyword_monthly_yearmonth";a:1:{s:6:"fields";a:1:{s:9:"yearmonth";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}s:46:"data_summary_zone_site_keyword_monthly_zone_id";a:1:{s:6:"fields";a:1:{s:7:"zone_id";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}s:43:"data_summary_zone_site_keyword_monthly_pkey";a:2:{s:7:"primary";b:1;s:6:"fields";a:1:{s:41:"data_summary_zone_site_keyword_monthly_id";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}}}', '2007-08-29 14:38:20'),
-(15, 1, 'tables_core', 516, 1, 30, 'copied table', 'cleaned by user', 'data_summary_zone_source_daily', 'z_f7f09afd22821fd8', 'a:2:{s:6:"fields";a:6:{s:33:"data_summary_zone_source_daily_id";a:7:{s:7:"notnull";b:1;s:10:"nativetype";s:6:"bigint";s:6:"length";s:2:"20";s:7:"default";i:0;s:13:"autoincrement";b:1;s:4:"type";s:14:"openads_bigint";s:8:"mdb2type";s:14:"openads_bigint";}s:3:"day";a:5:{s:7:"notnull";b:1;s:10:"nativetype";s:4:"date";s:7:"default";s:10:"0000-00-00";s:4:"type";s:12:"openads_date";s:8:"mdb2type";s:12:"openads_date";}s:7:"zone_id";a:7:{s:7:"notnull";b:1;s:10:"nativetype";s:3:"int";s:6:"length";s:2:"10";s:8:"unsigned";b:1;s:7:"default";s:1:"0";s:4:"type";s:11:"openads_int";s:8:"mdb2type";s:11:"openads_int";}s:6:"source";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:7:"varchar";s:6:"length";s:3:"255";s:5:"fixed";b:0;s:7:"default";N;s:4:"type";s:15:"openads_varchar";s:8:"mdb2type";s:15:"openads_varchar";}s:11:"impressions";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:3:"int";s:6:"length";s:2:"10";s:8:"unsigned";b:1;s:7:"default";N;s:4:"type";s:11:"openads_int";s:8:"mdb2type";s:11:"openads_int";}s:6:"clicks";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:3:"int";s:6:"length";s:2:"10";s:8:"unsigned";b:1;s:7:"default";N;s:4:"type";s:11:"openads_int";s:8:"mdb2type";s:11:"openads_int";}}s:7:"indexes";a:3:{s:34:"data_summary_zone_source_daily_day";a:1:{s:6:"fields";a:1:{s:3:"day";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}s:38:"data_summary_zone_source_daily_zone_id";a:1:{s:6:"fields";a:1:{s:7:"zone_id";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}s:35:"data_summary_zone_source_daily_pkey";a:2:{s:7:"primary";b:1;s:6:"fields";a:1:{s:33:"data_summary_zone_source_daily_id";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}}}', '2007-08-29 14:38:20'),
-(16, 1, 'tables_core', 516, 1, 30, 'copied table', 'cleaned by user', 'data_summary_zone_source_forecast', 'z_96c74a4850beb288', 'a:2:{s:6:"fields";a:5:{s:36:"data_summary_zone_source_forecast_id";a:7:{s:7:"notnull";b:1;s:10:"nativetype";s:6:"bigint";s:6:"length";s:2:"20";s:7:"default";i:0;s:13:"autoincrement";b:1;s:4:"type";s:14:"openads_bigint";s:8:"mdb2type";s:14:"openads_bigint";}s:11:"day_of_week";a:6:{s:7:"notnull";b:1;s:10:"nativetype";s:8:"smallint";s:6:"length";s:1:"6";s:7:"default";s:0:"";s:4:"type";s:16:"openads_smallint";s:8:"mdb2type";s:16:"openads_smallint";}s:7:"zone_id";a:7:{s:7:"notnull";b:1;s:10:"nativetype";s:3:"int";s:6:"length";s:2:"10";s:8:"unsigned";b:1;s:7:"default";s:0:"";s:4:"type";s:11:"openads_int";s:8:"mdb2type";s:11:"openads_int";}s:6:"source";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:7:"varchar";s:6:"length";s:3:"255";s:5:"fixed";b:0;s:7:"default";N;s:4:"type";s:15:"openads_varchar";s:8:"mdb2type";s:15:"openads_varchar";}s:11:"impressions";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:3:"int";s:6:"length";s:2:"10";s:8:"unsigned";b:1;s:7:"default";N;s:4:"type";s:11:"openads_int";s:8:"mdb2type";s:11:"openads_int";}}s:7:"indexes";a:3:{s:45:"data_summary_zone_source_forecast_day_of_week";a:1:{s:6:"fields";a:1:{s:11:"day_of_week";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}s:41:"data_summary_zone_source_forecast_zone_id";a:1:{s:6:"fields";a:1:{s:7:"zone_id";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}s:38:"data_summary_zone_source_forecast_pkey";a:2:{s:7:"primary";b:1;s:6:"fields";a:1:{s:36:"data_summary_zone_source_forecast_id";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}}}', '2007-08-29 14:38:20'),
-(17, 1, 'tables_core', 516, 1, 30, 'copied table', 'cleaned by user', 'data_summary_zone_source_monthly', 'z_b1e06bdbc4c119e1', 'a:2:{s:6:"fields";a:6:{s:35:"data_summary_zone_source_monthly_id";a:7:{s:7:"notnull";b:1;s:10:"nativetype";s:6:"bigint";s:6:"length";s:2:"20";s:7:"default";i:0;s:13:"autoincrement";b:1;s:4:"type";s:14:"openads_bigint";s:8:"mdb2type";s:14:"openads_bigint";}s:9:"yearmonth";a:6:{s:7:"notnull";b:1;s:10:"nativetype";s:9:"mediumint";s:6:"length";s:1:"6";s:7:"default";s:1:"0";s:4:"type";s:17:"openads_mediumint";s:8:"mdb2type";s:17:"openads_mediumint";}s:7:"zone_id";a:7:{s:7:"notnull";b:1;s:10:"nativetype";s:3:"int";s:6:"length";s:2:"10";s:8:"unsigned";b:1;s:7:"default";s:1:"0";s:4:"type";s:11:"openads_int";s:8:"mdb2type";s:11:"openads_int";}s:6:"source";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:7:"varchar";s:6:"length";s:3:"255";s:5:"fixed";b:0;s:7:"default";N;s:4:"type";s:15:"openads_varchar";s:8:"mdb2type";s:15:"openads_varchar";}s:11:"impressions";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:3:"int";s:6:"length";s:2:"10";s:8:"unsigned";b:1;s:7:"default";N;s:4:"type";s:11:"openads_int";s:8:"mdb2type";s:11:"openads_int";}s:6:"clicks";a:7:{s:7:"notnull";b:0;s:10:"nativetype";s:3:"int";s:6:"length";s:2:"10";s:8:"unsigned";b:1;s:7:"default";N;s:4:"type";s:11:"openads_int";s:8:"mdb2type";s:11:"openads_int";}}s:7:"indexes";a:3:{s:42:"data_summary_zone_source_monthly_yearmonth";a:1:{s:6:"fields";a:1:{s:9:"yearmonth";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}s:40:"data_summary_zone_source_monthly_zone_id";a:1:{s:6:"fields";a:1:{s:7:"zone_id";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}s:37:"data_summary_zone_source_monthly_pkey";a:2:{s:7:"primary";b:1;s:6:"fields";a:1:{s:35:"data_summary_zone_source_monthly_id";a:2:{s:5:"order";i:1;s:7:"sorting";s:9:"ascending";}}}}}', '2007-08-29 14:38:20'),
-(18, 1, 'tables_core', 516, 1, 40, 'BACKUP COMPLETE', NULL, NULL, NULL, NULL, '2007-08-29 14:38:20'),
-(19, 1, 'tables_core', 516, 1, 60, 'UPGRADE SUCCEEDED', NULL, NULL, NULL, NULL, '2007-08-29 14:38:20');
-
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_images`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_images`;
 CREATE TABLE `oa_images` (
   `filename` varchar(128) NOT NULL default '',
   `contents` longblob NOT NULL,
@@ -995,33 +1084,39 @@ CREATE TABLE `oa_images` (
   PRIMARY KEY  (`filename`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_images`
--- 
+--
 
-INSERT INTO `oa_images` (`filename`, `contents`, `t_stamp`) VALUES ('468x60.gif', 0x4749463839619d013c009d00007575759d9d9d4444449d9d9d1010109d9d3f9d9d3030309d9d9d2020206565659d9d9d5555559d9d9d9d9d9d000000219d0400000000002c000000009d013c0000049d9d9d499d9d389d3f9d60289d64699d689d9d6c9d702c9d746d9d789d9d7c9d3f9d9d63481c0a50049d229d28060c0a429d9d58369d0d9d9d4a5a9d509d9d240e9d519d7a9d6e571a9d9d24309d9d9d3f249d9d9d0800626e1d757f717a270906429d4306099d9d9d9d2e0c9d732209019d780b9d1e9d9d7803009d179d9d459d24009d9d0e9d9d9d9d9d16419d230a9d9d43059d1b0c9d9d9d149d9d449d21047e9d3f9d3f9d7f9d1f0b9d719d1b0a9d773f9d3f9d1904059d0e039d9d9d9d369d9d9d1d769d1c079d45069d9d9d053e9d23170e9d432e709d0301601f11539d38740051529d153578739d0f9d3f289d9d1d9d9d419d44229d305c3c9d4e9d3f0e529d1b9d9d243f38316c1c659d02019d7f06640128539d5b349d04002040409d9d45329d9d9d4928009d509d1c9d309d10020300169d7314309d3f1312649d9d619d1f59139d9d199d9d9d009d04060222249d0e5c097d9d3f9d489d9d5c68139d9d049d67059d7f149d749d9d5e9d7b2c3b9d9d06321e9d1702139d3c9d54099d0e35509d1a9d686b1d5e539d00349d9d099d9d4015361b3f279d9d61389d00192e179d3f792d9d9d1c53189d07469d652b386a379d9d9d3c9d9d3f1d4302479d519d773f569d9d1c9d1f4a9d219d9d004b771f3f419d6e369d459d9d9d7d439d9d5f697f6c201e229d35489d6c9d9d9d1d070030200073181c9d9d062f9d6c9d9d65219d189d9d9d759d0c9d9d6b409d9d74129d789d0b506d589d6916409d409d9d75729d9d439d9d42569d499d211e9d9d9d240f9d159d205b1b109d429d6650389d054f3f009d9d379d9d2d049d07693f9d399d469d1d309d79079d2b9d9d019d449d9d9d039d6569069d6e9d019d0a479d9d416168165a9d9d9d3d9d587f9d249d429d33661028717539621d9d025a9d1f9d2e9d9d019d411a2a6a0c9d9d9d289d77547000519d059d9d1622289d487d5949079d43179d799d6a9d399d2a9d9d3f9d74009d03429d9d2c0a722a7a9d9d069d9d9d029d0d9d007d9d6515409d049d723f1a9d763f7a169d4e9d9d4d409d579d6a709d039d9d9d263f049d5e702c729d749d1f1a6c4a0a7e9d9d649d54009d639d3e3f9d009d623d9d9d6b71087a0a9d9d059d1e709d9d1f2003109d719d38019d9d9d9d9d3f9d9d1f3f1a9d9d349d1514671b57502e021f9d719d0607149d4900244f9d9d169d9d9d053b9d6c9d069d9d9d9d35576d9d9d43489d330530519d7a9d5c9d9d5a019d9d199d5d3f413f6d6d359d195b9d369d69679d9d229d3400639d9d9d9d769d9d4d6c9d6f5b2d9d00189d9d6c2f059d9d9d049d0d4b00246e709d289d9d0d4b9d9d9d123f9d28525d789d589d269d9d179d020067609d9d9d9d9d9d32409d9d9d6e573f9d6e9d9d9d21759d9d9d2e6a3f9d7e7a559d029d2e9d0f9d3c519d1c7e9d769d0c9d3c019d170f739d9d0b9d9d9d2b9d9d399d9d9d9d023f039d4f3f3f9d449d9d9d9d9d3d9d9d2f5b7a9d9d736d549d209d9d1a1c9d9d0e639d2b1a9d1c9d0a9d6c089d9d9d9d9d9d081d9d5b5b9d26309d9d9d6c3e16789d031a289d9d4419409d9d409d410e9d9d5d9d9d9d062d9d249d214e039d7b3f429d099d3f789d5c064c9d23109d9d7e7e9d61069d9d2a1a2a9d9d9d1f9d9d9d9d1b559d614b5d9d4a9d2f119d9d9d770e9d20059d9d430d5c3f9d9d579d3f469d9d31599d3f0420652d9d9d039d73009d5e4628239d710374744019259d78150b9d9d5a9d499d589d9d259d029d9d9d03441802081143329d9d072a9d1d4e669d619d349d22279d9d3f489d774d9d409d9d9d9d717d9d749d509d039d9d9d435240361d285f2845599d479d3f4b9d0229589d2962009d9d9d084f9d9d07080c4a386c9d2e9d344a9d3c269d9d9d9d30053f9d49209d339d0d36359d4d9d289d00669d26357b9d070b9d6e9d9d632b9d9d4a2078539d29529d3b3b509d9d019d02223f3a9d539d7d584056109d9d3323354f0f019d0f429d9d9d7a9d9d0d20349d260a159d18559d9d740d749d9d59059d1807399d512a9d9d9d2d9d799d3f229d239d9d054e3a9d097d9d9d1f5552419d719d039d9d107f9d684425103b9d4a609d45384c9d9d6a9d7c6e207611439d10601a48079d349d9d3940539d9d3f7a759d5e9d9d2150384b9d9d6b9d319d16203f259d9d9d0317259d9d2e9d15789d2c9d58159d3d9d9d9d9d5454029d6460069d673f7a450c2e9d233e49489d5d25479d9d739d5f9d5a356f3e9d739d539d5a6c9d520318439d7f9d9d4a17359d38089d9d43639d9d36084b9d4d009d3f6c9d2c9d9d205d9d009d4316066a3b0028340500429d2a9d3a013f67769d479d459d6d730b469d5a0a2c629d9d6c47679d079d531b9d9d9d369d5a9d1d59253f294c4e9d9d9d4c779d9d9d4d70615124644e9d7a9d5a08529d3b3f9d20511d643d3f0b049d0976409d9d9d55179d289d12661f9d9d455551109d5e9d9d9d5b9d583d709d3f9d499d4b9d5c3a3f499d0f099d9d4e9d9d609d4158799d382560476c06182d9d7d9d2d9d55579d9d112c9d759d2d9d4e0c9d00239d9d16685d2f3c1b9d4e74585355619d2c7d0c9d0b9d76147f9d319d780c9d3f659d1c509d9d0d9d9d189d9d032e6d2e6f9d9d1f2c739d5b1f3f9d9d9d649d019d099d5b410214609d322863290c9d2525189d66303f057c9d9d3a3f67361b9d3f4e9d0a9d179d9d463b1a061100003b, '2007-05-17 12:01:02');
+LOCK TABLES `oa_images` WRITE;
+/*!40000 ALTER TABLE `oa_images` DISABLE KEYS */;
+INSERT INTO `oa_images` VALUES ('468x60.gif','GIF89aù<\0ù\0\0uuuùùùDDDùùùùù?ùù000ùùù   eeeùùùUUUùùùùùù\0\0\0!ù\0\0\0\0\0,\0\0\0\0ù<\0\0ùùùIùù8ù?ù`(ùdiùhùùlùp,ùtmùxùù|ù?ùùcH\nPù\"ù(\nBùùX6ù\rùùJZùPùù$ùQùzùnW\Zùù$0ùùù?$ùùù\0bnuqz\'	BùC	ùùùù.ùs\"	ùxùùùx\0ùùùEù$\0ùùùùùùùAù#\nùùCùùùùùùDù!~ù?ù?ùùùqù\nùw?ù?ùùùùùù6ùùùvùùEùùù>ù#ùC.pù`Sù8t\0QRù5xsùù?(ùùùùAùD\"ù0\\<ùNù?Rùùù$?81leùùd(Sù[4ù\0 @@ùùE2ùùùI(\0ùPùù0ù\0ùs0ù?dùùaùYùùùùù\0ù\"$ù\\	}ù?ùHùù\\hùùùgùùtùù^ù{,;ùù2ùù<ùT	ù5Pù\Zùhk^Sù\04ùù	ùù@6?\'ùùa8ù\0.ù?y-ùùSùFùe+8j7ùùù<ùù?CGùQùw?VùùùJù!ùù\0Kw?Aùn6ùEùùù}Cùù_il \"ù5Hùlùùù\00 \0sùù/ùlùùe!ùùùùuùùùk@ùùtùxùPmXùi@ù@ùùurùùCùùBVùIù!ùùù$ùù [ùBùfP8ùO?\0ùù7ùù-ùi?ù9ùFù0ùyù+ùùùDùùùùeiùnùù\nGùùAahZùùù=ùXù$ùBù3f(qu9bùZùù.ùùùA\Z*jùùù(ùwTp\0Qùùù\"(ùH}YIùCùyùjù9ù*ùù?ùt\0ùBùù,\nr*zùùùùùù\rù\0}ùe@ùùr?\Zùv?zùNùùM@ùWùjpùùùù&?ù^p,rùtù\ZlJ\n~ùùdùT\0ùcù>?ù\0ùb=ùùkqz\nùùùpùù ùqù8ùùùùù?ùù?\Zùù4ùgWP.ùqùùI\0$Oùùùùù;ùlùùùùù5WmùùCHù30Qùzù\\ùùZùùù]?A?mm5ù[ù6ùigùù\"ù4\0cùùùùvùùMlùo[-ù\0ùùl/ùùùù\rK\0$npù(ùù\rKùùù?ù(R]xùXù&ùùù\0g`ùùùùùù2@ùùùnW?ùnùùù!uùùù.j?ù~zUùù.ùù<Qù~ùvùù<ùsùùùùù+ùù9ùùùù?ùO??ùDùùùùù=ùù/[zùùsmTù ùù\Zùùcù+\Zùù\nùlùùùùùùù[[ù&0ùùùl>xù\Z(ùùD@ùù@ùAùù]ùùù-ù$ù!Nù{?Bù	ù?xù\\Lù#ùù~~ùaùù*\Z*ùùùùùùùUùaK]ùJù/ùùùwù ùùC\r\\?ùùWù?Fùù1Yù? e-ùùùs\0ù^F(#ùqtt@%ùxùùZùIùXùù%ùùùùDC2ùù*ùNfùaù4ù\"\'ùù?HùwMù@ùùùùq}ùtùPùùùùCR@6(_(EYùGù?Kù)Xù)b\0ùùùOùùJ8lù.ù4Jù<&ùùùù0?ùI ù3ù\r65ùMù(ù\0fù&5{ùùnùùc+ùùJ xSù)Rù;;Pùùù\"?:ùSù}X@Vùù3#5OùBùùùzùù\r 4ù&\nùUùùt\rtùùYù9ùQ*ùùù-ùyù?\"ù#ùùN:ù	}ùùURAùqùùùùhD%;ùJ`ùE8Lùùjù|n vCù`\ZHù4ùù9@Sùù?zuù^ùù!P8Kùùkù1ù ?%ùùù%ùù.ùxù,ùXù=ùùùùTTùd`ùg?zE.ù#>IHù]%Gùùsù_ùZ5o>ùsùSùZlùRCùùùJ5ù8ùùCcùù6KùM\0ù?lù,ùù ]ù\0ùCj;\0(4\0Bù*ù:?gvùGùEùmsFùZ\n,bùùlGgùùSùùù6ùZùY%?)LNùùùLwùùùMpaQ$dNùzùZRù;?ù Qd=?ù	v@ùùùUù(ùfùùEUQù^ùùù[ùX=pù?ùIùKù\\:?Iù	ùùNùù`ùAXyù8%`Gl-ù}ù-ùUWùù,ùuù-ùNù\0#ùùh]/<ùNtXSUaù,}ùùvù1ùxù?eùPùù\rùùùù.m.oùù,sù[?ùùùdùù	ù[A`ù2(c)ù%%ùf0?|ùù:?g6ù?Nù\nùùùF;\Z\0\0;','2007-05-17 12:01:02');
+/*!40000 ALTER TABLE `oa_images` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_lb_local`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_lb_local`;
 CREATE TABLE `oa_lb_local` (
   `last_run` int(11) NOT NULL default '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_lb_local`
--- 
+--
 
+LOCK TABLES `oa_lb_local` WRITE;
+/*!40000 ALTER TABLE `oa_lb_local` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oa_lb_local` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_log_maintenance_forecasting`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_log_maintenance_forecasting`;
 CREATE TABLE `oa_log_maintenance_forecasting` (
   `log_maintenance_forecasting_id` int(11) NOT NULL auto_increment,
   `start_run` datetime NOT NULL,
@@ -1030,19 +1125,22 @@ CREATE TABLE `oa_log_maintenance_forecasting` (
   `duration` int(11) NOT NULL,
   `updated_to` datetime default NULL,
   PRIMARY KEY  (`log_maintenance_forecasting_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_log_maintenance_forecasting`
--- 
+--
 
+LOCK TABLES `oa_log_maintenance_forecasting` WRITE;
+/*!40000 ALTER TABLE `oa_log_maintenance_forecasting` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oa_log_maintenance_forecasting` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_log_maintenance_priority`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_log_maintenance_priority`;
 CREATE TABLE `oa_log_maintenance_priority` (
   `log_maintenance_priority_id` int(11) NOT NULL auto_increment,
   `start_run` datetime NOT NULL,
@@ -1052,19 +1150,22 @@ CREATE TABLE `oa_log_maintenance_priority` (
   `run_type` tinyint(3) unsigned NOT NULL,
   `updated_to` datetime default NULL,
   PRIMARY KEY  (`log_maintenance_priority_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_log_maintenance_priority`
--- 
+--
 
+LOCK TABLES `oa_log_maintenance_priority` WRITE;
+/*!40000 ALTER TABLE `oa_log_maintenance_priority` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oa_log_maintenance_priority` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_log_maintenance_statistics`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_log_maintenance_statistics`;
 CREATE TABLE `oa_log_maintenance_statistics` (
   `log_maintenance_statistics_id` int(11) NOT NULL auto_increment,
   `start_run` datetime NOT NULL,
@@ -1075,19 +1176,22 @@ CREATE TABLE `oa_log_maintenance_statistics` (
   `tracker_run_type` int(2) default NULL,
   `updated_to` datetime default NULL,
   PRIMARY KEY  (`log_maintenance_statistics_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_log_maintenance_statistics`
--- 
+--
 
+LOCK TABLES `oa_log_maintenance_statistics` WRITE;
+/*!40000 ALTER TABLE `oa_log_maintenance_statistics` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oa_log_maintenance_statistics` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_password_recovery`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_password_recovery`;
 CREATE TABLE `oa_password_recovery` (
   `user_type` varchar(64) NOT NULL default '',
   `user_id` int(10) NOT NULL,
@@ -1097,17 +1201,20 @@ CREATE TABLE `oa_password_recovery` (
   UNIQUE KEY `recovery_id` (`recovery_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_password_recovery`
--- 
+--
 
+LOCK TABLES `oa_password_recovery` WRITE;
+/*!40000 ALTER TABLE `oa_password_recovery` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oa_password_recovery` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_placement_zone_assoc`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_placement_zone_assoc`;
 CREATE TABLE `oa_placement_zone_assoc` (
   `placement_zone_assoc_id` mediumint(9) NOT NULL auto_increment,
   `zone_id` mediumint(9) default NULL,
@@ -1115,22 +1222,23 @@ CREATE TABLE `oa_placement_zone_assoc` (
   PRIMARY KEY  (`placement_zone_assoc_id`),
   KEY `placement_zone_assoc_zone_id` (`zone_id`),
   KEY `placement_id` (`placement_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_placement_zone_assoc`
--- 
+--
 
-INSERT INTO `oa_placement_zone_assoc` (`placement_zone_assoc_id`, `zone_id`, `placement_id`) VALUES (1, 1, 1),
-(2, 1, 2),
-(3, 2, 3);
+LOCK TABLES `oa_placement_zone_assoc` WRITE;
+/*!40000 ALTER TABLE `oa_placement_zone_assoc` DISABLE KEYS */;
+INSERT INTO `oa_placement_zone_assoc` VALUES (1,1,1),(2,1,2),(3,2,3);
+/*!40000 ALTER TABLE `oa_placement_zone_assoc` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_plugins_channel_delivery_assoc`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_plugins_channel_delivery_assoc`;
 CREATE TABLE `oa_plugins_channel_delivery_assoc` (
   `rule_id` int(10) unsigned NOT NULL default '0',
   `domain_id` int(10) unsigned NOT NULL default '0',
@@ -1141,191 +1249,63 @@ CREATE TABLE `oa_plugins_channel_delivery_assoc` (
   KEY `rule_order` (`rule_order`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_plugins_channel_delivery_assoc`
--- 
+--
 
+LOCK TABLES `oa_plugins_channel_delivery_assoc` WRITE;
+/*!40000 ALTER TABLE `oa_plugins_channel_delivery_assoc` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oa_plugins_channel_delivery_assoc` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_plugins_channel_delivery_domains`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_plugins_channel_delivery_domains`;
 CREATE TABLE `oa_plugins_channel_delivery_domains` (
   `domain_id` int(10) unsigned NOT NULL auto_increment,
   `domain_name` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`domain_id`),
   KEY `domain_name` (`domain_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_plugins_channel_delivery_domains`
--- 
+--
 
+LOCK TABLES `oa_plugins_channel_delivery_domains` WRITE;
+/*!40000 ALTER TABLE `oa_plugins_channel_delivery_domains` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oa_plugins_channel_delivery_domains` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_plugins_channel_delivery_rules`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_plugins_channel_delivery_rules`;
 CREATE TABLE `oa_plugins_channel_delivery_rules` (
   `rule_id` int(10) unsigned NOT NULL auto_increment,
   `modifier` varchar(100) NOT NULL default '',
   `client` varchar(100) NOT NULL default '',
   `rule` text NOT NULL,
   PRIMARY KEY  (`rule_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- 
--- Dumping data for table `oa_plugins_channel_delivery_rules`
--- 
-
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `oa_preference`
--- 
-
-CREATE TABLE `oa_preference` (
-  `agencyid` mediumint(9) NOT NULL default '0',
-  `config_version` decimal(7,3) NOT NULL default '0.000',
-  `my_header` varchar(255) default NULL,
-  `my_footer` varchar(255) default NULL,
-  `my_logo` varchar(255) default NULL,
-  `language` varchar(32) default 'english',
-  `name` varchar(32) default NULL,
-  `company_name` varchar(255) default 'mysite.com',
-  `override_gd_imageformat` varchar(4) default NULL,
-  `begin_of_week` tinyint(2) default '1',
-  `percentage_decimals` tinyint(2) default '2',
-  `type_sql_allow` enum('t','f') default 't',
-  `type_url_allow` enum('t','f') default 't',
-  `type_web_allow` enum('t','f') default 'f',
-  `type_html_allow` enum('t','f') default 't',
-  `type_txt_allow` enum('t','f') default 't',
-  `banner_html_auto` enum('t','f') default 't',
-  `admin` varchar(64) default 'phpadsuser',
-  `admin_pw` varchar(64) default 'phpadspass',
-  `admin_fullname` varchar(255) default 'Your Name',
-  `admin_email` varchar(64) default 'your@email.com',
-  `warn_admin` enum('t','f') default 't',
-  `warn_agency` enum('t','f') default 't',
-  `warn_client` enum('t','f') default 't',
-  `warn_limit` mediumint(9) NOT NULL default '100',
-  `admin_email_headers` varchar(64) default NULL,
-  `admin_novice` enum('t','f') default 't',
-  `default_banner_weight` tinyint(4) default '1',
-  `default_campaign_weight` tinyint(4) default '1',
-  `default_banner_url` varchar(255) default NULL,
-  `default_banner_destination` varchar(255) default NULL,
-  `client_welcome` enum('t','f') default 't',
-  `client_welcome_msg` text,
-  `publisher_welcome` enum('t','f') default 't',
-  `publisher_welcome_msg` text,
-  `content_gzip_compression` enum('t','f') default 'f',
-  `userlog_email` enum('t','f') default 't',
-  `gui_show_campaign_info` enum('t','f') default 't',
-  `gui_show_campaign_preview` enum('t','f') default 'f',
-  `gui_campaign_anonymous` enum('t','f') default 'f',
-  `gui_show_banner_info` enum('t','f') default 't',
-  `gui_show_banner_preview` enum('t','f') default 't',
-  `gui_show_banner_html` enum('t','f') default 'f',
-  `gui_show_matching` enum('t','f') default 't',
-  `gui_show_parents` enum('t','f') default 'f',
-  `gui_hide_inactive` enum('t','f') default 'f',
-  `gui_link_compact_limit` int(11) default '50',
-  `gui_header_background_color` varchar(7) default NULL,
-  `gui_header_foreground_color` varchar(7) default NULL,
-  `gui_header_active_tab_color` varchar(7) default NULL,
-  `gui_header_text_color` varchar(7) default NULL,
-  `gui_invocation_3rdparty_default` varchar(50) NOT NULL default '',
-  `qmail_patch` enum('t','f') default 'f',
-  `updates_enabled` enum('t','f') default 't',
-  `updates_cache` text,
-  `updates_timestamp` int(11) default '0',
-  `updates_last_seen` decimal(7,3) default NULL,
-  `allow_invocation_plain` enum('t','f') default 'f',
-  `allow_invocation_plain_nocookies` enum('t','f') default 't',
-  `allow_invocation_js` enum('t','f') default 't',
-  `allow_invocation_frame` enum('t','f') default 'f',
-  `allow_invocation_xmlrpc` enum('t','f') default 'f',
-  `allow_invocation_local` enum('t','f') default 't',
-  `allow_invocation_interstitial` enum('t','f') default 't',
-  `allow_invocation_popup` enum('t','f') default 't',
-  `allow_invocation_clickonly` enum('t','f') default 't',
-  `auto_clean_tables` enum('t','f') default 'f',
-  `auto_clean_tables_interval` tinyint(2) default '5',
-  `auto_clean_userlog` enum('t','f') default 'f',
-  `auto_clean_userlog_interval` tinyint(2) default '5',
-  `auto_clean_tables_vacuum` enum('t','f') default 't',
-  `autotarget_factor` float default '-1',
-  `maintenance_timestamp` int(11) default '0',
-  `compact_stats` enum('t','f') default 't',
-  `statslastday` date NOT NULL default '0000-00-00',
-  `statslasthour` tinyint(4) NOT NULL default '0',
-  `default_tracker_status` tinyint(4) NOT NULL default '1',
-  `default_tracker_type` int(10) unsigned default '1',
-  `default_tracker_linkcampaigns` enum('t','f') NOT NULL default 'f',
-  `publisher_agreement` enum('t','f') default 'f',
-  `publisher_agreement_text` text,
-  `publisher_payment_modes` text,
-  `publisher_currencies` text,
-  `publisher_categories` text,
-  `publisher_help_files` text,
-  `publisher_default_tax_id` enum('t','f') default 'f',
-  `publisher_default_approved` enum('t','f') default 'f',
-  `more_reports` varchar(1) default NULL,
-  `gui_column_id` text,
-  `gui_column_requests` text,
-  `gui_column_impressions` text,
-  `gui_column_clicks` text,
-  `gui_column_ctr` text,
-  `gui_column_conversions` text,
-  `gui_column_conversions_pending` text,
-  `gui_column_sr_views` text,
-  `gui_column_sr_clicks` text,
-  `gui_column_revenue` text,
-  `gui_column_cost` text,
-  `gui_column_bv` text,
-  `gui_column_num_items` text,
-  `gui_column_revcpc` text,
-  `gui_column_costcpc` text,
-  `gui_column_technology_cost` text,
-  `gui_column_income` text,
-  `gui_column_income_margin` text,
-  `gui_column_profit` text,
-  `gui_column_margin` text,
-  `gui_column_erpm` text,
-  `gui_column_erpc` text,
-  `gui_column_erps` text,
-  `gui_column_eipm` text,
-  `gui_column_eipc` text,
-  `gui_column_eips` text,
-  `gui_column_ecpm` text,
-  `gui_column_ecpc` text,
-  `gui_column_ecps` text,
-  `gui_column_epps` text,
-  `maintenance_cron_timestamp` int(11) default NULL,
-  `warn_limit_days` smallint(6) NOT NULL default '1',
-  PRIMARY KEY  (`agencyid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
--- Dumping data for table `oa_preference`
--- 
+--
+-- Dumping data for table `oa_plugins_channel_delivery_rules`
+--
 
-INSERT INTO `oa_preference` (`agencyid`, `config_version`, `my_header`, `my_footer`, `my_logo`, `language`, `name`, `company_name`, `override_gd_imageformat`, `begin_of_week`, `percentage_decimals`, `type_sql_allow`, `type_url_allow`, `type_web_allow`, `type_html_allow`, `type_txt_allow`, `banner_html_auto`, `admin`, `admin_pw`, `admin_fullname`, `admin_email`, `warn_admin`, `warn_agency`, `warn_client`, `warn_limit`, `admin_email_headers`, `admin_novice`, `default_banner_weight`, `default_campaign_weight`, `default_banner_url`, `default_banner_destination`, `client_welcome`, `client_welcome_msg`, `publisher_welcome`, `publisher_welcome_msg`, `content_gzip_compression`, `userlog_email`, `gui_show_campaign_info`, `gui_show_campaign_preview`, `gui_campaign_anonymous`, `gui_show_banner_info`, `gui_show_banner_preview`, `gui_show_banner_html`, `gui_show_matching`, `gui_show_parents`, `gui_hide_inactive`, `gui_link_compact_limit`, `gui_header_background_color`, `gui_header_foreground_color`, `gui_header_active_tab_color`, `gui_header_text_color`, `gui_invocation_3rdparty_default`, `qmail_patch`, `updates_enabled`, `updates_cache`, `updates_timestamp`, `updates_last_seen`, `allow_invocation_plain`, `allow_invocation_plain_nocookies`, `allow_invocation_js`, `allow_invocation_frame`, `allow_invocation_xmlrpc`, `allow_invocation_local`, `allow_invocation_interstitial`, `allow_invocation_popup`, `allow_invocation_clickonly`, `auto_clean_tables`, `auto_clean_tables_interval`, `auto_clean_userlog`, `auto_clean_userlog_interval`, `auto_clean_tables_vacuum`, `autotarget_factor`, `maintenance_timestamp`, `compact_stats`, `statslastday`, `statslasthour`, `default_tracker_status`, `default_tracker_type`, `default_tracker_linkcampaigns`, `publisher_agreement`, `publisher_agreement_text`, `publisher_payment_modes`, `publisher_currencies`, `publisher_categories`, `publisher_help_files`, `publisher_default_tax_id`, `publisher_default_approved`, `more_reports`, `gui_column_id`, `gui_column_requests`, `gui_column_impressions`, `gui_column_clicks`, `gui_column_ctr`, `gui_column_conversions`, `gui_column_conversions_pending`, `gui_column_sr_views`, `gui_column_sr_clicks`, `gui_column_revenue`, `gui_column_cost`, `gui_column_bv`, `gui_column_num_items`, `gui_column_revcpc`, `gui_column_costcpc`, `gui_column_technology_cost`, `gui_column_income`, `gui_column_income_margin`, `gui_column_profit`, `gui_column_margin`, `gui_column_erpm`, `gui_column_erpc`, `gui_column_erps`, `gui_column_eipm`, `gui_column_eipc`, `gui_column_eips`, `gui_column_ecpm`, `gui_column_ecpc`, `gui_column_ecps`, `gui_column_epps`, `maintenance_cron_timestamp`, `warn_limit_days`) VALUES (0, 0.000, NULL, NULL, NULL, 'english', NULL, 'www.openads.org', NULL, 0, 2, 't', 't', 'f', 't', 't', 't', 'admin', '5f4dcc3b5aa765d61d8327deb882cf99', 'Andrew Hill', 'andrew.hill@openads.org', 't', 't', 't', 100, NULL, 't', 1, 1, NULL, NULL, 't', NULL, 't', NULL, 'f', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 50, NULL, NULL, NULL, NULL, '0', 'f', 't', 'b:0;', 1188468357, 0.000, 'f', 't', 't', 'f', 'f', 't', 't', 't', 't', 'f', 5, 'f', 5, 't', -1, 1180706838, 't', '0000-00-00', 0, 1, 1, 'f', 'f', NULL, '', '', '', '', 't', 't', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1),
-(1, 0.000, NULL, NULL, NULL, '', 'Test Agency', 'www.openads.org', NULL, 0, 2, 't', 't', 'f', 't', 't', 't', 'admin', '5f4dcc3b5aa765d61d8327deb882cf99', 'Andrew Hill', 'andrew.hill@openads.org', 't', 't', 't', 100, NULL, 't', 1, 1, NULL, NULL, 't', NULL, 't', NULL, 'f', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 50, NULL, NULL, NULL, NULL, '0', 'f', 't', NULL, 0, NULL, 'f', 't', 't', 'f', 'f', 't', 't', 't', 't', 'f', 5, 'f', 5, 't', -1, 1180706838, 't', '0000-00-00', 0, 1, 1, 'f', 'f', NULL, '', '', '', '', 't', 't', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1179299106, 1);
+LOCK TABLES `oa_plugins_channel_delivery_rules` WRITE;
+/*!40000 ALTER TABLE `oa_plugins_channel_delivery_rules` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oa_plugins_channel_delivery_rules` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_preference_advertiser`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_preference_advertiser`;
 CREATE TABLE `oa_preference_advertiser` (
   `advertiser_id` int(11) NOT NULL,
   `preference` varchar(255) NOT NULL default '',
@@ -1333,17 +1313,20 @@ CREATE TABLE `oa_preference_advertiser` (
   PRIMARY KEY  (`advertiser_id`,`preference`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_preference_advertiser`
--- 
+--
 
+LOCK TABLES `oa_preference_advertiser` WRITE;
+/*!40000 ALTER TABLE `oa_preference_advertiser` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oa_preference_advertiser` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_preference_publisher`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_preference_publisher`;
 CREATE TABLE `oa_preference_publisher` (
   `publisher_id` int(11) NOT NULL,
   `preference` varchar(255) NOT NULL default '',
@@ -1351,17 +1334,44 @@ CREATE TABLE `oa_preference_publisher` (
   PRIMARY KEY  (`publisher_id`,`preference`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_preference_publisher`
--- 
+--
 
+LOCK TABLES `oa_preference_publisher` WRITE;
+/*!40000 ALTER TABLE `oa_preference_publisher` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oa_preference_publisher` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
+--
+-- Table structure for table `oa_preferences`
+--
 
--- 
+DROP TABLE IF EXISTS `oa_preferences`;
+CREATE TABLE `oa_preferences` (
+  `preference_id` mediumint(9) NOT NULL auto_increment,
+  `preference_name` varchar(64) NOT NULL default '',
+  `account_type` varchar(16) NOT NULL default '',
+  PRIMARY KEY  (`preference_id`),
+  UNIQUE KEY `oa_preferences_preference_name` (`preference_name`),
+  KEY `oa_preferences_account_type` (`account_type`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `oa_preferences`
+--
+
+LOCK TABLES `oa_preferences` WRITE;
+/*!40000 ALTER TABLE `oa_preferences` DISABLE KEYS */;
+INSERT INTO `oa_preferences` VALUES (1,'language','ADMIN'),(2,'ui_week_start_day','ADMIN'),(3,'ui_percentage_decimals','ADMIN'),(4,'warn_admin','ADMIN'),(5,'warn_email_manager','ADMIN'),(6,'warn_email_advertiser','ADMIN'),(7,'warn_email_admin_impression_limit','ADMIN'),(8,'warn_email_admin_day_limit','ADMIN'),(9,'ui_novice_user','ADMIN'),(10,'default_banner_weight','ADMIN'),(11,'default_campaign_weight','ADMIN'),(12,'default_banner_image_url','ADMIN'),(13,'default_banner_destination_url','ADMIN'),(14,'ui_show_campaign_info','ADMIN'),(15,'ui_show_campaign_preview','ADMIN'),(16,'ui_show_banner_info','ADMIN'),(17,'ui_show_banner_preview','ADMIN'),(18,'ui_show_banner_html','ADMIN'),(19,'ui_show_matching_banners','ADMIN'),(20,'ui_show_matching_banners_parents','ADMIN'),(21,'ui_hide_inactive','ADMIN'),(22,'tracker_default_status','ADMIN'),(23,'tracker_default_type','ADMIN'),(24,'tracker_link_campaigns','ADMIN'),(25,'ui_column_id','ADMIN'),(26,'ui_column_id_label','ADMIN'),(27,'ui_column_id_rank','ADMIN'),(28,'ui_column_requests','ADMIN'),(29,'ui_column_requests_label','ADMIN'),(30,'ui_column_requests_rank','ADMIN'),(31,'ui_column_impressions','ADMIN'),(32,'ui_column_impressions_label','ADMIN'),(33,'ui_column_impressions_rank','ADMIN'),(34,'ui_column_clicks','ADMIN'),(35,'ui_column_clicks_label','ADMIN'),(36,'ui_column_clicks_rank','ADMIN'),(37,'ui_column_ctr','ADMIN'),(38,'ui_column_ctr_label','ADMIN'),(39,'ui_column_ctr_rank','ADMIN'),(40,'ui_column_conversions','ADMIN'),(41,'ui_column_conversions_label','ADMIN'),(42,'ui_column_conversions_rank','ADMIN'),(43,'ui_column_conversions_pending','ADMIN'),(44,'ui_column_conversions_pending_label','ADMIN'),(45,'ui_column_conversions_pending_rank','ADMIN'),(46,'ui_column_sr_views','ADMIN'),(47,'ui_column_sr_views_label','ADMIN'),(48,'ui_column_sr_views_rank','ADMIN'),(49,'ui_column_sr_clicks','ADMIN'),(50,'ui_column_sr_clicks_label','ADMIN'),(51,'ui_column_sr_clicks_rank','ADMIN'),(52,'ui_column_revenue','ADMIN'),(53,'ui_column_revenue_label','ADMIN'),(54,'ui_column_revenue_rank','ADMIN'),(55,'ui_column_cost','ADMIN'),(56,'ui_column_cost_label','ADMIN'),(57,'ui_column_cost_rank','ADMIN'),(58,'ui_column_bv','ADMIN'),(59,'ui_column_bv_label','ADMIN'),(60,'ui_column_bv_rank','ADMIN'),(61,'ui_column_num_items','ADMIN'),(62,'ui_column_num_items_label','ADMIN'),(63,'ui_column_num_items_rank','ADMIN'),(64,'ui_column_revcpc','ADMIN'),(65,'ui_column_revcpc_label','ADMIN'),(66,'ui_column_revcpc_rank','ADMIN'),(67,'ui_column_costcpc','ADMIN'),(68,'ui_column_costcpc_label','ADMIN'),(69,'ui_column_costcpc_rank','ADMIN'),(70,'ui_column_technology_cost','ADMIN'),(71,'ui_column_technology_cost_label','ADMIN'),(72,'ui_column_technology_cost_rank','ADMIN'),(73,'ui_column_income','ADMIN'),(74,'ui_column_income_label','ADMIN'),(75,'ui_column_income_rank','ADMIN'),(76,'ui_column_income_margin','ADMIN'),(77,'ui_column_income_margin_label','ADMIN'),(78,'ui_column_income_margin_rank','ADMIN'),(79,'ui_column_profit','ADMIN'),(80,'ui_column_profit_label','ADMIN'),(81,'ui_column_profit_rank','ADMIN'),(82,'ui_column_margin','ADMIN'),(83,'ui_column_margin_label','ADMIN'),(84,'ui_column_margin_rank','ADMIN'),(85,'ui_column_erpm','ADMIN'),(86,'ui_column_erpm_label','ADMIN'),(87,'ui_column_erpm_rank','ADMIN'),(88,'ui_column_erpc','ADMIN'),(89,'ui_column_erpc_label','ADMIN'),(90,'ui_column_erpc_rank','ADMIN'),(91,'ui_column_erps','ADMIN'),(92,'ui_column_erps_label','ADMIN'),(93,'ui_column_erps_rank','ADMIN'),(94,'ui_column_eipm','ADMIN'),(95,'ui_column_eipm_label','ADMIN'),(96,'ui_column_eipm_rank','ADMIN'),(97,'ui_column_eipc','ADMIN'),(98,'ui_column_eipc_label','ADMIN'),(99,'ui_column_eipc_rank','ADMIN'),(100,'ui_column_eips','ADMIN'),(101,'ui_column_eips_label','ADMIN'),(102,'ui_column_eips_rank','ADMIN'),(103,'ui_column_ecpm','ADMIN'),(104,'ui_column_ecpm_label','ADMIN'),(105,'ui_column_ecpm_rank','ADMIN'),(106,'ui_column_ecpc','ADMIN'),(107,'ui_column_ecpc_label','ADMIN'),(108,'ui_column_ecpc_rank','ADMIN'),(109,'ui_column_ecps','ADMIN'),(110,'ui_column_ecps_label','ADMIN'),(111,'ui_column_ecps_rank','ADMIN'),(112,'ui_column_epps','ADMIN'),(113,'ui_column_epps_label','ADMIN'),(114,'ui_column_epps_rank','ADMIN');
+/*!40000 ALTER TABLE `oa_preferences` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `oa_session`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_session`;
 CREATE TABLE `oa_session` (
   `sessionid` varchar(32) NOT NULL default '',
   `sessiondata` longblob NOT NULL,
@@ -1369,22 +1379,21 @@ CREATE TABLE `oa_session` (
   PRIMARY KEY  (`sessionid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_session`
--- 
+--
 
-INSERT INTO `oa_session` (`sessionid`, `sessiondata`, `lastused`) VALUES ('phpads465c3580ef7ff1.90755088', 0x613a363a7b733a383a227573657274797065223b693a313b733a383a226c6f67676564696e223b733a313a2274223b733a383a226167656e63796964223b693a303b733a383a22757365726e616d65223b733a353a2261646d696e223b733a353a227072656673223b613a383a7b733a32303a22616476657274697365722d696e6465782e706870223b613a343a7b733a31323a2268696465696e616374697665223b623a313b733a393a226c6973746f72646572223b733a303a22223b733a31343a226f72646572646972656374696f6e223b733a303a22223b733a353a226e6f646573223b613a303a7b7d7d733a373a22474c4f42414c53223b613a333a7b733a31333a22706572696f645f707265736574223b733a353a22746f646179223b733a31323a22706572696f645f7374617274223b733a31303a22323030372d30362d3031223b733a31303a22706572696f645f656e64223b733a31303a22323030372d30362d3031223b7d733a393a2273746174732e706870223b613a353a7b733a393a226c6973746f72646572223b733a343a226e616d65223b733a31343a226f72646572646972656374696f6e223b733a323a227570223b733a31303a2273746172746c6576656c223b693a303b733a353a226e6f646573223b733a303a22223b733a31323a2268696465696e616374697665223b623a313b7d733a31393a22616666696c696174652d696e6465782e706870223b613a333a7b733a393a226c6973746f72646572223b733a303a22223b733a31343a226f72646572646972656374696f6e223b733a303a22223b733a353a226e6f646573223b733a303a22223b7d733a32343a22616476657274697365722d63616d706169676e732e706870223b613a313a7b693a313b613a343a7b733a31323a2268696465696e616374697665223b623a313b733a393a226c6973746f72646572223b733a303a22223b733a31343a226f72646572646972656374696f6e223b733a303a22223b733a353a226e6f646573223b733a303a22223b7d7d733a32333a22616476657274697365722d747261636b6572732e706870223b613a323a7b733a393a226c6973746f72646572223b733a303a22223b733a31343a226f72646572646972656374696f6e223b733a303a22223b7d733a32313a22747261636b65722d63616d706169676e732e706870223b613a333a7b733a31323a2268696465696e616374697665223b623a313b733a393a226c6973746f72646572223b733a303a22223b733a31343a226f72646572646972656374696f6e223b733a303a22223b7d733a32313a22747261636b65722d7661726961626c65732e706870223b613a313a7b733a393a22747261636b65726964223b733a313a2231223b7d7d733a31323a227570646174655f636865636b223b623a303b7d, '2007-06-01 15:09:52'),
-('phpads465d96668fc721.60249221', 0x613a363a7b733a383a227573657274797065223b693a313b733a383a226c6f67676564696e223b733a313a2274223b733a383a226167656e63796964223b693a303b733a383a22757365726e616d65223b733a353a2261646d696e223b733a353a227072656673223b613a333a7b733a32303a22616476657274697365722d696e6465782e706870223b613a343a7b733a31323a2268696465696e616374697665223b623a313b733a393a226c6973746f72646572223b733a303a22223b733a31343a226f72646572646972656374696f6e223b733a303a22223b733a353a226e6f646573223b613a303a7b7d7d733a32343a22616476657274697365722d63616d706169676e732e706870223b613a313a7b693a313b613a343a7b733a31323a2268696465696e616374697665223b623a313b733a393a226c6973746f72646572223b733a303a22223b733a31343a226f72646572646972656374696f6e223b733a303a22223b733a353a226e6f646573223b733a303a22223b7d7d733a32333a22616476657274697365722d747261636b6572732e706870223b613a323a7b733a393a226c6973746f72646572223b733a303a22223b733a31343a226f72646572646972656374696f6e223b733a303a22223b7d7d733a31323a227570646174655f636865636b223b623a303b7d, '2007-06-01 17:15:27'),
-('phpads4666d2619a15a3.52419402', 0x613a363a7b733a383a227573657274797065223b693a313b733a383a226c6f67676564696e223b733a313a2274223b733a383a226167656e63796964223b693a303b733a383a22757365726e616d65223b733a353a2261646d696e223b733a353a227072656673223b613a313a7b733a32303a22616476657274697365722d696e6465782e706870223b613a343a7b733a31323a2268696465696e616374697665223b623a313b733a393a226c6973746f72646572223b733a303a22223b733a31343a226f72646572646972656374696f6e223b733a303a22223b733a353a226e6f646573223b613a303a7b7d7d7d733a31323a227570646174655f636865636b223b623a303b7d, '2007-06-06 16:27:35'),
-('phpads468a364daaa084.23126755', 0x613a363a7b733a383a227573657274797065223b693a313b733a383a226c6f67676564696e223b733a313a2274223b733a383a226167656e63796964223b693a303b733a383a22757365726e616d65223b733a353a2261646d696e223b733a353a227072656673223b613a323a7b733a32303a22616476657274697365722d696e6465782e706870223b613a343a7b733a31323a2268696465696e616374697665223b623a313b733a393a226c6973746f72646572223b733a303a22223b733a31343a226f72646572646972656374696f6e223b733a303a22223b733a353a226e6f646573223b613a303a7b7d7d733a31393a22616666696c696174652d696e6465782e706870223b613a333a7b733a393a226c6973746f72646572223b733a303a22223b733a31343a226f72646572646972656374696f6e223b733a303a22223b733a353a226e6f646573223b733a303a22223b7d7d733a31323a227570646174655f636865636b223b623a303b7d, '2007-07-03 14:48:40'),
-('phpads46d44deed3dd40.69179106', 0x613a363a7b733a383a227573657274797065223b693a313b733a383a226c6f67676564696e223b733a313a2274223b733a383a226167656e63796964223b693a303b733a383a22757365726e616d65223b733a353a2261646d696e223b733a353a227072656673223b613a313a7b733a32303a22616476657274697365722d696e6465782e706870223b613a343a7b733a31323a2268696465696e616374697665223b623a313b733a393a226c6973746f72646572223b733a303a22223b733a31343a226f72646572646972656374696f6e223b733a303a22223b733a353a226e6f646573223b613a303a7b7d7d7d733a31353a226d61696e745f7570646174655f6a73223b623a313b7d, '2007-08-30 11:06:32');
+LOCK TABLES `oa_session` WRITE;
+/*!40000 ALTER TABLE `oa_session` DISABLE KEYS */;
+INSERT INTO `oa_session` VALUES ('phpads465c3580ef7ff1.90755088','a:6:{s:8:\"usertype\";i:1;s:8:\"loggedin\";s:1:\"t\";s:8:\"agencyid\";i:0;s:8:\"username\";s:5:\"admin\";s:5:\"prefs\";a:8:{s:20:\"advertiser-index.php\";a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";a:0:{}}s:7:\"GLOBALS\";a:3:{s:13:\"period_preset\";s:5:\"today\";s:12:\"period_start\";s:10:\"2007-06-01\";s:10:\"period_end\";s:10:\"2007-06-01\";}s:9:\"stats.php\";a:5:{s:9:\"listorder\";s:4:\"name\";s:14:\"orderdirection\";s:2:\"up\";s:10:\"startlevel\";i:0;s:5:\"nodes\";s:0:\"\";s:12:\"hideinactive\";b:1;}s:19:\"affiliate-index.php\";a:3:{s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";s:0:\"\";}s:24:\"advertiser-campaigns.php\";a:1:{i:1;a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";s:0:\"\";}}s:23:\"advertiser-trackers.php\";a:2:{s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";}s:21:\"tracker-campaigns.php\";a:3:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";}s:21:\"tracker-variables.php\";a:1:{s:9:\"trackerid\";s:1:\"1\";}}s:12:\"update_check\";b:0;}','2007-06-01 15:09:52'),('phpads465d96668fc721.60249221','a:6:{s:8:\"usertype\";i:1;s:8:\"loggedin\";s:1:\"t\";s:8:\"agencyid\";i:0;s:8:\"username\";s:5:\"admin\";s:5:\"prefs\";a:3:{s:20:\"advertiser-index.php\";a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";a:0:{}}s:24:\"advertiser-campaigns.php\";a:1:{i:1;a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";s:0:\"\";}}s:23:\"advertiser-trackers.php\";a:2:{s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";}}s:12:\"update_check\";b:0;}','2007-06-01 17:15:27'),('phpads4666d2619a15a3.52419402','a:6:{s:8:\"usertype\";i:1;s:8:\"loggedin\";s:1:\"t\";s:8:\"agencyid\";i:0;s:8:\"username\";s:5:\"admin\";s:5:\"prefs\";a:1:{s:20:\"advertiser-index.php\";a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";a:0:{}}}s:12:\"update_check\";b:0;}','2007-06-06 16:27:35'),('phpads468a364daaa084.23126755','a:6:{s:8:\"usertype\";i:1;s:8:\"loggedin\";s:1:\"t\";s:8:\"agencyid\";i:0;s:8:\"username\";s:5:\"admin\";s:5:\"prefs\";a:2:{s:20:\"advertiser-index.php\";a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";a:0:{}}s:19:\"affiliate-index.php\";a:3:{s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";s:0:\"\";}}s:12:\"update_check\";b:0;}','2007-07-03 14:48:40'),('phpads46d44deed3dd40.69179106','a:6:{s:8:\"usertype\";i:1;s:8:\"loggedin\";s:1:\"t\";s:8:\"agencyid\";i:0;s:8:\"username\";s:5:\"admin\";s:5:\"prefs\";a:1:{s:20:\"advertiser-index.php\";a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";a:0:{}}}s:15:\"maint_update_js\";b:1;}','2007-08-30 11:06:32'),('phpads47877c12cd8115.03124044','a:3:{s:4:\"user\";O:18:\"oa_permission_user\":2:{s:5:\"aUser\";a:10:{s:7:\"user_id\";s:1:\"1\";s:12:\"contact_name\";s:11:\"Andrew Hill\";s:13:\"email_address\";s:23:\"andrew.hill@openads.org\";s:8:\"username\";s:5:\"admin\";s:18:\"default_account_id\";s:1:\"2\";s:8:\"comments\";s:0:\"\";s:6:\"active\";s:1:\"1\";s:10:\"account_id\";s:1:\"2\";s:12:\"account_type\";s:7:\"MANAGER\";s:12:\"account_name\";s:15:\"Default manager\";}s:8:\"aAccount\";a:5:{s:10:\"account_id\";s:1:\"1\";s:12:\"account_type\";s:5:\"ADMIN\";s:12:\"account_name\";s:13:\"Administrator\";s:9:\"entity_id\";i:0;s:9:\"agency_id\";i:0;}}s:5:\"prefs\";a:1:{s:20:\"advertiser-index.php\";a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";a:0:{}}}s:15:\"maint_update_js\";b:1;}','2008-01-11 14:47:54');
+/*!40000 ALTER TABLE `oa_session` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_targetstats`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_targetstats`;
 CREATE TABLE `oa_targetstats` (
   `day` date NOT NULL default '0000-00-00',
   `campaignid` mediumint(9) NOT NULL default '0',
@@ -1393,17 +1402,20 @@ CREATE TABLE `oa_targetstats` (
   `modified` tinyint(4) NOT NULL default '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_targetstats`
--- 
+--
 
+LOCK TABLES `oa_targetstats` WRITE;
+/*!40000 ALTER TABLE `oa_targetstats` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oa_targetstats` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_tracker_append`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_tracker_append`;
 CREATE TABLE `oa_tracker_append` (
   `tracker_append_id` int(11) NOT NULL auto_increment,
   `tracker_id` mediumint(9) NOT NULL default '0',
@@ -1413,19 +1425,22 @@ CREATE TABLE `oa_tracker_append` (
   `autotrack` enum('t','f') NOT NULL default 'f',
   PRIMARY KEY  (`tracker_append_id`),
   KEY `tracker_id` (`tracker_id`,`rank`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_tracker_append`
--- 
+--
 
+LOCK TABLES `oa_tracker_append` WRITE;
+/*!40000 ALTER TABLE `oa_tracker_append` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oa_tracker_append` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_trackers`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_trackers`;
 CREATE TABLE `oa_trackers` (
   `trackerid` mediumint(9) NOT NULL auto_increment,
   `trackername` varchar(255) NOT NULL default '',
@@ -1442,47 +1457,23 @@ CREATE TABLE `oa_trackers` (
   `updated` datetime NOT NULL,
   PRIMARY KEY  (`trackerid`),
   KEY `trackers_clientid` (`clientid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_trackers`
--- 
+--
 
-INSERT INTO `oa_trackers` (`trackerid`, `trackername`, `description`, `clientid`, `viewwindow`, `clickwindow`, `blockwindow`, `status`, `type`, `linkcampaigns`, `variablemethod`, `appendcode`, `updated`) VALUES (1, 'Sample Tracker', '', 1, 3, 3, 0, 4, 1, 'f', 'js', '', '2007-06-01 15:09:47');
+LOCK TABLES `oa_trackers` WRITE;
+/*!40000 ALTER TABLE `oa_trackers` DISABLE KEYS */;
+INSERT INTO `oa_trackers` VALUES (1,'Sample Tracker','',1,3,3,0,4,1,'f','js','','2007-06-01 15:09:47');
+/*!40000 ALTER TABLE `oa_trackers` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
--- Table structure for table `oa_upgrade_action`
--- 
-
-CREATE TABLE `oa_upgrade_action` (
-  `upgrade_action_id` int(10) unsigned NOT NULL auto_increment,
-  `upgrade_name` varchar(128) default NULL,
-  `version_to` varchar(64) NOT NULL default '',
-  `version_from` varchar(64) default NULL,
-  `action` int(2) NOT NULL,
-  `description` varchar(255) default NULL,
-  `logfile` varchar(128) default NULL,
-  `confbackup` varchar(128) default NULL,
-  `updated` datetime default NULL,
-  PRIMARY KEY  (`upgrade_action_id`),
-  KEY `upgrade_action_updated` (`updated`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
--- 
--- Dumping data for table `oa_upgrade_action`
--- 
-
-INSERT INTO `oa_upgrade_action` (`upgrade_action_id`, `upgrade_name`, `version_to`, `version_from`, `action`, `description`, `logfile`, `confbackup`, `updated`) VALUES (1, 'openads_upgrade_2.5.1.xml', '2.5.1', '2.3.39-beta', 1, 'UPGRADE COMPLETE', 'cleaned by user', 'file not found', '2007-08-29 14:38:20'),
-(2, 'openads_version_stamp_2.5.1-dev', '2.5.1-dev', '2.5.1', 1, 'UPGRADE COMPLETE', 'cleaned by user', 'cleaned by user', '2007-08-29 14:38:21');
-
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_userlog`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_userlog`;
 CREATE TABLE `oa_userlog` (
   `userlogid` mediumint(9) NOT NULL auto_increment,
   `timestamp` int(11) NOT NULL default '0',
@@ -1492,19 +1483,50 @@ CREATE TABLE `oa_userlog` (
   `object` mediumint(9) default NULL,
   `details` longblob,
   PRIMARY KEY  (`userlogid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_userlog`
--- 
+--
 
+LOCK TABLES `oa_userlog` WRITE;
+/*!40000 ALTER TABLE `oa_userlog` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oa_userlog` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
+--
+-- Table structure for table `oa_users`
+--
 
--- 
+DROP TABLE IF EXISTS `oa_users`;
+CREATE TABLE `oa_users` (
+  `user_id` mediumint(9) NOT NULL auto_increment,
+  `contact_name` varchar(255) NOT NULL default '',
+  `email_address` varchar(64) NOT NULL default '',
+  `username` varchar(64) default NULL,
+  `password` varchar(64) default NULL,
+  `default_account_id` mediumint(9) default NULL,
+  `comments` text,
+  `active` tinyint(1) NOT NULL default '1',
+  PRIMARY KEY  (`user_id`),
+  UNIQUE KEY `oa_users_username` (`username`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `oa_users`
+--
+
+LOCK TABLES `oa_users` WRITE;
+/*!40000 ALTER TABLE `oa_users` DISABLE KEYS */;
+INSERT INTO `oa_users` VALUES (1,'Andrew Hill','andrew.hill@openads.org','admin','5f4dcc3b5aa765d61d8327deb882cf99',2,NULL,1),(2,'Andrew Hill','andrew.hill@openads.org','agency','5f4dcc3b5aa765d61d8327deb882cf99',3,NULL,1),(3,'advertiser','example@example.com','advertiser1','fe1f4b7940d69cf3eb289fad37c3ae40',4,NULL,1),(4,'Andrew Hill','andrew.hill@openads.org','publisher','5f4dcc3b5aa765d61d8327deb882cf99',5,NULL,1);
+/*!40000 ALTER TABLE `oa_users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `oa_variable_publisher`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_variable_publisher`;
 CREATE TABLE `oa_variable_publisher` (
   `variable_id` int(11) NOT NULL,
   `publisher_id` int(11) NOT NULL,
@@ -1512,17 +1534,20 @@ CREATE TABLE `oa_variable_publisher` (
   PRIMARY KEY  (`variable_id`,`publisher_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_variable_publisher`
--- 
+--
 
+LOCK TABLES `oa_variable_publisher` WRITE;
+/*!40000 ALTER TABLE `oa_variable_publisher` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oa_variable_publisher` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_variables`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_variables`;
 CREATE TABLE `oa_variables` (
   `variableid` mediumint(9) unsigned NOT NULL auto_increment,
   `trackerid` mediumint(9) NOT NULL default '0',
@@ -1539,21 +1564,23 @@ CREATE TABLE `oa_variables` (
   PRIMARY KEY  (`variableid`),
   KEY `variables_is_unique` (`is_unique`),
   KEY `variables_trackerid` (`trackerid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_variables`
--- 
+--
 
-INSERT INTO `oa_variables` (`variableid`, `trackerid`, `name`, `description`, `datatype`, `purpose`, `reject_if_empty`, `is_unique`, `unique_window`, `variablecode`, `hidden`, `updated`) VALUES (1, 1, 'boo', 'Sample number', 'numeric', NULL, 0, 0, 0, 'var boo = \\''%%BOO_VALUE%%\\''', 'f', '2007-06-01 15:09:47'),
-(2, 1, 'foo', 'Sample string', 'string', NULL, 0, 0, 0, 'var foo = \\''%%FOO_VALUE%%\\''', 'f', '2007-06-01 15:09:47');
+LOCK TABLES `oa_variables` WRITE;
+/*!40000 ALTER TABLE `oa_variables` DISABLE KEYS */;
+INSERT INTO `oa_variables` VALUES (1,1,'boo','Sample number','numeric',NULL,0,0,0,'var boo = \\\'%%BOO_VALUE%%\\\'','f','2007-06-01 15:09:47'),(2,1,'foo','Sample string','string',NULL,0,0,0,'var foo = \\\'%%FOO_VALUE%%\\\'','f','2007-06-01 15:09:47');
+/*!40000 ALTER TABLE `oa_variables` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
-
--- 
+--
 -- Table structure for table `oa_zones`
--- 
+--
 
+DROP TABLE IF EXISTS `oa_zones`;
 CREATE TABLE `oa_zones` (
   `zoneid` mediumint(9) NOT NULL auto_increment,
   `affiliateid` mediumint(9) default NULL,
@@ -1586,11 +1613,25 @@ CREATE TABLE `oa_zones` (
   PRIMARY KEY  (`zoneid`),
   KEY `oa_zones_zonenameid` (`zonename`,`zoneid`),
   KEY `oa_zones_affiliateid` (`affiliateid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `oa_zones`
--- 
+--
 
-INSERT INTO `oa_zones` (`zoneid`, `affiliateid`, `zonename`, `description`, `delivery`, `zonetype`, `category`, `width`, `height`, `ad_selection`, `chain`, `prepend`, `append`, `appendtype`, `forceappend`, `inventory_forecast_type`, `comments`, `cost`, `cost_type`, `cost_variable_id`, `technology_cost`, `technology_cost_type`, `updated`, `block`, `capping`, `session_capping`, `what`, `as_zone_id`) VALUES (1, 1, 'Publisher 1 - Default', '', 0, 3, '', 468, 60, '', '', '', '', 0, 'f', 0, '', NULL, NULL, '', NULL, NULL, '2007-04-27 15:37:19', 0, 0, 0, '', NULL),
-(2, 2, 'Agency Publisher 1 - Default', '', 0, 3, '', 468, 60, '', '', '', '', 0, 'f', 0, '', NULL, NULL, '', NULL, NULL, '2007-05-15 13:41:44', 0, 0, 0, '', NULL);
+LOCK TABLES `oa_zones` WRITE;
+/*!40000 ALTER TABLE `oa_zones` DISABLE KEYS */;
+INSERT INTO `oa_zones` VALUES (1,1,'Publisher 1 - Default','',0,3,'',468,60,'','','','',0,'f',0,'',NULL,NULL,'',NULL,NULL,'2007-04-27 15:37:19',0,0,0,'',NULL),(2,2,'Agency Publisher 1 - Default','',0,3,'',468,60,'','','','',0,'f',0,'',NULL,NULL,'',NULL,NULL,'2007-05-15 13:41:44',0,0,0,'',NULL);
+/*!40000 ALTER TABLE `oa_zones` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2008-01-11 14:51:41
