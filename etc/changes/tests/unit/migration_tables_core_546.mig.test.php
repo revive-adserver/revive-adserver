@@ -169,6 +169,9 @@ class Migration_546Test extends MigrationTest
 
     function Migration_546Test()
     {
+        // Ensure that the old preference table conf entry exist
+        $GLOBALS['_MAX']['CONF']['table']['preference'] = 'preference';
+
         $this->oDbh = &OA_DB::singleton();
         $prefix = $this->getPrefix();
         $this->tblPrefsOld  = $this->oDbh->quoteIdentifier($prefix.'preference', true);
