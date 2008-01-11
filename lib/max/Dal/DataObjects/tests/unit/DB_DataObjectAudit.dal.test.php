@@ -929,13 +929,13 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aEvent['array']['name'],'Agency');
         $this->assertEqual($aEvent['array']['contact'],'Agency Admin');
 
-/*  WORK IN PROGRESS !!!!
-        // test 3: agency account changed
+
+        // test 3: agency account update audited
         $this->assertTrue(isset($aAudit[3]));
         $aEvent = $aAudit[3];
         $this->assertIsA($aEvent, 'array');
         $this->assertEqual($aEvent['auditid'],3);
-        $this->assertEqual($aEvent['actionid'],OA_AUDIT_ACTION_INSERT);
+        $this->assertEqual($aEvent['actionid'],OA_AUDIT_ACTION_UPDATE);
         $this->assertEqual($aEvent['context'],'Agency');
         $this->assertEqual($aEvent['userid'],$userId);
         $this->assertEqual($aEvent['username'],$session['username']);
@@ -944,8 +944,8 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aEvent['array']['key_desc'],'Agency Changed');
         $this->assertEqual($aEvent['array']['contact']['is'],'Agency Admin Changed');
         $this->assertEqual($aEvent['array']['contact']['was'],'Agency Admin');
-        $this->assertEqual($aEvent['array']['email']['is'],'admin@agency.com');
-        $this->assertEqual($aEvent['array']['email']['was'],'newadmin@agency.com');
+        $this->assertEqual($aEvent['array']['email']['is'],'newadmin@agency.com');
+        $this->assertEqual($aEvent['array']['email']['was'],'admin@agency.com');
         $this->assertEqual($aEvent['array']['name']['is'],'Agency Changed');
         $this->assertEqual($aEvent['array']['name']['was'],'Agency');
 
@@ -964,7 +964,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aEvent['array']['account_name']['is'],'Agency Changed');
         $this->assertEqual($aEvent['array']['account_name']['was'],'Agency');
 
-        // test 5: new agency preferences update audited
+        // test 5: new agency account update audited
         $this->assertTrue(isset($aAudit[5]));
         $aEvent = $aAudit[5];
         $this->assertIsA($aEvent, 'array');
@@ -1026,21 +1026,21 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aEvent['array']['clientname'],'Client A');
         $this->assertEqual($aEvent['array']['agencyid'],$agencyId1);
 
-        // test 9: new agency preferences delete audited
-        $this->assertTrue(isset($aAudit[10]));
-        $aEvent = $aAudit[10];
+        // test 9: new agency account delete audited
+        $this->assertTrue(isset($aAudit[9]));
+        $aEvent = $aAudit[9];
         $this->assertIsA($aEvent, 'array');
-        $this->assertEqual($aEvent['auditid'],10);
+        $this->assertEqual($aEvent['auditid'],9);
         $this->assertEqual($aEvent['actionid'],OA_AUDIT_ACTION_DELETE);
         $this->assertEqual($aEvent['context'],'Account');
         $this->assertEqual($aEvent['userid'],$userId);
         $this->assertEqual($aEvent['username'],$session['username']);
-        $this->assertEqual($aEvent['contextid'],$agencyId1);
+        //$this->assertEqual($aEvent['contextid'],$agencyId1);
         $this->assertIsA($aEvent['array'], 'array');
         $this->assertEqual($aEvent['array']['key_desc'],'Agency Changed');
-        $this->assertEqual($aEvent['array']['agencyid'],$agencyId1);
-        $this->assertEqual($aEvent['array']['name'],'Agency Changed');
-*/
+        $this->assertEqual($aEvent['array']['account_name'],'Agency Changed');
+        $this->assertEqual($aEvent['array']['account_type'],'MANAGER');
+
         DataGenerator::cleanUp(array('agency', 'clients', 'audit'));
     }
 
