@@ -6,7 +6,6 @@ class Migration_546 extends Migration
 {
 
     var $aPrefOld = array();
-    var $aPrefNew = array();
     var $aConfNew = array();
 
 
@@ -54,30 +53,30 @@ class Migration_546 extends Migration
 
 
     var $aPrefMap = array(
-                        'language'                          => 'language',
-                        'ui_week_start_day'                 => 'begin_of_week',
-                        'ui_percentage_decimals'            => 'percentage_decimals',
-                        'warn_admin'                        => 'warn_admin',
-                        'warn_email_manager'                => 'warn_agency',
-                        'warn_email_advertiser'             => 'warn_client',
-                        'warn_email_admin_impression_limit' => 'warn_limit',
-                        'warn_email_admin_day_limit'        => 'warn_limit_days',
-                        'ui_novice_user'                    => 'admin_novice',
-                        'default_banner_weight'             => 'default_banner_weight',
-                        'default_campaign_weight'           => 'default_campaign_weight',
-                        'default_banner_image_url'          => 'default_banner_url',
-                        'default_banner_destination_url'    => 'default_banner_destination',
-                        'ui_show_campaign_info'             => 'gui_show_campaign_info',
-                        'ui_show_campaign_preview'          => 'gui_show_campaign_preview',
-                        'ui_show_banner_info'               => 'gui_show_banner_info',
-                        'ui_show_banner_preview'            => 'gui_show_banner_preview',
-                        'ui_show_banner_html'               => 'gui_show_banner_html',
-                        'ui_show_matching_banners'          => 'gui_show_matching',
-                        'ui_show_matching_banners_parents'  => 'gui_show_parents',
-                        'ui_hide_inactive'                  => 'gui_hide_inactive',
-                        'tracker_default_status'            => 'default_tracker_status',
-                        'tracker_default_type'              => 'default_tracker_type',
-                        'tracker_link_campaigns'            => 'default_tracker_linkcampaigns',
+                        'language'                          => array('name'=>'language','level'=>OA_ACCOUNT_TRAFFICKER),
+                        'ui_week_start_day'                 => array('name'=>'begin_of_week','level'=>''),
+                        'ui_percentage_decimals'            => array('name'=>'percentage_decimals','level'=>''),
+                        'warn_admin'                        => array('name'=>'warn_admin','level'=>OA_ACCOUNT_ADMIN),
+                        'warn_email_manager'                => array('name'=>'warn_agency','level'=>OA_ACCOUNT_MANAGER),
+                        'warn_email_advertiser'             => array('name'=>'warn_client','level'=>OA_ACCOUNT_ADVERTISER),
+                        'warn_email_admin_impression_limit' => array('name'=>'warn_limit','level'=>OA_ACCOUNT_MANAGER),
+                        'warn_email_admin_day_limit'        => array('name'=>'warn_limit_days','level'=>OA_ACCOUNT_MANAGER),
+                        'ui_novice_user'                    => array('name'=>'admin_novice','level'=>''),
+                        'default_banner_weight'             => array('name'=>'default_banner_weight','level'=>OA_ACCOUNT_ADVERTISER),
+                        'default_campaign_weight'           => array('name'=>'default_campaign_weight','level'=>OA_ACCOUNT_ADVERTISER),
+                        'default_banner_image_url'          => array('name'=>'default_banner_url','level'=>OA_ACCOUNT_TRAFFICKER),
+                        'default_banner_destination_url'    => array('name'=>'default_banner_destination','level'=>OA_ACCOUNT_TRAFFICKER),
+                        'ui_show_campaign_info'             => array('name'=>'gui_show_campaign_info','level'=>OA_ACCOUNT_ADVERTISER),
+                        'ui_show_campaign_preview'          => array('name'=>'gui_show_campaign_preview','level'=>OA_ACCOUNT_ADVERTISER),
+                        'ui_show_banner_info'               => array('name'=>'gui_show_banner_info','level'=>OA_ACCOUNT_ADVERTISER),
+                        'ui_show_banner_preview'            => array('name'=>'gui_show_banner_preview','level'=>OA_ACCOUNT_ADVERTISER),
+                        'ui_show_banner_html'               => array('name'=>'gui_show_banner_html','level'=>OA_ACCOUNT_ADVERTISER),
+                        'ui_show_matching_banners'          => array('name'=>'gui_show_matching','level'=>OA_ACCOUNT_TRAFFICKER),
+                        'ui_show_matching_banners_parents'  => array('name'=>'gui_show_parents','level'=>OA_ACCOUNT_TRAFFICKER),
+                        'ui_hide_inactive'                  => array('name'=>'gui_hide_inactive','level'=>''),
+                        'tracker_default_status'            => array('name'=>'default_tracker_status','level'=>''),
+                        'tracker_default_type'              => array('name'=>'default_tracker_type','level'=>''),
+                        'tracker_link_campaigns'            => array('name'=>'default_tracker_linkcampaigns','level'=>''),
                         );
 
     var $aPrefDep = array(
@@ -190,17 +189,17 @@ class Migration_546 extends Migration
     	               {$tblPrefsNew}
     	               (preference_name, account_type)
     	               VALUES
-    	               ('%s','ADMIN')";
+    	               ('%s','%s')";
 
 	    $queryAssoc = "INSERT INTO
     	               {$tblAccPrefs}
     	               (account_id, preference_id, value)
     	               VALUES
-    	               (%s,%s,'%s')";
+    	               (%s, %s,'%s')";
 
-        foreach ($this->aPrefNew as $key => $val)
+        foreach ($this->aPrefMap as $key => $aVal)
         {
-            $queryP = sprintf($queryPref, $key, $name);
+            $queryP = sprintf($queryPref, $key, $aVal['level']);
 
     	    $result = $this->oDBH->Exec($queryP);
 
@@ -216,7 +215,7 @@ class Migration_546 extends Migration
     	        $this->_logError('Failed to retrieve admin preference record id for '.$key);
     	    }
 
-            $queryA = sprintf($queryAssoc, $accountId, $prefId, $val);
+            $queryA = sprintf($queryAssoc, $accountId, $prefId, $aVal['value']);
 
     	    $result = $this->oDBH->Exec($queryA);
 
@@ -270,26 +269,22 @@ class Migration_546 extends Migration
     function _mapOldPrefsToPrefsAdmin()
     {
 
-        foreach ($this->aPrefMap AS $newName => $oldName)
+        foreach ($this->aPrefMap AS $newName => $aVal)
         {
-            $this->aPrefNew[$newName] = $this->aPrefOld[$oldName];
+            $this->aPrefMap[$newName]['value'] = $this->aPrefOld[$aVal['name']];
             unset($this->aPrefOld[$oldName]);
         }
 
         // only elements left should be the gui_columns that have serialized array values
-        foreach ($this->aPrefOld AS $key => $val)
+        foreach ($this->aPrefOld AS $oldName => $val)
         {
-            $name = substr($key,1);
-            $this->aPrefNew[$name]            = 't';
-            $this->aPrefNew[$name.'_label']   = '';
-            $this->aPrefNew[$name.'_rank']    = 0;
-
+            $newName = substr($oldName,1);
             $aVal = unserialize($val);
             if (is_array($aVal))
             {
-                $this->aPrefNew[$name]            = $aVal['show'];
-                $this->aPrefNew[$name.'_label']   = $aVal['label'];
-                $this->aPrefNew[$name.'_rank']    = $aVal['rank'];
+                $this->aPrefMap[$newName]            = array('value'=>$aVal['show'],'name'=>$oldName,'level'=>OA_ACCOUNT_MANAGER);
+                $this->aPrefMap[$newName.'_label']   = array('value'=>$aVal['label'],'name'=>$oldName,'level'=>OA_ACCOUNT_MANAGER);
+                $this->aPrefMap[$newName.'_rank']    = array('value'=>$aVal['rank'],'name'=>$oldName,'level'=>OA_ACCOUNT_MANAGER);
             }
         }
         return true;
