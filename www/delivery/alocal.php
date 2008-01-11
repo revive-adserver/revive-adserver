@@ -2270,8 +2270,8 @@ if (!empty($row['default'])) {
 if (empty($target)) {
 $target = '_blank';  // Default
 }
-$outputbuffer = $g_prepend . '<a href=\'' . $row['default_banner_dest'] . '\' target=\'' .
-$target . '\'><img src=\'' . $row['default_banner_url'] .
+$outputbuffer = $g_prepend . '<a href=\'' . $row['default_banner_destination_url'] . '\' target=\'' .
+$target . '\'><img src=\'' . $row['default_banner_image_url'] .
 '\' border=\'0\' alt=\'\'></a>' . $g_append;
 return array('html' => $outputbuffer, 'bannerid' => '' );
 } else {
@@ -2295,9 +2295,9 @@ return $aLinkedAd;
 }
 if (!empty($aDirectLinkedAds['default_banner_url'])) {
 return array(
-'default' => true,
-'default_banner_url' =>  $aZoneLinkedAds['default_banner_url'],
-'default_banner_dest' => $aZoneLinkedAds['default_banner_dest']
+'default'                        => true,
+'default_banner_image_url'       => $aZoneLinkedAds['default_banner_image_url'],
+'default_banner_destination_url' => $aZoneLinkedAds['default_banner_destination_url']
 );
 }
 return false;
@@ -2353,9 +2353,9 @@ $zoneId = _getNextZone($zoneId, $aZoneLinkedAds);
 }
 if (!empty($aZoneLinkedAds['default_banner_url'])) {
 return array(
-'default' => true,
-'default_banner_url' =>  $aZoneLinkedAds['default_banner_url'],
-'default_banner_dest' => $aZoneLinkedAds['default_banner_dest']
+'default'                        => true,
+'default_banner_image_url'       => $aZoneLinkedAds['default_banner_image_url'],
+'default_banner_destination_url' => $aZoneLinkedAds['default_banner_destination_url']
 );
 }
 return false;
