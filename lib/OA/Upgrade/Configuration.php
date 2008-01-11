@@ -207,16 +207,6 @@ class OA_Upgrade_Config
         }
     }
 
-    function setupConfigMax($aConfig)
-    {
-        $this->setValue('max', 'language', $aConfig['language']);
-    }
-
-    function setupConfigTimezone($aConfig)
-    {
-        $this->setValue('timezone', 'location', $aConfig['location']);
-    }
-
     function setupConfigWebpath($aConfig)
     {
         foreach ($aConfig AS $k => $v)

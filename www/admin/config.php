@@ -38,9 +38,6 @@ require_once MAX_PATH . '/lib/OA/Preferences.php';
 require_once MAX_PATH . '/lib/OA/Permission.php';
 require_once MAX_PATH . '/lib/OA/Auth.php';
 
-// Set time zone to local
-setTimeZoneLocal();
-
 $oDbh = OA_DB::singleton();
 if (PEAR::isError($oDbh))
 {
@@ -76,6 +73,9 @@ OA_Start();
 // Load the account's preferences
 OA_Preferences::loadPreferences();
 $pref = $GLOBALS['_MAX']['CONF'];
+
+// Set time zone to local
+OA_setTimeZoneLocal();
 
 // Load the required language files
 Language_Default::load();

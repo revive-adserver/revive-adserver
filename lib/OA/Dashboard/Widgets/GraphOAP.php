@@ -48,7 +48,7 @@ class OA_Dashboard_Widget_GraphOAP extends OA_Dashboard_Widget_Graph
     function getStats()
     {
         // Set time zone to local
-        setTimeZoneLocal();
+        OA_setTimeZoneLocal();
 
         $oEnd = new Date();
         $oEnd->setHour(0);

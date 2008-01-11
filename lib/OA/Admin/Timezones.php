@@ -77,7 +77,7 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
             $aSysTimezone = OA_Admin_Timezones::getTimezone();
             $tz = $aSysTimezone['tz'];
         } else {
-            $tz =$GLOBALS['_MAX']['CONF']['timezone']['location'];
+            $tz = $GLOBALS['_MAX']['PREF']['timezone'];
         }
 
         foreach ($aTimezoneKey as $key) {

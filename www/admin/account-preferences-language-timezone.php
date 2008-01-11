@@ -96,12 +96,12 @@ $oOptions->selection("language-timezone");
 
 // Get timezone dropdown information
 $aTimezones = OA_Admin_Timezones::availableTimezones(true);
-$oConfigTimezone = trim($GLOBALS['_MAX']['CONF']['timezone']['location']);
+$oConfigTimezone = trim($GLOBALS['_MAX']['PREF']['timezone']);
 if (empty($oConfigTimezone)) {
     // There is no value stored in the configuration file, as it
     // is not required (ie. the TZ comes from the environment) -
     // so set that environment value in the config file now
-    $GLOBALS['_MAX']['CONF']['timezone']['location'] = $aTimezone['tz'];
+    $GLOBALS['_MAX']['PREF']['timezone'] = $aTimezone['tz'];
 }
 // What display string do we need to show for the timezone?
 if (empty($oConfigTimezone) && $aTimezone['calculated']) {

@@ -47,9 +47,9 @@ function MAX_checkTime_Day($limitation, $op, $aParams = array())
 	if ($limitation == '') {
 		return true;
 	}
-	setTimeZoneLocal();
+	OA_setTimeZoneLocal();
 	$day = empty($aParams) ? date('w') : $aParams['day'];
-	setTimeZoneUTC();
+	OA_setTimeZoneUTC();
 	return MAX_limitationsMatchArrayValue($day, $limitation, $op, $aParams);
 }
 

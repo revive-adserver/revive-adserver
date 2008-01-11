@@ -75,7 +75,7 @@ function setupConfigVariables()
 
     // Always use UTC when outside the installer
     if (substr($_SERVER['SCRIPT_NAME'], -11) != 'install.php') {
-        setTimeZoneUTC();
+        OA_setTimeZoneUTC();
     }
 }
 
@@ -142,7 +142,7 @@ function OA_setTimeZone($location)
  *
  * @see OA_setTimeZone()
  */
-function setTimeZoneUTC()
+function OA_setTimeZoneUTC()
 {
     OA_setTimeZone('UTC');
 }
@@ -152,10 +152,10 @@ function setTimeZoneUTC()
  *
  * @see OA_setTimeZone()
  */
-function setTimeZoneLocal()
+function OA_setTimeZoneLocal()
 {
-    $tz = !empty($GLOBALS['_MAX']['CONF']['timezone']['location']) ?
-        $GLOBALS['_MAX']['CONF']['timezone']['location'] :
+    $tz = !empty($GLOBALS['_MAX']['PREF']['timezone']) ?
+        $GLOBALS['_MAX']['PREF']['timezone'] :
         'GMT';
     OA_setTimeZone($tz);
 }

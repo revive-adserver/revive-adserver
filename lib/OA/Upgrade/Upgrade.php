@@ -71,6 +71,9 @@ require_once MAX_PATH.'/lib/OA/Upgrade/phpAdsNew.php';
 require_once(MAX_PATH.'/lib/OA/Upgrade/Configuration.php');
 require_once MAX_PATH.'/lib/OA/Upgrade/DB_Integrity.php';
 
+require_once MAX_PATH . '/lib/OA/Preferences.php';
+
+
 /**
  * Openads Upgrade Class
  *
@@ -1205,9 +1208,7 @@ class OA_Upgrade
         $aConfig['table'] = $GLOBALS['_MAX']['CONF']['table'];
         $this->oConfiguration->setupConfigDatabase($aConfig['database']);
         $this->oConfiguration->setupConfigTable($aConfig['table']);
-        $this->oConfiguration->setupConfigTimezone($aConfig['timezone']);
         $this->oConfiguration->setupConfigStore($aConfig['store']);
-        $this->oConfiguration->setupConfigMax($aConfig['max']);
         $this->oConfiguration->setupConfigPriority('');
         return $this->oConfiguration->writeConfig();
     }
@@ -1432,13 +1433,6 @@ class OA_Upgrade
             return false;
         }
 
-        // Add the admin account id to the application variables
-        $result = OA_Dal_ApplicationVariables::set('admin_account_id', $adminAccountId);
-        if (!$result) {
-            $this->oLogger->logError('error saving the admin account ID as application variable');
-            return false;
-        }
-
         // Create Manager entity
         $doAgency = OA_Dal::factoryDO('agency');
         $doAgency->name   = 'Default manager';
@@ -1484,22 +1478,45 @@ class OA_Upgrade
             return false;
         }
 
-        // Preferences handling
-        $oPreferences = new OA_Preferences();
-        $aPrefs = $oPreferences->getPreferenceDefaults();
-
-        // Override default language
-        if (isset($aPrefs['language'])) {
-            $aPrefs['language']['default'] = $GLOBALS['_MAX']['CONF']['max']['language'];
-        }
-
-        // Override default timezone
-        if (isset($aPrefs['timezone'])) {
-            $aPrefs['timezone']['default'] = $GLOBALS['_MAX']['CONF']['timezone']['location'];
-        }
-
         // Insert preferences and return
         return $this->putDefaultPreferences($adminAccountId);
+    }
+
+    function putPreferences($aPrefs)
+    {
+        $adminAccountId = OA_Dal_ApplicationVariables::get('admin_account_id');
+
+        if (!$adminAccountId) {
+            $this->oLogger->logError('error getting the admin account ID');
+            return false;
+        }
+
+        $oPreferences = new OA_Preferences();
+
+        $aPrefs = array(
+            'timezone' => $aPrefs['timezone'],
+            'language' => $aPrefs['language'],
+        );
+
+        foreach ($aPrefs as $prefName => $value) {
+            $doPreferences = OA_Dal::factoryDO('preferences');
+            $doPreferences->preference_name = $prefName;
+            $doPreferences->find();
+            if ($doPreferences->fetch()) {
+                $doAPA = OA_Dal::factoryDO('account_preference_assoc');
+                $doAPA->account_id    = $adminAccountId;
+                $doAPA->preference_id = $doPreferences->preference_id;
+                $doAPA->value         = $value;
+                $result = $doAPA->update();
+
+                if (!$result) {
+                    $this->oLogger->logError("error adding preference default for $prefName: '".$aPref['default']."'");
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -1510,7 +1527,9 @@ class OA_Upgrade
      */
     function putDefaultPreferences($adminAccountId)
     {
-        require_once MAX_PATH . '/lib/OA/Preferences.php';
+        // Preferences handling
+        $oPreferences = new OA_Preferences();
+        $aPrefs = $oPreferences->getPreferenceDefaults();
 
         // Insert default prefs
         foreach ($aPrefs as $prefName => $aPref) {
