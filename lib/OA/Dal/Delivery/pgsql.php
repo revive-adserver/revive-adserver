@@ -166,7 +166,7 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
     if (!is_resource($rZoneInfo)) {
         return false;
     }
-    $aZoneInfo = mysql_fetch_assoc($rZoneInfo);
+    $aZoneInfo = pg_fetch_assoc($rZoneInfo);
 
     // Set the default banner preference information for the zone
     $query = "
@@ -184,17 +184,17 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
     if (!is_resource($rPreferenceInfo)) {
         return false;
     }
-    if (mysql_num_rows($rPreferenceInfo) != 2) {
+    if (pgsql_num_rows($rPreferenceInfo) != 2) {
         // Something went wrong, there should be two preferences, if not,
         // cannot get the default banner image and destination URLs
         return $aZoneInfo;
     }
     // Set the IDs of the two preferences for default banner image and
     // destination URLs
-    $aPreferenceInfo = mysql_fetch_assoc($rPreferenceInfo);
+    $aPreferenceInfo = pg_fetch_assoc($rPreferenceInfo);
     $variableName = $aPreferenceInfo['preference_name'] . '_id';
     $$variableName = $aPreferenceInfo['preference_id'];
-    $aPreferenceInfo = mysql_fetch_assoc($rPreferenceInfo);
+    $aPreferenceInfo = pg_fetch_assoc($rPreferenceInfo);
     $variableName = $aPreferenceInfo['preference_name'] . '_id';
     $$variableName = $aPreferenceInfo['preference_id'];
 
@@ -271,7 +271,7 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
         return false;
     }
 
-    if (mysql_num_rows($rDefaultBannerInfo) == 0) {
+    if (pgsql_num_rows($rDefaultBannerInfo) == 0) {
         // No default banner image or destination URLs to deal with
         return $aZoneInfo;
     }
@@ -279,7 +279,7 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
     // Deal with the default banner image or destination URLs found
     $aDefaultImageURLs = array();
     $aDefaultDestinationURLs = array();
-    while ($aRow = mysql_fetch_assoc($rDefaultBannerInfo)) {
+    while ($aRow = pg_fetch_assoc($rDefaultBannerInfo)) {
         if (stristr($aRow['item'], 'default_banner_image_url')) {
             $aDefaultImageURLs[$aRow['item']] = $aRow['value'];
         } else if (stristr($aRow['item'], 'default_banner_destination_url')) {
