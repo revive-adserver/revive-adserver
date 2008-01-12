@@ -184,7 +184,7 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
     if (!is_resource($rPreferenceInfo)) {
         return false;
     }
-    if (pgsql_num_rows($rPreferenceInfo) != 2) {
+    if (pg_num_rows($rPreferenceInfo) != 2) {
         // Something went wrong, there should be two preferences, if not,
         // cannot get the default banner image and destination URLs
         return $aZoneInfo;
@@ -271,7 +271,7 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
         return false;
     }
 
-    if (pgsql_num_rows($rDefaultBannerInfo) == 0) {
+    if (pg_num_rows($rDefaultBannerInfo) == 0) {
         // No default banner image or destination URLs to deal with
         return $aZoneInfo;
     }
