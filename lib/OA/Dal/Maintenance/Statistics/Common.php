@@ -2763,11 +2763,22 @@ class OA_Dal_Maintenance_Statistics_Common
                 }
                 // Does the placement need to be disabled due to the date?
                 if ($aPlacement['end'] != OA_Dal::noDateValue()) {
-                    $oEndDate = new Date($aPlacement['end'] . ' 23:59:59');  // Convert day to end of Date
+                    // The placement has a valid end date, stored in the timezone of the advertiser;
+                    // create an end date in the advertiser's timezone, set the time, and then
+                    // convert to UTC so that it can be compared with the MSE run time, which is
+                    // in UTC
+                    $aAdvertiserPrefs = OA_Preferences::loadAccountPreferences($aPlacement['advertiser_account_id'], true);
+                    $oTimezone = new Date_Timezone($aAdvertiserPrefs['timezone']);
+                    $oEndDate = new Date();
+                    $oEndDate->convertTZ($oTimezone);
+                    $oEndDate->setDate($aPlacement['end'] . ' 23:59:59'); // Placements end at the end of the day
+                    $oEndDate->toUTC();
                     if ($oDate->after($oEndDate)) {
+                        // The end date has been passed; disable the placement
                         $disableReason |= OA_PLACEMENT_DISABLED_DATE;
-                        $message = '- Passed placement end time: Deactivating placement ID ' .
-                                   "{$aPlacement['campaign_id']}: {$aPlacement['campaign_name']}";
+                        $message = "- Passed placement end time of '{$aPlacement['end']} 23:59:59 {$aAdvertiserPrefs['timezone']} (" .
+                                   $oEndDate->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEndDate->tz->getShortName() .
+                                   ")': Deactivating placement ID {$aPlacement['campaign_id']}: {$aPlacement['campaign_name']}";
                         OA::debug($message, PEAR_LOG_INFO);
                         $report .= $message . "\n";
                         $doCampaigns = OA_Dal::factoryDO('campaigns');
@@ -2827,100 +2838,118 @@ class OA_Dal_Maintenance_Statistics_Common
             } else {
                 // The placement is not active - does it need to be enabled,
                 // based on the placement starting date?
-                $start = new Date($aPlacement['start'] . ' 00:00:00');      // Convert day to start of Date
-                if ($aPlacement['end'] != OA_Dal::noDateValue()) {
-                    $oEndDate   = new Date($aPlacement['end']   . ' 23:59:59');  // Convert day to end of Date
-                } else {
-                    $oEndDate = null;
-                }
-                if (($start->format('%Y-%m-%d') != OA_Dal::noDateValue()) && ($oDate->after($start))) {
-                    // There is an activation date, which has been passed. Find out if
-                    // there are any impression, click or conversion targets for the
-                    // placement (i.e. if the target values are > 0)
-                    $remainingImpressions = 0;
-                    $remainingClicks      = 0;
-                    $remainingConversions = 0;
-                    if (($aPlacement['targetimpressions'] > 0) ||
-                        ($aPlacement['targetclicks'] > 0) ||
-                        ($aPlacement['targetconversions'] > 0)) {
-                        // The placement has an impression, click and/or conversion target,
-                        // so get the sum total statistics for the placement so far
-                        $query = "
-                            SELECT
-                                SUM(dia.impressions) AS impressions,
-                                SUM(dia.clicks) AS clicks,
-                                SUM(dia.conversions) AS conversions
-                            FROM
-                                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)." AS dia,
-                                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)." AS b
-                            WHERE
-                                dia.ad_id = b.bannerid
-                                AND b.campaignid = {$aPlacement['campaign_id']}";
-                        $rcInner = $this->oDbh->query($query);
-                        $valuesRow = $rcInner->fetchRow();
-                        // Set the remaining impressions, clicks and conversions for the placement
-                        $remainingImpressions = $aPlacement['targetimpressions'] - $valuesRow['impressions'];
-                        $remainingClicks      = $aPlacement['targetclicks']      - $valuesRow['clicks'];
-                        $remainingConversions = $aPlacement['targetconversions'] - $valuesRow['conversions'];
+                if ($aPlacement['start'] != OA_Dal::noDateValue()) {
+                    // The placement has a valid start date, stored in the timezone of the advertiser;
+                    // create an end date in the advertiser's timezone, set the time, and then
+                    // convert to UTC so that it can be compared with the MSE run time, which is
+                    // in UTC
+                    $aAdvertiserPrefs = OA_Preferences::loadAccountPreferences($aPlacement['advertiser_account_id'], true);
+                    $oTimezone = new Date_Timezone($aAdvertiserPrefs['timezone']);
+                    $oStartDate = new Date();
+                    $oStartDate->convertTZ($oTimezone);
+                    $oStartDate->setDate($aPlacement['start'] . ' 00:00:00'); // Placements start at the start of the day
+                    $oStartDate->toUTC();
+                    if ($aPlacement['end'] != OA_Dal::noDateValue()) {
+                        // The placement has a valid end date, stored in the timezone of the advertiser;
+                        // create an end date in the advertiser's timezone, set the time, and then
+                        // convert to UTC so that it can be compared with the MSE run time, which is
+                        // in UTC
+                        $oEndDate = new Date();
+                        $oEndDate->convertTZ($oTimezone);
+                        $oEndDate->setDate($aPlacement['end'] . ' 23:59:59'); // Placements end at the end of the day
+                        $oEndDate->toUTC();
+                    } else {
+                        $oEndDate = null;
                     }
-                    // In order for the placement to be activated, need to test:
-                    // 1) That there is no impression target (<= 0), or, if there is an impression target (> 0),
-                    //    then there must be remaining impressions to deliver (> 0); and
-                    // 2) That there is no click target (<= 0), or, if there is a click target (> 0),
-                    //    then there must be remaining clicks to deliver (> 0); and
-                    // 3) That there is no conversion target (<= 0), or, if there is a conversion target (> 0),
-                    //    then there must be remaining conversions to deliver (> 0); and
-                    // 4) Either there is no end date, or the end date has not been passed
-                    if ((($aPlacement['targetimpressions'] <= 0) || (($aPlacement['targetimpressions'] > 0) && ($remainingImpressions > 0))) &&
-                        (($aPlacement['targetclicks']      <= 0) || (($aPlacement['targetclicks']      > 0) && ($remainingClicks      > 0))) &&
-                        (($aPlacement['targetconversions'] <= 0) || (($aPlacement['targetconversions'] > 0) && ($remainingConversions > 0))) &&
-                        (is_null($oEndDate) || (($oEndDate->format('%Y-%m-%d') != OA_Dal::noDateValue()) && (Date::compare($oDate, $oEndDate) < 0)))) {
-                        $mesage = '- Past campaign start time: Activating campaign ID ' .
-                                  "{$aPlacement['campaign_id']}: {$aPlacement['campaign_name']}";
-                        OA::debug($message, PEAR_LOG_INFO);
-                        $report .= $message . "\n";
-                        $doCampaigns = OA_Dal::factoryDO('campaigns');
-                        $doCampaigns->campaignid = $aPlacement['campaign_id'];
-                        $doCampaigns->find();
-                        $doCampaigns->fetch();
-                        $doCampaigns->status = OA_ENTITY_STATUS_RUNNING;
-                        $result = $doCampaigns->update();
-                        if ($result == false) {
-                            return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                    if (($oDate->after($oStartDate))) {
+                        // The start date has been passed; find out if there are any impression, click
+                        // or conversion targets for the placement (i.e. if the target values are > 0)
+                        $remainingImpressions = 0;
+                        $remainingClicks      = 0;
+                        $remainingConversions = 0;
+                        if (($aPlacement['targetimpressions'] > 0) ||
+                            ($aPlacement['targetclicks'] > 0) ||
+                            ($aPlacement['targetconversions'] > 0)) {
+                            // The placement has an impression, click and/or conversion target,
+                            // so get the sum total statistics for the placement so far
+                            $query = "
+                                SELECT
+                                    SUM(dia.impressions) AS impressions,
+                                    SUM(dia.clicks) AS clicks,
+                                    SUM(dia.conversions) AS conversions
+                                FROM
+                                    ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)." AS dia,
+                                    ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)." AS b
+                                WHERE
+                                    dia.ad_id = b.bannerid
+                                    AND b.campaignid = {$aPlacement['campaign_id']}";
+                            $rcInner = $this->oDbh->query($query);
+                            $valuesRow = $rcInner->fetchRow();
+                            // Set the remaining impressions, clicks and conversions for the placement
+                            $remainingImpressions = $aPlacement['targetimpressions'] - $valuesRow['impressions'];
+                            $remainingClicks      = $aPlacement['targetclicks']      - $valuesRow['clicks'];
+                            $remainingConversions = $aPlacement['targetconversions'] - $valuesRow['conversions'];
                         }
-                        phpAds_userlogSetUser(phpAds_userMaintenance);
-                        phpAds_userlogAdd(phpAds_actionActiveCampaign, $aPlacement['campaign_id']);
-                        // Get the advertisements associated with the placement
-                        $query = "
-                            SELECT
-                                bannerid AS advertisement_id,
-                                description AS description,
-                                alt AS alt,
-                                url AS url
-                            FROM
-                                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)."
-                            WHERE
-                                campaignid = {$aPlacement['campaign_id']}";
-                        OA::debug("- Getting the advertisements for placement ID {$aPlacement['campaign_id']}",
-                                   PEAR_LOG_DEBUG);
-                        $rcAdvertisement = $this->oDbh->query($query);
-                        if (PEAR::isError($rcAdvertisement)) {
-                            return MAX::raiseError($rcAdvertisement, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
-                        }
-                        while ($advertisementRow = $rcAdvertisement->fetchRow()) {
-                            $advertisements[$advertisementRow['advertisement_id']] =
-                                array($advertisementRow['description'], $advertisementRow['alt'],
-                                    $advertisementRow['url']);
-                        }
-                        if ($aPlacement['send_activate_deactivate_email'] == 't') {
-                            $aEmail =& $oEmail->preparePlacementActivatedDeactivatedEmail($aPlacement['campaign_id']);
-                            if ($aEmail !== false) {
-                                $oEmail->sendMail(
-                                    $aEmail['subject'],
-                                    $aEmail['contents'],
-                                    $aEmail['userEmail'],
-                                    $aEmail['userName']
-                                );
+                        // In order for the placement to be activated, need to test:
+                        // 1) That there is no impression target (<= 0), or, if there is an impression target (> 0),
+                        //    then there must be remaining impressions to deliver (> 0); and
+                        // 2) That there is no click target (<= 0), or, if there is a click target (> 0),
+                        //    then there must be remaining clicks to deliver (> 0); and
+                        // 3) That there is no conversion target (<= 0), or, if there is a conversion target (> 0),
+                        //    then there must be remaining conversions to deliver (> 0); and
+                        // 4) Either there is no end date, or the end date has not been passed
+                        if ((($aPlacement['targetimpressions'] <= 0) || (($aPlacement['targetimpressions'] > 0) && ($remainingImpressions > 0))) &&
+                            (($aPlacement['targetclicks']      <= 0) || (($aPlacement['targetclicks']      > 0) && ($remainingClicks      > 0))) &&
+                            (($aPlacement['targetconversions'] <= 0) || (($aPlacement['targetconversions'] > 0) && ($remainingConversions > 0))) &&
+                            (is_null($oEndDate) || (($oEndDate->format('%Y-%m-%d') != OA_Dal::noDateValue()) && (Date::compare($oDate, $oEndDate) < 0)))) {
+                            $message = "- Passed placement start time of '{$aPlacement['start']} 00:00:00 {$aAdvertiserPrefs['timezone']} (" .
+                                       $oStartDate->format('%Y-%m-%d %H:%M:%S') . ' ' . $oStartDate->tz->getShortName() .
+                                       ")': Activating placement ID {$aPlacement['campaign_id']}: {$aPlacement['campaign_name']}";
+                            OA::debug($message, PEAR_LOG_INFO);
+                            $report .= $message . "\n";
+                            $doCampaigns = OA_Dal::factoryDO('campaigns');
+                            $doCampaigns->campaignid = $aPlacement['campaign_id'];
+                            $doCampaigns->find();
+                            $doCampaigns->fetch();
+                            $doCampaigns->status = OA_ENTITY_STATUS_RUNNING;
+                            $result = $doCampaigns->update();
+                            if ($result == false) {
+                                return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                            }
+                            phpAds_userlogSetUser(phpAds_userMaintenance);
+                            phpAds_userlogAdd(phpAds_actionActiveCampaign, $aPlacement['campaign_id']);
+                            // Get the advertisements associated with the placement
+                            $query = "
+                                SELECT
+                                    bannerid AS advertisement_id,
+                                    description AS description,
+                                    alt AS alt,
+                                    url AS url
+                                FROM
+                                    ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)."
+                                WHERE
+                                    campaignid = {$aPlacement['campaign_id']}";
+                            OA::debug("- Getting the advertisements for placement ID {$aPlacement['campaign_id']}",
+                                       PEAR_LOG_DEBUG);
+                            $rcAdvertisement = $this->oDbh->query($query);
+                            if (PEAR::isError($rcAdvertisement)) {
+                                return MAX::raiseError($rcAdvertisement, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                            }
+                            while ($advertisementRow = $rcAdvertisement->fetchRow()) {
+                                $advertisements[$advertisementRow['advertisement_id']] =
+                                    array($advertisementRow['description'], $advertisementRow['alt'],
+                                        $advertisementRow['url']);
+                            }
+                            if ($aPlacement['send_activate_deactivate_email'] == 't') {
+                                $aEmail =& $oEmail->preparePlacementActivatedDeactivatedEmail($aPlacement['campaign_id']);
+                                if ($aEmail !== false) {
+                                    $oEmail->sendMail(
+                                        $aEmail['subject'],
+                                        $aEmail['contents'],
+                                        $aEmail['userEmail'],
+                                        $aEmail['userName']
+                                    );
+                                }
                             }
                         }
                     }
