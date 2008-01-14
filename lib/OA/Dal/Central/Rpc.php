@@ -302,7 +302,7 @@ class OA_Dal_Central_Rpc
      */
     function _reconnectM2M()
     {
-        $result = $this->callM2M('oac.reconnectM2M');
+        $result = $this->callM2M('reconnectM2M');
         if (PEAR::isError($result)) {
             return $result;
         }
