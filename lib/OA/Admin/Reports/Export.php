@@ -77,10 +77,12 @@ class OA_Admin_Reports_Export extends Plugins_ReportsScope
         // Prepare the output writer for generation
         $reportFileName = 'Exported Statistics - ' . $reportName;
         if (!empty($this->oStatsController->aDates['day_begin'])) {
-            $reportFileName .= ' from ' . $this->oStatsController->aDates['day_begin'];
+            $oStartDate = new Date($this->oStatsController->aDates['day_begin']);
+            $reportFileName .= ' from ' . $oStartDate->format($GLOBALS['date_format']);
         }
         if (!empty($this->oStatsController->aDates['day_end'])) {
-            $reportFileName .= ' to ' . $this->oStatsController->aDates['day_begin'];
+            $oEndDate = new Date($this->oStatsController->aDates['day_end']);
+            $reportFileName .= ' to ' . $oEndDate->format($GLOBALS['date_format']);
         }
         $reportFileName .= '.xls';
         $this->_oReportWriter->openWithFilename($reportFileName);

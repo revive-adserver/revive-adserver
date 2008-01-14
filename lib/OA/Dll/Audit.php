@@ -31,6 +31,8 @@ $Id$
  */
 
 // Require the following classes:
+require_once 'Date.php';
+
 require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/max/Dal/DataObjects/Audit.php';
 require_once MAX_PATH . '/lib/max/language/Userlog.php';
@@ -218,6 +220,10 @@ class OA_Dll_Audit extends OA_Dll
             while ($oAudit->fetch()) {
                 $aAudit = $oAudit->toArray();
                 $aAudit['details'] = unserialize($aAudit['details']);
+
+                //  format date
+                $oDate = new Date($aAudit['updated']);
+                $aAudit['updated'] = $oDate->format($GLOBALS['date_format'] .', '. $GLOBALS['time_format']);
 
                 //  set action type
                 switch($aAudit['actionid']) {

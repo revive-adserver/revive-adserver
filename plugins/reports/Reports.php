@@ -382,7 +382,7 @@ class Plugins_Reports extends MAX_Plugin_Common
                 case 'percent':
                 case 'date':
                 case 'time':
-                    $aHeaders[$v] = $stats['formats'][$k];
+                    $aHeaders[$v] = $aStats['formats'][$k];
                     break;
                 case 'text':
                 default:

@@ -98,28 +98,39 @@ class Plugins_DeliveryLimitations_Time_Date extends Plugins_DeliveryLimitations
     {
         $this->data = $this->_expandData($this->data);
         $tabindex =& $GLOBALS['tabindex'];
-        echo "<select name='acl[{$this->executionorder}][data][day]' tabindex='".($tabindex++)."'>";
-        echo "<option value='-'".($this->data['day'] == '-' ? ' selected="selected"' : '').">-</option>";
-        for ($i=1;$i<=31;$i++)
-            echo "<option value='$i'".($this->data['day']==$i ? ' selected="selected"' : '').">$i</option>";
-        echo "</select>&nbsp;";
 
-        echo "<select name='acl[{$this->executionorder}][data][month]' tabindex='".($tabindex++)."'>";
-        echo "<option value='-'".($this->data['month'] == '-' ? ' selected="selected"' : '').">-</option>";
-        for ($i=1;$i<=12;$i++)
-            echo "<option value='$i'".($this->data['month'] == $i ? ' selected="selected"' : '').">".$GLOBALS['strMonth'][$i-1]."</option>";
-        echo "</select>&nbsp;";
+        if ($this->data['day'] == 0 && $this->data['month'] == 0 && $this->data['year'] == 0) {
+            $set = false;
+        } else {
+            $set = true;
+        }
 
-        if ($this->data['year'] != '-')
-            $s = $this->data['year'] < date('Y') ? $this->data['year'] : date('Y');
-        else
-            $s = date('Y');
+        echo "<table><tr><td>";
 
-        echo "<select name='acl[{$this->executionorder}][data][year]' tabindex='".($tabindex++)."'>";
-        echo "<option value='-'".($this->data['year'] == '-' ? ' selected="selected"' : '').">-</option>";
-        for ($i=$s;$i<=($s+4);$i++)
-            echo "<option value='$i'".($this->data['year'] == $i ? ' selected="selected"' : '').">$i</option>";
-        echo "</select>\n";
+        if ($set) {
+        $oDate = new Date($this->data['year'] .'-'. $this->data['month'] .'-'. $this->data['day']);
+        }
+        $dateStr = is_null($oDate) ? '' : $oDate->format('%d %B %Y ');
+
+        echo "
+        <input class='date' name='acl[{$this->executionorder}][data][date]' id='acl[{$this->executionorder}][data][day]' type='text' value='$dateStr' tabindex='".$tabindex++."' />
+        <input type='image' src='images/icon-calendar.gif' id='{$this->executionorder}_button' align='absmiddle' border='0' tabindex='".$tabindex++."' />
+        <script type='text/javascript'>
+        <!--
+        Calendar.setup({
+            inputField : 'acl[{$this->executionorder}][data][day]',
+            ifFormat   : '%d %B %Y',
+            button     : '{$this->executionorder}_button',
+            align      : 'Bl',
+            weekNumbers: false,
+            firstDay   : " . ($GLOBALS['pref']['begin_of_week'] ? 1 : 0) . ",
+            electric   : false
+        })
+        //-->
+        </script>";
+
+        echo "</td></tr></table>";
+
         $this->data = $this->_flattenData($this->data);
     }
 
@@ -140,8 +151,10 @@ class Plugins_DeliveryLimitations_Time_Date extends Plugins_DeliveryLimitations
             $data = $this->data;
         }
         if (is_array($data)) {
-            if ($data['year'] == '-' || $data['month'] == '-' || $data['day'] == '-') {
+            if (empty($data['date'])) {
                 return '00000000';
+            } elseif (!empty($data['date'])) {
+                return date('Ymd', strtotime($data['date']));
             }
             return sprintf('%04d%02d%02d', $data['year'], $data['month'], $data['day']);
         }
@@ -166,9 +179,9 @@ class Plugins_DeliveryLimitations_Time_Date extends Plugins_DeliveryLimitations
         }
         if (($data == '00000000') || (empty($data))) {
             return array(
-                'day'   => '-',
-                'month' => '-',
-                'year'  => '-'
+                'day'   => 0,
+                'month' => 0,
+                'year'  => 0
             );
         } else {
             if (!is_array($data)) {

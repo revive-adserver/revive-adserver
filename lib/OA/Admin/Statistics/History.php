@@ -233,7 +233,8 @@ class OA_Admin_Statistics_History
                 case 'week' :
                 case 'day' :
                     // Set the "day/week" value
-                    $aStats[$key]['day'] = $key;
+                    $oDate = new Date($key);
+                    $aStats[$key]['day'] = $oDate->format($GLOBALS['date_format']);
                     if (!empty($link)) {
                     // Set LHC day-breakdown link, if required:
                         $aStats[$key]['link'] = $oCaller->_addPageParamsToURI($link, $aDayLinkParams) . 'day=' . str_replace('-', '', $key);
@@ -460,7 +461,11 @@ class OA_Admin_Statistics_History
                     if (is_null($aWeekData[$week]['data'][$oDate->format('%Y-%m-%d')])) {
                         // Set the day's data to the empty row, plus the "day" heading for the day
                         $aWeekData[$week]['data'][$oDate->format('%Y-%m-%d')] = $oCaller->aEmptyRow;
-                        $aWeekData[$week]['data'][$oDate->format('%Y-%m-%d')]['day'] = $oDate->format('%Y-%m-%d');
+                        $aWeekData[$week]['data'][$oDate->format('%Y-%m-%d')]['day'] = $oDate->format($GLOBALS['date_format']);
+                    } elseif (!is_null($aWeekData[$week]['data'][$oDate->format('%Y-%m-%d')])
+                            && !array_key_exists('day', $aWeekData[$week]['data'][$oDate->format('%Y-%m-%d')]))
+                    {
+                        $aWeekData[$week]['data'][$oDate->format('%Y-%m-%d')]['day'] = $oDate->format($GLOBALS['date_format']);
                     }
                     $oDate->addSeconds(SECONDS_PER_DAY);
                 }

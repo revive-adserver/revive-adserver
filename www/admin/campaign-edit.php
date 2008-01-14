@@ -45,21 +45,16 @@ require_once MAX_PATH . '/lib/pear/Date.php';
 
 // Register input variables
 phpAds_registerGlobalUnslashed(
-     'activateDay'
-    ,'activateMonth'
-    ,'activateSet'
-    ,'activateYear'
+     'start'
+    ,'startSet'
     ,'anonymous'
     ,'campaignname'
     ,'clicks'
     ,'companion'
     ,'comments'
     ,'conversions'
-    ,'expire'
-    ,'expireDay'
-    ,'expireMonth'
-    ,'expireSet'
-    ,'expireYear'
+    ,'end'
+    ,'endSet'
     ,'move'
     ,'priority'
     ,'high_priority_value'
@@ -97,8 +92,8 @@ OA_Permission::enforceAccessToObject('campaigns', $campaignid, true);
 /*-------------------------------------------------------*/
 
 if (isset($submit)) {
-    $expire = OA_Dal::sqlDate($expireSet == 't', $expireYear, $expireMonth, $expireDay);
-    $activate = OA_Dal::sqlDate($activateSet == 't', $activateYear, $activateMonth, $activateDay);
+    $expire = !empty($end) ? date('Y-m-d', strtotime($end)) : '';
+    $activate = !empty($start) ? date('Y-m-d', strtotime($start)) : '';
 
     // If ID is not set, it should be a null-value for the auto_increment
     if (empty($campaignid)) {
@@ -189,12 +184,14 @@ if (isset($submit)) {
         if ($impressions == 0 || $clicks == 0 || $conversions == 0) {
             $status = OA_ENTITY_STATUS_PAUSED;
         }
-        if ($activateDay != '-' && $activateMonth != '-' && $activateYear != '-') {
+        if (!empty($activate)) {
+            list($activeYear, $activeMonth, $activeDay) = explode('-', $activate);
             if (time() < mktime(0, 0, 0, $activateMonth, $activateDay, $activateYear)) {
                 $status = OA_ENTITY_STATUS_AWAITING;
             }
         }
-        if ($expireDay != '-' && $expireMonth != '-' && $expireYear != '-') {
+        if (!empty($expire)) {
+            list($expireYear, $expireMonth, $expireDay) = explode('-', $expire);
             if (time() > mktime(23, 59, 59, $expireMonth, $expireDay, $expireYear)) {
                 $status = OA_ENTITY_STATUS_EXPIRED;
             }
@@ -557,9 +554,6 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 
     if ($day == 0 && $month == 0 && $year == 0)
     {
-        $day = '-';
-        $month = '-';
-        $year = '-';
         $set = false;
     }
     else
@@ -567,9 +561,9 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
         $set = true;
     }
 
-    if ($name == 'expire')
+    if ($name == 'end')
         $caption = $strDontExpire;
-    elseif ($name == 'activate')
+    elseif ($name == 'start')
         $caption = $strActivateNow;
 
     if ($edit)
@@ -588,33 +582,31 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
         echo "<input type='radio' name='$set_id' id='$specific_id' value='t' onclick=\"phpAds_formDateClick('".$name."', true);\"".($set==true?' checked':'')." tabindex='".($tabindex++)."'>";
         echo "&nbsp;";
 
-        echo "<select name='" . $day_id. "' id='" . $day_id . "' onchange=\"phpAds_formDateCheck('".$name."');\" tabindex='".($tabindex++)."'>\n";
-        echo "<option value='-'".($day=='-' ? ' selected' : '').">-</option>\n";
+        if ($set) {
+        $oDate = new Date($year .'-'. $month .'-'. $day);
+        }
+        $dateStr = is_null($oDate) ? '' : $oDate->format('%d %B %Y ');
 
-        for ($i=1;$i<=31;$i++)
-            echo "<option value='$i'".($day==$i ? ' selected' : '').">$i</option>\n";
-        echo "</select>&nbsp;\n";
+        echo "
+        <input class='date' name='{$name}' id='{$name}' type='text' value='$dateStr' tabindex='".$tabindex++."' onchange=\"phpAds_formDateCheck('".$name."');\"/>
+        <input type='image' src='images/icon-calendar.gif' id='{$name}_button' align='absmiddle' border='0' tabindex='".$tabindex++."' />
+        <script type='text/javascript'>
+        <!--
+        Calendar.setup({
+            inputField : '{$name}',
+            ifFormat   : '%d %B %Y',
+            button     : '{$name}_button',
+            align      : 'Bl',
+            weekNumbers: false,
+            firstDay   : " . ($GLOBALS['pref']['begin_of_week'] ? 1 : 0) . ",
+            electric   : false
+        })
+        //-->
+        </script>";
 
-        echo "<select name='" . $month_id. "' id='" . $month_id . "' onchange=\"phpAds_formDateCheck('".$name."');\" tabindex='".($tabindex++)."'>\n";
-        echo "<option value='-'".($month=='-' ? ' selected' : '').">-</option>\n";
-        for ($i=1;$i<=12;$i++)
-            echo "<option value='$i'".($month==$i ? ' selected' : '').">".$strMonth[$i-1]."</option>\n";
-        echo "</select>&nbsp;\n";
-
-        if ($year != '-')
-            $start = $year < date('Y') ? $year : date('Y');
-        else
-            $start = date('Y');
-
-        echo "<select name='" . $year_id. "' id='" . $year_id . "' onchange=\"phpAds_formDateCheck('".$name."');\" tabindex='".($tabindex++)."'>\n";
-        echo "<option value='-'".($year=='-' ? ' selected' : '').">-</option>\n";
-        for ($i=$start;$i<=($start+4);$i++)
-            echo "<option value='$i'".($year==$i ? ' selected' : '').">$i</option>\n";
-        echo "</select>\n";
-
-        if ($name == 'activate') {
+        if ($name == 'start') {
             echo "&nbsp;" . $strActivationDateComment;
-        } elseif ($name == 'expire') {
+        } elseif ($name == 'end') {
             echo "&nbsp;" . $strExpirationDateComment;
         }
         echo "</td></tr></table>";
@@ -951,7 +943,7 @@ echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
 echo "<tr>"."\n";
 echo "\t"."<td width='30'>&nbsp;</td><td width='200' valign='top'>".$strActivationDate."</td>"."\n";
 echo "\t"."<td>";
-phpAds_showDateEdit('activate', isset($row["activate_dayofmonth"]) ? $row["activate_dayofmonth"] : 0,
+phpAds_showDateEdit('start', isset($row["activate_dayofmonth"]) ? $row["activate_dayofmonth"] : 0,
                                    isset($row["activate_month"]) ? $row["activate_month"] : 0,
                                 isset($row["activate_year"]) ? $row["activate_year"] : 0);
 echo "</td>"."\n";
@@ -964,7 +956,7 @@ echo "</tr>"."\n";
 echo "<tr>"."\n";
 echo "\t"."<td width='30'>&nbsp;</td><td width='200' valign='top'>".$strExpirationDate."</td>"."\n";
 echo "\t"."<td>";
-phpAds_showDateEdit('expire', isset($row["expire_dayofmonth"]) ? $row["expire_dayofmonth"] : 0,
+phpAds_showDateEdit('end', isset($row["expire_dayofmonth"]) ? $row["expire_dayofmonth"] : 0,
                               isset($row["expire_month"]) ? $row["expire_month"] : 0,
                               isset($row["expire_year"]) ? $row["expire_year"] : 0);
 echo "</td>"."\n";
@@ -1230,33 +1222,27 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
 
     function phpAds_formDateClick(o, value)
     {
-        day = eval ("document.clientform." + o + "Day.value");
-        month = eval ("document.clientform." + o + "Month.value");
-        year = eval ("document.clientform." + o + "Year.value");
+        var date = eval ("document.clientform." + o + ".value");
         if (value == false) {
-            eval ("document.clientform." + o + "Day.selectedIndex = 0");
-            eval ("document.clientform." + o + "Month.selectedIndex = 0");
-            eval ("document.clientform." + o + "Year.selectedIndex = 0");
+            eval ("document.clientform." + o + ".value = ''");
         }
-        if (value == true && (day=='-' || month=='-' || year=='-')) {
+        if (value == true && date == '') {
             eval ("document.clientform." + o + "Set[0].checked = true");
         }
-        if (o == 'expire') {
+        if (o == 'end') {
             phpAds_formPriorityUpdate(document.clientform);
         }
     }
 
     function phpAds_formDateCheck(o)
     {
-        day = eval ("document.clientform." + o + "Day.value");
-        month = eval ("document.clientform." + o + "Month.value");
-        year = eval ("document.clientform." + o + "Year.value");
-        if (day=='-' || month=='-' || year=='-') {
+        var date = eval ("document.clientform." + o + ".value");
+        if (date == '') {
             eval ("document.clientform." + o + "Set[0].checked = true");
         } else {
             eval ("document.clientform." + o + "Set[1].checked = true");
         }
-        if (o == 'expire') {
+        if (o == 'end') {
             phpAds_formPriorityUpdate(document.clientform);
         }
     }
@@ -1265,12 +1251,12 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
     {
         var activeDate;
         var expireDate;
-        var activation_enabled = isDateSetActive('activate', form);
-        var expiry_enabled = isDateSetActive('expire', form);
+        var activation_enabled = isDateSetActive('start', form);
+        var expiry_enabled = isDateSetActive('end', form);
         // No sense in comparing inactive values
         if ((activation_enabled && expiry_enabled)) {
-            activateDate = newDateFromNamedFields(document, form, 'activate');
-            expireDate = newDateFromNamedFields(document, form, 'expire');
+            activateDate = newDateFromNamedFields(document, form, 'start');
+            expireDate = newDateFromNamedFields(document, form, 'end');
             if (!activateDate) {
                 alert('The start date of this campaign is not a valid date');
                 return false;
@@ -1479,7 +1465,7 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
         // Check to see if autotargeting is available. Autotargeting is
         // available when there is an expiration date and one of a set
         // number of target impressions, clicks or conversions
-        var autotarget_available =  ( !(f.expireSet[0].checked == true) &&
+        var autotarget_available =  ( !(f.endSet[0].checked == true) &&
                                       (
                                         (!( isNaN(max_formattedNumberStringToFloat(f.impressions.value)) || (f.impressions.value == '') || (f.unlimitedimpressions.checked == true))) ||
                                         (!( isNaN(max_formattedNumberStringToFloat(f.clicks.value))      || (f.clicks.value == '')      || (f.unlimitedclicks.checked == true))) ||

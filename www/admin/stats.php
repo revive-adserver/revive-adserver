@@ -60,7 +60,15 @@ if ($periodPreset == 'all_stats') {
     $session['prefs']['GLOBALS']['period_preset'] = $periodPreset;
 } else {
     $period_start = MAX_getStoredValue('period_start', date('Y-m-d'));
+    if (!strstr($period_start, '-')) {
+        $period_start = date('Y-m-d', strtotime($period_start));
+        MAX_changeStoredValue('period_start', $period_start);
+    }
     $period_end   = MAX_getStoredValue('period_end', date('Y-m-d'));
+    if (!strstr($period_end, '-')) {
+        $period_end   =  date('Y-m-d', strtotime($period_end));
+        MAX_changeStoredValue('period_end', $period_end);
+    }
     if (!empty($period_start) && !empty($period_end)) {
         $oStartDate = new Date($period_start);
         $oEndDate   = new Date($period_end);

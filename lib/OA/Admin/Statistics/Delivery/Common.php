@@ -288,7 +288,7 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
                 foreach ($this->aStatsData as $key => $record) {
                     // Split the date ($key) into days and year, and place the year on the second line
                     $patterns = array ('/(19|20)(\d{2})-(\d{1,2})-(\d{1,2})/');
-                    $replace = array ('\3-\4--\1\2');
+                    $replace = array ('\4-\3--\1\2');
                     $key = preg_replace($patterns, $replace, $key);
                     $key = preg_split('/--/', $key);
                     if ($aFieldStyle[$k]['axis'] == 'X') {
