@@ -5,9 +5,8 @@ require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
 class Migration_546 extends Migration
 {
 
-    var $aPrefOld = array();
-    var $aConfNew = array();
 
+    var $aConfNew = array();
 
     var $aConfMap = array(
                           'email'           => array(
@@ -121,7 +120,11 @@ class Migration_546 extends Migration
                         'maintenance_cron_timestamp',
                         );
 
-
+    var $tblAccounts;
+    var $tblPrefsNew;
+    var $tblAccPrefs;
+	var $tblPrefsOld;
+    var $tblAgency;
 
     function Migration_546()
     {
@@ -146,12 +149,28 @@ class Migration_546 extends Migration
 
 	function migratePreferencesAdmin()
 	{
-        if ($this->_getOldPreferencesAdmin())
+	    $aConf = & $GLOBALS['_MAX']['CONF'];
+	    $this->tblAgency   = $this->oDBH->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['agency'],true);
+	    $this->tblAccounts = $this->oDBH->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['accounts'],true);
+        $this->tblPrefsOld = $this->oDBH->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['preference'],true);
+        $this->tblPrefsNew = $this->oDBH->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['preferences'],true);
+        $this->tblAccPrefs = $this->oDBH->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['account_preference_assoc'],true);
+
+        // fetch the admin's current prefs
+        $aPrefOldAdmin = $this->_getOldPreferencesAdmin();
+        if (!empty($aPrefOldAdmin))
         {
-            $this->_filterOutDeprecatedPreferencesAdmin();
-            $this->_mapOldPrefsToSettingsAdmin();
-            $this->_mapOldPrefsToPrefsAdmin();
+            // remove the old prefs being deprecated
+            $this->_filterOutDeprecatedPreferences($aPrefOldAdmin);
+            // remove the old prefs being migrated to settings
+            $this->_mapOldPrefsToSettings($aPrefOldAdmin);
+            // map the old prefs being migrated to new prefs
+            $this->_mapOldPrefsToPrefs($aPrefOldAdmin);
+            // use map to migrate admin prefs and settings
             $this->_movePreferencesAdmin();
+            // migrate agency prefs
+            $this->_movePreferencesAgency($aPrefOldAdmin);
+            // write settings to conf file
             $this->_writeSettings();
             return true;
         }
@@ -170,13 +189,8 @@ class Migration_546 extends Migration
 	 */
 	function _movePreferencesAdmin()
 	{
-	    $aConf = & $GLOBALS['_MAX']['CONF'];
-	    $tblAccounts = $this->oDBH->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['accounts'],true);
-        $tblPrefsNew = $this->oDBH->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['preferences'],true);
-        $tblAccPrefs = $this->oDBH->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['account_preference_assoc'],true);
-
 	    $query = "SELECT account_id
-	               FROM {$tblAccounts}
+	               FROM {$this->tblAccounts}
 	               WHERE account_type = 'ADMIN'";
 	    $accountId = $this->oDBH->queryOne($query);
 
@@ -184,117 +198,219 @@ class Migration_546 extends Migration
 	    {
 	        $this->_logError('Failed to retrieve admin account record id for '.$key);
 	    }
+        return $this->_insertPreferencesAdmin($accountId, $this->aPrefMap);
+	}
 
-	    $queryPref = "INSERT INTO
-    	               {$tblPrefsNew}
-    	               (preference_name, account_type)
-    	               VALUES
-    	               ('%s','%s')";
+	function _movePreferencesAgency()
+	{
+	    $query = "SELECT *
+	               FROM {$this->tblPrefsOld}
+	               WHERE agencyid > 0";
+	    $aPrefOldAgency = $this->oDBH->queryAll($query);
 
-	    $queryAssoc = "INSERT INTO
-    	               {$tblAccPrefs}
-    	               (account_id, preference_id, value)
-    	               VALUES
-    	               (%s, %s,'%s')";
+	    if (PEAR::isError($aResult))
+	    {
+	        return $this->_logErrorAndReturnFalse($aResult);
+	    }
+	    if (empty($aPrefOldAgency))
+	    {
+	        return true;
+	    }
 
-        foreach ($this->aPrefMap as $key => $aVal)
+	    // compare each agency pref value with admin value
+	    // store diffs as acct/pref assocs
+        foreach ($this->aPrefMap AS $newName => $aPrefNew)
         {
-            $queryP = sprintf($queryPref, $key, $aVal['level']);
-
-    	    $result = $this->oDBH->Exec($queryP);
-
-    	    if (PEAR::isError($result))
+            foreach ($aPrefOldAgency AS $k => $aPrefOld)
     	    {
-    	        $this->_logError('Failed to insert admin preference record for '.$key);
+    	        $oldName  = $aPrefNew['name'];
+    	        $oldValue = $aPrefOld[$oldName];
+                $aVal     = unserialize($oldValue);
+                if (is_array($aVal))
+                {
+                    if (strpos($newName,'_label') > 0)
+                    {
+                        $oldValue = $aVal['label'];
+                    }
+                    else if (strpos($newName,'_rank') > 0)
+                    {
+                        $oldValue = $aVal['rank'];
+                    }
+                    else
+                    {
+                        $oldValue = $aVal['show'];
+                    }
+                }
+                if ($oldValue <> $aPrefNew['value'])
+                {
+
+            	    $query = "SELECT account_id
+            	               FROM {$this->tblAgency}
+            	               WHERE agencyid = {$aPrefOld['agencyid']}";
+            	    $accountId = $this->oDBH->queryOne($query);
+
+            	    if (PEAR::isError($accountId))
+            	    {
+            	        $this->_logError('Failed to retrieve account id for agency '.$aPrefOld['agencyid']);
+            	        break;
+            	    }
+                    $prefId = $this->_getPreferencesId($newName);
+            	    if (!$prefId)
+            	    {
+            	        break;
+            	    }
+                    $this->_insertAccountPreferencesAssoc($accountId, $prefId, $oldValue);
+                }
     	    }
-
-    	    $prefId = $this->oDBH->lastInsertID($aConf['table']['prefix'].$aConf['table']['preferences'], 'preference_id');
-
-    	    if (PEAR::isError($prefId))
-    	    {
-    	        $this->_logError('Failed to retrieve admin preference record id for '.$key);
-    	    }
-
-            $queryA = sprintf($queryAssoc, $accountId, $prefId, $aVal['value']);
-
-    	    $result = $this->oDBH->Exec($queryA);
-
-    	    if (PEAR::isError($result))
-    	    {
-    	        $this->_logError('Failed to insert admin account preference assoc record for '.$key);
-    	    }
-
         }
 	    return true;
 	}
 
+	function _insertPreferencesAdmin($accountId, $aPrefMap)
+	{
+        foreach ($aPrefMap as $newName => $aVal)
+        {
+            if (!$this->_insertPreferencesRecord($newName, $aVal['level']))
+            {
+                $this->_logError('Failed to insert preferences record for '.$newName);
+            }
+            $prefId = $this->_getPreferencesId($newName);
+    	    if (!$prefId)
+    	    {
+    	        continue;
+    	    }
+            $this->_insertAccountPreferencesAssoc($accountId, $prefId, $aVal['value']);
+        }
+	    return true;
+	}
+
+	function _insertPreferencesRecord($prefName, $accountType)
+	{
+	    $prefName = $this->oDBH->quote($prefName);
+	    $accountType = $this->oDBH->quote($accountType);
+	    $query = "INSERT INTO
+	               {$this->tblPrefsNew}
+	               (preference_name, account_type)
+	               VALUES
+	               ({$prefName},{$accountType})";
+
+  	    $result = $this->oDBH->Exec($query);
+
+	    if (PEAR::isError($result))
+	    {
+	        $this->_logError('Failed to insert preference record for '.$key);
+	        return false;
+	    }
+	    return true;
+    }
+
+	function _insertAccountPreferencesAssoc($accountId, $preferenceId, $value)
+	{
+	    $value = $this->oDBH->quote($value);
+	    $query = "INSERT INTO
+	               {$this->tblAccPrefs}
+	               (account_id, preference_id, value)
+	               VALUES
+	               ({$accountId}, {$preferenceId}, {$value})";
+
+	    $result = $this->oDBH->Exec($query);
+
+	    if (PEAR::isError($result))
+	    {
+	        $this->_logError('Failed to insert assoc record for account id '.$accountId.' : preference id '.$preferenceId);
+	        return false;
+	    }
+	    return true;
+	}
+
+	function _getPreferencesId($prefName)
+	{
+	    $prefName = $this->oDBH->quote($prefName);
+	    $query = "SELECT * FROM
+	               {$this->tblPrefsNew}
+                    WHERE preference_name = {$prefName}";
+
+	    $prefId = $this->oDBH->queryOne($query);
+
+	    if (PEAR::isError($prefId))
+	    {
+	        $this->_logError('Failed to retrieve preference id for '.$prefName);
+	        return false;
+	    }
+	    return $prefId;
+	}
 
     function _getOldPreferencesAdmin()
     {
-	    $aConf = & $GLOBALS['_MAX']['CONF'];
-	    $tblPrefsOld = $this->oDBH->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['preference'],true);
-
-	    $query = "SELECT *
-	               FROM {$tblPrefsOld}
-	               WHERE agencyid = 0";
-	    $aResult = $this->oDBH->queryAll($query);
-
+        $aResult = $this->_getOldPreferences(true);
 	    if (PEAR::isError($aResult))
 	    {
 	        $this->_logErrorAndReturnFalse($aResult);
 	    }
 	    if (!is_array(($aResult)))
 	    {
-	        $this->_logError('Failed to retrieve old admin preference record');
+	        $this->_logError('Failed to retrieve old preference record(s)');
 	    }
-        $this->aPrefOld = $aResult[0];
-        return true;
+        return $aResult[0];
     }
 
+    function _getOldPreferences($admin=true)
+    {
+	    $query = "SELECT *
+	               FROM {$this->tblPrefsOld}";
+	    if ($admin)
+	    {
+	        $query.= " WHERE agencyid = 0";
+	    }
+	    return $this->oDBH->queryAll($query);
+    }
 
-    function _mapOldPrefsToSettingsAdmin()
+    function _mapOldPrefsToSettings(&$aPrefOld)
     {
         foreach ($this->aConfMap AS $section => $aPairs)
         {
             foreach ($aPairs AS $nameNew => $nameOld)
             {
 
-                $this->aConfNew[$section][$nameNew] = $this->aPrefOld[$nameOld];
-                unset($this->aPrefOld[$nameOld]);
+                $this->aConfNew[$section][$nameNew] = $aPrefOld[$nameOld];
+                unset($aPrefOld[$nameOld]);
             }
         }
         return true;
     }
 
-    function _mapOldPrefsToPrefsAdmin()
+    function _mapOldPrefsToPrefs(&$aPrefOld)
     {
 
         foreach ($this->aPrefMap AS $newName => $aVal)
         {
-            $this->aPrefMap[$newName]['value'] = $this->aPrefOld[$aVal['name']];
-            unset($this->aPrefOld[$oldName]);
+            $this->aPrefMap[$newName]['value'] = $aPrefOld[$aVal['name']];
+            unset($aPrefOld[$oldName]);
         }
 
         // only elements left should be the gui_columns that have serialized array values
-        foreach ($this->aPrefOld AS $oldName => $val)
+        foreach ($aPrefOld AS $oldName => $val)
         {
-            $newName = substr($oldName,1);
             $aVal = unserialize($val);
             if (is_array($aVal))
             {
+                $newName = substr($oldName,1);
                 $this->aPrefMap[$newName]            = array('value'=>$aVal['show'],'name'=>$oldName,'level'=>OA_ACCOUNT_MANAGER);
                 $this->aPrefMap[$newName.'_label']   = array('value'=>$aVal['label'],'name'=>$oldName,'level'=>OA_ACCOUNT_MANAGER);
                 $this->aPrefMap[$newName.'_rank']    = array('value'=>$aVal['rank'],'name'=>$oldName,'level'=>OA_ACCOUNT_MANAGER);
-            }
+/*                $this->aPrefMap[$newName]            = array('value'=>$aVal['show'],'name'=>$oldName.'__show','level'=>OA_ACCOUNT_MANAGER);
+                $this->aPrefMap[$newName.'_label']   = array('value'=>$aVal['label'],'name'=>$oldName.'__label','level'=>OA_ACCOUNT_MANAGER);
+                $this->aPrefMap[$newName.'_rank']    = array('value'=>$aVal['rank'],'name'=>$oldName.'__rank','level'=>OA_ACCOUNT_MANAGER);
+*/            }
         }
         return true;
     }
 
-    function _filterOutDeprecatedPreferencesAdmin()
+    function _filterOutDeprecatedPreferences(&$aPrefOld)
     {
         foreach ($this->aPrefDep as $name)
         {
-            unset($this->aPrefOld[$name]);
+            unset($aPrefOld[$name]);
         }
         return true;
     }

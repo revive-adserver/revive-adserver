@@ -230,8 +230,8 @@ class Migration_546Test extends MigrationTest
 
     function _setupPreferences()
     {
+        // set up the admin preferences
         $query = "UPDATE {$this->tblPrefsOld} SET ";
-
         $n = count($this->aPrefsOld)-1;
         $i = 0;
         foreach ($this->aPrefsOld AS $k => $v)
@@ -248,6 +248,35 @@ class Migration_546Test extends MigrationTest
             $i++;
         }
         $query.= " WHERE agencyid = 0";
+        $this->oDbh->exec($query);
+
+        // set up the agency preferences
+        // agency 1 has identical admin prefs bar 2
+        $query = "UPDATE {$this->tblPrefsOld} SET ";
+        $n = count($this->aPrefsOld)-1;
+        $i = 0;
+        foreach ($this->aPrefsOld AS $k => $v)
+        {
+            if ($k == 'default_banner_url')
+            {
+                $v = 'http://www.custom_url.net';
+            }
+            if ($k == 'default_banner_destination')
+            {
+                $v = 'http://www.custom_dest.net';
+            }
+            if (is_array($v))
+            {
+                $v = serialize($v);
+            }
+            $query.= $k."=".$v = $this->oDbh->quote($v, null, true, false);
+            if ($i < $n)
+            {
+                $query.= ",";
+            }
+            $i++;
+        }
+        $query.= " WHERE agencyid = 1";
         $this->oDbh->exec($query);
     }
 
@@ -276,7 +305,6 @@ class Migration_546Test extends MigrationTest
         {
             $name = key($aPair);
             $value = $aPair[$name];
-            //$value = $oMig->aPrefNew[$section][$aPair[$name]];
             $this->assertTrue(isset($aConf[$section]),'section missing');
             $this->assertTrue(isset($aConf[$section][$name]),'key missing');
             $this->assertEqual($aConf[$section][$name],$value,'incorrect value');
@@ -286,10 +314,12 @@ class Migration_546Test extends MigrationTest
 
     function testMigratePrefsToPrefs()
     {
+        // Test 1 : Admin Prefs
         $query = "SELECT p.preference_name AS name, ap.value, p.account_type AS type
                     FROM {$this->tblAccPrefs} AS ap
                     LEFT JOIN {$this->tblPrefsNew} AS p ON p.preference_id = ap.preference_id
-                    LEFT JOIN {$this->tblAccounts} AS a ON a.account_id = ap.account_id"
+                    LEFT JOIN {$this->tblAccounts} AS a ON a.account_id = ap.account_id
+                    WHERE a.account_type = 'ADMIN'"
                  ;
         $aResults       = $this->oDbh->queryAll($query, null, null, true);
         $aExpectations  =  $this->_getPrefsExpectations();
@@ -301,6 +331,27 @@ class Migration_546Test extends MigrationTest
             {
                 $this->assertEqual($aVals['value'],$aExpectations[$nameNew]['value'],'wrong value for '.$nameNew);
                 $this->assertEqual($aVals['type'],$aExpectations[$nameNew]['level'],'wrong level for '.$nameNew);
+            }
+        }
+        // Test 2 : Agency Prefs
+        $query = "SELECT p.preference_name AS name, ap.value, p.account_type AS type
+                    FROM {$this->tblAccPrefs} AS ap
+                    LEFT JOIN {$this->tblPrefsNew} AS p ON p.preference_id = ap.preference_id
+                    LEFT JOIN {$this->tblAccounts} AS a ON a.account_id = ap.account_id
+                    LEFT JOIN {$this->tblAgency} AS ag ON ag.account_id = a.account_id
+                    WHERE ag.agencyid = 1"
+                 ;
+        $aResults       = $this->oDbh->queryAll($query, null, null, true);
+
+        $aAgencyExpectations['default_banner_image_url'] =  array('value'=> 'http://www.custom_url.net');
+        $aAgencyExpectations['default_banner_destination_url'] =  array('value'=> 'http://www.custom_dest.net');
+        $this->assertEqual(count($aResults),count($aAgencyExpectations));
+        foreach ($aResults as $nameNew => $aVals)
+        {
+            $this->assertTrue(array_key_exists($nameNew,$aAgencyExpectations));
+            if (array_key_exists($nameNew,$aAgencyExpectations))
+            {
+                $this->assertEqual($aVals['value'],$aAgencyExpectations[$nameNew]['value'],'wrong value for '.$nameNew);
             }
         }
     }
