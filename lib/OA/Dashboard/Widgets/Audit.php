@@ -66,11 +66,11 @@ class OA_Dashboard_Widget_Audit extends OA_Dashboard_Widget
         $conf = $GLOBALS['_MAX']['CONF'];
         if (!$conf['audit']['enabled']) {
             $this->oTpl->assign('screen',       'disabled');
-            $this->oTpl->assign('siteTitle',    'Setup Audit Trail Today');
+            $this->oTpl->assign('siteTitle',    $GLOBALS['strAuditTrailSetup']);
             $this->oTpl->assign('siteUrl',      MAX::constructUrl(MAX_URL_ADMIN, 'account-settings-debug.php'));
         } elseif ($conf['audit']['enabled']) {
 
-//            if (!$this->oTpl->is_cached()) {
+            if (!$this->oTpl->is_cached()) {
                 $advertiserId   = MAX_getStoredValue('advertiserId',    0);
 
                 list($aNow['year'], $aNow['month'], $aNow['day']) = explode('-', OA::getNow('Y-m-d'));
@@ -109,9 +109,9 @@ class OA_Dashboard_Widget_Audit extends OA_Dashboard_Widget
                 $this->oTpl->assign('screen',       'enabled');
                 $this->oTpl->assign('aAuditData',   $aAuditData);
                 $this->oTpl->assign('siteUrl',      MAX::constructUrl(MAX_URL_ADMIN, 'userlog-index.php'));
-                $this->oTpl->assign('siteTitle',    'Go to Audit Trail page');
+                $this->oTpl->assign('siteTitle',    $GLOBALS['strAuditTrailGoTo']);
             }
-//        }
+        }
         $this->oTpl->display();
     }
 }

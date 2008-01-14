@@ -51,9 +51,7 @@ iframe {
 	text-align: right;
 }
 
-/**
- * Widgets
- */
+/* Links */
 a {
     color: #444444;
     text-decoration: none;
@@ -74,7 +72,8 @@ a.site-link:hover {
     text-decoration: underline;
 }
 
-ul {
+/* Widget unordered lists */
+ul .widgetList {
     color: #444444;
     padding-left: 0px;    
     margin: 0px;
@@ -82,67 +81,58 @@ ul {
     list-style-image: url('../images/listIcon.gif');
 }
 
-/* feeds */
-ul#feed {
-    width: 235px;
-    overflow: hidden; 
-    white-space: nowrap;*     
+.widgetList li {
+    margin-left: 12px;
+    margin-bottom: 5px;
 }
 
-ul li {
-    margin-left: 12px;    
-    margin-bottom: 3px;
+/* Widget unordered list wrapper */
+.widgetListWrapper {
+  width:240px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
+.widgetListWrapper ul li {
+  width: 100%;
+}
+
+.widgetListWrapper ul li {
+    margin-left: 12px;
+    margin-bottom: 5px;
+}
+
+.widgetListWrapper .widgetList li .title {
+    float: left;
+    width: 72%;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-right:2%;
+    text-overflow: ellipsis;
+}
+
+.widgetListWrapper .auditList li .title {
+    width: 65%;
+}
+
+.widgetListWrapper .campaignList .started, .widgetListWrapper .campaignList .resumed {
+    color: green;
+}
+
+.widgetListWrapper .campaignList .finished {
+    color: red;
+}
+
+.widgetListWrapper .campaignList .added, .widgetListWrapper .campaignList .paused {
+  color: #777777;
+  font-style: italic;
+}
 
 /*  stats */
 img#graph {
     width: 239px;
     height: 132px;
 }
-
-/* camp overview */
-.campaignOverview {
-  width:240px; 
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-.campaignOverview ul li {
-  width: 100%;
-}
-
-.campaignOverview .campaigns li .title {
-	float: left;
-	width: 73%;
-	overflow: hidden;
-	white-space: nowrap;
-	margin-right:2%;
-	text-overflow: ellipsis;
-}
-
-.campaignOverview .campaigns li .status {
-  float: left;
-  width: 30%;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.campaignOverview .campaigns .started, .campaignOverview .campaigns .resumed {
-	color: green;
-}
-
-.campaignOverview .campaigns .finished {
-	color: red;
-}
-
-.campaignOverview .campaigns .added, .campaignOverview .campaigns .paused {
-  color: #777777;
-  font-style: italic;
-}
-
-
-
 
 /**
  * Login form
@@ -216,10 +206,10 @@ div.widgetOverlayHeader, div.widgetOverlayFooter {
     height: 15px;
 }
 div.widgetOverlayHeader {
-    background: url('../images/dashboard//widgetOverlayHeader.png') no-repeat bottom left;
+    background: url('../images/dashboard/widgetOverlayHeader.png') no-repeat bottom left;
 }
 div.widgetOverlayFooter {
-    background: url('../images/dashboard//widgetOverlayFooter.png') no-repeat top left;
+    background: url('../images/dashboard/widgetOverlayFooter.png') no-repeat top left;
 }
 div.widgetOverlayCenter {
     width: 377px;
@@ -233,18 +223,18 @@ div.widgetOverlayLeft, div.widgetOverlayRight {
 
 div.widgetOverlayLeft {
     float: left;
-    background: url('../images/dashboard//widgetOverlayLeft.png') no-repeat top right;
+    background: url('../images/dashboard/widgetOverlayLeft.png') no-repeat top right;
 }
 
 div.widgetOverlayRight {
     float: right;
-    background: url('../images/dashboard//widgetOverlayRight.png') no-repeat top left;
+    background: url('../images/dashboard/widgetOverlayRight.png') no-repeat top left;
 }
 
 div.widgetOverlayBody {
 	width: 347px;
     height: 272px;
-    background: url('../images/dashboard//widgetOverlayCenter.gif') repeat-x top center;
+    background: url('../images/dashboard/widgetOverlayCenter.gif') repeat-x top center;
     float: right;
     text-align: center;
     padding: 0 5px;
