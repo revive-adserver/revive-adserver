@@ -73,7 +73,7 @@ $oTpl->assign('fields', array(
                 'value'     => $email,
                 'id'        => 'adsenseemail',
                 'title'     => 'Provide valid email',
-                'clientValid' => 'required:true'
+                'clientValid' => 'required:true,email:true'
             ),
             array(
                 'name'      => 'phone5digits',
