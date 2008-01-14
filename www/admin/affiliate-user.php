@@ -103,7 +103,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
 $oTpl = new OA_Admin_Template('affiliate-user.html');
 $oTpl->assign('action', 'affiliate-user.php');
-$oTpl->assign('backUrl', 'affiliate-user-start.php?affiliate='.$affiliateid);
+$oTpl->assign('backUrl', 'affiliate-user-start.php?affiliateid='.$affiliateid);
 $oTpl->assign('method', 'POST');
 $oTpl->assign('aErrors', $aErrors);
 
