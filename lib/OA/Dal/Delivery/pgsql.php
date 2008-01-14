@@ -25,8 +25,6 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Delivery/cache.php';
-
 /**
  * The pgsql data access layer code the delivery engine.
  *

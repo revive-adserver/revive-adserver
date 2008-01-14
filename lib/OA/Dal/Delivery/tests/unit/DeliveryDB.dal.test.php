@@ -25,6 +25,7 @@
 $Id $
 */
 
+require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 require_once MAX_PATH . '/lib/OA/Dal/Delivery/'.$GLOBALS['_MAX']['CONF']['database']['type'].'.php';
 require_once 'Log.php';
 
