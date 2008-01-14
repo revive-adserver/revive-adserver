@@ -38,25 +38,15 @@ define('OA_CENTRAL_ERROR_SERVER_ERROR', 806);
 define('OA_CENTRAL_ERROR_ERROR_NOT_AUTHORIZED', 807);
 
 /**
- * Protocol parameters as defined: https://staff.openads.org/wiki/DashboardSSO
+ * OA Central M2M error codes
+ *
  */
-define('OA_SSO_URL_PARAM', 'url');
-define('OA_SSO_SERVICE_PARAM', 'service');
-define('OA_SSO_BACK_URL_PARAM', 'backUr');
-define('OA_SSO_PLATFORM_HASH_PARAM', 'ph');
-define('OA_SSO_PLATFORM_PATH_PARAM', 'pp');
-
-/**
- * CAS server parameters
- */
-define('OA_SSO_CAS_SERVICE_PARAM', 'service');
-define('OA_SSO_CAS_GATEWAY_PARAM', 'gateway');
-define('OA_SSO_CAS_TICKET_PARAM', 'ticket');
-
-/**
- * ssoProxy specific parameters
- */
-define('OA_SSO_CAS_SERVER_CHECK_PARAM', 'casServerCheck');
+define('OA_CENTRAL_ERROR_M2M_ACCOUNT_TYPE_NOT_ALLOWED', 821);
+define('OA_CENTRAL_ERROR_M2M_PASSWORD_ALREADY_GENERATED', 822);
+define('OA_CENTRAL_ERROR_M2M_PASSWORD_INVALID', 823);
+define('OA_CENTRAL_ERROR_M2M_PASSWORD_EXPIRED', 824);
+define('OA_CENTRAL_ERROR_M2M_CANNOT_CONNECT', 825);
+define('OA_CENTRAL_ERROR_M2M_CANNOT_RECONNECT', 826);
 
 
 /**
@@ -75,11 +65,12 @@ class OA_Central
      */
     function buildUrl($aConf, $pathVariable = 'path')
     {
-        if (($aConf['protocol'] == 'http' && $aConf['port'] == 80) ||
-            ($aConf['protocol'] == 'https' && $aConf['port'] == 443)) {
-            $port = '';
-        } else {
-            $port = ':'.$aConf['port'];
+        $port = '';
+        if (!empty($aConf['port'])) {
+            if (($aConf['protocol'] == 'http' && $aConf['port'] != 80) ||
+                ($aConf['protocol'] == 'https' && $aConf['port'] != 443)) {
+                $port = ':'.$aConf['port'];
+            }
         }
 
         return "{$aConf['protocol']}://{$aConf['host']}{$port}{$aConf[$pathVariable]}";

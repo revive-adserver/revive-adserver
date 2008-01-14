@@ -41,21 +41,8 @@ require_once MAX_PATH . '/lib/OA/Permission.php';
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-phpAds_SessionDataFetch();
-if (!OA_Auth::isLoggedIn() && empty($_REQUEST['reload'])) {
-    require(MAX_PATH.'/lib/OA/Dashboard/Widgets/Reload.php');
-    $oReload = new OA_Dashboard_Widget_Reload($_REQUEST);
-    $url = 'dashboard.php';
-    if (empty($_REQUEST['widget'])) {
-        $url .= '?reload=1';
-    }
-    $oReload->setUrl(MAX::constructURL(MAX_URL_ADMIN, $url));
-    $oReload->display();
-    exit();
-}
-
 require_once MAX_PATH . '/www/admin/config.php';
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
 
 $widget = !empty($_REQUEST['widget']) ? $_REQUEST['widget'] : 'Index';
 

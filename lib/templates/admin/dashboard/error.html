@@ -1,6 +1,5 @@
-<?php
+{*<!--
 
-/*
 +---------------------------------------------------------------------------+
 | Openads v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
@@ -26,26 +25,35 @@
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
 $Id$
-*/
 
-// Require the initialisation file
-require_once '../../init.php';
+-->*}<html>
+<head>
+  <link rel='stylesheet' type='text/css' href='css/dashboard-widget.css'>
+</head>
+<body>
+<div id="wrapper">
+   <div id="main">
+      <div id="dashboardPreview"></div>
+   </div>
 
-// Required files
-require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/OA/Admin/Template.php';
-require_once MAX_PATH . '/www/admin/lib-sessions.inc.php';
-require_once MAX_PATH . '/lib/OA/Permission.php';
+<!-- wrapper end -->
+</div>
 
-phpAds_SessionDataFetch();
-
-if (OA_Auth::isLoggedIn()) {
-    require_once MAX_PATH . '/www/admin/config.php';
-}
-require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-
-require(MAX_PATH.'/lib/OA/Dashboard/SsoProxy.php');
-$oProxy = new OA_Dashboard_SsoProxy($_REQUEST);
-$oProxy->display();
-
-?>
+<div class="widgetOverlay">
+    <div class="widgetOverlayHeader">&nbsp;</div>
+    <div class="widgetOverlayCenter">
+        <div class="widgetOverlayRight">&nbsp;</div>
+        <div class="widgetOverlayBody">
+            <div class="widgetOverlayContent" style="text-align: center">
+                <h1 style="margin-top: 70px">Dashboard Error</h1>
+                <p style="color: red">
+                    {$errorMessage|escape} (code: {$errorCode})
+                </p>
+            </div>
+        </div>
+        <div class="widgetOverlayLeft">&nbsp;</div>
+    </div>
+    <div class="widgetOverlayFooter">&nbsp;</div>
+</div>
+</body>
+</html>

@@ -44,19 +44,17 @@ class OA_Dashboard_Widget_Index extends OA_Dashboard_Widget
 
         phpAds_PageHeader('1.0', '', '', false, true, true);
 
-        $this->getCredentials();
-
         $oTpl = new OA_Admin_Template('dashboard/main.html');
 
         $oDashboard = new OA_Central_Dashboard();
         if (!$aConf['sync']['checkForUpdates'] || !$oDashboard->oMapper->oRpc->oXml->canUseSSL()) {
             $dashboardUrl = MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php?widget=Disabled');
         } else {
-            if ($this->ssoAdmin) {
-                $url = $this->buildUrl($GLOBALS['_MAX']['CONF']['oacDashboard']);
-                $dashboardUrl = MAX::constructURL(MAX_URL_ADMIN, 'ssoProxy.php?url='.urlencode($url));
+            $m2mTicket = OA_Dal_Central_M2M::getM2MTicket(OA_Permission::getAccountId());
+            if (empty($m2mTicket)) {
+                $dashboardUrl = MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php?widget=Reload');
             } else {
-                $dashboardUrl = MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php?widget=Login');
+                $dashboardUrl = $this->buildDashboardUrl($m2mTicket);
             }
         }
 

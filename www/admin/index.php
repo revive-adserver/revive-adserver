@@ -43,7 +43,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_A
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-if ($GLOBALS['_MAX']['CONF']['sync']['checkForUpdates'] && OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
+if ($GLOBALS['_MAX']['CONF']['sync']['checkForUpdates'] && OA_Permission::isAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER)) {
     MAX_Admin_Redirect::redirect('dashboard.php');
 }
 

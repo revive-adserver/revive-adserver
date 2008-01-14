@@ -25,14 +25,14 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/OA/Central/Common.php';
+require_once MAX_PATH . '/lib/OA/Central/M2M.php';
 
 
 /**
  * OAP binding to the dashboard OAC API
  *
  */
-class OA_Central_Dashboard extends OA_Central_Common
+class OA_Central_Dashboard extends OA_Central_M2M
 {
     /**
      * A method to retrieve the data needed to draw the Community Statistics

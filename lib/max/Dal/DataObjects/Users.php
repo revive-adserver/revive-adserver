@@ -7,7 +7,6 @@ require_once 'DB_DataObjectCommon.php';
 class DataObjects_Users extends DB_DataObjectCommon
 {
     var $onDeleteCascade = true;
-
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
@@ -16,8 +15,8 @@ class DataObjects_Users extends DB_DataObjectCommon
     var $contact_name;                    // string(255)  not_null
     var $email_address;                   // string(64)  not_null
     var $username;                        // string(64)  multiple_key
-    var $password;                        // string(64)
-    var $default_account_id;              // int(9)
+    var $password;                        // string(64)  
+    var $default_account_id;              // int(9)  
     var $comments;                        // blob(65535)  blob
     var $active;                          // int(1)  not_null
 

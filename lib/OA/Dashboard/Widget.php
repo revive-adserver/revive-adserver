@@ -43,8 +43,8 @@ class OA_Dashboard_Widget extends OA_Central
 
     var $widgetName;
 
-    var $ssoAdmin;
-    var $ssoPassword;
+    var $accountId;
+    var $m2mPassword;
 
     /**
      * The class constructor
@@ -72,7 +72,7 @@ class OA_Dashboard_Widget extends OA_Central
     function checkAccess()
     {
         if (empty($this->accessList)) {
-            $this->accessList = array(OA_ACCOUNT_ADMIN);
+            $this->accessList = array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
         }
 
         OA_Permission::enforceAccount($this->accessList);
@@ -87,10 +87,23 @@ class OA_Dashboard_Widget extends OA_Central
     {
     }
 
-    function getCredentials()
+    /**
+     * A method to build a dashboard URL using the provided M2M ticket
+     *
+     * @param string $m2mTicket
+     * @param string $url If empty, use the default dashboard Url from conf file
+     * @return string
+     */
+    function buildDashboardUrl($m2mTicket, $url = null)
     {
-        $this->ssoAdmin = OA_Dal_ApplicationVariables::get('sso_admin');
-        $this->ssoPasswd = OA_Dal_ApplicationVariables::get('sso_password');
+        if (empty($url)) {
+            $url = $this->buildUrl($GLOBALS['_MAX']['CONF']['oacDashboard']);
+        }
+        $url .= strpos($url, '?') === false ? '?' : '&';
+        $url .= 'ticket='.urlencode($m2mTicket);
+        $url .= '&oapPath='.urlencode(preg_replace('#/$#', '', MAX::constructURL(MAX_URL_ADMIN, '')));
+
+        return $url;
     }
 }
 

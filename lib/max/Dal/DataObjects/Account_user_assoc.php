@@ -11,7 +11,7 @@ class DataObjects_Account_user_assoc extends DB_DataObjectCommon
 
     var $__table = 'account_user_assoc';              // table name
     var $account_id;                      // int(9)  not_null primary_key
-    var $user_id;                         // int(9)  not_null primary_key
+    var $user_id;                         // int(9)  not_null primary_key multiple_key
     var $linked;                          // datetime(19)  not_null binary
 
     /* ZE2 compatibility trick*/

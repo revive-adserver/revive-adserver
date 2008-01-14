@@ -67,6 +67,18 @@ class OA_Dashboard_Widget_GraphOAP extends OA_Dashboard_Widget_Graph
         $doDsah->selectAdd('SUM(clicks) AS total_clicks');
         $doDsah->whereAdd("date_time >= '".$doDsah->escape($oStart->format('%Y-%m-%d %H:%M:%S'))."'");
         $doDsah->whereAdd("date_time < '".$doDsah->escape($oEnd->format('%Y-%m-%d %H:%M:%S'))."'");
+
+        if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+            $doBanners   = OA_Dal::factoryDO('banners');
+            $doCampaigns = OA_Dal::factoryDO('campaigns');
+            $doClients   = OA_Dal::factoryDO('clients');
+            $doClients->agencyid = OA_Permission::getEntityId();
+
+            $doDsah->joinAdd($doBanners);
+            $doDsah->joinAdd($doCampaigns);
+            $doDsah->joinAdd($doClients);
+        }
+
         $doDsah->groupBy('day');
         $doDsah->orderBy('day');
 

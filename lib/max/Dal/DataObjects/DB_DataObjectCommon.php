@@ -27,6 +27,8 @@ $Id$
 
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/max/Util/ArrayUtils.php';
+require_once MAX_PATH . '/lib/OA/Permission.php';
+
 require_once 'DB/DataObject.php';
 
 /**
@@ -39,7 +41,7 @@ require_once 'DB/DataObject.php';
 class DB_DataObjectCommon extends DB_DataObject
 {
     /**
-     * If its true the delete() method will try to delete also all 
+     * If its true the delete() method will try to delete also all
      * records which has reference to this record
      *
      * @var boolean
@@ -186,9 +188,9 @@ class DB_DataObjectCommon extends DB_DataObject
         $this->free();
         return $rows;
     }
-    
+
     /**
-     * Either insert new record or update existing one 
+     * Either insert new record or update existing one
      * if the object is already created
      *
      * @return integer  ID of new record (if PK is sequence) or boolean
@@ -347,7 +349,7 @@ class DB_DataObjectCommon extends DB_DataObject
     }
 
     /**
-     * Reads the correct sorting order from session and calls addListOrderBy() 
+     * Reads the correct sorting order from session and calls addListOrderBy()
      *
      * This method is used as a common way of sorting rows in OpenAds UI
      *
@@ -1037,7 +1039,7 @@ class DB_DataObjectCommon extends DB_DataObject
         $this->account_id = $doAccount->insert();
         return $this->account_id;
     }
-    
+
     /**
      * Updates account name
      *
@@ -1099,7 +1101,6 @@ class DB_DataObjectCommon extends DB_DataObject
 
     function audit($actionid, $dataobject=null, $parentid = null)
     {
-        require_once MAX_PATH . '/lib/OA/Permission.php';
         if (isset($GLOBALS['_MAX']['CONF']['audit']) && $GLOBALS['_MAX']['CONF']['audit']['enabled'])
         {
             if ($this->_auditEnabled())
@@ -1125,9 +1126,11 @@ class DB_DataObjectCommon extends DB_DataObject
                 $this->doAudit->updated = OA::getNow();
                 // finally, insert the audit record
                 $id = $this->doAudit->insert();
+                return $id;
             }
         }
-        return $id;
+
+        return false;
     }
 
     /**
