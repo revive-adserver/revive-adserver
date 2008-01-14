@@ -37,7 +37,15 @@ require_once MAX_PATH . '/lib/OA/DB/Table.php';
 $conf = &$GLOBALS['_MAX']['CONF'];
 $conf['table']['prefix'] = '';
 
-OA_DB::dropDatabase($conf['database']['name']);
+if ($conf['database']['type'] != 'mysql') {
+    die ("This script does currently work only with MySQL databases\n");
+}
+
+$oDbh = OA_DB::singleton();
+if (!PEAR::isError($oDbh)) {
+    $oDbh->disconnect();
+    OA_DB::dropDatabase($conf['database']['name']);
+}
 OA_DB::createDatabase($conf['database']['name']);
 OA_DB::changeDatabase($conf['database']['name']);
 
