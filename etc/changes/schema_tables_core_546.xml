@@ -96,6 +96,14 @@
     </field>
    </index>
 
+   <index>
+    <name>user_id</name>
+    <field>
+     <name>user_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
   </declaration>
 
  </table>
