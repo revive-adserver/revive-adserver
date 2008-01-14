@@ -1115,9 +1115,9 @@ $GLOBALS['strCampaignSetUp']            = 'Set up a Campaign today';
 $GLOBALS['strCampaignNoRecords']        = '<li>Campaigns let you group together any number of banner ads, of any size, that share common advertising requirements</li>
         <li>Save time by grouping banners within a campaign and no longer define delivery settings for each add separately</li>
         <li>Check out the <a class="site-link" href="http://docs.openads.org/openads-2.4-guide/campaigns.html">Campaign documentation</a>!</li>
+';
 $GLOBALS['strCampaignNoDataTimeSpan'] = 'No campaigns have started or finished during the timeframe you have selected';
 $GLOBALS['strCampaignAuditNotActivated'] = 'In order to view campaigns which have started or finished during the timeframe you have selected, the Audit Trail must be activated';
-';
 
 /*-------------------------------------------------------*/
 /* Keyboard shortcut assignments                         */
