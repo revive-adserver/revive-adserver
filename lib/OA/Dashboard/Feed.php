@@ -73,7 +73,7 @@ class OA_Dashboard_Widget_Feed extends OA_Dashboard_Widget
      *
      * @param array $aParams The parameters array, usually $_REQUEST
      */
-    function _display()
+    function display()
     {
         if (!$this->oTpl->is_cached()) {
             OA::disableErrorHandling();
@@ -104,21 +104,5 @@ class OA_Dashboard_Widget_Feed extends OA_Dashboard_Widget
 
         $this->oTpl->display();
     }
-
-    function display()
-    {
-        ob_start();
-        $this->_display();
-        $content = ob_get_clean();
-
-        $content = addcslashes($content, "\0..\37\"\\");
-
-        echo <<<EOF
-{
-    "body": "{$content}"
 }
-EOF;
-    }
-}
-
 ?>
