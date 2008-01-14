@@ -138,7 +138,7 @@ class Migration_546 extends Migration
 
 	function beforeRemoveTable__preference()
 	{
-		return $this->migratePreferencesAdmin() && $this->beforeRemoveTable('preference');
+		return $this->migratePreferences() && $this->beforeRemoveTable('preference');
 	}
 
 	function afterRemoveTable__preference()
@@ -147,7 +147,7 @@ class Migration_546 extends Migration
 	}
 
 
-	function migratePreferencesAdmin()
+	function migratePreferences()
 	{
 	    $aConf = & $GLOBALS['_MAX']['CONF'];
 	    $this->tblAgency   = $this->oDBH->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['agency'],true);
@@ -160,18 +160,24 @@ class Migration_546 extends Migration
         $aPrefOldAdmin = $this->_getOldPreferencesAdmin();
         if (!empty($aPrefOldAdmin))
         {
-            // remove the old prefs being deprecated
+            // remove from array: the old prefs being deprecated
             $this->_filterOutDeprecatedPreferences($aPrefOldAdmin);
-            // remove the old prefs being migrated to settings
+            // remove from array: the old prefs being migrated to settings
             $this->_mapOldPrefsToSettings($aPrefOldAdmin);
             // map the old prefs being migrated to new prefs
             $this->_mapOldPrefsToPrefs($aPrefOldAdmin);
+            // write settings to conf file
+            if (!$this->_writeSettings())
+            {
+                return false;
+            }
             // use map to migrate admin prefs and settings
-            $this->_movePreferencesAdmin();
+            if (!$this->_movePreferencesAdmin())
+            {
+                return false;
+            }
             // migrate agency prefs
             $this->_movePreferencesAgency($aPrefOldAdmin);
-            // write settings to conf file
-            $this->_writeSettings();
             return true;
         }
         return false;
@@ -197,6 +203,7 @@ class Migration_546 extends Migration
 	    if (PEAR::isError($accountId))
 	    {
 	        $this->_logError('Failed to retrieve admin account record id for '.$key);
+	        return false;
 	    }
         return $this->_insertPreferencesAdmin($accountId, $this->aPrefMap);
 	}
@@ -208,9 +215,10 @@ class Migration_546 extends Migration
 	               WHERE agencyid > 0";
 	    $aPrefOldAgency = $this->oDBH->queryAll($query);
 
-	    if (PEAR::isError($aResult))
+	    if (PEAR::isError($aPrefOldAgency))
 	    {
-	        return $this->_logErrorAndReturnFalse($aResult);
+	        $this->_logError('Failed to retrieve agency preferences: '.$aPrefOldAgency->getUserInfo());
+	        return true;
 	    }
 	    if (empty($aPrefOldAgency))
 	    {
@@ -277,7 +285,7 @@ class Migration_546 extends Migration
             $prefId = $this->_getPreferencesId($newName);
     	    if (!$prefId)
     	    {
-    	        continue;
+    	        return false;
     	    }
             $this->_insertAccountPreferencesAssoc($accountId, $prefId, $aVal['value']);
         }
@@ -298,7 +306,7 @@ class Migration_546 extends Migration
 
 	    if (PEAR::isError($result))
 	    {
-	        $this->_logError('Failed to insert preference record for '.$key);
+	        $this->_logError('Failed to insert preference record for '.$prefName);
 	        return false;
 	    }
 	    return true;
@@ -345,11 +353,12 @@ class Migration_546 extends Migration
         $aResult = $this->_getOldPreferences(true);
 	    if (PEAR::isError($aResult))
 	    {
-	        $this->_logErrorAndReturnFalse($aResult);
+	        return $this->_logErrorAndReturnFalse($aResult);
 	    }
 	    if (!is_array(($aResult)))
 	    {
 	        $this->_logError('Failed to retrieve old preference record(s)');
+	        return false;
 	    }
         return $aResult[0];
     }
@@ -398,10 +407,7 @@ class Migration_546 extends Migration
                 $this->aPrefMap[$newName]            = array('value'=>$aVal['show'],'name'=>$oldName,'level'=>OA_ACCOUNT_MANAGER);
                 $this->aPrefMap[$newName.'_label']   = array('value'=>$aVal['label'],'name'=>$oldName,'level'=>OA_ACCOUNT_MANAGER);
                 $this->aPrefMap[$newName.'_rank']    = array('value'=>$aVal['rank'],'name'=>$oldName,'level'=>OA_ACCOUNT_MANAGER);
-/*                $this->aPrefMap[$newName]            = array('value'=>$aVal['show'],'name'=>$oldName.'__show','level'=>OA_ACCOUNT_MANAGER);
-                $this->aPrefMap[$newName.'_label']   = array('value'=>$aVal['label'],'name'=>$oldName.'__label','level'=>OA_ACCOUNT_MANAGER);
-                $this->aPrefMap[$newName.'_rank']    = array('value'=>$aVal['rank'],'name'=>$oldName.'__rank','level'=>OA_ACCOUNT_MANAGER);
-*/            }
+            }
         }
         return true;
     }
@@ -424,7 +430,7 @@ class Migration_546 extends Migration
             $value = $this->aConfNew[$section][$name];
             $oConfiguration->setValue($section,$name,$value);
         }
-        $oConfiguration->writeConfig();
+        return $oConfiguration->writeConfig();
     }
 
 }
