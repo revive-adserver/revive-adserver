@@ -1801,7 +1801,8 @@ class OA_Dal_Maintenance_Statistics_Common
                 interval_end,
                 zone_id";
         OA::debug('- Selecting total zone impressions from the ' . $fromTable . ' table for data >= ' .
-                   $oStart->format('%Y-%m-%d %H:%M:%S') . ', and <= ' . $oEnd->format('%Y-%m-%d %H:%M:%S'),
+                   $oStart->format('%Y-%m-%d %H:%M:%S') . ' ' . $oStart->tz->getShortName() .
+                   ', and <= ' . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName(),
                    PEAR_LOG_DEBUG);
         $rc = $this->oDbh->query($query);
         if (PEAR::isError($rc)) {
@@ -2010,8 +2011,8 @@ class OA_Dal_Maintenance_Statistics_Common
         $message .= " from the $finalFromTable table";
         OA::debug($message, PEAR_LOG_DEBUG);
         $message = "  into the $finalToTable table, for data" .
-                    ' between ' . $oStartDate->format('%Y-%m-%d') . ' ' . $oStartDate->format('%H') . ':00:00' .
-                    ' and ' . $oStartDate->format('%Y-%m-%d') . ' ' . $oEndDate->format('%H') . ':59:59.';
+                    ' between ' . $oStartDate->format('%Y-%m-%d') . ' ' . $oStartDate->format('%H') . ':00:00 ' . $oStartDate->tz->getShortName() .
+                    ' and ' . $oStartDate->format('%Y-%m-%d') . ' ' . $oEndDate->format('%H') . ':59:59 ' . $oStartDate->tz->getShortName() . '.';
         OA::debug($message, PEAR_LOG_DEBUG);
         $rows = $this->oDbh->exec($query);
         if (PEAR::isError($rows)) {
@@ -3061,7 +3062,7 @@ class OA_Dal_Maintenance_Statistics_Common
             WHERE
                 date_time <= '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
         OA::debug("- Deleting summarised (earlier than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
-                   "') ad requests from the $table table", PEAR_LOG_DEBUG);
+                  ' ' . $oDeleteDate->tz->getShortName() . "') ad requests from the $table table", PEAR_LOG_DEBUG);
         $rows = $this->oDbh->exec($query);
         if (PEAR::isError($rows)) {
             return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
@@ -3087,7 +3088,7 @@ class OA_Dal_Maintenance_Statistics_Common
             WHERE
                 date_time <= '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
         OA::debug("- Deleting summarised (earlier than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
-                   "') ad impressions from the $table table", PEAR_LOG_DEBUG);
+                  ' ' . $oDeleteDate->tz->getShortName() . "') ad impressions from the $table table", PEAR_LOG_DEBUG);
         $rows = $this->oDbh->exec($query);
         if (PEAR::isError($rows)) {
             return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
@@ -3102,7 +3103,7 @@ class OA_Dal_Maintenance_Statistics_Common
             WHERE
                 date_time <= '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
         OA::debug("- Deleting summarised (earlier than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
-                   "') ad clicks from the $table table", PEAR_LOG_DEBUG);
+                  ' ' . $oDeleteDate->tz->getShortName() . "') ad clicks from the $table table", PEAR_LOG_DEBUG);
         $rows = $this->oDbh->exec($query);
         if (PEAR::isError($rows)) {
             return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);

@@ -126,7 +126,7 @@ class OA_Maintenance_Statistics_AdServer_Task_SummariseFinal extends OA_Maintena
     function _saveHistory($oStartDate, $oEndDate)
     {
         $message = '- Updating the data_summary_zone_impression_history table for data after ' .
-                   $oStartDate->format('%Y-%m-%d %H:%M:%S');
+                   $oStartDate->format('%Y-%m-%d %H:%M:%S') . ' ' . $oStartDate->tz->getShortName();
         $this->oController->report .= $message . ".\n";
         OA::debug($message, PEAR_LOG_DEBUG);
         $oServiceLocator =& OA_ServiceLocator::instance();
@@ -145,7 +145,7 @@ class OA_Maintenance_Statistics_AdServer_Task_SummariseFinal extends OA_Maintena
     function _saveSummary($oStartDate, $oEndDate)
     {
         $message = '- Updating the data_summary_ad_hourly table for data after ' .
-                   $oStartDate->format('%Y-%m-%d %H:%M:%S');
+                   $oStartDate->format('%Y-%m-%d %H:%M:%S') . ' ' . $oStartDate->tz->getShortName();;
         $this->oController->report .= $message . ".\n";
         OA::debug($message, PEAR_LOG_DEBUG);
         $oServiceLocator =& OA_ServiceLocator::instance();
