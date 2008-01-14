@@ -25,8 +25,9 @@
 $Id$
 */
 
-require_once 'Log.php';
-require_once 'PEAR.php';
+require_once MAX_PATH . '/lib/pear/Log.php';
+require_once MAX_PATH . '/lib/pear/PEAR.php';
+
 /**
  * this is a method to capture select queries and write them to a logfile
  * for analysis purposes
@@ -67,7 +68,6 @@ function logSQL($oDbh, $scope, $message, $context)
     }
 }
 
-
 /**
  * The core Openads class, providing handy methods that are useful everywhere!
  *
@@ -79,6 +79,14 @@ class OA
 
     /**
      * A method to log debugging messages to the location configured by the user.
+     *
+     * Note: If the global variable $aCurrentTimezone is set, where the array
+     * is the result of OA_Admin_Timezones::getTimezone(), called BEFORE any
+     * timezone information has been set (i.e. before the init script has been
+     * called), then this method will ensure that all debug messages are logged
+     * in the SERVER TIME ZONE, rather than the time zone that the software
+     * happens to be running in (i.e. the current manager timezone, or UTC for
+     * maintenance).
      *
      * @static
      * @param mixed $message     Either a string or a PEAR_Error object.
@@ -121,8 +129,9 @@ class OA
         $aLoggerConf = array(
             $aConf['log']['paramsUsername'],
             $aConf['log']['paramsPassword'],
-            'dsn' => $dsn,
-            'mode' => octdec($aConf['log']['fileMode']),
+            'dsn'        => $dsn,
+            'mode'       => octdec($aConf['log']['fileMode']),
+            'timeFormat' => '%b %d %H:%M:%S %z'
         );
         if (is_null($message) && $aConf['log']['type'] == 'file') {
             $aLoggerConf['lineFormat'] = '%4$s';
@@ -168,6 +177,12 @@ class OA
                 }
             }
         }
+        // Log messages in the local server timezone, if possible
+        global $aServerTimezone;
+        if (!is_null($aServerTimezone)) {
+            $aCurrentTimezone = OA_Admin_Timezones::getTimezone();
+            OA_setTimeZone($aServerTimezone['tz']);
+        }
         // Log the message
         if (is_null($message) && $aConf['log']['type'] == 'file') {
             $message = ' ';
@@ -175,6 +190,10 @@ class OA
             $message = $tempDebugPrefix . $message;
         }
         $result = $oLogger->log($message, $priority);
+        // Restore the timezone
+        if (!is_null($aCurrentTimezone)) {
+            OA_setTimeZone($aCurrentTimezone['tz']);
+        }
         unset($GLOBALS['tempDebugPrefix']);
         return $result;
     }
