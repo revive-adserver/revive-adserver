@@ -53,6 +53,7 @@ class Migration_546 extends Migration
 
     var $aPrefMap = array(
                         'language'                          => array('name'=>'language','level'=>OA_ACCOUNT_TRAFFICKER),
+                        'company_name'                      => array('name'=>'company_name','level'=>OA_ACCOUNT_MANAGER),
                         'ui_week_start_day'                 => array('name'=>'begin_of_week','level'=>''),
                         'ui_percentage_decimals'            => array('name'=>'percentage_decimals','level'=>''),
                         'warn_admin'                        => array('name'=>'warn_admin','level'=>OA_ACCOUNT_ADMIN),
@@ -78,10 +79,14 @@ class Migration_546 extends Migration
                         'tracker_link_campaigns'            => array('name'=>'default_tracker_linkcampaigns','level'=>''),
                         );
 
+    var $aAppVar = array(
+                        'maintenance_timestamp',
+                        'maintenance_cron_timestamp',
+                        );
+
     var $aPrefDep = array(
                         'agencyid',
                         'config_version',
-                        'company_name',
                         'override_gd_imageformat',
                         'banner_html_auto',
                         'admin',
@@ -104,7 +109,7 @@ class Migration_546 extends Migration
                         'auto_clean_userlog_interval',
                         'auto_clean_tables_vacuum',
                         'autotarget_factor',
-                        'maintenance_timestamp',
+
                         'compact_stats',
                         'statslastday',
                         'statslasthour',
@@ -117,7 +122,6 @@ class Migration_546 extends Migration
                         'publisher_default_tax_id',
                         'publisher_default_approved',
                         'more_reports',
-                        'maintenance_cron_timestamp',
                         );
 
     var $tblAccounts;
@@ -125,6 +129,7 @@ class Migration_546 extends Migration
     var $tblAccPrefs;
 	var $tblPrefsOld;
     var $tblAgency;
+    var $tblAppVars;
 
     function Migration_546()
     {
@@ -155,6 +160,7 @@ class Migration_546 extends Migration
         $this->tblPrefsOld = $this->oDBH->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['preference'],true);
         $this->tblPrefsNew = $this->oDBH->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['preferences'],true);
         $this->tblAccPrefs = $this->oDBH->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['account_preference_assoc'],true);
+        $this->tblAppVars = $this->oDBH->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['application_variable'],true);
 
         // fetch the admin's current prefs
         $aPrefOldAdmin = $this->_getOldPreferencesAdmin();
@@ -166,13 +172,16 @@ class Migration_546 extends Migration
             $this->_mapOldPrefsToSettings($aPrefOldAdmin);
             // map the old prefs being migrated to new prefs
             $this->_mapOldPrefsToPrefs($aPrefOldAdmin);
-            // write settings to conf file
             if (!$this->_writeSettings())
             {
                 return false;
             }
+            if (!$this->_moveAppVars($aPrefOldAdmin))
+            {
+                return false;
+            }
             // use map to migrate admin prefs and settings
-            if (!$this->_movePreferencesAdmin())
+            if (!$this->_movePreferencesAdmin($aPrefOldAdmin))
             {
                 return false;
             }
@@ -205,7 +214,23 @@ class Migration_546 extends Migration
 	        $this->_logError('Failed to retrieve admin account record id for '.$key);
 	        return false;
 	    }
-        return $this->_insertPreferencesAdmin($accountId, $this->aPrefMap);
+        if (!$this->_insertPreferencesAdmin($accountId, $this->aPrefMap))
+        {
+            return false;
+        }
+        return true;
+	}
+
+	function _moveAppVars($aPrefOldAdmin)
+	{
+	    foreach ($this->aAppVar AS $name)
+	    {
+	        if (!$this->_insertApplicationVariable($name, $aPrefOldAdmin[$name]))
+	        {
+	            return false;
+	        }
+	    }
+	    return true;
 	}
 
 	function _movePreferencesAgency()
@@ -330,6 +355,26 @@ class Migration_546 extends Migration
 	    }
 	    return true;
 	}
+
+	function _insertApplicationVariable($name, $value)
+	{
+	    $name = $this->oDBH->quote($name);
+	    $value = $this->oDBH->quote($value);
+	    $query = "INSERT INTO
+	               {$this->tblAppVars}
+	               (name, value)
+	               VALUES
+	               ({$name},{$value})";
+
+  	    $result = $this->oDBH->Exec($query);
+
+	    if (PEAR::isError($result))
+	    {
+	        $this->_logError('Failed to insert application variable for '.$name);
+	        return false;
+	    }
+	    return true;
+    }
 
 	function _getPreferencesId($prefName)
 	{

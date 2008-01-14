@@ -49,6 +49,7 @@ class Migration_546Test extends MigrationTest
     var $tblAccounts;
     var $tblPrefsNew;
     var $tblAccPrefs;
+    var $tblAppVars;
 
     var $aPrefsOld = array(
                             'config_version' => 200.314,
@@ -185,6 +186,7 @@ class Migration_546Test extends MigrationTest
         $this->tblAccounts  = $this->oDbh->quoteIdentifier($prefix.$aConf['accounts'], true);
         $this->tblPrefsNew  = $this->oDbh->quoteIdentifier($prefix.$aConf['preferences'],true);
         $this->tblAccPrefs  = $this->oDbh->quoteIdentifier($prefix.$aConf['account_preference_assoc'],true);
+        $this->tblAppVars   = $this->oDbh->quoteIdentifier($prefix.$aConf['application_variable'],true);
 
         $this->_setupAccounts();
         $this->_setupPreferences();
@@ -312,6 +314,26 @@ class Migration_546Test extends MigrationTest
         TestEnv::restoreConfig();
     }
 
+    function testMigratePrefsToAppVars()
+    {
+        $query = "SELECT *
+                    FROM {$this->tblAppVars} AS av"
+                 ;
+        $aResults = $this->oDbh->queryAll($query, null, null, true);
+
+        $aAppVarExpectations['maintenance_timestamp']      =  $this->aPrefsOld['maintenance_timestamp'];
+        $aAppVarExpectations['maintenance_cron_timestamp'] =  $this->aPrefsOld['maintenance_cron_timestamp'];
+
+        foreach ($aAppVarExpectations as $name => $value)
+        {
+            $this->assertTrue(array_key_exists($name,$aResults));
+            if (array_key_exists($name,$aResults))
+            {
+                $this->assertEqual($value,$aAppVarExpectations[$name],'wrong value for '.$name);
+            }
+        }
+    }
+
     function testMigratePrefsToPrefs()
     {
         // Test 1 : Admin Prefs
@@ -341,7 +363,7 @@ class Migration_546Test extends MigrationTest
                     LEFT JOIN {$this->tblAgency} AS ag ON ag.account_id = a.account_id
                     WHERE ag.agencyid = 1"
                  ;
-        $aResults       = $this->oDbh->queryAll($query, null, null, true);
+        $aResults = $this->oDbh->queryAll($query, null, null, true);
 
         $aAgencyExpectations['default_banner_image_url'] =  array('value'=> 'http://www.custom_url.net');
         $aAgencyExpectations['default_banner_destination_url'] =  array('value'=> 'http://www.custom_dest.net');
@@ -358,6 +380,7 @@ class Migration_546Test extends MigrationTest
                 $this->assertEqual($aVals['type'],$aExpectations[$nameNew]['level'],'wrong level for '.$nameNew);
             }
         }
+
     }
 
     function testMigrateUsers()
@@ -730,6 +753,7 @@ class Migration_546Test extends MigrationTest
    {
     return array(
                 'language'=> array('value'=>$this->aPrefsOld['language'], 'level'=>OA_ACCOUNT_TRAFFICKER),
+                'company_name' => array('value'=>$this->aPrefsOld['company_name'],'level'=>OA_ACCOUNT_MANAGER),
                 'ui_week_start_day'=> array('value'=>$this->aPrefsOld['begin_of_week'], 'level'=>''),
                 'ui_percentage_decimals'=> array('value'=>$this->aPrefsOld['percentage_decimals'], 'level'=>''),
                 'warn_admin'=> array('value'=>$this->aPrefsOld['warn_admin'], 'level'=>OA_ACCOUNT_ADMIN),
