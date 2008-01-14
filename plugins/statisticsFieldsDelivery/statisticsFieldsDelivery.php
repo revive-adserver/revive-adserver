@@ -168,10 +168,8 @@ class Plugins_statisticsFieldsDelivery_statisticsFieldsDelivery extends MAX_Plug
             if (isset($v['pref'])) {
                 $var = $v['pref'];
                 if (isset($aPref[$var])) {
-                    if ($aPref[$var] == -1) {
+                    if ($aPref[$var]) {
                         $aColumns[$k] = !empty($v['rank']);
-                    } else {
-                        $aColumns[$k] = OA_Permission::isAccountTypeId($aPref[$var]);
                     }
                 }
             }
