@@ -40,7 +40,6 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
      * Returns an array of available timezones.
      *
      * @static
-     *
      * @param boolean $addBlank If set to true an empty entry will be added
      *                          to the beginning of the array.
      * @return array An array containing all the available timezones.
