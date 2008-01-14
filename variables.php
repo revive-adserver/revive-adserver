@@ -160,9 +160,7 @@ function OA_setTimeZoneUTC()
  */
 function OA_setTimeZoneLocal()
 {
-    $tz = !empty($GLOBALS['_MAX']['PREF']['timezone']) ?
-        $GLOBALS['_MAX']['PREF']['timezone'] :
-        'GMT';
+    $tz = !empty($GLOBALS['_MAX']['PREF']['timezone']) ? $GLOBALS['_MAX']['PREF']['timezone'] : 'GMT';
     OA_setTimeZone($tz);
 }
 
