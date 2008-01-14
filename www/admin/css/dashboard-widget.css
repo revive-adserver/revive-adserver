@@ -62,7 +62,6 @@ a:hover {
 }
 
 a.site-link  {
-    /*color: #00B0D8;*/
     color: #0767A8;
     font-weight: normal;
     text-decoration: none;
@@ -73,16 +72,16 @@ a.site-link:hover {
 }
 
 /* Widget unordered lists */
-ul .widgetList {
+ul.widgetList {
     color: #444444;
-    padding-left: 0px;    
-    margin: 0px;
+    margin-left: 0px; 
+    padding-left: 12px;
     margin-bottom: 10px;
-    list-style-image: url('../images/listIcon.gif');
+    list-style-image: url('../images/listIcon.gif');*/
+    list-style-position: outside;
 }
 
 .widgetList li {
-    margin-left: 12px;
     margin-bottom: 5px;
 }
 
@@ -93,16 +92,7 @@ ul .widgetList {
   overflow-x: hidden;
 }
 
-.widgetListWrapper ul li {
-  width: 100%;
-}
-
-.widgetListWrapper ul li {
-    margin-left: 12px;
-    margin-bottom: 5px;
-}
-
-.widgetListWrapper .widgetList li .title {
+.widgetList li .title {
     float: left;
     width: 72%;
     overflow: hidden;
@@ -111,19 +101,23 @@ ul .widgetList {
     text-overflow: ellipsis;
 }
 
-.widgetListWrapper .auditList li .title {
+.auditList li .title {
     width: 65%;
 }
 
-.widgetListWrapper .campaignList .started, .widgetListWrapper .campaignList .resumed {
+.campaignList li {
+	  width: 100%;
+}
+
+.campaignList .started, .widgetListWrapper .campaignList .resumed {
     color: green;
 }
 
-.widgetListWrapper .campaignList .finished {
+.campaignList .finished {
     color: red;
 }
 
-.widgetListWrapper .campaignList .added, .widgetListWrapper .campaignList .paused {
+.campaignList .added, .widgetListWrapper .campaignList .paused {
   color: #777777;
   font-style: italic;
 }

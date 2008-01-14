@@ -40,9 +40,9 @@ $Id$
 <body>
 
     {if $aCampaign|@count > 0}
-    <div class="listWrapper campaignOverview">
+    <div class="widgetListWrapper campaignOverview">
         <!-- normal view -->
-        <ul class="campaigns">
+        <ul class="widgetList campaignList">
            {foreach from=$aCampaign key=key item=aValue}
             <li><div class="title">{$aValue.campaignname}</div><div>{showStatusText status=$aValue.status an_status=$aValue.an_status}</div></li>
             {/foreach}
@@ -52,8 +52,8 @@ $Id$
     <!-- end of normal view -->
     {else}
     <!-- no campaigns view -->
-    <div class="widgetList">
-        <ul class="campaignList">
+    <div class="widgetListWrapper">
+        <ul class="widgetList campaignList">
             {t str=CampaignNoRecords}
         </ul>
     </div>

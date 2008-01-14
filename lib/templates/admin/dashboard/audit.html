@@ -61,14 +61,18 @@ $Id$
         <!-- end of normal view -->
     </div>
     {else}
-    <ul class="widgetList">
+    <div class="widgetListWrapper">
+      <ul class="widgetList">
         <li>{$noData}</li>
-    </ul>
+      </ul>
+    </div>
     {/if}
 {else}
-    <ul class="widgetList">
+    <div class="widgetListWrapper">
+      <ul class="widgetList">
         {t str=AuditTrailNotEnabled}
-    </ul>
+      </ul>
+    </div>
     <div><a class="site-link" href="{$siteUrl}" target="_blank">{$siteTitle}</a></div>
 {/if}
 </body>

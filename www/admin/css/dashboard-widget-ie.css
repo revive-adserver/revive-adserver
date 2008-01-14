@@ -1,6 +1,6 @@
 /**
  * Widgets
  */
-ul {
-    margin-left: 5px;    
+ul.widgetList {
+	padding-left: 16px;
 }
