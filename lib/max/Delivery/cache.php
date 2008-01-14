@@ -307,6 +307,26 @@ function MAX_cacheGetAd($ad_id, $cached = true)
 }
 
 /**
+ * Cache-wrapper for OA_Dal_Delivery_getAdminTZ()
+ *
+ * The function to retrieve admin's timezone
+ *
+ * @param boolean       $cached    Should a cache lookup be performed?
+ * @return string       $tz        The admin's TZ, UTC by default
+ */
+function MAX_cacheGetAdminTZ($cached = true)
+{
+    $sName  = OA_Delivery_Cache_getName(__FUNCTION__);
+    if (!$cached || ($tz = OA_Delivery_Cache_fetch($sName)) === false) {
+        MAX_Dal_Delivery_Include();
+        $tz = OA_Dal_Delivery_getAdminTZ();
+        $tz = OA_Delivery_Cache_store_return($sName, $tz);
+    }
+
+    return $tz;
+}
+
+/**
  * Cache-wrapper for OA_Dal_Delivery_getZoneLinkedAds()
  *
  * The function to get and return the ads linked to a zone

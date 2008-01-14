@@ -63,7 +63,11 @@ function MAX_limitationsCheckAcl($row, $source = '')
             }
         }
         $GLOBALS['_MAX']['CHANNELS'] = '';
+        // Set the ad's own timezone as preference, because some limitations require to be TZ aware
+        $GLOBALS['_MAX']['PREF']['timezone'] = $row['timezone'];
         @eval('$result = (' . $row['compiledlimitation'] . ');');
+        // Reset timezone
+        unset($GLOBALS['_MAX']['PREF']['timezone']);
         if (!$result)
         {
             unset($GLOBALS['_MAX']['CHANNELS']);

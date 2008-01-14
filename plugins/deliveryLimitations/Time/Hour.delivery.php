@@ -48,7 +48,7 @@ function MAX_checkTime_Hour($limitation, $op, $aParams = array())
         return true;
     }
     OA_setTimeZoneLocal();
-    if ($GLOBALS['is_simulation']) {
+    if (!empty($GLOBALS['is_simulation'])) {
         $oServiceLocator =& OA_ServiceLocator::instance();
         $oNow = $oServiceLocator->get('now');
         $time = (int)$oNow->getHour();

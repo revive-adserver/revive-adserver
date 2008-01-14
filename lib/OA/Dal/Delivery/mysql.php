@@ -120,6 +120,42 @@ function OA_Dal_Delivery_insertId($database = 'database', $table = '', $column =
 
 
 /**
+ * The function to retrieve admin's timezone
+ *
+ * @return string The admin's TZ, UTC by default
+ */
+function OA_Dal_Delivery_getAdminTZ()
+{
+    $aConf = $GLOBALS['_MAX']['CONF'];
+
+    $query = "
+        SELECT
+            apa.value AS timezone
+        FROM
+            {$aConf['table']['prefix']}{$aConf['table']['preferences']} AS p,
+            {$aConf['table']['prefix']}{$aConf['table']['account_preference_assoc']} AS apa,
+            {$aConf['table']['prefix']}{$aConf['table']['application_variable']} AS av
+        WHERE
+            p.preference_id = apa.preference_id AND
+            p.preference_name = 'timezone' AND
+            av.name = 'admin_account_id' AND
+            apa.account_id = av.value
+    ";
+
+    $res = OA_Dal_Delivery_query($query);
+
+    if (is_resource($res) && mysql_num_rows($res)) {
+        $tz = mysql_result($res, 0, 0);
+
+        if (!empty($tz)) {
+            return $tz;
+        }
+    }
+
+    return 'UTC';
+}
+
+/**
  * This function gets zone properties from the databse
  *
  * @param int $zoneid   The ID of the zone to get information about
@@ -425,17 +461,18 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
             c.companion AS campaign_companion,
             c.block AS block_campaign,
             c.capping AS cap_campaign,
-            c.session_capping AS session_cap_campaign
+            c.session_capping AS session_cap_campaign,
+            apa.value AS timezone
         FROM
-            {$conf['table']['prefix']}{$conf['table']['banners']} AS d,
-            {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']} AS az,
-            {$conf['table']['prefix']}{$conf['table']['campaigns']} AS c
+            {$conf['table']['prefix']}{$conf['table']['banners']} AS d JOIN
+            {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']} AS az ON (d.bannerid = az.ad_id) JOIN
+            {$conf['table']['prefix']}{$conf['table']['campaigns']} AS c ON (c.campaignid = d.campaignid) JOIN
+            {$conf['table']['prefix']}{$conf['table']['clients']} AS m ON (m.clientid = c.clientid) JOIN
+            {$conf['table']['prefix']}{$conf['table']['agency']} AS a ON (a.agencyid = m.agencyid) LEFT JOIN
+            {$conf['table']['prefix']}{$conf['table']['account_preference_assoc']} AS apa ON (apa.account_id = a.account_id) LEFT JOIN
+            {$conf['table']['prefix']}{$conf['table']['preferences']} AS p ON (apa.preference_id = p.preference_id AND p.preference_name = 'timezone')
         WHERE
             az.zone_id = {$zoneid}
-          AND
-            d.bannerid = az.ad_id
-          AND
-            c.campaignid = d.campaignid
           AND
             d.status = 0
           AND
@@ -451,7 +488,19 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
             return null;
         }
     }
+
+    // Get Admin TZ
+    $adminTZ = MAX_cacheGetAdminTZ();
+
+    $aRows['count_active'] = 0;
+    $totals = array();
+    $totals['xAds'] = 0;
+    $totals['lAds'] = 0;
     while ($aAd = mysql_fetch_assoc($rAds)) {
+        // Add timezone
+        if (empty($aAd['timezone'])) {
+            $aAd['timezone'] = $adminTZ;
+        }
         // Is the ad Exclusive, Low, or Normal Priority?
         if ($aAd['campaign_priority'] == -1) {
             // Ad is in an exclusive placement
@@ -538,11 +587,19 @@ function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = tru
             return null;
         }
     }
+
+    // Get Admin TZ
+    $adminTZ = MAX_cacheGetAdminTZ();
+
     $aRows['count_active'] = 0;
     $totals = array();
     $totals['xAds'] = 0;
     $totals['lAds'] = 0;
     while ($aAd = mysql_fetch_assoc($rAds)) {
+        // Add timezone
+        if (empty($aAd['timezone'])) {
+            $aAd['timezone'] = $adminTZ;
+        }
         // Is the ad Exclusive, Low, or Normal Priority?
         if ($aAd['campaign_priority'] == -1) {
             // Ad is in an exclusive placement
@@ -1270,20 +1327,19 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
             'm.companion AS campaign_companion',
             'm.block AS block_campaign',
             'm.capping AS cap_campaign',
-            'm.session_capping AS session_cap_campaign'
+            'm.session_capping AS session_cap_campaign',
+            'apa.value AS timezone'
     );
 
     $aTables = array(
-        $conf['table']['prefix'].$conf['table']['banners'] . ' AS d',
-        $conf['table']['prefix'].$conf['table']['campaigns'] . ' AS m',
-        $conf['table']['prefix'].$conf['table']['ad_zone_assoc'] . ' AS az'
+        "{$conf['table']['prefix']}{$conf['table']['banners']} AS d",
+        "JOIN {$conf['table']['prefix']}{$conf['table']['campaigns']} AS m ON (d.campaignid = m.campaignid) ",
+        "JOIN {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']} AS az ON (d.bannerid = az.ad_id)"
     );
     $select = "
-        d.bannerid=az.ad_id
-      AND az.zone_id=0
-      AND d.campaignid=m.campaignid
-      AND m.status=0
-      AND d.status=0";
+      az.zone_id = 0
+      AND m.status = 0
+      AND d.status = 0";
 
     // Add preconditions to query
     if ($precondition != '')
@@ -1517,7 +1573,7 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
 
                     $onlykeywords = false;
                 }
-
+/*
                 // Categories
                 elseif (substr($part_array[$k], 0, 4) == 'cat:')
                 {
@@ -1535,7 +1591,7 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
                             $conditions .= "AND d.bannerid=ac.ad_id AND ac.category_id=cat.category_id ";
                     }
                 }
-
+*/
                 // Keywords
                 else
                 {
@@ -1561,9 +1617,16 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
     }
 
     $columns = implode(",\n    ", $aColumns);
-    $tables = implode(",\n    ", $aTables);
+    $tables = implode("\n    ", $aTables);
 
-    $query = "SELECT\n    " . $columns . "\nFROM\n    " . $tables . "\nWHERE " . $select;
+    $leftJoin = "
+            JOIN {$conf['table']['prefix']}{$conf['table']['clients']} AS c ON (c.clientid = m.clientid)
+            JOIN {$conf['table']['prefix']}{$conf['table']['agency']} AS a ON (a.agencyid = c.agencyid)
+            LEFT JOIN {$conf['table']['prefix']}{$conf['table']['account_preference_assoc']} AS apa ON (apa.account_id = a.account_id)
+            LEFT JOIN {$conf['table']['prefix']}{$conf['table']['preferences']} AS p ON (apa.preference_id = p.preference_id AND p.preference_name = 'timezone')
+    ";
+
+    $query = "SELECT\n    " . $columns . "\nFROM\n    " . $tables . $leftJoin . "\nWHERE " . $select;
 
     return $query;
 }
