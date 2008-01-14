@@ -72,7 +72,7 @@ OA_Start();
 
 // Load the account's preferences
 OA_Preferences::loadPreferences();
-$pref = $GLOBALS['_MAX']['CONF'];
+$pref = $GLOBALS['_MAX']['PREF'];
 
 // Set time zone to local
 OA_setTimeZoneLocal();
