@@ -25,6 +25,8 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/max/Delivery/cache.php';
+
 /**
  * The mysql data access layer code the delivery engine.
  *
@@ -466,8 +468,8 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
         FROM
             {$conf['table']['prefix']}{$conf['table']['banners']} AS d JOIN
             {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']} AS az ON (d.bannerid = az.ad_id) JOIN
-            {$conf['table']['prefix']}{$conf['table']['campaigns']} AS c ON (c.campaignid = d.campaignid) JOIN
-            {$conf['table']['prefix']}{$conf['table']['clients']} AS m ON (m.clientid = c.clientid) JOIN
+            {$conf['table']['prefix']}{$conf['table']['campaigns']} AS c ON (c.campaignid = d.campaignid) LEFT JOIN
+            {$conf['table']['prefix']}{$conf['table']['clients']} AS m ON (m.clientid = c.clientid) LEFT JOIN
             {$conf['table']['prefix']}{$conf['table']['agency']} AS a ON (a.agencyid = m.agencyid) LEFT JOIN
             {$conf['table']['prefix']}{$conf['table']['account_preference_assoc']} AS apa ON (apa.account_id = a.account_id) LEFT JOIN
             {$conf['table']['prefix']}{$conf['table']['preferences']} AS p ON (apa.preference_id = p.preference_id AND p.preference_name = 'timezone')
@@ -492,10 +494,6 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
     // Get Admin TZ
     $adminTZ = MAX_cacheGetAdminTZ();
 
-    $aRows['count_active'] = 0;
-    $totals = array();
-    $totals['xAds'] = 0;
-    $totals['lAds'] = 0;
     while ($aAd = mysql_fetch_assoc($rAds)) {
         // Add timezone
         if (empty($aAd['timezone'])) {
@@ -576,6 +574,23 @@ function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = tru
         $precondition = '';
     }
 
+    $aRows['xAds']  = array();
+    $aRows['cAds']  = array();
+    $aRows['clAds'] = array();
+    $aRows['ads']   = array();
+    $aRows['lAds']  = array();
+    $aRows['count_active'] = 0;
+    $aRows['zone_companion'] = false;
+    $aRows['count_active'] = 0;
+
+    $totals = array(
+        'xAds'  => 0,
+        'cAds'  => 0,
+        'clAds' => 0,
+        'ads'   => 0,
+        'lAds'  => 0
+    );
+
     $query = OA_Dal_Delivery_buildQuery($search, $lastpart, $precondition);
 
     $rAds = OA_Dal_Delivery_query($query);
@@ -591,10 +606,6 @@ function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = tru
     // Get Admin TZ
     $adminTZ = MAX_cacheGetAdminTZ();
 
-    $aRows['count_active'] = 0;
-    $totals = array();
-    $totals['xAds'] = 0;
-    $totals['lAds'] = 0;
     while ($aAd = mysql_fetch_assoc($rAds)) {
         // Add timezone
         if (empty($aAd['timezone'])) {
@@ -1620,8 +1631,8 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
     $tables = implode("\n    ", $aTables);
 
     $leftJoin = "
-            JOIN {$conf['table']['prefix']}{$conf['table']['clients']} AS c ON (c.clientid = m.clientid)
-            JOIN {$conf['table']['prefix']}{$conf['table']['agency']} AS a ON (a.agencyid = c.agencyid)
+            LEFT JOIN {$conf['table']['prefix']}{$conf['table']['clients']} AS c ON (c.clientid = m.clientid)
+            LEFT JOIN {$conf['table']['prefix']}{$conf['table']['agency']} AS a ON (a.agencyid = c.agencyid)
             LEFT JOIN {$conf['table']['prefix']}{$conf['table']['account_preference_assoc']} AS apa ON (apa.account_id = a.account_id)
             LEFT JOIN {$conf['table']['prefix']}{$conf['table']['preferences']} AS p ON (apa.preference_id = p.preference_id AND p.preference_name = 'timezone')
     ";
