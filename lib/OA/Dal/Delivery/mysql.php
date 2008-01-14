@@ -235,16 +235,6 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
     // Search for possible default banner preference information for the zone
     $query = "
         SELECT
-            'default_banner_image_url_trafficker' AS item,
-            apa.value AS value
-        FROM
-            {$aConf['table']['prefix']}{$aConf['table']['account_preference_assoc']} AS apa
-        WHERE
-            apa.account_id = {$aZoneInfo['trafficker_account_id']}
-            AND
-            apa.preference_id = $default_banner_image_url_id
-        UNION
-        SELECT
             'default_banner_destination_url_trafficker' AS item,
             apa.value AS value
         FROM
@@ -255,16 +245,6 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
             apa.preference_id = $default_banner_destination_url_id
         UNION
         SELECT
-            'default_banner_image_url_manager' AS item,
-            apa.value AS value
-        FROM
-            {$aConf['table']['prefix']}{$aConf['table']['account_preference_assoc']} AS apa
-        WHERE
-            apa.account_id = {$aZoneInfo['manager_account_id']}
-            AND
-            apa.preference_id = $default_banner_image_url_id
-        UNION
-        SELECT
             'default_banner_destination_url_manager' AS item,
             apa.value AS value
         FROM
@@ -273,6 +253,26 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
             apa.account_id = {$aZoneInfo['manager_account_id']}
             AND
             apa.preference_id = $default_banner_destination_url_id
+        UNION
+        SELECT
+            'default_banner_image_url_trafficker' AS item,
+            apa.value AS value
+        FROM
+            {$aConf['table']['prefix']}{$aConf['table']['account_preference_assoc']} AS apa
+        WHERE
+            apa.account_id = {$aZoneInfo['trafficker_account_id']}
+            AND
+            apa.preference_id = $default_banner_image_url_id
+        UNION
+        SELECT
+            'default_banner_image_url_manager' AS item,
+            apa.value AS value
+        FROM
+            {$aConf['table']['prefix']}{$aConf['table']['account_preference_assoc']} AS apa
+        WHERE
+            apa.account_id = {$aZoneInfo['manager_account_id']}
+            AND
+            apa.preference_id = $default_banner_image_url_id
         UNION
         SELECT
             'default_banner_image_url_admin' AS item,
