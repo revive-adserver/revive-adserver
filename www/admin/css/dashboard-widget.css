@@ -105,6 +105,11 @@ ul.widgetList {
     width: 65%;
 }
 
+.auditList li .date {
+    font-weight: bold;
+}
+
+
 .campaignList li {
 	  width: 100%;
 }
