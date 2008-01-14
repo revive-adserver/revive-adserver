@@ -344,7 +344,7 @@ $GLOBALS['strDeleteAllCampaigns']           = "Delete all campaigns";
 $GLOBALS['strLinkedCampaigns']              = "Linked campaigns";
 $GLOBALS['strCampaignStats']                = "Campaign statistics";
 $GLOBALS['strCampaignProperties']           = "Campaign properties";
-$GLOBALS['strCampaignOverview']             = "Campaign overview";
+$GLOBALS['strCampaignOverview']             = "Campaign Overview";
 $GLOBALS['strCampaignHistory']              = "Campaign history";
 $GLOBALS['strNoCampaigns']                  = "There are currently no active campaigns defined";
 $GLOBALS['strConfirmDeleteAllCampaigns']    = "Do you really want to delete all campaigns owned by this advertiser?";
@@ -1109,7 +1109,6 @@ $GLOBALS['strAuditNoData']            = "No user activity has been recorded duri
 $GLOBALS['strAuditTrail']             = "Audit Trail";
 
 // Widget - Campaign
-$GLOBALS['strCampaignOverviw']          = 'Campaign Overview';
 $GLOBALS['strCampaignGoTo']             = 'Go to Campaigns page';
 $GLOBALS['strCampaignSetUp']            = 'Set up a Campaign today';
 $GLOBALS['strCampaignNoRecords']        = '<li>Campaigns let you group together any number of banner ads, of any size, that share common advertising requirements</li>
