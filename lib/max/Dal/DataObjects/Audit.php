@@ -43,6 +43,7 @@ class DataObjects_Audit extends DB_DataObjectCommon
     var $__table = 'audit';                           // table name
     var $auditid;                         // int(9)  not_null primary_key auto_increment
     var $actionid;                        // int(9)  not_null
+    var $account_id;                      // int(9)  not_null
     var $context;                         // string(255)  not_null multiple_key
     var $contextid;                       // int(9)  
     var $parentid;                        // int(9)  multiple_key
