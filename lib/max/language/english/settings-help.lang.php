@@ -456,7 +456,7 @@ $GLOBALS['phpAds_hlp_admin_email'] = "
 
 $GLOBALS['phpAds_hlp_admin_novice'] = "
         If you want to recieve a warning before deleting advertisers, campaigns, banners,
-		publishers and zones; set this option to true.
+		websites and zones; set this option to true.
 		";
 
 $GLOBALS['phpAds_hlp_client_welcome'] = "

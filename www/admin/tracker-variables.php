@@ -482,9 +482,9 @@ if (isset($trackerid) && $trackerid != '')
                                         echo "<tr>\n";
                                             echo "<td>". 'Variable hidden to' ."</td>\n";
                                             echo "<td><select name='visibility".$k."' id='visibility".$k."' onchange='m3_updateVisibility()'>\n";
-                                            echo "<option ".($v['hidden'] != 't' && !count($v['publisher_hidden']) ? 'selected ' : '')."value='none'>". 'No publishers' ."</option>\n";
-                                            echo "<option ".(count($v['publisher_visible']) || count($v['publisher_hidden']) ? 'selected ' : '')."value='some'>". 'Some publishers' ."</option>\n";
-                                            echo "<option ".($v['hidden'] == 't' && !count($v['publisher_visible'])  ? 'selected ' : '')."value='all'>". 'All publishers' ."</option>\n";
+                                            echo "<option ".($v['hidden'] != 't' && !count($v['publisher_hidden']) ? 'selected ' : '')."value='none'>". 'No websites' ."</option>\n";
+                                            echo "<option ".(count($v['publisher_visible']) || count($v['publisher_hidden']) ? 'selected ' : '')."value='some'>". 'Some websites' ."</option>\n";
+                                            echo "<option ".($v['hidden'] == 't' && !count($v['publisher_visible'])  ? 'selected ' : '')."value='all'>". 'All websites' ."</option>\n";
                                             echo "</select></td>\n";
                                         echo "</tr>\n";
                                         echo "<tr class='customvisibility".$k."'><td colspan='2'>&nbsp;</td></tr>\n";

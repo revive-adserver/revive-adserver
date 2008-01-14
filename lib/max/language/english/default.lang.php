@@ -366,7 +366,7 @@ $GLOBALS['strHiddenCampaign']               = "Campaign";
 $GLOBALS['strHiddenAd']                     = "Advertisement";
 $GLOBALS['strHiddenAdvertiser']             = "Advertiser";
 $GLOBALS['strHiddenTracker']                = "Tracker";
-$GLOBALS['strHiddenPublisher']              = "Publisher";
+$GLOBALS['strHiddenWebsite']              = "Website";
 $GLOBALS['strHiddenZone']                   = "Zone";
 $GLOBALS['strUnderdeliveringCampaigns']     = "Underdelivering Campaigns";
 $GLOBALS['strCampaignDelivery']             = "Campaign delivery";
@@ -397,7 +397,7 @@ $GLOBALS['strConversionsBooked']         = "Conversions Booked";
 $GLOBALS['strCampaignWeight']            = "None - Set the campaign weight to";
 $GLOBALS['strTargetLimitAdImpressions'] = "Target Limit Ad Impressions";
 $GLOBALS['strOptimise']                    = "Optimise delivery of this campaign.";
-$GLOBALS['strAnonymous']                = "Hide the advertiser and publisher of this campaign.";
+$GLOBALS['strAnonymous']                = "Hide the advertiser and websites of this campaign.";
 $GLOBALS['strHighPriority']                = "Show banners in this campaign with high priority.<br />If you use this option ".MAX_PRODUCT_NAME." will try to distribute the number of Impressions evenly over the course of the day.";
 $GLOBALS['strLowPriority']                = "Show banner in this campaign with low priority.<br /> This campaign is used to show the left over Impressions which aren't used by high priority campaigns.";
 $GLOBALS['strTargetPerDay']                = "per day.";
@@ -636,29 +636,29 @@ $GLOBALS['strCappingZone'] = array();
 $GLOBALS['strCappingZone']['title'] = $GLOBALS['strDeliveryCapping'];
 $GLOBALS['strCappingZone']['limit'] = 'Limit zone views to:';
 
-// Publisher
-$GLOBALS['strAffiliate']                = "Publisher";
-$GLOBALS['strAffiliates']                 = "Publishers";
-$GLOBALS['strAffiliatesAndZones']        = "Publishers & Zones";
-$GLOBALS['strAddNewAffiliate']            = "Add new publisher";
-$GLOBALS['strAddNewAffiliate_Key']        = "Add <u>n</u>ew publisher";
-$GLOBALS['strAddAffiliate']                = "Create publisher";
-$GLOBALS['strAffiliateProperties']        = "Publisher properties";
-$GLOBALS['strAffiliateOverview']        = "Publisher overview";
-$GLOBALS['strAffiliateHistory']            = "Publisher history";
-$GLOBALS['strZonesWithoutAffiliate']    = "Zones without publisher";
-$GLOBALS['strMoveToNewAffiliate']        = "Move to new publisher";
-$GLOBALS['strNoAffiliates']                = "There are currently no publishers defined";
-$GLOBALS['strConfirmDeleteAffiliate']    = "Do you really want to delete this publisher?";
-$GLOBALS['strMakePublisherPublic']        = "Make the zones owned by this publisher publically available";
+// Website
+$GLOBALS['strAffiliate']                = "Website";
+$GLOBALS['strAffiliates']                 = "Websites";
+$GLOBALS['strAffiliatesAndZones']        = "Websites & Zones";
+$GLOBALS['strAddNewAffiliate']            = "Add new website";
+$GLOBALS['strAddNewAffiliate_Key']        = "Add <u>n</u>ew website";
+$GLOBALS['strAddAffiliate']                = "Create website";
+$GLOBALS['strAffiliateProperties']        = "Website properties";
+$GLOBALS['strAffiliateOverview']        = "Website overview";
+$GLOBALS['strAffiliateHistory']            = "Website history";
+$GLOBALS['strZonesWithoutAffiliate']    = "Zones without website";
+$GLOBALS['strMoveToNewAffiliate']        = "Move to new website";
+$GLOBALS['strNoAffiliates']                = "There are currently no websites defined";
+$GLOBALS['strConfirmDeleteAffiliate']    = "Do you really want to delete this website?";
+$GLOBALS['strMakePublisherPublic']        = "Make the zones owned by this website publically available";
 $GLOBALS['strAffiliateInvocation']      = 'Invocation Code';
 $GLOBALS['strAdvertiserSetup']          = 'Advertiser Sign Up';
-$GLOBALS['strTotalAffiliates']          = 'Total publishers';
-$GLOBALS['strInactiveAffiliatesHidden'] = "inactive publisher(s) hidden";
-$GLOBALS['strShowParentAffiliates']     = "Show parent publishers";
-$GLOBALS['strHideParentAffiliates']     = "Hide parent publishers";
+$GLOBALS['strTotalAffiliates']          = 'Total websites';
+$GLOBALS['strInactiveAffiliatesHidden'] = "inactive website(s) hidden";
+$GLOBALS['strShowParentAffiliates']     = "Show parent websites";
+$GLOBALS['strHideParentAffiliates']     = "Hide parent websites";
 
-// Publisher (properties)
+// Website (properties)
 $GLOBALS['strWebsite']                      = "Website";
 $GLOBALS['strMnemonic']                     = "Mnemonic";
 $GLOBALS['strAllowAffiliateModifyInfo']     = "Allow this user to modify his own settings";
@@ -670,7 +670,7 @@ $GLOBALS['strAllowAffiliateGenerateCode']   = "Allow this user to generate invoc
 $GLOBALS['strAllowAffiliateZoneStats']      = "Allow this user to view zone statistics";
 $GLOBALS['strAllowAffiliateApprPendConv']   = "Allow this user to only view approved or pending conversions";
 
-// Publisher (properties - payment information)
+// Website (properties - payment information)
 $GLOBALS['strPaymentInformation']           = "Payment information";
 $GLOBALS['strAddress']                      = "Address";
 $GLOBALS['strPostcode']                     = "Postcode";
@@ -686,7 +686,7 @@ $GLOBALS['strPaymentChequeByPost']          = "Cheque by post";
 $GLOBALS['strCurrency']                     = "Currency";
 $GLOBALS['strCurrencyGBP']                  = "GBP";
 
-// Publisher (properties - other information)
+// Website (properties - other information)
 $GLOBALS['strOtherInformation']             = "Other information";
 $GLOBALS['strUniqueUsersMonth']             = "Unique users/month";
 $GLOBALS['strUniqueViewsMonth']             = "Unique views/month";
@@ -778,7 +778,7 @@ $GLOBALS['strSelectCampaignToLink']        = "Select the campaign you would like
 $GLOBALS['strSelectAdvertiser']         = 'Select Advertiser';
 $GLOBALS['strSelectPlacement']          = 'Select Campaign';
 $GLOBALS['strSelectAd']                 = 'Select Banner';
-$GLOBALS['strSelectPublisher']          = "Select Publisher";
+$GLOBALS['strSelectPublisher']          = "Select Website";
 $GLOBALS['strSelectZone']               = "Select Zone";
 $GLOBALS['strTrackerCode']              = 'Append the following code to each Javascript tracker impression';
 $GLOBALS['strTrackerCodeSubject']          = 'Append tracker code';
@@ -812,7 +812,7 @@ $GLOBALS['strCreditStats']               = "Credit statistics";
 $GLOBALS['strDetailStats']               = "Detailed statistics";
 $GLOBALS['strTotalThisPeriod']           = "Total this period";
 $GLOBALS['strAverageThisPeriod']         = "Average this period";
-$GLOBALS['strPublisherDistribution']     = "Publisher distribution";
+$GLOBALS['strPublisherDistribution']     = "Website distribution";
 $GLOBALS['strCampaignDistribution']      = "Campaign distribution";
 $GLOBALS['strDistributionBy']            = "Distribution by";
 $GLOBALS['strOptimise']                  = "Optimise";
@@ -865,7 +865,7 @@ $GLOBALS['strReports']                = "Reports";
 $GLOBALS['strAdminReports']           = "Admin Reports";
 $GLOBALS['strAdvertiserReports']      = "Advertiser Reports";
 $GLOBALS['strAgencyReports']          = "Agency Reports";
-$GLOBALS['strPublisherReports']       = "Publisher Reports";
+$GLOBALS['strPublisherReports']       = "Website Reports";
 $GLOBALS['strSelectReport']           = "Select the report you want to generate";
 $GLOBALS['strStartDate']              = "Start Date";
 $GLOBALS['strEndDate']                = "End Date";
@@ -874,8 +874,8 @@ $GLOBALS['strNoData']                 = "There is no data available for this tim
 // Admin_UI_Fields
 $GLOBALS['strAllAdvertisers']            = "All advertisers";
 $GLOBALS['strAnonAdvertisers']           = "Anonymous advertisers";
-$GLOBALS['strAllPublishers']             = "All publishers";
-$GLOBALS['strAnonPublishers']            = "Anonymous publishers";
+$GLOBALS['strAllPublishers']             = "All websites";
+$GLOBALS['strAnonPublishers']            = "Anonymous websites";
 $GLOBALS['strAllAvailZones']             = "All available zones";
 
 // Userlog
@@ -1052,7 +1052,7 @@ $GLOBALS['strString']                 = "String";
 $GLOBALS['strTrackFollowingVars']     = "Track the following variable";
 $GLOBALS['strAddVariable']             = "Add Variable";
 $GLOBALS['strNoVarsToTrack']         = "No Variables to track.";
-$GLOBALS['strVariableHidden']       = "Hide variable to publishers?";
+$GLOBALS['strVariableHidden']       = "Hide variable to websites?";
 $GLOBALS['strVariableRejectEmpty']  = "Reject if empty?";
 $GLOBALS['strTrackingSettings']     = "Tracking settings";
 $GLOBALS['strTrackerType']          = "Tracker type";

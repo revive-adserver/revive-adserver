@@ -473,7 +473,7 @@ $GLOBALS['strMoveToNewAffiliate']		= "P�esunout k nov�mu vydavateli";
 $GLOBALS['strNoAffiliates']			= "V tuto chv�li nejsou zad�ni ��dn� vydavatel�";
 $GLOBALS['strConfirmDeleteAffiliate']		= "Opravdu si p�ejete smazat tohoto vydavatele?";
 $GLOBALS['strMakePublisherPublic']		= "Z�ny tohoto vydavatele nastavit jako ve�ejn�";
-$GLOBALS['strHiddenPublisher']			= "Skryt� vydavatel";
+$GLOBALS['strHiddenWebsite']			= "Skryt� vydavatel";
 $GLOBALS['strAffiliateInvocation']		= "Zobrazovac� k�d";
 $GLOBALS['strTotalAffiliates']			= "Celkem vydavatel�";
 

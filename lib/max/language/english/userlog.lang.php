@@ -56,7 +56,7 @@ $GLOBALS['strUpdate']                       = "Update";
 $GLOBALS['strHas']                          = "has";
 $GLOBALS['strFilters']                      = "Filters";
 $GLOBALS['strAdvertiser']                   = "Advertiser";
-$GLOBALS['strPublisher']                    = "Publisher";
+$GLOBALS['strPublisher']                    = "Website";
 $GLOBALS['strCampaign']                     = "Campaign";
 $GLOBALS['strZone']                         = "Zone";
 $GLOBALS['strType']                         = "Type";
@@ -79,7 +79,7 @@ $GLOBALS['strUserlog'] = array (
 	phpAds_actionDeactivationMailed			=> "Deactivation notification for campaign {id} send by email",
 	phpAds_actionDeactiveCampaign			=> "Campaign {id} deactivated",
 	phpAds_actionPriorityCalculation		=> "Priority recalculated",
-	phpAds_actionPublisherReportMailed 		=> "Report for publisher {id} send by email",
+	phpAds_actionPublisherReportMailed 		=> "Report for website {id} send by email",
 	phpAds_actionWarningMailed				=> "Deactivation warning for campaign {id} send by email"
 );
 

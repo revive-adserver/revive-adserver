@@ -282,7 +282,7 @@ function MAX_getPublisherName($publisherName, $length = null, $anonymous = false
     $name = $GLOBALS['strUntitled'];
     if (!empty($publisherName)) $name = $publisherName;
     if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) && $anonymous) {
-        $name = $GLOBALS['strHiddenPublisher'];
+        $name = $GLOBALS['strHiddenWebsite'];
         if (!empty($id)) {
             $name = $name . ' ' . $id;
         }

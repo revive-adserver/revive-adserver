@@ -92,7 +92,7 @@ MAX_displayNavigationPublisher($pageName, $aOtherPublishers, $aEntities);
 <?php
 if (!$doAffiliates->an_website_id) {
 ?>
-This Publisher is not subscribed to Ad Networks.
+This Website is not subscribed to Ad Networks.
 <?php
 } else { ?>
 

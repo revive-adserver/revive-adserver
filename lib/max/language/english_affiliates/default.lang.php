@@ -91,18 +91,18 @@ $GLOBALS['strOptimise']                     = "Optimise delivery of this program
 $GLOBALS['strAnonymous']                    = "Hide the merchant and affiliate of this program.";
 $GLOBALS['strHighPriority']                 = "Show banners in this program with high priority.<br />If you use this option ".MAX_PRODUCT_NAME." will try to distribute the number of Impressions evenly over the course of the day.";
 $GLOBALS['strLowPriority']                  = "Show banner in this campaign with low priority.<br /> This campaign is used to show the left over Impressions which aren't used by high priority programs.";
-$GLOBALS['strCampaignWarningNoWeight']      = "The priority of this campaign has been set to low, 
-but the weight is set to zero or it has not been 
-specified. This will cause the program to be 
-deactivated and its banners won't be delivered 
-until the weight has been set to a valid number. 
+$GLOBALS['strCampaignWarningNoWeight']      = "The priority of this campaign has been set to low,
+but the weight is set to zero or it has not been
+specified. This will cause the program to be
+deactivated and its banners won't be delivered
+until the weight has been set to a valid number.
 
 Are you sure you want to continue?";
-$GLOBALS['strCampaignWarningNoTarget']      = "The priority of this campaign has been set to high, 
-but the target number of Impressions are not specified. 
-This will cause the program to be deactivated and 
-its banners won't be delivered until a valid target 
-number of Impressions has been set. 
+$GLOBALS['strCampaignWarningNoTarget']      = "The priority of this campaign has been set to high,
+but the target number of Impressions are not specified.
+This will cause the program to be deactivated and
+its banners won't be delivered until a valid target
+number of Impressions has been set.
 
 Are you sure you want to continue?";
 $GLOBALS['strConfirmDeleteAllTrackers']     = "Do you really want to delete all trackers owned by this merchant?";
@@ -124,7 +124,7 @@ $GLOBALS['strMoveToNewAffiliate']           = "Move to new affiliate";
 $GLOBALS['strNoAffiliates']                 = "There are currently no affiliates defined";
 $GLOBALS['strConfirmDeleteAffiliate']       = "Do you really want to delete this affiliate?";
 $GLOBALS['strMakePublisherPublic']          = "Make the zones owned by this affiliate publically available";
-$GLOBALS['strHiddenPublisher']              = 'Affiliate';
+$GLOBALS['strHiddenWebsite']                = 'Affiliate';
 $GLOBALS['strTotalAffiliates']              = 'Total affiliates';
 $GLOBALS['strInactiveAffiliatesHidden']     = "inactive affiliate(s) hidden";
 $GLOBALS['strShowParentAffiliates']         = "Show parent affiliates";

@@ -378,7 +378,7 @@ $GLOBALS['strDefaultBannerWErr']                     = 'Default banner weight sh
 $GLOBALS['strDefaultCampaignWErr']                   = 'Default campaign weight should be a positive integer';
 $GLOBALS['strConfirmationUI']                        = 'Confirmation in User Interface';
 
-$GLOBALS['strPublisherDefaults']                     = 'Publisher defaults';
+$GLOBALS['strPublisherDefaults']                     = 'Website defaults';
 $GLOBALS['strModesOfPayment']                        = 'Modes of payment';
 $GLOBALS['strCurrencies']                            = 'Currencies';
 $GLOBALS['strCategories']                            = 'Categories';
@@ -486,8 +486,8 @@ $GLOBALS['strReportsInterface']                      = 'Reports Interface';
 $GLOBALS['strClientWelcomeEnabled']                  = 'Enable Advertiser Welcome Message';
 $GLOBALS['strClientWelcomeText']                     = 'Welcome Text<br />(HTML Tags Allowed)';
 
-$GLOBALS['strPublisherInterface']                    = 'Publisher interface';
-$GLOBALS['strPublisherAgreementEnabled']             = 'Enable login control for publishers who haven\'t accepted Terms and Conditions';
+$GLOBALS['strPublisherInterface']                    = 'Website interface';
+$GLOBALS['strPublisherAgreementEnabled']             = 'Enable login control for websites who haven\'t accepted Terms and Conditions';
 $GLOBALS['strPublisherAgreementText']                = 'Login text (HTML tags allowed)';
 
 
