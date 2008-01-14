@@ -265,9 +265,9 @@ class Migration_546Test extends MigrationTest
             {
                 $v = 'http://www.custom_dest.net';
             }
-            if (is_array($v))
+            if ($k == 'gui_column_id')
             {
-                $v = serialize($v);
+                $v = serialize(array('show'=>1,'label'=>'ident','rank'=>2));
             }
             $query.= $k."=".$v = $this->oDbh->quote($v, null, true, false);
             if ($i < $n)
@@ -345,6 +345,9 @@ class Migration_546Test extends MigrationTest
 
         $aAgencyExpectations['default_banner_image_url'] =  array('value'=> 'http://www.custom_url.net');
         $aAgencyExpectations['default_banner_destination_url'] =  array('value'=> 'http://www.custom_dest.net');
+        $aAgencyExpectations['ui_column_id'] = array('value'=> 1, 'level'=>'MANAGER');
+        $aAgencyExpectations['ui_column_id_label'] = array('value'=> 'ident', 'level'=>'MANAGER');
+        $aAgencyExpectations['ui_column_id_rank'] = array('value'=> 2, 'level'=>'MANAGER');
         $this->assertEqual(count($aResults),count($aAgencyExpectations));
         foreach ($aResults as $nameNew => $aVals)
         {
@@ -352,6 +355,7 @@ class Migration_546Test extends MigrationTest
             if (array_key_exists($nameNew,$aAgencyExpectations))
             {
                 $this->assertEqual($aVals['value'],$aAgencyExpectations[$nameNew]['value'],'wrong value for '.$nameNew);
+                $this->assertEqual($aVals['type'],$aExpectations[$nameNew]['level'],'wrong level for '.$nameNew);
             }
         }
     }
