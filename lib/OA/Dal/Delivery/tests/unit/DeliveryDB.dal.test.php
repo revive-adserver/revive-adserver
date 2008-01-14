@@ -25,8 +25,9 @@
 $Id $
 */
 
+
+require_once MAX_PATH . '/lib/max/Dal/Delivery.php';
 require_once MAX_PATH . '/lib/max/Delivery/cache.php';
-require_once MAX_PATH . '/lib/OA/Dal/Delivery/'.$GLOBALS['_MAX']['CONF']['database']['type'].'.php';
 require_once 'Log.php';
 
 // pgsql execution time before refactor: 132.33s
@@ -55,6 +56,8 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
         $this->oDbh = OA_DB::singleton();
         $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
         $this->aIds = TestEnv::loadData('0.3.27_delivery');
+
+        MAX_Dal_Delivery_Include();
     }
 
     /**
