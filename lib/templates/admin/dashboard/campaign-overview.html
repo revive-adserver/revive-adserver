@@ -60,23 +60,30 @@ $Id$
     <div><a class="site-link" target="_top" href="www/admin/advertiser-index.php">{t str=CampaignSetUp}</a></div>
     <!-- end of no campaigns view -->
     {/if}
+    
+    
+		<!-- no items view  -->
+		<!--
+		<div class="widgetListWrapper">
+		    <ul class="widgetList campaignNoItems">
+		        <li>{t str=CampaignNoDataTimeSpan}</li>
+		    </ul>
+		</div>
+		<div><a class="site-link" target="_top" href="www/admin/advertiser-index.php">Set up a campaign today</a></div>
+		-->
+		<!-- end of no items view  -->
+		
+		<!-- Audit Trail inactive view -->
+		<!--
+		<div class="widgetListWrapper">
+		    <ul class="widgetList campaignAuditNotActivated">
+		        <li>{t str=CampaignAuditNotActivated}</li>
+		    </ul>
+		</div>
+		<div><a class="site-link" target="_top" href="www/admin/account-settings-debug.php">Activate Audit Trail</a> to start viewing campaigns</div>
+		-->
+		<!-- end of Audit Trail inactive view-->    
+    
 
-        <!-- no items view  -->
-        <!--
-        <ul class="no-items">
-            <li>No campaigns have started or finished during the timeframe you have selected</li>
-        </ul>
-        <a class="site-link" target="_top" href="www/admin/advertiser-index.php">Set up a campaign today</a>
-        -->
-        <!-- end of no items view  -->
-
-	<!-- Audit Trail inactive view -->
-  <!--
-	<ul class="not-activated">
-	 <li>In order to view campaigns which have started or finished during the timeframe you have selected, the Audit Trail must be activated</li>
-	</ul>
-	<a class="site-link" target="_top" href="www/admin/account-settings-debug.php">Activate Audit Trail</a> to start viewing campaigns
-  -->
-  <!-- end of Audit Trail inactive view-->
 </body>
 </html>
