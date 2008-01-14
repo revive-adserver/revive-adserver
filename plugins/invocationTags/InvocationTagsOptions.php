@@ -77,9 +77,6 @@ class Plugins_InvocationTagsOptions
                 $option .= "<tr bgcolor='#F6F6F6'><td height='10' colspan='3'>&nbsp;</td></tr>";
                 $option .= "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
                 $option .= "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-            } else {
-                $option .= "<tr bgcolor='#F6F6F6'><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
-                $option .= "<td bgcolor='#F6F6F6' colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
             }
         }
 
@@ -158,8 +155,7 @@ class Plugins_InvocationTagsOptions
         } else {
             $option .= "<input class='flat' type='text' name='bannerid' size='' value='".(isset($maxInvocation->bannerid) ? $maxInvocation->bannerid : '')."' style='width:175px;' tabindex='".($maxInvocation->tabindex++)."'></td></tr>";
         }
-        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
-        $option .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
     }
 
@@ -174,7 +170,6 @@ class Plugins_InvocationTagsOptions
 
         $target = (!empty($maxInvocation->target)) ? $maxInvocation->target : '';
         $option = '';
-        $option .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
         $option .= "<tr><td width='30'>&nbsp;</td>
             <td width='200'>".$GLOBALS['strInvocationTarget']."</td><td width='370'>
             <select name='target' tabindex='".($maxInvocation->tabindex++)."'>
@@ -182,8 +177,7 @@ class Plugins_InvocationTagsOptions
                 <option value='_blank'" . ($target == '_blank' ? " selected='selected'" : '') . ">New window</option>
                 <option value='_top'" . ($target == '_top' ? " selected='selected'" : '') . ">Same window</option>
             </select>
-            <tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>
-        ";
+            <tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
 
         return $option;
     }
@@ -198,11 +192,10 @@ class Plugins_InvocationTagsOptions
         $maxInvocation = &$this->maxInvocation;
 
         $option = '';
-        $option .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>".$GLOBALS['strInvocationSource']."</td><td width='370'>";
         $option .= "<input class='flat' type='text' name='source' size='' value='".(isset($maxInvocation->source) ? $maxInvocation->source : '')."' style='width:175px;' tabindex='".($maxInvocation->tabindex++)."'></td></tr>";
-        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
     }
 
@@ -216,13 +209,12 @@ class Plugins_InvocationTagsOptions
         $maxInvocation = &$this->maxInvocation;
 
         $option = '';
-        $option .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>".$GLOBALS['strInvocationWithText']."</td>";
         $option .= "<td width='370'><input type='radio' name='withtext' value='1'".(isset($maxInvocation->withtext) && $maxInvocation->withtext != 0 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strYes']."<br />";
         $option .= "<input type='radio' name='withtext' value='0'".(!isset($maxInvocation->withtext) || $maxInvocation->withtext == 0 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strNo']."</td>";
         $option .= "</tr>";
-        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
     }
 
@@ -236,11 +228,10 @@ class Plugins_InvocationTagsOptions
         $maxInvocation = &$this->maxInvocation;
 
         $option = '';
-        $option .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>".$GLOBALS['strIFrameRefreshAfter']."</td><td width='370'>";
         $option .= "<input class='flat' type='text' name='refresh' size='' value='".(isset($maxInvocation->refresh) ? $maxInvocation->refresh : '')."' style='width:175px;' tabindex='".($maxInvocation->tabindex++)."'> ".$GLOBALS['strAbbrSeconds']."</td></tr>";
-        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
     }
 
@@ -255,13 +246,12 @@ class Plugins_InvocationTagsOptions
 
         $option = '';
         if (!$maxInvocation->zone_invocation) {
-            $option .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
             $option .= "<tr><td width='30'>&nbsp;</td>";
             $option .= "<td width='200'>".$GLOBALS['strFrameSize']."</td><td width='370'>";
             $option .= $GLOBALS['strWidth'].": <input class='flat' type='text' name='width' size='3' value='".(isset($maxInvocation->width) ? $maxInvocation->width : '')."' tabindex='".($maxInvocation->tabindex++)."'>&nbsp;&nbsp;&nbsp;";
             $option .= $GLOBALS['strHeight'].": <input class='flat' type='text' name='height' size='3' value='".(isset($maxInvocation->height) ? $maxInvocation->height : '')."' tabindex='".($maxInvocation->tabindex++)."'>";
             $option .= "</td></tr>";
-            $option .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+            $option .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
         }
         return $option;
     }
@@ -277,13 +267,12 @@ class Plugins_InvocationTagsOptions
 
         $option = '';
         if ($maxInvocation->server_same) {
-            $option .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
             $option .= "<tr><td width='30'>&nbsp;</td>";
             $option .= "<td width='200'>".$GLOBALS['strIframeResizeToBanner']."</td>";
             $option .= "<td width='370'><input type='radio' name='resize' value='1'".(isset($maxInvocation->resize) && $maxInvocation->resize == 1 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strYes']."<br />";
             $option .= "<input type='radio' name='resize' value='0'".(!isset($maxInvocation->resize) || $maxInvocation->resize == 0 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strNo']."</td>";
             $option .= "</tr>";
-            $option .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+            $option .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
         } else {
             $option .= "<input type='hidden' name='resize' value='0'>";
         }
@@ -300,13 +289,12 @@ class Plugins_InvocationTagsOptions
         $maxInvocation = &$this->maxInvocation;
 
         $option = '';
-        $option .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>".$GLOBALS['strIframeMakeTransparent']."</td>";
         $option .= "<td width='370'><input type='radio' name='transparent' value='1'".(isset($maxInvocation->transparent) && $maxInvocation->transparent == 1 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strYes']."<br />";
         $option .= "<input type='radio' name='transparent' value='0'".(!isset($maxInvocation->transparent) || $maxInvocation->transparent == 0 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strNo']."</td>";
         $option .= "</tr>";
-        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
     }
 
@@ -320,13 +308,12 @@ class Plugins_InvocationTagsOptions
         $maxInvocation = &$this->maxInvocation;
 
         $option = '';
-        $option .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>".$GLOBALS['strIframeIncludeNetscape4']."</td>";
         $option .= "<td width='370'><input type='radio' name='ilayer' value='1'".(isset($maxInvocation->ilayer) && $maxInvocation->ilayer == 1 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strYes']."<br />";
         $option .= "<input type='radio' name='ilayer' value='0'".(!isset($maxInvocation->ilayer) || $maxInvocation->ilayer == 0 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strNo']."</td>";
         $option .= "</tr>";
-        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
     }
 
@@ -340,13 +327,12 @@ class Plugins_InvocationTagsOptions
         $maxInvocation = &$this->maxInvocation;
 
         $option = '';
-        $option .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>". 'Include code to track Google AdSense clicks' ."</td>";
         $option .= "<td width='370'><input type='radio' name='iframetracking' value='1'".(!isset($maxInvocation->iframetracking) || $maxInvocation->iframetracking == 1 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strYes']."<br />";
         $option .= "<input type='radio' name='iframetracking' value='0'".(isset($maxInvocation->iframetracking) && $maxInvocation->iframetracking == 0 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strNo']."</td>";
         $option .= "</tr>";
-        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
     }
 
@@ -360,13 +346,12 @@ class Plugins_InvocationTagsOptions
         $maxInvocation = &$this->maxInvocation;
 
         $option = '';
-        $option .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>".$GLOBALS['strInvocationDontShowAgain']."</td>";
         $option .= "<td width='370'><input type='radio' name='block' value='1'".(isset($maxInvocation->block) && $maxInvocation->block != 0 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strYes']."<br />";
         $option .= "<input type='radio' name='block' value='0'".(!isset($maxInvocation->block) || $maxInvocation->block == 0 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strNo']."</td>";
         $option .= "</tr>";
-        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
     }
 
@@ -380,13 +365,12 @@ class Plugins_InvocationTagsOptions
         $maxInvocation = &$this->maxInvocation;
 
         $option = '';
-        $option .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>".$GLOBALS['strInvocationDontShowAgainCampaign']."</td>";
         $option .= "<td width='370'><input type='radio' name='blockcampaign' value='1'".(isset($maxInvocation->blockcampaign) && $maxInvocation->blockcampaign != 0 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strYes']."<br />";
         $option .= "<input type='radio' name='blockcampaign' value='0'".(!isset($maxInvocation->blockcampaign) || $maxInvocation->blockcampaign == 0 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strNo']."</td>";
         $option .= "</tr>";
-        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
     }
 
@@ -400,13 +384,12 @@ class Plugins_InvocationTagsOptions
         $maxInvocation = &$this->maxInvocation;
 
         $option = '';
-        $option .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>".$GLOBALS['strInvocationTemplate']."</td>";
         $option .= "<td width='370'><input type='radio' name='raw' value='1'".(isset($maxInvocation->raw) && $maxInvocation->raw != 0 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strYes']."<br />";
         $option .= "<input type='radio' name='raw' value='0'".(!isset($maxInvocation->raw) || $maxInvocation->raw == 0 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strNo']."</td>";
         $option .= "</tr>";
-        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
     }
 
@@ -420,7 +403,6 @@ class Plugins_InvocationTagsOptions
         $maxInvocation = &$this->maxInvocation;
 
         $option = '';
-        $option .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>".MAX_Plugin_Translation::translate('Pop-up type', 'invocationTags')."</td>";
         $option .= "<td width='370'><input type='radio' name='popunder' value='0'".
@@ -430,7 +412,7 @@ class Plugins_InvocationTagsOptions
              (isset($maxInvocation->popunder) && $maxInvocation->popunder == '1' ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".
              "<img src='images/icon-popup-under.gif' align='absmiddle'>&nbsp;".MAX_Plugin_Translation::translate('Pop-under', 'invocationTags')."</td>";
         $option .= "</tr>";
-        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
     }
 
@@ -445,7 +427,6 @@ class Plugins_InvocationTagsOptions
         $maxInvocation = &$this->maxInvocation;
 
         $option = '';
-        $option .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>".MAX_Plugin_Translation::translate('Instance when the pop-up is created', 'invocationTags')."</td>";
         $option .= "<td width='370'><input type='radio' name='delay_type' value='none'".
@@ -456,7 +437,7 @@ class Plugins_InvocationTagsOptions
              (isset($maxInvocation->delay_type) && $maxInvocation->delay_type == 'seconds' ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".MAX_Plugin_Translation::translate('After', 'invocationTags')."&nbsp;".
              "<input class='flat' type='text' name='delay' size='' value='".(isset($maxInvocation->delay) ? $maxInvocation->delay : '-')."' style='width:50px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrSeconds']."</td>";
         $option .= "</tr>";
-        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
     }
 
@@ -470,14 +451,13 @@ class Plugins_InvocationTagsOptions
         $maxInvocation = &$this->maxInvocation;
 
         $option = '';
-        $option .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>".MAX_Plugin_Translation::translate('Initial position (top)', 'invocationTags')."</td><td width='370'>";
         $option .= "<input class='flat' type='text' name='top' size='' value='".(isset($maxInvocation->top) ? $maxInvocation->top : '-')."' style='width:50px;' tabindex='".($maxInvocation->tabindex++)."'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>".MAX_Plugin_Translation::translate('Initial position (left)', 'invocationTags')."</td><td width='370'>";
         $option .= "<input class='flat' type='text' name='left' size='' value='".(isset($maxInvocation->left) ? $maxInvocation->left : '-')."' style='width:50px;' tabindex='".($maxInvocation->tabindex++)."'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
-        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
     }
 
@@ -491,11 +471,10 @@ class Plugins_InvocationTagsOptions
         $maxInvocation = &$this->maxInvocation;
 
         $option = '';
-        $option .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>".MAX_Plugin_Translation::translate('Automatically close after', 'invocationTags')."</td><td width='370'>";
         $option .= "<input class='flat' type='text' name='timeout' size='' value='".(isset($maxInvocation->timeout) ? $maxInvocation->timeout : '-')."' style='width:50px;' tabindex='".($maxInvocation->tabindex++)."'> ".$GLOBALS['strAbbrSeconds']."</td></tr>";
-        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
     }
 
@@ -509,41 +488,40 @@ class Plugins_InvocationTagsOptions
         $maxInvocation = &$this->maxInvocation;
 
         $option = '';
-        $option .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
         $option .= "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>".MAX_Plugin_Translation::translate('Window options', 'invocationTags')."</td><td width='370'>";
         $option .= "<table cellpadding='0' cellspacing='0' border='0'>";
         $option .= "<tr><td>".MAX_Plugin_Translation::translate('Toolbars', 'invocationTags')."</td><td>&nbsp;&nbsp;&nbsp;</td><td>";
         $option .= "<input type='radio' name='toolbars' value='1'".(isset($maxInvocation->toolbars) && $maxInvocation->toolbars != 0 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strYes']."<br />";
         $option .= "</td><td>&nbsp;&nbsp;&nbsp;</td><td>";
         $option .= "<input type='radio' name='toolbars' value='0'".(!isset($maxInvocation->toolbars) || $maxInvocation->toolbars == 0 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strNo']."";
-        $option .= "</td></tr><tr><td colspan='5'><img src='images/break-l.gif' height='1' width='200' vspace='2'></td></tr>";
+        $option .= "</td></tr><tr><td colspan='5'><img src='images/spacer.gif' height='3' width='200' vspace='2'></td></tr>";
         $option .= "<tr><td>".MAX_Plugin_Translation::translate('Location', 'invocationTags')."</td><td>&nbsp;&nbsp;&nbsp;</td><td>";
         $option .= "<input type='radio' name='location' value='1'".(isset($maxInvocation->location) && $maxInvocation->location != 0 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strYes']."<br />";
         $option .= "</td><td>&nbsp;&nbsp;&nbsp;</td><td>";
         $option .= "<input type='radio' name='location' value='0'".(!isset($maxInvocation->location) || $maxInvocation->location == 0 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strNo']."";
-        $option .= "</td></tr><tr><td colspan='5'><img src='images/break-l.gif' height='1' width='200' vspace='2'></td></tr>";
+        $option .= "</td></tr><tr><td colspan='5'><img src='images/spacer.gif' height='3' width='200' vspace='2'></td></tr>";
         $option .= "<tr><td>".MAX_Plugin_Translation::translate('Menubar', 'invocationTags')."</td><td>&nbsp;&nbsp;&nbsp;</td><td>";
         $option .= "<input type='radio' name='menubar' value='1'".(isset($maxInvocation->menubar) && $maxInvocation->menubar != 0 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strYes']."<br />";
         $option .= "</td><td>&nbsp;&nbsp;&nbsp;</td><td>";
         $option .= "<input type='radio' name='menubar' value='0'".(!isset($maxInvocation->menubar) || $maxInvocation->menubar == 0 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strNo']."";
-        $option .= "</td></tr><tr><td colspan='5'><img src='images/break-l.gif' height='1' width='200' vspace='2'></td></tr>";
+        $option .= "</td></tr><tr><td colspan='5'><img src='images/spacer.gif' height='3' width='200' vspace='2'></td></tr>";
         $option .= "<tr><td>".MAX_Plugin_Translation::translate('Status', 'invocationTags')."</td><td>&nbsp;&nbsp;&nbsp;</td><td>";
         $option .= "<input type='radio' name='status' value='1'".(isset($maxInvocation->status) && $maxInvocation->status != 0 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strYes']."<br />";
         $option .= "</td><td>&nbsp;&nbsp;&nbsp;</td><td>";
         $option .= "<input type='radio' name='status' value='0'".(!isset($maxInvocation->status) || $maxInvocation->status == 0 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strNo']."";
-        $option .= "</td></tr><tr><td colspan='5'><img src='images/break-l.gif' height='1' width='200' vspace='2'></td></tr>";
+        $option .= "</td></tr><tr><td colspan='5'><img src='images/spacer.gif' height='3' width='200' vspace='2'></td></tr>";
         $option .= "<tr><td>".MAX_Plugin_Translation::translate('Resizable', 'invocationTags')."</td><td>&nbsp;&nbsp;&nbsp;</td><td>";
         $option .= "<input type='radio' name='resizable' value='1'".(isset($maxInvocation->resizable) && $maxInvocation->resizable != 0 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strYes']."<br />";
         $option .= "</td><td>&nbsp;&nbsp;&nbsp;</td><td>";
         $option .= "<input type='radio' name='resizable' value='0'".(!isset($maxInvocation->resizable) || $maxInvocation->resizable == 0 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strNo']."";
-        $option .= "</td></tr><tr><td colspan='5'><img src='images/break-l.gif' height='1' width='200' vspace='2'></td></tr>";
+        $option .= "</td></tr><tr><td colspan='5'><img src='images/spacer.gif' height='3' width='200' vspace='2'></td></tr>";
         $option .= "<tr><td>".MAX_Plugin_Translation::translate('Scrollbars', 'invocationTags')."</td><td>&nbsp;&nbsp;&nbsp;</td><td>";
         $option .= "<input type='radio' name='scrollbars' value='1'".(isset($maxInvocation->scrollbars) && $maxInvocation->scrollbars != 0 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strYes']."<br />";
         $option .= "</td><td>&nbsp;&nbsp;&nbsp;</td><td>";
         $option .= "<input type='radio' name='scrollbars' value='0'".(!isset($maxInvocation->scrollbars) || $maxInvocation->scrollbars == 0 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strNo']."";
         $option .= "</td></tr>";
         $option .= "</table>";
-        $option .= "</td></tr><tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+        $option .= "</td></tr><tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
     }
 
@@ -557,13 +535,12 @@ class Plugins_InvocationTagsOptions
         $maxInvocation = &$this->maxInvocation;
 
         $option = '';
-        $option .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>".MAX_Plugin_Translation::translate('Use HTTPS to contact XML-RPC Server', 'invocationTags')."</td>";
         $option .= "<td width='370'><input type='radio' name='xmlrpcproto' value='1'".(isset($maxInvocation->xmlrpcproto) && $maxInvocation->xmlrpcproto != 0 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strYes']."<br />";
         $option .= "<input type='radio' name='xmlrpcproto' value='0'".(!isset($maxInvocation->xmlrpcproto) || $maxInvocation->xmlrpcproto == 0 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strNo']."</td>";
         $option .= "</tr>";
-        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
     }
 
@@ -580,7 +557,7 @@ class Plugins_InvocationTagsOptions
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>".MAX_Plugin_Translation::translate('XML-RPC Timeout (Seconds)', 'invocationTags')."</td><td width='370'>";
         $option .= "<input class='flat' type='text' name='xmlrpctimeout' size='' value='".(isset($maxInvocation->xmlrpctimeout) ? $maxInvocation->xmlrpctimeout : '')."' style='width:175px;' tabindex='".($maxInvocation->tabindex++)."'></td></tr>";
-        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
     }
 
@@ -595,14 +572,12 @@ class Plugins_InvocationTagsOptions
         $maxInvocation = &$this->maxInvocation;
 
         $option = '';
-        $option .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>".MAX_Plugin_Translation::translate('Host Language', 'invocationTags')."</td><td width='370'>";
         $option .= "<select name='hostlanguage' tabindex='".($tabindex++)."'>";
         $option .= "<option value='php'".($maxInvocation->hostlanguage == 'php' ? ' selected' : '').">PHP</option>";
         $option .= "</select>";
         $option .= "</td></tr>";
-        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
         return $option;
     }
 
@@ -620,8 +595,6 @@ class Plugins_InvocationTagsOptions
 
         $option = '';
         $option .= "
-            <td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
-        </tr>
         <tr>
             <td width='30'>&nbsp;</td>
             <td width='200'>{$GLOBALS['str3rdPartyTrack']}</td>
@@ -646,7 +619,7 @@ class Plugins_InvocationTagsOptions
         }
         $option .= "</select>";
         $option .= "</tr>";
-        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
     }
 
@@ -657,8 +630,6 @@ class Plugins_InvocationTagsOptions
 
         $option = '';
         $option .= "
-            <td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
-        </tr>
         <tr>
             <td width='30'>&nbsp;</td>
             <td width='200'>{$GLOBALS['strCacheBuster']}</td>
@@ -666,7 +637,7 @@ class Plugins_InvocationTagsOptions
             <input type='radio' name='cachebuster' value='0'".($cachebuster == 0 ? " checked='checked'" : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;{$GLOBALS['strNo']}</td>
         </tr>
         <tr>
-            <td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>
+            <td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>
         ";
         return $option;
     }
@@ -682,13 +653,12 @@ class Plugins_InvocationTagsOptions
         $comments = (isset($maxInvocation->comments)) ? $maxInvocation->comments : 1;
 
         $option = '';
-        $option .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>".$GLOBALS['strInvocationComments']."</td>";
         $option .= "<td width='370'><input type='radio' name='comments' value='1'".($comments == 1 ? " checked='checked'" : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strYes']."<br />";
         $option .= "<input type='radio' name='comments' value='0'".($comments == 0 ? " checked='checked'" : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strNo']."</td>";
         $option .= "</tr>";
-        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
     }
 

@@ -205,7 +205,6 @@ class Plugins_InvocationTags_adlayer_adlayer extends Plugins_InvocationTags
         }
         closedir($stylesdir);
         asort($layerstyles, SORT_STRING);
-        $option .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>". MAX_Plugin_Translation::translate('Style', 'invocationTags') ."</td><td width='370'>";
         $option .= "<select name='layerstyle' onChange='this.form.submit()' style='width:175px;' tabindex='".($this->maxInvocation->tabindex++)."'>";
@@ -215,7 +214,7 @@ class Plugins_InvocationTags_adlayer_adlayer extends Plugins_InvocationTags
         }
         $option .= "</select>";
         $option .= "</td></tr>";
-        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td></tr>";
 
         return $option;
     }

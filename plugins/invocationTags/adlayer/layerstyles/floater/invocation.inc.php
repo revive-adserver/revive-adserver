@@ -45,18 +45,18 @@ MAX_commonRegisterGlobalsArray(array('ltr', 'loop', 'speed', 'pause', 'shiftv', 
  */
 class Plugins_InvocationTags_Adlayer_Layerstyles_Floater_Invocation
 {
-    					   
-    					   
+
+
     /*-------------------------------------------------------*/
     /* Place ad-generator settings                           */
     /*-------------------------------------------------------*/
-    
+
     function placeLayerSettings ()
     {
     	global $ltr, $loop, $speed, $pause, $shiftv, $transparent, $backcolor;
     	global $limited, $lmargin, $rmargin;
     	global $tabindex;
-    	
+
     	if (!isset($ltr)) $ltr = 't';
     	if (!isset($loop)) $loop = 'n';
     	if (!isset($speed)) $speed = 3;
@@ -65,7 +65,7 @@ class Plugins_InvocationTags_Adlayer_Layerstyles_Floater_Invocation
     	if (!isset($limited)) $limited = 'f';
     	if (!isset($transparent)) $transparent = 't';
     	if (!isset($backcolor)) $backcolor = '#FFFFFF';
-    	
+
     	if ($limited == 't')
     	{
     		if (!isset($lmargin) || !isset($rmargin))
@@ -74,22 +74,21 @@ class Plugins_InvocationTags_Adlayer_Layerstyles_Floater_Invocation
     			$lmargin = $rmargin = '';
     		}
     	}
-    	
+
     	$buffer = '';
-    	
-    	$buffer .= "<tr><td height='30' colspan='3'>&nbsp;</td></tr>";
+
+    	$buffer .= "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
     	$buffer .= "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>";
     	$buffer .= "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-    	
+
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
     	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Direction', 'invocationTags')."</td><td width='370'>";
     	$buffer .= "<select name='ltr' style='width:175px;' tabindex='".($tabindex++)."'>";
     		$buffer .= "<option value='t'".($ltr == 't' ? ' selected' : '').">".MAX_Plugin_Translation::translate('Left to right', 'invocationTags')."</option>";
     		$buffer .= "<option value='f'".($ltr == 'f' ? ' selected' : '').">".MAX_Plugin_Translation::translate('Right to left', 'invocationTags') ."</option>";
     	$buffer .= "</select>";
-    	$buffer .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
-    	$buffer .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-    	
+    	$buffer .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
+
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
     	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Looping', 'invocationTags')."</td><td width='370'>";
     	$buffer .= "<select name='loop' style='width:175px;' tabindex='".($tabindex++)."'>";
@@ -97,62 +96,54 @@ class Plugins_InvocationTags_Adlayer_Layerstyles_Floater_Invocation
     	for ($i=1;$i<=10;$i++)
     		$buffer .= "<option value='".$i."'".($loop == $i ? ' selected' : '').">".$i."</option>";
     	$buffer .= "</select>";
-    	$buffer .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
-    	$buffer .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-    	
+    	$buffer .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
+
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
     	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Speed', 'invocationTags')."</td><td width='370'>";
     	$buffer .= "<select name='speed' style='width:60px;' tabindex='".($tabindex++)."'>";
     	for ($i=1;$i<=5;$i++)
     		$buffer .= "<option value='".$i."'".($speed == $i ? ' selected' : '').">".$i."</option>";
     	$buffer .= "</select>";
-    	$buffer .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
-    	$buffer .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-    	
+    	$buffer .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
+
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
     	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Pause', 'invocationTags')."</td><td width='370'>";
     		$buffer .= "<input class='flat' type='text' name='pause' size='' value='".$pause."' style='width:60px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strSeconds']."</td></tr>";
-    	$buffer .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
-    	$buffer .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-    	
+    	$buffer .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
+
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
     	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Vertical shift', 'invocationTags')."</td><td width='370'>";
     		$buffer .= "<input class='flat' type='text' name='shiftv' size='' value='".$shiftv."' style='width:60px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
-    	$buffer .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
-    	$buffer .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-    	
+    	$buffer .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
+
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
     	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Limited', 'invocationTags')."</td><td width='370'>";
     	$buffer .= "<select name='limited' style='width:60px;' tabindex='".($tabindex++)."' onChange='this.form.lmargin.disabled = this.selectedIndex ? true : false; this.form.rmargin.disabled = this.selectedIndex ? true : false'>";
     		$buffer .= "<option value='t'".($limited == 't' ? ' selected' : '').">".$GLOBALS['strYes']."</option>";
     		$buffer .= "<option value='f'".($limited == 'f' ? ' selected' : '').">".$GLOBALS['strNo']."</option>";
     	$buffer .= "</select>";
-    	$buffer .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
-    	$buffer .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-    		
+    	$buffer .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
+
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
     	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Left margin', 'invocationTags')."</td><td width='370'>";
     		$buffer .= "<input class='flat' type='text' name='lmargin' size='' tabindex='".($tabindex++)."' value='".$lmargin."' style='width:60px;'".($limited == 'f' ? ' disabled' : '')."> ".$GLOBALS['strAbbrPixels']."</td></tr>";
-    	$buffer .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
-    	$buffer .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-    	
+    	$buffer .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
+
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
     	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Right margin', 'invocationTags')."</td><td width='370'>";
     		$buffer .= "<input class='flat' type='text' name='rmargin' size='' tabindex='".($tabindex++)."' value='".$rmargin."' style='width:60px;'".($limited == 'f' ? ' disabled' : '')."> ".$GLOBALS['strAbbrPixels']."</td></tr>";
-    	$buffer .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
-    	$buffer .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-    	
+    	$buffer .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
+
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
     	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Transparent background', 'invocationTags')."</td><td width='370'>";
     	$buffer .= "<select name='transparent' style='width:60px;' onChange='this.form.backcolor.disabled = this.selectedIndex ? false : true' tabindex='".($tabindex++)."'>";
     		$buffer .= "<option value='t'".($transparent == 't' ? ' selected' : '').">".$GLOBALS['strYes']."</option>";
     		$buffer .= "<option value='f'".($transparent == 'f' ? ' selected' : '').">".$GLOBALS['strNo']."</option>";
     	$buffer .= "</select>";
-    	$buffer .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
-    	$buffer .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-    		
+    	$buffer .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
+
     	$this->settings_cp_map();
-    	
+
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
     	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Background color', 'invocationTags')."</td><td width='370'>";
     		$buffer .= "<table border='0' cellspacing='0' cellpadding='0'>";
@@ -164,23 +155,23 @@ class Plugins_InvocationTags_Adlayer_Layerstyles_Floater_Invocation
     		$buffer .= "</td><td align='right' width='218'>";
     		$buffer .= "<div onMouseOver='current_cp = backcolor; current_box = backcolor_box' onMouseOut='current_cp = null'><img src='images/colorpicker.png' width='193' height='18' align='absmiddle' usemap='#colorpicker' border='0'><img src='images/spacer.gif' width='22' height='1'></div>";
             $buffer .= "</td></tr></table>";
-    	$buffer .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
-    	
+    	$buffer .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
+
     	return $buffer;
     }
-    
-    
-    
+
+
+
     /*-------------------------------------------------------*/
     /* Place ad-generator settings                           */
     /*-------------------------------------------------------*/
-    
+
     function generateLayerCode(&$mi)
     {
     	$conf = $GLOBALS['_MAX']['CONF'];
     	global $ltr, $loop, $speed, $pause, $shiftv, $transparent, $backcolor;
     	global $limited, $lmargin, $rmargin;
-    	
+
     	if (!isset($limited)) $limited = 'f';
     	if ($limited == 't') {
     		if (!isset($lmargin) || !isset($rmargin)) {
@@ -212,11 +203,11 @@ class Plugins_InvocationTags_Adlayer_Layerstyles_Floater_Invocation
     	$buffer .= "'></script>";
     	return $buffer;
     }
-    
+
     /*-------------------------------------------------------*/
     /* Return $show var for generators                       */
     /*-------------------------------------------------------*/
-    
+
     function getlayerShowVar ()
     {
     	return array (
@@ -230,28 +221,28 @@ class Plugins_InvocationTags_Adlayer_Layerstyles_Floater_Invocation
     		'layercustom' => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM
     	);
     }
-    
-    
-    
+
+
+
     /*-------------------------------------------------------*/
     /* Dec2Hex                                               */
     /*-------------------------------------------------------*/
-    
+
     function toHex($d)
     {
     	return strtoupper(sprintf("%02x", $d));
     }
-    
-    
-    
+
+
+
     /*-------------------------------------------------------*/
     /* Add scripts and map for color pickers                 */
     /*-------------------------------------------------------*/
-    
+
     function settings_cp_map()
     {
     	static $done = false;
-    	
+
     	if (!$done)
     	{
     		$done = true;
@@ -261,7 +252,7 @@ class Plugins_InvocationTags_Adlayer_Layerstyles_Floater_Invocation
     var current_cp = null;
     var current_cp_oldval = null;
     var current_box = null;
-    
+
     function c_pick(value)
     {
     	if (current_cp)
@@ -270,7 +261,7 @@ class Plugins_InvocationTags_Adlayer_Layerstyles_Floater_Invocation
     		c_update();
     	}
     }
-    
+
     function c_update()
     {
     	if (!current_cp.value.match(/^#[0-9a-f]{6}$/gi))
@@ -278,18 +269,18 @@ class Plugins_InvocationTags_Adlayer_Layerstyles_Floater_Invocation
     		current_cp.value = current_cp_oldval;
     		return;
     	}
-    	
+
     	current_cp.value.toUpperCase();
     	current_box.style.backgroundColor = current_cp.value;
     }
-    
+
     // ]]> -->
     </script>
     <?php
     		echo "<map name=\"colorpicker\">\n";
-    		
+
     		$x = 2;
-    		
+
     		for($i=1; $i <= 255*6; $i+=8)
     		{
     			if($i > 0 && $i <=255 * 1)
@@ -304,23 +295,23 @@ class Plugins_InvocationTags_Adlayer_Layerstyles_Floater_Invocation
     				$incColor='#'.$this->toHex($i-(4*255)).'00FF';
     			elseif ($i>255*5 && $i <255*6)
     				$incColor='#FF00' . $this->toHex(255-($i-(5*255)));
-    			
+
     			echo "<area shape='rect' coords='$x,0,".($x+1).",9' href='javascript:c_pick(\"$incColor\")' />\n"; $x++;
     		}
-    		
+
     		$x = 2;
-    		
+
     		for($j = 0; $j < 255; $j += 1.34)
     		{
     			$i = round($j);
     			$incColor = '#'.$this->toHex($i).$this->toHex($i).$this->toHex($i);
     			echo "<area shape='rect' coords='$x,11,".($x+1).",20' href='javascript:c_pick(\"$incColor\")' />\n"; $x++;
     		}
-    		
+
     		echo "</map>";
     	}
     }
-    
+
 }
 
 ?>
