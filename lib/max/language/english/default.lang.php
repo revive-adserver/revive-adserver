@@ -404,10 +404,10 @@ $GLOBALS['strTargetPerDay']                = "per day.";
 $GLOBALS['strPriorityAutoTargeting']    = "Automatic - Distribute the remaining inventory evenly over the remaining number of days.";
 $GLOBALS['strCampaignWarningNoWeight']     = "The priority of this campaign has been set to low, \nbut the weight is set to zero or it has not been \nspecified. This will cause the campaign to be \ndeactivated and its banners won't be delivered \nuntil the weight has been set to a valid number. \n\nAre you sure you want to continue?";
 $GLOBALS['strCampaignWarningNoTarget']     = "The priority of this campaign has been set to high, \nbut the target number of Impressions are not specified. \nThis will cause the campaign to be deactivated and \nits banners won't be delivered until a valid target \nnumber of Impressions has been set. \n\nAre you sure you want to continue?";
-$GLOBALS['strCampaignStatusRunning']       = "Running";
+$GLOBALS['strCampaignStatusRunning']       = "Started";
 $GLOBALS['strCampaignStatusPaused']        = "Paused";
-$GLOBALS['strCampaignStatusAwaiting']      = "Not started yet";
-$GLOBALS['strCampaignStatusExpired']       = "Finished";
+$GLOBALS['strCampaignStatusAwaiting']      = "Added";
+$GLOBALS['strCampaignStatusExpired']       = "Completed";
 $GLOBALS['strCampaignStatusApproval']      = "Awaiting approval &raquo;";
 $GLOBALS['strCampaignStatusRejected']      = "Rejected";
 $GLOBALS['strCampaignApprove']             = "Approve";
@@ -416,8 +416,8 @@ $GLOBALS['strCampaignReject']              = "Reject";
 $GLOBALS['strCampaignRejectDescription']   = "reject this campaign";
 $GLOBALS['strCampaignPause']               = "Pause";
 $GLOBALS['strCampaignPauseDescription']    = "pause this campaign temporarily";
-$GLOBALS['strCampaignRestart']             = "Restart";
-$GLOBALS['strCampaignRestartDescription']  = "restart this campaign";
+$GLOBALS['strCampaignRestart']             = "Resume";
+$GLOBALS['strCampaignRestartDescription']  = "resume this campaign";
 $GLOBALS['strCampaignStatus']              = "Campaign status";
 $GLOBALS['strReasonForRejection']          = "Reason for rejection";
 $GLOBALS['strReasonSiteNotLive']           = "Site not live";
@@ -1105,14 +1105,17 @@ $GLOBALS['strPwdRecEmailPwdRecovery'] = "%s password recovery";
 $GLOBALS['strProceed']                = "Proceed &gt;";
 
 // Widget - Audit
-$GLOBALS['strAuditNoData']              = "No user activity has been recorded during the timeframe you have selected";
-$GLOBALS['strAuditTrail']               = "Audit Trail";
-$GLOBALS['strAuditTrailSetup']          = "Setup the Audit Trail today";
-$GLOBALS['strAuditTrailGoTo']           = "Go to Audit Trail page";
-$GLOBALS['strAuditTrailNotEnabled']     = "<li>Audit Trail allows you to see who did what and when. Or to put it another way,  it keeps track of system changes within Openads</li>
-        <li>You are seeing this message, because you have not activated the Audit Trail</li>
-        <li>Interested in learning more? Read the <a href='http://www.example.com' target='_blank'>Audit Trail documentation</a></li>";
+$GLOBALS['strAuditNoData']            = "No user activity has been recorded during the timeframe you have selected.";
+$GLOBALS['strAuditTrail']             = "Audit Trail";
 
+// Widget - Campaign
+$GLOBALS['strCampaignOverviw']          = 'Campaign Overview';
+$GLOBALS['strCampaignGoTo']             = 'Go to Campaigns page';
+$GLOBALS['strCampaignSetUp']            = 'Set up a Campaign today';
+$GLOBALS['strCampaignNoRecords']        = '<li>Campaigns let you group together any number of banner ads, of any size, that share common advertising requirements</li>
+        <li>Save time by grouping banners within a campaign and no longer define delivery settings for each add separately</li>
+        <li>Check out the <a class="site-link" href="http://docs.openads.org/openads-2.4-guide/campaigns.html">Campaign documentation</a>!</li>
+';
 
 /*-------------------------------------------------------*/
 /* Keyboard shortcut assignments                         */

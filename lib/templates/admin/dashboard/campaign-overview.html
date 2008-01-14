@@ -30,7 +30,7 @@ $Id$
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Campaign Overview</title>
+  <title>{t str=CampaignOverview}</title>
   <link rel='stylesheet' type='text/css' href='css/dashboard-widget.css'>
   <!--[if IE]>
       <link rel="stylesheet" type="text/css" href="css/dashboard-widget-ie.css" />
@@ -40,24 +40,24 @@ $Id$
 <body>
 
     {if $aCampaign|@count > 0}
-    <div class="campaignOverview">
+    <div class="listWrapper campaignOverview">
         <!-- normal view -->
         <ul class="campaigns">
            {foreach from=$aCampaign key=key item=aValue}
             <li><div class="title">{$aValue.campaignname}</div><div>{showStatusText status=$aValue.status an_status=$aValue.an_status}</div></li>
             {/foreach}
         </ul>
-        <div><a class="site-link" target="_top" href="www/admin/stats.php">Go to Campaigns page</a></div>
-        <!-- end of normal view -->
     </div>
+    <div><a class="site-link" target="_top" href="www/admin/stats.php">{t str=CampaignGoTo}</a></div>
+    <!-- end of normal view -->
     {else}
     <!-- no campaigns view -->
-    <ul class="campaignList">
-        <li>Campaigns let you group together any number of banner ads, of any size, that share common advertising requirements</li>
-        <li>Save time by grouping banners within a campaign and no longer define delivery settings for each add separately</li>
-        <li>Interested in learning more? Read the <a class="site-link" href="http://docs.openads.org/openads-2.4-guide/campaigns.html">Campaign documentation</a></li>
-    </ul>
-    <div><a class="site-link" target="_top" href="www/admin/advertiser-index.php">Set up a campaign today</a></div>
+    <div class="widgetList">
+        <ul class="campaignList">
+            {t str=CampaignNoRecords}
+        </ul>
+    </div>
+    <div><a class="site-link" target="_top" href="www/admin/advertiser-index.php">{t str=CampaignSetUp}</a></div>
     <!-- end of no campaigns view -->
     {/if}
 

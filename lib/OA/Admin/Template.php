@@ -169,37 +169,37 @@ class OA_Admin_Template extends Smarty
                 switch ($status) {
                 	case OA_ENTITY_STATUS_PENDING:
                 	    if ($an_status == OA_ENTITY_ADNETWORKS_STATUS_APPROVAL) {
-                    	    $class = 'sts sts-awaiting';
+                    	    $class = 'awaiting';
                     	    $text  = $strCampaignStatusApproval;
                 	    }
 
                 	    if ($an_status == OA_ENTITY_ADNETWORKS_STATUS_REJECTED) {
-                    	    $class = 'sts sts-rejected';
+                    	    $class = 'rejected';
                     	    $text  = $strCampaignStatusRejected;
                 	    }
                 		break;
                 	case OA_ENTITY_STATUS_RUNNING:
-                	    $class = 'sts sts-accepted';
+                	    $class = 'accepted';
                 	    $text  = $strCampaignStatusRunning;
                 		break;
                 	case OA_ENTITY_STATUS_PAUSED:
-                	    $class = 'sts sts-paused';
+                	    $class = 'paused';
                 	    $text  = $strCampaignStatusPaused;
                 		break;
                 	case OA_ENTITY_STATUS_AWAITING:
-                	    $class = 'sts not-started';
+                	    $class = 'started';
                 	    $text  = $strCampaignStatusAwaiting;
                 		break;
                 	case OA_ENTITY_STATUS_EXPIRED:
-                	    $class = 'sts sts-finished';
+                	    $class = 'finished';
                 	    $text  = $strCampaignStatusExpired;
                 		break;
                 	case OA_ENTITY_STATUS_APPROVAL:
-                	    $class = 'sts sts-awaiting';
+                	    $class = 'awaiting';
                 	    $text  = $strCampaignStatusApproval;
                 		break;
                 	case OA_ENTITY_STATUS_REJECTED:
-                	    $class = 'sts sts-rejected';
+                	    $class = 'rejected';
                 	    $text  = $strCampaignStatusRejected;
                 		break;
                 }

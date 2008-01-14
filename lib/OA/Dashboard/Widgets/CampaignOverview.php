@@ -68,14 +68,13 @@ class OA_Dashboard_Widget_CampaignOverview extends OA_Dashboard_Widget
         $numRows = $oCampaign->find();
         if ($numRows > 0) {
             while ($oCampaign->fetch()) {
-                $oCampaign->campaignname = (strlen($oCampaign->campaignname) > 30) ? substr($oCampaign->campaignname, 0, 30).'...' : $oCampaign->campaignname;
+                $oCampaign->campaignname = (strlen($oCampaign->campaignname) > 35) ? substr($oCampaign->campaignname, 0, 35).'...' : $oCampaign->campaignname;
                 $aCampaign[] = $oCampaign->toArray();
             }
         }
 
         $this->oTpl->assign('baseUrl',      MAX::constructURL(MAX_URL_ADMIN, 'campaign-edit.php'));
         $this->oTpl->assign('aCampaign',    $aCampaign);
-        $this->oTpl->assign('siteTitle',    'Go to Campaigns page');
         $this->oTpl->assign('siteUrl',      MAX::constructURL(MAX_URL_ADMIN, 'advertiser-index.php'));
 
         $this->oTpl->display();
