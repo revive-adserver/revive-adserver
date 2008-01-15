@@ -175,7 +175,7 @@ class Test_OA_Dal_Maintenance_Priority_getPlacements extends UnitTestCase
         $doCampaigns->target_impression = 0;
         $doCampaigns->anonymous = 'f';
         $doCampaigns->updated = $oDate->format('%Y-%m-%d %H:%M:%S');
-        $idCampaign1 = DataGenerator::generateOne($doCampaigns);
+        $idCampaign1 = DataGenerator::generateOne($doCampaigns, true);
 
         $doCampaigns->campaignname = 'Test Campaign 2';
         $doCampaigns->clientid = 1;
@@ -190,7 +190,7 @@ class Test_OA_Dal_Maintenance_Priority_getPlacements extends UnitTestCase
         $doCampaigns->target_impression = 0;
         $doCampaigns->anonymous = 'f';
         $doCampaigns->updated = $oDate->format('%Y-%m-%d %H:%M:%S');
-        $idCampaign2 = DataGenerator::generateOne($doCampaigns);
+        $idCampaign2 = DataGenerator::generateOne($doCampaigns, true);
 
         $doCampaigns->campaignname = 'Test Campaign 3';
         $doCampaigns->clientid = 1;
@@ -205,7 +205,7 @@ class Test_OA_Dal_Maintenance_Priority_getPlacements extends UnitTestCase
         $doCampaigns->target_impression = 0;
         $doCampaigns->anonymous = 'f';
         $doCampaigns->updated = $oDate->format('%Y-%m-%d %H:%M:%S');
-        $idCampaign3 = DataGenerator::generateOne($doCampaigns);
+        $idCampaign3 = DataGenerator::generateOne($doCampaigns, true);
 
         $doCampaigns->campaignname = 'Test Campaign 4';
         $doCampaigns->clientid = 1;
@@ -220,7 +220,7 @@ class Test_OA_Dal_Maintenance_Priority_getPlacements extends UnitTestCase
         $doCampaigns->target_impression = 0;
         $doCampaigns->anonymous = 'f';
         $doCampaigns->updated = $oDate->format('%Y-%m-%d %H:%M:%S');
-        $idCampaign4 = DataGenerator::generateOne($doCampaigns);
+        $idCampaign4 = DataGenerator::generateOne($doCampaigns, true);
 
         $doCampaigns->campaignname = 'Test Campaign 5';
         $doCampaigns->clientid = 1;
