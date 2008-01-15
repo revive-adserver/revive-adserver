@@ -1130,7 +1130,7 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
   $(document).ready(function() {
     phpAds_formUnlimitedCheck('unlimitedimpressions', 'impressions');
     phpAds_formUnlimitedCheck('unlimitedclicks', 'clicks');
-    phpAds_formUnlimitedCheck('unlimitedconversions', 'conversions');
+    //phpAds_formUnlimitedCheck('unlimitedconversions', 'conversions');
     $(":input[name='rd_impr_bkd']").click(function() { phpAds_formUnlimitedClick('unlimitedimpressions', 'impressions', 'openadsRemainingImpressions'); return true; });
     $(":input[name='rd_click_bkd']").click(function() { phpAds_formUnlimitedClick('unlimitedclicks', 'clicks', 'openadsRemainingClicks'); return true;});
     $(":input[name='rd_conv_bkd']").click(function() { phpAds_formUnlimitedClick('unlimitedconversions', 'conversions'); return true;});
@@ -1388,13 +1388,13 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
                 f.clicks.value = '';
             }
         }
-        if (type == 'conversions') {
+       /* if (type == 'conversions') {
             if (f.conversions.value != '-') {
                 f.conversions.value = max_formattedNumberStringToFloat(f.conversions.value);
             } else {
                 f.conversions.value = '';
             }
-        }
+        }*/
     }
 
     function max_formFormat(f, type)
@@ -1415,14 +1415,14 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
                 f.clicks.value = max_formatNumberIngnoreDecimals(f.clicks.value);
             }
         }
-        if (type == 'conversions') {
+        /*if (type == 'conversions') {
             if ((f.conversions.value == '') || (f.conversions.value == 0)) {
                 f.conversions.value = '-';
             }
             if (f.conversions.value != '-') {
                 f.conversions.value = max_formatNumberIngnoreDecimals(f.conversions.value);
             }
-        }
+        }*/
     }
 
     function max_formBookedUpdate(f)
@@ -1448,13 +1448,13 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
         }
         phpAds_setRemainingVisibility('remainingClicks', visibility);
 
-        if (max_formattedNumberStringToFloat(f.conversions.value) >= 0) {
+        /*if (max_formattedNumberStringToFloat(f.conversions.value) >= 0) {
             var remaining = max_formattedNumberStringToFloat(f.conversions.value) - conversions_delivered;
             document.getElementById('remainingConversionsCount').innerHTML = max_formatNumberIngnoreDecimals(remaining);
             visibility = true;
         } else {
             visibility = false;
-        }
+        }*/
         phpAds_setRemainingVisibility('remainingConversions', visibility);
 
         phpAds_formPriorityUpdate(f);
@@ -1468,8 +1468,8 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
         var autotarget_available =  ( !(f.endSet[0].checked == true) &&
                                       (
                                         (!( isNaN(max_formattedNumberStringToFloat(f.impressions.value)) || (f.impressions.value == '') || (f.unlimitedimpressions.checked == true))) ||
-                                        (!( isNaN(max_formattedNumberStringToFloat(f.clicks.value))      || (f.clicks.value == '')      || (f.unlimitedclicks.checked == true))) ||
-                                        (!( isNaN(max_formattedNumberStringToFloat(f.conversions.value)) || (f.conversions.value == '') || (f.unlimitedconversions.checked == true)))
+                                        (!( isNaN(max_formattedNumberStringToFloat(f.clicks.value))      || (f.clicks.value == '')      || (f.unlimitedclicks.checked == true)))
+//     || (!( isNaN(max_formattedNumberStringToFloat(f.conversions.value)) || (f.conversions.value == '') ||                                                                                                            (f.unlimitedconversions.checked == true)))
                                       )
                                     );
         // When autotargeting is available, only High-Priority
