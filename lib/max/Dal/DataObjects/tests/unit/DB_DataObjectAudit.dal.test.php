@@ -690,7 +690,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
 
         $doCampaignsTrackers->campaignid = rand(20,30);
         $doCampaignsTrackers->trackerid  = rand(20,30);
-        $campaign_trackerId = DataGenerator::generateOne($doCampaignsTrackers);
+        $campaign_trackerId = DataGenerator::generateOne($doCampaignsTrackers, true);
         $this->assertNotNull($campaign_trackerId,'failed to insert campaign_tracker');
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_INSERT);
         $aAudit = unserialize($oAudit->details);

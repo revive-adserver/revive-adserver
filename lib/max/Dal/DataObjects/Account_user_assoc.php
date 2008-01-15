@@ -66,13 +66,15 @@ class DataObjects_Account_user_assoc extends DB_DataObjectCommon
      * of the currently active account performing an
      * action.
      *
+     * @todo AUPP-AUDIT Make sure that the account_id returned is ok
+     *
      * @return integer The account ID to insert into the
      *                 "account_id" column of the audit trail
      *                 database table.
      */
     function getOwningAccountId()
     {
-
+        return $this->account_id;
     }
 
     /**
