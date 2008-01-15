@@ -51,6 +51,8 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
 
     function testInsert()
     {
+        $numTrackers = 2;
+
         // Prepare test data
         $doChannel = OA_Dal::factoryDO('channel');
         $doChannel->acls_updated = '2007-04-03 19:29:54';
@@ -59,7 +61,7 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
         $doTrackers = OA_Dal::factoryDO('trackers');
         $doTrackers->clientid = $clientId;
         $doTrackers->linkcampaigns = 't';
-        $aTrackerId = DataGenerator::generate($doTrackers, $numTrackers = 2);
+        $aTrackerId = DataGenerator::generate($doTrackers, $numTrackers, true);
 
         $doTrackers = OA_Dal::factoryDO('trackers');
         $doTrackers->linkcampaigns = 'f';
@@ -68,7 +70,7 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
         // Test that inserting new campaigns triggers to insert new campaigns_trackers (if exists)
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->clientid = $clientId;
-        $campaignId = DataGenerator::generateOne($doCampaigns, true);
+        $campaignId = DataGenerator::generateOne($doCampaigns);
         $this->assertNotEmpty($campaignId);
 
         // Test that two campaign_trackers were inserted as well
