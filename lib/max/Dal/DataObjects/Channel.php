@@ -108,6 +108,8 @@ class DataObjects_Channel extends DB_DataObjectCommon
             $sLimitation = (!get_magic_quotes_runtime()) ? stripslashes($sLimitation) : $sLimitation;
             $doBanners = OA_Dal::factoryDO('banners');
             $doBanners->bannerid = $bannerId;
+            $doBanners->find();
+            $doBanners->fetch();
             $doBanners->acl_plugins = MAX_AclGetPlugins($aAcls);
             $doBanners->acls_updated = OA::getNow();
             $doBanners->compiledlimitation = $sLimitation;
