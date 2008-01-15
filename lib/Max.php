@@ -29,8 +29,6 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA.php';
-require_once 'Log.php';
-require_once 'PEAR.php';
 
 /**
  * The main Openads class.
