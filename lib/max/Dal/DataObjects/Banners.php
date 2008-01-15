@@ -212,14 +212,14 @@ class DataObjects_Banners extends DB_DataObjectCommon
      * of the currently active account performing an
      * action.
      *
-     * @access private
      * @return integer The account ID to insert into the
      *                 "account_id" column of the audit trail
      *                 database table.
      */
-    function _getOwningAccountId()
+    function getOwningAccountId()
     {
-
+        $doCampaigns = OA_Dal::staticGetDO('campaigns', $this->campaignid);
+        return $doCampaigns->getOwningAccountId();
     }
 
     /**

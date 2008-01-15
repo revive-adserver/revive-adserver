@@ -45,12 +45,11 @@ class DataObjects_Account_preference_assoc extends DB_DataObjectCommon
      * of the currently active account performing an
      * action.
      *
-     * @access private
      * @return integer The account ID to insert into the
      *                 "account_id" column of the audit trail
      *                 database table.
      */
-    function _getOwningAccountId()
+    function getOwningAccountId()
     {
 
     }
