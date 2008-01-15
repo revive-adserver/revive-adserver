@@ -179,7 +179,7 @@ class OA_Admin_Template extends Smarty
                 	    }
                 		break;
                 	case OA_ENTITY_STATUS_RUNNING:
-                	    $class = 'accepted';
+                	    $class = 'started';
                 	    $text  = $strCampaignStatusRunning;
                 		break;
                 	case OA_ENTITY_STATUS_PAUSED:
@@ -187,7 +187,7 @@ class OA_Admin_Template extends Smarty
                 	    $text  = $strCampaignStatusPaused;
                 		break;
                 	case OA_ENTITY_STATUS_AWAITING:
-                	    $class = 'started';
+                	    $class = 'awaiting';
                 	    $text  = $strCampaignStatusAwaiting;
                 		break;
                 	case OA_ENTITY_STATUS_EXPIRED:
@@ -195,7 +195,7 @@ class OA_Admin_Template extends Smarty
                 	    $text  = $strCampaignStatusExpired;
                 		break;
                 	case OA_ENTITY_STATUS_APPROVAL:
-                	    $class = 'awaiting';
+                	    $class = 'accepted';
                 	    $text  = $strCampaignStatusApproval;
                 		break;
                 	case OA_ENTITY_STATUS_REJECTED:
