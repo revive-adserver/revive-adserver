@@ -100,10 +100,14 @@ class OA_Dll_Audit extends OA_Dll
                 $oAudit->whereAdd($where);
             }
 
+
             //  Display all campaigns for the selected advertiser
             if (!empty($aParam['advertiser_id']) && ($aParam['advertiser_id'] > 0)
                 && empty($aParam['campaign_id']))
             {
+                //  Display advertiser being inserted
+                $where = "context = 'Client' AND contextid = {$aParam['advertiser_id']}";
+                $oAudit->whereAdd($where);
 
                 //  retrieve all campaigns with clientid
                 $oCampaign = OA_Dal::factoryDO($conf['table']['campaigns']);
@@ -117,9 +121,9 @@ class OA_Dll_Audit extends OA_Dll
                     }
                     if (!empty($aCampaign)) {
                         $where = "context = 'Campaign' AND contextid IN (". implode(',', $aCampaign) .")";
+                        $oAudit->whereAdd($where, 'OR');
                     }
                 }
-
                 //  retrieve all banners that belong to above campaigns
                 $oBanner = OA_Dal::factoryDO($conf['table']['banners']);
                 $oBanner->selectAdd();
@@ -132,7 +136,7 @@ class OA_Dll_Audit extends OA_Dll
                     }
                     if (!empty($aBanner)) {
                         $where .= " OR context = 'Banner' AND contextid IN (". implode(',', $aBanner) .")";
-                        $oAudit->whereAdd($where);
+                        $oAudit->whereAdd($where, 'OR');
                     }
                 }
             }
@@ -140,6 +144,9 @@ class OA_Dll_Audit extends OA_Dll
             if (!empty($aParam['advertiser_id']) && ($aParam['advertiser_id'] > 0)
                 && !empty($aParam['campaign_id']) && ($aParam['campaign_id'] > 0))
             {
+                //  display campaign being inserted
+                $where = " context = 'Campaign' AND contextid = {$aParam['campaign_id']}";
+                $oAudit->whereAdd($where);
                 //  retrieve all banners that belong to above campaigns
                 $oBanner = OA_Dal::factoryDO($conf['table']['banners']);
                 $oBanner->selectAdd();
@@ -151,7 +158,7 @@ class OA_Dll_Audit extends OA_Dll
                         $aBanner[] = $oBanner->bannerid;
                     }
                     if (!empty($aBanner)) {
-                        $oAudit->whereAdd("context = 'Banner' AND contextid IN (". implode(',', $aBanner) .")");
+                        $oAudit->whereAdd("context = 'Banner' AND contextid IN (". implode(',', $aBanner) .")", 'OR');
                     }
                 }
             }

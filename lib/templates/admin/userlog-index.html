@@ -20,7 +20,7 @@
 
 <fieldset id="auditFilter">
     <legend>{t str=Filters}</legend>
-    
+
 	<div class="filter">
 	    <label class="label" for="advertiserId">{t str=Advertiser}</label>
 	    <span>
@@ -77,7 +77,7 @@
             </tr>
             {if count($aAuditData) > 0}
             {foreach from=$aAuditData key=key item=aValue name=info}
-            {cycle values='odd,even' assign=rowClass} 
+            {cycle values='odd,even' assign=rowClass}
             <tr class="{$rowClass}">
                 <td>{$aValue.updated}</td>
                 <td>
@@ -94,7 +94,7 @@
             {/foreach}
             {else}
             <tr class="{$rowClass}">
-                <td colspan="2">
+                <td colspan="3">
                     {t str=AuditResultsNotFound}
                 </td>
             </tr>
@@ -130,21 +130,21 @@
 	            aUrl.push('zoneId=' + zoneId);
 	        }
         }
-        
+
         if (form.period_preset.options[form.period_preset.selectedIndex].value != ''
             && form.elements['period_start'] && form.elements['period_end'])
         {
             var periodPreset = form.period_preset.options[form.period_preset.selectedIndex].value;
             var periodStart  = form.period_start.value;
             var periodEnd    = form.period_end.value;
-            
+
             aUrl.push('period_preset=' + periodPreset);
             aUrl.push('period_start=' + periodStart);
             aUrl.push('period_end=' + periodEnd);
         }
         var setPerPage = form.setPerPage.options[form.setPerPage.selectedIndex].value;
         aUrl.push('setPerPage=' + setPerPage);
-        
+
         var params = aUrl.join('&');
         if (aUrl.length > 0) {
             url = url + '?' + params;
@@ -152,10 +152,10 @@
         document.location.href = url;
         return false;
     }
-    
+
     function toggleForm() {
         var form = document.getElementById('auditForm');
-        
+
         if (form.advertiserId.options[form.advertiserId.selectedIndex].value > 0) {
             //  disable publisher widget
             form.publisherId.disabled = true;
@@ -163,7 +163,7 @@
             // disable advertiser widget
             form.advertiserId.disabled = true;
         }
-        
+
         return false;
     }
 
@@ -185,7 +185,7 @@
 
         submitForm();
     }
-    
+
     toggleForm();
 //-->
 </script>
