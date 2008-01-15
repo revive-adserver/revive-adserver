@@ -69,12 +69,12 @@ class DataGenerator
      * Generate one record. Wrapper for: generate($do, 1, $generateParents)
      * Returns id of created record
      *
-     * @see DB_DataObject::insert()
+     * @static
+     * @access public
      * @param DB_DataObjectCommon $do Either DataObject or table name (as string)
      * @param bool $generateParents   Generate parent records
      * @return int                    Id of created record
-     * @access public
-     * @static
+     * @see DB_DataObject::insert()
      */
     function generateOne($do, $generateParents = false)
     {
