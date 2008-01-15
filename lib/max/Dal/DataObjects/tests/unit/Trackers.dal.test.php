@@ -58,7 +58,7 @@ class DataObjects_TrackersTest extends DalUnitTestCase
         $doTrackers->clickwindow = 3600;
         $doTrackers->status = 4;
         $doTrackers->type = 1;
-        $trackerId = DataGenerator::generateOne($doTrackers);
+        $trackerId = DataGenerator::generateOne($doTrackers, true);
 
         // Insert a variable for the tracker
         $doVariables = OA_Dal::factoryDO('variables');
@@ -121,4 +121,5 @@ class DataObjects_TrackersTest extends DalUnitTestCase
     }
 
 }
+
 ?>
