@@ -204,7 +204,7 @@ class Migration_546Test extends MigrationTest
     function _setupAccounts()
     {
 
-        $this->initDatabase(542, array('agency', 'affiliates', 'application_variable', 'audit', 'channel', 'clients', 'preference'));
+        $this->initDatabase(542, array('agency', 'affiliates', 'application_variable', 'audit', 'channel', 'clients', 'preference', 'preference_advertiser', 'preference_publisher'));
 
 
         $this->oDbh->exec("INSERT INTO {$this->tblPrefsOld} (agencyid, admin_fullname, admin_email, admin, admin_pw) VALUES
