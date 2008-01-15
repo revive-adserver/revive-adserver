@@ -479,7 +479,7 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
                $x = 0;
             }
             $aDates = array();
-            $aDates['start'] = $oStartDate; //->format('%Y-%m-%d %H:%M:%S');
+            $aDates['start'] = new Date($oStartDate); //->format('%Y-%m-%d %H:%M:%S');
             $oEndDate = new Date();
             $oEndDate->copy($oStartDate);
             $oEndDate->addSeconds(OA_OperationInterval::secondsPerOperationInterval() - 1);
