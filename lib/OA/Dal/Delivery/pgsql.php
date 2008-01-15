@@ -463,7 +463,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
             c.companion AS campaign_companion,
             c.block AS block_campaign,
             c.capping AS cap_campaign,
-            c.session_capping AS session_cap_campaign
+            c.session_capping AS session_cap_campaign,
             apa.value AS timezone
         FROM
             \"{$conf['table']['prefix']}{$conf['table']['banners']}\" AS d JOIN
@@ -1356,8 +1356,8 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
 
     $aTables = array(
         "\"{$conf['table']['prefix']}{$conf['table']['banners']}\" AS d",
-        "\"JOIN {$conf['table']['prefix']}{$conf['table']['campaigns']}\" AS m ON (d.campaignid = m.campaignid) ",
-        "\"JOIN {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}\" AS az ON (d.bannerid = az.ad_id)"
+        "JOIN \"{$conf['table']['prefix']}{$conf['table']['campaigns']}\" AS m ON (d.campaignid = m.campaignid) ",
+        "JOIN \"{$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}\" AS az ON (d.bannerid = az.ad_id)"
     );
     $select = "
       az.zone_id = 0

@@ -25,7 +25,8 @@
 $Id $
 */
 
-require_once MAX_PATH . '/lib/OA/Dal/Delivery/'.$GLOBALS['_MAX']['CONF']['database']['type'].'.php';
+require_once MAX_PATH . '/lib/max/Dal/Delivery.php';
+require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 
 /**
@@ -46,6 +47,8 @@ class Test_OA_Dal_DeliveryDB_getAdminTZ extends UnitTestCase
         $this->UnitTestCase();
         $this->oDbh = OA_DB::singleton();
         $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+
+        MAX_Dal_Delivery_Include();
     }
 
     function test_DeliveryDB_getAdminTZ()

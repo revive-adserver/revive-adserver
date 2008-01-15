@@ -179,7 +179,7 @@ class OA
         }
         // Log messages in the local server timezone, if possible
         global $aServerTimezone;
-        if (!is_null($aServerTimezone)) {
+        if (!empty($aServerTimezone)) {
             $aCurrentTimezone = OA_Admin_Timezones::getTimezone();
             OA_setTimeZone($aServerTimezone['tz']);
         }
@@ -191,7 +191,7 @@ class OA
         }
         $result = $oLogger->log($message, $priority);
         // Restore the timezone
-        if (!is_null($aCurrentTimezone)) {
+        if (!empty($aCurrentTimezone)) {
             OA_setTimeZone($aCurrentTimezone['tz']);
         }
         unset($GLOBALS['tempDebugPrefix']);
