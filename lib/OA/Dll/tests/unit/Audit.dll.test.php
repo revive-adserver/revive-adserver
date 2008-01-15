@@ -78,6 +78,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
 
         // record 1 - more than 7 days old so should not be returned
         $oAudit = OA_Dal::factoryDO('audit');
+        $oAudit->account_id = 1;
         $oAudit->context = 'Campaign';
         $oAudit->contextid = 1;
         $oAudit->parentid = null;
@@ -176,6 +177,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
 
         // record 1 - more than 7 days old so should not be returned
         $oAudit = OA_Dal::factoryDO('audit');
+        $oAudit->account_id = 1;
         $oAudit->context = 'Campaign';
         $oAudit->contextid = 1;
         $oAudit->parentid = null;
