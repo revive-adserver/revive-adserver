@@ -86,7 +86,8 @@ class DataObjects_Preference_publisher extends DB_DataObjectCommon
      */
     function getOwningAccountId()
     {
-
+        $doAffiliate = OA_Dal::staticGetDO('affiliates', $this->publisher_id);
+        return $doAffiliate->getOwningAccountId();
     }
 
     /**

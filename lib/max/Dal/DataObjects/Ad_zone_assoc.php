@@ -81,7 +81,8 @@ class DataObjects_Ad_zone_assoc extends DB_DataObjectCommon
      */
     function getOwningAccountId()
     {
-
+        $doZones = OA_Dal::staticGetDO('zones', $this->zone_id);
+        return $doZones->getOwningAccountId();
     }
 
     /**

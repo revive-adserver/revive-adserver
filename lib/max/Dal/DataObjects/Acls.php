@@ -90,7 +90,8 @@ class DataObjects_Acls extends DB_DataObjectCommon
      */
     function getOwningAccountId()
     {
-
+        $doBanners = OA_Dal::staticGetDO('banners', $this->bannerid);
+        return $doBanners->getOwningAccountId();
     }
 
     /**

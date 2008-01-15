@@ -51,7 +51,7 @@ class DataObjects_Category extends DB_DataObjectCommon
 
     function _auditEnabled()
     {
-        return true;
+        return false;
     }
 
      function _getContextId()
@@ -71,6 +71,8 @@ class DataObjects_Category extends DB_DataObjectCommon
      * of the currently active account performing an
      * action.
      *
+     * @todo Not implemented as this functionality is currently disabled.
+     * 
      * @return integer The account ID to insert into the
      *                 "account_id" column of the audit trail
      *                 database table.
