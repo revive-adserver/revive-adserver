@@ -177,7 +177,7 @@ class DataObjects_Users extends DB_DataObjectCommon
      */
     function getOwningAccountId()
     {
-
+        return OA_Dal_ApplicationVariables::get('admin_account_id');
     }
 
     /**
