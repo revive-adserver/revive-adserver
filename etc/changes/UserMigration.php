@@ -18,7 +18,7 @@ class UserMigration extends Migration
 	    extract($aUser);
 
 	    $aConf = $GLOBALS['_MAX']['CONF'];
-	    $oDbh  = OA_DB::singleton();
+	    $oDbh  = &OA_DB::singleton();
 
         $prefix      = $aConf['table']['prefix'];
 	    $tblSource   = $oDbh->quoteIdentifier($prefix.$sourceTable, true);
@@ -206,13 +206,13 @@ class UserMigration extends Migration
                 }
 
                 $userId = $oDbh->lastInsertID($prefix.'users', 'user_id');
-                $result = OA_Permission::setAccountAccess($accountId, $userId);
+                $result = $this->_insertAccountAccess($accountId, $userId);
                 if (!$result) {
                     $this->_logError("error while giving access to user id: $userId to account: $accountId");
                     return false;
                 }
                 if ($group == 'ADMIN' && !empty($managerAccountId)) {
-                    $result = OA_Permission::setAccountAccess($managerAccountId, $userId);
+                    $result = $this->_insertAccountAccess($managerAccountId, $userId);
                     if (!$result) {
                         $this->_logError("error while giving access to user id: $userId to account: $managerAccountId");
                         return false;
@@ -230,9 +230,7 @@ class UserMigration extends Migration
                             }
                         }
                     }
-
-                    $result = OA_Permission::storeUserAccountsPermissions($aPermissions, $accountId, $userId);
-
+                    $result = $this->_insertAccountPermissions($accountId, $userId, $aPermissions);
                     if (!$result) {
                         $this->_logError("Error creating permissions for account: {$accountId} and user {$userId}");
                         return false;
@@ -243,8 +241,57 @@ class UserMigration extends Migration
 
         return true;
 	}
+	
+	function _insertAccountAccess($accountId, $userId)
+	{
+	    $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+	    $oDbh  = &OA_DB::singleton();
+	    
+	    $accountId = $oDbh->quote($accountId);
+	    $userId = $oDbh->quote($userId);
+	    $query = "INSERT INTO
+	               {$prefix}account_user_assoc
+	               (account_id, user_id)
+	               VALUES
+	               ({$accountId},{$userId})";
 
+  	    $result = $oDbh->Exec($query);
 
+	    if (PEAR::isError($result))
+	    {
+	        $this->_logError('Failed to insert account_user_assoc record for account:'
+	           .$accountId.', user: '.$userId);
+	        return false;
+	    }
+	    return true;
+    }
+
+	function _insertAccountPermissions($accountId, $userId, $aPermissions)
+	{
+	    $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+	    $oDbh  = &OA_DB::singleton();
+	    
+	    $accountId = $oDbh->quote($accountId);
+	    $userId = $oDbh->quote($userId);
+	    
+	    foreach ($aPermissions as $permissionId) {
+    	    $query = "INSERT INTO
+    	               {$prefix}account_user_permission_assoc
+    	               (account_id, user_id, permission_id, is_allowed)
+    	               VALUES
+    	               ({$accountId},{$userId}, {$permissionId}, 1)";
+    
+      	    $result = $oDbh->Exec($query);
+    	    if (PEAR::isError($result))
+    	    {
+    	        $this->_logError('Failed to insert account_user_assoc record for account: '.$accountId
+    	           .', user: '.$userId.', permission: '.$permissionId);
+    	        return false;
+    	    }
+	    }
+
+	    return true;
+    }
 }
 
 ?>
