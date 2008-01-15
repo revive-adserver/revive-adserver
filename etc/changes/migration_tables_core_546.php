@@ -276,30 +276,12 @@ class Migration_546 extends Migration
 	    // store diffs as acct/pref assocs
         foreach ($this->aPrefMap AS $newName => $aPrefNew)
         {
-            foreach ($aPrefOldAgency AS $k => $aPrefOld)
-    	    {
-    	        $oldName  = $aPrefNew['name'];
-    	        $oldValue = $aPrefOld[$oldName];
-                $aVal     = unserialize($oldValue);
-// don't bother migrating agency values for gui_column array values
-/*                if (is_array($aVal))
-                {
-                    if (strpos($newName,'_label') > 0)
-                    {
-                        $oldValue = $aVal['label'];
-                    }
-                    else if (strpos($newName,'_rank') > 0)
-                    {
-                        $oldValue = $aVal['rank'];
-                    }
-                    else
-                    {
-                        $oldValue = $aVal['show'];
-                    }
-                }
-*/
-                if (!is_array($aVal))
-                {
+            if (substr($newName,0,9) != 'ui_column')
+            {
+                foreach ($aPrefOldAgency AS $k => $aPrefOld)
+        	    {
+        	        $oldName  = $aPrefNew['name'];
+        	        $oldValue = (is_null($aPrefOld[$oldName]) ? '' : $aPrefOld[$oldName]);
                     if ($oldValue <> $aPrefNew['value'])
                     {
 
@@ -321,7 +303,7 @@ class Migration_546 extends Migration
                         $this->_insertAccountPreferencesAssoc($accountId, $prefId, $oldValue);
                     }
                 }
-    	    }
+            }
         }
 	    return true;
 	}
