@@ -68,7 +68,7 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
         // Test that inserting new campaigns triggers to insert new campaigns_trackers (if exists)
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->clientid = $clientId;
-        $campaignId = DataGenerator::generateOne($doCampaigns);
+        $campaignId = DataGenerator::generateOne($doCampaigns, true);
         $this->assertNotEmpty($campaignId);
 
         // Test that two campaign_trackers were inserted as well
@@ -81,4 +81,5 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
     }
 
 }
+
 ?>
