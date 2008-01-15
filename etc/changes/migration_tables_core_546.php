@@ -232,7 +232,7 @@ class Migration_546 extends Migration
 
 	    if (PEAR::isError($accountId))
 	    {
-	        $this->_logError('Failed to retrieve admin account record id for '.$key);
+	        $this->_logError('Failed to retrieve admin account id');
 	        return false;
 	    }
         if (!$this->_insertPreferencesAdmin($accountId, $this->aPrefMap))
