@@ -73,11 +73,12 @@ class Test_OA_Dal_Maintenance_Priority_getAdZoneAssociationsByAds extends UnitTe
         $this->assertEqual(count($result), 0);
 
         // Test 3
+        $doZones = OA_Dal::factoryDO('zones');
+        $zoneId = DataGenerator::generateOne($doZones, true);
 
         $doAdZone = OA_Dal::factoryDO('ad_zone_assoc');
-
         $doAdZone->ad_id = 1;
-        $doAdZone->zone_id = 1;
+        $doAdZone->zone_id = $zoneId;
         $doAdZone->link_type = 1;
         $idAdZone = DataGenerator::generateOne($doAdZone);
 
@@ -94,32 +95,44 @@ class Test_OA_Dal_Maintenance_Priority_getAdZoneAssociationsByAds extends UnitTe
         DataGenerator::cleanUp();
 
         // Test 4
+        $zoneId1 = DataGenerator::generateOne($doZones, true);
         $doAdZone->ad_id = 1;
-        $doAdZone->zone_id = 1;
+        $doAdZone->zone_id = $zoneId1;
         $doAdZone->link_type = 1;
         $idAdZone = DataGenerator::generateOne($doAdZone);
+
+        $zoneId2 = DataGenerator::generateOne($doZones, true);
         $doAdZone->ad_id = 1;
-        $doAdZone->zone_id = 2;
+        $doAdZone->zone_id = $zoneId2;
         $doAdZone->link_type = 1;
         $idAdZone = DataGenerator::generateOne($doAdZone);
+
+        $zoneId3 = DataGenerator::generateOne($doZones, true);
         $doAdZone->ad_id = 1;
-        $doAdZone->zone_id = 7;
+        $doAdZone->zone_id = $zoneId3;
         $doAdZone->link_type = 1;
         $idAdZone = DataGenerator::generateOne($doAdZone);
+
         $doAdZone->ad_id = 2;
-        $doAdZone->zone_id = 2;
+        $doAdZone->zone_id = $zoneId2;
         $doAdZone->link_type = 1;
         $idAdZone = DataGenerator::generateOne($doAdZone);
+
         $doAdZone->ad_id = 2;
-        $doAdZone->zone_id = 7;
+        $doAdZone->zone_id = $zoneId3;
         $doAdZone->link_type = 0;
         $idAdZone = DataGenerator::generateOne($doAdZone);
+
+        $zoneId = DataGenerator::generateOne($doZones, true);
         $doAdZone->ad_id = 3;
-        $doAdZone->zone_id = 1;
+        $doAdZone->zone_id = $zoneId1;
         $doAdZone->link_type = 1;
         $idAdZone = DataGenerator::generateOne($doAdZone);
+
+        $zoneId4 = DataGenerator::generateOne($doZones, true);
+        $zoneId = DataGenerator::generateOne($doZones, true);
         $doAdZone->ad_id = 3;
-        $doAdZone->zone_id = 9;
+        $doAdZone->zone_id = $zoneId4;
         $doAdZone->link_type = 1;
         $idAdZone = DataGenerator::generateOne($doAdZone);
 
@@ -132,31 +145,31 @@ class Test_OA_Dal_Maintenance_Priority_getAdZoneAssociationsByAds extends UnitTe
         $this->assertTrue(is_array($result[1][0]));
         $this->assertEqual(count($result[1][0]), 1);
         $this->assertTrue(isset($result[1][0]['zone_id']));
-        $this->assertEqual($result[1][0]['zone_id'], 1);
+        $this->assertEqual($result[1][0]['zone_id'], $zoneId1);
         $this->assertTrue(is_array($result[1][1]));
         $this->assertEqual(count($result[1][1]), 1);
         $this->assertTrue(isset($result[1][1]['zone_id']));
-        $this->assertEqual($result[1][1]['zone_id'], 2);
+        $this->assertEqual($result[1][1]['zone_id'], $zoneId2);
         $this->assertTrue(is_array($result[1][2]));
         $this->assertEqual(count($result[1][2]), 1);
         $this->assertTrue(isset($result[1][2]['zone_id']));
-        $this->assertEqual($result[1][2]['zone_id'], 7);
+        $this->assertEqual($result[1][2]['zone_id'], $zoneId3);
         $this->assertTrue(is_array($result[2]));
         $this->assertEqual(count($result[2]), 1);
         $this->assertTrue(is_array($result[2][0]));
         $this->assertEqual(count($result[2][0]), 1);
         $this->assertTrue(isset($result[2][0]['zone_id']));
-        $this->assertEqual($result[2][0]['zone_id'], 2);
+        $this->assertEqual($result[2][0]['zone_id'], $zoneId2);
         $this->assertTrue(is_array($result[3]));
         $this->assertEqual(count($result[3]), 2);
         $this->assertTrue(is_array($result[3][0]));
         $this->assertEqual(count($result[3][0]), 1);
         $this->assertTrue(isset($result[3][0]['zone_id']));
-        $this->assertEqual($result[3][0]['zone_id'], 1);
+        $this->assertEqual($result[3][0]['zone_id'], $zoneId1);
         $this->assertTrue(is_array($result[3][1]));
         $this->assertEqual(count($result[3][1]), 1);
         $this->assertTrue(isset($result[3][1]['zone_id']));
-        $this->assertEqual($result[3][1]['zone_id'], 9);
+        $this->assertEqual($result[3][1]['zone_id'], $zoneId4);
         DataGenerator::cleanUp();
     }
 
