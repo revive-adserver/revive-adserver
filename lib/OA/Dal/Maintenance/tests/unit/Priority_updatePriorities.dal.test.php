@@ -385,7 +385,7 @@ class Test_OA_Dal_Maintenance_Priority_updatePriorities extends UnitTestCase
         $doCampaigns->target_impression = 0;
         $doCampaigns->anonymous = 'f';
         $doCampaigns->updated = $oNow->format('%Y-%m-%d %H:%M:%S');
-        $this->aIds['campaign'] = DataGenerator::generateOne($doCampaigns);
+        $this->aIds['campaign'] = DataGenerator::generateOne($doCampaigns, true);
 
         // Add a banner
         $doBanners   = OA_Dal::factoryDO('banners');
