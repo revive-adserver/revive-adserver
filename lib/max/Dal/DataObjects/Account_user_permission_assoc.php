@@ -52,7 +52,7 @@ class DataObjects_Account_user_permission_assoc extends DB_DataObjectCommon
      */
     function getOwningAccountId()
     {
-
+        return $this->account_id;
     }
 
     /**
