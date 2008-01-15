@@ -57,7 +57,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         // assuming that all test data was created by DataGenerator
         // If it is necessary to recreate entire database we still could do it on the end
         // of each test by calling TestEnv::restoreEnv();
-        DataGenerator::cleanUp(array('banners'));
+        //DataGenerator::cleanUp(array('banners'));
     }
 
     function testFactoryDAL()
@@ -173,7 +173,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $campaignId;
         $doBanners->acls_updated = '2007-04-03 18:39:45';
-        $bannerId = DataGenerator::generateOne($doBanners);
+        $bannerId = DataGenerator::generateOne($doBanners, true);
 
         // Test dependency on one level
         $doClients = OA_Dal::staticGetDO('clients', $clientId);
@@ -194,6 +194,8 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $doBanners->bannerid = $bannerId;
         $this->assertTrue($doBanners->belongsToAccount('agency', $doAgency->account_id));
         $this->assertFalse($doBanners->belongsToAccount('agency', 222));
+        
+        DataGenerator::cleanUp(array('banners'));
     }
 
     function testAddReferenceFilter()
@@ -391,7 +393,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
     {
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->acls_updated = '2007-04-03 18:39:45';
-        $bannerId1 = DataGenerator::generateOne($doBanners);
+        $bannerId1 = DataGenerator::generateOne($doBanners, true);
         $doBanners1 = OA_Dal::staticGetDO('banners', $bannerId1);
 
         // Update
@@ -416,6 +418,8 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
 
         // Test updates is equal or greater than our checkpoint time
         $this->assertTrue($time <= strtotime($doBanners2->updated), 'Test that timestamp was refreshed (timestamp: '.$time.' is lower than ' . strtotime($doBanners2->updated));
+        
+        DataGenerator::cleanUp(array('banners'));
     }
 
     function testInsert()
@@ -424,7 +428,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->comments = $comments = 'test123';
         $doBanners->acls_updated = '2007-04-03 18:39:45';
-        $bannerId = DataGenerator::generateOne($doBanners);
+        $bannerId = DataGenerator::generateOne($doBanners, true);
 
         $doBanners = OA_Dal::staticGetDO('banners', $bannerId);
 
@@ -443,6 +447,8 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
 
         $doBannersCheck = OA_Dal::staticGetDO('banners', $bannerId);
         $this->assertEqual($string, $doBannersCheck->comments);
+        
+        DataGenerator::cleanUp(array('banners'));
     }
 
     function testGetFirstPrimaryKey()
@@ -538,7 +544,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         Mock::generatePartial(
             'DB_DataObjectCommon',
             $mockDO = 'DB_DataObjectCommon'.rand(),
-            array('_prepAuditArray','_buildAuditArray','_auditEnabled','insert','_getContext','_getContextId')
+            array('_prepAuditArray','_buildAuditArray','_auditEnabled','insert','_getContext','_getContextId','getOwningAccountId')
         );
 
         $oDO = new $mockDO($this);
@@ -553,6 +559,8 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $oDO->expectOnce('_getContextId');
         $oDO->setReturnValue('_getContext', 'Test');
         $oDO->expectOnce('_getContext');
+        $oDO->setReturnValue('getOwningAccountId', 0);
+        $oDO->expectOnce('getOwningAccountId');
 
         $oDO->_tableName = 'table1';
         $oDO->col1 = 111;
