@@ -1128,7 +1128,7 @@ class DB_DataObjectCommon extends DB_DataObject
                 $this->doAudit->userid     = OA_Permission::getUserId();
                 // Set the account ID of the account that directly owns the
                 // item being audited
-                $this->doAudit->account_id = $this->_getOwningAccountId();
+                $this->doAudit->account_id = $this->getOwningAccountId();
                 // Prepare a generic array of data to be stored in the audit record
                 $aAuditFields = $this->_prepAuditArray($actionid, $oDataObject);
                 // Individual objects can customise this data (add, remove, format...)
