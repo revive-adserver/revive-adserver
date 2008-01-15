@@ -74,8 +74,8 @@ class OA_Dashboard_Widget_Audit extends OA_Dashboard_Widget
                 $advertiserId   = MAX_getStoredValue('advertiserId',    0);
 
                 list($aNow['year'], $aNow['month'], $aNow['day']) = explode('-', OA::getNow('Y-m-d'));
-                $startDate      = OA::getNow('Y-m-d');
-                $endDate        = date('Y-m-d', mktime(0, 0, 0, $aNow['month'], $aNow['day']+7, $aNow['year']));
+                $startDate      = date('Y-m-d', mktime(0, 0, 0, $aNow['month'], $aNow['day']-7, $aNow['year']));
+                $endDate        = OA::getNow('Y-m-d');
 
 
                 $aParams = array(

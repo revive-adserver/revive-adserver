@@ -72,9 +72,8 @@ class OA_Dashboard_Widget_CampaignOverview extends OA_Dashboard_Widget
                 $aCampaign[] = $oCampaign->toArray();
             }
         }
-
-        $this->oTpl->assign('baseUrl',      MAX::constructURL(MAX_URL_ADMIN, 'campaign-edit.php'));
         $this->oTpl->assign('aCampaign',    $aCampaign);
+        $this->oTpl->assign('baseUrl',      MAX::constructURL(MAX_URL_ADMIN, 'campaign-edit.php'));
         $this->oTpl->assign('siteUrl',      MAX::constructURL(MAX_URL_ADMIN, 'advertiser-index.php'));
 
         $this->oTpl->display();

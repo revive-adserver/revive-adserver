@@ -41,9 +41,9 @@ $Id$
 
 {if $screen == 'enabled'}
     {if $aAuditData|@count > 0}
-    <div class="widgetListWrapper">
+    <div class="widgetListWrapper widgetContainer">
         <!-- normal view -->
-        <ul class="auditList widgetList">
+        <ul class="widgetList auditList">
            {foreach from=$aAuditData key=key item=aValue}
             <li>
                 <div class="title">
@@ -51,29 +51,28 @@ $Id$
                         {$aValue.desc}
                     </a>
                 </div>
-                <div class="date">
-                    {$aValue.updated|date_format:"%d %b %Y"}
+                <div>
+                    <span class="date">{$aValue.updated|date_format:"%d %b %Y"}</span>
                 </div>
             </li>
             {/foreach}
         </ul>
-        <div><a class="site-link" target="_top" href="{$siteUrl}" target="_blank">{$siteTitle}</a></div>
-        <!-- end of normal view -->
     </div>
+    <div><a class="site-link" target="_top" href="{$siteUrl}" target="_blank">{$siteTitle}</a></div>
     {else}
-    <div class="widgetListWrapper">
-      <ul class="widgetList">
+    <div class="widgetListWrapper widgetContainer">
+      <ul class="widgetList auditList">
         <li>{$noData}</li>
       </ul>
     </div>
     {/if}
 {else}
-    <div class="widgetListWrapper">
-      <ul class="widgetList">
-        {t str=AuditTrailNotEnabled}
-      </ul>
+    <div class="widgetListWrapper widgetContainer">
+        <ul class="widgetList auditList">
+            {t str=AuditTrailNotEnabled}
+        </ul>
     </div>
     <div><a class="site-link" href="{$siteUrl}" target="_blank">{$siteTitle}</a></div>
-{/if}
+    {/if}
 </body>
 </html>

@@ -40,11 +40,11 @@ $Id$
 <body>
 
     {if $aCampaign|@count > 0}
-    <div class="widgetListWrapper campaignOverview">
+    <div class="widgetContainer widgetListWrapper">
         <!-- normal view -->
         <ul class="widgetList campaignList">
            {foreach from=$aCampaign key=key item=aValue}
-            <li><div class="title">{$aValue.campaignname}</div><div>{showStatusText status=$aValue.status an_status=$aValue.an_status}</div></li>
+            <li><div class="title"><a href="{$baseUrl}?clientid={$aValue.clientid}&campaignid={$aValue.campaignid}">{$aValue.campaignname}</a></div><div>{showStatusText status=$aValue.status an_status=$aValue.an_status}</div></li>
             {/foreach}
         </ul>
     </div>
@@ -52,7 +52,7 @@ $Id$
     <!-- end of normal view -->
     {else}
     <!-- no campaigns view -->
-    <div class="widgetListWrapper">
+    <div class="widgetListWrapper widgetContainer">
         <ul class="widgetList campaignList">
             {t str=CampaignNoRecords}
         </ul>
@@ -60,11 +60,11 @@ $Id$
     <div><a class="site-link" target="_top" href="www/admin/advertiser-index.php">{t str=CampaignSetUp}</a></div>
     <!-- end of no campaigns view -->
     {/if}
-    
-    
+
+
 		<!-- no items view  -->
 		<!--
-		<div class="widgetListWrapper">
+		<div class="widgetListWrapper widgetContainer">
 		    <ul class="widgetList campaignNoItems">
 		        <li>{t str=CampaignNoDataTimeSpan}</li>
 		    </ul>
@@ -72,18 +72,18 @@ $Id$
 		<div><a class="site-link" target="_top" href="www/admin/advertiser-index.php">Set up a campaign today</a></div>
 		-->
 		<!-- end of no items view  -->
-		
+
 		<!-- Audit Trail inactive view -->
 		<!--
-		<div class="widgetListWrapper">
+		<div class="widgetListWrapper widgetContainer">
 		    <ul class="widgetList campaignAuditNotActivated">
 		        <li>{t str=CampaignAuditNotActivated}</li>
 		    </ul>
 		</div>
 		<div><a class="site-link" target="_top" href="www/admin/account-settings-debug.php">Activate Audit Trail</a> to start viewing campaigns</div>
 		-->
-		<!-- end of Audit Trail inactive view-->    
-    
+		<!-- end of Audit Trail inactive view-->
+
 
 </body>
 </html>

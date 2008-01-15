@@ -1111,7 +1111,7 @@ $GLOBALS['strAuditTrailSetup']          = "Setup the Audit Trail today";
 $GLOBALS['strAuditTrailGoTo']           = "Go to Audit Trail page";
 $GLOBALS['strAuditTrailNotEnabled']     = "<li>Audit Trail allows you to see who did what and when. Or to put it another way,  it keeps track of system changes within Openads</li>
         <li>You are seeing this message, because you have not activated the Audit Trail</li>
-        <li>Interested in learning more? Read the <a href='http://www.example.com' target='_blank'>Audit Trail documentation</a></li>";
+        <li>Interested in learning more? Read the <a href='http://docs.openads.org/help/2.6/myAccount/globalSettings/auditTrail' target='_blank'>Audit Trail documentation</a></li>";
 
 // Widget - Campaign
 $GLOBALS['strCampaignGoTo']             = 'Go to Campaigns page';

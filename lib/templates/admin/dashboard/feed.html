@@ -38,7 +38,7 @@ $Id$
 </head>
 
 <body>
-    <div class="widgetListWrapper">
+    <div class="widgetListWrapper widgetContainer">
         <ul class="widgetList feedList">
         {foreach item=f from=$feed}
             <li><a href="{$f.link|escape}" target="_blank" title="{$f.origTitle}">{$f.title|escape}</a></li>
