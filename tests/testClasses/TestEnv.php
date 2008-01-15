@@ -131,6 +131,8 @@ class TestEnv
      * A method for re-parsing the testing environment configuration
      * file, to restore it in the event it needed to be changed
      * during a test.
+     *
+     * @todo Remove the audit hack
      */
     function restoreConfig()
     {
@@ -150,6 +152,9 @@ class TestEnv
                 $GLOBALS['_MAX']['CONF'][$configGroup][$confName] = $confValue;
             }
         }
+
+        // Switch off audit
+        $GLOBALS['_MAX']['CONF']['audit']['enabled'] = false;
     }
 
     /**
