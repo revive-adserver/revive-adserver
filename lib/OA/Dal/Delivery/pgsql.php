@@ -875,10 +875,10 @@ function OA_Dal_Delivery_getMaintenanceInfo()
     $conf = $GLOBALS['_MAX']['CONF'];
     $result = OA_Dal_Delivery_query("
         SELECT
-            maintenance_timestamp
+            value AS maintenance_timestamp
         FROM
-            \"{$conf['table']['prefix']}{$conf['table']['preference']}\"
-        WHERE agencyid = 0
+            \"{$conf['table']['prefix']}{$conf['table']['application_variable']}\"
+        WHERE name = 'maintenance_timestamp'
     ");
     if (!is_resource($result)) {
         if (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) {

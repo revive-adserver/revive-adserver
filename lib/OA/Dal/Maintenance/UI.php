@@ -27,6 +27,7 @@ $Id$
 
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
 
 /**
  * A static class for providing maintenance DAL methods for the UI.
@@ -44,9 +45,10 @@ class OA_Dal_Maintenance_UI
     function alertNeeded()
     {
         $aPref = $GLOBALS['_MAX']['PREF'];
+        $iLastRun = (int) OA_Dal_ApplicationVariables::get('maintenance_timestamp');
 
-        if ($aPref['maintenance_timestamp'] > 0 && !$aPref['maintenance']['autoMaintenance']) {
-            if ($aPref['maintenance_timestamp'] < time() - 86400) {
+        if ($iLastRun > 0 && !$aPref['maintenance']['autoMaintenance']) {
+            if ($iLastRun < time() - 86400) {
                 // Update the timestamp to make sure the warning
                 // is shown only once every 24 hours
                 OA_Dal_Maintenance_UI::updateLastRun();
@@ -64,10 +66,7 @@ class OA_Dal_Maintenance_UI
      */
     function updateLastRun()
     {
-        $doPreference = OA_Dal::factoryDO('preference');
-        $doPreference->whereAdd('1 = 1'); //Global table update.
-        $doPreference->maintenance_timestamp = time();
-        $doPreference->update(DB_DATAOBJECT_WHEREADD_ONLY);
+        OA_Dal_ApplicationVariables::set('maintenance_timestamp', time());
     }
 }
 

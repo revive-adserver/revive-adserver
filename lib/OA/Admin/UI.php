@@ -248,6 +248,15 @@ class OA_Admin_UI
                 $this->oTpl->assign('aAdminAccounts', $aAdminAccounts);
                 $this->oTpl->assign('aAccounts', $aAccounts);
                 $this->oTpl->assign('accountId', OA_Permission::getAccountId());
+
+                $this->oTpl->assign('productUpdatesCheck',
+                    OA_Permission::isAccount(OA_ACCOUNT_ADMIN) &&
+                    $conf['sync']['checkForUpdates'] &&
+                    !isset($session['maint_update_js'])
+                );
+
+                $this->oTpl->assign('maintenanceAlert', OA_Dal_Maintenance_UI::alertNeeded());
+
             } else {
                 $this->oTpl->assign('buttonStartOver', true);
             }
@@ -256,14 +265,6 @@ class OA_Admin_UI
         $this->oTpl->assign('showMainNav', $showMainNav);
         $this->oTpl->assign('showSidebar', $showSidebar);
         $this->oTpl->assign('noBorder', $noBorder);
-
-        $this->oTpl->assign('productUpdatesCheck',
-            OA_Permission::isAccount(OA_ACCOUNT_ADMIN) &&
-            $conf['sync']['checkForUpdates'] &&
-            !isset($session['maint_update_js'])
-        );
-
-        $this->oTpl->assign('maintenanceAlert', OA_Dal_Maintenance_UI::alertNeeded());
 
         $this->oTpl->assign('uiPart', 'header');
         $this->oTpl->display();

@@ -34,6 +34,7 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-maintenance.inc.php';
+require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
 
 
 // Security check
@@ -57,7 +58,7 @@ echo "<br>";
 $aConf = $GLOBALS['_MAX']['CONF'];
 $aPref = $GLOBALS['_MAX']['PREF'];
 
-$iLastCronRun = $aPref['maintenance_cron_timestamp'];
+$iLastCronRun = (int) OA_Dal_ApplicationVariables::get('maintenance_cron_timestamp');
 
 // Make sure that negative values don't break the script
 if ($iLastCronRun > 0) {
@@ -69,8 +70,7 @@ if (time() >= $iLastCronRun + 3600) {
 
     echo "<b>Scheduled maintenance hasn't run in the past hour. This may mean that you have not set it up correctly.</b>"."<br><br>";
 
-    $iLastRun = $aPref['maintenance_timestamp'];
-
+    $iLastRun = (int) OA_Dal_ApplicationVariables::get('maintenance_timestamp');
     // Make sure that negative values don't break the script
     if ($iLastRun > 0) {
         $iLastRun = strtotime(date('Y-m-d H:00:00', $iLastRun));

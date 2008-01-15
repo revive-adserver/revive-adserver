@@ -34,6 +34,7 @@ if (!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/cache.php']) && !is_call
 
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
 require_once MAX_PATH . '/lib/OA/Email.php';
@@ -139,10 +140,10 @@ class OA_Maintenance
      */
     function _runMidnightTasks()
     {
-        $lastRun = new Date($this->aPref['maintenance_timestamp']);
+        $iLastRun = new Date((int) OA_Dal_ApplicationVariables::get('maintenance_timestamp'));
         $lastMidnight = new Date(date('Y-m-d'));
 
-        if ($lastRun->after($lastMidnight)) {
+        if ($iLastRun->after($lastMidnight)) {
             OA::debug('Running Midnight Maintenance Tasks', PEAR_LOG_INFO);
             $this->_runReports();
             $this->_runOpenadsSync();
@@ -300,14 +301,8 @@ class OA_Maintenance
     function updateLastRun($bScheduled = false)
     {
         $sField = $bScheduled ? 'maintenance_cron_timestamp' : 'maintenance_timestamp';
-        // Update the timestamp (for old maintenance code)
-        // TODO: Move this query to the DAL, so that other code (tests, installation) can call it.
-        $query = "
-            UPDATE
-                {$this->aConf['table']['prefix']}{$this->aConf['table']['preference']}
-            SET
-                {$sField} = UNIX_TIMESTAMP('". OA::getNow() ."')";
-        $rows = $this->oDbh->exec($query);
+        OA_Dal_ApplicationVariables::set($sField, OA::getNow('U'));
+
         // Make sure that the maintenance delivery cache is regenerated
         MAX_cacheCheckIfMaintenanceShouldRun(false);
     }
