@@ -71,14 +71,14 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         $doZones->zonename = 'First Zone';
         $doZones->zonetype = 3;
         $doZones->updated = $oNow->format('%Y-%m-%d %H:%M:%S');
-        $idZoneFirst = DataGenerator::generateOne($doZones);
+        $idZoneFirst = DataGenerator::generateOne($doZones, true);
 
         $doZones = OA_Dal::factoryDO('zones');
         $oNow = new Date();
         $doZones->zonename = 'Second Zone';
         $doZones->zonetype = 3;
         $doZones->updated = $oNow->format('%Y-%m-%d %H:%M:%S');
-        $idZoneSecond = DataGenerator::generateOne($doZones);
+        $idZoneSecond = DataGenerator::generateOne($doZones, true);
 
         // Set the "current" time that the MPE is running at
         $oNowDate = new Date('2007-09-18 14:01:00');
@@ -135,7 +135,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         $doBanners->status = OA_ENTITY_STATUS_RUNNING;
         $doBanners->acls_updated = $oNow->format('%Y-%m-%d %H:%M:%S');
         $doBanners->updated = $oNow->format('%Y-%m-%d %H:%M:%S');
-        $idBanner = DataGenerator::generateOne($doBanners);
+        $idBanner = DataGenerator::generateOne($doBanners, true);
 
         $doAdZone = OA_Dal::factoryDO('ad_zone_assoc');
         $doAdZone->ad_id = $idBanner;

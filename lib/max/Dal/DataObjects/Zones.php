@@ -161,24 +161,8 @@ class DataObjects_Zones extends DB_DataObjectCommon
      */
     function getOwningAccountId()
     {
-        // Fetch the ID of the affiliate (publisher) that
-        // owns the zone
-    	$doZones = $this->factory('zones');
-    	$doZones->zoneid = $this->zoneid;
-    	$doZones->find();
-    	$doZones->fetch();
-    	$aZone = $doZones->toArray();
-    	$affiliateId = $aZone['affiliateid'];
-    	// Fetch the account ID for this affiliate
-    	$doAffiliates = $this->factory('affiliates');
-        $doAffiliates->affiliateid = $affiliateId;
-    	$doAffiliates->find();
-    	$doAffiliates->fetch();
-    	$aAffilaite = $doAffiliates->toArray();
-    	$accountId = $aAffilaite['account_id'];
-    	// Return the account ID of the account that
-    	// "owns" the zone being audited
-    	return $accountId;
+        $doAffiliates = OA_Dal::staticGetDO('affiliates', $this->affiliateid);
+        return $doAffiliates->getOwningAccountId();
     }
 
     /**
