@@ -99,7 +99,7 @@ class Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedAds extend
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->updated = $oDateNow->format('%Y-%m-%d %H:%M:%S');
         $doCampaigns->status  = OA_ENTITY_STATUS_RUNNING;
-        $idCampaign = DataGenerator::generateOne($doCampaigns);
+        $idCampaign = DataGenerator::generateOne($doCampaigns, true);
 
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid=$idCampaign;
@@ -117,7 +117,7 @@ class Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedAds extend
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->updated = $oDateNow->format('%Y-%m-%d %H:%M:%S');
         $doCampaigns->status  = OA_ENTITY_STATUS_RUNNING;
-        $idCampaign = DataGenerator::generateOne($doCampaigns);
+        $idCampaign = DataGenerator::generateOne($doCampaigns, true);
 
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid=$idCampaign;
@@ -136,7 +136,7 @@ class Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedAds extend
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->updated = $oDateNow->format('%Y-%m-%d %H:%M:%S');
         $doCampaigns->status  = OA_ENTITY_STATUS_RUNNING;
-        $idCampaign = DataGenerator::generateOne($doCampaigns);
+        $idCampaign = DataGenerator::generateOne($doCampaigns, true);
 
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid=$idCampaign;
@@ -155,7 +155,7 @@ class Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedAds extend
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->updated = $oDateNow->format('%Y-%m-%d %H:%M:%S');
         $doCampaigns->status  = OA_ENTITY_STATUS_RUNNING;
-        $idCampaign = DataGenerator::generateOne($doCampaigns);
+        $idCampaign = DataGenerator::generateOne($doCampaigns, true);
 
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid=$idCampaign;
@@ -173,7 +173,7 @@ class Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedAds extend
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->updated = $oDateNow->format('%Y-%m-%d %H:%M:%S');
         $doCampaigns->status  = OA_ENTITY_STATUS_AWAITING;
-        $idCampaign = DataGenerator::generateOne($doCampaigns);
+        $idCampaign = DataGenerator::generateOne($doCampaigns, true);
 
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid=$idCampaign;
@@ -191,7 +191,7 @@ class Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedAds extend
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->updated = $oDateNow->format('%Y-%m-%d %H:%M:%S');
         $doCampaigns->status  = OA_ENTITY_STATUS_AWAITING;
-        $idCampaign = DataGenerator::generateOne($doCampaigns);
+        $idCampaign = DataGenerator::generateOne($doCampaigns, true);
 
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid=$idCampaign;
@@ -210,9 +210,9 @@ class Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedAds extend
 
         $doCampaigns->updated = $oDateNow->format('%Y-%m-%d %H:%M:%S');
         $doCampaigns->status  = OA_ENTITY_STATUS_RUNNING;
-        $aIdCampaignsActive = DataGenerator::generate($doCampaigns,2);
+        $aIdCampaignsActive = DataGenerator::generate($doCampaigns, 2, true);
         $doCampaigns->status  = OA_ENTITY_STATUS_AWAITING;
-        $idCampaignInactive = DataGenerator::generateOne($doCampaigns);
+        $idCampaignInactive = DataGenerator::generateOne($doCampaigns, true);
 
         $doBanners = OA_Dal::factoryDO('banners');
 
