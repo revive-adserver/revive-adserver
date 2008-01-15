@@ -1,13 +1,13 @@
 {literal}
 <style type="text/css">
-.label {
+.filterLabel {
     float:left;
     font-weight:bold;
     padding-right:0.5em;
     text-align:left;
     width:10em;
 }
-.filter {
+.filterWrapper {
     margin-bottom: 5px;
 }
 {/literal}
@@ -21,8 +21,8 @@
 <fieldset id="auditFilter">
     <legend>{t str=Filters}</legend>
 
-	<div class="filter">
-	    <label class="label" for="advertiserId">{t str=Advertiser}</label>
+	<div class="filterWrapper">
+	    <label class="filterLabel" for="advertiserId">{t str=Advertiser}</label>
 	    <span>
 	        <select style="width:25%" id="advertiserId" name="advertiserId" onchange="submitForm();">
 	            {html_options options=$aAdvertiser selected=$advertiserId}
@@ -34,8 +34,8 @@
 	        {/if}
 	    </span>
 	</div>
-	<div class="filter">
-	    <label class="label" for="publisherId">{t str=Publisher}</label>
+	<div class="filterWrapper">
+	    <label class="filterLabel" for="publisherId">{t str=Publisher}</label>
 	    <span>
 	        <select style="width:25%" id="publisherId" name="publisherId" onchange="submitForm();">
 	            {html_options options=$aPublisher selected=$publisherId}
@@ -47,8 +47,8 @@
 	        {/if}
 	    </span>
 	</div>
-	<div class="filter">
-	    <span class="label">{t str=Date}</span>
+	<div class="filterWrapper">
+	    <span class="filterLabel">{t str=Date}</span>
 	    {$daySpan->display()}
 	       <a href='#' onclick='return periodFormSubmit()'>
 	           <img src='images/ltr/go_blue.gif' border='0' tabindex='6' />
