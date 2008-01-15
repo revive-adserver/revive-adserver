@@ -85,7 +85,7 @@ class Test_OA_Dal_Maintenance_Priority_getPlacementDeliveryToDate extends UnitTe
         $doCampaigns->clicks = 200;
         $doCampaigns->conversions = 300;
         $doCampaigns->updated = $oNow->format('%Y-%m-%d %H:%M:%S');
-        $idCampaign = DataGenerator::generateOne($doCampaigns);
+        $idCampaign = DataGenerator::generateOne($doCampaigns, true);
 
         $doBanners   = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $idCampaign;
