@@ -2341,8 +2341,6 @@ PEAR::popErrorHandling();
 }
 }
 }
-require_once 'Log.php';
-require_once 'PEAR.php';
 class MAX
 {
 function errorConstantToString($errorCode)
