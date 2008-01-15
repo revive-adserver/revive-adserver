@@ -70,33 +70,33 @@ if (isset($submit)) {
     if (!empty($clientid)) {
         $doClients = OA_Dal::factoryDO('clients');
         if ($doClients->get($clientid)) {
-            $client = $doClients->toArray();
+            $aClient = $doClients->toArray();
         }
     }
     // Name
     if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER) ) {
-        $client['clientname'] = trim($clientname);
+        $aClient['clientname'] = trim($clientname);
     }
     // Default fields
-    $client['contact']      = trim($contact);
-    $client['email']      = trim($email);
-    $client['language']   = trim($clientlanguage);
-    $client['comments']  = trim($comments);
+    $aClient['contact']  = trim($contact);
+    $aClient['email']    = trim($email);
+    $aClient['language'] = trim($clientlanguage);
+    $aClient['comments'] = trim($comments);
 
     // Reports
-    $client['report'] = isset($clientreport) ? 't' : 'f';
-    $client['reportdeactivate'] = isset($clientreportdeactivate) ? 't' : 'f';
-    $client['reportinterval'] = (int)$clientreportinterval;
-    if ($clientreportlastdate == '' || $clientreportlastdate == '0000-00-00' ||  $clientreportprevious != $client['report']) {
-        $client['reportlastdate'] = date ("Y-m-d");
+    $aClient['report'] = isset($clientreport) ? 't' : 'f';
+    $aClient['reportdeactivate'] = isset($clientreportdeactivate) ? 't' : 'f';
+    $aClient['reportinterval'] = (int)$clientreportinterval;
+    if ($clientreportlastdate == '' || $clientreportlastdate == '0000-00-00' ||  $clientreportprevious != $aClient['report']) {
+        $aClient['reportlastdate'] = date ("Y-m-d");
     }
     if (count($errormessage) == 0) {
-        if (empty($clientid)) {
+        if (empty($aClient)) {
             // Set agency ID
-            $client['agencyid'] = OA_Permission::getAgencyId();
+            $aClient['agencyid'] = OA_Permission::getAgencyId();
 
             $doClients = OA_Dal::factoryDO('clients');
-            $doClients->setFrom($client);
+            $doClients->setFrom($aClient);
             $doClients->updated = OA::getNow();
 
             // Insert
@@ -107,7 +107,7 @@ if (isset($submit)) {
         } else {
             $doClients = OA_Dal::factoryDO('clients');
             $doClients->get($clientid);
-            $doClients->setFrom($client);
+            $doClients->setFrom($aClient);
             $doClients->updated = OA::getNow();
             $doClients->update();
 
@@ -142,15 +142,15 @@ if ($clientid != "") {
 
     // Do not get this information if the page
     // is the result of an error message
-    if (!isset($client)) {
+    if (!isset($aClient)) {
         $doClients = OA_Dal::factoryDO('clients');
         if ($doClients->get($clientid)) {
-            $client = $doClients->toArray();
+            $aClient = $doClients->toArray();
         }
 
         // Set password to default value
-        if ($client['clientpassword'] != '') {
-            $client['clientpassword'] = '********';
+        if ($aClient['clientpassword'] != '') {
+            $aClient['clientpassword'] = '********';
         }
     }
 } else {
@@ -159,14 +159,14 @@ if ($clientid != "") {
     phpAds_ShowSections(array("4.1.1"));
     // Do not set this information if the page
     // is the result of an error message
-    if (!isset($client)) {
-        $client['clientname']            = $strUntitled;
-        $client['contact']                = '';
-        $client['comments']                = '';
-        $client['email']                = '';
-        $client['reportdeactivate']     = 't';
-        $client['report']                 = 'f';
-        $client['reportinterval']         = 7;
+    if (!isset($aClient)) {
+        $aClient['clientname']       = $strUntitled;
+        $aClient['contact']          = '';
+        $aClient['comments']         = '';
+        $aClient['email']            = '';
+        $aClient['reportdeactivate'] = 't';
+        $aClient['report']           = 'f';
+        $aClient['reportinterval']   = 7;
     }
 }
 $tabindex = 1;
@@ -192,9 +192,9 @@ echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strName."</td>";
 
 if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-    echo "<td><input onBlur='max_formValidateElement(this);' class='flat' type='text' name='clientname' size='25' value='".phpAds_htmlQuotes($client['clientname'])."' style='width: 350px;' tabindex='".($tabindex++)."'></td>";
+    echo "<td><input onBlur='max_formValidateElement(this);' class='flat' type='text' name='clientname' size='25' value='".phpAds_htmlQuotes($aClient['clientname'])."' style='width: 350px;' tabindex='".($tabindex++)."'></td>";
 } else {
-    echo "<td>".(isset($client['clientname']) ? $client['clientname'] : '')."</td>";
+    echo "<td>".(isset($aClient['clientname']) ? $aClient['clientname'] : '')."</td>";
 }
 
 echo "</tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
@@ -202,13 +202,13 @@ echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspac
 
 // Contact
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strContact."</td><td>";
-echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='contact' size='25' value='".phpAds_htmlQuotes($client['contact'])."' style='width: 350px;' tabindex='".($tabindex++)."'>";
+echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='contact' size='25' value='".phpAds_htmlQuotes($aClient['contact'])."' style='width: 350px;' tabindex='".($tabindex++)."'>";
 echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 // Email
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strEMail."</td><td>";
-echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='email' size='25' value='".phpAds_htmlQuotes($client['email'])."' style='width: 350px;' tabindex='".($tabindex++)."'>";
+echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='email' size='25' value='".phpAds_htmlQuotes($aClient['email'])."' style='width: 350px;' tabindex='".($tabindex++)."'>";
 echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
@@ -219,7 +219,7 @@ echo "<option value='' SELECTED>".$strDefault."</option>";
 
 $languages = MAX_Admin_Languages::AvailableLanguages();
 foreach ($languages as $k => $v) {
-    if (isset($client['language']) && $client['language'] == $k) {
+    if (isset($aClient['language']) && $aClient['language'] == $k) {
         echo "<option value='$k' selected>$v</option>";
     } else {
         echo "<option value='$k'>$v</option>";
@@ -240,24 +240,24 @@ echo "<td width='100%'><img src='images/break.gif' height='1' width='100%'></td>
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 // Reports
-echo "<input type='hidden' name='clientreportlastdate' value='".(isset($client['reportlastdate']) ? $client['reportlastdate'] : '')."'>";
-echo "<input type='hidden' name='clientreportprevious' value='".(isset($client['report']) ? $client['report'] : '')."'>";
+echo "<input type='hidden' name='clientreportlastdate' value='".(isset($aClient['reportlastdate']) ? $aClient['reportlastdate'] : '')."'>";
+echo "<input type='hidden' name='clientreportprevious' value='".(isset($aClient['report']) ? $aClient['report'] : '')."'>";
 
 echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-echo "<input type='checkbox' name='clientreportdeactivate' value='t'".($client['reportdeactivate'] == 't' ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
+echo "<input type='checkbox' name='clientreportdeactivate' value='t'".($aClient['reportdeactivate'] == 't' ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
 echo $strSendDeactivationWarning;
 echo "</td></tr>";
 
 // Interval
 echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-echo "<input type='checkbox' name='clientreport' value='t'".($client['report'] == 't' ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
+echo "<input type='checkbox' name='clientreport' value='t'".($aClient['report'] == 't' ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
 echo $strSendAdvertisingReport;
 echo "</td></tr>";
 
 echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strNoDaysBetweenReports."</td><td>";
-echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='clientreportinterval' size='25' value='".$client['reportinterval']."' tabindex='".($tabindex++)."'>";
+echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='clientreportinterval' size='25' value='".$aClient['reportinterval']."' tabindex='".($tabindex++)."'>";
 echo "</td></tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 // Footer
@@ -291,7 +291,7 @@ echo "<tr><td width='30'>&nbsp;</td>";
 echo "<td width='200'>".$strComments."</td>";
 
 echo "<td><textarea class='code' cols='45' rows='6' name='comments' wrap='off' dir='ltr' style='width:350px;";
-echo "' tabindex='".($tabindex++)."'>".htmlspecialchars($client['comments'])."</textarea></td></tr>";
+echo "' tabindex='".($tabindex++)."'>".htmlspecialchars($aClient['comments'])."</textarea></td></tr>";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 echo "<tr><td height='10' colspan='2'>&nbsp;</td></tr>";
@@ -307,7 +307,7 @@ echo "</form>";
 
 // Get unique clientname
 $doClients = OA_Dal::factoryDO('clients');
-$unique_names = $doClients->getUniqueValuesFromColumn('clientname', $client['clientname']);
+$unique_names = $doClients->getUniqueValuesFromColumn('clientname', $aClient['clientname']);
 
 ?>
 
