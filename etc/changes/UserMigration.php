@@ -48,7 +48,7 @@ class UserMigration extends Migration
 	    $aSource = $oDbh->getAssoc($query);
 
         if (PEAR::isError($aSource)) {
-            $this->oUpgrade->oLogger->logError("Error while retrieving existing {$group} accounts");
+            $this->_logError("Error while retrieving existing {$group} accounts");
             return false;
         }
 
@@ -76,7 +76,7 @@ class UserMigration extends Migration
             $result = $oDbh->exec($query);
 
             if (PEAR::isError($result)) {
-                $this->oUpgrade->oLogger->logError("Error while creating account for {$group} {$sourceId}");
+                $this->_logError("Error while creating account for {$group} {$sourceId}");
                 return false;
             }
 
@@ -96,7 +96,7 @@ class UserMigration extends Migration
                 $result = $oDbh->exec($query);
 
                 if (!$result) {
-                    $this->oUpgrade->oLogger->logError('Error saving the admin account ID as application variable');
+                    $this->_logError('Error saving the admin account ID as application variable');
                     return false;
                 }
 
@@ -114,7 +114,7 @@ class UserMigration extends Migration
                 $result = $oDbh->exec($query);
 
                 if (PEAR::isError($result)) {
-                    $this->oUpgrade->oLogger->logError("Error while creating manager account for {$group} {$sourceId}");
+                    $this->_logError("Error while creating manager account for {$group} {$sourceId}");
                     return false;
                 }
 
@@ -137,7 +137,7 @@ class UserMigration extends Migration
                 $result = $oDbh->exec($query);
 
                 if (PEAR::isError($result)) {
-                    $this->oUpgrade->oLogger->logError("Error while creating default agency for {$group} {$sourceId}");
+                    $this->_logError("Error while creating default agency for {$group} {$sourceId}");
                     return false;
                 }
 
@@ -156,7 +156,7 @@ class UserMigration extends Migration
                     $result = $oDbh->exec($query);
 
                     if (PEAR::isError($result)) {
-                        $this->oUpgrade->oLogger->logError("Error while migrating {$entity} table for {$group} {$sourceId}");
+                        $this->_logError("Error while migrating {$entity} table for {$group} {$sourceId}");
                         return false;
                     }
                 }
@@ -174,7 +174,7 @@ class UserMigration extends Migration
                 $result = $oDbh->exec($query);
 
                 if (PEAR::isError($result)) {
-                    $this->oUpgrade->oLogger->logError("Error while updating entity {$group} {$sourceId} with account details");
+                    $this->_logError("Error while updating entity {$group} {$sourceId} with account details");
                     return false;
                 }
             }
@@ -201,20 +201,20 @@ class UserMigration extends Migration
                 $result = $oDbh->exec($query);
 
                 if (PEAR::isError($result)) {
-                    $this->oUpgrade->oLogger->logError("Error while creating user for {$group} {$sourceId}");
+                    $this->_logError("Error while creating user for {$group} {$sourceId}");
                     return false;
                 }
 
                 $userId = $oDbh->lastInsertID($prefix.'users', 'user_id');
                 $result = OA_Permission::setAccountAccess($accountId, $userId);
                 if (!$result) {
-                    $this->oLogger->logError("error while giving access to user id: $userId to account: $accountId");
+                    $this->_logError("error while giving access to user id: $userId to account: $accountId");
                     return false;
                 }
                 if ($group == 'ADMIN' && !empty($managerAccountId)) {
                     $result = OA_Permission::setAccountAccess($managerAccountId, $userId);
                     if (!$result) {
-                        $this->oLogger->logError("error while giving access to user id: $userId to account: $managerAccountId");
+                        $this->_logError("error while giving access to user id: $userId to account: $managerAccountId");
                         return false;
                     }
                 }
@@ -234,7 +234,7 @@ class UserMigration extends Migration
                     $result = OA_Permission::storeUserAccountsPermissions($aPermissions, $accountId, $userId);
 
                     if (!$result) {
-                        $this->oUpgrade->oLogger->logError("Error creating permissions for account: {$accountId} and user {$userId}");
+                        $this->_logError("Error creating permissions for account: {$accountId} and user {$userId}");
                         return false;
                     }
                 }

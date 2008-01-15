@@ -52,31 +52,31 @@ class Migration_546 extends Migration
 
 
     var $aPrefMap = array(
-                        'language'                          => array('name'=>'language','level'=>OA_ACCOUNT_TRAFFICKER),
-                        'company_name'                      => array('name'=>'company_name','level'=>OA_ACCOUNT_MANAGER),
-                        'ui_week_start_day'                 => array('name'=>'begin_of_week','level'=>''),
-                        'ui_percentage_decimals'            => array('name'=>'percentage_decimals','level'=>''),
-                        'warn_admin'                        => array('name'=>'warn_admin','level'=>OA_ACCOUNT_ADMIN),
-                        'warn_email_manager'                => array('name'=>'warn_agency','level'=>OA_ACCOUNT_MANAGER),
-                        'warn_email_advertiser'             => array('name'=>'warn_client','level'=>OA_ACCOUNT_ADVERTISER),
-                        'warn_email_admin_impression_limit' => array('name'=>'warn_limit','level'=>OA_ACCOUNT_MANAGER),
-                        'warn_email_admin_day_limit'        => array('name'=>'warn_limit_days','level'=>OA_ACCOUNT_MANAGER),
-                        'ui_novice_user'                    => array('name'=>'admin_novice','level'=>''),
-                        'default_banner_weight'             => array('name'=>'default_banner_weight','level'=>OA_ACCOUNT_ADVERTISER),
-                        'default_campaign_weight'           => array('name'=>'default_campaign_weight','level'=>OA_ACCOUNT_ADVERTISER),
-                        'default_banner_image_url'          => array('name'=>'default_banner_url','level'=>OA_ACCOUNT_TRAFFICKER),
-                        'default_banner_destination_url'    => array('name'=>'default_banner_destination','level'=>OA_ACCOUNT_TRAFFICKER),
-                        'ui_show_campaign_info'             => array('name'=>'gui_show_campaign_info','level'=>OA_ACCOUNT_ADVERTISER),
-                        'ui_show_campaign_preview'          => array('name'=>'gui_show_campaign_preview','level'=>OA_ACCOUNT_ADVERTISER),
-                        'ui_show_banner_info'               => array('name'=>'gui_show_banner_info','level'=>OA_ACCOUNT_ADVERTISER),
-                        'ui_show_banner_preview'            => array('name'=>'gui_show_banner_preview','level'=>OA_ACCOUNT_ADVERTISER),
-                        'ui_show_banner_html'               => array('name'=>'gui_show_banner_html','level'=>OA_ACCOUNT_ADVERTISER),
-                        'ui_show_matching_banners'          => array('name'=>'gui_show_matching','level'=>OA_ACCOUNT_TRAFFICKER),
-                        'ui_show_matching_banners_parents'  => array('name'=>'gui_show_parents','level'=>OA_ACCOUNT_TRAFFICKER),
-                        'ui_hide_inactive'                  => array('name'=>'gui_hide_inactive','level'=>''),
-                        'tracker_default_status'            => array('name'=>'default_tracker_status','level'=>''),
-                        'tracker_default_type'              => array('name'=>'default_tracker_type','level'=>''),
-                        'tracker_link_campaigns'            => array('name'=>'default_tracker_linkcampaigns','level'=>''),
+                        'language'                          => array('name'=>'language','value'=>'','level'=>OA_ACCOUNT_TRAFFICKER),
+                        'company_name'                      => array('name'=>'company_name','value'=>'','level'=>OA_ACCOUNT_MANAGER),
+                        'ui_week_start_day'                 => array('name'=>'begin_of_week','value'=>'','level'=>''),
+                        'ui_percentage_decimals'            => array('name'=>'percentage_decimals','value'=>'','level'=>''),
+                        'warn_admin'                        => array('name'=>'warn_admin','value'=>'','level'=>OA_ACCOUNT_ADMIN),
+                        'warn_email_manager'                => array('name'=>'warn_agency','value'=>'','level'=>OA_ACCOUNT_MANAGER),
+                        'warn_email_advertiser'             => array('name'=>'warn_client','value'=>'','level'=>OA_ACCOUNT_ADVERTISER),
+                        'warn_email_admin_impression_limit' => array('name'=>'warn_limit','value'=>'','level'=>OA_ACCOUNT_MANAGER),
+                        'warn_email_admin_day_limit'        => array('name'=>'warn_limit_days','value'=>'','level'=>OA_ACCOUNT_MANAGER),
+                        'ui_novice_user'                    => array('name'=>'admin_novice','value'=>'f','level'=>''),
+                        'default_banner_weight'             => array('name'=>'default_banner_weight','value'=>'1','level'=>OA_ACCOUNT_ADVERTISER),
+                        'default_campaign_weight'           => array('name'=>'default_campaign_weight','value'=>'1','level'=>OA_ACCOUNT_ADVERTISER),
+                        'default_banner_image_url'          => array('name'=>'default_banner_url','value'=>'','level'=>OA_ACCOUNT_TRAFFICKER),
+                        'default_banner_destination_url'    => array('name'=>'default_banner_destination','value'=>'','level'=>OA_ACCOUNT_TRAFFICKER),
+                        'ui_show_campaign_info'             => array('name'=>'gui_show_campaign_info','value'=>'','level'=>OA_ACCOUNT_ADVERTISER),
+                        'ui_show_campaign_preview'          => array('name'=>'gui_show_campaign_preview','value'=>'','level'=>OA_ACCOUNT_ADVERTISER),
+                        'ui_show_banner_info'               => array('name'=>'gui_show_banner_info','value'=>'','level'=>OA_ACCOUNT_ADVERTISER),
+                        'ui_show_banner_preview'            => array('name'=>'gui_show_banner_preview','value'=>'','level'=>OA_ACCOUNT_ADVERTISER),
+                        'ui_show_banner_html'               => array('name'=>'gui_show_banner_html','value'=>'','level'=>OA_ACCOUNT_ADVERTISER),
+                        'ui_show_matching_banners'          => array('name'=>'gui_show_matching','value'=>'','level'=>OA_ACCOUNT_TRAFFICKER),
+                        'ui_show_matching_banners_parents'  => array('name'=>'gui_show_parents','value'=>'','level'=>OA_ACCOUNT_TRAFFICKER),
+                        'ui_hide_inactive'                  => array('name'=>'gui_hide_inactive','value'=>'','level'=>''),
+                        'tracker_default_status'            => array('name'=>'default_tracker_status','value'=>'','level'=>''),
+                        'tracker_default_type'              => array('name'=>'default_tracker_type','value'=>'','level'=>''),
+                        'tracker_link_campaigns'            => array('name'=>'default_tracker_linkcampaigns','value'=>'','level'=>''),
                         );
 
     var $aAppVar = array(
@@ -137,9 +137,11 @@ class Migration_546 extends Migration
 
 		$this->aTaskList_destructive[] = 'beforeRemoveTable__preference';
 		$this->aTaskList_destructive[] = 'afterRemoveTable__preference';
+		$this->aTaskList_destructive[] = 'beforeRemoveTable__preference_advertiser';
+		$this->aTaskList_destructive[] = 'afterRemoveTable__preference_advertiser';
+		$this->aTaskList_destructive[] = 'beforeRemoveTable__preference_publisher';
+		$this->aTaskList_destructive[] = 'afterRemoveTable__preference_publisher';
     }
-
-
 
 	function beforeRemoveTable__preference()
 	{
@@ -148,9 +150,28 @@ class Migration_546 extends Migration
 
 	function afterRemoveTable__preference()
 	{
-		return $this->afterRemoveTable('preference');
+		return $this->afterRemoveTable('preference_advertiser');
 	}
 
+	function beforeRemoveTable__preference_advertiser()
+	{
+		return $this->beforeRemoveTable('preference');
+	}
+
+	function afterRemoveTable__preference_advertiser()
+	{
+		return $this->afterRemoveTable('preference_advertiser');
+	}
+
+	function beforeRemoveTable__preference_publisher()
+	{
+		return $this->beforeRemoveTable('preference_publisher');
+	}
+
+	function afterRemoveTable__preference_publisher()
+	{
+		return $this->afterRemoveTable('preference_publisher');
+	}
 
 	function migratePreferences()
 	{
@@ -225,7 +246,8 @@ class Migration_546 extends Migration
 	{
 	    foreach ($this->aAppVar AS $name)
 	    {
-	        if (!$this->_insertApplicationVariable($name, $aPrefOldAdmin[$name]))
+	        $value = (isset($aPrefOldAdmin[$name]) ? $aPrefOldAdmin[$name] : 0 );
+	        if (!$this->_insertApplicationVariable($name, $value))
 	        {
 	            return false;
 	        }
@@ -259,7 +281,8 @@ class Migration_546 extends Migration
     	        $oldName  = $aPrefNew['name'];
     	        $oldValue = $aPrefOld[$oldName];
                 $aVal     = unserialize($oldValue);
-                if (is_array($aVal))
+// don't bother migrating agency values for gui_column array values
+/*                if (is_array($aVal))
                 {
                     if (strpos($newName,'_label') > 0)
                     {
@@ -274,25 +297,29 @@ class Migration_546 extends Migration
                         $oldValue = $aVal['show'];
                     }
                 }
-                if ($oldValue <> $aPrefNew['value'])
+*/
+                if (!is_array($aVal))
                 {
+                    if ($oldValue <> $aPrefNew['value'])
+                    {
 
-            	    $query = "SELECT account_id
-            	               FROM {$this->tblAgency}
-            	               WHERE agencyid = {$aPrefOld['agencyid']}";
-            	    $accountId = $this->oDBH->queryOne($query);
+                	    $query = "SELECT account_id
+                	               FROM {$this->tblAgency}
+                	               WHERE agencyid = {$aPrefOld['agencyid']}";
+                	    $accountId = $this->oDBH->queryOne($query);
 
-            	    if (PEAR::isError($accountId))
-            	    {
-            	        $this->_logError('Failed to retrieve account id for agency '.$aPrefOld['agencyid']);
-            	        break;
-            	    }
-                    $prefId = $this->_getPreferencesId($newName);
-            	    if (!$prefId)
-            	    {
-            	        break;
-            	    }
-                    $this->_insertAccountPreferencesAssoc($accountId, $prefId, $oldValue);
+                	    if (PEAR::isError($accountId))
+                	    {
+                	        $this->_logError('Failed to retrieve account id for agency '.$aPrefOld['agencyid']);
+                	        break;
+                	    }
+                        $prefId = $this->_getPreferencesId($newName);
+                	    if (!$prefId)
+                	    {
+                	        break;
+                	    }
+                        $this->_insertAccountPreferencesAssoc($accountId, $prefId, $oldValue);
+                    }
                 }
     	    }
         }
@@ -356,7 +383,7 @@ class Migration_546 extends Migration
 	    return true;
 	}
 
-	function _insertApplicationVariable($name, $value)
+	function _insertApplicationVariable($name, $value=0)
 	{
 	    $name = $this->oDBH->quote($name);
 	    $value = $this->oDBH->quote($value);
@@ -439,7 +466,7 @@ class Migration_546 extends Migration
         foreach ($this->aPrefMap AS $newName => $aVal)
         {
             $this->aPrefMap[$newName]['value'] = $aPrefOld[$aVal['name']];
-            unset($aPrefOld[$oldName]);
+            unset($aVal['name']);
         }
 
         // only elements left should be the gui_columns that have serialized array values
@@ -449,9 +476,21 @@ class Migration_546 extends Migration
             if (is_array($aVal))
             {
                 $newName = substr($oldName,1);
-                $this->aPrefMap[$newName]            = array('value'=>$aVal['show'],'name'=>$oldName,'level'=>OA_ACCOUNT_MANAGER);
-                $this->aPrefMap[$newName.'_label']   = array('value'=>$aVal['label'],'name'=>$oldName,'level'=>OA_ACCOUNT_MANAGER);
-                $this->aPrefMap[$newName.'_rank']    = array('value'=>$aVal['rank'],'name'=>$oldName,'level'=>OA_ACCOUNT_MANAGER);
+                if (array_key_exists('1', $aVal))
+                {
+                    $valShow  = $aVal[1]['show'];
+                    $valLabel = $aVal[1]['label'];
+                    $valRank  = $aVal[1]['rank'];
+                }
+                else
+                {
+                    $valShow  = 'f';
+                    $valLabel = '';
+                    $valRank  = 0;
+                }
+                $this->aPrefMap[$newName]            = array('value'=>$valShow ,'name'=>$oldName,'level'=>OA_ACCOUNT_MANAGER);
+                $this->aPrefMap[$newName.'_label']   = array('value'=>$valLabel,'name'=>$oldName,'level'=>OA_ACCOUNT_MANAGER);
+                $this->aPrefMap[$newName.'_rank']    = array('value'=>$valRank ,'name'=>$oldName,'level'=>OA_ACCOUNT_MANAGER);
             }
         }
         return true;

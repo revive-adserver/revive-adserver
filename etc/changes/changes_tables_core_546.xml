@@ -16,6 +16,8 @@
       <version>546</version>
       <remove>
         <table>preference</table>
+        <table>preference_advertiser</table>
+        <table>preference_publisher</table>
       </remove>
     </changeset>
   </destructive>
