@@ -9,7 +9,7 @@ body.hasSidebar {
 }
 body.hasInterface {
 	min-width: 1000px;
-	
+
 	/* Fix IE bug: min-width not supported */
 	-width: expression((document.documentElement.offsetWidth < 1020)? "1000px": "auto" );
 }
@@ -37,12 +37,12 @@ a:hover {
 }
 
 .brandingDefault {
-	width: 180px;
-	height: 48px;
+	width: 168px;
+	height: 47px;
 	background: url(../images/logo-wtag.png) no-repeat;
 	text-indent: -1000px;
 
-	/* Fix IE bug: transparent PNG support */	
+	/* Fix IE bug: transparent PNG support */
 	-background: none;
 	-filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/logo-wtag.png', sizingMethod='scale');
 }
@@ -64,7 +64,7 @@ a:hover {
 	height: 34px;
 	background: url(../images/logo-s.png) top left no-repeat;
 
-	/* Fix IE bug: transparent PNG support */	
+	/* Fix IE bug: transparent PNG support */
 	-background: none;
 	-filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/logo-s.png');
 }
@@ -135,7 +135,7 @@ a:hover {
 	position: relative;
 	top: -12px;
 	z-index: 2;
-	
+
 	background-color: #FFF;
 	height: 24px;
 	border-bottom: 1px solid #d1d1d1;
@@ -298,13 +298,14 @@ ul.tabs a
 	border-right: 1px solid #9c9c9c;
 }
 #oaNavigationExtraTop .buttonReportBugs {
-} 
+}
+
 #oaNavigationExtraTop .buttonReportBugs a {
   background: url(../images/bug-fam.png) no-repeat;
   background-position:  center right;
   padding-right: 25px;
   
-  /* Fix IE bug: transparent PNG support */ 
+  /* Fix IE bug: transparent PNG support */
   -background: none;
   -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/bug-fam.png');
 }
@@ -323,12 +324,12 @@ ul.tabs a
 	position: absolute;
 	top: 0;
 	left: 0;
-	
+
 	width: 160px;
 	margin: 0 1px 0 0;
 	padding: 0 0 0 20px;
 	color: #0767A8;
-	
+
 	/* Fix IE bug: absolute position should not be relative to padding of parent element */
 	-left: -180px;
 }
@@ -429,7 +430,7 @@ ul.tabs a
 #oaSectionTabs li a {
 	display: block;
 	float: left;
-	
+
 	font-size: 12px;
 	font-weight: bold;
 	color: #666;
@@ -437,7 +438,7 @@ ul.tabs a
 	border: 1px solid #ccc;
 	border-bottom: none;
 	padding: 0 8px;
-	
+
 	white-space: nowrap;
 }
 #oaSectionTabs li.selected span,
@@ -452,7 +453,7 @@ hr {
 	display: block;
 	border: none;
 	border-top: 1px solid #ddd;
-	
+
 	height: 1px;
 	margin: 4px 0 -8px;
 	padding: 0;

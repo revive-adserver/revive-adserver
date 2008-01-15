@@ -13,13 +13,13 @@ html {
 
 .invocationCodes .header {
 	background: url(../images/header.png) bottom left repeat-x;
-	height: 78px;
+	height: 70px;
 }
 
 .invocationCodes .header h1 {
-	width: 180px;
-	height: 46px;
-	background: url(../images/logo.gif) top left no-repeat;
+	width: 168px;
+	height: 47px;
+	background: url(../images/logo-wtag.png) top left no-repeat;
 	text-indent: -2000em;
 	margin: 0 0 0 32px;
 }
@@ -66,15 +66,15 @@ html {
 	white-space: -pre-wrap;      /* Opera 4-6 */
 	white-space: -o-pre-wrap;    /* Opera 7 */
 	word-wrap: break-word;       /* Internet Explorer 5.5+ */
-	
+
 	/* If that doesn't work anymore use a horizontal scrollbar */
 	overflow: auto;
 	overflow-x: auto;
 	overflow-y: hidden;
-	
+
 	/* Force layout on IE to prevent selection problems */
 	-height: 1%;
-	
+
 	cursor: text;
 }
 
@@ -86,7 +86,7 @@ html {
 	padding: 12px 60px 24px 120px;
 	border-top: 1px solid #ccc;
 	background: url(../images/step-divider.png) top left repeat-x;
-	
+
 	position: relative;
 }
 
@@ -94,7 +94,7 @@ html {
 	position: absolute;
 	left: 60px;
 	-left: -60px;
-	
+
 	background: url(../images/step.png) top left no-repeat;
 
 	height: 36px;
@@ -164,7 +164,7 @@ html {
 	position: absolute;
 	bottom: 2px;
 	right: 8px;
-	
+
 	color: #638606;  /* #999; */
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 17px;
@@ -177,16 +177,16 @@ html {
 }
 
 .sizePreview.customBoth {
-	background: #b9d669 url(../images/custom-both.png) bottom right no-repeat; 
+	background: #b9d669 url(../images/custom-both.png) bottom right no-repeat;
 	border-bottom: 1px solid #fff;
 	border-right: 1px solid #fff;
 }
 .sizePreview.customHeight {
-	background: #b9d669 url(../images/custom-vertical.png) bottom left repeat-x; 
+	background: #b9d669 url(../images/custom-vertical.png) bottom left repeat-x;
 	border-bottom: 1px solid #fff;
 }
 .sizePreview.customWidth {
-	background: #b9d669 url(../images/custom-horizontal.png) top right repeat-y; 
+	background: #b9d669 url(../images/custom-horizontal.png) top right repeat-y;
 	border-right: 1px solid #fff;
 }
 .sizePreview.labelsMini img,
