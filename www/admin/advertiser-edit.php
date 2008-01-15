@@ -91,7 +91,7 @@ if (isset($submit)) {
         $aClient['reportlastdate'] = date ("Y-m-d");
     }
     if (count($errormessage) == 0) {
-        if (empty($aClient)) {
+        if (empty($clientid)) {
             // Set agency ID
             $aClient['agencyid'] = OA_Permission::getAgencyId();
 
