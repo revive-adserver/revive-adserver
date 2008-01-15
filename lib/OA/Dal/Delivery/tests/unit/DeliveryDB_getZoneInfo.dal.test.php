@@ -48,6 +48,9 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         $this->oDbh = OA_DB::singleton();
         $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
 
+        // Disable caching
+        $GLOBALS['_MAX']['CONF']['delivery']['cacheExpire'] = 0;
+
         MAX_Dal_Delivery_Include();
     }
 

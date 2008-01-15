@@ -45,13 +45,11 @@ class Test_OA_Dal_DeliveryDB_TZ extends UnitTestCase
     {
         $this->UnitTestCase();
 
+        // Disable caching
+        $GLOBALS['_MAX']['CONF']['delivery']['cacheExpire'] = 0;
+
         MAX_Dal_Delivery_Include();
 
-        $this->_init();
-    }
-
-    function _init()
-    {
         // Create the admin account
         $doAccounts = OA_Dal::factoryDO('accounts');
         $doAccounts->account_name = 'Administrator Account';

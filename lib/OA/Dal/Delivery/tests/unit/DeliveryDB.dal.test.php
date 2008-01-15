@@ -57,6 +57,9 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
         $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
         $this->aIds = TestEnv::loadData('0.3.27_delivery');
 
+        // Disable caching
+        $GLOBALS['_MAX']['CONF']['delivery']['cacheExpire'] = 0;
+
         MAX_Dal_Delivery_Include();
     }
 
