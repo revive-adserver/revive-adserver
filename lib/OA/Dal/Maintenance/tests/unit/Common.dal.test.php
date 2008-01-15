@@ -652,8 +652,13 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $this->assertEqual($aResult[1]['comparison'], '==');
         $this->assertEqual($aResult[1]['data'], 'GB');
         $this->assertEqual($aResult[1]['executionorder'], 1);
+
         $aCleanupTables = array($aConf['table']['acls']);
-        DataGenerator::cleanUp($aCleanupTables);
+        foreach ($aCleanupTables as $table) {
+            $query = "DELETE FROM {$aConf['table']['prefix']}$table";
+            $oDbh->exec($query);
+        }
+        DataGenerator::resetSequence($aCleanupTables);
 
         TestEnv::restoreEnv();
 
@@ -731,7 +736,11 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $this->assertEqual($aResult[1]['executionorder'], 1);
 
         $aCleanupTables = array($aConf['table']['acls_channel']);
-        DataGenerator::cleanUp($aCleanupTables);
+        foreach ($aCleanupTables as $table) {
+            $query = "DELETE FROM {$aConf['table']['prefix']}$table";
+            $oDbh->exec($query);
+        }
+        DataGenerator::resetSequence($aCleanupTables);
     }
 
     /**
@@ -816,7 +825,11 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $this->assertEqual($max, 70);
 
         $aCleanupTables = array($aConf['table']['campaigns_trackers']);
-        DataGenerator::cleanUp($aCleanupTables);
+        foreach ($aCleanupTables as $table) {
+            $query = "DELETE FROM {$aConf['table']['prefix']}$table";
+            $oDbh->exec($query);
+        }
+        DataGenerator::resetSequence($aCleanupTables);
     }
 
     /**
@@ -887,8 +900,13 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         list($impression, $click) = $oDalMaintenanceCommon->maxConnectionWindows();
         $this->assertEqual($impression, 180);
         $this->assertEqual($click, 70);
+
         $aCleanupTables = array($aConf['table']['campaigns_trackers']);
-        DataGenerator::cleanUp($aCleanupTables);
+        foreach ($aCleanupTables as $table) {
+            $query = "DELETE FROM {$aConf['table']['prefix']}$table";
+            $oDbh->exec($query);
+        }
+        DataGenerator::resetSequence($aCleanupTables);
     }
 
 }
