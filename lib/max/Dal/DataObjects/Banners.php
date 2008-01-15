@@ -78,8 +78,8 @@ class DataObjects_Banners extends DB_DataObjectCommon
     var $keyword;                         // string(255)  not_null
     var $transparent;                     // int(1)  not_null
     var $parameters;                      // blob(65535)  blob
-    var $an_banner_id;                    // int(11)  
-    var $as_banner_id;                    // int(11)  
+    var $an_banner_id;                    // int(11)
+    var $as_banner_id;                    // int(11)
     var $status;                          // int(11)  not_null
 
     /* ZE2 compatibility trick*/
@@ -203,6 +203,23 @@ class DataObjects_Banners extends DB_DataObjectCommon
     function _getContext()
     {
         return 'Banner';
+    }
+
+    /**
+     * A private method to return the account ID of the
+     * account that should "own" audit trail entries for
+     * this entity type; NOT related to the account ID
+     * of the currently active account performing an
+     * action.
+     *
+     * @access private
+     * @return integer The account ID to insert into the
+     *                 "account_id" column of the audit trail
+     *                 database table.
+     */
+    function _getOwningAccountId()
+    {
+
     }
 
     /**

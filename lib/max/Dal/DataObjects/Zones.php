@@ -56,17 +56,17 @@ class DataObjects_Zones extends DB_DataObjectCommon
     var $forceappend;                     // string(1)  enum
     var $inventory_forecast_type;         // int(6)  not_null
     var $comments;                        // blob(65535)  blob
-    var $cost;                            // real(12)  
-    var $cost_type;                       // int(6)  
-    var $cost_variable_id;                // string(255)  
-    var $technology_cost;                 // real(12)  
-    var $technology_cost_type;            // int(6)  
+    var $cost;                            // real(12)
+    var $cost_type;                       // int(6)
+    var $cost_variable_id;                // string(255)
+    var $technology_cost;                 // real(12)
+    var $technology_cost_type;            // int(6)
     var $updated;                         // datetime(19)  not_null binary
     var $block;                           // int(11)  not_null
     var $capping;                         // int(11)  not_null
     var $session_capping;                 // int(11)  not_null
     var $what;                            // blob(65535)  not_null blob
-    var $as_zone_id;                      // int(11)  
+    var $as_zone_id;                      // int(11)
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
@@ -146,6 +146,40 @@ class DataObjects_Zones extends DB_DataObjectCommon
     function _getContext()
     {
         return 'Zone';
+    }
+
+    /**
+     * A private method to return the account ID of the
+     * account that should "own" audit trail entries for
+     * this entity type; NOT related to the account ID
+     * of the currently active account performing an
+     * action.
+     *
+     * @access private
+     * @return integer The account ID to insert into the
+     *                 "account_id" column of the audit trail
+     *                 database table.
+     */
+    function _getOwningAccountId()
+    {
+        // Fetch the ID of the affilaite (publisher) that
+        // owns the zone
+    	$doZones = $this->factory('zones');
+    	$doZones->zoneid = $this->zoneid;
+    	$doZones->find();
+    	$doZones->fetch();
+    	$aZone = $doZones->toArray();
+    	$affiliateId = $aZone['affiliateid'];
+    	// Fetch the account ID for this affiliate
+    	$doAffiliates = $this->factory('affiliates');
+        $doAffiliates->affiliateid = $affiliateId;
+    	$doAffiliates->find();
+    	$doAffiliates->fetch();
+    	$aAffilaite = $doAffiliates->toArray();
+    	$accountId = $aAffilaite['account_id'];
+    	// Return the account ID of the account that
+    	// "owns" the zone being audited
+    	return $accountId;
     }
 
     /**

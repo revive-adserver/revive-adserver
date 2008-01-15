@@ -268,14 +268,14 @@ class DB_DataObjectCommon extends DB_DataObject
         }
         return $found;
     }
-    
+
     /**
      * Cache in static variable records found in the process of checking
      * whether the object belongs to user. This eliminates sending some
      * queries few times to database.
      *
      * @see DB_DataObject::getLink() for a description of used parameters.
-     * 
+     *
      * @param string $key
      * @param string $table
      * @param string $link
@@ -1099,7 +1099,18 @@ class DB_DataObjectCommon extends DB_DataObject
         return false;
     }
 
-    function audit($actionid, $dataobject=null, $parentid = null)
+    /**
+     * Enter description here...
+     *
+     * @param integer $actionid One of the following:
+     *                              - 1 for INSERT
+     *                              - 2 for UPDATE
+     *                              - 3 for DELETE
+     * @param unknown_type $oDataObject
+     * @param unknown_type $parentid
+     * @return unknown
+     */
+    function audit($actionid, $oDataObject = null, $parentid = null)
     {
         if (isset($GLOBALS['_MAX']['CONF']['audit']) && $GLOBALS['_MAX']['CONF']['audit']['enabled'])
         {
@@ -1109,22 +1120,23 @@ class DB_DataObjectCommon extends DB_DataObject
                 {
                     $this->doAudit = $this->factory('audit');
                 }
-                $this->doAudit->actionid    = $actionid;
-                $this->doAudit->context     = $this->_getContext();
-                $this->doAudit->contextid   = $this->_getContextId();
-                $this->doAudit->parentid    = $parentid;
-                $this->doAudit->username    = OA_Permission::getUsername();
-                $this->doAudit->userid      = OA_Permission::getUserId();
-                // @TODO should we store here the account id and account type as well?
-
-                // prepare an generic array of data to be stored in the audit record
-                $aAuditFields = $this->_prepAuditArray($actionid, $dataobject);
-                // individual objects can customise this data (add, remove, format...)
+                $this->doAudit->actionid   = $actionid;
+                $this->doAudit->context    = $this->_getContext();
+                $this->doAudit->contextid  = $this->_getContextId();
+                $this->doAudit->parentid   = $parentid;
+                $this->doAudit->username   = OA_Permission::getUsername();
+                $this->doAudit->userid     = OA_Permission::getUserId();
+                // Set the account ID of the account that directly owns the
+                // item being audited
+                $this->doAudit->account_id = $this->_getOwningAccountId();
+                // Prepare a generic array of data to be stored in the audit record
+                $aAuditFields = $this->_prepAuditArray($actionid, $oDataObject);
+                // Individual objects can customise this data (add, remove, format...)
                 $this->_buildAuditArray($actionid, $aAuditFields);
-                // scrunch the data up
+                // Serialise the data
                 $this->doAudit->details = serialize($aAuditFields);
                 $this->doAudit->updated = OA::getNow();
-                // finally, insert the audit record
+                // Finally, insert the audit record
                 $id = $this->doAudit->insert();
                 return $id;
             }

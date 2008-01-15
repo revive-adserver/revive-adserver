@@ -52,7 +52,7 @@ class DataObjects_Clients extends DB_DataObjectCommon
     var $clientid;                        // int(9)  not_null primary_key auto_increment
     var $agencyid;                        // int(9)  not_null multiple_key
     var $clientname;                      // string(255)  not_null
-    var $contact;                         // string(255)  
+    var $contact;                         // string(255)
     var $email;                           // string(64)  not_null
     var $report;                          // string(1)  not_null enum
     var $reportinterval;                  // int(9)  not_null
@@ -61,8 +61,8 @@ class DataObjects_Clients extends DB_DataObjectCommon
     var $comments;                        // blob(65535)  blob
     var $updated;                         // datetime(19)  not_null binary
     var $lb_reporting;                    // int(1)  not_null
-    var $an_adnetwork_id;                 // int(11)  
-    var $as_advertiser_id;                // int(11)  
+    var $an_adnetwork_id;                 // int(11)
+    var $as_advertiser_id;                // int(11)
     var $account_id;                      // int(9)  multiple_key
 
     /* ZE2 compatibility trick*/
@@ -103,6 +103,23 @@ class DataObjects_Clients extends DB_DataObjectCommon
     function _getContext()
     {
         return 'Client';
+    }
+
+    /**
+     * A private method to return the account ID of the
+     * account that should "own" audit trail entries for
+     * this entity type; NOT related to the account ID
+     * of the currently active account performing an
+     * action.
+     *
+     * @access private
+     * @return integer The account ID to insert into the
+     *                 "account_id" column of the audit trail
+     *                 database table.
+     */
+    function _getOwningAccountId()
+    {
+
     }
 
     /**

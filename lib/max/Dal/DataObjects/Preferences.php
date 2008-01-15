@@ -39,6 +39,23 @@ class DataObjects_Preferences extends DB_DataObjectCommon
     }
 
     /**
+     * A private method to return the account ID of the
+     * account that should "own" audit trail entries for
+     * this entity type; NOT related to the account ID
+     * of the currently active account performing an
+     * action.
+     *
+     * @access private
+     * @return integer The account ID to insert into the
+     *                 "account_id" column of the audit trail
+     *                 database table.
+     */
+    function _getOwningAccountId()
+    {
+
+    }
+
+    /**
      * build an accounts specific audit array
      *
      * @param integer $actionid

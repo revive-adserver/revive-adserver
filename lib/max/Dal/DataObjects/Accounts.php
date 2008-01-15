@@ -14,9 +14,9 @@ class DataObjects_Accounts extends DB_DataObjectCommon
     var $__table = 'accounts';                        // table name
     var $account_id;                      // int(9)  not_null primary_key auto_increment
     var $account_type;                    // string(16)  not_null multiple_key
-    var $account_name;                    // string(255)  
-    var $m2m_password;                    // string(32)  
-    var $m2m_ticket;                      // string(32)  
+    var $account_name;                    // string(255)
+    var $m2m_password;                    // string(32)
+    var $m2m_ticket;                      // string(32)
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
@@ -65,6 +65,23 @@ class DataObjects_Accounts extends DB_DataObjectCommon
     function _getContext()
     {
         return 'Account';
+    }
+
+    /**
+     * A private method to return the account ID of the
+     * account that should "own" audit trail entries for
+     * this entity type; NOT related to the account ID
+     * of the currently active account performing an
+     * action.
+     *
+     * @access private
+     * @return integer The account ID to insert into the
+     *                 "account_id" column of the audit trail
+     *                 database table.
+     */
+    function _getOwningAccountId()
+    {
+
     }
 
     /**

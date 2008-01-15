@@ -43,11 +43,11 @@ class DataObjects_Channel extends DB_DataObjectCommon
     var $channelid;                       // int(9)  not_null primary_key auto_increment
     var $agencyid;                        // int(9)  not_null
     var $affiliateid;                     // int(9)  not_null
-    var $name;                            // string(255)  
-    var $description;                     // string(255)  
+    var $name;                            // string(255)
+    var $description;                     // string(255)
     var $compiledlimitation;              // blob(65535)  not_null blob
     var $acl_plugins;                     // blob(65535)  blob
-    var $active;                          // int(1)  
+    var $active;                          // int(1)
     var $comments;                        // blob(65535)  blob
     var $updated;                         // datetime(19)  not_null binary
     var $acls_updated;                    // datetime(19)  not_null binary
@@ -149,6 +149,23 @@ class DataObjects_Channel extends DB_DataObjectCommon
     function _getContext()
     {
         return 'Channel';
+    }
+
+    /**
+     * A private method to return the account ID of the
+     * account that should "own" audit trail entries for
+     * this entity type; NOT related to the account ID
+     * of the currently active account performing an
+     * action.
+     *
+     * @access private
+     * @return integer The account ID to insert into the
+     *                 "account_id" column of the audit trail
+     *                 database table.
+     */
+    function _getOwningAccountId()
+    {
+
     }
 
     /**

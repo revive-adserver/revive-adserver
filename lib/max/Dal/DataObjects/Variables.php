@@ -41,7 +41,7 @@ class DataObjects_Variables extends DB_DataObjectCommon
     var $variableid;                      // int(9)  not_null primary_key unsigned auto_increment
     var $trackerid;                       // int(9)  not_null multiple_key
     var $name;                            // string(250)  not_null
-    var $description;                     // string(250)  
+    var $description;                     // string(250)
     var $datatype;                        // string(7)  not_null enum
     var $purpose;                         // string(12)  enum
     var $reject_if_empty;                 // int(1)  not_null unsigned
@@ -73,6 +73,23 @@ class DataObjects_Variables extends DB_DataObjectCommon
     function _getContext()
     {
         return 'Variable';
+    }
+
+    /**
+     * A private method to return the account ID of the
+     * account that should "own" audit trail entries for
+     * this entity type; NOT related to the account ID
+     * of the currently active account performing an
+     * action.
+     *
+     * @access private
+     * @return integer The account ID to insert into the
+     *                 "account_id" column of the audit trail
+     *                 database table.
+     */
+    function _getOwningAccountId()
+    {
+
     }
 
     /**

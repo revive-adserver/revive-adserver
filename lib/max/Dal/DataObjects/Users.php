@@ -15,8 +15,8 @@ class DataObjects_Users extends DB_DataObjectCommon
     var $contact_name;                    // string(255)  not_null
     var $email_address;                   // string(64)  not_null
     var $username;                        // string(64)  multiple_key
-    var $password;                        // string(64)  
-    var $default_account_id;              // int(9)  
+    var $password;                        // string(64)
+    var $default_account_id;              // int(9)
     var $comments;                        // blob(65535)  blob
     var $active;                          // int(1)  not_null
 
@@ -162,6 +162,23 @@ class DataObjects_Users extends DB_DataObjectCommon
     function _getContext()
     {
         return 'User';
+    }
+
+    /**
+     * A private method to return the account ID of the
+     * account that should "own" audit trail entries for
+     * this entity type; NOT related to the account ID
+     * of the currently active account performing an
+     * action.
+     *
+     * @access private
+     * @return integer The account ID to insert into the
+     *                 "account_id" column of the audit trail
+     *                 database table.
+     */
+    function _getOwningAccountId()
+    {
+
     }
 
     /**

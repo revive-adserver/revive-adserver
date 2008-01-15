@@ -38,7 +38,7 @@ class DataObjects_Category extends DB_DataObjectCommon
 
     var $__table = 'category';                        // table name
     var $category_id;                     // int(10)  not_null primary_key unsigned auto_increment
-    var $name;                            // string(255)  
+    var $name;                            // string(255)
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
@@ -62,6 +62,23 @@ class DataObjects_Category extends DB_DataObjectCommon
     function _getContext()
     {
         return 'Category';
+    }
+
+    /**
+     * A private method to return the account ID of the
+     * account that should "own" audit trail entries for
+     * this entity type; NOT related to the account ID
+     * of the currently active account performing an
+     * action.
+     *
+     * @access private
+     * @return integer The account ID to insert into the
+     *                 "account_id" column of the audit trail
+     *                 database table.
+     */
+    function _getOwningAccountId()
+    {
+
     }
 
     /**

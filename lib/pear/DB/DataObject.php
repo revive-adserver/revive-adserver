@@ -1157,7 +1157,7 @@ class DB_DataObject extends DB_DataObject_Overload
 
         // only apply update against sequence key if it is set?????
 
-        $seq    = $this->sequenceKey();
+        $seq = $this->sequenceKey();
         if ($seq[0] !== false) {
             $keys = array($seq[0]);
             if (empty($this->{$keys[0]}) && $dataObject !== true) {
@@ -1180,8 +1180,8 @@ class DB_DataObject extends DB_DataObject_Overload
         $settings  = '';
         $this->_connect();
 
-        $DB            = &$_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5];
-        $dbtype        = $DB->dsn["phptype"];
+        $DB               = &$_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5];
+        $dbtype           = $DB->dsn["phptype"];
         $quoteIdentifiers = !empty($_DB_DATAOBJECT['CONFIG']['quote_identifiers']);
 
         foreach($items as $k => $v) {
@@ -1205,7 +1205,6 @@ class DB_DataObject extends DB_DataObject_Overload
             if ($v & DB_DATAOBJECT_MYSQLTIMESTAMP) {
                 continue;
             }
-
 
             if ($settings)  {
                 $settings .= ', ';
@@ -1238,7 +1237,6 @@ class DB_DataObject extends DB_DataObject_Overload
                 continue;
             }
 
-
             if ($v & DB_DATAOBJECT_STR) {
                 $settings .= "$kSql = ". $this->_quote((string) (
                         ($v & DB_DATAOBJECT_BOOL) ?
@@ -1249,6 +1247,7 @@ class DB_DataObject extends DB_DataObject_Overload
                     )) . ' ';
                 continue;
             }
+
             if (is_numeric($this->$k)) {
                 $settings .= "$kSql = {$this->$k} ";
                 continue;

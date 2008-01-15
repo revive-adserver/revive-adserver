@@ -39,9 +39,9 @@ class DataObjects_Ad_zone_assoc extends DB_DataObjectCommon
     var $ad_zone_assoc_id;                // int(9)  not_null primary_key auto_increment
     var $zone_id;                         // int(9)  multiple_key
     var $ad_id;                           // int(9)  multiple_key
-    var $priority;                        // real(22)  
+    var $priority;                        // real(22)
     var $link_type;                       // int(6)  not_null
-    var $priority_factor;                 // real(22)  
+    var $priority_factor;                 // real(22)
     var $to_be_delivered;                 // int(1)  not_null
 
     /* ZE2 compatibility trick*/
@@ -66,6 +66,23 @@ class DataObjects_Ad_zone_assoc extends DB_DataObjectCommon
     function _getContext()
     {
         return 'Ad Zone Association';
+    }
+
+    /**
+     * A private method to return the account ID of the
+     * account that should "own" audit trail entries for
+     * this entity type; NOT related to the account ID
+     * of the currently active account performing an
+     * action.
+     *
+     * @access private
+     * @return integer The account ID to insert into the
+     *                 "account_id" column of the audit trail
+     *                 database table.
+     */
+    function _getOwningAccountId()
+    {
+
     }
 
     /**
