@@ -51,7 +51,7 @@ class DataObjects_Account_preference_assoc extends DB_DataObjectCommon
      */
     function getOwningAccountId()
     {
-
+        return $this->account_id;
     }
 
     /**
