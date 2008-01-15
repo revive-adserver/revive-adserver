@@ -60,10 +60,10 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
 
 
 // Register input variables
-$advertiserId   = MAX_getStoredValue('advertiserId',    0);
-$campaignId     = MAX_getStoredValue('campaignId',      0);
-$publisherId    = MAX_getStoredValue('publisherId',     0);
-$zoneId         = MAX_getStoredValue('zoneId',          0);
+$advertiserId   = MAX_getValue('advertiserId',    0);
+$campaignId     = MAX_getValue('campaignId',      0);
+$publisherId    = MAX_getValue('publisherId',     0);
+$zoneId         = MAX_getValue('zoneId',          0);
 $startDate      = MAX_getValue('period_start');
 $endDate        = MAX_getValue('period_end');
 $periodPreset   = MAX_getStoredValue('period_preset', 'all_events');
@@ -151,7 +151,7 @@ $pager->history = $pager->getPageData();
 $pager->pagerLinks = $pager->getLinks();
 
 $pager->pagerLinks = $pager->pagerLinks['all'];
-$pager->pagerSelect = preg_replace('/(<select.*?)(>)/i', '$1 onchange="submitForm()" id="setPerPage"$2', $pager->getPerPageSelectBox(10, 100, 10));
+$pager->pagerSelect = preg_replace('/(<select.*?)(>)/i', '$1 onchange="submitForm()" id="setPerPage"$2', $pager->getPerPageSelectBox(2, 100, 10));
 
 //  build column header link params
 $aAllowdParams = array('advertiserId', 'campaignId', 'publisherId', 'zoneId');
