@@ -65,6 +65,7 @@ $Id$
                 {if $_e.id != ''}id="{$_e.id|escape}"{/if}
                 {if $_e.style == 'small'}size="25"{else} size="35" style="width:350px;"{/if}
                 {if $_e.disabled} disabled="disabled"{/if}
+                {if $_e.maxlength} maxlength="{$_e.maxlength}"{/if}
                 {if $_e.title} title="{$_e.title}"{/if}>
         {/if}
         </td>

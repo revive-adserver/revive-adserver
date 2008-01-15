@@ -42,6 +42,9 @@ require_once MAX_PATH . '/www/admin/config.php';
 // it or remove, depending on the implementation strategy.
 phpAds_registerGlobalUnslashed ('info');
 
+// Used to show the screen when google adsense accounts exist.
+phpAds_registerGlobalUnslashed ('exist');
+
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -64,12 +67,12 @@ require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 // TODO: depending on whether there are any AdSense accounts already linked,
 // we display different UI. Set the variable below to "true" if any
 // AdSense accounts have already been linked.
-$accountsExist = false;
+$accountsExist = $exist;
 
 if ($accountsExist) {
    $oTpl = new OA_Admin_Template('adsense-accounts.html');
 
-   $oTpl->assign('info', $info);
+   $oTpl->assign('info', $exist);
 
    // TODO: an array of the already linked AdSense accounts
    $oTpl->assign('adsenseAccounts', array(
@@ -119,7 +122,8 @@ else
                    'value'     => '',
                    'id'        => 'phonedigits',
                    'title'     => 'Provide last 5 phone digits',
-                   'clientValid' => 'required:true'
+                   'maxlength' => '5',
+                   'clientValid' => 'required:true,number:true'
                ),
                array(
                    'name'      => 'postalcode',

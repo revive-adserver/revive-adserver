@@ -81,7 +81,8 @@ $oTpl->assign('fields', array(
                 'value'     => '',
                 'id'        => 'phonedigits',
                 'title'     => 'Provide last 5 phone digits',
-                'clientValid' => 'required:true'
+                'maxlength' => '5',
+                'clientValid' => 'required:true,number:true'
             ),
             array(
                 'name'      => 'postalcode',
@@ -97,9 +98,12 @@ $oTpl->assign('fields', array(
         'title'     => 'Name for the AdSense Account in Openads',
         'fields'    => array(
             array(
-                'name'      => 'email',
+                'name'      => 'name',
                 'label'     => 'Name for the AdSense Account in Openads',
-                'value'     => ''
+                'value'     => '',
+                'id'        => 'accountname',
+                'title'     => 'Provide name in Openads',
+                'clientValid' => 'required:true'
             )
         )
     )
