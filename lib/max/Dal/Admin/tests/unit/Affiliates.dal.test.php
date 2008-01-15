@@ -103,7 +103,7 @@ class MAX_Dal_Admin_AffiliatesTest extends DalUnitTestCase
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $campaignId;
         $doBanners->acls_updated = '2007-04-03 18:39:45';
-        $bannerId = DataGenerator::generateOne($doBanners);
+        $bannerId = DataGenerator::generateOne($doBanners, true);
 
         // Add a couple of affiliates
         $aAffiliateId = DataGenerator::generate('affiliates', 2);
