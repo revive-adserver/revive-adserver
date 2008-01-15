@@ -130,6 +130,9 @@ class Test_OA_Dal_DeliveryDB_TZ extends UnitTestCase
 
         Admin_DA::addPlacementZone(array('placement_id' => $aCampaignId[0], 'zone_id' => $this->zoneId));
         Admin_DA::addPlacementZone(array('placement_id' => $aCampaignId[1], 'zone_id' => $this->zoneId));
+
+        // Force cache recreation of getAdminTZ
+        MAX_cacheGetAdminTZ(false);
     }
 
     function testDirectSelection()
