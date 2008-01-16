@@ -90,7 +90,7 @@ img#helpIcon {
 .topLink:hover span{
 	text-decoration: underline;
 }
-*html a.topLink:hover{
+* html a.topLink:hover{
 	text-decoration: underline;
 }
 
@@ -103,7 +103,9 @@ img#helpIcon {
 
 /* Form elements */
 select[disabled], textarea[disabled], input[disabled], input[disabled]
- { background-color : #eeeff2 };
+{ 
+	background-color : #eeeff2
+}
 
 select:focus, textarea:focus, input[type=text]:focus, input[type=password]:focus {
   background-color:  #c7e9d1;
@@ -810,7 +812,7 @@ a.adv-list-entry {
 
 .dev-note {
     padding: 15px;
-    color: #00;
+    color: #000;
     background-color: #F7FFC0;
     border: 1px solid #D7D7D7;
     width: 90%;
