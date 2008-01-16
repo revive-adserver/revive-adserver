@@ -701,14 +701,15 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aAudit['trackerid'],$doCampaignsTrackers->trackerid,'expected (details) trackerid='.$doCampaignsTrackers->trackerid.' got '.$aAudit['trackerid']);
 
         $doCampaignsTrackers = OA_Dal::staticGetDO('campaigns_trackers', $campaign_trackerId);
-        $doCampaignsTrackers->viewwindow = rand(1,360);
-        $doCampaignsTrackers->clickwindow = rand(1,360);
+        // Use 2,360 because previous windows were set to 1 by the generator
+        $doCampaignsTrackers->viewwindow = rand(2,360);
+        $doCampaignsTrackers->clickwindow = rand(2,360);
         $doCampaignsTrackers->update();
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_UPDATE);
         $aAudit = unserialize($oAudit->details);
         $this->assertEqual($oAudit->username,$session['username']);
-        $this->assertEqual($aAudit['viewwindow']['is'],$doCampaignsTrackers->viewwindow.'viewwindow='.$doCampaignsTrackers->clickwindow.' got '.$aAudit['viewwindow']['is']);
-        $this->assertEqual($aAudit['clickwindow']['is'],$doCampaignsTrackers->clickwindow.'clickwindow='.$doCampaignsTrackers->clickwindow.' got '.$aAudit['clickwindow']['is']);
+        $this->assertEqual($aAudit['viewwindow']['is'],$doCampaignsTrackers->viewwindow,'expected viewwindow='.$doCampaignsTrackers->clickwindow.' got '.$aAudit['viewwindow']['is']);
+        $this->assertEqual($aAudit['clickwindow']['is'],$doCampaignsTrackers->clickwindow,'expected clickwindow='.$doCampaignsTrackers->clickwindow.' got '.$aAudit['clickwindow']['is']);
 
         $doCampaignsTrackers->delete();
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_DELETE);
