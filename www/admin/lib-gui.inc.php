@@ -153,24 +153,32 @@ function phpAds_ShowSections($sections, $params=false, $openNewTable=true, $imgP
         $accountType = OA_Permission::getAccountType();
         $pages = $OA_Navigation[$accountType];
     }
-
+	
+	$previousselect = false;
     for ($i=0; $i < count($sections); $i++) {
         list($sectionUrl, $sectionStr) = each($pages[$sections[$i]]);
         $selected = ($OA_Navigation_ID == $sections[$i]);
+		
         if ($selected) {
+			echo "<li class='active" . ($i == 0 ? " first" : "" ) . ($i == count($sections) - 1 ? " last" : "" ) . "'>";
+			echo "<div class='right'><div class='left'>";
             if (!empty($sectionUrl)) {
-				echo "<li class='selected'><a href='" . $sectionUrl . ($params ? showParams($params) : '') . "'";
-	            echo "' accesskey='".($i+1)."'>{$sectionStr}</a></li>";
+				echo "<a href='" . $sectionUrl . ($params ? showParams($params) : '') . "'";
+	            echo "' accesskey='".($i+1)."'>{$sectionStr}</a>";
             } else {
-				echo "<li class='selected'><span>{$sectionStr}</span></li>";
+				echo "<span>{$sectionStr}</span>";
             }
+			echo "</div></div></li>";
         } else {
+			echo "<li class='passive" . ($i == 0 ? " first" : "" ) . ($i == count($sections) - 1 ? " last" : "" ) . ($previousselected ? "  after-active" : "") . "'>";
+			echo "<div class='right'><div class='left'>";
             if (!empty($sectionUrl)) {
-				echo "<li><a href='" . $sectionUrl . ($params ? showParams($params) : '') . "'";
-	            echo "' accesskey='".($i+1)."'>{$sectionStr}</a></li>";
+				echo "<a href='" . $sectionUrl . ($params ? showParams($params) : '') . "'";
+	            echo "' accesskey='".($i+1)."'>{$sectionStr}</a>";
             } else {
-				echo "<li><span>{$sectionStr}</span></li>";
+				echo "<span>{$sectionStr}</span>";
             }
+			echo "</div></div></li>";
         }
         $previousselected = $selected;
     }

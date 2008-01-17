@@ -149,7 +149,7 @@ a:hover {
 #oaNavigationTabs {
 	position: absolute;
 	top: 0;
-	left: 181px;
+	left: 176px;
 	min-width: 300px;
 }
 
@@ -263,7 +263,7 @@ ul.tabs a
 #oaNavigationExtra {
 	position: absolute;
 	top: 0;
-	right: 2px;
+	right: 14px;
 	color: #9c9c9c;
 }
 #oaNavigationExtra select:focus, #oaNavigationExtraTop select:focus {
@@ -279,7 +279,7 @@ ul.tabs a
 }
 #oaNavigationExtra li {
 	float: left;
-	margin: 0 12px 0 0;
+	margin: 0 0 0 12px;
 }
 
 #oaNavigationExtraTop {
@@ -348,8 +348,8 @@ ul.tabs a
 	padding: 0;
 }
 #oaSidebar #oaSidebarNavigation {
-	border-top: 1px solid #888;
-	border-bottom: 1px solid #888;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
 }
 #oaSidebarNavigation li {
 	background: url(../images/caret-u.gif) left 3px no-repeat;
@@ -363,7 +363,7 @@ ul.tabs a
 #oaSidebarNavigation .first {
 	padding-top: 4px;
 	background-position: left 7px;
-	border-top: 1px solid #888;
+	border-top: 1px solid #ccc;
 }
 #oaSidebarNavigation .current {
 	padding-bottom: 4px;
@@ -374,7 +374,7 @@ ul.tabs a
 }
 
 #oaSidebar #oaSidebarContext {
-	border-bottom: 1px solid #888;
+	border-bottom: 1px solid #ccc;
 	padding: 4px 0;
 }
 #oaSidebarContext li {
@@ -391,10 +391,10 @@ ul.tabs a
 }
 
 #oaSidebarShortcuts {
-	border-top: 1px solid #888;
+	border-top: 1px solid #ccc;
 }
 #oaSidebarShortcuts li {
-	border-bottom: 1px solid #888;
+	border-bottom: 1px solid #ccc;
 	background-repeat: no-repeat;
 	background-position: left center;
 	line-height: 24px;
@@ -412,41 +412,63 @@ ul.tabs a
 }
 
 #oaSection {
-	background: #fff url(../images/ltr/stab-bg.gif) left bottom repeat-x;
-	height: 26px;
-	line-height: 24px;
+	background: #fff url(../images/section-body.gif) left -80px repeat-x;
+	height: 22px;
+	line-height: 22px;
 }
 #oaSectionTabs {
-	margin: 0 0 0 40px;
+	margin: 0 0 0 36px;
 	padding: 0;
 	list-style-type: none;
 	white-space: nowrap;
 }
 #oaSectionTabs li {
 	float: left;
-	margin: 0 2px 0 0;
+	margin: 0;
+	background: url(../images/section-body.gif) left 0px repeat-x;
+}
+#oaSectionTabs li div.left {
+	background: url(../images/section-link.gif) left 0px no-repeat;
+}
+#oaSectionTabs li.first div.left {
+	background: url(../images/section-lead-in.gif) left 0px no-repeat;
+}
+#oaSectionTabs li.last div.right {
+	background: url(../images/section-lead-out.gif) right 0px no-repeat;
+}
+#oaSectionTabs li.active,
+#oaSectionTabs li.active div.left {
+	background-position: left -40px;
+}
+#oaSectionTabs li.after-active div.left {
+	background-position: left -80px;
+}
+#oaSectionTabs li.active div.right {
+	background-position: right -40px;
+}
+#oaSectionTabs li div {
+	overflow: hidden;
+
+	/* Fix IE bug: div should wrap around contents */
+	-overflow: visible;
+	-width: 1px;
 }
 #oaSectionTabs li span,
 #oaSectionTabs li a {
 	display: block;
 	float: left;
-
-	font-size: 12px;
-	font-weight: bold;
-	color: #666;
-	background: #f6f6f6;
-	border: 1px solid #ccc;
-	border-bottom: none;
-	padding: 0 8px;
-
+	font-size: 11px;
+	color: #444;
+	padding: 0 6px 0 17px;
 	white-space: nowrap;
 }
-#oaSectionTabs li.selected span,
-#oaSectionTabs li.selected a {
+#oaSectionTabs li.last span,
+#oaSectionTabs li.last a {
+	padding-right: 17px;
+}
+#oaSectionTabs li.active span,
+#oaSectionTabs li.active a {
 	color: #0767A8;
-	background: #fff;
-	border: 1px solid #888;
-	border-bottom: 1px solid #fff;
 }
 
 hr {
