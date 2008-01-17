@@ -135,7 +135,7 @@ class BaseServiceImpl extends  OA_BaseObjectWithErrors
         }
 
         // Load the user preferences from the database
-        $pref = OA_Admin_Preferences::loadPrefs();
+        OA_Preferences::loadPreferences();
 
         // First thing to do is clear the $session variable to
         // prevent users from pretending to be logged in.
@@ -160,14 +160,8 @@ class BaseServiceImpl extends  OA_BaseObjectWithErrors
             $GLOBALS['_MAX']['CONF']['max']['language'] = $session['language'];
         }
 
-        if (!OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
-            // Reload user preferences from the database because we are using
-            // agency/advertiser/publisher settings
-            $pref = OA_Admin_Preferences::loadPrefs(OA_Permission::getAgencyId());
-        }
-
-        // Rewrite column preferences
-        $pref = OA_Admin_Preferences::expandColumnPrefs();
+        // Load the user preferences from the database
+        OA_Preferences::loadPreferences();
 
         // Load the required language files
         Language_Default::load();
