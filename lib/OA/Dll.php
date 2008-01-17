@@ -82,7 +82,7 @@ class OA_Dll extends OA_BaseObjectWithErrors
         OA_ACCOUNT_MANAGER,
         OA_ACCOUNT_ADVERTISER
     );
-    
+
     /**
      * Email Address Validation.
      *
@@ -386,7 +386,9 @@ class OA_Dll extends OA_BaseObjectWithErrors
     function checkPermissions($permissions, $table = '', $id = null, $allowed = null) {
         $isError = false;
         if (isset($permissions) && !OA_Permission::isAccount($permissions)) {
-            $isError = true;
+            if (!OA_Permission::attemptToSwitchToAccount($permissions)) {
+                $isError = true;
+            }
         }
         if (isset($id) && !OA_Permission::hasAccessToObject($table, $id)) {
             $isError = true;
