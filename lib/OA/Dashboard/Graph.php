@@ -60,14 +60,19 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
         $this->setDummyData();
 
         $this->oTpl = new OA_Admin_Template($this->draw ? 'passthrough.html' : 'dashboard/graph.html');
-        $this->oTpl->setCacheId(get_class($this));
+        $this->oTpl->setCacheId($this->getCacheId());
 
         $this->oTpl->assign('extensionLoaded', $gdAvailable);
     }
 
+    function getCacheId()
+    {
+        return array(get_class($this));
+    }
+
     function isDataRequired()
     {
-        return !$this->oTpl->is_cached() && !empty($_REQUEST);
+        return $this->draw && !$this->oTpl->is_cached();
     }
 
     /**
@@ -234,7 +239,7 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
             $this->oTpl->assign('content', $content);
         } else {
             $this->oTpl->assign('title', $this->title);
-            $this->oTpl->assign('imageSrc', "dashboard.php?widget={$this->widgetName}&draw=1");
+            $this->oTpl->assign('imageSrc', "dashboard.php?widget={$this->widgetName}&draw=1&cb=".$this->oTpl->cacheId);
         }
 
         $this->oTpl->display();
