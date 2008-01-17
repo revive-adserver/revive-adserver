@@ -176,12 +176,13 @@ class Migration_546 extends Migration
 	function migratePreferences()
 	{
 	    $aConf = & $GLOBALS['_MAX']['CONF'];
-	    $this->tblAgency   = $this->oDBH->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['agency'],true);
-	    $this->tblAccounts = $this->oDBH->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['accounts'],true);
-        $this->tblPrefsOld = $this->oDBH->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['preference'],true);
-        $this->tblPrefsNew = $this->oDBH->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['preferences'],true);
-        $this->tblAccPrefs = $this->oDBH->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['account_preference_assoc'],true);
-        $this->tblAppVars = $this->oDBH->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['application_variable'],true);
+	    $prefix = $aConf['table']['prefix'];
+	    $this->tblAgency    = $this->oDBH->quoteIdentifier($prefix.$aConf['table']['agency'],true);
+        $this->tblPrefsOld  = $this->oDBH->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['preference'],true);
+        $this->tblAppVars   = $this->oDBH->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['application_variable'],true);
+	    $this->tblAccounts  = $this->oDBH->quoteIdentifier($prefix.'accounts',true);
+	    $this->tblPrefsNew  = $this->oDBH->quoteIdentifier($prefix.'preferences',true);
+	    $this->tblAccPrefs  = $this->oDBH->quoteIdentifier($prefix.'account_preference_assoc',true);
 
         // fetch the admin's current prefs
         $aPrefOldAdmin = $this->_getOldPreferencesAdmin();
@@ -447,8 +448,8 @@ class Migration_546 extends Migration
 
         foreach ($this->aPrefMap AS $newName => $aVal)
         {
-            $this->aPrefMap[$newName]['value'] = $aPrefOld[$aVal['name']];
-            unset($aVal['name']);
+            $this->aPrefMap[$newName]['value'] = ( is_null($aPrefOld[$aVal['name']]) ? '' : $aPrefOld[$aVal['name']]);
+            unset($aPrefOld[$aVal['name']]);
         }
 
         // only elements left should be the gui_columns that have serialized array values
