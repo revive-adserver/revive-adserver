@@ -72,7 +72,9 @@ class OA_Permission_User
 
     function switchAccount($accountId)
     {
-        if (!empty($accountId)) {
+        if (!empty($accountId)
+            && OA_Permission::hasAccess($accountId, $this->aUser['user_id']))
+        {
             $this->_clearAccount();
 
             $doAccount = OA_Dal::factoryDO('accounts');

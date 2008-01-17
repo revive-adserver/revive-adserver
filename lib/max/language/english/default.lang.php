@@ -206,6 +206,7 @@ $GLOBALS['strLinkUserHelp']             = '<br />Type user name. To link:<ul><li
 
 // Login & Permissions
 $GLOBALS['strUserAccess']               = "User Access";
+$GLOBALS['strAdminAccess']              = "Admin Access";
 $GLOBALS['strUserProperties']           = "User Properties";
 $GLOBALS['strLinkNewUser']              = "Link New User";
 $GLOBALS['strPermissions']              = "Permissions";

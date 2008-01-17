@@ -244,9 +244,27 @@ class OA_Admin_UI_UserAccess
             if ($doUsers->countLinkedAccounts() == 0) {
                 $doUsers->delete();
                 OA_Session::setMessage($GLOBALS['strUserWasDeleted']);
+            } else {
+                OA_Admin_UI_UserAccess::resetUserDefaultAccount($userId, $accountId);
             }
         } else {
             OA_Session::setMessage($GLOBALS['strUserNotLinkedWithAccount']);
+        }
+    }
+    
+    /**
+     * Resets default user's account to one of the account's ids which is linked to him.
+     *
+     * @param integer $userId
+     * @param integer $accountId
+     */
+    function resetUserDefaultAccount($userId, $accountId)
+    {
+        $linkedAccounts = OA_Permission::getLinkedAccounts(false, $userId);
+        $doUsers = OA_Dal::staticGetDO('users', $userId);
+        if ($doUsers->default_account_id == $accountId) {
+            $doUsers->default_account_id = array_shift($linkedAccounts);
+            $doUsers->update();
         }
     }
     
