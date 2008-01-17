@@ -49,10 +49,6 @@ import junit.framework.TestSuite;
  */
 public class TestAgency {
 
-	public static void main(String[] args) {
-		junit.swingui.TestRunner.run(TestAgency.class);
-	}
-
 	public static Test suite() {
 		TestSuite suite = new TestSuite("Test Agency service");
 		// $JUnit-BEGIN$
@@ -70,5 +66,4 @@ public class TestAgency {
 		// $JUnit-END$
 		return suite;
 	}
-
 }
