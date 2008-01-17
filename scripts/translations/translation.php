@@ -18,31 +18,51 @@ class OA_TranslationMaintenance
 {
 
     // Setup variables
-    protected $_masterLang  = 'english';
-    protected $_lang;
-    protected $_var;
-    protected $_buildVar    = false;
-    protected $_array       = array();
-    protected $_arrayKey;
-    protected $_arrayVal;
-    protected $_buildArray  = false;
-    protected $_old;
-    protected $_new;
-    protected $_add;
-    protected $_missing;
+    var $_masterLang  = 'english';
+    var $_otherLangs  = array(
+        'spanish'               => 'es',
+        'german'                => 'de',
+        'russian_utf8'          => 'ru',
+        'Brazilian Portuguese'  => 'pt_br',
+        'Chinese Simplified'    => 'zh-s',
+        'french'                => 'fr',
+    );
 
-    public $aLang;
-    public $inputFile;
-    public $outputDir;
-    public $lang;
-    public $aRegex = array(
+    var $_lang;
+    var $_var;
+    var $_buildVar    = false;
+    var $_array       = array();
+    var $_arrayKey;
+    var $_arrayVal;
+    var $_buildArray  = false;
+    var $_old;
+    var $_new;
+    var $_add;
+    var $_missing;
+    var $_addStrikeTags = false;
+
+    var $aLang = array();
+    var $inputFile;
+    var $outputDir;
+    var $lang;
+    var $aRegex = array(
         "#^(.*?)\['(.*)'\](\[.*\])*(\s*=\s*)([\"])(.*)([^\\\\])([\"])(;)#sm",
         "#^(.*?)\['(.*)'\](\[.*\])*(\s*=\s*)([\'])(.*)([^\\\\])([\'])(;)#sm"
     );
-    public $aConstant = array(
+    var $aConstant = array(
         'MAX_PRODUCT_NAME', 'MAX_PRODUCT_URL', 'MAX_PRODUCT_DOCSURL',
         'OA_VERSION', 'phpAds_dbmsname'
     );
+
+    /**
+     * PHP4 style constructor
+     *
+     * @see OA_TranslationMaintenance::__construct
+     */
+    function OA_TranslationMaintenance()
+    {
+        $this->__construct();
+    }
 
     function __construct()
     {
@@ -51,12 +71,12 @@ class OA_TranslationMaintenance
 
         $command = $GLOBALS['argv'][1];
 
-        $languageKey = ($command == 'merge' || $command == 'remove_keys')
+        $languageKey = ($command == 'merge' || $command == 'mergestrike' || $command == 'remove_keys' || $command == 'createcsv')
             ? array_slice($GLOBALS['argv'], 4)
             : array_slice($GLOBALS['argv'], 3);
         $this->lang = implode(' ', $languageKey);
 
-        if ($command == 'merge' || $command == 'remove_keys') {
+        if ($command == 'merge' || $command == 'mergestrike' || $command == 'remove_keys' || $command == 'createcsv') {
             $this->inputFile = $GLOBALS['argv'][2];
             $this->outputDir = $GLOBALS['argv'][3];
         } else {
@@ -67,20 +87,24 @@ class OA_TranslationMaintenance
         $this->outputDir = (substr($this->outputDir, strlen($this->outputDir)) == '/') ? substr($this->outputDir, 0, strlen($this->outputDir) - 1) : $this->outputDir;
 
         switch ($command) {
-        case 'merge':
-            $this->mergeTranslation();
-            break;
-        case 'missing_keys':
-            $this->detectMissingKey();
-            break;
-        case 'remove_keys':
-            $this->removeStaleKey();
-            break;
-        case 'test':
-            $this->_sortTrans();
-            break;
-        default:
-            $this->displayHelpMsg('Please specifiy a command');
+            case 'mergestrike': $this->_addStrikeTags = true;
+            case 'merge':
+                $this->mergeTranslation();
+                break;
+            case 'missing_keys':
+                $this->detectMissingKey();
+                break;
+            case 'remove_keys':
+                $this->removeStaleKey();
+                break;
+            case 'test':
+                $this->_sortTrans();
+                break;
+            case 'createcsv':
+                $this->createCSV();
+                break;
+            default:
+                $this->displayHelpMsg('Please specifiy a command');
         }
     }
 
@@ -493,16 +517,24 @@ class OA_TranslationMaintenance
 
     }
 
-    function getTranslationFromCSV()
+    function getTranslationFromCSV($fileName = false)
     {
-        $fp = fopen($this->inputFile, 'r');
+        if (!$fileName) {
+            $fileName = $this->inputFile;
+        }
+        $fp = fopen($fileName, 'r');
         $header = fgetcsv($fp, 8192, ',', '"');
         $lang = array();
         while ($row = fgetcsv($fp, 8192, ',', '"')) {
             foreach ($row as $idx => $cell) {
+                if ($this->_addStrikeTags) {
+                    $cell = "<strike>-{$cell}-</strike>";
+                }
                 $lang[$header[$idx]][$row[0]] = $cell;
             }
         }
+        fclose($fp);
+
         return $lang;
     }
 
@@ -996,8 +1028,12 @@ class OA_TranslationMaintenance
         if (!$outputDir = opendir($masterOutputDir .'/'. $this->_masterLang)) {
             $this->displayHelpMsg('Unable to open master language directory: '. $masterOutputDir .'/'. $this->_masterLang);
         }
-
+        $files = array();
         while ($file = readdir($outputDir)) {
+            $files[] = $file;
+        }
+
+        foreach ($files as $file) {
 
             //  detect if it's a php file
             if (substr($file, strrpos($file, '.')) != '.php') { continue; }
@@ -1044,9 +1080,9 @@ class OA_TranslationMaintenance
 
                                 $trans = htmlspecialchars_decode(htmlentities($trans, null, 'UTF-8'));
                                 //  replace new lines with \n
-                                if ($delimiter == '"' && strstr($trans, "\n")) $trans = str_replace("\n", '\n', $trans);
+//                                if ($delimiter == '"' && strstr($trans, "\n")) $trans = str_replace("\n", '\n', $trans);
 
-                                $trans = $matches[5] . $trans . $matches[8];
+//                                $trans = $matches[5] . $trans . $matches[8];
                                 //  replace constants
                                 foreach ($this->aConstant as $ckey) {
                                     if (strstr($trans, $ckey) && !strstr($trans, "$delimiter.") && !strstr($trans, "$delimiter .")) {
@@ -1163,6 +1199,103 @@ class OA_TranslationMaintenance
         $this->aLang[$this->lang] = $aLang;
     }
 
+    function createCSV()
+    {
+        $app_base = dirname(dirname(dirname(__FILE__)));
+
+        // Create plugin translation sheet
+        $pluginLangFiles = findPluginLangFiles($app_base);
+        $pluginWords = array();
+        foreach ($pluginLangFiles as $folder => $files) {
+            $path = substr($folder, strlen($app_base)+1);
+            foreach ($files as $file) {
+                $lang = substr($file, 0, strrpos($file, '.'));
+                $words = array();
+                include($folder . DIRECTORY_SEPARATOR . $file);
+                foreach ($words as $key => $value) {
+                    $pluginWords[$lang][$path][$key] = $value;
+                }
+            }
+        }
+
+        $PLUGIN_FILE = fopen($app_base . DIRECTORY_SEPARATOR . 'plugin_csv.csv', 'w');
+        $header = array('Code key', 'path/to/file', $this->_masterLang);
+        foreach (array_keys($this->_otherLangs) as $otherLang) {
+            $header[] = $otherLang;
+        }
+        fputcsv($PLUGIN_FILE, $header, ',', '"');
+
+        foreach ($pluginWords[$this->_masterLang] as $file => $words) {
+            foreach ($words as $key => $value) {
+                $line = array($key, $file);
+                $line[] = html_entity_decode($value, ENT_QUOTES, 'UTF-8');
+                foreach (array_keys($this->_otherLangs) as $otherLang) {
+                    $line[] = (!empty($pluginWords[$otherLang][$file][$key])) ? html_entity_decode($pluginWords[$otherLang][$file][$key], ENT_QUOTES, 'UTF-8') : '';
+                }
+                fputcsv($PLUGIN_FILE, $line, ',', '"');
+            }
+        }
+
+        // Create core translations sheet (only including new translations for now)
+        // Read the translation strings from the english language pack
+        $this->_sortTrans();
+
+        // Read the translation strings from the CSV files
+        foreach ($this->_otherLangs as $otherLang => $csvName) {
+            $langFile = dirname($this->inputFile) . DIRECTORY_SEPARATOR . $csvName . '.csv';
+            $result = $this->getTranslationFromCSV($langFile);
+            $existing[$otherLang] = $result[$otherLang];
+        }
+
+        // Read the master language file
+        $csv = $this->getTranslationFromCSV();
+        $existing['english'] = $csv['english'];
+
+        $csvKeys = array_keys($csv['Code key']);
+
+        // Keep the existing translations, and track any new items for addition at the end of the file
+        $CORE_FILE = fopen($app_base . DIRECTORY_SEPARATOR . 'core_csv.csv', 'w');
+        $header = array('Code key', $this->_masterLang);
+        foreach (array_keys($this->_otherLangs) as $otherLang) {
+            $header[] = $otherLang;
+        }
+        fputcsv($CORE_FILE, $header, ',', '"');
+
+        foreach ($this->aMasterKey as $file => $contents) {
+            foreach ($contents as $key => $value) {
+                if ((substr($key, 0, 3) != 'str') || $value == 'array()') { continue; }
+                if (in_array($key, $csvKeys)) {
+                    $line = array($key, $existing[$this->_masterLang][$key]);
+                    foreach (array_keys($this->_otherLangs) as $otherLang) {
+                        $line[] = $existing[$otherLang][$key];
+                    }
+                    fputcsv($CORE_FILE, $line, ',', '"');
+                } else {
+                    $newKeys[$key] = $value;
+                }
+            }
+        }
+
+        // Write a blank line
+        fputcsv($CORE_FILE, array(), ',', '"');
+        foreach ($newKeys as $key => $value) {
+            $line = array($key, $value);
+            foreach (array_keys($this->_otherLangs) as $otherLang) {
+                $otherLangValue = '';
+                if (preg_match('#(.*)\[(.*?)\]#', $key, $matches)) {
+                    if (!empty($existing[$otherLang][$matches[1]][$matches[2]])) {
+                        $otherLangValue = html_entity_decode($existing[$otherLang][$matches[1]][$matches[2]], ENT_QUOTES, 'UTF-8');
+                    }
+                } else if (!empty($existing[$otherLang][$key])) {
+                    $otherLangValue = html_entity_decode($existing[$otherLang][$key], ENT_QUOTES, 'UTF-8');
+                }
+                $line[] = $otherLangValue;
+            }
+            fputcsv($CORE_FILE, $line, ',', '"');
+        }
+        fclose($CORE_FILE);
+    }
+
     function displayHelpMsg($message = null)
     {
         echo "Command syntax: \n";
@@ -1189,6 +1322,23 @@ class OA_TranslationMaintenance
         }
         die;
     }
+}
+
+function findPluginLangFiles($path, &$result = array()) {
+    if (is_dir($path)) {
+        $dir = opendir($path);
+        while ($file = readdir($dir)) {
+            if (substr($file, 0, 1) == '.') { continue; }
+            if (is_dir($path . DIRECTORY_SEPARATOR . $file)) {
+                findPluginLangFiles($path . DIRECTORY_SEPARATOR . $file, $result);
+            } else {
+                if (substr($file, strrpos($file, '.')) == '.php' && preg_match('#_lang$#i', $path)) {
+                    $result[$path][] = $file;
+                }
+            }
+        }
+    }
+    return $result;
 }
 
 $trans = new OA_TranslationMaintenance();
