@@ -2514,9 +2514,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     {
         $doDSAZA = OA_Dal::factoryDO('data_summary_ad_zone_assoc');
         $doDSAZA->whereAdd('zone_id=0', 'AND');
-        $doDSAZA->whereAdd('created < '
-                            .$this->oDbh->quote(OA::getNow()).' - '
-                            .OA_Dal::quoteInterval(MAX_PREVIOUS_AD_DELIVERY_INFO_LIMIT, 'SECOND')
+        $doDSAZA->whereAdd('created < DATE_ADD('
+                            .$this->oDbh->quote(OA::getNow()).', '
+                            .OA_Dal::quoteInterval(-MAX_PREVIOUS_AD_DELIVERY_INFO_LIMIT, 'SECOND')
+                            .')'
                             ,'AND');
         return $doDSAZA->delete(true, false);
     }
@@ -2535,26 +2536,39 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $tblBanners     = $this->oDbh->quoteIdentifier($prefix.'banners',true);
         $tblCampaigns   = $this->oDbh->quoteIdentifier($prefix.'campaigns',true);
 
-        $query = 'DELETE FROM '.$tblAssoc
-                .' USING '.$tblAssoc
-                .' LEFT JOIN '.$tblBanners.' AS b ON '.$tblAssoc.'.ad_id = b.bannerid'
-                .' LEFT JOIN '.$tblCampaigns.' AS c ON b.campaignid = c.campaignid'
-                .' WHERE ( ( c.status <> '. OA_ENTITY_STATUS_RUNNING.') AND (c.priority > 0 )) '
-                .' AND'
-                .'('
-                .'      ('
-                .'          (c.target_impression < 1)'
-                .'          AND'
-                .'          (c.target_click < 1)'
-                .'          AND'
-                .'          (c.target_conversion < 1)'
-                .'      )'
-                .'      AND'
-                .'      (UNIX_TIMESTAMP(c.expire) > 0)'
-                .'      AND'
-                .'      (c.expire < '.$this->oDbh->quote(OA::getNow('Y-m-d')).')'
-                .')'
-                ;
+        $queryEnd = ''
+            .' LEFT JOIN '.$tblCampaigns.' AS c ON b.campaignid = c.campaignid'
+            .' WHERE ( ( c.status <> '. OA_ENTITY_STATUS_RUNNING.') AND (c.priority > 0 )) '
+            .' AND'
+            .'('
+            .'      ('
+            .'          (c.target_impression < 1)'
+            .'          AND'
+            .'          (c.target_click < 1)'
+            .'          AND'
+            .'          (c.target_conversion < 1)'
+            .'      )'
+            .'      AND'
+            .'      (UNIX_TIMESTAMP(c.expire) > 0)'
+            .'      AND'
+            .'      (c.expire < '.$this->oDbh->quote(OA::getNow('Y-m-d')).')'
+            .')'
+            ;
+
+        if ($this->oDbh->dbsyntax == 'pgsql') {
+            $query = 'DELETE FROM '.$tblAssoc
+                    .' WHERE data_summary_ad_zone_assoc_id IN ('
+                    .'  SELECT dsaza.data_summary_ad_zone_assoc_id FROM'
+                    .'  '.$tblAssoc.' AS dsaza'
+                    .' LEFT JOIN '.$tblBanners.' AS b ON dsaza.ad_id = b.bannerid'
+                    .$queryEnd
+                    .')';
+        } else {
+            $query = 'DELETE FROM '.$tblAssoc
+                    .' USING '.$tblAssoc
+                    .' LEFT JOIN '.$tblBanners.' AS b ON '.$tblAssoc.'.ad_id = b.bannerid'
+                    .$queryEnd;
+        }
         return $this->oDbh->exec($query);
     }
 
@@ -2584,7 +2598,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                  LEFT JOIN '.$tblBanners.' AS b ON daz.ad_id = b.bannerid
                  LEFT JOIN '.$tblCampaigns.' AS c ON b.campaignid = c.campaignid
                  WHERE ( ( c.status <> '.OA_ENTITY_STATUS_RUNNING.') AND (c.priority > 0 ))
-                 GROUP BY daz.data_summary_ad_zone_assoc_id
+                 GROUP BY daz.data_summary_ad_zone_assoc_id, c.views, c.clicks, c.conversions
                  ORDER BY target_reached DESC';
 
         $aRows = $this->oDbh->queryAll($query);
