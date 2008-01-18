@@ -46,6 +46,9 @@ class OA_UpgradePrescript_2_0_11
 
             $result = $this->oUpgrade->oDbh->exec("ALTER TABLE {$prefix}zones ALTER zonename TYPE varchar(245)");
 
+            $result = $this->oUpgrade->oDbh->exec("ALTER TABLE {$prefix}session ALTER lastused TYPE timestamp");
+            $result = $this->oUpgrade->oDbh->exec("ALTER TABLE {$prefix}images ALTER t_stamp TYPE timestamp");
+
             $result = $this->oUpgrade->oDbh->exec("DROP INDEX ".OA_phpAdsNew::phpPgAdsPrefixedIndex('banners_clientid_idx', $prefix));
             $result = $this->oUpgrade->oDbh->exec("DROP INDEX ".OA_phpAdsNew::phpPgAdsPrefixedIndex('clients_parent_idx', $prefix));
             $result = $this->oUpgrade->oDbh->exec("DROP INDEX ".OA_phpAdsNew::phpPgAdsPrefixedIndex('zones_affiliateid_idx', $prefix));
