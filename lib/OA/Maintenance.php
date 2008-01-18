@@ -83,13 +83,17 @@ class OA_Maintenance
         OA::debug();
         // Do not run if distributed stats are enabled
         if (!empty($this->aConf['lb']['enabled'])) {
-            OA::debug('Distributed stats enabled, not running Maintenance Statistics and Priority', PEAR_LOG_INFO);
+            OA::debug('Distributed stats enabled, not running maintenance tasks', PEAR_LOG_INFO);
             return;
         }
         // Acquire the maintenance lock
         $oLock =& OA_DB_AdvisoryLock::factory();
-        if ($oLock->get(OA_DB_ADVISORYLOCK_MAINTENANCE)) {
-            OA::debug('Running Maintenance Statistics and Priority', PEAR_LOG_INFO);
+        if ($oLock->get(OA_DB_ADVISORYLOCK_MAINTENANCE))
+        {
+            OA::switchLogFile('maintenance');
+
+            OA::debug('Running maintenance tasks', PEAR_LOG_INFO);
+
             // Attempt to increase PHP memory
             increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
             // Set UTC timezone
@@ -114,12 +118,17 @@ class OA_Maintenance
             $this->_runMidnightTasks();
             // Release lock before starting MPE
             $oLock->release();
+
             // Run the Maintenance Priority Engine (MPE) process, ensuring that the
             // process always runs, even if instant update of priorities is disabled
             $this->_runMPE();
-            OA::debug('Maintenance Statistics and Priority Completed', PEAR_LOG_INFO);
-        } else {
-			OA::debug('Scheduled Maintenance Task not run: could not acquire lock', PEAR_LOG_INFO);
+
+            OA::debug('Maintenance tasks completed', PEAR_LOG_INFO);
+
+            OA::switchLogFile();
+        }
+        else {
+			OA::debug('Maintenance tasks not run: could not acquire lock', PEAR_LOG_INFO);
         }
     }
 

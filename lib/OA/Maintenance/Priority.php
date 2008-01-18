@@ -54,6 +54,7 @@ class OA_Maintenance_Priority
      */
     function run($alwaysRun = false)
     {
+        OA::switchLogFile('maintenance');
         // Get the configuration
         $conf = $GLOBALS['_MAX']['CONF'];
         // Should the MPE process run?
@@ -111,6 +112,7 @@ class OA_Maintenance_Priority
         }
         // Log the end of the process
         OA::debug('Maintenance Priority Engine Completed', PEAR_LOG_INFO);
+        OA::switchLogFile();
         return true;
     }
 
