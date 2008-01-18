@@ -82,6 +82,12 @@ class Test_OA_Preferences extends UnitTestCase
         $doUsers->default_account_id = $adminAccountId;
         $userId = DataGenerator::generateOne($doUsers);
 
+        // Create admin association
+        $doAUA = OA_Dal::factoryDO('account_user_assoc');
+        $doAUA->account_id = $adminAccountId;
+        $doAUA->user_id = $userId;
+        $doAUA->insert();
+
         // Ensure this user is "logged in"
         $doUsers = OA_Dal::factoryDO('users');
         $doUsers->username = 'admin';
@@ -470,6 +476,12 @@ class Test_OA_Preferences extends UnitTestCase
         $doUsers->password = md5('password');
         $doUsers->default_account_id = $adminAccountId;
         $userId = DataGenerator::generateOne($doUsers);
+
+        // Create admin association
+        $doAUA = OA_Dal::factoryDO('account_user_assoc');
+        $doAUA->account_id = $adminAccountId;
+        $doAUA->user_id = $userId;
+        $doAUA->insert();
 
         // Ensure this user is "logged in"
         $doUsers = OA_Dal::factoryDO('users');

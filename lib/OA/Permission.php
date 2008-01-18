@@ -344,11 +344,9 @@ class OA_Permission
         if (empty($userId)) {
             $userId = OA_Permission::getUserId();
         }
-        return OA_Permission::isUserLinkedToAccount($accountId, $userId)
-            || (OA_Permission::getAccountTypeByAccountId($accountId) == OA_ACCOUNT_MANAGER 
-                && OA_Permission::isUserLinkedToAdmin());
+        return OA_Permission::isUserLinkedToAccount($accountId, $userId);
     }
-    
+
     /**
      * Returns account type for specific accountId
      *
@@ -378,7 +376,7 @@ class OA_Permission
         $doAccount_user_Assoc = OA_Dal::factoryDO('account_user_assoc');
         $doAccount_user_Assoc->user_id = $userId;
         $doAccount_user_Assoc->account_id = $accountId;
-        return (bool) $doAccount_user_Assoc->count();
+        return $doAccount_user_Assoc->count() || OA_Permission::isUserLinkedToAdmin($userId);
     }
 
     /**
@@ -451,19 +449,19 @@ class OA_Permission
      * Check if a user is linked to the ADMIN account
      *
      * @static
+     * @param int $userId
      * @return boolean True if the currently logged in user is linked to the ADMIN account, false otherwise.
      */
-    function isUserLinkedToAdmin()
+    function isUserLinkedToAdmin($userId = null)
     {
-        if (OA_Permission::getCurrentUser()) {
-            $doAccount = OA_Dal::factoryDO('accounts');
-            $doAccount->account_type = OA_ACCOUNT_ADMIN;
-            $doAccount_user_assoc = OA_Dal::factoryDO('account_user_assoc');
-            $doAccount_user_assoc->user_id = OA_Permission::getUserId();
-            $doAccount->joinAdd($doAccount_user_assoc);
-            return (bool) $doAccount->count();
+        if (is_null($userId)) {
+            $userId = OA_Permission::getUserId();
         }
-        return false;
+
+        $doAccount_user_assoc = OA_Dal::factoryDO('account_user_assoc');
+        $doAccount_user_assoc->user_id = $userId;
+        $doAccount_user_assoc->account_id = OA_Dal_ApplicationVariables::get('admin_account_id');
+        return (bool)$doAccount_user_assoc->count();
     }
 
     /**
@@ -471,12 +469,12 @@ class OA_Permission
      *
      * Returns array of:
      *   accountId => 'account name'
-     * 
+     *
      * If $groupByType is equal true returns:
      *   accountType => accountId => 'account name'
-     * 
+     *
      * where accountType is one of: OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, etc.
-     * 
+     *
      * @param boolean $groupByType
      * @return array
      */
@@ -709,7 +707,7 @@ class OA_Permission
         }
         return !OA_Permission::userNameExists($newName);
     }
-    
+
     /**
      * Checks whether such a username already exists
      *
@@ -785,7 +783,7 @@ class OA_Permission
 	    }
 	    return true;
 	}
-	
+
 	/**
 	 * Deletes existing users permissions. If list of permissions is provided it
 	 * only clean up permissions from that list
@@ -804,7 +802,7 @@ class OA_Permission
         	    $doAccount_user_permission_assoc->user_id = $userId;
         	    $doAccount_user_permission_assoc->delete();
 	        }
-	        
+
 	    } else {
     	    $doAccount_user_permission_assoc = OA_Dal::factoryDO('account_user_permission_assoc');
     	    $doAccount_user_permission_assoc->account_id = $accountId;

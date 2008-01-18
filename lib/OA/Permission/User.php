@@ -72,9 +72,12 @@ class OA_Permission_User
 
     function switchAccount($accountId)
     {
-        if (!empty($accountId)
-            && OA_Permission::hasAccess($accountId, $this->aUser['user_id']))
+        if (!empty($accountId))
         {
+            if (!OA_Permission::hasAccess($accountId)) {
+                Max::raiseError("The user does not have access to this account");
+            }
+
             $this->_clearAccount();
 
             $doAccount = OA_Dal::factoryDO('accounts');
@@ -87,12 +90,22 @@ class OA_Permission_User
                 if ($this->aAccount['account_type'] != OA_ACCOUNT_ADMIN) {
                     $this->aAccount['entity_id'] = $this->_getEntityId();
 
+                    if (empty($this->aAccount['entity_id'])) {
+                        Max::raiseError("No entity associated with the account");
+                    }
+
                     if ($this->aAccount['account_type'] == OA_ACCOUNT_MANAGER) {
                         $this->aAccount['agency_id'] = $this->aAccount['entity_id'];
                     } else {
                         $this->aAccount['agency_id'] = $this->_getAgencyId();
                     }
+
+                    if (empty($this->aAccount['agency_id'])) {
+                        Max::raiseError("No manager associated with the account");
+                    }
                 }
+            } else {
+                Max::raiseError("Could not find the specified account");
             }
         }
     }
@@ -121,7 +134,7 @@ class OA_Permission_User
             }
         }
 
-        return 0;
+        return false;
     }
 
     function _getAgencyId()
@@ -136,7 +149,7 @@ class OA_Permission_User
             }
         }
 
-        return 0;
+        return false;
     }
 
     /**
