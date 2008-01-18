@@ -80,8 +80,7 @@ class DataObjects_Campaigns_trackers extends DB_DataObjectCommon
      */
     function getOwningAccountId()
     {
-        $doTrackers = OA_Dal::staticGetDO('trackers', $this->trackerid);
-        return $doTrackers->getOwningAccountId();
+        return $this->_getOwningAccountIdFromParent('trackers', 'trackerid');
     }
 
     /**

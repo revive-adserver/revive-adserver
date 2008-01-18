@@ -218,8 +218,7 @@ class DataObjects_Banners extends DB_DataObjectCommon
      */
     function getOwningAccountId()
     {
-        $doCampaigns = OA_Dal::staticGetDO('campaigns', $this->campaignid);
-        return $doCampaigns->getOwningAccountId();
+        return $this->_getOwningAccountIdFromParent('campaigns', 'campaignid');
     }
 
     /**

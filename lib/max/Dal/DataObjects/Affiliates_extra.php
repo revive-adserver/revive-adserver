@@ -101,8 +101,7 @@ class DataObjects_Affiliates_extra extends DB_DataObjectCommon
      */
     function getOwningAccountId()
     {
-        $doAffiliates = OA_Dal::staticGetDO('affiliates', $this->affiliateid);
-        return $doAffiliates->getOwningAccountId();
+        return $this->_getOwningAccountIdFromParent('affiliates', 'affiliateid');
     }
 
     /**

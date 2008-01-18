@@ -77,7 +77,13 @@ class DataObjects_Placement_zone_assoc extends DB_DataObjectCommon
      */
     function getOwningAccountId()
     {
-
+        if (!empty($this->zone_id)) {
+            // Return the manager from the trafficker/zone side
+            return $this->_getOwningAccountIdFromParent('zones', 'zone_id');
+        } else {
+            // Return the manager from the advertiser/banner side
+            return $this->_getOwningAccountIdFromParent('campaigns', 'placement_id');
+        }
     }
 
     /**

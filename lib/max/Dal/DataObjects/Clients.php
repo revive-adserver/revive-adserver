@@ -118,7 +118,7 @@ class DataObjects_Clients extends DB_DataObjectCommon
      */
     function getOwningAccountId()
     {
-        return $this->account_id;
+        return $this->_getOwningAccountIdFromParent('agency', 'agencyid');
     }
 
     /**

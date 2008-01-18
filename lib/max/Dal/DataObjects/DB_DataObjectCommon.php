@@ -1100,6 +1100,89 @@ class DB_DataObjectCommon extends DB_DataObject
     }
 
     /**
+     * A private method to return the account ID of the
+     * account that should "own" audit trail entries for
+     * this entity type; NOT related to the account ID
+     * of the currently active account performing an
+     * action.
+     *
+     * @return integer The account ID to insert into the
+     *                 "account_id" column of the audit trail
+     *                 database table.
+     */
+    function getOwningAccountId()
+    {
+        static $aCache = array();
+
+        $primaryKey = $this->getFirstPrimaryKey();
+        $tableName  = $this->getTableWithoutPrefix();
+
+        if (!empty($aCache[$tableName][$this->$primaryKey])) {
+            return $aCache[$tableName][$this->$primaryKey];
+        }
+
+        $aColumns = $this->table();
+        if (!isset($aColumns['account_id'])) {
+            MAX::raiseError($tableName.' is not directly linked to accounts', PEAR_LOG_ERR);
+        }
+        if (!empty($this->account_id)) {
+            $doThis = OA_Dal::staticGetDO($tableName, $this->$primaryKey);
+            if ($doThis) {
+                $account_id = $doThis->account_id;
+            }
+        } else {
+            $account_id = $this->account_id;
+        }
+
+        if (empty($account_id)) {
+            MAX::raiseError('No account ID associated to the entity', PEAR_LOG_ERR);
+        }
+
+        return $aCache[$tableName][$this->$primaryKey] = $account_id;
+    }
+
+    /**
+     * A private method to return the account ID of the
+     * parent entity
+     *
+     * @param string $parentTable The parent table name
+     * @param string $parentKey   The parent key in the current table
+     * @return integer The account ID to insert into the
+     *                 "account_id" column of the audit trail
+     *                 database table.
+     */
+    function _getOwningAccountIdFromParent($parentTable, $parentKey)
+    {
+        static $aCache = array();
+
+        $primaryKey = $this->getFirstPrimaryKey();
+        $tableName  = $this->getTableWithoutPrefix();
+
+        if (!empty($aCache[$tableName][$this->$primaryKey])) {
+            return $aCache[$tableName][$this->$primaryKey];
+        }
+
+        if (empty($this->$parentKey)) {
+            $doThis = OA_Dal::staticGetDO($tableName, $this->$primaryKey);
+            if ($doThis) {
+                $value = $doThis->$parentKey;
+            }
+        } else {
+            $value = $this->$parentKey;
+        }
+        if (empty($value)) {
+            MAX::raiseError('No parent ID associated to the entity', PEAR_LOG_ERR);
+        }
+
+        $doParent = OA_Dal::staticGetDO($parentTable, $value);
+        if (!$doParent) {
+            MAX::raiseError('No parent entity found', PEAR_LOG_ERR);
+        }
+
+        return $aCache[$tableName][$this->$primaryKey] = $doParent->getOwningAccountId();
+    }
+
+    /**
      * Enter description here...
      *
      * @param integer $actionid One of the following:

@@ -503,7 +503,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $context = 'Client';
 
         $doClients->clientname = 'Client A';
-        $clientId = DataGenerator::generateOne($doClients);
+        $clientId = DataGenerator::generateOne($doClients, true);
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_INSERT);
         $aAudit = unserialize($oAudit->details);
         $this->assertEqual($oAudit->username,$session['username']);
@@ -540,7 +540,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $context = 'Affiliate';
 
         $doAffiliate->name = 'Client A';
-        $affiliateId = DataGenerator::generateOne($doAffiliate);
+        $affiliateId = DataGenerator::generateOne($doAffiliate, true);
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_INSERT);
         $aAudit = unserialize($oAudit->details);
         $this->assertEqual($oAudit->username,$session['username']);

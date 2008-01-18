@@ -88,7 +88,7 @@ class DataObjects_Variables extends DB_DataObjectCommon
      */
     function getOwningAccountId()
     {
-
+        return $this->_getOwningAccountIdFromParent('trackers', 'trackerid');
     }
 
     /**

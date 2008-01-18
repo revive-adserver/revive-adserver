@@ -126,7 +126,7 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
      */
     function getOwningAccountId()
     {
-        return $this->account_id;
+        return $this->_getOwningAccountIdFromParent('agency', 'agencyid');
     }
 
     /**

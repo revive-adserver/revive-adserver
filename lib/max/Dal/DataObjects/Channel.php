@@ -167,12 +167,10 @@ class DataObjects_Channel extends DB_DataObjectCommon
     function getOwningAccountId()
     {
         if (!empty($this->affiliateid)) {
-            $doParent = OA_Dal::staticGetDO('affiliates', $this->affiliateid);
-        } else {
-            $doParent = OA_Dal::staticGetDO('agency', $this->agencyid);
+            return $this->_getOwningAccountIdFromParent('affiliates', 'affiliateid');
         }
 
-        return $doParent->getOwningAccountId();
+        return $this->_getOwningAccountIdFromParent('agency', 'agencyid');
     }
 
     /**

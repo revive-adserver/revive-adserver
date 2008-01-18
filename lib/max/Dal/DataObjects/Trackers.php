@@ -133,8 +133,7 @@ class DataObjects_Trackers extends DB_DataObjectCommon
      */
     function getOwningAccountId()
     {
-        $doClients = OA_Dal::staticGetDO('clients', $this->clientid);
-        return $doClients->getOwningAccountId();
+        return $this->_getOwningAccountIdFromParent('clients', 'clientid');
     }
 
     /**
