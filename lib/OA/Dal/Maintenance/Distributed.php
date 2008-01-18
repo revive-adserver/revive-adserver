@@ -146,7 +146,7 @@ class OA_Dal_Maintenance_Distributed extends OA_Dal_Maintenance_Common
             return;
         }
 
-        $oTimestamp->subtractSeconds($aConf['lb']['compactStatsGrace']);
+        $oTimestamp->subtractSeconds((int)$aConf['lb']['compactStatsGrace']);
 
         OA::debug(' - Pruning '.$sTableName.' until '.$oTimestamp->format('%Y-%m-%d %H:%M:%S'), PEAR_LOG_INFO);
 
@@ -159,7 +159,7 @@ class OA_Dal_Maintenance_Distributed extends OA_Dal_Maintenance_Common
                     DBC::makeLiteral($oTimestamp->format('%Y-%m-%d %H:%M:%S'))."
             ";
 
-        $this->oDbh->exec($query);
+        return $this->oDbh->exec($query);
     }
 
     /**
