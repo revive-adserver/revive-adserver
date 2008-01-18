@@ -21,7 +21,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id $
+$Id$
 */
 
 /**
@@ -37,10 +37,10 @@ $Id $
 require_once MAX_PATH . '/tests/testClasses/OATestData.php';
 require_once MAX_PATH . '/lib/OA/Dll.php';
 
-class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
+class OA_Test_Data_2_5_50_delivery extends OA_Test_Data
 {
 
-    function OA_Test_Data_0_3_27_delivery()
+    function OA_Test_Data_2_5_50_delivery()
     {
         $this->init();
     }
