@@ -234,6 +234,8 @@ else if (array_key_exists('btn_upgrade', $_POST))
     {
         $installStatus = $oUpgrader->existing_installation_status;
 
+        define('DISABLE_ALL_EMAILS', 1);
+
         if ($installStatus == OA_STATUS_NOT_INSTALLED)
         {
             if ($oUpgrader->install($_POST['aConfig']))
