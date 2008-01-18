@@ -71,7 +71,7 @@ if (!isset($hideinactive)) {
         $hideinactive = $session['prefs']['advertiser-index.php']['hideinactive'];
     } else {
 	    $pref = &$GLOBALS['_MAX']['PREF'];
-		$hideinactive = ($pref['ui_hide_inactive'] == 't');
+		$hideinactive = ($pref['ui_hide_inactive'] == true);
     }
 }
 

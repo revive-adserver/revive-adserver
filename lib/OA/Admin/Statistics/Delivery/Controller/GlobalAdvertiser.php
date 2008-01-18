@@ -94,7 +94,7 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalAdvertiser extends OA_Admin_
         $this->pageId = '2.1';
         $this->aPageSections = array('2.1', '2.4', '2.2');
 
-        $this->hideInactive = MAX_getStoredValue('hideinactive', ($aPref['ui_hide_inactive'] == 't'));
+        $this->hideInactive = MAX_getStoredValue('hideinactive', ($aPref['ui_hide_inactive'] == true));
         $this->showHideInactive = true;
 
         $this->startLevel = MAX_getStoredValue('startlevel', 0);

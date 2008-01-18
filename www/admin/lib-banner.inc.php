@@ -46,7 +46,7 @@ function phpAds_getBannerCache($banner)
     // Auto change HTML banner
     if ($banner['storagetype'] == 'html')
     {
-        if ($banner['autohtml'] == 't' && $aPref['auto_alter_html_banners_for_click_tracking'])
+        if ($banner['autohtml'] == 't' && $aPref['auto_alter_html_banners_for_click_tracking'] == true)
         {
             if ($buffer != '')
             {

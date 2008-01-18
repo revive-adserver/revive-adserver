@@ -137,7 +137,7 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliates extends OA_Ad
         $this->entityLinks['p'] = 'stats.php?entity=advertiser&breakdown=affiliate-history';
         $this->entityLinks['z'] = 'stats.php?entity=advertiser&breakdown=zone-history';
 
-        $this->hideInactive = MAX_getStoredValue('hideinactive', ($aPref['ui_hide_inactive'] == 't'));
+        $this->hideInactive = MAX_getStoredValue('hideinactive', ($aPref['ui_hide_inactive'] == true));
         $this->showHideInactive = true;
 
         $this->startLevel = MAX_getStoredValue('startlevel', 0);
