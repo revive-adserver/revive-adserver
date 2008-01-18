@@ -662,6 +662,20 @@ class OA_Permission
     }
 
     /**
+     * A method to get the currently selected account name
+     *
+     * @static
+     * @return String
+     */
+    function getAccountName()
+    {
+        if ($oUser = OA_Permission::getCurrentUser()) {
+            return $oUser->aAccount['account_name'];
+        }
+        return 0;
+    }
+
+    /**
      * Returns accountId for entity
      *
      * @param string $entity  Entity name (clients, advertiser, agency etc)
