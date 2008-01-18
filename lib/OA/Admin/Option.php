@@ -314,7 +314,7 @@ class OA_Admin_Option
                                 $dependbuffer .= $this->_showCheckDependancies($aData, $aLabelItem);
                                 $dependbuffer .= $this->_showCheckDependancies($aData, $aRankItem);
                             }
-                        } else {
+                        } else if (!$aItem['disabled']) {
                             $dependbuffer .= $this->_showCheckDependancies($aData, $aItem);
                         }
                         // Display the option item
@@ -496,8 +496,15 @@ class OA_Admin_Option
         }
         // Get the type of account currently in use
         $accountType = OA_Permission::getAccountType();
-        if ($accountType == OA_ACCOUNT_ADMIN || $accountType == OA_ACCOUNT_MANAGER) {
-            // The admin and manager accounts can see all preferences
+        if ($accountType == OA_ACCOUNT_ADMIN) {
+            // The admin account can see all preferences
+            return $noRestriction;
+        }
+        if ($accountType == OA_ACCOUNT_MANAGER) {
+            // The manager account can only not see admin preferences
+            if ($preferenceType == OA_ACCOUNT_ADMIN) {
+                return 'disable';
+            }
             return $noRestriction;
         }
         // Is the preference type restricted to managers?
