@@ -58,6 +58,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $aElements[] = 'tracker_default_status';
     $aElements[] = 'tracker_default_type';
     $aElements[] = 'tracker_link_campaigns';
+    $aCheckboxes['tracker_link_campaigns'] = true;
     // Save the preferences
     $result = OA_Preferences::processPreferencesFromForm($aElements, $aCheckboxes);
     if ($result) {
