@@ -50,22 +50,27 @@ $aErrormessage = array();
 
 // If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
-    // Prepare an array of the HTML elements to process
-    $aElements = array();
+    // Prepare an array of the HTML elements to process, and which
+    // of the preferences are checkboxes
+    $aElements   = array();
+    $aCheckboxes = array();
     // Administrator email Warnings
     $aElements[] = 'warn_email_admin';
+    $aCheckboxes['warn_email_admin'] = true;
     $aElements[] = 'warn_email_admin_impression_limit';
     $aElements[] = 'warn_email_admin_day_limit';
     // Manager email Warnings
     $aElements[] = 'warn_email_manager';
+    $aCheckboxes['warn_email_manager'] = true;
     $aElements[] = 'warn_email_manager_impression_limit';
     $aElements[] = 'warn_email_manager_day_limit';
     // Advertiser email Warnings
     $aElements[] = 'warn_email_advertiser';
+    $aCheckboxes['warn_email_advertiser'] = true;
     $aElements[] = 'warn_email_advertiser_impression_limit';
     $aElements[] = 'warn_email_advertiser_day_limit';
     // Save the preferences
-    $result = OA_Preferences::processPreferencesFromForm($aElements);
+    $result = OA_Preferences::processPreferencesFromForm($aElements, $aCheckboxes);
     if ($result) {
         // The preferences were written correctly saved to the database,
         // go to the "next" preferences page from here

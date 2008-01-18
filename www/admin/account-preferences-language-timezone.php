@@ -58,8 +58,10 @@ $aErrormessage = array();
 
 // If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
-    // Prepare an array of the HTML elements to process
-    $aElements = array();
+    // Prepare an array of the HTML elements to process, and which
+    // of the preferences are checkboxes
+    $aElements   = array();
+    $aCheckboxes = array();
     // Language & Timezone
     $aElements[] = 'language';
     $aElements[] = 'timezone';

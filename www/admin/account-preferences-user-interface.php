@@ -55,35 +55,49 @@ $aErrormessage = array();
 
 // If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
-    // Prepare an array of the HTML elements to process
-    $aElements = array();
+    // Prepare an array of the HTML elements to process, and which
+    // of the preferences are checkboxes
+    $aElements   = array();
+    $aCheckboxes = array();
     // Inventory
     $aElements[] = 'ui_show_campaign_info';
+    $aCheckboxes['ui_show_campaign_info'] = true;
     $aElements[] = 'ui_show_banner_info';
+    $aCheckboxes['ui_show_banner_info'] = true;
     $aElements[] = 'ui_show_campaign_preview';
+    $aCheckboxes['ui_show_campaign_preview'] = true;
     $aElements[] = 'ui_show_banner_html';
+    $aCheckboxes['ui_show_banner_html'] = true;
     $aElements[] = 'ui_show_banner_preview';
+    $aCheckboxes['ui_show_banner_preview'] = true;
     $aElements[] = 'ui_hide_inactive';
+    $aCheckboxes['ui_hide_inactive'] = true;
     $aElements[] = 'ui_show_matching';
+    $aCheckboxes['ui_show_matching'] = true;
     $aElements[] = 'ui_show_parents';
+    $aCheckboxes['ui_show_parents'] = true;
     $aElements[] = 'ui_show_banner_html';
+    $aCheckboxes['ui_show_banner_html'] = true;
     // Confirmation in User Interface
     $aElements[] = 'ui_novice_user';
+    $aCheckboxes['ui_novice_user'] = true;
     // Statistics
     $aElements[] = 'ui_week_start_day';
     $aElements[] = 'ui_percentage_decimals';
     // Stats columns
     foreach ($aStatisticsFieldsDeliveryPlugins as $oPlugin) {
         $aVars = $oPlugin->getVisibilitySettings();
-        $aSuffixes = array('', '_label', '_rank');
+        $aSuffixes = array('_label', '_rank');
         foreach (array_keys($aVars) as $name) {
+            $aElements[] = $name;
+            $aCheckboxes[$name] = true;
             foreach ($aSuffixes as $suffix) {
                 $aElements[] = $name.$suffix;
             }
         }
     }
     // Save the preferences
-    $result = OA_Preferences::processPreferencesFromForm($aElements);
+    $result = OA_Preferences::processPreferencesFromForm($aElements, $aCheckboxes);
     if ($result) {
         // The preferences were written correctly saved to the database,
         // go to the "next" preferences page from here

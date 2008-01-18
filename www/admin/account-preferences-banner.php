@@ -50,18 +50,21 @@ $aErrormessage = array();
 
 // If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
-    // Prepare an array of the HTML elements to process
-    $aElements = array();
+    // Prepare an array of the HTML elements to process, and which
+    // of the preferences are checkboxes
+    $aElements   = array();
+    $aCheckboxes = array();
     // Default Banners
     $aElements[] = 'default_banner_image_url';
     $aElements[] = 'default_banner_destination_url';
     // HTML Banner Options
     $aElements[] = 'auto_alter_html_banners_for_click_tracking';
+    $aCheckboxes['auto_alter_html_banners_for_click_tracking'] = true;
     // Default Weight
     $aElements[] = 'default_banner_weight';
     $aElements[] = 'default_campaign_weight';
     // Save the preferences
-    $result = OA_Preferences::processPreferencesFromForm($aElements);
+    $result = OA_Preferences::processPreferencesFromForm($aElements, $aCheckboxes);
     if ($result) {
         // The preferences were written correctly saved to the database,
         // go to the "next" preferences page from here
@@ -122,8 +125,7 @@ $aSettings = array (
             array (
                 'type'    => 'checkbox',
                 'name'    => 'auto_alter_html_banners_for_click_tracking',
-                'text'    => $strTypeHtmlAuto,
-                'depends' => 'type_html_allow==true'
+                'text'    => $strTypeHtmlAuto
             )
         )
     ),

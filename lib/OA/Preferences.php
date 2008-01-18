@@ -288,10 +288,32 @@ class OA_Preferences
      * @static
      * @param array $aElementNames An array of HTML form element names, which
      *                             are also the preference value names.
+     * @param array $aCheckboxes   An array of the above HTML form element
+     *                             names which are checkboxes, as these will not
+     *                             be set in the form POST if unchecked, and
+     *                             so need to be treated differently.
      * @return boolean True on success, false otherwise.
      */
-    function processPreferencesFromForm($aElementNames)
+    function processPreferencesFromForm($aElementNames, $aCheckboxes)
     {
+        // Get all of the preference types that exist
+        $aPreferenceTypes = array();
+        $doPreferences = OA_Dal::factoryDO('preferences');
+        $doPreferences->find();
+        if ($doPreferences->getRowCount() < 1) {
+            return false;
+        }
+        while ($doPreferences->fetch()) {
+            $aPreference = $doPreferences->toArray();
+            $aPreferenceTypes[$aPreference['preference_name']] = array(
+                'preference_id' => $aPreference['preference_id'],
+                'account_type'  => $aPreference['account_type']
+            );
+        }
+        // Are there any preference types in the system?
+        if (empty($aPreferenceTypes)) {
+            return false;
+        }
         // Get the type of the current accout
         $currentAccountType = OA_Permission::getAccountType();
         // Get the current account's ID
@@ -302,8 +324,23 @@ class OA_Preferences
         $aSavePreferences = array();
         $aDeletePreferences = array();
         foreach ($aElementNames as $preferenceName) {
+            // Ensure that the current account has permission to process
+            // the preference type
+            $access = OA_Preferences::hasAccess($currentAccountType, $aPreferenceTypes[$preferenceName]['account_type']);
+            if ($access == false) {
+                // Don't process this value
+                continue;
+            }
             // Register the HTML element value
             MAX_commonRegisterGlobalsArray(array($preferenceName));
+            // Is the HTML element value a checkbox, and unset?
+            if (isset($aCheckboxes[$preferenceName]) && is_null($GLOBALS[$preferenceName])) {
+                // Set the value of the element to the false string ""
+                $GLOBALS[$preferenceName] = '';
+            } else if (isset($aCheckboxes[$preferenceName]) && $GLOBALS[$preferenceName]) {
+                // Set the value of the element to the true string "1"
+                $GLOBALS[$preferenceName] = '1';
+            }
             // Was the HTML element value set?
             if (isset($GLOBALS[$preferenceName])) {
                 // Is the preference value different from the parent value?
@@ -320,55 +357,82 @@ class OA_Preferences
                 }
             }
         }
-        // Get all of the preference types that exist
-        $doPreferences = OA_Dal::factoryDO('preferences');
-        $aPreferenceTypes = $doPreferences->getAll(array(), true);
-        // Are there any preference types in the system?
-        if (empty($aPreferenceTypes)) {
-            return false;
-        }
         // Save the required preferences
-        foreach ($aPreferenceTypes as $aPreferenceType) {
-            if (isset($aSavePreferences[$aPreferenceType['preference_name']])) {
-                $doAccount_preference_assoc = OA_Dal::factoryDO('account_preference_assoc');
-                $doAccount_preference_assoc->account_id = $currentAccountId;
-                $doAccount_preference_assoc->preference_id = $aPreferenceType['preference_id'];
-                $doAccount_preference_assoc->find();
-                if ($doAccount_preference_assoc->getRowCount() != 1) {
-                    // Insert the preference
-                    $doAccount_preference_assoc->value = $aSavePreferences[$aPreferenceType['preference_name']];
-                    $result = $doAccount_preference_assoc->insert();
-                    if ($result === false) {
-                        return false;
-                    }
-                } else {
-                    // Update the preference
-                    $doAccount_preference_assoc->fetch();
-                    $doAccount_preference_assoc->value = $aSavePreferences[$aPreferenceType['preference_name']];
-                    $result = $doAccount_preference_assoc->update();
-                    if ($result === false) {
-                        return false;
-                    }
+        foreach ($aSavePreferences as $preferenceName => $preferenceValue) {
+            $doAccount_preference_assoc = OA_Dal::factoryDO('account_preference_assoc');
+            $doAccount_preference_assoc->account_id = $currentAccountId;
+            $doAccount_preference_assoc->preference_id = $aPreferenceTypes[$preferenceName]['preference_id'];
+            $doAccount_preference_assoc->find();
+            if ($doAccount_preference_assoc->getRowCount() != 1) {
+                // Insert the preference
+                $doAccount_preference_assoc->value = $preferenceValue;
+                $result = $doAccount_preference_assoc->insert();
+                if ($result === false) {
+                    return false;
+                }
+            } else {
+                // Update the preference
+                $doAccount_preference_assoc->fetch();
+                $doAccount_preference_assoc->value = $preferenceValue;
+                $result = $doAccount_preference_assoc->update();
+                if ($result === false) {
+                    return false;
                 }
             }
         }
         // Delete the required preferences
-        foreach ($aPreferenceTypes as $aPreferenceType) {
-            if (isset($aDeletePreferences[$aPreferenceType['preference_name']])) {
-                $doAccount_preference_assoc = OA_Dal::factoryDO('account_preference_assoc');
-                $doAccount_preference_assoc->account_id = $currentAccountId;
-                $doAccount_preference_assoc->preference_id = $aPreferenceType['preference_id'];
-                $doAccount_preference_assoc->find();
-                if ($doAccount_preference_assoc->getRowCount() == 1) {
-                    // Delete the preference
-                    $result = $doAccount_preference_assoc->delete();
-                    if ($result === false) {
-                        return false;
-                    }
+        foreach ($aDeletePreferences as $preferenceName => $preferenceValue) {
+            $doAccount_preference_assoc = OA_Dal::factoryDO('account_preference_assoc');
+            $doAccount_preference_assoc->account_id = $currentAccountId;
+            $doAccount_preference_assoc->preference_id = $aPreferenceTypes[$preferenceName]['preference_id'];
+            $doAccount_preference_assoc->find();
+            if ($doAccount_preference_assoc->getRowCount() == 1) {
+                // Delete the preference
+                $result = $doAccount_preference_assoc->delete();
+                if ($result === false) {
+                    return false;
                 }
             }
         }
         return true;
+    }
+
+    /**
+     * A method to test if a given current account level has access to utilise and/or
+     * process a given preference level.
+     *
+     * @param string $currentAccount  The current acccount level.
+     * @param string $preferenceLevel The preference level, or null or the empty string
+     *                                if there is no preference level.
+     * @return boolean True if the current account can access/process the preference
+     *                 level, false otherwise.
+     */
+    function hasAccess($currentAccount, $preferenceLevel) {
+        // If there is no preference level, any account can use/process
+        if (is_null($preferenceLevel) || $preferenceLevel == '') {
+            return true;
+        }
+        // If the current account is admin, all preferences can be used/processed
+        if ($currentAccount == OA_ACCOUNT_ADMIN) {
+            return true;
+        }
+        // If the current account if a manager, all preferences other than the
+        // admin preferences can be used/processed
+        if ($currentAccount == OA_ACCOUNT_MANAGER) {
+            if ($preferenceLevel == OA_ACCOUNT_ADMIN) {
+                return false;
+            }
+            return true;
+        }
+        // If the current account is an advertiser or trafficker, then only
+        // their types of preferences can be used/processed
+        if ($currentAccount == OA_ACCOUNT_ADVERTISER && $preferenceLevel == OA_ACCOUNT_ADVERTISER) {
+            return true;
+        }
+        if ($currentAccount == OA_ACCOUNT_TRAFFICKER && $preferenceLevel == OA_ACCOUNT_TRAFFICKER) {
+            return true;
+        }
+        return false;
     }
 
     /**
