@@ -127,7 +127,7 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
      */
     function _getMaxEntityAdObject($id)
     {
-        return new MAX_Entity_Ad(array('ad_id' => $id));
+        return new OA_Maintenance_Priority_Ad(array('ad_id' => $id));
     }
 
     /**
