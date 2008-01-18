@@ -1164,7 +1164,7 @@ function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideIn
     $aPlacements = !empty($aParams) ? Admin_DA::getPlacements($aParams) : array();
     foreach ($aPlacements as $placementId => $aPlacement) {
         $aAds = Admin_DA::getAds($aParams + array('placement_id' => $placementId), true);
-        $placementActive = $aPlacement['active'] == 't';
+        $placementActive = $aPlacement['status'] == OA_ENTITY_STATUS_RUNNING;
         if (!$hideInactive || $placementActive) {
             $bgcolor = $i % 2 == 0 ? " bgcolor='#F6F6F6'" : '';
             if ($showParentPlacements) {
@@ -1188,7 +1188,7 @@ function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideIn
 </tr>";
             }
             foreach ($aAds as $adId => $aAd) {
-                $adActive = ($aAd['active'] == 't' && $aPlacement['active'] == 't');
+                $adActive = ($aAd['status'] == OA_ENTITY_STATUS_RUNNING && $aPlacement['status'] == OA_ENTITY_STATUS_RUNNING);
                 if (!$hideInactive || $adActive) {
                     $adIcon = MAX_getEntityIcon('ad', $adActive, $aAd['type']);
                     $adName = MAX_getDisplayName($aAd['name']);
@@ -1257,7 +1257,7 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
         $inactive = 0;
         $aPlacements = (!empty($aParams)) ? Admin_DA::getPlacements($aParams) : array();
         foreach ($aPlacements as $placementId => $aPlacement) {
-            $placementActive = $aPlacement['active'] == 't';
+            $placementActive = $aPlacement['status'] == OA_ENTITY_STATUS_RUNNING;
             if (!$hideInactive || $placementActive) {
                 $pParams = $aParams;
                 $pParams['placement_id'] = $placementId;
@@ -1306,7 +1306,7 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
     </tr>";
                 if ($showMatchingAds && !empty($aAds)) {
                     foreach ($aAds as $adId => $aAd) {
-                        $adActive = ($aAd['active'] == 't' && $aPlacement['active'] == 't');
+                        $adActive = ($aAd['status'] == OA_ENTITY_STATUS_RUNNING && $aPlacement['status'] == OA_ENTITY_STATUS_RUNNING);
                         if (!$hideInactive || $adActive) {
                             $adIcon = MAX_getEntityIcon('ad', $adActive, $aAd['type']);
                             $adName = MAX_getDisplayName($aAd['name']);
@@ -1580,10 +1580,10 @@ function _isAdvertiserActive($aAdvertiserPlacementAd)
 function _isPlacementActive($aPlacementAd)
 {
     $active = false;
-    if ($aPlacementAd['active'] == 't') {
+    if ($aPlacementAd['status'] == OA_ENTITY_STATUS_RUNNING) {
         if (isset($aPlacementAd['children'])) {
             foreach($aPlacementAd['children'] as $aAd) {
-                if ($aAd['active'] == 't') {
+                if ($aAd['status'] == OA_ENTITY_STATUS_RUNNING) {
                     $active = true;
                     break;
                 }
