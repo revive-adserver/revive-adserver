@@ -50,7 +50,12 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         Mock::generatePartial(
             'OA_Maintenance_Priority_AdServer_Task_PriorityCompensation',
             'PartialMock_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation',
-            array('_getDal', '_getOperationIntUtils')
+            array('_getDal', '_getOperationIntUtils','_getMaxEntityAdObject')
+        );
+        Mock::generatePartial(
+            'OA_Maintenance_Priority_Ad',
+            'PartialOA_Maintenance_Priority_Ad',
+            array()
         );
     }
 
@@ -194,8 +199,30 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
             );
         $oDal->setReturnReference('getPreviousAdDeliveryInfo', $returnGetPreviousAdDeliveryInfo);
         $oDal->expectOnce('getPreviousAdDeliveryInfo');
+
+        $oPriorityCompensation->expectCallCount('_getMaxEntityAdObject', 11);
+        for ($i=0;$i<5;$i++)
+        {
+            $oAdObject = new PartialOA_Maintenance_Priority_Ad($this);
+            $oAdObject->OA_Maintenance_Priority_Ad(array('ad_id' => 1));
+            //$oAdObject->setReturnValue('isActiveHighPriority', true);
+            $oPriorityCompensation->setReturnValueAt($i, '_getMaxEntityAdObject', $oAdObject);
+        }
+        for ($i=5;$i<10;$i++)
+        {
+            $oAdObject = new PartialOA_Maintenance_Priority_Ad($this);
+            $oAdObject->OA_Maintenance_Priority_Ad(array('ad_id' => 2));
+            //$oAdObject->setReturnValue('isActiveHighPriority', true);
+            $oPriorityCompensation->setReturnValueAt($i, '_getMaxEntityAdObject', $oAdObject);
+        }
+        $oAdObject = new PartialOA_Maintenance_Priority_Ad($this);
+        $oAdObject->OA_Maintenance_Priority_Ad(array('ad_id' => 3));
+        //$oAdObject->setReturnValue('isActiveHighPriority', true);
+        $oPriorityCompensation->setReturnValueAt(10, '_getMaxEntityAdObject', $oAdObject);
+
         $aZones = $oPriorityCompensation->_buildClasses();
         $oDal->tally();
+        $oPriorityCompensation->tally();
 
         $this->assertEqual(strtolower(get_class($aZones[1])), strtolower('OA_Maintenance_Priority_Zone'));
         $oZone = $aZones[1];
