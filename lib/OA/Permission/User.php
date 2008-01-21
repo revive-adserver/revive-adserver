@@ -54,11 +54,13 @@ class OA_Permission_User
      * @param DataObjects_Users $doUsers
      * @return OA_Permission_User
      */
-    function OA_Permission_User($doUsers)
+    function OA_Permission_User($doUsers, $skipDatabaseAccess = false)
     {
         if (!is_a($doUsers, 'DataObjects_Users')) {
             MAX::raiseError('doUser not a DataObjects_Users', PEAR_LOG_ERR, PEAR_ERROR_DIE);
         }
+
+        // Store user information as array
         $this->aUser = $doUsers->toArray();
 
         // For safety reasons, do not store the password
@@ -67,14 +69,21 @@ class OA_Permission_User
         // Make sure we start with an empty account
         $this->_clearAccount();
 
-        $this->switchAccount($doUsers->default_account_id);
+        if (!$skipDatabaseAccess) {
+            // Check if the user is linked to the admin account
+            $this->aUser['is_admin'] = $this->_isAdmin();
+
+            $this->switchAccount($this->aUser['default_account_id']);
+        } else {
+            $this->aUser['is_admin'] = false;
+        }
     }
 
     function switchAccount($accountId)
     {
         if (!empty($accountId))
         {
-            if (!OA_Permission::hasAccess($accountId)) {
+            if (!OA_Permission::hasAccess($accountId, $this->aUser['user_id'])) {
                 Max::raiseError("The user does not have access to this account");
             }
 
@@ -110,6 +119,10 @@ class OA_Permission_User
         }
     }
 
+    /**
+     * A private method to clear the $aAccount array
+     *
+     */
     function _clearAccount()
     {
         $this->aAccount = array(
@@ -120,6 +133,11 @@ class OA_Permission_User
         );
     }
 
+    /**
+     * A private method to retrieve the entity ID for the current account
+     *
+     * @return mixed The ID as integer on success, false otherwise
+     */
     function _getEntityId()
     {
         $doEntity = $this->_getEntityDO();
@@ -137,6 +155,11 @@ class OA_Permission_User
         return false;
     }
 
+    /**
+     * A private method to retrieve the agency ID for the current account
+     *
+     * @return mixed The ID as integer on success, false otherwise
+     */
     function _getAgencyId()
     {
         $doEntity = $this->_getEntityDO();
@@ -153,7 +176,22 @@ class OA_Permission_User
     }
 
     /**
-     * Factory account dataobject based on account type
+     * A private method to check if the current user is linked to the admin account
+     *
+     * @return bool True if the user is linked to the admin account
+     */
+    function _isAdmin()
+    {
+        $doUsers = OA_Dal::factoryDO('users');
+        $doUsers->user_id = $this->aUser['user_id'];
+        $doAUA  = OA_Dal::factoryDO('account_user_assoc');
+        $doAUA->account_id = OA_Dal_ApplicationVariables::get('admin_account_id');
+        $doUsers->joinAdd($doAUA);
+        return (bool)$doUsers->count();
+    }
+
+    /**
+     * Private factory method to create an entity dataobject based on account type
      *
      * @return DB_DataObjectCommon
      */

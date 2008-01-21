@@ -450,18 +450,26 @@ class OA_Permission
      *
      * @static
      * @param int $userId
-     * @return boolean True if the currently logged in user is linked to the ADMIN account, false otherwise.
+     * @return boolean True if the user is linked to the ADMIN account, false otherwise.
      */
     function isUserLinkedToAdmin($userId = null)
     {
-        if (is_null($userId)) {
-            $userId = OA_Permission::getUserId();
+        $currentUserId = OA_Permission::getUserId();
+
+        if (is_null($userId) || $userId == OA_Permission::getUserId()) {
+            $oUser = OA_Permission::getCurrentUser();
+        } else {
+            $doUsers = OA_Dal::staticGetDO('users', $userId);
+            if ($doUsers) {
+                $oUser = new OA_Permission_User($doUsers);
+            }
         }
 
-        $doAccount_user_assoc = OA_Dal::factoryDO('account_user_assoc');
-        $doAccount_user_assoc->user_id = $userId;
-        $doAccount_user_assoc->account_id = OA_Dal_ApplicationVariables::get('admin_account_id');
-        return (bool)$doAccount_user_assoc->count();
+        if (!empty($oUser)) {
+            return $oUser->aUser['is_admin'];
+        }
+
+        return false;
     }
 
     /**

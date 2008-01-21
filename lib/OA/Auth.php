@@ -41,7 +41,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 class OA_Auth
 {
     /**
-     * Enter description here...
+     * A method to log in the user
      *
      * @static
      *
@@ -152,22 +152,27 @@ class OA_Auth
     }
 
     /**
-     * Enter description here...
+     * A static method to return the data to be stored in the session variable
+     *
+     * @static
      *
      * @param DataObjects_Users $doUser
+     * @param bool $skipDatabaseAccess True if the OA_Permission_User constructor should
+     *                                 avoid performing some checks accessing the database
      * @return array
      */
-    function getSessionData($doUser)
+    function getSessionData($doUser, $skipDatabaseAccess = false)
     {
         return array(
-            'user' => new OA_Permission_User($doUser)
+            'user' => new OA_Permission_User($doUser, $skipDatabaseAccess)
         );
     }
 
     /**
-     * Enter description here...
+     * A static method to return fake data to be stored in the session variable
      *
-     * @param DataObjects_Users $doUser
+     * @static
+     *
      * @return array
      */
     function getFakeSessionData()
@@ -200,9 +205,11 @@ class OA_Auth
     }
 
     /**
-     * Enter description here...
+     * A static method to restart with a login screen, eventually displaying a custom message
      *
-     * @param unknown_type $sMessage
+     * @static
+     *
+     * @param string $sMessage Optional message
      */
     function restart($sMessage = '')
     {
@@ -211,7 +218,9 @@ class OA_Auth
     }
 
     /**
-     * Enter description here...
+     * A static method to restart with a login screen, displaying an error message
+     *
+     * @static
      *
      * @param PEAR_Error $oError
      */
@@ -221,7 +230,9 @@ class OA_Auth
     }
 
     /**
-     * Enter description here...
+     * A static method to display a login screen
+     *
+     * @static
      *
      * @param string $sMessage
      * @param string $sessionID
@@ -279,6 +290,8 @@ class OA_Auth
 
     /**
      * Check if application is running from appropriate dir
+     *
+     * @static
      *
      * @param string $location
      * @return boolean True if a redirect is needed
