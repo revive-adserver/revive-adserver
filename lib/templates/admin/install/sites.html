@@ -60,9 +60,9 @@ Here you can also choose whether you wish to sign up to Sign up for Advertiser s
 <div id="url-empty1" class="error-box hide" style="float: right; width: 230px; position: relative; top: -2px">
             Provide website URL <span class="remove-site-cont">or <span class="link remove-site">remove it</span></span>
 </div>
-<input type="button" class="remove-site" value="Remove"><label for="url{$k}" class="left">Site URL</label>
+<input type="button" class="remove-site" name="remove-site" id="remove-site" value="Remove" tabindex='{$tabindex++}'><label for="url{$k}" class="left" tabindex='{$tabindex++}'>Site URL</label>
           http://
-          <input type="text" id="url{$k}" name="aUrls[]" style="width: 26em" class="site-url flat" value="{$s.url|escape}">
+          <input type="text" id="url{$k}" name="aUrls[]" style="width: 26em" class="site-url flat" value="{$s.url|escape}" tabindex='{$tabindex++}'>
 </div>
 
 </div>
@@ -72,37 +72,37 @@ Here you can also choose whether you wish to sign up to Sign up for Advertiser s
           To Sign up for Advertiser self service and Payment, please pick Category, Country and Language.
         </div>
 <div class="line">
-<label for="category1" class="left">Category</label><select type="text" id="category{$k}" name="aCategories[]" style="width: 11em" class="flat">
+<label for="category1" class="left">Category</label><select type="text" id="category{$k}" name="aCategories[]" tabindex='{$tabindex++}' style="width: 11em" class="flat">
 {html_options options=$aSelectCategories selected=$s.category}
 </select>
 
 </div>
 <div class="line">
-<label for="country1" class="left">Country</label><select type="text" id="country{$k}" name="aCountries[]" style="width: 11em" class="flat">
+<label for="country1" class="left">Country</label><select type="text" id="country{$k}" name="aCountries[]" tabindex='{$tabindex++}' style="width: 11em" class="flat">
 {html_options options=$aSelectCountries selected=$s.country}
 </select><label for="language1" class="inline">Language</label>
-<select type="text" id="language{$k}" name="aLanguages[]" style="width: 11em" class="flat">
+<select type="text" id="language{$k}" name="aLanguages[]" tabindex='{$tabindex++}' style="width: 11em" class="flat">
 {html_options options=$aSelectLanguages selected=$s.language}
 </select>
 </div>
 
 <div class="line-nolabel">
 <input type="hidden" name="aAdvSignup[]" id="hdn-advsignup{$k}" value="{if $s.advsignup}true{else}false{/if}" />
-<input type="checkbox" name="aAdvSignupCheckbox[]" id="advsignup{$k}" {if !$syncEnabled}disabled="true"{/if} {if $s.advsignup}checked="checked"{/if} onclick="$('#hdn-'+this.id).get(0).value = this.checked; return true"><label for="advsignup1" class="cb"{if $s.advsignup} checked="checked"{/if}>Sign up for Advertiser self service and Payment</label>
+<input type="checkbox" name="aAdvSignupCheckbox[]" id="advsignup{$k}" {if !$syncEnabled}disabled="true"{/if} {if $s.advsignup}checked="checked"{/if} onclick="$('#hdn-'+this.id).get(0).value = this.checked; return true" tabindex='{$tabindex++}'><label for="advsignup1" class="cb"{if $s.advsignup} checked="checked"{/if}>Sign up for Advertiser self service and Payment</label>
 
   <span class="popup-help hide">
     <div class="close" style="text-align: right"><span class="link">Close</span></div>
     Explanation text Explanation text Explanation text Explanation text Explanation text
   </span>
 
-  <span class="link popup-help-link advsignup-help">(what's this?)</span>
+  <span class="link popup-help-link advsignup-help" tabindex='{$tabindex++}'>(what's this?)</span>
 </div>
 </div>
 
 </div>
 {/foreach}
 </div>
-<input type="button" value="Add new site" class="add-new-site" id="add-new-site" disabled="true"><span id="add-new-site-info">To add more sites, please fill in urls of the existing ones</span>
+<input type="button" value="Add new site" class="add-new-site" id="add-new-site" name="add-new-site" disabled="true" tabindex='{$tabindex++}'><span id="add-new-site-info">To add more sites, please fill in urls of the existing ones</span>
 <script language="javascript">
 <!--{literal}
 
@@ -132,7 +132,7 @@ Here you can also choose whether you wish to sign up to Sign up for Advertiser s
 <br>
 <br>
 <img width="100%" vspace="5" height="1" src="images/break-el.gif">
-<input type="submit" class="button" name="btn_tagssetup" value="Continue &raquo;"{tabindex}>
+<input type="submit" class="button" id="btn_tagssetup" name="btn_tagssetup" value="Continue &raquo;" tabindex='{$tabindex++}'>
 <input type="hidden" name="dirPage" id="dirPage" value="">
 </form>
 
@@ -143,9 +143,9 @@ Here you can also choose whether you wish to sign up to Sign up for Advertiser s
 <div id="url-empty" class="error-box hide" style="float: right; width: 230px; position: relative; top: -2px">
             Provide website URL <span class="remove-site-cont">or <span class="link remove-site">remove it</span></span>
 </div>
-<input type="button" class="remove-site" value="Remove"><label for="url" class="left">Site URL</label>
+<input type="button" class="remove-site" id="remove-site" name="remove-site" value="Remove" tabindex=""><label for="url" class="left">Site URL</label>
           http://
-          <input type="text" id="url" name="aUrls[]" style="width: 26em" class="site-url flat">
+          <input type="text" id="url" name="aUrls[]" tabindex="" style="width: 26em" class="site-url flat">
 
 </div>
 </div>
@@ -155,15 +155,15 @@ Here you can also choose whether you wish to sign up to Sign up for Advertiser s
           To Sign up for Advertiser self service and Payment, please pick Category, Country and Language.
         </div>
 <div class="line">
-<label for="category" class="left">Category</label><select type="text" id="category" name="aCategories[]" style="width: 11em" class="flat">
+<label for="category" class="left">Category</label><select type="text" id="category" name="aCategories[]" tabindex="" style="width: 11em" class="flat">
 {html_options options=$aSelectCategories}
 </select>
 
 </div>
 <div class="line">
-<label for="country" class="left">Country</label><select type="text" id="country" name="aCountries[]" style="width: 11em" class="flat">
+<label for="country" class="left">Country</label><select type="text" id="country" name="aCountries[]" tabindex="" style="width: 11em" class="flat">
 {html_options options=$aSelectCountries}
-</select><label for="language" class="inline">Language</label><select type="text" id="language" name="aLanguages[]" style="width: 11em" class="flat">
+</select><label for="language" class="inline">Language</label><select type="text" id="language" name="aLanguages[]" tabindex="" style="width: 11em" class="flat">
 {html_options options=$aSelectLanguages}
 </select>
 </div>
@@ -184,6 +184,21 @@ Here you can also choose whether you wish to sign up to Sign up for Advertiser s
 
 </div>
 </div>
+
+{literal}
+<script language="javascript">
+
+function lastTabIndex() {
+
+    document.lastTabIndex = parseInt(document.getElementById('btn_tagssetup').tabIndex);
+}
+
+lastTabIndex();
+
+</script>
+{/literal}
+
+
 <script>
 <!--
       initInstallerSites();

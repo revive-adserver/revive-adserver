@@ -5,7 +5,7 @@
 
 // Turns an input into an autosubmit one
 jQuery.fn.submitOnChange = function() {
-  return this.each(function () 
+  return this.each(function ()
   {
     $(this).bind("change", function()
     {
@@ -16,27 +16,27 @@ jQuery.fn.submitOnChange = function() {
   });
 };
 
-// All inputs marked with "submit-on-change" class will be 
+// All inputs marked with "submit-on-change" class will be
 // automatically turned into autosubmit inputs
 $(document).ready(function() {
   $(".submit-on-change").submitOnChange();
 });
 
 // Additional jQuery effect
-jQuery.fn.slideFadeOut = function(speed, callback) 
+jQuery.fn.slideFadeOut = function(speed, callback)
 {
   return this.animate({height: 'hide', opacity: 'hide', marginTop: 'hide', marginBottom: 'hide'}, speed, callback);
 }
 
 // Additional jQuery effect
-jQuery.fn.slideFadeIn = function(speed, callback) 
+jQuery.fn.slideFadeIn = function(speed, callback)
 {
   return this.animate({height: 'show', opacity: 'show', marginTop: 'show', marginBottom: 'show'}, speed, callback);
 }
 
 // Automatically installs validation on forms with the "validate" class
 $(document).ready(function () {
-  // The validation plugin does not apply the validate() function to 
+  // The validation plugin does not apply the validate() function to
   // all jQuery elements (kind of weird...), so we must use an explicit each()
   $("form.validate").each(function() {
     $(this).validate();
@@ -172,6 +172,7 @@ function initInstallerSites()
 
 function installerAddNewSite()
 {
+  document.lastTabIndex = document.lastTabIndex - 2;
   var maxId = $("#max-id").get(0);
   maxId.value = parseInt(maxId.value) + 1;
 
@@ -185,6 +186,7 @@ function installerAddNewSite()
     if ($.trim(this.id).length > 0)
     {
       this.id = this.id + maxId.value;
+      this.tabIndex = document.lastTabIndex++;
     }
 
   });
@@ -196,6 +198,9 @@ function installerAddNewSite()
   });
 
   checkAddSiteEnabled();
+
+  $("#add-new-site").get(0).tabIndex = document.lastTabIndex++;
+  $("#btn_tagssetup").get(0).tabIndex = document.lastTabIndex++;
 }
 
 function installerRemoveSite()
@@ -393,7 +398,7 @@ function formStateStore(form)
   }
   if (form.category) {
    formSettings["category"] =  form.category.value;
-  }  
+  }
 
   formState[form.id] = formSettings;
   document.formState = formState;
@@ -412,14 +417,14 @@ function formStateChanged(form)
   result = form.advsignup && !formSettings["advsignup"] && form.advsignup.checked;
 
   // 2) already signed up and changed cat/lang/cntry
-  result = result || (form.advsignup && formSettings["advsignup"] == true &&  
-    form.advsignup.checked) &&  
+  result = result || (form.advsignup && formSettings["advsignup"] == true &&
+    form.advsignup.checked) &&
     ((form.country && formSettings["country"] !=  form.country.value)
       || (form.language  && formSettings["language"] !=  form.language.value)
       || (form.category && formSettings["category"] !=  form.category.value));
-      
+
   //when unsigning or signed up and no changes do nothing
-  return result; 
+  return result;
 }
 
 

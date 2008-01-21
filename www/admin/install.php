@@ -414,9 +414,15 @@ else if (array_key_exists('btn_tagssetup', $_POST))
                 $result = $oAdNetworks->subscribeWebsites($aWebsites[1]);
 
                 if (PEAR::isError($result)) {
+                    //initialize tabindex (if not already done)
+                    if (!isset($tabindex)) {
+                        $tabindex = 1;
+                    }
+
                     // Initialise template
                     $oTpl = new OA_Admin_Template('install/sites.html');
 
+                    $oTpl->assign('tabindex',          $tabindex);
                     $oTpl->assign('aSelectCategories', $oAdNetworks->getCategoriesSelect());
                     $oTpl->assign('aSelectCountries',  $oAdNetworks->getCountriesSelect());
                     $oTpl->assign('aSelectLanguages',  $oAdNetworks->getLanguagesSelect());
