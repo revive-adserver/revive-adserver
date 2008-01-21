@@ -49,7 +49,7 @@ class Test_OA_Dal_DeliveryDB_getAdminTZ extends UnitTestCase
         $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
 
         // Disable caching
-        $GLOBALS['_MAX']['CONF']['delivery']['cacheExpire'] = 0;
+        $GLOBALS['_MAX']['CONF']['delivery']['cacheExpire'] = -1;
 
         MAX_Dal_Delivery_Include();
     }
