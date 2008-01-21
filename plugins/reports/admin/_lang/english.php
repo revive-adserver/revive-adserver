@@ -27,6 +27,7 @@ $Id$
 
     $words = array(
         'Admin Reports' => 'Admin Reports',
-
+        'Manager Account Breakdown' => 'Manager Account Breakdown',
+        'Lists Adviews/AdClicks/AdSales totals for a given month.' => 'Lists Adviews/AdClicks/AdSales totals for a given month.',
     );
 ?>
