@@ -203,7 +203,7 @@ else
         echo "<td height='25'>";
         if (OA_Permission::hasAccess($agency['account_id'])) {
             echo "<a href='account-switch.php?account_id={$agency['account_id']}'>";
-            echo $GLOBALS['strSwitchAccount'] ."</a>&nbsp;&nbsp;";
+            echo "Switch to this account</a>&nbsp;&nbsp;";
         } else {
             echo "&nbsp;";
         }

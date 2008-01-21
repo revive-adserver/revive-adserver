@@ -27,6 +27,6 @@ $Id$
 
     $words = array(
         'Admin Reports' => 'Administrator Berichte',
-        'Manager Account Breakdown' => 'Account Manager Aufschlüsselung',
+
     );
 ?>

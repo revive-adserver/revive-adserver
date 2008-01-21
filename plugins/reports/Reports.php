@@ -287,7 +287,7 @@ class Plugins_Reports extends MAX_Plugin_Common
     function _getReportFileName()
     {
         $reportFileName = '';
-        $reportFileName .= MAX_Plugin_Translation::translate($this->_name, $this->module, $this->package);
+        $reportFileName .= $this->_name;
         $reportFileName .= ' ';
         $reportFileName .= MAX_Plugin_Translation::translate('from', $this->module, $this->package);
         $reportFileName .= ' ';
@@ -298,7 +298,6 @@ class Plugins_Reports extends MAX_Plugin_Common
         $reportFileName .= $this->_endDateString;
         $reportFileName .= '.';
         $reportFileName .= $this->_export;
-
         return $reportFileName;
     }
 
@@ -318,12 +317,6 @@ class Plugins_Reports extends MAX_Plugin_Common
         if ($title == '') {
             $title = $worksheet;
         }
-
-        // check if worksheet name is <= 31 chracters, if so trim because PEAR errors out
-        if (strlen($worksheet) >= 31) {
-            $worksheet  = substr($worksheet, 0, 30);
-        }
-
         $this->_oReportWriter->createReportWorksheet(
             $worksheet,
             $this->_name,

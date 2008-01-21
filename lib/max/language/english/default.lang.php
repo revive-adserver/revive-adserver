@@ -1020,7 +1020,6 @@ $GLOBALS['strHideInactiveAgencies']          = "Hide inactive agencies";
 $GLOBALS['strInactiveAgenciesHidden']     = "inactive agency(ies) hidden";
 $GLOBALS['strAllowAgencyEditConversions'] = "Allow this user to edit conversions";
 $GLOBALS['strAllowMoreReports']           = "Allow 'More Reports' button";
-$GLOBALS['strSwitchAccount']              = "Switch to this account";
 
 // Channels
 $GLOBALS['strChannel']                    = "Channel";

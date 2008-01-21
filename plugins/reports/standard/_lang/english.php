@@ -37,10 +37,6 @@ $words = array(
     'Campaign Analysis Report'      => 'Campaign Analysis Report',
     'This report shows a breakdown of advertising for a particular campaign, by day, banner, and zone.' => 'This report shows a breakdown of advertising for a particular campaign, by day, banner, and zone.',
 
-    // Campaign Delivery Report
-    'Campaign Delivery Report'      => 'Campaign Delivery Report',
-    'This report shows delivery statistics for all campaigns which were live during the specified period, highlighting campaigns which are underperforming.' => 'This report shows delivery statistics for all campaigns which were live during the specified period, highlighting campaigns which are underperforming.',
-
     // Conversion Tracking Report
     'Conversion Tracking Report'    => 'Conversion Tracking Report',
     'A detailed breakdown of all conversion activity by advertiser or publisher.' => 'A detailed breakdown of all conversion activity by advertiser or publisher.',
