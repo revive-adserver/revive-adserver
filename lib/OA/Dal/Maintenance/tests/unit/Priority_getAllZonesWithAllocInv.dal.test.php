@@ -292,9 +292,15 @@ class Test_OA_Dal_Maintenance_Priority_getAllZonesWithAllocInv extends UnitTestC
                 )";
         $rows = $oDbh->exec($query);
 
-
         $result = &$oMaxDalMaintenance->getAllZonesWithAllocInv();
         $this->assertEqual(count($result), 3);
+
+        // The last entries have the same zone_id and ad_id. The query used in
+        // getAllZonesWithAllocInv doesn't guarantee any order, nor it's useful
+        // to add the field to its ORDER BY clause. That's why we sort using PHP
+        // by required_impressions
+        usort($result, create_function('$a, $b', 'return $a["required_impressions"] - $b["required_impressions"];'));
+
         $this->assertEqual($result[0]['zone_id'], 1);
         $this->assertEqual($result[0]['ad_id'], $bannerId1t);
         $this->assertEqual($result[0]['required_impressions'], 2);
