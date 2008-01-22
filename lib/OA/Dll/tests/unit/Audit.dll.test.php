@@ -161,9 +161,12 @@ class OA_Dll_AuditTest extends DllUnitTestCase
             $this->assertEqual($aRow['contextid'],$aExpect[$i]['contextid']);
             $this->assertEqual($aRow['parentid'],$aExpect[$i]['parentid']);
             $this->assertEqual($aRow['username'],$aExpect[$i]['username']);
-            $this->assertEqual($aRow['updated'],$aExpect[$i]['updated']);
             $this->assertEqual($aRow['details']['campaignname'],$aExpect[$i]['details']['campaignname']);
             $this->assertEqual($aRow['details']['status'],$aExpect[$i]['details']['status']);
+
+            $oDate = new Date($aRow['updated']);
+            $oDate->toUTC();
+            $this->assertEqual($oDate->getDate(),$aExpect[$i]['updated']);
         }
     }
 
@@ -174,6 +177,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oSpanDay  = new Date_Span('1-0-0-0');
 
         $oDate = & new Date(OA::getNow());
+        $oDate->toUTC();
         $oDate->subtractSpan(new Date_Span('8-0-0-0'));
 
         // record 1 - more than 7 days old so should not be returned
@@ -255,7 +259,6 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $this->assertIsA($aResults, 'array');
         $this->assertEqual(count($aResults),5);
 
-        $oNow = new Date();
         for ($i=0;$i<5;$i++)
         {
             $aRow = $aResults[$i];
@@ -270,8 +273,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
             $this->assertEqual($aRow['details']['status'],$aExpect[$i]['details']['status']);
 
             $oDate = new Date($aRow['updated']);
-            $oDate->setTZbyID('UTC');
-            $oDate->convertTZ($oNow->tz);
+            $oDate->toUTC();
             $this->assertEqual($oDate->getDate(),$aExpect[$i]['updated']);
         }
     }
