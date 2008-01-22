@@ -144,7 +144,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oAudit->details = serialize($aDetails);
         $oAudit->insert();
 
-        $aResults = $dllAuditPartialMock->getAuditLogForCampaignWidget();
+        $aResults = $dllAuditPartialMock->getAuditLogForCampaignWidget(array());
 
         $this->assertIsA($aResults, 'array');
         $this->assertEqual(count($aResults),5);
@@ -247,7 +247,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oAudit->details = serialize($aDetails);
         $oAudit->insert();
 
-        $aResults = $dllAuditPartialMock->getAuditLogForAuditWidget();
+        $aResults = $dllAuditPartialMock->getAuditLogForAuditWidget(array());
 
         $this->assertIsA($aResults, 'array');
         $this->assertEqual(count($aResults),5);
