@@ -44,6 +44,20 @@ class DataObjects_Accounts extends DB_DataObjectCommon
     }
 
     /**
+     * Collects references from links file
+     *
+     * Overridden to remove the audit trail from cascading delete
+     */
+    function _collectRefs($primaryKey)
+    {
+        $linkedRefs = parent::_collectRefs($primaryKey);
+
+        unset($linkedRefs['audit']);
+
+        return $linkedRefs;
+    }
+
+    /**
      * Returns ADMIN account ID
      *
      */
