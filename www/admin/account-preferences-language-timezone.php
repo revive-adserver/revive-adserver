@@ -122,7 +122,8 @@ $aSettings = array (
                 'type'    => 'select',
                 'name'    => 'language',
                 'text'    => $strLanguage,
-                'items'   => MAX_Admin_Languages::AvailableLanguages()
+                'items'   => MAX_Admin_Languages::AvailableLanguages(),
+                'disabled' => true
             ),
             array (
                 'type'    => 'break'
