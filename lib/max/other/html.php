@@ -586,11 +586,12 @@ function MAX_displayNavigationCampaign($pageName, $aOtherAdvertisers, $aOtherCam
             case 'campaign-edit.php'     : $tabValue = '4.1.3.2'; break;
             case 'campaign-zone.php'     : $tabValue = '4.1.3.3'; break;
             case 'campaign-banners.php'  : $tabValue = '4.1.3.4'; break;
-            case 'campaign-trackers.php' : $tabValue = '4.1.3.5'; break;
+            // Disabled trackers!
+            //case 'campaign-trackers.php' : $tabValue = '4.1.3.5'; break;
         }
 
     // Get the tab sections
-    $tabSections = array('4.1.3.2', '4.1.3.3', '4.1.3.4', '4.1.3.5');
+    $tabSections = array('4.1.3.2', '4.1.3.3', '4.1.3.4'); //, '4.1.3.5'); // Disabled trackers!
     }
     foreach ($aOtherCampaigns as $otherCampaignId => $aOtherCampaign) {
         $otherCampaignName = MAX_buildName($otherCampaignId, $aOtherCampaign['name']);

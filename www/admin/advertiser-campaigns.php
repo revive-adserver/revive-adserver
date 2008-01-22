@@ -481,8 +481,14 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 			echo "<td width='40%'>".$campaigns[$ckey]['expire']."</td>";
 			echo "</tr>";
 			echo "<tr height='25'>";
+			/*
+			// Disabled trackers, replaced with two &nbsp; data items below
 			echo "<td width='20%'>".$strConversionsBooked.":</td>";
 			echo "<td width='20%' align='right'>".($campaigns[$ckey]['conversions'] >= 0 ? $campaigns[$ckey]['conversions'] : $strUnlimited)."</td>";
+			*/
+			echo "<td width='20%'>&nbsp;</td>";
+			echo "<td width='20%'>&nbsp;</td>";
+
 			echo "<td width='10%'>&nbsp;</td>";
 			echo "<td width='20%'>".$strPriority.":</td>";
 			echo "<td width='40%'>".$campaigns[$ckey]['priority']."</td>";
