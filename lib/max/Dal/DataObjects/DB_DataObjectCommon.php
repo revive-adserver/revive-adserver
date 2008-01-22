@@ -695,14 +695,20 @@ class DB_DataObjectCommon extends DB_DataObject
 
     function getChanges()
     {
-        $key = $this->_getKey();
-        if ($key)
+        $aKeys = $this->keys();
+        if ($aKeys)
         {
-            $val = $this->$key;
             $doOriginal = OA_Dal::factoryDO($this->_tableName);
-            if (($doOriginal) && $doOriginal->get($key, $val)==1)
+            if ($doOriginal)
             {
-                return $doOriginal;
+                foreach ($aKeys as $k => $v)
+                {
+                    $doOriginal->$v = $this->$v;
+                }
+                if ($doOriginal->find(true))
+                {
+                    return $doOriginal;
+                }
             }
         }
         return false;

@@ -239,8 +239,9 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');
         $doAccount_Preference_Assoc->account_id = 1;
         $doAccount_Preference_Assoc->preference_id = 1;
-        $doAccount_Preference_Assoc->value = 'foo';
+        $doAccount_Preference_Assoc->value = 'foo1';
         DataGenerator::generateOne($doAccount_Preference_Assoc);
+
         $context = 'Account Preference Association';
 
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_INSERT);
@@ -252,6 +253,26 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aAudit['preference_id'],$doAccount_Preference_Assoc->preference_id);
         $this->assertEqual($aAudit['value'],$doAccount_Preference_Assoc->value);
 
+        // generate a few more to ensure that the correct update is audited
+        $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');
+        $doAccount_Preference_Assoc->account_id = 1;
+        $doAccount_Preference_Assoc->preference_id = 2;
+        $doAccount_Preference_Assoc->value = 'foo2';
+        DataGenerator::generateOne($doAccount_Preference_Assoc);
+
+        $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');
+        $doAccount_Preference_Assoc->account_id = 1;
+        $doAccount_Preference_Assoc->preference_id = 3;
+        $doAccount_Preference_Assoc->value = 'foo3';
+        DataGenerator::generateOne($doAccount_Preference_Assoc);
+
+        $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');
+        $doAccount_Preference_Assoc->account_id = 1;
+        $doAccount_Preference_Assoc->preference_id = 4;
+        $doAccount_Preference_Assoc->value = 'foo4';
+        DataGenerator::generateOne($doAccount_Preference_Assoc);
+
+
         $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');
         $doAccount_Preference_Assoc->account_id = 1;
         $doAccount_Preference_Assoc->preference_id = 1;
@@ -262,7 +283,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $aAudit = unserialize($oAudit->details);
         $this->assertEqual($oAudit->username,$session['username']);
         $this->assertEqual($aAudit['value']['is'],$doAccount_Preference_Assoc->value);
-        $this->assertEqual($aAudit['value']['was'],'foo');
+        $this->assertEqual($aAudit['value']['was'],'foo1');
 
         $doAccount_Preference_Assoc->delete();
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_DELETE);
@@ -297,6 +318,28 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aAudit['user_id'],$doAccount_User_Perm_Assoc->user_id);
         $this->assertEqual($aAudit['permission_id'],$doAccount_User_Perm_Assoc->permission_id);
         $this->assertEqual($aAudit['is_allowed'],$doAccount_User_Perm_Assoc->is_allowed);
+
+        // generate a few more to ensure that the correct update is audited
+        $doAccount_User_Perm_Assoc = OA_Dal::factoryDO('account_user_permission_assoc');
+        $doAccount_User_Perm_Assoc->account_id = 1;
+        $doAccount_User_Perm_Assoc->user_id = 1;
+        $doAccount_User_Perm_Assoc->permission_id = 3;
+        $doAccount_User_Perm_Assoc->is_allowed = 1;
+        DataGenerator::generateOne($doAccount_User_Perm_Assoc);
+
+        $doAccount_User_Perm_Assoc = OA_Dal::factoryDO('account_user_permission_assoc');
+        $doAccount_User_Perm_Assoc->account_id = 1;
+        $doAccount_User_Perm_Assoc->user_id = 3;
+        $doAccount_User_Perm_Assoc->permission_id = 3;
+        $doAccount_User_Perm_Assoc->is_allowed = 1;
+        DataGenerator::generateOne($doAccount_User_Perm_Assoc);
+
+        $doAccount_User_Perm_Assoc = OA_Dal::factoryDO('account_user_permission_assoc');
+        $doAccount_User_Perm_Assoc->account_id = 1;
+        $doAccount_User_Perm_Assoc->user_id = 4;
+        $doAccount_User_Perm_Assoc->permission_id = 3;
+        $doAccount_User_Perm_Assoc->is_allowed = 1;
+        DataGenerator::generateOne($doAccount_User_Perm_Assoc);
 
         $doAccount_User_Perm_Assoc = OA_Dal::factoryDO('account_user_permission_assoc');
         $doAccount_User_Perm_Assoc->account_id = 1;
