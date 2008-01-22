@@ -201,11 +201,11 @@ class OA
     function switchLogFile($name='debug')
     {
         $newLog = $name.'.log';
-        if ($name <> 'debug')
+/*        if ($name <> 'debug')
         {
             $newLog = $name.OA::getNow('Y_m_d_h_i_s').'.log';
         }
-        $oldLog = $GLOBALS['_MAX']['CONF']['log']['name'];
+*/        $oldLog = $GLOBALS['_MAX']['CONF']['log']['name'];
         if ($newLog != $oldLog)
         {
             OA::debug('Switching to logfile '.$newLog, PEAR_LOG_INFO);
