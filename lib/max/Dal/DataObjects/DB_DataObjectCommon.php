@@ -1234,7 +1234,7 @@ class DB_DataObjectCommon extends DB_DataObject
      * @param integer $actionid
      * @param array $aAuditFields
      */
-    function _prepAuditArray($actionid, $dataobject)
+    function _prepAuditArray($actionid, $dataobjectOld)
     {
         global $_DB_DATAOBJECT;
         $oDbh = $_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5];
@@ -1251,14 +1251,15 @@ class DB_DataObjectCommon extends DB_DataObject
                         }
                         break;
             case OA_AUDIT_ACTION_UPDATE:
+                        $dataobjectNew = $this->getChanges();
                         // only audit data that has changed
                         foreach ($aFields AS $name => $type)
                         {
                             // don't bother auditing timestamp changes?
                             if ($name <> 'updated')
                             {
-                                $valNew = $this->_formatValue($name);
-                                $valOld = !empty($dataobject) ? $dataobject->_formatValue($name) : '';
+                                $valNew = $dataobjectNew->_formatValue($name);
+                                $valOld = !empty($dataobjectOld) ? $dataobjectOld->_formatValue($name) : '';
                                 if ($valNew != $valOld)
                                 {
                                     $aAuditFields[$name]['was'] = $valOld;
