@@ -90,6 +90,10 @@ class OA_Dll_Audit extends OA_Dll
         $oAudit = OA_Dal::factoryDO('audit');
 
         //  apply filters
+        if (!empty($aParam['account_id'])) {
+            $oAudit->account_id = $aParam['account_id'];
+        }
+
         if (!empty($aParam) && is_array($aParam)) {
 
             if (!empty($aParam['start_date']) && !is_null($aParam['start_date'])
@@ -369,11 +373,16 @@ class OA_Dll_Audit extends OA_Dll
     /**
      * requires permission checks
      *
+     * @param array $aParam
      * @return array
      */
-    function getAuditLogForCampaignWidget()
+    function getAuditLogForCampaignWidget($aParam)
     {
         $oAudit = OA_Dal::factoryDO('audit');
+
+        if (!empty($aParam['account_id'])) {
+            $oAudit->account_id = $aParam['account_id'];
+        }
 
         $oDate = & new Date(OA::getNow());
         $oDate->subtractSeconds(60*60*24*7);
@@ -397,11 +406,16 @@ class OA_Dll_Audit extends OA_Dll
     /**
      * requires permission checks
      *
+     * @param array $aParam
      * @return array
      */
-    function getAuditLogForAuditWidget()
+    function getAuditLogForAuditWidget($aParam)
     {
         $oAudit = OA_Dal::factoryDO('audit');
+
+        if (!empty($aParam['account_id'])) {
+            $oAudit->account_id = $aParam['account_id'];
+        }
 
         $oDate = & new Date(OA::getNow());
         $oDate->subtractSeconds(60*60*24*7);

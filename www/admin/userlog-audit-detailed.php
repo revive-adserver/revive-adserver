@@ -42,6 +42,7 @@ $auditId = MAX_getStoredValue('auditId', 0);
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
+OA_Permission::enforceAccessToObject('audit', $auditId);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */

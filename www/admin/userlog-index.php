@@ -125,6 +125,11 @@ $aParams = array(
     'end_date'      => $endDate,
 );
 
+// Account security
+if (!OA_Permission::isAccount('OA_ADMIN')) {
+    $aParams = OA_Permission::getAccountId();
+}
+
 $oUserlog = & new OA_Dll_Audit();
 $aAuditData = $oUserlog->getAuditLog($aParams);
 
