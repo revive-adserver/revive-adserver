@@ -123,6 +123,16 @@ class DataObjects_Zones extends DB_DataObjectCommon
     	return parent::delete($useWhere, $cascadeDelete, $parentid);
     }
 
+    function update()
+    {
+        return parent::update();
+    }
+
+    function insert()
+    {
+        return parent::insert();
+    }
+
     function duplicate()
     {
         // Get unique name
@@ -180,6 +190,10 @@ class DataObjects_Zones extends DB_DataObjectCommon
                         $aAuditFields['forceappend']    = $this->_formatValue('forceappend');
                         break;
             case OA_AUDIT_ACTION_UPDATE:
+                        if (!$this->affiliateid)
+                        {
+                            $this->find(true);
+                        }
                         $aAuditFields['affiliateid']    = $this->affiliateid;
                         break;
         }
