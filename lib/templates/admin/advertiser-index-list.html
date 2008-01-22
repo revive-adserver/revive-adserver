@@ -33,7 +33,7 @@ $Id$
         <th height="25" width="40%">
             <b>&nbsp;&nbsp;{oa_title_sort str=Name item=name order=down default=1 url=advertiser-index.php}</b>
         </th>
-        <th width="26%">Status</th>
+        {if $showAdDirect}<th width="26%">Status</th>{/if}
         <th height='25' width="11%">&nbsp;</th>
         <th height='25' width="13%">&nbsp;</th>
         <th height='25' width="10%">&nbsp;</th>
@@ -52,7 +52,7 @@ $Id$
     <tr class="break">
         <td colspan="6"></td>
     </tr>
-  </tbody>    
+  </tbody>
 {else}
     {cycle name=bgcolor values="odd,even" assign=bgColor reset=1}
     {foreach key=clientId item=client from=$from}
@@ -77,7 +77,7 @@ $Id$
           </div>
     		</td>
 
-    		<td class="sts sts-awaiting">&nbsp;</td>
+    		{if $showAdDirect}<td class="sts sts-awaiting">&nbsp;</td>{/if}
 
     		<td height='25' style="padding-right: 10px;">
     		{if $client.expand && !$client.campaigns}
@@ -89,7 +89,7 @@ $Id$
 
     		<td height='25' style="padding-right: 10px;">
     			<a href='advertiser-campaigns.php?clientid={$clientId}'><img src='images/icon-overview.gif' border='0' align='absmiddle' alt='{t str=Overview}'>&nbsp;{t str=Overview}</a>
-    		</td>
+            </td>
 
     		<td height='25' style="padding-right: 10px;">
     			<a href='advertiser-delete.php?clientid={$clientId}&returnurl=advertiser-index.php'{phpAds_DelConfirm str=ConfirmDeleteClient}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>

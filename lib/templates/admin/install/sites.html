@@ -86,17 +86,19 @@ Here you can also choose whether you wish to sign up to Sign up for Advertiser s
 </select>
 </div>
 
-<div class="line-nolabel">
-<input type="hidden" name="aAdvSignup[]" id="hdn-advsignup{$k}" value="{if $s.advsignup}true{else}false{/if}" />
-<input type="checkbox" name="aAdvSignupCheckbox[]" id="advsignup{$k}" {if !$syncEnabled}disabled="true"{/if} {if $s.advsignup}checked="checked"{/if} onclick="$('#hdn-'+this.id).get(0).value = this.checked; return true" tabindex='{$tabindex++}'><label for="advsignup1" class="cb"{if $s.advsignup} checked="checked"{/if}>Sign up for Advertiser self service and Payment</label>
+{if $showAdDirect}
+    <div class="line-nolabel">
+    <input type="hidden" name="aAdvSignup[]" id="hdn-advsignup{$k}" value="{if $s.advsignup}true{else}false{/if}" />
+    <input type="checkbox" name="aAdvSignupCheckbox[]" id="advsignup{$k}" {if !$syncEnabled}disabled="true"{/if} {if $s.advsignup}checked="checked"{/if} onclick="$('#hdn-'+this.id).get(0).value = this.checked; return true" tabindex='{$tabindex++}'><label for="advsignup1" class="cb"{if $s.advsignup} checked="checked"{/if}>Sign up for Advertiser self service and Payment</label>
 
-  <span class="popup-help hide">
-    <div class="close" style="text-align: right"><span class="link">Close</span></div>
-    Explanation text Explanation text Explanation text Explanation text Explanation text
-  </span>
+      <span class="popup-help hide">
+        <div class="close" style="text-align: right"><span class="link">Close</span></div>
+        Explanation text Explanation text Explanation text Explanation text Explanation text
+      </span>
 
-  <span class="link popup-help-link advsignup-help" tabindex='{$tabindex++}'>(what's this?)</span>
-</div>
+      <span class="link popup-help-link advsignup-help" tabindex='{$tabindex++}'>(what's this?)</span>
+    </div>
+{/if}
 </div>
 
 </div>
@@ -168,18 +170,19 @@ Here you can also choose whether you wish to sign up to Sign up for Advertiser s
 </select>
 </div>
 
+{if $showAdDirect}
+    <div class="line-nolabel">
+    <input type="hidden" name="aAdvSignup[]" id="hdn-advsignup" value="false">
+    <input type="checkbox" name="aAdvSignupCheckbox[]" id="advsignup" {if !$syncEnabled}disabled="true"{/if} onclick="$('#hdn-'+this.id).get(0).value = this.checked; return true"><label for="advsignup" class="cb"{if $s.advsignup} checked="checked"{/if}>Sign up for Advertiser self service and Payment</label>
 
-<div class="line-nolabel">
-<input type="hidden" name="aAdvSignup[]" id="hdn-advsignup" value="false">
-<input type="checkbox" name="aAdvSignupCheckbox[]" id="advsignup" {if !$syncEnabled}disabled="true"{/if} onclick="$('#hdn-'+this.id).get(0).value = this.checked; return true"><label for="advsignup" class="cb"{if $s.advsignup} checked="checked"{/if}>Sign up for Advertiser self service and Payment</label>
+      <span class="popup-help hide">
+        <div class="close" style="text-align: right"><span class="link">Close</span></div>
+        Explanation text Explanation text Explanation text Explanation text Explanation text
+      </span>
+    <span class="link popup-help-link adnetworks-help">(what's this?)</span>
 
-  <span class="popup-help hide">
-    <div class="close" style="text-align: right"><span class="link">Close</span></div>
-    Explanation text Explanation text Explanation text Explanation text Explanation text
-  </span>
-<span class="link popup-help-link adnetworks-help">(what's this?)</span>
-
-</div>
+    </div>
+{/if}
 </div>
 
 </div>

@@ -233,6 +233,7 @@ $oTpl->assign('phpAds_ZoneBanner',          phpAds_ZoneBanner);
 $oTpl->assign('phpAds_ZoneInterstitial',    phpAds_ZoneInterstitial);
 $oTpl->assign('phpAds_ZonePopup',           phpAds_ZonePopup);
 $oTpl->assign('phpAds_ZoneText'.            phpAds_ZoneText);
+$oTpl->assign('showAdDirect', (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) ? true : false);
 
 
 /*-------------------------------------------------------*/

@@ -422,6 +422,7 @@ else if (array_key_exists('btn_tagssetup', $_POST))
                     // Initialise template
                     $oTpl = new OA_Admin_Template('install/sites.html');
 
+                    $oTpl->assign('showAdDirect', (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) ? true : false);
                     $oTpl->assign('tabindex',          $tabindex);
                     $oTpl->assign('aSelectCategories', $oAdNetworks->getCategoriesSelect());
                     $oTpl->assign('aSelectCountries',  $oAdNetworks->getCountriesSelect());
@@ -526,6 +527,7 @@ else if (array_key_exists('btn_sitessetup', $_POST))
 
             // Initialise template
             $oTpl = new OA_Admin_Template('install/sites.html');
+            $oTpl->assign('showAdDirect', (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) ? true : false);
 
             require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
             $oAdNetworks = new OA_Central_AdNetworks();

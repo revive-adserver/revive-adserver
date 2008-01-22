@@ -694,118 +694,121 @@ function phpAds_showStatusRejected($reject_reason) {
 $tabindex = 1;
 
 echo "<br /><br />";
-echo "<form name='statusChangeForm' method='post' action='campaign-edit.php' >"."\n";
-echo "<input type='hidden' name='campaignid' value='".(isset($campaignid) ? $campaignid : '')."'>"."\n";
-echo "<input type='hidden' name='clientid' value='".(isset($clientid) ? $clientid : '')."'>"."\n";
-?>
 
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-    <tbody>
-        <tr>
-            <td height="25" colspan="3"><b><?php echo $strCampaignStatus; ?></b> -
-        <?php
-            phpAds_showStatusText($row['status'], $row['an_status']);
-        ?>
-            </td>
-        </tr>
-        <tr class="break" >
-            <td colspan="3"></td>
-        </tr>
-        <tr>
-            <td height="10" colspan="3"></td>
-        </tr>
+if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) {
+    echo "<form name='statusChangeForm' method='post' action='campaign-edit.php' >"."\n";
+    echo "<input type='hidden' name='campaignid' value='".(isset($campaignid) ? $campaignid : '')."'>"."\n";
+    echo "<input type='hidden' name='clientid' value='".(isset($clientid) ? $clientid : '')."'>"."\n";
+    ?>
 
-        <tr>
-            <td width="30">&nbsp;</td>
-            <td width="200" valign="top"><?php echo $strStatus; ?></td>
-            <td>
-                <table>
-                <tbody>
-                <?php
-                    if ($row['status'] == OA_ENTITY_STATUS_APPROVAL) {
-                ?>
-                <tr>
-                    <td><input type="radio" value="<?php echo OA_ENTITY_STATUS_RUNNING; ?>" name="status" id="sts_approve" tabindex='<?php echo ($tabindex++); ?>' /></td>
-                    <td><label for="sts_approve"><?php echo $strCampaignApprove; ?></label></td>
-                    <td><label for="sts_approve"> - <?php echo $strCampaignApproveDescription; ?></label></td>
-                </tr>
-                <tr>
-                    <td><input type="radio" value="<?php echo OA_ENTITY_STATUS_REJECTED; ?>" name="status" id="sts_reject" tabindex='<?php echo ($tabindex++); ?>' /></td>
-                    <td><label for="sts_reject"><?php echo $strCampaignReject; ?></label></td>
-                    <td><label for="sts_reject"> - <?php echo $strCampaignRejectDescription; ?></label></td>
-                </tr>
-                <?php
-                    } elseif ($row['status'] == OA_ENTITY_STATUS_RUNNING) {
-                ?>
-                <tr>
-                    <td><input type="radio" value="<?php echo OA_ENTITY_STATUS_PAUSED; ?>" name="status" id="sts_pause" tabindex='<?php echo ($tabindex++); ?>' /></td>
-                    <td><label for="sts_pause"><?php echo $strCampaignPause; ?></label></td>
-                    <td><label for="sts_pause"> - <?php echo $strCampaignPauseDescription; ?></label></td>
-                </tr>
-                <?php
-                    } elseif ($row['status'] == OA_ENTITY_STATUS_PAUSED) {
-                ?>
-                <tr>
-                    <td><input type="radio" value="<?php echo OA_ENTITY_STATUS_RUNNING; ?>" name="status" id="sts_restart" tabindex='<?php echo ($tabindex++); ?>' /></td>
-                    <td><label for="sts_pause"><?php echo $strCampaignRestart; ?></label></td>
-                    <td><label for="sts_pause"> - <?php echo $strCampaignRestartDescription; ?></label></td>
-                </tr>
-                <?php
-                    } elseif ($row['status'] == OA_ENTITY_STATUS_REJECTED) {
-                ?>
-                <tr>
-                    <td><?php phpAds_showStatusRejected($row['as_reject_reason']); ?></td>
-                </tr>
-                <?php
-                    }
-                ?>
-                </tbody>
-                </table>
-            </td>
-        </tr>
+    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tbody>
+            <tr>
+                <td height="25" colspan="3"><b><?php echo $strCampaignStatus; ?></b> -
+            <?php
+                phpAds_showStatusText($row['status'], $row['an_status']);
+            ?>
+                </td>
+            </tr>
+            <tr class="break" >
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td height="10" colspan="3"></td>
+            </tr>
 
-<script type="text/javascript">
-    <!--
-        $(document).ready(function() {
-            initCampaignStatus();
-        });
-    //-->
-</script>
+            <tr>
+                <td width="30">&nbsp;</td>
+                <td width="200" valign="top"><?php echo $strStatus; ?></td>
+                <td>
+                    <table>
+                    <tbody>
+                    <?php
+                        if ($row['status'] == OA_ENTITY_STATUS_APPROVAL) {
+                    ?>
+                    <tr>
+                        <td><input type="radio" value="<?php echo OA_ENTITY_STATUS_RUNNING; ?>" name="status" id="sts_approve" tabindex='<?php echo ($tabindex++); ?>' /></td>
+                        <td><label for="sts_approve"><?php echo $strCampaignApprove; ?></label></td>
+                        <td><label for="sts_approve"> - <?php echo $strCampaignApproveDescription; ?></label></td>
+                    </tr>
+                    <tr>
+                        <td><input type="radio" value="<?php echo OA_ENTITY_STATUS_REJECTED; ?>" name="status" id="sts_reject" tabindex='<?php echo ($tabindex++); ?>' /></td>
+                        <td><label for="sts_reject"><?php echo $strCampaignReject; ?></label></td>
+                        <td><label for="sts_reject"> - <?php echo $strCampaignRejectDescription; ?></label></td>
+                    </tr>
+                    <?php
+                        } elseif ($row['status'] == OA_ENTITY_STATUS_RUNNING) {
+                    ?>
+                    <tr>
+                        <td><input type="radio" value="<?php echo OA_ENTITY_STATUS_PAUSED; ?>" name="status" id="sts_pause" tabindex='<?php echo ($tabindex++); ?>' /></td>
+                        <td><label for="sts_pause"><?php echo $strCampaignPause; ?></label></td>
+                        <td><label for="sts_pause"> - <?php echo $strCampaignPauseDescription; ?></label></td>
+                    </tr>
+                    <?php
+                        } elseif ($row['status'] == OA_ENTITY_STATUS_PAUSED) {
+                    ?>
+                    <tr>
+                        <td><input type="radio" value="<?php echo OA_ENTITY_STATUS_RUNNING; ?>" name="status" id="sts_restart" tabindex='<?php echo ($tabindex++); ?>' /></td>
+                        <td><label for="sts_pause"><?php echo $strCampaignRestart; ?></label></td>
+                        <td><label for="sts_pause"> - <?php echo $strCampaignRestartDescription; ?></label></td>
+                    </tr>
+                    <?php
+                        } elseif ($row['status'] == OA_ENTITY_STATUS_REJECTED) {
+                    ?>
+                    <tr>
+                        <td><?php phpAds_showStatusRejected($row['as_reject_reason']); ?></td>
+                    </tr>
+                    <?php
+                        }
+                    ?>
+                    </tbody>
+                    </table>
+                </td>
+            </tr>
+
+    <script type="text/javascript">
+        <!--
+            $(document).ready(function() {
+                initCampaignStatus();
+            });
+        //-->
+    </script>
 
 
-        <tr id="rsn_row1" style="display:none;">
-          <td><img width="100%" height="1" src="images/spacer.gif"/></td>
-          <td colspan="2"><img width="200" vspace="6" height="1" src="images/break-l.gif"/></td>
-        </tr>
+            <tr id="rsn_row1" style="display:none;">
+              <td><img width="100%" height="1" src="images/spacer.gif"/></td>
+              <td colspan="2"><img width="200" vspace="6" height="1" src="images/break-l.gif"/></td>
+            </tr>
 
-        <tr id="rsn_row2" style="display:none;">
-            <td width="30"></td>
-            <td width="200" valign="top"><?php echo $strReasonForRejection; ?></td>
-            <td>
-                <select name="as_reject_reason">
-                    <option value="<?php echo OA_ENTITY_ADVSIGNUP_REJECT_NOTLIVE; ?>"><?php echo $strReasonSiteNotLive; ?></option>
-                    <option value="<?php echo OA_ENTITY_ADVSIGNUP_REJECT_BADCREATIVE; ?>"><?php echo $strReasonBadCreative; ?></option>
-                    <option value="<?php echo OA_ENTITY_ADVSIGNUP_REJECT_BADURL; ?>"><?php echo $strReasonBadUrl; ?></option>
-                    <option value="<?php echo OA_ENTITY_ADVSIGNUP_REJECT_BREAKTERMS; ?>"><?php echo $strReasonBreakTerms; ?></option>
-                </select>
-            </td>
-        </tr>
+            <tr id="rsn_row2" style="display:none;">
+                <td width="30"></td>
+                <td width="200" valign="top"><?php echo $strReasonForRejection; ?></td>
+                <td>
+                    <select name="as_reject_reason">
+                        <option value="<?php echo OA_ENTITY_ADVSIGNUP_REJECT_NOTLIVE; ?>"><?php echo $strReasonSiteNotLive; ?></option>
+                        <option value="<?php echo OA_ENTITY_ADVSIGNUP_REJECT_BADCREATIVE; ?>"><?php echo $strReasonBadCreative; ?></option>
+                        <option value="<?php echo OA_ENTITY_ADVSIGNUP_REJECT_BADURL; ?>"><?php echo $strReasonBadUrl; ?></option>
+                        <option value="<?php echo OA_ENTITY_ADVSIGNUP_REJECT_BREAKTERMS; ?>"><?php echo $strReasonBreakTerms; ?></option>
+                    </select>
+                </td>
+            </tr>
 
-        <tr>
-            <td height="10" colspan="3">
-            </td>
-        </tr>
-        <tr class="break" >
-            <td colspan="3"></td>
-        </tr>
-     </tbody>
-</table>
-<div style="width:100%;text-align:left;padding: 15px 0px 0px 0px;margin-bottom: 50px;">
-<input value="Change status" name='submit_status' type="submit" {tabindex}>
-</div>
+            <tr>
+                <td height="10" colspan="3">
+                </td>
+            </tr>
+            <tr class="break" >
+                <td colspan="3"></td>
+            </tr>
+         </tbody>
+    </table>
+    <div style="width:100%;text-align:left;padding: 15px 0px 0px 0px;margin-bottom: 50px;">
+    <input value="Change status" name='submit_status' type="submit" {tabindex}>
+    </div>
 
-<?php
-echo "</form>";
+    <?php
+    echo "</form>";
+}
 echo "<form name='clientform' method='post' action='campaign-edit.php' onSubmit='return (max_formValidate(this) && phpAds_priorityCheck(this) && phpAds_activeRangeCheck(this));'>"."\n";
 echo "<input type='hidden' name='campaignid' value='".(isset($campaignid) ? $campaignid : '')."'>"."\n";
 echo "<input type='hidden' name='clientid' value='".(isset($clientid) ? $clientid : '')."'>"."\n";
@@ -872,9 +875,9 @@ echo "<tr><td colspan='3'>\n";
 		    </div>
 		    <div id="remainingImpressionsSection">
 			    <span id='remainingImpressions' >Impressions remaining:<span id='remainingImpressionsCount'>2500</span></span><br/>
-				  <span id="openadsRemainingImpressions">Openads impressions remaining: <span id='openadsRemainingImpressionsCount'>3000<!-- REAL DATA GOES HERE --></span>
+				  <!--span id="openadsRemainingImpressions">Openads impressions remaining: <span id='openadsRemainingImpressionsCount'>3000<!-- REAL DATA GOES HERE -></span>
 				    <span class="link hide" help="help-openads-remaining-impressions" id="openadsRemainingImpressionsHelpLink"><img style="border: none; position: relative; top:5px;" src="images/help-book.gif" /></span>
-		      </span>
+		      </span-->
 		     	<div class="hide" id="help-openads-remaining-impressions" style="height: auto; width: 290px;">
 	          Campaign's remaining impressions number is too small to satisfy the number booked by advertiser. It means that the local remaining click number is lower than central remaining click number and you should increase the booked impressions by the missing value.
 	       	</div>
@@ -899,7 +902,7 @@ echo "<tr><td colspan='3'>\n";
         </div>
         <div id="remainingClicksSection">
           <span  id='remainingClicks' >Clicks remaining:<span id='remainingClicksCount'>200</span></span><br/>
-          <span id="openadsRemainingClicks">Openads clicks remaining: <span id='openadsRemainingClicksCount'>600<!-- REAL DATA GOES HERE --></span>
+          <!--span id="openadsRemainingClicks">Openads clicks remaining: <span id='openadsRemainingClicksCount'>600<!-- REAL DATA GOES HERE -></span-->
             <span class="link hide"	help="help-openads-remaining-clicks" id="openadsRemainingClicksHelpLink"><img style="border: none; position: relative; top:5px;" src="images/help-book.gif" /></span>
           </span>
          <div class="hide" id="help-openads-remaining-clicks" style="height: auto; width: 290px;">
@@ -981,7 +984,7 @@ echo "</td>"."\n";
 echo "</tr>"."\n";
 ?>
 
-<tr>
+<!--tr>
   <td><img width="100%" height="1" src="images/spacer.gif"/></td>
   <td colspan="2"><img width="200" vspace="6" height="1" src="images/break-l.gif"/></td>
 </tr>
@@ -990,7 +993,7 @@ echo "</tr>"."\n";
     <td width="30"></td>
     <td width="200" valign="top">Total revenue</td>
     <td>REVENUE VALUE GOES HERE</td>
-</tr>
+</tr-->
 <?php
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
 echo "<tr><td height='25' colspan='3'><b>".$strPriorityInformation."</b></td></tr>"."\n";

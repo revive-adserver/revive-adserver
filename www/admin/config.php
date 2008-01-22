@@ -316,7 +316,6 @@ function MMM_buildNavigation()
                   "4.2.4.2"             =>  array("channel-edit.php?affiliateid=$affiliateid&channelid=$channelid" => $GLOBALS['strChannelProperties']),
                   "4.2.4.3"             =>  array("channel-acl.php?affiliateid=$affiliateid&channelid=$channelid" => $GLOBALS['strChannelLimitations']),
                 "4.2.5"                 =>  array("affiliate-invocation.php?affiliateid=$affiliateid" => $GLOBALS['strAffiliateInvocation']),
-                "4.2.6"                 =>  array("affiliate-advsetup.php?affiliateid=$affiliateid" => $GLOBALS['strAdvertiserSetup']),
                 "4.2.7"                 =>  array("affiliate-access.php?affiliateid=$affiliateid" => $GLOBALS['strUserAccess']),
                   "4.2.7.1"             =>  array("affiliate-user-start.php?affiliateid=$affiliateid" => $GLOBALS['strLinkNewUser']),
                   "4.2.7.2"             =>  array("affiliate-user.php?affiliateid=$affiliateid&login=".$_GET['login'] => $GLOBALS['strUserProperties']),
@@ -405,6 +404,10 @@ function MMM_buildNavigation()
               "5.1"                     =>  array("account-preferences-index.php" => $GLOBALS['strPreferences']),
         ),
     );
+
+    if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) {
+       $GLOBALS['OA_Navigation'][OA_ACCOUNT_MANAGER]['4.2.6'] = array("affiliate-advsetup.php?affiliateid=$affiliateid" => $GLOBALS['strAdvertiserSetup']);
+    }
 
     if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
         if (OA_Permission::hasPermission(OA_PERM_BANNER_ACTIVATE) || OA_Permission::hasPermission(OA_PERM_BANNER_EDIT)) {

@@ -187,6 +187,7 @@ $oTpl->assign('fieldsTop', array(
         )
     )
 ));
+$oTpl->assign('showAdDirect', (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) ? true : false);
 
 //var_dump($oTpl);
 //die();
