@@ -151,7 +151,7 @@ $pager->history = $pager->getPageData();
 $pager->pagerLinks = $pager->getLinks();
 
 $pager->pagerLinks = $pager->pagerLinks['all'];
-$pager->pagerSelect = preg_replace('/(<select.*?)(>)/i', '$1 onchange="submitForm()" id="setPerPage"$2', $pager->getPerPageSelectBox(2, 100, 10));
+$pager->pagerSelect = preg_replace('/(<select.*?)(>)/i', '$1 onchange="submitForm()" id="setPerPage"$2', $pager->getPerPageSelectBox(10, 100, 10));
 
 //  build column header link params
 $aAllowdParams = array('advertiserId', 'campaignId', 'publisherId', 'zoneId');
