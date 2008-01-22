@@ -87,8 +87,7 @@ class OA_Dll_Audit extends OA_Dll
 
     function getAuditLog($aParam)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $oAudit = OA_Dal::factoryDO($conf['table']['audit']);
+        $oAudit = OA_Dal::factoryDO('audit');
 
         //  apply filters
         if (!empty($aParam) && is_array($aParam)) {
@@ -96,8 +95,14 @@ class OA_Dll_Audit extends OA_Dll
             if (!empty($aParam['start_date']) && !is_null($aParam['start_date'])
                 && !empty($aParam['end_date']) && !is_null($aParam['end_date']))
             {
-                $where = "updated >= '". $aParam['start_date'] ." 00:00:00' AND updated <= '". $aParam['end_date'] ." 23:59:00'";
-                $oAudit->whereAdd($where);
+                $oStartDate = new Date($aParam['start_date']);
+                $oStartDate->toUTC();
+                $oEndDate = new Date($aParam['end_date']);
+                $oEndDate->addSpan(new Date_Span('1-0-0-0'));
+                $oEndDate->toUTC();
+
+                $oAudit->whereAdd('updated >= '.DBC::makeLiteral($oStartDate->format('%Y-%m-%d %H:%M:%S')));
+                $oAudit->whereAdd('updated < '.DBC::makeLiteral($oEndDate->format('%Y-%m-%d %H:%M:%S')));
             }
 
 
@@ -110,7 +115,7 @@ class OA_Dll_Audit extends OA_Dll
                 $oAudit->whereAdd($where);
 
                 //  retrieve all campaigns with clientid
-                $oCampaign = OA_Dal::factoryDO($conf['table']['campaigns']);
+                $oCampaign = OA_Dal::factoryDO('campaigns');
                 $oCampaign->selectAdd();
                 $oCampaign->selectAdd('campaignid');
                 $oCampaign->clientid = $aParam['advertiser_id'];
@@ -125,7 +130,7 @@ class OA_Dll_Audit extends OA_Dll
                     }
                 }
                 //  retrieve all banners that belong to above campaigns
-                $oBanner = OA_Dal::factoryDO($conf['table']['banners']);
+                $oBanner = OA_Dal::factoryDO('banners');
                 $oBanner->selectAdd();
                 $oBanner->selectAdd('bannerid');
                 $oBanner->whereAdd('campaignid IN ('. implode(',', $aCampaign) .')');
@@ -148,7 +153,7 @@ class OA_Dll_Audit extends OA_Dll
                 $where = " context = 'Campaign' AND contextid = {$aParam['campaign_id']}";
                 $oAudit->whereAdd($where);
                 //  retrieve all banners that belong to above campaigns
-                $oBanner = OA_Dal::factoryDO($conf['table']['banners']);
+                $oBanner = OA_Dal::factoryDO('banners');
                 $oBanner->selectAdd();
                 $oBanner->selectAdd('bannerid');
                 $oBanner->whereAdd('campaignid = '. $aParam['campaign_id']);
@@ -169,7 +174,7 @@ class OA_Dll_Audit extends OA_Dll
                 $where = "context = 'Publisher' AND contextid = {$aParam['publisher_id']}";
 
                 //  retrieve all zones for the selected publisher
-                $oZone = OA_Dal::factoryDO($conf['table']['zones']);
+                $oZone = OA_Dal::factoryDO('zones');
                 $oZone->selectAdd();
                 $oZone->selectAdd('zoneid');
                 $oZone->affiliateid = $aParam['publisher_id'];
@@ -184,7 +189,7 @@ class OA_Dll_Audit extends OA_Dll
                 }
 
                 //  retrieve all channels for the selected publisher
-                $oChannel = OA_Dal::factoryDO($conf['table']['channel']);
+                $oChannel = OA_Dal::factoryDO('channel');
                 $oChannel->selectAdd();
                 $oChannel->selectAdd('channelid');
                 $oChannel->affiliateid = $aParam['publisher_id'];
@@ -224,12 +229,15 @@ class OA_Dll_Audit extends OA_Dll
 
             $numRows = $oAudit->find();
 
+            $oNow = new Date();
             while ($oAudit->fetch()) {
                 $aAudit = $oAudit->toArray();
                 $aAudit['details'] = unserialize($aAudit['details']);
 
                 //  format date
                 $oDate = new Date($aAudit['updated']);
+                $oDate->setTZbyID('UTC');
+                $oDate->convertTZ($oNow->tz);
                 $aAudit['updated'] = $oDate->format($GLOBALS['date_format'] .', '. $GLOBALS['time_format']);
 
                 //  set action type
@@ -275,8 +283,6 @@ class OA_Dll_Audit extends OA_Dll
 
     function getParentID($itemType, $itemDetails)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-
         switch ($itemType) {
         case 'Campaign':
             return $itemDetails['clientid'];
@@ -296,7 +302,7 @@ class OA_Dll_Audit extends OA_Dll
             break;
         }
 
-        $oAudit = & OA_Dal::factoryDO($GLOBALS['_MAX']['CONF']['table']['audit']);
+        $oAudit = & OA_Dal::factoryDO('audit');
         $oAudit->parentid = $auditID;
         $oAudit->context  = $context;
         $numRows = $oAudit->find();
@@ -321,7 +327,7 @@ class OA_Dll_Audit extends OA_Dll
             break;
         }
 
-        $oAudit = & OA_Dal::factoryDO($GLOBALS['_MAX']['CONF']['table']['audit']);
+        $oAudit = & OA_Dal::factoryDO('audit');
         $oAudit->parentid = $auditID;
         $oAudit->context  = $context;
         $numRows = $oAudit->find();
@@ -367,8 +373,7 @@ class OA_Dll_Audit extends OA_Dll
      */
     function getAuditLogForCampaignWidget()
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $oAudit = OA_Dal::factoryDO($conf['table']['audit']);
+        $oAudit = OA_Dal::factoryDO('audit');
 
         $oDate = & new Date(OA::getNow());
         $oDate->subtractSeconds(60*60*24*7);
@@ -396,8 +401,7 @@ class OA_Dll_Audit extends OA_Dll
      */
     function getAuditLogForAuditWidget()
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $oAudit = OA_Dal::factoryDO($conf['table']['audit']);
+        $oAudit = OA_Dal::factoryDO('audit');
 
         $oDate = & new Date(OA::getNow());
         $oDate->subtractSeconds(60*60*24*7);
