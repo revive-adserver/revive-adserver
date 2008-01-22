@@ -210,6 +210,10 @@ div.boxrow input {
   font-weight:bold;
  }
 
+fieldset {
+	border: 1px solid #CDCDCD; 
+}
+
 
 /* Custom */
 .install {
