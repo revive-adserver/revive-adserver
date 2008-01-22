@@ -734,7 +734,7 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
 <img src='images/icon-move-banner.gif' align='absmiddle'>&nbsp;{$GLOBALS['strMoveTo']}<br />
 <img src='images/spacer.gif' height='1' width='160' vspace='2'><br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<select name='moveto' style='width: 110;'>";
+<select name='moveto' style='width: 120px;'>";
     $aOtherCampaigns = _multiSort($aOtherCampaigns,'name','placement_id');
     foreach ($aOtherCampaigns as $otherCampaignId => $aOtherCampaign) {
 
