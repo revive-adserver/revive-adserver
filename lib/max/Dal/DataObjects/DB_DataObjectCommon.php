@@ -1253,19 +1253,26 @@ class DB_DataObjectCommon extends DB_DataObject
             case OA_AUDIT_ACTION_UPDATE:
                         $dataobjectNew = $this->getChanges();
                         // only audit data that has changed
-                        foreach ($aFields AS $name => $type)
+                        if ($dataobjectNew)
                         {
-                            // don't bother auditing timestamp changes?
-                            if ($name <> 'updated')
+                            foreach ($aFields AS $name => $type)
                             {
-                                $valNew = $dataobjectNew->_formatValue($name);
-                                $valOld = !empty($dataobjectOld) ? $dataobjectOld->_formatValue($name) : '';
-                                if ($valNew != $valOld)
+                                // don't bother auditing timestamp changes?
+                                if ($name <> 'updated')
                                 {
-                                    $aAuditFields[$name]['was'] = $valOld;
-                                    $aAuditFields[$name]['is']  = $valNew;
+                                    $valNew = $dataobjectNew->_formatValue($name);
+                                    $valOld = !empty($dataobjectOld) ? $dataobjectOld->_formatValue($name) : '';
+                                    if ($valNew != $valOld)
+                                    {
+                                        $aAuditFields[$name]['was'] = $valOld;
+                                        $aAuditFields[$name]['is']  = $valNew;
+                                    }
                                 }
                             }
+                        }
+                        else
+                        {
+                            //MAX::raiseError('No dataobject for '.$this->_tableName.'. Unable to prep the audit array', PEAR_LOG_ERR);
                         }
         }
         return $aAuditFields;

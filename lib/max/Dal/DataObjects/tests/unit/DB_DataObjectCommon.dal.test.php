@@ -194,7 +194,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $doBanners->bannerid = $bannerId;
         $this->assertTrue($doBanners->belongsToAccount('agency', $doAgency->account_id));
         $this->assertFalse($doBanners->belongsToAccount('agency', 222));
-        
+
         DataGenerator::cleanUp(array('banners'));
     }
 
@@ -418,7 +418,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
 
         // Test updates is equal or greater than our checkpoint time
         $this->assertTrue($time <= strtotime($doBanners2->updated), 'Test that timestamp was refreshed (timestamp: '.$time.' is lower than ' . strtotime($doBanners2->updated));
-        
+
         DataGenerator::cleanUp(array('banners'));
     }
 
@@ -447,7 +447,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
 
         $doBannersCheck = OA_Dal::staticGetDO('banners', $bannerId);
         $this->assertEqual($string, $doBannersCheck->comments);
-        
+
         DataGenerator::cleanUp(array('banners'));
     }
 
@@ -500,30 +500,40 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
 
     function testPrepAuditArray()
     {
-        $oDO = & new DB_DataObjectCommon();
-        $oDO->_database_dsn_md5 = 8888888;
-        $oDO->_tableName = 'table1';
-        $oDO->col1 = 111;
-        $oDO->col2 = 'abc';
+        Mock::generatePartial(
+            'DB_DataObjectCommon',
+            $mockDo = 'DB_DataObjectCommon'.rand(),
+            array('getChanges')
+        );
+
+        $oDoOld = new $mockDo($this);
+        $oDoOld->_database_dsn_md5 = 8888888;
+        $oDoOld->_tableName = 'table1';
+        $oDoOld->col1 = 111;
+        $oDoOld->col2 = 'abc';
         $oMockDbh = new stdClass();
         $oMockDbh->database_name = 'dbtest';
         $aTable = array('col1'=>129,'col2'=>130);
         global $_DB_DATAOBJECT;
-        $_DB_DATAOBJECT['CONNECTIONS'][$oDO->_database_dsn_md5] = $oMockDbh;
-        $_DB_DATAOBJECT['INI'][$oMockDbh->database_name][$oDO->_tableName] = $aTable;
+        $_DB_DATAOBJECT['CONNECTIONS'][$oDoOld->_database_dsn_md5] = $oMockDbh;
+        $_DB_DATAOBJECT['INI'][$oMockDbh->database_name][$oDoOld->_tableName] = $aTable;
 
         // prepare *insert* audit values
-        $aResult = $oDO->_prepAuditArray(1, null);
+        $aResult = $oDoOld->_prepAuditArray(1, null);
         $this->assertIsA($aResult, 'array');
         $this->assertEqual($aResult['col1'],111);
         $this->assertEqual($aResult['col2'],'abc');
 
-        $oDO1 = clone($oDO);
-        $oDO1->col1 = 222;
-        $oDO1->col2 = 'def';
+        $oDoNew = clone($oDoOld);
+        $oDoNew->col1 = 222;
+        $oDoNew->col2 = 'def';
+
+        $oDo = clone($oDoOld);
+        $oDo->setReturnValue('getChanges', $oDoNew);
+        $oDo->_tableName = 'table1';
 
         // prepare *update* audit values
-        $aResult = $oDO1->_prepAuditArray(2, $oDO);
+        $aResult = $oDo->_prepAuditArray(2, $oDoOld);
         $this->assertIsA($aResult, 'array');
         $this->assertEqual($aResult['col1']['was'],111);
         $this->assertEqual($aResult['col2']['was'],'abc');
@@ -531,7 +541,9 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $this->assertEqual($aResult['col2']['is'],'def');
 
         // prepare *delete* audit values
-        $aResult = $oDO1->_prepAuditArray(3, null);
+        $oDo = clone($oDoNew);
+        $oDo->_tableName = 'table1';
+        $aResult = $oDo->_prepAuditArray(3, null);
         $this->assertIsA($aResult, 'array');
         $this->assertEqual($aResult['col1'],222);
         $this->assertEqual($aResult['col2'],'def');
