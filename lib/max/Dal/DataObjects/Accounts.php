@@ -92,6 +92,10 @@ class DataObjects_Accounts extends DB_DataObjectCommon
     function _buildAuditArray($actionid, &$aAuditFields)
     {
         $aAuditFields['key_desc']     = $this->account_name;
+
+        // Do not log the M2M password and ticket in the audit record, just the fact that it was changed
+        if (isset($aAuditFields['m2m_password'])) { $aAuditFields['m2m_password'] = '******'; }
+        if (isset($aAuditFields['m2m_ticket'])) { $aAuditFields['m2m_ticket'] = '******'; }
         switch ($actionid)
         {
             case OA_AUDIT_ACTION_INSERT:
