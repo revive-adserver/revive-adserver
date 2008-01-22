@@ -2306,10 +2306,6 @@ return $result;
 function switchLogFile($name='debug')
 {
 $newLog = $name.'.log';
-if ($name <> 'debug')
-{
-$newLog = $name.OA::getNow('Y_m_d_h_i_s').'.log';
-}
 $oldLog = $GLOBALS['_MAX']['CONF']['log']['name'];
 if ($newLog != $oldLog)
 {
