@@ -59,6 +59,8 @@ class OA_Dll_AuditTest extends DllUnitTestCase
             'PartialMockOA_Dll_Audit',
             array()
         );
+
+        OA_setTimeZone('Europe/Rome');
     }
 
     function tearDown()
@@ -70,11 +72,11 @@ class OA_Dll_AuditTest extends DllUnitTestCase
     {
         $dllAuditPartialMock = new PartialMockOA_Dll_Audit($this);
 
-        $oneDay  = 60*60*24;
-        $oneWeek = $oneDay*7;
+        $oSpanDay  = new Date_Span('1-0-0-0');
 
         $oDate = & new Date(OA::getNow());
-        $oDate->subtractSeconds($oneWeek + $oneDay);
+        $oDate->toUTC();
+        $oDate->subtractSpan(new Date_Span('8-0-0-0'));
 
         // record 1 - more than 7 days old so should not be returned
         $oAudit = OA_Dal::factoryDO('audit');
@@ -91,7 +93,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oAudit->insert();
 
         // record 2
-        $oDate->addSeconds($oneDay);
+        $oDate->addSpan($oSpanDay);
         $oAudit->updated = $oDate->getDate();
         $aDetails['status'] = OA_ENTITY_STATUS_RUNNING;
         $oAudit->details = serialize($aDetails);
@@ -99,7 +101,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $aExpect[4] = $oAudit->toArray();
 
         // record 3
-        $oDate->addSeconds($oneDay);
+        $oDate->addSpan($oSpanDay);
         $oAudit->updated = $oDate->getDate();
         $aDetails['status'] = OA_ENTITY_STATUS_EXPIRED;
         $oAudit->details = serialize($aDetails);
@@ -107,7 +109,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $aExpect[3] = $oAudit->toArray();
 
         // record 4
-        $oDate->addSeconds($oneDay);
+        $oDate->addSpan($oSpanDay);
         $oAudit->contextid = 2;
         $oAudit->updated = $oDate->getDate();
         $aDetails['campaignname'] = 'Campaign 2';
@@ -117,7 +119,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $aExpect[2] = $oAudit->toArray();
 
         // record 5
-        $oDate->addSeconds($oneDay);
+        $oDate->addSpan($oSpanDay);
         $oAudit->updated = $oDate->getDate();
         $aDetails['status'] = OA_ENTITY_STATUS_EXPIRED;
         $oAudit->details = serialize($aDetails);
@@ -125,7 +127,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $aExpect[1] = $oAudit->toArray();
 
         // record 6
-        $oDate->addSeconds($oneDay);
+        $oDate->addSpan($oSpanDay);
         $oAudit->contextid = 3;
         $oAudit->updated = $oDate->getDate();
         $aDetails['campaignname'] = 'Campaign 3';
@@ -135,7 +137,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $aExpect[0] = $oAudit->toArray();
 
         // record 7 - not a maintenance audit rec so should not be returned
-        $oDate->addSeconds($oneDay);
+        $oDate->addSpan($oSpanDay);
         $oAudit->username = 'admin';
         $oAudit->contextid = 1;
         $oAudit->updated = $oDate->getDate();
@@ -169,13 +171,14 @@ class OA_Dll_AuditTest extends DllUnitTestCase
     {
         $dllAuditPartialMock = new PartialMockOA_Dll_Audit($this);
 
-        $oneDay  = 60*60*24;
-        $oneWeek = $oneDay*7;
+        $oSpanDay  = new Date_Span('1-0-0-0');
 
         $oDate = & new Date(OA::getNow());
-        $oDate->subtractSeconds($oneWeek + $oneDay);
+        $oDate->subtractSpan(new Date_Span('8-0-0-0'));
 
         // record 1 - more than 7 days old so should not be returned
+        $oDateCopy = new Date($oDate);
+        $oDateCopy->toUTC();
         $oAudit = OA_Dal::factoryDO('audit');
         $oAudit->account_id = 1;
         $oAudit->context = 'Campaign';
@@ -190,7 +193,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oAudit->insert();
 
         // record 2
-        $oDate->addSeconds($oneDay);
+        $oDate->addSpan($oSpanDay);
         $oAudit->updated = $oDate->getDate();
         $oAudit->username = 'user2';
         $aDetails['status'] = OA_ENTITY_STATUS_RUNNING;
@@ -199,7 +202,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $aExpect[4] = $oAudit->toArray();
 
         // record 3
-        $oDate->addSeconds($oneDay);
+        $oDate->addSpan($oSpanDay);
         $oAudit->updated = $oDate->getDate();
         $oAudit->username = 'user3';
         $aDetails['status'] = OA_ENTITY_STATUS_PAUSED;
@@ -208,7 +211,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $aExpect[3] = $oAudit->toArray();
 
         // record 4
-        $oDate->addSeconds($oneDay);
+        $oDate->addSpan($oSpanDay);
         $oAudit->contextid = 2;
         $oAudit->updated = $oDate->getDate();
         $aDetails['campaignname'] = 'Campaign 2';
@@ -218,7 +221,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $aExpect[2] = $oAudit->toArray();
 
         // record 5
-        $oDate->addSeconds($oneDay);
+        $oDate->addSpan($oSpanDay);
         $oAudit->updated = $oDate->getDate();
         $oAudit->username = 'user2';
         $aDetails['status'] = OA_ENTITY_STATUS_EXPIRED;
@@ -227,7 +230,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $aExpect[1] = $oAudit->toArray();
 
         // record 6
-        $oDate->addSeconds($oneDay);
+        $oDate->addSpan($oSpanDay);
         $oAudit->contextid = 3;
         $oAudit->username = 'user1';
         $oAudit->updated = $oDate->getDate();
@@ -238,7 +241,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $aExpect[0] = $oAudit->toArray();
 
         // record 7 - is a maintenance audit rec so should not be returned
-        $oDate->addSeconds($oneDay);
+        $oDate->addSpan($oSpanDay);
         $oAudit->username = 'maintenance';
         $oAudit->contextid = 1;
         $oAudit->updated = $oDate->getDate();
@@ -252,6 +255,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $this->assertIsA($aResults, 'array');
         $this->assertEqual(count($aResults),5);
 
+        $oNow = new Date();
         for ($i=0;$i<5;$i++)
         {
             $aRow = $aResults[$i];
@@ -262,13 +266,15 @@ class OA_Dll_AuditTest extends DllUnitTestCase
             $this->assertEqual($aRow['contextid'],$aExpect[$i]['contextid']);
             $this->assertEqual($aRow['parentid'],$aExpect[$i]['parentid']);
             $this->assertEqual($aRow['username'],$aExpect[$i]['username']);
-            $this->assertEqual($aRow['updated'],$aExpect[$i]['updated']);
             $this->assertEqual($aRow['details']['campaignname'],$aExpect[$i]['details']['campaignname']);
             $this->assertEqual($aRow['details']['status'],$aExpect[$i]['details']['status']);
+
+            $oDate = new Date($aRow['updated']);
+            $oDate->setTZbyID('UTC');
+            $oDate->convertTZ($oNow->tz);
+            $this->assertEqual($oDate->getDate(),$aExpect[$i]['updated']);
         }
     }
-
-
 }
 
 ?>

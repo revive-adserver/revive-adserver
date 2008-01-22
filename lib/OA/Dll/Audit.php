@@ -384,19 +384,25 @@ class OA_Dll_Audit extends OA_Dll
             $oAudit->account_id = $aParam['account_id'];
         }
 
-        $oDate = & new Date(OA::getNow());
-        $oDate->subtractSeconds(60*60*24*7);
+        $oDate = new Date();
+        $oDate->subtractSpan(new Date_Span('7-0-0-0'));
+        $oDate->toUTC();
         $oAudit->whereAdd("context = 'Campaign'");
         $oAudit->whereAdd("username = 'maintenance'");
         $oAudit->whereAdd('parentid IS NULL');
-        $oAudit->whereAdd("updated >= '".$oDate->format('%Y%m%d')."'");
+        $oAudit->whereAdd("updated >= ".DBC::makeLiteral($oDate->format('%Y-%m-%d %H:%M:%S')));
         $oAudit->orderBy('auditid DESC');
         $oAudit->limit(0, 5);
 
         $numRows = $oAudit->find();
 
+        $oNow = new Date();
         while ($oAudit->fetch()) {
             $aAudit = $oAudit->toArray();
+            $oDate = new Date($aAudit['updated']);
+            $oDate->setTZbyID('UTC');
+            $oDate->convertTZ($oNow->tz);
+            $aAudit['updated'] = $oDate->format('%Y-%m-%d %H:%M:%S');
             $aAudit['details'] = unserialize($aAudit['details']);
             $aResult[] = $aAudit;
         }
@@ -417,18 +423,24 @@ class OA_Dll_Audit extends OA_Dll
             $oAudit->account_id = $aParam['account_id'];
         }
 
-        $oDate = & new Date(OA::getNow());
-        $oDate->subtractSeconds(60*60*24*7);
+        $oDate = new Date();
+        $oDate->subtractSpan(new Date_Span('7-0-0-0'));
+        $oDate->toUTC();
         $oAudit->whereAdd("username != 'maintenance'");
         $oAudit->whereAdd('parentid IS NULL');
-        $oAudit->whereAdd("updated >= '".$oDate->format('%Y%m%d')."'");
+        $oAudit->whereAdd("updated >= ".DBC::makeLiteral($oDate->format('%Y-%m-%d %H:%M:%S')));
         $oAudit->orderBy('auditid DESC');
         $oAudit->limit(0, 5);
 
         $numRows = $oAudit->find();
 
+        $oNow = new Date();
         while ($oAudit->fetch()) {
             $aAudit = $oAudit->toArray();
+            $oDate = new Date($aAudit['updated']);
+            $oDate->setTZbyID('UTC');
+            $oDate->convertTZ($oNow->tz);
+            $aAudit['updated'] = $oDate->format('%Y-%m-%d %H:%M:%S');
             $aAudit['details'] = unserialize($aAudit['details']);
             $aResult[] = $aAudit;
         }
