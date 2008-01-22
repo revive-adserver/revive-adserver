@@ -479,7 +479,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                 m.campaignid as campaignid,
                 m.clientid as clientid,
                 m.campaignname as campaignname,
-                m.status as active,
+                m.status as status,
                 m.an_status as an_status
             FROM
                 {$tableM} AS m,
