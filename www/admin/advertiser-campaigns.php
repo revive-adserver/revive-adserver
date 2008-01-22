@@ -344,7 +344,7 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
         if ($campaigns[$ckey]['status'] == -1) {
             echo "<td class=\"sts sts-pending\">Pending</td>";
         } elseif ($campaigns[$ckey]['status'] == 0) {
-            echo "<td class=\"sts sts-accepted\">Runing</td>";
+            echo "<td class=\"sts sts-accepted\">Running</td>";
         } elseif ($campaigns[$ckey]['status'] == 1) {
             echo "<td class=\"sts sts-paused\">Paused</td>";
         } elseif ($campaigns[$ckey]['status'] == 2) {
