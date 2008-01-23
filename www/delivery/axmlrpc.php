@@ -2335,7 +2335,6 @@ return gmdate($format);
 }
 function getAvailableSSLExtensions()
 {
-return false;
 $aResult = array();
 if (extension_loaded('curl')) {
 $aCurl = curl_version();
