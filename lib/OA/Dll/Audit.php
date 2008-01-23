@@ -245,12 +245,8 @@ class OA_Dll_Audit extends OA_Dll
                 $aAudit['updated'] = $oDate->format($GLOBALS['date_format'] .', '. $GLOBALS['time_format']);
                 //  set action type
                 $aAudit['action'] = $this->getActionName($aAudit['actionid']);
-                //  set parent context and parent context id
-                if ($aAudit['actionid'] != OA_AUDIT_ACTION_DELETE) {
-                    $result = $this->getParentContextData($aAudit);
-                } else {
-                    $aAudit['hasChildren'] = $this->hasChildren($aAudit['auditid'], $aAudit['contextid']);
-                }
+                $result = $this->getParentContextData($aAudit);
+                $aAudit['hasChildren'] = $this->hasChildren($aAudit['auditid'], $aAudit['contextid']);
 
                 if (empty($aAudit['username'])) {
                     $aAudit['username'] = 'Installer';
@@ -297,16 +293,16 @@ class OA_Dll_Audit extends OA_Dll
         switch($aContext['context']) {
         case 'Banner':
             $aContext['parentcontext']    = $GLOBALS['strCampaign'];
-            $aContext['parentcontextid']  = $aContext['campaignid'];
+            $aContext['parentcontextid']  = $aContext['details']['campaignid'];
             return true;
         case 'Campaign':
             $aContext['parentcontext']    = $GLOBALS['strClient'];
-            $aContext['parentcontextid']  = $aContext['clientid'];
+            $aContext['parentcontextid']  = $aContext['details']['clientid'];
             return true;
         case 'Channel':
         case 'Zone':
             $aContext['parentcontext']    = $GLOBALS['strAffiliate'];
-            $aContext['parentcontextid']  = $aContext['affiliateid'];
+            $aContext['parentcontextid']  = $aContext['details']['affiliateid'];
             return true;
         }
         return false;

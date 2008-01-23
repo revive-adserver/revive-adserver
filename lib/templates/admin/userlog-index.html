@@ -81,7 +81,7 @@
             <tr class="{$rowClass}">
                 <td>{$aValue.updated}</td>
                 <td>
-                    {$aValue.username} has {$aValue.action} {$aValue.context} {if !empty($aValue.contextid)}(#{$aValue.contextid}){/if}
+                    {$aValue.username} has {$aValue.action} {$aValue.context} "{$aValue.details.key_desc}" {if !empty($aValue.contextid)}(#{$aValue.contextid}){/if}
                     {if !empty($aValue.parentcontext)}
                         for {$aValue.parentcontext} (#{$aValue.parentcontextid})
                     {/if}
@@ -187,7 +187,7 @@
         form.period_preset.selectedIndex = 0;
         form.period_start.value = '';
         form.period_end.value   = '';
-        
+
         submitForm();
     }
 
