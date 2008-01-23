@@ -8,6 +8,9 @@ require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
 class DataObjects_Accounts extends DB_DataObjectCommon
 {
     var $onDeleteCascade = true;
+    var $onDeleteCascadeSkip = array(
+        'audit'
+    );
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
@@ -41,20 +44,6 @@ class DataObjects_Accounts extends DB_DataObjectCommon
         }
 
         return $result;
-    }
-
-    /**
-     * Collects references from links file
-     *
-     * Overridden to remove the audit trail from cascading delete
-     */
-    function _collectRefs($primaryKey)
-    {
-        $linkedRefs = parent::_collectRefs($primaryKey);
-
-        unset($linkedRefs['audit']);
-
-        return $linkedRefs;
     }
 
     /**

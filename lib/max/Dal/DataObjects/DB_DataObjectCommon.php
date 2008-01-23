@@ -49,6 +49,13 @@ class DB_DataObjectCommon extends DB_DataObject
     var $onDeleteCascade = false;
 
     /**
+     * An array that contains tables that need to be skipped during on delete cascade
+     *
+     * @var array
+     */
+    var $onDeleteCascadeSkip = array();
+
+    /**
      * If true "updated" field is automatically updated with
      * current time on every insert and update
      *
@@ -628,6 +635,10 @@ class DB_DataObjectCommon extends DB_DataObject
                 // manually connected tables (by overriding delete() method)
                 $primaryKey = $aKeys[0];
                 $linkedRefs = $this->_collectRefs($primaryKey);
+
+                foreach ($this->onDeleteCascadeSkip as $table) {
+                    unset($linkedRefs[$table]);
+                }
 
                 // Find all affected tuples
                 while ($doAffected->fetch())
