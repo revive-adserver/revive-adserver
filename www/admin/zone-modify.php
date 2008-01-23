@@ -67,7 +67,9 @@ if (isset($zoneid) && $zoneid != '') {
 
     } elseif (isset($duplicate) && $duplicate == 'true') {
         // Can the user add new zones?
-        OA_Permission::enforceAllowed(OA_PERM_ZONE_ADD);
+        if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+            OA_Permission::enforceAllowed(OA_PERM_ZONE_ADD);
+        }
         // Duplicate the zone
         $doZones = OA_Dal::factoryDO('zones');
         $doZones->get($zoneid);
