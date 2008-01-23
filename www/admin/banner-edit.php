@@ -124,7 +124,7 @@ if (isset($submit)) {
 
     $aVariables = array();
     $aVariables['campaignid']      = $campaignid;
-    $aVariables['target']          = isset($target) ? $target : '';
+    $aVariables['target']          = isset($target) ? phpAds_htmlQuotes($target) : '';
     $aVariables['height']          = isset($height) ? $height : 0;
     $aVariables['width']           = isset($width)  ? $width : 0;
     $aVariables['weight']          = !empty($weight) ? $weight : 0;
