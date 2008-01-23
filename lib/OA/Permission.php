@@ -344,7 +344,8 @@ class OA_Permission
         if (empty($userId)) {
             $userId = OA_Permission::getUserId();
         }
-        return OA_Permission::isUserLinkedToAccount($accountId, $userId);
+        return OA_Permission::isUserLinkedToAccount($accountId, $userId)
+            || OA_Permission::isUserLinkedToAdmin($userId);
     }
 
     /**
@@ -376,7 +377,7 @@ class OA_Permission
         $doAccount_user_Assoc = OA_Dal::factoryDO('account_user_assoc');
         $doAccount_user_Assoc->user_id = $userId;
         $doAccount_user_Assoc->account_id = $accountId;
-        return $doAccount_user_Assoc->count() || OA_Permission::isUserLinkedToAdmin($userId);
+        return $doAccount_user_Assoc->count();
     }
 
     /**
@@ -454,8 +455,6 @@ class OA_Permission
      */
     function isUserLinkedToAdmin($userId = null)
     {
-        $currentUserId = OA_Permission::getUserId();
-
         if (is_null($userId) || $userId == OA_Permission::getUserId()) {
             $oUser = OA_Permission::getCurrentUser();
         } else {
