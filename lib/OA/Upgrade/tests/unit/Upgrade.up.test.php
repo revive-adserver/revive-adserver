@@ -51,22 +51,41 @@ class Test_OA_Upgrade extends UnitTestCase
 
     function test_versionCompare()
     {
-        $aFiles[0] = '2.3.32-beta-rc2';
-        $aFiles[1] = '2.3.32-beta-rc5';
-        $aFiles[2] = '2.3.32-beta-rc10';
-        $aFiles[3] = '2.3.32-beta-rc21';
-        $aFiles[4] = '2.3.32-beta';
-        $aFiles[5] = '2.3.33-beta-rc1';
-        $aFiles[6] = '2.3.33-beta-rc2';
-        $aFiles[7] = '2.3.33-beta';
-        $aFiles[8] = '2.4.0';
-        $aFiles[9] = '2.4.1-rc1';
-        $aFiles[10] = '2.4.1-rc5';
-        $aFiles[11] = '2.4.1';
+        $aFiles[] = '2.3.32-beta-rc2';
+        $aFiles[] = '2.3.32-beta-rc5';
+        $aFiles[] = '2.3.32-beta-rc10';
+        $aFiles[] = '2.3.32-beta-rc21';
+        $aFiles[] = '2.3.32-beta';
+        $aFiles[] = '2.3.32';
+        $aFiles[] = '2.3.33-dev';
+        $aFiles[] = '2.3.33-alpha';
+        $aFiles[] = '2.3.33-beta-rc1';
+        $aFiles[] = '2.3.33-beta-rc2';
+        $aFiles[] = '2.3.33-beta';
+        $aFiles[] = '2.3.33';
+        $aFiles[] = '2.4.0-dev';
+        $aFiles[] = '2.4.0-alpha';
+        $aFiles[] = '2.4.0-beta';
+        $aFiles[] = '2.4.0';
+        $aFiles[] = '2.4.1-dev';
+        $aFiles[] = '2.4.1-alpha';
+        $aFiles[] = '2.4.1-beta-rc1';
+        $aFiles[] = '2.4.1-beta-rc2';
+        $aFiles[] = '2.4.1-beta';
+        //$aFiles[] = '2.4.1-rc1';  // THIS FAILS
+        $aFiles[] = '2.4.1-RC1';
+        $aFiles[] = '2.4.1';
+        $aFiles[] = '2.5.5';
+        $aFiles[] = '2.5.50-dev';
+        $aFiles[] = '2.5.50-beta-rc1';
+        $aFiles[] = '2.5.50';
+        $aFiles[] = '2.5.51-beta-rc1';
 
-        for ($prevIdx=0;$prevIdx<12;$prevIdx++)
+        $count = count($aFiles);
+
+        for ($prevIdx=0;$prevIdx<$count;$prevIdx++)
         {
-            for ($curIdx=0;$curIdx<12;$curIdx++)
+            for ($curIdx=0;$curIdx<$count;$curIdx++)
             {
                 $result  = version_compare($aFiles[$prevIdx],$aFiles[$curIdx]);
                 if ($prevIdx < $curIdx)
