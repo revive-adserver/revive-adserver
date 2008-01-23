@@ -25,6 +25,8 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA.php';
+
 require_once 'XML/RPC.php';
 
 
@@ -48,8 +50,8 @@ class OA_XML_RPC_Client extends XML_RPC_Client
                             $proxy_user = '', $proxy_pass = '')
     {
         if ($aExtensions = OA::getAvailableSSLExtensions()) {
-            $this->hasCurl    = $aExtensions['curl'];
-            $this->hasOpenssl = $aExtensions['openssl'];
+            $this->hasCurl    = (bool)array_search('curl', $aExtensions);
+            $this->hasOpenssl = (bool)array_search('openssl', $aExtensions);
         }
 
         $this->verifyPeer = true;
