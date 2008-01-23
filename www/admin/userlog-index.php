@@ -64,8 +64,8 @@ $advertiserId   = MAX_getValue('advertiserId',    0);
 $campaignId     = MAX_getValue('campaignId',      0);
 $publisherId    = MAX_getValue('publisherId',     0);
 $zoneId         = MAX_getValue('zoneId',          0);
-$startDate      = MAX_getValue('period_start');
-$endDate        = MAX_getValue('period_end');
+$startDate      = MAX_getStoredValue('period_start');
+$endDate        = MAX_getStoredValue('period_end');
 $periodPreset   = MAX_getStoredValue('period_preset', 'all_events');
 
 //  paging related input variables
@@ -76,7 +76,7 @@ $pageID         = MAX_getStoredValue('pageID',          1);
 
 
 //  setup date selector
-$daySpan = new OA_Admin_UI_Audit_DaySpanField('period', 'all_events');
+$daySpan = new OA_Admin_UI_Audit_DaySpanField('period');
 $daySpan->setValue($periodPreset);
 $daySpan->enableAutoSubmit();
 

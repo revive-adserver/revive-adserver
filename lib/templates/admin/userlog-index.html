@@ -169,20 +169,25 @@
 
     function resetFilter() {
         var form = document.getElementById('auditForm');
-
+        //  reset advertiser filter
         if (form.advertiserId.options[form.advertiserId.selectedIndex].value != '') {
             form.advertiserId.selectedIndex = 0;
             if (form.elements['campaignId'] && form.campaignId.disabled == false) {
                 form.campaignId.selectedIndex = 0;
             }
         }
+        //  reset website filter
         if (form.publisherId.options[form.publisherId.selectedIndex].value != '') {
             form.publisherId.selectedIndex = 0;
             if (form.elements['zoneId'] && form.zoneId.disabled == false) {
                 form.zoneId.selectedIndex = 0;
             }
         }
-
+        //  reset date filter
+        form.period_preset.selectedIndex = 0;
+        form.period_start.value = '';
+        form.period_end.value   = '';
+        
         submitForm();
     }
 
