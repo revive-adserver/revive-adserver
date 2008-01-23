@@ -128,6 +128,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
 
         // record 6
         $oDate->addSpan($oSpanDay);
+        $oAudit->account_id = 2;
         $oAudit->contextid = 3;
         $oAudit->updated = $oDate->getDate();
         $aDetails['campaignname'] = 'Campaign 3';
@@ -146,7 +147,8 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oAudit->details = serialize($aDetails);
         $oAudit->insert();
 
-        $aResults = $dllAuditPartialMock->getAuditLogForCampaignWidget(array());
+        $aParams = array();
+        $aResults = $dllAuditPartialMock->getAuditLogForCampaignWidget($aParams);
 
         $this->assertIsA($aResults, 'array');
         $this->assertEqual(count($aResults),5);
@@ -168,6 +170,13 @@ class OA_Dll_AuditTest extends DllUnitTestCase
             $oDate->toUTC();
             $this->assertEqual($oDate->getDate(),$aExpect[$i]['updated']);
         }
+
+        // Check that the account_id filter is working
+        $aParams = array('account_id' => 2);
+        $aResults = $dllAuditPartialMock->getAuditLogForCampaignWidget($aParams);
+
+        $this->assertIsA($aResults, 'array');
+        $this->assertEqual(count($aResults),1);
     }
 
     function test_getAuditLogForAuditWidget()
@@ -235,6 +244,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
 
         // record 6
         $oDate->addSpan($oSpanDay);
+        $oAudit->account_id = 2;
         $oAudit->contextid = 3;
         $oAudit->username = 'user1';
         $oAudit->updated = $oDate->getDate();
@@ -254,7 +264,8 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oAudit->details = serialize($aDetails);
         $oAudit->insert();
 
-        $aResults = $dllAuditPartialMock->getAuditLogForAuditWidget(array());
+        $aParams = array();
+        $aResults = $dllAuditPartialMock->getAuditLogForAuditWidget($aParams);
 
         $this->assertIsA($aResults, 'array');
         $this->assertEqual(count($aResults),5);
@@ -276,6 +287,13 @@ class OA_Dll_AuditTest extends DllUnitTestCase
             $oDate->toUTC();
             $this->assertEqual($oDate->getDate(),$aExpect[$i]['updated']);
         }
+
+        // Check that the account_id filter is working
+        $aParams = array('account_id' => 2);
+        $aResults = $dllAuditPartialMock->getAuditLogForAuditWidget($aParams);
+
+        $this->assertIsA($aResults, 'array');
+        $this->assertEqual(count($aResults),1);
     }
 }
 
