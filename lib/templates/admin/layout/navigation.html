@@ -27,16 +27,16 @@
 $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 
 -->*}
-    <ul id="oaNavigationTabs" class="tabs">
+    <ul id="oaNavigationTabs">
 {section name=n loop=$aNav}
 {if $aNav[n].selected}
-      <li class="tab active {if $smarty.section.n.first} active-first{/if}{if $smarty.section.n.last} active-last{/if}{if !($smarty.section.n.first || $smarty.section.n.last)} active-middle{/if}">
+      <li class="active {if $smarty.section.n.first} first{/if}{if $smarty.section.n.last} last{/if}">
 {else}
-      <li class="tab passive {if $smarty.section.n.first} passive-first{else}{if $smarty.section.n.last} passive-last{else} passive-middle{/if}{/if}{if $aNav[$smarty.section.n.index_prev].selected} after-active{elseif $aNav[$smarty.section.n.index_next].selected} before-active{/if}">
+      <li class="passive {if $smarty.section.n.first} first{else}{if $smarty.section.n.last} last{/if}{/if}{if $aNav[$smarty.section.n.index_prev].selected} after-active{/if}">
 {/if}
-        <div class="tab-left"><div class="tab-right"><div class="tab-inside">
-          <div class="label"><a href="{$aNav[n].filename|escape}" accesskey="{t key=Home}">{$aNav[n].title|escape}</a></div>
-        </div></div></div>
+        <div class="left"><div class="right">
+          <a href="{$aNav[n].filename|escape}" accesskey="{t key=Home}">{$aNav[n].title|escape}</a>
+        </div></div>
       </li>
 {/section}
     </ul>

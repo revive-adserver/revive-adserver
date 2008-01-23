@@ -148,117 +148,67 @@ a:hover {
 
 #oaNavigationTabs {
 	position: absolute;
-	top: 0;
-	left: 176px;
+	top: 1px;
+	left: 175px;
+	line-height: 26px;
+	height: 29px;
 	min-width: 300px;
-}
 
-ul.tabs {
-	margin: 0;
-  	padding: 0;
-  	list-style-type: none;
-  	min-width: 300px;
-	  font-family: Arial, Helvetica, sans-serif;
-  	font-size: 11px;
-}
-
-
-ul.tabs,
-ul.tabs a
-{
-  	color: #444;
-}
-.tabs li.tab {
-  	margin: 0;
-  	padding: 0;
-  	display: block;
-  	float: left;
-
-  	/* IE6 fix */
-  	-width: 1px;
-}
-
-.tabs li.tab div {
-	background-repeat: no-repeat;
-}
-.tabs li.passive-first div.tab-left,
-.tabs li.active-first div.tab-left {
-	padding-left: 8px;
-}
-.tabs li.passive-first div.tab-right,
-.tabs li.passive-middle div.tab-right,
-.tabs li.active-first div.tab-right,
-.tabs li.active-middle div.tab-right {
-	padding-right: 7px;
-	background-position: top right;
-}
-.tabs li.passive-first div.tab-right,
-.tabs li.passive-middle div.tab-right {
-	background-image: url(../images/tab-passive-passive-link.gif);
-}
-.tabs li.active-first div.tab-right,
-.tabs li.active-middle div.tab-right {
-	background-image: url(../images/tab-active-passive-link.gif);
-}
-.tabs li.passive-last div.tab-right,
-.tabs li.active-last div.tab-right {
-	padding-right: 8px;
-	background-position: top right;
-}
-.tabs li.passive-last div.tab-right {
-	background-image: url(../images/tab-passive-lead-out.gif);
-}
-.tabs li.active-last div.tab-right {
-	background-image: url(../images/tab-active-lead-out.gif);
-}
-.tabs li.active-middle div.tab-left,
-.tabs li.active-last div.tab-left {
-	padding-left: 7px;
-	background-image: url(../images/tab-passive-active-link.gif);
-}
-.tabs li.passive-last div.tab-right {
-	background-image: url(../images/tab-passive-lead-out.gif);
-}
-
-/** a single tab is first and last at the same time do not move this styles up **/
-.tabs li.active-first div.tab-left {
-	background-image: url(../images/tab-active-lead-in.gif);
-}
-.tabs li.passive-first div.tab-left {
-	background-image: url(../images/tab-passive-lead-in.gif);
-}
-.tabs li.before-active div.tab-right {
-	padding: 0;
-}
-.tabs li.passive-middle div.tab-inside,
-.tabs li.passive-first div.tab-inside,
-.tabs li.passive-last div.tab-inside {
-	background-image: url(../images/tab-passive-body.gif);
-}
-.tabs li.active-middle div.tab-inside,
-.tabs li.active-first div.tab-inside,
-.tabs li.active-last div.tab-inside {
-	background-image: url(../images/tab-active-body.gif);
-}
-.tabs li.tab div.tab-inside {
-	background-repeat: repeat-x;
-	height: 21px;
-	padding-top: 7px;
-}
-.tabs div.label {
+	list-style-type: none;
 	white-space: nowrap;
-	height: 31px;
-	padding: 0px 10px;
 }
-.tabs li.active div.label {
-	background-image: url(../images/tab-active-inside-down.gif);
-	background-position: center 14px;
+#oaNavigationTabs * {
+	height: 29px;
 }
-.tabs li.active div.label,
-.tabs li.active div.label a {
+#oaNavigationTabs li {
+	float: left;
+	margin: 0;
+	background: url(../images/tab-body.gif) left 0px repeat-x;
+}
+#oaNavigationTabs li div.left {
+	background: url(../images/tab-link.gif) left 0px no-repeat;
+}
+#oaNavigationTabs li.first div.left {
+	background: url(../images/tab-lead-in.gif) left 0px no-repeat;
+}
+#oaNavigationTabs li.last div.right {
+	background: url(../images/tab-lead-out.gif) right 0px no-repeat;
+}
+#oaNavigationTabs li.active,
+#oaNavigationTabs li.active div.left {
+	background-position: left -40px;
+}
+#oaNavigationTabs li.after-active div.left {
+	background-position: left -80px;
+}
+#oaNavigationTabs li.active div.right {
+	background-position: right -40px;
+}
+#oaNavigationTabs li div {
+	overflow: hidden;
+
+	/* Fix IE bug: div should wrap around contents */
+	-overflow: visible;
+	-width: 1px;
+}
+#oaNavigationTabs li span,
+#oaNavigationTabs li a {
+	display: block;
+	float: left;
+	font-size: 11px;
+	color: #444;
+	padding: 0 6px 0 17px;
+	white-space: nowrap;
+}
+#oaNavigationTabs li.last span,
+#oaNavigationTabs li.last a {
+	margin-right: 11px;
+}
+#oaNavigationTabs li.active span,
+#oaNavigationTabs li.active a {
+	background: url(../images/tab-body.gif) center -80px no-repeat;
 	color: #fff;
 }
-
 
 #oaNavigationExtra {
 	position: absolute;
