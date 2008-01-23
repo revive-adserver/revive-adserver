@@ -317,7 +317,7 @@ function max_formValidateElement(obj)
         err = true;
     }
     
-    if (obj.maxLength && obj.value.length > obj.maxLength) { //this is unlikely since browser should contrain that
+    if (obj.maxLength && obj.maxLength > 0 && obj.value.length > obj.maxLength) { //this is unlikely since browser should contrain that
         err = true;
     }
 		
