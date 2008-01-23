@@ -243,59 +243,73 @@ class OA_Dll_Audit extends OA_Dll
                 $oDate->setTZbyID('UTC');
                 $oDate->convertTZ($oNow->tz);
                 $aAudit['updated'] = $oDate->format($GLOBALS['date_format'] .', '. $GLOBALS['time_format']);
-
                 //  set action type
-                switch($aAudit['actionid']) {
-                case OA_AUDIT_ACTION_INSERT:
-                    $aAudit['action'] = $GLOBALS['strInserted'];
-                    break;
-                case OA_AUDIT_ACTION_UPDATE:
-                    $aAudit['action'] = $GLOBALS['strUpdated'];
-                    break;
-                case OA_AUDIT_ACTION_DELETE:
-                    $aAudit['action'] = $GLOBALS['strDeleted'];
-                    break;
-                }
-
+                $aAudit['action'] = $this->getActionName($aAudit['actionid']);
+                //  set parent context and parent context id
                 if ($aAudit['actionid'] != OA_AUDIT_ACTION_DELETE) {
-                    switch($aAudit['context']) {
-                    case 'Banner':
-                        $aAudit['parentcontext'] = 'Campaign';
-                        break;
-                    case 'Campaign':
-                        $aAudit['parentcontext'] = 'Client';
-                        break;
-                    case 'Channel':
-                    case 'Zone':
-                        $aAudit['parentcontext'] = 'Affiliate';
-                        break;
-                    }
-
-                    if (empty($aAudit['username'])) {
-                        $aAudit['username'] = 'Installer';
-                    }
-
-                    $aAudit['parentcontextid'] = $this->getParentID($aAudit['context'], $aAudit['details']);
+                    $result = $this->getParentContextData($aAudit);
                 } else {
                     $aAudit['hasChildren'] = $this->hasChildren($aAudit['auditid'], $aAudit['contextid']);
                 }
+
+                if (empty($aAudit['username'])) {
+                    $aAudit['username'] = 'Installer';
+                }
+
                 $aAuditInfo[] = $aAudit;
             }
         }
         return $aAuditInfo;
     }
 
-    function getParentID($itemType, $itemDetails)
-    {
-        switch ($itemType) {
-        case 'Campaign':
-            return $itemDetails['clientid'];
+
+    /**
+     * Returns the associated action name based on the specified action id
+     *
+     * @var int action id
+     *
+     * @return string action name
+     */
+    function getActionName($actionId) {
+        switch($actionId) {
+        case OA_AUDIT_ACTION_INSERT:
+             $action = $GLOBALS['strInserted'];
+            break;
+        case OA_AUDIT_ACTION_UPDATE:
+            $action = $GLOBALS['strUpdated'];
+            break;
+        case OA_AUDIT_ACTION_DELETE:
+            $action = $GLOBALS['strDeleted'];
+            break;
+        }
+
+        return $action;
+    }
+
+    /**
+     * Sets the parent context type and parent context id
+     *
+     * @var int context type
+     *
+     * @return boolean  true on success / false on failure
+     */
+    function getParentContextData(& $aContext) {
+        switch($aContext['context']) {
         case 'Banner':
-            return $itemDetails['campaignid'];
+            $aContext['parentcontext']    = $GLOBALS['strCampaign'];
+            $aContext['parentcontextid']  = $aContext['campaignid'];
+            return true;
+        case 'Campaign':
+            $aContext['parentcontext']    = $GLOBALS['strClient'];
+            $aContext['parentcontextid']  = $aContext['clientid'];
+            return true;
         case 'Channel':
         case 'Zone':
-            return $itemDetails['affiliateid'];
+            $aContext['parentcontext']    = $GLOBALS['strAffiliate'];
+            $aContext['parentcontextid']  = $aContext['affiliateid'];
+            return true;
         }
+        return false;
     }
 
     function getChildren($auditID, $itemContext)
@@ -388,7 +402,7 @@ class OA_Dll_Audit extends OA_Dll
         $oDate->subtractSpan(new Date_Span('7-0-0-0'));
         $oDate->toUTC();
         $oAudit->whereAdd("context = 'Campaign'");
-        $oAudit->whereAdd("username = 'maintenance'");
+        $oAudit->whereAdd("username != 'maintenance'");
         $oAudit->whereAdd('parentid IS NULL');
         $oAudit->whereAdd("updated >= ".DBC::makeLiteral($oDate->format('%Y-%m-%d %H:%M:%S')));
         $oAudit->orderBy('auditid DESC');
@@ -415,7 +429,7 @@ class OA_Dll_Audit extends OA_Dll
      * @param array $aParam
      * @return array
      */
-    function getAuditLogForAuditWidget($aParam)
+    function getAuditLogForAuditWidget($aParam = array())
     {
         $oAudit = OA_Dal::factoryDO('audit');
 

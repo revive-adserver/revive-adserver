@@ -1226,6 +1226,7 @@ class DB_DataObjectCommon extends DB_DataObject
                 $this->doAudit->parentid   = $parentid;
                 $this->doAudit->username   = OA_Permission::getUsername();
                 $this->doAudit->userid     = OA_Permission::getUserId();
+                $this->doAudit->usertype   = 0;
                 // Set the account ID of the account that directly owns the
                 // item being audited
                 $this->doAudit->account_id = $this->getOwningAccountId();

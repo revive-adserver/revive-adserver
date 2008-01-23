@@ -26,6 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Dashboard/Widget.php';
+require_once MAX_PATH . '/lib/OA/Dll/Audit.php';
 
 /**
  * A dashboard widget to diplay an Campaign overview
@@ -62,19 +63,21 @@ class OA_Dashboard_Widget_CampaignOverview extends OA_Dashboard_Widget
      */
     function display()
     {
-        $oCampaign = & OA_Dal::factoryDO($GLOBALS['_MAX']['CONF']['table']['campaigns']);
-        $oCampaign->orderBy('updated');
-        $oCampaign->limit($this->totalItems);
-        $numRows = $oCampaign->find();
-        if ($numRows > 0) {
-            while ($oCampaign->fetch()) {
-                $oCampaign->campaignname = (strlen($oCampaign->campaignname) > 35) ? substr($oCampaign->campaignname, 0, 35).'...' : $oCampaign->campaignname;
-                $aCampaign[] = $oCampaign->toArray();
+        if (!OA_Permission::isAccount('OA_ADMIN')) {
+            $aParam['account_id'] = OA_Permission::getAccountId();
+        }
+
+        $oAudit = & new OA_Dll_Audit();
+        $aCampaign = $oAudit->getAuditLogForCampaignWidget($aParam);
+        if (count($aCampaign) > 0) {
+            foreach ($aCampaign as $key => $aValue) {
+                $aCampaign[$key]['details']['campaignname'] = (strlen($aValue['details']['key_desc']) > 35) ? substr($aValue['details']['key_desc'], 0, 35).'...' : $aValue['details']['key_desc'];
             }
         }
+
         $this->oTpl->assign('aCampaign',    $aCampaign);
-        $this->oTpl->assign('baseUrl',      MAX::constructURL(MAX_URL_ADMIN, 'campaign-edit.php'));
         $this->oTpl->assign('siteUrl',      MAX::constructURL(MAX_URL_ADMIN, 'advertiser-index.php'));
+        $this->oTpl->assign('baseUrl',      MAX::constructURL(MAX_URL_ADMIN, 'campaign-edit.php'));
 
         $this->oTpl->display();
     }

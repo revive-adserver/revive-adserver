@@ -1105,6 +1105,11 @@ $GLOBALS['strPwdRecResetPwdThisUser'] = "Reset password for this user";
 $GLOBALS['strPwdRecEmailPwdRecovery'] = "%s password recovery";
 $GLOBALS['strProceed']                = "Proceed &gt;";
 
+// Audit
+$GLOBALS['strAdditionalItems']        = 'and additional items';
+$GLOBALS['strFor']                    = 'for';
+$GLOBALS['strHas']                    = 'has';
+
 // Widget - Audit
 $GLOBALS['strAuditNoData']            = "No user activity has been recorded during the timeframe you have selected.";
 $GLOBALS['strAuditTrail']             = "Audit Trail";

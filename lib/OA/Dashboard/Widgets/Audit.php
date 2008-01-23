@@ -34,13 +34,6 @@ require_once MAX_PATH . '/lib/OA/Dll/Audit.php';
  */
 class OA_Dashboard_Widget_Audit extends OA_Dashboard_Widget
 {
-    var $periodPreset   = 'all_events';
-
-    //  paging related input variables
-    var $listorder      = 'updated';
-    var $orderdirection = 'up';
-    var $setPerPage     = 6;
-    var $startRecord    = 0;
 
     /**
      * The class constructor
@@ -55,10 +48,6 @@ class OA_Dashboard_Widget_Audit extends OA_Dashboard_Widget
         $aConf = $GLOBALS['_MAX']['CONF'];
 
         $this->oTpl = new OA_Admin_Template('dashboard/audit.html');
-
-        $this->oTpl->setCacheId($this->title);
-        $this->oTpl->setCacheLifetime(new Date_Span('0-1-0-0'));
-
     }
 
     function display()
@@ -70,47 +59,37 @@ class OA_Dashboard_Widget_Audit extends OA_Dashboard_Widget
             $this->oTpl->assign('siteUrl',      MAX::constructUrl(MAX_URL_ADMIN, 'account-settings-debug.php'));
         } elseif ($conf['audit']['enabled']) {
 
-            if (!$this->oTpl->is_cached()) {
-                $advertiserId   = MAX_getStoredValue('advertiserId',    0);
+            if (!OA_Permission::isAccount('OA_ADMIN')) {
+                $aParam['account_id'] = OA_Permission::getAccountId();
+            }
 
-                list($aNow['year'], $aNow['month'], $aNow['day']) = explode('-', OA::getNow('Y-m-d'));
-                $startDate      = date('Y-m-d', mktime(0, 0, 0, $aNow['month'], $aNow['day']-7, $aNow['year']));
-                $endDate        = OA::getNow('Y-m-d');
-
-
-                $aParams = array(
-                    'advertiser_id' => $advertiserId,
-                    'order'         => $this->orderdirection,
-                    'listorder'     => $this->listorder,
-                    'start_date'    => $startDate,
-                    'end_date'      => $endDate,
-                    'perPage'       => $this->setPerPage,
-                    'startRecord'   => $this->startRecord,
-                );
-
-                $oAuditLog = & new OA_Dll_Audit();
-                $aAuditData = $oAuditLog->getAuditLog($aParams);
+            $oAudit = & new OA_Dll_Audit();
+            $aAuditData = $oAudit->getAuditLogForAuditWidget($aParam);
+            if (count($aAuditData) > 0) {
                 foreach ($aAuditData as $key => $aValue) {
-                    $str = "{$aValue['username']} has {$aValue['action']} {$aValue['context']}";
+                    $aValue['action'] = $oAudit->getActionName($aValue['actionid']);
+                    $result = $oAudit->getParentContextData($aValue);
+
+                    $str = "{$aValue['username']} {$GLOBALS['strHas']} {$aValue['action']} {$aValue['context']}";
                     if (!empty($aValue['contextid'])) {
                         $str .= " ({$aValue['contextid']})";
                     }
                     if (!empty($aValue['parentcontext'])) {
-                        $str .= " for {$aValue['parentcontext']} ({$aValue['parentcontextid']})";
+                        $str .= " {$GLOBALS['strFor']} {$aValue['parentcontext']} ({$aValue['parentcontextid']})";
                     }
                     if (!empty($aValue['hasChildren'])) {
-                        $str .= ' and additional items';
+                        $str .= " {$GLOBALS['strAdditionItems']}";
                     }
                     $aAuditData[$key]['desc'] = (strlen($str) > 30) ? substr($str, 0, 30) . '...' : $str;
                 }
-                if (count($aAuditData) == 0) {
-                    $this->oTpl->assign('noData',   $GLOBALS['strAuditNoData']);
-                }
-                $this->oTpl->assign('screen',       'enabled');
-                $this->oTpl->assign('aAuditData',   $aAuditData);
-                $this->oTpl->assign('siteUrl',      MAX::constructUrl(MAX_URL_ADMIN, 'userlog-index.php'));
-                $this->oTpl->assign('siteTitle',    $GLOBALS['strAuditTrailGoTo']);
+            } else {
+                $this->oTpl->assign('noData',   $GLOBALS['strAuditNoData']);
             }
+
+            $this->oTpl->assign('screen',       'enabled');
+            $this->oTpl->assign('aAuditData',   $aAuditData);
+            $this->oTpl->assign('siteUrl',      MAX::constructUrl(MAX_URL_ADMIN, 'userlog-index.php'));
+            $this->oTpl->assign('siteTitle',    $GLOBALS['strAuditTrailGoTo']);
         }
         $this->oTpl->display();
     }

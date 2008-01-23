@@ -127,7 +127,7 @@ $aParams = array(
 
 // Account security
 if (!OA_Permission::isAccount('OA_ADMIN')) {
-    $aParams[] = OA_Permission::getAccountId();
+    $aParams['account_id'] = OA_Permission::getAccountId();
 }
 
 $oUserlog = & new OA_Dll_Audit();
