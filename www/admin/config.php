@@ -142,6 +142,8 @@ function MMM_buildNavigation()
     global $affiliateid, $agencyid, $bannerid, $campaignid, $channelid, $clientid, $day, $trackerid, $userlogid, $zoneid;
     global $pref;
 
+    $aConf = $GLOBALS['_MAX']['CONF'];
+
     $GLOBALS['OA_Navigation'] = array (
         OA_ACCOUNT_ADMIN => array (
             "1"                         =>  array("dashboard.php" => $GLOBALS['strHome']),
@@ -430,6 +432,10 @@ function MMM_buildNavigation()
         if (OA_Permission::hasPermission(OA_PERM_ZONE_INVOCATION)) {
             $GLOBALS['OA_Navigation'][OA_ACCOUNT_TRAFFICKER]['2.1.4'] = array("zone-invocation.php?affiliateid=$affiliateid&zoneid=$zoneid" => $GLOBALS['strInvocationcode']);
             $GLOBALS['OA_Navigation'][OA_ACCOUNT_TRAFFICKER]['2.2']   = array("affiliate-invocation.php?affiliateid=$affiliateid" => $GLOBALS['strInvocationcode']);
+        }
+    } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+        if (!$aConf['sync']['checkForUpdates'] || !OA::getAvailableSSLExtensions()) {
+            unset($GLOBALS['OA_Navigation'][OA_ACCOUNT_MANAGER]['1']);
         }
     }
 

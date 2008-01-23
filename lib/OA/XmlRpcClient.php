@@ -38,8 +38,8 @@ require_once 'XML/RPC.php';
  */
 class OA_XML_RPC_Client extends XML_RPC_Client
 {
-    var $hasCurl;
-    var $hasOpenssl;
+    var $hasCurl = false;
+    var $hasOpenssl = false;
     var $verifyPeer;
     var $caFile;
 
@@ -47,12 +47,9 @@ class OA_XML_RPC_Client extends XML_RPC_Client
                             $proxy = '', $proxy_port = 0,
                             $proxy_user = '', $proxy_pass = '')
     {
-        $this->hasOpenssl = extension_loaded('openssl');
-        if (extension_loaded('curl')) {
-            $aCurl = curl_version();
-            $this->hasCurl = !empty($aCurl['ssl_version']);
-        } else {
-            $this->hasCurl = false;
+        if ($aExtensions = OA::getAvailableSSLExtensions()) {
+            $this->hasCurl    = $aExtensions['curl'];
+            $this->hasOpenssl = $aExtensions['openssl'];
         }
 
         $this->verifyPeer = true;

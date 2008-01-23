@@ -265,6 +265,29 @@ class OA
     }
 
     /**
+     * A method to detect the available SSL enabling extensions
+     *
+     * @return mixed An array of the available extensions, or false if none is present
+     */
+    function getAvailableSSLExtensions()
+    {
+        return false;
+        $aResult = array();
+
+        if (extension_loaded('curl')) {
+            $aCurl = curl_version();
+            if (!empty($aCurl['ssl_version'])) {
+                $aResult[] = 'curl';
+            }
+        }
+        if (extension_loaded('openssl')) {
+            $aResult[] = 'openssl';
+        }
+
+        return count($aResult) ? $aResult : false;
+    }
+
+    /**
      * A method to strip unwanted ending tags from an Openads version string.
      *
      * @static
