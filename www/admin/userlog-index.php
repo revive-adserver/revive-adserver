@@ -66,7 +66,7 @@ $publisherId    = MAX_getValue('publisherId',     0);
 $zoneId         = MAX_getValue('zoneId',          0);
 $startDate      = MAX_getStoredValue('period_start');
 $endDate        = MAX_getStoredValue('period_end');
-$periodPreset   = MAX_getStoredValue('period_preset', 'all_events');
+$periodPreset   = MAX_getValue('period_preset', 'all_events');
 
 //  paging related input variables
 $listorder      = MAX_getStoredValue('listorder',       'updated');

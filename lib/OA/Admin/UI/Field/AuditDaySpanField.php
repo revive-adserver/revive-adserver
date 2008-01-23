@@ -116,7 +116,7 @@ class OA_Admin_UI_Audit_DaySpanField extends Admin_UI_DaySpanField
             document.getElementById('{$this->_name}_preset').value = '{$this->_fieldSelectionValue}';
         }
         function {$this->_name}FormSubmit() {
-            document.getElementById('{$this->_name}_preset').form.submit();
+            submitForm();
             return false;
         }
         function {$this->_name}FormChange(bAutoSubmit)
@@ -176,7 +176,7 @@ class OA_Admin_UI_Audit_DaySpanField extends Admin_UI_DaySpanField
             document.getElementById('{$this->_name}_end_button').style.cursor = specific ? 'auto' : 'default';
 
             if (!specific && bAutoSubmit) {
-                o.form.submit();
+                submitForm();
             }
         }
         {$this->_name}FormChange(0);
