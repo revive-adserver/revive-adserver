@@ -67,27 +67,22 @@ class OA_Permission_User
         unset($this->aUser['password']);
 
         // Make sure we start with an empty account
-        $this->_clearAccount();
+        $this->_clearAccountData();
 
         if (!$skipDatabaseAccess) {
             // Check if the user is linked to the admin account
             $this->aUser['is_admin'] = $this->_isAdmin();
-
-            $this->switchAccount($this->aUser['default_account_id']);
+            $this->loadAccountData($this->aUser['default_account_id']);
         } else {
             $this->aUser['is_admin'] = false;
         }
     }
 
-    function switchAccount($accountId)
+    function loadAccountData($accountId)
     {
         if (!empty($accountId))
         {
-            if (!OA_Permission::hasAccess($accountId, $this->aUser['user_id'])) {
-                Max::raiseError("The user does not have access to this account");
-            }
-
-            $this->_clearAccount();
+            $this->_clearAccountData();
 
             $doAccount = OA_Dal::factoryDO('accounts');
             $doAccount->account_id = $accountId;
@@ -123,7 +118,7 @@ class OA_Permission_User
      * A private method to clear the $aAccount array
      *
      */
-    function _clearAccount()
+    function _clearAccountData()
     {
         $this->aAccount = array(
             'account_id'   => 0,

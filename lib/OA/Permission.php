@@ -233,7 +233,7 @@ class OA_Permission
     {
         if ($hasAccess || OA_Permission::hasAccess($accountId)) {
             $oUser = &OA_Permission::getCurrentUser();
-            $oUser->switchAccount($accountId);
+            $oUser->loadAccountData($accountId);
         }
 
         // Force session save
