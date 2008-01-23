@@ -54,7 +54,7 @@ class OA_Dashboard_Widget_Feed extends OA_Dashboard_Widget
      */
     function OA_Dashboard_Widget_Feed($aParams, $title, $url, $posts = 6, $siteTitle = null, $siteUrl = null)
     {
-        parent::OA_Dashboard_Widget();
+        parent::OA_Dashboard_Widget($aParams);
 
         $this->title = $title;
         $this->url   = $url;
