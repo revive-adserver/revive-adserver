@@ -68,12 +68,8 @@ class LogonServiceImpl extends BaseServiceImpl
         // Load the required language file.
         Language_Default::load();
 
-        if ($doUser = OA_Auth::checkPassword($username, $password)) {
-
-            if (PEAR::isError($doUser) ) {
-                return false;
-            }
-
+        $doUser = OA_Auth::checkPassword($username, $password);
+        if ($doUser) {
             phpAds_SessionDataRegister(OA_Auth::getSessionData($doUser));
             return true;
         } else {

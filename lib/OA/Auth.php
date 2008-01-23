@@ -75,9 +75,7 @@ class OA_Auth
 
             $doUser = OA_Auth::checkPassword($aCredentials['username'], $aCredentials['password']);
 
-            if (PEAR::isError($doUser)) {
-                OA_Auth::displayError($doUser);
-            } else if($doUser === false) {
+            if (!$doUser) {
                 OA_Auth::restart($GLOBALS['strUsernameOrPasswordWrong']);
             }
 

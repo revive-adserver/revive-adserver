@@ -116,7 +116,7 @@ class OA_Upgrade_Login
         if (!PEAR::isError($aCredentials)) {
             $doUser = OA_Auth::checkPassword($aCredentials['username'], $aCredentials['password']);
 
-            if (!PEAR::isError($doUser)) {
+            if ($doUser) {
                 phpAds_SessionDataRegister(OA_Auth::getSessionData($doUser));
             }
         }

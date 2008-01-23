@@ -57,7 +57,7 @@ class OA_Permission_User
     function OA_Permission_User($doUsers, $skipDatabaseAccess = false)
     {
         if (!is_a($doUsers, 'DataObjects_Users')) {
-            MAX::raiseError('doUser not a DataObjects_Users', PEAR_LOG_ERR, PEAR_ERROR_DIE);
+            MAX::raiseError('doUser not a DataObjects_Users');
         }
 
         // Store user information as array
