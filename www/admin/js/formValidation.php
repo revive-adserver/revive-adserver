@@ -139,6 +139,30 @@ function max_formSetUnique(obj, unique)
 }
 
 /**
+ * A JavaScript function to set a length constraints for a form element.
+ *
+ * @param {Object} length set the minimum and maximum length for the field.
+ *                       Pass object with properties: min, max.
+ *                       Either min and max can be set. 
+ *                       Negative values and 0 (zero) for min are ignored.
+ *                       Examples: {max: 10}, {min: 2, max: 10}, {min: 5} 
+ */
+function max_formSetLength(obj, length)
+{
+  obj = findObj(obj);
+  // Set properties
+  if (obj) {
+    if (length && length.min && length.min > 0) {
+      obj.minLength = length.min;
+    }
+    if (length && length.max) {
+      obj.maxLength = length.max;
+    }  
+  }
+}
+
+
+/**
  * A JavaScript function to add JS condition which if present should be evaluated before field is validated
  *
  * @param {String} obj The name of the HTML form element.
@@ -288,6 +312,15 @@ function max_formValidateElement(obj)
 				}
 			}
 		}
+		
+    if (obj.minLength && obj.value.length < obj.minLength) {
+        err = true;
+    }
+    
+    if (obj.maxLength && obj.value.length > obj.maxLength) { //this is unlikely since browser should contrain that
+        err = true;
+    }
+		
 		// Change class
 		if (err) {
 			obj.className='error';
