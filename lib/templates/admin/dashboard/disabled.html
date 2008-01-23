@@ -46,8 +46,12 @@ $Id: login.html 10822 2007-10-03 14:47:48Z bernard.lange@openads.org $
         <div class="widgetOverlayBody">
             <div class="widgetOverlayContent" style="text-align: center">
                 <h1 style="margin-top: 70px">Your home page is disabled</h1>
-
-{if $noSSL}
+                
+{if !$isAdmin}
+                 <p style="margin-top: 70px">This page has been disabled by the Admin user.</p> 
+                 <p>Please contact them for permission to see this page.</p>                 
+{else}
+  {if $noSSL}
                 <p style="color: red">Your installation does not currently support SSL</p>
                 <p>
                     To access the Home page, your ad server must be able to log on securely to our central
@@ -57,11 +61,12 @@ $Id: login.html 10822 2007-10-03 14:47:48Z bernard.lange@openads.org $
                     It is necessary to install a PHP extension to communicate with SSL, either openssl or
                     SSL-enabled curl. For more information contact your system administrator.
                 </p>
-{else}
+  {else}
                 <p style="margin-top: 70px">You have choosen to disable your Home page.
                 <div><a href="{$settingsUrl}" target="_top">Click here to access your Home page</a></div>
                 <p style="margin-top: 0px">and edit your synchronization settings</p>
-{/if}
+  {/if}
+{/if}  
             </div>
         </div>
         <div class="widgetOverlayLeft">&nbsp;</div>
@@ -70,3 +75,4 @@ $Id: login.html 10822 2007-10-03 14:47:48Z bernard.lange@openads.org $
 </div>
 </body>
 </html>
+ 
