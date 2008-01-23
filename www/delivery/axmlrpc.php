@@ -2333,6 +2333,21 @@ $format = 'Y-m-d H:i:s';
 }
 return gmdate($format);
 }
+function getAvailableSSLExtensions()
+{
+return false;
+$aResult = array();
+if (extension_loaded('curl')) {
+$aCurl = curl_version();
+if (!empty($aCurl['ssl_version'])) {
+$aResult[] = 'curl';
+}
+}
+if (extension_loaded('openssl')) {
+$aResult[] = 'openssl';
+}
+return count($aResult) ? $aResult : false;
+}
 function stripVersion($version, $aAllow = null)
 {
 $allow = is_null($aAllow) ? '' : '|'.join('|', $aAllow);
