@@ -159,7 +159,6 @@ div.sysinfoerror li {
     text-align: center;
 }
 .graph {
-    position: relative; /* IE */
     width: 396px !important;
     width: 406px;
     height: 18px !important;
@@ -183,7 +182,6 @@ div.sysinfoerror li {
 .graph .bar {
     vertical-align: middle;
     display: block;
-    position: relative;
     text-align: center;
     height: 18px;
     background: #000063;

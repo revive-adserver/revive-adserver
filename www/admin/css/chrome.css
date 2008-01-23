@@ -371,6 +371,7 @@ a:hover {
 	padding: 0;
 	list-style-type: none;
 	white-space: nowrap;
+	overflow: hidden;
 }
 #oaSectionTabs li {
 	float: left;
