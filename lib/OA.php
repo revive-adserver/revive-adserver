@@ -271,7 +271,6 @@ class OA
      */
     function getAvailableSSLExtensions()
     {
-        return false;
         $aResult = array();
 
         if (extension_loaded('curl')) {
