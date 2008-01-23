@@ -606,7 +606,7 @@ class OA_Central_RpcMapper
      */
     function getCommunityStats()
     {
-        $aResult = $this->oRpc->callSso('getCommunityStats');
+        $aResult = $this->oRpc->callM2M('getCommunityStats');
 
         return $aResult;
     }
