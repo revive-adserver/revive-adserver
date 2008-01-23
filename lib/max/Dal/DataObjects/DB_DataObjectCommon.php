@@ -1236,15 +1236,12 @@ class DB_DataObjectCommon extends DB_DataObject
                 $aAuditFields = $this->_prepAuditArray($actionid, $oDataObject);
                 // Individual objects can customise this data (add, remove, format...)
                 $this->_buildAuditArray($actionid, $aAuditFields);
-                // Do not audit if nothing has changed
-                if (count($aAuditFields)) {
-                    // Serialise the data
-                    $this->doAudit->details = serialize($aAuditFields);
-                    $this->doAudit->updated = OA::getNowUTC();
-                    // Finally, insert the audit record
-                    $id = $this->doAudit->insert();
-                    return $id;
-                }
+                // Serialise the data
+                $this->doAudit->details = serialize($aAuditFields);
+                $this->doAudit->updated = OA::getNowUTC();
+                // Finally, insert the audit record
+                $id = $this->doAudit->insert();
+                return $id;
             }
         }
 
