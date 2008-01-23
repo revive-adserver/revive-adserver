@@ -42,6 +42,14 @@ if (!empty($_GET['account_id'])) {
     OA_Permission::switchAccount($_GET['account_id']);
 }
 
-header("Location: index.php");
+if (isset($_SERVER['HTTP_REFERER'])) {
+    $session['accountSwitch'] = 1;
+    phpAds_SessionDataStore();
+    // redirects user to the same page after switching an account
+    $redirect = $_SERVER['HTTP_REFERER'];    
+} else {
+    $redirect = 'index.php';
+}
+header("Location: $redirect");
 
 ?>

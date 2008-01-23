@@ -111,9 +111,29 @@ class OA_Permission
         $aArgs = is_array($accountType) ? $accountType : func_get_args();
         $isAccount = OA_Permission::isAccount($aArgs);
         if (!$isAccount) {
+            if (OA_Permission::isManualAccountSwitch()) {
+                require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
+                MAX_Admin_Redirect::redirect();
+            }
             $isAccount = OA_Permission::attemptToSwitchToAccount($aArgs);
         }
         OA_Permission::enforceTrue($isAccount);
+    }
+    
+    /**
+     * Returns true if user land on the current page as a result of account switch
+     * (If user manually switched account he is redirected to referer url and
+     * a accountSwitch parameter is set in session)
+     */
+    function isManualAccountSwitch()
+    {
+        global $session;
+        if (isset($session['accountSwitch'])) {
+            unset($session['accountSwitch']);
+            phpAds_SessionDataStore();
+            return true;
+        }
+        return false;
     }
 
     /**
