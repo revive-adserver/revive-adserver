@@ -905,10 +905,10 @@ class Admin_DA
 
         $aStats = Admin_DA::fromCache('getDayHourHistory', $aParams);
 
-        return Admin_DA::_convertStatsArrayToTz($aStats, $aParams, $method, $args, $formatted);
+        return Admin_DA::_convertStatsArrayToTz($aStats, $aParams, $name, $method, $args, $formatted);
     }
 
-    function _convertStatsArrayToTz($aStats, $aParams, $method, $args = array(), $formatted = null)
+    function _convertStatsArrayToTz($aStats, $aParams, $name, $method, $args = array(), $formatted = null)
     {
         $aResult = array();
         foreach ($aStats as $k => $v) {
@@ -918,7 +918,7 @@ class Admin_DA
             $oDate->convertTZbyID($aParams['tz']);
             $key = call_user_func_array(array(&$oDate, $method), $args);
             if (!isset($aResult[$key])) {
-                $v['date_time'] = $key;
+                $v[$name] = $key;
                 if ($formatted) {
                     $v['date_f'] = $oDate->format($formatted);
                 }

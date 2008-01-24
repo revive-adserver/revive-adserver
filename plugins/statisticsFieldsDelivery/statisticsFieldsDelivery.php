@@ -167,10 +167,8 @@ class Plugins_statisticsFieldsDelivery_statisticsFieldsDelivery extends MAX_Plug
             $aColumns[$k] = false;
             if (isset($v['pref'])) {
                 $var = $v['pref'];
-                if (isset($aPref[$var])) {
-                    if ($aPref[$var]) {
-                        $aColumns[$k] = !empty($v['rank']);
-                    }
+                if (!empty($aPref[$var])) {
+                    $aColumns[$k] = true;
                 }
             }
         }

@@ -635,9 +635,6 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
 
         $graphVals = $graphFilter;
 
-        // Turn off non visible fields
-        $this->_columnsVisibilitySet();
-
         // Set columns shown by default
         if (!is_array($graphVals)) {
             if (isset($this->aColumns['sum_views'])) {
@@ -735,9 +732,6 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         $formSubmitLink = explode ("/", $_SERVER['REQUEST_URI']);
         $formSubmitLink = $formSubmitLink[ count($formSubmitLink)-1 ];
         $graphVals = $_POST['graphFilter'];
-
-        // Turn off non visible fields
-        $this->_columnsVisibilitySet();
 
         // Set columns showny by default
         if (!is_array($graphVals) ) {
@@ -1459,24 +1453,6 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         $this->aGlobalPrefs['period_preset'] = $this->oDaySpanSelector->_fieldSelectionValue;
         $this->aGlobalPrefs['period_start']  = $this->aDates['day_begin'];
         $this->aGlobalPrefs['period_end']    = $this->aDates['day_end'];
-    }
-
-    /**
-     * A private method to remove any hidden columns from the list to
-     * be displayed.
-     *
-     * @access private
-     */
-    function _columnsVisibilitySet()
-    {
-        foreach ($this->aColumns as $k => $v) {
-            $fieldName = explode('sum_', $k);
-            $sum = isset($fieldName[1]) ? $fieldName[1] : '';
-            $fieldName = 'ui_column_' . $sum . '_array';
-            if (isset($GLOBALS['_MAX']['PREF'][$fieldName]) && is_array($GLOBALS['_MAX']['PREF'][$fieldName]) && $GLOBALS['_MAX']['PREF'][$fieldName][$GLOBALS['session']['usertype']]['show'] != 1) {
-                unset($this->aColumns[$k]);
-            }
-        }
     }
 
     /**
