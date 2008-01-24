@@ -101,7 +101,7 @@ $Id$
             <td height="25" style="text-align: center">
                 {$affiliate.adv_signup|default:'&nbsp;'}
             </td>
-            {/if}
+        {/if}
 		{* Button - Create *}
 		<td height='25'>
 
@@ -190,8 +190,10 @@ $Id$
 			{* ID *}
 			<td height='25'>{$zone.zoneid}</td>
 
+      {if $showAdDirect}
 			{* TODO: Insert adv. signup here *}
 			<td height="25" style="text-align: center">&nbsp;</td>
+			{/if}
 
 			{* Button 1 *}
 			<td height='25'>

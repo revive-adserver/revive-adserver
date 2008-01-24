@@ -80,11 +80,7 @@ $Id$
     		{if $showAdDirect}<td class="sts sts-awaiting">&nbsp;</td>{/if}
 
     		<td height='25' style="padding-right: 10px;">
-    		{if $client.expand && !$client.campaigns}
-    			<a href='campaign-edit.php?clientid={$clientId}'><img src='images/icon-campaign-new.gif' border='0' align='absmiddle' alt='{t str=Create}'>&nbsp;{t str=Create}</a>
-    		{else}
-    			&nbsp;
-    		{/if}
+    			<a href='campaign-edit.php?clientid={$clientId}' title="{t str=Create}"><img src='images/icon-campaign-new.gif' border='0' align='absmiddle' alt='{t str=Create}'>&nbsp;{t str=Create}</a>
     		</td>
 
     		<td height='25' style="padding-right: 10px;">
@@ -124,12 +120,14 @@ $Id$
               <a href='campaign-edit.php?clientid={$clientId}&campaignid={$campaignId}'>{$campaign.campaignname|escape:html}</a>
             </div>
         </td>
+        {if $showAdDirect}
         <td>
             {showStatusText status=$campaign.status an_status=$campaign.an_status clientid=$clientId campaignid=$campaignId}
         </td>
+        {/if}
 
         <td height='25' style="padding-right: 15px;">
-          <a href='banner-edit.php?clientid={$clientId}&campaignid={$campaignId}' title="Create a banner"><img src='images/icon-banner-new.gif' border='0' align='absmiddle' alt='{t str=Create}'>&nbsp;{t str=Create}</a>
+          <a href='banner-edit.php?clientid={$clientId}&campaignid={$campaignId}' title="{t str=Create}"><img src='images/icon-banner-new.gif' border='0' align='absmiddle' alt='{t str=Create}'>&nbsp;{t str=Create}</a>
         </td>
 
         <td height='25' style="padding-right: 15px;">
@@ -157,7 +155,9 @@ $Id$
             <a href='banner-edit.php?clientid={$clientId}&campaignid={$campaignId}&bannerid={$bannerId}'>{$banner.name}</a>
           </div>
          </td>
+        {if $showAdDirect}
         <td height='25'></td>
+        {/if}
         <td>&nbsp;</td>
         <td height='25'>
             <a href='banner-acl.php?clientid={$clientId}&campaignid={$campaignId}&bannerid={$bannerId}'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='{t str=ACL}'>&nbsp;{t str=ACL}</a>
