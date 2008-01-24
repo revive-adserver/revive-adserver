@@ -412,6 +412,9 @@ function MMM_buildNavigation()
     }
 
     if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+        $myAccount = $GLOBALS['OA_Navigation'][OA_ACCOUNT_ADVERTISER]['5'];
+        unset( $GLOBALS['OA_Navigation'][OA_ACCOUNT_ADVERTISER]['5']);
+
         if (OA_Permission::hasPermission(OA_PERM_BANNER_ACTIVATE) || OA_Permission::hasPermission(OA_PERM_BANNER_EDIT)) {
             $GLOBALS['OA_Navigation'][OA_ACCOUNT_ADVERTISER]['2'] = array("advertiser-campaigns.php?clientid=$clientid" => $GLOBALS['strAdminstration']);
             $GLOBALS['OA_Navigation'][OA_ACCOUNT_ADVERTISER]['2.1'] = array("campaign-banners.php?clientid=$clientid&campaignid=$campaignid" => $GLOBALS['strBannerOverview']);
@@ -422,7 +425,12 @@ function MMM_buildNavigation()
         } else if (OA_Permission::hasPermission(OA_PERM_SUPER_ACCOUNT)) {
             $GLOBALS['OA_Navigation'][OA_ACCOUNT_ADVERTISER]['2'] = array("advertiser-access.php?clientid=$clientid" => $GLOBALS['strUserAccess']);
         }
+        $GLOBALS['OA_Navigation'][OA_ACCOUNT_ADVERTISER]['5'] = $myAccount;
+
     } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+        $myAccount = $GLOBALS['OA_Navigation'][OA_ACCOUNT_TRAFFICKER]['5'];
+        unset( $GLOBALS['OA_Navigation'][OA_ACCOUNT_TRAFFICKER]['5']);
+
         if (OA_Permission::hasPermission(OA_PERM_ZONE_EDIT) || OA_Permission::hasPermission(OA_PERM_ZONE_ADD)) {
             $GLOBALS['OA_Navigation'][OA_ACCOUNT_TRAFFICKER]['2.1.1'] = array("zone-edit.php?affiliateid=$affiliateid&zoneid=$zoneid" => $GLOBALS['strZoneProperties']);
         }
@@ -433,6 +441,9 @@ function MMM_buildNavigation()
             $GLOBALS['OA_Navigation'][OA_ACCOUNT_TRAFFICKER]['2.1.4'] = array("zone-invocation.php?affiliateid=$affiliateid&zoneid=$zoneid" => $GLOBALS['strInvocationcode']);
             $GLOBALS['OA_Navigation'][OA_ACCOUNT_TRAFFICKER]['2.2']   = array("affiliate-invocation.php?affiliateid=$affiliateid" => $GLOBALS['strInvocationcode']);
         }
+
+        $GLOBALS['OA_Navigation'][OA_ACCOUNT_TRAFFICKER]['5'] = $myAccount;
+
     } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
         if (!$aConf['sync']['checkForUpdates'] || !OA::getAvailableSSLExtensions()) {
             unset($GLOBALS['OA_Navigation'][OA_ACCOUNT_MANAGER]['1']);
