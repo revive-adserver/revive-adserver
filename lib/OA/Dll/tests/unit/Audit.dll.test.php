@@ -78,6 +78,9 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oDate->toUTC();
         $oDate->subtractSpan(new Date_Span('8-0-0-0'));
 
+        // add 1 hour to make sure that the test passes even if it takes some time
+        $oDate->addSpan(new Date_Span('0-1-0-0'));
+
         // record 1 - more than 7 days old so should not be returned
         $oAudit = OA_Dal::factoryDO('audit');
         $oAudit->account_id = 1;
@@ -188,6 +191,9 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oDate = & new Date(OA::getNow());
         $oDate->toUTC();
         $oDate->subtractSpan(new Date_Span('8-0-0-0'));
+
+        // add 1 hour to make sure that the test passes even if it takes some time
+        $oDate->addSpan(new Date_Span('0-1-0-0'));
 
         // record 1 - more than 7 days old so should not be returned
         $oDateCopy = new Date($oDate);
