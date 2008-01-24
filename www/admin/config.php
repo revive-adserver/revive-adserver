@@ -605,10 +605,13 @@ function MMM_buildNavigation()
               "4.3"                     =>  array('inventory/directSelection'),
             "5"                         =>  array('settings'),
               "5.1"                     =>  array('settings/mainSettings'),
-              "5.2"                     =>  array('settings/channelManagement'),
-                "5.2.1"                 =>  array('settings/channelManagement/addChannel'),
-                "5.2.2"                 =>  array('settings/channelManagement/editChannel'),
-                "5.2.3"                 =>  array('settings/channelManagement/editChannel/deliveryOptions')
+              "5.3"                     =>  array('settings/userLog'),
+                "5.3.1"                 =>  array('settings/userLog/details'),
+              "5.7"                     =>  array('settings/channelManagement'),
+                "5.7.1"                 =>  array('settings/channelManagement/addChannel'),
+                "5.7.2"                 =>  array('settings/channelManagement/editChannel'),
+                "5.7.3"                 =>  array('settings/channelManagement/editChannel/deliveryOptions'),
+
 // Switched off
 //              "5.3"                   =>  array()
         ),
@@ -648,7 +651,7 @@ function MMM_buildNavigation()
               "4.1"                 =>  array('inventory/advertisersAndCampaigns'),
         ),
 
-        OA_ACCOUNT_MANAGER => array (
+        OA_ACCOUNT_TRAFFICKER => array (
             "1"                     =>  array('statistics/publisherHistory'),
               "1.1"                 =>  array('statistics/publisherHistory'),
                 "1.1.1"             =>  array('statistics/publisherHistory/daily'),
