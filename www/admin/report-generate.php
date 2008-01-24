@@ -52,10 +52,10 @@ if (isset($_REQUEST['submit_type']) && $_REQUEST['submit_type'] == 'change') {
 // If the report is for a "specific" period, store the period for later user
 if (!is_null($_GET['period_preset']) && ($_GET['period_preset'] == 'specific')) {
     if (!is_null($_GET['period_start'])) {
-        $session['prefs']['GLOBALS']['startDate'] = $_GET['period_start'];
+        $session['prefs']['GLOBALS']['startDate'] = $_GET['period_start'] = date('Y-m-d', strtotime($_GET['period_start']));
     }
     if (!is_null($_GET['period_end'])) {
-        $session['prefs']['GLOBALS']['endDate']   = $_GET['period_end'];
+        $session['prefs']['GLOBALS']['endDate'] = $_GET['period_end'] = date('Y-m-d', strtotime($_GET['period_end']));
     }
 }
 
