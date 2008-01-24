@@ -917,8 +917,8 @@ class Admin_DA
             $oDate->setTZbyID('UTC');
             $oDate->convertTZbyID($aParams['tz']);
             $key = call_user_func_array(array(&$oDate, $method), $args);
-            if (!isset($aStats[$key])) {
-                $v[$name] = $key;
+            if (!isset($aResult[$key])) {
+                $v['date_time'] = $key;
                 if ($formatted) {
                     $v['date_f'] = $oDate->format($formatted);
                 }

@@ -218,9 +218,11 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
         foreach (array_keys($row) as $s) {
             if (isset($row[$s])) {
                 if (!isset($entity[$row[$key]][$s])) {
-                    $entity[$row[$key]][$s] = 0;
+                    $entity[$row[$key]][$s] = $row[$s];
                 }
-                $entity[$row[$key]][$s] += $row[$s];
+                if (substr($s, -3) != '_id') {
+                    $entity[$row[$key]][$s] += $row[$s];
+                }
             }
         }
     }
@@ -427,7 +429,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
      */
     function getCampaigns($aParams, $level, $expand = '')
     {
-        $aParams['include'] = array('placement_id');
+        $aParams['include'] = array('placement_id', 'advertiser_id');
         $aParams['exclude'] = array('zone_id');
         $this->prepareData($aParams);
         $period_preset = MAX_getStoredValue('period_preset', 'today');
@@ -626,6 +628,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
     function getZones($aParams, $level, $expand)
     {
         $aParams['exclude'] = array('ad_id');
+        $aParams['include'] = array('publisher_id');
         $this->prepareData($aParams);
         $period_preset = MAX_getStoredValue('period_preset', 'today');
 
