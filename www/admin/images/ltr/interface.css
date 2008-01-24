@@ -548,7 +548,7 @@ label.error {
 }
 
 .even {
-  background-color: #E6E7E8;
+  background-color: #f6f6f6;/*#E6E7E8;*/
 }
 
 .odd {
