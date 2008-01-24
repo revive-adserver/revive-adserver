@@ -40,6 +40,7 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 class Test_OA_Dal_DeliveryDB_TZ extends UnitTestCase
 {
     var $zoneId;
+    var $aBannerId;
 
     function Test_OA_Dal_DeliveryDB_TZ()
     {
@@ -111,14 +112,14 @@ class Test_OA_Dal_DeliveryDB_TZ extends UnitTestCase
         $doBanners->width = 468;
         $doBanners->height = 60;
         $doBanners->status = OA_ENTITY_STATUS_RUNNING;
-        $aBannerId[] = DataGenerator::generateOne($doBanners);
+        $this->aBannerId[] = DataGenerator::generateOne($doBanners);
 
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $aCampaignId[1];
         $doBanners->width = 468;
         $doBanners->height = 60;
         $doBanners->status = OA_ENTITY_STATUS_RUNNING;
-        $aBannerId[] = DataGenerator::generateOne($doBanners);
+        $this->aBannerId[] = DataGenerator::generateOne($doBanners);
 
         // Zones
         $doZones = OA_Dal::factoryDO('zones');
@@ -138,15 +139,23 @@ class Test_OA_Dal_DeliveryDB_TZ extends UnitTestCase
     function testDirectSelection()
     {
         $aResult = OA_Dal_Delivery_getLinkedAds('468x60');
-        $this->assertEqual($aResult['lAds'][1]['timezone'], 'Europe/Rome');
-        $this->assertEqual($aResult['lAds'][2]['timezone'], 'Europe/London');
+        $this->assertTrue(is_array($aResult));
+        $this->assertEqual(count($aResult['lAds']), 2);
+        $this->assertTrue(is_array($aResult['lAds'][$this->aBannerId[0]]));
+        $this->assertTrue(is_array($aResult['lAds'][$this->aBannerId[1]]));
+        $this->assertEqual($aResult['lAds'][$this->aBannerId[0]]['timezone'], 'Europe/Rome');
+        $this->assertEqual($aResult['lAds'][$this->aBannerId[1]]['timezone'], 'Europe/London');
     }
 
     function testZone()
     {
         $aResult = OA_Dal_Delivery_getZoneLinkedAds($this->zoneId);
-        $this->assertEqual($aResult['lAds'][1]['timezone'], 'Europe/Rome');
-        $this->assertEqual($aResult['lAds'][2]['timezone'], 'Europe/London');
+        $this->assertTrue(is_array($aResult));
+        $this->assertEqual(count($aResult['lAds']), 2);
+        $this->assertTrue(is_array($aResult['lAds'][$this->aBannerId[0]]));
+        $this->assertTrue(is_array($aResult['lAds'][$this->aBannerId[1]]));
+        $this->assertEqual($aResult['lAds'][$this->aBannerId[0]]['timezone'], 'Europe/Rome');
+        $this->assertEqual($aResult['lAds'][$this->aBannerId[1]]['timezone'], 'Europe/London');
     }
 }
 
