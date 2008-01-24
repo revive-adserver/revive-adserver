@@ -87,19 +87,23 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalDaily extends OA_Admin_Stati
         // Security check
         OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
 
+        // Load $_GET parameters
+        $this->_loadParams();
+
         // Load the period preset and stats breakdown parameters
         $this->_loadPeriodPresetParam();
         $this->_loadStatsBreakdownParam();
 
         // HTML Framework
         $this->pageId = '2.2.1';
-        $this->aPageSections = array('2.1.1');
+        $this->aPageSections = array('2.2.1');
 
         // Prepare the data for display by output() method
         $aParams = array();
         if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $aParams['agency_id'] = OA_Permission::getAgencyId();
         }
+        $this->statsBreakdown = 'hour';
         $this->prepare($aParams);
     }
 
