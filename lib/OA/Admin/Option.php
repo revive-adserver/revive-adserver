@@ -555,7 +555,6 @@ class OA_Admin_Option
      */
     function _showCheckDependancies($aData, $aItem)
     {
-        $phpAds_config_locked = !OA_Admin_Settings::isConfigWritable();
         $formName = empty($GLOBALS['settings_formName']) ? 'settingsform' : $GLOBALS['settings_formName'];
         if (isset($aItem['depends'])) {
             $depends    = split('[ ]+', $aItem['depends']);
@@ -569,7 +568,6 @@ class OA_Admin_Option
                     // Assignment
                     eregi ("^(\(?)([a-z0-9_-]+)([\=\!\<\>]{1,2})([\"\'a-z0-9_-]+)(\)?)$", $word, $regs);
                     $type          = $this->_showGetType($aData, $regs[2]);
-                    if ($phpAds_config_locked) $javascript .= $regs[1]."document.".$formName.".".$regs[2].".enabled && ";
                     $javascript .= $regs[1]."document.".$formName.".".$regs[2].".";
                     switch ($type){
                         case 'checkbox':    $javascript .= 'checked'; break;
