@@ -259,7 +259,8 @@ class OA_Admin_PasswordRecovery
             $aConf['email']['admin_name'] = $aPref['admin_fullname'];
             $aConf['email']['admin']      = $aPref['admin_email'];
 
-            OA_Email::sendMail(sprintf($GLOBALS['strPwdRecEmailPwdRecovery'], $aPref['name']), $text, $email, $u['username']);
+            $oEmail = new OA_Email();
+            $oEmail->sendMail(sprintf($GLOBALS['strPwdRecEmailPwdRecovery'], $aPref['name']), $text, $email, $u['username']);
             $sent++;
         }
 

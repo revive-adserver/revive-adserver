@@ -69,11 +69,12 @@ function phpAds_warningMail($campaign)
 			$Body    = str_replace("{adminfullname}", $pref['admin_fullname'], $Body);
 			$Body    = str_replace("{limit}", $pref['warn_limit'], $Body);
 			// Send email
+			$oEmail = new OA_Email();
 			if ($pref['warn_admin']) {
-				OA_Email::sendMail($Subject, $Body, $pref['admin_email'], $pref['admin_fullname']);
+				$oEmail->sendMail($Subject, $Body, $pref['admin_email'], $pref['admin_fullname']);
 			}
 			if ($pref['warn_client'] && $client["email"] != '') {
-				OA_Email::sendMail($Subject, $Body, $client['email'], $client['contact']);
+				$oEmail->sendMail($Subject, $Body, $client['email'], $client['contact']);
 				if ($aConf['email']['logOutgoing']) {
 					phpAds_userlogAdd(phpAds_actionWarningMailed, $campaign['campaignid'], $Subject."\n\n".$Body);
 				}

@@ -213,10 +213,11 @@ class OA_Maintenance
                 $oReportEndDate->setSecond(0);
                 $oReportEndDate->subtractSeconds(1);
                 // Send the advertiser's campaign delivery report
-                $aEmail = OA_Email::preparePlacementDeliveryEmail($aAdvertiser['clientid'], $oReportLastDate, $oReportEndDate);
+                $oEmail = new OA_Email();
+                $aEmail = $oEmail->preparePlacementDeliveryEmail($aAdvertiser['clientid'], $oReportLastDate, $oReportEndDate);
                 if ($aEmail !== false) {
                     if (!isset($aEmail['hasAdviews']) || $aEmail['hasAdviews'] !== false) {
-                        OA_Email::sendMail($aEmail['subject'], $aEmail['contents'], $aEmail['userEmail'], $aEmail['userName']);
+                        $oEmail->sendMail($aEmail['subject'], $aEmail['contents'], $aEmail['userEmail'], $aEmail['userName']);
                     }
                     // Update the last run date to "today"
                     OA::debug('   - Updating the date the report was last sent for advertiser ID ' . $aAdvertiser['clientid'] . '.', PEAR_LOG_DEBUG);
