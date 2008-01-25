@@ -294,6 +294,9 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
                     if ($aFieldStyle[$k]['axis'] == 'X') {
                         $Dataset[$k]->addPoint($key[0]."\n".$key[1], $record[$k], IMAGE_GRAPH_AXIS_X);
                     } else {
+                        if ($k == 'sum_ctr') {
+                            $record[$k] *= 100;
+                        }
                         $Dataset[$k]->addPoint($key[0]."\n".$key[1], $record[$k], IMAGE_GRAPH_AXIS_Y_SECONDARY);
                     }
                     $Dataset[$k]->setName($this->aColumns[$k]);
@@ -315,7 +318,7 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
                     $Plot[$k]->setFillColor($aFieldStyle[$k]['background']);
                     $LineStyle =& Image_Graph::factory('Image_Graph_Line_Solid', $aFieldStyle[$k]['params']);
                     $Plot[$k]->setLineStyle($LineStyle);
-                    foreach($Dataset[$k] as $id => $val) {
+                    foreach($Dataset[$k]->_data as $id => $val) {
                         // To determine the max value of the 2nd y axis
                         if (is_numeric($val['Y']) && (!isset($maxY2val) || $val['Y'] > $maxY2val)) {
                             $maxY2val = $val['Y'];

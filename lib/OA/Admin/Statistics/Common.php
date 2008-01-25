@@ -296,6 +296,13 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     var $dayLinkBreakdown = 'daily';
 
     /**
+     * A variable to decide if stats returned need to be formatted or not
+     *
+     * @var boolean
+     */
+    var $noFormat = false;
+
+    /**
      * A PHP5-style constructor that can be used to perform common
      * class instantiation by children classes.
      *
@@ -1268,10 +1275,12 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     {
         $this->_summariseTotals($aRows);
         $this->noStatsAvailable = !$this->_hasActiveStats($this->aTotal);
-        // Format all stats rows
-        $this->_formatStats($aRows);
-        // Format single total row
-        $this->_formatStatsRowRecursive($this->aTotal, true);
+        if (!$this->noFormat) {
+            // Format all stats rows
+            $this->_formatStats($aRows);
+            // Format single total row
+            $this->_formatStatsRowRecursive($this->aTotal, true);
+        }
     }
 
     /**

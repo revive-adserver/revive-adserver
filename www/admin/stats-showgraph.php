@@ -94,14 +94,8 @@ $_REQUEST['clientid']    = $clientid;
 $pgName = 'stats.php';
 
 $oStats = &OA_Admin_Statistics_Factory::getController($entity . "-" . $breakdown);
+$oStats->noFormat = true;
 $oStats->start();
-
-// Remove comas in values greater than 1000
-foreach($oStats->aStatsData as $dateKey => $dateRecord) {
-    foreach($dateRecord as $k => $v) {
-        $oStats->aStatsData[$dateKey][$k] = ereg_replace(",", "", $v);
-    }
-}
 
 // Output html code
 $oStats->output(true);
