@@ -93,7 +93,7 @@ class Test_OA_Email extends UnitTestCase
         $clientName   = 'Foo Client';
 
         // Prepare the admin email address and name
-        $oPreference = OA_Dal::factoryDO('preference');
+        $oPreference = OA_Dal::factoryDO('preferences');
         $oPreference->agencyid       = 0;
         $oPreference->admin_fullname = 'Andrew Hill';
         $oPreference->company_name   = 'Openads Ltd.';
@@ -412,7 +412,7 @@ class Test_OA_Email extends UnitTestCase
 
         // Prepare the admin email address and name, and set
         // all users to receive warnings
-        $oPreference = OA_Dal::factoryDO('preference');
+        $oPreference = OA_Dal::factoryDO('preferences');
         $oPreference->agencyid       = 0;
         $oPreference->admin_fullname = $adminContact;
         $oPreference->admin_email    = $adminMail;
@@ -817,7 +817,7 @@ class Test_OA_Email extends UnitTestCase
         $clientName   = 'Foo Client';
 
         // Prepare the admin email address and name
-        $oPreference = OA_Dal::factoryDO('preference');
+        $oPreference = OA_Dal::factoryDO('preferences');
         $oPreference->agencyid       = 0;
         $oPreference->admin_fullname = 'Andrew Hill';
         $oPreference->company_name   = 'Openads Ltd.';
@@ -893,7 +893,7 @@ class Test_OA_Email extends UnitTestCase
         $clientName   = 'Foo Client';
 
         // Prepare the admin email address and name
-        $oPreference = OA_Dal::factoryDO('preference');
+        $oPreference = OA_Dal::factoryDO('preferences');
         $oPreference->agencyid       = 0;
         $oPreference->admin_fullname = 'Andrew Hill';
         $oPreference->company_name   = 'Openads Ltd.';

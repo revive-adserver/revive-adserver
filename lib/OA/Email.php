@@ -903,7 +903,7 @@ class OA_Email
 
     /**
      * A private method to prepare the "regards" sign off for email reports,
-     * based on the "owning" agnecy ID (which can be 0, in the case the "owner" is
+     * based on the "owning" agency ID (which can be 0, in the case the "owner" is
      * the admin user).
      *
      * @param integer $agencyId The owning agency ID.
