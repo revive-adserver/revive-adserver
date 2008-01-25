@@ -244,13 +244,13 @@ a:hover {
   float: left;
   padding: 0 7px 0 7px;
 }
-#oaNavigationExtraTop li.infoUser, #oaNavigationExtraTop li.buttonHelp, #oaNavigationExtraTop li.buttonLogout {
+#oaNavigationExtraTop li.infoUser, #oaNavigationExtraTop li.buttonHelp, #oaNavigationExtraTop li.buttonReportBugs {
 	border-right: 1px solid #9c9c9c;
 }
 #oaNavigationExtraTop .buttonReportBugs {
 }
 
-#oaNavigationExtraTop .buttonReportBugs a {
+/*#oaNavigationExtraTop .buttonReportBugs a {
   background: url(../images/bug-fam.png) no-repeat;
   background-position:  center right;
   padding-right: 25px;
@@ -258,7 +258,8 @@ a:hover {
   /* Fix IE bug: transparent PNG support */
   -background: none;
   -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/bug-fam.png');
-}
+}*/
+
 #oaNavigationExtraTop .buttonStartOver {
 	font-weight: bold;
 }
