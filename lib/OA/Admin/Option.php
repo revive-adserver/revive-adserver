@@ -507,6 +507,10 @@ class OA_Admin_Option
             }
             return $noRestriction;
         }
+        // Is the preference type restricted to admin?
+        if ($preferenceType == OA_ACCOUNT_ADMIN) {
+            return 'disable';
+        }
         // Is the preference type restricted to managers?
         if ($preferenceType == OA_ACCOUNT_MANAGER) {
             return 'disable';
