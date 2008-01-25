@@ -72,12 +72,10 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $aCheckboxes['ui_show_banner_preview'] = true;
     $aElements[] = 'ui_hide_inactive';
     $aCheckboxes['ui_hide_inactive'] = true;
-    $aElements[] = 'ui_show_matching';
-    $aCheckboxes['ui_show_matching'] = true;
-    $aElements[] = 'ui_show_parents';
-    $aCheckboxes['ui_show_parents'] = true;
-    $aElements[] = 'ui_show_banner_html';
-    $aCheckboxes['ui_show_banner_html'] = true;
+    $aElements[] = 'ui_show_matching_banners';
+    $aCheckboxes['ui_show_matching_banners'] = true;
+    $aElements[] = 'ui_show_matching_banners_parents';
+    $aCheckboxes['ui_show_matching_banners_parents'] = true;
     // Confirmation in User Interface
     $aElements[] = 'ui_novice_user';
     $aCheckboxes['ui_novice_user'] = true;
@@ -186,12 +184,12 @@ $aSettings = array (
             ),
             array (
                 'type'  => 'checkbox',
-                'name'  => 'ui_show_matching',
+                'name'  => 'ui_show_matching_banners',
                 'text'  => $strGUIShowMatchingBanners
             ),
             array (
                 'type'  => 'checkbox',
-                'name'  => 'ui_show_parents',
+                'name'  => 'ui_show_matching_banners_parents',
                 'text'  => $strGUIShowParentCampaigns
             )
         )
