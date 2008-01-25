@@ -1126,8 +1126,12 @@ $GLOBALS['strCampaignNoRecords']        = '<li>Campaigns let you group together 
         <li>Save time by grouping banners within a campaign and no longer define delivery settings for each ad separately</li>
         <li>Check out the <a class="site-link" href="http://docs.openads.org/openads-2.4-guide/campaigns.html">Campaign documentation</a>!</li>
 ';
-$GLOBALS['strCampaignNoDataTimeSpan'] = 'No campaigns have started or finished during the timeframe you have selected';
-$GLOBALS['strCampaignAuditNotActivated'] = 'In order to view campaigns which have started or finished during the timeframe you have selected, the Audit Trail must be activated';
+
+$GLOBALS['strCampaignNoDataTimeSpan']    = 'No campaigns have started or finished during the timeframe you have selected';
+$GLOBALS['strCampaignAuditNotActivated'] = '<li>In order to view campaigns which have started or finished during the timeframe you have selected, the Audit Trail must be activated</li>
+        <li>You are seeing this message because you didn\'t activate the Audit Trail</li>
+';
+$GLOBALS['strCampaignAuditTrailSetup']   = "Activate Audit Trail to start viewing Campaigns";
 
 /*-------------------------------------------------------*/
 /* Keyboard shortcut assignments                         */

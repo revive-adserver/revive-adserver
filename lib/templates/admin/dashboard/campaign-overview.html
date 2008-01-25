@@ -39,6 +39,7 @@ $Id$
 
 <body>
 
+{if $screen == 'enabled'}
     {if $aCampaign|@count > 0}
     <div class="widgetContainer widgetListWrapper">
         <!-- normal view -->
@@ -60,8 +61,6 @@ $Id$
     <div><a class="site-link" target="_top" href="{$siteUrl}">{t str=CampaignSetUp}</a></div>
     <!-- end of no campaigns view -->
     {/if}
-
-
 		<!-- no items view  -->
 		<!--
 		<div class="widgetListWrapper widgetContainer">
@@ -73,17 +72,16 @@ $Id$
 		-->
 		<!-- end of no items view  -->
 
-		<!-- Audit Trail inactive view -->
-		<!--
-		<div class="widgetListWrapper widgetContainer">
-		    <ul class="widgetList campaignAuditNotActivated">
-		        <li>{t str=CampaignAuditNotActivated}</li>
-		    </ul>
-		</div>
-		<div><a class="site-link" target="_top" href="www/admin/account-settings-debug.php">Activate Audit Trail</a> to start viewing campaigns</div>
-		-->
-		<!-- end of Audit Trail inactive view-->
-
+{else}
+	<!-- Audit Trail inactive view -->
+	<div class="widgetListWrapper widgetContainer">
+	    <ul class="widgetList campaignAuditNotActivated">
+	       {t str=CampaignAuditNotActivated}
+	    </ul>
+	</div>
+	<div><a class="site-link" target="_top" href="{$siteUrl}">{$siteTitle}</div>
+	<!-- end of Audit Trail inactive view-->
+{/if}
 
 </body>
 </html>

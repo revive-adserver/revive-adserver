@@ -63,21 +63,28 @@ class OA_Dashboard_Widget_CampaignOverview extends OA_Dashboard_Widget
      */
     function display()
     {
-        if (!OA_Permission::isAccount('OA_ADMIN')) {
-            $aParam['account_id'] = OA_Permission::getAccountId();
-        }
-
-        $oAudit = & new OA_Dll_Audit();
-        $aCampaign = $oAudit->getAuditLogForCampaignWidget($aParam);
-        if (count($aCampaign) > 0) {
-            foreach ($aCampaign as $key => $aValue) {
-                $aCampaign[$key]['details']['campaignname'] = (strlen($aValue['details']['key_desc']) > 35) ? substr($aValue['details']['key_desc'], 0, 35).'...' : $aValue['details']['key_desc'];
+        $conf = $GLOBALS['_MAX']['CONF'];
+        if (!$conf['audit']['enabled']) {
+            $this->oTpl->assign('screen',       'disabled');
+            $this->oTpl->assign('siteTitle',    $GLOBALS['strCampaignAuditTrailSetup']);
+            $this->oTpl->assign('siteUrl',      MAX::constructUrl(MAX_URL_ADMIN, 'account-settings-debug.php'));
+        } else {
+            if (!OA_Permission::isAccount('OA_ADMIN')) {
+                $aParam['account_id'] = OA_Permission::getAccountId();
             }
-        }
 
-        $this->oTpl->assign('aCampaign',    $aCampaign);
-        $this->oTpl->assign('siteUrl',      MAX::constructURL(MAX_URL_ADMIN, 'advertiser-index.php'));
-        $this->oTpl->assign('baseUrl',      MAX::constructURL(MAX_URL_ADMIN, 'campaign-edit.php'));
+            $oAudit = & new OA_Dll_Audit();
+            $aCampaign = $oAudit->getAuditLogForCampaignWidget($aParam);
+            if (count($aCampaign) > 0) {
+                foreach ($aCampaign as $key => $aValue) {
+                    $aCampaign[$key]['details']['campaignname'] = (strlen($aValue['details']['key_desc']) > 35) ? substr($aValue['details']['key_desc'], 0, 35).'...' : $aValue['details']['key_desc'];
+                }
+            }
+
+            $this->oTpl->assign('aCampaign',    $aCampaign);
+            $this->oTpl->assign('siteUrl',      MAX::constructURL(MAX_URL_ADMIN, 'advertiser-index.php'));
+            $this->oTpl->assign('baseUrl',      MAX::constructURL(MAX_URL_ADMIN, 'campaign-edit.php'));
+        }
 
         $this->oTpl->display();
     }

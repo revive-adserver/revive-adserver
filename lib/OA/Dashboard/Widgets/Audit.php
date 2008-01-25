@@ -57,8 +57,7 @@ class OA_Dashboard_Widget_Audit extends OA_Dashboard_Widget
             $this->oTpl->assign('screen',       'disabled');
             $this->oTpl->assign('siteTitle',    $GLOBALS['strAuditTrailSetup']);
             $this->oTpl->assign('siteUrl',      MAX::constructUrl(MAX_URL_ADMIN, 'account-settings-debug.php'));
-        } elseif ($conf['audit']['enabled']) {
-
+        } else {
             if (!OA_Permission::isAccount('OA_ADMIN')) {
                 $aParam['account_id'] = OA_Permission::getAccountId();
             }
