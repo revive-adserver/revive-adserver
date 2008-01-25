@@ -443,13 +443,16 @@ class MAX_Admin_Invocation {
         }
 
         // Disable bannercode before submitting the form (causes problems with mod_security)
-        $buffer .= "<script type='text/javascript'>";
-        $buffer .= "function submitForm() {";
-        $buffer .= "    var form = document.getElementById('generate');";
-        $buffer .= "    form.bannercode.disabled = true;";
-        $buffer .= "    form.submit();";
-        $buffer .= "}";
-        $buffer .= "</script>";
+        $buffer .= "<script type='text/javascript'>
+            function submitForm() {
+                var form = findObj('generate');
+                if (typeof(form.bannercode) != 'undefined') {
+                    form.bannercode.disabled = true;
+                }
+                form.submit();
+            }
+            </script>
+        ";
 
         return $buffer;
     }
