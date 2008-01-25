@@ -80,11 +80,15 @@ $Id$
     		{if $showAdDirect}<td class="sts sts-awaiting">&nbsp;</td>{/if}
 
     		<td height='25' style="padding-right: 10px;">
-    			<a href='campaign-edit.php?clientid={$clientId}' title="{t str=Create}"><img src='images/icon-campaign-new.gif' border='0' align='absmiddle' alt='{t str=Create}'>&nbsp;{t str=Create}</a>
+          {if !$client.campaigns}    		
+    			 <a href='campaign-edit.php?clientid={$clientId}' title="{t str=AddCampaign}"><img src='images/icon-campaign-new.gif' border='0' align='absmiddle' alt='{t str=Create}'>&nbsp;{t str=Create}</a>
+		      {else}
+		        &nbsp;
+		      {/if}
     		</td>
 
     		<td height='25' style="padding-right: 10px;">
-    			<a href='advertiser-campaigns.php?clientid={$clientId}'><img src='images/icon-overview.gif' border='0' align='absmiddle' alt='{t str=Overview}'>&nbsp;{t str=Overview}</a>
+    			<a href='advertiser-campaigns.php?clientid={$clientId}' title="{t str=CampaignOverview}"><img src='images/icon-overview.gif' border='0' align='absmiddle' alt='{t str=Overview}'>&nbsp;{t str=Overview}</a>
             </td>
 
     		<td height='25' style="padding-right: 10px;">
@@ -127,11 +131,15 @@ $Id$
         {/if}
 
         <td height='25' style="padding-right: 15px;">
-          <a href='banner-edit.php?clientid={$clientId}&campaignid={$campaignId}' title="{t str=Create}"><img src='images/icon-banner-new.gif' border='0' align='absmiddle' alt='{t str=Create}'>&nbsp;{t str=Create}</a>
+          {if !$campaign.banners}
+            <a href='banner-edit.php?clientid={$clientId}&campaignid={$campaignId}' title="{t str=AddBanner}"><img src='images/icon-banner-new.gif' border='0' align='absmiddle' alt='{t str=Create}'>&nbsp;{t str=Create}</a>
+          {else}
+            &nbsp;
+          {/if}            
         </td>
 
         <td height='25' style="padding-right: 15px;">
-            <a href='campaign-banners.php?clientid={$clientId}&campaignid={$campaignId}'><img src='images/icon-overview.gif' border='0' align='absmiddle' alt='{t str=Overview}'>&nbsp;{t str=Overview}</a>
+            <a href='campaign-banners.php?clientid={$clientId}&campaignid={$campaignId}' title="{t str=BannerOverview}"><img src='images/icon-overview-light.gif' border='0' align='absmiddle' alt='{t str=Overview}'>&nbsp;{t str=Overview}</a>
         </td>
 
         <td height='25' style="padding-right: 15px;">

@@ -104,13 +104,16 @@ $Id$
         {/if}
 		{* Button - Create *}
 		<td height='25'>
-
-			<a href='zone-edit.php?affiliateid={$affiliate.affiliateid}'><img src='images/icon-zone-new.gif' border='0' align='absmiddle' alt='{t str=Create}'>&nbsp;{t str=Create}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+      {if !$affiliate.zones}       
+			 <a href='zone-edit.php?affiliateid={$affiliate.affiliateid}' title="{t str=AddNewZone}"><img src='images/icon-zone-new.gif' border='0' align='absmiddle' alt='{t str=Create}'>&nbsp;{t str=Create}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+      {else}
+	     &nbsp;
+	    {/if}
 		</td>
 
 		{* Button - Zone overview *}
 		<td height='25'>
-			<a href='affiliate-zones.php?affiliateid={$affiliate.affiliateid}'>{$zone_overview_warning_start}<img src='images/{$zone_overview_icon}' border='0' align='absmiddle' alt='{t str=Zones}'>{$zone_overview_warning_end}&nbsp;{t str=Zones}</a>&nbsp;&nbsp;
+			<a href='affiliate-zones.php?affiliateid={$affiliate.affiliateid}' title="{t str=ZoneOverview}">{$zone_overview_warning_start}<img src='images/{$zone_overview_icon}' border='0' align='absmiddle' alt='{t str=Zones}'>{$zone_overview_warning_end}&nbsp;{t str=Zones}</a>&nbsp;&nbsp;
 
 		</td>
 
