@@ -246,7 +246,7 @@ class OA_Admin_PasswordRecovery
         foreach ($aEmails as $email => $aUsers) {
             $text = '';
             foreach ($aUsers as $u) {
-                $recoveryId = $this->_dal->generateRecoveryId($user['user_id']);
+                $recoveryId = $this->_dal->generateRecoveryId($u['user_id']);
 
                 $header = $GLOBALS['strUser']." {$u['contact_name']}";
                 $text .= $header."\n".str_repeat('-', strlen($header))."\n";
