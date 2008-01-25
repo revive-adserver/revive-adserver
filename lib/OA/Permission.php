@@ -119,7 +119,7 @@ class OA_Permission
         }
         OA_Permission::enforceTrue($isAccount);
     }
-    
+
     /**
      * Returns true if user land on the current page as a result of account switch
      * (If user manually switched account he is redirected to referer url and
@@ -510,7 +510,7 @@ class OA_Permission
         $doAccount_user_Assoc = OA_Dal::factoryDO('account_user_assoc');
         $doAccount_user_Assoc->user_id = OA_Permission::getUserId();
         $doAccounts = OA_Dal::factoryDO('accounts');
-        $doAccounts->orderBy('account_type, account_name');
+        $doAccounts->orderBy('account_name');
         $doAccount_user_Assoc->joinAdd($doAccounts);
         $doAccount_user_Assoc->find();
 
@@ -519,6 +519,7 @@ class OA_Permission
             $aAccountsByType[$doAccount_user_Assoc->account_type][$doAccount_user_Assoc->account_id] =
                 $doAccount_user_Assoc->account_name;
         }
+        uksort($aAccountsByType, array('OA_Permission', '_accountTypeSort'));
         if (isset($aAccountsByType[OA_ACCOUNT_ADMIN])) {
             $aAccountsByType = OA_Permission::mergeAdminAccounts($aAccountsByType);
         }
@@ -532,6 +533,22 @@ class OA_Permission
             return $aAccounts;
         }
         return $aAccountsByType;
+    }
+
+    /**
+     * A private callback to sort account types
+     *
+     * @param string $a
+     * @param string $b
+     * @return int
+     */
+    function _accountTypeSort($a, $b)
+    {
+        $aTypes = array(OA_ACCOUNT_ADMIN => 0, OA_ACCOUNT_MANAGER => 1, OA_ACCOUNT_ADVERTISER => 2, OA_ACCOUNT_TRAFFICKER => 3);
+        $a = isset($aTypes[$a]) ? $aTypes[$a] : 1000;
+        $b = isset($aTypes[$b]) ? $aTypes[$b] : 1000;
+
+        return $a - $b;
     }
 
     function mergeAdminAccounts($aAccountsByType)
