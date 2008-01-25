@@ -87,7 +87,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oAudit->context = 'Campaign';
         $oAudit->contextid = 1;
         $oAudit->parentid = null;
-        $oAudit->username = 'maintenance';
+        $oAudit->username = 'Maintenance';
         $oAudit->actionid = OA_AUDIT_ACTION_UPDATE;
         $oAudit->updated = $oDate->getDate();
         $aDetails['campaignname'] = 'Campaign 1';
@@ -262,7 +262,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
 
         // record 7 - is a maintenance audit rec so should not be returned
         $oDate->addSpan($oSpanDay);
-        $oAudit->username = 'maintenance';
+        $oAudit->username = 'Maintenance';
         $oAudit->contextid = 1;
         $oAudit->updated = $oDate->getDate();
         $aDetails['campaignname'] = 'Campaign 1';

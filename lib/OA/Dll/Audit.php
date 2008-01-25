@@ -398,7 +398,7 @@ class OA_Dll_Audit extends OA_Dll
         $oDate->subtractSpan(new Date_Span('7-0-0-0'));
         $oDate->toUTC();
         $oAudit->whereAdd("context = 'Campaign'");
-        $oAudit->whereAdd("username = 'maintenance'");
+        $oAudit->whereAdd("username = 'Maintenance'");
         $oAudit->whereAdd('parentid IS NULL');
         $oAudit->whereAdd("updated >= ".DBC::makeLiteral($oDate->format('%Y-%m-%d %H:%M:%S')));
         $oAudit->orderBy('auditid DESC');
@@ -437,7 +437,7 @@ class OA_Dll_Audit extends OA_Dll
         $oDate = new Date();
         $oDate->subtractSpan(new Date_Span('7-0-0-0'));
         $oDate->toUTC();
-        $oAudit->whereAdd("username <> 'maintenance'");
+        $oAudit->whereAdd("username <> 'Maintenance'");
         $oAudit->whereAdd('parentid IS NULL');
         $oAudit->whereAdd("updated >= ".DBC::makeLiteral($oDate->format('%Y-%m-%d %H:%M:%S')));
         $oAudit->orderBy('auditid DESC');
