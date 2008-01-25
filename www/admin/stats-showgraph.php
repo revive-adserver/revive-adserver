@@ -33,6 +33,9 @@ require_once '../../init.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
 
+// OA-900, hide graph
+OA_Permission::enforceTrue(false);
+
 require_once MAX_PATH . '/lib/OA/Admin/Statistics/Factory.php';
 
 // Make data loading depending only on period_start & period_end
