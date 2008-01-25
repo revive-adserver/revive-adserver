@@ -76,6 +76,9 @@ class OA_Maintenance_Priority
         }
         // Attempt to increase PHP memory
         increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
+
+        $oldUser = OA_Permission::switchToSystemProcessUser($GLOBALS['strMaintenance']);
+
         // Create a Maintenance DAL object
         $oDal = new OA_Dal_Maintenance_Priority();
         // Try to get the MPE database-level lock
@@ -110,6 +113,9 @@ class OA_Maintenance_Priority
             OA::debug('Unable to release database-level lock', PEAR_LOG_ERR);
             return false;
         }
+
+        OA_Permission::switchToSystemProcessUser($oldUser);
+
         // Log the end of the process
         OA::debug('Maintenance Priority Engine Completed', PEAR_LOG_INFO);
         OA::switchLogFile();

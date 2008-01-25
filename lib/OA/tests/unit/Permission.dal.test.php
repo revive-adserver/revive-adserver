@@ -57,6 +57,26 @@ class Test_OA_Permission extends UnitTestCase
         DataGenerator::cleanUp();
     }
 
+    function testSwitchToSystemProcessUser()
+    {
+        global $session;
+        $oUser = new OA_Permission_User(OA_Dal::factoryDO('users'));
+        $oUser->aUser['username'] = 'testuser';
+        $session['user'] = $oUser;
+
+        $oldUser = OA_Permission::switchToSystemProcessUser('maintenance');
+
+        $this->assertEqual($oldUser, 'testuser');
+
+        $oUser = $session['user'];
+        $this->assertEqual($oUser->aUser['username'], 'maintenance');
+
+        $lastUser = OA_Permission::switchToSystemProcessUser($oldUser);
+
+        $oUser = $session['user'];
+        $this->assertEqual($oUser->aUser['username'], $oldUser);
+    }
+
     function testIsUsernameAllowed()
     {
         // If the names are the same then true

@@ -307,6 +307,34 @@ class OA_Permission
     }
 
     /**
+     * some system processes such as Installer and Maintenance
+     * require auditing using there own name
+     *
+     * This method can switch the username of an existing user (and back again)
+     * or can setup a new *fake* user for the process
+     *
+     * @param string $newUsername
+     * @return string $oldUsername
+     */
+    function switchToSystemProcessUser($newUsername)
+    {
+        global $session;
+        if (!$session['user'])
+        {
+            $oUser = new OA_Permission_User(OA_Dal::factoryDO('users'));
+        }
+        else
+        {
+            $oUser = $session['user'];
+            $oldUsername = $oUser->aUser['username'];
+
+        }
+        $oUser->aUser['username'] = $newUser;
+        $session['user'] = $oUser;
+        return $oldUsername;
+    }
+
+    /**
      * A (backward compatibility) method to check if the currently active account
      * of an user matches. The difference between this method and isAccount()
      * is that this method gets integers as ACCOUNT TYPES
