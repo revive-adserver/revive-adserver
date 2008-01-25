@@ -92,8 +92,8 @@ OA_Permission::enforceAccessToObject('campaigns', $campaignid, true);
 /*-------------------------------------------------------*/
 
 if (isset($submit)) {
-    $expire = !empty($end) ? date('Y-m-d', strtotime($end)) : '';
-    $activate = !empty($start) ? date('Y-m-d', strtotime($start)) : '';
+	$expire = !empty($end) ? date('Y-m-d', strtotime($end)) : OA_Dal::noDateValue();
+    $activate = !empty($start) ? date('Y-m-d', strtotime($start)) : OA_Dal::noDateValue();
 
     // If ID is not set, it should be a null-value for the auto_increment
     if (empty($campaignid)) {
@@ -184,13 +184,13 @@ if (isset($submit)) {
         if ($impressions == 0 || $clicks == 0 || $conversions == 0) {
             $status = OA_ENTITY_STATUS_PAUSED;
         }
-        if (!empty($activate)) {
+        if (!empty($activate) && $activate != OA_Dal::noDateValue()) {
             list($activeYear, $activeMonth, $activeDay) = explode('-', $activate);
             if (time() < mktime(0, 0, 0, $activateMonth, $activateDay, $activateYear)) {
                 $status = OA_ENTITY_STATUS_AWAITING;
             }
         }
-        if (!empty($expire)) {
+        if (!empty($expire) && $expire != OA_Dal::noDateValue()) {
             list($expireYear, $expireMonth, $expireDay) = explode('-', $expire);
             if (time() > mktime(23, 59, 59, $expireMonth, $expireDay, $expireYear)) {
                 $status = OA_ENTITY_STATUS_EXPIRED;
@@ -509,6 +509,7 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
     $row["conversions"] = '';
     $row["status"]         = '';
     $row["expire"]         = '';
+    $row["activate"]       = '';
     $row["priority"]    = 0;
     $row["anonymous"]    = ($pref['gui_campaign_anonymous'] == 't') ? 't' : '';
     $row['revenue']     = '0.0000';
@@ -521,8 +522,7 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
     $row['block']     = null;
     $row['capping']     = null;
     $row['session_capping']     = null;
-    $row['comments']     = null;
-    $row['expire'] = null;
+    $row['comments']     = null;    
     $target_type = null;
 }
 
