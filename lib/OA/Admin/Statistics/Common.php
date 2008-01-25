@@ -300,7 +300,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      *
      * @var boolean
      */
-    var $noFormat = false;
+    var $skipFormatting = false;
 
     /**
      * A PHP5-style constructor that can be used to perform common
@@ -350,6 +350,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         foreach ($this->aPlugins as $oPlugin) {
             $this->aColumns       += $oPlugin->getFields($this);
             $this->aColumnLinks   += $oPlugin->getColumnLinks();
+            $this->aColumnVisible += $oPlugin->getVisibleColumns();
             $this->aEmptyRow      += $oPlugin->getEmptyRow();
         }
 
@@ -475,11 +476,6 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      */
     function output($graphMode = false)
     {
-        // Prepare the visible columns
-        foreach ($this->aPlugins as $oPlugin) {
-            $this->aColumnVisible += $oPlugin->getVisibleColumns();
-        }
-
         if ($this->outputType == 'deliveryEntity') {
 
             // Display the entity delivery stats
@@ -1275,7 +1271,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     {
         $this->_summariseTotals($aRows);
         $this->noStatsAvailable = !$this->_hasActiveStats($this->aTotal);
-        if (!$this->noFormat) {
+        if (!$this->skipFormatting) {
             // Format all stats rows
             $this->_formatStats($aRows);
             // Format single total row
