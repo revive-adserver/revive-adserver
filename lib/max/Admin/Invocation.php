@@ -280,7 +280,7 @@ class MAX_Admin_Invocation {
 
         // Hide when integrated in zone-advanced.php
         if (!is_array($extra) || !isset($extra['zoneadvanced']) || !$extra['zoneadvanced']) {
-            $buffer .= "<form id='generate' name='generate' action='".$_SERVER['PHP_SELF']."' method='POST' onSubmit='return max_formValidate(this);'>\n";
+            $buffer .= "<form id='generate' name='generate' action='".$_SERVER['PHP_SELF']."' method='POST' onSubmit='return max_formValidate(this) && disableTextarea();'>\n";
         }
 
         // Invocation type selection
@@ -312,7 +312,7 @@ class MAX_Admin_Invocation {
             }
 
             $buffer .= "</td></tr><tr><td height='35' valign='top'>";
-            $buffer .= "<select name='codetype' onChange=\"submitForm()\" accesskey=".$GLOBALS['keyList']." tabindex='".($tabindex++)."'>";
+            $buffer .= "<select name='codetype' onChange=\"disableTextarea();this.form.submit()\" accesskey=".$GLOBALS['keyList']." tabindex='".($tabindex++)."'>";
 
             foreach($invocationTags as $pluginKey => $invocationTag) {
                 if($allowed[$pluginKey]) {
@@ -424,9 +424,9 @@ class MAX_Admin_Invocation {
                 $buffer .= "<br /><br />";
                 $buffer .= "<input type='hidden' value='".($generated ? 1 : 0)."' name='generate'>";
                 if ($generated) {
-                    $buffer .= "<input type='button' onclick='submitForm();' value='".$GLOBALS['strRefresh']."' name='submitbutton' tabindex='".($tabindex++)."'>";
+                    $buffer .= "<input type='submit' value='".$GLOBALS['strRefresh']."' name='submitbutton' tabindex='".($tabindex++)."'>";
                 } else {
-                    $buffer .= "<input type='button' onclick='submitForm();' value='".$GLOBALS['strGenerate']."' name='submitbutton' tabindex='".($tabindex++)."'>";
+                    $buffer .= "<input type='submit' value='".$GLOBALS['strGenerate']."' name='submitbutton' tabindex='".($tabindex++)."'>";
                 }
             }
         }
@@ -444,7 +444,7 @@ class MAX_Admin_Invocation {
 
         // Disable bannercode before submitting the form (causes problems with mod_security)
         $buffer .= "<script type='text/javascript'>
-            function submitForm() {
+            function disableTextarea() {
                 var form = findObj('generate');
                 if (typeof(form.bannercode) != 'undefined') {
                     form.bannercode.disabled = true;
