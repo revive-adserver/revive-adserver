@@ -220,7 +220,8 @@ div.boxrow input {
  }
 
 fieldset {
-	border: 1px solid #CDCDCD; 
+	border: 1px solid #CDCDCD;
+	padding: 10px; 
 }
 
 
