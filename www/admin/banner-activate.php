@@ -43,9 +43,9 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 phpAds_registerGlobal ('value');
 
 if ($value == OA_ENTITY_STATUS_RUNNING) {
-	$value = OA_ENTITY_STATUS_PAUSED;
+    $value = OA_ENTITY_STATUS_PAUSED;
 } else {
-	$value = OA_ENTITY_STATUS_RUNNING;
+    $value = OA_ENTITY_STATUS_RUNNING;
 }
 
 // Security check
@@ -56,9 +56,9 @@ OA_Permission::enforceAccessToObject('banners',   $bannerid, true);
 
 if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
     if ($value == OA_ENTITY_STATUS_RUNNING) {
-        OA_Permission::enforceAllowed(OA_PERM_BANNER_DEACTIVATE);
-    } else {
         OA_Permission::enforceAllowed(OA_PERM_BANNER_ACTIVATE);
+    } else {
+        OA_Permission::enforceAllowed(OA_PERM_BANNER_DEACTIVATE);
     }
 }
 

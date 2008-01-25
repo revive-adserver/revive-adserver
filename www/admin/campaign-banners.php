@@ -298,18 +298,18 @@ if (!isset($banners) || !is_array($banners) || count($banners) == 0) {
 
         // Button 2
         echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
-        if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) && !OA_Permission::hasPermission(OA_PERM_BANNER_ACTIVATE)) {
-            echo "&nbsp;";
+        $canActivate   = !OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) || OA_Permission::hasPermission(OA_PERM_BANNER_ACTIVATE);
+        $canDeactivate = !OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) || OA_Permission::hasPermission(OA_PERM_BANNER_DEACTIVATE);
+        if ($banners[$bkey]["status"] == OA_ENTITY_STATUS_RUNNING && $canDeactivate) {
+            echo "<a href='banner-activate.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$banners[$bkey]["bannerid"]."&value=".$banners[$bkey]["status"]."'><img src='images/icon-deactivate.gif' align='absmiddle' border='0'>&nbsp;";
+            echo $strDeActivate;
+        } elseif ($banners[$bkey]["status"] == OA_ENTITY_STATUS_PAUSED && $canActivate) {
+            echo "<a href='banner-activate.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$banners[$bkey]["bannerid"]."&value=".$banners[$bkey]["status"]."'><img src='images/icon-activate.gif' align='absmiddle' border='0'>&nbsp;";
+            echo $strActivate;
         } else {
-            if ($banners[$bkey]["status"] == OA_ENTITY_STATUS_RUNNING) {
-                echo "<a href='banner-activate.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$banners[$bkey]["bannerid"]."&value=".$banners[$bkey]["status"]."'><img src='images/icon-deactivate.gif' align='absmiddle' border='0'>&nbsp;";
-                echo $strDeActivate;
-            } else {
-                echo "<a href='banner-activate.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$banners[$bkey]["bannerid"]."&value=".$banners[$bkey]["status"]."'><img src='images/icon-activate.gif' align='absmiddle' border='0'>&nbsp;";
-                echo $strActivate;
-            }
-            echo "</a>&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+            echo "&nbsp;";
         }
+        echo "</a>&nbsp;&nbsp;&nbsp;&nbsp;</td>";
 
         // Button 3
         echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
