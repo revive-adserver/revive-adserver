@@ -417,7 +417,7 @@ function MMM_buildNavigation()
         $myAccount = $GLOBALS['OA_Navigation'][OA_ACCOUNT_ADVERTISER]['5'];
         unset( $GLOBALS['OA_Navigation'][OA_ACCOUNT_ADVERTISER]['5']);
 
-        if (OA_Permission::hasPermission(OA_PERM_BANNER_ACTIVATE) || OA_Permission::hasPermission(OA_PERM_BANNER_EDIT)) {
+        if (OA_Permission::hasPermission(OA_PERM_BANNER_ACTIVATE) || OA_Permission::hasPermission(OA_PERM_BANNER_DEACTIVATE) || OA_Permission::hasPermission(OA_PERM_BANNER_EDIT)) {
             $GLOBALS['OA_Navigation'][OA_ACCOUNT_ADVERTISER]['2'] = array("advertiser-campaigns.php?clientid=$clientid" => $GLOBALS['strAdminstration']);
             $GLOBALS['OA_Navigation'][OA_ACCOUNT_ADVERTISER]['2.1'] = array("campaign-banners.php?clientid=$clientid&campaignid=$campaignid" => $GLOBALS['strBannerOverview']);
             if (OA_Permission::hasPermission(OA_PERM_BANNER_EDIT)) {
