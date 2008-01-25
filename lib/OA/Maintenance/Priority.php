@@ -77,7 +77,7 @@ class OA_Maintenance_Priority
         // Attempt to increase PHP memory
         increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
 
-        $oldUser = OA_Permission::switchToSystemProcessUser($GLOBALS['strMaintenance']);
+        OA_Permission::switchToSystemProcessUser('Maintenance');
 
         // Create a Maintenance DAL object
         $oDal = new OA_Dal_Maintenance_Priority();
@@ -114,7 +114,7 @@ class OA_Maintenance_Priority
             return false;
         }
 
-        OA_Permission::switchToSystemProcessUser($oldUser);
+        OA_Permission::switchToSystemProcessUser();
 
         // Log the end of the process
         OA::debug('Maintenance Priority Engine Completed', PEAR_LOG_INFO);

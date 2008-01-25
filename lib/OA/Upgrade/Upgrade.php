@@ -71,6 +71,7 @@ require_once MAX_PATH.'/lib/OA/Upgrade/phpAdsNew.php';
 require_once(MAX_PATH.'/lib/OA/Upgrade/Configuration.php');
 require_once MAX_PATH.'/lib/OA/Upgrade/DB_Integrity.php';
 
+require_once MAX_PATH . '/lib/OA/Permission.php';
 require_once MAX_PATH . '/lib/OA/Preferences.php';
 
 

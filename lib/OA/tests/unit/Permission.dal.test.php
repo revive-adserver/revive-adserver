@@ -60,21 +60,37 @@ class Test_OA_Permission extends UnitTestCase
     function testSwitchToSystemProcessUser()
     {
         global $session;
+
+        OA_Permission::switchToSystemProcessUser('installer');
+
+        $oUser = $session['user'];
+        $this->assertIsA($oUser, 'OA_Permission_SystemUser');
+        $this->assertEqual($oUser->aUser['username'], 'installer');
+
+        OA_Permission::switchToSystemProcessUser();
+        $this->assertNull($session['user']);
+
         $oUser = new OA_Permission_User(OA_Dal::factoryDO('users'));
         $oUser->aUser['username'] = 'testuser';
         $session['user'] = $oUser;
 
-        $oldUser = OA_Permission::switchToSystemProcessUser('maintenance');
-
-        $this->assertEqual($oldUser, 'testuser');
+        OA_Permission::switchToSystemProcessUser('installer');
 
         $oUser = $session['user'];
+        $this->assertIsA($oUser, 'OA_Permission_SystemUser');
+        $this->assertEqual($oUser->aUser['username'], 'installer');
+
+        OA_Permission::switchToSystemProcessUser('maintenance');
+
+        $oUser = $session['user'];
+        $this->assertIsA($oUser, 'OA_Permission_SystemUser');
         $this->assertEqual($oUser->aUser['username'], 'maintenance');
 
-        $lastUser = OA_Permission::switchToSystemProcessUser($oldUser);
+        OA_Permission::switchToSystemProcessUser();
 
         $oUser = $session['user'];
-        $this->assertEqual($oUser->aUser['username'], $oldUser);
+        $this->assertIsA($oUser, 'OA_Permission_User');
+        $this->assertEqual($oUser->aUser['username'], 'testuser');
     }
 
     function testIsUsernameAllowed()

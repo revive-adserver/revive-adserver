@@ -236,7 +236,6 @@ else if (array_key_exists('btn_upgrade', $_POST))
 
         define('DISABLE_ALL_EMAILS', 1);
 
-        require_once MAX_PATH . '/lib/OA/Permission.php';
         OA_Permission::switchToSystemProcessUser('Installer');
 
         if ($installStatus == OA_STATUS_NOT_INSTALLED)
@@ -522,6 +521,8 @@ else if (array_key_exists('btn_sitessetup', $_POST))
     {
         if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
         {
+            OA_Permission::switchToSystemProcessUser('Installer');
+
             // Save admin credentials
             $oUpgrader->putAdmin($_POST['aAdmin']);
 

@@ -34,6 +34,7 @@ require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
 require_once MAX_PATH . '/www/admin/lib-sessions.inc.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
 require_once MAX_PATH . '/lib/OA/Upgrade/EnvironmentManager.php';
+require_once MAX_PATH . '/lib/OA/Permission/SystemUser.php';
 
 /**
  * Account types
@@ -313,25 +314,25 @@ class OA_Permission
      * This method can switch the username of an existing user (and back again)
      * or can setup a new *fake* user for the process
      *
-     * @param string $newUsername
+     * @param string $newUsername If not set, the method will restore the current user
      * @return string $oldUsername
      */
-    function switchToSystemProcessUser($newUsername)
+    function switchToSystemProcessUser($newUsername = null)
     {
+        static $oldUser = null;
         global $session;
-        if (!$session['user'])
-        {
-            $oUser = new OA_Permission_User(OA_Dal::factoryDO('users'));
-        }
-        else
-        {
-            $oUser = $session['user'];
-            $oldUsername = $oUser->aUser['username'];
 
+        if (!empty($newUsername)) {
+            if (empty($oldUser) && isset($session['user'])) {
+                $oldUser = $session['user'];
+            }
+            $session['user'] = new OA_Permission_SystemUser($newUsername);
+        } elseif (!empty($oldUser)) {
+            $session['user'] = $oldUser;
+            $oldUser = null;
+        } else {
+            unset($session['user']);
         }
-        $oUser->aUser['username'] = $newUser;
-        $session['user'] = $oUser;
-        return $oldUsername;
     }
 
     /**
