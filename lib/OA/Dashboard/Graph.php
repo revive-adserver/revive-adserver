@@ -262,6 +262,10 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
             }
         }
 
+        // Floats could be imprecise, round to 2 decimal before using ceil/floor, otherwise
+        // e.g. floor($value) could return 99 even if $value seems to be 100
+        $value = round($value, 2);
+
         if (floor($value) != ceil($value)) {
             if ($value >= 100) {
                 $digits = 0;
