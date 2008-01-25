@@ -126,7 +126,7 @@ $aParams = array(
 );
 
 // Account security
-if (!OA_Permission::isAccount('OA_ADMIN')) {
+if (!OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     $aParams['account_id'] = OA_Permission::getAccountId();
 }
 

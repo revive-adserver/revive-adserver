@@ -52,6 +52,16 @@ $Id$
     <div><a class="site-link" target="_top" href="{$siteUrl}">{t str=CampaignGoTo}</a></div>
     <!-- end of normal view -->
     {else}
+        {if $hasCampaigns}
+	<!-- no items view  -->
+	<div class="widgetListWrapper widgetContainer">
+	    <ul class="widgetList campaignNoItems">
+	        <li>{t str=CampaignNoDataTimeSpan}</li>
+	    </ul>
+	</div>
+	<div><a class="site-link" target="_top" href="{$siteUrl}">{t str=CampaignSetUp}</a></div>
+	<!-- end of no items view  -->
+	{else}
     <!-- no campaigns view -->
     <div class="widgetListWrapper widgetContainer">
         <ul class="widgetList campaignList">
@@ -61,17 +71,7 @@ $Id$
     <div><a class="site-link" target="_top" href="{$siteUrl}">{t str=CampaignSetUp}</a></div>
     <!-- end of no campaigns view -->
     {/if}
-		<!-- no items view  -->
-		<!--
-		<div class="widgetListWrapper widgetContainer">
-		    <ul class="widgetList campaignNoItems">
-		        <li>{t str=CampaignNoDataTimeSpan}</li>
-		    </ul>
-		</div>
-		<div><a class="site-link" target="_top" href="www/admin/advertiser-index.php">Set up a campaign today</a></div>
-		-->
-		<!-- end of no items view  -->
-
+    {/if}
 {else}
 	<!-- Audit Trail inactive view -->
 	<div class="widgetListWrapper widgetContainer">

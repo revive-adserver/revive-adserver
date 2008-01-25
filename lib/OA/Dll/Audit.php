@@ -407,6 +407,7 @@ class OA_Dll_Audit extends OA_Dll
         $numRows = $oAudit->find();
 
         $oNow = new Date();
+        $aResult = array();
         while ($oAudit->fetch()) {
             $aAudit = $oAudit->toArray();
             $oDate = new Date($aAudit['updated']);
@@ -445,6 +446,7 @@ class OA_Dll_Audit extends OA_Dll
         $numRows = $oAudit->find();
 
         $oNow = new Date();
+        $aResult = array();
         while ($oAudit->fetch()) {
             $aAudit = $oAudit->toArray();
             $oDate = new Date($aAudit['updated']);

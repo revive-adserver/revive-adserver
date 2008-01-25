@@ -69,7 +69,7 @@ class OA_Dashboard_Widget_CampaignOverview extends OA_Dashboard_Widget
             $this->oTpl->assign('siteTitle',    $GLOBALS['strCampaignAuditTrailSetup']);
             $this->oTpl->assign('siteUrl',      MAX::constructUrl(MAX_URL_ADMIN, 'account-settings-debug.php'));
         } else {
-            if (!OA_Permission::isAccount('OA_ADMIN')) {
+            if (!OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
                 $aParam['account_id'] = OA_Permission::getAccountId();
             }
 
@@ -79,8 +79,22 @@ class OA_Dashboard_Widget_CampaignOverview extends OA_Dashboard_Widget
                 foreach ($aCampaign as $key => $aValue) {
                     $aCampaign[$key]['details']['campaignname'] = (strlen($aValue['details']['key_desc']) > 35) ? substr($aValue['details']['key_desc'], 0, 35).'...' : $aValue['details']['key_desc'];
                 }
+            } else {
+                // Check if the account has any campaign in its realm
+                $doCampaigns = OA_Dal::factoryDO('campaigns');
+                if (!empty($aParam['account_id'])) {
+                    $doClients = OA_Dal::factoryDO('clients');
+                    $doAgency  = OA_Dal::factoryDO('agency');
+                    $doAgency->account_id = $aParam['account_id'];
+                    $doClients->joinAdd($doAgency);
+                    $doCampaigns->joinAdd($doClients);
+                }
+                $doCampaigns->limit(1);
+
+                $this->oTpl->assign('hasCampaigns', $doCampaigns->count());
             }
 
+            $this->oTpl->assign('screen',       'enabled');
             $this->oTpl->assign('aCampaign',    $aCampaign);
             $this->oTpl->assign('siteUrl',      MAX::constructURL(MAX_URL_ADMIN, 'advertiser-index.php'));
             $this->oTpl->assign('baseUrl',      MAX::constructURL(MAX_URL_ADMIN, 'campaign-edit.php'));
