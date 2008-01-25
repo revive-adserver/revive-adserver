@@ -260,8 +260,8 @@ if (isset($submit)) {
     // Determine what the next page is
     if ($editSwf) {
         $nextPage = "banner-swf.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid";
-    } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-        $nextPage = "stats.php?entity=campaign&breakdown=banners&clientid=$clientid&campaignid=$campaignid";
+    } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {        
+        $nextPage = "banner-edit.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid";
     } else {
         $nextPage = "banner-acl.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid";
     }
