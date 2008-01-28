@@ -42,11 +42,11 @@ if (!empty($_GET['account_id'])) {
     OA_Permission::switchAccount($_GET['account_id']);
 }
 
-if (isset($_SERVER['HTTP_REFERER'])) {
+if (isset($_SERVER['HTTP_REFERER']) && !preg_match('/[\r\n]/', $_SERVER['HTTP_REFERER'])) {
     $session['accountSwitch'] = 1;
     phpAds_SessionDataStore();
     // redirects user to the same page after switching an account
-    $redirect = $_SERVER['HTTP_REFERER'];    
+    $redirect = $_SERVER['HTTP_REFERER'];
 } else {
     $redirect = 'index.php';
 }
