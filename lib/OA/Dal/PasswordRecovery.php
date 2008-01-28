@@ -99,21 +99,28 @@ class OA_Dal_PasswordRecovery extends OA_Dal
      *
      * @param string recovery ID
      * @param string new password
-     * @return bool true if the new password was correctly saved
+     * @return bool Ttrue the new password was correctly saved
      */
-    function saveNewPassword($recoveryId, $password)
+    function saveNewPasswordAndLogin($recoveryId, $password)
     {
         $doPwdRecovery = OA_Dal::factoryDO('password_recovery');
         $doPwdRecovery->recovery_id = $recoveryId;
-        $doPwdRecoveryClone = close($doPwdRecovery);
+        $doPwdRecoveryClone = clone($doPwdRecovery);
         $doPwdRecovery->find();
 
         if ($doPwdRecovery->fetch()) {
+            $userId = $doPwdRecovery->user_id;
             $doUser = OA_Dal::factoryDO('users');
+            $doUser->user_id = $userId;
             $doUser->password = md5($password);
             $doUser->update();
 
-            $doPwdRecoveryClone->delete();
+            $doPwdRecoveryClone->delete(true);
+
+            phpAds_SessionStart();
+            $doUser = OA_Dal::staticGetDO('users', $userId);
+            phpAds_SessionDataRegister(OA_Auth::getSessionData($doUser));
+            phpAds_SessionDataStore();
 
             return true;
         }

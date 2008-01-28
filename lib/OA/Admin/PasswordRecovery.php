@@ -135,11 +135,11 @@ class OA_Admin_PasswordRecovery
                 }
             }
         } else {
-            if (empty($vars['password']) || empty($vars['password2']) || $vars['password'] != $vars['password2']) {
+            if (empty($vars['newpassword']) || empty($vars['newpassword2']) || $vars['newpassword'] != $vars['newpassword2']) {
                 $this->displayRecoveryResetForm($vars['id'], $GLOBALS['strNotSamePasswords']);
             } elseif ($this->_dal->checkRecoveryId($vars['id'])) {
-                $this->_dal->saveNewPassword($vars['id'], stripslashes($vars['password']));
-                $this->displayMessage($GLOBALS['strPwdRecPasswordSaved']);
+                $userId = $this->_dal->saveNewPasswordAndLogin($vars['id'], stripslashes($vars['newpassword']));
+                MAX_Admin_Redirect::redirect();
             } else {
                 $this->displayRecoveryRequestForm($GLOBALS['strPwdRecWrongId']);
             }
@@ -204,8 +204,8 @@ class OA_Admin_PasswordRecovery
         echo "<div class='install'>".$GLOBALS['strPwdRecEnterPassword']."</div>";
         echo "<table cellpadding='0' cellspacing='0' border='0'>";
         echo "<tr><td colspan='2'><img src='images/break-el.gif' width='400' height='1' vspace='8'></td></tr>";
-        echo "<tr height='24'><td>".$GLOBALS['strPassword'].":&nbsp;</td><td><input type='password' name='password' /></td></tr>";
-        echo "<tr height='24'><td>".$GLOBALS['strRepeatPassword']."&nbsp;</td><td><input type='password' name='password2' /></td></tr>";
+        echo "<tr height='24'><td>".$GLOBALS['strPassword'].":&nbsp;</td><td><input type='password' name='newpassword' /></td></tr>";
+        echo "<tr height='24'><td>".$GLOBALS['strRepeatPassword']."&nbsp;</td><td><input type='password' name='newpassword2' /></td></tr>";
         echo "<tr height='24'><td>&nbsp;</td><td><input type='submit' value='".$GLOBALS['strProceed']."' /></td></tr>";
         echo "<tr><td colspan='2'><img src='images/break-el.gif' width='400' height='1' vspace='8'></td></tr>";
         echo "</table>";
