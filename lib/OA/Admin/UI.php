@@ -272,6 +272,8 @@ class OA_Admin_UI
 
     function showFooter()
     {
+        global $session;
+
         $aConf = $GLOBALS['_MAX']['CONF'];
 
         $this->oTpl->assign('uiPart', 'footer');
