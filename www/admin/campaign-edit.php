@@ -875,12 +875,14 @@ echo "<tr><td colspan='3'>\n";
 		    </div>
 		    <div id="remainingImpressionsSection">
 			    <span id='remainingImpressions' >Impressions remaining:<span id='remainingImpressionsCount'>2500</span></span><br/>
-				  <!--span id="openadsRemainingImpressions">Openads impressions remaining: <span id='openadsRemainingImpressionsCount'>3000<!-- REAL DATA GOES HERE -></span>
-				    <span class="link hide" help="help-openads-remaining-impressions" id="openadsRemainingImpressionsHelpLink"><img style="border: none; position: relative; top:5px;" src="images/help-book.gif" /></span>
-		      </span-->
-		     	<div class="hide" id="help-openads-remaining-impressions" style="height: auto; width: 290px;">
-	          Campaign's remaining impressions number is too small to satisfy the number booked by advertiser. It means that the local remaining click number is lower than central remaining click number and you should increase the booked impressions by the missing value.
-	       	</div>
+			    <?php if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) { ?>
+					  <!--span id="openadsRemainingImpressions">Openads impressions remaining: <span id='openadsRemainingImpressionsCount'>3000<!-- REAL DATA GOES HERE -></span>
+					    <span class="link hide" help="help-openads-remaining-impressions" id="openadsRemainingImpressionsHelpLink"><img style="border: none; position: relative; top:5px;" src="images/help-book.gif" /></span>
+			      </span-->
+			     	<div class="hide" id="help-openads-remaining-impressions" style="height: auto; width: 290px;">
+		          Campaign's remaining impressions number is too small to satisfy the number booked by advertiser. It means that the local remaining click number is lower than central remaining click number and you should increase the booked impressions by the missing value.
+		       	</div>
+	       	<?php } ?>
 		    </div>
 		  </div>
 		  <div style="clear: both;"><input type="radio"  value="unl" name="rd_impr_bkd" id="unlimitedimpressions" tabindex='<?php echo ($tabindex++); ?>'><label for="unlimitedimpressions"><?php echo $strUnlimited; ?></label></div>
@@ -902,12 +904,14 @@ echo "<tr><td colspan='3'>\n";
         </div>
         <div id="remainingClicksSection">
           <span  id='remainingClicks' >Clicks remaining:<span id='remainingClicksCount'>200</span></span><br/>
-          <!--span id="openadsRemainingClicks">Openads clicks remaining: <span id='openadsRemainingClicksCount'>600<!-- REAL DATA GOES HERE -></span-->
-            <span class="link hide"	help="help-openads-remaining-clicks" id="openadsRemainingClicksHelpLink"><img style="border: none; position: relative; top:5px;" src="images/help-book.gif" /></span>
-          </span>
-         <div class="hide" id="help-openads-remaining-clicks" style="height: auto; width: 290px;">
-          Campaign's remaining clicks number is too small to satisfy the number booked by advertiser. It means that the local remaining click number is lower than central remaining click number and you should increase the booked clicks by the missing value.
-         </div>
+          <?php if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) { ?>
+	          <!--span id="openadsRemainingClicks">Openads clicks remaining: <span id='openadsRemainingClicksCount'>600<!-- REAL DATA GOES HERE -></span-->
+	            <span class="link hide"	help="help-openads-remaining-clicks" id="openadsRemainingClicksHelpLink"><img style="border: none; position: relative; top:5px;" src="images/help-book.gif" /></span>
+	          </span>
+	         <div class="hide" id="help-openads-remaining-clicks" style="height: auto; width: 290px;">
+	          Campaign's remaining clicks number is too small to satisfy the number booked by advertiser. It means that the local remaining click number is lower than central remaining click number and you should increase the booked clicks by the missing value.
+	         </div>
+          <?php } ?>
         </div>
       </div>
       <div style="clear: both;"><input type="radio"  value="unl" name="rd_click_bkd" id="unlimitedclicks" tabindex='<?php echo ($tabindex++); ?>'><label for="unlimitedclicks"><?php echo $strUnlimited; ?></label></div>
@@ -1172,8 +1176,11 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
     var impressions_delivered = <?php echo (isset($data['impressions_delivered'])) ? $data['impressions_delivered'] : 0; ?>;
     var clicks_delivered = <?php echo (isset($data['clicks_delivered'])) ? $data['clicks_delivered'] : 0; ?>;
     var conversions_delivered = <?php echo (isset($data['conversions_delivered'])) ? $data['conversions_delivered'] : 0; ?>;
-    var centralImpressionsRemaining = 3000; // REAL DATA GOES HERE
-    var centralClicksRemaining = 600; //REAL DATA GOES HERE
+    
+    <?php if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) { ?>
+      var centralImpressionsRemaining = 3000; // REAL DATA GOES HERE
+      var centralClicksRemaining = 600; //REAL DATA GOES HERE
+    <?php } ?>
 
     function phpAds_priorityCheck(f)
     {
@@ -1186,31 +1193,33 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
         return true;
     }
 
-	  function insufficientNumberCheck(remainingLocalCount, remainingCentralCount, remainingCentralId)
-	  {
-	    var $remainingCentral = $("#" + remainingCentralId);
-	    if ($remainingCentral.lenght == 0) {
-	     return;
-	    }
+    <?php if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) { ?>
+		  function insufficientNumberCheck(remainingLocalCount, remainingCentralCount, remainingCentralId)
+		  {
+		    var $remainingCentral = $("#" + remainingCentralId);
+		    if ($remainingCentral.lenght == 0) {
+		     return;
+		    }
+	
+	      markInsufficient(remainingLocalCount < remainingCentralCount, remainingCentralId);
+		  }
 
-      markInsufficient(remainingLocalCount < remainingCentralCount, remainingCentralId);
-	  }
 
-
-	  function markInsufficient(insufficient, remainingCentralId)
-	  {
-      var $remainingCentral = $("#" + remainingCentralId);
-      var $remainingCentralHelpLink = $("#" + remainingCentralId + "HelpLink");
-
-      if (insufficient) {
-        $remainingCentral.addClass("sts-insufficient");
-        $remainingCentralHelpLink.show().css("display", "inline");
-      }
-      else {
-        $remainingCentral.removeClass("sts-insufficient");
-        $remainingCentralHelpLink.hide();
-      }
-	  }
+		  function markInsufficient(insufficient, remainingCentralId)
+		  {
+	      var $remainingCentral = $("#" + remainingCentralId);
+	      var $remainingCentralHelpLink = $("#" + remainingCentralId + "HelpLink");
+	
+	      if (insufficient) {
+	        $remainingCentral.addClass("sts-insufficient");
+	        $remainingCentralHelpLink.show().css("display", "inline");
+	      }
+	      else {
+	        $remainingCentral.removeClass("sts-insufficient");
+	        $remainingCentralHelpLink.hide();
+	      }
+		  }
+    <?php } ?>		  
 
 	  function hasUnlimitedValue(input)
 	  {
@@ -1283,10 +1292,13 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
         if (c.checked == true) {
             setUnlimitedValue(e);
             e.disabled = true;
-            //remove any "insufficient" error indicators
-		        if (remainingCentralId != undefined && remainingCentralId != "") {
-		          markInsufficient(false, remainingCentralId);
-		        }
+            
+            <?php if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) { ?>
+	            //remove any "insufficient" error indicators
+			        if (remainingCentralId != undefined && remainingCentralId != "") {
+			          markInsufficient(false, remainingCentralId);
+			        }
+		        <?php } ?>
         } else {
             e.value = "";
             e.disabled = false;
@@ -1435,7 +1447,9 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
         if (max_formattedNumberStringToFloat(f.impressions.value) >= 0) {
             var remaining = max_formattedNumberStringToFloat(f.impressions.value) - impressions_delivered;
             document.getElementById('remainingImpressionsCount').innerHTML = max_formatNumberIngnoreDecimals(remaining);
-            insufficientNumberCheck(remaining, centralImpressionsRemaining, 'openadsRemainingImpressions');
+            <?php if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) { ?>
+              insufficientNumberCheck(remaining, centralImpressionsRemaining, 'openadsRemainingImpressions');
+            <?php } ?>
             visibility = true;
         } else {
             visibility = false;
@@ -1445,7 +1459,9 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
         if (max_formattedNumberStringToFloat(f.clicks.value) >= 0) {
             var remaining = max_formattedNumberStringToFloat(f.clicks.value) - clicks_delivered;
             document.getElementById('remainingClicksCount').innerHTML = max_formatNumberIngnoreDecimals(remaining);
-            insufficientNumberCheck(remaining, centralClicksRemaining, 'openadsRemainingClicks');
+            <?php if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) { ?>            
+              insufficientNumberCheck(remaining, centralClicksRemaining, 'openadsRemainingClicks');
+            <?php } ?>
             visibility = true;
         } else {
             visibility = false;
