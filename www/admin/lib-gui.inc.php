@@ -153,12 +153,16 @@ function phpAds_ShowSections($sections, $params=false, $openNewTable=true, $imgP
         $accountType = OA_Permission::getAccountType();
         $pages = $OA_Navigation[$accountType];
     }
-	
+
 	$previousselect = false;
     for ($i=0; $i < count($sections); $i++) {
+        if (!isset($pages[$sections[$i]])) {
+            OA::debug(__FUNCTION__.": navigation array doesn't contain {$sections[$i]}", PEAR_LOG_DEBUG);
+            continue;
+        }
         list($sectionUrl, $sectionStr) = each($pages[$sections[$i]]);
         $selected = ($OA_Navigation_ID == $sections[$i]);
-		
+
         if ($selected) {
 			echo "<li class='active" . ($i == 0 ? " first" : "" ) . ($i == count($sections) - 1 ? " last" : "" ) . "'>";
 			echo "<div class='right'><div class='left'>";

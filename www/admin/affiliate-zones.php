@@ -77,13 +77,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     // Get other affiliates
     $doAffiliates = OA_Dal::factoryDO('affiliates');
     $doAffiliates->addSessionListOrderBy('affiliate-index.php');
-    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
-    } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-        $doAffiliates->agencyid = $agencyid;
-    } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-        $doAffiliates->affiliateid = $affiliateid;
-    }
-
+    $doAffiliates->agencyid = OA_Permission::getAgencyId();
     $doAffiliates->find();
 
     while ($doAffiliates->fetch() && $row = $doAffiliates->toArray()) {
