@@ -1152,6 +1152,7 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
         .focus(function() {
           max_formUnFormat(this.form, this.name);
           })
+        .keypress(maskNonNumeric)
         .keyup(function() {
           max_formBookedUpdate(this.form);
           })
@@ -1420,7 +1421,7 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
                 f.impressions.value = '-';
             }
             if (f.impressions.value != '-') {
-                f.impressions.value = max_formatNumberIngnoreDecimals(f.impressions.value);
+                f.impressions.value = max_formatNumberIgnoreDecimals(f.impressions.value);
             }
         }
         if (type == 'clicks') {
@@ -1428,7 +1429,7 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
                 f.clicks.value = '-';
             }
             if (f.clicks.value != '-') {
-                f.clicks.value = max_formatNumberIngnoreDecimals(f.clicks.value);
+                f.clicks.value = max_formatNumberIgnoreDecimals(f.clicks.value);
             }
         }
         /*if (type == 'conversions') {
@@ -1436,7 +1437,7 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
                 f.conversions.value = '-';
             }
             if (f.conversions.value != '-') {
-                f.conversions.value = max_formatNumberIngnoreDecimals(f.conversions.value);
+                f.conversions.value = max_formatNumberIgnoreDecimals(f.conversions.value);
             }
         }*/
     }
@@ -1446,7 +1447,7 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
         // Update remaining impressions/click/conversions
         if (max_formattedNumberStringToFloat(f.impressions.value) >= 0) {
             var remaining = max_formattedNumberStringToFloat(f.impressions.value) - impressions_delivered;
-            document.getElementById('remainingImpressionsCount').innerHTML = max_formatNumberIngnoreDecimals(remaining);
+            document.getElementById('remainingImpressionsCount').innerHTML = max_formatNumberIgnoreDecimals(remaining);
             <?php if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) { ?>
               insufficientNumberCheck(remaining, centralImpressionsRemaining, 'openadsRemainingImpressions');
             <?php } ?>
@@ -1458,7 +1459,7 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
 
         if (max_formattedNumberStringToFloat(f.clicks.value) >= 0) {
             var remaining = max_formattedNumberStringToFloat(f.clicks.value) - clicks_delivered;
-            document.getElementById('remainingClicksCount').innerHTML = max_formatNumberIngnoreDecimals(remaining);
+            document.getElementById('remainingClicksCount').innerHTML = max_formatNumberIgnoreDecimals(remaining);
             <?php if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) { ?>            
               insufficientNumberCheck(remaining, centralClicksRemaining, 'openadsRemainingClicks');
             <?php } ?>
@@ -1470,7 +1471,7 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
 
         /*if (max_formattedNumberStringToFloat(f.conversions.value) >= 0) {
             var remaining = max_formattedNumberStringToFloat(f.conversions.value) - conversions_delivered;
-            document.getElementById('remainingConversionsCount').innerHTML = max_formatNumberIngnoreDecimals(remaining);
+            document.getElementById('remainingConversionsCount').innerHTML = max_formatNumberIgnoreDecimals(remaining);
             visibility = true;
         } else {
             visibility = false;
