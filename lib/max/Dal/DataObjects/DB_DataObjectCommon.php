@@ -220,9 +220,8 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     function belongsToUsersAccount()
     {
-        $accountTable = OA_Permission::getAccountTable();
         $accountId = OA_Permission::getAccountId();
-        return $this->belongsToAccount($accountTable, $accountId);
+        return $this->belongsToAccount($accountId);
     }
 
     /**
@@ -230,16 +229,12 @@ class DB_DataObjectCommon extends DB_DataObject
      * It checks if there is a linked (referenced) object to this object with
      * table==$accountTable and id==$accountId
      *
-     * @param string $accountTable It's table name where record belongs, eg: agency, affiliates, clients
      * @param string $accountId Account id
      * @return boolean|null     Returns true if belong to account, false if doesn't and null if it wasn't
      *                          able to find object in references
      */
-    function belongsToAccount($accountTable = null, $accountId = null)
+    function belongsToAccount($accountId = null)
     {
-        if (empty($accountTable)) {
-            $accountTable = OA_Permission::getAccountTable();
-        }
         if (empty($accountId)) {
             $accountId = OA_Permission::getAccountId();
         }
@@ -248,28 +243,24 @@ class DB_DataObjectCommon extends DB_DataObject
                 return null;
             }
         }
-        $found = null;
-        if ($this->getTableWithoutPrefix() == $accountTable) {
-            return $this->account_id == $accountId;
+        // Does the table have an account_id field?
+        $aFields = $this->table();
+        if (isset($aFields['account_id']) && $this->account_id == $accountId) {
+            return true;
         }
+        $found = null;
         $links = $this->links();
         if(!empty($links)) {
             foreach ($links as $key => $match) {
                 list($table,$link) = explode(':', $match);
                 $table = $this->getTableWithoutPrefix($table);
-                if ($table == $userTable) {
-                    $doCheck = &$this->getCachedLink($key, $table, $link);
-                    return $doCheck->belongsToAccount($accountTable, $accountId);
-                } else {
-                    // recursive
-                    $doCheck = &$this->getCachedLink($key, $table, $link);
-                    if (!$doCheck) {
-                        return null;
-                    }
-                    $found = $doCheck->belongsToAccount($accountTable, $accountId);
-                    if ($found !== null) {
-                        return $found;
-                    }
+                $doCheck = &$this->getCachedLink($key, $table, $link);
+                if (!$doCheck) {
+                    return null;
+                }
+                $found = $doCheck->belongsToAccount($accountId);
+                if ($found !== null) {
+                    return $found;
                 }
             }
         }
