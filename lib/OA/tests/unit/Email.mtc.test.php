@@ -925,7 +925,7 @@ class Test_OA_Email extends UnitTestCase
         $bannerId2 = DataGenerator::generateOne($doBanners);
 
         $aResult = $oEmail->preparePlacementActivatedDeactivatedEmail($placementId, OA_PLACEMENT_DISABLED_IMPRESSIONS);
-        $expectedSubject = 'Campiagn deactivated: Foo Client';
+        $expectedSubject = 'Campaign deactivated: Foo Client';
         $expectedContents  = "Dear $name,\n\n";
         $expectedContents .= 'Your campaign shown below has been deactivated because:'. "\n";
         $expectedContents .= '  - there are no Impressions remaining.' . "\n";
@@ -945,7 +945,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertEqual($aResult['contents'],  $expectedContents);
 
         $aResult = $oEmail->preparePlacementActivatedDeactivatedEmail($placementId, OA_PLACEMENT_DISABLED_CLICKS);
-        $expectedSubject = 'Campiagn deactivated: Foo Client';
+        $expectedSubject = 'Campaign deactivated: Foo Client';
         $expectedContents  = "Dear $name,\n\n";
         $expectedContents .= 'Your campaign shown below has been deactivated because:'. "\n";
         $expectedContents .= '  - there are no Clicks remaining.' . "\n";
@@ -965,7 +965,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertEqual($aResult['contents'],  $expectedContents);
 
         $aResult = $oEmail->preparePlacementActivatedDeactivatedEmail($placementId, OA_PLACEMENT_DISABLED_CONVERSIONS);
-        $expectedSubject = 'Campiagn deactivated: Foo Client';
+        $expectedSubject = 'Campaign deactivated: Foo Client';
         $expectedContents  = "Dear $name,\n\n";
         $expectedContents .= 'Your campaign shown below has been deactivated because:'. "\n";
         $expectedContents .= '  - there are no Sales remaining.' . "\n";
@@ -985,7 +985,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertEqual($aResult['contents'],  $expectedContents);
 
         $aResult = $oEmail->preparePlacementActivatedDeactivatedEmail($placementId, OA_PLACEMENT_DISABLED_DATE);
-        $expectedSubject = 'Campiagn deactivated: Foo Client';
+        $expectedSubject = 'Campaign deactivated: Foo Client';
         $expectedContents  = "Dear $name,\n\n";
         $expectedContents .= 'Your campaign shown below has been deactivated because:'. "\n";
         $expectedContents .= '  - the expiration date has been reached.' . "\n";
@@ -1006,7 +1006,7 @@ class Test_OA_Email extends UnitTestCase
 
         $reason = 0 | OA_PLACEMENT_DISABLED_IMPRESSIONS | OA_PLACEMENT_DISABLED_CLICKS | OA_PLACEMENT_DISABLED_DATE;
         $aResult = $oEmail->preparePlacementActivatedDeactivatedEmail($placementId, $reason);
-        $expectedSubject = 'Campiagn deactivated: Foo Client';
+        $expectedSubject = 'Campaign deactivated: Foo Client';
         $expectedContents  = "Dear $name,\n\n";
         $expectedContents .= 'Your campaign shown below has been deactivated because:'. "\n";
         $expectedContents .= '  - there are no Impressions remaining' . "\n";
