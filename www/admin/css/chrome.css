@@ -341,6 +341,10 @@ a:hover {
 	padding: 0 0 0 36px;
 }
 
+#oaSidebarCustom select {
+	width: 120px;
+}
+
 #oaSidebarShortcuts {
 	border-top: 1px solid #ccc;
 }
