@@ -2237,7 +2237,7 @@ $aConf['log']['paramsUsername'],
 $aConf['log']['paramsPassword'],
 'dsn'        => $dsn,
 'mode'       => octdec($aConf['log']['fileMode']),
-'timeFormat' => '%b %d %H:%M:%S'
+'timeFormat' => '%b %d %H:%M:%S %z'
 );
 if (is_null($message) && $aConf['log']['type'] == 'file') {
 $aLoggerConf['lineFormat'] = '%4$s';
