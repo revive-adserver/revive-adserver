@@ -43,7 +43,7 @@ class OA_Dal_PasswordRecovery extends OA_Dal
     function searchMatchingUsers($email)
     {
         $doUsers = OA_Dal::factoryDO('users');
-        $doUsers->email = $email;
+        $doUsers->email_address = $email;
         $doUsers->find();
 
         $users = array();
