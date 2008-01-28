@@ -1030,9 +1030,9 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
                 '$log_viewerId',
                 '',
                 '".gmdate('Y-m-d H:i:s')."',
-                '$adId',
-                '$creativeId',
-                '$zoneId',";
+                '".(int)$adId."',
+                '".(int)$creativeId."',
+                '".(int)$zoneId."',";
     if (isset($_GET['source'])) {
         $query .= "
                 '".MAX_commonDecrypt($_GET['source'])."',";
@@ -1207,7 +1207,7 @@ function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
             '$log_viewerId',
             '',
             '".gmdate('Y-m-d H:i:s')."',
-            '$trackerId',
+            '".(int)$trackerId."',
             '".MAX_commonDecrypt($source)."',
             '{$zoneInfo['channel_ids']}',
             '".substr($httpLanguage, 0, 32)."',
