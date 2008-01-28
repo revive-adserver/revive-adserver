@@ -194,7 +194,7 @@ class OA_Admin_Option
                 echo "<option value='{$k}'".($section == $k ? ' selected' : '').">{$v['name']}</option>";
             }
         }
-        echo "</select>&nbsp;<a href='javascript:void(0)' onClick='options_goto_section();'>";
+        echo "</select>&nbsp;<a href='#' onClick='options_goto_section();'>";
         echo "<img src='images/".$phpAds_TextDirection."/go_blue.gif' border='0'></a>";
         echo "</td></form></tr></table>";
         phpAds_ShowBreak();
