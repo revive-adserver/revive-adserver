@@ -1378,21 +1378,22 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
     function max_formUnFormat(f, type)
     {
         if (type == 'impressions') {
-            if (f.impressions.value != '-') {
+            if (f.impressions.value != '-' && f.impressions.value != '') {
                 f.impressions.value = max_formattedNumberStringToFloat(f.impressions.value);
             } else {
                 f.impressions.value = '';
             }
         }
+        
         if (type == 'clicks') {
-            if (f.clicks.value != '-') {
+            if (f.clicks.value != '-' && f.clicks.value != '') {
                 f.clicks.value = max_formattedNumberStringToFloat(f.clicks.value);
             } else {
                 f.clicks.value = '';
             }
         }
        /* if (type == 'conversions') {
-            if (f.conversions.value != '-') {
+            if (f.conversions.value != '-' && f.conversions.value != '') {
                 f.conversions.value = max_formattedNumberStringToFloat(f.conversions.value);
             } else {
                 f.conversions.value = '';
