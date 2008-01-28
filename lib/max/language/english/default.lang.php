@@ -1098,7 +1098,7 @@ $GLOBALS['strPwdRecEmailNotFound']    = "Email address not found";
 $GLOBALS['strPwdRecPasswordSaved']    = "The new password was saved, proceed to <a href='index.php'>login</a>";
 $GLOBALS['strPwdRecWrongId']          = "Wrong ID";
 $GLOBALS['strPwdRecEnterEmail']       = "Enter your email address below";
-$GLOBALS['strPwdRecEnterPassword']    = "Enter your new password address below";
+$GLOBALS['strPwdRecEnterPassword']    = "Enter your new password below";
 $GLOBALS['strPwdRecReset']            = "Password reset";
 $GLOBALS['strPwdRecResetLink']        = "Password reset link";
 $GLOBALS['strPwdRecResetPwdThisUser'] = "Reset password for this user";
