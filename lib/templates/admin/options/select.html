@@ -13,11 +13,7 @@
 		        "
             {/if}
             {if $aItem.disabled} disabled='disabled'{/if} tabindex='{$aItem.tabindex++}'>
-            {foreach from=$aItem.items key=k item=v}
-                <option value="{$k}"
-                {if $k == $aItem.value} selected='selected'{/if}>
-                {$v}</option>
-            {/foreach}
+            {html_options options=$aItem.items selected=$aItem.value}
             </select>
 		    {if $aItem.showSubmitButton}
 		        &nbsp;<a href="javascript:void(0)" onClick="document.forms['settingsform'].submit();"><img src="images/ltr/go_blue.gif" border="0"></a>

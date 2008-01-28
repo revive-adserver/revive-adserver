@@ -332,9 +332,9 @@ class OA_Preferences
                 continue;
             }
             // Register the HTML element value
-            MAX_commonRegisterGlobalsArray(array($preferenceName));
+            phpAds_registerGlobalUnslashed($preferenceName);
             // Is the HTML element value a checkbox, and unset?
-            if (isset($aCheckboxes[$preferenceName]) && is_null($GLOBALS[$preferenceName])) {
+            if (isset($aCheckboxes[$preferenceName]) && !isset($GLOBALS[$preferenceName])) {
                 // Set the value of the element to the false string ""
                 $GLOBALS[$preferenceName] = '';
             } else if (isset($aCheckboxes[$preferenceName]) && $GLOBALS[$preferenceName]) {
