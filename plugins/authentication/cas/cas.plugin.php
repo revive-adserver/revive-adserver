@@ -31,7 +31,20 @@ require_once MAX_PATH . '/plugins/authentication/cas/OaCasClient.php';
 require_once MAX_PATH . '/www/admin/lib-sessions.inc.php';
 
 /**
+ * String which CAS client uses to store data in session
+ *
+ */
+define('OA_CAS_PLUGIN_PHP_CAS', 'phpCAS');
+
+/**
  * Authentication CAS plugin which authenticates users against cas-server
+ * 
+ * This plugin uses information stored in "oacSSO" section in configuration file.
+ * It is required to install php_curl extension in order to use this plugin.
+ * Users are still added to local "users" table. The main difference between this and
+ * internal plugin is that in "internal" plugin a username is taken from database
+ * by matching username and password and in cas plugin the username is returned by cas client
+ * library.
  *
  * @package    OpenadsPlugin
  * @subpackage Authentication
@@ -40,6 +53,11 @@ require_once MAX_PATH . '/www/admin/lib-sessions.inc.php';
  */
 class Plugins_Authentication_Cas_Cas // extends Plugins_Authentication
 {
+    /**
+     * Checks if credentials are passed and whether the plugin should carry on the authentication
+     *
+     * @return boolean  True if credentials were passed, else false
+     */
     function suppliedCredentials()
     {
         return isset($_GET['ticket']);
@@ -54,26 +72,38 @@ class Plugins_Authentication_Cas_Cas // extends Plugins_Authentication
         static $initialized;
         $aOpenSsoConfig = $GLOBALS['_MAX']['CONF']['oacSSO'];
         if (is_null($initialized)) {
-            $this->clientInitialization(CAS_VERSION_2_0, $aOpenSsoConfig['host'],
-               intval($aOpenSsoConfig['port']), $aOpenSsoConfig['casClientPath']);
+            $this->clientInitialization(CAS_VERSION_2_0,
+                $aOpenSsoConfig['host'],
+                intval($aOpenSsoConfig['port']),
+                $aOpenSsoConfig['casClientPath']
+            );
             $initialized = true;
         }
     }
     
     function storePhpCasSession()
     {
-        $sessionPhpCas = isset($_SESSION['phpCAS']) ? $_SESSION['phpCAS'] : null;
+        $sessionPhpCas = isset($_SESSION[OA_CAS_PLUGIN_PHP_CAS])
+            ? $_SESSION[OA_CAS_PLUGIN_PHP_CAS] : null;
         global $session;
-        $session['phpCAS'] = $sessionPhpCas;
+        $session[OA_CAS_PLUGIN_PHP_CAS] = $sessionPhpCas;
         phpAds_SessionDataStore();
     }
     
     function restorePhpCasSession()
     {
         global $session;
-        $_SESSION['phpCAS'] = isset($session['phpCAS']) ? $session['phpCAS'] : null;
+        $_SESSION[OA_CAS_PLUGIN_PHP_CAS] = 
+            isset($session[OA_CAS_PLUGIN_PHP_CAS]) ? $session[OA_CAS_PLUGIN_PHP_CAS] : null;
     }
     
+    /**
+     * Authenticate user. If user not connected to any account displays information
+     * that he needs first to register in OAH.
+     *
+     * @return DataObjects_Users  returns users dataobject on success authentication
+     *                            or null if user wasn't succesfully authenticated
+     */
     function authenticateUser()
     {
         $this->restorePhpCasSession();
@@ -91,7 +121,7 @@ class Plugins_Authentication_Cas_Cas // extends Plugins_Authentication
             }
             $this->displayRegistrationRequiredInfo($username);
         }
-        return false;
+        return null;
     }
     
     /**
@@ -112,26 +142,29 @@ class Plugins_Authentication_Cas_Cas // extends Plugins_Authentication
         if ($doUser->fetch()) {
             return $doUser;
         }
-        return false;
+        return null;
     }
     
     function logout()
 	{
 	    $this->restorePhpCasSession();
 	    // unset phpCas session
-	    if (isset($_SESSION['phpCAS'])) {
-	       unset($_SESSION['phpCAS']);
+	    if (isset($_SESSION[OA_CAS_PLUGIN_PHP_CAS])) {
+	       unset($_SESSION[OA_CAS_PLUGIN_PHP_CAS]);
 	    }
 	    phpAds_SessionDataDestroy();
 	    // logout from CAS
         $dalAgency = OA_Dal::factoryDAL('agency');
         $this->initCasClient();
-        phpCAS::logout($dalAgency->getLogoutUrl($GLOBALS['agencyid']));
+        phpCAS::logout($dalAgency->getLogoutUrl(OA_Permission::getAgencyId()));
         exit;
 	}
     
     /**
      * A static method to display a login screen
+     * 
+     * @TODO - localize these messages once product team will deliver messages which needs
+     * to be translated.
      * 
      * @static
      *
@@ -152,8 +185,6 @@ class Plugins_Authentication_Cas_Cas // extends Plugins_Authentication
     
     /**
      * A static method to display a login screen
-     * 
-     * TODOAUTH - put here cas login iframe, for now instead just redirect user?
      *
      * @static
      *
@@ -217,7 +248,8 @@ class Plugins_Authentication_Cas_Cas // extends Plugins_Authentication
                 'method' => __CLASS__.'::'.__FUNCTION__);
 
       // initialize the global object $PHPCAS_CLIENT
-      $PHPCAS_CLIENT = new OaCasClient($server_version,FALSE/*proxy*/,$server_hostname,$server_port,$server_uri,$start_session);
+      $PHPCAS_CLIENT = new OaCasClient($server_version,FALSE/*proxy*/,
+          $server_hostname,$server_port,$server_uri,$start_session);
       phpCAS::traceEnd();
     }    
 }

@@ -21,7 +21,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 require_once MAX_PATH . '/lib/max/other/common.php';
@@ -32,16 +32,27 @@ require_once MAX_PATH . '/lib/max/other/common.php';
  *
  * @package    OpenadsPlugin
  * @subpackage Authentication
- * @author     Radek Maciaszek <radek@openads.org>
+ * @author     Radek Maciaszek <radek.maciaszek@openads.org>
  * @abstract
  */
 class Plugins_Authentication_Internal_Internal // extends Plugins_Authentication
 {
+    /**
+     * Checks if credentials are passed and whether the plugin should carry on the authentication
+     *
+     * @return boolean  True if credentials were passed, else false
+     */
     function suppliedCredentials()
     {
         return isset($_POST['username']) || isset($_POST['password']);
     }
     
+    /**
+     * Authenticate user
+     *
+     * @return DataObjects_Users  returns users dataobject on success authentication
+     *                            or null if user wasn't succesfully authenticated
+     */
     function authenticateUser()
     {
         $aCredentials = $this->getCredentials();
@@ -97,22 +108,19 @@ class Plugins_Authentication_Internal_Internal // extends Plugins_Authentication
         if ($doUser->fetch()) {
             return $doUser;
         }
-        return false;
+        return null;
     }
     
     /**
-     * A method to logout and redirect to the correct URL
+     * Cleans up the session and carry on any additional tasks required to logout the user
+     * Redirects to CAS-server logout url
      *
-     * @static
-     *
-     * @todo Fix when preferences are ready and logout url is stored into the
-     * preferences table
      */
     function logout()
     {
         phpAds_SessionDataDestroy();
         $dalAgency = OA_Dal::factoryDAL('agency');
-        header ("Location: " . $dalAgency->getLogoutUrl($GLOBALS['agencyid']));
+        header ("Location: " . $dalAgency->getLogoutUrl(OA_Permission::getAgencyId()));
         exit;
     }
     

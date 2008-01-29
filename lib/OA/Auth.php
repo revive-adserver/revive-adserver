@@ -50,16 +50,18 @@ class OA_Auth
     function &staticGetAuthPlugin($authType = null)
     {
         static $authPlugin;
-        if (is_null($authPlugin)) {
+        static $authPluginType;
+        
+        if (is_null($authPlugin) || $authPluginType != $authType) {
             if (!empty($authType)) {
                 $authPlugin = &MAX_Plugin::factory('authentication', $authType);
             } else {
                 $authPlugin = &MAX_Plugin::factoryPluginByModuleConfig('authentication');
             }
-            if (empty($authPlugin)) {
-                OA::debug('Error while including authentication plugin',
-                    PEAR_LOG_ERR);
+            if (!$authPlugin) {
+                OA::debug('Error while including authentication plugin', PEAR_LOG_ERR);
             }
+            $authPluginType = $authType;
         }
         return $authPlugin;
     }

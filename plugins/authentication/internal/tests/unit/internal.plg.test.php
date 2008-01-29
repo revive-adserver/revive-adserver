@@ -1,4 +1,5 @@
 <?php
+
 /*
 +---------------------------------------------------------------------------+
 | Openads v${RELEASE_MAJOR_MINOR}                                                              |
@@ -21,64 +22,68 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id: GeoIP.plg.test.php 12393 2007-11-14 15:53:36Z andrew.hill@openads.org $
 */
 
+require_once MAX_PATH . '/lib/max/Plugin.php';
+require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
+
 /**
- * Plugins_Authentication is an abstract class for Authentication plugins
+ * A class for testing the Plugins_Authentication_Internal_Internal class.
  *
  * @package    OpenadsPlugin
- * @subpackage Authentication
+ * @subpackage TestSuite
  * @author     Radek Maciaszek <radek.maciaszek@openads.org>
- * @abstract
  */
-class Plugins_Authentication
+class Test_Plugins_Authentication_Internal_Internal extends UnitTestCase
 {
     /**
-     * Checks if credentials are passed and whether the plugin should carry on the authentication
-     *
-     * @return boolean  True if credentials were passed, else false
+     * @var Plugins_Authentication_Internal_Internal
      */
-    function suppliedCredentials()
-    {
-        OA::debug('Cannot run abstract method');
-        exit();
-    }
+    var $internal;
     
-    /**
-     * Authenticate user
-     *
-     * @return DataObjects_Users  returns users dataobject on success authentication
-     *                            or null if user wasn't succesfully authenticated
-     */
-    function authenticateUser()
+    function Test_Plugins_Authentication_Internal_Internal()
     {
-        OA::debug('Cannot run abstract method');
-        exit();
+        $this->UnitTestCase();
     }
-    
-    /**
-     * Cleans up the session and carry on any additional tasks required to logout the user
-     *
-     */
-    function logout()
+
+    function setUp()
     {
-        OA::debug('Cannot run abstract method');
-        exit();
+        $this->internal =  OA_Auth::staticGetAuthPlugin('internal');
     }
-    
-    /**
-     * A static method to display a login screen
-     * @static
-     *
-     * @param string $sMessage
-     * @param string $sessionID
-     * @param bool $inlineLogin
-     */
-    function displayLogin($sMessage = '', $sessionID = 0, $inLineLogin = false)
+
+    function testSuppliedCredentials()
     {
-        OA::debug('Cannot run abstract method');
-        exit();
+        $ret = $this->internal->suppliedCredentials();
+        $this->assertFalse($ret);
+        
+        $_POST['username'] = 'boo';
+        $_POST['password'] = 'foo';
+        $ret = $this->internal->suppliedCredentials();
+        $this->assertTrue($ret);
+        
+    }
+
+    function testAuthenticateUser()
+    {
+        $username = 'boo';
+        $password = 'foo';
+        
+        $doUsers = OA_Dal::factoryDO('users');
+        $doUsers->username = $username;
+        $doUsers->password = md5($password);
+        DataGenerator::generateOne($doUsers);
+        
+        $_POST['username'] = $username;
+        $_POST['password'] = $password;
+        $_COOKIE['sessionID'] = $_POST['oa_cookiecheck'] = 'baz';
+        $ret = $this->internal->authenticateUser();
+        $this->assertIsA($ret, 'DataObjects_Users');
+        $this->assertEqual($doUsers->username, $username);
+        
+        $_POST['password'] = $password.rand();
+        $ret = $this->internal->authenticateUser();
+        $this->assertFalse($ret);
     }
 }
 

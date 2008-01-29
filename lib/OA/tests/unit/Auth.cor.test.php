@@ -1,4 +1,5 @@
 <?php
+
 /*
 +---------------------------------------------------------------------------+
 | Openads v${RELEASE_MAJOR_MINOR}                                                              |
@@ -21,64 +22,41 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id: Email.mtc.test.php 15399 2008-01-28 15:22:20Z chris.nutting@openads.org $
 */
 
+require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
+require_once MAX_PATH . '/lib/OA/Auth.php';
+
 /**
- * Plugins_Authentication is an abstract class for Authentication plugins
+ * A class for testing the OA_Auth class
  *
- * @package    OpenadsPlugin
- * @subpackage Authentication
+ * @package    Openads
+ * @subpackage TestSuite
  * @author     Radek Maciaszek <radek.maciaszek@openads.org>
- * @abstract
  */
-class Plugins_Authentication
+class Test_OA_Auth extends UnitTestCase
 {
-    /**
-     * Checks if credentials are passed and whether the plugin should carry on the authentication
-     *
-     * @return boolean  True if credentials were passed, else false
-     */
-    function suppliedCredentials()
+
+    function Test_OA_Auth()
     {
-        OA::debug('Cannot run abstract method');
-        exit();
+        $this->UnitTestCase();
+
     }
-    
+
     /**
-     * Authenticate user
-     *
-     * @return DataObjects_Users  returns users dataobject on success authentication
-     *                            or null if user wasn't succesfully authenticated
-     */
-    function authenticateUser()
-    {
-        OA::debug('Cannot run abstract method');
-        exit();
-    }
-    
-    /**
-     * Cleans up the session and carry on any additional tasks required to logout the user
+     * Tests that default authentication plugin is correctly created
      *
      */
-    function logout()
+    function testStaticGetAuthPlugin()
     {
-        OA::debug('Cannot run abstract method');
-        exit();
-    }
-    
-    /**
-     * A static method to display a login screen
-     * @static
-     *
-     * @param string $sMessage
-     * @param string $sessionID
-     * @param bool $inlineLogin
-     */
-    function displayLogin($sMessage = '', $sessionID = 0, $inLineLogin = false)
-    {
-        OA::debug('Cannot run abstract method');
-        exit();
+        $authInternal = OA_Auth::staticGetAuthPlugin('internal');
+        $this->assertIsA($authInternal, 'Plugins_Authentication_Internal_Internal');
+        $authInternal2 = OA_Auth::staticGetAuthPlugin('internal');
+        $this->assertIdentical($authInternal, $authInternal2);
+        
+        $authDefault = OA_Auth::staticGetAuthPlugin();
+        $this->assertIsA($authInternal, 'Plugins_Authentication_Internal_Internal');
     }
 }
 
