@@ -205,7 +205,7 @@ class OA_Admin_PasswordRecovery
         echo "<table cellpadding='0' cellspacing='0' border='0'>";
         echo "<tr><td colspan='2'><img src='images/break-el.gif' width='400' height='1' vspace='8'></td></tr>";
         echo "<tr height='24'><td>".$GLOBALS['strPassword'].":&nbsp;</td><td><input type='password' name='newpassword' /></td></tr>";
-        echo "<tr height='24'><td>".$GLOBALS['strRepeatPassword']."&nbsp;</td><td><input type='password' name='newpassword2' /></td></tr>";
+        echo "<tr height='24'><td>".$GLOBALS['strRepeatPassword'].":&nbsp;</td><td><input type='password' name='newpassword2' /></td></tr>";
         echo "<tr height='24'><td>&nbsp;</td><td><input type='submit' value='".$GLOBALS['strProceed']."' /></td></tr>";
         echo "<tr><td colspan='2'><img src='images/break-el.gif' width='400' height='1' vspace='8'></td></tr>";
         echo "</table>";
