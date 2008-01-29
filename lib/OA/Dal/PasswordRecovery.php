@@ -115,7 +115,7 @@ class OA_Dal_PasswordRecovery extends OA_Dal
             $doUser->password = md5($password);
             $doUser->update();
 
-            $doPwdRecoveryClone->delete(true);
+            $doPwdRecoveryClone->delete();
 
             phpAds_SessionStart();
             $doUser = OA_Dal::staticGetDO('users', $userId);
