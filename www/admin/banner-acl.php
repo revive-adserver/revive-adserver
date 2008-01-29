@@ -100,9 +100,15 @@ if (!empty($action)) {
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
+$entityId = OA_Permission::getEntityId();
+if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+    $entityType = 'advertiser_id';
+} else {
+    $entityType = 'agency_id';
+}
 
 // Display navigation
-$aOtherCampaigns = Admin_DA::getPlacements(array('agency_id' => $agencyId));
+$aOtherCampaigns = Admin_DA::getPlacements(array($entityType => $entityId));
 $aOtherBanners = Admin_DA::getAds(array('placement_id' => $campaignid), false);
 MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners, $aEntities);
 
