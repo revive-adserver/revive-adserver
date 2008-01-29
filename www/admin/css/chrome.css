@@ -31,7 +31,6 @@ a:hover {
 }
 #oaHeaderBranding {
 	position: absolute;
-	top: 3px;
 	left: 0;
 	z-index: 3;
 }
