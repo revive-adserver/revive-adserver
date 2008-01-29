@@ -1,5 +1,10 @@
 <?php
 
+// --- Openads modification ---
+// Few methods are used as a static methdos and because of this it wasn't possible
+// to overload them in any way. Because of that some Openads related changes were made
+// to this class. These changes are marked with string OA_MODIFICATION
+
 // commented in 0.4.22-RC2 for Sylvain Derosiaux
 // error_reporting(E_ALL ^ E_NOTICE);
 
@@ -434,9 +439,11 @@ class phpCAS
 	for ($i=0;$i<$PHPCAS_DEBUG['indent'];$i++) {
 	  $indent_str .= '|    ';
 	}
-	error_log($PHPCAS_DEBUG['unique_id'].' '.$indent_str.$str."\n",3,$PHPCAS_DEBUG['filename']);
+//	error_log($PHPCAS_DEBUG['unique_id'].' '.$indent_str.$str."\n",3,$PHPCAS_DEBUG['filename']);
       }
-
+      // OA_MODIFICATION
+      // CAS logs here way to much information, possibly logging errors should be enough
+      //OA::debug($PHPCAS_DEBUG['unique_id'].' '.$indent_str.$str, PEAR_LOG_INFO);
     }
   
   /**
@@ -465,7 +472,9 @@ class phpCAS
 	}
       }
       echo "<br />\n<b>phpCAS error</b>: <font color=\"FF0000\"><b>".__CLASS__."::".$function.'(): '.htmlentities($msg)."</b></font> in <b>".$file."</b> on line <b>".$line."</b><br />\n";
-      phpCAS::trace($msg);
+      // OA_MODIFICATION
+      OA::debug($function.'(): '.$msg.' in file '.$file.' on line '.$line, PEAR_LOG_ERR);
+//      phpCAS::trace($msg);
       phpCAS::traceExit();
       exit();
     }

@@ -133,8 +133,6 @@ class Plugins_Authentication_Cas_Cas // extends Plugins_Authentication
     /**
      * A static method to display a login screen
      * 
-     * TODOAUTH - put here cas login iframe, for now instead just redirect user?
-     *
      * @static
      *
      * @param string $sMessage
