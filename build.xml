@@ -138,6 +138,11 @@
       </fileset>
     </copy>
   </target>
+  
+  <target name="clear-distribution" depends="prepare-version-info">
+    <property name="release.dir" value="${dir.test.results}/${release}"/>
+    <delete dir="${release.dir}" failonerror="false"/>
+  </target>  
 
   <target name="package-bzip2" depends="prepare-distribution">
     <tar destfile="${dir.test.results}/${release}.tar.bz2" basedir="${dir.test.results}" includes="${release}/**" compression="bzip2" longfile="gnu"/>
@@ -151,7 +156,10 @@
     <zip destfile="${dir.test.results}/${release}.zip" basedir="${dir.test.results}"  includes="${release}/**"/>
   </target>
 
-  <target name="package" depends="generate-delivery, generate-xml-cache, generate-adnetworks-cache, checkconsistency, package-bzip2, package-gz, package-zip"/>
+  <!-- 
+    <target name="package" depends="generate-delivery, generate-xml-cache, generate-adnetworks-cache, checkconsistency, package-bzip2, package-gz, package-zip"/>
+   -->
+  <target name="package" depends="generate-delivery, generate-xml-cache, generate-adnetworks-cache, checkconsistency, package-zip, clear-distribution"/>
 
   <target name="build" depends="package, revert-after-packaging" description="Run this if you want your own release files built."/>
 
