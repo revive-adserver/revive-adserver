@@ -1,14 +1,11 @@
-{*<!--
-
+<?php
+/*
 +---------------------------------------------------------------------------+
 | Openads v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
 | Copyright (c) 2003-2007 Openads Limited                                   |
 | For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -24,20 +21,50 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id:$
+*/
 
--->*}
-<img src='images/icon-affiliate-new.gif' border='0' align='absmiddle'>&nbsp;
-{assign var="linkAffiliateUrl" value="affiliate-user-start.php?affiliateid=$entityIdValue" }
+/**
+ * Plugins_Authentication is an abstract class for Authentication plugins
+ *
+ * @package    OpenadsPlugin
+ * @subpackage Authentication
+ * @author     Radek Maciaszek <radek@openads.org>
+ * @abstract
+ */
+class Plugins_Authentication
+{
+    function suppliedCredentials()
+    {
+        OA::debug('Cannot run abstract method');
+        exit();
+    }
+    
+    function authenticateUser()
+    {
+        OA::debug('Cannot run abstract method');
+        exit();
+    }
+    
+    function logout()
+    {
+        OA::debug('Cannot run abstract method');
+        exit();
+    }
+    
+    /**
+     * A static method to display a login screen
+     * @static
+     *
+     * @param string $sMessage
+     * @param string $sessionID
+     * @param bool $inlineLogin
+     */
+    function displayLogin($sMessage = '', $sessionID = 0, $inLineLogin = false)
+    {
+        OA::debug('Cannot run abstract method');
+        exit();
+    }
+}
 
-<a href="{$linkAffiliateUrl}" accesskey=".$keyLinkUser.">{t str=LinkUser_Key}</a>&nbsp;&nbsp;
-{phpAds_ShowBreak}
-
-{if $infomessage}
-  <!-- TODO: display confirmation if a new user was added or invitation has been sent or password reset e-mail has been sent -->
-  <div class='infomessage'>
-    {$infomessage}
-  </div>
-{/if}
-
-{include file=user-access.html users=$users linkUrl=$linkAffiliateUrl}
+?>

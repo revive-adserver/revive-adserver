@@ -1114,9 +1114,9 @@ class DB_DataObjectCommon extends DB_DataObject
      * of the currently active account performing an
      * action.
      *
-     * @return integer The account ID to insert into the
-     *                 "account_id" column of the audit trail
-     *                 database table.
+     * @return int The account ID to insert into the
+     *             "account_id" column of the audit trail
+     *             database table
      */
     function getOwningAccountId()
     {
@@ -1150,24 +1150,37 @@ class DB_DataObjectCommon extends DB_DataObject
     }
 
     /**
+     * A private method to return all the account IDs of the
+     * accounts that own the entity
+     *
+     * @return array An array containing all the account IDs
+     */
+    function getAllOwningAccountIds()
+    {
+        return array($this->getOwningAccountId());
+    }
+
+    /**
      * A private method to return the account ID of the
      * parent entity
      *
      * @param string $parentTable The parent table name
      * @param string $parentKey   The parent key in the current table
-     * @return integer The account ID to insert into the
-     *                 "account_id" column of the audit trail
-     *                 database table.
+     * @param bool   $allAccounts If true, the function returns all the possible accounts,
+     *                            not only the root (manager) account
+     * @return mixed The account ID to insert into the
+     *               "account_id" column of the audit trail
+     *               database table, or an array in case $allAccounts is true
      */
-    function _getOwningAccountIdFromParent($parentTable, $parentKey)
+    function _getOwningAccountIdFromParent($parentTable, $parentKey, $allAccounts = false)
     {
         static $aCache = array();
 
         $primaryKey = $this->getFirstPrimaryKey();
         $tableName  = $this->getTableWithoutPrefix();
 
-        if (!empty($aCache[$tableName][$this->$primaryKey])) {
-            return $aCache[$tableName][$this->$primaryKey];
+        if (!empty($aCache[$tableName][$this->$primaryKey][$allAccounts])) {
+            return $aCache[$tableName][$this->$primaryKey][$allAccounts];
         }
 
         if (empty($this->$parentKey)) {
@@ -1187,7 +1200,9 @@ class DB_DataObjectCommon extends DB_DataObject
             MAX::raiseError('No parent entity found', PEAR_LOG_ERR);
         }
 
-        return $aCache[$tableName][$this->$primaryKey] = $doParent->getOwningAccountId();
+        $method = $allAccounts ? 'getAllOwningAccountIds' : 'getOwningAccountId';
+
+        return $aCache[$tableName][$this->$primaryKey][$allAccounts] = $doParent->$method();
     }
 
     /**

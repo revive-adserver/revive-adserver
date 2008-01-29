@@ -63,7 +63,11 @@ class MAX_Dal_Admin_AgencyTest extends DalUnitTestCase
         $doAgency->logout_url = '';
         $agencyId = DataGenerator::generateOne($doAgency);
 
-        $expected = 'index.php';
+        $path = 'serveraddress';
+        $GLOBALS['_MAX']['CONF']['webpath']['admin'] = $path;
+        $GLOBALS['_MAX']['CONF']['openads']['sslPort'] = 443;
+        $GLOBALS['_MAX']['HTTP'] = 'http://';
+        $expected = 'http://'.$path.'/index.php';
         $this->assertEqual($this->dalAgency->getLogoutUrl($agencyId), $expected);
 
         // Insert an agency with a logout url

@@ -878,6 +878,10 @@ tr.hl {
   background-color: #FFFFE1;
 }
 
+td.norows {
+  text-align: center;
+}
+
 a.permissions {
   background-image: url('../icon-acl.gif');
   background-repeat: no-repeat;

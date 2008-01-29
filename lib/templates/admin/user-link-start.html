@@ -24,13 +24,14 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: custom-adnetworks.html 12771 2007-11-23 15:29:03Z matteo.beccati@openads.org $
+$Id$
 
 --> *}
+{assign var="sso" value="true"}
 
 <script language="javascript">
 <!--
-var HOSTED = {if $hosted}true{else}false{/if};
+var SSO = {if $sso}true{else}false{/if};
 {literal}
   $(document).ready(function() {
     $("#user-key").keyup(function() {
@@ -47,7 +48,7 @@ var HOSTED = {if $hosted}true{else}false{/if};
         }
       },
       formatResult: function(row) {
-        if (HOSTED) {
+        if (SSO) {
           return row[1];
         } else {
           return row[2];
@@ -78,6 +79,7 @@ var HOSTED = {if $hosted}true{else}false{/if};
 //-->{/literal}
 </script>
 
+<br>
 {$strLinkUserHelp}
 
 <form action="{$action}">
@@ -88,6 +90,6 @@ var HOSTED = {if $hosted}true{else}false{/if};
 
   <div class="controls">
     <input id="link-user-button" value="{t str=LinkUser}" type="submit" {tabindex}>
-    <span id="link-user-hint" class="hint">{if $hosted}{t str=ToLinkProvideEmail}{else}{t str=ToLinkProvideUsername}{/if}</span>
+    <span id="link-user-hint" class="hint">{if $sso}{t str=ToLinkProvideEmail}{else}{t str=ToLinkProvideUsername}{/if}</span>
   </div>
 </form>

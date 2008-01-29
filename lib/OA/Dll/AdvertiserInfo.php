@@ -97,7 +97,7 @@ class OA_Dll_AdvertiserInfo extends OA_Info
      *
      */
     function setDefaultForAdd() {
-        if (is_null($this->agencyId)) {
+        if (empty($this->agencyId)) {
             $this->agencyId = OA_Permission::getAgencyId();
         }
     }

@@ -105,6 +105,13 @@ class OA_Dll_Advertiser extends OA_Dll
             if (!$this->checkStructureRequiredStringField($oAdvertiser, 'advertiserName', 255)){
                 return false;
             }
+
+            // Check that an agencyID exists.
+            if (!$this->checkAgencyPermissions($oAdvertiser->agencyId)) {
+                return false;
+            } elseif (!$this->checkIdExistence('agency', $oAdvertiser->agencyId)) {
+                return false;
+            }
         }
 
 
@@ -118,13 +125,6 @@ class OA_Dll_Advertiser extends OA_Dll
             !$this->checkStructureNotRequiredStringField($oAdvertiser, 'password', 64) ||
             !$this->validateUsernamePassword($oAdvertiser->username, $oAdvertiser->password)) {
             return false;
-        }
-
-        // Check that an agencyID exists.
-        if (isset($oAdvertiser->agencyId) && $oAdvertiser->agencyId != 0) {
-            if (!$this->checkIdExistence('agency', $oAdvertiser->agencyId)) {
-                return false;
-            }
         }
 
         return true;
@@ -193,13 +193,16 @@ class OA_Dll_Advertiser extends OA_Dll
     function modify(&$oAdvertiser)
     {
         if (!$this->checkPermissions($this->aAllowAdvertiserAndAbovePerm, 'clients',
-            $oAdvertiser->advertiserId)) 
+            $oAdvertiser->advertiserId))
         {
             return false;
         }
 
-        if (!isset($oAdvertiser->advertiserId)) {
+        if (empty($oAdvertiser->advertiserId)) {
+            unset($oAdvertiser->advertiserId);
             $oAdvertiser->setDefaultForAdd();
+        } else {
+            $oAdvertiser->advertiserId = (int) $oAdvertiser->advertiserId;
         }
 
         $advertiserData = (array) $oAdvertiser;
@@ -211,7 +214,6 @@ class OA_Dll_Advertiser extends OA_Dll
         $advertiserData['email']          = $oAdvertiser->emailAddress;
         $advertiserData['clientusername'] = $oAdvertiser->username;
         $advertiserData['clientpassword'] = $oAdvertiser->password;
-        $advertiserData['agencyid']       = $oAdvertiser->agencyId;
 
         // Password
         if (isset($advertiserData['clientpassword'])) {
@@ -221,6 +223,8 @@ class OA_Dll_Advertiser extends OA_Dll
         if ($this->_validate($oAdvertiser)) {
             $doAdvertiser = OA_Dal::factoryDO('clients');
             if (!isset($advertiserData['advertiserId'])) {
+                // Only set agency ID for insert
+                $advertiserData['agencyid'] = $oAdvertiser->agencyId;
                 $doAdvertiser->setFrom($advertiserData);
                 $oAdvertiser->advertiserId = $doAdvertiser->insert();
             } else {

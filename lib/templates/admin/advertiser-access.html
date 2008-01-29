@@ -28,7 +28,9 @@ $Id$
 
 -->*}
 <img src='images/icon-advertiser-new.gif' border='0' align='absmiddle'>&nbsp;
-<a href="advertiser-user-start.php?clientid={$entityIdValue}" accesskey=".$keyLinkUser.">{t str=LinkUser_Key}</a>&nbsp;&nbsp;
+{assign var="linkAdvertiserUrl" value="advertiser-user-start.php?clientid=$entityIdValue" }
+
+<a href="{$linkAdvertiserUrl}" accesskey=".$keyLinkUser.">{t str=LinkUser_Key}</a>&nbsp;&nbsp;
 {phpAds_ShowBreak}
 
 {if $infomessage}
@@ -37,4 +39,4 @@ $Id$
   </div>
 {/if}
 
-{include file=user-access.html users=$users}
+{include file=user-access.html users=$users linkUrl=$linkAdvertiserUrl}

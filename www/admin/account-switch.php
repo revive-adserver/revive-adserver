@@ -36,20 +36,25 @@ require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/www/admin/config.php';
 
+phpAds_registerGlobalUnslashed('return_url', 'account_id');
 
-if (!empty($_GET['account_id'])) {
-    OA_Permission::enforceAccess($_GET['account_id']);
-    OA_Permission::switchAccount($_GET['account_id']);
+if (!empty($account_id)) {
+    OA_Permission::enforceAccess($account_id);
+    OA_Permission::switchAccount($account_id);
 }
 
-if (isset($_SERVER['HTTP_REFERER']) && !preg_match('/[\r\n]/', $_SERVER['HTTP_REFERER'])) {
+if (empty($return_url) && !empty($_SERVER['HTTP_REFERER'])) {
+    $return_url = $_SERVER['HTTP_REFERER'];
+}
+
+if (empty($return_url) || preg_match('/[\r\n]/', $_SERVER['HTTP_REFERER'])) {
+    $return_url = MAX::constructURL(MAX_URL_ADMIN, 'index.php');
+} else {
     $session['accountSwitch'] = 1;
     phpAds_SessionDataStore();
-    // redirects user to the same page after switching an account
-    $redirect = $_SERVER['HTTP_REFERER'];
-} else {
-    $redirect = 'index.php';
 }
-header("Location: $redirect");
+
+header("Location: $return_url");
+exit;
 
 ?>

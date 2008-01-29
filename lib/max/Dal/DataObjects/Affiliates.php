@@ -130,6 +130,17 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
     }
 
     /**
+     * A private method to return all the account IDs of the
+     * accounts that own the entity
+     *
+     * @return array An array containing all the account IDs
+     */
+    function getAllOwningAccountIds()
+    {
+        return array($this->getOwningAccountId(), parent::getOwningAccountId());
+    }
+
+    /**
      * Handle all necessary operations when new trafficker is created
      *
      * @see DB_DataObject::insert()

@@ -73,12 +73,10 @@ define('OA_ENTITY_ADVSIGNUP_REJECT_BREAKTERMS', 4);
 class OA_Dll extends OA_BaseObjectWithErrors
 {
     var $aAllowTraffickerAndAbovePerm = array(
-        OA_ACCOUNT_ADMIN,
         OA_ACCOUNT_MANAGER,
         OA_ACCOUNT_TRAFFICKER
     );
     var $aAllowAdvertiserAndAbovePerm = array(
-        OA_ACCOUNT_ADMIN,
         OA_ACCOUNT_MANAGER,
         OA_ACCOUNT_ADVERTISER
     );
@@ -329,8 +327,7 @@ class OA_Dll extends OA_BaseObjectWithErrors
         }
 
         $doObject = OA_Dal::factoryDO($table);
-        $object = $doObject->get($id);
-        if (!$object) {
+        if (empty($id) || !($object= $doObject->get($id))) {
 	        $this->raiseError('Unknown '.$tableId.'Id Error');
 	        return false;
         } else {
@@ -391,10 +388,14 @@ class OA_Dll extends OA_BaseObjectWithErrors
             }
         }
         if (isset($id) && !OA_Permission::hasAccessToObject($table, $id)) {
-            $isError = true;
+            if (!OA_Permission::attemptToSwitchForAccess($table, $id)) {
+                $isError = true;
+            }
         }
-        if (isset($allowed) && !OA_Permission::hasPermission($allowed)) {
-            $isError = true;
+        if (isset($allowed)) {
+            if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER) && !OA_Permission::hasPermission($allowed)) {
+                $isError = true;
+            }
         }
         if ($isError) {
             $this->raiseError('Access forbidden');
@@ -403,6 +404,26 @@ class OA_Dll extends OA_BaseObjectWithErrors
             return true;
         }
     }
+
+    function getDefaultAgencyId()
+    {
+        return OA_Permission::getAgencyId();
+    }
+
+    function checkAgencyPermissions($agencyId)
+    {
+        if (!empty($agencyId)) {
+            if ($this->checkPermissions(OA_ACCOUNT_MANAGER, 'agency', $agencyId)) {
+                return true;
+            } elseif ($this->checkPermissions(array(OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER))) {
+                return $agencyId == $this->getDefaultAgencyId();
+            }
+        }
+
+        $this->raiseError('Wrong AgencyId');
+        return false;
+    }
+
 }
 
 ?>

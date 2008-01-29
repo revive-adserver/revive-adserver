@@ -464,7 +464,29 @@ function initCampaignStatus()
 }
 
 
-/** */
+/** 
+ * A function for making dialog-confirmed links. Note that
+ * configuration-dialog.html must be included which contains
+ * the actual confirmation dialog code.
+ */
+jQuery.fn.confirmedLink = function(triggerLinkClass, closeIdPrefix)
+{
+  return this.each(function() {
+    $("#" + closeIdPrefix + "confirmation-dialog").jqm({
+        modal: true,
+        overlay: 40,
+        trigger: "." + triggerLinkClass,
+        onShow: function(hash) {
+          $("#" + closeIdPrefix + "cd-submit").one("click", function() {
+            location.href = hash.t.href;
+          });
+          hash.w.fadeIn("fast");
+        }
+    }).jqmAddClose("#" + closeIdPrefix + "cd-cancel");
+  });
+}
+
+/*
 function initUnlinkUserDialog()
 {
   $("#confirmation-dialog").jqm({
@@ -479,7 +501,7 @@ function initUnlinkUserDialog()
       }
   }).jqmAddClose("#cd-cancel");
 }
-
+*/
 
 function copyValidationConstraints(fromObj, toObj)
 {

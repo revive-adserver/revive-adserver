@@ -28,7 +28,17 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 
 -->*}
 
-<div id="confirmation-dialog" class="jqmWindow">
+<script type="text/javascript">
+{literal}<!--
+  $(document).ready(function() {
+{/literal}
+    $(".{$linkToConfirmClass}").confirmedLink("{$linkToConfirmClass}", "{$id}");
+{literal}
+  });
+//-->{/literal}
+</script>
+
+<div id="{$id|default:''}confirmation-dialog" class="jqmWindow">
   <div class="jqm-window-title">&nbsp;&nbsp;{$title}</div>
   
   <div class="jqm-window-body">
@@ -38,8 +48,8 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
     </div>
 
     <div class="jqm-controls">
-      <input id="cd-submit" type="button" value="{$confirmLabel}" class="main-submit" {tabindex} />&nbsp;
-      <input id="cd-cancel" type="button" value="{$cancelLabel|default:'Cancel'}"  {tabindex} />
+      <input id="{$id|default:''}cd-submit" type="button" value="{$confirmLabel}" class="main-submit" {tabindex} />&nbsp;
+      <input id="{$id|default:''}cd-cancel" type="button" value="{$cancelLabel|default:'Cancel'}"  {tabindex} />
     </div>
   </div>  
 </div>

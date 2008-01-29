@@ -112,13 +112,24 @@ class DataObjects_Clients extends DB_DataObjectCommon
      * of the currently active account performing an
      * action.
      *
-     * @return integer The account ID to insert into the
-     *                 "account_id" column of the audit trail
-     *                 database table.
+     * @return int The account ID to insert into the
+     *             "account_id" column of the audit trail
+     *             database table
      */
     function getOwningAccountId()
     {
-        return $this->_getOwningAccountIdFromParent('agency', 'agencyid');
+        return $this->_getOwningAccountIdFromParent('agency', 'agencyid', $allAccounts);
+    }
+
+    /**
+     * A private method to return all the account IDs of the
+     * accounts that own the entity
+     *
+     * @return array An array containing all the account IDs
+     */
+    function getAllOwningAccountIds()
+    {
+        return array($this->getOwningAccountId(), parent::getOwningAccountId());
     }
 
     /**

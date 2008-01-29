@@ -202,7 +202,7 @@ $GLOBALS['strUserUnlinkedFromAccount']  = 'User was unlinked from account';
 $GLOBALS['strUserWasDeleted']           = 'User was deleted';
 $GLOBALS['strUserNotLinkedWithAccount'] = 'Such user is not linked with account';
 $GLOBALS['strCantDeleteOneAdminUser']   = 'You can\'t delete a user. At least one user needs to be linked with admin account.';
-$GLOBALS['strLinkUserHelp']             = '<br />Type user name. To link:<ul><li>existing user, type username and click on "link user"</li><li>new user, type his desired username and click on "link user"</li></ul>';
+$GLOBALS['strLinkUserHelp']             = 'To link an <b>existing user</b>, type username and click "' . $GLOBALS['strLinkUser'] . '".<br />To link a <b>new user</b>, type desired username and click "' . $GLOBALS['strLinkUser'] . '".';
 
 // Login & Permissions
 $GLOBALS['strUserAccess']               = "User Access";

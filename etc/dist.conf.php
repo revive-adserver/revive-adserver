@@ -379,12 +379,16 @@ protocol    = https
 host        = login.openads.org
 port        = 443
 path        = /sso/login
+clientPath  = /sso
 signup      = /account/signup
 forgot      = /account/forgotPassword
 
 ;------------------------------------------------------------------------------------------;
 ; Plugins Settings                                                                         ;
 ;------------------------------------------------------------------------------------------;
+
+[authentication]
+type=internal
 
 [channelDerivation]
 cacheExpire=86400

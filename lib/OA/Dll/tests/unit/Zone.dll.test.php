@@ -43,6 +43,10 @@ require_once MAX_PATH . '/lib/OA/Dll/tests/util/DllUnitTestCase.php';
 
 class OA_Dll_ZoneTest extends DllUnitTestCase
 {
+    /**
+     * @var int
+     */
+    var $agencyId;
 
     /**
      * Errors
@@ -59,13 +63,18 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
         Mock::generatePartial(
             'OA_Dll_Publisher',
             'PartialMockOA_Dll_Publisher',
-            array('checkPermissions')
+            array('checkPermissions', 'getDefaultAgencyId')
         );
         Mock::generatePartial(
             'OA_Dll_Zone',
             'PartialMockOA_Dll_Zone',
             array('checkPermissions')
         );
+    }
+
+    function setUp()
+    {
+        $this->agencyId = DataGenerator::generateOne('agency');
     }
 
     function tearDown()
@@ -81,14 +90,16 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
         $dllPublisherPartialMock = new PartialMockOA_Dll_Publisher($this);
         $dllZonePartialMock      = new PartialMockOA_Dll_Zone($this);
 
+        $dllPublisherPartialMock->setReturnValue('getDefaultAgencyId', $this->agencyId);
         $dllPublisherPartialMock->setReturnValue('checkPermissions', true);
-        $dllPublisherPartialMock->expectCallCount('checkPermissions', 1);
+        $dllPublisherPartialMock->expectCallCount('checkPermissions', 2);
 
         $dllZonePartialMock->setReturnValue('checkPermissions', true);
         $dllZonePartialMock->expectCallCount('checkPermissions', 5);
 
         $oZoneInfo      = new OA_DLL_ZoneInfo();
         $oPublisherInfo = new OA_DLL_PublisherInfo();
+        $oPublisherInfo->agencyId = $this->agencyId;
 
         $dllPublisherPartialMock->modify($oPublisherInfo);
 
@@ -130,13 +141,15 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
         $dllPublisherPartialMock = new PartialMockOA_Dll_Publisher($this);
         $dllZonePartialMock      = new PartialMockOA_Dll_Zone($this);
 
+        $dllPublisherPartialMock->setReturnValue('getDefaultAgencyId', $this->agencyId);
         $dllPublisherPartialMock->setReturnValue('checkPermissions', true);
-        $dllPublisherPartialMock->expectCallCount('checkPermissions', 1);
+        $dllPublisherPartialMock->expectCallCount('checkPermissions', 2);
 
         $dllZonePartialMock->setReturnValue('checkPermissions', true);
         $dllZonePartialMock->expectCallCount('checkPermissions', 6);
 
         $oPublisherInfo = new OA_DLL_PublisherInfo();
+        $oPublisherInfo->agencyId = $this->agencyId;
         $dllPublisherPartialMock->modify($oPublisherInfo);
 
         $oZoneInfo1              = new OA_Dll_ZoneInfo();
@@ -217,14 +230,16 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
         $dllPublisherPartialMock = new PartialMockOA_Dll_Publisher($this);
         $dllZonePartialMock      = new PartialMockOA_Dll_Zone($this);
 
+        $dllPublisherPartialMock->setReturnValue('getDefaultAgencyId', $this->agencyId);
         $dllPublisherPartialMock->setReturnValue('checkPermissions', true);
-        $dllPublisherPartialMock->expectCallCount('checkPermissions', 1);
+        $dllPublisherPartialMock->expectCallCount('checkPermissions', 2);
 
         $dllZonePartialMock->setReturnValue('checkPermissions', true);
         $dllZonePartialMock->expectCallCount('checkPermissions', 5);
 
         $oZoneInfo      = new OA_DLL_ZoneInfo();
         $oPublisherInfo = new OA_DLL_PublisherInfo();
+        $oPublisherInfo->agencyId = $this->agencyId;
 
         $dllPublisherPartialMock->modify($oPublisherInfo);
         $oZoneInfo->publisherId = $oPublisherInfo->publisherId;

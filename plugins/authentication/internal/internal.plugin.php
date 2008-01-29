@@ -1,0 +1,179 @@
+<?php
+/*
++---------------------------------------------------------------------------+
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id:$
+*/
+
+require_once MAX_PATH . '/lib/max/other/common.php';
+
+/**
+ * Authentication internal plugin which authenticates user using internal
+ * database method.
+ *
+ * @package    OpenadsPlugin
+ * @subpackage Authentication
+ * @author     Radek Maciaszek <radek@openads.org>
+ * @abstract
+ */
+class Plugins_Authentication_Internal_Internal // extends Plugins_Authentication
+{
+    function suppliedCredentials()
+    {
+        return isset($_POST['username']) || isset($_POST['password']);
+    }
+    
+    function authenticateUser()
+    {
+        $aCredentials = $this->getCredentials();
+        if (PEAR::isError($aCredentials)) {
+            OA_Auth::displayError($aCredentials);
+        }
+        return $this->checkPassword($aCredentials['username'],
+            $aCredentials['password']);
+    }
+    
+    /**
+     * A method to get the login credential supplied as POST parameters
+     *
+     * Additional checks are also performed and error eventually returned
+     *
+     * @static
+     *
+     * @param bool $performCookieCheck
+     * @return mixed Array on success, PEAR_Error otherwise
+     */
+    function getCredentials($performCookieCheck = true)
+    {
+        if (empty($_POST['username']) || empty($_POST['password'])) {
+            return new PEAR_Error($GLOBALS['strEnterBoth']);
+        }
+
+        if ($performCookieCheck && $_COOKIE['sessionID'] != $_POST['oa_cookiecheck']) {
+            return new PEAR_Error($GLOBALS['strEnableCookies']);
+        }
+
+        return array(
+            'username' => MAX_commonGetPostValueUnslashed('username'),
+            'password' => MAX_commonGetPostValueUnslashed('password')
+        );
+    }
+    
+    /**
+     * A static method to check a username and password
+     *
+     * @static
+     *
+     * @param string $username
+     * @param string $md5Password
+     * @return mixed A DataObjects_Users instance, or false if no matching user was found
+     */
+    function checkPassword($username, $password)
+    {
+        $doUser = OA_Dal::factoryDO('users');
+        $doUser->whereAdd('LOWER(username) = '.DBC::makeLiteral(strtolower($username)));
+        $doUser->whereAdd('password = '.DBC::makeLiteral(md5($password)));
+        $doUser->find();
+
+        if ($doUser->fetch()) {
+            return $doUser;
+        }
+        return false;
+    }
+    
+    /**
+     * A method to logout and redirect to the correct URL
+     *
+     * @static
+     *
+     * @todo Fix when preferences are ready and logout url is stored into the
+     * preferences table
+     */
+    function logout()
+    {
+        phpAds_SessionDataDestroy();
+        $dalAgency = OA_Dal::factoryDAL('agency');
+        header ("Location: " . $dalAgency->getLogoutUrl($GLOBALS['agencyid']));
+        exit;
+    }
+    
+    /**
+     * A static method to display a login screen
+     * 
+     * @static
+     *
+     * @param string $sMessage
+     * @param string $sessionID
+     * @param bool $inlineLogin
+     */
+    function displayLogin($sMessage = '', $sessionID = 0, $inLineLogin = false)
+    {
+        global $strUsername, $strPassword, $strLogin, $strWelcomeTo, $strEnterUsername, $strNoAdminInteface, $strForgotPassword;
+
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $aPref = $GLOBALS['_MAX']['PREF'];
+
+        if (!$inLineLogin) {
+            phpAds_PageHeader(phpAds_Login);
+        }
+
+        // Check environment settings
+        $oSystemMgr = new OA_Environment_Manager();
+        $aSysInfo = $oSystemMgr->checkSystem();
+
+        foreach ($aSysInfo as $env => $vals) {
+            $errDetails = '';
+            if (is_array($vals['error'])) {
+                $errDetails = '<ul>';
+                foreach ($vals['actual'] as $key => $val) {
+                    $errDetails .= '<li>' . $key . ' &nbsp; => &nbsp; ' . $val . '</li>';
+                }
+                $errDetails .= '</ul>';
+                foreach ($vals['error'] as $key => $err) {
+                    phpAds_Die( ' Error: ' . $err, $errDetails );
+                }
+            }
+        }
+
+        $oTpl = new OA_Admin_Template('login.html');
+
+        $formAction = basename($_SERVER['PHP_SELF']);
+        if (!empty($_SERVER['QUERY_STRING'])) {
+            $formAction .= '?'.$_SERVER['QUERY_STRING'];
+        }
+
+        $appName = !empty($aPref['name']) ? $aPref['name'] : MAX_PRODUCT_NAME;
+
+        $oTpl->assign('uiEnabled', $aConf['ui']['enabled']);
+        $oTpl->assign('formAction', $formAction);
+        $oTpl->assign('sessionID', $sessionID);
+        $oTpl->assign('appName', $appName);
+        $oTpl->assign('message', $sMessage);
+
+        $oTpl->display();
+
+        phpAds_PageFooter();
+        exit;
+    }
+}
+
+?>

@@ -57,6 +57,8 @@ class BaseServiceImpl extends  OA_BaseObjectWithErrors
     function BaseServiceImpl()
     {
         $this->BaseObjectWithErrors();
+
+        define('OA_WEBSERVICES_API_XMLRPC', 1);
     }
 
     /**

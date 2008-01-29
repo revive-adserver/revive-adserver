@@ -90,13 +90,13 @@ class OA_Admin_UI_UserAccess
         $oTpl->assign('strLinkUserHelp', $GLOBALS['strLinkUserHelp']);
         
         // TODOHOSTED: will need to know whether we're hosted or downloaded
-        $HOSTED = false; 
-        $oTpl->assign('hosted', $HOSTED);
+        // Actually, it's probably a question if we're using SSO or not
+        $SSO = false; 
+        $oTpl->assign('sso', $SSO);
         
-        if ($HOSTED) {
+        if ($SSO) {
            $oTpl->assign('fields', array(
                array(
-                   'title'     => "E-mail",
                    'fields'    => array(
                        array(
                            'name'      => 'email',
@@ -112,7 +112,6 @@ class OA_Admin_UI_UserAccess
         {
            $oTpl->assign('fields', array(
                array(
-                   'title'     => $strUsername,
                    'fields'    => array(
                        array(
                            'name'      => 'login',
@@ -134,29 +133,30 @@ class OA_Admin_UI_UserAccess
      */
     function getUserDetailsFields($userData)
     {
-        
-        if ($HOSTED) {
+        // TODOHOSTED: will need to know whether we're hosted or downloaded
+        // Actually, it's probably a question if we're using SSO or not
+        $SSO = true; 
+        $userExists = false; // TODO: determine if user already exists
+        if ($SSO) {
            $userDetailsFields[] = array(
                           'name'      => 'email_address',
                           'label'     => $GLOBALS['strEMail'],
                           'value'     => 'test@test.com', // TODO: put e-mail here
                           'freezed'   => true
-                      );
-        
-           if ($existingUser) {
+                    );
+           $userDetailsFields[] = array(
+                        'name'      => 'contact',
+                        'label'     => $GLOBALS['strContactName'],
+                        'value'     => $userData['contact']
+                    );
+
+           if ($userExists) {
               $userDetailsFields[] = array(
                            'type'      => 'custom',
                            'template'  => 'link',
                            'label'     => $GLOBALS['strPwdRecReset'],
                            'href'      => 'user-password-reset.php', // TODO: put the actual password resetting script here
                            'text'      => $GLOBALS['strPwdRecResetPwdThisUser']
-                       );
-           }
-           else {
-              $userDetailsFields[] = array(
-                           'name'      => 'contact',
-                           'label'     => $GLOBALS['strContactName'],
-                           'value'     => $userData['contact']
                        );
            }
         }

@@ -105,6 +105,13 @@ class OA_Dll_Publisher extends OA_Dll
             if (!$this->checkStructureNotRequiredIntegerField($oPublisher, 'publisherId')) {
                 return false;
             }
+
+            // Check that an agencyID exists.
+            if (!$this->checkAgencyPermissions($oPublisher->agencyId)) {
+                return false;
+            } elseif (!$this->checkIdExistence('agency', $oPublisher->agencyId)) {
+                return false;
+            }
         }
 
         if ((!empty($oPublisher->emailAddress) &&
@@ -118,12 +125,6 @@ class OA_Dll_Publisher extends OA_Dll
             !$this->validateUsernamePassword($oPublisher->username, $oPublisher->password)) {
 
             return false;
-        }
-
-        if (isset($oPublisher->agencyId) && $oPublisher->agencyId != 0) {
-            if (!$this->checkIdExistence('agency', $oPublisher->agencyId)) {
-                return false;
-            }
         }
 
         return true;
@@ -182,6 +183,7 @@ class OA_Dll_Publisher extends OA_Dll
             $oPublisher->setDefaultForAdd();
         } else {
             $oPublisher->publisherId = (int) $oPublisher->publisherId;
+
             // Capture the existing data
             /**
              * @todo This needs to be updated to use the getPublisher method, however right now
@@ -221,7 +223,6 @@ class OA_Dll_Publisher extends OA_Dll
         $publisherData['name']      = $oPublisher->publisherName;
         $publisherData['contact']   = $oPublisher->contactName;
         $publisherData['email']     = $oPublisher->emailAddress;
-        $publisherData['agencyid']  = $oPublisher->agencyId;
         $publisherData['oac_category_id'] = $oPublisher->oacCategoryId;
         $publisherData['oac_language_id'] = $oPublisher->oacLanguageId;
         $publisherData['oac_country_code'] = $oPublisher->oacCountryCode;
@@ -242,6 +243,8 @@ class OA_Dll_Publisher extends OA_Dll
         if ($this->_validate($oPublisher)) {
             $doPublisher = OA_Dal::factoryDO('affiliates');
             if (!isset($publisherData['publisherId'])) {
+                // Only set agency ID for insert
+                $publisherData['agencyid'] = $oPublisher->agencyId;
                 $doPublisher->setFrom($publisherData);
     		    /**
     		     * @todo The current mechanism requires the dataobject to have the username/password fields
