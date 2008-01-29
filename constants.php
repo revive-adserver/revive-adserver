@@ -41,7 +41,7 @@ function setupConstants()
     define('OA_VERSION', '2.7.2-dev');
     define('MAX_PRODUCT_NAME',      'Openads');
     define('MAX_PRODUCT_URL',       'www.openads.org');
-    define('MAX_PRODUCT_DOCSURL',   'docs.openads.org'); 
+    define('MAX_PRODUCT_DOCSURL',   'docs.openads.org');
     define('MAX_PRODUCT_FORUMURL',  'forum.openads.org');
 
     define('OA_INSTALLATION_STATUS_NOTINSTALLED' ,   -1);
@@ -208,7 +208,7 @@ function setupConstants()
 
     define('OA_DOCUMENTATION_BASE_URL', 'http://docs.openads.org');
     define('OA_DOCUMENTATION_PATH',     'help');
-    define('OA_VERSION', '2.7.2-dev');
+    preg_match('/(\d+\.\d+)/', OA_VERSION, $aMatches);
     define('OA_DOCUMENTATION_VERSION',     $aMatches[1]);
 
     // Define the week to start on Sunday (0) so that the PEAR::Date and
