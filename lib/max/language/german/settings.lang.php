@@ -83,7 +83,7 @@ $GLOBALS['strInstallWelcome']			= "Willkommen bei ".MAX_PRODUCT_NAME;
 $GLOBALS['strInstallMessage']			= "Bevor ".MAX_PRODUCT_NAME." genutzt werden kann, m&uuml;ssen die Einstellungen konfiguriert  <br /> sowie die Datenbank geschaffen (create) werden. Dr&uuml;cken Sie <b>Weiter</b> , um fortzufahren.";
 
 $GLOBALS['strInstallIntro']                 = "Willkommen zu <a href='http://".MAX_PRODUCT_URL."' target='_blank'><strong>".MAX_PRODUCT_NAME."</strong></a>! Bald sind Sie auch ein Teil der gr&ouml;&szlig;ten Adserver Community.
-<p>Wir werden unser bestes tun, um die Installation bzw. das Update so einfach wie m&ouml;glich zu halten. Bitte halten Sie sich an die Anweisungen auf dem Bildschirm, und sollten Sie weiterf&uuml;hrende Hilfe ben&ouml;tigen wenden Sie sich bitte an <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'><strong>die Dokumentation</strong></a>.</p>
+<p>Wir werden unser bestes tun, um die Installation bzw. das Update so einfach wie m&ouml;glich zu halten. Bitte halten Sie sich an die Anweisungen auf dem Bildschirm, und sollten Sie weiterf&uuml;hrende Hilfe ben&ouml;tigen wenden Sie sich bitte an <a href='http://".OA_DOCUMENTATION_BASE_URL."' target='_blank'><strong>die Dokumentation</strong></a>.</p>
 <p>Sollten Sie auch nach Durchsicht der Dokumentation noch weitere Fragen haben, schauen Sie zum <a href='http://".MAX_PRODUCT_URL."/support/overview.html' target='_blank'><strong>Support</strong></a> Bereich unserer Website und dem OpenAds <a href='http://".MAX_PRODUCT_FORUMURL."' target='_blank'><strong>Community Forum</strong></a>.</p>
 <p>Vielen Dank, dass Sie sich f&uuml;r OpenAds entschieden haben.</p>";
 $GLOBALS['strTermsTitle']               = "Lizenz Information";
@@ -107,12 +107,12 @@ $GLOBALS['strInstallSuccess']			=
 Damit ".MAX_PRODUCT_NAME." korrekt arbeitet, mu&szlig; sichergestellt sein, da&szlig; das Wartungsmodul (maintenance.php) st&uuml;ndlich aktiviert wird.
 Es ist zwar nicht zwingend notwendig das Wartungsmodul &uuml;ber das Cron zu starten, da solange Banner ausgeliefert werden, das Wartungsmodul automatisch von
 der Auslieferungsskripten gestartet wird. Der Zuverl&auml;ssigkeit wegen ist es jedoch empfehlenswert das Wartungsmodul &uuml;ber das Cron st&uuml;ndlich zu starten.
-N&auml;here Informationen finden sich im <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'>Handbuch</a>. <br />
+N&auml;here Informationen finden sich im <a href='http://".OA_DOCUMENTATION_BASE_URL."' target='_blank'>Handbuch</a>. <br />
 <br />
 <strong>Sicherheit</strong><br />
 Die " . MAX_PRODUCT_NAME . " Installationsroutine muss auf die Konfigurationsdatei schreibend zugreifen k&ouml;nnen. Nachdem die Installation und die nachfolgende Konfiguration beendet ist,
 sollte der Schreibschutz auf der Konfigurationsdatei wieder entfernt werden.<br />
-N&auml;here Informationen finden sich im <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'>Handbuch</a>.
+N&auml;here Informationen finden sich im <a href='http://".OA_DOCUMENTATION_BASE_URL."' target='_blank'>Handbuch</a>.
 <br /><br />
 Klicken Sie nun auf Weiter, um mit der Konfiguration fortzufahren.";
 
@@ -130,7 +130,7 @@ $GLOBALS['strErrorUpgrade'] = 'Das Upgrade der Datenbank der bestehenden Install
 $GLOBALS['strErrorInstallDbConnect']		= "Eine Verbindung zur Datenbank konnte nicht ge&ouml;ffnet werden.";
 $GLOBALS['strErrorWritePermissions']        = "Um diese(n) Fehler auf Ihrem Linux Server zu beheben, m&uuml;ssen Sie folgende(n) Befehl(e) eingeben:";
 $GLOBALS['strErrorFixPermissionsCommand']   = "<i>chmod a+w %s</i>";
-$GLOBALS['strCheckDocumentation']           = "F&uuml;r weitere Hilfe sehen Sie bitte in das Handbuch unter http://".MAX_PRODUCT_DOCSURL;
+$GLOBALS['strCheckDocumentation']           = "F&uuml;r weitere Hilfe sehen Sie bitte in das Handbuch unter http://".OA_DOCUMENTATION_BASE_URL;
 
 $GLOBALS['strAdminUrlPrefix']               = "URL der Admin-Oberfl&auml;che";
 $GLOBALS['strDeliveryUrlPrefix']            = "URL des Ad-Servers";

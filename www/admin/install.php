@@ -254,7 +254,7 @@ else if (array_key_exists('btn_upgrade', $_POST))
             }
             elseif ($oUpgrader->upgrade($oUpgrader->package_file))
             {
-                $message = 'Your database has successfully been upgraded to Openads version '.OA_VERSION;
+                $message = 'Upgrade completed';
                 $action  = OA_UPGRADE_UPGRADE;
             }
         }
@@ -362,7 +362,7 @@ else if (array_key_exists('btn_tagssetup', $_POST))
         OA_Upgrade_Login::autoLogin();
 
         $action = OA_UPGRADE_FINISH;
-        $message = 'Congratulations you have finished installing Openads';
+        $message = 'Your Openads installation is now complete.';
 
         $aWebsites    = array(
             0 => array(),
@@ -575,7 +575,7 @@ else if (array_key_exists('btn_finish', $_POST))
 {
     if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
     {
-        $message = 'Congratulations you have finished installing Openads';
+        $message = 'Your Openads installation is now complete.';
     }
     else
     {
