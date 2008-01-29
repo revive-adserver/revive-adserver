@@ -203,6 +203,7 @@ a:hover {
 #oaNavigationTabs li.last span,
 #oaNavigationTabs li.last a {
 	margin-right: 11px;
+	-margin-right: 5px;
 }
 #oaNavigationTabs li.active span,
 #oaNavigationTabs li.active a {
