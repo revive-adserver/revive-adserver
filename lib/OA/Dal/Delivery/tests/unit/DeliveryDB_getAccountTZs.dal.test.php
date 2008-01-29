@@ -31,25 +31,25 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 
 /**
  * A class for performing extended testing on the Delivery Engine DAL class'
- * OA_Dal_Delivery_getZoneInfo() function.
+ * OA_Dal_Delivery_getAccountTZs() function.
  *
  * @package    OpenadsDal
  * @subpackage TestSuite
  * @author     Matteo Beccati <matteo.beccati@openads.org>
  */
-class Test_OA_Dal_DeliveryDB_getAdminTZ extends UnitTestCase
+class Test_OA_Dal_Delivery_getAccountTZs extends UnitTestCase
 {
     var $oDbh;
     var $prefix;
 
-    function Test_OA_Dal_DeliveryDB_getAdminTZ()
+    function Test_OA_Dal_Delivery_getAccountTZs()
     {
         $this->UnitTestCase();
         $this->oDbh = OA_DB::singleton();
         $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
 
         // Disable caching
-        $GLOBALS['_MAX']['CONF']['delivery']['cacheExpire'] = -1;
+        $GLOBALS['OA_Delivery_Cache']['expiry'] = -1;
 
         MAX_Dal_Delivery_Include();
     }
@@ -62,8 +62,13 @@ class Test_OA_Dal_DeliveryDB_getAdminTZ extends UnitTestCase
         $doAccounts->account_type = OA_ACCOUNT_ADMIN;
         $adminAccountId = DataGenerator::generateOne($doAccounts);
 
-        $result = OA_Dal_Delivery_getAdminTZ();
-        $this->assertEqual($result, 'UTC');
+        $aExpect = array(
+            'default' => 'UTC',
+            'aAccounts' => array()
+        );
+
+        $aResult = OA_Dal_Delivery_getAccountTZs();
+        $this->assertEqual($aResult, $aExpect);
 
         $doPreferences = OA_Dal::factoryDO('preferences');
         $doPreferences->preference_name = 'timezone';
@@ -75,8 +80,13 @@ class Test_OA_Dal_DeliveryDB_getAdminTZ extends UnitTestCase
         $doAPA->value = '';
         $doAPA->insert();
 
-        $result = OA_Dal_Delivery_getAdminTZ();
-        $this->assertEqual($result, 'UTC');
+        $aExpect = array(
+            'default' => 'UTC',
+            'aAccounts' => array()
+        );
+
+        $aResult = OA_Dal_Delivery_getAccountTZs();
+        $this->assertEqual($aResult, $aExpect);
 
         $doAPA = OA_Dal::factoryDO('account_preference_assoc');
         $doAPA->account_id = $adminAccountId;
@@ -84,8 +94,47 @@ class Test_OA_Dal_DeliveryDB_getAdminTZ extends UnitTestCase
         $doAPA->value = 'Europe/Rome';
         $doAPA->update();
 
-        $result = OA_Dal_Delivery_getAdminTZ();
-        $this->assertEqual($result, 'Europe/Rome');
+        $aExpect = array(
+            'default' => 'Europe/Rome',
+            'aAccounts' => array()
+        );
+
+        $aResult = OA_Dal_Delivery_getAccountTZs();
+        $this->assertEqual($aResult, $aExpect);
+
+        // Create a couple of manager accounts
+        $doAccounts = OA_Dal::factoryDO('accounts');
+        $doAccounts->account_name = 'Manager Account 1';
+        $doAccounts->account_type = OA_ACCOUNT_MANAGER;
+        $managerAccountId1 = DataGenerator::generateOne($doAccounts);
+
+        $doAPA = OA_Dal::factoryDO('account_preference_assoc');
+        $doAPA->account_id = $managerAccountId1;
+        $doAPA->preference_id = $preferenceId;
+        $doAPA->value = 'Europe/London';
+        $doAPA->insert();
+
+        $doAccounts = OA_Dal::factoryDO('accounts');
+        $doAccounts->account_name = 'Manager Account 2';
+        $doAccounts->account_type = OA_ACCOUNT_MANAGER;
+        $managerAccountId2 = DataGenerator::generateOne($doAccounts);
+
+        $doAPA = OA_Dal::factoryDO('account_preference_assoc');
+        $doAPA->account_id = $managerAccountId2;
+        $doAPA->preference_id = $preferenceId;
+        $doAPA->value = 'CEST';
+        $doAPA->insert();
+
+        $aExpect = array(
+            'default' => 'Europe/Rome',
+            'aAccounts' => array(
+                $managerAccountId1 => 'Europe/London',
+                $managerAccountId2 => 'CEST'
+            )
+        );
+
+        $aResult = OA_Dal_Delivery_getAccountTZs();
+        $this->assertEqual($aResult, $aExpect);
     }
 
 }

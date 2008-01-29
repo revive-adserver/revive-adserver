@@ -41,13 +41,16 @@ class Test_OA_Dal_DeliveryDB_TZ extends UnitTestCase
 {
     var $zoneId;
     var $aBannerId;
+    var $adminAccountId;
+    var $managerAccountId;
+    var $preferenceId;
 
     function Test_OA_Dal_DeliveryDB_TZ()
     {
         $this->UnitTestCase();
 
         // Disable caching
-        $GLOBALS['_MAX']['CONF']['delivery']['cacheExpire'] = -1;
+        $GLOBALS['OA_Delivery_Cache']['expiry'] = -1;
 
         MAX_Dal_Delivery_Include();
 
@@ -55,15 +58,15 @@ class Test_OA_Dal_DeliveryDB_TZ extends UnitTestCase
         $doAccounts = OA_Dal::factoryDO('accounts');
         $doAccounts->account_name = 'Administrator Account';
         $doAccounts->account_type = OA_ACCOUNT_ADMIN;
-        $adminAccountId = DataGenerator::generateOne($doAccounts);
+        $this->adminAccountId = DataGenerator::generateOne($doAccounts);
 
         $doPreferences = OA_Dal::factoryDO('preferences');
         $doPreferences->preference_name = 'timezone';
-        $preferenceId = DataGenerator::generateOne($doPreferences);
+        $this->preferenceId = DataGenerator::generateOne($doPreferences);
 
         $doAPA = OA_Dal::factoryDO('account_preference_assoc');
-        $doAPA->account_id = $adminAccountId;
-        $doAPA->preference_id = $preferenceId;
+        $doAPA->account_id = $this->adminAccountId;
+        $doAPA->preference_id = $this->preferenceId;
         $doAPA->value = 'Europe/Rome';
         DataGenerator::generateOne($doAPA);
 
@@ -76,11 +79,11 @@ class Test_OA_Dal_DeliveryDB_TZ extends UnitTestCase
 
         $doAgency = OA_Dal::factoryDO('agency');
         $doAgency->agencyid = $aAgencyId[1];
-        list($managerAccountId) = $doAgency->getAll(array('account_id'));
+        list($this->managerAccountId) = $doAgency->getAll(array('account_id'));
 
         $doAPA = OA_Dal::factoryDO('account_preference_assoc');
-        $doAPA->account_id = $managerAccountId;
-        $doAPA->preference_id = $preferenceId;
+        $doAPA->account_id = $this->managerAccountId;
+        $doAPA->preference_id = $this->preferenceId;
         $doAPA->value = 'Europe/London';
         DataGenerator::generateOne($doAPA);
 
@@ -131,9 +134,6 @@ class Test_OA_Dal_DeliveryDB_TZ extends UnitTestCase
 
         Admin_DA::addPlacementZone(array('placement_id' => $aCampaignId[0], 'zone_id' => $this->zoneId));
         Admin_DA::addPlacementZone(array('placement_id' => $aCampaignId[1], 'zone_id' => $this->zoneId));
-
-        // Force cache recreation of getAdminTZ
-        MAX_cacheGetAdminTZ(false);
     }
 
     function testDirectSelection()
@@ -156,6 +156,59 @@ class Test_OA_Dal_DeliveryDB_TZ extends UnitTestCase
         $this->assertTrue(is_array($aResult['lAds'][$this->aBannerId[1]]));
         $this->assertEqual($aResult['lAds'][$this->aBannerId[0]]['timezone'], 'Europe/Rome');
         $this->assertEqual($aResult['lAds'][$this->aBannerId[1]]['timezone'], 'Europe/London');
+    }
+
+    function test_OA_976()
+    {
+        // Clean up prefs
+        $doAPA = OA_Dal::factoryDO('account_preference_assoc');
+        $doAPA->account_id = $this->managerAccountId;
+        $doAPA->delete();
+
+        $doPreferences = OA_Dal::factoryDO('preferences');
+        $doPreferences->preference_name = 'foo';
+        $fooId = DataGenerator::generateOne($doPreferences);
+
+        $doPreferences->preference_name = 'bar';
+        $barId = DataGenerator::generateOne($doPreferences);
+
+        $doAPA = OA_Dal::factoryDO('account_preference_assoc');
+        $doAPA->account_id = $this->managerAccountId;
+        $doAPA->preference_id = $fooId;
+        $doAPA->value = 'FOO';
+        DataGenerator::generateOne($doAPA);
+
+        $aResult = OA_Dal_Delivery_getZoneLinkedAds($this->zoneId);
+        $this->assertEqual($aResult['count_active'], 2);
+        $this->assertEqual($aResult['lAds'][$this->aBannerId[1]]['timezone'], 'Europe/Rome');
+
+        $aResult = OA_Dal_Delivery_getLinkedAds('468x60');
+        $this->assertEqual($aResult['count_active'], 2);
+        $this->assertEqual($aResult['lAds'][$this->aBannerId[1]]['timezone'], 'Europe/Rome');
+
+        $doAPA->preference_id = $barId;
+        $doAPA->value = 'BAR';
+        DataGenerator::generateOne($doAPA);
+
+        $aResult = OA_Dal_Delivery_getZoneLinkedAds($this->zoneId);
+        $this->assertEqual($aResult['count_active'], 2);
+        $this->assertEqual($aResult['lAds'][$this->aBannerId[1]]['timezone'], 'Europe/Rome');
+
+        $aResult = OA_Dal_Delivery_getLinkedAds('468x60');
+        $this->assertEqual($aResult['count_active'], 2);
+        $this->assertEqual($aResult['lAds'][$this->aBannerId[1]]['timezone'], 'Europe/Rome');
+
+        $doAPA->preference_id = $this->preferenceId;
+        $doAPA->value = 'GMT-06';
+        DataGenerator::generateOne($doAPA);
+
+        $aResult = OA_Dal_Delivery_getZoneLinkedAds($this->zoneId);
+        $this->assertEqual($aResult['count_active'], 2);
+        $this->assertEqual($aResult['lAds'][$this->aBannerId[1]]['timezone'], 'GMT-06');
+
+        $aResult = OA_Dal_Delivery_getLinkedAds('468x60');
+        $this->assertEqual($aResult['count_active'], 2);
+        $this->assertEqual($aResult['lAds'][$this->aBannerId[1]]['timezone'], 'GMT-06');
     }
 }
 

@@ -3243,15 +3243,15 @@ $aRows = OA_Delivery_Cache_store_return($sName, $aRows);
 }
 return $aRows;
 }
-function MAX_cacheGetAdminTZ($cached = true)
+function MAX_cacheGetAccountTZs($cached = true)
 {
 $sName  = OA_Delivery_Cache_getName(__FUNCTION__);
-if (!$cached || ($tz = OA_Delivery_Cache_fetch($sName)) === false) {
+if (!$cached || ($aResult = OA_Delivery_Cache_fetch($sName)) === false) {
 MAX_Dal_Delivery_Include();
-$tz = OA_Dal_Delivery_getAdminTZ();
-$tz = OA_Delivery_Cache_store_return($sName, $tz);
+$aResult = OA_Dal_Delivery_getAccountTZs();
+$aResult = OA_Delivery_Cache_store_return($sName, $aResult);
 }
-return $tz;
+return $aResult;
 }
 function MAX_cacheGetZoneLinkedAds($zoneId, $cached = true)
 {
