@@ -156,10 +156,7 @@
     <zip destfile="${dir.test.results}/${release}.zip" basedir="${dir.test.results}"  includes="${release}/**"/>
   </target>
 
-  <!-- 
-    <target name="package" depends="generate-delivery, generate-xml-cache, generate-adnetworks-cache, checkconsistency, package-bzip2, package-gz, package-zip"/>
-   -->
-  <target name="package" depends="generate-delivery, generate-xml-cache, generate-adnetworks-cache, checkconsistency, package-zip, clear-distribution"/>
+  <target name="package" depends="generate-delivery, generate-xml-cache, generate-adnetworks-cache, checkconsistency, package-bzip2, package-gz, package-zip, clear-distribution"/>
 
   <target name="build" depends="package, revert-after-packaging" description="Run this if you want your own release files built."/>
 
