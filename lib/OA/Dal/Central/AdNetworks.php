@@ -69,60 +69,35 @@ class OA_Dal_Central_AdNetworks extends OA_Dal_Central_Common
     function getBannerIdsFromOacIds($bannerIds)
     {
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->whereInAdd('oac_banner_id', $bannerIds);
+        $doBanners->whereInAdd('an_banner_id', $bannerIds);
         $doBanners->orderBy('bannerid');
         $doBanners->find();
 
         $aOacBannerIds = array();
         while ($doBanners->fetch()) {
-            $aOacBannerIds[$doBanners->oac_banner_id] = $doBanners->bannerid;
+            $aOacBannerIds[$doBanners->an_banner_id] = $doBanners->bannerid;
         }
 
         return $aOacBannerIds;
     }
 
-    /**
-     * A method to convert the UTC start and end dates to day/hour
-     * and add them to the revenue array.
-     *
-     * @param array $aRevenue The revenue array
-     */
-    function revenueAddDayHours(&$aRevenue)
-    {
-        if (isset($aRevenue['start_day'])) {
-            return;
-        }
-
-        $start = new Date($aRevenue['start']);
-        $end   = new Date($aRevenue['end']);
-
-        $aRevenue += array(
-            'start_day'  => $start->format('%Y-%m-%d'),
-            'start_hour' => (int)$start->format('%H'),
-            'end_day'    => $end->format('%Y-%m-%d'),
-            'end_hour'   => (int)$end->format('%H')
-        );
-    }
-
     function revenueGetWhereCondition($aParams)
     {
+        $oDbh = OA_DB::singleton();
         return "
             (
-                (day = '{$aParams['start_day']}' AND hour >= {$aParams['start_hour']}) OR
-                (day > '{$aParams['start_day']}' AND day < '{$aParams['end_day']}') OR
-                (day = '{$aParams['end_day']}' AND hour <= {$aParams['end_hour']})
+                date_time >= ".$oDbh->quote($aParams['start'], 'timestamp')." AND
+                date_time <= ".$oDbh->quote($aParams['end'], 'timestamp')."
             )
         ";
     }
 
     function revenueGetStats($bannerId, $aParams)
     {
-        $this->revenueAddDayHours($aParams);
-
         $doDsah = OA_Dal::factoryDO('data_summary_ad_hourly');
         $doDsah->ad_id = $bannerId;
         $doDsah->whereAdd($this->revenueGetWhereCondition($aParams));
-        $doDsah->orderBy('day, hour');
+        $doDsah->orderBy('date_time');
 
         $aStats = $doDsah->getAll(array(), true, false);
 
@@ -179,7 +154,7 @@ class OA_Dal_Central_AdNetworks extends OA_Dal_Central_Common
         } elseif ($aRevenue['revenue'] > 0) {
             // Create entries only if there is a revenue
             if ($this->revenueInsertStats($bannerId, $aRevenue, $actionType)) {
-                return $this->revenuePerformUpdate($bannerId, $aRevenue, $actionType, $recursionLevel + 1);
+                return $this->revenuePerformUpdate($bannerId, $aRevenue, $recursionLevel + 1);
             }
         }
 
@@ -217,16 +192,15 @@ class OA_Dal_Central_AdNetworks extends OA_Dal_Central_Common
         while (!$oDate->after(new Date($aParams['end']))) {
             foreach ($aZoneIds as $zoneId) {
                 $doDsah = OA_Dal::factoryDO('data_summary_ad_hourly');
-                $doDsah->day         = $oDate->format('%Y-%m-%d');
-                $doDsah->hour        = (int)$oDate->format('%H');
+                $doDsah->date_time   = $oDate->format('%Y-%m-%d %H:00:00');
                 $doDsah->ad_id       = $bannerId;
                 $doDsah->zone_id     = $zoneId;
                 $doDsah->creative_id = 0;
 
                 $doDsahClone = clone($doDsah);
-                if (!$doDsahClone->count()) {
-                    $doDsah->updated = OA::getNow();
-                    if ($doDsah->insert()) {
+                if (!$doDsah->count()) {
+                    $doDsahClone->updated = OA::getNow();
+                    if ($doDsahClone->insert()) {
                         $i++;
                     }
                 }
@@ -240,8 +214,6 @@ class OA_Dal_Central_AdNetworks extends OA_Dal_Central_Common
 
     function revenueClearStats($bannerId, $aParams)
     {
-        $this->revenueAddDayHours($aParams);
-
         $where = $this->revenueGetWhereCondition($aParams);
 
         $tableDsah = $this->oDbh->quoteIdentifier($GLOBALS['_MAX']['CONF']['table']['prefix'].'data_summary_ad_hourly');

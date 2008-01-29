@@ -37,34 +37,25 @@ require_once MAX_PATH . '/www/admin/config.php';
 // Register input variables
 phpAds_registerGlobal('newaffiliateid', 'returnurl', 'duplicate');
 
-$affiliateid    = (int) $affiliateid;
-$agencyid       = (int) $agencyid;
-$channelid      = (int) $channelid;
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
+OA_Permission::enforceAccessToObject('channel', $channelid);
+
+$affiliateid    = (int) $affiliateid;
+$channelid      = (int) $channelid;
+
+if (empty($returnurl)) {
+    $returnurl = 'channel-acl.php';
+}
+
+// Security check
 if (isset($channelid) && $channelid != '') {
-
-    MAX_Permission::checkAccessToObject('channel', $channelid);
-
-    if (isset($newaffiliateid) && $newaffiliateid != '') {
-        // A agency cannot move a channel
-        if (phpAds_isUser(phpAds_Agency)) {
-            phpAds_Die($strAccessDenied, $strNotAdmin);
-        }
-        // Move the channel to the new Publisher/Affiliate
-        $doChannel = OA_Dal::factoryDO('channel');
-        $doChannel->get($channelid);
-        $doChannel->affiliateid = $newaffiliateid;
-        $doChannel->update();
-        Header("Location: ".$returnurl."?affiliateid=".$newaffiliateid."&channelid=".$channelid);
-        exit;
-
-    } elseif (isset($duplicate) && $duplicate == 'true') {
+    if (isset($duplicate) && $duplicate == 'true') {
         // Duplicate the channel
         $newChannelId = OA_Dal::staticDuplicate('channel', $channelid);
         $params = (!$affiliateid)
-            ? "?agencyid=".$agencyid."&channelid=".$newChannelId
+            ? "?channelid=".$newChannelId
             : "?affiliateid=".$affiliateid."&channelid=".$newChannelId;
         Header("Location: ".$returnurl.$params);
         exit;

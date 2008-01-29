@@ -415,7 +415,7 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
      *                    {@link OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions::getUpdateTypeRequired()}
      *                    method.
      * @return array An array of hashes where keys are operation interval IDs, and
-     *               values are date strings. One element in the array indicates a
+     *               values are PEAR Dates. One element in the array indicates a
      *               contiguous range, two elements indicate a non-contiguous range.
      */
     function _getOperationIntervalRanges($type)
@@ -479,11 +479,11 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
                $x = 0;
             }
             $aDates = array();
-            $aDates['start'] = $oStartDate->format('%Y-%m-%d %H:%M:%S');
+            $aDates['start'] = new Date($oStartDate); //->format('%Y-%m-%d %H:%M:%S');
             $oEndDate = new Date();
             $oEndDate->copy($oStartDate);
             $oEndDate->addSeconds(OA_OperationInterval::secondsPerOperationInterval() - 1);
-            $aDates['end'] = $oEndDate->format('%Y-%m-%d %H:%M:%S');
+            $aDates['end'] = $oEndDate; //->format('%Y-%m-%d %H:%M:%S');
             unset($oEndDate);
             $aRange[$x] = $aDates;
             $oStartDate->addSeconds(OA_OperationInterval::secondsPerOperationInterval());
@@ -563,8 +563,10 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
             $tmp = array_keys($aRange);
             $min = min($tmp);
             $max = max($tmp);
-            $oRangeLowerDate = new Date($aRange[$min]['start']);
-            $oRangeUpperDate = new Date($aRange[$max]['start']);
+            $oRangeLowerDate = new Date();
+            $oRangeLowerDate->copy($aRange[$min]['start']);
+            $oRangeUpperDate = new Date();
+            $oRangeUpperDate->copy($aRange[$max]['start']);
             // Get the average impressions delivered by the zone in previous
             // operation intervals, for the required operation interval range
             $aZoneImpressionAverages = $this->_getZoneImpressionAverages($zoneId, $oRangeLowerDate, $oRageUpperDate);
@@ -587,7 +589,8 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
                         ($aZoneForecastAndImpressionHistory[$previousIntervalID]['actual_impressions'] > 0)) {
                         // Use the previous operation interval's actual impressions value as the
                         // new forecast
-                        OA::debug("  - Forecasting for OI $intervalId (starting {$aInterval['start']}) based on previous OI value", PEAR_LOG_DEBUG);
+                        OA::debug("  - Forecasting for OI $intervalId (starting '" . $aInterval['start']->format('%Y-%m-%d %H:%M:%S') .
+                                  ' ' . $aInterval['start']->tz->getShortName() . "') based on previous OI value", PEAR_LOG_DEBUG);
                         $this->_storeForecast(
                             $this->aForecastResults,
                             $aZoneForecastAndImpressionHistory,
@@ -599,7 +602,8 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
                     } else {
                         // Use the default value as the new forecast, and note that the forecast
                         // is so based
-                        OA::debug("  - Forecasting for OI $intervalId (starting {$aInterval['start']}) based on default value", PEAR_LOG_DEBUG);
+                        OA::debug("  - Forecasting for OI $intervalId (starting '" . $aInterval['start']->format('%Y-%m-%d %H:%M:%S') .
+                                  ' ' . $aInterval['start']->tz->getShortName() . "') based on default value", PEAR_LOG_DEBUG);
                         $this->_storeForecast(
                             $this->aForecastResults,
                             $aZoneForecastAndImpressionHistory,
@@ -656,7 +660,8 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
                         // The past average forecast and actual impression values exist, so calculate the
                         // trend adjustment value, and calculate the new forecast from the past average and
                         // the trend adjustment value
-                        OA::debug("  - Forecasting for OI $intervalId (starting {$aInterval['start']}) based on past average and recent trend", PEAR_LOG_DEBUG);
+                        OA::debug("  - Forecasting for OI $intervalId (starting '" . $aInterval['start']->format('%Y-%m-%d %H:%M:%S') .
+                                  ' ' . $aInterval['start']->tz->getShortName() . "') based on past average and recent trend", PEAR_LOG_DEBUG);
                         $trendValue = $actualAverage / $forecastAverage;
                         $this->_storeForecast(
                             $this->aForecastResults,
@@ -669,7 +674,8 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
                     } else {
                         // The trend data could not be calculated, so simply use the past average as the
                         // new forecast
-                        OA::debug("  - Forecasting for OI $intervalId (starting {$aInterval['start']}) based on past average only", PEAR_LOG_DEBUG);
+                        OA::debug("  - Forecasting for OI $intervalId (starting '" . $aInterval['start']->format('%Y-%m-%d %H:%M:%S') .
+                                  ' ' . $aInterval['start']->tz->getShortName() . "') based on past average only", PEAR_LOG_DEBUG);
                         $this->_storeForecast(
                             $this->aForecastResults,
                             $aZoneForecastAndImpressionHistory,
@@ -831,8 +837,8 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
     {
         $aForecastResults[$zoneId][$intervalId] = array(
             'forecast_impressions' => $forecast,
-            'interval_start'       => $aInterval['start'],
-            'interval_end'         => $aInterval['end'],
+            'interval_start'       => $aInterval['start']->format('%Y-%m-%d %H:%M:%S'),
+            'interval_end'         => $aInterval['end']->format('%Y-%m-%d %H:%M:%S'),
             'est'                  => $estimated ? 1 : 0
         );
         $aZFAIH[$intervalId]['forecast_impressions'] = $forecast;

@@ -318,8 +318,8 @@ class OA_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends OA_M
         $this->oController->report .= $message . "\n";
         OA::debug($message, PEAR_LOG_DEBUG);
         $message = '- Summarising requests between ' .
-                   $oStartDate->format('%Y-%m-%d %H:%M:%S') . ' and ' .
-                   $oEndDate->format('%Y-%m-%d %H:%M:%S');
+                   $oStartDate->format('%Y-%m-%d %H:%M:%S') . ' ' . $oStartDate->tz->getShortName() .
+                   ' and ' . $oEndDate->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEndDate->tz->getShortName();
         $this->oController->report .= $message . "\n";
         OA::debug($message, PEAR_LOG_DEBUG);
         $rows = $oDal->summariseRequests($oStartDate, $oEndDate);
@@ -346,8 +346,8 @@ class OA_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends OA_M
         $this->oController->report .= $message . "\n";
         OA::debug($message, PEAR_LOG_DEBUG);
         $message = '- Summarising impressions between ' .
-                   $oStartDate->format('%Y-%m-%d %H:%M:%S') . ' and ' .
-                   $oEndDate->format('%Y-%m-%d %H:%M:%S');
+                   $oStartDate->format('%Y-%m-%d %H:%M:%S') . ' ' . $oStartDate->tz->getShortName() .
+                   ' and ' . $oEndDate->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEndDate->tz->getShortName();
         $this->oController->report .= $message . "\n";
         OA::debug($message, PEAR_LOG_DEBUG);
         $rows = $oDal->summariseImpressions($oStartDate, $oEndDate);
@@ -374,8 +374,8 @@ class OA_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends OA_M
         $this->oController->report .= $message . "\n";
         OA::debug($message, PEAR_LOG_DEBUG);
         $message = '- Summarising clicks between ' .
-                   $oStartDate->format('%Y-%m-%d %H:%M:%S') . ' and ' .
-                   $oEndDate->format('%Y-%m-%d %H:%M:%S');
+                   $oStartDate->format('%Y-%m-%d %H:%M:%S') . ' ' . $oStartDate->tz->getShortName() .
+                   ' and ' . $oEndDate->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEndDate->tz->getShortName();
         $this->oController->report .= $message . "\n";
         OA::debug($message, PEAR_LOG_DEBUG);
         $rows = $oDal->summariseClicks($oStartDate, $oEndDate);
@@ -402,8 +402,8 @@ class OA_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends OA_M
         $this->oController->report .= $message . "\n";
         OA::debug($message, PEAR_LOG_DEBUG);
         $message = '- Summarising connections between ' .
-                   $oStartDate->format('%Y-%m-%d %H:%M:%S') . ' and ' .
-                   $oEndDate->format('%Y-%m-%d %H:%M:%S');
+                   $oStartDate->format('%Y-%m-%d %H:%M:%S') . ' ' . $oStartDate->tz->getShortName() .
+                   ' and ' . $oEndDate->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEndDate->tz->getShortName();
         $this->oController->report .= $message . "\n";
         OA::debug($message, PEAR_LOG_DEBUG);
         $rows = $oDal->summariseConnections($oStartDate, $oEndDate);

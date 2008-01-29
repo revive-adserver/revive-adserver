@@ -303,6 +303,41 @@ function collapseOSURow($id)
 	return $objResponse;
 }
 
+function expandRow($id, $aRow)
+{
+    $actionid = $aRow['actionid'];
+    unset($aRow['actionid']);
+    $html = '';
+    foreach ($aRow as $k => $v)
+    {
+        if ($actionid == OA_AUDIT_ACTION_UPDATE)
+        {
+            $html.= $k.'='.$v['is'].' (was '.$v['was'].')<br />';
+        }
+        else
+        {
+
+            $html.= $k.'='.$v.'<br />';
+        }
+    }
+	$objResponse = new xajaxResponse();
+	$objResponse->addAssign('col_'.$id, 'innerHTML', $html);
+	$objResponse->addAssign('row_'.$id,"style.display", 'block');
+	$objResponse->addAssign('img_expand_'.$id,"style.display", 'none');
+	$objResponse->addAssign('img_collapse_'.$id,"style.display", 'inline');
+	return $objResponse;
+}
+
+function collapseRow($id)
+{
+	$objResponse = new xajaxResponse();
+	$objResponse->addAssign('col_'.$id, 'innerHTML', '');
+	$objResponse->addAssign('row_'.$id,"style.display", 'none');
+	$objResponse->addAssign('img_expand_'.$id,"style.display", 'inline');
+	$objResponse->addAssign('img_collapse_'.$id,"style.display", 'none');
+	return $objResponse;
+}
+
 
 
 require_once MAX_DEV.'/lib/xajax/xajax.inc.php';
@@ -325,6 +360,9 @@ $xajax->registerFunction("exitIndexProperty");
 $xajax->registerFunction("addIndexField");
 $xajax->registerFunction("expandOSURow");
 $xajax->registerFunction("collapseOSURow");
+$xajax->registerFunction("collapseRow");
+$xajax->registerFunction("expandRow");
+
 // Process any requests.  Because our requestURI is the same as our html page,
 // this must be called before any headers or HTML output have been sent
 $xajax->processRequests();

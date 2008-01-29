@@ -28,15 +28,23 @@ $Id$
 /**
  * Table Definition for clients (Client is often called Advertiser)
  */
-require_once 'AbstractUser.php';
+require_once 'DB_DataObjectCommon.php';
 
-class DataObjects_Clients extends DataObjects_AbstractUser
+class DataObjects_Clients extends DB_DataObjectCommon
 {
     var $onDeleteCascade = true;
     var $dalModelName = 'Clients';
     var $usernameField = 'clientusername';
     var $passwordField = 'clientpassword';
     var $refreshUpdatedFieldIfExists = true;
+
+    /**
+     * BC-compatible user details
+     *
+     * @todo Please remove later
+     */
+    var $clientusername;
+    var $clientpassword;
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
@@ -44,12 +52,8 @@ class DataObjects_Clients extends DataObjects_AbstractUser
     var $clientid;                        // int(9)  not_null primary_key auto_increment
     var $agencyid;                        // int(9)  not_null multiple_key
     var $clientname;                      // string(255)  not_null
-    var $contact;                         // string(255)  
+    var $contact;                         // string(255)
     var $email;                           // string(64)  not_null
-    var $clientusername;                  // string(64)  not_null
-    var $clientpassword;                  // string(64)  not_null
-    var $permissions;                     // int(9)  
-    var $language;                        // string(64)  
     var $report;                          // string(1)  not_null enum
     var $reportinterval;                  // int(9)  not_null
     var $reportlastdate;                  // date(10)  not_null binary
@@ -57,7 +61,9 @@ class DataObjects_Clients extends DataObjects_AbstractUser
     var $comments;                        // blob(65535)  blob
     var $updated;                         // datetime(19)  not_null binary
     var $lb_reporting;                    // int(1)  not_null
-    var $oac_adnetwork_id;                // int(11)  
+    var $an_adnetwork_id;                 // int(11)
+    var $as_advertiser_id;                // int(11)
+    var $account_id;                      // int(9)  multiple_key
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
@@ -68,16 +74,10 @@ class DataObjects_Clients extends DataObjects_AbstractUser
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
-
-    /**
-     * Returns phpAds_Client constant value.
-     *
-     * @return integer
-     */
-    function getUserType()
-    {
-        return phpAds_Client;
-    }
+    var $defaultValues = array(
+        'report' => 't',
+        'reportdeactivate' => 't'
+    );
 
 
     /**
@@ -89,6 +89,158 @@ class DataObjects_Clients extends DataObjects_AbstractUser
     {
         return $this->clientid;
     }
+
+    function _auditEnabled()
+    {
+        return true;
+    }
+
+    function _getContextId()
+    {
+        return $this->clientid;
+    }
+
+    function _getContext()
+    {
+        return 'Client';
+    }
+
+    /**
+     * A private method to return the account ID of the
+     * account that should "own" audit trail entries for
+     * this entity type; NOT related to the account ID
+     * of the currently active account performing an
+     * action.
+     *
+     * @return integer The account ID to insert into the
+     *                 "account_id" column of the audit trail
+     *                 database table.
+     */
+    function getOwningAccountId()
+    {
+        return $this->_getOwningAccountIdFromParent('agency', 'agencyid');
+    }
+
+    /**
+     * Handle all necessary operations when new advertiser is created
+     *
+     * @see DB_DataObject::insert()
+     */
+    function insert()
+    {
+        // Create account first
+        $result = $this->createAccount(OA_ACCOUNT_ADVERTISER, $this->clientname);
+        if (!$result) {
+            return $result;
+        }
+
+        // Store data to create a user
+        if (!empty($this->clientusername) && !empty($this->clientpassword)) {
+            $aUser = array(
+                'contact_name' => $this->contact,
+                'email_address' => $this->email,
+                'username' => $this->clientusername,
+                'password' => $this->clientpassword,
+                'default_account_id' => $this->account_id
+            );
+        }
+
+        $clientId = parent::insert();
+        if (!$clientId) {
+            return $clientId;
+        }
+
+        // Create user if needed
+        if (!empty($aUser)) {
+            $this->createUser($aUser);
+        }
+
+        return $clientId;
+    }
+
+    /**
+     * Handle all necessary operations when an advertiser is updated
+     *
+     * @see DB_DataObject::update()
+     */
+    function update($dataObject = false)
+    {
+        // Store data to create a user
+        if (!empty($this->clientusername) && !empty($this->clientpassword)) {
+            $aUser = array(
+                'contact_name' => $this->contact,
+                'email_address' => $this->email,
+                'username' => $this->clientusername,
+                'password' => $this->clientpassword,
+                'default_account_id' => $this->account_id
+            );
+        }
+
+        $ret = parent::update($dataObject);
+        if (!$ret) {
+            return $ret;
+        }
+
+        // Create user if needed
+        if (!empty($aUser)) {
+            $this->createUser($aUser);
+        }
+
+        $this->updateAccountName($this->clientname);
+
+        return $ret;
+    }
+
+    /**
+     * Handle all necessary operations when an advertiser is deleted
+     *
+     * @see DB_DataObject::delete()
+     */
+    function delete($useWhere = false, $cascade = true, $parentid = null)
+    {
+        $result =  parent::delete($useWhere, $cascade, $parentid);
+        if ($result) {
+            $this->deleteAccount();
+        }
+
+        return $result;
+    }
+
+    /**
+     * build a client specific audit array
+     *
+     * @param integer $actionid
+     * @param array $aAuditFields
+     */
+    function _buildAuditArray($actionid, &$aAuditFields)
+    {
+        $aAuditFields['key_desc']   = $this->clientname;
+        switch ($actionid)
+        {
+            case OA_AUDIT_ACTION_INSERT:
+            case OA_AUDIT_ACTION_DELETE:
+                        $aAuditFields['report']   = $this->_formatValue('report');
+                        $aAuditFields['reportdeactivate'] = $this->_formatValue('reportdeactivate');
+                        $aAuditFields['lb_reporting'] = $this->_formatValue('lb_reporting');
+                        break;
+            case OA_AUDIT_ACTION_UPDATE:
+                        break;
+        }
+    }
+
+    function _formatValue($field)
+    {
+        switch ($field)
+        {
+            case 'report':
+            case 'reportdeactivate':
+            case 'lb_reporting':
+                return $this->_boolToStr($this->$field);
+            default:
+                return $this->$field;
+        }
+    }
+
 }
 
 ?>

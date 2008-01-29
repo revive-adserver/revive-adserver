@@ -58,7 +58,7 @@ class OA_Maintenance_Statistics_Common_Task_SetUpdateRequirements extends OA_Mai
      */
     function run()
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $oServiceLocator =& OA_ServiceLocator::instance();
         $oNowDate =& $oServiceLocator->get('now');
         if (!$oNowDate) {
@@ -69,11 +69,11 @@ class OA_Maintenance_Statistics_Common_Task_SetUpdateRequirements extends OA_Mai
         $this->oController->report = 'Maintenance Statistics Report: ' . $module . "\n";
         OA::debug('Running Maintenance Statistics Engine: ' . $module, PEAR_LOG_INFO);
         $this->oController->report .= "=====================================\n\n";
-        $message = '- Current time is ' . $oNowDate->format('%Y-%m-%d %H:%M:%S');
+        $message = '- Maintenance start run time is ' . $oNowDate->format('%Y-%m-%d %H:%M:%S') . ' ' . $oNowDate->tz->getShortName();
         $this->oController->report .= $message . "\n";
         OA::debug($message, PEAR_LOG_DEBUG);
         // Which of the operation interval and an hour is smaller?
-        if ($conf['maintenance']['operationInterval'] <= 60) {
+        if ($aConf['maintenance']['operationInterval'] <= 60) {
             $this->oController->updateUsingOI = true;
         } else {
             $this->oController->updateUsingOI = false;
@@ -102,14 +102,16 @@ class OA_Maintenance_Statistics_Common_Task_SetUpdateRequirements extends OA_Mai
         } else {
             // Found a last update date
             $message = '- Maintenance statistics last updated intermediate table statistics to ' .
-                       $this->oController->oLastDateIntermediate->format('%Y-%m-%d %H:%M:%S');
+                       $this->oController->oLastDateIntermediate->format('%Y-%m-%d %H:%M:%S') . ' ' .
+                       $this->oController->oLastDateIntermediate->tz->getShortName();
             $this->oController->report .= $message . ".\n";
             OA::debug($message, PEAR_LOG_DEBUG);
             // Does the last update date found occur on the end of an operation interval?
             $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($this->oController->oLastDateIntermediate);
             if (Date::compare($this->oController->oLastDateIntermediate, $aDates['end']) != 0) {
                 $message = '- Last intermediate table updated to date of ' .
-                           $this->oController->oLastDateIntermediate->format('%Y-%m-%d %H:%M:%S') .
+                           $this->oController->oLastDateIntermediate->format('%Y-%m-%d %H:%M:%S') . ' ' .
+                           $this->oController->oLastDateIntermediate->tz->getShortName() .
                            ' is not on the current operation interval boundary';
                 $this->oController->report .= $message . "\n";
                 OA::debug($message, PEAR_LOG_DEBUG);
@@ -122,18 +124,18 @@ class OA_Maintenance_Statistics_Common_Task_SetUpdateRequirements extends OA_Mai
                 $this->oController->sameOI = false;
             }
             // Calculate the date after which the next operation interval-based update can happen
-            $requiredDate = new Date();
+            $oRequiredDate = new Date();
             if ($this->oController->sameOI) {
-                $requiredDate->copy($this->oController->oLastDateIntermediate);
-                $requiredDate->addSeconds($conf['maintenance']['operationInterval'] * 60);
+                $oRequiredDate->copy($this->oController->oLastDateIntermediate);
+                $oRequiredDate->addSeconds($aConf['maintenance']['operationInterval'] * 60);
             } else {
-                $requiredDate->copy($aDates['end']);
+                $oRequiredDate->copy($aDates['end']);
             }
-            $message = '- Current time must be after ' . $requiredDate->format('%Y-%m-%d %H:%M:%S') .
-                       ' for the next intermediate table update to happen';
+            $message = '- Current time must be after ' . $oRequiredDate->format('%Y-%m-%d %H:%M:%S') . ' ' .
+                       $oRequiredDate->tz->getShortName() . ' for the next intermediate table update to happen';
             $this->oController->report .= $message . "\n";
             OA::debug($message, PEAR_LOG_DEBUG);
-            if (Date::compare($oNowDate, $requiredDate) > 0) {
+            if (Date::compare($oNowDate, $oRequiredDate) > 0) {
                 $this->oController->updateIntermediate = true;
                 // Update intermediate tables to the end of the previous (not current) operation interval
                 $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNowDate);
@@ -142,7 +144,7 @@ class OA_Maintenance_Statistics_Common_Task_SetUpdateRequirements extends OA_Mai
                 $this->oController->oUpdateIntermediateToDate->subtractSeconds(1);
             } else {
                 // An operation interval hasn't passed, so don't update
-                $message = "- At least {$conf['maintenance']['operationInterval']} minutes have " .
+                $message = "- At least {$aConf['maintenance']['operationInterval']} minutes have " .
                            'not passed since the last operation interval update';
                 $this->oController->report .= $message . "\n";
                 OA::debug($message, PEAR_LOG_DEBUG);
@@ -166,18 +168,19 @@ class OA_Maintenance_Statistics_Common_Task_SetUpdateRequirements extends OA_Mai
         } else {
             // Found a last update date
             $message = '- Maintenance statistics last updated final table statistics to ' .
-                       $this->oController->oLastDateFinal->format('%Y-%m-%d %H:%M:%S');
+                       $this->oController->oLastDateFinal->format('%Y-%m-%d %H:%M:%S') . ' ' .
+                       $this->oController->oLastDateFinal->tz->getShortName();;
             $this->oController->report .= $message . ".\n";
             OA::debug($message, PEAR_LOG_DEBUG);
             // Calculate the date after which the next hour-based update can happen
-            $requiredDate = new Date();
-            $requiredDate->copy($this->oController->oLastDateFinal);
-            $requiredDate->addSeconds(60 * 60);
-            $message = '- Current time must be after ' . $requiredDate->format('%Y-%m-%d %H:%M:%S') .
-                       ' for the next final table update to happen';
+            $oRequiredDate = new Date();
+            $oRequiredDate->copy($this->oController->oLastDateFinal);
+            $oRequiredDate->addSeconds(60 * 60);
+            $message = '- Current time must be after ' . $oRequiredDate->format('%Y-%m-%d %H:%M:%S') . ' ' .
+                       $oRequiredDate->tz->getShortName() . ' for the next intermediate table update to happen';
             $this->oController->report .= $message . "\n";
             OA::debug($message, PEAR_LOG_DEBUG);
-            if (Date::compare($oNowDate, $requiredDate) > 0) {
+            if (Date::compare($oNowDate, $oRequiredDate) > 0) {
                 $this->oController->updateFinal = true;
                 // Update final tables to the end of the previous (not current) hour
                 $this->oController->oUpdateFinalToDate = new Date($oNowDate->format('%Y-%m-%d %H:00:00'));

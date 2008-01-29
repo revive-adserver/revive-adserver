@@ -56,6 +56,7 @@ if (array_key_exists('btn_openads', $_POST) || (OA_INSTALLATION_STATUS == OA_INS
 }
 
 require_once MAX_PATH.'/lib/OA/Upgrade/Upgrade.php';
+require_once MAX_PATH.'/lib/OA/Upgrade/Login.php';
 
 // setup oUpgrader, determine whether they are installing or that they can Upgrade
 $oUpgrader = new OA_Upgrade();
@@ -73,10 +74,12 @@ if (!$oSystemMgr->checkMemory()) {
 
 // required files for header & nav
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
-require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
+require_once MAX_PATH . '/lib/OA/Permission.php';
 require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
-require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
+require_once MAX_PATH . '/lib/OA/Admin/Option.php';
+
+$options = new OA_Admin_Option('settings');
 
 // clear the $session variable to prevent users pretending to be logged in.
 unset($session);
@@ -134,86 +137,6 @@ function checkFolderPermissions($folder) {
     return true;
 }
 
-/**
- * Check administrator login during the upgrade steps
- *
- * @todo Refactor and/or move parts of this function to a more appropriate place
- *
- * @return boolean True if login succeded
- */
-function checkLogin()
-{
-    if (empty($_COOKIE['oat']) || $_COOKIE['oat'] != OA_UPGRADE_UPGRADE) {
-        return true;
-    }
-
-    // Make sure that the preferences array wasn't injected
-    $GLOBALS['_MAX']['PREF'] = array();
-
-    $oUpgrader = new OA_Upgrade();
-
-    $openadsDetected = $oUpgrader->detectOpenads(true) ||
-        $oUpgrader->existing_installation_status == OA_STATUS_CURRENT_VERSION;
-
-    // Sequentially check, to avoid useless work
-    if (!$openadsDetected) {
-        if (!($panDetected = $oUpgrader->detectPAN(true))) {
-            if (!($maxDetected = $oUpgrader->detectMAX(true))) {
-                $max01Detected = $oUpgrader->detectMAX01(true);
-            }
-        }
-    }
-
-    if ($openadsDetected || $panDetected || $maxDetected || $max01Detected) {
-        if ($openadsDetected) {
-            // Openads 2.3+ - Load admin username and password using the preference DAL
-            require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
-            MAX_Admin_Preferences::loadPrefs();
-        } else {
-            // Old versions - Load admin username and password using hardcoded queries
-            $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-
-            if ($panDetected) {
-                $table = 'config';
-                $where = '';
-            } else {
-                $table = $max01Detected ? 'config' : 'preference';
-                $where = ' WHERE agencyid = 0';
-            }
-            $oDbh = OA_DB::singleton();
-            if (!PEAR::isError($oDbh)) {
-                $aPref = $oDbh->queryRow("SELECT admin, admin_pw FROM {$prefix}{$table}{$where}",
-                    null,
-                    MDB2_FETCHMODE_ASSOC);
-
-                if (is_array($aPref)) {
-                    $GLOBALS['_MAX']['PREF'] = $aPref;
-                }
-            }
-        }
-    }
-
-    phpAds_SessionStart();
-    phpAds_SessionDataFetch();
-
-    if (!empty($_POST['username']) && !empty($_POST['password'])) {
-        $username  = MAX_commonGetPostValueUnslashed('username');
-        $password  = MAX_commonGetPostValueUnslashed('password');
-
-        $md5digest = md5($password);
-
-        // Clean up session
-        $GLOBALS['session'] = array();
-
-        if (phpAds_isAdmin($username, $md5digest)) {
-            phpAds_SessionDataRegister(MAX_Permission_User::getAAdminData($username));
-        }
-
-        phpAds_SessionDataStore();
-    }
-
-    return phpAds_isUser(phpAds_Admin);
-}
 
 if (array_key_exists('btn_startagain', $_POST))
 {
@@ -235,11 +158,11 @@ if ($oUpgrader->isRecoveryRequired())
 }
 else if (array_key_exists('btn_syscheck', $_POST) || $_POST['dirPage'] == OA_UPGRADE_SYSCHECK)
 {
-    // store updates_enabled value into session, so that they can be inserted into DB once DB has been created
+    // store checkForUpdates value into session, so that they can be inserted into DB once DB has been created
     session_start();
 
     if (isset($_POST['hdn_policy'])) {
-        $_SESSION['updates_enabled'] = isset($_POST['updates_enabled']);
+        $_SESSION['checkForUpdates'] = isset($_POST['sync_checkForUpdates']);
     }
 
     $aSysInfo = $oUpgrader->checkEnvironment();
@@ -269,7 +192,7 @@ else if (array_key_exists('btn_login', $_POST))
 }
 else if (array_key_exists('btn_dbsetup', $_POST))
 {
-    if (!checkLogin()) {
+    if (!OA_Upgrade_Login::checkLogin()) {
         $message = $strUsernameOrPasswordWrong;
         $action = OA_UPGRADE_LOGIN;
     }
@@ -303,13 +226,17 @@ else if (array_key_exists('btn_dbsetup', $_POST))
 }
 else if (array_key_exists('btn_upgrade', $_POST))
 {
-    if (!checkLogin()) {
+    if (!OA_Upgrade_Login::checkLogin()) {
         $message = $strUsernameOrPasswordWrong;
         $action = OA_UPGRADE_LOGIN;
     }
     elseif ($oUpgrader->canUpgrade())
     {
         $installStatus = $oUpgrader->existing_installation_status;
+
+        define('DISABLE_ALL_EMAILS', 1);
+
+        OA_Permission::switchToSystemProcessUser('Installer');
 
         if ($installStatus == OA_STATUS_NOT_INSTALLED)
         {
@@ -349,7 +276,7 @@ else if (array_key_exists('btn_upgrade', $_POST))
 }
 else if (array_key_exists('btn_configsetup', $_POST))
 {
-    if (!checkLogin()) {
+    if (!OA_Upgrade_Login::checkLogin()) {
         $message = $strUsernameOrPasswordWrong;
         $action = OA_UPGRADE_LOGIN;
     }
@@ -361,22 +288,21 @@ else if (array_key_exists('btn_configsetup', $_POST))
 }
 else if (array_key_exists('btn_adminsetup', $_POST))
 {
-    if (!checkLogin()) {
+    if (!OA_Upgrade_Login::checkLogin()) {
         $message = $strUsernameOrPasswordWrong;
         $action = OA_UPGRADE_LOGIN;
     }
     else
     {
-        // acquire the community preferences from session in order to add them to preferences table using putCommunityPreferences
-        $aCommunity = array();
+        // Acquire the sync settings from session in order to add them
         session_start();
-        $aCommunity['updates_enabled']         = $_SESSION['updates_enabled'];
+        $syncEnabled = !empty($_SESSION['checkForUpdates']);
 
         // Always use the path we're using to install as admin UI path
         $aConfig = $oUpgrader->getConfig();
         $_POST['aConfig']['webpath']['admin'] = $aConfig['webpath']['admin'];
 
-        if ($oUpgrader->saveConfig($_POST['aConfig']) && $oUpgrader->putCommunityPreferences($aCommunity))
+        if ($oUpgrader->saveConfig($_POST['aConfig']) && $oUpgrader->putSyncSettings($syncEnabled))
         {
             if (!checkFolderPermissions($_POST['aConfig']['store']['webDir'])) {
                 $aConfig                    = $_POST['aConfig'];
@@ -413,7 +339,7 @@ else if (array_key_exists('btn_adminsetup', $_POST))
 }
 else if (array_key_exists('btn_adminsetup_back', $_POST))
 {
-    if (!checkLogin()) {
+    if (!OA_Upgrade_Login::checkLogin()) {
         $message = $strUsernameOrPasswordWrong;
         $action = OA_UPGRADE_LOGIN;
     }
@@ -425,13 +351,15 @@ else if (array_key_exists('btn_adminsetup_back', $_POST))
 }
 else if (array_key_exists('btn_tagssetup', $_POST))
 {
-    if (!checkLogin()) {
+    if (!OA_Upgrade_Login::checkLogin()) {
         $message = $strUsernameOrPasswordWrong;
         $action = OA_UPGRADE_LOGIN;
     }
     else
     {
         $aPref = $GLOBALS['_MAX']['PREF'];
+
+        OA_Upgrade_Login::autoLogin();
 
         $action = OA_UPGRADE_FINISH;
         $message = 'Congratulations you have finished installing Openads';
@@ -442,7 +370,7 @@ else if (array_key_exists('btn_tagssetup', $_POST))
         );
 
         if (isset($_POST['aUrls']) && is_array($_POST['aUrls'])) {
-            phpAds_registerGlobalUnslashed('aUrls', 'aCountries', 'aLanguages', 'aCategories', 'aAdnetworks');
+            phpAds_registerGlobalUnslashed('aUrls', 'aCountries', 'aLanguages', 'aCategories', 'aAdnetworks', 'aAdvSignup');
 
             $aTplSites = array();
             foreach ($aUrls as $key => $url) {
@@ -451,19 +379,22 @@ else if (array_key_exists('btn_tagssetup', $_POST))
                 }
 
                 $isOac = $aAdnetworks[$key] == 'true' ? 1 : 0;
+                $isOas = $aAdvSignup[$key] == 'true' ? 1 : 0;
 
                 $aWebsites[$isOac][] = $aTplSites[count($aTplSites)+1] = array(
                     'url'        => $url,
                     'country'    => $aCountries[$key],
                     'language'   => $aLanguages[$key],
                     'category'   => $aCategories[$key],
-                    'adnetworks' => $isOac
+                    'adnetworks' => $isOac,
+                    'advsignup' => $isOas
                 );
             }
 
             foreach ($aWebsites[0] as $v) {
                 $doAffiliate = OA_Dal::factoryDO('affiliates');
                 $publisher = array(
+                    'agencyid'         => OA_Permission::getAgencyId(),
                     'name'             => $v['url'],
                     'mnemonic'         => '',
                     'contact'          => $aPref['admin_name'],
@@ -471,7 +402,8 @@ else if (array_key_exists('btn_tagssetup', $_POST))
                     'website'          => 'http://'.$v['url'],
                     'oac_country_code' => $v['country'],
                     'oac_language_id'  => $v['language'],
-                    'oac_category_id'  => $v['category']
+                    'oac_category_id'  => $v['category'],
+                    'as_website_id'    => $v['advsignup']
                 );
 
                 $doAffiliate->setFrom($publisher);
@@ -484,9 +416,16 @@ else if (array_key_exists('btn_tagssetup', $_POST))
                 $result = $oAdNetworks->subscribeWebsites($aWebsites[1]);
 
                 if (PEAR::isError($result)) {
+                    //initialize tabindex (if not already done)
+                    if (!isset($tabindex)) {
+                        $tabindex = 1;
+                    }
+
                     // Initialise template
                     $oTpl = new OA_Admin_Template('install/sites.html');
 
+                    $oTpl->assign('showAdDirect', (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) ? true : false);
+                    $oTpl->assign('tabindex',          $tabindex);
                     $oTpl->assign('aSelectCategories', $oAdNetworks->getCategoriesSelect());
                     $oTpl->assign('aSelectCountries',  $oAdNetworks->getCountriesSelect());
                     $oTpl->assign('aSelectLanguages',  $oAdNetworks->getLanguagesSelect());
@@ -494,8 +433,7 @@ else if (array_key_exists('btn_tagssetup', $_POST))
                     // We need to pass back the submitted values to the form
                     $oTpl->assign('aSites', $aTplSites);
 
-                    require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
-                    $oTpl->assign('syncEnabled', MAX_Admin_Preferences::checkBool('updates_enabled', true));
+                    $oTpl->assign('syncEnabled', $conf['sync']['checkForUpdates']);
 
                     $oTpl->assign('captchaErrorFormId', 'frmOpenads');
                     if ($result->getCode() == OA_CENTRAL_ERROR_CAPTCHA_FAILED) {
@@ -516,7 +454,7 @@ else if (array_key_exists('btn_tagssetup', $_POST))
                     $doAffiliates->selectAdd('affiliateid');
                     $doAffiliates->selectAdd('name');
                     $doAffiliates->selectAdd('mnemonic'); // Needed for SPC
-                    $doAffiliates->whereAdd('oac_website_id IS NOT NULL');
+                    $doAffiliates->whereAdd('an_website_id IS NOT NULL');
                     $doAffiliates->orderBy('name');
 
                     $aAffiliates = $doAffiliates->getAll(array(), true, false);
@@ -575,7 +513,7 @@ else if (array_key_exists('btn_tagssetup', $_POST))
 }
 else if (array_key_exists('btn_sitessetup', $_POST))
 {
-    if (!checkLogin()) {
+    if (!OA_Upgrade_Login::checkLogin()) {
         $message = $strUsernameOrPasswordWrong;
         $action = OA_UPGRADE_LOGIN;
     }
@@ -583,12 +521,17 @@ else if (array_key_exists('btn_sitessetup', $_POST))
     {
         if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
         {
+            OA_Permission::switchToSystemProcessUser('Installer');
+
             // Save admin credentials
-            $_POST['aAdmin']['updates_enabled'] = $_POST['updates_enabled'];
             $oUpgrader->putAdmin($_POST['aAdmin']);
+
+            // Save language and timezone
+            $oUpgrader->putPreferences($_POST['aPrefs']);
 
             // Initialise template
             $oTpl = new OA_Admin_Template('install/sites.html');
+            $oTpl->assign('showAdDirect', (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) ? true : false);
 
             require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
             $oAdNetworks = new OA_Central_AdNetworks();
@@ -598,17 +541,16 @@ else if (array_key_exists('btn_sitessetup', $_POST))
             $oTpl->assign('aSelectLanguages',  $oAdNetworks->getLanguagesSelect());
 
             $aUrl = parse_url('http://'.$conf['webpath']['admin']);
-            
-            $isOac = MAX_Admin_Preferences::checkBool('updates_enabled', true);
+
+            $syncEnabled = $conf['sync']['checkForUpdates'];
             $oTpl->assign('aSites', array(
                 1 => array(
                 	'url' => $aUrl['host'],
-                	'adnetworks' => $isOac
+                	'adnetworks' => $syncEnabled
                 	)
             ));
 
-            require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
-            $oTpl->assign('syncEnabled', $isOac);
+            $oTpl->assign('syncEnabled', $syncEnabled);
 
             $action = OA_UPGRADE_SITESSETUP;
         }
@@ -661,16 +603,9 @@ else
 
 if ($action == OA_UPGRADE_FINISH)
 {
-    if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
-    {
-        // Log the user in
-        require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
-        MAX_Admin_Preferences::loadPrefs();
-        phpAds_SessionStart();
-        phpAds_SessionDataRegister(MAX_Permission_User::getAAdminData($GLOBALS['_MAX']['PREF']['admin']));
-        phpAds_SessionDataStore();
-    }
-    else if ($_COOKIE['oat'] == OA_UPGRADE_UPGRADE)
+    OA_Upgrade_Login::autoLogin();
+
+    if ($_COOKIE['oat'] == OA_UPGRADE_UPGRADE)
     {
         $aResult = $oUpgrader->executePostUpgradeTasks();
     }
@@ -730,7 +665,7 @@ foreach ($activeNav as $key=>$val) {
 }
 
 // Setup array for navigation
-$phpAds_nav = array (
+$OA_Navigation = array (
     '10'     =>  array($navLinks[OA_UPGRADE_WELCOME]     => 'Welcome'),
     '20'     =>  array($navLinks[OA_UPGRADE_TERMS]       => 'Terms'),
     '25'     =>  array($navLinks[OA_UPGRADE_POLICY]      => 'Policy'),
@@ -756,7 +691,7 @@ foreach ($activeNav as $val) {
 }
 
 // display navigation
-phpAds_ShowSections($showSections, false, true, $imgPath, $phpAds_nav);
+phpAds_ShowSections($showSections, false, true, $imgPath, $OA_Navigation);
 
 // calculate percentage complete
 $totalNav     = count($showSections)-1;

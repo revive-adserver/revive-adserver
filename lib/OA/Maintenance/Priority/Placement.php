@@ -236,9 +236,9 @@ class OA_Maintenance_Priority_Placement
         // Store the required supplied values
         $this->id                         = (int)$aParams['placement_id'];
 
-        // Store the optional required values
-        $this->activate                   = !empty($aParams['activate']) ? $aParams['activate'] : OA_Dal::noDateValue();
-        $this->expire                     = !empty($aParams['expire']) ? $aParams['expire'] : OA_Dal::noDateValue();
+        // Store the optional required values        
+        $this->activate                   = (!empty($aParams['activate']) && $aParams['activate'] != OA_Dal::noDateString()) ? $aParams['activate'] : OA_Dal::noDateValue();
+        $this->expire                     = (!empty($aParams['expire']) && $aParams['expire'] != OA_Dal::noDateString()) ? $aParams['expire'] : OA_Dal::noDateValue();
         $this->impressionTargetTotal      = isset($aParams['impression_target_total']) ? (int)$aParams['impression_target_total'] : 0;
         $this->clickTargetTotal           = isset($aParams['click_target_total']) ? (int)$aParams['click_target_total'] : 0;
         $this->conversionTargetTotal      = isset($aParams['conversion_target_total']) ? (int)$aParams['conversion_target_total'] : 0;

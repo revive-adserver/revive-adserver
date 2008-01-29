@@ -56,16 +56,17 @@ class DataObjects_Zones extends DB_DataObjectCommon
     var $forceappend;                     // string(1)  enum
     var $inventory_forecast_type;         // int(6)  not_null
     var $comments;                        // blob(65535)  blob
-    var $cost;                            // real(12)  
-    var $cost_type;                       // int(6)  
-    var $cost_variable_id;                // string(255)  
-    var $technology_cost;                 // real(12)  
-    var $technology_cost_type;            // int(6)  
+    var $cost;                            // real(12)
+    var $cost_type;                       // int(6)
+    var $cost_variable_id;                // string(255)
+    var $technology_cost;                 // real(12)
+    var $technology_cost_type;            // int(6)
     var $updated;                         // datetime(19)  not_null binary
     var $block;                           // int(11)  not_null
     var $capping;                         // int(11)  not_null
     var $session_capping;                 // int(11)  not_null
     var $what;                            // blob(65535)  not_null blob
+    var $as_zone_id;                      // int(11)
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
@@ -75,6 +76,10 @@ class DataObjects_Zones extends DB_DataObjectCommon
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
+
+    var $defaultValues = array(
+        'forceappend' => 'f'
+    );
 
     /**
      * ON DELETE CASCADE is handled by parent class but we have
@@ -87,10 +92,11 @@ class DataObjects_Zones extends DB_DataObjectCommon
      * @return boolean
      * @see DB_DataObjectCommon::delete()
      */
-    function delete($useWhere = false, $cascadeDelete = true)
+    function delete($useWhere = false, $cascadeDelete = true, $parentid = null)
     {
     	// Handle all "appended" zones
     	$doZones = $this->factory('zones');
+    	$doZones->init();
     	$doZones->appendtype = phpAds_ZoneAppendZone;
     	$doZones->whereAdd("append LIKE '%zone:".$this->zoneid."%'");
     	$doZones->find();
@@ -104,6 +110,7 @@ class DataObjects_Zones extends DB_DataObjectCommon
 
     	// Handle all "chained" zones
     	$doZones = $this->factory('zones');
+    	$doZones->init();
     	$doZones->chain = 'zone:'.$this->zoneid;
     	$doZones->find();
 
@@ -113,7 +120,17 @@ class DataObjects_Zones extends DB_DataObjectCommon
 			$doZoneUpdate->update();
     	}
 
-    	return parent::delete($useWhere, $cascadeDelete);
+    	return parent::delete($useWhere, $cascadeDelete, $parentid);
+    }
+
+    function update()
+    {
+        return parent::update();
+    }
+
+    function insert()
+    {
+        return parent::insert();
     }
 
     function duplicate()
@@ -124,6 +141,73 @@ class DataObjects_Zones extends DB_DataObjectCommon
         $this->zoneid = null;
         $newZoneid = $this->insert();
         return $newZoneid;
+    }
+
+    function _auditEnabled()
+    {
+        return true;
+    }
+
+    function _getContextId()
+    {
+        return $this->zoneid;
+    }
+
+    function _getContext()
+    {
+        return 'Zone';
+    }
+
+    /**
+     * A private method to return the account ID of the
+     * account that should "own" audit trail entries for
+     * this entity type; NOT related to the account ID
+     * of the currently active account performing an
+     * action.
+     *
+     * @return integer The account ID to insert into the
+     *                 "account_id" column of the audit trail
+     *                 database table.
+     */
+    function getOwningAccountId()
+    {
+        return $this->_getOwningAccountIdFromParent('affiliates', 'affiliateid');
+    }
+
+    /**
+     * build a campaign specific audit array
+     *
+     * @param integer $actionid
+     * @param array $aAuditFields
+     */
+    function _buildAuditArray($actionid, &$aAuditFields)
+    {
+        $aAuditFields['key_desc']   = $this->zonename;
+        switch ($actionid)
+        {
+            case OA_AUDIT_ACTION_INSERT:
+            case OA_AUDIT_ACTION_DELETE:
+                        $aAuditFields['forceappend']    = $this->_formatValue('forceappend');
+                        break;
+            case OA_AUDIT_ACTION_UPDATE:
+                        if (!$this->affiliateid)
+                        {
+                            $this->find(true);
+                        }
+                        $aAuditFields['affiliateid']    = $this->affiliateid;
+                        break;
+        }
+    }
+
+    function _formatValue($field)
+    {
+        switch ($field)
+        {
+            case 'forceappend':
+                 return $this->_boolToStr($this->$field);
+            default:
+                return $this->$field;
+        }
     }
 
 }

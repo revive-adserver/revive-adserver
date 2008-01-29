@@ -65,22 +65,12 @@ phpAds_registerGlobal (
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
 
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
-if (!empty($zoneid)) {
-    MAX_Permission::checkAccessToObject('zones', $zoneid);
-}
-if (!empty($affiliateid)) {
-    MAX_Permission::checkAccessToObject('affiliates', $affiliateid);
-}
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
+OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
+OA_Permission::enforceAccessToObject('zones', $zoneid);
 
-if (phpAds_isUser(phpAds_Affiliate))
-{
-    $affiliateid = phpAds_getUserID();
-    if (!empty($zoneid)) {
-        MAX_Permission::checkIsAllowed(phpAds_EditZone);
-    } else {
-        MAX_Permission::checkIsAllowed(phpAds_AddZone);
-    }
+if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+    OA_Permission::enforceAllowed(OA_PERM_ZONE_EDIT);
 }
 
 /*-------------------------------------------------------*/
@@ -161,8 +151,8 @@ if (isset($submitbutton))
 
         // Do not redirect until not finished with zone appending, if present
         if (!empty($appendsave)) {
-            if (phpAds_isUser(phpAds_Affiliate)) {
-                if (phpAds_isAllowed(phpAds_LinkBanners)) {
+            if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+                if (OA_Permission::hasPermission(OA_PERM_ZONE_LINK)) {
                     MAX_Admin_Redirect::redirect('zone-include.php?affiliateid='.$affiliateid.'&zoneid='.$zoneid);
                 } else {
                     MAX_Admin_Redirect::redirect('zone-probability.php?affiliateid='.$affiliateid.'&zoneid='.$zoneid);
@@ -179,20 +169,10 @@ if (isset($submitbutton))
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-if (isset($session['prefs']['affiliate-zones.php']['listorder']))
-    $navorder = $session['prefs']['affiliate-zones.php']['listorder'];
-else
-    $navorder = '';
-
-if (isset($session['prefs']['affiliate-zones.php']['orderdirection']))
-    $navdirection = $session['prefs']['affiliate-zones.php']['orderdirection'];
-else
-    $navdirection = '';
-
 // Initialise some parameters
 $pageName = basename($_SERVER['PHP_SELF']);
 $tabIndex = 1;
-$agencyId = phpAds_getAgencyID();
+$agencyId = OA_Permission::getAgencyId();
 $aEntities = array('affiliateid' => $affiliateid, 'zoneid' => $zoneid);
 
 $aOtherPublishers = Admin_DA::getPublishers(array('agency_id' => $agencyId));
@@ -249,29 +229,8 @@ if ($zone['delivery'] == phpAds_ZoneText) echo "<img src='images/icon-textzone.g
 
 echo "&nbsp;&nbsp;<select name='chainzone' style='width: 200;' onchange='phpAds_formSelectZone()' tabindex='".($tabindex++)."'>";
 
-    $doAffiliates = OA_Dal::factoryDO('affiliates');
-    $doAffiliates->whereAdd("(publiczones = 't' OR affiliateid='".$affiliateid."')");
-
-    // Get list of public publishers
-    if (phpAds_isUser(phpAds_Admin))
-    {
-		// Show only zones from the same agency
-        $doAffiliates->addReferenceFilter('zones', $zoneid);
-    }
-    elseif (phpAds_isUser(phpAds_Agency))
-    {
-        $doAffiliates->addReferenceFilter('agency', phpAds_getUserID());
-    }
-
-    if (phpAds_isUser(phpAds_Affiliate)) {
-        // @todo FIXME: Affilitates should also have access to the "public" zones within their agency
-        phpAds_Die ('Error', 'Affilitates should also have access to the "public" zones within their agency');
-    }
-    $availableAffiliates = $doAffiliates->getAll(array('affiliateid'));
-
     // Get list of zones to link to
     $doZones = OA_Dal::factoryDO('zones');
-    $doZones->whereInAdd('affiliateid', $availableAffiliates);
 
     $allowothersizes = $zone['delivery'] == phpAds_ZoneInterstitial || $zone['delivery'] == phpAds_ZonePopup;
     if ($zone['width'] != -1 && !$allowothersizes) {
@@ -372,19 +331,8 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
         // Get available zones
         $available = array();
 
-
-        // Get list of public publishers
-        $doAffiliates = OA_Dal::factoryDO('affiliates');
-        $doAffiliates->whereAdd("(publiczones = 't' OR affiliateid='".$affiliateid."')");
-
-        if (phpAds_isUser(phpAds_Agency)) {
-            $doAffiliates->addReferenceFilter('agency', phpAds_getUserID());
-        }
-        $availableAffiliates = $doAffiliates->getAll(array('affiliateid'));
-
         // Get list of zones to link to
         $doZones = OA_Dal::factoryDO('zones');
-        $doZones->whereInAdd('affiliateid', $availableAffiliates);
 
         $allowothersizes = $zone['delivery'] == phpAds_ZoneInterstitial || $zone['delivery'] == phpAds_ZonePopup;
         if ($zone['width'] != -1 && !$allowothersizes) {

@@ -256,12 +256,9 @@ class Migration_127 extends Migration
 	        $result = $zoneAdObjectHandler->insertAssocs($this->oDBH);
 	        if (PEAR::isError($result)) {
 	            return $this->_logErrorAndReturnFalse('Error migrating Zones data during migration 127: '.$result->getUserInfo());
-	        }
-	        if (is_array($result))
-	        {
-	            foreach ($result as $k => $v)
-	            {
-	                $this->_log($v);
+	        } elseif (is_array($result)) {
+	            foreach ($result as $error) {
+    	            $this->_logError($error);
 	            }
 	        }
 	    }
@@ -349,26 +346,21 @@ class ZoneAdObjectHandler
     {
         $assocTable = $oDbh->quoteIdentifier($this->prefix.$this->getAssocTable(),true);
         $adObjectColumn = $this->getAdObjectColumn();
-        $result = true;
-        foreach($this->aAdObjectIds as $adObjectId)
-        {
-            $sql = "
-                INSERT INTO {$assocTable} (zone_id, $adObjectColumn)
-                VALUES ({$this->zone_id}, $adObjectId)";
-            if (is_numeric($adObjectId))
-            {
+        $aResult = array();
+        foreach($this->aAdObjectIds as $adObjectId) {
+            if (is_numeric($adObjectId)) {
+                $sql = "
+                    INSERT INTO {$assocTable} (zone_id, $adObjectColumn)
+                    VALUES ({$this->zone_id}, $adObjectId)";
                 $result = $oDbh->exec($sql);
                 if (PEAR::isError($result)) {
                     return $result;
                 }
-            }
-            else
-            {
+            } else {
                 $aResult[] = 'Invalid data found during migration_tables_core_127: '.$sql;
             }
-            $result = $aResult;
         }
-        return $result;
+        return count($aResult) ? $aResult : true;
     }
 }
 

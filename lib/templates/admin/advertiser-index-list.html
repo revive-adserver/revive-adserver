@@ -27,175 +27,192 @@
 $Id$
 
 -->*}
-
-<table border="0" width="100%" cellpadding="0" cellspacing="0" class="data-grid">
+<table border="0" width="100%" cellpadding="0" cellspacing="0" >
+  <thead>
     <tr height="25">
-        <td height="25" width="40%">
+        <th height="25" width="40%">
             <b>&nbsp;&nbsp;{oa_title_sort str=Name item=name order=down default=1 url=advertiser-index.php}</b>
-        </td>
-        <td height="25">
-            <b>{oa_title_sort str=ID item=id order=down url=advertiser-index.php}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        </td>
-        <td height='25'>&nbsp;</td>
-        <td height='25'>&nbsp;</td>
-        <td height='25'>&nbsp;</td>
+        </th>
+        {if $showAdDirect}<th width="26%">Status</th>{/if}
+        <th height='25' width="11%">&nbsp;</th>
+        <th height='25' width="13%">&nbsp;</th>
+        <th height='25' width="10%">&nbsp;</th>
     </tr>
-    <tr height='1'>
-        <td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>
+    <tr class="break">
+        <td colspan="6"></td>
     </tr>
+  </thead>
+
 {if !$from|@count}
+  <tbody class="even">
     <tr height='25' bgcolor='#F6F6F6'>
         <td height='25' colspan='5'>&nbsp;&nbsp;{t str=$listEmptyStr|default:"NoClients"}</td>
     </tr>
 
-    <tr>
-        <td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>
-    <tr>
+    <tr class="break">
+        <td colspan="6"></td>
+    </tr>
+  </tbody>
 {else}
-    {cycle name=bgcolor values="#FFFFFF,#F6F6F6" assign=bgColor reset=1}
+    {cycle name=bgcolor values="odd,even" assign=bgColor reset=1}
     {foreach key=clientId item=client from=$from}
         {cycle name=bgcolor assign=bgColor}
-    <tr height="25" class="data" bgcolor="{$bgColor}">
-
-        <td height='25'>
-        {if $client.campaigns}
-            {if $client.expand}
-            <a href='advertiser-index.php?collapse=client:{$clientId}'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>
-            {else}
-            <a href='advertiser-index.php?expand=client:{$clientId}'><img src='images/{$phpAds_TextDirection}/triangle-l.gif' align='absmiddle' border='0'></a>
-            {/if}
-        {else}
-            <img src='images/spacer.gif' height='16' width='16' align='absmiddle'>
-        {/if}
-
-            <img src='images/icon-advertiser.gif' align='absmiddle'>
+    <tbody class="{$bgColor}">
+    	<tr height="25">
+    		<td height='25'>
+          <div style="float:left;padding-right: 5px;">
+    		{if $client.campaigns}
+    			{if $client.expand}
+    			<a href='advertiser-index.php?collapse=client:{$clientId}'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>
+    			{else}
+    			<a href='advertiser-index.php?expand=client:{$clientId}'><img src='images/{$phpAds_TextDirection}/triangle-l.gif' align='absmiddle' border='0'></a>
+    			{/if}
+    		{else}
+    			<img src='images/spacer.gif' height='16' width='16' align='absmiddle'>
+    		{/if}
+    			<img src='{oa_icon advertiser=$client}' align='absmiddle'>
+          </div>
+          <div>
             <a href='advertiser-edit.php?clientid={$clientId}'>{$client.clientname|escape:html}</a>
-        </td>
+          </div>
+    		</td>
 
-        <td height='25'>{$clientId}</td>
+    		{if $showAdDirect}<td class="sts sts-awaiting">&nbsp;</td>{/if}
 
-        <td height='25'>
-        {if $client.expand && !$client.campaigns}
-            <a href='campaign-edit.php?clientid={$clientId}'><img src='images/icon-campaign-new.gif' border='0' align='absmiddle' alt='{t str=Create}'>&nbsp;{t str=Create}</a>&nbsp;&nbsp;&nbsp;&nbsp;
-        {else}
-            &nbsp;
-        {/if}
-        </td>
+    		<td height='25' style="padding-right: 10px;">
+          {if !$client.campaigns}    		
+    			 <a href='campaign-edit.php?clientid={$clientId}' title="{t str=AddCampaign}"><img src='images/icon-campaign-new.gif' border='0' align='absmiddle' alt='{t str=Create}'>&nbsp;{t str=Create}</a>
+		      {else}
+		        &nbsp;
+		      {/if}
+    		</td>
 
-        <td height='25'>
-            <a href='advertiser-campaigns.php?clientid={$clientId}'><img src='images/icon-overview.gif' border='0' align='absmiddle' alt='{t str=Overview}'>&nbsp;{t str=Overview}</a>&nbsp;&nbsp;
-        </td>
+    		<td height='25' style="padding-right: 10px;">
+    			<a href='advertiser-campaigns.php?clientid={$clientId}' title="{t str=CampaignOverview}"><img src='images/icon-overview.gif' border='0' align='absmiddle' alt='{t str=Overview}'>&nbsp;{t str=Overview}</a>
+            </td>
 
-        <td height='25'>
-            <a href='advertiser-delete.php?clientid={$clientId}&returnurl=advertiser-index.php'{phpAds_DelConfirm str=ConfirmDeleteClient}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
-        </td>
+    		<td height='25' style="padding-right: 10px;">
+    			<a href='advertiser-delete.php?clientid={$clientId}&returnurl=advertiser-index.php'{phpAds_DelConfirm str=ConfirmDeleteClient}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>
+    		</td>
+    	</tr>
 
-        </tr>
-
-    {if $client.campaigns && $client.expand}
+      {if $client.campaigns && $client.expand}
         {foreach key=campaignId item=campaign from=$client.campaigns}
 
-        <tr height='1'>
-            <td bgcolor="{$bgColor}"><img src='images/spacer.gif' width='1' height='1'></td>
-            <td colspan='5' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>
-        </tr>
+      <tr>
+          <td></td>
+          <td colspan="5" bgcolor="#bbbbbb"></td>
+      </tr>
 
-        <tr height='25' class="data" bgcolor="{$bgColor}">
-        <td height='25'>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-            {if $campaign.banners}
-                {if $campaign.expand}
+      <tr height='25' class="data">
+        <td height='25' style="padding-left: 25px; padding-right: 10px;">
+          <div style="float:left;padding-right: 5px;">
+          {if $campaign.banners}
+              {if $campaign.expand}
             <a href='advertiser-index.php?collapse=campaign:{$clientId}-{$campaignId}'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>
-                {else}
+              {else}
             <a href='advertiser-index.php?expand=campaign:{$clientId}-{$campaignId}'><img src='images/{$phpAds_TextDirection}/triangle-l.gif' align='absmiddle' border='0'></a>
-                {/if}
+              {/if}
             {else}
-            <img src='images/spacer.gif' height='16' width='16' align='absmiddle'>&nbsp;
+            <img src='images/spacer.gif' height='16' width='16' align='absmiddle'>
             {/if}
 
-            {if $campaign.active == 't'}
-            <img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;
-                {else}
-            <img src='images/icon-campaign-d.gif' align='absmiddle'>&nbsp;
-            {/if}
+            <img src='{oa_icon campaign=$campaign}' align='absmiddle'>
 
-            <a href='campaign-edit.php?clientid={$clientId}&campaignid={$campaignId}'>{$campaign.campaignname|escape:html}</td>
+            </div>
+            <div>
+              <a href='campaign-edit.php?clientid={$clientId}&campaignid={$campaignId}'>{$campaign.campaignname|escape:html}</a>
+            </div>
         </td>
+        {if $showAdDirect}
+        <td>
+            {showStatusText status=$campaign.status an_status=$campaign.an_status clientid=$clientId campaignid=$campaignId}
+        </td>
+        {/if}
 
-        <td height='25'>{$campaignId}</td>
-
-        <td height='25'>
-            {if !$campaign.banners}
-            <a href='banner-edit.php?clientid={$clientId}&campaignid={$campaignId}'><img src='images/icon-banner-new.gif' border='0' align='absmiddle' alt='{t str=Create}'>&nbsp;{t str=Create}</a>&nbsp;&nbsp;&nbsp;&nbsp;
-            {else}
+        <td height='25' style="padding-right: 15px;">
+          {if !$campaign.banners}
+            <a href='banner-edit.php?clientid={$clientId}&campaignid={$campaignId}' title="{t str=AddBanner}"><img src='images/icon-banner-new.gif' border='0' align='absmiddle' alt='{t str=Create}'>&nbsp;{t str=Create}</a>
+          {else}
             &nbsp;
-            {/if}
+          {/if}            
         </td>
 
-        <td height='25'>
-            <a href='campaign-banners.php?clientid={$clientId}&campaignid={$campaignId}'><img src='images/icon-overview.gif' border='0' align='absmiddle' alt='{t str=Overview}'>&nbsp;{t str=Overview}</a>&nbsp;&nbsp;
+        <td height='25' style="padding-right: 15px;">
+            <a href='campaign-banners.php?clientid={$clientId}&campaignid={$campaignId}' title="{t str=BannerOverview}"><img src='images/icon-overview-light.gif' border='0' align='absmiddle' alt='{t str=Overview}'>&nbsp;{t str=Overview}</a>
         </td>
 
-        <td height='25'>
-            <a href='campaign-delete.php?clientid={$clientId}&campaignid={$campaignId}&returnurl=advertiser-index.php'{phpAds_DelConfirm str=ConfirmDeleteCampaign}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        <td height='25' style="padding-right: 15px;">
+            <a href='campaign-delete.php?clientid={$clientId}&campaignid={$campaignId}&returnurl=advertiser-index.php'{phpAds_DelConfirm str=ConfirmDeleteCampaign}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>
         </td>
-    </tr>
+      </tr>
 
             {if $campaign.expand && $campaign.banners}
-                {foreach key=bannerId item=banner from=$campaign.banners}
-    <tr height='1'>
-        <td bgcolor="{$bgColor}"><img src='images/spacer.gif' width='1' height='1'></td>
-        <td colspan='4' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>
-    </tr>
+              {foreach key=bannerId item=banner from=$campaign.banners}
+      <tr height='1'>
+          <td><img src='images/spacer.gif' width='1' height='1'></td>
+          <td colspan='4' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>
+      </tr>
 
-    <tr height='25' class="data" bgcolor="{$bgColor}">
-        <td height='25'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
+      <tr height='25' class="data">
+        <td height='25' style="padding-left: 70px">
+          <div style="float:left; padding-right: 5px;">
             <img src='{oa_icon banner=$banner campaign=$campaign}' align='absmiddle'>
-            &nbsp;<a href='banner-edit.php?clientid={$clientId}&campaignid={$campaignId}&bannerid={$bannerId}'>{$banner.name}</a>
+          </div>
+          <div>
+            <a href='banner-edit.php?clientid={$clientId}&campaignid={$campaignId}&bannerid={$bannerId}'>{$banner.name}</a>
+          </div>
          </td>
-        <td height='25'>{$bannerId}</td>
+        {if $showAdDirect}
+        <td height='25'></td>
+        {/if}
         <td>&nbsp;</td>
         <td height='25'>
-            <a href='banner-acl.php?clientid={$clientId}&campaignid={$campaignId}&bannerid={$bannerId}'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='{t str=ACL}'>&nbsp;{t str=ACL}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href='banner-acl.php?clientid={$clientId}&campaignid={$campaignId}&bannerid={$bannerId}'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='{t str=ACL}'>&nbsp;{t str=ACL}</a>
         </td>
         <td height='25'>
-            <a href='banner-delete.php?clientid={$clientId}&campaignid={$campaignId}&bannerid={$bannerId}&returnurl=advertiser-index.php' {phpAds_DelConfirm str=ConfirmDeleteBanner}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href='banner-delete.php?clientid={$clientId}&campaignid={$campaignId}&bannerid={$bannerId}&returnurl=advertiser-index.php' {phpAds_DelConfirm str=ConfirmDeleteBanner}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>
         </td>
-    </tr>
-                    {/foreach}
-                {/if}
-            {/foreach}
+      </tr>
+              {/foreach}
+            {/if}
+          {/foreach}
+      <tr class="space">
+        <td colspan="6"></td>
+      </tr>
         {/if}
-    <tr height='1'>
-        <td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>
-    </tr>
-
+      <tr class="break">
+        <td colspan="6"></td>
+      </tr>
+    </tbody>
     {/foreach}
 {/if}
 
-{if !$hide_controls}
-    <tr>
-        <td height='25' colspan='3' align='{$phpAds_TextAlignLeft}' nowrap>
 
-    {if $hideinactive}
+{if !$hide_controls}
+    <tbody>
+    <tr>
+      <td height='25' colspan='5'>
+        <div style="float:{$phpAds_TextAlignLeft}; white-space: nowrap">
+          {if $hideinactive}
             &nbsp;&nbsp;<img src='images/icon-activate.gif' align='absmiddle' border='0'>
             &nbsp;<a href='advertiser-index.php?hideinactive=0'>{t str=ShowAll}</a>
             &nbsp;&nbsp;|&nbsp;&nbsp;{$aCount.advertisers_hidden} {t str=InactiveAdvertisersHidden}
-    {else}
+          {else}
             &nbsp;&nbsp;<img src='images/icon-hideinactivate.gif' align='absmiddle' border='0'>
             &nbsp;<a href='advertiser-index.php?hideinactive=1'>{t str=HideInactiveAdvertisers}</a>
-    {/if}
+          {/if}
+        </div>
 
-        </td>
-        <td height='25' colspan='2' align='{$phpAds_TextAlignRight}' nowrap>
-            <img src='images/triangle-d.gif' align='absmiddle' border='0'>
-            &nbsp;<a href='advertiser-index.php?expand=all' accesskey='{t key=ExpandAll}'>{t str=ExpandAll}</a>
-            &nbsp;&nbsp;|&nbsp;&nbsp;
-            <img src='images/{$phpAds_TextDirection}/triangle-l.gif' align='absmiddle' border='0'>
-            &nbsp;<a href='advertiser-index.php?expand=none' accesskey='{t key=CollapseAll}'>{t str=CollapseAll}</a>&nbsp;&nbsp;
-        </td>
+        <div style="float:{$phpAds_TextAlignRight}; white-space: nowrap">
+          <img src='images/triangle-d.gif' align='absmiddle' border='0'>
+          &nbsp;<a href='advertiser-index.php?expand=all' accesskey='{t key=ExpandAll}'>{t str=ExpandAll}</a>
+          &nbsp;&nbsp;|&nbsp;&nbsp;
+          <img src='images/{$phpAds_TextDirection}/triangle-l.gif' align='absmiddle' border='0'>
+          &nbsp;<a href='advertiser-index.php?expand=none' accesskey='{t key=CollapseAll}'>{t str=CollapseAll}</a>&nbsp;&nbsp;
+        </div>
+      </td>
     </tr>
+    </tbody>
 {/if}
 </table>

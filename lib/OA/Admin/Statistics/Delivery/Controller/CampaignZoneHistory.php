@@ -90,7 +90,7 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignZoneHistory extends OA_Adm
         $zoneId       = $this->_getId('zone');
 
         // Security check
-        phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
+        OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
         $this->_checkAccess(array('advertiser' => $advertiserId, 'placement' => $placementId));
 
         // Fetch campaigns
@@ -117,10 +117,10 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignZoneHistory extends OA_Adm
         $this->_loadParams();
 
         // HTML Framework
-        if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $this->pageId = '2.1.2.3.2';
             $this->aPageSections = array($this->pageId);
-        } elseif (phpAds_isUser(phpAds_Client)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $this->pageId = '1.2.3.2';
             $this->aPageSections = array($this->pageId);
         }
@@ -142,7 +142,7 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignZoneHistory extends OA_Adm
         }
 
         // Add shortcuts
-        if (!phpAds_isUser(phpAds_Client)) {
+        if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $this->_addShortcut(
                 $GLOBALS['strClientProperties'],
                 'advertiser-edit.php?clientid='.$advertiserId,

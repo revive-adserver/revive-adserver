@@ -25,140 +25,186 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id: userlog-index.php 12319 2007-11-13 17:34:03Z aj.tarachanowicz@openads.org $
 */
 
 // Require the initialisation file
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/max/Admin_DA.php';
+require_once MAX_PATH . '/lib/max/other/lib-userlog.inc.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/max/language/Userlog.php';
+require_once MAX_PATH . '/lib/OA/Admin/Template.php';
+require_once MAX_PATH . '/lib/OA/Dll/Audit.php';
+require_once MAX_PATH . '/lib/OA/Admin/UI/Field/AuditDaySpanField.php';
 require_once MAX_PATH . '/www/admin/config.php';
-
-// Register input variables
-phpAds_registerGlobal ('start');
+require_once 'Pager/Pager.php';
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-phpAds_PageHeader("5.2");
-phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
-
-// Load the required language files
-Language_Userlog::load();
-
-/*-------------------------------------------------------*/
-/* Main code                                             */
-/*-------------------------------------------------------*/
-
-$doUserLog = OA_Dal::factoryDO('userlog');
-if (!$count = $doUserLog->count()) {
-    $count = 0;
+phpAds_PageHeader("5.3");
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
+    // Show all "My Account" sections
+    phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3"));
+    phpAds_UserlogSelection("index");
+} else {
+    // Show the "Preferences", "User Log" and "Channel Management" sections of the "My Account" sections
+    phpAds_ShowSections(array("5.1", "5.3", "5.7"));
 }
 
-$limit = 15;
-$start = isset($start) ? (int) $start : 0;
 
-$doUserLog = OA_Dal::factoryDO('userlog');
-$doUserLog->orderBy('timestamp DESC');
-$doUserLog->limit($start * $limit, $limit);
-$doUserLog->find();
+// Register input variables
+$advertiserId   = MAX_getValue('advertiserId',    0);
+$campaignId     = MAX_getValue('campaignId',      0);
+$publisherId    = MAX_getValue('publisherId',     0);
+$zoneId         = MAX_getValue('zoneId',          0);
+$startDate      = MAX_getStoredValue('period_start');
+$endDate        = MAX_getStoredValue('period_end');
+$periodPreset   = MAX_getValue('period_preset', 'all_events');
 
-echo "<br /><br />";
-echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-echo "<tr><td height='25'>&nbsp;&nbsp;<b>".$strDate."</b></td>";
-echo "<td height='25'><b>".$strAction."</b></td></tr>";
-echo "<td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>";
+//  paging related input variables
+$listorder      = MAX_getStoredValue('listorder',       'updated');
+$orderdirection = MAX_getStoredValue('orderdirection',  'up');
+$setPerPage     = MAX_getStoredValue('setPerPage',      10);
+$pageID         = MAX_getStoredValue('pageID',          1);
 
 
-if ($doUserLog->getRowCount() == 0)
-{
-	echo "<tr height='25' bgcolor='#F6F6F6'><td height='25' colspan='4'>";
-	echo "&nbsp;&nbsp;".$strNoActionsLogged."</td></tr>";
-	echo "<td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>";
+//  setup date selector
+$daySpan = new OA_Admin_UI_Audit_DaySpanField('period');
+$daySpan->setValue($periodPreset);
+$daySpan->enableAutoSubmit();
+
+//  initialize parameters
+$pageName = basename($_SERVER['PHP_SELF']);
+
+//  load template
+$oTpl = new OA_Admin_Template('userlog-index.html');
+
+//  get advertisers & publishers for filters
+$agencyId = OA_Permission::getAgencyId();
+$advertiser = Admin_DA::getAdvertisers(array('agency_id' => $agencyId));
+$aAdvertiser[0] = $GLOBALS['strSelectAdvertiser'];
+foreach($advertiser as $key => $aValue) {
+    $aAdvertiser[$aValue['advertiser_id']] = $aValue['name'];
+}
+$aCampaign = array();
+if (!empty($advertiserId)) {
+    $campaign = Admin_DA::getCampaigns(array('client_id' => $advertiserId));
+    $aCampaign[0] = $GLOBALS['strSelectPlacement'];
+    foreach($campaign as $key => $aValue) {
+        $aCampaign[$aValue['campaign_id']] = $aValue['campaignname'];
+    }
+}
+$publisher = Admin_DA::getPublishers(array('agency_id' => $agencyId));
+$aPublisher[0] = $GLOBALS['strSelectPublisher'];
+foreach ($publisher as $key => $aValue) {
+    $aPublisher[$aValue['publisher_id']] = $aValue['name'];
+}
+if (!empty($publisherId)) {
+    $zone = Admin_DA::getZones(array('publisher_id' => $publisherId));
+    $aZone[0] = $GLOBALS['strSelectZone'];
+    foreach ($zone as $key => $aValue) {
+        $aZone[$aValue['zone_id']] = $aValue['name'];
+    }
 }
 
-$i=0;
+$aParams = array(
+    'advertiser_id' => $advertiserId,
+    'campaign_id'   => $campaignId,
+    'publisher_id'  => $publisherId,
+    'zone_id'       => $zoneId,
+    'order'         => $orderdirection,
+    'listorder'     => $listorder,
+    'start_date'    => $startDate,
+    'end_date'      => $endDate,
+);
 
-while ($doUserLog->fetch() && $row = $doUserLog->toArray())
-{
-	if ($i > 0) echo "<td colspan='4' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>";
-	echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
-
-	// Timestamp
-	echo "<td height='25'>&nbsp;&nbsp;".strftime($date_format, $row['timestamp']).", ";
-	echo strftime($minute_format, $row['timestamp'])."</td>";
-
-	// User
-	echo "<td height='25'>";
-	switch ($row['usertype'])
-	{
-		case phpAds_userDeliveryEngine:	echo "<img src='images/icon-generatecode.gif' align='absmiddle'>&nbsp;".$strDeliveryEngine; break;
-		case phpAds_userMaintenance:	echo "<img src='images/icon-time.gif' align='absmiddle'>&nbsp;".$strMaintenance; break;
-		case phpAds_userAdministrator:	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;".$strAdministrator; break;
-	}
-	echo "</td>";
-
-	// Details
-	echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
-	if ($row['details'] != '')
-	{
-		echo "<a href='userlog-details.php?userlogid=".$row['userlogid']."'>";
-		echo "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;".$strDetails."</a>";
-	}
-	else
-		echo "&nbsp;";
-	echo "&nbsp;&nbsp;</td>";
-	echo "</tr>";
-
-	// Space
-	echo "<tr height='20' valign='top' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
-	echo "<td>&nbsp;</td>";
-
-	// Action
-	$action = $strUserlog[$row['action']];
-	$action = str_replace ('{id}', $row['object'], $action);
-	echo "<td height='20' colspan='2'><img src='images/spacer.gif' height='16' width='16' align='absmiddle'>&nbsp;".$action."</td>";
-	echo "</tr>";
-
-	$i++;
+// Account security
+if (!OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
+    $aParams['account_id'] = OA_Permission::getAccountId();
 }
 
-if ($doUserLog->getRowCount() > 0)
-{
-	echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-	echo "<tr><td height='25' colspan='2'>";
-		echo "<a href='userlog-delete.php'><img src='images/icon-recycle.gif' border='0' align='absmiddle'>&nbsp;".$strDeleteLog."</a>";
-	echo "</td><td height='25' colspan='2' align='".$phpAds_TextAlignRight."'>";
-		if ($start > 0)
-		{
-			echo "<a href='userlog-index.php?start=".($start - 1)."'>";
-			echo "<img src='images/arrow-l.gif' border='0' align='absmiddle'>".$strPrevious."</a>";
-		}
-		if ($count > ($start + 1) * $limit)
-		{
-			if ($start > 0) echo "&nbsp;|&nbsp;";
+$oUserlog = & new OA_Dll_Audit();
+$aAuditData = $oUserlog->getAuditLog($aParams);
 
-			echo "<a href='userlog-index.php?start=".($start + 1)."'>";
-			echo $strNext."<img src='images/arrow-r.gif' border='0' align='absmiddle'></a>";
-		}
-	echo "</td></tr>";
+$aParams['totalItems'] = count($aAuditData);
+
+if (!isset($pageID) || $pageID == 1) {
+    $aParams['startRecord'] = 0;
+} else {
+    $aParams['startRecord'] = ($pageID * $setPerPage) - $setPerPage;
 }
 
-echo "</table>";
-echo "<br /><br />";
+if ($aParams['startRecord'] > $aParams['totalItems']) {
+    $aParams['startRecord'] = 0;
+}
 
+$aParams['perPage'] = MAX_getStoredValue('setPerPage', 10);
 
+//  retrieve audit details
+$aAuditData = $oUserlog->getAuditLog($aParams);
 
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
+$pager = & Pager::factory($aParams);
+$per_page = $pager->_perPage;
+$pager->history = $pager->getPageData();
+$pager->pagerLinks = $pager->getLinks();
 
+$pager->pagerLinks = $pager->pagerLinks['all'];
+$pager->pagerSelect = preg_replace('/(<select.*?)(>)/i', '$1 onchange="submitForm()" id="setPerPage"$2', $pager->getPerPageSelectBox(10, 100, 10));
+
+//  build column header link params
+$aAllowdParams = array('advertiserId', 'campaignId', 'publisherId', 'zoneId');
+foreach ($aAllowdParams as $key) {
+    if (!empty($$key)) {
+        $aUrlParam[$key] = "$key=".$$key;
+    }
+}
+
+$aUrlParam['listorder']         = "listorder=$listorder";
+$aUrlParam['$orderdirection']   = ($orderdirection == 'down') ? "orderdirection=up" : "orderdirection=down";
+
+$urlParam = implode('&', $aUrlParam);
+
+//  assign vars to template
+$oTpl->assign('aAuditData',         $aAuditData);
+$oTpl->assign('aPeriodPreset',      $aPeriodPreset);
+$oTpl->assign('aAdvertiser',        $aAdvertiser);
+$oTpl->assign('aCampaign',          $aCampaign);
+$oTpl->assign('aPublisher',         $aPublisher);
+$oTpl->assign('aZone',              $aZone);
+$oTpl->assign('context',            $context);
+$oTpl->assign('advertiserId',       $advertiserId);
+$oTpl->assign('campaignId',         $campaignId);
+$oTpl->assign('publisherId',        $publisherId);
+$oTpl->assign('zoneId',             $zoneId);
+$oTpl->assign('urlParam',           $urlParam);
+$oTpl->assign('listorder',          $listorder);
+$oTpl->assign('orderdirection',     $orderdirection);
+$oTpl->assign('setPerPage',         $setPerPage);
+$oTpl->assign('pager',              $pager);
+$oTpl->assign('daySpan',            $daySpan);
+
+//  display page
+$oTpl->display();
+
+//  display footer
 phpAds_PageFooter();
 
+//  store filter variables in session
+$session['prefs'][$pageName]['advertiserId']    = $advertiserId;
+$session['prefs'][$pageName]['campaignId']      = $campaignId;
+$session['prefs'][$pageName]['publisherId']     = $publisherId;
+$session['prefs'][$pageName]['zoneId']          = $zoneId;
+$session['prefs'][$pageName]['period_preset']   = $periodPreset;
+$seesion['prefs'][$pageName]['setPerPage']      = $setPerPage;
+$session['prefs'][$pageName]['listorder']       = $listorder;
+$session['prefs'][$pageName]['orderdirection']  = $orderdirection;
+
+phpAds_SessionDataStore();
 ?>

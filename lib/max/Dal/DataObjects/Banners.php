@@ -42,7 +42,6 @@ class DataObjects_Banners extends DB_DataObjectCommon
     var $__table = 'banners';                         // table name
     var $bannerid;                        // int(9)  not_null primary_key auto_increment
     var $campaignid;                      // int(9)  not_null multiple_key
-    var $active;                          // string(1)  not_null enum
     var $contenttype;                     // string(4)  not_null enum
     var $pluginversion;                   // int(9)  not_null
     var $storagetype;                     // string(7)  not_null enum
@@ -57,7 +56,7 @@ class DataObjects_Banners extends DB_DataObjectCommon
     var $target;                          // string(16)  not_null
     var $url;                             // blob(65535)  not_null blob
     var $alt;                             // string(255)  not_null
-    var $status;                          // string(255)  not_null
+    var $statustext;                      // string(255)  not_null
     var $bannertext;                      // blob(65535)  not_null blob
     var $description;                     // string(255)  not_null
     var $autohtml;                        // string(1)  not_null enum
@@ -79,7 +78,9 @@ class DataObjects_Banners extends DB_DataObjectCommon
     var $keyword;                         // string(255)  not_null
     var $transparent;                     // int(1)  not_null
     var $parameters;                      // blob(65535)  blob
-    var $oac_banner_id;                   // int(11)  
+    var $an_banner_id;                    // int(11)
+    var $as_banner_id;                    // int(11)
+    var $status;                          // int(11)  not_null
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
@@ -90,14 +91,22 @@ class DataObjects_Banners extends DB_DataObjectCommon
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
-    function delete($useWhere = false, $cascade = true)
+    var $defaultValues = array(
+        'active' => 't',
+        'contenttype' => 'gif',
+        'storagetype' => 'sql',
+        'autohtml' => 't',
+        'alt_contenttype' => 'gif'
+    );
+
+    function delete($useWhere = false, $cascade = true, $parentid = null)
     {
     	$doBanner = clone($this);
     	$doBanner->find();
     	while ($doBanner->fetch()) {
     		phpAds_ImageDelete ($this->type, $this->filename);
     	}
-    	return parent::delete($useWhere, $cascade);
+    	return parent::delete($useWhere, $cascade, $parentid);
     }
 
     /**
@@ -180,6 +189,79 @@ class DataObjects_Banners extends DB_DataObjectCommon
     {
         return phpAds_ImageDuplicate($storagetype, $filename);
     }
+
+    function _auditEnabled()
+    {
+        return true;
+    }
+
+    function _getContextId()
+    {
+        return $this->bannerid;
+    }
+
+    function _getContext()
+    {
+        return 'Banner';
+    }
+
+    /**
+     * A private method to return the account ID of the
+     * account that should "own" audit trail entries for
+     * this entity type; NOT related to the account ID
+     * of the currently active account performing an
+     * action.
+     *
+     * @return integer The account ID to insert into the
+     *                 "account_id" column of the audit trail
+     *                 database table.
+     */
+    function getOwningAccountId()
+    {
+        return $this->_getOwningAccountIdFromParent('campaigns', 'campaignid');
+    }
+
+    /**
+     * build a campaign specific audit array
+     *
+     * @param integer $actionid
+     * @param array $aAuditFields
+     */
+    function _buildAuditArray($actionid, &$aAuditFields)
+    {
+        $aAuditFields['key_desc']   = $this->description;
+        switch ($actionid)
+        {
+            case OA_AUDIT_ACTION_INSERT:
+            case OA_AUDIT_ACTION_DELETE:
+                        $aAuditFields['active']        = $this->_formatValue('active');
+                        $aAuditFields['autohtml']      = $this->_formatValue('autohtml');
+                        $aAuditFields['transparent']   = $this->_formatValue('transparent');
+                        $aAuditFields['htmltemplate']  = 'data not audited';
+                        $aAuditFields['htmlcache']     = 'data not audited';
+                        break;
+            case OA_AUDIT_ACTION_UPDATE:
+                        $aAuditFields['campaignid']    = $this->campaignid;
+                        break;
+        }
+    }
+
+    function _formatValue($field)
+    {
+        switch ($field)
+        {
+            case 'active':
+            case 'autohtml':
+            case 'transparent':
+                return $this->_boolToStr($this->$field);
+            case 'htmltemplate':
+            case 'htmlcache':
+                return 'data not audited';
+            default:
+                return $this->$field;
+        }
+    }
+
 }
 
 ?>

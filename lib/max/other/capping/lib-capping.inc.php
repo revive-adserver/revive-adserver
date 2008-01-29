@@ -30,6 +30,9 @@ $Id$
 // Required files
 require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
 
+// #1088 redundant code refactor
+//  phpAds_registerGlobal is a wrapper function for MAX_commonRegisterGlobalsArray($args);
+//  *technically* deprecated
 phpAds_registerGlobal('cap', 'session_capping', 'time');
 
 /**
@@ -193,6 +196,9 @@ function _echoDeliveryCappingHtml($tabindex, $aText, $aCappedObject, $type = nul
         </b>
       </td>";
         }
+    } else {
+        echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>"."\n";
+        echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
     }
 
     echo "
@@ -202,7 +208,7 @@ function _echoDeliveryCappingHtml($tabindex, $aText, $aCappedObject, $type = nul
       <td width='30'>&nbsp;</td>
       <td width='200'>{$aText['limit']}</td>
       <td valign='top'>
-        <input class='flat' type='text' size='2' name='cap' value='{$cap}' onBlur=\"phpAds_formCapBlur(this);\" tabindex='".($tabindex++)."'> {$GLOBALS['strDeliveryCappingTotal']}
+        <input class='flat' type='text' size='2' id='cap' name='cap' value='{$cap}' tabindex='".($tabindex++)."'> {$GLOBALS['strDeliveryCappingTotal']}
       </td>";
 
     if ($showExtra) {
@@ -210,7 +216,7 @@ function _echoDeliveryCappingHtml($tabindex, $aText, $aCappedObject, $type = nul
       <td width='30'>&nbsp;</td>
       <td width='200'>{$aExtraDisplay['aText']['limit']}</td>
       <td valign='top'>
-        <input class='flat' type='text' size='2' name='extra_cap' value='{$extra_cap}' disabled='disabled'> {$GLOBALS['strDeliveryCappingTotal']}
+        <input class='flat' type='text' size='2' id='extra_cap' name='extra_cap' value='{$extra_cap}' disabled='disabled'> {$GLOBALS['strDeliveryCappingTotal']}
       </td>";
     }
 
@@ -233,9 +239,9 @@ function _echoDeliveryCappingHtml($tabindex, $aText, $aCappedObject, $type = nul
       <td width='30'>&nbsp;</td>
       <td width='200'>{$aText['limit']}</td>
       <td valign='top'>
-        <input class='flat' type='text' size='2' name='session_capping' value='{$session_capping}' onBlur=\"phpAds_formCapBlur(this);\" tabindex='".($tabindex++)."'> {$GLOBALS['strDeliveryCappingSession']}
+        <input class='flat' type='text' size='2' id='session_capping' name='session_capping' value='{$session_capping}' tabindex='".($tabindex++)."'> {$GLOBALS['strDeliveryCappingSession']}
       </td>
-      
+
       ";
 
     if ($showExtra) {
@@ -243,11 +249,11 @@ function _echoDeliveryCappingHtml($tabindex, $aText, $aCappedObject, $type = nul
       <td width='30'>&nbsp;</td>
       <td width='200'>{$aExtraDisplay['aText']['limit']}</td>
       <td valign='top'>
-        <input class='flat' type='text' size='2' name='extra_session_capping' value='{$extra_session_capping}' disabled='disabled'> {$GLOBALS['strDeliveryCappingSession']}
+        <input class='flat' type='text' size='2' id='extra_session_capping' name='extra_session_capping' value='{$extra_session_capping}' disabled='disabled'> {$GLOBALS['strDeliveryCappingSession']}
       </td>";
     }
     if (($cap != '-' && $cap > 0) || ($session_capping != '-' && $session_capping > 0)) {
-        $timeDisabled = false; 
+        $timeDisabled = false;
     } else {
         $timeDisabled = true;
     }
@@ -303,15 +309,72 @@ function _echoDeliveryCappingJs()
 echo "
 <script type='text/javascript'>
 <!--// <![CDATA[
+  $(document).ready(function() {
+    $(\"#session_capping,#cap\")
+      .keypress(maskNonNumeric)
+      .focus(prepareForText)
+      .blur(enableResetCounterConditionally);
+  });
 
-	function phpAds_formCapBlur (i)
+  function maskNonNumeric(event)
+  {
+    if (event.charCode && (event.charCode < 48 || event.charCode > 57)) {
+      event.preventDefault();
+    }
+  }
+
+
+  function prepareForText(event)
+  {
+    if (this.value == '-')  {
+      this.value = '';
+    } 
+  }
+
+
+  function enableResetCounterConditionally()
+  {
+    var cappingSet = false;
+    $(\"#session_capping,#cap\", $(this.form)).each(function() 
+    {
+      if (this.value == '-' || this.value == '' || this.value == '0') {
+        this.value = '-';
+      } 
+      else {
+        cappingSet = true;
+      }
+    });
+
+    if (isResetCounterEnabled(this.form) != cappingSet) {
+      setResetCounterEnabled(this.form, cappingSet);
+    }
+  }
+
+
+  function isResetCounterEnabled(form)
+  {
+    return !form.timehour.disabled;
+  }
+
+
+  function setResetCounterEnabled(form, cappingSet)
+  {
+      var disable = !cappingSet;
+      form.timehour.disabled = disable;
+      form.timeminute.disabled = disable;
+      form.timesecond.disabled = disable;
+  }
+
+
+	/*function phpAds_formCapBlur(i)
 	{
-		if (i.value == '' || i.value == '0') {
-		  i.value = '-' 
+		if (i.value == '-' || i.value == '' || i.value == '0') {
+		  i.value = '-';
 		} else {
-		  oa_formEnableTime(i);
-		} 
-	}
+      oa_formSetTimeDisabled(i, false);
+		}
+	}*/
+
 
 	function phpAds_formLimitBlur (i)
 	{
@@ -323,6 +386,7 @@ echo "
 
 		phpAds_formLimitUpdate (i);
 	}
+
 
 	function phpAds_formLimitUpdate (i)
 	{
@@ -337,13 +401,15 @@ echo "
 		if (f.timehour.value == '-' && f.timeminute.value == '0') f.timeminute.value = '-';
 		if (f.timeminute.value == '-' && f.timesecond.value == '0') f.timesecond.value = '-';
 	}
-    function oa_formEnableTime(i)
-    {
-        f = i.form;
-        f.timehour.disabled = false;
-        f.timeminute.disabled = false;
-        f.timesecond.disabled = false;
-    }
+
+
+  /*function oa_formEnableTime(i)
+  {
+      f = i.form;
+      f.timehour.disabled = false;
+      f.timeminute.disabled = false;
+      f.timesecond.disabled = false;
+  }*/
 // ]]> -->
 </script>";
 }

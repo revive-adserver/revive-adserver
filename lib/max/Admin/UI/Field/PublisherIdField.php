@@ -34,9 +34,9 @@ class Admin_UI_PublisherIdField extends Admin_UI_Field
     {
         global $session, $list_filters;
     
-        if (phpAds_isUser(phpAds_Publisher))
+        if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER))
         {
-            echo "<input type='hidden' name='{$this->_name}' value='".phpAds_getUserID()."'>";
+            echo "<input type='hidden' name='{$this->_name}' value='".OA_Permission::getEntityId()."'>";
         }
         else
         {

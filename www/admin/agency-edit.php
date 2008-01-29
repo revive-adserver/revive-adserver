@@ -37,6 +37,7 @@ require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
+require_once MAX_PATH . '/lib/OA/Admin/Menu.php';
 
 // Register input variables
 phpAds_registerGlobalUnslashed (
@@ -46,15 +47,12 @@ phpAds_registerGlobalUnslashed (
 	,'contact'
 	,'email'
 	,'agencylanguage'
-	,'agencyusername'
-	,'agencypassword'
 	,'submit'
 	,'logout_url'
-	,'agencypermissions'
 );
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
@@ -76,41 +74,6 @@ if (isset($submit)) {
 	$agency['agencylanguage'] = trim($agencylanguage);
 	$agency['logout_url']     = trim($logout_url);
 	// Permissions
-	$agency['permissions'] = 0;
-	if (isset($agencypermissions) && is_array($agencypermissions)) {
-		for ($i=0;$i<sizeof($agencypermissions);$i++) {
-			$agency['permissions'] += $agencypermissions[$i];
-		}
-	}
-	// Password
-	if (isset($agencypassword)) {
-		if ($agencypassword == '') {
-			$agency['password'] = '';
-		} elseif ($agencypassword != '********') {
-			$agency['password'] = md5($agencypassword);
-		}
-	}
-	// Username
-	if (!empty($agencyusername)) {
-        if (!MAX_Permission::isUsernameAllowed($agency['username'], $agencyusername)) {
-            $errormessage[] = $strDuplicateAgencyName;
-        }
-	}
-	if (count($errormessage) == 0) {
-		$agency['username'] = $agencyusername;
-	}
-	// Password
-	if (isset($pwold) && strlen($pwold) || isset($pw) && strlen($pw) ||	isset($pw2) && strlen($pw2)) {
-		if (md5($pwold) != $agency['password']) {
-			$errormessage[] = $strPasswordWrong;
-		} elseif (!strlen($pw) || strstr("\\", $pw)) {
-			$errormessage[] = $strInvalidPassword;
-		} elseif (strcmp($pw, $pw2)) {
-			$errormessage[] = $strNotSamePasswords;
-		} else {
-			$agency['password'] = md5($pw);
-		}
-	}
 	if (count($errormessage) == 0) {
 	    $doAgency = OA_Dal::factoryDO('agency');
 		if (empty($agencyid)) {
@@ -123,9 +86,6 @@ if (isset($submit)) {
 		}
 		// Go to next page
 		MAX_Admin_Redirect::redirect('agency-index.php');
-	} else {
-		// If an error occured set the password back to its previous value
-		$agency['password'] = $agencypassword;
 	}
 }
 
@@ -138,29 +98,11 @@ if (isset($submit)) {
 /*-------------------------------------------------------*/
 
 if ($agencyid != '') {
-	if (isset($session['prefs']['agency-index.php']['listorder'])) {
-		$navorder = $session['prefs']['agency-index.php']['listorder'];
-	} else {
-		$navorder = '';
-	}
-	if (isset($session['prefs']['agency-index.php']['orderdirection'])) {
-		$navdirection = $session['prefs']['agency-index.php']['orderdirection'];
-	} else {
-		$navdirection = '';
-	}
-	$doAgency = OA_Dal::factoryDO('agency');
-	$doAgency->find();
-	while ($doAgency->fetch() && $row = $doAgency->toArray()) {
-		phpAds_PageContext(
-			phpAds_buildName ($row['agencyid'], $row['name']),
-			"agency-edit.php?agencyid=".$row['agencyid'],
-			$agencyid == $row['agencyid']
-		);
-	}
-	phpAds_PageHeader("5.5.2");
+	OA_Admin_Menu::setAgencyPageContext($agencyid, 'agency-edit.php');
+	phpAds_PageHeader("4.1.2");
 	$doAgency = OA_Dal::staticGetDO('agency', $agencyid);
 	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".$doAgency->name."</b><br /><br /><br />";
-	phpAds_ShowSections(array("5.5.2"));
+	phpAds_ShowSections(array("4.1.2", "4.1.3"));
 	// Do not get this information if the page
 	// is the result of an error message
 	if (!isset($agency)) {
@@ -168,26 +110,18 @@ if ($agencyid != '') {
 	    if ($doAgency->get($agencyid)) {
 	        $agency = $doAgency->toArray();
 	    }
-		// Set password to default value
-		if ($agency['password'] != '') {
-			$agency['password'] = '********';
-		}
 	}
 } else {
-	phpAds_PageHeader("5.5.1");
+	phpAds_PageHeader("4.1.1");
 	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($agencyid)."</b><br /><br /><br />";
-	// phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5"));
-	phpAds_ShowSections(array("5.5.1"));
+	phpAds_ShowSections(array("4.1.1"));
 	// Do not set this information if the page
 	// is the result of an error message
 	if (!isset($agency)) {
 		$agency['name']			= $strUntitled;
 		$agency['contact']		= '';
 		$agency['email']		= '';
-		$agency['username']		= '';
-		$agency['password']		= '';
 		$agency['logout_url']   = '';
-		$agency['permissions']  = '';
 	}
 }
 $tabindex = 1;
@@ -246,65 +180,6 @@ echo "</select></td></tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 echo "</table>";
 
-// Spacer
-echo "<br /><br />";
-echo "<br /><br />";
-
-// Header
-echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-echo "<tr><td height='25' colspan='3'><b>".$strLoginInformation."</b></td></tr>";
-echo "<tr height='1'><td width='30'><img src='images/break.gif' height='1' width='30'></td>";
-echo "<td width='200'><img src='images/break.gif' height='1' width='200'></td>";
-echo "<td width='100%'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-
-
-// Error message?
-if (isset($errormessage) && count($errormessage)) {
-	echo "<tr><td>&nbsp;</td><td height='10' colspan='2'>";
-	echo "<table cellpadding='0' cellspacing='0' border='0'><tr><td>";
-	echo "<img src='images/error.gif' align='absmiddle'>&nbsp;";
-    foreach ($errormessage as $k => $v) {
-		echo "<font color='#AA0000'><b>".$v."</b></font><br />";
-	}
-
-	echo "</td></tr></table></td></tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-	echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-}
-
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strUsername."</td>";
-echo "<td><input onBlur='max_formValidateElement(this);' class='flat' type='text' name='agencyusername' size='25' value='".phpAds_htmlQuotes($agency['username'])."' tabindex='".($tabindex++)."'></td>";
-echo "</tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-
-// Password
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strPassword."</td>";
-echo "<td width='370'><input class='flat' type='password' name='agencypassword' size='25' value='".$agency['password']."' tabindex='".($tabindex++)."'></td>";
-echo "</tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-
-// Logout URL
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strLogoutURL."</td>";
-echo "<td width='370'><input class='flat' type='text' name='logout_url' size='25' value='".$agency['logout_url']."' tabindex='".($tabindex++)."'></td>";
-echo "</tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-
-// Permissions
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-echo "<tr><td width='30'>&nbsp;</td><td width='200'><br/></td>";
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-
-// Allow this user to edit conversions
-echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-echo "<input type='checkbox' name='agencypermissions[]' value='".phpAds_EditConversions."'".(phpAds_EditConversions & $agency['permissions'] ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
-echo $strAllowAgencyEditConversions;
-echo "</td></tr>";
-
-// Footer
-echo "<tr><td height='10' colspan='3'><br/>&nbsp;</td></tr>";
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-echo "</table>";
-
 echo "<br /><br />";
 echo "<input type='submit' name='submit' value='".$strSaveChanges."' tabindex='".($tabindex++)."'>";
 echo "</form>";
@@ -316,7 +191,6 @@ echo "</form>";
 // Get unique agencyname
 $doAgency = OA_Dal::factoryDO('agency');
 $unique_names = $doAgency->getUniqueValuesFromColumn('name', $agency['name']);
-$unique_users = MAX_Permission::getUniqueUserNames($agency['username']);
 
 ?>
 
@@ -324,7 +198,7 @@ $unique_users = MAX_Permission::getUniqueUserNames($agency['username']);
 <!--
 	max_formSetRequirements('contact', '<?php echo addslashes($strContact); ?>', true);
 	max_formSetRequirements('email', '<?php echo addslashes($strEMail); ?>', true, 'email');
-<?php if (phpAds_isUser(phpAds_Admin)) { ?>
+<?php if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) { ?>
 	max_formSetRequirements('name', '<?php echo addslashes($strName); ?>', true, 'unique');
 	max_formSetRequirements('agencyusername', '<?php echo addslashes($strUsername); ?>', false, 'unique');
 

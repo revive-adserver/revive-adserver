@@ -234,7 +234,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
                     array("($table.activate " . OA_Dal::equalNoDateString() . " OR $table.activate <= '" . $oDate->format('%Y-%m-%d') . "')", 'AND'),
                     array("$table.expire >= '" . $oDate->format('%Y-%m-%d') . "'", 'AND'),
                     array("$table.priority >= 1", 'AND'),
-                    array("$table.active = 't'", 'AND'),
+                    array("$table.status = " . OA_ENTITY_STATUS_RUNNING, 'AND'),
                     array("($table.views > 0 OR $table.clicks > 0 OR $table.conversions > 0)", 'AND')
                 )
             )
@@ -356,12 +356,12 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         $this->assertEqual(1, $oGetRequiredAdImpressionsLifetime->_getPlacementAdWeightTotal($oPlacement));
 
         // Create some test Ad objects
-        $oAd1 = new OA_Maintenance_Priority_Ad(array('ad_id' => 1, 'active' => true, 'type' => 'sql', 'weight' => 2));
-        $oAd2 = new OA_Maintenance_Priority_Ad(array('ad_id' => 2, 'active' => true, 'type' => 'sql', 'weight' => 1));
-        $oAd3 = new OA_Maintenance_Priority_Ad(array('ad_id' => 3, 'active' => true, 'type' => 'sql', 'weight' => 0));
-        $oAd4 = new OA_Maintenance_Priority_Ad(array('ad_id' => 4, 'active' => true, 'type' => 'sql', 'weight' => 3));
-        $oAd5 = new OA_Maintenance_Priority_Ad(array('ad_id' => 5, 'active' => true, 'type' => 'sql', 'weight' => -10));
-        $oAd6 = new OA_Maintenance_Priority_Ad(array('ad_id' => 6, 'active' => false, 'type' => 'sql', 'weight' => 100));
+        $oAd1 = new OA_Maintenance_Priority_Ad(array('ad_id' => 1, 'status' => OA_ENTITY_STATUS_RUNNING, 'type' => 'sql', 'weight' => 2));
+        $oAd2 = new OA_Maintenance_Priority_Ad(array('ad_id' => 2, 'status' => OA_ENTITY_STATUS_RUNNING, 'type' => 'sql', 'weight' => 1));
+        $oAd3 = new OA_Maintenance_Priority_Ad(array('ad_id' => 3, 'status' => OA_ENTITY_STATUS_RUNNING, 'type' => 'sql', 'weight' => 0));
+        $oAd4 = new OA_Maintenance_Priority_Ad(array('ad_id' => 4, 'status' => OA_ENTITY_STATUS_RUNNING, 'type' => 'sql', 'weight' => 3));
+        $oAd5 = new OA_Maintenance_Priority_Ad(array('ad_id' => 5, 'status' => OA_ENTITY_STATUS_RUNNING, 'type' => 'sql', 'weight' => -10));
+        $oAd6 = new OA_Maintenance_Priority_Ad(array('ad_id' => 6, 'status' => OA_ENTITY_STATUS_AWAITING, 'type' => 'sql', 'weight' => 100));
         // Create a test Placement object
         $oPlacement = new OA_Maintenance_Priority_Placement(array('placement_id' => 1));
         // Add the Ads to the Placement
@@ -409,11 +409,11 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         );
         $oPlacement->impressionTargetTotal = 5000;
         $oPlacement->requiredImpressions = 24;
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 1, 'weight' => 1, 'active' => 't', 'type' => 'sql'));
+        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 1, 'weight' => 1, 'status' => OA_ENTITY_STATUS_RUNNING, 'type' => 'sql'));
         $oPlacement->aAds[] = $oAd;
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 2, 'weight' => 1, 'active' => 't', 'type' => 'sql'));
+        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 2, 'weight' => 1, 'status' => OA_ENTITY_STATUS_RUNNING, 'type' => 'sql'));
         $oPlacement->aAds[] = $oAd;
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 3, 'weight' => 1, 'active' => 'f', 'type' => 'sql'));
+        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 3, 'weight' => 1, 'status' => OA_ENTITY_STATUS_AWAITING, 'type' => 'sql'));
         $oPlacement->aAds[] = $oAd;
         $aPlacements[] = $oPlacement;
 
@@ -426,9 +426,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         );
         $oPlacement->impressionTargetDaily = 24;
         $oPlacement->requiredImpressions = 24;
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 4, 'weight' => 1, 'active' => 't', 'type' => 'sql'));
+        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 4, 'weight' => 1, 'status' => OA_ENTITY_STATUS_RUNNING, 'type' => 'sql'));
         $oPlacement->aAds[] = $oAd;
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 5, 'weight' => 1, 'active' => 'f', 'type' => 'sql'));
+        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 5, 'weight' => 1, 'status' => OA_ENTITY_STATUS_AWAITING, 'type' => 'sql'));
         $oPlacement->aAds[] = $oAd;
         $aPlacements[] = $oPlacement;
 
@@ -532,7 +532,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         );
 
         // Test 1
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 1, 'weight' => 1, 'active' => 't', 'type' => 'sql'));
+        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 1, 'weight' => 1, 'status' => OA_ENTITY_STATUS_RUNNING, 'type' => 'sql'));
         $totalRequiredAdImpressions = 10;
         $oDate = new Date();
         $oPlacementExpiryDate = new Date();
@@ -568,7 +568,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
 
         // Test 2
         $oAd = new PartialMockOA_Maintenance_Priority_Ad($this);
-        $aParam = array('ad_id' => 1, 'weight' => 1, 'active' => 't', 'type' => 'sql');
+        $aParam = array('ad_id' => 1, 'weight' => 1, 'status' => OA_ENTITY_STATUS_RUNNING, 'type' => 'sql');
         $oAd->setReturnValue(
             'getDeliveryLimitations',
             array(
@@ -597,7 +597,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
 
         // Test 3
         $oAd = new PartialMockOA_Maintenance_Priority_Ad($this);
-        $aParam = array('ad_id' => 1, 'weight' => 1, 'active' => 't', 'type' => 'sql');
+        $aParam = array('ad_id' => 1, 'weight' => 1, 'status' => OA_ENTITY_STATUS_RUNNING, 'type' => 'sql');
         $oAd->setReturnValue(
             'getDeliveryLimitations',
             array(
@@ -631,7 +631,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
 
         // Test 4
         $oAd = new PartialMockOA_Maintenance_Priority_Ad($this);
-        $aParam = array('ad_id' => 1, 'weight' => 1, 'active' => 't', 'type' => 'sql');
+        $aParam = array('ad_id' => 1, 'weight' => 1, 'status' => OA_ENTITY_STATUS_RUNNING, 'type' => 'sql');
         $oAd->setReturnValue(
             'getDeliveryLimitations',
             array(
@@ -668,7 +668,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
 
         // Test 5
         $oAd = new PartialMockOA_Maintenance_Priority_Ad($this);
-        $aParam = array('ad_id' => 1, 'weight' => 1, 'active' => 't', 'type' => 'sql');
+        $aParam = array('ad_id' => 1, 'weight' => 1, 'status' => OA_ENTITY_STATUS_RUNNING, 'type' => 'sql');
         $oAd->setReturnValue(
             'getDeliveryLimitations',
             array(
@@ -727,7 +727,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
 
         // Test 6
         $oAd = new PartialMockOA_Maintenance_Priority_Ad($this);
-        $aParam = array('ad_id' => 1, 'weight' => 1, 'active' => 't', 'type' => 'sql');
+        $aParam = array('ad_id' => 1, 'weight' => 1, 'status' => OA_ENTITY_STATUS_RUNNING, 'type' => 'sql');
         $oAd->setReturnValue(
             'getDeliveryLimitations',
             array(

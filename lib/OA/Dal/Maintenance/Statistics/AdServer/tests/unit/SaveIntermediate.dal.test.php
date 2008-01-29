@@ -159,8 +159,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
-        $this->assertEqual($aRow['day'], '2004-06-06');
-        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['date_time'], '2004-06-06 18:00:00');
         $this->assertEqual($aRow['operation_interval'], 30);
         $this->assertEqual($aRow['operation_interval_id'], 36);
         $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
@@ -181,8 +180,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             WHERE
                 ad_id = 2";
         $aRow = $oDbh->queryRow($query);
-        $this->assertEqual($aRow['day'], '2004-06-06');
-        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['date_time'], '2004-06-06 18:00:00');
         $this->assertEqual($aRow['operation_interval'], 30);
         $this->assertEqual($aRow['operation_interval_id'], 36);
         $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
@@ -238,8 +236,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
-        $this->assertEqual($aRow['day'], '2004-06-06');
-        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['date_time'], '2004-06-06 18:00:00');
         $this->assertEqual($aRow['operation_interval'], 30);
         $this->assertEqual($aRow['operation_interval_id'], 36);
         $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
@@ -260,8 +257,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             WHERE
                 ad_id = 2";
         $aRow = $oDbh->queryRow($query);
-        $this->assertEqual($aRow['day'], '2004-06-06');
-        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['date_time'], '2004-06-06 18:00:00');
         $this->assertEqual($aRow['operation_interval'], 30);
         $this->assertEqual($aRow['operation_interval_id'], 36);
         $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
@@ -317,8 +313,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
-        $this->assertEqual($aRow['day'], '2004-06-06');
-        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['date_time'], '2004-06-06 18:00:00');
         $this->assertEqual($aRow['operation_interval'], 30);
         $this->assertEqual($aRow['operation_interval_id'], 36);
         $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
@@ -339,8 +334,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             WHERE
                 ad_id = 2";
         $aRow = $oDbh->queryRow($query);
-        $this->assertEqual($aRow['day'], '2004-06-06');
-        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['date_time'], '2004-06-06 18:00:00');
         $this->assertEqual($aRow['operation_interval'], 30);
         $this->assertEqual($aRow['operation_interval_id'], 36);
         $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
@@ -361,8 +355,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             WHERE
                 ad_id = 3";
         $aRow = $oDbh->queryRow($query);
-        $this->assertEqual($aRow['day'], '2004-06-06');
-        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['date_time'], '2004-06-06 18:00:00');
         $this->assertEqual($aRow['operation_interval'], 30);
         $this->assertEqual($aRow['operation_interval_id'], 36);
         $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
@@ -420,8 +413,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
-        $this->assertEqual($aRow['day'], '2004-06-06');
-        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['date_time'], '2004-06-06 18:00:00');
         $this->assertEqual($aRow['operation_interval'], 30);
         $this->assertEqual($aRow['operation_interval_id'], 36);
         $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
@@ -442,8 +434,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             WHERE
                 ad_id = 2";
         $aRow = $oDbh->queryRow($query);
-        $this->assertEqual($aRow['day'], '2004-06-06');
-        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['date_time'], '2004-06-06 18:00:00');
         $this->assertEqual($aRow['operation_interval'], 30);
         $this->assertEqual($aRow['operation_interval_id'], 36);
         $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
@@ -464,8 +455,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             WHERE
                 ad_id = 3";
         $aRow = $oDbh->queryRow($query);
-        $this->assertEqual($aRow['day'], '2004-06-06');
-        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['date_time'], '2004-06-06 18:00:00');
         $this->assertEqual($aRow['operation_interval'], 30);
         $this->assertEqual($aRow['operation_interval_id'], 36);
         $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
@@ -585,8 +575,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
-        $this->assertEqual($aRow['day'], '2004-06-06');
-        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['date_time'], '2004-06-06 18:00:00');
         $this->assertEqual($aRow['operation_interval'], 30);
         $this->assertEqual($aRow['operation_interval_id'], 36);
         $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
@@ -693,8 +682,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
-        $this->assertEqual($aRow['day'], '2004-06-06');
-        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['date_time'], '2004-06-06 18:00:00');
         $this->assertEqual($aRow['operation_interval'], 30);
         $this->assertEqual($aRow['operation_interval_id'], 36);
         $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
@@ -811,8 +799,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
-        $this->assertEqual($aRow['day'], '2004-06-06');
-        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['date_time'], '2004-06-06 18:00:00');
         $this->assertEqual($aRow['operation_interval'], 30);
         $this->assertEqual($aRow['operation_interval_id'], 36);
         $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
@@ -919,8 +906,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
-        $this->assertEqual($aRow['day'], '2004-06-06');
-        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['date_time'], '2004-06-06 18:00:00');
         $this->assertEqual($aRow['operation_interval'], 30);
         $this->assertEqual($aRow['operation_interval_id'], 36);
         $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
@@ -1037,8 +1023,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
-        $this->assertEqual($aRow['day'], '2004-06-06');
-        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['date_time'], '2004-06-06 18:00:00');
         $this->assertEqual($aRow['operation_interval'], 30);
         $this->assertEqual($aRow['operation_interval_id'], 36);
         $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
@@ -2017,8 +2002,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
-        $this->assertEqual($aRow['day'], '2004-06-06');
-        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['date_time'], '2004-06-06 18:00:00');
         $this->assertEqual($aRow['operation_interval'], 30);
         $this->assertEqual($aRow['operation_interval_id'], 36);
         $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
@@ -2040,8 +2024,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             WHERE
                 ad_id = 2";
         $aRow = $oDbh->queryRow($query);
-        $this->assertEqual($aRow['day'], '2004-06-06');
-        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['date_time'], '2004-06-06 18:00:00');
         $this->assertEqual($aRow['operation_interval'], 30);
         $this->assertEqual($aRow['operation_interval_id'], 36);
         $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
@@ -2063,8 +2046,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             WHERE
                 ad_id = 3";
         $aRow = $oDbh->queryRow($query);
-        $this->assertEqual($aRow['day'], '2004-06-06');
-        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['date_time'], '2004-06-06 18:00:00');
         $this->assertEqual($aRow['operation_interval'], 30);
         $this->assertEqual($aRow['operation_interval_id'], 36);
         $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
@@ -2094,8 +2076,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             INSERT INTO
             {$tmpTable}
                 (
-                    day,
-                    hour,
+                    date_time,
                     operation_interval,
                     operation_interval_id,
                     interval_start,
@@ -2106,10 +2087,9 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
                     requests
                 )
             VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $aTypes = array(
-            'date',
-            'integer',
+            'timestamp',
             'integer',
             'integer',
             'timestamp',
@@ -2121,8 +2101,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         );
         $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
-            '2004-06-06',
-            18,
+            '2004-06-06 18:00:00',
             30,
             36,
             '2004-06-06 18:00:00',
@@ -2134,8 +2113,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         );
         $rows = $st->execute($aData);
         $aData = array(
-            '2004-06-06',
-            18,
+            '2004-06-06 18:00:00',
             30,
             36,
             '2004-06-06 18:00:00',
@@ -2160,8 +2138,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             INSERT INTO
                 ".$oDbh->quoteIdentifier('tmp_ad_impression',true)."
                 (
-                    day,
-                    hour,
+                    date_time,
                     operation_interval,
                     operation_interval_id,
                     interval_start,
@@ -2172,10 +2149,9 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
                     impressions
                 )
             VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $aTypes = array(
-            'date',
-            'integer',
+            'timestamp',
             'integer',
             'integer',
             'timestamp',
@@ -2187,8 +2163,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         );
         $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
-            '2004-06-06',
-            18,
+            '2004-06-06 18:00:00',
             30,
             36,
             '2004-06-06 18:00:00',
@@ -2200,8 +2175,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         );
         $rows = $st->execute($aData);
         $aData = array(
-            '2004-06-06',
-            18,
+            '2004-06-06 18:00:00',
             30,
             36,
             '2004-06-06 18:00:00',
@@ -2226,8 +2200,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             INSERT INTO
                 ".$oDbh->quoteIdentifier('tmp_ad_click',true)."
                 (
-                    day,
-                    hour,
+                    date_time,
                     operation_interval,
                     operation_interval_id,
                     interval_start,
@@ -2238,10 +2211,9 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
                     clicks
                 )
             VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $aTypes = array(
-            'date',
-            'integer',
+            'timestamp',
             'integer',
             'integer',
             'timestamp',
@@ -2253,8 +2225,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         );
         $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
-            '2004-06-06',
-            18,
+            '2004-06-06 18:00:00',
             30,
             36,
             '2004-06-06 18:00:00',
@@ -2266,8 +2237,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         );
         $rows = $st->execute($aData);
         $aData = array(
-            '2004-06-06',
-            18,
+            '2004-06-06 18:00:00',
             30,
             36,
             '2004-06-06 18:00:00',
@@ -2279,8 +2249,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         );
         $rows = $st->execute($aData);
         $aData = array(
-            '2004-06-06',
-            18,
+            '2004-06-06 18:00:00',
             30,
             36,
             '2004-06-06 18:00:00',

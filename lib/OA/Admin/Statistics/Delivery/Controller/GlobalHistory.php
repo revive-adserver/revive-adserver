@@ -85,7 +85,7 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalHistory extends OA_Admin_Sta
     function start()
     {
         // Security check
-        phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
+        OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
 
         // Load the period preset and stats breakdown parameters
         $this->_loadPeriodPresetParam();
@@ -100,8 +100,8 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalHistory extends OA_Admin_Sta
 
         // Prepare the data for display by output() method
         $aParams = array();
-        if (phpAds_isUser(phpAds_Agency)) {
-            $aParams['agency_id'] = phpAds_getAgencyID();
+        if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+            $aParams['agency_id'] = OA_Permission::getAgencyId();
         }
         $this->prepare($aParams, 'stats.php');
     }

@@ -58,7 +58,7 @@ class DataObjects_BannersTest extends DalUnitTestCase
         $doBanners->storagetype = 'sql';
         $doBanners->acls_updated = '2007-04-03 19:28:06';
 
-        $id1 = DataGenerator::generateOne($doBanners);
+        $id1 = DataGenerator::generateOne($doBanners, true);
 
         $doBanners = OA_Dal::staticGetDO('banners', $id1);
 
@@ -90,17 +90,18 @@ class DataObjects_BannersTest extends DalUnitTestCase
         $this->assertEqualDataObjects($this->stripKeys($doBanners1), $this->stripKeys($doBanners2));
     }
 
-
     function testInsert()
     {
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->acls_updated = '2007-04-03 19:28:06';
-        $bannerId = DataGenerator::generateOne($doBanners);
+        $bannerId = DataGenerator::generateOne($doBanners, true);
         $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
         $doAdZoneAssoc->ad_id = $bannerId;
         $doAdZoneAssoc->zone_id = 0;
         $this->assertTrue($doAdZoneAssoc->find());
         $this->assertTrue($doAdZoneAssoc->fetch());
     }
+
 }
+
 ?>

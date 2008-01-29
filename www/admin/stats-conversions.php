@@ -42,11 +42,11 @@ require_once 'Pager/Pager.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate + phpAds_Client);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
 
 // Get input variables
 $pref = $GLOBALS['_MAX']['PREF'];
-$hideinactive   = MAX_getStoredValue('hideinactive', ($pref['gui_hide_inactive'] == 't'));
+$hideinactive   = MAX_getStoredValue('hideinactive', ($pref['ui_hide_inactive'] == true));
 $listorder      = MAX_getStoredValue('listorder', 'date_time');
 $orderdirection = MAX_getStoredValue('orderdirection', 'up');
 $aNodes         = MAX_getStoredArray('nodes', array());
@@ -83,12 +83,12 @@ $bannerId       = MAX_getValue('bannerid');
 $affiliateId    = MAX_getValue('affiliateid');
 $zoneId         = MAX_getValue('zoneid');
 
-if (phpAds_isUser(phpAds_Client)) {
-    $clientId = $clientid = phpAds_getUserID();
+if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+    $clientId = $clientid = OA_Permission::getEntityId();
     // Rebuild navigation
     MMM_buildNavigation();
-} elseif (phpAds_isUser(phpAds_Affiliate)) {
-    $affiliateId = $affiliateid = phpAds_getUserID();
+} elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+    $affiliateId = $affiliateid = OA_Permission::getEntityId();
     // Rebuild navigation
     MMM_buildNavigation();
 }
@@ -124,7 +124,7 @@ if (!empty($day)) {
 // Adjust which nodes are opened closed...
 MAX_adjustNodes($aNodes, $expand, $collapse);
 
-if (!phpAds_isUser(phpAds_Admin) && !(phpAds_isUser(phpAds_Agency) && phpAds_isAllowed(phpAds_EditConversions))) {
+if (!OA_Permission::isAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER)) {
     // editing statuses is allowed only for admin and agency
     $editStatuses = false;
 } else {
@@ -142,17 +142,17 @@ if ($editStatuses) {
 }
 
 // Display navigation
-if(phpAds_isUser(phpAds_Affiliate)) {
+if(OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
     // Navigation for publisher
     $conf = &$GLOBALS['_MAX']['CONF'];
     $conf['logging']['adRequests'] = false;
-    $affiliateid = phpAds_getUserID();
+    $affiliateid = OA_Permission::getEntityId();
 
     phpAds_PageHeader("1.1");
     echo '<br><br>';
-} elseif(phpAds_isUser(phpAds_Client)) {
+} elseif(OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
     // Navigation for advertiser
-    $clientid = phpAds_getUserID();
+    $clientid = OA_Permission::getEntityId();
 
     phpAds_PageHeader("1.1");
     echo '<br><br>';
@@ -217,8 +217,8 @@ if(!empty($period_preset)) {
 phpAds_ShowBreak();
 
 $aParams = array();
-if (!phpAds_isUser(phpAds_Admin)) {
-    $aParams['agency_id'] = phpAds_getAgencyID();
+if (!OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
+    $aParams['agency_id'] = OA_Permission::getAgencyId();
 }
 
 $aParams['clientid']    = $clientId;
@@ -232,10 +232,6 @@ if(!empty($zoneId)) {
     $aZonesIds = array($zoneId);
 }
 $aParams['zonesIds'] = $aZonesIds;
-
-if (phpAds_isUser(phpAds_Affiliate) && phpAds_isAllowed(MAX_AffiliateViewOnlyApprPendConv)) {
-    $aParams['statuses'] = array(MAX_CONNECTION_STATUS_APPROVED, MAX_CONNECTION_STATUS_PENDING);
-}
 
 
 
@@ -372,7 +368,7 @@ if (!empty($aConversions)) {
             echo "{$conversion['date_time']}</td>";
             if($editStatuses) {
                 echo "<td align='center' style='padding: 0 4px'><nobr>";
-                if (phpAds_isUser(phpAds_Agency)) {
+                if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
                     // Ignore(1) is always disabled for agencies
                     $disabledStatuses = array(MAX_CONNECTION_STATUS_IGNORE);
                     // final statuses: Ignore(1), Approved(4) and Disapproved(5)
@@ -414,7 +410,7 @@ if (!empty($aConversions)) {
                         }
                         echo "<label style='color: $color;'>&nbsp;<input type='radio' name='statusIds[$conversionId]' value='$statusId' ".($conversion['connection_status']==$statusId?' checked':'')." tabindex='".($tabindex++)."' $disabled>{$GLOBALS[$statusStr]}</label>";
                     }
-                } elseif(phpAds_isUser(phpAds_Admin)) {
+                } elseif(OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
                     // If admin - everything
                     foreach($GLOBALS['_MAX']['STATUSES'] as $statusId => $statusStr) {
                         echo "&nbsp;<label><input type='radio' name='statusIds[$conversionId]' value='$statusId' ".($conversion['connection_status']==$statusId?' checked':'')." tabindex='".($tabindex++)."'>{$GLOBALS[$statusStr]}</label>";
@@ -486,7 +482,7 @@ if (!empty($aConversions)) {
                                     <tr><th scope='col' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strStatsVariables']}:</th><td></td></tr>";
             foreach($aConVariables as $conVariable) {
                 // Do not show hidden variables to publishers
-                if (phpAds_isUser(phpAds_Affiliate) && $conVariable['hidden'] == 't') {
+                if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) && $conVariable['hidden'] == 't') {
                     continue;
                 }
                 echo "<tr><th scope='row' style='text-align: $phpAds_TextAlignLeft; color: darkgrey'>".

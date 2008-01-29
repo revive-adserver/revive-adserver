@@ -32,9 +32,9 @@ class Admin_UI_AdvertiserIdField extends Admin_UI_Field
 {
     function display()
     {
-        if (phpAds_isUser(phpAds_Advertiser))
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER))
         {
-            echo "<input type='hidden' name='{$this->_name}' value='".phpAds_getUserID()."'>";
+            echo "<input type='hidden' name='{$this->_name}' value='".OA_Permission::getEntityId()."'>";
         }
         else
         {

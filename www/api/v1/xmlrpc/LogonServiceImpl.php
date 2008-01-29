@@ -67,40 +67,14 @@ class LogonServiceImpl extends BaseServiceImpl
         include_once MAX_PATH . '/lib/max/language/Default.php';
         // Load the required language file.
         Language_Default::load();
-        /**
-         * @todo Please check code is correct from line 73 to line 103
-        **/
-        if (!defined('MAX_SKIP_LOGIN')) {
 
-            $md5digest = md5($password);
-
-            MAX_Permission_Session::restartIfUsernameOrPasswordEmpty($md5digest, $username);
-
-            MAX_Permission_Session::restartIfCookiesDisabled();
-
-            if (phpAds_isAdmin($username, $md5digest)) {
-                phpAds_SessionDataRegister(MAX_Permission_User::getAAdminData($username));
-
-            } else {
-                $doUser = MAX_Permission_User::findAndGetDoUser($username, $md5digest);
-                if ($doUser) {
-                    phpAds_SessionDataRegister($doUser->getAUserData());
-                } else {
-                    // Password is not correct or user is not known
-                    // Set the session ID now, some server do not support setting a cookie during a redirect
-                    return false;
-                }
-            }
-
+        $doUser = OA_Auth::checkPassword($username, $password);
+        if ($doUser) {
+            phpAds_SessionDataRegister(OA_Auth::getSessionData($doUser));
+            return true;
         } else {
-            phpAds_SessionDataRegister(array(
-            "usertype" => phpAds_Agency,
-            "loggedin" => 'f',
-            "agencyid" => 0,
-            "username" => 'fake-session'
-            ));
+            return false;
         }
-        return true;
     }
 
     /**
@@ -139,9 +113,8 @@ class LogonServiceImpl extends BaseServiceImpl
 
         $this->preInitSession();
         if ($this->_internalLogin($username, $password)) {
-
             // Check if the user has administrator access to Openads.
-            if (MAX_Permission::hasAccess(phpAds_Admin)) {
+            if (OA_Permission::isUserLinkedToAdmin()) {
 
                 $this->postInitSession();
 
@@ -175,7 +148,7 @@ class LogonServiceImpl extends BaseServiceImpl
             phpAds_SessionDataDestroy();
             unset($GLOBALS['session']);
 
-            return !phpAds_IsLoggedIn();
+            return !OA_Auth::isLoggedIn();
 
         } else {
 

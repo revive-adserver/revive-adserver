@@ -49,9 +49,9 @@ phpAds_registerGlobal (
 );
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
-MAX_Permission::checkAccessToObject('trackers', $trackerid);
-MAX_Permission::checkAccessToObject('clients', $clientid);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
+OA_Permission::enforceAccessToObject('clients', $clientid);
+OA_Permission::enforceAccessToObject('trackers', $trackerid);
 
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
@@ -80,18 +80,9 @@ if (isset($submit)) {
 /*-------------------------------------------------------*/
 
 if ($trackerid != "") {
-	if (isset($session['prefs']['advertiser-trackers.php'][$clientid]['listorder'])) {
-		$navorder = $session['prefs']['advertiser-trackers.php'][$clientid]['listorder'];
-	} else {
-		$navorder = '';
-	}
-	if (isset($session['prefs']['advertiser-trackers.php'][$clientid]['orderdirection'])) {
-		$navdirection = $session['prefs']['advertiser-trackers.php'][$clientid]['orderdirection'];
-	} else {
-		$navdirection = '';
-	}
 	// Get other trackers
 	$doTrackers = OA_Dal::factoryDO('trackers');
+	$doTrackers->addSessionListOrderBy('advertiser-trackers.php');
 	$doTrackers->clientid = $clientid;
 	$doTrackers->find();
 
@@ -119,8 +110,8 @@ if ($trackerid != "") {
 
 	$doClients = OA_Dal::factoryDO('clients');
 	$doClients->whereAdd('clientid <> '.$clientid);
-	if (phpAds_isUser(phpAds_Agency)) {
-	    $doClients->addReferenceFilter('agency', phpAds_getAgencyID());
+	if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+	    $doClients->addReferenceFilter('agency', OA_Permission::getAgencyId());
 	}
 	$doClients->find();
 	while ($doClients->fetch() && $row = $doClients->toArray()) {

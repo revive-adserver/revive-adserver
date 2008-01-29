@@ -26,8 +26,8 @@ $Id$
 */
 
 /**
- * @package    MaxDal
- * @subpackage DeliveryXMLRPC
+ * @package    OpenadsDal
+ * @subpackage Delivery
  * @author     Chris Nutting <chris@m3.net>
  *
  * @todo        There are methods in the mysql.php Dal that will have to be replicated here

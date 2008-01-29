@@ -35,7 +35,6 @@ require_once('Image/Graph.php');
  */
 class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
 {
-    var $title;
     var $aData;
     var $draw;
 
@@ -61,14 +60,19 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
         $this->setDummyData();
 
         $this->oTpl = new OA_Admin_Template($this->draw ? 'passthrough.html' : 'dashboard/graph.html');
-        $this->oTpl->setCacheId($title);
+        $this->oTpl->setCacheId($this->getCacheId());
 
         $this->oTpl->assign('extensionLoaded', $gdAvailable);
     }
 
+    function getCacheId()
+    {
+        return array(get_class($this));
+    }
+
     function isDataRequired()
     {
-        return !$this->oTpl->is_cached() && !empty($_REQUEST);
+        return $this->draw && !$this->oTpl->is_cached();
     }
 
     /**
@@ -145,10 +149,15 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
 
      		$Graph =& Image_Graph::factory('graph', $Canvas);
 
-    		$Font =& $Graph->addNew('ttf_font', MAX_PATH.'/lib/fonts/Bitstream/Vera.ttf');
-    		$Font->setSize(7);
+     		if (is_callable('imagettftext')) {
+        		$Font =& $Graph->addNew('ttf_font', MAX_PATH.'/lib/fonts/Bitstream/Vera.ttf');
+        		$Font->setSize(7);
 
-    		$Graph->setFont($Font);
+        		$Graph->setFont($Font);
+     		} else {
+     		    // TTF library not available, use standard bitmap font
+     		    $Graph->setFontSize(7);
+     		}
 
             $Datasets = array(
                 Image_Graph::factory('dataset'),
@@ -190,9 +199,8 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
 
             $Graph->add($Plotarea = Image_Graph::factory('plotarea'));
 
-            $FillBG =& Image_Graph::factory('Image_Graph_Fill_Image', MAX_PATH . '/www/admin/images/dashboard-graph-bg.gif');
-            $Graph->setBackground($FillBG);
-
+            /*$FillBG =& Image_Graph::factory('Image_Graph_Fill_Image', MAX_PATH . '/www/admin/images/dashboard-graph-bg.gif');
+            $Graph->setBackground($FillBG);*/
 
     		$Grid =& $Plotarea->addNew('line_grid', IMAGE_GRAPH_AXIS_Y);
     		$Grid->setLineColor('#cccccc');
@@ -231,7 +239,7 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
             $this->oTpl->assign('content', $content);
         } else {
             $this->oTpl->assign('title', $this->title);
-            $this->oTpl->assign('imageSrc', "dashboard.php?widget={$this->widgetName}&draw=1");
+            $this->oTpl->assign('imageSrc', "dashboard.php?widget={$this->widgetName}&draw=1&cb=".$this->oTpl->cacheId);
         }
 
         $this->oTpl->display();
@@ -253,6 +261,10 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
                 $unit  = $k;
             }
         }
+
+        // Floats could be imprecise, round to 2 decimal before using ceil/floor, otherwise
+        // e.g. floor($value) could return 99 even if $value seems to be 100
+        $value = round($value, 2);
 
         if (floor($value) != ceil($value)) {
             if ($value >= 100) {

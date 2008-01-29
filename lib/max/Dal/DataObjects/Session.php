@@ -67,7 +67,7 @@ class DataObjects_Session extends DB_DataObjectCommon
      */
     function _refreshUpdated()
     {
-        $this->lastused = OA::getNow();
+        $this->lastused = OA::getNowUTC();
     }
 }
 

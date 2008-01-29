@@ -17,7 +17,27 @@
 <form name="frmOpenads" method="POST" action="install.php" onSubmit='return max_formValidate(this);' style="margin:0; padding:0;">
 
 <?php
-            phpAds_ShowSettings(array (
+            // Setup list of all timezones, calculate selected timezone
+            require_once('../../lib/OA/Admin/Timezones.php');
+            $aTimezones = OA_Admin_Timezones::AvailableTimezones(true);
+            if ($_POST['aPrefs']['timezone']) {
+                $selTimezone = $_POST['aPrefs']['timezone'];
+            } else {
+                $aTimezone = OA_Admin_Timezones::getTimezone();
+                $selTimezone = $aTimezone['tz'];
+            }
+
+            // What display string do we need to show for the timezone?
+            if ($aTimezone['calculated']) {
+                $errorImage = "<img src='".$imgPath."images/icon-x.gif' width='10' height='9' />";
+                $strTimezoneToDisplay = $strTimezoneEstimated . '<br /><small class="red">' . $errorImage . $strTimezoneGuessedValue . '</small>';
+            } else {
+                $strTimezoneToDisplay = $strTimezone;
+            }
+            // For language, setup English as first choice
+            $langVal = 'english';
+
+            $options->show(array (
                 array (
                     'text'  => $strAdminAccount,
                     'items' => array (
@@ -60,6 +80,30 @@
                             'check' => 'email',
                             'value' => $aAdmin['email']
                         )
+                    )
+                ),
+                array (
+                    'text'  => $strPreferences,
+                    'items' => array (
+                        array (
+                            'type'  => 'select',
+                            'name'  => 'aPrefs[language]',
+                            'text'  => $strLanguageSelection,
+                            'req'   => true,
+                            'value' => $langVal,
+                            'items' => MAX_Admin_Languages::AvailableLanguages()
+                        ),
+                        array (
+                            'type'  => 'break'
+                        ),
+                        array (
+                            'type'  => 'select',
+                            'name'  => 'aPrefs[timezone]',
+                            'text'  => $strTimezoneToDisplay,
+                            'req'   => true,
+                            'value' => $selTimezone,
+                            'items' => $aTimezones
+                        ),
                     )
                 )
             ), $errormessage, 0, $imgPath);

@@ -71,7 +71,7 @@ function maintenance_goto_section()
     echo "<b>".$strChooseSection.":&nbsp;</b>";
     echo "<select name='section' onChange='maintenance_goto_section();'>";
 
-    if (phpAds_isUser(phpAds_Admin)) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
         if ($mainSection == 'updates') {
             echo "<option value='product'".($subSection == 'product' ? ' selected' : '').">".$strCheckForUpdates."</option>";
             echo "<option value='history'".($subSection == 'history' ? ' selected' : '').">".$strViewPastUpdates."</option>";
@@ -82,7 +82,7 @@ function maintenance_goto_section()
 
             $login = 'ftp://' . $conf['store']['ftpUsername'] . ':' . $conf['store']['ftpPassword'] . '@' .
                      $conf['store']['ftpHost'] . '/' . $conf['store']['ftpPath'];
-            if ($pref['type_web_allow'] == true && (($conf['store']['mode'] == 0 &&
+            if ($conf['allowedBanners']['web'] == true && (($conf['store']['mode'] == 0 &&
                 $conf['store']['webDir'] != '') || ($conf['store']['mode'] == 1 &&
                 $login != '')) && $conf['webpath']['images'] != '')
                 echo "<option value='storage'".($subSection == 'storage' ? ' selected' : '').">".$strStorage."</option>";

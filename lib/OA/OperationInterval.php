@@ -86,17 +86,21 @@ class OA_OperationInterval
         if ($operationInterval < 1) {
             $operationInterval = OA_OperationInterval::getOperationInterval();
         }
+        $oStartCopy = new Date($oStart);
+        $oStartCopy->toUTC();
+        $oEndCopy = new Date($oEnd);
+        $oEndCopy->toUTC();
         // Ensure the dates are in the same week
-        if ($oStart->getYear() != $oEnd->getYear()) {
+        if ($oStartCopy->getYear() != $oEndCopy->getYear()) {
             return false;
         }
-        if ($oStart->getWeekOfYear() != $oEnd->getWeekOfYear()) {
+        if ($oStartCopy->getWeekOfYear() != $oEndCopy->getWeekOfYear()) {
             return false;
         }
         // Find the operation interval ID of the start date
-        $startID = OA_OperationInterval::convertDateToOperationIntervalID($oStart, $operationInterval);
+        $startID = OA_OperationInterval::convertDateToOperationIntervalID($oStartCopy, $operationInterval);
         // Find the operation interval ID of the end date
-        $endID = OA_OperationInterval::convertDateToOperationIntervalID($oEnd, $operationInterval);
+        $endID = OA_OperationInterval::convertDateToOperationIntervalID($oEndCopy, $operationInterval);
         // Compare the two IDs
         if ($startID != $endID) {
             return false;
@@ -125,9 +129,12 @@ class OA_OperationInterval
         if ($operationInterval < 1) {
             $operationInterval = OA_OperationInterval::getOperationInterval();
         }
-        $days = $oDate->getDayOfWeek();
-        $hours = $oDate->getHour();
-        $minutes = $oDate->getMinute();
+        // Convert to UTC
+        $oDateCopy = new Date($oDate);
+        $oDateCopy->toUTC();
+        $days = $oDateCopy->getDayOfWeek();
+        $hours = $oDateCopy->getHour();
+        $minutes = $oDateCopy->getMinute();
         $totalMinutes = ($days * 24 * 60) + ($hours * 60) + $minutes;
         return(floor($totalMinutes / $operationInterval));
     }
@@ -148,10 +155,14 @@ class OA_OperationInterval
         if ($operationInterval < 1) {
             $operationInterval = OA_OperationInterval::getOperationInterval();
         }
+        // Convert to UTC
+        $oDateCopy = new Date($oDate);
+        $oDateCopy->toUTC();
         // Get the date representing the start of the week
-        $oStartOfWeek = new Date(Date_Calc::beginOfWeek($oDate->getDay(), $oDate->getMonth(), $oDate->getYear(), '%Y-%m-%d 00:00:00'));
+        $oStartOfWeek = new Date(Date_Calc::beginOfWeek($oDateCopy->getDay(), $oDateCopy->getMonth(), $oDateCopy->getYear(), '%Y-%m-%d 00:00:00'));
+        $oStartOfWeek->setTZbyID('UTC');
         // Get the operation interval ID of the date
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate, $operationInterval);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDateCopy, $operationInterval);
         // The start of the operation interval is the start of the week plus the
         // operation interval ID multiplied by the operation interval
         $oStart = new Date();
@@ -411,15 +422,21 @@ class OA_OperationInterval
     {
         $operationIntervalSeconds = (OA_OperationInterval::getOperationInterval() * 60);
 
+        // Convert to UTC
+        $oStartCopy = new Date($oStartDate);
+        $oStartCopy->toUTC();
+        $oEndCopy = new Date($oEndDate);
+        $oEndCopy->toUTC();
+
         // Get timestamp of start date/time - in seconds
-        $startDateSeconds = mktime($oStartDate->getHour(), $oStartDate->getMinute(),
-            $oStartDate->getSecond(), $oStartDate->getMonth(),
-            $oStartDate->getDay(), $oStartDate->getYear());
+        $startDateSeconds = mktime($oStartCopy->getHour(), $oStartCopy->getMinute(),
+            $oStartCopy->getSecond(), $oStartCopy->getMonth(),
+            $oStartCopy->getDay(), $oStartCopy->getYear());
 
         // Get timestamp of end date/time - in seconds
-        $endDateSeconds = mktime($oEndDate->getHour(), $oEndDate->getMinute(),
-            $oEndDate->getSecond(), $oEndDate->getMonth(),
-            $oEndDate->getDay(), $oEndDate->getYear());
+        $endDateSeconds = mktime($oEndCopy->getHour(), $oEndCopy->getMinute(),
+            $oEndCopy->getSecond(), $oEndCopy->getMonth(),
+            $oEndCopy->getDay(), $oEndCopy->getYear());
 
         // calculate interval length in seconds
         $interval = $endDateSeconds - $startDateSeconds;

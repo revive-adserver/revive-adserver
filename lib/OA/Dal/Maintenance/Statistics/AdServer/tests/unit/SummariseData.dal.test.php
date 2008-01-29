@@ -311,7 +311,9 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SummariseData extends UnitTest
                     FROM
                         tmp_ad_{$type}
                     WHERE
-                        day = '2004-05-06'
+                        date_time >= '2004-05-06'
+                        AND
+                        date_time < '2004-05-07'
                         AND
                         ad_id = 1";
                 $aRow = $oDbh->queryRow($query);
@@ -331,7 +333,9 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SummariseData extends UnitTest
                     FROM
                         tmp_ad_{$type}
                     WHERE
-                        day = '2004-05-06'
+                        date_time >= '2004-05-06'
+                        AND
+                        date_time < '2004-05-07'
                         AND
                         ad_id = 2";
                 $aRow = $oDbh->queryRow($query);
@@ -348,7 +352,9 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SummariseData extends UnitTest
                     FROM
                         tmp_ad_{$type}
                     WHERE
-                        day = '2004-05-06'
+                        date_time >= '2004-05-06'
+                        AND
+                        date_time < '2004-05-07'
                         AND
                         ad_id = 1";
                 $aRow = $oDbh->queryRow($query);
@@ -359,7 +365,9 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SummariseData extends UnitTest
                     FROM
                         tmp_ad_{$type}
                     WHERE
-                        day = '2004-05-06'
+                        date_time >= '2004-05-06'
+                        AND
+                        date_time < '2004-05-07'
                         AND
                         ad_id = 1";
                 $aRow = $oDbh->queryRow($query);
@@ -370,7 +378,9 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SummariseData extends UnitTest
                     FROM
                         tmp_ad_{$type}
                     WHERE
-                        day = '2004-05-06'
+                        date_time >= '2004-05-06'
+                        AND
+                        date_time < '2004-05-07'
                         AND
                         ad_id = 2";
                 $aRow = $oDbh->queryRow($query);
@@ -381,7 +391,9 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SummariseData extends UnitTest
                     FROM
                         tmp_ad_{$type}
                     WHERE
-                        day = '2004-05-06'
+                        date_time >= '2004-05-06'
+                        AND
+                        date_time < '2004-05-07'
                         AND
                         ad_id = 2";
                 $aRow = $oDbh->queryRow($query);
@@ -392,7 +404,9 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SummariseData extends UnitTest
                     FROM
                         tmp_ad_{$type}
                     WHERE
-                        day = '2004-06-06'
+                        date_time >= '2004-05-06'
+                        AND
+                        date_time < '2004-05-07'
                         AND
                         ad_id = 1";
                 $aRow = $oDbh->queryRow($query);
@@ -403,7 +417,9 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SummariseData extends UnitTest
                     FROM
                         tmp_ad_{$type}
                     WHERE
-                        day = '2004-06-06'
+                        date_time >= '2004-06-06'
+                        AND
+                        date_time < '2004-06-07'
                         AND
                         ad_id = 1";
                 $aRow = $oDbh->queryRow($query);
@@ -418,7 +434,9 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SummariseData extends UnitTest
                     FROM
                         tmp_ad_{$type}
                     WHERE
-                        day = '2004-06-06'
+                        date_time >= '2004-06-06'
+                        AND
+                        date_time < '2004-06-07'
                         AND
                         ad_id = 2";
                 $aRow = $oDbh->queryRow($query);
@@ -429,7 +447,9 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SummariseData extends UnitTest
                     FROM
                         tmp_ad_{$type}
                     WHERE
-                        day = '2004-06-06'
+                        date_time >= '2004-06-06'
+                        AND
+                        date_time < '2004-06-07'
                         AND
                         ad_id = 2";
                 $aRow = $oDbh->queryRow($query);

@@ -16,7 +16,7 @@
     <testSpec name="Run Delivery">
       &config;
       <steps>
-        <invoke description="Invoke delivery file" url="alocal.php" />
+        <invoke description="Invoke delivery file" url="delivery_test/alocal.php" />
         &checkForErrors;
         <verifyText description="Check that image is included" regex="true" text="img src=.*ai.php" />
         &verifyLinks;

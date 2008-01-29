@@ -1,6 +1,9 @@
 <?php
+
+ob_start();
+
     $webPath = substr($_SERVER['REQUEST_URI'], 0, 
-        strlen($_SERVER['REQUEST_URI']) - strlen('apu.php')) . 'delivery/apu.php';
+        strlen($_SERVER['REQUEST_URI']) - strlen('delivery_test/apu.php')) . 'delivery/apu.php';
 ?>
 <html>
 <head>
@@ -9,8 +12,17 @@
 <body>
 <script type='text/javascript'>
 <?php
-echo file_get_contents('http://'.$_SERVER['HTTP_HOST'].$webPath.'?n=&bannerid=2');
+
+$_GET['bannerid'] = 2;
+
+define('MAX_PATH', './../..');
+require_once MAX_PATH . '/www/delivery/apu.php';
 ?>
 </script>
 </body>
 </html>
+<?php
+
+ob_end_flush();
+
+?>

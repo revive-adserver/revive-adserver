@@ -230,8 +230,8 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         $oStartDate = new Date('2006-10-01 00:00:00');
         $oEndDate   = new Date('2006-10-01 00:59:59');
         for ($count = 0; $count < $intervals; $count++) {
-            $this->assertEqual($result[0][$count]['start'], $oStartDate->format('%Y-%m-%d %H:%M:%S'));
-            $this->assertEqual($result[0][$count]['end'], $oEndDate->format('%Y-%m-%d %H:%M:%S'));
+            $this->assertEqual($result[0][$count]['start'], $oStartDate);
+            $this->assertEqual($result[0][$count]['end'], $oEndDate);
             $oStartDate->addSeconds(SECONDS_PER_HOUR);
             $oEndDate->addSeconds(SECONDS_PER_HOUR);
         }
@@ -250,14 +250,14 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         $oStartDate = new Date('2006-10-02 00:00:00');
         $oEndDate   = new Date('2006-10-02 00:59:59');
         for ($count = 24; $count < $intervals; $count++) {
-            $this->assertEqual($result[0][$count]['start'], $oStartDate->format('%Y-%m-%d %H:%M:%S'));
-            $this->assertEqual($result[0][$count]['end'], $oEndDate->format('%Y-%m-%d %H:%M:%S'));
+            $this->assertEqual($result[0][$count]['start'], $oStartDate);
+            $this->assertEqual($result[0][$count]['end'], $oEndDate);
             $oStartDate->addSeconds(SECONDS_PER_HOUR);
             $oEndDate->addSeconds(SECONDS_PER_HOUR);
         }
         for ($count = 0; $count < count($result[1]); $count++) {
-            $this->assertEqual($result[1][$count]['start'], $oStartDate->format('%Y-%m-%d %H:%M:%S'));
-            $this->assertEqual($result[1][$count]['end'], $oEndDate->format('%Y-%m-%d %H:%M:%S'));
+            $this->assertEqual($result[1][$count]['start'], $oStartDate);
+            $this->assertEqual($result[1][$count]['end'], $oEndDate);
             $oStartDate->addSeconds(SECONDS_PER_HOUR);
             $oEndDate->addSeconds(SECONDS_PER_HOUR);
         }
@@ -297,8 +297,8 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         $oStartDate = new Date('2006-10-09 00:00:00');
         $oEndDate   = new Date('2006-10-09 00:59:59');
         for ($count = 24; $count < 57; $count++) {
-            $this->assertEqual($result[0][$count]['start'], $oStartDate->format('%Y-%m-%d %H:%M:%S'));
-            $this->assertEqual($result[0][$count]['end'], $oEndDate->format('%Y-%m-%d %H:%M:%S'));
+            $this->assertEqual($result[0][$count]['start'], $oStartDate);
+            $this->assertEqual($result[0][$count]['end'], $oEndDate);
             $oStartDate->addSeconds(SECONDS_PER_HOUR);
             $oEndDate->addSeconds(SECONDS_PER_HOUR);
         }
@@ -321,14 +321,14 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         $oStartDate = new Date('2006-10-05 17:00:00');
         $oEndDate   = new Date('2006-10-05 17:59:59');
         for ($count = 113; $count < 168; $count++) {
-            $this->assertEqual($result[0][$count]['start'], $oStartDate->format('%Y-%m-%d %H:%M:%S'));
-            $this->assertEqual($result[0][$count]['end'], $oEndDate->format('%Y-%m-%d %H:%M:%S'));
+            $this->assertEqual($result[0][$count]['start'], $oStartDate);
+            $this->assertEqual($result[0][$count]['end'], $oEndDate);
             $oStartDate->addSeconds(SECONDS_PER_HOUR);
             $oEndDate->addSeconds(SECONDS_PER_HOUR);
         }
         for ($count = 0; $count < 24; $count++) {
-            $this->assertEqual($result[1][$count]['start'], $oStartDate->format('%Y-%m-%d %H:%M:%S'));
-            $this->assertEqual($result[1][$count]['end'], $oEndDate->format('%Y-%m-%d %H:%M:%S'));
+            $this->assertEqual($result[1][$count]['start'], $oStartDate);
+            $this->assertEqual($result[1][$count]['end'], $oEndDate);
             $oStartDate->addSeconds(SECONDS_PER_HOUR);
             $oEndDate->addSeconds(SECONDS_PER_HOUR);
         }

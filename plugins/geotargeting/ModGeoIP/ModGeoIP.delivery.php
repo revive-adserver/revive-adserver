@@ -32,7 +32,7 @@ $Id$
  * @return array An array that will contain the results of the
  *               GeoTargeting lookup.
  */
-function MAX_Geo_ModGeoIP_getInfo() {
+function OA_Geo_ModGeoIP_getInfo() {
     $result = array();
     if (isset($_SERVER['GEOIP_COUNTRY_CODE'])) {
 	  $result['country_code'] = $_SERVER['GEOIP_COUNTRY_CODE'];

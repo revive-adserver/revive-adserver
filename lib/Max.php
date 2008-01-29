@@ -29,8 +29,6 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA.php';
-require_once 'Log.php';
-require_once 'PEAR.php';
 
 /**
  * The main Openads class.
@@ -41,32 +39,6 @@ require_once 'PEAR.php';
  */
 class MAX
 {
-
-    /*-------------------------------------------------------*/
-    /* Get list order status                                 */
-    /*-------------------------------------------------------*/
-
-    // Manage Orderdirection
-    function getOrderDirection($ThisOrderDirection)
-    {
-        return MAX::phpAds_getOrderDirection($ThisOrderDirection);
-    }
-
-    function phpAds_getOrderDirection($ThisOrderDirection)
-    {
-    	$sqlOrderDirection = '';
-    	switch ($ThisOrderDirection) {
-    		case 'down':
-    			$sqlOrderDirection .= ' DESC';
-    			break;
-    		case 'up':
-    			$sqlOrderDirection .= ' ASC';
-    			break;
-    		default:
-    			$sqlOrderDirection .= ' ASC';
-    	}
-    	return $sqlOrderDirection;
-    }
 
     /**
      * Converts error code constants into equivalent strings.
@@ -231,8 +203,14 @@ function pearErrorHandler($oError)
         $msg .= '<hr></pre></div>';
         $msg .= '<div style="clear:both"></div>';
     }
-    // Send the error to the screen
-    echo MAX::errorObjToString($oError, $msg);
+    if (defined('TEST_ENVIRONMENT_RUNNING')) {
+        // It's a test, stop execution
+        echo $message."\n===\n".$debugInfo;
+        exit(1);
+    } else {
+        // Send the error to the screen
+        echo MAX::errorObjToString($oError, $msg);
+    }
 }
 
 // Set PEAR error handler

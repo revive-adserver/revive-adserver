@@ -41,7 +41,7 @@ if (file_exists($file)) {
 }
 
 // Security check
-phpAds_checkAccess(phpAds_Admin);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
 
 
@@ -49,8 +49,8 @@ phpAds_checkAccess(phpAds_Admin);
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-phpAds_PageHeader("5.3");
-phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
+phpAds_PageHeader("5.4");
+phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
 phpAds_MaintenanceSelection("zones");
 
 

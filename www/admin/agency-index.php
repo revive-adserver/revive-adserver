@@ -42,14 +42,14 @@ phpAds_registerGlobal('expand', 'collapse', 'hideinactive', 'listorder',
                       'orderdirection');
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-phpAds_PageHeader("5.5");
-phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
+phpAds_PageHeader("4.1");
+phpAds_ShowSections(array("4.1", "4.3", "4.4"));
 
 
 /*-------------------------------------------------------*/
@@ -62,7 +62,7 @@ if (!isset($hideinactive))
         $hideinactive = $session['prefs']['agency-index.php']['hideinactive'];
     } else {
         $pref = &$GLOBALS['_MAX']['PREF'];
-        $hideinactive = ($pref['gui_hide_inactive'] == 't');
+        $hideinactive = ($pref['ui_hide_inactive'] == true);
     }
 }
 
@@ -94,11 +94,8 @@ else
 /*-------------------------------------------------------*/
 
 // Get agencies & campaign and build the tree
-if (phpAds_isUser(phpAds_Admin))
-{
-    $doAgency = OA_Dal::factoryDO('agency');
-    $agencies = $doAgency->getAll(array('name', 'agencyid'), true, false);
-}
+$doAgency = OA_Dal::factoryDO('agency');
+$agencies = $doAgency->getAll(array('name', 'agencyid', 'account_id'), true, false);
 
 foreach ($agencies as $k => $v) {
     $agencies[$k]['expand'] = 0;
@@ -185,7 +182,6 @@ else
     foreach (array_keys($agencies) as $key)
     {
         $agency = $agencies[$key];
-        $channels = Admin_DA::getChannels(array('agency_id' => $agency['agencyid'], 'channel_type' => 'agency'));
 
         echo "\t\t\t\t<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">\n";
 
@@ -205,13 +201,12 @@ else
 
         // Button - Channel overview
         echo "<td height='25'>";
-        echo "<a href='channel-index.php?agencyid={$agency['agencyid']}'>";
-        if (empty($channels)) {
-            echo "<img src='images/icon-channel-d.gif' border='0' align='absmiddle' alt='{$GLOBALS['strChannels']}'>";
+        if (OA_Permission::hasAccess($agency['account_id'])) {
+            echo "<a href='account-switch.php?account_id={$agency['account_id']}'>";
+            echo "Switch to this account</a>&nbsp;&nbsp;";
         } else {
-            echo "<img src='images/icon-channel.gif' border='0' align='absmiddle' alt='{$GLOBALS['strChannels']}'>";
+            echo "&nbsp;";
         }
-        echo "&nbsp;{$GLOBALS['strChannels']}</a>&nbsp;&nbsp;";
 
         echo "</td>";
 

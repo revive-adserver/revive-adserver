@@ -2,7 +2,7 @@
 
 $fileName = 'tjs.php';
 
-$webPath = substr($_SERVER['REQUEST_URI'], 0, strlen($_SERVER['REQUEST_URI']) - strlen($fileName))."delivery/$fileName";
+$webPath = substr($_SERVER['REQUEST_URI'], 0, strlen($_SERVER['REQUEST_URI']) - strlen('delivery_test/'.$fileName))."delivery/$fileName";
 
 $debug = '';
 //$debug = '&start_debug=1&debug_port=10000&debug_host=127.0.0.1&debug_stop=1';

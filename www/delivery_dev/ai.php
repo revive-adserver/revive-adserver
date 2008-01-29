@@ -43,9 +43,9 @@ if (!empty($filename)) {
 	if (empty($aCreative)) {
 		// Filename not found, show the admin user's default banner
 		// (as the agency cannot be determined from a filename)
-		$pref = MAX_Admin_Preferences::loadPrefs(0);
-		if ($pref['default_banner_url'] != "") {
-		    MAX_redirect($pref['default_banner_url']);
+		$pref = OA_Preferences::loadAdminAccountPreferences(true);
+		if ($pref['default_banner_image_url'] != "") {
+		    MAX_redirect($pref['default_banner_image_url']);
 		}
 	} else {
 		// Filename found, dump contents to browser
@@ -72,9 +72,9 @@ if (!empty($filename)) {
 } else {
 	// Filename not specified, show the admin user's default banner
 	// (as the agency cannot be determined from a filename)
-	$pref = MAX_Admin_Preferences::loadPrefs(0);
-	if ($pref['default_banner_url'] != "") {
-	    MAX_redirect($pref['default_banner_url']);
+	$aPref = OA_Preferences::loadAdminAccountPreferences(true);
+	if ($aPref['default_banner_image_url'] != "") {
+	    MAX_redirect($aPref['default_banner_image_url']);
 	}
 }
 

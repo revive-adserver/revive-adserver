@@ -82,17 +82,17 @@ class Test_OA_Dal_Maintenance_Priority_getActiveZones extends UnitTestCase
         // Test with active and inactive banners in the system, but not linked
         $doBanners = OA_Dal::factoryDO('banners');
         $oNow = new Date();
-        $doBanners->active = 't';
+        $doBanners->status = 0;
         $doBanners->acls_updated = $oNow->format('%Y-%m-%d %H:%M:%S');
         $doBanners->updated = $oNow->format('%Y-%m-%d %H:%M:%S');
-        $idBannerActive = DataGenerator::generateOne($doBanners);
+        $idBannerActive = DataGenerator::generateOne($doBanners, true);
 
         $doBanners = OA_Dal::factoryDO('banners');
         $oNow = new Date();
-        $doBanners->active = 'f';
+        $doBanners->status = 1;
         $doBanners->acls_updated = $oNow->format('%Y-%m-%d %H:%M:%S');
         $doBanners->updated = $oNow->format('%Y-%m-%d %H:%M:%S');
-        $idBannerInactive = DataGenerator::generateOne($doBanners);
+        $idBannerInactive = DataGenerator::generateOne($doBanners, true);
 
         $aResult = $oDal->getActiveZones();
         $this->assertTrue(is_array($aResult));

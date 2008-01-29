@@ -40,11 +40,11 @@ if (!defined('phpAds_installing')) {
     require_once '../../../init.php';
 
     // Required files
-    require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
+    require_once MAX_PATH . '/lib/OA/Preferences.php';
     require_once MAX_PATH . '/lib/max/language/Default.php';
 
-    // Load the user preferences from the database
-    $pref = MAX_Admin_Preferences::loadPrefs();
+    // Load the account preferences from the database
+    OA_Preferences::loadPreferences();
 
     // Load the required language files
     Language_Default::load();
@@ -139,6 +139,30 @@ function max_formSetUnique(obj, unique)
 }
 
 /**
+ * A JavaScript function to set a length constraints for a form element.
+ *
+ * @param {Object} length set the minimum and maximum length for the field.
+ *                       Pass object with properties: min, max.
+ *                       Either min and max can be set. 
+ *                       Negative values and 0 (zero) for min are ignored.
+ *                       Examples: {max: 10}, {min: 2, max: 10}, {min: 5} 
+ */
+function max_formSetLength(obj, length)
+{
+  obj = findObj(obj);
+  // Set properties
+  if (obj) {
+    if (length && length.min && length.min > 0) {
+      obj.minLength = length.min;
+    }
+    if (length && length.max) {
+      obj.maxLength = length.max;
+    }  
+  }
+}
+
+
+/**
  * A JavaScript function to add JS condition which if present should be evaluated before field is validated
  *
  * @param {String} obj The name of the HTML form element.
@@ -152,7 +176,6 @@ function max_formSetConditionalValidate(obj, condition)
     obj.valCondition = condition;
   }
 }
-
 
 /**
  * A JavaScript function to validate the set requirements/uniqueness of a form
@@ -182,16 +205,15 @@ function max_formValidateElement(obj)
     }
     echo $separator;
                       ?>';
-  
-    //skip validation in condition not met
+
+  //skip validation in condition not met
   if (obj.valCondition && !eval(obj.valCondition)) {
     return false;
   }
-                      
+
 	if (obj.validateCheck || obj.validateReq) {
 		err = false;
 		val = obj.value;
-		
 		// Test some simple cases where input is required, but not supplied
 		if (obj.validateReq == true && (val == '' || val == '-' || val == 'http://') && !obj.disabled) {
 			err = true;
@@ -290,6 +312,15 @@ function max_formValidateElement(obj)
 				}
 			}
 		}
+		
+    if (obj.minLength && obj.value.length < obj.minLength) {
+        err = true;
+    }
+    
+    if (obj.maxLength && obj.maxLength > 0 && obj.value.length > obj.maxLength) { //this is unlikely since browser should contrain that
+        err = true;
+    }
+		
 		// Change class
 		if (err) {
 			obj.className='error';
@@ -338,9 +369,9 @@ function max_formValidate(f)
 			   '\n');
 
 		// Select field with first error
-		if (f.elements[first].nodeName.toLowerCase() != "select") { //selects don't have text to select 
-		  f.elements[first].select(); 
-		}
+    if (f.elements[first].nodeName.toLowerCase() != "select") { //selects don't have text to select
+      f.elements[first].select();
+    }
 		f.elements[first].focus();
 	}
 
@@ -356,10 +387,11 @@ function getObj(name)
 {
   if (document.getElementById)
   {
-  	 this.obj = document.getElementById(name);
-    if (this.obj) {
-   	this.style = document.getElementById(name).style;
-    }
+  	this.obj = document.getElementById(name);
+   if (this.obj)
+   {
+	   this.style = document.getElementById(name).style;
+   }
   }
   else if (document.all)
   {
@@ -448,8 +480,6 @@ function max_formValidateHtml(obj)
 
 	return true;
 }
-
-
 
 <?php
 if (defined('phpAds_installing')) {

@@ -117,9 +117,9 @@ $GLOBALS['_MAX']['HTTP'] = 'http://';
 // Maximum random number (use default if doesn't exist - eg the case when application is upgraded)
 $GLOBALS['_MAX']['MAX_RAND'] = isset($GLOBALS['_MAX']['CONF']['priority']['randmax']) ?
 $GLOBALS['_MAX']['CONF']['priority']['randmax'] : 2147483647;
-// Set time zone, for more info @see setTimeZoneLocation()
-if (!empty($GLOBALS['_MAX']['CONF']['timezone']['location'])) {
-setTimeZoneLocation($GLOBALS['_MAX']['CONF']['timezone']['location']);
+// Always use UTC when outside the installer
+if (substr($_SERVER['SCRIPT_NAME'], -11) != 'install.php') {
+OA_setTimeZoneUTC();
 }
 }
 function setupServerVariables()
@@ -145,15 +145,29 @@ $GLOBALS['_MAX']['CONF'] = parseDeliveryIniFile();
 // Set up the common configuration variables
 setupConfigVariables();
 }
-function setTimeZoneLocation($location)
+function OA_setTimeZone($timezone)
 {
 if (version_compare(phpversion(), '5.1.0', '>=')) {
 // Set new time zone
-date_default_timezone_set($location);
+date_default_timezone_set($timezone);
 } else {
 // Set new time zone
-putenv("TZ={$location}");
+putenv("TZ={$timezone}");
 }
+// Set PEAR::Date_TimeZone default as well
+//
+// Ideally this should be a Date_TimeZone::setDefault() call, but for optimization
+// purposes, we just override the global variable
+$GLOBALS['_DATE_TIMEZONE_DEFAULT'] = $timezone;
+}
+function OA_setTimeZoneUTC()
+{
+OA_setTimeZone('UTC');
+}
+function OA_setTimeZoneLocal()
+{
+$tz = !empty($GLOBALS['_MAX']['PREF']['timezone']) ? $GLOBALS['_MAX']['PREF']['timezone'] : 'GMT';
+OA_setTimeZone($tz);
 }
 function getHostName()
 {
@@ -627,7 +641,7 @@ exit(1);
 $aConf = $GLOBALS['_MAX']['CONF'];
 $type = (!empty($aConf['geotargeting']['type'])) ? $aConf['geotargeting']['type'] : null;
 if (!is_null($type) && $type != 'none') {
-$functionName = 'MAX_Geo_'.$type.'_getInfo';
+$functionName = 'OA_Geo_'.$type.'_getInfo';
 if (function_exists($functionName)) {
 return;
 }
@@ -1092,13 +1106,14 @@ $what = 'zone:'.$zoneid;
 } else {
 $what = '';
 }
-} elseif (preg_match('/^.+:.+$/', $what)) {
-list($whatName, $whatValue) = explode(':', $what);
-if ($whatName == 'zone') {
-$whatName = 'zoneid';
+} elseif (preg_match('/^(.+):(.+)$/', $what, $matches)) {
+switch ($matches[1]) {
+case 'zoneid':
+case 'zone':        $zoneid     = $matches[2]; break;
+case 'bannerid':    $bannerid   = $matches[2]; break;
+case 'campaignid':  $campaignid = $matches[2]; break;
+case 'clientid':    $clientid   = $matches[2]; break;
 }
-global $$whatName;
-$$whatName = $whatValue;
 }
 // 2.0 backwards compatibility - clientid parameter was used to fetch a campaign
 if (!isset($clientid))  $clientid = '';
@@ -1274,6 +1289,889 @@ MAX_commonInitVariables();
 MAX_cookieUnpackCapping();
 setupIncludePath();
 // Required files
+define('PEAR_LOG_EMERG',    0);
+define('PEAR_LOG_ALERT',    1);
+define('PEAR_LOG_CRIT',     2);
+define('PEAR_LOG_ERR',      3);
+define('PEAR_LOG_WARNING',  4);
+define('PEAR_LOG_NOTICE',   5);
+define('PEAR_LOG_INFO',     6);
+define('PEAR_LOG_DEBUG',    7);
+define('PEAR_LOG_ALL',      bindec('11111111'));
+define('PEAR_LOG_NONE',     bindec('00000000'));
+define('PEAR_LOG_TYPE_SYSTEM',  0);
+define('PEAR_LOG_TYPE_MAIL',    1);
+define('PEAR_LOG_TYPE_DEBUG',   2);
+define('PEAR_LOG_TYPE_FILE',    3);
+class Log
+{
+var $_opened = false;
+var $_id = 0;
+var $_ident = '';
+var $_priority = PEAR_LOG_INFO;
+var $_mask = PEAR_LOG_ALL;
+var $_listeners = array();
+var $_formatMap = array('%{timestamp}'  => '%1$s',
+'%{ident}'      => '%2$s',
+'%{priority}'   => '%3$s',
+'%{message}'    => '%4$s',
+'%{file}'       => '%5$s',
+'%{line}'       => '%6$s',
+'%{function}'   => '%7$s',
+'%\{'           => '%%{');
+function &factory($handler, $name = '', $ident = '', $conf = array(),
+$level = PEAR_LOG_DEBUG)
+{
+$handler = strtolower($handler);
+$class = 'Log_' . $handler;
+$classfile = 'Log/' . $handler . '.php';
+if (!class_exists($class)) {
+include_once $classfile;
+}
+if (class_exists($class)) {
+$obj = &new $class($name, $ident, $conf, $level);
+return $obj;
+}
+$null = null;
+return $null;
+}
+function &singleton($handler, $name = '', $ident = '', $conf = array(),
+$level = PEAR_LOG_DEBUG)
+{
+static $instances;
+if (!isset($instances)) $instances = array();
+$signature = serialize(array($handler, $name, $ident, $conf, $level));
+if (!isset($instances[$signature])) {
+$instances[$signature] = &Log::factory($handler, $name, $ident,
+$conf, $level);
+}
+return $instances[$signature];
+}
+function open()
+{
+return false;
+}
+function close()
+{
+return false;
+}
+function flush()
+{
+return false;
+}
+function log($message, $priority = null)
+{
+return false;
+}
+function emerg($message)
+{
+return $this->log($message, PEAR_LOG_EMERG);
+}
+function alert($message)
+{
+return $this->log($message, PEAR_LOG_ALERT);
+}
+function crit($message)
+{
+return $this->log($message, PEAR_LOG_CRIT);
+}
+function err($message)
+{
+return $this->log($message, PEAR_LOG_ERR);
+}
+function warning($message)
+{
+return $this->log($message, PEAR_LOG_WARNING);
+}
+function notice($message)
+{
+return $this->log($message, PEAR_LOG_NOTICE);
+}
+function info($message)
+{
+return $this->log($message, PEAR_LOG_INFO);
+}
+function debug($message)
+{
+return $this->log($message, PEAR_LOG_DEBUG);
+}
+function _extractMessage($message)
+{
+if (is_object($message)) {
+if (method_exists($message, 'getmessage')) {
+$message = $message->getMessage();
+} else if (method_exists($message, 'tostring')) {
+$message = $message->toString();
+} else if (method_exists($message, '__tostring')) {
+if (version_compare(PHP_VERSION, '5.0.0', 'ge')) {
+$message = (string)$message;
+} else {
+$message = $message->__toString();
+}
+} else {
+$message = print_r($message, true);
+}
+} else if (is_array($message)) {
+if (isset($message['message'])) {
+$message = $message['message'];
+} else {
+$message = print_r($message, true);
+}
+}
+return $message;
+}
+function _getBacktraceVars($depth)
+{
+$backtrace = debug_backtrace();
+if (strcasecmp(@$backtrace[$depth+1]['class'], 'Log_composite') == 0) {
+$depth++;
+}
+$file = @$backtrace[$depth]['file'];
+$line = @$backtrace[$depth]['line'];
+$func = @$backtrace[$depth + 1]['function'];
+if (in_array($func, array('emerg', 'alert', 'crit', 'err', 'warning',
+'notice', 'info', 'debug'))) {
+$file = @$backtrace[$depth + 1]['file'];
+$line = @$backtrace[$depth + 1]['line'];
+$func = @$backtrace[$depth + 2]['function'];
+}
+if (is_null($func)) {
+$func = '(none)';
+}
+return array($file, $line, $func);
+}
+function _format($format, $timestamp, $priority, $message)
+{
+if (strpos($format, '%5') || strpos($format, '%6') || strpos($format, '%7')) {
+list($file, $line, $func) = $this->_getBacktraceVars(2);
+}
+return sprintf($format,
+$timestamp,
+$this->_ident,
+$this->priorityToString($priority),
+$message,
+isset($file) ? $file : '',
+isset($line) ? $line : '',
+isset($func) ? $func : '');
+}
+function priorityToString($priority)
+{
+$levels = array(
+PEAR_LOG_EMERG   => 'emergency',
+PEAR_LOG_ALERT   => 'alert',
+PEAR_LOG_CRIT    => 'critical',
+PEAR_LOG_ERR     => 'error',
+PEAR_LOG_WARNING => 'warning',
+PEAR_LOG_NOTICE  => 'notice',
+PEAR_LOG_INFO    => 'info',
+PEAR_LOG_DEBUG   => 'debug'
+);
+return $levels[$priority];
+}
+function stringToPriority($name)
+{
+$levels = array(
+'emergency' => PEAR_LOG_EMERG,
+'alert'     => PEAR_LOG_ALERT,
+'critical'  => PEAR_LOG_CRIT,
+'error'     => PEAR_LOG_ERR,
+'warning'   => PEAR_LOG_WARNING,
+'notice'    => PEAR_LOG_NOTICE,
+'info'      => PEAR_LOG_INFO,
+'debug'     => PEAR_LOG_DEBUG
+);
+return $levels[strtolower($name)];
+}
+function MASK($priority)
+{
+return (1 << $priority);
+}
+function UPTO($priority)
+{
+return Log::MAX($priority);
+}
+function MIN($priority)
+{
+return PEAR_LOG_ALL ^ ((1 << $priority) - 1);
+}
+function MAX($priority)
+{
+return ((1 << ($priority + 1)) - 1);
+}
+function setMask($mask)
+{
+$this->_mask = $mask;
+return $this->_mask;
+}
+function getMask()
+{
+return $this->_mask;
+}
+function _isMasked($priority)
+{
+return (Log::MASK($priority) & $this->_mask);
+}
+function getPriority()
+{
+return $this->_priority;
+}
+function setPriority($priority)
+{
+$this->_priority = $priority;
+}
+function attach(&$observer)
+{
+if (!is_a($observer, 'Log_observer')) {
+return false;
+}
+$this->_listeners[$observer->_id] = &$observer;
+return true;
+}
+function detach($observer)
+{
+if (!is_a($observer, 'Log_observer') ||
+!isset($this->_listeners[$observer->_id])) {
+return false;
+}
+unset($this->_listeners[$observer->_id]);
+return true;
+}
+function _announce($event)
+{
+foreach ($this->_listeners as $id => $listener) {
+if ($event['priority'] <= $this->_listeners[$id]->_priority) {
+$this->_listeners[$id]->notify($event);
+}
+}
+}
+function isComposite()
+{
+return false;
+}
+function setIdent($ident)
+{
+$this->_ident = $ident;
+}
+function getIdent()
+{
+return $this->_ident;
+}
+}
+define('PEAR_ERROR_RETURN',     1);
+define('PEAR_ERROR_PRINT',      2);
+define('PEAR_ERROR_TRIGGER',    4);
+define('PEAR_ERROR_DIE',        8);
+define('PEAR_ERROR_CALLBACK',  16);
+define('PEAR_ERROR_EXCEPTION', 32);
+define('PEAR_ZE2', (function_exists('version_compare') &&
+version_compare(zend_version(), "2-dev", "ge")));
+if (substr(PHP_OS, 0, 3) == 'WIN') {
+define('OS_WINDOWS', true);
+define('OS_UNIX',    false);
+define('PEAR_OS',    'Windows');
+} else {
+define('OS_WINDOWS', false);
+define('OS_UNIX',    true);
+define('PEAR_OS',    'Unix'); // blatant assumption
+}
+// instant backwards compatibility
+if (!defined('PATH_SEPARATOR')) {
+if (OS_WINDOWS) {
+define('PATH_SEPARATOR', ';');
+} else {
+define('PATH_SEPARATOR', ':');
+}
+}
+$GLOBALS['_PEAR_default_error_mode']     = PEAR_ERROR_RETURN;
+$GLOBALS['_PEAR_default_error_options']  = E_USER_NOTICE;
+$GLOBALS['_PEAR_destructor_object_list'] = array();
+$GLOBALS['_PEAR_shutdown_funcs']         = array();
+$GLOBALS['_PEAR_error_handler_stack']    = array();
+@ini_set('track_errors', true);
+class PEAR
+{
+// {{{ properties
+var $_debug = false;
+var $_default_error_mode = null;
+var $_default_error_options = null;
+var $_default_error_handler = '';
+var $_error_class = 'PEAR_Error';
+var $_expected_errors = array();
+// }}}
+// {{{ constructor
+function PEAR($error_class = null)
+{
+$classname = strtolower(get_class($this));
+if ($this->_debug) {
+print "PEAR constructor called, class=$classname\n";
+}
+if ($error_class !== null) {
+$this->_error_class = $error_class;
+}
+while ($classname && strcasecmp($classname, "pear")) {
+$destructor = "_$classname";
+if (method_exists($this, $destructor)) {
+global $_PEAR_destructor_object_list;
+$_PEAR_destructor_object_list[] = &$this;
+if (!isset($GLOBALS['_PEAR_SHUTDOWN_REGISTERED'])) {
+register_shutdown_function("_PEAR_call_destructors");
+$GLOBALS['_PEAR_SHUTDOWN_REGISTERED'] = true;
+}
+break;
+} else {
+$classname = get_parent_class($classname);
+}
+}
+}
+// }}}
+// {{{ destructor
+function _PEAR() {
+if ($this->_debug) {
+printf("PEAR destructor called, class=%s\n", strtolower(get_class($this)));
+}
+}
+// }}}
+// {{{ getStaticProperty()
+function &getStaticProperty($class, $var)
+{
+static $properties;
+if (!isset($properties[$class])) {
+$properties[$class] = array();
+}
+if (!array_key_exists($var, $properties[$class])) {
+$properties[$class][$var] = null;
+}
+return $properties[$class][$var];
+}
+// }}}
+// {{{ registerShutdownFunc()
+function registerShutdownFunc($func, $args = array())
+{
+// if we are called statically, there is a potential
+// that no shutdown func is registered.  Bug #6445
+if (!isset($GLOBALS['_PEAR_SHUTDOWN_REGISTERED'])) {
+register_shutdown_function("_PEAR_call_destructors");
+$GLOBALS['_PEAR_SHUTDOWN_REGISTERED'] = true;
+}
+$GLOBALS['_PEAR_shutdown_funcs'][] = array($func, $args);
+}
+// }}}
+// {{{ isError()
+function isError($data, $code = null)
+{
+if (is_a($data, 'PEAR_Error')) {
+if (is_null($code)) {
+return true;
+} elseif (is_string($code)) {
+return $data->getMessage() == $code;
+} else {
+return $data->getCode() == $code;
+}
+}
+return false;
+}
+// }}}
+// {{{ setErrorHandling()
+function setErrorHandling($mode = null, $options = null)
+{
+if (isset($this) && is_a($this, 'PEAR')) {
+$setmode     = &$this->_default_error_mode;
+$setoptions  = &$this->_default_error_options;
+} else {
+$setmode     = &$GLOBALS['_PEAR_default_error_mode'];
+$setoptions  = &$GLOBALS['_PEAR_default_error_options'];
+}
+switch ($mode) {
+case PEAR_ERROR_EXCEPTION:
+case PEAR_ERROR_RETURN:
+case PEAR_ERROR_PRINT:
+case PEAR_ERROR_TRIGGER:
+case PEAR_ERROR_DIE:
+case null:
+$setmode = $mode;
+$setoptions = $options;
+break;
+case PEAR_ERROR_CALLBACK:
+$setmode = $mode;
+// class/object method callback
+if (is_callable($options)) {
+$setoptions = $options;
+} else {
+trigger_error("invalid error callback", E_USER_WARNING);
+}
+break;
+default:
+trigger_error("invalid error mode", E_USER_WARNING);
+break;
+}
+}
+// }}}
+// {{{ expectError()
+function expectError($code = '*')
+{
+if (is_array($code)) {
+array_push($this->_expected_errors, $code);
+} else {
+array_push($this->_expected_errors, array($code));
+}
+return sizeof($this->_expected_errors);
+}
+// }}}
+// {{{ popExpect()
+function popExpect()
+{
+return array_pop($this->_expected_errors);
+}
+// }}}
+// {{{ _checkDelExpect()
+function _checkDelExpect($error_code)
+{
+$deleted = false;
+foreach ($this->_expected_errors AS $key => $error_array) {
+if (in_array($error_code, $error_array)) {
+unset($this->_expected_errors[$key][array_search($error_code, $error_array)]);
+$deleted = true;
+}
+// clean up empty arrays
+if (0 == count($this->_expected_errors[$key])) {
+unset($this->_expected_errors[$key]);
+}
+}
+return $deleted;
+}
+// }}}
+// {{{ delExpect()
+function delExpect($error_code)
+{
+$deleted = false;
+if ((is_array($error_code) && (0 != count($error_code)))) {
+// $error_code is a non-empty array here;
+// we walk through it trying to unset all
+// values
+foreach($error_code as $key => $error) {
+if ($this->_checkDelExpect($error)) {
+$deleted =  true;
+} else {
+$deleted = false;
+}
+}
+return $deleted ? true : PEAR::raiseError("The expected error you submitted does not exist"); // IMPROVE ME
+} elseif (!empty($error_code)) {
+// $error_code comes alone, trying to unset it
+if ($this->_checkDelExpect($error_code)) {
+return true;
+} else {
+return PEAR::raiseError("The expected error you submitted does not exist"); // IMPROVE ME
+}
+} else {
+// $error_code is empty
+return PEAR::raiseError("The expected error you submitted is empty"); // IMPROVE ME
+}
+}
+// }}}
+// {{{ raiseError()
+function &raiseError($message = null,
+$code = null,
+$mode = null,
+$options = null,
+$userinfo = null,
+$error_class = null,
+$skipmsg = false)
+{
+// The error is yet a PEAR error object
+if (is_object($message)) {
+$code        = $message->getCode();
+$userinfo    = $message->getUserInfo();
+$error_class = $message->getType();
+$message->error_message_prefix = '';
+$message     = $message->getMessage();
+}
+if (isset($this) && isset($this->_expected_errors) && sizeof($this->_expected_errors) > 0 && sizeof($exp = end($this->_expected_errors))) {
+if ($exp[0] == "*" ||
+(is_int(reset($exp)) && in_array($code, $exp)) ||
+(is_string(reset($exp)) && in_array($message, $exp))) {
+$mode = PEAR_ERROR_RETURN;
+}
+}
+// No mode given, try global ones
+if ($mode === null) {
+// Class error handler
+if (isset($this) && isset($this->_default_error_mode)) {
+$mode    = $this->_default_error_mode;
+$options = $this->_default_error_options;
+// Global error handler
+} elseif (isset($GLOBALS['_PEAR_default_error_mode'])) {
+$mode    = $GLOBALS['_PEAR_default_error_mode'];
+$options = $GLOBALS['_PEAR_default_error_options'];
+}
+}
+if ($error_class !== null) {
+$ec = $error_class;
+} elseif (isset($this) && isset($this->_error_class)) {
+$ec = $this->_error_class;
+} else {
+$ec = 'PEAR_Error';
+}
+if ($skipmsg) {
+$a = &new $ec($code, $mode, $options, $userinfo);
+return $a;
+} else {
+$a = &new $ec($message, $code, $mode, $options, $userinfo);
+return $a;
+}
+}
+// }}}
+// {{{ throwError()
+function &throwError($message = null,
+$code = null,
+$userinfo = null)
+{
+if (isset($this) && is_a($this, 'PEAR')) {
+$a = &$this->raiseError($message, $code, null, null, $userinfo);
+return $a;
+} else {
+$a = &PEAR::raiseError($message, $code, null, null, $userinfo);
+return $a;
+}
+}
+// }}}
+function staticPushErrorHandling($mode, $options = null)
+{
+$stack = &$GLOBALS['_PEAR_error_handler_stack'];
+$def_mode    = &$GLOBALS['_PEAR_default_error_mode'];
+$def_options = &$GLOBALS['_PEAR_default_error_options'];
+$stack[] = array($def_mode, $def_options);
+switch ($mode) {
+case PEAR_ERROR_EXCEPTION:
+case PEAR_ERROR_RETURN:
+case PEAR_ERROR_PRINT:
+case PEAR_ERROR_TRIGGER:
+case PEAR_ERROR_DIE:
+case null:
+$def_mode = $mode;
+$def_options = $options;
+break;
+case PEAR_ERROR_CALLBACK:
+$def_mode = $mode;
+// class/object method callback
+if (is_callable($options)) {
+$def_options = $options;
+} else {
+trigger_error("invalid error callback", E_USER_WARNING);
+}
+break;
+default:
+trigger_error("invalid error mode", E_USER_WARNING);
+break;
+}
+$stack[] = array($mode, $options);
+return true;
+}
+function staticPopErrorHandling()
+{
+$stack = &$GLOBALS['_PEAR_error_handler_stack'];
+$setmode     = &$GLOBALS['_PEAR_default_error_mode'];
+$setoptions  = &$GLOBALS['_PEAR_default_error_options'];
+array_pop($stack);
+list($mode, $options) = $stack[sizeof($stack) - 1];
+array_pop($stack);
+switch ($mode) {
+case PEAR_ERROR_EXCEPTION:
+case PEAR_ERROR_RETURN:
+case PEAR_ERROR_PRINT:
+case PEAR_ERROR_TRIGGER:
+case PEAR_ERROR_DIE:
+case null:
+$setmode = $mode;
+$setoptions = $options;
+break;
+case PEAR_ERROR_CALLBACK:
+$setmode = $mode;
+// class/object method callback
+if (is_callable($options)) {
+$setoptions = $options;
+} else {
+trigger_error("invalid error callback", E_USER_WARNING);
+}
+break;
+default:
+trigger_error("invalid error mode", E_USER_WARNING);
+break;
+}
+return true;
+}
+// {{{ pushErrorHandling()
+function pushErrorHandling($mode, $options = null)
+{
+$stack = &$GLOBALS['_PEAR_error_handler_stack'];
+if (isset($this) && is_a($this, 'PEAR')) {
+$def_mode    = &$this->_default_error_mode;
+$def_options = &$this->_default_error_options;
+} else {
+$def_mode    = &$GLOBALS['_PEAR_default_error_mode'];
+$def_options = &$GLOBALS['_PEAR_default_error_options'];
+}
+$stack[] = array($def_mode, $def_options);
+if (isset($this) && is_a($this, 'PEAR')) {
+$this->setErrorHandling($mode, $options);
+} else {
+PEAR::setErrorHandling($mode, $options);
+}
+$stack[] = array($mode, $options);
+return true;
+}
+// }}}
+// {{{ popErrorHandling()
+function popErrorHandling()
+{
+$stack = &$GLOBALS['_PEAR_error_handler_stack'];
+array_pop($stack);
+list($mode, $options) = $stack[sizeof($stack) - 1];
+array_pop($stack);
+if (isset($this) && is_a($this, 'PEAR')) {
+$this->setErrorHandling($mode, $options);
+} else {
+PEAR::setErrorHandling($mode, $options);
+}
+return true;
+}
+// }}}
+// {{{ loadExtension()
+function loadExtension($ext)
+{
+if (!extension_loaded($ext)) {
+// if either returns true dl() will produce a FATAL error, stop that
+if ((ini_get('enable_dl') != 1) || (ini_get('safe_mode') == 1)) {
+return false;
+}
+if (OS_WINDOWS) {
+$suffix = '.dll';
+} elseif (PHP_OS == 'HP-UX') {
+$suffix = '.sl';
+} elseif (PHP_OS == 'AIX') {
+$suffix = '.a';
+} elseif (PHP_OS == 'OSX') {
+$suffix = '.bundle';
+} else {
+$suffix = '.so';
+}
+return @dl('php_'.$ext.$suffix) || @dl($ext.$suffix);
+}
+return true;
+}
+// }}}
+}
+// {{{ _PEAR_call_destructors()
+function _PEAR_call_destructors()
+{
+global $_PEAR_destructor_object_list;
+if (is_array($_PEAR_destructor_object_list) &&
+sizeof($_PEAR_destructor_object_list))
+{
+reset($_PEAR_destructor_object_list);
+if (PEAR::getStaticProperty('PEAR', 'destructlifo')) {
+$_PEAR_destructor_object_list = array_reverse($_PEAR_destructor_object_list);
+}
+while (list($k, $objref) = each($_PEAR_destructor_object_list)) {
+$classname = get_class($objref);
+while ($classname) {
+$destructor = "_$classname";
+if (method_exists($objref, $destructor)) {
+$objref->$destructor();
+break;
+} else {
+$classname = get_parent_class($classname);
+}
+}
+}
+// Empty the object list to ensure that destructors are
+// not called more than once.
+$_PEAR_destructor_object_list = array();
+}
+// Now call the shutdown functions
+if (is_array($GLOBALS['_PEAR_shutdown_funcs']) AND !empty($GLOBALS['_PEAR_shutdown_funcs'])) {
+foreach ($GLOBALS['_PEAR_shutdown_funcs'] as $value) {
+call_user_func_array($value[0], $value[1]);
+}
+}
+}
+// }}}
+class PEAR_Error
+{
+// {{{ properties
+var $error_message_prefix = '';
+var $mode                 = PEAR_ERROR_RETURN;
+var $level                = E_USER_NOTICE;
+var $code                 = -1;
+var $message              = '';
+var $userinfo             = '';
+var $backtrace            = null;
+// }}}
+// {{{ constructor
+function PEAR_Error($message = 'unknown error', $code = null,
+$mode = null, $options = null, $userinfo = null)
+{
+if ($mode === null) {
+$mode = PEAR_ERROR_RETURN;
+}
+$this->message   = $message;
+$this->code      = $code;
+$this->mode      = $mode;
+$this->userinfo  = $userinfo;
+if (!PEAR::getStaticProperty('PEAR_Error', 'skiptrace')) {
+$this->backtrace = debug_backtrace();
+if (isset($this->backtrace[0]) && isset($this->backtrace[0]['object'])) {
+unset($this->backtrace[0]['object']);
+}
+}
+if ($mode & PEAR_ERROR_CALLBACK) {
+$this->level = E_USER_NOTICE;
+$this->callback = $options;
+} else {
+if ($options === null) {
+$options = E_USER_NOTICE;
+}
+$this->level = $options;
+$this->callback = null;
+}
+if ($this->mode & PEAR_ERROR_PRINT) {
+if (is_null($options) || is_int($options)) {
+$format = "%s";
+} else {
+$format = $options;
+}
+printf($format, $this->getMessage());
+}
+if ($this->mode & PEAR_ERROR_TRIGGER) {
+trigger_error($this->getMessage(), $this->level);
+}
+if ($this->mode & PEAR_ERROR_DIE) {
+$msg = $this->getMessage();
+if (is_null($options) || is_int($options)) {
+$format = "%s";
+if (substr($msg, -1) != "\n") {
+$msg .= "\n";
+}
+} else {
+$format = $options;
+}
+die(sprintf($format, $msg));
+}
+if ($this->mode & PEAR_ERROR_CALLBACK) {
+if (is_callable($this->callback)) {
+call_user_func($this->callback, $this);
+}
+}
+if ($this->mode & PEAR_ERROR_EXCEPTION) {
+trigger_error("PEAR_ERROR_EXCEPTION is obsolete, use class PEAR_Exception for exceptions", E_USER_WARNING);
+eval('$e = new Exception($this->message, $this->code);throw($e);');
+}
+}
+// }}}
+// {{{ getMode()
+function getMode() {
+return $this->mode;
+}
+// }}}
+// {{{ getCallback()
+function getCallback() {
+return $this->callback;
+}
+// }}}
+// {{{ getMessage()
+function getMessage()
+{
+return ($this->error_message_prefix . $this->message);
+}
+// }}}
+// {{{ getCode()
+function getCode()
+{
+return $this->code;
+}
+// }}}
+// {{{ getType()
+function getType()
+{
+return get_class($this);
+}
+// }}}
+// {{{ getUserInfo()
+function getUserInfo()
+{
+return $this->userinfo;
+}
+// }}}
+// {{{ getDebugInfo()
+function getDebugInfo()
+{
+return $this->getUserInfo();
+}
+// }}}
+// {{{ getBacktrace()
+function getBacktrace($frame = null)
+{
+if (defined('PEAR_IGNORE_BACKTRACE')) {
+return null;
+}
+if ($frame === null) {
+return $this->backtrace;
+}
+return $this->backtrace[$frame];
+}
+// }}}
+// {{{ addUserInfo()
+function addUserInfo($info)
+{
+if (empty($this->userinfo)) {
+$this->userinfo = $info;
+} else {
+$this->userinfo .= " ** $info";
+}
+}
+// }}}
+// {{{ toString()
+function toString() {
+$modes = array();
+$levels = array(E_USER_NOTICE  => 'notice',
+E_USER_WARNING => 'warning',
+E_USER_ERROR   => 'error');
+if ($this->mode & PEAR_ERROR_CALLBACK) {
+if (is_array($this->callback)) {
+$callback = (is_object($this->callback[0]) ?
+strtolower(get_class($this->callback[0])) :
+$this->callback[0]) . '::' .
+$this->callback[1];
+} else {
+$callback = $this->callback;
+}
+return sprintf('[%s: message="%s" code=%d mode=callback '.
+'callback=%s prefix="%s" info="%s"]',
+strtolower(get_class($this)), $this->message, $this->code,
+$callback, $this->error_message_prefix,
+$this->userinfo);
+}
+if ($this->mode & PEAR_ERROR_PRINT) {
+$modes[] = 'print';
+}
+if ($this->mode & PEAR_ERROR_TRIGGER) {
+$modes[] = 'trigger';
+}
+if ($this->mode & PEAR_ERROR_DIE) {
+$modes[] = 'die';
+}
+if ($this->mode & PEAR_ERROR_RETURN) {
+$modes[] = 'return';
+}
+return sprintf('[%s: message="%s" code=%d mode=%s level=%s '.
+'prefix="%s" info="%s"]',
+strtolower(get_class($this)), $this->message, $this->code,
+implode("|", $modes), $levels[$this->level],
+$this->error_message_prefix,
+$this->userinfo);
+}
+// }}}
+}
 function logSQL($oDbh, $scope, $message, $context)
 {
 // don't log 'explain' queries or we spiral out of control
@@ -1337,8 +2235,9 @@ $dsn = ($aConf['log']['type'] == 'sql') ? Base::getDsn() : '';
 $aLoggerConf = array(
 $aConf['log']['paramsUsername'],
 $aConf['log']['paramsPassword'],
-'dsn' => $dsn,
-'mode' => octdec($aConf['log']['fileMode']),
+'dsn'        => $dsn,
+'mode'       => octdec($aConf['log']['fileMode']),
+'timeFormat' => '%b %d %H:%M:%S %z'
 );
 if (is_null($message) && $aConf['log']['type'] == 'file') {
 $aLoggerConf['lineFormat'] = '%4$s';
@@ -1384,6 +2283,12 @@ $message .= 'on line ' . $aErrorBacktrace['line'] . ' of "' . $aErrorBacktrace['
 }
 }
 }
+// Log messages in the local server timezone, if possible
+global $aServerTimezone;
+if (!empty($aServerTimezone)) {
+$aCurrentTimezone = OA_Admin_Timezones::getTimezone();
+OA_setTimeZone($aServerTimezone['tz']);
+}
 // Log the message
 if (is_null($message) && $aConf['log']['type'] == 'file') {
 $message = ' ';
@@ -1391,8 +2296,23 @@ $message = ' ';
 $message = $tempDebugPrefix . $message;
 }
 $result = $oLogger->log($message, $priority);
+// Restore the timezone
+if (!empty($aCurrentTimezone)) {
+OA_setTimeZone($aCurrentTimezone['tz']);
+}
 unset($GLOBALS['tempDebugPrefix']);
 return $result;
+}
+function switchLogFile($name='debug')
+{
+$newLog = $name.'.log';
+$oldLog = $GLOBALS['_MAX']['CONF']['log']['name'];
+if ($newLog != $oldLog)
+{
+OA::debug('Switching to logfile '.$newLog, PEAR_LOG_INFO);
+$GLOBALS['_MAX']['CONF']['log']['name'] = $newLog;
+}
+return $oldLog;
 }
 function setTempDebugPrefix($prefix)
 {
@@ -1404,7 +2324,28 @@ function getNow($format = null)
 if (is_null($format)) {
 $format = 'Y-m-d H:i:s';
 }
-return date($format, time());
+return date($format);
+}
+function getNowUTC($format = null)
+{
+if (is_null($format)) {
+$format = 'Y-m-d H:i:s';
+}
+return gmdate($format);
+}
+function getAvailableSSLExtensions()
+{
+$aResult = array();
+if (extension_loaded('curl')) {
+$aCurl = curl_version();
+if (!empty($aCurl['ssl_version'])) {
+$aResult[] = 'curl';
+}
+}
+if (extension_loaded('openssl')) {
+$aResult[] = 'openssl';
+}
+return count($aResult) ? $aResult : false;
 }
 function stripVersion($version, $aAllow = null)
 {
@@ -1425,30 +2366,8 @@ PEAR::popErrorHandling();
 }
 }
 }
-require_once 'Log.php';
-require_once 'PEAR.php';
 class MAX
 {
-// Manage Orderdirection
-function getOrderDirection($ThisOrderDirection)
-{
-return MAX::phpAds_getOrderDirection($ThisOrderDirection);
-}
-function phpAds_getOrderDirection($ThisOrderDirection)
-{
-$sqlOrderDirection = '';
-switch ($ThisOrderDirection) {
-case 'down':
-$sqlOrderDirection .= ' DESC';
-break;
-case 'up':
-$sqlOrderDirection .= ' ASC';
-break;
-default:
-$sqlOrderDirection .= ' ASC';
-}
-return $sqlOrderDirection;
-}
 function errorConstantToString($errorCode)
 {
 $aErrorCodes = array(
@@ -1567,8 +2486,14 @@ $msg .= ob_get_clean();
 $msg .= '<hr></pre></div>';
 $msg .= '<div style="clear:both"></div>';
 }
+if (defined('TEST_ENVIRONMENT_RUNNING')) {
+// It's a test, stop execution
+echo $message."\n===\n".$debugInfo;
+exit(1);
+} else {
 // Send the error to the screen
 echo MAX::errorObjToString($oError, $msg);
+}
 }
 // Set PEAR error handler
 PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, 'pearErrorHandler');
@@ -1599,7 +2524,11 @@ $GLOBALS['_MAX']['FILES']['aIncludedPlugins'][$pluginName] = true;
 }
 }
 $GLOBALS['_MAX']['CHANNELS'] = '';
+// Set the ad's own timezone as preference, because some limitations require to be TZ aware
+$GLOBALS['_MAX']['PREF']['timezone'] = $row['timezone'];
 @eval('$result = (' . $row['compiledlimitation'] . ');');
+// Reset timezone
+unset($GLOBALS['_MAX']['PREF']['timezone']);
 if (!$result)
 {
 unset($GLOBALS['_MAX']['CHANNELS']);
@@ -1781,7 +2710,7 @@ $append = (!empty($aBanner['append']) && $useAppend) ? $aBanner['append'] : '';
 // Create the anchor tag..
 $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
 if (!empty($clickUrl)) {  // There is a link
-$status = !empty($aBanner['status']) ? " onmouseover=\"self.status='{$aBanner['status']}'; return true;\" onmouseout=\"self.status=''; return true;\"" : '';
+$status = _adRenderBuildStatusCode($aBanner);
 //$target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
 $clickTag = "<a href='$clickUrl' target='{target}'$status>";
 $clickTagEnd = '</a>';
@@ -1823,7 +2752,7 @@ $altImageAdCode = !empty($aBanner['alt_filename'])
 // Create the anchor tag..
 $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
 if (!empty($clickUrl)) {  // There is a link
-$status = !empty($aBanner['status']) ? " onMouseOver=\"self.status='{$aBanner['status']}'; return true;\" onMouseOut=\"self.status=''; return true;\"" : '';
+$status = _adRenderBuildStatusCode($aBanner);
 $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
 $swfParams = 'clickTARGET='.$target.'&clickTAG=' . $clickUrl;
 $clickTag = "<a href='$clickUrl' target='$target'$status>";
@@ -1883,7 +2812,7 @@ $altImageBannercode = _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $l
 // Create the anchor tag..
 $clickTag = _adRenderBuildClickUrl($aBanner, $source, $ct0, $logClick);
 if (!empty($clickTag)) {  // There is a link
-$status = !empty($aBanner['status']) ? " onMouseOver=\"self.status='{$aBanner['status']}'; return true;\" onMouseOut=\"self.status=''; return true;\"" : '';
+$status = _adRenderBuildStatusCode($aBanner);
 $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
 $swfParams = 'clickTAG=' . $clickTag;
 $anchor = "<a href='$clickTag' target='$target'$status>";
@@ -1917,7 +2846,7 @@ $code = !empty($aBanner['htmlcache']) ? $aBanner['htmlcache'] : '';
 // Parse PHP code
 if ($conf['delivery']['execPhp'])
 {
-if (preg_match ("#(\<\?php(.*)\?\>)#i", $code, $parser_regs))
+if (preg_match ("#(\<\?php(.*)\?\>)#isU", $code, $parser_regs))
 {
 // Extract PHP script
 $parser_php     = $parser_regs[2];
@@ -1955,7 +2884,7 @@ $append = !empty($aBanner['append']) ? $aBanner['append'] : '';
 // Create the anchor tag..
 $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
 if (!empty($clickUrl)) {  // There is a link
-$status = !empty($aBanner['status']) ? " onMouseOver=\"self.status='{$aBanner['status']}'; return true;\" onMouseOut=\"self.status=''; return true;\"" : '';
+$status = _adRenderBuildStatusCode($aBanner);
 $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
 $clickTag = "<a href='$clickUrl' target='$target'$status>";
 $clickTagEnd = '</a>';
@@ -1983,7 +2912,7 @@ $altImageBannercode = _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $l
 // Create the anchor tag..
 $clickTag = _adRenderBuildClickUrl($aBanner, $source, $ct0, $logClick);
 if (!empty($clickTag)) {  // There is a link
-$status = !empty($aBanner['status']) ? " onMouseOver=\"self.status='{$aBanner['status']}'; return true;\" onMouseOut=\"self.status=''; return true;\"" : '';
+$status = _adRenderBuildStatusCode($aBanner);
 $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
 $swfParams = 'clickTAG=' . $clickTag;
 $anchor = "<a href='$clickTag' target='$target'$status>";
@@ -2162,6 +3091,10 @@ $clickUrl = MAX_commonGetDeliveryUrl($conf['file']['click']) . '?' . $conf['var'
 }
 return $clickUrl;
 }
+function _adRenderBuildStatusCode($aBanner)
+{
+return !empty($aBanner['status']) ? " onmouseover=\"self.status='" . addslashes($aBanner['status']) . "'; return true;\" onmouseout=\"self.status=''; return true;\"" : '';
+}
 $file = '/lib/max/Delivery/cache.php';
 $GLOBALS['_MAX']['FILES'][$file] = true;
 define ('OA_DELIVERY_CACHE_FUNCTION_ERROR', 'Function call returned an error');
@@ -2216,7 +3149,7 @@ return false;
 $filename = OA_Delivery_Cache_buildFileName($name, $isHash);
 $cache_literal  = "<"."?php\n\n";
 $cache_literal .= "$"."cache_contents   = ".var_export($cache, true).";\n\n";
-$cache_literal .= "$"."cache_name       = '".addcslashes($name, "'")."';\n";
+$cache_literal .= "$"."cache_name       = '".addcslashes($name, "\\'")."';\n";
 $cache_literal .= "$"."cache_time       = ".MAX_commonGetTimeNow().";\n";
 if ($expireAt !== null) {
 $cache_literal .= "$"."cache_expire     = ".$expireAt.";\n";
@@ -2309,6 +3242,16 @@ $aRows = OA_Dal_Delivery_getAd($ad_id);
 $aRows = OA_Delivery_Cache_store_return($sName, $aRows);
 }
 return $aRows;
+}
+function MAX_cacheGetAdminTZ($cached = true)
+{
+$sName  = OA_Delivery_Cache_getName(__FUNCTION__);
+if (!$cached || ($tz = OA_Delivery_Cache_fetch($sName)) === false) {
+MAX_Dal_Delivery_Include();
+$tz = OA_Dal_Delivery_getAdminTZ();
+$tz = OA_Delivery_Cache_store_return($sName, $tz);
+}
+return $tz;
 }
 function MAX_cacheGetZoneLinkedAds($zoneId, $cached = true)
 {
@@ -2558,8 +3501,8 @@ if (!empty($row['default'])) {
 if (empty($target)) {
 $target = '_blank';  // Default
 }
-$outputbuffer = $g_prepend . '<a href=\'' . $row['default_banner_dest'] . '\' target=\'' .
-$target . '\'><img src=\'' . $row['default_banner_url'] .
+$outputbuffer = $g_prepend . '<a href=\'' . $row['default_banner_destination_url'] . '\' target=\'' .
+$target . '\'><img src=\'' . $row['default_banner_image_url'] .
 '\' border=\'0\' alt=\'\'></a>' . $g_append;
 return array('html' => $outputbuffer, 'bannerid' => '' );
 } else {
@@ -2581,11 +3524,11 @@ $aLinkedAd['campaignid'] = $aLinkedAd['placement_id'];
 $aLinkedAd['prepend'] = '';
 return $aLinkedAd;
 }
-if (!empty($aDirectLinkedAds['default_banner_url'])) {
+if (!empty($aDirectLinkedAds['default_banner_image_url'])) {
 return array(
-'default' => true,
-'default_banner_url' =>  $aZoneLinkedAds['default_banner_url'],
-'default_banner_dest' => $aZoneLinkedAds['default_banner_dest']
+'default'                        => true,
+'default_banner_image_url'       => $aZoneLinkedAds['default_banner_image_url'],
+'default_banner_destination_url' => $aZoneLinkedAds['default_banner_destination_url']
 );
 }
 return false;
@@ -2639,11 +3582,11 @@ return ($aLinkedAd);
 $zoneId = _getNextZone($zoneId, $aZoneLinkedAds);
 }
 }
-if (!empty($aZoneLinkedAds['default_banner_url'])) {
+if (!empty($aZoneLinkedAds['default_banner_image_url'])) {
 return array(
-'default' => true,
-'default_banner_url' =>  $aZoneLinkedAds['default_banner_url'],
-'default_banner_dest' => $aZoneLinkedAds['default_banner_dest']
+'default'                        => true,
+'default_banner_image_url'       => $aZoneLinkedAds['default_banner_image_url'],
+'default_banner_destination_url' => $aZoneLinkedAds['default_banner_destination_url']
 );
 }
 return false;
@@ -3303,7 +4246,7 @@ $contextXmlRpcValue
 // Relay call to openads.view
 $xmlResponse = OA_Delivery_XmlRpc_View($msg);
 // Check for errors
-if ($xmlResponse->isError()) {
+if (XML_RPC_Base::isError($xmlResponse)) {
 // Return error
 return $xmlResponse;
 }

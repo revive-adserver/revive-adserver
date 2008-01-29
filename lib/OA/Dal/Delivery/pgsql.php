@@ -28,7 +28,7 @@ $Id$
 /**
  * The pgsql data access layer code the delivery engine.
  *
- * @package    MaxDal
+ * @package    OpenadsDal
  * @subpackage Delivery
  * @author     Chris Nutting <chris.nutting@openads.org>
  * @author     Andrew Hill <andrew.hill@openads.org>
@@ -122,6 +122,42 @@ function OA_Dal_Delivery_insertId($database = 'database', $table = '', $column =
 
 
 /**
+ * The function to retrieve admin's timezone
+ *
+ * @return string The admin's TZ, UTC by default
+ */
+function OA_Dal_Delivery_getAdminTZ()
+{
+    $aConf = $GLOBALS['_MAX']['CONF'];
+
+    $query = "
+        SELECT
+            apa.value AS timezone
+        FROM
+            \"{$aConf['table']['prefix']}{$aConf['table']['preferences']}\" AS p,
+            \"{$aConf['table']['prefix']}{$aConf['table']['account_preference_assoc']}\" AS apa,
+            \"{$aConf['table']['prefix']}{$aConf['table']['application_variable']}\" AS av
+        WHERE
+            p.preference_id = apa.preference_id AND
+            p.preference_name = 'timezone' AND
+            av.name = 'admin_account_id' AND
+            apa.account_id = av.value::int
+    ";
+
+    $res = OA_Dal_Delivery_query($query);
+
+    if (is_resource($res) && pg_num_rows($res)) {
+        $tz = pg_result($res, 0, 0);
+
+        if (!empty($tz)) {
+            return $tz;
+        }
+    }
+
+    return 'UTC';
+}
+
+/**
  * This function gets zone properties from the databse
  *
  * @param int $zoneid   The ID of the zone to get information about
@@ -129,61 +165,186 @@ function OA_Dal_Delivery_insertId($database = 'database', $table = '', $column =
  *                      or false on failure
  */
 function OA_Dal_Delivery_getZoneInfo($zoneid) {
-    $conf = $GLOBALS['_MAX']['CONF'];
+    $aConf = $GLOBALS['_MAX']['CONF'];
 
-    $rZoneInfo = OA_Dal_Delivery_query("
-    SELECT
-        z.zoneid AS zone_id,
-        z.affiliateid AS publisher_id,
-        z.zonename AS name,
-        z.delivery AS type,
-        z.description AS description,
-        z.width AS width,
-        z.height AS height,
-        z.chain AS chain,
-        z.prepend AS prepend,
-        z.append AS append,
-        z.appendtype AS appendtype,
-        z.forceappend AS forceappend,
-        z.inventory_forecast_type AS inventory_forecast_type,
-        z.block AS block_zone,
-        z.capping AS cap_zone,
-        z.session_capping AS session_cap_zone,
-        p.default_banner_url AS default_banner_url,
-        p.default_banner_destination AS default_banner_dest
-    FROM
-        \"{$conf['table']['prefix']}{$conf['table']['zones']}\" AS z,
-        \"{$conf['table']['prefix']}{$conf['table']['affiliates']}\" AS a,
-        \"{$conf['table']['prefix']}{$conf['table']['preference']}\" AS p
-    WHERE
-        z.zoneid={$zoneid}
-      AND
-        z.affiliateid = a.affiliateid
-      AND
-        p.agencyid = a.agencyid
-    ");
+    // Get the zone information
+    $query = "
+        SELECT
+            z.zoneid AS zone_id,
+            z.zonename AS name,
+            z.delivery AS type,
+            z.description AS description,
+            z.width AS width,
+            z.height AS height,
+            z.chain AS chain,
+            z.prepend AS prepend,
+            z.append AS append,
+            z.appendtype AS appendtype,
+            z.forceappend AS forceappend,
+            z.inventory_forecast_type AS inventory_forecast_type,
+            z.block AS block_zone,
+            z.capping AS cap_zone,
+            z.session_capping AS session_cap_zone,
+            a.account_id AS trafficker_account_id,
+            m.account_id AS manager_account_id
+        FROM
+            \"{$aConf['table']['prefix']}{$aConf['table']['zones']}\" AS z,
+            \"{$aConf['table']['prefix']}{$aConf['table']['affiliates']}\" AS a,
+            \"{$aConf['table']['prefix']}{$aConf['table']['agency']}\" AS m
+        WHERE
+            z.zoneid = {$zoneid}
+          AND
+            z.affiliateid = a.affiliateid
+          AND
+            a.agencyid = m.agencyid";
+    $rZoneInfo = OA_Dal_Delivery_query($query);
 
     if (!is_resource($rZoneInfo)) {
         return false;
     }
     $aZoneInfo = pg_fetch_assoc($rZoneInfo);
 
-    if (empty($aZoneInfo['default_banner_url'])) {
-        // Agency has no default banner, so overwrite with admin's
-        $rAdminDefault = OA_Dal_Delivery_query("
+    // Set the default banner preference information for the zone
+    $query = "
         SELECT
-            p.default_banner_url AS default_banner_url,
-            p.default_banner_destination AS default_banner_dest
+            p.preference_id AS preference_id,
+            p.preference_name AS preference_name
         FROM
-            \"{$conf['table']['prefix']}{$conf['table']['preference']}\" AS p
+            \"{$aConf['table']['prefix']}{$aConf['table']['preferences']}\" AS p
         WHERE
-            p.agencyid = 0
-        ");
-        $aAdminDefaultBanner = pg_fetch_assoc($rAdminDefault);
-        $aZoneInfo['default_banner_url']  = $aAdminDefaultBanner['default_banner_url'];
-        $aZoneInfo['default_banner_dest'] = $aAdminDefaultBanner['default_banner_dest'];
+            p.preference_name = 'default_banner_image_url'
+            OR
+            p.preference_name = 'default_banner_destination_url'";
+    $rPreferenceInfo = OA_Dal_Delivery_query($query);
+
+    if (!is_resource($rPreferenceInfo)) {
+        return false;
     }
-    return ($aZoneInfo);
+    if (pg_num_rows($rPreferenceInfo) != 2) {
+        // Something went wrong, there should be two preferences, if not,
+        // cannot get the default banner image and destination URLs
+        return $aZoneInfo;
+    }
+    // Set the IDs of the two preferences for default banner image and
+    // destination URLs
+    $aPreferenceInfo = pg_fetch_assoc($rPreferenceInfo);
+    $variableName = $aPreferenceInfo['preference_name'] . '_id';
+    $$variableName = $aPreferenceInfo['preference_id'];
+    $aPreferenceInfo = pg_fetch_assoc($rPreferenceInfo);
+    $variableName = $aPreferenceInfo['preference_name'] . '_id';
+    $$variableName = $aPreferenceInfo['preference_id'];
+
+    // Search for possible default banner preference information for the zone
+    $query = "
+        SELECT
+            'default_banner_image_url_trafficker' AS item,
+            apa.value AS value
+        FROM
+            \"{$aConf['table']['prefix']}{$aConf['table']['account_preference_assoc']}\" AS apa
+        WHERE
+            apa.account_id = {$aZoneInfo['trafficker_account_id']}
+            AND
+            apa.preference_id = $default_banner_image_url_id
+        UNION
+        SELECT
+            'default_banner_destination_url_trafficker' AS item,
+            apa.value AS value
+        FROM
+            \"{$aConf['table']['prefix']}{$aConf['table']['account_preference_assoc']}\" AS apa
+        WHERE
+            apa.account_id = {$aZoneInfo['trafficker_account_id']}
+            AND
+            apa.preference_id = $default_banner_destination_url_id
+        UNION
+        SELECT
+            'default_banner_image_url_manager' AS item,
+            apa.value AS value
+        FROM
+            \"{$aConf['table']['prefix']}{$aConf['table']['account_preference_assoc']}\" AS apa
+        WHERE
+            apa.account_id = {$aZoneInfo['manager_account_id']}
+            AND
+            apa.preference_id = $default_banner_image_url_id
+        UNION
+        SELECT
+            'default_banner_destination_url_manager' AS item,
+            apa.value AS value
+        FROM
+            \"{$aConf['table']['prefix']}{$aConf['table']['account_preference_assoc']}\" AS apa
+        WHERE
+            apa.account_id = {$aZoneInfo['manager_account_id']}
+            AND
+            apa.preference_id = $default_banner_destination_url_id
+        UNION
+        SELECT
+            'default_banner_image_url_admin' AS item,
+            apa.value AS value
+        FROM
+            \"{$aConf['table']['prefix']}{$aConf['table']['account_preference_assoc']}\" AS apa,
+            \"{$aConf['table']['prefix']}{$aConf['table']['accounts']}\" AS a
+        WHERE
+            apa.account_id = a.account_id
+            AND
+            a.account_type = 'ADMIN'
+            AND
+            apa.preference_id = $default_banner_image_url_id
+        UNION
+        SELECT
+            'default_banner_destination_url_admin' AS item,
+            apa.value AS value
+        FROM
+            \"{$aConf['table']['prefix']}{$aConf['table']['account_preference_assoc']}\" AS apa,
+            \"{$aConf['table']['prefix']}{$aConf['table']['accounts']}\" AS a
+        WHERE
+            apa.account_id = a.account_id
+            AND
+            a.account_type = 'ADMIN'
+            AND
+            apa.preference_id = $default_banner_destination_url_id";
+    $rDefaultBannerInfo = OA_Dal_Delivery_query($query);
+
+    if (!is_resource($rDefaultBannerInfo)) {
+        return false;
+    }
+
+    if (pg_num_rows($rDefaultBannerInfo) == 0) {
+        // No default banner image or destination URLs to deal with
+        return $aZoneInfo;
+    }
+
+    // Deal with the default banner image or destination URLs found
+    $aDefaultImageURLs = array();
+    $aDefaultDestinationURLs = array();
+    while ($aRow = pg_fetch_assoc($rDefaultBannerInfo)) {
+        if (stristr($aRow['item'], 'default_banner_image_url')) {
+            $aDefaultImageURLs[$aRow['item']] = $aRow['value'];
+        } else if (stristr($aRow['item'], 'default_banner_destination_url')) {
+            $aDefaultDestinationURLs[$aRow['item']] = $aRow['value'];
+        }
+    }
+
+    // The three possible preference types, in reverse order of preference (i.e.
+    // use admin only if no manger, only if no trafficer
+    $aTypes = array(
+        0 => 'admin',
+        1 => 'manager',
+        2 => 'trafficker'
+    );
+
+    // Iterate over the found default values, setting the admin value(s) (if found)
+    // first, then overriding with the manager value(s), then the trafficer value(s),
+    // again, if found
+    foreach ($aTypes as $type) {
+        if (isset($aDefaultImageURLs['default_banner_image_url_' . $type])) {
+            $aZoneInfo['default_banner_image_url']  = $aDefaultImageURLs['default_banner_image_url_' . $type];
+        }
+        if (isset($aDefaultDestinationURLs['default_banner_destination_url_' . $type])) {
+            $aZoneInfo['default_banner_destination_url']  = $aDefaultDestinationURLs['default_banner_destination_url_' . $type];
+        }
+    }
+
+    // Done, at last!
+    return $aZoneInfo;
 }
 
 /**
@@ -260,7 +421,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
         SELECT
             d.bannerid AS ad_id,
             d.campaignid AS placement_id,
-            d.active AS active,
+            d.status AS status,
             d.description AS name,
             d.storagetype AS type,
             d.contenttype AS contenttype,
@@ -276,7 +437,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
             d.target AS target,
             d.url AS url,
             d.alt AS alt,
-            d.status AS status,
+            d.statustext AS statustext,
             d.bannertext AS bannertext,
             d.autohtml AS autohtml,
             d.adserver AS adserver,
@@ -302,21 +463,22 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
             c.companion AS campaign_companion,
             c.block AS block_campaign,
             c.capping AS cap_campaign,
-            c.session_capping AS session_cap_campaign
+            c.session_capping AS session_cap_campaign,
+            apa.value AS timezone
         FROM
-            \"{$conf['table']['prefix']}{$conf['table']['banners']}\" AS d,
-            \"{$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}\" AS az,
-            \"{$conf['table']['prefix']}{$conf['table']['campaigns']}\" AS c
+            \"{$conf['table']['prefix']}{$conf['table']['banners']}\" AS d JOIN
+            \"{$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}\" AS az ON (d.bannerid = az.ad_id) JOIN
+            \"{$conf['table']['prefix']}{$conf['table']['campaigns']}\" AS c ON (c.campaignid = d.campaignid) LEFT JOIN
+            \"{$conf['table']['prefix']}{$conf['table']['clients']}\" AS m ON (m.clientid = c.clientid) LEFT JOIN
+            \"{$conf['table']['prefix']}{$conf['table']['agency']}\" AS a ON (a.agencyid = m.agencyid) LEFT JOIN
+            \"{$conf['table']['prefix']}{$conf['table']['account_preference_assoc']}\" AS apa ON (apa.account_id = a.account_id) LEFT JOIN
+            \"{$conf['table']['prefix']}{$conf['table']['preferences']}\" AS p ON (apa.preference_id = p.preference_id AND p.preference_name = 'timezone')
         WHERE
             az.zone_id = {$zoneid}
           AND
-            d.bannerid = az.ad_id
+            d.status = 0
           AND
-            c.campaignid = d.campaignid
-          AND
-            d.active = 't'
-          AND
-            c.active = 't'
+            c.status = 0
     ";
 
     $rAds = OA_Dal_Delivery_query($query);
@@ -328,7 +490,15 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
             return null;
         }
     }
+
+    // Get Admin TZ
+    $adminTZ = MAX_cacheGetAdminTZ();
+
     while ($aAd = pg_fetch_assoc($rAds)) {
+        // Add timezone
+        if (empty($aAd['timezone'])) {
+            $aAd['timezone'] = $adminTZ;
+        }
         // Is the ad Exclusive, Low, or Normal Priority?
         if ($aAd['campaign_priority'] == -1) {
             // Ad is in an exclusive placement
@@ -403,6 +573,23 @@ function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = tru
         $precondition = '';
     }
 
+    $aRows['xAds']  = array();
+    $aRows['cAds']  = array();
+    $aRows['clAds'] = array();
+    $aRows['ads']   = array();
+    $aRows['lAds']  = array();
+    $aRows['count_active'] = 0;
+    $aRows['zone_companion'] = false;
+    $aRows['count_active'] = 0;
+
+    $totals = array(
+        'xAds'  => 0,
+        'cAds'  => 0,
+        'clAds' => 0,
+        'ads'   => 0,
+        'lAds'  => 0
+    );
+
     $query = OA_Dal_Delivery_buildQuery($search, $lastpart, $precondition);
 
     $rAds = OA_Dal_Delivery_query($query);
@@ -414,12 +601,15 @@ function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = tru
             return null;
         }
     }
-    $aRows['count_active'] = 0;
-    $totals = array();
-    $totals['xAds'] = 0;
-    $totals['lAds'] = 0;
+
+    // Get Admin TZ
+    $adminTZ = MAX_cacheGetAdminTZ();
+
     while ($aAd = pg_fetch_assoc($rAds)) {
-        // Is the ad Exclusive, Low, or Normal Priority?
+        // Add timezone
+        if (empty($aAd['timezone'])) {
+            $aAd['timezone'] = $adminTZ;
+        }        // Is the ad Exclusive, Low, or Normal Priority?
         if ($aAd['campaign_priority'] == -1) {
             // Ad is in an exclusive placement
             $aAd['priority'] = $aAd['campaign_weight'] * $aAd['weight'];
@@ -488,7 +678,7 @@ function OA_Dal_Delivery_getAd($ad_id) {
         SELECT
         d.bannerid AS ad_id,
         d.campaignid AS placement_id,
-        d.active AS active,
+        d.status AS status,
         d.description AS name,
         d.storagetype AS type,
         d.contenttype AS contenttype,
@@ -504,7 +694,7 @@ function OA_Dal_Delivery_getAd($ad_id) {
         d.target AS target,
         d.url AS url,
         d.alt AS alt,
-        d.status AS status,
+        d.statustext AS statustext,
         d.bannertext AS bannertext,
         d.autohtml AS autohtml,
         d.adserver AS adserver,
@@ -685,10 +875,10 @@ function OA_Dal_Delivery_getMaintenanceInfo()
     $conf = $GLOBALS['_MAX']['CONF'];
     $result = OA_Dal_Delivery_query("
         SELECT
-            maintenance_timestamp
+            value AS maintenance_timestamp
         FROM
-            \"{$conf['table']['prefix']}{$conf['table']['preference']}\"
-        WHERE agencyid = 0
+            \"{$conf['table']['prefix']}{$conf['table']['application_variable']}\"
+        WHERE name = 'maintenance_timestamp'
     ");
     if (!is_resource($result)) {
         if (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) {
@@ -732,7 +922,6 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
         $log_viewerId = $viewerId;
     }
     // Log the raw data
-    $dateFunc = !empty($conf['logging']['logInUTC']) ? 'gmdate' : 'date';
     $query = "
         INSERT INTO
             \"{$table}\"
@@ -840,10 +1029,10 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
             (
                 '$log_viewerId',
                 '',
-                '".$dateFunc('Y-m-d H:i:s')."',
-                '$adId',
-                '$creativeId',
-                '$zoneId',";
+                '".gmdate('Y-m-d H:i:s')."',
+                '".(int)$adId."',
+                '".(int)$creativeId."',
+                '".(int)$zoneId."',";
     if (isset($_GET['source'])) {
         $query .= "
                 '".MAX_commonDecrypt($_GET['source'])."',";
@@ -976,7 +1165,6 @@ function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
     $httpLanguage = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '';
 
     // Log the raw data
-    $dateFunc = !empty($conf['logging']['logInUTC']) ? 'gmdate' : 'date';
     $res = OA_Dal_Delivery_query("
         INSERT INTO
             \"{$table}\"
@@ -1018,8 +1206,8 @@ function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
             '$serverRawIp',
             '$log_viewerId',
             '',
-            '".$dateFunc('Y-m-d H:i:s')."',
-            '$trackerId',
+            '".gmdate('Y-m-d H:i:s')."',
+            '".(int)$trackerId."',
             '".MAX_commonDecrypt($source)."',
             '{$zoneInfo['channel_ids']}',
             '".substr($httpLanguage, 0, 32)."',
@@ -1066,14 +1254,13 @@ function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
 function OA_Dal_Delivery_logVariableValues($variables, $serverRawTrackerImpressionId, $serverRawIp)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    $dateFunc = !empty($conf['logging']['logInUTC']) ? 'gmdate' : 'date';
     $aRows = array();
     foreach ($variables as $variable) {
         $aRows[] = "(
                         '{$variable['variable_id']}',
                         '{$serverRawTrackerImpressionId}',
                         '{$serverRawIp}',
-                        '".$dateFunc('Y-m-d H:i:s')."',
+                        '".gmdate('Y-m-d H:i:s')."',
                         '{$variable['value']}'
                     )";
     }
@@ -1121,7 +1308,7 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
     $aColumns = array(
             'd.bannerid AS ad_id',
             'd.campaignid AS placement_id',
-            'd.active AS active',
+            'd.status AS status',
             'd.description AS name',
             'd.storagetype AS type',
             'd.contenttype AS contenttype',
@@ -1137,7 +1324,7 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
             'd.target AS target',
             'd.url AS url',
             'd.alt AS alt',
-            'd.status AS status',
+            'd.statustext AS statustext',
             'd.bannertext AS bannertext',
             'd.autohtml AS autohtml',
             'd.adserver AS adserver',
@@ -1163,21 +1350,19 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
             'm.companion AS campaign_companion',
             'm.block AS block_campaign',
             'm.capping AS cap_campaign',
-            'm.session_capping AS session_cap_campaign'
+            'm.session_capping AS session_cap_campaign',
+            'apa.value AS timezone'
     );
 
     $aTables = array(
-        '"'.$conf['table']['prefix'].$conf['table']['banners'] . '" AS d',
-        '"'.$conf['table']['prefix'].$conf['table']['campaigns'] . '" AS m',
-        '"'.$conf['table']['prefix'].$conf['table']['ad_zone_assoc'] .'" AS az'
+        "\"{$conf['table']['prefix']}{$conf['table']['banners']}\" AS d",
+        "JOIN \"{$conf['table']['prefix']}{$conf['table']['campaigns']}\" AS m ON (d.campaignid = m.campaignid) ",
+        "JOIN \"{$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}\" AS az ON (d.bannerid = az.ad_id)"
     );
-
     $select = "
-        d.bannerid=az.ad_id
-      AND az.zone_id=0
-      AND d.campaignid=m.campaignid
-      AND m.active='t'
-      AND d.active='t'";
+      az.zone_id = 0
+      AND m.status = 0
+      AND d.status = 0";
 
     // Add preconditions to query
     if ($precondition != '')
@@ -1411,7 +1596,7 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
 
                     $onlykeywords = false;
                 }
-
+/*
                 // Categories
                 elseif (substr($part_array[$k], 0, 4) == 'cat:')
                 {
@@ -1429,7 +1614,7 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
                             $conditions .= "AND d.bannerid=ac.ad_id AND ac.category_id=cat.category_id ";
                     }
                 }
-
+*/
                 // Keywords
                 else
                 {
@@ -1455,9 +1640,16 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
     }
 
     $columns = implode(",\n    ", $aColumns);
-    $tables = implode(",\n    ", $aTables);
+    $tables = implode("\n    ", $aTables);
 
-    $query = "SELECT\n    " . $columns . "\nFROM\n    " . $tables . "\nWHERE " . $select;
+    $leftJoin = "
+            LEFT JOIN \"{$conf['table']['prefix']}{$conf['table']['clients']}\" AS c ON (c.clientid = m.clientid)
+            LEFT JOIN \"{$conf['table']['prefix']}{$conf['table']['agency']}\" AS a ON (a.agencyid = c.agencyid)
+            LEFT JOIN \"{$conf['table']['prefix']}{$conf['table']['account_preference_assoc']}\" AS apa ON (apa.account_id = a.account_id)
+            LEFT JOIN \"{$conf['table']['prefix']}{$conf['table']['preferences']}\" AS p ON (apa.preference_id = p.preference_id AND p.preference_name = 'timezone')
+    ";
+
+    $query = "SELECT\n    " . $columns . "\nFROM\n    " . $tables . $leftJoin . "\nWHERE " . $select;
 
     return $query;
 }

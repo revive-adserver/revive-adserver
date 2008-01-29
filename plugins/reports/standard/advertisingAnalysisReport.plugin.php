@@ -96,7 +96,7 @@ class Plugins_Reports_Standard_AdvertisingAnalysisReport extends Plugins_Reports
         $this->_categoryName = MAX_Plugin_Translation::translate('Standard Reports', $this->module, $this->package);
         $this->_author       = 'Rob Hunter';
         $this->_export       = 'xls';
-        $this->_authorize    = phpAds_Admin + phpAds_Agency + phpAds_Affiliate;
+        $this->_authorize    = array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
 
         $this->_import = $this->getDefaults();
         $this->saveDefaults();
@@ -119,9 +119,7 @@ class Plugins_Reports_Standard_AdvertisingAnalysisReport extends Plugins_Reports
             'daily_breakdown'    => MAX_Plugin_Translation::translate('Daily Breakdown', $this->module, $this->package),
             'campaign_breakdown' => MAX_Plugin_Translation::translate('Campaign Breakdown', $this->module, $this->package)
         );
-        if (!phpAds_isUser(phpAds_Affiliate) || phpAds_isAllowed(MAX_AffiliateViewZoneStats)) {
-            $aSheets['zone_breakdown'] = MAX_Plugin_Translation::translate('Zone Breakdown', $this->module, $this->package);
-        }
+        $aSheets['zone_breakdown'] = MAX_Plugin_Translation::translate('Zone Breakdown', $this->module, $this->package);
         // Prepare the array for displaying the generation page
         $aImport = array(
             'period' => array(
@@ -189,9 +187,7 @@ class Plugins_Reports_Standard_AdvertisingAnalysisReport extends Plugins_Reports
             $this->_addCampaignBreakdownWorksheet();
         }
         if (isset($aSheets['zone_breakdown'])) {
-            if (!phpAds_isUser(phpAds_Affiliate) || phpAds_isAllowed(MAX_AffiliateViewZoneStats)) {
-                $this->_addZoneBreakdownWorksheet();
-            }
+            $this->_addZoneBreakdownWorksheet();
         }
         // Close the report writer and send the report to the user
         $this->_oReportWriter->closeAndSend();
@@ -230,7 +226,7 @@ class Plugins_Reports_Standard_AdvertisingAnalysisReport extends Plugins_Reports
         }
         $_REQUEST['breakdown'] = 'day';
         // Select the correct statistics page controller type
-        if (phpAds_isUser(phpAds_Admin|phpAds_Agency)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER)) {
             if (!empty($this->_oScope->_advertiserId) && !empty($this->_oScope->_publisherId)) {
                 $controllerType = 'advertiser-affiliate-history';
             } elseif (!empty($this->_oScope->_advertiserId)) {
@@ -240,7 +236,7 @@ class Plugins_Reports_Standard_AdvertisingAnalysisReport extends Plugins_Reports
             } else {
                 $controllerType = 'global-history';
             }
-        } elseif (phpAds_isUser(phpAds_Client)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             if (!empty($this->_oScope->_publisherId)) {
                 $controllerType = 'advertiser-affiliate-history';
             } else {
@@ -285,7 +281,7 @@ class Plugins_Reports_Standard_AdvertisingAnalysisReport extends Plugins_Reports
         $_REQUEST['expand']     = 'none';
         $_REQUEST['startlevel'] = 0;
         // Select the correct statistics page controller type
-        if (phpAds_isUser(phpAds_Admin|phpAds_Agency)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER)) {
             if (!empty($this->_oScope->_advertiserId)) {
                 $controllerType = 'advertiser-campaigns';
             } elseif (!empty($this->_oScope->_publisherId)) {
@@ -294,7 +290,7 @@ class Plugins_Reports_Standard_AdvertisingAnalysisReport extends Plugins_Reports
                 $controllerType = 'global-advertiser';
                 $_REQUEST['startlevel'] = 1;
             }
-        } elseif (phpAds_isUser(phpAds_Client)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $controllerType = 'advertiser-campaigns';
         } else {
             $controllerType = 'affiliate-campaigns';
@@ -335,7 +331,7 @@ class Plugins_Reports_Standard_AdvertisingAnalysisReport extends Plugins_Reports
         $_REQUEST['expand']     = 'none';
         $_REQUEST['startlevel'] = 0;
         // Select the correct statistics page controller type
-        if (phpAds_isUser(phpAds_Admin|phpAds_Agency)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER)) {
             if (!empty($this->_oScope->_advertiserId)) {
                 $controllerType = 'advertiser-affiliates';
                 $_REQUEST['startlevel'] = 1;
@@ -345,7 +341,7 @@ class Plugins_Reports_Standard_AdvertisingAnalysisReport extends Plugins_Reports
                 $controllerType = 'global-affiliates';
                 $_REQUEST['startlevel'] = 1;
             }
-        } elseif (phpAds_isUser(phpAds_Client)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $controllerType = 'advertiser-affiliates';
             $_REQUEST['startlevel'] = 1;
         } else {

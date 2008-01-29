@@ -58,7 +58,7 @@ class DataObjects_TrackersTest extends DalUnitTestCase
         $doTrackers->clickwindow = 3600;
         $doTrackers->status = 4;
         $doTrackers->type = 1;
-        $trackerId = DataGenerator::generateOne($doTrackers);
+        $trackerId = DataGenerator::generateOne($doTrackers, true);
 
         // Insert a variable for the tracker
         $doVariables = OA_Dal::factoryDO('variables');
@@ -115,7 +115,11 @@ class DataObjects_TrackersTest extends DalUnitTestCase
         // Assert the only difference in the campaign trackers is the trackers they are attached to
         $doCampaignTrackers->trackerid = $doNewCampaignTrackers->trackerid = null;
         $this->assertEqualDataObjects($this->stripKeys($doCampaignTrackers), $this->stripKeys($doNewCampaignTrackers));
+
+        DataGenerator::cleanUp(array('campaigns', 'campaigns_trackers','trackers','variables'));
+
     }
 
 }
+
 ?>

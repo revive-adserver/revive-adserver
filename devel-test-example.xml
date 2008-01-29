@@ -17,4 +17,8 @@
     <version name="pgsql8.1.8" db.type="pgsql" db.host="localhost" db.port="5433" db.username="username" db.password="password" db.name="cc" db.table.type=" "/>
     <version name="pgsql8.2.3" db.type="pgsql" db.host="localhost" db.port="5434" db.username="username" db.password="password" db.name="cc" db.table.type=" "/>
   </database>
+  <audit>
+	<settings enabled="0"/>
+	<settings enabled="1"/>
+  </audit>   
 </tests>

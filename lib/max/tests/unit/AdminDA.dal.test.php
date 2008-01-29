@@ -400,7 +400,7 @@ class Admin_DaTest extends DalUnitTestCase
         $this->assertTrue(array_key_exists('advertiser_id', $ret));
         $this->assertTrue(array_key_exists('placement_id', $ret));
         $this->assertTrue(array_key_exists('name', $ret));
-        $this->assertTrue(array_key_exists('active', $ret));
+        $this->assertTrue(array_key_exists('status', $ret));
         $this->assertTrue(array_key_exists('views', $ret));
         $this->assertTrue(array_key_exists('clicks', $ret));
         $this->assertTrue(array_key_exists('conversions', $ret));
@@ -604,7 +604,7 @@ class Admin_DaTest extends DalUnitTestCase
         $this->assertTrue(count($ret));
         $this->assertTrue(array_key_exists('ad_id', $ret));
         $this->assertTrue(array_key_exists('placement_id', $ret));
-        $this->assertTrue(array_key_exists('active', $ret));
+        $this->assertTrue(array_key_exists('status', $ret));
         $this->assertTrue(array_key_exists('name', $ret));
         $this->assertTrue(array_key_exists('type', $ret));
         $this->assertTrue(array_key_exists('contenttype', $ret));
@@ -870,15 +870,6 @@ class Admin_DaTest extends DalUnitTestCase
         Admin_DA::deleteAdZones(array('zone_id' => $this->zoneId, 'ad_id' => $this->adId));
     }
 
-    function testDeleteImage()
-    {
-        //  this test fails on the _getLimitations and the method
-        //  also doesn't seem to be called anywhere
-
-#        TestEnv::startTransaction();
-#        $ret = Admin_DA::_deleteEntity('image', 1);
-    }
-
     // +---------------------------------------+
     // | Test helper methods                   |
     // |                                       |
@@ -981,7 +972,7 @@ class Admin_DaTest extends DalUnitTestCase
         $this->assertTrue(array_key_exists('advertiser_id', $stats[1]));
         $this->assertTrue(array_key_exists('placement_id', $stats[1]));
         $this->assertTrue(array_key_exists('name', $stats[1]));
-        $this->assertTrue(array_key_exists('active', $stats[1]));
+        $this->assertTrue(array_key_exists('status', $stats[1]));
     }
 
     function testFromCacheGetPlacement()
@@ -1176,8 +1167,8 @@ class Admin_DaTest extends DalUnitTestCase
         $statsTable = $dbh->quoteIdentifier($conf['table']['prefix'] . 'data_summary_ad_hourly', true);
         for ($hour = 0; $hour < 24; $hour ++) {
             $sql = "INSERT INTO $statsTable
-                (   day,
-                    hour,
+                (
+                    date_time,
                     ad_id,
                     creative_id,
                     zone_id,
@@ -1186,18 +1177,16 @@ class Admin_DaTest extends DalUnitTestCase
                     clicks,
                     conversions,
                     total_basket_value
-                )
-                VALUES(
-                '". OA::getNow() ."',
-                $hour,
-                $this->bannerId,
-                ".rand(1, 999).",
-                $this->zoneId,
-                ".rand(1, 999).",
-                ".rand(1, 999).",
-                ".rand(1, 999).",
-                ".rand(1, 999).",
-                0
+                ) VALUES (
+                    '". sprintf('%s %02d:00:00', substr(OA::getNow(), 0, 10), $hour) ."',
+                    $this->bannerId,
+                    ".rand(1, 999).",
+                    $this->zoneId,
+                    ".rand(1, 999).",
+                    ".rand(1, 999).",
+                    ".rand(1, 999).",
+                    ".rand(1, 999).",
+                    0
                 )";
             $result = $dbh->exec($sql);
         }

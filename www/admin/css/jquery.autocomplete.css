@@ -1,0 +1,32 @@
+.ac_results {
+	padding: 0px;
+	border: 1px solid WindowFrame;
+	background-color: Window;
+	overflow: hidden;
+}
+
+.ac_results ul {
+	width: 100%;
+	list-style-position: outside;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.ac_results li {
+	margin: 0px;
+	padding: 2px 5px;
+	cursor: default;
+	display: block;
+	width: 100%;
+	overflow: hidden;
+}
+
+.ac_loading {
+	background : Window url('../images/indicator.gif') right center no-repeat;
+}
+
+.ac_over {
+	background-color: Highlight;
+	color: HighlightText;
+}

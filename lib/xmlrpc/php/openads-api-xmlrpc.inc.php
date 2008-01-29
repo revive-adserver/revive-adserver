@@ -34,6 +34,14 @@ if (!@include('XML/RPC.php')) {
 
 require_once 'XmlRpcUtils.php';
 
+// Include the info-object files
+include_once('AdvertiserInfo.php');
+include_once('AgencyInfo.php');
+include_once('BannerInfo.php');
+include_once('CampaignInfo.php');
+include_once('PublisherInfo.php');
+include_once('ZoneInfo.php');
+
 /**
  * A library class to provide XML-RPC routines on
  * a web server to enable it to manipulate objects in Openads using the web services API.

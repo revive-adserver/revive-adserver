@@ -49,6 +49,11 @@ phpAds_registerGlobal (
     ,'linkcampaigns'
 );
 
+// Security check
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
+OA_Permission::enforceAccessToObject('clients', $clientid);
+OA_Permission::enforceAccessToObject('trackers', $trackerid);
+
 // Initalise any tracker based plugins
 $plugins = array();
 $invocationPlugins = &MAX_Plugin::getPlugins('invocationTags');
@@ -58,14 +63,6 @@ foreach($invocationPlugins as $pluginKey => $plugin) {
         $fieldName = strtolower($plugin->trackerEvent);
         phpAds_registerGlobal("{$fieldName}window");
     }
-}
-
-// Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
-if (!empty($trackerid)) {
-    MAX_Permission::checkAccessToObject('trackers', $trackerid);
-} else {
-    MAX_Permission::checkAccessToObject('clients', $clientid);
 }
 
 /*-------------------------------------------------------*/
@@ -133,17 +130,6 @@ if (isset($submit)) {
 /*-------------------------------------------------------*/
 
 if ($trackerid != "") {
-    if (isset($session['prefs']['advertiser-trackers.php'][$clientid]['listorder'])) {
-        $navorder = $session['prefs']['advertiser-trackers.php'][$clientid]['listorder'];
-    } else {
-        $navorder = '';
-    }
-    if (isset($session['prefs']['advertiser-trackers.php'][$clientid]['orderdirection'])) {
-        $navdirection = $session['prefs']['advertiser-trackers.php'][$clientid]['orderdirection'];
-    } else {
-        $navdirection = '';
-    }
-
     // Get other trackers
     $doTrackers = OA_Dal::factoryDO('trackers');
     $doTrackers->clientid = $clientid;
@@ -176,8 +162,8 @@ if ($trackerid != "") {
 
     $doClients = OA_Dal::factoryDO('clients');
     $doClients->whereAdd('clientid <>'.$clientid);
-    if (phpAds_isUser(phpAds_Agency)) {
-        $doClients->agencyid = phpAds_getAgencyID();
+    if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+        $doClients->agencyid = OA_Permission::getAgencyId();
     }
     $doClients->find();
 
@@ -240,9 +226,9 @@ if ($trackerid != "" || (isset($move) && $move == 't')) {
     $row['trackername']  .= $strDefault." ".$strTracker;
     $row['clickwindow']   = $conf['logging']['defaultImpressionConnectionWindow'];
     $row['viewwindow']    = $conf['logging']['defaultClickConnectionWindow'];
-    $row['status']        = isset($pref['default_tracker_status']) ? $pref['default_tracker_status'] : MAX_CONNECTION_STATUS_APPROVED;
-    $row['type']          = isset($pref['default_tracker_type']) ? $pref['default_tracker_type'] : MAX_CONNECTION_TYPE_SALE;
-    $row['linkcampaigns'] = isset($pref['default_tracker_linkcampaigns']) ? $pref['default_tracker_linkcampaigns'] : 'f';
+    $row['status']        = isset($pref['tracker_default_status']) ? $pref['tracker_default_status'] : MAX_CONNECTION_STATUS_APPROVED;
+    $row['type']          = isset($pref['tracker_default_type']) ? $pref['tracker_default_type'] : MAX_CONNECTION_TYPE_SALE;
+    $row['linkcampaigns'] = $pref['tracker_link_campaigns'] == true ? 't' : 'f';
 
     $row['description'] = '';
 }

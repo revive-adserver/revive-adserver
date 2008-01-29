@@ -29,6 +29,7 @@ require_once MAX_PATH . '/lib/max/Admin_DA.php';
 
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Dll.php';
 
 /**
  * The default data set class to be used for integration-style cross-unit
@@ -127,7 +128,7 @@ class DefaultData
                 'conversions'       => -1,
                 'expire'            => OA_Dal::noDateValue(),
                 'activate'          => OA_Dal::noDateValue(),
-                'active'            => 't',
+                'status'            => OA_ENTITY_STATUS_RUNNING,
                 'priority'          => 2,
                 'target_impression' => 120,
                 'target_click'      => -1,
@@ -156,7 +157,7 @@ class DefaultData
                 'conversions'       => -1,
                 'expire'            => '2005-12-31',
                 'activate'          => '2005-01-01',
-                'active'            => 't',
+                'status'            => OA_ENTITY_STATUS_RUNNING,
                 'priority'          => 2,
                 'target_impression' => -1,
                 'target_click'      => -1,

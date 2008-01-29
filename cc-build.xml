@@ -24,16 +24,32 @@
 	<target name="update">
 		<svn-update workDir="${basedir}" username="cruise" password="cruise"/>
 	</target>
-
-	<target name="build" depends="init">
-		<ant antfile="build.xml" dir="${basedir}" output="build.log" target="simpletest" />
+	
+	<target name="clone">
+		<delete dir="target"/>
+		<copy todir="target" overwrite="true">
+			<fileset dir=".">
+				<exclude name="target/**"/>
+			</fileset>
+		</copy>
 	</target>
 
+	<target name="build" depends="init, clone">
+		<ant antfile="build.xml" dir="${basedir}/target" output="build.log" target="simpletest" />
+	</target>
+
+	<target name="test-canoo" depends="update, clean, clone">
+    	<ant antfile="build.xml" dir="${basedir}/target" output="build.log" target="test-canoo-local" >
+    		<property name="run.local" value="true"/>
+    	</ant>
+	</target>
+	
 	<target name="make-release">
 		<ant antfile="build.xml" dir="${basedir}" output="build.log" target="release" />
 	</target>
 
 	<target name="cruise" depends="init, update, clean, build"/>
 
-  <target name="release" depends="init,clean,update,make-release"/>
+    <target name="release" depends="init, clean, update, make-release"/>
+	
 </project>

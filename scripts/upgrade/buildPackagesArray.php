@@ -28,6 +28,8 @@ $Id$
 // takes globals for tests
 // takes arguments when run from cli
 
+$path = dirname(dirname(dirname(__FILE__)));
+
 global $readPath, $writeFile;
 
     if ($argc>0)
@@ -39,11 +41,11 @@ global $readPath, $writeFile;
     }
     if (is_null($readPath))
     {
-        $readPath = MAX_PATH.'/etc/changes';
+        $readPath = $path.'/etc/changes';
     }
     if (is_null($writeFile))
     {
-        $writeFile = MAX_PATH.'/etc/changes/openads_upgrade_array.txt';
+        $writeFile = $path.'/etc/changes/openads_upgrade_array.txt';
     }
 
     $fp = fopen($writeFile, 'w');

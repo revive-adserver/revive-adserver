@@ -29,6 +29,7 @@ require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
 require_once MAX_PATH . '/lib/OA/Dal/Central/Common.php';
+require_once MAX_PATH . '/lib/OA/Dal/Central/M2M.php';
 require_once MAX_PATH . '/lib/OA/Central.php';
 require_once MAX_PATH . '/lib/OA/Central/RpcMapper.php';
 require_once MAX_PATH . '/lib/OA/PermanentCache.php';
@@ -64,7 +65,7 @@ class OA_Central_Common
      */
     function OA_Central_Common()
     {
-        $this->oMapper = new OA_Central_RpcMapper();
+        $this->oMapper =& new OA_Central_RpcMapper($this);
         $this->oDal = new OA_Dal_Central_Common();
         $this->oCache = new Cache_Lite_Function(array(
             'cacheDir'                      => MAX_PATH . '/var/cache/',
@@ -103,7 +104,7 @@ class OA_Central_Common
     {
         $platformHash = OA_Dal_ApplicationVariables::get('platform_hash');
         $url = OA_Central::buildUrl($GLOBALS['_MAX']['CONF']['oacXmlRpc'], 'captcha');
-        $url .= '?'.OA_SSO_PLATFORM_HASH_PARAM.'='.urlencode($platformHash);
+        $url .= '?ph='.urlencode($platformHash);
 
         return $url;
     }

@@ -77,11 +77,11 @@ $GLOBALS['strPublisherRequestViewsAnalysisDescription'] = 'The table is comparis
 $GLOBALS['strPublisherZoneAnalysisReport'] = 'Zone Report';
 $GLOBALS['strPublisherZoneAnalysisDescription'] = 'This report shows total advertising activity broken down by zone.';
 $GLOBALS['strPublisherHistoryReport'] = 'History Report';
-$GLOBALS['strPublisherHistoryDescription'] = 'Report of publisher distribution for an advertiser.';
+$GLOBALS['strPublisherHistoryDescription'] = 'Report of website distribution for an advertiser.';
 $GLOBALS['strPublisherZoneHistoryReport'] = 'Zone History Report';
-$GLOBALS['strPublisherZoneHistoryDescription'] = 'Report of publisher and zone distribution for an advertiser.';
+$GLOBALS['strPublisherZoneHistoryDescription'] = 'Report of website and zone distribution for an advertiser.';
 $GLOBALS['strPublisherConversionTrackingAnalysisReport'] = 'Conversion Tracking Analysis';
-$GLOBALS['strPublisherConversionTrackingAnalysisDescription'] = 'This report shows a breakdown of all conversion tracking activity for a particular publisher (affiliate).';
+$GLOBALS['strPublisherConversionTrackingAnalysisDescription'] = 'This report shows a breakdown of all conversion tracking activity for a particular website (affiliate).';
 
 $GLOBALS['strAgencyCampaignDeliveryReport'] = 'Campaign Delivery Report';
 $GLOBALS['strAgencyCampaignDeliveryDescription'] = "Trafficking report which shows all campaign activity for a given day, including how well it met its delivery targets.";

@@ -46,7 +46,7 @@ define('OA_ENV_ERROR_PHP_MYSQL',                    -11);
 define('OA_ENV_ERROR_PHP_TIMEOUT',                  -12);
 
 require_once MAX_PATH.'/lib/OA/DB.php';
-require_once MAX_PATH . '/lib/OA/Admin/Config.php';
+require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
 
 define('OA_MEMORY_UNLIMITED', 'Unlimited');
 
@@ -196,7 +196,7 @@ class OA_Environment_Manager
         if (OA_INSTALLATION_STATUS != OA_INSTALLATION_STATUS_INSTALLED) {
             $configFile = MAX_PATH . '/var/' . getHostName() . '.conf.php';
             if (file_exists($configFile)) {
-                if (!OA_Admin_Config::isConfigWritable($configFile)) {
+                if (!OA_Admin_Settings::isConfigWritable($configFile)) {
                     $aErrors[$configFile] = 'NOT writeable';
                 }
             }

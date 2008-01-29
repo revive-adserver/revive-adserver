@@ -118,9 +118,9 @@ $GLOBALS['_MAX']['HTTP'] = 'http://';
 // Maximum random number (use default if doesn't exist - eg the case when application is upgraded)
 $GLOBALS['_MAX']['MAX_RAND'] = isset($GLOBALS['_MAX']['CONF']['priority']['randmax']) ?
 $GLOBALS['_MAX']['CONF']['priority']['randmax'] : 2147483647;
-// Set time zone, for more info @see setTimeZoneLocation()
-if (!empty($GLOBALS['_MAX']['CONF']['timezone']['location'])) {
-setTimeZoneLocation($GLOBALS['_MAX']['CONF']['timezone']['location']);
+// Always use UTC when outside the installer
+if (substr($_SERVER['SCRIPT_NAME'], -11) != 'install.php') {
+OA_setTimeZoneUTC();
 }
 }
 function setupServerVariables()
@@ -146,15 +146,29 @@ $GLOBALS['_MAX']['CONF'] = parseDeliveryIniFile();
 // Set up the common configuration variables
 setupConfigVariables();
 }
-function setTimeZoneLocation($location)
+function OA_setTimeZone($timezone)
 {
 if (version_compare(phpversion(), '5.1.0', '>=')) {
 // Set new time zone
-date_default_timezone_set($location);
+date_default_timezone_set($timezone);
 } else {
 // Set new time zone
-putenv("TZ={$location}");
+putenv("TZ={$timezone}");
 }
+// Set PEAR::Date_TimeZone default as well
+//
+// Ideally this should be a Date_TimeZone::setDefault() call, but for optimization
+// purposes, we just override the global variable
+$GLOBALS['_DATE_TIMEZONE_DEFAULT'] = $timezone;
+}
+function OA_setTimeZoneUTC()
+{
+OA_setTimeZone('UTC');
+}
+function OA_setTimeZoneLocal()
+{
+$tz = !empty($GLOBALS['_MAX']['PREF']['timezone']) ? $GLOBALS['_MAX']['PREF']['timezone'] : 'GMT';
+OA_setTimeZone($tz);
 }
 function getHostName()
 {
@@ -628,7 +642,7 @@ exit(1);
 $aConf = $GLOBALS['_MAX']['CONF'];
 $type = (!empty($aConf['geotargeting']['type'])) ? $aConf['geotargeting']['type'] : null;
 if (!is_null($type) && $type != 'none') {
-$functionName = 'MAX_Geo_'.$type.'_getInfo';
+$functionName = 'OA_Geo_'.$type.'_getInfo';
 if (function_exists($functionName)) {
 return;
 }
@@ -1093,13 +1107,14 @@ $what = 'zone:'.$zoneid;
 } else {
 $what = '';
 }
-} elseif (preg_match('/^.+:.+$/', $what)) {
-list($whatName, $whatValue) = explode(':', $what);
-if ($whatName == 'zone') {
-$whatName = 'zoneid';
+} elseif (preg_match('/^(.+):(.+)$/', $what, $matches)) {
+switch ($matches[1]) {
+case 'zoneid':
+case 'zone':        $zoneid     = $matches[2]; break;
+case 'bannerid':    $bannerid   = $matches[2]; break;
+case 'campaignid':  $campaignid = $matches[2]; break;
+case 'clientid':    $clientid   = $matches[2]; break;
 }
-global $$whatName;
-$$whatName = $whatValue;
 }
 // 2.0 backwards compatibility - clientid parameter was used to fetch a campaign
 if (!isset($clientid))  $clientid = '';
@@ -1295,7 +1310,11 @@ $GLOBALS['_MAX']['FILES']['aIncludedPlugins'][$pluginName] = true;
 }
 }
 $GLOBALS['_MAX']['CHANNELS'] = '';
+// Set the ad's own timezone as preference, because some limitations require to be TZ aware
+$GLOBALS['_MAX']['PREF']['timezone'] = $row['timezone'];
 @eval('$result = (' . $row['compiledlimitation'] . ');');
+// Reset timezone
+unset($GLOBALS['_MAX']['PREF']['timezone']);
 if (!$result)
 {
 unset($GLOBALS['_MAX']['CHANNELS']);
@@ -1477,7 +1496,7 @@ $append = (!empty($aBanner['append']) && $useAppend) ? $aBanner['append'] : '';
 // Create the anchor tag..
 $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
 if (!empty($clickUrl)) {  // There is a link
-$status = !empty($aBanner['status']) ? " onmouseover=\"self.status='{$aBanner['status']}'; return true;\" onmouseout=\"self.status=''; return true;\"" : '';
+$status = _adRenderBuildStatusCode($aBanner);
 //$target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
 $clickTag = "<a href='$clickUrl' target='{target}'$status>";
 $clickTagEnd = '</a>';
@@ -1519,7 +1538,7 @@ $altImageAdCode = !empty($aBanner['alt_filename'])
 // Create the anchor tag..
 $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
 if (!empty($clickUrl)) {  // There is a link
-$status = !empty($aBanner['status']) ? " onMouseOver=\"self.status='{$aBanner['status']}'; return true;\" onMouseOut=\"self.status=''; return true;\"" : '';
+$status = _adRenderBuildStatusCode($aBanner);
 $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
 $swfParams = 'clickTARGET='.$target.'&clickTAG=' . $clickUrl;
 $clickTag = "<a href='$clickUrl' target='$target'$status>";
@@ -1579,7 +1598,7 @@ $altImageBannercode = _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $l
 // Create the anchor tag..
 $clickTag = _adRenderBuildClickUrl($aBanner, $source, $ct0, $logClick);
 if (!empty($clickTag)) {  // There is a link
-$status = !empty($aBanner['status']) ? " onMouseOver=\"self.status='{$aBanner['status']}'; return true;\" onMouseOut=\"self.status=''; return true;\"" : '';
+$status = _adRenderBuildStatusCode($aBanner);
 $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
 $swfParams = 'clickTAG=' . $clickTag;
 $anchor = "<a href='$clickTag' target='$target'$status>";
@@ -1613,7 +1632,7 @@ $code = !empty($aBanner['htmlcache']) ? $aBanner['htmlcache'] : '';
 // Parse PHP code
 if ($conf['delivery']['execPhp'])
 {
-if (preg_match ("#(\<\?php(.*)\?\>)#i", $code, $parser_regs))
+if (preg_match ("#(\<\?php(.*)\?\>)#isU", $code, $parser_regs))
 {
 // Extract PHP script
 $parser_php     = $parser_regs[2];
@@ -1651,7 +1670,7 @@ $append = !empty($aBanner['append']) ? $aBanner['append'] : '';
 // Create the anchor tag..
 $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
 if (!empty($clickUrl)) {  // There is a link
-$status = !empty($aBanner['status']) ? " onMouseOver=\"self.status='{$aBanner['status']}'; return true;\" onMouseOut=\"self.status=''; return true;\"" : '';
+$status = _adRenderBuildStatusCode($aBanner);
 $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
 $clickTag = "<a href='$clickUrl' target='$target'$status>";
 $clickTagEnd = '</a>';
@@ -1679,7 +1698,7 @@ $altImageBannercode = _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $l
 // Create the anchor tag..
 $clickTag = _adRenderBuildClickUrl($aBanner, $source, $ct0, $logClick);
 if (!empty($clickTag)) {  // There is a link
-$status = !empty($aBanner['status']) ? " onMouseOver=\"self.status='{$aBanner['status']}'; return true;\" onMouseOut=\"self.status=''; return true;\"" : '';
+$status = _adRenderBuildStatusCode($aBanner);
 $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
 $swfParams = 'clickTAG=' . $clickTag;
 $anchor = "<a href='$clickTag' target='$target'$status>";
@@ -1858,6 +1877,10 @@ $clickUrl = MAX_commonGetDeliveryUrl($conf['file']['click']) . '?' . $conf['var'
 }
 return $clickUrl;
 }
+function _adRenderBuildStatusCode($aBanner)
+{
+return !empty($aBanner['status']) ? " onmouseover=\"self.status='" . addslashes($aBanner['status']) . "'; return true;\" onmouseout=\"self.status=''; return true;\"" : '';
+}
 $file = '/lib/max/Delivery/cache.php';
 $GLOBALS['_MAX']['FILES'][$file] = true;
 define ('OA_DELIVERY_CACHE_FUNCTION_ERROR', 'Function call returned an error');
@@ -1912,7 +1935,7 @@ return false;
 $filename = OA_Delivery_Cache_buildFileName($name, $isHash);
 $cache_literal  = "<"."?php\n\n";
 $cache_literal .= "$"."cache_contents   = ".var_export($cache, true).";\n\n";
-$cache_literal .= "$"."cache_name       = '".addcslashes($name, "'")."';\n";
+$cache_literal .= "$"."cache_name       = '".addcslashes($name, "\\'")."';\n";
 $cache_literal .= "$"."cache_time       = ".MAX_commonGetTimeNow().";\n";
 if ($expireAt !== null) {
 $cache_literal .= "$"."cache_expire     = ".$expireAt.";\n";
@@ -2005,6 +2028,16 @@ $aRows = OA_Dal_Delivery_getAd($ad_id);
 $aRows = OA_Delivery_Cache_store_return($sName, $aRows);
 }
 return $aRows;
+}
+function MAX_cacheGetAdminTZ($cached = true)
+{
+$sName  = OA_Delivery_Cache_getName(__FUNCTION__);
+if (!$cached || ($tz = OA_Delivery_Cache_fetch($sName)) === false) {
+MAX_Dal_Delivery_Include();
+$tz = OA_Dal_Delivery_getAdminTZ();
+$tz = OA_Delivery_Cache_store_return($sName, $tz);
+}
+return $tz;
 }
 function MAX_cacheGetZoneLinkedAds($zoneId, $cached = true)
 {
@@ -2254,8 +2287,8 @@ if (!empty($row['default'])) {
 if (empty($target)) {
 $target = '_blank';  // Default
 }
-$outputbuffer = $g_prepend . '<a href=\'' . $row['default_banner_dest'] . '\' target=\'' .
-$target . '\'><img src=\'' . $row['default_banner_url'] .
+$outputbuffer = $g_prepend . '<a href=\'' . $row['default_banner_destination_url'] . '\' target=\'' .
+$target . '\'><img src=\'' . $row['default_banner_image_url'] .
 '\' border=\'0\' alt=\'\'></a>' . $g_append;
 return array('html' => $outputbuffer, 'bannerid' => '' );
 } else {
@@ -2277,11 +2310,11 @@ $aLinkedAd['campaignid'] = $aLinkedAd['placement_id'];
 $aLinkedAd['prepend'] = '';
 return $aLinkedAd;
 }
-if (!empty($aDirectLinkedAds['default_banner_url'])) {
+if (!empty($aDirectLinkedAds['default_banner_image_url'])) {
 return array(
-'default' => true,
-'default_banner_url' =>  $aZoneLinkedAds['default_banner_url'],
-'default_banner_dest' => $aZoneLinkedAds['default_banner_dest']
+'default'                        => true,
+'default_banner_image_url'       => $aZoneLinkedAds['default_banner_image_url'],
+'default_banner_destination_url' => $aZoneLinkedAds['default_banner_destination_url']
 );
 }
 return false;
@@ -2335,11 +2368,11 @@ return ($aLinkedAd);
 $zoneId = _getNextZone($zoneId, $aZoneLinkedAds);
 }
 }
-if (!empty($aZoneLinkedAds['default_banner_url'])) {
+if (!empty($aZoneLinkedAds['default_banner_image_url'])) {
 return array(
-'default' => true,
-'default_banner_url' =>  $aZoneLinkedAds['default_banner_url'],
-'default_banner_dest' => $aZoneLinkedAds['default_banner_dest']
+'default'                        => true,
+'default_banner_image_url'       => $aZoneLinkedAds['default_banner_image_url'],
+'default_banner_destination_url' => $aZoneLinkedAds['default_banner_destination_url']
 );
 }
 return false;
@@ -2639,7 +2672,7 @@ if ($bannerid) {
 $what = "bannerid:".$bannerid;
 }
 }
-$output = MAX_adSelect($what, '', $target, $source, $withtext, $context, true, '', $loc, $referer);
+$output = MAX_adSelect($what, '', $target, $source, $withtext, $context, true, '', $GLOBALS['loc'], $GLOBALS['referer']);
 if (isset($output['contenttype']) && $output['contenttype'] == 'swf') {
 $output['html'] = MAX_flashGetFlashObjectExternal() . $output['html'];
 }

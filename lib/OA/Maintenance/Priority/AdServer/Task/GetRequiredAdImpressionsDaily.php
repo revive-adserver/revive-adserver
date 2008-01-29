@@ -26,6 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/GetRequiredAdImpressions.php';
+require_once MAX_PATH . '/lib/OA/Dll.php';
 
 /**
  * A class used to calculate the number of required advertisements in the next
@@ -88,7 +89,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsDaily extend
         $aWheres = array(
             array("($table.target_impression >= 0 OR $table.target_click >= 0 OR $table.target_conversion >= 0)", 'AND'),
             array("$table.priority >= 1", 'AND'),
-            array("$table.active = 't'", 'AND')
+            array("$table.status = ".OA_ENTITY_STATUS_RUNNING, 'AND')
         );
         return $this->_getAllPlacements(array(), $aWheres);
     }

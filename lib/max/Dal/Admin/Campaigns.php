@@ -28,6 +28,7 @@ $Id$
 require_once MAX_PATH . '/lib/max/Dal/Common.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 
@@ -183,29 +184,24 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      *
      * Returns the earliest possible date from the following values:
      *  - The campaign's expiration date, if set.
-     *  - The extimated expiration date based on lifetime impression delivery
+     *  - The eStimated expiration date based on lifetime impression delivery
      *    rate, if applicable.
-     *  - The extimated expiration date based on lifetime click delivery rate
+     *  - The eStimated expiration date based on lifetime click delivery rate
      *    if applicable.
-     *  - The extimated expiration date based on lifetime conversion rate,
+     *  - The eStimated expiration date based on lifetime conversion rate,
      *    if applicable.
      *
      * Usage:
-     *   list($desc,$endDate,$daysLeft) = $dalCampaigns->getDaysLeft($campaignid);
+     *   $desc = $dalCampaigns->getDaysLeftString($campaignid);
      *
      * Where:
      *   $desc is a string to display giving how the expiration was calculated
-     *     (eg. "Estimated expiration"), or that there is no expiration date,
-     *     in which date $endDate and $daysLeft are null.
-     *   $endDate is a formatted date string, ready for display, of the expiration
-     *     date, if applicable.
-     *   $daysLeft is a formatted number string, ready for display, of the number
-     *     of days until the campaign will end, if applicable.
+     *     eg. "Estimated expiration", or that there is no expiration date
      *
      * @param integer $campaignId The campaign ID.
-     * @return array The result array, as described above.
+     * @return string
      */
-    function getDaysLeft($campaignId)
+    function getDaysLeftString($campaignId)
     {
         global $date_format, $strExpiration, $strNoExpiration, $strDaysLeft, $strEstimated;
         $prefix = $this->getTablePrefix();
@@ -241,7 +237,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
            	$query = "
                 SELECT
                     SUM(dia.impressions) AS delivered,
-                    MIN(dia.day) AS day_of_first
+                    DATE_FORMAT(MIN(dia.date_time), '%Y-%m-%d') AS day_of_first
                 FROM
                     {$tableD} AS dia,
                     {$tableB} AS b
@@ -263,7 +259,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
            	$query = "
                 SELECT
                     SUM(dia.clicks) AS delivered,
-                    MIN(dia.day) AS day_of_first
+                    DATE_FORMAT(MIN(dia.date_time), '%Y-%m-%d') AS day_of_first
                 FROM
                     {$tableD} AS dia,
                     {$tableB} AS b
@@ -286,7 +282,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
            	$query = "
                 SELECT
                     SUM(dia.conversions) AS delivered,
-                    MIN(dia.day) AS day_of_first
+                    DATE_FORMAT(MIN(dia.date_time), '%Y-%m-%d') AS day_of_first
                 FROM
                     {$tableD} AS dia,
                     {$tableB} AS b
@@ -303,13 +299,15 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
 			}
         }
 
-        $aReturn = array();
+        $result = '';
         // Is there a possible expiration date?
-        if (empty($aExpiration) || count($aExpiration) == 0) {
+        if (empty($aExpiration) || count($aExpiration) == 0 ||
+            // The Dal will return an empty array for unknown expiration dates, so catch this as well
+            (count($aExpiration == 1) && empty($aExpiration[0]))
+        )
+        {
             // No, so return the "no expiration date" value
-    		$aReturn[] = $strExpiration.": ".$strNoExpiration;
-    		$aReturn[] = '';
-    		$aReturn[] = '';
+    		$result = $strExpiration.": ".$strNoExpiration;
         } else {
         	// Find the earliest expiration date
     		$aFinalExpiration = $aExpiration[0];
@@ -322,16 +320,13 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             $aFinalExpiration['daysLeft'] = phpAds_formatNumber($aFinalExpiration['daysLeft']);
             // Prepare the return value
     		if ($aFinalExpiration['absolute']) {
-    			$aReturn[] = $strExpiration . ": " . $aFinalExpiration['date'] . " (" . $strDaysLeft . ": " . $aFinalExpiration['daysLeft'] . ")";
+    			$result = $strExpiration . ": " . $aFinalExpiration['date'] . " (" . $strDaysLeft . ": " . $aFinalExpiration['daysLeft'] . ")";
     		} else {
-    			$aReturn[] = $strEstimated  . ": " . $aFinalExpiration['date'] . " (" . $strDaysLeft . ": " . $aFinalExpiration['daysLeft'] . ")";
+    			$result = $strEstimated  . ": " . $aFinalExpiration['date'] . " (" . $strDaysLeft . ": " . $aFinalExpiration['daysLeft'] . ")";
     		}
-    		$aReturn[] = $aFinalExpiration['date'];
-    		$aReturn[] = $aFinalExpiration['daysLeft'];
         }
-        return $aReturn;
+        return $result;
     }
-
 
     /**
      * A private method to caclucate the number of days left until a
@@ -356,7 +351,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      */
     function _calculateRemainingDays($aDeliveryData, $target)
     {
-        global $date_format;
+        global $date_format, $strNoExpiration;
         $oNowDate = new Date();
         $aExpiration = array();
         // How many days since the first impression/click/conversion?
@@ -392,15 +387,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
 		    // No impressions/clicks/conversions been delivered so far,
 		    // so cannot estimate how long it will take to expire the
 		    // campaign - estimate
-		    $daysLeft = PHP_INT_MAX;
-            $oEstimatedEndDate = new Date('1960-01-01 00:00:00');
-            $oEstimatedEndDate->subtractSeconds(1);
-            $estimatedEndDate = $oEstimatedEndDate->format($date_format);
-        	$aExpiration = array(
-        		'daysLeft' => $daysLeft,
-        		'date'     => $estimatedEndDate,
-        		'absolute' => true
-        	);
+        	$aExpiration = array();
 		}
 		return $aExpiration;
     }
@@ -460,15 +447,16 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                 campaignid,
                 clientid,
                 campaignname,
-                oac_campaign_id,
-                active
+                an_campaign_id,
+                status,
+                an_status
             FROM
                 {$tableM} " .
             $this->getSqlListOrder($listorder, $orderdirection)
         ;
 
         $rsCampaigns = DBC::NewRecordSet($query);
-        $aCampaigns = $rsCampaigns->getAll(array('campaignid', 'clientid', 'campaignname', 'oac_campaign_id', 'active'));
+        $aCampaigns = $rsCampaigns->getAll(array('campaignid', 'clientid', 'campaignname', 'an_campaign_id', 'status', 'an_status'));
         $aCampaigns = $this->_rekeyCampaignsArray($aCampaigns);
         return $aCampaigns;
     }
@@ -491,7 +479,8 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                 m.campaignid as campaignid,
                 m.clientid as clientid,
                 m.campaignname as campaignname,
-                m.active as active
+                m.status as status,
+                m.an_status as an_status
             FROM
                 {$tableM} AS m,
                 {$tableC} AS c
@@ -502,7 +491,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         ;
 
         $rsCampaigns = DBC::NewRecordSet($query);
-        $aCampaigns = $rsCampaigns->getAll(array('campaignid', 'clientid', 'campaignname', 'active'));
+        $aCampaigns = $rsCampaigns->getAll(array('campaignid', 'clientid', 'campaignname', 'status', 'an_status'));
         $aCampaigns = $this->_rekeyCampaignsArray($aCampaigns);
         return $aCampaigns;
     }
@@ -514,7 +503,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         $tableM = $oDbh->quoteIdentifier($this->getTablePrefix().'campaigns',true);
 
         $query_active_campaigns = "SELECT count(*) AS count".
-            " FROM ".$tableM." WHERE active='t'";
+            " FROM ".$tableM." WHERE status=".OA_ENTITY_STATUS_RUNNING;
         return $this->oDbh->queryOne($query_active_campaigns);
     }
 
@@ -535,7 +524,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             ",".$tableC." AS c".
             " WHERE m.clientid=c.clientid".
             " AND c.agencyid=". DBC::makeLiteral($agency_id) .
-            " AND m.active='t'";
+            " AND m.status=".OA_ENTITY_STATUS_RUNNING;
         return $this->oDbh->queryOne($query_active_campaigns);
     }
 

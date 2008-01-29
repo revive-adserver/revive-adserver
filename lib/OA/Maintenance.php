@@ -34,14 +34,15 @@ if (!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/cache.php']) && !is_call
 
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
 require_once MAX_PATH . '/lib/OA/Email.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Statistics.php';
 require_once MAX_PATH . '/lib/OA/OperationInterval.php';
+require_once MAX_PATH . '/lib/OA/Preferences.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
-require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
 
 require_once 'Date.php';
 
@@ -62,7 +63,7 @@ class OA_Maintenance
     {
         $this->aConf = $GLOBALS['_MAX']['CONF'];
 
-        MAX_Admin_Preferences::loadPrefs();
+        OA_Preferences::loadAdminAccountPreferences();
         $this->aPref = $GLOBALS['_MAX']['PREF'];
 
         // Get a connection to the datbase
@@ -82,15 +83,21 @@ class OA_Maintenance
         OA::debug();
         // Do not run if distributed stats are enabled
         if (!empty($this->aConf['lb']['enabled'])) {
-            OA::debug('Distributed stats enabled, not running Maintenance Statistics and Priority', PEAR_LOG_INFO);
+            OA::debug('Distributed stats enabled, not running maintenance tasks', PEAR_LOG_INFO);
             return;
         }
         // Acquire the maintenance lock
         $oLock =& OA_DB_AdvisoryLock::factory();
-        if ($oLock->get(OA_DB_ADVISORYLOCK_MAINTENANCE)) {
-            OA::debug('Running Maintenance Statistics and Priority', PEAR_LOG_INFO);
+        if ($oLock->get(OA_DB_ADVISORYLOCK_MAINTENANCE))
+        {
+            OA::switchLogFile('maintenance');
+
+            OA::debug('Running maintenance tasks', PEAR_LOG_INFO);
+
             // Attempt to increase PHP memory
             increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
+            // Set UTC timezone
+            OA_setTimeZoneUTC();
             // Update the timestamp for old maintenance code and auto-maintenance
             $this->updateLastRun();
             // Record the current time, and register with the OA_ServiceLocator
@@ -111,12 +118,17 @@ class OA_Maintenance
             $this->_runMidnightTasks();
             // Release lock before starting MPE
             $oLock->release();
+
             // Run the Maintenance Priority Engine (MPE) process, ensuring that the
             // process always runs, even if instant update of priorities is disabled
             $this->_runMPE();
-            OA::debug('Maintenance Statistics and Priority Completed', PEAR_LOG_INFO);
-        } else {
-			OA::debug('Scheduled Maintenance Task not run: could not acquire lock', PEAR_LOG_INFO);
+
+            OA::debug('Maintenance tasks completed', PEAR_LOG_INFO);
+
+            OA::switchLogFile();
+        }
+        else {
+			OA::debug('Maintenance tasks not run: could not acquire lock', PEAR_LOG_INFO);
         }
     }
 
@@ -137,10 +149,10 @@ class OA_Maintenance
      */
     function _runMidnightTasks()
     {
-        $lastRun = new Date($this->aPref['maintenance_timestamp']);
+        $iLastRun = new Date((int) OA_Dal_ApplicationVariables::get('maintenance_timestamp'));
         $lastMidnight = new Date(date('Y-m-d'));
 
-        if ($lastRun->after($lastMidnight)) {
+        if ($iLastRun->after($lastMidnight)) {
             OA::debug('Running Midnight Maintenance Tasks', PEAR_LOG_INFO);
             $this->_runReports();
             $this->_runOpenadsSync();
@@ -201,9 +213,12 @@ class OA_Maintenance
                 $oReportEndDate->setSecond(0);
                 $oReportEndDate->subtractSeconds(1);
                 // Send the advertiser's campaign delivery report
-                $aEmail = OA_Email::preparePlacementDeliveryEmail($aAdvertiser['clientid'], $oReportLastDate, $oReportEndDate);
+                $oEmail = new OA_Email();
+                $aEmail = $oEmail->preparePlacementDeliveryEmail($aAdvertiser['clientid'], $oReportLastDate, $oReportEndDate);
                 if ($aEmail !== false) {
-                    OA_Email::sendMail($aEmail['subject'], $aEmail['contents'], $aEmail['userEmail'], $aEmail['userName']);
+                    if (!isset($aEmail['hasAdviews']) || $aEmail['hasAdviews'] !== false) {
+                        $oEmail->sendMail($aEmail['subject'], $aEmail['contents'], $aEmail['userEmail'], $aEmail['userName']);
+                    }
                     // Update the last run date to "today"
                     OA::debug('   - Updating the date the report was last sent for advertiser ID ' . $aAdvertiser['clientid'] . '.', PEAR_LOG_DEBUG);
                     $doUpdateClients = OA_Dal::factoryDO('clients');
@@ -224,7 +239,7 @@ class OA_Maintenance
     function _runOpenadsSync()
     {
         OA::debug('  Starting Openads Sync process.', PEAR_LOG_DEBUG);
-        if ($this->aPref['updates_enabled'] == 't') {
+        if ($this->aConf['sync']['checkForUpdates']) {
             require_once MAX_PATH . '/lib/OA/Sync.php';
             $oSync = new OA_Sync($this->aConf, $this->aPref);
             $res = $oSync->checkForUpdates(0);
@@ -245,8 +260,7 @@ class OA_Maintenance
     function _runOpenadsCentral()
     {
         OA::debug('  Starting Openads Central process.', PEAR_LOG_DEBUG);
-        if ($this->aPref['updates_enabled'] == 't' && 
-            OA_Dal_ApplicationVariables::get('sso_admin') != "") 
+        if ($this->aConf['sync']['checkForUpdates'] && OA_Dal_ApplicationVariables::get('sso_admin'))
         {
             require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
             $oAdNetworks = new OA_Central_AdNetworks();
@@ -297,14 +311,8 @@ class OA_Maintenance
     function updateLastRun($bScheduled = false)
     {
         $sField = $bScheduled ? 'maintenance_cron_timestamp' : 'maintenance_timestamp';
-        // Update the timestamp (for old maintenance code)
-        // TODO: Move this query to the DAL, so that other code (tests, installation) can call it.
-        $query = "
-            UPDATE
-                {$this->aConf['table']['prefix']}{$this->aConf['table']['preference']}
-            SET
-                {$sField} = UNIX_TIMESTAMP('". OA::getNow() ."')";
-        $rows = $this->oDbh->exec($query);
+        OA_Dal_ApplicationVariables::set($sField, OA::getNow('U'));
+
         // Make sure that the maintenance delivery cache is regenerated
         MAX_cacheCheckIfMaintenanceShouldRun(false);
     }

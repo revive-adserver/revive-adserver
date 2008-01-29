@@ -82,7 +82,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $doDataSummaryAdHourly->requests      = 2;
         $doDataSummaryAdHourly->total_revenue = 3;
         $doDataSummaryAdHourly->clicks        = 4;
-        $doDataSummaryAdHourly->day           = '2007-08-08';
+        $doDataSummaryAdHourly->date_time     = '2007-08-08';
         $this->generateDataSummaryAdHourlyForBanner($doDataSummaryAdHourly, $doBanner);
 
         $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
@@ -90,7 +90,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $doDataSummaryAdHourly->requests      = 12;
         $doDataSummaryAdHourly->total_revenue = 13;
         $doDataSummaryAdHourly->clicks        = 14;
-        $doDataSummaryAdHourly->day           = '2007-08-08';
+        $doDataSummaryAdHourly->date_time     = '2007-08-08';
         $this->generateDataSummaryAdHourlyForBanner($doDataSummaryAdHourly, $doBanner);
 
         $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
@@ -98,8 +98,8 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $doDataSummaryAdHourly->requests      = 0;
         $doDataSummaryAdHourly->total_revenue = 0;
         $doDataSummaryAdHourly->clicks        = 0;
-        $doDataSummaryAdHourly->day           = '2007-08-12';
-        $dayForRecord2                        = $doDataSummaryAdHourly->day;
+        $doDataSummaryAdHourly->date_time     = '2007-08-12';
+        $dayForRecord2                        = $doDataSummaryAdHourly->date_time;
         $this->generateDataSummaryAdHourlyForBanner($doDataSummaryAdHourly, $doBanner);
 
         // 1. Get data existing range
@@ -169,21 +169,21 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $doDataSummaryAdHourly->requests      = 0;
         $doDataSummaryAdHourly->total_revenue = 0;
         $doDataSummaryAdHourly->clicks        = 0;
-        $doDataSummaryAdHourly->day           = '2007-01-01';
+        $doDataSummaryAdHourly->date_time     = '2007-01-01';
         $this->generateDataSummaryAdHourlyForBanner($doDataSummaryAdHourly, $doBanner1);
 
         $doDataSummaryAdHourly->impressions   = 0;
         $doDataSummaryAdHourly->requests      = 4;
         $doDataSummaryAdHourly->total_revenue = 6;
         $doDataSummaryAdHourly->clicks        = 7;
-        $doDataSummaryAdHourly->day           = '2007-02-01';
+        $doDataSummaryAdHourly->date_time     = '2007-02-01';
         $this->generateDataSummaryAdHourlyForBanner($doDataSummaryAdHourly, $doBanner1);
 
         $doDataSummaryAdHourly->impressions   = 0;
         $doDataSummaryAdHourly->requests      = 16;
         $doDataSummaryAdHourly->total_revenue = 4;
         $doDataSummaryAdHourly->clicks        = 33;
-        $doDataSummaryAdHourly->day           = '2007-04-01';
+        $doDataSummaryAdHourly->date_time     = '2007-04-01';
         $this->generateDataSummaryAdHourlyForBanner($doDataSummaryAdHourly, $doBanner2);
 
         // 1. Get data existing range
@@ -267,7 +267,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $doDataSummaryAdHourly->requests      = 22;
         $doDataSummaryAdHourly->total_revenue = 33;
         $doDataSummaryAdHourly->clicks        = 44;
-        $doDataSummaryAdHourly->day           = '1986-04-08';
+        $doDataSummaryAdHourly->date_time     = '1986-04-08';
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly, $doBanner, $doZone1);
 
         $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
@@ -275,7 +275,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $doDataSummaryAdHourly->requests      = 20;
         $doDataSummaryAdHourly->total_revenue = 30;
         $doDataSummaryAdHourly->clicks        = 40;
-        $doDataSummaryAdHourly->day           = '2007-09-13';
+        $doDataSummaryAdHourly->date_time     = '2007-09-13';
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly, $doBanner, $doZone2);
 
         $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
@@ -283,7 +283,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $doDataSummaryAdHourly->requests      = 20;
         $doDataSummaryAdHourly->total_revenue = 30;
         $doDataSummaryAdHourly->clicks        = 40;
-        $doDataSummaryAdHourly->day           = '2007-09-13';
+        $doDataSummaryAdHourly->date_time     = '2007-09-13';
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly, $doBanner, $doZone3);
 
         // 1. Get data existing range
@@ -364,7 +364,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $doDataSummaryAdHourly->requests      = 22;
         $doDataSummaryAdHourly->total_revenue = 33;
         $doDataSummaryAdHourly->clicks        = 44;
-        $doDataSummaryAdHourly->day           = '1986-04-08';
+        $doDataSummaryAdHourly->date_time     = '1986-04-08';
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly, $doBanner, $doZone1);
 
         $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
@@ -372,7 +372,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $doDataSummaryAdHourly->requests      = 20;
         $doDataSummaryAdHourly->total_revenue = 30;
         $doDataSummaryAdHourly->clicks        = 40;
-        $doDataSummaryAdHourly->day           = '2007-09-13';
+        $doDataSummaryAdHourly->date_time     = '2007-09-13';
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly, $doBanner, $doZone1);
 
         $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
@@ -380,7 +380,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $doDataSummaryAdHourly->requests      = 20;
         $doDataSummaryAdHourly->total_revenue = 30;
         $doDataSummaryAdHourly->clicks        = 40;
-        $doDataSummaryAdHourly->day           = '2007-09-13';
+        $doDataSummaryAdHourly->date_time     = '2007-09-13';
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly, $doBanner, $doZone2);
 
         // 1. Get data existing range

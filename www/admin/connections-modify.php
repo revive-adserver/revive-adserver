@@ -66,8 +66,7 @@ $aParams['campaignid'] = $campaignId;
 $aParams['bannerid']   = $bannerId;
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
-MAX_Permission::checkIsAllowed(phpAds_EditConversions);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_ADVERTISER);
 
 if (!empty($day)) {
     // Reset period
@@ -109,8 +108,8 @@ if(!empty($period_preset)) {
     }
 }
 
-if (!phpAds_isUser(phpAds_Admin)) {
-    $aParams['agency_id'] = phpAds_getAgencyID();
+if (!OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
+    $aParams['agency_id'] = OA_Permission::getAgencyId();
 }
 
 /*-------------------------------------------------------*/

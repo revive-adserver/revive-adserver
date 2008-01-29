@@ -29,7 +29,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Email.php';
-require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
+require_once MAX_PATH . '/lib/OA/Preferences.php';
 
 /*-------------------------------------------------------*/
 /* Mail warning - preset is reached						 */
@@ -38,24 +38,22 @@ require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
 function phpAds_warningMail($campaign)
 {
     $oDbh =& OA_DB::singleton();
-	$conf = $GLOBALS['_MAX']['CONF'];
+	$aConf = $GLOBALS['_MAX']['CONF'];
 	global $strImpressionsClicksConversionsLow, $strMailHeader, $strWarnClientTxt;
 	global $strMailNothingLeft, $strMailFooter;
 	if ($pref['warn_admin'] || $pref['warn_client']) {
 		// Get the client which belongs to this campaign
         $query = "
 			SELECT *
-			FROM ".$conf['table']['prefix'].$conf['table']['clients'] ."
+			FROM ".$aConf['table']['prefix'].$aConf['table']['clients'] ."
 			WHERE clientid=". $oDbh->quote($campaign['clientid'], 'integer');
         $res = $oDbh->query($query);
-		if ($client = $res->fetchRow()) {
+        if ($client = $res->fetchRow()) {
             // Load config from the database
             if (!isset($GLOBALS['_MAX']['PREF'])) {
-                //phpAds_LoadDbConfig();
-                $pref = MAX_Admin_Preferences::loadPrefs();
-            } else {
-	           $pref = $GLOBALS['_MAX']['PREF'];
+                OA_Preferences::loadPreferences();
             }
+            $pref = $GLOBALS['_MAX']['PREF'];
             // Required files
             include_once MAX_PATH . '/lib/max/language/Default.php';
             // Load the required language files
@@ -71,12 +69,13 @@ function phpAds_warningMail($campaign)
 			$Body    = str_replace("{adminfullname}", $pref['admin_fullname'], $Body);
 			$Body    = str_replace("{limit}", $pref['warn_limit'], $Body);
 			// Send email
+			$oEmail = new OA_Email();
 			if ($pref['warn_admin']) {
-				OA_Email::sendMail($Subject, $Body, $pref['admin_email'], $pref['admin_fullname']);
+				$oEmail->sendMail($Subject, $Body, $pref['admin_email'], $pref['admin_fullname']);
 			}
 			if ($pref['warn_client'] && $client["email"] != '') {
-				OA_Email::sendMail($Subject, $Body, $client['email'], $client['contact']);
-				if ($pref['userlog_email']) {
+				$oEmail->sendMail($Subject, $Body, $client['email'], $client['contact']);
+				if ($aConf['email']['logOutgoing']) {
 					phpAds_userlogAdd(phpAds_actionWarningMailed, $campaign['campaignid'], $Subject."\n\n".$Body);
 				}
 			}

@@ -165,7 +165,7 @@ class OA_Dll_Agency extends OA_Dll
      */
     function modify(&$oAgency)
     {
-        if (!$this->checkPermissions(phpAds_Admin)) {
+        if (!$this->checkPermissions(OA_ACCOUNT_ADMIN)) {
             return false;
         }
 
@@ -210,7 +210,7 @@ class OA_Dll_Agency extends OA_Dll
      */
     function delete($agencyId)
     {
-        if (!$this->checkPermissions(phpAds_Admin)) {
+        if (!$this->checkPermissions(OA_ACCOUNT_ADMIN)) {
             return false;
         }
 
@@ -269,7 +269,7 @@ class OA_Dll_Agency extends OA_Dll
      */
     function getAgencyList(&$aAgencyList)
     {
-        if (!$this->checkPermissions(phpAds_Admin)) {
+        if (!$this->checkPermissions(OA_ACCOUNT_ADMIN)) {
             return false;
         }
 
@@ -311,9 +311,9 @@ class OA_Dll_Agency extends OA_Dll
      */
     function getAgencyDailyStatistics($agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
-        if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency, 'agency',
-            $agencyId)) {
-
+        if (!$this->checkPermissions(
+            array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER),
+            'agency', $agencyId)) {
             return false;
         }
 
@@ -351,7 +351,8 @@ class OA_Dll_Agency extends OA_Dll
      */
     function getAgencyAdvertiserStatistics($agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
-        if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency, 'agency', $agencyId)) {
+        if (!$this->checkPermissions(
+            array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER), 'agency', $agencyId)) {
             return false;
         }
 
@@ -391,7 +392,8 @@ class OA_Dll_Agency extends OA_Dll
      */
     function getAgencyCampaignStatistics($agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
-        if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency, 'agency', $agencyId)) {
+        if (!$this->checkPermissions(
+            array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER), 'agency', $agencyId)) {
             return false;
         }
 
@@ -433,7 +435,9 @@ class OA_Dll_Agency extends OA_Dll
      */
     function getAgencyBannerStatistics($agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
-        if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency, 'agency', $agencyId)) {
+        if (!$this->checkPermissions(
+            array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER),
+            'agency', $agencyId)) {
             return false;
         }
 
@@ -471,7 +475,9 @@ class OA_Dll_Agency extends OA_Dll
      */
     function getAgencyPublisherStatistics($agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
-        if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency, 'agency', $agencyId)) {
+        if (!$this->checkPermissions(
+            array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER),
+            'agency', $agencyId)) {
             return false;
         }
 
@@ -514,7 +520,9 @@ class OA_Dll_Agency extends OA_Dll
      */
     function getAgencyZoneStatistics($agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
-        if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency, 'agency', $agencyId)) {
+        if (!$this->checkPermissions(
+            array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER),
+            'agency', $agencyId)) {
             return false;
         }
 

@@ -11,7 +11,7 @@
 
 <project name="Openads delivery - axmlrpc.php" basedir="../.." default="main">
   
-  <property name="delivery_file" value="axmlrpc.php"/>
+  <property name="delivery_file" value="delivery_test/axmlrpc.php"/>
   
   <import file="../../includes/init.xml"/>
   <import file="${webtest.home}/lib/taskdef.xml"/>

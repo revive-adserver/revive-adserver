@@ -37,7 +37,7 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 
 // Security check
-phpAds_checkAccess(phpAds_Admin);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
 /*-------------------------------------------------------*/
 /* Main code                                             */

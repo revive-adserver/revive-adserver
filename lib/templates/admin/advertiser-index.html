@@ -24,12 +24,9 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: advertiser-index.php 9309 2007-08-31 08:04:17Z matteo.beccati@openads.org $
+$Id$
 
 -->*}
-
-
-
 <img src="images/icon-advertiser-new.gif" border="0" align="absmiddle">&nbsp;
 <a href="advertiser-edit.php" accesskey="{t key=AddNew}">{t str=AddClient_Key}</a>&nbsp;&nbsp;
 
@@ -38,94 +35,27 @@ $Id: advertiser-index.php 9309 2007-08-31 08:04:17Z matteo.beccati@openads.org $
 <br>
 <br>
 
-<div class="section adnetworks-section">
-<div class="title">
-<a href="#"><img src="images/triangle-d.gif" align="absmiddle" border="0"></a>&nbsp;
-        Openads advertisers</div>
-<div class="content">
-
-{include file=advertiser-index-list.html from=$aOacAdvertisers aCount=$aCount.Openads}
-
-</div>
-</div>
-
-{*<!-- Find other networks -->*}
-<div class="section adnetworks-section adnetworks-filled-section">
-<div class="title">
-<a href="#"><img src="images/triangle-d.gif" align="absmiddle" border="0"></a>&nbsp;
-        Find other ad networks</div>
-<div class="content">
-<table>
-<tr>
-<td style="vertical-align: top">
-<form style="width: 230px" id="findnetworksform" class="new-form">
-
-<div class="line">
-<label for="country" class="left" style="width: 70px; line-height: 20px">Country</label><select style="width: 11em;margin-left: 5px;" name="country" id="country" class="inline flat">
-    {html_options options=$aCountries}
-</select>
-<br>
-</div>
-<div class="line">
-<label for="language" class="left" style="width: 70px; line-height: 20px">Language</label><select style="width: 11em;margin-left: 5px;" name="language" id="language" class="inline flat">
-    {html_options options=$aLanguages}
-</select>
-
-</div>
-</form>
-</td><td style="vertical-align: top; padding-top: 14px"><span id="other-networks-table">
-
-{include file=ajax/find-other-networks.html}
-
-</span></td>
-</tr>
-</table>
-<script>
-
-      initFindOtherNetworks();
-    </script>
-</div>
-</div>
-{*<!-- /Find other networks -->*}
-
-
-
 <div class="section">
-<div class="title">
-<a href="#"><img src="images/triangle-d.gif" align="absmiddle" border="0"></a>&nbsp;
-        Local advertisers</div>
+<div class="title">&nbsp;Advertisers</div>
 <div class="content">
 
-{include file=advertiser-index-list.html from=$aOapAdvertisers aCount=$aCount.Local}
+{include file=advertiser-index-list.html from=$aAdvertisers aCount=$aCount}
 
 </div>
 </div>
 
 <div class="section">
-<div class="title">
-<a href="#"><img src="images/triangle-d.gif" align="absmiddle" border="0"></a>&nbsp;
-        Overall</div>
+<div class="title">&nbsp;Overall</div>
 <div class="content">
 <table width="100%" border="0" align="center" cellspacing="0" cellpadding="0">
-{cycle name=bgcolor values="#F6F6F6, #FFFFFF" assign=bgColor reset=1}
-{foreach key=overallTitle item=overall from=$aCount}
-    {cycle name=bgcolor assign=bgColor}
-<tr bgcolor="{$bgColor}">
-<td height="25" rowspan="3" style="width:15%"><b>{$overallTitle}</b></td><td height="25"><b>{$overall.advertisers}</b> advertiser(s)</td>
-
-</tr>
-<tr bgcolor="{$bgColor}">
-<td height="25"><b>{$overall.campaigns}</b> campaign(s) (<i>{$overall.campaigns_active} active</i>)</td>
-</tr>
-<tr bgcolor="{$bgColor}">
-<td height="25"><b>{$overall.banners}</b> banner(s) (<i>{$overall.banners_active} active</i>)
-        </td>
-</tr>
-
-<tr height="1">
-<td colspan="5" bgcolor="#888888"><img src="images/break.gif" height="1" width="100%"></td>
-</tr>
-{/foreach}
+  <tr>
+    <td height="25"><b>{$aCount.advertisers}</b> advertiser(s)</td>
+    <td height="25"><b>{$aCount.campaigns}</b> campaign(s) (<i>{$aCount.campaigns_active} active</i>)</td>
+    <td height="25"><b>{$aCount.banners}</b> banner(s) (<i>{$aCount.banners_active} active</i>)</td>
+  </tr>
+  <tr class="break">
+      <td colspan="3"></td>
+  </tr>
 </table>
 </div>
 </div>

@@ -28,9 +28,9 @@ $Id$
 setupIncludePath();
 
 require_once MAX_PATH . '/lib/Max.php';
-require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
 
 require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
+require_once MAX_PATH . '/lib/OA/Preferences.php';
 
 /**
  * A library class for providing automatic maintenance process methods.
@@ -47,7 +47,7 @@ class OA_Maintenance_Auto
     	// loading libraries and connecting to the db
     	flush();
 
-    	MAX_Admin_Preferences::loadPrefs(0);
+    	OA_Preferences::loadAdminAccountPreferences();
 
         $aConf = $GLOBALS['_MAX']['CONF'];
 

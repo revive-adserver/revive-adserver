@@ -38,7 +38,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Reports/Index.php';
 phpAds_registerGlobal ('selection');
 
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client + phpAds_Affiliate);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
 
 // Load the required language files
 Language_Report::load();

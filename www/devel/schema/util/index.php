@@ -6,7 +6,8 @@ require_once './init.php';
 
 $htmlfile = './tpl/index.html';
 
-if (array_key_exists('dump', $_POST) ||
+if (array_key_exists('dumpStru', $_POST) ||
+    array_key_exists('dumpData', $_POST) ||
     array_key_exists('diff', $_POST) ||
     array_key_exists('diffx', $_POST)||
     array_key_exists('create', $_POST) ||
@@ -31,10 +32,21 @@ if (array_key_exists('dump', $_POST) ||
 
     $schema = & MDB2_Schema::factory($mdb, $options);
 
-    if (array_key_exists('dump', $_POST))
+    if (array_key_exists('dumpStru', $_POST)
+        || array_key_exists('dumpData', $_POST))
     {
+        if (array_key_exists('dumpStru', $_POST))
+        {
+            $dumpDirective = MDB2_SCHEMA_DUMP_STRUCTURE;
+            $dumpfile_mdbs = $dumpfile_mdbs_stru = $_POST['dumpfile_mdbs_stru'];
+        }
+        if (array_key_exists('dumpData', $_POST))
+        {
+            $dumpDirective = MDB2_SCHEMA_DUMP_CONTENT;
+            $dumpfile_mdbs = $dumpfile_mdbs_data = $_POST['dumpfile_mdbs_data'];
+        }
+
         $def    = $schema->getDefinitionFromDatabase();
-        $dumpfile_mdbs = $_POST['dumpfile_mdbs'];
         $options = array (
                             'output_mode'   =>    'file',
                             'output'        =>    MAX_VAR.'/'.$dumpfile_mdbs.'.xml',
@@ -42,7 +54,7 @@ if (array_key_exists('dump', $_POST) ||
                             'xsl_file'      =>    "/devel/schema/util/xsl/mdb2_schema.xsl",
                             'custom_tags'   => array('version'=>'0', 'status'=>'transitional')
                           );
-        $dump = $schema->dumpDatabase($def, $options, MDB2_SCHEMA_DUMP_STRUCTURE, false);
+        $dump = $schema->dumpDatabase($def, $options, $dumpDirective, false);
 
     }
     else if (array_key_exists('diff', $_POST))

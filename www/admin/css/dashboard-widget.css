@@ -1,6 +1,7 @@
 body, table, td, select, textarea, input {
-    font-family: Tahoma,Verdana,Arial,Helvetica,sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 8pt;
+    color: #444444;
 }
 img, input, select, body, form {
    border: 0;
@@ -11,6 +12,7 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
 iframe {
 	background: none;
 }
@@ -19,15 +21,18 @@ iframe {
     position: relative;
     width: 990px;
 }
+
 #main {
 	float: left;
     width: 817px;
 }
+
 #header {
 	overflow: hidden;
 	width: 100%;
 	/*height: 155px; height is determined by the children heught */
 }
+
 #ad {
 	float: right;
 	margin-left: 10px;
@@ -41,36 +46,106 @@ iframe {
 .error, div.widgetOverlayContent p.error {
 	color: #ff0000;
 }
+
 .alignRight {
 	text-align: right;
 }
 
-/**
- * Widgets
- */
-ul#feed {
-    color: #77797C;
-    width: 215px;
-    padding-left: 15px;
-    margin: 0 0 15px 0px;
-    list-style-image: url('../images/listIcon.gif');
-}
-ul#feed li {
-    font-size: 7pt;
-    margin-bottom: 5px;
-}
-div#siteLink a {
-    font-size: 7pt;
-    color: #00B0D8;
+/* Links */
+a {
+    color: #444444;
     text-decoration: none;
 }
-div#siteLink a:hover{
+
+a:hover {
     text-decoration: underline;
 }
-a {
-    color: black;
+
+a.site-link  {
+    color: #0767A8;
+    font-weight: normal;
     text-decoration: none;
 }
+
+a.site-link:hover {
+    text-decoration: underline;
+}
+
+div.widgetContainer {
+  height: 130px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Widget unordered lists */
+ul.widgetList {
+    color: #444444;
+    margin: 0px;
+    padding-left: 12px;
+    margin-bottom: 10px;
+    list-style-image: url('../images/listIcon.gif');*/
+    list-style-position: outside;
+}
+
+.widgetList li {
+    margin-bottom: 5px;
+}
+
+/* Widget unordered list wrapper */
+/*.widgetListWrapper {
+  width:240px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}*/
+
+.widgetList li .title {
+    float: left;
+    width: 72%;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-right:2%;
+    text-overflow: ellipsis;
+}
+
+.auditList li .title {
+    width: 65%;
+}
+
+.auditList li .date {
+    font-weight: bold;
+}
+
+
+.campaignList li, .auditList li {
+	  width: 100%;
+}
+
+.campaignList .added, .campaignList .started, .campaignList .resumed {
+    color: green;
+}
+
+.campaignList .finished {
+}
+
+ .campaignList .paused {
+    color: red;
+}
+
+
+/*.campaignList .started, .campaignList .resumed {
+    color: green;
+}
+
+.campaignList .finished {
+    color: red;
+}
+
+.campaignList .added, .campaignList .paused {
+  color: #777777;
+  font-style: italic;
+}*/
+
+/*  stats */
 img#graph {
     width: 239px;
     height: 132px;
@@ -107,6 +182,7 @@ img#graph {
     width: 130px;
     padding: 2px;
 }
+
 #loginForm input.loginFormSubmit {
     color: #ffffff;
     width: 67px;
@@ -147,10 +223,10 @@ div.widgetOverlayHeader, div.widgetOverlayFooter {
     height: 15px;
 }
 div.widgetOverlayHeader {
-    background: url('../images/dashboard//widgetOverlayHeader.png') no-repeat bottom left;
+    background: url('../images/dashboard/widgetOverlayHeader.png') no-repeat bottom left;
 }
 div.widgetOverlayFooter {
-    background: url('../images/dashboard//widgetOverlayFooter.png') no-repeat top left;
+    background: url('../images/dashboard/widgetOverlayFooter.png') no-repeat top left;
 }
 div.widgetOverlayCenter {
     width: 377px;
@@ -161,45 +237,54 @@ div.widgetOverlayLeft, div.widgetOverlayRight {
     height: 272px;
     width: 10px;
 }
+
 div.widgetOverlayLeft {
     float: left;
-    background: url('../images/dashboard//widgetOverlayLeft.png') no-repeat top right;
+    background: url('../images/dashboard/widgetOverlayLeft.png') no-repeat top right;
 }
+
 div.widgetOverlayRight {
     float: right;
-    background: url('../images/dashboard//widgetOverlayRight.png') no-repeat top left;
+    background: url('../images/dashboard/widgetOverlayRight.png') no-repeat top left;
 }
+
 div.widgetOverlayBody {
 	width: 347px;
     height: 272px;
-    background: url('../images/dashboard//widgetOverlayCenter.gif') repeat-x top center;
+    background: url('../images/dashboard/widgetOverlayCenter.gif') repeat-x top center;
     float: right;
     text-align: center;
     padding: 0 5px;
 }
+
 div.widgetOverlayContent {
     clear: both;
     text-align: left;
     width: 347px;
 }
+
 div.widgetOverlayContent h1 {
 	font-size: 15pt;
 	color: 77797C;
 }
+
 div.widgetOverlayContent p {
     color: 77797C;
 	font-size: 8pt;
 	margin: 10px 0;
 
 }
+
 div.widgetOverlayContent a {
 	font-size: 8pt;
     color: #00B0D8;
     text-decoration: none;
 }
+
 div.widgetOverlayContent a:hover {
 	text-decoration: underline;
 }
+
 div.dashboardOverlay {
     position: absolute;
     top: 0%;

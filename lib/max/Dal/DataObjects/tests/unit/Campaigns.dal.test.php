@@ -51,15 +51,17 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
 
     function testInsert()
     {
+        $numTrackers = 2;
+
         // Prepare test data
         $doChannel = OA_Dal::factoryDO('channel');
         $doChannel->acls_updated = '2007-04-03 19:29:54';
-        $channelId = DataGenerator::generateOne($doChannel);
+        $channelId = DataGenerator::generateOne($doChannel, true);
 
         $doTrackers = OA_Dal::factoryDO('trackers');
         $doTrackers->clientid = $clientId;
         $doTrackers->linkcampaigns = 't';
-        $aTrackerId = DataGenerator::generate($doTrackers, $numTrackers = 2);
+        $aTrackerId = DataGenerator::generate($doTrackers, $numTrackers, true);
 
         $doTrackers = OA_Dal::factoryDO('trackers');
         $doTrackers->linkcampaigns = 'f';
@@ -77,8 +79,9 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
         $this->assertEqual($doCampaigns_trackers->count(), $numTrackers);
 
         // Delete any data which wasn't created by DataGenerator
-        DataGenerator::cleanUp(array('campaigns', 'campaigns_trackers'));
+        DataGenerator::cleanUp(array('campaigns', 'campaigns_trackers','trackers'));
     }
 
 }
+
 ?>

@@ -218,9 +218,11 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
         foreach (array_keys($row) as $s) {
             if (isset($row[$s])) {
                 if (!isset($entity[$row[$key]][$s])) {
-                    $entity[$row[$key]][$s] = 0;
+                    $entity[$row[$key]][$s] = $row[$s];
                 }
-                $entity[$row[$key]][$s] += $row[$s];
+                if (substr($s, -3) != '_id') {
+                    $entity[$row[$key]][$s] += $row[$s];
+                }
             }
         }
     }
@@ -234,6 +236,9 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
     {
         if (is_null($this->data))
         {
+            $oNow = new Date();
+            $aParams['tz'] = $oNow->tz->getID();
+
             // Get plugin aParams
             $pluginParams = array();
             foreach ($this->aPlugins as $oPlugin) {
@@ -424,7 +429,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
      */
     function getCampaigns($aParams, $level, $expand = '')
     {
-        $aParams['include'] = array('placement_id');
+        $aParams['include'] = array('placement_id', 'advertiser_id');
         $aParams['exclude'] = array('zone_id');
         $this->prepareData($aParams);
         $period_preset = MAX_getStoredValue('period_preset', 'today');
@@ -444,7 +449,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
 
                 $this->_summarizeStats($campaign);
                 // mask anonymous campaigns if advertiser
-                if (phpAds_isUser(phpAds_Advertiser)) {
+                if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
                     // a) mask campaign name
                     $campaign['name'] = MAX_getPlacementName($campaign);
                     // b) mask ad names
@@ -623,6 +628,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
     function getZones($aParams, $level, $expand)
     {
         $aParams['exclude'] = array('ad_id');
+        $aParams['include'] = array('publisher_id');
         $this->prepareData($aParams);
         $period_preset = MAX_getStoredValue('period_preset', 'today');
 

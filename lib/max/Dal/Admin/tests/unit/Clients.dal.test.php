@@ -178,24 +178,21 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         // Test 3
         $aClients = $this->dalClients->getAdvertiserDetails(2);
         $this->assertTrue(is_array($aClients));
-        $this->assertEqual(count($aClients), 17);
+        $this->assertEqual(count($aClients), 15);
         $this->assertEqual($aClients['clientid'], 2);
         $this->assertTrue(array_key_exists('agencyid', $aClients));
         $this->assertTrue(array_key_exists('clientname', $aClients));
-        $this->assertTrue(array_key_exists('clientpassword', $aClients));
-        $this->assertTrue(array_key_exists('clientusername', $aClients));
         $this->assertTrue(array_key_exists('comments', $aClients));
         $this->assertTrue(array_key_exists('contact', $aClients));
         $this->assertTrue(array_key_exists('email', $aClients));
-        $this->assertTrue(array_key_exists('language', $aClients));
-        $this->assertTrue(array_key_exists('permissions', $aClients));
         $this->assertTrue(array_key_exists('report', $aClients));
         $this->assertTrue(array_key_exists('reportdeactivate', $aClients));
         $this->assertTrue(array_key_exists('reportinterval', $aClients));
         $this->assertTrue(array_key_exists('reportlastdate', $aClients));
         $this->assertTrue(array_key_exists('updated', $aClients));
         $this->assertTrue(array_key_exists('lb_reporting', $aClients));
-        $this->assertTrue(array_key_exists('oac_adnetwork_id', $aClients));
+        $this->assertTrue(array_key_exists('an_adnetwork_id', $aClients));
+        $this->assertTrue(array_key_exists('as_advertiser_id', $aClients));
 
         TestEnv::truncateAllTables();
     }

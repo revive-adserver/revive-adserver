@@ -36,7 +36,7 @@ define('CONFIG_PATH', MAX_PATH . '/var/test.conf.php');
  */
 class CCConfigWriter
 {
-    function configureTest($type, $host, $port, $username, $password, $name, $tableType)
+    function configureTest($type, $host, $port, $username, $password, $name, $tableType, $auditEnabled, $loadBalancingEnabled, $loadBalancingName)
     {
         $config = new Config();
         $configContainer = &$config->parseConfig(CONFIG_TEMPLATE, 'inifile');
@@ -49,19 +49,35 @@ class CCConfigWriter
         $sectionDatabase->setDirective('password', $password);
         $sectionDatabase->setDirective('name', $name);
         
+        $sectionLoadBalancing = &$configContainer->getItem('section', 'lb');
+        $sectionLoadBalancing->setDirective('enabled', $loadBalancingEnabled); 
+        $sectionLoadBalancing->setDirective('type', $type);
+        $sectionLoadBalancing->setDirective('host', $host);
+        $sectionLoadBalancing->setDirective('port', $port);
+        $sectionLoadBalancing->setDirective('username', $username);
+        $sectionLoadBalancing->setDirective('password', $password);
+        $sectionLoadBalancing->setDirective('name', $loadBalancingName);
+
         $tableType = trim($tableType);
         $sectionTable = &$configContainer->getItem('section', 'table');
         $sectionTable->setDirective('type', $tableType);
+
+        // Nightly builds can take a lot of time... use 30 minutes
+        $sectionMaintenance = &$configContainer->getItem('section', 'maintenance');
+        $sectionMaintenance->setDirective('timeLimitScripts', 60 * 30);
         
+        $sectionAudit = &$configContainer->getItem('section', 'audit');
+        $sectionAudit->setDirective('enabled', $auditEnabled);
+
         $config->writeConfig(CONFIG_PATH, 'inifile');
     }
-    
-    
+
+
     function configureTestFromArray($aConfigurationEntries, $configFilename)
     {
         $config = new Config();
         $configContainer = &$config->parseConfig(CONFIG_TEMPLATE, 'inifile');
-        
+
         foreach($aConfigurationEntries as $configurationEntry) {
             $aConfigurationEntry = explode("=", $configurationEntry);
             list($configurationKey, $configurationValue) = $aConfigurationEntry;
@@ -69,7 +85,7 @@ class CCConfigWriter
             $section = &$configContainer->getItem('section', $sectionName);
             $section->setDirective($variableName, $configurationValue);
         }
-        
+
         $config->writeConfig($configFilename, 'inifile');
     }
 }

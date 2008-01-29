@@ -104,7 +104,7 @@ $GLOBALS['strKiloByte']				= "KB";
 $GLOBALS['strExpandAll']			= "��� ����(<u>E</u>)";
 $GLOBALS['strCollapseAll']			= "��� ����(<u>C</u>)";
 $GLOBALS['strShowAll']				= "��� ����";
-$GLOBALS['strNoAdminInteface']			= "���񽺸� �̿��� �� ��4ϴ�.";
+$GLOBALS['strNoAdminInterface']			= "���񽺸� �̿��� �� ��4ϴ�.";
 $GLOBALS['strFilterBySource']			= "�ҽ� ���͸�";
 $GLOBALS['strFieldContainsErrors']		= "��= �ʵ忡 �7� �ֽ4ϴ�.:";
 $GLOBALS['strFieldFixBeforeContinue1']		= "�7� ��d�� �Ŀ�";

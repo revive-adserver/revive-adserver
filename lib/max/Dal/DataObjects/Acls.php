@@ -61,6 +61,68 @@ class DataObjects_Acls extends DB_DataObjectCommon
     function sequenceKey() {
         return array(false, false, false);
     }
+
+    function _auditEnabled()
+    {
+        return true;
+    }
+
+    function _getContextId()
+    {
+        return $this->bannerid;
+    }
+
+    function _getContext()
+    {
+        return 'Delivery Limitation';
+    }
+
+    /**
+     * A private method to return the account ID of the
+     * account that should "own" audit trail entries for
+     * this entity type; NOT related to the account ID
+     * of the currently active account performing an
+     * action.
+     *
+     * @return integer The account ID to insert into the
+     *                 "account_id" column of the audit trail
+     *                 database table.
+     */
+    function getOwningAccountId()
+    {
+        return parent::_getOwningAccountIdFromParent('banners', 'bannerid');
+    }
+
+    /**
+     * build an acls specific audit array
+     *
+     * @param integer $actionid
+     * @param array $aAuditFields
+     */
+    function _buildAuditArray($actionid, &$aAuditFields)
+    {
+        $aAuditFields['key_desc']     = $this->type;
+        switch ($actionid)
+        {
+            case OA_AUDIT_ACTION_INSERT:
+                        break;
+            case OA_AUDIT_ACTION_UPDATE:
+                        $aAuditFields['bannerid'] = $this->bannerid;
+                        break;
+            case OA_AUDIT_ACTION_DELETE:
+                        break;
+        }
+    }
+
+    function _formatValue($field)
+    {
+        switch ($field)
+        {
+            default:
+                return $this->$field;
+        }
+    }
+
 }
 
 ?>

@@ -1,0 +1,58 @@
+<?php
+
+require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
+
+class Migration_541 extends Migration
+{
+
+    function Migration_541()
+    {
+        //$this->__construct();
+
+		$this->aTaskList_constructive[] = 'beforeAddField__affiliates__an_website_id';
+		$this->aTaskList_constructive[] = 'afterAddField__affiliates__an_website_id';
+		$this->aTaskList_constructive[] = 'beforeAddField__affiliates__as_website_id';
+		$this->aTaskList_constructive[] = 'afterAddField__affiliates__as_website_id';
+		$this->aTaskList_destructive[] = 'beforeRemoveField__affiliates__oac_website_id';
+		$this->aTaskList_destructive[] = 'afterRemoveField__affiliates__oac_website_id';
+
+
+		$this->aObjectMap['affiliates']['an_website_id'] = array('fromTable'=>'affiliates', 'fromField'=>'oac_website_id');
+		$this->aObjectMap['affiliates']['as_website_id'] = array('fromTable'=>'affiliates', 'fromField'=>'as_website_id');
+    }
+
+
+
+	function beforeAddField__affiliates__an_website_id()
+	{
+		return $this->beforeAddField('affiliates', 'an_website_id');
+	}
+
+	function afterAddField__affiliates__an_website_id()
+	{
+		return $this->afterAddField('affiliates', 'an_website_id');
+	}
+
+	function beforeAddField__affiliates__as_website_id()
+	{
+		return $this->beforeAddField('affiliates', 'as_website_id');
+	}
+
+	function afterAddField__affiliates__as_website_id()
+	{
+		return $this->afterAddField('affiliates', 'as_website_id');
+	}
+
+	function beforeRemoveField__affiliates__oac_website_id()
+	{
+		return $this->beforeRemoveField('affiliates', 'oac_website_id');
+	}
+
+	function afterRemoveField__affiliates__oac_website_id()
+	{
+		return $this->afterRemoveField('affiliates', 'oac_website_id');
+	}
+
+}
+
+?>

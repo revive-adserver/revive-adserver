@@ -60,21 +60,11 @@ foreach ($invPlugins as $plugin) {
 
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
+OA_Permission::enforceAccessToObject('clients',   $clientid);
+OA_Permission::enforceAccessToObject('campaigns', $campaignid);
+OA_Permission::enforceAccessToObject('banners',   $bannerid);
 
-if (phpAds_isUser(phpAds_Agency)) {
-    $doBanners = OA_Dal::factoryDO('banners');
-    $doBanners->addReferenceFilter('agency', phpAds_getUserID());
-    $doBanners->addReferenceFilter('campaigns', $campaignid);
-    $doBanners->addReferenceFilter('clients', $clientid);
-    $doBanners->addReferenceFilter('banners', $bannerid);
-    $doBanners->find();
-
-    if (!$doBanners->getRowCount()) {
-        phpAds_PageHeader("2");
-        phpAds_Die ($strAccessDenied, $strNotAdmin);
-    }
-}
 
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
@@ -135,22 +125,10 @@ if (isset($submitbutton)) {
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-if (isset($session['prefs']['campaign-banners.php'][$campaignid]['listorder'])) {
-    $navorder = $session['prefs']['campaign-banners.php'][$campaignid]['listorder'];
-} else {
-    $navorder = '';
-}
-
-if (isset($session['prefs']['campaign-banners.php'][$campaignid]['orderdirection'])) {
-    $navdirection = $session['prefs']['campaign-banners.php'][$campaignid]['orderdirection'];
-} else {
-    $navdirection = '';
-}
-
 // Initialise some parameters
 $pageName = basename($_SERVER['PHP_SELF']);
 $tabindex = 1;
-$agencyId = phpAds_getAgencyID();
+$agencyId = OA_Permission::getAgencyId();
 $aEntities = array('clientid' => $clientid, 'campaignid' => $campaignid, 'bannerid' => $bannerid);
 
 // Display navigation

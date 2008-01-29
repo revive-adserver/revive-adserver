@@ -41,7 +41,7 @@ require_once MAX_PATH . '/www/admin/lib-maintenance.inc.php';
 require_once MAX_PATH . '/www/admin/lib-banner.inc.php';
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
 phpAds_registerGlobal('action', 'returnurl');
 
@@ -85,8 +85,8 @@ if (!empty($action) && ($action == 'Rebuild')) {
 
 function _showPageHeader()
 {
-    phpAds_PageHeader("5.3");
-    phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
+    phpAds_PageHeader("5.4");
+    phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
     phpAds_MaintenanceSelection("banners");
 }
 
@@ -94,9 +94,9 @@ function _showPageHeader()
 //function processBanners($commit = false) {
 //    $doBanners = OA_Dal::factoryDO('banners');
 //
-//    if (phpAds_isUser(phpAds_Agency))
+//    if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
 //    {
-//        $doBanners->addReferenceFilter('agency', $agencyId = phpAds_getUserId());
+//        $doBanners->addReferenceFilter('agency', $agencyId = OA_Permission::getEntityId());
 //    }
 //    $doBanners->find();
 //

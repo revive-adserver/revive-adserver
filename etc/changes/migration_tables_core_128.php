@@ -287,12 +287,6 @@ class Migration_128 extends Migration
 	        }
 	        $this->_log("WARNING! Upgrade of non-compatible region geotargeting limitations is complete.");
 	    }
-
-        $result = MAX_AclReCompileAll(true);
-        if (PEAR::isError($result)) {
-            return $this->_logErrorAndReturnFalse('Error migrating ACLS during migration 128: '.$result->getUserInfo());
-        }
-
 	    return true;
 	}
 

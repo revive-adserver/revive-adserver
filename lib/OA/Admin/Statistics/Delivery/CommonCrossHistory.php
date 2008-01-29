@@ -50,7 +50,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
             'custom_columns' => array()
         );
 
-        if (phpAds_isUser(phpAds_Client)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             // Get anonymous campaigns
             $aAnonPlacements = Admin_DA::fromCache('getPlacements', array('advertiser_id' => $advertiserId, 'placement_anonymous' => 't'));
         } else {
@@ -102,7 +102,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
             'custom_columns' => array()
         );
 
-        if (phpAds_isUser(phpAds_Client)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             // Get anonymous campaigns
             $aAnonPlacements = Admin_DA::fromCache('getPlacements', array('advertiser_id' => $advertiserId, 'placement_anonymous' => 't'));
         } else {
@@ -153,7 +153,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
             'custom_columns' => array()
         );
 
-        if (phpAds_isUser(phpAds_Client)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             // Get anonymous campaigns
             $aAnonPlacements = Admin_DA::fromCache('getPlacements', array('placement_id' => $placementId, 'placement_anonymous' => 't'));
         } else {
@@ -205,7 +205,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
             'custom_columns' => array()
         );
 
-        if (phpAds_isUser(phpAds_Client)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             // Get anonymous campaigns
             $aAnonPlacements = Admin_DA::fromCache('getPlacements', array('placement_id' => $placementId, 'placement_anonymous' => 't'));
         } else {
@@ -256,7 +256,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
             'custom_columns' => array()
         );
 
-        if (phpAds_isUser(phpAds_Client)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             // Get anonymous campaigns
             $aAnonPlacements = Admin_DA::fromCache('getPlacements', array('placement_id' => $placementId, 'placement_anonymous' => 't'));
         } else {
@@ -308,7 +308,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
             'custom_columns' => array()
         );
 
-        if (phpAds_isUser(phpAds_Client)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             // Get anonymous campaigns
             $aAnonPlacements = Admin_DA::fromCache('getPlacements', array('placement_id' => $placementId, 'placement_anonymous' => 't'));
         } else {

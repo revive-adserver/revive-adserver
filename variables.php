@@ -73,9 +73,9 @@ function setupConfigVariables()
     $GLOBALS['_MAX']['MAX_RAND'] = isset($GLOBALS['_MAX']['CONF']['priority']['randmax']) ?
         $GLOBALS['_MAX']['CONF']['priority']['randmax'] : 2147483647;
 
-    // Set time zone, for more info @see setTimeZoneLocation()
-    if (!empty($GLOBALS['_MAX']['CONF']['timezone']['location'])) {
-        setTimeZoneLocation($GLOBALS['_MAX']['CONF']['timezone']['location']);
+    // Always use UTC when outside the installer
+    if (substr($_SERVER['SCRIPT_NAME'], -11) != 'install.php') {
+        OA_setTimeZoneUTC();
     }
 }
 
@@ -124,17 +124,44 @@ function setupDeliveryConfigVariables()
  * ensure that an appropriate timezone is set, if required, to allow
  * the time zone to be other than the time zone of the server.
  *
- * @param string $location  Time zone location
+ * @param string $timezone
  */
-function setTimeZoneLocation($location)
+function OA_setTimeZone($timezone)
 {
     if (version_compare(phpversion(), '5.1.0', '>=')) {
         // Set new time zone
-        date_default_timezone_set($location);
+        date_default_timezone_set($timezone);
     } else {
         // Set new time zone
-        putenv("TZ={$location}");
+        putenv("TZ={$timezone}");
     }
+
+    // Set PEAR::Date_TimeZone default as well
+    //
+    // Ideally this should be a Date_TimeZone::setDefault() call, but for optimization
+    // purposes, we just override the global variable
+    $GLOBALS['_DATE_TIMEZONE_DEFAULT'] = $timezone;
+}
+
+/**
+ * Set the current default timezone to UTC
+ *
+ * @see OA_setTimeZone()
+ */
+function OA_setTimeZoneUTC()
+{
+    OA_setTimeZone('UTC');
+}
+
+/**
+ * Set the current default timezone to local
+ *
+ * @see OA_setTimeZone()
+ */
+function OA_setTimeZoneLocal()
+{
+    $tz = !empty($GLOBALS['_MAX']['PREF']['timezone']) ? $GLOBALS['_MAX']['PREF']['timezone'] : 'GMT';
+    OA_setTimeZone($tz);
 }
 
 /**

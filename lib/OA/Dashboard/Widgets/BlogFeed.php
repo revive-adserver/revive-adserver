@@ -43,9 +43,9 @@ class OA_Dashboard_Widget_BlogFeed extends OA_Dashboard_Widget_Feed
     {
         parent::OA_Dashboard_Widget_Feed(
             $aParams,
-            'Last 5 blog posts',
+            'Last 6 blog posts',
             'http://feeds.feedburner.com/OpenadsBlog?format=xml',
-            5,
+            6,
             'Go to Openads news page',
             'http://blog.openads.org'
         );

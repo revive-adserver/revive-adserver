@@ -30,7 +30,7 @@ require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/lib/max/other/stats.php';
 require_once MAX_PATH . '/lib/max/Plugin.php';
 require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
-require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
+require_once MAX_PATH . '/lib/OA/Permission.php';
 
 require_once MAX_PATH . '/lib/OA/Admin/Statistics/Daily.php';
 require_once MAX_PATH . '/lib/OA/Admin/Statistics/Flexy.php';
@@ -296,6 +296,13 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     var $dayLinkBreakdown = 'daily';
 
     /**
+     * A variable to decide if stats returned need to be formatted or not
+     *
+     * @var boolean
+     */
+    var $skipFormatting = false;
+
+    /**
      * A PHP5-style constructor that can be used to perform common
      * class instantiation by children classes.
      *
@@ -343,6 +350,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         foreach ($this->aPlugins as $oPlugin) {
             $this->aColumns       += $oPlugin->getFields($this);
             $this->aColumnLinks   += $oPlugin->getColumnLinks();
+            $this->aColumnVisible += $oPlugin->getVisibleColumns();
             $this->aEmptyRow      += $oPlugin->getEmptyRow();
         }
 
@@ -468,11 +476,6 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      */
     function output($graphMode = false)
     {
-        // Prepare the visible columns
-        foreach ($this->aPlugins as $oPlugin) {
-            $this->aColumnVisible += $oPlugin->getVisibleColumns();
-        }
-
         if ($this->outputType == 'deliveryEntity') {
 
             // Display the entity delivery stats
@@ -594,10 +597,10 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         ));
 
         // Add global variables for backwards compatibility
-        if (phpAds_isUser(phpAds_Client)) {
-            $GLOBALS['clientid'] = phpAds_getUserId();
-        } elseif (phpAds_isUser(phpAds_Affiliate)) {
-            $GLOBALS['affiliateid'] = phpAds_getUserId();
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+            $GLOBALS['clientid'] = OA_Permission::getEntityId();
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+            $GLOBALS['affiliateid'] = OA_Permission::getEntityId();
         }
 
         // Add the current page's entity/breakdown values to the page
@@ -634,9 +637,6 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         phpAds_ShowSections($this->aPageSections, $this->aPageParams, $openNewTable=false);
 
         $graphVals = $graphFilter;
-
-        // Turn off non visible fields
-        $this->_columnsVisibilitySet();
 
         // Set columns shown by default
         if (!is_array($graphVals)) {
@@ -717,10 +717,10 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         $graphFields = array_unique($graphFields);
 
         // Add global variables for backwards compatibility
-        if (phpAds_isUser(phpAds_Client)) {
-            $GLOBALS['clientid'] = phpAds_getUserId();
-        } elseif (phpAds_isUser(phpAds_Affiliate)) {
-            $GLOBALS['affiliateid'] = phpAds_getUserId();
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+            $GLOBALS['clientid'] = OA_Permission::getEntityId();
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+            $GLOBALS['affiliateid'] = OA_Permission::getEntityId();
         }
 
         // Generate URI used to add other parameters
@@ -735,9 +735,6 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         $formSubmitLink = explode ("/", $_SERVER['REQUEST_URI']);
         $formSubmitLink = $formSubmitLink[ count($formSubmitLink)-1 ];
         $graphVals = $_POST['graphFilter'];
-
-        // Turn off non visible fields
-        $this->_columnsVisibilitySet();
 
         // Set columns showny by default
         if (!is_array($graphVals) ) {
@@ -799,8 +796,8 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     function _getId($type, $default = null)
     {
         if ($type == 'advertiser') {
-            if (phpAds_isUser(phpAds_Client)) {
-                return phpAds_getUserId();
+            if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+                return OA_Permission::getEntityId();
             } else {
                 if (is_null($default)) {
                     return (int) MAX_getValue('clientid', '');
@@ -809,8 +806,8 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                 }
             }
         } else if ($type == 'publisher') {
-            if (phpAds_isUser(phpAds_Affiliate)) {
-                return phpAds_getUserId();
+            if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+                return OA_Permission::getEntityId();
             } else {
                 if (is_null($default)) {
                     return (int) MAX_getValue('affiliateid', '');
@@ -943,7 +940,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         switch ($type) {
 
         case 'advertiser':
-            if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+            if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
                 $advertisers = Admin_DA::getAdvertisers(array('advertiser_id' => $entityId), false);
                 if (count($advertisers) == 1) {
                     $advertiser = current($advertisers);
@@ -988,7 +985,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
             break;
 
         case 'publisher':
-            if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+            if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
                 $publishers = Admin_DA::getPublishers(array('publisher_id' => $entityId), false);
                 if (count($publishers) == 1) {
                     $publisher = current($publishers);
@@ -1047,9 +1044,9 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
             $aParams = array();
             switch ($type) {
                 case 'advertisers':
-                    if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-                        if (phpAds_isUser(phpAds_Agency)) {
-                            $aParams['agency_id'] = phpAds_getUserID();
+                    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+                        if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+                            $aParams['agency_id'] = OA_Permission::getEntityId();
                         }
                         $params = $this->aPageParams;
                         $advertisers = Admin_DA::getAdvertisers($aParams, false);
@@ -1099,9 +1096,9 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                     break;
 
                 case 'publishers':
-                    if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-                        if (phpAds_isUser(phpAds_Agency)) {
-                            $aParams['agency_id'] = phpAds_getUserID();
+                    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+                        if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+                            $aParams['agency_id'] = OA_Permission::getEntityId();
                         }
                         $params = $this->aPageParams;
                         $campaigns = Admin_DA::getPublishers($aParams, false);
@@ -1117,7 +1114,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                     break;
 
                 case 'publisher-campaigns':
-                    if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+                    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
                         $aParams = array(
                             'publisher_id' => $publisherId,
                             'placement_id' => $placementId,
@@ -1274,10 +1271,12 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     {
         $this->_summariseTotals($aRows);
         $this->noStatsAvailable = !$this->_hasActiveStats($this->aTotal);
-        // Format all stats rows
-        $this->_formatStats($aRows);
-        // Format single total row
-        $this->_formatStatsRowRecursive($this->aTotal, true);
+        if (!$this->skipFormatting) {
+            // Format all stats rows
+            $this->_formatStats($aRows);
+            // Format single total row
+            $this->_formatStatsRowRecursive($this->aTotal, true);
+        }
     }
 
     /**
@@ -1459,24 +1458,6 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         $this->aGlobalPrefs['period_preset'] = $this->oDaySpanSelector->_fieldSelectionValue;
         $this->aGlobalPrefs['period_start']  = $this->aDates['day_begin'];
         $this->aGlobalPrefs['period_end']    = $this->aDates['day_end'];
-    }
-
-    /**
-     * A private method to remove any hidden columns from the list to
-     * be displayed.
-     *
-     * @access private
-     */
-    function _columnsVisibilitySet()
-    {
-        foreach ($this->aColumns as $k => $v) {
-            $fieldName = explode('sum_', $k);
-            $sum = isset($fieldName[1]) ? $fieldName[1] : '';
-            $fieldName = 'gui_column_' . $sum . '_array';
-            if (isset($GLOBALS['_MAX']['PREF'][$fieldName]) && is_array($GLOBALS['_MAX']['PREF'][$fieldName]) && $GLOBALS['_MAX']['PREF'][$fieldName][$GLOBALS['session']['usertype']]['show'] != 1) {
-                unset($this->aColumns[$k]);
-            }
-        }
     }
 
     /**

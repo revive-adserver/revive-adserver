@@ -40,34 +40,18 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/lib/OA/Dll/Publisher.php';
+require_once MAX_PATH . '/lib/OA/Admin/Menu.php';
 
 // Register input variables
-phpAds_registerGlobalUnslashed ('move', 'name', 'website', 'contact', 'email', 'language', 'adnetworks',
-                               'errormessage', 'affiliateusername', 'affiliatepassword', 'affiliatepermissions', 'submit',
-                               'publiczones_old', 'pwold', 'pw', 'pw2', 'formId', 'category', 'country', 'language');
+phpAds_registerGlobalUnslashed ('move', 'name', 'website', 'contact', 'email', 'language', 'adnetworks', 'advsignup',
+                               'errormessage', 'submit', 'publiczones_old', 'formId', 'category', 'country', 'language');
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
-MAX_Permission::checkIsAllowed(phpAds_ModifyInfo);
-MAX_Permission::checkAccessToObject('affiliates', $affiliateid);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
+OA_Permission::enforceAccessToObject('affiliates', $affiliateid, true);
 
 // Initialise Ad  Networks
 $oAdNetworks = new OA_Central_AdNetworks();
-
-/*-------------------------------------------------------*/
-/* Affiliate interface security                          */
-/*-------------------------------------------------------*/
-
-if (phpAds_isUser(phpAds_Affiliate)) {
-    $doAffiliates = OA_Dal::factoryDO('affiliates');
-    $affiliateid = phpAds_getUserID();
-    $doAffiliates->get($affiliateid);
-    $agencyid = $doAffiliates->agencyid;
-} elseif (phpAds_isUser(phpAds_Agency)) {
-    $agencyid = phpAds_getUserID();
-} else {
-    $agencyid = 0;
-}
 
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
@@ -79,26 +63,20 @@ if (isset($formId)) {
     $oPublisher->agencyId       = $agencyid;
     $oPublisher->contactName    = $contact;
     $oPublisher->emailAddress   = $email;
-    $oPublisher->password       = $affiliatepassword;
     $oPublisher->publisherId    = $affiliateid;
     $oPublisher->publisherName  = $name;
-    $oPublisher->username       = $affiliateusername;
     $oPublisher->oacCategoryId  = $category;
     $oPublisher->oacCountryCode = $country;
     $oPublisher->oacLanguageId  = $language;
     $oPublisher->website        = $website;
-    $oPublisher->permissions    = $affiliatepermissions;
 
     // Do I need to handle this?
     $oPublisher->adNetworks =   ($adnetworks == 't') ? true : false;
+    $oPublisher->advSignup  =   ($advsignup == 't') ? true : false;
 
     $oPublisherDll = new OA_Dll_Publisher();
     if ($oPublisherDll->modify($oPublisher)) {
-        if (phpAds_isUser(phpAds_Affiliate)) {
-            $redirect_url = "affiliate-edit.php?affiliateid={$oPublisher->publisherId}";
-        } else {
-            $redirect_url = "affiliate-zones.php?affiliateid={$oPublisher->publisherId}";
-        }
+        $redirect_url = "affiliate-zones.php?affiliateid={$oPublisher->publisherId}";
         MAX_Admin_Redirect::redirect($redirect_url);
         exit;
     }
@@ -109,65 +87,18 @@ if (isset($formId)) {
 /*-------------------------------------------------------*/
 
 if ($affiliateid != "") {
-    if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-        if (isset($session['prefs']['affiliate-index.php']['listorder'])) {
-            $navorder = $session['prefs']['affiliate-index.php']['listorder'];
-        } else {
-            $navorder = '';
-        }
-        if (isset($session['prefs']['affiliate-index.php']['orderdirection'])) {
-            $navdirection = $session['prefs']['affiliate-index.php']['orderdirection'];
-        } else {
-            $navdirection = '';
-        }
-        // Get other affiliates
+    OA_Admin_Menu::setPublisherPageContext($affiliateid, 'affiliate-edit.php');
+    phpAds_PageShortcut($strAffiliateHistory, 'stats.php?entity=affiliate&breakdown=history&affiliateid='.$affiliateid, 'images/icon-statistics.gif');
+    phpAds_PageHeader("4.2.2");
+    echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br /><br /><br />";
+    phpAds_ShowSections(array("4.2.2", "4.2.3","4.2.4","4.2.5","4.2.6","4.2.7"));
 
-        $doAffiliates = OA_Dal::factoryDO('affiliates');
-        if (phpAds_isUser(phpAds_Agency)) {
-            $doAffiliates->agencyid = $agencyid;
-        } elseif (phpAds_isUser(phpAds_Affiliate)) {
-            $doAffiliates->affiliateid = $affiliateid;
-        }
-        $doAffiliates->addListOrderBy($navorder, $navdirection);
-        $doAffiliates->find();
-        while ($doAffiliates->fetch() && $row = $doAffiliates->toArray()) {
-            phpAds_PageContext(
-                phpAds_buildAffiliateName ($row['affiliateid'], $row['name']),
-                "affiliate-edit.php?affiliateid=".$row['affiliateid'],
-                $affiliateid == $row['affiliateid']
-            );
-        }
-        phpAds_PageShortcut($strAffiliateHistory, 'stats.php?entity=affiliate&breakdown=history&affiliateid='.$affiliateid, 'images/icon-statistics.gif');
-        phpAds_PageHeader("4.2.2");
-        echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br /><br /><br />";
-        phpAds_ShowSections(array("4.2.2", "4.2.3","4.2.4","4.2.5"));
-    } else {
-        if (MAX_Permission::isAllowed(MAX_AffiliateIsReallyAffiliate)) {
-            phpAds_PageHeader('4');
-        } else {
-            $sections = array();
-            $sections[] = "4.1";
-            if (MAX_Permission::isAllowed(phpAds_ModifyInfo)) {
-                $sections[] = "4.2";
-            }
-            phpAds_PageHeader('4.2');
-            phpAds_ShowSections($sections);
-        }    max_formSetRequirements('category', '<?php echo addslashes($strCategory); ?>', true, 'present');
-    max_formSetRequirements('country', '<?php echo addslashes($strCountry); ?>', true, 'present');
-    max_formSetRequirements('language', '<?php echo addslashes($strLanguage); ?>', true, 'present');
-
-    }
     // Do not get this information if the page
     // is the result of an error message
     if (!isset($affiliate)) {
         $doAffiliates = OA_Dal::factoryDO('affiliates');
         if ($doAffiliates->get($affiliateid)) {
             $affiliate = $doAffiliates->toArray();
-        }
-
-        // Set password to default value
-        if ($affiliate['password'] != '') {
-            $affiliate['password'] = '********';
         }
     }
 } else {
@@ -183,9 +114,8 @@ if ($affiliateid != "") {
 // Get unique affiliate
 // XXX: Although the JS suggests otherwise, this unique_name constraint isn't enforced.
 $doAffiliates = OA_Dal::factoryDO('affiliates');
+// TODOPERM - do we really want unique names here?
 $aUniqueNames = $doAffiliates->getUniqueValuesFromColumn('name', $affiliate['name']);
-$aUniqueUsers = MAX_Permission::getUniqueUserNames($affiliate['username']);
-
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
@@ -214,25 +144,24 @@ $oTpl->assign('fieldsTop', array(
                 'template'  => 'adnetworks',
                 'label'     => 'Ad Networks',
                 'vars'      => array(
-                                'checked' => !empty($affiliate['oac_website_id']),
-                                'disabled'  => MAX_Admin_Preferences::checkBool('updates_enabled', false)
-                                    || !MAX_Permission::hasAccess(phpAds_Admin)
-                               ),
+                                    'checked'           => !empty($affiliate['an_website_id']),
+                                    'checked_advsignup' => !empty($affiliate['as_website_id']),
+                                    'disabled'          => !$GLOBALS['_MAX']['CONF']['sync']['checkForUpdates']
+                                   ),
             ),
             array(
                 'name'      => 'name',
                 'label'     => $strName,
-                'value'     => $affiliate['name'],
-                'freezed'   => phpAds_isUser(phpAds_Affiliate)
+                'value'     => $affiliate['name']
             ),
             array(
                 'name'      => 'category',
-                'label'     => 'Category',
+                'label'     => $strCategory,
                 'type'      => 'select',
                 'options'   => $oAdNetworks->getCategoriesSelect(),
                 'value'     => $affiliate['oac_category_id'],
                 'style'     => 'width: 15em',
-                //'disabled'  => !empty($affiliate['oac_website_id'])
+                //'disabled'  => !empty($affiliate['an_website_id'])
             ),
             array(
                 'type'      => 'custom',
@@ -243,7 +172,7 @@ $oTpl->assign('fieldsTop', array(
                                 'country'  => $affiliate['oac_country_code'],
                                 'language' => $affiliate['oac_language_id']
                                ),
-               // 'disabled'  => !empty($affiliate['oac_website_id'])
+               // 'disabled'  => !empty($affiliate['an_website_id'])
             ),
             array(
                 'name'      => 'contact',
@@ -258,133 +187,10 @@ $oTpl->assign('fieldsTop', array(
         )
     )
 ));
+$oTpl->assign('showAdDirect', (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) ? true : false);
 
-$oTpl->assign('fieldsBottom', array(
-    array(
-        'title'     => $strLoginInformation,
-        'errors'    => count($errormessage) ? $error_message : false,
-        'fields'    => array(
-            array(
-                'name'      => 'affiliateusername',
-                'style'     => 'small',
-                'label'     => $strUsername,
-                'value'     => $affiliate['username'],
-                'freezed'   => phpAds_isUser(phpAds_Affiliate)
-            ),
-            array(
-                'name'      => 'affiliatepassword',
-                'style'     => 'small',
-                'label'     => $strPassword,
-                'type'      => 'password',
-                'value'     => $affiliate['password'],
-                'hidden'    => phpAds_isUser(phpAds_Affiliate)
-            ),
-            array(
-                'name'      => 'pwold',
-                'style'     => 'small',
-                'label'     => $strOldPassword,
-                'type'      => 'password',
-                'hidden'    => !phpAds_isUser(phpAds_Affiliate)
-            ),
-            array(
-                'name'      => 'pw',
-                'style'     => 'small',
-                'label'     => $strNewPassword,
-                'type'      => 'password',
-                'hidden'    => !phpAds_isUser(phpAds_Affiliate)
-            ),
-            array(
-                'name'      => 'pw2',
-                'style'     => 'small',
-                'label'     => $strRepeatPassword,
-                'type'      => 'password',
-                'hidden'    => !phpAds_isUser(phpAds_Affiliate)
-            ),
-            array(
-                'name'      => 'affiliatepermissions[]',
-                'label'     => $strAllowAffiliateModifyInfo,
-                'type'      => 'checkbox',
-                'value'     => phpAds_ModifyInfo,
-                'checked'   => $affiliate['permissions'] & phpAds_ModifyInfo,
-                'hidden'    => phpAds_isUser(phpAds_Affiliate)
-            ),
-            array(
-                'name'      => 'affiliatepermissions[]',
-                'label'     => $strAllowAffiliateModifyZones,
-                'type'      => 'checkbox',
-                'value'     => phpAds_EditZone,
-                'checked'   => $affiliate['permissions'] & phpAds_EditZone,
-                'hidden'    => phpAds_isUser(phpAds_Affiliate),
-                'break'     => false,
-                'id'        => 'affiliatepermissions_'.phpAds_EditZone,
-                'onclick'   => 'MMM_cascadePermissionsChange()'
-            ),
-            array(
-                'name'      => 'affiliatepermissions[]',
-                'label'     => $strAllowAffiliateAddZone,
-                'type'      => 'checkbox',
-                'value'     => phpAds_AddZone,
-                'checked'   => $affiliate['permissions'] & phpAds_AddZone,
-                'hidden'    => phpAds_isUser(phpAds_Affiliate),
-                'break'     => false,
-                'id'        => 'affiliatepermissions_'.phpAds_AddZone,
-                'indent'    => true
-            ),
-            array(
-                'name'      => 'affiliatepermissions[]',
-                'label'     => $strAllowAffiliateDeleteZone,
-                'type'      => 'checkbox',
-                'value'     => phpAds_DeleteZone,
-                'checked'   => $affiliate['permissions'] & phpAds_DeleteZone,
-                'hidden'    => phpAds_isUser(phpAds_Affiliate),
-                'break'     => false,
-                'id'        => 'affiliatepermissions_'.phpAds_DeleteZone,
-                'indent'    => true
-            ),
-            array(
-                'name'      => 'affiliatepermissions[]',
-                'label'     => $strAllowAffiliateLinkBanners,
-                'type'      => 'checkbox',
-                'value'     => phpAds_LinkBanners,
-                'checked'   => $affiliate['permissions'] & phpAds_LinkBanners,
-                'hidden'    => phpAds_isUser(phpAds_Affiliate),
-                'break'     => false,
-                'id'        => 'affiliatepermissions_'.phpAds_LinkBanners
-            ),
-            array(
-                'name'      => 'affiliatepermissions[]',
-                'label'     => $strAllowAffiliateGenerateCode,
-                'type'      => 'checkbox',
-                'value'     => MAX_AffiliateGenerateCode,
-                'checked'   => $affiliate['permissions'] & MAX_AffiliateGenerateCode,
-                'hidden'    => phpAds_isUser(phpAds_Affiliate),
-                'break'     => false,
-                'id'        => 'affiliatepermissions_'.MAX_AffiliateGenerateCode
-            ),
-            array(
-                'name'      => 'affiliatepermissions[]',
-                'label'     => $strAllowAffiliateZoneStats,
-                'type'      => 'checkbox',
-                'value'     => MAX_AffiliateViewZoneStats,
-                'checked'   => $affiliate['permissions'] & MAX_AffiliateViewZoneStats,
-                'hidden'    => phpAds_isUser(phpAds_Affiliate),
-                'break'     => false,
-                'id'        => 'affiliatepermissions_'.MAX_AffiliateViewZoneStats
-            ),
-            array(
-                'name'      => 'affiliatepermissions[]',
-                'label'     => $strAllowAffiliateApprPendConv,
-                'type'      => 'checkbox',
-                'value'     => MAX_AffiliateViewOnlyApprPendConv,
-                'checked'   => $affiliate['permissions'] & MAX_AffiliateViewOnlyApprPendConv,
-                'hidden'    => phpAds_isUser(phpAds_Affiliate),
-                'id'        => 'affiliatepermissions_'.MAX_AffiliateViewOnlyApprPendConv
-            )
-        )
-    )
-));
-
-
+//var_dump($oTpl);
+//die();
 $oTpl->display();
 
 ?>
@@ -395,29 +201,11 @@ $oTpl->display();
     max_formSetRequirements('category', '<?php echo addslashes($strCategory); ?>', true, 'present');
     max_formSetRequirements('country', '<?php echo addslashes($strCountry); ?>', true, 'present');
     max_formSetRequirements('language', '<?php echo addslashes($strLanguage); ?>', true, 'present');
-    max_formSetConditionalValidate('category', '$("#adnetworks").get(0).checked==true');
-    max_formSetConditionalValidate('country', '$("#adnetworks").get(0).checked==true');
-    max_formSetConditionalValidate('language', '$("#adnetworks").get(0).checked==true');
-<?php if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) { ?>
+    max_formSetConditionalValidate('category', '$("#advsignup").get(0).checked==true');
+    max_formSetConditionalValidate('country', '$("#advsignup").get(0).checked==true');
+    max_formSetConditionalValidate('language', '$("#advsignup").get(0).checked==true');
     max_formSetRequirements('name', '<?php echo addslashes($strName); ?>', true, 'unique');
-    max_formSetRequirements('affiliateusername', '<?php echo addslashes($strUsername); ?>', false, 'unique');
-
     max_formSetUnique('name', '|<?php echo addslashes(implode('|', $aUniqueNames)); ?>|');
-    max_formSetUnique('affiliateusername', '|<?php echo addslashes(implode('|', $aUniqueUsers)); ?>|');
-
-    function MMM_cascadePermissionsChange()
-    {
-        var e = findObj('affiliatepermissions_<?php echo phpAds_EditZone; ?>');
-        var a = findObj('affiliatepermissions_<?php echo phpAds_AddZone; ?>');
-        var d = findObj('affiliatepermissions_<?php echo phpAds_DeleteZone; ?>');
-
-        a.disabled = d.disabled = !e.checked;
-        if (!e.checked) {
-            a.checked = d.checked = false;
-        }
-    }
-    MMM_cascadePermissionsChange();
-<?php } ?>
 //-->
 </script>
 

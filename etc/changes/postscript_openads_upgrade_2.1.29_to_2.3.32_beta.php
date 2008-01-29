@@ -25,10 +25,13 @@
 $Id$
 */
 
-class OA_UpgradePostscript
+$className = 'OA_UpgradePostscript_2_1_29';
+
+
+class OA_UpgradePostscript_2_1_29
 {
 
-    function OA_UpgradePostscript()
+    function OA_UpgradePostscript_2_1_29()
     {
 
     }

@@ -1,7 +1,10 @@
 /**
  * Widgets
  */
-ul#feed {
-    margin: 0 0 15px 15px;
-    padding-left: 5px;
+div.widgetContainer {
+    height:125px;
+}
+
+ul.widgetList {
+    padding-left: 16px;
 }

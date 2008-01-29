@@ -70,16 +70,27 @@ class Migration_531 extends Migration
 
 	function migrateInstanceId()
 	{
-	    $doPreference = OA_Dal::factoryDO('preference');
-	    $doPreference->agencyid = 0;
-	    $doPreference->find();
+	    $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+        $tblPref  = $this->oDBH->quoteIdentifier($prefix.'preference', true);
+        $tblAVar  = $this->oDBH->quoteIdentifier($prefix.'application_variable', true);
 
-	    if (!$doPreference->fetch()) {
-	       return $this->_logErrorAndReturnFalse("Couldn't find instance_id");
+	    $query = "SELECT instance_id
+	               FROM {$tblPref}
+	               WHERE agencyid = 0";
+	    $instanceId = $this->oDBH->queryOne($query);
+
+	    if (PEAR::isError($instanceId)) {
+	       return $this->_logErrorAndReturnFalse("Could not find instance_id");
 	    }
 
-	    if (!OA_Dal_ApplicationVariables::set('platform_hash', $doPreference->instance_id)) {
-	       return $this->_logErrorAndReturnFalse("Couldn't not migrate Instance ID to Platform Hash");
+	    $query = "INSERT INTO {$tblAVar}
+	               (name, value)
+	               VALUES
+	               ('platform_hash', '{$instanceId}')";
+	    $instanceId = $this->oDBH->queryOne($query);
+
+	    if (PEAR::isError($instanceId)) {
+	       return $this->_logErrorAndReturnFalse("Could not migrate instance_id to platform_hash");
 	    }
 
 	    return true;

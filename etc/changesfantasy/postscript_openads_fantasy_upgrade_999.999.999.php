@@ -25,6 +25,8 @@
 $Id$
 */
 
+$className = 'OA_UpgradePostscript';
+
 class OA_UpgradePostscript
 {
     var $oUpgrade;

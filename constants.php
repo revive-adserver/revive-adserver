@@ -38,7 +38,7 @@ $Id$
 function setupConstants()
 {
     // Define this version of Openads's constants
-    define('OA_VERSION', '2.5.17-beta-rc1');
+    define('OA_VERSION', '2.5.59-beta-rc1');
     define('MAX_PRODUCT_NAME',      'Openads');
     define('MAX_PRODUCT_URL',       'www.openads.org');
     define('MAX_PRODUCT_DOCSURL',   'docs.openads.org');
@@ -47,6 +47,8 @@ function setupConstants()
     define('OA_INSTALLATION_STATUS_NOTINSTALLED' ,   -1);
     define('OA_INSTALLATION_STATUS_UPGRADING'    ,    0);
     define('OA_INSTALLATION_STATUS_INSTALLED'    ,    1);
+
+    define('OA_AD_DIRECT_ENABLED', false);
 
     // This old PAN constant is used in a couple places but could well conflict with the configured DB
     // TODO: find any uses of this constant and re-think their place.
@@ -267,11 +269,13 @@ function setupConstants()
             define('IMAGE_CANVAS_SYSTEM_FONT_PATH', $GLOBALS['_MAX']['CONF']['graphs']['ttfDirectory']);
         }
         // Set the dbms type
-        if ($GLOBALS['_MAX']['CONF']['database']['type'] == 'mysql')
+        if (isset($GLOBALS['_MAX']['CONF']['database'])
+            && $GLOBALS['_MAX']['CONF']['database']['type'] == 'mysql')
         {
             define('phpAds_dbmsname', 'MySQL');
         }
-        else if ($GLOBALS['_MAX']['CONF']['database']['type'] == 'pgsql')
+        else if (isset($GLOBALS['_MAX']['CONF']['database'])
+            && $GLOBALS['_MAX']['CONF']['database']['type'] == 'pgsql')
         {
             define('phpAds_dbmsname', 'Postgres');
         }

@@ -44,21 +44,21 @@ $update_check = false;
 /*-------------------------------------------------------*/
 
 // Check for product updates when the admin logs in
-if (phpAds_isUser(phpAds_Admin))
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN))
 {
-    $conf = $GLOBALS['_MAX']['CONF'];
-    $pref = $GLOBALS['_MAX']['PREF'];
+    $aConf = $GLOBALS['_MAX']['CONF'];
+    $aVars = OA_Dal_ApplicationVariables::getAll();
 
     $update_check = false;
 
     // Check accordingly to user preferences
-    if ($pref['updates_enabled'] != 'f' && $pref['updates_enabled']) {
-        if ($pref['updates_cache']) {
-            $update_check = unserialize($pref['updates_cache']);
+    if (!empty($aConf['sync']['checkForUpdates'])) {
+        if ($aVars['sync_cache']) {
+            $update_check = unserialize($aVars['sync_cache']);
         }
 
         // If cache timestamp not set or older than 24hrs, re-sync
-        if (isset($pref['updates_timestamp']) && $pref['updates_timestamp'] + 86400 < time()) {
+        if (isset($aVars['sync_timestamp']) && $aVars['sync_timestamp'] + 86400 < time()) {
             $oSync = new OA_Sync();
             $res = $oSync->checkForUpdates();
 
@@ -67,14 +67,11 @@ if (phpAds_isUser(phpAds_Admin))
             }
         }
 
-        if (!is_array($update_check) || $update_check['config_version'] <= $pref['updates_last_seen']) {
+        if (!is_array($update_check) || $update_check['config_version'] <= $aVars['sync_last_seen']) {
             $update_check = false;
         } else {
             // Make sure that the alert doesn't display everytime
-            $doPreference = OA_Dal::factoryDO('preference');
-            $doPreference->updates_last_seen = $update_check['config_version'];
-            $doPreference->agencyid = 0;
-            $doPreference->update();
+            OA_Dal_ApplicationVariables::set('sync_last_seen', $update_check['config_version']);
 
             // Format like the XML-RPC response
             $update_check = array(0, $update_check);

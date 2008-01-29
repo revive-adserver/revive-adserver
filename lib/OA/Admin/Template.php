@@ -28,11 +28,13 @@ $Id$
 define('SMARTY_DIR', MAX_PATH . '/lib/smarty/');
 
 require_once MAX_PATH . '/lib/smarty/Smarty.class.php';
-
-require_once('Date.php');
-
+require_once MAX_PATH . '/lib/OA/Dll.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
+ * A UI templating class.
+ *
+ * @package    OpenadsAdmin
  * @author     Matteo Beccati <matteo.beccati@openads.org>
  */
 class OA_Admin_Template extends Smarty
@@ -62,15 +64,24 @@ class OA_Admin_Template extends Smarty
         $this->cache_lifetime = 3600;
 
         $this->register_function('t', array('OA_Admin_Template',  '_function_t'));
+
         $this->register_function('tabindex', array('OA_Admin_Template',  '_function_tabindex'));
 
         $this->register_function('oa_icon', array('OA_Admin_Template',  '_function_oa_icon'));
         $this->register_function('oa_title_sort', array('OA_Admin_Template',  '_function_oa_title_sort'));
 
+        $this->register_function('oa_is_admin', array('OA_Admin_Template',  '_function_oa_is_admin'));
+        $this->register_function('oa_is_manager', array('OA_Admin_Template',  '_function_oa_is_manager'));
+        $this->register_function('oa_is_advertiser', array('OA_Admin_Template',  '_function_oa_is_advertiser'));
+        $this->register_function('oa_is_trafficker', array('OA_Admin_Template',  '_function_oa_is_trafficker'));
+
+
         $this->register_function('oac_captcha', array('OA_Admin_Template',  '_function_oac_captcha'));
 
         $this->register_function('phpAds_ShowBreak', array('OA_Admin_Template',  '_function_phpAds_ShowBreak'));
         $this->register_function('phpAds_DelConfirm', array('OA_Admin_Template',  '_function_phpAds_DelConfirm'));
+
+        $this->register_function('showStatusText', array('OA_Admin_Template',  '_function_showStatusText'));
 
         $this->register_block('oa_edit', array('OA_Admin_Template',  '_block_edit'));
 
@@ -84,7 +95,7 @@ class OA_Admin_Template extends Smarty
     /**
      * A method to set a cache id for the current page
      *
-     * @param string $cacheId
+     * @param mixed $cacheId Either a string or an array of parameters
      */
     function setCacheId($cacheId = null)
     {
@@ -92,6 +103,9 @@ class OA_Admin_Template extends Smarty
             $this->cacheId = null;
             $this->caching = 0;
         } else {
+            if (is_array($cacheId)) {
+                $cacheId = join('^@^', $cacheId);
+            }
             $this->cacheId = md5($cacheId);
             $this->caching = 1;
         }
@@ -143,6 +157,62 @@ class OA_Admin_Template extends Smarty
         $smarty->trigger_error("t: missing 'str' or 'key' parameters");
     }
 
+    function _function_showStatusText($aParams, &$smarty)
+    {
+        global $strCampaignStatusRunning, $strCampaignStatusPaused, $strCampaignStatusAwaiting,
+               $strCampaignStatusExpired, $strCampaignStatusApproval, $strCampaignStatusRejected;
+
+        $status = $aParams['status'];
+        $an_status = $aParams['an_status'];
+
+        if (isset($status)) {
+                switch ($status) {
+                	case OA_ENTITY_STATUS_PENDING:
+                	    if ($an_status == OA_ENTITY_ADNETWORKS_STATUS_APPROVAL) {
+                    	    $class = 'awaiting';
+                    	    $text  = $strCampaignStatusApproval;
+                	    }
+
+                	    if ($an_status == OA_ENTITY_ADNETWORKS_STATUS_REJECTED) {
+                    	    $class = 'rejected';
+                    	    $text  = $strCampaignStatusRejected;
+                	    }
+                		break;
+                	case OA_ENTITY_STATUS_RUNNING:
+                	    $class = 'started';
+                	    $text  = $strCampaignStatusRunning;
+                		break;
+                	case OA_ENTITY_STATUS_PAUSED:
+                	    $class = 'paused';
+                	    $text  = $strCampaignStatusPaused;
+                		break;
+                	case OA_ENTITY_STATUS_AWAITING:
+                	    $class = 'awaiting';
+                	    $text  = $strCampaignStatusAwaiting;
+                		break;
+                	case OA_ENTITY_STATUS_EXPIRED:
+                	    $class = 'finished';
+                	    $text  = $strCampaignStatusExpired;
+                		break;
+                	case OA_ENTITY_STATUS_APPROVAL:
+                	    $class = 'accepted';
+                	    $text  = $strCampaignStatusApproval;
+                		break;
+                	case OA_ENTITY_STATUS_REJECTED:
+                	    $class = 'rejected';
+                	    $text  = $strCampaignStatusRejected;
+                		break;
+                }
+                if ($status == OA_ENTITY_STATUS_APPROVAL) {
+                    $text = "<a href='campaign-edit.php?clientid=".$aParams['clientid']."&campaignid=".$aParams['campaignid']."'>" .
+                            $text . "</a>";
+                }
+                return '<span class="'.$class.'">' . $text . '</span>';
+        }
+
+        $smarty->trigger_error("showStatusText: missing 'status' parameter");
+    }
+
     function _function_tabindex($aParams, &$smarty)
     {
         return ' tabindex="'.++$smarty->_tabIndex.'"';
@@ -154,8 +224,8 @@ class OA_Admin_Template extends Smarty
             $type   = 'banner';
             $banner = $aParams['banner'];
 
-            $campaign_active = isset($aParams['campaign']['active']) ? $aParams['campaign']['active'] == 't' : true;
-            $active          = $banner['active'] == 't' && $campaign_active;
+            $campaign_active = isset($aParams['campaign']['status']) ? $aParams['campaign']['status'] == OA_ENTITY_STATUS_RUNNING : true;
+            $active          = $banner['status'] == OA_ENTITY_STATUS_RUNNING && $campaign_active;
 
             switch ($banner['type'])
             {
@@ -164,13 +234,25 @@ class OA_Admin_Template extends Smarty
                 case 'url':  $flavour = '-url'; break;
                 default:     $flavour = '-stored'; break;
             }
+        } elseif (!empty($aParams['campaign']) && is_array($aParams['campaign'])) {
+            $type     = 'campaign';
+            $campaign = $aParams['campaign'];
+
+            $active = $campaign['status'] == OA_ENTITY_STATUS_RUNNING;
+            $flavour = '';
+        } elseif (!empty($aParams['advertiser']) && is_array($aParams['advertiser'])) {
+            $type     = 'advertiser';
+            $campaign = $aParams['advertiser'];
+
+            $active = true;
+            $flavour = '';
         }
 
         if (!empty($type)) {
             return 'images/icon-'.$type.$flavour.($active ? '' : '-d').'.gif';
         }
 
-        $smarty->trigger_error("t: missing 'banner' parameter");
+        $smarty->trigger_error("t: missing parameter(s)");
     }
 
     function _function_oa_title_sort($aParams, &$smarty)
@@ -243,6 +325,22 @@ class OA_Admin_Template extends Smarty
 
             return $result;
         }
+    }
+
+    function _function_oa_is_admin($aParams, $smarty) {
+        return OA_Permission::isAccount(OA_ACCOUNT_ADMIN);
+    }
+
+    function _function_oa_is_manager($aParams, $smarty) {
+        return OA_Permission::isAccount(OA_ACCOUNT_MANAGER);
+    }
+
+    function _function_oa_is_advertiser($aParams, $smarty) {
+        return OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER);
+    }
+
+    function _function_oa_is_trafficker($aParams, $smarty) {
+        return OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER);
     }
 
     // OLD FUNCTIONS

@@ -37,11 +37,10 @@ class DataObjects_Data_intermediate_ad extends DB_DataObjectCommon
 
     var $__table = 'data_intermediate_ad';            // table name
     var $data_intermediate_ad_id;         // int(20)  not_null primary_key auto_increment
-    var $day;                             // date(10)  not_null multiple_key binary
-    var $hour;                            // int(10)  not_null unsigned
+    var $date_time;                       // datetime(19)  not_null multiple_key binary
     var $operation_interval;              // int(10)  not_null unsigned
-    var $operation_interval_id;           // int(10)  not_null multiple_key unsigned
-    var $interval_start;                  // datetime(19)  not_null binary
+    var $operation_interval_id;           // int(10)  not_null unsigned
+    var $interval_start;                  // datetime(19)  not_null multiple_key binary
     var $interval_end;                    // datetime(19)  not_null binary
     var $ad_id;                           // int(10)  not_null multiple_key unsigned
     var $creative_id;                     // int(10)  not_null unsigned

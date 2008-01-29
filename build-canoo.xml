@@ -17,14 +17,15 @@
 <project name="canoo" default="run-test-canoo" basedir=".">
   <property name="canoo.log" value="${basedir}/canoo.log"/>
   <property name="timeout" value="60000"/>
+  <property name="delivery_test" value="${basedir}/www/delivery_test"/>
 
   <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
 
   <condition property="property_file" value="user.local.properties" else="user.remote.properties">
     <istrue value="${run.local}"/>
   </condition>
-  <property file="${basedir}/tests/canoo/properties/${property_file}" prefix="canoo"/>
 
+  <property file="${basedir}/tests/canoo/properties/${property_file}" prefix="canoo"/>
   <property file="${basedir}/ec2.properties"/>
   <property name="ec2.openads.config" value="${canoo.host}.conf.php"/>
   <property name="ec2.openads.database" value="openads"/>
@@ -88,7 +89,8 @@
     </canoo-scp>
   </target>
 
-  <target name="canoo-create-openads-configuration">
+	<!-- should be less EC2 dependant -->
+  <target name="canoo-create-openads-configuration-remote">
     <property name="openads.url" value="${canoo.host}/${release}/www"/>
     <exec dir="${basedir}/tests" executable="php" failonerror="true">
       <arg value="create-config-file.php" />
@@ -115,6 +117,45 @@
     <canoo-ssh command="rm -f ${ec2.openads.dir}/var/UPGRADE"/>
   </target>
 
+  <target name="canoo-create-openads-configuration-local">
+  	<echo message="Creating local configuration"/>
+    <property name="openads.url" value="${canoo.host}/${canoo.basepath}"/>
+    <exec dir="${basedir}/tests" executable="php" failonerror="true">
+      <arg value="create-config-file.php" />
+      <arg value="${canoo.host}.conf.php" />
+      <arg value="database.host=${canoo.sql.host}"/>
+      <arg value="database.username=${canoo.sql.user}"/>
+      <arg value="database.password=${canoo.sql.password}"/>
+      <arg value="database.name=${canoo.sql.database}"/>
+      <arg value="debug.production=0"/>
+      <arg value="webpath.admin=${openads.url}/admin"/>
+      <arg value="webpath.delivery=${openads.url}/delivery"/>
+      <arg value="webpath.deliverySSL=${openads.url}/delivery"/>
+      <arg value="webpath.images=${openads.url}/images"/>
+      <arg value="webpath.imagesSSL=${openads.url}/images"/>
+      <arg value="openads.installed=1"/>
+      <arg value="table.prefix=oa_"/>
+      <arg value="maintenance.autoMaintenance=0"/>
+    </exec>
+  	<copy overwrite="true" todir="${basedir}/var" file="${basedir}/tests/${canoo.host}.conf.php"/>
+  	<copy overwrite="true" tofile="${basedir}/var/INSTALLED" file="${basedir}/tests/${canoo.host}.conf.php"/>
+  	<delete file="${basedir}/var/UPGRADE"/>
+  	<chmod dir="${basedir}/var" perm="a+rwx" type="dir"/>
+  	<chmod dir="${basedir}/var" perm="a+rw" type="both" includes="**/*"/>
+  	<chmod dir="${basedir}/www" perm="a+rwx" type="dir"/>
+  	<chmod dir="${basedir}/www" perm="a+rw" type="both" includes="**/*"/>
+  </target>
+	
+  <target name="setup-delivery-files">
+  	<copy todir="${delivery_test}">
+  	  <fileset dir="${basedir}/tests/canoo/php"/>
+  	</copy>
+  </target>
+		
+  <target name="clean-delivery">
+  	<delete dir="${delivery_test}" />
+  </target>
+		
   <macrodef name="execute-webtest" description="Executes webtest with provided target and additional properties.">
     <attribute name="target" description="Target to execute."/>
     <attribute name="properties" default="" description="Additional properties."/>
@@ -138,6 +179,7 @@
   </macrodef>
 
   <target name="run-test-canoo">
+  	<echo message="Running ${canoo.webtest.exec} defined in config ${property_file}"/>
     <execute-webtest target="init-delivery-db" />
     <execute-webtest target="delivery" properties="-Dcanoo.host=${canoo.host} -Dec2.admin.password=${ec2.admin.password} -Dec2.openads.dir=${ec2.openads.dir}" />
   </target>

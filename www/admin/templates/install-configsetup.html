@@ -33,53 +33,10 @@ if ($errMessage) {
 
         if ($aConfig && is_array($aConfig) && (count($aConfig)>0))
         {
-
-            // Setup list of all timezones, calculate selected timezone
-            require_once('../../lib/OA/Admin/Timezones.php');
-            $aTimezones = OA_Admin_Timezones::AvailableTimezones(true);
-            if ($_POST['aConfig']['timezone']['location']) {
-                $selTimezone = $_POST['aConfig']['timezone']['location'];
-            } else {
-                $aTimezone = OA_Admin_Timezones::getTimezone();
-                $selTimezone = $aTimezone['tz'];
-            }
-
-            // What display string do we need to show for the timezone?
-            if ($aTimezone['calculated']) {
-                $errorImage = "<img src='".$imgPath."images/icon-x.gif' width='10' height='9' />";
-                $strTimezoneToDisplay = $strTimezoneEstimated . '<br /><small class="red">' . $errorImage . $strTimezoneGuessedValue . '</small>';
-            } else {
-                $strTimezoneToDisplay = $strTimezone;
-            }
-            // For language, setup English as first choice
-            $langVal = 'english';
-
-            phpAds_ShowSettings(array (
+            $options->show(array (
                 array (
                     'text'  => $strConfigurationSettings,
                     'items' => array (
-                        array (
-                            'type'  => 'select',
-                            'name'  => 'aConfig[max][language]',
-                            'text'  => $strLanguageSelection,
-                            'req'   => true,
-                            'value' => $langVal,
-                            'items' => MAX_Admin_Languages::AvailableLanguages()
-                        ),
-                        array (
-                            'type'  => 'break'
-                        ),
-                        array (
-                            'type'  => 'select',
-                            'name'  => 'aConfig[timezone][location]',
-                            'text'  => $strTimezoneToDisplay,
-                            'req'   => true,
-                            'value' => $selTimezone,
-                            'items' => $aTimezones
-                        ),
-                        array (
-                            'type'  => 'break'
-                        ),
                         array (
                             'type'  => 'url',
                             'name'  => 'aConfig[webpath][admin]',

@@ -28,27 +28,32 @@ $Id$
 /**
  * Table Definition for agency
  */
-require_once 'AbstractUser.php';
+require_once 'DB_DataObjectCommon.php';
 
-class DataObjects_Agency extends DataObjects_AbstractUser
+class DataObjects_Agency extends DB_DataObjectCommon
 {
     var $onDeleteCascade = true;
     var $refreshUpdatedFieldIfExists = true;
+
+    /**
+     * BC-compatible user details
+     *
+     * @todo Please remove later
+     */
+    var $username;
+    var $password;
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
     var $__table = 'agency';                          // table name
     var $agencyid;                        // int(9)  not_null primary_key auto_increment
     var $name;                            // string(255)  not_null
-    var $contact;                         // string(255)  
+    var $contact;                         // string(255)
     var $email;                           // string(64)  not_null
-    var $username;                        // string(64)  
-    var $password;                        // string(64)  
-    var $permissions;                     // int(9)  
-    var $language;                        // string(64)  
-    var $logout_url;                      // string(255)  
-    var $active;                          // int(1)  
+    var $logout_url;                      // string(255)
+    var $active;                          // int(1)
     var $updated;                         // datetime(19)  not_null binary
+    var $account_id;                      // int(9)  multiple_key
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
@@ -66,70 +71,83 @@ class DataObjects_Agency extends DataObjects_AbstractUser
      */
     function insert()
     {
+        // Create account first
+        $result = $this->createAccount(OA_ACCOUNT_MANAGER, $this->name);
+        if (!$result) {
+            return $result;
+        }
+
+        // Store data to create a user
+        if (!empty($this->username) && !empty($this->password)) {
+            $aUser = array(
+                'contact_name' => $this->contact,
+                'email_address' => $this->email,
+                'username' => $this->username,
+                'password' => $this->password,
+                'default_account_id' => $this->account_id
+            );
+        }
+
         $agencyid = parent::insert();
         if (!$agencyid) {
             return $agencyid;
         }
 
-        // set agency preferences
-        $doPreference = $this->factory('preference');
-        if ($doPreference->get(0)) {
-            // overwrite default ones
-            $doPreference->agencyid = $agencyid;
-            $doPreference = $this->_updatePreferences($doPreference);
-            $doPreference->insert();
+        // Create user if needed
+        if (!empty($aUser)) {
+            $this->createUser($aUser);
         }
 
         return $agencyid;
     }
 
     /**
-     * Handle all necessary operations when new agency is updated
+     * Handle all necessary operations when an agency is updated
      *
      * @see DB_DataObject::update()
      */
     function update($dataObject = false)
     {
+        // Store data to create a user
+        if (!empty($this->username) && !empty($this->password)) {
+            $aUser = array(
+                'contact_name' => $this->contact,
+                'email_address' => $this->email,
+                'username' => $this->username,
+                'password' => $this->password,
+                'default_account_id' => $this->account_id
+            );
+        }
+
         $ret = parent::update($dataObject);
         if (!$ret) {
             return $ret;
         }
-        $doPreference = $this->factory('preference');
-        $doPreference->get($this->agencyid);
-        $doPreference = $this->_updatePreferences($doPreference);
-        $doPreference->update();
+
+        // Create user if needed
+        if (!empty($aUser)) {
+            $this->createUser($aUser);
+        }
+
+        $this->updateAccountName($this->name);
 
         return $ret;
     }
 
     /**
-     * Overwrite preference settings with new
-     * values taken from agency
+     * Handle all necessary operations when an agency is deleted
      *
-     * @param object $doPreference
-     * @return object
+     * @see DB_DataObject::delete()
      */
-    function _updatePreferences($doPreference)
+    function delete($useWhere = false, $cascade = true, $parentid = null)
     {
-        $doPreference->language = $this->language;
-        $doPreference->name     = $this->name;
-        $doPreference->admin_fullname = $this->contact;
-        $doPreference->admin_email = $this->email;
+        $result =  parent::delete($useWhere, $cascade, $parentid);
+        if ($result) {
+            $this->deleteAccount();
+        }
 
-        return $doPreference;
+        return $result;
     }
-
-
-    /**
-     * Returns phpAds_Agency constant value.
-     *
-     * @return integer
-     */
-    function getUserType()
-    {
-        return phpAds_Agency;
-    }
-
 
     /**
      * Returns agencyid.
@@ -140,6 +158,53 @@ class DataObjects_Agency extends DataObjects_AbstractUser
     {
         return $this->agencyid;
     }
+
+    function _auditEnabled()
+    {
+        return true;
+    }
+
+    function _getContextId()
+    {
+        return $this->agencyid;
+    }
+
+    function _getContext()
+    {
+        return 'Agency';
+    }
+
+    /**
+     * build an agency specific audit array
+     *
+     * @param integer $actionid
+     * @param array $aAuditFields
+     */
+    function _buildAuditArray($actionid, &$aAuditFields)
+    {
+        $aAuditFields['key_desc']     = $this->name;
+        switch ($actionid)
+        {
+            case OA_AUDIT_ACTION_UPDATE:
+                        break;
+            case OA_AUDIT_ACTION_INSERT:
+            case OA_AUDIT_ACTION_DELETE:
+                        $aAuditFields['active']     = $this->_formatValue('active');
+                        break;
+        }
+    }
+
+    function _formatValue($field)
+    {
+        switch ($field)
+        {
+            case 'active':
+                return $this->_boolToStr($this->$field);
+            default:
+                return $this->$field;
+        }
+    }
+
 }
 
 ?>

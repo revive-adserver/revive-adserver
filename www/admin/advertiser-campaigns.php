@@ -34,48 +34,34 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/www/admin/lib-maintenance-priority.inc.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-require_once MAX_PATH . '/lib/max/Permission.php';
+require_once MAX_PATH . '/lib/OA/Permission.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 
 phpAds_registerGlobalUnslashed('expand', 'collapse', 'hideinactive', 'listorder', 'orderdirection');
 
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
-MAX_Permission::checkAccessToObject('clients', $clientid);
+// Security check
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
+OA_Permission::enforceAccessToObject('clients', $clientid);
 
-if (phpAds_isUser(phpAds_Admin) && !is_numeric($clientid)) {
-    header("Location: advertiser-index.php");
-}
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-if (isset($session['prefs']['advertiser-index.php']['listorder'])) {
-    $navorder = $session['prefs']['advertiser-index.php']['listorder'];
-} else {
-    $navorder = '';
-}
-
-if (isset($session['prefs']['advertiser-index.php']['orderdirection'])) {
- $session['prefs']['advertiser-index.php']['orderdirection'];
-    $navdirection = $session['prefs']['advertiser-index.php']['orderdirection'];
-} else {
-	$navdirection = '';
-}
-
 // Get other clients
 $doClients = OA_Dal::factoryDO('clients');
 
 // Unless admin, restrict results shown.
-if (phpAds_isUser(phpAds_Agency)) {
-    $doClients->agencyid = phpAds_getUserID();
-} elseif (phpAds_isUser(phpAds_Client)) {
-    $doClients->clientid = phpAds_getUserID();
+if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+    $doClients->clientid = OA_Permission::getEntityId();
+} else {
+    $doClients->agencyid = OA_Permission::getEntityId();
 }
 
-$doClients->addListOrderBy($navorder, $navdirection);
+$doClients->addSessionListOrderBy('advertiser-index.php');
 $doClients->find();
 
 while ($doClients->fetch() && $row = $doClients->toArray()) {
@@ -88,14 +74,18 @@ while ($doClients->fetch() && $row = $doClients->toArray()) {
 
 phpAds_PageShortcut($strClientHistory, 'stats.php?entity=advertiser&breakdown=history&clientid='.$clientid, 'images/icon-statistics.gif');
 
-if (phpAds_isUser(phpAds_Agency) || phpAds_isUser(phpAds_Admin)) {
+if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     phpAds_PageHeader("4.1.3");
 	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
-	phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.4"));
+	phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.5"));
 } else {
-    phpAds_PageHeader("2");
+    phpAds_PageHeader('2.2');
 	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
-	//phpAds_ShowSections();
+	$sections = array('2.2');
+	if (OA_Permission::hasPermission(OA_PERM_SUPER_ACCOUNT)) {
+	    $sections[] = '2.3';
+	}
+	phpAds_ShowSections($sections);
 }
 
 /*-------------------------------------------------------*/
@@ -107,7 +97,7 @@ if (!isset($hideinactive)) {
 		$hideinactive = $session['prefs']['advertiser-campaigns.php'][$clientid]['hideinactive'];
 	} else {
 	   $pref = &$GLOBALS['_MAX']['PREF'];
-	   $hideinactive = ($pref['gui_hide_inactive'] == 't');
+	   $hideinactive = ($pref['ui_hide_inactive'] == true);
 	}
 }
 
@@ -177,7 +167,7 @@ while ($doCampaigns->fetch() && $row_campaigns = $doCampaigns->toArray()) {
     }
 	$campaigns[$row_campaigns['campaignid']]['expand'] = 0;
 	$campaigns[$row_campaigns['campaignid']]['count']  = 0;
-	$campaigns[$row_campaigns['campaignid']]['active'] = $row_campaigns['active'];
+	$campaigns[$row_campaigns['campaignid']]['status'] = $row_campaigns['status'];
     $campaigns[$row_campaigns['campaignid']]['anonymous'] = $row_campaigns['anonymous'];
 }
 
@@ -230,7 +220,7 @@ if (isset($banners) && is_array($banners) && count($banners) > 0) {
 	// Add banner to campaigns
 	reset ($banners);
 	while (list ($bkey, $banner) = each ($banners)) {
-		if ($hideinactive == false || $banner['active'] == 't') {
+		if ($hideinactive == false || $banner['status'] == OA_ENTITY_STATUS_RUNNING) {
 			$campaigns[$banner['campaignid']]['banners'][$bkey] = $banner;
 		}
 	}
@@ -243,7 +233,7 @@ if (isset($campaigns) && is_array($campaigns) && count($campaigns) > 0) {
 		if (!isset($campaign['banners'])) {
 			$campaign['banners'] = array();
 		}
-		if ($hideinactive == true && ($campaign['active'] == 'f' || $campaign['active'] == 't' &&
+		if ($hideinactive == true && ($campaign['status'] != OA_ENTITY_STATUS_RUNNING || $campaign['status'] == OA_ENTITY_STATUS_RUNNING &&
 			count($campaign['banners']) == 0 && count($campaign['banners']) < $campaign['count'])) {
 			$campaignshidden++;
 			unset($campaigns[$key]);
@@ -251,12 +241,16 @@ if (isset($campaigns) && is_array($campaigns) && count($campaigns) > 0) {
 	}
 }
 
-if (!phpAds_isUser(phpAds_Client)) {
+if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
     echo "<img src='images/icon-campaign-new.gif' border='0' align='absmiddle'>&nbsp;";
     echo "<a href='campaign-edit.php?clientid=".$clientid."' accesskey='".$keyAddNew."'>".$strAddCampaign_Key."</a>&nbsp;&nbsp;";
     phpAds_ShowBreak();
     echo "<br /><br />";
 }
+?>
+
+
+<?php
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 
 echo "<tr height='25'>";
@@ -274,6 +268,22 @@ if (($listorder == "name") || ($listorder == "")) {
 }
 
 echo '</b></td>';
+
+if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) {
+    echo '<td height="25"><b><a href="advertiser-campaigns.php?clientid='.$clientid.'&listorder=status">Status</a>';
+    if ($listorder == "status") {
+        if  (($orderdirection == "") || ($orderdirection == "down")) {
+            echo ' <a href="advertiser-campaigns.php?clientid='.$clientid.'&orderdirection=up">';
+            echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
+        } else {
+            echo ' <a href="advertiser-campaigns.php?clientid='.$clientid.'&orderdirection=down">';
+            echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
+        }
+        echo '</a>';
+    }
+    echo "</td>";
+}
+
 echo '<td height="25"><b><a href="advertiser-campaigns.php?clientid='.$clientid.'&listorder=id">'.$GLOBALS['strID'].'</a>';
 
 if ($listorder == "id") {
@@ -293,14 +303,14 @@ echo "<td height='25'>&nbsp;</td>";
 echo "<td height='25'>&nbsp;</td>";
 echo "</tr>";
 
-echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-
+echo "<tr class='break'><td colspan='6' ></td></tr>";
 
 if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 	echo "<tr height='25' bgcolor='#F6F6F6'><td height='25' colspan='5'>";
 	echo "&nbsp;&nbsp;".$strNoCampaigns;
 	echo "</td></tr>";
-	echo "<td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>";
+	echo "<tr class='break'><td colspan='6' ></td></tr>";
+
 } else {
 	$i=0;
 	foreach (array_keys($campaigns) as $ckey) {
@@ -316,13 +326,13 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 		} else {
 		    echo "<img src='images/spacer.gif' height='16' width='16' align='absmiddle'>&nbsp;";
 		}
-		if ($campaigns[$ckey]['active'] == 't') {
+		if ($campaigns[$ckey]['status'] == OA_ENTITY_STATUS_RUNNING) {
 			echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;";
 		} else {
 			echo "<img src='images/icon-campaign-d.gif' align='absmiddle'>&nbsp;";
 		}
-		if (phpAds_isUser(phpAds_Client)) {
-		    if (phpAds_isAllowed(phpAds_ActivateBanner) || phpAds_isAllowed(phpAds_ModifyBanner)) {
+		if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+		    if (OA_Permission::hasPermission(OA_PERM_BANNER_ACTIVATE) || OA_Permission::hasPermission(OA_PERM_BANNER_EDIT)) {
         		echo "<a href='campaign-banners.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'>".$campaigns[$ckey]['campaignname']."</td>";
 		    } else {
 		        echo $campaigns[$ckey]['campaignname'];
@@ -332,12 +342,32 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 		}
 		echo "</td>";
 
+        // status
+        if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) {
+            if ($campaigns[$ckey]['status'] == -1) {
+                echo "<td class=\"sts sts-pending\">Pending</td>";
+            } elseif ($campaigns[$ckey]['status'] == 0) {
+                echo "<td class=\"sts sts-accepted\">Running</td>";
+            } elseif ($campaigns[$ckey]['status'] == 1) {
+                echo "<td class=\"sts sts-paused\">Paused</td>";
+            } elseif ($campaigns[$ckey]['status'] == 2) {
+                echo "<td class=\"sts not-started\">Not started yet</td>";
+            } elseif ($campaigns[$ckey]['status'] == 3) {
+                echo "<td class=\"sts sts-finished\">Finished</td>";
+            } elseif ($campaigns[$ckey]['status'] == 21) {
+                echo "<td class=\"sts sts-awaiting\"><a href='campaign-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'>Awaiting approval &raquo;</a></td>";
+            } elseif ($campaigns[$ckey]['status'] == 22) {
+                echo "<td class=\"sts sts-rejected\">Rejected</td>";
+            }
+        }
+
+        //echo "<td height='25'><span class='sts-awaiting'><a href='campaign-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'>Awaiting approval &raquo;</a></span></td>";
 		// ID
 		echo "<td height='25'>".$campaigns[$ckey]['campaignid']."</td>";
 
 		// Button 1
 		echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
-		if (($campaigns[$ckey]['expand'] == '1' || !isset($campaigns[$ckey]['banners'])) && !phpAds_isUser(phpAds_Client))
+		if (($campaigns[$ckey]['expand'] == '1' || !isset($campaigns[$ckey]['banners'])) && !OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER))
 			echo "<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'><img src='images/icon-banner-new.gif' border='0' align='absmiddle' alt='$strCreate'>&nbsp;$strCreate</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 		else
 			echo "&nbsp;";
@@ -350,7 +380,7 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 
 		// Button 3
 		echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
-		if (!phpAds_isUser(phpAds_Client)) {
+		if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
     		echo "<a href='campaign-delete.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."&returnurl=advertiser-campaigns.php'".phpAds_DelConfirm($strConfirmDeleteCampaign)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 		} else {
 		    echo "&nbsp;";
@@ -367,16 +397,17 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 				$name = phpAds_breakString ($name, '30');
 
 				// Divider
-				echo "<tr height='1'>";
-				echo "<td ".($i%2==0?"bgcolor='#F6F6F6'":"")."><img src='images/spacer.gif' width='1' height='1'></td>";
-				echo "<td colspan='4' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>";
+				echo "<tr height='1' bgcolor='#f6f6f6'>";
+				echo "<td></td>";
+				echo "<td colspan='5' bgcolor='#bbbbbb'></td>";
 				echo "</tr>";
+
 
 				// Icon & name
 				echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
 				echo "<td height='25'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 
-				if ($banners[$bkey]['active'] == 't' && $campaigns[$ckey]['active'] == 't') {
+				if ($banners[$bkey]['status'] == OA_ENTITY_STATUS_RUNNING && $campaigns[$ckey]['status'] == OA_ENTITY_STATUS_RUNNING) {
 					if ($banners[$bkey]['type'] == 'html')
 						echo "<img src='images/icon-banner-html.gif' align='absmiddle'>";
 					elseif ($banners[$bkey]['type'] == 'txt')
@@ -397,11 +428,16 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 				}
 
 				echo "&nbsp;";
-				if (phpAds_isUser(phpAds_Client) && !phpAds_isAllowed(phpAds_ModifyBanner)) {
+				if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) && !OA_Permission::hasPermission(OA_PERM_BANNER_EDIT)) {
 				    echo $name;
 				} else {
     				echo "<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."&bannerid=".$banners[$bkey]['bannerid']."'>".$name."</a></td>";
 				}
+
+                //empty cell to match status
+                if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) {
+                    echo "<td height='25'>&nbsp;</td>";
+                }
 
 				// ID
 				echo "<td height='25'>".$banners[$bkey]['bannerid']."</td>";
@@ -411,7 +447,7 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 
 				// Button 2
 				echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
-				if (phpAds_isUser(phpAds_Client)) {
+				if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
 				    echo "&nbsp;";
 				} else {
     				echo "<a href='banner-acl.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."&bannerid=".$banners[$bkey]['bannerid']."'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
@@ -420,19 +456,21 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 
 				// Button 3
 				echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
-				if (!phpAds_isUser(phpAds_Client)) {
+				if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
     				echo "<a href='banner-delete.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."&bannerid=".$banners[$bkey]['bannerid']."&returnurl=advertiser-campaigns.php'".phpAds_DelConfirm($strConfirmDeleteBanner)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 				}
 				echo "</td></tr>";
 			}
 		}
 
-		if ($pref['gui_show_campaign_info']) {
-			echo "<tr height='1'>";
-			echo "<td ".($i%2==0?"bgcolor='#F6F6F6'":"")."><img src='images/spacer.gif' width='1' height='1'></td>";
-			echo "<td colspan='4' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>";
-			echo "</tr>";
-			echo "<tr ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td colspan='1'>&nbsp;</td><td colspan='4'>";
+		if ($pref['ui_show_campaign_info']) {
+		      //divider
+            echo "<tr height='1' bgcolor='#f6f6f6'>";
+            echo "<td></td>";
+            echo "<td colspan='5' bgcolor='#bbbbbb'></td>";
+            echo "</tr>";
+
+			echo "<tr ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td>&nbsp;</td><td colspan='5'>";
 			echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'>";
 			echo "<tr height='25'>";
 			echo "<td width='20%'>".$strImpressionsBooked.":</td>";
@@ -449,8 +487,14 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 			echo "<td width='40%'>".$campaigns[$ckey]['expire']."</td>";
 			echo "</tr>";
 			echo "<tr height='25'>";
+			/*
+			// Disabled trackers, replaced with two &nbsp; data items below
 			echo "<td width='20%'>".$strConversionsBooked.":</td>";
 			echo "<td width='20%' align='right'>".($campaigns[$ckey]['conversions'] >= 0 ? $campaigns[$ckey]['conversions'] : $strUnlimited)."</td>";
+			*/
+			echo "<td width='20%'>&nbsp;</td>";
+			echo "<td width='20%'>&nbsp;</td>";
+
 			echo "<td width='10%'>&nbsp;</td>";
 			echo "<td width='20%'>".$strPriority.":</td>";
 			echo "<td width='40%'>".$campaigns[$ckey]['priority']."</td>";
@@ -459,12 +503,13 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 			echo "<br /></td>";
 			echo "</tr>";
 		}
-		echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+		echo "<tr class='break'><td colspan='6' ></td></tr>";
+
 		$i++;
 	}
 }
 
-echo "<tr height='25'><td colspan='2' height='25' nowrap>";
+echo "<tr height='25'><td colspan='3' height='25' nowrap>";
 
 if ($hideinactive == true) {
 	echo "&nbsp;&nbsp;<img src='images/icon-activate.gif' align='absmiddle' border='0'>";
@@ -485,10 +530,10 @@ echo "&nbsp;<a href='advertiser-campaigns.php?clientid=".$clientid."&expand=none
 echo "</td>";
 echo "</tr>";
 
-if (isset($campaigns) && count($campaigns) && !phpAds_isUser(phpAds_Client)) {
-	echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>";
+if (!empty($campaigns) && !OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+    echo "<tr class=''><td colspan='6' ></td></tr>";
 	echo "<tr height='25'>";
-	echo "<td colspan='5' height='25' align='".$phpAds_TextAlignRight."'>";
+	echo "<td colspan='6' height='25' align='".$phpAds_TextAlignRight."'>";
 	echo "<img src='images/icon-recycle.gif' border='0' align='absmiddle'>&nbsp;<a href='campaign-delete.php?clientid=".$clientid."&returnurl=advertiser-campaigns.php'".phpAds_DelConfirm($strConfirmDeleteAllCampaigns).">$strDeleteAllCampaigns</a>&nbsp;&nbsp;";
 	echo "</td>";
 	echo "</tr>";

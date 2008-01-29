@@ -580,7 +580,7 @@ function OA_Delivery_XmlRpc_View_Max($params)
     $xmlResponse = OA_Delivery_XmlRpc_View($msg);
 
     // Check for errors
-    if ($xmlResponse->isError()) {
+    if (XML_RPC_Base::isError($xmlResponse)) {
         // Return error
         return $xmlResponse;
     }

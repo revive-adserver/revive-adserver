@@ -34,17 +34,18 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-maintenance.inc.php';
+require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
 
 
 // Security check
-phpAds_checkAccess(phpAds_Admin);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-phpAds_PageHeader("5.3");
-phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
+phpAds_PageHeader("5.4");
+phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3"));
 phpAds_MaintenanceSelection("maintenance");
 
 
@@ -57,7 +58,7 @@ echo "<br>";
 $aConf = $GLOBALS['_MAX']['CONF'];
 $aPref = $GLOBALS['_MAX']['PREF'];
 
-$iLastCronRun = $aPref['maintenance_cron_timestamp'];
+$iLastCronRun = (int) OA_Dal_ApplicationVariables::get('maintenance_cron_timestamp');
 
 // Make sure that negative values don't break the script
 if ($iLastCronRun > 0) {
@@ -69,8 +70,7 @@ if (time() >= $iLastCronRun + 3600) {
 
     echo "<b>Scheduled maintenance hasn't run in the past hour. This may mean that you have not set it up correctly.</b>"."<br><br>";
 
-    $iLastRun = $aPref['maintenance_timestamp'];
-
+    $iLastRun = (int) OA_Dal_ApplicationVariables::get('maintenance_timestamp');
     // Make sure that negative values don't break the script
     if ($iLastRun > 0) {
         $iLastRun = strtotime(date('Y-m-d H:00:00', $iLastRun));
@@ -81,19 +81,19 @@ if (time() >= $iLastCronRun + 3600) {
 
         if (!empty($conf['maintenance']['autoMaintenance'])) {
             echo "Automatic maintenance is enabled, but it has not been triggered. Note that automatic maintenance is triggered only when Openads delivers banners.
-                  For best performance it is advised to set up <a href='http://docs.openads.org/openads-2.3-guide/maintenance.html' target='_blank'>scheduled maintenance</a>.";
+                  For best performance it is advised to set up <a href='http://docs.openads.org/openads-2.4-guide/maintenance.html' target='_blank'>scheduled maintenance</a>.";
         } else {
             echo "Also, automatic maintenance is disabled, so when ".MAX_PRODUCT_NAME." delivers banners, maintenance is not triggered.
-                  If you do not plan to run <a href='http://docs.openads.org/openads-2.3-guide/maintenance.html' target='_blank'>scheduled maintenance</a>,
+                  If you do not plan to run <a href='http://docs.openads.org/openads-2.4-guide/maintenance.html' target='_blank'>scheduled maintenance</a>,
                   you must <a href='settings-admin.php'>enable auto maintenance</a> to ensure that ".MAX_PRODUCT_NAME." works correctly.";
         }
     } else {
         if (!empty($conf['maintenance']['autoMaintenance']))
             echo "Automatic maintenance is enabled and will trigger maintenance every hour.
-                  For best performance it is advised to set up <a href='http://docs.openads.org/openads-2.3-guide/maintenance.html' target='_blank'>scheduled maintenance</a>.";
+                  For best performance it is advised to set up <a href='http://docs.openads.org/openads-2.4-guide/maintenance.html' target='_blank'>scheduled maintenance</a>.";
         else
             echo "Automatic maintenance is disabled too but a maintenance task has recently run. To make sure that ".MAX_PRODUCT_NAME." works correctly you should either
-                  set up <a href='http://docs.openads.org/openads-2.3-guide/maintenance.html' target='_blank'>scheduled maintenance</a> or <a href='settings-admin.php'>enable auto maintenance</a>. ";
+                  set up <a href='http://docs.openads.org/openads-2.4-guide/maintenance.html' target='_blank'>scheduled maintenance</a> or <a href='settings-admin.php'>enable auto maintenance</a>. ";
     }
 } else {
     echo "<b>Scheduled maintenance seems to be correctly running.</b>"."<br><br>";

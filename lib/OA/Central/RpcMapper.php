@@ -25,8 +25,9 @@
 $Id$
 */
 
-require_once MAX_PATH.'/lib/OA.php';
-require_once MAX_PATH.'/lib/OA/Dal/Central/Rpc.php';
+require_once MAX_PATH . '/lib/OA.php';
+require_once MAX_PATH . '/lib/OA/Dal/Central/Rpc.php';
+require_once MAX_PATH . '/lib/OA/Dal/Central/M2M.php';
 
 
 /**
@@ -43,17 +44,57 @@ class OA_Central_RpcMapper
     /**
      * Class constructor
      *
+     * @param OA_Central_Common Caller class
      * @return OA_Dal_Central_adNetworks
      */
-    function OA_Central_RpcMapper()
+    function OA_Central_RpcMapper(&$oCentral)
     {
-        $this->oRpc = new OA_Dal_Central_Rpc();
+        $this->oRpc =& new OA_Dal_Central_Rpc($oCentral);
+    }
+
+    /**
+     * A method to connect the OAP platform and the account Id to OAC
+     *
+     * Note: Admin connection requires no auth. All other calls need to be M2M authorised
+     *
+     * @return mixed The M2M password if OAP and it's account is correctly connected to OAC,
+     *               PEAR_Error otherwise
+     */
+    function connectM2M($accountId, $accountType)
+    {
+        $aParams = array(
+            new XML_RPC_Value($accountId, $GLOBALS['XML_RPC_Int']),
+            new XML_RPC_Value($accountType, $GLOBALS['XML_RPC_String']),
+        );
+        $method = $accountType == OA_ACCOUNT_ADMIN ? 'callNoAuth' : 'callM2M';
+        $result = $this->oRpc->$method('connectM2M', $aParams);
+
+        return $result;
+    }
+
+    /**
+     * A method to re-connect the OAP platform and the account Id to OAC, getting a fresh password
+     *
+     * Note: this method shouldn't ever be called because it's handled at RPC layer,
+     *       it is present just for reference
+     */
+    function reconnectM2M()
+    {
+        //return $this->oRpc->callM2M('reconnectM2M');
+    }
+
+    /**
+     * A method to retrieve an M2M authentication ticket
+     *
+     * @return mixed The ticket string on success, PEAR_Error otherwise
+     */
+    function getM2MTicket()
+    {
+        return $this->oRpc->callM2M('getM2MTicket');
     }
 
     /**
      * Refs R-AN-1: Connecting Openads Platform with SSO
-     *
-     * @todo Need clarification
      *
      * @return mixed A boolean True if the platform is correctly connected to OAC,
      *               PEAR_Error otherwise
@@ -160,6 +201,8 @@ class OA_Central_RpcMapper
      * @see R-AN-4: Creation of the Ad Networks Entities
      * @see R-AN-5: Generation of Campaigns and Banners
      *
+     * R2: Introduced {@see OA_Dll status} field for campaigns
+     *
      * The $aWebsites array format is:
      *
      * Array
@@ -214,6 +257,7 @@ class OA_Central_RpcMapper
      *                                     [block] => 0
      *                                     [capping] => 0
      *                                     [session_capping] => 0
+     *                                     [status] => 0
      *                                     [banners] => Array
      *                                         (
      *                                             [0] => Array
@@ -265,6 +309,7 @@ class OA_Central_RpcMapper
      *                                     [block] => 0
      *                                     [capping] => 0
      *                                     [session_capping] => 0
+     *                                     [status] => 2
      *                                     [banners] => Array
      *                                         (
      *                                             [0] => Array
@@ -304,6 +349,89 @@ class OA_Central_RpcMapper
         ));
     }
 
+    /**
+     * A method to unsubscribe websites
+     *
+     * @param array $aWebsiteIds
+     */
+    function unsubscribeWebsites($aWebsiteIds)
+    {
+        return $this->oRpc->callNoAuth('unsubscribeWebsites', array(
+            XML_RPC_encode($aWebsiteIds)
+        ));
+    }
+
+    /**
+     * A method to update or add zone.
+     *
+     * The $aZone array format is (for add):
+     *
+     * Array
+     * (
+     *      [websiteId]   => 5
+     *      [name]        => Test Zone
+     *      [description] => My description
+     *      [width]       => 60
+     *      [height]      => 70
+     * )
+     *
+     *
+     * The $aZone array format is (for update):
+     *
+     * Array
+     * (
+     *      [id]          => 121
+     *      [websiteId]   => 5
+     *      [name]        => Test Zone
+     *      [description] => My description
+     *      [width]       => 60
+     *      [height]      => 70
+     * )
+     *
+     *
+     * @param array $aZone
+     * @param int  zone id
+     */
+    function updateZone($aZone) {
+        return $this->oRpc->callNoAuth('updateZone',
+                                       array(XML_RPC_encode($aZone)));
+    }
+
+
+    /**
+     * A method to delete zone from Ad Networks
+     *
+     * @param int $zoneId  zone id into Ad Networks
+     */
+    function deleteZone($zoneId) {
+        $aId = array('id' => $zoneId);
+        return $this->oRpc->callNoAuth('deleteZone',
+                                       array(XML_RPC_encode($aId))
+                                      );
+    }
+
+    /**
+     * A method to get updates about subscribed websites
+     *
+     * @see C-AN-2 Website application status
+     *
+     * The returned array format is:
+     *
+     * Array
+     * (
+     *      [10872] => 0
+     *      [10873] => 0
+     *      [10874] => 1
+     *      [10875] => 1
+     * )
+     *
+     * @return mixed The array of campaigns with their statuses, PEAR_Error otherwise
+     *               Key is the OAC campaign Id, value is the {@see OA_Dll remote status}
+     */
+    function getCampaignStatuses()
+    {
+        return $this->oRpc->callNoAuth('getCampaignStatuses');
+    }
 
     /**
      * A method to get the list of other networks currently available
@@ -441,17 +569,6 @@ class OA_Central_RpcMapper
             new XML_RPC_Value($batchSequence, $GLOBALS['XML_RPC_Int'])
         ));
 
-        if (PEAR::isError($aResult)) {
-            return $aResult;
-        }
-        foreach ($aResult as $k1 => $v1) {
-            foreach ($v1 as $k2 => $v2) {
-                $v2['start'] = $this->oRpc->utcToDate($v2['start']);
-                $v2['end']   = $this->oRpc->utcToDate($v2['end']);
-                $aResult[$k1][$k2] = $v2;
-            }
-        }
-
         return $aResult;
     }
 
@@ -489,10 +606,298 @@ class OA_Central_RpcMapper
      */
     function getCommunityStats()
     {
-        $aResult = $this->oRpc->callSso('getCommunityStats');
+        $aResult = $this->oRpc->callM2M('getCommunityStats');
 
         return $aResult;
     }
+
+    /**
+     * Google AdSense procedures
+     *
+     * NOTE:
+     * Exceptions mimic the original ones mentioned here:
+     * @see http://code.google.com/apis/adsense/developer/adsense_api_error_codes.html
+     * but they are increased by 10000
+     * so e.g. AdSense exception #301 (User does not have an AdSense account) is mapped to #10301
+     *
+     */
+
+    /**
+     * A method to create AdSense account
+     *
+     * @param string $loginEmail
+     * @param string $websiteUrl
+     * @param string $websiteLocale
+     * @param string $usersPreferredLocale
+     *
+     * The result array looks like:
+     *
+     * Array
+     * (
+     * 		[adsense_account_id] => 1
+     * 		[affiliate_code] => code
+     * )
+     *
+     * @return mixed An array described above on success, PEAR_Error otherwise
+     *
+     */
+    function adsenseCreateAccount($loginEmail, $websiteUrl, $websiteLocale, $usersPreferredLocale)
+    {
+        return $this->oRpc->callNoAuth('adsenseCreateAccount', array(
+            new XML_RPC_Value($loginEmail, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($websiteUrl, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($websiteLocale, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($usersPreferredLocale, $GLOBALS['XML_RPC_String'])
+        ));
+    }
+
+    /**
+     * A method to link AdSense account
+     *
+     * @param string $loginEmail
+     * @param string $postalCode
+     * @param string $phone (last 5 digits)
+     *
+     * The result array looks like:
+     *
+     * Array
+     * (
+     * 		[adsense_account_id] => 1
+     * 		[affiliate_code] => code
+     * )
+     *
+     * @return mixed An array described above on success, PEAR_Error otherwise
+     *
+     */
+    function adsenseLinkAccount($loginEmail, $postalCode, $phone)
+    {
+        return $this->oRpc->callNoAuth('adsenseLinkAccount', array(
+            new XML_RPC_Value($loginEmail, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($postalCode, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($phone, $GLOBALS['XML_RPC_String'])
+        ));
+    }
+
+    /**
+     * A method to check AdSense account status
+     *
+     * @see org.openads.adnetworks.adsense.AdSenseAccountStatus enumeration in OAC for details
+     * @todo decide on available statuses and put the info here
+     *
+     * @param int $adsenseAccountId
+     * @return mixed Account status (int) on success, PEAR_Error otherwise
+     *
+     */
+    function adsenseGetAccountStatus($adsenseAccountId)
+    {
+    	return $this->oRpc->callNoAuth('adsenseGetAccountStatus', array(
+            new XML_RPC_Value($adsenseAccountId, $GLOBALS['XML_RPC_Int'])
+        ));
+    }
+
+    /**
+     * A method to create AdSense banner
+     *
+     * @param int $adsenseAccountId
+     * @param string $name
+     * @param string $backgroundColor
+     * @param string $borderColor
+     * @param string $textColor
+     * @param string $titleColor
+     * @param string $urlColor
+     * @param string $adUnitType
+     * @param string $layout
+     * @param boolean $isFramedPage
+     *
+     * The result array looks like:
+     *
+     * Array
+     * (
+     * 		[banner_id] => 1
+     * 		[banner_code] => code
+     * )
+     *
+     * @return mixed An array described above on success, PEAR_Error otherwise
+     *
+     */
+	function adsenseCreateBanner($adsenseAccountId, $name, $backgroundColor, $borderColor, $textColor, $titleColor, $urlColor, $adUnitType, $layout, $isFramedPage)
+	{
+		return $this->oRpc->callNoAuth('adsenseCreateBanner', array(
+            new XML_RPC_Value($adsenseAccountId, $GLOBALS['XML_RPC_Int']),
+            new XML_RPC_Value($name, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($backgroundColor, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($borderColor, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($textColor, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($titleColor, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($urlColor, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($adUnitType, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($layout, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($isFramedPage, $GLOBALS['XML_RPC_Boolean'])
+        ));
+	}
+
+    /**
+     * A method to update AdSense banner
+     *
+     * @param int $bannerId
+     * @param string $name
+     * @param string $backgroundColor
+     * @param string $borderColor
+     * @param string $textColor
+     * @param string $titleColor
+     * @param string $urlColor
+     * @param string $adUnitType
+     * @param string $layout
+     * @param boolean $isFramedPage
+     *
+     * @return mixed A string Banner code on success, PEAR_Error otherwise
+     *
+     */
+	function adsenseUpdateBanner($bannerId, $name, $backgroundColor, $borderColor, $textColor, $titleColor, $urlColor, $adUnitType, $layout, $isFramedPage)
+	{
+		return $this->oRpc->callNoAuth('adsenseUpdateBanner', array(
+			new XML_RPC_Value($bannerId, $GLOBALS['XML_RPC_Int']),
+            new XML_RPC_Value($name, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($backgroundColor, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($borderColor, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($textColor, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($titleColor, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($urlColor, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($adUnitType, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($layout, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($isFramedPage, $GLOBALS['XML_RPC_Boolean'])
+        ));
+	}
+
+    /**
+     * A method to get AdSense revenue
+     *
+     * @param int $batchSequence
+     *
+     * The result array looks like:
+     *
+     * Array
+     * (
+     *     [0] => Array
+     *         (
+     *             [banner_id] => 31337 (int)
+     *             [start] => UTC string
+     *             [end] => UTC string
+     *             [clicks] => 31337 (int)
+     *             [impressions] => 31337 (int)
+     *             [revenue] => string
+     *             [currency] => string (should be constant)
+     *             [type] => string (should be constant)
+     *         )
+     *     [1] => Array
+     * 			...
+     *	)
+     *
+     * @return mixed An array described above
+     *
+     */
+	function adsenseGetRevenue($batchSequence)
+	{
+		return $this->oRpc->callNoAuth('adsenseGetRevenue', array(
+			new XML_RPC_Value($batchSequence, $GLOBALS['XML_RPC_Int'])
+        ));
+	}
+
+    /**
+     * A method to get ad unit types and ad layout sizes supported by AdSense
+     *
+     * The result array looks like:
+     *
+     * Array
+     * (
+     *     [FourLinkUnit] => Array
+     *         (
+     *             [0] => 200x90
+     *             [1] => 468x15
+     *         )
+     *
+     *     [ImageOnly] => Array
+     *         (
+     *             [0] => 336x280
+     *             [1] => 250x250
+     *         )
+     *
+     * )
+     *
+     * @see http://code.google.com/apis/adsense/developer/adsense_api_adformats.html
+     *
+     * @return mixed An array described above on success, PEAR_Error otherwise
+     *
+     */
+    function adsenseGetUnitTypesAndLayouts()
+    {
+    	return $this->oRpc->callNoAuth('adsenseGetUnitTypesAndLayouts');
+    }
+
+
+    /**
+     * A method to get website locales supported by AdSense
+     *
+     * The result array looks like:
+     *
+     * Array
+     * (
+     *     [0] => Array
+     *         (
+     *             [name] => English
+     *             [code] => en
+     *         )
+     *
+     *     [1] => Array
+     *         (
+     *             [name] => Chinese (Taiwan)
+     *             [code] => zh_TW
+     *         )
+     *
+     * )
+     *
+     * @see http://code.google.com/apis/adsense/developer/adsense_api_locales.html
+     *
+     * @return mixed An array described above on success, PEAR_Error otherwise
+     *
+     */
+    function adsenseGetSupportedWebsiteLocales()
+    {
+    	return $this->oRpc->callNoAuth('adsenseGetSupportedWebsiteLocales');
+    }
+
+    /**
+     * A method to get user locales supported by AdSense
+     *
+     * The result array looks like:
+     *
+     * Array
+     * (
+     *     [0] => Array
+     *         (
+     *             [name] => English (United Kingdom)
+     *             [code] => en_GB
+     *         )
+     *
+     *     [1] => Array
+     *         (
+     *             [name] => Polish
+     *             [code] => pl
+     *         )
+     *
+     * )
+     *
+     * @see http://code.google.com/apis/adsense/developer/adsense_api_locales.html
+     *
+     * @return mixed An array described above on success, PEAR_Error otherwise
+     *
+     */
+    function adsenseGetSupportedUserLocales()
+    {
+    	return $this->oRpc->callNoAuth('adsenseGetSupportedUserLocales');
+    }
+
+
 }
 
 ?>

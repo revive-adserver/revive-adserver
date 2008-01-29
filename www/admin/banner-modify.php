@@ -47,7 +47,7 @@ phpAds_registerGlobal('bannerid', 'campaignid', 'clientid', 'returnurl', 'duplic
 
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 
 
 /*-------------------------------------------------------*/
@@ -55,11 +55,11 @@ MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
 /*-------------------------------------------------------*/
 
 if (!empty($bannerid)) {
-    MAX_Permission::checkAccessToObject('banners', $bannerid);
+    OA_Permission::enforceAccessToObject('banners', $bannerid);
 
     if (!empty($moveto) && isset($moveto_x)) {
-        if (phpAds_isUser(phpAds_Agency)) {
-            MAX_Permission::checkAccessToObject('campaigns', $moveto);
+        if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+            OA_Permission::enforceAccessToObject('campaigns', $moveto);
         }
 
         // Move the banner
@@ -83,8 +83,8 @@ if (!empty($bannerid)) {
         Header ("Location: {$returnurl}?clientid={$clientid}&campaignid={$moveto}&bannerid={$bannerid}");
 
     } elseif (!empty($applyto) && isset($applyto_x)) {
-        if (phpAds_isUser(phpAds_Agency)) {
-            MAX_Permission::checkAccessToObject('banners', $applyto);
+        if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+            OA_Permission::enforceAccessToObject('banners', $applyto);
         }
         if (MAX_AclCopy(basename($_SERVER['PHP_SELF']), $bannerid, $applyto)) {
             // Rebuild cache

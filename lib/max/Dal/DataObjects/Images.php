@@ -37,7 +37,7 @@ class DataObjects_Images extends DB_DataObjectCommon
 
     var $__table = 'images';                          // table name
     var $filename;                        // string(128)  not_null primary_key
-    var $contents;                        // blob(-1)  not_null blob binary
+    var $contents;                        // blob(16777215)  not_null blob binary
     var $t_stamp;                         // datetime(19)  binary
 
     /* ZE2 compatibility trick*/
@@ -86,6 +86,79 @@ class DataObjects_Images extends DB_DataObjectCommon
     function _refreshUpdated()
     {
         $this->t_stamp = OA::getNow();
+    }
+
+    function _auditEnabled()
+    {
+        return true;
+    }
+
+    function _getContextId()
+    {
+        return 0;
+    }
+
+    function _getContext()
+    {
+        return 'Image';
+    }
+
+    /**
+     * A private method to return the account ID of the
+     * account that should "own" audit trail entries for
+     * this entity type; NOT related to the account ID
+     * of the currently active account performing an
+     * action.
+     *
+     * @return integer The account ID to insert into the
+     *                 "account_id" column of the audit trail
+     *                 database table.
+     */
+    function getOwningAccountId()
+    {
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->storagetype = 'sql';
+        $doBanners->filename = $this->filename;
+        $doBanners->find();
+
+        if ($doBanners->fetch()) {
+            return $doBanners->getOwningAccountId();
+        }
+
+        return OA_Dal_ApplicationVariables::get('admin_account_id');
+    }
+
+
+    /**
+     * build an image specific audit array
+     *
+     * @param integer $actionid
+     * @param array $aAuditFields
+     */
+    function _buildAuditArray($actionid, &$aAuditFields)
+    {
+        $aAuditFields['key_desc']   = $this->filename;
+        switch ($actionid)
+        {
+            case OA_AUDIT_ACTION_INSERT:
+            case OA_AUDIT_ACTION_DELETE:
+                        $aAuditFields['contents']   = 'binary data not audited';
+                        break;
+            case OA_AUDIT_ACTION_UPDATE:
+                        $aAuditFields['bannerid']   = $this->bannerid;
+                        break;
+        }
+    }
+
+    function _formatValue($field)
+    {
+        switch ($field)
+        {
+            case 'contents':
+                return 'binary data not audited';
+            default:
+                return $this->$field;
+        }
     }
 }
 

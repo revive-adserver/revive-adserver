@@ -58,6 +58,7 @@ class Test_OA_Maintenance_Statistics_AdServer extends UnitTestCase
     var $doAcls = null;
     var $doChannel = null;
     var $doAclsChannel = null;
+    var $doAffiliates = null;
     var $doZones = null;
     var $doTrackers = null;
     var $tblDRAR;
@@ -79,6 +80,7 @@ class Test_OA_Maintenance_Statistics_AdServer extends UnitTestCase
         $this->doAcls = OA_Dal::factoryDO('acls');
         $this->doAclsChannel = OA_Dal::factoryDO('acls_channel');
         $this->doChannel = OA_Dal::factoryDO('channel');
+        $this->doAffiliates = OA_Dal::factoryDO('affiliates');
         $this->doZones = OA_Dal::factoryDO('zones');
         $this->doTrackers = OA_Dal::factoryDO('trackers');
         $conf =& $GLOBALS['_MAX']['CONF'];
@@ -205,6 +207,15 @@ class Test_OA_Maintenance_Statistics_AdServer extends UnitTestCase
             $this->doAclsChannel->$key = $val;
         }
         return DataGenerator::generateOne($this->doAclsChannel);
+    }
+
+    function _insertPublisher($aData)
+    {
+        foreach ($aData AS $key => $val)
+        {
+            $this->doAffiliates->$key = $val;
+        }
+        return DataGenerator::generateOne($this->doAffiliates);
     }
 
     function _insertZone($aData)
@@ -458,20 +469,30 @@ class Test_OA_Maintenance_Statistics_AdServer extends UnitTestCase
         $idTracker1 = $this->_insertTracker($aData);
 
         $aData = array(
-                        'affiliateid'=>1,
+                        'name' => 'Test Publisher 1'
+        );
+        $idPublisher1 = $this->_insertPublisher($aData);
+
+        $aData = array(
+                        'name' => 'Test Publisher 2'
+        );
+        $idPublisher2 = $this->_insertPublisher($aData);
+
+        $aData = array(
+                        'affiliateid'=>$idPublisher1,
                         'zonename'=>'Test Publisher 1 - Default',
                       );
         $idZone1 = $this->_insertZone($aData);
 
         $aData = array(
-                        'affiliateid'=>2,
+                        'affiliateid'=>$idPublisher2,
                         'zonename'=>'Test Publisher 2 - Default',
                       );
         $idZone2 = $this->_insertZone($aData);
 
         $aData = array(
                         'agencyid'=>0,
-                        'affiliateid'=>1,
+                        'affiliateid'=>$idPublisher1,
                         'name'=>'Test Channel - Page Url',
                         'description'=>'',
                         'compiledlimitation'=>'MAX_checkSite_Pageurl(\'example\', \'=~\')',
@@ -485,7 +506,7 @@ class Test_OA_Maintenance_Statistics_AdServer extends UnitTestCase
 
         $aData = array(
                         'agencyid'=>0,
-                        'affiliateid'=>1,
+                        'affiliateid'=>$idPublisher1,
                         'name'=>'Test Channel - Referrer',
                         'description'=>'Test Channel - referrer = www.referrer.com',
                         'compiledlimitation'=>'MAX_checkSite_Referingpage(\'refer.com\', \'=~\')',
@@ -498,7 +519,7 @@ class Test_OA_Maintenance_Statistics_AdServer extends UnitTestCase
         $idChannel2 = $this->_insertChannel($aData);
 
         $aData = array(
-                        'bannerid'=>$idBanner7,
+                        'bannerid'=>$idBanner6,
                         'logical'=>'and',
                         'type'=>'Site:Channel',
                         'comparison'=>'==',
@@ -507,7 +528,7 @@ class Test_OA_Maintenance_Statistics_AdServer extends UnitTestCase
                       );
         $idAcls1 = $this->_insertAcls($aData);
         $aData = array(
-                        'bannerid'=>$idBanner7,
+                        'bannerid'=>$idBanner6,
                         'logical'=>'and',
                         'type'=>'Site:Channel',
                         'comparison'=>'==',

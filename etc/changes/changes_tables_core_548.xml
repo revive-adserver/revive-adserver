@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>548</version>
+  <comments>Added account_id foreign key to audit table</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>548</version>
+      <change>
+        <table>
+          <name>audit</name>
+          <add>
+            <field>
+              <name>account_id</name>
+              <type>openads_mediumint</type>
+              <length>9</length>
+              <notnull>1</notnull>
+              <default></default>
+              <was>account_id</was>
+            </field>
+          </add>
+          <index>
+            <add>
+              <name>account_id</name>
+              <was>account_id</was>
+              <indexfield>
+                <name>account_id</name>
+                <sorting>ascending</sorting>
+              </indexfield>
+            </add>
+          </index>
+        </table>
+      </change>
+    </changeset>
+  </constructive>
+  <destructive>
+    <changeset>
+      <name>openads</name>
+      <version>548</version>
+    </changeset>
+  </destructive>
+</instructionset>

@@ -158,9 +158,9 @@ class OA_Dll_Banner extends OA_Dll
      */
     function checkStatisticsPermissions($bannerId)
     {
-       if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency +
-            phpAds_Client, 'banners', $bannerId)) {
-
+       if (!$this->checkPermissions(
+            array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER),
+            'banners', $bannerId)) {
             return false;
         } else {
             return true;
@@ -191,17 +191,15 @@ class OA_Dll_Banner extends OA_Dll
         if (!isset($oBanner->bannerId)) {
             // Add
             $oBanner->setDefaultForAdd();
-            if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency +
-                 phpAds_Client, 'campaigns', $oBanner->campaignId,
-                 phpAds_ModifyBanner)) {
+            if (!$this->checkPermissions($this->aAllowAdvertiserAndAbovePerm,
+                 'campaigns', $oBanner->campaignId, OA_PERM_BANNER_EDIT)) {
 
                 return false;
             }
         } else {
             // Edit
-            if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency +
-                 phpAds_Client, 'banners', $oBanner->bannerId,
-                 phpAds_ModifyBanner)) {
+            if (!$this->checkPermissions($this->aAllowAdvertiserAndAbovePerm,
+                 'banners', $oBanner->bannerId, OA_PERM_BANNER_EDIT)) {
 
                 return false;
             }
@@ -253,9 +251,9 @@ class OA_Dll_Banner extends OA_Dll
      */
     function delete($bannerId)
     {
-        if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency,
-             'banners', $bannerId)) {
-
+        if (!$this->checkPermissions(
+            array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER),
+            'banners', $bannerId)) {
             return false;
         }
 

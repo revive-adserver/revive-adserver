@@ -93,7 +93,7 @@ class OA_Admin_Statistics_Delivery_Controller_BannerAffiliates extends OA_Admin_
         $adId         = $this->_getId('ad');
 
         // Security check
-        phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
+        OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
         $this->_checkAccess(array('advertiser' => $advertiserId, 'placement' => $placementId, 'ad' => $adId));
 
         // Add standard page parameters
@@ -111,13 +111,13 @@ class OA_Admin_Statistics_Delivery_Controller_BannerAffiliates extends OA_Admin_
         $this->_loadParams();
 
         // HTML Framework
-        if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $this->pageId = '2.1.2.2.2';
             $this->aPageSections = array('2.1.2.2.1', '2.1.2.2.2', '2.1.2.2.3');
-        } elseif (phpAds_isUser(phpAds_Client)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $this->pageId = '1.2.2.4';
             $this->aPageSections[] = '1.2.2.1';
-            if (phpAds_isAllowed(phpAds_ModifyBanner)) {
+            if (OA_Permission::hasPermission(OA_PERM_BANNER_EDIT)) {
                 $this->aPageSections[] = '1.2.2.2';
             }
             $this->aPageSections[] = '1.2.2.4';
@@ -130,7 +130,7 @@ class OA_Admin_Statistics_Delivery_Controller_BannerAffiliates extends OA_Admin_
         $this->aPageContext = array('banners', $adId);
 
         // Add shortcuts
-        if (!phpAds_isUser(phpAds_Client)) {
+        if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $this->_addShortcut(
                 $GLOBALS['strClientProperties'],
                 'advertiser-edit.php?clientid='.$advertiserId,
@@ -160,7 +160,7 @@ class OA_Admin_Statistics_Delivery_Controller_BannerAffiliates extends OA_Admin_
         $this->entityLinks['p'] = 'stats.php?entity=banner&breakdown=affiliate-history';
         $this->entityLinks['z'] = 'stats.php?entity=banner&breakdown=zone-history';
 
-        $this->hideInactive = MAX_getStoredValue('hideinactive', ($aPref['gui_hide_inactive'] == 't'));
+        $this->hideInactive = MAX_getStoredValue('hideinactive', ($aPref['ui_hide_inactive'] == true));
         $this->showHideInactive = true;
 
         $this->startLevel = MAX_getStoredValue('startlevel', 0);

@@ -47,13 +47,15 @@ function MAX_checkTime_Hour($limitation, $op, $aParams = array())
     if ($limitation == '') {
         return true;
     }
-    if ($GLOBALS['is_simulation']) {
+    OA_setTimeZoneLocal();
+    if (!empty($GLOBALS['is_simulation'])) {
         $oServiceLocator =& OA_ServiceLocator::instance();
         $oNow = $oServiceLocator->get('now');
         $time = (int)$oNow->getHour();
     } else {
         $time = empty($aParams) ? date('G') : $aParams['hour'];
     }
+    OA_setTimeZoneUTC();
     return MAX_limitationsMatchArrayValue($time, $limitation, $op, $aParams);
 }
 

@@ -79,6 +79,7 @@ phpAds_registerGlobalUnslashed(
     ,'replaceimage'
     ,'replacealtimage'
     ,'status'
+    ,'statustext'
     ,'type'
     ,'submit'
     ,'target'
@@ -97,12 +98,15 @@ foreach ($invPlugins as $plugin) {
 /*-------------------------------------------------------*/
 /* Client interface security                             */
 /*-------------------------------------------------------*/
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
-MAX_Permission::checkIsAllowed(phpAds_ModifyBanner);
-if (!empty($bannerid)) {
-    MAX_Permission::checkAccessToObject('banners', $bannerid);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
+OA_Permission::enforceAccessToObject('clients',   $clientid);
+OA_Permission::enforceAccessToObject('campaigns', $campaignid);
+
+if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+    OA_Permission::enforceAllowed(OA_PERM_BANNER_EDIT);
+    OA_Permission::enforceAccessToObject('banners', $bannerid);
 } else {
-    MAX_Permission::checkAccessToObject('campaigns', $campaignid);
+    OA_Permission::enforceAccessToObject('banners', $bannerid, true);
 }
 
 /*-------------------------------------------------------*/
@@ -120,7 +124,7 @@ if (isset($submit)) {
 
     $aVariables = array();
     $aVariables['campaignid']      = $campaignid;
-    $aVariables['target']          = isset($target) ? $target : '';
+    $aVariables['target']          = isset($target) ? phpAds_htmlQuotes($target) : '';
     $aVariables['height']          = isset($height) ? $height : 0;
     $aVariables['width']           = isset($width)  ? $width : 0;
     $aVariables['weight']          = !empty($weight) ? $weight : 0;
@@ -132,7 +136,8 @@ if (isset($submit)) {
     $aVariables['description']     = !empty($description) ? $description : '';
     $aVariables['imageurl']        = (!empty($imageurl) && $imageurl != 'http://') ? $imageurl : '';
     $aVariables['url']             = (!empty($url) && $url != 'http://') ? $url : '';
-    $aVariables['status']          = !empty($status) ? $status : '';
+    $aVariables['status']          = ($status != '') ? $status : '';
+    $aVariables['statustext']      = !empty($statustext) ? $statustext : '';
     $aVariables['storagetype']     = $type;
     $aVariables['filename']        = !empty($aBanner['filename']) ? $aBanner['filename'] : '';
     $aVariables['contenttype']     = !empty($aBanner['contenttype']) ? $aBanner['contenttype'] : '';
@@ -149,13 +154,36 @@ if (isset($submit)) {
         $aVariables['keyword'] = '';
     }
 
+    $editSwf = false;
+
+    // Deal with any files that are uploaded.
+    if (!empty($_FILES['upload']) && $replaceimage == 't') {
+        $aFile = _handleUploadedFile('upload', $type);
+        if (!empty($aFile)) {
+            $aVariables['filename']      = $aFile['filename'];
+            $aVariables['contenttype']   = $aFile['contenttype'];
+            $aVariables['width']         = $aFile['width'];
+            $aVariables['height']        = $aFile['height'];
+            $aVariables['pluginversion'] = $aFile['pluginversion'];
+            $editSwf                     = $aFile['editswf'];
+        }
+    }
+    if (!empty($_FILES['uploadalt']) && $replacealtimage == 't') {
+        $aFile = _handleUploadedFile('uploadalt', $type, true);
+        if (!empty($aFile)) {
+            $aVariables['alt_filename']    = $aFile['filename'];
+            $aVariables['alt_contenttype'] = $aFile['contenttype'];
+        }
+    }
+
     // Handle SWF transparency
     if ($aVariables['contenttype'] == 'swf') {
         $aVariables['transparent'] = isset($transparent) && $transparent ? 1 : 0;
     }
 
-    // Update existing hard-coded links
-    if ($aVariables['contenttype'] == 'swf' && isset($alink) && is_array($alink) && count($alink)) {
+    // Update existing hard-coded links if new file has not been uploaded
+    if ($aVariables['contenttype'] == 'swf' && empty($_FILES['upload']['tmp_name'])
+        && isset($alink) && is_array($alink) && count($alink)) {
         // Prepare the parameters
         $parameters_complete = array();
 
@@ -193,32 +221,10 @@ if (isset($submit)) {
 
     $aVariables['parameters'] = serialize($parameters);
 
-    $editSwf = false;
-
     // Add variables from plugins
     foreach ($invPlugins as $plugin) {
         foreach ($plugin->prepareVariables() as $k => $v) {
             $sqlupdate[] = "{$k}='{$v}'";
-        }
-    }
-
-    // Deal with any files that are uploaded.
-    if (!empty($_FILES['upload']) && $replaceimage == 't') {
-        $aFile = _handleUploadedFile('upload', $type);
-        if (!empty($aFile)) {
-            $aVariables['filename']      = $aFile['filename'];
-            $aVariables['contenttype']   = $aFile['contenttype'];
-            $aVariables['width']         = $aFile['width'];
-            $aVariables['height']        = $aFile['height'];
-            $aVariables['pluginversion'] = $aFile['pluginversion'];
-            $editSwf                     = $aFile['editswf'];
-        }
-    }
-    if (!empty($_FILES['uploadalt']) && $replacealtimage == 't') {
-        $aFile = _handleUploadedFile('uploadalt', $type, true);
-        if (!empty($aFile)) {
-            $aVariables['alt_filename']    = $aFile['filename'];
-            $aVariables['alt_contenttype'] = $aFile['contenttype'];
         }
     }
 
@@ -231,7 +237,7 @@ if (isset($submit)) {
     }
 
     // Clients are only allowed to modify certain fields, ensure that other fields are unchanged
-    if (phpAds_isUser(phpAds_Client)) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
         $aVariables['weight']       = $aBanner['weight'];
         $aVariables['description']  = $aBanner['name'];
         $aVariables['comments']     = $aBanner['comments'];
@@ -254,8 +260,8 @@ if (isset($submit)) {
     // Determine what the next page is
     if ($editSwf) {
         $nextPage = "banner-swf.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid";
-    } elseif (phpAds_isUser(phpAds_Client)) {
-        $nextPage = "stats.php?entity=campaign&breakdown=banners&clientid=$clientid&campaignid=$campaignid";
+    } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {        
+        $nextPage = "banner-edit.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid";
     } else {
         $nextPage = "banner-acl.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid";
     }
@@ -274,18 +280,6 @@ if ($bannerid != '') {
     $doBanners = OA_Dal::factoryDO('banners');
     if ($doBanners->get($bannerid)) {
         $row = $doBanners->toArray();
-    }
-
-    if (isset($session['prefs']['campaign-banners.php'][$campaignid]['listorder'])) {
-        $navorder = $session['prefs']['campaign-banners.php'][$campaignid]['listorder'];
-    } else {
-        $navorder = '';
-    }
-
-    if (isset($session['prefs']['campaign-banners.php'][$campaignid]['orderdirection'])) {
-        $navdirection = $session['prefs']['campaign-banners.php'][$campaignid]['orderdirection'];
-    } else {
-        $navdirection = '';
     }
 
     // Set basic values
@@ -334,19 +328,10 @@ $pageName = basename($_SERVER['PHP_SELF']);
 $tabindex = 1;
 $aEntities = array('clientid' => $clientid, 'campaignid' => $campaignid, 'bannerid' => $bannerid);
 
-if (phpAds_getUserType() == phpAds_Advertiser)
-{
-    $entityId = phpAds_getUserID();
+$entityId = OA_Permission::getEntityId();
+if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
     $entityType = 'advertiser_id';
-}
-else if (phpAds_getUserType() == phpAds_Publisher)
-{
-    $entityId = phpAds_getUserID();
-    $entityType = 'publisher_id';
-}
-else if (phpAds_getUserType() == phpAds_Agency)
-{
-    $entityId = phpAds_getAgencyID();
+} else {
     $entityType = 'agency_id';
 }
 
@@ -360,11 +345,11 @@ MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners, $aEntit
 /*-------------------------------------------------------*/
 
 // Determine which bannertypes to show
-$show_sql   = $pref['type_sql_allow'];
-$show_web   = $pref['type_web_allow'];
-$show_url   = $pref['type_url_allow'];
-$show_html  = $pref['type_html_allow'];
-$show_txt   = $pref['type_txt_allow'];
+$show_sql   = $conf['allowedBanners']['sql'];
+$show_web   = $conf['allowedBanners']['web'];
+$show_url   = $conf['allowedBanners']['url'];
+$show_html  = $conf['allowedBanners']['html'];
+$show_txt   = $conf['allowedBanners']['text'];
 
 if (isset($type) && $type == "sql")      $show_sql     = true;
 if (isset($type) && $type == "web")      $show_web     = true;
@@ -406,12 +391,34 @@ if (!isset($bannerid) || $bannerid == '') {
     echo "</td></tr></table>";
     phpAds_ShowBreak();
     echo "</form>";
+
+} else {
+    // Only display the notices when *changing* a banner size, not for new banners
+    echo "<div class='errormessage' id='warning_change_zone_type' style='display:none'> <img class='errormessage' src='images/errormessage.gif' align='absmiddle' />";
+    echo "<span class='tab-r'> {$GLOBALS['strWarning']}:</span><br />";
+    echo "{$GLOBALS['strWarnChangeZoneType']}";
+    echo "</div>";
+
+    echo "<div class='errormessage' id='warning_change_banner_size' style='display:none'> <img class='errormessage' src='images/warning.gif' align='absmiddle' />";
+    echo "<span class='tab-s'> {$GLOBALS['strNotice']}:</span><br />";
+    echo "{$GLOBALS['strWarnChangeBannerSize']}";
+    echo "</div>";
 }
 
 ?>
 
 <script language='JavaScript'>
 <!--
+
+    <?php
+
+    if (isset($bannerid) && $bannerid != '') {
+        echo "document.bannerHeight =" .$row["height"]. ";\n";
+        echo "document.bannerWidth =" .$row["width"]. ";\n";
+    }
+
+    ?>
+
     function selectFile(o)
     {
         var filename = o.value.toLowerCase();
@@ -444,20 +451,47 @@ if (!isset($bannerid) || $bannerid == '') {
             editbanner.adserver.disabled = true;
         }
     }
+
+    function oa_sizeChangeUpdateMessage(id)
+    {
+        if (document.bannerWidth != document.bannerForm.width.value ||
+            document.bannerHeight !=  document.bannerForm.height.value) {
+                oa_show(id);
+
+        } else if (document.bannerWidth == document.bannerForm.width.value &&
+                   document.bannerHeight ==  document.bannerForm.height.value) {
+            oa_hide(id);
+        }
+    }
+
+    function oa_show(id)
+    {
+        var obj = findObj(id);
+        if (obj) { obj.style.display = 'block'; }
+    }
+
+    function oa_hide(id)
+    {
+        var obj = findObj(id);
+        if (obj) { obj.style.display = 'none'; }
+    }
+
 //-->
 </script>
 
 <?php
+
 echo "
-    <form id='editbanner' action='banner-edit.php' method='POST' enctype='multipart/form-data'";
+    <form name='bannerForm' id='bannerForm' action='banner-edit.php' method='POST' enctype='multipart/form-data'";
 if($type == 'html') {
     echo " onsubmit='return max_formValidateHtml(this.banner)'";
 }
 echo ">
-        <input type='hidden' name='clientid' value='{$clientid}'>
-        <input type='hidden' name='campaignid' value='{$campaignid}'>
-        <input type='hidden' name='bannerid' value='{$bannerid}'>
-        <input type='hidden' name='type' value='{$type}'>
+        <input type='hidden' name='clientid' value='{$clientid}' />
+        <input type='hidden' name='campaignid' value='{$campaignid}' />
+        <input type='hidden' name='bannerid' value='{$bannerid}' />
+        <input type='hidden' name='type' value='{$type}' />
+        <input type='hidden' name='status' value='{$row['status']}' />
 ";
 
 if(isset($session['htmlerrormsg']) && strlen($session['htmlerrormsg']) > 0) {
@@ -584,7 +618,7 @@ if ($type == 'sql') {
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strStatusText."</td>";
-    echo "<td><input class='flat' size='35' type='text' name='status' style='width:350px;' value='".phpAds_htmlQuotes($row["status"])."' tabindex='".($tabindex++)."'></td></tr>";
+    echo "<td><input class='flat' size='35' type='text' name='statustext' style='width:350px;' value='".phpAds_htmlQuotes($row["statustext"])."' tabindex='".($tabindex++)."'></td></tr>";
     echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
     echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
@@ -598,8 +632,8 @@ if ($type == 'sql') {
 
         echo "<tr><td width='30'>&nbsp;</td>";
         echo "<td width='200'>".$strSize."</td>";
-        echo "<td>".$strWidth.": <input class='flat' size='5' type='text' name='width' value='".$row["width"]."' tabindex='".($tabindex++)."'>&nbsp;&nbsp;&nbsp;";
-        echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."' tabindex='".($tabindex++)."'></td></tr>";
+        echo "<td>".$strWidth.": <input class='flat' size='5' type='text' name='width' value='".$row["width"]."' onChange='oa_sizeChangeUpdateMessage(\"warning_change_banner_size\");' tabindex='".($tabindex++)."'>&nbsp;&nbsp;&nbsp;";
+        echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."' onChange='oa_sizeChangeUpdateMessage(\"warning_change_banner_size\");' tabindex='".($tabindex++)."'></td></tr>";
     }
 
     if (!isset($row['contenttype']) || $row['contenttype'] == 'swf')
@@ -783,7 +817,7 @@ if ($type == 'web') {
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strStatusText."</td>";
-    echo "<td><input class='flat' size='35' type='text' name='status' style='width:350px;' value='".phpAds_htmlQuotes($row["status"])."' tabindex='".($tabindex++)."'></td></tr>";
+    echo "<td><input class='flat' size='35' type='text' name='statustext' style='width:350px;' value='".phpAds_htmlQuotes($row["statustext"])."' tabindex='".($tabindex++)."'></td></tr>";
     echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
     echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
@@ -797,8 +831,8 @@ if ($type == 'web') {
 
         echo "<tr><td width='30'>&nbsp;</td>";
         echo "<td width='200'>".$strSize."</td>";
-        echo "<td>".$strWidth.": <input class='flat' size='5' type='text' name='width' value='".$row["width"]."' tabindex='".($tabindex++)."'>&nbsp;&nbsp;&nbsp;";
-        echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."' tabindex='".($tabindex++)."'></td></tr>";
+        echo "<td>".$strWidth.": <input class='flat' size='5' type='text' name='width' value='".$row["width"]."' onChange='oa_sizeChangeUpdateMessage(\"warning_change_banner_size\");' tabindex='".($tabindex++)."'>&nbsp;&nbsp;&nbsp;";
+        echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."' onChange='oa_sizeChangeUpdateMessage(\"warning_change_banner_size\");' tabindex='".($tabindex++)."'></td></tr>";
     }
 
     if (!isset($row['contenttype']) || $row['contenttype'] == 'swf')
@@ -854,7 +888,7 @@ if ($type == 'url') {
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strStatusText."</td>";
-    echo "<td><input class='flat' size='35' type='text' name='status' style='width:350px;' value='".phpAds_htmlQuotes($row["status"])."' tabindex='".($tabindex++)."'></td></tr>";
+    echo "<td><input class='flat' size='35' type='text' name='statustext' style='width:350px;' value='".phpAds_htmlQuotes($row["statustext"])."' tabindex='".($tabindex++)."'></td></tr>";
     echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
     echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
@@ -866,8 +900,9 @@ if ($type == 'url') {
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strSize."</td>";
-    echo "<td>".$strWidth.": <input class='flat' size='5' type='text' name='width' value='".$row["width"]."' tabindex='".($tabindex++)."'>&nbsp;&nbsp;&nbsp;";
-    echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."' tabindex='".($tabindex++)."'></td></tr>";
+
+    echo "<td>".$strWidth.": <input class='flat' size='5' type='text' name='width' value='".$row["width"]."' " . (!empty($bannerid) ? "onChange='oa_sizeChangeUpdateMessage(\"warning_change_banner_size\");'" : '' )." tabindex='".($tabindex++)."'>&nbsp;&nbsp;&nbsp;";
+    echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."' " . (!empty($bannerid) ? "onChange='oa_sizeChangeUpdateMessage(\"warning_change_banner_size\");'" : '' )." tabindex='".($tabindex++)."'></td></tr>";
 
     echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
     echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
@@ -926,8 +961,8 @@ if ($type == 'html') {
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strSize."</td>";
-    echo "<td>".$strWidth.": <input class='flat' size='5' type='text' name='width' value='".$row["width"]."' tabindex='".($tabindex++)."'>&nbsp;&nbsp;&nbsp;";
-    echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."' tabindex='".($tabindex++)."'></td></tr>";
+    echo "<td>".$strWidth.": <input class='flat' size='5' type='text' name='width' value='".$row["width"]."' " . (!empty($bannerid) ? "onChange='oa_sizeChangeUpdateMessage(\"warning_change_banner_size\");'" : '' )." tabindex='".($tabindex++)."'>&nbsp;&nbsp;&nbsp;";
+    echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."' " . (!empty($bannerid) ? "onChange='oa_sizeChangeUpdateMessage(\"warning_change_banner_size\");'" : '' )." tabindex='".($tabindex++)."'></td></tr>";
 
     echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
     echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
@@ -964,14 +999,14 @@ if ($type == 'txt') {
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strStatusText."</td>";
-    echo "<td><input class='flat' size='35' type='text' name='status' style='width:350px;' value='".phpAds_htmlQuotes($row["status"])."' tabindex='".($tabindex++)."'></td></tr>";
+    echo "<td><input class='flat' size='35' type='text' name='statustext' style='width:350px;' value='".phpAds_htmlQuotes($row["statustext"])."' tabindex='".($tabindex++)."'></td></tr>";
 
     echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
     echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
     echo "</table>";
 }
 
-if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
     echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 

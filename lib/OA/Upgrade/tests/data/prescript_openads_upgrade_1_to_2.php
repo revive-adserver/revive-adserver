@@ -1,9 +1,11 @@
 <?php
 
-class OA_UpgradePrescript
+$className = 'OA_UpgradePrescript_test';
+
+class OA_UpgradePrescript_test
 {
 
-    function OA_UpgradePrescript()
+    function OA_UpgradePrescript_test()
     {
 
     }

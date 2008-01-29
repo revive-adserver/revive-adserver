@@ -47,11 +47,11 @@ $Id$
 <script language="javascript">
 <!--{literal}
     $(document).ready(function() {
-    adnetworksSettingsStore($("#affiliateform").get(0));
+    formStateStore($("#affiliateform").get(0));
     $("#affiliateform").submit(function() {
         if (max_formValidate(this)) {
-          if(adnetworksSettingsChanged(this)) {
-            $("#adnetworks-signup-dialog_" + this.id).jqmShow();
+          if(formStateChanged(this)) {
+            $("#captcha-dialog-" + this.id).jqmShow();
           }
           else {
             return true;
@@ -63,7 +63,7 @@ $Id$
 //-->{/literal}
 </script>
 
-{include file=adnetworks-signup-dialog.html formId=affiliateform}
+{include file=advertiser-signup-dialog.html formId=affiliateform}
 
 <br /><br />
 
@@ -71,7 +71,9 @@ $Id$
 
 {include file=edit-table/create.html from=$fieldsBottom}
 
-<div style="width:100%;text-align:left;padding-top: 7px;">
-<input value="Save Changes" type="submit" {tabindex}>
+<div class="break" />
+
+<div class="controls">
+  <input value="Save Changes" type="submit" {tabindex}>
 </div>
 </form>

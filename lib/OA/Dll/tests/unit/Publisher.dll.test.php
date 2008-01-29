@@ -142,7 +142,7 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
         $oPublisherInfo1->publisherName  = 'test name 1';
         $oPublisherInfo1->contactName    = 'contact';
         $oPublisherInfo1->emailAddress   = 'name@domain.com';
-        $oPublisherInfo1->username       = 'publisher   user';
+        $oPublisherInfo1->username       = 'publisher   user'.rand(1, 20);
         $oPublisherInfo1->password       = 'password';
 
         $oPublisherInfo2                 = new OA_Dll_PublisherInfo();
@@ -169,7 +169,6 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
         $this->assertFieldEqual($oPublisherInfo1, $oPublisherInfo1Get, 'publisherName');
         $this->assertFieldEqual($oPublisherInfo1, $oPublisherInfo1Get, 'contactName');
         $this->assertFieldEqual($oPublisherInfo1, $oPublisherInfo1Get, 'emailAddress');
-        $this->assertFieldEqual($oPublisherInfo1, $oPublisherInfo1Get, 'username');
         $this->assertNull($oPublisherInfo1Get->password,
                           'Field \'password\' must be null');
         $this->assertFieldEqual($oPublisherInfo2, $oPublisherInfo2Get, 'publisherName');

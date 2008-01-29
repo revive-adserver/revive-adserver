@@ -26,26 +26,42 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Dashboard/Widget.php';
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
+require_once MAX_PATH . '/lib/OA/Central/Dashboard.php';
 
 /**
- * A class to reload client parent frame in case user is not authenticated anymore
+ * A class to display the dashboard iframe content
  *
- * @author Radek Maciaszek
  */
 class OA_Dashboard_Widget_Reload extends OA_Dashboard_Widget
 {
-    var $url = null;
+    var $aUrl;
 
+    /**
+     * The class constructor
+     *
+     * @param array $aParams The parameters array, usually $_REQUEST
+     * @return OA_Dashboard_Widget
+     */
     function OA_Dashboard_Widget_Reload($aParams)
     {
-        $this->widgetName = isset($aParams['widget']) ? stripslashes($aParams['widget']) : '';
-        //MAX_Admin_Redirect::redirect('ssoProxy.php?url='.urlencode($url));
-    }
-    
-    function setUrl($url)
-    {
-        $this->url = $url;
+        parent::OA_Dashboard_Widget($aParams);
+
+        if (isset($aParams['url'])) {
+            if ($aUrl = @parse_url(stripslashes($aParams['url']))) {
+                $aUrl['protocol'] = $aUrl['scheme'];
+                if (empty($aUrl['path'])) {
+                    $aUrl['path'] = '/';
+                }
+                if (!empty($aUrl['query'])) {
+                    $aUrl['path'] .= '?'.$aUrl['query'];
+                }
+                $this->aUrl = $aUrl;
+            }
+        }
+
+        if (empty($this->aUrl)) {
+            $this->aUrl = $GLOBALS['_MAX']['CONF']['oacDashboard'];
+        }
     }
 
     /**
@@ -54,12 +70,46 @@ class OA_Dashboard_Widget_Reload extends OA_Dashboard_Widget
      */
     function display()
     {
+
+        $oDashboard = new OA_Central_Dashboard();
+        $m2mTicket = $oDashboard->getM2MTicket();
+        if (PEAR::isError($m2mTicket)) {
+            $this->showError($m2mTicket);
+        } else {
+            $url = $this->buildDashboardUrl($m2mTicket, $this->buildUrl($this->aUrl));
+
+            if (!preg_match('/[\r\n]/', $url)) {
+                header("Location: {$url}");
+            }
+        }
+    }
+
+    /**
+     * A method to display an M2M/Dashboard error
+     *
+     * @param PEAR_Error $oError
+     */
+    function showError($oError)
+    {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
-        $oTpl = new OA_Admin_Template('dashboard/reload.html');
+        $oTpl = new OA_Admin_Template('dashboard/error.html');
 
-        $oTpl->assign('url', $this->url);
-        $oTpl->assign('timeoutMs', 1);
+        $aErrors = array(
+            -1 => 'Test'
+        );
+
+        $errorMessage = $oError->getMessage();
+
+        if (isset($aErrors[$oError->getCode()])) {
+            $errorMessage = $aErrors[$oError->getCode()];
+        } elseif (empty($errorMessage)) {
+            $errorMessage = 'Generic error';
+        }
+
+        $oTpl->assign('errorCode', $oError->getCode());
+        $oTpl->assign('errorMessage', $errorMessage);
+
         $oTpl->display();
     }
 }

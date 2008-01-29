@@ -31,7 +31,6 @@ $Id$
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
 
-require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
 
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/DB.php';
@@ -40,6 +39,7 @@ require_once MAX_PATH . '/lib/OA/DB/Table/Statistics.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics.php';
 require_once MAX_PATH . '/lib/OA/Email.php';
+require_once MAX_PATH . '/lib/OA/Preferences.php';
 
 /**
  * Definitions of class constants.
@@ -555,8 +555,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 INSERT INTO
                     $tmpTableName
                     (
-                        day,
-                        hour,
+                        date_time,
                         operation_interval,
                         operation_interval_id,
                         interval_start,
@@ -569,8 +568,7 @@ class OA_Dal_Maintenance_Statistics_Common
             }
             $query .= "
                 SELECT
-                    DATE_FORMAT(drad.date_time, '%Y-%m-%d'){$this->dateCastString} AS day,
-                    DATE_FORMAT(drad.date_time, '%k'){$this->hourCastString} AS hour,
+                    DATE_FORMAT(drad.date_time, '%Y-%m-%d %H:00:00'){$this->timestampCastString} AS day_and_hour,
                     $operationInterval AS operation_interval,
                     $operationIntervalID AS operation_interval_id,
                     ". $this->oDbh->quote($aDates['start']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $this->timestampCastString ." AS interval_start,
@@ -622,7 +620,7 @@ class OA_Dal_Maintenance_Statistics_Common
             }
             $query .= "
                 GROUP BY
-                    day, hour, drad.ad_id, drad.creative_id, drad.zone_id";
+                    day_and_hour, drad.ad_id, drad.creative_id, drad.zone_id";
             if ($blockSeconds == 0) {
                 OA::debug("- Summarising ad $type" . "s from the $baseTable table.", PEAR_LOG_DEBUG);
             } else {
@@ -655,8 +653,7 @@ class OA_Dal_Maintenance_Statistics_Common
                         INSERT INTO
                             tmp_union_ignore_log_once
                             (
-                                day,
-                                hour,
+                                day_and_hour,
                                 operation_interval,
                                 operation_interval_id,
                                 interval_start,
@@ -667,8 +664,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                 $countColumnName
                             )
                         SELECT
-                            DATE_FORMAT(tlo.date_time, '%Y-%m-%d'){$this->dateCastString} AS day,
-                            DATE_FORMAT(tlo.date_time, '%k'){$this->hourCastString} AS hour,
+                            DATE_FORMAT(tlo.date_time, '%Y-%m-%d %H:00:00'){$this->timestampCastString} AS day_and_hour,
                             {$aConf['maintenance']['operationInterval']} AS operation_interval,
                             $operationIntervalID AS operation_interval_id,
                             ". $this->oDbh->quote($aDates['start']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $this->timestampCastString ." AS interval_start,
@@ -680,7 +676,7 @@ class OA_Dal_Maintenance_Statistics_Common
                         FROM
                             tmp_log_once AS tlo
                         GROUP BY
-                            day, hour, tlo.ad_id, tlo.creative_id, tlo.zone_id";
+                            day_and_hour, tlo.ad_id, tlo.creative_id, tlo.zone_id";
                     OA::debug("Adding one ad $type for each duplicate that occurred in the same second", PEAR_LOG_DEBUG);
                     $rows = $this->oDbh->exec($query);
                     if (PEAR::isError($rows)) {
@@ -690,8 +686,7 @@ class OA_Dal_Maintenance_Statistics_Common
                         INSERT INTO
                             $tmpTableName
                             (
-                                day,
-                                hour,
+                                date_time,
                                 operation_interval,
                                 operation_interval_id,
                                 interval_start,
@@ -702,8 +697,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                 {$countColumnName}
                             )
                         SELECT
-                            tuilo.day AS day,
-                            tuilo.hour AS hour,
+                            tuilo.day_and_hour AS date_time,
                             tuilo.operation_interval AS operation_interval,
                             tuilo.operation_interval_id AS operation_interval_id,
                             tuilo.interval_start AS interval_start,
@@ -715,7 +709,7 @@ class OA_Dal_Maintenance_Statistics_Common
                         FROM
                             tmp_union_ignore_log_once AS tuilo
                         GROUP BY
-                            day, hour, operation_interval, operation_interval_id, interval_start, interval_end, ad_id, creative_id, zone_id";
+                            day_and_hour, operation_interval, operation_interval_id, interval_start, interval_end, ad_id, creative_id, zone_id";
                     OA::debug("Summarising total ad $type" . "s without 'blocked' $type" . "s", PEAR_LOG_DEBUG);
                     $rows = $this->oDbh->exec($query);
                     if (PEAR::isError($rows)) {
@@ -1198,8 +1192,7 @@ class OA_Dal_Maintenance_Statistics_Common
             $tmpAdTable = $this->oDbh->quoteIdentifier('tmp_ad_'.$type,true);
             $innerQuery = "
                 SELECT
-                    {$tmpAdTable}.day AS day,
-                    {$tmpAdTable}.hour AS hour,
+                    {$tmpAdTable}.date_time,
                     {$tmpAdTable}.operation_interval AS operation_interval,
                     {$tmpAdTable}.operation_interval_id AS operation_interval_id,
                     {$tmpAdTable}.interval_start AS interval_start,
@@ -1231,8 +1224,7 @@ class OA_Dal_Maintenance_Statistics_Common
         $query .= "
             UNION ALL
             SELECT
-                {$tmpConvTable}.day AS day,
-                {$tmpConvTable}.hour AS hour,
+                {$tmpConvTable}.date_time,
                 {$tmpConvTable}.operation_interval AS operation_interval,
                 {$tmpConvTable}.operation_interval_id AS operation_interval_id,
                 {$tmpConvTable}.interval_start AS interval_start,
@@ -1252,8 +1244,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 {$tmpConvTable}";
         $query .= "
                 GROUP BY
-                    day,
-                    hour,
+                    date_time,
                     operation_interval,
                     operation_interval_id,
                     interval_start,
@@ -1288,8 +1279,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 INSERT INTO
                     ".$this->oDbh->quoteIdentifier($table,true)."
                     (
-                        day,
-                        hour,
+                        date_time,
                         operation_interval,
                         operation_interval_id,
                         interval_start,
@@ -1308,8 +1298,7 @@ class OA_Dal_Maintenance_Statistics_Common
                         updated
                     )
                 SELECT
-                    tu.day AS day,
-                    tu.hour AS hour,
+                    tu.date_time,
                     tu.operation_interval AS operation_interval,
                     tu.operation_interval_id AS operation_interval_id,
                     tu.interval_start AS interval_start,
@@ -1329,8 +1318,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 FROM
                     ".$this->oDbh->quoteIdentifier('tmp_union',true)." AS tu
                 GROUP BY
-                    day,
-                    hour,
+                    date_time,
                     operation_interval,
                     operation_interval_id,
                     interval_start,
@@ -1431,8 +1419,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 ".$this->oDbh->quoteIdentifier('tmp_conversions',true)."
                 (
                     data_intermediate_ad_connection_id,
-                    day,
-                    hour,
+                    date_time,
                     operation_interval,
                     operation_interval_id,
                     interval_start,
@@ -1445,8 +1432,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 )
             SELECT
                 diac.data_intermediate_ad_connection_id AS data_intermediate_ad_connection_id,
-                DATE_FORMAT(diac.tracker_date_time, '%Y-%m-%d'){$this->dateCastString} AS day,
-                DATE_FORMAT(diac.tracker_date_time, '%k'){$this->hourCastString} AS hour,
+                DATE_FORMAT(diac.tracker_date_time, '%Y-%m-%d %H:00:00'){$this->timestampCastString} AS date_f,
                 $operationInterval AS operation_interval,
                 $operationIntervalID AS operation_interval_id,
                 ". $this->oDbh->quote($aDates['start']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ." AS interval_start,
@@ -1479,8 +1465,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 AND diac.tracker_date_time <= ". $this->oDbh->quote($oEnd->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . "
             GROUP BY
                 diac.data_intermediate_ad_connection_id,
-                day,
-                hour,
+                date_f,
                 diac.ad_id,
                 diac.creative_id,
                 diac.zone_id";
@@ -1816,7 +1801,8 @@ class OA_Dal_Maintenance_Statistics_Common
                 interval_end,
                 zone_id";
         OA::debug('- Selecting total zone impressions from the ' . $fromTable . ' table for data >= ' .
-                   $oStart->format('%Y-%m-%d %H:%M:%S') . ', and <= ' . $oEnd->format('%Y-%m-%d %H:%M:%S'),
+                   $oStart->format('%Y-%m-%d %H:%M:%S') . ' ' . $oStart->tz->getShortName() .
+                   ', and <= ' . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName(),
                    PEAR_LOG_DEBUG);
         $rc = $this->oDbh->query($query);
         if (PEAR::isError($rc)) {
@@ -1985,8 +1971,7 @@ class OA_Dal_Maintenance_Statistics_Common
             INSERT INTO
                 ".$this->oDbh->quoteIdentifier($finalToTable,true)."
                 (
-                    day,
-                    hour,
+                    date_time,
                     ad_id,
                     creative_id,
                     zone_id,";
@@ -2001,8 +1986,7 @@ class OA_Dal_Maintenance_Statistics_Common
                     updated
                 )
             SELECT
-                day AS day,
-                hour AS hour,
+                date_time,
                 ad_id AS ad_id,
                 creative_id AS creative_id,
                 zone_id AS zone_id,";
@@ -2018,18 +2002,17 @@ class OA_Dal_Maintenance_Statistics_Common
             FROM
                 ".$this->oDbh->quoteIdentifier($finalFromTable,true)."
             WHERE
-                day = ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d'), 'date')."
-                AND hour >= ". $this->oDbh->escape($oStartDate->format('%H'))."
-                AND hour <= ". $this->oDbh->escape($oEndDate->format('%H'))."
+                date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp')."
+                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S', 'timestamp'))."
             GROUP BY
-                day, hour, ad_id, creative_id, zone_id";
+                date_time, ad_id, creative_id, zone_id";
         // Prepare the message about what's about to happen
         $message = '- Summarising the ad ' . implode('s, ', $aActions['types']) . 's and conversions';
         $message .= " from the $finalFromTable table";
         OA::debug($message, PEAR_LOG_DEBUG);
         $message = "  into the $finalToTable table, for data" .
-                    ' between ' . $oStartDate->format('%Y-%m-%d') . ' ' . $oStartDate->format('%H') . ':00:00' .
-                    ' and ' . $oStartDate->format('%Y-%m-%d') . ' ' . $oEndDate->format('%H') . ':59:59.';
+                    ' between ' . $oStartDate->format('%Y-%m-%d') . ' ' . $oStartDate->format('%H') . ':00:00 ' . $oStartDate->tz->getShortName() .
+                    ' and ' . $oStartDate->format('%Y-%m-%d') . ' ' . $oEndDate->format('%H') . ':59:59 ' . $oStartDate->tz->getShortName() . '.';
         OA::debug($message, PEAR_LOG_DEBUG);
         $rows = $this->oDbh->exec($query);
         if (PEAR::isError($rows)) {
@@ -2065,9 +2048,8 @@ class OA_Dal_Maintenance_Statistics_Common
             FROM
                 ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)."
             WHERE
-                day = ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d'), 'date') ."
-                AND hour >= ". $this->oDbh->escape($oStartDate->format('%H')) ."
-                AND hour <= ". $this->oDbh->escape($oEndDate->format('%H'));
+                date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S', 'timestamp'));
         $rc = $this->oDbh->query($query);
         if (PEAR::isError($rc)) {
             return MAX::raiseError($rc, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
@@ -2089,9 +2071,8 @@ class OA_Dal_Maintenance_Statistics_Common
             FROM
                 ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)."
             WHERE
-                day = ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d'), 'date') ."
-                AND hour >= ". $this->oDbh->escape($oStartDate->format('%H')) ."
-                AND hour <= ". $this->oDbh->escape($oEndDate->format('%H'));
+                date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S', 'timestamp'));
         $rc = $this->oDbh->query($query);
         if (PEAR::isError($rc)) {
             return MAX::raiseError($rc, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
@@ -2227,10 +2208,8 @@ class OA_Dal_Maintenance_Statistics_Common
                                 updated = '". OA::getNow() ."'
                             WHERE
                                 ad_id = {$aInfo['ad_id']}
-                                AND day >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d'), 'date') ."
-                                AND day <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d'), 'date') ."
-                                AND hour >= ". $this->oDbh->escape($oStartDate->format('%H')) ."
-                                AND hour <= ". $this->oDbh->escape($oEndDate->format('%H'));
+                                AND date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
                         break;
                     case MAX_FINANCE_CPC:
                         $query = "
@@ -2241,10 +2220,8 @@ class OA_Dal_Maintenance_Statistics_Common
                                 updated = '". OA::getNow() ."'
                             WHERE
                                 ad_id = {$aInfo['ad_id']}
-                                AND day >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d'), 'date') ."
-                                AND day <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d'), 'date') ."
-                                AND hour >= ". $this->oDbh->escape($oStartDate->format('%H'))."
-                                AND hour <= ". $this->oDbh->escape($oEndDate->format('%H'));
+                                AND date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
                         break;
                     case MAX_FINANCE_CPA:
                         $query = "
@@ -2255,10 +2232,8 @@ class OA_Dal_Maintenance_Statistics_Common
                                 updated = '". OA::getNow() ."'
                             WHERE
                                 ad_id = {$aInfo['ad_id']}
-                                AND day >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d'), 'date') ."
-                                AND day <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d'), 'date') ."
-                                AND hour >= ". $this->oDbh->escape($oStartDate->format('%H')) ."
-                                AND hour <= ". $this->oDbh->escape($oEndDate->format('%H'));
+                                AND date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
                         break;
                 }
             }
@@ -2410,10 +2385,8 @@ class OA_Dal_Maintenance_Statistics_Common
                                 updated = '". OA::getNow() ."'
                             WHERE
                                 zone_id = {$aInfo['zone_id']}
-                                AND day >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d'), 'date')."
-                                AND day <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d'), 'date') ."
-                                AND hour >= ". $this->oDbh->escape($oStartDate->format('%H')) ."
-                                AND hour <= ". $this->oDbh->escape($oEndDate->format('%H'));
+                                AND date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
                         break;
                     case MAX_FINANCE_CPC:
                         $query = "
@@ -2424,10 +2397,8 @@ class OA_Dal_Maintenance_Statistics_Common
                                 updated = '". OA::getNow() ."'
                             WHERE
                                 zone_id = {$aInfo['zone_id']}
-                                AND day >= '".$oStartDate->format('%Y-%m-%d')."'
-                                AND day <= '".$oEndDate->format('%Y-%m-%d')."'
-                                AND hour >= ".$oStartDate->format('%H')."
-                                AND hour <= ".$oEndDate->format('%H');
+                                AND date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
                         break;
                     case MAX_FINANCE_CPA:
                         $query = "
@@ -2438,10 +2409,8 @@ class OA_Dal_Maintenance_Statistics_Common
                                 updated = '". OA::getNow() ."'
                             WHERE
                                 zone_id = {$aInfo['zone_id']}
-                                AND day >= '".$oStartDate->format('%Y-%m-%d')."'
-                                AND day <= '".$oEndDate->format('%Y-%m-%d')."'
-                                AND hour >= ".$oStartDate->format('%H')."
-                                AND hour <= ".$oEndDate->format('%H');
+                                AND date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
                         break;
                     case MAX_FINANCE_RS:
                         $query = "
@@ -2452,10 +2421,8 @@ class OA_Dal_Maintenance_Statistics_Common
                                 updated = '". OA::getNow() ."'
                             WHERE
                                 zone_id = {$aInfo['zone_id']}
-                                AND day >= '".$oStartDate->format('%Y-%m-%d')."'
-                                AND day <= '".$oEndDate->format('%Y-%m-%d')."'
-                                AND hour >= ".$oStartDate->format('%H')."
-                                AND hour <= ".$oEndDate->format('%H');
+                                AND date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
                         break;
                     case MAX_FINANCE_BV:
                         $query = "
@@ -2466,10 +2433,8 @@ class OA_Dal_Maintenance_Statistics_Common
                                 updated = '". OA::getNow() ."'
                             WHERE
                                 zone_id = {$aInfo['zone_id']}
-                                AND day >= '".$oStartDate->format('%Y-%m-%d')."'
-                                AND day <= '".$oEndDate->format('%Y-%m-%d')."'
-                                AND hour >= ".$oStartDate->format('%H')."
-                                AND hour <= ".$oEndDate->format('%H');
+                                AND date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
                         break;
                     case MAX_FINANCE_AI:
                         $query = "
@@ -2480,10 +2445,8 @@ class OA_Dal_Maintenance_Statistics_Common
                                 updated = '". OA::getNow() ."'
                             WHERE
                                 zone_id = {$aInfo['zone_id']}
-                                AND day >= '".$oStartDate->format('%Y-%m-%d')."'
-                                AND day <= '".$oEndDate->format('%Y-%m-%d')."'
-                                AND hour >= ".$oStartDate->format('%H')."
-                                AND hour <= ".$oEndDate->format('%H');
+                                AND date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
                         break;
                     case MAX_FINANCE_ANYVAR:
                         // Get variable ID
@@ -2497,16 +2460,13 @@ class OA_Dal_Maintenance_Statistics_Common
                                     updated = '". OA::getNow() ."'
                                 WHERE
                                     zone_id = {$aInfo['zone_id']}
-                                    AND day >= '".$oStartDate->format('%Y-%m-%d')."'
-                                    AND day <= '".$oEndDate->format('%Y-%m-%d')."'
-                                    AND hour >= ".$oStartDate->format('%H')."
-                                    AND hour <= ".$oEndDate->format('%H');
+                                AND date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
                             $rows = $this->oDbh->exec($innerQuery);
 
                             $innerQuery = "
                                 SELECT
-                                    DATE_FORMAT(diac.tracker_date_time, '%Y-%m-%d') AS day,
-                                    HOUR(diac.tracker_date_time) AS hour,
+                                    DATE_FORMAT(diac.tracker_date_time, '%Y-%m-%d %H:00:00') AS date_f,
                                     diac.ad_id,
                                     diac.creative_id,
                                     COALESCE(SUM(diavv.value), 0) * {$aInfo['cost']} / 100 AS total_cost
@@ -2523,8 +2483,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                     AND diac.inside_window = 1
                                     AND diavv.tracker_variable_id = {$aInfo['cost_variable_id']}
                                 GROUP BY
-                                    day,
-                                    hour,
+                                    date_f,
                                     diac.ad_id,
                                     diac.creative_id
                             ";
@@ -2539,8 +2498,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                         updated = '". OA::getNow() ."'
                                     WHERE
                                         zone_id = {$aInfo['zone_id']}
-                                        AND day = '".$row['day']."'
-                                        AND hour = ".$row['hour']."
+                                        AND date_time = '".$row['date_f']."'
                                         AND ad_id = ".$row['ad_id']."
                                         AND creative_id = ".$row['creative_id'];
                                 $rows = $this->oDbh->exec($innermostQuery);
@@ -2560,16 +2518,13 @@ class OA_Dal_Maintenance_Statistics_Common
                                     updated = '". OA::getNow() ."'
                                 WHERE
                                     zone_id = {$aInfo['zone_id']}
-                                    AND day >= '".$oStartDate->format('%Y-%m-%d')."'
-                                    AND day <= '".$oEndDate->format('%Y-%m-%d')."'
-                                    AND hour >= ".$oStartDate->format('%H')."
-                                    AND hour <= ".$oEndDate->format('%H');
+                                    AND date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                                    AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
                             $rows = $this->oDbh->exec($innerQuery);
 
                             $innerQuery = "
                                 SELECT
-                                    DATE_FORMAT(diac.tracker_date_time, '%Y-%m-%d') AS day,
-                                    HOUR(diac.tracker_date_time) AS hour,
+                                    DATE_FORMAT(diac.tracker_date_time, '%Y-%m-%d %H:00:00') AS date_f,
                                     diac.ad_id,
                                     diac.creative_id,
                                     COALESCE(SUM(diavv.value), 0) * {$aInfo['cost']} / 100 AS total_cost
@@ -2586,8 +2541,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                     AND diac.inside_window = 1
                                     AND diavv.tracker_variable_id IN ({$aInfo['cost_variable_id']})
                                 GROUP BY
-                                    day,
-                                    hour,
+                                    date_f,
                                     diac.ad_id,
                                     diac.creative_id
                             ";
@@ -2602,8 +2556,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                         updated = '". OA::getNow() ."'
                                     WHERE
                                         zone_id = {$aInfo['zone_id']}
-                                        AND day = '".$row['day']."'
-                                        AND hour = ".$row['hour']."
+                                        AND date_time = '".$row['date_f']."'
                                         AND ad_id = ".$row['ad_id']."
                                         AND creative_id = ".$row['creative_id'];
                                 $rows = $this->oDbh->exec($innermostQuery);
@@ -2646,10 +2599,8 @@ class OA_Dal_Maintenance_Statistics_Common
                                 updated = '". OA::getNow() ."'
                             WHERE
                                 zone_id = {$aInfo['zone_id']}
-                                AND day >= '".$oStartDate->format('%Y-%m-%d')."'
-                                AND day <= '".$oEndDate->format('%Y-%m-%d')."'
-                                AND hour >= ".$oStartDate->format('%H')."
-                                AND hour <= ".$oEndDate->format('%H');
+                                AND date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
                         break;
                     case MAX_FINANCE_CPC:
                         $query = "
@@ -2660,10 +2611,8 @@ class OA_Dal_Maintenance_Statistics_Common
                                 updated = '". OA::getNow() ."'
                             WHERE
                                 zone_id = {$aInfo['zone_id']}
-                                AND day >= '".$oStartDate->format('%Y-%m-%d')."'
-                                AND day <= '".$oEndDate->format('%Y-%m-%d')."'
-                                AND hour >= ".$oStartDate->format('%H')."
-                                AND hour <= ".$oEndDate->format('%H');
+                                AND date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
                         break;
                     case MAX_FINANCE_RS:
                         $query = "
@@ -2674,10 +2623,8 @@ class OA_Dal_Maintenance_Statistics_Common
                                 updated = '". OA::getNow() ."'
                             WHERE
                                 zone_id = {$aInfo['zone_id']}
-                                AND day >= '".$oStartDate->format('%Y-%m-%d')."'
-                                AND day <= '".$oEndDate->format('%Y-%m-%d')."'
-                                AND hour >= ".$oStartDate->format('%H')."
-                                AND hour <= ".$oEndDate->format('%H');
+                                AND date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
                         break;
                 }
             }
@@ -2702,13 +2649,18 @@ class OA_Dal_Maintenance_Statistics_Common
     function managePlacements($oDate)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        global $date_format;
+        $oServiceLocator = &OA_ServiceLocator::instance();
+        $oEmail = &$oServiceLocator->get('OA_Email');
+        if ($oEmail === false) {
+            $oEmail = new OA_Email();
+            $oServiceLocator->register('OA_Email', $oEmail);
+        }
         $report = "\n";
-        $aPreviousOIDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         // Select all placements in the system
         $query = "
             SELECT
                 cl.clientid AS advertiser_id,
+                cl.account_id AS advertiser_account_id,
                 cl.agencyid AS agency_id,
                 cl.contact AS contact,
                 cl.email AS email,
@@ -2718,7 +2670,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 ca.views AS targetimpressions,
                 ca.clicks AS targetclicks,
                 ca.conversions AS targetconversions,
-                ca.active AS active,
+                ca.status AS status,
                 ca.activate AS start,
                 ca.expire AS end
             FROM
@@ -2732,8 +2684,8 @@ class OA_Dal_Maintenance_Statistics_Common
             return MAX::raiseError($rc, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
         while ($aPlacement = $rc->fetchRow()) {
-            if ($aPlacement['active'] == 't') {
-                // The placement is currently active, look at the placement
+            if ($aPlacement['status'] == OA_ENTITY_STATUS_RUNNING) {
+                // The placement is currently status, look at the placement
                 $disableReason = 0;
                 if (($aPlacement['targetimpressions'] > 0) ||
                     ($aPlacement['targetclicks'] > 0) ||
@@ -2791,19 +2743,17 @@ class OA_Dal_Maintenance_Statistics_Common
                         }
                         if ($disableReason) {
                             // One of the placement targets was exceeded, so disable
-                            $query = "
-                                UPDATE
-                                    ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)."
-                                SET
-                                    active = 'f'
-                                WHERE
-                                    campaignid = {$aPlacement['campaign_id']}";
                             $message = '- Exceeded a placement quota: Deactivating placement ID ' .
                                        "{$aPlacement['campaign_id']}: {$aPlacement['campaign_name']}";
                             OA::debug($message, PEAR_LOG_INFO);
                             $report .= $message . "\n";
-                            $rows = $this->oDbh->exec($query);
-                            if (PEAR::isError($rows)) {
+                            $doCampaigns = OA_Dal::factoryDO('campaigns');
+                            $doCampaigns->campaignid = $aPlacement['campaign_id'];
+                            $doCampaigns->find();
+                            $doCampaigns->fetch();
+                            $doCampaigns->status = OA_ENTITY_STATUS_EXPIRED;
+                            $result = $doCampaigns->update();
+                            if ($result == false) {
                                 return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                             }
                             phpAds_userlogSetUser(phpAds_userMaintenance);
@@ -2813,22 +2763,31 @@ class OA_Dal_Maintenance_Statistics_Common
                 }
                 // Does the placement need to be disabled due to the date?
                 if ($aPlacement['end'] != OA_Dal::noDateValue()) {
-                    $oEndDate = new Date($aPlacement['end'] . ' 23:59:59');  // Convert day to end of Date
+                    // The placement has a valid end date, stored in the timezone of the advertiser;
+                    // create an end date in the advertiser's timezone, set the time, and then
+                    // convert to UTC so that it can be compared with the MSE run time, which is
+                    // in UTC
+                    $aAdvertiserPrefs = OA_Preferences::loadAccountPreferences($aPlacement['advertiser_account_id'], true);
+                    $oTimezone = new Date_Timezone($aAdvertiserPrefs['timezone']);
+                    $oEndDate = new Date();
+                    $oEndDate->convertTZ($oTimezone);
+                    $oEndDate->setDate($aPlacement['end'] . ' 23:59:59'); // Placements end at the end of the day
+                    $oEndDate->toUTC();
                     if ($oDate->after($oEndDate)) {
+                        // The end date has been passed; disable the placement
                         $disableReason |= OA_PLACEMENT_DISABLED_DATE;
-                        $query = "
-                            UPDATE
-                                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)."
-                            SET
-                                active = 'f'
-                            WHERE
-                                campaignid = {$aPlacement['campaign_id']}";
-                        $message = '- Passed placement end time: Deactivating placement ID ' .
-                                   "{$aPlacement['campaign_id']}: {$aPlacement['campaign_name']}";
+                        $message = "- Passed placement end time of '{$aPlacement['end']} 23:59:59 {$aAdvertiserPrefs['timezone']} (" .
+                                   $oEndDate->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEndDate->tz->getShortName() .
+                                   ")': Deactivating placement ID {$aPlacement['campaign_id']}: {$aPlacement['campaign_name']}";
                         OA::debug($message, PEAR_LOG_INFO);
                         $report .= $message . "\n";
-                        $rows = $this->oDbh->exec($query);
-                        if (PEAR::isError($rows)) {
+                        $doCampaigns = OA_Dal::factoryDO('campaigns');
+                        $doCampaigns->campaignid = $aPlacement['campaign_id'];
+                        $doCampaigns->find();
+                        $doCampaigns->fetch();
+                        $doCampaigns->status = OA_ENTITY_STATUS_EXPIRED;
+                        $result = $doCampaigns->update();
+                        if ($result == false) {
                             return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                         }
                         phpAds_userlogSetUser(phpAds_userMaintenance);
@@ -2860,10 +2819,10 @@ class OA_Dal_Maintenance_Statistics_Common
                             $advertisementRow['url']
                         );
                     }
-                    if ($aPlacement['send_activate_deactivate_email']) {
-                        $aEmail =& OA_Email::preparePlacementActivatedDeactivatedEmail($aPlacement['campaign_id'], $disableReason);
+                    if ($aPlacement['send_activate_deactivate_email'] == 't') {
+                        $aEmail =& $oEmail->preparePlacementActivatedDeactivatedEmail($aPlacement['campaign_id'], $disableReason);
                         if ($aEmail !== false) {
-                            OA_Email::sendMail(
+                            $oEmail->sendMail(
                                 $aEmail['subject'],
                                 $aEmail['contents'],
                                 $aEmail['userEmail'],
@@ -2873,190 +2832,225 @@ class OA_Dal_Maintenance_Statistics_Common
                     }
                 } else {
                     // The placement has NOT been deactivated - test to see if it will
-                    // be deactivated soon. Store the current preferences array, and
-                    // load the preferences for this placement's owning agency and
-                    // advertiser
-                    $aCurrentPrefs = $GLOBALS['_MAX']['PREF'];
-                    unset($GLOBALS['_MAX']['PREF']);
-                    MAX_Admin_Preferences::loadPrefs($aPlacement['agency_id']);
-                    MAX_Admin_Preferences::loadEntityPrefs('advertiser', $aPlacement['advertiser_id']);
-                    // Does a warning need to be send for this placement?
-                    $aPrefs = $GLOBALS['_MAX']['PREF'];
-                    if ($aPrefs['warn_admin'] == 't' || $aPrefs['warn_agency'] == 't' || $aPrefs['warn_client'] == 't') {
-                        // Test the placement to see if the expiration is imminent,
-                        // or not, based on the placement's expiration date
-                        if (isset($aPrefs['warn_limit_days']) &&
-                            $aPrefs['warn_limit_days'] > 0 && $aPlacement['end'] != OA_Dal::noDateValue())
-                        {
-                            // One day is added to the warn days limit, so that it warns at the start of the day
-                            // before the warn limit - eg, if warn days is 1 day, warn at the start of the day
-                            // before the day the placement ends. If that makes sense.... :-)
-                            $warnSeconds = (int) ($aPrefs['warn_limit_days'] + 1) * SECONDS_PER_DAY;
-                            $oEndDate = new Date($aPlacement['end'] . ' 23:59:59');  // Convert day to end of Date
-                            $oTestDate = new Date();
-                            $oTestDate->copy($oDate);
-                            $oTestDate->addSeconds($warnSeconds);
-                            if ($oTestDate->after($oEndDate)) {
-                                // There are less than $aPrefs['warn_limit_days'] days until
-                                // the placement expires! Question is, has this just happened
-                                // in the current operation interval?
-                                $oiSeconds = (int) $aConf['maintenance']['operationInterval'] * 60;
-                                $oTestDate->subtractSeconds($oiSeconds);
-                                if (!$oTestDate->after($oEndDate)) {
-                                    // Yes! This is the operation interval that the boundary
-                                    // was crossed to the point where it's about to expire,
-                                    // so send that email, baby!
-                                    $aEmail =& OA_Email::preparePlacementImpendingExpiryEmail(
-                                        $aPlacement['advertiser_id'],
-                                        $aPlacement['campaign_id'],
-                                        'date',
-                                        $oEndDate->format($date_format)
-                                    );
-                                    if ($aEmail !== false) {
-                                        foreach (array_keys($aEmail) as $key) {
-                                            OA_Email::sendMail(
-                                                $aEmail[$key]['subject'],
-                                                $aEmail[$key]['contents'],
-                                                $aEmail[$key]['userEmail'],
-                                                $aEmail[$key]['userName']
-                                            );
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        // Test the placement to see if the expiraction is imminent,
-                        // or not, based on the placement's impression limitations
-                        if ($aPrefs['warn_limit'] > 0 && $aPlacement['targetimpressions'] > 0) {
-                            $dalCampaigns = OA_Dal::factoryDAL('campaigns');
-                            $remainingImpressions = $dalCampaigns->getAdImpressionsLeft($aPlacement['campaign_id']);
-                            if ($remainingImpressions < $aPrefs['warn_limit']) {
-                                // There are less than $aPrefs['warn_limit'] impressions until
-                                // the placement expires! Question is, has this just happened
-                                // in the current operation interval?
-                                $previousRemainingImpressions =
-                                    $dalCampaigns->getAdImpressionsLeft($aPlacement['campaign_id'], $aPreviousOIDates['end']);
-                                if ($previousRemainingImpressions >= $aPrefs['warn_limit']) {
-                                    // Yes! This is the operation interval that the boundary
-                                    // was crossed to the point where it's about to expire,
-                                    // so send that email, baby!
-                                    $aEmail =& OA_Email::preparePlacementImpendingExpiryEmail(
-                                        $aPlacement['advertiser_id'],
-                                        $aPlacement['campaign_id'],
-                                        'impressions',
-                                        $aPrefs['warn_limit']
-                                    );
-                                    if ($aEmail !== false) {
-                                        foreach (array_keys($aEmail) as $key) {
-                                            OA_Email::sendMail(
-                                                $aEmail[$key]['subject'],
-                                                $aEmail[$key]['contents'],
-                                                $aEmail[$key]['userEmail'],
-                                                $aEmail[$key]['userName']
-                                            );
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    // Restore the original preference array
-                    $GLOBALS['_MAX']['PREF'] = $aCurrentPrefs;
+                    // be deactivated soon, and send email(s) warning of this as required
+                    $this->_managePlacementsImpendingExpiry($oDate, $aPlacement);
                 }
             } else {
                 // The placement is not active - does it need to be enabled,
                 // based on the placement starting date?
-                $start = new Date($aPlacement['start'] . ' 00:00:00');      // Convert day to start of Date
-                if ($aPlacement['end'] != OA_Dal::noDateValue()) {
-                    $oEndDate   = new Date($aPlacement['end']   . ' 23:59:59');  // Convert day to end of Date
-                } else {
-                    $oEndDate = null;
-                }
-                if (($start->format('%Y-%m-%d') != OA_Dal::noDateValue()) && ($oDate->after($start))) {
-                    // There is an activation date, which has been passed. Find out if
-                    // there are any impression, click or conversion targets for the
-                    // placement (i.e. if the target values are > 0)
-                    $remainingImpressions = 0;
-                    $remainingClicks      = 0;
-                    $remainingConversions = 0;
-                    if (($aPlacement['targetimpressions'] > 0) ||
-                        ($aPlacement['targetclicks'] > 0) ||
-                        ($aPlacement['targetconversions'] > 0)) {
-                        // The placement has an impression, click and/or conversion target,
-                        // so get the sum total statistics for the placement so far
-                        $query = "
-                            SELECT
-                                SUM(dia.impressions) AS impressions,
-                                SUM(dia.clicks) AS clicks,
-                                SUM(dia.conversions) AS conversions
-                            FROM
-                                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)." AS dia,
-                                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)." AS b
-                            WHERE
-                                dia.ad_id = b.bannerid
-                                AND b.campaignid = {$aPlacement['campaign_id']}";
-                        $rcInner = $this->oDbh->query($query);
-                        $valuesRow = $rcInner->fetchRow();
-                        // Set the remaining impressions, clicks and conversions for the placement
-                        $remainingImpressions = $aPlacement['targetimpressions'] - $valuesRow['impressions'];
-                        $remainingClicks      = $aPlacement['targetclicks']      - $valuesRow['clicks'];
-                        $remainingConversions = $aPlacement['targetconversions'] - $valuesRow['conversions'];
+                if ($aPlacement['start'] != OA_Dal::noDateValue()) {
+                    // The placement has a valid start date, stored in the timezone of the advertiser;
+                    // create an end date in the advertiser's timezone, set the time, and then
+                    // convert to UTC so that it can be compared with the MSE run time, which is
+                    // in UTC
+                    $aAdvertiserPrefs = OA_Preferences::loadAccountPreferences($aPlacement['advertiser_account_id'], true);
+                    $oTimezone = new Date_Timezone($aAdvertiserPrefs['timezone']);
+                    $oStartDate = new Date();
+                    $oStartDate->convertTZ($oTimezone);
+                    $oStartDate->setDate($aPlacement['start'] . ' 00:00:00'); // Placements start at the start of the day
+                    $oStartDate->toUTC();
+                    if ($aPlacement['end'] != OA_Dal::noDateValue()) {
+                        // The placement has a valid end date, stored in the timezone of the advertiser;
+                        // create an end date in the advertiser's timezone, set the time, and then
+                        // convert to UTC so that it can be compared with the MSE run time, which is
+                        // in UTC
+                        $oEndDate = new Date();
+                        $oEndDate->convertTZ($oTimezone);
+                        $oEndDate->setDate($aPlacement['end'] . ' 23:59:59'); // Placements end at the end of the day
+                        $oEndDate->toUTC();
+                    } else {
+                        $oEndDate = null;
                     }
-                    // In order for the placement to be activated, need to test:
-                    // 1) That there is no impression target (<= 0), or, if there is an impression target (> 0),
-                    //    then there must be remaining impressions to deliver (> 0); and
-                    // 2) That there is no click target (<= 0), or, if there is a click target (> 0),
-                    //    then there must be remaining clicks to deliver (> 0); and
-                    // 3) That there is no conversion target (<= 0), or, if there is a conversion target (> 0),
-                    //    then there must be remaining conversions to deliver (> 0); and
-                    // 4) Either there is no end date, or the end date has not been passed
-                    if ((($aPlacement['targetimpressions'] <= 0) || (($aPlacement['targetimpressions'] > 0) && ($remainingImpressions > 0))) &&
-                        (($aPlacement['targetclicks']      <= 0) || (($aPlacement['targetclicks']      > 0) && ($remainingClicks      > 0))) &&
-                        (($aPlacement['targetconversions'] <= 0) || (($aPlacement['targetconversions'] > 0) && ($remainingConversions > 0))) &&
-                        (is_null($oEndDate) || (($oEndDate->format('%Y-%m-%d') != OA_Dal::noDateValue()) && (Date::compare($oDate, $oEndDate) < 0)))) {
-                        $query = "
-                            UPDATE
-                                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)."
-                            SET
-                                active = 't'
-                            WHERE
-                                campaignid = {$aPlacement['campaign_id']}";
-                        $mesage = '- Past campaign start time: Activating campaign ID ' .
-                                  "{$aPlacement['campaign_id']}: {$aPlacement['campaign_name']}";
-                        OA::debug($message, PEAR_LOG_INFO);
-                        $report .= $message . "\n";
-                        $rows = $this->oDbh->exec($query);
-                        if (PEAR::isError($rows)) {
-                            return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                    if (($oDate->after($oStartDate))) {
+                        // The start date has been passed; find out if there are any impression, click
+                        // or conversion targets for the placement (i.e. if the target values are > 0)
+                        $remainingImpressions = 0;
+                        $remainingClicks      = 0;
+                        $remainingConversions = 0;
+                        if (($aPlacement['targetimpressions'] > 0) ||
+                            ($aPlacement['targetclicks'] > 0) ||
+                            ($aPlacement['targetconversions'] > 0)) {
+                            // The placement has an impression, click and/or conversion target,
+                            // so get the sum total statistics for the placement so far
+                            $query = "
+                                SELECT
+                                    SUM(dia.impressions) AS impressions,
+                                    SUM(dia.clicks) AS clicks,
+                                    SUM(dia.conversions) AS conversions
+                                FROM
+                                    ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)." AS dia,
+                                    ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)." AS b
+                                WHERE
+                                    dia.ad_id = b.bannerid
+                                    AND b.campaignid = {$aPlacement['campaign_id']}";
+                            $rcInner = $this->oDbh->query($query);
+                            $valuesRow = $rcInner->fetchRow();
+                            // Set the remaining impressions, clicks and conversions for the placement
+                            $remainingImpressions = $aPlacement['targetimpressions'] - $valuesRow['impressions'];
+                            $remainingClicks      = $aPlacement['targetclicks']      - $valuesRow['clicks'];
+                            $remainingConversions = $aPlacement['targetconversions'] - $valuesRow['conversions'];
                         }
-                        phpAds_userlogSetUser(phpAds_userMaintenance);
-                        phpAds_userlogAdd(phpAds_actionActiveCampaign, $aPlacement['campaign_id']);
-                        // Get the advertisements associated with the placement
-                        $query = "
-                            SELECT
-                                bannerid AS advertisement_id,
-                                description AS description,
-                                alt AS alt,
-                                url AS url
-                            FROM
-                                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)."
-                            WHERE
-                                campaignid = {$aPlacement['campaign_id']}";
-                        OA::debug("- Getting the advertisements for placement ID {$aPlacement['campaign_id']}",
-                                   PEAR_LOG_DEBUG);
-                        $rcAdvertisement = $this->oDbh->query($query);
-                        if (PEAR::isError($rcAdvertisement)) {
-                            return MAX::raiseError($rcAdvertisement, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                        // In order for the placement to be activated, need to test:
+                        // 1) That there is no impression target (<= 0), or, if there is an impression target (> 0),
+                        //    then there must be remaining impressions to deliver (> 0); and
+                        // 2) That there is no click target (<= 0), or, if there is a click target (> 0),
+                        //    then there must be remaining clicks to deliver (> 0); and
+                        // 3) That there is no conversion target (<= 0), or, if there is a conversion target (> 0),
+                        //    then there must be remaining conversions to deliver (> 0); and
+                        // 4) Either there is no end date, or the end date has not been passed
+                        if ((($aPlacement['targetimpressions'] <= 0) || (($aPlacement['targetimpressions'] > 0) && ($remainingImpressions > 0))) &&
+                            (($aPlacement['targetclicks']      <= 0) || (($aPlacement['targetclicks']      > 0) && ($remainingClicks      > 0))) &&
+                            (($aPlacement['targetconversions'] <= 0) || (($aPlacement['targetconversions'] > 0) && ($remainingConversions > 0))) &&
+                            (is_null($oEndDate) || (($oEndDate->format('%Y-%m-%d') != OA_Dal::noDateValue()) && (Date::compare($oDate, $oEndDate) < 0)))) {
+                            $message = "- Passed placement start time of '{$aPlacement['start']} 00:00:00 {$aAdvertiserPrefs['timezone']} (" .
+                                       $oStartDate->format('%Y-%m-%d %H:%M:%S') . ' ' . $oStartDate->tz->getShortName() .
+                                       ")': Activating placement ID {$aPlacement['campaign_id']}: {$aPlacement['campaign_name']}";
+                            OA::debug($message, PEAR_LOG_INFO);
+                            $report .= $message . "\n";
+                            $doCampaigns = OA_Dal::factoryDO('campaigns');
+                            $doCampaigns->campaignid = $aPlacement['campaign_id'];
+                            $doCampaigns->find();
+                            $doCampaigns->fetch();
+                            $doCampaigns->status = OA_ENTITY_STATUS_RUNNING;
+                            $result = $doCampaigns->update();
+                            if ($result == false) {
+                                return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                            }
+                            phpAds_userlogSetUser(phpAds_userMaintenance);
+                            phpAds_userlogAdd(phpAds_actionActiveCampaign, $aPlacement['campaign_id']);
+                            // Get the advertisements associated with the placement
+                            $query = "
+                                SELECT
+                                    bannerid AS advertisement_id,
+                                    description AS description,
+                                    alt AS alt,
+                                    url AS url
+                                FROM
+                                    ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)."
+                                WHERE
+                                    campaignid = {$aPlacement['campaign_id']}";
+                            OA::debug("- Getting the advertisements for placement ID {$aPlacement['campaign_id']}",
+                                       PEAR_LOG_DEBUG);
+                            $rcAdvertisement = $this->oDbh->query($query);
+                            if (PEAR::isError($rcAdvertisement)) {
+                                return MAX::raiseError($rcAdvertisement, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                            }
+                            while ($advertisementRow = $rcAdvertisement->fetchRow()) {
+                                $advertisements[$advertisementRow['advertisement_id']] =
+                                    array($advertisementRow['description'], $advertisementRow['alt'],
+                                        $advertisementRow['url']);
+                            }
+                            if ($aPlacement['send_activate_deactivate_email'] == 't') {
+                                $aEmail =& $oEmail->preparePlacementActivatedDeactivatedEmail($aPlacement['campaign_id']);
+                                if ($aEmail !== false) {
+                                    $oEmail->sendMail(
+                                        $aEmail['subject'],
+                                        $aEmail['contents'],
+                                        $aEmail['userEmail'],
+                                        $aEmail['userName']
+                                    );
+                                }
+                            }
                         }
-                        while ($advertisementRow = $rcAdvertisement->fetchRow()) {
-                            $advertisements[$advertisementRow['advertisement_id']] =
-                                array($advertisementRow['description'], $advertisementRow['alt'],
-                                    $advertisementRow['url']);
-                        }
-                        if ($aPlacement['send_activate_deactivate_email']) {
-                            $aEmail =& OA_Email::preparePlacementActivatedDeactivatedEmail($aPlacement['campaign_id']);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * A private method to handle the task of sending email warnings
+     * when a campaign is going to expire "soon".
+     *
+     * @access private
+     * @param Date $oDate       The current date/time, as passed to
+     *                          OA_Dal_Maintenance_Statistics_Common::managePlacements().
+     * @param array $aPlacement The placement information as found in the
+     *                          OA_Dal_Maintenance_Statistics_Common::managePlacements()
+     *                          method.
+     */
+    function _managePlacementsImpendingExpiry($oDate, $aPlacement)
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        global $date_format;
+        $oServiceLocator = &OA_ServiceLocator::instance();
+        $oEmail = &$oServiceLocator->get('OA_Email');
+        if ($oEmail === false) {
+            $oEmail = new OA_Email();
+            $oServiceLocator->register('OA_Email', $oEmail);
+        }
+        $aPreviousOIDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        // Get the account ID of the advertiser that owns the placement being tested
+        $advertiserAccountId =  $aPlacement['advertiser_account_id'];
+        // Load the preferences for that advertiser account
+        $aPrefs = OA_Preferences::loadAccountPreferences($advertiserAccountId, true);
+        // Prepare an array of the account types that need to be tested for warnings
+        $aTypes = array(
+            'admin',
+            'manager',
+            'advertiser'
+        );
+        // Test for, and send warnings for each account type
+        foreach ($aTypes as $accountType) {
+            // Does the account type have email warnings enbled?
+            if ($aPrefs['warn_email_' . $accountType]) {
+                // Does the account type want warnings when the impressions are low?
+                if ($aPrefs['warn_email_' . $accountType . '_impression_limit'] > 0 && $aPlacement['targetimpressions'] > 0) {
+                    // Test to see if the placements impressions remaining are less than the limit
+                    $dalCampaigns = OA_Dal::factoryDAL('campaigns');
+                    $remainingImpressions = $dalCampaigns->getAdImpressionsLeft($aPlacement['campaign_id']);
+                    if ($remainingImpressions < $aPrefs['warn_email_' . $accountType . '_impression_limit']) {
+                        // Yes, the placement will expire soon! But did the placement just reach
+                        // the point where it is about to expire, or did it happen a while ago?
+                        $previousRemainingImpressions =
+                            $dalCampaigns->getAdImpressionsLeft($aPlacement['campaign_id'], $aPreviousOIDates['end']);
+                        if ($previousRemainingImpressions >= $aPrefs['warn_email_' . $accountType . '_impression_limit']) {
+                            // Yes! This is the operation interval that the boundary
+                            // was crossed to the point where it's about to expire,
+                            // so send that email, baby!
+                            $aEmail =& $oEmail->preparePlacementImpendingExpiryEmail(
+                                $aPlacement['advertiser_id'],
+                                $aPlacement['campaign_id'],
+                                'impressions',
+                                $aPrefs['warn_email_' . $accountType . '_impression_limit']
+                            );
                             if ($aEmail !== false) {
-                                OA_Email::sendMail(
+                                $oEmail->sendMail(
+                                    $aEmail['subject'],
+                                    $aEmail['contents'],
+                                    $aEmail['userEmail'],
+                                    $aEmail['userName']
+                                );
+                            }
+                        }
+                    }
+                }
+                // Does the account type want warnings when the days are low?
+                if ($aPrefs['warn_email_' . $accountType . '_day_limit'] > 0 && $aPlacement['end'] != OA_Dal::noDateValue()) {
+                    // Calculate the date that should be used to see if the warning needs to be sent
+                    $warnSeconds = (int) ($aPrefs['warn_email_' . $accountType . '_day_limit'] + 1) * SECONDS_PER_DAY;
+                    $oEndDate = new Date($aPlacement['end'] . ' 23:59:59');  // Convert day to end of Date
+                    $oTestDate = new Date();
+                    $oTestDate->copy($oDate);
+                    $oTestDate->addSeconds($warnSeconds);
+                    // Test to see if the test date is after the placement's expiration date
+                    if ($oTestDate->after($oEndDate)) {
+                        // Yes, the placement will expire soon! But did the placement just reach
+                        // the point where it is about to expire, or did it happen a while ago?
+                        $oiSeconds = (int) $aConf['maintenance']['operationInterval'] * 60;
+                        $oTestDate->subtractSeconds($oiSeconds);
+                        if (!$oTestDate->after($oEndDate)) {
+                            // Yes! This is the operation interval that the boundary
+                            // was crossed to the point where it's about to expire,
+                            // so send that email, baby!
+                            $aEmail =& $oEmail->preparePlacementImpendingExpiryEmail(
+                                $aPlacement['advertiser_id'],
+                                $aPlacement['campaign_id'],
+                                'date',
+                                $oEndDate->format($date_format)
+                            );
+                            if ($aEmail !== false) {
+                                $oEmail->sendMail(
                                     $aEmail['subject'],
                                     $aEmail['contents'],
                                     $aEmail['userEmail'],
@@ -3097,7 +3091,7 @@ class OA_Dal_Maintenance_Statistics_Common
             WHERE
                 date_time <= '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
         OA::debug("- Deleting summarised (earlier than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
-                   "') ad requests from the $table table", PEAR_LOG_DEBUG);
+                  ' ' . $oDeleteDate->tz->getShortName() . "') ad requests from the $table table", PEAR_LOG_DEBUG);
         $rows = $this->oDbh->exec($query);
         if (PEAR::isError($rows)) {
             return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
@@ -3123,7 +3117,7 @@ class OA_Dal_Maintenance_Statistics_Common
             WHERE
                 date_time <= '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
         OA::debug("- Deleting summarised (earlier than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
-                   "') ad impressions from the $table table", PEAR_LOG_DEBUG);
+                  ' ' . $oDeleteDate->tz->getShortName() . "') ad impressions from the $table table", PEAR_LOG_DEBUG);
         $rows = $this->oDbh->exec($query);
         if (PEAR::isError($rows)) {
             return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
@@ -3138,7 +3132,7 @@ class OA_Dal_Maintenance_Statistics_Common
             WHERE
                 date_time <= '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
         OA::debug("- Deleting summarised (earlier than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
-                   "') ad clicks from the $table table", PEAR_LOG_DEBUG);
+                  ' ' . $oDeleteDate->tz->getShortName() . "') ad clicks from the $table table", PEAR_LOG_DEBUG);
         $rows = $this->oDbh->exec($query);
         if (PEAR::isError($rows)) {
             return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);

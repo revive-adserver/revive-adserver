@@ -1,20 +1,45 @@
 <?php
 
-require_once MAX_PATH . '/lib/OA/Admin/Config.php';
+/*
++---------------------------------------------------------------------------+
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+*/
+
+require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
 
 class OA_Upgrade_Config
 {
 
-    var $oConfig;
+    var $oSettings;
     var $aConfig;
     var $configPath;
     var $configFile;
 
     function OA_Upgrade_Config()
     {
-        $this->oConfig = new OA_Admin_Config();
-        $this->aConfig =& $this->oConfig->conf;
-        if (!OA_Admin_Config::isConfigWritable())
+        $this->oSettings = new OA_Admin_Settings();
+        $this->aConfig =& $this->oSettings->getConfigArray();
+        if (!OA_Admin_Settings::isConfigWritable())
         {
             return false;
         }
@@ -55,7 +80,7 @@ class OA_Upgrade_Config
         $this->configPath = MAX_PATH.'/var/';
         if (file_exists($this->configPath.$host.'.conf.ini'))
         {
-            if ($this->oConfig->backupConfig($this->configPath.$host.'.conf.ini')) {
+            if ($this->oSettings->backupConfig($this->configPath.$host.'.conf.ini')) {
                 if (copy($this->configPath.$host.'.conf.ini', $this->configPath.$host.'.conf.php'))
                 {
                     unlink($this->configPath.$host.'.conf.ini');
@@ -130,7 +155,7 @@ class OA_Upgrade_Config
      */
     function writeConfig($reparse = true)
     {
-        return $this->oConfig->writeConfigChange(null, null, $reparse);
+        return $this->oSettings->writeConfigChange(null, null, $reparse);
     }
 
     /**
@@ -141,20 +166,20 @@ class OA_Upgrade_Config
     function mergeConfig()
     {
         $this->getConfigFileName();
-        if (!$this->oConfig->backupConfig($this->configPath . $this->configFile)) {
+        if (!$this->oSettings->backupConfig($this->configPath . $this->configFile)) {
             return false;
         }
-        return $this->oConfig->mergeConfigChanges();
+        return $this->oSettings->mergeConfigChanges();
     }
 
     function getConfigBackupName()
     {
-        return $this->oConfig->backupFilename;
+        return $this->oSettings->backupFilename;
     }
 
     function clearConfigBackupName()
     {
-        $this->oConfig->backupFilename = '';
+        $this->oSettings->backupFilename = '';
         return true;
     }
 
@@ -180,16 +205,6 @@ class OA_Upgrade_Config
                 $this->setValue($section, $name, $value);
             }
         }
-    }
-
-    function setupConfigMax($aConfig)
-    {
-        $this->setValue('max', 'language', $aConfig['language']);
-    }
-
-    function setupConfigTimezone($aConfig)
-    {
-        $this->setValue('timezone', 'location', $aConfig['location']);
     }
 
     function setupConfigWebpath($aConfig)
@@ -231,17 +246,17 @@ class OA_Upgrade_Config
 
     function setValue($section, $name, $value)
     {
-        $this->oConfig->setConfigChange($section, $name, $value);
+        $this->oSettings->settingChange($section, $name, $value);
     }
 
     function setBulkValue($section, $value)
     {
-        $this->oConfig->setBulkConfigChange($section, $value);
+        $this->oSettings->bulkSettingChange($section, $value);
     }
 
     function getValue($section, $name, $value)
     {
-        return $this->oConfig->conf[$section][$name];
+        return $this->oSettings->conf[$section][$name];
     }
 
     function setGetValue($section, $name)

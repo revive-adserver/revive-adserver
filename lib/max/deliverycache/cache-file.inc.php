@@ -28,53 +28,6 @@
 $Id$
 */
 
-function phpAds_cacheFetch ($name)
-{
-	$filename = 'cache-'.md5($name).'.php';
-
-	if (file_exists(phpAds_path.'/cache/'.$filename))
-	{
-		$cache_complete = false;
-		$cache_contents	= '';
-
-		@include (phpAds_path.'/cache/'.$filename);
-
-		if ($cache_complete == true)
-			return ($cache_contents);
-		else
-			return false;
-	}
-	else
-		return false;
-}
-
-function phpAds_cacheStore ($name, $cache)
-{
-	$filename = 'cache-'.md5($name).'.php';
-
-	$cache_literal  = "<"."?php\n\n";
-
-	preg_match ("#^([0-9]{1})\.([0-9]{1})\.([0-9]{1,2})#", phpversion(), $matches);
-	$phpversion = sprintf ("%01d%01d%02d", $matches[1], $matches[2], $matches[3]);
-
-	if ($phpversion >= 4200)
-		$cache_literal .= "$"."cache_contents = ".var_export($cache, true).";\n\n";
-	else
-		$cache_literal .= "$"."cache_contents = unserialize(base64_decode(\"".base64_encode(serialize($cache))."\"));\n\n";
-
-	$cache_literal .= "$"."cache_name     = '".$name."';\n";
-	$cache_literal .= "$"."cache_complete = true;\n\n";
-	$cache_literal .= "?".">";
-
-	if ($fp = @fopen(phpAds_path.'/cache/'.$filename, 'wb'))
-	{
-		@fwrite ($fp, $cache_literal, strlen($cache_literal));
-		@fclose ($fp);
-	}
-	else
-		return false;
-}
-
 /*
 function phpAds_cacheDelete ($name='')
 {

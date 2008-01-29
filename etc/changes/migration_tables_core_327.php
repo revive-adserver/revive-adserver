@@ -378,7 +378,7 @@ class ZoneCampaignHandler extends ZoneAdObjectHandler
 {
     function ZoneCampaignHandler($prefix, $zone_id, $sIdList)
     {
-        $this->ZoneAdObjectHandler($prefix, $zone_id, $sIdList, 'clientid');
+        $this->ZoneAdObjectHandler($prefix, $zone_id, $sIdList, 'campaignid');
     }
 
 

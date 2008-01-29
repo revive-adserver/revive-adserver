@@ -40,33 +40,22 @@ require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/lib/max/Admin/Invocation.php';
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
+OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
+OA_Permission::enforceAccessToObject('zones', $zoneid);
 
-/*-------------------------------------------------------*/
-/* Affiliate interface security                          */
-/*-------------------------------------------------------*/
-
-MAX_Permission::checkAccessToObject('zones', $zoneid);
+if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+    OA_Permission::enforceAllowed(OA_PERM_ZONE_INVOCATION);
+}
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-if (isset($session['prefs']['affiliate-zones.php']['listorder'])) {
-    $navorder = $session['prefs']['affiliate-zones.php']['listorder'];
-} else {
-    $navorder = '';
-}
-if (isset($session['prefs']['affiliate-zones.php']['orderdirection'])) {
-    $navdirection = $session['prefs']['affiliate-zones.php']['orderdirection'];
-} else {
-    $navdirection = '';
-}
-
 // Initialise some parameters
 $pageName = basename($_SERVER['PHP_SELF']);
 $tabIndex = 1;
-$agencyId = phpAds_getAgencyID();
+$agencyId = OA_Permission::getAgencyId();
 $aEntities = array('affiliateid' => $affiliateid, 'zoneid' => $zoneid);
 
 $aOtherPublishers = Admin_DA::getPublishers(array('agency_id' => $agencyId));
@@ -89,7 +78,7 @@ if ($zone = $dalZones->getZoneForInvocationForm($zoneid)) {
     $tabindex = 1;
     // Ensure 3rd Party Click Tracking defaults to the preference for this agency
     if (!isset($thirdpartytrack)) {
-        $thirdpartytrack = $GLOBALS['_MAX']['PREF']['gui_invocation_3rdparty_default'];
+        $thirdpartytrack = $GLOBALS['_MAX']['CONF']['delivery']['clicktracking'];
     }
     $maxInvocation = new MAX_Admin_Invocation();
     echo $maxInvocation->placeInvocationForm($extra, true);

@@ -38,6 +38,6 @@ require_once MAX_PATH . '/www/admin/config.php';
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-phpAds_Logout();
+OA_Auth::logout();
 
 ?>

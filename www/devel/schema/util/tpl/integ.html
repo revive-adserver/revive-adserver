@@ -16,7 +16,6 @@
     <form name="frmInteg" method="POST" action="integ.php">
         <button name="btn_integ_check">run an integrity check on <?php echo $GLOBALS['_MAX']['CONF']['database']['name']; ?> against schema version =></button>
         <select name="version">
-<<<<<<< .working
             <option value="515" <?php echo ($version==515 ? 'selected' : '')?>>schema 515 (Openads 2.3.32-beta)</option>
             <option value="129.34" <?php echo ($version==129.34 ? 'selected' : '')?>>schema 129.34 (Openads 2.3.34-beta)</option>
             <option value="500" <?php echo ($version==500 ? 'selected' : '')?>>schema 500 (MMMv2.3.31-pr3)</option>

@@ -60,7 +60,7 @@ class Plugins_Geotargeting_ModGeoIP_ModGeoIP extends Plugins_Geotargeting
      */
     function getInfo()
     {
-        return MAX_Geo_ModGeoIP_getInfo();
+        return OA_Geo_ModGeoIP_getInfo();
     }
 }
 

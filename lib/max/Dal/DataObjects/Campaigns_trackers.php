@@ -51,6 +51,69 @@ class DataObjects_Campaigns_trackers extends DB_DataObjectCommon
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
+
+    function _auditEnabled()
+    {
+        return true;
+    }
+
+     function _getContextId()
+    {
+        return $this->campaign_trackerid;
+    }
+
+    function _getContext()
+    {
+        return 'Campaign Tracker';
+    }
+
+    /**
+     * A private method to return the account ID of the
+     * account that should "own" audit trail entries for
+     * this entity type; NOT related to the account ID
+     * of the currently active account performing an
+     * action.
+     *
+     * @return integer The account ID to insert into the
+     *                 "account_id" column of the audit trail
+     *                 database table.
+     */
+    function getOwningAccountId()
+    {
+        return $this->_getOwningAccountIdFromParent('trackers', 'trackerid');
+    }
+
+    /**
+     * build a campaign-trackers specific audit array
+     *
+     * @param integer $actionid
+     * @param array $aAuditFields
+     */
+    function _buildAuditArray($actionid, &$aAuditFields)
+    {
+        $aAuditFields['key_desc']       = '';
+        switch ($actionid)
+        {
+            case OA_AUDIT_ACTION_INSERT:
+            case OA_AUDIT_ACTION_DELETE:
+                        $aAuditFields['status']     = $this->_formatValue('status');
+                        break;
+            case OA_AUDIT_ACTION_UPDATE:
+                        $aAuditFields['campaignid']   = $this->campaignid;
+                        break;
+        }
+    }
+
+    function _formatValue($field)
+    {
+        switch ($field)
+        {
+            case 'status':
+                return $this->_boolToStr($this->$field);
+            default:
+                return $this->$field;
+        }
+    }
 }
 
 ?>

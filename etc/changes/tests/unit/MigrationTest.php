@@ -120,8 +120,13 @@ class MigrationTest extends DbTestCase
         $auditor   = new OA_DB_UpgradeAuditor();
         $this->oDBUpgrader->oAuditor = &$auditor;
         $this->assertTrue($auditor->init($this->oDBUpgrader->oSchema->db), 'error initialising upgrade auditor, probable error creating database action table');
+        // execute all database upgrade actions for a given schema version
+        // constructive first
         $this->oDBUpgrader->init('constructive', 'tables_core', $version);
-        $this->assertTrue($this->oDBUpgrader->upgrade());
+        $this->assertTrue($this->oDBUpgrader->upgrade(),'constructive');
+        // use same changeset, switch timing only to execute destructive
+        $this->oDBUpgrader->init('destructive', 'tables_core', $version, true);
+        $this->assertTrue($this->oDBUpgrader->upgrade(),'destructive');
     }
 
     function _dropAllBackupTables()

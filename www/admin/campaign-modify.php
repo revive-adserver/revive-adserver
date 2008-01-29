@@ -44,11 +44,11 @@ require_once MAX_PATH . '/lib/max/other/common.php';
 phpAds_registerGlobal ('campaignid', 'clientid', 'newclientid', 'returnurl', 'duplicate');
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
+OA_Permission::enforceAccessToObject('clients',   $clientid);
+OA_Permission::enforceAccessToObject('campaigns', $campaignid);
 if (!empty($newclientid)) {
-    MAX_Permission::checkAccessToObject('campaigns', $campaignid);
-    MAX_Permission::checkAccessToObject('clients', $clientid);
-    MAX_Permission::checkAccessToObject('clients', $newclientid);
+    OA_Permission::enforceAccessToObject('clients', $newclientid);
 }
 
 /*-------------------------------------------------------*/

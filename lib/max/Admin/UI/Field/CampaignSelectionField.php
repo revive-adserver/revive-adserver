@@ -34,12 +34,12 @@ class Admin_UI_CampaignSelectionField extends Admin_UI_Field
     function display()
     {
         $aParams = array();
-        if (phpAds_isUser(phpAds_Agency)) {
-            $aParams['agency_id'] = phpAds_getUserID();
-        } elseif (phpAds_isUser(phpAds_Advertiser)) {
-            $aParams['advertiser_id'] = phpAds_getUserID();
-        } elseif (phpAds_isUser(phpAds_Publisher)) {
-            $aParams['publisher_id'] = phpAds_getUserID();
+        if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+            $aParams['agency_id'] = OA_Permission::getEntityId();
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+            $aParams['advertiser_id'] = OA_Permission::getEntityId();
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+            $aParams['publisher_id'] = OA_Permission::getEntityId();
         }
       
         $aPlacements = Admin_DA::getPlacements($aParams, true);

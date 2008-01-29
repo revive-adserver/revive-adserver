@@ -10,14 +10,14 @@
 <p><textarea class='code' style='width: 100%; height: 200px;' wrap='off' readonly><?php readfile("../../POLICY.txt"); ?></textarea></p></span></td></tr></table>
 
 <?php
-			$isEnabled = (isset($_SESSION['updates_enabled'])) ? $_SESSION['updates_enabled'] : true;
-            phpAds_ShowSettings(array (
+			$isEnabled = (isset($_SESSION['checkForUpdates'])) ? $_SESSION['checkForUpdates'] : true;
+            $options->show(array (
                 array (
                     'text'    => $GLOBALS['strSpecifySyncSettings'],
                     'items'   => array (
                         array (
                             'type'    => 'checkbox',
-                            'name'    => 'updates_enabled',
+                            'name'    => 'sync_checkForUpdates',
                             'text'    => $strAdminCheckUpdates,
                             'value'   => $isEnabled ,
                         )

@@ -108,8 +108,7 @@ class MAX_Dal_Admin_Data_intermediate_ad extends MAX_Dal_Common
                        ad_id       = '.DBC::makeLiteral($ad_id).'
                    AND creative_id = '.DBC::makeLiteral($creative_id).'
                    AND zone_id     = '.DBC::makeLiteral($zone_id).'
-                   AND day         = '.DBC::makeLiteral($day).'
-                   AND hour        = '.DBC::makeLiteral($hour);
+                   AND date_time   = '.DBC::makeLiteral(sprintf("%s %02d:00:00", $day, $hour));
 
         return DBC::execute($query);
     }

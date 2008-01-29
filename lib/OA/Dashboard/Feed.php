@@ -52,9 +52,9 @@ class OA_Dashboard_Widget_Feed extends OA_Dashboard_Widget
      * @param int $posts
      * @return OA_Dashboard_Widget_Feed
      */
-    function OA_Dashboard_Widget_Feed($aParams, $title, $url, $posts = 5, $siteTitle = null, $siteUrl = null)
+    function OA_Dashboard_Widget_Feed($aParams, $title, $url, $posts = 6, $siteTitle = null, $siteUrl = null)
     {
-        parent::OA_Dashboard_Widget();
+        parent::OA_Dashboard_Widget($aParams);
 
         $this->title = $title;
         $this->url   = $url;
@@ -80,7 +80,7 @@ class OA_Dashboard_Widget_Feed extends OA_Dashboard_Widget
             $oRss =& new XML_RSS($this->url);
             $result = $oRss->parse();
             OA::enableErrorHandling();
-            
+
             // ignore bad character error which could appear if rss is using invalid characters
             if (PEAR::isError($result)) {
                 if (!strstr($result->getMessage(), 'Invalid character')) {
@@ -91,8 +91,9 @@ class OA_Dashboard_Widget_Feed extends OA_Dashboard_Widget
 
             $aPost = array_slice($oRss->getItems(), 0, $this->posts);
             foreach ($aPost as $key => $aValue) {
-                if (strlen($aValue['title']) > 30) {
-                    $aPost[$key]['title'] = substr($aValue['title'], 0, 30) .'...';
+                $aPost[$key]['origTitle'] = $aValue['title'];
+                if (strlen($aValue['title']) > 38) {
+                    $aPost[$key]['title'] = substr($aValue['title'], 0, 38) .'...';
                 }
             }
             $this->oTpl->assign('title', $this->title);
@@ -104,5 +105,4 @@ class OA_Dashboard_Widget_Feed extends OA_Dashboard_Widget
         $this->oTpl->display();
     }
 }
-
 ?>

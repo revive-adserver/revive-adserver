@@ -85,9 +85,13 @@
   <target name="init-label" unless="label">
     <property name="label" value="trunk"/>
   </target>
+  
+  <target name="init-revision" unless="svnrevision">
+    <property name="svnrevision" value="na"/>
+  </target>
 
-  <target name="init-version" unless="version" depends="init-timestamp, init-label">
-    <property name="version" value="${label}-${cctimestamp}"/>
+  <target name="init-version" unless="version" depends="init-timestamp, init-label, init-revision">
+    <property name="version" value="${label}-${cctimestamp}-rev-${svnrevision}"/>
   </target>
 
   <target name="init-release" unless="release" depends="init,init-version">
@@ -134,6 +138,11 @@
       </fileset>
     </copy>
   </target>
+  
+  <target name="clear-distribution" depends="prepare-version-info">
+    <property name="release.dir" value="${dir.test.results}/${release}"/>
+    <delete dir="${release.dir}" failonerror="false"/>
+  </target>  
 
   <target name="package-bzip2" depends="prepare-distribution">
     <tar destfile="${dir.test.results}/${release}.tar.bz2" basedir="${dir.test.results}" includes="${release}/**" compression="bzip2" longfile="gnu"/>
@@ -147,7 +156,7 @@
     <zip destfile="${dir.test.results}/${release}.zip" basedir="${dir.test.results}"  includes="${release}/**"/>
   </target>
 
-  <target name="package" depends="generate-delivery, generate-xml-cache, generate-adnetworks-cache, checkconsistency, package-bzip2, package-gz, package-zip"/>
+  <target name="package" depends="generate-delivery, generate-xml-cache, generate-adnetworks-cache, checkconsistency, package-bzip2, package-gz, package-zip, clear-distribution"/>
 
   <target name="build" depends="package, revert-after-packaging" description="Run this if you want your own release files built."/>
 
@@ -178,28 +187,30 @@
   </target>
 
   <target name="test-canoo" description="Test canoo remotely or if -Drun.local=true switch exist tests it locally">
+  	<echo>test-canoo started</echo>
     <if>
       <istrue value="${run.local}"/>
       <then>
+      	<echo message="running locally"/>
         <antcall target="test-canoo-local" />
       </then>
       <else>
+      	<echo message="running remotely"/>
         <antcall target="test-canoo-remote" />
       </else>
     </if>
+  	<echo>test-canoo finished</echo>
   </target>
 
-  <target name="test-canoo-local" depends="run-test-canoo">
+  <target name="test-canoo-local" depends="canoo-create-openads-configuration-local, setup-delivery-files, run-test-canoo">
     <property name="run.local" value="true" />
+  	<antcall target="clean-delivery"></antcall>
   </target>
 
   <target name="test-canoo-remote" depends="test-canoo-prepare, run-test-canoo, clean-ec2"/>
 
-  <target name="test-canoo-prepare" depends="clean, svn-update, checkconsistency, init-version, package-bzip2-canoo, revert-after-packaging, canoo-prepare-dir, canoo-copy-package, canoo-unpack-package, canoo-create-openads-configuration"/>
+  <target name="test-canoo-prepare" depends="clean, checkconsistency, init-version, package-bzip2-canoo, canoo-prepare-dir, canoo-copy-package, canoo-unpack-package, canoo-create-openads-configuration-remote"/>
 
-
-  <target name="simpletest" depends="clean, init, test-all, package, revert-after-packaging" />
-
-   
+  <target name="simpletest" depends="clean, init, test-all, package" />
 
 </project>

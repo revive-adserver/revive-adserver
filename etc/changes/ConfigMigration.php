@@ -41,7 +41,7 @@ define('OA_PLUGINS_ALL_MODULES', 1);
  */
 class ConfigMigration
 {
-	
+
 	/**
 	 * Following method merges geotargeting plugins config
 	 * into global config file. By doing that we are improving
@@ -52,11 +52,11 @@ class ConfigMigration
 	 */
     function mergeConfigWith($section, $mergeWithConf)
     {
-        $config = new OA_Admin_Config();
-        $config->setBulkConfigChange($section, $mergeWithConf);
+        $config = new OA_Admin_Settings();
+        $config->bulkSettingChange($section, $mergeWithConf);
         return $config->writeConfigChange();
     }
-    
+
     /**
      * Returns geotargeting config
      *
@@ -66,7 +66,7 @@ class ConfigMigration
     {
         return $this->getPluginsConfigByType('geotargeting');
     }
-    
+
     /**
      * Returns plugin config by its module merged with specifig package
      * config. Package type is read from module config.
@@ -81,13 +81,13 @@ class ConfigMigration
         	unset($GLOBALS['_MAX']['CONF'][$module]);
         }
     	$conf = MAX_Plugin::getConfig($module);
-        $aConfig = MAX_Plugin::getConfig($module, $conf['type']); 
-        if (is_array($aConfig)) { 
-            $conf = array_merge($conf, $aConfig); 
+        $aConfig = MAX_Plugin::getConfig($module, $conf['type']);
+        if (is_array($aConfig)) {
+            $conf = array_merge($conf, $aConfig);
         }
         return $conf;
     }
-    
+
     /**
      * Change the plugins config name affix (used to change all plugins affixes)
      * For example from *.ini to *.php
@@ -107,7 +107,7 @@ class ConfigMigration
         }
         return true;
     }
-    
+
     /**
      * Reads list of files from plugins with affix (ini)
      *
@@ -125,7 +125,7 @@ class ConfigMigration
         $oFileScanner->addDir($readFromDir, $recursive = true);
         return $oFileScanner->getAllFiles();
     }
-    
+
     /**
      * Removes geotargeting folder and all its subfolders - as it is not needed anymore
      * after moving its configuration to main folder
@@ -143,3 +143,4 @@ class ConfigMigration
 }
 
 ?>
+

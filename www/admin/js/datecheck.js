@@ -127,11 +127,16 @@ function isDateEqual(a,b)
  */
 function newDateFromNamedFields(dom_document, form, base_name)
 {
-    date = new Date(0);
+    formDate = getValueFromNamedElement(document, base_name);
 
-    day = getValueFromNamedElement(document, base_name + "Day");
-    month = getValueFromNamedElement(document, base_name + "Month");
-    year = getValueFromNamedElement(document, base_name + "Year");
+    //  split date into day, month, & year
+    formDate = formDate.split(" ");
+
+    day     = formDate[0];
+    month   = getMonthFromName(formDate[1]);
+    year    = formDate[2];
+
+    date = new Date(0);
 
     if (!isValidDate(year,month,day)) {
         return false;
@@ -155,4 +160,17 @@ function getValueFromNamedElement(dom_document, name)
     var element = dom_document.getElementById(name);
 
     return element.value;
+}
+
+/**
+ * Returns the month number for the given month name
+ *
+ * @param string    name    Name of month
+ */
+function getMonthFromName(name)
+{
+    var aMonth = {January: 1, February: 2, March: 3, April: 4, May: 5,
+                    June: 6, July: 7, August: 8, September: 9, October: 10,
+                    November: 11, December: 12};
+    return aMonth[name];
 }

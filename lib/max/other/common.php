@@ -39,7 +39,7 @@ function MAX_checkAd($advertiserId, $placementId, $adId)
 {
     $allowed = false;
     if (is_numeric($advertiserId) && is_numeric($placementId) && is_numeric($adId)) {
-        if (phpAds_isUser(phpAds_Admin)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
 
             //  determine if there are 1 or more ads
             $allowed = (count(
@@ -48,18 +48,18 @@ function MAX_checkAd($advertiserId, $placementId, $adId)
                         'advertiser_id' => $advertiserId,
                         'placement_id' => $placementId,
                         'ad_id' => $adId))));
-        } elseif (phpAds_isUser(phpAds_Agency)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
 
             //  determine if there are 1 or more ads
             $allowed = (count(
                 Admin_DA::getAds(
                     array(
-                        'agency_id' => phpAds_getAgencyID(),
+                        'agency_id' => OA_Permission::getAgencyId(),
                         'advertiser_id' => $advertiserId,
                         'placement_id' => $placementId,
                         'ad_id' => $adId))));
-        } elseif (phpAds_isUser(phpAds_Client)) {
-            $allowed = ($advertiserId == phpAds_getUserID())
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+            $allowed = ($advertiserId == OA_Permission::getEntityId())
                         && count(Admin_DA::getAds(
                             array(  'advertiser_id' => $advertiserId,
                                     'placement_id' => $placementId,
@@ -73,14 +73,14 @@ function MAX_checkAdvertiser($advertiserId)
 {
     $allowed = false;
     if (is_numeric($advertiserId) && $advertiserId > 0) {
-        if (phpAds_isUser(phpAds_Admin)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $allowed = count(Admin_DA::getAdvertisers(array('advertiser_id' => $advertiserId)));
-        } elseif (phpAds_isUser(phpAds_Agency)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $allowed = count(Admin_DA::getAdvertisers(
-                array(  'agency_id' => phpAds_getAgencyID(),
+                array(  'agency_id' => OA_Permission::getAgencyId(),
                         'advertiser_id' => $advertiserId)));
-        } elseif (phpAds_isUser(phpAds_Client)) {
-            $allowed = ($advertiserId == phpAds_getUserID())
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+            $allowed = ($advertiserId == OA_Permission::getEntityId())
                         && count(Admin_DA::getAdvertisers(array('advertiser_id' => $advertiserId)));
         }
     }
@@ -91,13 +91,13 @@ function MAX_checkAgency($agencyId)
 {
     $allowed = false;
     if (is_numeric($agencyId)) {
-        if (phpAds_isUser(phpAds_Admin)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $allowed = count(Admin_DA::getAgencies(array('agency_id' => $agencyId)));
-        } elseif (phpAds_isUser(phpAds_Agency)) {
-            $allowed = ($agencyId == phpAds_getUserId())
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+            $allowed = ($agencyId == OA_Permission::getEntityId())
                         && count(Admin_DA::getAgencies(array('agency_id' => $agencyId)));
-        } elseif (phpAds_isUser(phpAds_Client)) {
-            $allowed = ($agencyId == phpAds_getAgencyID())
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+            $allowed = ($agencyId == OA_Permission::getAgencyId())
                         && count(Admin_DA::getAgencies(array('agency_id' => $agencyId)));
         }
     }
@@ -108,14 +108,14 @@ function MAX_checkPublisher($publisherId)
 {
     $allowed = false;
     if (is_numeric($publisherId)) {
-        if (phpAds_isUser(phpAds_Admin)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $allowed = count(Admin_DA::getPublishers(array('publisher_id' => $publisherId)));
-        } elseif (phpAds_isUser(phpAds_Agency)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $allowed = count(Admin_DA::getPublishers(
-                array(  'agency_id' => phpAds_getAgencyID(),
+                array(  'agency_id' => OA_Permission::getAgencyId(),
                         'publisher_id' => $publisherId)));
-        } elseif (phpAds_isUser(phpAds_Affiliate)) {
-            $allowed = ($publisherId == phpAds_getUserID())
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+            $allowed = ($publisherId == OA_Permission::getEntityId())
                         && count(Admin_DA::getPublishers(array('publisher_id' => $publisherId)));
         }
     }
@@ -126,17 +126,17 @@ function MAX_checkPlacement($advertiserId, $placementId)
 {
     $allowed = false;
     if (is_numeric($advertiserId) && is_numeric($placementId)) {
-        if (phpAds_isUser(phpAds_Admin)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $allowed = count(Admin_DA::getPlacements(
                 array(  'advertiser_id' => $advertiserId,
                         'placement_id' => $placementId)));
-        } elseif (phpAds_isUser(phpAds_Agency)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $allowed = count(Admin_DA::getPlacements(
-                array(  'agency_id' => phpAds_getAgencyID(),
+                array(  'agency_id' => OA_Permission::getAgencyId(),
                         'advertiser_id' => $advertiserId,
                         'placement_id' => $placementId)));
-        } elseif (phpAds_isUser(phpAds_Client)) {
-            $allowed = ($advertiserId == phpAds_getUserID())
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+            $allowed = ($advertiserId == OA_Permission::getEntityId())
                         && count(Admin_DA::getPlacements(
                 array(  'advertiser_id' => $advertiserId,
                         'placement_id' => $placementId)));
@@ -149,17 +149,17 @@ function MAX_checkTracker($advertiserId, $trackerId)
 {
     $allowed = false;
     if (is_numeric($advertiserId) && is_numeric($trackerId)) {
-        if (phpAds_isUser(phpAds_Admin)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $allowed = count(Admin_DA::getTrackers(
                 array(  'advertiser_id' => $advertiserId,
                         'tracker_id' => $trackerId)));
-        } elseif (phpAds_isUser(phpAds_Agency)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $allowed = count(Admin_DA::getTrackers(
-                array(  'agency_id' => phpAds_getAgencyID(),
+                array(  'agency_id' => OA_Permission::getAgencyId(),
                         'advertiser_id' => $advertiserId,
                         'tracker_id' => $trackerId)));
-        } elseif (phpAds_isUser(phpAds_Client)) {
-            $allowed = ($advertiserId == phpAds_getUserID())
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+            $allowed = ($advertiserId == OA_Permission::getEntityId())
                         && count(Admin_DA::getTrackers(
                 array(  'advertiser_id' => $advertiserId,
                         'tracker_id' => $trackerId)));
@@ -172,17 +172,17 @@ function MAX_checkZone($publisherId, $zoneId)
 {
     $allowed = false;
     if (is_numeric($publisherId) && is_numeric($zoneId)) {
-        if (phpAds_isUser(phpAds_Admin)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $allowed = count(Admin_DA::getZones(
                 array(  'publisher_id' => $publisherId,
                         'zone_id' => $zoneId)));
-        } elseif (phpAds_isUser(phpAds_Agency)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $allowed = count(Admin_DA::getZones(
-                array(  'agency_id' => phpAds_getAgencyID(),
+                array(  'agency_id' => OA_Permission::getAgencyId(),
                         'publisher_id' => $publisherId,
                         'zone_id' => $zoneId)));
-        } elseif (phpAds_isUser(phpAds_Affiliate)) {
-            $allowed = ($publisherId == phpAds_getUserID())
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+            $allowed = ($publisherId == OA_Permission::getEntityId())
                         && count(Admin_DA::getZones(
                 array(  'publisher_id' => $publisherId,
                         'zone_id' => $zoneId)));
@@ -210,15 +210,15 @@ function MAX_checkChannel($agencyId, $channelId)
 {
     $allowed = false;
     if (is_numeric($agencyId) && is_numeric($channelId)) {
-        if (phpAds_isUser(phpAds_Admin)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $allowed = count(Admin_DA::getChannels(
                 array( 'channel_id' => $channelId,
                        'channel_type' => 'admin')));
-        } elseif (phpAds_isUser(phpAds_Agency)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $allowed = count(Admin_DA::getChannels(
                 array(  'agency_id' => $agencyId,
                         'channel_id' => $channelId)));
-        } elseif (phpAds_isUser(phpAds_Affiliate)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $allowed = false;
         }
     }
@@ -227,7 +227,7 @@ function MAX_checkChannel($agencyId, $channelId)
 function MAX_getPlacementName($aPlacement, $length = null)
 {
     if (!empty($aPlacement)) {
-        if ((phpAds_isUser(phpAds_Publisher) || phpAds_isUser(phpAds_Advertiser)) && $aPlacement['anonymous'] == 't') {
+        if ((OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) && $aPlacement['anonymous'] == 't') {
             $name = $GLOBALS['strHiddenCampaign'] . ' ' . $aPlacement['placement_id'];
         } else {
             $name = empty($aPlacement['name']) ? $GLOBALS['strUntitled'] : $aPlacement['name'];
@@ -247,7 +247,7 @@ function MAX_getAdName($description, $alt = null, $length = null, $anonymous = f
     $name = $GLOBALS['strUntitled'];
     if (!empty($alt)) $name = $alt;
     if (!empty($description)) $name = $description;
-    if ((phpAds_isUser(phpAds_Publisher) || phpAds_isUser(phpAds_Advertiser)) && $anonymous) {
+    if ((OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) && $anonymous) {
         $name = $GLOBALS['strHiddenAd'];
         if (!empty($id)) {
             $name = $name . ' ' . $id;
@@ -264,7 +264,7 @@ function MAX_getZoneName($zoneName, $length = null, $anonymous = false, $id = nu
 {
     $name = $GLOBALS['strUntitled'];
     if (!empty($zoneName)) $name = $zoneName;
-    if (phpAds_isUser(phpAds_Advertiser) && $anonymous) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) && $anonymous) {
         $name = $GLOBALS['strHiddenZone'];
         if (!empty($id)) {
             $name = $name . ' ' . $id;
@@ -281,8 +281,8 @@ function MAX_getPublisherName($publisherName, $length = null, $anonymous = false
 {
     $name = $GLOBALS['strUntitled'];
     if (!empty($publisherName)) $name = $publisherName;
-    if (phpAds_isUser(phpAds_Advertiser) && $anonymous) {
-        $name = $GLOBALS['strHiddenPublisher'];
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) && $anonymous) {
+        $name = $GLOBALS['strHiddenWebsite'];
         if (!empty($id)) {
             $name = $name . ' ' . $id;
         }
@@ -298,7 +298,7 @@ function MAX_getTrackerName($trackerName, $length = null, $anonymous = false, $i
 {
     $name = $GLOBALS['strUntitled'];
     if (!empty($trackerName)) $name = $trackerName;
-    if (phpAds_isUser(phpAds_Publisher) && $anonymous) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) && $anonymous) {
         $name = $GLOBALS['strHiddenTracker'];
         if (!empty($id)) {
             $name = $name . ' ' . $id;
@@ -315,7 +315,7 @@ function MAX_getAdvertiserName($advertiserName, $length = null, $anonymous = fal
 {
     $name = $GLOBALS['strUntitled'];
     if (!empty($advertiserName)) $name = $advertiserName;
-    if (phpAds_isUser(phpAds_Publisher) && $anonymous) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) && $anonymous) {
         $name = $GLOBALS['strHiddenAdvertiser'];
         if (!empty($id)) {
             $name = $name . ' ' . $id;
@@ -720,6 +720,7 @@ function MAX_getLinkedAdParams($zoneId)
     // +---------------------------------------+
     // | file handling                         |
     // +---------------------------------------+
+/* REDUNDANT
 function MAX_removeFile($adId)
 {
     $aAd =  Admin_DA::getAd($adId);
@@ -772,7 +773,7 @@ function _removeFile($aAd)
         }
     }
 }
-
+*/
 // +---------------------------------------+
 // | Duplication functions                 |
 // +---------------------------------------+
@@ -793,7 +794,7 @@ function MAX_duplicatePlacement($placementId, $advertiserId) {
                 conversions,
                 expire,
                 activate,
-                active,
+                status,
                 priority,
                 weight,
                 target_impression,
@@ -814,7 +815,7 @@ function MAX_duplicatePlacement($placementId, $advertiserId) {
             conversions,
             expire,
             activate,
-            active,
+            status,
             priority,
             weight,
             target_impression,

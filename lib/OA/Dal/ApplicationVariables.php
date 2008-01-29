@@ -37,18 +37,17 @@ require_once MAX_PATH . '/lib/OA/Dal.php';
 class OA_Dal_ApplicationVariables
 {
     /**
-     * Get an appication variable value
+     * Get an appication variable value. The first call will cache
      *
      * @param string $name The variable name
      * @return string The value, or NULL if the variable doesn't exist
      */
     function get($name)
     {
-        $doAppVar = OA_Dal::factoryDO('application_variable');
-        $doAppVar->name = $name;
-        $doAppVar->find();
-        if ($doAppVar->fetch()) {
-            return $doAppVar->value;
+        $aVars = &OA_Dal_ApplicationVariables::_getAll();
+
+        if (isset($aVars[$name])) {
+            return $aVars[$name];
         }
 
         return null;
@@ -63,28 +62,24 @@ class OA_Dal_ApplicationVariables
      */
     function set($name, $value)
     {
-        $aData = array('value' => $value);
+        // Load the cache
+        $aVars = &OA_Dal_ApplicationVariables::_getAll();
+
         $doAppVar = OA_Dal::factoryDO('application_variable');
-        $doAppVar->get($name);
-        $doAppVar->setFrom($aData);
-        $result = $doAppVar->update();
+        $doAppVar->name  = $name;
+        $doAppVar->value = $value;
 
-        if (!$result) {
-            $doAppVar = OA_Dal::factoryDO('application_variable');
-            $doAppVar->get($name);
-            $doAppVar->find();
-
-            if (!$doAppVar->fetch()) {
-                $doAppVar = OA_Dal::factoryDO('application_variable');
-                $doAppVar->name = $name;
-                $doAppVar->setFrom($aData);
-                $result = $doAppVar->insert();
-                if (!$result) {
-                    return false;
-                }
-            }
+        if (isset($aVars[$name])) {
+            $result = $doAppVar->update();
+        } else {
+            $result = $doAppVar->insert();
         }
 
+        if (!$result) {
+            return false;
+        }
+
+        $aVars[$name] = $value;
         return true;
     }
 
@@ -95,16 +90,7 @@ class OA_Dal_ApplicationVariables
      */
     function getAll()
     {
-        $doAppVar = OA_Dal::factoryDO('application_variable');
-        $doAppVar->orderBy('name');
-
-        $aVars = $doAppVar->getAll(array(), true, false);
-
-        foreach ($aVars as $key => $value) {
-            $aVars[$key] = $value['value'];
-        }
-
-        return $aVars;
+        return OA_Dal_ApplicationVariables::_getAll();
     }
 
     /**
@@ -115,11 +101,50 @@ class OA_Dal_ApplicationVariables
      */
     function delete($name)
     {
+        $aVars = &OA_Dal_ApplicationVariables::_getAll();
+
         $doAppVar = OA_Dal::factoryDO('application_variable');
         $doAppVar->name = $name;
         $result = $doAppVar->delete();
 
-        return (bool)$result;
+        if (!$result) {
+            return false;
+        }
+
+        unset($aVars[$name]);
+        return true;
+    }
+
+    /**
+     * Reload variables from the database
+     *
+     */
+    function cleanCache()
+    {
+        OA_Dal_ApplicationVariables::_getAll(false);
+    }
+
+    /**
+     * Private method to get a reference to a cache of all the application variables
+     *
+     * @param bool $fromCache Set to false to re-load variables from the db
+     * @return array An array containing all the application variables
+     */
+    function &_getAll($fromCache = true)
+    {
+        static $aVars;
+
+        if (!isset($aVars) || !$fromCache) {
+            $doAppVar = OA_Dal::factoryDO('application_variable');
+            $doAppVar->orderBy('name');
+
+            $aVars = array();
+            foreach ($doAppVar->getAll(array(), true, false) as $key => $value) {
+                $aVars[$key] = $value['value'];
+            }
+        }
+
+        return $aVars;
     }
 }
 

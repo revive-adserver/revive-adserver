@@ -43,11 +43,11 @@ class DataObjects_Channel extends DB_DataObjectCommon
     var $channelid;                       // int(9)  not_null primary_key auto_increment
     var $agencyid;                        // int(9)  not_null
     var $affiliateid;                     // int(9)  not_null
-    var $name;                            // string(255)  
-    var $description;                     // string(255)  
+    var $name;                            // string(255)
+    var $description;                     // string(255)
     var $compiledlimitation;              // blob(65535)  not_null blob
     var $acl_plugins;                     // blob(65535)  blob
-    var $active;                          // int(1)  
+    var $active;                          // int(1)
     var $comments;                        // blob(65535)  blob
     var $updated;                         // datetime(19)  not_null binary
     var $acls_updated;                    // datetime(19)  not_null binary
@@ -61,7 +61,7 @@ class DataObjects_Channel extends DB_DataObjectCommon
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
-    function delete($useWhere = false, $cascade = true)
+    function delete($useWhere = false, $cascade = true, $parentid = null)
     {
     	// Find acls which use this channels
     	$dalAcls = OA_Dal::factoryDAL('acls');
@@ -108,13 +108,15 @@ class DataObjects_Channel extends DB_DataObjectCommon
             $sLimitation = (!get_magic_quotes_runtime()) ? stripslashes($sLimitation) : $sLimitation;
             $doBanners = OA_Dal::factoryDO('banners');
             $doBanners->bannerid = $bannerId;
+            $doBanners->find();
+            $doBanners->fetch();
             $doBanners->acl_plugins = MAX_AclGetPlugins($aAcls);
             $doBanners->acls_updated = OA::getNow();
             $doBanners->compiledlimitation = $sLimitation;
             $doBanners->update();
     	}
 
-    	return parent::delete($useWhere, $cascade);
+    	return parent::delete($useWhere, $cascade, $parentid);
     }
 
     function duplicate($channelId)
@@ -133,6 +135,74 @@ class DataObjects_Channel extends DB_DataObjectCommon
         $result = OA_Dal::staticDuplicate('acls_channel', $channelId, $newChannelId);
 
         return $newChannelId;
+    }
+
+
+    function _auditEnabled()
+    {
+        return true;
+    }
+
+     function _getContextId()
+    {
+        return $this->channelid;
+    }
+
+    function _getContext()
+    {
+        return 'Channel';
+    }
+
+    /**
+     * A private method to return the account ID of the
+     * account that should "own" audit trail entries for
+     * this entity type; NOT related to the account ID
+     * of the currently active account performing an
+     * action.
+     *
+     * @return integer The account ID to insert into the
+     *                 "account_id" column of the audit trail
+     *                 database table.
+     */
+    function getOwningAccountId()
+    {
+        if (!empty($this->affiliateid)) {
+            return $this->_getOwningAccountIdFromParent('affiliates', 'affiliateid');
+        }
+
+        return $this->_getOwningAccountIdFromParent('agency', 'agencyid');
+    }
+
+    /**
+     * build a client specific audit array
+     *
+     * @param integer $actionid
+     * @param array $aAuditFields
+     */
+    function _buildAuditArray($actionid, &$aAuditFields)
+    {
+        $aAuditFields['key_desc']   = $this->name;
+        switch ($actionid)
+        {
+            case OA_AUDIT_ACTION_INSERT:
+            case OA_AUDIT_ACTION_DELETE:
+                        $aAuditFields['active'] = $this->_formatValue('active');
+                        break;
+            case OA_AUDIT_ACTION_UPDATE:
+                        $aAuditFields['affiliateid'] = $this->affiliateid;
+                        break;
+        }
+    }
+
+    function _formatValue($field)
+    {
+        switch ($field)
+        {
+            case 'active':
+                return $this->_boolToStr($this->$field);
+            default:
+                return $this->$field;
+        }
     }
 }
 

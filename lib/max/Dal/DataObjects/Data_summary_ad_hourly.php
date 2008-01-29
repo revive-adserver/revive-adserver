@@ -37,8 +37,7 @@ class DataObjects_Data_summary_ad_hourly extends DB_DataObjectCommon
 
     var $__table = 'data_summary_ad_hourly';          // table name
     var $data_summary_ad_hourly_id;       // int(20)  not_null primary_key auto_increment
-    var $day;                             // date(10)  not_null multiple_key binary
-    var $hour;                            // int(10)  not_null multiple_key unsigned
+    var $date_time;                       // datetime(19)  not_null multiple_key binary
     var $ad_id;                           // int(10)  not_null multiple_key unsigned
     var $creative_id;                     // int(10)  not_null unsigned
     var $zone_id;                         // int(10)  not_null multiple_key unsigned

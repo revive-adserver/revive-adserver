@@ -123,6 +123,14 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
     }
 
     /**
+     * return a MAX_Entity_Ad object
+     */
+    function _getMaxEntityAdObject($id)
+    {
+        return new OA_Maintenance_Priority_Ad(array('ad_id' => $id));
+    }
+
+    /**
      * A private method to construct the classes used in performing
      * priority compensation.
      *
@@ -150,13 +158,16 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
         // Obtain the ad/zone combinations where advertisements have had
         // impressions allocated to zones
         $aZoneImpAllocs =& $this->oDal->getAllZonesWithAllocInv();
-        // Get a list of all ads where the delivery limitations have changed
+        // Get a list of all active, high-priority ads where the delivery limitations have changed
         $aDeliveryLimitationChangedAds =& $this->oDal->getAllDeliveryLimitationChangedAds($this->aLastRun);
         // Add Advert objects to the zones
-        if (is_array($aZoneImpAllocs) && !empty($aZoneImpAllocs)) {
-            foreach ($aZoneImpAllocs as $aZoneImpAlloc) {
+        if (is_array($aZoneImpAllocs) && !empty($aZoneImpAllocs))
+        {
+            foreach ($aZoneImpAllocs as $aZoneImpAlloc)
+            {
                 // Create a OA_Maintenance_Priority_Ad object
-                $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => $aZoneImpAlloc['ad_id']));
+                $oAd = $this->_getMaxEntityAdObject($aZoneImpAlloc['ad_id']);
+
                 // Assign the required impressions for this ad/zone
                 $oAd->requiredImpressions = $aZoneImpAlloc['required_impressions'];
                 // Assign the requested impressions for this ad/zone

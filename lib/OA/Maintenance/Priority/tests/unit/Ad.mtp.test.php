@@ -92,7 +92,7 @@ class Test_OA_Maintenance_Priority_Ad extends UnitTestCase
         $oMaxEntityAd->tally();
 
         $aParams = array(
-            'active' => 't'
+            'status' => OA_ENTITY_STATUS_RUNNING
         );
         $oMaxEntityAd = new MockPartialOA_Maintenance_Priority_Ad($this);
         $oMaxEntityAd->expectCallCount('_abort', 1);
@@ -100,7 +100,7 @@ class Test_OA_Maintenance_Priority_Ad extends UnitTestCase
         $oMaxEntityAd->tally();
 
         $aParams = array(
-            'active' => 't',
+            'status' => OA_ENTITY_STATUS_RUNNING,
             'type'   => 'sql',
             'weight' => 1
         );
@@ -111,7 +111,7 @@ class Test_OA_Maintenance_Priority_Ad extends UnitTestCase
 
         $aParams = array(
             'ad_id'  => 'foo',
-            'active' => 't',
+            'status' => OA_ENTITY_STATUS_RUNNING,
             'type'   => 'sql',
             'weight' => 1
         );
@@ -132,7 +132,7 @@ class Test_OA_Maintenance_Priority_Ad extends UnitTestCase
 
         $aParams = array(
             'ad_id'  => 1,
-            'active' => 't',
+            'status' => OA_ENTITY_STATUS_RUNNING,
             'weight' => 1
         );
         $oMaxEntityAd = new MockPartialOA_Maintenance_Priority_Ad($this);
@@ -142,7 +142,7 @@ class Test_OA_Maintenance_Priority_Ad extends UnitTestCase
 
         $aParams = array(
             'ad_id'  => 1,
-            'active' => 'bar',
+            'status' => OA_ENTITY_STATUS_AWAITING,
             'type'   => 'sql'
         );
         $oMaxEntityAd = new MockPartialOA_Maintenance_Priority_Ad($this);
@@ -152,7 +152,7 @@ class Test_OA_Maintenance_Priority_Ad extends UnitTestCase
 
         $aParams = array(
             'ad_id'  => 1,
-            'active' => 'f',
+            'status' => OA_ENTITY_STATUS_AWAITING,
             'type'   => 'sql',
             'weight' => 'foo'
         );
@@ -173,7 +173,7 @@ class Test_OA_Maintenance_Priority_Ad extends UnitTestCase
 
         $aParams = array(
             'ad_id'  => 1,
-            'active' => 't',
+            'status' => OA_ENTITY_STATUS_RUNNING,
             'type'   => 'sql',
             'weight' => 2
         );

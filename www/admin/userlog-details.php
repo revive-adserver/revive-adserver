@@ -37,14 +37,14 @@ require_once MAX_PATH . '/lib/max/language/Userlog.php';
 require_once MAX_PATH . '/www/admin/config.php';
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-phpAds_PageHeader("5.2.1");
-phpAds_ShowSections(array("5.2.1"));
+phpAds_PageHeader("5.3.1");
+phpAds_ShowSections(array("5.3.1"));
 
 // Load the required language files
 Language_Userlog::load();

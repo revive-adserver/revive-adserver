@@ -1060,7 +1060,7 @@ class Smarty
         } else {
             // var non-existant, return valid reference
             $_tmp = null;
-            return $_tmp;   
+            return $_tmp;
         }
     }
 
@@ -1119,7 +1119,7 @@ class Smarty
     function fetch($resource_name, $cache_id = null, $compile_id = null, $display = false)
     {
         static $_cache_info = array();
-        
+
         $_smarty_old_error_level = $this->debugging ? error_reporting() : error_reporting(isset($this->error_reporting)
                ? $this->error_reporting : error_reporting() & ~E_NOTICE);
 
@@ -1251,18 +1251,32 @@ class Smarty
         // buffering - for speed
         $_cache_including = $this->_cache_including;
         $this->_cache_including = false;
+
+        // Openads - hack to allow on-the fly compilation
+        $oa_content = null;
+
         if ($display && !$this->caching && count($this->_plugins['outputfilter']) == 0) {
             if ($this->_is_compiled($resource_name, $_smarty_compile_path)
-                    || $this->_compile_resource($resource_name, $_smarty_compile_path))
+                    || $this->_compile_resource($resource_name, $_smarty_compile_path, $oa_content))
             {
-                include($_smarty_compile_path);
+                if (!include($_smarty_compile_path)) {
+                    // Openads - hack to execute the compiled template
+                    eval('?'.'>'.$oa_content.'<'.'?php 0;');
+                }
+                // Openads - try to explicity free memory
+                unset($oa_content);
             }
         } else {
             ob_start();
             if ($this->_is_compiled($resource_name, $_smarty_compile_path)
-                    || $this->_compile_resource($resource_name, $_smarty_compile_path))
+                    || $this->_compile_resource($resource_name, $_smarty_compile_path, $oa_content))
             {
-                include($_smarty_compile_path);
+                if (!include($_smarty_compile_path)) {
+                    // Openads - hack to execute the compiled template
+                    eval('?'.'>'.$oa_content.'<'.'?php 0;');
+                }
+                // Openads - try to explicity free memory
+                unset($oa_content);
             }
             $_smarty_results = ob_get_contents();
             ob_end_clean();
@@ -1410,7 +1424,7 @@ class Smarty
      * @param string $compile_path
      * @return boolean
      */
-    function _compile_resource($resource_name, $compile_path)
+    function _compile_resource($resource_name, $compile_path, &$oa_content)
     {
 
         $_params = array('resource_name' => $resource_name);
@@ -1431,6 +1445,8 @@ class Smarty
             $_params = array('compile_path'=>$compile_path, 'compiled_content' => $_compiled_content);
             require_once(SMARTY_CORE_DIR . 'core.write_compiled_resource.php');
             smarty_core_write_compiled_resource($_params, $this);
+
+            $oa_content = $_compiled_content;
 
             return true;
         } else {
@@ -1864,11 +1880,18 @@ class Smarty
 
         $_smarty_compile_path = $this->_get_compile_path($params['smarty_include_tpl_file']);
 
+        // Openads - hack to allow on-the fly compilation
+        $oa_content = null;
 
         if ($this->_is_compiled($params['smarty_include_tpl_file'], $_smarty_compile_path)
-            || $this->_compile_resource($params['smarty_include_tpl_file'], $_smarty_compile_path))
+            || $this->_compile_resource($params['smarty_include_tpl_file'], $_smarty_compile_path, $oa_content))
         {
-            include($_smarty_compile_path);
+            if (!include($_smarty_compile_path)) {
+                // Openads - hack to execute the compiled template
+                eval('?'.'>'.$oa_content.'<'.'?php 0;');
+            }
+            // Openads - try to explicity free memory
+            unset($oa_content);
         }
 
         // pop the local vars off the front of the stack

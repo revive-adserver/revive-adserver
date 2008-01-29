@@ -65,13 +65,13 @@ class SqlBuilder
         switch ($entity) {
 
         case 'ad' :
-            $aColumns += array('d.bannerid' => 'ad_id', 'd.campaignid' => 'placement_id', 'd.active' => 'active', 'd.description' => 'name', 'd.storagetype' => 'type');
-            if ($allFields) $aColumns += array('d.contenttype' => 'contenttype', 'd.pluginversion' => 'pluginversion', 'd.filename' => 'filename', 'd.imageurl' => 'imageurl', 'd.htmltemplate' => 'htmltemplate', 'd.htmlcache' => 'htmlcache', 'd.width' => 'width', 'd.height' => 'height', 'd.weight' => 'weight', 'd.seq' => 'seq', 'd.target' => 'target', 'd.url' => 'url', 'd.alt' => 'alt', 'd.status' => 'status', 'd.bannertext' => 'bannertext', 'd.autohtml' => 'autohtml', 'd.adserver' => 'adserver', 'd.block' => 'block', 'd.capping' => 'capping', 'd.session_capping' => 'session_capping', 'd.compiledlimitation' => 'compiledlimitation', 'd.append' => 'append', 'd.appendtype' => 'appendtype', 'd.bannertype' => 'bannertype', 'd.alt_filename' => 'alt_filename', 'd.alt_imageurl' => 'alt_imageurl', 'd.alt_contenttype' => 'alt_contenttype', 'd.comments' => 'comments', 'd.parameters' => 'parameters', 'd.transparent' => 'transparent');
+            $aColumns += array('d.bannerid' => 'ad_id', 'd.campaignid' => 'placement_id', 'd.status' => 'status', 'd.description' => 'name', 'd.storagetype' => 'type');
+            if ($allFields) $aColumns += array('d.contenttype' => 'contenttype', 'd.pluginversion' => 'pluginversion', 'd.filename' => 'filename', 'd.imageurl' => 'imageurl', 'd.htmltemplate' => 'htmltemplate', 'd.htmlcache' => 'htmlcache', 'd.width' => 'width', 'd.height' => 'height', 'd.weight' => 'weight', 'd.seq' => 'seq', 'd.target' => 'target', 'd.url' => 'url', 'd.alt' => 'alt', 'd.statustext' => 'status', 'd.bannertext' => 'bannertext', 'd.autohtml' => 'autohtml', 'd.adserver' => 'adserver', 'd.block' => 'block', 'd.capping' => 'capping', 'd.session_capping' => 'session_capping', 'd.compiledlimitation' => 'compiledlimitation', 'd.append' => 'append', 'd.appendtype' => 'appendtype', 'd.bannertype' => 'bannertype', 'd.alt_filename' => 'alt_filename', 'd.alt_imageurl' => 'alt_imageurl', 'd.alt_contenttype' => 'alt_contenttype', 'd.comments' => 'comments', 'd.parameters' => 'parameters', 'd.transparent' => 'transparent');
             break;
 
         case 'advertiser' :
             $aColumns += array('a.clientid' => 'advertiser_id', 'a.agencyid' => 'agency_id', 'a.clientname' => 'name');
-            if ($allFields) $aColumns += array('a.contact' => 'contact', 'a.email' => 'email', 'a.clientusername' => 'username', 'a.clientpassword' => 'password', 'a.permissions' => 'permissions', 'a.language' => 'language', 'a.report' => 'report', 'a.reportinterval' => 'report_interval', 'a.reportlastdate' => 'report_last_date', 'a.reportdeactivate' => 'report_deactivate');
+            if ($allFields) $aColumns += array('a.contact' => 'contact', 'a.email' => 'email', 'a.report' => 'report', 'a.reportinterval' => 'report_interval', 'a.reportlastdate' => 'report_last_date', 'a.reportdeactivate' => 'report_deactivate');
             break;
 
         case 'ad_category_assoc' :
@@ -87,14 +87,14 @@ class SqlBuilder
             if ($allFields) $aColumns += array(
                 'g.contact' => 'contact',
                 'g.email' => 'email',
-                'g.username' => 'username',
-                'g.password' => 'password',
-                'g.permissions' => 'permissions',
-                'g.language' => 'language',
                 'g.logout_url' => 'logout_url'
                 );
             break;
 
+        case 'campaign' :
+            $aColumns += array('cam.campaignid' => 'campaign_id', 'cam.campaignname' => 'campaignname', 'cam.clientid' => 'client_id', 'cam.anonymous' => 'anonymous');
+            if ($allFields) $aColumns += array('cam.campaignid' => 'campaign_id', 'cam.campaignname' => 'campaignname', 'cam.clientid' => 'client_id', 'cam.views' => 'views', 'cam.clicks' => 'clicks', 'cam.conversions' => 'conversions', 'cam.expire' => 'expire', 'cam.activate' => 'activate', 'cam.priority' => 'priority', 'cam.weight' => 'weight', 'cam.target_impression' => 'target_impression', 'cam.target_click' => 'target_click', 'cam.target_conversion' => 'target_conversion', 'cam.anonymous' => 'anonymous', 'cam.companion' => 'companion', 'cam.comments' => 'comments', 'cam.revenue' => 'revenue', 'cam.revenue_type' => 'revenue_type', 'cam.updated' => 'updated', 'cam.block' => 'block', 'cam.capping' => 'capping', 'cam.session_capping' => 'session_capping', 'cam.an_campaign_id' => 'an_campaign_id', 'cam.as_campaign_id' => 'as_campaign_id', 'cam.an_status' => 'an_status');
+            break;
         case 'category' :
             $aColumns += array('cat.category_id' => 'category_id', 'cat.name' => 'name');
             break;
@@ -117,7 +117,7 @@ class SqlBuilder
             break;
 
         case 'placement' :
-            $aColumns += array('m.clientid' => 'advertiser_id', 'm.campaignid' => 'placement_id', 'm.campaignname' => 'name', 'm.active' => 'active', 'm.anonymous' => 'anonymous');
+            $aColumns += array('m.clientid' => 'advertiser_id', 'm.campaignid' => 'placement_id', 'm.campaignname' => 'name', 'm.status' => 'status', 'm.anonymous' => 'anonymous');
             if ($allFields) $aColumns += array('m.views' => 'views', 'm.clicks' => 'clicks', 'm.conversions' => 'conversions', 'm.expire' => 'expire', 'm.activate' => 'activate', 'm.priority' => 'priority', 'm.weight' => 'weight', 'm.target_impression' => 'target_impression', 'm.target_click' => 'target_click', 'm.target_conversion' => 'target_conversion', 'm.anonymous' => 'anonymous');
             break;
 
@@ -128,11 +128,11 @@ class SqlBuilder
 
         case 'publisher' :
             $aColumns += array('p.affiliateid' => 'publisher_id', 'p.agencyid' => 'agency_id', 'p.name' => 'name');
-            if ($allFields) $aColumns += array('p.mnemonic' => 'mnemonic', 'p.contact' => 'contact', 'p.email' => 'email', 'p.website' => 'website', 'p.username' => 'username', 'p.password' => 'password', 'p.permissions' => 'permissions', 'p.language' => 'language', 'p.publiczones' => 'publiczones');
+            if ($allFields) $aColumns += array('p.mnemonic' => 'mnemonic', 'p.contact' => 'contact', 'p.email' => 'email', 'p.website' => 'website');
             break;
 
         case 'stats' :
-            $aColumns += array('s.day' => 'day', 's.hour' => 'hour', 'SUM(s.requests)' => 'sum_requests', 'SUM(s.impressions)' => 'sum_views', 'SUM(s.clicks)' => 'sum_clicks', 'SUM(s.conversions)' => 'sum_conversions');
+            $aColumns += array("DATE_FORMAT(date_time, '%Y-%m-%d')" => 'day', 'HOUR(date_time)' => 'hour', 'SUM(s.requests)' => 'sum_requests', 'SUM(s.impressions)' => 'sum_views', 'SUM(s.clicks)' => 'sum_clicks', 'SUM(s.conversions)' => 'sum_conversions');
             break;
 
         case 'stats_by_entity' :
@@ -179,7 +179,7 @@ class SqlBuilder
             if (isset($aParams['custom_columns']) && is_array($aParams['custom_columns'])) {
                 $aColumns += $aParams['custom_columns'];
             } else {
-                $aColumns += array('MIN(s.day)' => 'start_date');
+                $aColumns += array('MIN(s.date_time)' => 'start_date');
             }
             break;
 
@@ -191,20 +191,24 @@ class SqlBuilder
             }
             break;
 
+        case 'history_day_hour' :
+            $aColumns += array('s.date_time' => 'date_time') + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
+            break;
+
         case 'history_day' :
-            $aColumns += array('s.day' => 'day', "DATE_FORMAT(s.day, '{$GLOBALS['date_format']}')" => 'date_f') + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
+            $aColumns += array("DATE_FORMAT(s.date_time, , '%Y-%m-%d')" => 'day', "DATE_FORMAT(s.date_time, '{$GLOBALS['date_format']}')" => 'date_f') + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
             break;
 
         case 'history_month' :
-            $aColumns += array("DATE_FORMAT(s.day, '%Y-%m')" => 'month', "DATE_FORMAT(s.day, '{$GLOBALS['month_format']}')" => 'date_f') + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
+            $aColumns += array("DATE_FORMAT(s.date_time, '%Y-%m')" => 'month', "DATE_FORMAT(s.date_time, '{$GLOBALS['month_format']}')" => 'date_f') + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
             break;
 
         case 'history_dow' :
-            $aColumns += array("(DAYOFWEEK(s.day) - 1)" => 'dow') + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
+            $aColumns += array("(DAYOFWEEK(s.date_time) - 1)" => 'dow') + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
             break;
 
         case 'history_hour' :
-            $aColumns += array("s.hour" => 'hour') + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
+            $aColumns += array("HOUR(s.date_time)" => 'hour') + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
             break;
 
         case 'stats_common' :
@@ -349,6 +353,9 @@ class SqlBuilder
             if ($includeStats) $aTables += array($conf['table']['prefix'].$conf['table']['data_summary_ad_hourly'] => 's', $conf['table']['prefix'].$conf['table']['banners'] => 'd', $conf['table']['prefix'].$conf['table']['campaigns'] => 'm', $conf['table']['prefix'].$conf['table']['clients'] => 'a', $conf['table']['prefix'].$conf['table']['affiliates'] => 'p', $conf['table']['prefix'].$conf['table']['zones'] => 'z');
             break;
 
+        case 'campaign' :
+            $aTables += array($conf['table']['prefix'].$conf['table']['campaigns'] => 'cam');
+
         case 'category' :
             $aTables += array($conf['table']['prefix'].$conf['table']['category'] => 'cat');
             break;
@@ -414,6 +421,7 @@ class SqlBuilder
             break;
 
         case 'history_span' :
+        case 'history_day_hour' :
         case 'history_day' :
         case 'history_month' :
         case 'history_dow' :
@@ -517,6 +525,7 @@ class SqlBuilder
         case 'placement_zone_assoc' :   $aTable = array($conf['table']['placement_zone_assoc'] => 'pz'); break;
         case 'publisher' :              $aTable = array($conf['table']['affiliates'] => 'p'); break;
         case 'history_span' :
+        case 'history_day_hour' :
         case 'history_day' :
         case 'history_month' :
         case 'history_dow' :
@@ -550,8 +559,14 @@ class SqlBuilder
         if (isset($aParams['ad_width'])) SqlBuilder::_addLimitation($aLimitations, 'ad_width', 'd.width', $aParams['ad_width']);
         if (isset($aParams['ad_height'])) SqlBuilder::_addLimitation($aLimitations, 'ad_height', 'd.height', $aParams['ad_height']);
         if (!empty($aParams['ad_type'])) SqlBuilder::_addLimitation($aLimitations, 'ad_type', 'd.storagetype', $aParams['ad_type']);
-        if (!empty($aParams['ad_active'])) SqlBuilder::_addLimitation($aLimitations, 'ad_active', 'd.active', $aParams['ad_active']);
-        if (!empty($aParams['placement_active'])) SqlBuilder::_addLimitation($aLimitations, 'placement_active', 'm.active', $aParams['placement_active']);
+        if (!empty($aParams['ad_active'])) {
+            SqlBuilder::_addLimitation($aLimitations, 'ad_active', 'd.status', OA_ENTITY_STATUS_RUNNING,
+                $aParams['ad_active'] == 't' ? MAX_LIMITATION_EQUAL : MAX_LIMITATION_NOT_EQUAL);
+        }
+        if (!empty($aParams['placement_active'])) {
+            SqlBuilder::_addLimitation($aLimitations, 'placement_active', 'm.status', OA_ENTITY_STATUS_RUNNING,
+                $aParams['placement_active'] == 't' ? MAX_LIMITATION_EQUAL : MAX_LIMITATION_NOT_EQUAL);
+        }
         if (!empty($aParams['placement_anonymous'])) SqlBuilder::_addLimitation($aLimitations, 'placement_anonymous', 'm.anonymous', $aParams['placement_anonymous']);
         if (!empty($aParams['zone_inventory_forecast_type'])) SqlBuilder::_addLimitation($aLimitations, 'zone_inventory_forecast_type', 'z.inventory_forecast_type', $aParams['zone_inventory_forecast_type'], MAX_LIMITATION_BITWISE);
 
@@ -601,6 +616,10 @@ class SqlBuilder
             if (!empty($aParams['zone_id'])) SqlBuilder::_addLimitation($aLimitations, 'zone_id', 'z.zoneid', $aParams['zone_id']);
             break;
 
+        case 'campaign' :
+            if (!empty($aParams['client_id'])) SqlBuilder::_addLimitation($aLimitations, 'client_id', 'cam.clientid', $aParams['client_id']);
+            break;
+
         case 'category' :
             if (!empty($aParams['name'])) SqlBuilder::_addLimitation($aLimitations, 'name', 'cat.name', $aParams['name']);
             break;
@@ -608,11 +627,14 @@ class SqlBuilder
         case 'channel' :
             if (isset($aParams['publisher_id'])) {
                 SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 'ch.affiliateid', $aParams['publisher_id']);
-            } else if (isset($aParams['channel_type']) && $aParams['channel_type'] == 'publisher') {
+            } elseif (isset($aParams['channel_type']) && $aParams['channel_type'] == 'publisher') {
                 SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 'ch.affiliateid', 0, MAX_LIMITATION_NOT_EQUAL);
             }
             if (!empty($aParams['channel_id'])) SqlBuilder::_addLimitation($aLimitations, 'channel_id', 'ch.channelid', $aParams['channel_id']);
-            if (isset($aParams['agency_id'])) SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'agencyid', $aParams['agency_id']);
+            if (isset($aParams['agency_id'])) {
+                SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'agencyid', $aParams['agency_id']);
+                SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 'ch.affiliateid', 0);
+            }
             break;
 
         case 'channel_limitation' :
@@ -667,6 +689,7 @@ class SqlBuilder
             break;
 
         case 'history_span' :
+        case 'history_day_hour' :
         case 'history_day' :
         case 'history_month' :
         case 'history_dow' :
@@ -690,12 +713,12 @@ class SqlBuilder
             if (!empty($aParams['placement_id'])) SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'd.campaignid', $aParams['placement_id']);
             if (!empty($aParams['ad_id'])) SqlBuilder::_addLimitation($aLimitations, 'ad_id', 's.ad_id', $aParams['ad_id']);
             if (!empty($aParams['custom_table']) && $aParams['custom_table'] == 'data_intermediate_ad_connection') {
-                if (!empty($aParams['day_begin'])) $aLimitations[]="s.tracker_date_time>='{$aParams['day_begin']} 00:00:00'";
-                if (!empty($aParams['day_end'])) $aLimitations[]="s.tracker_date_time<='{$aParams['day_end']} 23:59:59'";
+                $dateTimeCol = "s.tracker_date_time";
             } else {
-                if (!empty($aParams['day_begin'])) $aLimitations[]="s.day>='{$aParams['day_begin']}'";
-                if (!empty($aParams['day_end'])) $aLimitations[]="s.day<='{$aParams['day_end']}'";
+                $dateTimeCol = "s.date_time";
             }
+            if (!empty($aParams['day_begin'])) $aLimitations[]="{$dateTimeCol}>='".SqlBuilder::_dayToDateTime($aParams['day_begin'], true)."'";
+            if (!empty($aParams['day_end'])) $aLimitations[]="{$dateTimeCol}<='".SqlBuilder::_dayToDateTime($aParams['day_end'], false)."'";
             break;
 
         case 'stats_by_entity' :
@@ -728,6 +751,19 @@ class SqlBuilder
             break;
         }
         return $aLimitations;
+    }
+
+    function _dayToDateTime($day, $begin = true)
+    {
+        $oDate = new Date($day);
+        if (!$begin) {
+            $oDate->setHour(23);
+            $oDate->setMinute(59);
+            $oDate->setSecond(59);
+        }
+        $oDate->toUTC();
+
+        return $oDate->format('%Y-%m-%d %H:%M:%S');
     }
 
     /**
@@ -802,8 +838,8 @@ class SqlBuilder
         if (!empty($aParams['zone_id'])) SqlBuilder::_addLimitation($aLimitations, 'zone_id', 's.zone_id', $aParams['zone_id']);
         if (!empty($aParams['placement_id'])) SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'd.campaignid', $aParams['placement_id']);
         if (!empty($aParams['ad_id'])) SqlBuilder::_addLimitation($aLimitations, 'ad_id', 's.ad_id', $aParams['ad_id']);
-        if (!empty($aParams['day_begin'])) $aLimitations[]="s.day>='{$aParams['day_begin']}'";
-        if (!empty($aParams['day_end'])) $aLimitations[]="s.day<='{$aParams['day_end']}'";
+        if (!empty($aParams['day_begin'])) $aLimitations[]="s.date_time>='{$aParams['day_begin']}'";
+        if (!empty($aParams['day_end'])) $aLimitations[]="s.date_time<='{$aParams['day_end']}'";
 
         return $aLimitations;
     }
@@ -873,10 +909,11 @@ class SqlBuilder
         $aGroupColumns = array();
         switch ($entity) {
 
-        case 'history_day' :   $aGroupColumns[] = 'day'; break;
-        case 'history_month' : $aGroupColumns[] = 'month'; break;
-        case 'history_dow' :   $aGroupColumns[] = 'dow'; break;
-        case 'history_hour' :  $aGroupColumns[] = 'hour'; break;
+        case 'history_day_hour' : $aGroupColumns[] = 'date_time'; break;
+        case 'history_day' :      $aGroupColumns[] = 'day'; break;
+        case 'history_month' :    $aGroupColumns[] = 'month'; break;
+        case 'history_dow' :      $aGroupColumns[] = 'dow'; break;
+        case 'history_hour' :     $aGroupColumns[] = 'hour'; break;
 
         case 'stats_by_entity' :
             $aGroupColumns = array('ad_id', 'zone_id');
@@ -921,6 +958,7 @@ class SqlBuilder
             }
             break;
         case 'history_span' :
+        case 'history_day_hour' :
         case 'history_day' :
         case 'history_month' :
         case 'history_dow' :
@@ -970,6 +1008,7 @@ class SqlBuilder
      * @return mixed Either an integer, representing the number of rows affected by
      *               the delete, or a PEAR::Error.
      */
+/* REDUNDANT
     function _delete($aTables, $aLimitations, $aOtherTables = null)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
@@ -1053,6 +1092,19 @@ class SqlBuilder
         } else {
             return PEAR::raiseError('Invalid WHERE clause');
         }
+    }
+*/
+    function _doDelete($table, $aParams)
+    {
+        $do = OA_Dal::factoryDO($table);
+        if ($do === false) {
+            return false;
+        }
+        $success = $do->setFrom($aParams);
+        if (!$success === true) {
+            return false;
+        }
+        return $do->delete();
     }
 
 
@@ -1219,6 +1271,8 @@ class SqlBuilder
         {
             return false;
         }
+
+
         foreach ($aResult AS $k => $dataEntity)
         {
             $aDataEntities[$dataEntity[$primaryKey]] = $dataEntity;
@@ -1235,6 +1289,7 @@ class SqlBuilder
      * @param array $aLimitations
      * @return integer  The number of rows affected by the update
      */
+/* REDUNDANT
     function _update($aTable, $aVariables, $aLimitations)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
@@ -1265,6 +1320,6 @@ class SqlBuilder
         $queryValid = true;
 
         return $oDbh->exec($query);
-    }
+    }*/
 }
 ?>

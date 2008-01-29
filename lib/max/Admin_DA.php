@@ -245,7 +245,7 @@ class Admin_DA
 
         case 'placement' : $aLeftJoinedTables[$conf['table']['prefix'].$conf['table']['banners']] = 'd';
             $aGroupBy = $aColumns;
-            $aGroupBy['m.active'] = 'm.active'; // Hack to allow this to work with Postgres
+            $aGroupBy['m.status'] = 'm.status'; // Hack to allow this to work with Postgres
             $aColumns['COUNT(d.bannerid)'] = 'num_children';
             break;
 
@@ -271,12 +271,13 @@ class Admin_DA
      * @param array $aVariables
      * @return integer  The number of rows affected by the update
      */
+/* REDUNDANT
     function _updateEntity($entity, $id, $aVariables)
     {
         $aParams = array("{$entity}_id" => $id);
         return Admin_DA::_updateEntities($entity, $aParams, $aVariables);
     }
-
+*/
 
     /**
      * Modifies multiple entities.
@@ -285,6 +286,7 @@ class Admin_DA
      * @param array $aParams
      * @param array $aVariables
      */
+/* REDUNDANT
     function _updateEntities($entity, $aParams, $aVariables)
     {
         Admin_DA::_updateEntityTimestamp($entity, $aVariables);
@@ -292,7 +294,7 @@ class Admin_DA
         $aLimitations = SqlBuilder::_getLimitations($entity, $aParams);
         SqlBuilder::_update($aTable, $aVariables, $aLimitations);
     }
-
+*/
 
     function _getPrimaryTablePrefixed($entity)
     {
@@ -314,12 +316,13 @@ class Admin_DA
      * @param integer $id
      * @return integer  The number of rows affected by the update
      */
+/*  REDUNDANT
     function _deleteEntity($entity, $id)
     {
         $aParams = array("{$entity}_id" => $id);
         return Admin_DA::_deleteEntities($entity, $aParams);
     }
-
+*/
     //  MAX_removeEntities
     /**
      * Remove a list of entities from the system.
@@ -328,6 +331,7 @@ class Admin_DA
      * @param array $aParams
      * @return integer  The number of rows affected by the update
      */
+/* REDUNDANT
     function _deleteEntities($entity, $aParams)
     {
         $aTable = Admin_DA::_getPrimaryTablePrefixed($entity);
@@ -336,7 +340,7 @@ class Admin_DA
             SqlBuilder::_getTableLimitations($aOtherTables));
         return SqlBuilder::_delete($aTable, $aLimitations, $aOtherTables);
     }
-
+*/
     /**
      * Get stats by entity.
      *
@@ -581,23 +585,52 @@ class Admin_DA
         $oDbh = &OA_DB::singleton();
 
         $where = '';
-        if (!empty($aParams['agency_id'])) {
-            $where .= ' AND c.agencyid='. $oDbh->quote($aParams['agency_id'], 'integer');
+        if (!empty($aParams['day'])) {
+            $aParams['day_begin'] = $aParams['day_end'] = $aParams['day'];
         }
         if (!empty($aParams['day_begin'])) {
-            $where .= ' AND DATE_FORMAT(ac.tracker_date_time,"%Y-%m-%d")>='. $oDbh->quote($aParams['day_begin'], 'date');
+            $oStart = new Date($aParams['day_begin']);
+            $oStart->setHour(0);
+            $oStart->setMinute(0);
+            $oStart->setSecond(0);
+            $oStart->toUTC();
+            $where .= ' AND ac.tracker_date_time >= '. $oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
         }
         if (!empty($aParams['day_end'])) {
-            $where .= ' AND DATE_FORMAT(ac.tracker_date_time,"%Y-%m-%d")<='. $oDbh->quote($aParams['day_end'], 'date');
-        }
-        if (!empty($aParams['day'])) {
-            $where .= ' AND DATE_FORMAT(ac.tracker_date_time,"%Y-%m-%d")='. $oDbh->quote($aParams['day'], 'date');
+            $oEnd = new Date($aParams['day_end']);
+            $oEnd->setHour(23);
+            $oEnd->setMinute(59);
+            $oEnd->setSecond(59);
+            $oEnd->toUTC();
+            $where .= ' AND ac.tracker_date_time <= '. $oDbh->quote($oEnd->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
         }
         if (!empty($aParams['month'])) {
-            $where .= ' AND DATE_FORMAT(ac.tracker_date_time,"%Y-%m")='. $oDbh->quote($aParams['month'], 'text');
+            $oStart = new Date("{$aParams['month']}-01");
+            $oStart->setHour(0);
+            $oStart->setMinute(0);
+            $oStart->setSecond(0);
+            $oEnd = new Date(Date_Calc::beginOfNextMonth($oStart->getDay(), $oStart->getMonth, $oStart->getYear(), '%Y-%m-%d'));
+            $oEnd->setHour(0);
+            $oEnd->setMinute(0);
+            $oEnd->setSecond(0);
+            $oEnd->subtractSeconds(1);
+            $oStart->toUTC();
+            $oEnd->toUTC();
+            $where .= ' AND ac.tracker_date_time >= '. $oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
+            $where .= ' AND ac.tracker_date_time <= '. $oDbh->quote($oEnd->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
         }
         if (!empty($aParams['day_hour'])) {
-            $where .= ' AND DATE_FORMAT(ac.tracker_date_time,"%Y-%m-%d %H")='. $oDbh->quote($aParams['day_hour'], 'text');
+            $oStart = new Date("{$aParams['day_hour']}:00:00");
+            $oStart->setMinute(0);
+            $oStart->setSecond(0);
+            $oEnd = new Date($oStart);
+            $oStart->setMinute(59);
+            $oStart->setSecond(59);
+            $where .= ' AND ac.tracker_date_time >= '. $oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
+            $where .= ' AND ac.tracker_date_time <= '. $oDbh->quote($oEnd->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
+        }
+        if (!empty($aParams['agency_id'])) {
+            $where .= ' AND c.agencyid='. $oDbh->quote($aParams['agency_id'], 'integer');
         }
         if (!empty($aParams['clientid'])) {
             $where .= ' AND c.clientid='. $oDbh->quote($aParams['clientid'], 'integer');
@@ -660,7 +693,17 @@ class Admin_DA
             ac.tracker_date_time
         $limit";
 
-        return $oDbh->queryAll($query, null, MDB2_FETCHMODE_DEFAULT, true);
+        $aStats = $oDbh->queryAll($query, null, MDB2_FETCHMODE_DEFAULT, true);
+
+        $oNow = new Date();
+        foreach (array_keys($aStats) as $k) {
+            $oDate = new Date($aStats[$k]['date_time']);
+            $oDate->setTZbyID('UTC');
+            $oDate->convertTZ($oNow->tz);
+            $aStats[$k]['date_time'] = $oDate->format('%Y-%m-%d %H:%M:%S');
+        }
+
+        return $aStats;
     }
 
     /**
@@ -702,8 +745,8 @@ class Admin_DA
             $connectionId = (int)$connectionId;
         }
 
-        if (phpAds_isUser(phpAds_Affiliate)) {
-            $publisherId = phpAds_getUserId();
+        if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+            $publisherId = OA_Permission::getEntityId();
         } else {
             $publisherId = 0;
         }
@@ -805,24 +848,89 @@ class Admin_DA
         return current($span);
     }
 
+    function getDayHourHistory($aParams)
+    {
+        return Admin_DA::_getEntities('history_day_hour', $aParams, false, 'date_time');
+    }
+
     function getDayHistory($aParams)
     {
-        return Admin_DA::_getEntities('history_day', $aParams, false, 'day');
+        return Admin_DA::_getHistoryTz(
+            'history_day',
+            $aParams,
+            'day',
+            'format',
+            array('%Y-%m-%d'),
+            $GLOBALS['date_format']
+        );
     }
 
     function getMonthHistory($aParams)
     {
-        return Admin_DA::_getEntities('history_month', $aParams, false, 'month');
+        return Admin_DA::_getHistoryTz(
+            'history_month',
+            $aParams,
+            'month',
+            'format',
+            array('%Y-%m'),
+            $GLOBALS['month_format']
+        );
     }
 
     function getDayOfWeekHistory($aParams)
     {
-        return Admin_DA::_getEntities('history_dow', $aParams, false, 'dow');
+        return Admin_DA::_getHistoryTz(
+            'history_dow',
+            $aParams,
+            'dow',
+            'getDayOfWeek'
+        );
     }
 
     function getHourHistory($aParams)
     {
-        return Admin_DA::_getEntities('history_hour', $aParams, false, 'hour');
+        return Admin_DA::_getHistoryTz(
+            'history_hour',
+            $aParams,
+            'hour',
+            'getHour'
+        );
+    }
+
+    function _getHistoryTz($entity, $aParams, $name, $method, $args = array(), $formatted = null)
+    {
+        if (empty($aParams['tz'])) {
+            return Admin_DA::_getEntities($entity, $aParams, false, $name);
+        }
+
+        $aStats = Admin_DA::fromCache('getDayHourHistory', $aParams);
+
+        return Admin_DA::_convertStatsArrayToTz($aStats, $aParams, $name, $method, $args, $formatted);
+    }
+
+    function _convertStatsArrayToTz($aStats, $aParams, $name, $method, $args = array(), $formatted = null)
+    {
+        $aResult = array();
+        foreach ($aStats as $k => $v) {
+            unset($v['date_time']);
+            $oDate = new Date($k);
+            $oDate->setTZbyID('UTC');
+            $oDate->convertTZbyID($aParams['tz']);
+            $key = call_user_func_array(array(&$oDate, $method), $args);
+            if (!isset($aResult[$key])) {
+                $v[$name] = $key;
+                if ($formatted) {
+                    $v['date_f'] = $oDate->format($formatted);
+                }
+                $aResult[$key] = $v;
+            } else {
+                foreach ($v as $kk => $vv) {
+                    $aResult[$key][$kk] += $vv;
+                }
+            }
+        }
+
+        return $aResult;
     }
 
     // +---------------------------------------+
@@ -953,7 +1061,7 @@ class Admin_DA
 
     function deleteAdZones($aParams, $allFields = false)
     {
-        return Admin_DA::_deleteEntities('ad_zone_assoc', $aParams, $allFields);
+        return SqlBuilder::_doDelete('ad_zone_assoc', $aParams);
     }
 
     // Advertisers
@@ -1060,10 +1168,11 @@ class Admin_DA
         return $newAdId;
     }
 
+/* REDUNDANT
     function updateAd($id, $aVariables)
     {
         return Admin_DA::_updateEntity('ad', $id, $aVariables);
-    }
+    }*/
 
     function getAdvertisers($aParams, $allFields = false)
     {
@@ -1127,6 +1236,11 @@ class Admin_DA
     function addPlacement($aParams)
     {
         return Admin_DA::_addEntity('campaigns', $aParams);
+    }
+
+    function getCampaigns($aParams, $allFields = false)
+    {
+        return Admin_DA::_getEntities('campaign', $aParams, $allFields);
     }
 
     function getPlacement($placementId)
@@ -1220,10 +1334,14 @@ class Admin_DA
     function deletePlacementZones($aParams, $allFields = false)
     {
         $sucess = true;
-        if (!Admin_DA::_deleteEntities('placement_zone_assoc', $aParams, $allFields)) { $sucess = false; }
+        if (!SqlBuilder::_doDelete('placement_zone_assoc', $aParams))
+        {
+            $sucess = false;
+        }
         $pAds = Admin_DA::getAds(array('placement_id' => $aParams['placement_id']));
-        foreach ($pAds as $adId => $pAd) {
-            Admin_DA::deleteAdZones(array('zone_id' => $aParams['zone_id'], 'ad_id' => $adId));
+        foreach ($pAds as $adId => $pAd)
+        {
+            SqlBuilder::_doDelete('ad_zone_assoc',array('zone_id' => $aParams['zone_id'], 'ad_id' => $adId));
         }
         return $sucess;
     }
@@ -1248,11 +1366,12 @@ class Admin_DA
         return Admin_DA::_getEntities('placement_tracker', $aParams, $allFields);
     }
 
+/* REDUNDANT
     function deletePlacementTrackers($aParams, $allFields = false)
     {
         return Admin_DA::_deleteEntities('placement_tracker', $aParams, $allFields);
     }
-
+*/
     // Publishers
 
     /**
@@ -1427,11 +1546,12 @@ class Admin_DA
         return Admin_DA::addVariable($aVariable);
     }
 
+/* REDUNDANT
     function deleteImage($id)
     {
         return Admin_DA::_deleteEntity('image', $id);
     }
-
+*/
     function getPublisher($publisherId)
     {
         return Admin_DA::_getEntity('publisher', $publisherId);

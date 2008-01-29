@@ -35,6 +35,7 @@ require_once MAX_PATH . '/variables.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Statistics/AdServer.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
+require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 require_once MAX_PATH . '/lib/pear/Date/Span.php';
 
@@ -86,8 +87,8 @@ class Test_Priority extends UnitTestCase
         // of 60 minutes, and set the timezone to GMT
         $aConf =& $GLOBALS['_MAX']['CONF'];
         $aConf['maintenance']['operationInteval'] = 60;
-        $aConf['timezone']['location'] = 'GMT';
-        setTimeZoneLocation($aConf['timezone']['location']);
+        OA_setTimeZone('GMT');
+        //setTimeZoneLocation($aConf['timezone']['location']);
 
         // Set up the database handler object
         $this->oDbh =& OA_DB::singleton();
@@ -106,6 +107,327 @@ class Test_Priority extends UnitTestCase
     {
         // Clean up the testing environment
         TestEnv::restoreEnv();
+    }
+
+
+    /**
+     * Pruning can be performed where zone_id = 0 (i.e. for direct selection) and where the entry is older than MAX_PREVIOUS_AD_DELIVERY_INFO_LIMIT minutes ago.
+     *
+     */
+    function testPruneDataSummaryAdZoneAssocOldData()
+    {
+        $oDate = new Date();
+        //$oSpan = new Date_Span($oDate->getDate());
+        $this->oServiceLocator->register('now', $oDate);
+        $oDal =& new OA_Dal_Maintenance_Priority();
+        $doDSAZA = OA_Dal::factoryDO('data_summary_ad_zone_assoc');
+
+        // Test 1: table is empty : nothing to delete
+        $this->assertEqual($this->_countRowsInDSAZA(),0);
+        $this->assertFalse($oDal->pruneDataSummaryAdZoneAssocOldData());
+
+        // generate 4 records
+        $aIds = DataGenerator::generate($doDSAZA,4);
+        $this->assertEqual($this->_countRowsInDSAZA(),4);
+
+        // Test 2: values are current, zone_id = 1 : nothing to delete
+        $this->assertFalse($oDal->pruneDataSummaryAdZoneAssocOldData());
+        $this->assertEqual($this->_countRowsInDSAZA(),4);
+
+        // Test 3: values are old, zone_id = 1 : should not delete anything
+        foreach ($aIds as $k => $id)
+        {
+            $oDate->subtractSeconds(MAX_PREVIOUS_AD_DELIVERY_INFO_LIMIT);
+            $doDSAZA->data_summary_ad_zone_assoc_id = $id;
+            $doDSAZA->find(true);
+            $doDSAZA->created = $oDate->getDate();
+            $doDSAZA->zone_id = 1;
+            $doDSAZA->update();
+        }
+        $this->assertFalse($oDal->pruneDataSummaryAdZoneAssocOldData());
+        $this->assertEqual($this->_countRowsInDSAZA(),4);
+
+        // Test 4: values are old, zone_id = 0 : should delete 4 records
+        foreach ($aIds as $k => $id)
+        {
+            $doDSAZA->data_summary_ad_zone_assoc_id = $id;
+            $doDSAZA->find(true);
+            $doDSAZA->zone_id = 0;
+            $doDSAZA->update();
+        }
+        $this->assertTrue($oDal->pruneDataSummaryAdZoneAssocOldData());
+        $this->assertEqual($this->_countRowsInDSAZA(),0);
+    }
+
+    /**
+     * Prune all entries where the ad_id is for a banner in a High Priority Campaign where:
+    * The campaign does not have any booked lifetime target values AND the capaign has an end date AND the end date has been passed AND the campaign is not active.
+     *
+     */
+    function testpruneDataSummaryAdZoneAssocInactiveExpired()
+    {
+        $oToday     = new Date();
+        $oExpire    = new Date();
+        $oExpire->subtractSeconds(999999);
+        $today = $oToday->getDate();
+        $expire = $oExpire->getDate();
+        //$this->oServiceLocator->register('now', $oToday);
+        $oDal       =& new OA_Dal_Maintenance_Priority();
+
+        $doDSAZA    = OA_Dal::factoryDO('data_summary_ad_zone_assoc');
+
+        // generate 2 summary ad_zone records for an active campaign ad_id
+        $doDSAZA->ad_id = 1;
+        $aIds = DataGenerator::generate($doDSAZA,2);
+
+        // generate 7 summary ad_zone records for an inactive campaign ad_id
+        $doDSAZA->ad_id = 2;
+        $aIds = DataGenerator::generate($doDSAZA,7);
+
+        // make sure 9 rows in table
+        $this->assertEqual($this->_countRowsInDSAZA(),9);
+
+        // ad_id 1 => campaignid 1 => active, high priority, expired
+        $doCampaigns = OA_Dal::staticGetDO('campaigns', 1);
+        $doCampaigns->priority          = 5;
+        $doCampaigns->status            = OA_ENTITY_STATUS_RUNNING;
+        $doCampaigns->target_impression = 0;
+        $doCampaigns->target_click      = 0;
+        $doCampaigns->target_conversion = 0;
+        $doCampaigns->views             = 0;
+        $doCampaigns->clicks            = 0;
+        $doCampaigns->conversions       = 0;
+        $doCampaigns->expire            = $expire;
+        $doCampaigns->update();
+
+        // ad_id 2 => campaignid 2 => not active, high priority, expired
+        $doCampaigns = OA_Dal::staticGetDO('campaigns', 2);
+        $doCampaigns->priority          = 5;
+        $doCampaigns->status            = OA_ENTITY_STATUS_EXPIRED;
+        $doCampaigns->target_impression = 0;
+        $doCampaigns->target_click      = 0;
+        $doCampaigns->target_conversion = 0;
+        $doCampaigns->views             = 0;
+        $doCampaigns->clicks            = 0;
+        $doCampaigns->conversions       = 0;
+        $doCampaigns->expire            = $expire;
+        $doCampaigns->update();
+
+        $result = $oDal->pruneDataSummaryAdZoneAssocInactiveExpired();
+        // 7 records were deleted
+        $this->assertEqual($result,7);
+        // 2 records remain
+        $this->assertEqual($this->_countRowsInDSAZA(),2);
+
+        // ad_id 1 => campaignid 1 => not active, exclusive (low priority)
+        $doCampaigns = OA_Dal::staticGetDO('campaigns', 1);
+        $doCampaigns->priority          = -1;
+        $doCampaigns->status            = OA_ENTITY_STATUS_EXPIRED;
+        $doCampaigns->target_impression = 0;
+        $doCampaigns->target_click      = 0;
+        $doCampaigns->target_conversion = 0;
+        $doCampaigns->views             = 0;
+        $doCampaigns->clicks            = 0;
+        $doCampaigns->conversions       = 0;
+        $doCampaigns->expire            = $expire;
+        $doCampaigns->update();
+
+        $result = $oDal->pruneDataSummaryAdZoneAssocInactiveExpired();
+        // 0 records were deleted
+        $this->assertEqual($result,0);
+        // 2 records remain
+        $this->assertEqual($this->_countRowsInDSAZA(),2);
+
+        // ad_id 1 => campaignid 1 => not active, high priority, not expired
+        $doCampaigns = OA_Dal::staticGetDO('campaigns', 1);
+        $doCampaigns->priority          = 5;
+        $doCampaigns->status            = OA_ENTITY_STATUS_EXPIRED;
+        $doCampaigns->target_impression = 0;
+        $doCampaigns->target_click      = 0;
+        $doCampaigns->target_conversion = 0;
+        $doCampaigns->views             = 0;
+        $doCampaigns->clicks            = 0;
+        $doCampaigns->conversions       = 0;
+        $doCampaigns->expire            = OA_Dal::noDateString();
+        $doCampaigns->update();
+
+        $result = $oDal->pruneDataSummaryAdZoneAssocInactiveExpired();
+        // 0 records were deleted
+        $this->assertEqual($result,0);
+        // 2 records remain
+        $this->assertEqual($this->_countRowsInDSAZA(),2);
+
+        // ad_id 1 => campaignid 1 => not active, high priority, expired
+        $doCampaigns = OA_Dal::staticGetDO('campaigns', 1);
+        $doCampaigns->priority          = 5;
+        $doCampaigns->status            = OA_ENTITY_STATUS_EXPIRED;
+        $doCampaigns->target_impression = 0;
+        $doCampaigns->target_click      = 0;
+        $doCampaigns->target_conversion = 0;
+        $doCampaigns->views             = 0;
+        $doCampaigns->clicks            = 0;
+        $doCampaigns->conversions       = 0;
+        $doCampaigns->expire            = $expire;
+        $doCampaigns->update();
+
+        $result = $oDal->pruneDataSummaryAdZoneAssocInactiveExpired();
+        // 2 records were deleted
+        $this->assertEqual($result,2);
+        // 0 records remain
+        $this->assertEqual($this->_countRowsInDSAZA(),0);
+
+        // generate 2 summary ad_zone records for an active campaign that expires today
+        $doDSAZA->ad_id = 1;
+        $aIds = DataGenerator::generate($doDSAZA,2);
+        $this->assertEqual($this->_countRowsInDSAZA(),2);
+
+        // ad_id 1 => campaignid 1 => active, high priority, expires today
+        $doCampaigns = OA_Dal::staticGetDO('campaigns', 1);
+        $doCampaigns->priority          = 5;
+        $doCampaigns->status            = OA_ENTITY_STATUS_RUNNING;
+        $doCampaigns->target_impression = 0;
+        $doCampaigns->target_click      = 0;
+        $doCampaigns->target_conversion = 0;
+        $doCampaigns->views             = 0;
+        $doCampaigns->clicks            = 0;
+        $doCampaigns->conversions       = 0;
+        $doCampaigns->expire            = $today;
+        $doCampaigns->update();
+
+        $result = $oDal->pruneDataSummaryAdZoneAssocInactiveExpired();
+        // 0 records were deleted
+        $this->assertEqual($result,0);
+        // 2 records remain
+        $this->assertEqual($this->_countRowsInDSAZA(),2);
+
+        // ad_id 1 => campaignid 1 => active, high priority, expired
+        $doCampaigns = OA_Dal::staticGetDO('campaigns', 1);
+        $doCampaigns->priority          = 5;
+        $doCampaigns->status            = OA_ENTITY_STATUS_EXPIRED;
+        $doCampaigns->target_impression = 0;
+        $doCampaigns->target_click      = 0;
+        $doCampaigns->target_conversion = 0;
+        $doCampaigns->views             = 0;
+        $doCampaigns->clicks            = 0;
+        $doCampaigns->conversions       = 0;
+        $doCampaigns->expire            = $expire;
+        $doCampaigns->update();
+
+        $result = $oDal->pruneDataSummaryAdZoneAssocInactiveExpired();
+        // 2 records were deleted
+        $this->assertEqual($result,2);
+        // 0 records remain
+        $this->assertEqual($this->_countRowsInDSAZA(),0);
+    }
+
+    /**
+     * Prune all entries where the ad_id is for a banner in a High Priority Campaign where:
+     * The campaign has a booked number of lifetime target impressions and/or clicks and/or conversions AND the campaign is not active AND at least one of the booked lifetime target values has been reached.
+     *
+     */
+    function testpruneDataSummaryAdZoneAssocTargetReached()
+    {
+        $oToday     = new Date();
+        $oExpire    = new Date();
+        $oExpire->subtractSeconds(999999);
+        $today = $oToday->getDate();
+        $expire = $oExpire->getDate();
+        //$this->oServiceLocator->register('now', $oToday);
+        $oDal       =& new OA_Dal_Maintenance_Priority();
+
+        $doDSAZA    = OA_Dal::factoryDO('data_summary_ad_zone_assoc');
+        $doDIA      = OA_Dal::factoryDO('data_intermediate_ad');
+
+        $aDIAs = DataGenerator::generate($doDIA,4);
+
+        $doDIA = OA_Dal::staticGetDO('data_intermediate_ad', $aDIAs[0]);
+        $doDIA->ad_id = 1;
+        $doDIA->impressions = 1000;
+        $doDIA->clicks = 0;
+        $doDIA->conversions = 0;
+        $doDIA->update();
+
+        $doDIA = OA_Dal::staticGetDO('data_intermediate_ad', $aDIAs[1]);
+        $doDIA->ad_id = 1;
+        $doDIA->impressions = 100;
+        $doDIA->clicks = 0;
+        $doDIA->conversions = 0;
+        $doDIA->update();
+
+        $doDIA = OA_Dal::staticGetDO('data_intermediate_ad', $aDIAs[2]);
+        $doDIA->ad_id = 1;
+        $doDIA->impressions = 10;
+        $doDIA->clicks = 0;
+        $doDIA->conversions = 0;
+        $doDIA->update();
+
+        $doDIA = OA_Dal::staticGetDO('data_intermediate_ad', $aDIAs[3]);
+        $doDIA->ad_id = 1;
+        $doDIA->impressions = 1;
+        $doDIA->clicks = 0;
+        $doDIA->conversions = 0;
+        $doDIA->update();
+
+        // generate 2 summary ad_zone records for an active campaign ad_id
+        $doDSAZA->ad_id = 1;
+        $aIds = DataGenerator::generate($doDSAZA,2);
+
+        // generate 7 summary ad_zone records for an inactive campaign ad_id
+        $doDSAZA->ad_id = 2;
+        $aIds = DataGenerator::generate($doDSAZA,7);
+
+        // make sure 9 rows in table
+        $this->assertEqual($this->_countRowsInDSAZA(),9);
+
+        // ad_id 1 => campaignid 1 => not active, high priority, not expired, target impressions not reached
+        $doCampaigns = OA_Dal::staticGetDO('campaigns', 1);
+        $doCampaigns->priority          = 5;
+        $doCampaigns->status            = OA_ENTITY_STATUS_EXPIRED;
+        $doCampaigns->target_impression = 0;
+        $doCampaigns->target_click      = 0;
+        $doCampaigns->target_conversion = 0;
+        $doCampaigns->views             = 100000;
+        $doCampaigns->clicks            = 1000;
+        $doCampaigns->conversions       = 100;
+        $doCampaigns->expire            = OA_Dal::noDateString();
+        $doCampaigns->update();
+
+        $result = $oDal->pruneDataSummaryAdZoneAssocInactiveTargetReached(1);
+        // 0 records were deleted
+        $this->assertEqual($result,0);
+        // 0 records remain
+        $this->assertEqual($this->_countRowsInDSAZA(),9);
+
+        // ad_id 1 => campaignid 1 => not active, high priority, not expired, target impressions reached
+        $doCampaigns = OA_Dal::staticGetDO('campaigns', 1);
+        $doCampaigns->priority          = 5;
+        $doCampaigns->status            = OA_ENTITY_STATUS_EXPIRED;
+        $doCampaigns->target_impression = 0;
+        $doCampaigns->target_click      = 0;
+        $doCampaigns->target_conversion = 0;
+        $doCampaigns->views             = 1111;
+        $doCampaigns->clicks            = 111;
+        $doCampaigns->conversions       = 11;
+        $doCampaigns->expire            = OA_Dal::noDateString();
+        $doCampaigns->update();
+
+        $result = $oDal->pruneDataSummaryAdZoneAssocInactiveTargetReached(1);
+        // 1 record deleted
+        $this->assertEqual($result,1);
+        // 8 records remain
+        $this->assertEqual($this->_countRowsInDSAZA(),8);
+
+        $result = $oDal->pruneDataSummaryAdZoneAssocInactiveTargetReached(5);
+        // 1 record was deleted
+        $this->assertEqual($result,1);
+        // 7 records remain
+        $this->assertEqual($this->_countRowsInDSAZA(),7);
+    }
+
+    function _countRowsInDSAZA()
+    {
+        $doDSAZA = OA_Dal::factoryDO('data_summary_ad_zone_assoc');
+        return $doDSAZA->count('*');
     }
 
     /**
@@ -158,7 +480,7 @@ class Test_Priority extends UnitTestCase
         $oStartDate = new Date('2005-06-08 14:00:00');
         $oEndDate   = new Date('2005-06-11 23:00:00');
         $this->_validateDszihRowsRange($oStartDate, $oEndDate);
-        return;
+
         $oStartDate = new Date('2005-06-12 00:00:00');
         $oEndDate   = new Date('2005-06-15 13:00:00');
         $this->_validateDszihRowsRange($oStartDate, $oEndDate);
@@ -166,7 +488,7 @@ class Test_Priority extends UnitTestCase
         $this->assertEqual($this->_azaRows(), 7); // 4 proper associations + 3 default with zone 0
         // Test 1: Ensure correct number if links in the ad_zone_assoc table with priority > 0
         $this->assertEqual($this->_azaRows(true), 7);
-        // Test 1: Ensure correct number if links in the data_summary_ad_zone_assoc table with priority > 0
+        // Test 1: Ensure correct number if links in the data_summary_ad_zone_assoc table with priority >
         $this->assertEqual($this->_dsazaRows(true), 7);
         // Test 1: Ensure that the priorities in the ad_zone_assoc and data_summary_ad_zone_assoc
         // tables are set correctly

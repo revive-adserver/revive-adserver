@@ -35,14 +35,15 @@ $Id:$
 require_once MAX_PATH . '/lib/OA/BaseObjectWithErrors.php';
 
 // Init required files
-require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
 require_once MAX_PATH . '/lib/max/language/Default.php';
 require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
-require_once MAX_PATH . '/lib/max/other/lib-db.inc.php';
 require_once MAX_PATH . '/lib/max/other/lib-userlog.inc.php';
+
+require_once MAX_PATH . '/lib/OA/Permission.php';
+require_once MAX_PATH . '/lib/OA/Preferences.php';
+require_once MAX_PATH . '/lib/OA/Auth.php';
+
 require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
-require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
-require_once MAX_PATH . '/lib/max/Permission.php';
 
 /**
  * Base Sevice Implementation
@@ -87,7 +88,7 @@ class BaseServiceImpl extends  OA_BaseObjectWithErrors
 
         $this->_setSessionId($sessionId);
 
-        if (phpAds_IsLoggedIn()) {
+        if (OA_Auth::isLoggedIn()) {
 
             return true;
         } else {
@@ -126,15 +127,15 @@ class BaseServiceImpl extends  OA_BaseObjectWithErrors
     function preInitSession()
     {
         global $pref;
-        $link = phpAds_dbConnect();
-        if (!$link)
+        $oDbh = OA_DB::singleton();
+        if (PEAR::isError($oDbh))
         {
             $this->raiseError("Could not connect to database");
             return false;
         }
 
         // Load the user preferences from the database
-        $pref = MAX_Admin_Preferences::loadPrefs();
+        OA_Preferences::loadPreferences();
 
         // First thing to do is clear the $session variable to
         // prevent users from pretending to be logged in.
@@ -159,14 +160,8 @@ class BaseServiceImpl extends  OA_BaseObjectWithErrors
             $GLOBALS['_MAX']['CONF']['max']['language'] = $session['language'];
         }
 
-        if (!phpAds_isUser(phpAds_Admin)) {
-            // Reload user preferences from the database because we are using
-            // agency/advertiser/publisher settings
-            $pref = MAX_Admin_Preferences::loadPrefs(phpAds_getAgencyID());
-        }
-
-        // Rewrite column preferences
-        $pref = MAX_Admin_Preferences::expandColumnPrefs();
+        // Load the user preferences from the database
+        OA_Preferences::loadPreferences();
 
         // Load the required language files
         Language_Default::load();
@@ -186,7 +181,7 @@ class BaseServiceImpl extends  OA_BaseObjectWithErrors
         );
 
         if (!isset($affiliateid))   $affiliateid = '';
-        if (!isset($agencyid))      $agencyid = phpAds_getAgencyID();
+        if (!isset($agencyid))      $agencyid = OA_Permission::getAgencyId();
         if (!isset($bannerid))      $bannerid = '';
         if (!isset($campaignid))    $campaignid = '';
         if (!isset($channelid))     $channelid = '';

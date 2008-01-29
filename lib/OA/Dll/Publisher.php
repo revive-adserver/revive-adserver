@@ -171,10 +171,9 @@ class OA_Dll_Publisher extends OA_Dll
      */
     function modify(&$oPublisher)
     {
-        if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency +
-             phpAds_Affiliate, 'affiliates', $oPublisher->publisherId,
-             phpAds_ModifyInfo)) {
-
+        if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm,
+             'affiliates', $oPublisher->publisherId))
+        {
             return false;
         }
 
@@ -192,6 +191,10 @@ class OA_Dll_Publisher extends OA_Dll
             $doPrevPublisher->get($oPublisher->publisherId);
             $publisherPrevData = $doPrevPublisher->toArray();
         }
+
+        // an_website_id equal as_website_id
+        $adnetworks_website_id = ($publisherPrevData['an_website_id']) ?
+                                  $publisherPrevData['an_website_id'] : $publisherPrevData['as_website_id'];
 
         $publisherData =  (array) $oPublisher;
 
@@ -222,7 +225,8 @@ class OA_Dll_Publisher extends OA_Dll
         $publisherData['oac_category_id'] = $oPublisher->oacCategoryId;
         $publisherData['oac_language_id'] = $oPublisher->oacLanguageId;
         $publisherData['oac_country_code'] = $oPublisher->oacCountryCode;
-        $publisherData['oac_website_id'] = (!$oPublisher->adNetworks) ? '' : null;
+        $publisherData['an_website_id'] = (!$oPublisher->adNetworks) ? '' : null;
+        $publisherData['as_website_id'] = (!$oPublisher->advSignup)  ? '' : null;
 
         if (isset($publisherData['password']) && (!is_null($publisherData['password'])) && ($publisherData['password'] != '********')) {
             $publisherData['password'] = md5($oPublisher->password);
@@ -239,6 +243,13 @@ class OA_Dll_Publisher extends OA_Dll
             $doPublisher = OA_Dal::factoryDO('affiliates');
             if (!isset($publisherData['publisherId'])) {
                 $doPublisher->setFrom($publisherData);
+    		    /**
+    		     * @todo The current mechanism requires the dataobject to have the username/password fields
+    		     *       set in order to trigger the User-creation, this should be factored out since the
+    		     *       $do->setFrom method won't set the fields if they've been removed from the DataObject
+    		     */
+    		    $doPublisher->username = $publisherData['username'];
+    		    $doPublisher->password = $publisherData['password'];
                 $oPublisher->publisherId = $doPublisher->insert();
             } else {
                 $doPublisher->get($publisherData['publisherId']);
@@ -247,17 +258,20 @@ class OA_Dll_Publisher extends OA_Dll
             }
             $oAdNetworks = new OA_Central_AdNetworks();
             // Initiate a call to Openads Central if adnetworks are enabled or if OAC values are changed.
-            if ($oPublisher->adNetworks) {
+            if ($oPublisher->adNetworks || $oPublisher->advSignup) {
                 // If adNetworks was not previously selected...
-                if (empty($publisherPrevData['oac_website_id'])) {
+                if (empty($publisherPrevData['an_website_id']) &&
+                    empty($publisherPrevData['as_website_id'])) {
                     $aRpcPublisher = array(
-                    array(
-                            'id'       => $oPublisher->publisherId,
-                            'url'      => $oPublisher->website,
-                            'country'  => $oPublisher->oacCountryCode,
-                            'language' => $oPublisher->oacLanguageId,
-                            'category' => $oPublisher->oacCategoryId,
-                        )
+	                    array(
+	                            'id'         => $oPublisher->publisherId,
+	                            'url'        => $oPublisher->website,
+	                            'country'    => $oPublisher->oacCountryCode,
+	                            'language'   => $oPublisher->oacLanguageId,
+	                            'category'   => $oPublisher->oacCategoryId,
+	                            'advsignup' => $oPublisher->advSignup,
+	                            'adnetworks' => $oPublisher->adNetworks,
+	                    )
                     );
                     $result = $oAdNetworks->subscribeWebsites($aRpcPublisher);
 
@@ -269,16 +283,30 @@ class OA_Dll_Publisher extends OA_Dll
                     // This publisher was already signed up for adnetworks, only action if OAC related values have changed
                     if (($publisherPrevData['oac_category_id']  != $publisherData['oac_category_id']) ||
                         ($publisherPrevData['oac_language_id']  != $publisherData['oac_language_id']) ||
-                        ($publisherPrevData['oac_country_code'] != $publisherData['oac_country_code'])
+                        ($publisherPrevData['oac_country_code'] != $publisherData['oac_country_code']) ||
+                        ($publisherPrevData['as_website_id'] != $publisherData['as_website_id']) ||
+                        ($publisherPrevData['an_website_id'] != $publisherData['an_website_id'])
                     ) {
                         // OAC related fields have changed, so unsubscribe and resubscribe this publisher
-                        $aError = $this->unsubscribePublisher($oAdNetworks, $oPublisher);
-                        $result = $oAdNetworks->subscribeWebsites($aPublisher);
+                        $aError = $this->unsubscribePublisher($oAdNetworks, $oPublisher, $adnetworks_website_id);
+	                    $aRpcPublisher = array(
+		                    array(
+		                            'id'         => $oPublisher->publisherId,
+		                            'url'        => $oPublisher->website,
+		                            'country'    => $oPublisher->oacCountryCode,
+		                            'language'   => $oPublisher->oacLanguageId,
+		                            'category'   => $oPublisher->oacCategoryId,
+		                            'advsignup'  => $oPublisher->advSignup,
+		                            'adnetworks' => $oPublisher->adNetworks,
+		                    )
+	                    );
+//                        $result = $oAdNetworks->subscribeWebsites($aPublisher);
+                        $result = $oAdNetworks->subscribeWebsites($aRpcPublisher);
                     }
                 }
-            } else if (!empty($publisherPrevData['oac_website_id'])) {
+            } else if ($adnetworks_website_id) {
                 // User unsubscribed from adnetworks
-                $aError = $this->unsubscribePublisher($oAdNetworks, $oPublisher);
+                $aError = $this->unsubscribePublisher($oAdNetworks, $oPublisher, $adnetworks_website_id);
             }
             return true;
         }
@@ -290,17 +318,15 @@ class OA_Dll_Publisher extends OA_Dll
      *
      * @param AdNetworks $oAdNetworks
      * @param PublisherInfo $oPublisher
+     * @param int $oacWebsiteId
      * @return array
      */
-    function unsubscribePublisher($oAdNetworks, $oPublisher)
+    function unsubscribePublisher($oAdNetworks, $oPublisher, $oacWebsiteId)
     {
         $aPublisher = array(
             array(
-                    'id'       => $oPublisher->publisherId,
-                    'url'      => $oPublisher->website,
-                    'country'  => $oPublisher->oacCountryCode,
-                    'language' => $oPublisher->oacLanguageId,
-                    'category' => $oPublisher->oacCategoryId,
+                    'id'             => $oPublisher->publisherId,
+                    'an_website_id' => $oacWebsiteId,
                 )
             );
         $result = $oAdNetworks->unsubscribeWebsites($aPublisher);
@@ -326,7 +352,7 @@ class OA_Dll_Publisher extends OA_Dll
      */
     function delete($publisherId)
     {
-        if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency,
+        if (!$this->checkPermissions(array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER),
              'affiliates', $publisherId)) {
 
             return false;
@@ -436,9 +462,7 @@ class OA_Dll_Publisher extends OA_Dll
      */
     function getPublisherDailyStatistics($publisherId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
-        if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency +
-            phpAds_Affiliate, 'affiliates', $publisherId)) {
-
+        if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm, 'affiliates', $publisherId)) {
             return false;
         }
 
@@ -476,9 +500,7 @@ class OA_Dll_Publisher extends OA_Dll
      */
     function getPublisherZoneStatistics($publisherId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
-        if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency +
-            phpAds_Affiliate, 'affiliates', $publisherId)) {
-
+        if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm, 'affiliates', $publisherId)) {
             return false;
         }
 
@@ -517,9 +539,7 @@ class OA_Dll_Publisher extends OA_Dll
 
     function getPublisherAdvertiserStatistics($publisherId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
-        if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency +
-            phpAds_Affiliate, 'affiliates', $publisherId)) {
-
+        if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm, 'affiliates', $publisherId)) {
             return false;
         }
 
@@ -559,9 +579,7 @@ class OA_Dll_Publisher extends OA_Dll
      */
     function getPublisherCampaignStatistics($publisherId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
-        if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency +
-            phpAds_Affiliate, 'affiliates', $publisherId)) {
-
+        if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm, 'affiliates', $publisherId)) {
             return false;
         }
 
@@ -603,9 +621,7 @@ class OA_Dll_Publisher extends OA_Dll
      */
     function getPublisherBannerStatistics($publisherId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
-        if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency +
-            phpAds_Affiliate, 'affiliates', $publisherId)) {
-
+        if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm, 'affiliates', $publisherId)) {
             return false;
         }
 

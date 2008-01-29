@@ -50,7 +50,7 @@ define('MAX_DATAGENERATOR_DEFAULT_DATE_VALUE', date('Y-m-d'));
  *
  * Online manual: https://developer.openads.org/wiki/DataGenerator
  *
- * @package    MaxDal
+ * @package    OpenadsDal
  * @author     Radek Maciaszek <radek.maciaszek@openads.org>
  *
  */
@@ -69,12 +69,12 @@ class DataGenerator
      * Generate one record. Wrapper for: generate($do, 1, $generateParents)
      * Returns id of created record
      *
-     * @see DB_DataObject::insert()
+     * @static
+     * @access public
      * @param DB_DataObjectCommon $do Either DataObject or table name (as string)
      * @param bool $generateParents   Generate parent records
      * @return int                    Id of created record
-     * @access public
-     * @static
+     * @see DB_DataObject::insert()
      */
     function generateOne($do, $generateParents = false)
     {
@@ -122,11 +122,11 @@ class DataGenerator
 
         if ($generateParents) {
             $links = $do->links();
-        	foreach ($links as $key => $match) {
-        		list($tablePrefixed, $link) = explode(':', $match);
-        		$table = $do->getTableWithoutPrefix($tablePrefixed);
-    	        $primaryKey = isset($do->$key) ? $do->$key : null;
-        		$do->$key = DataGenerator::addAncestor($table, $primaryKey);
+        	foreach ($links as $foreignKey => $linkedTableField) {
+        		list($linkedTable, $linkedField) = explode(':', $linkedTableField);
+        		$table = $do->getTableWithoutPrefix($linkedTable);
+    	        $linkedPrimaryKeyVal = isset($do->$foreignKey) ? $do->$foreignKey : null;
+        		$do->$foreignKey = DataGenerator::addAncestor($table, $linkedPrimaryKeyVal);
         	}
         }
         $doOriginal = clone($do);
@@ -241,10 +241,10 @@ class DataGenerator
         DataGenerator::setDefaultValues($doAncestor);
 
         $links = $doAncestor->links();
-    	foreach ($links as $key => $match) {
-    		list($ancestorTableWithPrefix, $link) = explode(':', $match);
+    	foreach ($links as $foreignKey => $linkedTableField) {
+    		list($ancestorTableWithPrefix, $link) = explode(':', $linkedTableField);
     		$ancestorTable = $doAncestor->getTableWithoutPrefix($ancestorTableWithPrefix);
-    		$doAncestor->$key = DataGenerator::addAncestor($ancestorTable);
+    		$doAncestor->$foreignKey = DataGenerator::addAncestor($ancestorTable);
     	}
     	DataGenerator::trackData($table);
     	$id = $doAncestor->insert();
@@ -447,6 +447,7 @@ class DataGenerator
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = OA_DB::singleton();
+
         if ($aConf['database']['type'] == 'pgsql')
         {
             OA_DB::setCaseSensitive();
@@ -476,6 +477,7 @@ class DataGenerator
         }
         else if ($aConf['database']['type'] == 'mysql')
         {
+            $tableName = $aConf['table']['prefix'].$tableName;
             OA::disableErrorHandling();
             $result = $oDbh->exec("ALTER TABLE {$tableName} AUTO_INCREMENT = 1");
             OA::enableErrorHandling();

@@ -26,6 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/plugins/reports/ReportsScope.php';
+require_once MAX_PATH . '/lib/OA/Dll.php';
 
 /**
  * A plugin to generate a report showing conversion tracking information,
@@ -61,7 +62,7 @@ class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends Plugins_Report
         $this->_categoryName = MAX_Plugin_Translation::translate('Standard Reports', $this->module, $this->package);
         $this->_author       = 'Scott Switzer';
         $this->_export       = 'xls';
-        $this->_authorize    = phpAds_Admin + phpAds_Agency;
+        $this->_authorize    = array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
 
         $this->_import = $this->getDefaults();
         $this->saveDefaults();
@@ -206,15 +207,23 @@ class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends Plugins_Report
      */
     function _getDeliveryPerformanceData()
     {
-        // Get the report period raw performance data
-        $aReportData    = $this->_getDeliveryPerformanceDataRange($this->_oScope, $this->_oDaySpan, true);
-        // Get the raw performance data for "yesterday"
+        // Get the report period raw performance data, using UTC time
+        $oSpan = new OA_Admin_DaySpan();
+        $oSpan->setSpanDays($this->_oDaySpan->oStartDate, $this->_oDaySpan->oEndDate);
+        $oSpan->toUTC();
+        $aReportData    = $this->_getDeliveryPerformanceDataRange($this->_oScope, $oSpan, true);
+        // Get the raw performance data for "yesterday", using UTC time
         $oSpanYesterday = new OA_Admin_DaySpan('yesterday');
+        $oSpanYesterday->toUTC();
         $aYesterdayData = $this->_getDeliveryPerformanceDataRange($this->_oScope, $oSpanYesterday);
-        // Get the raw performance data for "today"
-        $oSpanToday     = new OA_Admin_DaySpan('today');
-        $aTodayData     = $this->_getDeliveryPerformanceDataRange($this->_oScope, $oSpanToday);
-        // Merge the above data, injecting today's delivery at the same time
+        // Get the raw performance data for "today", using UTC time
+        $oSpanToday = new OA_Admin_DaySpan('today');
+        $oSpanToday->toUTC();
+        $aTodayData = $this->_getDeliveryPerformanceDataRange($this->_oScope, $oSpanToday);
+        // Merge the above data, injecting today's delivery at the same time,
+        // using normal time, as the merge process will convert to UTC time
+        $oSpanYesterday = new OA_Admin_DaySpan('yesterday');
+        $oSpanToday = new OA_Admin_DaySpan('today');
         $aData = $this->_mergeDeliveryPerformanceData($aReportData, $aYesterdayData, $oSpanYesterday, $aTodayData, $oSpanToday);
         return $aData;
     }
@@ -235,8 +244,6 @@ class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends Plugins_Report
     function _getDeliveryPerformanceDataRange($oScope, $oDaySpan, $spanIsForPlacementDates = false)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $startDateString = $oDaySpan->getStartDateString();
-        $endDateString   = $oDaySpan->getEndDateString();
         $advertiserId    = $oScope->getAdvertiserId();
         $publisherId     = $oScope->getPublisherId();
         $agencyId        = $oScope->getAgencyId();
@@ -245,13 +252,12 @@ class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends Plugins_Report
                 c.campaignid AS campaign_id,
                 c.campaignname AS campaign_name,
                 c.priority AS campaign_priority,
-                c.active AS campaign_is_active,
+                c.status AS campaign_is_active,
                 c.activate AS campaign_start,
                 c.expire AS campaign_end,
                 c.views AS campaign_booked_impressions,
                 SUM(dsah.impressions) AS campaign_impressions,
-                MAX(dsah.day) AS stats_most_recent_day,
-                MAX(dsah.hour) AS stats_most_recent_hour
+                MAX(dsah.date_time) AS stats_most_recent_date_time
             FROM
                 {$aConf['table']['prefix']}{$aConf['table']['campaigns']} AS c,
                 {$aConf['table']['prefix']}{$aConf['table']['banners']} AS b,
@@ -275,22 +281,22 @@ class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends Plugins_Report
             $query .= "
                 AND
                 (
-                    c.activate <= " . DBC::makeLiteral($endDateString, 'string') . "
+                    c.activate <= " . DBC::makeLiteral($oDaySpan->getEndDateString(), 'string') . "
                     OR
                     c.activate " . OA_Dal::equalNoDateString() . "
                 )
                 AND
                 (
-                    c.expire >= " . DBC::makeLiteral($startDateString, 'string') . "
+                    c.expire >= " . DBC::makeLiteral($oDaySpan->getStartDateString(), 'string') . "
                     OR
                     c.expire " . OA_Dal::equalNoDateString() . "
                 )";
         } else {
             $query .= "
                 AND
-                dsah.day >= " . DBC::makeLiteral($startDateString, 'string') . "
+                dsah.date_time >= " . DBC::makeLiteral($oDaySpan->getStartDateString('%Y-%m-%d %H:%M:%S'), 'string') . "
                 AND
-                dsah.day <= " . DBC::makeLiteral($endDateString, 'string') . "
+                dsah.date_time <= " . DBC::makeLiteral($oDaySpan->getEndDateString('%Y-%m-%d %H:%M:%S'), 'string') . "
             ";
         }
         if ($advertiserId) {
@@ -365,28 +371,28 @@ class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends Plugins_Report
             $aCampaignData['yesterdays_impressions'] = $yesterdaysImpressions;
             // Get and add yesterday's impressions by hour
             $yesterdayDateString = $oSpanYesterday->getStartDateString();
-            $yesterdaysImpressionsByHour = Admin_DA::getHourHistory(
+            $aYesterdaysImpressionsByHour = Admin_DA::getHourHistory(
                 array(
                     'placement_id' => $campaignId,
                     'day_begin'    => $yesterdayDateString,
                     'day_end'      => $yesterdayDateString
                 )
             );
-            $aCampaignData['yesterdays_impressions_by_hour'] = $yesterdaysImpressionsByHour;
+            $aCampaignData['yesterdays_impressions_by_hour'] = $aYesterdaysImpressionsByHour;
             // Add today's impressions to the campaign report period data
             $aCampaignDataToday = $this->_findMatchingCampaignData($campaignId, $aTodayData);
             $todaysImpressions  = $aCampaignDataToday['campaign_impressions'];
             $aCampaignData['todays_impressions'] = $todaysImpressions;
             // Get and add today's impressions by hour
             $todayDateString = $oSpanToday->getStartDateString();
-            $todaysImpressionsByHour = Admin_DA::getHourHistory(
+            $aTodaysImpressionsByHour = Admin_DA::getHourHistory(
                 array(
                     'placement_id' => $campaignId,
                     'day_begin'    => $todayDateString,
                     'day_end'      => $todayDateString
                 )
             );
-            $aCampaignData['todays_impressions_by_hour'] = $todaysImpressionsByHour;
+            $aCampaignData['todays_impressions_by_hour'] = $aTodaysImpressionsByHour;
             // Add the newly merged data for this campaign to the return array
             $aData[] = $aCampaignData;
         }
@@ -493,7 +499,7 @@ class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends Plugins_Report
      */
     function _decodeStatusDescription($isActive)
     {
-        if ($isActive == 't') {
+        if ($isActive == OA_ENTITY_STATUS_RUNNING) {
             $type = MAX_Plugin_Translation::translate('Running', $this->module, $this->package);
         } else {
             $type = MAX_Plugin_Translation::translate('Stopped', $this->module, $this->package);

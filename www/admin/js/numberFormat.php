@@ -34,7 +34,7 @@ $Id$
  * Example use: For an INPUT field, use the onFocus() event and the
  * max_formattedNumberStringToFloat() function to remove formatting
  * from the field for easier editing, and then the onBlur() event
- * and the max_formatNumber() or max_formatNumberIngnoreDecimals()
+ * and the max_formatNumber() or max_formatNumberIgnoreDecimals()
  * function to re-format the field once the user has finished
  * editing the data.
  *
@@ -53,11 +53,12 @@ $Id$
 require_once '../../../init.php';
 
 // Required files
-require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
 require_once MAX_PATH . '/lib/max/language/Default.php';
 
+require_once MAX_PATH . '/lib/OA/Preferences.php';
+
 // Load the user preferences from the database
-$pref = MAX_Admin_Preferences::loadPrefs();
+$pref = OA_Preferences::loadAdminAccountPreferences(true);
 
 // Load the required language files
 Language_Default::load();
@@ -104,10 +105,15 @@ function max_formatNumber(number)
  * @return {String} The number resulting from removing any decimal
  *                  delimiters, formatted with thousand delimiters.
  */
-function max_formatNumberIngnoreDecimals(number)
+function max_formatNumberIgnoreDecimals(number)
 {
     // Convert the (potentially formatted) number into a float
     var numberFloat = max_formattedNumberStringToFloat(number);
+    
+    if (numberFloat == null) {
+      return '';
+    } 
+    
     // Delimiter to use
     var ddelimiter = '<?php
                         global $phpAds_DecimalPoint;
@@ -122,7 +128,7 @@ function max_formatNumberIngnoreDecimals(number)
                         echo $separator;
                       ?>';
     // Ensure the number is represented as a string
-    var numberString = numberFloat.toString();
+    var numberString = numberFloat.toString(); 
     // Remove decimals delimiters
     if (numberString.indexOf(ddelimiter) != -1) {
         var array = numberString.split(ddelimiter);

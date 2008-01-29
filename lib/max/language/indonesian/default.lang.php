@@ -103,7 +103,7 @@ $GLOBALS['strKiloByte']						= "KB";
 $GLOBALS['strExpandAll']					= "<u>M</u>eluaskan semua";
 $GLOBALS['strCollapseAll']					= "<u>M</u>elipatkan semua";
 $GLOBALS['strShowAll']						= "Tampilkan semua";
-$GLOBALS['strNoAdminInteface']					= "Pelayanan tidak dapat dicapai...";
+$GLOBALS['strNoAdminInterface']					= "Pelayanan tidak dapat dicapai...";
 $GLOBALS['strFilterBySource']					= "Saring sesuai sumber";
 $GLOBALS['strFieldContainsErrors']				= "Kotak berikut mengandung kesalahan:";
 $GLOBALS['strFieldFixBeforeContinue1']				= "Sebelum melanjut Anda perlu";
@@ -282,7 +282,7 @@ $GLOBALS['strAppendOthers']					= "Sisipkan yang lain";
 $GLOBALS['strAppendTextAdNotPossible']				= "Penyisipan banner lain pada <i>Text Ads</i> tidak diperbolehkan.";
 
 
-// Banner (Properties)	
+// Banner (Properties)
 $GLOBALS['strChooseBanner'] 					= "Silakan pilih jenis banner";
 $GLOBALS['strMySQLBanner'] 					= "Banner lokal (SQL)";
 $GLOBALS['strWebBanner'] 					= "Banner lokal (Webserver)";

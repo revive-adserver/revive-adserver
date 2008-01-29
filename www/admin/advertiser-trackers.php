@@ -44,8 +44,8 @@ phpAds_registerGlobal ('listorder', 'orderdirection');
 /* Advertiser interface security                          */
 /*-------------------------------------------------------*/
 
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
-MAX_Permission::checkAccessToObject('clients', $clientid);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
+OA_Permission::enforceAccessToObject('clients', $clientid);
 
 /*-------------------------------------------------------*/
 /* Get preferences                                       */
@@ -73,24 +73,12 @@ if (!isset($orderdirection))
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
 {
-	if (isset($session['prefs']['advertiser-index.php']['listorder']))
-		$navorder = $session['prefs']['advertiser-index.php']['listorder'];
-	else
-		$navorder = '';
-
-	if (isset($session['prefs']['advertiser-index.php']['orderdirection']))
-		$navdirection = $session['prefs']['advertiser-index.php']['orderdirection'];
-	else
-		$navdirection = '';
-
-
 	// Get other advertisers
     $doAdvertiser = OA_Dal::factoryDO('clients');
-    if (phpAds_isUser(phpAds_Agency)) {
-		$doAdvertiser->agencyid = $session['userid'];
-    }
+	$doAdvertiser->agencyid = OA_Permission::getEntityId();
+    $doAdvertiser->addSessionListOrderBy('advertiser-index.php');
     $doAdvertiser->find();
 	while ($doAdvertiser->fetch() && $row = $doAdvertiser->toArray())
 	{
@@ -120,7 +108,7 @@ $doTrackers->clientid = $clientid;
 $doTrackers->addListOrderBy($listorder, $orderdirection);
 $doTrackers->find();
 
-if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || phpAds_isAllowed(phpAds_AddTracker))
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
 {
 	echo "\t\t\t\t<img src='images/icon-tracker-new.gif' border='0' align='absmiddle'>\n";
 	echo "\t\t\t\t<a href='tracker-edit.php?clientid=".$clientid."' accesskey='".$keyAddNew."'>".$strAddTracker_Key."</a>&nbsp;&nbsp;\n";
@@ -209,7 +197,7 @@ while ($doTrackers->fetch() && $row_trackers = $doTrackers->toArray())
 	echo "\t\t\t\t\t<td height='25'>";
 	echo "&nbsp;&nbsp;<img src='images/icon-tracker.gif' align='absmiddle'>&nbsp;";
 
-	if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || phpAds_isAllowed(phpAds_EditTracker))
+	if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
 		echo "<a href='tracker-edit.php?clientid=".$clientid."&trackerid=".$row_trackers['trackerid']."'>".$row_trackers['trackername']."</a>";
 	else
 		echo $row_trackers['trackername'];
@@ -222,14 +210,14 @@ while ($doTrackers->fetch() && $row_trackers = $doTrackers->toArray())
 
 	// Button 1, 2 & 3
 	echo "\t\t\t\t\t<td height='25'>";
-	if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || phpAds_isAllowed(phpAds_LinkCampaigns))
+	if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
 		echo "<a href='tracker-campaigns.php?clientid=".$clientid."&trackerid=".$row_trackers['trackerid']."'><img src='images/icon-zone-linked.gif' border='0' align='absmiddle'>&nbsp;$strLinkedCampaigns</a>";
 	else
 		echo "&nbsp;";
 	echo "</td>\n";
 
 	echo "\t\t\t\t\t<td height='25'>";
-	if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || phpAds_isAllowed(phpAds_DeleteTracker))
+	if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
 		echo "<a href='tracker-delete.php?clientid=".$clientid."&trackerid=".$row_trackers['trackerid']."&returnurl=advertiser-trackers.php'".phpAds_DelConfirm($strConfirmDeleteTracker)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>";
 	else
 		echo "&nbsp;";

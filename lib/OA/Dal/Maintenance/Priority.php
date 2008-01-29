@@ -30,6 +30,7 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Common.php';
 require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
+require_once MAX_PATH . '/lib/OA/Dll.php';
 
 /**
  * Definition of how far back in time the DAL will look for
@@ -203,7 +204,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                                 "$table.clientid AS advertiser_id",
                                 "$table.campaignid AS placement_id",
                                 "$table.campaignname AS name",
-                                "$table.active AS active",
+                                "$table.status AS status",
                                 "COUNT($joinTable.bannerid) AS num_children"
                              );
         $query['wheres']   = array(
@@ -212,7 +213,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $query['joins']    = array(
                                 array($joinTable, "$table.campaignid = $joinTable.campaignid")
                              );
-        $query['group']    = "advertiser_id, placement_id, name, active";
+        $query['group']    = "advertiser_id, placement_id, name, status";
         return $this->_get($query);
     }
 
@@ -282,7 +283,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                              );
         $query['joins']    = array(
                                 array($joinTable1, "$table.campaignid = $joinTable1.campaignid"),
-                                array($joinTable2, "$joinTable1.bannerid = $joinTable2.ad_id AND $joinTable2.day = '$today'")
+                                array($joinTable2, "$joinTable1.bannerid = $joinTable2.ad_id AND $joinTable2.date_time >= '$today 00:00:00' AND $joinTable2.date_time <= '$today 23:59:59'")
                              );
         $query['group']    = "placement_id";
         return $this->_get($query);
@@ -352,10 +353,19 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      */
     function &getAllZonesWithAllocInv()
     {
-        OA::debug('  - Getting all of the zones with ad impressions allocated', PEAR_LOG_DEBUG);
+        OA::debug('Getting all of the zones with ad impressions allocated.', PEAR_LOG_DEBUG);
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $query = array();
-        $table = $this->oDbh->quoteIdentifier('tmp_ad_zone_impression',true);
-        $query['table']    = $table;
+        $table              = 'tmp_ad_zone_impression';
+        $tableC             = $aConf['table']['prefix'] . $aConf['table']['campaigns'];
+        $tableB             = $aConf['table']['prefix'] . $aConf['table']['banners'];
+
+        $query['table']     = $table;
+
+        $query['joins']    = array(
+                                array($tableB, "$table.ad_id = $tableB.bannerid"),
+                                array($tableC, "$tableB.campaignid = $tableC.campaignid")
+                                );
 
         $query['fields']   = array(
                                 "$table.zone_id",
@@ -367,6 +377,11 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $query['orderBys'] = array(
                                 array("$table.zone_id", 'ASC'),
                                 array("$table.ad_id", 'ASC')
+                             );
+        $query['wheres']   = array(
+                                array("$tableC.priority > 0", 'AND'),
+                                array("$tableC.status = " . OA_ENTITY_STATUS_RUNNING, 'AND'),
+                                array("$tableB.status = " . OA_ENTITY_STATUS_RUNNING, 'AND'),
                              );
         return $this->_get($query);
     }
@@ -492,9 +507,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             WHERE
                 b.acls_updated >= '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "'
                 AND b.acls_updated <= '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
-                AND b.active = 't'
+                AND b.status = " . OA_ENTITY_STATUS_RUNNING . "
                 AND b.campaignid = c.campaignid
-                AND c.active = 't'";
+                AND c.priority > 0
+                AND c.status = " . OA_ENTITY_STATUS_RUNNING;
         $rc = $this->oDbh->query($query);
         while ($aRow = $rc->fetchRow()) {
             $aAds[$aRow['ad_id']] = $aRow['changed'];
@@ -516,9 +532,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             WHERE
                 b.acls_updated >= '" . $aLastRun['start_run']->format('%Y-%m-%d %H:%M:%S') . "'
                 AND b.acls_updated <= '" . $oDate->format('%Y-%m-%d %H:%M:%S') . "'
-                AND b.active = 't'
+                AND b.status = " . OA_ENTITY_STATUS_RUNNING . "
                 AND b.campaignid = c.campaignid
-                AND c.active = 't'";
+                AND c.priority > 0
+                AND c.status = " . OA_ENTITY_STATUS_RUNNING;
         $rc = $this->oDbh->query($query);
         while ($aRow = $rc->fetchRow()) {
             $aAds[$aRow['ad_id']] = $aRow['changed'];
@@ -1423,9 +1440,9 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                             $aAdZonePriority['requested_impressions'],
                             ($aAdZonePriority['to_be_delivered'] ? 1 : 0),
                             $aAdZonePriority['priority'],
-                            is_null($aAdZonePriority['priority_factor']) ? 'NULL' : $aAdZonePriority['priority_factor'],
+                            $aAdZonePriority['priority_factor'],
                             $aAdZonePriority['priority_factor_limited'] ? 1 : 0,
-                            is_null($aAdZonePriority['past_zone_traffic_fraction']) ? 'NULL' : $aAdZonePriority['past_zone_traffic_fraction'],
+                            $aAdZonePriority['past_zone_traffic_fraction'],
                             $oDate->format('%Y-%m-%d %H:%M:%S'),
                             0
                         );
@@ -1435,7 +1452,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             if (is_array($aValues) && !empty($aValues)) {
                 reset($aValues);
                 $table = $this->_getTablename('data_summary_ad_zone_assoc');
-                $query = "
+                $querycols = "
                     INSERT INTO
                         {$table}
                         (
@@ -1454,30 +1471,18 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                             past_zone_traffic_fraction,
                             created,
                             created_by
-                        )
-                     VALUES
-                        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                $aTypes = array(
-                    'integer',
-                    'integer',
-                    'timestamp',
-                    'timestamp',
-                    'integer',
-                    'integer',
-                    'integer',
-                    'integer',
-                    'integer',
-                    'float',
-                    'float',
-                    'integer',
-                    'float',
-                    'timestamp',
-                    'integer'
-                );
-                $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
-                while (list(,$aInsertValues) = each($aValues)) {
-                    if (is_array($aInsertValues) && !empty($aInsertValues)) {
-                        $rows = $st->execute($aInsertValues);
+                        )";
+
+                while (list(,$aInsertValues) = each($aValues))
+                {
+                    if (is_array($aInsertValues) && !empty($aInsertValues))
+                    {
+                        $aInsertValues = array_map(array(&$this->oDbh, 'quote'), $aInsertValues);
+
+                        $query = $querycols."
+                             VALUES
+                                (".implode(",",$aInsertValues).")";
+                        $rows = $this->oDbh->exec($query);
                         if (PEAR::isError($rows)) {
                             return false;
                         }
@@ -1485,6 +1490,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 }
             }
         }
+
         return true;
     }
 
@@ -1796,110 +1802,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             }
         }
         $rc->free();
-        // Prepare SQL statements for use later ONLY if they will be used
+
+        // Get table name
         $table = $this->_getTablename('data_summary_zone_impression_history');
-        if (count($aForecasts)>0)
-        {
-            $sInsertQuery = "
-                INSERT INTO
-                    {$table}
-                    (
-                        zone_id,
-                        operation_interval,
-                        operation_interval_id,
-                        interval_start,
-                        interval_end,
-                        forecast_impressions,
-                        est
-                    )
-                VALUES
-                    (?, ?, ?, ?, ?, ?, ?)";
-            $aTypes = array(
-                'integer',
-                'integer',
-                'integer',
-                'timestamp',
-                'timestamp',
-                'integer',
-                'integer'
-            );
-            $stInsert = $this->oDbh->prepare($sInsertQuery, $aTypes, MDB2_PREPARE_MANIP);
-            $sInsertWithActualQuery = "
-                INSERT INTO
-                    {$table}
-                    (
-                        zone_id,
-                        operation_interval,
-                        operation_interval_id,
-                        interval_start,
-                        interval_end,
-                        forecast_impressions,
-                        actual_impressions,
-                        est
-                    )
-                VALUES
-                    (?, ?, ?, ?, ?, ?, ?, ?)";
-            $aTypes = array(
-                'integer',
-                'integer',
-                'integer',
-                'timestamp',
-                'timestamp',
-                'integer',
-                'integer',
-                'integer'
-            );
-            $stInsertWithActual = $this->oDbh->prepare($sInsertWithActualQuery, $aTypes, MDB2_PREPARE_MANIP);
-            $sLocateQuery = "
-                SELECT
-                    data_summary_zone_impression_history_id
-                FROM
-                    {$table}
-                WHERE
-                    zone_id = ?
-                    AND
-                    operation_interval = ?
-                    AND
-                    operation_interval_id = ?
-                    AND
-                    interval_start = ?
-                    AND
-                    interval_end = ?";
-            $aTypes = array(
-                'integer',
-                'integer',
-                'integer',
-                'timestamp',
-                'timestamp'
-            );
-            $stLocate = $this->oDbh->prepare($sLocateQuery, $aTypes, MDB2_PREPARE_RESULT);
-            $sUpdateQuery = "
-                UPDATE
-                    {$table}
-                SET
-                    forecast_impressions = ?,
-                    est = ?
-                WHERE
-                    zone_id = ?
-                    AND
-                    operation_interval = ?
-                    AND
-                    operation_interval_id = ?
-                    AND
-                    interval_start = ?
-                    AND
-                    interval_end = ?";
-            $aTypes = array(
-                'integer',
-                'integer',
-                'integer',
-                'integer',
-                'integer',
-                'timestamp',
-                'timestamp'
-            );
-            $stUpdate = $this->oDbh->prepare($sUpdateQuery, $aTypes, MDB2_PREPARE_MANIP);
-        }
+
         // Does the database in use support transactions?
         if (
                strcasecmp($aConf['database']['type'], 'mysql') === 0
@@ -1916,42 +1822,62 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 reset($aOperationIntervals);
                 while (list($id, $aValues) = each($aOperationIntervals)) {
                     // Does the row already exist?
-                    $aData = array(
-                		$zoneId,
-                		$aConf['maintenance']['operationInterval'],
-                		$id,
-                		$aValues['interval_start'],
-                		$aValues['interval_end']
-            		);
-            		$rc = $stLocate->execute($aData);
+                    $where = "zone_id = ".$this->oDbh->quote($zoneId)." AND
+                            operation_interval = ".$this->oDbh->quote($aConf['maintenance']['operationInterval'])." AND
+                            operation_interval_id = ".$this->oDbh->quote($id)." AND
+                            interval_start = ".$this->oDbh->quote($aValues['interval_start'])." AND
+                            interval_end = ".$this->oDbh->quote($aValues['interval_end'])."
+                    ";
+
+                    $query = "
+                        SELECT
+                            data_summary_zone_impression_history_id
+                        FROM
+                            {$table}
+                        WHERE
+                            {$where}";
+
+                	$rc = $this->oDbh->query($query);
+
                     if ($rc->numRows() > 0) {
                         // Try to update the data
-                        $aData = array(
-                    		$aValues['forecast_impressions'],
-                    		$aValues['est'],
-                    		$zoneId,
-                    		$aConf['maintenance']['operationInterval'],
-                    		$id,
-                    		$aValues['interval_start'],
-                    		$aValues['interval_end']
-                		);
-                		$rows = $stUpdate->execute($aData);
+                        $query = "
+                            UPDATE
+                                {$table}
+                            SET
+                                forecast_impressions = ".$this->oDbh->quote($aValues['forecast_impressions']).",
+                                est = ".$this->oDbh->quote($aValues['est'])."
+                            WHERE
+                                {$where}";
+
+                    	$rows = $this->oDbh->exec($query);
                         if (PEAR::isError($rows)) {
                             OA::debug('   - Error trying to update forecast', PEAR_LOG_DEBUG);
                             return;
                         }
                     } else {
                         // Try to insert the data
-                        $aData = array(
-                    		$zoneId,
-                    		$aConf['maintenance']['operationInterval'],
-                    		$id,
-                    		$aValues['interval_start'],
-                    		$aValues['interval_end'],
-                    		$aValues['forecast_impressions'],
-                    		$aValues['est']
-                		);
-                		$rows = $stInsert->execute($aData);
+                        $query = "
+                            INSERT INTO {$table} (
+                                zone_id,
+                                operation_interval,
+                                operation_interval_id,
+                                interval_start,
+                                interval_end,
+                                forecast_impressions,
+                                est
+                            ) VALUES (
+                                ".$this->oDbh->quote($zoneId).",
+                                ".$this->oDbh->quote($aConf['maintenance']['operationInterval']).",
+                                ".$this->oDbh->quote($id).",
+                                ".$this->oDbh->quote($aValues['interval_start']).",
+                                ".$this->oDbh->quote($aValues['interval_end']).",
+                                ".$this->oDbh->quote($aValues['forecast_impressions']).",
+                                ".$this->oDbh->quote($aValues['est'])."
+                            )
+                        ";
+
+                		$rows = $this->oDbh->exec($query);
                         if (PEAR::isError($rows)) {
                             OA::debug('   - Error trying to insert new forecast', PEAR_LOG_DEBUG);
                             return;
@@ -1999,30 +1925,29 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 reset($aOperationIntervals);
                 while (list($id, $aValues) = each($aOperationIntervals)) {
                     // Insert the forecast
-                    if (!is_null($aValues['actual_impressions'])) {
-                        $aData = array(
-                    		$zoneId,
-                    		$aConf['maintenance']['operationInterval'],
-                    		$id,
-                    		$aValues['interval_start'],
-                    		$aValues['interval_end'],
-                    		$aValues['forecast_impressions'],
-                    		$aValues['actual_impressions'],
-                    		$aValues['est']
-                		);
-            		  $rows = $stInsertWithActual->execute($aData);
-                    } else {
-                        $aData = array(
-                    		$zoneId,
-                    		$aConf['maintenance']['operationInterval'],
-                    		$id,
-                    		$aValues['interval_start'],
-                    		$aValues['interval_end'],
-                    		$aValues['forecast_impressions'],
-                    		$aValues['est']
-                		);
-            		  $rows = $stInsert->execute($aData);
-                    }
+                    $query = "
+                        INSERT INTO {$table} (
+                            zone_id,
+                            operation_interval,
+                            operation_interval_id,
+                            interval_start,
+                            interval_end,
+                            actual_impressions,
+                            forecast_impressions,
+                            est
+                        ) VALUES (
+                            ".$this->oDbh->quote($zoneId).",
+                            ".$this->oDbh->quote($aConf['maintenance']['operationInterval']).",
+                            ".$this->oDbh->quote($id).",
+                            ".$this->oDbh->quote($aValues['interval_start']).",
+                            ".$this->oDbh->quote($aValues['interval_end']).",
+                            ".$this->oDbh->quote($aValues['actual_impressions']).",
+                            ".$this->oDbh->quote($aValues['forecast_impressions']).",
+                            ".$this->oDbh->quote($aValues['est'])."
+                        )
+                    ";
+
+                    $rows = $this->oDbh->exec($query);
                     if (PEAR::isError($rows)) {
                         OA::debug('    - Error: Rolling back transaction', PEAR_LOG_DEBUG);
                         $this->oDbh->rollback();
@@ -2115,7 +2040,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 AND
                 aza.ad_id = b.bannerid
                 AND
-                b.active = 't'
+                b.status = ".OA_ENTITY_STATUS_RUNNING."
             GROUP BY
                 zoneid,
                 zonename,
@@ -2554,6 +2479,151 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             }
         }
         return $aFinalResult;
+    }
+
+    /**
+     * Method to remove records from the data_summary_ad_zone_assoc table
+     * Makes 3 passes and logs the results of each
+     * The 3rd pass takes a param 'max number of records to delete'
+     * Finally the table is queried for reserved diskspace and reports
+     *
+     */
+    function pruneDataSummaryAdZoneAssoc()
+    {
+        OA::debug('Begin pruning old records from data_summary_ad_zone_assoc', PEAR_LOG_INFO);
+        $pruned = $this->pruneDataSummaryAdZoneAssocOldData();
+        OA::debug('Finished pruning old records from data_summary_ad_zone_assoc: '.$pruned.' records deleted', PEAR_LOG_INFO);
+        OA::debug('Begin pruning records for expired inactive campaigns from data_summary_ad_zone_assoc', PEAR_LOG_INFO);
+        $pruned = $this->pruneDataSummaryAdZoneAssocInactiveExpired();
+        OA::debug('Finished pruning expired inactive campaigns from data_summary_ad_zone_assoc: '.$pruned.' records deleted', PEAR_LOG_INFO);
+        OA::debug('Begin pruning records for completed inactive campaigns from data_summary_ad_zone_assoc', PEAR_LOG_INFO);
+        $pruned = $this->pruneDataSummaryAdZoneAssocInactiveTargetReached(100);
+        OA::debug('Finished pruning inactive completed campaigns from data_summary_ad_zone_assoc: '.$pruned.' records deleted', PEAR_LOG_INFO);
+
+        // log the table status/overhead
+        $this->logTableOverhead('data_summary_ad_zone_assoc');
+    }
+
+    /**
+     * A method to prune the data_summary_ad_zone_assoc table
+     * Pruning can be performed where zone_id = 0 (i.e. for direct selection) and where the entry is older than MAX_PREVIOUS_AD_DELIVERY_INFO_LIMIT minutes ago.
+     *
+     * @return integer : number of records deleted
+     */
+    function pruneDataSummaryAdZoneAssocOldData()
+    {
+        $doDSAZA = OA_Dal::factoryDO('data_summary_ad_zone_assoc');
+        $doDSAZA->whereAdd('zone_id=0', 'AND');
+        $doDSAZA->whereAdd('created < DATE_ADD('
+                            .$this->oDbh->quote(OA::getNow()).', '
+                            .OA_Dal::quoteInterval(-MAX_PREVIOUS_AD_DELIVERY_INFO_LIMIT, 'SECOND')
+                            .')'
+                            ,'AND');
+        return $doDSAZA->delete(true, false);
+    }
+
+    /**
+     * A method to prune the data_summary_ad_zone_assoc table
+     * Prune all entries where the ad_id is for a banner in a High Priority Campaign where:
+    * The campaign does not have any booked lifetime target values AND the caMpaign has an end date AND the end date has been passed AND the campaign is not active.
+     *
+     * @return integer : number of records deleted
+     */
+    function pruneDataSummaryAdZoneAssocInactiveExpired()
+    {
+        $prefix         = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+        $tblAssoc       = $this->oDbh->quoteIdentifier($prefix.'data_summary_ad_zone_assoc',true);
+        $tblBanners     = $this->oDbh->quoteIdentifier($prefix.'banners',true);
+        $tblCampaigns   = $this->oDbh->quoteIdentifier($prefix.'campaigns',true);
+
+        $queryEnd = ''
+            .' LEFT JOIN '.$tblCampaigns.' AS c ON b.campaignid = c.campaignid'
+            .' WHERE ( ( c.status <> '. OA_ENTITY_STATUS_RUNNING.') AND (c.priority > 0 )) '
+            .' AND'
+            .'('
+            .'      ('
+            .'          (c.target_impression < 1)'
+            .'          AND'
+            .'          (c.target_click < 1)'
+            .'          AND'
+            .'          (c.target_conversion < 1)'
+            .'      )'
+            .'      AND'
+            .'      (UNIX_TIMESTAMP(c.expire) > 0)'
+            .'      AND'
+            .'      (c.expire < '.$this->oDbh->quote(OA::getNow('Y-m-d')).')'
+            .')'
+            ;
+
+        if ($this->oDbh->dbsyntax == 'pgsql') {
+            $query = 'DELETE FROM '.$tblAssoc
+                    .' WHERE data_summary_ad_zone_assoc_id IN ('
+                    .'  SELECT dsaza.data_summary_ad_zone_assoc_id FROM'
+                    .'  '.$tblAssoc.' AS dsaza'
+                    .' LEFT JOIN '.$tblBanners.' AS b ON dsaza.ad_id = b.bannerid'
+                    .$queryEnd
+                    .')';
+        } else {
+            $query = 'DELETE FROM '.$tblAssoc
+                    .' USING '.$tblAssoc
+                    .' LEFT JOIN '.$tblBanners.' AS b ON '.$tblAssoc.'.ad_id = b.bannerid'
+                    .$queryEnd;
+        }
+        return $this->oDbh->exec($query);
+    }
+
+    /**
+     * A method to prune the data_summary_ad_zone_assoc table
+     * Prune all entries where the ad_id is for a banner in a High Priority Campaign where:
+     * The campaign has a booked number of lifetime target impressions and/or clicks and/or conversions AND the campaign is not active AND at least one of the booked lifetime target values has been reached.
+     *
+     * @param integer : the max number of records to delete
+     * @return integer : number of records deleted
+     */
+    function pruneDataSummaryAdZoneAssocInactiveTargetReached($numberToDelete=100)
+    {
+        $prefix         = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+        $tblInter       = $this->oDbh->quoteIdentifier($prefix.'data_intermediate_ad',true);
+        $tblAssoc       = $this->oDbh->quoteIdentifier($prefix.'data_summary_ad_zone_assoc',true);
+        $tblBanners     = $this->oDbh->quoteIdentifier($prefix.'banners',true);
+        $tblCampaigns   = $this->oDbh->quoteIdentifier($prefix.'campaigns',true);
+
+        $query = 'SELECT
+                     daz.data_summary_ad_zone_assoc_id,
+                     IF( (SUM( dia.impressions ) >= c.views)
+                     OR  (SUM( dia.clicks ) >= c.clicks)
+                     OR  (SUM( dia.conversions ) >= c.conversions), 1, 0) AS target_reached
+                 FROM '.$tblAssoc.' daz
+                 LEFT JOIN '.$tblInter.' AS dia ON dia.ad_id = daz.ad_id
+                 LEFT JOIN '.$tblBanners.' AS b ON daz.ad_id = b.bannerid
+                 LEFT JOIN '.$tblCampaigns.' AS c ON b.campaignid = c.campaignid
+                 WHERE ( ( c.status <> '.OA_ENTITY_STATUS_RUNNING.') AND (c.priority > 0 ))
+                 GROUP BY daz.data_summary_ad_zone_assoc_id, c.views, c.clicks, c.conversions
+                 ORDER BY target_reached DESC';
+
+        $aRows = $this->oDbh->queryAll($query);
+
+        $numberToDelete = min(count($aRows),$numberToDelete);
+        $aIds = array();
+        $result = 0;
+        foreach ($aRows as $k => $aRec)
+        {
+            if ( (count($aIds) == $numberToDelete) || ($aRec['target_reached'] == 0) )
+            {
+                break;
+            }
+            if ( $aRec['target_reached'] == 1)
+            {
+                $aIds[] = $aRec['data_summary_ad_zone_assoc_id'];
+            }
+        }
+        if (!empty($aIds))
+        {
+            $doDSAZA = OA_Dal::factoryDO('data_summary_ad_zone_assoc');
+            $doDSAZA->whereAdd('data_summary_ad_zone_assoc_id IN ('.implode(',',$aIds).')');
+            $result = $doDSAZA->delete(true, false);
+        }
+       return $result;
     }
 
     /**

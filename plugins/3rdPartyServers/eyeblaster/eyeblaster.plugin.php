@@ -64,7 +64,7 @@ class Plugins_3rdPartyServers_eyeblaster_eyeblaster extends Plugins_3rdPartyServ
     function getBannerCache($buffer, &$noScript)
     {
         $search = "#([a-zA-Z]+)\.nFlightID\s*=\s*(\d+);#";
-        $replace = "$1.nFlightID = $2;\r\n\/\/Interactions\n$1.interactions = new Object();\r\n\$1.interactions[\"_eyeblaster\"] = \"ebN={clickurl}\";\r\n";
+        $replace = "$1.nFlightID = $2;\r\n//Interactions\n$1.interactions = new Object();\r\n\$1.interactions[\"_eyeblaster\"] = \"ebN={clickurl}\";\r\n";
 
         $buffer = preg_replace ($search, $replace, $buffer);
 

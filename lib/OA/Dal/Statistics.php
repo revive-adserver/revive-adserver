@@ -33,8 +33,9 @@ $Id:$
 
 
 /**
- * Stistics methods description сlass.
+ * Satistics methods description class.
  *
+ * @package    OpenadsDal
  */
 class OA_Dal_Statistics extends OA_Dal
 {
@@ -52,17 +53,17 @@ class OA_Dal_Statistics extends OA_Dal
     {
         $where = '';
         if (isset($oStartDate)) {
-            $startDate = $this->oDbh->quote($oStartDate->format("%Y-%m-%d"), 'date');
+            $startDate = $this->oDbh->quote($oStartDate->format("%Y-%m-%d 00:00:00"), 'timestamp');
             $where .= '
                 AND
-                s.day >= ' . $startDate;
+                s.date_time >= ' . $startDate;
         }
 
         if (isset($oEndDate)) {
-            $endDate  = $this->oDbh->quote($oEndDate->format("%Y-%m-%d"), 'date');
+            $endDate  = $this->oDbh->quote($oEndDate->format("%Y-%m-%d 23:59:59"), 'timestamp');
             $where .= '
                 AND
-                s.day <= ' . $endDate;
+                s.date_time <= ' . $endDate;
         }
         return $where;
     }
@@ -73,7 +74,7 @@ class OA_Dal_Statistics extends OA_Dal
 	 * @access public
 	 *
      * @param string $tableName
-     * 
+     *
      * @return string  quotes table name
      */
     function quoteTableName($tableName)

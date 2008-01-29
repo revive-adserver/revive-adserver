@@ -31,6 +31,8 @@ require_once 'Spreadsheet/Excel/Writer.php';
 /**
  * MS Excel output provider for for Openads reports
  *
+ * @package OpenadsAdmin
+ *
  * @TODO Clean up code, document, and make generic for OSS release.
  */
 class OA_Admin_ExcelWriter
@@ -289,7 +291,7 @@ class OA_Admin_ExcelWriter
 
     function getPercentageDecimalFormat()
     {
-        for ($cnt = 0 ; $cnt < $GLOBALS['pref']['percentage_decimals']; $cnt++) {
+        for ($cnt = 0 ; $cnt < $GLOBALS['pref']['ui_percentage_decimals']; $cnt++) {
             $strPercentageDecimalPlaces .= '0';
         }
         $strPercentageDecimalFormat = '#,##0.'.$strPercentageDecimalPlaces.'%;-#,##0.'.$strPercentageDecimalPlaces.'%;-';

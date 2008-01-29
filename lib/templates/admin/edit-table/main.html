@@ -55,15 +55,18 @@ $Id$
 {/if}
 {if $_e.type == 'text' || $_e.type == 'password' || !$_e.type}
     <tr>
-        <td width='30'>&nbsp;</td><td width='200'>{$_e.content}</td>
+        <td width='30'>&nbsp;</td><td width='200'><label {if $_e.id}for="{$_e.id}"{/if}>{$_e.content}</label></td>
         <td width='100%'>
         {if $_e.freezed}
             <b>{$_e.value|escape}</b>
         {else}
-            <input onBlur='max_formValidateElement(this);' class='flat' type="{$_e.type|default:'text'}"
+            <input onBlur='max_formValidateElement(this);' class="flat {if $_e.clientValid} {ldelim}{$_e.clientValid}{rdelim}{/if}" type="{$_e.type|default:'text'}"
                 name="{$_e.name|escape}" value="{$_e.value|escape}"{tabindex}
+                {if $_e.id != ''}id="{$_e.id|escape}"{/if}
                 {if $_e.style == 'small'}size="25"{else} size="35" style="width:350px;"{/if}
-                {if $_e.disabled} disabled="disabled"{/if}>
+                {if $_e.disabled} disabled="disabled"{/if}
+                {if $_e.maxlength} maxlength="{$_e.maxlength}"{/if}
+                {if $_e.title} title="{$_e.title}"{/if}>
         {/if}
         </td>
     </tr>

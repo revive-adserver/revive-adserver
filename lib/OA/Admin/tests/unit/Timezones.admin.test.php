@@ -76,20 +76,21 @@ class Test_OA_Admin_Timezones extends UnitTestCase
             $this->assertEqual('America/Detroit', $aTimezone['tz']);
             $this->assertEqual(false, $aTimezone['generated']);
         } else {
-            putenv("TZ=America/Detroit");
-            $aTimezone = OA_Admin_Timezones::getTimezone();
-            $this->assertTrue(is_array($aTimezone));
-            $this->assertEqual(count($aTimezone), 2);
-            $this->assertEqual($aTimezone['tz'], 'America/Detroit');
-            $this->assertEqual($aTimezone['calculated'], false);
-
+            //  this test is dependant upon the system clock
+            // Clear any TZ env
             putenv("TZ=");
+            if (is_callable('apache_setenv')) {
+                apache_setenv('TZ', null);
+            }
+
             $aTimezone = OA_Admin_Timezones::getTimezone();
             $diff = date('O');
             $diffSign = substr($diff, 0, 1);
-            $diffHour = (int) substr($diff, 1, 2);
+            $diffHour = (int) substr($diff, 1, 2) + date('I'); // add 1 hour if date in DST
             $diffMin  = (int) substr($diff, 3, 2);
             $offset = (($diffHour * 60) + ($diffMin)) * 60 * 1000; // Milliseconds
+            $offset = $diffSign . $offset;
+
             global $_DATE_TIMEZONE_DATA;
             reset($_DATE_TIMEZONE_DATA);
             foreach (array_keys($_DATE_TIMEZONE_DATA) as $key) {
@@ -102,6 +103,17 @@ class Test_OA_Admin_Timezones extends UnitTestCase
             $this->assertEqual(count($aTimezone), 2);
             $this->assertEqual($aTimezone['tz'], $tz);
             $this->assertEqual($aTimezone['calculated'], true);
+
+            putenv("TZ=America/Detroit");
+            if (is_callable('apache_setenv')) {
+                apache_setenv('TZ', 'America/Detroit');
+            }
+
+            $aTimezone = OA_Admin_Timezones::getTimezone();
+            $this->assertTrue(is_array($aTimezone));
+            $this->assertEqual(count($aTimezone), 2);
+            $this->assertEqual($aTimezone['tz'], 'America/Detroit');
+            $this->assertEqual($aTimezone['calculated'], false);
         }
     }
 

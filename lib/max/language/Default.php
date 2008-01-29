@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
+require_once MAX_PATH . '/lib/OA/Permission.php';
 
 /**
  * @package    MaxUI
@@ -54,12 +54,6 @@ class Language_Default
         }
         // Always load the English language, in case of incomplete translations
         include_once MAX_PATH . '/lib/max/language/english/default.lang.php';
-        // Load affiliate language file if user is a real affiliate and default is english
-        if (phpAds_isUser(phpAds_Affiliate) && phpAds_isAllowed(MAX_AffiliateIsReallyAffiliate)) {
-            if (empty($aPref['language']) && ($aConf['max']['language'] == 'english') || ($aPref['language'] == 'english')) {
-                $aPref['language'] = $GLOBALS['_MAX']['PREF']['language'] = 'english_affiliates';
-            }
-        }
         // Load the language from preferences, if possible, otherwise load
         // the global preference, if possible
         if (!empty($aPref['language']) && ($aPref['language'] != 'english') && file_exists(MAX_PATH .

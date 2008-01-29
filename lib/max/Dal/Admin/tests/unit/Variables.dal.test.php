@@ -85,6 +85,8 @@ class MAX_Dal_Admin_VariablesTest extends DalUnitTestCase
         $rs = $dalVariables->getTrackerVariables($zoneId, 1, false);
         $rs->reset();
         $this->assertEqual(1, $rs->getRowCount());
+
+        DataGenerator::cleanUp();
     }
 
 }

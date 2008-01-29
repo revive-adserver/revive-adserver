@@ -76,7 +76,7 @@ class TargetingController_EmptyFixture_Test extends UnitTestCase
 		$dal->expectOnce('getPlacementOverviewTargetingStatistics');
         $dal->setReturnValue('getPlacementOverviewTargetingStatistics', array());
 		$controller = new Statistics_TargetingController();
-		$controller->useDataAccessLayer(&$dal);
+		$controller->useDataAccessLayer($dal);
 
 		$monday = new Date('2001-01-01');
     	$friday = new Date('2001-01-05');
@@ -578,7 +578,7 @@ class TargetingController_SummariseIntervalByAd_Test extends TargetingController
 		$this->dal->expectArgumentsAt(1, 'getAdTargetingStatistics', array(310, new EqualExpectation($lunch_start), new EqualExpectation($lunch_end)));
 
 		$this->controller->setPeriod('i', $lunchtime);
-        $this->controller->useDataAccessLayer(&$this->dal);
+        $this->controller->useDataAccessLayer($this->dal);
 		$results = $this->controller->summariseIntervalByAd();
 
 		$this->dal->tally();

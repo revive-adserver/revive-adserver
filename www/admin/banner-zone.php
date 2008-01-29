@@ -43,8 +43,11 @@ require_once MAX_PATH . '/lib/max/other/stats.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 
-    // Security check
-    phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
+// Security check
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
+OA_Permission::enforceAccessToObject('clients',   $clientid);
+OA_Permission::enforceAccessToObject('campaigns', $campaignid);
+OA_Permission::enforceAccessToObject('banners',   $bannerid);
 
     // Get input parameters
     $advertiserId   = MAX_getValue('clientid');
@@ -58,15 +61,8 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
     // Initialise some parameters
     $pageName = basename($_SERVER['PHP_SELF']);
     $tabindex = 1;
-    $agencyId = phpAds_getAgencyID();
+    $agencyId = OA_Permission::getAgencyId();
     $aEntities = array('clientid' => $advertiserId, 'campaignid' => $campaignId, 'bannerid' => $bannerId);
-
-    // Parameter check
-    if (!MAX_checkAd($advertiserId, $campaignId, $bannerId)) {
-        // TODO:  Change the code below to be standard...
-        phpAds_PageHeader('2');
-        phpAds_Die ($strAccessDenied, $strNotAdmin);
-    }
 
     // Process submitted form
     if (isset($submit))

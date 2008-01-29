@@ -250,13 +250,20 @@ class Date_TimeZone
      */
     function inDaylightTime($date)
     {
-        $env_tz = "";
-        if(getenv("TZ")) {
-            $env_tz = getenv("TZ");
+        if (is_callable('date_default_timezone_set')) {
+            $env_tz = date_default_timezone_get();
+            date_default_timezone_set($this->id);
+            $ltime = localtime($date->getTime(), true);
+            date_default_timezone_set($env_tz);
+        } else {
+            $env_tz = "";
+            if(getenv("TZ")) {
+                $env_tz = getenv("TZ");
+            }
+            putenv("TZ=".$this->id);
+            $ltime = localtime($date->getTime(), true);
+            putenv("TZ=".$env_tz);
         }
-        putenv("TZ=".$this->id);
-        $ltime = localtime($date->getTime(), true);
-        putenv("TZ=".$env_tz);
         return $ltime['tm_isdst'];
     }
 

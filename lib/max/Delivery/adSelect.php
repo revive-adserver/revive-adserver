@@ -261,8 +261,8 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
             if (empty($target)) {
                 $target = '_blank';  // Default
             }
-            $outputbuffer = $g_prepend . '<a href=\'' . $row['default_banner_dest'] . '\' target=\'' .
-                            $target . '\'><img src=\'' . $row['default_banner_url'] .
+            $outputbuffer = $g_prepend . '<a href=\'' . $row['default_banner_destination_url'] . '\' target=\'' .
+                            $target . '\'><img src=\'' . $row['default_banner_image_url'] .
                             '\' border=\'0\' alt=\'\'></a>' . $g_append;
             return array('html' => $outputbuffer, 'bannerid' => '' );
         } else {
@@ -302,11 +302,11 @@ function _adSelectDirect($what, $campaignid = '', $context = array(), $source = 
 
         return $aLinkedAd;
     }
-    if (!empty($aDirectLinkedAds['default_banner_url'])) {
+    if (!empty($aDirectLinkedAds['default_banner_image_url'])) {
         return array(
-           'default' => true,
-           'default_banner_url' =>  $aZoneLinkedAds['default_banner_url'],
-           'default_banner_dest' => $aZoneLinkedAds['default_banner_dest']
+           'default'                        => true,
+           'default_banner_image_url'       => $aZoneLinkedAds['default_banner_image_url'],
+           'default_banner_destination_url' => $aZoneLinkedAds['default_banner_destination_url']
         );
     }
 
@@ -394,11 +394,11 @@ function _adSelectZone($zoneId, $context = array(), $source = '', $richMedia = t
             $zoneId = _getNextZone($zoneId, $aZoneLinkedAds);
         }
     }
-    if (!empty($aZoneLinkedAds['default_banner_url'])) {
+    if (!empty($aZoneLinkedAds['default_banner_image_url'])) {
         return array(
-           'default' => true,
-           'default_banner_url' =>  $aZoneLinkedAds['default_banner_url'],
-           'default_banner_dest' => $aZoneLinkedAds['default_banner_dest']
+           'default'                        => true,
+           'default_banner_image_url'       => $aZoneLinkedAds['default_banner_image_url'],
+           'default_banner_destination_url' => $aZoneLinkedAds['default_banner_destination_url']
         );
     }
 

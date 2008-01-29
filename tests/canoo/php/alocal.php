@@ -1,6 +1,6 @@
 <?php
 
-define('MAX_PATH', './..');
+define('MAX_PATH', './../..');
 
 require_once MAX_PATH . '/www/delivery/alocal.php';
 

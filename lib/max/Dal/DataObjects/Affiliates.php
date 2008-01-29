@@ -28,12 +28,20 @@ $Id$
 /**
  * Table Definition for affiliates (Affiliate is often called Publisher)
  */
-require_once 'AbstractUser.php';
+require_once 'DB_DataObjectCommon.php';
 
-class DataObjects_Affiliates extends DataObjects_AbstractUser
+class DataObjects_Affiliates extends DB_DataObjectCommon
 {
     var $onDeleteCascade = true;
     var $refreshUpdatedFieldIfExists = true;
+
+    /**
+     * BC-compatible user details
+     *
+     * @todo Please remove later
+     */
+    var $username;
+    var $password;
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
@@ -46,17 +54,13 @@ class DataObjects_Affiliates extends DataObjects_AbstractUser
     var $contact;                         // string(255)
     var $email;                           // string(64)  not_null
     var $website;                         // string(255)
-    var $username;                        // string(64)
-    var $password;                        // string(64)
-    var $permissions;                     // int(9)
-    var $language;                        // string(64)
-    var $publiczones;                     // string(1)  not_null enum
-    var $last_accepted_agency_agreement;    // datetime(19)  binary
     var $updated;                         // datetime(19)  not_null binary
-    var $oac_website_id;                  // int(11)
+    var $an_website_id;                   // int(11)
     var $oac_country_code;                // string(2)  not_null
     var $oac_language_id;                 // int(11)
     var $oac_category_id;                 // int(11)
+    var $as_website_id;                   // int(11)
+    var $account_id;                      // int(9)  multiple_key
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
@@ -67,17 +71,9 @@ class DataObjects_Affiliates extends DataObjects_AbstractUser
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
-
-    /**
-     * Returns phpAds_Affiliate constant value.
-     *
-     * @return integer
-     */
-    function getUserType()
-    {
-        return phpAds_Affiliate;
-    }
-
+    var $defaultValues = array(
+        'publiczones' => 'f'
+    );
 
     /**
      * Returns affiliateid.
@@ -102,17 +98,151 @@ class DataObjects_Affiliates extends DataObjects_AbstractUser
     }
 
 
-    /**
-     * Returns an array with basic data about this object for use by permission
-     * module. The correctness of this function depends on whether it was initialized
-     * with affiliate_extra data.
-     *
-     * @return array
-     */
-    function getAUserData()
+    function _auditEnabled()
     {
-        return MAX_Permission_User::getAAffiliateData($this);
+        return true;
     }
+
+    function _getContextId()
+    {
+        return $this->affiliateid;
+    }
+
+    function _getContext()
+    {
+        return 'Affiliate';
+    }
+
+    /**
+     * A private method to return the account ID of the
+     * account that should "own" audit trail entries for
+     * this entity type; NOT related to the account ID
+     * of the currently active account performing an
+     * action.
+     *
+     * @return integer The account ID to insert into the
+     *                 "account_id" column of the audit trail
+     *                 database table.
+     */
+    function getOwningAccountId()
+    {
+        return $this->_getOwningAccountIdFromParent('agency', 'agencyid');
+    }
+
+    /**
+     * Handle all necessary operations when new trafficker is created
+     *
+     * @see DB_DataObject::insert()
+     */
+    function insert()
+    {
+        // Create account first
+        $result = $this->createAccount(OA_ACCOUNT_TRAFFICKER, $this->name);
+        if (!$result) {
+            return $result;
+        }
+
+        // Store data to create a user
+        if (!empty($this->username) && !empty($this->password)) {
+            $aUser = array(
+                'contact_name' => $this->contact,
+                'email_address' => $this->email,
+                'username' => $this->username,
+                'password' => $this->password,
+                'default_account_id' => $this->account_id
+            );
+        }
+
+        $affiliateId = parent::insert();
+        if (!$affiliateId) {
+            return $affiliateId;
+        }
+
+        // Create user if needed
+        if (!empty($aUser)) {
+            $this->createUser($aUser);
+        }
+
+        return $affiliateId;
+    }
+
+    /**
+     * Handle all necessary operations when a trafficker is updated
+     *
+     * @see DB_DataObject::update()
+     */
+    function update($dataObject = false)
+    {
+        // Store data to create a user
+        if (!empty($this->username) && !empty($this->password)) {
+            $aUser = array(
+                'contact_name' => $this->contact,
+                'email_address' => $this->email,
+                'username' => $this->username,
+                'password' => $this->password,
+                'default_account_id' => $this->account_id
+            );
+        }
+
+        $ret = parent::update($dataObject);
+        if (!$ret) {
+            return $ret;
+        }
+
+        // Create user if needed
+        if (!empty($aUser)) {
+            $this->createUser($aUser);
+        }
+
+        $this->updateAccountName($this->name);
+
+        return $ret;
+    }
+
+    /**
+     * Handle all necessary operations when a trafficker is deleted
+     *
+     * @see DB_DataObject::delete()
+     */
+    function delete($useWhere = false, $cascade = true, $parentid = null)
+    {
+        $result =  parent::delete($useWhere, $cascade, $parentid);
+        if ($result) {
+            $this->deleteAccount();
+        }
+
+        return $result;
+    }
+
+    /**
+     * build an affiliates specific audit array
+     *
+     * @param integer $actionid
+     * @param array $aAuditFields
+     */
+    function _buildAuditArray($actionid, &$aAuditFields)
+    {
+        $aAuditFields['key_desc']     = $this->name;
+        switch ($actionid)
+        {
+            case OA_AUDIT_ACTION_INSERT:
+                        break;
+            case OA_AUDIT_ACTION_UPDATE:
+                        break;
+            case OA_AUDIT_ACTION_DELETE:
+                        break;
+        }
+    }
+
+    function _formatValue($field)
+    {
+        switch ($field)
+        {
+            default:
+                return $this->$field;
+        }
+    }
+
 }
 
 ?>

@@ -61,6 +61,11 @@ class DataObjects_Trackers extends DB_DataObjectCommon
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
+    var $defaultValues = array(
+        'linkcampaigns' => 'f',
+        'variablemethod' => 'default'
+    );
+
     function duplicate()
     {
         // Store the current (pre-duplication) tracker ID for use later
@@ -98,6 +103,69 @@ class DataObjects_Trackers extends DB_DataObjectCommon
         }
 
         return $newTrackerid;
+    }
+
+    function _auditEnabled()
+    {
+        return true;
+    }
+
+    function _getContextId()
+    {
+        return $this->trackerid;
+    }
+
+    function _getContext()
+    {
+        return 'Tracker';
+    }
+
+    /**
+     * A private method to return the account ID of the
+     * account that should "own" audit trail entries for
+     * this entity type; NOT related to the account ID
+     * of the currently active account performing an
+     * action.
+     *
+     * @return integer The account ID to insert into the
+     *                 "account_id" column of the audit trail
+     *                 database table.
+     */
+    function getOwningAccountId()
+    {
+        return $this->_getOwningAccountIdFromParent('clients', 'clientid');
+    }
+
+    /**
+     * build a client specific audit array
+     *
+     * @param integer $actionid
+     * @param array $aAuditFields
+     */
+    function _buildAuditArray($actionid, &$aAuditFields)
+    {
+        $aAuditFields['key_desc']     = $this->trackername;
+        switch ($actionid)
+        {
+            case OA_AUDIT_ACTION_INSERT:
+                        break;
+            case OA_AUDIT_ACTION_UPDATE:
+                        $aAuditFields['clientid'] = $this->clientid;
+                        break;
+            case OA_AUDIT_ACTION_DELETE:
+                        break;
+        }
+    }
+
+    function _formatValue($field)
+    {
+        switch ($field)
+        {
+            case 'linkcampaigns':
+                return $this->_boolToStr($this->$field);
+            default:
+                return $this->$field;
+        }
     }
 }
 

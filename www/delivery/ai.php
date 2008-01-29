@@ -117,9 +117,9 @@ $GLOBALS['_MAX']['HTTP'] = 'http://';
 // Maximum random number (use default if doesn't exist - eg the case when application is upgraded)
 $GLOBALS['_MAX']['MAX_RAND'] = isset($GLOBALS['_MAX']['CONF']['priority']['randmax']) ?
 $GLOBALS['_MAX']['CONF']['priority']['randmax'] : 2147483647;
-// Set time zone, for more info @see setTimeZoneLocation()
-if (!empty($GLOBALS['_MAX']['CONF']['timezone']['location'])) {
-setTimeZoneLocation($GLOBALS['_MAX']['CONF']['timezone']['location']);
+// Always use UTC when outside the installer
+if (substr($_SERVER['SCRIPT_NAME'], -11) != 'install.php') {
+OA_setTimeZoneUTC();
 }
 }
 function setupServerVariables()
@@ -145,15 +145,29 @@ $GLOBALS['_MAX']['CONF'] = parseDeliveryIniFile();
 // Set up the common configuration variables
 setupConfigVariables();
 }
-function setTimeZoneLocation($location)
+function OA_setTimeZone($timezone)
 {
 if (version_compare(phpversion(), '5.1.0', '>=')) {
 // Set new time zone
-date_default_timezone_set($location);
+date_default_timezone_set($timezone);
 } else {
 // Set new time zone
-putenv("TZ={$location}");
+putenv("TZ={$timezone}");
 }
+// Set PEAR::Date_TimeZone default as well
+//
+// Ideally this should be a Date_TimeZone::setDefault() call, but for optimization
+// purposes, we just override the global variable
+$GLOBALS['_DATE_TIMEZONE_DEFAULT'] = $timezone;
+}
+function OA_setTimeZoneUTC()
+{
+OA_setTimeZone('UTC');
+}
+function OA_setTimeZoneLocal()
+{
+$tz = !empty($GLOBALS['_MAX']['PREF']['timezone']) ? $GLOBALS['_MAX']['PREF']['timezone'] : 'GMT';
+OA_setTimeZone($tz);
 }
 function getHostName()
 {
@@ -627,7 +641,7 @@ exit(1);
 $aConf = $GLOBALS['_MAX']['CONF'];
 $type = (!empty($aConf['geotargeting']['type'])) ? $aConf['geotargeting']['type'] : null;
 if (!is_null($type) && $type != 'none') {
-$functionName = 'MAX_Geo_'.$type.'_getInfo';
+$functionName = 'OA_Geo_'.$type.'_getInfo';
 if (function_exists($functionName)) {
 return;
 }
@@ -1092,13 +1106,14 @@ $what = 'zone:'.$zoneid;
 } else {
 $what = '';
 }
-} elseif (preg_match('/^.+:.+$/', $what)) {
-list($whatName, $whatValue) = explode(':', $what);
-if ($whatName == 'zone') {
-$whatName = 'zoneid';
+} elseif (preg_match('/^(.+):(.+)$/', $what, $matches)) {
+switch ($matches[1]) {
+case 'zoneid':
+case 'zone':        $zoneid     = $matches[2]; break;
+case 'bannerid':    $bannerid   = $matches[2]; break;
+case 'campaignid':  $campaignid = $matches[2]; break;
+case 'clientid':    $clientid   = $matches[2]; break;
 }
-global $$whatName;
-$$whatName = $whatValue;
 }
 // 2.0 backwards compatibility - clientid parameter was used to fetch a campaign
 if (!isset($clientid))  $clientid = '';
@@ -1327,7 +1342,7 @@ return false;
 $filename = OA_Delivery_Cache_buildFileName($name, $isHash);
 $cache_literal  = "<"."?php\n\n";
 $cache_literal .= "$"."cache_contents   = ".var_export($cache, true).";\n\n";
-$cache_literal .= "$"."cache_name       = '".addcslashes($name, "'")."';\n";
+$cache_literal .= "$"."cache_name       = '".addcslashes($name, "\\'")."';\n";
 $cache_literal .= "$"."cache_time       = ".MAX_commonGetTimeNow().";\n";
 if ($expireAt !== null) {
 $cache_literal .= "$"."cache_expire     = ".$expireAt.";\n";
@@ -1420,6 +1435,16 @@ $aRows = OA_Dal_Delivery_getAd($ad_id);
 $aRows = OA_Delivery_Cache_store_return($sName, $aRows);
 }
 return $aRows;
+}
+function MAX_cacheGetAdminTZ($cached = true)
+{
+$sName  = OA_Delivery_Cache_getName(__FUNCTION__);
+if (!$cached || ($tz = OA_Delivery_Cache_fetch($sName)) === false) {
+MAX_Dal_Delivery_Include();
+$tz = OA_Dal_Delivery_getAdminTZ();
+$tz = OA_Delivery_Cache_store_return($sName, $tz);
+}
+return $tz;
 }
 function MAX_cacheGetZoneLinkedAds($zoneId, $cached = true)
 {
@@ -1552,9 +1577,9 @@ $aCreative = MAX_cacheGetCreative($filename);
 if (empty($aCreative)) {
 // Filename not found, show the admin user's default banner
 // (as the agency cannot be determined from a filename)
-$pref = MAX_Admin_Preferences::loadPrefs(0);
-if ($pref['default_banner_url'] != "") {
-MAX_redirect($pref['default_banner_url']);
+$pref = OA_Preferences::loadAdminAccountPreferences(true);
+if ($pref['default_banner_image_url'] != "") {
+MAX_redirect($pref['default_banner_image_url']);
 }
 } else {
 // Filename found, dump contents to browser
@@ -1581,9 +1606,9 @@ MAX_sendStatusCode(304);
 } else {
 // Filename not specified, show the admin user's default banner
 // (as the agency cannot be determined from a filename)
-$pref = MAX_Admin_Preferences::loadPrefs(0);
-if ($pref['default_banner_url'] != "") {
-MAX_redirect($pref['default_banner_url']);
+$aPref = OA_Preferences::loadAdminAccountPreferences(true);
+if ($aPref['default_banner_image_url'] != "") {
+MAX_redirect($aPref['default_banner_image_url']);
 }
 }
 

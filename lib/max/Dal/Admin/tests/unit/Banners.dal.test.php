@@ -26,6 +26,7 @@ $Id$
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
+require_once MAX_PATH . '/lib/OA/Dll.php';
 
 /**
  * A class for testing DAL Banners methods
@@ -111,19 +112,19 @@ class MAX_Dal_Admin_BannersTest extends DalUnitTestCase
     {
         // Insert an active campaign
         $doCampaigns = OA_Dal::factoryDO('campaigns');
-        $doCampaigns->active = 't';
+        $doCampaigns->status = OA_ENTITY_STATUS_RUNNING;
         $activeCampaignId = DataGenerator::generateOne($doCampaigns);
 
         // Insert an active banner
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->active = 't';
+        $doBanners->status = OA_ENTITY_STATUS_RUNNING;
         $doBanners->campaignid = $activeCampaignId;
         $doBanners->acls_updated = '2007-04-03 18:39:45';
         $activeBannerId = DataGenerator::generateOne($doBanners);
 
         // Insert an inactive banner
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->active = 'f';
+        $doBanners->status = OA_ENTITY_STATUS_PAUSED;
         $doBanners->campaignid = $activeCampaignId;
         $doBanners->acls_updated = '2007-04-03 18:39:45';
         $inactiveBannerId = DataGenerator::generateOne($doBanners);
@@ -146,20 +147,20 @@ class MAX_Dal_Admin_BannersTest extends DalUnitTestCase
 
         // Insert an active campaign with this client
         $doCampaigns = OA_Dal::factoryDO('campaigns');
-        $doCampaigns->active = 't';
+        $doCampaigns->status = OA_ENTITY_STATUS_RUNNING;
         $doCampaigns->clientid = $agencyClientId;
         $agencyCampaignIdActive = DataGenerator::generateOne($doCampaigns);
 
         // Insert an active banner in this campaign
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->active = 't';
+        $doBanners->status = OA_ENTITY_STATUS_RUNNING;
         $doBanners->campaignid = $agencyCampaignIdActive;
         $doBanners->acls_updated = '2007-04-03 18:39:45';
         $agencyBannerIdActive = DataGenerator::generateOne($doBanners);
 
         // Insert an inactive banner in this campaign
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->active = 'f';
+        $doBanners->status = OA_ENTITY_STATUS_PAUSED;
         $doBanners->campaignid = $agencyCampaignIdActive;
         $doBanners->acls_updated = '2007-04-03 18:39:45';
         $agencyBannerIdInactive = DataGenerator::generateOne($doBanners);
@@ -172,13 +173,13 @@ class MAX_Dal_Admin_BannersTest extends DalUnitTestCase
 
          // Insert an active campaign with this client
         $doCampaigns = OA_Dal::factoryDO('campaigns');
-        $doCampaigns->active = 't';
+        $doCampaigns->status = OA_ENTITY_STATUS_RUNNING;
         $doCampaigns->clientid = $noAgencyClientId;
         $noAgencyCampaignIdActive = DataGenerator::generateOne($doCampaigns);
 
         // Insert an active banner in this campaign
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->active = 't';
+        $doBanners->status = OA_ENTITY_STATUS_RUNNING;
         $doBanners->campaignid = $noAgencyCampaignIdActive;
         $doBanners->acls_updated = '2007-04-03 18:39:45';
         $noAgencyBannerIdActive = DataGenerator::generateOne($doBanners);

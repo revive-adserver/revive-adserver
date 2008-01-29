@@ -29,7 +29,7 @@ require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 
 function MAX_getDisplayName($name, $length = 60, $append = '...')
 {
-    $displayName = strlen($name) > $length ? rtrim(substr($name, 0, $maxLen-strlen($append))) . $append : $name;
+    $displayName = strlen($name) > $length ? rtrim(substr($name, 0, $length-strlen($append))) . $append : $name;
     if (empty($displayName)) {
         $displayName = $GLOBALS['strUntitled'];
     }
@@ -576,7 +576,7 @@ function MAX_displayNavigationCampaign($pageName, $aOtherAdvertisers, $aOtherCam
     $advertiserName = MAX_buildName($advertiserId, $aOtherAdvertisers[$advertiserId]['name']);
 
     // Determine which tab is highlighted
-    if (phpAds_isUser(phpAds_Client)) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
         if ($pageName == 'campaign-banners.php') {
             $tabValue = "2.1";
         }
@@ -586,11 +586,12 @@ function MAX_displayNavigationCampaign($pageName, $aOtherAdvertisers, $aOtherCam
             case 'campaign-edit.php'     : $tabValue = '4.1.3.2'; break;
             case 'campaign-zone.php'     : $tabValue = '4.1.3.3'; break;
             case 'campaign-banners.php'  : $tabValue = '4.1.3.4'; break;
-            case 'campaign-trackers.php' : $tabValue = '4.1.3.5'; break;
+            // Disabled trackers!
+            //case 'campaign-trackers.php' : $tabValue = '4.1.3.5'; break;
         }
 
     // Get the tab sections
-    $tabSections = array('4.1.3.2', '4.1.3.3', '4.1.3.4', '4.1.3.5');
+    $tabSections = array('4.1.3.2', '4.1.3.3', '4.1.3.4'); //, '4.1.3.5'); // Disabled trackers!
     }
     foreach ($aOtherCampaigns as $otherCampaignId => $aOtherCampaign) {
         $otherCampaignName = MAX_buildName($otherCampaignId, $aOtherCampaign['name']);
@@ -610,12 +611,12 @@ function MAX_displayNavigationCampaign($pageName, $aOtherAdvertisers, $aOtherCam
         phpAds_PageContext($otherCampaignName, $page, $current);
     }
 
-    if (!phpAds_isUser(phpAds_Client)) {
+    if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
         phpAds_PageShortcut($GLOBALS['strClientProperties'], "advertiser-edit.php?clientid=$advertiserId", 'images/icon-advertiser.gif');
     }
     phpAds_PageShortcut($GLOBALS['strCampaignHistory'], "stats.php?entity=campaign&breakdown=history&$entityString", 'images/icon-statistics.gif');
 
-    if (!phpAds_isUser(phpAds_Client)) {
+    if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
     $extra  = "
     <form action='campaign-modify.php'>
     <input type='hidden' name='clientid' value='$advertiserId'>
@@ -668,7 +669,7 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
     $otherEntityString = _getEntityString($aOtherEntities);
 
     // Determine which tab is highlighted
-    if (phpAds_isUser(phpAds_Client)) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
         switch ($pageName) {
             case 'banner-edit.php'   : $tabValue = '2.1.1'; break;
         }
@@ -712,10 +713,10 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
         phpAds_PageContext($otherBannerName, $page, $current);
     }
 
-    if (MAX_Permission::isAllowed(phpAds_ModifyInfo)) {
+    if (OA_Permission::hasAccessToObject('clients', $advertiserId)) {
         phpAds_PageShortcut($GLOBALS['strClientProperties'], "advertiser-edit.php?clientid=$advertiserId", 'images/icon-advertiser.gif');
     }
-    if (!phpAds_isUser(phpAds_Client)) {
+    if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
         phpAds_PageShortcut($GLOBALS['strCampaignProperties'], "campaign-edit.php?clientid=$advertiserId&campaignid=$campaignId", 'images/icon-campaign.gif');
     }
     phpAds_PageShortcut($GLOBALS['strBannerHistory'], "stats.php?entity=banner&breakdown=history&$entityString", 'images/icon-statistics.gif');
@@ -734,7 +735,7 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
 <img src='images/icon-move-banner.gif' align='absmiddle'>&nbsp;{$GLOBALS['strMoveTo']}<br />
 <img src='images/spacer.gif' height='1' width='160' vspace='2'><br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<select name='moveto' style='width: 110;'>";
+<select name='moveto' style='width: 120px;'>";
     $aOtherCampaigns = _multiSort($aOtherCampaigns,'name','placement_id');
     foreach ($aOtherCampaigns as $otherCampaignId => $aOtherCampaign) {
 
@@ -771,7 +772,7 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
         $extra .= "</select>&nbsp;<input type='image' name='applyto' src='images/".$phpAds_TextDirection."/go_blue.gif'><br />";
         $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br />";
     }
-    if (!phpAds_isUser(phpAds_Client)) {
+    if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
         $extra .= "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='banner-delete.php?$entityString&returnurl=campaign-banners.php'$deleteConfirm>{$GLOBALS['strDelete']}</a><br />";
     }
     $extra .= "</form>";
@@ -813,7 +814,7 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
     $publisherName = MAX_buildName($publisherId, $aPublisher['name']);
     $zoneName = (empty($zoneId)) ? $GLOBALS['strUntitled'] : MAX_buildName($zoneId, $aOtherZones[$zoneId]['name']);
 
-    if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
         $tabSections = array('4.2.3.2', '4.2.3.6', '4.2.3.3', '4.2.3.4', '4.2.3.5');
         // Determine which tab is highlighted
         switch ($pageName) {
@@ -830,12 +831,12 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
             case 'zone-probability.php' : $tabValue = '4.2.3.4'; break;
             case 'zone-invocation.php'  : $tabValue = '4.2.3.5'; break;
         }
-    } elseif (phpAds_isUser(phpAds_Affiliate)) {
+    } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
         $tabSections = array();
-        if (phpAds_isAllowed(phpAds_EditZone)) { $tabSections[] = '2.1.1'; }
-        if (phpAds_isAllowed(phpAds_LinkBanners)) { $tabSections[] = '2.1.2'; }
+        if (OA_Permission::hasPermission(OA_PERM_ZONE_EDIT)) { $tabSections[] = '2.1.1'; }
+        if (OA_Permission::hasPermission(OA_PERM_ZONE_LINK)) { $tabSections[] = '2.1.2'; }
         $tabSections[] = '2.1.3';
-        if (phpAds_isAllowed(MAX_AffiliateGenerateCode)) { $tabSections[] = '2.1.4'; }
+        if (OA_Permission::hasPermission(OA_PERM_ZONE_INVOCATION)) { $tabSections[] = '2.1.4'; }
         switch($pageName) {
             case 'zone-edit.php': $tabValue = '2.1.1'; if (empty($zoneId)) $tabSections = array('2.1.1'); break;
             case 'zone-include.php': $tabValue = '2.1.2'; break;
@@ -854,12 +855,12 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
         phpAds_PageContext($otherZoneName, $page, $current);
     }
 
-    if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || phpAds_isAllowed(phpAds_ModifyInfo)) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER)) {
         phpAds_PageShortcut($GLOBALS['strAffiliateProperties'], "affiliate-edit.php?affiliateid=$publisherId", 'images/icon-affiliate.gif');
     }
     phpAds_PageShortcut($GLOBALS['strZoneHistory'], "stats.php?entity=zone&breakdown=history&$entityString", 'images/icon-statistics.gif');
 
-    if (!empty($zoneId) && (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || (phpAds_isAllowed(phpAds_EditZone) || phpAds_isAllowed(phpAds_DeleteZone) || phpAds_isAllowed(phpAds_AddZone)))) {
+    if (!empty($zoneId) && (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || (OA_Permission::hasPermission(OA_PERM_ZONE_EDIT) || OA_Permission::hasPermission(OA_PERM_ZONE_DELETE) || OA_Permission::hasPermission(OA_PERM_ZONE_ADD)))) {
         $extra = "
             <form action='zone-modify.php'>
             <input type='hidden' name='affiliateid' value='$publisherId'>
@@ -867,17 +868,17 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
             <input type='hidden' name='returnurl' value='$pageName'>
             <br /><br />
             ";
-        if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || phpAds_isAllowed(phpAds_DeleteZone)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_DELETE)) {
             $extra .= "<b>{$GLOBALS['strModifyZone']}</b><br />
             <img src='images/break.gif' height='1' width='160' vspace='4'><br />";
         }
-        if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || phpAds_isAllowed(phpAds_AddZone)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_ADD)) {
                 $extra .= "
                     <img src='images/icon-duplicate-zone.gif' align='absmiddle'>&nbsp;<a href='zone-modify.php?duplicate=true&$entityString&returnurl=$pageName'>{$GLOBALS['strDuplicate']}</a><br />
                     <img src='images/break.gif' height='1' width='160' vspace='4'><br />
                 ";
         }
-        if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $extra .= "
             <img src='images/icon-move-zone.gif' align='absmiddle'>&nbsp;{$GLOBALS['strMoveTo']}<br />
             <img src='images/spacer.gif' height='1' width='160' vspace='2'><br />
@@ -892,7 +893,7 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
                     }
                 }
         }
-        if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || phpAds_isAllowed(phpAds_DeleteZone)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_DELETE)) {
             $deleteConfirm = phpAds_DelConfirm($GLOBALS['strConfirmDeleteZone']);
             $extra .= "
                 </select>
@@ -904,7 +905,7 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
         $extra .= "</form>";
     }
     phpAds_PageHeader($tabValue, $extra);
-    if (!phpAds_isUser(phpAds_Affiliate)) {
+    if (!OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
         echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;$publisherName&nbsp;<img src='images/$phpAds_TextDirection/caret-rs.gif'>&nbsp;";
     }
     echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<b>$zoneName</b><br /><br /><br />";
@@ -922,11 +923,12 @@ function MAX_displayNavigationPublisher($pageName, $aOtherPublishers, $aEntities
     unset($aOtherEntities['affiliateid']);
     $otherEntityString = _getEntityString($aOtherEntities);
 
-    $tabSections = array('4.2.2', '4.2.3', '4.2.4', '4.2.5');
+    $tabSections = array('4.2.2', '4.2.3', '4.2.4', '4.2.5', '4.2.6', '4.2.7');
 
     // Determine which tab is highlighted
     switch ($pageName) {
         case 'affiliate-channels.php' : $tabValue = '4.2.4'; break;
+        case 'affiliate-advsetup.php' : $tabValue = '4.2.6'; break;
     }
 
     // Sort the publishers by name...
@@ -952,7 +954,7 @@ function MAX_displayNavigationPublisher($pageName, $aOtherPublishers, $aEntities
     phpAds_ShowSections($tabSections);
 }
 
-function MAX_displayNavigationChannel($pageName, $aOtherAgencies, $aOtherPublishers, $aOtherChannels, $aEntities)
+function MAX_displayNavigationChannel($pageName, $aOtherChannels, $aEntities)
 {
     global $phpAds_TextDirection;
 
@@ -967,10 +969,8 @@ function MAX_displayNavigationChannel($pageName, $aOtherAgencies, $aOtherPublish
 
     if (!empty($publisherId)) {
         $channelType = 'publisher';
-    } elseif (!empty($agencyId)) {
-        $channelType = 'agency';
     } else {
-        $channelType = 'admin';
+        $channelType = 'agency';
     }
 
     // Determine which set of tabs to show...
@@ -983,27 +983,11 @@ function MAX_displayNavigationChannel($pageName, $aOtherAgencies, $aOtherPublish
         $tabSections = (!empty($channelId)) ? array('4.2.4.2', '4.2.4.3') : array('4.2.4.1');
     } else {
         // Determine which tab is highlighted
-        if (phpAds_isUser(phpAds_Admin)) {
-            if ($channelType == 'agency') {
-                switch ($pageName) {
-                    case 'channel-edit.php' : $tabValue = (!empty($channelId)) ? '5.5.3.2' : '5.5.3.1'; break;
-                    case 'channel-acl.php' : $tabValue = '5.5.3.3'; break;
-                }
-                $tabSections = (!empty($channelId)) ? array('5.5.3.2', '5.5.3.3') : array('5.5.3.1');
-            } else {
-                switch ($pageName) {
-                    case 'channel-edit.php' : $tabValue = (!empty($channelId)) ? '5.6.2' : '5.6.1'; break;
-                    case 'channel-acl.php' : $tabValue = '5.6.3'; break;
-                }
-                $tabSections = (!empty($channelId)) ? array('5.6.2', '5.6.3') : array('5.6.1');
-            }
-        } else {
-            switch ($pageName) {
-                case 'channel-edit.php' : $tabValue = (!empty($channelId)) ? '5.2.2' : '5.2.1'; break;
-                case 'channel-acl.php' : $tabValue = '5.2.3'; break;
-            }
-            $tabSections = (!empty($channelId)) ? array('5.2.2', '5.2.3') : array('5.2.1');
+        switch ($pageName) {
+            case 'channel-edit.php' : $tabValue = (!empty($channelId)) ? '5.7.2' : '5.7.1'; break;
+            case 'channel-acl.php' : $tabValue = '5.7.3'; break;
         }
+        $tabSections = (!empty($channelId)) ? array('5.7.2', '5.7.3') : array('5.7.1');
     }
 
     // Sort the channels by name...
@@ -1037,53 +1021,10 @@ function MAX_displayNavigationChannel($pageName, $aOtherAgencies, $aOtherPublish
 <img src='images/break.gif' height='1' width='160' vspace='4'><br />
 <img src='images/icon-duplicate-channel.gif' align='absmiddle'>&nbsp;<a href='channel-modify.php?duplicate=true&{$entityString}returnurl=$pageName'>{$GLOBALS['strDuplicate']}</a><br />";
 
-    $deleteReturlUrl = '';
     if ($channelType == 'publisher') {
         $deleteReturlUrl = 'affiliate-channels.php';
-
-        $extra .= "
-<img src='images/break.gif' height='1' width='160' vspace='4'><br />
-<img src='images/icon-move-channel.gif' align='absmiddle'>&nbsp;{$GLOBALS['strMoveTo']}<br />
-<img src='images/spacer.gif' height='1' width='160' vspace='2'><br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<select name='newaffiliateid' style='width: 110;'>";
-        $aOtherPublishers = _multiSort($aOtherPublishers,'name','publisher_id');
-        foreach ($aOtherPublishers as $otherPublisherId => $aOtherPublisher) {
-            $otherPublisherName = MAX_buildName($otherPublisherId, $aOtherPublisher['name']);
-            if ($otherPublisherId != $publisherId) {
-                $extra .= "
-<option value='$otherPublisherId'>$otherPublisherName</option>";
-            } else {
-                $publisherName = $otherPublisherName;
-            }
-        }
-
-        $extra .= "
-</select>
-<input type='image' src='images/$phpAds_TextDirection/go_blue.gif'><br />";
-    } elseif (phpAds_isUser(phpAds_Admin) && $channelType == 'agency') {
+    } else {
         $deleteReturlUrl = 'channel-index.php';
-
-        $extra .= "
-<img src='images/break.gif' height='1' width='160' vspace='4'><br />
-<img src='images/icon-move-channel-agency.gif' align='absmiddle'>&nbsp;{$GLOBALS['strMoveTo']}<br />
-<img src='images/spacer.gif' height='1' width='160' vspace='2'><br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<select name='newagencyid' style='width: 110;'>";
-        $aOtherAgencies = _multiSort($aOtherAgencies,'name','agency_id');
-        foreach ($aOtherAgencies as $otherAgencyId => $aOtherAgency) {
-            $otherAgencyName = MAX_buildName($otherAgencyId, $aOtherAgency['name']);
-            if ($otherAgencyId != $agencyId) {
-                $extra .= "
-<option value='$otherAgencyId'>$otherAgencyName</option>";
-            } else {
-                $agencyName = $otherAgencyName;
-            }
-        }
-
-        $extra .= "
-</select>
-<input type='image' src='images/$phpAds_TextDirection/go_blue.gif'><br />";
     }
 
     $deleteConfirm = phpAds_DelConfirm($GLOBALS['strConfirmDeleteChannel']);
@@ -1224,13 +1165,13 @@ function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideIn
     $aPlacements = !empty($aParams) ? Admin_DA::getPlacements($aParams) : array();
     foreach ($aPlacements as $placementId => $aPlacement) {
         $aAds = Admin_DA::getAds($aParams + array('placement_id' => $placementId), true);
-        $placementActive = $aPlacement['active'] == 't';
+        $placementActive = $aPlacement['status'] == OA_ENTITY_STATUS_RUNNING;
         if (!$hideInactive || $placementActive) {
             $bgcolor = $i % 2 == 0 ? " bgcolor='#F6F6F6'" : '';
             if ($showParentPlacements) {
                 $placementIcon = MAX_getEntityIcon('placement', $placementActive);
                 $placementName = MAX_getDisplayName($aPlacement['name']);
-                $placementLink = (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) ? "<a href='campaign-edit.php?clientid={$aPlacement['advertiser_id']}&campaignid=$placementId'>$placementName</a>" : $placementName;
+                $placementLink = (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) ? "<a href='campaign-edit.php?clientid={$aPlacement['advertiser_id']}&campaignid=$placementId'>$placementName</a>" : $placementName;
                 if ($i > 0) {
                     echo "
 <tr height='1'>
@@ -1248,11 +1189,11 @@ function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideIn
 </tr>";
             }
             foreach ($aAds as $adId => $aAd) {
-                $adActive = ($aAd['active'] == 't' && $aPlacement['active'] == 't');
+                $adActive = ($aAd['status'] == OA_ENTITY_STATUS_RUNNING && $aPlacement['status'] == OA_ENTITY_STATUS_RUNNING);
                 if (!$hideInactive || $adActive) {
                     $adIcon = MAX_getEntityIcon('ad', $adActive, $aAd['type']);
                     $adName = MAX_getDisplayName($aAd['name']);
-                    $adLink = (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) ? "<a href='banner-edit.php?clientid={$aPlacement['advertiser_id']}&campaignid=$placementId&bannerid=$adId'>$adName</a>" : $adName;
+                    $adLink = (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) ? "<a href='banner-edit.php?clientid={$aPlacement['advertiser_id']}&campaignid=$placementId&bannerid=$adId'>$adName</a>" : $adName;
                     $adWidth = $aAd['contenttype'] == 'txt' ? 300 : $aAd['width'] + 64;
                     $adHeight = $aAd['contenttype'] == 'txt' ? 200 : $aAd['height'] + (!empty($aAd['bannertext']) ? 90 : 64);
                     echo "
@@ -1317,7 +1258,7 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
         $inactive = 0;
         $aPlacements = (!empty($aParams)) ? Admin_DA::getPlacements($aParams) : array();
         foreach ($aPlacements as $placementId => $aPlacement) {
-            $placementActive = $aPlacement['active'] == 't';
+            $placementActive = $aPlacement['status'] == OA_ENTITY_STATUS_RUNNING;
             if (!$hideInactive || $placementActive) {
                 $pParams = $aParams;
                 $pParams['placement_id'] = $placementId;
@@ -1345,7 +1286,7 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
 
                 $placementIcon = MAX_getEntityIcon('placement', $placementActive);
                 $placementName = MAX_getDisplayName($aPlacement['name']);
-                $placementLink = (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) ? "<a href='campaign-edit.php?clientid={$aPlacement['advertiser_id']}&campaignid=$placementId'>$placementName</a>" : $placementName;
+                $placementLink = (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) ? "<a href='campaign-edit.php?clientid={$aPlacement['advertiser_id']}&campaignid=$placementId'>$placementName</a>" : $placementName;
                 $adCount = empty($aAds) ? 0 : count($aAds);
                 $placementDescription = $showMatchingAds ? '&nbsp;' : str_replace('{count}', $adCount, $GLOBALS['strMatchingBanners']);
                 if ($i > 0) {
@@ -1366,11 +1307,11 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
     </tr>";
                 if ($showMatchingAds && !empty($aAds)) {
                     foreach ($aAds as $adId => $aAd) {
-                        $adActive = ($aAd['active'] == 't' && $aPlacement['active'] == 't');
+                        $adActive = ($aAd['status'] == OA_ENTITY_STATUS_RUNNING && $aPlacement['status'] == OA_ENTITY_STATUS_RUNNING);
                         if (!$hideInactive || $adActive) {
                             $adIcon = MAX_getEntityIcon('ad', $adActive, $aAd['type']);
                             $adName = MAX_getDisplayName($aAd['name']);
-                            $adLink = (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) ? "<a href='banner-edit.php?clientid={$aPlacement['advertiser_id']}&campaignid=$placementId&bannerid=$adId'>$adName</a>" : $adName;
+                            $adLink = (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) ? "<a href='banner-edit.php?clientid={$aPlacement['advertiser_id']}&campaignid=$placementId&bannerid=$adId'>$adName</a>" : $adName;
                             $adWidth = $aAd['contenttype'] == 'txt' ? 300 : $aAd['width'] + 64;
                             $adHeight = $aAd['contenttype'] == 'txt' ? 200 : $aAd['height'] + (!empty($aAd['bannertext']) ? 90 : 64);
                             echo "
@@ -1573,7 +1514,7 @@ function MAX_displayChannels($channels, $aParams) {
                     $publisher = Admin_DA::getPublisher($channel['publisher_id']);
                     $ownerNameStr = '[id'.$channel['publisher_id'].'] '.$publisher['name'];
                 } else if (!empty($channel['agency_id']) && empty($channel['publisher_id'])
-                       && !phpAds_isUser(phpAds_Agency)) {
+                       && !OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
                     $ownerTypeStr = 'Agency: ';
                     $agency = Admin_DA::getAgency($channel['agency_id']);
                     $ownerNameStr = '[id'.$channel['agency_id'].'] '.$agency['name'];
@@ -1640,10 +1581,10 @@ function _isAdvertiserActive($aAdvertiserPlacementAd)
 function _isPlacementActive($aPlacementAd)
 {
     $active = false;
-    if ($aPlacementAd['active'] == 't') {
+    if ($aPlacementAd['status'] == OA_ENTITY_STATUS_RUNNING) {
         if (isset($aPlacementAd['children'])) {
             foreach($aPlacementAd['children'] as $aAd) {
-                if ($aAd['active'] == 't') {
+                if ($aAd['status'] == OA_ENTITY_STATUS_RUNNING) {
                     $active = true;
                     break;
                 }

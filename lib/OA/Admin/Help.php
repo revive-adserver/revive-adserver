@@ -52,26 +52,11 @@ class OA_Admin_Help
      */
     function getDocLinkFromPhpAdsNavId($sNavId)
     {
-        // Prepare navi2help mapping
-        if (phpAds_isUser(phpAds_Admin))
-        {
-            $aNavi2help	= $GLOBALS['navi2help']['admin'];
-        }
-        elseif (phpAds_isUser(phpAds_Client))
-        {
-            $aNavi2help  = $GLOBALS['navi2help']['client'];
-        }
-        elseif (phpAds_isUser(phpAds_Affiliate))
-        {
-            $aNavi2help  = $GLOBALS['navi2help']['affiliate'];
-        }
-        elseif (phpAds_isUser(phpAds_Agency))
-        {
-            $aNavi2help  = $GLOBALS['navi2help']['agency'];
-        }
-        else
-        {
-            $aNavi2help  = array();
+        $accountType = OA_Permission::getAccountType();
+        if (isset($GLOBALS['OA_NavigationHelp'][$accountType])) {
+            $aNavi2help = $GLOBALS['OA_NavigationHelp'][$accountType];
+        } else {
+            $aNavi2help = array();
         }
 
         if (empty($aNavi2help[$sNavId]))

@@ -47,9 +47,9 @@ phpAds_registerGlobal (
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
 
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
-MAX_Permission::checkAccessToObject('clients', $clientid);
-MAX_Permission::checkAccessToObject('trackers', $trackerid);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
+OA_Permission::enforceAccessToObject('clients', $clientid);
+OA_Permission::enforceAccessToObject('trackers', $trackerid);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -300,7 +300,7 @@ while ($doTrackers->fetch() && $row = $doTrackers->toArray()) {
     );
 }
 
-if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
 {
     phpAds_PageShortcut($strClientProperties, 'advertiser-edit.php?clientid='.$clientid, 'images/icon-advertiser.gif');
 
@@ -320,8 +320,8 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
 
     $doClients = OA_Dal::factoryDO('clients');
     $doClients->whereAdd('clientid <>'.$clientid);
-    if (phpAds_isUser(phpAds_Agency)) {
-        $doClients->agencyid = phpAds_getUserID();
+    if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+        $doClients->agencyid = OA_Permission::getEntityId();
     }
     $doClients->find();
 
@@ -482,9 +482,9 @@ if (isset($trackerid) && $trackerid != '')
                                         echo "<tr>\n";
                                             echo "<td>". 'Variable hidden to' ."</td>\n";
                                             echo "<td><select name='visibility".$k."' id='visibility".$k."' onchange='m3_updateVisibility()'>\n";
-                                            echo "<option ".($v['hidden'] != 't' && !count($v['publisher_hidden']) ? 'selected ' : '')."value='none'>". 'No publishers' ."</option>\n";
-                                            echo "<option ".(count($v['publisher_visible']) || count($v['publisher_hidden']) ? 'selected ' : '')."value='some'>". 'Some publishers' ."</option>\n";
-                                            echo "<option ".($v['hidden'] == 't' && !count($v['publisher_visible'])  ? 'selected ' : '')."value='all'>". 'All publishers' ."</option>\n";
+                                            echo "<option ".($v['hidden'] != 't' && !count($v['publisher_hidden']) ? 'selected ' : '')."value='none'>". 'No websites' ."</option>\n";
+                                            echo "<option ".(count($v['publisher_visible']) || count($v['publisher_hidden']) ? 'selected ' : '')."value='some'>". 'Some websites' ."</option>\n";
+                                            echo "<option ".($v['hidden'] == 't' && !count($v['publisher_visible'])  ? 'selected ' : '')."value='all'>". 'All websites' ."</option>\n";
                                             echo "</select></td>\n";
                                         echo "</tr>\n";
                                         echo "<tr class='customvisibility".$k."'><td colspan='2'>&nbsp;</td></tr>\n";

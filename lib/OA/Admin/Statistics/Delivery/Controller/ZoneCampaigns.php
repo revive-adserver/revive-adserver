@@ -92,7 +92,7 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneCampaigns extends OA_Admin_Sta
         $zoneId      = $this->_getId('zone');
 
         // Security check
-        phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
+        OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
         $this->_checkAccess(array('publisher' => $publisherId, 'zone' => $zoneId));
 
         // Add standard page parameters
@@ -109,10 +109,10 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneCampaigns extends OA_Admin_Sta
         $this->_loadParams();
 
         // HTML Framework
-        if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $this->pageId = '2.4.2.2';
             $this->aPageSections = array('2.4.2.1', '2.4.2.2');
-        } elseif (phpAds_isUser(phpAds_Affiliate)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $this->pageId = '1.2.2';
             $this->aPageSections = array('1.2.1', '1.2.2');
         }
@@ -124,7 +124,7 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneCampaigns extends OA_Admin_Sta
         $this->aPageContext = array('zones', $zoneId);
 
         // Add shortcuts
-        if (!phpAds_isUser(phpAds_Affiliate)) {
+        if (!OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $this->_addShortcut(
                 $GLOBALS['strAffiliateProperties'],
                 'affiliate-edit.php?affiliateid='.$publisherId,
@@ -144,7 +144,7 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneCampaigns extends OA_Admin_Sta
         $this->entityLinks['c'] = 'stats.php?entity=zone&breakdown=campaign-history';
         $this->entityLinks['b'] = 'stats.php?entity=zone&breakdown=banner-history';
 
-        $this->hideInactive = MAX_getStoredValue('hideinactive', ($aPref['gui_hide_inactive'] == 't'));
+        $this->hideInactive = MAX_getStoredValue('hideinactive', ($aPref['ui_hide_inactive'] == true));
         $this->showHideInactive = true;
 
         $this->startLevel = MAX_getStoredValue('startlevel', 0);

@@ -199,9 +199,9 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
     function display()
     {
         $oStartDate = $this->getStartDate();
-        $startDateStr = is_null($oStartDate) ? '' : $oStartDate->format('%Y-%m-%d');
+        $startDateStr = is_null($oStartDate) ? '' : $oStartDate->format('%d %B %Y ');
         $oEndDate = $this->getEndDate();
-        $endDateStr = is_null($oEndDate) ? '' : $oEndDate->format('%Y-%m-%d');
+        $endDateStr = is_null($oEndDate) ? '' : $oEndDate->format('%d %B %Y');
 
         echo "
         <select name='{$this->_name}_preset' id='{$this->_name}_preset' onchange='{$this->_name}FormChange(" . ($this->_autoSubmit ? 1 : 0) . ")' tabindex='" . $this->_tabIndex++ . "'>";
@@ -224,20 +224,20 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
         <!--
         Calendar.setup({
             inputField : '{$this->_name}_start',
-            ifFormat   : '%Y-%m-%d',
+            ifFormat   : '%d %B %Y',
             button     : '{$this->_name}_start_button',
             align      : 'Bl',
             weekNumbers: false,
-            firstDay   : " . ($GLOBALS['pref']['begin_of_week'] ? 1 : 0) . ",
+            firstDay   : " . ($GLOBALS['pref']['ui_week_start_day'] ? 1 : 0) . ",
             electric   : false
         })
         Calendar.setup({
             inputField : '{$this->_name}_end',
-            ifFormat   : '%Y-%m-%d',
+            ifFormat   : '%d %B %Y',
             button     : '{$this->_name}_end_button',
             align      : 'Bl',
             weekNumbers: false,
-            firstDay   : " . ($GLOBALS['pref']['begin_of_week'] ? 1 : 0) . ",
+            firstDay   : " . ($GLOBALS['pref']['ui_week_start_day'] ? 1 : 0) . ",
             electric   : false
         })
         // Tabindex handling
@@ -265,9 +265,9 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
                 if ($v != 'all_stats') {
                     $oTmpDaySpan->setSpanPresetValue($v);
                     $oTmpStartDate = $oTmpDaySpan->getStartDate();
-                    $sTmpStartDate = $oTmpStartDate->format('%Y-%m-%d');
+                    $sTmpStartDate = $oTmpStartDate->format('%d %B %Y');
                     $oTmpEndDate   = $oTmpDaySpan->getEndDate();
-                    $sTmpEndDate   = $oTmpEndDate->format('%Y-%m-%d');
+                    $sTmpEndDate   = $oTmpEndDate->format('%d %B %Y');
                 } else {
                     $sTmpStartDate = '';
                     $sTmpEndDate   = '';

@@ -11,8 +11,18 @@ sslPort                             = 443
 
 [max]
 installed                           = false
-uiEnabled                           = true
-language                            = english
+
+[ui]
+enabled                             = true
+applicationName                     =
+headerFilePath                      =
+footerFilePath                      =
+logoFilePath                        =
+headerForegroundColor               =
+headerBackgroundColor               =
+headerActiveTabColor                =
+headerTextColor                     =
+gzipCompression                     = false
 
 ;------------------------------------------------------------------------------------------;
 ; Database Settings                                                                        ;
@@ -34,13 +44,6 @@ statisticsSortBufferSize            =
 
 [databasePgsql]
 schema                              =
-
-;------------------------------------------------------------------------------------------;
-; Optional Alternative Time Zone Setting                                                   ;
-;------------------------------------------------------------------------------------------;
-
-[timezone]
-location                            =
 
 ;------------------------------------------------------------------------------------------;
 ; Delivery Path and File Name Settings                                                     ;
@@ -95,6 +98,23 @@ protocol                            = http
 ; Delivery Details                                                                         ;
 ;------------------------------------------------------------------------------------------;
 
+[allowedBanners]
+sql                                 = true
+web                                 = true
+url                                 = true
+html                                = true
+text                                = true
+
+[allowedTags]
+adjs                                = true
+adlayer                             = true
+adviewnocookies                     = true
+local                               = true
+popup                               = false
+adframe                             = true
+adview                              = false
+xmlrpc                              = false
+
 [delivery]
 cacheExpire                         = 1200
 cachePath                           =
@@ -108,6 +128,7 @@ cgiForceStatusHeader                = false ; Set this to true if using a CGI sa
                                             ; does not correctly deal with HTTP headers
                                             ; and leaves the description empty
                                             ; (i.e. "HTTP/1.1 302" insead that 302 Found)
+clicktracking                       = "No"
 
 [p3p]
 policies                            = true
@@ -137,7 +158,6 @@ proxyLookup                         = true
 sniff                               = false
 defaultImpressionConnectionWindow   =
 defaultClickConnectionWindow        =
-logInUTC                            = false   ; If true delivery log raw data in UTC
 ignoreHosts                         =         ; Comma separated list of hosts
 
 [maintenance]
@@ -181,6 +201,10 @@ type                = INNODB            ; Either MyISAM, or INNODB, for MySQL ON
 ; Table Names                                                                              ;
 ;------------------------------------------------------------------------------------------;
 
+account_preference_assoc                 = account_preference_assoc
+account_user_assoc                       = account_user_assoc
+account_user_permission_assoc            = account_user_permission_assoc
+accounts                                 = accounts
 acls                                     = acls
 acls_channel                             = acls_channel
 ad_category_assoc                        = ad_category_assoc
@@ -189,6 +213,7 @@ affiliates                               = affiliates
 affiliates_extra                         = affiliates_extra
 agency                                   = agency
 application_variable                     = application_variable
+audit                                    = audit
 banners                                  = banners
 campaigns                                = campaigns
 campaigns_trackers                       = campaigns_trackers
@@ -217,17 +242,25 @@ placement_zone_assoc                     = placement_zone_assoc
 plugins_channel_delivery_assoc           = plugins_channel_delivery_assoc
 plugins_channel_delivery_domains         = plugins_channel_delivery_domains
 plugins_channel_delivery_rules           = plugins_channel_delivery_rules
-preference                               = preference
-preference_advertiser                    = preference_advertiser
-preference_publisher                     = preference_publisher
+preferences                              = preferences
 session                                  = session
 targetstats                              = targetstats
 trackers                                 = trackers
 tracker_append                           = tracker_append
 userlog                                  = userlog
+users                                    = users
 variables                                = variables
 variable_publisher                       = variable_publisher
 zones                                    = zones
+
+;------------------------------------------------------------------------------------------;
+; E-mail                                                                                   ;
+;------------------------------------------------------------------------------------------;
+
+[email]
+logOutgoing                              = true
+headers                                  =
+qmailPatch                               = false
 
 ;------------------------------------------------------------------------------------------;
 ; Debugging/Error Logging Details                                                          ;
@@ -315,6 +348,9 @@ compactStatsGrace   = 604800
 ; Openads Central Settings                                                                 ;
 ;------------------------------------------------------------------------------------------;
 
+[sync]
+checkForUpdates = true
+
 [oacSync]
 protocol    = https
 host        = sync.openads.org
@@ -328,6 +364,8 @@ host        = oac.openads.org
 port        = 443
 path        = /oac/xmlrpc
 captcha     = /oac/captcha
+signUpUrl   = /oac/advertiser/signup
+publihserUrl= /oac/advertiser/defzone
 
 [oacDashboard]
 protocol    = https
@@ -364,5 +402,12 @@ geoipDmaLocation=
 geoipOrgLocation=
 geoipIspLocation=
 geoipNetspeedLocation=
+
+;------------------------------------------------------------------------------------------;
+; Audit Settings                                                                           ;
+;------------------------------------------------------------------------------------------;
+
+[audit]
+enabled=1
 
 ;------------------------------------------------------------------------------------------;

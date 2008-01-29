@@ -30,9 +30,11 @@ $Id$
 require_once '../../init.php';
 
 // Required files
-require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
+
+// OA-900, hide graph
+OA_Permission::enforceTrue(false);
 
 require_once MAX_PATH . '/lib/OA/Admin/Statistics/Factory.php';
 
@@ -95,14 +97,8 @@ $_REQUEST['clientid']    = $clientid;
 $pgName = 'stats.php';
 
 $oStats = &OA_Admin_Statistics_Factory::getController($entity . "-" . $breakdown);
+$oStats->noFormat = true;
 $oStats->start();
-
-// Remove comas in values greater than 1000
-foreach($oStats->aStatsData as $dateKey => $dateRecord) {
-    foreach($dateRecord as $k => $v) {
-        $oStats->aStatsData[$dateKey][$k] = ereg_replace(",", "", $v);
-    }
-}
 
 // Output html code
 $oStats->output(true);

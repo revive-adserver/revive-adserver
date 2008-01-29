@@ -68,13 +68,14 @@ class migration_tables_core_127Test extends MigrationTest
             array('zoneid' => 3, 'zonetype' => 3, 'what' => 'clientid:3'),
             array('zoneid' => 4, 'zonetype' => 3, 'what' => 'clientid:5', 'delivery' => phpAds_ZoneText),
             array('zoneid' => 5, 'zonetype' => 3, 'what' => 'clientid:5', 'delivery' => phpAds_ZoneBanner, 'width' => 468, 'height' => 60),
+            array('zoneid' => 6, 'zonetype' => 0, 'what' => 'bannerid:2,bannerid:3'),
+            array('zoneid' => 7, 'zonetype' => 3, 'what' => 'clientid:3,clientid:4'),
+            array('zoneid' => 8, 'zonetype' => 0, 'what' => 'bannerid:2,bannerid:3,bannerid:4,bannerid:5'),
+            array('zoneid' => 9, 'zonetype' => 3, 'what' => 'clientid:,clientid:3'),
         );
         foreach ($aAValues as $aValues) {
-            $aValues += array(
-                'chain'   => '',
-                'prepend' => '',
-                'append'  => '',
-            );
+            // Set empty defaults for NOT NULL fields
+            $aValues['chain'] = $aValues['prepend'] = $aValues['append'] = '';
             $sql = OA_DB_Sql::sqlForInsert('zones', $aValues);
             $this->oDbh->exec($sql);
         }
@@ -89,13 +90,9 @@ class migration_tables_core_127Test extends MigrationTest
             array('bannerid' => 7, 'campaignid' => 5, 'storagetype' => 'sql', 'width' => 125, 'height' => 125),
         );
         foreach ($aABannerValues as $aBannerValues) {
-            $aBannerValues += array(
-                'htmltemplate'       => '',
-                'htmlcache'          => '',
-                'bannertext'         => '',
-                'compiledlimitation' => '',
-                'append'             => ''
-            );
+            // Set empty defaults for NOT NULL fields
+            $aBannerValues['htmltemplate'] = $aBannerValues['htmlcache'] = $aBannerValues['bannertext'] =
+                $aBannerValues['compiledlimitation'] = $aBannerValues['append'] = '';
             $sql = OA_DB_Sql::sqlForInsert('banners', $aBannerValues);
             $this->oDbh->exec($sql);
         }
@@ -103,12 +100,10 @@ class migration_tables_core_127Test extends MigrationTest
         $this->upgradeToVersion(127);
 
         $aAssocTables = array(
-            $this->oDbh->quoteIdentifier($prefix.'ad_zone_assoc',true)." WHERE link_type = 1" => 5,
-            $this->oDbh->quoteIdentifier($prefix.'ad_zone_assoc',true)." WHERE link_type = 0" => 7,
-            $this->oDbh->quoteIdentifier($prefix.'placement_zone_assoc',true) => 3);
-
-        foreach($aAssocTables as $assocTable => $cAssocs)
-        {
+            "{$prefix}ad_zone_assoc WHERE link_type = 1" => 17,
+            "{$prefix}ad_zone_assoc WHERE link_type = 0" => 7,
+            "{$prefix}placement_zone_assoc" => 6);
+        foreach($aAssocTables as $assocTable => $cAssocs) {
             $rsCAssocs = DBC::NewRecordSet("SELECT count(*) AS cassocs FROM $assocTable");
             $this->assertTrue($rsCAssocs->find());
             $this->assertTrue($rsCAssocs->fetch());

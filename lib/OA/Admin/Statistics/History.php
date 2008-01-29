@@ -68,19 +68,27 @@ class OA_Admin_Statistics_History
     function getSpan(&$oCaller, $aParams, $type = 'getHistorySpan', $pluginMethod = 'getHistorySpanParams')
     {
         $oStartDate = new Date(date('Y-m-d'));
+        $oStartDate->setHour(0);
+        $oStartDate->setMinute(0);
+        $oStartDate->setSecond(0);
         // Check span using all plugins
         foreach ($oCaller->aPlugins as $oPlugin) {
             $aPluginParams = call_user_func(array($oPlugin, $pluginMethod));
             $aSpan = Admin_DA::fromCache($type, $aParams + $aPluginParams);
             if (!empty($aSpan['start_date'])) {
                 $oDate = new Date($aSpan['start_date']);
+                $oDate->setTZbyID('UTC');
                 if ($oDate->before($oStartDate)) {
+                    $oDate->convertTZ($oStartDate->tz);
                     $oStartDate = new Date($oDate);
                 }
             }
         }
+        $oStartDate->setHour(0);
+        $oStartDate->setMinute(0);
+        $oStartDate->setSecond(0);
         $oNow  = new Date();
-        $oSpan = new Date_Span($oStartDate, new Date(date('Y-m-d')));
+        $oSpan = new Date_Span(new Date($oStartDate), new Date($oNow->format('%Y-%m-%d')));
         // Store the span data required for stats display
         $oCaller->oStartDate = $oStartDate;
         $oCaller->spanDays   = (int)ceil($oSpan->toDays());
@@ -225,7 +233,8 @@ class OA_Admin_Statistics_History
                 case 'week' :
                 case 'day' :
                     // Set the "day/week" value
-                    $aStats[$key]['day'] = $key;
+                    $oDate = new Date($key);
+                    $aStats[$key]['day'] = $oDate->format($GLOBALS['date_format']);
                     if (!empty($link)) {
                     // Set LHC day-breakdown link, if required:
                         $aStats[$key]['link'] = $oCaller->_addPageParamsToURI($link, $aDayLinkParams) . 'day=' . str_replace('-', '', $key);
@@ -452,7 +461,11 @@ class OA_Admin_Statistics_History
                     if (is_null($aWeekData[$week]['data'][$oDate->format('%Y-%m-%d')])) {
                         // Set the day's data to the empty row, plus the "day" heading for the day
                         $aWeekData[$week]['data'][$oDate->format('%Y-%m-%d')] = $oCaller->aEmptyRow;
-                        $aWeekData[$week]['data'][$oDate->format('%Y-%m-%d')]['day'] = $oDate->format('%Y-%m-%d');
+                        $aWeekData[$week]['data'][$oDate->format('%Y-%m-%d')]['day'] = $oDate->format($GLOBALS['date_format']);
+                    } elseif (!is_null($aWeekData[$week]['data'][$oDate->format('%Y-%m-%d')])
+                            && !array_key_exists('day', $aWeekData[$week]['data'][$oDate->format('%Y-%m-%d')]))
+                    {
+                        $aWeekData[$week]['data'][$oDate->format('%Y-%m-%d')]['day'] = $oDate->format($GLOBALS['date_format']);
                     }
                     $oDate->addSeconds(SECONDS_PER_DAY);
                 }
@@ -462,6 +475,11 @@ class OA_Admin_Statistics_History
             // Format all day rows
             foreach (array_keys($aWeekData[$week]['data']) as $key) {
                 $oCaller->_formatStatsRowRecursive($aWeekData[$week]['data'][$key]);
+            }
+
+            // Calculate CTR and other columns, making sure that the method is available
+            if (is_callable(array($oCaller, '_summarizeStats'))) {
+                $oCaller->_summarizeStats($aWeekData[$week]);
             }
         }
         // Set the new weekly-formatted data as the new data array to use

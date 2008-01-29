@@ -59,9 +59,9 @@ class Plugins_Geotargeting_GeoIP_GeoIP extends Plugins_Geotargeting
      * @return array An array that will contain the results of the
      *               GeoTargeting lookup.
      */
-    function getInfo()
+    function getInfo($useCookie = false)
     {
-        return MAX_Geo_GeoIP_getInfo();
+        return OA_Geo_GeoIP_getInfo($useCookie);
     }
 }
 

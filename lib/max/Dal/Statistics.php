@@ -71,8 +71,8 @@ class MAX_Dal_Statistics extends MAX_Dal_Common
         $dsahTable = $this->oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['data_summary_ad_hourly'],true);
         $query = "
             SELECT
-                dsah.day AS day,
-                dsah.hour AS hour
+                DATE_FORMAT(dsah.date_time, '%Y-%m-%d') AS day,
+                HOUR(dsah.date_time) AS hour
             FROM
                 $adTable AS a,
                 $dsahTable AS dsah
@@ -81,7 +81,7 @@ class MAX_Dal_Statistics extends MAX_Dal_Common
                 AND
                 a.bannerid = dsah.ad_id
             ORDER BY
-                dsah.day ASC, dsah.hour ASC
+                day ASC, hour ASC
             LIMIT 1";
         $message = "Finding start date of placement ID $placementId based on delivery statistics.";
         OA::debug($message, PEAR_LOG_DEBUG);

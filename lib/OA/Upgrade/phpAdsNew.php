@@ -99,7 +99,7 @@ class OA_phpAdsNew
     {
         if (is_array($phpAds_config))
         {
-            $aResult['max']['uiEnabled'] = $phpAds_config['ui_enabled'];
+            $aResult['ui']['enabled'] = $phpAds_config['ui_enabled'];
             $aResult['openads']['requireSSL'] = $phpAds_config['ui_forcessl'];
             $aResult['maintenance']['autoMaintenance'] = $phpAds_config['auto_maintenance'];
             $aResult['logging']['reverseLookup'] = $phpAds_config['reverse_lookup'];

@@ -23,17 +23,14 @@
 | You should have received a copy of the GNU General Public License         |
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
----------------------------------------------------------------------------+
++---------------------------------------------------------------------------+
 $Id$
 
 -->*}
 
-{if $captchaErrorFormId}
-<script language="javascript">
-  var captchaInError = true;
-  var captchaFormId = '{$captchaErrorFormId}';
-</script>
-{/if}
+<img src='images/icon-affiliate-new.gif' border='0' align='absmiddle'>&nbsp;
+<a href='affiliate-edit.php' accesskey=".$keyAddNew.">{t str=AddNewAffiliate_Key}</a>&nbsp;&nbsp;
+{phpAds_ShowBreak}
 
 {if $error!=''}
     <div class='errormessage' id='errors'>
@@ -45,66 +42,29 @@ $Id$
 
 <br>
 <br>
-<div class="section ">
-<div class="title">Publishers</div>
-<div class="content">
 
 {include file=affiliate-index-list.html from=$affiliates}
 
-</div>
-</div>
-<div class="section ">
-<div class="title">Add publisher</div>
-<div class="content">
-<div style="text-align: center">
-<div id="required-missing-form" class="error-box hide" style="margin-bottom: 10px">
-        To activate Ad Networks, please pick Category, Country and Language.
-      </div>
-<div id="url-empty-form" class="error-box hide" style="margin-bottom: 10px">
+<br /><br /><br /><br />
 
-        Please provide website URL
-      </div>
-</div>
-<form id="add_new_publisher_form" action="" class="new-form" method="POST">
-<input type="hidden" name="formId" value="add_new_publisher_form">
-<div class="line">
-<label for="urln" class="left">Website URL</label>
-        http://<input id="urln" name="url" type="text" value="{$newAffiliate.website|escape}" class="flat" style="margin-left: 2px; width: 14.5em">
-</div>
+{* Total number of clients *}
+<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>
+<tr>
+    <td height='25' colspan='2'>&nbsp;&nbsp;<b>{t str=Overall}</b></td>
 
-{if $oacEnabled!=''}
-    <div class="line">
-    <label for="categoryn" class="left">Category</label><select name="category" class="flat" id="categoryn">
-        {html_options options=$categories selected=$newAffiliate.oac_category_id}
-    </select>
-    
-    </div>
-    <div class="line">
-    <label for="countryn" class="left">Country</label><select name="country" class="flat" id="countryn">
-        {html_options options=$countries selected=$newAffiliate.oac_country_code}
-    </select>
-    </div>
-    <div class="line">
-    <label for="languagen" class="left">Language</label><select name="language" class="flat" id="languagen">
-        {html_options options=$languages selected=$newAffiliate.oac_language_id}
-    </select>
-{/if}
+</tr>
+<tr height='1'>
+    <td colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>
+</tr>
 
-</div>
-<div class="line line-nolabel">
-<input id="adnetworksn" type="checkbox" name="adnetworks"{if $newAffiliate.oac_adnetworks == 'yes'} checked="checked"{/if} {if $oacEnabled == ''} disabled="disabled"{/if} value="t" /><label for="adnetworksn" class="cb">Sign up this publisher for AdNetworks</label>
-</div>
-<div class="line line-nolabel" style="margin-top: 20px">
-<input id="add-publisher" type="submit" name="pub-add" value="Add publisher" class="main">
-</div>
-{include file=adnetworks-signup-dialog.html formId=add_new_publisher_form}
-</form>
-</div>
-</div>
-{include file=affiliate-delete-dialog.html}
-<script>
-<!--
-      initInlineEdit();
-      initPublisherAdd();
-//-->
-</script>
+<tr>
+    <td height='25'>&nbsp;&nbsp;{t str=TotalZones}: <b>{$countZone}</b></td>
+    <td height='25'>{t str=TotalAffiliates}: <b>{$countAffiliate}</b></td>
+</tr>
+
+<tr height='1'>
+    <td colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>
+</tr>
+
+</table>
+<br /><br />

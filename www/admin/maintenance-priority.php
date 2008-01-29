@@ -39,15 +39,14 @@ require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 
 // Security check
-//phpAds_checkAccess(phpAds_Admin);
-MAX_Permission::checkAccess(phpAds_Admin);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-phpAds_PageHeader("5.3");
-phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
+phpAds_PageHeader("5.4");
+phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
 phpAds_MaintenanceSelection("priority");
 
 /*-------------------------------------------------------*/
@@ -118,7 +117,7 @@ function phpAds_showBanners()
 
 			echo "<td height='25'>".$rows[$key]['bannerid']."</td>";
 			echo "<td height='25'>".$rows[$key]['priority']."</td>";
-			echo "<td height='25'>".number_format($rows[$key]['priority'] / $prioritysum * 100, $pref['percentage_decimals'])."%</td>";
+			echo "<td height='25'>".number_format($rows[$key]['priority'] / $prioritysum * 100, $pref['ui_percentage_decimals'])."%</td>";
 
 			echo "</tr>";
 			$i++;

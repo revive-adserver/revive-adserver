@@ -339,7 +339,7 @@ $GLOBALS['strHiddenCampaign']			= "Verborgene Kampagne";
 $GLOBALS['strHiddenAd']                     = "Verborgene Werbung";
 $GLOBALS['strHiddenAdvertiser']             = "Verborgene Werbetreibende";
 $GLOBALS['strHiddenTracker']                = "Verborgene Tracker";
-$GLOBALS['strHiddenPublisher']              = "Verborgene Werbetr&auml;ger";
+$GLOBALS['strHiddenWebsite']                = "Verborgene Werbetr&auml;ger";
 $GLOBALS['strHiddenZone']                   = "Verborgene Zone";
 $GLOBALS['strUnderdeliveringCampaigns']		= "Nicht erf&uuml;llte Kampagnen";
 $GLOBALS['strCampaignDelivery']			= "Kampagnen Auslieferung";
@@ -896,7 +896,7 @@ $GLOBALS['strImpendingCampaignExpiry']          = "Bevorstehende Deaktivierung d
 $GLOBALS['strYourCampaign']                     = "Ihre Kampagne";
 $GLOBALS['strTheCampiaignBelongingTo']          = "Die Kampagne geh&ouml;rend zu";
 $GLOBALS['strImpendingCampaignExpiryDateBody']  = "Unten angegebene {clientname} wird am {date} auslaufen.";
-$GLOBALS['strImpendingCampaignExpiryImpsBody']  = "Unten angegebene {clientname} hat weniger als {limit} Impressions übrig.";
+$GLOBALS['strImpendingCampaignExpiryImpsBody']  = "Unten angegebene {clientname} hat weniger als {limit} Impressions ï¿½brig.";
 $GLOBALS['strImpendingCampaignExpiryBody']      = "Auf Grund dessen wird die Kampagne bald deaktiviert und weiter unten angegebene Banner aus dieser Kampagne werden deaktiviert.";
 
 // Priority
@@ -1007,7 +1007,7 @@ $GLOBALS['strPwdRecPasswordSaved']    = "Das neue Passwort wurde gespeichert. Kl
 $GLOBALS['strPwdRecWrongId']          = "Falsche ID";
 $GLOBALS['strPwdRecEnterEmail']       = "Geben Sie nachfolgend Ihre eMail Adresse ein";
 $GLOBALS['strPwdRecEnterPassword']    = "Geben Sie nachfolgend Ihr neues Passwort ein";
-$GLOBALS['strPwdRecResetLink']        = "Link zum Passwort zurücksetzen";
+$GLOBALS['strPwdRecResetLink']        = "Link zum Passwort zurï¿½cksetzen";
 $GLOBALS['strPwdRecEmailPwdRecovery'] = "%s Passwort wiederherstellen";
 $GLOBALS['strProceed']                = "Weiter &gt;";
 

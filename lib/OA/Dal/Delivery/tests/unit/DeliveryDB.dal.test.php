@@ -25,7 +25,9 @@
 $Id $
 */
 
-require_once MAX_PATH . '/lib/OA/Dal/Delivery/'.$GLOBALS['_MAX']['CONF']['database']['type'].'.php';
+
+require_once MAX_PATH . '/lib/max/Dal/Delivery.php';
+require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 require_once 'Log.php';
 
 // pgsql execution time before refactor: 132.33s
@@ -34,7 +36,7 @@ require_once 'Log.php';
 /**
  * A class for testing the Delivery Engine DAL class.
  *
- * @package    MaxDal
+ * @package    OpenadsDal
  * @subpackage TestSuite
  * @author     Unknown!
  *
@@ -46,19 +48,19 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
 {
     var $oDbh;
     var $prefix;
+    var $aIds;
 
     function Test_OA_Dal_DeliveryDB()
     {
         $this->UnitTestCase();
         $this->oDbh = OA_DB::singleton();
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        $this->prefix = $aConf['table']['prefix'];
-        $error = TestEnv::loadData('0.3.27_delivery', 'insert');
-    }
+        $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+        $this->aIds = TestEnv::loadData('2.5.50_delivery');
 
-    function before()
-    {
-        //$error = TestEnv::loadData('0.3.27_delivery', 'insert');
+        // Disable caching
+        $GLOBALS['_MAX']['CONF']['delivery']['cacheExpire'] = -1;
+
+        MAX_Dal_Delivery_Include();
     }
 
     /**
@@ -74,12 +76,6 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
                 unset($GLOBALS['_MAX']['ADMIN_DB_LINK']);
             }
         }
-    }
-
-    function after()
-    {
-//        $this->_testCloseConnection();
-//        TestEnv::restoreEnv();
     }
 
     /**
@@ -132,7 +128,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
      */
     function test_OA_Dal_Delivery_getZoneInfo()
     {
-        $zoneid     = 61;
+        $zoneid     = $this->aIds['zones'][61];
         $aReturn    = OA_Dal_Delivery_getZoneInfo($zoneid);
         //$prn        = var_export($aReturn, TRUE);
         $this->assertIsA($aReturn, 'array');
@@ -145,13 +141,13 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
      */
     function test_OA_Dal_Delivery_getZoneLinkedAds()
     {
-        $zoneid     = 61;
+        $zoneid     = $this->aIds['zones'][61];
         $aReturn    = OA_Dal_Delivery_getZoneLinkedAds($zoneid);
 
         $this->assertIsA($aReturn, 'array');
         $this->assertEqual($zoneid, $aReturn['zone_id']);
-        $this->assertNull($aReturn['default_banner_url']);
-        $this->assertNull($aReturn['default_banner_dest']);
+        $this->assertEqual($aReturn['default_banner_image_url'], "http://www.openads.org/themes/openads/images/header_logo.png");
+        $this->assertEqual($aReturn['default_banner_destination_url'], "http://www.openads.org/");
         $this->assertIsA($aReturn['xAds'], 'array');
         $this->assertIsA($aReturn['cAds'], 'array');
         $this->assertIsA($aReturn['clAds'], 'array');
@@ -175,7 +171,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
      */
     function test_OA_Dal_Delivery_getLinkedAds()
     {
-        $placementid = 1;
+        $placementid = $this->aIds['campaigns'][1];
         $search     = 'campaignid:'.$placementid;
         $aReturn    = OA_Dal_Delivery_getLinkedAds($search);
         //$prn        = var_export($aReturn, TRUE);
@@ -235,7 +231,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
         $search     = 'textad';
         $aReturn    = OA_Dal_Delivery_getLinkedAds($search);
         $this->assertIsA($aReturn, 'array');
-        $this->assertEqual($aReturn['count_active'], 12);
+        $this->assertEqual($aReturn['count_active'], 17);
 	}
 
     /**
@@ -244,7 +240,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
      */
     function test_OA_Dal_Delivery_getAd()
     {
-        $ad_id      = 1;
+        $ad_id      = $this->aIds['banners'][1];
         $aReturn    = OA_Dal_Delivery_getAd($ad_id);
         $this->assertIsA($aReturn, 'array');
         $this->assertEqual($aReturn['ad_id'], $ad_id);
@@ -256,7 +252,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
      */
     function test_OA_Dal_Delivery_getChannelLimitations()
     {
-        $channelid  = 1;
+        $channelid  = $this->aIds['channels'][1];
         $aReturn    = OA_Dal_Delivery_getChannelLimitations($channelid);
         //$prn        = var_export($aReturn, TRUE);
         $this->assertIsA($aReturn['acl_plugins'],'string');
@@ -282,7 +278,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
      */
     function test_OA_Dal_Delivery_getTracker()
     {
-        $trackerid  = 1;
+        $trackerid  = $this->aIds['trackers'][1];
         $aReturn    = OA_Dal_Delivery_getTracker($trackerid);
         $this->assertEqual($aReturn['advertiser_id'],1);
         $this->assertEqual($aReturn['tracker_id'],1);
@@ -411,20 +407,6 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
             '127.0.0.1'
         );
         $this->assertTrue($res);
-    }
-
-    /**
-     * A hack method to restore the testing environment to its original
-     * state, given that the above code does not do this (which it should!).
-     *
-     * @author Andrew Hill <andrew@m3.net>
-     *
-     * @TODO The original author of this test suite should remove this method
-     *       once they have fixed the code!
-     */
-    function test_lastTest()
-    {
-        TestEnv::restoreEnv();
     }
 }
 

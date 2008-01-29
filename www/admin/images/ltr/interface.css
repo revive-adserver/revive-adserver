@@ -1,73 +1,16 @@
 
-/* Basic layout */
-
-body
-{
-   background-position: top left;
-   background-repeat: repeat-y;
-    margin: 0px 0px 0px 0px;
-}
-
-
-
 /* Fonts */
 
 body, table, td, select, textarea, input  {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
     font-size: 11px;
 }
 
-a, span.link {
+span.link {
     color: #003399;
     text-decoration: none;
 }
-
-a:hover, span.link:hover {
-    text-decoration: underline;
-}
-
-
-
-/* Tabs */
-
-.tab-s, .tab-u, .tab-g, .tab-r {
-    font-size: 12px;
-    font-weight: bold;
-    text-decoration: none;
-}
-
-.tab-s:hover, .tab-u:hover, .tab-g:hover, .tab-r:hover {
-    text-decoration: underline;
-}
-
-.tab-s {
-    color: #0066CC;
-}
-
-.tab-u {
-    color: #FFFFFF;
-}
-
-.tab-g {
-    color: #666666;
-}
-
-span.tab-g {
-    color: #999999;
-}
-
-.tab-r {
-    color: #CC0000;
-}
-
-.tab-n {
-    color: #FFFFFF;
-    font-size: 11px;
-    font-weight: bold;
-    text-decoration: none;
-}
-
-.tab-n:hover {
+span.link:hover {
     text-decoration: underline;
 }
 
@@ -79,6 +22,15 @@ span.tab-g {
     font-size: 8px;
     font-weight: bold;
     text-decoration: none;
+}
+
+.tab-s {
+  color:#44444;
+}
+.tab-s, .tab-u, .tab-g, .tab-r {
+  font-size:120%;
+  font-weight:bold;
+  text-decoration:none;
 }
 
 div.errormessage {
@@ -96,6 +48,32 @@ div.errormessage td {
 
 img.errormessage {
     margin-left: -24px;
+}
+
+div.infomessage {
+    background-color: #FFFFE1;
+    border: 1px dashed #CFCFCF;
+    margin-top: 8px;
+    margin-bottom: 16px;
+    margin-right: 80px;
+    padding: 6px 6px 6px 32px;
+    line-height: 18px;
+    background-image: url('../info.gif');
+    background-repeat: no-repeat;
+    background-position: 8px 8px;
+}
+
+div.errormessageicon {
+    background-color: #FFFFE1;
+    border: 1px dashed #CFCFCF;
+    margin-top: 8px;
+    margin-bottom: 16px;
+    margin-right: 80px;
+    padding: 6px 6px 6px 32px;
+    line-height: 18px;
+    background-image: url('../errormessage.gif');
+    background-repeat: no-repeat;
+    background-position: 8px 8px;
 }
 
 div#helpLayer {
@@ -121,7 +99,7 @@ img#helpIcon {
 .topLink:hover span{
 	text-decoration: underline;
 }
-*html a.topLink:hover{
+* html a.topLink:hover{
 	text-decoration: underline;
 }
 
@@ -133,9 +111,15 @@ img#helpIcon {
 }
 
 /* Form elements */
-select:focus, textarea:focus, input:focus {
-	background-color:  #D0E5FF; 
+select[disabled], textarea[disabled], input[disabled], input[disabled]
+{ 
+	background-color : #eeeff2
 }
+
+textarea:focus, input[type=text]:focus, input[type=password]:focus {
+  background-color:  #c7e9d1;
+}
+
 
 select.flat, textarea.flat, input.flat,
 select.error, textarea.error, input.error,
@@ -145,6 +129,10 @@ textarea.code {
     border-right-width: 1px;
     border-bottom-width: 1px;
     border-left-width: 1px;
+}
+
+select.error:focus, textarea.error:focus, input.error:focus {
+  background-color:  #ffd4d4;
 }
 
 select.flat, textarea.flat, input.flat,
@@ -223,29 +211,21 @@ div.boxrow input {
     vertical-align: middle;
 }
 
-input.accept { 
-    background-image: url('../icon-checkmark.gif'); 
-    background-repeat: no-repeat; 
-    background-position: 4px 3px; 
-    padding-left: 14px; 
-    font-weight:bold; 
-} 
+ input.accept {
+  background-image: url('../icon-checkmark.gif');
+  background-repeat: no-repeat;
+  background-position: 4px 3px;
+  padding-left: 14px;
+  font-weight:bold;
+ }
+
+fieldset {
+	border: 1px solid #CDCDCD;
+	padding: 10px; 
+}
 
 
 /* Custom */
-
-.phpAdsNew {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 24px;
-    font-style: italic;
-    font-weight: bold;
-    color: #FFFFFF;
-}
-
-.nav {
-    color: #003399;
-}
-
 .install {
     font-size: 1.1em;
     line-height: 21px;
@@ -275,9 +255,9 @@ table.targeting {
 
 /* Cell formatting */
 
-thead td {
+thead td, thead th {
     font-weight: bold;
-    text-align: center;
+    text-align: left;
 }
 
 td.date,
@@ -523,6 +503,10 @@ a.time:before
     display: block;
     width: 100%;
 }
+label.error {
+    padding-left: 0.5em;
+    color: red;
+}
 .section .element {
     width: 70%;
     margin-left: 30%;
@@ -553,72 +537,85 @@ a.time:before
     color: #999999;
 }
 
-/** Extra CSS adde for AdNetworks integration */
+/** Extra CSS adde for Ad Direct integration */
 .section .title {
     font-weight: bold;	
-    margin-bottom: 5px;	
     padding: 5px 0px;
     border-bottom: 1px solid #CFCFCF;  
 }
 
 .section .content {
-  padding-left: 15px;
+    padding: 5px 0px 10px 15px;
 }
 
-.adnetworks-section {
-   /*background-color: #F1F7E2;*/
-   border: 1px solid #CFCFCF;  
-   padding-bottom: 10px;
+.even {
+  background-color: #f6f6f6;/*#E6E7E8;*/
 }
 
-.adnetworks-section .title {
-  
-   /*background-color: #F1F7E2;*/
-   background-color: #545496;
-   /*background-color: #A9C94F;*/ 
-   color: white;
+.odd {
+  background-color: #FFFFFF;
 }
 
-.adnetworks-section .content {
-   padding-right: 15px;
+.add {
+  background-color: #ffedc7;
 }
 
-.adnetworks-filled-section {
-   background-color: #F6F6E6; /*#F1F7E2;*/
+table.data-grid {
+  table-layout: fixed;
+  border-collapse: collapse;
+  border: 1px solid #cdcdcd;
+  width: 100%;
 }
 
-table.data-grid tr.data:hover {
-  background-color: #fffccd;
+table.data-grid tr.header {
+  background-image: url('../table-bg.gif');
+  background-repeat: repeat-x;
+  background-position: left bottom;
+  height: 35px;
 }
 
-table.data-grid tr.data.edit, table.data-grid tr.data.edit:hover {
-  background-color: #dce9f5;
+table.data-grid th {
+  padding: 2px;
+  border-bottom: 1px solid #cdcdcd;
+  font-weight: bold;
+  text-align: left;
 }
 
-table.data-grid tr.data td {
-  padding-top: 2px;
-  padding-bottom: 2px;
+table.data-grid tr:hover {
+  background-color: #ffedc7;
 }
 
-table.data-grid tr.edit span.view {
-  display: none;
+table.data-grid tr.odd {
+  background-color: #FFFFFF;
 }
 
-table.data-grid tr.view span.edit {
-  display: none;
+table.data-grid td.url {
+  text-align: left;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
-table.data-grid td.cntr {
-  text-align: center;
+table.data-grid img {
+  border:0;
 }
 
+div.filters {
+  text-align: right;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
 .hide {
   display: none;
 }
 
-span.link {
+.link {
   cursor: pointer;
 }
+.font-small {
+	font-size: 80%;
+}
+
 /*
 span.start-edit:before {
   content:url('../icon-generatecode.gif');
@@ -649,11 +646,11 @@ span.save-edit {
   font-weight: bold;
 }
 
-span.cancel-edit {
+span.cancel-edit, span.cancel-add {
   background-image: url('../icon-x.gif');
   background-repeat: no-repeat;
   background-position: 1px 2px;
-  padding-left: 15px; 
+  padding-left: 15px;
   margin-left: 3px;
 }
 
@@ -678,6 +675,24 @@ select.inerror, input.inerror {
 select.inline {
   margin-bottom: 2px;
   margin-top: 2px;
+}
+
+.main-submit {
+    font-weight: bold;  
+}
+
+.arrow-submit {
+  border: 0;
+  background-image: url('go_blue.gif');
+  background-repeat: no-repeat;
+  background-color: transparent;
+  background-position: 0px 1px;
+  cursor: pointer;
+  width: 12px;
+}
+
+.arrow-submit:focus {
+  background-color: transparent;
 }
 
 form.new-form div.line:after, .clearfix:after {
@@ -707,6 +722,10 @@ form.new-form input[type='checkbox'] {
   margin: 3px 5px 3px 0;
 }
 
+.line-cb {
+  margin: 0px 2px 0 2px;
+}
+
 label.cb {
   position: relative;
   top: -2px;
@@ -732,8 +751,11 @@ form.new-form {
   margin: 10px 0 0 0;
 }
 
-.main-submit {
-  font-weight: bold;
+form .controls {
+	width:100%;
+	text-align:left;
+	margin-top: 15px;
+	padding-top: 7px;
 }
 
 a.adv-list-entry {
@@ -760,4 +782,138 @@ a.adv-list-entry {
 
 .deleted-affiliate {
   font-weight: bold;
+}
+/** advertisers **/
+
+.oa {
+  background-color: #E7F7CE;
+}
+
+.space td {
+  height: 9px;
+}
+
+.break td {
+  background-color: #888888;
+  height: 1px;
+}
+
+.sts {
+  padding: 0px 5px;
+}
+
+.sts-accepted, .sts-not-started, .sts-finished {
+  color: green; /*#547852;*/
+}
+
+.sts-rejected, .sts-pending, .sts-paused {
+    color: #777777;
+}
+
+.sts-pending, .sts-paused {
+  font-style: italic;
+}
+
+.sts-awaiting, .sts-awaiting:hover, .sts-insufficient, 
+.sts-awaiting a, .sts-awaiting:hover a, .sts-insufficient a{
+  color: #EF0E17 !important;
+}
+
+.sts-reason {
+  display: none;
+  background-color: #F9FFD0;
+}
+
+.dev-note {
+    padding: 15px;
+    color: #000;
+    background-color: #F7FFC0;
+    border: 1px solid #D7D7D7;
+    width: 90%;
+    margin: 15px 0px;
+} 
+
+pre.invocation-codes {
+  background: #FFFFFF none repeat scroll 0%;
+  border: 1px solid #CCCCCC;
+  cursor: text;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 8px;
+  white-space: -moz-pre-wrap;
+  width: 100%;
+}
+
+pre.invocation-codes {
+  color: #777777;
+  font-family: "Lucida Console","Courier New",Courier,monospace;
+  font-size: 12px;
+}
+
+div.table-content {
+  margin: 0 40px;
+}
+
+.hint {
+  color: #a0a0a0;
+}
+
+#user-access-action {
+  width: 6em;
+}
+
+#user-access-table td {
+  padding-right: 10px;
+}
+
+#user-access-table td.first {
+  padding-left: 5px;
+}
+
+#user-access-table td.last {
+  padding-right: 0px;
+}
+
+tr.hl {
+  background-color: #FFFFE1;
+}
+
+a.permissions {
+  background-image: url('../icon-acl.gif');
+  background-repeat: no-repeat;
+  padding-left: 18px;
+  padding-bottom: 2px;
+  background-position: 0 -1px;
+}
+
+a.unlink {
+  background-image: url('../icon-recycle.gif');
+  background-repeat: no-repeat;
+  padding-left: 18px;
+  padding-bottom: 2px;
+  background-position: 0 -1px;
+}
+
+a.edit {
+  background-image: url('../icon-edit.gif');
+  background-repeat: no-repeat;
+  padding-left: 18px;
+  padding-bottom: 2px;
+  background-position: 0 -1px;
+}
+
+div.terms {
+  padding: 1ex;
+  border: 1px solid #808080;
+  height: 40ex;
+  margin-bottom: 20px;
+  overflow: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+div.terms iframe {
+  border: 0;
+  width: 100%;
+  height: 100%;
 }

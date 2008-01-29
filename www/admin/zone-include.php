@@ -38,8 +38,14 @@ require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 
-    // Security check
-    phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
+// Security check
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
+OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
+OA_Permission::enforceAccessToObject('zones', $zoneid);
+
+if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+    OA_Permission::enforceAllowed(OA_PERM_ZONE_LINK);
+}
 
     // Get input parameters
     $pref =& $GLOBALS['_MAX']['PREF'];
@@ -50,12 +56,12 @@ require_once MAX_PATH . '/lib/max/Admin_DA.php';
     $adId           = MAX_getValue('bannerid');
     $action         = MAX_getValue('action');
     $aCurrent       = MAX_getValue('includebanner');
-    $hideInactive   = MAX_getStoredValue('hideinactive', ($pref['gui_hide_inactive'] == 't'));
+    $hideInactive   = MAX_getStoredValue('hideinactive', ($pref['ui_hide_inactive'] == true));
     $listorder      = MAX_getStoredValue('listorder', 'name');
     $orderdirection = MAX_getStoredValue('orderdirection', 'up');
     $selection      = MAX_getValue('selection');
-    $showMatchingAds = MAX_getStoredValue('showbanners', ($pref['gui_show_matching'] == 't'));
-    $showParentPlacements = MAX_getStoredValue('showcampaigns', ($pref['gui_show_parents'] == 't'));
+    $showMatchingAds = MAX_getStoredValue('showbanners', ($pref['ui_show_matching_banners'] == true));
+    $showParentPlacements = MAX_getStoredValue('showcampaigns', ($pref['ui_show_matching_banners_parents'] == true));
     $submit         = MAX_getValue('submit');
     $view           = MAX_getStoredValue('view', 'placement');
 
@@ -68,15 +74,8 @@ require_once MAX_PATH . '/lib/max/Admin_DA.php';
     // Initialise some parameters
     $pageName = basename($_SERVER['PHP_SELF']);
     $tabIndex = 1;
-    $agencyId = phpAds_getAgencyID();
+    $agencyId = OA_Permission::getAgencyId();
     $aEntities = array('affiliateid' => $publisherId, 'zoneid' => $zoneId);
-
-    // Parameter check
-    if (!MAX_checkZone($publisherId, $zoneId)) {
-        // TODO:  Change the code below to be standard...
-        phpAds_PageHeader('2');
-        phpAds_Die ($strAccessDenied, $strNotAdmin);
-    }
 
     if (isset($action)) {
         $result = true;

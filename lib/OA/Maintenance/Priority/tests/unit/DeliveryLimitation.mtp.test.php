@@ -699,7 +699,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
         $aCumulativeZoneForecast = array();
         $result = $oDeliveryLimitationManager->getAdvertisementLifeData($oDate, $oDate, $aCumulativeZoneForecast);
         $this->assertTrue(is_array($result));
-        $this->assertEqual(count($result), 1);
+        $this->assertEqual(count($result), 1, 'expecting 1, got '.count($result).' results for date '.$oDate->getDate());
         $this->assertTrue(is_array($result[0]));
         $this->assertEqual(count($result[0]), 1);
         $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);

@@ -35,27 +35,35 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
+require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
 
 // Register input variables
 phpAds_registerGlobal ('returnurl');
 
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
+OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
+OA_Permission::enforceAccessToObject('zones', $zoneid);
+
+if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+    OA_Permission::enforceAllowed(OA_PERM_ZONE_DELETE);
+}
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-if (!empty($zoneid)) {
+$doZones = OA_Dal::factoryDO('zones');
+$doZones->zoneid = $zoneid;
 
-    MAX_Permission::checkIsAllowed(phpAds_DeleteZone);
-    MAX_Permission::checkAccessToObject('zones', $zoneid);
+$doZones->get($zoneid);
 
-    $doZones = OA_Dal::factoryDO('zones');
-    $doZones->zoneid = $zoneid;
-    $doZones->delete();
-}
+// Ad  Networks
+$oAdNetworks = new OA_Central_AdNetworks();
+$oAdNetworks->deleteZone($doZones->as_zone_id);
+
+$doZones->delete();
 
 if (!isset($returnurl) && $returnurl == '') {
     $returnurl = 'affiliate-zones.php';

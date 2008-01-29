@@ -40,6 +40,7 @@ require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/www/admin/lib-size.inc.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
+require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
 
 // Register input variables
 phpAds_registerGlobalUnslashed(
@@ -64,16 +65,16 @@ phpAds_registerGlobalUnslashed(
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
 
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
-if (!empty($zoneid)) {
-    MAX_Permission::checkAccessToObject('zones', $zoneid);
-    MAX_Permission::checkIsAllowed(phpAds_EditZone);
-} else {
-    if (phpAds_isUser(phpAds_Affiliate)) {
-        $affiliateid = phpAds_getUserID();
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
+OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
+OA_Permission::enforceAccessToObject('zones', $zoneid, true);
+
+if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+    if (!empty($zoneid)) {
+        OA_Permission::enforceAllowed(OA_PERM_ZONE_EDIT);
+    } else {
+        OA_Permission::enforceAllowed(OA_PERM_ZONE_ADD);
     }
-    MAX_Permission::checkAccessToObject('affiliates', $affiliateid);
-    MAX_Permission::checkIsAllowed(phpAds_AddZone);
 }
 
 /*-------------------------------------------------------*/
@@ -154,17 +155,28 @@ if (isset($submit))
         $doZones->zoneid = $zoneid;
         $doZones->update();
 
+        // Ad  Networks
+        $doPublisher = OA_Dal::factoryDO('affiliates');
+        $doPublisher->get($affiliateid);
+        $anWebsiteId = ($doPublisher->an_website_id) ?
+                        $doPublisher->an_website_id : $doPublisher->as_website_id;
+        if ($anWebsiteId) {
+        	$oAdNetworks = new OA_Central_AdNetworks();
+            $doZones->get($zoneid);
+			$oAdNetworks->updateZone($doZones, $anWebsiteId);
+        }
+
         // Reset append codes which called this zone
         $doZones = OA_Dal::factoryDO('zones');
         $doZones->appendtype = phpAds_ZoneAppendZone;
 
-        if (phpAds_isUser(phpAds_Agency))
+        if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
         {
-            $doZones->addReferenceFilter('agency', phpAds_getUserID());
+            $doZones->addReferenceFilter('agency', OA_Permission::getEntityId());
         }
-        elseif (phpAds_isUser(phpAds_Affiliate))
+        elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER))
         {
-              $doZones->addReferenceFilter('affiliates', phpAds_getUserID());
+              $doZones->addReferenceFilter('affiliates', OA_Permission::getEntityId());
         }
         $doZones->find();
 
@@ -255,10 +267,18 @@ if (isset($submit))
         $doZones->append = '';
 
         $zoneid = $doZones->insert();
+
+        // Ad  Networks
+        $doPublisher = OA_Dal::factoryDO('affiliates');
+        $doPublisher->get($affiliateid);
+        if ($doPublisher->an_website_id) {
+        	$oAdNetworks = new OA_Central_AdNetworks();
+			$oAdNetworks->updateZone($doZones, $doPublisher->an_website_id);
+        }
     }
 
-    if (phpAds_isUser(phpAds_Affiliate)) {
-        if (phpAds_isAllowed(phpAds_LinkBanners)) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+        if (OA_Permission::hasPermission(OA_PERM_ZONE_LINK)) {
             MAX_Admin_Redirect::redirect("zone-include.php?affiliateid=$affiliateid&zoneid=$zoneid");
         } else {
             MAX_Admin_Redirect::redirect("zone-probability.php?affiliateid=$affiliateid&zoneid=$zoneid");
@@ -275,7 +295,7 @@ if (isset($submit))
 
     $pageName = basename($_SERVER['PHP_SELF']);
     $tabIndex = 1;
-    $agencyId = phpAds_getAgencyID();
+    $agencyId = OA_Permission::getAgencyId();
     $aEntities = array('affiliateid' => $affiliateid, 'zoneid' => $zoneid);
 
     $aOtherPublishers = Admin_DA::getPublishers(array('agency_id' => $agencyId));
@@ -365,13 +385,13 @@ echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'><br />".$strZon
 echo "<tr><td><input type='radio' name='delivery' value='".phpAds_ZoneBanner."'".($zone['delivery'] == phpAds_ZoneBanner ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();' onChange='oa_hide(\"warning_change_zone_type\");' tabindex='".($tabindex++)."'>";
 echo "&nbsp;<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;".$strBannerButtonRectangle."</td></tr>";
 
-if ($pref['allow_invocation_interstitial'] || $zone['delivery'] == phpAds_ZoneInterstitial)
+if ($conf['allowedTags']['adlayer'] || $zone['delivery'] == phpAds_ZoneInterstitial)
 {
     echo "<tr><td><input type='radio' name='delivery' value='".phpAds_ZoneInterstitial."'".($zone['delivery'] == phpAds_ZoneInterstitial ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();' onChange='oa_hide(\"warning_change_zone_type\");' tabindex='".($tabindex++)."'>";
     echo "&nbsp;<img src='images/icon-interstitial.gif' align='absmiddle'>&nbsp;".$strInterstitial."</td></tr>";
 }
 
-if ($pref['allow_invocation_popup'] || $zone['delivery'] == phpAds_ZonePopup)
+if ($conf['allowedTags']['popup'] || $zone['delivery'] == phpAds_ZonePopup)
 {
     echo "<tr><td><input type='radio' name='delivery' value='".phpAds_ZonePopup."'".($zone['delivery'] == phpAds_ZonePopup ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();' onChange='oa_hide(\"warning_change_zone_type\");' tabindex='".($tabindex++)."'>";
     echo "&nbsp;<img src='images/icon-popup.gif' align='absmiddle'>&nbsp;".$strPopup."</td></tr>";
@@ -407,7 +427,7 @@ $exists = phpAds_sizeExists ($zone['width'], $zone['height']);
 
 echo "<table><tr><td>";
 echo "<input type='radio' name='sizetype' value='default'".($exists ? ' CHECKED' : '').$sizedisabled." tabindex='".($tabindex++)."'>&nbsp;";
-echo "<select name='size' onchange='phpAds_formSelectSize(this);oa_show(\"warning_change_zone_size\");'".$sizedisabled." tabindex='".($tabindex++)."'>";
+echo "<select name='size' onchange='phpAds_formSelectSize(this); oa_sizeChangeUpdateMessage(\"warning_change_zone_size\");'".$sizedisabled." tabindex='".($tabindex++)."'>";
 
 foreach (array_keys($phpAds_IAB) as $key)
 {
@@ -423,10 +443,10 @@ echo "</select>";
 
 echo "</td></tr><tr><td>";
 
-echo "<input type='radio' name='sizetype' value='custom'".(!$exists ? ' CHECKED' : '').$sizedisabled." onclick='phpAds_formEditSize()' tabindex='".($tabindex++)."'>&nbsp;";
-echo $strWidth.": <input class='flat' size='5' type='text' name='width' value='".(isset($zone["width"]) ? $zone["width"] : '')."'".$sizedisabled." onkeydown='phpAds_formEditSize()' onBlur='max_formValidateElement(this);' onChange='oa_show(\"warning_change_zone_size\");' tabindex='".($tabindex++)."'>";
+echo "<input type='radio' name='sizetype' value='custom'".(!$exists ? ' CHECKED' : '').$sizedisabled." onclick='phpAds_formEditSize()'  tabindex='".($tabindex++)."'>&nbsp;";
+echo $strWidth.": <input class='flat' size='5' type='text' name='width' value='".(isset($zone["width"]) ? $zone["width"] : '')."'".$sizedisabled." onkeydown='phpAds_formEditSize()' onBlur='max_formValidateElement(this);' onChange='oa_sizeChangeUpdateMessage(\"warning_change_zone_size\");' tabindex='".($tabindex++)."'>";
 echo "&nbsp;&nbsp;&nbsp;";
-echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".(isset($zone["height"]) ? $zone["height"] : '')."'".$sizedisabled." onkeydown='phpAds_formEditSize()' onBlur='max_formValidateElement(this);' onChange='oa_show(\"warning_change_zone_size\");' tabindex='".($tabindex++)."'>";
+echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".(isset($zone["height"]) ? $zone["height"] : '')."'".$sizedisabled." onkeydown='phpAds_formEditSize()' onBlur='max_formValidateElement(this);' onChange='oa_sizeChangeUpdateMessage(\"warning_change_zone_size\");' tabindex='".($tabindex++)."'>";
 echo "</td></tr></table>";
 echo "</td></tr>";
 
@@ -453,7 +473,7 @@ echo "</select>";
 echo "&nbsp;&nbsp;";
 
 $dalVariables = OA_Dal::factoryDAL('variables');
-$rsVariables = $dalVariables->getTrackerVariables($zoneid, $affiliateid, phpAds_isUser(phpAds_Affiliate));
+$rsVariables = $dalVariables->getTrackerVariables($zoneid, $affiliateid, OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER));
 $rsVariables->find();
 
 $res_tracker_variables = array();
@@ -575,6 +595,18 @@ $unique_names = $doZones->getUniqueValuesFromColumn('zonename', $zoneName);
 
 <script language='JavaScript'>
 <!--
+    <?php
+
+    if (isset($zone["height"])) {
+        echo "document.zoneHeight =" .$zone["height"]. ";\n";
+    }
+    if (isset($zone["width"])) {
+        echo "document.zoneWidth =" .$zone["width"]. ";\n";
+    }
+
+    ?>
+
+
     max_formSetRequirements('zonename', '<?php echo addslashes($strName); ?>', true, 'unique');
     max_formSetRequirements('width', '<?php echo addslashes($strWidth); ?>', true, 'number*');
     max_formSetRequirements('height', '<?php echo addslashes($strHeight); ?>', true, 'number*');
@@ -649,6 +681,18 @@ $unique_names = $doZones->getUniqueValuesFromColumn('zonename', $zoneName);
         } else {
             p.style.display = 'none';
             p2.style.display = 'none';
+        }
+    }
+
+    function oa_sizeChangeUpdateMessage(id)
+    {
+        if (document.zoneWidth != document.zoneform.width.value ||
+            document.zoneHeight !=  document.zoneform.height.value) {
+                oa_show(id);
+
+        } else if (document.zoneWidth == document.zoneform.width.value &&
+                   document.zoneHeight ==  document.zoneform.height.value) {
+            oa_hide(id);
         }
     }
 

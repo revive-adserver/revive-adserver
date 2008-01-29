@@ -51,6 +51,9 @@ class Test_OA_Dal_ApplicationVariables extends UnitTestCase
      */
     function testSetGetAllDelete()
     {
+        // Force cache clean-up
+        OA_Dal_ApplicationVariables::cleanCache();
+
         $result = OA_Dal_ApplicationVariables::getAll();
         $this->assertEqual($result, array());
 
@@ -64,6 +67,14 @@ class Test_OA_Dal_ApplicationVariables extends UnitTestCase
             $this->assertTrue($result);
         }
 
+        // Check cached values
+        $result = OA_Dal_ApplicationVariables::getAll();
+        $this->assertEqual($result, $aData);
+
+        // Force cache clean-up
+        OA_Dal_ApplicationVariables::cleanCache();
+
+        // Check DB-stored values
         $result = OA_Dal_ApplicationVariables::getAll();
         $this->assertEqual($result, $aData);
 
@@ -79,23 +90,53 @@ class Test_OA_Dal_ApplicationVariables extends UnitTestCase
      */
     function testSetGetDelete()
     {
+        // Force cache clean-up
+        OA_Dal_ApplicationVariables::cleanCache();
+
         $result = OA_Dal_ApplicationVariables::get('foo');
         $this->assertNull($result);
 
         $result = OA_Dal_ApplicationVariables::set('foo', 'bar');
         $this->assertTrue($result);
 
+        // Check cached values
+        $result = OA_Dal_ApplicationVariables::get('foo');
+        $this->assertEqual($result, 'bar');
+
+        // Force cache clean-up
+        OA_Dal_ApplicationVariables::cleanCache();
+
+        // Check DB-stored values
         $result = OA_Dal_ApplicationVariables::get('foo');
         $this->assertEqual($result, 'bar');
 
         $result = OA_Dal_ApplicationVariables::set('foo', 'foobar');
         $this->assertTrue($result);
 
+        // Check cached values
+        $result = OA_Dal_ApplicationVariables::get('foo');
+        $this->assertEqual($result, 'foobar');
+
+        // Force cache clean-up
+        OA_Dal_ApplicationVariables::cleanCache();
+
+        // Check DB-stored values
         $result = OA_Dal_ApplicationVariables::get('foo');
         $this->assertEqual($result, 'foobar');
 
         $result = OA_Dal_ApplicationVariables::delete('foo');
         $this->assertTrue($result);
+
+        // Check cached values
+        $result = OA_Dal_ApplicationVariables::get('foo');
+        $this->assertNull($result);
+
+        // Force cache clean-up
+        OA_Dal_ApplicationVariables::cleanCache();
+
+        // Check DB-stored values
+        $result = OA_Dal_ApplicationVariables::get('foo');
+        $this->assertNull($result);
     }
 
     /**

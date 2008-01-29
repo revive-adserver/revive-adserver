@@ -80,16 +80,16 @@ class Test_OA_Dal_Maintenance_Priority_getPlacementDeliveryToDate extends UnitTe
         $doCampaigns->activate = '2005-06-23';
         $doCampaigns->expire = '2005-06-25';
         $doCampaigns->priority = '1';
-        $doCampaigns->active = 't';
+        $doCampaigns->active = 1;
         $doCampaigns->views = 100;
         $doCampaigns->clicks = 200;
         $doCampaigns->conversions = 300;
         $doCampaigns->updated = $oNow->format('%Y-%m-%d %H:%M:%S');
-        $idCampaign = DataGenerator::generateOne($doCampaigns);
+        $idCampaign = DataGenerator::generateOne($doCampaigns, true);
 
         $doBanners   = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $idCampaign;
-        $doBanners->active = 't';
+        $doBanners->active = 1;
         $doBanners->acls_updated = $oNow->format('%Y-%m-%d %H:%M:%S');
         $doBanners->updated = $oNow->format('%Y-%m-%d %H:%M:%S');
         $idBanner = DataGenerator::generateOne($doBanners);

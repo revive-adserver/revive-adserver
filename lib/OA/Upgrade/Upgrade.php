@@ -1,4 +1,5 @@
 <?php
+
 /*
 +---------------------------------------------------------------------------+
 | Openads v${RELEASE_MAJOR_MINOR}                                                              |
@@ -70,6 +71,10 @@ require_once MAX_PATH.'/lib/OA/Upgrade/phpAdsNew.php';
 require_once(MAX_PATH.'/lib/OA/Upgrade/Configuration.php');
 require_once MAX_PATH.'/lib/OA/Upgrade/DB_Integrity.php';
 
+require_once MAX_PATH . '/lib/OA/Permission.php';
+require_once MAX_PATH . '/lib/OA/Preferences.php';
+
+
 /**
  * Openads Upgrade Class
  *
@@ -81,7 +86,11 @@ class OA_Upgrade
 
     var $message = '';
 
+    /**
+     * @var OA_UpgradeLogger
+     */
     var $oLogger;
+
     var $oParser;
     var $oDBUpgrader;
     var $oVersioner;
@@ -1038,6 +1047,7 @@ class OA_Upgrade
             $this->_dropDatabase();
             return false;
         }
+
         $this->oAuditor->logAuditAction(array('description'=>'UPGRADE COMPLETE',
                                                 'action'=>UPGRADE_ACTION_UPGRADE_SUCCEEDED,
                                                )
@@ -1199,9 +1209,7 @@ class OA_Upgrade
         $aConfig['table'] = $GLOBALS['_MAX']['CONF']['table'];
         $this->oConfiguration->setupConfigDatabase($aConfig['database']);
         $this->oConfiguration->setupConfigTable($aConfig['table']);
-        $this->oConfiguration->setupConfigTimezone($aConfig['timezone']);
         $this->oConfiguration->setupConfigStore($aConfig['store']);
-        $this->oConfiguration->setupConfigMax($aConfig['max']);
         $this->oConfiguration->setupConfigPriority('');
         return $this->oConfiguration->writeConfig();
     }
@@ -1408,53 +1416,170 @@ class OA_Upgrade
     }
 
     /**
-     * insert admin record into preferences table
+     * Create the admin user and account, plus a default manager
      *
      * @param array $aAdmin
      * @return boolean
      */
     function putAdmin($aAdmin)
     {
-        require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
-        // Insert basic preferences into database
-        $oPrefs = new MAX_Admin_Preferences();
+        // Create Admin account
+        $doAccount = OA_Dal::factoryDO('accounts');
+        $doAccount->account_name = 'Administrator account';
+        $doAccount->account_type = OA_ACCOUNT_ADMIN;
+        $adminAccountId = $doAccount->insert();
 
-        $oPrefs->setPrefChange('admin', $aAdmin['name']);
-        $oPrefs->setPrefChange('admin_email', $aAdmin['email']);
-        $oPrefs->setPrefChange('admin_pw', md5($aAdmin['pword']));
-
-        if (!$oPrefs->writePrefChange())
-        {
-            $this->oLogger->logError('error writing admin preference record');
+        if (!$adminAccountId) {
+            $this->oLogger->logError('error creating the admin account');
             return false;
         }
+
+        // Create Manager entity
+        $doAgency = OA_Dal::factoryDO('agency');
+        $doAgency->name   = 'Default manager';
+        $doAgency->email  = $doUser->email_address;
+        $doAgency->active = 1;
+        $agencyId = $doAgency->insert();
+
+        if (!$agencyId) {
+            $this->oLogger->logError('error creating the manager entity');
+            return false;
+        }
+
+        $doAgency = OA_Dal::factoryDO('agency');
+        if (!$doAgency->get($agencyId)) {
+            $this->oLogger->logError('error retrieving the manager account ID');
+            return false;
+        }
+
+        $agencyAccountId = $doAgency->account_id;
+
+        // Create Admin user
+        $doUser = OA_Dal::factoryDO('users');
+        $doUser->contact_name = 'Administrator';
+        $doUser->email_address = $aAdmin['email'];
+        $doUser->username = $aAdmin['name'];
+        $doUser->password = md5($aAdmin['pword']);
+        $doUser->default_account_id = $agencyAccountId;
+        $userId = $doUser->insert();
+
+        if (!$userId) {
+            $this->oLogger->logError('error creating the admin user');
+            return false;
+        }
+
+        $result = OA_Permission::setAccountAccess($adminAccountId, $userId);
+        if (!$result) {
+            $this->oLogger->logError("error creating access to admin account, account id: $adminAccountId, user ID: $userId");
+            return false;
+        }
+        $result = OA_Permission::setAccountAccess($agencyAccountId, $userId);
+        if (!$result) {
+            $this->oLogger->logError("error creating access to default agency account, account id: $agencyAccountId, user ID: $userId");
+            return false;
+        }
+
+        // Insert preferences and return
+        return $this->putDefaultPreferences($adminAccountId);
+    }
+
+    function putPreferences($aPrefs)
+    {
+        $adminAccountId = OA_Dal_ApplicationVariables::get('admin_account_id');
+
+        if (!$adminAccountId) {
+            $this->oLogger->logError('error getting the admin account ID');
+            return false;
+        }
+
+        $oPreferences = new OA_Preferences();
+
+        $aPrefs = array(
+            'timezone' => $aPrefs['timezone'],
+            'language' => $aPrefs['language'],
+        );
+
+        foreach ($aPrefs as $prefName => $value) {
+            $doPreferences = OA_Dal::factoryDO('preferences');
+            $doPreferences->preference_name = $prefName;
+            $doPreferences->find();
+            if ($doPreferences->fetch()) {
+                $doAPA = OA_Dal::factoryDO('account_preference_assoc');
+                $doAPA->account_id    = $adminAccountId;
+                $doAPA->preference_id = $doPreferences->preference_id;
+                $doAPA->value         = $value;
+                $result = $doAPA->update();
+
+                if (!$result) {
+                    $this->oLogger->logError("error adding preference default for $prefName: '".$aPref['default']."'");
+                    return false;
+                }
+            }
+        }
+
         return true;
     }
 
     /**
-     * insert CommunitySharing and UpdatesEnabled values into Preferences
+     * A method to inser initialise the preferences table and insert the default prefs
      *
-     * @param array $aAdmin
+     * @param int $adminAccountId
+     * @return bool
+     */
+    function putDefaultPreferences($adminAccountId)
+    {
+        // Preferences handling
+        $oPreferences = new OA_Preferences();
+        $aPrefs = $oPreferences->getPreferenceDefaults();
+
+        // Insert default prefs
+        foreach ($aPrefs as $prefName => $aPref) {
+            $doPreferences = OA_Dal::factoryDO('preferences');
+            $doPreferences->preference_name = $prefName;
+            $doPreferences->account_type = empty($aPref['account_type']) ? '' : $aPref['account_type'];
+            $preferenceId = $doPreferences->insert();
+
+            if (!$preferenceId) {
+                $this->oLogger->logError("error adding preference entry: $prefName");
+                return false;
+            }
+
+            $doAPA = OA_Dal::factoryDO('account_preference_assoc');
+            $doAPA->account_id    = $adminAccountId;
+            $doAPA->preference_id = $preferenceId;
+            $doAPA->value         = $aPref['default'];
+            $result = $doAPA->insert();
+
+            if (!$result) {
+                $this->oLogger->logError("error adding preference default for $prefName: '".$aPref['default']."'");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Update checkForUpdates value into Settings
+     *
+     * @param boolean $syncEnabled
      * @return boolean
      */
-    function putCommunityPreferences($aCommunity)
+    function putSyncSettings($syncEnabled)
     {
-        require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
+        require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
         require_once MAX_PATH . '/lib/OA/Sync.php';
 
-        // Insert basic preferences into database
-        $oPrefs = new MAX_Admin_Preferences();
-
-        $oPrefs->setPrefChange('updates_enabled', !empty($aCommunity['updates_enabled'])?'t':'f');
+        $oSettings = new OA_Admin_Settings();
+        $oSettings->settingChange('sync', 'checkForUpdates', $syncEnabled);
 
         // Reset Sync cache
-        $oPrefs->setPrefChange('updates_cache', '');
-        $oPrefs->setPrefChange('updates_timestamp', 0);
-        $oPrefs->setPrefChange('updates_last_seen', 0);
+        OA_Dal_ApplicationVariables::delete('sync_cache');
+        OA_Dal_ApplicationVariables::delete('sync_timestamp');
+        OA_Dal_ApplicationVariables::delete('sync_last_seen');
 
-        if (!$oPrefs->writePrefChange())
-        {
-            $this->oLogger->logError('Error inserting Community Preferences into database');
+        if (!$oSettings->writeConfigChange()) {
+            $this->oLogger->logError('Error saving Sync settings to the config file');
             return false;
         }
 
@@ -1504,33 +1629,20 @@ class OA_Upgrade
         }
         else if (file_exists($this->upgradePath.$file))
         {
-            $this->oLogger->log('acquiring script '.$file);
-            $type = substr(basename($file), 0, strpos(basename($file), '_'));
-            $class = 'OA_Upgrade'.ucfirst($type);
-            $newClass = $class.'_'.md5(uniqid('', true));
-
-            $code = file_get_contents($this->upgradePath.$file);
-            $code = preg_replace("/(class|function) +{$class}/i", "$1 {$newClass}", $code);
-
-            $class = $newClass;
-            $tmpFile = MAX_PATH.'/var/'.strtolower($class).'.php';
-            if ($fp = @fopen($tmpFile, 'w')) {
-                @fwrite($fp, $code);
-                @fclose($fp);
-                if (!@include($tmpFile)) {
-                    $this->oLogger->logError('cannot include temporary file '.$tmpFile);
-                    return false;
-                }
-                //@unlink($tmpFile);
-            } else {
-                $this->oLogger->logError('cannot write temporary file '.$tmpFile);
+            $this->oLogger->log('loading script '.$file);
+            if (!@include($this->upgradePath.$file)) {
+                $this->oLogger->logError('cannot include script '.$file);
+                return false;
+            }
+            if (empty($className)) {
+                $this->oLogger->logError('missing $className variable in '.$file);
                 return false;
             }
 
-            if (class_exists($class))
+            if (class_exists($className))
             {
-                $this->oLogger->log('instantiating class '.$class);
-                $oScript = new $class;
+                $this->oLogger->log('instantiating class '.$className);
+                $oScript = new $className;
                 $method = 'execute';
                 if (is_callable(array($oScript, $method)))
                 {
@@ -1538,19 +1650,15 @@ class OA_Upgrade
                     $aParams = array($this);
                     if (!call_user_func(array($oScript, $method), $aParams))
                     {
-                        $this->oLogger->logError('script returned false '.$class);
+                        $this->oLogger->logError('script returned false '.$className);
                         return false;
-                    }
-                    if (file_exists($tmpFile))
-                    {
-                        @unlink($tmpFile);
                     }
                     return true;
                 }
                 $this->oLogger->logError('method not found '.$method);
                 return false;
             }
-            $this->oLogger->logError('class not found '.$class);
+            $this->oLogger->logError('class not found '.$className);
             return false;
         }
         $this->oLogger->logError('script not found '.$file);
@@ -1677,6 +1785,11 @@ class OA_Upgrade
         if (in_array($this->aDsn['table']['prefix'].'preference', $aExistingTables))
         {
             $this->oLogger->logError($oldTableMessagePrefix . $this->aDsn['table']['prefix'].'preference. ' . $oldTableMessagePostfix);
+            return false;
+        }
+        if (in_array($this->aDsn['table']['prefix'].'preferences', $aExistingTables))
+        {
+            $this->oLogger->logError($oldTableMessagePrefix . $this->aDsn['table']['prefix'].'preferences. ' . $oldTableMessagePostfix);
             return false;
         }
         $tablePrefixError = false;

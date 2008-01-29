@@ -34,9 +34,10 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/www/admin/lib-maintenance-priority.inc.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Dll.php';
+require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
 
 function _isBannerAssignedToCampaign($aBannerData)
 {
@@ -48,17 +49,18 @@ phpAds_registerGlobal('expand', 'collapse', 'hideinactive', 'listorder',
                       'orderdirection');
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
-
-// Initialise Ad  Networks
-$oAdNetworks = new OA_Central_AdNetworks();
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-phpAds_PageHeader("4.1");
-phpAds_ShowSections(array("4.1", "4.2", "4.3"));
+$sections = array("4.1", "4.2", "4.3");
+if (OA_Permission::hasPermission(OA_PERM_SUPER_ACCOUNT)) {
+    $sections[] = '4.4';
+}
+phpAds_PageHeader('4.1');
+phpAds_ShowSections($sections);
 
 /*-------------------------------------------------------*/
 /* Get preferences                                       */
@@ -69,7 +71,7 @@ if (!isset($hideinactive)) {
         $hideinactive = $session['prefs']['advertiser-index.php']['hideinactive'];
     } else {
 	    $pref = &$GLOBALS['_MAX']['PREF'];
-		$hideinactive = ($pref['gui_hide_inactive'] == 't');
+		$hideinactive = ($pref['ui_hide_inactive'] == true);
     }
 }
 
@@ -110,12 +112,12 @@ $oTpl = new OA_Admin_Template('advertiser-index.html');
 $dalClients = OA_Dal::factoryDAL('clients');
 $dalCampaigns = OA_Dal::factoryDAL('campaigns');
 $dalBanners = OA_Dal::factoryDAL('banners');
-if (phpAds_isUser(phpAds_Admin)) {
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     $clients = $dalClients->getAllAdvertisers($listorder, $orderdirection);
     $campaigns = $dalCampaigns->getAllCampaigns($listorder, $orderdirection);
     $banners = $dalBanners->getAllBanners($listorder, $orderdirection);
-} elseif (phpAds_isUser(phpAds_Agency)) {
-    $agency_id = phpAds_getUserID();
+} elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+    $agency_id = OA_Permission::getEntityId();
     $clients = $dalClients->getAllAdvertisersForAgency($agency_id, $listorder, $orderdirection);
     $campaigns = $dalCampaigns->getAllCampaignsUnderAgency($agency_id, $listorder, $orderdirection);
     $banners = $dalBanners->getAllBannersUnderAgency($agency_id, $listorder, $orderdirection);
@@ -222,44 +224,46 @@ if (isset($node_array['clients'])) {
 }
 
 $aOacAdvertisers = array();
-$aCounts = array();
-for ($i = 0; $i < 3; $i++) {
-    foreach (array('advertisers', 'advertisers_hidden', 'campaigns', 'banners', 'campaigns_active', 'banners_active') as $v) {
-        $aCount[$i][$v] = 0;
-    }
-}
+$aCount = array(
+    'advertisers'        => 0,
+    'advertisers_hidden' => 0,
+    'campaigns'          => 0,
+    'banners'            => 0,
+    'campaigns_active'   => 0,
+    'banners_active'     => 0
+);
+
 foreach (array_keys($clients) as $clientid) {
     $client = &$clients[$clientid];
 
-    $isOac = empty($client['oac_adnetwork_id']) ? 0 : 1;
-
-    $aCount[$isOac]['advertisers']++;
+    $aCount['advertisers']++;
     foreach (array_keys($client['campaigns']) as $campaignid) {
         $campaign = &$client['campaigns'][$campaignid];
 
-        $aCount[$isOac]['campaigns']++;
+        $aCount['campaigns']++;
         foreach (array_keys($campaign['banners']) as $bannerid) {
             $banner = &$campaign['banners'][$bannerid];
 
-            $aCount[$isOac]['banners']++;
-            if ($hideinactive && $banner['active'] != 't') {
+            $aCount['banners']++;
+            if ($hideinactive && $banner['status'] != OA_ENTITY_STATUS_RUNNING) {
                 unset($campaign['banners'][$bannerid]);
             } else {
-                $aCount[$isOac]['banners_active']++;
+                $aCount['banners_active']++;
             }
         }
 
-        if ($hideinactive && ($campaign['active'] != 't' || !count($campaign['banners']))) {
-            $aCount[$isOac]['banners_active'] -= count($campaign['banners']);
+        if ($hideinactive && ($campaign['status'] != OA_ENTITY_STATUS_RUNNING || !count($campaign['banners']))) {
+            $aCount['banners_active'] -= count($campaign['banners']);
             unset($client['campaigns'][$campaignid]);
+            $aCount['an_hidden']++;
         } else {
-            $aCount[$isOac]['campaigns_active']++;
+            $aCount['campaigns_active']++;
         }
     }
 
     if ($hideinactive && !count($client['campaigns'])) {
         unset($clients[$clientid]);
-        $aCount[$isOac]['advertisers_hidden']++;
+        $aCount['advertisers_hidden']++;
     } elseif ($isOac) {
         unset($clients[$clientid]);
         $aOacAdvertisers[$clientid] = $client;
@@ -267,25 +271,9 @@ foreach (array_keys($clients) as $clientid) {
 
 }
 
-foreach (array_keys($aCount[2]) as $k) {
-    $aCount[2][$k] = $aCount[0][$k] + $aCount[1][$k];
-}
-
-$aCount = array(
-    'Openads' => $aCount[1],
-    'Local'   => $aCount[0],
-    'Total'   => $aCount[2]
-);
-
-$oTpl->assign('aOacAdvertisers', $aOacAdvertisers);
-$oTpl->assign('aOapAdvertisers', $clients);
+$oTpl->assign('aAdvertisers', $clients);
 $oTpl->assign('aCount', $aCount);
-
-if (MAX_Admin_Preferences::checkBool('updates_enabled', true)) {
-    $oTpl->assign('aCountries',     $oAdNetworks->getCountriesSelect());
-    $oTpl->assign('aLanguages',     $oAdNetworks->getLanguagesSelect());
-    $oTpl->assign('aOtherNetworks', $oAdNetworks->getOtherNetworksForDisplay());
-}
+$oTpl->assign('showAdDirect', (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) ? true : false);
 
 $oTpl->assign('hideinactive', $hideinactive);
 $oTpl->assign('listorder', $listorder);
@@ -307,6 +295,9 @@ phpAds_SessionDataStore();
 
 $oTpl->display();
 
-phpAds_PageFooter();
+/*-------------------------------------------------------*/
+/* HTML framework                                        */
+/*-------------------------------------------------------*/
 
+phpAds_PageFooter();
 ?>

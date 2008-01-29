@@ -29,8 +29,6 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/OA/DB/Sql.php';
-require_once MAX_PATH . '/lib/max/other/lib-db.inc.php';
 require_once MAX_PATH . '/www/admin/lib-banner.inc.php';
 require_once MAX_PATH . '/lib/max/Plugin.php';
 require_once MAX_PATH . '/lib/max/Dal/Admin/Acls.php';
@@ -135,70 +133,74 @@ function OA_aclGetSLimitationFromAAcls($acls)
 
 function MAX_AclSave($acls, $aEntities, $page = false)
 {
-    $conf = $GLOBALS['_MAX']['CONF'];
+    //$conf = $GLOBALS['_MAX']['CONF'];
     $oDbh =& OA_DB::singleton();
+
     if ($page === false) {
         $page = basename($_SERVER['PHP_SELF']);
     }
 
-    if ('banner-acl.php' == $page) {
-        $table = 'banners';
-        $aclsTable = 'acls';
-        $fieldId = 'bannerid';
+    if ('banner-acl.php' == $page)
+    {
+        $table      = 'banners';
+        $aclsTable  = 'acls';
+        $fieldId    = 'bannerid';
     }
-    else if ('channel-acl.php' == $page) {
-        $table = 'channel';
-        $aclsTable = 'acls_channel';
-        $fieldId = 'channelid';
+    else if ('channel-acl.php' == $page)
+    {
+        $table      = 'channel';
+        $aclsTable  = 'acls_channel';
+        $fieldId    = 'channelid';
     }
-    else {
+    else
+    {
         return false;
     }
-    $aclsObjectId = $aEntities[$fieldId];
 
+    $aclsObjectId = $aEntities[$fieldId];
     $sLimitation = OA_aclGetSLimitationFromAAcls($acls);
 
-    $rsAcls = OA_DB_Sql::selectWhereOne($table, $fieldId, $aclsObjectId, array('compiledlimitation'));
-    $rsAcls->fetch();
+    $doTable = OA_Dal::factoryDO($table);
+    $doTable->$fieldId = $aclsObjectId;
+    $found = $doTable->find(true);
 
-    if ($sLimitation == $rsAcls->get('compiledlimitation')) {
+    if ($sLimitation == $doTable->compiledlimitation)
+    {
         return true; // No changes to the ACL
     }
 
-    OA_DB_Sql::deleteWhereOne($aclsTable, $fieldId, $aclsObjectId);
+    $doAcls = OA_Dal::factoryDO($aclsTable);
+    $doAcls->whereAdd($fieldId.' = '.$aclsObjectId);
+    $doAcls->delete(true);
 
-    if (!empty($acls)) {
-        foreach ($acls as $acl) {
+    if (!empty($acls))
+    {
+        foreach ($acls as $acl)
+        {
             $deliveryLimitationPlugin =& OA_aclGetPluginFromRow($acl);
-            $sql = OA_DB_Sql::sqlForInsert($aclsTable, array(
-                $fieldId => $aclsObjectId,
-                'logical' => $acl['logical'],
-                'type' => $acl['type'],
-                'data' => $deliveryLimitationPlugin->getData(),
-                'comparison' => $acl['comparison'],
-                'executionorder' => $acl['executionorder']
-            ));
-            $result = $oDbh->exec($sql);
-            if (PEAR::isError($result)) {
-                return $result;
+
+            $doAcls = OA_Dal::factoryDO($aclsTable);
+            $doAcls->$fieldId   = $aclsObjectId;
+            $doAcls->logical    = $acl['logical'];
+            $doAcls->type       = $acl['type'];
+            $doAcls->comparison = $acl['comparison'];
+            $doAcls->data       = $deliveryLimitationPlugin->getData();
+            $doAcls->executionorder = $acl['executionorder'];
+            $id = $doAcls->insert();
+            if (!$id)
+            {
+                return false;
             }
         }
     }
-
-    $result = OA_DB_Sql::updateWhereOne($table, $fieldId, $aclsObjectId, array(
-        'acl_plugins' => MAX_AclGetPlugins($acls),
-        'acls_updated' => ($now = OA::getNow()),
-        'compiledlimitation' => $sLimitation
-    ));
-    if (PEAR::isError($result)) {
-        return $result;
-    }
+    $doTable->acl_plugins = MAX_AclGetPlugins($acls);
+    $doTable->compiledlimitation = $sLimitation;
+    $doTable->update();
 
     // When a channel limitation changes - All banners with this channel must be re-learnt
     if ($page == 'channel-acl.php') {
         $affected_ads = array();
-        $table = OA_DB_Sql::modifyTableName($conf['table']['acls']);
-
+        $table = modifyTableName('acls');
         $query = "
             SELECT
                 DISTINCT(bannerid)
@@ -209,25 +211,17 @@ function MAX_AclSave($acls, $aEntities, $page = false)
               AND (data = '{$aclsObjectId}' OR data LIKE '%,{$aclsObjectId}' OR data LIKE '%,{$aclsObjectId},%' OR data LIKE '{$aclsObjectId},%')
         ";
         $res = $oDbh->query($query);
-        if (PEAR::isError($res)) {
+        if (PEAR::isError($res))
+        {
             return $res;
         }
-        while ($row = $res->fetchRow()) {
-            $affected_ads[] = $row['bannerid'];
-        }
-        if (!empty($affected_ads)) {
-            $table = OA_DB_Sql::modifyTableName($conf['table']['banners']);
-            $query = "
-                UPDATE
-                    {$table}
-                SET
-                    acls_updated = '{$now}'
-                WHERE
-                    bannerid IN (" . $oDbh->escape(implode(',', $affected_ads)) . ")
-            ";
-            $res = $oDbh->exec($query);
-            if (PEAR::isError($res)) {
-                return $res;
+        while ($row = $res->fetchRow())
+        {
+            $doBanners = OA_Dal::staticGetDO('banners', $row['bannerid']);
+            if ($doBanners->bannerid == $row['bannerid'])
+            {
+                $doBanners->acls_updated = OA::getNow();
+                $doBanners->update();
             }
         }
     }
@@ -335,7 +329,7 @@ function MAX_AclValidate($page, $aParams) {
 function MAX_AclCopy($page, $from, $to) {
     $oDbh =& OA_DB::singleton();
     $conf =& $GLOBALS['_MAX']['CONF'];
-    $table = OA_DB_Sql::modifyTableName($conf['table']['acls']);
+    $table = modifyTableName('acls');
     switch ($page) {
         case 'channel-acl.php' :
             echo "Not implemented";
@@ -503,4 +497,12 @@ function MAX_aclAStripslashed($aArray)
     }
     return $aArray;
 }
+
+function modifyTableName($table)
+{
+    $conf = $GLOBALS['_MAX']['CONF'];
+    $oDbh = OA_DB::singleton();
+    return $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table'][$table], true);
+}
+
 ?>

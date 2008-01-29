@@ -45,8 +45,7 @@ $Id$
 <br>
 <img src="images/break-el.gif" width="100%" height="1" vspace="8"><span class="install">
 Please add one or more sites where you wish to display advertising managed by Openads. <br/><br/>
-Here you can also choose whether you wish to sign up to Ad Networks. This will allow you to generate revenue immediately from Openads’ partner Networks. 
-In order to be approved by the Ad Networks you will need to provide the country and language of your site as well as choosing the relevant category which reflects its content.
+Here you can also choose whether you wish to sign up to Sign up for Advertiser self service and Payment. If you choose to, you will need to provide the country and language of your site as well as choosing the relevant category which reflects its content.
           </span></td>
 </tr>
 </table>
@@ -61,76 +60,52 @@ In order to be approved by the Ad Networks you will need to provide the country 
 <div id="url-empty1" class="error-box hide" style="float: right; width: 230px; position: relative; top: -2px">
             Provide website URL <span class="remove-site-cont">or <span class="link remove-site">remove it</span></span>
 </div>
-<input type="button" class="remove-site" value="Remove"><label for="url{$k}" class="left">Site URL</label>
+<input type="button" class="remove-site" name="remove-site" id="remove-site" value="Remove" tabindex='{$tabindex++}'><label for="url{$k}" class="left" tabindex='{$tabindex++}'>Site URL</label>
           http://
-          <input type="text" id="url{$k}" name="aUrls[]" style="width: 26em" class="site-url flat" value="{$s.url|escape}">
+          <input type="text" id="url{$k}" name="aUrls[]" style="width: 26em" class="site-url flat" value="{$s.url|escape}" tabindex='{$tabindex++}'>
 </div>
 
 </div>
+
 <div class="site-main">
 <div id="required-missing1" class="error-box hide" style="float: right; width: 230px">
-          To activate Ad Networks, please pick Category, Country and Language.
+          To Sign up for Advertiser self service and Payment, please pick Category, Country and Language.
         </div>
 <div class="line">
-<label for="category1" class="left">Category</label><select type="text" id="category{$k}" name="aCategories[]" style="width: 11em" class="flat">
+<label for="category1" class="left">Category</label><select type="text" id="category{$k}" name="aCategories[]" tabindex='{$tabindex++}' style="width: 11em" class="flat">
 {html_options options=$aSelectCategories selected=$s.category}
 </select>
 
 </div>
 <div class="line">
-<label for="country1" class="left">Country</label><select type="text" id="country{$k}" name="aCountries[]" style="width: 11em" class="flat">
+<label for="country1" class="left">Country</label><select type="text" id="country{$k}" name="aCountries[]" tabindex='{$tabindex++}' style="width: 11em" class="flat">
 {html_options options=$aSelectCountries selected=$s.country}
 </select><label for="language1" class="inline">Language</label>
-<select type="text" id="language{$k}" name="aLanguages[]" style="width: 11em" class="flat">
+<select type="text" id="language{$k}" name="aLanguages[]" tabindex='{$tabindex++}' style="width: 11em" class="flat">
 {html_options options=$aSelectLanguages selected=$s.language}
 </select>
 </div>
-<div class="line-nolabel">
-<input type="hidden" name="aAdnetworks[]" id="hdn-adnetworks{$k}" value="{if $s.adnetworks}true{else}false{/if}" />
-<input type="checkbox" name="aAnCheckbox[]" id="adnetworks{$k}" {if !$syncEnabled}disabled="true"{/if} {if $s.adnetworks}checked="checked"{/if} onclick="$('#hdn-'+this.id).get(0).value = this.checked; return true"><label for="adnetworks1" class="cb"{if $s.adnetworks} checked="checked"{/if}>Sign up this site to Ad Networks</label>
 
-<span class="popup-help hide" style="width: 310px; height: 220px; margin-top: -210px; margin-left: 140px">
-  <div class="close" style="text-align: right"><span class="link">Close</span></div>
-  <div class="long-help-text" style="height: 200px; width: 300px">
-  <ol>
-    <li>
-      <b>What are Ad Networks?</b>
-  Ad Networks work with large numbers of advertisers providing them an access point to a large number of publishers. Openads has partnered with some of the industry leading networks to allow Openads' publishers to generate revenue immediately from any remnant inventory they may have.
-    </li>
+{if $showAdDirect}
+    <div class="line-nolabel">
+    <input type="hidden" name="aAdvSignup[]" id="hdn-advsignup{$k}" value="{if $s.advsignup}true{else}false{/if}" />
+    <input type="checkbox" name="aAdvSignupCheckbox[]" id="advsignup{$k}" {if !$syncEnabled}disabled="true"{/if} {if $s.advsignup}checked="checked"{/if} onclick="$('#hdn-'+this.id).get(0).value = this.checked; return true" tabindex='{$tabindex++}'><label for="advsignup1" class="cb"{if $s.advsignup} checked="checked"{/if}>Sign up for Advertiser self service and Payment</label>
 
-    <li>
-  <b>How do I get my sites approved?</b> All sites will need to be approved by the Ad Networks. However you are able to run advertising immediately before the approval process has been completed. You can assume that your site has been approved unless you receive an email from Openads stating otherwise. If your site has not been approved for any reason it is your responsibility to turn off or delete the ad network campaigns that have been loaded into your system. You will not be paid for any impressions that run after the date which the email informing you that your site has been rejected.
-    </li>
+      <span class="popup-help hide">
+        <div class="close" style="text-align: right"><span class="link">Close</span></div>
+        Explanation text Explanation text Explanation text Explanation text Explanation text
+      </span>
 
-    <li>
-      <b>How does it work?</b> Openads allows you access to multiple Ad Networks. When you sign up through Openads we pass on your site details to the ad networks and automatically load up their campaigns into your system. These campaigns are unique to each site so we can record how much revenue each site has generated by each ad network. At the end of the month we send you through one payment covering all the revenues you have generated across all the Ad Networks.
-    </li>
-
-    <li>
-      <b>How do I get paid? </b> You will need to create an account with Openads. Within this account you will provide an email address we can inform you of payments. If you have achieved a balance in excess of $100 you can request payment from the Homepage of your Openads installation. We will then provide this payment to you using Paypal at the end of the month after you have requested payment.
-    </li>
-
-    <li>
-      <b>Can I stop these campaigns?</b> You can stop Ad Network campaigns in exactly the same way as any other campaign in the product.
-    </li>
-
-    <li>
-      <b>Will these campaigns conflict with my own advertising?</b> Ad Network campaigns will automatically be set to low priority. This means they will only take up remnant inventory and your high priority campaigns will always take precedence. You are able to change the priority on any ad network campaign should you wish to do so.
-    </li>
-
-    <li>
-      <b>How does Openads make money?</b> Openads makes its revenue by charging advertisers and Ad Networks a fee to seamlessly plug into Openads and use its services. We do not take any revenue from the publishers themselves. You will receive the same percentage share you would have done had you had a separate agreement with each Ad Network 
-    </li>
-  </ol>
-  </div>
-</span>
-<span class="link popup-help-link adnetworks-help">(what's this?)</span>
+      <span class="link popup-help-link advsignup-help" tabindex='{$tabindex++}'>(what's this?)</span>
+    </div>
+{/if}
 </div>
-</div>
-</div>
+
 </div>
 {/foreach}
-<input type="button" value="Add new site" class="add-new-site" id="add-new-site" disabled="true"><span id="add-new-site-info">To add more sites, please fill in urls of the existing ones</span><script language="javascript">
+</div>
+<input type="button" value="Add new site" class="add-new-site" id="add-new-site" name="add-new-site" disabled="true" tabindex='{$tabindex++}'><span id="add-new-site-info">To add more sites, please fill in urls of the existing ones</span>
+<script language="javascript">
 <!--{literal}
 
       $(document).ready(function() {
@@ -139,7 +114,7 @@ In order to be approved by the Ad Networks you will need to provide the country 
           {
             if (isCaptchaRequired())
             {
-              $("#adnetworks-signup-dialog_" + this.id).jqmShow();
+              $("#captcha-dialog-" + this.id).jqmShow();
             }
             else
             {
@@ -152,17 +127,17 @@ In order to be approved by the Ad Networks you will need to provide the country 
 //-->{/literal}
     </script>
 
-{include file=adnetworks-signup-dialog.html formId=frmOpenads}
+{include file=advertiser-signup-dialog.html formId=frmOpenads}
 
 
 <br>
 <br>
 <br>
-<img width="100%" vspace="5" height="1" src="images/break-el.gif"><input type="submit" class="button" name="btn_tagssetup" value="Continue &raquo;"{tabindex}><input type="hidden" name="dirPage" id="dirPage" value="">
-</form>
-
+<img width="100%" vspace="5" height="1" src="images/break-el.gif">
+<input type="submit" class="button" id="btn_tagssetup" name="btn_tagssetup" value="Continue &raquo;" tabindex='{$tabindex++}'>
 <input type="hidden" name="dirPage" id="dirPage" value="">
 </form>
+
 <div class="hide">
 <div class="site" id="site-proto">
 <div class="site-head">
@@ -170,76 +145,65 @@ In order to be approved by the Ad Networks you will need to provide the country 
 <div id="url-empty" class="error-box hide" style="float: right; width: 230px; position: relative; top: -2px">
             Provide website URL <span class="remove-site-cont">or <span class="link remove-site">remove it</span></span>
 </div>
-<input type="button" class="remove-site" value="Remove"><label for="url" class="left">Site URL</label>
+<input type="button" class="remove-site" id="remove-site" name="remove-site" value="Remove" tabindex=""><label for="url" class="left">Site URL</label>
           http://
-          <input type="text" id="url" name="aUrls[]" style="width: 26em" class="site-url flat">
+          <input type="text" id="url" name="aUrls[]" tabindex="" style="width: 26em" class="site-url flat">
 
 </div>
 </div>
+
 <div class="site-main">
 <div id="required-missing" class="error-box hide" style="float: right; width: 230px">
-          To activate Ad Networks, please pick Category, Country and Language.
+          To Sign up for Advertiser self service and Payment, please pick Category, Country and Language.
         </div>
 <div class="line">
-<label for="category" class="left">Category</label><select type="text" id="category" name="aCategories[]" style="width: 11em" class="flat">
+<label for="category" class="left">Category</label><select type="text" id="category" name="aCategories[]" tabindex="" style="width: 11em" class="flat">
 {html_options options=$aSelectCategories}
 </select>
 
 </div>
 <div class="line">
-<label for="country" class="left">Country</label><select type="text" id="country" name="aCountries[]" style="width: 11em" class="flat">
+<label for="country" class="left">Country</label><select type="text" id="country" name="aCountries[]" tabindex="" style="width: 11em" class="flat">
 {html_options options=$aSelectCountries}
-</select><label for="language" class="inline">Language</label><select type="text" id="language" name="aLanguages[]" style="width: 11em" class="flat">
+</select><label for="language" class="inline">Language</label><select type="text" id="language" name="aLanguages[]" tabindex="" style="width: 11em" class="flat">
 {html_options options=$aSelectLanguages}
 </select>
 </div>
-<div class="line-nolabel">
-<input type="hidden" name="aAdnetworks[]" id="hdn-adnetworks" value="false">
-<input type="checkbox" name="aAnCheckbox[]" id="adnetworks" {if !$syncEnabled}disabled="true"{else}checked="checked"{/if} onclick="$('#hdn-'+this.id).get(0).value = this.checked; return true"><label for="adnetworks" class="cb">Sign up this site to Ad Networks</label>
 
-<span class="popup-help hide" style="width: 310px; height: 220px; margin-top: -210px; margin-left: 140px">
-  <div class="close" style="text-align: right"><span class="link">Close</span></div>
-  <div class="long-help-text" style="height: 200px; width: 300px">
-  <ol>
-    <li>
-      <b>What are Ad Networks?</b>
-  Ad Networks work with large numbers of advertisers providing them an access point to a large number of publishers. Openads has partnered with some of the industry leading networks to allow Openads' publishers to generate revenue immediately from any remnant inventory they may have.
-    </li>
+{if $showAdDirect}
+    <div class="line-nolabel">
+    <input type="hidden" name="aAdvSignup[]" id="hdn-advsignup" value="false">
+    <input type="checkbox" name="aAdvSignupCheckbox[]" id="advsignup" {if !$syncEnabled}disabled="true"{/if} onclick="$('#hdn-'+this.id).get(0).value = this.checked; return true"><label for="advsignup" class="cb"{if $s.advsignup} checked="checked"{/if}>Sign up for Advertiser self service and Payment</label>
 
-    <li>
-  <b>How do I get my sites approved?</b> All sites will need to be approved by the Ad Networks. However you are able to run advertising immediately before the approval process has been completed. You can assume that your site has been approved unless you receive an email from Openads stating otherwise. If your site has not been approved for any reason it is your responsibility to turn off or delete the ad network campaigns that have been loaded into your system. You will not be paid for any impressions that run after the date which the email informing you that your site has been rejected.
-    </li>
+      <span class="popup-help hide">
+        <div class="close" style="text-align: right"><span class="link">Close</span></div>
+        Explanation text Explanation text Explanation text Explanation text Explanation text
+      </span>
+    <span class="link popup-help-link adnetworks-help">(what's this?)</span>
 
-    <li>
-      <b>How does it work?</b> Openads allows you access to multiple Ad Networks. When you sign up through Openads we pass on your site details to the ad networks and automatically load up their campaigns into your system. These campaigns are unique to each site so we can record how much revenue each site has generated by each ad network. At the end of the month we send you through one payment covering all the revenues you have generated across all the Ad Networks.
-    </li>
+    </div>
+{/if}
+</div>
 
-    <li>
-      <b>How do I get paid? </b> You will need to create an account with Openads. Within this account you will provide an email address we can inform you of payments. If you have achieved a balance in excess of $100 you can request payment from the Homepage of your Openads installation. We will then provide this payment to you using Paypal at the end of the month after you have requested payment.
-    </li>
-
-    <li>
-      <b>Can I stop these campaigns?</b> You can stop Ad Network campaigns in exactly the same way as any other campaign in the product.
-    </li>
-
-    <li>
-      <b>Will these campaigns conflict with my own advertising?</b> Ad Network campaigns will automatically be set to low priority. This means they will only take up remnant inventory and your high priority campaigns will always take precedence. You are able to change the priority on any ad network campaign should you wish to do so.
-    </li>
-
-    <li>
-      <b>How does Openads make money?</b> Openads makes its revenue by charging advertisers and Ad Networks a fee to seamlessly plug into Openads and use its services. We do not take any revenue from the publishers themselves. You will receive the same percentage share you would have done had you had a separate agreement with each Ad Network 
-    </li>
-  </ol>
-  </div>
-</span>
-<span class="link popup-help-link adnetworks-help">(what's this?)</span>
 </div>
 </div>
-</div>
-</div>
+
+{literal}
+<script language="javascript">
+
+function lastTabIndex() {
+
+    document.lastTabIndex = parseInt(document.getElementById('btn_tagssetup').tabIndex);
+}
+
+lastTabIndex();
+
+</script>
+{/literal}
+
+
 <script>
 <!--
       initInstallerSites();
 //-->
     </script>
-</div>

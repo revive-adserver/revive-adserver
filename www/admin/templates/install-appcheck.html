@@ -15,7 +15,7 @@
         <tr><td height='10' colspan='4'>&nbsp;</td></tr>
         <tr>
             <td colspan='4' align='center' style='margin: 0 50px 0 50px;'>
-            <?php  
+            <?php
                 if ($message) {
             ?>
                     <table class="sysinfotable"><tr><td class="sysinfoerror centered"><?php echo $message; ?></table>
@@ -33,7 +33,7 @@
         <?php
             if (!$halt)
             {
-                $btn_name = $_COOKIE['oat'] == OA_UPGRADE_UPGRADE && !checkLogin() ? 'btn_login' : 'btn_dbsetup';
+                $btn_name = $_COOKIE['oat'] == OA_UPGRADE_UPGRADE && !OA_Upgrade_Login::checkLogin() ? 'btn_login' : 'btn_dbsetup';
         ?>
                 <input type="submit" class="button" name="<?php echo $btn_name; ?>" value="<?php echo $strBtnContinue; ?>" tabindex="1" />                                <?php
             }

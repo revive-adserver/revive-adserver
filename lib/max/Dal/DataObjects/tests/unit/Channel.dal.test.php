@@ -44,22 +44,27 @@ class DataObjects_ChannelTest extends DalUnitTestCase
         $this->UnitTestCase();
     }
 
+    function tearDown()
+    {
+        DataGenerator::cleanUp();
+    }
 
     function testDelete()
     {
         $doChannel = OA_Dal::factoryDO('channel');
         $doChannel->acls_updated = '2007-04-03 19:29:54';
-        $channelId = DataGenerator::generateOne($doChannel);
+        $channelId = DataGenerator::generateOne($doChannel, true);
 
         $doAcls = OA_Dal::factoryDO('acls');
         $doAcls->bannerid = 1;
         $doAcls->type = 'Site:Channel';
         $doAcls->data = "$channelId";
         $doAcls->executionorder = 1;
-        $doAcls->insert();
+        DataGenerator::generateOne($doAcls, true);
+
         $doAcls->data = "$channelId, 196";
         $doAcls->executionorder = 2;
-        $doAcls->insert();
+        DataGenerator::generateOne($doAcls, true);
 
         $doChannel->channelid = $channelId;
         $doChannel->delete();
@@ -73,7 +78,7 @@ class DataObjects_ChannelTest extends DalUnitTestCase
         //  create test channel
         $doChannel = OA_Dal::factoryDO('channel');
         $doChannel->acls_updated = '2007-04-03 19:29:54';
-        $channelId = DataGenerator::generateOne($doChannel);
+        $channelId = DataGenerator::generateOne($doChannel, true);
 
         //  create test acls
         $doAcls = OA_Dal::factoryDO('acls_channel');
@@ -133,5 +138,7 @@ class DataObjects_ChannelTest extends DalUnitTestCase
             }
         }
     }
+
 }
+
 ?>

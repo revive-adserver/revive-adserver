@@ -26,6 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Dal/Common.php';
+require_once MAX_PATH . '/lib/OA/Dll.php';
 
 /**
  * @todo Consider renaming to Advert
@@ -104,7 +105,7 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
         ",campaignid".
         ",alt".
         ",description".
-        ",active".
+        ",status".
         ",storagetype AS type".
         " FROM ".$tableB;
         $query .= $this->getSqlListOrder($listorder, $orderdirection);
@@ -135,7 +136,7 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
                 b.campaignid AS campaignid,
                 b.alt AS alt,
                 b.description AS description,
-                b.active AS active,
+                b.status AS active,
                 b.storagetype AS type
             FROM
                 {$tableB} AS b,
@@ -172,8 +173,8 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
             " FROM ".$tableB." AS b".
             ",".$tableM." AS m".
             " WHERE b.campaignid=m.campaignid".
-            " AND m.active='t'".
-            " AND b.active='t'";
+            " AND m.status=".OA_ENTITY_STATUS_RUNNING.
+            " AND b.status=".OA_ENTITY_STATUS_RUNNING;
         return $this->oDbh->queryOne($query_active_banners);
     }
 
@@ -189,8 +190,8 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
         ",".$tableM." AS m".
         " WHERE b.campaignid=m.campaignid".
         " AND m.clientid=". DBC::makeLiteral($advertiser_id) .
-        " AND m.active='t'".
-        " AND b.active='t'";
+        " AND m.status=".OA_ENTITY_STATUS_RUNNING.
+        " AND b.status=".OA_ENTITY_STATUS_RUNNING;
         $number_of_active_banners = $this->oDbh->getOne($query_active_banners);
         return $number_of_active_banners;
     }
@@ -217,8 +218,8 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
         " WHERE m.clientid=c.clientid".
         " AND b.campaignid=m.campaignid".
         " AND c.agencyid=". DBC::makeLiteral($agency_id) .
-        " AND m.active='t'".
-        " AND b.active='t'";
+        " AND m.status=".OA_ENTITY_STATUS_RUNNING.
+        " AND b.status=".OA_ENTITY_STATUS_RUNNING;
         return $this->oDbh->queryOne($query_active_banners);
     }
 

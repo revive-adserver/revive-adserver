@@ -51,7 +51,7 @@ class Test_OA_Upgrade_Config extends UnitTestCase
         $oUpConfig = new OA_Upgrade_Config();
         $this->assertIsA($oUpConfig,'OA_Upgrade_Config','class mismatch: OA_Upgrade_Config');
         $this->assertIsA($oUpConfig->aConfig,'array','class mismatch: array');
-        $this->assertIsA($oUpConfig->oConfig,'OA_Admin_Config','class mismatch: OA_Admin_Config');
+        $this->assertIsA($oUpConfig->oSettings,'OA_Admin_Settings','class mismatch: OA_Admin_Settings');
     }
 
     function test_getInitialConfig()

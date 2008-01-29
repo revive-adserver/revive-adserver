@@ -58,13 +58,18 @@ class Plugins_InvocationTags_adviewnocookies_adviewnocookies extends Plugins_Inv
     }
 
     /**
-     * Return preference code
+     * Return setting configuration file code - required for plugins
+     * that store a value in the configuration file.
      *
-     * @return string
+     * Value returned should be NULL if the plugin does not store
+     * a value in the configuration file, otherwise it should be a
+     * string in the form "level_key".
+     *
+     * @return string The setting "code".
      */
-    function getPreferenceCode()
+    function getSettingCode()
     {
-        return 'allow_invocation_plain_nocookies';
+        return 'allowedTags_adviewnocookies';
     }
 
     /**

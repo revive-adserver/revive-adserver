@@ -38,41 +38,25 @@ require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/lib/max/Dal/Delivery.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
+require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 
 /*-------------------------------------------------------*/
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
 
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
-MAX_Permission::checkAccessToObject('zones', $zoneid);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
+OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
+OA_Permission::enforceAccessToObject('zones', $zoneid);
 
-if (phpAds_isUser(phpAds_Affiliate)) {
-    $doZones = OA_Dal::factoryDO('zones');
-    if ($doZones->get($zoneid)) {
-        $affiliateid = $doZones->affiliateid;
-    }
-} elseif (phpAds_isUser(phpAds_Agency)) {
-    MAX_Permission::checkAccessToObject('affiliates', $affiliateid);
-}
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-if (isset($session['prefs']['affiliate-zones.php']['listorder']))
-    $navorder = $session['prefs']['affiliate-zones.php']['listorder'];
-else
-    $navorder = '';
-
-if (isset($session['prefs']['affiliate-zones.php']['orderdirection']))
-    $navdirection = $session['prefs']['affiliate-zones.php']['orderdirection'];
-else
-    $navdirection = '';
-
 // Initialise some parameters
 $pageName = basename($_SERVER['PHP_SELF']);
 $tabIndex = 1;
-$agencyId = phpAds_getAgencyID();
+$agencyId = OA_Permission::getAgencyId();
 $aEntities = array('affiliateid' => $affiliateid, 'zoneid' => $zoneid);
 
 $aOtherPublishers = Admin_DA::getPublishers(array('agency_id' => $agencyId));
@@ -133,7 +117,7 @@ function phpAds_showZoneBanners ($zoneId)
                     echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
                 }
                 // Name
-                if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+                if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
                     echo "<a href='banner-edit.php?clientid=".phpAds_getCampaignParentClientID($aLinkedAd['placement_id'])."&campaignid=".$aLinkedAd['placement_id']."&bannerid=".$adId."'>".$name."</a>";
                 } else {
                     echo $name;
@@ -147,10 +131,10 @@ function phpAds_showZoneBanners ($zoneId)
                 $limitations = _isAdLimited($aLinkedAd);
 
                 echo "<td height='25'>";
-                if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+                if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
                     $linkStart = "<a href='banner-acl.php?clientid=".phpAds_getCampaignParentClientID($aLinkedAd['placement_id'])."&campaignid={$aLinkedAd['placement_id']}&bannerid={$aLinkedAd['ad_id']}'>";
                     $linkEnd = "</a>";
-                } elseif (phpAds_isUser(phpAds_Affiliate)) {
+                } else {
                     $linkStart = '';
                     $linkEnd = '';
                 }
@@ -214,7 +198,7 @@ function phpAds_showZoneBanners ($zoneId)
                     echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
                 }
                 // Name
-                if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+                if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
                     echo "<a href='banner-edit.php?clientid=".phpAds_getCampaignParentClientID($aLinkedAd['placement_id'])."&campaignid=".$aLinkedAd['placement_id']."&bannerid=".$adId."'>".$name."</a>";
                 } else {
                     echo $name;
@@ -225,22 +209,22 @@ function phpAds_showZoneBanners ($zoneId)
                 $probability = $aLinkedAd['priority'] * 100;
                 $usedHighProbability += $aLinkedAd['priority'];
                 $exactProbability = ($probability == 0) ? '0.00' : sprintf('%0.64f', $probability);
-                echo "<td height='25'><acronym title='{$exactProbability}%'>".number_format($probability, $pref['percentage_decimals'])."%</acronym></td>";        
-                
+                echo "<td height='25'><acronym title='{$exactProbability}%'>".number_format($probability, $pref['ui_percentage_decimals'])."%</acronym></td>";
+
                 // Priority
                 echo "<td height='25'>{$aLinkedAd['campaign_priority']}/10</td>";
 
                 $capping = _isAdCapped($aLinkedAd);
                 $limitations = _isAdLimited($aLinkedAd);
 
-                if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+                if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
                     $linkStart = "<a href='banner-acl.php?clientid=".phpAds_getCampaignParentClientID($aLinkedAd['placement_id'])."&campaignid={$aLinkedAd['placement_id']}&bannerid={$aLinkedAd['ad_id']}'>";
                     $linkEnd = "</a>";
-                } elseif (phpAds_isUser(phpAds_Affiliate)) {
+                } else {
                     $linkStart = '';
                     $linkEnd = '';
                 }
-                
+
                 echo "<td height='25'>";
                 if (!$capping && !$limitations) {
                     echo "{$linkStart}<img src='images/icon-no-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;$strNoLimitations{$linkEnd}";
@@ -252,7 +236,7 @@ function phpAds_showZoneBanners ($zoneId)
                     echo "{$linkStart}<img src='images/icon-acl.gif' alt='Capping' align='middle' border='0'>&nbsp;$strCapping{$linkEnd}";
                 }
                 echo "</td>";
-                
+
                 // Show banner
                 if ($aLinkedAd['type'] == 'txt') {
                     $width    = 300;
@@ -304,7 +288,7 @@ function phpAds_showZoneBanners ($zoneId)
                     echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
                 }
                 // Name
-                if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+                if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
                     echo "<a href='banner-edit.php?clientid=".phpAds_getCampaignParentClientID($aLinkedAd['placement_id'])."&campaignid=".$aLinkedAd['placement_id']."&bannerid=".$adId."'>".$name."</a>";
                 } else {
                     echo $name;
@@ -315,17 +299,17 @@ function phpAds_showZoneBanners ($zoneId)
                 $probability = $aLinkedAd['priority'] / $aZoneLinkedAds['priority']['lAds'] * 100;
                 $realProbability = $probability * $ofPriority / 100;
                 $exactProbability = sprintf("%0.64f", $realProbability);
-                echo "<td height='25'><acronym title='{$exactProbability}'>".number_format($realProbability, $pref['percentage_decimals'])."%</acronym> (".number_format($probability, $pref['percentage_decimals'])."% of ".number_format($ofPriority, $pref['percentage_decimals'])."%)</td>";
+                echo "<td height='25'><acronym title='{$exactProbability}'>".number_format($realProbability, $pref['ui_percentage_decimals'])."%</acronym> (".number_format($probability, $pref['ui_percentage_decimals'])."% of ".number_format($ofPriority, $pref['ui_percentage_decimals'])."%)</td>";
 
                 echo "<td height='25'>{$aLinkedAd['campaign_weight']}</td>";
 
                 $capping = _isAdCapped($aLinkedAd);
                 $limitations = _isAdLimited($aLinkedAd);
 
-                if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+                if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
                     $linkStart = "<a href='banner-acl.php?clientid=".phpAds_getCampaignParentClientID($aLinkedAd['placement_id'])."&campaignid={$aLinkedAd['placement_id']}&bannerid={$aLinkedAd['ad_id']}'>";
                     $linkEnd = "</a>";
-                } elseif (phpAds_isUser(phpAds_Affiliate)) {
+                } else {
                     $linkStart = '';
                     $linkEnd = '';
                 }

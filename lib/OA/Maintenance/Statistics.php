@@ -48,6 +48,7 @@ class OA_Maintenance_Statistics
      */
     function run()
     {
+        OA::switchLogFile('maintenance');
         // Get the configuration
         $aConf = $GLOBALS['_MAX']['CONF'];
         // Log the start of the process
@@ -57,6 +58,9 @@ class OA_Maintenance_Statistics
             @set_time_limit($aConf['maintenance']['timeLimitScripts']);
             @ignore_user_abort(true);
         }
+
+        OA_Permission::switchToSystemProcessUser('Maintenance');
+
         // Ensure the the current time is registered with the OA_ServiceLocator
         $oServiceLocator =& OA_ServiceLocator::instance();
         $oDate = &$oServiceLocator->get('now');
@@ -70,8 +74,12 @@ class OA_Maintenance_Statistics
         $oMaintenanceStatistics->updateStatistics();
         $oMaintenanceStatistics = new OA_Maintenance_Statistics_Tracker();
         $oMaintenanceStatistics->updateStatistics();
+
+        OA_Permission::switchToSystemProcessUser();
+
         // Log the end of the process
         OA::debug('Maintenance Statistics Engine Completed', PEAR_LOG_INFO);
+        OA::switchLogFile();
     }
 
 }

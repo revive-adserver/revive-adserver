@@ -286,6 +286,77 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
     }
 
     /**
+     * A method to test the GetCampaignStatuses() method.
+     *
+     */
+    function testGetCampaignStatuses()
+    {
+        $this->_setUpAppVars();
+
+        $aCampaigns = array(
+             999 => array(OA_ENTITY_STATUS_RUNNING, OA_ENTITY_ADNETWORKS_STATUS_RUNNING),
+            1000 => array(OA_ENTITY_STATUS_PAUSED, OA_ENTITY_ADNETWORKS_STATUS_RUNNING),
+            1001 => array(OA_ENTITY_STATUS_PENDING, OA_ENTITY_ADNETWORKS_STATUS_APPROVAL),
+            1002 => array(OA_ENTITY_STATUS_PENDING, OA_ENTITY_ADNETWORKS_STATUS_APPROVAL),
+            1003 => array(OA_ENTITY_STATUS_PENDING, OA_ENTITY_ADNETWORKS_STATUS_APPROVAL),
+            1004 => array(OA_ENTITY_STATUS_PENDING, OA_ENTITY_ADNETWORKS_STATUS_REJECTED),
+            1005 => array(OA_ENTITY_STATUS_PAUSED, OA_ENTITY_ADNETWORKS_STATUS_APPROVAL),
+        );
+
+        $doCampaign = OA_Dal::factoryDO('campaigns');
+        foreach ($aCampaigns as $campaignId => $aStatuses) {
+            $doCampaign->an_campaign_id = $campaignId;
+            $doCampaign->status = $aStatuses[0];
+            $doCampaign->an_status = $aStatuses[1];
+            DataGenerator::generateOne(clone($doCampaign));
+        }
+
+        $aResponse = array(
+             999 => OA_ENTITY_ADNETWORKS_STATUS_RUNNING,
+            1000 => OA_ENTITY_ADNETWORKS_STATUS_RUNNING,
+            1001 => OA_ENTITY_ADNETWORKS_STATUS_RUNNING,
+            1002 => OA_ENTITY_ADNETWORKS_STATUS_APPROVAL,
+            1003 => OA_ENTITY_ADNETWORKS_STATUS_REJECTED,
+            1004 => OA_ENTITY_ADNETWORKS_STATUS_RUNNING,
+            1005 => OA_ENTITY_ADNETWORKS_STATUS_RUNNING,
+        );
+
+        $oResponse = new XML_RPC_Response(XML_RPC_encode($aResponse));
+
+        $oAdNetworks = $this->_newInstance();
+        $this->_mockSendReference($oAdNetworks, $oResponse);
+
+        $oAdNetworks->getCampaignStatuses();
+
+        $doCampaign = OA_Dal::factoryDO('campaigns');
+        $doCampaign->selectAdd();
+        $doCampaign->selectAdd('an_campaign_id');
+        $doCampaign->selectAdd('status');
+        $doCampaign->selectAdd('an_status');
+        $doCampaign->whereAdd('1 = 1');
+
+        $aResult = $doCampaign->getAll(array(), false, false);
+
+        foreach ($aResult as $aCampaign) {
+            $aCampaigns[$aCampaign['an_campaign_id']] = array($aCampaign['status'], $aCampaign['an_status']);
+        }
+
+        $aExpected = array(
+             999 => array(OA_ENTITY_STATUS_RUNNING, OA_ENTITY_ADNETWORKS_STATUS_RUNNING),
+            1000 => array(OA_ENTITY_STATUS_PAUSED, OA_ENTITY_ADNETWORKS_STATUS_RUNNING),
+            1001 => array(OA_ENTITY_STATUS_RUNNING, OA_ENTITY_ADNETWORKS_STATUS_RUNNING),
+            1002 => array(OA_ENTITY_STATUS_PENDING, OA_ENTITY_ADNETWORKS_STATUS_APPROVAL),
+            1003 => array(OA_ENTITY_STATUS_PENDING, OA_ENTITY_ADNETWORKS_STATUS_REJECTED),
+            1004 => array(OA_ENTITY_STATUS_RUNNING, OA_ENTITY_ADNETWORKS_STATUS_RUNNING),
+            1005 => array(OA_ENTITY_STATUS_PAUSED, OA_ENTITY_ADNETWORKS_STATUS_RUNNING),
+        );
+
+        $this->assertEqual($aCampaigns, $aExpected);
+
+        DataGenerator::cleanUp($this->aCleanupTables);
+    }
+
+    /**
      * A method to test the unsubscribeWebsites() method
      * Note: Using the data inserted by the above test
      */
@@ -344,7 +415,6 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
             $doZones->affiliateid = $aWebsite['id'];
             $doAza->joinAdd($doZones);
             $this->assertEqual($doAza->count(), 0);
-
         }
         DataGenerator::cleanUp($this->aCleanupTables);
     }
@@ -359,12 +429,7 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
         $this->_setUpAppVars();
 
         // Force TimeZone
-        if (is_callable('date_default_timezone_set')) {
-            date_default_timezone_set('Europe/Rome');
-        } else {
-            putenv('TZ=Europe/Rome');
-        }
-
+        $tz = 'Europe/Rome';
         $revenue = 23.45;
 
         $aResponse = new XML_RPC_Value(array(
@@ -384,7 +449,7 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
         $this->_mockSendReference($oAdNetworks, $oResponse);
 
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->oac_banner_id = 1000;
+        $doBanners->an_banner_id = 1000;
         $bannerId = DataGenerator::generateOne($doBanners);
         $this->assertTrue($bannerId);
 
@@ -394,14 +459,17 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
         $this->assertEqual(OA_Dal_ApplicationVariables::get('batch_sequence'), 1);
 
         $doDsah = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDsah->orderBy('day, hour');
+        $doDsah->orderBy('date_time');
         $doDsah->find();
         $aStats = array();
         $revenueSum = 0;
         while ($doDsah->fetch()) {
+            $oDate = new Date($doDsah->date_time);
+            $oDate->setTZbyID('UTC');
+            $oDate->convertTZbyID($tz);
             $aStats[] = array(
-                'day' => $doDsah->day,
-                'hour' => $doDsah->hour,
+                'day' => $oDate->format('%Y-%m-%d'),
+                'hour' => (int)$oDate->format('%H'),
                 'impressions' => $doDsah->impressions,
                 'clicks' => $doDsah->clicks,
                 'total_revenue' => $doDsah->total_revenue
@@ -420,9 +488,11 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
 
         foreach (array('2007-07-31', '2007-08-01', '2007-08-02') as $day) {
             for ($hour = 0; $hour < 24; $hour++) {
+                $oDate = new Date(sprintf('%s %02d:00:00', $day, $hour));
+                $oDate->setTZbyID($tz);
+                $oDate->toUTC();
                 $doDsah = OA_Dal::factoryDO('data_summary_ad_hourly');
-                $doDsah->day         = $day;
-                $doDsah->hour        = $hour;
+                $doDsah->date_time   = $oDate->format('%Y-%m-%d %H:%M:%S');
                 $doDsah->ad_id       = $bannerId;
                 $doDsah->zone_id     = 0;
                 $doDsah->creative_id = 0;
@@ -438,14 +508,17 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
         $this->assertEqual(OA_Dal_ApplicationVariables::get('batch_sequence'), 2);
 
         $doDsah = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDsah->orderBy('day, hour');
+        $doDsah->orderBy('date_time');
         $doDsah->find();
         $aStats = array();
         $revenueSum = 0;
         while ($doDsah->fetch()) {
+            $oDate = new Date($doDsah->date_time);
+            $oDate->setTZbyID('UTC');
+            $oDate->convertTZbyID($tz);
             $aStats[] = array(
-                'day' => $doDsah->day,
-                'hour' => $doDsah->hour,
+                'day' => $oDate->format('%Y-%m-%d'),
+                'hour' => (int)$oDate->format('%H'),
                 'impressions' => $doDsah->impressions,
                 'clicks' => $doDsah->clicks,
                 'total_revenue' => $doDsah->total_revenue
@@ -465,9 +538,11 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
 
         foreach (array('2007-07-31', '2007-08-01', '2007-08-02') as $day) {
             for ($hour = 0; $hour < 24; $hour += 4) {
+                $oDate = new Date(sprintf('%s %02d:00:00', $day, $hour));
+                $oDate->setTZbyID($tz);
+                $oDate->toUTC();
                 $doDsah = OA_Dal::factoryDO('data_summary_ad_hourly');
-                $doDsah->day         = $day;
-                $doDsah->hour        = $hour;
+                $doDsah->date_time   = $oDate->format('%Y-%m-%d %H:%M:%S');
                 $doDsah->ad_id       = $bannerId;
                 $doDsah->zone_id     = 10;
                 $doDsah->creative_id = 0;
@@ -483,14 +558,17 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
         $this->assertEqual(OA_Dal_ApplicationVariables::get('batch_sequence'), 3);
 
         $doDsah = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDsah->orderBy('day, hour');
+        $doDsah->orderBy('date_time');
         $doDsah->find();
         $aStats = array();
         $revenueSum = 0;
         while ($doDsah->fetch()) {
+            $oDate = new Date($doDsah->date_time);
+            $oDate->setTZbyID('UTC');
+            $oDate->convertTZbyID($tz);
             $aStats[] = array(
-                'day' => $doDsah->day,
-                'hour' => $doDsah->hour,
+                'day' => $oDate->format('%Y-%m-%d'),
+                'hour' => (int)$oDate->format('%H'),
                 'impressions' => $doDsah->impressions,
                 'clicks' => $doDsah->clicks,
                 'total_revenue' => $doDsah->total_revenue
@@ -527,6 +605,7 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
                             'name'         => 'Campaign 1',
                             'weight'       => 1,
                             'capping'      => 0,
+                            'status'       => 0,
                             'banners'      => array(
                                 array(
                                     'banner_id' => 3000,
@@ -590,6 +669,7 @@ document.write ("\'><" + "/script>");
                             'name'        => 'Campaign 1',
                             'weight'      => 1,
                             'capping'     => 0,
+                            'status'      => 0,
                             'banners'     => array(
                                 array(
                                     'banner_id' => 3001,

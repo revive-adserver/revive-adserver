@@ -59,7 +59,7 @@ function view_local($what, $zoneid = 0, $campaignid = 0, $bannerid = 0, $target 
         }
     }
 
-    $output = MAX_adSelect($what, '', $target, $source, $withtext, $context, true, '', $loc, $referer);
+    $output = MAX_adSelect($what, '', $target, $source, $withtext, $context, true, '', $GLOBALS['loc'], $GLOBALS['referer']);
     if (isset($output['contenttype']) && $output['contenttype'] == 'swf') {
         $output['html'] = MAX_flashGetFlashObjectExternal() . $output['html'];
     }

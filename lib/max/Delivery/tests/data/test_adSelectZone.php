@@ -54,8 +54,8 @@ $aLinked_xAds = array (
           'appendtype' => '0',
           'forceappend' => 'f',
           'inventory_forecast_type' => '0',
-          'default_banner_url' => NULL,
-          'default_banner_dest' => NULL,
+          'default_banner_image_url' => NULL,
+          'default_banner_destination_url' => NULL,
           'xAds' =>
           array (
             1025 =>
@@ -2312,8 +2312,8 @@ $aLinked_cAds = array (
           'appendtype' => '0',
           'forceappend' => 'f',
           'inventory_forecast_type' => '0',
-          'default_banner_url' => NULL,
-          'default_banner_dest' => NULL,
+          'default_banner_image_url' => NULL,
+          'default_banner_destination_url' => NULL,
           'xAds' =>
           array (
           ),
@@ -2679,8 +2679,8 @@ $aLinked_ads = array (
           'appendtype' => '0',
           'forceappend' => 'f',
           'inventory_forecast_type' => '0',
-          'default_banner_url' => NULL,
-          'default_banner_dest' => NULL,
+          'default_banner_image_url' => NULL,
+          'default_banner_destination_url' => NULL,
           'xAds' =>
           array (
           ),

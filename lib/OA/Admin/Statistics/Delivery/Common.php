@@ -288,12 +288,15 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
                 foreach ($this->aStatsData as $key => $record) {
                     // Split the date ($key) into days and year, and place the year on the second line
                     $patterns = array ('/(19|20)(\d{2})-(\d{1,2})-(\d{1,2})/');
-                    $replace = array ('\3-\4--\1\2');
+                    $replace = array ('\4-\3--\1\2');
                     $key = preg_replace($patterns, $replace, $key);
                     $key = preg_split('/--/', $key);
                     if ($aFieldStyle[$k]['axis'] == 'X') {
                         $Dataset[$k]->addPoint($key[0]."\n".$key[1], $record[$k], IMAGE_GRAPH_AXIS_X);
                     } else {
+                        if ($k == 'sum_ctr') {
+                            $record[$k] *= 100;
+                        }
                         $Dataset[$k]->addPoint($key[0]."\n".$key[1], $record[$k], IMAGE_GRAPH_AXIS_Y_SECONDARY);
                     }
                     $Dataset[$k]->setName($this->aColumns[$k]);
@@ -315,7 +318,7 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
                     $Plot[$k]->setFillColor($aFieldStyle[$k]['background']);
                     $LineStyle =& Image_Graph::factory('Image_Graph_Line_Solid', $aFieldStyle[$k]['params']);
                     $Plot[$k]->setLineStyle($LineStyle);
-                    foreach($Dataset[$k] as $id => $val) {
+                    foreach($Dataset[$k]->_data as $id => $val) {
                         // To determine the max value of the 2nd y axis
                         if (is_numeric($val['Y']) && (!isset($maxY2val) || $val['Y'] > $maxY2val)) {
                             $maxY2val = $val['Y'];
@@ -387,21 +390,6 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
         return $GLOBALS['strNoStats'];
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * A private method that can be inherited and used by children classes to
      * calculate the CTR and SR ratios of the impressions, clicks and conversions
@@ -415,24 +403,6 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
         foreach ($this->aPlugins as $oPlugin) {
             $oPlugin->summarizeStats($row);
         }
-    }
-
-    /**
-     * Show the welcome text to publishers
-     *
-     */
-    function showPublisherWelcome()
-    {
-        $pref = $GLOBALS['_MAX']['PREF'];
-
-        if ($pref['publisher_welcome'] == 't') {
-            // Show welcome message
-            if (!empty($pref['publisher_welcome_msg'])) {
-                $this->welcomeText = $pref['publisher_welcome_msg'];
-            }
-        }
-
-
     }
 
     /**

@@ -58,13 +58,13 @@ class Plugins_Reports_Admin_Breakdown extends Plugins_Reports
      */
     function initInfo()
     {
-        $this->_name         = MAX_Plugin_Translation::translate('Agency Breakdown', $this->module, $this->package);
+        $this->_name         = MAX_Plugin_Translation::translate('Manager Account Breakdown', $this->module, $this->package);
         $this->_description  = MAX_Plugin_Translation::translate('Lists Adviews/AdClicks/AdSales totals for a given month.', $this->module, $this->package);
         $this->_category     = 'admin';
         $this->_categoryName = MAX_Plugin_Translation::translate('Admin Reports', $this->module, $this->package);
         $this->_author       = 'Chris Nutting';
         $this->_export       = 'xls';
-        $this->_authorize    = phpAds_Admin;
+        $this->_authorize    = OA_ACCOUNT_ADMIN;
 
         $this->_import = $this->getDefaults();
         $this->saveDefaults();
@@ -146,7 +146,7 @@ class Plugins_Reports_Admin_Breakdown extends Plugins_Reports
         // Manually prepare the header array
         global $strImpressions, $strClicks, $strConversions;
         $aHeaders = array(
-            MAX_Plugin_Translation::translate('Agency', $this->module, $this->package) => 'text',
+            MAX_Plugin_Translation::translate('Manager', $this->module, $this->package) => 'text',
             $strImpressions => 'decimal',
             $strClicks      => 'decimal',
             $strConversions => 'decimal'
@@ -155,7 +155,7 @@ class Plugins_Reports_Admin_Breakdown extends Plugins_Reports
         $aData = $this->_fetchData();
         // Add the worksheet
         $this->createSubReport(
-            MAX_Plugin_Translation::translate('Agency breakdown', $this->module, $this->package),
+            MAX_Plugin_Translation::translate('Manager Account Breakdown', $this->module, $this->package),
             $aHeaders,
             $aData
         );
@@ -165,37 +165,9 @@ class Plugins_Reports_Admin_Breakdown extends Plugins_Reports
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        // Get the "admin" agency data
-		$query = "
-            SELECT
-                '" . MAX_Plugin_Translation::translate('Admin User', $this->module, $this->package) . "' AS agency_name,
-                SUM(s.impressions) AS impressions,
-                SUM(s.clicks) AS clicks,
-                SUM(s.conversions) AS conversions
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['clients']} AS c,
-                {$aConf['table']['prefix']}{$aConf['table']['campaigns']} AS m,
-                {$aConf['table']['prefix']}{$aConf['table']['banners']} AS b,
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_hourly']} AS s
-            WHERE
-                c.agencyid = 0
-                AND
-                c.clientid = m.clientid
-                AND
-                m.campaignid = b.campaignid
-                AND
-                b.bannerid = s.ad_id
-                AND
-                s.day >= ". $oDbh->quote($this->_oDaySpan->getStartDateString(), 'date') ."
-                AND
-                s.day <= ". $oDbh->quote($this->_oDaySpan->getEndDateString(), 'date') ."
-            GROUP BY
-                agency_name";
-		$aAdminData = $oDbh->queryAll($query);
-		if (PEAR::isError($aData)) {
-		    $aAdminData = array();;
-		}
-		// Get "real" agency data
+        // Ensure data is retrieved using UTC times
+        $this->_oDaySpan->toUTC();
+		// Get the manager account data
 		$query = "
             SELECT
                 g.name AS agency_name,
@@ -217,17 +189,15 @@ class Plugins_Reports_Admin_Breakdown extends Plugins_Reports
                 AND
                 b.bannerid = s.ad_id
                 AND
-                s.day >= ". $oDbh->quote($this->_oDaySpan->getStartDateString(), 'date') ."
+                s.date_time >= ". $oDbh->quote($this->_oDaySpan->getStartDateString('%Y-%m-%d %H:%M:%S'), 'date') ."
                 AND
-                s.day <= ". $oDbh->quote($this->_oDaySpan->getEndDateString(), 'date') ."
+                s.date_time <= ". $oDbh->quote($this->_oDaySpan->getEndDateString('%Y-%m-%d %H:%M:%S'), 'date') ."
             GROUP BY
                 agency_name";
-		$aAgencyData = $oDbh->queryAll($query);
+		$aData = $oDbh->queryAll($query);
 		if (PEAR::isError($aData)) {
-		    $aAgencyData = array();;
+		    $aData = array();;
 		}
-        // Merge and return!
-        $aData = $aAdminData + $aAgencyData;
 		return $aData;
     }
 }

@@ -174,6 +174,20 @@ class OA_Admin_Statistics_Targeting_Common extends OA_Admin_Statistics_Targeting
         return $GLOBALS['strNoTargetingStats'];
     }
 
+    /**
+     * A private method that can be inherited and used by children classes to
+     * calculate the CTR and SR ratios of the impressions, clicks and conversions
+     * that are to be displayed.
+     *
+     * @access private
+     * @param array Row of stats
+     */
+    function _summarizeStats(&$row)
+    {
+        foreach ($this->aPlugins as $oPlugin) {
+            $oPlugin->summarizeStats($row);
+        }
+    }
 }
 
 ?>
