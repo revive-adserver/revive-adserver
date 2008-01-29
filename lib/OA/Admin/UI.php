@@ -248,6 +248,7 @@ class OA_Admin_UI
                 $this->oTpl->assign('aAdminAccounts', $aAdminAccounts);
                 $this->oTpl->assign('aAccounts', $aAccounts);
                 $this->oTpl->assign('accountId', OA_Permission::getAccountId());
+                $this->oTpl->assign('accountName', OA_Permission::getAccountName());
 
                 $this->oTpl->assign('productUpdatesCheck',
                     OA_Permission::isAccount(OA_ACCOUNT_ADMIN) &&

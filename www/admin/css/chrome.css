@@ -225,11 +225,143 @@ a:hover {
 }
 #oaNavigationExtra a {
 	color: #0767A8;
-	font-weight: bold;
 }
 #oaNavigationExtra li {
 	float: left;
 	margin: 0 0 0 12px;
+}
+
+.switchTrigger {
+  padding: 2px 14px 0px 5px;
+  color: #444444;
+  background: url("../images/arrow-d.gif") no-repeat right;
+  cursor: pointer;
+  margin-right: 2px;
+}
+
+.expanded .switchTrigger {
+  background: url("../images/arrowwh-d.gif") no-repeat right;
+  background-color: #9c9c9c;
+  color: white;
+  -moz-border-radius-topleft: 3px;
+  -moz-border-radius-topright: 3px;
+  -webkit-border-top-left-radius: 3px;
+  -webkit-border-top-right-radius: 3px;
+}
+
+.hover .switchTrigger {  
+  background: url("../images/arrowwh-d.gif") no-repeat right;
+  background-color: #9c9c9c;
+  color: white;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+}
+
+.accountsPanel {
+  display: none;
+}
+
+.expanded .accountsPanel {
+	display: block;
+	color: #444444;
+	position: absolute;
+	right: 0px;
+	width: 151px;
+	z-index: 100;
+}
+
+.expanded .switchTop {
+  background: url('../images/accountswitcher-header.png') no-repeat;
+  height: 1px;
+  overflow: hidden;
+  
+  /* Fix IE bug: transparent PNG support */   
+  -background: none;
+  -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/accountswitcher-header.png', sizingMethod='scale');
+} 
+
+.expanded .switchDown {
+  background: url('../images/accountswitcher-footer.png') no-repeat;
+  height: 15px;
+  
+  /* Fix IE bug: transparent PNG support */   
+  -background: none;
+  -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/accountswitcher-footer.png', sizingMethod='scale');
+} 
+
+.expanded .switchMiddle {
+  background: url('../images/accountswitcher-shadow.png') repeat-y;
+  padding-left: 3px;
+  padding-right: 3px;
+  zoom:1;
+  
+  /* Fix IE bug: transparent PNG support - it breaks hovering on LI, not sure why */    
+  -background: none;
+  -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/accountswitcher-shadow.png', sizingMethod='scale');
+}
+
+.expanded .switchMiddleBody {
+	background: url('../images/accountswitcher-gradient.png') repeat-x;
+}
+
+.expanded .label {
+  font-weight: bold;
+  height: 23px;
+  line-height: 23px;
+  padding-left: 10px;
+}
+
+.expanded #accounts {
+  padding-top: 5px;
+}
+
+#oaNavigationExtra .accountSwitcher {
+	position: relative;
+}
+
+.accountSwitcherOverlay
+{
+	display: none;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left:0;
+  top:0;
+  background-color: red;
+  opacity: 0;
+  background-color: none;
+  z-index: 99;
+}
+
+#oaNavigationExtra .accountSwitcher li {
+	padding-left: 10px;
+  float: none;
+  margin: 0px;
+  line-height: 150%;
+  overflow: hidden;
+  -position: relative; /* IE6 alpafilter bug: http://www.hrunting.org/csstests/iealpha.html */
+  -zoom: 1;
+}
+
+#oaNavigationExtra .accountSwitcher li.opt {
+	color: #9c9c9c;
+	margin-top: 2px;
+}
+
+#oaNavigationExtra .accountSwitcher li.inopt {
+  padding-left: 25px;
+}
+
+#oaNavigationExtra .accountSwitcher li.hover, #oaNavigationExtra .accountSwitcher .result ul li.hover a {
+  background-color: #0767A8;
+  color: white;
+  cursor: pointer; 
+}
+
+#oaNavigationExtra .accountSwitcher .result ul li a {
+  display:block;
+  padding:0pt;
+  text-decoration:none;
 }
 
 #oaNavigationExtraTop {
@@ -247,18 +379,6 @@ a:hover {
 #oaNavigationExtraTop li.infoUser, #oaNavigationExtraTop li.buttonHelp, #oaNavigationExtraTop li.buttonReportBugs {
 	border-right: 1px solid #9c9c9c;
 }
-#oaNavigationExtraTop .buttonReportBugs {
-}
-
-/*#oaNavigationExtraTop .buttonReportBugs a {
-  background: url(../images/bug-fam.png) no-repeat;
-  background-position:  center right;
-  padding-right: 25px;
-  
-  /* Fix IE bug: transparent PNG support */
-  -background: none;
-  -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/bug-fam.png');
-}*/
 
 #oaNavigationExtraTop .buttonStartOver {
 	font-weight: bold;

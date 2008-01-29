@@ -488,4 +488,50 @@ function copyValidationConstraints(fromObj, toObj)
   toObj.validateDescr = fromObj.validateDescr;
 }
 
+/** work as **/
+function initAccoutSwitcher()
+{
+  $switcher = $("#oaNavigationExtra .accountSwitcher");
+  //$("#oaNavigation").append("<div class='accountSwitcherOverlay'>&nbsp;</div>");
+  
+  
+  $(".triggerContainer").hover(function() {
+      $(this).addClass("hover");
+    }, function() {
+      $(this).removeClass("hover");
+  });
+  
+  
+  $(".switchTrigger", $switcher).click(function() {
+    $switcher.toggleClass("expanded");
+    $(".accountSwitcherOverlay").toggle();
+  });
+  
+  $(".accountsPanel li").hover(function() {
+      $this = $(this);
+      if (!$this.is(".opt")) { 
+        $this.addClass("hover");
+      }
+    }, function() {
+      $(this).removeClass("hover");
+  });
+  
+  $(document).click(function(event) {
+    if ($(event.target).parents(".expanded").length == 0) {
+      $switcher.removeClass("expanded");
+      $(".accountSwitcherOverlay").hide();
+    }
+    return true;
+  });
+  
+  $(document).keydown(function(event) {
+    if ($(".expanded").length > 0 && event.keyCode == 27) {
+      $switcher.removeClass("expanded");
+      $(".accountSwitcherOverlay").hide();
+    }
+    return true;
+  });
+}
+
+
 

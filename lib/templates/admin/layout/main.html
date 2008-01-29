@@ -131,19 +131,43 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
     <ul id="oaNavigationExtra">
 
 {if $buttonLogout}
-        <li class="switchAccount">
-          <form action="account-switch.php" method="get">
-            <label for="user-switch">{$strWorkingAs}</label>
-            <select name="account_id" id="user-switch" class="switcher submit-on-change">
-                {html_options options=$aAdminAccounts selected=$accountId}
-                {html_options options=$aAccounts selected=$accountId}
-            </select>
-            <input type="submit" value="" class="arrow-submit" />
-          </form>
+        <li class="accountSwitcher">
+            <div class="triggerContainer">{$strWorkingAs} <span class="switchTrigger" href="#">{$accountName}</span></div>
+            <div class="accountsPanel">
+              <div class="switchTop">&nbsp;</div>
+              <div class="switchMiddle">
+                <div class="switchMiddleBody">
+	                <div class="label">Switch to</div>
+	                <div class="selection" style="display:none" ></div>
+	                <div class="result">
+	                  <ul id="accounts">
+											{foreach from=$aAdminAccounts  key=accountId item=account}
+											    <li><a href="account-switch.php?account_id={$accountId|escape}">{$account}</a></li>
+											{/foreach}
+											
+		                  {foreach from=$aAccounts  key=groupName item=group}
+		                      <li class="opt">{$groupName|escape}</li>
+		                      {foreach from=$group key=accountId item=account}
+		                        <li class="inopt"><a href="account-switch.php?account_id={$accountId|escape}">{$account}</a></li>
+		                      {/foreach}
+		                  {/foreach}                
+	                  </ul>
+	                </div>
+                </div>
+              </div>
+              <div class="switchDown">&nbsp;</div>
+            </div>            
         </li>
+                
+        <script type='text/javascript'>
+          <!--
+          initAccoutSwitcher();
+          -->
+        </script>
 {/if}
 
     </ul>
+    <div class='accountSwitcherOverlay'>&nbsp;</div>
 </div>
 
 <div id="oaMain">
@@ -217,3 +241,4 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 </body>
 </html>
 {/if}
+
