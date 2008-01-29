@@ -976,7 +976,7 @@ if ($type == 'txt') {
     echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
     echo "<tr><td width='30'>&nbsp;</td>";
-    echo "<td colspan='2'><textarea class='code' cols='45' rows='10' name='bannertext' wrap='off' style='width:550px; ";
+    echo "<td colspan='2'><textarea class='flat' cols='45' rows='10' name='bannertext' wrap='off' style='width:550px; ";
     echo "' tabindex='".($tabindex++)."'>".$row['bannertext']."</textarea></td></tr>";
 
     echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
@@ -1032,7 +1032,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_AC
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strComments."</td>";
 
-    echo "<td><textarea class='code' cols='45' rows='6' name='comments' wrap='off' dir='ltr' style='width:350px;";
+    echo "<td><textarea class='flat' cols='45' rows='6' name='comments' wrap='off' dir='ltr' style='width:350px;";
     echo "' tabindex='".($tabindex++)."'>".htmlspecialchars($row['comments'])."</textarea></td></tr>";
     echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 

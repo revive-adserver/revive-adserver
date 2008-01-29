@@ -514,7 +514,7 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
     {
         echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>".$strZoneAppend."</td><td>";
         echo "<input type='hidden' name='appendsave' value='1'>";
-        echo "<textarea name='append' rows='6' cols='55' style='width: 100%;' tabindex='".($tabindex++)."'>".htmlspecialchars($zone['append'])."</textarea>";
+        echo "<textarea class='code' name='append' rows='6' cols='55' style='width: 100%;' tabindex='".($tabindex++)."'>".htmlspecialchars($zone['append'])."</textarea>";
         echo "</td></tr>";
     }
 
