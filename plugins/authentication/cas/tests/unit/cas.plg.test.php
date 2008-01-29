@@ -25,6 +25,14 @@
 $Id: GeoIP.plg.test.php 12393 2007-11-14 15:53:36Z andrew.hill@openads.org $
 */
 
+if (!isset($_SERVER['REQUEST_URI'])) {
+    $_SERVER['REQUEST_URI'] = '/test.php';
+}
+
+if (!isset($_SERVER['QUERY_STRING'])) {
+    $_SERVER['QUERY_STRING'] = '';
+}
+
 require_once MAX_PATH . '/lib/max/Plugin.php';
 require_once MAX_PATH . '/plugins/authentication/cas/cas.plugin.php';
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
@@ -42,7 +50,7 @@ class Test_Plugins_Authentication_Cas_Cas extends UnitTestCase
      * @var Plugins_Authentication_Cas_Cas
      */
     var $internal;
-    
+
     function Test_Plugins_Authentication_Internal_Internal()
     {
         $this->UnitTestCase();
@@ -52,7 +60,7 @@ class Test_Plugins_Authentication_Cas_Cas extends UnitTestCase
     {
         $this->internal = OA_Auth::staticGetAuthPlugin('cas');
     }
-    
+
     function tearDown()
     {
         DataGenerator::cleanUp();
@@ -62,29 +70,29 @@ class Test_Plugins_Authentication_Cas_Cas extends UnitTestCase
     {
         $ret = $this->internal->suppliedCredentials();
         $this->assertFalse($ret);
-        
+
         $_GET['ticket'] = 'boo';
         $ret = $this->internal->suppliedCredentials();
         $this->assertTrue($ret);
-        
+
     }
-    
+
     function testStorePhpCasSession()
     {
         // store data
         $data = array('boo');
         $_SESSION[OA_CAS_PLUGIN_PHP_CAS] = $data;
         $this->internal->storePhpCasSession();
-        
+
         // now fetch stored data and test that it was saved
         phpAds_SessionDataFetch();
         global $session;
         $this->assertEqual($session[OA_CAS_PLUGIN_PHP_CAS], $data);
-        
+
         // clean up
         unset($_SESSION[OA_CAS_PLUGIN_PHP_CAS]);
     }
-    
+
     function testRestorePhpCasSession()
     {
         $data = array('boo');
@@ -93,18 +101,18 @@ class Test_Plugins_Authentication_Cas_Cas extends UnitTestCase
         $this->internal->restorePhpCasSession();
         $this->assertEqual($_SESSION[OA_CAS_PLUGIN_PHP_CAS], $data);
     }
-    
+
     function testGetUser()
     {
         $username = 'boo';
         $doUsers = OA_Dal::factoryDO('users');
         $doUsers->username = $username;
         DataGenerator::generateOne($doUsers);
-        
+
         $ret = $this->internal->getUser($username);
         $this->assertIsA($ret, 'DataObjects_Users');
         $this->assertEqual($ret->username, $username);
-        
+
         $ret = $this->internal->getUser('foo');
         $this->assertNull($ret);
     }
