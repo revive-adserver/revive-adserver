@@ -38,7 +38,7 @@ $Id$
 function setupConstants()
 {
     // Define this version of Openads's constants
-    define('OA_VERSION', '2.7.1-dev');
+    define('OA_VERSION', '2.7.2-dev');
     define('MAX_PRODUCT_NAME',      'Openads');
     define('MAX_PRODUCT_URL',       'www.openads.org');
     define('MAX_PRODUCT_DOCSURL',   'docs.openads.org'); 
@@ -208,7 +208,7 @@ function setupConstants()
 
     define('OA_DOCUMENTATION_BASE_URL', 'http://docs.openads.org');
     define('OA_DOCUMENTATION_PATH',     'help');
-    preg_match('/(\d+\.\d+)/', OA_VERSION, $aMatches);
+    define('OA_VERSION', '2.7.2-dev');
     define('OA_DOCUMENTATION_VERSION',     $aMatches[1]);
 
     // Define the week to start on Sunday (0) so that the PEAR::Date and
