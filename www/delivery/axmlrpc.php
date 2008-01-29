@@ -2488,8 +2488,13 @@ $msg .= '<div style="clear:both"></div>';
 }
 if (defined('TEST_ENVIRONMENT_RUNNING')) {
 // It's a test, stop execution
-echo $message."\n===\n".$debugInfo;
+echo $message;
 exit(1);
+} elseif (defined('OA_WEBSERVICES_API_XMLRPC')) {
+// It's an XML-RPC response
+$oResponse = new XML_RPC_Response('', 99999, $message);
+echo $oResponse->serialize();
+exit;
 } else {
 // Send the error to the screen
 echo MAX::errorObjToString($oError, $msg);
