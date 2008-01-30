@@ -211,7 +211,7 @@ class OA_Admin_Option
     function show($aData, $aErrors = array(), $disableSubmit = 0, $imgPath = "")
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $aPref = $GLOBALS['_MAX']['PREF'];
+        $aPref = $GLOBALS['_MAX']['PREF_EXTRA'];
 
         // Initialize tabindex (if not already done)
         global $tabindex;
