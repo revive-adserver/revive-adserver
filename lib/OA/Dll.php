@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 /**
@@ -387,6 +387,9 @@ class OA_Dll extends OA_BaseObjectWithErrors
                 $isError = true;
             }
         }
+        if (!empty($id) && !$this->checkIdExistence($table, $id)) {
+            return false;
+        }
         if (isset($id) && !OA_Permission::hasAccessToObject($table, $id)) {
             if (!OA_Permission::attemptToSwitchForAccess($table, $id)) {
                 $isError = true;
@@ -413,15 +416,19 @@ class OA_Dll extends OA_BaseObjectWithErrors
     function checkAgencyPermissions($agencyId)
     {
         if (!empty($agencyId)) {
+            if (!$this->checkIdExistence('agency', $agencyId)) {
+                return false;
+            }
             if ($this->checkPermissions(OA_ACCOUNT_MANAGER, 'agency', $agencyId)) {
                 return true;
             } elseif ($this->checkPermissions(array(OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER))) {
                 return $agencyId == $this->getDefaultAgencyId();
             }
+            $this->raiseError('Wrong AgencyId');
+            return false;
         }
 
-        $this->raiseError('Wrong AgencyId');
-        return false;
+        return true;
     }
 
 }

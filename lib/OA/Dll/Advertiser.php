@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 /**
@@ -105,15 +105,7 @@ class OA_Dll_Advertiser extends OA_Dll
             if (!$this->checkStructureRequiredStringField($oAdvertiser, 'advertiserName', 255)){
                 return false;
             }
-
-            // Check that an agencyID exists.
-            if (!$this->checkAgencyPermissions($oAdvertiser->agencyId)) {
-                return false;
-            } elseif (!$this->checkIdExistence('agency', $oAdvertiser->agencyId)) {
-                return false;
-            }
         }
-
 
         if (isset($oAdvertiser->emailAddress) &&
             !$this->checkEmail($oAdvertiser->emailAddress) ||
@@ -124,6 +116,11 @@ class OA_Dll_Advertiser extends OA_Dll
             !$this->checkStructureNotRequiredStringField($oAdvertiser, 'username', 64) ||
             !$this->checkStructureNotRequiredStringField($oAdvertiser, 'password', 64) ||
             !$this->validateUsernamePassword($oAdvertiser->username, $oAdvertiser->password)) {
+            return false;
+        }
+
+        // Check that an agencyID exists and that the user has permissions.
+        if (!$this->checkAgencyPermissions($oAdvertiser->agencyId)) {
             return false;
         }
 

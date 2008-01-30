@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Dll/Agency.php';
@@ -94,7 +94,7 @@ class OA_Dll_AdvertiserTest extends DllUnitTestCase
 
         $dllAdvertiserPartialMock->setReturnValue('getDefaultAgencyId', $this->agencyId);
         $dllAdvertiserPartialMock->setReturnValue('checkPermissions', true);
-        $dllAdvertiserPartialMock->expectCallCount('checkPermissions', 6);
+        $dllAdvertiserPartialMock->expectCallCount('checkPermissions', 7);
 
 
         $oAdvertiserInfo = new OA_DLL_AdvertiserInfo();
