@@ -109,7 +109,7 @@
 		    <img id="imageLinkSrc" src="{aGraphData[imgPath]}/ltr/preloader.gif" style="border: 1px solid #cccccc;padding: 5px;margin: 10px; background-color: #ffffff; text-align:center;" /><form method="post" action="{aGraphData[formSubmitLink]}">
 		    <div id="graphboxes" style="width: 90%; text-align: left; margin-left: auto; margin-right: auto; display: none; background-color:#eeeeee; padding: 10px; border: 1px solid #cccccc;">
 		    {foreach:aColumns,ck,cv}
-		    	<div style="width: 100px; float: left;"><input type="checkbox"  name="graphFilter[]" value="{ck}">&nbsp;{cv} </div>
+		    	<div style="width: 100px; float: left;"><input type="checkbox" id="graphFilter_{ck}"  name="graphFilter[]" value="{ck}">&nbsp;<label for="graphFilter_{ck}">{cv}</label></div>
 		    {end:}
       		<input type="Submit" value="Update" style="float: right;" />
 		    <br style="clear: both;" />

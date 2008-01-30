@@ -577,7 +577,7 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 
         echo "<table><tr><td>";
         echo "<input type='radio' name='$set_id' id='$immediate_id' value='f' onclick=\"phpAds_formDateClick('".$name."', false);\"".($set==false?' checked':'')." tabindex='".($tabindex++)."'>";
-        echo "&nbsp;$caption";
+        echo "&nbsp;<label for='$immediate_id'>$caption</label>";
         echo "</td></tr><tr><td>";
         echo "<input type='radio' name='$set_id' id='$specific_id' value='t' onclick=\"phpAds_formDateClick('".$name."', true);\"".($set==true?' checked':'')." tabindex='".($tabindex++)."'>";
         echo "&nbsp;";
@@ -1011,14 +1011,14 @@ echo "\t"."<td>"."\n";
 echo "\t\t"."<table>"."\n";
 
 echo "\t\t"."<tr>"."\n";
-echo "\t\t\t"."<td valign='top'><input type='radio' name='priority' value='-1'".($row['priority'] == '-1' ? ' checked' : '')." onClick=\"phpAds_formPriorityRadioClick(this);\" tabindex='".($tabindex++)."'></td>"."\n";
-echo "\t\t\t"."<td valign='top'>".$strExclusive."</td>"."\n";
+echo "\t\t\t"."<td valign='top'><input type='radio' id='priority-e' name='priority' value='-1'".($row['priority'] == '-1' ? ' checked' : '')." onClick=\"phpAds_formPriorityRadioClick(this);\" tabindex='".($tabindex++)."'></td>"."\n";
+echo "\t\t\t"."<td valign='top'><label for='priority-e'>".$strExclusive."</label></td>"."\n";
 echo "\t\t\t"."<td valign='top'>".$strPriorityExclusive."</td>"."\n";
 echo "\t\t"."</tr>"."\n";
 
 
 echo "\t\t"."<tr>"."\n";
-echo "\t\t\t"."<td valign='top'><input type='radio' name='priority' value='2'".(($row['priority'] > '0' && $campaignid != '') ? ' checked' : '')." onClick=\"phpAds_formPriorityRadioClick(this);\" tabindex='".($tabindex++)."'></td>"."\n";
+echo "\t\t\t"."<td valign='top'><input type='radio' id='priority-h' name='priority' value='2'".(($row['priority'] > '0' && $campaignid != '') ? ' checked' : '')." onClick=\"phpAds_formPriorityRadioClick(this);\" tabindex='".($tabindex++)."'></td>"."\n";
 echo "\t\t\t"."<td valign='top'> <select name='high_priority_value'>";
 for ($i = 10; $i >= 1; $i--) {
     echo "<option value='$i'".($row['priority'] == $i ? 'SELECTED' : '').">$strHigh ($i)</option>";
@@ -1027,8 +1027,8 @@ echo "</select></td>"."\n";
 echo "\t\t\t"."<td valign='top'>".$strPriorityHigh."</td>"."\n";
 echo "\t\t"."</tr>"."\n";
 
-echo "\t\t\t"."<td valign='top'><input type='radio' name='priority' value='0'".(($row['priority'] == '0' || $campaignid == '') ? ' checked' : '')." onClick=\"phpAds_formPriorityRadioClick(this);\" tabindex='".($tabindex++)."'></td>"."\n";
-echo "\t\t\t"."<td valign='top'>".$strLow."</td>"."\n";
+echo "\t\t\t"."<td valign='top'><input type='radio' id='priority-l' name='priority' value='0'".(($row['priority'] == '0' || $campaignid == '') ? ' checked' : '')." onClick=\"phpAds_formPriorityRadioClick(this);\" tabindex='".($tabindex++)."'></td>"."\n";
+echo "\t\t\t"."<td valign='top'><label for='priority-l'>".$strLow."</label></td>"."\n";
 echo "\t\t\t"."<td valign='top'>".$strPriorityLow."</td>"."\n";
 echo "\t\t"."</tr>"."\n";
 
@@ -1047,8 +1047,8 @@ echo "\t"."<td width='200' valign='top'>".$strPriorityTargeting    ."</td>"."\n"
 echo "\t"."<td>"."\n";
 echo "\t\t"."<table>"."\n";
 echo "\t\t"."<tr>"."\n";
-echo "\t\t\t"."<td valign='top'><input type='radio' name='delivery' value='auto'".($delivery == 'auto' ? ' checked' : '')." onClick=\"phpAds_formDeliveryRadioClick(this);\" tabindex='".($tabindex++)."'></td>"."\n";
-echo "\t\t\t"."<td valign='top'>".$strPriorityAutoTargeting."</td>"."\n";
+echo "\t\t\t"."<td valign='top'><input type='radio' id='delivery-a' name='delivery' value='auto'".($delivery == 'auto' ? ' checked' : '')." onClick=\"phpAds_formDeliveryRadioClick(this);\" tabindex='".($tabindex++)."'></td>"."\n";
+echo "\t\t\t"."<td valign='top'><label for='delivery-a'>".$strPriorityAutoTargeting."</label></td>"."\n";
 echo "\t\t"."</tr>"."\n";
 
 echo "\t\t"."<tr>"."\n";
@@ -1061,8 +1061,8 @@ echo "</select> $strTo <input onBlur='phpAds_formPriorityUpdate(this.form);' cla
 echo "\t\t"."</tr>"."\n";
 
 echo "\t\t"."<tr>"."\n";
-echo "\t\t\t"."<td valign='top'><input type='radio' name='delivery' value='none'".($delivery == 'none' ? ' checked' : '')." onClick=\"phpAds_formDeliveryRadioClick(this);\" tabindex='".($tabindex++)."'></td>"."\n";
-echo "\t\t\t"."<td valign='top'>".$strCampaignWeight.": <input onBlur='phpAds_formPriorityUpdate(this.form);' class='flat' type='text' name='weight' size='7' value='".(isset($row["weight"]) ? $row["weight"] : $pref['default_campaign_weight'])."' tabindex='".($tabindex++)."'></td>"."\n";
+echo "\t\t\t"."<td valign='top'><input type='radio' id='delivery-n' name='delivery' value='none'".($delivery == 'none' ? ' checked' : '')." onClick=\"phpAds_formDeliveryRadioClick(this);\" tabindex='".($tabindex++)."'></td>"."\n";
+echo "\t\t\t"."<td valign='top'><label for='delivery-n'>".$strCampaignWeight."</label>: <input onBlur='phpAds_formPriorityUpdate(this.form);' class='flat' type='text' name='weight' size='7' value='".(isset($row["weight"]) ? $row["weight"] : $pref['default_campaign_weight'])."' tabindex='".($tabindex++)."'></td>"."\n";
 echo "\t\t"."</tr>"."\n";
 echo "\t\t"."</table>"."\n";
 echo "\t"."</td>"."\n";

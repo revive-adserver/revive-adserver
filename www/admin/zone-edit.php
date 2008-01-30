@@ -382,26 +382,26 @@ echo "</tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'><br />".$strZoneType."</td><td><table>";
-echo "<tr><td><input type='radio' name='delivery' value='".phpAds_ZoneBanner."'".($zone['delivery'] == phpAds_ZoneBanner ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();' onChange='oa_hide(\"warning_change_zone_type\");' tabindex='".($tabindex++)."'>";
-echo "&nbsp;<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;".$strBannerButtonRectangle."</td></tr>";
+echo "<tr><td><input type='radio' id='delivery-b' name='delivery' value='".phpAds_ZoneBanner."'".($zone['delivery'] == phpAds_ZoneBanner ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();' onChange='oa_hide(\"warning_change_zone_type\");' tabindex='".($tabindex++)."'>";
+echo "&nbsp;<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<label for='delivery-b'>".$strBannerButtonRectangle."</label></td></tr>";
 
 if ($conf['allowedTags']['adlayer'] || $zone['delivery'] == phpAds_ZoneInterstitial)
 {
-    echo "<tr><td><input type='radio' name='delivery' value='".phpAds_ZoneInterstitial."'".($zone['delivery'] == phpAds_ZoneInterstitial ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();' onChange='oa_hide(\"warning_change_zone_type\");' tabindex='".($tabindex++)."'>";
-    echo "&nbsp;<img src='images/icon-interstitial.gif' align='absmiddle'>&nbsp;".$strInterstitial."</td></tr>";
+    echo "<tr><td><input type='radio' id='delivery-i' name='delivery' value='".phpAds_ZoneInterstitial."'".($zone['delivery'] == phpAds_ZoneInterstitial ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();' onChange='oa_hide(\"warning_change_zone_type\");' tabindex='".($tabindex++)."'>";
+    echo "&nbsp;<img src='images/icon-interstitial.gif' align='absmiddle'>&nbsp;<label for='delivery-i'>".$strInterstitial."</label></td></tr>";
 }
 
 if ($conf['allowedTags']['popup'] || $zone['delivery'] == phpAds_ZonePopup)
 {
-    echo "<tr><td><input type='radio' name='delivery' value='".phpAds_ZonePopup."'".($zone['delivery'] == phpAds_ZonePopup ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();' onChange='oa_hide(\"warning_change_zone_type\");' tabindex='".($tabindex++)."'>";
-    echo "&nbsp;<img src='images/icon-popup.gif' align='absmiddle'>&nbsp;".$strPopup."</td></tr>";
+    echo "<tr><td><input type='radio' id='delivery-p' name='delivery' value='".phpAds_ZonePopup."'".($zone['delivery'] == phpAds_ZonePopup ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();' onChange='oa_hide(\"warning_change_zone_type\");' tabindex='".($tabindex++)."'>";
+    echo "&nbsp;<img src='images/icon-popup.gif' align='absmiddle'>&nbsp;<label for='delivery-p'>".$strPopup."</label></td></tr>";
 }
 
-echo "<tr><td><input type='radio' name='delivery' value='".phpAds_ZoneText."'".($zone['delivery'] == phpAds_ZoneText ? ' CHECKED' : '')." onClick='phpAds_formDisableSize();' " . (($zone['delivery'] != phpAds_ZoneText) ? "onChange='oa_show(\"warning_change_zone_type\");'" : "onChange='oa_hide(\"warning_change_zone_type\");'") . " tabindex='".($tabindex++)."'>";
-echo "&nbsp;<img src='images/icon-textzone.gif' align='absmiddle'>&nbsp;".$strTextAdZone."</td></tr>";
+echo "<tr><td><input type='radio' id='delivery-t' name='delivery' value='".phpAds_ZoneText."'".($zone['delivery'] == phpAds_ZoneText ? ' CHECKED' : '')." onClick='phpAds_formDisableSize();' " . (($zone['delivery'] != phpAds_ZoneText) ? "onChange='oa_show(\"warning_change_zone_type\");'" : "onChange='oa_hide(\"warning_change_zone_type\");'") . " tabindex='".($tabindex++)."'>";
+echo "&nbsp;<img src='images/icon-textzone.gif' align='absmiddle'>&nbsp;<label for='delivery-t'>".$strTextAdZone."</label></td></tr>";
 
-echo "<tr><td><input type='radio' name='delivery' value='".MAX_ZoneEmail."'".($zone['delivery'] == MAX_ZoneEmail ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();' " . (($zone['delivery'] != MAX_ZoneEmail) ? "onChange='oa_show(\"warning_change_zone_type\");'" : "onChange='oa_hide(\"warning_change_zone_type\");'") . " tabindex='".($tabindex++)."'>";
-echo "&nbsp;<img src='images/icon-zone-email.gif' align='absmiddle'>&nbsp;".$strEmailAdZone."</td></tr>";
+echo "<tr><td><input type='radio' id='delivery-e' name='delivery' value='".MAX_ZoneEmail."'".($zone['delivery'] == MAX_ZoneEmail ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();' " . (($zone['delivery'] != MAX_ZoneEmail) ? "onChange='oa_show(\"warning_change_zone_type\");'" : "onChange='oa_hide(\"warning_change_zone_type\");'") . " tabindex='".($tabindex++)."'>";
+echo "&nbsp;<img src='images/icon-zone-email.gif' align='absmiddle'>&nbsp;<label for='delivery-e'>".$strEmailAdZone."</label></td></tr>";
 
 //echo "<tr><td><input type='radio' name='delivery' value='".MAX_ZoneClick."'".($zone['delivery'] == MAX_ZoneClick ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();' tabindex='".($tabindex++)."'>";
 //echo "&nbsp;<img src='images/icon-zone-click.gif' align='absmiddle'>&nbsp;".$strZoneClick."</td></tr>";

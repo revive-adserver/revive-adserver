@@ -220,7 +220,7 @@ echo "
         <tr>
             <td width='30' valign='top'>&nbsp;</td>
             <td width='200' valign='top'>$strZoneNoDelivery</td>
-            <td width='370'><input type='radio' name='chaintype' value='0'".($zone['chain'] == '' ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;$strZoneStopDelivery<br /><input type='radio' name='chaintype' value='1'".($zone['chain'] != '' && $chainzone != '' ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;$strZoneOtherZone<br /><br />";
+            <td width='370'><input type='radio' id='chaintype-s' name='chaintype' value='0'".($zone['chain'] == '' ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;<label for='chaintype-s'>$strZoneStopDelivery</label><br /><input type='radio' id='chaintype-z' name='chaintype' value='1'".($zone['chain'] != '' && $chainzone != '' ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;<label for='chaintype-z'>$strZoneOtherZone</label><br /><br />";
 
 if ($zone['delivery'] == phpAds_ZoneBanner) echo "<img src='images/icon-zone.gif' align='top'>";
 if ($zone['delivery'] == phpAds_ZoneInterstitial) echo "<img src='images/icon-interstitial.gif' align='top'>";
@@ -294,7 +294,7 @@ echo "
             <td width='30'>&nbsp;</td>
             <td width='200'>Inventory Forecasting</td>
             <td width='100%'>
-                <input type='checkbox' name='inventory_forecast_type_channel' value='8'".($zone['inventory_forecast_type'] & 8 ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;Channel<br />
+                <input type='checkbox' id='inventory_forecast_type_channel' name='inventory_forecast_type_channel' value='8'".($zone['inventory_forecast_type'] & 8 ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;<label for='inventory_forecast_type_channel'>Channel</label><br />
             </td>
         </tr>
         <tr>
@@ -327,7 +327,7 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
         <tr>
             <td width='30'>&nbsp;</td>
             <td width='200'>$strZoneAppendNoBanner</td>
-            <td width='100%'><input type='radio' name='forceappend' value='t'".($zone['forceappend'] == 't' ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;{$GLOBALS['strYes']}<br /><input type='radio' name='forceappend' value='f'".((!isset($zone['forceappend']) || $zone['forceappend'] == 'f') ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;{$GLOBALS['strNo']}</td>
+            <td width='100%'><input type='radio' id='forceappend-y' name='forceappend' value='t'".($zone['forceappend'] == 't' ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;<label for='forceappend-y'>{$GLOBALS['strYes']}</label><br /><input type='radio' id='forceappend-n' name='forceappend' value='f'".((!isset($zone['forceappend']) || $zone['forceappend'] == 'f') ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;<label for='forceappend-n'>{$GLOBALS['strNo']}</label></td>
         </tr>
         <tr>
             <td height='10' colspan='3'>&nbsp;</td>

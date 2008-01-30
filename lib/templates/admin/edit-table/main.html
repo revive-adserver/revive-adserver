@@ -98,7 +98,7 @@ $Id$
                 id="{$_e.id|default:$_e.name|escape}" value="{$_e.value|escape}"{tabindex}
                 {if $_e.checked} checked="checked"{/if}
                 {if $_e.disabled} disabled="disabled"{/if}
-                {if $_e.onclick} onclick="{$_e.onclick|escape}"{/if}>&nbsp;{$_e.content}
+                {if $_e.onclick} onclick="{$_e.onclick|escape}"{/if}>&nbsp;<label for="{$_e.id|default:$_e.name|escape}">{$_e.content}</label>
         </td>
     </tr>
 {/if}
