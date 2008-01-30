@@ -241,6 +241,14 @@ echo "&nbsp;&nbsp;<select name='chainzone' style='width: 200;' onchange='phpAds_
     }
     $doZones->delivery = $zone['delivery'];
     $doZones->whereAdd('zoneid <> '.$zoneid);
+    // Limit the list of zones to the appropriate list
+    if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+        $doAffiliates = OA_Dal::factoryDO('affiliates');
+        $doAffiliates->agencyid = OA_Permission::getAgencyId();
+        $doZones->joinAdd($doAffiliates);
+    } else {
+        $doZones->whereAdd('affiliateid = ' . $affiliateid);
+    }
     $doZones->find();
 
     while ($doZones->fetch() && $row = $doZones->toArray())
