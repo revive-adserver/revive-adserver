@@ -103,6 +103,9 @@ class OA_TranslationMaintenance
             case 'createcsv':
                 $this->createCSV();
                 break;
+            case 'createpot':
+                $this->createPOT();
+                break;
             default:
                 $this->displayHelpMsg('Please specifiy a command');
         }
@@ -880,7 +883,7 @@ class OA_TranslationMaintenance
                                 if ($k = strstr($key, '[')) {
                                     $len = strlen($k);
                                     $key = substr($key, 0, strlen($key)-$len);
-                                    $k = substr($k, 1, -1);
+                                    $k = substr($k, 2, -2);
                                     $line = "\$GLOBALS['{$key}']['{$k}'] = \"{$trans}\";\n";
                                 } else {
                                     $line = "\$GLOBALS['{$key}'] = \"{$trans}\";\n";
@@ -1204,7 +1207,8 @@ class OA_TranslationMaintenance
         $app_base = dirname(dirname(dirname(__FILE__)));
 
         // Create plugin translation sheet
-        $pluginLangFiles = findPluginLangFiles($app_base);
+        $pluginLangFiles = array();
+        findPluginLangFiles($app_base, $pluginLangFiles);
         $pluginWords = array();
         foreach ($pluginLangFiles as $folder => $files) {
             $path = substr($folder, strlen($app_base)+1);
@@ -1296,6 +1300,152 @@ class OA_TranslationMaintenance
         fclose($CORE_FILE);
     }
 
+    function createPOT()
+    {
+        $app_base = dirname(dirname(dirname(__FILE__)));
+
+        // Create plugin template
+        $pluginLangFiles = array();
+        findPluginLangFiles($app_base, $pluginLangFiles);
+        $pluginWords = array();
+        foreach ($pluginLangFiles as $folder => $files) {
+            $path = substr($folder, strlen($app_base)+1);
+            foreach ($files as $file) {
+                $lang = substr($file, 0, strrpos($file, '.'));
+                $words = array();
+                include($folder . DIRECTORY_SEPARATOR . $file);
+                foreach ($words as $key => $value) {
+                    $pluginWords[$lang][$path][$key] = $value;
+                }
+            }
+        }
+
+        $PLUGIN_FILE = fopen($app_base . DIRECTORY_SEPARATOR . 'plugins.pot', 'w');
+
+        $author = 'chris.nutting@openads.org';
+
+        // Write .pot header
+        fwrite($PLUGIN_FILE, '# Openads (core strings) template.
+# FIRST AUTHOR <chris.nutting@openads.org>, 2008.
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Openads plugins\n"
+"Report-Msgid-Bugs-To: Anna Skorupa <anna.skorupa@openads.org>\n"
+"POT-Creation-Date: ' . date('Y-m-d H:iO') . '\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Chris Nutting <chris.nutting@openads.org>\n"
+"Language-Team: Translations <translations@openads.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+');
+        // Catch the items into an array so I can detect fuzzyness
+        $items = array();
+
+        // Replace these values in the key files
+        $search  = array("\n");
+        $replace = array("\\n\n");
+
+        foreach ($pluginWords[$this->_masterLang] as $file => $words) {
+            foreach ($words as $key => $value) {
+                if (empty($value)) { continue; }
+                $itemkey = '';
+                $value = str_replace($search, $replace, html_entity_decode($value, ENT_QUOTES, 'UTF-8'));
+                $lines = explode("\n", $value);
+                if (count($lines) > 1) {
+                    $itemkey .= "\"\"\n";
+                }
+                foreach ($lines as $line) {
+                    $itemkey .= "\"{$line}\"\n";
+                }
+                $itemkey = trim($itemkey);
+                if (isset($items[$itemkey])) {
+                    $items[$itemkey]['fuzzy'] = true;
+                    $items[$itemkey]['comment'] .= "\n#: {$key} - {$file}";
+                } else {
+                    $items[$itemkey] = array(
+                        'comment' => $key . ' - ' . $file,
+                        'fuzzy'   => false,
+                        'value'   => $value,
+                    );
+                }
+            }
+        }
+
+        foreach ($items as $itemkey => $item) {
+            $entry  = "#: {$item['comment']}\n";
+            if ($item['fuzzy']) {
+                $entry .= "#, fuzzy\n";
+            }
+            $entry .= 'msgid ' . $itemkey . "\n";
+            $entry .= "msgstr \"\"\n\n";
+            fwrite($PLUGIN_FILE, $entry);
+        }
+        // Currently only the plugins .pot creation is working...
+        exit();
+
+        // Create core translations sheet (only including new translations for now)
+        // Read the translation strings from the english language pack
+        $this->_sortTrans();
+
+        // Read the translation strings from the CSV files
+        foreach ($this->_otherLangs as $otherLang => $csvName) {
+            $langFile = dirname($this->inputFile) . DIRECTORY_SEPARATOR . $csvName . '.csv';
+            $result = $this->getTranslationFromCSV($langFile);
+            $existing[$otherLang] = $result[$otherLang];
+        }
+
+        // Read the master language file
+        $csv = $this->getTranslationFromCSV();
+        $existing['english'] = $csv['english'];
+
+        $csvKeys = array_keys($csv['Code key']);
+
+        // Keep the existing translations, and track any new items for addition at the end of the file
+        $CORE_FILE = fopen($app_base . DIRECTORY_SEPARATOR . 'core_csv.csv', 'w');
+        $header = array('Code key', $this->_masterLang);
+        foreach (array_keys($this->_otherLangs) as $otherLang) {
+            $header[] = $otherLang;
+        }
+        fputcsv($CORE_FILE, $header, ',', '"');
+
+        foreach ($this->aMasterKey as $file => $contents) {
+            foreach ($contents as $key => $value) {
+                if ((substr($key, 0, 3) != 'str') || $value == 'array()') { continue; }
+                if (in_array($key, $csvKeys)) {
+                    $line = array($key, $existing[$this->_masterLang][$key]);
+                    foreach (array_keys($this->_otherLangs) as $otherLang) {
+                        $line[] = $existing[$otherLang][$key];
+                    }
+                    fputcsv($CORE_FILE, $line, ',', '"');
+                } else {
+                    $newKeys[$key] = $value;
+                }
+            }
+        }
+
+        // Write a blank line
+        fputcsv($CORE_FILE, array(), ',', '"');
+        foreach ($newKeys as $key => $value) {
+            $line = array($key, $value);
+            foreach (array_keys($this->_otherLangs) as $otherLang) {
+                $otherLangValue = '';
+                if (preg_match('#(.*)\[(.*?)\]#', $key, $matches)) {
+                    if (!empty($existing[$otherLang][$matches[1]][$matches[2]])) {
+                        $otherLangValue = html_entity_decode($existing[$otherLang][$matches[1]][$matches[2]], ENT_QUOTES, 'UTF-8');
+                    }
+                } else if (!empty($existing[$otherLang][$key])) {
+                    $otherLangValue = html_entity_decode($existing[$otherLang][$key], ENT_QUOTES, 'UTF-8');
+                }
+                $line[] = $otherLangValue;
+            }
+            fputcsv($CORE_FILE, $line, ',', '"');
+        }
+        fclose($CORE_FILE);
+    }
+
     function displayHelpMsg($message = null)
     {
         echo "Command syntax: \n";
@@ -1324,7 +1474,7 @@ class OA_TranslationMaintenance
     }
 }
 
-function findPluginLangFiles($path, &$result = array()) {
+function findPluginLangFiles($path, &$result) {
     if (is_dir($path)) {
         $dir = opendir($path);
         while ($file = readdir($dir)) {
