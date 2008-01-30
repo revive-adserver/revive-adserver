@@ -973,10 +973,6 @@ class OA_Email
         }
 
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $aPref = $GLOBALS['_MAX']['PREF'];
-        if (is_null($aPref)) {
-            $aPref = OA_Preferences::loadAdminAccountPreferences(true);
-        }
 
     	global $phpAds_CharSet;
     	// Build the "to:" header for the email
@@ -986,14 +982,15 @@ class OA_Email
     		$toParam = $userEmail;
     	}
     	// Build additional email headers
-    	$headersParam = "Content-Transfer-Encoding: 8bit\r\n";
+    	$headersParam = "MIME-Versions: 1.0\r\n";
     	if (isset($phpAds_CharSet)) {
     		$headersParam .= "Content-Type: text/plain; charset=" . $phpAds_CharSet . "\r\n";
     	}
+    	$headersParam .= "Content-Transfer-Encoding: 8bit\r\n";
     	if (get_cfg_var('SMTP')) {
     		$headersParam .= 'To: "' . $userName . '" <' . $userEmail . ">\r\n";
     	}
-    	$headersParam .= 'From: "' . $aPref['admin_fullname'] . '" <' . $aPref['admin_email'].'>' . "\r\n";
+    	$headersParam .= 'From: "' . $aConf['email']['fromName'] . '" <' . $aConf['email']['fromAddress'] . '>' . "\r\n";
     	// Use only \n as header separator when qmail is used
     	if ($aConf['email']['qmailPatch']) {
     		$headersParam = str_replace("\r", '', $headersParam);

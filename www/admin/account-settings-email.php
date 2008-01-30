@@ -51,6 +51,11 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // location to save the values in the settings configuration
     // file
     $aElements = array();
+    // E-mail Addresses
+    $aElements += array(
+        'email_fromName'    => array('email' => 'fromName'),
+        'email_fromAddress' => array('email' => 'fromAddress')
+    );
     // E-mail Log
     $aElements += array(
         'email_logOutgoing' => array(
@@ -96,6 +101,29 @@ $oOptions->selection('email');
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
 $aSettings = array (
+    array (
+       'text'  => $strEmailAddresses,
+       'items' => array (
+            array (
+                'type'    => 'text',
+                'name'    => 'email_fromName',
+                'text'    => $strEmailFromName,
+                'req'     => true,
+                'size'    => 35
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
+                'type'    => 'text',
+                'name'    => 'email_fromAddress',
+                'text'    => $strEmailFromAddress,
+                'req'     => true,
+                'size'    => 35,
+                'check'   => 'email'
+            )
+        )
+    ),
     array (
        'text'  => $strEmailLog,
        'items' => array (

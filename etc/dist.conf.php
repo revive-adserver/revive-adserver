@@ -261,6 +261,8 @@ zones                                    = zones
 logOutgoing                              = true
 headers                                  =
 qmailPatch                               = false
+fromName                                 =
+fromAddress                              =
 
 ;------------------------------------------------------------------------------------------;
 ; Debugging/Error Logging Details                                                          ;
