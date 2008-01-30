@@ -79,7 +79,7 @@ a:hover {
 	padding: 0;
   	border: 0;
   	margin: 0;
-	background: url(../images/searchfull.png) no-repeat;
+	background: url(../images/searchfull.png) 0px 0px no-repeat;
 }
 
 #oaSearch form {
@@ -111,19 +111,11 @@ a:hover {
   	border: 0;
   	cursor: pointer;
   
-  	background: url(../images/search-go.png) no-repeat;
-  
-  	/* Fix IE bug: transparent PNG support */ 
-  	-background: none;
-  	-filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/search-go.png');
+  	background: url(../images/searchfull.png) -194px -9px no-repeat;
 }
 
 #oaSearch input.submit:hover, #oaSearch input.submit:focus{
-  	background: url(../images/search-go-hv.png) no-repeat;
-  
-  	/* Fix IE bug: transparent PNG support */ 
-  	-background: none;
-  	-filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/search-go-hv.png');
+  	background-position: -206px -9px;
 }
 
 
