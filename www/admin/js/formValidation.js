@@ -1,61 +1,3 @@
-<?php
-
-/*
-+---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
-|                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
-+---------------------------------------------------------------------------+
-$Id$
-*/
-
-/**
- * @package    OpenadsUI
- * @author     Andrew Hill <andrew.hill@openads.org>
- *
- * A collection of JavaScript functions for validating form submissions.
- */
-
-if (!defined('phpAds_installing')) {
-    // Require the initialisation file
-    require_once '../../../init.php';
-
-    // Required files
-    require_once MAX_PATH . '/lib/OA/Preferences.php';
-    require_once MAX_PATH . '/lib/max/language/Default.php';
-
-    // Load the account preferences from the database
-    OA_Preferences::loadPreferences();
-
-    // Load the required language files
-    Language_Default::load();
-
-    // Send content-type header
-    header("Content-type: application/x-javascript");
-} else {
-    echo "<script language='JavaScript' type='text/javascript'><!--";
-}
-?>
-
 /**
  * A JavaScript function to set the validation requirements for a form element.
  *
@@ -193,19 +135,8 @@ function max_formSetConditionalValidate(obj, condition)
 function max_formValidateElement(obj)
 {
     // Delimiter to use
-    var tdelimiter = '<?php
-    global $phpAds_ThousandsSeperator;
-    $aLocale = localeconv();
-    if (isset($phpAds_ThousandsSeperator)) {
-    	$separator = $phpAds_ThousandsSeperator;
-    } elseif (isset($aLocale['thousands_sep'])) {
-    	$separator = $aLocale['thousands_sep'];
-    } else {
-    	$separator = ',';
-    }
-    echo $separator;
-                      ?>';
-
+    var tdelimiter = validatorPreferences.thousandsSeperator;
+	
   //skip validation in condition not met
   if (obj.valCondition && !eval(obj.valCondition)) {
     return false;
@@ -313,13 +244,13 @@ function max_formValidateElement(obj)
 			}
 		}
 		
-    if (obj.minLength && obj.value.length < obj.minLength) {
-        err = true;
-    }
+	    if (obj.minLength && obj.value.length < obj.minLength) {
+	        err = true;
+	    }
     
-    if (obj.maxLength && obj.maxLength > 0 && obj.value.length > obj.maxLength) { //this is unlikely since browser should contrain that
-        err = true;
-    }
+	    if (obj.maxLength && obj.maxLength > 0 && obj.value.length > obj.maxLength) { //this is unlikely since browser should contrain that
+	        err = true;
+	    }
 		
 		// Change class
 		if (err) {
@@ -359,13 +290,13 @@ function max_formValidate(f)
 		}
 	}
 	if (noerrors == false) {
-		alert ('<?php echo addslashes(html_entity_decode($strFieldContainsErrors)) ?>' +
+		alert (validatorPreferences.strFieldContainsErrors +
 			   '                     \n\n- ' +
 			   fields.join('\n- ') +
 			   '\n\n' +
-			   '<?php echo addslashes(html_entity_decode($strFieldFixBeforeContinue1)) ?>' +
+			   validatorPreferences.strFieldFixBeforeContinue1 +
 			   '\n' +
-			   '<?php echo addslashes(html_entity_decode($strFieldFixBeforeContinue2)) ?>' +
+			   validatorPreferences.strFieldFixBeforeContinue2 +
 			   '\n');
 
 		// Select field with first error
@@ -466,24 +397,17 @@ function max_formValidateHtml(obj)
 	if(openTags != closeTags) {
         if(openTags > closeTags) {
             var difference = openTags - closeTags;
-            var errorMsg  = '<?php echo $GLOBALS['strWarningMissing']; ?>' + difference + '<?php echo $GLOBALS['strWarningMissingClosing']; ?>';
+            var errorMsg  = validatorPreferences.strWarningMissing + difference + validatorPreferences.strWarningMissingClosing;
         }
         else {
             var difference = closeTags - openTags;
-            var errorMsg  = '<?php echo $GLOBALS['strWarningMissing']; ?>' + difference + '<?php echo $GLOBALS['strWarningMissingOpening']; ?>';
+            var errorMsg  = validatorPreferences.strWarningMissing + difference + validatorPreferences.strWarningMissingOpening;
         }
 
-		var ignore = confirm (errorMsg + ' \n <?php echo $GLOBALS['strSubmitAnyway']; ?> ?')
+		var ignore = confirm (errorMsg + ' \n ' + validatorPreferences.strSubmitAnyway)
 		if (!ignore)
 			return false;
     }
 
 	return true;
 }
-
-<?php
-if (defined('phpAds_installing')) {
-    echo "--></script>";
-}
-?>
-

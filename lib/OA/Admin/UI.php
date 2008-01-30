@@ -208,7 +208,25 @@ class OA_Admin_UI
         $this->oTpl->assign('pageTitle', $pageTitle);
         $this->oTpl->assign('imgPath', $imgPath);
         $this->oTpl->assign('metaGenerator', MAX_PRODUCT_NAME.' v'.OA_VERSION.' - http://'.MAX_PRODUCT_URL);
-        $this->oTpl->assign('formValidation', !defined('phpAds_installing'));
+
+        // Defaults for validation
+        $aLocale = localeconv();
+        if (isset($GLOBALS['phpAds_ThousandsSeperator'])) {
+        	$separator = $GLOBALS['phpAds_ThousandsSeperator'];
+        } elseif (isset($aLocale['thousands_sep'])) {
+        	$separator = $aLocale['thousands_sep'];
+        } else {
+        	$separator = ',';
+        }
+
+        $this->oTpl->assign('thousandsSeperator', $separator);
+        $this->oTpl->assign('strFieldContainsErrors', html_entity_decode($GLOBALS['strFieldContainsErrors']));
+        $this->oTpl->assign('strFieldFixBeforeContinue1', html_entity_decode($GLOBALS['strFieldFixBeforeContinue1']));
+        $this->oTpl->assign('strFieldFixBeforeContinue2', html_entity_decode($GLOBALS['strFieldFixBeforeContinue2']));
+        $this->oTpl->assign('strWarningMissing', html_entity_decode($GLOBALS['strWarningMissing']));
+        $this->oTpl->assign('strWarningMissingOpening', html_entity_decode($GLOBALS['strWarningMissingOpening']));
+        $this->oTpl->assign('strWarningMissingClosing', html_entity_decode($GLOBALS['strWarningMissingClosing']));
+        $this->oTpl->assign('strSubmitAnyway', html_entity_decode($GLOBALS['strSubmitAnyway']));
 
         if (!empty($session['RUN_MPE']) && $session['RUN_MPE']) {
             require_once MAX_PATH . '/www/admin/lib-maintenance-priority.inc.php';
