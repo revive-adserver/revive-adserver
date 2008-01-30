@@ -68,6 +68,8 @@ class Migration_546Test extends MigrationTest
                             'type_html_allow' => 't',
                             'type_txt_allow' => 't',
                             'banner_html_auto' => 't',
+                            'admin_fullname' => 'Administrator',
+                            'admin_email' => 'admin@example.com',
                             'warn_admin' => 't',
                             'warn_agency' => 't',
                             'warn_client' => 't',
@@ -736,7 +738,7 @@ class Migration_546Test extends MigrationTest
 
    function _getSettingsExpectations()
    {
-        $oMig = & new Migration_546();
+        $oMig = new Migration_546();
         foreach ($oMig->aConfMap AS $section => $aPair)
         {
             $name = key($aPair);

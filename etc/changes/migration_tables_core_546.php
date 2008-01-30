@@ -13,13 +13,15 @@ class Migration_546 extends Migration
                                                     'headers'           => 'admin_email_headers',
                                                     'logOutgoing'       => 'userlog_email',
                                                     'qmailPatch'        => 'qmail_patch',
-                                                    ),
+                                                    'fromName'          => 'admin_fullname',
+                                                    'fromAddress'       => 'admin_email'
+                                               ),
                           'delivery'        => array(
-                                                    'clicktracking'     => 'gui_invocation_3rdparty_default',
-                                                    ),
+                                                    'clicktracking'     => 'gui_invocation_3rdparty_default'
+                                               ),
                           'sync'            => array(
-                                                    'checkForUpdates'   => 'updates_enabled',
-                                                    ),
+                                                    'checkForUpdates'   => 'updates_enabled'
+                                               ),
                           'allowedTags'     => array(
                                                     'adviewnocookies'   => 'allow_invocation_plain_nocookies',
                                                     'adjs'              => 'allow_invocation_js',
@@ -28,15 +30,15 @@ class Migration_546 extends Migration
                                                     'local'             => 'allow_invocation_local',
                                                     'adlayer'           => 'allow_invocation_interstitial',
                                                     'popup'             => 'allow_invocation_popup',
-                                                    'adview'            => 'allow_invocation_plain',
-                                                    ),
+                                                    'adview'            => 'allow_invocation_plain'
+                                               ),
                           'allowedBanners'  => array(
                                                     'sql'               => 'type_sql_allow',
                                                     'url'               => 'type_url_allow',
                                                     'web'               => 'type_web_allow',
                                                     'html'              => 'type_html_allow',
-                                                    'txt'               => 'type_txt_allow',
-                                                    ),
+                                                    'txt'               => 'type_txt_allow'
+                                               ),
                           'ui'              => array(
                                                     'headerFilePath'        => 'my_header',
                                                     'footerFilePath'        => 'my_footer',
@@ -46,8 +48,8 @@ class Migration_546 extends Migration
                                                     'headerBackgroundColor' => 'gui_header_background_color',
                                                     'headerForegroundColor' => 'gui_header_foreground_color',
                                                     'headerActiveTabColor'  => 'gui_header_active_tab_color',
-                                                    'headerTextColor'       => 'gui_header_text_color',
-                                                     ),
+                                                    'headerTextColor'       => 'gui_header_text_color'
+                                               ),
                           );
 
 
@@ -91,8 +93,6 @@ class Migration_546 extends Migration
                         'banner_html_auto',
                         'admin',
                         'admin_pw',
-                        'admin_fullname',
-                        'admin_email',
                         'client_welcome',
                         'client_welcome_msg',
                         'publisher_welcome',

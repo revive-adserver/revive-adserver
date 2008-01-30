@@ -245,10 +245,13 @@ $GLOBALS['strDemoDataIntro']                         = 'Default setup data can b
 
 // Email Settings
 $GLOBALS['strEmailSettings']                         = 'Email Settings';
+$GLOBALS['strEmailAddresses']                        = 'Email "From" Address';
+$GLOBALS['strEmailFromName']                         = 'Email "From" Name';
+$GLOBALS['strEmailFromAddress']                      = 'Email "From" Email Address';
 $GLOBALS['strQmailPatch']                            = 'qmail patch';
 $GLOBALS['strEnableQmailPatch']                      = 'Enable qmail patch';
 $GLOBALS['strEmailHeader']                           = 'Email headers';
-$GLOBALS['strEmailLog']                           = 'Email log';
+$GLOBALS['strEmailLog']                              = 'Email log';
 
 // Audit Trail Settings
 $GLOBALS['strAudit']                                 = 'Audit Trail Settings';
