@@ -168,7 +168,7 @@ class OA_Dll_Advertiser extends OA_Dll
      * @param OA_Dll_AdvertiserInfo &$oAdvertiser <br />
      *          <b>For adding</b><br />
      *          <b>Required properties:</b> advertiserName<br />
-     *          <b>Optional properties:</b> agencyId, contactName, emailAddress, username, password<br />
+     *          <b>Optional properties:</b> agencyId, contactName, emailAddress<br />
      *
      *          <b>For modify</b><br />
      *          <b>Required properties:</b> advertiserId<br />

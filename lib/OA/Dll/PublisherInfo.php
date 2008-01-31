@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 /**
@@ -79,20 +79,6 @@ class OA_Dll_PublisherInfo extends OA_Info
     var $emailAddress;
 
     /**
-     * This field provides the username the contact uses to log into Openads.
-     *
-     * @var string $username
-     */
-    var $username;
-
-    /**
-     * This field provides the password the contact uses to log into Openads.
-     *
-     * @var string $password
-     */
-    var $password;
-
-    /**
      * This method sets all default values when adding a new publisher.
      *
      */
@@ -116,9 +102,7 @@ class OA_Dll_PublisherInfo extends OA_Info
                     'agencyId' => 'integer',
                     'publisherName' => 'string',
                     'contactName' => 'string',
-                    'emailAddress' => 'string',
-                    'username' => 'string',
-                    'password' => 'string'
+                    'emailAddress' => 'string'
                 );
     }
 }
