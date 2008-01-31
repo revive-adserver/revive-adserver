@@ -155,8 +155,6 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
         $oPublisherInfo1->publisherName  = 'test name 1';
         $oPublisherInfo1->contactName    = 'contact';
         $oPublisherInfo1->emailAddress   = 'name@domain.com';
-        $oPublisherInfo1->username       = 'publisher   user'.rand(1, 20);
-        $oPublisherInfo1->password       = 'password';
 
         $oPublisherInfo2                 = new OA_Dll_PublisherInfo();
         $oPublisherInfo2->agencyId       = $oAgencyInfo->agencyId;

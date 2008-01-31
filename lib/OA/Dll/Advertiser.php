@@ -60,13 +60,8 @@ class OA_Dll_Advertiser extends OA_Dll
         $advertiserData['agencyName']     = $advertiserData['name'];
         $advertiserData['contactName']    = $advertiserData['contact'];
         $advertiserData['emailAddress']   = $advertiserData['email'];
-        $advertiserData['username']       = $advertiserData['clientusername'];
-        $advertiserData['password']       = $advertiserData['clientpassword'];
         $advertiserData['agencyId']       = $advertiserData['agencyid'];
         $advertiserData['advertiserId']   = $advertiserData['clientid'];
-
-        // Do not return the password from the Dll.
-        unset($advertiserData['password']);
 
         $oAdvertiser->readDataFromArray($advertiserData);
         return  true;
@@ -75,8 +70,7 @@ class OA_Dll_Advertiser extends OA_Dll
     /**
      * This method performs data validation for an advertiser, for example to check
      * that an email address is an email address. Where necessary, the method connects
-     * to the OA_Dal to obtain information for other business validations,
-     * for example a username must be unique across all relevant tables.
+     * to the OA_Dal to obtain information for other business validations.
      *
      * @access private
      *
@@ -109,13 +103,9 @@ class OA_Dll_Advertiser extends OA_Dll
 
         if (isset($oAdvertiser->emailAddress) &&
             !$this->checkEmail($oAdvertiser->emailAddress) ||
-            !$this->checkUniqueUserName($advertiserOld['clientusername'], $oAdvertiser->username) ||
             !$this->checkStructureNotRequiredIntegerField($oAdvertiser, 'agencyId') ||
             !$this->checkStructureNotRequiredStringField($oAdvertiser, 'contactName', 255) ||
-            !$this->checkStructureNotRequiredStringField($oAdvertiser, 'emailAddress', 64) ||
-            !$this->checkStructureNotRequiredStringField($oAdvertiser, 'username', 64) ||
-            !$this->checkStructureNotRequiredStringField($oAdvertiser, 'password', 64) ||
-            !$this->validateUsernamePassword($oAdvertiser->username, $oAdvertiser->password)) {
+            !$this->checkStructureNotRequiredStringField($oAdvertiser, 'emailAddress', 64)) {
             return false;
         }
 
@@ -182,7 +172,7 @@ class OA_Dll_Advertiser extends OA_Dll
      *
      *          <b>For modify</b><br />
      *          <b>Required properties:</b> advertiserId<br />
-     *          <b>Optional properties:</b> agencyId, advertiserName, contactName, emailAddress, username, password<br />
+     *          <b>Optional properties:</b> agencyId, advertiserName, contactName, emailAddress<br />
      *
      * @return boolean  True if the operation was successful.
      *
@@ -209,13 +199,6 @@ class OA_Dll_Advertiser extends OA_Dll
         // Default fields
         $advertiserData['contact']        = $oAdvertiser->contactName;
         $advertiserData['email']          = $oAdvertiser->emailAddress;
-        $advertiserData['clientusername'] = $oAdvertiser->username;
-        $advertiserData['clientpassword'] = $oAdvertiser->password;
-
-        // Password
-        if (isset($advertiserData['clientpassword'])) {
-            $advertiserData['clientpassword'] = md5($oAdvertiser->password);
-        }
 
         if ($this->_validate($oAdvertiser)) {
             $doAdvertiser = OA_Dal::factoryDO('clients');

@@ -72,8 +72,7 @@ class OA_Dll_Agency extends OA_Dll
     /**
      * This method performs data validation for an agency, for example to check
      * that an email address is an email address. Where necessary, the method connects
-     * to the OA_Dal to obtain information for other business validations,
-     * for example a username must be unique across all relevant tables.
+     * to the OA_Dal to obtain information for other business validations.
      *
      * @access private
      *
@@ -105,12 +104,8 @@ class OA_Dll_Agency extends OA_Dll
         if ((isset($oAgency->emailAddress) &&
             !$this->checkEmail($oAgency->emailAddress)) ||
             !$this->checkStructureNotRequiredStringField($oAgency, 'emailAddress', 64) ||
-            !$this->checkUniqueUserName($agencyOld['username'], $oAgency->username) ||
             !$this->checkStructureNotRequiredIntegerField($oAgency, 'agencyId') ||
-            !$this->checkStructureNotRequiredStringField($oAgency, 'contactName', 255) ||
-            !$this->checkStructureNotRequiredStringField($oAgency, 'username', 64) ||
-            !$this->checkStructureNotRequiredStringField($oAgency, 'password', 64) ||
-            !$this->validateUsernamePassword($oAgency->username, $oAgency->password)) {
+            !$this->checkStructureNotRequiredStringField($oAgency, 'contactName', 255)) {
 
             return false;
         }
@@ -154,11 +149,11 @@ class OA_Dll_Agency extends OA_Dll
      * @param OA_Dll_AgencyInfo &$oAgency <br />
      *          <b>For adding</b><br />
      *          <b>Required properties:</b> agencyName<br />
-     *          <b>Optional properties:</b> contactName, emailAddress, username, password<br />
+     *          <b>Optional properties:</b> contactName, emailAddress<br />
      *
      *          <b>For modify</b><br />
      *          <b>Required properties:</b> agencyId<br />
-     *          <b>Optional properties:</b> agencyName, contactName, emailAddress, username, password<br />
+     *          <b>Optional properties:</b> agencyName, contactName, emailAddress<br />
      *
      * @return boolean  True if the operation was successful
      *

@@ -71,20 +71,6 @@ class OA_Dll_AgencyInfo extends OA_Info
     var $emailAddress;
 
     /**
-     * This field provides the username the contact uses to log into Openads.
-     *
-     * @var string $username
-     */
-    var $username;
-
-    /**
-     * This field provides the password the contact use to log into Openads.
-     *
-     * @var string $password
-     */
-    var $password;
-
-    /**
      * This method returns an array of fields with their corresponding types.
      *
      * @access public
@@ -97,9 +83,7 @@ class OA_Dll_AgencyInfo extends OA_Info
                     'agencyId' => 'integer',
                     'agencyName' => 'string',
                     'contactName' => 'string',
-                    'emailAddress' => 'string',
-                    'username' => 'string',
-                    'password' => 'string'
+                    'emailAddress' => 'string'
                 );
     }
 }

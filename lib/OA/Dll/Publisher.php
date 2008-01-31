@@ -60,13 +60,8 @@ class OA_Dll_Publisher extends OA_Dll
         $publisherData['publisherName']  = $publisherData['name'];
         $publisherData['contactName']    = $publisherData['contact'];
         $publisherData['emailAddress']   = $publisherData['email'];
-        $publisherData['username']       = $publisherData['username'];
-        $publisherData['password']       = $publisherData['password'];
         $publisherData['agencyId']       = $publisherData['agencyid'];
         $publisherData['publisherId']    = $publisherData['affiliateid'];
-
-        // Do not return the password from the Dll.
-        unset($publisherData['password']);
 
         $oPublisher->readDataFromArray($publisherData);
         return  true;
@@ -75,8 +70,7 @@ class OA_Dll_Publisher extends OA_Dll
     /**
      * This method performs data validation for a publisher, for example to check
      * that an email address is an email address. Where necessary, the method connects
-     * to the OA_Dal to obtain information for other business validations, for example
-     * the username must be unique across relevant tables.
+     * to the OA_Dal to obtain information for other business validations.
      *
      * @access private
      *
@@ -109,13 +103,9 @@ class OA_Dll_Publisher extends OA_Dll
 
         if ((!empty($oPublisher->emailAddress) &&
             !$this->checkEmail($oPublisher->emailAddress)) ||
-            !$this->checkUniqueUserName($publisherOld['username'], $oPublisher->username) ||
             !$this->checkStructureNotRequiredIntegerField($oPublisher, 'agencyId') ||
             !$this->checkStructureNotRequiredStringField($oPublisher, 'publisherName', 255) ||
-            !$this->checkStructureNotRequiredStringField($oPublisher, 'contactName',255) ||
-            !$this->checkStructureNotRequiredStringField($oPublisher, 'username',64) ||
-            !$this->checkStructureNotRequiredStringField($oPublisher, 'password',64) ||
-            !$this->validateUsernamePassword($oPublisher->username, $oPublisher->password)) {
+            !$this->checkStructureNotRequiredStringField($oPublisher, 'contactName',255)) {
 
             return false;
         }
@@ -159,11 +149,11 @@ class OA_Dll_Publisher extends OA_Dll
      *
      * @param OA_Dll_PublisherInfo &$oPublisher <br />
      *          <b>For adding</b><br />
-     *          <b>Optional properties:</b> agencyId, publisherName, contactName, emailAddress, username, password<br />
+     *          <b>Optional properties:</b> agencyId, publisherName, contactName, emailAddress<br />
      *
      *          <b>For modify</b><br />
      *          <b>Required properties:</b> publisherId<br />
-     *          <b>Optional properties:</b> agencyId, publisherName, contactName, emailAddress, username, password<br />
+     *          <b>Optional properties:</b> agencyId, publisherName, contactName, emailAddress<br />
      *
      * @return success boolean True if the operation was successful
      *
@@ -233,10 +223,6 @@ class OA_Dll_Publisher extends OA_Dll
             // Starred password passed in, leave as-is
             unset($publisherData['password']);
         }
-        if (empty($publisherData['username'])) {
-            $publisherData['username'] = $oPublisher->username = null;
-            $publisherData['password'] = $oPublisher->password = null;
-        }
 
         if ($this->_validate($oPublisher)) {
             $doPublisher = OA_Dal::factoryDO('affiliates');
@@ -244,13 +230,6 @@ class OA_Dll_Publisher extends OA_Dll
                 // Only set agency ID for insert
                 $publisherData['agencyid'] = $oPublisher->agencyId;
                 $doPublisher->setFrom($publisherData);
-    		    /**
-    		     * @todo The current mechanism requires the dataobject to have the username/password fields
-    		     *       set in order to trigger the User-creation, this should be factored out since the
-    		     *       $do->setFrom method won't set the fields if they've been removed from the DataObject
-    		     */
-    		    $doPublisher->username = $publisherData['username'];
-    		    $doPublisher->password = $publisherData['password'];
                 $oPublisher->publisherId = $doPublisher->insert();
             } else {
                 $doPublisher->get($publisherData['publisherId']);

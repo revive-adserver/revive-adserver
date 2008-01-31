@@ -156,8 +156,6 @@ class OA_Dll_AdvertiserTest extends DllUnitTestCase
         $oAdvertiserInfo1->advertiserName = 'test name 1';
         $oAdvertiserInfo1->contactName    = 'contact';
         $oAdvertiserInfo1->emailAddress   = 'name@domain.com';
-        $oAdvertiserInfo1->username       = 'username2';
-        $oAdvertiserInfo1->password       = 'password';
 
         $oAdvertiserInfo2                 = new OA_Dll_AdvertiserInfo();
         $oAdvertiserInfo2->agencyId       = $oAgencyInfo->agencyId;

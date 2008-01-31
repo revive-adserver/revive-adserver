@@ -80,7 +80,6 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
 
         $oAgencyInfo->agencyName = 'testAgency';
         $oAgencyInfo->contactName = 'Mike';
-        $oAgencyInfo->username = 'Mike';
 
         // Add
         $this->assertTrue($dllAgencyPartialMock->modify($oAgencyInfo),
@@ -123,8 +122,6 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
         $oAgencyInfo1->agencyName   = 'test name 1';
         $oAgencyInfo1->contactName  = 'contact';
         $oAgencyInfo1->emailAddress = 'name@domain.com';
-        $oAgencyInfo1->username     = 'username';
-        $oAgencyInfo1->password     = 'password';
 
         $oAgencyInfo2               = new OA_Dll_AgencyInfo();
         $oAgencyInfo2->agencyName   = 'test name 2';
