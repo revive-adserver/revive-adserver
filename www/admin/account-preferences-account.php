@@ -93,10 +93,16 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             // Unable to update the preferences
             $aErrormessage[0][] = $strUnableToWritePrefs;
         } else {
+            // Add the current username to the session, in case it
+            // has changed
+            $oUser = &OA_Permission::getCurrentUser();
+            $oUser->aUser['username'] = $login;
+            phpAds_SessionDataStore();
+            // The "preferences" were written correctly saved to the database,
+            // go to the "next" preferences page from here
             MAX_Admin_Redirect::redirect('account-preferences-banner.php');
         }
     }
-
 }
 
 // Display the settings page's header and sections
