@@ -87,8 +87,6 @@ public class TestGetAgencyList extends AgencyTestCase {
 					checkParameter((Map) agency, AGENCY_NAME, myAgency.get(AGENCY_NAME));
 					checkParameter((Map) agency, CONTACT_NAME, myAgency.get(CONTACT_NAME));
 					checkParameter((Map) agency, EMAIL_ADDRESS, myAgency.get(EMAIL_ADDRESS));
-					checkParameter((Map) agency, USERNAME, myAgency.get(USERNAME));
-					checkParameter((Map) agency, PASSWORD, "");
 
 					// remove checked agency
 					myAgencies.remove(agencyId);

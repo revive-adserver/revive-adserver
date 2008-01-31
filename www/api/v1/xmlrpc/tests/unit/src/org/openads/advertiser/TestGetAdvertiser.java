@@ -74,7 +74,6 @@ public class TestGetAdvertiser extends AdvertiserTestCase {
 			checkParameter(advertiser, ADVERTISER_NAME, myAdvertiser.get(ADVERTISER_NAME));
 			checkParameter(advertiser, CONTACT_NAME, myAdvertiser.get(CONTACT_NAME));
 			checkParameter(advertiser, EMAIL_ADDRESS, myAdvertiser.get(EMAIL_ADDRESS));
-			checkParameter(advertiser, PASSWORD, "");
 		} finally {
 			deleteAdvertiser(id);
 		}

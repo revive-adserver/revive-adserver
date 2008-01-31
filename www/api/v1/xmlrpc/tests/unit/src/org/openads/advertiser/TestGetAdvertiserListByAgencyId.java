@@ -90,9 +90,6 @@ public class TestGetAdvertiserListByAgencyId extends AdvertiserTestCase {
 							.get(CONTACT_NAME));
 					checkParameter((Map) advertiser, EMAIL_ADDRESS, myAdvertiser
 							.get(EMAIL_ADDRESS));
-					checkParameter((Map) advertiser, USERNAME, myAdvertiser
-							.get(USERNAME));
-					checkParameter((Map) advertiser, PASSWORD, "");
 
 					// remove checked agency
 					myAdvertisers.remove(advertiserId);

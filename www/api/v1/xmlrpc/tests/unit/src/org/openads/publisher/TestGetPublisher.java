@@ -74,7 +74,6 @@ public class TestGetPublisher extends PublisherTestCase {
 			checkParameter(publisher, PUBLISHER_NAME, myPublisher.get(PUBLISHER_NAME));
 			checkParameter(publisher, CONTACT_NAME, myPublisher.get(CONTACT_NAME));
 			checkParameter(publisher, EMAIL_ADDRESS, myPublisher.get(EMAIL_ADDRESS));
-			checkParameter(publisher, PASSWORD, "");
 		} finally {
 			deletePublisher(id);
 		}

@@ -68,11 +68,9 @@ public class AdvertiserTestCase extends AgencyTestCase {
 	protected static final String ADVERTISER_ZONE_STATISTICS_METHOD = "advertiserZoneStatistics";
 
 	protected static final String ADVERTISER_ID = "advertiserId";
-	protected static final String PASSWORD = "password";
 	protected static final String EMAIL_ADDRESS = "emailAddress";
 	protected static final String CONTACT_NAME = "contactName";
 	protected static final String ADVERTISER_NAME = "advertiserName";
-	protected static final String USERNAME = "username";
 
 	protected Integer agencyId;
 
@@ -150,8 +148,6 @@ public class AdvertiserTestCase extends AgencyTestCase {
 		params.put(ADVERTISER_NAME, prefix + ADVERTISER_NAME);
 		params.put(CONTACT_NAME, prefix + CONTACT_NAME);
 		params.put(EMAIL_ADDRESS, prefix + "@mail.com");
-		params.put(USERNAME, TextUtils.generateUniqueName(prefix));
-		params.put(PASSWORD, prefix + PASSWORD);
 		return params;
 	}
 

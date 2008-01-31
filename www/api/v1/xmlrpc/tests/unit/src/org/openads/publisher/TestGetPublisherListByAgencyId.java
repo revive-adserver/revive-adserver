@@ -87,8 +87,6 @@ public class TestGetPublisherListByAgencyId extends PublisherTestCase {
 					checkParameter((Map) publisher, PUBLISHER_NAME, myPublisher.get(PUBLISHER_NAME));
 					checkParameter((Map) publisher, CONTACT_NAME, myPublisher.get(CONTACT_NAME));
 					checkParameter((Map) publisher, EMAIL_ADDRESS, myPublisher.get(EMAIL_ADDRESS));
-					checkParameter((Map) publisher, USERNAME, myPublisher.get(USERNAME));
-					checkParameter((Map) publisher, PASSWORD, "");
 
 					// remove checked publisher
 					myPublishers.remove(publisherId);

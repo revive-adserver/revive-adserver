@@ -75,7 +75,6 @@ public class TestGetAgency extends AgencyTestCase {
 			checkParameter(agency, AGENCY_NAME, myAgency.get(AGENCY_NAME));
 			checkParameter(agency, CONTACT_NAME, myAgency.get(CONTACT_NAME));
 			checkParameter(agency, EMAIL_ADDRESS, myAgency.get(EMAIL_ADDRESS));
-			checkParameter(agency, PASSWORD, "");
 		} finally {
 			deleteAgency(id);
 		}

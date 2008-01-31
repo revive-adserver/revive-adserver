@@ -68,8 +68,6 @@ public class PublisherTestCase extends AgencyTestCase {
 	protected final static String PUBLISHER_ADVERTISER_STATISTICS_METHOD = "publisherAdvertiserStatistics";
 
 	protected static final String PUBLISHER_ID = "publisherId";
-	protected static final String USERNAME = "username";
-	protected static final String PASSWORD = "password";
 	protected static final String PUBLISHER_NAME = "publisherName";
 	protected static final String EMAIL_ADDRESS = "emailAddress";
 
@@ -151,8 +149,6 @@ public class PublisherTestCase extends AgencyTestCase {
 		params.put(PUBLISHER_NAME, prefix + PUBLISHER_NAME);
 		params.put(CONTACT_NAME, prefix + CONTACT_NAME);
 		params.put(EMAIL_ADDRESS, prefix + "@mail.com");
-		params.put(USERNAME, TextUtils.generateUniqueName(prefix));
-		params.put(PASSWORD, prefix + PASSWORD);
 		
 		return params;
 	}

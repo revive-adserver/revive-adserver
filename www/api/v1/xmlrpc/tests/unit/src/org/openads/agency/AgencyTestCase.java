@@ -71,8 +71,6 @@ public class AgencyTestCase extends WebServiceTestCase {
 	protected static final String START_DATE = "startDate";
 	protected static final String END_DATE = "endDate";
 	protected static final String AGENCY_ID = "agencyId";
-	protected static final String PASSWORD = "password";
-	protected static final String USERNAME = "username";
 	protected static final String EMAIL_ADDRESS = "emailAddress";
 	protected static final String CONTACT_NAME = "contactName";
 	protected static final String AGENCY_NAME = "agencyName";
@@ -147,8 +145,6 @@ public class AgencyTestCase extends WebServiceTestCase {
 		params.put(AGENCY_NAME, prefix + AGENCY_NAME);
 		params.put(CONTACT_NAME, prefix + CONTACT_NAME);
 		params.put(EMAIL_ADDRESS, prefix + "@mail.com");
-		params.put(USERNAME, TextUtils.generateUniqueName(prefix));
-		params.put(PASSWORD, prefix + PASSWORD);
 		return params;
 	}
 }
