@@ -135,7 +135,7 @@ class OA_Admin_UI_UserAccess
     {
         // TODOHOSTED: will need to know whether we're hosted or downloaded
         // Actually, it's probably a question if we're using SSO or not
-        $SSO = true; 
+        $SSO = false; 
         $userExists = false; // TODO: determine if user already exists
         if ($SSO) {
            $userDetailsFields[] = array(
