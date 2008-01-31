@@ -44,7 +44,21 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 <script type="text/javascript" src="{$imgPath}js/sorttable.js"></script>
 <script type="text/javascript" src="{$imgPath}js/boxrow.js"></script>
 
-{if $formValidation}<script type='text/javascript' src='{$imgPath}js/formValidation.php'></script>{/if}
+<script type="text/javascript">
+<!--
+	var validatorPreferences = {literal}{{/literal}
+		'strFieldContainsErrors': "{$strFieldContainsErrors|escape:'javascript'}",
+		'strFieldFixBeforeContinue1': "{$strFieldFixBeforeContinue1|escape:'javascript'}",
+		'strFieldFixBeforeContinue2': "{$strFieldFixBeforeContinue2|escape:'javascript'}",
+		'strWarningMissing': "{$strWarningMissing|escape:'javascript'}",
+		'strWarningMissingOpening': "{$strWarningMissingOpening|escape:'javascript'}",
+		'strWarningMissingClosing': "{$strWarningMissingClosing|escape:'javascript'}",
+		'strSubmitAnyway': "{$strSubmitAnyway|escape:'javascript'}",
+		'thousandsSeperator': "{$thousandsSeperator}"
+	};
+//-->
+</script>
+<script type='text/javascript' src='{$imgPath}js/formValidation.js'></script>
 
 {* jsCalendar *}
 <script type="text/javascript" src="{$imgPath}js/jscalendar/calendar.js"></script>
