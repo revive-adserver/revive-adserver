@@ -683,7 +683,7 @@ select.inline {
 
 .arrow-submit {
   border: 0;
-  background-image: url('go_blue.gif');
+  background-image: url('../images/ltr/go_blue.gif');
   background-repeat: no-repeat;
   background-color: transparent;
   background-position: 0px 1px;
