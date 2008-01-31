@@ -80,20 +80,6 @@ class OA_Dll_AdvertiserInfo extends OA_Info
     var $emailAddress;
 
     /**
-     * The username variable is the name the contact uses to log into Openads.
-     *
-     * @var string $username
-     */
-    var $username;
-
-    /**
-     * The password variable is the password the contact uses to log into Openads.
-     *
-     * @var string $password
-     */
-    var $password;
-
-    /**
      * This function sets all default values when adding a new advertiser.
      *
      */
@@ -110,9 +96,7 @@ class OA_Dll_AdvertiserInfo extends OA_Info
                     'agencyId' => 'integer',
                     'advertiserName' => 'string',
                     'contactName' => 'string',
-                    'emailAddress' => 'string',
-                    'username' => 'string',
-                    'password' => 'string'
+                    'emailAddress' => 'string'
                 );
     }
 }
