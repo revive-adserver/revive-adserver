@@ -182,10 +182,8 @@ class OA_Dll_Publisher extends OA_Dll
             $publisherPrevData = $doPrevPublisher->toArray();
         }
 
-        // an_website_id equal as_website_id
-        $adnetworks_website_id = ($publisherPrevData['an_website_id']) ?
-                                  $publisherPrevData['an_website_id'] : $publisherPrevData['as_website_id'];
-
+        $adnetworks_website_id = $publisherPrevData['as_website_id'];
+                                
         $publisherData =  (array) $oPublisher;
 
         // Trim input variables
@@ -214,7 +212,7 @@ class OA_Dll_Publisher extends OA_Dll
         $publisherData['oac_category_id'] = $oPublisher->oacCategoryId;
         $publisherData['oac_language_id'] = $oPublisher->oacLanguageId;
         $publisherData['oac_country_code'] = $oPublisher->oacCountryCode;
-        $publisherData['an_website_id'] = (!$oPublisher->adNetworks) ? '' : null;
+//        $publisherData['an_website_id'] = (!$oPublisher->adNetworks) ? '' : null;
         $publisherData['as_website_id'] = (!$oPublisher->advSignup)  ? '' : null;
 
         if (isset($publisherData['password']) && (!is_null($publisherData['password'])) && ($publisherData['password'] != '********')) {
@@ -238,10 +236,9 @@ class OA_Dll_Publisher extends OA_Dll
             }
             $oAdNetworks = new OA_Central_AdNetworks();
             // Initiate a call to Openads Central if adnetworks are enabled or if OAC values are changed.
-            if ($oPublisher->adNetworks || $oPublisher->advSignup) {
+            if ($oPublisher->advSignup) {
                 // If adNetworks was not previously selected...
-                if (empty($publisherPrevData['an_website_id']) &&
-                    empty($publisherPrevData['as_website_id'])) {
+                if (empty($publisherPrevData['as_website_id'])) {
                     $aRpcPublisher = array(
 	                    array(
 	                            'id'         => $oPublisher->publisherId,
@@ -250,7 +247,7 @@ class OA_Dll_Publisher extends OA_Dll
 	                            'language'   => $oPublisher->oacLanguageId,
 	                            'category'   => $oPublisher->oacCategoryId,
 	                            'advsignup' => $oPublisher->advSignup,
-	                            'adnetworks' => $oPublisher->adNetworks,
+//	                            'adnetworks' => $oPublisher->adNetworks,
 	                    )
                     );
                     $result = $oAdNetworks->subscribeWebsites($aRpcPublisher);
@@ -259,13 +256,19 @@ class OA_Dll_Publisher extends OA_Dll
                         $this->_errorMessage = $result->getMessage();
                         return false;
                     }
+
+                    $this->_noticeMessage = (is_array($result) && $result['isAlexaDataFailed']) ?
+                                            'Retrieving Alexa data for one or more websites failed and is scheduled for tomorrow' : false;
+                        
+//                    echo('<pre>');
+//                    var_dump($result);
                 } else {
                     // This publisher was already signed up for adnetworks, only action if OAC related values have changed
                     if (($publisherPrevData['oac_category_id']  != $publisherData['oac_category_id']) ||
                         ($publisherPrevData['oac_language_id']  != $publisherData['oac_language_id']) ||
                         ($publisherPrevData['oac_country_code'] != $publisherData['oac_country_code']) ||
-                        ($publisherPrevData['as_website_id'] != $publisherData['as_website_id']) ||
-                        ($publisherPrevData['an_website_id'] != $publisherData['an_website_id'])
+                        ($publisherPrevData['as_website_id'] != $publisherData['as_website_id'])
+//                        || ($publisherPrevData['an_website_id'] != $publisherData['an_website_id'])
                     ) {
                         // OAC related fields have changed, so unsubscribe and resubscribe this publisher
                         $aError = $this->unsubscribePublisher($oAdNetworks, $oPublisher, $adnetworks_website_id);
@@ -277,7 +280,7 @@ class OA_Dll_Publisher extends OA_Dll
 		                            'language'   => $oPublisher->oacLanguageId,
 		                            'category'   => $oPublisher->oacCategoryId,
 		                            'advsignup'  => $oPublisher->advSignup,
-		                            'adnetworks' => $oPublisher->adNetworks,
+//		                            'adnetworks' => $oPublisher->adNetworks,
 		                    )
 	                    );
 //                        $result = $oAdNetworks->subscribeWebsites($aPublisher);

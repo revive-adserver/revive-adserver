@@ -158,8 +158,7 @@ if (isset($submit))
         // Ad  Networks
         $doPublisher = OA_Dal::factoryDO('affiliates');
         $doPublisher->get($affiliateid);
-        $anWebsiteId = ($doPublisher->an_website_id) ?
-                        $doPublisher->an_website_id : $doPublisher->as_website_id;
+        $anWebsiteId = $doPublisher->as_website_id;
         if ($anWebsiteId) {
         	$oAdNetworks = new OA_Central_AdNetworks();
             $doZones->get($zoneid);
@@ -271,9 +270,10 @@ if (isset($submit))
         // Ad  Networks
         $doPublisher = OA_Dal::factoryDO('affiliates');
         $doPublisher->get($affiliateid);
-        if ($doPublisher->an_website_id) {
+        $anWebsiteId = $doPublisher->as_website_id;
+        if ($anWebsiteId) {
         	$oAdNetworks = new OA_Central_AdNetworks();
-			$oAdNetworks->updateZone($doZones, $doPublisher->an_website_id);
+			$oAdNetworks->updateZone($doZones, $anWebsiteId);
         }
     }
 
@@ -471,6 +471,7 @@ echo "  <option value='".MAX_FINANCE_ANYVAR."' ".(($zone['cost_type'] == MAX_FIN
 echo "  <option value='".MAX_FINANCE_VARSUM."' ".(($zone['cost_type'] == MAX_FINANCE_VARSUM) ? ' SELECTED ' : '').">". '% Sum of variables' ."</option>";
 echo "</select>";
 echo "&nbsp;&nbsp;";
+echo "<span id='cost_cpm_description' style='margin-left: 7px;'>per single impression<span>";
 
 $dalVariables = OA_Dal::factoryDAL('variables');
 $rsVariables = $dalVariables->getTrackerVariables($zoneid, $affiliateid, OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER));
@@ -545,12 +546,13 @@ echo "<td width='200'>".$strTechnologyCost."</td>";
 echo "<td>";
 echo "&nbsp;&nbsp;<input type='text' name='technology_cost' size='10' value='{$zone["technology_cost"]}' tabindex='".($tabindex++)."'>&nbsp;";
 echo "&nbsp;&nbsp;";
-echo "<select name='technology_cost_type' id='technology_cost_type'>";
+echo "<select name='technology_cost_type' id='technology_cost_type' onchange='m3_updateFinance()'>";
 echo "  <option value='".MAX_FINANCE_CPM."' ".(($zone['technology_cost_type'] == MAX_FINANCE_CPM) ? ' SELECTED ' : '').">$strFinanceCPM</option>";
 echo "  <option value='".MAX_FINANCE_CPC."' ".(($zone['technology_cost_type'] == MAX_FINANCE_CPC) ? ' SELECTED ' : '').">$strFinanceCPC</option>";
 echo "  <option value='".MAX_FINANCE_RS."' ".(($zone['technology_cost_type'] == MAX_FINANCE_RS) ? ' SELECTED ' : '').">". '% Revenue split' ."</option>";
 echo "</select>";
 echo "&nbsp;&nbsp;";
+echo "<span id='technology_cost_cpm_description' style='margin-left: 7px;'>per single impression<span>";
 
 echo "</td></tr>";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
@@ -669,9 +671,12 @@ $unique_names = $doZones->getUniqueValuesFromColumn('zonename', $zoneName);
     function m3_updateFinance()
     {
         var o = document.getElementById('cost_type');
+        var o2 = document.getElementById('technology_cost_type');
         var p = document.getElementById('cost_variable_id');
         var p2 = document.getElementById('cost_variable_id_mult');
-
+        var cost_cpm_desc = document.getElementById('cost_cpm_description');
+        var cost_cpm_desc2 = document.getElementById('technology_cost_cpm_description');
+        
         if ( o.options[o.selectedIndex].value == <?php echo MAX_FINANCE_ANYVAR; ?>) {
             p.style.display = '';
             p2.style.display = 'none';
@@ -681,6 +686,17 @@ $unique_names = $doZones->getUniqueValuesFromColumn('zonename', $zoneName);
         } else {
             p.style.display = 'none';
             p2.style.display = 'none';
+        }
+        
+        if ( o.options[o.selectedIndex].value == <?php echo MAX_FINANCE_CPM; ?>) {
+            cost_cpm_desc.style.display = 'block';
+        } else {
+            cost_cpm_desc.style.display = 'none';
+        }
+        if ( o2.options[o2.selectedIndex].value == <?php echo MAX_FINANCE_CPM; ?>) {
+            cost_cpm_desc2.style.display = 'block';
+        } else {
+            cost_cpm_desc2.style.display = 'none';
         }
     }
 

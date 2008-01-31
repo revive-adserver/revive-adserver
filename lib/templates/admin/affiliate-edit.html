@@ -35,6 +35,13 @@ $Id$
     </div>
 {/if}
 
+{if $notice!=''}
+    <div class='errormessage' id='errors'>
+        <span class='tab-r-warning'>Warning:</span><br />
+        {$notice}
+    </div>
+{/if}
+
 <br /><br />
 
 <form name='affiliateform' id='affiliateform' method='post' action='affiliate-edit.php'>

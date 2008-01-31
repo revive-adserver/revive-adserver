@@ -39,6 +39,8 @@ require_once MAX_PATH . '/www/admin/lib-size.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 
+require_once MAX_PATH . '/lib/OA/Dll/Zone.php';
+
 // Register input variables
 phpAds_registerGlobal ('listorder', 'orderdirection');
 
@@ -201,6 +203,11 @@ if ($doZones->getRowCount() == 0)
 $i=0;
 while ($doZones->fetch() && $row_zones = $doZones->toArray())
 {
+    $doZoneDll = new OA_Dll_Zone();
+    $strConfirmDeleteZoneIfIsLinked = ($doZoneDll->checkZoneLinkedToActiveCampaign($row_zones['zoneid'])) ?
+        $strConfirmDeleteZoneLinkActive . '\n' . $strConfirmDeleteZone 
+        : $strConfirmDeleteZone;
+    
     if ($i > 0) echo "<td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>";
     echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
 

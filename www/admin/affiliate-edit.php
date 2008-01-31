@@ -43,7 +43,7 @@ require_once MAX_PATH . '/lib/OA/Dll/Publisher.php';
 require_once MAX_PATH . '/lib/OA/Admin/Menu.php';
 
 // Register input variables
-phpAds_registerGlobalUnslashed ('move', 'name', 'website', 'contact', 'email', 'language', 'adnetworks', 'advsignup',
+phpAds_registerGlobalUnslashed ('move', 'name', 'website', 'contact', 'email', 'language', 'advsignup',
                                'errormessage', 'submit', 'publiczones_old', 'formId', 'category', 'country', 'language');
 
 // Security check
@@ -71,11 +71,11 @@ if (isset($formId)) {
     $oPublisher->website        = $website;
 
     // Do I need to handle this?
-    $oPublisher->adNetworks =   ($adnetworks == 't') ? true : false;
+//    $oPublisher->adNetworks =   ($adnetworks == 't') ? true : false;
     $oPublisher->advSignup  =   ($advsignup == 't') ? true : false;
 
     $oPublisherDll = new OA_Dll_Publisher();
-    if ($oPublisherDll->modify($oPublisher)) {
+    if ($oPublisherDll->modify($oPublisher) && !$oPublisherDll->_noticeMessage) {
         $redirect_url = "affiliate-zones.php?affiliateid={$oPublisher->publisherId}";
         MAX_Admin_Redirect::redirect($redirect_url);
         exit;
@@ -125,8 +125,8 @@ require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
 $oTpl = new OA_Admin_Template('affiliate-edit.html');
 
-$oTpl->assign('error', $oPublisherDll->_errorMessage);
-
+$oTpl->assign('error',  $oPublisherDll->_errorMessage);
+$oTpl->assign('notice', $oPublisherDll->_noticeMessage);
 $oTpl->assign('affiliateid', $affiliateid);
 $oTpl->assign('move', $move);
 

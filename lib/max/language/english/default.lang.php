@@ -710,6 +710,7 @@ $GLOBALS['strZoneProperties']               = "Zone properties";
 $GLOBALS['strZoneHistory']                  = "Zone history";
 $GLOBALS['strNoZones']                      = "There are currently no zones defined";
 $GLOBALS['strConfirmDeleteZone']            = "Do you really want to delete this zone?";
+$GLOBALS['strConfirmDeleteZoneLinkActive']  = "There are paid for campaigns still linked to this zone, if you delete it these will not be able to run and you will not be paid for them.";
 $GLOBALS['strZoneType']                     = "Zone type";
 $GLOBALS['strBannerButtonRectangle']        = "Banner, Button or Rectangle";
 $GLOBALS['strInterstitial']                 = "Interstitial or Floating DHTML";

@@ -392,7 +392,8 @@ class OA_Central_RpcMapper
      * @param array $aZone
      * @param int  zone id
      */
-    function updateZone($aZone) {
+    function updateZone($aZone)
+    {
         return $this->oRpc->callNoAuth('updateZone',
                                        array(XML_RPC_encode($aZone)));
     }
@@ -403,10 +404,113 @@ class OA_Central_RpcMapper
      *
      * @param int $zoneId  zone id into Ad Networks
      */
-    function deleteZone($zoneId) {
+    function deleteZone($zoneId)
+    {
         $aId = array('id' => $zoneId);
         return $this->oRpc->callNoAuth('deleteZone',
                                        array(XML_RPC_encode($aId))
+                                      );
+    }
+
+    /**
+     * Call XMLRPC method from central
+     * Input - ids advertisers and campain that is in oap
+     * Ouptut - advetisers and campain that isn't in oap and is on oac
+     * 
+     * The $requstIds array format
+     *
+     * Array
+     * (
+     *      [0]   => Array 
+     *               (
+     *                  [id]            => 11
+     *                  [campaigns_ids] => Array
+     *                                     (
+     *                                      [0] => 12
+     *                                      [1] => 133
+     *                                     )
+     *               )
+     *      [1]   => Array 
+     *               (
+     *                  [id]            => 112
+     *                  [campaigns_ids] => Array
+     *                                     (
+     *                                      [0] => 16
+     *                                      [1] => 10
+     *                                     )
+     *               )
+     * )
+     * 
+     * The result array format
+     * 
+     * Array
+     * (
+     *      [websitesAdvertisers]   => Array (
+     *          [0] => Array (
+     *              [id]           => 11
+     *              [country_name] => Albania
+     *              [city]         =>
+     *              [address]      =>
+     *              [post_code]    =>
+     *              [campaigns]    => Array (
+     *                  [0] => Array (
+     *                      [id]         => 55
+     *                      [start_date] => 1125485421
+     *                      [end_date]   => 1125495421
+     *                      [status]     => 1
+     *                      [rate]       => 100
+     *                      [pricing]    => 0
+     *                      [weight]     => 10
+     *                      [banners] => Array  (
+     *                          [0] => Array (
+     *                              [id]  => 34
+     *                              [url] => google.com
+     *                          )
+     *                  )
+     *              )
+     *          )
+     *      )
+     * )
+     *
+     * @param array $requstIds
+     * @return array  request result
+     */
+    function getWebsitesAdvertisers($requstIds)
+    {
+        return $this->oRpc->callNoAuth('getWebsitesAdvertisers',
+                                       array(XML_RPC_encode($requstIds))
+                                      );
+    }
+
+    /**
+     * Call XMLRPC method from central
+     *  for set campaign data from oap
+     * Input - array data and ids campains from oap
+     * 
+     * The $aCampaigns array format
+     *
+     * Array
+     * (
+     *      [21]   => Array 
+     *               (
+     *                  [id]             => 2
+     *                  [invocationCode] => ''
+     *                  [deliveredCount] => 50
+     *               )
+     *      [45]   => Array 
+     *               (
+     *                  [id]             => 5
+     *                  [invocationCode] => ''
+     *                  [deliveredCount] => 0
+     *               )
+     * )
+     * 
+     * @param array $aCampaigns
+     */
+    function setCampaignsProperties($aCampaigns)
+    {
+        return $this->oRpc->callNoAuth('setCampaignsProperties',
+                                       array(XML_RPC_encode($aCampaigns))
                                       );
     }
 

@@ -378,49 +378,36 @@ else if (array_key_exists('btn_tagssetup', $_POST))
                     continue;
                 }
 
-                $isOac = $aAdnetworks[$key] == 'true' ? 1 : 0;
-                $isOas = $aAdvSignup[$key] == 'true' ? 1 : 0;
-
-                $aWebsites[$isOac][] = $aTplSites[count($aTplSites)+1] = array(
-                    'url'        => $url,
-                    'country'    => $aCountries[$key],
-                    'language'   => $aLanguages[$key],
-                    'category'   => $aCategories[$key],
-                    'adnetworks' => $isOac,
+                //$isOac = $aAdnetworks[$key] == 'true' ? 1 : 0;
+                $isOas = ($aAdvSignup[$key] == 'true') ? true : false;
+                
+                $publisher = array(
+                    'url'       => $url,
+                    'country'   => $aCountries[$key],
+                    'language'  => $aLanguages[$key],
+                    'category'  => $aCategories[$key],
+//                    'adnetworks' => $isOac,
                     'advsignup' => $isOas
                 );
+                
+                $aWebsites[$isOas][] = $aTplSites[count($aTplSites)+1] = $publisher;
+                
+//                if ($isOas) {
+//                    $aTplSites[count($aTplSites)+1] = $publisher;
+//                }
             }
 
-            foreach ($aWebsites[0] as $v) {
-                $doAffiliate = OA_Dal::factoryDO('affiliates');
-                $publisher = array(
-                    'agencyid'         => OA_Permission::getAgencyId(),
-                    'name'             => $v['url'],
-                    'mnemonic'         => '',
-                    'contact'          => $aPref['admin_name'],
-                    'email'            => $aPref['admin_email'],
-                    'website'          => 'http://'.$v['url'],
-                    'oac_country_code' => $v['country'],
-                    'oac_language_id'  => $v['language'],
-                    'oac_category_id'  => $v['category'],
-                    'as_website_id'    => $v['advsignup']
-                );
-
-                $doAffiliate->setFrom($publisher);
-                $result = $doAffiliate->insert();
-            }
-
+            $adNetworksResponse = true;
+            
             if (count($aWebsites[1])) {
+            
                 require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
                 $oAdNetworks = new OA_Central_AdNetworks();
                 $result = $oAdNetworks->subscribeWebsites($aWebsites[1]);
 
                 if (PEAR::isError($result)) {
-                    //initialize tabindex (if not already done)
-                    if (!isset($tabindex)) {
-                        $tabindex = 1;
-                    }
-
+                    $adNetworksResponse = false;
+                    
                     // Initialise template
                     $oTpl = new OA_Admin_Template('install/sites.html');
 
@@ -444,6 +431,8 @@ else if (array_key_exists('btn_tagssetup', $_POST))
 
                     $action = OA_UPGRADE_SITESSETUP;
                 } else {
+                    $adNetworksResponse = true;
+
                     require_once MAX_PATH . '/lib/max/Admin/Invocation.php';
 
                     // Initialise template
@@ -507,7 +496,30 @@ else if (array_key_exists('btn_tagssetup', $_POST))
 
                     $action = OA_UPGRADE_TAGSSETUP;
                 }
+
             }
+            
+            // Insert to db local Publishers
+            if ($adNetworksResponse) {
+                foreach ($aWebsites[0] as $v) {
+                    $doAffiliate = OA_Dal::factoryDO('affiliates');
+                    $publisher = array(
+                        'name'             => $v['url'],
+                        'mnemonic'         => '',
+                        'contact'          => $aPref['admin_name'],
+                        'email'            => $aPref['admin_email'],
+                        'website'          => 'http://'.$v['url'],
+                        'oac_country_code' => $v['country'],
+                        'oac_language_id'  => $v['language'],
+                        'oac_category_id'  => $v['category'],
+                        'as_website_id'    => $v['advsignup']
+                    );
+    
+                    $doAffiliate->setFrom($publisher);
+                    $result = $doAffiliate->insert();
+                }
+            }
+            
         }
     }
 }
