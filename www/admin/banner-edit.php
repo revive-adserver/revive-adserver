@@ -423,7 +423,7 @@ if (!isset($bannerid) || $bannerid == '') {
     {
         var filename = o.value.toLowerCase();
         var swflayer = findObj ('swflayer');
-        var editbanner = findObj ('editbanner');
+        var bannerForm = findObj ('bannerForm');
 
         // Show SWF Layer
         if (swflayer) {
@@ -435,20 +435,20 @@ if (!isset($bannerid) || $bannerid == '') {
         }
 
         // Check upload option
-        if (o.name == 'upload' && editbanner.replaceimage[1] && o.value != '') {
-            editbanner.replaceimage[1].checked = true;
+        if (o.name == 'upload' && bannerForm.replaceimage[1] && o.value != '') {
+            bannerForm.replaceimage[1].checked = true;
         }
-        if (o.name == 'uploadalt' && editbanner.replacealtimage[1] && o.value != '') {
-            editbanner.replacealtimage[1].checked = true;
+        if (o.name == 'uploadalt' && bannerForm.replacealtimage[1] && o.value != '') {
+            bannerForm.replacealtimage[1].checked = true;
         }
     }
 
     function alterHtmlCheckbox() {
 
-        if (editbanner.autohtml.checked) {
-            editbanner.adserver.disabled = false;
+        if (bannerForm.autohtml.checked) {
+            bannerForm.adserver.disabled = false;
         } else {
-            editbanner.adserver.disabled = true;
+            bannerForm.adserver.disabled = true;
         }
     }
 
