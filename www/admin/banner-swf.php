@@ -240,8 +240,8 @@ if ($result) {
             echo "<tr><td height='10' colspan='4'>&nbsp;</td></tr>";
         }
 
-        echo "<tr><td width='30'>&nbsp;</td><td width='30'><input type='checkbox' name='convert_links[]' value='".$key."' checked></td>";
-        echo "<td width='200'>".$strURL."</td>";
+        echo "<tr><td width='30'>&nbsp;</td><td width='30'><input type='checkbox' id='convert_links".$key."' name='convert_links[]' value='".$key."' checked></td>";
+        echo "<td width='200'><label for='convert_links".$key."'>".$strURL."</label></td>";
         echo "<td><input class='flat' size='35' type='text' name='overwrite_link[".$key."]' style='width:300px;' dir='ltr' ";
         echo " value='".phpAds_htmlQuotes($url)."'>";
         echo "<input type='radio' name='chosen_link' value='".$key."'".($i == 0 ? ' checked' : '')."></td></tr>";
@@ -276,8 +276,8 @@ if ($result) {
     echo "<input type='submit' name='convert' value='".$strConvert."'>";
 
     if (function_exists('gzcompress')) {
-        echo "&nbsp;&nbsp;<input type='checkbox' name='compress' value='true'".($compressed ? ' checked' : '').($version >= 6 && $compressed ? ' disabled' : '').">";
-        echo "&nbsp;".$strCompressSWF;
+        echo "&nbsp;&nbsp;<input type='checkbox' id='compress' name='compress' value='true'".($compressed ? ' checked' : '').($version >= 6 && $compressed ? ' disabled' : '').">";
+        echo "&nbsp;<label for='compress'>".$strCompressSWF."</label>";
     }
     echo "</form>";
     echo "<br /><br />";

@@ -164,7 +164,7 @@ OA_Permission::enforceAccessToObject('banners',   $bannerid);
             $publisherIdList .= $publisherId . '|';
         }
 
-        echo"<input type='checkbox' id='selectAllField' onClick='toggleAllZones(\"".$publisherIdList."\");'>".$strSelectUnselectAll;
+        echo"<input type='checkbox' id='selectAllField' onClick='toggleAllZones(\"".$publisherIdList."\");'><label for='selectAllField'>".$strSelectUnselectAll."</label>";
 
         foreach ($aPublishers as $publisherId => $aPublisher) {
             $publisherName = $aPublisher['name'];
@@ -192,7 +192,7 @@ OA_Permission::enforceAccessToObject('banners',   $bannerid);
         <table>
             <tr>
                 <td>&nbsp;</td>
-                <td valign='top'><input name='affiliate[$publisherId]' type='checkbox' value='t'$checked onClick='toggleZones($publisherId);' tabindex='$tabindex'>&nbsp;&nbsp;</td>
+                <td valign='top'><input id='affiliate$publisherId' name='affiliate[$publisherId]' type='checkbox' value='t'$checked onClick='toggleZones($publisherId);' tabindex='$tabindex'>&nbsp;&nbsp;</td>
                 <td valign='top'><img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;</td>
                 <td><a href='affiliate-edit.php?affiliateid=$publisherId'>$publisherName</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
             </tr>

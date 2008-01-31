@@ -244,15 +244,15 @@ echo "<input type='hidden' name='clientreportlastdate' value='".(isset($aClient[
 echo "<input type='hidden' name='clientreportprevious' value='".(isset($aClient['report']) ? $aClient['report'] : '')."'>";
 
 echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-echo "<input type='checkbox' name='clientreportdeactivate' value='t'".($aClient['reportdeactivate'] == 't' ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
+echo "<input type='checkbox' id='clientreportdeactivate' name='clientreportdeactivate' value='t'".($aClient['reportdeactivate'] == 't' ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;<label for='clientreportdeactivate'>";
 echo $strSendDeactivationWarning;
-echo "</td></tr>";
+echo "</label></td></tr>";
 
 // Interval
 echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-echo "<input type='checkbox' name='clientreport' value='t'".($aClient['report'] == 't' ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
+echo "<input type='checkbox' id='clientreport' name='clientreport' value='t'".($aClient['report'] == 't' ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;<label for='clientreport'>";
 echo $strSendAdvertisingReport;
-echo "</td></tr>";
+echo "</label></td></tr>";
 
 echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";

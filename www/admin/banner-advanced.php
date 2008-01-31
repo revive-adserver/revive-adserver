@@ -244,7 +244,7 @@ if ($banner['type'] != 'txt') {
         echo "<table cellpadding='0' cellspacing='0' border='0' width='100%'>";
 
         // Popup
-        echo "<tr><td><input type='radio' name='appenddelivery' value='".phpAds_ZonePopup."'";
+        echo "<tr><td><input type='radio' id='appenddelivery' name='appenddelivery' value='".phpAds_ZonePopup."'";
         echo (count($available[phpAds_ZonePopup]) ? ' onClick="phpAds_formSelectAppendDelivery(0)"' : ' DISABLED');
         echo ($appenddelivery == phpAds_ZonePopup ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;</td><td>";
         echo $GLOBALS['strPopup'].":</td></tr>";
@@ -270,7 +270,7 @@ if ($banner['type'] != 'txt') {
         echo "</select></td></tr>";
 
         // Interstitial
-        echo "<tr><td><input type='radio' name='appenddelivery' value='".phpAds_ZoneInterstitial."'";
+        echo "<tr><td><input type='radio' id='appenddelivery' name='appenddelivery' value='".phpAds_ZoneInterstitial."'";
         echo (count($available[phpAds_ZoneInterstitial]) ? ' onClick="phpAds_formSelectAppendDelivery(1)"' : ' DISABLED');
         echo ($appenddelivery == phpAds_ZoneInterstitial ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;</td><td>";
         echo $GLOBALS['strInterstitial'].":</td></tr>";

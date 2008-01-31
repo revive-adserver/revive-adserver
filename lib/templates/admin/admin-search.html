@@ -39,21 +39,21 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
         <form name='searchselection' action='admin-search.php'>
         <input type='hidden' name='keyword' value="{$keyword|escape}">
         <tr>
-            <td nowrap><input type='checkbox' name='client' value='t'{if $client} checked="checked"{/if} onClick='this.form.submit()'>
-                {t str=Clients}&nbsp;&nbsp;&nbsp;</td>
-            <td nowrap><input type='checkbox' name='campaign' value='t'{if $campaign} checked="checked"{/if} onClick='this.form.submit()'>
-                {t str=Campaign}&nbsp;&nbsp;&nbsp;</td>
-            <td nowrap><input type='checkbox' name='banner' value='t'{if $banner} checked="checked"{/if} onClick='this.form.submit()'>
-                {t str=Banners}&nbsp;&nbsp;&nbsp;</td>
+            <td nowrap><input type='checkbox' id='client' name='client' value='t'{if $client} checked="checked"{/if} onClick='this.form.submit()'>
+                <label for='client'>{t str=Clients}</label>&nbsp;&nbsp;&nbsp;</td>
+            <td nowrap><input type='checkbox' id='campaign' name='campaign' value='t'{if $campaign} checked="checked"{/if} onClick='this.form.submit()'>
+                <label for='campaign'>{t str=Campaign}</label>&nbsp;&nbsp;&nbsp;</td>
+            <td nowrap><input type='checkbox' id='banner' name='banner' value='t'{if $banner} checked="checked"{/if} onClick='this.form.submit()'>
+                <label for='banner'>{t str=Banners}</label>&nbsp;&nbsp;&nbsp;</td>
         </tr>
         <tr>
-            <td nowrap><input type='checkbox' name='affiliate' value='t'{if $affiliate} checked="checked"{/if} onClick='this.form.submit()'>
-                {t str=Affiliates}&nbsp;&nbsp;&nbsp;</td>
-            <td nowrap><input type='checkbox' name='zone' value='t'{if $zone} checked="checked"{/if} onClick='this.form.submit()'>
-                {t str=Zones}&nbsp;&nbsp;&nbsp;</td>
+            <td nowrap><input type='checkbox' id='affiliate' name='affiliate' value='t'{if $affiliate} checked="checked"{/if} onClick='this.form.submit()'>
+                <label for='affiliate'>{t str=Affiliates}</label>&nbsp;&nbsp;&nbsp;</td>
+            <td nowrap><input type='checkbox' id='zone' name='zone' value='t'{if $zone} checked="checked"{/if} onClick='this.form.submit()'>
+                <label for='zone'>{t str=Zones}</label>&nbsp;&nbsp;&nbsp;</td>
             <td width='100%'>&nbsp;</td>
-            <td nowrap align='right'><input type='checkbox' name='compact' value='t'{if $compact} checked="checked"{/if} onClick='this.form.submit()'>
-                {t str=Compact}&nbsp;&nbsp;&nbsp;</td>
+            <td nowrap align='right'><input type='checkbox' id='compact' name='compact' value='t'{if $compact} checked="checked"{/if} onClick='this.form.submit()'>
+                <label for='compact'>{t str=Compact}</label>&nbsp;&nbsp;&nbsp;</td>
         </tr>
         </form>
     </table>

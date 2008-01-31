@@ -132,7 +132,7 @@ echo "
             $publisherIdList .= $publisherId . '|';
         }
 
-        echo"<input type='checkbox' id='selectAllField' onClick='toggleAllZones(\"".$publisherIdList."\");'>".$strSelectUnselectAll;
+        echo"<input type='checkbox' id='selectAllField' onClick='toggleAllZones(\"".$publisherIdList."\");'><label for='selectAllField'>".$strSelectUnselectAll."</label>";
 
         foreach ($aPublishers as $publisherId => $aPublisher) {
             $publisherName = $aPublisher['name'];

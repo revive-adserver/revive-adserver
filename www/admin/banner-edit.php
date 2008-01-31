@@ -534,8 +534,8 @@ if ($type == 'sql') {
         echo "<td>&nbsp;<input class='flat' size='26' type='file' name='upload' style='width:250px;' onChange='selectFile(this);' tabindex='".($tabindex++)."'>";
 
         echo "<div id='swflayer' style='display:none;'>";
-        echo "<input type='checkbox' name='checkswf' value='t' checked tabindex='".($tabindex++)."'>&nbsp;".$strCheckSWF;
-        echo "</div>";
+        echo "<input type='checkbox' id='checkswf' name='checkswf' value='t' checked tabindex='".($tabindex++)."'>&nbsp;<label for='checkswf'>".$strCheckSWF;
+        echo "</label></div>";
 
         echo "</td></tr></table><br /><br /></td></tr>";
         echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
@@ -548,8 +548,8 @@ if ($type == 'sql') {
         echo "<td><input class='flat' size='26' type='file' name='upload' style='width:350px;' onChange='selectFile(this);' tabindex='".($tabindex++)."'>";
 
         echo "<div id='swflayer' style='display:none;'>";
-        echo "<input type='checkbox' name='checkswf' value='t' checked tabindex='".($tabindex++)."'>&nbsp;".$strCheckSWF;
-        echo "</div>";
+        echo "<input type='checkbox' id='checkswf' name='checkswf' value='t' checked tabindex='".($tabindex++)."'>&nbsp;<label for='checkswf'>".$strCheckSWF;
+        echo "</label></div>";
 
         echo "<br /><br /></td></tr>";
         echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
@@ -700,8 +700,8 @@ if ($type == 'web') {
         echo "<td>&nbsp;<input class='flat' size='26' type='file' name='upload' style='width:250px;' onChange='selectFile(this);' tabindex='".($tabindex++)."'>";
 
         echo "<div id='swflayer' style='display:none;'>";
-        echo "<input type='checkbox' name='checkswf' value='t' checked tabindex='".($tabindex++)."'>&nbsp;".$strCheckSWF;
-        echo "</div>";
+        echo "<input type='checkbox' id='checkswf' name='checkswf' value='t' checked tabindex='".($tabindex++)."'>&nbsp;<label for='checkswf'>".$strCheckSWF;
+        echo "</label></div>";
 
         echo "</td></tr></table><br /><br /></td></tr>";
         echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
@@ -713,8 +713,8 @@ if ($type == 'web') {
         echo "<td><input class='flat' size='26' type='file' name='upload' style='width:350px;' onChange='selectFile(this);' tabindex='".($tabindex++)."'>";
 
         echo "<div id='swflayer' style='display:none;'>";
-        echo "<input type='checkbox' name='checkswf' value='t' checked tabindex='".($tabindex++)."'>&nbsp;".$strCheckSWF;
-        echo "</div>";
+        echo "<input type='checkbox' id='checkswf' name='checkswf' value='t' checked tabindex='".($tabindex++)."'>&nbsp;<label for='checkswf'>".$strCheckSWF;
+        echo "</label></div>";
 
         echo "<br /><br /></td></tr>";
         echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
@@ -927,7 +927,7 @@ if ($type == 'html') {
     echo "<td><img src='images/spacer.gif' height='1' width='280'></td>";
     echo "</tr>";
     echo "<tr>";
-    echo "<td><input type='checkbox' onClick='alterHtmlCheckbox()' name='autohtml' value='t'".(!isset($row["autohtml"]) || $row["autohtml"] == 't' ? ' checked' : '')." tabindex='".($tabindex++)."'> ".$strAutoChangeHTML."</td>";
+    echo "<td><input type='checkbox' onClick='alterHtmlCheckbox()' id='autohtml' name='autohtml' value='t'".(!isset($row["autohtml"]) || $row["autohtml"] == 't' ? ' checked' : '')." tabindex='".($tabindex++)."'> <label for='autohtml'>".$strAutoChangeHTML."</label></td>";
     echo "<td align='right'><select name='adserver'>";
 
     include_once MAX_PATH . '/lib/max/Plugin.php';
