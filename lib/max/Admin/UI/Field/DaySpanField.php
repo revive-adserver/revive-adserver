@@ -240,6 +240,37 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
             firstDay   : " . ($GLOBALS['pref']['ui_week_start_day'] ? 1 : 0) . ",
             electric   : false
         })
+
+        var field = document.getElementById('{$this->_name}_start');
+        var oldOnSubmit = field.form.onsubmit;
+
+        field.form.onsubmit = function() {
+          if(oldOnSubmit) {
+            oldOnSubmit();
+          }
+
+          return checkDates(this);
+        }
+  
+        function checkDates(form)
+        {
+          var startField = form.{$this->_name}_start;
+          var endField = form.{$this->_name}_end;   
+
+          if (!startField.disabled && startField.value != '') {
+            var start = Date.parseDate(startField.value, '%d %B %Y');
+          }
+          if (!startField.disabled && endField.value != '') {
+            var end = Date.parseDate(endField.value, '%d %B %Y');
+          }
+
+          if ((start != undefined && end != undefined) && (start.getTime() > end.getTime())) {
+            alert('".$GLOBALS['strFieldStartDateBeforeEnd']."');
+            return false;
+          }
+          return true;
+        }
+
         // Tabindex handling
         {$this->_name}TabIndex = " . ($this->_tabIndex - 4) . ";
         // Functions

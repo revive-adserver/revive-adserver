@@ -134,6 +134,7 @@ $GLOBALS['strFilterBySource']           = "filter by source";
 $GLOBALS['strFieldContainsErrors']      = "The following fields contain errors:";
 $GLOBALS['strFieldFixBeforeContinue1']  = "Before you can continue you need";
 $GLOBALS['strFieldFixBeforeContinue2']  = "to correct these errors.";
+$GLOBALS['strFieldStartDateBeforeEnd']  = "\'From\' date must be earlier then \'To\' date";
 $GLOBALS['strDelimiter']                = "Delimiter";
 $GLOBALS['strMiscellaneous']            = "Miscellaneous";
 $GLOBALS['strCollectedAllStats']        = "All statistics";
