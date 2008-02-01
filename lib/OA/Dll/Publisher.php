@@ -196,15 +196,6 @@ class OA_Dll_Publisher extends OA_Dll
             $publisherData['website'] = '';
         }
 
-        // Sum the permissions values into a bitwise value
-        if (isset($oPublisher->permissions) && is_array($oPublisher->permissions)) {
-            $permissions = 0;
-            for ($i=0;$i<sizeof($oPublisher->permissions);$i++) {
-                $permissions += $oPublisher->permissions[$i];
-            }
-            $publisherData['permissions'] = $permissions;
-        }
-
         // Remap fields where the PublisherInfo object does not map directly to the DataObject.
         $publisherData['name']      = $oPublisher->publisherName;
         $publisherData['contact']   = $oPublisher->contactName;
@@ -214,13 +205,6 @@ class OA_Dll_Publisher extends OA_Dll
         $publisherData['oac_country_code'] = $oPublisher->oacCountryCode;
 //        $publisherData['an_website_id'] = (!$oPublisher->adNetworks) ? '' : null;
         $publisherData['as_website_id'] = (!$oPublisher->advSignup)  ? '' : null;
-
-        if (isset($publisherData['password']) && (!is_null($publisherData['password'])) && ($publisherData['password'] != '********')) {
-            $publisherData['password'] = md5($oPublisher->password);
-        } else {
-            // Starred password passed in, leave as-is
-            unset($publisherData['password']);
-        }
 
         if ($this->_validate($oPublisher)) {
             $doPublisher = OA_Dal::factoryDO('affiliates');

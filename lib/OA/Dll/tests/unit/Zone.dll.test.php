@@ -99,6 +99,7 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
 
         $oZoneInfo      = new OA_DLL_ZoneInfo();
         $oPublisherInfo = new OA_DLL_PublisherInfo();
+        $oPublisherInfo->publisherName = "Publisher";
         $oPublisherInfo->agencyId = $this->agencyId;
 
         $dllPublisherPartialMock->modify($oPublisherInfo);
@@ -149,6 +150,7 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
         $dllZonePartialMock->expectCallCount('checkPermissions', 6);
 
         $oPublisherInfo = new OA_DLL_PublisherInfo();
+        $oPublisherInfo->publisherName = "Publisher";
         $oPublisherInfo->agencyId = $this->agencyId;
         $dllPublisherPartialMock->modify($oPublisherInfo);
 
@@ -239,6 +241,7 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
 
         $oZoneInfo      = new OA_DLL_ZoneInfo();
         $oPublisherInfo = new OA_DLL_PublisherInfo();
+        $oPublisherInfo->publisherName = "Publisher";
         $oPublisherInfo->agencyId = $this->agencyId;
 
         $dllPublisherPartialMock->modify($oPublisherInfo);
