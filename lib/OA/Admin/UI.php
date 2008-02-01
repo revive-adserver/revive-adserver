@@ -266,7 +266,12 @@ class OA_Admin_UI
                     $workingFor = sprintf($GLOBALS['strWorkingFor'], ucfirst(strtolower($k)));
                     $aAccounts[$workingFor] = $v;
                 }
-                $aAdminAccounts = array_shift($aAccounts);
+                reset($aAccounts);
+                if (key($aAccounts) == sprintf($GLOBALS['strWorkingFor'], ucfirst(strtolower(OA_ACCOUNT_ADMIN)))) {
+                    $aAdminAccounts = array_shift($aAccounts);
+                } else {
+                    $aAdminAccounts = array();
+                }
                 $this->oTpl->assign('aAdminAccounts', $aAdminAccounts);
                 $this->oTpl->assign('aAccounts', $aAccounts);
                 $this->oTpl->assign('accountId', OA_Permission::getAccountId());
