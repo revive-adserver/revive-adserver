@@ -252,10 +252,6 @@ public class TestAddCampaign extends CampaignTestCase {
 		Map<String, Object> struct = new HashMap<String, Object>();
 		Object[] params = new Object[] { sessionId, struct };
 
-		struct.put(ADVERTISER_ID, TextUtils.NOT_INTEGER);
-		executeAddCampaignWithError(params, ErrorMessage.getMessage(
-				ErrorMessage.FIELD_IS_NOT_INTEGER, ADVERTISER_ID));
-
 		struct.put(ADVERTISER_ID, advertiserId);
 		struct.put(CAMPAIGN_NAME, TextUtils.NOT_STRING);
 		executeAddCampaignWithError(params, ErrorMessage.getMessage(

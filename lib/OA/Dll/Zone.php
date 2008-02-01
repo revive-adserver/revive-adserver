@@ -104,7 +104,7 @@ class OA_Dll_Zone extends OA_Dll
     function _validate(&$oZone)
     {
         if (!$this->_validateZoneType($oZone->type) ||
-            !$this->checkStructureNotRequiredStringField($oZone, 'zoneName', 255) ||
+            !$this->checkStructureNotRequiredStringField($oZone, 'zoneName', 245) ||
             !$this->checkStructureNotRequiredIntegerField($oZone, 'width') ||
             !$this->checkStructureNotRequiredIntegerField($oZone, 'height')) {
 
@@ -168,7 +168,7 @@ class OA_Dll_Zone extends OA_Dll
      */
     function checkStatisticsPermissions($zoneId)
     {
-       if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm, 'zones', $zoneId)) 
+       if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm, 'zones', $zoneId))
        {
            return false;
        } else {
@@ -200,7 +200,7 @@ class OA_Dll_Zone extends OA_Dll
             // Add
             $oZone->setDefaultForAdd();
             if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm,
-                'affiliates', $oZone->publisherId, OA_PERM_ZONE_ADD)) 
+                'affiliates', $oZone->publisherId, OA_PERM_ZONE_ADD))
             {
                 return false;
             }
@@ -498,7 +498,7 @@ class OA_Dll_Zone extends OA_Dll
             return false;
         }
     }
-    
+
     /**
      * Method checked if zone linked to active campaign
      *
@@ -516,7 +516,7 @@ class OA_Dll_Zone extends OA_Dll
                 $linkBanners[] = $doAdZone->ad_id;
             }
         }
-        
+
         foreach ($linkBanners as $bannerId) {
             $doBanner = OA_Dal::factoryDO('banners');
             $doBanner->get($bannerId);
@@ -524,17 +524,17 @@ class OA_Dll_Zone extends OA_Dll
                 $linkCampaigns[] = $doBanner->campaignid;
             }
         }
-        
+
         foreach ($linkCampaigns as $campaignId) {
             $doCampaign = OA_Dal::factoryDO('campaigns');
             $doCampaign->get($campaignId);
-            if ($doCampaign->status != OA_ENTITY_STATUS_EXPIRED || 
+            if ($doCampaign->status != OA_ENTITY_STATUS_EXPIRED ||
                     $doCampaign->status != OA_ENTITY_STATUS_REJECTED) {
-                    
+
                 return true;
             }
         }
-        
+
         return false;
     }
 

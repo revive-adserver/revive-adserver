@@ -179,7 +179,7 @@ public class TestModifyZone extends ZoneTestCase {
 			MalformedURLException {
 		Map<String, Object> struct = new HashMap<String, Object>();
 		struct.put(ZONE_ID, zoneId);
-		struct.put(ZONE_NAME, TextUtils.getString(255));
+		struct.put(ZONE_NAME, TextUtils.getString(245));
 		Object[] params = new Object[] { sessionId, struct };
 		final Boolean result = (Boolean) client.execute(MODIFY_ZONE_METHOD,
 				params);

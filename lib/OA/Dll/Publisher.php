@@ -90,22 +90,22 @@ class OA_Dll_Publisher extends OA_Dll
             $doPublisher = OA_Dal::factoryDO('affiliates');
             $doPublisher->get($oPublisher->publisherId);
             $publisherOld = $doPublisher->toArray();
-
-            if (!$this->checkIdExistence('affiliates', $oPublisher->publisherId)) {
+            if (!$this->checkStructureRequiredStringField($oPublisher, 'publisherName', 255) ||
+                !$this->checkIdExistence('affiliates', $oPublisher->publisherId)) {
                 return false;
             }
         } else {
-            // When adding a publisher, check that the required field 'publisherId' is correct.
-            if (!$this->checkStructureNotRequiredIntegerField($oPublisher, 'publisherId')) {
+            // When adding a publisher, check that the required field 'advertiserName' is correct.
+            if (!$this->checkStructureRequiredStringField($oPublisher, 'publisherName', 255)){
                 return false;
             }
         }
 
-        if ((!empty($oPublisher->emailAddress) &&
+        if ((isset($oPublisher->emailAddress) &&
             !$this->checkEmail($oPublisher->emailAddress)) ||
             !$this->checkStructureNotRequiredIntegerField($oPublisher, 'agencyId') ||
-            !$this->checkStructureNotRequiredStringField($oPublisher, 'publisherName', 255) ||
-            !$this->checkStructureNotRequiredStringField($oPublisher, 'contactName',255)) {
+            !$this->checkStructureNotRequiredStringField($oPublisher, 'contactName',255) ||
+            !$this->checkStructureNotRequiredStringField($oPublisher, 'emailAddress', 64)) {
 
             return false;
         }
@@ -183,7 +183,7 @@ class OA_Dll_Publisher extends OA_Dll
         }
 
         $adnetworks_website_id = $publisherPrevData['as_website_id'];
-                                
+
         $publisherData =  (array) $oPublisher;
 
         // Trim input variables
@@ -259,7 +259,7 @@ class OA_Dll_Publisher extends OA_Dll
 
                     $this->_noticeMessage = (is_array($result) && $result['isAlexaDataFailed']) ?
                                             'Retrieving Alexa data for one or more websites failed and is scheduled for tomorrow' : false;
-                        
+
 //                    echo('<pre>');
 //                    var_dump($result);
                 } else {

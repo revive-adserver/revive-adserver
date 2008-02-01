@@ -61,11 +61,11 @@ class OA_Info
     {
         $aFieldsTypes = $this->getFieldsTypes();
         if (!isset($aFieldsTypes) || !is_array($aFieldsTypes)) {
-            die('Please provide field types array for Info object creation');
+            MAX::raiseError('Please provide field types array for Info object creation');
         }
 
         if (!array_key_exists($fieldName, $aFieldsTypes)) {
-            die('Unknown type for field \'' . $fieldName .'\'');
+            MAX::raiseError('Unknown type for field \'' . $fieldName .'\'');
         }
         return $aFieldsTypes[$fieldName];
     }

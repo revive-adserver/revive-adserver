@@ -117,9 +117,9 @@ class OA_Dll_BannerInfo extends OA_Info
     /**
      * A boolean field to indicate if the banner is active
      *
-     * @var boolean $active
+     * @var int $status
      */
-    var $active;
+    var $status;
 
     /**
      * A text field for HTML banners to indicate which adserver this ad is from
@@ -149,8 +149,8 @@ class OA_Dll_BannerInfo extends OA_Info
             $this->weight = 1;
         }
 
-        if (is_null($this->active)) {
-            $this->active = true;
+        if (is_null($this->status)) {
+            $this->status = 0;
         }
 
     }
@@ -169,7 +169,7 @@ class OA_Dll_BannerInfo extends OA_Info
                     'height' => 'integer',
                     'weight' => 'integer',
                     'url' => 'string',
-                    'active' => 'boolean',
+                    'status' => 'integer',
                     'adserver' => 'string'
                 );
     }

@@ -235,11 +235,6 @@ public class TestModifyPublisher extends PublisherTestCase {
 		struct.put(PUBLISHER_ID, publisherId);
 		Object[] params = new Object[] { sessionId, struct };
 
-		struct.put(AGENCY_ID, TextUtils.NOT_INTEGER);
-		executeModifyPublisherWithError(params, ErrorMessage.getMessage(
-				ErrorMessage.FIELD_IS_NOT_INTEGER, AGENCY_ID));
-
-		struct.remove(AGENCY_ID);
 		struct.put(PUBLISHER_NAME, TextUtils.NOT_STRING);
 		executeModifyPublisherWithError(params, ErrorMessage.getMessage(
 				ErrorMessage.FIELD_IS_NOT_STRING, PUBLISHER_NAME));

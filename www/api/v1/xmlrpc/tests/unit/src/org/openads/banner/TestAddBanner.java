@@ -211,10 +211,6 @@ public class TestAddBanner extends BannerTestCase {
 		Map<String, Object> struct = new HashMap<String, Object>();
 		Object[] params = new Object[] { sessionId, struct };
 
-		struct.put(CAMPAIGN_ID, TextUtils.NOT_INTEGER);
-		executeAddBannerWithError(params, ErrorMessage.getMessage(
-				ErrorMessage.FIELD_IS_NOT_INTEGER, CAMPAIGN_ID));
-
 		struct.put(CAMPAIGN_ID, campaignId);
 		struct.put(BANNER_NAME, TextUtils.NOT_STRING);
 		executeAddBannerWithError(params, ErrorMessage.getMessage(

@@ -144,6 +144,7 @@ public class TestAddPublisher extends PublisherTestCase {
 		Map<String, Object> struct = new HashMap<String, Object>();
 		Object[] params = new Object[] { sessionId, struct };
 
+		struct.put(PUBLISHER_NAME, "testPublisher");
 		struct.put(EMAIL_ADDRESS, "");
 		executeAddPublisherWithError(params, ErrorMessage.EMAIL_IS_NOT_VALID);
 
@@ -199,6 +200,7 @@ public class TestAddPublisher extends PublisherTestCase {
 				.setServerURL(new URL(GlobalSettings.getPublisherServiceUrl()));
 
 		Map<String, Object> struct = new HashMap<String, Object>();
+		struct.put(PUBLISHER_NAME, "");
 		struct.put(AGENCY_ID, id);
 		Object[] params = new Object[] { sessionId, struct };
 
@@ -223,6 +225,7 @@ public class TestAddPublisher extends PublisherTestCase {
 
 		Map<String, Object> struct = new HashMap<String, Object>();
 		Object[] params = new Object[] { sessionId, struct };
+		struct.put(PUBLISHER_NAME, "");
 
 		struct.put(AGENCY_ID, TextUtils.NOT_INTEGER);
 		executeAddPublisherWithError(params, ErrorMessage.getMessage(

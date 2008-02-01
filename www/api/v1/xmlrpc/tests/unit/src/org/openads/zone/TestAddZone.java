@@ -176,7 +176,7 @@ public class TestAddZone extends ZoneTestCase {
 			MalformedURLException {
 		Map<String, Object> struct = new HashMap<String, Object>();
 		struct.put(PUBLISHER_ID, publisherId);
-		struct.put(ZONE_NAME, TextUtils.getString(255));
+		struct.put(ZONE_NAME, TextUtils.getString(245));
 		Object[] params = new Object[] { sessionId, struct };
 
 		final Integer result = (Integer) client
@@ -217,11 +217,6 @@ public class TestAddZone extends ZoneTestCase {
 		Map<String, Object> struct = new HashMap<String, Object>();
 		Object[] params = new Object[] { sessionId, struct };
 
-		struct.put(PUBLISHER_ID, TextUtils.NOT_INTEGER);
-		executeAddZoneWithError(params, ErrorMessage.getMessage(
-				ErrorMessage.FIELD_IS_NOT_INTEGER, PUBLISHER_ID));
-
-		struct.put(PUBLISHER_ID, publisherId);
 		struct.put(ZONE_NAME, TextUtils.NOT_STRING);
 		executeAddZoneWithError(params, ErrorMessage.getMessage(
 				ErrorMessage.FIELD_IS_NOT_STRING, ZONE_NAME));

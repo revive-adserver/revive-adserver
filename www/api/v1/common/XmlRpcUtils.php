@@ -263,7 +263,8 @@ class XmlRpcUtils
                 if (isset($variable)) {
 
                     if (!is_string($variable)) {
-                        die('Date for statistics should be represented as string');
+                        Max::raiseError('Date for statistics should be represented as string');
+                        exit;
                     }
 
                     if ($variable != OA_Dal::noDateValue()) {
@@ -274,7 +275,8 @@ class XmlRpcUtils
 
                 return new XML_RPC_Value($dateVariable, $GLOBALS['XML_RPC_DateTime']);
         }
-        die('Unsupported Xml Rpc type \'' . $type . '\'');
+        Max::raiseError('Unsupported Xml Rpc type \'' . $type . '\'');
+        exit;
     }
 
     /**
@@ -302,7 +304,8 @@ class XmlRpcUtils
             case 'date':
 
                 if (!is_object($variable) || !is_a($variable, 'Date')) {
-                    die('Value should be PEAR::Date type');
+                    Max::raiseError('Value should be PEAR::Date type');
+                    exit;
                 }
 
                 if ($variable->format('%Y-%m-%d') == OA_DAL::noDateValue()) {
@@ -316,7 +319,8 @@ class XmlRpcUtils
 
                 }
         }
-        die('Unsupported Xml Rpc type \'' . $type . '\'');
+        Max::raiseError('Unsupported Xml Rpc type \'' . $type . '\'');
+        exit;
     }
 
     /**
@@ -454,7 +458,8 @@ class XmlRpcUtils
         $idxStart = 0)
     {
         if (count($aReferencesOnVariables) != count($aRequired)) {
-            die('$aReferencesOnVariables & $aRequired arrays should have the same length');
+            Max::raiseError('$aReferencesOnVariables & $aRequired arrays should have the same length');
+            exit;
         }
 
         $cVariables = count($aReferencesOnVariables);
