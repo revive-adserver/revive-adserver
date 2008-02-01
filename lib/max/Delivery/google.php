@@ -49,14 +49,14 @@ function MAX_googleGetJavaScript()
         $from[] = "@@F_{$k}@@";
         $to[]   = $v;
         $from[] = "@@F_{$k}_PREG@@";
-        $to[]   = preg_quote($v);
+        $to[]   = preg_quote($v, '/');
     }
     foreach ($conf['var'] as $k => $v) {
         $k = strtoupper($k);
         $from[] = "@@V_{$k}@@";
         $to[]   = $v;
         $from[] = "@@V_{$k}_PREG@@";
-        $to[]   = preg_quote($v);
+        $to[]   = preg_quote($v, '/');
     }
 
     // ctDelimiter
