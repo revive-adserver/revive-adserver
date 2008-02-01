@@ -131,6 +131,7 @@ $GLOBALS['strCollapseAll']              = "<u>C</u>ollapse all";
 $GLOBALS['strShowAll']                  = "Show All";
 $GLOBALS['strNoAdminInterface']         = "The admin screen has been turned off for maintenance.  This does not affect the delivery of your campaigns.";
 $GLOBALS['strFilterBySource']           = "filter by source";
+$GLOBALS['strFieldStartDateBeforeEnd']  = "\'From\' date must be earlier then \'To\' date";
 $GLOBALS['strFieldContainsErrors']      = "The following fields contain errors:";
 $GLOBALS['strFieldFixBeforeContinue1']  = "Before you can continue you need";
 $GLOBALS['strFieldFixBeforeContinue2']  = "to correct these errors.";

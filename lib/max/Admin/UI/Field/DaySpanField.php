@@ -88,6 +88,9 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
           );
     }
 
+
+
+
     /**
      * A method to enable the auto-submit feature on selection change
      */
@@ -229,8 +232,9 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
             align      : 'Bl',
             weekNumbers: false,
             firstDay   : " . ($GLOBALS['pref']['ui_week_start_day'] ? 1 : 0) . ",
-            electric   : false
-        })
+            electric   : false,
+            onUpdate   : settime
+        });
         Calendar.setup({
             inputField : '{$this->_name}_end',
             ifFormat   : '%d %B %Y',
@@ -238,8 +242,46 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
             align      : 'Bl',
             weekNumbers: false,
             firstDay   : " . ($GLOBALS['pref']['ui_week_start_day'] ? 1 : 0) . ",
-            electric   : false
+            electric   : false,
+            onUpdate   : settime
         })
+        
+        //start < end
+        function settime(cal) {
+          var time = cal.date.getTime();
+          cal.params.inputField.calTime = time;
+        }
+
+        var field = document.getElementById('{$this->_name}_start');
+        var oldOnSubmit = field.form.onsubmit;
+
+        field.form.onsubmit = function() {
+          if(oldOnSubmit) {
+            oldOnSubmit();
+          }
+
+          return checkDates(this);
+        }
+  
+        function checkDates(form)
+        {
+          //var calendar = new Calendar(0, new Date(), null, null);
+          //calendar.setDateFormat('%d %B %Y');
+    
+          if (form.{$this->_name}_start.value != '') {
+            var start = Date.parseDate(form.{$this->_name}_start.value, '%d %B %Y');
+          }
+          if (form.{$this->_name}_end.value != '') {
+            var end = Date.parseDate(form.{$this->_name}_end.value, '%d %B %Y');
+          }
+
+          if ((start != undefined && end != undefined) && (start.getTime() > end.getTime())) {
+            alert('".$GLOBALS['strFieldStartDateBeforeEnd']."');
+            return false;
+          }
+          return true;
+        }
+
         // Tabindex handling
         {$this->_name}TabIndex = " . ($this->_tabIndex - 4) . ";
         // Functions
@@ -249,10 +291,15 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
             document.getElementById('{$this->_name}_start').value = '$endDateStr';
             document.getElementById('{$this->_name}_preset').value = '{$this->_fieldSelectionValue}';
         }
+
         function {$this->_name}FormSubmit() {
-            document.getElementById('{$this->_name}_preset').form.submit();
+            var form = document.getElementById('{$this->_name}_preset').form;
+            if (checkDates(form)) {
+              form.submit();
+            }
             return false;
         }
+
         function {$this->_name}FormChange(bAutoSubmit)
         {
             var o = document.getElementById('{$this->_name}_preset');
