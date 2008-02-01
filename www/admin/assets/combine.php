@@ -58,8 +58,8 @@ $files = array();
 while (list(,$element) = each($elements)) {
 	$path = realpath($base . '/' . $element);
 
-	$dirSep = preg_quote(DIRECTORY_SEPARATOR);
-	if (preg_match("/^{$dirSep}(images|css|js){$dirSep}/", substr($path, strlen($base)))) {
+	$dirSep = preg_quote(DIRECTORY_SEPARATOR, '#');
+	if (preg_match("#^{$dirSep}(images|css|js){$dirSep}#", substr($path, strlen($base)))) {
 		$files[] = $path;
 	} else {
 		header ("HTTP/1.0 403 Forbidden");
