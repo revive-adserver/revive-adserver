@@ -257,14 +257,14 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
   
         function checkDates(form)
         {
-          //var calendar = new Calendar(0, new Date(), null, null);
-          //calendar.setDateFormat('%d %B %Y');
-    
-          if (form.{$this->_name}_start.value != '') {
-            var start = Date.parseDate(form.{$this->_name}_start.value, '%d %B %Y');
+          var startField = form.{$this->_name}_start;
+          var endField = form.{$this->_name}_end;   
+
+          if (!startField.disabled && startField.value != '') {
+            var start = Date.parseDate(startField.value, '%d %B %Y');
           }
-          if (form.{$this->_name}_end.value != '') {
-            var end = Date.parseDate(form.{$this->_name}_end.value, '%d %B %Y');
+          if (!startField.disabled && endField.value != '') {
+            var end = Date.parseDate(endField.value, '%d %B %Y');
           }
 
           if ((start != undefined && end != undefined) && (start.getTime() > end.getTime())) {
