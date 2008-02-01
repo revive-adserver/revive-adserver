@@ -45,13 +45,13 @@ class OA_Auth
      *
      * @static
      * @param string $authType
-     * @return Plugins_Autentication
+     * @return Plugins_Authentication
      */
     function &staticGetAuthPlugin($authType = null)
     {
         static $authPlugin;
         static $authPluginType;
-        
+
         if (is_null($authPlugin) || $authPluginType != $authType) {
             if (!empty($authType)) {
                 $authPlugin = &MAX_Plugin::factory('authentication', $authType);

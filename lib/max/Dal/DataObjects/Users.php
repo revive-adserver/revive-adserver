@@ -29,6 +29,10 @@ class DataObjects_Users extends DB_DataObjectCommon
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
+    var $defaultValues = array(
+        'active' => 1,
+    );
+
     /**
      * Checks is a username already exists in the database
      *

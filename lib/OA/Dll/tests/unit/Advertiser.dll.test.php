@@ -71,8 +71,6 @@ class OA_Dll_AdvertiserTest extends DllUnitTestCase
             'PartialMockOA_Dll_Advertiser',
             array('checkPermissions', 'getDefaultAgencyId')
         );
-
-        $this->agencyId = DataGenerator::generateOne('agency');
     }
 
     function setUp()

@@ -186,7 +186,7 @@ class OA_Dll_Agency extends OA_Dll
                 if ($oAgency->agencyId) {
                     // Set the account ID
                     $doAgency = OA_Dal::staticGetDO('agency', $oAgency->agencyId);
-                    $oAgency->accountId = $doAgency->account_id;
+                    $oAgency->accountId = (int)$doAgency->account_id;
                 }
             } else {
                 $doAgency->get($agencyData['agencyId']);

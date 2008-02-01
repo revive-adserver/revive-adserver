@@ -36,6 +36,7 @@ if (!isset($_SERVER['QUERY_STRING'])) {
 require_once MAX_PATH . '/lib/max/Plugin.php';
 require_once MAX_PATH . '/plugins/authentication/cas/cas.plugin.php';
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
+require_once MAX_PATH . '/lib/OA/Dll/User.php';
 
 /**
  * A class for testing the Plugins_Authentication_Cas_Cas class.
@@ -115,6 +116,56 @@ class Test_Plugins_Authentication_Cas_Cas extends UnitTestCase
 
         $ret = $this->internal->getUser('foo');
         $this->assertNull($ret);
+    }
+
+    function testdllValidation()
+    {
+        Mock::generatePartial(
+            'OA_Dll_User',
+            'PartialMockOA_Dll_User',
+            array('raiseError')
+        );
+
+        $dllUserMock = new PartialMockOA_Dll_User();
+        $dllUserMock->setReturnValue('raiseError', true);
+        $dllUserMock->expectCallCount('raiseError', 5);
+
+        $oUserInfo = new OA_Dll_UserInfo();
+
+        // Test with username set
+        $oUserInfo->username = 'foobar';
+        $this->assertFalse($this->internal->dllValidation($dllUserMock, $oUserInfo));
+
+        // Test with password set
+        unset($oUserInfo->username);
+        $oUserInfo->password = 'pwd';
+        $this->assertFalse($this->internal->dllValidation($dllUserMock, $oUserInfo));
+
+        // Test with nothing set
+        unset($oUserInfo->password);
+        $this->assertFalse($this->internal->dllValidation($dllUserMock, $oUserInfo));
+
+        // Test with email set
+        $oUserInfo->emailAddress = 'test@example.com';
+        $this->assertTrue($this->internal->dllValidation($dllUserMock, $oUserInfo));
+        $this->assertTrue($oUserInfo->username);
+
+        // Test edit with username set
+        $oUserInfo = new OA_Dll_UserInfo();
+        $oUserInfo->userId = 1;
+        $oUserInfo->username = 'foobar';
+        $this->assertFalse($this->internal->dllValidation($dllUserMock, $oUserInfo));
+
+        // Test edit with password set
+        unset($oUserInfo->username);
+        $oUserInfo->password = 'pwd';
+        $this->assertFalse($this->internal->dllValidation($dllUserMock, $oUserInfo));
+
+        // Test edit with nothing set
+        unset($oUserInfo->password);
+        $this->assertTrue($this->internal->dllValidation($dllUserMock, $oUserInfo));
+
+        $dllUserMock->tally();
     }
 }
 

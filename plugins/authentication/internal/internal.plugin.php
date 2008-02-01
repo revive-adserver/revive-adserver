@@ -25,6 +25,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/other/common.php';
+require_once MAX_PATH . '/plugins/authentication/Authentication.php';
 
 /**
  * Authentication internal plugin which authenticates user using internal
@@ -33,9 +34,8 @@ require_once MAX_PATH . '/lib/max/other/common.php';
  * @package    OpenadsPlugin
  * @subpackage Authentication
  * @author     Radek Maciaszek <radek.maciaszek@openads.org>
- * @abstract
  */
-class Plugins_Authentication_Internal_Internal // extends Plugins_Authentication
+class Plugins_Authentication_Internal_Internal extends Plugins_Authentication
 {
     /**
      * Checks if credentials are passed and whether the plugin should carry on the authentication
@@ -46,7 +46,7 @@ class Plugins_Authentication_Internal_Internal // extends Plugins_Authentication
     {
         return isset($_POST['username']) || isset($_POST['password']);
     }
-    
+
     /**
      * Authenticate user
      *
@@ -62,13 +62,11 @@ class Plugins_Authentication_Internal_Internal // extends Plugins_Authentication
         return $this->checkPassword($aCredentials['username'],
             $aCredentials['password']);
     }
-    
+
     /**
-     * A method to get the login credential supplied as POST parameters
+     * A to get the login credential supplied as POST parameters
      *
      * Additional checks are also performed and error eventually returned
-     *
-     * @static
      *
      * @param bool $performCookieCheck
      * @return mixed Array on success, PEAR_Error otherwise
@@ -88,11 +86,9 @@ class Plugins_Authentication_Internal_Internal // extends Plugins_Authentication
             'password' => MAX_commonGetPostValueUnslashed('password')
         );
     }
-    
+
     /**
-     * A static method to check a username and password
-     *
-     * @static
+     * A method to check a username and password
      *
      * @param string $username
      * @param string $md5Password
@@ -110,7 +106,7 @@ class Plugins_Authentication_Internal_Internal // extends Plugins_Authentication
         }
         return null;
     }
-    
+
     /**
      * Cleans up the session and carry on any additional tasks required to logout the user
      * Redirects to CAS-server logout url
@@ -123,11 +119,9 @@ class Plugins_Authentication_Internal_Internal // extends Plugins_Authentication
         header ("Location: " . $dalAgency->getLogoutUrl(OA_Permission::getAgencyId()));
         exit;
     }
-    
+
     /**
-     * A static method to display a login screen
-     * 
-     * @static
+     * A method to display a login screen
      *
      * @param string $sMessage
      * @param string $sessionID
@@ -181,6 +175,30 @@ class Plugins_Authentication_Internal_Internal // extends Plugins_Authentication
 
         phpAds_PageFooter();
         exit;
+    }
+
+    /**
+     * A method to perform DLL level validation
+     *
+     * @param OA_Dll_User $oUser
+     * @param OA_Dll_UserInfo $oUserInfo
+     * @return boolean
+     */
+    function dllValidation(&$oUser, &$oUserInfo)
+    {
+        if (!isset($oUserInfo->userId)) {
+            if (!$oUser->checkStructureRequiredStringField($oUserInfo, 'username', 64) ||
+                !$oUser->checkStructureRequiredStringField($oUserInfo, 'password', 32)) {
+                return false;
+            }
+        }
+
+        if (isset($oUserInfo->password)) {
+            // Save MD5 hash of the password
+            $oUserInfo->password = md5($oUserInfo->password);
+        }
+
+        return parent::dllValidation($oUser, $oUserInfo);
     }
 }
 

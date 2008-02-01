@@ -211,7 +211,7 @@ class OA_Dll_Advertiser extends OA_Dll
                 if ($oAdvertiser->advertiserId) {
                     // Set the account ID
                     $doAdvertiser = OA_Dal::staticGetDO('clients', $oAdvertiser->advertiserId);
-                    $oAdvertiser->accountId = $doAdvertiser->account_id;
+                    $oAdvertiser->accountId = (int)$doAdvertiser->account_id;
                 }
             } else {
                 $doAdvertiser->get($advertiserData['advertiserId']);

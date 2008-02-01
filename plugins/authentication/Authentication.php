@@ -30,12 +30,13 @@ $Id$
  * @package    OpenadsPlugin
  * @subpackage Authentication
  * @author     Radek Maciaszek <radek.maciaszek@openads.org>
- * @abstract
  */
 class Plugins_Authentication
 {
     /**
      * Checks if credentials are passed and whether the plugin should carry on the authentication
+     *
+     * @abstract
      *
      * @return boolean  True if credentials were passed, else false
      */
@@ -44,9 +45,11 @@ class Plugins_Authentication
         OA::debug('Cannot run abstract method');
         exit();
     }
-    
+
     /**
      * Authenticate user
+     *
+     * @abstract
      *
      * @return DataObjects_Users  returns users dataobject on success authentication
      *                            or null if user wasn't succesfully authenticated
@@ -56,9 +59,11 @@ class Plugins_Authentication
         OA::debug('Cannot run abstract method');
         exit();
     }
-    
+
     /**
      * Cleans up the session and carry on any additional tasks required to logout the user
+     *
+     * @abstract
      *
      */
     function logout()
@@ -66,9 +71,11 @@ class Plugins_Authentication
         OA::debug('Cannot run abstract method');
         exit();
     }
-    
+
     /**
      * A static method to display a login screen
+     *
+     * @abstract
      * @static
      *
      * @param string $sMessage
@@ -79,6 +86,23 @@ class Plugins_Authentication
     {
         OA::debug('Cannot run abstract method');
         exit();
+    }
+
+    /**
+     * A method to perform DLL level validation
+     *
+     * @param OA_Dll_User $oUser
+     * @param OA_Dll_UserInfo $oUserInfo
+     * @return boolean
+     */
+    function dllValidation(&$oUser, &$oUserInfo)
+    {
+        if (!$oUser->checkStructureNotRequiredStringField($oUserInfo, 'username', 64) ||
+            !$oUser->checkStructureNotRequiredStringField($oUserInfo, 'password', 32)) {
+            return false;
+        }
+
+        return true;
     }
 }
 

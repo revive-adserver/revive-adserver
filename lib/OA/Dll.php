@@ -324,6 +324,9 @@ class OA_Dll extends OA_BaseObjectWithErrors
             case 'campaigns' :
                 $tableId = 'campaign';
                 break;
+            case 'users' :
+                $tableId = 'user';
+                break;
         }
 
         $doObject = OA_Dal::factoryDO($table);

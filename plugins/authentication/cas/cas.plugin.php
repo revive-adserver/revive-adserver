@@ -25,6 +25,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/other/common.php';
+require_once MAX_PATH . '/plugins/authentication/Authentication.php';
 require_once MAX_PATH . '/plugins/authentication/cas/CAS/CAS.php';
 require_once MAX_PATH . '/plugins/authentication/cas/CAS/client.php';
 require_once MAX_PATH . '/plugins/authentication/cas/OaCasClient.php';
@@ -38,7 +39,7 @@ define('OA_CAS_PLUGIN_PHP_CAS', 'phpCAS');
 
 /**
  * Authentication CAS plugin which authenticates users against cas-server
- * 
+ *
  * This plugin uses information stored in "oacSSO" section in configuration file.
  * It is required to install php_curl extension in order to use this plugin.
  * Users are still added to local "users" table. The main difference between this and
@@ -49,9 +50,8 @@ define('OA_CAS_PLUGIN_PHP_CAS', 'phpCAS');
  * @package    OpenadsPlugin
  * @subpackage Authentication
  * @author     Radek Maciaszek <radek@openads.org>
- * @abstract
  */
-class Plugins_Authentication_Cas_Cas // extends Plugins_Authentication
+class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
 {
     /**
      * Checks if credentials are passed and whether the plugin should carry on the authentication
@@ -62,7 +62,7 @@ class Plugins_Authentication_Cas_Cas // extends Plugins_Authentication
     {
         return isset($_GET['ticket']);
     }
-    
+
     /**
      * Initialize CAS client. Only one copy of CAS client is allowed
      *
@@ -80,7 +80,7 @@ class Plugins_Authentication_Cas_Cas // extends Plugins_Authentication
             $initialized = true;
         }
     }
-    
+
     function storePhpCasSession()
     {
         $sessionPhpCas = isset($_SESSION[OA_CAS_PLUGIN_PHP_CAS])
@@ -89,14 +89,14 @@ class Plugins_Authentication_Cas_Cas // extends Plugins_Authentication
         $session[OA_CAS_PLUGIN_PHP_CAS] = $sessionPhpCas;
         phpAds_SessionDataStore();
     }
-    
+
     function restorePhpCasSession()
     {
         global $session;
-        $_SESSION[OA_CAS_PLUGIN_PHP_CAS] = 
+        $_SESSION[OA_CAS_PLUGIN_PHP_CAS] =
             isset($session[OA_CAS_PLUGIN_PHP_CAS]) ? $session[OA_CAS_PLUGIN_PHP_CAS] : null;
     }
-    
+
     /**
      * Authenticate user. If user not connected to any account displays information
      * that he needs first to register in OAH.
@@ -107,13 +107,13 @@ class Plugins_Authentication_Cas_Cas // extends Plugins_Authentication
     function authenticateUser()
     {
         $this->restorePhpCasSession();
-        
+
         $this->initCasClient();
         phpCAS::forceAuthentication();
         $username = phpCAS::getUser();
-        
+
         $this->storePhpCasSession();
-        
+
         if ($username) {
             $doUser = $this->getUser($username);
             if ($doUser) {
@@ -123,7 +123,7 @@ class Plugins_Authentication_Cas_Cas // extends Plugins_Authentication
         }
         return null;
     }
-    
+
     /**
      * A static method to check a username and password
      *
@@ -144,7 +144,7 @@ class Plugins_Authentication_Cas_Cas // extends Plugins_Authentication
         }
         return null;
     }
-    
+
     function logout()
 	{
 	    $this->restorePhpCasSession();
@@ -159,14 +159,12 @@ class Plugins_Authentication_Cas_Cas // extends Plugins_Authentication
         phpCAS::logout($dalAgency->getLogoutUrl(OA_Permission::getAgencyId()));
         exit;
 	}
-    
+
     /**
-     * A static method to display a login screen
-     * 
+     * A method to display a login screen
+     *
      * @TODO - localize these messages once product team will deliver messages which needs
      * to be translated.
-     * 
-     * @static
      *
      * @param string $sMessage
      * @param string $sessionID
@@ -182,11 +180,9 @@ class Plugins_Authentication_Cas_Cas // extends Plugins_Authentication
         phpAds_PageFooter();
         exit();
     }
-    
+
     /**
-     * A static method to display a login screen
-     *
-     * @static
+     * A method to display a login screen
      *
      * @param string $sMessage
      * @param string $sessionID
@@ -197,11 +193,11 @@ class Plugins_Authentication_Cas_Cas // extends Plugins_Authentication
         $this->authenticateUser();
         exit;
     }
-    
+
   /**
    * phpCAS client initializer (slightly modified version of method from phpCas::client),
    * returns OaCasClient object instead of CasClient
-   * 
+   *
    * @note Only one of the phpCAS::client() and phpCAS::proxy functions should be
    * called, only once, and before all other methods (except phpCAS::getVersion()
    * and phpCAS::setDebug()).
@@ -251,7 +247,35 @@ class Plugins_Authentication_Cas_Cas // extends Plugins_Authentication
       $PHPCAS_CLIENT = new OaCasClient($server_version,FALSE/*proxy*/,
           $server_hostname,$server_port,$server_uri,$start_session);
       phpCAS::traceEnd();
-    }    
+    }
+
+    /**
+     * A method to perform DLL level validation
+     *
+     * @todo Check user existence on SSO and get the username
+     *
+     * @param OA_Dll_User $oUser
+     * @param OA_Dll_UserInfo $oUserInfo
+     * @return boolean
+     */
+    function dllValidation(&$oUser, &$oUserInfo)
+    {
+        if (isset($oUserInfo->username) || isset($oUserInfo->password)) {
+            $oUser->raiseError('Username and password cannot be set when using the SSO authentication plugin');
+            return false;
+        }
+
+        if (!isset($oUserInfo->userId)) {
+            if (!$oUser->checkStructureRequiredStringField($oUserInfo, 'emailAddress', 64)) {
+                return false;
+            }
+
+            // Get username from SSO and store it
+            $oUserInfo->username = 'user-'.md5(uniqid('', true));
+        }
+
+        return parent::dllValidation($oUser, $oUserInfo);
+    }
 }
 
 ?>
