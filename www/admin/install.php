@@ -380,7 +380,7 @@ else if (array_key_exists('btn_tagssetup', $_POST))
 
                 //$isOac = $aAdnetworks[$key] == 'true' ? 1 : 0;
                 $isOas = ($aAdvSignup[$key] == 'true') ? true : false;
-                
+
                 $publisher = array(
                     'url'       => $url,
                     'country'   => $aCountries[$key],
@@ -389,25 +389,25 @@ else if (array_key_exists('btn_tagssetup', $_POST))
 //                    'adnetworks' => $isOac,
                     'advsignup' => $isOas
                 );
-                
+
                 $aWebsites[$isOas][] = $aTplSites[count($aTplSites)+1] = $publisher;
-                
+
 //                if ($isOas) {
 //                    $aTplSites[count($aTplSites)+1] = $publisher;
 //                }
             }
 
             $adNetworksResponse = true;
-            
+
             if (count($aWebsites[1])) {
-            
+
                 require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
                 $oAdNetworks = new OA_Central_AdNetworks();
                 $result = $oAdNetworks->subscribeWebsites($aWebsites[1]);
 
                 if (PEAR::isError($result)) {
                     $adNetworksResponse = false;
-                    
+
                     // Initialise template
                     $oTpl = new OA_Admin_Template('install/sites.html');
 
@@ -498,12 +498,13 @@ else if (array_key_exists('btn_tagssetup', $_POST))
                 }
 
             }
-            
+
             // Insert to db local Publishers
             if ($adNetworksResponse) {
                 foreach ($aWebsites[0] as $v) {
                     $doAffiliate = OA_Dal::factoryDO('affiliates');
                     $publisher = array(
+                        'agencyid'         => OA_Permission::getAgencyId(),
                         'name'             => $v['url'],
                         'mnemonic'         => '',
                         'contact'          => $aPref['admin_name'],
@@ -514,12 +515,12 @@ else if (array_key_exists('btn_tagssetup', $_POST))
                         'oac_category_id'  => $v['category'],
                         'as_website_id'    => $v['advsignup']
                     );
-    
+
                     $doAffiliate->setFrom($publisher);
                     $result = $doAffiliate->insert();
                 }
             }
-            
+
         }
     }
 }
