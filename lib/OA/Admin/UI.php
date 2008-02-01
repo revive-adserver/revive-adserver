@@ -258,7 +258,7 @@ class OA_Admin_UI
                 // Account switcher
                 $this->oTpl->assign('strWorkingAs', $GLOBALS['strWorkingAs']);
                 $aAccounts = array();
-                foreach (OA_Permission::getLinkedAccounts(true) as $k => $v) {
+                foreach (OA_Permission::getLinkedAccounts(true, true) as $k => $v) {
                     $workingFor = sprintf($GLOBALS['strWorkingFor'], ucfirst(strtolower($k)));
                     $aAccounts[$workingFor] = $v;
                 }

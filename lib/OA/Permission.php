@@ -532,9 +532,12 @@ class OA_Permission
      * where accountType is one of: OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, etc.
      *
      * @param boolean $groupByType
+     * @param boolean $sort         An optional parameter, when true, sorts
+     *                              the returned values alphabetically by account
+     *                              name. Ignored when $groupByType is false.
      * @return array
      */
-    function getLinkedAccounts($groupByType = false)
+    function getLinkedAccounts($groupByType = false, $sort = false)
     {
         $doAccount_user_Assoc = OA_Dal::factoryDO('account_user_assoc');
         $doAccount_user_Assoc->user_id = OA_Permission::getUserId();
@@ -560,6 +563,11 @@ class OA_Permission
                 }
             }
             return $aAccounts;
+        }
+        if ($sort) {
+            foreach ($aAccountsByType as $accountType => $aAccount) {
+                asort($aAccountsByType[$accountType]);
+            }
         }
         return $aAccountsByType;
     }
