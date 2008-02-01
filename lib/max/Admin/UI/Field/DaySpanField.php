@@ -233,7 +233,6 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
             weekNumbers: false,
             firstDay   : " . ($GLOBALS['pref']['ui_week_start_day'] ? 1 : 0) . ",
             electric   : false,
-            onUpdate   : settime
         });
         Calendar.setup({
             inputField : '{$this->_name}_end',
@@ -243,15 +242,8 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
             weekNumbers: false,
             firstDay   : " . ($GLOBALS['pref']['ui_week_start_day'] ? 1 : 0) . ",
             electric   : false,
-            onUpdate   : settime
         })
         
-        //start < end
-        function settime(cal) {
-          var time = cal.date.getTime();
-          cal.params.inputField.calTime = time;
-        }
-
         var field = document.getElementById('{$this->_name}_start');
         var oldOnSubmit = field.form.onsubmit;
 
