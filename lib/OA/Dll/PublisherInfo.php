@@ -51,6 +51,13 @@ class OA_Dll_PublisherInfo extends OA_Info
     var $publisherId;
 
     /**
+     * This field contains the ID of the publisher account.
+     *
+     * @var integer $accountId
+     */
+    var $accountId;
+
+    /**
      * This field provides the ID of the agency associated with the publisher.
      *
      * @var integer $agencyId
@@ -99,6 +106,7 @@ class OA_Dll_PublisherInfo extends OA_Info
     {
         return array(
                     'publisherId' => 'integer',
+                    'accountId' => 'integer',
                     'agencyId' => 'integer',
                     'publisherName' => 'string',
                     'contactName' => 'string',

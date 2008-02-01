@@ -51,6 +51,13 @@ class OA_Dll_AdvertiserInfo extends OA_Info
     var $advertiserId;
 
     /**
+     * This field contains the ID of the advertiser account.
+     *
+     * @var integer $accountId
+     */
+    var $accountId;
+
+    /**
      * This option provides the ID of the agency to associate with the advertiser.
      *
      * @var integer $agencyId
@@ -99,6 +106,7 @@ class OA_Dll_AdvertiserInfo extends OA_Info
     {
         return array(
                     'advertiserId' => 'integer',
+                    'accountId' => 'integer',
                     'agencyId' => 'integer',
                     'advertiserName' => 'string',
                     'contactName' => 'string',

@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 /**
@@ -48,6 +48,13 @@ class OA_Dll_AgencyInfo extends OA_Info
      * @var integer $agencyId
      */
     var $agencyId;
+
+    /**
+     * This field contains the ID of the agency account.
+     *
+     * @var integer $accountId
+     */
+    var $accountId;
 
     /**
      * This field provides the name of the agency.
@@ -81,6 +88,7 @@ class OA_Dll_AgencyInfo extends OA_Info
     {
         return array(
                     'agencyId' => 'integer',
+                    'accountId' => 'integer',
                     'agencyName' => 'string',
                     'contactName' => 'string',
                     'emailAddress' => 'string'

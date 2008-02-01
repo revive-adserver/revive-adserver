@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Dll/Agency.php';
@@ -84,6 +84,8 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
         // Add
         $this->assertTrue($dllAgencyPartialMock->modify($oAgencyInfo),
                           $dllAgencyPartialMock->getLastError());
+
+        $this->assertTrue($oAgencyInfo->accountId);
 
         // Modify
         $oAgencyInfo->agencyName = 'modified Agency';
@@ -147,6 +149,8 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
         $this->assertNull($oAgencyInfo1Get->password,
                           'Field \'password\' must be null');
         $this->assertFieldEqual($oAgencyInfo2, $oAgencyInfo2Get, 'agencyName');
+        $this->assertTrue($oAgencyInfo1Get->accountId);
+        $this->assertTrue($oAgencyInfo2Get->accountId);
 
         // Get List
         $aAgencyList = array();
@@ -163,6 +167,8 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
         // Check field value from list
         $this->assertFieldEqual($oAgencyInfo1, $oAgencyInfo1Get, 'agencyName');
         $this->assertFieldEqual($oAgencyInfo2, $oAgencyInfo2Get, 'agencyName');
+        $this->assertTrue($oAgencyInfo1Get->accountId);
+        $this->assertTrue($oAgencyInfo2Get->accountId);
 
 
         // Delete

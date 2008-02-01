@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 /**
@@ -61,6 +61,7 @@ class OA_Dll_Agency extends OA_Dll
         $agencyData['agencyName']   = $agencyData['name'];
         $agencyData['contactName']  = $agencyData['contact'];
         $agencyData['emailAddress'] = $agencyData['email'];
+        $agencyData['accountId']    = $agencyData['account_id'];
 
         // Do not return the password from the Dll.
         unset($agencyData['password']);
@@ -182,6 +183,11 @@ class OA_Dll_Agency extends OA_Dll
             if (!isset($agencyData['agencyId'])) {
                 $doAgency->setFrom($agencyData);
                 $oAgency->agencyId = $doAgency->insert();
+                if ($oAgency->agencyId) {
+                    // Set the account ID
+                    $doAgency = OA_Dal::staticGetDO('agency', $oAgency->agencyId);
+                    $oAgency->accountId = $doAgency->account_id;
+                }
             } else {
                 $doAgency->get($agencyData['agencyId']);
                 $doAgency->setFrom($agencyData);

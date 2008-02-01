@@ -103,6 +103,8 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
         $this->assertTrue($dllPublisherPartialMock->modify($oPublisherInfo),
             $dllPublisherPartialMock->getLastError());
 
+        $this->assertTrue($oPublisherInfo->accountId);
+
         // Modify
         $oPublisherInfo->publisherName = 'modified Publisher';
 
@@ -165,6 +167,8 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
 
         $this->assertTrue($dllPublisherPartialMock->modify($oPublisherInfo2),
                           $dllPublisherPartialMock->getLastError());
+        $this->assertTrue($oPublisherInfo1->accountId);
+        $this->assertTrue($oPublisherInfo2->accountId);
 
         $oPublisherInfo1Get = null;
         $oPublisherInfo2Get = null;
@@ -200,6 +204,8 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
         // Check field value from list
         $this->assertFieldEqual($oPublisherInfo1, $oPublisherInfo1Get, 'publisherName');
         $this->assertFieldEqual($oPublisherInfo2, $oPublisherInfo2Get, 'publisherName');
+        $this->assertTrue($oPublisherInfo1->accountId);
+        $this->assertTrue($oPublisherInfo2->accountId);
 
 
         // Delete

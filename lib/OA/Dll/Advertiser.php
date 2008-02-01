@@ -62,6 +62,7 @@ class OA_Dll_Advertiser extends OA_Dll
         $advertiserData['emailAddress']   = $advertiserData['email'];
         $advertiserData['agencyId']       = $advertiserData['agencyid'];
         $advertiserData['advertiserId']   = $advertiserData['clientid'];
+        $advertiserData['accountId']      = $advertiserData['account_id'];
 
         $oAdvertiser->readDataFromArray($advertiserData);
         return  true;
@@ -207,6 +208,11 @@ class OA_Dll_Advertiser extends OA_Dll
                 $advertiserData['agencyid'] = $oAdvertiser->agencyId;
                 $doAdvertiser->setFrom($advertiserData);
                 $oAdvertiser->advertiserId = $doAdvertiser->insert();
+                if ($oAdvertiser->advertiserId) {
+                    // Set the account ID
+                    $doAdvertiser = OA_Dal::staticGetDO('clients', $oAdvertiser->advertiserId);
+                    $oAdvertiser->accountId = $doAdvertiser->account_id;
+                }
             } else {
                 $doAdvertiser->get($advertiserData['advertiserId']);
                 $doAdvertiser->setFrom($advertiserData);

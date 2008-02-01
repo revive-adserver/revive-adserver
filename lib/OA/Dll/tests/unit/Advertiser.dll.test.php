@@ -106,6 +106,8 @@ class OA_Dll_AdvertiserTest extends DllUnitTestCase
         $this->assertTrue($dllAdvertiserPartialMock->modify($oAdvertiserInfo),
                           $dllAdvertiserPartialMock->getLastError());
 
+        $this->assertTrue($oAdvertiserInfo->accountId);
+
         // Modify
         $oAdvertiserInfo->advertiserName = 'modified Advertiser';
 
@@ -166,6 +168,8 @@ class OA_Dll_AdvertiserTest extends DllUnitTestCase
 
         $this->assertTrue($dllAdvertiserPartialMock->modify($oAdvertiserInfo2),
                           $dllAdvertiserPartialMock->getLastError());
+        $this->assertTrue($oAdvertiserInfo1->accountId);
+        $this->assertTrue($oAdvertiserInfo2->accountId);
 
         $oAdvertiserInfo1Get = null;
         $oAdvertiserInfo2Get = null;
@@ -201,6 +205,8 @@ class OA_Dll_AdvertiserTest extends DllUnitTestCase
         // Check field value from list
         $this->assertFieldEqual($oAdvertiserInfo1, $oAdvertiserInfo1Get, 'advertiserName');
         $this->assertFieldEqual($oAdvertiserInfo2, $oAdvertiserInfo2Get, 'advertiserName');
+        $this->assertTrue($oAdvertiserInfo1->accountId);
+        $this->assertTrue($oAdvertiserInfo2->accountId);
 
 
         // Delete
