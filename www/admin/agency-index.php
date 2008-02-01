@@ -68,25 +68,27 @@ if (!isset($hideinactive))
 
 if (!isset($listorder))
 {
-    if (isset($session['prefs']['agency-index.php']['listorder']))
+    if (isset($session['prefs']['agency-index.php']['listorder'])) {
         $listorder = $session['prefs']['agency-index.php']['listorder'];
-    else
+    } else {
         $listorder = '';
+    }
 }
 
 if (!isset($orderdirection))
 {
-    if (isset($session['prefs']['agency-index.php']['orderdirection']))
+    if (isset($session['prefs']['agency-index.php']['orderdirection'])) {
         $orderdirection = $session['prefs']['agency-index.php']['orderdirection'];
-    else
+    } else {
         $orderdirection = '';
+    }
 }
 
-if (isset($session['prefs']['agency-index.php']['nodes']))
+if (isset($session['prefs']['agency-index.php']['nodes'])) {
     $node_array = explode (",", $session['prefs']['agency-index.php']['nodes']);
-else
+} else {
     $node_array = array();
-
+}
 
 
 /*-------------------------------------------------------*/
@@ -94,13 +96,13 @@ else
 /*-------------------------------------------------------*/
 
 // Get agencies & campaign and build the tree
-$doAgency = OA_Dal::factoryDO('agency');
-$agencies = $doAgency->getAll(array('name', 'agencyid', 'account_id'), true, false);
+$dalAgency = OA_Dal::factoryDAL('agency');
+$aManagers = $dalAgency->getAllManagers($listorder, $orderdirection);
 
-foreach ($agencies as $k => $v) {
-    $agencies[$k]['expand'] = 0;
-    $agencies[$k]['count'] = 0;
-    $agencies[$k]['hideinactive'] = 0;
+foreach ($aManagers as $k => $v) {
+    $aManagers[$k]['expand'] = 0;
+    $aManagers[$k]['count'] = 0;
+    $aManagers[$k]['hideinactive'] = 0;
 }
 
 
@@ -166,7 +168,7 @@ echo "\t\t\t\t\t<td colspan='6' bgcolor='#888888'><img src='images/break.gif' he
 echo "\t\t\t\t</tr>\n";
 
 
-if (!isset($agencies) || !is_array($agencies) || count($agencies) == 0)
+if (!isset($aManagers) || !is_array($aManagers) || count($aManagers) == 0)
 {
     echo "\t\t\t\t<tr height='25' bgcolor='#F6F6F6'>\n";
     echo "\t\t\t\t\t<td height='25' colspan='5'>&nbsp;&nbsp;".$strNoAgencies."</td>\n";
@@ -179,9 +181,9 @@ if (!isset($agencies) || !is_array($agencies) || count($agencies) == 0)
 else
 {
     $i=0;
-    foreach (array_keys($agencies) as $key)
+    foreach (array_keys($aManagers) as $key)
     {
-        $agency = $agencies[$key];
+        $agency = $aManagers[$key];
 
         echo "\t\t\t\t<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">\n";
 
@@ -248,7 +250,7 @@ echo "\t\t\t\t</table>\n";
 
 
 // total number of agencies
-$agencyCount = $doAgency->getRowCount();
+$agencyCount = count($aManagers);
 
 echo "\t\t\t\t<br /><br /><br /><br />\n";
 echo "\t\t\t\t<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>\n";
