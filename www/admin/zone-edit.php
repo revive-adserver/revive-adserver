@@ -600,10 +600,10 @@ $unique_names = $doZones->getUniqueValuesFromColumn('zonename', $zoneName);
     <?php
 
     if (isset($zone["height"])) {
-        echo "document.zoneHeight =" .$zone["height"]. ";\n";
+        echo "document.zoneHeight ='" .$zone["height"]. "';\n";
     }
     if (isset($zone["width"])) {
-        echo "document.zoneWidth =" .$zone["width"]. ";\n";
+        echo "document.zoneWidth ='" .$zone["width"]. "';\n";
     }
 
     ?>
