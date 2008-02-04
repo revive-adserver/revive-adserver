@@ -59,6 +59,16 @@ table.sysinfotable {
  border-bottom: 1px solid #DDDDDD;
 }
 
+table.sysinfotable td.check {
+	text-align: left;
+  font-weight: bold;
+}
+
+table.sysinfotable td.check-res {
+	text-align: right;
+}
+
+
 .sysmessage {
  font-weight: bold;
 }
