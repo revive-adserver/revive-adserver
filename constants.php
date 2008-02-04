@@ -40,9 +40,9 @@ function setupConstants()
     // Define this version of Openads's constants
     define('OA_VERSION', '2.5.60-beta-rc1');
     define('MAX_PRODUCT_NAME',      'OpenX');
-    define('MAX_PRODUCT_URL',       'www.openads.org');
-    define('MAX_PRODUCT_DOCSURL',   'docs.openads.org');
-    define('MAX_PRODUCT_FORUMURL',  'forum.openads.org');
+    define('MAX_PRODUCT_URL',       'www.openx.org');
+    define('MAX_PRODUCT_DOCSURL',   'docs.openx.org');
+    define('MAX_PRODUCT_FORUMURL',  'forum.openx.org');
 
     define('OA_INSTALLATION_STATUS_NOTINSTALLED' ,   -1);
     define('OA_INSTALLATION_STATUS_UPGRADING'    ,    0);
@@ -206,7 +206,7 @@ function setupConstants()
     define('MAX_LIMITATION_NOT_EQUAL', 1);
     define('MAX_LIMITATION_BITWISE', 2);
 
-    define('OA_DOCUMENTATION_BASE_URL', 'http://docs.openads.org');
+    define('OA_DOCUMENTATION_BASE_URL', 'http://docs.openx.org');
     define('OA_DOCUMENTATION_PATH',     'help');
 
     // Define the week to start on Sunday (0) so that the PEAR::Date and
