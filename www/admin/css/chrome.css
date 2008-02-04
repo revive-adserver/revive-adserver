@@ -27,7 +27,7 @@ a:hover {
 #oaHeader {
 	position: relative;
 	background-color: #fff;
-	height: 56px;
+	height: 68px;
 }
 #oaHeaderBranding {
 	position: absolute;
@@ -37,13 +37,10 @@ a:hover {
 
 .brandingDefault {
 	width: 168px;
-	height: 47px;
+	height: 62px;
 	background: url(../images/logo-wtag.png) no-repeat;
+	margin: 3px 0px 0px 3px;
 	text-indent: -1000px;
-
-	/* Fix IE bug: transparent PNG support */
-	-background: none;
-	-filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/logo-wtag.png', sizingMethod='scale');
 }
 .brandingName {
 	height: 48px;
@@ -124,10 +121,9 @@ a:hover {
 
 #oaNavigation {
 	position: relative;
-	top: -12px;
+	top: -24px;
 	z-index: 2;
 
-	background-color: #FFF;
 	height: 24px;
 	border-bottom: 1px solid #d1d1d1;
 }
@@ -259,7 +255,7 @@ a:hover {
 
 #oaMain {
 	position: relative;
-	top: -12px;
+	top: -24px;
 }
 
 
