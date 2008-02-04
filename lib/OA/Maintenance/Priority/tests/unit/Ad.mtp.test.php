@@ -32,7 +32,7 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority/Ad.php';
  *
  * @package    OpenadsMaintenance
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class Test_OA_Maintenance_Priority_Ad extends UnitTestCase
 {

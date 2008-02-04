@@ -32,7 +32,7 @@ require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
  *
  * @abstract A base class for generating Openads test data using DataObjects
  * @package Test Classes
- * @author Monique Szpak <monique.szpak@openads.org>
+ * @author     Monique Szpak <monique.szpak@openx.org>
  * @todo more _insert methods
  *
  */

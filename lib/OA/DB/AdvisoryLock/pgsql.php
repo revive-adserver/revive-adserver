@@ -33,7 +33,7 @@ require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
  *
  * @package    OpenadsDB
  * @subpackage AdvisoryLock
- * @author     Matteo Beccati <matteo.beccati@openads.org>
+ * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 class OA_DB_AdvisoryLock_pgsql extends OA_DB_AdvisoryLock
 {

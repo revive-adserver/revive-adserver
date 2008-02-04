@@ -34,7 +34,7 @@ require_once MAX_PATH . '/plugins/reports/ReportsScope.php';
  *
  * @package    OpenadsAdmin
  * @subpackage Reports
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Admin_Reports_Export extends Plugins_ReportsScope
 {

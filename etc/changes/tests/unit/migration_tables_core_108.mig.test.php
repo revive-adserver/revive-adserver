@@ -38,7 +38,7 @@ define('TMP_GEOCONFIG_PATH', GEOCONFIG_PATH . '.tmp');
  *
  * @package    changes
  * @subpackage TestSuite
- * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openads.org>
+ * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openx.org>
  */
 class Migration_tables_core_108Test extends MigrationTest
 {

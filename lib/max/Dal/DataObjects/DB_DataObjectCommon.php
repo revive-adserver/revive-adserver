@@ -35,8 +35,8 @@ require_once 'DB/DataObject.php';
  * The non-DB specific Data Abstraction Layer (DAL) class for the User Interface (Admin).
  *
  * @package    DataObjects
- * @author     David Keen <david.keen@openads.org>
- * @author     Radek Maciaszek <radek.maciaszek@openads.org>
+ * @author     David Keen <david.keen@openx.org>
+ * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
 class DB_DataObjectCommon extends DB_DataObject
 {

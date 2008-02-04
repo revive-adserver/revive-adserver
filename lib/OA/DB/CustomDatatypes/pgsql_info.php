@@ -30,7 +30,7 @@ $Id$
  * exist in the main custom datatype file.
  *
  * @package    OpenadsDal
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 
 /**

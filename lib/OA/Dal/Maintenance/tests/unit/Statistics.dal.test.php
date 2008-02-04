@@ -36,7 +36,7 @@ require_once 'DB/QueryTool.php';
  * @package    OpenadsDal
  * @subpackage TestSuite
  * @author     James Floyd <james@m3.net>
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  * @author     Demian Turner <demian@m3.net>
  */
 class Test_OA_Dal_Maintenance_Statistics extends UnitTestCase

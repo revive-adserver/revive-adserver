@@ -28,7 +28,7 @@ $Id$
 /**
  * Openads Upgrade Class
  *
- * @author Monique Szpak <monique.szpak@openads.org>
+ * @author     Monique Szpak <monique.szpak@openx.org>
  *
  */
 define('OA_ENV_ERROR_PHP_NOERROR',                    1);

@@ -52,7 +52,7 @@ define('DAL_PRIORITY_UPDATE_PRIORITY_COMPENSATION', 1);
  * @package    OpenadsDal
  * @subpackage MaintenancePriority
  * @author     James Floyd <james@m3.net>
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  * @author     Radek Maciaszek <radek@m3.net>
  */
 class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common

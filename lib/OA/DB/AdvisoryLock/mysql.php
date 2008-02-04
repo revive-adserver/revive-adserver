@@ -32,7 +32,7 @@ require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
  *
  * @package    OpenadsDB
  * @subpackage AdvisoryLock
- * @author     Matteo Beccati <matteo.beccati@openads.org>
+ * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 class OA_DB_AdvisoryLock_mysql extends OA_DB_AdvisoryLock
 {

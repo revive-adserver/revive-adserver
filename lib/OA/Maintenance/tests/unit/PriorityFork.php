@@ -30,7 +30,7 @@ require_once $path . '/../../../../../init.php';
 /**
  * @package    OpenadsMaintenance
  * @subpackage TestSuite
- * @author     Alexander J. Tarachanowicz <aj.tarachanowicz@openads.org>
+ * @author     Alexander J. Tarachanowicz II <aj.tarachanowicz@openx.org>
  */
 class Test_OA_Maintenance_PriorityFork
 {

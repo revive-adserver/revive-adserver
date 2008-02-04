@@ -33,7 +33,7 @@ require_once MAX_PATH.'/lib/OA/Upgrade/Upgrade.php';
  *
  * @package    Openads Upgrade
  * @subpackage TestSuite
- * @author     Monique Szpak <monique.szpak@openads.org>
+ * @author     Monique Szpak <monique.szpak@openx.org>
  */
 class Test_prescript_2_3_33_beta_rc4 extends UnitTestCase
 {

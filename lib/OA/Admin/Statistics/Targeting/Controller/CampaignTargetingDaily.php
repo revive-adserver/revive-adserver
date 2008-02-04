@@ -34,7 +34,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Targeting/CommonPlacement.php'
  *
  * @package    OpenadsAdmin
  * @subpackage StatisticsTargeting
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Admin_Statistics_Targeting_Controller_CampaignTargetingDaily extends OA_Admin_Statistics_Targeting_CommonPlacement
 {

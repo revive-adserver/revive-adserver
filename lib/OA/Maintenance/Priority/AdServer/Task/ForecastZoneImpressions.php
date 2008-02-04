@@ -64,7 +64,7 @@ if (!defined('ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS_MINIMUM')) {
  *
  * @package    OpenadsMaintenance
  * @subpackage Priority
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_Maintenance_Priority_AdServer_Task
 {

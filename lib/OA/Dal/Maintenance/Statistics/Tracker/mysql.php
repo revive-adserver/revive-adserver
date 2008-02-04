@@ -34,7 +34,7 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/Tracker/Common.php';
  *
  * @package    OpenadsDal
  * @subpackage MaintenanceStatistics
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Dal_Maintenance_Statistics_Tracker_mysql extends OA_Dal_Maintenance_Statistics_Tracker_Common
 {

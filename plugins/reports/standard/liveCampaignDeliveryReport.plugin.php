@@ -44,7 +44,7 @@ require_once MAX_PATH . '/lib/OA/Dll.php';
  *
  * @package    OpenadsPlugin
  * @subpackage Reports
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  * @author     Scott Switzer <scott@switzer.org>
  */
 class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends Plugins_ReportsScope

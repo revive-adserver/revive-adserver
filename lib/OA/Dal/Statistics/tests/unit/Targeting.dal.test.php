@@ -37,7 +37,7 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  * @package    OpenadsDal
  * @subpackage Statistics
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class Test_OA_Dal_Statistics_Targeting extends UnitTestCase
 {

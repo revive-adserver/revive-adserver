@@ -27,9 +27,9 @@ $Id$
 
 /**
  * @package    MaxDelivery
- * @author     Chris Nutting <chris.nutting@openads.org>
- * @author     Andrew Hill <andrew.hill@openads.org>
- * @author     Radek Maciaszek <radek.maciaszek@openads.org>
+ * @author     Chris Nutting <chris.nutting@openx.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
+ * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  *
  * A file to set up the environment for the Openads delivery engine.
  *

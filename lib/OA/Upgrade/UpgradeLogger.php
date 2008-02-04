@@ -27,7 +27,7 @@ $Id$
 /**
  * Openads Upgrade Class
  *
- * @author Monique Szpak <monique.szpak@openads.org>
+ * @author     Monique Szpak <monique.szpak@openx.org>
  */
 class OA_UpgradeLogger
 {

@@ -41,7 +41,7 @@ require_once MAX_PATH . '/lib/pear/Image/Graph.php';
  *
  * @package    OpenadsMaintenance
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack extends UnitTestCase
 {

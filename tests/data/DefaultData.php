@@ -37,7 +37,7 @@ require_once MAX_PATH . '/lib/OA/Dll.php';
  *
  * @package    Max
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  * @static
  */
 class DefaultData

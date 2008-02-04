@@ -33,7 +33,7 @@ require_once MAX_PATH . '/lib/OA/Email.php';
  *
  * @package    Openads
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class Test_OA_Email extends UnitTestCase
 {

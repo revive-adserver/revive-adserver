@@ -51,7 +51,7 @@ require_once 'Date.php';
  *
  * @package    Openads
  * @author     Andrew Hill <andrew.hill@opends.org>
- * @author     Matteo Beccati <matteo.beccati@openads.org>
+ * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 class OA_Maintenance
 {

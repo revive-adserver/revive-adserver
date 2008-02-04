@@ -29,7 +29,7 @@ require_once MAX_PATH.'/lib/OA/DB.php';
 /**
  * Openads Upgrade Class
  *
- * @author Monique Szpak <monique.szpak@openads.org>
+ * @author     Monique Szpak <monique.szpak@openx.org>
  */
 class OA_phpAdsNew
 {

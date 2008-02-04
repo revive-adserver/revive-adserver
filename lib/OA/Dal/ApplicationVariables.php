@@ -32,7 +32,7 @@ require_once MAX_PATH . '/lib/OA/Dal.php';
  * A DAL class to easily deal with application variables
  *
  * @package    OpenadsDal
- * @author     Matteo Beccati <matteo.beccati@openads.org
+ * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 class OA_Dal_ApplicationVariables
 {

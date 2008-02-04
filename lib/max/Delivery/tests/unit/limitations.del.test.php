@@ -33,8 +33,8 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.php';
  *
  * @package    MaxDelivery
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openads.org>
- * @author     Monique Szpak <monique.szpak@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
+ * @author     Monique Szpak <monique.szpak@openx.org>
  */
 class test_DeliveryLimitations extends UnitTestCase
 {

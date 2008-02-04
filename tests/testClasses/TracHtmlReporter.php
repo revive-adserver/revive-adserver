@@ -29,7 +29,7 @@ $Id: TestRunner.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
  * Adds a link to remote trac svn repository so we could quickly check
  * who did last change if test is broken
  *
- * @author Radek Maciaszek <radek.maciaszek@openads.org>
+ * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
 class TracHtmlReporter extends HtmlReporter
 {

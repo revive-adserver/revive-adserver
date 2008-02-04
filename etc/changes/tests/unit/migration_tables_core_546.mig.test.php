@@ -36,7 +36,7 @@ require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
  *
  * @package    changes
  * @subpackage TestSuite
- * @author     Matteo Beccati <matteo.beccati@openads.org>
+ * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 class Migration_546Test extends MigrationTest
 {

@@ -37,7 +37,7 @@ $GLOBALS['OA_HELP_LINK_BUILD_TYPE'] = OA_HELP_LINK_BUILD_USING_LINK;
  *
  * @package    OpenadsAdmin
  * @author     Marek Bedkowski <marek@bedkowski.pl>
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Admin_Help
 {

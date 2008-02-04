@@ -38,7 +38,7 @@ Mock::generate('OA_UpgradeAuditor');
  *
  * @package    Openads Upgrade
  * @subpackage TestSuite
- * @author     Monique Szpak <monique.szpak@openads.org>
+ * @author     Monique Szpak <monique.szpak@openx.org>
  */
 class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
 {

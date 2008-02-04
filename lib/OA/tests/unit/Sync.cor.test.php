@@ -32,7 +32,7 @@ require_once MAX_PATH . '/lib/OA/Sync.php';
  *
  * @package    Openads
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class Test_OA_Sync extends UnitTestCase
 {

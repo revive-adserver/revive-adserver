@@ -33,7 +33,7 @@ require_once 'Cache/Lite.php';
  * It features a predictable cache file name and automatic (un)serialising
  * and zlib (de)compression
  *
- * @author     Matteo Beccati <matteo.beccati@openads.org
+ * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 class OA_PermanentCache
 {

@@ -35,7 +35,7 @@ define('OA_DB_MDB2_DEFAULT_OPTIONS', MDB2_PORTABILITY_ALL ^ MDB2_PORTABILITY_EMP
  * A class for creating database connections. Currently uses PEAR::MDB2.
  *
  * @package    OpenadsDB
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  * @author     Demian Turner <demian@m3.net>
  */
 class OA_DB

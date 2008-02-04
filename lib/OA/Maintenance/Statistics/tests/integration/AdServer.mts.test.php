@@ -44,7 +44,7 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  *
  * @package    OpenadsMaintenance
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  *
  * @TODO Update to use a mocked DAL, instead of a real database?
  */

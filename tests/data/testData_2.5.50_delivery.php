@@ -28,7 +28,7 @@ $Id$
  *
  * @abstract A class for generating a large dataset for delivery testing
  * @package Test Classes
- * @author Monique Szpak <monique.szpak@openads.org>
+ * @author     Monique Szpak <monique.szpak@openx.org>
  * @todo replace constant ids with variable ids
  * @todo refactor ad_zone_assoc links
  *

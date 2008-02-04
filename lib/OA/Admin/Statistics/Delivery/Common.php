@@ -35,7 +35,7 @@ require_once 'Image/Graph.php';
  * @package    OpenadsAdmin
  * @subpackage StatisticsDelivery
  * @author     Matteo Beccati <matteo@beccati.com>
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_Flexy
 {

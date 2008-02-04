@@ -29,7 +29,7 @@ $Id$
  * @package    MaxDelivery
  * @subpackage limitations
  * @author     Chris Nutting <chris@m3.net>
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 
 /**

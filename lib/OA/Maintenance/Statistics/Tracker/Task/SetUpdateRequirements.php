@@ -33,7 +33,7 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Statistics/Common/Task/SetUpdateReq
  *
  * @package    OpenadsMaintenance
  * @subpackage Statistics
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Maintenance_Statistics_Tracker_Task_SetUpdateRequirements extends OA_Maintenance_Statistics_Common_Task_SetUpdateRequirements
 {

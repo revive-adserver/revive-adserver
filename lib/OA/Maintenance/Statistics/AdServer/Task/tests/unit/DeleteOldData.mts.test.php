@@ -32,7 +32,7 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Statistics/AdServer/Task/DeleteOldD
  *
  * @package    OpenadsMaintenance
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class Test_OA_Maintenance_Statistics_AdServer_Task_DeleteOldData extends UnitTestCase
 {

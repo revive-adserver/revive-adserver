@@ -25,7 +25,7 @@
 /**
  * Openads Upgrade Audit Class
  *
- * @author Matthieu Aubry <matthieu.aubry@openads.org>
+ * @author     Matthieu Aubry <matthieu.aubry@openx.org>
  *
  * $Id $
  *

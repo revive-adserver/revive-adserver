@@ -28,7 +28,7 @@ $Id$
 /**
  * @package    MaxDelivery
  * @subpackage google
- * @author     Matteo Beccati <matteo.beccati@openads.org>
+ * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 
 /**

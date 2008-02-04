@@ -39,7 +39,7 @@ require_once MAX_PATH . '/www/admin/config.php';
  *
  * @package    OpenadsAdmin
  * @subpackage Reports
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Admin_Reports_Index
 {

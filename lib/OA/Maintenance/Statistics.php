@@ -36,7 +36,7 @@ require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
  * @static
  * @package    OpenadsMaintenance
  * @subpackage Statistics
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Maintenance_Statistics
 {

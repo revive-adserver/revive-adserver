@@ -33,7 +33,7 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Statistics/Common/Task/LogCompletio
  *
  * @package    OpenadsMaintenance
  * @subpackage Statistics
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Maintenance_Statistics_AdServer_Task_LogCompletion extends OA_Maintenance_Statistics_Common_Task_LogCompletion
 {

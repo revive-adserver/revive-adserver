@@ -35,7 +35,7 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  * A UI templating class.
  *
  * @package    OpenadsAdmin
- * @author     Matteo Beccati <matteo.beccati@openads.org>
+ * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 class OA_Admin_Template extends Smarty
 {

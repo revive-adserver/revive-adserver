@@ -32,7 +32,7 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Statistics/Tracker/Task/SummariseFi
  *
  * @package    OpenadsMaintenance
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class Test_OA_Maintenance_Statistics_Tracker_Task_SummariseFinal extends UnitTestCase
 {
