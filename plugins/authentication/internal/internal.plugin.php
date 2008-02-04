@@ -33,7 +33,7 @@ require_once MAX_PATH . '/plugins/authentication/Authentication.php';
  *
  * @package    OpenadsPlugin
  * @subpackage Authentication
- * @author     Radek Maciaszek <radek.maciaszek@openads.org>
+ * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
 class Plugins_Authentication_Internal_Internal extends Plugins_Authentication
 {

@@ -32,7 +32,7 @@ require_once MAX_PATH . '/lib/pear/Date.php';
 /**
  * @package    OpenadsMaintenance
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class Test_OA_Maintenance_Priority_DeliveryLimitation_Day extends UnitTestCase
 {

@@ -33,7 +33,7 @@ require_once MAX_PATH . '/lib/OA/Auth.php';
  *
  * @package    Openads
  * @subpackage TestSuite
- * @author     Radek Maciaszek <radek.maciaszek@openads.org>
+ * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
 class Test_OA_Auth extends UnitTestCase
 {

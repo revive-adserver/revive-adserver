@@ -34,7 +34,7 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
  *
  * @package    OpenadsDal
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class Test_OA_Dal_Maintenance_Priority_getNewZones extends UnitTestCase
 {

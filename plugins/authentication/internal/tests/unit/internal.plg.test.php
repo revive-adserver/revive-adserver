@@ -34,7 +34,7 @@ require_once MAX_PATH . '/lib/OA/Dll/User.php';
  *
  * @package    OpenadsPlugin
  * @subpackage TestSuite
- * @author     Radek Maciaszek <radek.maciaszek@openads.org>
+ * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
 class Test_Plugins_Authentication_Internal_Internal extends UnitTestCase
 {

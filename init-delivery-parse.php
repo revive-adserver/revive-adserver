@@ -27,8 +27,8 @@ $Id: init-delivery-parse.php 6120 2007-04-30 01:55:40Z aj@seagullproject.org $
 
 /**
  * @package    Max
- * @author     Andrew Hill <andrew.hill@openads.org>
- * @author     Radek Maciaszek <radek.maciaszek@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
+ * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
 
 /**

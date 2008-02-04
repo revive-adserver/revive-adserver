@@ -34,7 +34,7 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/Tracker/'.$GLOBALS['
  *
  * @package    OpenadsDal
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class Dal_TestOfMaxDalMaintenanceStatisticsTracker extends UnitTestCase
 {

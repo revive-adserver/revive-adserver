@@ -37,7 +37,7 @@ require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
  *
  * @package    OpenadsMaintenance
  * @subpackage Priority
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Maintenance_Priority_Placement
 {

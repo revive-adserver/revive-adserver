@@ -36,7 +36,7 @@ $Id$
  * whenever creating a PEAR::MDB2 connection to the database.
  *
  * @package    OpenadsDal
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 
 /**

@@ -36,7 +36,7 @@ require_once MAX_PATH . '/lib/OA/Dll/tests/util/DllUnitTestCase.php';
  *
  * @package    OpenadsDll
  * @subpackage TestSuite
- * @author     Matteo Beccati <matteo.beccati@openads.org>
+ * @author     Matteo Beccati <matteo.beccati@openx.org>
  *
  */
 

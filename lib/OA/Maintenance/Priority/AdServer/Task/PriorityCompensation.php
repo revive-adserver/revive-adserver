@@ -55,7 +55,7 @@ define('BASE_FACTOR', 10);
  *
  * @package    OpenadsMaintenance
  * @subpackage Priority
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  *
  * @TODO Remove code that emails details about problems with delivery - only in
  * place at present to assist with debugging...

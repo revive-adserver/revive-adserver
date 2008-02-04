@@ -35,7 +35,7 @@ require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
  * @package    OpenadsAdmin
  * @subpackage Statistics
  * @author     Matteo Beccati <matteo@beccati.com>
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Admin_Statistics_Daily
 {

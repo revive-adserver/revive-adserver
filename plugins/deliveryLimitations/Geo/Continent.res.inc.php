@@ -30,8 +30,8 @@ require_once MAX_PATH . '/plugins/deliveryLimitations/Geo/data/res-continent.inc
 /**
  * @package    OpenadsPlugin
  * @subpackage DeliveryLimitations
- * @author     Chris Nutting <chris.nutting@openads.org>
- * @author     Matteo Beccati <matteo.beccati@openads.org>
+ * @author     Chris Nutting <chris.nutting@openx.org>
+ * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 
 if (!isset($GLOBALS['_MAX']['_GEOCACHE']['continent'])) {

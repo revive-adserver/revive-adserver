@@ -34,7 +34,7 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
  *
  * @package    OpenadsMaintenance
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Dal_Maintenance_Test_ForecastZoneImpressions extends OA_Dal_Maintenance_Priority
 {

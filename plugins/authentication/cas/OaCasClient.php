@@ -32,7 +32,7 @@ require_once MAX_PATH . '/plugins/authentication/cas/CAS/client.php';
  *
  * @package    OpenadsPlugin
  * @subpackage Authentication
- * @author     Radek Maciaszek <radek@openads.org>
+ * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  * @abstract
  */
 class OaCasClient extends CASClient

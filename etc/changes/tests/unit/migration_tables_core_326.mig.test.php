@@ -34,8 +34,8 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  *
  * @package    changes
  * @subpackage TestSuite
- * @author     Chris Nutting <chris.nutting@openads.org>
- * @author     Monique Szpak <monique.szpak@openads.org>
+ * @author     Chris Nutting <chris.nutting@openx.org>
+ * @author     Monique Szpak <monique.szpak@openx.org>
  */
 class Migration_tables_core_326Test extends MigrationTest
 {

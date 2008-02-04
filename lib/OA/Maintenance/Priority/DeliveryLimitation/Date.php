@@ -34,7 +34,7 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  *
  * @package    OpenadsMaintenance
  * @subpackage Priority
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Maintenance_Priority_DeliveryLimitation_Date extends OA_Maintenance_Priority_DeliveryLimitation_Common
 {

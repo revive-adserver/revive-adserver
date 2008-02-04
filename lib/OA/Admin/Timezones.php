@@ -31,7 +31,7 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
  *
  * @package    OpenadsAdmin
  * @author     Alexander J. Tarachanowicz II <aj@seagullproject.org>
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
  class OA_Admin_Timezones
  {

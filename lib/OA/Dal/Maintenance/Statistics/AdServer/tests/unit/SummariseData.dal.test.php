@@ -76,7 +76,7 @@ _doQuery: [Error message: Could not execute statement]
  *
  * @package    OpenadsDal
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class Test_OA_Dal_Maintenance_Statistics_AdServer_SummariseData extends UnitTestCase
 {

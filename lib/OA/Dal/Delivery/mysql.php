@@ -30,9 +30,9 @@ $Id$
  *
  * @package    OpenadsDal
  * @subpackage Delivery
- * @author     Chris Nutting <chris.nutting@openads.org>
- * @author     Andrew Hill <andrew.hill@openads.org>
- * @author     Matteo Beccati <matteo.beccati@openads.org>
+ * @author     Chris Nutting <chris.nutting@openx.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
+ * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 
 /**

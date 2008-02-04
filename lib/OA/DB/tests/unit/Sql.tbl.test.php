@@ -32,7 +32,7 @@ require_once MAX_PATH . '/tests/testClasses/DbTestCase.php';
  *
  * @package    OpenadsDB
  * @subpackage TestSuite
- * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openads.org>
+ * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openx.org>
  */
 class Test_OA_DB_Sql extends DbTestCase
 {

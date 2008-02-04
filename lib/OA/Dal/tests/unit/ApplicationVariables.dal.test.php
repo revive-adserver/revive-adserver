@@ -32,7 +32,7 @@ require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
  *
  * @package    OpenadsDal
  * @subpackage TestSuite
- * @author     Matteo Beccati <matteo.beccati@openads.org
+ * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 class Test_OA_Dal_ApplicationVariables extends UnitTestCase
 {

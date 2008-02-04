@@ -34,7 +34,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Common.php';
  * @package    OpenadsAdmin
  * @subpackage StatisticsDelivery
  * @author     Matteo Beccati <matteo@beccati.com>
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Admin_Statistics_Delivery_Flexy extends OA_Admin_Statistics_Common
 {

@@ -33,7 +33,7 @@ require_once MAX_PATH . '/lib/util/file/file.php';
  *
  * @package    Util
  * @subpackage File
- * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openads.org>
+ * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openx.org>
  */
 class Test_OA_Dal extends UnitTestCase
 {

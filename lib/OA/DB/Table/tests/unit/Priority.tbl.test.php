@@ -33,7 +33,7 @@ require_once MAX_PATH . '/lib/OA/DB/Table/Priority.php';
  *
  * @package    OpenadsDB
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class Test_OA_DB_Table_Priority extends UnitTestCase
 {

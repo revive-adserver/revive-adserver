@@ -31,7 +31,7 @@ $Id$
  * 
  * @package Util
  * @subpackage File
- * @author Andrzej Swedrzynski <andrzej.swedrzynski@openads.org>
+ * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openx.org>
  */
 
 /**

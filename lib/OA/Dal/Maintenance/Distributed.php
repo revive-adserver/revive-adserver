@@ -38,7 +38,7 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  *
  * @package    OpenadsDal
  * @subpackage Maintenance
- * @author     Matteo Beccati <matteo.beccati@openads.org>
+ * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 class OA_Dal_Maintenance_Distributed extends OA_Dal_Maintenance_Common
 {

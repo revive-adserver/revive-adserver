@@ -38,7 +38,7 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Statistics/Tracker/Task/LogCompleti
  *
  * @package    OpenadsMaintenance
  * @subpackage Statistics
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Maintenance_Statistics_Tracker extends OA_Maintenance_Statistics_Common
 {

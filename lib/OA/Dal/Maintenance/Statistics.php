@@ -39,7 +39,7 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  * @package    OpenadsDal
  * @subpackage MaintenanceStatistics
  * @author     James Floyd <james@m3.net>
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  * @author     Radek Maciaszek <radek@m3.net>
  */
 class OA_Dal_Maintenance_Statistics extends OA_Dal_Maintenance_Common

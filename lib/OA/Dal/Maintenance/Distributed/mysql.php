@@ -33,7 +33,7 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Distributed.php';
  *
  * @package    OpenadsDal
  * @subpackage Maintenance
- * @author     Matteo Beccati <matteo.beccati@openads.org>
+ * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 class OA_Dal_Maintenance_Distributed_mysql extends OA_Dal_Maintenance_Distributed
 {

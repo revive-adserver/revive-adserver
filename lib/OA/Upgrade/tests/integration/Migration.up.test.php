@@ -34,7 +34,7 @@ require_once MAX_PATH.'/lib/OA/Upgrade/Migration.php';
  *
  * @package    Openads Upgrade
  * @subpackage TestSuite
- * @author     Monique Szpak <monique.szpak@openads.org>
+ * @author     Monique Szpak <monique.szpak@openx.org>
  */
 class Test_Migration extends UnitTestCase
 {

@@ -77,7 +77,7 @@ require_once MAX_PATH . '/plugins/reports/Reports.php';
  *
  * @package    OpenadsPlugin
  * @subpackage Reports
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  * @author     Robert Hunter <roh@m3.net>
  */
 class Plugins_Reports_Standard_CampaignAnalysisReport extends Plugins_Reports

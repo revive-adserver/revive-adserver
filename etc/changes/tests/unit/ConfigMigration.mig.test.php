@@ -33,7 +33,7 @@ require_once MAX_PATH . '/etc/changes/ConfigMigration.php';
  *
  * @package    changes
  * @subpackage TestSuite
- * @author     Radek Maciaszek <radek.maciaszek@openads.org>
+ * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
 class ConfigMigrationTest extends UnitTestCase
 {

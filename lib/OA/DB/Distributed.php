@@ -34,7 +34,7 @@ require_once 'MDB2.php';
  *
  * @package    OpenadsDB
  * @subpackage Distributed
- * @author     Matteo Beccati <matteo.beccati@openads.org>
+ * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 class OA_DB_Distributed extends OA_DB
 {

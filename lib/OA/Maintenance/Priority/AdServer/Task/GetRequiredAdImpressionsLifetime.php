@@ -56,7 +56,7 @@ require_once MAX_PATH . '/lib/OA/Dll.php';
  *
  * @package    OpenadsMaintenance
  * @subpackage Priority
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime extends OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions
 {

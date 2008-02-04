@@ -41,7 +41,7 @@ require_once MAX_PATH . '/plugins/deliveryLimitations/Site/Variable.delivery.php
  *
  * @package    OpenadsPluginDelivery
  * @subpackage TestSuite
- * @author     Chris Nutting <Chris.Nutting@openads.org>
+ * @author     Chris Nutting <chris.nutting@openx.org>
  */
 class Plugins_TestOfPlugins_Delivery_Site_Variable extends UnitTestCase
 {

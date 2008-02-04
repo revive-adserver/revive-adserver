@@ -49,7 +49,7 @@ define('OA_CAS_PLUGIN_PHP_CAS', 'phpCAS');
  *
  * @package    OpenadsPlugin
  * @subpackage Authentication
- * @author     Radek Maciaszek <radek@openads.org>
+ * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
 class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
 {

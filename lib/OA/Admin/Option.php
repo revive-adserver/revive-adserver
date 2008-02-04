@@ -39,7 +39,7 @@ require_once MAX_PATH . '/lib/max/language/SettingsHelp.php';
  * A class to deal with the display of settings and preferences
  *
  * @package    OpenadsAdmin
- * @author     Miguel Correa <miguel.correa@openads.org>
+ * @author     Miguel Correa <miguel.correa@openx.org>
  */
 class OA_Admin_Option
 {

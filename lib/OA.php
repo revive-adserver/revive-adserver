@@ -72,7 +72,7 @@ function logSQL($oDbh, $scope, $message, $context)
  * The core Openads class, providing handy methods that are useful everywhere!
  *
  * @package    Openads
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA
 {

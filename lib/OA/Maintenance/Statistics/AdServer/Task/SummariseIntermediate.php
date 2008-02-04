@@ -36,7 +36,7 @@ require_once MAX_PATH . '/lib/max/Plugin.php';
  *
  * @package    OpenadsMaintenance
  * @subpackage Statistics
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends OA_Maintenance_Statistics_Common_Task
 {

@@ -34,7 +34,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Targeting/Flexy.php';
  * @package    OpenadsAdmin
  * @subpackage StatisticsTargeting
  * @author     Matteo Beccati <matteo@beccati.com>
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Admin_Statistics_Targeting_Common extends OA_Admin_Statistics_Targeting_Flexy
 {

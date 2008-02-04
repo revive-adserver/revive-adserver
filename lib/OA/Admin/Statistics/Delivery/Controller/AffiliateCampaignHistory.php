@@ -35,7 +35,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonCrossHistory.ph
  * @package    OpenadsAdmin
  * @subpackage StatisticsDelivery
  * @author     Matteo Beccati <matteo@beccati.com>
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Admin_Statistics_Delivery_Controller_AffiliateCampaignHistory extends OA_Admin_Statistics_Delivery_CommonCrossHistory
 {

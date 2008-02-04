@@ -32,7 +32,7 @@ require_once MAX_PATH . '/lib/max/Delivery/cookie.php';
  *
  * @package    MaxDelivery
  * @subpackage TestSuite
- * @author     Chris Nutting <Chris.Nutting@openads.org>
+ * @author     Chris Nutting <chris.nutting@openx.org>
  */
 class Delivery_TestOfCookie extends UnitTestCase
 {

@@ -44,7 +44,7 @@ require_once 'MDB2/Schema.php';
  *
  * @package    OpenadsDB
  * @subpackage Table
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_DB_Table
 {

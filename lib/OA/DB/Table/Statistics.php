@@ -33,7 +33,7 @@ require_once MAX_PATH . '/lib/OA/DB/Table.php';
  *
  * @package    OpenadsDB
  * @subpackage Table
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_DB_Table_Statistics extends OA_DB_Table
 {

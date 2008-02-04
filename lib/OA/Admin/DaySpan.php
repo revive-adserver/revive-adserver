@@ -31,7 +31,7 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  *
  * @package    OpenadsAdmin
  * @author     Scott Switzer <scott@switzer.org>
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Admin_DaySpan
 {

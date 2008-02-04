@@ -43,7 +43,7 @@ require_once MAX_PATH . '/lib/OA/DB/Table/Priority.php';
  *
  * @package    OpenadsMaintenance
  * @subpackage Priority
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_Maintenance_Priority_AdServer_Task
 {

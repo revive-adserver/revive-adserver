@@ -39,7 +39,7 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  *
  * @package    OpenadsDal
  * @subpackage Statistics
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Dal_Statistics_Targeting extends OA_Dal
 {

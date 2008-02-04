@@ -35,7 +35,7 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  *
  * @package    changes
  * @subpackage TestSuite
- * @author     Matteo Beccati <matteo.beccati@openads.org>
+ * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 class Migration_531Test extends MigrationTest
 {

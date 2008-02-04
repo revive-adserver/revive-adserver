@@ -35,7 +35,7 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  * @abstract
  * @package    OpenadsPlugin
  * @subpackage StatisticsFields
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class Plugins_statisticsFieldsTargeting_statisticsFieldsTargeting extends Plugins_statisticsFieldsDelivery_statisticsFieldsDelivery
 {

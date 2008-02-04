@@ -48,7 +48,7 @@ include_once('ZoneInfo.php');
  *
  * @package    Openads
  * @subpackage ExternalLibrary
- * @author     Chris Nutting <Chris.Nutting@openads.org>
+ * @author     Chris Nutting <chris.nutting@openx.org>
  */
 
 class OA_Api_Xmlrpc

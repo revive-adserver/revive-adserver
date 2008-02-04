@@ -33,7 +33,7 @@ require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
  * A static class for providing maintenance DAL methods for the UI.
  *
  * @package    Openads
- * @author     Matteo Beccati <matteo.beccati@openads.org>
+ * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 class OA_Dal_Maintenance_UI
 {

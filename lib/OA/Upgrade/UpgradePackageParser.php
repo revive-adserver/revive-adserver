@@ -31,7 +31,7 @@ require_once 'XML/Parser.php';
  *
  * Parses an XML schema file
  *
- * @author Monique Szpak <monique.szpak@openads.org>
+ * @author     Monique Szpak <monique.szpak@openx.org>
  * @package Openads
  * @category Upgrade
  */

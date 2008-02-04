@@ -32,7 +32,7 @@ $Id$
  *
  * @package    OpenadsMaintenance
  * @subpackage Tools
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 
 // Set the current path

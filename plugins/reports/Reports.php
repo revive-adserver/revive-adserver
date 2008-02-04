@@ -40,7 +40,7 @@ require_once MAX_PATH . '/lib/OA/Permission.php';
  * @abstract
  * @package    OpenadsPlugin
  * @subpackage Reports
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  * @author     Radek Maciaszek <radek@m3.net>
  * @author     Robert Hunter <roh@m3.net>
  */

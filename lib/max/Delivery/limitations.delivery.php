@@ -101,7 +101,7 @@ function MAX_limitationsMatchString(
  *                 otherwise.
  *
  * @author Mohammed El-Hakim
- * @author Chris Nutting <Chris.Nutting@openads.org>
+ * @author     Chris Nutting <chris.nutting@openx.org>
  */
 function MAX_limitationMatchNumeric(
     $paramName, $limitation, $op, $aParams = array(), $namespace = 'CLIENT')

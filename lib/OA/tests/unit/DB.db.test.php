@@ -34,8 +34,8 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  *
  * @package    OpenadsDB
  * @subpackage TestSuite
- * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openads.org>
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openx.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class Test_OA_DB extends UnitTestCase
 {

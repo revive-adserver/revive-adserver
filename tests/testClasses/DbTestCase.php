@@ -33,7 +33,7 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  *
  * @package    OpenadsDB
  * @subpackage TestSuite
- * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openads.org>
+ * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openx.org>
  */
 class DbTestCase extends UnitTestCase
 {

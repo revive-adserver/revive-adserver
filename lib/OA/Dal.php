@@ -32,8 +32,8 @@ require_once 'DB/DataObject.php';
  * The common Data Abstraction Layer (DAL) class.
  *
  * @package    OpenadsDal
- * @author     Radek Maciaszek <radek.maciaszek@openads.org>
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Radek Maciaszek <radek.maciaszek@openx.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Dal
 {

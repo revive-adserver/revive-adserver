@@ -28,7 +28,7 @@ $Id$
 /**
  * @package    OpenadsDal
  * @subpackage MaintenanceStatistics
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 
 

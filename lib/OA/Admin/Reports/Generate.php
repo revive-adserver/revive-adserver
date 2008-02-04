@@ -36,7 +36,7 @@ require_once MAX_PATH . '/lib/OA/Admin/ExcelWriter.php';
  *
  * @package    OpenadsAdmin
  * @subpackage Reports
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Admin_Reports_Generate
 {

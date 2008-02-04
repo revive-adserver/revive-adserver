@@ -40,7 +40,7 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  * alerts.
  *
  * @package    Openads
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Email
 {

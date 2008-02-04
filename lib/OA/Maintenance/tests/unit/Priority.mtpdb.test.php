@@ -29,7 +29,7 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 /**
  * @package    OpenadsMaintenance
  * @subpackage TestSuite
- * @author     Alexander J. Tarachanowicz <aj.tarachanowicz@openads.org>
+ * @author     Alexander J. Tarachanowicz II <aj.tarachanowicz@openx.org>
  */
 class Test_OA_Maintenance_Priority extends UnitTestCase
 {

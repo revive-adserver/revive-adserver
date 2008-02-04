@@ -31,7 +31,7 @@ $Id$
  * to be easily used as replacements for classes during testing.
  *
  * @package    Openads
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
   */
 class OA_ServiceLocator
 {
