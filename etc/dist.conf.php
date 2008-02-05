@@ -355,14 +355,14 @@ checkForUpdates = true
 
 [oacSync]
 protocol    = https
-host        = sync.openads.org
+host        = sync.openx.org
 path        = /xmlrpc.php
 httpPort    = 80
 httpsPort   = 443
 
 [oacXmlRpc]
 protocol    = https
-host        = oac.openads.org
+host        = oac.openx.org
 port        = 443
 path        = /oac/xmlrpc
 captcha     = /oac/captcha
@@ -371,14 +371,14 @@ publihserUrl= /oac/advertiser/defzone
 
 [oacDashboard]
 protocol    = https
-host        = oac.openads.org
+host        = oac.openx.org
 port        = 443
 path        = /oac/dashboard/home
 ssoCheck    = /oac/ssoCheck
 
 [oacSSO]
 protocol    = https
-host        = login.openads.org
+host        = login.openx.org
 port        = 443
 path        = /sso/login
 signup      = /account/signup

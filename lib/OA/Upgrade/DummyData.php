@@ -275,7 +275,7 @@ class OA_Dummy_Data
 
         $doBanners->htmltemplate    = "<script type='text/javascript'><!--//<![CDATA[
    document.MAX_ct0 ='INSERT_CLICKURL_HERE';
-   var m3_u = (location.protocol=='https:'?'https://ads.openads.org/delivery/ajs.php':'http://ads.openads.org/delivery/ajs.php');
+   var m3_u = (location.protocol=='https:'?'https://ads.openx.org/delivery/ajs.php':'http://ads.openx.org/delivery/ajs.php');
    var m3_r = Math.floor(Math.random()*99999999999);
    if (!document.MAX_used) document.MAX_used = ',';
    document.write (\"<scr\"+\"ipt type='text/javascript' src='\"+m3_u);
@@ -290,7 +290,7 @@ class OA_Dummy_Data
    }
    if (document.mmm_fo) document.write (\"&amp;mmm_fo=1\");
    document.write (\"'><\\/scr\"+\"ipt>\");
-//]]>--></script><noscript><a href='http://ads.openads.org/delivery/ck.php?n=abc986b1&amp;cb=INSERT_RANDOM_NUMBER_HERE' target='_blank'><img src='http://ads.openads.org/delivery/avw.php?zoneid=9&amp;cb=INSERT_RANDOM_NUMBER_HERE&amp;n=abc986b1' border='0' alt='' /></a></noscript>";
+//]]>--></script><noscript><a href='http://ads.openx.org/delivery/ck.php?n=abc986b1&amp;cb=INSERT_RANDOM_NUMBER_HERE' target='_blank'><img src='http://ads.openx.org/delivery/avw.php?zoneid=9&amp;cb=INSERT_RANDOM_NUMBER_HERE&amp;n=abc986b1' border='0' alt='' /></a></noscript>";
 
         $this->bannerId1 = DataGenerator::generateOne($doBanners);
     }
@@ -337,7 +337,7 @@ class OA_Dummy_Data
 
         $doBanners->htmltemplate    = "<script type='text/javascript'><!--//<![CDATA[
    document.MAX_ct0 ='INSERT_CLICKURL_HERE';
-   var m3_u = (location.protocol=='https:'?'https://ads.openads.org/delivery/ajs.php':'http://ads.openads.org/delivery/ajs.php');
+   var m3_u = (location.protocol=='https:'?'https://ads.openx.org/delivery/ajs.php':'http://ads.openx.org/delivery/ajs.php');
    var m3_r = Math.floor(Math.random()*99999999999);
    if (!document.MAX_used) document.MAX_used = ',';
    document.write (\"<scr\"+\"ipt type='text/javascript' src='\"+m3_u);
@@ -351,7 +351,7 @@ class OA_Dummy_Data
        document.write (\"&amp;ct0=\" + escape(document.MAX_ct0));
    }   if (document.mmm_fo) document.write (\"&amp;mmm_fo=1\");
    document.write (\"'><\\/scr\"+\"ipt>\");
-//]]>--></script><noscript><a href='http://ads.openads.org/delivery/ck.php?n=a4acc17f&amp;cb=INSERT_RANDOM_NUMBER_HERE' target='_blank'><img src='http://ads.openads.org/delivery/avw.php?zoneid=10&amp;cb=INSERT_RANDOM_NUMBER_HERE&amp;n=a4acc17f' border='0' alt='' /></a></noscript>";
+//]]>--></script><noscript><a href='http://ads.openx.org/delivery/ck.php?n=a4acc17f&amp;cb=INSERT_RANDOM_NUMBER_HERE' target='_blank'><img src='http://ads.openx.org/delivery/avw.php?zoneid=10&amp;cb=INSERT_RANDOM_NUMBER_HERE&amp;n=a4acc17f' border='0' alt='' /></a></noscript>";
 
         $this->bannerId2 = DataGenerator::generateOne($doBanners);
     }

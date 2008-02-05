@@ -42,7 +42,7 @@ $GLOBALS['_MAX']['HTTP'] = null;
 $GLOBALS['_MAX']['PREF']['language'] = 'english';
 $GLOBALS['_MAX']['CONF']['oacXmlRpc'] = array(
     'protocol'    => 'https',
-    'host'        => 'oac.openads.org',
+    'host'        => 'oac.openx.org',
     'port'        => '443',
     'path'        => '/oac/xmlrpc',
     'captcha'     => '/oac/captcha'
@@ -69,7 +69,7 @@ if (!is_writable(MAX_PATH.'/etc/permanentcache')) {
 require MAX_PATH . '/lib/OA/XmlRpcClient.php';
 require MAX_PATH . '/lib/OA/PermanentCache.php';
 
-$oXml   = new OA_XML_RPC_Client('/oac/xmlrpc', 'https://oac.openads.org', 443);
+$oXml   = new OA_XML_RPC_Client('/oac/xmlrpc', 'https://oac.openx.org', 443);
 $oCache = new OA_PermanentCache();
 
 clean_up();

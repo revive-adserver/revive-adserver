@@ -48,7 +48,7 @@ define('MAX_DATAGENERATOR_DEFAULT_DATE_VALUE', date('Y-m-d'));
 /**
  * A DataGenerator class for easy data generation
  *
- * Online manual: https://developer.openads.org/wiki/DataGenerator
+ * Online manual: https://developer.openx.org/wiki/DataGenerator
  *
  * @package    OpenadsDal
  * @author     Radek Maciaszek <radek.maciaszek@openx.org>
@@ -341,7 +341,7 @@ class DataGenerator
             if ($fieldType & DB_DATAOBJECT_NOTNULL) {
                 return MAX_DATAGENERATOR_DEFAULT_DATE_VALUE;
             }
-            // According to https://developer.openads.org/wiki/DatabasePractices#UsingPEAR::MDB2
+            // According to https://developer.openx.org/wiki/DatabasePractices#UsingPEAR::MDB2
             return OA_Dal::noDateValue();
         }
         // If no default set for this data type try default type

@@ -75,7 +75,7 @@ class test_DeliveryRemotehost extends UnitTestCase
             'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin',
             'SERVER_SIGNATURE' => '<address>Apache/2.0.59 (Unix) Server at max.i12.de Port 80</address>',
             'SERVER_SOFTWARE' => 'Apache/2.0.59 (Unix)',
-            'SERVER_NAME' => 'dev.openads.org',
+            'SERVER_NAME' => 'dev.openx.org',
             'SERVER_ADDR' => '10.0.0.1',
             'SERVER_PORT' => '80',
             'REMOTE_ADDR' => '10.0.0.2',

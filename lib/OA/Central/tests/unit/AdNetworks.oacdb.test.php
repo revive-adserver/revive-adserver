@@ -223,7 +223,7 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
                 'language' => 2
             ),
             array(
-                'url'      => 'http://www.openads.org',
+                'url'      => 'http://www.openx.org',
                 'category' => 2,
                 'country'  => 'uk',
                 'language' => 1
@@ -372,7 +372,7 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
                 'language' => 2
             ),
             array(
-                'url'      => 'http://www.openads.org',
+                'url'      => 'http://www.openx.org',
                 'category' => 2,
                 'country'  => 'uk',
                 'language' => 1
@@ -661,7 +661,7 @@ document.write ("\'><" + "/script>");
                 ),
                 array(
                     'website_id' => 2346,
-                    'url'        => 'http://www.openads.org',
+                    'url'        => 'http://www.openx.org',
                     'campaigns'  => array(
                         array(
                             'campaign_id' => 2001,

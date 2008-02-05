@@ -298,7 +298,7 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         $doAccount_preference_assoc = OA_Dal::factoryDO('account_preference_assoc');
         $doAccount_preference_assoc->account_id    = $traffickerAccountId;
         $doAccount_preference_assoc->preference_id = $defaultBannerDestinationUrlPrefrenceID;
-        $doAccount_preference_assoc->value         = 'http://www.openads.org/';
+        $doAccount_preference_assoc->value         = 'http://www.openx.org/';
         DataGenerator::generateOne($doAccount_preference_assoc);
 
         // Test 12: Test with an existing zone, two preferences and
@@ -313,7 +313,7 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         $this->assertEqual($aResult['width'], 468);
         $this->assertEqual($aResult['height'], 60);
         $this->assertEqual($aResult['default_banner_image_url'], 'http://www.fornax.net/blog/uploads/bt.jpg');
-        $this->assertEqual($aResult['default_banner_destination_url'], 'http://www.openads.org/');
+        $this->assertEqual($aResult['default_banner_destination_url'], 'http://www.openx.org/');
 
     }
 
