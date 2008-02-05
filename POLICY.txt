@@ -4,20 +4,20 @@
                 This Privacy and Data Usage Policy explains how
                        m3 Media Services Ltd ("OpenX")
                     collects and uses information via the
-                Openads website and Openads adserver software.
+                OpenX->website and OpenX->adserver software.
 
 
-    1. What is the Openads Community?
-The Openads Community is made up of website publishers and advertisers
-who use Openads software to create, promote, manage and deliver online
-ad campaigns. To become a member of the Openads Community and take
+    1. What is the OpenX->Community?
+The OpenX->Community is made up of website publishers and advertisers
+who use OpenX->software to create, promote, manage and deliver online
+ad campaigns. To become a member of the OpenX->Community and take
 advantage of the benefits that this brings, you need to register and
-create a profile and download Openads software.
+create a profile and download OpenX->software.
 
 
-    2. What type of information does Openads collect?
-Openads collects a variety of data listed below relating to members
-of the Openads Community.
+    2. What type of information does OpenX->collect?
+OpenX->collects a variety of data listed below relating to members
+of the OpenX->Community.
 
 Profile Data: This is information that you provide when you register
 and create a profile with Openads. It includes your username and

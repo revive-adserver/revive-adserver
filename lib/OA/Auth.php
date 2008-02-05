@@ -298,7 +298,7 @@ class OA_Auth
     {
         $redirect = false;
         // Is it possible to detect that we are NOT in the admin directory
-        // via the URL the user is accessing Openads with?
+        // via the URL the user is accessing OpenX with?
         if (!preg_match('#/'. $location .'/?$#', $_SERVER['REQUEST_URI'])) {
             $dirName = dirname($_SERVER['REQUEST_URI']);
             if (!preg_match('#/'. $location .'$#', $dirName)) {

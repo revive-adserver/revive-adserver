@@ -63,7 +63,7 @@ class OA_Upgrade_Login
                 }
             }
 
-            // The new Users, Account, Permissions & Preference feature was introduced in Openads 2.5.46-dev
+            // The new Users, Account, Permissions & Preference feature was introduced in OpenX 2.5.46-dev
             $newLogin = $openadsDetected && version_compare($oUpgrader->versionInitialApplication, '2.5.46-dev', '>=') == -1;
 
             if ($newLogin) {

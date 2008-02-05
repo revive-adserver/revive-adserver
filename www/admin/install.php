@@ -254,7 +254,7 @@ else if (array_key_exists('btn_upgrade', $_POST))
             }
             elseif ($oUpgrader->upgrade($oUpgrader->package_file))
             {
-                $message = 'Your database has successfully been upgraded to Openads version '.OA_VERSION;
+                $message = 'Your database has successfully been upgraded to OpenX version '.OA_VERSION;
                 $action  = OA_UPGRADE_UPGRADE;
             }
         }

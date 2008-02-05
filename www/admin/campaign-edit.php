@@ -876,7 +876,7 @@ echo "<tr><td colspan='3'>\n";
 		    <div id="remainingImpressionsSection">
 			    <span id='remainingImpressions' >Impressions remaining:<span id='remainingImpressionsCount'>2500</span></span><br/>
 			    <?php if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) { ?>
-					  <!--span id="openadsRemainingImpressions">Openads impressions remaining: <span id='openadsRemainingImpressionsCount'>3000<!-- REAL DATA GOES HERE -></span>
+					  <!--span id="openadsRemainingImpressions">OpenX impressions remaining: <span id='openadsRemainingImpressionsCount'>3000<!-- REAL DATA GOES HERE -></span>
 					    <span class="link hide" help="help-openads-remaining-impressions" id="openadsRemainingImpressionsHelpLink"><img style="border: none; position: relative; top:5px;" src="images/help-book.gif" /></span>
 			      </span-->
 			     	<div class="hide" id="help-openads-remaining-impressions" style="height: auto; width: 290px;">
@@ -905,7 +905,7 @@ echo "<tr><td colspan='3'>\n";
         <div id="remainingClicksSection">
           <span  id='remainingClicks' >Clicks remaining:<span id='remainingClicksCount'>200</span></span><br/>
           <?php if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) { ?>
-	          <!--span id="openadsRemainingClicks">Openads clicks remaining: <span id='openadsRemainingClicksCount'>600<!-- REAL DATA GOES HERE -></span-->
+	          <!--span id="openadsRemainingClicks">OpenX clicks remaining: <span id='openadsRemainingClicksCount'>600<!-- REAL DATA GOES HERE -></span-->
 	            <span class="link hide"	help="help-openads-remaining-clicks" id="openadsRemainingClicksHelpLink"><img style="border: none; position: relative; top:5px;" src="images/help-book.gif" /></span>
 	          </span>
 	         <div class="hide" id="help-openads-remaining-clicks" style="height: auto; width: 290px;">

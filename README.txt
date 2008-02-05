@@ -59,12 +59,12 @@
 
     Support:
     ------------------------------------------------------------------------
-    Questions about Openads should be directed to the forums.
+    Questions about OpenX should be directed to the forums.
 
-    More information about can be found on the Openads homepage at
+    More information about can be found on the OpenX homepage at
     http://www.openads.org/.
 
-    Bug reports and questions related to the development of Openads are
+    Bug reports and questions related to the development of OpenX are
     also welcome on the site.
 
 

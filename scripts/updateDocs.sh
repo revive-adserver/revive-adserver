@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# A shell script to generate the Openads documentation.
+# A shell script to generate the OpenX documentation.
 # Requires phpDocumentor be installed.
 #
 # Copyright (c) 2003-2008 m3 Media Services Ltd

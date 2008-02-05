@@ -257,7 +257,7 @@ class OA_Dll_Publisher extends OA_Dll
                 $doPublisher->update();
             }
             $oAdNetworks = new OA_Central_AdNetworks();
-            // Initiate a call to Openads Central if adnetworks are enabled or if OAC values are changed.
+            // Initiate a call to OpenX Central if adnetworks are enabled or if OAC values are changed.
             if ($oPublisher->adNetworks || $oPublisher->advSignup) {
                 // If adNetworks was not previously selected...
                 if (empty($publisherPrevData['an_website_id']) &&

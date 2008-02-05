@@ -2975,7 +2975,7 @@ return (!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == $conf['ope
 function _adRenderBuildLogURL($aBanner, $zoneId = 0, $source = '', $loc = '', $referer = '', $amp = '&amp;')
 {
 $conf = $GLOBALS['_MAX']['CONF'];
-// If there is an Openads->Openads internal redirect, log both zones information
+// If there is an OpenX->OpenX internal redirect, log both zones information
 $delimiter = $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'];
 if (!empty($GLOBALS['_MAX']['adChain'])) {
 foreach ($GLOBALS['_MAX']['adChain'] as $index => $ad) {
@@ -3042,7 +3042,7 @@ $aBanner['bannerid'] = $aBanner['ad_id'];
 }
 $conf = $GLOBALS['_MAX']['CONF'];
 $delimiter = $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'];
-// If there is an Openads->Openads internal redirect, log both zones information
+// If there is an OpenX->OpenX internal redirect, log both zones information
 if (!empty($GLOBALS['_MAX']['adChain'])) {
 foreach ($GLOBALS['_MAX']['adChain'] as $index => $ad) {
 $aBanner['bannerid'] .= $delimiter . $ad['bannerid'];
@@ -3448,7 +3448,7 @@ if ($conf['logging']['adRequests']) {
 MAX_Delivery_log_logAdRequest($userid, $row['bannerid'], null, $row['zoneid']);
 }
 if ($row['adserver'] == 'max' && preg_match("#{$conf['webpath']['delivery']}.*zoneid=([0-9]+)#", $row['htmltemplate'], $matches) && !stristr($row['htmltemplate'], $conf['file']['popup'])) {
-// The ad selected was an Openads HTML ad on the same server... do internal redirecty stuff
+// The ad selected was an OpenX HTML ad on the same server... do internal redirecty stuff
 $GLOBALS['_MAX']['adChain'][] = $row;
 $found = false;
 $what = "zone:{$matches[1]}";
