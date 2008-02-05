@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
@@ -29,7 +29,7 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
  * A class for retrieving a list of avaiable timezones, and for dealing with
  * preparing the timezone configuration value.
  *
- * @package    OpenadsAdmin
+ * @package    OpenXAdmin
  * @author     Alexander J. Tarachanowicz II <aj@seagullproject.org>
  * @author     Andrew Hill <andrew.hill@openx.org>
  */

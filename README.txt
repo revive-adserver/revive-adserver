@@ -1,9 +1,9 @@
 
-    Openads - Open Source Adserver
+    OpenX - Open Source Adserver
     ------------------------------------------------------------------------
-    Openads is a set of tools which enable online marketing campaigns.
-    Primarily, Openads is written in PHP, and is loosely based on phpAdsNew.
-    The core modules of Openads include:
+    OpenX is a set of tools which enable online marketing campaigns.
+    Primarily, OpenX is written in PHP, and is loosely based on phpAdsNew.
+    The core modules of OpenX include:
     . Adserver
     . Conversion Tracking Tools
 
@@ -14,7 +14,7 @@
     IN A PRODUCTION ENVIRONMENT. THE USE OF THIS SOFTWARE IS
     COMPLETELY AT YOUR OWN RISK!
 
-    Copyright (c) 2003-2007 Openads Limited
+    Copyright (c) 2003-2007 BuraBuraLimited
 
 	Based on phpAdsNew Copyright (c) 2000-2003 phpAdsNew developers:
     	Niels Leenheer <niels@creatype.nl>
@@ -59,23 +59,23 @@
 
     Support:
     ------------------------------------------------------------------------
-    Questions about Openads should be directed to the forums.
+    Questions about OpenX should be directed to the forums.
 
-    More information about can be found on the Openads homepage at
-    http://www.openads.org/.
+    More information about can be found on the OpenX homepage at
+    http://www.openx.org/.
 
-    Bug reports and questions related to the development of Openads are
+    Bug reports and questions related to the development of OpenX are
     also welcome on the site.
 
 
     Download:
     ------------------------------------------------------------------------
-    You can get the latest version from http://www.openads.org/.
+    You can get the latest version from http://www.openx.org/.
 
 
     Credits:
     ------------------------------------------------------------------------
-    Thanks to Marcus Baker for allowing Openads Limited to distribute
+    Thanks to Marcus Baker for allowing BuraBuraLimited to distribute
       Simple Test for PHP along with Openads. Simple Test is distributed
       under the Open Group Test Suite License. Please see the Simple Test
       LICENSE file in the lib/simpletest/ directory for details.
@@ -102,4 +102,4 @@
     And all the rest who helped.
 
 
-    http://www.openads.org/
+    http://www.openx.org/

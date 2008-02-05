@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v2.3                                                              |
+| OpenX v2.3                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
@@ -32,7 +32,7 @@ require_once MAX_PATH . '/lib/OA/DB.php';
  * to nativetype mappings, and nativetype to MDB2 datatype mappings for
  * MySQL work as expected.
  *
- * @package    OpenadsDB
+ * @package    OpenXDB
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew.hill@openx.org>
  * @author     Matteo Beccati <matteo.beccati@openx.org>

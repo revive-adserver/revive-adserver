@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
@@ -49,7 +49,7 @@ require_once 'Date.php';
 /**
  * A library class for providing common maintenance process methods.
  *
- * @package    Openads
+ * @package    OpenX
  * @author     Andrew Hill <andrew.hill@opends.org>
  * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
@@ -232,44 +232,44 @@ class OA_Maintenance
     }
 
     /**
-     * A private method to run Openads Sync.
+     * A private method to run OpenX Sync.
      *
      * @access private
      */
     function _runOpenadsSync()
     {
-        OA::debug('  Starting Openads Sync process.', PEAR_LOG_DEBUG);
+        OA::debug('  Starting OpenX Sync process.', PEAR_LOG_DEBUG);
         if ($this->aConf['sync']['checkForUpdates']) {
             require_once MAX_PATH . '/lib/OA/Sync.php';
             $oSync = new OA_Sync($this->aConf, $this->aPref);
             $res = $oSync->checkForUpdates(0);
             if ($res[0] != 0 && $res[0] != 800) {
-                OA::debug("Openads Sync error ($res[0]): $res[1]", PEAR_LOG_INFO);
+                OA::debug("OpenX Sync error ($res[0]): $res[1]", PEAR_LOG_INFO);
             }
         }
-        OA::debug('  Finished Openads Sync process.', PEAR_LOG_DEBUG);
+        OA::debug('  Finished OpenX Sync process.', PEAR_LOG_DEBUG);
     }
 
 
 
     /**
-     * A private method to run Openads Central related tasks.
+     * A private method to run OpenX Central related tasks.
      *
      * @access private
      */
     function _runOpenadsCentral()
     {
-        OA::debug('  Starting Openads Central process.', PEAR_LOG_DEBUG);
+        OA::debug('  Starting OpenX Central process.', PEAR_LOG_DEBUG);
         if ($this->aConf['sync']['checkForUpdates'] && OA_Dal_ApplicationVariables::get('sso_admin'))
         {
             require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
             $oAdNetworks = new OA_Central_AdNetworks();
             $result = $oAdNetworks->getRevenue();
             if (PEAR::isError($result)) {
-                OA::debug("Openads Central error (".$result->getCode()."): ".$result->getMessage(), PEAR_LOG_INFO);
+                OA::debug("OpenX Central error (".$result->getCode()."): ".$result->getMessage(), PEAR_LOG_INFO);
             }
         }
-        OA::debug('  Finished Openads Central process.', PEAR_LOG_DEBUG);
+        OA::debug('  Finished OpenX Central process.', PEAR_LOG_DEBUG);
     }
 
     /**

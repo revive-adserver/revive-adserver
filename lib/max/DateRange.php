@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
@@ -202,7 +202,7 @@ class DateRange
                 $this->_end = null;
                 break;
             default:
-                trigger_error("Openads encountered date range description that it didn't recognise: '$specifier'");
+                trigger_error(MAX_PRODUCT_NAME." encountered date range description that it didn't recognise: '$specifier'");
                 break;
         }
     }
@@ -313,7 +313,7 @@ class DateRange
 
         if ($preset_string == 'specific') {
             if (!($start_string && $end_string)) {
-                trigger_error("Openads was asked to generate a date range but wasn't given dates.");
+                trigger_error(MAX_PRODUCT_NAME." was asked to generate a date range but wasn't given dates.");
             }
             $this->setDateRangeByNaturalHumanStrings($start_string, $end_string);
         } else {

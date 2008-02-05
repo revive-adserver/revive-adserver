@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX  v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
@@ -54,7 +54,7 @@ require_once MAX_PATH . '/lib/OA/Dll.php';
  *   blocked from delivering in the next operation interval, in which case the required
  *   impressions for the next operation interval will be zero.
  *
- * @package    OpenadsMaintenance
+ * @package    OpenXMaintenance
  * @subpackage Priority
  * @author     Andrew Hill <andrew.hill@openx.org>
  */

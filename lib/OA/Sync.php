@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
@@ -32,9 +32,9 @@ require_once MAX_PATH . '/lib/OA/XmlRpcClient.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
- * A class to deal with the services provided by Openads Sync
+ * A class to deal with the services provided by OpenX Sync
  *
- * @package    Openads
+ * @package    OpenX
  * @author     Matteo Beccati <matteo@beccati.com>
  */
 class OA_Sync
@@ -65,7 +65,7 @@ class OA_Sync
     /**
      * Returns phpAdsNew style config version.
      *
-     * The Openads version "number" is converted to an int using the following table:
+     * The OpenX version "number" is converted to an int using the following table:
      *
      * 'beta-rc' => 0.1
      * 'beta'    => 0.2
@@ -135,7 +135,7 @@ class OA_Sync
     }
 
     /**
-     * Connect to Openads Sync to check for updates
+     * Connect to OpenX Sync to check for updates
      *
      * @param float Only check for updates newer than this value
      * @param bool Send software details

@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
@@ -31,21 +31,21 @@ $Id$
 
 // Set translation strings
 
-$GLOBALS['strDeliveryEngine']				= "Движок доставки";
-$GLOBALS['strMaintenance']					= "Обслуживание";
-$GLOBALS['strAdministrator']				= "Администратор";
+$GLOBALS['strDeliveryEngine']				= "О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strMaintenance']					= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strAdministrator']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
 
 
 $GLOBALS['strUserlog'] = array (
-	phpAds_actionAdvertiserReportMailed 	=> "Отчёт для рекламодателя {id} отослан по электронной почте",
-	phpAds_actionPublisherReportMailed 		=> "Отчёт для издателя {id} отослан по электронной почте",
-	phpAds_actionWarningMailed				=> "Предупреждение о деактивации кампании {id} отослано по электронной почте",
-	phpAds_actionDeactivationMailed			=> "Уведомление о деактивации кампании {id} отослано по электронной почте",
-	phpAds_actionPriorityCalculation		=> "Приоритеты пересчитаны",
-	phpAds_actionPriorityAutoTargeting		=> "Цели кампании пересчитаны",
-	phpAds_actionDeactiveCampaign			=> "Кампания {id} деактивирована",
-	phpAds_actionActiveCampaign				=> "Кампания {id} активирована",
-	phpAds_actionAutoClean					=> "Автоочистка базы данных"
+	phpAds_actionAdvertiserReportMailed 	=> "О©╫О©╫чёО©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ {id} О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫",
+	phpAds_actionPublisherReportMailed 		=> "О©╫О©╫чёО©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ {id} О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫",
+	phpAds_actionWarningMailed				=> "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ {id} О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫",
+	phpAds_actionDeactivationMailed			=> "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ {id} О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫",
+	phpAds_actionPriorityCalculation		=> "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫",
+	phpAds_actionPriorityAutoTargeting		=> "О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫",
+	phpAds_actionDeactiveCampaign			=> "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ {id} О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫",
+	phpAds_actionActiveCampaign				=> "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ {id} О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫",
+	phpAds_actionAutoClean					=> "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫"
 );
 
 ?>

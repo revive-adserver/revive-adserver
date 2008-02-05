@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
@@ -238,7 +238,7 @@ class OA_Auth
     {
         $redirect = false;
         // Is it possible to detect that we are NOT in the admin directory
-        // via the URL the user is accessing Openads with?
+        // via the URL the user is accessing OpenXwith?
         if (!preg_match('#/'. $location .'/?$#', $_SERVER['REQUEST_URI'])) {
             $dirName = dirname($_SERVER['REQUEST_URI']);
             if (!preg_match('#/'. $location .'$#', $dirName)) {

@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
@@ -75,7 +75,7 @@ class test_DeliveryRemotehost extends UnitTestCase
             'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin',
             'SERVER_SIGNATURE' => '<address>Apache/2.0.59 (Unix) Server at max.i12.de Port 80</address>',
             'SERVER_SOFTWARE' => 'Apache/2.0.59 (Unix)',
-            'SERVER_NAME' => 'dev.openads.org',
+            'SERVER_NAME' => 'dev.openx.org',
             'SERVER_ADDR' => '10.0.0.1',
             'SERVER_PORT' => '80',
             'REMOTE_ADDR' => '10.0.0.2',
@@ -100,8 +100,8 @@ class test_DeliveryRemotehost extends UnitTestCase
             'PHP_SELF' => '/lib/max/Delivery/tests/unit/remotehost.del.test.php',
             'REQUEST_TIME' => time(),
         );
-        // I am unsure if this is a bug in Openads or HAProxy, but the above dump does not contain
-        // either an HTTP_VIA/REMOTE_HOST header, therefore Openads assumes this is not proxied
+        // I am unsure if this is a bug in OpenX or HAProxy, but the above dump does not contain
+        // either an HTTP_VIA/REMOTE_HOST header, therefore OpenX assumes this is not proxied
         // I am adding it to "fix" the test
         $_SERVER['HTTP_VIA'] = '194.85.1.1 (Squid/2.4.STABLE7)';
 

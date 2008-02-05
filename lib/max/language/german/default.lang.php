@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
@@ -150,8 +150,8 @@ $GLOBALS['strAdmin']                    = 'Admin';
 // Dashboard
 $GLOBALS['strDashboardCommunity']       = 'Community';
 $GLOBALS['strDashboardDashboard']       = 'Dashboard';
-$GLOBALS['strDashboardForum']           = 'Openads Forum';
-$GLOBALS['strDashboardDocs']            = 'Openads Dokumentation';
+$GLOBALS['strDashboardForum']           = 'OpenX Forum';
+$GLOBALS['strDashboardDocs']            = 'OpenX Dokumentation';
 
 // Priority
 $GLOBALS['strPriority']				= "Dringlichkeit";
@@ -480,7 +480,7 @@ $GLOBALS['strStatusText']			= "Status-Text";
 $GLOBALS['strBannerWeight']			= "Bannergewichtung";
 $GLOBALS['strBannerType']           = "Werbemitteltyp";
 $GLOBALS['strAdserverTypeGeneric']  = "Standard HTML-Banner";
-$GLOBALS['strAdserverTypeMax']      = "Rich Media - Openads";
+$GLOBALS['strAdserverTypeMax']      = "Rich Media - OpenX";
 $GLOBALS['strAdserverTypeAtlas']    = "Rich Media - Atlas";
 $GLOBALS['strAdserverTypeBluestreak']   = "Rich Media - Bluestreak";
 $GLOBALS['strAdserverTypeDoubleclick']  = "Rich Media - DoubleClick";

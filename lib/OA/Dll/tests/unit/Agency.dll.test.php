@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v2.5                                                              |
+| OpenX v2.5                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
@@ -32,7 +32,7 @@ require_once MAX_PATH . '/lib/OA/Dll/tests/util/DllUnitTestCase.php';
 /**
  * A class for testing DLL Agency methods
  *
- * @package    OpenadsDll
+ * @package    OpenXDll
  * @subpackage TestSuite
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *

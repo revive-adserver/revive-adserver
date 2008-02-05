@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
@@ -36,7 +36,7 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  * The data access layer code for summarising raw data into statistics, for
  * the AdServer module.
  *
- * @package    OpenadsDal
+ * @package    OpenXDal
  * @subpackage MaintenanceStatistics
  * @author     Andrew Hill <andrew.hill@openx.org>
  */
@@ -135,7 +135,7 @@ class OA_Dal_Maintenance_Statistics_AdServer_mysql extends OA_Dal_Maintenance_St
      * @return Date A Date representing the date up to which the statistics
      *              have been summarised, for the specified update type, or
      *              the appropriate date based on raw data if maintenance
-     *              statistics has never been run for the Openads module before.
+     *              statistics has never been run for the OpenX module before.
      *              Returns null if no raw data is available.
      */
     function getMaintenanceStatisticsLastRunInfo($type, $oNow = null)

@@ -1,11 +1,11 @@
 <?php // $Revision: 4363 $
 
 /************************************************************************/
-/* Openads 2.0                                                          */
+/* OpenX 2.0                                                          */
 /* ===========                                                          */
 /*                                                                      */
-/* Copyright (c) 2000-2007 by the Openads developers                    */
-/* For more information visit: http://www.openads.org                   */
+/* Copyright (c) 2000-2007 by the OpenX developers                    */
+/* For more information visit: http://www.openx.org                   */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */

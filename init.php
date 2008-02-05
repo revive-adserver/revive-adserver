@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
@@ -29,7 +29,7 @@ $Id$
  * @package    Max
  * @author     Andrew Hill <andrew@m3.net>
  *
- * A file to set up the environment for the Openads administration interface.
+ * A file to set up the environment for the OpenX administration interface.
  */
 
 require_once 'init-parse.php';
@@ -37,7 +37,7 @@ require_once 'constants.php';
 require_once 'variables.php';
 
 /**
- * The environment initialisation function for the Openads administration interface.
+ * The environment initialisation function for the OpenX administration interface.
  *
  * @TODO Should move the user authentication, loading of preferences into this
  *       file, and out of the /www/admin/config.php file.

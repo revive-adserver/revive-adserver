@@ -1,10 +1,10 @@
 /*
 +---------------------------------------------------------------------------+
-| Openads v2.5                                                              |
+| OpenX v2.5                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
+| For contact details, see: http://www.openx.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -20,7 +20,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-|  Copyright 2003-2007 Openads Limited                                      |
+|  Copyright 2003-2007 BuraBuraLimited                                      |
 |                                                                           |
 |  Licensed under the Apache License, Version 2.0 (the "License");          |
 |  you may not use this file except in compliance with the License.         |
@@ -34,7 +34,7 @@
 |  See the License for the specific language governing permissions and      |
 |  limitations under the License.                                           |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
  */
 package org.openads.agency;
 

@@ -1,10 +1,10 @@
 <?php
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
@@ -447,7 +447,7 @@ class Plugins_DeliveryLimitations extends MAX_Plugin_Common
 
 
     /**
-     * Gets information about $op and $data for upgrade from Openads 2.0.
+     * Gets information about $op and $data for upgrade from OpenX 2.0.
      *
      * @param string $op
      * @param string $sData

@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
@@ -47,8 +47,8 @@ $GLOBALS['strAdvancedSettings']             = "Advanced Settings";
 $GLOBALS['strOtherSettings']                = "Other settings";
 $GLOBALS['strSpecifySyncSettings']          = "Synchronisation settings";
 $GLOBALS['strLicenseInformation']           = "License information";
-$GLOBALS['strOpenadsIdYour']                = "Your Openads ID";
-$GLOBALS['strOpenadsIdSettings']            = "Openads ID Settings";
+$GLOBALS['strOpenadsIdYour']                = "Your OpenX ID";
+$GLOBALS['strOpenadsIdSettings']            = "OpenX ID Settings";
 $GLOBALS['strWarning']                      = "Warning";
 $GLOBALS['strFatalError']                   = "A fatal error occurred";
 $GLOBALS['strUpdateError']                  = "An error occured while updating";
@@ -99,7 +99,7 @@ $GLOBALS['strInstallIntro']                 = "Thank you for choosing <a href='h
 <p>To help you with the installation process we have created <a href='".rtrim(OA_DOCUMENTATION_BASE_URL, '/') . '/' . rtrim(OA_DOCUMENTATION_PATH, '/') . '/'.OA_DOCUMENTATION_VERSION."/wizard/qsg-install' target='_blank'>Installation Quick Start Quide</a> to take you through the process of get up and running. For a more detailed guide to installing and configuring ".MAX_PRODUCT_NAME." visit the 
 <a href='".rtrim(OA_DOCUMENTATION_BASE_URL, '/') . '/' . rtrim(OA_DOCUMENTATION_PATH, '/') . '/'.OA_DOCUMENTATION_VERSION."/wizard/admin-guide' target='_blank'>Administrator Guide</a>.";
 $GLOBALS['strRecoveryRequiredTitle']    = "Your previous upgrade attempt encountered an error";
-$GLOBALS['strRecoveryRequired']         = "There was an error while processing your previous upgrade and Openads must attempt to recover the upgrade process. Please click the Recover button below.";
+$GLOBALS['strRecoveryRequired']         = "There was an error while processing your previous upgrade and " . MAX_PRODUCT_NAME . " must attempt to recover the upgrade process. Please click the Recover button below.";
 $GLOBALS['strTermsTitle']               = "Software license information";
 $GLOBALS['strTermsIntro']               = MAX_PRODUCT_NAME . " is distributed freely under an Open Source license, the GNU Public License v2.";
 $GLOBALS['strPolicyTitle']               = "Privacy and Data Usage Policy";
@@ -109,7 +109,7 @@ $GLOBALS['strDbSetupIntro']               = "Please enter the details to connect
 <p> The next step will set up your database. Click ‘continue’ to proceed.</p>";
 $GLOBALS['strDbUpgradeIntro']             = "Below are the detected database details for your installation of " . MAX_PRODUCT_NAME . ". Please check to make sure that these details are correct. 
 <p>The next step will upgrade your database. Click 'Continue' to upgrade your system.</p>";
-$GLOBALS['strOaUpToDate']               = "Your Openads database and file structure are both using the most recent version and therefore no upgrade is required at this time. Please click Continue to proceed to the Openads administration panel.";
+$GLOBALS['strOaUpToDate']               = "Your " . MAX_PRODUCT_NAME . " database and file structure are both using the most recent version and therefore no upgrade is required at this time. Please click Continue to proceed to the OpenX administration panel.";
 $GLOBALS['strOaUpToDateCantRemove']     = "Warning: the UPGRADE file is still present inside of your var folder. We are unable to remove this file because of insufficient permissions. Please delete this file yourself.";
 $GLOBALS['strRemoveUpgradeFile']               = "You must remove the UPGRADE file from the var folder.";
 $GLOBALS['strInstallSuccess']               = "Clicking 'Continue' will log you in to your ad server.
@@ -141,7 +141,7 @@ $GLOBALS['strInstallNotSuccessful']         = "<b>The installation of ".MAX_PROD
 $GLOBALS['strSystemCheck']                  = "System check";
 $GLOBALS['strSystemCheckIntro']             = "The install wizard is checking your web server settings to ensure that the installation process can complete successfully.
 <p>Please check any highlighted issues to complete the installation process.</p>";
-$GLOBALS['strDbSuccessIntro']               = "The " . MAX_PRODUCT_NAME . " database has now been created. Please click the 'Continue' button to proceed with configuring Openads Administrator and Delivery settings.";
+$GLOBALS['strDbSuccessIntro']               = "The " . MAX_PRODUCT_NAME . " database has now been created. Please click the 'Continue' button to proceed with configuring " . MAX_PRODUCT_NAME . " Administrator and Delivery settings.";
 $GLOBALS['strDbSuccessIntroUpgrade']        = "Your system has been successfully upgraded.  The remaining screens will help you update the configuration of your new ad server.";
 $GLOBALS['strErrorOccured']                 = "The following error occured:";
 $GLOBALS['strErrorInstallDatabase']         = "The database structure could not be created.";
@@ -153,7 +153,7 @@ $GLOBALS['strErrorInstallDbConnect']        = "It was not possible to open a con
 $GLOBALS['strErrorWritePermissions']        = "File permission errors have been detected, and must be fixed before you can continue.<br />To fix the errors on a Linux system, try typing in the following command(s):";
 $GLOBALS['strErrorFixPermissionsCommand']   = "<i>chmod a+w %s</i>";
 $GLOBALS['strErrorWritePermissionsWin']     = "File permission errors have been detected, and must be fixed before you can continue.";
-$GLOBALS['strCheckDocumentation']           = "For more help, please see the <a href=\"http://".OA_DOCUMENTATION_BASE_URL."\">Openads documentation<a/>.";
+$GLOBALS['strCheckDocumentation']           = "For more help, please see the <a href=\"http://".OA_DOCUMENTATION_BASE_URL."\">" . MAX_PRODUCT_NAME . " documentation<a/>.";
 
 $GLOBALS['strAdminUrlPrefix']               = "Admin Interface URL";
 $GLOBALS['strDeliveryUrlPrefix']            = "Delivery Engine URL";
@@ -222,7 +222,7 @@ $GLOBALS['strConfigSettingsIntro']                   = "Please check the configu
 
 $GLOBALS['strEnableAutoMaintenance']	             = "Automatically perform maintenance during delivery if scheduled maintenance is not set up";
 
-// Openads ID Settings
+// OpenX ID Settings
 $GLOBALS['strOpenadsUsername']                       = MAX_PRODUCT_NAME . " Username";
 $GLOBALS['strOpenadsPassword']                       = MAX_PRODUCT_NAME . " Password";
 $GLOBALS['strOpenadsEmail']                          = MAX_PRODUCT_NAME . " email";

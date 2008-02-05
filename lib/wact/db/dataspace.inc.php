@@ -294,7 +294,7 @@ class DataSpace {
 	}
 	
 	/**
-     * OpenAds uses in many places arrays containing all records, for example 
+     * OpenX uses in many places arrays containing all records, for example 
      * array of all zones Ids associated with specific advertiser.
      * It is not encouraged to use this method for all purposes as it's
      * better to loop through all records and analyze one at a time.

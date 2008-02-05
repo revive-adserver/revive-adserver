@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
@@ -85,7 +85,7 @@ if ($GLOBALS['_MAX']['TEST']['test_type'] == 'phpunit') {
         $result = @copy($dir . '/tests.css', MAX_PATH . '/tests/tests.css');
         if (!$result) {
             $error = '<p><b>Unable to copy the CSS file for the PHPUnit test. Check that the PHPUnit ' .
-            '\'test.css\' file exists, and that the web server process can write to the Openads \'test\' '.
+            '\'test.css\' file exists, and that the web server process can write to the OpenX \'test\' '.
             'directory.</b></p><hr />';
             echo $error;
         }

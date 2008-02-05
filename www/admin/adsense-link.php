@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
@@ -95,14 +95,14 @@ $oTpl->assign('fields', array(
         )
     ),
     array(
-        'title'     => 'Name for the AdSense Account in Openads',
+        'title'     => 'Name for the AdSense Account in OpenX',
         'fields'    => array(
             array(
                 'name'      => 'name',
-                'label'     => 'Name for the AdSense Account in Openads',
+                'label'     => 'Name for the AdSense Account in OpenX',
                 'value'     => '',
                 'id'        => 'accountname',
-                'title'     => 'Provide name in Openads',
+                'title'     => 'Provide name in OpenX',
                 'clientValid' => 'required:true'
             )
         )

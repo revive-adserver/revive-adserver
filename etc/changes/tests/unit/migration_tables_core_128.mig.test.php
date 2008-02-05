@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
@@ -50,7 +50,7 @@ class Migration_tables_core_128Test extends MigrationTest
             array('bannerid' => 1, 'transparent' => "f",
                 'contenttype' => 'swf',
                 'htmlcache' => <<<EOF
-<!--[if !IE]> --><object type='application/x-shockwave-flash' data='{url_prefix}/adimage.php?filename=test.swf&amp;contenttype=swf&amp;alink1={url_prefix}/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26source={source}%26dest=http%3A%2F%2Fwww.openads.org&amp;atar1=_blank&amp;alink2={url_prefix}/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26source={source}%26dest=http%3A%2F%2Fwww.openads.org&amp;atar2=_self' width='468' height='60'> <!-- <![endif]--> <!--[if IE]> <object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' codebase='http://fpdownload.adobe.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0' width='468' height='60'> <param name='movie' value='{url_prefix}/adimage.php?filename=test.swf&amp;contenttype=swf&amp;alink1={url_prefix}/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26source={source}%26dest=http%3A%2F%2Fwww.openads.org&amp;atar1=_blank&amp;alink2={url_prefix}/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26source={source}%26dest=http%3A%2F%2Fwww.openads.org&amp;atar2=_self' /> <!--><!----> <param name='quality' value='high' /> <param name='allowScriptAccess' value='always' />  <p>This is <strong>alternative</strong> content.</p> </object> <!-- <![endif]-->
+<!--[if !IE]> --><object type='application/x-shockwave-flash' data='{url_prefix}/adimage.php?filename=test.swf&amp;contenttype=swf&amp;alink1={url_prefix}/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26source={source}%26dest=http%3A%2F%2Fwww.openx.org&amp;atar1=_blank&amp;alink2={url_prefix}/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26source={source}%26dest=http%3A%2F%2Fwww.openx.org&amp;atar2=_self' width='468' height='60'> <!-- <![endif]--> <!--[if IE]> <object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' codebase='http://fpdownload.adobe.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0' width='468' height='60'> <param name='movie' value='{url_prefix}/adimage.php?filename=test.swf&amp;contenttype=swf&amp;alink1={url_prefix}/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26source={source}%26dest=http%3A%2F%2Fwww.openx.org&amp;atar1=_blank&amp;alink2={url_prefix}/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26source={source}%26dest=http%3A%2F%2Fwww.openx.org&amp;atar2=_self' /> <!--><!----> <param name='quality' value='high' /> <param name='allowScriptAccess' value='always' />  <p>This is <strong>alternative</strong> content.</p> </object> <!-- <![endif]-->
 EOF
             ),
             array('bannerid' => 2, 'transparent' => "t"),
@@ -129,11 +129,11 @@ EOF
                     $params = unserialize($params);
                     $this->assertEqual($params, array('swf' => array(
                         1 => array(
-                            'link' => 'http://www.openads.org',
+                            'link' => 'http://www.openx.org',
                             'tar'  => '_blank'
                         ),
                         2 => array(
-                            'link' => 'http://www.openads.org',
+                            'link' => 'http://www.openx.org',
                             'tar'  => '_self'
                         ))
                     ));
@@ -167,7 +167,7 @@ EOF
             array('time', '==', '5'),
             array('date', '>=', '20070510'),
             array('clientip', '==', '150.254.170.189'),
-            array('domain', '!=', 'www.openads.org'),
+            array('domain', '!=', 'www.openx.org'),
             array('language', '!=', '(hr)|(nl)'),
             array('language', '!=', '(en)'),
             array('continent', '==', 'AF'),
@@ -177,8 +177,8 @@ EOF
             array('os', '==', '(Win)|(Windows CE)|(Mac)|(Linux)|(BSD)|(SunOS)|(IRIX)|(AIX)|(Unix)'),
             array('useragent', '==', 'ahahaha'),
             array('referer', '==', 'blabblah'),
-            array('source', '==', 'www.openads.org'),
-            array('url', '==', 'www.openads.org/contacts.php'),
+            array('source', '==', 'www.openx.org'),
+            array('url', '==', 'www.openx.org/contacts.php'),
             array('postal_code', '==', '44100'),
             array('city', '==', 'ferrara'),
             array('fips_code', '==', 'GB08,GBN5'),
@@ -200,7 +200,7 @@ EOF
             array('Time:Hour', '=~', '5'),
             array('Time:Date', '>=', '20070510'),
             array('Client:Ip', '==', '150.254.170.189'),
-            array('Client:Domain', '!=', 'www.openads.org'),
+            array('Client:Domain', '!=', 'www.openx.org'),
             array('Client:Language', '!~', 'hr,nl'),
             array('Client:Language', '!~', 'en'),
             array('Geo:Continent', '=~', 'AF'),
@@ -210,8 +210,8 @@ EOF
             array('Client:Useragent', '=x', '(Win)|(Windows CE)|(Mac)|(Linux)|(BSD)|(SunOS)|(IRIX)|(AIX)|(Unix)'),
             array('Client:Useragent', '=x', 'ahahaha'),
             array('Site:Referingpage', '=~', 'blabblah'),
-            array('Site:Source', '=x', 'www.openads.org'),
-            array('Site:Pageurl', '=~', 'www.openads.org/contacts.php'),
+            array('Site:Source', '=x', 'www.openx.org'),
+            array('Site:Pageurl', '=~', 'www.openx.org/contacts.php'),
             array('Geo:Postalcode', '=~', '44100'),
             array('Geo:City', '=~', '|ferrara'),
             array('Geo:Region', '=~', 'GB|08,N5'),

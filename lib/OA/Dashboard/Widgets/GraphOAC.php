@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
@@ -30,7 +30,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Factory.php';
 require_once MAX_PATH . '/lib/OA/Central/Dashboard.php';
 
 /**
- * A dashboard widget to diplay an RSS feed of the Openads Blog
+ * A dashboard widget to diplay an RSS feed of the OpenX Blog
  *
  */
 class OA_Dashboard_Widget_GraphOAC extends OA_Dashboard_Widget_Graph

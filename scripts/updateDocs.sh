@@ -1,10 +1,10 @@
 #!/bin/sh
 
-# A shell script to generate the Openads documentation.
+# A shell script to generate the OpenX documentation.
 # Requires phpDocumentor be installed.
 #
-# Copyright (c) 2003-2007 Openads Limited
-# For contact details, see: http://www.openads.org/
+# Copyright (c) 2003-2007 BuraBuraLimited
+# For contact details, see: http://www.openx.org/
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -45,7 +45,7 @@ TEMPLATE="DOM/earthli"
 ###################################
 
 # "Fixed" values
-TITLE="Openads API"
+TITLE="OpenX API"
 PACKAGES="Max"
 PRIVATE="on"
 

@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
@@ -140,14 +140,14 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
         }
         if (!$configFile)
         {
-            // Openads hasn't been installed, so use the distribution .ini file
+            // OpenX hasn't been installed, so use the distribution .ini file
             // this deals with letting a PAN install get into the ugprader
             return @parse_ini_file(MAX_PATH . '/etc/dist.conf.php', $sections);
         }
         //return parseIniFile($configPath, $configFile, $sections, '.ini');
 
     }
-    // Check to ensure Openads hasn't been installed
+    // Check to ensure OpenX hasn't been installed
     if (file_exists(MAX_PATH . '/var/INSTALLED'))
     {
         // ah but MMM might be installed, check for the ini file
@@ -158,7 +158,7 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
         echo MAX_PRODUCT_NAME . " has been installed, but no configuration file ".$configPath . '/' . $host . $configFile . '.conf.php'." was found.\n";
         exit(1);
     }
-    // Openads hasn't been installed, so use the distribution .ini file
+    // OpenX hasn't been installed, so use the distribution .ini file
     return @parse_ini_file(MAX_PATH . '/etc/dist.conf.php', $sections);
 }
 

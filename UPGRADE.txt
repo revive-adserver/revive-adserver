@@ -1,9 +1,9 @@
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
+| For contact details, see: http://www.openx.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -23,8 +23,8 @@
 Upgrading
 =========
 
-Complete details of how to upgrade your existing Openads installation can be
-found at http://docs.openads.org/. You should check this site for the latest
+Complete details of how to upgrade your existing `installation can be
+found at http://docs.openx.org/. You should check this site for the latest
 available details on how to upgrade. However, for convenience, the upgrade
 process is essentially:
  
@@ -32,12 +32,12 @@ process is essentially:
    installation, but add '_newfiles' to the end of the directory name, 
    (e.g. directoryname_newfiles);
 
-2) Unpack the new version of Openads into this new directory;
+2) Unpack the new version of `into this new directory;
 
 3) Copy your config file from the current working location to the var/ directory 
    of the newly unpacked installation - read about config files in previous 
    versions of Openads, MMM or PhpAdsNew 
-   (http://docs.openads.org/openads-2.3-guide/copying-openads-upgrade.html#configfilesupgrade);
+   (http://docs.openx.org/openads-2.3-guide/copying-openads-upgrade.html#configfilesupgrade);
 
 4) Rename your existing working installation directory by adding '_backup' to 
    the end of the directory name, (e.g. directoryname_backup);
@@ -45,5 +45,5 @@ process is essentially:
 5) Rename 'directoryname_newfiles' by removing the '_newfiles' from the 
    directory name;
 
-6) Use a web browser to visit your Openads site and follow the instructions in 
+6) Use a web browser to visit your `site and follow the instructions in 
    the upgrade wizard to complete the upgrade.

@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
@@ -57,7 +57,7 @@ define('MAX_PLUGINS_FILE_MASK', '^.*/([a-zA-Z0-9\-_]*)/([a-zA-Z0-9\-_]*)'.MAX_PL
  *  - Reading and writing plugin cache files, if they exist.
  *
  * @static
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @author     Andrew Hill <andrew@m3.net>
  * @author     Radek Maciaszek <radek@m3.net>
  */

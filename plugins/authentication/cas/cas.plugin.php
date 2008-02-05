@@ -1,10 +1,10 @@
 <?php
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
@@ -175,8 +175,8 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
         phpAds_PageHeader("1");
         echo "<br><br>";
         echo 'Welcome <b>'.phpCAS::getUser().'</b>';
-        echo "<br /><br />You need a OAH account in order to use Openads Hosted. ";
-        echo "If you want to create a Openads Hosted account please fill in <a href='http://www.openx.org/hosted'>this form</a>.<br /><br />";
+        echo "<br /><br />You need a OAH account in order to use OpenX Hosted. ";
+        echo "If you want to create a OpenX Hoster account please fill in <a href='http://www.openx.org/hosted'>this form</a>.<br /><br />";
         phpAds_PageFooter();
         exit();
     }

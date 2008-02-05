@@ -2,7 +2,7 @@
 
   <!--
     This file contains include and exclude patterns to be used during building
-    of the distribution package of Openads AdServer.
+    of the distribution package of OpenX AdServer.
   -->
 
   <patternset id="dist.included">

@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
@@ -34,7 +34,7 @@ require_once MAX_PATH . '/plugins/deliveryLimitations/Time/Hour.plugin.php';
 /**
  * A class for testing the MAX_Plugin_DeliveryLimitations_MatchOverlap class.
  *
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew@m3.net>
  */

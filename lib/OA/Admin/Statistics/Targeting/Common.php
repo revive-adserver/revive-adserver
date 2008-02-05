@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
@@ -31,7 +31,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Targeting/Flexy.php';
  * A common class that defines a common "interface" and common methods for
  * classes that display targeting statistics.
  *
- * @package    OpenadsAdmin
+ * @package    OpenXAdmin
  * @subpackage StatisticsTargeting
  * @author     Matteo Beccati <matteo@beccati.com>
  * @author     Andrew Hill <andrew.hill@openx.org>

@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
@@ -31,108 +31,108 @@ $Id$
 
 
 // Invocation Types
-$GLOBALS['strInvocationRemote']			= "Удалённый вызов";
-$GLOBALS['strInvocationJS']			= "Удалённый вызов с Javascript";
-$GLOBALS['strInvocationIframes']		= "Удалённый вызов для фреймов";
-$GLOBALS['strInvocationXmlRpc']			= "Удалённый вызов с использованием XML-RPC";
-$GLOBALS['strInvocationCombined']		= "Совмещённый удалённый вызов";
+$GLOBALS['strInvocationRemote']			= "О©╫О©╫О©╫лёО©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strInvocationJS']			= "О©╫О©╫О©╫лёО©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫ Javascript";
+$GLOBALS['strInvocationIframes']		= "О©╫О©╫О©╫лёО©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strInvocationXmlRpc']			= "О©╫О©╫О©╫лёО©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ XML-RPC";
+$GLOBALS['strInvocationCombined']		= "О©╫О©╫О©╫О©╫О©╫щёО©╫О©╫О©╫О©╫ О©╫О©╫О©╫лёО©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫";
 $GLOBALS['strInvocationPopUp']			= "Pop-up";
-$GLOBALS['strInvocationAdLayer']		= "Interstitial или плавающий DHTML";
-$GLOBALS['strInvocationLocal']			= "Локальный режим";
+$GLOBALS['strInvocationAdLayer']		= "Interstitial О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ DHTML";
+$GLOBALS['strInvocationLocal']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫";
 
 
 // Other
-$GLOBALS['strCopyToClipboard']			= "Скопировать в буфер обмена";
+$GLOBALS['strCopyToClipboard']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
 
 
 // Measures
 $GLOBALS['strAbbrPixels']			= "px";
-$GLOBALS['strAbbrSeconds']			= "сек";
+$GLOBALS['strAbbrSeconds']			= "О©╫О©╫О©╫";
 
 
 // Common Invocation Parameters
-$GLOBALS['strInvocationWhat']			= "Набор баннеров";
-$GLOBALS['strInvocationClientID']		= "Рекламодатель или кампания";
-$GLOBALS['strInvocationTarget']			= "Фрейм назначения";
-$GLOBALS['strInvocationSource']			= "Источник";
-$GLOBALS['strInvocationWithText']		= "Показывать текст под баннером";
-$GLOBALS['strInvocationDontShowAgain']		= "Не показывать баннер вторично на той же странице";
-$GLOBALS['strInvocationTemplate'] 		= "Сохранить баннер в переменной, так что его можно будет использовать в шаблоне";
+$GLOBALS['strInvocationWhat']			= "О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strInvocationClientID']		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strInvocationTarget']			= "О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strInvocationSource']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strInvocationWithText']		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strInvocationDontShowAgain']		= "О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strInvocationTemplate'] 		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
 
 
 // Iframe
-$GLOBALS['strIFrameRefreshAfter']		= "Обновить через";
-$GLOBALS['strIframeResizeToBanner']		= "Привести размер к размеру баннераs";
-$GLOBALS['strIframeMakeTransparent']		= "Сделать iframe прозрачным";
-$GLOBALS['strIframeIncludeNetscape4']		= "Включить совместимый с Netscape 4 ilayer";
+$GLOBALS['strIFrameRefreshAfter']		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strIframeResizeToBanner']		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫s";
+$GLOBALS['strIframeMakeTransparent']		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫ iframe О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strIframeIncludeNetscape4']		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ Netscape 4 ilayer";
 
 
 // PopUp
-$GLOBALS['strPopUpStyle']			= "Тип Pop-up";
-$GLOBALS['strPopUpStylePopUp']			= "Выскакивает над";
-$GLOBALS['strPopUpStylePopUnder']		= "Выскакивает под";
+$GLOBALS['strPopUpStyle']			= "О©╫О©╫О©╫ Pop-up";
+$GLOBALS['strPopUpStylePopUp']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫";
+$GLOBALS['strPopUpStylePopUnder']		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫";
 $GLOBALS['strPopUpCreateInstance']		= "Instance when the pop-up is created";
-$GLOBALS['strPopUpImmediately']			= "Немедленно";
-$GLOBALS['strPopUpOnClose']			= "Когда страница закрывается";
-$GLOBALS['strPopUpAfterSec']			= "Через";
-$GLOBALS['strAutoCloseAfter']			= "Автоматически закрыть через";
-$GLOBALS['strPopUpTop']				= "Начальная позиция (верх)";
-$GLOBALS['strPopUpLeft']			= "Начальная позиция (левый край)";
+$GLOBALS['strPopUpImmediately']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strPopUpOnClose']			= "О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strPopUpAfterSec']			= "О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strAutoCloseAfter']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strPopUpTop']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ (О©╫О©╫О©╫О©╫)";
+$GLOBALS['strPopUpLeft']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ (О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫)";
 
 
 // XML-RPC
-$GLOBALS['strXmlRpcLanguage']			= "Язык хоста";
+$GLOBALS['strXmlRpcLanguage']			= "О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫";
 
 
 // AdLayer
-$GLOBALS['strAdLayerStyle']			= "Стиль";
+$GLOBALS['strAdLayerStyle']			= "О©╫О©╫О©╫О©╫О©╫";
 
-$GLOBALS['strAlignment']			= "Выравнивание";
-$GLOBALS['strHAlignment']			= "Горизонтальное выравнивание";
-$GLOBALS['strLeft']				= "Влево";
-$GLOBALS['strCenter']				= "По центру";
-$GLOBALS['strRight']				= "Вправо";
+$GLOBALS['strAlignment']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strHAlignment']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strLeft']				= "О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strCenter']				= "О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strRight']				= "О©╫О©╫О©╫О©╫О©╫О©╫";
 
-$GLOBALS['strVAlignment']			= "Вертикальное выравнивание";
-$GLOBALS['strTop']				= "Вверх";
-$GLOBALS['strMiddle']				= "Посередине";
-$GLOBALS['strBottom']				= "Вниз";
+$GLOBALS['strVAlignment']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strTop']				= "О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strMiddle']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strBottom']				= "О©╫О©╫О©╫О©╫";
 
-$GLOBALS['strAutoCollapseAfter']		= "Автоматически сложить через";
-$GLOBALS['strCloseText']			= "Закрыть текст";
-$GLOBALS['strClose']				= "[Закрыть]";
-$GLOBALS['strBannerPadding']			= "Подбивка баннера";
+$GLOBALS['strAutoCollapseAfter']		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strCloseText']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strClose']				= "[О©╫О©╫О©╫О©╫О©╫О©╫О©╫]";
+$GLOBALS['strBannerPadding']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
 
-$GLOBALS['strHShift']				= "Горизонтальный сдвиг";
-$GLOBALS['strVShift']				= "Вертикальный сдвиг";
+$GLOBALS['strHShift']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strVShift']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫";
 
-$GLOBALS['strShowCloseButton']			= "Показать кнопку закрытия";
-$GLOBALS['strBackgroundColor']			= "Цвет фона";
-$GLOBALS['strBorderColor']			= "Цвет рамки";
+$GLOBALS['strShowCloseButton']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strBackgroundColor']			= "О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫";
+$GLOBALS['strBorderColor']			= "О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫";
 
-$GLOBALS['strDirection']			= "Направление";
-$GLOBALS['strLeftToRight']			= "Слева направо";
-$GLOBALS['strRightToLeft']			= "Справа налево";
-$GLOBALS['strLooping']				= "Зациклено";
-$GLOBALS['strAlwaysActive']			= "Всегда активно";
-$GLOBALS['strSpeed']				= "Скорость";
-$GLOBALS['strPause']				= "Пауза";
-$GLOBALS['strLimited']				= "Ограничено";
-$GLOBALS['strLeftMargin']			= "Левое поле";
-$GLOBALS['strRightMargin']			= "Правое поле";
-$GLOBALS['strTransparentBackground']		= "Прозрачный фон";
+$GLOBALS['strDirection']			= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strLeftToRight']			= "О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strRightToLeft']			= "О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strLooping']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strAlwaysActive']			= "О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strSpeed']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strPause']				= "О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strLimited']				= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strLeftMargin']			= "О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫";
+$GLOBALS['strRightMargin']			= "О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫";
+$GLOBALS['strTransparentBackground']		= "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫";
 
-$GLOBALS['strSmoothMovement']           = "Плавное движение";
-$GLOBALS['strHideNotMoving']            = "Спрятать баннер когда курсор не движется";
-$GLOBALS['strHideDelay']                        = "Задержка перед сокрытием баннера";
-$GLOBALS['strHideTransparancy']         = "Прозрачность спрятанного баннера";
+$GLOBALS['strSmoothMovement']           = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strHideNotMoving']            = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strHideDelay']                        = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
+$GLOBALS['strHideTransparancy']         = "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
 
 
 $GLOBALS['strAdLayerStyleName']	= array(
 	'geocities'		=> "Geocities",
-	'simple'		=> "Простой",
-	'cursor'		=> "Курсор",
-	'floater'		=> "Плавающий"
+	'simple'		=> "О©╫О©╫О©╫О©╫О©╫О©╫О©╫",
+	'cursor'		=> "О©╫О©╫О©╫О©╫О©╫О©╫",
+	'floater'		=> "О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫"
 );
 
 ?>

@@ -1325,12 +1325,12 @@ class OA_TranslationMaintenance
         $author = 'chris.nutting@openads.org';
 
         // Write .pot header
-        fwrite($PLUGIN_FILE, '# Openads (core strings) template.
+        fwrite($PLUGIN_FILE, '# OpenX (core strings) template.
 # FIRST AUTHOR <chris.nutting@openads.org>, 2008.
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Openads plugins\n"
+"Project-Id-Version: OpenX plugins\n"
 "Report-Msgid-Bugs-To: Anna Skorupa <anna.skorupa@openads.org>\n"
 "POT-Creation-Date: ' . date('Y-m-d H:iO') . '\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"

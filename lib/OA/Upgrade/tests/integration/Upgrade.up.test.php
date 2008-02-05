@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
@@ -32,7 +32,7 @@ require_once MAX_PATH.'/lib/OA/Dal/DataGenerator.php';
 /**
  * A class for testing the Openads_DB_Upgrade class.
  *
- * @package    Openads Upgrade
+ * @package    OpenX Upgrade
  * @subpackage TestSuite
  * @author     Monique Szpak <monique.szpak@openx.org>
  */
@@ -130,9 +130,9 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertEqual($oUpgrade->aPackage['creationDate'],'2007-01-01','wrong value: creationDate');
         $this->assertEqual($oUpgrade->aPackage['author'],'Test Author','wrong value: author');
         $this->assertEqual($oUpgrade->aPackage['authorEmail'],'test@openads.org','wrong value: authorEmail');
-        $this->assertEqual($oUpgrade->aPackage['authorUrl'],'http://www.openads.org','wrong value: authorUrl');
+        $this->assertEqual($oUpgrade->aPackage['authorUrl'],'http://www.openx.org','wrong value: authorUrl');
         $this->assertEqual($oUpgrade->aPackage['license'],'LICENSE.txt','wrong value: license');
-        $this->assertEqual($oUpgrade->aPackage['description'],'Openads Upgrade Test 1 to 2','wrong value: description');
+        $this->assertEqual($oUpgrade->aPackage['description'],'OpenXUpgrade Test 1 to 2','wrong value: description');
         $this->assertEqual($oUpgrade->aPackage['versionFrom'],'1','wrong value: versionFrom');
         $this->assertEqual($oUpgrade->aPackage['versionTo'],'2','wrong value: versionTo');
 
@@ -495,7 +495,7 @@ class Test_OA_Upgrade extends UnitTestCase
 
     /**
      * tests an openads upgrade where a series of upgrade packages may be required
-     * the upgrade method will detectOpenads and cycle through the list of upgrade packages
+     * the upgrade method will detectOpenXand cycle through the list of upgrade packages
      * executing the upgrade packages in the right order
      * until it runs out of upgrade packages
      * when no more upgrade packages are found

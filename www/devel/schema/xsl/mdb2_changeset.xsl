@@ -1,7 +1,7 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:template match="/">
     <!--  -->
-    <html><head><title>Openads Schema Changeset</title>
+    <html><head><title>OpenX Schema Changeset</title>
 
     <link rel="stylesheet" type="text/css" href="css/mdb2_xsl.css"/>
 

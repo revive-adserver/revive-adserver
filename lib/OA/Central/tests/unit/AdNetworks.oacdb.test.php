@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
@@ -31,7 +31,7 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 /**
  * A class for testing the OA_Central_AdNetworks class.
  *
- * @package    Openads
+ * @package    OpenX
  * @subpackage TestSuite
  * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
@@ -223,7 +223,7 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
                 'language' => 2
             ),
             array(
-                'url'      => 'http://www.openads.org',
+                'url'      => 'http://www.openx.org',
                 'category' => 2,
                 'country'  => 'uk',
                 'language' => 1
@@ -372,7 +372,7 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
                 'language' => 2
             ),
             array(
-                'url'      => 'http://www.openads.org',
+                'url'      => 'http://www.openx.org',
                 'category' => 2,
                 'country'  => 'uk',
                 'language' => 1
@@ -661,7 +661,7 @@ document.write ("\'><" + "/script>");
                 ),
                 array(
                     'website_id' => 2346,
-                    'url'        => 'http://www.openads.org',
+                    'url'        => 'http://www.openx.org',
                     'campaigns'  => array(
                         array(
                             'campaign_id' => 2001,

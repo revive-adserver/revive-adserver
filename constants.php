@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v2.5                                                              |
+| OpenX v2.5                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
@@ -227,7 +227,7 @@ function setupConstants()
 
     // Ensure that the initialisation has not been run before
     if (!(isset($GLOBALS['_MAX']['CONF']))) {
-        // Define the Openads installation base path if not defined
+        // Define the OpenX installation base path if not defined
         // since Local mode will pre-define this value
         if (!defined('MAX_PATH')) {
             define('MAX_PATH', dirname(__FILE__));
@@ -239,15 +239,15 @@ function setupConstants()
             $newPearPath .= PATH_SEPARATOR . $existingPearPath;
         }
         ini_set('include_path', $newPearPath);
-        // Parse the Openads configuration file
+        // Parse the OpenX configuration file
         $GLOBALS['_MAX']['CONF'] = parseIniFile();
-        // Define the Openads Cache File location path (required trailing slash)
+        // Define the OpenX Cache File location path (required trailing slash)
         if (empty($GLOBALS['_MAX']['CONF']['delivery']['cachePath'])) {
             define('MAX_CACHE', MAX_PATH . '/var/cache/');
         } else {
             define('MAX_CACHE', $GLOBALS['_MAX']['CONF']['delivery']['cachePath']);
         }
-        // Define the Openads Plugins Cache File location path (required trailing slash)
+        // Define the OpenX Plugins Cache File location path (required trailing slash)
         if (empty($GLOBALS['_MAX']['CONF']['delivery']['pluginsCachePath'])) {
             define('MAX_PLUGINS_CACHE', MAX_PATH . '/var/plugins/');
         } else {

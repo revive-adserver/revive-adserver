@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
@@ -156,8 +156,8 @@ $GLOBALS['strNotice']                   = 'Notice';
 // Dashboard
 $GLOBALS['strDashboardCommunity']       = 'Community';
 $GLOBALS['strDashboardDashboard']       = 'Dashboard';
-$GLOBALS['strDashboardForum']           = 'Openads Forum';
-$GLOBALS['strDashboardDocs']            = 'Openads Docs';
+$GLOBALS['strDashboardForum']           = 'OpenX Forum';
+$GLOBALS['strDashboardDocs']            = 'OpenX Docs';
 
 // Priority
 $GLOBALS['strPriority']                 = "Priority";
@@ -542,7 +542,7 @@ $GLOBALS['strStatusText']            = "Status text";
 $GLOBALS['strBannerWeight']            = "Banner weight";
 $GLOBALS['strBannerType']           = "Ad Type";
 $GLOBALS['strAdserverTypeGeneric']  = "Generic HTML Banner";
-$GLOBALS['strAdserverTypeMax']      = "Rich Media - Openads";
+$GLOBALS['strAdserverTypeMax']      = "Rich Media - OpenX";
 $GLOBALS['strAdserverTypeAtlas']    = "Rich Media - Atlas";
 $GLOBALS['strAdserverTypeBluestreak']   = "Rich Media - Bluestreak";
 $GLOBALS['strAdserverTypeDoubleclick']  = "Rich Media - DoubleClick";
@@ -1117,7 +1117,7 @@ $GLOBALS['strAuditNoData']            = "No user activity has been recorded duri
 $GLOBALS['strAuditTrail']             = "Audit Trail";
 $GLOBALS['strAuditTrailSetup']          = "Setup the Audit Trail today";
 $GLOBALS['strAuditTrailGoTo']           = "Go to Audit Trail page";
-$GLOBALS['strAuditTrailNotEnabled']     = "<li>Audit Trail allows you to see who did what and when. Or to put it another way,  it keeps track of system changes within Openads</li>
+$GLOBALS['strAuditTrailNotEnabled']     = "<li>Audit Trail allows you to see who did what and when. Or to put it another way,  it keeps track of system changes within ".MAX_PRODUCT_NAME."</li>
         <li>You are seeing this message, because you have not activated the Audit Trail</li>
         <li>Interested in learning more? Read the <a href='".OA_DOCUMENTATION_BASE_URL."/help/2.5/settings/userLog/' class='site-link' target='help' >Audit Trail documentation</a></li>";
 

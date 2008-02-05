@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
@@ -31,109 +31,109 @@ $Id$
 
 
 // Invocation Types
-$GLOBALS['strInvocationRemote']			= "»·µ{½Õ¥Î";
-$GLOBALS['strInvocationJS']			= "»·µ{½Õ¥ÎJavascript";
-$GLOBALS['strInvocationIframes']		= "»·µ{½Õ¥ÎFrames";
-$GLOBALS['strInvocationXmlRpc']			= "»·µ{½Õ¥ÎXML-RPC";
-$GLOBALS['strInvocationCombined']		= "²Õ¦X»·µ{½Õ¥Î";
-$GLOBALS['strInvocationPopUp']			= "¼u¥X";
-$GLOBALS['strInvocationAdLayer']		= "ªÅ»Ø©ÎªÌº}¯BªºDHTML";
-$GLOBALS['strInvocationLocal']			= "¥»¦a¼Ò¦¡";
+$GLOBALS['strInvocationRemote']			= "ï¿½ï¿½ï¿½{ï¿½Õ¥ï¿½";
+$GLOBALS['strInvocationJS']			= "ï¿½ï¿½ï¿½{ï¿½Õ¥ï¿½Javascript";
+$GLOBALS['strInvocationIframes']		= "ï¿½ï¿½ï¿½{ï¿½Õ¥ï¿½Frames";
+$GLOBALS['strInvocationXmlRpc']			= "ï¿½ï¿½ï¿½{ï¿½Õ¥ï¿½XML-RPC";
+$GLOBALS['strInvocationCombined']		= "ï¿½Õ¦Xï¿½ï¿½ï¿½{ï¿½Õ¥ï¿½";
+$GLOBALS['strInvocationPopUp']			= "ï¿½uï¿½X";
+$GLOBALS['strInvocationAdLayer']		= "ï¿½Å»Ø©ÎªÌº}ï¿½Bï¿½ï¿½DHTML";
+$GLOBALS['strInvocationLocal']			= "ï¿½ï¿½ï¿½aï¿½Ò¦ï¿½";
 
 
 // Other
-$GLOBALS['strCopyToClipboard']			= "½Æ»s¨ì°Å¤Áª©";
+$GLOBALS['strCopyToClipboard']			= "ï¿½Æ»sï¿½ï¿½Å¤jï¿½";
 
 
 // Measures
-$GLOBALS['strAbbrPixels']			= "¶H¯À";
-$GLOBALS['strAbbrSeconds']			= "¬í";
+$GLOBALS['strAbbrPixels']			= "ï¿½Hï¿½ï¿½";
+$GLOBALS['strAbbrSeconds']			= "ï¿½ï¿½";
 
 
 // Common Invocation Parameters
-$GLOBALS['strInvocationWhat']			= "¿ï¾Ü¼s§i";
-$GLOBALS['strInvocationClientID']		= "«È¤á©Î¶µ¥Ø";
-$GLOBALS['strInvocationTarget']			= "¥Ø¼ÐFrame";
-$GLOBALS['strInvocationSource']			= "¨Ó·½";
-$GLOBALS['strInvocationWithText']		= "¦b¼s§i¤U­±Åã¥Ü¤å¦r";
-$GLOBALS['strInvocationDontShowAgain']		= "¦b¦P¤@­¶­±¤£¦AÅã¥Ü¦¹¼s§i";
-$GLOBALS['strInvocationDontShowAgainCampaign']	= "¦b¦P¤@­¶­±¤£¦AÅã¥Ü¦¹¶µ¥Øªº¼s§i";
-$GLOBALS['strInvocationTemplate'] 		= "§â¼s§i«O¦s¦b¤@­ÓÅÜ¶q¤¤¡A¥i¥H¦b¤@­Ó¼ÒªO¸Ì­±¨Ï¥Î";
+$GLOBALS['strInvocationWhat']			= "ï¿½ï¿½Ü¼sï¿½i";
+$GLOBALS['strInvocationClientID']		= "ï¿½È¤ï¿½Î¶ï¿½ï¿½ï¿½";
+$GLOBALS['strInvocationTarget']			= "ï¿½Ø¼ï¿½Frame";
+$GLOBALS['strInvocationSource']			= "ï¿½Ó·ï¿½";
+$GLOBALS['strInvocationWithText']		= "ï¿½bï¿½sï¿½iï¿½Uï¿½ï¿½ï¿½ï¿½Ü¤ï¿½r";
+$GLOBALS['strInvocationDontShowAgain']		= "ï¿½bï¿½Pï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½Ü¦ï¿½ï¿½sï¿½i";
+$GLOBALS['strInvocationDontShowAgainCampaign']	= "ï¿½bï¿½Pï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½Ü¦ï¿½ï¿½ï¿½ï¿½Øªï¿½ï¿½sï¿½i";
+$GLOBALS['strInvocationTemplate'] 		= "ï¿½ï¿½sï¿½iï¿½Oï¿½sï¿½bï¿½@ï¿½ï¿½ï¿½Ü¶qï¿½ï¿½ï¿½Aï¿½iï¿½Hï¿½bï¿½@ï¿½Ó¼ÒªOï¿½Ì­ï¿½ï¿½Ï¥ï¿½";
 
 
 // Iframe
-$GLOBALS['strIFrameRefreshAfter']		= "¨ê·s®É¶¡";
-$GLOBALS['strIframeResizeToBanner']		= "¨Ïiframe»P¼s§iªº¤Ø¤o«O«ù¤@­P";
-$GLOBALS['strIframeMakeTransparent']		= "¨Ïiframe³z©ú";
-$GLOBALS['strIframeIncludeNetscape4']		= "¥]¬ANetscape 4­Ý®eªºilayer";
+$GLOBALS['strIFrameRefreshAfter']		= "ï¿½ï¿½sï¿½É¶ï¿½";
+$GLOBALS['strIframeResizeToBanner']		= "ï¿½ï¿½iframeï¿½Pï¿½sï¿½iï¿½ï¿½ï¿½Ø¤oï¿½Oï¿½ï¿½@ï¿½P";
+$GLOBALS['strIframeMakeTransparent']		= "ï¿½ï¿½iframeï¿½zï¿½ï¿½";
+$GLOBALS['strIframeIncludeNetscape4']		= "ï¿½]ï¿½ANetscape 4ï¿½Ý®eï¿½ï¿½ilayer";
 
 
 // PopUp
-$GLOBALS['strPopUpStyle']			= "¼u¥XÃþ«¬";
-$GLOBALS['strPopUpStylePopUp']			= "¼u¥X";
-$GLOBALS['strPopUpStylePopUnder']		= "¼u¤U";
-$GLOBALS['strPopUpCreateInstance']		= "³Ð«Ø¼u¥X¦¡¼s§iªº±¡ªp";
-$GLOBALS['strPopUpImmediately']			= "¥ß§Y";
-$GLOBALS['strPopUpOnClose']			= "·í¦¹­¶­±Ãö³¬®É";
-$GLOBALS['strPopUpAfterSec']			= "®É¶¡¶¡¹j";
-$GLOBALS['strAutoCloseAfter']			= "¦Û°ÊÃö³¬®É¶¡";
-$GLOBALS['strPopUpTop']				= "°_©l¦ì¸m(¤W)";
-$GLOBALS['strPopUpLeft']			= "°_©l¦ì¸m(¥ª)";
+$GLOBALS['strPopUpStyle']			= "ï¿½uï¿½Xï¿½ï¿½ï¿½ï¿½";
+$GLOBALS['strPopUpStylePopUp']			= "ï¿½uï¿½X";
+$GLOBALS['strPopUpStylePopUnder']		= "ï¿½uï¿½U";
+$GLOBALS['strPopUpCreateInstance']		= "ï¿½Ð«Ø¼uï¿½Xï¿½ï¿½ï¿½sï¿½iï¿½ï¿½ï¿½ï¿½ï¿½p";
+$GLOBALS['strPopUpImmediately']			= "ï¿½ß§Y";
+$GLOBALS['strPopUpOnClose']			= "ï¿½?ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
+$GLOBALS['strPopUpAfterSec']			= "ï¿½É¶ï¿½ï¿½ï¿½ï¿½j";
+$GLOBALS['strAutoCloseAfter']			= "ï¿½Û°ï¿½ï¿½ï¿½É¶ï¿½";
+$GLOBALS['strPopUpTop']				= "ï¿½_ï¿½lï¿½ï¿½m(ï¿½W)";
+$GLOBALS['strPopUpLeft']			= "ï¿½_ï¿½lï¿½ï¿½m(ï¿½ï¿½)";
 
 
 // XML-RPC
-$GLOBALS['strXmlRpcLanguage']			= "¥D¾÷»y¨¥";
+$GLOBALS['strXmlRpcLanguage']			= "ï¿½Dï¿½ï¿½yï¿½ï¿½";
 
 
 // AdLayer
-$GLOBALS['strAdLayerStyle']			= "­·®æ";
+$GLOBALS['strAdLayerStyle']			= "ï¿½ï¿½ï¿½ï¿½";
 
-$GLOBALS['strAlignment']			= "¹ï»ô";
-$GLOBALS['strHAlignment']			= "¾î¦V¹ï»ô";
-$GLOBALS['strLeft']				= "¥ª";
-$GLOBALS['strCenter']				= "¤¤";
-$GLOBALS['strRight']				= "¥k";
+$GLOBALS['strAlignment']			= "ï¿½ï¿½ï¿½";
+$GLOBALS['strHAlignment']			= "ï¿½ï¿½Vï¿½ï¿½ï¿½";
+$GLOBALS['strLeft']				= "ï¿½ï¿½";
+$GLOBALS['strCenter']				= "ï¿½ï¿½";
+$GLOBALS['strRight']				= "ï¿½k";
 
-$GLOBALS['strVAlignment']			= "Áa¦V¹ï»ô";
-$GLOBALS['strTop']				= "³»³¡";
-$GLOBALS['strMiddle']				= "¤¤³¡";
-$GLOBALS['strBottom']				= "©³³¡";
+$GLOBALS['strVAlignment']			= "ï¿½aï¿½Vï¿½ï¿½ï¿½";
+$GLOBALS['strTop']				= "ï¿½ï¿½ï¿½ï¿½";
+$GLOBALS['strMiddle']				= "ï¿½ï¿½ï¿½ï¿½";
+$GLOBALS['strBottom']				= "ï¿½ï¿½ï¿½ï¿½";
 
-$GLOBALS['strAutoCollapseAfter']		= "¦Û°Ê§éÅ|®É¶¡";
-$GLOBALS['strCloseText']			= "Ãö³¬¤å¦r";
-$GLOBALS['strClose']				= "[Ãö³¬]";
-$GLOBALS['strBannerPadding']			= "¼s§i¸É¥Õ";
+$GLOBALS['strAutoCollapseAfter']		= "ï¿½Û°Ê§ï¿½ï¿½|ï¿½É¶ï¿½";
+$GLOBALS['strCloseText']			= "ï¿½ï¿½ï¿½r";
+$GLOBALS['strClose']				= "[ï¿½ï¿½]";
+$GLOBALS['strBannerPadding']			= "ï¿½sï¿½iï¿½É¥ï¿½";
 
-$GLOBALS['strHShift']				= "¾î¦V²¾°Ê";
-$GLOBALS['strVShift']				= "Áa¦V²¾°Ê";
+$GLOBALS['strHShift']				= "ï¿½ï¿½Vï¿½ï¿½ï¿½ï¿½";
+$GLOBALS['strVShift']				= "ï¿½aï¿½Vï¿½ï¿½ï¿½ï¿½";
 
-$GLOBALS['strShowCloseButton']			= "Åã¥ÜÃö³¬«ö¶s";
-$GLOBALS['strBackgroundColor']			= "­I´º¦â";
-$GLOBALS['strBorderColor']			= "Ãä®ØÃC¦â";
+$GLOBALS['strShowCloseButton']			= "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½s";
+$GLOBALS['strBackgroundColor']			= "ï¿½Iï¿½ï¿½ï¿½ï¿½";
+$GLOBALS['strBorderColor']			= "ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½";
 
-$GLOBALS['strDirection']			= "¤è¦V";
-$GLOBALS['strLeftToRight']			= "±q¥ª¨ì¥k";
-$GLOBALS['strRightToLeft']			= "±q¥k¨ì¥ª";
-$GLOBALS['strLooping']				= "´`Àô";
-$GLOBALS['strAlwaysActive']			= "Á`¬O±Ò¥Î";
-$GLOBALS['strSpeed']				= "³t«×";
-$GLOBALS['strPause']				= "¼È°±";
-$GLOBALS['strLimited']				= "­­¨î";
-$GLOBALS['strLeftMargin']			= "¥ªÃä¬É";
-$GLOBALS['strRightMargin']			= "¥kÃä¬É";
-$GLOBALS['strTransparentBackground']		= "³z©ú­I´º";
+$GLOBALS['strDirection']			= "ï¿½ï¿½V";
+$GLOBALS['strLeftToRight']			= "ï¿½qï¿½ï¿½ï¿½ï¿½k";
+$GLOBALS['strRightToLeft']			= "ï¿½qï¿½kï¿½ì¥ª";
+$GLOBALS['strLooping']				= "ï¿½`ï¿½ï¿½";
+$GLOBALS['strAlwaysActive']			= "ï¿½`ï¿½Oï¿½Ò¥ï¿½";
+$GLOBALS['strSpeed']				= "ï¿½tï¿½ï¿½";
+$GLOBALS['strPause']				= "ï¿½È°ï¿½";
+$GLOBALS['strLimited']				= "ï¿½ï¿½ï¿½ï¿½";
+$GLOBALS['strLeftMargin']			= "ï¿½ï¿½ï¿½ï¿½ï¿½";
+$GLOBALS['strRightMargin']			= "ï¿½kï¿½ï¿½ï¿½";
+$GLOBALS['strTransparentBackground']		= "ï¿½zï¿½ï¿½Iï¿½ï¿½";
 
-$GLOBALS['strSmoothMovement']			= "¥­·Æ²¾°Ê";
-$GLOBALS['strHideNotMoving']			= "¹«¼Ð¤£²¾°Ê®ÉÁôÂÃ¼s§i";
-$GLOBALS['strHideDelay']			= "ÁôÂÃ¼s§i«eªº®É¶¡©µ¿ð";
-$GLOBALS['strHideTransparancy']			= "¨ÏÁôÂÃªº¼s§i³z©ú";
+$GLOBALS['strSmoothMovement']			= "ï¿½ï¿½ï¿½Æ²ï¿½ï¿½ï¿½";
+$GLOBALS['strHideNotMoving']			= "ï¿½ï¿½ï¿½Ð¤ï¿½ï¿½ï¿½ï¿½Ê®ï¿½ï¿½ï¿½ï¿½Ã¼sï¿½i";
+$GLOBALS['strHideDelay']			= "ï¿½ï¿½ï¿½Ã¼sï¿½iï¿½eï¿½ï¿½ï¿½É¶ï¿½ï¿½ï¿½ï¿½ï¿½";
+$GLOBALS['strHideTransparancy']			= "ï¿½ï¿½ï¿½ï¿½ï¿½Ãªï¿½ï¿½sï¿½iï¿½zï¿½ï¿½";
 
 
 $GLOBALS['strAdLayerStyleName']	= array(
-	'geocities'		=> "¦a­±",
-	'simple'		=> "¼s§i",
-	'cursor'		=> "¹«¼Ð",
-	'floater'		=> "º}¯B"
+	'geocities'		=> "ï¿½aï¿½ï¿½",
+	'simple'		=> "ï¿½sï¿½i",
+	'cursor'		=> "ï¿½ï¿½ï¿½ï¿½",
+	'floater'		=> "ï¿½}ï¿½B"
 );
 
 ?>

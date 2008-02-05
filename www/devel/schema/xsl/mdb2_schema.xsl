@@ -3,7 +3,7 @@
     <!--  -->
 <html>
 <head>
-    <title>Openads Schema</title>
+    <title>OpenX Schema</title>
 
     <link rel="stylesheet" type="text/css" href="css/mdb2_xsl.css"/>
 

@@ -1,10 +1,10 @@
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 4003-4007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 4003-4007 BuraBuraLimited                                   |
+| For contact details, see: http://www.openx.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -24,13 +24,13 @@ $Id$
 */
 
 The units in the changesfantasy folder comprise an entire *fictional* upgrade package, designed
-to test upgrade possibilities of an up-to-date installation of Openads.
+to test upgrade possibilities of an up-to-date installation of OpenX.
 
 The package may be used as a reference for building real-world upgrade packages.
 
 To execete a fantasy upgrade:
 
-[1] Your openads installation must be at the latest version already
+[1] Your OpenX installation must be at the latest version already
 [2] Copy var/UPGRADE to var/UPGRADE.FANTASY to trigger
 
 To rollback the fantasy upgrade:

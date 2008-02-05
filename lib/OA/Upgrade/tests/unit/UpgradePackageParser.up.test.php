@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
@@ -29,9 +29,9 @@ $Id$
 require_once MAX_PATH.'/lib/OA/Upgrade/UpgradePackageParser.php';
 
 /**
- * A class for testing the Openads Upgrade Package Parser class.
+ * A class for testing the OpenX Upgrade Package Parser class.
  *
- * @package    Openads Upgrade
+ * @package    OpenX Upgrade
  * @subpackage TestSuite
  * @author     Monique Szpak <monique.szpak@openx.org>
  */
@@ -65,9 +65,9 @@ class Test_OA_UpgradePackageParser extends UnitTestCase
         $this->assertEqual($aPackage['creationDate'],'2007-01-01','wrong value: creationDate');
         $this->assertEqual($aPackage['author'],'Test Author','wrong value: author');
         $this->assertEqual($aPackage['authorEmail'],'test@openads.org','wrong value: authorEmail');
-        $this->assertEqual($aPackage['authorUrl'],'http://www.openads.org','wrong value: authorUrl');
+        $this->assertEqual($aPackage['authorUrl'],'http://www.openx.org','wrong value: authorUrl');
         $this->assertEqual($aPackage['license'],'LICENSE.txt','wrong value: license');
-        $this->assertEqual($aPackage['description'],'Openads Upgrade Test 1 to 2','wrong value: description');
+        $this->assertEqual($aPackage['description'],'OpenX Upgrade Test 1 to 2','wrong value: description');
         $this->assertEqual($aPackage['versionFrom'],'1','wrong value: versionFrom');
         $this->assertEqual($aPackage['versionTo'],'2','wrong value: versionTo');
 

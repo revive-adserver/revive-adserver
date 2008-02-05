@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
@@ -29,64 +29,64 @@ $Id$
 */ 
 
 // Invocation Types
-$GLOBALS['strInvocationRemote']			= "Vzdálené volání";
-$GLOBALS['strInvocationRemoteNoCookies']	= "Vzdálené volání - bez cookies"; 
-$GLOBALS['strInvocationJS']			= "Vzdálené volání Javascriptem";
-$GLOBALS['strInvocationIframes']		= "Vzdálené volání pomocí Frames";
-$GLOBALS['strInvocationXmlRpc']			= "Vzdálené volání pomocí XML-RPC";
-$GLOBALS['strInvocationCombined']		= "Kombinované vzdálené volání";
+$GLOBALS['strInvocationRemote']			= "Vzdï¿½lenï¿½ volï¿½nï¿½";
+$GLOBALS['strInvocationRemoteNoCookies']	= "Vzdï¿½lenï¿½ volï¿½nï¿½ - bez cookies"; 
+$GLOBALS['strInvocationJS']			= "Vzdï¿½lenï¿½ volï¿½nï¿½ Javascriptem";
+$GLOBALS['strInvocationIframes']		= "Vzdï¿½lenï¿½ volï¿½nï¿½ pomocï¿½ Frames";
+$GLOBALS['strInvocationXmlRpc']			= "Vzdï¿½lenï¿½ volï¿½nï¿½ pomocï¿½ XML-RPC";
+$GLOBALS['strInvocationCombined']		= "Kombinovanï¿½ vzdï¿½lenï¿½ volï¿½nï¿½";
 $GLOBALS['strInvocationPopUp']			= "Pop-up";
-$GLOBALS['strInvocationAdLayer']		= "Interstitial nebo plovoucí DHTML";
-$GLOBALS['strInvocationLocal']			= "Lokální mód";
+$GLOBALS['strInvocationAdLayer']		= "Interstitial nebo plovoucï¿½ DHTML";
+$GLOBALS['strInvocationLocal']			= "Lokï¿½lnï¿½ mï¿½d";
 
 
 // Other
-$GLOBALS['strCopyToClipboard']			= "Kopírovat do schránky";
+$GLOBALS['strCopyToClipboard']			= "Kopï¿½rovat do schrï¿½nky";
 
 
 // Measures
 $GLOBALS['strAbbrPixels']			= "px";
-$GLOBALS['strAbbrSeconds']			= "vteøin";
+$GLOBALS['strAbbrSeconds']			= "vteï¿½in";
 
 
 // Common Invocation Parameters
 $GLOBALS['strInvocationWhat']			= "Volba banneru";
 $GLOBALS['strInvocationClientID']		= "Inzerent";
-$GLOBALS['strInvocationCampaignID']			= "Kampaò"; 
-$GLOBALS['strInvocationTarget']			= "Cílový frame";
+$GLOBALS['strInvocationCampaignID']			= "Kampaï¿½"; 
+$GLOBALS['strInvocationTarget']			= "Cï¿½lovï¿½ frame";
 $GLOBALS['strInvocationSource']			= "Zdroj";
 $GLOBALS['strInvocationWithText']		= "Zobrazit text pod bannerem";
-$GLOBALS['strInvocationDontShowAgain']		= "Nezobrazovat banner znova na stejné stránce";
-$GLOBALS['strInvocationDontShowAgainCampaign']		= "Nezobrazovat banner ze stejné kampanì znova na stejné stránce";
-$GLOBALS['strInvocationTemplate'] 		= "Ulo¾it banner v promìnné aby mohl být pou¾it v ¹ablonì";
+$GLOBALS['strInvocationDontShowAgain']		= "Nezobrazovat banner znova na stejnï¿½ strï¿½nce";
+$GLOBALS['strInvocationDontShowAgainCampaign']		= "Nezobrazovat banner ze stejnï¿½ kampanï¿½ znova na stejnï¿½ strï¿½nce";
+$GLOBALS['strInvocationTemplate'] 		= "Uloï¿½it banner v promï¿½nnï¿½ aby mohl bï¿½t pouï¿½it v ï¿½ablonï¿½";
 $GLOBALS['strInvocationBannerID']					= "ID banneru"; 
 
 
 // Iframe
 $GLOBALS['strIFrameRefreshAfter']		= "Obnovit po";
 $GLOBALS['strIframeResizeToBanner']		= "Zmenit velikost iframe podle banneru";
-$GLOBALS['strIframeMakeTransparent']		= "Udìlat iframe prùhledný";
-$GLOBALS['strIframeIncludeNetscape4']		= "Vlo¾it Nestcape 4 kompatibilní ilayer";
+$GLOBALS['strIframeMakeTransparent']		= "Udï¿½lat iframe prï¿½hlednï¿½";
+$GLOBALS['strIframeIncludeNetscape4']		= "Vloï¿½it Nestcape 4 kompatibilnï¿½ ilayer";
 
 
 // PopUp
 $GLOBALS['strPopUpStyle']			= "Typ Pop-upu";
 $GLOBALS['strPopUpStylePopUp']			= "Pop-up";
 $GLOBALS['strPopUpStylePopUnder']		= "Pop-under";
-$GLOBALS['strPopUpCreateInstance']		= "Zobrazit kdy¾ je pop-up vytvoøen";
-$GLOBALS['strPopUpImmediately']			= "Okam¾itì";
-$GLOBALS['strPopUpOnClose']			= "Kdy¾ je zavøena stránka";
+$GLOBALS['strPopUpCreateInstance']		= "Zobrazit kdyï¿½ je pop-up vytvoï¿½en";
+$GLOBALS['strPopUpImmediately']			= "Okamï¿½itï¿½";
+$GLOBALS['strPopUpOnClose']			= "Kdyï¿½ je zavï¿½ena strï¿½nka";
 $GLOBALS['strPopUpAfterSec']			= "Po";
-$GLOBALS['strAutoCloseAfter']			= "Automaticky zavøít po";
-$GLOBALS['strPopUpTop']				= "Výchozí pozice (zhora)";
-$GLOBALS['strPopUpLeft']			= "Výchozí pozice (zleva)";
+$GLOBALS['strAutoCloseAfter']			= "Automaticky zavï¿½ï¿½t po";
+$GLOBALS['strPopUpTop']				= "Vï¿½chozï¿½ pozice (zhora)";
+$GLOBALS['strPopUpLeft']			= "Vï¿½chozï¿½ pozice (zleva)";
 $GLOBALS['strWindowOptions']		= "Parametry okna";
-$GLOBALS['strShowToolbars']			= "Panel nástrojù";
-$GLOBALS['strShowLocation']			= "Umístìní";
+$GLOBALS['strShowToolbars']			= "Panel nï¿½strojï¿½";
+$GLOBALS['strShowLocation']			= "Umï¿½stï¿½nï¿½";
 $GLOBALS['strShowMenubar']			= "Menu";
-$GLOBALS['strShowStatus']			= "Stavový øádek";
-$GLOBALS['strWindowResizable']		= "Mìnitelná velikost";
-$GLOBALS['strShowScrollbars']		= "Skrolovatelný";
+$GLOBALS['strShowStatus']			= "Stavovï¿½ ï¿½ï¿½dek";
+$GLOBALS['strWindowResizable']		= "Mï¿½nitelnï¿½ velikost";
+$GLOBALS['strShowScrollbars']		= "Skrolovatelnï¿½";
 
 
 // XML-RPC
@@ -96,55 +96,55 @@ $GLOBALS['strXmlRpcLanguage']			= "Jazyk hostitele";
 // AdLayer
 $GLOBALS['strAdLayerStyle']			= "Styl";
 
-$GLOBALS['strAlignment']			= "Zarovnání";
-$GLOBALS['strHAlignment']			= "Horizontální zarovnání";
+$GLOBALS['strAlignment']			= "Zarovnï¿½nï¿½";
+$GLOBALS['strHAlignment']			= "Horizontï¿½lnï¿½ zarovnï¿½nï¿½";
 $GLOBALS['strLeft']				= "Vlevo";
-$GLOBALS['strCenter']				= "Na støed";
+$GLOBALS['strCenter']				= "Na stï¿½ed";
 $GLOBALS['strRight']				= "Vpravo";
 
-$GLOBALS['strVAlignment']			= "Vertikální zarovnání";
+$GLOBALS['strVAlignment']			= "Vertikï¿½lnï¿½ zarovnï¿½nï¿½";
 $GLOBALS['strTop']				= "Nahoru";
-$GLOBALS['strMiddle']				= "Na støed";
-$GLOBALS['strBottom']				= "Dolù";
+$GLOBALS['strMiddle']				= "Na stï¿½ed";
+$GLOBALS['strBottom']				= "Dolï¿½";
 
-$GLOBALS['strAutoCollapseAfter']		= "Automaticky slouèit po";
-$GLOBALS['strCloseText']			= "Zavøít text";
-$GLOBALS['strClose']				= "[Zavøít]";
-$GLOBALS['strBannerPadding']			= "Odsazení banneru";
+$GLOBALS['strAutoCollapseAfter']		= "Automaticky slouï¿½it po";
+$GLOBALS['strCloseText']			= "Zavï¿½ï¿½t text";
+$GLOBALS['strClose']				= "[Zavï¿½ï¿½t]";
+$GLOBALS['strBannerPadding']			= "Odsazenï¿½ banneru";
 
-$GLOBALS['strHShift']				= "Horizontání posun";
-$GLOBALS['strVShift']				= "Vertikální posun";
+$GLOBALS['strHShift']				= "Horizontï¿½nï¿½ posun";
+$GLOBALS['strVShift']				= "Vertikï¿½lnï¿½ posun";
 
-$GLOBALS['strShowCloseButton']			= "Zobrazit tlaèítko zavøít";
-$GLOBALS['strBackgroundColor']			= "Barva pozadí";
+$GLOBALS['strShowCloseButton']			= "Zobrazit tlaï¿½ï¿½tko zavï¿½ï¿½t";
+$GLOBALS['strBackgroundColor']			= "Barva pozadï¿½";
 $GLOBALS['strBorderColor']			= "Barva okraje";
 
-$GLOBALS['strDirection']			= "Smìr";
+$GLOBALS['strDirection']			= "Smï¿½r";
 $GLOBALS['strLeftToRight']			= "Zleva do prava";
 $GLOBALS['strRightToLeft']			= "Zprava do leva";
-$GLOBALS['strLooping']				= "Smyèka";
-$GLOBALS['strAlwaysActive']			= "V¾dy aktivní";
+$GLOBALS['strLooping']				= "Smyï¿½ka";
+$GLOBALS['strAlwaysActive']			= "Vï¿½dy aktivnï¿½";
 $GLOBALS['strSpeed']				= "Rychlost";
 $GLOBALS['strPause']				= "Pauza";
-$GLOBALS['strLimited']				= "Omezený";
-$GLOBALS['strLeftMargin']			= "Levý okraj";
-$GLOBALS['strRightMargin']			= "Pravý okraj";
-$GLOBALS['strTransparentBackground']		= "Prùhledné pozadí";
+$GLOBALS['strLimited']				= "Omezenï¿½";
+$GLOBALS['strLeftMargin']			= "Levï¿½ okraj";
+$GLOBALS['strRightMargin']			= "Pravï¿½ okraj";
+$GLOBALS['strTransparentBackground']		= "Prï¿½hlednï¿½ pozadï¿½";
 
-$GLOBALS['strSmoothMovement']		= "Jemný pohyb";
-$GLOBALS['strHideNotMoving']		= "Skrýt banner kdy¾ se nehýbe kurzor";
-$GLOBALS['strHideDelay']			= "Prodleva pøed skrytím banneru";
-$GLOBALS['strHideTransparancy']		= "Prùhlednost skrytého banneru";
+$GLOBALS['strSmoothMovement']		= "Jemnï¿½ pohyb";
+$GLOBALS['strHideNotMoving']		= "Skrï¿½t banner kdyï¿½ se nehï¿½be kurzor";
+$GLOBALS['strHideDelay']			= "Prodleva pï¿½ed skrytï¿½m banneru";
+$GLOBALS['strHideTransparancy']		= "Prï¿½hlednost skrytï¿½ho banneru";
 
 
 $GLOBALS['strAdLayerStyleName']	= array(
 	'geocities'		=> "Geocities",
-	'simple'		=> "Jednoduchý",
+	'simple'		=> "Jednoduchï¿½",
 	'cursor'		=> "Kursor",
-	'floater'		=> "Plovoucí"
+	'floater'		=> "Plovoucï¿½"
 );
 
 // Support for 3rd party server clicktracking
-$GLOBALS['str3rdPartyTrack']		= "Podpora pro sledování kliknutí serverù 3tích stran"; 
+$GLOBALS['str3rdPartyTrack']		= "Podpora pro sledovï¿½nï¿½ kliknutï¿½ serverï¿½ 3tï¿½ch stran"; 
 
 ?>

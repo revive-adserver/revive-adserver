@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
@@ -28,7 +28,7 @@ $Id$
 require_once MAX_PATH . '/lib/OA/Dashboard/Feed.php';
 
 /**
- * A dashboard widget to diplay an RSS feed of the Openads Forum
+ * A dashboard widget to diplay an RSS feed of the OpenX Forum
  *
  */
 class OA_Dashboard_Widget_ForumFeed extends OA_Dashboard_Widget_Feed
@@ -46,7 +46,7 @@ class OA_Dashboard_Widget_ForumFeed extends OA_Dashboard_Widget_Feed
             'Last 6 forum posts',
             'http://feeds.feedburner.com/OpenadsForum?format=xml',
             6,
-            'Go to Openads forum page',
+            'Go to OpenX forum page',
             'http://forum.openx.org'
         );
     }

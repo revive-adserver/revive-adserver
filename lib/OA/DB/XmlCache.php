@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
@@ -34,7 +34,7 @@ require_once MAX_PATH . '/lib/OA/PermanentCache.php';
  * It features a predictable cache file name and automatic (un)serialising
  * and zlib (de)compression
  *
- * @package    OpenadsDB
+ * @package    OpenXDB
  * @subpackage XmlCache
  * @author     Matteo Beccati <matteo.beccati@openx.org>
  */

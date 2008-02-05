@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
@@ -31,22 +31,22 @@ $Id$
 
 // Set translation strings
 
-$GLOBALS['strDeliveryEngine']				= "Doruèovací engine";
-$GLOBALS['strMaintenance']					= "Správa";
-$GLOBALS['strAdministrator']				= "Administrátor";
+$GLOBALS['strDeliveryEngine']				= "Doruï¿½ovacï¿½ engine";
+$GLOBALS['strMaintenance']					= "Sprï¿½va";
+$GLOBALS['strAdministrator']				= "Administrï¿½tor";
 
 
 $GLOBALS['strUserlog'] = array (
-	phpAds_actionAdvertiserReportMailed 	=> "Pøehled pro inzerenta {id} odeslán e-mailem",
-	phpAds_actionActiveCampaign				=> "Kampaò {id} aktivována",
-	phpAds_actionAutoClean					=> "Automatické èi¹tìní databáze",
-	phpAds_actionBatchStatistics			=> "Statistiky vykompilovány", 
-	phpAds_actionDeactivationMailed			=> "Upozornìní na deaktivaci kampanì {id} odesláno e-mailem",
-	phpAds_actionDeactiveCampaign			=> "Kampaò {id} deaktivována",
-	phpAds_actionInventoryCalculation		=> "Vytvoøen plán doruèování", 
-	phpAds_actionPriorityCalculation		=> "Priorita pøepoèítána",
-	phpAds_actionPublisherReportMailed 		=> "Pøehled pro vydavatele {id} odeslán e-mailem",
-	phpAds_actionWarningMailed				=> "Výstraha na deaktivaci kampanì {id} odesláno e-mailem",
+	phpAds_actionAdvertiserReportMailed 	=> "Pï¿½ehled pro inzerenta {id} odeslï¿½n e-mailem",
+	phpAds_actionActiveCampaign				=> "Kampaï¿½ {id} aktivovï¿½na",
+	phpAds_actionAutoClean					=> "Automatickï¿½ ï¿½iï¿½tï¿½nï¿½ databï¿½ze",
+	phpAds_actionBatchStatistics			=> "Statistiky vykompilovï¿½ny", 
+	phpAds_actionDeactivationMailed			=> "Upozornï¿½nï¿½ na deaktivaci kampanï¿½ {id} odeslï¿½no e-mailem",
+	phpAds_actionDeactiveCampaign			=> "Kampaï¿½ {id} deaktivovï¿½na",
+	phpAds_actionInventoryCalculation		=> "Vytvoï¿½en plï¿½n doruï¿½ovï¿½nï¿½", 
+	phpAds_actionPriorityCalculation		=> "Priorita pï¿½epoï¿½ï¿½tï¿½na",
+	phpAds_actionPublisherReportMailed 		=> "Pï¿½ehled pro vydavatele {id} odeslï¿½n e-mailem",
+	phpAds_actionWarningMailed				=> "Vï¿½straha na deaktivaci kampanï¿½ {id} odeslï¿½no e-mailem",
 );
 
 ?>

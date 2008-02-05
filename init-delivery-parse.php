@@ -2,10 +2,10 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX  v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 2003-2007 BuraBuraLimited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
@@ -68,7 +68,7 @@ function parseDeliveryIniFile($configPath = null, $configFile = null, $sections 
             // check for false here - it's possible file doesn't exist
             return $conf;
         }
-        echo "Openads could not read the default configuration file for the {$pluginType} plugin";
+        echo "OpenX could not read the default configuration file for the {$pluginType} plugin";
         exit(1);
     }
     // Check for a 'default.conf.php' file
@@ -83,11 +83,11 @@ function parseDeliveryIniFile($configPath = null, $configFile = null, $sections 
     }
     // Check to ensure Max hasn't been installed
     if (file_exists(MAX_PATH . '/var/INSTALLED')) {
-        echo "Openads has been installed, but no configuration file was found.\n";
+        echo "OpenX has been installed, but no configuration file was found.\n";
         exit(1);
     }
     // Max hasn't been installed, so delivery engine can't run
-    echo "Openads has not been installed yet -- please read the INSTALL.txt file.\n";
+    echo "OpenX has not been installed yet -- please read the INSTALL.txt file.\n";
     exit(1);
 }
 
