@@ -142,12 +142,12 @@ class LibAclTest extends DalUnitTestCase
         $this->assertFalse($doAcls->fetch());
 
         // save a channel limited by domain
-        $aAcls['data']              = 'openads.org';
+        $aAcls['data']              = 'openx.org';
         $aAcls['logical']           = 'and';
         $aAcls['type']              = 'Client:Domain';
         $aAcls['comparison']        = '==';
         $aAcls['executionorder']    = 1;
-        $sLimitation                = "MAX_checkClient_Domain('openads.org', '==')";
+        $sLimitation                = "MAX_checkClient_Domain('openx.org', '==')";
         $aEntities                  = array('channelid' => $channelId);
 
         // pause to allow time to pass for acls_updated
@@ -244,7 +244,7 @@ class LibAclTest extends DalUnitTestCase
             'logical' => array('and'),
             'type' => array('Time:Day', 'Client:Domain'),
             'comparison' => array('=~', '!~'),
-            'data' => array('0,1', 'openads.org'),
+            'data' => array('0,1', 'openx.org'),
             'executionorder' => array(1,0)
         ));
         $generator->generate('acls', 2);
@@ -253,7 +253,7 @@ class LibAclTest extends DalUnitTestCase
 
         $doBanners =& OA_Dal::staticGetDO('banners', $bannerid);
         $this->assertEqual(
-            "MAX_checkClient_Domain('openads.org', '!~') and MAX_checkTime_Day('0,1', '=~')",
+            "MAX_checkClient_Domain('openx.org', '!~') and MAX_checkTime_Day('0,1', '=~')",
             $doBanners->compiledlimitation);
         $this->assertEqual("Client:Domain,Time:Day", $doBanners->acl_plugins);
 
