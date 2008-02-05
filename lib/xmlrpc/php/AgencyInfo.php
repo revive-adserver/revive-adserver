@@ -51,6 +51,13 @@ class OA_Dll_AgencyInfo extends OA_Info
     var $agencyId;
 
     /**
+     * This field contains the ID of the agency account.
+     *
+     * @var integer $accountId
+     */
+    var $accountId;
+
+    /**
      * The agencycName variable is the name of the agency.
      *
      * @var string $agencyName
@@ -75,6 +82,7 @@ class OA_Dll_AgencyInfo extends OA_Info
     {
         return array(
                     'agencyId' => 'integer',
+                    'accountId' => 'integer',
                     'agencyName' => 'string',
                     'contactName' => 'string',
                     'emailAddress' => 'string'

@@ -48,7 +48,7 @@ $GLOBALS['_MAX']['TEST']['directories'] =
         'lib/OA',
         'lib/util',
         'plugins',
-        'tests',
+    	'lib/xmlrpc/php'
     );
 
 // Project path - helpful for testing external projects
@@ -128,6 +128,7 @@ $GLOBALS['_MAX']['TEST'][$type . '_layers'] =
         'up'  => array('Upgrade Classes',                      DB_WITH_TABLES),
         'zif' => array('Zone Impression Forecasting (DB)',     DB_WITH_TABLES),
         'del' => array('Delivery Engine (DB)',                 DB_WITH_TABLES),
+        'api' => array('Webservices API',                      DB_WITH_TABLES),
     );
 
 /*

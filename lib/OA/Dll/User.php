@@ -108,8 +108,6 @@ class OA_Dll_User extends OA_Dll
      */
     function _validate(&$oUser)
     {
-        $hasSSO = $GLOBALS['_MAX']['CONF']['authentication']['type'] == 'sso';
-
         if (isset($oUser->userId)) {
             // When modifying a user, check correct field types are used and the userID exists.
             if (!$this->checkStructureRequiredIntegerField($oUser, 'userId') ||
@@ -289,6 +287,9 @@ class OA_Dll_User extends OA_Dll
 
         while ($doUser->fetch()) {
             $userData = $doUser->toArray();
+
+            // Remove password
+            unset($userData['password']);
 
             $oUser = new OA_Dll_UserInfo();
             $this->_setUserDataFromArray($oUser, $userData);
