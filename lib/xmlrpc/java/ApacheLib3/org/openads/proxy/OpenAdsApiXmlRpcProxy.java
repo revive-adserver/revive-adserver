@@ -20,22 +20,9 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-| Copyright (c) 2003-2008 m3 Media Services Ltd                             |
-|                                                                           |
-|  Licensed under the Apache License, Version 2.0 (the "License");          |
-|  you may not use this file except in compliance with the License.         |
-|  You may obtain a copy of the License at                                  |
-|                                                                           |
-|    http://www.apache.org/licenses/LICENSE-2.0                             |
-|                                                                           |
-|  Unless required by applicable law or agreed to in writing, software      |
-|  distributed under the License is distributed on an "AS IS" BASIS,        |
-|  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. |
-|  See the License for the specific language governing permissions and      |
-|  limitations under the License.                                           |
-+---------------------------------------------------------------------------+
 $Id:$
- */
+*/
+
 package org.openads.proxy;
 
 import java.net.URL;
@@ -48,7 +35,7 @@ import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 
 /**
  * The Class OpenAdsApiXmlRpcProxy.
- * 
+ *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class OpenAdsApiXmlRpcProxy {
@@ -70,7 +57,7 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Instantiates a new open ads api xml rpc proxy.
-	 * 
+	 *
 	 * @param host
 	 *            the host
 	 * @param basepath
@@ -114,7 +101,7 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Instantiates a new open ads api xml rpc proxy.
-	 * 
+	 *
 	 * @param host
 	 *            the host
 	 * @param basepath
@@ -126,14 +113,14 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * This method is used to initialize session of user.
-	 * 
+	 *
 	 * @param username
 	 *            the username
 	 * @param password
 	 *            the password
-	 * 
+	 *
 	 * @return True if the operation was successful
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -162,7 +149,7 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Checks if is valid session id.
-	 * 
+	 *
 	 * @return true, if is valid session id
 	 */
 	private boolean isValidSessionId() {
@@ -179,9 +166,9 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * This method is used to abandon user session.
-	 * 
+	 *
 	 * @return True if the operation was successful
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -196,7 +183,7 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * This method adds an agency to the system.
-	 * 
+	 *
 	 * @param params -
 	 *            Structure with the following fields:
 	 *            <ol>
@@ -208,12 +195,12 @@ public class OpenAdsApiXmlRpcProxy {
 	 *            <li> password String (64) The password of the contact used to
 	 *            log into OA
 	 *            <ol>
-	 * 
+	 *
 	 * @return The ID of the newly created agency
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
-	 * 
+	 *
 	 * @see Webservices API
 	 */
 	public Integer addAgency(Map params) throws XmlRpcException {
@@ -223,7 +210,7 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * This method modifies an existing agency.
-	 * 
+	 *
 	 * @param params
 	 *            Structure with the following fields:
 	 *            <ol>
@@ -236,13 +223,13 @@ public class OpenAdsApiXmlRpcProxy {
 	 *            <li> password String (64) The password of the contact used to
 	 *            log into OA
 	 *            <ol>
-	 * 
+	 *
 	 * @return True if the operation was successful
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	public Boolean modifyAgency(Map params) throws XmlRpcException {
 		verifyLogon();
@@ -251,12 +238,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Delete agency.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return True if the operation was successful
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -267,12 +254,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Gets the agency.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return map agency whith key:
-	 * 
+	 *
 	 * <ol>
 	 * <li> agencyName String (255) The name of the agency
 	 * <li> contactName String (255) The name of the contact
@@ -280,7 +267,7 @@ public class OpenAdsApiXmlRpcProxy {
 	 * <li> username String (64) The username of the contact used to log into OA
 	 * <li> password String (64) The password of the contact used to log into OA
 	 * </ol>
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -291,9 +278,9 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Gets the agency list.
-	 * 
+	 *
 	 * @return the agency list
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -304,12 +291,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Agency zone statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -320,14 +307,14 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Agency zone statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -339,16 +326,16 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Agency zone statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
 	 * @param endDate
 	 *            the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -360,12 +347,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Agency advertiser statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -376,14 +363,14 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Agency advertiser statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -395,16 +382,16 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Agency advertiser statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
 	 * @param endDate
 	 *            the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -416,12 +403,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Agency banner statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -432,14 +419,14 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Agency banner statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -451,16 +438,16 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Agency banner statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
 	 * @param endDate
 	 *            the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -472,12 +459,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Agency campaign statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -488,14 +475,14 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Agency campaign statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -507,16 +494,16 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Agency campaign statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
 	 * @param endDate
 	 *            the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -528,12 +515,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Agency daily statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -544,14 +531,14 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Agency daily statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -563,16 +550,16 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Agency daily statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
 	 * @param endDate
 	 *            the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -584,12 +571,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Agency publisher statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -600,14 +587,14 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Agency publisher statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -619,16 +606,16 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Agency publisher statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
 	 * @param endDate
 	 *            the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -640,7 +627,7 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * This method adds an advertiser to the system.
-	 * 
+	 *
 	 * @param params -
 	 *            Structure with the following fields:
 	 *            <ol>
@@ -654,13 +641,13 @@ public class OpenAdsApiXmlRpcProxy {
 	 *            <li> password string (64) The password of the contact used to
 	 *            log into OA
 	 *            </ol>
-	 * 
+	 *
 	 * @return The ID of the newly created advertiser
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	public Integer addAdvertiser(Map params) throws XmlRpcException {
 		verifyLogon();
@@ -669,7 +656,7 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * This method modifies an existing advertiser.
-	 * 
+	 *
 	 * @param params
 	 *            Structure with the following fields:
 	 *            <ol>
@@ -684,13 +671,13 @@ public class OpenAdsApiXmlRpcProxy {
 	 *            <li> password string (64) The password of the contact used to
 	 *            log into OA
 	 *            </ol>
-	 * 
+	 *
 	 * @return True if the operation was successful
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	public Boolean modifyAdvertiser(Map params) throws XmlRpcException {
 		verifyLogon();
@@ -699,12 +686,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Delete advertiser.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return True if the operation was successful
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -715,12 +702,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Gets the advertiser.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return map advertiser whith key:
-	 * 
+	 *
 	 * <ol>
 	 * <li> agencyId integer The ID of the agency to which to add the advertiser
 	 * <li> advertiserName string (255) The name of the advertiser
@@ -729,7 +716,7 @@ public class OpenAdsApiXmlRpcProxy {
 	 * <li> username string (64) The username of the contact used to log into OA
 	 * <li> password string (64) The password of the contact used to log into OA
 	 * </ol>
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -740,12 +727,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Gets the advertiser list by agency id all fields.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return advertisers list
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -757,12 +744,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Advertiser zone statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -773,14 +760,14 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Advertiser zone statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -792,16 +779,16 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Advertiser zone statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
 	 * @param endDate
 	 *            the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -814,12 +801,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Advertiser banner statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -830,14 +817,14 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Advertiser banner statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -849,16 +836,16 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Advertiser banner statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
 	 * @param endDate
 	 *            the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -871,12 +858,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Advertiser campaign statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -888,14 +875,14 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Advertiser campaign statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -907,16 +894,16 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Advertiser campaign statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
 	 * @param endDate
 	 *            the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -929,12 +916,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Advertiser daily statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -945,14 +932,14 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Advertiser daily statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -964,16 +951,16 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Advertiser daily statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
 	 * @param endDate
 	 *            the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -986,12 +973,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Advertiser publisher statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1003,14 +990,14 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Advertiser publisher statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1022,16 +1009,16 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Advertiser publisher statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
 	 * @param endDate
 	 *            the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1044,7 +1031,7 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * This method adds an campaign to the system.
-	 * 
+	 *
 	 * @param params -
 	 *            Structure with the following fields:
 	 *            <ol>
@@ -1060,13 +1047,13 @@ public class OpenAdsApiXmlRpcProxy {
 	 *            <li> priority integer The priority of this campaign
 	 *            <li> weight integer The priority of this campaign
 	 *            </ol>
-	 * 
+	 *
 	 * @return The ID of the newly created campaign
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	public Integer addCampaign(Map params) throws XmlRpcException {
 		verifyLogon();
@@ -1075,7 +1062,7 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * This method modifies an existing campaign.
-	 * 
+	 *
 	 * @param params
 	 *            Structure with the following fields:
 	 *            <ol>
@@ -1093,11 +1080,11 @@ public class OpenAdsApiXmlRpcProxy {
 	 *            <li> weight integer The priority of this campaign
 	 *            </ol>
 	 * @return True if the operation was successful
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	public Boolean modifyCampaign(Map params) throws XmlRpcException {
 		verifyLogon();
@@ -1106,12 +1093,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Delete campaign.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return True if the operation was successful
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1122,12 +1109,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Gets the campaign.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return map campaign whith key:
-	 * 
+	 *
 	 * <ol>
 	 * <li> advertiserId integer The ID of the advertiser to which to add the
 	 * campaign
@@ -1140,7 +1127,7 @@ public class OpenAdsApiXmlRpcProxy {
 	 * <li> priority integer The priority of this campaign
 	 * <li> weight integer The priority of this campaign
 	 * </ol>
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1151,12 +1138,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Gets the campaign list by advertiser id.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return the campaign list by advertiser id
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1168,12 +1155,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Campaign zone statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1184,14 +1171,14 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Campaign zone statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1203,16 +1190,16 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Campaign zone statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
 	 * @param endDate
 	 *            the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1224,12 +1211,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Campaign banner statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1240,14 +1227,14 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Campaign banner statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1259,16 +1246,16 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Campaign banner statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
 	 * @param endDate
 	 *            the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1280,12 +1267,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Campaign daily statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1296,14 +1283,14 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Campaign daily statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1315,16 +1302,16 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Campaign daily statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
 	 * @param endDate
 	 *            the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1336,12 +1323,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Campaign publisher statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1352,14 +1339,14 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Campaign publisher statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1371,16 +1358,16 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Campaign publisher statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
 	 * @param endDate
 	 *            the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1393,7 +1380,7 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * This method adds an banner to the system.
-	 * 
+	 *
 	 * @param params -
 	 *            Structure with the following fields:
 	 *            <ol>
@@ -1412,14 +1399,14 @@ public class OpenAdsApiXmlRpcProxy {
 	 *            <li> weight integer The priority of this banner
 	 *            <li> url text The destination URL of the banner
 	 *            </ol>
-	 * 
-	 * 
+	 *
+	 *
 	 * @return The ID of the newly created banner
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	public Integer addBanner(Map params) throws XmlRpcException {
 		verifyLogon();
@@ -1428,7 +1415,7 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * This method modifies an existing banner.
-	 * 
+	 *
 	 * @param params
 	 *            Structure with the following fields:
 	 *            <ol>
@@ -1448,13 +1435,13 @@ public class OpenAdsApiXmlRpcProxy {
 	 *            <li> weight integer The priority of this banner
 	 *            <li> url text The destination URL of the banner
 	 *            </ol>
-	 * 
+	 *
 	 * @return True if the operation was successful
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	public Boolean modifyBanner(Map params) throws XmlRpcException {
 		verifyLogon();
@@ -1463,12 +1450,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Delete banner.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return True if the operation was successful
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1479,12 +1466,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Gets the banner.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return map banner whith key:
-	 * 
+	 *
 	 * <ol>
 	 * <li> campaignId integer The ID of the campaign to which to add the banner
 	 * <li> bannerName string (255) The name of the banner
@@ -1497,7 +1484,7 @@ public class OpenAdsApiXmlRpcProxy {
 	 * <li> weight integer The priority of this banner
 	 * <li> url text The destination URL of the banner
 	 * </ol>
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1508,12 +1495,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Gets the banner list by advertiser id.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return the banner list by advertiser id
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1524,12 +1511,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Banner zone statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1540,14 +1527,14 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Banner zone statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1559,16 +1546,16 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Banner zone statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
 	 * @param endDate
 	 *            the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1580,12 +1567,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Banner daily statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1596,14 +1583,14 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Banner daily statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1615,16 +1602,16 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Banner daily statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
 	 * @param endDate
 	 *            the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1636,12 +1623,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Banner publisher statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1652,14 +1639,14 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Banner publisher statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1671,16 +1658,16 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Banner publisher statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
 	 * @param endDate
 	 *            the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1692,7 +1679,7 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * This method adds an zone to the system.
-	 * 
+	 *
 	 * @param params -
 	 *            Structure with the following fields:
 	 *            <ol>
@@ -1702,15 +1689,15 @@ public class OpenAdsApiXmlRpcProxy {
 	 *            <li> width integer
 	 *            <li> height integer
 	 *            </ol>
-	 * 
-	 * 
-	 * 
+	 *
+	 *
+	 *
 	 * @return The ID of the newly created zone
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	public Integer addZone(Map params) throws XmlRpcException {
 		verifyLogon();
@@ -1719,7 +1706,7 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * This method modifies an existing zone.
-	 * 
+	 *
 	 * @param params
 	 *            Structure with the following fields:
 	 *            <ol>
@@ -1731,11 +1718,11 @@ public class OpenAdsApiXmlRpcProxy {
 	 *            <li> height integer
 	 *            </ol>
 	 * @return True if the operation was successful
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	public Boolean modifyZone(Map params) throws XmlRpcException {
 		verifyLogon();
@@ -1744,12 +1731,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Delete zone.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return True if the operation was successful
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1760,12 +1747,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Gets the zone.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return map zone whith key:
-	 * 
+	 *
 	 * <ol>
 	 * <li> publisherId integer
 	 * <li> zoneName string (255)
@@ -1773,8 +1760,8 @@ public class OpenAdsApiXmlRpcProxy {
 	 * <li> width integer
 	 * <li> height integer
 	 * </ol>
-	 * 
-	 * 
+	 *
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1785,12 +1772,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Gets the zone list by publisher id.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return zones list
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1801,12 +1788,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Zone advertiser statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1817,14 +1804,14 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Zone advertiser statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1836,16 +1823,16 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Zone advertiser statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
 	 * @param endDate
 	 *            the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1857,12 +1844,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Zone banner statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1873,14 +1860,14 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Zone banner statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1892,16 +1879,16 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Zone banner statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
 	 * @param endDate
 	 *            the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1913,12 +1900,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Zone campaign statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1929,14 +1916,14 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Zone campaign statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1948,16 +1935,16 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Zone campaign statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
 	 * @param endDate
 	 *            the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1969,12 +1956,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Zone daily statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -1985,14 +1972,14 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Zone daily statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -2004,16 +1991,16 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Zone daily statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
 	 * @param endDate
 	 *            the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -2025,7 +2012,7 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * This method adds an publisher to the system.
-	 * 
+	 *
 	 * @param params -
 	 *            Structure with the following fields:
 	 *            <ol>
@@ -2039,13 +2026,13 @@ public class OpenAdsApiXmlRpcProxy {
 	 *            <li> password string (64) The password of the contact used to
 	 *            log into OA
 	 *            </ol>
-	 * 
+	 *
 	 * @return The ID of the newly created publisher
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	public Integer addPublisher(Map params) throws XmlRpcException {
 		verifyLogon();
@@ -2054,7 +2041,7 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * This method modifies an existing publisher.
-	 * 
+	 *
 	 * @param params
 	 *            Structure with the following fields:
 	 *            <ol>
@@ -2070,11 +2057,11 @@ public class OpenAdsApiXmlRpcProxy {
 	 *            log into OA
 	 *            </ol>
 	 * @return True if the operation was successful
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	public Boolean modifyPublisher(Map params) throws XmlRpcException {
 		verifyLogon();
@@ -2083,12 +2070,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Delete publisher.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return True if the operation was successful
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -2099,12 +2086,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Gets the publisher.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return map publisher whith key:
-	 * 
+	 *
 	 * <ol>
 	 * <li> agencyId integer The ID of the agency to which to add the publisher
 	 * <li> publisherName string (255) The name of the publisher
@@ -2113,7 +2100,7 @@ public class OpenAdsApiXmlRpcProxy {
 	 * <li> username string (64) The username of the contact used to log into OA
 	 * <li> password string (64) The password of the contact used to log into OA
 	 * </ol>
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -2124,12 +2111,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Gets the publisher list by agency id.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return publishers list
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -2140,12 +2127,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Publisher zone statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -2156,14 +2143,14 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Publisher zone statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -2175,16 +2162,16 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Publisher zone statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
 	 * @param endDate
 	 *            the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -2196,12 +2183,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Publisher campaign statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -2212,14 +2199,14 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Publisher campaign statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -2231,16 +2218,16 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Publisher campaign statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
 	 * @param endDate
 	 *            the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -2253,12 +2240,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Publisher daily statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -2269,14 +2256,14 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Publisher daily statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -2288,16 +2275,16 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Publisher daily statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
 	 * @param endDate
 	 *            the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -2310,12 +2297,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Publisher banner statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -2326,14 +2313,14 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Publisher banner statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -2345,16 +2332,16 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Publisher banner statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
 	 * @param endDate
 	 *            the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -2367,12 +2354,12 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Publisher advertiser statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -2384,14 +2371,14 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Publisher advertiser statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */
@@ -2403,16 +2390,16 @@ public class OpenAdsApiXmlRpcProxy {
 
 	/**
 	 * Publisher advertiser statistics.
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param startDate
 	 *            the start date
 	 * @param endDate
 	 *            the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 *             the xml rpc exception
 	 */

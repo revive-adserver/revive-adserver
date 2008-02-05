@@ -20,22 +20,9 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-| Copyright (c) 2003-2008 m3 Media Services Ltd                             |
-|                                                                           |
-|  Licensed under the Apache License, Version 2.0 (the "License");          |
-|  you may not use this file except in compliance with the License.         |
-|  You may obtain a copy of the License at                                  |
-|                                                                           |
-|    http://www.apache.org/licenses/LICENSE-2.0                             |
-|                                                                           |
-|  Unless required by applicable law or agreed to in writing, software      |
-|  distributed under the License is distributed on an "AS IS" BASIS,        |
-|  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. |
-|  See the License for the specific language governing permissions and      |
-|  limitations under the License.                                           |
-+---------------------------------------------------------------------------+
 $Id:$
- */
+*/
+
 package org.openads.banner;
 
 import java.net.MalformedURLException;
@@ -47,29 +34,29 @@ import org.openads.utils.TextUtils;
 
 /**
  * Verify Get Banner method
- * 
+ *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestGetBanner extends BannerTestCase {
 
 	/**
 	 * Test method with all fields.
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 * @throws MalformedURLException
 	 */
 	@SuppressWarnings("unchecked")
 	public void testGetBannerAllFields() throws XmlRpcException,
 			MalformedURLException {
-		
+
 		Map<String, Object> myBanner = getBannerParams("test1");
 		Integer id = createBanner(myBanner);
 		Object[] params = new Object[] { sessionId, id };
-		
+
 		try {
 			final Map<String, Object> banner = (Map<String, Object>) execute(
 					GET_BANNER_METHOD, params);
-			
+
 			checkParameter(banner, CAMPAIGN_ID, campaignId);
 			checkParameter(banner, BANNER_ID, id);
 			checkParameter(banner, BANNER_NAME, myBanner.get(BANNER_NAME));
@@ -88,7 +75,7 @@ public class TestGetBanner extends BannerTestCase {
 
 	/**
 	 * Execute test method with error
-	 * 
+	 *
 	 * @param params -
 	 *            parameters for test method
 	 * @param errorMsg -
@@ -111,7 +98,7 @@ public class TestGetBanner extends BannerTestCase {
 
 	/**
 	 * Test method without some required fields(error).
-	 * 
+	 *
 	 * @throws MalformedURLException
 	 */
 	public void testGetBannerWithoutSomeRequiredFields()
@@ -126,7 +113,7 @@ public class TestGetBanner extends BannerTestCase {
 
 	/**
 	 * Try to get banner with unknown id
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 * @throws MalformedURLException
 	 */
@@ -142,7 +129,7 @@ public class TestGetBanner extends BannerTestCase {
 
 	/**
 	 * Test method with fields that has value of wrong type (error).
-	 * 
+	 *
 	 * @throws MalformedURLException
 	 * @throws XmlRpcException
 	 */

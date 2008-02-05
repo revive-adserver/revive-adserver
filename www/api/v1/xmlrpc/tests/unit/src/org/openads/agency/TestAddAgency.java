@@ -20,20 +20,6 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-| Copyright (c) 2003-2008 m3 Media Services Ltd                             |
-|                                                                           |
-|  Licensed under the Apache License, Version 2.0 (the "License");          |
-|  you may not use this file except in compliance with the License.         |
-|  You may obtain a copy of the License at                                  |
-|                                                                           |
-|    http://www.apache.org/licenses/LICENSE-2.0                             |
-|                                                                           |
-|  Unless required by applicable law or agreed to in writing, software      |
-|  distributed under the License is distributed on an "AS IS" BASIS,        |
-|  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. |
-|  See the License for the specific language governing permissions and      |
-|  limitations under the License.                                           |
-+---------------------------------------------------------------------------+
 $Id:$
 */
 
@@ -50,13 +36,13 @@ import org.openads.utils.TextUtils;
 
 /**
  * Verify Add Agency method
- * 
+ *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestAddAgency extends AgencyTestCase {
 	/**
 	 * Test method with all required fields and some optional.
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 * @throws MalformedURLException
 	 */
@@ -74,7 +60,7 @@ public class TestAddAgency extends AgencyTestCase {
 
 	/**
 	 * Test method with all required and all optional fields.
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 * @throws MalformedURLException
 	 */
@@ -95,7 +81,7 @@ public class TestAddAgency extends AgencyTestCase {
 
 	/**
 	 * Test method without optional fields (only required).
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 * @throws MalformedURLException
 	 */
@@ -112,7 +98,7 @@ public class TestAddAgency extends AgencyTestCase {
 
 	/**
 	 * Test method with fields that has min. allowed values.
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 * @throws MalformedURLException
 	 */
@@ -133,7 +119,7 @@ public class TestAddAgency extends AgencyTestCase {
 
 	/**
 	 * Test method with fields that has max. allowed values.
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 * @throws MalformedURLException
 	 */
@@ -154,7 +140,7 @@ public class TestAddAgency extends AgencyTestCase {
 
 	/**
 	 * Execute test method with error
-	 * 
+	 *
 	 * @param params -
 	 *            parameters for test method
 	 * @param errorMsg -
@@ -175,7 +161,7 @@ public class TestAddAgency extends AgencyTestCase {
 
 	/**
 	 * Test method with fields that has value greater than max.
-	 * 
+	 *
 	 * @throws MalformedURLException
 	 * @throws XmlRpcException
 	 */
@@ -214,7 +200,7 @@ public class TestAddAgency extends AgencyTestCase {
 
 	/**
 	 * Test method with fields that has value less than min
-	 * 
+	 *
 	 * @throws MalformedURLException
 	 */
 	public void testAddAgencyLessThanMinFieldValueError()
@@ -239,7 +225,7 @@ public class TestAddAgency extends AgencyTestCase {
 	/**
 	 * Try to add agency with the same username as an existing admin, agency,
 	 * advertiser, or publisher username.
-	 * 
+	 *
 	 * @throws MalformedURLException
 	 */
 	public void testAddAgencyDuplicateUsernameError()
@@ -257,7 +243,7 @@ public class TestAddAgency extends AgencyTestCase {
 
 	/**
 	 * Try to add agency with unsupported characters in password.
-	 * 
+	 *
 	 * @throws MalformedURLException
 	 */
 	public void testAddAgencyUsernameFormatError2()
@@ -276,7 +262,7 @@ public class TestAddAgency extends AgencyTestCase {
 
 	/**
 	 * Try to add agency with username fewer than 1 characters.
-	 * 
+	 *
 	 * @throws MalformedURLException
 	 */
 	public void testAddAgencyUsernameFormatError3()
@@ -295,7 +281,7 @@ public class TestAddAgency extends AgencyTestCase {
 
 	/**
 	 * Try to add agency without username but with password.
-	 * 
+	 *
 	 * @throws MalformedURLException
 	 */
 	public void testAddAgencyUsernameFormatError4()
@@ -313,7 +299,7 @@ public class TestAddAgency extends AgencyTestCase {
 
 	/**
 	 * Test method with fields that has value of wrong type (error).
-	 * 
+	 *
 	 * @throws MalformedURLException
 	 * @throws XmlRpcException
 	 */
