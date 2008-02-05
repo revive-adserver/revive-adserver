@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -30,7 +30,7 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation/Empty.p
 require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
- * @package    OpenadsMaintenance
+ * @package    OpenXMaintenance
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew.hill@openx.org>
  */

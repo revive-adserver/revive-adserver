@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -69,9 +69,9 @@ function logSQL($oDbh, $scope, $message, $context)
 }
 
 /**
- * The core Openads class, providing handy methods that are useful everywhere!
+ * The core OpenX class, providing handy methods that are useful everywhere!
  *
- * @package    Openads
+ * @package    OpenX
  * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA
@@ -287,7 +287,7 @@ class OA
     }
 
     /**
-     * A method to strip unwanted ending tags from an Openads version string.
+     * A method to strip unwanted ending tags from an OpenX version string.
      *
      * @static
      * @param string $version The original version string.

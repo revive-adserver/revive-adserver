@@ -6,7 +6,7 @@ It could be done either in .htaccess file or inside php.ini itself:
 auto_append_file = /location/to/this/folder/memory_append.php
 }}}
 
-Following file analyze each Openads file and create a tab separated file inside "var" folder: memory.log
+Following file analyze each OpenX file and create a tab separated file inside "var" folder: memory.log
 
 There is no much use of memory footprint tests without any data stored in database. In order to
 generate testing data please use provided "generate-data.php" script which generates as many records

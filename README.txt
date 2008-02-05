@@ -1,9 +1,9 @@
 
-    Openads - Open Source Adserver
+    OpenX - Open Source Adserver
     ------------------------------------------------------------------------
-    Openads is a set of tools which enable online marketing campaigns.
-    Primarily, Openads is written in PHP, and is loosely based on phpAdsNew.
-    The core modules of Openads include:
+    OpenX is a set of tools which enable online marketing campaigns.
+    Primarily, OpenX is written in PHP, and is loosely based on phpAdsNew.
+    The core modules of OpenX include:
     . Adserver
     . Conversion Tracking Tools
 
@@ -102,4 +102,4 @@
     And all the rest who helped.
 
 
-    http://www.openads.org/
+    http://www.openx.org/

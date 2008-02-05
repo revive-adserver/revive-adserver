@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -30,26 +30,26 @@ $Id$
 
 
 // Main strings
-$GLOBALS['strChooseSection']			= "¿µ¿ª ¼±ÅÃ";
+$GLOBALS['strChooseSection']			= "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½";
 
 
 // Priority
-$GLOBALS['strRecalculatePriority']		= "¿ì¼±¼øÀ§ ´Ù½Ã °è»ê";
-$GLOBALS['strHighPriorityCampaigns']		= "³ôÀº ¿ì¼±¼øÀ§ Ä·ÆäÀÎ";
-$GLOBALS['strAdViewsAssigned']			= "ÇÒ´çµÈ AdViews";
-$GLOBALS['strLowPriorityCampaigns']		= "³·Àº ¿ì¼±¼øÀ§ Ä·ÆäÀÎ";
-$GLOBALS['strPredictedAdViews']			= "¿¹»ó AdViews";
-$GLOBALS['strPriorityDaysRunning']		= "ÀÏÀÏ ¿¹»óÄ¡¸¦ ±âÁØÀ¸·Î {days}ÀÏ Á¤µµ ³²¾ÆÀÖ½À´Ï´Ù.";
-$GLOBALS['strPriorityBasedLastWeek']		= "Áö³­ÁÖ¿Í ±ÝÁÖÀÇ µ¥ÀÌÅÍ¸¦ Åä´ë·Î ¿¹»ó ³ëÃâ¼ö °è»ê. ";
-$GLOBALS['strPriorityBasedLastDays']		= "ÃÖ±Ù ¸çÄ¥°£ÀÇ µ¥ÀÌÅÍ¸¦ Åä´ë·Î ¿¹»ó ³ëÃâ¼ö °è»ê. ";
-$GLOBALS['strPriorityBasedYesterday']		= "¾îÁ¦ µ¥ÀÌÅÍ¸¦ ±âÁØÀ¸·Î ¿¹»ó ³ëÃâ¼ö °è»ê. ";
+$GLOBALS['strRecalculatePriority']		= "ï¿½ì¼±ï¿½ï¿½' ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½";
+$GLOBALS['strHighPriorityCampaigns']		= "ï¿½ï¿½: ï¿½ì¼±ï¿½ï¿½' Ä·ï¿½ï¿½ï¿½ï¿½";
+$GLOBALS['strAdViewsAssigned']			= "ï¿½Ò´ï¿½ï¿½ AdViews";
+$GLOBALS['strLowPriorityCampaigns']		= "ï¿½ï¿½: ï¿½ì¼±ï¿½ï¿½' Ä·ï¿½ï¿½ï¿½ï¿½";
+$GLOBALS['strPredictedAdViews']			= "ï¿½ï¿½ï¿½ï¿½ AdViews";
+$GLOBALS['strPriorityDaysRunning']		= "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½8ï¿½ï¿½ {days}ï¿½ï¿½ dï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö½4Ï´ï¿½.";
+$GLOBALS['strPriorityBasedLastWeek']		= "ï¿½ï¿½ï¿½Ö¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½. ";
+$GLOBALS['strPriorityBasedLastDays']		= "ï¿½Ö±ï¿½ ï¿½ï¿½Ä¥ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½. ";
+$GLOBALS['strPriorityBasedYesterday']		= "ï¿½ï¿½f ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½8ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½. ";
 $GLOBALS['strPriorityNoData']			= "There isn't enough data available to make a reliable prediction about the number of impressions this adserver will generate today. Priority assignments will be based on real time statistics only. ";
 $GLOBALS['strPriorityEnoughAdViews']		= "There should be enough AdViews to fully satisfy the target all high priority campaigns. ";
 $GLOBALS['strPriorityNotEnoughAdViews']		= "It isn't clear wether there will be enough AdViews served today to satisfy the target all high priority campaigns. ";
 
 
 // Banner cache
-$GLOBALS['strRebuildBannerCache']		= "¹è³Ê Ä³½Ã ´Ù½Ã ºôµå";
+$GLOBALS['strRebuildBannerCache']		= "ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½";
 $GLOBALS['strBannerCacheExplaination']		= "
 	The banner cache contains a copy of the HTML code which is used to display the banner. By using a banner cache it is possible to speed
 	up the delivery of banners because the HTML code doesn't need to be generated every time a banner is being delivered. Because the
@@ -59,27 +59,27 @@ $GLOBALS['strBannerCacheExplaination']		= "
 
 
 // Cache
-$GLOBALS['strCache']			= "Àü´ÞÀ¯Áö Ä³½Ã";
+$GLOBALS['strCache']			= "ï¿½ï¿½ï¿½/ï¿½ï¿½ Ä³ï¿½ï¿½";
 $GLOBALS['strAge']				= "Age";
-$GLOBALS['strRebuildDeliveryCache']			= "Àü´ÞÀ¯Áö Ä³½Ã ´Ù½Ã ºôµå";
+$GLOBALS['strRebuildDeliveryCache']			= "ï¿½ï¿½ï¿½/ï¿½ï¿½ Ä³ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½";
 $GLOBALS['strDeliveryCacheExplaination']		= "
-	Àü´ÞÀ¯Áö Ä³½Ã(delivery cache)´Â ¹è³Ê¸¦ ºü¸£°Ô Àü´ÞÇÏ±â À§ÇØ »ç¿ëÇÏ´Â ¹æ¹ýÀÌ´Ù.
+	ï¿½ï¿½ï¿½/ï¿½ï¿½ Ä³ï¿½ï¿½(delivery cache)ï¿½ï¿½ ï¿½ï¿½Ê¸ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ 'ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½Ì´ï¿½.
 	The cache contains a copy of all the banners
 	which are linked to the zone which saves a number of database queries when the banners are actually delivered to the user. The cache
 	is usually rebuild everytime a change is made to the zone or one of it's banners, it is possible the cache will become outdated. Because
 	of this the cache will automatically rebuild every hour, but it is also possible to rebuild the cache manually.
 ";
 $GLOBALS['strDeliveryCacheSharedMem']		= "
-	ÇöÀç Àü´ÞÀ¯Áö Ä³½Ã¸¦ ÀúÀåÇÏ±â À§ÇØ °øÀ¯ ¸Þ¸ð¸®¸¦ »ç¿ëÇÏ°í ÀÖ½À´Ï´Ù. ";
+	ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½/ï¿½ï¿½ Ä³ï¿½Ã¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ 'ï¿½ï¿½ ï¿½ï¿½/ ï¿½Þ¸ð¸®¸ï¿½ ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ö½4Ï´ï¿½. ";
 $GLOBALS['strDeliveryCacheDatabase']		= "
-  ÇöÀç Àü´ÞÀ¯Áö Ä³½Ã¸¦ ÀúÀåÇÏ±â À§ÇØ µ¥ÀÌÅÍº£ÀÌ½º¸¦ »ç¿ëÇÏ°í ÀÖ½À´Ï´Ù. ";
+  ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½/ï¿½ï¿½ Ä³ï¿½Ã¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ 'ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Íºï¿½ï¿½Ì½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ö½4Ï´ï¿½. ";
 
 
 // Storage
-$GLOBALS['strStorage']				= "ÀúÀå¿µ¿ª";
-$GLOBALS['strMoveToDirectory']			= "µ¥ÀÌÅÍº£ÀÌ½º¿¡ ÀúÀåµÈ ÀÌ¹ÌÁö¸¦ µð·ºÅÍ¸®·Î ¿Å±â±â";
+$GLOBALS['strStorage']				= "ï¿½ï¿½ï¿½å¿µï¿½ï¿½";
+$GLOBALS['strMoveToDirectory']			= "ï¿½ï¿½ï¿½ï¿½ï¿½Íºï¿½ï¿½Ì½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Í¸ï¿½ï¿½ï¿½ ï¿½Å±ï¿½ï¿½";
 $GLOBALS['strStorageExplaination']		= "
-	·ÎÄÃ ¹è³Ê·Î »ç¿ëÇÏ´Â ÀÌ¹ÌÁö´Â µ¥ÀÌÅÍº£ÀÌ½º ¶Ç´Â µð·ºÅÍ¸®¿¡ ÀúÀåµÇ¾î ÀÖ½À´Ï´Ù. ÀÌ¹ÌÁö¸¦ µð·ºÅÍ¸®¿¡ ÀúÀåÇÑ °æ¿ì¿¡´Â µ¥ÀÌÅÍº£ÀÌ½º¿¡ ´ëÇÑ ºÎÇÏ¸¦ ÁÙÀÓÀ¸·Î½á ¼Óµµ¸¦ Çâ»ó½ÃÅ³ ¼ö ÀÖ½À´Ï´Ù.";
+	ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ê·ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Íºï¿½ï¿½Ì½ï¿½ ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½Í¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ ï¿½Ö½4Ï´ï¿½. ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Í¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Íºï¿½ï¿½Ì½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½8ï¿½Î½ï¿½ ï¿½Óµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å³ ï¿½ï¿½ ï¿½Ö½4Ï´ï¿½.";
 
 
 // Storage
@@ -90,13 +90,13 @@ $GLOBALS['strStatisticsExplaination']		= "
 
 
 // Product Updates
-$GLOBALS['strSearchingUpdates']			= "¾÷µ¥ÀÌÆ®¸¦ °Ï»öÁßÀÔ´Ï´Ù. Àá½Ã ±â´Ù·ÁÁÖ½Ê½Ã¿À...";
-$GLOBALS['strAvailableUpdates']			= "ÀÌ¿ëÇÒ ¼ö ÀÖ´Â ¾÷µ¥ÀÌÆ®";
-$GLOBALS['strDownloadZip']			= "´Ù¿î·Îµå(.zip)";
-$GLOBALS['strDownloadGZip']			= "´Ù¿î·Îµå(.tar.gz)";
+$GLOBALS['strSearchingUpdates']			= "ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ï»ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½. ï¿½ï¿½ï¿½ ï¿½ï¿½Ù·ï¿½ï¿½Ö½Ê½Ã¿ï¿½...";
+$GLOBALS['strAvailableUpdates']			= "ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®";
+$GLOBALS['strDownloadZip']			= "ï¿½Ù¿ï¿½Îµï¿½(.zip)";
+$GLOBALS['strDownloadGZip']			= "ï¿½Ù¿ï¿½Îµï¿½(.tar.gz)";
 
-$GLOBALS['strUpdateAlert']			= $phpAds_productname."ÀÇ »õ ¹öÀüÀ» ÀÌ¿ëÇÒ ¼ö ÀÖ½À´Ï´Ù.\\n\\n»õ ¾÷µ¥ÀÌÆ®¿¡ ´ëÇÑ ÀÚ¼¼ÇÑ Á¤º¸¸¦ º¸°Ú½À´Ï±î?";
-$GLOBALS['strUpdateAlertSecurity']		= $phpAds_productname."ÀÇ »õ ¹öÀüÀ» ÀÌ¿ëÇÒ ¼ö ÀÖ½À´Ï´Ù.\\n\\n»õ ¹öÀüÀº ÇÏ³ª ¶Ç´Â ±× ÀÌ»óÀÇ º¸¾È ¼öÁ¤À» Æ÷ÇÔÇÏ°í ÀÖÀ¸¹Ç·Î °¡´ÉÇÑÇÑ »¡¸® ¾÷±×·¹ÀÌµåÇÒ °ÍÀ» ±ÇÇÕ´Ï´Ù.";
+$GLOBALS['strUpdateAlert']			= $phpAds_productname."ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½; ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö½4Ï´ï¿½.\\n\\nï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ú¼ï¿½ï¿½ï¿½ dï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú½4Ï±ï¿½?";
+$GLOBALS['strUpdateAlertSecurity']		= $phpAds_productname."ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½; ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö½4Ï´ï¿½.\\n\\nï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: ï¿½Ï³ï¿½ ï¿½Ç´ï¿½ ï¿½ï¿½ ï¿½Ì»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½d; ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½8ï¿½Ç·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½×·ï¿½ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½; ï¿½ï¿½ï¿½Õ´Ï´ï¿½.";
 
 $GLOBALS['strUpdateServerDown']			= "
     Due to an unknown reason it isn't possible to retrieve <br />
@@ -104,7 +104,7 @@ $GLOBALS['strUpdateServerDown']			= "
 ";
 
 $GLOBALS['strNoNewVersionAvailable']		= "
-	ÇöÀç »ç¿ëÁßÀÎ ".$phpAds_productname."ÀÇ ¹öÀüÀº ÃÖ½ÅÀÔ´Ï´Ù. ÇöÀç ÀÌ¿ëÇÒ ¼ö ÀÖ´Â ¾÷µ¥ÀÌÆ®°¡ ¾ø½À´Ï´Ù.
+	ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ".$phpAds_productname."ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: ï¿½Ö½ï¿½ï¿½Ô´Ï´ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½4Ï´ï¿½.
 ";
 
 $GLOBALS['strNewVersionAvailable']		= "
@@ -136,13 +136,13 @@ $GLOBALS['strClickToVisitWebsite']		= "
 
 
 // Stats conversion
-$GLOBALS['strConverting']			= "º¯È¯Áß";
-$GLOBALS['strConvertingStats']			= "Åë°è¸¦ º¯È¯ÁßÀÔ´Ï´Ù...";
-$GLOBALS['strConvertStats']			= "Åë°è º¯È¯";
-$GLOBALS['strConvertAdViews']			= "AdViews º¯È¯,";
-$GLOBALS['strConvertAdClicks']			= "AdClicks º¯È¯...";
-$GLOBALS['strConvertNothing']			= "º¯È¯ÇÒ °ÍÀÌ ¾ø½À´Ï´Ù...";
-$GLOBALS['strConvertFinished']			= "¿Ï·á...";
+$GLOBALS['strConverting']			= "ï¿½ï¿½È¯ï¿½ï¿½";
+$GLOBALS['strConvertingStats']			= "ï¿½ï¿½è¸¦ ï¿½ï¿½È¯ï¿½ï¿½ï¿½Ô´Ï´ï¿½...";
+$GLOBALS['strConvertStats']			= "ï¿½ï¿½ï¿½ ï¿½ï¿½È¯";
+$GLOBALS['strConvertAdViews']			= "AdViews ï¿½ï¿½È¯,";
+$GLOBALS['strConvertAdClicks']			= "AdClicks ï¿½ï¿½È¯...";
+$GLOBALS['strConvertNothing']			= "ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½4Ï´ï¿½...";
+$GLOBALS['strConvertFinished']			= "ï¿½Ï·ï¿½...";
 
 $GLOBALS['strConvertExplaination']		= "
 	You are currently using the compact format to store your statistics, but there are <br />

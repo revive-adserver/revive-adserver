@@ -1,7 +1,7 @@
 {*<!--
 
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -45,15 +45,15 @@ $Id$
         <div class="widgetOverlayRight">&nbsp;</div>
         <div class="widgetOverlayBody">
             <div class="widgetOverlayContent">
-                <h1>Welcome to <span class="openads">Openads</span></h1>
+                <h1>Welcome to <span class="openads">OpenX</span></h1>
             {if $errorMessage != ''}
                 <p class="error">{$errorMessage|escape}</p>
 
                 <p>Please ensure that the CAPS LOCK key is not active when typing the password.</p>
-                <p>If you have accidentally lost your password, please go to the <a href="{$forgotUrl|escape}" target="_blank">Openads single sign-on service</a> to retrieve it.</p>
+                <p>If you have accidentally lost your password, please go to the <a href="{$forgotUrl|escape}" target="_blank">OpenX single sign-on service</a> to retrieve it.</p>
             {else}
-                <p>To access the Home page, you must connect your Openads single sign-on (SSO) account to this ad server.</p>
-                <p>If you have a username and password for the Openads forums, provide them in the form below. If you do not yet have an Openads SSO account, please <a href="{$signupUrl|escape}" target="_blank">create one</a>, and then fill in the details below.</p>
+                <p>To access the Home page, you must connect your OpenX single sign-on (SSO) account to this ad server.</p>
+                <p>If you have a username and password for the OpenX forums, provide them in the form below. If you do not yet have an OpenX SSO account, please <a href="{$signupUrl|escape}" target="_blank">create one</a>, and then fill in the details below.</p>
             {/if}
 
                 <form id="loginForm" action="" method="POST">

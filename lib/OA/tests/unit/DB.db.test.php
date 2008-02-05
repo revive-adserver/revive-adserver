@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -32,7 +32,7 @@ require_once MAX_PATH . '/lib/pear/Date.php';
 /**
  * A class for testing the OA_DB class.
  *
- * @package    OpenadsDB
+ * @package    OpenXDB
  * @subpackage TestSuite
  * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openx.org>
  * @author     Andrew Hill <andrew.hill@openx.org>
@@ -108,7 +108,7 @@ class Test_OA_DB extends UnitTestCase
     }
 
     /**
-     * Tests that the Openads table prefix is setup in the config .ini file.
+     * Tests that the OpenX table prefix is setup in the config .ini file.
      */
     function testDbPrefixDefined()
     {

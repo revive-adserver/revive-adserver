@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -34,7 +34,7 @@ require_once MAX_PATH . '/lib/OA/OperationInterval.php';
  * A non-DB specific base Data Abstraction Layer (DAL) class that provides
  * functionality that is common to all of the Maintenance DALs.
  *
- * @package    OpenadsDal
+ * @package    OpenXDal
  * @subpackage Maintenance
  * @author     Andrew Hill <andrew.hill@openx.org>
  */

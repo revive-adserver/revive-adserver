@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -30,86 +30,86 @@ $Id$
 
 
 // Main strings
-$GLOBALS['strChooseSection']			= "¿ï¾Ü³¡¥÷";
+$GLOBALS['strChooseSection']			= "ï¿½ï¿½Ü³ï¿½ï¿½ï¿½";
 
 
 // Priority
-$GLOBALS['strRecalculatePriority']		= "­«·s­pºâÀu¥ýÅv";
-$GLOBALS['strHighPriorityCampaigns']		= "°ªÀu¥ýÅv¶µ¥Ø";
-$GLOBALS['strAdViewsAssigned']			= "¤À°tªº¼s§i³X°Ý¼Æ";
-$GLOBALS['strLowPriorityCampaigns']		= "§CÀu¥ýÅv¶µ¥Ø";
-$GLOBALS['strPredictedAdViews']			= "¹w©wªº¼s§i³X°Ý¼Æ";
-$GLOBALS['strPriorityDaysRunning']		= $phpAds_productname."¥i¥H¦b²{¦b¦³{days}¤Ñ¼Æ¾Úªº°òÂ¦¤W¹w¦ô¨C¤ÑªºÀu¥ýÅv.";
-$GLOBALS['strPriorityBasedLastWeek']		= "¦b¤W¶g©M¥»¶g¼Æ¾Ú°òÂ¦¤Wªº¹w¦ô­È.";
-$GLOBALS['strPriorityBasedLastDays']		= "T¦b«e´X¤Ñ¼Æ¾Úªº°òÂ¦¤Wªº¹w¦ô­È.";
-$GLOBALS['strPriorityBasedYesterday']		= "¦b¬Q¤Ñ¼Æ¾Úªº°òÂ¦¤Wªº¹w¦ô­È";
-$GLOBALS['strPriorityNoData']			= "²{¦b¨S¦³¨¬°÷ªº¼Æ¾Ú¨Óºë½T¦ôºâ¦¹¼s§i¦øªA¾¹¤µ¤ÑÂIÀ»¼Æªº¹w­p­È¡C©Ò¥H¥u¦b¹ê®É¼Æ¾Úªº°òÂ¦¤W¤À°tÀu¥ýÅv.";
-$GLOBALS['strPriorityEnoughAdViews']		= "¦³¨¬°÷ªº³X°Ý¼Æ¨Ó§¹¥þº¡¨¬¹w©wªº©Ò¦³°ªÀu¥ýÅvªº¤è®×.";
-$GLOBALS['strPriorityNotEnoughAdViews']		= "ÁÙ¤£ª¾¹D¬O§_¦³¨¬°÷ªº±À¼½¼Æ¨Ó§¹¥þº¡¨¬¹w©wªº©Ò¦³°ªÀu¥ýÅvªº¤è®×,©Ò¥H©Ò¦³§CÀu¥ýÅvªº¤è®×¤w¸g¼È®É°±¥Î¤F.";
+$GLOBALS['strRecalculatePriority']		= "ï¿½ï¿½ï¿½sï¿½pï¿½ï¿½ï¿½uï¿½ï¿½ï¿½v";
+$GLOBALS['strHighPriorityCampaigns']		= "ï¿½ï¿½ï¿½uï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½";
+$GLOBALS['strAdViewsAssigned']			= "ï¿½0tï¿½ï¿½ï¿½sï¿½iï¿½Xï¿½Ý¼ï¿½";
+$GLOBALS['strLowPriorityCampaigns']		= "ï¿½Cï¿½uï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½";
+$GLOBALS['strPredictedAdViews']			= "ï¿½wï¿½wï¿½ï¿½ï¿½sï¿½iï¿½Xï¿½Ý¼ï¿½";
+$GLOBALS['strPriorityDaysRunning']		= $phpAds_productname."ï¿½iï¿½Hï¿½bï¿½{ï¿½bï¿½ï¿½{days}ï¿½Ñ¼Æ¾Úªï¿½ï¿½ï¿½Â¦ï¿½Wï¿½wï¿½ï¿½Cï¿½Ñªï¿½ï¿½uï¿½ï¿½ï¿½v.";
+$GLOBALS['strPriorityBasedLastWeek']		= "ï¿½bï¿½Wï¿½gï¿½Mï¿½ï¿½ï¿½gï¿½Æ¾Ú°ï¿½Â¦ï¿½Wï¿½ï¿½ï¿½wï¿½ï¿½ï¿½.";
+$GLOBALS['strPriorityBasedLastDays']		= "Tï¿½bï¿½eï¿½Xï¿½Ñ¼Æ¾Úªï¿½ï¿½ï¿½Â¦ï¿½Wï¿½ï¿½ï¿½wï¿½ï¿½ï¿½.";
+$GLOBALS['strPriorityBasedYesterday']		= "ï¿½bï¿½Qï¿½Ñ¼Æ¾Úªï¿½ï¿½ï¿½Â¦ï¿½Wï¿½ï¿½ï¿½wï¿½ï¿½ï¿½";
+$GLOBALS['strPriorityNoData']			= "ï¿½{ï¿½bï¿½Sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¾Ú¨Óºï¿½Tï¿½ï¿½â¦¹ï¿½sï¿½iï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½I;ï¿½Æªï¿½ï¿½wï¿½pï¿½È¡Cï¿½Ò¥Hï¿½uï¿½bï¿½ï¿½É¼Æ¾Úªï¿½ï¿½ï¿½Â¦ï¿½Wï¿½0tï¿½uï¿½ï¿½ï¿½v.";
+$GLOBALS['strPriorityEnoughAdViews']		= "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½Ý¼Æ¨Ó§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½wï¿½ï¿½ï¿½Ò¦ï¿½ï¿½ï¿½ï¿½uï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½.";
+$GLOBALS['strPriorityNotEnoughAdViews']		= "ï¿½Ù¤ï¿½ï¿½ï¿½ï¿½Dï¿½Oï¿½_ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<ï¿½ï¿½Æ¨Ó§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½wï¿½ï¿½ï¿½Ò¦ï¿½ï¿½ï¿½ï¿½uï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½Ò¥Hï¿½Ò¦ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½×¤wï¿½gï¿½È®É°ï¿½ï¿½Î¤F.";
 
 
 // Banner cache
-$GLOBALS['strRebuildBannerCache']		= "­««Ø¼s§i½w¦s°Ï";
-$GLOBALS['strBannerCacheExplaination']		= "¼s§i½w¦s°Ï¥]§t¤F¥Î¨ÓÅã¥Ü¼s§iªºHTML¥N½Xªº¤@­Ó°Æ¥».¨Ï¥Î¼s§i½w¦s°Ï¥i¥H´£°ª¼s§iµo©ñªº³t«×,¦]¬°¤£¦A»Ý­n¨C¦¸µo©ñªº®É­Ô³£­n¥Í¥X¨º­Ó¤@¦¸HTML¥N½X.¦]¬°¦¹¼s§i½w¦s°Ï¥]§t¤F".$phpAds_productname."©M¼s§iªºURL¦a§},©Ò¥H½w¦s°Ï»Ý­n¦b¨C¦¸".$phpAds_productname."²¾°Ê¨ìºô­¶¦øªA¾¹ªº¥t¤@­Ó¦ì¸mªº®É­Ô­««Ø.";
+$GLOBALS['strRebuildBannerCache']		= "ï¿½ï¿½ï¿½Ø¼sï¿½iï¿½wï¿½sï¿½ï¿½";
+$GLOBALS['strBannerCacheExplaination']		= "ï¿½sï¿½iï¿½wï¿½sï¿½Ï¥]ï¿½tï¿½Fï¿½Î¨ï¿½ï¿½ï¿½Ü¼sï¿½iï¿½ï¿½HTMLï¿½Nï¿½Xï¿½ï¿½ï¿½@ï¿½Ó°Æ¥ï¿½.ï¿½Ï¥Î¼sï¿½iï¿½wï¿½sï¿½Ï¥iï¿½Hï¿½ï¿½ï¿½ï¿½ï¿½sï¿½iï¿½oï¿½ñªº³tï¿½ï¿½,ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Ý­nï¿½Cï¿½ï¿½ï¿½oï¿½ñªº®É­Ô³ï¿½ï¿½nï¿½Í¥Xï¿½ï¿½ï¿½Ó¤@ï¿½ï¿½HTMLï¿½Nï¿½X.ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½iï¿½wï¿½sï¿½Ï¥]ï¿½tï¿½F".$phpAds_productname."ï¿½Mï¿½sï¿½iï¿½ï¿½URLï¿½aï¿½},ï¿½Ò¥Hï¿½wï¿½sï¿½Ï»Ý­nï¿½bï¿½Cï¿½ï¿½".$phpAds_productname."ï¿½ï¿½ï¿½Ê¨ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½tï¿½@ï¿½Ó¦ï¿½mï¿½ï¿½ï¿½É­Ô­ï¿½ï¿½ï¿½.";
 
 
 // Cache
-$GLOBALS['strCache']				= "µo°e½w¦s°Ï";
-$GLOBALS['strAge']				= "¹Ø©R";
-$GLOBALS['strRebuildDeliveryCache']		= "­««Øµo°e½w¦s°Ï";
-$GLOBALS['strDeliveryCacheExplaination']	= "µo°e½w¦s°Ï¥i¥H´£°ª¼s§iªºµo©ñ³t«×.µo°e½w¦s°Ï¥]§t³s±µ¨ì¦¹ª©¦ìªº©Ò¦³¼s§iªº¤@­Ó°Æ¥»,·í¼s§i¹ê»Úµo©ñµ¹¥Î¤áªº®É­Ô´î¤Ö¤F¤@¨Ç¸ê®Æ®wªº¬d¸ß.¦¹½w¦s°Ï³q±`¦b¤@­Óª©¦ì©ÎªÌª©¦ìªº¤@­Ó¼s§i§ï°Êªº®É­Ô­««Ø,¥¦¥i¯à·|¹L´Á.©Ò¥H½w¦s°Ï·|¨C­Ó¤p®É¦Û°Ê­««Ø¤@¦¸,¦ý±z¤]¥i¥H¤â¤u­««Ø.";
-$GLOBALS['strDeliveryCacheSharedMem']		= "²{¦b¨Ï¥Î¦@¨É¤º¦s¨Ó¦s©ñµo°e½w¦s°Ï.";
-$GLOBALS['strDeliveryCacheDatabase']		= "²{¦b¨Ï¥Î¸ê®Æ®w¨Ó¦s©ñµo°e½w¦s°Ï.";
+$GLOBALS['strCache']				= "ï¿½oï¿½eï¿½wï¿½sï¿½ï¿½";
+$GLOBALS['strAge']				= "ï¿½Ø©R";
+$GLOBALS['strRebuildDeliveryCache']		= "ï¿½ï¿½ï¿½Øµoï¿½eï¿½wï¿½sï¿½ï¿½";
+$GLOBALS['strDeliveryCacheExplaination']	= "ï¿½oï¿½eï¿½wï¿½sï¿½Ï¥iï¿½Hï¿½ï¿½ï¿½ï¿½ï¿½sï¿½iï¿½ï¿½ï¿½oï¿½ï¿½tï¿½ï¿½.ï¿½oï¿½eï¿½wï¿½sï¿½Ï¥]ï¿½tï¿½sï¿½ï¿½ï¿½ì¦¹ï¿½ï¿½ï¿½ìªºï¿½Ò¦ï¿½ï¿½sï¿½iï¿½ï¿½ï¿½@ï¿½Ó°Æ¥ï¿½,ï¿½ï¿½sï¿½iï¿½ï¿½Úµoï¿½ñµ¹¥Î¤áªºï¿½É­Ô´ï¿½Ö¤Fï¿½@ï¿½Ç¸ï¿½Æ®wï¿½ï¿½ï¿½dï¿½ï¿½.ï¿½ï¿½ï¿½wï¿½sï¿½Ï³qï¿½`ï¿½bï¿½@ï¿½Óªï¿½ï¿½ï¿½ÎªÌªï¿½ï¿½ìªºï¿½@ï¿½Ó¼sï¿½iï¿½ï¿½Êªï¿½ï¿½É­Ô­ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½iï¿½ï¿½|ï¿½Lï¿½ï¿½.ï¿½Ò¥Hï¿½wï¿½sï¿½Ï·|ï¿½Cï¿½Ó¤pï¿½É¦Û°Ê­ï¿½ï¿½Ø¤@ï¿½ï¿½,ï¿½ï¿½zï¿½]ï¿½iï¿½Hï¿½ï¿½uï¿½ï¿½ï¿½ï¿½.";
+$GLOBALS['strDeliveryCacheSharedMem']		= "ï¿½{ï¿½bï¿½Ï¥Î¦@ï¿½É¤ï¿½ï¿½sï¿½Ó¦sï¿½ï¿½oï¿½eï¿½wï¿½sï¿½ï¿½.";
+$GLOBALS['strDeliveryCacheDatabase']		= "ï¿½{ï¿½bï¿½Ï¥Î¸ï¿½Æ®wï¿½Ó¦sï¿½ï¿½oï¿½eï¿½wï¿½sï¿½ï¿½.";
 
 
 // Storage
-$GLOBALS['strStorage']				= "¦sÀx";
-$GLOBALS['strMoveToDirectory']			= "§â¦sÀx¦b¸ê®Æ®w¤¤ªº¹Ï¤ù²¾°Ê¨ì¤@­Ó¥Ø¿ý";
-$GLOBALS['strStorageExplaination']		= "¥»¦a¼s§i¨Ï¥Îªº¹Ï¤ù¦sÀx¦b¸ê®Æ®w©ÎªÌ¤@­Ó¥Ø¿ý¤¤.¦pªG±z§â¹Ï¤ù¦sÀx¨ì¤@­Ó¥Ø¿ý,´î¤p¤F¸ê®Æ®wªº­t¸ü·|´£°ª¹B¦æ³t«×.";
+$GLOBALS['strStorage']				= "ï¿½sï¿½x";
+$GLOBALS['strMoveToDirectory']			= "ï¿½ï¿½sï¿½xï¿½bï¿½ï¿½Æ®wï¿½ï¿½ï¿½ï¿½ï¿½Ï¤ï¿½Ê¨ï¿½@ï¿½Ó¥Ø¿ï¿½";
+$GLOBALS['strStorageExplaination']		= "ï¿½ï¿½ï¿½aï¿½sï¿½iï¿½Ï¥Îªï¿½ï¿½Ï¤ï¿½sï¿½xï¿½bï¿½ï¿½Æ®wï¿½ÎªÌ¤@ï¿½Ó¥Ø¿ï¿½.ï¿½pï¿½Gï¿½zï¿½ï¿½Ï¤ï¿½sï¿½xï¿½ï¿½@ï¿½Ó¥Ø¿ï¿½,ï¿½ï¿½pï¿½Fï¿½ï¿½Æ®wï¿½ï¿½ï¿½tï¿½ï¿½|ï¿½ï¿½ï¿½ï¿½ï¿½Bï¿½ï¿½tï¿½ï¿½.";
 
 
 // Storage
-$GLOBALS['strStatisticsExplaination']		= "±z¤w¸g±Ò¥Î¤F<i>Â²¼ä³øªí</i>,¦ý¬O¦Ñªº³øªíÁÙ¬O¸Ô²Ó®æ¦¡.±z·Q§â¸Ô²Ó®æ¦¡ªº³øªíÂà´«¦¨·sªºÂ²¼ä®æ¦¡¶Ü?";
+$GLOBALS['strStatisticsExplaination']		= "ï¿½zï¿½wï¿½gï¿½Ò¥Î¤F<i>Â²ï¿½ï¿½ï¿½ï¿½</i>,ï¿½ï¿½Oï¿½Ñªï¿½ï¿½ï¿½ï¿½ï¿½Ù¬Oï¿½Ô²Ó®æ¦¡.ï¿½zï¿½Qï¿½ï¿½Ô²Ó®æ¦¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½à´«ï¿½ï¿½ï¿½sï¿½ï¿½Â²ï¿½ï¿½æ¦¡ï¿½ï¿½?";
 
 
 // Product Updates
-$GLOBALS['strSearchingUpdates']			= "¬d¬Ý¤É¯Å. ½Ðµy­Ô...";
-$GLOBALS['strAvailableUpdates']			= "¥i¥Î¤É¯Å";
-$GLOBALS['strDownloadZip']			= "¤U¸ü(.zip)";
-$GLOBALS['strDownloadGZip']			= "¤U¸ü(.tar.gz)";
+$GLOBALS['strSearchingUpdates']			= "ï¿½dï¿½Ý¤É¯ï¿½. ï¿½Ðµyï¿½ï¿½...";
+$GLOBALS['strAvailableUpdates']			= "ï¿½iï¿½Î¤É¯ï¿½";
+$GLOBALS['strDownloadZip']			= "ï¿½Uï¿½ï¿½(.zip)";
+$GLOBALS['strDownloadGZip']			= "ï¿½Uï¿½ï¿½(.tar.gz)";
 
-$GLOBALS['strUpdateAlert']			= $phpAds_productname."¦³·sªºª©¥»¥i¥Î\\n\\n±z·Qª¾¹D§ó¦hÃö©ó¦¹¦¸¤É¯Åªº®ø®§¶Ü?";
-$GLOBALS['strUpdateAlertSecurity']		= $phpAds_productname."¦³·sªºª©¥»¥i¥Î\\n\\n±j¯P±ÀÂË±z¾¨§Ö¤É¯Å,\\n¦]¬°¦¹¦¸·sª©¥»¥]§t¤F¤@­Ó©Î¦h­Ó¦w¥þ¸É¤B!";
+$GLOBALS['strUpdateAlert']			= $phpAds_productname."ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½\\n\\nï¿½zï¿½Qï¿½ï¿½ï¿½Dï¿½ï¿½hï¿½ï¿½ó¦¹¦ï¿½ï¿½É¯Åªï¿½ï¿½ï¿½ï¿½?";
+$GLOBALS['strUpdateAlertSecurity']		= $phpAds_productname."ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½\\n\\nï¿½jï¿½Pï¿½ï¿½ï¿½Ë±zï¿½ï¿½ï¿½Ö¤É¯ï¿½,\\nï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½tï¿½Fï¿½@ï¿½Ó©Î¦hï¿½Ó¦wï¿½ï¿½ï¿½É¤B!";
 
-$GLOBALS['strUpdateServerDown']			= "¦]¬°¥¼ª¾­ì¦]¤£¯à±o¨ì¤É¯Å«H®§,½Ðµy­Ô¦A¸Õ.";
+$GLOBALS['strUpdateServerDown']			= "ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½É¯Å«Hï¿½ï¿½,ï¿½Ðµyï¿½Ô¦Aï¿½ï¿½.";
 
-$GLOBALS['strNoNewVersionAvailable']		= "±zªº".$phpAds_productname."¬O³Ì·sª©ªº.²{¦b¨S¦³¥i¥Îªº¤É¯Åª©¥».";
+$GLOBALS['strNoNewVersionAvailable']		= "ï¿½zï¿½ï¿½".$phpAds_productname."ï¿½Oï¿½Ì·sï¿½ï¿½ï¿½ï¿½.ï¿½{ï¿½bï¿½Sï¿½ï¿½ï¿½iï¿½Îªï¿½ï¿½É¯Åªï¿½ï¿½ï¿½.";
 
-$GLOBALS['strNewVersionAvailable']		= "<b>¤@­Ó·sª©¥»".$phpAds_productname."¥i¥Î</b><br />±ÀÂË±z¦w¸Ë¦¹¦¸§ó·s,¦]¬°¥i¯à­×¸É¤F¤@¨Ç¦s¦bªº°ÝÃD©M¼W¥[¤F¤@¨Ç·sªº¥\¯à.§ó¦hªº¦³Ãö¤É¯Åªº«H®§½Ð°Ñ¦Ò¤U­±ªº¬ÛÃö¤åÀÉ.";
+$GLOBALS['strNewVersionAvailable']		= "<b>ï¿½@ï¿½Ó·sï¿½ï¿½ï¿½ï¿½".$phpAds_productname."ï¿½iï¿½ï¿½</b><br />ï¿½ï¿½ï¿½Ë±zï¿½wï¿½Ë¦ï¿½ï¿½ï¿½ï¿½ï¿½s,ï¿½]ï¿½ï¿½ï¿½iï¿½ï¿½×¸É¤Fï¿½@ï¿½Ç¦sï¿½bï¿½ï¿½ï¿½ï¿½ï¿½Dï¿½Mï¿½Wï¿½[ï¿½Fï¿½@ï¿½Ç·sï¿½ï¿½ï¿½\ï¿½ï¿½.ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¯Åªï¿½ï¿½Hï¿½ï¿½ï¿½Ð°Ñ¦Ò¤Uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.";
 
-$GLOBALS['strSecurityUpdate']			= "<b>±j¯P±ÀÂË±z¾¨§Ö¦w¸Ë¦¹¦¸§ó·s¡A¦]¬°¥]§t¤F¤@¨Ç¦w¥þ¸É¤B</b>±z²{¦b¨Ï¥Îªº".$phpAds_productname."ªºª©¥»ªºº|¬}¥i¯à³Q§ðÀ»©M¤£¦w¥þ.§ó¦hªº¦³Ãö¤É¯Åªº«H®§½Ð°Ñ¦Ò¤U­±ªº¬ÛÃö¤åÀÉ.";
+$GLOBALS['strSecurityUpdate']			= "<b>ï¿½jï¿½Pï¿½ï¿½ï¿½Ë±zï¿½ï¿½ï¿½Ö¦wï¿½Ë¦ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½Aï¿½]ï¿½ï¿½ï¿½]ï¿½tï¿½Fï¿½@ï¿½Ç¦wï¿½ï¿½ï¿½É¤B</b>ï¿½zï¿½{ï¿½bï¿½Ï¥Îªï¿½".$phpAds_productname."ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|ï¿½}ï¿½iï¿½ï¿½Qï¿½ï¿½;ï¿½Mï¿½ï¿½ï¿½wï¿½ï¿½.ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¯Åªï¿½ï¿½Hï¿½ï¿½ï¿½Ð°Ñ¦Ò¤Uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.";
 
-$GLOBALS['strNotAbleToCheck']			= "<b>¦]¬°±zªº¦øªA¾¹XMLÂX®i¥\¯à¤£¯à¨Ï¥Î,".$phpAds_productname."µLªkÀË¬d¬O§_¦³·sªºª©¥»¥i¥H¨Ï¥Î.</b>";
+$GLOBALS['strNotAbleToCheck']			= "<b>ï¿½]ï¿½ï¿½ï¿½zï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½XMLï¿½Xï¿½iï¿½\ï¿½à¤£ï¿½ï¿½Ï¥ï¿½,".$phpAds_productname."ï¿½Lï¿½kï¿½Ë¬dï¿½Oï¿½_ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Hï¿½Ï¥ï¿½.</b>";
 
-$GLOBALS['strForUpdatesLookOnWebsite']		= "±z²{¦b¹B¦æªº¬O".$phpAds_productname." ".$phpAds_version_readable.".¦pªG±z·Qª¾¹D¬O§_¦³·sªºª©¥»¥i¥Î,½Ð³X°Ý§Ú­Ìªººô¯¸.";
+$GLOBALS['strForUpdatesLookOnWebsite']		= "ï¿½zï¿½{ï¿½bï¿½Bï¿½æªºï¿½O".$phpAds_productname." ".$phpAds_version_readable.".ï¿½pï¿½Gï¿½zï¿½Qï¿½ï¿½ï¿½Dï¿½Oï¿½_ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½,ï¿½Ð³Xï¿½Ý§Ú­Ìªï¿½ï¿½ï¿½.";
 
-$GLOBALS['strClickToVisitWebsite']		= "½ÐÂIÀ»³o¸Ì¨Ó³X°Ý§Ú­Ìªººô¯¸.";
+$GLOBALS['strClickToVisitWebsite']		= "ï¿½ï¿½ï¿½I;ï¿½oï¿½Ì¨Ó³Xï¿½Ý§Ú­Ìªï¿½ï¿½ï¿½.";
 
 
 // Stats conversion
-$GLOBALS['strConverting']			= "Âà´«¤¤";
-$GLOBALS['strConvertingStats']			= "²Î­p¼Æ¾ÚÂà´«¤¤...";
-$GLOBALS['strConvertStats']			= "Âà´«²Î­p¼Æ¾Ú";
-$GLOBALS['strConvertAdViews']			= "³X°Ý¼Æ¤w¸gÂà´«§¹²¦,";
-$GLOBALS['strConvertAdClicks']			= "ÂIÀ»¼Æ¤w¸gÂà´«§¹²¦...";
-$GLOBALS['strConvertNothing']			= "¨S¦³¼Æ¾Ú¥i¥HÂà´«...";
-$GLOBALS['strConvertFinished']			= "§¹²¦...";
+$GLOBALS['strConverting']			= "ï¿½à´«ï¿½ï¿½";
+$GLOBALS['strConvertingStats']			= "ï¿½Î­pï¿½Æ¾ï¿½ï¿½à´«ï¿½ï¿½...";
+$GLOBALS['strConvertStats']			= "ï¿½à´«ï¿½Î­pï¿½Æ¾ï¿½";
+$GLOBALS['strConvertAdViews']			= "ï¿½Xï¿½Ý¼Æ¤wï¿½gï¿½à´«ï¿½ï¿½ï¿½ï¿½,";
+$GLOBALS['strConvertAdClicks']			= "ï¿½I;ï¿½Æ¤wï¿½gï¿½à´«ï¿½ï¿½ï¿½ï¿½...";
+$GLOBALS['strConvertNothing']			= "ï¿½Sï¿½ï¿½ï¿½Æ¾Ú¥iï¿½Hï¿½à´«...";
+$GLOBALS['strConvertFinished']			= "ï¿½ï¿½ï¿½ï¿½...";
 
-$GLOBALS['strConvertExplaination']		= "±z²{¦b¨Ï¥ÎÂ²¼ä®æ¦¡¨Ó«O¦s³øªí,¦ý¬OÁÙ¦³¤@¨Ç³øªí¬O¸Ô²Ó®æ¦¡.<br />¸Ô²Ó®æ¦¡ªº³øªí¨S¦³Âà´«¦¨Â²¼ä®æ¦¡±N¤£¯à¦b­¶­±¤Wª½±µ¨Ï¥Î.<br />¦bÂà´«±zªº³øªí¤§«e,«O¦s¸ê®Æ®wªº¤@­Ó³Æ¥÷!<br />¬O§_½T»{­n§â¸Ô²Ó®æ¦¡ªº³øªíÂà´«¦¨·sªºÂ²¼ä®æ¦¡?<br />";
+$GLOBALS['strConvertExplaination']		= "ï¿½zï¿½{ï¿½bï¿½Ï¥ï¿½Â²ï¿½ï¿½æ¦¡ï¿½Ó«Oï¿½sï¿½ï¿½ï¿½,ï¿½ï¿½Oï¿½Ù¦ï¿½ï¿½@ï¿½Ç³ï¿½ï¿½Oï¿½Ô²Ó®æ¦¡.<br />ï¿½Ô²Ó®æ¦¡ï¿½ï¿½ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½à´«ï¿½ï¿½Â²ï¿½ï¿½æ¦¡ï¿½Nï¿½ï¿½ï¿½ï¿½bï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½Ï¥ï¿½.<br />ï¿½bï¿½à´«ï¿½zï¿½ï¿½ï¿½ï¿½?ï¿½e,ï¿½Oï¿½sï¿½ï¿½Æ®wï¿½ï¿½ï¿½@ï¿½Ó³Æ¥ï¿½!<br />ï¿½Oï¿½_ï¿½Tï¿½{ï¿½nï¿½ï¿½Ô²Ó®æ¦¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½à´«ï¿½ï¿½ï¿½sï¿½ï¿½Â²ï¿½ï¿½æ¦¡?<br />";
 
-$GLOBALS['strConvertingExplaination']		= "©Ò¦³³Ñ¾lªº¸Ô²Ó®æ¦¡ªº³øªí¥¿¦bÂà´«¦¨Â²¼ä®æ¦¡<br />®Ú¾Ú¸Ô²Ó®æ¦¡ªº¼Æ¥Ø¦Ó»Ý­n®É¶¡¤£¦P¡A¥i¯à»Ý­n´X¤ÀÄÁ¡C¦bÂsÄý¨ä¥L­¶­±¤§«e¤@©w­nµ¥¨ìÂà´«§¹¦¨¡C<br />¤U­±±z±N¬Ý¨ì¸ê®Æ®w­×§ïªº°O¿ý.<br />";
+$GLOBALS['strConvertingExplaination']		= "ï¿½Ò¦ï¿½ï¿½Ñ¾lï¿½ï¿½ï¿½Ô²Ó®æ¦¡ï¿½ï¿½ï¿½ï¿½?ï¿½bï¿½à´«ï¿½ï¿½Â²ï¿½ï¿½æ¦¡<br />ï¿½Ú¾Ú¸Ô²Ó®æ¦¡ï¿½ï¿½ï¿½Æ¥Ø¦Ó»Ý­nï¿½É¶ï¿½ï¿½ï¿½ï¿½Pï¿½Aï¿½iï¿½ï¿½Ý­nï¿½Xï¿½ï¿½ï¿½aCï¿½bï¿½sï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½eï¿½@ï¿½wï¿½nï¿½ï¿½ï¿½ï¿½ï¿½à´«ï¿½ï¿½ï¿½ï¿½ï¿½C<br />ï¿½Uï¿½ï¿½ï¿½zï¿½Nï¿½Ý¨ï¿½ï¿½Æ®wï¿½×§ïªºï¿½Oï¿½ï¿½.<br />";
 
-$GLOBALS['strConvertFinishedExplaination']  	= "³Ñ¾lªº¸Ô²Ó®æ¦¡ªº³øªí¤w¸gÂà´«¦¨¥\¡C¼Æ¾Ú²{¦b­n¦A¦¸¨Ï¥Î¡A¤U­±±z±N¬Ý¨ì¸ê®Æ®w­×§ïªº°O¿ý<br />";
+$GLOBALS['strConvertFinishedExplaination']  	= "ï¿½Ñ¾lï¿½ï¿½ï¿½Ô²Ó®æ¦¡ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½gï¿½à´«ï¿½ï¿½ï¿½\ï¿½Cï¿½Æ¾Ú²{ï¿½bï¿½nï¿½Aï¿½ï¿½ï¿½Ï¥Î¡Aï¿½Uï¿½ï¿½ï¿½zï¿½Nï¿½Ý¨ï¿½ï¿½Æ®wï¿½×§ïªºï¿½Oï¿½ï¿½<br />";
 
 
 ?>

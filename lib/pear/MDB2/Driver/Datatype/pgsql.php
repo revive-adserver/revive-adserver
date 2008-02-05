@@ -133,7 +133,7 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
         case 'blob':
             return 'BYTEA';
         case 'integer':
-            // Openads customisation, removed PRIMARY KEY after BIGSERIAL and SERIAL
+            // OpenX customisation, removed PRIMARY KEY after BIGSERIAL and SERIAL
             if (!empty($field['autoincrement'])) {
                 if (!empty($field['length'])) {
                     $length = $field['length'];

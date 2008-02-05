@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -32,7 +32,7 @@ require_once 'MDB2.php';
 /**
  * An class for using distributed stats along with a master/slave database setup inside Openads.
  *
- * @package    OpenadsDB
+ * @package    OpenXDB
  * @subpackage Distributed
  * @author     Matteo Beccati <matteo.beccati@openx.org>
  */

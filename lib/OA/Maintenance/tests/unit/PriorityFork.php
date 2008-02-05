@@ -1,7 +1,7 @@
 <?php
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -28,7 +28,7 @@ $path = dirname(__FILE__);
 require_once $path . '/../../../../../init.php';
 
 /**
- * @package    OpenadsMaintenance
+ * @package    OpenXMaintenance
  * @subpackage TestSuite
  * @author     Alexander J. Tarachanowicz II <aj.tarachanowicz@openx.org>
  */

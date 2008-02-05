@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -37,7 +37,7 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  * display in the UI, for cases where the statistcs are too complicated
  * to be obtained via the appropriate DB_DataObject.
  *
- * @package    OpenadsDal
+ * @package    OpenXDal
  * @subpackage Statistics
  * @author     Andrew Hill <andrew.hill@openx.org>
  */

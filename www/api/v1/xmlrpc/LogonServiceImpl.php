@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                           |
+| OpenX v${RELEASE_MAJOR_MINOR}                                           |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -51,7 +51,7 @@ class LogonServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Login to Openads without using the login form in the user interface and
+     * Login to OpenX without using the login form in the user interface and
      * receive a session ID.
      *
      * @access private

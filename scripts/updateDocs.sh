@@ -45,7 +45,7 @@ TEMPLATE="DOM/earthli"
 ###################################
 
 # "Fixed" values
-TITLE="Openads API"
+TITLE="OpenX API"
 PACKAGES="Max"
 PRIVATE="on"
 

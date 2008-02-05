@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -29,7 +29,7 @@ require_once MAX_PATH . '/lib/max/Plugin/Common.php';
 require_once 'Spreadsheet/Excel/Writer.php';
 
 /**
- * MS Excel output provider for for Openads reports
+ * MS Excel output provider for for OpenX reports
  *
  * @package OpenadsAdmin
  *

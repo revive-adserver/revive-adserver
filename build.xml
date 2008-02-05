@@ -12,9 +12,9 @@
   <!-- Import the canoo scripts -->
   <import file="build-canoo.xml"/>
 
-  <!-- Openads Package Integrity Plugin -->
+  <!-- OpenX Package Integrity Plugin -->
   <taskdef name="checkdistribution" classname="org.openads.ant.CheckDistributionTask"/>
-  <!-- Openads Delivery Generation Plugin -->
+  <!-- OpenX Delivery Generation Plugin -->
   <taskdef name="generatedelivery" classname="org.openads.ant.GenerateDeliveryTask"/>
   <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
 

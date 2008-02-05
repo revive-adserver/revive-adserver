@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -118,7 +118,7 @@ class DB_DataObjectCommon extends DB_DataObject
     }
 
     /**
-     * OpenAds uses in many places arrays containing all records, for example
+     * OpenX uses in many places arrays containing all records, for example
      * array of all zones Ids associated with specific advertiser.
      * It is not encouraged to use this method for all purposes as it's
      * better to loop through all records and analyze one at a time.
@@ -349,7 +349,7 @@ class DB_DataObjectCommon extends DB_DataObject
     /**
      * Reads the correct sorting order from session and calls addListOrderBy()
      *
-     * This method is used as a common way of sorting rows in OpenAds UI
+     * This method is used as a common way of sorting rows in OpenX UI
      *
      * @see MAX_Dal_Common::addListOrderBy
      * @param string $pageName  Page name where session sorting data is kept
@@ -375,7 +375,7 @@ class DB_DataObjectCommon extends DB_DataObject
      * This method is a equivalent of phpAds_getFooListOrder
      * It adds orderBy() limitations to current DB_DataObject
      *
-     * This method is used as a common way of sorting rows in OpenAds UI
+     * This method is used as a common way of sorting rows in OpenX UI
      *
      * @see MAX_Dal_Common::getSqlListOrder
      * @param string|array $nameColumns

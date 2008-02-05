@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -31,7 +31,7 @@ $Id$
 require_once MAX_PATH . '/lib/OA.php';
 
 /**
- * The main Openads class.
+ * The main OpenX class.
  *
  * @package    Max
  * @author     Andrew Hill <andrew@m3.net>
@@ -135,11 +135,11 @@ EOF;
     }
 
     /**
-     * A method to construct URLs based on the Openads installation details.
+     * A method to construct URLs based on the OpenX installation details.
      *
      * @param integer $type The URL type. One of:
      *                  - MAX_URL_ADMIN for admin pages;
-     *                  - MAX_URL_IMAGE for Openads images (i.e. in /admin/images).
+     *                  - MAX_URL_IMAGE for OpenX images (i.e. in /admin/images).
      * @param string $file An optional file name.
      * @return string The URL to the file.
      */

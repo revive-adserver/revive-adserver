@@ -1,5 +1,5 @@
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -23,8 +23,8 @@
 Installing
 ==========
 
-Complete details of how to install Openads can be found at
-http://docs.openads.org/. You should check this site for the latest
+Complete details of how to install OpenX can be found at
+http://docs.openx.org/. You should check this site for the latest
 available details on how to install. However, for convenience, the install
 process is essentially:
 
@@ -32,7 +32,7 @@ process is essentially:
    your web server is setup with PHP and the appropriate database driver
    for PHP is installed.
 
-   Openads supports:
+   OpenX supports:
      - PHP        >= 4.3.11
      - MySQL      >= 4.0.18
 
@@ -40,19 +40,19 @@ process is essentially:
    statistics pages, you will also need to make sure that PHP is installed
    with support for GD.
 
-2) Optional: Create a new database for your Openads installation to use.
+2) Optional: Create a new database for your OpenX installation to use.
 
-   While the Openads installation wizard can create a database for you, this
-   requires that the database user Openads uses will require the ability to
+   While the OpenX installation wizard can create a database for you, this
+   requires that the database user OpenX uses will require the ability to
    create databases.
 
-   If you would prefer Openads to use a database user with more restricted
+   If you would prefer OpenX to use a database user with more restricted
    permission levels, create the database by hand, and set up a database user
    with permissions restricted to this database. See the complete installation
-   documentation at http://docs.openads.org/ for details on the required
+   documentation at http://docs.openx.org/ for details on the required
    database permissions needed by Openads.
 
-3) Unpack the Openads download into the directory on your web server where
+3) Unpack the OpenX download into the directory on your web server where
    you would like to install openads.
 
 4) Use a web browser to vist this directory, and follow the instructions

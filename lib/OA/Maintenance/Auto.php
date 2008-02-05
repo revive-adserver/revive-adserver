@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -36,7 +36,7 @@ require_once MAX_PATH . '/lib/OA/Preferences.php';
  * A library class for providing automatic maintenance process methods.
  *
  * @static
- * @package    OpenadsMaintenance
+ * @package    OpenXMaintenance
  * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 class OA_Maintenance_Auto

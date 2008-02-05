@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -33,7 +33,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Targeting/Common.php';
  * A common class that defines a common "interface" and common methods for
  * classes that display placement-level targeting statistics.
  *
- * @package    OpenadsAdmin
+ * @package    OpenXAdmin
  * @subpackage StatisticsTargeting
  * @author     Andrew Hill <andrew.hill@openx.org>
  */

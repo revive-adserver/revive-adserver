@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -31,7 +31,7 @@ require_once 'DB/DataObject.php';
 /**
  * The common Data Abstraction Layer (DAL) class.
  *
- * @package    OpenadsDal
+ * @package    OpenXDal
  * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  * @author     Andrew Hill <andrew.hill@openx.org>
  */
@@ -389,7 +389,7 @@ class OA_Dal
     }
 
     /**
-     * Returns true if the $sqlDate represents 'empty' Openads date,
+     * Returns true if the $sqlDate represents 'empty' OpenX date,
      * false otherwise.
      *
      * @static

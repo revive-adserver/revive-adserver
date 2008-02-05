@@ -1,7 +1,7 @@
 <?php
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -30,7 +30,7 @@ require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
 /**
  *
- * @abstract A base class for generating Openads test data using DataObjects
+ * @abstract A base class for generating OpenX test data using DataObjects
  * @package Test Classes
  * @author     Monique Szpak <monique.szpak@openx.org>
  * @todo more _insert methods

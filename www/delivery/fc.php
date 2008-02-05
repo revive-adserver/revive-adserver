@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -42,7 +42,7 @@ $Id$
  * 
  * For more information on ant generator or if you want to check why we do this
  * check out the documentation wiki page:
- * https://developer.openads.org/wiki/OptimizationPractices#GenerateDeliveryAntTask
+ * https://developer.openx.org/wiki/OptimizationPractices#GenerateDeliveryAntTask
  * 
  */
 

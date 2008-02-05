@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -33,7 +33,7 @@ require_once MAX_PATH . '/lib/OA/OperationInterval.php';
  * advertisement, with the goal of determining if (and if so, when) the
  * delivery limitation(s) "block" (as opposed to "filter") the advertisement.
  *
- * @package    OpenadsMaintenance
+ * @package    OpenXMaintenance
  * @subpackage Priority
  * @author     Andrew Hill <andrew.hill@openx.org>
  */

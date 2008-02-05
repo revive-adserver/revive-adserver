@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -94,7 +94,7 @@ class OA_Central_RpcMapper
     }
 
     /**
-     * Refs R-AN-1: Connecting Openads Platform with SSO
+     * Refs R-AN-1: Connecting OpenXPlatform with SSO
      *
      * @return mixed A boolean True if the platform is correctly connected to OAC,
      *               PEAR_Error otherwise

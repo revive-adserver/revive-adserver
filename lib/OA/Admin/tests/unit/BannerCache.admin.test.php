@@ -31,7 +31,7 @@ include_once MAX_PATH . '/www/admin/lib-banner.inc.php';
 /**
  * A class for testing the rebuild banner cache code
  *
- * @package    OpenadsAdmin
+ * @package    OpenXAdmin
  * @subpackage TestSuite
  * @author
  */

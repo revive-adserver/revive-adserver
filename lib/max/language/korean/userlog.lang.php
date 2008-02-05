@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -31,21 +31,21 @@ $Id$
 
 // Set translation strings
 
-$GLOBALS['strDeliveryEngine']				= "Àü´ÞÀ¯Áö ¿£Áø";
-$GLOBALS['strMaintenance']					= "À¯Áöº¸¼ö";
-$GLOBALS['strAdministrator']				= "°ü¸®ÀÚ";
+$GLOBALS['strDeliveryEngine']				= "ï¿½ï¿½ï¿½/ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½";
+$GLOBALS['strMaintenance']					= "/ï¿½ï¿½ï¿½";
+$GLOBALS['strAdministrator']				= "ï¿½ï¿½ï¿½ï¿½";
 
 
 $GLOBALS['strUserlog'] = array (
-	phpAds_actionAdvertiserReportMailed 	=> "±¤°íÁÖ {id}¿¡°Ô º¸°í¼­¸¦ ÀÌ¸ÞÀÏ·Î º¸³À´Ï´Ù.",
-	phpAds_actionPublisherReportMailed 		=> "±¤°í°Ô½ÃÀÚ {id}¿¡°Ô º¸°í¼­¸¦ ÀÌ¸ÞÀÏ·Î º¸³À´Ï´Ù.",
-	phpAds_actionWarningMailed				=> "Ä·ÆäÀÎ {id}¿¡ ´ëÇÑ È°¼ºÈ­ÇØÁ¦¸¦ ÀÌ¸ÞÀÏ·Î °æ°íÇÕ´Ï´Ù.",
-	phpAds_actionDeactivationMailed			=> "Ä·ÆäÀÎ {id}¿¡ ´ëÇÑ È°¼ºÈ­ÇØÁ¦¸¦ ÀÌ¸ÞÀÏ·Î ¾Ë¸³´Ï´Ù.",
-	phpAds_actionPriorityCalculation		=> "¿ì¼±¼øÀ§ ´Ù½Ã °è»ê",
-	phpAds_actionPriorityAutoTargeting		=> "Ä·ÆäÀÎ ´ë»ó Àç°è»ê",
-	phpAds_actionDeactiveCampaign			=> "Ä·ÆäÀÎ {id} È°¼ºÈ­ÇØÁ¦",
-	phpAds_actionActiveCampaign				=> "Ä·ÆäÀÎ {id} È°¼ºÈ­",
-	phpAds_actionAutoClean					=> "µ¥ÀÌÅÍº£ÀÌ½º ÀÚµ¿ Á¤¸®"
+	phpAds_actionAdvertiserReportMailed 	=> "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ {id}ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½?ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½Ï·ï¿½ ï¿½ï¿½ï¿½4Ï´ï¿½.",
+	phpAds_actionPublisherReportMailed 		=> "ï¿½ï¿½ï¿½ï¿½Ô½ï¿½ï¿½ï¿½ {id}ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½?ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½Ï·ï¿½ ï¿½ï¿½ï¿½4Ï´ï¿½.",
+	phpAds_actionWarningMailed				=> "Ä·ï¿½ï¿½ï¿½ï¿½ {id}ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­ï¿½ï¿½fï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½Ï·ï¿½ ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.",
+	phpAds_actionDeactivationMailed			=> "Ä·ï¿½ï¿½ï¿½ï¿½ {id}ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­ï¿½ï¿½fï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½Ï·ï¿½ ï¿½Ë¸ï¿½ï¿½Ï´ï¿½.",
+	phpAds_actionPriorityCalculation		=> "ï¿½ì¼±ï¿½ï¿½' ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½",
+	phpAds_actionPriorityAutoTargeting		=> "Ä·ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½",
+	phpAds_actionDeactiveCampaign			=> "Ä·ï¿½ï¿½ï¿½ï¿½ {id} È°ï¿½ï¿½È­ï¿½ï¿½f",
+	phpAds_actionActiveCampaign				=> "Ä·ï¿½ï¿½ï¿½ï¿½ {id} È°ï¿½ï¿½È­",
+	phpAds_actionAutoClean					=> "ï¿½ï¿½ï¿½ï¿½ï¿½Íºï¿½ï¿½Ì½ï¿½ ï¿½Úµï¿½ dï¿½ï¿½"
 );
 
 ?>

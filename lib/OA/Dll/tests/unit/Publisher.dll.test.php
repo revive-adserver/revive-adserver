@@ -34,7 +34,7 @@ require_once MAX_PATH . '/lib/OA/Dll/tests/util/DllUnitTestCase.php';
 /**
  * A class for testing DLL Publisher methods
  *
- * @package    OpenadsDll
+ * @package    OpenXDll
  * @subpackage TestSuite
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *

@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -33,7 +33,7 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  * A class for performing extended testing on the Delivery Engine DAL class'
  * OA_Dal_Delivery_getAccountTZs() function.
  *
- * @package    OpenadsDal
+ * @package    OpenXDal
  * @subpackage TestSuite
  * @author     Matteo Beccati <matteo.beccati@openx.org>
  */

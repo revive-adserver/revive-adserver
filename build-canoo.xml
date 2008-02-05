@@ -62,7 +62,7 @@
     </sequential>
   </macrodef>
 
-  <!-- Cleans up the old Openads directory. -->
+  <!-- Cleans up the old OpenX directory. -->
   <target name="canoo-prepare-dir">
     <property name="ec2.openads.dir" value="/var/www/html/${release}"/>
     <echo message="Preparing directory: ${ec2.openads.dir}"/>

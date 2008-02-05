@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -77,7 +77,7 @@ define('OA_PERM_SUPER_ACCOUNT',    10);
  * A generic class which provides permissions related methods.
  *
  * @static
- * @package    OpenadsPermission
+ * @package    OpenXPermission
  */
 class OA_Permission
 {

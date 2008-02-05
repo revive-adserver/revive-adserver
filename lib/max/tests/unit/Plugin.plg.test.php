@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -94,7 +94,7 @@ class Plugins_Maintenance_Fake_Fake extends Plugins_Maintenance
 /**
  * A class for testing the MAX_Plugin class.
  *
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew@m3.net>
  * @author     Radek Maciaszek <radek@m3.net>

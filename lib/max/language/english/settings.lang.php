@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -47,8 +47,8 @@ $GLOBALS['strAdvancedSettings']             = "Advanced Settings";
 $GLOBALS['strOtherSettings']                = "Other settings";
 $GLOBALS['strSpecifySyncSettings']          = "Synchronisation settings";
 $GLOBALS['strLicenseInformation']           = "License information";
-$GLOBALS['strOpenadsIdYour']                = "Your Openads ID";
-$GLOBALS['strOpenadsIdSettings']            = "Openads ID Settings";
+$GLOBALS['strOpenadsIdYour']                = "Your OpenX ID";
+$GLOBALS['strOpenadsIdSettings']            = "OpenX ID Settings";
 $GLOBALS['strWarning']                      = "Warning";
 $GLOBALS['strFatalError']                   = "A fatal error occurred";
 $GLOBALS['strUpdateError']                  = "An error occured while updating";

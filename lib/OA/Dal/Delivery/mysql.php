@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -28,7 +28,7 @@ $Id$
 /**
  * The mysql data access layer code the delivery engine.
  *
- * @package    OpenadsDal
+ * @package    OpenXDal
  * @subpackage Delivery
  * @author     Chris Nutting <chris.nutting@openx.org>
  * @author     Andrew Hill <andrew.hill@openx.org>
@@ -934,7 +934,7 @@ function OA_Dal_Delivery_getMaintenanceInfo()
  *                              the viewer used to access the page containing the zone.
  * @param array   $userAgentInfo An array to store information about the
  *                               viewer's web browser and operating system.
- * @param integer $maxHttps     An integer to store if the call to Openads was
+ * @param integer $maxHttps     An integer to store if the call to OpenXwas
  *                              performed using HTTPS or not.
  */
 function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneId,
@@ -1173,7 +1173,7 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
  *                              the viewer used to access the page containing the zone.
  * @param array   $userAgentInfo An array to store information about the
  *                               viewer's web browser and operating system.
- * @param integer $maxHttps     An integer to store if the call to Openads was
+ * @param integer $maxHttps     An integer to store if the call to OpenXwas
  *                              performed using HTTPS or not.
 
  * @return int|false            Returns the insert ID for this record or false on failure

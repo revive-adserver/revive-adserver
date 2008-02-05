@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -30,7 +30,7 @@ $Id$
  * can be accessed by any class that needs them. Also allows Mock Objects
  * to be easily used as replacements for classes during testing.
  *
- * @package    Openads
+ * @package    OpenX
  * @author     Andrew Hill <andrew.hill@openx.org>
   */
 class OA_ServiceLocator

@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -31,7 +31,7 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Distributed.php';
  * A DB specific base Data Abstraction Layer (DAL) class that provides
  * functionality for the Distributed Maintenance.
  *
- * @package    OpenadsDal
+ * @package    OpenXDal
  * @subpackage Maintenance
  * @author     Matteo Beccati <matteo.beccati@openx.org>
  */

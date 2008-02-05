@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -39,7 +39,7 @@ require_once MAX_PATH . '/lib/pear/Image/Graph.php';
  * OA_Maintenance_Priority_AdServer_Task_PriorityCompensation class happens
  * quickly enough to prevent over-delivery.
  *
- * @package    OpenadsMaintenance
+ * @package    OpenXMaintenance
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew.hill@openx.org>
  */

@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -70,7 +70,7 @@ class TestRunner
     var $test_level_name = 'sdh';
 
     /**
-     * @var string A folder (relative to the Openads root) containing tests to run.
+     * @var string A folder (relative to the OpenX root) containing tests to run.
      *
      * It should not include a leading '/'.
      */
@@ -104,7 +104,7 @@ class TestRunner
     }
 
     /**
-     * A method to run all the tests in the Openads project.
+     * A method to run all the tests in the OpenX project.
      */
     function runAll()
     {

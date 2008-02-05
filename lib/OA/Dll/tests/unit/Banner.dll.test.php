@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                           |
+| OpenX v${RELEASE_MAJOR_MINOR}                                           |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -36,7 +36,7 @@ require_once MAX_PATH . '/lib/OA/Dll/tests/util/DllUnitTestCase.php';
 /**
  * A class for testing DLL Banner methods
  *
- * @package    OpenadsDll
+ * @package    OpenXDll
  * @subpackage TestSuite
  * @author     Ivan Klishch <iklishch@lohika.com>
  *

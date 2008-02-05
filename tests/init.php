@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -41,7 +41,7 @@ setupConfigVariables();
 require_once 'PEAR.php';
 
 /**
- * The environment initialisation function for the Openads testing environment.
+ * The environment initialisation function for the OpenX testing environment.
  */
 function init()
 {

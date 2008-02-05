@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -27,7 +27,7 @@ $Id$
 
 /**
  * This file is only called to redirect to somewhere else,
- * however, if Openads is not yet installed, we need to know
+ * however, if OpenX is not yet installed, we need to know
  * that it was this file that was called, so set a global
  * variable.
  */

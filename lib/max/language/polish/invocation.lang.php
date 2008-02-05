@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -51,82 +51,82 @@ $GLOBALS['strAbbrSeconds']			= "sec";
 
 
 // Common Invocation Parameters
-$GLOBALS['strInvocationWhat']			= "Wybór bannera";
+$GLOBALS['strInvocationWhat']			= "Wybï¿½r bannera";
 $GLOBALS['strInvocationClientID']		= "Reklamodawca lub kampania";
 $GLOBALS['strInvocationTarget']			= "Docelowa ramka";
-$GLOBALS['strInvocationSource']			= "¬ród³o";
-$GLOBALS['strInvocationWithText']		= "Poka¿ tekst pod bannerem";
+$GLOBALS['strInvocationSource']			= "ï¿½rï¿½dï¿½o";
+$GLOBALS['strInvocationWithText']		= "Pokaï¿½ tekst pod bannerem";
 $GLOBALS['strInvocationDontShowAgain']		= "Nie pokazuj bannera drugi raz na tej samej stronie";
 $GLOBALS['strInvocationDontShowAgainCampaign']	= "Nie pokazuj bannera z tej samej kampanii po raz drugi na tej samej stronie";
-$GLOBALS['strInvocationTemplate'] 		= "Zapisz ten banner w zmiennej, aby móg³ byæ wkorzystany w szablonie";
+$GLOBALS['strInvocationTemplate'] 		= "Zapisz ten banner w zmiennej, aby mï¿½gï¿½ byï¿½ wkorzystany w szablonie";
 
 
 // Iframe
-$GLOBALS['strIFrameRefreshAfter']		= "Od¶wie¿ po";
-$GLOBALS['strIframeResizeToBanner']		= "Przeskaluj iframe do rozmiarów bannera";
-$GLOBALS['strIframeMakeTransparent']		= "Zrób przezroczyst± iframe";
-$GLOBALS['strIframeIncludeNetscape4']		= "Dodaj warstwê zgodn± z Netscape 4";
+$GLOBALS['strIFrameRefreshAfter']		= "Odï¿½wieï¿½ po";
+$GLOBALS['strIframeResizeToBanner']		= "Przeskaluj iframe do rozmiarï¿½w bannera";
+$GLOBALS['strIframeMakeTransparent']		= "Zrï¿½b przezroczystï¿½ iframe";
+$GLOBALS['strIframeIncludeNetscape4']		= "Dodaj warstwï¿½ zgodnï¿½ z Netscape 4";
 
 
 // PopUp
 $GLOBALS['strPopUpStyle']			= "Typ Pop-up";
 $GLOBALS['strPopUpStylePopUp']			= "Pop-up";
 $GLOBALS['strPopUpStylePopUnder']		= "Pop-under";
-$GLOBALS['strPopUpCreateInstance']		= "Kiedy pop-up ma byæ wy¶wietlony";
+$GLOBALS['strPopUpCreateInstance']		= "Kiedy pop-up ma byï¿½ wyï¿½wietlony";
 $GLOBALS['strPopUpImmediately']			= "Natychmiast";
 $GLOBALS['strPopUpOnClose']			= "Kiedy strona jest zamykana";
 $GLOBALS['strPopUpAfterSec']			= "Po";
 $GLOBALS['strAutoCloseAfter']			= "Automatycznie zamknij po";
-$GLOBALS['strPopUpTop']				= "Pocz±tkowa pozycja (góra)";
-$GLOBALS['strPopUpLeft']			= "Pocz±tkowa pozycja (lewa)";
+$GLOBALS['strPopUpTop']				= "Poczï¿½tkowa pozycja (gï¿½ra)";
+$GLOBALS['strPopUpLeft']			= "Poczï¿½tkowa pozycja (lewa)";
 
 
 // XML-RPC
-$GLOBALS['strXmlRpcLanguage']			= "Jêzyk Hosta";
+$GLOBALS['strXmlRpcLanguage']			= "Jï¿½zyk Hosta";
 
 
 // AdLayer
 $GLOBALS['strAdLayerStyle']			= "Styl";
 
-$GLOBALS['strAlignment']			= "Wyrównanie";
-$GLOBALS['strHAlignment']			= "Wyrównanie poziome";
+$GLOBALS['strAlignment']			= "Wyrï¿½wnanie";
+$GLOBALS['strHAlignment']			= "Wyrï¿½wnanie poziome";
 $GLOBALS['strLeft']				= "Lewa";
-$GLOBALS['strCenter']				= "¦rodek";
+$GLOBALS['strCenter']				= "ï¿½rodek";
 $GLOBALS['strRight']				= "Prawa";
 
-$GLOBALS['strVAlignment']			= "Wyrównanie pionowe";
-$GLOBALS['strTop']				= "Góra";
-$GLOBALS['strMiddle']				= "¦rodek";
-$GLOBALS['strBottom']				= "Dó³";
+$GLOBALS['strVAlignment']			= "Wyrï¿½wnanie pionowe";
+$GLOBALS['strTop']				= "Gï¿½ra";
+$GLOBALS['strMiddle']				= "ï¿½rodek";
+$GLOBALS['strBottom']				= "Dï¿½";
 
 $GLOBALS['strAutoCollapseAfter']		= "Automatycznie schowa po";
-$GLOBALS['strCloseText']			= "Tekst zamkniêcia";
+$GLOBALS['strCloseText']			= "Tekst zamkniï¿½cia";
 $GLOBALS['strClose']				= "[Zamknij]";
-$GLOBALS['strBannerPadding']			= "Odstêp bannera";
+$GLOBALS['strBannerPadding']			= "Odstï¿½p bannera";
 
-$GLOBALS['strHShift']				= "Przesuniêcie poziome";
-$GLOBALS['strVShift']				= "Przesuniêcie pionowe";
+$GLOBALS['strHShift']				= "Przesuniï¿½cie poziome";
+$GLOBALS['strVShift']				= "Przesuniï¿½cie pionowe";
 
-$GLOBALS['strShowCloseButton']			= "Poka¿ przycisk zamykania";
-$GLOBALS['strBackgroundColor']			= "Kolor t³a";
+$GLOBALS['strShowCloseButton']			= "Pokaï¿½ przycisk zamykania";
+$GLOBALS['strBackgroundColor']			= "Kolor tï¿½a";
 $GLOBALS['strBorderColor']			= "Kolor obramowania";
 
 $GLOBALS['strDirection']			= "Kierunek";
 $GLOBALS['strLeftToRight']			= "Lewa do prawej";
 $GLOBALS['strRightToLeft']			= "Prawa do lewej";
-$GLOBALS['strLooping']				= "Pêtle";
+$GLOBALS['strLooping']				= "Pï¿½tle";
 $GLOBALS['strAlwaysActive']			= "Zawsze aktywny";
-$GLOBALS['strSpeed']				= "Prêdko¶æ";
+$GLOBALS['strSpeed']				= "Prï¿½dkoï¿½ï¿½";
 $GLOBALS['strPause']				= "Pauza";
 $GLOBALS['strLimited']				= "Ograniczony";
 $GLOBALS['strLeftMargin']			= "Lewy margines";
 $GLOBALS['strRightMargin']			= "Prawy margines";
-$GLOBALS['strTransparentBackground']		= "Przezroczyste t³o";
+$GLOBALS['strTransparentBackground']		= "Przezroczyste tï¿½o";
 
-$GLOBALS['strSmoothMovement']			= "P³ynny ruch";
-$GLOBALS['strHideNotMoving']			= "Ukryj banner kiedy kursor siê nie porusza";
-$GLOBALS['strHideDelay']			= "Opó¼nienie przed ukryciem bannera";
-$GLOBALS['strHideTransparancy']			= "Przezroczysto¶æ ukrytego bannera";
+$GLOBALS['strSmoothMovement']			= "Pï¿½ynny ruch";
+$GLOBALS['strHideNotMoving']			= "Ukryj banner kiedy kursor siï¿½ nie porusza";
+$GLOBALS['strHideDelay']			= "Opï¿½nienie przed ukryciem bannera";
+$GLOBALS['strHideTransparancy']			= "Przezroczystoï¿½ï¿½ ukrytego bannera";
 
 
 $GLOBALS['strAdLayerStyleName']				= array(

@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -106,7 +106,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         'p3p_compactPolicy'  => array('p3p' => 'compactPolicy'),
         'p3p_policyLocation' => array('p3p' => 'policyLocation')
     );
-    // Openads Server Access Paths
+    // OpenX Server Access Paths
     $aElements += array(
         'webpath_admin' => array(
             'webpath'      => 'admin',

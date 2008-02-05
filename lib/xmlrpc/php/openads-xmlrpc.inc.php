@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -34,11 +34,11 @@ if (!@include('XML/RPC.php')) {
 
 /**
  * A library class to provide XML-RPC routines  to display ads on pages on
- * a web server where Openads is not installed but is installed on a remote server.
+ * a web server where OpenX is not installed but is installed on a remote server.
  *
- * For use with Openads PHP-based XML-RPC invocation tags.
+ * For use with OpenX PHP-based XML-RPC invocation tags.
  *
- * @package    Openads
+ * @package    OpenX
  * @subpackage ExternalLibrary
  * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
@@ -82,7 +82,7 @@ class OA_XmlRpc
     }
 
     /**
-     * This method retrieves a banner from a remote Openads installation using XML-RPC.
+     * This method retrieves a banner from a remote OpenX installation using XML-RPC.
      *
      * @param string $what       The "what" parameter, see docs for more info
      * @param int    $campaignid The campaign id to fetch banners from, 0 means any campaign

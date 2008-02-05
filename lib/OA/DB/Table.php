@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -33,7 +33,7 @@ require_once 'MDB2.php';
 require_once 'MDB2/Schema.php';
 
 /**
- * An abstract class defining the interface for creating Openads database tables.
+ * An abstract class defining the interface for creating OpenX database tables.
  *
  * Note that only permanent tables are created with the table prefix defined in the
  * configuration .ini file - temporary tables do NOT use the table prefix. This is
@@ -42,7 +42,7 @@ require_once 'MDB2/Schema.php';
  * directly, and this is easier to do if the prefix doesn't have to be prepended
  * in order to do so.
  *
- * @package    OpenadsDB
+ * @package    OpenXDB
  * @subpackage Table
  * @author     Andrew Hill <andrew.hill@openx.org>
  */
@@ -168,7 +168,7 @@ class OA_DB_Table
     /**
      * return an array of tables in currently connected database
      * ensuring case is preserved
-     * and that only tables with openads configured prefix are listed
+     * and that only tables with OpenX configured prefix are listed
      * optional 2nd prefix 'like' for narrowing the filter
      * this 'like' must be a simple string, no reg ex type stuff
      * e.g. $like= 'data_summary_'

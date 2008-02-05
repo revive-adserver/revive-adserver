@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -49,7 +49,7 @@ define('OA_DB_ADVISORYLOCK_DISTRIBUTED',  '2');
 /**
  * An abstract class defining the interface for using advisory locks inside Openads.
  *
- * @package    OpenadsDB
+ * @package    OpenXDB
  * @subpackage AdvisoryLock
  * @author     Matteo Beccati <matteo.beccati@openx.org>
  */

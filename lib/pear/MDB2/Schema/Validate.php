@@ -684,7 +684,7 @@ class MDB2_Schema_Validate
 
 
                 /**
-                 * @TODO Remove this !GROSS HACK! as soon as the Openads schema has been
+                 * @TODO Remove this !GROSS HACK! as soon as the OpenX schema has been
                  *       refactored so that all dates have default values.
                  */
                 if ($field_value === '') {
@@ -703,7 +703,7 @@ class MDB2_Schema_Validate
 
 
                 /**
-                 * @TODO Remove this !GROSS HACK! as soon as the Openads schema has been
+                 * @TODO Remove this !GROSS HACK! as soon as the OpenX schema has been
                  *       refactored so that all timestamps have default values.
                  */
                 if ($field_value === '') {

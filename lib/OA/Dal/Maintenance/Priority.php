@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -49,7 +49,7 @@ define('DAL_PRIORITY_UPDATE_PRIORITY_COMPENSATION', 1);
  * The non-DB specific Data Abstraction Layer (DAL) class for the
  * Maintenance Priority Engine (MPE).
  *
- * @package    OpenadsDal
+ * @package    OpenXDal
  * @subpackage MaintenancePriority
  * @author     James Floyd <james@m3.net>
  * @author     Andrew Hill <andrew.hill@openx.org>
@@ -1213,7 +1213,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      *                                                     interval.
      * @return boolean True on success, false on failure.
      *
-     * @TODO Update the "created_by", "expired_by" fields once Openads has a role-based
+     * @TODO Update the "created_by", "expired_by" fields once OpenX has a role-based
      *       permissions system in place.
      * @TODO Write the code that inserts non-static priorities.
      */

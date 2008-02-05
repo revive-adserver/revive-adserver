@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -30,9 +30,9 @@ require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
 require_once MAX_PATH . '/lib/pear/Config.php';
 
 /**
- * A class for managing the Openads settings configuration file(s).
+ * A class for managing the OpenX settings configuration file(s).
  *
- * @package    OpenadsAdmin
+ * @package    OpenXAdmin
  * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Admin_Settings
@@ -76,7 +76,7 @@ class OA_Admin_Settings
     }
 
     /**
-     * A method to test if the Openads configuration .conf.php file is
+     * A method to test if the OpenX configuration .conf.php file is
      * writable by the web server process.
      *
      * Method is static so that it can be called without creating an
@@ -103,7 +103,7 @@ class OA_Admin_Settings
         if (file_exists($configFile)) {
             return is_writable($configFile);
         } elseif ($isDir) {
-            // Openads has not been installed yet (or plugin config file
+            // OpenX has not been installed yet (or plugin config file
             // doesn't exist) so need to test if the web server can write
             // to the config file directory
             $configDir = substr($configFile, 0, strrpos($configFile, '/'));
@@ -139,12 +139,12 @@ class OA_Admin_Settings
     }
 
     /**
-     * A method for writing out the Openads configuration .conf.php file(s),
+     * A method for writing out the OpenX configuration .conf.php file(s),
      * including any changes that have been made to the configuration in the
      * current object.
      *
      * Configuration files are prefixed with the host name being used to access
-     * Openads, so that multiple Openads installations can be run from a single
+     * Openads, so that multiple OpenX installations can be run from a single
      * code base, if the correct virtual hosts are configured.
      *
      * @param string $configPath The directory to save the config file(s) in.

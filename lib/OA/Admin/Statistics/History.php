@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -33,7 +33,7 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  * A class of helper methods that can be called from the statistics
  * classes when generating "history" style statistics.
  *
- * @package    OpenadsAdmin
+ * @package    OpenXAdmin
  * @subpackage Statistics
  * @author     Matteo Beccati <matteo@beccati.com>
  * @author     Andrew Hill <andrew.hill@openx.org>

@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -36,7 +36,7 @@ Mock::generate('OA_UpgradeAuditor');
 /**
  * A class for testing the Openads_DB_Upgrade class.
  *
- * @package    Openads Upgrade
+ * @package    OpenX Upgrade
  * @subpackage TestSuite
  * @author     Monique Szpak <monique.szpak@openx.org>
  */

@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -73,7 +73,7 @@ class TestEnv
     }
 
     /**
-     * A method for setting up the core Openads tables in the test database.
+     * A method for setting up the core OpenX tables in the test database.
      */
     function setupCoreTables()
     {

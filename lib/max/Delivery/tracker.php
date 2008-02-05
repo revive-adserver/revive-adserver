@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -131,7 +131,7 @@ function MAX_trackerbuildJSVariablesScript($trackerid, $conversionInfo, $tracker
         }
     }
     if(!empty($tracker['appendcode'])) {
-        // Add the correct "inherit" parameter if a Openads trackercode was found
+        // Add the correct "inherit" parameter if a OpenX trackercode was found
         $tracker['appendcode'] = preg_replace('/("\?trackerid=\d+&amp;inherit)=1/', '$1='.$trackerJsCode, $tracker['appendcode']);
 
         $jscode = MAX_javascriptToHTML($tracker['appendcode'], "MAX_{$trackerid}_appendcode");

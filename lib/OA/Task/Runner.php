@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -31,7 +31,7 @@ require_once MAX_PATH . '/lib/OA/Task.php';
  * A class for storing a collection of tasks, and then running those tasks
  * (in order) when requested.
  *
- * @package    Openads
+ * @package    OpenX
  * @subpackage Tasks
  * @author     Demian Turner <demian@m3.net>
  * @author     James Floyd <james@m3.net>

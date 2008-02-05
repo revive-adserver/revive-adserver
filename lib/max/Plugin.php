@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -57,7 +57,7 @@ define('MAX_PLUGINS_FILE_MASK', '^.*/([a-zA-Z0-9\-_]*)/([a-zA-Z0-9\-_]*)'.MAX_PL
  *  - Reading and writing plugin cache files, if they exist.
  *
  * @static
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @author     Andrew Hill <andrew@m3.net>
  * @author     Radek Maciaszek <radek@m3.net>
  */

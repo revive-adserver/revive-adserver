@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -28,7 +28,7 @@ $Id$
 /**
  * MAX_Plugin_Translation - plugin translation system.
  *
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @author     Radek Maciaszek <radek@m3.net>
  */
 class MAX_Plugin_Translation

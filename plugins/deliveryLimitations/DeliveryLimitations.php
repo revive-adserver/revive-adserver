@@ -1,7 +1,7 @@
 <?php
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -447,7 +447,7 @@ class Plugins_DeliveryLimitations extends MAX_Plugin_Common
 
 
     /**
-     * Gets information about $op and $data for upgrade from Openads 2.0.
+     * Gets information about $op and $data for upgrade from OpenX 2.0.
      *
      * @param string $op
      * @param string $sData

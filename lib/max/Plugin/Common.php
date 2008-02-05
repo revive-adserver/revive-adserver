@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -31,7 +31,7 @@ require_once MAX_PATH . '/lib/max/Plugin.php';
  * MAX_Plugin_Common is an abstract class, defining the common methods and
  * interface for plugin classes.
  *
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @author     Radek Maciaszek <radek@m3.net>
  * @abstract
  */

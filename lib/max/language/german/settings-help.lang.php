@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -305,7 +305,7 @@ $GLOBALS['phpAds_hlp_type_web_ftp_password'] = "
 		";
 
 $GLOBALS['phpAds_hlp_type_web_ftp_passive'] = " 
- 	    Einige FTP Server und Firewalls verlangen, dass Sie bei Übertragungen den Passive Mode (PASV) verwenden. 
+ 	    Einige FTP Server und Firewalls verlangen, dass Sie bei ï¿½bertragungen den Passive Mode (PASV) verwenden. 
  	    Wenn " . MAX_PRODUCT_NAME . " Passive Mode verwenden soll, aktivieren Sie diese Option. 
  	    ";
  	    

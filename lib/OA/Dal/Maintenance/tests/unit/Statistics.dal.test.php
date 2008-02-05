@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -33,7 +33,7 @@ require_once 'DB/QueryTool.php';
 /**
  * A class for testing the non-DB specific OA_Dal_Maintenance_Statistics class.
  *
- * @package    OpenadsDal
+ * @package    OpenXDal
  * @subpackage TestSuite
  * @author     James Floyd <james@m3.net>
  * @author     Andrew Hill <andrew.hill@openx.org>

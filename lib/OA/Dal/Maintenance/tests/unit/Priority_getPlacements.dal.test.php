@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -35,7 +35,7 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
  * A class for testing the getPlacements() method of the non-DB specific
  * OA_Dal_Maintenance_Priority class.
  *
- * @package    OpenadsDal
+ * @package    OpenXDal
  * @subpackage TestSuite
  * @author     Monique Szpak <monique.szpak@openx.org>
  * @author     Andrew Hill <andrew.hill@openx.org>

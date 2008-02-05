@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -32,7 +32,7 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  * A library class for providing methods to work with Operation Intervals.
  *
  * @static
- * @package    Openads
+ * @package    OpenX
  * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_OperationInterval

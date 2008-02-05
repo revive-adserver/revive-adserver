@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -39,7 +39,7 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  * A class to provide support for sending of email-based reports and
  * alerts.
  *
- * @package    Openads
+ * @package    OpenX
  * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Email

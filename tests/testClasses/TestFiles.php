@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -40,7 +40,7 @@ class TestFiles
 
     /**
      * A method to scan a directory (and, optionally, all sub-directories)
-     * and find all Openads tests of the appropriate type and relating to
+     * and find all OpenX tests of the appropriate type and relating to
      * a supplied test "layer" code.
      *
      * @param string  $type      The type of test being run (eg. "unit").
@@ -93,11 +93,11 @@ class TestFiles
     }
 
     /**
-     * A method to get all test files in the Openads project.
+     * A method to get all test files in the OpenX project.
      *
      * @param string $type The type of test being run (eg. "unit").
      * @return array An array containing the details of all the test files
-     *               in the Openads project.
+     *               in the OpenX project.
      */
     function getAllTestFiles($type)
     {
@@ -114,12 +114,12 @@ class TestFiles
     }
 
     /**
-     * A method to get all test files in the Openads project for a specified layer.
+     * A method to get all test files in the OpenX project for a specified layer.
      *
      * @param string $type The type of test being run (eg. "unit").
      * @param $layer string The layer code.
      * @return mixed An array containing the details of all the test files
-     *               in the Openads project for the specified layer.
+     *               in the OpenX project for the specified layer.
      */
     function getLayerTestFiles($type, $layer)
     {

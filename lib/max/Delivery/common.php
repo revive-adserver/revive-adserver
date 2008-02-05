@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -483,7 +483,7 @@ function MAX_sendStatusCode($iStatusCode) {
         // Using header('Status: foo') with CGI sapis appears to be deprecated but PHP-CGI seems to discard
         // the Reason-Phrase and some webservers do not add a default one. Some bad spiders do not cope
         // with that, that's why we added the cgiForceStatusHeader confgiuration directive. If enabled
-        // with CGI sapis, Openads will use a "Status: NNN Reason" header, which seems to fix the behaviour
+        // with CGI sapis, OpenX will use a "Status: NNN Reason" header, which seems to fix the behaviour
         // on the tested webserver (Apache 1.3, running php-cgi)
 	    if (!empty($aConf['delivery']['cgiForceStatusHeader']) && strpos(php_sapi_name(), 'cgi') !== 0) {
 	       header('Status: ' . $text);

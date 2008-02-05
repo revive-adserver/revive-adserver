@@ -1,7 +1,7 @@
 <?php
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -65,7 +65,7 @@ $oSystemMgr->getAllInfo();
 if (!$oSystemMgr->checkMemory()) {
     $memory = getMinimumRequiredMemory() / 1048576;
     echo '<link rel="stylesheet" type="text/css" href="css/install.css"/><br />';
-    echo '<div class="sysmessage sysinfoerror" style="text-align: center;">The minimum amount of memory <a href="http://docs.openx.org/openads-2.3-guide/requirements.html" target="_blank" style="color: #990000">required</a> by Openads is <b>'. $memory
+    echo '<div class="sysmessage sysinfoerror" style="text-align: center;">The minimum amount of memory <a href="http://docs.openx.org/openads-2.3-guide/requirements.html" target="_blank" style="color: #990000">required</a> by OpenX is <b>'. $memory
         .' MB</b>. <br />Please <a href="http://www.openx.org/support/faq.html" target="_blank" style="color: #990000">increase</a> your PHP memory_limit before continuing.</div>';
     exit(1);
 }
@@ -214,7 +214,7 @@ else if (array_key_exists('btn_dbsetup', $_POST))
         $installStatus = $oUpgrader->existing_installation_status;
         if ($installStatus == OA_STATUS_CURRENT_VERSION)
         {
-            $message = 'Openads is up to date';
+            $message = 'OpenX is up to date';
             $strInstallSuccess = $strOaUpToDate;
             $action = OA_UPGRADE_FINISH;
         }
@@ -242,7 +242,7 @@ else if (array_key_exists('btn_upgrade', $_POST))
         {
             if ($oUpgrader->install($_POST['aConfig']))
             {
-                $message = 'Your database has successfully been created for Openads '.OA_VERSION;
+                $message = 'Your database has successfully been created for OpenX '.OA_VERSION;
                 $action  = OA_UPGRADE_INSTALL;
             }
         }
@@ -329,9 +329,9 @@ else if (array_key_exists('btn_adminsetup', $_POST))
         {
             $aConfig    = $_POST['aConfig'];
             if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL) {
-                $errMessage = 'We are unable to create your configuration file. Please re-check the permissions of the Openads var folder.';
+                $errMessage = 'We are unable to create your configuration file. Please re-check the permissions of the OpenX var folder.';
             } else {
-                $errMessage = 'We are unable to update your configuration file. Please re-check the permissions of the Openads var folder, and also check the permissions of the previous install\'s config file that you copied into this folder.';
+                $errMessage = 'We are unable to update your configuration file. Please re-check the permissions of the OpenX var folder, and also check the permissions of the previous install\'s config file that you copied into this folder.';
             }
             $action     = OA_UPGRADE_CONFIGSETUP;
         }

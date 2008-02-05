@@ -1,7 +1,7 @@
 <?php
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -22,7 +22,7 @@
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
 /**
- * Openads Schema Management Utility
+ * OpenX Schema Management Utility
  *
  * @author     Monique Szpak <monique.szpak@openx.org>
  *
@@ -35,7 +35,7 @@ require_once('MDB2.php');
 define('TIMESTAMP_FORMAT', '%Y-%m-%d %H:%M:%S');
 
 /**
- * Event handling class for Openads deployment system
+ * Event handling class for OpenX deployment system
  *
  */
 

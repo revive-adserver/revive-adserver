@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -100,8 +100,8 @@ class test_DeliveryRemotehost extends UnitTestCase
             'PHP_SELF' => '/lib/max/Delivery/tests/unit/remotehost.del.test.php',
             'REQUEST_TIME' => time(),
         );
-        // I am unsure if this is a bug in Openads or HAProxy, but the above dump does not contain
-        // either an HTTP_VIA/REMOTE_HOST header, therefore Openads assumes this is not proxied
+        // I am unsure if this is a bug in OpenX or HAProxy, but the above dump does not contain
+        // either an HTTP_VIA/REMOTE_HOST header, therefore OpenX assumes this is not proxied
         // I am adding it to "fix" the test
         $_SERVER['HTTP_VIA'] = '194.85.1.1 (Squid/2.4.STABLE7)';
 

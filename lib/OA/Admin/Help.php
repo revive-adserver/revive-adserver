@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -35,7 +35,7 @@ $GLOBALS['OA_HELP_LINK_BUILD_TYPE'] = OA_HELP_LINK_BUILD_USING_LINK;
 /**
  * A class for generating context sensitive help links to the documentation.
  *
- * @package    OpenadsAdmin
+ * @package    OpenXAdmin
  * @author     Marek Bedkowski <marek@bedkowski.pl>
  * @author     Andrew Hill <andrew.hill@openx.org>
  */

@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -115,7 +115,7 @@ function OA_Start($checkRedirectFunc = null)
     $conf = $GLOBALS['_MAX']['CONF'];
     global $session;
 
-    // XXX: Why not try loading session data when Openads is not installed?
+    // XXX: Why not try loading session data when OpenX is not installed?
     //if ($conf['openads']['installed'])
     if (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED)
     {

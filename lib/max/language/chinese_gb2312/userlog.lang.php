@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -31,21 +31,21 @@ $Id$
 
 // Set translation strings
 
-$GLOBALS['strDeliveryEngine']				= "·¢ËÍÒýÇæ";
-$GLOBALS['strMaintenance']				= "Î¬»¤";
-$GLOBALS['strAdministrator']				= "¹ÜÀíÔ±";
+$GLOBALS['strDeliveryEngine']				= "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
+$GLOBALS['strMaintenance']				= "Î¬ï¿½ï¿½";
+$GLOBALS['strAdministrator']				= "ï¿½ï¿½ï¿½ï¿½Ô±";
 
 
 $GLOBALS['strUserlog'] = array (
-	phpAds_actionAdvertiserReportMailed 		=> "Í¨¹ýµç×ÓÓÊ¼þ·¢ËÍ±¨¸æ¸ø¿Í»§{id}",
-	phpAds_actionPublisherReportMailed 		=> "Í¨¹ýµç×ÓÓÊ¼þ·¢ËÍ±¨¸æ¸ø·¢²¼ÈË{id}",
-	phpAds_actionWarningMailed			=> "Í¨¹ýµç×ÓÓÊ¼þ·¢ËÍÏîÄ¿{id}Í£ÓÃ¾¯¸æ",
-	phpAds_actionDeactivationMailed			=> "Í¨¹ýµç×ÓÓÊ¼þ·¢ËÍÏîÄ¿{id}Í£ÓÃÍ¨Öª",
-	phpAds_actionPriorityCalculation		=> "ÖØÐÂ¼ÆËãÓÅÏÈÈ¨",
-	phpAds_actionPriorityAutoTargeting		=> "ÖØÐÂ¼ÆËãÏîÄ¿Ä¿±ê",
-	phpAds_actionDeactiveCampaign			=> "ÏîÄ¿{id}ÒÑ¾­Í£ÓÃ",
-	phpAds_actionActiveCampaign			=> "ÏîÄ¿{id}ÒÑ¾­ÆôÓÃ",
-	phpAds_actionAutoClean				=> "Êý¾Ý¿â×Ô¶¯ÇåÀí"
+	phpAds_actionAdvertiserReportMailed 		=> "Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Í±ï¿½ï¿½ï¿½ï¿½Í»ï¿½{id}",
+	phpAds_actionPublisherReportMailed 		=> "Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Í±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½{id}",
+	phpAds_actionWarningMailed			=> "Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿{id}Í£ï¿½Ã¾ï¿½ï¿½ï¿½",
+	phpAds_actionDeactivationMailed			=> "Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿{id}Í£ï¿½ï¿½Í¨Öª",
+	phpAds_actionPriorityCalculation		=> "ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¨",
+	phpAds_actionPriorityAutoTargeting		=> "ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Ä¿ï¿½ï¿½",
+	phpAds_actionDeactiveCampaign			=> "ï¿½ï¿½Ä¿{id}ï¿½Ñ¾ï¿½Í£ï¿½ï¿½",
+	phpAds_actionActiveCampaign			=> "ï¿½ï¿½Ä¿{id}ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½",
+	phpAds_actionAutoClean				=> "ï¿½ï¿½Ý¿ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½"
 );
 
 ?>

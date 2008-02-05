@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -29,7 +29,7 @@ $Id$
  * A factory class to create instances of classes that implement the
  * OA_Admin_Statistics_Common "interface".
  *
- * @package    OpenadsAdmin
+ * @package    OpenXAdmin
  * @subpackage Statistics
  * @author     Matteo Beccati <matteo@beccati.com>
  * @author     Andrew Hill <andrew.hill@openx.org>

@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -29,7 +29,7 @@ $Id$
  * A file to store two arrays, defining what custom MDB2 datatype definitions
  * exist in the main custom datatype file.
  *
- * @package    OpenadsDal
+ * @package    OpenXDal
  * @author     Andrew Hill <andrew.hill@openx.org>
  */
 

@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -32,7 +32,7 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  * A class that is used to store and manipulate individual dDelivery limitations
  * for ads, where the delivery limitation is of the Time:Day type.
  *
- * @package    OpenadsMaintenance
+ * @package    OpenXMaintenance
  * @subpackage Priority
  * @author     Andrew Hill <andrew.hill@openx.org>
  */

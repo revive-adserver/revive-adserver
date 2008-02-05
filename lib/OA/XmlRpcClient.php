@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -35,7 +35,7 @@ require_once 'XML/RPC.php';
  *
  * Note: Proxy support is currently disabled to keep things simple
  *
- * @package    Openads
+ * @package    OpenX
  * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 class OA_XML_RPC_Client extends XML_RPC_Client

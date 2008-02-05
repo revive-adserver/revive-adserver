@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -33,7 +33,7 @@ require_once MAX_PATH . '/lib/pear/Date.php';
 /**
  * A class for testing the OA_Dal_Maintenance_Statistics_Common class.
  *
- * @package    OpenadsDal
+ * @package    OpenXDal
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew.hill@openx.org>
  */

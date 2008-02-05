@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -76,7 +76,7 @@ require_once MAX_PATH . '/lib/OA/Preferences.php';
 
 
 /**
- * Openads Upgrade Class
+ * @package    OpenXUpgrade Class
  *
  * @author     Monique Szpak <monique.szpak@openx.org>
  */
@@ -576,7 +576,7 @@ class OA_Upgrade
             case OA_STATUS_OAD_NOT_INSTALLED:
                 if (!$this->oLogger->errorExists)
                 {
-                    $this->oLogger->log('No previous version of Openads detected');
+                    $this->oLogger->log('No previous version of @package    OpenXdetected');
                     return true;
                 }
                 break;
@@ -675,10 +675,10 @@ class OA_Upgrade
 //                    return false;
 //                }
                 if ($this->oDbh->dbsyntax == 'pgsql') {
-                    // Openads 2.0 for PostgreSQL
+                    // @package    OpenX2.0 for PostgreSQL
                     $this->versionInitialSchema['tables_core'] = '049';
                 } else {
-                    // Openads 2.0
+                    // @package    OpenX2.0
                     $this->versionInitialSchema['tables_core'] = '099';
                 }
                 if (!$skipIntegrityCheck && !$this->_checkDBIntegrity($this->versionInitialSchema['tables_core']))
@@ -860,7 +860,7 @@ class OA_Upgrade
 
 
     /**
-     * search for an existing Openads installation
+     * search for an existing @package    OpenXinstallation
      *
      * @param boolean $skipIntegrityCheck
      * @return boolean
@@ -1684,7 +1684,7 @@ class OA_Upgrade
             }
             if (!$result)
             {
-                $this->oLogger->logError('Openads requires database case sensitivity to work with uppercase prefixes');
+                $this->oLogger->logError('@package    OpenXrequires database case sensitivity to work with uppercase prefixes');
                 return false;
             }
         }
@@ -1775,7 +1775,7 @@ class OA_Upgrade
 
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
 
-        $oldTableMessagePrefix  = 'Your database contains an old Openads configuration table: ';
+        $oldTableMessagePrefix  = 'Your database contains an old @package    OpenXconfiguration table: ';
         $oldTableMessagePostfix = 'If you are trying to upgrade this database, please copy your existing configuration file into the var folder of this install. If you wish to proceed with a fresh installation, please either choose a new Table Prefix or a new Database.';
         if (in_array($this->aDsn['table']['prefix'].'config', $aExistingTables))
         {

@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -42,7 +42,7 @@ class Menu
 {
     /**
      * A method to return the HTML code needed to display a tree-based
-     * menu of all the Openads tests.
+     * menu of all the OpenX tests.
      *
      * @return string A string containing the HTML code needed to display
      *                the tests in a tree-based menu.
@@ -53,7 +53,7 @@ class Menu
         $menu     = new HTML_TreeMenu();
         $rootNode = new HTML_TreeNode(
                             array(
-                                'text' => 'Openads 2.3 Tests',
+                                'text' => 'OpenX 2.3 Tests',
                                 'icon' => "package.png"
                             )
                         );

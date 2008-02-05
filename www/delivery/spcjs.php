@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -42,7 +42,7 @@ $Id: template.php 9558 2007-09-11 06:50:55Z aj.tarachanowicz@openads.org $
  * 
  * For more information on ant generator or if you want to check why we do this
  * check out the documentation wiki page:
- * https://developer.openads.org/wiki/OptimizationPractices#GenerateDeliveryAntTask
+ * https://developer.openx.org/wiki/OptimizationPractices#GenerateDeliveryAntTask
  * 
  */
 
@@ -74,7 +74,7 @@ if ($conf !== false) {
 // check for false here - it's possible file doesn't exist
 return $conf;
 }
-echo "Openads could not read the default configuration file for the {$pluginType} plugin";
+echo "OpenX could not read the default configuration file for the {$pluginType} plugin";
 exit(1);
 }
 // Check for a 'default.conf.php' file
@@ -89,11 +89,11 @@ return $conf;
 }
 // Check to ensure Max hasn't been installed
 if (file_exists(MAX_PATH . '/var/INSTALLED')) {
-echo "Openads has been installed, but no configuration file was found.\n";
+echo "OpenX has been installed, but no configuration file was found.\n";
 exit(1);
 }
 // Max hasn't been installed, so delivery engine can't run
-echo "Openads has not been installed yet -- please read the INSTALL.txt file.\n";
+echo "OpenX has not been installed yet -- please read the INSTALL.txt file.\n";
 exit(1);
 }
 function setupConfigVariables()
@@ -278,7 +278,7 @@ function MAX_cookieSetViewerIdAndRedirect($viewerId) {
 $conf = $GLOBALS['_MAX']['CONF'];
 MAX_cookieSet($conf['var']['viewerId'], $viewerId, _getTimeYearFromNow());
 MAX_cookieFlush();
-// Determine if the access to Openads was made using HTTPS
+// Determine if the access to OpenX was made using HTTPS
 if ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) {
 $url = MAX_commonConstructSecureDeliveryUrl(basename($_SERVER['PHP_SELF']));
 } else {
@@ -615,7 +615,7 @@ if ($conf !== false) {
 // check for false here - it's possible file doesn't exist
 return $conf;
 }
-echo "Openads could not read the default configuration file for the {$pluginType} plugin";
+echo "OpenX could not read the default configuration file for the {$pluginType} plugin";
 exit(1);
 }
 // Check for a 'default.conf.php' file
@@ -630,11 +630,11 @@ return $conf;
 }
 // Check to ensure Max hasn't been installed
 if (file_exists(MAX_PATH . '/var/INSTALLED')) {
-echo "Openads has been installed, but no configuration file was found.\n";
+echo "OpenX has been installed, but no configuration file was found.\n";
 exit(1);
 }
 // Max hasn't been installed, so delivery engine can't run
-echo "Openads has not been installed yet -- please read the INSTALL.txt file.\n";
+echo "OpenX has not been installed yet -- please read the INSTALL.txt file.\n";
 exit(1);
 }
 }
@@ -885,7 +885,7 @@ $userAgentInfo = array(
 } else {
 $userAgentInfo = array();
 }
-// Determine if the access to Openads was made using HTTPS
+// Determine if the access to OpenX was made using HTTPS
 $maxHttps = 0;  // https is false
 if ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) {
 $maxHttps = 1;   // https is true
@@ -1227,7 +1227,7 @@ $text = $iStatusCode . ' ' . $arr[$iStatusCode];
 // Using header('Status: foo') with CGI sapis appears to be deprecated but PHP-CGI seems to discard
 // the Reason-Phrase and some webservers do not add a default one. Some bad spiders do not cope
 // with that, that's why we added the cgiForceStatusHeader confgiuration directive. If enabled
-// with CGI sapis, Openads will use a "Status: NNN Reason" header, which seems to fix the behaviour
+// with CGI sapis, OpenX will use a "Status: NNN Reason" header, which seems to fix the behaviour
 // on the tested webserver (Apache 1.3, running php-cgi)
 if (!empty($aConf['delivery']['cgiForceStatusHeader']) && strpos(php_sapi_name(), 'cgi') !== 0) {
 header('Status: ' . $text);

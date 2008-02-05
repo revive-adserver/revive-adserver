@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -38,7 +38,7 @@ class MAX_Admin_Redirect
 {
 
     /**
-     * A method to perform redirects. Only suitable for use once Openads is installed,
+     * A method to perform redirects. Only suitable for use once OpenX is installed,
      * as it required the max.conf.php file to be correctly set up.
      *
      * @param string $adminPage The administration interface page to redirect to

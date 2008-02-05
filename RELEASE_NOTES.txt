@@ -1,5 +1,5 @@
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | =========${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                              |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -20,33 +20,33 @@
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
 
-Release Notes: Openads ${RELEASE_VERSION}
+Release Notes: OpenX ${RELEASE_VERSION}
 =======================${RELEASE_VERSION_DOUBLE_UNDERLINE}
 
-Openads ${RELEASE_MAJOR_MINOR} is the next generation release of the hugely popular Openads
+OpenX ${RELEASE_MAJOR_MINOR} is the next generation release of the hugely popular Openads
 adserver.
 
 These release notes cover what's new, system requirements, download and
 installation instructions, known issues and frequently asked questions for
-Openads ${RELEASE_VERSION}. Please read these notes before reporting any bugs.
+OpenX ${RELEASE_VERSION}. Please read these notes before reporting any bugs.
 
-Please tell us what you think on the Openads ${RELEASE_MAJOR_MINOR} forum
-[http://forum.openads.org/index.php?showforum=37].
+Please tell us what you think on the OpenX ${RELEASE_MAJOR_MINOR} forum
+[http://forum.openx.org/index.php?showforum=37].
 
 
-What's New in Openads ${RELEASE_VERSION}
+What's New in OpenX ${RELEASE_VERSION}
 ----------------------${RELEASE_VERSION_SINGLE_UNDERLINE}
 
  * Release date: ${RELEASE_DATE}
 
-${RELEASE_NOTES} * For complete details, see https://developer.openads.org/.
+${RELEASE_NOTES} * For complete details, see https://developer.openx.org/.
 
 
 System Requirements
 -------------------
 
 Before installing, please make sure your server meets the system
-requirements [http://docs.openads.org/openads-${RELEASE_MAJOR_MINOR}-guide/requirements.html].
+requirements [http://docs.openx.org/openads-${RELEASE_MAJOR_MINOR}-guide/requirements.html].
 
 
 Downloading and Installing
@@ -54,25 +54,25 @@ Downloading and Installing
 
  * Downloading Openads
 
-   You can get the latest version of Openads ${RELEASE_MAJOR_MINOR} here
-   [http://www.openads.org/downloads/download-openads-${RELEASE_MAJOR_MINOR}.html].
+   You can get the latest version of OpenX ${RELEASE_MAJOR_MINOR} here
+   [http://www.openx.org/downloads/download-openads-${RELEASE_MAJOR_MINOR}.html].
 
- * Installing Openads ${RELEASE_VERSION}
+ * Installing OpenX ${RELEASE_VERSION}
 
-   Installing Openads ${RELEASE_VERSION} is a straightforward process. Follow
+   Installing OpenX ${RELEASE_VERSION} is a straightforward process. Follow
    these steps
-   [http://docs.openads.org/openads-${RELEASE_MAJOR_MINOR}-guide/installing-openads.html] and
+   [http://docs.openx.org/openads-${RELEASE_MAJOR_MINOR}-guide/installing-openads.html] and
    use the links to refer to detailed information on each step where
    necessary.
 
- * Upgrading Openads ${RELEASE_VERSION}
+ * Upgrading OpenX ${RELEASE_VERSION}
 
-   Upgrading to Openads ${RELEASE_VERSION} is a straightforward process. Follow
-   these steps [http://docs.openads.org/openads-${RELEASE_MAJOR_MINOR}-guide/upgrading.html]
+   Upgrading to OpenX ${RELEASE_VERSION} is a straightforward process. Follow
+   these steps [http://docs.openx.org/openads-${RELEASE_MAJOR_MINOR}-guide/upgrading.html]
    and use the links to refer to detailed information on each step where
    necessary.
 
-   Please note: The upgrade process will upgrade your Openads database,
+   Please note: The upgrade process will upgrade your OpenX database,
    and the database may no longer be compatible with your old code base.
    Therefore, you should create a backup of your database, just in case.
 
@@ -82,38 +82,38 @@ Downloading and Installing
    ---------------------------------------------------------------
    | Product                             | Version(s)            |
    ---------------------------------------------------------------
-   | Openads 2.0 for MySQL               | 2.0.11-pr1            |
+   | OpenX 2.0 for MySQL               | 2.0.11-pr1            |
    |   (formerly phpAdsNew)              |                       |
    ---------------------------------------------------------------
-   | Openads 2.3 alpha                   | 2.3.31-alpha-pr3      |
+   | OpenX 2.3 alpha                   | 2.3.31-alpha-pr3      |
    |   (formerly Max Media Manager v0.3) |   (v0.3.31-alpha-pr3) |
    ---------------------------------------------------------------
-   | Openads 2.3 beta                    | All versions          |
+   | OpenX 2.3 beta                    | All versions          |
    ---------------------------------------------------------------
    | Max Media Manager v0.1              | v0.1.29-rc            |
    ---------------------------------------------------------------
-   | Openads 2.0 for Postgresql          | Not supported         |
+   | OpenX 2.0 for Postgresql          | Not supported         |
    |  (formerly phpPgAds)                | at this time          |
    ---------------------------------------------------------------
 
    If you are not running one of these versions, you will need to upgrade
    your existing installation before you will be able to upgrade to
-   Openads ${RELEASE_VERSION}.
+   OpenX ${RELEASE_VERSION}.
 
- * Uninstalling Openads ${RELEASE_VERSION}
+ * Uninstalling OpenX ${RELEASE_VERSION}
 
-   To remove Openads from your server delete the installed files and
+   To remove OpenX from your server delete the installed files and
    database tables.
 
 
 Known Issues
 ------------
 
-This list covers some of the known problems with Openads ${RELEASE_VERSION}. Please
+This list covers some of the known problems with OpenX ${RELEASE_VERSION}. Please
 read this before reporting any new bugs.
 
- * Openads ${RELEASE_VERSION} does NOT work with MySQL 3.x. If you are running
-   Openads 2.0 on this very old version of MySQL, do NOT attempt to upgrade,
+ * OpenX ${RELEASE_VERSION} does NOT work with MySQL 3.x. If you are running
+   OpenX 2.0 on this very old version of MySQL, do NOT attempt to upgrade,
    as your installation will no longer work correctly.
 
  * The recovery process will not work when MySQL is configured to use
@@ -121,22 +121,22 @@ read this before reporting any new bugs.
    is currently prevented when MySQL is configured this way.
 
    If your version of MySQL has "lower_case_table_name != 0", please see
-   https://developer.openads.org/ticket/901 for more information.
+   https://developer.openx.org/ticket/901 for more information.
 
  * Some of the PEAR libraries used are not compatible with database prefix
    names with double "_" characters (e.g. "oa__"). You should NOT install
-   Openads with a prefix of this format.
+   OpenX with a prefix of this format.
 
  * The upgrade process may time out with very large databases. See the FAQ
-   [http://www.openads.org/support/faq.html] for more information if you have
+   [http://www.openx.org/support/faq.html] for more information if you have
    a large database.
 
  * Some users have reported issues of being logged out when viewing
    statistics. This can be worked around by ensuring that the timezone is
    correctly set in PHP
-   [http://docs.openads.org/openads-${RELEASE_MAJOR_MINOR}-guide/administrator-settings.html].
+   [http://docs.openx.org/openads-${RELEASE_MAJOR_MINOR}-guide/administrator-settings.html].
 
- * See https://developer.openads.org/ for the latest bug reports.
+ * See https://developer.openx.org/ for the latest bug reports.
 
 
 FAQ
@@ -145,24 +145,24 @@ FAQ
  1. What can I do to help?
 
     We need help from developers and the testing community to provide as much
-    feedback as possible to make Openads even better. Please read these notes
-    and how to report a bug [https://developer.openads.org/wiki/ReportingBugs]
+    feedback as possible to make OpenX even better. Please read these notes
+    and how to report a bug [https://developer.openx.org/wiki/ReportingBugs]
     before reporting any bugs. You can also give us your feedback through the
-    Openads forum [http://forum.openads.org/].
+    OpenX forum [http://forum.openx.org/].
 
  2. Can I upgrade from phpAdsNew?
 
-    Yes.  phpAdsNew was rebranded as Openads 2.0. You will need to ensure you
-    first upgrade to the latest version of Openads 2.0 before using the Openads
+    Yes.  phpAdsNew was rebranded as OpenX 2.0. You will need to ensure you
+    first upgrade to the latest version of OpenX 2.0 before using the Openads
     ${RELEASE_MAJOR_MINOR} upgrade wizard.
 
  3. Where do I go for support?
 
-    Support is provided through the Openads forum [http://forum.openads.org/].
+    Support is provided through the OpenX forum [http://forum.openx.org/].
     In this way, we hope that the whole community benefits from the answers
     given.
 
  4. Where's the source code?
 
-    You can access the Openads source code using subversion. See our developer
-    website [https://developer.openads.org/].
+    You can access the OpenX source code using subversion. See our developer
+    website [https://developer.openx.org/].

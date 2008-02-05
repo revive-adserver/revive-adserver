@@ -1,7 +1,7 @@
 <?php
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -27,7 +27,7 @@ $Id$
 require_once MAX_PATH.'/lib/OA/Dal.php';
 
 /**
- * Openads Upgrade Class
+ * OpenX Upgrade Class
  *
  * @author     Monique Szpak <monique.szpak@openx.org>
  */

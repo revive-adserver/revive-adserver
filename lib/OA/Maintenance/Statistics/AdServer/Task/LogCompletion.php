@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -31,7 +31,7 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Statistics/Common/Task/LogCompletio
  * A class for logging the completion of the maintenance statistics process
  * for the AdServer module.
  *
- * @package    OpenadsMaintenance
+ * @package    OpenXMaintenance
  * @subpackage Statistics
  * @author     Andrew Hill <andrew.hill@openx.org>
  */

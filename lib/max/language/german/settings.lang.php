@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -38,8 +38,8 @@ $GLOBALS['strAdvancedSettings']		= "Erg&auml;nzende Einstellungen";
 $GLOBALS['strOtherSettings']			= "Andere Einstellungen";
 $GLOBALS['strSpecifySyncSettings']          = "Synchronizationseinstellungen";
 $GLOBALS['strLicenseInformation']           = "Lizenz Information";
-$GLOBALS['strOpenadsIdYour']                = "Ihre OpenAds ID";
-$GLOBALS['strOpenadsIdSettings']            = "Openads ID Einstellungen";
+$GLOBALS['strOpenadsIdYour']                = "Ihre OpenX ID";
+$GLOBALS['strOpenadsIdSettings']            = "OpenX ID Einstellungen";
 $GLOBALS['strWarning']				= "Warnung";
 $GLOBALS['strFatalError']			= "Ein schwerer Fehler ist aufgetreten";
 $GLOBALS['strUpdateError']			= "W&auml;hrend des Updates ist ein Fehler aufgetreten";
@@ -94,7 +94,7 @@ $GLOBALS['strDbSetupTitle']               = "Datenbank Setup";
 $GLOBALS['strDbSetupIntro']               = MAX_PRODUCT_NAME . " verwendet den MySQL oder PostgreSQL Datenbankserver, um Daten zu speichern. Bitte tragen Sie die Daten Ihres Datenbankservers nachfolgend ein.  Wenn Sie sich nicht sicher sind, welche Daten hier einzutragen sind, fragen Sie bitte Ihren Serveradministrator.";
 $GLOBALS['strDbUpgradeIntro']             = "Nachfolgend k&ouml;nnen Sie die Daten Ihres Datenbankservers einsehen und korrigieren, falls diese falsch sind. Wenn Sie jetzt auf Weiter klicken, wird " . MAX_PRODUCT_NAME . " mit der Installation bzw. dem Upgrade der Datenbankdaten fortfahren. Bitte vergewissern Sie sich, dass Sie ein aktuelles und g&uuml;ltiges Backup Ihrer Daten erstellt haben.";
 
-$GLOBALS['strOaUpToDate']               = "Ihre OpenAds Datenbank und Dateien verwenden bereits die neueste Version von ".MAX_PRODUCT_NAME." und muss daher zum jetztigen Zeitpunkt nicht aktualisiert werden. Bitte klicken Sie auf Weiter, um zur Administrationsoberfl&auml;che fortzufahren.";
+$GLOBALS['strOaUpToDate']               = "Ihre " . MAX_PRODUCT_NAME . " Datenbank und Dateien verwenden bereits die neueste Version von ".MAX_PRODUCT_NAME." und muss daher zum jetztigen Zeitpunkt nicht aktualisiert werden. Bitte klicken Sie auf Weiter, um zur Administrationsoberfl&auml;che fortzufahren.";
 $GLOBALS['strOaUpToDateCantRemove']     = "Warnung: Die Datei UPGRADE im var Unterverzeichnis ist weiterhin vorhanden. Leider war es uns aufgrund mangelnden Zugriffsrechten nicht m&ouml;glich die Datei zu l&ouml;schen. Bitte l&ouml;schen Sie diese Datei manuell.";
 $GLOBALS['strRemoveUpgradeFile']               = "Sie m&uuml;ssen die Datei UPGRADE im var Unterverzeichnis manuell l&ouml;schen.";
 
@@ -120,8 +120,8 @@ $GLOBALS['strInstallNotSuccessful']		= "<b>Die Installation von ".MAX_PRODUCT_NA
 Teile des Installationsprozesses wurden nicht beendet. Das Problem ist m&ouml;glicherweise nur tempor&auml;r. In diesem Fall dr&uuml;cken Sie <b> Weiter</b> und beginnen Sie den Installationsproze&szlig; von Neuem. N&auml;heres zu Fehlermeldungen und -behebung findet sich im Handbuch.";
 $GLOBALS['strSystemCheck']                  = "System �berpr�fung";
 $GLOBALS['strSystemCheckIntro']             = MAX_PRODUCT_NAME . " setzt einige Dinge voraus, welche nun gepr&uuml;ft werden. Sie erhalten eine Meldung, sollte etwas nicht stimmen.";
-$GLOBALS['strDbSuccessIntro']               = "Die " . MAX_PRODUCT_NAME . " Datenbank wurde erstellt. Bitte dr&uuml;cken Sie nun auf Weiter, um die Openads Administrations- und Auslieferungseinstellungen zu t&auml;tigen.";
-$GLOBALS['strDbSuccessIntroUpgrade']        = "Die " . MAX_PRODUCT_NAME . " Datenbank wurde aktualisiert. Bitte dr&uuml;cken Sie nun auf Weiter, um die Openads Administrations- und Auslieferungseinstellungen zu t&auml;tigen.";
+$GLOBALS['strDbSuccessIntro']               = "Die " . MAX_PRODUCT_NAME . " Datenbank wurde erstellt. Bitte dr&uuml;cken Sie nun auf Weiter, um die " . MAX_PRODUCT_NAME . " Administrations- und Auslieferungseinstellungen zu t&auml;tigen.";
+$GLOBALS['strDbSuccessIntroUpgrade']        = "Die " . MAX_PRODUCT_NAME . " Datenbank wurde aktualisiert. Bitte dr&uuml;cken Sie nun auf Weiter, um die " . MAX_PRODUCT_NAME . " Administrations- und Auslieferungseinstellungen zu t&auml;tigen.";
 $GLOBALS['strErrorOccured']			= "Der folgende Fehler ist aufgetreten:";
 $GLOBALS['strErrorInstallDatabase']		= "Die Datenbankstruktur konnte nicht angelegt werden.";
 $GLOBALS['strErrorInstallPrefs']            = "Die Benutzereinstellungen f&uuml;r den Administrator konnten nicht in die Datenbank geschrieben werden.";
@@ -202,7 +202,7 @@ $GLOBALS['strAdminSettingsIntro']                    = "Das Administator Konto w
 $GLOBALS['strConfigSettingsIntro']                    = "Bitte &uuml;berpr&uuml;fen Sie die nachfolgenden Konfigurationseinstellungen. Es ist sehr wichtig, dass Sie sehr sorgf&auml;ltig diese Einstellungen kontrollieren, da sich diese auf die Betrieb des " . MAX_PRODUCT_NAME ." Ad-Servers sehr start auswirken.";
 $GLOBALS['strEnableAutoMaintenance']	             = "Das Wartungsmodul wird automatisch w&auml;hrend der Bannerauslieferung gestartet, sofern das Wartungsmodul nicht &uuml;ber Cron (oder &auml;hnliches) eingebunden ist";
 
-// Openads ID Settings
+// OpenX ID Settings
 $GLOBALS['strOpenadsUsername']                       = MAX_PRODUCT_NAME . " Benutzername";
 $GLOBALS['strOpenadsPassword']                       = MAX_PRODUCT_NAME . " Passwort";
 $GLOBALS['strOpenadsEmail']                          = MAX_PRODUCT_NAME . " E-Mail";

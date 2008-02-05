@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                           |
+| OpenX v${RELEASE_MAJOR_MINOR}                                           |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -38,7 +38,7 @@ require_once MAX_PATH . '/lib/max/language/SettingsHelp.php';
 /**
  * A class to deal with the display of settings and preferences
  *
- * @package    OpenadsAdmin
+ * @package    OpenXAdmin
  * @author     Miguel Correa <miguel.correa@openx.org>
  */
 class OA_Admin_Option

@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                           |
+| OpenX v${RELEASE_MAJOR_MINOR}                                           |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -26,7 +26,7 @@ $Id:$
 */
 
 /**
- * @package    Openads
+ * @package    OpenX
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
  */

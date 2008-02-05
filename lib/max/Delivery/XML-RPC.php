@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -51,7 +51,7 @@ if (empty($GLOBALS['HTTP_RAW_POST_DATA'])) {
 }
 
 /**
- * New Openads signature / docs
+ * New OpenX signature / docs
  *
  * @since 2.3.32-beta
  */
@@ -74,7 +74,7 @@ $xmlRpcView_OA =
                  'appropriate advertisement.'
     );
 /**
- * New Openads signature / docs for SPC XML-RPC method
+ * New OpenX signature / docs for SPC XML-RPC method
  *
  * @since 2.5.2-dev
  */
@@ -98,7 +98,7 @@ $xmlRpcSPC_OA =
     );
 
 /**
- * MMM 0.3 / Openads 2.3 backwards compatible signature / docs
+ * MMM 0.3 / OpenX 2.3 backwards compatible signature / docs
  */
 $xmlRpcView_Max =
     array(
@@ -127,7 +127,7 @@ $xmlRpcView_Max =
     );
 
 /**
- * PAN / Openads 2.0 backwards compatible signature / docs
+ * PAN / OpenX 2.0 backwards compatible signature / docs
  */
 $xmlRpcView_PAN =
     array(

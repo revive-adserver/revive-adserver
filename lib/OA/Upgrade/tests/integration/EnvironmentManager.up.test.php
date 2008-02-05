@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | =============                                                             |
 |                                                                           |
 | Copyright (c) 2003-2008 Openads Ltd                                       |
@@ -31,7 +31,7 @@ require_once MAX_PATH.'/lib/OA/Upgrade/EnvironmentManager.php';
 /**
  * A class for testing the Openads_DB_Upgrade class.
  *
- * @package    Openads Upgrade
+ * @package    OpenX Upgrade
  * @subpackage TestSuite
  * @author     Monique Szpak <monique.szpak@openx.org>
  */

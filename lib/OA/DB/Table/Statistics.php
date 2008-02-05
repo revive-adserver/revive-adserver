@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -28,10 +28,10 @@ $Id$
 require_once MAX_PATH . '/lib/OA/DB/Table.php';
 
 /**
- * A class for creating the temporary Openads database tables required
+ * A class for creating the temporary OpenX database tables required
  * for performing the Maintenance Statistics Engine (MSE) tasks.
  *
- * @package    OpenadsDB
+ * @package    OpenXDB
  * @subpackage Table
  * @author     Andrew Hill <andrew.hill@openx.org>
  */

@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -26,7 +26,7 @@ $Id$
 */
 
 /**
- * @package    OpenadsDal
+ * @package    OpenXDal
  * @subpackage MaintenanceStatistics
  * @author     Andrew Hill <andrew.hill@openx.org>
  */
@@ -191,7 +191,7 @@ class OA_Dal_Maintenance_Statistics_Common
      * @return Date A Date representing the date up to which the statistics
      *              have been summarised, for the specified update type, or
      *              the appropriate date based on raw data if maintenance
-     *              statistics has never been run for the Openads module before.
+     *              statistics has never been run for the OpenX module before.
      *              Returns null if no raw data is available.
      */
     function getMaintenanceStatisticsLastRunInfo($type, $now = null)
@@ -269,7 +269,7 @@ class OA_Dal_Maintenance_Statistics_Common
      * @return mixed A PEAR::Date representing the date up to which the statistics
      *               have been summarised, for the specified update type, or
      *               the appropriate date based on raw data if maintenance
-     *               statistics has never been run for the Openads module before.
+     *               statistics has never been run for the OpenX module before.
      *               Returns null if no raw data is available.
      */
     function _getMaintenanceStatisticsLastRunInfo($type, $module, $rawTable, $oNow = null)

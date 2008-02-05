@@ -32,7 +32,7 @@ require_once MAX_PATH . '/lib/OA/DB.php';
  * to nativetype mappings, and nativetype to MDB2 datatype mappings for
  * MySQL work as expected.
  *
- * @package    OpenadsDB
+ * @package    OpenXDB
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew.hill@openx.org>
  * @author     Matteo Beccati <matteo.beccati@openx.org>

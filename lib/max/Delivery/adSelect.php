@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -207,7 +207,7 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
                 MAX_Delivery_log_logAdRequest($userid, $row['bannerid'], null, $row['zoneid']);
             }
             if ($row['adserver'] == 'max' && preg_match("#{$conf['webpath']['delivery']}.*zoneid=([0-9]+)#", $row['htmltemplate'], $matches) && !stristr($row['htmltemplate'], $conf['file']['popup'])) {
-                // The ad selected was an Openads HTML ad on the same server... do internal redirecty stuff
+                // The ad selected was an OpenX HTML ad on the same server... do internal redirecty stuff
                 $GLOBALS['_MAX']['adChain'][] = $row;
                 $found = false;
                 $what = "zone:{$matches[1]}";

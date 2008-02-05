@@ -1252,7 +1252,7 @@ class Smarty
         $_cache_including = $this->_cache_including;
         $this->_cache_including = false;
 
-        // Openads - hack to allow on-the fly compilation
+        // OpenX - hack to allow on-the fly compilation
         $oa_content = null;
 
         if ($display && !$this->caching && count($this->_plugins['outputfilter']) == 0) {
@@ -1260,10 +1260,10 @@ class Smarty
                     || $this->_compile_resource($resource_name, $_smarty_compile_path, $oa_content))
             {
                 if (!include($_smarty_compile_path)) {
-                    // Openads - hack to execute the compiled template
+                    // OpenX - hack to execute the compiled template
                     eval('?'.'>'.$oa_content.'<'.'?php 0;');
                 }
-                // Openads - try to explicity free memory
+                // OpenX - try to explicity free memory
                 unset($oa_content);
             }
         } else {
@@ -1272,10 +1272,10 @@ class Smarty
                     || $this->_compile_resource($resource_name, $_smarty_compile_path, $oa_content))
             {
                 if (!include($_smarty_compile_path)) {
-                    // Openads - hack to execute the compiled template
+                    // OpenX - hack to execute the compiled template
                     eval('?'.'>'.$oa_content.'<'.'?php 0;');
                 }
-                // Openads - try to explicity free memory
+                // OpenX - try to explicity free memory
                 unset($oa_content);
             }
             $_smarty_results = ob_get_contents();
@@ -1880,17 +1880,17 @@ class Smarty
 
         $_smarty_compile_path = $this->_get_compile_path($params['smarty_include_tpl_file']);
 
-        // Openads - hack to allow on-the fly compilation
+        // OpenX - hack to allow on-the fly compilation
         $oa_content = null;
 
         if ($this->_is_compiled($params['smarty_include_tpl_file'], $_smarty_compile_path)
             || $this->_compile_resource($params['smarty_include_tpl_file'], $_smarty_compile_path, $oa_content))
         {
             if (!include($_smarty_compile_path)) {
-                // Openads - hack to execute the compiled template
+                // OpenX - hack to execute the compiled template
                 eval('?'.'>'.$oa_content.'<'.'?php 0;');
             }
-            // Openads - try to explicity free memory
+            // OpenX - try to explicity free memory
             unset($oa_content);
         }
 

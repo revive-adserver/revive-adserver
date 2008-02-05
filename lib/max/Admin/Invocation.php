@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -188,8 +188,8 @@ class MAX_Admin_Invocation {
         $buffer = "
 <!--/*
   *
-  *  Openads image beacon tracker code
-  *  - Generated with Openads v" . OA_VERSION . "
+  *  OpenX image beacon tracker code
+  *  - Generated with OpenX v" . OA_VERSION . "
   *
   *  If this tag is being served on a secure (SSL) page, you must replace
   *  'http://{$conf['webpath']['delivery']}/...'
@@ -488,8 +488,8 @@ class MAX_Admin_Invocation {
 
         $buffer = "<!--/*
   *
-  *  Openads JavaScript tracker code
-  *  - Generated with Openads v" . OA_VERSION . "
+  *  OpenX JavaScript tracker code
+  *  - Generated with OpenX v" . OA_VERSION . "
   *
   *  To help prevent caching of the <noscript> beacon, if possible,
   *  Replace %%RANDOM_NUMBER%% with a randomly generated number (or timestamp)

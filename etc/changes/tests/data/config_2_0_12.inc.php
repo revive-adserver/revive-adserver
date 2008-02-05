@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -76,7 +76,7 @@ $phpAds_config['persistent_connections'] = false;
 // Use INSERT DELAYED in logging functions?
 $phpAds_config['insert_delayed'] = false;
 
-// Database compatibility mode to insure Openads
+// Database compatibility mode to insure OpenX
 // won't disturb an available database connection
 $phpAds_config['compatibility_mode'] = false;
 
@@ -87,11 +87,11 @@ $phpAds_config['mysql4_compatibility'] = false;
 
 
 /*********************************************************/
-/* Openads configuration                                 */
+/* OpenX configuration                                 */
 /*********************************************************/
 
-// The URL to your Openads installation
-$phpAds_config['url_prefix'] = 'http://www.example.com/Openads';
+// The URL to your OpenX installation
+$phpAds_config['url_prefix'] = 'http://www.example.com/OpenX';
 
 // Is the admin interface enabled
 $phpAds_config['ui_enabled'] = true;
@@ -218,7 +218,7 @@ $phpAds_config['mult_key'] = true;
 // Use delivery limitations?
 $phpAds_config['acl'] = true;
 
-// Default banner, it is show when Openads can't connect to the database or
+// Default banner, it is show when OpenX can't connect to the database or
 // there are absolutely no banner to display. The banner is not logged.
 // Enter the complete url (incl. http://) for the image and the target,
 // or leave them empty if you don't want to show a banner when this happens.
@@ -248,7 +248,7 @@ $phpAds_config['type_html_php'] = false;
 // Enable distrbuted load balancing
 $phpAds_config['lb_enabled'] = false;
 
-// The URL to your Openads admin interface installation
+// The URL to your OpenX admin interface installation
 $phpAds_config['lb_admin_url_prefix'] = '';
 
 // Database local connection using sockets
@@ -275,7 +275,7 @@ $phpAds_config['lb_dbname'] = '';
 
 
 /*********************************************************/
-/* Openads self configuration code - don't change        */
+/* OpenX self configuration code - don't change        */
 /*********************************************************/
 
 define('phpAds_installed', true);

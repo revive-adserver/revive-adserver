@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -32,7 +32,7 @@ require_once MAX_PATH . '/lib/pear/Date.php';
 /**
  * A class for testing the OA_DB_Table class.
  *
- * @package    OpenadsDB
+ * @package    OpenXDB
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew.hill@openx.org>
  */
@@ -298,7 +298,7 @@ class Test_OA_DB_Table extends UnitTestCase
     }
 
     /**
-     * A method to test the listing of openads tables with case sensitivity *on*
+     * A method to test the listing of OpenX tables with case sensitivity *on*
      *
      */
     function test_listOATablesCaseSensitive()

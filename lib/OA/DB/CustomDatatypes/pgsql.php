@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -35,7 +35,7 @@ $Id$
  * file, so that the Openads_Dal class knows what functions to register
  * whenever creating a PEAR::MDB2 connection to the database.
  *
- * @package    OpenadsDal
+ * @package    OpenXDal
  * @author     Andrew Hill <andrew.hill@openx.org>
  */
 

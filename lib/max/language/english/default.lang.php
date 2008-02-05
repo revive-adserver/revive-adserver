@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -156,8 +156,8 @@ $GLOBALS['strNotice']                   = 'Notice';
 // Dashboard
 $GLOBALS['strDashboardCommunity']       = 'Community';
 $GLOBALS['strDashboardDashboard']       = 'Dashboard';
-$GLOBALS['strDashboardForum']           = 'Openads Forum';
-$GLOBALS['strDashboardDocs']            = 'Openads Docs';
+$GLOBALS['strDashboardForum']           = 'OpenX Forum';
+$GLOBALS['strDashboardDocs']            = 'OpenX Docs';
 
 // Priority
 $GLOBALS['strPriority']                 = "Priority";
@@ -542,7 +542,7 @@ $GLOBALS['strStatusText']            = "Status text";
 $GLOBALS['strBannerWeight']            = "Banner weight";
 $GLOBALS['strBannerType']           = "Ad Type";
 $GLOBALS['strAdserverTypeGeneric']  = "Generic HTML Banner";
-$GLOBALS['strAdserverTypeMax']      = "Rich Media - Openads";
+$GLOBALS['strAdserverTypeMax']      = "Rich Media - OpenX";
 $GLOBALS['strAdserverTypeAtlas']    = "Rich Media - Atlas";
 $GLOBALS['strAdserverTypeBluestreak']   = "Rich Media - Bluestreak";
 $GLOBALS['strAdserverTypeDoubleclick']  = "Rich Media - DoubleClick";

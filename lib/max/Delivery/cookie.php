@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -69,7 +69,7 @@ function MAX_cookieSetViewerIdAndRedirect($viewerId) {
     MAX_cookieSet($conf['var']['viewerId'], $viewerId, _getTimeYearFromNow());
     MAX_cookieFlush();
 
-    // Determine if the access to Openads was made using HTTPS
+    // Determine if the access to OpenX was made using HTTPS
     if ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) {
         $url = MAX_commonConstructSecureDeliveryUrl(basename($_SERVER['PHP_SELF']));
     } else {
