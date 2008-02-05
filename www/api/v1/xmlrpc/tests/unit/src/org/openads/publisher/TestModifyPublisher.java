@@ -51,7 +51,7 @@ import org.openads.utils.TextUtils;
 /**
  * Verify Modify Publisher method
  * 
- * @author <a href="mailto:apetlyovanyy@lohika.com">Andriy Petlyovanyy</a>
+ * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 
 public class TestModifyPublisher extends PublisherTestCase {

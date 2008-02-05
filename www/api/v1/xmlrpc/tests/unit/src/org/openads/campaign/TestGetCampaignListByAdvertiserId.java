@@ -50,7 +50,7 @@ import org.openads.utils.TextUtils;
 /**
  * Verify Get Campaign List By Advertiser Id method
  * 
- * @author <a href="mailto:apetlyovanyy@lohika.com">Andriy Petlyovanyy</a>
+ * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 
 public class TestGetCampaignListByAdvertiserId extends CampaignTestCase {

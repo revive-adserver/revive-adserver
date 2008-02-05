@@ -49,7 +49,7 @@ import org.openads.utils.TextUtils;
 /**
  * Verify Zone Banner Statistics method
  * 
- * @author <a href="mailto:apetlyovanyy@lohika.com">Andriy Petlyovanyy</a>
+ * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestZoneBannerStatistics extends ZoneTestCase {
 	private Integer zoneId;

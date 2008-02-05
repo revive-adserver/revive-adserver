@@ -48,7 +48,7 @@ import org.apache.xmlrpc.XmlRpcException;
 /**
  * The Class OpenAdsApiXmlRpcProxy.
  * 
- * @author <a href="mailto:apetlyovanyy@lohika.com">Andriy Petlyovanyy</a>
+ * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class OpenAdsApiXmlRpcProxy {
 	private String host;

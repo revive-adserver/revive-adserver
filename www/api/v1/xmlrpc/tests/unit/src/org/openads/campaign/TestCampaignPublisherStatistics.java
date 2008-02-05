@@ -50,7 +50,7 @@ import org.openads.utils.TextUtils;
 /**
  * Verify Campaign Publisher Statistics method
  * 
- * @author <a href="mailto:apetlyovanyy@lohika.com">Andriy Petlyovanyy</a>
+ * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestCampaignPublisherStatistics extends CampaignTestCase {
 	private Integer campaignId;

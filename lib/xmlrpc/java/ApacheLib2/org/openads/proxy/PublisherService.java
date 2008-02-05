@@ -47,7 +47,7 @@ import org.apache.xmlrpc.XmlRpcException;
 /**
  * Base class for all publiser web service tests.
  * 
- * @author <a href="mailto:apetlyovanyy@lohika.com">Andriy Petlyovanyy</a>
+ * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 class PublisherService extends AbstractService {
 	private static final String PUBLISHER_SERVICE = "PublisherXmlRpcService.php";

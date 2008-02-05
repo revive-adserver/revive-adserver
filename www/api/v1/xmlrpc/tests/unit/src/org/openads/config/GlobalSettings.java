@@ -43,7 +43,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
- * @author <a href="mailto:apetlyovanyy@lohika.com">Andriy Petlyovanyy</a>
+ * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class GlobalSettings {
 

@@ -47,7 +47,7 @@ import org.apache.xmlrpc.XmlRpcException;
 /**
  * Base class for all advertiser web service tests.
  * 
- * @author <a href="mailto:apetlyovanyy@lohika.com">Andriy Petlyovanyy</a>
+ * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 class AdvertiserService extends AbstractService {
 	private static final String ADVERTISER_SERVICE = "AdvertiserXmlRpcService.php";

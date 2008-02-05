@@ -41,7 +41,7 @@ package org.openads.proxy;
 /**
  * The Class Zone.
  * 
- * @author <a href="mailto:apetlyovanyy@lohika.com">Andriy Petlyovanyy</a>
+ * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class Zone {
 	public static final String CAMPAIGN_ID = "campaignId";

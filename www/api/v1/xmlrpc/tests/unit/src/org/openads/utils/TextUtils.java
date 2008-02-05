@@ -40,7 +40,7 @@ $Id:$
 package org.openads.utils;
 
 /**
- * @author <a href="mailto:apetlyovanyy@lohika.com">Andriy Petlyovanyy</a>
+ * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TextUtils {
 	public static final String BAD_PASSWORD = "pass\\word";

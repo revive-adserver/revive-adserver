@@ -45,7 +45,7 @@ import junit.framework.TestSuite;
 /**
  * Run all Advertiser service tests
  * 
- * @author <a href="mailto:apetlyovanyy@lohika.com">Andriy Petlyovanyy</a>
+ * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestAdvertiser {
 
