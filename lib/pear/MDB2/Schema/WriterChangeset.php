@@ -2,7 +2,7 @@
 /*
 +---------------------------------------------------------------------------+
 | Openads v2.3                                                              |
-| ============                                                              |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
 | For contact details, see: http://www.openx.org/                           |
