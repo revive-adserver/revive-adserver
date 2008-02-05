@@ -89,7 +89,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 {/if}
 
 {if $buttonReportBugs}
-        <li class="buttonReportBugs"><a href="https://developer.openads.org/wiki/ReportingBugs" target="_blank">Report bug</a></li>
+        <li class="buttonReportBugs"><a href="https://developer.openx.org/wiki/ReportingBugs" target="_blank">Report bug</a></li>
 {/if}
 
 {if $buttonLogout}
@@ -133,21 +133,21 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 											{foreach from=$aAdminAccounts  key=accountId item=account}
 											    <li><a href="account-switch.php?account_id={$accountId|escape}">{$account}</a></li>
 											{/foreach}
-											
+
 		                  {foreach from=$aAccounts  key=groupName item=group}
 		                      <li class="opt">{$groupName|escape}</li>
 		                      {foreach from=$group key=accountId item=account}
 		                        <li class="inopt"><a href="account-switch.php?account_id={$accountId|escape}">{$account}</a></li>
 		                      {/foreach}
-		                  {/foreach}                
+		                  {/foreach}
 	                  </ul>
 	                </div>
                 </div>
               </div>
               <div class="switchDown">&nbsp;</div>
-            </div>            
+            </div>
         </li>
-                
+
         <script type='text/javascript'>
           <!--
           initAccoutSwitcher();

@@ -47,7 +47,7 @@ class OA_Dashboard_Widget_BlogFeed extends OA_Dashboard_Widget_Feed
             'http://feeds.feedburner.com/OpenadsBlog?format=xml',
             6,
             'Go to Openads news page',
-            'http://blog.openads.org'
+            'http://blog.openx.org'
         );
     }
 }

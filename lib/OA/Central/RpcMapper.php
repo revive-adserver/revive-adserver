@@ -209,7 +209,7 @@ class OA_Central_RpcMapper
      * (
      *     [0] => Array
      *         (
-     *             [url] => http://www.openads.org
+     *             [url] => http://www.openx.org
      *             [category] => 5
      *             [country] => GB
      *             [language] => 1
@@ -297,7 +297,7 @@ class OA_Central_RpcMapper
      *             [1] => Array
      *                 (
      *                     [website_id] => 2346
-     *                     [url] => http://www.openads.org
+     *                     [url] => http://www.openx.org
      *                     [campaigns] => Array
      *                         (
      *                             [0] => Array
@@ -416,12 +416,12 @@ class OA_Central_RpcMapper
      * Call XMLRPC method from central
      * Input - ids advertisers and campain that is in oap
      * Ouptut - advetisers and campain that isn't in oap and is on oac
-     * 
+     *
      * The $requstIds array format
      *
      * Array
      * (
-     *      [0]   => Array 
+     *      [0]   => Array
      *               (
      *                  [id]            => 11
      *                  [campaigns_ids] => Array
@@ -430,7 +430,7 @@ class OA_Central_RpcMapper
      *                                      [1] => 133
      *                                     )
      *               )
-     *      [1]   => Array 
+     *      [1]   => Array
      *               (
      *                  [id]            => 112
      *                  [campaigns_ids] => Array
@@ -440,9 +440,9 @@ class OA_Central_RpcMapper
      *                                     )
      *               )
      * )
-     * 
+     *
      * The result array format
-     * 
+     *
      * Array
      * (
      *      [websitesAdvertisers]   => Array (
@@ -486,25 +486,25 @@ class OA_Central_RpcMapper
      * Call XMLRPC method from central
      *  for set campaign data from oap
      * Input - array data and ids campains from oap
-     * 
+     *
      * The $aCampaigns array format
      *
      * Array
      * (
-     *      [21]   => Array 
+     *      [21]   => Array
      *               (
      *                  [id]             => 2
      *                  [invocationCode] => ''
      *                  [deliveredCount] => 50
      *               )
-     *      [45]   => Array 
+     *      [45]   => Array
      *               (
      *                  [id]             => 5
      *                  [invocationCode] => ''
      *                  [deliveredCount] => 0
      *               )
      * )
-     * 
+     *
      * @param array $aCampaigns
      */
     function setCampaignsProperties($aCampaigns)

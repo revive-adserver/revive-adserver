@@ -176,7 +176,7 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
         echo "<br><br>";
         echo 'Welcome <b>'.phpCAS::getUser().'</b>';
         echo "<br /><br />You need a OAH account in order to use Openads Hosted. ";
-        echo "If you want to create a Openads Hoster account please fill in <a href='http://www.openads.org/hosted'>this form</a>.<br /><br />";
+        echo "If you want to create a Openads Hosted account please fill in <a href='http://www.openx.org/hosted'>this form</a>.<br /><br />";
         phpAds_PageFooter();
         exit();
     }
