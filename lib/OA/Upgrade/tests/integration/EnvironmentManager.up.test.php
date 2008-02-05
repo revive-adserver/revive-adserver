@@ -5,7 +5,7 @@
 | OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | =============                                                             |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Ltd                                       |
+| Copyright (c) 2003-2008 Openads Ltd                                       |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
