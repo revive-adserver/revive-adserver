@@ -80,6 +80,7 @@
     <include name="var/INSTALLED"/>
     <include name="var/cache/deliverycache_*"/><!-- Cache files -->
     <include name="var/cache/cache_*"/>
+    <include name="var/cache/test_api_*"/>
     <include name="var/templates_compiled/**"/>
     <include name="var/plugins/config/**"/>
     <include name="www/devel/**"/>

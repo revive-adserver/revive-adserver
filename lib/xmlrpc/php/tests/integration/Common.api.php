@@ -59,27 +59,22 @@ require_once(MAX_PATH .'/var/cache/test_api_openads-api-xmlrpc.php');
 class Test_OA_Api_XmlRpc extends UnitTestCase
 {
     /**
-     * @var XML_RPC_Client_Fake
+     * @var OA_API_Xmlrpc
      */
-    var $oClient;
-
-	/**
-	 * @var OA_API_Xmlrpc
-	 */
-	var $oApi;
+    var $oApi;
 
     function Test_OA_Api_XmlRpc()
     {
         $this->UnitTestCase();
 
-        $this->oApi = Test_OA_Api_XmlRpc::staticGetApi();
+        $this->oApi = &Test_OA_Api_XmlRpc::staticGetApi();
     }
 
     function &staticGetApi()
     {
-        static $oApi;
+        $oApi = &$GLOBALS['_STATIC']['staticGetApi'];
 
-        if (!isset($oApi)) {
+        if (empty($oApi)) {
             define('OA_INSTALLATION_STATUS', OA_INSTALLATION_STATUS_INSTALLED);
 
             $doAccounts = OA_Dal::factoryDO('accounts');
@@ -97,7 +92,7 @@ class Test_OA_Api_XmlRpc extends UnitTestCase
             $doAUA->user_id    = $userId;
             DataGenerator::generateOne($doAUA);
 
-            $oApi = new Mocked_OA_Api_Xmlrpc($doUsers->username, 'secret');
+            $oApi = &new Mocked_OA_Api_Xmlrpc($doUsers->username, 'secret');
         }
 
         return $oApi;
@@ -106,18 +101,27 @@ class Test_OA_Api_XmlRpc extends UnitTestCase
 
 class Mocked_OA_Api_Xmlrpc extends OA_Api_Xmlrpc
 {
-    var $oClient;
-
     function Mocked_OA_Api_Xmlrpc($username, $password)
     {
-        $this->oClient = new Mocked_XML_RPC_Client();
         parent::OA_Api_Xmlrpc('foo', 'bar', $username, $password);
     }
 
     function &_getClient($service)
     {
-        $this->oClient->service = $service;
-        return $this->oClient;
+        $oClient = &Mocked_OA_Api_Xmlrpc::staticGetClient();
+        $oClient->service = $service;
+        return $oClient;
+    }
+
+    function &staticGetClient()
+    {
+        $oClient = &$GLOBALS['_STATIC']['staticGetClient'];
+
+        if (empty($oClient)) {
+            $oClient = &new Mocked_XML_RPC_Client();
+        }
+
+        return $oClient;
     }
 }
 
@@ -146,12 +150,14 @@ class Mocked_XML_RPC_Client
             fwrite($fp, $file);
             // Require it
             require_once(MAX_PATH .'/var/cache/test_api_'.$this->service);
-            $this->aServers[$this->service] = $server;
+            $this->aServers[$this->service] = new XML_RPC_Server($server->dmap, 0);
         }
 
         $GLOBALS['HTTP_RAW_POST_DATA'] = $msg->payload;
         $this->aServers[$this->service]->createServerPayload();
         unset($GLOBALS['HTTP_RAW_POST_DATA']);
+
+        $GLOBALS['_STATIC']['staticGetClient'] = &$this;
 
         return $msg->parseResponse($this->aServers[$this->service]->server_payload);
     }

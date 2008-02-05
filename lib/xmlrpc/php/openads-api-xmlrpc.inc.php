@@ -25,7 +25,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: openads-xmlrpc.inc.php 8911 2007-08-10 09:47:46Z andrew.hill@openads.org $
+$Id$
 */
 
 if (!@include('XML/RPC.php')) {
@@ -108,9 +108,10 @@ class OA_Api_Xmlrpc
      * @param string $service
      * @return XML_RPC_Client
      */
-    function _getClient($service)
+    function &_getClient($service)
     {
-        return new XML_RPC_Client($this->basepath . '/' . $service . $this->debug, $this->host);
+        $oClient = &new XML_RPC_Client($this->basepath . '/' . $service . $this->debug, $this->host);
+        return $oClient;
     }
 
     /**
@@ -147,7 +148,7 @@ class OA_Api_Xmlrpc
         }
         $message = new XML_RPC_Message($method, $dataMessage);
 
-        $client = $this->_getClient($service);
+        $client = &$this->_getClient($service);
 
         // Send the XML-RPC message to the server.
         $response = $client->send($message, $this->timeout, $this->ssl ? 'https' : 'http');
