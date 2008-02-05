@@ -20,22 +20,9 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-| Copyright (c) 2003-2008 m3 Media Services Ltd                             |
-|                                                                           |
-|  Licensed under the Apache License, Version 2.0 (the "License");          |
-|  you may not use this file except in compliance with the License.         |
-|  You may obtain a copy of the License at                                  |
-|                                                                           |
-|    http://www.apache.org/licenses/LICENSE-2.0                             |
-|                                                                           |
-|  Unless required by applicable law or agreed to in writing, software      |
-|  distributed under the License is distributed on an "AS IS" BASIS,        |
-|  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. |
-|  See the License for the specific language governing permissions and      |
-|  limitations under the License.                                           |
-+---------------------------------------------------------------------------+
 $Id$
- */
+*/
+
 package org.openads.publisher;
 
 import java.net.MalformedURLException;
@@ -49,13 +36,13 @@ import org.openads.utils.TextUtils;
 
 /**
  * Verify Get Publisher List By Agency Id method
- * 
+ *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestGetPublisherListByAgencyId extends PublisherTestCase {
 	/**
 	 * Test method with all fields.
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 * @throws MalformedURLException
 	 */
@@ -68,7 +55,7 @@ public class TestGetPublisherListByAgencyId extends PublisherTestCase {
 			Map<String, Object> param = getPublisherParams("test2" + i);
 			myPublishers.put(createPublisher(param), param);
 		}
-		
+
 		try {
 			final Object[] result = (Object[]) execute(GET_PUBLISHER_LIST_BY_AGENCY_ID_METHOD,
 					new Object[] { sessionId, agencyId });
@@ -102,7 +89,7 @@ public class TestGetPublisherListByAgencyId extends PublisherTestCase {
 
 	/**
 	 * Execute test method with error
-	 * 
+	 *
 	 * @param params -
 	 *            parameters for test method
 	 * @param errorMsg -
@@ -125,7 +112,7 @@ public class TestGetPublisherListByAgencyId extends PublisherTestCase {
 
 	/**
 	 * Try to get publisher list by agency with unknown id
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 * @throws MalformedURLException
 	 */
@@ -134,14 +121,14 @@ public class TestGetPublisherListByAgencyId extends PublisherTestCase {
 		final Integer id = createAgency();
 		deleteAgency(id);
 		Object[] params = new Object[] { sessionId, id };
-	
+
 		executeGetPublisherListByAgencyIdWithError(params, ErrorMessage
 				.getMessage(ErrorMessage.UNKNOWN_ID_ERROR, AGENCY_ID));
 	}
 
 	/**
 	 * Test method without some required fields(error).
-	 * 
+	 *
 	 * @throws MalformedURLException
 	 */
 	public void testGetPublisherListByAgencyIdWithoutSomeRequiredFields()
@@ -157,7 +144,7 @@ public class TestGetPublisherListByAgencyId extends PublisherTestCase {
 
 	/**
 	 * Test method with fields that has value of wrong type (error).
-	 * 
+	 *
 	 * @throws MalformedURLException
 	 * @throws XmlRpcException
 	 */

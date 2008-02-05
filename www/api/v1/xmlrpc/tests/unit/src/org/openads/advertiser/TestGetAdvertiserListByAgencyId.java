@@ -20,22 +20,9 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-| Copyright (c) 2003-2008 m3 Media Services Ltd                             |
-|                                                                           |
-|  Licensed under the Apache License, Version 2.0 (the "License");          |
-|  you may not use this file except in compliance with the License.         |
-|  You may obtain a copy of the License at                                  |
-|                                                                           |
-|    http://www.apache.org/licenses/LICENSE-2.0                             |
-|                                                                           |
-|  Unless required by applicable law or agreed to in writing, software      |
-|  distributed under the License is distributed on an "AS IS" BASIS,        |
-|  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. |
-|  See the License for the specific language governing permissions and      |
-|  limitations under the License.                                           |
-+---------------------------------------------------------------------------+
 $Id$
- */
+*/
+
 package org.openads.advertiser;
 
 import java.net.MalformedURLException;
@@ -49,13 +36,13 @@ import org.openads.utils.TextUtils;
 
 /**
  * Verify Get Advertiser List By Agency Id method
- * 
+ *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestGetAdvertiserListByAgencyId extends AdvertiserTestCase {
 	/**
 	 * Test method with all fields.
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 * @throws MalformedURLException
 	 */
@@ -68,7 +55,7 @@ public class TestGetAdvertiserListByAgencyId extends AdvertiserTestCase {
 			Map<String, Object> param = getAdvertiserParams("test2" + i);
 			myAdvertisers.put(createAdvertiser(param), param);
 		}
-		
+
 		try {
 			final Object[] result = (Object[]) execute(GET_ADVERTISER_LIST_BY_AGENCY_ID_METHOD,
 					new Object[] { sessionId, agencyId });
@@ -105,7 +92,7 @@ public class TestGetAdvertiserListByAgencyId extends AdvertiserTestCase {
 
 	/**
 	 * Execute test method with error
-	 * 
+	 *
 	 * @param params -
 	 *            parameters for test method
 	 * @param errorMsg -
@@ -128,7 +115,7 @@ public class TestGetAdvertiserListByAgencyId extends AdvertiserTestCase {
 
 	/**
 	 * Try to get advertiser with unknown id
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 * @throws MalformedURLException
 	 */
@@ -137,14 +124,14 @@ public class TestGetAdvertiserListByAgencyId extends AdvertiserTestCase {
 		final Integer id = createAgency();
 		deleteAgency(id);
 		Object[] params = new Object[] { sessionId, id };
-	
+
 		executeGetAdvertiserListByAgencyIdWithError(params, ErrorMessage
 				.getMessage(ErrorMessage.UNKNOWN_ID_ERROR, AGENCY_ID));
 	}
 
 	/**
 	 * Test method without some required fields(error).
-	 * 
+	 *
 	 * @throws MalformedURLException
 	 */
 	public void testGetAdvertiserListByAgencyIdWithoutSomeRequiredFields()
@@ -159,7 +146,7 @@ public class TestGetAdvertiserListByAgencyId extends AdvertiserTestCase {
 
 	/**
 	 * Test method with fields that has value of wrong type (error).
-	 * 
+	 *
 	 * @throws MalformedURLException
 	 * @throws XmlRpcException
 	 */

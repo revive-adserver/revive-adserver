@@ -20,22 +20,9 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-| Copyright (c) 2003-2008 m3 Media Services Ltd                             |
-|                                                                           |
-|  Licensed under the Apache License, Version 2.0 (the "License");          |
-|  you may not use this file except in compliance with the License.         |
-|  You may obtain a copy of the License at                                  |
-|                                                                           |
-|    http://www.apache.org/licenses/LICENSE-2.0                             |
-|                                                                           |
-|  Unless required by applicable law or agreed to in writing, software      |
-|  distributed under the License is distributed on an "AS IS" BASIS,        |
-|  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. |
-|  See the License for the specific language governing permissions and      |
-|  limitations under the License.                                           |
-+---------------------------------------------------------------------------+
 $Id:$
- */
+*/
+
 package org.openads.proxy;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -47,26 +34,26 @@ import org.apache.xmlrpc.XmlRpcException;
 
 /**
  * The Class AbstractService.
- * 
+ *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 abstract class AbstractService {
 	private XmlRpcClient client;
 	private String sessionId;
-	
+
 	/**
 	 * Gets the service.
-	 * 
+	 *
 	 * @return the service
 	 */
 	abstract String getService();
 
 	/**
 	 * Instantiates a new abstract service.
-	 * 
+	 *
 	 * @param client the client
 	 * @param basepath the basepath
-	 * @throws MalformedURLException 
+	 * @throws MalformedURLException
 	 */
 	public AbstractService(String basepath) throws MalformedURLException {
 		super();
@@ -76,7 +63,7 @@ abstract class AbstractService {
 
 	/**
 	 * Sets the session id.
-	 * 
+	 *
 	 * @param sessionId the new session id
 	 */
 	public void setSessionId(String sessionId) {
@@ -85,44 +72,44 @@ abstract class AbstractService {
 
 	/**
 	 * Execute.
-	 * 
+	 *
 	 * @param methodName the method name
 	 * @param params the params
-	 * 
+	 *
 	 * @return the object
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public Object execute(String methodName, Object... params)
 			throws XmlRpcException, IOException {
-		
+
 		Vector paramsWithSessionId = new Vector(params.length + 1);
 		paramsWithSessionId.add(sessionId);
 
 		for (int i = 0; i < params.length; i++) {
 			paramsWithSessionId.add(params[i]);
 		}
-		
+
 		Object result = client.execute(methodName, paramsWithSessionId);
-		
+
 		if (result instanceof XmlRpcException) {
 			throw (XmlRpcException) result;
 		}
-		
+
 		return result;
 	}
 
 	/**
 	 * Execute without session id.
-	 * 
+	 *
 	 * @param methodName the method name
 	 * @param params the params
-	 * 
+	 *
 	 * @return the object
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public Object executeWithoutSessionId(String methodName, Object... params)
 			throws XmlRpcException, IOException {
@@ -130,21 +117,21 @@ abstract class AbstractService {
 		for(int i = 0; i < params.length; i++) {
 			paramsVector.add(params[i]);
 		}
-		
+
 		Object result = client.execute(methodName, paramsVector);
-		
+
 		if (result instanceof XmlRpcException) {
 			throw (XmlRpcException) result;
 		}
-		
+
 		return result;
 	}
 
 	/**
 	 * Object to array maps.
-	 * 
+	 *
 	 * @param arrayObjects the array objects
-	 * 
+	 *
 	 * @return the Map[]
 	 */
 	public Map[] vectorToArrayMaps(Object arrayObjects) {

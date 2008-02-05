@@ -20,20 +20,6 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-| Copyright (c) 2003-2008 m3 Media Services Ltd                             |
-|                                                                           |
-|  Licensed under the Apache License, Version 2.0 (the "License");          |
-|  you may not use this file except in compliance with the License.         |
-|  You may obtain a copy of the License at                                  |
-|                                                                           |
-|    http://www.apache.org/licenses/LICENSE-2.0                             |
-|                                                                           |
-|  Unless required by applicable law or agreed to in writing, software      |
-|  distributed under the License is distributed on an "AS IS" BASIS,        |
-|  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. |
-|  See the License for the specific language governing permissions and      |
-|  limitations under the License.                                           |
-+---------------------------------------------------------------------------+
 $Id$
 */
 
@@ -49,7 +35,7 @@ import org.openads.utils.TextUtils;
 
 /**
  * Verify Modify Banner method
- * 
+ *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestModifyBanner extends BannerTestCase {
@@ -70,7 +56,7 @@ public class TestModifyBanner extends BannerTestCase {
 
 	/**
 	 * Execute test method with error
-	 * 
+	 *
 	 * @param params -
 	 *            parameters for test method
 	 * @param errorMsg -
@@ -91,7 +77,7 @@ public class TestModifyBanner extends BannerTestCase {
 
 	/**
 	 * Test method with all required fields and some optional.
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 * @throws MalformedURLException
 	 */
@@ -110,7 +96,7 @@ public class TestModifyBanner extends BannerTestCase {
 
 	/**
 	 * Test method without some required fields.
-	 * 
+	 *
 	 * @throws MalformedURLException
 	 */
 	public void testModifyBannerWithoutSomeRequiredFields()
@@ -126,7 +112,7 @@ public class TestModifyBanner extends BannerTestCase {
 
 	/**
 	 * Test method with fields that has value greater than max.
-	 * 
+	 *
 	 * @throws MalformedURLException
 	 * @throws XmlRpcException
 	 */
@@ -145,7 +131,7 @@ public class TestModifyBanner extends BannerTestCase {
 
 	/**
 	 * Test method with fields that has min. allowed values.
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 * @throws MalformedURLException
 	 */
@@ -165,7 +151,7 @@ public class TestModifyBanner extends BannerTestCase {
 
 	/**
 	 * Test method with fields that has max. allowed values.
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 * @throws MalformedURLException
 	 */
@@ -183,7 +169,7 @@ public class TestModifyBanner extends BannerTestCase {
 
 	/**
 	 * Try to modify banner with unknown id
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 * @throws MalformedURLException
 	 */
@@ -212,7 +198,7 @@ public class TestModifyBanner extends BannerTestCase {
 
 	/**
 	 * Test method with fields that has value of wrong type (error).
-	 * 
+	 *
 	 * @throws MalformedURLException
 	 */
 	public void testModifyBannerWrongTypeError() throws MalformedURLException {

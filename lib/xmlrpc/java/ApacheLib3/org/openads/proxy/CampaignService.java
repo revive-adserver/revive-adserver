@@ -20,22 +20,9 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-| Copyright (c) 2003-2008 m3 Media Services Ltd                             |
-|                                                                           |
-|  Licensed under the Apache License, Version 2.0 (the "License");          |
-|  you may not use this file except in compliance with the License.         |
-|  You may obtain a copy of the License at                                  |
-|                                                                           |
-|    http://www.apache.org/licenses/LICENSE-2.0                             |
-|                                                                           |
-|  Unless required by applicable law or agreed to in writing, software      |
-|  distributed under the License is distributed on an "AS IS" BASIS,        |
-|  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. |
-|  See the License for the specific language governing permissions and      |
-|  limitations under the License.                                           |
-+---------------------------------------------------------------------------+
 $Id:$
- */
+*/
+
 package org.openads.proxy;
 import java.util.Date;
 import java.util.Map;
@@ -45,7 +32,7 @@ import org.apache.xmlrpc.client.XmlRpcClient;
 
 /**
  * Base class for all campaign web service tests.
- * 
+ *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 class CampaignService extends AbstractService {
@@ -63,7 +50,7 @@ class CampaignService extends AbstractService {
 
 	/**
 	 * Instantiates a new campaign service.
-	 * 
+	 *
 	 * @param client the client
 	 * @param basepath the basepath
 	 */
@@ -81,11 +68,11 @@ class CampaignService extends AbstractService {
 
 	/**
 	 * Adds the campaign.
-	 * 
+	 *
 	 * @param params the params
-	 * 
+	 *
 	 * @return the integer
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Integer addCampaign(Map params) throws XmlRpcException {
@@ -94,11 +81,11 @@ class CampaignService extends AbstractService {
 
 	/**
 	 * Modify campaign.
-	 * 
+	 *
 	 * @param params the params
-	 * 
+	 *
 	 * @return the boolean
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Boolean modifyCampaign(Map params) throws XmlRpcException {
@@ -107,11 +94,11 @@ class CampaignService extends AbstractService {
 
 	/**
 	 * Delete campaign.
-	 * 
+	 *
 	 * @param id the id
-	 * 
+	 *
 	 * @return the boolean
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Boolean deleteCampaign(Integer id) throws XmlRpcException {
@@ -120,11 +107,11 @@ class CampaignService extends AbstractService {
 
 	/**
 	 * Gets the campaign.
-	 * 
+	 *
 	 * @param id the id
-	 * 
+	 *
 	 * @return the campaign
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map getCampaign(Integer id) throws XmlRpcException {
@@ -133,24 +120,24 @@ class CampaignService extends AbstractService {
 
 	/**
 	 * Gets the campaign list by advertiser id.
-	 * 
+	 *
 	 * @param id the id
-	 * 
+	 *
 	 * @return the campaign list by advertiser id
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] getCampaignListByAdvertiserID(Integer id) throws XmlRpcException {
 		return objectToArrayMaps(execute(GET_CAMPAIGN_LIST_BY_ADVERTISER_ID_METHOD, id));
 	}
-	
+
 	/**
 	 * Campaign daily statistics.
-	 * 
+	 *
 	 * @param id the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] campaignDailyStatistics(Integer id) throws XmlRpcException {
@@ -159,12 +146,12 @@ class CampaignService extends AbstractService {
 
 	/**
 	 * Campaign daily statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] campaignDailyStatistics(Integer id, Date startDate)
@@ -174,13 +161,13 @@ class CampaignService extends AbstractService {
 
 	/**
 	 * Campaign daily statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
 	 * @param endDate the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] campaignDailyStatistics(Integer id, Date startDate,
@@ -191,11 +178,11 @@ class CampaignService extends AbstractService {
 
 	/**
 	 * Campaign publisher statistics.
-	 * 
+	 *
 	 * @param id the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] campaignPublisherStatistics(Integer id) throws XmlRpcException {
@@ -204,12 +191,12 @@ class CampaignService extends AbstractService {
 
 	/**
 	 * Campaign publisher statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] campaignPublisherStatistics(Integer id, Date startDate)
@@ -219,13 +206,13 @@ class CampaignService extends AbstractService {
 
 	/**
 	 * Campaign publisher statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
 	 * @param endDate the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] campaignPublisherStatistics(Integer id, Date startDate,
@@ -233,14 +220,14 @@ class CampaignService extends AbstractService {
 		return objectToArrayMaps( execute(CAMPAIGN_PUBLISHER_STATISTICS_METHOD, id, startDate,
 				endDate));
 	}
-	
+
 	/**
 	 * Campaign banner statistics.
-	 * 
+	 *
 	 * @param id the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] campaignBannerStatistics(Integer id) throws XmlRpcException {
@@ -249,12 +236,12 @@ class CampaignService extends AbstractService {
 
 	/**
 	 * Campaign banner statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] campaignBannerStatistics(Integer id, Date startDate)
@@ -264,13 +251,13 @@ class CampaignService extends AbstractService {
 
 	/**
 	 * Campaign banner statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
 	 * @param endDate the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] campaignBannerStatistics(Integer id, Date startDate,
@@ -278,14 +265,14 @@ class CampaignService extends AbstractService {
 		return objectToArrayMaps( execute(CAMPAIGN_BANNER_STATISTICS_METHOD, id, startDate,
 				endDate));
 	}
-	
+
 	/**
 	 * Campaign zone statistics.
-	 * 
+	 *
 	 * @param id the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] campaignZoneStatistics(Integer id) throws XmlRpcException {
@@ -294,12 +281,12 @@ class CampaignService extends AbstractService {
 
 	/**
 	 * Campaign zone statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] campaignZoneStatistics(Integer id, Date startDate)
@@ -309,13 +296,13 @@ class CampaignService extends AbstractService {
 
 	/**
 	 * Campaign zone statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
 	 * @param endDate the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] campaignZoneStatistics(Integer id, Date startDate,

@@ -20,20 +20,6 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-| Copyright (c) 2003-2008 m3 Media Services Ltd                             |
-|                                                                           |
-|  Licensed under the Apache License, Version 2.0 (the "License");          |
-|  you may not use this file except in compliance with the License.         |
-|  You may obtain a copy of the License at                                  |
-|                                                                           |
-|    http://www.apache.org/licenses/LICENSE-2.0                             |
-|                                                                           |
-|  Unless required by applicable law or agreed to in writing, software      |
-|  distributed under the License is distributed on an "AS IS" BASIS,        |
-|  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. |
-|  See the License for the specific language governing permissions and      |
-|  limitations under the License.                                           |
-+---------------------------------------------------------------------------+
 $Id$
 */
 
@@ -52,7 +38,7 @@ import org.openads.utils.TextUtils;
 
 /**
  * Base class for all publiser web service tests
- * 
+ *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class PublisherTestCase extends AgencyTestCase {
@@ -98,7 +84,7 @@ public class PublisherTestCase extends AgencyTestCase {
 			MalformedURLException {
 		return createPublisher(getPublisherParams("test"));
 	}
-	
+
 	/**
 	 * @return publisher id
 	 * @throws XmlRpcException
@@ -111,7 +97,7 @@ public class PublisherTestCase extends AgencyTestCase {
 
 		Object[] paramsWithId = new Object[] { sessionId, params };
 		final Integer result = (Integer) client.execute(ADD_PUBLISHER_METHOD, paramsWithId);
-		
+
 		return result;
 	}
 
@@ -137,19 +123,19 @@ public class PublisherTestCase extends AgencyTestCase {
 
 		return client.execute(method, params);
 	}
-	
+
 	/**
 	 * @param prefix
 	 * @return
 	 */
 	public Map<String, Object> getPublisherParams(String prefix) {
 		Map<String, Object> params = new HashMap<String, Object>();
-		
+
 		params.put(AGENCY_ID, agencyId);
 		params.put(PUBLISHER_NAME, prefix + PUBLISHER_NAME);
 		params.put(CONTACT_NAME, prefix + CONTACT_NAME);
 		params.put(EMAIL_ADDRESS, prefix + "@mail.com");
-		
+
 		return params;
 	}
 }

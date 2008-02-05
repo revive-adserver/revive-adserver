@@ -20,22 +20,9 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-| Copyright (c) 2003-2008 m3 Media Services Ltd                             |
-|                                                                           |
-|  Licensed under the Apache License, Version 2.0 (the "License");          |
-|  you may not use this file except in compliance with the License.         |
-|  You may obtain a copy of the License at                                  |
-|                                                                           |
-|    http://www.apache.org/licenses/LICENSE-2.0                             |
-|                                                                           |
-|  Unless required by applicable law or agreed to in writing, software      |
-|  distributed under the License is distributed on an "AS IS" BASIS,        |
-|  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. |
-|  See the License for the specific language governing permissions and      |
-|  limitations under the License.                                           |
-+---------------------------------------------------------------------------+
 $Id:$
- */
+*/
+
 package org.openads.proxy;
 import java.util.Date;
 import java.util.Map;
@@ -45,7 +32,7 @@ import org.apache.xmlrpc.client.XmlRpcClient;
 
 /**
  * The Class AgencyService.
- * 
+ *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 class AgencyService extends AbstractService {
@@ -65,7 +52,7 @@ class AgencyService extends AbstractService {
 
 	/**
 	 * Instantiates a new agency service.
-	 * 
+	 *
 	 * @param client the client
 	 * @param basepath the basepath
 	 */
@@ -83,11 +70,11 @@ class AgencyService extends AbstractService {
 
 	/**
 	 * Adds the agency.
-	 * 
+	 *
 	 * @param params the params
-	 * 
+	 *
 	 * @return the integer
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Integer addAgency(Map params) throws XmlRpcException {
@@ -96,11 +83,11 @@ class AgencyService extends AbstractService {
 
 	/**
 	 * Modify agency.
-	 * 
+	 *
 	 * @param params the params
-	 * 
+	 *
 	 * @return the boolean
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Boolean modifyAgency(Map params) throws XmlRpcException {
@@ -109,11 +96,11 @@ class AgencyService extends AbstractService {
 
 	/**
 	 * Delete agency.
-	 * 
+	 *
 	 * @param id the id
-	 * 
+	 *
 	 * @return the boolean
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Boolean deleteAgency(Integer id) throws XmlRpcException {
@@ -122,11 +109,11 @@ class AgencyService extends AbstractService {
 
 	/**
 	 * Gets the agency.
-	 * 
+	 *
 	 * @param id the id
-	 * 
+	 *
 	 * @return the agency
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map getAgency(Integer id) throws XmlRpcException {
@@ -135,9 +122,9 @@ class AgencyService extends AbstractService {
 
 	/**
 	 * Gets the agency list.
-	 * 
+	 *
 	 * @return the agency list
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] getAgencyList() throws XmlRpcException {
@@ -146,11 +133,11 @@ class AgencyService extends AbstractService {
 
 	/**
 	 * Agency zone statistics.
-	 * 
+	 *
 	 * @param id the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] agencyZoneStatistics(Integer id) throws XmlRpcException {
@@ -159,12 +146,12 @@ class AgencyService extends AbstractService {
 
 	/**
 	 * Agency zone statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] agencyZoneStatistics(Integer id, Date startDate)
@@ -175,13 +162,13 @@ class AgencyService extends AbstractService {
 
 	/**
 	 * Agency zone statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
 	 * @param endDate the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] agencyZoneStatistics(Integer id, Date startDate, Date endDate)
@@ -192,11 +179,11 @@ class AgencyService extends AbstractService {
 
 	/**
 	 * Agency advertiser statistics.
-	 * 
+	 *
 	 * @param id the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] agencyAdvertiserStatistics(Integer id) throws XmlRpcException {
@@ -206,12 +193,12 @@ class AgencyService extends AbstractService {
 
 	/**
 	 * Agency advertiser statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] agencyAdvertiserStatistics(Integer id, Date startDate)
@@ -222,13 +209,13 @@ class AgencyService extends AbstractService {
 
 	/**
 	 * Agency advertiser statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
 	 * @param endDate the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] agencyAdvertiserStatistics(Integer id, Date startDate,
@@ -239,11 +226,11 @@ class AgencyService extends AbstractService {
 
 	/**
 	 * Agency banner statistics.
-	 * 
+	 *
 	 * @param id the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] agencyBannerStatistics(Integer id) throws XmlRpcException {
@@ -252,12 +239,12 @@ class AgencyService extends AbstractService {
 
 	/**
 	 * Agency banner statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] agencyBannerStatistics(Integer id, Date startDate)
@@ -268,13 +255,13 @@ class AgencyService extends AbstractService {
 
 	/**
 	 * Agency banner statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
 	 * @param endDate the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] agencyBannerStatistics(Integer id, Date startDate, Date endDate)
@@ -285,11 +272,11 @@ class AgencyService extends AbstractService {
 
 	/**
 	 * Agency campaign statistics.
-	 * 
+	 *
 	 * @param id the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] agencyCampaignStatistics(Integer id) throws XmlRpcException {
@@ -298,12 +285,12 @@ class AgencyService extends AbstractService {
 
 	/**
 	 * Agency campaign statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] agencyCampaignStatistics(Integer id, Date startDate)
@@ -314,13 +301,13 @@ class AgencyService extends AbstractService {
 
 	/**
 	 * Agency campaign statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
 	 * @param endDate the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] agencyCampaignStatistics(Integer id, Date startDate,
@@ -331,11 +318,11 @@ class AgencyService extends AbstractService {
 
 	/**
 	 * Agency daily statistics.
-	 * 
+	 *
 	 * @param id the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] agencyDailyStatistics(Integer id) throws XmlRpcException {
@@ -344,12 +331,12 @@ class AgencyService extends AbstractService {
 
 	/**
 	 * Agency daily statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] agencyDailyStatistics(Integer id, Date startDate)
@@ -360,13 +347,13 @@ class AgencyService extends AbstractService {
 
 	/**
 	 * Agency daily statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
 	 * @param endDate the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] agencyDailyStatistics(Integer id, Date startDate, Date endDate)
@@ -377,11 +364,11 @@ class AgencyService extends AbstractService {
 
 	/**
 	 * Agency publisher statistics.
-	 * 
+	 *
 	 * @param id the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] agencyPublisherStatistics(Integer id) throws XmlRpcException {
@@ -390,12 +377,12 @@ class AgencyService extends AbstractService {
 
 	/**
 	 * Agency publisher statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] agencyPublisherStatistics(Integer id, Date startDate)
@@ -406,13 +393,13 @@ class AgencyService extends AbstractService {
 
 	/**
 	 * Agency publisher statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
 	 * @param endDate the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] agencyPublisherStatistics(Integer id, Date startDate,

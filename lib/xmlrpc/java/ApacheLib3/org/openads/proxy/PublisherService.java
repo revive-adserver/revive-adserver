@@ -20,22 +20,9 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-| Copyright (c) 2003-2008 m3 Media Services Ltd                             |
-|                                                                           |
-|  Licensed under the Apache License, Version 2.0 (the "License");          |
-|  you may not use this file except in compliance with the License.         |
-|  You may obtain a copy of the License at                                  |
-|                                                                           |
-|    http://www.apache.org/licenses/LICENSE-2.0                             |
-|                                                                           |
-|  Unless required by applicable law or agreed to in writing, software      |
-|  distributed under the License is distributed on an "AS IS" BASIS,        |
-|  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. |
-|  See the License for the specific language governing permissions and      |
-|  limitations under the License.                                           |
-+---------------------------------------------------------------------------+
 $Id:$
- */
+*/
+
 package org.openads.proxy;
 import java.util.Date;
 import java.util.Map;
@@ -45,7 +32,7 @@ import org.apache.xmlrpc.client.XmlRpcClient;
 
 /**
  * Base class for all publiser web service tests.
- * 
+ *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 class PublisherService extends AbstractService {
@@ -64,7 +51,7 @@ class PublisherService extends AbstractService {
 
 	/**
 	 * Instantiates a new publisher service.
-	 * 
+	 *
 	 * @param client the client
 	 * @param basepath the basepath
 	 */
@@ -82,11 +69,11 @@ class PublisherService extends AbstractService {
 
 	/**
 	 * Adds the publisher.
-	 * 
+	 *
 	 * @param params the params
-	 * 
+	 *
 	 * @return the integer
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Integer addPublisher(Map params) throws XmlRpcException {
@@ -95,11 +82,11 @@ class PublisherService extends AbstractService {
 
 	/**
 	 * Modify publisher.
-	 * 
+	 *
 	 * @param params the params
-	 * 
+	 *
 	 * @return the boolean
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Boolean modifyPublisher(Map params) throws XmlRpcException {
@@ -108,11 +95,11 @@ class PublisherService extends AbstractService {
 
 	/**
 	 * Delete publisher.
-	 * 
+	 *
 	 * @param id the id
-	 * 
+	 *
 	 * @return the boolean
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Boolean deletePublisher(Integer id) throws XmlRpcException {
@@ -121,11 +108,11 @@ class PublisherService extends AbstractService {
 
 	/**
 	 * Gets the publisher.
-	 * 
+	 *
 	 * @param id the id
-	 * 
+	 *
 	 * @return the publisher
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map getPublisher(Integer id) throws XmlRpcException {
@@ -134,11 +121,11 @@ class PublisherService extends AbstractService {
 
 	/**
 	 * Gets the publisher list by agency id.
-	 * 
+	 *
 	 * @param id the id
-	 * 
+	 *
 	 * @return the publisher list by agency id
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] getPublisherListByAgencyId(Integer id)
@@ -148,11 +135,11 @@ class PublisherService extends AbstractService {
 
 	/**
 	 * Publisher zone statistics.
-	 * 
+	 *
 	 * @param id the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] publisherZoneStatistics(Integer id) throws XmlRpcException {
@@ -161,12 +148,12 @@ class PublisherService extends AbstractService {
 
 	/**
 	 * Publisher zone statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] publisherZoneStatistics(Integer id, Date startDate)
@@ -177,13 +164,13 @@ class PublisherService extends AbstractService {
 
 	/**
 	 * Publisher zone statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
 	 * @param endDate the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] publisherZoneStatistics(Integer id, Date startDate,
@@ -194,11 +181,11 @@ class PublisherService extends AbstractService {
 
 	/**
 	 * Publisher campaign statistics.
-	 * 
+	 *
 	 * @param id the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] publisherCampaignStatistics(Integer id) throws XmlRpcException {
@@ -208,12 +195,12 @@ class PublisherService extends AbstractService {
 
 	/**
 	 * Publisher campaign statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] publisherCampaignStatistics(Integer id, Date startDate)
@@ -224,13 +211,13 @@ class PublisherService extends AbstractService {
 
 	/**
 	 * Publisher campaign statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
 	 * @param endDate the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] publisherCampaignStatistics(Integer id, Date startDate,
@@ -241,11 +228,11 @@ class PublisherService extends AbstractService {
 
 	/**
 	 * Publisher daily statistics.
-	 * 
+	 *
 	 * @param id the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] publisherDailyStatistics(Integer id) throws XmlRpcException {
@@ -254,12 +241,12 @@ class PublisherService extends AbstractService {
 
 	/**
 	 * Publisher daily statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] publisherDailyStatistics(Integer id, Date startDate)
@@ -270,13 +257,13 @@ class PublisherService extends AbstractService {
 
 	/**
 	 * Publisher daily statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
 	 * @param endDate the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] publisherDailyStatistics(Integer id, Date startDate,
@@ -287,11 +274,11 @@ class PublisherService extends AbstractService {
 
 	/**
 	 * Publisher banner statistics.
-	 * 
+	 *
 	 * @param id the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] publisherBannerStatistics(Integer id) throws XmlRpcException {
@@ -300,12 +287,12 @@ class PublisherService extends AbstractService {
 
 	/**
 	 * Publisher banner statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] publisherBannerStatistics(Integer id, Date startDate)
@@ -316,13 +303,13 @@ class PublisherService extends AbstractService {
 
 	/**
 	 * Publisher banner statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
 	 * @param endDate the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] publisherBannerStatistics(Integer id, Date startDate,
@@ -333,11 +320,11 @@ class PublisherService extends AbstractService {
 
 	/**
 	 * Publisher advertiser statistics.
-	 * 
+	 *
 	 * @param id the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] publisherAdvertiserStatistics(Integer id)
@@ -348,12 +335,12 @@ class PublisherService extends AbstractService {
 
 	/**
 	 * Publisher advertiser statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] publisherAdvertiserStatistics(Integer id, Date startDate)
@@ -364,13 +351,13 @@ class PublisherService extends AbstractService {
 
 	/**
 	 * Publisher advertiser statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
 	 * @param endDate the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] publisherAdvertiserStatistics(Integer id, Date startDate,

@@ -20,22 +20,9 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-| Copyright (c) 2003-2008 m3 Media Services Ltd                             |
-|                                                                           |
-|  Licensed under the Apache License, Version 2.0 (the "License");          |
-|  you may not use this file except in compliance with the License.         |
-|  You may obtain a copy of the License at                                  |
-|                                                                           |
-|    http://www.apache.org/licenses/LICENSE-2.0                             |
-|                                                                           |
-|  Unless required by applicable law or agreed to in writing, software      |
-|  distributed under the License is distributed on an "AS IS" BASIS,        |
-|  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. |
-|  See the License for the specific language governing permissions and      |
-|  limitations under the License.                                           |
-+---------------------------------------------------------------------------+
 $Id:$
- */
+*/
+
 package org.openads.proxy;
 import java.util.Date;
 import java.util.Map;
@@ -45,12 +32,12 @@ import org.apache.xmlrpc.client.XmlRpcClient;
 
 /**
  * Base class for all banner web service tests.
- * 
+ *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 class BannerService extends AbstractService{
 	private static final String BANNER_SERVICE = "BannerXmlRpcService.php";
-	
+
 	private static final String ADD_BANNER_METHOD = "addBanner";
 	private static final String DELETE_BANNER_METHOD = "deleteBanner";
 	private static final String MODIFY_BANNER_METHOD = "modifyBanner";
@@ -59,17 +46,17 @@ class BannerService extends AbstractService{
 	private static final String BANNER_DAILY_STATISTICS_METHOD = "bannerDailyStatistics";
 	private static final String BANNER_PUBLISHER_STATISTICS_METHOD = "bannerPublisherStatistics";
 	private static final String BANNER_ZONE_STATISTICS_METHOD = "bannerZoneStatistics";
-	
+
 	/**
 	 * Instantiates a new banner service.
-	 * 
+	 *
 	 * @param client the client
 	 * @param basepath the basepath
 	 */
 	public BannerService(XmlRpcClient client, String basepath) {
 		super(client, basepath);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.openads.proxy.AbstractService#getService()
 	 */
@@ -77,14 +64,14 @@ class BannerService extends AbstractService{
 	String getService() {
 		return BANNER_SERVICE;
 	}
-	
+
 	/**
 	 * Adds the banner.
-	 * 
+	 *
 	 * @param params the params
-	 * 
+	 *
 	 * @return the integer
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Integer addBanner(Map params) throws XmlRpcException {
@@ -93,11 +80,11 @@ class BannerService extends AbstractService{
 
 	/**
 	 * Modify banner.
-	 * 
+	 *
 	 * @param params the params
-	 * 
+	 *
 	 * @return the boolean
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Boolean modifyBanner(Map params) throws XmlRpcException {
@@ -106,11 +93,11 @@ class BannerService extends AbstractService{
 
 	/**
 	 * Delete banner.
-	 * 
+	 *
 	 * @param id the id
-	 * 
+	 *
 	 * @return the boolean
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Boolean deleteBanner(Integer id) throws XmlRpcException {
@@ -119,11 +106,11 @@ class BannerService extends AbstractService{
 
 	/**
 	 * Gets the banner.
-	 * 
+	 *
 	 * @param id the id
-	 * 
+	 *
 	 * @return the banner
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map getBanner(Integer id) throws XmlRpcException {
@@ -132,24 +119,24 @@ class BannerService extends AbstractService{
 
 	/**
 	 * Gets the banner list by advertiser id.
-	 * 
+	 *
 	 * @param id the id
-	 * 
+	 *
 	 * @return the banner list by advertiser id
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] getBannerListByAdvertiserID(Integer id) throws XmlRpcException {
 		return objectToArrayMaps(execute(GET_BANNER_LIST_BY_CAMPAIGN_ID_METHOD, id));
 	}
-	
+
 	/**
 	 * Banner daily statistics.
-	 * 
+	 *
 	 * @param id the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] bannerDailyStatistics(Integer id) throws XmlRpcException {
@@ -158,12 +145,12 @@ class BannerService extends AbstractService{
 
 	/**
 	 * Banner daily statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] bannerDailyStatistics(Integer id, Date startDate)
@@ -173,13 +160,13 @@ class BannerService extends AbstractService{
 
 	/**
 	 * Banner daily statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
 	 * @param endDate the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] bannerDailyStatistics(Integer id, Date startDate,
@@ -190,11 +177,11 @@ class BannerService extends AbstractService{
 
 	/**
 	 * Banner publisher statistics.
-	 * 
+	 *
 	 * @param id the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] bannerPublisherStatistics(Integer id) throws XmlRpcException {
@@ -203,12 +190,12 @@ class BannerService extends AbstractService{
 
 	/**
 	 * Banner publisher statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] bannerPublisherStatistics(Integer id, Date startDate)
@@ -218,13 +205,13 @@ class BannerService extends AbstractService{
 
 	/**
 	 * Banner publisher statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
 	 * @param endDate the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] bannerPublisherStatistics(Integer id, Date startDate,
@@ -232,14 +219,14 @@ class BannerService extends AbstractService{
 		return objectToArrayMaps( execute(BANNER_PUBLISHER_STATISTICS_METHOD, id, startDate,
 				endDate));
 	}
-	
+
 	/**
 	 * Banner zone statistics.
-	 * 
+	 *
 	 * @param id the id
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] bannerZoneStatistics(Integer id) throws XmlRpcException {
@@ -248,12 +235,12 @@ class BannerService extends AbstractService{
 
 	/**
 	 * Banner zone statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] bannerZoneStatistics(Integer id, Date startDate)
@@ -263,13 +250,13 @@ class BannerService extends AbstractService{
 
 	/**
 	 * Banner zone statistics.
-	 * 
+	 *
 	 * @param id the id
 	 * @param startDate the start date
 	 * @param endDate the end date
-	 * 
+	 *
 	 * @return the Map[]
-	 * 
+	 *
 	 * @throws XmlRpcException the xml rpc exception
 	 */
 	public Map[] bannerZoneStatistics(Integer id, Date startDate,

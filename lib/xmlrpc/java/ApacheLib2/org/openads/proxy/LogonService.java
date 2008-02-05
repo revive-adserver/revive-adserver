@@ -20,22 +20,9 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-| Copyright (c) 2003-2008 m3 Media Services Ltd                             |
-|                                                                           |
-|  Licensed under the Apache License, Version 2.0 (the "License");          |
-|  you may not use this file except in compliance with the License.         |
-|  You may obtain a copy of the License at                                  |
-|                                                                           |
-|    http://www.apache.org/licenses/LICENSE-2.0                             |
-|                                                                           |
-|  Unless required by applicable law or agreed to in writing, software      |
-|  distributed under the License is distributed on an "AS IS" BASIS,        |
-|  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. |
-|  See the License for the specific language governing permissions and      |
-|  limitations under the License.                                           |
-+---------------------------------------------------------------------------+
 $Id:$
- */
+*/
+
 package org.openads.proxy;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -44,7 +31,7 @@ import org.apache.xmlrpc.XmlRpcException;
 
 /**
  * The Class LogonService.
- * 
+ *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class LogonService extends AbstractService {
@@ -55,15 +42,15 @@ public class LogonService extends AbstractService {
 
 	/**
 	 * Instantiates a new logon service.
-	 * 
+	 *
 	 * @param client the client
 	 * @param basepath the basepath
-	 * @throws MalformedURLException 
+	 * @throws MalformedURLException
 	 */
 	public LogonService(String basepath) throws MalformedURLException {
 		super(basepath);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.openads.proxy.AbstractService#getService()
 	 */
@@ -74,12 +61,12 @@ public class LogonService extends AbstractService {
 
 	/**
 	 * Logon.
-	 * 
+	 *
 	 * @param username the username
 	 * @param password the password
-	 * 
+	 *
 	 * @return the string
-	 * 
+	 *
 	 * @throws XmlRpcException, IOException the xml rpc exception
 	 */
 	public String logon(String username, String password) throws XmlRpcException, IOException {
@@ -89,9 +76,9 @@ public class LogonService extends AbstractService {
 
 	/**
 	 * Logoff.
-	 * 
+	 *
 	 * @return the boolean
-	 * 
+	 *
 	 * @throws XmlRpcException, IOException the xml rpc exception
 	 */
 	public Boolean logoff() throws XmlRpcException, IOException, IOException {
