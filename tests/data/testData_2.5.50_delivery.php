@@ -92,13 +92,13 @@ class OA_Test_Data_2_5_50_delivery extends OA_Test_Data
         // Default banner URL
         $aAccountPreferenceAssoc['account_id'] = $this->aIds['agency'][1];
         $aAccountPreferenceAssoc['preference_id'] = $this->aIds['preference'][1];
-        $aAccountPreferenceAssoc['value'] = 'http://www.openads.org/themes/openads/images/header_logo.png';
+        $aAccountPreferenceAssoc['value'] = 'http://www.openx.org/themes/openads/images/header_logo.png';
         $this->_insertAccountPreferenceAssoc($aAccountPreferenceAssoc);
 
         // Default destination URL
         $aAccountPreferenceAssoc['account_id'] = $this->aIds['agency'][1];
         $aAccountPreferenceAssoc['preference_id'] = $this->aIds['preference'][2];
-        $aAccountPreferenceAssoc['value'] = 'http://www.openads.org/';
+        $aAccountPreferenceAssoc['value'] = 'http://www.openx.org/';
         $this->_insertAccountPreferenceAssoc($aAccountPreferenceAssoc);
 
         // client

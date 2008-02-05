@@ -554,7 +554,7 @@ class Admin_DaTest extends DalUnitTestCase
             'pluginversion' => rand(1, 999),
             'htmltemplate' => '<html></html>',
             'htmlcache' => '<html><body></body></html>',
-            'url' => 'http://www.openads.org',
+            'url' => 'http://www.openx.org',
             'bannertext' => 'text',
             'compiledlimitation' => '',
             'append' => '',

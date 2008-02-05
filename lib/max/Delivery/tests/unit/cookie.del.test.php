@@ -141,7 +141,7 @@ class Delivery_TestOfCookie extends UnitTestCase
         // and a policyLocation
         $conf['p3p']['policies'] = true;
         $conf['p3p']['compactPolicy'] = 'CUR ADM OUR NOR STA NID';
-        $conf['p3p']['policyLocation'] = 'http://www.openads.org/policy.xml';
+        $conf['p3p']['policyLocation'] = 'http://www.openx.org/policy.xml';
         $this->assertEqual(_generateP3PHeader(), ' policyref="' . $conf['p3p']['policyLocation'] .'",  CP="' . $conf['p3p']['compactPolicy'] . '"');
 
         // Test that the compact policy header is generated correctly with just a compact policy
@@ -153,7 +153,7 @@ class Delivery_TestOfCookie extends UnitTestCase
         // Test that the compact policy header is generated correctly with just a policy location
         $conf['p3p']['policies'] = true;
         $conf['p3p']['compactPolicy'] = '';
-        $conf['p3p']['policyLocation'] = 'http://www.openads.org/policy.xml';
+        $conf['p3p']['policyLocation'] = 'http://www.openx.org/policy.xml';
         $this->assertEqual(_generateP3PHeader(), ' policyref="' . $conf['p3p']['policyLocation'] . '"');
 
         // Test that the compact policy header is not generated without either policy location or compact policy
