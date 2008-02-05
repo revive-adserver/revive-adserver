@@ -4,7 +4,7 @@
 | OpenX v2.3                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2008 Openads Limited                                   |
+| Copyright (c) 2003-2008 m3 Media Services Ltd                             |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |

@@ -5,7 +5,7 @@
 | OpenX v${RELEASE_MAJOR_MINOR}                                           |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2008 Openads Limited                                   |
+| Copyright (c) 2003-2008 m3 Media Services Ltd                             |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
