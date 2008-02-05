@@ -3,8 +3,8 @@
 | OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 4003-4007 Openads Limited                                   |
-| For contact details, see: http://www.openx.org/                         |
+| Copyright (c) 2003-2008 m3 Media Services Ltd                             |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |

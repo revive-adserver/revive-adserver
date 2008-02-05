@@ -14,7 +14,7 @@
     IN A PRODUCTION ENVIRONMENT. THE USE OF THIS SOFTWARE IS
     COMPLETELY AT YOUR OWN RISK!
 
-    Copyright (c) 2003-2007 Openads Limited
+    Copyright (c) 2003-2008 m3 Media Services Ltd
 
 	Based on phpAdsNew Copyright (c) 2000-2003 phpAdsNew developers:
     	Niels Leenheer <niels@creatype.nl>
@@ -75,8 +75,8 @@
 
     Credits:
     ------------------------------------------------------------------------
-    Thanks to Marcus Baker for allowing Openads Limited to distribute
-      Simple Test for PHP along with Openads. Simple Test is distributed
+    Thanks to Marcus Baker for allowing m3 Media Services Ltd to distribute
+      Simple Test for PHP along with OpenX. Simple Test is distributed
       under the Open Group Test Suite License. Please see the Simple Test
       LICENSE file in the lib/simpletest/ directory for details.
 
