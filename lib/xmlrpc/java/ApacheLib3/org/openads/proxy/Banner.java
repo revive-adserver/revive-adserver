@@ -20,7 +20,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-|  Copyright 2003-2007 Openads Limited                                      |
+| Copyright (c) 2003-2008 m3 Media Services Ltd                             |
 |                                                                           |
 |  Licensed under the Apache License, Version 2.0 (the "License");          |
 |  you may not use this file except in compliance with the License.         |
