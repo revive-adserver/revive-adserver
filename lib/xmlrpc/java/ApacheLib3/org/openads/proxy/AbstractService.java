@@ -48,7 +48,7 @@ import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 /**
  * The Class AbstractService.
  * 
- * @author <a href="mailto:apetlyovanyy@lohika.com">Andriy Petlyovanyy</a>
+ * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 abstract class AbstractService {
 	private XmlRpcClient client;

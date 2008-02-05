@@ -49,7 +49,7 @@ import org.openads.utils.TextUtils;
 /**
  * Verify Publisher Zone Statistics method
  * 
- * @author <a href="mailto:apetlyovanyy@lohika.com">Andriy Petlyovanyy</a>
+ * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestPublisherZoneStatistics extends PublisherTestCase {
 	private Integer publisherId;

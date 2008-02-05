@@ -41,7 +41,7 @@ package org.openads.utils;
 import java.text.MessageFormat;
 
 /**
- * @author <a href="mailto:apetlyovanyy@lohika.com">Andriy Petlyovanyy</a>
+ * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class ErrorMessage {
 	public static final String ACCESS_FORBIDDEN = "Access forbidden";

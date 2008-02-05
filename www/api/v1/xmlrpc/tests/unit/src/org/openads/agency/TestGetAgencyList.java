@@ -47,7 +47,7 @@ import org.apache.xmlrpc.XmlRpcException;
 /**
  * Verify Get Agency List method
  * 
- * @author <a href="mailto:apetlyovanyy@lohika.com">Andriy Petlyovanyy</a>
+ * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestGetAgencyList extends AgencyTestCase {
 

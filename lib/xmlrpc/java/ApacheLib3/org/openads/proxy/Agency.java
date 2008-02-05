@@ -41,7 +41,7 @@ package org.openads.proxy;
 /**
  * The Class Agency.
  * 
- * @author <a href="mailto:apetlyovanyy@lohika.com">Andriy Petlyovanyy</a>
+ * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class Agency {
 	public static final String START_DATE = "startDate";

@@ -43,7 +43,7 @@ import org.apache.xmlrpc.client.XmlRpcClient;
 /**
  * The Class LogonService.
  * 
- * @author <a href="mailto:apetlyovanyy@lohika.com">Andriy Petlyovanyy</a>
+ * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class LogonService extends AbstractService {
 	private static final String LOGON_SERVICE = "LogonXmlRpcService.php";

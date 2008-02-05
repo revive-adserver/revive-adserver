@@ -47,7 +47,7 @@ import org.apache.xmlrpc.XmlRpcException;
 /**
  * The Class AgencyService.
  * 
- * @author <a href="mailto:apetlyovanyy@lohika.com">Andriy Petlyovanyy</a>
+ * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 class AgencyService extends AbstractService {
 	private static final String AGENCY_SERVICE = "AgencyXmlRpcService.php";

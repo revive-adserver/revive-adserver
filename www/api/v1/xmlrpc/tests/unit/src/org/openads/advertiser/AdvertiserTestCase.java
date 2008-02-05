@@ -53,7 +53,7 @@ import org.openads.utils.TextUtils;
 /**
  * Base class for all advertiser web service tests
  * 
- * @author <a href="mailto:apetlyovanyy@lohika.com">Andriy Petlyovanyy</a>
+ * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class AdvertiserTestCase extends AgencyTestCase {
 	protected static final String GET_ADVERTISER_LIST_BY_AGENCY_ID_METHOD = "getAdvertiserListByAgencyId";
