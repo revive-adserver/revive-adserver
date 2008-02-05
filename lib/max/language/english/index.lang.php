@@ -5,7 +5,7 @@
 | OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 BuraBuraLimited                                   |
+| Copyright (c) 2003-2007 Openads Limited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
@@ -37,7 +37,7 @@ $Id$
 
 // Meta information
 $translation_readable   = "English (International)";
-$translation_maintainer	= "BuraBuraLimited";
+$translation_maintainer	= "Openads Limited";
 $translation_contact	= "andrew@m3.net";
 
 ?>

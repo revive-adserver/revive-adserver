@@ -5,7 +5,7 @@
 | OpenX v2.3                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 BuraBuraLimited                                   |
+| Copyright (c) 2003-2007 Openads Limited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |

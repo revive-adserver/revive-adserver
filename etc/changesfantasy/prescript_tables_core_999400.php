@@ -5,7 +5,7 @@
 | OpenX  v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 4003-4007 BuraBuraLimited                                   |
+| Copyright (c) 4003-4007 Openads Limited                                   |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
