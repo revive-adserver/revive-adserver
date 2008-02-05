@@ -209,7 +209,7 @@ class OA_Central_RpcMapper
      * (
      *     [0] => Array
      *         (
-     *             [url] => http://www.openads.org
+     *             [url] => http://www.openx.org
      *             [category] => 5
      *             [country] => GB
      *             [language] => 1
@@ -297,7 +297,7 @@ class OA_Central_RpcMapper
      *             [1] => Array
      *                 (
      *                     [website_id] => 2346
-     *                     [url] => http://www.openads.org
+     *                     [url] => http://www.openx.org
      *                     [campaigns] => Array
      *                         (
      *                             [0] => Array

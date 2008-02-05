@@ -47,7 +47,7 @@ class OA_Dashboard_Widget_ForumFeed extends OA_Dashboard_Widget_Feed
             'http://feeds.feedburner.com/OpenadsForum?format=xml',
             6,
             'Go to Openads forum page',
-            'http://forum.openads.org'
+            'http://forum.openx.org'
         );
     }
 }

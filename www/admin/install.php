@@ -65,8 +65,8 @@ $oSystemMgr->getAllInfo();
 if (!$oSystemMgr->checkMemory()) {
     $memory = getMinimumRequiredMemory() / 1048576;
     echo '<link rel="stylesheet" type="text/css" href="css/install.css"/><br />';
-    echo '<div class="sysmessage sysinfoerror" style="text-align: center;">The minimum amount of memory <a href="http://docs.openads.org/openads-2.3-guide/requirements.html" target="_blank" style="color: #990000">required</a> by Openads is <b>'. $memory
-        .' MB</b>. <br />Please <a href="http://www.openads.org/support/faq.html" target="_blank" style="color: #990000">increase</a> your PHP memory_limit before continuing.</div>';
+    echo '<div class="sysmessage sysinfoerror" style="text-align: center;">The minimum amount of memory <a href="http://docs.openx.org/openads-2.3-guide/requirements.html" target="_blank" style="color: #990000">required</a> by Openads is <b>'. $memory
+        .' MB</b>. <br />Please <a href="http://www.openx.org/support/faq.html" target="_blank" style="color: #990000">increase</a> your PHP memory_limit before continuing.</div>';
     exit(1);
 }
 

@@ -327,14 +327,14 @@ class OA_Environment_Manager
                 $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_VERSION] =
                     "Version {$this->aInfo['PHP']['actual']['version']} is above the minimum supported version of {$this->aInfo['PHP']['expected']['version']}," .
                     "<br />However, it is not possible to install Openads with PHP 4.4.1, due to a bug in PHP! " .
-                    "Please see the <a href='http://docs.openads.org/help/2.3/faq/'>FAQ</a> for more information.";
+                    "Please see the <a href='http://docs.openx.org/help/2.3/faq/'>FAQ</a> for more information.";
             }
             else
             {
                 $this->aInfo['PHP']['warning'][OA_ENV_ERROR_PHP_VERSION] =
                     "Version {$this->aInfo['PHP']['actual']['version']} is below the minimum supported version of {$this->aInfo['PHP']['expected']['version']}." .
                     "<br />Although you can install Openads, this is not a supported version, and it is not possible to guarantee that everything will work correctly. " .
-                    "Please see the <a href='http://docs.openads.org/help/2.3/faq/'>FAQ</a> for more information.";
+                    "Please see the <a href='http://docs.openx.org/help/2.3/faq/'>FAQ</a> for more information.";
             }
         }
         else
