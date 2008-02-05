@@ -31,7 +31,6 @@ require_once MAX_PATH.'/lib/max/Dal/Common.php';
  *
  * @package OpenadsDal
  * @since @package    OpenXv2.3.22-alpha - Apr 13, 2006
- * @copyright 2003-2007 Openads Limited
  * @version $Id$
  */
 
