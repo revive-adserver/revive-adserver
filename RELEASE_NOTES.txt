@@ -23,7 +23,7 @@
 Release Notes: OpenX ${RELEASE_VERSION}
 =======================${RELEASE_VERSION_DOUBLE_UNDERLINE}
 
-OpenX ${RELEASE_MAJOR_MINOR} is the next generation release of the hugely popular Openads
+OpenX ${RELEASE_MAJOR_MINOR} is the next generation release of the hugely popular OpenX
 adserver.
 
 These release notes cover what's new, system requirements, download and
@@ -52,7 +52,7 @@ requirements [http://docs.openx.org/openads-${RELEASE_MAJOR_MINOR}-guide/require
 Downloading and Installing
 --------------------------
 
- * Downloading Openads
+ * Downloading OpenX
 
    You can get the latest version of OpenX ${RELEASE_MAJOR_MINOR} here
    [http://www.openx.org/downloads/download-openads-${RELEASE_MAJOR_MINOR}.html].
@@ -77,7 +77,7 @@ Downloading and Installing
    Therefore, you should create a backup of your database, just in case.
 
    The upgrade wizard supports upgrading from the following previous
-   releases of Openads:
+   releases of OpenX:
 
    ---------------------------------------------------------------
    | Product                             | Version(s)            |
@@ -152,8 +152,8 @@ FAQ
 
  2. Can I upgrade from phpAdsNew?
 
-    Yes.  phpAdsNew was rebranded as OpenX 2.0. You will need to ensure you
-    first upgrade to the latest version of OpenX 2.0 before using the Openads
+    Yes.  phpAdsNew was rebranded as Openads 2.0. You will need to ensure you
+    first upgrade to the latest version of Openads 2.0 before using the OpenX
     ${RELEASE_MAJOR_MINOR} upgrade wizard.
 
  3. Where do I go for support?
