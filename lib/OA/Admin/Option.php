@@ -233,216 +233,221 @@ class OA_Admin_Option
         for ($i = 0; $i < $count; $i++) {
             // Get the section of elements to display
             $aSection = $aData[$i];
-            if (!isset($aSection['visible']) || $aSection['visible']) {
-                // The section has been set to be displayed, but are there any items in
-                // the section that can be displayed?
-                $showSection = false;
-                foreach ($aSection['items'] as $itemKey => $aItem) {
-                    if (!isset($aItem['visible']) || $aItem['visible']) {
-                        // The item has been set to be displayed - however, if this is
-                        // a preference section, it may not end up being shown, so test
-                        // for this
-                        if ($this->_optionType == 'account-preferences') {
-                            // Don't test break items
-                            if ($aItem['type'] != 'break') {
-                                // What is the state of the preference item?
-                                $result = $this->_hideOrDisablePreference($aPref[$aItem['name']]['account_type']);
-                                if ($result == '' || $result == 'disable') {
-                                    // The preference item is to be shown, so display the section
-                                    $showSection = true;
-                                    break;
-                                }
-                            }
-                        } else {
-                            // The item is not for a preference section, so display the section
-                            $showSection = true;
-                            break;
-                        }
-                    }
-                }
-                // Where there any items in the section that will be displayed?
-                if ($showSection == false) {
-                    // No, go to the next section
-                    continue;
-                }
-                // This section has been set to be displayed, so show its contents!
-                if (isset($aErrors[$i])) {
-                    // Show the section header with the section error
-                    $this->_showStartSection($aSection['text'], $aErrors[$i], $disableSubmit, $imgPath);
-                } else {
-                    // Show the section header
-                    $this->_showStartSection($aSection['text'], NULL, $disableSubmit, $imgPath);
-                }
-                foreach ($aSection['items'] as $aItem) {
-                    // Test to see if the item is a preference item, and if it needs to be hidden from the account in use
-                    if ($this->_optionType == 'account-preferences') {
-                        $result = $this->_hideOrDisablePreference($aPref[$aItem['name']]['account_type']);
-                        if ($result == 'hide') {
-                            $aItem['visible'] = false;
-                        }
-                    }
-                    // Only display visible items
-                    if (!isset($aItem['visible']) || $aItem['visible']) {
-                        // Test to see if the item is a settings item, and if it needs to be disabled
-                        if ($this->_optionType == 'account-settings') {
-                            if (!$aItem['disabled']) {
-                                $aItem['disabled'] = $this->_disabledValue($aItem);
-                            }
-                        }
-                        // Test to see if the item is a preference item, and if it needs to be disabled from the account in use
-                        if ($this->_optionType == 'account-preferences') {
-                            $result = $this->_hideOrDisablePreference($aPref[$aItem['name']]['account_type']);
-                            if ($result == 'disable') {
-                                $aItem['disabled'] = true;
-                            }
-                        }
-                        // Update the JavaScript used to enable/disabled option items
-                        if ($this->_optionType == 'account-preferences' && $aItem['type'] == 'statscolumns') {
-                            // The statscolumns data type needs to have some conversion work done to match
-                            // the more simple data structure used by other option items
-                            foreach ($aItem['rows'] as $aSubItem) {
-                                // Create two fake items for the label and rank
-                                $aLabelItem = array(
-                                    'name'     => $aSubItem['name'] . '_label',
-                                    'depends'  => $aSubItem['name'] . '==true'
-                                );
-                                $aRankItem = array(
-                                    'name'     => $aSubItem['name'] . '_rank',
-                                    'depends'  => $aSubItem['name'] . '==true'
-                                );
-                                // Add the fake item dependencies
-                                $dependbuffer .= $this->_showCheckDependancies($aData, $aLabelItem);
-                                $dependbuffer .= $this->_showCheckDependancies($aData, $aRankItem);
-                            }
-                        } else if (!$aItem['disabled']) {
-                            $dependbuffer .= $this->_showCheckDependancies($aData, $aItem);
-                        }
-                        // Display the option item
-                        if (count($aErrors)) {
-                            // Page is the result of an error message, get values from the input,
-                            // not from the settings configuration file or preferences in the database
-                            $value = '';
-                            if (isset($aItem['name']) && isset($GLOBALS[$aItem['name']])) {
-                                $value = $GLOBALS[$aItem['name']];
-                                if ($aErrors[0] != MAX_ERROR_YOU_HAVE_NO_TRACKERS && $aErrors[0] != MAX_ERROR_YOU_HAVE_NO_CAMPAIGNS) {
-                                    if (isset($GLOBALS[$aItem['name'].'_defVal'])) {
-                                        $value = $GLOBALS[$aItem['name'].'_defVal'];
-                                    }
-                                }
-                            }
-                        } else {
-                            // The page had no error, so, get the value for the item from an appropriate source
-                            unset($value);
-                            if (isset($aItem['name'])) {
-                                // Try to load the item value from the globals array
-                                if (isset($GLOBALS[$aItem['name'].'_defVal'])) {
-                                    $value = $GLOBALS[$aItem['name'].'_defVal'];
-                                }
-                                // If that did not work, and the item is a setting, try to load the
-                                // item value from the settings configuration file
-                                if (is_null($value) && $this->_optionType == 'account-settings') {
-                                    $aNameExploded = explode('_', $aItem['name']);
-                                    $aSettingSection = isset($aNameExploded[0]) ? $aNameExploded[0] : null;
-                                    $aSettingKey     = isset($aNameExploded[1]) ? $aNameExploded[1] : null;
-                                    if (isset($aConf[$aSettingSection][$aSettingKey])) {
-                                        // Load the configuration .php file value
-                                        $value = $aConf[$aSettingSection][$aSettingKey];
-                                    } elseif (isset($aConf[$aItem['name']][0])) {
-                                        // The value in the settings configuration file is an array,
-                                        // so re-constitute into a comma separated list
-                                        $value = implode(', ', $aConf[$aItem['name']]);
-                                    }
-                                }
-                                // If that did not work, and the item is a preference, try to load the
-                                // item value from the preferences values in the database
-                                if (is_null($value) && $this->_optionType == 'account-preferences') {
-                                    // Deal with statistics column values separately
-                                    if ($aItem['type'] == 'statscolumns') {
-                                        foreach ($aItem['rows'] as $key => $aRow) {
-                                            if (isset($aPref[$aRow['name']]['value'])) {
-                                                $value[$aRow['name']]['base'] = $aPref[$aRow['name']]['value'];
-                                            }
-                                            if (isset($aPref[$aRow['name'] . '_label']['value'])) {
-                                                $value[$aRow['name']]['label'] = $aPref[$aRow['name'] . '_label']['value'];
-                                            }
-                                            if (isset($aPref[$aRow['name'] . '_rank']['value'])) {
-                                                $value[$aRow['name']]['rank'] = $aPref[$aRow['name'] . '_rank']['value'];
-                                            }
-                                        }
-                                    } else {
-                                        if (isset($aPref[$aItem['name']]['value'])) {
-                                            $value = $aPref[$aItem['name']]['value'];
-                                        }
-                                    }
-                                }
-                                // If that did not work, try to load the value from the $aItem array itself
-                                if (is_null($value)) {
-                                    if (isset($aItem['value'])) {
-                                        $value = $aItem['value'];
-                                    }
-                                }
-                                // If that did not work, set to an empty string
-                                if (is_null($value)) {
-                                    $value = '';
-                                }
-                            }
-                        }
-                        // Display the item!
-                        switch ($aItem['type']) {
-                            case 'plaintext':
-                                $this->_showPlainText($aItem);
-                                break;
-                            case 'break':
-                                $this->_showBreak($aItem, $imgPath);
-                                break;
-                            case 'checkbox':
-                                $this->_showCheckbox($aItem, $value);
-                                break;
-                            case 'text':
-                                $this->_showText($aItem, $value);
-                                break;
-                            case 'url':
-                                $this->_showUrl($aItem, $value);
-                                break;
-                            case 'urln':
-                                $this->_showUrl($aItem, $value, 'n');
-                                break;
-                            case 'urls':
-                                $this->_showUrl($aItem, $value, 's');
-                                break;
-                            case 'textarea':
-                                $this->_showTextarea($aItem, $value);
-                                break;
-                            case 'password':
-                                $this->_showPassword($aItem, $value);
-                                break;
-                            case 'select':
-                                $this->_showSelect($aItem, $value, $disableSubmit);
-                                break;
-                            case 'statscolumns':
-                                $this->_showStatsColumns($aItem, $value);
-                                break;
-                        }
-                        // ???
-                        if (isset($aItem['check']) || isset($aItem['req'])) {
-                            if (!isset($aItem['check'])) {
-                                $aItem['check'] = '';
-                            }
-                            if (!isset($aItem['req'])) {
-                                $aItem['req'] = false;
-                            }
-                            $checkbuffer .= "max_formSetRequirements('".$aItem['name']."', '".addslashes($aItem['text'])."', ".($aItem['req'] ? 'true' : 'false').", '".$aItem['check']."');\n";
-                            if (isset($aItem['unique'])) {
-                                $checkbuffer .= "max_formSetUnique('".$aItem['name']."', '|".addslashes(implode('|', $aItem['unique']))."|');\n";
-                            }
-                        }
-                        if (isset($aItem['name'])) {
-                            $helpbuffer .= $this->_help($aItem['name']);
-                        }
-                    }
-                }
-                $this->_showEndSection();
+            // Are there any items in the section that can be displayed?
+            $showBreak = false;
+            $showSection = false;
+            foreach ($aSection['items'] as $itemKey => $aItem) {
+            	// The item has been set to be displayed - however, if this is
+            	// a preference section, it may not end up being shown, so test for this
+            	if ($this->_optionType == 'account-preferences') {
+            		// Don't test break items
+            		if ($aItem['type'] != 'break') {
+            			// What is the state of the preference item?
+            			$result = $this->_hideOrDisablePreference($aPref[$aItem['name']]['account_type']);
+            			if ($result == '' || $result == 'disable') {
+            				// The preference item is to be shown, so display the section
+            				$showSection = true;
+            				break;
+            			}
+            		}
+            	} else {
+            		// The item is not for a preference section, so display the section
+            		$showSection = true;
+            		break;
+            	}
             }
+            // Where there any items in the section that will be displayed?
+            if ($showSection == false) {
+            	// No, go to the next section
+            	continue;
+            }
+            // This section has been set to be displayed, so show its contents!
+            if (isset($aErrors[$i])) {
+            	// Show the section header with the section error
+            	$this->_showStartSection($aSection['text'], $aErrors[$i], $disableSubmit, $imgPath);
+            } else {
+            	// Show the section header
+            	$this->_showStartSection($aSection['text'], NULL, $disableSubmit, $imgPath);
+            }
+            foreach ($aSection['items'] as $aItem) {
+            	// Test to see if the item is a preference item, and if it needs to be hidden from the account in use
+            	if ($this->_optionType == 'account-preferences') {
+            		$result = $this->_hideOrDisablePreference($aPref[$aItem['name']]['account_type']);
+            		if ($result == 'hide') {
+            			$aItem['visible'] = false;
+            		}
+            	}
+            	// Only display visible items
+            	if (!isset($aItem['visible']) || $aItem['visible']) {
+            		// Test to see if the item is a settings item, and if it needs to be disabled
+            		if ($this->_optionType == 'account-settings') {
+            			if (!$aItem['disabled']) {
+            				$aItem['disabled'] = $this->_disabledValue($aItem);
+            				if (!$aItem['disabled']) {
+            				    $showBreak = true;
+            				}
+            			}
+            		}
+            		// Test to see if the item is a preference item, and if it needs to be disabled from the account in use
+            		if ($this->_optionType == 'account-preferences') {
+            			$result = $this->_hideOrDisablePreference($aPref[$aItem['name']]['account_type']);
+            			if ($result == 'disable') {
+            				$aItem['disabled'] = true;
+            				$showBreak = false;
+            			}
+            		}
+            		// Update the JavaScript used to enable/disabled option items
+            		if ($this->_optionType == 'account-preferences' && $aItem['type'] == 'statscolumns') {
+            			// The statscolumns data type needs to have some conversion work done to match
+            			// the more simple data structure used by other option items
+            			foreach ($aItem['rows'] as $aSubItem) {
+            				// Create two fake items for the label and rank
+            				$aLabelItem = array(
+            				    'name'    => $aSubItem['name'] . '_label',
+            				    'depends' => $aSubItem['name'] . '==true'
+            				);
+                            $aRankItem = array(
+                                'name'    => $aSubItem['name'] . '_rank',
+                                'depends' => $aSubItem['name'] . '==true'
+                            );
+                            // Add the fake item dependencies
+                            $dependbuffer .= $this->_showCheckDependancies($aData, $aLabelItem);
+                            $dependbuffer .= $this->_showCheckDependancies($aData, $aRankItem);
+            			}
+            		} else if (!$aItem['disabled']) {
+            			$dependbuffer .= $this->_showCheckDependancies($aData, $aItem);
+            		}
+            		// Display the option item
+            		if (count($aErrors)) {
+            			// Page is the result of an error message, get values from the input,
+            			// not from the settings configuration file or preferences in the database
+            			$value = '';
+            			if (isset($aItem['name']) && isset($GLOBALS[$aItem['name']])) {
+            				$value = $GLOBALS[$aItem['name']];
+            				if ($aErrors[0] != MAX_ERROR_YOU_HAVE_NO_TRACKERS && $aErrors[0] != MAX_ERROR_YOU_HAVE_NO_CAMPAIGNS) {
+            					if (isset($GLOBALS[$aItem['name'].'_defVal'])) {
+            						$value = $GLOBALS[$aItem['name'].'_defVal'];
+            					}
+            				}
+            			}
+            		} else {
+            			// The page had no error, so, get the value for the item from an appropriate source
+            			unset($value);
+            			if (isset($aItem['name'])) {
+            				// Try to load the item value from the globals array
+            				if (isset($GLOBALS[$aItem['name'].'_defVal'])) {
+            					$value = $GLOBALS[$aItem['name'].'_defVal'];
+            				}
+            				// If that did not work, and the item is a setting, try to load the
+            				// item value from the settings configuration file
+            				if (is_null($value) && $this->_optionType == 'account-settings') {
+            					$aNameExploded = explode('_', $aItem['name']);
+            					$aSettingSection = isset($aNameExploded[0]) ? $aNameExploded[0] : null;
+            					$aSettingKey     = isset($aNameExploded[1]) ? $aNameExploded[1] : null;
+            					if (isset($aConf[$aSettingSection][$aSettingKey])) {
+            						// Load the configuration .php file value
+            						$value = $aConf[$aSettingSection][$aSettingKey];
+            					} elseif (isset($aConf[$aItem['name']][0])) {
+            						// The value in the settings configuration file is an array,
+            						// so re-constitute into a comma separated list
+            						$value = implode(', ', $aConf[$aItem['name']]);
+            					}
+            				}
+            				// If that did not work, and the item is a preference, try to load the
+            				// item value from the preferences values in the database
+            				if (is_null($value) && $this->_optionType == 'account-preferences') {
+            					// Deal with statistics column values separately
+            					if ($aItem['type'] == 'statscolumns') {
+            						foreach ($aItem['rows'] as $key => $aRow) {
+            							if (isset($aPref[$aRow['name']]['value'])) {
+            								$value[$aRow['name']]['base'] = $aPref[$aRow['name']]['value'];
+            							}
+            							if (isset($aPref[$aRow['name'] . '_label']['value'])) {
+            								$value[$aRow['name']]['label'] = $aPref[$aRow['name'] . '_label']['value'];
+            							}
+            							if (isset($aPref[$aRow['name'] . '_rank']['value'])) {
+            								$value[$aRow['name']]['rank'] = $aPref[$aRow['name'] . '_rank']['value'];
+            							}
+            						}
+            					} else {
+            						if (isset($aPref[$aItem['name']]['value'])) {
+            							$value = $aPref[$aItem['name']]['value'];
+            						}
+            					}
+            				}
+            				// If that did not work, try to load the value from the $aItem array itself
+            				if (is_null($value)) {
+            					if (isset($aItem['value'])) {
+            						$value = $aItem['value'];
+            					}
+            				}
+            				// If that did not work, set to an empty string
+            				if (is_null($value)) {
+            					$value = '';
+            				}
+            			}
+            			if ($aItem[type] != 'break') {
+            			    $showBreak = true;
+            			}
+            		}
+            		// Display the item!
+            		switch ($aItem['type']) {
+            			case 'plaintext':
+            				$this->_showPlainText($aItem);
+            				break;
+            			case 'break':
+            				if ($showBreak) {
+            					$this->_showBreak($aItem, $imgPath);
+            					$showBreak = false;
+            				}
+            				break;
+            			case 'checkbox':
+            				$this->_showCheckbox($aItem, $value);
+            				break;
+            		    case 'text':
+            		    	$this->_showText($aItem, $value);
+            		    	break;
+            		    case 'url':
+            		    	$this->_showUrl($aItem, $value);
+            		    	break;
+            		    case 'urln':
+            		    	$this->_showUrl($aItem, $value, 'n');
+                            break;
+                        case 'urls':
+                            $this->_showUrl($aItem, $value, 's');
+                            break;
+                        case 'textarea':
+                            $this->_showTextarea($aItem, $value);
+                            break;
+                        case 'password':
+                            $this->_showPassword($aItem, $value);
+                            break;
+                        case 'select':
+                            $this->_showSelect($aItem, $value, $disableSubmit);
+                            break;
+                        case 'statscolumns':
+                            $this->_showStatsColumns($aItem, $value);
+                            break;
+                    }
+                    // ???
+                    if (isset($aItem['check']) || isset($aItem['req'])) {
+                        if (!isset($aItem['check'])) {
+                            $aItem['check'] = '';
+                        }
+                        if (!isset($aItem['req'])) {
+                            $aItem['req'] = false;
+                        }
+                        $checkbuffer .= "max_formSetRequirements('".$aItem['name']."', '".addslashes($aItem['text'])."', ".($aItem['req'] ? 'true' : 'false').", '".$aItem['check']."');\n";
+                        if (isset($aItem['unique'])) {
+                            $checkbuffer .= "max_formSetUnique('".$aItem['name']."', '|".addslashes(implode('|', $aItem['unique']))."|');\n";
+                        }
+                    }
+                    if (isset($aItem['name'])) {
+                        $helpbuffer .= $this->_help($aItem['name']);
+                    }
+                }
+            }
+            $this->_showEndSection();
         }
 
         if (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED)
@@ -751,9 +756,9 @@ class OA_Admin_Option
     			    'account_type'  => $aPreference['account_type']
     			);
     		}
-    	}
 		// Get the type of the current accout
 		$currentAccountType = OA_Permission::getAccountType();
+    	}
 
         global $tabindex;
         $aItem['tabindex'] = $tabindex++;
