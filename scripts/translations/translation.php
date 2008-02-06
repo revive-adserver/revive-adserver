@@ -115,155 +115,8 @@ class OA_TranslationMaintenance
     {
         if (empty($this->outputDir) && empty($this->lang)) { $this->displayHelpMsg(); }
 
-        //  iterate master lang files reading each file
-        if (!$outputDir = opendir($this->outputDir .'/'. $this->_masterLang)) {
-            $this->displayHelpMsg('Unable to open master language directory: '. $this->outputDir .'/'. $this->_masterLang);
-        }
-
-        while ($file = readdir($outputDir)) {
-
-            //  detect if it's a php file
-            if (substr($file, strrpos($file, '.')) != '.php') { continue; }
-
-            // Treat the index file differently
-            if ($file == 'index.lang.php') {
-                continue;
-            }
-
-            // load current lang file
-            echo "Processing file: {$file}<br />\n";
-
-            // Load existing language file and retrieve tokens
-            $source = file_get_contents($this->outputDir .'/'. $this->_masterLang .'/'. $file);
-            $tokens = token_get_all($source);
-
-            //  parse current master lang file
-            foreach ($tokens as $token) {
-                //  store master keys
-                if (is_string($token) && $this->_buildVar) {
-                    $this->_var .= $token;
-
-                    //  check if finished building varaiable if true replace current translation
-                    //  with the transaltion from CSV
-                    if (substr($token, strlen($token)-1) == ';') {
-
-                        //  iterate through array adding each item to list of master keys
-                        foreach ($this->aRegex as $regex) {
-                            $strings = preg_match($regex, $this->_var, $matches);
-                            if (!empty($matches[2])) {
-                                //  reconstruct key
-                                $k = $matches[2] . $matches[3];
-
-                                if (strstr($k, "']['")) {
-                                    $aPiece = explode("']['", $matches[2]);
-                                    $k = $aPiece[0] ."['";
-                                    array_shift($aPiece);
-                                    $k .= implode("']['", $aPiece);
-                                    $k .= "']";
-                                }
-
-                                $delimiter = $matches[5];
-                                $trans = $matches[6] . $matches[7];
-
-                                $trans = htmlspecialchars_decode(htmlentities($trans, null, 'UTF-8'));
-                                //  replace new lines with \n
-                                if ($delimiter == '"' && strstr($trans, "\n")) $trans = str_replace("\n", '\n', $trans);
-
-                                $trans = $matches[5] . $trans . $matches[8];
-                                //  replace constants
-                                foreach ($this->aConstant as $ckey) {
-                                    if (strstr($trans, $ckey) && !strstr($trans, "$delimiter.") && !strstr($trans, "$delimiter .")) {
-                                        $aTran = explode($ckey, $trans);
-                                        if (!empty($aTran)) {
-                                            $newTrans = '';
-                                            $total = count($aTran);
-                                            for ($x = 0; $x < $total; $x++) {
-                                                $newTrans .= $aTran[$x];
-                                                if (!empty($aTran[$x+1])) {
-                                                    $newTrans .= "$delimiter.$ckey.$delimiter";
-                                                }
-                                            }
-                                            $trans = $newTrans;
-                                        }
-                                    }
-                                }
-
-                                $this->aMasterKey[$file][$k] = $trans;
-                            }
-                        }
-                        $this->_var = '';
-                        $this->_buildVar = false;
-                    }
-                } elseif (is_string($token) && $this->_buildArray) {
-                    //  set value for indexed array - this does not add the last indexed item
-                    if ($token == ',' && empty($this->_arrayKey)) {
-                        $this->_array[$this->_arrayCount] = $this->_arrayVal;
-                        $this->_arrayCount++;
-                        $this->_arrayVal = '';
-                    }
-
-                    if (substr($token, strlen($token)-1) == ';') {
-                        //  add last item to array container
-                        if (!empty($this->_arrayKey) && !empty($this->_arrayVal)) {
-                            $this->_array[$this->_arrayKey] = $this->_arrayVal;
-                            $this->_arrayVal = '';
-                            $this->_arrayKey = '';
-                        } elseif (empty($this->_arrayKey)) {
-                            $this->_array[$this->_arrayCount] = $this->_arrayVal;
-                            $this->_arrayCount++;
-                            $this->_arrayVal = '';
-                        }
-                        //  remove whitespace and equal sign
-                        $this->_var = substr($this->_var, 0, strrpos($this->_var, ']')+1);
-
-                        $strings = preg_match("#^(.*?)\['(.*)'\](\[.*\])*#m", $this->_var, $matches);
-
-                        if (!empty($matches)) {
-                            if (array_key_exists(0, $this->_array) && $this->_array[0] == '') {
-                                $this->aMasterKey[$file][$matches[2]] = "array()";
-                            } elseif (!empty($this->_array)) {
-                            //  iterate through array adding each item to list of master keys
-                                foreach ($this->_array as $key => $value) {
-                                    $k = $matches[2] .'['. $key .']';
-                                    $delimiter = substr($value, 0, 1);
-                                    $trans = substr($value, 1, strlen($value)-2);
-
-                                    $trans = htmlspecialchars_decode(htmlentities($trans, null, 'UTF-8'));
-                                    //  replace new lines with \n
-                                    if ($delimiter == '"' && strstr($trans, "\n")) $trans = str_replace("\n", '\n', $trans);
-
-                                    $trans = $delimiter . $trans . $delimiter;
-
-                                    //  replace constants
-                                    foreach ($this->aConstant as $ckey) {
-                                        if (strstr($trans, $ckey) && !strstr($trans, "$delimiter.") && !strstr($trans, "$delimiter .")) {
-                                            $aTran = explode($ckey, $trans);
-                                            if (!empty($aTran)) {
-                                                $newTrans = '';
-                                                $total = count($aTran);
-                                                for ($x = 0; $x < $total; $x++) {
-                                                    $newTrans .= $aTran[$x];
-                                                    if (!empty($aTran[$x+1])) {
-                                                        $newTrans .= "$delimiter.$ckey.$delimiter";
-                                                    }
-                                                }
-                                                $trans = $newTrans;
-                                            }
-                                        }
-                                    }
-                                    $this->aMasterKey[$file][$k] = $trans;
-                                }
-                            }
-                        }
-                        $this->_var = '';
-                        $this->_array = '';
-                        $this->_buildArray = false;
-                    }
-                } elseif (is_array($token)) {
-                    $result = $this->_parseToken($token);
-                }
-            }
-        }
+        //  load translations from the master lang files
+        $this->aMasterKey = $this->loadTranslationFromDir($this->outputDir, $this->_masterLang);
 
         $this->aStat['master']['total'] = 0;
 
@@ -272,7 +125,7 @@ class OA_TranslationMaintenance
         $line = "\$aMissingTranslation = array(\n";
         fwrite($fp, $line);
         foreach ($this->aMasterKey as $file => $aValue) {
-            //  setup master key statistics for calculation of perentage of translation completion
+            //  setup master key statistics for calculating the perentage of completed translations
             $total = count($aValue);
             $this->aStat['master']['total']  = $this->aStat['master']['total'] + $total;
             $this->aStat['master'][$file]    = count($aValue);
@@ -288,175 +141,11 @@ class OA_TranslationMaintenance
         $line ="); \n";
         fwrite($fp, $line);
 
+        //  load language specific translation
+        $this->aLangKey = $this->loadTranslationFromDir($this->outputDir, $this->lang);
 
-        //  iterate master lang files reading each file
-        if (!$outputDir = opendir($this->outputDir .'/'. $this->lang)) {
-            $this->displayHelpMsg('Unable to open master language directory: '. $this->output->dir .'/'. $this->lang);
-        }
-
-        while ($file = readdir($outputDir)) {
-
-            //  detect if it's a php file
-            if (substr($file, strrpos($file, '.')) != '.php') { continue; }
-
-            // Treat the index file differently
-            if ($file == 'index.lang.php') {
-                continue;
-            }
-
-            // load current lang file
-            echo "Processing file: {$file}<br />\n";
-
-            // Load existing language file and retrieve tokens
-            $source = file_get_contents($this->outputDir .'/'. $this->lang .'/'. $file);
-            $tokens = token_get_all($source);
-
-            //  parse current master lang file
-            foreach ($tokens as $token) {
-                //  store master keys
-                if (is_string($token) && $this->_buildVar) {
-                    $this->_var .= $token;
-
-                    //  check if finished building varaiable if true replace current translation
-                    //  with the transaltion from CSV
-                    if (substr($token, strlen($token)-1) == ';') {
-
-                        //  iterate through array adding each item to list of master keys
-                        foreach ($this->aRegex as $regex) {
-                            $strings = preg_match($regex, $this->_var, $matches);
-                            if (!empty($matches[2])) {
-                                //  reconstruct key
-                                $k = $matches[2] . $matches[3];
-                                $delimiter = $matches[5];
-                                $trans = $matches[6] . $matches[7];
-
-                                if (($delimiter == "'" && strstr($trans, "'"))
-                                    || ($delimiter == '"' && strstr($trans, '"'))
-                                ) {
-                                    $trans = addslashes($trans);
-                                }
-
-                                $trans = htmlspecialchars_decode(htmlentities($trans, null, 'UTF-8'));
-                                //  replace new lines with \n
-                                if ($delimiter == '"' && strstr($trans, "\n")) $trans = str_replace("\n", '\n', $trans);
-
-                                $trans = $matches[5] . $trans . $matches[8];
-
-                                //  replace constants
-                                foreach ($this->aConstant as $ckey) {
-                                    if (strstr($trans, $ckey) && !strstr($trans, "$delimiter.") && !strstr($trans, "$delimiter .")) {
-                                        $aTran = explode($ckey, $trans);
-                                        if (!empty($aTran)) {
-                                            $newTrans = '';
-                                            $total = count($aTran);
-                                            for ($x = 0; $x < $total; $x++) {
-                                                $newTrans .= $aTran[$x];
-                                                if (!empty($aTran[$x+1])) {
-                                                    $newTrans .= "$delimiter.$ckey.$delimiter";
-                                                }
-                                            }
-                                            $trans = $newTrans;
-                                        }
-                                    }
-                                }
-                                if (!empty($this->aMasterKey[$file]) && in_array($k, array_keys($this->aMasterKey[$file]))) {
-                                    if ($this->aMasterKey[$file][$k] != $trans) {
-                                        unset($this->aMasterKey[$file][$k]);
-                                    }
-                                } else {
-                                    $this->aMissingKey[$file][$k] = $trans;
-                                }
-                            }
-                        }
-                        $this->_var = '';
-                        $this->_buildVar = false;
-                    }
-                } elseif (is_string($token) && $this->_buildArray) {
-                    //  set value for indexed array - this does not add the last indexed item
-                    if ($token == ',' && empty($this->_arrayKey)) {
-                        $this->_array[$this->_arrayCount] = $this->_arrayVal;
-                        $this->_arrayCount++;
-                        $this->_arrayVal = '';
-                    }
-
-                    if (substr($token, strlen($token)-1) == ';') {
-                        //  add last item to array container
-                        if (!empty($this->_arrayKey) && !empty($this->_arrayVal)) {
-                            $this->_array[$this->_arrayKey] = $this->_arrayVal;
-                            $this->_arrayVal = '';
-                            $this->_arrayKey = '';
-                        } elseif (empty($this->_arrayKey)) {
-                            $this->_array[$this->_arrayCount] = $this->_arrayVal;
-                            $this->_arrayCount++;
-                            $this->_arrayVal = '';
-                        }
-
-
-                        //  remove whitespace and equal sign
-                        $this->_var = substr($this->_var, 0, strrpos($this->_var, ']')+1);
-
-                        $strings = preg_match("#^(.*?)\['(.*)'\](\[.*\])*#m", $this->_var, $matches);
-
-                        if (!empty($matches)) {
-                            if (!empty($this->_array)) {
-                                foreach ($this->_array as $key => $value) {
-                                    $k = $matches[2] .'['. $key .']';
-                                    $delimiter = substr($value, 0, 1);
-                                    $trans = substr($value, 1, strlen($value)-2);
-
-                                    if (($delimiter == "'" && strstr($trans, "'"))
-                                        || ($delimiter == '"' && strstr($trans, '"'))
-                                    ) {
-                                        $trans = addslashes($trans);
-                                    }
-
-                                    $trans = htmlspecialchars_decode(htmlentities($trans, null, 'UTF-8'));
-                                    //  replace new lines with \n
-                                    if ($delimiter == '"' && strstr($trans, "\n")) $trans = str_replace("\n", '\n', $trans);
-
-                                    $trans = $delimiter . $trans . $delimiter;
-
-                                    //  replace constants
-                                    foreach ($this->aConstant as $ckey) {
-                                        if (strstr($trans, $ckey) && !strstr($trans, "$delimiter.") && !strstr($trans, "$delimiter .")) {
-                                            $aTran = explode($ckey, $trans);
-                                            if (!empty($aTran)) {
-                                                $newTrans = '';
-                                                $total = count($aTran);
-                                                for ($x = 0; $x < $total; $x++) {
-                                                    $newTrans .= $aTran[$x];
-                                                    if (!empty($aTran[$x+1])) {
-                                                        $newTrans .= "$delimiter.$ckey.$delimiter";
-                                                    }
-                                                }
-                                                $trans = $newTrans;
-                                            }
-                                        }
-                                    }
-
-                                    if (!empty($this->aMasterKey[$file]) && in_array($k, array_keys($this->aMasterKey[$file]))) {
-                                        if ($this->aMasterKey[$file][$k] != $trans) {
-                                            unset($this->aMasterKey[$file][$k]);
-                                        }
-                                    } else {
-                                        $this->aMissingKey[$file][$k] = $value;
-                                    }
-                                }
-                            } else {
-
-                                $line = "{$matches[2]} = array();";
-                                fwrite($this->fp, $line);
-                            }
-                        }
-                        $this->_var = '';
-                        $this->_array = '';
-                        $this->_buildArray = false;
-                    }
-                } elseif (is_array($token)) {
-                    $result = $this->_parseToken($token);
-                }
-            }
-        }
+        //  remove updated language keys from the master list and return a
+        $this->aMissingKey = $this->removeUpdatedKeys($this->aMasterKey, $this->aLangKey);
 
         $this->aStat['lang']['total'] = 0;
         //  write keys that are in the master lang files but not the specified lang files
@@ -464,7 +153,7 @@ class OA_TranslationMaintenance
         $line = "<?php\n";
         $line .= "\$aMissingTranslation = array(\n";
         fwrite($fp, $line);
-        foreach ($this->aMasterKey as $file => $aValue) {
+        foreach ($this->aMissingKey as $file => $aValue) {
             //  setup master key statistics for calculation of perentage of translation completion
             $diff = $this->aStat['master'][$file] - count($aValue);
             $total = ($diff == 0) ? $this->aStat['master'][$file] : $diff;
@@ -497,13 +186,14 @@ class OA_TranslationMaintenance
         //  write headers
         fputcsv($fpCsv, $this->aHeader, ',', '"');
 
-        //  write data
+        //  writing details for master language
         $this->aDataSet[] = $this->_masterLang;
         foreach($this->aStat['master'] as $file => $total) {
             $this->aDataSet[] = $total;
         }
         fputcsv($fpCsv, $this->aDataSet, ',', '"');
 
+        //  writing details for language
         $this->aDataSet = array();
         $this->aDataSet[] = $this->lang;
         foreach($this->aStat['lang'] as $file => $total) {
@@ -511,6 +201,7 @@ class OA_TranslationMaintenance
         }
         fputcsv($fpCsv, $this->aDataSet, ',', '"');
 
+        //  writing percentage completelas
         $this->aDataSet = array();
         $this->aDataSet[] = 'Percentage Complete';
         foreach($this->aStat['percentage'] as $file => $total) {
@@ -520,7 +211,174 @@ class OA_TranslationMaintenance
 
     }
 
-    function getTranslationFromCSV($fileName = false)
+    function removeUpdatedKeys($aMasterLangKey, $aUpdateLangKey)
+    {
+        foreach($aUpdateLangKey as $file => $aValue) {
+            foreach($aValue as $key => $value) {
+                if (!empty($aMasterLangKey[$file]) && in_array($key, array_keys($aMasterLangKey[$file]))) {
+                    if ($aMasterLangKey[$file][$key] != $value) {
+                        unset($aMasterLangKey[$file][$key]);
+                    }
+                }
+            }
+        }
+
+        return $aMasterLangKey;
+    }
+
+    function loadTranslationFromDir($dir, $lang, $escapeNewline = false)
+    {
+        //  iterate lang files reading each file
+        if (!$outputDir = opendir($dir .'/'. $lang)) {
+            $this->displayHelpMsg('Unable to open master language directory: '. $dir .'/'. $lang);
+        }
+
+        while ($file = readdir($outputDir)) {
+
+            //  detect if it's a php file
+            if (substr($file, strrpos($file, '.')) != '.php') { continue; }
+
+            // Treat the index file differently
+            if ($file == 'index.lang.php') {
+                continue;
+            }
+
+            // load current lang file
+            echo "Processing file: {$file}<br />\n";
+
+            // Load existing language file and retrieve tokens
+            $source = file_get_contents($dir .'/'. $lang .'/'. $file);
+            $tokens = token_get_all($source);
+
+            //  parse current master lang file
+            foreach ($tokens as $token) {
+                //  store master keys
+                if (is_string($token) && $this->_buildVar) {
+                    $this->_var .= $token;
+
+                    //  check if finished building varaiable if true replace current translation
+                    //  with the transaltion from CSV
+                    if (substr($token, strlen($token)-1) == ';') {
+
+                        //  iterate through array adding each item to list of master keys
+                        foreach ($this->aRegex as $regex) {
+                            $strings = preg_match($regex, $this->_var, $matches);
+                            if (!empty($matches[2])) {
+                                //  reconstruct key
+                                $k = $matches[2] . $matches[3];
+                                $delimiter = $matches[5];
+                                $trans = $matches[6] . $matches[7];
+
+                                if (($delimiter == "'" && strstr($trans, "'"))
+                                    || ($delimiter == '"' && strstr($trans, '"'))
+                                ) {
+                                    $trans = addslashes($trans);
+                                }
+
+                                $trans = htmlspecialchars_decode(htmlentities($trans, null, 'UTF-8'));
+                                //  replace new lines with \n
+                                if ($escapeNewline && ($delimiter == '"') && strstr($trans, "\n")) $trans = str_replace("\n", '\n', $trans);
+
+                                $trans = $matches[5] . $trans . $matches[8];
+                                //  replace constants
+                                foreach ($this->aConstant as $ckey) {
+                                    if (strstr($trans, $ckey) && !strstr($trans, "$delimiter.") && !strstr($trans, "$delimiter .")) {
+                                        $aTran = explode($ckey, $trans);
+                                        if (!empty($aTran)) {
+                                            $newTrans = '';
+                                            $total = count($aTran);
+                                            for ($x = 0; $x < $total; $x++) {
+                                                $newTrans .= $aTran[$x];
+                                                if (!empty($aTran[$x+1])) {
+                                                    $newTrans .= "$delimiter.$ckey.$delimiter";
+                                                }
+                                            }
+                                            $trans = $newTrans;
+                                        }
+                                    }
+                                }
+
+                                $aMasterKey[$file][$k] = $trans;
+                            }
+                        }
+                        $this->_var = '';
+                        $this->_buildVar = false;
+                    }
+                } elseif (is_string($token) && $this->_buildArray) {
+                    //  set value for indexed array - this does not add the last indexed item
+                    if ($token == ',' && empty($this->_arrayKey)) {
+                        $this->_array[$this->_arrayCount] = $this->_arrayVal;
+                        $this->_arrayCount++;
+                        $this->_arrayVal = '';
+                    }
+
+                    if (substr($token, strlen($token)-1) == ';') {
+                        //  add last item to array container
+                        if (!empty($this->_arrayKey) && !empty($this->_arrayVal)) {
+                            $this->_array[$this->_arrayKey] = $this->_arrayVal;
+                            $this->_arrayVal = '';
+                            $this->_arrayKey = '';
+                        } elseif (empty($this->_arrayKey)) {
+                            $this->_array[$this->_arrayCount] = $this->_arrayVal;
+                            $this->_arrayCount++;
+                            $this->_arrayVal = '';
+                        }
+                        //  remove whitespace and equal sign
+                        $this->_var = substr($this->_var, 0, strrpos($this->_var, ']')+1);
+
+                        $strings = preg_match("#^(.*?)\['(.*)'\](\[.*\])*#m", $this->_var, $matches);
+
+                        if (!empty($matches)) {
+                            if (array_key_exists(0, $this->_array) && $this->_array[0] == '') {
+                                $aMasterKey[$file][$matches[2]] = "array()";
+                            } elseif (!empty($this->_array)) {
+                            //  iterate through array adding each item to list of master keys
+                                foreach ($this->_array as $key => $value) {
+                                    $k = $matches[2] .'['. $key .']';
+                                    $delimiter = substr($value, 0, 1);
+                                    $trans = substr($value, 1, strlen($value)-2);
+
+                                    $trans = htmlspecialchars_decode(htmlentities($trans, null, 'UTF-8'));
+                                    //  replace new lines with \n
+                                    if ($delimiter == '"' && strstr($trans, "\n")) $trans = str_replace("\n", '\n', $trans);
+
+                                    $trans = $delimiter . $trans . $delimiter;
+
+                                    //  replace constants
+                                    foreach ($this->aConstant as $ckey) {
+                                        if (strstr($trans, $ckey) && !strstr($trans, "$delimiter.") && !strstr($trans, "$delimiter .")) {
+                                            $aTran = explode($ckey, $trans);
+                                            if (!empty($aTran)) {
+                                                $newTrans = '';
+                                                $total = count($aTran);
+                                                for ($x = 0; $x < $total; $x++) {
+                                                    $newTrans .= $aTran[$x];
+                                                    if (!empty($aTran[$x+1])) {
+                                                        $newTrans .= "$delimiter.$ckey.$delimiter";
+                                                    }
+                                                }
+                                                $trans = $newTrans;
+                                            }
+                                        }
+                                    }
+                                    $aMasterKey[$file][$k] = $trans;
+                                }
+                            }
+                        }
+                        $this->_var = '';
+                        $this->_array = '';
+                        $this->_buildArray = false;
+                    }
+                } elseif (is_array($token)) {
+                    $result = $this->_parseToken($token);
+                }
+            }
+        }
+
+        return $aMasterKey;
+    }
+
+    function loadTranslationFromCSV($fileName = false)
     {
         if (!$fileName) {
             $fileName = $this->inputFile;
@@ -547,7 +405,7 @@ class OA_TranslationMaintenance
         if (empty($this->inputFile) || empty($this->outputDir)) { $this->displayHelpMsg(''); }
 
         if (is_file($this->inputFile)) {
-            $this->aLang = $this->getTranslationFromCSV();
+            $this->aLang = $this->loadTranslationFromCSV();
 
             //  detect if CSV contains the specified language
             if (empty($this->aLang[$this->lang])) { $this->displayHelpMsg('    The following keys were found:' . implode(', ', array_keys($this->aLang)) . "\n"); }
@@ -1027,159 +885,7 @@ class OA_TranslationMaintenance
         array_pop($aPiece);
         $masterOutputDir = dirname($this->outputDir);
 
-        //  iterate master lang files reading each file
-        if (!$outputDir = opendir($masterOutputDir .'/'. $this->_masterLang)) {
-            $this->displayHelpMsg('Unable to open master language directory: '. $masterOutputDir .'/'. $this->_masterLang);
-        }
-        $files = array();
-        while ($file = readdir($outputDir)) {
-            $files[] = $file;
-        }
-
-        foreach ($files as $file) {
-
-            //  detect if it's a php file
-            if (substr($file, strrpos($file, '.')) != '.php') { continue; }
-
-            // Treat the index file differently
-            if ($file == 'index.lang.php') {
-                continue;
-            }
-
-            // load current lang file
-            echo "Processing file: {$file}<br />\n";
-
-            // Load existing language file and retrieve tokens
-            $source = file_get_contents($masterOutputDir .'/'. $this->_masterLang .'/'. $file);
-            $tokens = token_get_all($source);
-
-            //  parse current master lang file
-            foreach ($tokens as $token) {
-                //  store master keys
-                if (is_string($token) && $this->_buildVar) {
-                    $this->_var .= $token;
-
-                    //  check if finished building varaiable if true replace current translation
-                    //  with the transaltion from CSV
-                    if (substr($token, strlen($token)-1) == ';') {
-
-                        //  iterate through array adding each item to list of master keys
-                        foreach ($this->aRegex as $regex) {
-                            $strings = preg_match($regex, $this->_var, $matches);
-                            if (!empty($matches[2])) {
-                                //  reconstruct key
-                                $k = $matches[2] . $matches[3];
-
-                                if (strstr($k, "']['")) {
-                                    $aPiece = explode("']['", $matches[2]);
-                                    $k = $aPiece[0] ."['";
-                                    array_shift($aPiece);
-                                    $k .= implode("']['", $aPiece);
-                                    $k .= "']";
-                                }
-
-                                $delimiter = $matches[5];
-                                $trans = $matches[6] . $matches[7];
-
-                                $trans = htmlspecialchars_decode(htmlentities($trans, null, 'UTF-8'));
-                                //  replace new lines with \n
-//                                if ($delimiter == '"' && strstr($trans, "\n")) $trans = str_replace("\n", '\n', $trans);
-
-//                                $trans = $matches[5] . $trans . $matches[8];
-                                //  replace constants
-                                foreach ($this->aConstant as $ckey) {
-                                    if (strstr($trans, $ckey) && !strstr($trans, "$delimiter.") && !strstr($trans, "$delimiter .")) {
-                                        $aTran = explode($ckey, $trans);
-                                        if (!empty($aTran)) {
-                                            $newTrans = '';
-                                            $total = count($aTran);
-                                            for ($x = 0; $x < $total; $x++) {
-                                                $newTrans .= $aTran[$x];
-                                                if (!empty($aTran[$x+1])) {
-                                                    $newTrans .= "$delimiter.$ckey.$delimiter";
-                                                }
-                                            }
-                                            $trans = $newTrans;
-                                        }
-                                    }
-                                }
-
-                                $this->aMasterKey[$file][$k] = $trans;
-                            }
-                        }
-                        $this->_var = '';
-                        $this->_buildVar = false;
-                    }
-                } elseif (is_string($token) && $this->_buildArray) {
-                    //  set value for indexed array - this does not add the last indexed item
-                    if ($token == ',' && empty($this->_arrayKey)) {
-                        $this->_array[$this->_arrayCount] = $this->_arrayVal;
-                        $this->_arrayCount++;
-                        $this->_arrayVal = '';
-                    }
-
-                    if (substr($token, strlen($token)-1) == ';') {
-                        //  add last item to array container
-                        if (!empty($this->_arrayKey) && !empty($this->_arrayVal)) {
-                            $this->_array[$this->_arrayKey] = $this->_arrayVal;
-                            $this->_arrayVal = '';
-                            $this->_arrayKey = '';
-                        } elseif (empty($this->_arrayKey)) {
-                            $this->_array[$this->_arrayCount] = $this->_arrayVal;
-                            $this->_arrayCount++;
-                            $this->_arrayVal = '';
-                        }
-                        //  remove whitespace and equal sign
-                        $this->_var = substr($this->_var, 0, strrpos($this->_var, ']')+1);
-
-                        $strings = preg_match("#^(.*?)\['(.*)'\](\[.*\])*#m", $this->_var, $matches);
-
-                        if (!empty($matches)) {
-                            if (array_key_exists(0, $this->_array) && $this->_array[0] == '') {
-                                $this->aMasterKey[$file][$matches[2]] = "array()";
-                            } elseif (!empty($this->_array)) {
-                            //  iterate through array adding each item to list of master keys
-                                foreach ($this->_array as $key => $value) {
-                                    $k = $matches[2] .'['. $key .']';
-                                    $delimiter = substr($value, 0, 1);
-                                    $trans = substr($value, 1, strlen($value)-2);
-
-                                    $trans = htmlspecialchars_decode(htmlentities($trans, null, 'UTF-8'));
-                                    //  replace new lines with \n
-                                    if ($delimiter == '"' && strstr($trans, "\n")) $trans = str_replace("\n", '\n', $trans);
-
-                                    $trans = $delimiter . $trans . $delimiter;
-
-                                    //  replace constants
-                                    foreach ($this->aConstant as $ckey) {
-                                        if (strstr($trans, $ckey) && !strstr($trans, "$delimiter.") && !strstr($trans, "$delimiter .")) {
-                                            $aTran = explode($ckey, $trans);
-                                            if (!empty($aTran)) {
-                                                $newTrans = '';
-                                                $total = count($aTran);
-                                                for ($x = 0; $x < $total; $x++) {
-                                                    $newTrans .= $aTran[$x];
-                                                    if (!empty($aTran[$x+1])) {
-                                                        $newTrans .= "$delimiter.$ckey.$delimiter";
-                                                    }
-                                                }
-                                                $trans = $newTrans;
-                                            }
-                                        }
-                                    }
-                                    $this->aMasterKey[$file][$k] = $trans;
-                                }
-                            }
-                        }
-                        $this->_var = '';
-                        $this->_array = '';
-                        $this->_buildArray = false;
-                    }
-                } elseif (is_array($token)) {
-                    $result = $this->_parseToken($token);
-                }
-            }
-        }
+        $this->aMasterKey = $this->loadTranslationFromDir($masterOutputDir, $this->_masterLang, true);
 
         //  loop through new translations looking for proper file to add them too
         foreach ($this->aLang[$this->lang] as $key => $value) {
@@ -1247,12 +953,12 @@ class OA_TranslationMaintenance
         // Read the translation strings from the CSV files
         foreach ($this->_otherLangs as $otherLang => $csvName) {
             $langFile = dirname($this->inputFile) . DIRECTORY_SEPARATOR . $csvName . '.csv';
-            $result = $this->getTranslationFromCSV($langFile);
+            $result = $this->loadTranslationFromCSV($langFile);
             $existing[$otherLang] = $result[$otherLang];
         }
 
         // Read the master language file
-        $csv = $this->getTranslationFromCSV();
+        $csv = $this->loadTranslationFromCSV();
         $existing['english'] = $csv['english'];
 
         $csvKeys = array_keys($csv['Code key']);

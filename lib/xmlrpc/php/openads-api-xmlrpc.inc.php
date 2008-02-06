@@ -25,7 +25,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: openads-xmlrpc.inc.php 8911 2007-08-10 09:47:46Z andrew.hill@openads.org $
+$Id$
 */
 
 if (!@include('XML/RPC.php')) {
@@ -35,12 +35,13 @@ if (!@include('XML/RPC.php')) {
 require_once 'XmlRpcUtils.php';
 
 // Include the info-object files
-include_once('AdvertiserInfo.php');
-include_once('AgencyInfo.php');
-include_once('BannerInfo.php');
-include_once('CampaignInfo.php');
-include_once('PublisherInfo.php');
-include_once('ZoneInfo.php');
+require_once('AdvertiserInfo.php');
+require_once('AgencyInfo.php');
+require_once('BannerInfo.php');
+require_once('CampaignInfo.php');
+require_once('PublisherInfo.php');
+require_once('UserInfo.php');
+require_once('ZoneInfo.php');
 
 /**
  * A library class to provide XML-RPC routines on
@@ -48,7 +49,7 @@ include_once('ZoneInfo.php');
  *
  * @package    OpenX
  * @subpackage ExternalLibrary
- * @author     Chris Nutting <chris.nutting@openx.org>
+ * @author     Chris Nutting <Chris.Nutting@openx.org>
  */
 
 class OA_Api_Xmlrpc
@@ -78,7 +79,7 @@ class OA_Api_Xmlrpc
     var $debug = '';
 
     /**
-     * PHP5 style constructor
+     * PHP4 style constructor
      *
      * @param string $host      The name of the host to which to connect.
      * @param string $basepath  The base path to XML-RPC services.
@@ -89,7 +90,7 @@ class OA_Api_Xmlrpc
      * @param bool   $ssl       Set to true to connect using an SSL connection.
      * @param int    $timeout   The timeout period to wait for a response.
      */
-    function __construct($host, $basepath, $username, $password, $port = 0, $ssl = false, $timeout = 15)
+    function OA_Api_Xmlrpc($host, $basepath, $username, $password, $port = 0, $ssl = false, $timeout = 15)
     {
         $this->host = $host;
         $this->basepath = $basepath;
@@ -102,13 +103,15 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * PHP4 style constructor
+     * A private method to return an XML_RPC_Client to the API service
      *
-     * @see OA_API_XmlRpc::__construct
+     * @param string $service
+     * @return XML_RPC_Client
      */
-    function OA_Api_Xmlrpc($host, $basepath, $username, $password, $port = 0, $ssl = false, $timeout = 15)
+    function &_getClient($service)
     {
-        $this->__construct($host, $basepath, $username, $password, $port, $ssl, $timeout);
+        $oClient = &new XML_RPC_Client($this->basepath . '/' . $service . $this->debug, $this->host);
+        return $oClient;
     }
 
     /**
@@ -145,7 +148,7 @@ class OA_Api_Xmlrpc
         }
         $message = new XML_RPC_Message($method, $dataMessage);
 
-        $client = new XML_RPC_Client($this->basepath . '/' . $service . $this->debug, $this->host);
+        $client = &$this->_getClient($service);
 
         // Send the XML-RPC message to the server.
         $response = $client->send($message, $this->timeout, $this->ssl ? 'https' : 'http');
@@ -154,8 +157,8 @@ class OA_Api_Xmlrpc
         if ($response && $response->faultCode() == 0) {
             $result = XML_RPC_decode($response->value());
         } else {
-            die('XML-RPC error (' . $response->faultCode() . ') -> ' . $response->faultString() .
-                '. In Method ' . $method . '().');
+            trigger_error('XML-RPC Error (' . $response->faultCode() . '): ' . $response->faultString() .
+                ' in method ' . $method . '()', E_USER_ERROR);
         }
         return $result;
     }
@@ -814,8 +817,6 @@ class OA_Api_Xmlrpc
     {
         return (int) $this->_sendWithSession('PublisherXmlRpcService.php',
                                              'addPublisher', array(&$oPublisherInfo));
-
-        return $returnData;
     }
 
     /**
@@ -839,7 +840,7 @@ class OA_Api_Xmlrpc
     function getPublisher($publisherId)
     {
         $dataPublisher = $this->_sendWithSession('PublisherXmlRpcService.php',
-                                                 'getPublisher', array((int) $publisherid));
+                                                 'getPublisher', array((int) $publisherId));
         $oPublisherInfo = new OA_Dll_PublisherInfo();
         $oPublisherInfo->readDataFromArray($dataPublisher);
 
@@ -961,6 +962,79 @@ class OA_Api_Xmlrpc
     }
 
     /**
+     * This method adds a user to the user object.
+     *
+     * @param OA_Dll_UserInfo $oUserInfo
+     * @return  method result
+     */
+    function addUser(&$oUserInfo)
+    {
+        return (int) $this->_sendWithSession('UserXmlRpcService.php',
+                                             'addUser', array(&$oUserInfo));
+    }
+
+    /**
+     * This method modifies a user.
+     *
+     * @param OA_Dll_UserInfo $oUserInfo
+     * @return  method result
+     */
+    function modifyUser(&$oUserInfo)
+    {
+        return (bool) $this->_sendWithSession('UserXmlRpcService.php', 'modifyUser',
+                                              array(&$oUserInfo));
+    }
+
+    /**
+     * This method returns UserInfo for a specified user.
+     *
+     * @param int $userId
+     * @return OA_Dll_UserInfo
+     */
+    function getUser($userId)
+    {
+        $dataUser = $this->_sendWithSession('UserXmlRpcService.php',
+                                                 'getUser', array((int) $userId));
+        $oUserInfo = new OA_Dll_UserInfo();
+        $oUserInfo->readDataFromArray($dataUser);
+
+        return $oUserInfo;
+    }
+
+    /**
+     * This method returns a list of users by Account ID.
+     *
+     * @param int $accountId
+     *
+     * @return array  array OA_Dll_UserInfo objects
+     */
+    function getUserListByAccountId($accountId)
+    {
+        $dataUserList = $this->_sendWithSession('UserXmlRpcService.php',
+                                                      'getUserListByAccountId', array((int) $accountId));
+        $returnData = array();
+        foreach ($dataUserList as $dataUser) {
+            $oUserInfo = new OA_Dll_UserInfo();
+            $oUserInfo->readDataFromArray($dataUser);
+            $returnData[] = $oUserInfo;
+        }
+
+        return $returnData;
+    }
+
+    /**
+     * This method deletes a user from the user object.
+     *
+     * @param int $userId
+     * @return  method result
+     */
+    function deleteUser($userId)
+    {
+        return (bool) $this->_sendWithSession('UserXmlRpcService.php',
+                                              'deleteUser', array((int) $userId));
+    }
+
+    /**
      * This method adds a zone to the zone object.
      *
      * @param OA_Dll_ZoneInfo $oZoneInfo
@@ -993,7 +1067,7 @@ class OA_Api_Xmlrpc
     function getZone($zoneId)
     {
         $dataZone = $this->_sendWithSession('ZoneXmlRpcService.php',
-                                                 'getZone', array((int) $zoneid));
+                                                 'getZone', array((int) $zoneId));
         $oZoneInfo = new OA_Dll_ZoneInfo();
         $oZoneInfo->readDataFromArray($dataZone);
 

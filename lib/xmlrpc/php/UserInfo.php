@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id:$
 */
 
 /**
@@ -32,7 +32,7 @@ $Id$
  */
 
 // Require the base Info class.
-require_once MAX_PATH . '/lib/OA/Info.php';
+require_once 'Info.php';
 
 /**
  * The OA_Dll_UserInfo class extends the base OA_Info class and
@@ -91,23 +91,6 @@ class OA_Dll_UserInfo extends OA_Info
      */
     var $active;
 
-    /**
-     * This method sets all default values when adding a new user.
-     *
-     * @access public
-     *
-     */
-    function setDefaultForAdd() {
-        $this->active = 1;
-    }
-
-    /**
-     * This method returns an array of fields with their corresponding types.
-     *
-     * @access public
-     *
-     * @return array
-     */
     function getFieldsTypes()
     {
         return array(

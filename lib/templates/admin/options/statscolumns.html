@@ -39,7 +39,7 @@
               &nbsp;
             </td>
             <td id='cell_{$aColumnArray.name}'>
-              <input type='checkbox' name='{$aColumnArray.name}' id='{$aColumnArray.name}' value='true' {if $aColumnArray.value}checked='checked'{/if} {if $aColumnArray.disabled}disabled='disabled'{/if} onClick='phpAds_refreshEnabled();' tabindex='{$aItem.tabindex++}'>
+              <input type='checkbox' name='{$aColumnArray.name}' id='{$aColumnArray.name}' value='true' {if $aColumnArray.value}checked='checked'{/if} {if $aColumnArray.disabled}disabled='disabled' {else} onClick='phpAds_refreshEnabled();' {/if}  tabindex='{$aItem.tabindex++}'>
             </td>
             <td>
               &nbsp;
@@ -50,7 +50,7 @@
             <td>
               &nbsp;
             </td>
-            <td id='cell_{$aColumnArray.name}_rank''>
+            <td id='cell_{$aColumnArray.name}_rank'>
               <input type='text' size='10' name='{$aColumnArray.name}_rank' value="{$aColumnArray.rank_value|escape}" {if $aColumnArray.disabled}disabled='disabled'{/if} tabindex='{$aItem.tabindex++}'>
             </td>
           </tr>

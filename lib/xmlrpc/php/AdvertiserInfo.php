@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                           |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -52,6 +52,13 @@ class OA_Dll_AdvertiserInfo extends OA_Info
     var $advertiserId;
 
     /**
+     * This field contains the ID of the agency account.
+     *
+     * @var integer $accountId
+     */
+    var $accountId;
+
+    /**
      * The agencyID variable is the ID of the agency to which the advertiser is associated.
      *
      * @var integer $agencyId
@@ -79,20 +86,11 @@ class OA_Dll_AdvertiserInfo extends OA_Info
      */
     var $emailAddress;
 
-    /**
-     * This function sets all default values when adding a new advertiser.
-     *
-     */
-    function setDefaultForAdd() {
-        if (is_null($this->agencyId)) {
-            $this->agencyId = 0;
-        }
-    }
-
     function getFieldsTypes()
     {
         return array(
                     'advertiserId' => 'integer',
+                    'accountId' => 'integer',
                     'agencyId' => 'integer',
                     'advertiserName' => 'string',
                     'contactName' => 'string',

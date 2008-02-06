@@ -22,80 +22,37 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 /**
- * @package    OpenXDll
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
- *
- * This file describes the PublisherInfo class.
+ * @package    OpenX
+ * @author     Ivan Klishch <iklishch@lohika.com>
  *
  */
 
-// Require the base Info class.
-require_once 'Info.php';
+// Require User Service Implementation
+require_once MAX_PATH . '/www/api/v1/xmlrpc/UserServiceImpl.php';
 
 /**
- *  The PublisherInfo class extends the base Info class and contains information about the publisher.
- *
+ * Base User Service
  */
-
-class OA_Dll_PublisherInfo extends OA_Info
+class BaseUserService
 {
+    /**
+     * Reference to User Service implementation.
+     *
+     * @var UserServiceImpl $_oUserServiceImp
+     */
+    var $_oUserServiceImp;
 
     /**
-     * The publisherId variable is the unique ID for the publisher.
+     * This method initialises Service implementation object field.
      *
-     * @var integer $publisherId
      */
-    var $publisherId;
-
-    /**
-     * This field contains the ID of the agency account.
-     *
-     * @var integer $accountId
-     */
-    var $accountId;
-
-    /**
-     * The agencyID variable is the ID of the agency associated with the publisher.
-     *
-     * @var integer $agencyId
-     */
-    var $agencyId;
-
-    /**
-     * The publisherName variable is the name of the publisher.
-     *
-     * @var string $publisherName
-     */
-    var $publisherName;
-
-    /**
-     * The contactName variable is the name of the contact for the publisher.
-     *
-     * @var string $contactName
-     */
-    var $contactName;
-
-    /**
-     * The emailAddress variable is the email address for the contact.
-     *
-     * @var string $emailAddress
-     */
-    var $emailAddress;
-
-    function getFieldsTypes()
+    function BaseUserService()
     {
-        return array(
-                    'publisherId' => 'integer',
-                    'accountId' => 'integer',
-                    'agencyId' => 'integer',
-                    'publisherName' => 'string',
-                    'contactName' => 'string',
-                    'emailAddress' => 'string'
-                );
+        $this->_oUserServiceImp = new UserServiceImpl();
     }
 }
 

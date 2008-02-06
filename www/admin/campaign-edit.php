@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                           |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -522,7 +522,7 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
     $row['block']     = null;
     $row['capping']     = null;
     $row['session_capping']     = null;
-    $row['comments']     = null;    
+    $row['comments']     = null;
     $target_type = null;
 }
 
@@ -1218,7 +1218,7 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
     var impressions_delivered = <?php echo (isset($data['impressions_delivered'])) ? $data['impressions_delivered'] : 0; ?>;
     var clicks_delivered = <?php echo (isset($data['clicks_delivered'])) ? $data['clicks_delivered'] : 0; ?>;
     var conversions_delivered = <?php echo (isset($data['conversions_delivered'])) ? $data['conversions_delivered'] : 0; ?>;
-    
+
     <?php if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) { ?>
       var centralImpressionsRemaining = 3000; // REAL DATA GOES HERE
       var centralClicksRemaining = 600; //REAL DATA GOES HERE
@@ -1242,7 +1242,7 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
 		    if ($remainingCentral.lenght == 0) {
 		     return;
 		    }
-	
+
 	      markInsufficient(remainingLocalCount < remainingCentralCount, remainingCentralId);
 		  }
 
@@ -1251,7 +1251,7 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
 		  {
 	      var $remainingCentral = $("#" + remainingCentralId);
 	      var $remainingCentralHelpLink = $("#" + remainingCentralId + "HelpLink");
-	
+
 	      if (insufficient) {
 	        $remainingCentral.addClass("sts-insufficient");
 	        $remainingCentralHelpLink.show().css("display", "inline");
@@ -1261,7 +1261,7 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
 	        $remainingCentralHelpLink.hide();
 	      }
 		  }
-    <?php } ?>		  
+    <?php } ?>
 
 	  function hasUnlimitedValue(input)
 	  {
@@ -1334,7 +1334,7 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
         if (c.checked == true) {
             setUnlimitedValue(e);
             e.disabled = true;
-            
+
             <?php if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) { ?>
 	            //remove any "insufficient" error indicators
 			        if (remainingCentralId != undefined && remainingCentralId != "") {
@@ -1438,7 +1438,7 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
                 f.impressions.value = '';
             }
         }
-        
+
         if (type == 'clicks') {
             if (f.clicks.value != '-' && f.clicks.value != '') {
                 f.clicks.value = max_formattedNumberStringToFloat(f.clicks.value);
@@ -1501,7 +1501,7 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
         if (max_formattedNumberStringToFloat(f.clicks.value) >= 0) {
             var remaining = max_formattedNumberStringToFloat(f.clicks.value) - clicks_delivered;
             document.getElementById('remainingClicksCount').innerHTML = max_formatNumberIgnoreDecimals(remaining);
-            <?php if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) { ?>            
+            <?php if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) { ?>
               insufficientNumberCheck(remaining, centralClicksRemaining, 'openadsRemainingClicks');
             <?php } ?>
             visibility = true;
