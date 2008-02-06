@@ -79,14 +79,14 @@ class OA_Dll_PublisherInfo extends OA_Info
     var $emailAddress;
 
     /**
-     * This field provides the username the contact uses to log into Openads.
+     * This field provides the username the contact uses to log into OpenX.
      *
      * @var string $username
      */
     var $username;
 
     /**
-     * This field provides the password the contact uses to log into Openads.
+     * This field provides the password the contact uses to log into OpenX.
      *
      * @var string $password
      */

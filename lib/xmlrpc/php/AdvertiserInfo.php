@@ -80,14 +80,14 @@ class OA_Dll_AdvertiserInfo extends OA_Info
     var $emailAddress;
 
     /**
-     * The username variable is the name the contact uses to log into Openads.
+     * The username variable is the name the contact uses to log into OpenX.
      *
      * @var string $username
      */
     var $username;
 
     /**
-     * The password variable is the password the contact uses to log into Openads.
+     * The password variable is the password the contact uses to log into OpenX.
      *
      * @var string $password
      */

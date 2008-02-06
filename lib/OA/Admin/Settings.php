@@ -144,7 +144,7 @@ class OA_Admin_Settings
      * current object.
      *
      * Configuration files are prefixed with the host name being used to access
-     * Openads, so that multiple OpenX installations can be run from a single
+     * OpenX, so that multiple OpenX installations can be run from a single
      * code base, if the correct virtual hosts are configured.
      *
      * @param string $configPath The directory to save the config file(s) in.

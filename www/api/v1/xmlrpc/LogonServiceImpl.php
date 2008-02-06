@@ -113,7 +113,7 @@ class LogonServiceImpl extends BaseServiceImpl
 
         $this->preInitSession();
         if ($this->_internalLogin($username, $password)) {
-            // Check if the user has administrator access to Openads.
+            // Check if the user has administrator access to OpenX.
             if (OA_Permission::isUserLinkedToAdmin()) {
 
                 $this->postInitSession();

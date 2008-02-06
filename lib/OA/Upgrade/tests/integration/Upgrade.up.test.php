@@ -126,7 +126,7 @@ class Test_OA_Upgrade extends UnitTestCase
         $aDBPackages = $oUpgrade->aPackage['db_pkgs'];
         $this->assertIsA($aDBPackages,'array','problem with db packages array');
 
-        $this->assertEqual($oUpgrade->aPackage['name'],'Openads','wrong value: name');
+        $this->assertEqual($oUpgrade->aPackage['name'],'OpenX','wrong value: name');
         $this->assertEqual($oUpgrade->aPackage['creationDate'],'2007-01-01','wrong value: creationDate');
         $this->assertEqual($oUpgrade->aPackage['author'],'Test Author','wrong value: author');
         $this->assertEqual($oUpgrade->aPackage['authorEmail'],'test@openads.org','wrong value: authorEmail');

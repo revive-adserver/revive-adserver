@@ -47,7 +47,7 @@ define('OA_DB_ADVISORYLOCK_DISTRIBUTED',  '2');
 
 
 /**
- * An abstract class defining the interface for using advisory locks inside Openads.
+ * An abstract class defining the interface for using advisory locks inside OpenX.
  *
  * @package    OpenXDB
  * @subpackage AdvisoryLock

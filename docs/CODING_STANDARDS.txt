@@ -27,7 +27,7 @@ OpenX Coding Standards
 
 Original source: The Horde project
 Authors:         Jon Parise, Chuck Hagenbuch
-Modified for Seagull, Adapted for Openads
+Modified for Seagull, Adapted for OpenX
 
 
 

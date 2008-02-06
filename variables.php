@@ -231,7 +231,7 @@ function getMinimumRequiredMemory()
 }
 
 /**
- * Set a minimum amount of memory required by Openads
+ * Set a minimum amount of memory required by OpenX
  *
  * @param integer $setMemory  A new memory limit (in bytes)
  * @return boolean  true if memory is already bigger or when an attempt to

@@ -29,15 +29,15 @@ $Id$
  * @package    Max
  * @author     Andrew Hill <andrew@m3.net>
  *
- * A file to set up the environment constants for Openads.
+ * A file to set up the environment constants for OpenX.
  */
 
 /**
- * The environmental constants initialisation function for Openads.
+ * The environmental constants initialisation function for OpenX.
  */
 function setupConstants()
 {
-    // Define this version of Openads's constants
+    // Define this version of OpenX's constants
     define('OA_VERSION', '2.5.60-beta-rc1');
     define('MAX_PRODUCT_NAME',      'OpenX');
     define('MAX_PRODUCT_URL',       'www.openx.org');

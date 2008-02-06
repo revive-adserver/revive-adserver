@@ -529,7 +529,7 @@ class Test_OA_Upgrade extends UnitTestCase
 
         $aExpected = array();
         $aExpected['db_pkgs'] = array();
-        $aExpected['name'] ='Openads';
+        $aExpected['name'] ='OpenX';
         $aExpected['creationDate'] ='2007-01-01';
         $aExpected['author'] ='Test Author';
 

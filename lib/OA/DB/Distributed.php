@@ -30,7 +30,7 @@ require_once 'MDB2.php';
 
 
 /**
- * An class for using distributed stats along with a master/slave database setup inside Openads.
+ * An class for using distributed stats along with a master/slave database setup inside OpenX.
  *
  * @package    OpenXDB
  * @subpackage Distributed

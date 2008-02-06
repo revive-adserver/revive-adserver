@@ -32,7 +32,7 @@ require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
 
 
 /**
- * A class for managing preferences within Openads.
+ * A class for managing preferences within OpenX.
  *
  * @package    OpenX
  * @author     Andrew Hill <andrew.hill@openx.org>

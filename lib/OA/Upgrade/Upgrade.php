@@ -448,7 +448,7 @@ class OA_Upgrade
     }
 
     /**
-     * look for existing installations (phpAdsNew, MMM, Openads)
+     * look for existing installations (phpAdsNew, MMM, Openads, OpenX)
      * retrieve details and check for errors
      *
      * @return boolean
@@ -568,7 +568,7 @@ class OA_Upgrade
                 return true;
         }
 
-        $this->oLogger->logOnly('looking for Openads');
+        $this->oLogger->logOnly('looking for OpenX');
         $this->detectOpenads();
         $strProductName = MAX_PRODUCT_NAME.' '.$this->getProductApplicationVersion();
         switch ($this->existing_installation_status)
@@ -581,10 +581,10 @@ class OA_Upgrade
                 }
                 break;
             case OA_STATUS_OAD_CONFIG_DETECTED:
-                $this->oLogger->logError('Openads'.$strDetected);
+                $this->oLogger->logError('OpenX'.$strDetected);
                 break;
             case OA_STATUS_OAD_DBCONNECT_FAILED:
-                $this->oLogger->logError('Openads'.$strDetected);
+                $this->oLogger->logError('OpenX'.$strDetected);
                 $this->oLogger->logError($strNoConnect.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 return false;
             case OA_STATUS_OAD_DBINTEG_FAILED:

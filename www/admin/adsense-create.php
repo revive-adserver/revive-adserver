@@ -79,14 +79,14 @@ $oTpl->assign('fields', array(
         )
     ),
     array(
-        'title'     => 'Name for the AdSense Account in Openads',
+        'title'     => 'Name for the AdSense Account in OpenX',
         'fields'    => array(
             array(
                 'name'      => 'name',
-                'label'     => 'Name for the AdSense Account in Openads',
+                'label'     => 'Name for the AdSense Account in OpenX',
                 'value'     => '',
                 'id'        => 'accountname',
-                'title'     => 'Provide name in Openads',
+                'title'     => 'Provide name in OpenX',
                 'clientValid' => 'required:true'
             )
         )

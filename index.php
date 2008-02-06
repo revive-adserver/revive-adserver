@@ -26,7 +26,7 @@ $Id$
 */
 
 /**
- * This file is only called to redirect to somewhere else, however, if Openads
+ * This file is only called to redirect to somewhere else, however, if OpenX
  * is not yet installed, we need to know that it was this file that was called,
  * so set a global variable.
  */

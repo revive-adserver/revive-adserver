@@ -36,7 +36,7 @@ process is essentially:
 
 3) Copy your config file from the current working location to the var/ directory 
    of the newly unpacked installation - read about config files in previous 
-   versions of Openads, MMM or PhpAdsNew 
+   versions of OpenX, Openads, MMM or PhpAdsNew 
    (http://docs.openx.org/openads-2.3-guide/copying-openads-upgrade.html#configfilesupgrade);
 
 4) Rename your existing working installation directory by adding '_backup' to 

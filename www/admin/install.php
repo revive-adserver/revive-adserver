@@ -319,7 +319,7 @@ else if (array_key_exists('btn_adminsetup', $_POST))
                 {
                     //Hide the IDsetup, instead display the finish page
                     //$action = OA_UPGRADE_SITESSETUP;
-                    $message = 'Congratulations you have finished upgrading Openads';
+                    $message = 'Congratulations you have finished upgrading OpenX';
                     //$oUpgrader->setOpenadsInstalledOn();
                     $action = OA_UPGRADE_FINISH;
                 }
@@ -362,7 +362,7 @@ else if (array_key_exists('btn_tagssetup', $_POST))
         OA_Upgrade_Login::autoLogin();
 
         $action = OA_UPGRADE_FINISH;
-        $message = 'Congratulations you have finished installing Openads';
+        $message = 'Congratulations you have finished installing OpenX';
 
         $aWebsites    = array(
             0 => array(),
@@ -557,7 +557,7 @@ else if (array_key_exists('btn_sitessetup', $_POST))
         else
         {
             $action = OA_UPGRADE_FINISH;
-            $message = 'Congratulations you have finished upgrading Openads';
+            $message = 'Congratulations you have finished upgrading OpenX';
         }
     }
 }
@@ -575,11 +575,11 @@ else if (array_key_exists('btn_finish', $_POST))
 {
     if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
     {
-        $message = 'Congratulations you have finished installing Openads';
+        $message = 'Congratulations you have finished installing OpenX';
     }
     else
     {
-        $message = 'Congratulations you have finished upgrading Openads';
+        $message = 'Congratulations you have finished upgrading OpenX';
     }
     //$oUpgrader->setOpenadsInstalledOn();
     $action = OA_UPGRADE_FINISH;

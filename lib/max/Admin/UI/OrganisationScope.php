@@ -28,7 +28,7 @@ $Id$
 require_once MAX_PATH . '/lib/OA/Permission.php';
 
 /**
- * Reporting scope for Openads
+ * Reporting scope for OpenX
  *
  * Describes whether a report should be for a specific publisher,
  * a specific advertiser or 'everyone'.

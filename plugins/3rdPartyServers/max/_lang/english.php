@@ -26,6 +26,6 @@ $Id$
 */
 
     $words = array(
-        'Rich Media - Openads' => 'Rich Media - Openads',
+        'Rich Media - OpenX' => 'Rich Media - OpenX',
     );
 ?>
