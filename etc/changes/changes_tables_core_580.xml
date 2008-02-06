@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>580</version>
+  <comments>Added sso_user_id</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>580</version>
+      <change>
+        <table>
+          <name>users</name>
+          <add>
+            <field>
+              <name>sso_user_id</name>
+              <type>openads_int</type>
+              <length>11</length>
+              <notnull></notnull>
+              <was>sso_user_id</was>
+              <default></default>
+            </field>
+          </add>
+        </table>
+      </change>
+    </changeset>
+  </constructive>
+  <destructive>
+    <changeset>
+      <name>openads</name>
+      <version>580</version>
+    </changeset>
+  </destructive>
+</instructionset>
