@@ -62,4 +62,4 @@ process is essentially:
    script, with the domain of your site as a parameter, every hour, eg:
 
    0 * * * * /usr/local/bin/php -q
-       /var/www/html/openads/scripts/maintenance/maintenance.php www.example.com
+       /var/www/html/openx/scripts/maintenance/maintenance.php www.example.com
