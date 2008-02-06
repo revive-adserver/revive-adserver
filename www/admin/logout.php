@@ -31,6 +31,8 @@ $Id$
 // Require the initialisation file
 require_once '../../init.php';
 
+define ('OA_SKIP_LOGIN', 1);
+
 // Required files
 require_once MAX_PATH . '/www/admin/config.php';
 

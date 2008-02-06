@@ -982,19 +982,46 @@ class phpCAS
    * @return the login name of the authenticated user
    */
   function getUser()
-    {
+  {
       global $PHPCAS_CLIENT, $PHPCAS_AUTH_CHECK_CALL;
+      if (phpCAS::validCasClient()) {
+      	return $PHPCAS_CLIENT->getUser();
+      }
+  }
+
+  function getUserEmail()
+  {
+      global $PHPCAS_CLIENT, $PHPCAS_AUTH_CHECK_CALL;
+      if (phpCAS::validCasClient()) {
+      	return $PHPCAS_CLIENT->getUserEmail();
+      }
+  }
+
+  function getUserId()
+  {
+      global $PHPCAS_CLIENT, $PHPCAS_AUTH_CHECK_CALL;
+      if (phpCAS::validCasClient()) {
+      	return $PHPCAS_CLIENT->getUserId();
+      }
+  }
+
+  function validCasClient()
+  {
+  	  global $PHPCAS_CLIENT, $PHPCAS_AUTH_CHECK_CALL;
       if ( !is_object($PHPCAS_CLIENT) ) {
-	phpCAS::error('this method should not be called before '.__CLASS__.'::client() or '.__CLASS__.'::proxy()');
+		phpCAS::error('this method should not be called before '.__CLASS__.'::client() or '.__CLASS__.'::proxy()');
+		return false;
       }
       if ( !$PHPCAS_AUTH_CHECK_CALL['done'] ) {
-	phpCAS::error('this method should only be called after '.__CLASS__.'::forceAuthentication() or '.__CLASS__.'::isAuthenticated()');
+		phpCAS::error('this method should only be called after '.__CLASS__.'::forceAuthentication() or '.__CLASS__.'::isAuthenticated()');
+		return false;
       }
       if ( !$PHPCAS_AUTH_CHECK_CALL['result'] ) {
-	phpCAS::error('authentication was checked (by '.$PHPCAS_AUTH_CHECK_CALL['method'].'() at '.$PHPCAS_AUTH_CHECK_CALL['file'].':'.$PHPCAS_AUTH_CHECK_CALL['line'].') but the method returned FALSE');
+		phpCAS::error('authentication was checked (by '.$PHPCAS_AUTH_CHECK_CALL['method'].'() at '.$PHPCAS_AUTH_CHECK_CALL['file'].':'.$PHPCAS_AUTH_CHECK_CALL['line'].') but the method returned FALSE');
+		return false;
       }
-      return $PHPCAS_CLIENT->getUser();
-    }
+      return true;
+  }
 
   /**
    * This method returns the URL to be used to login.
