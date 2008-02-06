@@ -62,7 +62,7 @@
     Questions about OpenX should be directed to the forums.
 
     More information about can be found on the OpenX homepage at
-    http://www.openads.org/.
+    http://www.openx.org/.
 
     Bug reports and questions related to the development of OpenX are
     also welcome on the site.
@@ -70,7 +70,7 @@
 
     Download:
     ------------------------------------------------------------------------
-    You can get the latest version from http://www.openads.org/.
+    You can get the latest version from http://www.openx.org/.
 
 
     Credits:
