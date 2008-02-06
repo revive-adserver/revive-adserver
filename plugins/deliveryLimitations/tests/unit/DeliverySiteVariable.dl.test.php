@@ -39,7 +39,7 @@ require_once MAX_PATH . '/plugins/deliveryLimitations/Site/Variable.delivery.php
  *
  *
  *
- * @package    OpenadsPluginDelivery
+ * @package    OpenXPluginDelivery
  * @subpackage TestSuite
  * @author     Chris Nutting <chris.nutting@openx.org>
  */

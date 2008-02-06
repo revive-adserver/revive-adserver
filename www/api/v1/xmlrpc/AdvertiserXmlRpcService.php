@@ -26,7 +26,7 @@ $Id:$
 */
 
 /**
- * @package    Openads
+ * @package    OpenX
  * @author     Ivan Klishch <iklishch@lohika.com>
  *
  * The advertiser XML-RPC service enables XML-RPC communication with the advertiser object.

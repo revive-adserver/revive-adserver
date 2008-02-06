@@ -32,7 +32,7 @@ require_once MAX_PATH . '/plugins/deliveryLimitations/Client/Os.delivery.php';
 /**
  * A class for testing the Plugins_DeliveryLimitations_Client_Os class.
  *
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew@m3.net>
  */

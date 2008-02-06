@@ -30,7 +30,7 @@ require_once MAX_PATH . '/lib/max/Plugin.php';
 /**
  * A class for testing the Plugins_DeliveryLimitations_Geo_Country class.
  *
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew@m3.net>
  */

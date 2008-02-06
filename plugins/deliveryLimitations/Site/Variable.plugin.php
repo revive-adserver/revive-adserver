@@ -26,7 +26,7 @@ $Id: Variable.plugin.php 8911 2007-08-10 09:47:46Z andrew.hill@openads.org $
 */
 
 /**
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
  * @author     Chris Nutting <chris.nutting@openx.org>
  *

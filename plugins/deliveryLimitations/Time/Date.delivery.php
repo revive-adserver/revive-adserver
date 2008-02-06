@@ -26,7 +26,7 @@ $Id$
 */
 
 /**
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
  * @author     Chris Nutting <chris@m3.net>
  */

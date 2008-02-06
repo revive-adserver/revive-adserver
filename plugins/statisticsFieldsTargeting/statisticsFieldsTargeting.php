@@ -33,7 +33,7 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  * class for every targeting statistics fields plugin.
  *
  * @abstract
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage StatisticsFields
  * @author     Andrew Hill <andrew.hill@openx.org>
  */

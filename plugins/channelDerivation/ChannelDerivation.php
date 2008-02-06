@@ -36,7 +36,7 @@ define('MAX_PLUGINS_CHANNEL_DELIVERY_DOMAIN_REPLACE_NAME', 'DOMAIN_NAME');
 /**
  * Plugins_ChannelDerivation is a common class for reading all the informations from channel files.
  *
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage ChannelDerivation
  * @author     Radek Maciaszek <radek@m3.net>
  */

@@ -30,7 +30,7 @@ require_once MAX_PATH . '/lib/max/Plugin/Common.php';
 /**
  * Plugins_3rdPartyServers is an abstract class for every 3rdPartyServers plugin
  *
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage 3rdPartyServers
  * @author     Radek Maciaszek <radek@m3.net>
  * @abstract

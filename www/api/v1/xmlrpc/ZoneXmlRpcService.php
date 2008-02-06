@@ -26,7 +26,7 @@ $Id:$
 */
 
 /**
- * @package    Openads
+ * @package    OpenX
  * @author     Ivan Klishch <iklishch@lohika.com>
  *
  * The zone XML-RPC service enables XML-RPC communication with the zone object.

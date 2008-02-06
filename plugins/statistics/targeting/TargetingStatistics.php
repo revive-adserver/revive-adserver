@@ -28,7 +28,7 @@ $Id$
 /**
  *
  *
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage TargetingStatistics
  * @author     Robert Hunter <roh@m3.net>
  */

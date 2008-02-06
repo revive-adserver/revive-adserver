@@ -42,7 +42,7 @@ require_once MAX_PATH . '/lib/OA/Dll.php';
  * @TODO Consider replacing the calculations in this report with better values derived
  *       from the MPE.
  *
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage Reports
  * @author     Andrew Hill <andrew.hill@openx.org>
  * @author     Scott Switzer <scott@switzer.org>

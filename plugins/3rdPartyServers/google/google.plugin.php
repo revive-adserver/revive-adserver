@@ -26,7 +26,7 @@ $Id$
 */
 
 /**
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage 3rdPartyServers
  * @author     Matteo Beccati <matteo.beccati@openx.org>
  *

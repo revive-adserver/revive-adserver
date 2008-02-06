@@ -46,7 +46,7 @@ include_once('ZoneInfo.php');
  * A library class to provide XML-RPC routines on
  * a web server to enable it to manipulate objects in OpenX using the web services API.
  *
- * @package    Openads
+ * @package    OpenX
  * @subpackage ExternalLibrary
  * @author     Chris Nutting <chris.nutting@openx.org>
  */

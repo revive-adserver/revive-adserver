@@ -26,7 +26,7 @@ $Id$
 */
 
 /**
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage ChannelDerivation
  * @author     Radek Maciaszek <radek@m3.net>
  */

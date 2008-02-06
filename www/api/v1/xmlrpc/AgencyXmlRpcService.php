@@ -26,7 +26,7 @@ $Id:$
 */
 
 /**
- * @package    Openads
+ * @package    OpenX
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
  * The agency XML-RPC service enables XML-RPC communication with the agency object.

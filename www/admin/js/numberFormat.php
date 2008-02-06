@@ -26,7 +26,7 @@ $Id$
 */
 
 /**
- * @package    OpenadsUI
+ * @package    OpenXUI
  * @author     Andrew Hill <andrew.hill@openx.org>
  *
  * A collection of JavaScript functions for formatting numbers.

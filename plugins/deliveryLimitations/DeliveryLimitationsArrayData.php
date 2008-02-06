@@ -36,7 +36,7 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  * Handles the following operators:
  * '=~', '!~' (see the init() method).
  *
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
  * @author     Andrzej Swedrzynski <andrzej@m3.net>
  */

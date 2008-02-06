@@ -26,7 +26,7 @@ $Id: doubleclick.plugin.php 9049 2007-08-16 11:52:56Z chris.nutting@openads.org 
 */
 
 /**
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage 3rdPartyServers
  * @author     Radek Maciaszek <radek@m3.net>
  *
