@@ -113,7 +113,7 @@ This list covers some of the known problems with OpenX ${RELEASE_VERSION}. Pleas
 read this before reporting any new bugs.
 
  * OpenX ${RELEASE_VERSION} does NOT work with MySQL 3.x. If you are running
-   OpenX 2.0 on this very old version of MySQL, do NOT attempt to upgrade,
+   Openads 2.0 on this very old version of MySQL, do NOT attempt to upgrade,
    as your installation will no longer work correctly.
 
  * The recovery process will not work when MySQL is configured to use
@@ -152,8 +152,8 @@ FAQ
 
  2. Can I upgrade from phpAdsNew?
 
-    Yes.  phpAdsNew was rebranded as OpenX 2.0. You will need to ensure you
-    first upgrade to the latest version of OpenX 2.0 before using the OpenX
+    Yes.  phpAdsNew was rebranded as Openads 2.0. You will need to ensure you
+    first upgrade to the latest version of Openads 2.0 before using the OpenX
     ${RELEASE_MAJOR_MINOR} upgrade wizard.
 
  3. Where do I go for support?
