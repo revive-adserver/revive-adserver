@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                           |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -193,7 +193,7 @@ class OA_Dll_Advertiser extends OA_Dll
     function modify(&$oAdvertiser)
     {
         if (!$this->checkPermissions($this->aAllowAdvertiserAndAbovePerm, 'clients',
-            $oAdvertiser->advertiserId)) 
+            $oAdvertiser->advertiserId))
         {
             return false;
         }

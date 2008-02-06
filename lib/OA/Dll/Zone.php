@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                           |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -168,7 +168,7 @@ class OA_Dll_Zone extends OA_Dll
      */
     function checkStatisticsPermissions($zoneId)
     {
-       if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm, 'zones', $zoneId)) 
+       if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm, 'zones', $zoneId))
        {
            return false;
        } else {
@@ -200,7 +200,7 @@ class OA_Dll_Zone extends OA_Dll
             // Add
             $oZone->setDefaultForAdd();
             if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm,
-                'affiliates', $oZone->publisherId, OA_PERM_ZONE_ADD)) 
+                'affiliates', $oZone->publisherId, OA_PERM_ZONE_ADD))
             {
                 return false;
             }

@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                           |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
@@ -30,31 +30,31 @@ $Id:$
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
  * The Info class is the base class for all info classes.
- *  
+ *
  */
 
 
 class OA_Info
 {
-    
+
     function getFieldsTypes()
     {
         die('Please define this method in each derivative class');
     }
-    
+
     function getFieldType($fieldName)
     {
         $aFieldsTypes = $this->getFieldsTypes();
         if (!isset($aFieldsTypes) || !is_array($aFieldsTypes)) {
             die('Please provide field types array for Info object creation');
         }
-        
+
         if (!array_key_exists($fieldName, $aFieldsTypes)) {
             die('Unknown type for field \'' . $fieldName .'\'');
         }
         return $aFieldsTypes[$fieldName];
     }
-    
+
     function readDataFromArray($aEntityData)
     {
         $aFieldsTypes = $this->getFieldsTypes();
