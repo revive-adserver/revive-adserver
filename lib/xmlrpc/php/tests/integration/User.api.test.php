@@ -103,13 +103,13 @@ class Test_OA_Api_XmlRpc_User extends Test_OA_Api_XmlRpc
 
 		$oUser = new OA_Dll_UserInfo();
 		$oUser->userId      = $userId;
-		$oUser->contactName = 'test user modified';
+		$oUser->emailAddress = 'modified@example.com';
 
 		$this->assertTrue($this->oApi->modifyUser($oUser));
 
 		$oUser = $this->oApi->getUser($userId);
 		$this->assertIsA($oUser, 'OA_Dll_UserInfo');
-		$this->assertEqual($oUser->contactName, 'test user modified');
+		$this->assertEqual($oUser->emailAddress, 'modified@example.com');
 
 		$this->assertTrue($this->oApi->deleteUser($userId));
 	}
