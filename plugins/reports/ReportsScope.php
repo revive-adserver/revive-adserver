@@ -33,7 +33,7 @@ require_once MAX_PATH . '/plugins/reports/Reports.php';
  * Admin_UI_OrganisationScope advertiser/publisher limitation object.
  *
  * @abstract
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage Reports
  * @author     Andrew Hill <andrew.hill@openx.org>
  */

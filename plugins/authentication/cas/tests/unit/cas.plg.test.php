@@ -41,7 +41,7 @@ require_once MAX_PATH . '/lib/OA/Dll/User.php';
 /**
  * A class for testing the Plugins_Authentication_Cas_Cas class.
  *
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage TestSuite
  * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */

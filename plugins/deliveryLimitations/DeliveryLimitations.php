@@ -39,7 +39,7 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  * {Plugin} is the actual name of the plugin.  The plugin file name is also called {Plugin}.plugin.php.
  *
  * @abstract
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
  * @author     Chris Nutting <chris@m3.net>
  */

@@ -40,7 +40,7 @@ require_once MAX_PATH . '/lib/phpSniff/phpSniff.class.php';
  * Valid comparison operators:
  * =~, !~
  *
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
  * @author     Andrew Hill <andrew@m3.net>
  * @author     Chris Nutting <chris@m3.net>

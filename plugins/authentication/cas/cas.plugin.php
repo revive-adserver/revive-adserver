@@ -47,7 +47,7 @@ define('OA_CAS_PLUGIN_PHP_CAS', 'phpCAS');
  * by matching username and password and in cas plugin the username is returned by cas client
  * library.
  *
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage Authentication
  * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */

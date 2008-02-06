@@ -30,7 +30,7 @@ $Id$
  * A script file to run the Maintenance Statistics Engine and the
  * Maintenance Priority Engine processes.
  *
- * @package    OpenadsMaintenance
+ * @package    OpenXMaintenance
  * @subpackage Tools
  * @author     Andrew Hill <andrew.hill@openx.org>
  */

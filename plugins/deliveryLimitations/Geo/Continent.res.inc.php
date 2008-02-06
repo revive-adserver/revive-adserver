@@ -28,7 +28,7 @@ $Id$
 require_once MAX_PATH . '/plugins/deliveryLimitations/Geo/data/res-continent.inc.php';
 
 /**
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
  * @author     Chris Nutting <chris.nutting@openx.org>
  * @author     Matteo Beccati <matteo.beccati@openx.org>

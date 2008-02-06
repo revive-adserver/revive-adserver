@@ -27,7 +27,7 @@ $Id$
 */
 
 /**
- * @package    OpenadsMaintenance
+ * @package    OpenXMaintenance
  * @subpackage Tools
  * @author     Andrew Hill <andrew.hill@openx.org>
  *

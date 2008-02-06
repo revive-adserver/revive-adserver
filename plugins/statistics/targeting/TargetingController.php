@@ -31,7 +31,7 @@ require_once MAX_PATH . '/lib/max/Admin_DA.php';
 /**
  * Controller class for displaying targeting statistics screens.
  *
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage TargetingStatistics
  * @author     Robert Hunter <roh@m3.net>
  */

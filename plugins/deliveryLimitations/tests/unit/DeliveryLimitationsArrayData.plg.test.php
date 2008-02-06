@@ -31,7 +31,7 @@ require_once MAX_PATH . '/plugins/deliveryLimitations/DeliveryLimitationsCommaSe
 /**
  * A class for testing the Plugins_DeliveryLimitations_Client_Browser class.
  *
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage TestSuite
  * @author     Andrzej Swedrzynski <andrzej.swedrzynski@m3.net>
  */

@@ -26,7 +26,7 @@ $Id$
 */
 
 /**
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage InvocationTags
  * @author     Radek Maciaszek <radek@m3.net>
  * @author     Andrew Hill <andrew@m3.net>

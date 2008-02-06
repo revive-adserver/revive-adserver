@@ -31,7 +31,7 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 /**
  * Invocation tag plugin class
  *
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage InvocationTags
  * @author     Radek Maciaszek <radek@m3.net>
  *

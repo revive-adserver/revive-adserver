@@ -31,7 +31,7 @@ require_once MAX_PATH . '/plugins/deliveryLimitations/Geo/Continent.delivery.php
 /**
  * A class for testing the Plugins_DeliveryLimitations_Geo_Continent class.
  *
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew@m3.net>
  */

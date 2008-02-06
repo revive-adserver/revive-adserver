@@ -39,7 +39,7 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  * Valid comparison operators:
  * ==, !=, <, <=, >, >=
  *
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
  * @author     Andrew Hill <andrew@m3.net>
  * @author     Chris Nutting <chris@m3.net>

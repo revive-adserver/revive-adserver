@@ -31,7 +31,7 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 /**
  * This class is useful if you want to perform database-based tests.
  *
- * @package    OpenadsDB
+ * @package    OpenXDB
  * @subpackage TestSuite
  * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openx.org>
  */

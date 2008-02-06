@@ -30,7 +30,7 @@ require_once MAX_PATH . '/plugins/authentication/cas/CAS/client.php';
 /**
  * Authentication CAS plugin which authenticates users against cas-server
  *
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage Authentication
  * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  * @abstract

@@ -32,7 +32,7 @@ require_once MAX_PATH . '/plugins/deliveryLimitations/Client/Language.delivery.p
 /**
  * A class for testing the Plugins_DeliveryLimitations_Client_Language class.
  *
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew@m3.net>
  */

@@ -43,7 +43,7 @@ require_once MAX_PATH . '/plugins/reports/Reports.php';
  *  - Clicks
  *  - Conversions
  *
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage Reports
  * @author     Andrew Hill <andrew.hill@openx.org>
  * @author     Chris Nutting <chris@m3.net>

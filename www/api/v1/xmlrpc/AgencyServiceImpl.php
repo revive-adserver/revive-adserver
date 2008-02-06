@@ -26,7 +26,7 @@ $Id$
 */
 
 /**
- * @package    Openads
+ * @package    OpenX
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
  */

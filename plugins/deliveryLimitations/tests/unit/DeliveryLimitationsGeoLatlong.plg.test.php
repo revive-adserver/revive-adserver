@@ -33,7 +33,7 @@ require_once MAX_PATH . '/plugins/deliveryLimitations/Geo/Latlong.delivery.php';
 /**
  * A class for testing the Plugins_DeliveryLimitations_Geo_Latlong class.
  *
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew@m3.net>
  */

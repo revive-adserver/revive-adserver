@@ -27,7 +27,7 @@ $Id$
 /**
  * Plugins_Authentication is an abstract class for Authentication plugins
  *
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage Authentication
  * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */

@@ -31,7 +31,7 @@ require_once MAX_PATH . '/plugins/authentication/Authentication.php';
  * Authentication internal plugin which authenticates user using internal
  * database method.
  *
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage Authentication
  * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */

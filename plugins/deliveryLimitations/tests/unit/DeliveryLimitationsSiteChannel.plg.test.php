@@ -32,7 +32,7 @@ require_once MAX_PATH . '/plugins/deliveryLimitations/Site/Channel.delivery.php'
 /**
  * A class for testing the Plugins_DeliveryLimitations_Geo_City class.
  *
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew@m3.net>
  */

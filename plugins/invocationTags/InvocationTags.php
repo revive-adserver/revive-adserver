@@ -36,7 +36,7 @@ define('MAX_PLUGINS_INVOCATION_TAGS_CUSTOM', 1);
 /**
  * Plugins_InvocationTags is an abstract class for every Invocation tag plugin.
  *
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage InvocationTags
  * @author     Radek Maciaszek <radek@m3.net>
  * @abstract

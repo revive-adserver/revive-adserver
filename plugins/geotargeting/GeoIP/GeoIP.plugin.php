@@ -33,7 +33,7 @@ require_once(MAX_PATH . '/plugins/geotargeting/GeoIP/GeoIP.delivery.php');
  * database file, without having it accessed via the C/mod_apache
  * interface.
  *
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage Geotargeting
  * @author     Andrew Hill <andrew@m3.net>
  * @author     Radek Maciaszek <radek@m3.net>

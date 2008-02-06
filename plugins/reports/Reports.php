@@ -38,7 +38,7 @@ require_once MAX_PATH . '/lib/OA/Permission.php';
  * report plugin to implement.
  *
  * @abstract
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage Reports
  * @author     Andrew Hill <andrew.hill@openx.org>
  * @author     Radek Maciaszek <radek@m3.net>

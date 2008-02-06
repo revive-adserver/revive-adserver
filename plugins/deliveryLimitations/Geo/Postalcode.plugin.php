@@ -34,7 +34,7 @@ require_once MAX_PATH . '/plugins/deliveryLimitations/DeliveryLimitations.php';
  * Valid comparison operators:
  * ==, !=,=~,!~,=x,!x
  *
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
  * @author     Andrew Hill <andrew@m3.net>
  * @author     Chris Nutting <chris@m3.net>
