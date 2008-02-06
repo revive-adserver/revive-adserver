@@ -8,9 +8,6 @@
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
-|                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
 | the Free Software Foundation; either version 2 of the License, or         |
@@ -39,27 +36,27 @@ function phpAds_GDImageFormat()
 {
 	$conf = $GLOBALS['_MAX']['CONF'];
 	global $phpAds_GDImageFormat;
-	
+
 	// Determine php version
 	$phpversion = ereg_replace ("([^0-9])", "", phpversion());
 	$phpversion = $phpversion / pow (10, strlen($phpversion) - 1);
-	
+
 	if ($phpversion >= 4.02 || ($phpversion >= 3.018 && $phpversion < 4.0))
-	{ 
+	{
 		// Determine if GD is installed
 		if (extension_loaded("gd"))
 		{
 			// Use ImageTypes() to dermine image format
 		    if (ImageTypes() & IMG_PNG)
 		        $phpAds_GDImageFormat = "png";
-		    
+
 		    elseif (ImageTypes() & IMG_JPG)
 		        $phpAds_GDImageFormat = "jpeg";
-		    
+
 		    elseif (ImageTypes() & IMG_GIF)
 		        $phpAds_GDImageFormat = "gif";
-		    
-		    else 
+
+		    else
 		        $phpAds_GDImageFormat = "none";
 		}
 		else
@@ -71,27 +68,27 @@ function phpAds_GDImageFormat()
 		$phpAds_GDImageFormat = "gif"; // assume gif?
 	}
 	else
-	{ 
+	{
 	    // Use Function_Exists to determine image format
-		
+
 	    if (function_exists("imagepng"))
-	        $phpAds_GDImageFormat = "png"; 
-	    
+	        $phpAds_GDImageFormat = "png";
+
 		elseif (function_exists("imagejpeg"))
-	        $phpAds_GDImageFormat = "jpeg"; 
-	    
+	        $phpAds_GDImageFormat = "jpeg";
+
 	    elseif (function_exists("imagegif"))
 	        $phpAds_GDImageFormat = "gif";
-	    
+
 	    else
 	        $phpAds_GDImageFormat = "none";
 	}
-	
-	
+
+
 	// Override detected GD foramt
 	if (isset($pref['override_gd_imageformat']) && $pref['override_gd_imageformat'] != '')
 		$phpAds_GDImageFormat = $pref['override_gd_imageformat'];
-	
+
 	return ($phpAds_GDImageFormat);
 }
 
@@ -104,9 +101,9 @@ function phpAds_GDImageFormat()
 function phpAds_GDContentType()
 {
 	global $phpAds_GDImageFormat;
-	
+
 	if ($phpAds_GDImageFormat == '') $phpAds_GDImageFormat = phpAds_GDImageFormat();
-	
+
 	Header("Content-type: $phpAds_GDImageFormat");
 }
 
@@ -119,11 +116,11 @@ function phpAds_GDContentType()
 function phpAds_GDShowImage(&$im)
 {
 	global $phpAds_GDImageFormat;
-	
+
 	if ($phpAds_GDImageFormat == '') $phpAds_GDImageFormat = phpAds_GDImageFormat();
-	
+
 	switch ($phpAds_GDImageFormat)
-	{ 
+	{
 		case "gif":
 			ImageGIF($im);
 			break;

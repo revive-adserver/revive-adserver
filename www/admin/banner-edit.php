@@ -8,9 +8,6 @@
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
-|                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
 | the Free Software Foundation; either version 2 of the License, or         |
@@ -260,7 +257,7 @@ if (isset($submit)) {
     // Determine what the next page is
     if ($editSwf) {
         $nextPage = "banner-swf.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid";
-    } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {        
+    } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
         $nextPage = "banner-edit.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid";
     } else {
         $nextPage = "banner-acl.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid";
