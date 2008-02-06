@@ -140,8 +140,7 @@ foreach ($aStatisticsFieldsDeliveryPlugins as $oPlugin) {
 // output using the $oOption object
 $aSettings = array (
     array (
-        'text'  => $strInventory,
-        'visible' => $admin_settings,
+        'text'  => $strInventory,        
         'items' => array (
             array (
                 'type'  => 'checkbox',
