@@ -7,9 +7,6 @@
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
-|                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
 | the Free Software Foundation; either version 2 of the License, or         |
@@ -328,18 +325,18 @@ echo "
   {
     if (this.value == '-')  {
       this.value = '';
-    } 
+    }
   }
 
 
   function enableResetCounterConditionally()
   {
     var cappingSet = false;
-    $(\"#session_capping,#cap\", $(this.form)).each(function() 
+    $(\"#session_capping,#cap\", $(this.form)).each(function()
     {
       if (this.value == '-' || this.value == '' || this.value == '0') {
         this.value = '-';
-      } 
+      }
       else {
         cappingSet = true;
       }

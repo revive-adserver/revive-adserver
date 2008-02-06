@@ -8,9 +8,6 @@
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
-|                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
 | the Free Software Foundation; either version 2 of the License, or         |
@@ -64,7 +61,7 @@ function MAX_geoIsPlaceInRegion($lattitude, $longitude, $region)
     $lattitudeNorth = $region[1];
     $longitudeWest = $region[2];
     $longitudeEast = $region[3];
-    
+
     return $lattitude >= $lattitudeSouth
         && $lattitude <= $lattitudeNorth
         && $longitude >= $longitudeWest
@@ -78,7 +75,7 @@ function MAX_geoIsRegionPartlyWithinRegion($region1, $region2)
     $lattitudeNorth1 = $region1[1];
     $longitudeEast1 = $region1[2];
     $longitudeWest1 = $region1[3];
-    
+
     return MAX_geoIsPlaceInRegion($lattitudeSouth1, $longitudeWest1, $region2)
         || MAX_geoIsPlaceInRegion($lattitudeSouth1, $longitudeEast1, $region2)
         || MAX_geoIsPlaceInRegion($lattitudeNorth1, $longitudeWest1, $region2)
@@ -99,7 +96,7 @@ function MAX_geoIsRegionContainedInRegion($region1, $region2)
     $lattitudeNorth1 = $region1[1];
     $longitudeEast1 = $region1[2];
     $longitudeWest1 = $region1[3];
-    
+
     return MAX_geoIsPlaceInRegion($lattitudeSouth1, $longitudeWest1, $region2)
         && MAX_geoIsPlaceInRegion($lattitudeSouth1, $longitudeEast1, $region2)
         && MAX_geoIsPlaceInRegion($lattitudeNorth1, $longitudeWest1, $region2)
@@ -111,7 +108,7 @@ function MAX_geoDoesRegionSpanEntireLattitude($region)
 {
     $lattitudeSouth = MAX_geoGetLattitudeSouth($region);
     $lattitudeNorth = MAX_geoGetLattitudeNorth($region);
-    
+
     return $lattitudeSouth == GEO_MIN_LATTITUDE
         && $lattitudeNorth == GEO_MAX_LATTITUDE;
 }
@@ -121,7 +118,7 @@ function MAX_geoDoesRegionSpanEntireLongitude($region)
 {
     $longitudeWest = MAX_geoGetLongitudeWest($region);
     $longitudeEast = MAX_geoGetLongitudeEast($region);
-    
+
     return $longitudeWest == GEO_MIN_LONGITUDE
         && $longitudeEast == GEO_MAX_LONGITUDE;
 }
@@ -133,7 +130,7 @@ function MAX_geoDoesRegionSpanEntireWorld($region)
         && MAX_geoDoesRegionSpanEntireLongitude($region);
 }
 
-    
+
 /**
  * Replaces all empty strings in an array with a string
  * of '0.0000'. Returns the replaced string.
