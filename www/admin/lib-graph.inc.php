@@ -8,9 +8,6 @@
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
-|                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
 | the Free Software Foundation; either version 2 of the License, or         |
@@ -63,17 +60,17 @@ for($x=0;$x<$items_count;$x++)
 	// AdViews
 	$count[$x] = $items[$x]["value1"];
 	$totalViews += $items[$x]["value1"];
-	
+
 	if($items[$x]["value1"] > $maxViews)
 		$maxViews = $items[$x]["value1"];
-	
+
 	// AdClicks
 	$count2[$x] = $items[$x]["value2"];
 	$totalClicks += $items[$x]["value2"];
-	
+
 	if($items[$x]["value2"] > $maxClicks)
 		$maxClicks = $items[$x]["value2"];
-	
+
 	// Strings
 	if(strlen($items[$x]['text']) > $maxlen)
 		$maxlen=strlen($items[$x]['text']);
@@ -96,7 +93,7 @@ else
 // Use the same scale
 if (defined('LIB_GRAPH_SAME_SCALE'))
 {
-	if ($maxViews > $maxClicks)	
+	if ($maxViews > $maxClicks)
 		$maxClicks = $maxViews;
 	else
 		$maxViews = $maxClicks;
@@ -174,7 +171,7 @@ for($x = 0;$x<$items_count;$x++)
 	// AdViews
 	ImageFilledRectangle($im, $leftMargin + 10 + ($x * 12), 120-(int)($count[$x]*$scaleViews), $leftMargin + 19 + ($x * 12), 120,$adviewscolor);
 	ImageRectangle($im, $leftMargin + 10 + ($x * 12), 120-(int)($count[$x]*$scaleViews), $leftMargin + 19 + ($x * 12), 120,$linecolor);
-	
+
 	// AdClicks
 	ImageFilledRectangle($im, $leftMargin + 12 + ($x * 12), 120-(int)($count2[$x]*$scaleClicks), $leftMargin + 21 + ($x * 12), 120,$adclickscolor);
 	ImageRectangle($im, $leftMargin + 12 + ($x * 12), 120-(int)($count2[$x]*$scaleClicks), $leftMargin + 21 + ($x * 12), 120,$linecolor);
@@ -198,7 +195,7 @@ MAX_commonSetNoCacheHeaders();
 // Display modified image
 phpAds_GDShowImage($im);
 
-// Release allocated ressources  
+// Release allocated ressources
 ImageDestroy($im);
 
 ?>
