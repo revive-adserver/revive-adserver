@@ -303,12 +303,12 @@ class OA_Admin_Option
                             foreach ($aItem['rows'] as $aSubItem) {
                                 // Create two fake items for the label and rank
                                 $aLabelItem = array(
-                                    'name'    => $aSubItem['name'] . '_label',
-                                    'depends' => $aSubItem['name'] . '==true'
+                                    'name'     => $aSubItem['name'] . '_label',
+                                    'depends'  => $aSubItem['name'] . '==true'
                                 );
                                 $aRankItem = array(
-                                    'name'    => $aSubItem['name'] . '_rank',
-                                    'depends' => $aSubItem['name'] . '==true'
+                                    'name'     => $aSubItem['name'] . '_rank',
+                                    'depends'  => $aSubItem['name'] . '==true'
                                 );
                                 // Add the fake item dependencies
                                 $dependbuffer .= $this->_showCheckDependancies($aData, $aLabelItem);
@@ -579,6 +579,7 @@ class OA_Admin_Option
                         default:            $javascript .= 'value'; break;
                     }
                     $javascript .= " ".$regs[3]." ".$regs[4].$regs[5];
+                    $javascript .= " && ".$regs[1]."document.".$formName.".".$regs[2].".disabled ". $regs[3]. " false";
                 }
             }
             $javascript .= ");\n";
@@ -738,6 +739,22 @@ class OA_Admin_Option
      */
     function _showStatsColumns($aItem, $aValue)
     {
+    	// Get all of the preference types that exist
+    	$aPreferenceTypes = array();
+    	$doPreferences = OA_Dal::factoryDO('preferences');
+    	$doPreferences->find();
+    	if ($doPreferences->getRowCount() >= 1) {
+    		while ($doPreferences->fetch()) {
+    			$aPreference = $doPreferences->toArray();
+    			$aPreferenceTypes[$aPreference['preference_name']] = array(
+    			    'preference_id' => $aPreference['preference_id'],
+    			    'account_type'  => $aPreference['account_type']
+    			);
+    		}
+    	}
+		// Get the type of the current accout
+		$currentAccountType = OA_Permission::getAccountType();
+
         global $tabindex;
         $aItem['tabindex'] = $tabindex++;
         foreach ($aItem['rows'] as $key => $aRow) {
@@ -750,6 +767,12 @@ class OA_Admin_Option
             if (isset($aValue[$aRow['name']]['rank'])) {
                 $aItem['rows'][$key]['rank_value'] = $aValue[$aRow['name']]['rank'];
             }
+
+            // Has the current account got access to edit this preference?
+        	$access = OA_Preferences::hasAccess($currentAccountType, $aPreferenceTypes[$aRow['name']]['account_type']);
+        	if ($access == false) {
+        		$aItem['rows'][$key]['disabled'] = true;
+        	}
         }
         $this->aOption[] = array('statscolumns.html' => $aItem);
         // Update the global tab index for the number of stats column rows added
