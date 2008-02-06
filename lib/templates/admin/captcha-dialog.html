@@ -7,9 +7,6 @@
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
 | For contact details, see: http://www.openx.org/                           |
 |                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
-|                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
 | the Free Software Foundation; either version 2 of the License, or         |
@@ -30,7 +27,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 
 <div id="captcha-dialog-{$formId|escape:javascript}" class="jqmWindow">
   <div class="jqm-window-title">&nbsp;&nbsp;{$title}</div>
-  
+
   <div class="jqm-window-body">
 
     <div style="text-align: center">
@@ -42,8 +39,8 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
       {$message} by entering the security code shown below (*):<br/>
       <div>
       <img id="captcha" src="images/spacer.gif" />
-      <input class="flat" name="captcha-value" type="text" autocomplete="off" {tabindex}/>      
-      <input name="captcha-random" id="captcha-random" type="hidden" value="" />      
+      <input class="flat" name="captcha-value" type="text" autocomplete="off" {tabindex}/>
+      <input name="captcha-random" id="captcha-random" type="hidden" value="" />
       </div>
     </div>
 
@@ -55,7 +52,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
       <input id="dg-submit" type="button" value="Submit" class="main-submit" {tabindex} />&nbsp;
       <input id="dg-cancel" type="button" value="Cancel"  {tabindex} />
     </div>
-  </div>  
+  </div>
 </div>
 
 <script type="text/javascript">
