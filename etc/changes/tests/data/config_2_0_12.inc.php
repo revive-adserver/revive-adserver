@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
-| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                             |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
 | For contact details, see: http://www.openx.org/                           |
@@ -87,7 +87,7 @@ $phpAds_config['mysql4_compatibility'] = false;
 
 
 /*********************************************************/
-/* OpenX configuration                                 */
+/* OpenX configuration                                   */
 /*********************************************************/
 
 // The URL to your OpenX installation
@@ -275,7 +275,7 @@ $phpAds_config['lb_dbname'] = '';
 
 
 /*********************************************************/
-/* OpenX self configuration code - don't change        */
+/* OpenX self configuration code - don't change          */
 /*********************************************************/
 
 define('phpAds_installed', true);
