@@ -59,6 +59,8 @@ class MDB2_Schema_Writer
 
     var $valid_types = array();
 
+    var $fp;
+
     // }}}
     // {{{ constructor
 
@@ -519,6 +521,169 @@ class MDB2_Schema_Writer
     }
 
     // }}}
+    // {{{ dumpDatabaseHeader()
+
+    /**
+     * Dump a previously parsed database structure in the Metabase schema
+     * XML based format suitable for the Metabase parser. This function
+     * may optionally dump the database definition with initialization
+     * commands that specify the data that is currently present in the tables.
+     *
+     * @param array associative array that takes pairs of tag
+     *              names and values that define dump options.
+     *                 array (
+     *                     'output_mode'    =>    String
+     *                         'file' :   dump into a file
+     *                         default:   dump using a function
+     *                     'output'        =>    String
+     *                         depending on the 'Output_Mode'
+     *                                  name of the file
+     *                                  name of the function
+     *                     'end_of_line'        =>    String
+     *                         end of line delimiter that should be used
+     *                         default: "\n"
+     *                 );
+     * @param integer determines what data to dump
+     *                      MDB2_SCHEMA_DUMP_ALL       : the entire db
+     *                      MDB2_SCHEMA_DUMP_STRUCTURE : only the structure of the db
+     *                      MDB2_SCHEMA_DUMP_CONTENT   : only the content of the db
+     * @return mixed MDB2_OK on success, or a error object
+     * @access public
+     */
+    function dumpDatabaseHeader($database_definition, $arguments)
+    {
+        if (!empty($arguments['output'])) {
+            if (!empty($arguments['output_mode']) && $arguments['output_mode'] == 'file') {
+                $this->fp = fopen($arguments['output'], 'w');
+                if ($this->fp === false) {
+                    return $this->raiseError(MDB2_SCHEMA_ERROR_WRITER, null, null,
+                        'it was not possible to open output file');
+                }
+
+                $output = false;
+            } elseif (is_callable($arguments['output'])) {
+                $output = $arguments['output'];
+            } else {
+                return $this->raiseError(MDB2_SCHEMA_ERROR_WRITER, null, null,
+                    'no valid output function specified');
+            }
+        } else {
+            return $this->raiseError(MDB2_SCHEMA_ERROR_WRITER, null, null,
+                'no output method specified');
+        }
+
+        $eol = isset($arguments['end_of_line']) ? $arguments['end_of_line'] : "\n";
+
+        $buffer = '<?xml version="1.0" encoding="ISO-8859-1" ?>'.$eol;
+        $buffer.= $this->_getXSLRef($arguments).$eol;
+        $buffer.= "<database>$eol$eol <name>".$database_definition['name']."</name>";
+        $buffer.= "$eol <create>".$this->_dumpBoolean($database_definition['create'])."</create>";
+        $buffer.= "$eol <overwrite>".$this->_dumpBoolean($database_definition['overwrite'])."</overwrite>$eol";
+        $buffer.= $this->writeCustomTags($arguments, $eol);
+
+        if ($output) {
+            call_user_func($output, $buffer);
+        } else {
+            fwrite($this->fp, $buffer);
+        }
+    }
+
+    // {{{ dumpDatabaseTable()
+
+    /**
+     * Dump a previously parsed database structure in the Metabase schema
+     * XML based format suitable for the Metabase parser. This function
+     * may optionally dump the database definition with initialization
+     * commands that specify the data that is currently present in the tables.
+     *
+     * @param array associative array that takes pairs of tag
+     *              names and values that define dump options.
+     *                 array (
+     *                     'output_mode'    =>    String
+     *                         'file' :   dump into a file
+     *                         default:   dump using a function
+     *                     'output'        =>    String
+     *                         depending on the 'Output_Mode'
+     *                                  name of the file
+     *                                  name of the function
+     *                     'end_of_line'        =>    String
+     *                         end of line delimiter that should be used
+     *                         default: "\n"
+     *                 );
+     * @param integer determines what data to dump
+     *                      MDB2_SCHEMA_DUMP_ALL       : the entire db
+     *                      MDB2_SCHEMA_DUMP_STRUCTURE : only the structure of the db
+     *                      MDB2_SCHEMA_DUMP_CONTENT   : only the content of the db
+     * @return mixed MDB2_OK on success, or a error object
+     * @access public
+     */
+    function dumpDatabaseTable($table_name, $table, $arguments)
+    {
+        $eol = isset($arguments['end_of_line']) ? $arguments['end_of_line'] : "\n";
+        if (!empty($table) && is_array($table))
+        {
+            $buffer = "$eol <table>$eol$eol  <name>$table_name</name>$eol";
+            $buffer.= "$eol  <initialization>$eol";
+            foreach ($table as $k=>$instruction)
+            {
+                switch ($instruction['type'])
+                {
+                case 'insert':
+                    $buffer.= "$eol   <insert>$eol";
+                    foreach ($instruction['data']['field'] as $field) {
+                        $field_name = $field['name'];
+                        $buffer.= "$eol    <field>$eol     <name>$field_name</name>$eol";
+                        $buffer.= $this->writeExpression($field['group'], 5, $arguments);
+                        $buffer.= "    </field>$eol";
+                    }
+                    $buffer.= "$eol   </insert>$eol";
+                    break;
+                case 'update':
+                    $buffer.= "$eol   <update>$eol";
+                    foreach ($instruction['data']['field'] as $field) {
+                        $field_name = $field['name'];
+                        $buffer.= "$eol    <field>$eol     <name>$field_name</name>$eol";
+                        $buffer.= $this->writeExpression($field['group'], 5, $arguments);
+                        $buffer.= "    </field>$eol";
+                    }
+
+                    if (!empty($instruction['data']['where'])
+                        && is_array($instruction['data']['where'])
+                    ) {
+                        $buffer.= "    <where>$eol";
+                        $buffer.= $this->writeExpression($instruction['data']['where'], 5, $arguments);
+                        $buffer.= "    </where>$eol";
+                    }
+
+                    $buffer.= "$eol   </update>$eol";
+                    break;
+                case 'delete':
+                    $buffer.= "$eol   <delete>$eol$eol";
+                    if (!empty($instruction['data']['where'])
+                        && is_array($instruction['data']['where'])
+                    ) {
+                        $buffer.= "    <where>$eol";
+                        $buffer.= $this->writeExpression($instruction['data']['where'], 5, $arguments);
+                        $buffer.= "    </where>$eol";
+                    }
+                    $buffer.= "$eol   </delete>$eol";
+                    break;
+                }
+            }
+            $buffer.= "$eol  </initialization>$eol";
+            $buffer.= "$eol </table>$eol";
+            fwrite($this->fp, $buffer);
+        }
+    }
+
+    function dumpDatabaseFooter()
+    {
+        $eol = isset($arguments['end_of_line']) ? $arguments['end_of_line'] : "\n";
+        $buffer = "$eol</database>$eol";
+        fwrite($this->fp, $buffer);
+        fclose($this->fp);
+        return MDB2_OK;
+    }
     // {{{ _getXMLversion()
 
     function _getXMLversion()

@@ -1,0 +1,2087 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+<database>
+
+ <name>ChannelTargetTwoAds</name>
+ <create>true</create>
+ <overwrite>false</overwrite>
+ <version>500</version>
+ <status>final</status>
+ <application>2.3.31-alpha</application>
+
+ <table>
+
+  <name>acls</name>
+
+  <initialization>
+
+   <insert>
+
+    <field>
+     <name>bannerid</name>
+     <value>2</value>
+    </field>
+
+    <field>
+     <name>logical</name>
+     <value>and</value>
+    </field>
+
+    <field>
+     <name>type</name>
+     <value>Site:Channel</value>
+    </field>
+
+    <field>
+     <name>comparison</name>
+     <value>==</value>
+    </field>
+
+    <field>
+     <name>data</name>
+     <value>2</value>
+    </field>
+
+    <field>
+     <name>executionorder</name>
+     <value>0</value>
+    </field>
+
+   </insert>
+
+  </initialization>
+
+ </table>
+
+ <table>
+
+  <name>acls_channel</name>
+
+  <initialization>
+
+   <insert>
+
+    <field>
+     <name>channelid</name>
+     <value>2</value>
+    </field>
+
+    <field>
+     <name>logical</name>
+     <value>and</value>
+    </field>
+
+    <field>
+     <name>type</name>
+     <value>Site:Pageurl</value>
+    </field>
+
+    <field>
+     <name>comparison</name>
+     <value>=~</value>
+    </field>
+
+    <field>
+     <name>data</name>
+     <value>www.example.com</value>
+    </field>
+
+    <field>
+     <name>executionorder</name>
+     <value>0</value>
+    </field>
+
+   </insert>
+
+  </initialization>
+
+ </table>
+
+ <table>
+
+  <name>ad_zone_assoc</name>
+
+  <initialization>
+
+   <insert>
+
+    <field>
+     <name>ad_zone_assoc_id</name>
+     <value>3</value>
+    </field>
+
+    <field>
+     <name>zone_id</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>ad_id</name>
+     <value>2</value>
+    </field>
+
+    <field>
+     <name>priority</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>link_type</name>
+     <value>0</value>
+    </field>
+
+   </insert>
+
+   <insert>
+
+    <field>
+     <name>ad_zone_assoc_id</name>
+     <value>4</value>
+    </field>
+
+    <field>
+     <name>zone_id</name>
+     <value>1</value>
+    </field>
+
+    <field>
+     <name>ad_id</name>
+     <value>2</value>
+    </field>
+
+    <field>
+     <name>priority</name>
+     <value>0.5</value>
+    </field>
+
+    <field>
+     <name>link_type</name>
+     <value>1</value>
+    </field>
+
+   </insert>
+
+   <insert>
+
+    <field>
+     <name>ad_zone_assoc_id</name>
+     <value>5</value>
+    </field>
+
+    <field>
+     <name>zone_id</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>ad_id</name>
+     <value>3</value>
+    </field>
+
+    <field>
+     <name>priority</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>link_type</name>
+     <value>0</value>
+    </field>
+
+   </insert>
+
+   <insert>
+
+    <field>
+     <name>ad_zone_assoc_id</name>
+     <value>6</value>
+    </field>
+
+    <field>
+     <name>zone_id</name>
+     <value>1</value>
+    </field>
+
+    <field>
+     <name>ad_id</name>
+     <value>3</value>
+    </field>
+
+    <field>
+     <name>priority</name>
+     <value>0.5</value>
+    </field>
+
+    <field>
+     <name>link_type</name>
+     <value>1</value>
+    </field>
+
+   </insert>
+
+  </initialization>
+
+ </table>
+
+ <table>
+
+  <name>affiliates</name>
+
+  <initialization>
+
+   <insert>
+
+    <field>
+     <name>affiliateid</name>
+     <value>1</value>
+    </field>
+
+    <field>
+     <name>agencyid</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>name</name>
+     <value>RunOfSite_Publisher</value>
+    </field>
+
+    <field>
+     <name>mnemonic</name>
+     <value>ROS</value>
+    </field>
+
+    <field>
+     <name>comments</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>contact</name>
+     <value>Monique Szpak</value>
+    </field>
+
+    <field>
+     <name>email</name>
+     <value>monique@m3.net</value>
+    </field>
+
+    <field>
+     <name>website</name>
+     <value>http://www.openads.org</value>
+    </field>
+
+    <field>
+     <name>username</name>
+     <value>publisher</value>
+    </field>
+
+    <field>
+     <name>password</name>
+     <value>52aded165360352a0f5857571d96d68f</value>
+    </field>
+
+    <field>
+     <name>permissions</name>
+     <value>383</value>
+    </field>
+
+    <field>
+     <name>language</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>publiczones</name>
+     <value>f</value>
+    </field>
+
+    <field>
+     <name>last_accepted_agency_agreement</name>
+     <value>2000-01-01 00:00:00</value>
+    </field>
+
+    <field>
+     <name>updated</name>
+     <value>2006-11-10 11:15:51</value>
+    </field>
+
+   </insert>
+
+  </initialization>
+
+ </table>
+
+ <table>
+
+  <name>affiliates_extra</name>
+
+  <initialization>
+
+   <insert>
+
+    <field>
+     <name>affiliateid</name>
+     <value>1</value>
+    </field>
+
+    <field>
+     <name>address</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>city</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>postcode</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>country</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>phone</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>fax</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>account_contact</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>payee_name</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>tax_id</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>mode_of_payment</name>
+     <value>Cheque by post</value>
+    </field>
+
+    <field>
+     <name>currency</name>
+     <value>GBP</value>
+    </field>
+
+    <field>
+     <name>unique_users</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>unique_views</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>page_rank</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>category</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>help_file</name>
+     <value></value>
+    </field>
+
+   </insert>
+
+  </initialization>
+
+ </table>
+
+ <table>
+
+  <name>application_variable</name>
+
+  <initialization>
+
+   <insert>
+
+    <field>
+     <name>name</name>
+     <value>max_version</value>
+    </field>
+
+    <field>
+     <name>value</name>
+     <value>v0.3.31-alpha</value>
+    </field>
+
+   </insert>
+
+  </initialization>
+
+ </table>
+
+ <table>
+
+  <name>banners</name>
+
+  <initialization>
+
+   <insert>
+
+    <field>
+     <name>bannerid</name>
+     <value>2</value>
+    </field>
+
+    <field>
+     <name>campaignid</name>
+     <value>2</value>
+    </field>
+
+    <field>
+     <name>active</name>
+     <value>t</value>
+    </field>
+
+    <field>
+     <name>contenttype</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>pluginversion</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>storagetype</name>
+     <value>html</value>
+    </field>
+
+    <field>
+     <name>filename</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>imageurl</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>htmltemplate</name>
+     <value>this is a test</value>
+    </field>
+
+    <field>
+     <name>htmlcache</name>
+     <value>this is a test</value>
+    </field>
+
+    <field>
+     <name>width</name>
+     <value>468</value>
+    </field>
+
+    <field>
+     <name>height</name>
+     <value>60</value>
+    </field>
+
+    <field>
+     <name>weight</name>
+     <value>1</value>
+    </field>
+
+    <field>
+     <name>seq</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>target</name>
+     <value>_blank</value>
+    </field>
+
+    <field>
+     <name>url</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>alt</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>status</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>bannertext</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>description</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>autohtml</name>
+     <value>t</value>
+    </field>
+
+    <field>
+     <name>adserver</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>block</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>capping</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>session_capping</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>compiledlimitation</name>
+     <value>(MAX_checkSite_Channel(&apos;2&apos;, &apos;==&apos;, $source))</value>
+    </field>
+
+    <field>
+     <name>acl_plugins</name>
+     <value>Site:Channel</value>
+    </field>
+
+    <field>
+     <name>append</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>appendtype</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>bannertype</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>alt_filename</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>alt_imageurl</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>alt_contenttype</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>comments</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>updated</name>
+     <value>2006-11-10 14:00:10</value>
+    </field>
+
+    <field>
+     <name>acls_updated</name>
+     <value>2006-11-10 11:19:56</value>
+    </field>
+
+   </insert>
+
+   <insert>
+
+    <field>
+     <name>bannerid</name>
+     <value>3</value>
+    </field>
+
+    <field>
+     <name>campaignid</name>
+     <value>3</value>
+    </field>
+
+    <field>
+     <name>active</name>
+     <value>t</value>
+    </field>
+
+    <field>
+     <name>contenttype</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>pluginversion</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>storagetype</name>
+     <value>html</value>
+    </field>
+
+    <field>
+     <name>filename</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>imageurl</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>htmltemplate</name>
+     <value>TEST 2</value>
+    </field>
+
+    <field>
+     <name>htmlcache</name>
+     <value>TEST 2</value>
+    </field>
+
+    <field>
+     <name>width</name>
+     <value>468</value>
+    </field>
+
+    <field>
+     <name>height</name>
+     <value>60</value>
+    </field>
+
+    <field>
+     <name>weight</name>
+     <value>1</value>
+    </field>
+
+    <field>
+     <name>seq</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>target</name>
+     <value>_blank</value>
+    </field>
+
+    <field>
+     <name>url</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>alt</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>status</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>bannertext</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>description</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>autohtml</name>
+     <value>t</value>
+    </field>
+
+    <field>
+     <name>adserver</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>block</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>capping</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>session_capping</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>compiledlimitation</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>acl_plugins</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>append</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>appendtype</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>bannertype</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>alt_filename</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>alt_imageurl</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>alt_contenttype</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>comments</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>updated</name>
+     <value>2006-11-10 15:44:34</value>
+    </field>
+
+    <field>
+     <name>acls_updated</name>
+     <value>2000-01-01 00:00:00</value>
+    </field>
+
+   </insert>
+
+  </initialization>
+
+ </table>
+
+ <table>
+
+  <name>campaigns</name>
+
+  <initialization>
+
+   <insert>
+
+    <field>
+     <name>campaignid</name>
+     <value>2</value>
+    </field>
+
+    <field>
+     <name>campaignname</name>
+     <value>ROS Test Advertiser - Default Campaign</value>
+    </field>
+
+    <field>
+     <name>clientid</name>
+     <value>1</value>
+    </field>
+
+    <field>
+     <name>views</name>
+     <value>23000</value>
+    </field>
+
+    <field>
+     <name>clicks</name>
+     <value>-1</value>
+    </field>
+
+    <field>
+     <name>conversions</name>
+     <value>-1</value>
+    </field>
+
+    <field>
+     <name>expire</name>
+     <value>2000-01-01</value>
+    </field>
+
+    <field>
+     <name>activate</name>
+     <value>2000-01-01</value>
+    </field>
+
+    <field>
+     <name>active</name>
+     <value>t</value>
+    </field>
+
+    <field>
+     <name>priority</name>
+     <value>10</value>
+    </field>
+
+    <field>
+     <name>weight</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>target_impression</name>
+     <value>100</value>
+    </field>
+
+    <field>
+     <name>target_click</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>target_conversion</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>anonymous</name>
+     <value>f</value>
+    </field>
+
+    <field>
+     <name>companion</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>comments</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>revenue</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>revenue_type</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>updated</name>
+     <value>2006-11-10 15:43:10</value>
+    </field>
+
+   </insert>
+
+   <insert>
+
+    <field>
+     <name>campaignid</name>
+     <value>3</value>
+    </field>
+
+    <field>
+     <name>campaignname</name>
+     <value>ROS Test Advertiser - Default Campaign2</value>
+    </field>
+
+    <field>
+     <name>clientid</name>
+     <value>1</value>
+    </field>
+
+    <field>
+     <name>views</name>
+     <value>23000</value>
+    </field>
+
+    <field>
+     <name>clicks</name>
+     <value>-1</value>
+    </field>
+
+    <field>
+     <name>conversions</name>
+     <value>-1</value>
+    </field>
+
+    <field>
+     <name>expire</name>
+     <value>2000-01-01</value>
+    </field>
+
+    <field>
+     <name>activate</name>
+     <value>2000-01-01</value>
+    </field>
+
+    <field>
+     <name>active</name>
+     <value>t</value>
+    </field>
+
+    <field>
+     <name>priority</name>
+     <value>10</value>
+    </field>
+
+    <field>
+     <name>weight</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>target_impression</name>
+     <value>100</value>
+    </field>
+
+    <field>
+     <name>target_click</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>target_conversion</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>anonymous</name>
+     <value>f</value>
+    </field>
+
+    <field>
+     <name>companion</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>comments</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>revenue</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>revenue_type</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>updated</name>
+     <value>2006-11-10 15:44:01</value>
+    </field>
+
+   </insert>
+
+  </initialization>
+
+ </table>
+
+ <table>
+
+  <name>channel</name>
+
+  <initialization>
+
+   <insert>
+
+    <field>
+     <name>channelid</name>
+     <value>1</value>
+    </field>
+
+    <field>
+     <name>agencyid</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>affiliateid</name>
+     <value>1</value>
+    </field>
+
+    <field>
+     <name>name</name>
+     <value>Test Channel - page url</value>
+    </field>
+
+    <field>
+     <name>description</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>compiledlimitation</name>
+     <value>true</value>
+    </field>
+
+    <field>
+     <name>acl_plugins</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>active</name>
+     <value>1</value>
+    </field>
+
+    <field>
+     <name>comments</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>updated</name>
+     <value>0000-00-00 00:00:00</value>
+    </field>
+
+    <field>
+     <name>acls_updated</name>
+     <value>2000-01-01 00:00:00</value>
+    </field>
+
+   </insert>
+
+   <insert>
+
+    <field>
+     <name>channelid</name>
+     <value>2</value>
+    </field>
+
+    <field>
+     <name>agencyid</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>affiliateid</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>name</name>
+     <value>test 2 channel - page url</value>
+    </field>
+
+    <field>
+     <name>description</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>compiledlimitation</name>
+     <value>MAX_checkSite_Pageurl(&apos;www.example.com&apos;, &apos;=~&apos;)</value>
+    </field>
+
+    <field>
+     <name>acl_plugins</name>
+     <value>Site:Pageurl</value>
+    </field>
+
+    <field>
+     <name>active</name>
+     <value>1</value>
+    </field>
+
+    <field>
+     <name>comments</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>updated</name>
+     <value>0000-00-00 00:00:00</value>
+    </field>
+
+    <field>
+     <name>acls_updated</name>
+     <value>2006-11-10 11:19:18</value>
+    </field>
+
+   </insert>
+
+  </initialization>
+
+ </table>
+
+ <table>
+
+  <name>clients</name>
+
+  <initialization>
+
+   <insert>
+
+    <field>
+     <name>clientid</name>
+     <value>1</value>
+    </field>
+
+    <field>
+     <name>agencyid</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>clientname</name>
+     <value>ROS Test Advertiser</value>
+    </field>
+
+    <field>
+     <name>contact</name>
+     <value>Monique Szpak</value>
+    </field>
+
+    <field>
+     <name>email</name>
+     <value>monique@m3.net</value>
+    </field>
+
+    <field>
+     <name>clientusername</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>clientpassword</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>permissions</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>language</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>report</name>
+     <value>f</value>
+    </field>
+
+    <field>
+     <name>reportinterval</name>
+     <value>7</value>
+    </field>
+
+    <field>
+     <name>reportlastdate</name>
+     <value>2006-11-06</value>
+    </field>
+
+    <field>
+     <name>reportdeactivate</name>
+     <value>t</value>
+    </field>
+
+    <field>
+     <name>comments</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>updated</name>
+     <value>2006-11-06 11:54:51</value>
+    </field>
+
+   </insert>
+
+  </initialization>
+
+ </table>
+
+ <table>
+
+  <name>log_maintenance_statistics</name>
+
+  <initialization>
+
+   <insert>
+
+    <field>
+     <name>log_maintenance_statistics_id</name>
+     <value>1</value>
+    </field>
+
+    <field>
+     <name>start_run</name>
+     <value>2000-01-01 01:01:00</value>
+    </field>
+
+    <field>
+     <name>end_run</name>
+     <value>2000-01-01 01:00:00</value>
+    </field>
+
+    <field>
+     <name>duration</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>adserver_run_type</name>
+     <value>2</value>
+    </field>
+
+    <field>
+     <name>search_run_type</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>tracker_run_type</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>updated_to</name>
+     <value>2000-01-01 01:00:00</value>
+    </field>
+
+   </insert>
+
+  </initialization>
+
+ </table>
+
+ <table>
+
+  <name>placement_zone_assoc</name>
+
+  <initialization>
+
+   <insert>
+
+    <field>
+     <name>placement_zone_assoc_id</name>
+     <value>1</value>
+    </field>
+
+    <field>
+     <name>zone_id</name>
+     <value>1</value>
+    </field>
+
+    <field>
+     <name>placement_id</name>
+     <value>2</value>
+    </field>
+
+   </insert>
+
+  </initialization>
+
+ </table>
+
+ <table>
+
+  <name>preference</name>
+
+  <initialization>
+
+   <insert>
+
+    <field>
+     <name>agencyid</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>config_version</name>
+     <value>0.3</value>
+    </field>
+
+    <field>
+     <name>my_header</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>my_footer</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>my_logo</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>language</name>
+     <value>english</value>
+    </field>
+
+    <field>
+     <name>name</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>company_name</name>
+     <value>mysite.com</value>
+    </field>
+
+    <field>
+     <name>override_gd_imageformat</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>begin_of_week</name>
+     <value>1</value>
+    </field>
+
+    <field>
+     <name>percentage_decimals</name>
+     <value>2</value>
+    </field>
+
+    <field>
+     <name>type_sql_allow</name>
+     <value>t</value>
+    </field>
+
+    <field>
+     <name>type_url_allow</name>
+     <value>t</value>
+    </field>
+
+    <field>
+     <name>type_web_allow</name>
+     <value>f</value>
+    </field>
+
+    <field>
+     <name>type_html_allow</name>
+     <value>t</value>
+    </field>
+
+    <field>
+     <name>type_txt_allow</name>
+     <value>t</value>
+    </field>
+
+    <field>
+     <name>banner_html_auto</name>
+     <value>t</value>
+    </field>
+
+    <field>
+     <name>admin</name>
+     <value>root</value>
+    </field>
+
+    <field>
+     <name>admin_pw</name>
+     <value>21232f297a57a5a743894a0e4a801fc3</value>
+    </field>
+
+    <field>
+     <name>admin_fullname</name>
+     <value>Your Name</value>
+    </field>
+
+    <field>
+     <name>admin_email</name>
+     <value>your@email.com</value>
+    </field>
+
+    <field>
+     <name>warn_admin</name>
+     <value>t</value>
+    </field>
+
+    <field>
+     <name>warn_agency</name>
+     <value>t</value>
+    </field>
+
+    <field>
+     <name>warn_client</name>
+     <value>t</value>
+    </field>
+
+    <field>
+     <name>warn_limit</name>
+     <value>100</value>
+    </field>
+
+    <field>
+     <name>admin_email_headers</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>admin_novice</name>
+     <value>t</value>
+    </field>
+
+    <field>
+     <name>default_banner_weight</name>
+     <value>1</value>
+    </field>
+
+    <field>
+     <name>default_campaign_weight</name>
+     <value>1</value>
+    </field>
+
+    <field>
+     <name>default_banner_url</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>default_banner_destination</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>client_welcome</name>
+     <value>t</value>
+    </field>
+
+    <field>
+     <name>client_welcome_msg</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>publisher_welcome</name>
+     <value>t</value>
+    </field>
+
+    <field>
+     <name>publisher_welcome_msg</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>content_gzip_compression</name>
+     <value>f</value>
+    </field>
+
+    <field>
+     <name>userlog_email</name>
+     <value>t</value>
+    </field>
+
+    <field>
+     <name>gui_show_campaign_info</name>
+     <value>t</value>
+    </field>
+
+    <field>
+     <name>gui_show_campaign_preview</name>
+     <value>f</value>
+    </field>
+
+    <field>
+     <name>gui_campaign_anonymous</name>
+     <value>f</value>
+    </field>
+
+    <field>
+     <name>gui_show_banner_info</name>
+     <value>t</value>
+    </field>
+
+    <field>
+     <name>gui_show_banner_preview</name>
+     <value>t</value>
+    </field>
+
+    <field>
+     <name>gui_show_banner_html</name>
+     <value>f</value>
+    </field>
+
+    <field>
+     <name>gui_show_matching</name>
+     <value>t</value>
+    </field>
+
+    <field>
+     <name>gui_show_parents</name>
+     <value>f</value>
+    </field>
+
+    <field>
+     <name>gui_hide_inactive</name>
+     <value>f</value>
+    </field>
+
+    <field>
+     <name>gui_link_compact_limit</name>
+     <value>50</value>
+    </field>
+
+    <field>
+     <name>gui_header_background_color</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_header_foreground_color</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_header_active_tab_color</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_header_text_color</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_invocation_3rdparty_default</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>qmail_patch</name>
+     <value>f</value>
+    </field>
+
+    <field>
+     <name>updates_enabled</name>
+     <value>t</value>
+    </field>
+
+    <field>
+     <name>updates_cache</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>updates_timestamp</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>updates_last_seen</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>allow_invocation_plain</name>
+     <value>f</value>
+    </field>
+
+    <field>
+     <name>allow_invocation_plain_nocookies</name>
+     <value>t</value>
+    </field>
+
+    <field>
+     <name>allow_invocation_js</name>
+     <value>t</value>
+    </field>
+
+    <field>
+     <name>allow_invocation_frame</name>
+     <value>f</value>
+    </field>
+
+    <field>
+     <name>allow_invocation_xmlrpc</name>
+     <value>f</value>
+    </field>
+
+    <field>
+     <name>allow_invocation_local</name>
+     <value>t</value>
+    </field>
+
+    <field>
+     <name>allow_invocation_interstitial</name>
+     <value>t</value>
+    </field>
+
+    <field>
+     <name>allow_invocation_popup</name>
+     <value>t</value>
+    </field>
+
+    <field>
+     <name>allow_invocation_clickonly</name>
+     <value>t</value>
+    </field>
+
+    <field>
+     <name>auto_clean_tables</name>
+     <value>f</value>
+    </field>
+
+    <field>
+     <name>auto_clean_tables_interval</name>
+     <value>5</value>
+    </field>
+
+    <field>
+     <name>auto_clean_userlog</name>
+     <value>f</value>
+    </field>
+
+    <field>
+     <name>auto_clean_userlog_interval</name>
+     <value>5</value>
+    </field>
+
+    <field>
+     <name>auto_clean_tables_vacuum</name>
+     <value>t</value>
+    </field>
+
+    <field>
+     <name>autotarget_factor</name>
+     <value>-1</value>
+    </field>
+
+    <field>
+     <name>maintenance_timestamp</name>
+     <value>1163156815</value>
+    </field>
+
+    <field>
+     <name>compact_stats</name>
+     <value>t</value>
+    </field>
+
+    <field>
+     <name>statslastday</name>
+     <value>2000-01-01</value>
+    </field>
+
+    <field>
+     <name>statslasthour</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>default_tracker_status</name>
+     <value>1</value>
+    </field>
+
+    <field>
+     <name>default_tracker_type</name>
+     <value>1</value>
+    </field>
+
+    <field>
+     <name>default_tracker_linkcampaigns</name>
+     <value>f</value>
+    </field>
+
+    <field>
+     <name>publisher_agreement</name>
+     <value>f</value>
+    </field>
+
+    <field>
+     <name>publisher_agreement_text</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>publisher_payment_modes</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>publisher_currencies</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>publisher_categories</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>publisher_help_files</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>publisher_default_tax_id</name>
+     <value>f</value>
+    </field>
+
+    <field>
+     <name>publisher_default_approved</name>
+     <value>f</value>
+    </field>
+
+    <field>
+     <name>more_reports</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_column_id</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_column_requests</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_column_impressions</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_column_clicks</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_column_ctr</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_column_conversions</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_column_conversions_pending</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_column_sr_views</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_column_sr_clicks</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_column_revenue</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_column_cost</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_column_bv</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_column_num_items</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_column_revcpc</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_column_costcpc</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_column_technology_cost</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_column_income</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_column_income_margin</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_column_profit</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_column_margin</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_column_erpm</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_column_erpc</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_column_erps</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_column_eipm</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_column_eipc</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_column_eips</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_column_ecpm</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_column_ecpc</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_column_ecps</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>gui_column_epps</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>instance_id</name>
+     <value></value>
+    </field>
+
+   </insert>
+
+  </initialization>
+
+ </table>
+
+ <table>
+
+  <name>zones</name>
+
+  <initialization>
+
+   <insert>
+
+    <field>
+     <name>zoneid</name>
+     <value>1</value>
+    </field>
+
+    <field>
+     <name>affiliateid</name>
+     <value>1</value>
+    </field>
+
+    <field>
+     <name>zonename</name>
+     <value>RunOfSite_Publisher - 468 x 60</value>
+    </field>
+
+    <field>
+     <name>description</name>
+     <value>RoS Banner</value>
+    </field>
+
+    <field>
+     <name>delivery</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>zonetype</name>
+     <value>3</value>
+    </field>
+
+    <field>
+     <name>category</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>width</name>
+     <value>468</value>
+    </field>
+
+    <field>
+     <name>height</name>
+     <value>60</value>
+    </field>
+
+    <field>
+     <name>ad_selection</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>chain</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>prepend</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>append</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>appendtype</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>forceappend</name>
+     <value>f</value>
+    </field>
+
+    <field>
+     <name>inventory_forecast_type</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>comments</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>cost</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>cost_type</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>cost_variable_id</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>technology_cost</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>technology_cost_type</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>updated</name>
+     <value>2006-11-06 11:51:49</value>
+    </field>
+
+    <field>
+     <name>block</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>capping</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>session_capping</name>
+     <value>0</value>
+    </field>
+
+   </insert>
+
+  </initialization>
+
+ </table>
+
+</database>

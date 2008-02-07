@@ -252,7 +252,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
      */
     function test_OA_Dal_Delivery_getChannelLimitations()
     {
-        $channelid  = $this->aIds['channels'][1];
+        $channelid  = $this->aIds['channel'][1];
         $aReturn    = OA_Dal_Delivery_getChannelLimitations($channelid);
         //$prn        = var_export($aReturn, TRUE);
         $this->assertIsA($aReturn['acl_plugins'],'string');
