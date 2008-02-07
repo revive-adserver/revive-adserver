@@ -161,6 +161,13 @@ class Migration
         }
     }
 
+	function _getQuotedTableName($table)
+	{
+	    $table = ($GLOBALS['_MAX']['CONF']['table'][$table] ? $GLOBALS['_MAX']['CONF']['table'][$table] : $table);
+	    return $this->oDBH->quoteIdentifier($this->getPrefix().$table,true);
+
+	}
+
     function getPrefix()
     {
         return $GLOBALS['_MAX']['CONF']['table']['prefix'];

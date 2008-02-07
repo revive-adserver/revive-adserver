@@ -107,7 +107,10 @@ class TestEnv
             if (class_exists($classname))
             {
                 $obj = new $classname;
-                $obj->generateTestData();
+                if (!$obj->generateTestData())
+                {
+                    MAX::raiseError('loadData error: generating Test Data '.$classname);
+                }
                 return $obj->aIds;
             }
             MAX::raiseError('loadData error: unable to find classname '.$classname);
