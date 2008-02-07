@@ -25,16 +25,6 @@
 $Id$
 */
 
-
-
-
-
-
-
-
-
-
-
 $GLOBALS['strAdvertiserCampaignHistoryReport'] = 'Bericht &uuml;ber den Verlauf einer Kampagne';
 $GLOBALS['strAdvertiserCampaignHistoryDescription'] = 'Leistung einer ausgew&auml;hlten Kampagne aufgeschl&uuml;sselt nach Tagen.';
 $GLOBALS['strAdvertiserHistoryReport'] = 'Allgemeiner Verlaufsbericht';

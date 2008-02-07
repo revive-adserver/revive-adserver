@@ -25,7 +25,6 @@
 $Id$
 */
 
-
 // German
 // Settings help translation strings
 $GLOBALS['phpAds_hlp_dbhost'] = "
