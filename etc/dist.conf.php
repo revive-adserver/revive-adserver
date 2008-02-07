@@ -384,6 +384,7 @@ path        = /sso/login
 clientPath  = /sso
 signup      = /account/signup
 forgot      = /account/forgotPassword
+identifyBy  = id
 
 ;------------------------------------------------------------------------------------------;
 ; Plugins Settings                                                                         ;

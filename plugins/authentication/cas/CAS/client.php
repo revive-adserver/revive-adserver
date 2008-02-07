@@ -588,6 +588,12 @@ class CASClient
   var $_user = '';
   
   /**
+   * OA_MODIFICATION - added user email and id
+   */
+  var $userEmail;
+  var $userId;
+  
+  /**
    * This method sets the CAS user's login name.
    *
    * @param $user the login name of the authenticated user.
@@ -598,6 +604,22 @@ class CASClient
     {
       $this->_user = $user;
     }
+    
+  /**
+  * OA_MODIFICATION - added user email
+  */
+  function setUserEmail($email)
+  {
+      $this->_userEmail = $email;
+  }
+
+  /**
+  * OA_MODIFICATION - added user Id
+  */
+  function setUserId($id)
+  {
+      $this->_userId = $id;
+  }
 
   /**
    * This method returns the CAS user's login name.
@@ -607,12 +629,29 @@ class CASClient
    * @return the login name of the authenticated user
    */
   function getUser()
-    {
-      if ( empty($this->_user) ) {
-	phpCAS::error('this method should be used only after '.__CLASS__.'::forceAuthentication() or '.__CLASS__.'::isAuthenticated()');
-      }
+  {
+      $this->validateAfterAuthentication();
       return $this->_user;
-    }
+  }
+  
+  function getUserEmail()
+  {
+      $this->validateAfterAuthentication();
+      return $this->_userEmail;
+  }
+  
+  function getUserId()
+  {
+      $this->validateAfterAuthentication();
+      return $this->_userId;
+  }
+  
+  function validateAfterAuthentication()
+  {
+      if ( empty($this->_user) ) {
+          phpCAS::error('this method should be used only after '.__CLASS__.'::forceAuthentication() or '.__CLASS__.'::isAuthenticated()');
+      }
+  }
 
   /**
    * This method is called to be sure that the user is authenticated. When not 
@@ -744,6 +783,8 @@ class CASClient
 		   $_SESSION['phpCAS']['pgt'] = $this->getPGT();
 		}
 		$_SESSION['phpCAS']['user'] = $this->getUser();
+		$_SESSION['phpCAS']['user_email'] = $this->getUserEmail();
+		$_SESSION['phpCAS']['user_id'] = $this->getUserId();
 		$res = TRUE;
 	}
 	elseif ( $this->hasPT() ) {
@@ -757,6 +798,8 @@ class CASClient
 		   $_SESSION['phpCAS']['pgt'] = $this->getPGT();
 		}
     	$_SESSION['phpCAS']['user'] = $this->getUser();
+		$_SESSION['phpCAS']['user_email'] = $this->getUserEmail();
+		$_SESSION['phpCAS']['user_id'] = $this->getUserId();
 		$res = TRUE;
 	} 
 	else {
@@ -803,6 +846,8 @@ class CASClient
 	if ( $this->isSessionAuthenticated() && !empty($_SESSION['phpCAS']['pgt']) ) {
 	  // authentication already done
 	  $this->setUser($_SESSION['phpCAS']['user']);
+	  $this->setUserId($_SESSION['phpCAS']['user_id']);
+	  $this->setUserEmail($_SESSION['phpCAS']['user_email']);
 	  $this->setPGT($_SESSION['phpCAS']['pgt']);
 	  phpCAS::trace('user = `'.$_SESSION['phpCAS']['user'].'\', PGT = `'.$_SESSION['phpCAS']['pgt'].'\''); 
 	  $auth = TRUE;
@@ -828,6 +873,8 @@ class CASClient
 	if ( $this->isSessionAuthenticated() ) {
 	  // authentication already done
 	  $this->setUser($_SESSION['phpCAS']['user']);
+	  $this->setUserId($_SESSION['phpCAS']['user_id']);
+	  $this->setUserEmail($_SESSION['phpCAS']['user_email']);
 	  phpCAS::trace('user = `'.$_SESSION['phpCAS']['user'].'\''); 
 	  $auth = TRUE;
 	} else {
@@ -1036,7 +1083,15 @@ class CASClient
 	  $user = trim($user_elements[0]->get_content());
 	  phpCAS::trace('user = `'.$user);
 	  $this->setUser($user);
-	  
+
+ 	  $email = trim($user_elements[1]->get_content());
+	  phpCAS::trace('email = `'.$email);
+	  $this->setUserEmail($email);
+
+ 	  $id = trim($user_elements[2]->get_content());
+	  phpCAS::trace('id = `'.$id);
+	  $this->setUserId($id);
+
 	} else if ( sizeof($failure_elements = $tree_response->get_elements_by_tagname("authenticationFailure")) != 0) {
 	  phpCAS::trace('<authenticationFailure> found');
 	  // authentication failed, extract the error code and message
@@ -1885,15 +1940,17 @@ class CASClient
       }
       if ( sizeof($arr = $tree_response->get_elements_by_tagname("authenticationSuccess")) != 0) {
 	// authentication succeded, extract the user name
-	if ( sizeof($arr = $tree_response->get_elements_by_tagname("user")) == 0) {
-	  // no user specified => error
-	  $this->authError('PT not validated',
-		       $validate_url,
-		       FALSE/*$no_response*/,
-		       TRUE/*$bad_response*/,
-		       $text_response);
-	}
-	$this->setUser(trim($arr[0]->get_content()));
+	$user = $this->getElementByTagName($tree_response, "user", 
+	     $validate_url, $text_response);
+	$this->setUser($user);
+	
+	$userId = $this->getElementByTagName($tree_response, "user_id", 
+	     $validate_url, $text_response);
+	$this->setUserId($userId);
+	
+	$userEmail = $this->getElementByTagName($tree_response, "user_email", 
+	     $validate_url, $text_response);
+	$this->setUserEmail($userEmail);
 	
       } else if ( sizeof($arr = $tree_response->get_elements_by_tagname("authenticationFailure")) != 0) {
 	// authentication succeded, extract the error code and message
@@ -1919,6 +1976,20 @@ class CASClient
     }
 
   /** @} */
+  
+  function getElementByTagName($tree_response, $tagName, $validate_url, $text_response)
+  {
+      if ( sizeof($arr = $tree_response->get_elements_by_tagname($tagName)) == 0) {
+	  // no user specified => error
+	       $this->authError('PT not validated - no '.$tagName,
+		       $validate_url,
+		       FALSE/*$no_response*/,
+		       TRUE/*$bad_response*/,
+		       $text_response);
+		   return false;    
+	  }
+	  return trim($arr[0]->get_content());
+  }
 
   // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
   // XX                                                                    XX

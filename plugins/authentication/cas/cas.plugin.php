@@ -1,4 +1,5 @@
 <?php
+
 /*
 +---------------------------------------------------------------------------+
 | OpenX v${RELEASE_MAJOR_MINOR}                                                              |
@@ -75,7 +76,7 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
             $this->clientInitialization(CAS_VERSION_2_0,
                 $aOpenSsoConfig['host'],
                 intval($aOpenSsoConfig['port']),
-                $aOpenSsoConfig['casClientPath']
+                $aOpenSsoConfig['clientPath']
             );
             $initialized = true;
         }
@@ -109,13 +110,11 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
         $this->restorePhpCasSession();
 
         $this->initCasClient();
-        phpCAS::forceAuthentication();
-        $username = phpCAS::getUser();
-
+        $auth = phpCAS::forceAuthentication();
         $this->storePhpCasSession();
 
-        if ($username) {
-            $doUser = $this->getUser($username);
+        if ($auth) {
+            $doUser = $this->getUser();
             if ($doUser) {
                 return $doUser;
             }
@@ -133,12 +132,20 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
      * @param string $md5Password
      * @return mixed A DataObjects_Users instance, or false if no matching user was found
      */
-    function getUser($username)
+    function getUser()
     {
         $doUser = OA_Dal::factoryDO('users');
-        $doUser->whereAdd('LOWER(username) = '.DBC::makeLiteral(strtolower($username)));
+        switch ($GLOBALS['conf']['authentication']['identifyBy']) {
+            case 'id':
+                $userId =  phpCAS::getUserId();
+                $doUser->sso_user_id = $userId;
+                break;
+            case 'user':
+            default:
+                $username =  phpCAS::getUser();
+                $doUser->whereAdd('LOWER(username) = '.DBC::makeLiteral(strtolower($username)));
+        }
         $doUser->find();
-
         if ($doUser->fetch()) {
             return $doUser;
         }
@@ -174,9 +181,10 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
     {
         phpAds_PageHeader("1");
         echo "<br><br>";
-        echo 'Welcome <b>'.phpCAS::getUser().'</b>';
-        echo "<br /><br />You need a OAH account in order to use OpenX Hosted. ";
-        echo "If you want to create a OpenX Hoster account please fill in <a href='http://www.openx.org/hosted'>this form</a>.<br /><br />";
+        echo 'Welcome <b>'.phpCAS::getUser().'</b><br/><hr />';
+        echo "<br /><br />You do not currently have an account on the hosted version of OpenX.<br /> ";
+        echo "If you want to create one please sign up <a href='http://www.openx.org/hosted'>here</a>.<br /><br />";
+        echo "To login as a different user click <a href='logout.php'>here</a>.<br />";
         phpAds_PageFooter();
         exit();
     }
@@ -190,6 +198,12 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
      */
     function displayLogin($sMessage = '', $sessionID = 0, $inLineLogin = false)
     {
+        if (isset($GLOBALS['session'][OA_CAS_PLUGIN_PHP_CAS])) {
+            unset($GLOBALS['session'][OA_CAS_PLUGIN_PHP_CAS]);
+        }
+        if (isset($_SESSION['phpCAS'])) {
+            unset($_SESSION['phpCAS']);
+        }
         $this->authenticateUser();
         exit;
     }
