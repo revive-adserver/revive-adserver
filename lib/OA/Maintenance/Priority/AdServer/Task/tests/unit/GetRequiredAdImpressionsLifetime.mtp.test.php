@@ -57,17 +57,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
      */
     function setUp()
     {
+        TestEnv::teardownDB();
         TestEnv::setupDB();
         return parent::setUp();
-    }
-
-    /**
-     * Tear down database
-     */
-    function tearDown()
-    {
-        TestEnv::teardownDB();
-        return parent::tearDown();
     }
 
     /**
