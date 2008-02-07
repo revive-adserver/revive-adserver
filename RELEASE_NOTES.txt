@@ -1,9 +1,9 @@
 +---------------------------------------------------------------------------+
 | OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =========${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                              |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 m3 Media Services Ltd                             |
-| For contact details, see: http://www.openx.org/                         |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -46,7 +46,7 @@ System Requirements
 -------------------
 
 Before installing, please make sure your server meets the system
-requirements [http://docs.openx.org/openads-${RELEASE_MAJOR_MINOR}-guide/requirements.html].
+requirements [http://www.openx.org/docs/openads-${RELEASE_MAJOR_MINOR}-guide/requirements.html].
 
 
 Downloading and Installing
@@ -55,20 +55,20 @@ Downloading and Installing
  * Downloading OpenX
 
    You can get the latest version of OpenX ${RELEASE_MAJOR_MINOR} here
-   [http://www.openx.org/downloads/download-openads-${RELEASE_MAJOR_MINOR}.html].
+   [http://www.openx.org/download].
 
  * Installing OpenX ${RELEASE_VERSION}
 
    Installing OpenX ${RELEASE_VERSION} is a straightforward process. Follow
    these steps
-   [http://docs.openx.org/openads-${RELEASE_MAJOR_MINOR}-guide/installing-openads.html] and
+   [http://www.openx.org/docs/openads-${RELEASE_MAJOR_MINOR}-guide/installing-openads.html] and
    use the links to refer to detailed information on each step where
    necessary.
 
  * Upgrading OpenX ${RELEASE_VERSION}
 
    Upgrading to OpenX ${RELEASE_VERSION} is a straightforward process. Follow
-   these steps [http://docs.openx.org/openads-${RELEASE_MAJOR_MINOR}-guide/upgrading.html]
+   these steps [http://www.openx.org/docs/openads-${RELEASE_MAJOR_MINOR}-guide/upgrading.html]
    and use the links to refer to detailed information on each step where
    necessary.
 
@@ -82,17 +82,21 @@ Downloading and Installing
    ---------------------------------------------------------------
    | Product                             | Version(s)            |
    ---------------------------------------------------------------
-   | OpenX 2.0 for MySQL               | 2.0.11-pr1            |
+   | OpenX 2.4                           | All versions          |
+   ---------------------------------------------------------------
+   | Openads 2.4                         | All versions          |
+   ---------------------------------------------------------------
+   | Openads 2.0 for MySQL               | 2.0.11-pr1            |
    |   (formerly phpAdsNew)              |                       |
    ---------------------------------------------------------------
-   | OpenX 2.3 alpha                   | 2.3.31-alpha-pr3      |
+   | Openads 2.3 alpha                   | 2.3.31-alpha-pr3      |
    |   (formerly Max Media Manager v0.3) |   (v0.3.31-alpha-pr3) |
    ---------------------------------------------------------------
-   | OpenX 2.3 beta                    | All versions          |
+   | Openads 2.3 beta                    | All versions          |
    ---------------------------------------------------------------
    | Max Media Manager v0.1              | v0.1.29-rc            |
    ---------------------------------------------------------------
-   | OpenX 2.0 for Postgresql          | Not supported         |
+   | Openads 2.0 for Postgresql          | Not supported         |
    |  (formerly phpPgAds)                | at this time          |
    ---------------------------------------------------------------
 
@@ -134,7 +138,7 @@ read this before reporting any new bugs.
  * Some users have reported issues of being logged out when viewing
    statistics. This can be worked around by ensuring that the timezone is
    correctly set in PHP
-   [http://docs.openx.org/openads-${RELEASE_MAJOR_MINOR}-guide/administrator-settings.html].
+   [http://www.openx.org/docs/openads-${RELEASE_MAJOR_MINOR}-guide/administrator-settings.html].
 
  * See https://developer.openx.org/ for the latest bug reports.
 
@@ -144,25 +148,34 @@ FAQ
 
  1. What can I do to help?
 
-    We need help from developers and the testing community to provide as much
-    feedback as possible to make OpenX even better. Please read these notes
-    and how to report a bug [https://developer.openx.org/wiki/ReportingBugs]
+    We need help from both developers and users to provide as much feedback as
+    possible to make OpenX even better. Please read these notes on how to
+    report a bug [https://developer.openx.org/wiki/ReportingBugs]
     before reporting any bugs. You can also give us your feedback through the
     OpenX forum [http://forum.openx.org/].
 
  2. Can I upgrade from phpAdsNew?
 
-    Yes.  phpAdsNew was rebranded as Openads 2.0. You will need to ensure you
+    Yes. phpAdsNew was rebranded as Openads 2.0. You will need to ensure you
     first upgrade to the latest version of Openads 2.0 before using the OpenX
     ${RELEASE_MAJOR_MINOR} upgrade wizard.
 
- 3. Where do I go for support?
+ 3. Can I upgrade from Openads?
+
+    Yes. Openads was rebranded as OpenX. You will be able to upgrade from any
+    version of Openads.
+
+ 4. Does OpenX ${RELEASE_VERSION} support PostgreSQL?
+
+    Yes.
+
+ 5. Where do I go for support?
 
     Support is provided through the OpenX forum [http://forum.openx.org/].
     In this way, we hope that the whole community benefits from the answers
     given.
 
- 4. Where's the source code?
+ 6. Where's the source code?
 
     You can access the OpenX source code using subversion. See our developer
     website [https://developer.openx.org/].
