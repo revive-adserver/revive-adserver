@@ -154,7 +154,7 @@ class OA_Upgrade
         $this->aDsn['database']['passowrd'] = '';
         $this->aDsn['database']['name']     = '';
         $this->aDsn['table']['type']        = 'InnoDB';
-        $this->aDsn['table']['prefix']      = 'oa_';
+        $this->aDsn['table']['prefix']      = 'ox_';
     }
 
     /**
@@ -428,22 +428,67 @@ class OA_Upgrade
         return $this->oSystemMgr->checkSystem();
     }
 
-    function getProductApplicationVersion()
+    /**
+     * A method to convert the application version that is currently stored
+     * in the $this->versionInitialApplication variable into a string that
+     * is suitable for displaying in the upgrade screen, advising the user
+     * as to which version of the application the are upgrading FROM.
+     *
+     * @param boolean $shortVersion When set to true (not the default), returns
+     *                              the text description in short format, being
+     *                              just the version number, without the
+     *                              additional human-friendly text.
+     * @return string A descriptive text value of the version that is being
+     *                upgraded FROM.
+     */
+    function getProductApplicationVersion($noText = false)
     {
-        $appPrefix = $this->oDbh->dbsyntax == 'pgsql' ? 'for PostgreSQL ' : '';
         switch ($this->versionInitialApplication)
         {
             case '' :
-                return 'unknown version';
+                if ($noText) {
+                    return 'unknown version';
+                } else {
+                    return 'An unknown version was';
+                }
             case '0.100' :
-                return '2.1.29-rc';
+                if ($noText) {
+                    return '2.1.29-rc';
+                } else {
+                    return 'Openads 2.1.29-rc';
+                }
             case '200.313' :
             case '200.314' :
-                return $appPrefix.'2.0.11-pr1';
+                // Upgrade from Openads 2.0, need to know if this
+                // is for MySQL or PostgreSQL
+                if ($this->oDbh->dbsyntax == 'pgsql') {
+                    $dbType = 'PostgreSQL';
+                } else {
+                    $dbType = 'MySQL';
+                }
+                if ($noText) {
+                    return '2.0.11-pr1';
+                } else {
+                    return "Openads for $dbType 2.0.11-pr1";
+                }
             case 'v0.3.31-alpha' :
-                return '2.3.31-alpha';
+                if ($noText) {
+                    return '2.3.31-alpha';
+                } else {
+                    return 'Openads 2.3.31-alpha';
+                }
             default :
-                return $this->versionInitialApplication;
+                if ($noText) {
+                    return $this->versionInitialApplication;
+                } else {
+                    // The product was re-branded OpenX at 2.4.4, so deal with
+                    // the product name in this text description accordingly
+                    if (version_compare($this->versionInitialApplication, '2.4.4', '<')) {
+                        return 'Openads ' . $this->versionInitialApplication;
+                    } else {
+                        return 'OpenX ' . $this->versionInitialApplication;
+                    }
+                }
         }
     }
 
@@ -463,9 +508,9 @@ class OA_Upgrade
         $strTableError     = 'Error accessing Database Tables';
 
         $this->oLogger->logClear();
-        $this->oLogger->logOnly('looking for PAN');
+        $this->oLogger->logOnly('Attempting to detect an existing Openads (aka. phpAdsNew) installation...');
         $this->detectPAN();
-        $strProductName = MAX_PRODUCT_NAME.' '.$this->getProductApplicationVersion();
+        $strProductName = $this->getProductApplicationVersion();
         switch ($this->existing_installation_status)
         {
             case OA_STATUS_PAN_NOT_INSTALLED:
@@ -499,9 +544,9 @@ class OA_Upgrade
                 return true;
         }
 
-        $this->oLogger->logOnly('looking for MMM0.1');
+        $this->oLogger->logOnly('Attempting to detect an existing Openads (aka. Max Media Manager 0.1) installation...');
         $this->detectMAX01();
-        $strProductName = MAX_PRODUCT_NAME.' '.$this->getProductApplicationVersion();
+        $strProductName = $this->getProductApplicationVersion();
         switch ($this->existing_installation_status)
         {
             case OA_STATUS_M01_NOT_INSTALLED:
@@ -538,9 +583,9 @@ class OA_Upgrade
                 return true;
         }
 
-        $this->oLogger->logOnly('looking for MAX0.3');
+        $this->oLogger->logOnly('Attempting to detect an existing Openads (aka. Max Media Manager 0.3) installation...');
         $this->detectMAX();
-        $strProductName = MAX_PRODUCT_NAME.' '.$this->getProductApplicationVersion();
+        $strProductName = $this->getProductApplicationVersion();
         switch ($this->existing_installation_status)
         {
             case OA_STATUS_MAX_NOT_INSTALLED:
@@ -568,9 +613,13 @@ class OA_Upgrade
                 return true;
         }
 
+<<<<<<< .working
         $this->oLogger->logOnly('looking for Openads');
+=======
+        $this->oLogger->logOnly('Attempting to detect an existing OpenX installation...');
+>>>>>>> .merge-right.r15926
         $this->detectOpenads();
-        $strProductName = MAX_PRODUCT_NAME.' '.$this->getProductApplicationVersion();
+        $strProductName = $this->getProductApplicationVersion();
         switch ($this->existing_installation_status)
         {
             case OA_STATUS_OAD_NOT_INSTALLED:
@@ -1285,7 +1334,7 @@ class OA_Upgrade
             $this->oAuditor->setUpgradeActionId();
             $this->oAuditor->setKeyParams(array('upgrade_name'=>$this->package_file,
                                                 'version_to'=>$version,
-                                                'version_from'=>$this->getProductApplicationVersion(),
+                                                'version_from'=>$this->getProductApplicationVersion(true),
                                                 'logfile'=>basename($this->oLogger->logFile)
                                                 )
                                          );
