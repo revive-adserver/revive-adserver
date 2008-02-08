@@ -262,22 +262,26 @@ class TestRunner
      * the layer the test/s is/are in.
      *
      * @param string $layer The layer the test/s is/are in.
-     * @param bool $ignore_errors True if setup errors should be ignored.
+     * @param bool $keepDatabase True if the dabase needs to be preserved.
      */
-    function setupEnv($layer, $ignore_errors = false)
+    function setupEnv($layer, $keepDatabase = false)
     {
         $type = $GLOBALS['_MAX']['TEST']['test_type'];
         $envType = $GLOBALS['_MAX']['TEST'][$type . '_layers'][$layer][1];
         // Ensure the config file is fresh
         TestEnv::restoreConfig();
+        // Tear down the database, if needed
+        if (!$keepDatabase) {
+            TestEnv::teardownDB();
+        }
         // Setup the database, if needed
         if ($envType == DB_NO_TABLES) {
-            TestEnv::setupDB($ignore_errors);
+            TestEnv::setupDB($keepDatabase);
         } elseif ($envType == DB_WITH_TABLES) {
-            TestEnv::setupDB($ignore_errors);
+            TestEnv::setupDB($keepDatabase);
             TestEnv::setupCoreTables();
         } elseif ($envType == DB_WITH_DATA) {
-            TestEnv::setupDB($ignore_errors);
+            TestEnv::setupDB($keepDatabase);
             TestEnv::setupCoreTables();
             TestEnv::setupDefaultData();
         }
@@ -298,7 +302,8 @@ class TestRunner
         $type = $GLOBALS['_MAX']['TEST']['test_type'];
         $envType = $GLOBALS['_MAX']['TEST'][$type . '_layers'][$layer][1];
         if ($envType != NO_DB) {
-            TestEnv::teardownDB();
+            // Don't tear down the DB, it will be dropped at the next test execution
+            //TestEnv::teardownDB();
         }
     }
 
