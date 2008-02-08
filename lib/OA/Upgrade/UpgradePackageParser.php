@@ -32,7 +32,7 @@ require_once 'XML/Parser.php';
  * Parses an XML schema file
  *
  * @author     Monique Szpak <monique.szpak@openx.org>
- * @package Openads
+ * @package OpenX
  * @category Upgrade
  */
 class OA_UpgradePackageParser extends XML_Parser

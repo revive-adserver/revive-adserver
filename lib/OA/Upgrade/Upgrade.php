@@ -625,7 +625,7 @@ class OA_Upgrade
             case OA_STATUS_OAD_NOT_INSTALLED:
                 if (!$this->oLogger->errorExists)
                 {
-                    $this->oLogger->log('No previous version of @package    OpenXdetected');
+                    $this->oLogger->log('No previous version of OpenX detected');
                     return true;
                 }
                 break;
@@ -724,10 +724,10 @@ class OA_Upgrade
 //                    return false;
 //                }
                 if ($this->oDbh->dbsyntax == 'pgsql') {
-                    // @package    OpenX2.0 for PostgreSQL
+                    // Openads 2.0 for PostgreSQL
                     $this->versionInitialSchema['tables_core'] = '049';
                 } else {
-                    // @package    OpenX2.0
+                    // Openads 2.0
                     $this->versionInitialSchema['tables_core'] = '099';
                 }
                 if (!$skipIntegrityCheck && !$this->_checkDBIntegrity($this->versionInitialSchema['tables_core']))
@@ -909,7 +909,7 @@ class OA_Upgrade
 
 
     /**
-     * search for an existing @package    OpenXinstallation
+     * search for an existing OpenX installation
      *
      * @param boolean $skipIntegrityCheck
      * @return boolean
@@ -1733,7 +1733,7 @@ class OA_Upgrade
             }
             if (!$result)
             {
-                $this->oLogger->logError('@package    OpenXrequires database case sensitivity to work with uppercase prefixes');
+                $this->oLogger->logError('OpenX requires database case sensitivity to work with uppercase prefixes');
                 return false;
             }
         }
@@ -1824,7 +1824,7 @@ class OA_Upgrade
 
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
 
-        $oldTableMessagePrefix  = 'Your database contains an old @package    OpenXconfiguration table: ';
+        $oldTableMessagePrefix  = 'Your database contains an old OpenX configuration table: ';
         $oldTableMessagePostfix = 'If you are trying to upgrade this database, please copy your existing configuration file into the var folder of this install. If you wish to proceed with a fresh installation, please either choose a new Table Prefix or a new Database.';
         if (in_array($this->aDsn['table']['prefix'].'config', $aExistingTables))
         {

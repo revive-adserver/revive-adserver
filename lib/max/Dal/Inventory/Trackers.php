@@ -27,10 +27,10 @@ $Id$
 require_once MAX_PATH.'/lib/max/Dal/Common.php';
 
 /**
- * Trackers DAL for Openads
+ * Trackers DAL for OpenX
  *
- * @package OpenadsDal
- * @since @package    OpenXv2.3.22-alpha - Apr 13, 2006
+ * @package OpenXDal
+ * @since Openads v2.3.22-alpha - Apr 13, 2006
  * @version $Id$
  */
 

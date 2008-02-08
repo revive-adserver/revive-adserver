@@ -26,7 +26,7 @@ $Id$
 */
 
 /**
- * @package OpenadsDelivery
+ * @package OpenXDelivery
  * @subpackage Trackers
  * @author chris@m3.net
  *

@@ -31,7 +31,7 @@ require_once 'Spreadsheet/Excel/Writer.php';
 /**
  * MS Excel output provider for for OpenX reports
  *
- * @package OpenadsAdmin
+ * @package OpenXAdmin
  *
  * @TODO Clean up code, document, and make generic for OSS release.
  */
