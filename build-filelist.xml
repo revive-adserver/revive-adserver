@@ -1,4 +1,4 @@
-<project name="openads-filelist" basedir=".">
+<project name="openx-filelist" basedir=".">
 
   <!--
     This file contains include and exclude patterns to be used during building
