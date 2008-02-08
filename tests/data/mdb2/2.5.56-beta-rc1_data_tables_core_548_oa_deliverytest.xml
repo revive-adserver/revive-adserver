@@ -28,7 +28,7 @@
 
     <field>
      <name>value</name>
-     <value>http://www.openads.org/themes/openads/images/header_logo.png</value>
+     <value>http://www.openx.org/themes/openads/images/header_logo.png</value>
     </field>
 
    </insert>
@@ -47,7 +47,7 @@
 
     <field>
      <name>value</name>
-     <value>http://www.openads.org/</value>
+     <value>http://www.openx.org/</value>
     </field>
 
    </insert>

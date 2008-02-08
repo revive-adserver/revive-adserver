@@ -628,7 +628,7 @@ class OA_Upgrade
             case OA_STATUS_OAD_NOT_INSTALLED:
                 if (!$this->oLogger->errorExists)
                 {
-                    $this->oLogger->log('No previous version of @package    OpenXdetected');
+                    $this->oLogger->log('No previous version of OpenX detected');
                     return true;
                 }
                 break;
