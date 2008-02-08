@@ -57,8 +57,8 @@ $GLOBALS['strBannerCacheExplaination']		= "
     The database banner cache is used to speed up delivery of banners during delivery<br />
     This cache needs to be updated when:
     <ul>
-        <li>You upgrade your version of OpenX</li>
-        <li>You move your openads installation to a different server</li>
+        <li>You upgrade your version of ".MAX_PRODUCT_NAME."</li>
+        <li>You move your ".MAX_PRODUCT_NAME." installation to a different server</li>
     </ul>
 ";
 
