@@ -53,6 +53,7 @@ class OA_Dll_UserTest extends DllUnitTestCase
      *
      */
     var $unknownIdError = 'Unknown userId Error';
+    var $notUniqueError = 'Username must be unique';
 
     /**
      * The constructor method.
@@ -87,21 +88,28 @@ class OA_Dll_UserTest extends DllUnitTestCase
     /**
      * A method to test Add, Modify and Delete.
      */
-    function XXXtestAddModifyDelete()
+    function testAddModifyDelete()
     {
         $dllUserPartialMock = new PartialMockOA_Dll_User($this);
 
         $dllUserPartialMock->setReturnValue('checkPermissions', true);
-        $dllUserPartialMock->expectCallCount('checkPermissions', 5);
+        $dllUserPartialMock->expectCallCount('checkPermissions', 6);
 
 
         $oUserInfo = new OA_DLL_UserInfo();
+        $oUserInfo2 = new OA_Dll_UserInfo();
 
         $oUserInfo->contactName         = 'test User';
         $oUserInfo->emailAddress        = 'test@example.com';
         $oUserInfo->username            = 'foo-'.time();
         $oUserInfo->password            = 'fooPwd';
         $oUserInfo->defaultAccountId    = $this->accountId;
+
+        $oUserInfo2->contactName        = 'test User 2';
+        $oUserInfo2->emailAddress       = 'test2@example.com';
+        $oUserInfo2->username           = $oUserInfo->username;
+        $oUserInfo2->password           = 'fooPwd';
+        $oUserInfo2->defaultAccountId   = $this->accountId;
 
         // Add
         $this->assertTrue($dllUserPartialMock->modify($oUserInfo),
@@ -112,6 +120,11 @@ class OA_Dll_UserTest extends DllUnitTestCase
 
         $this->assertTrue($dllUserPartialMock->modify($oUserInfo),
                           $dllUserPartialMock->getLastError());
+
+        // Add a user with the same username
+        $this->assertTrue((!$dllUserPartialMock->modify($oUserInfo2) &&
+                          $dllUserPartialMock->getLastError() == $this->notUniqueError),
+            $this->_getMethodShouldReturnError($this->notUniqueError));
 
         // Delete
         $this->assertTrue($dllUserPartialMock->delete($oUserInfo->userId),
