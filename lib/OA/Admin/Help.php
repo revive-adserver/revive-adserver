@@ -59,21 +59,15 @@ class OA_Admin_Help
             $aNavi2help = array();
         }
 
+        // Return the help URL
         if (empty($aNavi2help[$sNavId]))
         {
             // Send the user to the main page
-            $sURL = rtrim(OA_DOCUMENTATION_BASE_URL, '/') . '/';
+            $sURL = 'http://' . OX_PRODUCT_DOCSURL;
+            return $sURL;
         }
-        else
-        {
-            // Send the user to the correct page
-            $sURL = rtrim(OA_DOCUMENTATION_BASE_URL, '/') . '/' . rtrim(OA_DOCUMENTATION_PATH, '/') . '/';
-            if (preg_match('/(\d+\.\d+)/', OA_VERSION, $aMatches))
-            {
-                $sURL .= $aMatches[1] . '/';
-            }
-            $sURL .= $aNavi2help[$sNavId][0] . '/';
-        }
+        // Send the user to the correct page
+        $sURL = 'http://' . OX_PRODUCT_DOCSURL . '/' . $aNavi2help[$sNavId][0];
         return $sURL;
     }
 

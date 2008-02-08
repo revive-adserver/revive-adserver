@@ -41,8 +41,12 @@ function setupConstants()
     define('OA_VERSION', '2.7.3-dev');
     define('MAX_PRODUCT_NAME',      'OpenX');
     define('MAX_PRODUCT_URL',       'www.openx.org');
-    define('MAX_PRODUCT_DOCSURL',   'docs.openx.org');
-    define('MAX_PRODUCT_FORUMURL',  'forum.openx.org');
+    if (preg_match('/^(\d+\.\d+)/', OA_VERSION, $aMatches)) {
+        define('OX_PRODUCT_DOCSURL',   "www.openx.org/help/{$aMatches[1]}");
+    } else {
+        define('OX_PRODUCT_DOCSURL',   "www.openx.org/help");
+    }
+    define('OX_PRODUCT_FORUMURL',  'forum.openx.org');
 
     define('OA_INSTALLATION_STATUS_NOTINSTALLED' ,   -1);
     define('OA_INSTALLATION_STATUS_UPGRADING'    ,    0);
@@ -155,7 +159,7 @@ function setupConstants()
     define('MAX_FINANCE_AI',     7); // Amount per item     (zone-only)
     define('MAX_FINANCE_ANYVAR', 8); // % of any variable   (zone-only)
     define('MAX_FINANCE_VARSUM', 9); // % of a variable sum (zone-only)
-    
+
     // OAC communication
     define('OAC_RPC_TIMEOUT',   10); // RPC timeout to OAC in seconds
 
@@ -208,11 +212,6 @@ function setupConstants()
     define('MAX_LIMITATION_EQUAL', 0);
     define('MAX_LIMITATION_NOT_EQUAL', 1);
     define('MAX_LIMITATION_BITWISE', 2);
-
-    define('OA_DOCUMENTATION_BASE_URL', 'http://docs.openx.org');
-    define('OA_DOCUMENTATION_PATH',     'help');
-    preg_match('/(\d+\.\d+)/', OA_VERSION, $aMatches);
-    define('OA_DOCUMENTATION_VERSION',     $aMatches[1]);
 
     // Define the week to start on Sunday (0) so that the PEAR::Date and
     // PEAR::Date_Calc classes agree on what day is the start of the week

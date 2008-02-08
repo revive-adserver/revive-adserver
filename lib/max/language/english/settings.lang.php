@@ -84,10 +84,10 @@ $GLOBALS['strTablesType']                   = "Table type";
 
 $GLOBALS['strInstallWelcome']               = "Welcome to ".MAX_PRODUCT_NAME;
 $GLOBALS['strInstallMessage']               = "Before you can use ".MAX_PRODUCT_NAME." it needs to be configured and <br /> the database needs to be created. Click <b>Proceed</b> to continue.";
-$GLOBALS['strInstallIntro']                 = "Thank you for choosing <a href='http://".MAX_PRODUCT_URL."' target='_blank'><strong>".MAX_PRODUCT_NAME."</strong></a>.
-<p>This wizard will guide you through the process of installing / upgrading the ".MAX_PRODUCT_NAME." ad server.</p>
-<p>To help you with the installation process we have created <a href='".rtrim(OA_DOCUMENTATION_BASE_URL, '/') . '/' . rtrim(OA_DOCUMENTATION_PATH, '/') . '/'.OA_DOCUMENTATION_VERSION."/wizard/qsg-install' target='_blank'>Installation Quick Start Quide</a> to take you through the process of get up and running. For a more detailed guide to installing and configuring ".MAX_PRODUCT_NAME." visit the 
-<a href='".rtrim(OA_DOCUMENTATION_BASE_URL, '/') . '/' . rtrim(OA_DOCUMENTATION_PATH, '/') . '/'.OA_DOCUMENTATION_VERSION."/wizard/admin-guide' target='_blank'>Administrator Guide</a>.";
+$GLOBALS['strInstallIntro']                 = "Welcome to <a href='http://".MAX_PRODUCT_URL."' target='_blank'><strong>".MAX_PRODUCT_NAME."</strong></a>! You will soon become part of the web's largest ad-space community.
+<p>We try very hard to make this installation or upgrade process as simple as possible. Please follow the instructions on the screen, and if you need more help, please reference the <a href='http://".OX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.</p>
+<p>If you still have questions after reading the documentation, visit the <a href='http://".MAX_PRODUCT_URL."/support/overview.html' target='_blank'><strong>support</strong></a> section of our website and the OpenX <a href='http://".OX_PRODUCT_FORUMURL."' target='_blank'><strong>community forum</strong></a>.</p>
+<p>Thank you for choosing OpenX.</p>";
 $GLOBALS['strRecoveryRequiredTitle']    = "Your previous upgrade attempt encountered an error";
 $GLOBALS['strRecoveryRequired']         = "There was an error while processing your previous upgrade and " . MAX_PRODUCT_NAME . " must attempt to recover the upgrade process. Please click the Recover button below.";
 $GLOBALS['strTermsTitle']               = "Software license information";
@@ -97,7 +97,7 @@ $GLOBALS['strPolicyIntro']               = "Our data usage and privacy policy de
 $GLOBALS['strDbSetupTitle']               = "Database Settings";
 $GLOBALS['strDbSetupIntro']               = "Please enter the details to connect to your database. If you are unsure about these details, please contact your system administrator.
 <p> The next step will set up your database. Click ‘continue’ to proceed.</p>";
-$GLOBALS['strDbUpgradeIntro']             = "Below are the detected database details for your installation of " . MAX_PRODUCT_NAME . ". Please check to make sure that these details are correct. 
+$GLOBALS['strDbUpgradeIntro']             = "Below are the detected database details for your installation of " . MAX_PRODUCT_NAME . ". Please check to make sure that these details are correct.
 <p>The next step will upgrade your database. Click 'Continue' to upgrade your system.</p>";
 $GLOBALS['strOaUpToDate']               = "Your " . MAX_PRODUCT_NAME . " database and file structure are both using the most recent version and therefore no upgrade is required at this time. Please click Continue to proceed to the OpenX administration panel.";
 $GLOBALS['strOaUpToDateCantRemove']     = "Warning: the UPGRADE file is still present inside of your var folder. We are unable to remove this file because of insufficient permissions. Please delete this file yourself.";
@@ -106,19 +106,19 @@ $GLOBALS['strInstallSuccess']               = "Clicking 'Continue' will log you 
 <p><strong>What next?</strong></p>
 <div class='psub'>
   <p><b>Sing up for product updates</b><br>
-    <a href='".rtrim(OA_DOCUMENTATION_BASE_URL, '/') . '/' . rtrim(OA_DOCUMENTATION_PATH, '/') . '/'.OA_DOCUMENTATION_VERSION."/wizard/join' target='_blank'>Join ".MAX_PRODUCT_NAME." mailing list</a> for product updates, security alerts and new product announcements.
+    <a href='http://".OX_PRODUCT_DOCSURL."/wizard/join' target='_blank'>Join ".MAX_PRODUCT_NAME." mailing list</a> for product updates, security alerts and new product announcements.
   </p>
   <p><b>Serving your first ad campaign</b><br>
-    Use our <a href='".rtrim(OA_DOCUMENTATION_BASE_URL, '/') . '/' . rtrim(OA_DOCUMENTATION_PATH, '/') . '/'.OA_DOCUMENTATION_VERSION."/wizard/qsg-firstcampaign' target='_blank'>quick start guide to serving your first ad campaign</a>.
+    Use our <a href='http://".OX_PRODUCT_DOCSURL."/wizard/qsg-firstcampaign' target='_blank'>quick start guide to serving your first ad campaign</a>.
   </p>
 </div>
 <p><strong>Optional installation steps</strong></p>
 <div class='psub'>
   <p><b>Lock your configuration files</b><br>
-    This is a good extra security step to protect your ad server configuration settings from being altered.  <a href='".rtrim(OA_DOCUMENTATION_BASE_URL, '/') . '/' . rtrim(OA_DOCUMENTATION_PATH, '/') . '/'.OA_DOCUMENTATION_VERSION."/wizard/lock-config' target='_blank'>Find out more</a>.
+    This is a good extra security step to protect your ad server configuration settings from being altered.  <a href='http://".OX_PRODUCT_DOCSURL."/wizard/lock-config' target='_blank'>Find out more</a>.
   </p>
   <p><b>Setting up a regular maintenance task</b><br>
-    A maintenance script is recommended to ensure timely reporting and the best possible ad delivery performance.  <a href='".rtrim(OA_DOCUMENTATION_BASE_URL, '/') . '/' . rtrim(OA_DOCUMENTATION_PATH, '/') . '/'.OA_DOCUMENTATION_VERSION."/wizard/setup-cron' target='_blank'>Find out more</a>
+    A maintenance script is recommended to ensure timely reporting and the best possible ad delivery performance.  <a href='http://".OX_PRODUCT_DOCSURL."/wizard/setup-cron' target='_blank'>Find out more</a>
   </p>
   <p><b>Review your system configuration settings</b><br>
     Before you start using ".MAX_PRODUCT_NAME." we suggest you review your settings within the 'Settings' tab.
@@ -143,7 +143,7 @@ $GLOBALS['strErrorInstallDbConnect']        = "It was not possible to open a con
 $GLOBALS['strErrorWritePermissions']        = "File permission errors have been detected, and must be fixed before you can continue.<br />To fix the errors on a Linux system, try typing in the following command(s):";
 $GLOBALS['strErrorFixPermissionsCommand']   = "<i>chmod a+w %s</i>";
 $GLOBALS['strErrorWritePermissionsWin']     = "File permission errors have been detected, and must be fixed before you can continue.";
-$GLOBALS['strCheckDocumentation']           = "For more help, please see the <a href=\"http://".OA_DOCUMENTATION_BASE_URL."\">" . MAX_PRODUCT_NAME . " documentation<a/>.";
+$GLOBALS['strCheckDocumentation']           = "For more help, please see the <a href=\"http://".OX_PRODUCT_DOCSURL."\">" . MAX_PRODUCT_NAME . " documentation<a/>.";
 
 $GLOBALS['strAdminUrlPrefix']               = "Admin Interface URL";
 $GLOBALS['strDeliveryUrlPrefix']            = "Delivery Engine URL";
