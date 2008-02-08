@@ -24,6 +24,11 @@
 $Id$
 */
 
+define('SSO_USER_NOT_EXISTS',  701);
+define('SSO_INVALID_PASSWORD', 702);
+define('SSO_EMAIL_EXISTS',     703);
+define('SSO_INVALID_VER_HASH', 704);
+
 /**
  * CAS authentication XML-RPC client
  *
@@ -34,30 +39,85 @@ $Id$
  */
 class OaCasXmlRpc
 {
+    /**
+     * Returns sso Id of the user with matching email address
+     *
+     * @param string $email
+     * @return integer
+     */
     function getUserIdByEmail($email)
     {
         return 1;
     }
 
+    /**
+     * Creates partial account for user and sends activation email.
+     * @param $userEmail email of new user
+     * @param $emailFrom sender email address of activation email
+     * @param $emailSubject subject of activation email
+     * @param $emailContent content of activation email, should contain
+     * ${verificationHash} token, which will be replaced by verification hash
+     * generated for created account.
+     * @return integer  Id of new partial account
+     */
     function createPartialSsoAccount($userEmail, $emailFrom,
         $emailSubject, $emailContent)
     {
-        return true;
+        return 1;
     }
     
+    /**
+     * Creates account for user and sends activation email.
+     * @param $userName User name
+     * @param $md5Password md5 of password
+     * @param $userEmail email of new user
+     * @param $emailFrom sender email address of activation email
+     * @param $emailSubject subject of activation email
+     * @param $emailContent content of activation email, should contain
+     * ${verificationHash} token, which will be replaced by verification hash
+     * generated for created account.
+     * @return  Id of new SSO account
+     */
+    function createSsoAccount($userName, $md5Password, $userEmail, $emailFrom,
+        $emailSubject, $emailContent)
+    {
+        return 1;
+    }
+    
+    /**
+     * Mark account as confirmed - indicated that user confirmed his email address
+     * @param string $verificationHash
+     * @param string $email
+     * @return boolean
+     */
     function confirmEmail($verificationHash, $email)
     {
         return true;
     }
     
+    /**
+     * Changes user password. Method contacts SSO webservices, validate existing user's
+     * password and changes the password to a new one
+     * @param integer $ssoUserId
+     * @param string $newPassword
+     * @param string $oldPassword
+     * @return boolean
+     */
     function changePassword($ssoUserId, $newPassword, $oldPassword)
     {
-        
+        return true;
     }
     
+    /**
+     * Checks if password of sso user with $ssoUserId is valid.
+     *
+     * @param integer $ssoUserId
+     * @param string $passwordHash
+     * @return boolean
+     */
     function checkUsernameMd5Password($ssoUserId, $passwordHash)
     {
-        
+        return true;
     }
 }
 
