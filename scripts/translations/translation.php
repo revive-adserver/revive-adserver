@@ -50,7 +50,7 @@ class OA_TranslationMaintenance
         "#^(.*?)\['(.*)'\](\[.*\])*(\s*=\s*)([\'])(.*)([^\\\\])([\'])(;)#sm"
     );
     var $aConstant = array(
-        'MAX_PRODUCT_NAME', 'MAX_PRODUCT_URL', 'MAX_PRODUCT_DOCSURL',
+        'MAX_PRODUCT_NAME', 'MAX_PRODUCT_URL', 'OX_PRODUCT_DOCSURL',
         'OA_VERSION', 'phpAds_dbmsname'
     );
 

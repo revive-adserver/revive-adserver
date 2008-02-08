@@ -41,8 +41,12 @@ function setupConstants()
     define('OA_VERSION', '2.5.60-beta-rc1');
     define('MAX_PRODUCT_NAME',      'OpenX');
     define('MAX_PRODUCT_URL',       'www.openx.org');
-    define('MAX_PRODUCT_DOCSURL',   'docs.openx.org');
-    define('MAX_PRODUCT_FORUMURL',  'forum.openx.org');
+    if (preg_match('/^(\d+\.\d+)/', OA_VERSION, $aMatches)) {
+        define('OX_PRODUCT_DOCSURL',   "www.openx.org/help/{$aMatches[1]}");
+    } else {
+        define('OX_PRODUCT_DOCSURL',   "www.openx.org/help");
+    }
+    define('OX_PRODUCT_FORUMURL',  'forum.openx.org');
 
     define('OA_INSTALLATION_STATUS_NOTINSTALLED' ,   -1);
     define('OA_INSTALLATION_STATUS_UPGRADING'    ,    0);
@@ -205,9 +209,6 @@ function setupConstants()
     define('MAX_LIMITATION_EQUAL', 0);
     define('MAX_LIMITATION_NOT_EQUAL', 1);
     define('MAX_LIMITATION_BITWISE', 2);
-
-    define('OA_DOCUMENTATION_BASE_URL', 'http://docs.openx.org');
-    define('OA_DOCUMENTATION_PATH',     'help');
 
     // Define the week to start on Sunday (0) so that the PEAR::Date and
     // PEAR::Date_Calc classes agree on what day is the start of the week

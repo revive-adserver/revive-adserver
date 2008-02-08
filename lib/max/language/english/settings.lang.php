@@ -85,8 +85,8 @@ $GLOBALS['strTablesType']                   = "Table type";
 $GLOBALS['strInstallWelcome']               = "Welcome to ".MAX_PRODUCT_NAME;
 $GLOBALS['strInstallMessage']               = "Before you can use ".MAX_PRODUCT_NAME." it needs to be configured and <br /> the database needs to be created. Click <b>Proceed</b> to continue.";
 $GLOBALS['strInstallIntro']                 = "Welcome to <a href='http://".MAX_PRODUCT_URL."' target='_blank'><strong>".MAX_PRODUCT_NAME."</strong></a>! You will soon become part of the web's largest ad-space community.
-<p>We try very hard to make this installation or upgrade process as simple as possible. Please follow the instructions on the screen, and if you need more help, please reference the <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.</p>
-<p>If you still have questions after reading the documentation, visit the <a href='http://".MAX_PRODUCT_URL."/support/overview.html' target='_blank'><strong>support</strong></a> section of our website and the OpenX <a href='http://".MAX_PRODUCT_FORUMURL."' target='_blank'><strong>community forum</strong></a>.</p>
+<p>We try very hard to make this installation or upgrade process as simple as possible. Please follow the instructions on the screen, and if you need more help, please reference the <a href='http://".OX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.</p>
+<p>If you still have questions after reading the documentation, visit the <a href='http://".MAX_PRODUCT_URL."/support/overview.html' target='_blank'><strong>support</strong></a> section of our website and the OpenX <a href='http://".OX_PRODUCT_FORUMURL."' target='_blank'><strong>community forum</strong></a>.</p>
 <p>Thank you for choosing OpenX.</p>";
 $GLOBALS['strRecoveryRequiredTitle']    = "Your previous upgrade attempt encountered an error";
 $GLOBALS['strRecoveryRequired']         = "There was an error while processing your previous upgrade and OpenX must attempt to recover the upgrade process. Please click the Recover button below.";
@@ -104,10 +104,10 @@ $GLOBALS['strRemoveUpgradeFile']               = "You must remove the UPGRADE fi
 $GLOBALS['strInstallSuccess']               = "<p>Welcome to the OpenX community! To get the most out of OpenX, there are two last steps you should perform.</p>
 
 <p><strong>Maintenance</strong><br>
-OpenX is configured to automatically run some maintenance tasks every hour as long as ads are being served. To speed up ad delivery, you can set this up by automatically calling a maintenance file every hour (e.g a cron job). This is not required, but is highly recommended. For more information about this, please reference the <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.</p>
+OpenX is configured to automatically run some maintenance tasks every hour as long as ads are being served. To speed up ad delivery, you can set this up by automatically calling a maintenance file every hour (e.g a cron job). This is not required, but is highly recommended. For more information about this, please reference the <a href='http://".OX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.</p>
 
 <p><strong>Security</strong><br>
-The OpenX installation needs the configuration file to be writable by the server. After making your configuration changes, it is highly recommended to enable read-only access to this file, to provide higher security. For more information, please reference the <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.</p>
+The OpenX installation needs the configuration file to be writable by the server. After making your configuration changes, it is highly recommended to enable read-only access to this file, to provide higher security. For more information, please reference the <a href='http://".OX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.</p>
 
 <p>You are now ready to start using OpenX. Clicking continue will take you to your newly installed/upgraded version.</p>
 <p>Before you start using OpenX we suggest you take some time to review your configuration settings found within the \"Settings\" tab.";
@@ -129,7 +129,7 @@ $GLOBALS['strErrorInstallDbConnect']        = "It was not possible to open a con
 $GLOBALS['strErrorWritePermissions']        = "File permission errors have been detected, and must be fixed before you can continue.<br />To fix the errors on a Linux system, try typing in the following command(s):";
 $GLOBALS['strErrorFixPermissionsCommand']   = "<i>chmod a+w %s</i>";
 $GLOBALS['strErrorWritePermissionsWin']     = "File permission errors have been detected, and must be fixed before you can continue.";
-$GLOBALS['strCheckDocumentation']           = "For more help, please see the <a href=\"http://".MAX_PRODUCT_DOCSURL."\">OpenX documentation<a/>.";
+$GLOBALS['strCheckDocumentation']           = "For more help, please see the <a href=\"http://".OX_PRODUCT_DOCSURL."\">OpenX documentation<a/>.";
 
 $GLOBALS['strAdminUrlPrefix']               = "Admin Interface URL";
 $GLOBALS['strDeliveryUrlPrefix']            = "Delivery Engine URL";
