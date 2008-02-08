@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="openads" default="cruise">
+<project name="openx" default="cruise">
 
 	<macrodef name="svn-update">
 		<attribute name="workDir"/>
@@ -7,7 +7,7 @@
 		<attribute name="password"/>
 		<sequential>
 			<exec dir="@{workDir}" executable="svn" failonerror="true">
-				<arg line="update --non-interactive --username @{username} --password @{password}"/> 
+				<arg line="update --non-interactive --username @{username} --password @{password}"/>
 			</exec>
 		</sequential>
 	</macrodef>
@@ -24,7 +24,7 @@
 	<target name="update">
 		<svn-update workDir="${basedir}" username="cruise" password="cruise"/>
 	</target>
-	
+
 	<target name="clone">
 		<delete dir="target"/>
 		<copy todir="target" overwrite="true">
@@ -43,7 +43,7 @@
     		<property name="run.local" value="true"/>
     	</ant>
 	</target>
-	
+
 	<target name="make-release">
 		<ant antfile="build.xml" dir="${basedir}" output="build.log" target="release" />
 	</target>
@@ -51,5 +51,5 @@
 	<target name="cruise" depends="init, update, clean, build"/>
 
     <target name="release" depends="init, clean, update, make-release"/>
-	
+
 </project>
