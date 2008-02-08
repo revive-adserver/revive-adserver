@@ -34,14 +34,30 @@ $Id$
  */
 class OaCasXmlRpc
 {
-    function getUserIdByEmail()
+    function getUserIdByEmail($email)
     {
         return 1;
     }
 
-    function createPartialSsoAccount()
+    function createPartialSsoAccount($userEmail, $emailFrom,
+        $emailSubject, $emailContent)
     {
         return true;
+    }
+    
+    function confirmEmail($verificationHash, $email)
+    {
+        return true;
+    }
+    
+    function changePassword($ssoUserId, $newPassword, $oldPassword)
+    {
+        
+    }
+    
+    function checkUsernameMd5Password($ssoUserId, $passwordHash)
+    {
+        
     }
 }
 
