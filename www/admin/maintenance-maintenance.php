@@ -78,19 +78,19 @@ if (time() >= $iLastCronRun + 3600) {
 
         if (!empty($conf['maintenance']['autoMaintenance'])) {
             echo "Automatic maintenance is enabled, but it has not been triggered. Note that automatic maintenance is triggered only when OpenX delivers banners.
-                  For best performance it is advised to set up <a href='http://docs.openx.org/openads-2.4-guide/maintenance.html' target='_blank'>scheduled maintenance</a>.";
+                  For best performance it is advised to set up <a href='http://docs.openx.org/openx-2.4-guide/maintenance.html' target='_blank'>scheduled maintenance</a>.";
         } else {
             echo "Also, automatic maintenance is disabled, so when ".MAX_PRODUCT_NAME." delivers banners, maintenance is not triggered.
-                  If you do not plan to run <a href='http://docs.openx.org/openads-2.4-guide/maintenance.html' target='_blank'>scheduled maintenance</a>,
+                  If you do not plan to run <a href='http://docs.openx.org/openx-2.4-guide/maintenance.html' target='_blank'>scheduled maintenance</a>,
                   you must <a href='settings-admin.php'>enable auto maintenance</a> to ensure that ".MAX_PRODUCT_NAME." works correctly.";
         }
     } else {
         if (!empty($conf['maintenance']['autoMaintenance']))
             echo "Automatic maintenance is enabled and will trigger maintenance every hour.
-                  For best performance it is advised to set up <a href='http://docs.openx.org/openads-2.4-guide/maintenance.html' target='_blank'>scheduled maintenance</a>.";
+                  For best performance it is advised to set up <a href='http://docs.openx.org/openx-2.4-guide/maintenance.html' target='_blank'>scheduled maintenance</a>.";
         else
             echo "Automatic maintenance is disabled too but a maintenance task has recently run. To make sure that ".MAX_PRODUCT_NAME." works correctly you should either
-                  set up <a href='http://docs.openx.org/openads-2.4-guide/maintenance.html' target='_blank'>scheduled maintenance</a> or <a href='settings-admin.php'>enable auto maintenance</a>. ";
+                  set up <a href='http://docs.openx.org/openx-2.4-guide/maintenance.html' target='_blank'>scheduled maintenance</a> or <a href='settings-admin.php'>enable auto maintenance</a>. ";
     }
 } else {
     echo "<b>Scheduled maintenance seems to be correctly running.</b>"."<br><br>";
