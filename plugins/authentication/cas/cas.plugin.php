@@ -54,6 +54,11 @@ define('OA_CAS_PLUGIN_PHP_CAS', 'phpCAS');
 class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
 {
     /**
+     * @var OA_Central_Cas
+     */
+    var $oCentral;
+
+    /**
      * Checks if credentials are passed and whether the plugin should carry on the authentication
      *
      * @return boolean  True if credentials were passed, else false
@@ -263,18 +268,16 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
     /**
      * A method to get a reference to the XML-RPC client
      *
-     * @return OaCasXmlRpc
+     * @return OA_Central_Cas
      */
-    function &staticGetCasXmlRpc()
+    function &getCentralCas()
     {
-        static $oXmlRpc;
-
-        if (!isset($oXmlRpc)) {
-            require_once MAX_PATH . '/plugins/authentication/cas/OaCasXmlRpc.php';
-            $oXmlRpc = &new OaCasXmlRpc();
+        if (empty($this->oCentral)) {
+            require_once MAX_PATH . '/plugins/authentication/cas/Central/Cas.php';
+            $this->oCentral = &new OA_Central_Cas();
         }
 
-        return $oXmlRpc;
+        return $this->oCentral;
     }
 
     /**

@@ -118,13 +118,15 @@ class Test_Plugins_Authentication_Cas_Cas extends UnitTestCase
         $this->assertNull($ret);
     }
 
-    function teststaticGetCasXmlRpc()
+    function testGetCentralCas()
     {
-        $oXmlRpc = &$this->oPlugin->staticGetCasXmlRpc();
-        $this->assertIsA($oXmlRpc, 'OaCasXmlRpc');
+        $oCentral = &$this->oPlugin->getCentralCas();
+        $this->assertIsA($oCentral, 'OA_Central_Cas');
+        unset($oCentral->oCache);
+        $this->assertNull($oCentral->oCache);
 
-        $oXmlRpc2 = &$this->oPlugin->staticGetCasXmlRpc();
-        $this->assertIdentical($oXmlRpc, $oXmlRpc2);
+        $oCentral2 = &$this->oPlugin->getCentralCas();
+        $this->assertNull($oCentral2->oCache);
     }
 
     function testdllValidation()

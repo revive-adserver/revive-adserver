@@ -365,6 +365,7 @@ protocol    = https
 host        = oac.openads.org
 port        = 443
 path        = /oac/xmlrpc
+pathSSO     = /oac/xmlrpc_sso
 captcha     = /oac/captcha
 signUpUrl   = /oac/advertiser/signup
 publihserUrl= /oac/advertiser/defzone
