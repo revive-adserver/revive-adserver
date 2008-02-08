@@ -261,6 +261,23 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
     }
 
     /**
+     * A method to get a reference to the XML-RPC client
+     *
+     * @return OaCasXmlRpc
+     */
+    function &staticGetCasXmlRpc()
+    {
+        static $oXmlRpc;
+
+        if (!isset($oXmlRpc)) {
+            require_once MAX_PATH . '/plugins/authentication/cas/OaCasXmlRpc.php';
+            $oXmlRpc = &new OaCasXmlRpc();
+        }
+
+        return $oXmlRpc;
+    }
+
+    /**
      * A method to perform DLL level validation
      *
      * @todo Check user existence on SSO and get the username
