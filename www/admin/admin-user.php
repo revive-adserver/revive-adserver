@@ -39,23 +39,25 @@ require_once MAX_PATH . '/lib/OA/Session.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
 
 // Register input variables
-phpAds_registerGlobalUnslashed ('login', 'passwd', 'link', 'contact_name', 
+phpAds_registerGlobalUnslashed ('login', 'passwd', 'link', 'contact_name',
     'email_address', 'permissions', 'submit');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 $doAccounts = OA_Dal::factoryDO('accounts');
 $accountId = $doAccounts->getAdminAccountId();
-$doUsers = OA_Dal::factoryDO('users');
-$userid = $doUsers->getUserIdByUserName($login);
+
+$oPlugin = OA_Auth::staticGetAuthPlugin();
+$userid = $oPlugin->getMatchingUserId($email_address, $login);
+$userExists = !empty($userid);
 
 $aErrors = array();
 if (!empty($submit)) {
-    if (!OA_Permission::userNameExists($login)) {
-        $aErrors = OA_Admin_UI_UserAccess::validateUsersData($login, $passwd);
+    if (!$userExists) {
+        $aErrors = $oPlugin->validateUsersData($login, $passwd, $email_address);
     }
     if (empty($aErrors)) {
-        $userid = OA_Admin_UI_UserAccess::saveUser($login, $passwd, $contact_name,
+        $userid = $oPlugin->saveUser($login, $passwd, $contact_name,
             $email_address, $accountId);
         OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions);
         MAX_Admin_Redirect::redirect("admin-access.php");
@@ -81,10 +83,15 @@ $oTpl->assign('backUrl', 'admin-user-start.php');
 $oTpl->assign('method', 'POST');
 $oTpl->assign('aErrors', $aErrors);
 
-// TODO: will need to know whether we're hosted or downloaded
-$HOSTED = false;
-$oTpl->assign('hosted', $HOSTED);
+// Add variables required by the current authentication plugin
+$oPlugin = OA_Auth::staticGetAuthPlugin();
+$oPlugin->setTemplateVariables($oTpl);
+
+// indicates whether the user exists (otherwise, a new user will be created or invitation sent)
 $oTpl->assign('existingUser', !empty($userid));
+
+// indicates whether the form is in editing user properties mode
+// (linked from the "Permissions" link in the User Access table)
 $oTpl->assign('editMode', !$link);
 
 $doUsers = OA_Dal::staticGetDO('users', $userid);
@@ -100,12 +107,12 @@ if ($doUsers) {
 $oTpl->assign('fields', array(
     array(
         'title'  => $strUserDetails,
-        'fields' => OA_Admin_UI_UserAccess::getUserDetailsFields($userData)
+        'fields' => $oPlugin->getUserDetailsFields($userData)
     )
  )
 );
 
-$aHiddenFields = OA_Admin_UI_UserAccess::getHiddenFields($login, $link);
+$aHiddenFields = OA_Admin_UI_UserAccess::getHiddenFields($userData, $link);
 $oTpl->assign('hiddenFields', $aHiddenFields);
 
 $oTpl->display();

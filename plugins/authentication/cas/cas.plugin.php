@@ -307,6 +307,73 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
 
         return parent::dllValidation($oUser, $oUserInfo);
     }
+
+    /**
+     * A method to set the required template variables, if any
+     *
+     * @param OA_Admin_Template $oTpl
+     */
+    function setTemplateVariables(&$oTpl)
+    {
+        if (preg_match('/-user-start\.html$/', $oTpl->templateName)) {
+            $oTpl->assign('returnEmail', true);
+            $oTpl->assign('fields', array(
+               array(
+                   'fields'    => array(
+                       array(
+                           'name'      => 'email_address',
+                           'label'     => $GLOBALS['strEmailToLink'],
+                           'value'     => '',
+                           'id'        => 'user-key'
+                       )
+                   )
+               )
+            ));
+        }
+    }
+    
+    function getUserDetailsFields($userData)
+    {
+        $userExists = !empty($userData['user_id']);
+        $userDetailsFields[] = array(
+                       'name'      => 'email_address',
+                       'label'     => $GLOBALS['strEMail'],
+                       'value'     => $userData['email_address'],
+                       'freezed'   => $userExists
+                 );
+        $userDetailsFields[] = array(
+                     'name'      => 'contact',
+                     'label'     => $GLOBALS['strContactName'],
+                     'value'     => $userData['contact_name'],
+                     'freezed'   => $userExists
+                 );
+        return $userDetailsFields;
+    }
+    
+    function getMatchingUserId($email, $login)
+    {
+        $doUsers = OA_Dal::factoryDO('users');
+        return $doUsers->getUserIdByProperty('email_address', $email);
+    }
+    
+    /**
+     * Validates user data - required for linking new users
+     *
+     * @param string $login
+     * @param string $password
+     * @return array  Array containing error strings or empty
+     *                array if no validation errors were found
+     */
+    function validateUsersData($login, $password, $email)
+    {
+        return $this->validateUsersEmail($email);
+    }
+    
+    function saveUser($login, $password, $contactName, $emailAddress, $accountId)
+    {
+        // TODO - use XML-RPC methods here to link external user
+        return 1;
+    }
 }
 
 ?>

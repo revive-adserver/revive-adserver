@@ -77,7 +77,18 @@ class DataObjects_Users extends DB_DataObjectCommon
      */
     function getUserIdByUserName($userName)
     {
-        $this->username = $userName;
+        return $this->getUserIdByProperty('username', $userName);
+    }
+
+    /**
+     * Returns user ID for specific username
+     *
+     * @param string $userName  Username
+     * @return integer  User ID or false if user do not exists
+     */
+    function getUserIdByProperty($propertyName, $propertyValue)
+    {
+        $this->whereAdd($propertyName.' = '.$this->quote($propertyValue));
         if ($this->find()) {
             $this->fetch();
             return $this->user_id;

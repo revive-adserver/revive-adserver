@@ -32,54 +32,6 @@ $Id$
 class OA_Admin_UI_UserAccess
 {
     /**
-     * Validates user login and password - required for linking new users
-     *
-     * @param string $login
-     * @param string $password
-     * @return array  Array containing error strings or empty
-     *                array if no validation errors were found
-     */
-    function validateUsersData($login, $password)
-    {
-        $aErrors = OA_Admin_UI_UserAccess::validateUsersLogin($login);
-        return array_merge($aErrors, OA_Admin_UI_UserAccess::validateUsersPassword($password));
-    }
-    
-    /**
-     * Validates user login - required for linking new users
-     *
-     * @param string $login
-     * @return array  Array containing error strings or empty
-     *                array if no validation errors were found
-     */
-    function validateUsersLogin($login)
-    {
-        $aErrormessage = array();
-        if (empty($login)) {
-            $aErrormessage[] = $GLOBALS['strInvalidUsername'];
-        } elseif (OA_Permission::userNameExists($login)) {
-            $aErrormessage[] = $GLOBALS['strDuplicateClientName'];
-        }
-        return $aErrormessage;
-    }
-    
-    /**
-     * Validates user password - required for linking new users
-     *
-     * @param string $password
-     * @return array  Array containing error strings or empty
-     *                array if no validation errors were found
-     */
-    function validateUsersPassword($password)
-    {
-        $aErrormessage = array();
-        if (!strlen($password) || strstr("\\", $password)) {
-            $aErrormessage[] = $GLOBALS['strInvalidPassword'];
-        }
-        return $aErrormessage;
-    }
-    
-    /**
      * Assign common template variables
      *
      * @param Admin_Template $oTpl
@@ -88,113 +40,19 @@ class OA_Admin_UI_UserAccess
     {
         $oTpl->assign('method', 'GET');
         $oTpl->assign('strLinkUserHelp', $GLOBALS['strLinkUserHelp']);
-        
-        // TODOHOSTED: will need to know whether we're hosted or downloaded
-        // Actually, it's probably a question if we're using SSO or not
-        $SSO = false; 
-        $oTpl->assign('sso', $SSO);
-        
-        if ($SSO) {
-           $oTpl->assign('fields', array(
-               array(
-                   'fields'    => array(
-                       array(
-                           'name'      => 'email',
-                           'label'     => $GLOBALS['strEmailToLink'],
-                           'value'     => '',
-                           'id'        => 'user-key'
-                       )
-                   )
-               )
-           ));
-        }
-        else
-        {
-           $oTpl->assign('fields', array(
-               array(
-                   'fields'    => array(
-                       array(
-                           'name'      => 'login',
-                           'label'     => $GLOBALS['strUsernameToLink'],
-                           'value'     => '',
-                           'id'        => 'user-key'
-                       ),
-                   )
-               ),
-           ));
-        }
-    }
-    
-    /**
-     * Set user details fields required by user access (edit) pages
-     *
-     * @param array $userData  Array containing users data (see users table)
-     * @return array  Array formatted for use in template object as in user access pages
-     */
-    function getUserDetailsFields($userData)
-    {
-        // TODOHOSTED: will need to know whether we're hosted or downloaded
-        // Actually, it's probably a question if we're using SSO or not
-        $SSO = false; 
-        $userExists = false; // TODO: determine if user already exists
-        if ($SSO) {
-           $userDetailsFields[] = array(
-                          'name'      => 'email_address',
-                          'label'     => $GLOBALS['strEMail'],
-                          'value'     => 'test@test.com', // TODO: put e-mail here
-                          'freezed'   => true
-                    );
-           $userDetailsFields[] = array(
-                        'name'      => 'contact',
-                        'label'     => $GLOBALS['strContactName'],
-                        'value'     => $userData['contact']
-                    );
 
-           if ($userExists) {
-              $userDetailsFields[] = array(
-                           'type'      => 'custom',
-                           'template'  => 'link',
-                           'label'     => $GLOBALS['strPwdRecReset'],
-                           'href'      => 'user-password-reset.php', // TODO: put the actual password resetting script here
-                           'text'      => $GLOBALS['strPwdRecResetPwdThisUser']
-                       );
-           }
-        }
-        else {
-           $userDetailsFields[] = array(
-                           'name'      => 'login',
-                           'label'     => $GLOBALS['strUsername'],
-                           'value'     => $userData['username'],
-                           'freezed'   => !empty($userData['user_id'])
-                       );
-           $userDetailsFields[] = array(
-                           'name'      => 'passwd',
-                           'label'     => $GLOBALS['strPassword'],
-                           'type'      => 'password',
-                           'value'     => '',
-                           'hidden'   => !empty($userData['user_id'])
-                       );
-           $userDetailsFields[] = array(
-                           'name'      => 'contact_name',
-                           'label'     => $GLOBALS['strContactName'],
-                           'value'     => $userData['contact_name'],
-                       );
-           $userDetailsFields[] = array(
-                           'name'      => 'email_address',
-                           'label'     => $GLOBALS['strEMail'],
-                           'value'     => $userData['email_address']
-                       );
-        }
-        return $userDetailsFields;
+        // Add variables required by the current authentication plugin
+        $oPlugin = OA_Auth::staticGetAuthPlugin();
+        $oPlugin->setTemplateVariables($oTpl);
     }
-    
+
     /**
      * Returns hidden fields used in pages entity-user
      *
      * @param string $entityName
      * @param integer $entityId
      */
-    function getHiddenFields($login, $link, $entityName = null, $entityId = null)
+    function getHiddenFields($userData, $link, $entityName = null, $entityId = null)
     {
         $hiddenFields = array(
             array(
@@ -203,17 +61,19 @@ class OA_Admin_UI_UserAccess
             ),
             array(
                 'name' => 'login',
-                'value' => $login
+                'value' => $userData['username']
             ),
             array(
                 'name'  => 'link',
                 'value' => $link
             ),
-            array(
-                'name'  => 'new_user',
-                'value' => !OA_Permission::userNameExists($login)
-            )
         );
+        if (!empty($userData['email_address'])) {
+            $hiddenFields[] = array(
+                'name'  => 'email_address',
+                'value' => $userData['email_address']
+            );
+        }
         if (!empty($entityName)) {
             $hiddenFields[] = array(
                 'name' => $entityName,
@@ -222,7 +82,7 @@ class OA_Admin_UI_UserAccess
         }
         return $hiddenFields;
     }
-    
+
     /**
      * Unlinks user from account and if necessary deletes user account.
      * Sets apropriate message
@@ -238,7 +98,7 @@ class OA_Admin_UI_UserAccess
             $doAccount_user_assoc->user_id = $userId;
             $doAccount_user_assoc->delete();
             OA_Session::setMessage($GLOBALS['strUserUnlinkedFromAccount']);
-            
+
             $doUsers = OA_Dal::staticGetDO('users', $userId);
             // delete user account if he is not linked anymore to any account
             if ($doUsers->countLinkedAccounts() == 0) {
@@ -251,7 +111,7 @@ class OA_Admin_UI_UserAccess
             OA_Session::setMessage($GLOBALS['strUserNotLinkedWithAccount']);
         }
     }
-    
+
     /**
      * Resets default user's account to one of the account's ids which is linked to him.
      *
@@ -267,7 +127,7 @@ class OA_Admin_UI_UserAccess
             $doUsers->update();
         }
     }
-    
+
     /**
      * Returns number of users linked to account
      *
@@ -280,33 +140,7 @@ class OA_Admin_UI_UserAccess
         $doAccount_user_assoc->account_id = $accountId;
         return $doAccount_user_assoc->count();
     }
-    
-    /**
-     * Method used in user access pages. Either creates new user if necessary or update existing one.
-     *
-     * @param string $login  User name
-     * @param string $password  Password
-     * @param string $contactName  Contact name
-     * @param string $emailAddress  Email address
-     * @param integer $accountId  a
-     * @return integer  User ID or false on error
-     */
-    function saveUser($login, $password, $contactName, $emailAddress, $accountId)
-    {
-        $doUsers = OA_Dal::factoryDO('users');
-        $userExists = $doUsers->fetchUserByUserName($login);
-        $doUsers->contact_name = $contactName;
-        $doUsers->email_address = $emailAddress;
-        if ($userExists) {
-            $doUsers->update();
-            return $doUsers->user_id;
-        } else {
-            $doUsers->default_account_id = $accountId;
-            $doUsers->password = md5($password);
-            return $doUsers->insert();
-        }
-    }
-    
+
     /**
      * Links user with account and set apropriate messages.
      * Common method reused across user access pages
@@ -322,7 +156,9 @@ class OA_Admin_UI_UserAccess
             $message = sprintf($GLOBALS['strNoStatsForPeriod'], $login);
             OA_Session::setMessage($message);
         } else {
+            // TODO - change ids to contact name and account name
             if (!OA_Permission::isUserLinkedToAccount($accountId, $userId)) {
+                // TODO - add below - , $userId, $accountId
                 OA_Session::setMessage($GLOBALS['strUserLinkedToAccount']);
             } else {
                 OA_Session::setMessage($GLOBALS['strUserAccountUpdated']);
@@ -332,7 +168,7 @@ class OA_Admin_UI_UserAccess
                 $userId, $aAllowedPermissions);
         }
     }
-    
+
 }
 
 ?>

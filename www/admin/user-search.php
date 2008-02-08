@@ -38,7 +38,7 @@ switch (OA_Permission::getAccountType()) {
     break;
 }
 
-$oDbh  = OA_DB::singleton();
+$oDbh = &OA_DB::singleton();
 $query = $oDbh->quote('%'.$q.'%');
 $doUsers = OA_Dal::factoryDO('users');
 $doUsers->whereAdd('username LIKE '.$query . ' OR email_address LIKE '.$query);

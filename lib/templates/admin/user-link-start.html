@@ -27,11 +27,9 @@
 $Id$
 
 --> *}
-{assign var="sso" value="true"}
-
 <script language="javascript">
 <!--
-var SSO = {if $sso}true{else}false{/if};
+var returnEmail = {if $returnEmail}true{else}false{/if};
 {literal}
   $(document).ready(function() {
     $("#user-key").keyup(function() {
@@ -48,7 +46,7 @@ var SSO = {if $sso}true{else}false{/if};
         }
       },
       formatResult: function(row) {
-        if (SSO) {
+        if (returnEmail) {
           return row[1];
         } else {
           return row[2];
@@ -68,11 +66,11 @@ var SSO = {if $sso}true{else}false{/if};
   {
     var key = $("#user-key").val();
     if (key && key.length > 0) {
-      $("#link-user-hint").fadeOut(400); 
+      $("#link-user-hint").fadeOut(400);
       $("#link-user-button").attr("disabled", false);
     }
     else {
-      $("#link-user-hint").fadeIn(400); 
+      $("#link-user-hint").fadeIn(400);
       $("#link-user-button").attr("disabled", true);
     }
   }
@@ -84,7 +82,7 @@ var SSO = {if $sso}true{else}false{/if};
 
 <form action="{$action}">
   {include file=edit-table/create.html from=$fields}
-  
+
   <input type="hidden" name="{$entityIdName}" value="{$entityIdValue}" />
   <input type="hidden" name="link" value="1" />
 

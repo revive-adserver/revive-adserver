@@ -200,6 +200,64 @@ class Plugins_Authentication_Internal_Internal extends Plugins_Authentication
 
         return parent::dllValidation($oUser, $oUserInfo);
     }
+
+    /**
+     * A method to set the required template variables, if any
+     *
+     * @param OA_Admin_Template $oTpl
+     */
+    function setTemplateVariables(&$oTpl)
+    {
+        if (preg_match('/-user-start\.html$/', $oTpl->templateName)) {
+            $oTpl->assign('fields', array(
+               array(
+                   'fields'    => array(
+                       array(
+                           'name'      => 'login',
+                           'label'     => $GLOBALS['strUsernameToLink'],
+                           'value'     => '',
+                           'id'        => 'user-key'
+                       ),
+                   )
+               ),
+            ));
+        }
+    }
+    
+    function getUserDetailsFields($userData)
+    {
+        $userDetailsFields = array();
+        $userDetailsFields[] = array(
+                'name'      => 'login',
+                'label'     => $GLOBALS['strUsername'],
+                'value'     => $userData['username'],
+                'freezed'   => !empty($userData['user_id'])
+            );
+        $userDetailsFields[] = array(
+                'name'      => 'passwd',
+                'label'     => $GLOBALS['strPassword'],
+                'type'      => 'password',
+                'value'     => '',
+                'hidden'   => !empty($userData['user_id'])
+            );
+        $userDetailsFields[] = array(
+                'name'      => 'contact_name',
+                'label'     => $GLOBALS['strContactName'],
+                'value'     => $userData['contact_name'],
+            );
+        $userDetailsFields[] = array(
+                'name'      => 'email_address',
+                'label'     => $GLOBALS['strEMail'],
+                'value'     => $userData['email_address']
+            );
+        return $userDetailsFields;
+    }
+    
+    function getMatchingUserId($email, $login)
+    {
+        $doUsers = OA_Dal::factoryDO('users');
+        return $doUsers->getUserIdByProperty('username', $login);
+    }
 }
 
 ?>

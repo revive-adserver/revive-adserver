@@ -48,8 +48,9 @@ OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 
 $accountId = OA_Permission::getAccountIdForEntity('affiliates', $affiliateid);
 
-$doUsers = OA_Dal::factoryDO('users');
-$userid = $doUsers->getUserIdByUserName($login);
+$oPlugin = OA_Auth::staticGetAuthPlugin();
+$userid = $oPlugin->getMatchingUserId($email_address, $login);
+$userExists = !empty($userid);
 
 // Permissions
 $aAllowedPermissions = array();
@@ -65,11 +66,11 @@ $aAllowedPermissions[OA_PERM_ZONE_INVOCATION] = array($strAllowAffiliateGenerate
 
 $aErrors = array();
 if (!empty($submit)) {
-    if (!OA_Permission::userNameExists($login)) {
-        $aErrors = OA_Admin_UI_UserAccess::validateUsersData($login, $passwd);
+    if (!$userExists) {
+        $aErrors = $oPlugin->validateUsersData($login, $passwd, $email_address);
     }
     if (empty($aErrors)) {
-        $userid = OA_Admin_UI_UserAccess::saveUser($login, $passwd, $contact_name, $email_address, $accountId);
+        $userid = $oPlugin->saveUser($login, $passwd, $contact_name, $email_address, $accountId);
         OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions, $aAllowedPermissions);
         MAX_Admin_Redirect::redirect('affiliate-access.php?affiliateid='.$affiliateid);
     }
@@ -107,9 +108,8 @@ $oTpl->assign('backUrl', 'affiliate-user-start.php?affiliateid='.$affiliateid);
 $oTpl->assign('method', 'POST');
 $oTpl->assign('aErrors', $aErrors);
 
-// TODO: will need to know whether we're hosted or downloaded
-$HOSTED = false;
-$oTpl->assign('hosted', $HOSTED);
+// Add variables required by the current authentication plugin
+$oPlugin->setTemplateVariables($oTpl);
 
 // indicates whether the user exists (otherwise, a new user will be created or invitation sent)
 $oTpl->assign('existingUser', !empty($userid));
@@ -125,9 +125,10 @@ if ($doUsers) {
     $userData = $doUsers->toArray();
 } else {
     $userData['username'] = $login;
+    $userData['email_address'] = $email_address;
 }
 
-$aHiddenFields = OA_Admin_UI_UserAccess::getHiddenFields($login, $link, 'affiliateid', $affiliateid);
+$aHiddenFields = OA_Admin_UI_UserAccess::getHiddenFields($userData, $link, 'affiliateid', $affiliateid);
 $oTpl->assign('hiddenFields', $aHiddenFields);
 
 $aPermissionsFields = array();
@@ -155,7 +156,7 @@ foreach ($aAllowedPermissions as $permissionId => $aPermission) {
 $tplFields = array(
     array(
         'title'     => $strUserDetails,
-        'fields'    => OA_Admin_UI_UserAccess::getUserDetailsFields($userData)
+        'fields'    => $oPlugin->getUserDetailsFields($userData)
     )
 );
 if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {

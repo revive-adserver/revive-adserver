@@ -46,6 +46,11 @@ class OA_Session
      */
     function setMessage($message)
     {
+        $aArgs = func_get_args();
+        if (count($aArgs) > 1) {
+            array_shift($aArgs);
+            $message = vsprintf($message, $aArgs);
+        }
         global $session;
         $session['message'] = $message;
         phpAds_SessionDataStore();
@@ -65,7 +70,6 @@ class OA_Session
         phpAds_SessionDataStore();
         return $message;
     }
-    
 }
 
 ?>
