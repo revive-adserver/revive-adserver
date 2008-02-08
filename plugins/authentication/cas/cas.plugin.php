@@ -123,27 +123,25 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
     }
 
     /**
-     * A static method to check a username and password
+     * Returns user which matches id returned by cas client
      *
-     * @static
-     *
-     * @param string $username
-     * @param string $md5Password
      * @return mixed A DataObjects_Users instance, or false if no matching user was found
      */
     function getUser()
     {
+        return $this->getUserById(phpCAS::getUserId());
+    }
+
+    /**
+     * Returns user by Id or null if no such user exists
+     *
+     * @param integer $userId
+     * @return mixed A DataObjects_Users instance, or null if no matching user was found
+     */
+    function getUserById($userId)
+    {
         $doUser = OA_Dal::factoryDO('users');
-        switch ($GLOBALS['conf']['authentication']['identifyBy']) {
-            case 'id':
-                $userId =  phpCAS::getUserId();
-                $doUser->sso_user_id = $userId;
-                break;
-            case 'user':
-            default:
-                $username =  phpCAS::getUser();
-                $doUser->whereAdd('LOWER(username) = '.DBC::makeLiteral(strtolower($username)));
-        }
+        $doUser->sso_user_id = $userId;
         $doUser->find();
         if ($doUser->fetch()) {
             return $doUser;
