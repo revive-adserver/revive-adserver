@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2008 m3 Media Services Ltd                                   |
-| For contact details, see: http://www.openx.org/                         |
+| Copyright (c) 2003-2008 m3 Media Services Ltd                             |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -74,11 +74,11 @@ function doUpgrade($dbname)
     $oUpgrader->oDBUpgrader->doBackups = false;
     if ($oUpgrader->upgrade())
     {
-        $aMessages[] = 'Your database has successfully been upgraded to Openads version '.OA_VERSION;
+        $aMessages[] = 'Your database has successfully been upgraded to OpenX version '.OA_VERSION;
     }
     else
     {
-        $aMessages[] = 'Your database has NOT been upgraded to Openads version '.OA_VERSION;
+        $aMessages[] = 'Your database has NOT been upgraded to OpenX version '.OA_VERSION;
     }
     return $aMessages;
 }
@@ -127,7 +127,12 @@ else if (array_key_exists('btn_data_dump', $_POST))
 {
     $aDatabase = $oIntegrity->getVersion();
     $oIntegrity->init($aDatabase['versionSchema'],$aDatasetFile['name'],false);
-    $aResults = $oIntegrity->dumpData($aDatabase['versionSchema'],$aDatabase['versionApp'], $_POST['exclude'],SCENARIOS_DATASETS.$aDatasetFile['name'].'.xml');
+    $aVariables['appver']   = $aDatabase['versionSchema'];
+    $aVariables['schema']   = $aDatabase['versionApp'];
+    $aVariables['exclude']  = $_POST['exclude'];
+    $aVariables['output']   = SCENARIOS_DATASETS.$aDatasetFile['name'].'.xml';
+    $aResults = $oIntegrity->dumpData($aVariables);
+//    $aResults = $oIntegrity->dumpData($aDatabase['versionSchema'],$aDatabase['versionApp'], $_POST['exclude'],SCENARIOS_DATASETS.$aDatasetFile['name'].'.xml');
     if (PEAR::isError($aResults))
     {
         $aMessages[] = $aResults->getUserInfo();

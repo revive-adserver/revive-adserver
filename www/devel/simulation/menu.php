@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2008 m3 Media Services Ltd                                   |
-| For contact details, see: http://www.openx.org/                         |
+| Copyright (c) 2003-2008 m3 Media Services Ltd                             |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -103,22 +103,11 @@ class Menu
         ${$nodeName}    = new HTML_TreeNode($aParams);
         $rootNode->addItem(${$nodeName});
 
-//        $aParams['text'] = 'Configure Data Set';
-//        $aParams['link'] = 'action/setup.php';
-//        ${$nodeName}->addItem(new HTML_TreeNode($aParams));
-//
-//        $aParams['text'] = 'Configure Request Set';
-//        $aParams['link'] = 'action/requests.php';
-//        ${$nodeName}->addItem(new HTML_TreeNode($aParams));
 
         $aParams['text'] = 'Save Current Scenario';
         $aParams['link'] = 'action.php?act=save';
         ${$nodeName}->addItem(new HTML_TreeNode($aParams));
 
-/*        $aParams['text'] = 'Delete Scenario/s';
-        $aParams['link'] = 'action.php?act=delete';
-        ${$nodeName}->addItem(new HTML_TreeNode($aParams));
-*/
         $aParams['text'] = 'Download Scenario/s';
         $aParams['link'] = 'action.php?act=download';
         ${$nodeName}->addItem(new HTML_TreeNode($aParams));

@@ -72,25 +72,31 @@ class OA_DB_Integrity
         $this->oDBUpgrader  =&  $this->oUpgrader->oDBUpgrader;
         $this->_initDBUpgrader();
         $this->oUpgrader->oLogger->logClear();
-        if (!$this->oDBUpgrader->buildSchemaDefinition())
+        if ($version > 0)
         {
-            return false;
+            if (!$this->oDBUpgrader->buildSchemaDefinition())
+            {
+                return false;
+            }
         }
         return true;
     }
 
-    function getSchemaFileInfo($directory, $datafile)
+    function getSchemaFileInfo($directory, $datafile, $ext = '.xml')
     {
-        $this->init(000,$datafile);
+        if (!$this->init(0,'test_data'))
+        {
+            return array();
+        }
         if (!$directory)
         {
             $directory = MAX_PATH.'/var/';
         }
-        if (!file_exists($directory.$datafile.'.xml'))
+        if (!file_exists($directory.$datafile.$ext))
         {
-            return array('error'=>'file not found '.$directory.$datafile.'.xml');
+            return array('error'=>'file not found '.$directory.$datafile.$ext);
         }
-        $aResult = $this->oDBUpgrader->oSchema->parseDatabaseFileHeader($directory.$datafile.'.xml');
+        $aResult = $this->oDBUpgrader->oSchema->parseDatabaseFileHeader($directory.$datafile.$ext);
         if (PEAR::isError($aResult))
         {
             $aResult[] = $aResult->getUserInfo();
@@ -109,10 +115,11 @@ class OA_DB_Integrity
         return array('canUpgrade'=>$result,'versionApp'=>$this->oUpgrader->versionInitialApplication,'versionSchema'=>$this->oUpgrader->versionInitialSchema['tables_core']);
     }
 
-    function dumpData($versionSchema, $versionApp, $aExclude, $output='')
+    //function dumpData($versionSchema, $versionApp, $aExclude, $output='')
+    function dumpData($aVariables)
     {
         $aResult = array();
-        foreach ($aExclude AS $k => $pattern)
+        foreach ($aVariables['exclude'] AS $k => $pattern)
         {
             foreach ($this->oDBUpgrader->aDefinitionNew['tables'] AS $table => $aDef)
             {
@@ -124,24 +131,24 @@ class OA_DB_Integrity
             }
         }
         $this->oDBUpgrader->aDefinitionNew['name'] = $GLOBALS['_MAX']['CONF']['database']['name'];
-        if (!$output)
+        if (!$aVariables['output'])
         {
-            $output = MAX_PATH.'/var/'.$versionApp.'_data_tables_core_'.$versionSchema.'_'.$this->oDBUpgrader->aDefinitionNew['name'].'.xml';
+            $aVariables['output'] = MAX_PATH.'/var/'.$aVariables['appver'].'_data_tables_core_'.$aVariables['schema'].'_'.$this->oDBUpgrader->aDefinitionNew['name'].'.xml';
         }
         $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
 
-        $aResult[] = 'application version: '.$versionApp;
-        $aResult[] = 'schema version: '.$versionSchema;
+        $aResult[] = 'application version: '.$aVariables['appver'];
+        $aResult[] = 'schema version: '.$aVariables['schema'];
         $aResult[] = 'source database: '.$GLOBALS['_MAX']['CONF']['database']['name'];
         $aResult[] = 'table prefix: '.$prefix;
-        $aResult[] = 'output file: '.$output;
+        $aResult[] = 'output file: '.$aVariables['output'];
 
         $options = array (
                             'output_mode'   =>    'file',
-                            'output'        =>    $output,
+                            'output'        =>    $aVariables['output'],
                             'end_of_line'   =>    "\n",
                             'xsl_file'      =>    "",
-                            'custom_tags'   => array('version'=>$versionSchema, 'status'=>'final', 'application'=>$versionApp),
+                            'custom_tags'   => array('version'=>$aVariables['schema'], 'status'=>'final', 'application'=>$aVariables['appver']),
                             'prefix'        => $prefix,
                           );
         $error = $this->oDBUpgrader->oSchema->dumpDatabaseContent($this->oDBUpgrader->aDefinitionNew, $options);
@@ -149,7 +156,7 @@ class OA_DB_Integrity
         {
             $aResult[] = $error->getUserInfo();
         }
-        $aDefinition = $this->oDBUpgrader->oSchema->parseDatabaseContentFile($output, array(), false, false, $this->oUpgrader->oTable->aDefinition);
+        $aDefinition = $this->oDBUpgrader->oSchema->parseDatabaseContentFile($aVariables['output'], array(), false, false, $this->oUpgrader->oTable->aDefinition);
         if (PEAR::isError($aDefinition))
         {
             $aResult[] = $aDefinition->getUserInfo();
@@ -162,7 +169,6 @@ class OA_DB_Integrity
         return $aResult;
     }
 
-    //function loadData($datafile, $dryrun=false, $aMatch='')
     function loadData($aVariables='')
     {
         $aResult = array();
@@ -572,19 +578,14 @@ class OA_DB_Integrity
         $this->oDBUpgrader->prefix          = $GLOBALS['_MAX']['CONF']['table']['prefix'];
         $this->oDBUpgrader->database        = $GLOBALS['_MAX']['CONF']['database']['name'];
         $this->oDBUpgrader->path_schema     = MAX_PATH.'/etc/changes/';
-        $this->oDBUpgrader->file_schema     = $this->oDBUpgrader->path_schema.'schema_tables_core_'.$this->version.'.xml';
+        $this->oDBUpgrader->file_schema     = $this->oDBUpgrader->path_schema.$this->_getXMLFilename();
         $this->oDBUpgrader->path_changes    = MAX_PATH.'/var/';
-        $this->oDBUpgrader->file_changes    = $this->oDBUpgrader->path_changes.'changes_tables_core_'.$this->version.'.xml';
+        $this->oDBUpgrader->file_changes    = $this->oDBUpgrader->path_changes.$this->_getXMLFilename('changes');
     }
 
-    function _resetDBUpgrader()
+    function _getXMLFilename($prefix='schema')
     {
-        $this->oDBUpgrader->prefix          = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-        $this->oDBUpgrader->database        = $GLOBALS['_MAX']['CONF']['database']['name'];
-        $this->oDBUpgrader->path_schema     = MAX_PATH.'/etc/changes/';
-        $this->oDBUpgrader->file_schema     = $this->oDBUpgrader->path_schema.'schema_tables_core_'.$this->version.'.xml';
-        $this->oDBUpgrader->path_changes    = MAX_PATH.'/var/';
-        $this->oDBUpgrader->file_changes    = $this->oDBUpgrader->path_changes.'changes_tables_core_'.$this->version.'.xml';
+        return $prefix.'_tables_core'.($this->version ? '_'.$this->version : '').'.xml';
     }
 
 }
