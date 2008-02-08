@@ -271,29 +271,6 @@ class OA_Dll extends OA_BaseObjectWithErrors
     }
 
     /**
-     * Checks if username is still available and if it is allowed to use.
-     *
-	 * @access public
-	 *
-     * @param string $oldUsername
-     * @param string $newUsername
-     *
-     * @return boolean  True if allowed
-     */
-    function checkUniqueUserName($oldUsername, $newUsername)
-    {
-        if (!isset($newUsername) || strlen($newUsername) == 0) {
-            return true;
-        }
-        if (!OA_Permission::isUsernameAllowed($newUsername, $oldUsername)) {
-        	$this->raiseError('Username must be unique');
-	        return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Checks if record for object exists in database.
      *
 	 * @access public

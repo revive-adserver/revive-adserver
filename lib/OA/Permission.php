@@ -161,7 +161,8 @@ class OA_Permission
 
     /**
      * A method to show an error if the user doesn't have specific permissions to
-     * perform an action on an account
+     * perform an action on his account. This method only performs a permission check
+     * if user is working as an accountType
      *
      * @static
      * @param string $permission  See OA_PERM_* constants
@@ -170,7 +171,7 @@ class OA_Permission
     function enforceAccountPermission($accountType, $permission)
     {
         if (OA_Permission::isAccount($accountType)) {
-            OA_Permission::enforceTrue(OA_Permission::hasPermission($permission, $accountId));
+            OA_Permission::enforceTrue(OA_Permission::hasPermission($permission));
         }
         return true;
     }

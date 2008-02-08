@@ -41,7 +41,7 @@ class Test_Plugins_Authentication_Internal_Internal extends UnitTestCase
     /**
      * @var Plugins_Authentication_Internal_Internal
      */
-    var $internal;
+    var $oPlugin;
 
     function Test_Plugins_Authentication_Internal_Internal()
     {
@@ -50,17 +50,17 @@ class Test_Plugins_Authentication_Internal_Internal extends UnitTestCase
 
     function setUp()
     {
-        $this->internal =  OA_Auth::staticGetAuthPlugin('internal');
+        $this->oPlugin =  OA_Auth::staticGetAuthPlugin('internal');
     }
 
     function testSuppliedCredentials()
     {
-        $ret = $this->internal->suppliedCredentials();
+        $ret = $this->oPlugin->suppliedCredentials();
         $this->assertFalse($ret);
 
         $_POST['username'] = 'boo';
         $_POST['password'] = 'foo';
-        $ret = $this->internal->suppliedCredentials();
+        $ret = $this->oPlugin->suppliedCredentials();
         $this->assertTrue($ret);
 
     }
@@ -78,12 +78,12 @@ class Test_Plugins_Authentication_Internal_Internal extends UnitTestCase
         $_POST['username'] = $username;
         $_POST['password'] = $password;
         $_COOKIE['sessionID'] = $_POST['oa_cookiecheck'] = 'baz';
-        $ret = $this->internal->authenticateUser();
+        $ret = $this->oPlugin->authenticateUser();
         $this->assertIsA($ret, 'DataObjects_Users');
         $this->assertEqual($doUsers->username, $username);
 
         $_POST['password'] = $password.rand();
-        $ret = $this->internal->authenticateUser();
+        $ret = $this->oPlugin->authenticateUser();
         $this->assertFalse($ret);
     }
 
@@ -102,26 +102,26 @@ class Test_Plugins_Authentication_Internal_Internal extends UnitTestCase
         $oUserInfo = new OA_Dll_UserInfo();
 
         // Test with nothing set
-        $this->assertFalse($this->internal->dllValidation($dllUserMock, $oUserInfo));
+        $this->assertFalse($this->oPlugin->dllValidation($dllUserMock, $oUserInfo));
 
         // Test with username set
         $oUserInfo->username = 'foobar';
-        $this->assertFalse($this->internal->dllValidation($dllUserMock, $oUserInfo));
+        $this->assertFalse($this->oPlugin->dllValidation($dllUserMock, $oUserInfo));
 
         // Test with username and password set
         $oUserInfo->password = 'pwd';
-        $this->assertTrue($this->internal->dllValidation($dllUserMock, $oUserInfo));
+        $this->assertTrue($this->oPlugin->dllValidation($dllUserMock, $oUserInfo));
         $this->assertEqual($oUserInfo->password, md5('pwd'));
 
         // Test edit
         $oUserInfo = new OA_Dll_UserInfo();
         $oUserInfo->userId = 1;
-        $this->assertTrue($this->internal->dllValidation($dllUserMock, $oUserInfo));
+        $this->assertTrue($this->oPlugin->dllValidation($dllUserMock, $oUserInfo));
         $this->assertNull($oUserInfo->password);
 
         // Test edit with new password
         $oUserInfo->password = 'pwd';
-        $this->assertTrue($this->internal->dllValidation($dllUserMock, $oUserInfo));
+        $this->assertTrue($this->oPlugin->dllValidation($dllUserMock, $oUserInfo));
         $this->assertEqual($oUserInfo->password, md5('pwd'));
 
         $dllUserMock->tally();

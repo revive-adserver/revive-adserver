@@ -365,6 +365,7 @@ protocol    = https
 host        = oac.openx.org
 port        = 443
 path        = /oac/xmlrpc
+pathSSO     = /oac/xmlrpc_sso
 captcha     = /oac/captcha
 signUpUrl   = /oac/advertiser/signup
 publihserUrl= /oac/advertiser/defzone
@@ -384,7 +385,6 @@ path        = /sso/login
 clientPath  = /sso
 signup      = /account/signup
 forgot      = /account/forgotPassword
-identifyBy  = id
 
 ;------------------------------------------------------------------------------------------;
 ; Plugins Settings                                                                         ;

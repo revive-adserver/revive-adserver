@@ -55,6 +55,11 @@ define('OA_CAS_PLUGIN_PHP_CAS', 'phpCAS');
 class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
 {
     /**
+     * @var OA_Central_Cas
+     */
+    var $oCentral;
+
+    /**
      * Checks if credentials are passed and whether the plugin should carry on the authentication
      *
      * @return boolean  True if credentials were passed, else false
@@ -124,27 +129,25 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
     }
 
     /**
-     * A static method to check a username and password
+     * Returns user which matches id returned by cas client
      *
-     * @static
-     *
-     * @param string $username
-     * @param string $md5Password
      * @return mixed A DataObjects_Users instance, or false if no matching user was found
      */
     function getUser()
     {
+        return $this->getUserById(phpCAS::getUserId());
+    }
+
+    /**
+     * Returns user by Id or null if no such user exists
+     *
+     * @param integer $userId
+     * @return mixed A DataObjects_Users instance, or null if no matching user was found
+     */
+    function getUserById($userId)
+    {
         $doUser = OA_Dal::factoryDO('users');
-        switch ($GLOBALS['conf']['authentication']['identifyBy']) {
-            case 'id':
-                $userId =  phpCAS::getUserId();
-                $doUser->sso_user_id = $userId;
-                break;
-            case 'user':
-            default:
-                $username =  phpCAS::getUser();
-                $doUser->whereAdd('LOWER(username) = '.DBC::makeLiteral(strtolower($username)));
-        }
+        $doUser->sso_user_id = $userId;
         $doUser->find();
         if ($doUser->fetch()) {
             return $doUser;
@@ -261,6 +264,21 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
       $PHPCAS_CLIENT = new OaCasClient($server_version,FALSE/*proxy*/,
           $server_hostname,$server_port,$server_uri,$start_session);
       phpCAS::traceEnd();
+    }
+
+    /**
+     * A method to get a reference to the XML-RPC client
+     *
+     * @return OA_Central_Cas
+     */
+    function &getCentralCas()
+    {
+        if (empty($this->oCentral)) {
+            require_once MAX_PATH . '/plugins/authentication/cas/Central/Cas.php';
+            $this->oCentral = &new OA_Central_Cas();
+        }
+
+        return $this->oCentral;
     }
 
     /**

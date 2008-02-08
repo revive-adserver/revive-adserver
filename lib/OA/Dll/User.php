@@ -79,12 +79,31 @@ class OA_Dll_User extends OA_Dll
     }
 
     /**
+     * This method performs data validation for the username uniqueness
+     *
+     * @param OA_Dll_UserInfo $oUser
+     * @param OA_Dll_UserInfo $oOldUser
+     * @return boolean
+     */
+    function _validateUsername(&$oUser, $oOldUser = null)
+    {
+        $oldUsername = empty($oOldUser) ? '' : $oOldUser->username;
+
+        if (!OA_Permission::isUsernameAllowed($oUser->username, $oldUsername)) {
+            $this->raiseError('Username must be unique');
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * This method performs data validation for the default account ID
      *
      * @param OA_Dll_UserInfo $oUser
      * @return boolean
      */
-    function _validateDefaultAccount(&$oUser)
+    function _validateDefaultAccount($oUser)
     {
         if (!OA_Permission::isUserLinkedToAccount($oUser->defaultAccountId, $oUser->userId)) {
             $this->raiseError('The specified default account is not linked to the user');
@@ -108,6 +127,8 @@ class OA_Dll_User extends OA_Dll
      */
     function _validate(&$oUser)
     {
+        $oOldUser = null;
+
         if (isset($oUser->userId)) {
             // When modifying a user, check correct field types are used and the userID exists.
             if (!$this->checkStructureRequiredIntegerField($oUser, 'userId') ||
@@ -123,6 +144,12 @@ class OA_Dll_User extends OA_Dll
             if (!empty($oUser->defaultAccountId) && !$this->_validateDefaultAccount($oUser)) {
                 return false;
             }
+
+            // Get the old data
+            $doUser = OA_Dal::factoryDO('users');
+            $doUser->get($oUser->userId);
+            $oOldUser = new OA_Dll_UserInfo();
+            $this->_setUserDataFromArray($oOldUser, $doUser->toArray());
         } else {
             // When adding a user, check that the required field 'publisherId' is correct.
             if (!$this->checkStructureRequiredStringField($oUser, 'contactName', 255) ||
@@ -132,7 +159,8 @@ class OA_Dll_User extends OA_Dll
             }
         }
 
-        if (!$this->_validateAuthentication($oUser)) {
+        if (!$this->_validateAuthentication($oUser) ||
+            !$this->_validateUsername($oUser, $oOldUser)) {
             return false;
         }
 

@@ -50,16 +50,16 @@ class Test_Plugins_Authentication_Cas_Cas extends UnitTestCase
     /**
      * @var Plugins_Authentication_Cas_Cas
      */
-    var $internal;
+    var $oPlugin;
 
-    function Test_Plugins_Authentication_Internal_Internal()
+    function Test_Plugins_Authentication_oPlugin_oPlugin()
     {
         $this->UnitTestCase();
     }
 
     function setUp()
     {
-        $this->internal = OA_Auth::staticGetAuthPlugin('cas');
+        $this->oPlugin = OA_Auth::staticGetAuthPlugin('cas');
     }
 
     function tearDown()
@@ -69,11 +69,11 @@ class Test_Plugins_Authentication_Cas_Cas extends UnitTestCase
 
     function testSuppliedCredentials()
     {
-        $ret = $this->internal->suppliedCredentials();
+        $ret = $this->oPlugin->suppliedCredentials();
         $this->assertFalse($ret);
 
         $_GET['ticket'] = 'boo';
-        $ret = $this->internal->suppliedCredentials();
+        $ret = $this->oPlugin->suppliedCredentials();
         $this->assertTrue($ret);
 
     }
@@ -83,7 +83,7 @@ class Test_Plugins_Authentication_Cas_Cas extends UnitTestCase
         // store data
         $data = array('boo');
         $_SESSION[OA_CAS_PLUGIN_PHP_CAS] = $data;
-        $this->internal->storePhpCasSession();
+        $this->oPlugin->storePhpCasSession();
 
         // now fetch stored data and test that it was saved
         phpAds_SessionDataFetch();
@@ -99,7 +99,7 @@ class Test_Plugins_Authentication_Cas_Cas extends UnitTestCase
         $data = array('boo');
         global $session;
         $session[OA_CAS_PLUGIN_PHP_CAS] = $data;
-        $this->internal->restorePhpCasSession();
+        $this->oPlugin->restorePhpCasSession();
         $this->assertEqual($_SESSION[OA_CAS_PLUGIN_PHP_CAS], $data);
     }
 
@@ -108,14 +108,25 @@ class Test_Plugins_Authentication_Cas_Cas extends UnitTestCase
         $username = 'boo';
         $doUsers = OA_Dal::factoryDO('users');
         $doUsers->username = $username;
-        DataGenerator::generateOne($doUsers);
+        $id = DataGenerator::generateOne($doUsers);
 
-        $ret = $this->internal->getUser($username);
+        $ret = $this->oPlugin->getUserById($id);
         $this->assertIsA($ret, 'DataObjects_Users');
-        $this->assertEqual($ret->username, $username);
+        $this->assertEqual($ret->user_id, $id);
 
-        $ret = $this->internal->getUser('foo');
+        $ret = $this->oPlugin->getUserById(123);
         $this->assertNull($ret);
+    }
+
+    function testGetCentralCas()
+    {
+        $oCentral = &$this->oPlugin->getCentralCas();
+        $this->assertIsA($oCentral, 'OA_Central_Cas');
+        unset($oCentral->oCache);
+        $this->assertNull($oCentral->oCache);
+
+        $oCentral2 = &$this->oPlugin->getCentralCas();
+        $this->assertNull($oCentral2->oCache);
     }
 
     function testdllValidation()
@@ -134,36 +145,36 @@ class Test_Plugins_Authentication_Cas_Cas extends UnitTestCase
 
         // Test with username set
         $oUserInfo->username = 'foobar';
-        $this->assertFalse($this->internal->dllValidation($dllUserMock, $oUserInfo));
+        $this->assertFalse($this->oPlugin->dllValidation($dllUserMock, $oUserInfo));
 
         // Test with password set
         unset($oUserInfo->username);
         $oUserInfo->password = 'pwd';
-        $this->assertFalse($this->internal->dllValidation($dllUserMock, $oUserInfo));
+        $this->assertFalse($this->oPlugin->dllValidation($dllUserMock, $oUserInfo));
 
         // Test with nothing set
         unset($oUserInfo->password);
-        $this->assertFalse($this->internal->dllValidation($dllUserMock, $oUserInfo));
+        $this->assertFalse($this->oPlugin->dllValidation($dllUserMock, $oUserInfo));
 
         // Test with email set
         $oUserInfo->emailAddress = 'test@example.com';
-        $this->assertTrue($this->internal->dllValidation($dllUserMock, $oUserInfo));
+        $this->assertTrue($this->oPlugin->dllValidation($dllUserMock, $oUserInfo));
         $this->assertTrue($oUserInfo->username);
 
         // Test edit with username set
         $oUserInfo = new OA_Dll_UserInfo();
         $oUserInfo->userId = 1;
         $oUserInfo->username = 'foobar';
-        $this->assertFalse($this->internal->dllValidation($dllUserMock, $oUserInfo));
+        $this->assertFalse($this->oPlugin->dllValidation($dllUserMock, $oUserInfo));
 
         // Test edit with password set
         unset($oUserInfo->username);
         $oUserInfo->password = 'pwd';
-        $this->assertFalse($this->internal->dllValidation($dllUserMock, $oUserInfo));
+        $this->assertFalse($this->oPlugin->dllValidation($dllUserMock, $oUserInfo));
 
         // Test edit with nothing set
         unset($oUserInfo->password);
-        $this->assertTrue($this->internal->dllValidation($dllUserMock, $oUserInfo));
+        $this->assertTrue($this->oPlugin->dllValidation($dllUserMock, $oUserInfo));
 
         $dllUserMock->tally();
     }
