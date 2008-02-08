@@ -127,7 +127,12 @@ else if (array_key_exists('btn_data_dump', $_POST))
 {
     $aDatabase = $oIntegrity->getVersion();
     $oIntegrity->init($aDatabase['versionSchema'],$aDatasetFile['name'],false);
-    $aResults = $oIntegrity->dumpData($aDatabase['versionSchema'],$aDatabase['versionApp'], $_POST['exclude'],SCENARIOS_DATASETS.$aDatasetFile['name'].'.xml');
+    $aVariables['appver']   = $aDatabase['versionSchema'];
+    $aVariables['schema']   = $aDatabase['versionApp'];
+    $aVariables['exclude']  = $_POST['exclude'];
+    $aVariables['output']   = SCENARIOS_DATASETS.$aDatasetFile['name'].'.xml';
+    $aResults = $oIntegrity->dumpData($aVariables);
+//    $aResults = $oIntegrity->dumpData($aDatabase['versionSchema'],$aDatabase['versionApp'], $_POST['exclude'],SCENARIOS_DATASETS.$aDatasetFile['name'].'.xml');
     if (PEAR::isError($aResults))
     {
         $aMessages[] = $aResults->getUserInfo();

@@ -103,22 +103,11 @@ class Menu
         ${$nodeName}    = new HTML_TreeNode($aParams);
         $rootNode->addItem(${$nodeName});
 
-//        $aParams['text'] = 'Configure Data Set';
-//        $aParams['link'] = 'action/setup.php';
-//        ${$nodeName}->addItem(new HTML_TreeNode($aParams));
-//
-//        $aParams['text'] = 'Configure Request Set';
-//        $aParams['link'] = 'action/requests.php';
-//        ${$nodeName}->addItem(new HTML_TreeNode($aParams));
 
         $aParams['text'] = 'Save Current Scenario';
         $aParams['link'] = 'action.php?act=save';
         ${$nodeName}->addItem(new HTML_TreeNode($aParams));
 
-/*        $aParams['text'] = 'Delete Scenario/s';
-        $aParams['link'] = 'action.php?act=delete';
-        ${$nodeName}->addItem(new HTML_TreeNode($aParams));
-*/
         $aParams['text'] = 'Download Scenario/s';
         $aParams['link'] = 'action.php?act=download';
         ${$nodeName}->addItem(new HTML_TreeNode($aParams));
