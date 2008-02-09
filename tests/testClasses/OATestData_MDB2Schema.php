@@ -149,11 +149,26 @@ class OA_Test_Data_MDB2Schema extends OA_Test_Data
             {
                 continue;
             }
+            $this->_fixTestData($aTable);
             $aTable['fields'] = $this->oTable->aDefinition['tables'][$table_name]['fields'];
             $aTableResult = $this->oSchema->initializeTable($prefix.$table_name, $aTable,true);
             $this->aIds[$table_name] = $aTableResult['aIds'];
         }
         return true;
+    }
+
+    function _fixTestData(&$aTable)
+    {
+        if ($this->oDbh->dbsyntax == 'pgsql') {
+            // Remove those ugly 0000-00-00
+            foreach ($aTable['initialization'] as $k1 => $v1) {
+                foreach ($v1['data']['field'] as $k2 => $v2) {
+                    if ($v2['group']['data'] === '0000-00-00') {
+                        unset($aTable['initialization'][$k1]['data']['field'][$k2]);
+                    }
+                }
+            }
+        }
     }
 }
 
