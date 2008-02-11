@@ -210,6 +210,7 @@ class Plugins_Authentication
     /**
      * Method used in user access pages. Either creates new user if necessary or update existing one.
      *
+     * @param DB_DataObject_Users $doUsers  Users dataobject with any preset variables
      * @param string $login  User name
      * @param string $password  Password
      * @param string $contactName  Contact name
@@ -217,12 +218,21 @@ class Plugins_Authentication
      * @param integer $accountId  a
      * @return integer  User ID or false on error
      */
-    function saveUser($login, $password, $contactName, $emailAddress, $accountId)
+    function saveUser(&$doUsers, $login, $password, $contactName, $emailAddress, $accountId)
     {
-        OA::debug('Cannot run abstract method');
-        exit();
+        $userExists = $doUsers->fetchUserByUserName($emailAddress);
+        $doUsers->contact_name = $contactName;
+        $doUsers->email_address = $emailAddress;
+        if ($userExists) {
+            $doUsers->update();
+            return $doUsers->user_id;
+        } else {
+            $doUsers->default_account_id = $accountId;
+            $doUsers->password = md5($password);
+            return $doUsers->insert();
+        }
     }
-    
+
     /**
      * Returns array of errors which happened during sigup
      *
