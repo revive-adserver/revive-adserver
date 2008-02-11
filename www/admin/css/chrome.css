@@ -36,7 +36,7 @@ a:hover {
 }
 
 .brandingDefault {
-	width: 168px;
+	width: 170px;
 	height: 62px;
 	background: url(../images/logo-wtag.png) no-repeat;
 	margin: 3px 0px 0px 3px;
@@ -102,12 +102,12 @@ a:hover {
   	top: 9px;
   	width: 12px;
   	height: 12px;
-  
+
   	padding: 0;
   	margin: 0;
   	border: 0;
   	cursor: pointer;
-  
+
   	background: url(../images/searchfull.png) -194px -9px no-repeat;
 }
 
@@ -242,7 +242,7 @@ a:hover {
   background: url(../images/bug-fam.png) no-repeat;
   background-position:  center right;
   padding-right: 25px;
-  
+
   /* Fix IE bug: transparent PNG support */
   -background: none;
   -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/bug-fam.png');
