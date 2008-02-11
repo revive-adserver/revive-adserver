@@ -49,11 +49,12 @@ class Menu
      */
     function buildTree()
     {
+        preg_match('/^(\d+\.\d+)/', OA_VERSION, $aMatches);
         // Create the root of the test suite
         $menu     = new HTML_TreeMenu();
         $rootNode = new HTML_TreeNode(
                             array(
-                                'text' => 'OpenX 2.3 Tests',
+                                'text' => MAX_PRODUCT_NAME . ' ' . $aMatches[1] . ' Tests',
                                 'icon' => "package.png"
                             )
                         );
