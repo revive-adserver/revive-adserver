@@ -247,7 +247,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= " Impressions (Total):           5,000\n";
         $expectedContents .= "  No Impressions were logged during the span of this report\n";
         $expectedContents .= "\n\n";
-        $expectedContents .= "Regards,\n   Andrew Hill, m3 Media Services Ltd";
+        $expectedContents .= "Regards,\n   Andrew Hill, OpenX Limited";
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 5);
         $this->assertEqual($aResult['userEmail'], $email);
@@ -306,7 +306,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "          14-05-2007:          10,000\n";
         $expectedContents .= "   Total this period:          15,000\n";
         $expectedContents .= "\n\n";
-        $expectedContents .= "Regards,\n   Andrew Hill, m3 Media Services Ltd";
+        $expectedContents .= "Regards,\n   Andrew Hill, OpenX Limited";
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 5);
         $this->assertEqual($aResult['userEmail'], $email);
@@ -370,7 +370,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "          14-05-2007:          10,000\n";
         $expectedContents .= "   Total this period:          15,000\n";
         $expectedContents .= "\n\n";
-        $expectedContents .= "Regards,\n   Andrew Hill, m3 Media Services Ltd";
+        $expectedContents .= "Regards,\n   Andrew Hill, OpenX Limited";
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 5);
         $this->assertEqual($aResult['userEmail'], $email);
