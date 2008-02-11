@@ -75,10 +75,10 @@
 
     Credits:
     ------------------------------------------------------------------------
-    Thanks to Marcus Baker for allowing m3 Media Services Ltd to distribute
-      Simple Test for PHP along with OpenX. Simple Test is distributed
-      under the Open Group Test Suite License. Please see the Simple Test
-      LICENSE file in the lib/simpletest/ directory for details.
+    Thanks to Marcus Baker for allowing OpenX Limited to distribute Simple
+      Test for PHP along with OpenX. Simple Test is distributed under the
+      Open Group Test Suite License. Please see the Simple Test LICENSE file
+      in the lib/simpletest/ directory for details.
 
     This product includes the phpSniff library, which is distributed under
       the GNU Lesser General Public License. Please see the the phpSniff
