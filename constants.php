@@ -236,6 +236,9 @@ function setupConstants()
         if (!empty($existingPearPath)) {
             $newPearPath .= PATH_SEPARATOR . $existingPearPath;
         }
+        if (!ereg("\.", $newPearPath)) {
+            $newPearPath = '.'.PATH_SEPARATOR . $newPearPath;
+        }        
         ini_set('include_path', $newPearPath);
         // Parse the Openads configuration file
         $GLOBALS['_MAX']['CONF'] = parseIniFile();
