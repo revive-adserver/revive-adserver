@@ -66,8 +66,12 @@ if (!empty($submit)) {
     }
     if (empty($aErrors)) {
         $userid = $oPlugin->saveUser($login, $passwd, $contact_name, $email_address, $accountId);
-        OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions, $aAllowedPermissions);
-        MAX_Admin_Redirect::redirect("agency-access.php?agencyid=".$agencyid);
+        if ($userid) {
+            OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions, $aAllowedPermissions);
+            MAX_Admin_Redirect::redirect("agency-access.php?agencyid=".$agencyid);
+        } else {
+            $aErrors = $oPlugin->getSignupErrors();
+        }
     }
 }
 
@@ -110,6 +114,7 @@ if ($doUsers) {
 } else {
     $userData['username'] = $login;
     $userData['email_address'] = $email_address;
+    $userData['contact_name'] = $contact_name;
 }
 
 $aPermissionsFields = array();

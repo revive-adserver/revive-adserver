@@ -36,7 +36,7 @@ require_once MAX_PATH . '/lib/OA/Central/RpcMapper.php';
  */
 class OA_Central_RpcMapper_Cas extends OA_Central_RpcMapper
 {
-    function OA_Central_RpcMapper_Cas()
+    function OA_Central_RpcMapper_Cas(&$oCentral)
     {
         $aConf = $GLOBALS['_MAX']['CONF']['oacXmlRpc'];
         $aConf['path'] = $aConf['pathSSO'];

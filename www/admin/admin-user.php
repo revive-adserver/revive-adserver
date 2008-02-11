@@ -59,8 +59,12 @@ if (!empty($submit)) {
     if (empty($aErrors)) {
         $userid = $oPlugin->saveUser($login, $passwd, $contact_name,
             $email_address, $accountId);
-        OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions);
-        MAX_Admin_Redirect::redirect("admin-access.php");
+        if ($userid) {
+            OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions);
+            MAX_Admin_Redirect::redirect("admin-access.php");
+        } else {
+            $aErrors = $oPlugin->getErrors();
+        }
     }
 }
 
@@ -102,6 +106,7 @@ if ($doUsers) {
     $userData['username'] = $login;
     $userData['contact_name'] = $contact_name;
     $userData['email_address'] = $email_address;
+    $userData['contact_name'] = $contact_name;
 }
 
 $oTpl->assign('fields', array(

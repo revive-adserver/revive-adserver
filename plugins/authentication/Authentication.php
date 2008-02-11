@@ -24,6 +24,8 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
+
 /**
  * Plugins_Authentication is an abstract class for Authentication plugins
  *
@@ -33,6 +35,13 @@ $Id$
  */
 class Plugins_Authentication
 {
+    /**
+     * Array to keep a reference to signup errors (if any)
+     *
+     * @var array
+     */
+    var $aSignupErrors = array();
+    
     /**
      * Checks if credentials are passed and whether the plugin should carry on the authentication
      *
@@ -212,6 +221,31 @@ class Plugins_Authentication
     {
         OA::debug('Cannot run abstract method');
         exit();
+    }
+    
+    /**
+     * Returns array of errors which happened during sigup
+     *
+     * @return array
+     */
+    function getSignupErrors()
+    {
+        return $this->aSignupErrors;
+    }
+    
+    /**
+     * Adds an error message to signup errors array
+     *
+     * @param string $errorMessage
+     */
+    function addSignupError($error)
+    {
+        if (PEAR::isError($error)) {
+            $errorMessage = $error->getMessage();
+        } else {
+            $errorMessage = $error;
+        }
+        $this->aSignupErrors[] = $errorMessage;
     }
 }
 

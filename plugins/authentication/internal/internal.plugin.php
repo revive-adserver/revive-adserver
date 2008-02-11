@@ -258,6 +258,32 @@ class Plugins_Authentication_Internal_Internal extends Plugins_Authentication
         $doUsers = OA_Dal::factoryDO('users');
         return $doUsers->getUserIdByProperty('username', $login);
     }
+    
+    /**
+     * Method used in user access pages. Either creates new user if necessary or update existing one.
+     *
+     * @param string $login  User name
+     * @param string $password  Password
+     * @param string $contactName  Contact name
+     * @param string $emailAddress  Email address
+     * @param integer $accountId  a
+     * @return integer  User ID or false on error
+     */
+    function saveUser($login, $password, $contactName, $emailAddress, $accountId)
+    {
+        $doUsers = OA_Dal::factoryDO('users');
+        $userExists = $doUsers->fetchUserByUserName($login);
+        $doUsers->contact_name = $contactName;
+        $doUsers->email_address = $emailAddress;
+        if ($userExists) {
+            $doUsers->update();
+            return $doUsers->user_id;
+        } else {
+            $doUsers->default_account_id = $accountId;
+            $doUsers->password = md5($password);
+            return $doUsers->insert();
+        }
+    }
 }
 
 ?>

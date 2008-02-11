@@ -69,8 +69,12 @@ if (!empty($submit)) {
     }
     if (empty($aErrors)) {
         $userid = $oPlugin->saveUser($login, $passwd, $contact_name, $email_address, $accountId);
-        OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions, $aAllowedPermissions);
-        MAX_Admin_Redirect::redirect("advertiser-access.php?clientid=".$clientid);
+        if ($userid) {
+            OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions, $aAllowedPermissions);
+            MAX_Admin_Redirect::redirect("advertiser-access.php?clientid=".$clientid);
+        } else {
+            $aErrors = $oPlugin->getErrors();
+        }
     }
 }
 
@@ -125,6 +129,7 @@ if ($doUsers) {
 } else {
     $userData['username'] = $login;
     $userData['email_address'] = $email_address;
+    $userData['contact_name'] = $contact_name;
 }
 
 $aHiddenFields = OA_Admin_UI_UserAccess::getHiddenFields($userData, $link, 'clientid', $clientid);
