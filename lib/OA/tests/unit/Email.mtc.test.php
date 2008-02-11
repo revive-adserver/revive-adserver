@@ -96,7 +96,7 @@ class Test_OA_Email extends UnitTestCase
         $oPreference = OA_Dal::factoryDO('preferences');
         $oPreference->agencyid       = 0;
         $oPreference->admin_fullname = 'Andrew Hill';
-        $oPreference->company_name   = 'm3 Media Services Ltd';
+        $oPreference->company_name   = 'OpenX Limited';
         $oPreference->admin_email    = 'send@example.com';
         DataGenerator::generateOne($oPreference);
 
@@ -194,7 +194,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "http://example.com/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId2\n";
         $expectedContents .= "=======================================================\n\n";
         $expectedContents .= "There are no statistics available for this campaign\n\n\n\n";
-        $expectedContents .= "Regards,\n   Andrew Hill, m3 Media Services Ltd";
+        $expectedContents .= "Regards,\n   Andrew Hill, OpenX Limited";
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 5);
         $this->assertEqual($aResult['userEmail'], $email);
@@ -403,7 +403,7 @@ class Test_OA_Email extends UnitTestCase
         $impValue      = 100;
 
         $adminContact  = 'Andrew Hill';
-        $adminName     = 'm3 Media Services Ltd';
+        $adminName     = 'OpenX Limited';
         $adminMail     = 'send@example.com';
         $agencyName    = 'Agency Ltd.';
         $agencyContact = 'Mr. Foo Bar Agency';
@@ -820,7 +820,7 @@ class Test_OA_Email extends UnitTestCase
         $oPreference = OA_Dal::factoryDO('preferences');
         $oPreference->agencyid       = 0;
         $oPreference->admin_fullname = 'Andrew Hill';
-        $oPreference->company_name   = 'm3 Media Services Ltd';
+        $oPreference->company_name   = 'OpenX Limited';
         $oPreference->admin_email    = 'send@example.com';
         DataGenerator::generateOne($oPreference);
 
@@ -860,7 +860,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= " Banner  [id$bannerId2] 1\n";
         $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
         $expectedContents .= "\n";
-        $expectedContents .= "Regards,\n   Andrew Hill, m3 Media Services Ltd";
+        $expectedContents .= "Regards,\n   Andrew Hill, OpenX Limited";
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 4);
         $this->assertEqual($aResult['userEmail'], $email);
@@ -896,7 +896,7 @@ class Test_OA_Email extends UnitTestCase
         $oPreference = OA_Dal::factoryDO('preferences');
         $oPreference->agencyid       = 0;
         $oPreference->admin_fullname = 'Andrew Hill';
-        $oPreference->company_name   = 'm3 Media Services Ltd';
+        $oPreference->company_name   = 'OpenX Limited';
         $oPreference->admin_email    = 'send@example.com';
         DataGenerator::generateOne($oPreference);
 
@@ -936,7 +936,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= " Banner  [id$bannerId2] 1\n";
         $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
         $expectedContents .= "\n";
-        $expectedContents .= "Regards,\n   Andrew Hill, m3 Media Services Ltd";
+        $expectedContents .= "Regards,\n   Andrew Hill, OpenX Limited";
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 4);
         $this->assertEqual($aResult['userEmail'], $email);
@@ -956,7 +956,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= " Banner  [id$bannerId2] 1\n";
         $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
         $expectedContents .= "\n";
-        $expectedContents .= "Regards,\n   Andrew Hill, m3 Media Services Ltd";
+        $expectedContents .= "Regards,\n   Andrew Hill, OpenX Limited";
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 4);
         $this->assertEqual($aResult['userEmail'], $email);
@@ -976,7 +976,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= " Banner  [id$bannerId2] 1\n";
         $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
         $expectedContents .= "\n";
-        $expectedContents .= "Regards,\n   Andrew Hill, m3 Media Services Ltd";
+        $expectedContents .= "Regards,\n   Andrew Hill, OpenX Limited";
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 4);
         $this->assertEqual($aResult['userEmail'], $email);
@@ -996,7 +996,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= " Banner  [id$bannerId2] 1\n";
         $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
         $expectedContents .= "\n";
-        $expectedContents .= "Regards,\n   Andrew Hill, m3 Media Services Ltd";
+        $expectedContents .= "Regards,\n   Andrew Hill, OpenX Limited";
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 4);
         $this->assertEqual($aResult['userEmail'], $email);
@@ -1019,7 +1019,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= " Banner  [id$bannerId2] 1\n";
         $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
         $expectedContents .= "\n";
-        $expectedContents .= "Regards,\n   Andrew Hill, m3 Media Services Ltd";
+        $expectedContents .= "Regards,\n   Andrew Hill, OpenX Limited";
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 4);
         $this->assertEqual($aResult['userEmail'], $email);
