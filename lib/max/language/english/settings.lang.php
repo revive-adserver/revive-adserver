@@ -84,14 +84,14 @@ $GLOBALS['strTablesType']                   = "Table type";
 
 $GLOBALS['strInstallWelcome']               = "Welcome to ".MAX_PRODUCT_NAME;
 $GLOBALS['strInstallMessage']               = "Before you can use ".MAX_PRODUCT_NAME." it needs to be configured and <br /> the database needs to be created. Click <b>Proceed</b> to continue.";
-$GLOBALS['strInstallIntro']                 = "Welcome to <a href='http://".MAX_PRODUCT_URL."' target='_blank'><strong>".MAX_PRODUCT_NAME."</strong></a>! You will soon become part of the web's largest ad-space community.
-<p>We try very hard to make this installation or upgrade process as simple as possible. Please follow the instructions on the screen, and if you need more help, please reference the <a href='http://".OX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.</p>
-<p>If you still have questions after reading the documentation, visit the <a href='http://".MAX_PRODUCT_URL."/support/overview.html' target='_blank'><strong>support</strong></a> section of our website and the OpenX <a href='http://".OX_PRODUCT_FORUMURL."' target='_blank'><strong>community forum</strong></a>.</p>
-<p>Thank you for choosing OpenX.</p>";
+$GLOBALS['strInstallIntro']                 = "Thank you for choosing <a href='http://".MAX_PRODUCT_URL."' target='_blank'><strong>".MAX_PRODUCT_NAME."</strong></a>.
+<p>This wizard will guide you through the process of installing / upgrading the ".MAX_PRODUCT_NAME." ad server.</p>
+<p>To help you with the installation process we have created an <a href='http://".OX_PRODUCT_DOCSURL."/wizard/qsg-install' target='_blank'>Installation Quick Start Quide</a> to take you through the process of getting up and running.
+For a more detailed guide to installing and configuring ".MAX_PRODUCT_NAME." visit the <a href='http://".OX_PRODUCT_DOCSURL."/wizard/admin-guide' target='_blank'>Administrator Guide</a>.";
 $GLOBALS['strRecoveryRequiredTitle']    = "Your previous upgrade attempt encountered an error";
 $GLOBALS['strRecoveryRequired']         = "There was an error while processing your previous upgrade and " . MAX_PRODUCT_NAME . " must attempt to recover the upgrade process. Please click the Recover button below.";
 $GLOBALS['strTermsTitle']               = "Software license information";
-$GLOBALS['strTermsIntro']               = MAX_PRODUCT_NAME . " is distributed freely under an Open Source license, the GNU Public License v2.";
+$GLOBALS['strTermsIntro']               = MAX_PRODUCT_NAME . " is distributed freely under an Open Source license, the GNU General Public License.";
 $GLOBALS['strPolicyTitle']               = "Privacy and Data Usage Policy";
 $GLOBALS['strPolicyIntro']               = "Our data usage and privacy policy defines how ".MAX_PRODUCT_NAME." protects your privacy. Please review and agree to these terms to continue the installation.";
 $GLOBALS['strDbSetupTitle']               = "Database Settings";
@@ -105,11 +105,11 @@ $GLOBALS['strRemoveUpgradeFile']               = "You must remove the UPGRADE fi
 $GLOBALS['strInstallSuccess']               = "Clicking 'Continue' will log you in to your ad server.
 <p><strong>What next?</strong></p>
 <div class='psub'>
-  <p><b>Sing up for product updates</b><br>
-    <a href='http://".OX_PRODUCT_DOCSURL."/wizard/join' target='_blank'>Join ".MAX_PRODUCT_NAME." mailing list</a> for product updates, security alerts and new product announcements.
+  <p><b>Sign up for product updates</b><br>
+    <a href='http://".OX_PRODUCT_DOCSURL."/wizard/join' target='_blank'>Join the ".MAX_PRODUCT_NAME." mailing list</a> for product updates, security alerts and new product announcements.
   </p>
   <p><b>Serving your first ad campaign</b><br>
-    Use our <a href='http://".OX_PRODUCT_DOCSURL."/wizard/qsg-firstcampaign' target='_blank'>quick start guide to serving your first ad campaign</a>.
+    Use our <a href='http://".OX_PRODUCT_DOCSURL."/wizard/qsg-firstcampaign' target='_blank'>quick start guide to start serving your first ad campaign</a>.
   </p>
 </div>
 <p><strong>Optional installation steps</strong></p>
@@ -117,7 +117,7 @@ $GLOBALS['strInstallSuccess']               = "Clicking 'Continue' will log you 
   <p><b>Lock your configuration files</b><br>
     This is a good extra security step to protect your ad server configuration settings from being altered.  <a href='http://".OX_PRODUCT_DOCSURL."/wizard/lock-config' target='_blank'>Find out more</a>.
   </p>
-  <p><b>Setting up a regular maintenance task</b><br>
+  <p><b>Set up a regular maintenance task</b><br>
     A maintenance script is recommended to ensure timely reporting and the best possible ad delivery performance.  <a href='http://".OX_PRODUCT_DOCSURL."/wizard/setup-cron' target='_blank'>Find out more</a>
   </p>
   <p><b>Review your system configuration settings</b><br>
@@ -205,7 +205,7 @@ $GLOBALS['strTimezoneGuessedValue']                  = "Server timezone not corr
 $GLOBALS['strTimezoneSeeDocs']                       = "Please see the %DOCS% about setting this variable for PHP.";
 $GLOBALS['strTimezoneDocumentation']                 = "documentation";
 $GLOBALS['strLoginSettingsTitle']                    = "Administrator Login";
-$GLOBALS['strLoginSettingsIntro']                    = "In order to continue with the upgrade process, please enter your " . MAX_PRODUCT_NAME . " administrator user login details.  You must login as the admnistrator user to continue with the upgrade process.";
+$GLOBALS['strLoginSettingsIntro']                    = "In order to continue with the upgrade process, please enter your " . MAX_PRODUCT_NAME . " administrator user login details.  You must login as the administrator user to continue with the upgrade process.";
 $GLOBALS['strAdminSettingsTitle']                    = "Create an administrator account";
 $GLOBALS['strAdminSettingsIntro']                    = "Please complete this form to create your ad server administration account.";
 $GLOBALS['strConfigSettingsIntro']                   = "Please check the configuration settings below and make any required changes before proceeding.";
