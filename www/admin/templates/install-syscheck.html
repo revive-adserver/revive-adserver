@@ -105,7 +105,7 @@
             $halt = (($halt) || ($sysinfoarray['error']));
 
             $sysinfoheading = (!$sysinfoarray['error']? $passImage . ' PHP - no errors' : $errorImage . ' <span class="red">PHP - errors detected</span>');
-            include 'templates/install-sysinfosection.html';
+            include MAX_PATH . '/www/admin/templates/install-sysinfosection.html';
 
             $sysinfoarray = $aSysInfo['PERMS'];
             foreach ($sysinfoarray['actual'] as $key => $val) {
@@ -118,7 +118,7 @@
 
             $halt = (($halt) || ($sysinfoarray['error']));
             $sysinfoheading = (!$sysinfoarray['error']? $passImage . ' File Permissions - no errors' : $errorImage . ' <span class="red">File Permissions - errors detected</span>');
-            include 'templates/install-sysinfosection.html';
+            include MAX_PATH . '/www/admin/templates/install-sysinfosection.html';
         ?>
         </tr>
         </table>
