@@ -47,7 +47,7 @@ $GLOBALS['strBtnRecover']                   = "Recover &raquo;";
 $GLOBALS['strBtnStartAgain']                   = "Start Upgrade Again &raquo;";
 $GLOBALS['strBtnGoBack']                    = "&laquo; Go Back";
 $GLOBALS['strBtnAgree']                     = "I Agree &raquo;";
-$GLOBALS['strBtnDontAgree']                 = "&laquo; I Don't Agree";
+$GLOBALS['strBtnDontAgree']                 = "&laquo; I Disagree";
 $GLOBALS['strBtnRetry']                     = "Retry";
 $GLOBALS['strUpdateDatabaseError']          = "Due to unknown reasons the update of the database structure wasn't succesful. The recommended way to proceed is to click <b>Retry updating</b> to try to correct these potential problems. If you are sure these errors won't affect the functionality of ".MAX_PRODUCT_NAME." you can click <b>Ignore errors</b> to continue. Ignoring these errors may cause serious problems and is not recommended!";
 $GLOBALS['strAlreadyInstalled']             = MAX_PRODUCT_NAME." is already installed on this system. If you want to configure it go to the <a href='account-index.php'>settings interface</a>";
@@ -84,33 +84,47 @@ $GLOBALS['strTablesType']                   = "Table type";
 
 $GLOBALS['strInstallWelcome']               = "Welcome to ".MAX_PRODUCT_NAME;
 $GLOBALS['strInstallMessage']               = "Before you can use ".MAX_PRODUCT_NAME." it needs to be configured and <br /> the database needs to be created. Click <b>Proceed</b> to continue.";
-$GLOBALS['strInstallIntro']                 = "Welcome to <a href='http://".MAX_PRODUCT_URL."' target='_blank'><strong>".MAX_PRODUCT_NAME."</strong></a>! You will soon become part of the web's largest ad-space community.
-<p>We try very hard to make this installation or upgrade process as simple as possible. Please follow the instructions on the screen, and if you need more help, please reference the <a href='http://".OX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.</p>
-<p>If you still have questions after reading the documentation, visit the <a href='http://".MAX_PRODUCT_URL."/support/overview.html' target='_blank'><strong>support</strong></a> section of our website and the OpenX <a href='http://".OX_PRODUCT_FORUMURL."' target='_blank'><strong>community forum</strong></a>.</p>
-<p>Thank you for choosing OpenX.</p>";
+$GLOBALS['strInstallIntro']                 = "Thank you for choosing <a href='http://".MAX_PRODUCT_URL."' target='_blank'><strong>".MAX_PRODUCT_NAME."</strong></a>.
+<p>This wizard will guide you through the process of installing / upgrading the ".MAX_PRODUCT_NAME." ad server.</p>
+<p>To help you with the installation process we have created an <a href='http://".OX_PRODUCT_DOCSURL."/wizard/qsg-install' target='_blank'>Installation Quick Start Quide</a> to take you through the process of getting up and running.
+For a more detailed guide to installing and configuring ".MAX_PRODUCT_NAME." visit the <a href='http://".OX_PRODUCT_DOCSURL."/wizard/admin-guide' target='_blank'>Administrator Guide</a>.";
 $GLOBALS['strRecoveryRequiredTitle']    = "Your previous upgrade attempt encountered an error";
 $GLOBALS['strRecoveryRequired']         = "There was an error while processing your previous upgrade and OpenX must attempt to recover the upgrade process. Please click the Recover button below.";
-$GLOBALS['strTermsTitle']               = "License information";
-$GLOBALS['strTermsIntro']               = MAX_PRODUCT_NAME . " is a free and open source adserver, distributed under the GPL license. Please review this license, and agree to its terms to continue installation.";
+$GLOBALS['strTermsTitle']               = "Software license information";
+$GLOBALS['strTermsIntro']               = MAX_PRODUCT_NAME . " is distributed freely under an Open Source license, the GNU General Public License.";
 $GLOBALS['strPolicyTitle']               = "Privacy and Data Usage Policy";
-$GLOBALS['strPolicyIntro']               = "Please review the Privacy and Data Usage Policy before agreeing to continue the installation.";
-$GLOBALS['strDbSetupTitle']               = "Database Setup";
-$GLOBALS['strDbSetupIntro']               = MAX_PRODUCT_NAME . " uses a MySQL database to store all of its data.  Please fill in the address of your server, as well as the database name, username and password.  If you do not know which information you should provide here, please contact the administrator of your server.";
-$GLOBALS['strDbUpgradeIntro']             = "Below are the detected database details for your installation of " . MAX_PRODUCT_NAME . ". Please check to make sure that these details are correct. When you click continue, " . MAX_PRODUCT_NAME . " will proceed with performing upgrade tasks on your data. Please make sure that you have a proper backup of your data before continuing.";
+$GLOBALS['strPolicyIntro']               = "Our data usage and privacy policy defines how ".MAX_PRODUCT_NAME." protects your privacy. Please review and agree to these terms to continue the installation.";
+$GLOBALS['strDbSetupTitle']               = "Database Settings";
+$GLOBALS['strDbSetupIntro']               = "Please enter the details to connect to your database. If you are unsure about these details, please contact your system administrator.
+<p> The next step will set up your database. Click ‘continue’ to proceed.</p>";
+$GLOBALS['strDbUpgradeIntro']             = "Below are the detected database details for your installation of " . MAX_PRODUCT_NAME . ". Please check to make sure that these details are correct.
+<p>The next step will upgrade your database. Click 'Continue' to upgrade your system.</p>";
 
 $GLOBALS['strOaUpToDate']               = "Your OpenX database and file structure are both using the most recent version and therefore no upgrade is required at this time. Please click Continue to proceed to the OpenX administration panel.";
 $GLOBALS['strOaUpToDateCantRemove']     = "Warning: the UPGRADE file is still present inside of your var folder. We are unable to remove this file because of insufficient permissions. Please delete this file yourself.";
 $GLOBALS['strRemoveUpgradeFile']               = "You must remove the UPGRADE file from the var folder.";
-$GLOBALS['strInstallSuccess']               = "<p>Welcome to the OpenX community! To get the most out of OpenX, there are two last steps you should perform.</p>
-
-<p><strong>Maintenance</strong><br>
-OpenX is configured to automatically run some maintenance tasks every hour as long as ads are being served. To speed up ad delivery, you can set this up by automatically calling a maintenance file every hour (e.g a cron job). This is not required, but is highly recommended. For more information about this, please reference the <a href='http://".OX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.</p>
-
-<p><strong>Security</strong><br>
-The OpenX installation needs the configuration file to be writable by the server. After making your configuration changes, it is highly recommended to enable read-only access to this file, to provide higher security. For more information, please reference the <a href='http://".OX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.</p>
-
-<p>You are now ready to start using OpenX. Clicking continue will take you to your newly installed/upgraded version.</p>
-<p>Before you start using OpenX we suggest you take some time to review your configuration settings found within the \"Settings\" tab.";
+$GLOBALS['strInstallSuccess']               = "Clicking 'Continue' will log you in to your ad server.
+<p><strong>What next?</strong></p>
+<div class='psub'>
+  <p><b>Sign up for product updates</b><br>
+    <a href='http://".OX_PRODUCT_DOCSURL."/wizard/join' target='_blank'>Join the ".MAX_PRODUCT_NAME." mailing list</a> for product updates, security alerts and new product announcements.
+  </p>
+  <p><b>Serving your first ad campaign</b><br>
+    Use our <a href='http://".OX_PRODUCT_DOCSURL."/wizard/qsg-firstcampaign' target='_blank'>quick start guide to start serving your first ad campaign</a>.
+  </p>
+</div>
+<p><strong>Optional installation steps</strong></p>
+<div class='psub'>
+  <p><b>Lock your configuration files</b><br>
+    This is a good extra security step to protect your ad server configuration settings from being altered.  <a href='http://".OX_PRODUCT_DOCSURL."/wizard/lock-config' target='_blank'>Find out more</a>.
+  </p>
+  <p><b>Set up a regular maintenance task</b><br>
+    A maintenance script is recommended to ensure timely reporting and the best possible ad delivery performance.  <a href='http://".OX_PRODUCT_DOCSURL."/wizard/setup-cron' target='_blank'>Find out more</a>
+  </p>
+  <p><b>Review your system configuration settings</b><br>
+    Before you start using ".MAX_PRODUCT_NAME." we suggest you review your settings within the 'Settings' tab.
+  </p>
+</div>";
 $GLOBALS['strInstallNotSuccessful']         = "<b>The installation of ".MAX_PRODUCT_NAME." was not succesful</b><br /><br />Some portions of the install process could not be completed.
                                                 It is possible these problems are only temporarily, in that case you can simply click <b>Proceed</b> and return to the
                                                 first step of the install process. If you want to know more on what the error message below means, and how to solve it,
@@ -191,7 +205,7 @@ $GLOBALS['strTimezoneGuessedValue']                  = "Server timezone not corr
 $GLOBALS['strTimezoneSeeDocs']                       = "Please see the %DOCS% about setting this variable for PHP.";
 $GLOBALS['strTimezoneDocumentation']                 = "documentation";
 $GLOBALS['strLoginSettingsTitle']                    = "Administrator Login";
-$GLOBALS['strLoginSettingsIntro']                    = "In order to continue with the upgrade process, please enter your " . MAX_PRODUCT_NAME . " administrator user login details.  You must login as the admnistrator user to continue with the upgrade process.";
+$GLOBALS['strLoginSettingsIntro']                    = "In order to continue with the upgrade process, please enter your " . MAX_PRODUCT_NAME . " administrator user login details.  You must login as the administrator user to continue with the upgrade process.";
 $GLOBALS['strAdminSettingsTitle']                    = "Your Administrator Account";
 $GLOBALS['strAdminSettingsIntro']                    = "The administrator account is used to login to the " . MAX_PRODUCT_NAME . " interface and manage inventory, view statistics, and create tags. Please fill in the username, password, and email address of the administrator.";
 $GLOBALS['strConfigSettingsIntro']                   = "Please review the following configuration settings. It is very important that you carefully review these settings as they are vital to the performance and usage of " . MAX_PRODUCT_NAME;
