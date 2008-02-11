@@ -68,14 +68,23 @@ foreach ($aLayer as $layer) {
         foreach ($aDirectories as $dirName => $aFiles) {
             $oReporter->paintGroupStart("Directory $dirName ($testName)", count($aFiles));
             foreach ($aFiles as $fileName) {
-            	$oReporter->paintCaseStart("File $fileName ($testName)");	
+            	$oReporter->paintCaseStart("File $fileName ($testName)");
             	// Drop database on PgSQL before starting
                 if (strcasecmp($GLOBALS['_MAX']['CONF']['database']['type'], 'pgsql') === 0)
                 {
                     OA_DB::dropDatabase($GLOBALS['_MAX']['CONF']['database']['name']);
                 }
-                
-                $oReporter->paintMethodStart($fileName);
+
+                // Prepare the name of the test to display when running
+                for ($counter = 0; $counter < count($GLOBALS['_MAX']['TEST']['groups']) - 1; $counter++) {
+                    if ($layer == $GLOBALS['_MAX']['TEST']['groups'][$counter]) {
+                        $layerDisplayName = $GLOBALS['_MAX']['TEST'][$GLOBALS['_MAX']['TEST']['groups'][$counter] . '_layers'][$subLayer][0];
+                    }
+                }
+                preg_match('/^([^\.]+)/', $fileName, $aMatches);
+                $testDisplayName = ucfirst(strtolower($layer)) . '.' . $layerDisplayName . '.' . $aMatches[1];
+                $oReporter->paintMethodStart($testDisplayName);
+
                 $returncode = -1;
                 $output_lines = '';
                 $exec = "run.php --type=$layer --level=file --layer=$subLayer --folder=$dirName"
