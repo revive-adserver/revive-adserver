@@ -97,8 +97,8 @@ class Plugins_Authentication_Internal_Internal extends Plugins_Authentication
     function checkPassword($username, $password)
     {
         $doUser = OA_Dal::factoryDO('users');
-        $doUser->whereAdd('LOWER(username) = '.DBC::makeLiteral(strtolower($username)));
-        $doUser->whereAdd('password = '.DBC::makeLiteral(md5($password)));
+        $doUser->username = strtolower($username);
+        $doUser->password = md5($password);
         $doUser->find();
 
         if ($doUser->fetch()) {
@@ -223,7 +223,7 @@ class Plugins_Authentication_Internal_Internal extends Plugins_Authentication
             ));
         }
     }
-    
+
     function getUserDetailsFields($userData)
     {
         $userDetailsFields = array();
@@ -252,7 +252,7 @@ class Plugins_Authentication_Internal_Internal extends Plugins_Authentication
             );
         return $userDetailsFields;
     }
-    
+
     function getMatchingUserId($email, $login)
     {
         $doUsers = OA_Dal::factoryDO('users');

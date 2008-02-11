@@ -192,7 +192,7 @@ class UserMigration extends Migration
                     ) VALUES (
                         ".$oDbh->quote($aData['contact_name']).",
                         ".$oDbh->quote($aData['email_address']).",
-                        ".$oDbh->quote($aData['username']).",
+                        ".$oDbh->quote(strtolower($aData['username'])).",
                         ".$oDbh->quote($aData['password']).",
                         ".$oDbh->quote($defaultAccountId, 'integer')."
                     )
@@ -241,12 +241,12 @@ class UserMigration extends Migration
 
         return true;
 	}
-	
+
 	function _insertAccountAccess($accountId, $userId)
 	{
 	    $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
 	    $oDbh  = &OA_DB::singleton();
-	    
+
 	    $accountId = $oDbh->quote($accountId);
 	    $userId = $oDbh->quote($userId);
 	    $query = "INSERT INTO
@@ -270,17 +270,17 @@ class UserMigration extends Migration
 	{
 	    $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
 	    $oDbh  = &OA_DB::singleton();
-	    
+
 	    $accountId = $oDbh->quote($accountId);
 	    $userId = $oDbh->quote($userId);
-	    
+
 	    foreach ($aPermissions as $permissionId) {
     	    $query = "INSERT INTO
     	               {$prefix}account_user_permission_assoc
     	               (account_id, user_id, permission_id, is_allowed)
     	               VALUES
     	               ({$accountId},{$userId}, {$permissionId}, 1)";
-    
+
       	    $result = $oDbh->Exec($query);
     	    if (PEAR::isError($result))
     	    {
