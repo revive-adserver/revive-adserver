@@ -46,8 +46,9 @@ OA_Permission::enforceAccessToObject('clients', $clientid);
 $accountId = OA_Permission::getAccountIdForEntity('clients', $clientid);
 
 
-$doUsers = OA_Dal::factoryDO('users');
-$userid = $doUsers->getUserIdByUserName($login);
+$oPlugin = OA_Auth::staticGetAuthPlugin();
+$userid = $oPlugin->getMatchingUserId($email_address, $login);
+$userExists = !empty($userid);
 
 $aAllowedPermissions = array();
 if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
@@ -60,13 +61,17 @@ $aAllowedPermissions[OA_PERM_BANNER_ACTIVATE] = $strAllowClientActivateBanner;
 
 $aErrors = array();
 if (!empty($submit)) {
-    if (!OA_Permission::userNameExists($login)) {
-        $aErrors = OA_Admin_UI_UserAccess::validateUsersData($login, $passwd);
+    if (!$userExists) {
+        $aErrors = $oPlugin->validateUsersData($login, $passwd, $email_address);
     }
     if (empty($aErrors)) {
-        $userid = OA_Admin_UI_UserAccess::saveUser($login, $passwd, $contact_name, $email_address, $accountId);
-        OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions, $aAllowedPermissions);
-        MAX_Admin_Redirect::redirect("advertiser-access.php?clientid=".$clientid);
+        $userid = $oPlugin->saveUser($login, $passwd, $contact_name, $email_address, $accountId);
+        if ($userid) {
+            OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions, $aAllowedPermissions);
+            MAX_Admin_Redirect::redirect("advertiser-access.php?clientid=".$clientid);
+        } else {
+            $aErrors = $oPlugin->getErrors();
+        }
     }
 }
 
@@ -103,9 +108,9 @@ $oTpl->assign('backUrl', 'advertiser-user-start.php?clientid='.$clientid);
 $oTpl->assign('method', 'POST');
 $oTpl->assign('aErrors', $aErrors);
 
-// TODO: will need to know whether we're hosted or downloaded
-$HOSTED = false;
-$oTpl->assign('hosted', $HOSTED);
+// Add variables required by the current authentication plugin
+$oPlugin = OA_Auth::staticGetAuthPlugin();
+$oPlugin->setTemplateVariables($oTpl);
 
 // indicates whether the user exists (otherwise, a new user will be created or invitation sent)
 $oTpl->assign('existingUser', !empty($userid));
@@ -120,9 +125,11 @@ if ($doUsers) {
     $userData = $doUsers->toArray();
 } else {
     $userData['username'] = $login;
+    $userData['email_address'] = $email_address;
+    $userData['contact_name'] = $contact_name;
 }
 
-$aHiddenFields = OA_Admin_UI_UserAccess::getHiddenFields($login, $link, 'clientid', $clientid);
+$aHiddenFields = OA_Admin_UI_UserAccess::getHiddenFields($userData, $link, 'clientid', $clientid);
 $oTpl->assign('hiddenFields', $aHiddenFields);
 
 $aPermissionsFields = array();
@@ -141,7 +148,7 @@ foreach ($aAllowedPermissions as $permissionId => $permissionName) {
 $oTpl->assign('fields', array(
     array(
         'title'     => $strUserDetails,
-        'fields'    => OA_Admin_UI_UserAccess::getUserDetailsFields($userData)
+        'fields'    => $oPlugin->getUserDetailsFields($userData)
     ),
     array(
         'title'     => $strPermissions,

@@ -219,6 +219,7 @@ $GLOBALS['strNotAdmin']                 = "Your account does not have the requir
 $GLOBALS['strDuplicateClientName']      = "The username you provided already exists, please use a different username.";
 $GLOBALS['strDuplicateAgencyName']      = "The username you provided already exists, please use a different username.";
 $GLOBALS['strInvalidPassword']          = "The new password is invalid, please use a different password.";
+$GLOBALS['strInvalidEmail']             = "The email is not correctly formatted, please put a correct email address.";
 $GLOBALS['strNotSamePasswords']         = "The two passwords you supplied are not the same";
 $GLOBALS['strRepeatPassword']           = "Repeat Password";
 $GLOBALS['strOldPassword']              = "Old Password";

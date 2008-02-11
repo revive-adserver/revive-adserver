@@ -35,6 +35,35 @@ class DataObjects_Users extends DB_DataObjectCommon
     );
 
     /**
+     * Handle all necessary operations when a user is inserted
+     *
+     * @see DB_DataObject::insert()
+     */
+    function insert()
+    {
+        if (isset($this->username)) {
+            $this->username = strtolower($this->username);
+        }
+
+        return parent::insert();
+    }
+
+
+    /**
+     * Handle all necessary operations when a user is updated
+     *
+     * @see DB_DataObject::update()
+     */
+    function update($dataObject = false)
+    {
+        if (isset($this->username)) {
+            $this->username = strtolower($this->username);
+        }
+
+        return parent::update($dataObject);
+    }
+
+    /**
      * Checks is a username already exists in the database
      *
      * @param string $username
@@ -42,7 +71,7 @@ class DataObjects_Users extends DB_DataObjectCommon
      */
     function userExists($username)
     {
-        $this->whereAddLower('username', $username);
+        $this->username = strtolower($username);
         return (bool)$this->count();
     }
 
@@ -77,7 +106,18 @@ class DataObjects_Users extends DB_DataObjectCommon
      */
     function getUserIdByUserName($userName)
     {
-        $this->username = $userName;
+        return $this->getUserIdByProperty('username', $userName);
+    }
+
+    /**
+     * Returns user ID for specific username
+     *
+     * @param string $userName  Username
+     * @return integer  User ID or false if user do not exists
+     */
+    function getUserIdByProperty($propertyName, $propertyValue)
+    {
+        $this->whereAdd($propertyName.' = '.$this->quote($propertyValue));
         if ($this->find()) {
             $this->fetch();
             return $this->user_id;
@@ -128,7 +168,7 @@ class DataObjects_Users extends DB_DataObjectCommon
     {
         $doUsers = OA_Dal::factoryDO('users');
         $doAccounts = OA_Dal::factoryDO('accounts');
-        $doAccounts->account_type = OA_ACCOUNT_ADMIN;
+        $doAccounts->account_id = OA_Dal_ApplicationVariables::get('admin_account_id');
         $doAccount_user_assoc = OA_Dal::factoryDO('account_user_assoc');
         $doAccount_user_assoc->joinAdd($doAccounts);
         $doUsers->joinAdd($doAccount_user_assoc);

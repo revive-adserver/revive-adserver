@@ -58,6 +58,10 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
      * @var OA_Central_Cas
      */
     var $oCentral;
+    
+    var $aErrorCodes = array(
+        800 => 'Connection error, please send your data again',
+    );
 
     /**
      * Checks if credentials are passed and whether the plugin should carry on the authentication
@@ -172,9 +176,8 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
 
     /**
      * A method to display a login screen
-     *
-     * @TODO - localize these messages once product team will deliver messages which needs
-     * to be translated.
+     * 
+     * TODO - localization
      *
      * @param string $sMessage
      * @param string $sessionID
@@ -307,6 +310,160 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
         }
 
         return parent::dllValidation($oUser, $oUserInfo);
+    }
+
+    /**
+     * A method to set the required template variables, if any
+     * 
+     * TODO - move templates related method to separate class
+     *
+     * @param OA_Admin_Template $oTpl
+     */
+    function setTemplateVariables(&$oTpl)
+    {
+        if (preg_match('/-user-start\.html$/', $oTpl->templateName)) {
+            $oTpl->assign('returnEmail', true);
+            $oTpl->assign('fields', array(
+               array(
+                   'fields'    => array(
+                       array(
+                           'name'      => 'email_address',
+                           'label'     => $GLOBALS['strEmailToLink'],
+                           'value'     => '',
+                           'id'        => 'user-key'
+                       )
+                   )
+               )
+            ));
+        }
+    }
+    
+    /**
+     * TODO - move templates related method to separate class
+     *
+     * @param unknown_type $userData
+     * @return unknown
+     */
+    function getUserDetailsFields($userData)
+    {
+        $userExists = !empty($userData['user_id']);
+        $userDetailsFields[] = array(
+                       'name'      => 'email_address',
+                       'label'     => $GLOBALS['strEMail'],
+                       'value'     => $userData['email_address'],
+                       'freezed'   => $userExists
+                 );
+        $userDetailsFields[] = array(
+                     'name'      => 'contact_name',
+                     'label'     => $GLOBALS['strContactName'],
+                     'value'     => $userData['contact_name'],
+                     'freezed'   => $userExists
+                 );
+        return $userDetailsFields;
+    }
+    
+    function getMatchingUserId($email, $login)
+    {
+        $doUsers = OA_Dal::factoryDO('users');
+        return $doUsers->getUserIdByProperty('email_address', $email);
+    }
+    
+    /**
+     * Validates user data - required for linking new users
+     *
+     * @param string $login
+     * @param string $password
+     * @return array  Array containing error strings or empty
+     *                array if no validation errors were found
+     */
+    function validateUsersData($login, $password, $email)
+    {
+        return $this->validateUsersEmail($email);
+    }
+    
+    function saveUser($login, $password, $contactName, $emailAddress, $accountId)
+    {
+        $this->getCentralCas();
+        $ssoUserId = $this->getAccountId($emailAddress);
+        if (PEAR::isError($ssoUserId)) {
+            return false;
+        }
+        if (!$ssoUserId) {
+            $superUserName = OA_Permission::getAccountName();
+            return $this->createPartialAccount($receipientEmailAddress, $superUserName, $contactName);
+        }
+        return $ssoUserId;
+    }
+    
+    function createPartialAccount($receipientEmailAddress, $superUserName, $contactName)
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $emailFrom = $aConf['email']['fromName'] . '" <' . $aConf['email']['fromAddress'] . '>';
+        $this->getCentralCas();
+        
+        $subject = $this->getEmailSubject($superUserName);
+        $content = $this->getEmailBody($superUserName, $contactName);
+        $ssoUserId = $this->oCentral->createPartialAccount($receipientEmailAddress, $emailFrom, $subject, $content);
+        if (PEAR::isError($ssoUserId)) {
+            $this->addSignupError($ssoUserId);
+            return false;
+        }
+        return $ssoUserId;
+    }
+    
+    function getAccountId($emailAddress)
+    {
+        $this->getCentralCas();
+        $ssoUserId = $this->oCentral->getAccountId($emailAddress);
+        if (PEAR::isError($ssoUserId)) {
+            $this->addSignupError($ssoUserId);
+        }
+        return $ssoUserId;
+    }
+    
+    /**
+     * Returns subject of activation email
+     *
+     * @param 
+     * @return string
+     */
+    function getEmailSubject($superUserName)
+    {
+        $subject = MAX_Plugin_Translation::translate('strEmailSsoConfirmationSubject', $this->module, $this->package);
+        return str_replace('{superUserName}', $superUserName, $subject);
+    }
+    
+    /**
+     * Returns body of activation email
+     *
+     * @param $superUserName
+     * @param $contactName
+     * @return string
+     */
+    function getEmailBody($superUserName, $contactName)
+    {
+        $subject = MAX_Plugin_Translation::translate('strEmailSsoConfirmationBody', $this->module, $this->package);
+        $replacements = array(
+            '{contactName}'   => $contactName,
+            '{superUserName}' => $superUserName,
+        );
+        return str_replace(array_keys($search), array_values($replace), $subject);
+    }
+    
+    /**
+     * Adds an error message to signup errors array
+     *
+     * @param string $errorMessage
+     */
+    function addSignupError($error)
+    {
+        if (PEAR::isError($error) && isset($this->aErrorCodes[$error->getCode()])) {
+            $msg = MAX_Plugin_Translation::translate(
+                $this->aErrorCodes[$error->getCode()], $this->module, $this->package);
+            parent::addSignupError($msg);
+        } else {
+            parent::addSignupError($error);
+        }
     }
 }
 

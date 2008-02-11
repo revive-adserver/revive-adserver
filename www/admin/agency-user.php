@@ -46,8 +46,9 @@ OA_Permission::enforceAccessToObject('agency', $agencyid);
 
 $accountId = OA_Permission::getAccountIdForEntity('agency', $agencyid);
 
-$doUsers = OA_Dal::factoryDO('users');
-$userid = $doUsers->getUserIdByUserName($login);
+$oPlugin = OA_Auth::staticGetAuthPlugin();
+$userid = $oPlugin->getMatchingUserId($email_address, $login);
+$userExists = !empty($userid);
 
 $aAllowedPermissions = array();
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN))
@@ -57,13 +58,17 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN))
 
 $aErrors = array();
 if (!empty($submit)) {
-    if ($new_user) {
-        $aErrors = OA_Admin_UI_UserAccess::validateUsersData($login, $passwd);
+    if (!$userExists) {
+        $aErrors = $oPlugin->validateUsersData($login, $passwd, $email_address);
     }
     if (empty($aErrors)) {
-        $userid = OA_Admin_UI_UserAccess::saveUser($login, $passwd, $contact_name, $email_address, $accountId);
-        OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions, $aAllowedPermissions);
-        MAX_Admin_Redirect::redirect("agency-access.php?agencyid=".$agencyid);
+        $userid = $oPlugin->saveUser($login, $passwd, $contact_name, $email_address, $accountId);
+        if ($userid) {
+            OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions, $aAllowedPermissions);
+            MAX_Admin_Redirect::redirect("agency-access.php?agencyid=".$agencyid);
+        } else {
+            $aErrors = $oPlugin->getSignupErrors();
+        }
     }
 }
 
@@ -93,9 +98,8 @@ $oTpl->assign('method', 'POST');
 $oTpl->assign('aErrors', $aErrors);
 
 
-// TODO: will need to know whether we're hosted or downloaded
-$HOSTED = false;
-$oTpl->assign('hosted', $HOSTED);
+// Add variables required by the current authentication plugin
+$oPlugin->setTemplateVariables($oTpl);
 
 // indicates whether the user exists (otherwise, a new user will be created or invitation sent)
 $oTpl->assign('existingUser', !empty($userid));
@@ -106,6 +110,8 @@ if ($doUsers) {
     $userData = $doUsers->toArray();
 } else {
     $userData['username'] = $login;
+    $userData['email_address'] = $email_address;
+    $userData['contact_name'] = $contact_name;
 }
 
 $aPermissionsFields = array();
@@ -123,7 +129,7 @@ foreach ($aAllowedPermissions as $permissionId => $permissionName) {
 $aTplFields = array(
     array(
         'title'     => $strUserDetails,
-        'fields'    => OA_Admin_UI_UserAccess::getUserDetailsFields($userData)
+        'fields'    => $oPlugin->getUserDetailsFields($userData)
     )
 );
 if (!empty($aPermissionsFields)) {
@@ -134,7 +140,7 @@ if (!empty($aPermissionsFields)) {
 }
 $oTpl->assign('fields', $aTplFields);
 
-$aHiddenFields = OA_Admin_UI_UserAccess::getHiddenFields($login, $link, 'agencyid', $agencyid);
+$aHiddenFields = OA_Admin_UI_UserAccess::getHiddenFields($userData, $link, 'agencyid', $agencyid);
 $oTpl->assign('hiddenFields', $aHiddenFields);
 
 $oTpl->display();

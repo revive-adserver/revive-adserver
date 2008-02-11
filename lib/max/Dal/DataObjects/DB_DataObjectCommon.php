@@ -1031,6 +1031,18 @@ class DB_DataObjectCommon extends DB_DataObject
         $keys = $this->keys();
         return !empty($keys) ? $keys[0] : null;
     }
+    
+    /**
+     * Quotes the string so it could be used safely inside SQL queries
+     *
+     * @param string $string  Value to quote
+     * @return string
+     */
+    function quote($val)
+    {
+        $oDbh = &OA_DB::singleton();
+        return $oDbh->quote($val);
+    }
 
 
     /**

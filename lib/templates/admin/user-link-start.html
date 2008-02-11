@@ -24,11 +24,9 @@
 $Id$
 
 --> *}
-{assign var="sso" value="true"}
-
 <script language="javascript">
 <!--
-var SSO = {if $sso}true{else}false{/if};
+var returnEmail = {if $returnEmail}true{else}false{/if};
 {literal}
   $(document).ready(function() {
     $("#user-key").keyup(function() {
@@ -45,7 +43,7 @@ var SSO = {if $sso}true{else}false{/if};
         }
       },
       formatResult: function(row) {
-        if (SSO) {
+        if (returnEmail) {
           return row[1];
         } else {
           return row[2];
