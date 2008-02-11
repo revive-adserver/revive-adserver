@@ -215,7 +215,7 @@ function setupIncludePath()
         $newPearPath .= PATH_SEPARATOR . $existingPearPath;
     }
     if (!ereg("\.", $newPearPath)) {
-      $newPearPath = '.'.PATH_SEPARATOR . $newPearPath;
+        $newPearPath = '.'.PATH_SEPARATOR . $newPearPath;
     }
     ini_set('include_path', $newPearPath);
 }
