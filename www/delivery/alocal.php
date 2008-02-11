@@ -203,6 +203,9 @@ $newPearPath = MAX_PATH . DIRECTORY_SEPARATOR.'lib' . DIRECTORY_SEPARATOR . 'pea
 if (!empty($existingPearPath)) {
 $newPearPath .= PATH_SEPARATOR . $existingPearPath;
 }
+if (!ereg("\.", $newPearPath)) {
+$newPearPath = '.'.PATH_SEPARATOR . $newPearPath;
+}
 ini_set('include_path', $newPearPath);
 }
 function getMinimumRequiredMemory()
