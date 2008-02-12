@@ -68,6 +68,10 @@ class OA_DB_Integrity
             {
                 return false;
             }
+            if (!$this->oUpgrader->initDatabaseConnection($aConf))
+            {
+                return false;
+            }
         }
         $this->oDBUpgrader  =&  $this->oUpgrader->oDBUpgrader;
         $this->_initDBUpgrader();
@@ -197,67 +201,75 @@ class OA_DB_Integrity
             $aResult[] = 'schema version: '.$aVariables['schema'];
             $aResult[] = 'target database: '.$aVariables['dbname'];
             $aResult[] = 'table prefix: '.$aVariables['prefix'];
-            if (!$this->init($aVariables['schema'], $aVariables['dbname']))
+
+            if ($this->init($aVariables['schema'], $aVariables['dbname']))
             {
-                $aResult[] = 'initialisation error';
-            }
-            else if ($this->oUpgrader->oTable->init(MAX_PATH.'/etc/changes/schema_tables_core_'.$aVariables['schema'].'.xml'))
-            {
-                $aDefinition = $this->oDBUpgrader->oSchema->parseDatabaseContentFile($aVariables['directory'].$aVariables['datafile'], array(), false, false, $this->oUpgrader->oTable->aDefinition);
-                if (PEAR::isError($aDefinition))
+                if ($this->oUpgrader->oTable->init(MAX_PATH.'/etc/changes/schema_tables_core_'.$aVariables['schema'].'.xml'))
                 {
-                    $aResult[] = $aDefinition->getUserInfo();
-                    return $aResult;
-                }
-                if (!$aVariables['dryrun'])
-                {
-                    $this->oUpgrader->oTable->dropAllTables();
-                    if (!$this->oUpgrader->oTable->createAllTables())
+                    $aDefinition = $this->oDBUpgrader->oSchema->parseDatabaseContentFile($aVariables['directory'].$aVariables['datafile'], array(), false, false, $this->oUpgrader->oTable->aDefinition);
+                    if (PEAR::isError($aDefinition))
                     {
-                        $aResult[] = 'ERROR creating all tables';
+                        $aResult[] = $aDefinition->getUserInfo();
                         return $aResult;
                     }
-                    $query = 'SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO"';
-                    $mdb2_result = $this->oUpgrader->oDbh->exec($query);
-                    if (PEAR::isError($mdb2_result))
+                    if (!$aVariables['dryrun'])
                     {
-                        $aResult[] = $mdb2_result->getUserInfo();
-                    }
-                }
-                foreach ($aDefinition['tables'] as $table_name => $aTable)
-                {
-                    if (empty($aTable['initialization'])) {
-                        continue;
-                    }
-                    $count = count($aTable['initialization']);
-                    if ($aVariables['dryrun'])
-                    {
-                        $aResult[] = $count.' rows to insert into table '.$aVariables['prefix'].$table_name;
-                    }
-                    else
-                    {
-                        $aTable['fields'] = $this->oUpgrader->oTable->aDefinition['tables'][$table_name]['fields'];
-                        //$aTable['indexes'] = $this->oUpgrader->oTable->aDefinition['tables'][$table_name]['indexes'];
-                        $rows = $this->oDBUpgrader->oSchema->initializeTable($aVariables['prefix'].$table_name, $aTable,true);
-                        if (PEAR::isError($rows))
+                        $this->oUpgrader->oTable->dropAllTables();
+                        if (!$this->oUpgrader->oTable->createAllTables())
                         {
-                            $aResult[] = $rows->getUserInfo();
+                            $aResult[] = 'ERROR creating all tables';
+                            return $aResult;
                         }
-                        else if ($rows['error'])
+    /*                    $query = 'SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO"';
+                        $mdb2_result = $this->oUpgrader->oDbh->exec($query);
+                        if (PEAR::isError($mdb2_result))
                         {
-                            $aResult[] = $rows['error'];
+                            $aResult[] = $mdb2_result->getUserInfo();
+                        }
+    */                }
+                    foreach ($aDefinition['tables'] as $table_name => $aTable)
+                    {
+                        if (empty($aTable['initialization'])) {
+                            continue;
+                        }
+                        $count = count($aTable['initialization']);
+                        if ($aVariables['dryrun'])
+                        {
+                            $aResult[] = $count.' rows to insert into table '.$aVariables['prefix'].$table_name;
                         }
                         else
                         {
-                            $msg = $rows['count'].' / '.$count.' rows inserted into table '.$aVariables['prefix'].$table_name;
-                            if ($rows['count'] <> $count)
+                            $aTable['fields'] = $this->oUpgrader->oTable->aDefinition['tables'][$table_name]['fields'];
+                            //$aTable['indexes'] = $this->oUpgrader->oTable->aDefinition['tables'][$table_name]['indexes'];
+                            $rows = $this->oDBUpgrader->oSchema->initializeTable($aVariables['prefix'].$table_name, $aTable,true);
+                            if (PEAR::isError($rows))
                             {
-                                $msg = 'ERROR! '.$msg;
+                                $aResult[] = $rows->getUserInfo();
                             }
-                            $aResult[] = $msg;
+                            else if ($rows['error'])
+                            {
+                                $aResult[] = $rows['error'];
+                            }
+                            else
+                            {
+                                $msg = $rows['count'].' / '.$count.' rows inserted into table '.$aVariables['prefix'].$table_name;
+                                if ($rows['count'] <> $count)
+                                {
+                                    $msg = 'ERROR! '.$msg;
+                                }
+                                $aResult[] = $msg;
+                            }
                         }
                     }
                 }
+                else
+                {
+                    $aResult[] = 'table initialisation error';
+                }
+            }
+            else
+            {
+                $aResult[] = 'initialisation error';
             }
         }
         return $aResult;

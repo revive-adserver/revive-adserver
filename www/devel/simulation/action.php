@@ -83,6 +83,11 @@ function doUpgrade($dbname)
     return $aMessages;
 }
 
+if (array_key_exists('btn_data_drop', $_POST))
+{
+    OA_DB::dropDatabase($_POST['dbname']);
+}
+
 $oIntegrity = new OA_DB_Integrity();
 $GLOBALS['_MAX']['CONF']['table']['prefix'] = '';
 $scenario = $_REQUEST['scenario'];
