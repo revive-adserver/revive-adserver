@@ -131,7 +131,7 @@ $GLOBALS['strInstallNotSuccessful']         = "<b>The installation of ".MAX_PROD
                                                 please consult the supplied documentation.";
 $GLOBALS['strSystemCheck']                  = "System check";
 $GLOBALS['strSystemCheckIntro']             = MAX_PRODUCT_NAME . " has certain requirements which will now be checked. We will warn you if any settings need to be changed.";
-$GLOBALS['strDbSuccessIntro']               = "The " . MAX_PRODUCT_NAME . " database has now been created. Please click the 'Continue' button to proceed with configuring OpenX Administrator and Delivery settings.";
+$GLOBALS['strDbSuccessIntro']               = "The " . MAX_PRODUCT_NAME . " database has now been created. Please click the 'Continue' button to proceed with configuring ". MAX_PRODUCT_NAME ." Administrator and Delivery settings.";
 $GLOBALS['strDbSuccessIntroUpgrade']        = "The " . MAX_PRODUCT_NAME . " database has now been updated.  Please click the 'Continue' button to proceed with reviewing the " . MAX_PRODUCT_NAME . " Administrator and Delivery settings.";
 $GLOBALS['strErrorOccured']                 = "The following error occured:";
 $GLOBALS['strErrorInstallDatabase']         = "The database structure could not be created.";
