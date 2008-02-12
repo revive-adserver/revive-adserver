@@ -469,7 +469,7 @@ class DataGenerator
                 }
                 OA::enableErrorHandling();
                 if (PEAR::isError($result)) {
-                    OA::debug('Unable to reset sequence on table ' . $tableName, PEAR_LOG_ERROR);
+                    OA::debug('Unable to reset sequence on table ' . $tableName, PEAR_LOG_ERR);
                     return false;
                 }
             }
@@ -482,7 +482,7 @@ class DataGenerator
             $result = $oDbh->exec("ALTER TABLE {$tableName} AUTO_INCREMENT = 1");
             OA::enableErrorHandling();
             if (PEAR::isError($result)) {
-                OA::debug('Unable to reset sequence on table ' . $tableName, PEAR_LOG_ERROR);
+                OA::debug('Unable to reset sequence on table ' . $tableName, PEAR_LOG_ERR);
                 return false;
             }
         }

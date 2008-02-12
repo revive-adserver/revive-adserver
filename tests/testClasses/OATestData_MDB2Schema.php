@@ -133,15 +133,6 @@ class OA_Test_Data_MDB2Schema extends OA_Test_Data
     {
         $aDefinition = $this->_getContentDefinition();
         $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-        if ($this->oDbh->dbsyntax == 'mysql')
-        {
-            $query = 'SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO"'; // check this - necessary?  mysql only?
-            $mdb2_result = $this->oDbh->exec($query);
-            if (PEAR::isError($mdb2_result))
-            {
-                return false;
-            }
-        }
         foreach ($aDefinition['tables'] as $table_name => $aTable)
         {
             $this->aIds[$table_name] = array();
