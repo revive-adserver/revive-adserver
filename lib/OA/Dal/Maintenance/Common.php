@@ -381,7 +381,7 @@ class OA_Dal_Maintenance_Common extends MAX_Dal_Common
         $rc = $this->oDbh->query($query);
         $aRow = $rc->fetchRow();
         if (PEAR::isError($aRow)) {
-            OA::debug('- Error finding ' . $type . ' connection window', PEAR_LOG_ERROR);
+            OA::debug('- Error finding ' . $type . ' connection window', PEAR_LOG_ERR);
             return 0;
         }
         if (empty($aRow['max']) || $aRow['max'] <= 0) {
