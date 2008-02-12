@@ -397,7 +397,6 @@ class MDB2_Schema_Parser extends XML_Parser
             break;
         case 'database-table-initialization-insert-field-value':
         case 'database-table-initialization-update-field-value':
-            $data = $this->getDataFromArray($this->init['data']['field'], 'group').$data;
             $this->setData($this->init['data']['field'], 'group', array('type' => 'value', 'data' => $data));
             break;
         case 'database-table-initialization-insert-field-function-name':
@@ -415,7 +414,6 @@ class MDB2_Schema_Parser extends XML_Parser
 
         /* Update */
         case 'database-table-initialization-update-field-column':
-            $data = $this->getDataFromArray($this->init['data']['field'], 'group').$data;
             $this->setData($this->init['data']['field'], 'group', array('type' => 'column', 'data' => $data));
             break;
 
@@ -698,14 +696,15 @@ class MDB2_Schema_Parser extends XML_Parser
         }
     }
 
-    function getDataFromArray($array, $key)
-    {
-        return isset($array[(count($array)-1)][$key]['data']) ? $array[(count($array)-1)][$key]['data'] : '';
-    }
-
     function setData(&$array, $key, $value)
     {
-        $array[(count($array)-1)][$key] = $value;
+		$lastIdx = count($array) - 1;
+		if (isset($value['data']) && isset($array[$lastIdx][$key]['data'])) {
+			// Value is an array and has a data member, there might be something
+			// already stored, so we need to append rather then replace.
+			$value['data'] = $array[$lastIdx][$key]['data'].$value['data'];
+		}
+        $array[$lastIdx][$key] = $value;
     }
 }
 
