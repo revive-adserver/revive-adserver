@@ -1043,6 +1043,27 @@ class DB_DataObjectCommon extends DB_DataObject
         $oDbh = &OA_DB::singleton();
         return $oDbh->quote($val);
     }
+    
+    /**
+     * Fetch DataObject by property
+     *
+     * @param unknown_type $propertyName
+     * @param unknown_type $propertyValue
+     * @return unknown
+     */
+    function loadByProperty($propertyName, $propertyValue)
+    {
+        $fields = $this->table();
+        if (!isset($fields[$propertyName])) {
+            MAX::raiseError($propertyName.' is not a field in table '.$this->getTableWithoutPrefix(), PEAR_LOG_ERR);
+            return false;
+        }
+        $this->$propertyName = $propertyValue;
+        if (!$this->find()) {
+            return false;
+        }
+        return $this->fetch();
+    }
 
 
     /**

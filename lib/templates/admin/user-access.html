@@ -66,10 +66,10 @@ $Id$
     <tbody class="{$rowType}">
       <tr height="25" {if $user.justModified}class="hl"{/if}>
       {if $sso}
-        <td class="first"><a href="{$editPage}?login={$user.username}&amp;{$entityIdName}={$entityIdValue}">{$user.email_address}</a></td>
+        <td class="first"><a href="{$editPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}">{$user.email_address}</a></td>
       {else}
-        <td class="first"><a href="{$editPage}?login={$user.username}&amp;{$entityIdName}={$entityIdValue}">{$user.username}</a></td>
-        <td><a href="{$editPage}?login={$user.username}&amp;{$entityIdName}={$entityIdValue}">{$user.email_address}</a></td>
+        <td class="first"><a href="{$editPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}">{$user.username}</a></td>
+        <td><a href="{$editPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}">{$user.email_address}</a></td>
       {/if}
         <td>{$user.contact_name}</td>
       {if $sso}
@@ -78,8 +78,8 @@ $Id$
         <td>{$user.linked}</td>
       {/if}
         <td class="last">
-          <a href="{$editPage}?login={$user.username}&amp;{$entityIdName}={$entityIdValue}" class="permissions" style="padding-right: 10px">Permissions</a>
-          <a href="{$unlinkPage}?login={$user.username}&amp;{$entityIdName}={$entityIdValue}" class="unlink{if $user.toDelete} unlink-last{else} unlink-normal{/if}">Unlink</a>
+          <a href="{$editPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}" class="permissions" style="padding-right: 10px">Permissions</a>
+          <a href="{$unlinkPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}" class="unlink{if $user.toDelete} unlink-last{else} unlink-normal{/if}">Unlink</a>
         </td>
       </tr>
 

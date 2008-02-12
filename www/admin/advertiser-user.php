@@ -50,7 +50,9 @@ $accountId = OA_Permission::getAccountIdForEntity('clients', $clientid);
 
 
 $oPlugin = OA_Auth::staticGetAuthPlugin();
-$userid = $oPlugin->getMatchingUserId($email_address, $login);
+if (empty($userid)) {
+    $userid = $oPlugin->getMatchingUserId($email_address, $login);
+}
 $userExists = !empty($userid);
 
 $aAllowedPermissions = array();
@@ -73,7 +75,7 @@ if (!empty($submit)) {
             OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions, $aAllowedPermissions);
             MAX_Admin_Redirect::redirect("advertiser-access.php?clientid=".$clientid);
         } else {
-            $aErrors = $oPlugin->getErrors();
+            $aErrors = $oPlugin->getSignupErrors();
         }
     }
 }

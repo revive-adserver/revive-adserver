@@ -31,6 +31,130 @@ $Id$
  */
 class OA_Admin_UI_UserAccess
 {
+    var $accountId;
+    var $userid;
+    var $request = array();
+    var $pagePrefix; // admin/agency/advertiser/affiliate
+    var $aErrors = array();
+    var $oPlugin;
+    var $callbackNavigation;
+    
+    function init()
+    {
+        $this->initRequest();
+        $this->oPlugin = OA_Auth::staticGetAuthPlugin();
+        if (empty($this->userid)) {
+            $this->userid = $this->oPlugin->getMatchingUserId(
+                $this->request['email_address'], $this->request['login']);
+        }
+    }
+    
+    function process()
+    {
+        if (!empty($this->request['submit'])) {
+            if ($this->userid) {
+                // @todo shouldn't we always validate the user?
+                $this->aErrors = $this->oPlugin->validateUsersData(
+                    $this->request['login'], $this->request['passwd'],
+                    $this->request['email_address']);
+            }
+            if (empty($this->aErrors)) {
+                $this->request['userid'] = $this->oPlugin->saveUser(
+                    $this->request['login'], $this->request['passwd'],
+                    $this->request['contact_name'],
+                    $this->request['email_address'], $this->accountId);
+                if ($this->request['userid']) {
+                    OA_Admin_UI_UserAccess::linkUserToAccount(
+                        $this->request['userid'], $this->accountId,
+                        $this->permissions);
+                    MAX_Admin_Redirect::redirect($this->pagePrefix . '-access.php');
+                } else {
+                    $aErrors = $this->oPlugin->getSignupErrors();
+                }
+            }
+        }
+        $this->display();
+    }
+    
+    function display()
+    {
+        $this->processNavigation();
+        
+        require_once MAX_PATH . '/lib/OA/Admin/Template.php';
+
+        $oTpl = new OA_Admin_Template($this->pagePrefix.'-user.html');
+        $oTpl->assign('action', $this->pagePrefix.'-user.php');
+        $oTpl->assign('backUrl', $this->pagePrefix.'-user-start.php');
+        $oTpl->assign('method', 'POST');
+        $oTpl->assign('aErrors', $this->aErrors);
+        
+        $this->oPlugin->setTemplateVariables($oTpl);
+        
+        // indicates whether the user exists
+        // (otherwise, a new user will be created or invitation sent)
+        $oTpl->assign('existingUser', !empty($this->userid));
+        
+        // indicates whether the form is in editing user properties mode
+        // (linked from the "Permissions" link in the User Access table)
+        $oTpl->assign('editMode', !$link);
+        
+        $doUsers = OA_Dal::staticGetDO('users', $this->userid);
+        $userData = array();
+        if ($doUsers) {
+            $userData = $doUsers->toArray();
+        } else {
+            $userData['username'] = $this->request['login'];
+            $userData['contact_name'] = $this->request['contact_name'];
+            $userData['email_address'] = $this->request['email_address'];
+        }
+        
+        $oTpl->assign('fields', array(
+            array(
+                'title'  => $strUserDetails,
+                'fields' => $this->oPlugin->getUserDetailsFields($userData)
+            )
+         )
+        );
+        
+        $aHiddenFields = OA_Admin_UI_UserAccess::getHiddenFields($userData, $link);
+        $oTpl->assign('hiddenFields', $aHiddenFields);
+        
+        $oTpl->display();
+        
+        phpAds_PageFooter();
+    }
+    
+    function initRequest()
+    {
+        $this->request = phpAds_registerGlobalUnslashed (
+            'userid', 'login', 'passwd', 'link', 'contact_name',
+            'email_address', 'permissions', 'submit'
+        );
+        $this->userid = $this->request['userid'];
+    }
+    
+    function setAccountId($accountId)
+    {
+        $this->accountId = $accountId;
+    }
+    
+    function setPagePrefix($pagePrefix)
+    {
+        $this->pagePrefix = $pagePrefix;
+    }
+    
+    function setNavigationCallback($callback)
+    {
+        $this->callbackNavigation = $callback;
+    }
+    
+    function processNavigation()
+    {
+        if (is_callable($this->callbackNavigation)) {
+            call_user_func($this->callbackNavigation);
+        }
+    }
+    
     /**
      * Assign common template variables
      *
@@ -156,7 +280,6 @@ class OA_Admin_UI_UserAccess
             $message = sprintf($GLOBALS['strNoStatsForPeriod'], $login);
             OA_Session::setMessage($message);
         } else {
-            // TODO - change ids to contact name and account name
             if (!OA_Permission::isUserLinkedToAccount($accountId, $userId)) {
                 // TODO - add below - , $userId, $accountId
                 OA_Session::setMessage($GLOBALS['strUserLinkedToAccount']);

@@ -897,11 +897,11 @@ class CASClient
       phpCAS::traceBegin();
       $cas_url = $this->getServerLoginURL($gateway);
       header('Location: '.$cas_url);
-      $this->printHTMLHeader($this->getString(CAS_STR_AUTHENTICATION_WANTED));
-      printf('<p>'.$this->getString(CAS_STR_SHOULD_HAVE_BEEN_REDIRECTED).'</p>',$cas_url);
-      $this->printHTMLFooter();
+      //$this->printHTMLHeader($this->getString(CAS_STR_AUTHENTICATION_WANTED));
+      //printf('<p>'.$this->getString(CAS_STR_SHOULD_HAVE_BEEN_REDIRECTED).'</p>',$cas_url);
+      //$this->printHTMLFooter();
       phpCAS::traceExit();
-      exit();
+      //exit();
     }
   
   /**

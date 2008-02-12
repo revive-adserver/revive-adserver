@@ -220,10 +220,9 @@ class Plugins_Authentication
      */
     function saveUser(&$doUsers, $login, $password, $contactName, $emailAddress, $accountId)
     {
-        $userExists = $doUsers->fetchUserByUserName($emailAddress);
         $doUsers->contact_name = $contactName;
         $doUsers->email_address = $emailAddress;
-        if ($userExists) {
+        if ($doUsers->user_id) {
             $doUsers->update();
             return $doUsers->user_id;
         } else {

@@ -49,7 +49,9 @@ OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 $accountId = OA_Permission::getAccountIdForEntity('affiliates', $affiliateid);
 
 $oPlugin = OA_Auth::staticGetAuthPlugin();
-$userid = $oPlugin->getMatchingUserId($email_address, $login);
+if (empty($userid)) {
+    $userid = $oPlugin->getMatchingUserId($email_address, $login);
+}
 $userExists = !empty($userid);
 
 // Permissions
@@ -75,7 +77,7 @@ if (!empty($submit)) {
             OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions, $aAllowedPermissions);
             MAX_Admin_Redirect::redirect('affiliate-access.php?affiliateid='.$affiliateid);
         } else {
-            $aErrors = $oPlugin->getErrors();
+            $aErrors = $oPlugin->getSignupErrors();
         }
     }
 }

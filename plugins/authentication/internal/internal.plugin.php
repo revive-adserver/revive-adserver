@@ -272,6 +272,7 @@ class Plugins_Authentication_Internal_Internal extends Plugins_Authentication
     function saveUser(&$doUsers, $login, $password, $contactName, $emailAddress, $accountId)
     {
         $doUsers = OA_Dal::factoryDO('users');
+        $doUsers->loadByProperty('username', $login);
         return parent::saveUser($doUsers, $login, $password, $contactName, $emailAddress, $accountId);
     }
 }

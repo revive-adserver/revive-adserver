@@ -50,7 +50,9 @@ OA_Permission::enforceAccessToObject('agency', $agencyid);
 $accountId = OA_Permission::getAccountIdForEntity('agency', $agencyid);
 
 $oPlugin = OA_Auth::staticGetAuthPlugin();
-$userid = $oPlugin->getMatchingUserId($email_address, $login);
+if (empty($userid)) {
+    $userid = $oPlugin->getMatchingUserId($email_address, $login);
+}
 $userExists = !empty($userid);
 
 $aAllowedPermissions = array();

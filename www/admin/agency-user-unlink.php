@@ -39,7 +39,7 @@ require_once MAX_PATH . '/lib/OA/Session.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
 
 // Register input variables
-phpAds_registerGlobal ('login', 'returnurl');
+phpAds_registerGlobal ('userid', 'returnurl');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
@@ -47,9 +47,6 @@ OA_Permission::enforceAccountPermission(OA_ACCOUNT_MANAGER, OA_PERM_SUPER_ACCOUN
 OA_Permission::enforceAccessToObject('agency', $agencyid);
 
 $accountId = OA_Permission::getAccountIdForEntity('agency', $agencyid);
-
-$doUsers = OA_Dal::factoryDO('users');
-$userid = $doUsers->getUserIdByUserName($login);
 
 /*-------------------------------------------------------*/
 /* Main code                                             */

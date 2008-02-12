@@ -31,6 +31,8 @@ require_once MAX_PATH . '/plugins/authentication/cas/CAS/client.php';
 require_once MAX_PATH . '/plugins/authentication/cas/OaCasClient.php';
 require_once MAX_PATH . '/www/admin/lib-sessions.inc.php';
 
+define('OA_SSO_USER_NOT_EXISTS', 701);
+
 /**
  * String which CAS client uses to store data in session
  *
@@ -57,6 +59,9 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
      * @var OA_Central_Cas
      */
     var $oCentral;
+    
+    var $defaultErrorUnkownMsg = 'Error while connecting with server (%s), please try to resend your data again.';
+    var $defaultErrorUnknownCode = 'Error while communicating with server, error code %d';
     
     var $aErrorCodes = array(
         701 => 'User do not exists, please try again with different account',
@@ -137,7 +142,7 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
             if ($doUser) {
                 return $doUser;
             }
-            $this->displayRegistrationRequiredInfo($username);
+            $this->displayRegistrationRequiredInfo();
         }
         return null;
     }
@@ -190,7 +195,7 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
      * 
      * @param string $userName
      */
-    function displayRegistrationRequiredInfo($userName = '')
+    function displayRegistrationRequiredInfo()
     {
         phpAds_PageHeader("1");
         $msg = MAX_Plugin_Translation::translate('strRegistrationRequiredInfo', $this->module, $this->package);
@@ -198,6 +203,7 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
             '{userName}'   => phpCAS::getUser(),
         );
         $msg = str_replace(array_keys($replacements), array_values($replacements), $msg);
+        echo $msg;
         phpAds_PageFooter();
         exit();
     }
@@ -295,6 +301,7 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
      * A method to perform DLL level validation
      *
      * @todo Check user existence on SSO and get the username
+     * @todo Errors strings localisation
      *
      * @param OA_Dll_User $oUser
      * @param OA_Dll_UserInfo $oUserInfo
@@ -308,7 +315,8 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
         }
 
         if (!isset($oUserInfo->userId)) {
-            if (!$oUser->checkStructureRequiredStringField($oUserInfo, 'emailAddress', 64)) {
+            if (!$oUser->checkStructureRequiredStringField($oUserInfo,
+                    'emailAddress', 64)) {
                 return false;
             }
 
@@ -397,31 +405,36 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
         }
         if (!$ssoUserId) {
             $superUserName = OA_Permission::getAccountName();
-            $ssoUserId = $this->createPartialAccount($receipientEmailAddress, $superUserName, $contactName);
+            $ssoUserId = $this->createPartialAccount($emailAddress,
+                $superUserName, $contactName);
             if (PEAR::isError($ssoUserId)) {
                 return false;
             }
         }
         
         $doUsers = OA_Dal::factoryDO('users');
+        $doUsers->loadByProperty('email_address', $emailAddress);
         $doUsers->sso_user_id = $ssoUserId;
-        return parent::saveUser($doUsers, $login, $password, $contactName, $contactName, $accountId);
+        return parent::saveUser($doUsers, $login, $password, $contactName,
+            $contactName, $accountId);
     }
     
-    function createPartialAccount($receipientEmailAddress, $superUserName, $contactName)
+    function createPartialAccount($receipientEmail, $superUserName, $contactName)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $emailFrom = $aConf['email']['fromName'] . '" <' . $aConf['email']['fromAddress'] . '>';
+        $emailFrom = $aConf['email']['fromName'] . ' <' .
+            $aConf['email']['fromAddress'] . '>';
         $this->getCentralCas();
         
         $subject = $this->getEmailSubject($superUserName);
-        $content = $this->getEmailBody($superUserName, $contactName);
-        $ssoUserId = $this->oCentral->createPartialAccount($receipientEmailAddress, $emailFrom, $subject, $content);
-        if (PEAR::isError($ssoUserId)) {
-            $this->addSignupError($ssoUserId);
-            return false;
+        $content = $this->getEmailBody($superUserName, $contactName,
+            $receipientEmail);
+        $ret = $this->oCentral->createPartialAccount($receipientEmail,
+            $emailFrom, $subject, $content);
+        if (PEAR::isError($ret)) {
+            $this->addSignupError($ret);
         }
-        return $ssoUserId;
+        return $ret;
     }
     
     /**
@@ -433,11 +446,14 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
     function getAccountId($emailAddress)
     {
         $this->getCentralCas();
-        $ssoUserId = $this->oCentral->getAccountId($emailAddress);
-        if (PEAR::isError($ssoUserId)) {
-            $this->addSignupError($ssoUserId);
+        $ret = $this->oCentral->getAccountId($emailAddress);
+        if (PEAR::isError($ret)) {
+            if ($ret->getCode() == OA_SSO_USER_NOT_EXISTS) {
+                return null;
+            }
+            $this->addSignupError($ret);
         }
-        return $ssoUserId;
+        return $ret;
     }
     
     /**
@@ -448,7 +464,8 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
      */
     function getEmailSubject($superUserName)
     {
-        $subject = MAX_Plugin_Translation::translate('strEmailSsoConfirmationSubject', $this->module, $this->package);
+        $subject = MAX_Plugin_Translation::translate('strEmailSsoConfirmationSubject',
+            $this->module, $this->package);
         return str_replace('{superUserName}', $superUserName, $subject);
     }
     
@@ -459,14 +476,19 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
      * @param $contactName
      * @return string
      */
-    function getEmailBody($superUserName, $contactName)
+    function getEmailBody($superUserName, $contactName, $receipientEmail)
     {
-        $subject = MAX_Plugin_Translation::translate('strEmailSsoConfirmationBody', $this->module, $this->package);
+        $subject = MAX_Plugin_Translation::translate('strEmailSsoConfirmationBody', 
+            $this->module, $this->package);
+        $url = MAX::constructURL(MAX_URL_ADMIN, 'signup.php');
         $replacements = array(
             '{contactName}'   => $contactName,
             '{superUserName}' => $superUserName,
+            '{url}' => $url . '?email='.$receipientEmail.'&vh=${verificationHash}',
         );
-        return str_replace(array_keys($replacements), array_values($replacements), $subject);
+        
+        return str_replace(array_keys($replacements),
+            array_values($replacements), $subject);
     }
     
     /**
@@ -482,12 +504,13 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
             parent::addSignupError($msg);
         } elseif(PEAR::isError($error)) {
             $errorMsg = $error->getMessage();
-            if (empty($msg)) {
+            if (empty($errorMsg)) {
                 $msg = MAX_Plugin_Translation::translate(
-                    'Error while communicating with server, error code %d', $this->module, $this->package);
+                    $this->defaultErrorUnknownCode, $this->module, $this->package);
                 $errorMsg = sprintf($msg, $error->getCode());
-                parent::addSignupError($errorMsg);
             }
+            $errorMsg = sprintf($this->defaultErrorUnkownMsg, $errorMsg);
+            parent::addSignupError($errorMsg);
         } else {
             parent::addSignupError($error);
         }
