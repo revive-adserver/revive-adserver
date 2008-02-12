@@ -58,9 +58,20 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
      * @var OA_Central_Cas
      */
     var $oCentral;
-    
+
     var $aErrorCodes = array(
+        701 => 'User do not exists, please try again with different account',
+        702 => 'Wrong password, please try again',
+        703 => 'Such email already exists, please try again using different e-mail address',
+        704 => 'Invalid verification hash, please recheck you confirmation mail',
         800 => 'Connection error, please send your data again',
+        801 => 'User not authenticated, please correct your credentials',
+        803 => 'Error in request to server - wrong parameters, please try to resend your data',
+        804 => 'User name do not match platform hash',
+        805 => 'Platform hash doesn\'t exist, please execute sync process',
+        806 => 'Server error',
+        807 => 'User not authorized',
+        808 => 'XML-RPC version not supported',
     );
 
     /**
@@ -82,7 +93,7 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
         static $initialized;
         $aOpenSsoConfig = $GLOBALS['_MAX']['CONF']['oacSSO'];
         if (is_null($initialized)) {
-            $this->clientInitialization(CAS_VERSION_2_0,
+            $this->casClientInitialization(CAS_VERSION_2_0,
                 $aOpenSsoConfig['host'],
                 intval($aOpenSsoConfig['port']),
                 $aOpenSsoConfig['clientPath']
@@ -175,22 +186,19 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
 	}
 
     /**
-     * A method to display a login screen
-     * 
-     * TODO - localization
+     * A method to display a registration invitation for a user who
+     * logged in to OAH but is not linked to any account
      *
-     * @param string $sMessage
-     * @param string $sessionID
-     * @param bool $inlineLogin
+     * @param string $userName
      */
     function displayRegistrationRequiredInfo($userName = '')
     {
         phpAds_PageHeader("1");
-        echo "<br><br>";
-        echo 'Welcome <b>'.phpCAS::getUser().'</b><br/><hr />';
-        echo "<br /><br />You do not currently have an account on the hosted version of OpenX.<br /> ";
-        echo "If you want to create one please sign up <a href='http://www.openx.org/hosted'>here</a>.<br /><br />";
-        echo "To login as a different user click <a href='logout.php'>here</a>.<br />";
+        $msg = MAX_Plugin_Translation::translate('strRegistrationRequiredInfo', $this->module, $this->package);
+        $replacements = array(
+            '{userName}'   => phpCAS::getUser(),
+        );
+        $msg = str_replace(array_keys($replacements), array_values($replacements), $msg);
         phpAds_PageFooter();
         exit();
     }
@@ -230,7 +238,7 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
    *
    * @return a newly created OaCasClient object
    */
-  function clientInitialization($server_version,
+  function casClientInitialization($server_version,
           $server_hostname,
           $server_port,
           $server_uri,
@@ -314,7 +322,7 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
 
     /**
      * A method to set the required template variables, if any
-     * 
+     *
      * TODO - move templates related method to separate class
      *
      * @param OA_Admin_Template $oTpl
@@ -337,7 +345,7 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
             ));
         }
     }
-    
+
     /**
      * TODO - move templates related method to separate class
      *
@@ -361,13 +369,13 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
                  );
         return $userDetailsFields;
     }
-    
+
     function getMatchingUserId($email, $login)
     {
         $doUsers = OA_Dal::factoryDO('users');
         return $doUsers->getUserIdByProperty('email_address', $email);
     }
-    
+
     /**
      * Validates user data - required for linking new users
      *
@@ -380,7 +388,7 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
     {
         return $this->validateUsersEmail($email);
     }
-    
+
     function saveUser($login, $password, $contactName, $emailAddress, $accountId)
     {
         $this->getCentralCas();
@@ -390,17 +398,23 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
         }
         if (!$ssoUserId) {
             $superUserName = OA_Permission::getAccountName();
-            return $this->createPartialAccount($receipientEmailAddress, $superUserName, $contactName);
+            $ssoUserId = $this->createPartialAccount($receipientEmailAddress, $superUserName, $contactName);
+            if (PEAR::isError($ssoUserId)) {
+                return false;
+            }
         }
-        return $ssoUserId;
+
+        $doUsers = OA_Dal::factoryDO('users');
+        $doUsers->sso_user_id = $ssoUserId;
+        return parent::saveUser($doUsers, $login, $password, $contactName, $contactName, $accountId);
     }
-    
+
     function createPartialAccount($receipientEmailAddress, $superUserName, $contactName)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $emailFrom = $aConf['email']['fromName'] . '" <' . $aConf['email']['fromAddress'] . '>';
         $this->getCentralCas();
-        
+
         $subject = $this->getEmailSubject($superUserName);
         $content = $this->getEmailBody($superUserName, $contactName);
         $ssoUserId = $this->oCentral->createPartialAccount($receipientEmailAddress, $emailFrom, $subject, $content);
@@ -410,7 +424,13 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
         }
         return $ssoUserId;
     }
-    
+
+    /**
+     * Returns SSO user Id with matching email address
+     *
+     * @param string $emailAddress
+     * @return integer|PEAR_Error Sso user Id if there is a matching user or null if user do not exist
+     */
     function getAccountId($emailAddress)
     {
         $this->getCentralCas();
@@ -420,11 +440,11 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
         }
         return $ssoUserId;
     }
-    
+
     /**
      * Returns subject of activation email
      *
-     * @param 
+     * @param
      * @return string
      */
     function getEmailSubject($superUserName)
@@ -432,7 +452,7 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
         $subject = MAX_Plugin_Translation::translate('strEmailSsoConfirmationSubject', $this->module, $this->package);
         return str_replace('{superUserName}', $superUserName, $subject);
     }
-    
+
     /**
      * Returns body of activation email
      *
@@ -447,13 +467,13 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
             '{contactName}'   => $contactName,
             '{superUserName}' => $superUserName,
         );
-        return str_replace(array_keys($search), array_values($replace), $subject);
+        return str_replace(array_keys($replacements), array_values($replacements), $subject);
     }
-    
+
     /**
      * Adds an error message to signup errors array
      *
-     * @param string $errorMessage
+     * @param string|PEAR_Error $errorMessage
      */
     function addSignupError($error)
     {
@@ -461,6 +481,14 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
             $msg = MAX_Plugin_Translation::translate(
                 $this->aErrorCodes[$error->getCode()], $this->module, $this->package);
             parent::addSignupError($msg);
+        } elseif(PEAR::isError($error)) {
+            $errorMsg = $error->getMessage();
+            if (empty($msg)) {
+                $msg = MAX_Plugin_Translation::translate(
+                    'Error while communicating with server, error code %d', $this->module, $this->package);
+                $errorMsg = sprintf($msg, $error->getCode());
+                parent::addSignupError($errorMsg);
+            }
         } else {
             parent::addSignupError($error);
         }

@@ -269,20 +269,10 @@ class Plugins_Authentication_Internal_Internal extends Plugins_Authentication
      * @param integer $accountId  a
      * @return integer  User ID or false on error
      */
-    function saveUser($login, $password, $contactName, $emailAddress, $accountId)
+    function saveUser(&$doUsers, $login, $password, $contactName, $emailAddress, $accountId)
     {
         $doUsers = OA_Dal::factoryDO('users');
-        $userExists = $doUsers->fetchUserByUserName($login);
-        $doUsers->contact_name = $contactName;
-        $doUsers->email_address = $emailAddress;
-        if ($userExists) {
-            $doUsers->update();
-            return $doUsers->user_id;
-        } else {
-            $doUsers->default_account_id = $accountId;
-            $doUsers->password = md5($password);
-            return $doUsers->insert();
-        }
+        return parent::saveUser($doUsers, $login, $password, $contactName, $emailAddress, $accountId);
     }
 }
 

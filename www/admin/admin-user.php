@@ -103,7 +103,6 @@ if ($doUsers) {
     $userData['username'] = $login;
     $userData['contact_name'] = $contact_name;
     $userData['email_address'] = $email_address;
-    $userData['contact_name'] = $contact_name;
 }
 
 $oTpl->assign('fields', array(
