@@ -308,7 +308,7 @@ class OA_Admin_UI
             phpAds_SessionDataStore();
         }
 
-        if (isset($conf['ui']['gzipCompression']) && $conf['ui']['gzipCompression']) {
+        if (isset($aConf['ui']['gzipCompression']) && $aConf['ui']['gzipCompression']) {
             ob_end_flush();
         }
     }
