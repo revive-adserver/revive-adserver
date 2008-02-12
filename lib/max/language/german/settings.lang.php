@@ -84,8 +84,8 @@ $GLOBALS['strInstallMessage']			= "Bevor ".MAX_PRODUCT_NAME." genutzt werden kan
 
 $GLOBALS['strInstallIntro']                 = "Willkommen zu <a href='http://".MAX_PRODUCT_URL."' target='_blank'><strong>".MAX_PRODUCT_NAME."</strong></a>! Bald sind Sie auch ein Teil der gr&ouml;&szlig;ten Adserver Community.
 <p>Wir werden unser bestes tun, um die Installation bzw. das Update so einfach wie m&ouml;glich zu halten. Bitte halten Sie sich an die Anweisungen auf dem Bildschirm, und sollten Sie weiterf&uuml;hrende Hilfe ben&ouml;tigen wenden Sie sich bitte an <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'><strong>die Dokumentation</strong></a>.</p>
-<p>Sollten Sie auch nach Durchsicht der Dokumentation noch weitere Fragen haben, schauen Sie zum <a href='http://".MAX_PRODUCT_URL."/support/overview.html' target='_blank'><strong>Support</strong></a> Bereich unserer Website und dem OpenAds <a href='http://".MAX_PRODUCT_FORUMURL."' target='_blank'><strong>Community Forum</strong></a>.</p>
-<p>Vielen Dank, dass Sie sich f&uuml;r OpenAds entschieden haben.</p>";
+<p>Sollten Sie auch nach Durchsicht der Dokumentation noch weitere Fragen haben, schauen Sie zum <a href='http://".MAX_PRODUCT_URL."/support/overview.html' target='_blank'><strong>Support</strong></a> Bereich unserer Website und dem " . MAX_PRODUCT_NAME . " <a href='http://".MAX_PRODUCT_FORUMURL."' target='_blank'><strong>Community Forum</strong></a>.</p>
+<p>Vielen Dank, dass Sie sich f&uuml;r " . MAX_PRODUCT_NAME . " entschieden haben.</p>";
 $GLOBALS['strTermsTitle']               = "Lizenz Information";
 $GLOBALS['strTermsIntro']               = MAX_PRODUCT_NAME . " ist ein freier, open source Adserver, vertrieben unter der GPL Lizenz. Bitte lesen Sie diese und stimmen Sie dieser zu, um die Installation fort zu fahren.";
 $GLOBALS['strPolicyTitle']               = "Datenschutzvereinbarung";
