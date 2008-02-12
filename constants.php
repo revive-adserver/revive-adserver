@@ -26,7 +26,7 @@ $Id$
 */
 
 /**
- * @package    Max
+ * @package    OpenX
  * @author     Andrew Hill <andrew@m3.net>
  *
  * A file to set up the environment constants for OpenX.
