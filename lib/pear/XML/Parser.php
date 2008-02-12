@@ -472,39 +472,24 @@ class XML_Parser extends PEAR
         if ($this->isError($result)) {
             return $result;
         }
-        // Allocate a buffer for later usage
-        $buffer = '';
         // if $this->fp was fopened previously
         if (is_resource($this->fp)) {
-            $parse_bug = version_compare(phpversion(), '5.0.0', '<');
+
             while ($data = fread($this->fp, 4096)) {
-                if ($parse_bug) {
-                    // PHP 4 *does* have a bug hadling chunked CDATA, so
-                    // we're parsing the whole content instead
-                    $buffer .= $data;
-                } else {
-                    // PHP 5 doesn't have such bug
-                    if (!$this->_parseString($data, feof($this->fp))) {
-                        $error = &$this->raiseError();
-                        $this->free();
-                        return $error;
-                    }
+                if (!$this->_parseString($data, feof($this->fp))) {
+                    $error = &$this->raiseError();
+                    $this->free();
+                    return $error;
                 }
             }
         // otherwise, $this->fp must be a string
         } else {
-            $buffer = $this->fp;
-        }
-        // if the buffer is not empty, parse it
-        if ($buffer !== '') {
-            if (!$this->_parseString($buffer, true)) {
+            if (!$this->_parseString($this->fp, true)) {
                 $error = &$this->raiseError();
                 $this->free();
                 return $error;
             }
-            unset($buffer);
         }
-
         $this->free();
 
         return true;

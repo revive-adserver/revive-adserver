@@ -397,6 +397,7 @@ class MDB2_Schema_Parser extends XML_Parser
             break;
         case 'database-table-initialization-insert-field-value':
         case 'database-table-initialization-update-field-value':
+            $data = $this->getDataFromArray($this->init['data']['field'], 'group').$data;
             $this->setData($this->init['data']['field'], 'group', array('type' => 'value', 'data' => $data));
             break;
         case 'database-table-initialization-insert-field-function-name':
@@ -414,6 +415,7 @@ class MDB2_Schema_Parser extends XML_Parser
 
         /* Update */
         case 'database-table-initialization-update-field-column':
+            $data = $this->getDataFromArray($this->init['data']['field'], 'group').$data;
             $this->setData($this->init['data']['field'], 'group', array('type' => 'column', 'data' => $data));
             break;
 
@@ -694,6 +696,11 @@ class MDB2_Schema_Parser extends XML_Parser
             }
             break;
         }
+    }
+
+    function getDataFromArray($array, $key)
+    {
+        return isset($array[(count($array)-1)][$key]['data']) ? $array[(count($array)-1)][$key]['data'] : '';
     }
 
     function setData(&$array, $key, $value)
