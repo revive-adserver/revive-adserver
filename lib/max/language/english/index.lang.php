@@ -27,7 +27,7 @@ $Id$
 
 // Meta information
 $translation_readable   = "English (International)";
-$translation_maintainer	= "Openads Limited";
-$translation_contact	= "andrew@m3.net";
+$translation_maintainer	= "OpenX Limited";
+$translation_contact	= "chris.nutting@openx.org";
 
 ?>
