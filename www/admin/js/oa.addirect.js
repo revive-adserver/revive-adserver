@@ -144,7 +144,7 @@ function initCaptchaDialog(dialogId, formId, captchaURL)
   }
 
   $("#dg-submit", signupDialog).click(function() {
-    this.form.submit();
+    $("#" + formId).get(0).submit();
   });
 }
 
