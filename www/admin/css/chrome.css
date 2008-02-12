@@ -41,6 +41,9 @@ a:hover {
 	background: url(../images/logo-wtag.png) no-repeat;
 	margin: 3px 0px 0px 3px;
 	text-indent: -1000px;
+  /* Fix IE bug: transparent PNG support */
+  -background: none;
+  -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/logo-wtag.png');
 }
 .brandingName {
 	height: 48px;
