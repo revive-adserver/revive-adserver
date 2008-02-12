@@ -22,7 +22,7 @@
     <attribute name="versionstring" description="A version to be set."/>
     <sequential>
       <replaceregexp file="constants.php"
-        match="^.*OA_VERSION.*$"
+        match="^ *define\('OA_VERSION.*$"
         replace="    define('OA_VERSION', '@{versionstring}');"
         byline="true"/>
     </sequential>
