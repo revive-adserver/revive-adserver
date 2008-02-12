@@ -27010,7 +27010,7 @@
 
     <field>
      <name>compiledlimitation</name>
-     <value>MAX_checkSite_Source(&apos;*test*&apos;, &apos;==&apos;, $source)</value>
+     <value>MAX_checkSite_Source('*test*', '==', $source)</value>
     </field>
 
     <field>
@@ -27219,7 +27219,7 @@
 
     <field>
      <name>compiledlimitation</name>
-     <value>MAX_checkTime_Day(&apos;0,2,4,5&apos;, &apos;==&apos;) and MAX_checkTime_Hour(&apos;0,3,4,6,8,11,13,15,16,18,19,21,22&apos;, &apos;==&apos;) and MAX_checkSite_Source(&apos;*test*&apos;, &apos;==&apos;, $source)</value>
+     <value>MAX_checkTime_Day('0,2,4,5', '==') and MAX_checkTime_Hour('0,3,4,6,8,11,13,15,16,18,19,21,22', '==') and MAX_checkSite_Source('*test*', '==', $source)</value>
     </field>
 
     <field>
@@ -30563,7 +30563,7 @@
 
     <field>
      <name>compiledlimitation</name>
-     <value>(MAX_checkSite_Channel(&apos;2&apos;, &apos;==&apos;, $source))</value>
+     <value>(MAX_checkSite_Channel('2', '==', $source))</value>
     </field>
 
     <field>
@@ -30981,7 +30981,7 @@
 
     <field>
      <name>compiledlimitation</name>
-     <value>MAX_checkTime_Day(&apos;0,1&apos;, &apos;==&apos;) and MAX_checkTime_Hour(&apos;0,1,2,3&apos;, &apos;==&apos;)</value>
+     <value>MAX_checkTime_Day('0,1', '==') and MAX_checkTime_Hour('0,1,2,3', '==')</value>
     </field>
 
     <field>
@@ -31399,7 +31399,7 @@
 
     <field>
      <name>compiledlimitation</name>
-     <value>MAX_checkTime_Date(&apos;20070302&apos;, &apos;==&apos;)</value>
+     <value>MAX_checkTime_Date('20070302', '==')</value>
     </field>
 
     <field>
@@ -32444,7 +32444,7 @@
 
     <field>
      <name>compiledlimitation</name>
-     <value>MAX_checkClient_Ip(&apos;81.179.9.150&apos;, &apos;==&apos;) and MAX_checkClient_Domain(&apos;domain&apos;, &apos;==&apos;) and MAX_checkClient_Useragent(&apos;*firefox*&apos;, &apos;==&apos;) and MAX_checkSite_Referingpage(&apos;google&apos;, &apos;==&apos;) and MAX_checkSite_Source(&apos;(other)/business.*&apos;, &apos;==&apos;, $source) and ()</value>
+     <value>MAX_checkClient_Ip('81.179.9.150', '==') and MAX_checkClient_Domain('domain', '==') and MAX_checkClient_Useragent('*firefox*', '==') and MAX_checkSite_Referingpage('google', '==') and MAX_checkSite_Source('(other)/business.*', '==', $source) and ()</value>
     </field>
 
     <field>
@@ -32653,7 +32653,7 @@
 
     <field>
      <name>compiledlimitation</name>
-     <value>MAX_checkClient_Domain(&apos;127.0.0.1&apos;, &apos;==&apos;) and MAX_checkClient_Ip(&apos;127.0.0.1&apos;, &apos;==&apos;) and MAX_checkClient_Useragent(&apos;.*firefox.*&apos;, &apos;==&apos;) and (MAX_checkSite_Channel(&apos;8&apos;, &apos;==&apos;, $source)) and MAX_checkSite_Pageurl(&apos;localhost&apos;, &apos;=~&apos;) and MAX_checkSite_Referingpage(&apos;localhost&apos;, &apos;==&apos;) and MAX_checkSite_Source(&apos;(other)/business.scotsman.com*&apos;, &apos;!=&apos;, ) and MAX_checkTime_Date(&apos;20060401&apos;, &apos;!=&apos;) and MAX_checkTime_Day(&apos;0,1,2,3,4,5,6&apos;, &apos;==&apos;) and MAX_checkTime_Hour(&apos;0,2,4,6,8,10,12,14,16,18,20,22&apos;, &apos;==&apos;)</value>
+     <value>MAX_checkClient_Domain('127.0.0.1', '==') and MAX_checkClient_Ip('127.0.0.1', '==') and MAX_checkClient_Useragent('.*firefox.*', '==') and (MAX_checkSite_Channel('8', '==', $source)) and MAX_checkSite_Pageurl('localhost', '=~') and MAX_checkSite_Referingpage('localhost', '==') and MAX_checkSite_Source('(other)/business.scotsman.com*', '!=', ) and MAX_checkTime_Date('20060401', '!=') and MAX_checkTime_Day('0,1,2,3,4,5,6', '==') and MAX_checkTime_Hour('0,2,4,6,8,10,12,14,16,18,20,22', '==')</value>
     </field>
 
     <field>
@@ -34743,7 +34743,7 @@
 
     <field>
      <name>compiledlimitation</name>
-     <value>MAX_checkSite_Pageurl(&apos;localhost&apos;, &apos;=~&apos;)</value>
+     <value>MAX_checkSite_Pageurl('localhost', '=~')</value>
     </field>
 
     <field>
@@ -37460,7 +37460,7 @@
 
     <field>
      <name>compiledlimitation</name>
-     <value>MAX_checkSite_Pageurl(&apos;localhost&apos;, &apos;=~&apos;)</value>
+     <value>MAX_checkSite_Pageurl('localhost', '=~')</value>
     </field>
 
     <field>
@@ -37669,7 +37669,7 @@
 
     <field>
      <name>compiledlimitation</name>
-     <value>MAX_checkSite_Pageurl(&apos;localhost&apos;, &apos;=~&apos;)</value>
+     <value>MAX_checkSite_Pageurl('localhost', '=~')</value>
     </field>
 
     <field>
@@ -38296,7 +38296,7 @@
 
     <field>
      <name>compiledlimitation</name>
-     <value>MAX_checkSite_Pageurl(&apos;localhost&apos;, &apos;=~&apos;)</value>
+     <value>MAX_checkSite_Pageurl('localhost', '=~')</value>
     </field>
 
     <field>
@@ -38505,7 +38505,7 @@
 
     <field>
      <name>compiledlimitation</name>
-     <value>MAX_checkSite_Pageurl(&apos;localhost&apos;, &apos;=~&apos;)</value>
+     <value>MAX_checkSite_Pageurl('localhost', '=~')</value>
     </field>
 
     <field>
@@ -39132,7 +39132,7 @@
 
     <field>
      <name>compiledlimitation</name>
-     <value>MAX_checkSite_Pageurl(&apos;localhost&apos;, &apos;=~&apos;)</value>
+     <value>MAX_checkSite_Pageurl('localhost', '=~')</value>
     </field>
 
     <field>
@@ -39341,7 +39341,7 @@
 
     <field>
      <name>compiledlimitation</name>
-     <value>MAX_checkSite_Pageurl(&apos;localhost&apos;, &apos;=~&apos;)</value>
+     <value>MAX_checkSite_Pageurl('localhost', '=~')</value>
     </field>
 
     <field>
@@ -39550,7 +39550,7 @@
 
     <field>
      <name>compiledlimitation</name>
-     <value>(MAX_checkSite_Aalocation(&apos;EITHER|B&apos;, &apos;==&apos;, $source))</value>
+     <value>(MAX_checkSite_Aalocation('EITHER|B', '==', $source))</value>
     </field>
 
     <field>
@@ -44148,7 +44148,7 @@
 
     <field>
      <name>compiledlimitation</name>
-     <value>MAX_checkSite_Homepage(&apos;&apos;, &apos;!=&apos;)</value>
+     <value>MAX_checkSite_Homepage('', '!=')</value>
     </field>
 
     <field>
@@ -53314,7 +53314,7 @@
 
     <field>
      <name>description</name>
-     <value>Agency2&apos;s banner</value>
+     <value>Agency2's banner</value>
     </field>
 
     <field>
@@ -58151,7 +58151,7 @@
 
     <field>
      <name>compiledlimitation</name>
-     <value>!((MAX_checkSite_Channel(&apos;1&apos;, &apos;==&apos;, $source) OR MAX_checkSite_Channel(&apos;8&apos;, &apos;==&apos;, $source) OR MAX_checkSite_Channel(&apos;1&apos;, &apos;==&apos;, $source) OR MAX_checkSite_Channel(&apos;8&apos;, &apos;==&apos;, $source)))</value>
+     <value>!((MAX_checkSite_Channel('1', '==', $source) OR MAX_checkSite_Channel('8', '==', $source) OR MAX_checkSite_Channel('1', '==', $source) OR MAX_checkSite_Channel('8', '==', $source)))</value>
     </field>
 
     <field>
@@ -58987,7 +58987,7 @@
 
     <field>
      <name>compiledlimitation</name>
-     <value>(MAX_checkSite_Channel(&apos;10&apos;, &apos;==&apos;, $source) OR MAX_checkSite_Channel(&apos;10&apos;, &apos;==&apos;, $source))</value>
+     <value>(MAX_checkSite_Channel('10', '==', $source) OR MAX_checkSite_Channel('10', '==', $source))</value>
     </field>
 
     <field>
@@ -59196,7 +59196,7 @@
 
     <field>
      <name>compiledlimitation</name>
-     <value>MAX_checkClient_Ip(&apos;127.0.0.1&apos;, &apos;==&apos;) or  !((MAX_checkSite_Channel(&apos;10&apos;, &apos;==&apos;, $source)))</value>
+     <value>MAX_checkClient_Ip('127.0.0.1', '==') or  !((MAX_checkSite_Channel('10', '==', $source)))</value>
     </field>
 
     <field>
@@ -59405,7 +59405,7 @@
 
     <field>
      <name>compiledlimitation</name>
-     <value>MAX_checkClient_Ip(&apos;127.0.0.1&apos;, &apos;==&apos;)</value>
+     <value>MAX_checkClient_Ip('127.0.0.1', '==')</value>
     </field>
 
     <field>
@@ -83607,7 +83607,7 @@
 
     <field>
      <name>compiledlimitation</name>
-     <value>MAX_checkSite_Pageurl(&apos;localhost&apos;=~&apos;)</value>
+     <value>MAX_checkSite_Pageurl('localhost'=~')</value>
     </field>
 
     <field>
@@ -83666,7 +83666,7 @@
 
     <field>
      <name>compiledlimitation</name>
-     <value>MAX_checkClient_Domain(&apos;127.0.0.1&apos;, &apos;==&apos;) and MAX_checkClient_Ip(&apos;127.0.0.1&apos;, &apos;==&apos;)</value>
+     <value>MAX_checkClient_Domain('127.0.0.1', '==') and MAX_checkClient_Ip('127.0.0.1', '==')</value>
     </field>
 
     <field>
@@ -84079,7 +84079,7 @@
 
     <field>
      <name>compiledlimitation</name>
-     <value>MAX_checkSite_Pageurl(&apos;localhost2&apos;, &apos;=~&apos;)</value>
+     <value>MAX_checkSite_Pageurl('localhost2', '=~')</value>
     </field>
 
     <field>
@@ -96942,3 +96942,4 @@
  </table>
 
 </database>
+
