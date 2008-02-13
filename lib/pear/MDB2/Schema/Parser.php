@@ -703,7 +703,7 @@ class MDB2_Schema_Parser extends XML_Parser
             // Value is an array and has a data member, there might be something
             // already stored, so we need to append rather then replace.
             $value['data'] = $array[$lastIdx][$key]['data'].$value['data'];
-        } elseif (is_string($value) && isset($array[$lastIdx][$key]) {
+        } elseif (is_string($value) && isset($array[$lastIdx][$key])) {
             $value =  $array[$lastIdx][$key].$value;
         }
         $array[$lastIdx][$key] = $value;
