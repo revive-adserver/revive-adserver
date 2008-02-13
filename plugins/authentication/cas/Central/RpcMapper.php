@@ -122,14 +122,14 @@ class OA_Central_RpcMapper_Cas extends OA_Central_RpcMapper
     /**
      * Checks if password of sso user with $ssoUserId is valid.
      *
-     * @param integer $ssoUserId
+     * @param string $username
      * @param string $passwordHash
      * @return boolean
      */
-    function checkUsernameMd5Password($ssoUserId, $passwordHash)
+    function checkUsernameMd5Password($username, $passwordHash)
     {
         return $this->oRpc->callM2M('checkUsernameMd5Password', array(
-            new XML_RPC_Value($ssoUserId, 'int'),
+            new XML_RPC_Value($username, 'string'),
             new XML_RPC_Value($passwordHash, 'string')
         ));
     }
@@ -146,6 +146,24 @@ class OA_Central_RpcMapper_Cas extends OA_Central_RpcMapper
         return $this->oRpc->callM2M('confirmEmail', array(
             new XML_RPC_Value($verificationHash, 'string'),
             new XML_RPC_Value($email, 'string')
+        ));
+    }
+
+    /**
+     * Changes user email. Method contacts SSO webservices, validate existing user's
+     * password and changes the email to a new one
+     *
+     * @param integer $ssoUserId
+     * @param string $emailAddress
+     * @param string $md5password
+     * @return boolean
+     */
+    function changeEmail($ssoUserId, $emailAddress, $md5password)
+    {
+        return $this->oRpc->callM2M('changeEmail', array(
+            new XML_RPC_Value($ssoUserId, 'int'),
+            new XML_RPC_Value($emailAddress, 'string'),
+            new XML_RPC_Value($md5password, 'string')
         ));
     }
 

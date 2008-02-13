@@ -41,7 +41,7 @@ class Plugins_Authentication
      * @var array
      */
     var $aSignupErrors = array();
-    
+
     /**
      * Checks if credentials are passed and whether the plugin should carry on the authentication
      *
@@ -64,6 +64,19 @@ class Plugins_Authentication
      *                            or null if user wasn't succesfully authenticated
      */
     function authenticateUser()
+    {
+        OA::debug('Cannot run abstract method');
+        exit();
+    }
+
+    /**
+     * A method to check a username and password
+     *
+     * @param string $username
+     * @param string $password
+     * @return mixed A DataObjects_Users instance, or false if no matching user was found
+     */
+    function checkPassword($username, $password)
     {
         OA::debug('Cannot run abstract method');
         exit();
@@ -138,13 +151,13 @@ class Plugins_Authentication
         OA::debug('Cannot run abstract method');
         exit();
     }
-    
+
     function getMatchingUserId($email, $login)
     {
         OA::debug('Cannot run abstract method');
         exit();
     }
-    
+
     /**
      * Validates user data - required for linking new users
      *
@@ -206,7 +219,7 @@ class Plugins_Authentication
         }
         return array();
     }
-    
+
     /**
      * Method used in user access pages. Either creates new user if necessary or update existing one.
      *
@@ -241,7 +254,7 @@ class Plugins_Authentication
     {
         return $this->aSignupErrors;
     }
-    
+
     /**
      * Adds an error message to signup errors array
      *
@@ -255,6 +268,34 @@ class Plugins_Authentication
             $errorMessage = $error;
         }
         $this->aSignupErrors[] = $errorMessage;
+    }
+
+    /**
+     * A method to change a user password
+     *
+     * @param DataObjects_Users $doUsers
+     * @param string $newPassword
+     * @param string $oldPassword
+     * @return mixed True on success, PEAR_Error otherwise
+     */
+    function changePassword(&$doUsers, $newPassword, $oldPassword)
+    {
+        OA::debug('Cannot run abstract method');
+        exit();
+    }
+
+    /**
+     * A method to change a user email
+     *
+     * @param DataObjects_Users $doUsers
+     * @param string $emailAddress
+     * @param string $password
+     * @return bool
+     */
+    function changeEmail(&$doUsers, $emailAddress, $password)
+    {
+        OA::debug('Cannot run abstract method');
+        exit();
     }
 }
 

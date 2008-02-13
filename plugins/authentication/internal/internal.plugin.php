@@ -91,7 +91,7 @@ class Plugins_Authentication_Internal_Internal extends Plugins_Authentication
      * A method to check a username and password
      *
      * @param string $username
-     * @param string $md5Password
+     * @param string $password
      * @return mixed A DataObjects_Users instance, or false if no matching user was found
      */
     function checkPassword($username, $password)
@@ -258,7 +258,7 @@ class Plugins_Authentication_Internal_Internal extends Plugins_Authentication
         $doUsers = OA_Dal::factoryDO('users');
         return $doUsers->getUserIdByProperty('username', $login);
     }
-    
+
     /**
      * Method used in user access pages. Either creates new user if necessary or update existing one.
      *
@@ -274,6 +274,34 @@ class Plugins_Authentication_Internal_Internal extends Plugins_Authentication
         $doUsers = OA_Dal::factoryDO('users');
         $doUsers->loadByProperty('username', $login);
         return parent::saveUser($doUsers, $login, $password, $contactName, $emailAddress, $accountId);
+    }
+
+    /**
+     * A method to change a user password
+     *
+     * @param DataObjects_Users $doUsers
+     * @param string $newPassword
+     * @param string $oldPassword
+     * @return mixed True on success, PEAR_Error otherwise
+     */
+    function changePassword(&$doUsers, $newPassword, $oldPassword)
+    {
+        $doUser->password = md5($newPassword);
+        return true;
+    }
+
+    /**
+     * A method to change a user email
+     *
+     * @param DataObjects_Users $doUsers
+     * @param string $emailAddress
+     * @param string $password
+     * @return bool
+     */
+    function changeEmail(&$doUsers, $emailAddress, $password)
+    {
+        $doUsers->email_address = $emailAddress;
+        return true;
     }
 }
 

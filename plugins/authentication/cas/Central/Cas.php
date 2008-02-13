@@ -108,13 +108,13 @@ class OA_Central_Cas extends OA_Central_M2M
     /**
      * Checks if password of sso user with $ssoUserId is valid.
      *
-     * @param integer $ssoUserId
+     * @param string $username
      * @param string $passwordHash
      * @return boolean
      */
-    function checkUsernameMd5Password($ssoUserId, $passwordHash)
+    function checkUsernameMd5Password($username, $passwordHash)
     {
-        return $this->oMapper->checkUsernameMd5Password($ssoUserId, $passwordHash);
+        return $this->oMapper->checkUsernameMd5Password($username, $passwordHash);
     }
 
     /**
@@ -127,6 +127,20 @@ class OA_Central_Cas extends OA_Central_M2M
     function confirmEmail($verificationHash, $email)
     {
         return $this->oMapper->confirmEmail($verificationHash, $email);
+    }
+
+    /**
+     * Changes user email. Method contacts SSO webservices, validate existing user's
+     * password and changes the email to a new one
+     *
+     * @param integer $ssoUserId
+     * @param string $emailAddress
+     * @param string $md5password
+     * @return boolean
+     */
+    function changeEmail($ssoUserId, $emailAddress, $md5password)
+    {
+        return $this->oMapper->changeEmail($ssoUserId, $emailAddress, $md5password);
     }
 
 }
