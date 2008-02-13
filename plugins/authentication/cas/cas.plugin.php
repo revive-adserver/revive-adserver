@@ -418,12 +418,27 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
      * @return array  Array containing error strings or empty
      *                array if no validation errors were found
      */
-    function validateUsersData($login, $password, $email)
+    function validateUsersData($data)
     {
-        return $this->validateUsersEmail($email);
+        return $this->validateUsersEmail($data['email_address']);
     }
 
-    function saveUser($login, $password, $contactName, $emailAddress, $accountId)
+    function saveUser($userid, $login, $password,
+        $contactName, $emailAddress, $accountId)
+    {
+        if (!empty($userid)) {
+            $doUsers = OA_Dal::factoryDO('users');
+            if ($doUsers->loadByProperty('user_id', $userid)) {
+                return parent::saveUser($doUsers, null, null, $contactName,
+                    $emailAddress, $accountId);
+            }
+            return false;
+        } else {
+            return $this->createUser($contactName, $emailAddress, $accountId);
+        }
+    }
+    
+    function createUser($contactName, $emailAddress, $accountId)
     {
         $this->getCentralCas();
         $ssoUserId = $this->getAccountId($emailAddress);
@@ -442,8 +457,8 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
         $doUsers = OA_Dal::factoryDO('users');
         $doUsers->loadByProperty('email_address', $emailAddress);
         $doUsers->sso_user_id = $ssoUserId;
-        return parent::saveUser($doUsers, $login, $password, $contactName,
-            $contactName, $accountId);
+        return parent::saveUser($doUsers, null, null, $contactName,
+            $emailAddress, $accountId);
     }
 
     function createPartialAccount($receipientEmail, $superUserName, $contactName)

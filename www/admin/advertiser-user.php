@@ -46,14 +46,60 @@ OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
 OA_Permission::enforceAccountPermission(OA_ACCOUNT_ADVERTISER, OA_PERM_SUPER_ACCOUNT);
 OA_Permission::enforceAccessToObject('clients', $clientid);
 
-$accountId = OA_Permission::getAccountIdForEntity('clients', $clientid);
+$userAccess = new OA_Admin_UI_UserAccess();
+$userAccess->init();
 
-
-$oPlugin = OA_Auth::staticGetAuthPlugin();
-if (empty($userid)) {
-    $userid = $oPlugin->getMatchingUserId($email_address, $login);
+function OA_headerNavigation()
+{
+    $icon = "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>"
+        .phpAds_getClientName($clientid)."</b><br /><br /><br />";
+    if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+        phpAds_PageHeader("4.1.5.2");
+        echo $icon;
+        phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.5", "4.1.5.2"));
+    } else {
+    	$sections = array();
+    	if (OA_Permission::hasPermission(OA_PERM_BANNER_ACTIVATE) || OA_Permission::hasPermission(OA_PERM_BANNER_EDIT)) {
+        	$sections[] = '2.2';
+    	}
+        $sections[] = '2.3';
+        $sections[] = '2.3.2';
+        phpAds_PageHeader('2.3.2');
+        echo $icon;
+    	phpAds_ShowSections($sections);
+    }
 }
-$userExists = !empty($userid);
+$userAccess->setNavigationHeaderCallback('OA_headerNavigation');
+
+function OA_footerNavigation()
+{
+    echo "
+    <script language='JavaScript'>
+    <!--
+    ";
+    if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+        echo "function MMM_cascadePermissionsChange()
+        {
+            var e = findObj('permissions_".OA_PERM_ZONE_EDIT."');
+            var a = findObj('permissions_".OA_PERM_ZONE_ADD."');
+            var d = findObj('permissions_".OA_PERM_ZONE_DELETE."');
+    
+            a.disabled = d.disabled = !e.checked;
+            if (!e.checked) {
+                a.checked = d.checked = false;
+            }
+        }
+        MMM_cascadePermissionsChange();
+        //-->";
+    }
+    echo "</script>";
+}
+$userAccess->setNavigationFooterCallback('OA_footerNavigation');
+
+$accountId = OA_Permission::getAccountIdForEntity('clients', $clientid);
+$userAccess->setAccountId($accountId);
+
+$userAccess->setPagePrefix('advertiser');
 
 $aAllowedPermissions = array();
 if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
@@ -63,134 +109,13 @@ if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
 $aAllowedPermissions[OA_PERM_BANNER_EDIT] = $strAllowClientModifyBanner;
 $aAllowedPermissions[OA_PERM_BANNER_DEACTIVATE] = $strAllowClientDisableBanner;
 $aAllowedPermissions[OA_PERM_BANNER_ACTIVATE] = $strAllowClientActivateBanner;
+$userAccess->setAllowedPermissions($aAllowedPermissions);
 
-$aErrors = array();
-if (!empty($submit)) {
-    if (!$userExists) {
-        $aErrors = $oPlugin->validateUsersData($login, $passwd, $email_address);
-    }
-    if (empty($aErrors)) {
-        $userid = $oPlugin->saveUser($login, $passwd, $contact_name, $email_address, $accountId);
-        if ($userid) {
-            OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions, $aAllowedPermissions);
-            MAX_Admin_Redirect::redirect("advertiser-access.php?clientid=".$clientid);
-        } else {
-            $aErrors = $oPlugin->getSignupErrors();
-        }
-    }
-}
 
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
+$userAccess->setHiddenFields(array('clientid' => $clientid));
+$userAccess->setRedirectUrl('advertiser-access.php?clientid='.$clientid);
+$userAccess->setBackUrl('advertiser-user-start.php?clientid='.$clientid);
 
-$icon = "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
-if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-    phpAds_PageHeader("4.1.5.2");
-    echo $icon;
-    phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.5", "4.1.5.2"));
-} else {
-	$sections = array();
-	if (OA_Permission::hasPermission(OA_PERM_BANNER_ACTIVATE) || OA_Permission::hasPermission(OA_PERM_BANNER_EDIT)) {
-    	$sections[] = '2.2';
-	}
-    $sections[] = '2.3';
-    $sections[] = '2.3.2';
-    phpAds_PageHeader('2.3.2');
-    echo $icon;
-	phpAds_ShowSections($sections);
-}
-
-/*-------------------------------------------------------*/
-/* Main code                                             */
-/*-------------------------------------------------------*/
-
-require_once MAX_PATH . '/lib/OA/Admin/Template.php';
-
-$oTpl = new OA_Admin_Template('advertiser-user.html');
-$oTpl->assign('action', 'advertiser-user.php');
-$oTpl->assign('backUrl', 'advertiser-user-start.php?clientid='.$clientid);
-$oTpl->assign('method', 'POST');
-$oTpl->assign('aErrors', $aErrors);
-
-// Add variables required by the current authentication plugin
-$oPlugin = OA_Auth::staticGetAuthPlugin();
-$oPlugin->setTemplateVariables($oTpl);
-
-// indicates whether the user exists (otherwise, a new user will be created or invitation sent)
-$oTpl->assign('existingUser', !empty($userid));
-
-// indicates whether the form is in editing user properties mode
-// (linked from the "Permissions" link in the User Access table)
-$oTpl->assign('editMode', !$link);
-
-$doUsers = OA_Dal::staticGetDO('users', $userid);
-$userData = array();
-if ($doUsers) {
-    $userData = $doUsers->toArray();
-} else {
-    $userData['username'] = $login;
-    $userData['email_address'] = $email_address;
-    $userData['contact_name'] = $contact_name;
-}
-
-$aHiddenFields = OA_Admin_UI_UserAccess::getHiddenFields($userData, $link, 'clientid', $clientid);
-$oTpl->assign('hiddenFields', $aHiddenFields);
-
-$aPermissionsFields = array();
-foreach ($aAllowedPermissions as $permissionId => $permissionName) {
-    $aPermissionsFields[] = array(
-                'name'      => 'permissions[]',
-                'label'     => $permissionName,
-                'type'      => 'checkbox',
-                'value'     => $permissionId,
-                'checked'   => OA_Permission::hasPermission($permissionId, $accountId, $userid),
-                'break'     => false,
-                'id'        => 'permissions_'.$permissionId,
-            );
-}
-
-$oTpl->assign('fields', array(
-    array(
-        'title'     => $strUserDetails,
-        'fields'    => $oPlugin->getUserDetailsFields($userData)
-    ),
-    array(
-        'title'     => $strPermissions,
-        'fields'    => $aPermissionsFields
-        )
-    )
-);
-
-//var_dump($oTpl);
-//die();
-$oTpl->display();
-?>
-
-<script language='JavaScript'>
-<!--
-<?php if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) { ?>
-    function MMM_cascadePermissionsChange()
-    {
-        var e = findObj('permissions_<?php echo OA_PERM_ZONE_EDIT; ?>');
-        var a = findObj('permissions_<?php echo OA_PERM_ZONE_ADD; ?>');
-        var d = findObj('permissions_<?php echo OA_PERM_ZONE_DELETE; ?>');
-
-        a.disabled = d.disabled = !e.checked;
-        if (!e.checked) {
-            a.checked = d.checked = false;
-        }
-    }
-    MMM_cascadePermissionsChange();
-//-->
-<?php } ?>
-</script>
-
-<?php
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
-
-phpAds_PageFooter();
+$userAccess->process();
 
 ?>

@@ -38,20 +38,20 @@ require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
 
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
-function adminUserNavigation()
+$userAccess = new OA_Admin_UI_UserAccess();
+$userAccess->init();
+
+function OA_headerUserNavigation()
 {
     phpAds_PageHeader("4.4.2");
     phpAds_ShowSections(array("4.1", "4.3", "4.4", "4.4.2"));
 }
-
-$userAccess = new OA_Admin_UI_UserAccess();
-$userAccess->init();
+$userAccess->setNavigationHeaderCallback('OA_headerUserNavigation');
 
 $doAccounts = OA_Dal::factoryDO('accounts');
 $userAccess->setAccountId($doAccounts->getAdminAccountId());
-
 $userAccess->setPagePrefix('admin');
-$userAccess->setNavigationCallback('adminUserNavigation');
+$userAccess->setBackUrl('admin-user-start.php');
 
 $userAccess->process();
 

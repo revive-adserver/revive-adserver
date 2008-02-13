@@ -266,13 +266,14 @@ class Plugins_Authentication_Internal_Internal extends Plugins_Authentication
      * @param string $password  Password
      * @param string $contactName  Contact name
      * @param string $emailAddress  Email address
-     * @param integer $accountId  a
+     * @param integer $accountId  account Id
      * @return integer  User ID or false on error
      */
-    function saveUser(&$doUsers, $login, $password, $contactName, $emailAddress, $accountId)
+    function saveUser($userid, $login, $password,
+        $contactName, $emailAddress, $accountId)
     {
         $doUsers = OA_Dal::factoryDO('users');
-        $doUsers->loadByProperty('username', $login);
+        $doUsers->loadByProperty('user_id', $userid);
         return parent::saveUser($doUsers, $login, $password, $contactName, $emailAddress, $accountId);
     }
 

@@ -166,11 +166,16 @@ class Plugins_Authentication
      * @return array  Array containing error strings or empty
      *                array if no validation errors were found
      */
-    function validateUsersData($login, $password, $email)
+    function validateUsersData($data)
     {
-        $aErrors = $this->validateUsersLogin($login);
-        $aErrors = array_merge($aErrors, $this->validateUsersPassword($password));
-        return array_merge($aErrors, $this->validateUsersEmail($email));
+        $aErrors = array();
+        if (empty($data['userid'])) {
+            $aErrors = $this->validateUsersLogin($data['login']);
+            $aErrors = array_merge($aErrors,
+                $this->validateUsersPassword($data['passwd']));
+        }
+        return array_merge($aErrors,
+            $this->validateUsersEmail($data['email_address']));
     }
 
     /**
@@ -241,6 +246,7 @@ class Plugins_Authentication
         } else {
             $doUsers->default_account_id = $accountId;
             $doUsers->password = md5($password);
+            $doUsers->username = $login;
             return $doUsers->insert();
         }
     }
