@@ -129,7 +129,8 @@ class Plugins_Authentication_Internal_Internal extends Plugins_Authentication
      */
     function displayLogin($sMessage = '', $sessionID = 0, $inLineLogin = false)
     {
-        global $strUsername, $strPassword, $strLogin, $strWelcomeTo, $strEnterUsername, $strNoAdminInteface, $strForgotPassword;
+        global $strUsername, $strPassword, $strLogin, $strWelcomeTo, $strEnterUsername,
+               $strNoAdminInteface, $strForgotPassword;
 
         $aConf = $GLOBALS['_MAX']['CONF'];
         $aPref = $GLOBALS['_MAX']['PREF'];
@@ -242,6 +243,13 @@ class Plugins_Authentication_Internal_Internal extends Plugins_Authentication
                 'hidden'   => !empty($userData['user_id'])
             );
         $userDetailsFields[] = array(
+                'name'      => 'passwd2',
+                'label'     => $GLOBALS['strPasswordRepaet'],
+                'type'      => 'password',
+                'value'     => '',
+                'hidden'   => !empty($userData['user_id'])
+            );
+        $userDetailsFields[] = array(
                 'name'      => 'contact_name',
                 'label'     => $GLOBALS['strContactName'],
                 'value'     => $userData['contact_name'],
@@ -306,6 +314,61 @@ class Plugins_Authentication_Internal_Internal extends Plugins_Authentication
     {
         $doUsers->email_address = $emailAddress;
         return true;
+    }
+    
+    /**
+     * Validates user login - required for linking new users
+     *
+     * @param string $login
+     */
+    function validateUsersLogin($login)
+    {
+        if (empty($login)) {
+            $this->addValidationError($GLOBALS['strInvalidUsername']);
+        } elseif (OA_Permission::userNameExists($login)) {
+            $this->addValidationError($GLOBALS['strDuplicateClientName']);
+        }
+    }
+
+    /**
+     * Validates user password - required for linking new users
+     *
+     * @param string $password
+     * @return array  Array containing error strings or empty
+     *                array if no validation errors were found
+     */
+    function validateUsersPassword($password)
+    {
+        if (!strlen($password) || strstr("\\", $password)) {
+            $this->addValidationError($GLOBALS['strInvalidPassword']);
+        }
+    }
+
+    function validateUsersPasswords($password1, $password2)
+    {
+        if ($password1 != $password2) {
+            $this->addValidationError($GLOBALS['strNotSamePasswords']);
+        }
+    }
+
+    /**
+     * Validates user data - required for linking new users
+     *
+     * @param string $login
+     * @param string $password
+     * @return array  Array containing error strings or empty
+     *                array if no validation errors were found
+     */
+    function validateUsersData($data)
+    {
+        if (empty($data['userid'])) {
+            $this->validateUsersLogin($data['login']);
+            $this->validateUsersPasswords($data['passwd'], $data['passwd2']);
+            $this->validateUsersPassword($data['passwd']);
+        }
+        $this->validateUsersEmail($data['email_address']);
+        
+        return $this->getValidationErrors();
     }
 }
 

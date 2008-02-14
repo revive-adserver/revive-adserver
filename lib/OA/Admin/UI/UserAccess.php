@@ -58,7 +58,7 @@ class OA_Admin_UI_UserAccess
     function initRequest()
     {
         $this->request = phpAds_registerGlobalUnslashed (
-            'userid', 'login', 'passwd', 'link', 'contact_name',
+            'userid', 'login', 'passwd', 'passwd2', 'link', 'contact_name',
             'email_address', 'permissions', 'submit'
         );
         $this->userid = $this->request['userid'];
@@ -123,13 +123,8 @@ class OA_Admin_UI_UserAccess
         
         $this->oPlugin->setTemplateVariables($oTpl);
         
-        // indicates whether the user exists
-        // (otherwise, a new user will be created or invitation sent)
         $oTpl->assign('existingUser', !empty($this->userid));
-        
-        // indicates whether the form is in editing user properties mode
-        // (linked from the "Permissions" link in the User Access table)
-        $oTpl->assign('editMode', empty($this->request['link']));
+        $oTpl->assign('showLinkButton', !empty($this->request['link']));
         
         $doUsers = OA_Dal::staticGetDO('users', $this->userid);
         $userData = array();

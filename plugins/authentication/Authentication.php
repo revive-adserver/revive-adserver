@@ -41,6 +41,8 @@ class Plugins_Authentication
      * @var array
      */
     var $aSignupErrors = array();
+    
+    var $aValidationErrors = array();
 
     /**
      * Checks if credentials are passed and whether the plugin should carry on the authentication
@@ -159,58 +161,6 @@ class Plugins_Authentication
     }
 
     /**
-     * Validates user data - required for linking new users
-     *
-     * @param string $login
-     * @param string $password
-     * @return array  Array containing error strings or empty
-     *                array if no validation errors were found
-     */
-    function validateUsersData($data)
-    {
-        $aErrors = array();
-        if (empty($data['userid'])) {
-            $aErrors = $this->validateUsersLogin($data['login']);
-            $aErrors = array_merge($aErrors,
-                $this->validateUsersPassword($data['passwd']));
-        }
-        return array_merge($aErrors,
-            $this->validateUsersEmail($data['email_address']));
-    }
-
-    /**
-     * Validates user login - required for linking new users
-     *
-     * @param string $login
-     * @return array  Array containing error strings or empty
-     *                array if no validation errors were found
-     */
-    function validateUsersLogin($login)
-    {
-        if (empty($login)) {
-            return array($GLOBALS['strInvalidUsername']);
-        } elseif (OA_Permission::userNameExists($login)) {
-            return array($GLOBALS['strDuplicateClientName']);
-        }
-        return array();
-    }
-
-    /**
-     * Validates user password - required for linking new users
-     *
-     * @param string $password
-     * @return array  Array containing error strings or empty
-     *                array if no validation errors were found
-     */
-    function validateUsersPassword($password)
-    {
-        if (!strlen($password) || strstr("\\", $password)) {
-            return array($GLOBALS['strInvalidPassword']);
-        }
-        return array();
-    }
-
-    /**
      * Validates user's email address
      *
      * @param string $email
@@ -219,10 +169,10 @@ class Plugins_Authentication
      */
     function validateUsersEmail($email)
     {
-        if (!eregi("^[a-zA-Z0-9]+[_a-zA-Z0-9-]*(\.[_a-z0-9-]+)*@[a-z??????0-9]+(-[a-z??????0-9]+)*(\.[a-z??????0-9-]+)*(\.[a-z]{2,4})$", $email)) {
-            return array($GLOBALS['strInvalidEmail']);
+        if (!eregi("^[a-zA-Z0-9]+[_a-zA-Z0-9-]*(\.[_a-z0-9-]+)*@[a-z??????0-9]+"
+                ."(-[a-z??????0-9]+)*(\.[a-z??????0-9-]+)*(\.[a-z]{2,4})$", $email)) {
+            $this->addValidationError($GLOBALS['strInvalidEmail']);
         }
-        return array();
     }
 
     /**
@@ -276,6 +226,26 @@ class Plugins_Authentication
             $errorMessage = $error;
         }
         $this->aSignupErrors[] = $errorMessage;
+    }
+
+    /**
+     * Returns array of errors which happened during sigup
+     *
+     * @return array
+     */
+    function getValidationErrors()
+    {
+        return $this->aValidationErrors;
+    }
+
+    /**
+     * Adds an error message to validation errors array
+     *
+     * @param string $aValidationErrors
+     */
+    function addValidationError($error)
+    {
+        $this->aValidationErrors[] = $error;
     }
 
     /**

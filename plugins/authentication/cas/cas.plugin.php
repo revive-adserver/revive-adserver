@@ -433,7 +433,8 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
      */
     function validateUsersData($data)
     {
-        return $this->validateUsersEmail($data['email_address']);
+        $this->validateUsersEmail($data['email_address']);
+        return $this->getValidationErrors();
     }
 
     function saveUser($userid, $login, $password,

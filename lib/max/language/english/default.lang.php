@@ -220,6 +220,7 @@ $GLOBALS['strLogin']                    = "Login";
 $GLOBALS['strLogout']                   = "Logout";
 $GLOBALS['strUsername']                 = "Username";
 $GLOBALS['strPassword']                 = "Password";
+$GLOBALS['strPasswordRepaet']           = "Repeat password";
 $GLOBALS['strMyAccount']                = "My Account";
 $GLOBALS['strAccessDenied']             = "Access denied";
 $GLOBALS['strUsernameOrPasswordWrong']  = "The username and/or password were not correct. Please try again.";
