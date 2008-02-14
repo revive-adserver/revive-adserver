@@ -38,9 +38,7 @@ class OA_Central_RpcMapper_Cas extends OA_Central_RpcMapper
 {
     function OA_Central_RpcMapper_Cas(&$oCentral)
     {
-        $aConf = $GLOBALS['_MAX']['CONF']['oacXmlRpc'];
-        $aConf['path'] = $aConf['path'];
-        $this->oRpc =& new OA_Dal_Central_Rpc($oCentral, $aConf);
+        $this->oRpc =& new OA_Dal_Central_Rpc($oCentral);
     }
 
     /**

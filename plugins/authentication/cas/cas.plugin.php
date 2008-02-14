@@ -25,13 +25,12 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/other/common.php';
+require_once MAX_PATH . '/lib/OA/Central.php';
 require_once MAX_PATH . '/plugins/authentication/Authentication.php';
 require_once MAX_PATH . '/plugins/authentication/cas/CAS/CAS.php';
 require_once MAX_PATH . '/plugins/authentication/cas/CAS/client.php';
 require_once MAX_PATH . '/plugins/authentication/cas/OaCasClient.php';
 require_once MAX_PATH . '/www/admin/lib-sessions.inc.php';
-
-define('OA_SSO_USER_NOT_EXISTS', 701);
 
 /**
  * String which CAS client uses to store data in session
@@ -64,18 +63,32 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
     var $defaultErrorUnknownCode = 'Error while communicating with server, error code %d';
 
     var $aErrorCodes = array(
-        701 => 'User do not exists, please try again with different account',
-        702 => 'Wrong password, please try again',
-        703 => 'Such email already exists, please try again using different e-mail address',
-        704 => 'Invalid verification hash, please recheck you confirmation mail',
-        800 => 'Connection error, please send your data again',
-        801 => 'User not authenticated, please correct your credentials',
-        803 => 'Error in request to server - wrong parameters, please try to resend your data',
-        804 => 'User name do not match platform hash',
-        805 => 'Platform hash doesn\'t exist, please execute sync process',
-        806 => 'Server error',
-        807 => 'User not authorized',
-        808 => 'XML-RPC version not supported',
+        OA_CENTRAL_ERROR_SSO_USER_NOT_EXISTS
+            => 'User do not exists, please try again with different account',
+        OA_CENTRAL_ERROR_SSO_INVALID_PASSWORD
+            => 'Wrong password, please try again',
+        OA_CENTRAL_ERROR_SSO_EMAIL_EXISTS
+            => 'Such email already exists, please try again using different e-mail address',
+        OA_CENTRAL_ERROR_SSO_INVALID_VER_HASH
+            => 'Invalid verification hash, please recheck you confirmation mail',
+        OA_CENTRAL_ERROR_XML_RPC_CONNECTION_ERROR
+            => 'Connection error, please send your data again',
+        OA_CENTRAL_ERROR_ERROR_NOT_AUTHENTICATED
+            => 'User not authenticated, please correct your credentials',
+        OA_CENTRAL_ERROR_WRONG_PARAMETERS
+            => 'Error in request to server - wrong parameters, please try to resend your data',
+        OA_CENTRAL_ERROR_USERNAME_DOES_NOT_MATCH_PLATFORM
+            => 'User name do not match platform hash',
+        OA_CENTRAL_ERROR_PLATFORM_DOES_NOT_EXIST
+            => 'Platform hash doesn\'t exist, please execute sync process',
+        OA_CENTRAL_ERROR_SERVER_ERROR
+            => 'Server error',
+        OA_CENTRAL_ERROR_ERROR_NOT_AUTHORIZED
+            => 'User not authorized',
+        OA_CENTRAL_ERROR_XML_RPC_VERSION_NOT_SUPPORTED
+            => 'XML-RPC version not supported',
+        OA_CENTRAL_ERROR_M2M_PASSWORD_INVALID
+            => 'M2M authentication error - invalid password',
     );
 
     /**
@@ -490,7 +503,7 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
         $this->getCentralCas();
         $ret = $this->oCentral->getAccountId($emailAddress);
         if (PEAR::isError($ret)) {
-            if ($ret->getCode() == OA_SSO_USER_NOT_EXISTS) {
+            if ($ret->getCode() == OA_CENTRAL_ERROR_SSO_USER_NOT_EXISTS) {
                 return null;
             }
             $this->addSignupError($ret);

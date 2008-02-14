@@ -102,7 +102,7 @@ class OA_Admin_UI_UserAccess
                         $this->aAllowedPermissions);
                     MAX_Admin_Redirect::redirect($this->getRedirectUrl());
                 } else {
-                    $aErrors = $this->oPlugin->getSignupErrors();
+                    $this->aErrors = $this->oPlugin->getSignupErrors();
                 }
             }
         }
