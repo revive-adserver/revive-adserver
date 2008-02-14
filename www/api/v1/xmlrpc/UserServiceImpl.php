@@ -212,6 +212,28 @@ class UserServiceImpl extends BaseServiceImpl
         }
     }
 
+    /**
+     * This method updates users SSO User Id
+     *
+     * @access public
+     *
+     * @param string $sessionId
+     * @param int $oldSsoUserId
+     * @param int $newSsoUserId
+     * @return bool
+     */
+    function updateSsoUserId($sessionId, $oldSsoUserId, $newSsoUserId)
+    {
+        if ($this->verifySession($sessionId)) {
+
+            return $this->_validateResult(
+                $this->_dllUser->updateSsoUserId($oldSsoUserId, $newSsoUserId));
+        } else {
+
+            return false;
+        }
+    }
+
 }
 
 

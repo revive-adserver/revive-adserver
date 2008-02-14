@@ -326,6 +326,36 @@ class OA_Dll_User extends OA_Dll
         }
         return true;
     }
+
+    /**
+     * This method updates users SSO User Id
+     *
+     * @param int $oldSsoUserId
+     * @param int $newSsoUserId
+     * @return bool
+     */
+    function updateSsoUserId($oldSsoUserId, $newSsoUserId)
+    {
+        if (!$this->checkPermissions(OA_ACCOUNT_ADMIN)) {
+            return false;
+        }
+
+        if (empty($oldSsoUserId) || empty($newSsoUserId)) {
+            $this->raiseError('Wrong Parameters');
+            return false;
+        }
+
+        $doUsers = OA_Dal::factoryDO('users');
+        $doUsers->whereAdd('sso_user_id = '.$doUsers->quote($oldSsoUserId));
+        $doUsers->sso_user_id = $newSsoUserId;
+
+        if (!$doUsers->update(DB_DATAOBJECT_WHEREADD_ONLY)) {
+            $this->raiseError('Unknown ssoUserId Error');
+            return false;
+        }
+
+        return true;
+    }
 }
 
 ?>
