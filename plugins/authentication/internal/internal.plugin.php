@@ -226,6 +226,7 @@ class Plugins_Authentication_Internal_Internal extends Plugins_Authentication
 
     function getUserDetailsFields($userData)
     {
+        $userExists = !empty($userData['user_id']);
         $userDetailsFields = array();
         $userDetailsFields[] = array(
                 'name'      => 'login',
@@ -244,11 +245,13 @@ class Plugins_Authentication_Internal_Internal extends Plugins_Authentication
                 'name'      => 'contact_name',
                 'label'     => $GLOBALS['strContactName'],
                 'value'     => $userData['contact_name'],
+                'freezed'   => $userExists
             );
         $userDetailsFields[] = array(
                 'name'      => 'email_address',
                 'label'     => $GLOBALS['strEMail'],
-                'value'     => $userData['email_address']
+                'value'     => $userData['email_address'],
+                'freezed'   => $userExists
             );
         return $userDetailsFields;
     }

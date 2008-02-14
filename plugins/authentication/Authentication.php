@@ -188,9 +188,9 @@ class Plugins_Authentication
     function validateUsersLogin($login)
     {
         if (empty($login)) {
-            return $GLOBALS['strInvalidUsername'];
+            return array($GLOBALS['strInvalidUsername']);
         } elseif (OA_Permission::userNameExists($login)) {
-            return $GLOBALS['strDuplicateClientName'];
+            return array($GLOBALS['strDuplicateClientName']);
         }
         return array();
     }
@@ -205,7 +205,7 @@ class Plugins_Authentication
     function validateUsersPassword($password)
     {
         if (!strlen($password) || strstr("\\", $password)) {
-            return $GLOBALS['strInvalidPassword'];
+            return array($GLOBALS['strInvalidPassword']);
         }
         return array();
     }
@@ -220,13 +220,14 @@ class Plugins_Authentication
     function validateUsersEmail($email)
     {
         if (!eregi("^[a-zA-Z0-9]+[_a-zA-Z0-9-]*(\.[_a-z0-9-]+)*@[a-z??????0-9]+(-[a-z??????0-9]+)*(\.[a-z??????0-9-]+)*(\.[a-z]{2,4})$", $email)) {
-            return $GLOBALS['strInvalidEmail'];
+            return array($GLOBALS['strInvalidEmail']);
         }
         return array();
     }
 
     /**
-     * Method used in user access pages. Either creates new user if necessary or update existing one.
+     * Method used in user access pages. Either creates new user if 
+     * necessary or update existing one.
      *
      * @param DB_DataObject_Users $doUsers  Users dataobject with any preset variables
      * @param string $login  User name
@@ -236,7 +237,8 @@ class Plugins_Authentication
      * @param integer $accountId  a
      * @return integer  User ID or false on error
      */
-    function saveUser(&$doUsers, $login, $password, $contactName, $emailAddress, $accountId)
+    function saveUser(&$doUsers, $login, $password, $contactName, 
+        $emailAddress, $accountId)
     {
         $doUsers->contact_name = $contactName;
         $doUsers->email_address = $emailAddress;
@@ -245,8 +247,8 @@ class Plugins_Authentication
             return $doUsers->user_id;
         } else {
             $doUsers->default_account_id = $accountId;
-            $doUsers->password = md5($password);
             $doUsers->username = $login;
+            $doUsers->password = md5($password);
             return $doUsers->insert();
         }
     }

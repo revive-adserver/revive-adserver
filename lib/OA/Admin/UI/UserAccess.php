@@ -129,7 +129,7 @@ class OA_Admin_UI_UserAccess
         
         // indicates whether the form is in editing user properties mode
         // (linked from the "Permissions" link in the User Access table)
-        $oTpl->assign('editMode', !$link); // @todo!
+        $oTpl->assign('editMode', empty($this->request['link']));
         
         $doUsers = OA_Dal::staticGetDO('users', $this->userid);
         $userData = array();
@@ -157,7 +157,7 @@ class OA_Admin_UI_UserAccess
         }
         $oTpl->assign('fields', $aTplFields);
         
-        $aHiddenFields = $this->_getHiddenFields($userData, $link, $this->aHiddenFields);
+        $aHiddenFields = $this->_getHiddenFields($userData, $this->request['link'], $this->aHiddenFields);
         $oTpl->assign('hiddenFields', $aHiddenFields);
         
         $oTpl->display();
