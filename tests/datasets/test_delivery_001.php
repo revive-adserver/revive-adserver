@@ -47,7 +47,7 @@ class OA_Test_Data_delivery_001 extends OA_Test_Data_MDB2Schema
      */
     function generateTestData()
     {
-        if (!parent::init('test_delivery.xml'))
+        if (!parent::init('test_delivery_001.xml'))
         {
             return false;
         }
