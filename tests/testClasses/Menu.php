@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -42,18 +42,19 @@ class Menu
 {
     /**
      * A method to return the HTML code needed to display a tree-based
-     * menu of all the Openads tests.
+     * menu of all the OpenX tests.
      *
      * @return string A string containing the HTML code needed to display
      *                the tests in a tree-based menu.
      */
     function buildTree()
     {
+        preg_match('/^(\d+\.\d+)/', OA_VERSION, $aMatches);
         // Create the root of the test suite
         $menu     = new HTML_TreeMenu();
         $rootNode = new HTML_TreeNode(
                             array(
-                                'text' => 'Openads 2.3 Tests',
+                                'text' => MAX_PRODUCT_NAME . ' ' . $aMatches[1] . ' Tests',
                                 'icon' => "package.png"
                             )
                         );

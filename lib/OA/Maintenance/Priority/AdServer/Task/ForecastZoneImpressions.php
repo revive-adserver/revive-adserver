@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -62,15 +62,15 @@ if (!defined('ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS_MINIMUM')) {
  * A class used to forecast the expected number of impressions in each
  * operation interval, for each zone.
  *
- * @package    OpenadsMaintenance
+ * @package    OpenXMaintenance
  * @subpackage Priority
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_Maintenance_Priority_AdServer_Task
 {
 
     /**
-     * Local copy of the Openads configuration array.
+     * Local copy of the OpenX configuration array.
      *
      * @var array
      */
@@ -356,12 +356,12 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
         $return = false;
         if (is_null($this->oStatisticsUpdatedToDate)) {
             // The MSE has never been run; there are no stats. Update all operation intervals (with the
-            // default zone forecast value) so that this new installation of Openads can ran: return true
+            // default zone forecast value) so that this new installation of OpenX can ran: return true
             OA::debug('  - No previous maintenance statisitcs run, so update all OIs required', PEAR_LOG_DEBUG);
             $return = true;
         } elseif (is_null($this->oPriorityUpdatedToDate)) {
             // The MPE has never updated zone forecasts before. Update all operation intervals (with the
-            // default zone forecast value) so that this new installation of Openads can ran: return true
+            // default zone forecast value) so that this new installation of OpenX can ran: return true
             OA::debug('  - No previous maintenance priority run, so update all OIs required', PEAR_LOG_DEBUG);
             $return = true;
         } elseif (OA_OperationInterval::getOperationInterval() != $this->priorityOperationInterval) {

@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -28,11 +28,11 @@ $Id$
 /**
  * The pgsql data access layer code the delivery engine.
  *
- * @package    OpenadsDal
+ * @package    OpenXDal
  * @subpackage Delivery
- * @author     Chris Nutting <chris.nutting@openads.org>
- * @author     Andrew Hill <andrew.hill@openads.org>
- * @author     Matteo Beccati <matteo.beccati@openads.org>
+ * @author     Chris Nutting <chris.nutting@openx.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
+ * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 
 /**
@@ -937,7 +937,7 @@ function OA_Dal_Delivery_getMaintenanceInfo()
  *                              the viewer used to access the page containing the zone.
  * @param array   $userAgentInfo An array to store information about the
  *                               viewer's web browser and operating system.
- * @param integer $maxHttps     An integer to store if the call to Openads was
+ * @param integer $maxHttps     An integer to store if the call to OpenX was
  *                              performed using HTTPS or not.
  */
 function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneId,
@@ -1173,7 +1173,7 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
  *                              the viewer used to access the page containing the zone.
  * @param array   $userAgentInfo An array to store information about the
  *                               viewer's web browser and operating system.
- * @param integer $maxHttps     An integer to store if the call to Openads was
+ * @param integer $maxHttps     An integer to store if the call to OpenX was
  *                              performed using HTTPS or not.
 
  * @return int|false            Returns the insert ID for this record or false on failure

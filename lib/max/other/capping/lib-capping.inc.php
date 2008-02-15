@@ -1,14 +1,11 @@
 <?php
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -328,18 +325,18 @@ echo "
   {
     if (this.value == '-')  {
       this.value = '';
-    } 
+    }
   }
 
 
   function enableResetCounterConditionally()
   {
     var cappingSet = false;
-    $(\"#session_capping,#cap\", $(this.form)).each(function() 
+    $(\"#session_capping,#cap\", $(this.form)).each(function()
     {
       if (this.value == '-' || this.value == '' || this.value == '0') {
         this.value = '-';
-      } 
+      }
       else {
         cappingSet = true;
       }

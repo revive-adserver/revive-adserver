@@ -2,14 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -28,169 +25,167 @@
 $Id$
 */
 
-
-
 // Settings help translation strings
 $GLOBALS['phpAds_hlp_dbhost'] = '
-	Spécifiez ici l\'adresse du serveur de données '.$phpAds_dbmsname.' (Ex: sql.monsite.fr).
+	Spï¿½cifiez ici l\'adresse du serveur de donnï¿½es '.$phpAds_dbmsname.' (Ex: sql.monsite.fr).
 ';
 		
 $GLOBALS['phpAds_hlp_dbuser'] = '
-	Spécifiez le nom d\'utilisateur avec lequel '.$phpAds_productname.' peut se connecter à la base '.$phpAds_dbmsname.'.
+	Spï¿½cifiez le nom d\'utilisateur avec lequel '.$phpAds_productname.' peut se connecter ï¿½ la base '.$phpAds_dbmsname.'.
 ';
 		
 $GLOBALS['phpAds_hlp_dbpassword'] = '
-	Spécifiez le mot de passe avec lequel '.$phpAds_productname.' peut se connecter à la base '.$phpAds_dbmsname.'.
+	Spï¿½cifiez le mot de passe avec lequel '.$phpAds_productname.' peut se connecter ï¿½ la base '.$phpAds_dbmsname.'.
 ';
 		
 $GLOBALS['phpAds_hlp_dbname'] = '
-	Spécifiez le nom de la base dans laquelle '.$phpAds_productname.' doit stocker ses données.
+	Spï¿½cifiez le nom de la base dans laquelle '.$phpAds_productname.' doit stocker ses donnï¿½es.
 ';
 
 $GLOBALS['phpAds_hlp_persistent_connections'] = '
-	L\'utilisation de connections persistantes peut accélérer considérablement '.$phpAds_productname.', et peut même diminuer la charge du serveur.
-	Néanmoins, en cas de fortes charges du serveur Web, la charge du serveur SQL sera plus importe avec cette option. Le choix de cette option dépend du nombre de
-	visiteurs, et du matériel que vous utilisez. Si '.$phpAds_productname.' utilise trop de ressources, vous devriez regarder d\'abord cette option. Par défaut
-	cette option est désactivée, car elle peut-être incompatible avec certains systèmes.
+	L\'utilisation de connections persistantes peut accï¿½lï¿½rer considï¿½rablement '.$phpAds_productname.', et peut mï¿½me diminuer la charge du serveur.
+	Nï¿½anmoins, en cas de fortes charges du serveur Web, la charge du serveur SQL sera plus importe avec cette option. Le choix de cette option dï¿½pend du nombre de
+	visiteurs, et du matï¿½riel que vous utilisez. Si '.$phpAds_productname.' utilise trop de ressources, vous devriez regarder d\'abord cette option. Par dï¿½faut
+	cette option est dï¿½sactivï¿½e, car elle peut-ï¿½tre incompatible avec certains systï¿½mes.
 ';
 
 $GLOBALS['phpAds_hlp_insert_delayed'] = '
-	'.$phpAds_dbmsname.' bloque la table lorsque l\'on insère des données. Si vous avez beaucoup de visiteurs, il est possible
-	que '.$phpAds_productname.' soit obligé d\'attendre avant d\'insérer une nouvelle ligne, la table étant déjà
-	bloquée. Quand vous utilisez les insertions retardées, vous n\'avez pas à attendre, et la ligne sera insérée
-	plus tard, lorsque la table ne sera plus utilisée.
+	'.$phpAds_dbmsname.' bloque la table lorsque l\'on insï¿½re des donnï¿½es. Si vous avez beaucoup de visiteurs, il est possible
+	que '.$phpAds_productname.' soit obligï¿½ d\'attendre avant d\'insï¿½rer une nouvelle ligne, la table ï¿½tant dï¿½jï¿½
+	bloquï¿½e. Quand vous utilisez les insertions retardï¿½es, vous n\'avez pas ï¿½ attendre, et la ligne sera insï¿½rï¿½e
+	plus tard, lorsque la table ne sera plus utilisï¿½e.
 ';
 
 $GLOBALS['phpAds_hlp_compatibility_mode'] = '
-	Si vous avez des problèmes d\'intégration de '.$phpAds_productname.' avec d\'autres produits, cela peut aider d\'activer
-	le mode de compatibilité de la base de données. Si vous utilisez le mode d\'invocation local, et que cette
-	option est activée, '.$phpAds_productname.' laisserat la connexion avec la base de données exactement comme
-	il l\'avait trouvé. Cette option ralentit un peu '.$phpAds_productname.' (seulement un peu), c\'est pourquoi elle est désactivée
-	par défaut.
+	Si vous avez des problï¿½mes d\'intï¿½gration de '.$phpAds_productname.' avec d\'autres produits, cela peut aider d\'activer
+	le mode de compatibilitï¿½ de la base de donnï¿½es. Si vous utilisez le mode d\'invocation local, et que cette
+	option est activï¿½e, '.$phpAds_productname.' laisserat la connexion avec la base de donnï¿½es exactement comme
+	il l\'avait trouvï¿½. Cette option ralentit un peu '.$phpAds_productname.' (seulement un peu), c\'est pourquoi elle est dï¿½sactivï¿½e
+	par dï¿½faut.
 ';
 
 $GLOBALS['phpAds_hlp_table_prefix'] = '
-	Si la base de données que '.$phpAds_productname.' utilise est partagée par plusieurs produits, il est intéressant d\'ajouter
-	un préfixe aux noms des tables de '.$phpAds_productname.'. Si vous utilisez plusieurs '.$phpAds_productname.' avec la même base
-	de données, vous devez choisir un préfixe unique pour chaque installation de '.$phpAds_productname.'.
+	Si la base de donnï¿½es que '.$phpAds_productname.' utilise est partagï¿½e par plusieurs produits, il est intï¿½ressant d\'ajouter
+	un prï¿½fixe aux noms des tables de '.$phpAds_productname.'. Si vous utilisez plusieurs '.$phpAds_productname.' avec la mï¿½me base
+	de donnï¿½es, vous devez choisir un prï¿½fixe unique pour chaque installation de '.$phpAds_productname.'.
 ';
 
 $GLOBALS['phpAds_hlp_tabletype'] = '
-	'.$phpAds_dbmsname.' supporte plusieurs types de table. Chacun de ces types a des propriétés particulières, et certains
-	peuvent accélérer '.$phpAds_productname.' considérablement. MyISAM est le type par défaut, et est présent dans
-	toutes les installations '.$phpAds_dbmsname.'. Certains autres types de tables peuvent ne pas être présents sur votre serveur SQL.
+	'.$phpAds_dbmsname.' supporte plusieurs types de table. Chacun de ces types a des propriï¿½tï¿½s particuliï¿½res, et certains
+	peuvent accï¿½lï¿½rer '.$phpAds_productname.' considï¿½rablement. MyISAM est le type par dï¿½faut, et est prï¿½sent dans
+	toutes les installations '.$phpAds_dbmsname.'. Certains autres types de tables peuvent ne pas ï¿½tre prï¿½sents sur votre serveur SQL.
 ';
 
 $GLOBALS['phpAds_hlp_url_prefix'] = '
-	'.$phpAds_productname.' a besoin de connaitre l\'adresse où il réside. Vous devez donc préciser l\'url publique à laquelle se trouve '.$phpAds_productname.'.
+	'.$phpAds_productname.' a besoin de connaitre l\'adresse oï¿½ il rï¿½side. Vous devez donc prï¿½ciser l\'url publique ï¿½ laquelle se trouve '.$phpAds_productname.'.
 	Par exemple : http://www.monsite.fr/'.$phpAds_productname.'
 ';
 
 $GLOBALS['phpAds_hlp_my_header'] =
 $GLOBALS['phpAds_hlp_my_footer'] = '
-	Cette option vous permet de spécifier des fichiers d\'entête et de pied de page, qui seront affiché en haut et en bas de chaque page.
+	Cette option vous permet de spï¿½cifier des fichiers d\'entï¿½te et de pied de page, qui seront affichï¿½ en haut et en bas de chaque page.
 	Il doit s\'agir d\'une adresse relative (exemple : ../site/header.html), ou absolue (exemple : /home/login/www/header.html). Ces deux fichiers peuvent contenir
-	de l\'HTML, mais notez bien qu\'il seront inclus après la balise &lt;body&gt; pour l\'entête, et avant la balise &lt;/body&gt; pour le pied de page.
+	de l\'HTML, mais notez bien qu\'il seront inclus aprï¿½s la balise &lt;body&gt; pour l\'entï¿½te, et avant la balise &lt;/body&gt; pour le pied de page.
 	Ils ne doivent donc en aucun cas contenir des balises telles que &lt;body&gt;, &lt;html&gt; ou &lt;head&gt;.
 ';
 
 $GLOBALS['phpAds_hlp_content_gzip_compression'] = '
-	L\'option GZip permet au serveur Web, et à la machine des clients de compresser les données qu\'ils s\'échangent. Cette option augmenté légerement le temps
-	d\'éxécution des pages, mais diminue notablement le temps de chargement des pages, ainsi que la quantité de données envoyées par le serveur.
-	Pour activer cette option, vous devez avoir PHP 4.0.5 (ou plus), avec l\'option GZip installée.<br>
-	Cette option peut vous intéresser si votre hébergeur vous facture la quantité dedonnées envoyées.
+	L\'option GZip permet au serveur Web, et ï¿½ la machine des clients de compresser les donnï¿½es qu\'ils s\'ï¿½changent. Cette option augmentï¿½ lï¿½gerement le temps
+	d\'ï¿½xï¿½cution des pages, mais diminue notablement le temps de chargement des pages, ainsi que la quantitï¿½ de donnï¿½es envoyï¿½es par le serveur.
+	Pour activer cette option, vous devez avoir PHP 4.0.5 (ou plus), avec l\'option GZip installï¿½e.<br>
+	Cette option peut vous intï¿½resser si votre hï¿½bergeur vous facture la quantitï¿½ dedonnï¿½es envoyï¿½es.
 ';
 		
 $GLOBALS['phpAds_hlp_language'] = '
-	La langue choisie ici sera celle par défaut pour l\'interfaçe d\'administration. Notez que vous pouvez spécifié une langue différente pour chaque utilisateur.
+	La langue choisie ici sera celle par dï¿½faut pour l\'interfaï¿½e d\'administration. Notez que vous pouvez spï¿½cifiï¿½ une langue diffï¿½rente pour chaque utilisateur.
 ';
 
 $GLOBALS['phpAds_hlp_name'] = '
-	Le nom de l\'application apparaîtrat sur toutes les pages de l\'administration,et de la gestion des publicité.
-	Si vous laissez ce champ vide (par défaut), un logo '.$phpAds_productname.' sera affiché à la place.
+	Le nom de l\'application apparaï¿½trat sur toutes les pages de l\'administration,et de la gestion des publicitï¿½.
+	Si vous laissez ce champ vide (par dï¿½faut), un logo '.$phpAds_productname.' sera affichï¿½ ï¿½ la place.
 ';
 
 $GLOBALS['phpAds_hlp_company_name'] = '
-	Ce nom est utilisé dans les emails envoyés par '.$phpAds_productname.'.
+	Ce nom est utilisï¿½ dans les emails envoyï¿½s par '.$phpAds_productname.'.
 ';
 
 $GLOBALS['phpAds_hlp_override_gd_imageformat'] = '
-	Normalement, '.$phpAds_productname.' détecte automatiquement la présence, et les formats supportés par la librairie GD. Néanmoins, il se peut que la détection
-	soit érronée. Si '.$phpAds_productname.' ne parvient pas à trouver les bon paramètres, vous pouvez spécifier directement le bon format. Les valeurs autorisées sont:
+	Normalement, '.$phpAds_productname.' dï¿½tecte automatiquement la prï¿½sence, et les formats supportï¿½s par la librairie GD. Nï¿½anmoins, il se peut que la dï¿½tection
+	soit ï¿½rronï¿½e. Si '.$phpAds_productname.' ne parvient pas ï¿½ trouver les bon paramï¿½tres, vous pouvez spï¿½cifier directement le bon format. Les valeurs autorisï¿½es sont:
 	none, png, jpeg, gif.
 ';
 
 $GLOBALS['phpAds_hlp_p3p_policies'] = '
-	Si vous souhaitez activer la politique de respect de la vie privée P3P de '.$phpAds_productname.', vous devez utiliser
+	Si vous souhaitez activer la politique de respect de la vie privï¿½e P3P de '.$phpAds_productname.', vous devez utiliser
 	cette option. 
 ';
 
 $GLOBALS['phpAds_hlp_p3p_compact_policy'] = '
-	La politique compacte est envoyée avec les cookies. Ce réglage par défaut autorise Internet Explorer 6 à
-	accepter les cookies de '.$phpAds_productname.'. Si vous voulez, vous pouvez modifier ce paramètre afin qu\'il corresponde
-	à votre propre politique de respect de la vie privée.
+	La politique compacte est envoyï¿½e avec les cookies. Ce rï¿½glage par dï¿½faut autorise Internet Explorer 6 ï¿½
+	accepter les cookies de '.$phpAds_productname.'. Si vous voulez, vous pouvez modifier ce paramï¿½tre afin qu\'il corresponde
+	ï¿½ votre propre politique de respect de la vie privï¿½e.
 ';
 
 $GLOBALS['phpAds_hlp_p3p_policy_location'] = '
-	Si vous utilisez une politique complète de respect de la vie privée, vous pouvez indiquer l\'emplacement de
+	Si vous utilisez une politique complï¿½te de respect de la vie privï¿½e, vous pouvez indiquer l\'emplacement de
 	votre chartre.
 ';
 
 $GLOBALS['phpAds_hlp_log_beacon'] = '
-	Les balises sont de petites images invisibles qui sont placées sur la page où la bannière est affichée.
-	Si vous activez cette fonctionnalité, '.$phpAds_productname.' utilisera cette image-balise pour compter le nombre
-	d\'affichages que la bannière a fait. Si vous désactivez cette fonctionnalité, les affichages seront comptés
-	à la distribution, mais ce n\'est pas entièrement fiable, puisque une bannière distribuée n\'est pas toujours
-	affichée à l\'écran du visiteur (manque de temps, page trop longue, ...).
+	Les balises sont de petites images invisibles qui sont placï¿½es sur la page oï¿½ la banniï¿½re est affichï¿½e.
+	Si vous activez cette fonctionnalitï¿½, '.$phpAds_productname.' utilisera cette image-balise pour compter le nombre
+	d\'affichages que la banniï¿½re a fait. Si vous dï¿½sactivez cette fonctionnalitï¿½, les affichages seront comptï¿½s
+	ï¿½ la distribution, mais ce n\'est pas entiï¿½rement fiable, puisque une banniï¿½re distribuï¿½e n\'est pas toujours
+	affichï¿½e ï¿½ l\'ï¿½cran du visiteur (manque de temps, page trop longue, ...).
 ';
 		
 $GLOBALS['phpAds_hlp_compact_stats'] = '
-	Traditionnellement, '.$phpAds_productname.' utilise une journalisation assez intensive, extrêmement détaillée, mais très gourmande en espace disque SQL.
-	Pour s\'affranchir de ce problème, '.$phpAds_productname.' a introiduit un nouveau type de statistiques, les  statistiques résumées, qui consomme énormément
-	mois de place, mais qui est moins détaillé. Les statistiques compactes ne journalisent non pas chaque clients, mais plutôt le nombre de client à chaque heure.
-	Si vous avez beaucoup de visiteurs, ou que votre base de données sature, essayer de passer en mode \'Résumé\'.
+	Traditionnellement, '.$phpAds_productname.' utilise une journalisation assez intensive, extrï¿½mement dï¿½taillï¿½e, mais trï¿½s gourmande en espace disque SQL.
+	Pour s\'affranchir de ce problï¿½me, '.$phpAds_productname.' a introiduit un nouveau type de statistiques, les  statistiques rï¿½sumï¿½es, qui consomme ï¿½normï¿½ment
+	mois de place, mais qui est moins dï¿½taillï¿½. Les statistiques compactes ne journalisent non pas chaque clients, mais plutï¿½t le nombre de client ï¿½ chaque heure.
+	Si vous avez beaucoup de visiteurs, ou que votre base de donnï¿½es sature, essayer de passer en mode \'Rï¿½sumï¿½\'.
 ';
 
 $GLOBALS['phpAds_hlp_log_adviews'] = '
-	Normalement, tous les affichages sont journalisés. Si vous ne voulez pas de statistiques concernant les affichages, désactivez cette option.
+	Normalement, tous les affichages sont journalisï¿½s. Si vous ne voulez pas de statistiques concernant les affichages, dï¿½sactivez cette option.
 ';
 
 $GLOBALS['phpAds_hlp_block_adviews'] = '
-	Si un visiteur recharge une page, à chaque fois un affichage sera compté. Cette fonctionnalité est utilisée pour s\'assurer que un seul affichage est décompté pour
-	la même bannière, et pour le temps spécifié (en secondes). Par exemple, si vous mettez cette valeur à 300 secondes, '.$phpAds_productname.' ne comptera l\'affichage
-	d\'une bannière que si elle n\'a pas été montrée à ce visiteur dans les 5 dernières minutes. Cette option n\'est valable que lorsque <i>Utiliser des balises invisibles
-	pour compter les affichages</i> est activé, et si le navigateur du visiteur accepte les cookies.
+	Si un visiteur recharge une page, ï¿½ chaque fois un affichage sera comptï¿½. Cette fonctionnalitï¿½ est utilisï¿½e pour s\'assurer que un seul affichage est dï¿½comptï¿½ pour
+	la mï¿½me banniï¿½re, et pour le temps spï¿½cifiï¿½ (en secondes). Par exemple, si vous mettez cette valeur ï¿½ 300 secondes, '.$phpAds_productname.' ne comptera l\'affichage
+	d\'une banniï¿½re que si elle n\'a pas ï¿½tï¿½ montrï¿½e ï¿½ ce visiteur dans les 5 derniï¿½res minutes. Cette option n\'est valable que lorsque <i>Utiliser des balises invisibles
+	pour compter les affichages</i> est activï¿½, et si le navigateur du visiteur accepte les cookies.
 ';
 		
 $GLOBALS['phpAds_hlp_log_adclicks'] = '
-	Normalement, tous les clics sont journalisés. Si vous ne voulez pas de statistiques concernant les clics, désactivez cette option.
+	Normalement, tous les clics sont journalisï¿½s. Si vous ne voulez pas de statistiques concernant les clics, dï¿½sactivez cette option.
 ';
 
 $GLOBALS['phpAds_hlp_block_adclicks'] = '
-	Si un visiteur clique plusieurs fois sur une bannière, un clic sera compté par '.$phpAds_productname.' chaque fois.
-	Cette fonctionnalité est utilisée pour s\'assurer que seul un clic est compté pour une bannière unique,
-	pour un même visiteur, pendant le temps spécifié (en secondes). Par exemple, si vous mettez cette valeur à
-	300 secondes, '.$phpAds_productname.' ne comptera le clic d\'un visiteur que si celui ci n\'a pas déjà cliqué sur cette
-	bannière dans les 5 dernières minutes. Cette option ne marche que si le navigateur du visiteur accepte les
+	Si un visiteur clique plusieurs fois sur une banniï¿½re, un clic sera comptï¿½ par '.$phpAds_productname.' chaque fois.
+	Cette fonctionnalitï¿½ est utilisï¿½e pour s\'assurer que seul un clic est comptï¿½ pour une banniï¿½re unique,
+	pour un mï¿½me visiteur, pendant le temps spï¿½cifiï¿½ (en secondes). Par exemple, si vous mettez cette valeur ï¿½
+	300 secondes, '.$phpAds_productname.' ne comptera le clic d\'un visiteur que si celui ci n\'a pas dï¿½jï¿½ cliquï¿½ sur cette
+	banniï¿½re dans les 5 derniï¿½res minutes. Cette option ne marche que si le navigateur du visiteur accepte les
 	cookies.
 ';
 		
 $GLOBALS['phpAds_hlp_reverse_lookup'] = '
-	Par défaut, '.$phpAds_productname.' journalise l\'adresse IP de chaque visiteur. Si vous préférez que '.$phpAds_productname.' journalise le nom de la machine, activez
-	cette option. La résolution inversée  des noms de domaine prend du temps; cela ralentira '.$phpAds_productname.'.
+	Par dï¿½faut, '.$phpAds_productname.' journalise l\'adresse IP de chaque visiteur. Si vous prï¿½fï¿½rez que '.$phpAds_productname.' journalise le nom de la machine, activez
+	cette option. La rï¿½solution inversï¿½e  des noms de domaine prend du temps; cela ralentira '.$phpAds_productname.'.
 ';
 
 $GLOBALS['phpAds_hlp_proxy_lookup'] = '
-	Certains utilisateurs utilisent des Proxy pour accéder à l\'internet. Dans ce cas, '.$phpAds_productname.' va journaliser
-	le nom d\'hôte du Proxy, plutôt que celui de l\'utilisateur. Si vous activez cette option, '.$phpAds_productname.' essayera
-	de trouver l\'adresse IP, ou le nom d\'hôte de l\'utilisateur derrière ce proxy. Si ce n\'est pas possible
-	de récupérer l\'adresse exacte de l\'utilisateur, l\'adresse du Proxy sera utilisée à la place. Cette option
-	est désactivée par défaut, car elle ralentit la journalisation.
+	Certains utilisateurs utilisent des Proxy pour accï¿½der ï¿½ l\'internet. Dans ce cas, '.$phpAds_productname.' va journaliser
+	le nom d\'hï¿½te du Proxy, plutï¿½t que celui de l\'utilisateur. Si vous activez cette option, '.$phpAds_productname.' essayera
+	de trouver l\'adresse IP, ou le nom d\'hï¿½te de l\'utilisateur derriï¿½re ce proxy. Si ce n\'est pas possible
+	de rï¿½cupï¿½rer l\'adresse exacte de l\'utilisateur, l\'adresse du Proxy sera utilisï¿½e ï¿½ la place. Cette option
+	est dï¿½sactivï¿½e par dï¿½faut, car elle ralentit la journalisation.
 ';
 		
 $GLOBALS['phpAds_hlp_ignore_hosts'] = '
 	Si vous ne voulez pas compter les clics et les affichages de certaines machines, vous pouvez les entrer
-	ci-contre. Si vous avez activé la requête DNS inversée, vous pouvez entrer des adresses IP et des noms de
+	ci-contre. Si vous avez activï¿½ la requï¿½te DNS inversï¿½e, vous pouvez entrer des adresses IP et des noms de
 	domaines, autrement vous ne pouvez entrer que des adresses IP. Vous pouvez aussi utiliser des jokers
 	(Ex: \'*.altavista.fr\' ou \'192.168.*\').
 ';
@@ -201,26 +196,26 @@ $GLOBALS['phpAds_hlp_begin_of_week'] = '
 ';
 
 $GLOBALS['phpAds_hlp_percentage_decimals'] = '
-	Spécifiez combien les pages de statistiques devront afficher de décimales dans leurs pourcentages.
+	Spï¿½cifiez combien les pages de statistiques devront afficher de dï¿½cimales dans leurs pourcentages.
 ';
 
 $GLOBALS['phpAds_hlp_warn_admin'] = '
-	'.$phpAds_productname.' peut vous envoyer un email si une campagne n\'a plus qu\'un nombre limité de clics ou d\'affichages
-	restants. Cette option est activée par défaut.
+	'.$phpAds_productname.' peut vous envoyer un email si une campagne n\'a plus qu\'un nombre limitï¿½ de clics ou d\'affichages
+	restants. Cette option est activï¿½e par dï¿½faut.
 ';
 
 $GLOBALS['phpAds_hlp_warn_client'] = '
-	'.$phpAds_productname.' peut envoyer à l\'annonceur un email si une de ses campagnes n\'a plus qu\'un nombre limité de clics
-	ou d\'affichages restants. Cette option est activée par défaut.
+	'.$phpAds_productname.' peut envoyer ï¿½ l\'annonceur un email si une de ses campagnes n\'a plus qu\'un nombre limitï¿½ de clics
+	ou d\'affichages restants. Cette option est activï¿½e par dï¿½faut.
 ';
 
 $GLOBALS['phpAds_hlp_qmail_patch'] = '
-	Certaines versions de qmail sont affectées par un bogue, qui affiche les entêtes du mail dans le corps des messages que '.$phpAds_productname.'envoie.
-	Activez cette option si votre version de qmail est bogué.
+	Certaines versions de qmail sont affectï¿½es par un bogue, qui affiche les entï¿½tes du mail dans le corps des messages que '.$phpAds_productname.'envoie.
+	Activez cette option si votre version de qmail est boguï¿½.
 ';
 		
 $GLOBALS['phpAds_hlp_warn_limit'] = '
-	La limite en dessous de laquelle '.$phpAds_productname.' envoyedes messages d\'avertissement (à l\'administrateur et/ou à l\'annonceur). La valeur est de 100 par défaut.
+	La limite en dessous de laquelle '.$phpAds_productname.' envoyedes messages d\'avertissement (ï¿½ l\'administrateur et/ou ï¿½ l\'annonceur). La valeur est de 100 par dï¿½faut.
 ';
 
 $GLOBALS['phpAds_hlp_allow_invocation_plain'] = 
@@ -230,43 +225,43 @@ $GLOBALS['phpAds_hlp_allow_invocation_xmlrpc'] =
 $GLOBALS['phpAds_hlp_allow_invocation_local'] = 
 $GLOBALS['phpAds_hlp_allow_invocation_interstitial'] = 
 $GLOBALS['phpAds_hlp_allow_invocation_popup'] = '
-	Vous pouvez choisir les codes d\'invocation autorisés. Ces réglages n\'influent que sur la page de géneration du code, c\'est à dire que les autres modes
-	d\'invocation continueront de marcher, à condition que leur code d\'invocation ait été généré avant.
+	Vous pouvez choisir les codes d\'invocation autorisï¿½s. Ces rï¿½glages n\'influent que sur la page de gï¿½neration du code, c\'est ï¿½ dire que les autres modes
+	d\'invocation continueront de marcher, ï¿½ condition que leur code d\'invocation ait ï¿½tï¿½ gï¿½nï¿½rï¿½ avant.
 ';
 
 $GLOBALS['phpAds_hlp_con_key'] = '
-	'.$phpAds_productname.' inclut une puissante méthode de sélection des bannières. Pour plus d\'informations, reportez vous
-	à la documentation. Avec cette option, vous pouvez activer les mots clés conditionnels. Cette option
-	est activée par défaut.
+	'.$phpAds_productname.' inclut une puissante mï¿½thode de sï¿½lection des banniï¿½res. Pour plus d\'informations, reportez vous
+	ï¿½ la documentation. Avec cette option, vous pouvez activer les mots clï¿½s conditionnels. Cette option
+	est activï¿½e par dï¿½faut.
 ';
 
 $GLOBALS['phpAds_hlp_mult_key'] = '
-	Pour chaque bannière, vous pouvez spécifier un ou plusieurs mots clés. Cette option est nécessaire si vous
-	souhaitez spécifier plus d\'un mot clé. Cette option est activée par défaut.
+	Pour chaque banniï¿½re, vous pouvez spï¿½cifier un ou plusieurs mots clï¿½s. Cette option est nï¿½cessaire si vous
+	souhaitez spï¿½cifier plus d\'un mot clï¿½. Cette option est activï¿½e par dï¿½faut.
 ';
 
 $GLOBALS['phpAds_hlp_acl'] = '
-	Si vous n\'utilisez pas les limitations d\'affichages des bannières, vous pouvez désactiver le contrôle de ces limites à chaque affichage, cela accélérera '.$phpAds_productname.'.
+	Si vous n\'utilisez pas les limitations d\'affichages des banniï¿½res, vous pouvez dï¿½sactiver le contrï¿½le de ces limites ï¿½ chaque affichage, cela accï¿½lï¿½rera '.$phpAds_productname.'.
 ';
 
 $GLOBALS['phpAds_hlp_default_banner_url'] = 
 $GLOBALS['phpAds_hlp_default_banner_target'] = '
-	Si '.$phpAds_productname.' n\'arrive pas à se connecter au serveur SQL, ou bien qu\'il ne trouve aucune bannière à afficher, il se tournera vers ces réglages.
-	Cette option est désactivée par défaut.
+	Si '.$phpAds_productname.' n\'arrive pas ï¿½ se connecter au serveur SQL, ou bien qu\'il ne trouve aucune banniï¿½re ï¿½ afficher, il se tournera vers ces rï¿½glages.
+	Cette option est dï¿½sactivï¿½e par dï¿½faut.
 ';
 
 $GLOBALS['phpAds_hlp_zone_cache'] = '
-	Si vous utilisez des zones, ce paramètre permet à '.$phpAds_productname.' de stocker les informations sur les bannières
-	dans un cache, qui sera ensuite réutilisé. Cela accélère un peu '.$phpAds_productname.', car plutôt que de récupérer toutes
-	les informations de la zone, de récupérer les bannières, et de sélectionner la bonne, '.$phpAds_productname.' a juste
-	besoin de lire le cache. Cette option est activée par défaut.
+	Si vous utilisez des zones, ce paramï¿½tre permet ï¿½ '.$phpAds_productname.' de stocker les informations sur les banniï¿½res
+	dans un cache, qui sera ensuite rï¿½utilisï¿½. Cela accï¿½lï¿½re un peu '.$phpAds_productname.', car plutï¿½t que de rï¿½cupï¿½rer toutes
+	les informations de la zone, de rï¿½cupï¿½rer les banniï¿½res, et de sï¿½lectionner la bonne, '.$phpAds_productname.' a juste
+	besoin de lire le cache. Cette option est activï¿½e par dï¿½faut.
 ';
 
 $GLOBALS['phpAds_hlp_zone_cache_limit'] = '
-	Si vous utilisez le cachage des zones, les informations présentes dans le cache peuvent se périmer.
-	De temps en temps, '.$phpAds_productname.' a besoin de reconstruire le cache, afin que les nouvelles bannières soient incluses.
-	Ce paramètre vous laisse décider quand un cache doit être reconstruit, en spécifiant son âge maximum.
-	Par exemple, si vous mettez ici 600, le cache sera reconstruit à chaque fois qu\'il aura plus de 10 minutes
+	Si vous utilisez le cachage des zones, les informations prï¿½sentes dans le cache peuvent se pï¿½rimer.
+	De temps en temps, '.$phpAds_productname.' a besoin de reconstruire le cache, afin que les nouvelles banniï¿½res soient incluses.
+	Ce paramï¿½tre vous laisse dï¿½cider quand un cache doit ï¿½tre reconstruit, en spï¿½cifiant son ï¿½ge maximum.
+	Par exemple, si vous mettez ici 600, le cache sera reconstruit ï¿½ chaque fois qu\'il aura plus de 10 minutes
 	(600 secondes).
 ';
 
@@ -274,183 +269,183 @@ $GLOBALS['phpAds_hlp_type_sql_allow'] =
 $GLOBALS['phpAds_hlp_type_web_allow'] = 
 $GLOBALS['phpAds_hlp_type_url_allow'] = 
 $GLOBALS['phpAds_hlp_type_html_allow'] = '
-	'.$phpAds_productname.' peut utiliser différents types de bannières et les stocker de différentes façons.
-	Les deux premières options sont utilisées pour le stockage local des bannières.
-	Vous pouvez utilisez l\'interface d\'administration pour envoyer une bannière, et '.$phpAds_productname.'
+	'.$phpAds_productname.' peut utiliser diffï¿½rents types de banniï¿½res et les stocker de diffï¿½rentes faï¿½ons.
+	Les deux premiï¿½res options sont utilisï¿½es pour le stockage local des banniï¿½res.
+	Vous pouvez utilisez l\'interface d\'administration pour envoyer une banniï¿½re, et '.$phpAds_productname.'
 	la stockera dans une base SQL (Option 1), ou sur un serveur Web/FTP (Option 2).
-	Vous pouvez aussi utiliser des bannières stockées sur des serveurs Web externes (Option 3),
-	ou utiliser du HTML pour générer une bannière (Option 4). Vous pouvez désactiver n\'importe laquelle
-	de ces méthodes de stockage, en modifiant ces paramètres. Par défaut, tous les types de bannières
-	sont autorisés.
-	Si vous désactivez un certain type de bannière alors qu\'il en existe encore de ce type, '.$phpAds_productname.' les
-	utilisera toujours, mais ne permettra plus leur création.
+	Vous pouvez aussi utiliser des banniï¿½res stockï¿½es sur des serveurs Web externes (Option 3),
+	ou utiliser du HTML pour gï¿½nï¿½rer une banniï¿½re (Option 4). Vous pouvez dï¿½sactiver n\'importe laquelle
+	de ces mï¿½thodes de stockage, en modifiant ces paramï¿½tres. Par dï¿½faut, tous les types de banniï¿½res
+	sont autorisï¿½s.
+	Si vous dï¿½sactivez un certain type de banniï¿½re alors qu\'il en existe encore de ce type, '.$phpAds_productname.' les
+	utilisera toujours, mais ne permettra plus leur crï¿½ation.
 ';
 
 $GLOBALS['phpAds_hlp_type_web_mode'] = '
-	Si vous souhaitez utiliser des bannières stockées sur un serveur Web, vous devez configurer
-	ce paramètre. Pour stocker les bannières sur un répertoire local accessible par PHP, choisissez
-	\'répertoire local\', et pour les stocker plutôt sur un serveur FTP externe, choisissez \'serveur
-	FTP externe\'. Sur certains serveurs vous pouvez préférer l\'utilisation de l\'option FTP, même si celui ci
-	est situé sur le serveur local.
+	Si vous souhaitez utiliser des banniï¿½res stockï¿½es sur un serveur Web, vous devez configurer
+	ce paramï¿½tre. Pour stocker les banniï¿½res sur un rï¿½pertoire local accessible par PHP, choisissez
+	\'rï¿½pertoire local\', et pour les stocker plutï¿½t sur un serveur FTP externe, choisissez \'serveur
+	FTP externe\'. Sur certains serveurs vous pouvez prï¿½fï¿½rer l\'utilisation de l\'option FTP, mï¿½me si celui ci
+	est situï¿½ sur le serveur local.
 ';
 
 $GLOBALS['phpAds_hlp_type_web_dir'] = '
-	Spécifiez le répertoire où '.$phpAds_productname.' a besoin de copier les bannières uploadées.
-	Ce répertoire DOIT être inscriptible par PHP, cela peut signifier que vous soyez obligé
-	de changer les permissions UNIX de ce répertoire (chmod). Le répertoire que vous spécifiez ici DOIT
-	être situé sous la racine du serveur Web, ce qui veut dire qu le serveur Web doit servir les fichiers
-	de ce répertoire librement. N\'ajoutez pas un slash (/) final au chemin du répertoire.
-	Vous n\'avez besoin de configurer cette option que si vous avez activé le stockage en mode local.
+	Spï¿½cifiez le rï¿½pertoire oï¿½ '.$phpAds_productname.' a besoin de copier les banniï¿½res uploadï¿½es.
+	Ce rï¿½pertoire DOIT ï¿½tre inscriptible par PHP, cela peut signifier que vous soyez obligï¿½
+	de changer les permissions UNIX de ce rï¿½pertoire (chmod). Le rï¿½pertoire que vous spï¿½cifiez ici DOIT
+	ï¿½tre situï¿½ sous la racine du serveur Web, ce qui veut dire qu le serveur Web doit servir les fichiers
+	de ce rï¿½pertoire librement. N\'ajoutez pas un slash (/) final au chemin du rï¿½pertoire.
+	Vous n\'avez besoin de configurer cette option que si vous avez activï¿½ le stockage en mode local.
 ';
 
 $GLOBALS['phpAds_hlp_type_web_ftp_host'] = '
-	Si vous avez choisi comme méthode de stockage <i>Serveur FTP externe</i>, vous devez spécifier ici
-	l\'adresse IP ou le nom d\'hôte du serveur sur lequel '.$phpAds_productname.' copiera les bannières.
+	Si vous avez choisi comme mï¿½thode de stockage <i>Serveur FTP externe</i>, vous devez spï¿½cifier ici
+	l\'adresse IP ou le nom d\'hï¿½te du serveur sur lequel '.$phpAds_productname.' copiera les banniï¿½res.
 ';
       
 $GLOBALS['phpAds_hlp_type_web_ftp_path'] = '
-	Si vous avez choisi comme méthode de stockage <i>Serveur FTP externe</i>, vous devez spécifier ici
-	le chemin, sur le serveur FTP externe, du répertoire dans lequel '.$phpAds_productname.' copiera les bannières.
+	Si vous avez choisi comme mï¿½thode de stockage <i>Serveur FTP externe</i>, vous devez spï¿½cifier ici
+	le chemin, sur le serveur FTP externe, du rï¿½pertoire dans lequel '.$phpAds_productname.' copiera les banniï¿½res.
 ';
       
 $GLOBALS['phpAds_hlp_type_web_ftp_user'] = '
-	Si vous avez choisi comme méthode de stockage <i>Serveur FTP externe</i>, vous devez spécifier ici
+	Si vous avez choisi comme mï¿½thode de stockage <i>Serveur FTP externe</i>, vous devez spï¿½cifier ici
 	le nom d\'utilisateur avec lequel '.$phpAds_productname.' se connectera au serveur FTP externe sur lequel '.$phpAds_productname.'
-	copiera les bannières.
+	copiera les banniï¿½res.
 ';
       
 $GLOBALS['phpAds_hlp_type_web_ftp_password'] = '
-	Si vous avez choisi comme méthode de stockage <i>Serveur FTP externe</i>, vous devez spécifier ici
+	Si vous avez choisi comme mï¿½thode de stockage <i>Serveur FTP externe</i>, vous devez spï¿½cifier ici
 	le mot de passe avec lequel '.$phpAds_productname.' se connectera au serveur FTP externe sur lequel '.$phpAds_productname.'
-	copiera les bannières.
+	copiera les banniï¿½res.
 ';
       
 $GLOBALS['phpAds_hlp_type_web_url'] = '
-	Si vous stockez les bannière sur un serveur Web (local ou FTP), '.$phpAds_productname.' doit connaitre
-	l\'Url publique associée avec le répertoire que vous avez spécifié précédemment.
-	N\'ajoutez pas un slash (/) final au chemin du répertoire.
+	Si vous stockez les banniï¿½re sur un serveur Web (local ou FTP), '.$phpAds_productname.' doit connaitre
+	l\'Url publique associï¿½e avec le rï¿½pertoire que vous avez spï¿½cifiï¿½ prï¿½cï¿½demment.
+	N\'ajoutez pas un slash (/) final au chemin du rï¿½pertoire.
 ';
 
 $GLOBALS['phpAds_hlp_type_html_auto'] = '
-	Si cette option est activée, '.$phpAds_productname.' modifiera automatiquement les bannières HTML, afin
-	de permettre le comptage des clics. Néanmoins, même si cette option est activée, il sera possible
-	de la désactiver pour certaines bannières.
+	Si cette option est activï¿½e, '.$phpAds_productname.' modifiera automatiquement les banniï¿½res HTML, afin
+	de permettre le comptage des clics. Nï¿½anmoins, mï¿½me si cette option est activï¿½e, il sera possible
+	de la dï¿½sactiver pour certaines banniï¿½res.
 ';
 
 $GLOBALS['phpAds_hlp_type_html_php'] = '
-	Il est possible de laisser '.$phpAds_productname.' exécuter du code PHP inclus dans des bannières HTML.
-	Cette option est désactivée par défaut.
+	Il est possible de laisser '.$phpAds_productname.' exï¿½cuter du code PHP inclus dans des banniï¿½res HTML.
+	Cette option est dï¿½sactivï¿½e par dï¿½faut.
 ';
 
 $GLOBALS['phpAds_hlp_admin'] = '
-	Le nom d\'utilisateur de l\'administrateur: vous pouvez spécifier ici le nom d\'utilisateur que
+	Le nom d\'utilisateur de l\'administrateur: vous pouvez spï¿½cifier ici le nom d\'utilisateur que
 	vous devez utiliser pour entrer dans l\'interface d\'administration.';
 
 $GLOBALS['phpAds_hlp_admin_pw'] =
 $GLOBALS['phpAds_hlp_admin_pw2'] = '
-	Veuillez entrer le mot de passe que vous souhaitez utiliser pour vous connecter à l\'interfaçe d\'administration.
-	Vous devez le taper deux fois afin d\'éviter les fautes de frappe.
+	Veuillez entrer le mot de passe que vous souhaitez utiliser pour vous connecter ï¿½ l\'interfaï¿½e d\'administration.
+	Vous devez le taper deux fois afin d\'ï¿½viter les fautes de frappe.
 ';
 		
 $GLOBALS['phpAds_hlp_pwold'] = 
 $GLOBALS['phpAds_hlp_pw'] = 
 $GLOBALS['phpAds_hlp_pw2'] = '
-	Pour changer le mot de passe de l\'administrateur, vous devez spécifier l\'ancient mot de passe ci-dessus.
-	Vous devez aussi taper le nouveau mot de passe deux fois, afin de prévenir à tout risque d\'erreur.
+	Pour changer le mot de passe de l\'administrateur, vous devez spï¿½cifier l\'ancient mot de passe ci-dessus.
+	Vous devez aussi taper le nouveau mot de passe deux fois, afin de prï¿½venir ï¿½ tout risque d\'erreur.
 ';
 
 $GLOBALS['phpAds_hlp_admin_fullname'] = '
-	Spécifiez ici le nom complet de l\'administrateur. Ce paramètre est utilisé pour signer les
-	statistiques envoyées par email.
+	Spï¿½cifiez ici le nom complet de l\'administrateur. Ce paramï¿½tre est utilisï¿½ pour signer les
+	statistiques envoyï¿½es par email.
 ';
 
 $GLOBALS['phpAds_hlp_admin_email'] = '
-	L\'adresse email de l\'administrateur. Ce paramètre est utilisé comme \'from-address\'
+	L\'adresse email de l\'administrateur. Ce paramï¿½tre est utilisï¿½ comme \'from-address\'
 	dans les emails de statistiques.
 ';
 
 $GLOBALS['phpAds_hlp_admin_email_headers'] = '
-	Vous pouvez ajouter des en-têtes email que '.$phpAds_productname.' ajoutera à tout mail sortant.
+	Vous pouvez ajouter des en-tï¿½tes email que '.$phpAds_productname.' ajoutera ï¿½ tout mail sortant.
 ';
 
 $GLOBALS['phpAds_hlp_admin_novice'] = '
 	Si vous souhaitez recevoir un avertissement lors de l\'effacement d\'annonceurs, de campagnes, ou
-	de bannières. Il est très vivement conseillé de laisser cette option activée.
+	de banniï¿½res. Il est trï¿½s vivement conseillï¿½ de laisser cette option activï¿½e.
 ';
 
 $GLOBALS['phpAds_hlp_client_welcome'] = 
 $GLOBALS['phpAds_hlp_client_welcome_msg'] = '
-	Si vous activez cette option, un message de bienvenue sera affiché sur la première page qu\'un annonceur
-	voit après s\'être connecté. Vous pouvez le personnaliser, en éditant le fichier \'admin/templates/welcome.html\'.
-	Choses que vous pourriez vouloir écrire par exemple: le nom de votre entrepris, les informations concernant
-	les contacts, le logo de votre entreprise, un lien vers les tarifs des publicités, etc...
+	Si vous activez cette option, un message de bienvenue sera affichï¿½ sur la premiï¿½re page qu\'un annonceur
+	voit aprï¿½s s\'ï¿½tre connectï¿½. Vous pouvez le personnaliser, en ï¿½ditant le fichier \'admin/templates/welcome.html\'.
+	Choses que vous pourriez vouloir ï¿½crire par exemple: le nom de votre entrepris, les informations concernant
+	les contacts, le logo de votre entreprise, un lien vers les tarifs des publicitï¿½s, etc...
 ';
 
 $GLOBALS['phpAds_hlp_updates_frequency'] = '
-	Si vous souhaitez que '.$phpAds_productname.' vérifie si il existe des mises à jour, vous pouvez activer cette fonction.
-	Il est possible de spécifier l\'intervalle entre chaque vérification. Cette vérification s\'effectue par
-	une connexion au serveur de mise à jour. Si une nouvelle version est trouvée, une boite de dialogue
-	apparaîtra, avec d\'avantages d\'informations concernant la mise à jour.
+	Si vous souhaitez que '.$phpAds_productname.' vï¿½rifie si il existe des mises ï¿½ jour, vous pouvez activer cette fonction.
+	Il est possible de spï¿½cifier l\'intervalle entre chaque vï¿½rification. Cette vï¿½rification s\'effectue par
+	une connexion au serveur de mise ï¿½ jour. Si une nouvelle version est trouvï¿½e, une boite de dialogue
+	apparaï¿½tra, avec d\'avantages d\'informations concernant la mise ï¿½ jour.
 ';
 		
 $GLOBALS['phpAds_hlp_userlog_email'] = '
-	Si vous souhaitez garder une copie de tous les emails sortant envoyés par '.$phpAds_productname.', vous pouvez activer
-	cette fonctionnalité. Les emails sortants sont stockés dans le journal utilisateur.
+	Si vous souhaitez garder une copie de tous les emails sortant envoyï¿½s par '.$phpAds_productname.', vous pouvez activer
+	cette fonctionnalitï¿½. Les emails sortants sont stockï¿½s dans le journal utilisateur.
 ';
 		
 $GLOBALS['phpAds_hlp_userlog_priority'] = '
-	Pour s\'assurer que le calcul des priorités a été correctement effectué, vous pouvez activer l\'enregistrement
-	des rapports des calculs de priorités (chaque heure) dans le journal utilisateur. Ces rapports incluent
-	les prévisions, ainsi que la priorité assignée à chaque bannière. Ces informations peuvent être utiles si
-	vous souhaitez soumettre un rapport de bug à propos de ces calculs de priorité.
+	Pour s\'assurer que le calcul des prioritï¿½s a ï¿½tï¿½ correctement effectuï¿½, vous pouvez activer l\'enregistrement
+	des rapports des calculs de prioritï¿½s (chaque heure) dans le journal utilisateur. Ces rapports incluent
+	les prï¿½visions, ainsi que la prioritï¿½ assignï¿½e ï¿½ chaque banniï¿½re. Ces informations peuvent ï¿½tre utiles si
+	vous souhaitez soumettre un rapport de bug ï¿½ propos de ces calculs de prioritï¿½.
 ';
 		
 $GLOBALS['phpAds_hlp_default_banner_weight'] = '
-	Si vous souhaitez assigner un poids par défaut des bannières supérieur à 1 (valeur par défaut), vous pouvez
-	spécifier ici le poids désiré.
+	Si vous souhaitez assigner un poids par dï¿½faut des banniï¿½res supï¿½rieur ï¿½ 1 (valeur par dï¿½faut), vous pouvez
+	spï¿½cifier ici le poids dï¿½sirï¿½.
 ';
 		
 $GLOBALS['phpAds_hlp_default_campaign_weight'] = '
-	Si vous souhaitez assigner un poids par défaut des campagnes supérieur à 1 (valeur par défaut), vous pouvez
-	spécifier ici le poids désiré.
+	Si vous souhaitez assigner un poids par dï¿½faut des campagnes supï¿½rieur ï¿½ 1 (valeur par dï¿½faut), vous pouvez
+	spï¿½cifier ici le poids dï¿½sirï¿½.
 ';
 		
 $GLOBALS['phpAds_hlp_gui_show_campaign_info'] = '
-	Si cette option est activée, des informations supplémentaires à propos de chaque campagne seront
-	montrées sur la page <i>Aperçu de la campagne</i>. Les informations supplémentaires incluent le nombre
+	Si cette option est activï¿½e, des informations supplï¿½mentaires ï¿½ propos de chaque campagne seront
+	montrï¿½es sur la page <i>Aperï¿½u de la campagne</i>. Les informations supplï¿½mentaires incluent le nombre
 	d\'affichages restants, de nombre de clics restants, la date d\'activation, la date d\'expiration, et
-	les paramètres de priorité.
+	les paramï¿½tres de prioritï¿½.
 ';
 		
 $GLOBALS['phpAds_hlp_gui_show_banner_info'] = '
-	Si cette option est activée, des informations supplémentaires à propos de chaque bannière seront
-	montrées sur la page <i>Aperçu de la bannière</i>.Les informations supplémentaires incluent l\'Url
-	de destination, les mots clés, la taille, et le poids de la bannière.
+	Si cette option est activï¿½e, des informations supplï¿½mentaires ï¿½ propos de chaque banniï¿½re seront
+	montrï¿½es sur la page <i>Aperï¿½u de la banniï¿½re</i>.Les informations supplï¿½mentaires incluent l\'Url
+	de destination, les mots clï¿½s, la taille, et le poids de la banniï¿½re.
 ';
 		
 $GLOBALS['phpAds_hlp_gui_show_campaign_preview'] = '
-	Si cette option est activée, un aperçu de toutes les bannières sera montré sur la page <i>Aperçu des
-	bannières</i>. Si cette option est désactivée, il est toujours possible de voir un aperçu de chaque bannière
-	en cliquant sur le triangle proche de chaque bannière sur la page <i>Aperçu des bannières</i>.
+	Si cette option est activï¿½e, un aperï¿½u de toutes les banniï¿½res sera montrï¿½ sur la page <i>Aperï¿½u des
+	banniï¿½res</i>. Si cette option est dï¿½sactivï¿½e, il est toujours possible de voir un aperï¿½u de chaque banniï¿½re
+	en cliquant sur le triangle proche de chaque banniï¿½re sur la page <i>Aperï¿½u des banniï¿½res</i>.
 ';
 		
 $GLOBALS['phpAds_hlp_gui_show_banner_html'] = '
-	Si cette option est activée, la bannière HTML actuelle sera montrée, à la place du code HTML brut.
-	Cette option est désactivée par défaut, car les bannières HTML peuvent rentrer en conflit avec
-	l\'interface utilisateur. Si cette option est désactivée, il est toujours possible de voir la bannière
-	HTML actuelle, en cliquant sur <i>Montrer la bannière</i>, a coté du code HTML brut.
+	Si cette option est activï¿½e, la banniï¿½re HTML actuelle sera montrï¿½e, ï¿½ la place du code HTML brut.
+	Cette option est dï¿½sactivï¿½e par dï¿½faut, car les banniï¿½res HTML peuvent rentrer en conflit avec
+	l\'interface utilisateur. Si cette option est dï¿½sactivï¿½e, il est toujours possible de voir la banniï¿½re
+	HTML actuelle, en cliquant sur <i>Montrer la banniï¿½re</i>, a cotï¿½ du code HTML brut.
 ';
 		
 $GLOBALS['phpAds_hlp_gui_show_banner_preview'] = '
-	Si cette option est activée, un aperçu sera montré en haut des pages <i>Propriétés de la bannière</i>,
-	<i>Options de limitation</i>, et <i>Zones liées</i>. Si cette option est désactivée, il sera toujours
-	possible de voir la bannière, en cliquant sur le <i>Montrer la bannière</i>, en haut de ces pages.
+	Si cette option est activï¿½e, un aperï¿½u sera montrï¿½ en haut des pages <i>Propriï¿½tï¿½s de la banniï¿½re</i>,
+	<i>Options de limitation</i>, et <i>Zones liï¿½es</i>. Si cette option est dï¿½sactivï¿½e, il sera toujours
+	possible de voir la banniï¿½re, en cliquant sur le <i>Montrer la banniï¿½re</i>, en haut de ces pages.
 ';
 		
 $GLOBALS['phpAds_hlp_gui_hide_inactive'] = '
-	Si cette option est activée, tous les annonceurs, bannières, et campagnes inactifs seront cachés des pages
-	<i>Annonceurs et Campagnes</i>, et <i>Aperçu de la campagne</i>. Si cette option est activée, il est toujours
-	possible de voir les éléments cachés, en cliquant sur <i>Montrer tout</i> en bas de ces pages.
+	Si cette option est activï¿½e, tous les annonceurs, banniï¿½res, et campagnes inactifs seront cachï¿½s des pages
+	<i>Annonceurs et Campagnes</i>, et <i>Aperï¿½u de la campagne</i>. Si cette option est activï¿½e, il est toujours
+	possible de voir les ï¿½lï¿½ments cachï¿½s, en cliquant sur <i>Montrer tout</i> en bas de ces pages.
 ';
 
 ?>

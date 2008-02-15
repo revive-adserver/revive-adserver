@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -24,16 +24,6 @@
 +---------------------------------------------------------------------------+
 $Id$
 */
-
-
-
-
-
-
-
-
-
-
 
 $GLOBALS['strAdvertiserCampaignHistoryReport'] = 'Bericht &uuml;ber den Verlauf einer Kampagne';
 $GLOBALS['strAdvertiserCampaignHistoryDescription'] = 'Leistung einer ausgew&auml;hlten Kampagne aufgeschl&uuml;sselt nach Tagen.';
@@ -62,26 +52,26 @@ $GLOBALS['strAdvertiserConversionTrackingAnalysisDescription'] = 'Dieser Bereich
 
 $GLOBALS['strPublisherAdvertisingSummaryReport'] = '&Uuml;berblick Werbetr&uuml;ger';
 $GLOBALS['strPublisherAdvertisingSummaryDescription'] = 'Dieser Berich zeigt die Leistung aller Kampagnen, die auf einer ausgew&uuml;hlten Web-Site laufen.';
-$GLOBALS['strPublisherBannerTypeAnalysisReport'] = 'Bannergrössenanalyse';
-$GLOBALS['strPublisherBannerTypeAnalysisDescription'] = 'Dieser Report zeigt eine Zusammenfassung der Kampagnen nach Bannergrössen.';
+$GLOBALS['strPublisherBannerTypeAnalysisReport'] = 'Bannergrï¿½ssenanalyse';
+$GLOBALS['strPublisherBannerTypeAnalysisDescription'] = 'Dieser Report zeigt eine Zusammenfassung der Kampagnen nach Bannergrï¿½ssen.';
 $GLOBALS['strPublisherBannerAnalysisReport'] = 'Banneranalyse';
 $GLOBALS['strPublisherBannerAnalysisDescription'] = 'Dieser Report zeigt eine Zusammenfassung der Kampagnen nach Bannern.';
 $GLOBALS['strPublisherCampaignAnalysisReport'] = 'Kampagnenanalyse';
 $GLOBALS['strPublisherCampaignAnalysisDescription'] = 'Diese Tabelle zeigt eine Zusammenfassung der Kampagnen einer Website.';
 $GLOBALS['strPublisherDayOfWeekAnalysisReport'] = 'Wochentag-Analyse';
-$GLOBALS['strPublisherDayOfWeekAnalysisDescription'] = 'Dieser Report zeigt die durchschnittliche Werbeaktivität heruntergebrochen auf den Wochentag.';
+$GLOBALS['strPublisherDayOfWeekAnalysisDescription'] = 'Dieser Report zeigt die durchschnittliche Werbeaktivitï¿½t heruntergebrochen auf den Wochentag.';
 $GLOBALS['strPublisherHourOfDayAnalysisReport'] = 'Analyse nach Stunde pro Tag';
-$GLOBALS['strPublisherHourOfDayAnalysisDescription'] = 'Dieser Report zeigt die durchschnittliche Werbeaktivität heruntergebrochen auf die Stunde pro Tag';
+$GLOBALS['strPublisherHourOfDayAnalysisDescription'] = 'Dieser Report zeigt die durchschnittliche Werbeaktivitï¿½t heruntergebrochen auf die Stunde pro Tag';
 $GLOBALS['strPublisherRequestViewsAnalysisReport'] = 'Zugriffe / Anzeigen Analyse';
-$GLOBALS['strPublisherRequestViewsAnalysisDescription'] = 'Diese Tabelle zeigt einen Vergleich zwischen allen Zugriffen im Vergleich zu den Banneranzeigen für ein Datum.';
+$GLOBALS['strPublisherRequestViewsAnalysisDescription'] = 'Diese Tabelle zeigt einen Vergleich zwischen allen Zugriffen im Vergleich zu den Banneranzeigen fï¿½r ein Datum.';
 $GLOBALS['strPublisherZoneAnalysisReport'] = 'Zonen-Bericht';
-$GLOBALS['strPublisherZoneAnalysisDescription'] = 'Dieser Report zeigt die gesamte Werbeaktivität heruntergebrochen auf die einzelne Zone.';
+$GLOBALS['strPublisherZoneAnalysisDescription'] = 'Dieser Report zeigt die gesamte Werbeaktivitï¿½t heruntergebrochen auf die einzelne Zone.';
 $GLOBALS['strPublisherHistoryReport'] = 'Verlauf-Bericht';
-$GLOBALS['strPublisherHistoryDescription'] = 'Bericht über die Werbetr&auml;ger Verteilung eines Werbetreibenden.';
+$GLOBALS['strPublisherHistoryDescription'] = 'Bericht ï¿½ber die Werbetr&auml;ger Verteilung eines Werbetreibenden.';
 $GLOBALS['strPublisherZoneHistoryReport'] = 'Verlaufsbericht einer Zone';
-$GLOBALS['strPublisherZoneHistoryDescription'] = 'Bericht über die Werbetr&auml;ger und Zonen Verteilung eines Werbetreibenden.';
+$GLOBALS['strPublisherZoneHistoryDescription'] = 'Bericht ï¿½ber die Werbetr&auml;ger und Zonen Verteilung eines Werbetreibenden.';
 $GLOBALS['strPublisherConversionTrackingAnalysisReport'] = 'Konversionen Tracking Analyse';
-$GLOBALS['strPublisherConversionTrackingAnalysisDescription'] = 'Dieser Report zeigt die Konversionen Aktivität eines bestimmten Werbetreibenden';
+$GLOBALS['strPublisherConversionTrackingAnalysisDescription'] = 'Dieser Report zeigt die Konversionen Aktivitï¿½t eines bestimmten Werbetreibenden';
 
 $GLOBALS['strAgencyCampaignDeliveryReport'] = 'Kampagnen Auslieferungsbericht';
 $GLOBALS['strAgencyCampaignDeliveryDescription'] = 'Der Bericht zeigt die gesamte Kampagnenleistung eines bestimmten Tages mit der Angabe wie gut die Ziele erreicht wurden';

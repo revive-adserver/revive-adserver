@@ -2,14 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v2.5                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -45,11 +42,11 @@ require_once('ZoneInfo.php');
 
 /**
  * A library class to provide XML-RPC routines on
- * a web server to enable it to manipulate objects in Openads using the web services API.
+ * a web server to enable it to manipulate objects in OpenX using the web services API.
  *
- * @package    Openads
+ * @package    OpenX
  * @subpackage ExternalLibrary
- * @author     Chris Nutting <Chris.Nutting@openads.org>
+ * @author     Chris Nutting <Chris.Nutting@openx.org>
  */
 
 class OA_Api_Xmlrpc

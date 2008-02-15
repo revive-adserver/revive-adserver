@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -52,7 +52,7 @@ $GLOBALS['_MAX']['TEST']['directories'] =
     );
 
 // Project path - helpful for testing external projects
-// which integrate with Openads code
+// which integrate with OpenX code
 define('MAX_PROJECT_PATH', MAX_PATH);
 
 // Define the available root-level test groups
@@ -96,11 +96,11 @@ $GLOBALS['_MAX']['TEST'][$type . '_layers'] =
         'plg'   => array('Plugins',                             DB_WITH_TABLES),
         'admin' => array('Administrative Interface',            NO_DB),
         //'dev'   => array('Developer Tools',                     DB_WITH_TABLES),
-        'mol'   => array('Openads Other Libraries',             DB_WITH_TABLES),
+        'mol'   => array('OpenX Other Libraries',             DB_WITH_TABLES),
         'up'    => array('Upgrade Classes',                     DB_WITH_TABLES),
         'mig'   => array('Upgrade Migration Classes',           DB_NO_TABLES),
-        //'oac'   => array('Openads Central',                     DB_NO_TABLES),
-        'oacdb' => array('Openads Central (DB)',                DB_WITH_TABLES),
+        //'oac'   => array('OpenX Central',                     DB_NO_TABLES),
+        'oacdb' => array('OpenX Central (DB)',                DB_WITH_TABLES),
         'util'  => array('Commonly used utilities',             NO_DB)
     );
 

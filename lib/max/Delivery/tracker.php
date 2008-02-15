@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -26,7 +26,7 @@ $Id$
 */
 
 /**
- * @package OpenadsDelivery
+ * @package OpenXDelivery
  * @subpackage Trackers
  * @author chris@m3.net
  *
@@ -131,7 +131,7 @@ function MAX_trackerbuildJSVariablesScript($trackerid, $conversionInfo, $tracker
         }
     }
     if(!empty($tracker['appendcode'])) {
-        // Add the correct "inherit" parameter if a Openads trackercode was found
+        // Add the correct "inherit" parameter if a OpenX trackercode was found
         $tracker['appendcode'] = preg_replace('/("\?trackerid=\d+&amp;inherit)=1/', '$1='.$trackerJsCode, $tracker['appendcode']);
 
         $jscode = MAX_javascriptToHTML($tracker['appendcode'], "MAX_{$trackerid}_appendcode");

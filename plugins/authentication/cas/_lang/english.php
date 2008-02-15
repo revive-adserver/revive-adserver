@@ -47,10 +47,10 @@ You have been given access to an ".$name." account by {superUserName}, to confir
 Please contact us at info@openx.org if you have any questions
 
 Thanks
-The Openads Team",
+The OpenX Team",
     'strRegistrationRequiredInfo' => "<br><br>Welcome <b>{userName}</b><br/><hr />" .
-        "<br /><br />You do not currently have an account on the hosted version of Openads.<br /> " .
-        "If you want to create one please sign up <a href='http://www.openads.org/hosted'>here</a>.<br /><br />" .
+        "<br /><br />You do not currently have an account on the hosted version of OpenX.<br /> " .
+        "If you want to create one please sign up <a href='http://www.openx.org/hosted'>here</a>.<br /><br />" .
         "To login as a different user click <a href='logout.php'>here</a>.<br />"
 );
 

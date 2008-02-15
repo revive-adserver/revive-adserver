@@ -1,8 +1,8 @@
 <?php
 
-// --- Openads modification ---
+// --- OpenX modification ---
 // Few methods are used as a static methdos and because of this it wasn't possible
-// to overload them in any way. Because of that some Openads related changes were made
+// to overload them in any way. Because of that some OpenX related changes were made
 // to this class. These changes are marked with string OA_MODIFICATION
 
 // commented in 0.4.22-RC2 for Sylvain Derosiaux

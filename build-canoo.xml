@@ -3,7 +3,7 @@
   on the EC2 machine.
 
   Dependencies:
-    * The directory '/var/www/html/openads' on the remote EC2 machine.
+    * The directory '/var/www/html/openx' on the remote EC2 machine.
       Moreover, it is owned and writable by the 'admin' user.
     * The '/tests/canoo/properties/user.properties' file contains a proper
       EC2 configuration for canoo testing.
@@ -27,8 +27,8 @@
 
   <property file="${basedir}/tests/canoo/properties/${property_file}" prefix="canoo"/>
   <property file="${basedir}/ec2.properties"/>
-  <property name="ec2.openads.config" value="${canoo.host}.conf.php"/>
-  <property name="ec2.openads.database" value="openads"/>
+  <property name="ec2.openx.config" value="${canoo.host}.conf.php"/>
+  <property name="ec2.openx.database" value="openx"/>
 
   <macrodef name="canoo-ssh" description="Executes ssh command on the currently configured ec2 machine.">
     <attribute name="command" description="Command to be executed."/>
@@ -48,7 +48,7 @@
 
   <macrodef name="clean-delivery-cache-remote">
     <sequential>
-      <canoo-ssh-root command="rm -f ${ec2.openads.dir}/var/cache/deliverycache_* ${ec2.openads.dir}/var/cache/cache_*"/>
+      <canoo-ssh-root command="rm -f ${ec2.openx.dir}/var/cache/deliverycache_* ${ec2.openx.dir}/var/cache/cache_*"/>
     </sequential>
   </macrodef>
 
@@ -62,11 +62,11 @@
     </sequential>
   </macrodef>
 
-  <!-- Cleans up the old Openads directory. -->
+  <!-- Cleans up the old OpenX directory. -->
   <target name="canoo-prepare-dir">
-    <property name="ec2.openads.dir" value="/var/www/html/${release}"/>
-    <echo message="Preparing directory: ${ec2.openads.dir}"/>
-    <canoo-ssh command="mkdir ${ec2.openads.dir}"/>
+    <property name="ec2.openx.dir" value="/var/www/html/${release}"/>
+    <echo message="Preparing directory: ${ec2.openx.dir}"/>
+    <canoo-ssh command="mkdir ${ec2.openx.dir}"/>
   </target>
 
   <target name="canoo-copy-package">
@@ -78,11 +78,11 @@
   </target>
 
   <target name="canoo-unpack-package">
-    <canoo-ssh command="tar xzf ${canoo.package} -C ${ec2.openads.dir}"/>
-    <canoo-ssh command="touch ${ec2.openads.dir}/var/INSTALLED"/>
-    <canoo-ssh command="chmod -R a+w ${ec2.openads.dir}/var"/>
-    <canoo-ssh command="chmod -R a+w ${ec2.openads.dir}/www/images"/>
-    <canoo-scp dir="${ec2.openads.dir}/www">
+    <canoo-ssh command="tar xzf ${canoo.package} -C ${ec2.openx.dir}"/>
+    <canoo-ssh command="touch ${ec2.openx.dir}/var/INSTALLED"/>
+    <canoo-ssh command="chmod -R a+w ${ec2.openx.dir}/var"/>
+    <canoo-ssh command="chmod -R a+w ${ec2.openx.dir}/www/images"/>
+    <canoo-scp dir="${ec2.openx.dir}/www">
       <files>
         <fileset dir="${basedir}/tests/canoo/php/" includes="*"/>
       </files>
@@ -90,36 +90,36 @@
   </target>
 
 	<!-- should be less EC2 dependant -->
-  <target name="canoo-create-openads-configuration-remote">
-    <property name="openads.url" value="${canoo.host}/${release}/www"/>
+  <target name="canoo-create-openx-configuration-remote">
+    <property name="openx.url" value="${canoo.host}/${release}/www"/>
     <exec dir="${basedir}/tests" executable="php" failonerror="true">
       <arg value="create-config-file.php" />
-      <arg value="${ec2.openads.config}" />
+      <arg value="${ec2.openx.config}" />
       <arg value="database.host=${canoo.host}"/>
       <arg value="database.username=${canoo.sql.user}"/>
       <arg value="database.password=${canoo.sql.password}"/>
-      <arg value="database.name=${ec2.openads.database}"/>
+      <arg value="database.name=${ec2.openx.database}"/>
       <arg value="debug.production=0"/>
-      <arg value="webpath.admin=${openads.url}/admin"/>
-      <arg value="webpath.delivery=${openads.url}/delivery"/>
-      <arg value="webpath.deliverySSL=${openads.url}/delivery"/>
-      <arg value="webpath.images=${openads.url}/images"/>
-      <arg value="webpath.imagesSSL=${openads.url}/images"/>
-      <arg value="openads.installed=1"/>
+      <arg value="webpath.admin=${openx.url}/admin"/>
+      <arg value="webpath.delivery=${openx.url}/delivery"/>
+      <arg value="webpath.deliverySSL=${openx.url}/delivery"/>
+      <arg value="webpath.images=${openx.url}/images"/>
+      <arg value="webpath.imagesSSL=${openx.url}/images"/>
+      <arg value="openx.installed=1"/>
       <arg value="table.prefix=oa_"/>
       <arg value="maintenance.autoMaintenance=0"/>
     </exec>
-    <canoo-scp dir="${ec2.openads.dir}/var">
+    <canoo-scp dir="${ec2.openx.dir}/var">
       <files>
-        <fileset dir="tests" includes="${ec2.openads.config}"/>
+        <fileset dir="tests" includes="${ec2.openx.config}"/>
       </files>
     </canoo-scp>
-    <canoo-ssh command="rm -f ${ec2.openads.dir}/var/UPGRADE"/>
+    <canoo-ssh command="rm -f ${ec2.openx.dir}/var/UPGRADE"/>
   </target>
 
-  <target name="canoo-create-openads-configuration-local">
+  <target name="canoo-create-openx-configuration-local">
   	<echo message="Creating local configuration"/>
-    <property name="openads.url" value="${canoo.host}/${canoo.basepath}"/>
+    <property name="openx.url" value="${canoo.host}/${canoo.basepath}"/>
     <exec dir="${basedir}/tests" executable="php" failonerror="true">
       <arg value="create-config-file.php" />
       <arg value="${canoo.host}.conf.php" />
@@ -128,12 +128,12 @@
       <arg value="database.password=${canoo.sql.password}"/>
       <arg value="database.name=${canoo.sql.database}"/>
       <arg value="debug.production=0"/>
-      <arg value="webpath.admin=${openads.url}/admin"/>
-      <arg value="webpath.delivery=${openads.url}/delivery"/>
-      <arg value="webpath.deliverySSL=${openads.url}/delivery"/>
-      <arg value="webpath.images=${openads.url}/images"/>
-      <arg value="webpath.imagesSSL=${openads.url}/images"/>
-      <arg value="openads.installed=1"/>
+      <arg value="webpath.admin=${openx.url}/admin"/>
+      <arg value="webpath.delivery=${openx.url}/delivery"/>
+      <arg value="webpath.deliverySSL=${openx.url}/delivery"/>
+      <arg value="webpath.images=${openx.url}/images"/>
+      <arg value="webpath.imagesSSL=${openx.url}/images"/>
+      <arg value="openx.installed=1"/>
       <arg value="table.prefix=oa_"/>
       <arg value="maintenance.autoMaintenance=0"/>
     </exec>
@@ -145,17 +145,17 @@
   	<chmod dir="${basedir}/www" perm="a+rwx" type="dir"/>
   	<chmod dir="${basedir}/www" perm="a+rw" type="both" includes="**/*"/>
   </target>
-	
+
   <target name="setup-delivery-files">
   	<copy todir="${delivery_test}">
   	  <fileset dir="${basedir}/tests/canoo/php"/>
   	</copy>
   </target>
-		
+
   <target name="clean-delivery">
   	<delete dir="${delivery_test}" />
   </target>
-		
+
   <macrodef name="execute-webtest" description="Executes webtest with provided target and additional properties.">
     <attribute name="target" description="Target to execute."/>
     <attribute name="properties" default="" description="Additional properties."/>
@@ -181,16 +181,16 @@
   <target name="run-test-canoo">
   	<echo message="Running ${canoo.webtest.exec} defined in config ${property_file}"/>
     <execute-webtest target="init-delivery-db" />
-    <execute-webtest target="delivery" properties="-Dcanoo.host=${canoo.host} -Dec2.admin.password=${ec2.admin.password} -Dec2.openads.dir=${ec2.openads.dir}" />
+    <execute-webtest target="delivery" properties="-Dcanoo.host=${canoo.host} -Dec2.admin.password=${ec2.admin.password} -Dec2.openx.dir=${ec2.openx.dir}" />
   </target>
 
   <target name="test-canoo-one">
-    <execute-webtest target="test-one" properties="-Dcanoo.host=${canoo.host} -Dec2.admin.password=${ec2.admin.password} -Dec2.openads.dir=${ec2.openads.dir} -Duc=${uc}" />
+    <execute-webtest target="test-one" properties="-Dcanoo.host=${canoo.host} -Dec2.admin.password=${ec2.admin.password} -Dec2.openx.dir=${ec2.openx.dir} -Duc=${uc}" />
   </target>
 
   <target name="clean-ec2" description="Cleans the ec2 from all the files left.">
     <canoo-ssh command="rm ${canoo.package}"/>
-    <canoo-ssh-root command="rm -rf ${ec2.openads.dir}"/>
+    <canoo-ssh-root command="rm -rf ${ec2.openx.dir}"/>
   </target>
 </project>
 

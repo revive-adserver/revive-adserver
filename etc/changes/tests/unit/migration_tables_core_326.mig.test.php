@@ -1,11 +1,11 @@
 <?php
 /*
 +---------------------------------------------------------------------------+
-| Openads v2.3                                                              |
-| ============                                                              |
+| OpenX v2.3                                                              |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -34,8 +34,8 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  *
  * @package    changes
  * @subpackage TestSuite
- * @author     Chris Nutting <chris.nutting@openads.org>
- * @author     Monique Szpak <monique.szpak@openads.org>
+ * @author     Chris Nutting <chris.nutting@openx.org>
+ * @author     Monique Szpak <monique.szpak@openx.org>
  */
 class Migration_tables_core_326Test extends MigrationTest
 {

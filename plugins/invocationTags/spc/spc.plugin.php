@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -174,7 +174,7 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
 
 	<body class='invocationCodes'>
     	<div class='header'>
-        	<h1>Openads</h1>
+        	<h1>OpenX</h1>
         </div>
 		";
 
@@ -286,8 +286,8 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
 			}
 
 			// Labels are roughly 80 x 30 pixels...
-			// width < 80 || height < 30 =>	No room for even a single label, drop the openads logo and show the size outside
-			// width < 160 && height < 60	=> No room for both labels... drop the openads logo
+			// width < 80 || height < 30 =>	No room for even a single label, drop the OpenX logo and show the size outside
+			// width < 160 && height < 60	=> No room for both labels... drop the OpenX logo
 			if (($zone['width'] > -1 && $zone['width'] < 80) || ($zone['height'] > -1 && $zone['height'] < 30)) {
 				$customClass[] = 'labelsMicro';
 			} elseif ($zone['width'] > -1 && $zone['width'] < 160 && $zone['height'] > -1 && $zone['height'] < 60) {

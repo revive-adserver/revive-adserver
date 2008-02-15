@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                           |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -26,7 +26,7 @@ $Id$
 */
 
 /**
- * @package    OpenadsDll
+ * @package    OpenXDll
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
  */
@@ -225,7 +225,7 @@ class OA_Dll_Publisher extends OA_Dll
                 $doPublisher->update();
             }
             $oAdNetworks = new OA_Central_AdNetworks();
-            // Initiate a call to Openads Central if adnetworks are enabled or if OAC values are changed.
+            // Initiate a call to OpenX Central if adnetworks are enabled or if OAC values are changed.
             if ($oPublisher->advSignup) {
                 // If adNetworks was not previously selected...
                 if (empty($publisherPrevData['as_website_id'])) {

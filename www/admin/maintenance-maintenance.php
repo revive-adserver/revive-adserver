@@ -2,14 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX  v${RELEASE_MAJOR_MINOR}                                                              |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -80,20 +77,20 @@ if (time() >= $iLastCronRun + 3600) {
         // Automatic maintenance wasn't run in the last hour
 
         if (!empty($conf['maintenance']['autoMaintenance'])) {
-            echo "Automatic maintenance is enabled, but it has not been triggered. Note that automatic maintenance is triggered only when Openads delivers banners.
-                  For best performance it is advised to set up <a href='http://docs.openads.org/openads-2.4-guide/maintenance.html' target='_blank'>scheduled maintenance</a>.";
+            echo "Automatic maintenance is enabled, but it has not been triggered. Note that automatic maintenance is triggered only when OpenX delivers banners.
+                  For best performance it is advised to set up <a href='http://" . OX_PRODUCT_DOCSURL . "/maintenance' target='_blank'>scheduled maintenance</a>.";
         } else {
             echo "Also, automatic maintenance is disabled, so when ".MAX_PRODUCT_NAME." delivers banners, maintenance is not triggered.
-                  If you do not plan to run <a href='http://docs.openads.org/openads-2.4-guide/maintenance.html' target='_blank'>scheduled maintenance</a>,
+                  If you do not plan to run <a href='http://" . OX_PRODUCT_DOCSURL . "/maintenance' target='_blank'>scheduled maintenance</a>,
                   you must <a href='settings-admin.php'>enable auto maintenance</a> to ensure that ".MAX_PRODUCT_NAME." works correctly.";
         }
     } else {
         if (!empty($conf['maintenance']['autoMaintenance']))
             echo "Automatic maintenance is enabled and will trigger maintenance every hour.
-                  For best performance it is advised to set up <a href='http://docs.openads.org/openads-2.4-guide/maintenance.html' target='_blank'>scheduled maintenance</a>.";
+                  For best performance it is advised to set up <a href='http://" . OX_PRODUCT_DOCSURL . "/maintenance' target='_blank'>scheduled maintenance</a>.";
         else
             echo "Automatic maintenance is disabled too but a maintenance task has recently run. To make sure that ".MAX_PRODUCT_NAME." works correctly you should either
-                  set up <a href='http://docs.openads.org/openads-2.4-guide/maintenance.html' target='_blank'>scheduled maintenance</a> or <a href='settings-admin.php'>enable auto maintenance</a>. ";
+                  set up <a href='http://" . OX_PRODUCT_DOCSURL . "/maintenance' target='_blank'>scheduled maintenance</a> or <a href='settings-admin.php'>enable auto maintenance</a>. ";
     }
 } else {
     echo "<b>Scheduled maintenance seems to be correctly running.</b>"."<br><br>";

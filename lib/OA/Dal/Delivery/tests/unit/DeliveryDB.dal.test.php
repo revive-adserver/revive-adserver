@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -36,7 +36,7 @@ require_once 'Log.php';
 /**
  * A class for testing the Delivery Engine DAL class.
  *
- * @package    OpenadsDal
+ * @package    OpenXDal
  * @subpackage TestSuite
  * @author     Unknown!
  *
@@ -146,8 +146,8 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
 
         $this->assertIsA($aReturn, 'array');
         $this->assertEqual($zoneid, $aReturn['zone_id']);
-        $this->assertEqual($aReturn['default_banner_image_url'], "http://www.openads.org/themes/openads/images/header_logo.png");
-        $this->assertEqual($aReturn['default_banner_destination_url'], "http://www.openads.org/");
+        $this->assertEqual($aReturn['default_banner_image_url'], "http://www.openx.org/themes/openads/images/header_logo.png");
+        $this->assertEqual($aReturn['default_banner_destination_url'], "http://www.openx.org/");
         $this->assertIsA($aReturn['xAds'], 'array');
         $this->assertIsA($aReturn['cAds'], 'array');
         $this->assertIsA($aReturn['clAds'], 'array');

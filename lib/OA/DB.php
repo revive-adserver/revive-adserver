@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -34,8 +34,8 @@ define('OA_DB_MDB2_DEFAULT_OPTIONS', MDB2_PORTABILITY_ALL ^ MDB2_PORTABILITY_EMP
 /**
  * A class for creating database connections. Currently uses PEAR::MDB2.
  *
- * @package    OpenadsDB
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @package    OpenXDB
+ * @author     Andrew Hill <andrew.hill@openx.org>
  * @author     Demian Turner <demian@m3.net>
  */
 class OA_DB
@@ -269,7 +269,7 @@ class OA_DB
      * A method to use the existing default DSN information to connect
      * to the database server, but connect to a specified database name.
      *
-     * Useful for talking to different databases on the Openads database
+     * Useful for talking to different databases on the OpenXdatabase
      * server.
      *
      * @static

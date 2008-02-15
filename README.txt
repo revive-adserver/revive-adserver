@@ -1,36 +1,28 @@
 
-    Openads - Open Source Adserver
+    OpenX - The ad server for publishers who are serious about making money
     ------------------------------------------------------------------------
-    Openads is a set of tools which enable online marketing campaigns.
-    Primarily, Openads is written in PHP, and is loosely based on phpAdsNew.
-    The core modules of Openads include:
-    . Adserver
-    . Conversion Tracking Tools
+
+    OpenX is an open source ad serving tool that enables publishers to:
+
+      * Serve ads on their websites;
+
+      * Manage their campaigns from different advertisers and/or ad networks
+          using the simple, easy-to-use interface;
+
+      * Track and report on campaign success, including click-through
+          rates;
+
+      * Set rules to target the delivery of campaigns, or even ads, to
+          specific users, to help maximise the effectiveness of campaigns.
+
+    OpenX was formerly known as Openads and phpAdsNew.
+
 
 
     Version ${RELEASE_VERSION}
+    Copyright (c) 2003-2008 OpenX Limited
     ------------------------------------------------------------------------
-    THIS IS BETA SOFTWARE AND MAY NOT BE STABLE ENOUGH FOR USE
-    IN A PRODUCTION ENVIRONMENT. THE USE OF THIS SOFTWARE IS
-    COMPLETELY AT YOUR OWN RISK!
 
-    Copyright (c) 2003-2007 Openads Limited
-
-	Based on phpAdsNew Copyright (c) 2000-2003 phpAdsNew developers:
-    	Niels Leenheer <niels@creatype.nl>
-    	Matteo Beccati <matteo@beccati.com>
-    	Scott Switzer <scott@switzer.org>
-			Wim Godden <wim@godden.net>
-			Phil Hord <phil@phord.com>
-			Noor Dawod <noor@COMRAX.COM>
-			Cedric Fontaine <cfontaine@spidmail.net>
-			Michael Harvey <mike@ve-studio.com>
-			Stefan Morgenroth <dandra@users.sourceforge.net>
-
-    Based on phpAds Copyright (c) 1999-2000
-    	Tobias Ratschiller <tobias@dnet.it>
-
-    ------------------------------------------------------------------------
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
@@ -57,28 +49,32 @@
     you do not wish to do so, delete this exception statement from your version.
 
 
+
     Support:
     ------------------------------------------------------------------------
-    Questions about Openads should be directed to the forums.
+    Questions about OpenX should be asked on the forum at
+    http://forum.openx.org/.
 
-    More information about can be found on the Openads homepage at
-    http://www.openads.org/.
+    More information about can be found on the OpenX homepage at
+    http://www.openx.org/.
 
-    Bug reports and questions related to the development of Openads are
-    also welcome on the site.
+    Bug reports and questions related to the development of OpenX are
+    also welcome. Plese visit http://developer.openx.org.
+
 
 
     Download:
     ------------------------------------------------------------------------
-    You can get the latest version from http://www.openads.org/.
+    You can get the latest version from http://www.openx.org/.
+
 
 
     Credits:
     ------------------------------------------------------------------------
-    Thanks to Marcus Baker for allowing Openads Limited to distribute
-      Simple Test for PHP along with Openads. Simple Test is distributed
-      under the Open Group Test Suite License. Please see the Simple Test
-      LICENSE file in the lib/simpletest/ directory for details.
+    Thanks to Marcus Baker for allowing OpenX Limited to distribute Simple
+      Test for PHP along with OpenX. Simple Test is distributed under the
+      Open Group Test Suite License. Please see the Simple Test LICENSE file
+      in the lib/simpletest/ directory for details.
 
     This product includes the phpSniff library, which is distributed under
       the GNU Lesser General Public License. Please see the the phpSniff
@@ -87,19 +83,8 @@
     This product includes GeoIP data created by MaxMind, available from
       http://maxmind.com/.
 
-    Kyle Cordes <Kyle@kylecordes.com>, Weston Bustraan <weston@infinityteldata.net>,
-    Jörg Legarth, Brian <brian@cooltext.com>, Robert Allen <zircote@excite.com>,
-    Ben Schumacher <bs@cyalchemy.com>, Leonid Igolnik - LiM <lim@israel.net>,
-    Philip Gabbert <pgabbert@exactis.com>, Ralf Eggert <ralf@in-greece.de>,
-    Niels Schoot <nschoot@users.sourceforge.net>, Martin Braun <martin@braun.cc>,
-    Vivian Girel, Ren� Friedrich <rene.friedrich@web.de> and many more.
-
-    FTP library:
-    TOMO <groove@spencernetwork.org>
-
-    Occasional bugfixes and support:
-    Manuel Lemos, Boaz Yahav, Roy Nasser, Mark Maggalet, Ben Schumacher.
-    And all the rest who helped.
+    FTP library: TOMO <groove@spencernetwork.org>
 
 
-    http://www.openads.org/
+
+    http://www.openx.org/

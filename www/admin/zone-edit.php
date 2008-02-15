@@ -2,14 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -676,7 +673,7 @@ $unique_names = $doZones->getUniqueValuesFromColumn('zonename', $zoneName);
         var p2 = document.getElementById('cost_variable_id_mult');
         var cost_cpm_desc = document.getElementById('cost_cpm_description');
         var cost_cpm_desc2 = document.getElementById('technology_cost_cpm_description');
-        
+
         if ( o.options[o.selectedIndex].value == <?php echo MAX_FINANCE_ANYVAR; ?>) {
             p.style.display = '';
             p2.style.display = 'none';
@@ -687,7 +684,7 @@ $unique_names = $doZones->getUniqueValuesFromColumn('zonename', $zoneName);
             p.style.display = 'none';
             p2.style.display = 'none';
         }
-        
+
         if ( o.options[o.selectedIndex].value == <?php echo MAX_FINANCE_CPM; ?>) {
             cost_cpm_desc.style.display = 'block';
         } else {

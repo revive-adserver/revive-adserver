@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -38,8 +38,8 @@ $GLOBALS['strAdvancedSettings']		= "Erg&auml;nzende Einstellungen";
 $GLOBALS['strOtherSettings']			= "Andere Einstellungen";
 $GLOBALS['strSpecifySyncSettings']          = "Synchronizationseinstellungen";
 $GLOBALS['strLicenseInformation']           = "Lizenz Information";
-$GLOBALS['strOpenadsIdYour']                = "Ihre OpenAds ID";
-$GLOBALS['strOpenadsIdSettings']            = "Openads ID Einstellungen";
+$GLOBALS['strOpenadsIdYour']                = "Ihre OpenX ID";
+$GLOBALS['strOpenadsIdSettings']            = "OpenX ID Einstellungen";
 $GLOBALS['strWarning']				= "Warnung";
 $GLOBALS['strFatalError']			= "Ein schwerer Fehler ist aufgetreten";
 $GLOBALS['strUpdateError']			= "W&auml;hrend des Updates ist ein Fehler aufgetreten";
@@ -84,7 +84,7 @@ $GLOBALS['strInstallMessage']			= "Bevor ".MAX_PRODUCT_NAME." genutzt werden kan
 
 $GLOBALS['strInstallIntro']                 = "Willkommen zu <a href='http://".MAX_PRODUCT_URL."' target='_blank'><strong>".MAX_PRODUCT_NAME."</strong></a>! Bald sind Sie auch ein Teil der gr&ouml;&szlig;ten Adserver Community.
 <p>Wir werden unser bestes tun, um die Installation bzw. das Update so einfach wie m&ouml;glich zu halten. Bitte halten Sie sich an die Anweisungen auf dem Bildschirm, und sollten Sie weiterf&uuml;hrende Hilfe ben&ouml;tigen wenden Sie sich bitte an <a href='http://".OA_DOCUMENTATION_BASE_URL."' target='_blank'><strong>die Dokumentation</strong></a>.</p>
-<p>Sollten Sie auch nach Durchsicht der Dokumentation noch weitere Fragen haben, schauen Sie zum <a href='http://".MAX_PRODUCT_URL."/support/overview.html' target='_blank'><strong>Support</strong></a> Bereich unserer Website und dem OpenAds <a href='http://".MAX_PRODUCT_FORUMURL."' target='_blank'><strong>Community Forum</strong></a>.</p>
+<p>Sollten Sie auch nach Durchsicht der Dokumentation noch weitere Fragen haben, schauen Sie zum <a href='http://".MAX_PRODUCT_URL."/support/overview.html' target='_blank'><strong>Support</strong></a> Bereich unserer Website und dem " . MAX_PRODUCT_NAME . " <a href='http://".MAX_PRODUCT_FORUMURL."' target='_blank'><strong>Community Forum</strong></a>.</p>
 <p>Vielen Dank, dass Sie sich f&uuml;r OpenAds entschieden haben.</p>";
 $GLOBALS['strTermsTitle']               = "Lizenz Information";
 $GLOBALS['strTermsIntro']               = MAX_PRODUCT_NAME . " ist ein freier, open source Adserver, vertrieben unter der GPL Lizenz. Bitte lesen Sie diese und stimmen Sie dieser zu, um die Installation fort zu fahren.";
@@ -94,7 +94,7 @@ $GLOBALS['strDbSetupTitle']               = "Datenbank Setup";
 $GLOBALS['strDbSetupIntro']               = MAX_PRODUCT_NAME . " verwendet den MySQL oder PostgreSQL Datenbankserver, um Daten zu speichern. Bitte tragen Sie die Daten Ihres Datenbankservers nachfolgend ein.  Wenn Sie sich nicht sicher sind, welche Daten hier einzutragen sind, fragen Sie bitte Ihren Serveradministrator.";
 $GLOBALS['strDbUpgradeIntro']             = "Nachfolgend k&ouml;nnen Sie die Daten Ihres Datenbankservers einsehen und korrigieren, falls diese falsch sind. Wenn Sie jetzt auf Weiter klicken, wird " . MAX_PRODUCT_NAME . " mit der Installation bzw. dem Upgrade der Datenbankdaten fortfahren. Bitte vergewissern Sie sich, dass Sie ein aktuelles und g&uuml;ltiges Backup Ihrer Daten erstellt haben.";
 
-$GLOBALS['strOaUpToDate']               = "Ihre OpenAds Datenbank und Dateien verwenden bereits die neueste Version von ".MAX_PRODUCT_NAME." und muss daher zum jetztigen Zeitpunkt nicht aktualisiert werden. Bitte klicken Sie auf Weiter, um zur Administrationsoberfl&auml;che fortzufahren.";
+$GLOBALS['strOaUpToDate']               = "Ihre " . MAX_PRODUCT_NAME . " Datenbank und Dateien verwenden bereits die neueste Version von ".MAX_PRODUCT_NAME." und muss daher zum jetztigen Zeitpunkt nicht aktualisiert werden. Bitte klicken Sie auf Weiter, um zur Administrationsoberfl&auml;che fortzufahren.";
 $GLOBALS['strOaUpToDateCantRemove']     = "Warnung: Die Datei UPGRADE im var Unterverzeichnis ist weiterhin vorhanden. Leider war es uns aufgrund mangelnden Zugriffsrechten nicht m&ouml;glich die Datei zu l&ouml;schen. Bitte l&ouml;schen Sie diese Datei manuell.";
 $GLOBALS['strRemoveUpgradeFile']               = "Sie m&uuml;ssen die Datei UPGRADE im var Unterverzeichnis manuell l&ouml;schen.";
 
@@ -120,8 +120,8 @@ $GLOBALS['strInstallNotSuccessful']		= "<b>Die Installation von ".MAX_PRODUCT_NA
 Teile des Installationsprozesses wurden nicht beendet. Das Problem ist m&ouml;glicherweise nur tempor&auml;r. In diesem Fall dr&uuml;cken Sie <b> Weiter</b> und beginnen Sie den Installationsproze&szlig; von Neuem. N&auml;heres zu Fehlermeldungen und -behebung findet sich im Handbuch.";
 $GLOBALS['strSystemCheck']                  = "System �berpr�fung";
 $GLOBALS['strSystemCheckIntro']             = MAX_PRODUCT_NAME . " setzt einige Dinge voraus, welche nun gepr&uuml;ft werden. Sie erhalten eine Meldung, sollte etwas nicht stimmen.";
-$GLOBALS['strDbSuccessIntro']               = "Die " . MAX_PRODUCT_NAME . " Datenbank wurde erstellt. Bitte dr&uuml;cken Sie nun auf Weiter, um die Openads Administrations- und Auslieferungseinstellungen zu t&auml;tigen.";
-$GLOBALS['strDbSuccessIntroUpgrade']        = "Die " . MAX_PRODUCT_NAME . " Datenbank wurde aktualisiert. Bitte dr&uuml;cken Sie nun auf Weiter, um die Openads Administrations- und Auslieferungseinstellungen zu t&auml;tigen.";
+$GLOBALS['strDbSuccessIntro']               = "Die " . MAX_PRODUCT_NAME . " Datenbank wurde erstellt. Bitte dr&uuml;cken Sie nun auf Weiter, um die " . MAX_PRODUCT_NAME . " Administrations- und Auslieferungseinstellungen zu t&auml;tigen.";
+$GLOBALS['strDbSuccessIntroUpgrade']        = "Die " . MAX_PRODUCT_NAME . " Datenbank wurde aktualisiert. Bitte dr&uuml;cken Sie nun auf Weiter, um die " . MAX_PRODUCT_NAME . " Administrations- und Auslieferungseinstellungen zu t&auml;tigen.";
 $GLOBALS['strErrorOccured']			= "Der folgende Fehler ist aufgetreten:";
 $GLOBALS['strErrorInstallDatabase']		= "Die Datenbankstruktur konnte nicht angelegt werden.";
 $GLOBALS['strErrorInstallPrefs']            = "Die Benutzereinstellungen f&uuml;r den Administrator konnten nicht in die Datenbank geschrieben werden.";
@@ -202,7 +202,7 @@ $GLOBALS['strAdminSettingsIntro']                    = "Das Administator Konto w
 $GLOBALS['strConfigSettingsIntro']                    = "Bitte &uuml;berpr&uuml;fen Sie die nachfolgenden Konfigurationseinstellungen. Es ist sehr wichtig, dass Sie sehr sorgf&auml;ltig diese Einstellungen kontrollieren, da sich diese auf die Betrieb des " . MAX_PRODUCT_NAME ." Ad-Servers sehr start auswirken.";
 $GLOBALS['strEnableAutoMaintenance']	             = "Das Wartungsmodul wird automatisch w&auml;hrend der Bannerauslieferung gestartet, sofern das Wartungsmodul nicht &uuml;ber Cron (oder &auml;hnliches) eingebunden ist";
 
-// Openads ID Settings
+// OpenX ID Settings
 $GLOBALS['strOpenadsUsername']                       = MAX_PRODUCT_NAME . " Benutzername";
 $GLOBALS['strOpenadsPassword']                       = MAX_PRODUCT_NAME . " Passwort";
 $GLOBALS['strOpenadsEmail']                          = MAX_PRODUCT_NAME . " E-Mail";

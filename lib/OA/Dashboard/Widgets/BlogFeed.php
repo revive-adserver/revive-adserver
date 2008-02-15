@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -28,7 +28,7 @@ $Id$
 require_once MAX_PATH . '/lib/OA/Dashboard/Feed.php';
 
 /**
- * A dashboard widget to diplay an RSS feed of the Openads Blog
+ * A dashboard widget to diplay an RSS feed of the OpenX Blog
  *
  */
 class OA_Dashboard_Widget_BlogFeed extends OA_Dashboard_Widget_Feed
@@ -46,8 +46,8 @@ class OA_Dashboard_Widget_BlogFeed extends OA_Dashboard_Widget_Feed
             'Last 6 blog posts',
             'http://feeds.feedburner.com/OpenadsBlog?format=xml',
             6,
-            'Go to Openads news page',
-            'http://blog.openads.org'
+            'Go to OpenX news page',
+            'http://blog.openx.org'
         );
     }
 }

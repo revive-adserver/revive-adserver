@@ -1,7 +1,7 @@
 ;<?php exit; ?>
 ;*** DO NOT REMOVE THE LINE ABOVE ***
 ;------------------------------------------------------------------------------------------;
-; General Openads Installation Settings                                                    ;
+; General OpenX Installation Settings                                                      ;
 ;------------------------------------------------------------------------------------------;
 
 [openads]
@@ -275,7 +275,7 @@ lineNumbers         = false
 type                = file
 name                = debug.log
 priority            = PEAR_LOG_INFO
-ident               = OA
+ident               = OX
 paramsUsername      =
 paramsPassword      =
 fileMode            = 0644
@@ -297,7 +297,7 @@ logfile             =                       ; The delivery engine debugging file
 production          = true                  ; Is it production server? (do not show backtrace and error sourcecontext)
                                             ; If it is delivery do not show any errors
 sendErrorEmails     = false                 ; Send emails containing error reports - do not work in delivery
-emailSubject        = Error from Openads    ; Error report subject
+emailSubject        = Error from OpenX      ; Error report subject
 email               = email@example.com     ; Where to send error reports
 emailAdminThreshold = PEAR_LOG_ERR          ; Email the error to admin if threshold reached
 errorOverride       = true                  ; If true do not show notices
@@ -347,7 +347,7 @@ compactStats        = true
 compactStatsGrace   = 604800
 
 ;------------------------------------------------------------------------------------------;
-; Openads Central Settings                                                                 ;
+; OpenX Central Settings                                                                   ;
 ;------------------------------------------------------------------------------------------;
 
 [sync]
@@ -355,14 +355,14 @@ checkForUpdates = true
 
 [oacSync]
 protocol    = https
-host        = sync.openads.org
+host        = sync.openx.org
 path        = /xmlrpc.php
 httpPort    = 80
 httpsPort   = 443
 
 [oacXmlRpc]
 protocol    = https
-host        = oac.openads.org
+host        = oac.openx.org
 port        = 443
 path        = /oac/xmlrpc
 captcha     = /oac/captcha
@@ -371,14 +371,14 @@ publihserUrl= /oac/advertiser/defzone
 
 [oacDashboard]
 protocol    = https
-host        = oac.openads.org
+host        = oac.openx.org
 port        = 443
 path        = /oac/dashboard/home
 ssoCheck    = /oac/ssoCheck
 
 [oacSSO]
 protocol    = https
-host        = login.openads.org
+host        = login.openx.org
 port        = 443
 path        = /sso/login
 clientPath  = /sso

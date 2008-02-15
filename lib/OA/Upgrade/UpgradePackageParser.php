@@ -1,11 +1,11 @@
 <?php
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -27,12 +27,12 @@ $Id$
 require_once 'XML/Parser.php';
 
 /**
- * Openads Schema Management Utility.
+ * OpenX Schema Management Utility.
  *
  * Parses an XML schema file
  *
- * @author Monique Szpak <monique.szpak@openads.org>
- * @package Openads
+ * @author     Monique Szpak <monique.szpak@openx.org>
+ * @package OpenX
  * @category Upgrade
  */
 class OA_UpgradePackageParser extends XML_Parser

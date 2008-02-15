@@ -1,11 +1,11 @@
 <?php
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -28,7 +28,7 @@ $Id$
  *
  * @abstract A class for generating a large dataset for delivery testing
  * @package Test Classes
- * @author Monique Szpak <monique.szpak@openads.org>
+ * @author     Monique Szpak <monique.szpak@openx.org>
  * @todo replace constant ids with variable ids
  * @todo refactor ad_zone_assoc links
  *
@@ -92,13 +92,13 @@ class OA_Test_Data_2_5_50_delivery extends OA_Test_Data
         // Default banner URL
         $aAccountPreferenceAssoc['account_id'] = $this->aIds['agency'][1];
         $aAccountPreferenceAssoc['preference_id'] = $this->aIds['preference'][1];
-        $aAccountPreferenceAssoc['value'] = 'http://www.openads.org/themes/openads/images/header_logo.png';
+        $aAccountPreferenceAssoc['value'] = 'http://www.openx.org/themes/openads/images/header_logo.png';
         $this->_insertAccountPreferenceAssoc($aAccountPreferenceAssoc);
 
         // Default destination URL
         $aAccountPreferenceAssoc['account_id'] = $this->aIds['agency'][1];
         $aAccountPreferenceAssoc['preference_id'] = $this->aIds['preference'][2];
-        $aAccountPreferenceAssoc['value'] = 'http://www.openads.org/';
+        $aAccountPreferenceAssoc['value'] = 'http://www.openx.org/';
         $this->_insertAccountPreferenceAssoc($aAccountPreferenceAssoc);
 
         // client

@@ -1,7 +1,7 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:template match="/">
     <!--  -->
-    <html><head><title>Openads Data Dictionary</title>
+    <html><head><title>OpenX Data Dictionary</title>
 
     <link rel="stylesheet" type="text/css" href="../schema/css/mdb2_xsl.css"/>
 
@@ -11,7 +11,7 @@
     <!-- -->
     <TABLE class="tablemain">
     <tr>
-    <th class="tableheader" colspan="7">Openads Data Dictionary</th>
+    <th class="tableheader" colspan="7">OpenX Data Dictionary</th>
     </tr>
     <tr>
     <th class="tableheader">name</th>

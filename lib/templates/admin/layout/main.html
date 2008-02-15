@@ -1,14 +1,11 @@
 {*<!--
 
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -89,7 +86,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 {/if}
 
 {if $buttonReportBugs}
-        <li class="buttonReportBugs"><a href="https://developer.openads.org/wiki/ReportingBugs" target="_blank">Report bug</a></li>
+        <li class="buttonReportBugs"><a href="https://developer.openx.org/wiki/ReportingBugs" target="_blank">Report bug</a></li>
 {/if}
 
 {if $buttonLogout}
@@ -133,21 +130,21 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 											{foreach from=$aAdminAccounts  key=accountId item=account}
 											    <li><a href="account-switch.php?account_id={$accountId|escape}">{$account}</a></li>
 											{/foreach}
-											
+
 		                  {foreach from=$aAccounts  key=groupName item=group}
 		                      <li class="opt">{$groupName|escape}</li>
 		                      {foreach from=$group key=accountId item=account}
 		                        <li class="inopt"><a href="account-switch.php?account_id={$accountId|escape}">{$account}</a></li>
 		                      {/foreach}
-		                  {/foreach}                
+		                  {/foreach}
 	                  </ul>
 	                </div>
                 </div>
               </div>
               <div class="switchDown">&nbsp;</div>
-            </div>            
+            </div>
         </li>
-                
+
         <script type='text/javascript'>
           <!--
           initAccoutSwitcher();

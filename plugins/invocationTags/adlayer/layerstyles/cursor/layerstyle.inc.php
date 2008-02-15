@@ -2,14 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -35,16 +32,16 @@ $Id$
 function MAX_layerGetLimitations()
 {
 	$agent = $GLOBALS['_MAX']['CLIENT'];
-	
+
 	$compatible = $agent['browser'] == 'ie' && $agent['maj_ver'] < 5 ||
 				  $agent['browser'] == 'mz' && $agent['maj_ver'] < 1 ||
 				  $agent['browser'] == 'fx' && $agent['maj_ver'] < 1 ||
-				  $agent['browser'] == 'op' && $agent['maj_ver'] < 5 
+				  $agent['browser'] == 'op' && $agent['maj_ver'] < 5
 				  ? false : true;
-				  
+
 	//$richmedia  = $agent['platform'] == 'Win' ? true : false;
 	$richmedia = true;
-	
+
 	return array (
 		'richmedia'  => $richmedia,
 		'compatible' => $compatible
@@ -60,18 +57,18 @@ function MAX_layerGetLimitations()
 function MAX_layerPutJs($output, $uniqid)
 {
 	global $stickyness, $offsetx, $offsety, $hide, $transparancy, $delay, $trail;
-	
+
 	// Register input variables
 	MAX_commonRegisterGlobalsArray(array('stickyness', 'offsetx', 'offsety', 'hide',
 					       'transparancy', 'delay', 'trail'));
-	
-	
+
+
 	if (!isset($trail) || $trail == '') $trail = 0;
 	if (!isset($stickyness) || $stickyness == '') $stickyness = 5;
-	
+
 	if (!isset($offsetx) || $offsetx == '') $offsetx = 10;
 	if (!isset($offsety) || $offsety == '') $offsety = 10;
-	
+
 	if (!isset($hide) || $hide == '') $hide = 0;
 	if (!isset($transparancy) || $transparancy == '') $transparancy = 0;
 	if (!isset($delay) || $delay == '') $delay = 90;
@@ -114,8 +111,8 @@ function MAX_storePos_<?php echo $uniqid; ?>(e) {
 	{
 		MAX_<?php echo $uniqid; ?>_posX_new = e.pageX;
 		MAX_<?php echo $uniqid; ?>_posY_new = e.pageY;
-	} 
-	else if (MAX_ns6) 
+	}
+	else if (MAX_ns6)
 	{
 		MAX_<?php echo $uniqid; ?>_posX_new = e.clientX;
 		MAX_<?php echo $uniqid; ?>_posY_new = e.clientY;
@@ -130,17 +127,17 @@ function MAX_setVisibility_<?php echo $uniqid; ?>(transparancy)
 		if (MAX_ie4 && !window.opera)
 		{
 			document.all['MAX_<?php echo $uniqid; ?>'].style.filter = "DXImageTransform.Microsoft.Alpha(opacity="+transparancy+")";
-		} 
-		else if( document.getElementById ) 
+		}
+		else if( document.getElementById )
 		{
 		    document.getElementById( 'MAX_<?php echo $uniqid; ?>' ).style.opacity=transparancy/100;
 		}
 		else transparancy = <?php echo $transparancy; ?>;
-		
+
 	}
-	
+
 	if (transparancy > 0)
-	{	
+	{
 		if (MAX_ie4)        	{ document.all.MAX_<?php echo $uniqid; ?>.style.visibility = 'visible'; }
 		else if (MAX_ns4)   	{ document.layers['MAX_<?php echo $uniqid; ?>'].visibility = 'show'; }
 		else if (MAX_ns6) 	{ document.getElementById('MAX_<?php echo $uniqid; ?>').style.visibility='visible'; }
@@ -165,7 +162,7 @@ function MAX_setPos_<?php echo $uniqid; ?>(x, y)
 	}
  	else if (MAX_ns4)
 	{
-		document.MAX_<?php echo $uniqid; ?>.moveTo (x, y); 
+		document.MAX_<?php echo $uniqid; ?>.moveTo (x, y);
   	}
   	else if (MAX_ns6)
 	{
@@ -177,25 +174,25 @@ function MAX_setPos_<?php echo $uniqid; ?>(x, y)
 
 
 function MAX_followMouse_<?php echo $uniqid; ?>() {
-	
-	if (Math.abs(MAX_<?php echo $uniqid; ?>_posX_new - MAX_<?php echo $uniqid; ?>_posX_old) < 3 && 
-		Math.abs(MAX_<?php echo $uniqid; ?>_posY_new - MAX_<?php echo $uniqid; ?>_posY_old) < 3) 
+
+	if (Math.abs(MAX_<?php echo $uniqid; ?>_posX_new - MAX_<?php echo $uniqid; ?>_posX_old) < 3 &&
+		Math.abs(MAX_<?php echo $uniqid; ?>_posY_new - MAX_<?php echo $uniqid; ?>_posY_old) < 3)
 	{
 		MAX_<?php echo $uniqid; ?>_NoMove = MAX_<?php echo $uniqid; ?>_NoMove + 1;
-	} 
-	else 
+	}
+	else
 	{
 		MAX_<?php echo $uniqid; ?>_NoMove = 0;
 	}
-	
-	
-<?php 
-if ($hide == 1) 
+
+
+<?php
+if ($hide == 1)
 {
 	?>
 	var transparancy = 100;
-	
-	if (MAX_<?php echo $uniqid; ?>_NoMove > <?php echo $delay; ?>) 
+
+	if (MAX_<?php echo $uniqid; ?>_NoMove > <?php echo $delay; ?>)
 	{
 		// Cursor is still, hide banner
 		if (MAX_<?php echo $uniqid; ?>_NoMove <= 10 + <?php echo $delay; ?>)
@@ -205,21 +202,21 @@ if ($hide == 1)
 	}
 
 	if (transparancy != MAX_<?php echo $uniqid; ?>_transparancy)
-		MAX_setVisibility_<?php echo $uniqid; ?>(transparancy);	
-	
+		MAX_setVisibility_<?php echo $uniqid; ?>(transparancy);
+
 	<?php
 }
 else
 {
 	?>
-	MAX_setVisibility_<?php echo $uniqid; ?>(100);	
+	MAX_setVisibility_<?php echo $uniqid; ?>(100);
 	<?php
 }
-?>	
+?>
 	if (MAX_<?php echo $uniqid; ?>_NoMove < <?php echo $delay; ?>)
 	{
 	<?php
-if ($trail == 1) 
+if ($trail == 1)
 {
 	?>		// Calculate new position
 		MAX_<?php echo $uniqid; ?>_speedX = MAX_<?php echo $uniqid; ?>_speedX * (<?php echo $stickyness; ?> / 10) + (MAX_<?php echo $uniqid; ?>_posX_new - MAX_<?php echo $uniqid; ?>_posX_old) / 30;
@@ -256,7 +253,7 @@ else
 function MAX_layerGetHtml($output, $uniqid)
 {
 	return '
-<div id="MAX_'.$uniqid.'" style="position:absolute; width:'.$output['width'].'px; height:'.$output['height'].'px; z-index:99; left: 0px; top: 0px; visibility: hidden; filter: progid:DXImageTransform.Microsoft.Alpha(opacity=100);"> 
+<div id="MAX_'.$uniqid.'" style="position:absolute; width:'.$output['width'].'px; height:'.$output['height'].'px; z-index:99; left: 0px; top: 0px; visibility: hidden; filter: progid:DXImageTransform.Microsoft.Alpha(opacity=100);">
 '.$output['html'].'
 </div>
 ';

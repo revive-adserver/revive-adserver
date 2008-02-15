@@ -2,14 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -27,148 +24,147 @@
 +---------------------------------------------------------------------------+
 $Id$
 */
- 
 
 // Main strings
 $GLOBALS['strChooseSection']			= "Vyberte sekci";
 
 
 // Priority
-$GLOBALS['strRecalculatePriority']		= "Pøepoèítat prioritu";
-$GLOBALS['strHighPriorityCampaigns']		= "Kampanì s vysokou prioritou";
-$GLOBALS['strAdViewsAssigned']			= "Pøidìlìných zobrazení";
-$GLOBALS['strLowPriorityCampaigns']		= "Kampanì s nízkou prioritou";
-$GLOBALS['strPredictedAdViews']			= "Pøedpovìzených zobrazení";
-$GLOBALS['strPriorityDaysRunning']		= "V tuto chvíli jsou k dispozici statistiky za {days} dní z èeho¾ ".$phpAds_productname." mù¾e vytvoøit denní pøedpovìï. ";
-$GLOBALS['strPriorityBasedLastWeek']		= "Pøedpovìï je zalo¾ena na údajích z tohoto a pøedchozího týdne. ";
-$GLOBALS['strPriorityBasedLastDays']		= "Pøedpovìï je zalo¾ena na údajích z pøedchozích nìkolika dnù. ";
-$GLOBALS['strPriorityBasedYesterday']		= "Pøedpovìï je zalo¾ena na údajích ze vèerej¹ka. ";
-$GLOBALS['strPriorityNoData']			= "Není k dispozici dostatek údajù pro vytvoøení dùvìryhodné pøedpovìdi poètu impresí pro dne¹ní den. Pøidìlení priorit bude prùbì¾nì upravováno na základì prùbì¾ných údajù. ";
-$GLOBALS['strPriorityEnoughAdViews']		= "Mìlo by být k dispozici dostatek AdViews pro plné splnìní kampaní s vysokou prioritou. ";
-$GLOBALS['strPriorityNotEnoughAdViews']		= "Není jisté ¾e bude k dispozici dostatek AdViews pro plné splnìní kampaní s vysokou prioritou. ";
+$GLOBALS['strRecalculatePriority']		= "Pï¿½epoï¿½ï¿½tat prioritu";
+$GLOBALS['strHighPriorityCampaigns']		= "Kampanï¿½ s vysokou prioritou";
+$GLOBALS['strAdViewsAssigned']			= "Pï¿½idï¿½lï¿½nï¿½ch zobrazenï¿½";
+$GLOBALS['strLowPriorityCampaigns']		= "Kampanï¿½ s nï¿½zkou prioritou";
+$GLOBALS['strPredictedAdViews']			= "Pï¿½edpovï¿½zenï¿½ch zobrazenï¿½";
+$GLOBALS['strPriorityDaysRunning']		= "V tuto chvï¿½li jsou k dispozici statistiky za {days} dnï¿½ z ï¿½ehoï¿½ ".$phpAds_productname." mï¿½e vytvoï¿½it dennï¿½ pï¿½edpovï¿½ï¿½. ";
+$GLOBALS['strPriorityBasedLastWeek']		= "Pï¿½edpovï¿½ï¿½ je zaloï¿½ena na ï¿½dajï¿½ch z tohoto a pï¿½edchozï¿½ho tï¿½dne. ";
+$GLOBALS['strPriorityBasedLastDays']		= "Pï¿½edpovï¿½ï¿½ je zaloï¿½ena na ï¿½dajï¿½ch z pï¿½edchozï¿½ch nï¿½kolika dnï¿½. ";
+$GLOBALS['strPriorityBasedYesterday']		= "Pï¿½edpovï¿½ï¿½ je zaloï¿½ena na ï¿½dajï¿½ch ze vï¿½erejï¿½ka. ";
+$GLOBALS['strPriorityNoData']			= "Nenï¿½ k dispozici dostatek ï¿½dajï¿½ pro vytvoï¿½enï¿½ dï¿½vï¿½ryhodnï¿½ pï¿½edpovï¿½di poï¿½tu impresï¿½ pro dneï¿½nï¿½ den. Pï¿½idï¿½lenï¿½ priorit bude prï¿½bï¿½nï¿½ upravovï¿½no na zï¿½kladï¿½ prï¿½bï¿½nï¿½ch ï¿½dajï¿½. ";
+$GLOBALS['strPriorityEnoughAdViews']		= "Mï¿½lo by bï¿½t k dispozici dostatek AdViews pro plnï¿½ splnï¿½nï¿½ kampanï¿½ s vysokou prioritou. ";
+$GLOBALS['strPriorityNotEnoughAdViews']		= "Nenï¿½ jistï¿½ ï¿½e bude k dispozici dostatek AdViews pro plnï¿½ splnï¿½nï¿½ kampanï¿½ s vysokou prioritou. ";
 
 
 // Banner cache
-$GLOBALS['strRebuildBannerCache']		= "Aktualizovat cache bannerù";
+$GLOBALS['strRebuildBannerCache']		= "Aktualizovat cache bannerï¿½";
 $GLOBALS['strBannerCacheExplaination']		= "
-	Cache bannerù obsahuje kopii HTML kódu který se pou¾ívá pro zobrazení banneru. Pou¾itím chache bannerù je mo¾né docílit zrychlení
-	doruèování bannerù proto¾e se HTML kód nemusí generovat poka¾dé kdy¾ má být banner doruèen. Proto¾e cache bannerù obsahuje pevné 
-	okdazy na URL kde je umístìno ".$phpAds_productname." a jeho bannery, cache musí být aktualizována poka¾dé, kdy¾ dojde k pøesunu
-	".$phpAds_productname." do jiného umístìní na webserveru.
+	Cache bannerï¿½ obsahuje kopii HTML kï¿½du kterï¿½ se pouï¿½ï¿½vï¿½ pro zobrazenï¿½ banneru. Pouï¿½itï¿½m chache bannerï¿½ je moï¿½nï¿½ docï¿½lit zrychlenï¿½
+	doruï¿½ovï¿½nï¿½ bannerï¿½ protoï¿½e se HTML kï¿½d nemusï¿½ generovat pokaï¿½dï¿½ kdyï¿½ mï¿½ bï¿½t banner doruï¿½en. Protoï¿½e cache bannerï¿½ obsahuje pevnï¿½ 
+	okdazy na URL kde je umï¿½stï¿½no ".$phpAds_productname." a jeho bannery, cache musï¿½ bï¿½t aktualizovï¿½na pokaï¿½dï¿½, kdyï¿½ dojde k pï¿½esunu
+	".$phpAds_productname." do jinï¿½ho umï¿½stï¿½nï¿½ na webserveru.
 ";
 
 
 // Cache
-$GLOBALS['strCache']			= "Cache doruèování";
-$GLOBALS['strAge']				= "Stáøí";
-$GLOBALS['strRebuildDeliveryCache']			= "Aktualizovat cache doruèování";
+$GLOBALS['strCache']			= "Cache doruï¿½ovï¿½nï¿½";
+$GLOBALS['strAge']				= "Stï¿½ï¿½ï¿½";
+$GLOBALS['strRebuildDeliveryCache']			= "Aktualizovat cache doruï¿½ovï¿½nï¿½";
 $GLOBALS['strDeliveryCacheExplaination']		= "
-	Cache doruèováné je pou¾ívána pro urychlení doruèování bannerù. Cache obsahuje kopii v¹ech bannerù
-	které jsou pøipojené k zónì co¾ u¹etøí nìkolik databázových dotazù a bannery jsou pøímo doruèovány u¾ivateli. Cache
-	je normálnì znovu vytváøena pøi ka¾dé zmìnì zóny nebo bannerù zóny a pokud je to mo¾né je cache aktualizována. Z tohoto
-	dùvodu se cache automaticky aktualizuje ka¾dou hodinu, ale je mo¾né ji aktualizovat i ruènì.
+	Cache doruï¿½ovï¿½nï¿½ je pouï¿½ï¿½vï¿½na pro urychlenï¿½ doruï¿½ovï¿½nï¿½ bannerï¿½. Cache obsahuje kopii vï¿½ech bannerï¿½
+	kterï¿½ jsou pï¿½ipojenï¿½ k zï¿½nï¿½ coï¿½ uï¿½etï¿½ï¿½ nï¿½kolik databï¿½zovï¿½ch dotazï¿½ a bannery jsou pï¿½ï¿½mo doruï¿½ovï¿½ny uï¿½ivateli. Cache
+	je normï¿½lnï¿½ znovu vytvï¿½ï¿½ena pï¿½i kaï¿½dï¿½ zmï¿½nï¿½ zï¿½ny nebo bannerï¿½ zï¿½ny a pokud je to moï¿½nï¿½ je cache aktualizovï¿½na. Z tohoto
+	dï¿½vodu se cache automaticky aktualizuje kaï¿½dou hodinu, ale je moï¿½nï¿½ ji aktualizovat i ruï¿½nï¿½.
 ";
 $GLOBALS['strDeliveryCacheSharedMem']		= "
-	V tuto chvíli se pro ukládání cache doruèování vyu¾ívá sdílená pamì».
+	V tuto chvï¿½li se pro uklï¿½dï¿½nï¿½ cache doruï¿½ovï¿½nï¿½ vyuï¿½ï¿½vï¿½ sdï¿½lenï¿½ pamï¿½.
 ";
 $GLOBALS['strDeliveryCacheDatabase']		= "
-	V tuto chvíli se pro ukládání cache doruèování vyu¾ívá databáze.
+	V tuto chvï¿½li se pro uklï¿½dï¿½nï¿½ cache doruï¿½ovï¿½nï¿½ vyuï¿½ï¿½vï¿½ databï¿½ze.
 ";
 $GLOBALS['strDeliveryCacheFiles']		= "
-	V tuto chvíli se pro ukládání cache doruèování vyu¾ívá vícero souborù na disku.
+	V tuto chvï¿½li se pro uklï¿½dï¿½nï¿½ cache doruï¿½ovï¿½nï¿½ vyuï¿½ï¿½vï¿½ vï¿½cero souborï¿½ na disku.
 ";
 
 
 // Storage
-$GLOBALS['strStorage']				= "Ukládání";
-$GLOBALS['strMoveToDirectory']			= "Pøesunout obrázky ulo¾ené v databázi do adresáøe";
+$GLOBALS['strStorage']				= "Uklï¿½dï¿½nï¿½";
+$GLOBALS['strMoveToDirectory']			= "Pï¿½esunout obrï¿½zky uloï¿½enï¿½ v databï¿½zi do adresï¿½ï¿½e";
 $GLOBALS['strStorageExplaination']		= "
-	Obrázky lokálních bannerù jsou ulo¾eny v databázi nebo v adresáøi. Pokud ulo¾íte soubory do adresáøe 
-	zátì¾ databáze výraznì poklesne a zvý¹í se rychlost doruèování.
+	Obrï¿½zky lokï¿½lnï¿½ch bannerï¿½ jsou uloï¿½eny v databï¿½zi nebo v adresï¿½ï¿½i. Pokud uloï¿½ï¿½te soubory do adresï¿½ï¿½e 
+	zï¿½tï¿½ databï¿½ze vï¿½raznï¿½ poklesne a zvï¿½ï¿½ se rychlost doruï¿½ovï¿½nï¿½.
 ";
 
 
 // Storage
 $GLOBALS['strStatisticsExplaination']		= "
-	Zapnul jste formát <i>kompaktních statistik</i>, ale va¹e staré statistiky jsou stále v detailním formátu. 
-	Pøejete si pøevést va¹e detailní statistiky do kompaktního formátu?
+	Zapnul jste formï¿½t <i>kompaktnï¿½ch statistik</i>, ale vaï¿½e starï¿½ statistiky jsou stï¿½le v detailnï¿½m formï¿½tu. 
+	Pï¿½ejete si pï¿½evï¿½st vaï¿½e detailnï¿½ statistiky do kompaktnï¿½ho formï¿½tu?
 ";
 
 
 // Product Updates
-$GLOBALS['strSearchingUpdates']			= "Hledám aktualizace. Prosím èekejte...";
-$GLOBALS['strAvailableUpdates']			= "Dostupné aktualizace";
+$GLOBALS['strSearchingUpdates']			= "Hledï¿½m aktualizace. Prosï¿½m ï¿½ekejte...";
+$GLOBALS['strAvailableUpdates']			= "Dostupnï¿½ aktualizace";
 $GLOBALS['strDownloadZip']			= "Download (.zip)";
 $GLOBALS['strDownloadGZip']			= "Download (.tar.gz)";
 
-$GLOBALS['strUpdateAlert']			= "Je k dispozici nová verze ".$phpAds_productname." .                 \\n\\nPøejete si více informací o tété \\naktualizaci?";
-$GLOBALS['strUpdateAlertSecurity']		= "Je k dispozici nová verze ".$phpAds_productname." .                 \\n\\nDùraznì doporuèujeme provést aktualizaci \\nco nejdøíve, nebo» tato verze obsahuje \\njednu nebo více bezpeènostních oprav.";
+$GLOBALS['strUpdateAlert']			= "Je k dispozici novï¿½ verze ".$phpAds_productname." .                 \\n\\nPï¿½ejete si vï¿½ce informacï¿½ o tï¿½tï¿½ \\naktualizaci?";
+$GLOBALS['strUpdateAlertSecurity']		= "Je k dispozici novï¿½ verze ".$phpAds_productname." .                 \\n\\nDï¿½raznï¿½ doporuï¿½ujeme provï¿½st aktualizaci \\nco nejdï¿½ï¿½ve, neboï¿½ tato verze obsahuje \\njednu nebo vï¿½ce bezpeï¿½nostnï¿½ch oprav.";
 
 $GLOBALS['strUpdateServerDown']			= "
-    Z neznámého dùvodu nebylo mo¾né získat <br>
-	informace o aktualizacích. Prosím zkuste to znovu pozdìji.
+    Z neznï¿½mï¿½ho dï¿½vodu nebylo moï¿½nï¿½ zï¿½skat <br>
+	informace o aktualizacï¿½ch. Prosï¿½m zkuste to znovu pozdï¿½ji.
 ";
 
 $GLOBALS['strNoNewVersionAvailable']		= "
-	Va¹e verze ".$phpAds_productname." je aktuální. V tuto chvíli nejsou k dispozici ¾ádné aktualizace.
+	Vaï¿½e verze ".$phpAds_productname." je aktuï¿½lnï¿½. V tuto chvï¿½li nejsou k dispozici ï¿½ï¿½dnï¿½ aktualizace.
 ";
 
 $GLOBALS['strNewVersionAvailable']		= "
-	<b>Novìj¹í verze ".$phpAds_productname." je k dispozici.</b><br> Doporuèujeme nainstalovat tuto aktualizaci,
-	proto¾e mù¾e obsahovat opravy nìkterých chyb a obsahovat nové funkce. Pro více informací o tom jak provést
-	aktualizaci si prosím pøeètìte dokumentaci která je v ní¾e uvedených souborech.
+	<b>Novï¿½jï¿½ï¿½ verze ".$phpAds_productname." je k dispozici.</b><br> Doporuï¿½ujeme nainstalovat tuto aktualizaci,
+	protoï¿½e mï¿½e obsahovat opravy nï¿½kterï¿½ch chyb a obsahovat novï¿½ funkce. Pro vï¿½ce informacï¿½ o tom jak provï¿½st
+	aktualizaci si prosï¿½m pï¿½eï¿½tï¿½te dokumentaci kterï¿½ je v nï¿½e uvedenï¿½ch souborech.
 ";
 
 $GLOBALS['strSecurityUpdate']			= "
-	<b>Dùraznì doporuèujeme nainstalovat tuto aktualizaci co nejdøíve, proto¾e obsahuje nìkolik oprav
-	bezpeènostních chyb.</b> Verze ".$phpAds_productname." kterou pou¾íváte mù¾e být citlivá ná rùzné 
-	druhy útokù a zøejmì není bezpeèná. Pro více informací o tom jak provést aktualizaci si prosím 
-	pøeètìte dokumentaci která je v ní¾e uvedených souborech.
+	<b>Dï¿½raznï¿½ doporuï¿½ujeme nainstalovat tuto aktualizaci co nejdï¿½ï¿½ve, protoï¿½e obsahuje nï¿½kolik oprav
+	bezpeï¿½nostnï¿½ch chyb.</b> Verze ".$phpAds_productname." kterou pouï¿½ï¿½vï¿½te mï¿½e bï¿½t citlivï¿½ nï¿½ rï¿½znï¿½ 
+	druhy ï¿½tokï¿½ a zï¿½ejmï¿½ nenï¿½ bezpeï¿½nï¿½. Pro vï¿½ce informacï¿½ o tom jak provï¿½st aktualizaci si prosï¿½m 
+	pï¿½eï¿½tï¿½te dokumentaci kterï¿½ je v nï¿½e uvedenï¿½ch souborech.
 ";
 
 $GLOBALS['strNotAbleToCheck']			= "
-	<b>Proto¾e XML doplnìk není instalován na va¹em serveru, ".$phpAds_productname." není 
-    schopen ovìøit zda jsou k dispozici aktualizace.</b>
+	<b>Protoï¿½e XML doplnï¿½k nenï¿½ instalovï¿½n na vaï¿½em serveru, ".$phpAds_productname." nenï¿½ 
+    schopen ovï¿½ï¿½it zda jsou k dispozici aktualizace.</b>
 ";
 
 $GLOBALS['strForUpdatesLookOnWebsite']	= "
-	Pokud chcete vìdìt jestli je k dispozici novìj¹í verze tak nav¹tivte na¹e stránky.
+	Pokud chcete vï¿½dï¿½t jestli je k dispozici novï¿½jï¿½ï¿½ verze tak navï¿½tivte naï¿½e strï¿½nky.
 ";
 
-$GLOBALS['strClickToVisitWebsite']		= "Kliknìte zde pro na¹e webové stránky";
-$GLOBALS['strCurrentlyUsing'] 			= "V tuto chvíli pou¾íváte";
-$GLOBALS['strRunningOn']				= "bì¾ící na";
+$GLOBALS['strClickToVisitWebsite']		= "Kliknï¿½te zde pro naï¿½e webovï¿½ strï¿½nky";
+$GLOBALS['strCurrentlyUsing'] 			= "V tuto chvï¿½li pouï¿½ï¿½vï¿½te";
+$GLOBALS['strRunningOn']				= "bï¿½ï¿½cï¿½ na";
 $GLOBALS['strAndPlain']					= "a";
 
 
 // Stats conversion
-$GLOBALS['strConverting']			= "Probíhá pøevod";
-$GLOBALS['strConvertingStats']			= "Pøevod statistik...";
-$GLOBALS['strConvertStats']			= "Pøeveï statistiky";
-$GLOBALS['strConvertAdViews']			= "Pøevedených zobrazení,";
-$GLOBALS['strConvertAdClicks']			= "Pøevedených kliknutí...";
-$GLOBALS['strConvertAdConversions']			= "Pøevedených prodejù..."; 
-$GLOBALS['strConvertNothing']			= "Není nic k pøevodu...";
-$GLOBALS['strConvertFinished']			= "Dokonèeno...";
+$GLOBALS['strConverting']			= "Probï¿½hï¿½ pï¿½evod";
+$GLOBALS['strConvertingStats']			= "Pï¿½evod statistik...";
+$GLOBALS['strConvertStats']			= "Pï¿½eveï¿½ statistiky";
+$GLOBALS['strConvertAdViews']			= "Pï¿½evedenï¿½ch zobrazenï¿½,";
+$GLOBALS['strConvertAdClicks']			= "Pï¿½evedenï¿½ch kliknutï¿½...";
+$GLOBALS['strConvertAdConversions']			= "Pï¿½evedenï¿½ch prodejï¿½..."; 
+$GLOBALS['strConvertNothing']			= "Nenï¿½ nic k pï¿½evodu...";
+$GLOBALS['strConvertFinished']			= "Dokonï¿½eno...";
 
 $GLOBALS['strConvertExplaination']		= "
-	V tuto chvíli pou¾íváte kompaktní formát statistik, ale stále máte nìkteré statsitiky <br>
-	v datailním formátu. Dokud nebudou deatilní statistiky pøevedny do kompaktního formátu <br>
-	nebudou zobrazovány pøi prohlí¾ení této stránky.  <br>
-	Pøed pøevodem statistiky si zazálohujte databázi!  <br>
-	Chcete pøevést deatilní statistiky do kompaktního formátu? <br>
+	V tuto chvï¿½li pouï¿½ï¿½vï¿½te kompaktnï¿½ formï¿½t statistik, ale stï¿½le mï¿½te nï¿½kterï¿½ statsitiky <br>
+	v datailnï¿½m formï¿½tu. Dokud nebudou deatilnï¿½ statistiky pï¿½evedny do kompaktnï¿½ho formï¿½tu <br>
+	nebudou zobrazovï¿½ny pï¿½i prohlï¿½enï¿½ tï¿½to strï¿½nky.  <br>
+	Pï¿½ed pï¿½evodem statistiky si zazï¿½lohujte databï¿½zi!  <br>
+	Chcete pï¿½evï¿½st deatilnï¿½ statistiky do kompaktnï¿½ho formï¿½tu? <br>
 ";
 
 $GLOBALS['strConvertingExplaination']		= "
-	V¹echny zbývající detailní statistiky jsou pøevádìny do kompaktního formátu. <br>
-	V závislosti na poètu impresí ulo¾ených v detailním formátu tato akce mù¾e trvat  <br>
-	a¾ nìkolik minut. Prosím vyèkejte na ukonèení pøevodu ne¾ nav¹ívíte jiné stráky. <br>
-	Ní¾e máte seznam v¹ech úprav provedených na databázi. <br>
+	Vï¿½echny zbï¿½vajï¿½cï¿½ detailnï¿½ statistiky jsou pï¿½evï¿½dï¿½ny do kompaktnï¿½ho formï¿½tu. <br>
+	V zï¿½vislosti na poï¿½tu impresï¿½ uloï¿½enï¿½ch v detailnï¿½m formï¿½tu tato akce mï¿½e trvat  <br>
+	aï¿½ nï¿½kolik minut. Prosï¿½m vyï¿½kejte na ukonï¿½enï¿½ pï¿½evodu neï¿½ navï¿½ï¿½vï¿½te jinï¿½ strï¿½ky. <br>
+	Nï¿½e mï¿½te seznam vï¿½ech ï¿½prav provedenï¿½ch na databï¿½zi. <br>
 ";
 
 $GLOBALS['strConvertFinishedExplaination']  	= "
-	Pøevod zbývajících detailních statistik byl úspì¹ný a data by nyní mìla být <br>
-	znovu pou¾itelná. Ní¾e máte seznam v¹ech úprav provedených na databázi. <br>
+	Pï¿½evod zbï¿½vajï¿½cï¿½ch detailnï¿½ch statistik byl ï¿½spï¿½nï¿½ a data by nynï¿½ mï¿½la bï¿½t <br>
+	znovu pouï¿½itelnï¿½. Nï¿½e mï¿½te seznam vï¿½ech ï¿½prav provedenï¿½ch na databï¿½zi. <br>
 ";
 
 

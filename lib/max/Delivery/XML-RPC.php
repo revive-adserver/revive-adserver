@@ -2,14 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -51,7 +48,7 @@ if (empty($GLOBALS['HTTP_RAW_POST_DATA'])) {
 }
 
 /**
- * New Openads signature / docs
+ * New OpenX signature / docs
  *
  * @since 2.3.32-beta
  */
@@ -74,7 +71,7 @@ $xmlRpcView_OA =
                  'appropriate advertisement.'
     );
 /**
- * New Openads signature / docs for SPC XML-RPC method
+ * New OpenX signature / docs for SPC XML-RPC method
  *
  * @since 2.5.2-dev
  */
@@ -98,7 +95,7 @@ $xmlRpcSPC_OA =
     );
 
 /**
- * MMM 0.3 / Openads 2.3 backwards compatible signature / docs
+ * MMM 0.3 / OpenX 2.3 backwards compatible signature / docs
  */
 $xmlRpcView_Max =
     array(
@@ -127,7 +124,7 @@ $xmlRpcView_Max =
     );
 
 /**
- * PAN / Openads 2.0 backwards compatible signature / docs
+ * PAN / OpenX 2.0 backwards compatible signature / docs
  */
 $xmlRpcView_PAN =
     array(

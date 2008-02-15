@@ -1,10 +1,10 @@
 /*
 +---------------------------------------------------------------------------+
-| Openads v2.5                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -20,22 +20,9 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-|  Copyright 2003-2007 Openads Limited                                      |
-|                                                                           |
-|  Licensed under the Apache License, Version 2.0 (the "License");          |
-|  you may not use this file except in compliance with the License.         |
-|  You may obtain a copy of the License at                                  |
-|                                                                           |
-|    http://www.apache.org/licenses/LICENSE-2.0                             |
-|                                                                           |
-|  Unless required by applicable law or agreed to in writing, software      |
-|  distributed under the License is distributed on an "AS IS" BASIS,        |
-|  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. |
-|  See the License for the specific language governing permissions and      |
-|  limitations under the License.                                           |
-+---------------------------------------------------------------------------+
-$Id:$
- */
+$Id$
+*/
+
 package org.openads.advertiser;
 
 import java.net.MalformedURLException;
@@ -48,8 +35,8 @@ import org.openads.utils.TextUtils;
 
 /**
  * Verify Advertiser Banner Statistics method
- * 
- * @author <a href="mailto:apetlyovanyy@lohika.com">Andriy Petlyovanyy</a>
+ *
+ * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestAdvertiserBannerStatistics extends AdvertiserTestCase {
 	private Integer advertiserId;
@@ -68,7 +55,7 @@ public class TestAdvertiserBannerStatistics extends AdvertiserTestCase {
 
 	/**
 	 * Execute test method with error
-	 * 
+	 *
 	 * @param params -
 	 *            parameters for test method
 	 * @param errorMsg -
@@ -89,7 +76,7 @@ public class TestAdvertiserBannerStatistics extends AdvertiserTestCase {
 
 	/**
 	 * Test method with all required fields and some optional.
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 */
 	@SuppressWarnings("unchecked")
@@ -129,7 +116,7 @@ public class TestAdvertiserBannerStatistics extends AdvertiserTestCase {
 
 	/**
 	 * Test method without some required fields.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testAdvertiserBannerStatisticsWithoutSomeRequiredFields()
@@ -143,7 +130,7 @@ public class TestAdvertiserBannerStatistics extends AdvertiserTestCase {
 
 	/**
 	 * Test method with fields that has value greater than max.
-	 * 
+	 *
 	 * @throws MalformedURLException
 	 * @throws XmlRpcException
 	 */
@@ -163,7 +150,7 @@ public class TestAdvertiserBannerStatistics extends AdvertiserTestCase {
 
 	/**
 	 * Test method with fields that has value less than min
-	 * 
+	 *
 	 * @throws MalformedURLException
 	 */
 	public void testAdvertiserBannerStatisticsLessThanMinFieldValueError()
@@ -182,7 +169,7 @@ public class TestAdvertiserBannerStatistics extends AdvertiserTestCase {
 
 	/**
 	 * Test method with fields that has min. allowed values.
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 * @throws MalformedURLException
 	 */
@@ -196,7 +183,7 @@ public class TestAdvertiserBannerStatistics extends AdvertiserTestCase {
 
 	/**
 	 * Test method with fields that has max. allowed values.
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 * @throws MalformedURLException
 	 */
@@ -210,7 +197,7 @@ public class TestAdvertiserBannerStatistics extends AdvertiserTestCase {
 
 	/**
 	 * AdvertiserBannerStatistics advertiser with unknown id
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 * @throws MalformedURLException
 	 */
@@ -231,7 +218,7 @@ public class TestAdvertiserBannerStatistics extends AdvertiserTestCase {
 
 	/**
 	 * AdvertiserBannerStatistics when end date is before start date
-	 * 
+	 *
 	 * @throws XmlRpcException
 	 * @throws MalformedURLException
 	 */
@@ -251,7 +238,7 @@ public class TestAdvertiserBannerStatistics extends AdvertiserTestCase {
 
 	/**
 	 * Test method with fields that has value of wrong type (error).
-	 * 
+	 *
 	 * @throws MalformedURLException
 	 */
 	public void testAdvertiserBannerStatisticsWrongTypeError()

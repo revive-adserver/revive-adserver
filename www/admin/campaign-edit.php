@@ -2,14 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                           |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -522,7 +519,7 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
     $row['block']     = null;
     $row['capping']     = null;
     $row['session_capping']     = null;
-    $row['comments']     = null;    
+    $row['comments']     = null;
     $target_type = null;
 }
 
@@ -917,7 +914,7 @@ echo "<tr><td colspan='3'>\n";
 		    <div id="remainingImpressionsSection">
 			    <span id='remainingImpressions' >Impressions remaining:<span id='remainingImpressionsCount'>2500</span></span><br/>
 			    <?php if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) { ?>
-					  <!--span id="openadsRemainingImpressions">Openads impressions remaining: <span id='openadsRemainingImpressionsCount'>3000<!-- REAL DATA GOES HERE -></span>
+					  <!--span id="openadsRemainingImpressions">OpenX impressions remaining: <span id='openadsRemainingImpressionsCount'>3000<!-- REAL DATA GOES HERE -></span>
 					    <span class="link hide" help="help-openads-remaining-impressions" id="openadsRemainingImpressionsHelpLink"><img style="border: none; position: relative; top:5px;" src="images/help-book.gif" /></span>
 			      </span-->
 			     	<div class="hide" id="help-openads-remaining-impressions" style="height: auto; width: 290px;">
@@ -946,7 +943,7 @@ echo "<tr><td colspan='3'>\n";
         <div id="remainingClicksSection">
           <span  id='remainingClicks' >Clicks remaining:<span id='remainingClicksCount'>200</span></span><br/>
           <?php if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) { ?>
-	          <!--span id="openadsRemainingClicks">Openads clicks remaining: <span id='openadsRemainingClicksCount'>600<!-- REAL DATA GOES HERE -></span-->
+	          <!--span id="openadsRemainingClicks">OpenX clicks remaining: <span id='openadsRemainingClicksCount'>600<!-- REAL DATA GOES HERE -></span-->
 	            <span class="link hide"	help="help-openads-remaining-clicks" id="openadsRemainingClicksHelpLink"><img style="border: none; position: relative; top:5px;" src="images/help-book.gif" /></span>
 	          </span>
 	         <div class="hide" id="help-openads-remaining-clicks" style="height: auto; width: 290px;">
@@ -1218,7 +1215,7 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
     var impressions_delivered = <?php echo (isset($data['impressions_delivered'])) ? $data['impressions_delivered'] : 0; ?>;
     var clicks_delivered = <?php echo (isset($data['clicks_delivered'])) ? $data['clicks_delivered'] : 0; ?>;
     var conversions_delivered = <?php echo (isset($data['conversions_delivered'])) ? $data['conversions_delivered'] : 0; ?>;
-    
+
     <?php if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) { ?>
       var centralImpressionsRemaining = 3000; // REAL DATA GOES HERE
       var centralClicksRemaining = 600; //REAL DATA GOES HERE
@@ -1242,7 +1239,7 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
 		    if ($remainingCentral.lenght == 0) {
 		     return;
 		    }
-	
+
 	      markInsufficient(remainingLocalCount < remainingCentralCount, remainingCentralId);
 		  }
 
@@ -1251,7 +1248,7 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
 		  {
 	      var $remainingCentral = $("#" + remainingCentralId);
 	      var $remainingCentralHelpLink = $("#" + remainingCentralId + "HelpLink");
-	
+
 	      if (insufficient) {
 	        $remainingCentral.addClass("sts-insufficient");
 	        $remainingCentralHelpLink.show().css("display", "inline");
@@ -1261,7 +1258,7 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
 	        $remainingCentralHelpLink.hide();
 	      }
 		  }
-    <?php } ?>		  
+    <?php } ?>
 
 	  function hasUnlimitedValue(input)
 	  {
@@ -1334,7 +1331,7 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
         if (c.checked == true) {
             setUnlimitedValue(e);
             e.disabled = true;
-            
+
             <?php if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) { ?>
 	            //remove any "insufficient" error indicators
 			        if (remainingCentralId != undefined && remainingCentralId != "") {
@@ -1438,7 +1435,7 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
                 f.impressions.value = '';
             }
         }
-        
+
         if (type == 'clicks') {
             if (f.clicks.value != '-' && f.clicks.value != '') {
                 f.clicks.value = max_formattedNumberStringToFloat(f.clicks.value);
@@ -1501,7 +1498,7 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
         if (max_formattedNumberStringToFloat(f.clicks.value) >= 0) {
             var remaining = max_formattedNumberStringToFloat(f.clicks.value) - clicks_delivered;
             document.getElementById('remainingClicksCount').innerHTML = max_formatNumberIgnoreDecimals(remaining);
-            <?php if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) { ?>            
+            <?php if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) { ?>
               insufficientNumberCheck(remaining, centralClicksRemaining, 'openadsRemainingClicks');
             <?php } ?>
             visibility = true;

@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v2.3                                                              |
-| ============                                                              |
+| OpenX v2.3                                                              |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -31,7 +31,7 @@ include_once MAX_PATH . '/www/admin/lib-banner.inc.php';
 /**
  * A class for testing the rebuild banner cache code
  *
- * @package    OpenadsAdmin
+ * @package    OpenXAdmin
  * @subpackage TestSuite
  * @author
  */
@@ -75,7 +75,7 @@ class Test_OA_Admin_BannerCache extends UnitTestCase
          $aBanner['htmltemplate'] ='[targeturl]<a href=\'{targeturl}\' target=\'{target}\'[status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status]>[/targeturl]<img src=\'{imageurl}\' width=\'{width}\' height=\'{height}\' alt=\'{alt}\' title=\'{alt}\' border=\'0\'[nourl][status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status][/nourl]>[targeturl]</a>[/targeturl][bannertext]<br>[targeturl]<a href=\'{targeturl}\' target=\'{target}\'[status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status]>[/targeturl]{bannertext}[targeturl]</a>[/targeturl][/bannertext]';
          $aBanner['htmlcache'] ='';
          $aBanner['target'] = '_blank';
-         $aBanner['url'] = 'http://www.openads.org/';
+         $aBanner['url'] = 'http://www.openx.org/';
          $aBanner['adserver'] = '';
          $aBanner['expected'] = $aBanner['htmltemplate'];
          return $aBanner;
@@ -90,12 +90,12 @@ class Test_OA_Admin_BannerCache extends UnitTestCase
          $aBanner['storagetype'] = 'html';
          $aBanner['filename'] = '';
          $aBanner['imageurl'] = '';
-         $aBanner['htmltemplate'] ='<a href=\'http://www.openads.org/download.html\' target=\'_blank\'>Download Openads</a>';
+         $aBanner['htmltemplate'] ='<a href=\'http://www.openx.org/download.html\' target=\'_blank\'>Download Openads</a>';
          $aBanner['htmlcache'] ='';
          $aBanner['target'] = '_new';
-         $aBanner['url'] = 'http://www.openads.org';
+         $aBanner['url'] = 'http://www.openx.org';
          $aBanner['adserver'] = '';
-         $aBanner['expected'] = "<a href='{clickurl}http://www.openads.org/download.html'  target='{target}'>Download Openads</a>";
+         $aBanner['expected'] = "<a href='{clickurl}http://www.openx.org/download.html'  target='{target}'>Download Openads</a>";
          return $aBanner;
     }
 
@@ -111,7 +111,7 @@ class Test_OA_Admin_BannerCache extends UnitTestCase
          $aBanner['htmltemplate'] = '[targeturl]<a href=\'{targeturl}\' target=\'{target}\'[status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status]>[/targeturl]{bannertext}[targeturl]</a>[/targeturl]';
          $aBanner['htmlcache'] = '';
          $aBanner['target'] = '_blank';
-         $aBanner['url'] = 'http://www.openads.org/download.html';
+         $aBanner['url'] = 'http://www.openx.org/download.html';
          $aBanner['adserver'] = '';
          $aBanner['expected'] = $aBanner['htmltemplate'];
          return $aBanner;
@@ -129,7 +129,7 @@ class Test_OA_Admin_BannerCache extends UnitTestCase
          $aBanner['htmltemplate'] ='<object classid=\'clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\' codebase=\'http://fpdownload.adobe.com/pub/shockwave/cabs/flash/swflash.cab#version={pluginversion:4;0;0;0}\' width=\'{width}\' height=\'{height}\'><param name=\'movie\' value=\'{imageurl}{swf_con}{swf_param}\'><param name=\'quality\' value=\'high\'><param name=\'allowScriptAccess\' value=\'always\'>[transparent]<param name=\'wmode\' value=\'transparent\'>[/transparent]<embed src=\'{imageurl}{swf_con}{swf_param}\' quality=high [transparent]wmode=\'transparent\' [/transparent]width=\'{width}\' height=\'{height}\' type=\'application/x-shockwave-flash\' pluginspace=\'http://www.adobe.com/go/getflashplayer\' allowScriptAccess=\'always\'></embed></object>[bannertext]<br>[targeturl]<a href=\'{targeturl}\' target=\'{target}\'[status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status]>[/targeturl]{bannertext}[targeturl]</a>[/targeturl][/bannertext]';
          $aBanner['htmlcache'] ='';
          $aBanner['target'] = '_blank';
-         $aBanner['url'] = 'http://www.openads.org/';
+         $aBanner['url'] = 'http://www.openx.org/';
          $aBanner['adserver'] = '';
          $aBanner['expected'] = $aBanner['htmltemplate'];
          return $aBanner;
@@ -147,7 +147,7 @@ class Test_OA_Admin_BannerCache extends UnitTestCase
          $aBanner['htmltemplate'] ='<object classid=\'clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\' codebase=\'http://fpdownload.adobe.com/pub/shockwave/cabs/flash/swflash.cab#version={pluginversion:4;0;0;0}\' width=\'{width}\' height=\'{height}\'><param name=\'movie\' value=\'{imageurl}{swf_con}{swf_param}\'><param name=\'quality\' value=\'high\'><param name=\'allowScriptAccess\' value=\'always\'>[transparent]<param name=\'wmode\' value=\'transparent\'>[/transparent]<embed src=\'{imageurl}{swf_con}{swf_param}\' quality=high [transparent]wmode=\'transparent\' [/transparent]width=\'{width}\' height=\'{height}\' type=\'application/x-shockwave-flash\' pluginspace=\'http://www.adobe.com/go/getflashplayer\' allowScriptAccess=\'always\'></embed></object>[bannertext]<br>[targeturl]<a href=\'{targeturl}\' target=\'{target}\'[status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status]>[/targeturl]{bannertext}[targeturl]</a>[/targeturl][/bannertext]';
          $aBanner['htmlcache'] ='';
          $aBanner['target'] = '_blank';
-         $aBanner['url'] = 'http://www.openads.org';
+         $aBanner['url'] = 'http://www.openx.org';
          $aBanner['adserver'] = '';
          $aBanner['expected'] = $aBanner['htmltemplate'];
          return $aBanner;
@@ -183,7 +183,7 @@ class Test_OA_Admin_BannerCache extends UnitTestCase
          $aBanner['htmltemplate'] = '<a href="" target="">Click Here</a>';
          $aBanner['htmlcache'] ='';
          $aBanner['target'] = '_blank';
-         $aBanner['url'] = 'http://www.openads.org/';
+         $aBanner['url'] = 'http://www.openx.org/';
          $aBanner['adserver'] = 'fake';
          $aBanner['expected'] = "<a href=\"\" >Click Here</a>";
          return $aBanner;
@@ -197,8 +197,8 @@ htmltemplate: [targeturl]<a href=\'{targeturl}\' target=\'{target}\'[status] onM
    htmlcache: [targeturl]<a href=\'{targeturl}\' target=\'{target}\'[status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status]>[/targeturl]<img src=\'{imageurl}\' width=\'{width}\' height=\'{height}\' alt=\'{alt}\' title=\'{alt}\' border=\'0\'[nourl][status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status][/nourl]>[targeturl]</a>[/targeturl][bannertext]<br>[targeturl]<a href=\'{targeturl}\' target=\'{target}\'[status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status]>[/targeturl]{bannertext}[targeturl]</a>[/targeturl][/bannertext]
 *************************** 2. row ***************************
     bannerid: 2
-htmltemplate: <a href=\'http://www.openads.org/download.html\' target=\'_blank\'>Download Openads</a>
-   htmlcache: <a href=\'{clickurl}http://www.openads.org/download.html\'  target=\'{target}\'>Download Openads</a>
+htmltemplate: <a href=\'http://www.openx.org/download.html\' target=\'_blank\'>Download Openads</a>
+   htmlcache: <a href=\'{clickurl}http://www.openx.org/download.html\'  target=\'{target}\'>Download Openads</a>
 *************************** 3. row ***************************
     bannerid: 3
 htmltemplate: [targeturl]<a href=\'{targeturl}\' target=\'{target}\'[status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status]>[/targeturl]{bannertext}[targeturl]</a>[/targeturl]

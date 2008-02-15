@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -35,9 +35,9 @@ $GLOBALS['OA_HELP_LINK_BUILD_TYPE'] = OA_HELP_LINK_BUILD_USING_LINK;
 /**
  * A class for generating context sensitive help links to the documentation.
  *
- * @package    OpenadsAdmin
+ * @package    OpenXAdmin
  * @author     Marek Bedkowski <marek@bedkowski.pl>
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Admin_Help
 {
@@ -59,21 +59,15 @@ class OA_Admin_Help
             $aNavi2help = array();
         }
 
+        // Return the help URL
         if (empty($aNavi2help[$sNavId]))
         {
             // Send the user to the main page
-            $sURL = rtrim(OA_DOCUMENTATION_BASE_URL, '/') . '/';
+            $sURL = 'http://' . OX_PRODUCT_DOCSURL;
+            return $sURL;
         }
-        else
-        {
-            // Send the user to the correct page
-            $sURL = rtrim(OA_DOCUMENTATION_BASE_URL, '/') . '/' . rtrim(OA_DOCUMENTATION_PATH, '/') . '/';
-            if (preg_match('/(\d+\.\d+)/', OA_VERSION, $aMatches))
-            {
-                $sURL .= $aMatches[1] . '/';
-            }
-            $sURL .= $aNavi2help[$sNavId][0] . '/';
-        }
+        // Send the user to the correct page
+        $sURL = 'http://' . OX_PRODUCT_DOCSURL . '/' . $aNavi2help[$sNavId][0];
         return $sURL;
     }
 

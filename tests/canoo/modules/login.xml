@@ -16,5 +16,5 @@
     label="Login"
     description="Click the submit button"/>
 <verifyTitle
- text="Openads - Advertisers &amp; Campaigns"
+ text="`- Advertisers &amp; Campaigns"
  description="If login OK the Advertiser &amp; Campaigns page opens"/>

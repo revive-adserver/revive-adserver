@@ -2,14 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX  v${RELEASE_MAJOR_MINOR}                                                              |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -35,18 +32,18 @@ $Id$
 function MAX_layerGetLimitations()
 {
 	$agent = $GLOBALS['_MAX']['CLIENT'];
-	
+
 	$compatible = $agent['browser'] == 'ie' && $agent['maj_ver'] < 5 ||
 				  $agent['browser'] == 'mz' && $agent['maj_ver'] < 1 ||
 				  $agent['browser'] == 'fx' && $agent['maj_ver'] < 1 ||
-				  $agent['browser'] == 'op' && $agent['maj_ver'] < 5 
+				  $agent['browser'] == 'op' && $agent['maj_ver'] < 5
 				  ? false : true;
-				  
+
 	//$richmedia  = $agent['agent'] == 'IE' && $agent['version'] > 5.0 &&
 	//			  $agent['platform'] == 'Win'
 	//			  ? true : false;
 	$richmedia = true;
-	
+
 	return array (
 		'richmedia'  => $richmedia,
 		'compatible' => $compatible
@@ -63,18 +60,18 @@ function MAX_layerPutJs($output, $uniqid)
 {
 	global $ltr, $loop, $speed, $pause, $shiftv;
 	global $limited, $lmargin, $rmargin;
-	
+
 	// Register input variables
 	MAX_commonRegisterGlobalsArray(array('ltr', 'loop', 'speed', 'pause',
 					       'shiftv', 'limited', 'lmargin', 'rmargin'));
-	
-	
+
+
 	if (!isset($ltr)) $ltr = 't';
 	if (!isset($loop)) $loop = 'n';
 	if (!isset($speed)) $speed = 3;
 	if (!isset($pause)) $pause = 10;
 	if (!isset($shiftv)) $shiftv = 0;
-	
+
 	if ($limited == 't')
 	{
 		if (!isset($lmargin) || !isset($rmargin))
@@ -83,10 +80,10 @@ function MAX_layerPutJs($output, $uniqid)
 			$lmargin = $rmargin = '';
 		}
 	}
-	
+
 ?>
 
-function MAX_findObj(n, d) { 
+function MAX_findObj(n, d) {
   var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
   d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
   if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
@@ -106,13 +103,13 @@ function MAX_getClientSize() {
 	}
 }
 
-function MAX_floater_setclip_<?php echo $uniqid; ?>(o, top, right, bottom, left) 
+function MAX_floater_setclip_<?php echo $uniqid; ?>(o, top, right, bottom, left)
 {
 	if (o.style)
 	{
 		o.style.clip = "rect(" + top + "px " + right + "px " + bottom + "px " + left + "px)";
 	}
-	else 
+	else
 	{
 		o.clip.top = top+'px'; o.clip.right = right+'px'; o.clip.bottom = bottom+'px'; o.clip.left = left+'px';
 	}
@@ -120,7 +117,7 @@ function MAX_floater_setclip_<?php echo $uniqid; ?>(o, top, right, bottom, left)
 
 function MAX_floater_setpos_<?php echo $uniqid; ?>(c, left, width)
 {
-	if (document.all && !window.innerWidth)	
+	if (document.all && !window.innerWidth)
 	{
 		c.pixelLeft = left; c.pixelWidth = width;
 	}
@@ -136,19 +133,19 @@ function MAX_floater_grow_<?php echo $uniqid; ?>()
 
 	if (!o)
 		return false;
-	
+
 	if (o.style)
 		c = o.style;
 	else
 		c = o;
 
 	ww = MAX_getClientSize()[0]
-	
+
 	if(!document.all&&!window.opera) ww-=16
 
 	var w = <?php echo $output['width']; ?>;
 	var h = <?php echo $output['height']; ?>;
-	
+
 <?php
 	if ($limited == 't')
 	{
@@ -170,7 +167,7 @@ function MAX_floater_grow_<?php echo $uniqid; ?>()
 	var ml = ww + <?php echo $lmargin; ?>;
 <?php
 		}
-		
+
 		if ($rmargin == '')
 		{
 ?>
@@ -197,12 +194,12 @@ function MAX_floater_grow_<?php echo $uniqid; ?>()
 	var ml = 0;
 <?php
 	}
-	
+
 	if (strstr($_SERVER['HTTP_USER_AGENT'], 'Opera 6'))
 	{
 ?>
 	mr = mr - w; ml = ml + w;
-	
+
 	if (mr + w > ml)
 <?php
 	}
@@ -217,12 +214,12 @@ function MAX_floater_grow_<?php echo $uniqid; ?>()
 		var shift = <?php echo 3*($speed-1)+1; ?>;
 		var iw = mr - ml + w; var is = ml - w;
 		var cr = w; var cl = 0;
-		
+
 		if (document.all && !window.innerWidth)
 			ll = c.pixelLeft;
 		else
 			ll = parseInt(c.left);
-		
+
 <?php
 	if ($ltr == 't')
 	{
@@ -240,7 +237,7 @@ function MAX_floater_grow_<?php echo $uniqid; ?>()
 				ll += shift;
 				if (ml > ll) cl = ml - ll;
 				if (ll > mr - w) cr = mr - ll;
-				
+
 				MAX_floater_setpos_<?php echo $uniqid; ?>(c, ll, cr);
 				MAX_floater_setclip_<?php echo $uniqid; ?>(o, 0, cr, h, cl);
 			}
@@ -248,7 +245,7 @@ function MAX_floater_grow_<?php echo $uniqid; ?>()
 			{
 				c.visibility = 'hidden';
 				window.clearInterval(MAX_adlayers_timerid_<?php echo $uniqid; ?>);
-	
+
 				if (<?php echo $loop == 'n' ? 'true' : 'MAX_adlayers_counter_'.$uniqid.' < '.$loop; ?>)
 					window.setTimeout('MAX_floater_<?php echo $uniqid; ?>()', <?php echo $pause*1000; ?>);
 			}
@@ -271,7 +268,7 @@ function MAX_floater_grow_<?php echo $uniqid; ?>()
 				ll -= shift;
 				if (ml > ll) cl = ml - ll;
 				if (ll > mr - w) cr = mr - ll;
-				
+
 				MAX_floater_setclip_<?php echo $uniqid; ?>(o, 0, cr, h, cl);
 				MAX_floater_setpos_<?php echo $uniqid; ?>(c, ll, cr);
 			}
@@ -280,7 +277,7 @@ function MAX_floater_grow_<?php echo $uniqid; ?>()
 				c.visibility = 'hidden';
 				MAX_floater_setclip_<?php echo $uniqid; ?>(o, 0, w, h, 0);
 				window.clearInterval(MAX_adlayers_timerid_<?php echo $uniqid; ?>);
-	
+
 				if (<?php echo $loop == 'n' ? 'true' : 'MAX_adlayers_counter_'.$uniqid.' < '.$loop; ?>)
 					window.setTimeout('MAX_floater_<?php echo $uniqid; ?>()', <?php echo $pause*1000; ?>);
 			}
@@ -315,15 +312,15 @@ MAX_floater_<?php echo $uniqid; ?>();
 function MAX_layerGetHtml($output, $uniqid)
 {
 	global $transparent, $backcolor, $shiftv;
-	
+
 	// Register input variables
 	MAX_commonRegisterGlobalsArray(array('transparent', 'backcolor', 'shiftv'));
-	
-	
+
+
 	if (!isset($transparent)) $transparent = 't';
 	if (!isset($backcolor)) $backcolor = '#FFFFFF';
 	if (!isset($shiftv)) $shiftv = '0';
-	
+
 	// return HTML code
 	return '<div id="MAX_'.$uniqid.'" style="position:absolute; width:'.$output['width'].'px; height:'.$output['height'].
 		'px; z-index:99; left: 0px; top: '.$shiftv.'px; visibility: hidden; overflow: hidden'.

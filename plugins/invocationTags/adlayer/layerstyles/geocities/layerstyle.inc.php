@@ -2,14 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -37,17 +34,17 @@ function MAX_layerGetLimitations()
 	//$richmedia  = $agent['platform'] == 'Win' ? true : false;
 	$richmedia = true;
 	$compatible = true;
-	
+
     if (isset($GLOBALS['_MAX']['CLIENT'])) {
         $agent = $GLOBALS['_MAX']['CLIENT'];
-    	
+
     	$compatible = $agent['browser'] == 'ie' && $agent['maj_ver'] < 5 ||
     				  $agent['browser'] == 'mz' && $agent['maj_ver'] < 1 ||
     				  $agent['browser'] == 'fx' && $agent['maj_ver'] < 1 ||
-    				  $agent['browser'] == 'op' && $agent['maj_ver'] < 5 
+    				  $agent['browser'] == 'op' && $agent['maj_ver'] < 5
     				  ? false : true;
 	}
-				  
+
 	return array (
 		'richmedia'  => $richmedia,
 		'compatible' => $compatible
@@ -63,18 +60,18 @@ function MAX_layerGetLimitations()
 function MAX_layerPutJs($output, $uniqid)
 {
 	global $align, $collapsetime, $padding;
-	
+
 	// Register input variables
 	MAX_commonRegisterGlobalsArray(array('align', 'collapsetime', 'padding'));
-	
-	
+
+
 	// Calculate layer size (inc. borders)
 	$layer_width = $output['width'] + 4 + $padding*2;
 	$layer_height = $output['height'] + 30 + $padding*2;
-	
+
 ?>
 
-function MAX_findObj(n, d) { 
+function MAX_findObj(n, d) {
   var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
   d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
   if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
@@ -103,9 +100,9 @@ function MAX_adlayers_place_<?php echo $uniqid; ?>()
 		return false;
 
 	_s='style'
-	
+
 	var clientSize = MAX_getClientSize();
-	if (document.all && !window.innerWidth) { 
+	if (document.all && !window.innerWidth) {
 <?php if ($align == 'left') { ?>
 		c[_s].pixelLeft = 0;
 		o[_s].pixelLeft = 0;
@@ -148,7 +145,7 @@ function MAX_geopop(what, ad)
 	switch(what)
 	{
 		case 'collapse':
-			c[_s][_v] = 'visible'; 
+			c[_s][_v] = 'visible';
 			o[_s][_v] = 'hidden';
 
 			if (MAX_timerid[ad])
@@ -161,18 +158,18 @@ function MAX_geopop(what, ad)
 
 		case 'expand':
 			o[_s][_v] = 'visible';
-			c[_s][_v] = 'hidden'; 
+			c[_s][_v] = 'hidden';
 
 		break;
 
 		case 'close':
-			c[_s][_v] = 'hidden'; 
+			c[_s][_v] = 'hidden';
 			o[_s][_v] = 'hidden';
 
 		break;
 
 		case 'open':
-		
+
 			MAX_adlayers_place_<?php echo $uniqid; ?>();
 
 			c[_s][_v] = 'hidden';
@@ -209,25 +206,25 @@ function MAX_layerGetHtml($output, $uniqid)
 {
 	global $target;
 	global $align, $collapsetime, $padding, $closetext;
-	
+
 	$conf = $GLOBALS['_MAX']['CONF'];
-	
+
 	// Register input variables
 	MAX_commonRegisterGlobalsArray(array('align', 'collapsetime', 'padding', 'closetext'));
-	
-	
+
+
 	if (!isset($padding)) $padding = '2';
-	
+
 	// Calculate layer size (inc. borders)
 	$layer_width = $output['width'] + 4 + $padding*2;
 	$layer_height = $output['height'] + 30 + $padding*2;
-	
+
 	// Create imagepath
 	$imagepath = 'http://' . $conf['webpath']['images'] . '/layerstyles/geocities/';
-	
+
 	// return HTML code
 	return '
-<div id="MAX_c'.$uniqid.'" style="position:absolute; width:'.$layer_width.'px; height:'.$layer_height.'px; z-index:98; left: 0px; top: 0px; visibility: hidden"> 
+<div id="MAX_c'.$uniqid.'" style="position:absolute; width:'.$layer_width.'px; height:'.$layer_height.'px; z-index:98; left: 0px; top: 0px; visibility: hidden">
 	<table width="100%" border="1" cellspacing="0" cellpadding="0" style="border-style: ridge; border-color: #ffffff">
 		<tr>
 			<td bordercolor="#DDDDDD" bgcolor="#000099" align="right" style="padding: 3px 3px 2px">' .
@@ -242,18 +239,18 @@ function MAX_layerGetHtml($output, $uniqid)
 ' : '').
 '	</table>
 </div>
-<div id="MAX_o'.$uniqid.'" style="position:absolute; width:'.$layer_width.'px; height:'.$layer_height.'px; z-index:99; left: 0px; top: 0px; visibility: hidden"> 
+<div id="MAX_o'.$uniqid.'" style="position:absolute; width:'.$layer_width.'px; height:'.$layer_height.'px; z-index:99; left: 0px; top: 0px; visibility: hidden">
 	<table width="100%" border="1" cellspacing="0" cellpadding="0" style="border-style: outset; border-color: #ffffff">
-		<tr> 
+		<tr>
 			<td bordercolor="#DDDDDD" bgcolor="#000099" align="right" style="padding: 3px 3px 2px">' .
 				'<img src="'.$imagepath.'expand-d.gif" alt="" style="width:12px;height:12px;margin: 0 3px;" />' .
 				'<img src="'.$imagepath.'collapse.gif" alt="" style="width:12px;height:12px;" onclick="MAX_geopop(\'collapse\', \''.$uniqid.'\')" />' .
 			'</td>
 		</tr>
-		<tr> 
+		<tr>
 			<td>
 				<table width="100%" border="0" cellspacing="0" cellpadding="0">
-					<tr> 
+					<tr>
 						<td align="center">
 							<table border="0" cellspacing="0" cellpadding="0" bgcolor="#FFFFFF">
 								<tr>
@@ -262,7 +259,7 @@ function MAX_layerGetHtml($output, $uniqid)
 							</table>
 						</td>
 					</tr>'.(strlen($closetext) ? '
-					<tr> 
+					<tr>
 						<td align="center" bgcolor="#FFFFFF" style="font-family: Arial, helvetica, sans-serif; font-size: 9px; padding: 1px">' .
 							'<a href="#" onclick="MAX_geopop(\'collapse\', \''.$uniqid.'\');return!1;" style="color:#0000ff">'.$closetext.'</a>' .
 						'</td>

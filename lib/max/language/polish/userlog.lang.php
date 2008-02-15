@@ -2,14 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -28,7 +25,6 @@
 $Id$
 */
 
-
 // Set translation strings
 
 $GLOBALS['strDeliveryEngine']				= "Dostarczanie";
@@ -37,10 +33,10 @@ $GLOBALS['strAdministrator']				= "Administrator";
 
 
 $GLOBALS['strUserlog'] = array (
-	phpAds_actionAdvertiserReportMailed 		=> "Raport dla reklamodawcy {id} wys³any przez e-mail",
-	phpAds_actionPublisherReportMailed 		=> "Raport dla wydawcy {id} wys³any przez e-mail",
-	phpAds_actionWarningMailed			=> "Ostrze¿enie o deaktywacji kampanii {id} wys³ane przez e-mail",
-	phpAds_actionDeactivationMailed			=> "Informacja o deaktywacji kampanii {id} wys³ana przez e-mail",
+	phpAds_actionAdvertiserReportMailed 		=> "Raport dla reklamodawcy {id} wysï¿½any przez e-mail",
+	phpAds_actionPublisherReportMailed 		=> "Raport dla wydawcy {id} wysï¿½any przez e-mail",
+	phpAds_actionWarningMailed			=> "Ostrzeï¿½enie o deaktywacji kampanii {id} wysï¿½ane przez e-mail",
+	phpAds_actionDeactivationMailed			=> "Informacja o deaktywacji kampanii {id} wysï¿½ana przez e-mail",
 	phpAds_actionPriorityCalculation		=> "Priorytety przeliczone",
 	phpAds_actionPriorityAutoTargeting		=> "Cele kampanii przeliczone",
 	phpAds_actionDeactiveCampaign			=> "Kampania {id} deaktywowana",

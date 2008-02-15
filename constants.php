@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v2.5                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -26,7 +26,7 @@ $Id$
 */
 
 /**
- * @package    Max
+ * @package    OpenX
  * @author     Andrew Hill <andrew@m3.net>
  *
  * A file to set up the environment constants for Openads.
@@ -39,10 +39,14 @@ function setupConstants()
 {
     // Define this version of Openads's constants
     define('OA_VERSION', '2.7.3-dev');
-    define('MAX_PRODUCT_NAME',      'Openads');
-    define('MAX_PRODUCT_URL',       'www.openads.org');
-    define('MAX_PRODUCT_DOCSURL',   'docs.openads.org');
-    define('MAX_PRODUCT_FORUMURL',  'forum.openads.org');
+    define('MAX_PRODUCT_NAME',      'OpenX');
+    define('MAX_PRODUCT_URL',       'www.openx.org');
+    if (preg_match('/^(\d+\.\d+)/', OA_VERSION, $aMatches)) {
+        define('OX_PRODUCT_DOCSURL',   "www.openx.org/help/{$aMatches[1]}");
+    } else {
+        define('OX_PRODUCT_DOCSURL',   "www.openx.org/help");
+    }
+    define('OX_PRODUCT_FORUMURL',  'forum.openx.org');
 
     define('OA_INSTALLATION_STATUS_NOTINSTALLED' ,   -1);
     define('OA_INSTALLATION_STATUS_UPGRADING'    ,    0);
@@ -155,7 +159,7 @@ function setupConstants()
     define('MAX_FINANCE_AI',     7); // Amount per item     (zone-only)
     define('MAX_FINANCE_ANYVAR', 8); // % of any variable   (zone-only)
     define('MAX_FINANCE_VARSUM', 9); // % of a variable sum (zone-only)
-    
+
     // OAC communication
     define('OAC_RPC_TIMEOUT',   10); // RPC timeout to OAC in seconds
 
@@ -209,11 +213,6 @@ function setupConstants()
     define('MAX_LIMITATION_NOT_EQUAL', 1);
     define('MAX_LIMITATION_BITWISE', 2);
 
-    define('OA_DOCUMENTATION_BASE_URL', 'http://docs.openads.org');
-    define('OA_DOCUMENTATION_PATH',     'help');
-    preg_match('/(\d+\.\d+)/', OA_VERSION, $aMatches);
-    define('OA_DOCUMENTATION_VERSION',     $aMatches[1]);
-
     // Define the week to start on Sunday (0) so that the PEAR::Date and
     // PEAR::Date_Calc classes agree on what day is the start of the week
     define('DATE_CALC_BEGIN_WEEKDAY', 0);
@@ -230,7 +229,7 @@ function setupConstants()
 
     // Ensure that the initialisation has not been run before
     if (!(isset($GLOBALS['_MAX']['CONF']))) {
-        // Define the Openads installation base path if not defined
+        // Define the OpenX installation base path if not defined
         // since Local mode will pre-define this value
         if (!defined('MAX_PATH')) {
             define('MAX_PATH', dirname(__FILE__));
@@ -245,15 +244,15 @@ function setupConstants()
             $newPearPath = '.'.PATH_SEPARATOR . $newPearPath;
         }
         ini_set('include_path', $newPearPath);
-        // Parse the Openads configuration file
+        // Parse the OpenX configuration file
         $GLOBALS['_MAX']['CONF'] = parseIniFile();
-        // Define the Openads Cache File location path (required trailing slash)
+        // Define the OpenX Cache File location path (required trailing slash)
         if (empty($GLOBALS['_MAX']['CONF']['delivery']['cachePath'])) {
             define('MAX_CACHE', MAX_PATH . '/var/cache/');
         } else {
             define('MAX_CACHE', $GLOBALS['_MAX']['CONF']['delivery']['cachePath']);
         }
-        // Define the Openads Plugins Cache File location path (required trailing slash)
+        // Define the OpenX Plugins Cache File location path (required trailing slash)
         if (empty($GLOBALS['_MAX']['CONF']['delivery']['pluginsCachePath'])) {
             define('MAX_PLUGINS_CACHE', MAX_PATH . '/var/plugins/');
         } else {

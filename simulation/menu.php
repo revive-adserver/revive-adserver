@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -44,7 +44,7 @@ class Menu
 
     /**
      * A method to return the HTML code needed to display a tree-based
-     * menu of all the Openads simulations.
+     * menu of all the OpenX simulations.
      *
      * @return string A string containing the HTML code needed to display
      *                the tests in a tree-based menu.
@@ -57,7 +57,7 @@ class Menu
         $menu     = new HTML_TreeMenu();
         $rootNode = new HTML_TreeNode(
                             array(
-                                'text' => 'Openads Simulation Scenarios',
+                                'text' => 'OpenX Simulation Scenarios',
                                 'icon' => $icon_pkg,
                                 'link' => 'home.php',
                                 'linkTarget' => 'right'

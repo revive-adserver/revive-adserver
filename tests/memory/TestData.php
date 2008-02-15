@@ -1,11 +1,11 @@
 <?php
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -246,7 +246,7 @@ class Memory_TestData
         $doBanners->parameters    = '';
 
         $doBanners->htmltemplate    = "<script type='text/javascript'><!--//<![CDATA[
-   var m3_u = (location.protocol=='https:'?'https://ads.openads.org/delivery/ajs.php':'http://ads.openads.org/delivery/ajs.php');
+   var m3_u = (location.protocol=='https:'?'https://ads.openx.org/delivery/ajs.php':'http://ads.openx.org/delivery/ajs.php');
    var m3_r = Math.floor(Math.random()*99999999999);
    if (!document.MAX_used) document.MAX_used = ',';
    document.write (\"<scr\"+\"ipt type='text/javascript' src='\"+m3_u);
@@ -259,10 +259,10 @@ class Memory_TestData
    if (document.context) document.write (\"&context=\" + escape(document.context));
    if (document.mmm_fo) document.write (\"&amp;mmm_fo=1\");
    document.write (\"'><\\/scr\"+\"ipt>\");
-//]]>--></script><noscript><a href='http://ads.openads.org/delivery/ck.php?n=abc986b1&amp;cb=INSERT_RANDOM_NUMBER_HERE' target='_blank'><img src='http://ads.openads.org/delivery/avw.php?zoneid=9&amp;cb=INSERT_RANDOM_NUMBER_HERE&amp;n=abc986b1' border='0' alt='' /></a></noscript>";
+//]]>--></script><noscript><a href='http://ads.openx.org/delivery/ck.php?n=abc986b1&amp;cb=INSERT_RANDOM_NUMBER_HERE' target='_blank'><img src='http://ads.openx.org/delivery/avw.php?zoneid=9&amp;cb=INSERT_RANDOM_NUMBER_HERE&amp;n=abc986b1' border='0' alt='' /></a></noscript>";
 
         $doBanners->htmlcache    = "<script type='text/javascript'><!--//<![CDATA[
-   var m3_u = (location.protocol=='https:'?'https://ads.openads.org/delivery/ajs.php':'http://ads.openads.org/delivery/ajs.php');
+   var m3_u = (location.protocol=='https:'?'https://ads.openx.org/delivery/ajs.php':'http://ads.openx.org/delivery/ajs.php');
    var m3_r = Math.floor(Math.random()*99999999999);
    if (!document.MAX_used) document.MAX_used = ',';
    document.write (\"<scr\"+\"ipt type='text/javascript' src='\"+m3_u);
