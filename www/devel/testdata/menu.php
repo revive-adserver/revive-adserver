@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -33,9 +33,9 @@ require_once 'HTML/TreeMenu.php';
  * A class for managing the construction of groups of tests, and for
  * presenting them in an HTML menu.
  *
- * @package     Max
- * @subpackage  SimulationSuite
- * @author      Monique Szpak <monique@m3.net>
+ * @package    OpenX
+ * @subpackage SimulationSuite
+ * @author     Monique Szpak <monique.szpak@openx.org>
  */
 class Menu
 {

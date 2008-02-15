@@ -2,14 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -27,13 +24,6 @@
 +---------------------------------------------------------------------------+
 $Id$
 */
-
-/**
- * A file for holding the "maintenance" English translation information.
- *
- * @package    MaxUI
- * @subpackage Languages
- */
 
 // Main strings
 $GLOBALS['strChooseSection']			= "Choose section";
@@ -67,8 +57,8 @@ $GLOBALS['strBannerCacheExplaination']		= "
     The database banner cache is used to speed up delivery of banners during delivery<br />
     This cache needs to be updated when:
     <ul>
-        <li>You upgrade your version of Openads</li>
-        <li>You move your openads installation to a different server</li>
+        <li>You upgrade your version of ".MAX_PRODUCT_NAME."</li>
+        <li>You move your ".MAX_PRODUCT_NAME." installation to a different server</li>
     </ul>
 ";
 

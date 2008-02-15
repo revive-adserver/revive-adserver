@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -35,7 +35,7 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  * @param string $op The operator
  * @param array $aParams An array of additional parameters to be checked
  * @return boolean Whether this impression's channel passes this limitation's test.
- * @author Chris Nutting <Chris.Nutting@openads.org>
+ * @author     Chris Nutting <chris.nutting@openx.org>
  * @author Mohammed El-Hakim
  */
 function MAX_checkSite_Variable($limitation, $op, $aParams = array())

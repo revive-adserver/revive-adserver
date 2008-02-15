@@ -1,11 +1,11 @@
 <?php
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -36,7 +36,7 @@ define('MAX_PLUGINS_CHANNEL_DELIVERY_DOMAIN_REPLACE_NAME', 'DOMAIN_NAME');
 /**
  * Plugins_ChannelDerivation is a common class for reading all the informations from channel files.
  *
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage ChannelDerivation
  * @author     Radek Maciaszek <radek@m3.net>
  */

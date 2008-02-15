@@ -1,4 +1,4 @@
-<project name="openads" default="package" basedir=".">
+<project name="openx" default="package" basedir=".">
   <property name="test.conf.xml" value="devel.xml"/>
   <property name="dir.test.results" location="build/test-results"/>
   <property name="dir.test.reports" location="build/test-results"/>
@@ -12,9 +12,9 @@
   <!-- Import the canoo scripts -->
   <import file="build-canoo.xml"/>
 
-  <!-- Openads Package Integrity Plugin -->
+  <!-- OpenX Package Integrity Plugin -->
   <taskdef name="checkdistribution" classname="org.openads.ant.CheckDistributionTask"/>
-  <!-- Openads Delivery Generation Plugin -->
+  <!-- OpenX Delivery Generation Plugin -->
   <taskdef name="generatedelivery" classname="org.openads.ant.GenerateDeliveryTask"/>
   <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
 
@@ -22,7 +22,7 @@
     <attribute name="versionstring" description="A version to be set."/>
     <sequential>
       <replaceregexp file="constants.php"
-        match="^.*OA_VERSION.*$"
+        match="^ *define\('OA_VERSION.*$"
         replace="    define('OA_VERSION', '@{versionstring}');"
         byline="true"/>
     </sequential>
@@ -37,7 +37,7 @@
   <!-- ******************************************************************** -->
   <!-- DELIVERY AND XML CACHE GENERATION TARGETS                            -->
   <!-- ******************************************************************** -->
-  
+
   <target name="generate-delivery"
     description="Merge delivery files into /www/delivery folder to optimize their speed.">
     <generatedelivery outputdir="${basedir}/www/delivery" max_path="${basedir}" template="${basedir}/www/delivery_dev/template.php">
@@ -60,17 +60,17 @@
       <arg value="buildXmlCache.php" />
     </exec>
   </target>
-  
+
   <target name="generate-adnetworks-cache" description="Generate Adnetworks Cache (countries, categories and languages)">
     <exec dir="${basedir}/scripts/upgrade" executable="php" failonerror="true">
       <arg value="buildAdNetworksCache.php" />
     </exec>
   </target>
-  
+
   <!-- ******************************************************************** -->
   <!-- INITIALIZATION TARGETS                                               -->
   <!-- ******************************************************************** -->
-  
+
   <target name="init">
     <touch file="should_not_exist"/>
     <mkdir dir="build/test-results"/>
@@ -85,7 +85,7 @@
   <target name="init-label" unless="label">
     <property name="label" value="trunk"/>
   </target>
-  
+
   <target name="init-revision" unless="svnrevision">
     <property name="svnrevision" value="na"/>
   </target>
@@ -95,7 +95,7 @@
   </target>
 
   <target name="init-release" unless="release" depends="init,init-version">
-    <property name="release" value="openads-${version}"/>
+    <property name="release" value="openx-${version}"/>
     <echo message="Initialized release: ${release}."/>
   </target>
 
@@ -122,7 +122,7 @@
   </target>
 
   <target name="package-bzip2-canoo" depends="prepare-version-info">
-    <property name="canoo.package" value="openads-canoo-${version}.tar.gz"/>
+    <property name="canoo.package" value="openx-canoo-${version}.tar.gz"/>
     <property name="canoo.package.file" value="${dir.test.results}/${canoo.package}"/>
     <tar destfile="${canoo.package.file}" basedir="." compression="gzip" longfile="gnu">
       <patternset refid="dist.included"/>
@@ -138,11 +138,11 @@
       </fileset>
     </copy>
   </target>
-  
+
   <target name="clear-distribution" depends="prepare-version-info">
     <property name="release.dir" value="${dir.test.results}/${release}"/>
     <delete dir="${release.dir}" failonerror="false"/>
-  </target>  
+  </target>
 
   <target name="package-bzip2" depends="prepare-distribution">
     <tar destfile="${dir.test.results}/${release}.tar.bz2" basedir="${dir.test.results}" includes="${release}/**" compression="bzip2" longfile="gnu"/>
@@ -202,14 +202,14 @@
   	<echo>test-canoo finished</echo>
   </target>
 
-  <target name="test-canoo-local" depends="canoo-create-openads-configuration-local, setup-delivery-files, run-test-canoo">
+  <target name="test-canoo-local" depends="canoo-create-openx-configuration-local, setup-delivery-files, run-test-canoo">
     <property name="run.local" value="true" />
   	<antcall target="clean-delivery"></antcall>
   </target>
 
   <target name="test-canoo-remote" depends="test-canoo-prepare, run-test-canoo, clean-ec2"/>
 
-  <target name="test-canoo-prepare" depends="clean, checkconsistency, init-version, package-bzip2-canoo, canoo-prepare-dir, canoo-copy-package, canoo-unpack-package, canoo-create-openads-configuration-remote"/>
+  <target name="test-canoo-prepare" depends="clean, checkconsistency, init-version, package-bzip2-canoo, canoo-prepare-dir, canoo-copy-package, canoo-unpack-package, canoo-create-openx-configuration-remote"/>
 
   <target name="simpletest" depends="clean, init, test-all, package" />
 

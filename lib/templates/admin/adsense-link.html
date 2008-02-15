@@ -1,14 +1,11 @@
 {*<!--
 
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -35,12 +32,12 @@ $Id: custom-adnetworks.html 12771 2007-11-23 15:29:03Z matteo.beccati@openads.or
   {*
     Information message, do not display when the error messages below are displayed.
   *}
-  {if true} 
+  {if true}
   <div class="infomessage">
-    To link your AdSense account to Openads, enter the email address, zipcode/
+    To link your AdSense account to OpenX, enter the email address, zipcode/
     postal code and the last 5 digits of the phone number that you gave to Google
     when you signed up for your AdSense account. Also, provide a name for
-    this account within Openads.
+    this account within OpenX.
   </div>
   {/if}
 
@@ -61,7 +58,7 @@ $Id: custom-adnetworks.html 12771 2007-11-23 15:29:03Z matteo.beccati@openads.or
 
   {*
     Error message to be shown when phone digits or zipcode don't match.
-  *}  
+  *}
   {if false}
   <div class="errormessageicon">
   Digits of the phone number or zipcode/ post code do not match the data
@@ -80,7 +77,7 @@ $Id: custom-adnetworks.html 12771 2007-11-23 15:29:03Z matteo.beccati@openads.or
     {include file=edit-table/create.html from=$fields}
 
     <div class="controls">
-      <input value="Link Openads to AdSense" class="main-submit" type="submit" {tabindex}>
+      <input value="Link OpenX to AdSense" class="main-submit" type="submit" {tabindex}>
     </div>
   </form>
 </div>

@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -150,8 +150,8 @@ $GLOBALS['strAdmin']                    = 'Admin';
 // Dashboard
 $GLOBALS['strDashboardCommunity']       = 'Community';
 $GLOBALS['strDashboardDashboard']       = 'Dashboard';
-$GLOBALS['strDashboardForum']           = 'Openads Forum';
-$GLOBALS['strDashboardDocs']            = 'Openads Dokumentation';
+$GLOBALS['strDashboardForum']           = 'OpenX Forum';
+$GLOBALS['strDashboardDocs']            = 'OpenX Dokumentation';
 
 // Priority
 $GLOBALS['strPriority']				= "Dringlichkeit";
@@ -480,7 +480,7 @@ $GLOBALS['strStatusText']			= "Status-Text";
 $GLOBALS['strBannerWeight']			= "Bannergewichtung";
 $GLOBALS['strBannerType']           = "Werbemitteltyp";
 $GLOBALS['strAdserverTypeGeneric']  = "Standard HTML-Banner";
-$GLOBALS['strAdserverTypeMax']      = "Rich Media - Openads";
+$GLOBALS['strAdserverTypeMax']      = "Rich Media - OpenX";
 $GLOBALS['strAdserverTypeAtlas']    = "Rich Media - Atlas";
 $GLOBALS['strAdserverTypeBluestreak']   = "Rich Media - Bluestreak";
 $GLOBALS['strAdserverTypeDoubleclick']  = "Rich Media - DoubleClick";

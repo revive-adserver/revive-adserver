@@ -6,7 +6,7 @@ webtest.home=/usr/local/canoo
 webtest.exec=/usr/local/canoo/bin/webtest.sh
 
 ;---------------------------------------------
-; Where Openads is available for testing
+; Where OpenX is available for testing
 ;---------------------------------------------
 host=localhost
 port=80
@@ -26,7 +26,7 @@ sql.user=username
 sql.password=password
 
 ;---------------------------------------------
-; What are the Openads' user credentials
+; What are the OpenX' user credentials
 ;---------------------------------------------
 admin.name=admin
 admin.password=password

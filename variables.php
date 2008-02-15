@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -27,11 +27,11 @@ $Id$
 
 /**
  * @package    MaxDelivery
- * @author     Chris Nutting <chris.nutting@openads.org>
- * @author     Andrew Hill <andrew.hill@openads.org>
- * @author     Radek Maciaszek <radek.maciaszek@openads.org>
+ * @author     Chris Nutting <chris.nutting@openx.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
+ * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  *
- * A file to set up the environment for the Openads delivery engine.
+ * A file to set up the environment for the OpenX delivery engine.
  *
  * Both opcode and PHP by itself slow things down when we require many
  * files. Therefore maintainability has been sacrificed in order to
@@ -235,7 +235,7 @@ function getMinimumRequiredMemory()
 }
 
 /**
- * Set a minimum amount of memory required by Openads
+ * Set a minimum amount of memory required by OpenX
  *
  * @param integer $setMemory  A new memory limit (in bytes)
  * @return boolean  true if memory is already bigger or when an attempt to

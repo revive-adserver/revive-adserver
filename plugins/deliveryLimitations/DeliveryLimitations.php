@@ -1,11 +1,11 @@
 <?php
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -39,7 +39,7 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  * {Plugin} is the actual name of the plugin.  The plugin file name is also called {Plugin}.plugin.php.
  *
  * @abstract
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
  * @author     Chris Nutting <chris@m3.net>
  */
@@ -447,7 +447,7 @@ class Plugins_DeliveryLimitations extends MAX_Plugin_Common
 
 
     /**
-     * Gets information about $op and $data for upgrade from Openads 2.0.
+     * Gets information about $op and $data for upgrade from OpenX 2.0.
      *
      * @param string $op
      * @param string $sData

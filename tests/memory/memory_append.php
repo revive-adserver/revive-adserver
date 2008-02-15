@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -35,7 +35,7 @@ $mem = memory_get_usage(true);
 $filename = basename($_SERVER["SCRIPT_NAME"]);
 
 if (!defined('MAX_PATH')) {
-    // make sure this script is executed only inside Openads
+    // make sure this script is executed only inside OpenX
     exit;
 }
 $memoryLock = MAX_PATH . '/var/MEMORY_LOCK';

@@ -1,11 +1,12 @@
 <?php
+
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -23,7 +24,6 @@
 +---------------------------------------------------------------------------+
 $Id$
 */
-
 
 require_once MAX_PATH . '/tests/testClasses/OATestData.php';
 
@@ -56,13 +56,18 @@ class OA_Test_Data_MDB2Schema extends OA_Test_Data
      * instantiate the schema and table objects
      *
      * @param string $datafile
+     * @param string $directory
      * @return boolean
      */
-    function init($datafile='fjsdj', $directory='/tests/data/mdb2/', $version=true)
+    function init($datafile='fjsdj', $directory='/tests/datasets/')
     {
         if (!parent::init())
         {
             return false;
+        }
+        if (!$directory)
+        {
+            $directory = '/tests/datasets/';
         }
         $this->directory = $directory;
         if (substr_count($this->directory, MAX_PATH)<1)
@@ -84,21 +89,10 @@ class OA_Test_Data_MDB2Schema extends OA_Test_Data
         {
             return false;
         }
-        if ($version)
-        {
-            if (!preg_match('/(?P<appver>[\w\W]+)_data_tables_core_(?P<schema>[\d]+)_(?P<dbname>[\w\W]+)\.xml/',$this->datafile,$aMatch))
-            {
-                return false;
-            }
-            if (!$this->initSchemaVersion($aMatch['schema']))
-            {
-                return false;
-            }
-        }
         return true;
     }
 
-    function initSchemaVersion($version)
+    function _initSchemaVersion($version)
     {
         return $this->oTable->init(MAX_PATH.'/etc/changes/schema_tables_core_'.$version.'.xml');
     }
@@ -106,6 +100,7 @@ class OA_Test_Data_MDB2Schema extends OA_Test_Data
     /**
      *
      * A method to parse the content file to an array
+     * Along with it's associated table schema definition
      *
      *
      * @access private
@@ -113,12 +108,16 @@ class OA_Test_Data_MDB2Schema extends OA_Test_Data
      */
     function _getContentDefinition()
     {
-        $aResult = $this->oSchema->parseDatabaseContentFile($this->directory.$this->datafile, array(), false, false, $this->oTable->aDefinition);
-        if (PEAR::isError($aResult))
+        $aContent = $this->oSchema->parseDatabaseContentFile($this->directory.$this->datafile, array(), false, false, $this->oTable->aDefinition);
+        if (PEAR::isError($aContent))
         {
             return false;
         }
-        return $aResult;
+        if (!$this->_initSchemaVersion($aContent['version']))
+        {
+            return false;
+        }
+        return $aContent;
     }
     /**
      *
@@ -128,9 +127,13 @@ class OA_Test_Data_MDB2Schema extends OA_Test_Data
      */
     function generateTestData()
     {
-        $aDefinition = $this->_getContentDefinition();
+        $aContent = $this->_getContentDefinition();
+        if (!$aContent)
+        {
+            return false;
+        }
         $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-        foreach ($aDefinition['tables'] as $table_name => $aTable)
+        foreach ($aContent['tables'] as $table_name => $aTable)
         {
             $this->aIds[$table_name] = array();
             if (empty($aTable['initialization']))
@@ -145,6 +148,11 @@ class OA_Test_Data_MDB2Schema extends OA_Test_Data
         return true;
     }
 
+    /**
+     * fixes datetime values for pgsql
+     *
+     * @param array $aTable
+     */
     function _fixTestData(&$aTable)
     {
         if ($this->oDbh->dbsyntax == 'pgsql') {

@@ -2,14 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -29,8 +26,8 @@ $Id$
 */
 
 // This is by no means a complete list of all possible banner sized, but
-// an the current list of all offical banner sized defined by the IAB. 
-// If you have corrections or additions to this list, please send them 
+// an the current list of all offical banner sized defined by the IAB.
+// If you have corrections or additions to this list, please send them
 // to niels@creatype.nl
 
 $phpAds_IAB['IAB Full Banner (468 x 60)'] 		 	= array ('width' => 468, 'height' => 60);

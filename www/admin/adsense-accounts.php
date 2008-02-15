@@ -2,14 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -136,14 +133,14 @@ else
            )
        ),
        array(
-           'title'     => 'Name for the AdSense Account in Openads',
+           'title'     => 'Name for the AdSense Account in OpenX',
            'fields'    => array(
                array(
                    'name'      => 'name',
-                   'label'     => 'Name for the AdSense Account in Openads',
+                   'label'     => 'Name for the AdSense Account in OpenX',
                    'value'     => '',
                    'id'        => 'accountname',
-                   'title'     => 'Provide name in Openads',
+                   'title'     => 'Provide name in OpenX',
                    'clientValid' => 'required:true'
                )
            )
@@ -167,14 +164,14 @@ else
            )
        ),
        array(
-           'title'     => 'Name for the AdSense Account in Openads',
+           'title'     => 'Name for the AdSense Account in OpenX',
            'fields'    => array(
                array(
                    'name'      => 'name',
-                   'label'     => 'Name for the AdSense Account in Openads',
+                   'label'     => 'Name for the AdSense Account in OpenX',
                    'value'     => '',
                    'id'        => 'accountname-create',
-                   'title'     => 'Provide name in Openads',
+                   'title'     => 'Provide name in OpenX',
                    'clientValid' => 'required:true'
                )
            )

@@ -1,10 +1,10 @@
 /*
 +---------------------------------------------------------------------------+
-| Openads v2.5                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -19,20 +19,6 @@
 | You should have received a copy of the GNU General Public License         |
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
-+---------------------------------------------------------------------------+
-|  Copyright 2003-2007 Openads Limited                                      |
-|                                                                           |
-|  Licensed under the Apache License, Version 2.0 (the "License");          |
-|  you may not use this file except in compliance with the License.         |
-|  You may obtain a copy of the License at                                  |
-|                                                                           |
-|    http://www.apache.org/licenses/LICENSE-2.0                             |
-|                                                                           |
-|  Unless required by applicable law or agreed to in writing, software      |
-|  distributed under the License is distributed on an "AS IS" BASIS,        |
-|  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. |
-|  See the License for the specific language governing permissions and      |
-|  limitations under the License.                                           |
 +---------------------------------------------------------------------------+
 $Id:$
 */
@@ -51,8 +37,8 @@ import org.openads.publisher.PublisherTestCase;
 
 /**
  * Base class for all zone web service tests
- * 
- * @author <a href="mailto:apetlyovanyy@lohika.com">Andriy Petlyovanyy</a>
+ *
+ * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class ZoneTestCase extends PublisherTestCase {
 	protected static final String GET_ZONE_LIST_BY_PUBLISHER_ID_METHOD = "getZoneListByPublisherId";
@@ -99,7 +85,7 @@ public class ZoneTestCase extends PublisherTestCase {
 	public Integer createZone() throws XmlRpcException, MalformedURLException {
 		return createZone(getZoneParams("test"));
 	}
-	
+
 	/**
 	 * @return zone id
 	 * @throws XmlRpcException
@@ -112,7 +98,7 @@ public class ZoneTestCase extends PublisherTestCase {
 
 		Object[] paramsWithId = new Object[] { sessionId, params };
 		final Integer result = (Integer) client.execute(ADD_ZONE_METHOD, paramsWithId);
-		
+
 		return result;
 	}
 
@@ -138,7 +124,7 @@ public class ZoneTestCase extends PublisherTestCase {
 
 		return client.execute(method, params);
 	}
-	
+
 	/**
 	 * @param prefix
 	 * @return
@@ -150,7 +136,7 @@ public class ZoneTestCase extends PublisherTestCase {
 		params.put(TYPE, 0);
 		params.put(WIDTH, 200);
 		params.put(HEIGHT, 200);
-		
+
 		return params;
 	}
 }

@@ -2,14 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -28,32 +25,31 @@
 $Id$
 */
 
-
 // Main strings
-$GLOBALS['strChooseSection']			= "Wybierz sekcjê";
+$GLOBALS['strChooseSection']			= "Wybierz sekcjï¿½";
 
 
 // Priority
 $GLOBALS['strRecalculatePriority']		= "Przelicz priorytety";
 $GLOBALS['strHighPriorityCampaigns']		= "Kampanie o wysokich priorytetach";
-$GLOBALS['strAdViewsAssigned']			= "Ods³ony przydzielone";
+$GLOBALS['strAdViewsAssigned']			= "Odsï¿½ony przydzielone";
 $GLOBALS['strLowPriorityCampaigns']		= "Kampanie o niskich priorytetach";
-$GLOBALS['strPredictedAdViews']			= "Przewidziane Ods³ony";
-$GLOBALS['strPriorityDaysRunning']		= "Dostêpnych jest obecnie {days} dni danych statystycznych, na których ".$phpAds_productname." mo¿e bazowaæ swoje dzienne przewidywania. ";
+$GLOBALS['strPredictedAdViews']			= "Przewidziane Odsï¿½ony";
+$GLOBALS['strPriorityDaysRunning']		= "Dostï¿½pnych jest obecnie {days} dni danych statystycznych, na ktï¿½rych ".$phpAds_productname." moï¿½e bazowaï¿½ swoje dzienne przewidywania. ";
 $GLOBALS['strPriorityBasedLastWeek']		= "Predykcja jest oparta na danych z tego i poprzedniego tygodnia. ";
 $GLOBALS['strPriorityBasedLastDays']		= "Predykcja jest oparta na danych z kilku ostatnich dni. ";
 $GLOBALS['strPriorityBasedYesterday']		= "Predykcja jest oparta na danych z wczoraj. ";
-$GLOBALS['strPriorityNoData']			= "Nie ma wystarczaj±cych danych na których mo¿naby oprzeæ przewidywania co o ilo¶ci Ods³on, które ten serwer mo¿e wytworzyæ dzisiaj. Przydzia³y priorytetów bêd± bazowa³y jedynie na chwilowych danych statystycznych. ";
-$GLOBALS['strPriorityEnoughAdViews']		= "Powinno wystarczyæ Ods³on aby zapewniæ wykonanie limitów przydzielonych kampaniom o wysokim priorytecie. ";
-$GLOBALS['strPriorityNotEnoughAdViews']		= "Nie jest pewne czy wystarczy Ods³on aby zapewniæ wykonanie limitów wszystkich kampanii o wysokim priorytecie. Z tego powodu kampanie o niskim priorytecie zostaj± chwilowo wy³±czone. ";
+$GLOBALS['strPriorityNoData']			= "Nie ma wystarczajï¿½cych danych na ktï¿½rych moï¿½naby oprzeï¿½ przewidywania co o iloï¿½ci Odsï¿½on, ktï¿½re ten serwer moï¿½e wytworzyï¿½ dzisiaj. Przydziaï¿½y priorytetï¿½w bï¿½dï¿½ bazowaï¿½y jedynie na chwilowych danych statystycznych. ";
+$GLOBALS['strPriorityEnoughAdViews']		= "Powinno wystarczyï¿½ Odsï¿½on aby zapewniï¿½ wykonanie limitï¿½w przydzielonych kampaniom o wysokim priorytecie. ";
+$GLOBALS['strPriorityNotEnoughAdViews']		= "Nie jest pewne czy wystarczy Odsï¿½on aby zapewniï¿½ wykonanie limitï¿½w wszystkich kampanii o wysokim priorytecie. Z tego powodu kampanie o niskim priorytecie zostajï¿½ chwilowo wyï¿½ï¿½czone. ";
 
 
 // Banner cache
-$GLOBALS['strRebuildBannerCache']		= "Odbuduj cache bannerów";
+$GLOBALS['strRebuildBannerCache']		= "Odbuduj cache bannerï¿½w";
 $GLOBALS['strBannerCacheExplaination']		= "
-	Cache bannerów przechowuje kopiê kodu HTML, który jest wykorzystywany do wy¶wietlania bannera. Korzystaj±c z cache'u bannerów mo¿liwe jest
-	przy¶pieszenie ich dostarczania poniewa¿ kod HTML nie musi byæ generowany na nowo przy ka¿dym wywo³aniu. Poniewa¿ cache zawiera
-	wpisane adresy URL z lokalizacj± ".$phpAds_productname." i jego bannerów, musi on byæ aktualizowany za ka¿dym razem
+	Cache bannerï¿½w przechowuje kopiï¿½ kodu HTML, ktï¿½ry jest wykorzystywany do wyï¿½wietlania bannera. Korzystajï¿½c z cache'u bannerï¿½w moï¿½liwe jest
+	przyï¿½pieszenie ich dostarczania poniewaï¿½ kod HTML nie musi byï¿½ generowany na nowo przy kaï¿½dym wywoï¿½aniu. Poniewaï¿½ cache zawiera
+	wpisane adresy URL z lokalizacjï¿½ ".$phpAds_productname." i jego bannerï¿½w, musi on byï¿½ aktualizowany za kaï¿½dym razem
 	kiedy ".$phpAds_productname." jest przenoszony do innej lokalizacji na serwerze.
 ";
 
@@ -63,13 +59,13 @@ $GLOBALS['strCache']				= "Cache dostarczania";
 $GLOBALS['strAge']				= "Wiek";
 $GLOBALS['strRebuildDeliveryCache']		= "Odbuduj cache dostarczania";
 $GLOBALS['strDeliveryCacheExplaination']	= "
-	Cache dostarczania jest wykorzystywany do przyspieszenia wy¶wietlania bannerów. Cache zawiera kopiê wszystkich bannerów,
-	które s± pod³±czone do strefy, co pozwala zaoszczêdziæ kilka odwo³añ do bazy danych kiedy bannery s± dostarczane u¿ytkownikówi. Cache
-	jest zazwyczaj odbudowywany za ka¿dym razem kiedy zostanie dokonana zmiana w strefie lub jednym z jej bannerów. Mo¿e siê zdarzyæ, ¿e
-	cache przestanie byæ aktualny. Z tego powodu jest odbudowywany co godzinê oraz dodatkowo mo¿na go odbudowaæ rêcznie.
+	Cache dostarczania jest wykorzystywany do przyspieszenia wyï¿½wietlania bannerï¿½w. Cache zawiera kopiï¿½ wszystkich bannerï¿½w,
+	ktï¿½re sï¿½ podï¿½ï¿½czone do strefy, co pozwala zaoszczï¿½dziï¿½ kilka odwoï¿½aï¿½ do bazy danych kiedy bannery sï¿½ dostarczane uï¿½ytkownikï¿½wi. Cache
+	jest zazwyczaj odbudowywany za kaï¿½dym razem kiedy zostanie dokonana zmiana w strefie lub jednym z jej bannerï¿½w. Moï¿½e siï¿½ zdarzyï¿½, ï¿½e
+	cache przestanie byï¿½ aktualny. Z tego powodu jest odbudowywany co godzinï¿½ oraz dodatkowo moï¿½na go odbudowaï¿½ rï¿½cznie.
 ";
 $GLOBALS['strDeliveryCacheSharedMem']		= "
-	Wspó³dzielona pamiêæ jest obecnie wykorzystywana do przechowywania cache'u dostarczania.
+	Wspï¿½dzielona pamiï¿½ï¿½ jest obecnie wykorzystywana do przechowywania cache'u dostarczania.
 ";
 $GLOBALS['strDeliveryCacheDatabase']		= "
 	Baza danych jest obecnie wykorzystywana do przechowywania cache'u dostarczania.
@@ -78,63 +74,63 @@ $GLOBALS['strDeliveryCacheDatabase']		= "
 
 // Storage
 $GLOBALS['strStorage']				= "Przechowywanie";
-$GLOBALS['strMoveToDirectory']			= "Przenie¶ obrazki przechowywane w bazie danych do katalogu";
+$GLOBALS['strMoveToDirectory']			= "Przenieï¿½ obrazki przechowywane w bazie danych do katalogu";
 $GLOBALS['strStorageExplaination']		= "
-	Obrazki wykorzystywane przez lokalne bannery s± przechowany w bazie danych lub katalogu. Je¶li przechowujesz je w
-	katalogu zmniejszy to obci±¿enie bazy danych i poprawi prêdko¶æ dzia³ania.
+	Obrazki wykorzystywane przez lokalne bannery sï¿½ przechowany w bazie danych lub katalogu. Jeï¿½li przechowujesz je w
+	katalogu zmniejszy to obciï¿½ï¿½enie bazy danych i poprawi prï¿½dkoï¿½ï¿½ dziaï¿½ania.
 ";
 
 
 // Storage
 $GLOBALS['strStatisticsExplaination']		= "
-	Wybra³e¶ opcjê <i>statystyk skróconych</i>, jednak¿e stare statystyki s± nadal w rozszerzonym formacie.
-	Czy chcesz je skonwertowaæ do nowego, skróconego formatu?
+	Wybraï¿½eï¿½ opcjï¿½ <i>statystyk skrï¿½conych</i>, jednakï¿½e stare statystyki sï¿½ nadal w rozszerzonym formacie.
+	Czy chcesz je skonwertowaï¿½ do nowego, skrï¿½conego formatu?
 ";
 
 
 // Product Updates
-$GLOBALS['strSearchingUpdates']			= "Wyszukiwanie aktualizacji. Proszê zaczekaæ...";
-$GLOBALS['strAvailableUpdates']			= "Dostêpne aktualizacje";
-$GLOBALS['strDownloadZip']			= "¦ci±gnij (.zip)";
-$GLOBALS['strDownloadGZip']			= "¦ci±gnij (.tar.gz)";
+$GLOBALS['strSearchingUpdates']			= "Wyszukiwanie aktualizacji. Proszï¿½ zaczekaï¿½...";
+$GLOBALS['strAvailableUpdates']			= "Dostï¿½pne aktualizacje";
+$GLOBALS['strDownloadZip']			= "ï¿½ciï¿½gnij (.zip)";
+$GLOBALS['strDownloadGZip']			= "ï¿½ciï¿½gnij (.tar.gz)";
 
-$GLOBALS['strUpdateAlert']			= "Jest dostêpna nowa wersja ".$phpAds_productname.".                 \\n\\nDo you want to get more information \\nabout this update?";
-$GLOBALS['strUpdateAlertSecurity']		= "Jest dostêpna nowa wersja ".$phpAds_productname.".                 \\n\\nIt is highly recommended to upgrade \\nas soon as possible, because this \\nversion contains one or more security fixes.";
+$GLOBALS['strUpdateAlert']			= "Jest dostï¿½pna nowa wersja ".$phpAds_productname.".                 \\n\\nDo you want to get more information \\nabout this update?";
+$GLOBALS['strUpdateAlertSecurity']		= "Jest dostï¿½pna nowa wersja ".$phpAds_productname.".                 \\n\\nIt is highly recommended to upgrade \\nas soon as possible, because this \\nversion contains one or more security fixes.";
 
 $GLOBALS['strUpdateServerDown']			= "
-    Z niewiadomego powodu nie jest mo¿liwe pobranie<br />
-    	informacji o mo¿liwych aktualizacjach. Spróbuj zrobiæ to pó¼niej.
+    Z niewiadomego powodu nie jest moï¿½liwe pobranie<br />
+    	informacji o moï¿½liwych aktualizacjach. Sprï¿½buj zrobiï¿½ to pï¿½niej.
 ";
 
 $GLOBALS['strNoNewVersionAvailable']		= "
-	Twoja wersja ".$phpAds_productname." jest najbardziej aktualna. Nie ma obecnie ¿adnych nowych aktualizacji.
+	Twoja wersja ".$phpAds_productname." jest najbardziej aktualna. Nie ma obecnie ï¿½adnych nowych aktualizacji.
 ";
 
 $GLOBALS['strNewVersionAvailable']		= "
-	<b>Jest dostêpna nowa wersja ".$phpAds_productname.".</b><br /> Zaleca siê instalacjê tek aktualizacji,
-	poniewa¿ mo¿e ona usuwaæ niektóre z istniej±cych problemów i dodawaæ nowe funkcje. Wiêcej informacji
-	o aktualizowaniu znajdziesz siê w do³±czonej dokumentacji, znajduj±cej siê w plikach poni¿ej.
+	<b>Jest dostï¿½pna nowa wersja ".$phpAds_productname.".</b><br /> Zaleca siï¿½ instalacjï¿½ tek aktualizacji,
+	poniewaï¿½ moï¿½e ona usuwaï¿½ niektï¿½re z istniejï¿½cych problemï¿½w i dodawaï¿½ nowe funkcje. Wiï¿½cej informacji
+	o aktualizowaniu znajdziesz siï¿½ w doï¿½ï¿½czonej dokumentacji, znajdujï¿½cej siï¿½ w plikach poniï¿½ej.
 ";
 
 $GLOBALS['strSecurityUpdate']			= "
-	<b>Instalacja tej aktualizacji jest szczególnie zalecana w jak najkrótszym terminie, poniewa¿ zawiera
-	istotne poprawki zwi±zane z bezpieczeñstwem.</b> Wersja ".$phpAds_productname.", z któej korzystasz obecnie
-	mo¿e byæ podatna na ataki i prawdopodobnie nie jest bezpieczna. Wiêcej informacji o aktualizowaniu
-	znajdziesz siê w do³±czonej dokumentacji, znajduj±cej siê w plikach poni¿ej.
+	<b>Instalacja tej aktualizacji jest szczegï¿½lnie zalecana w jak najkrï¿½tszym terminie, poniewaï¿½ zawiera
+	istotne poprawki zwiï¿½zane z bezpieczeï¿½stwem.</b> Wersja ".$phpAds_productname.", z ktï¿½ej korzystasz obecnie
+	moï¿½e byï¿½ podatna na ataki i prawdopodobnie nie jest bezpieczna. Wiï¿½cej informacji o aktualizowaniu
+	znajdziesz siï¿½ w doï¿½ï¿½czonej dokumentacji, znajdujï¿½cej siï¿½ w plikach poniï¿½ej.
 ";
 
 $GLOBALS['strNotAbleToCheck']			= "
-	<b>Poniewa¿ rozszerzenie XML jest niedostêpne na twoim serwerze , ".$phpAds_productname." nie mo¿e
-	sprawdziæ, czy jest dostêpna nowsza wersja</b>
+	<b>Poniewaï¿½ rozszerzenie XML jest niedostï¿½pne na twoim serwerze , ".$phpAds_productname." nie moï¿½e
+	sprawdziï¿½, czy jest dostï¿½pna nowsza wersja</b>
 ";
 
 $GLOBALS['strForUpdatesLookOnWebsite']		= "
-	Pracujesz obecnie z wersj± ".$phpAds_productname." ".$phpAds_version_readable.". 
-	Je¶li chcesz dowiedzieæ siê, czy jest dostêpna nowsza wersja, zobacz nasz± stronê.
+	Pracujesz obecnie z wersjï¿½ ".$phpAds_productname." ".$phpAds_version_readable.". 
+	Jeï¿½li chcesz dowiedzieï¿½ siï¿½, czy jest dostï¿½pna nowsza wersja, zobacz naszï¿½ stronï¿½.
 ";
 
 $GLOBALS['strClickToVisitWebsite']		= "
-	Kliknij aby odwiedziæ nasz± stronê
+	Kliknij aby odwiedziï¿½ naszï¿½ stronï¿½
 ";
 
 
@@ -142,29 +138,29 @@ $GLOBALS['strClickToVisitWebsite']		= "
 $GLOBALS['strConverting']			= "Konwersja";
 $GLOBALS['strConvertingStats']			= "Konwertowanie statystyk...";
 $GLOBALS['strConvertStats']			= "Konwertuj statystyki";
-$GLOBALS['strConvertAdViews']			= "Ods³ony skonwertowane,";
-$GLOBALS['strConvertAdClicks']			= "Klikniêcia skonwertowane...";
+$GLOBALS['strConvertAdViews']			= "Odsï¿½ony skonwertowane,";
+$GLOBALS['strConvertAdClicks']			= "Klikniï¿½cia skonwertowane...";
 $GLOBALS['strConvertNothing']			= "Nie ma nic do konwersji...";
-$GLOBALS['strConvertFinished']			= "Zakoñczone...";
+$GLOBALS['strConvertFinished']			= "Zakoï¿½czone...";
 
 $GLOBALS['strConvertExplaination']		= "
-	U¿ywasz obecnie skróconego formatu statystyk, ale nadal niektóre dane statystyczne s± <br />
-	w rozszerzonym formacie. Dopóki nie zostan± one skonwertowane do formatu skróconego <br />
-	nie bêd± wykorzystywane podczas przegl±dania tych stron. <br />
-	Przed konwersj± statystyk zrób kopiê zapasow± bazy danych! <br />
-	Czy chcesz skonwertowaæ rozszczerzone statystyki do nowego, skróconego formatu? <br />
+	Uï¿½ywasz obecnie skrï¿½conego formatu statystyk, ale nadal niektï¿½re dane statystyczne sï¿½ <br />
+	w rozszerzonym formacie. Dopï¿½ki nie zostanï¿½ one skonwertowane do formatu skrï¿½conego <br />
+	nie bï¿½dï¿½ wykorzystywane podczas przeglï¿½dania tych stron. <br />
+	Przed konwersjï¿½ statystyk zrï¿½b kopiï¿½ zapasowï¿½ bazy danych! <br />
+	Czy chcesz skonwertowaï¿½ rozszczerzone statystyki do nowego, skrï¿½conego formatu? <br />
 ";
 
 $GLOBALS['strConvertingExplaination']		= "
-	Wszystkie pozostaj±ce rozszerzone statystyki s± obecnie konwertowane do formatu skróconego. <br />
-	Zale¿nie od ilo¶ci danych poddawanych konwersji mo¿e ona potrwaæ do kilkunastu minut. <br />
-	Zaczekaj a¿ zostanie ona zakoñczona zanim przejdziesz na inn± stronê. <br />
-	Poni¿ej znajduje siê lista wszystkich dokonanych modyfikacji w bazie danych. <br />
+	Wszystkie pozostajï¿½ce rozszerzone statystyki sï¿½ obecnie konwertowane do formatu skrï¿½conego. <br />
+	Zaleï¿½nie od iloï¿½ci danych poddawanych konwersji moï¿½e ona potrwaï¿½ do kilkunastu minut. <br />
+	Zaczekaj aï¿½ zostanie ona zakoï¿½czona zanim przejdziesz na innï¿½ stronï¿½. <br />
+	Poniï¿½ej znajduje siï¿½ lista wszystkich dokonanych modyfikacji w bazie danych. <br />
 ";
 
 $GLOBALS['strConvertFinishedExplaination']  	= "
-	Konwersja pozosta³ych w formacie rozszerzonym statystyk zosta³a zakoñczona i <br />
-	dane mog± byæ teraz znowu wykorzystywane. Poni¿ej znajdziesz listê wszystkich <br />
+	Konwersja pozostaï¿½ych w formacie rozszerzonym statystyk zostaï¿½a zakoï¿½czona i <br />
+	dane mogï¿½ byï¿½ teraz znowu wykorzystywane. Poniï¿½ej znajdziesz listï¿½ wszystkich <br />
 	zmian dokonanych w bazie danych.<br />
 ";
 

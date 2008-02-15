@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -68,8 +68,23 @@ foreach ($aLayer as $layer) {
         foreach ($aDirectories as $dirName => $aFiles) {
             $oReporter->paintGroupStart("Directory $dirName ($testName)", count($aFiles));
             foreach ($aFiles as $fileName) {
-                $oReporter->paintCaseStart("File $fileName ($testName)");
-                $oReporter->paintMethodStart($fileName);
+            	$oReporter->paintCaseStart("File $fileName ($testName)");
+            	// Drop database on PgSQL before starting
+                if (strcasecmp($GLOBALS['_MAX']['CONF']['database']['type'], 'pgsql') === 0)
+                {
+                    OA_DB::dropDatabase($GLOBALS['_MAX']['CONF']['database']['name']);
+                }
+
+                // Prepare the name of the test to display when running
+                for ($counter = 0; $counter < count($GLOBALS['_MAX']['TEST']['groups']) - 1; $counter++) {
+                    if ($layer == $GLOBALS['_MAX']['TEST']['groups'][$counter]) {
+                        $layerDisplayName = $GLOBALS['_MAX']['TEST'][$GLOBALS['_MAX']['TEST']['groups'][$counter] . '_layers'][$subLayer][0];
+                    }
+                }
+                preg_match('/^([^\.]+)/', $fileName, $aMatches);
+                $testDisplayName = ucfirst(strtolower($layer)) . '.' . $layerDisplayName . '.' . $aMatches[1];
+                $oReporter->paintMethodStart($testDisplayName);
+
                 $returncode = -1;
                 $output_lines = '';
                 $exec = "run.php --type=$layer --level=file --layer=$subLayer --folder=$dirName"

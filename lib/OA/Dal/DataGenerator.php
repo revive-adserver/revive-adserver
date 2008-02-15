@@ -1,11 +1,11 @@
 <?php
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -48,10 +48,10 @@ define('MAX_DATAGENERATOR_DEFAULT_DATE_VALUE', date('Y-m-d'));
 /**
  * A DataGenerator class for easy data generation
  *
- * Online manual: https://developer.openads.org/wiki/DataGenerator
+ * Online manual: https://developer.openx.org/wiki/DataGenerator
  *
- * @package    OpenadsDal
- * @author     Radek Maciaszek <radek.maciaszek@openads.org>
+ * @package    OpenXDal
+ * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  *
  */
 class DataGenerator
@@ -341,7 +341,7 @@ class DataGenerator
             if ($fieldType & DB_DATAOBJECT_NOTNULL) {
                 return MAX_DATAGENERATOR_DEFAULT_DATE_VALUE;
             }
-            // According to https://developer.openads.org/wiki/DatabasePractices#UsingPEAR::MDB2
+            // According to https://developer.openx.org/wiki/DatabasePractices#UsingPEAR::MDB2
             return OA_Dal::noDateValue();
         }
         // If no default set for this data type try default type

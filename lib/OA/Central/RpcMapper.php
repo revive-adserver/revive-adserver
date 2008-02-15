@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -94,7 +94,7 @@ class OA_Central_RpcMapper
     }
 
     /**
-     * Refs R-AN-1: Connecting Openads Platform with SSO
+     * Refs R-AN-1: Connecting OpenXPlatform with SSO
      *
      * @return mixed A boolean True if the platform is correctly connected to OAC,
      *               PEAR_Error otherwise
@@ -209,7 +209,7 @@ class OA_Central_RpcMapper
      * (
      *     [0] => Array
      *         (
-     *             [url] => http://www.openads.org
+     *             [url] => http://www.openx.org
      *             [category] => 5
      *             [country] => GB
      *             [language] => 1
@@ -297,7 +297,7 @@ class OA_Central_RpcMapper
      *             [1] => Array
      *                 (
      *                     [website_id] => 2346
-     *                     [url] => http://www.openads.org
+     *                     [url] => http://www.openx.org
      *                     [campaigns] => Array
      *                         (
      *                             [0] => Array

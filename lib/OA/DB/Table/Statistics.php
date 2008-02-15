@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -28,12 +28,12 @@ $Id$
 require_once MAX_PATH . '/lib/OA/DB/Table.php';
 
 /**
- * A class for creating the temporary Openads database tables required
+ * A class for creating the temporary OpenX database tables required
  * for performing the Maintenance Statistics Engine (MSE) tasks.
  *
- * @package    OpenadsDB
+ * @package    OpenXDB
  * @subpackage Table
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_DB_Table_Statistics extends OA_DB_Table
 {

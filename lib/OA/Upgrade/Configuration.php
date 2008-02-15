@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -116,7 +116,7 @@ class OA_Upgrade_Config
         $path = dirname($_SERVER['PHP_SELF']);
         if (preg_match('#/www/admin$#', $path))
         {
-            // User has web root configured as Openads' root directory so can guess at all locations
+            // User has web root configured as OpenX' root directory so can guess at all locations
             $subpath = preg_replace('#/www/admin$#', '', $path);
             $basepath = getHostNameWithPort() . $subpath. '/www/';
             $this->setValue('webpath', 'admin', $basepath.'admin');
@@ -127,7 +127,7 @@ class OA_Upgrade_Config
         }
         else if (preg_match('#/admin$#', $path))
         {
-            // User has web root configured as Openads' /www directory so can guess at all locations
+            // User has web root configured as OpenX' /www directory so can guess at all locations
             $subpath = preg_replace('#/admin$#', '', $path);
             $basepath = getHostName() . $subpath. '';
             $this->setValue('webpath', 'admin', $basepath.'/admin');
@@ -138,7 +138,7 @@ class OA_Upgrade_Config
         }
         else
         {
-            // User has web root configured as Openads' www/admin directory so can only guess the admin location
+            // User has web root configured as OpenX' www/admin directory so can only guess the admin location
             $this->setValue('webpath', 'admin'   , getHostName());
             $this->setValue('webpath', 'delivery', getHostName());
             $this->setValue('webpath', 'images', getHostName());

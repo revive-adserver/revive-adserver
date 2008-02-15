@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v2.3                                                              |
-| ============                                                              |
+| OpenX v2.3                                                              |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -32,10 +32,10 @@ require_once MAX_PATH . '/lib/OA/DB.php';
  * to nativetype mappings, and nativetype to MDB2 datatype mappings for
  * MySQL work as expected.
  *
- * @package    OpenadsDB
+ * @package    OpenXDB
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openads.org>
- * @author     Matteo Beccati <matteo.beccati@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
+ * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 class Test_OA_DB_CustomDatatypes_pgsql extends UnitTestCase
 {

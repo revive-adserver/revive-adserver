@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -75,9 +75,9 @@ require_once MAX_PATH . '/lib/OA/Preferences.php';
 
 
 /**
- * Openads Upgrade Class
+ * @package    OpenXUpgrade Class
  *
- * @author Monique Szpak <monique.szpak@openads.org>
+ * @author     Monique Szpak <monique.szpak@openx.org>
  */
 class OA_Upgrade
 {
@@ -153,7 +153,7 @@ class OA_Upgrade
         $this->aDsn['database']['passowrd'] = '';
         $this->aDsn['database']['name']     = '';
         $this->aDsn['table']['type']        = 'InnoDB';
-        $this->aDsn['table']['prefix']      = 'oa_';
+        $this->aDsn['table']['prefix']      = 'ox_';
     }
 
     /**
@@ -435,27 +435,72 @@ class OA_Upgrade
         return $this->oSystemMgr->checkSystem();
     }
 
-    function getProductApplicationVersion()
+    /**
+     * A method to convert the application version that is currently stored
+     * in the $this->versionInitialApplication variable into a string that
+     * is suitable for displaying in the upgrade screen, advising the user
+     * as to which version of the application the are upgrading FROM.
+     *
+     * @param boolean $shortVersion When set to true (not the default), returns
+     *                              the text description in short format, being
+     *                              just the version number, without the
+     *                              additional human-friendly text.
+     * @return string A descriptive text value of the version that is being
+     *                upgraded FROM.
+     */
+    function getProductApplicationVersion($noText = false)
     {
-        $appPrefix = $this->oDbh->dbsyntax == 'pgsql' ? 'for PostgreSQL ' : '';
         switch ($this->versionInitialApplication)
         {
             case '' :
-                return 'unknown version';
+                if ($noText) {
+                    return 'unknown version';
+                } else {
+                    return 'An unknown version was';
+                }
             case '0.100' :
-                return '2.1.29-rc';
+                if ($noText) {
+                    return '2.1.29-rc';
+                } else {
+                    return 'Openads 2.1.29-rc';
+                }
             case '200.313' :
             case '200.314' :
-                return $appPrefix.'2.0.11-pr1';
+                // Upgrade from Openads 2.0, need to know if this
+                // is for MySQL or PostgreSQL
+                if ($this->oDbh->dbsyntax == 'pgsql') {
+                    $dbType = 'PostgreSQL';
+                } else {
+                    $dbType = 'MySQL';
+                }
+                if ($noText) {
+                    return '2.0.11-pr1';
+                } else {
+                    return "Openads for $dbType 2.0.11-pr1";
+                }
             case 'v0.3.31-alpha' :
-                return '2.3.31-alpha';
+                if ($noText) {
+                    return '2.3.31-alpha';
+                } else {
+                    return 'Openads 2.3.31-alpha';
+                }
             default :
-                return $this->versionInitialApplication;
+                if ($noText) {
+                    return $this->versionInitialApplication;
+                } else {
+                    // The product was re-branded OpenX at 2.4.4, so deal with
+                    // the product name in this text description accordingly
+                    if (version_compare($this->versionInitialApplication, '2.4.4', '<')) {
+                        return 'Openads ' . $this->versionInitialApplication;
+                    } else {
+                        return 'OpenX ' . $this->versionInitialApplication;
+                    }
+                }
         }
     }
 
     /**
-     * look for existing installations (phpAdsNew, MMM, Openads)
+     * look for existing installations (phpAdsNew, MMM, Openads, OpenX)
      * retrieve details and check for errors
      *
      * @return boolean
@@ -470,9 +515,9 @@ class OA_Upgrade
         $strTableError     = 'Error accessing Database Tables';
 
         $this->oLogger->logClear();
-        $this->oLogger->logOnly('looking for PAN');
+        $this->oLogger->logOnly('Attempting to detect an existing Openads (aka. phpAdsNew) installation...');
         $this->detectPAN();
-        $strProductName = MAX_PRODUCT_NAME.' '.$this->getProductApplicationVersion();
+        $strProductName = $this->getProductApplicationVersion();
         switch ($this->existing_installation_status)
         {
             case OA_STATUS_PAN_NOT_INSTALLED:
@@ -506,9 +551,9 @@ class OA_Upgrade
                 return true;
         }
 
-        $this->oLogger->logOnly('looking for MMM0.1');
+        $this->oLogger->logOnly('Attempting to detect an existing Openads (aka. Max Media Manager 0.1) installation...');
         $this->detectMAX01();
-        $strProductName = MAX_PRODUCT_NAME.' '.$this->getProductApplicationVersion();
+        $strProductName = $this->getProductApplicationVersion();
         switch ($this->existing_installation_status)
         {
             case OA_STATUS_M01_NOT_INSTALLED:
@@ -545,9 +590,9 @@ class OA_Upgrade
                 return true;
         }
 
-        $this->oLogger->logOnly('looking for MAX0.3');
+        $this->oLogger->logOnly('Attempting to detect an existing Openads (aka. Max Media Manager 0.3) installation...');
         $this->detectMAX();
-        $strProductName = MAX_PRODUCT_NAME.' '.$this->getProductApplicationVersion();
+        $strProductName = $this->getProductApplicationVersion();
         switch ($this->existing_installation_status)
         {
             case OA_STATUS_MAX_NOT_INSTALLED:
@@ -575,23 +620,23 @@ class OA_Upgrade
                 return true;
         }
 
-        $this->oLogger->logOnly('looking for Openads');
+        $this->oLogger->logOnly('Attempting to detect an existing OpenX installation...');
         $this->detectOpenads();
-        $strProductName = MAX_PRODUCT_NAME.' '.$this->getProductApplicationVersion();
+        $strProductName = $this->getProductApplicationVersion();
         switch ($this->existing_installation_status)
         {
             case OA_STATUS_OAD_NOT_INSTALLED:
                 if (!$this->oLogger->errorExists)
                 {
-                    $this->oLogger->log('No previous version of Openads detected');
+                    $this->oLogger->log('No previous version of OpenX detected');
                     return true;
                 }
                 break;
             case OA_STATUS_OAD_CONFIG_DETECTED:
-                $this->oLogger->logError('Openads'.$strDetected);
+                $this->oLogger->logError('OpenX'.$strDetected);
                 break;
             case OA_STATUS_OAD_DBCONNECT_FAILED:
-                $this->oLogger->logError('Openads'.$strDetected);
+                $this->oLogger->logError('OpenX'.$strDetected);
                 $this->oLogger->logError($strNoConnect.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 return false;
             case OA_STATUS_OAD_DBINTEG_FAILED:
@@ -682,10 +727,10 @@ class OA_Upgrade
 //                    return false;
 //                }
                 if ($this->oDbh->dbsyntax == 'pgsql') {
-                    // Openads 2.0 for PostgreSQL
+                    // @package    OpenX2.0 for PostgreSQL
                     $this->versionInitialSchema['tables_core'] = '049';
                 } else {
-                    // Openads 2.0
+                    // @package    OpenX2.0
                     $this->versionInitialSchema['tables_core'] = '099';
                 }
                 if (!$skipIntegrityCheck && !$this->_checkDBIntegrity($this->versionInitialSchema['tables_core']))
@@ -867,7 +912,7 @@ class OA_Upgrade
 
 
     /**
-     * search for an existing Openads installation
+     * search for an existing @package    OpenXinstallation
      *
      * @param boolean $skipIntegrityCheck
      * @return boolean
@@ -1298,7 +1343,7 @@ class OA_Upgrade
             $this->oAuditor->setUpgradeActionId();
             $this->oAuditor->setKeyParams(array('upgrade_name'=>$this->package_file,
                                                 'version_to'=>$version,
-                                                'version_from'=>$this->getProductApplicationVersion(),
+                                                'version_from'=>$this->getProductApplicationVersion(true),
                                                 'logfile'=>basename($this->oLogger->logFile)
                                                 )
                                          );
@@ -1697,7 +1742,7 @@ class OA_Upgrade
             }
             if (!$result)
             {
-                $this->oLogger->logError('Openads requires database case sensitivity to work with uppercase prefixes');
+                $this->oLogger->logError('@package    OpenXrequires database case sensitivity to work with uppercase prefixes');
                 return false;
             }
         }
@@ -1788,7 +1833,7 @@ class OA_Upgrade
 
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
 
-        $oldTableMessagePrefix  = 'Your database contains an old Openads configuration table: ';
+        $oldTableMessagePrefix  = 'Your database contains an old @package    OpenXconfiguration table: ';
         $oldTableMessagePostfix = 'If you are trying to upgrade this database, please copy your existing configuration file into the var folder of this install. If you wish to proceed with a fresh installation, please either choose a new Table Prefix or a new Database.';
         if (in_array($this->aDsn['table']['prefix'].'config', $aExistingTables))
         {

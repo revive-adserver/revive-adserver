@@ -2,14 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -28,7 +25,6 @@
 $Id$
 */
 
-
 // Set translation strings
 
 $GLOBALS['strDeliveryEngine']			= 'Moteur de distribution';
@@ -37,14 +33,14 @@ $GLOBALS['strAdministrator']			= 'Administrateur';
 
 
 $GLOBALS['strUserlog'] = array (
-	phpAds_actionAdvertiserReportMailed	=> 'Rapport pour l\'annonceur {id} envoyé par e-mail',
-	phpAds_actionPublisherReportMailed 	=> 'Rapport pour l\'éditeur {id} envoyé par e-mail',
-	phpAds_actionWarningMailed		=> 'Avertissement de désactivation pour la campagne {id} envoyé par e-mail',
-	phpAds_actionDeactivationMailed		=> 'Notification de désactivation pour la campagne {id} envoyé par e-mail',
-	phpAds_actionPriorityCalculation	=> 'Priorités recalculées',
-	phpAds_actionPriorityAutoTargeting	=> 'Objectifs de campagnes recalculés',
-	phpAds_actionDeactiveCampaign		=> 'Campagne {id} désactivée',
-	phpAds_actionActiveCampaign		=> 'Campagne {id} activée'
+	phpAds_actionAdvertiserReportMailed	=> 'Rapport pour l\'annonceur {id} envoyï¿½ par e-mail',
+	phpAds_actionPublisherReportMailed 	=> 'Rapport pour l\'ï¿½diteur {id} envoyï¿½ par e-mail',
+	phpAds_actionWarningMailed		=> 'Avertissement de dï¿½sactivation pour la campagne {id} envoyï¿½ par e-mail',
+	phpAds_actionDeactivationMailed		=> 'Notification de dï¿½sactivation pour la campagne {id} envoyï¿½ par e-mail',
+	phpAds_actionPriorityCalculation	=> 'Prioritï¿½s recalculï¿½es',
+	phpAds_actionPriorityAutoTargeting	=> 'Objectifs de campagnes recalculï¿½s',
+	phpAds_actionDeactiveCampaign		=> 'Campagne {id} dï¿½sactivï¿½e',
+	phpAds_actionActiveCampaign		=> 'Campagne {id} activï¿½e'
 );
 
 ?>

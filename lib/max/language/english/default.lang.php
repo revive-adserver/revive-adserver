@@ -2,14 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -27,13 +24,6 @@
 +---------------------------------------------------------------------------+
 $Id$
 */
-
-/**
- * A file for holding the "default" English translation information.
- *
- * @package    MaxUI
- * @subpackage Languages
- */
 
 // Set text direction and characterset
 $GLOBALS['phpAds_TextDirection']        = "ltr";
@@ -156,8 +146,8 @@ $GLOBALS['strNotice']                   = 'Notice';
 // Dashboard
 $GLOBALS['strDashboardCommunity']       = 'Community';
 $GLOBALS['strDashboardDashboard']       = 'Dashboard';
-$GLOBALS['strDashboardForum']           = 'Openads Forum';
-$GLOBALS['strDashboardDocs']            = 'Openads Docs';
+$GLOBALS['strDashboardForum']           = 'OpenX Forum';
+$GLOBALS['strDashboardDocs']            = 'OpenX Docs';
 
 // Priority
 $GLOBALS['strPriority']                 = "Priority";
@@ -542,7 +532,7 @@ $GLOBALS['strStatusText']            = "Status text";
 $GLOBALS['strBannerWeight']            = "Banner weight";
 $GLOBALS['strBannerType']           = "Ad Type";
 $GLOBALS['strAdserverTypeGeneric']  = "Generic HTML Banner";
-$GLOBALS['strAdserverTypeMax']      = "Rich Media - Openads";
+$GLOBALS['strAdserverTypeMax']      = "Rich Media - OpenX";
 $GLOBALS['strAdserverTypeAtlas']    = "Rich Media - Atlas";
 $GLOBALS['strAdserverTypeBluestreak']   = "Rich Media - Bluestreak";
 $GLOBALS['strAdserverTypeDoubleclick']  = "Rich Media - DoubleClick";
@@ -1116,16 +1106,16 @@ $GLOBALS['strAuditNoData']            = "No user activity has been recorded duri
 $GLOBALS['strAuditTrail']             = "Audit Trail";
 $GLOBALS['strAuditTrailSetup']          = "Setup the Audit Trail today";
 $GLOBALS['strAuditTrailGoTo']           = "Go to Audit Trail page";
-$GLOBALS['strAuditTrailNotEnabled']     = "<li>Audit Trail allows you to see who did what and when. Or to put it another way,  it keeps track of system changes within Openads</li>
+$GLOBALS['strAuditTrailNotEnabled']     = "<li>Audit Trail allows you to see who did what and when. Or to put it another way, it keeps track of system changes within OpenX</li>
         <li>You are seeing this message, because you have not activated the Audit Trail</li>
-        <li>Interested in learning more? Read the <a href='".OA_DOCUMENTATION_BASE_URL."/help/2.5/settings/userLog/' class='site-link' target='help' >Audit Trail documentation</a></li>";
+        <li>Interested in learning more? Read the <a href='".OX_PRODUCT_DOCSURL."/settings/auditTrail' class='site-link' target='help' >Audit Trail documentation</a></li>";
 
 // Widget - Campaign
 $GLOBALS['strCampaignGoTo']             = 'Go to Campaigns page';
 $GLOBALS['strCampaignSetUp']            = 'Set up a Campaign today';
 $GLOBALS['strCampaignNoRecords']        = '<li>Campaigns let you group together any number of banner ads, of any size, that share common advertising requirements</li>
         <li>Save time by grouping banners within a campaign and no longer define delivery settings for each ad separately</li>
-        <li>Check out the <a class="site-link" target="help" href="'.OA_DOCUMENTATION_BASE_URL.'/help/2.5/inventory/advertisersAndCampaigns/campaigns/">Campaign documentation</a>!</li>
+        <li>Check out the <a class="site-link" target="help" href="'.OX_PRODUCT_DOCSURL.'/inventory/advertisersAndCampaigns/campaigns">Campaign documentation</a>!</li>
 ';
 
 $GLOBALS['strCampaignNoDataTimeSpan']    = 'No campaigns have started or finished during the timeframe you have selected';

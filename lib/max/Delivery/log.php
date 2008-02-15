@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -136,7 +136,7 @@ function MAX_Delivery_log_logAdClick($viewerId, $adId, $creativeId, $zoneId)
  * A function to log a tracker impression.
  *
  * Note that the $conf['rawDatabase'] variables will only be defined
- * in the event that Openads is configured for multiple databases. Normally,
+ * in the event that OpenX is configured for multiple databases. Normally,
  * this will not be the case, so the server_ip field will be 'singleDB'.
  *
  * @param integer $viewerId The viewer ID (was userid).
@@ -183,14 +183,14 @@ function MAX_Delivery_log_logTrackerImpression($viewerId, $trackerId)
  * A function to log tracker impression variable values.
  *
  * Note that the $conf['rawDatabase'] variables will only be defined
- * in the event that Openads is configured for multiple databases. Normally,
+ * in the event that OpenX is configured for multiple databases. Normally,
  * this will not be the case, so the server_ip field will be 'singleDB'.
  *
  * @param integer $trackerId The tracker ID.
  * @param integer $serverRawTrackerImpressionId The unique tracker impression
  *                                              id on the raw database server.
  * @param string $serverRawIp The IP address of the raw database server, or null
- *                            if Openads is not running in multiple database server
+ *                            if OpenX is not running in multiple database server
  *                            mode.
  */
 function MAX_Delivery_log_logVariableValues($variables, $trackerId, $serverRawTrackerImpressionId, $serverRawIp)
@@ -275,7 +275,7 @@ function _viewersHostOkayToLog()
  *                     to access the page containing the zone.
  *                  2: An array of information about the viewer's web browser
  *                     and operating system.
- *                  3: An integer to store if the call to Openads was performed
+ *                  3: An integer to store if the call to OpenX was performed
  *                     using HTTPS (1) or not (0).
  */
 function _prepareLogInfo()
@@ -322,7 +322,7 @@ function _prepareLogInfo()
     } else {
         $userAgentInfo = array();
     }
-    // Determine if the access to Openads was made using HTTPS
+    // Determine if the access to OpenX was made using HTTPS
     $maxHttps = 0;  // https is false
     if ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) {
         $maxHttps = 1;   // https is true

@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -28,7 +28,7 @@ $Id$
 /**
  * MAX_Plugin_Translation - plugin translation system.
  *
- * @package    OpenadsPlugin
+ * @package    OpenXPlugin
  * @author     Radek Maciaszek <radek@m3.net>
  */
 class MAX_Plugin_Translation
@@ -92,7 +92,7 @@ class MAX_Plugin_Translation
         }
         if (is_readable($path)) {
             include $path;
-            //  If current module is not the default openads module
+            //  If current module is not the default openx module
             if (isset($words)) {
                 if ($package === null) {
                     $GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module] = $words;

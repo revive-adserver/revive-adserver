@@ -1,14 +1,11 @@
 {*<!--
 
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -67,11 +64,11 @@ var HOSTED = {if $hosted}true{else}false{/if};
   {
     var key = $("#user-key").val();
     if (key && key.length > 0) {
-      $("#link-user-hint").fadeOut(400); 
+      $("#link-user-hint").fadeOut(400);
       $("#link-user-button").attr("disabled", false);
     }
     else {
-      $("#link-user-hint").fadeIn(400); 
+      $("#link-user-hint").fadeIn(400);
       $("#link-user-button").attr("disabled", true);
     }
   }
@@ -82,7 +79,7 @@ var HOSTED = {if $hosted}true{else}false{/if};
 
 <form action="{$action}">
   {include file=edit-table/create.html from=$fields}
-  
+
   <input type="hidden" name="{$entityIdName}" value="{$entityIdValue}" />
   <input type="hidden" name="link" value="1" />
 

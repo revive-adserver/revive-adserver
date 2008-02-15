@@ -2,14 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -97,7 +94,7 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation {
             }
 
 	        echo "<form name='generate' action='".$_SERVER['PHP_SELF']."' method='POST' onSubmit='return max_formValidate(this);'>\n";
-    
+
 	        // Show the publisher invocation selection drop down
             echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
             echo "<input type='hidden' name='affiliateid' value='{$affiliateid}'>";
@@ -114,7 +111,7 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation {
             echo "</td></tr></table>";
 
 			echo "</form>";
-			
+
             echo phpAds_ShowBreak($print = false);
             echo "<br />";
         } else {
@@ -129,7 +126,7 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation {
             }
             $code = $this->generateInvocationCode($invocationTag);
         }
-		
+
         $previewURL = 'http://' . $conf['webpath']['admin'] . "/affiliate-preview.php?affiliateid={$affiliateid}&codetype={$codetype}";
         foreach ($invocationTag->defaultOptionValues as $feature => $value) {
             if ($invocationTag->maxInvocation->$feature != $value) {
@@ -144,7 +141,7 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation {
 
         echo "<form name='generate' action='".$previewURL."' method='get' target='_blank'>\n";
 		echo "<input type='hidden' name='codetype' value='" . $codetype . "' />";
-		
+
         // Show parameters for the publisher invocation list
         echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
         echo "<tr><td height='25' colspan='3'><img src='images/icon-overview.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strParameters']."</b></td></tr>";

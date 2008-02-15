@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                           |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -26,7 +26,7 @@ $Id:$
 */
 
 /**
- * @package    Openads
+ * @package    OpenX
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
  */
@@ -51,7 +51,7 @@ class LogonServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Login to Openads without using the login form in the user interface and
+     * Login to OpenX without using the login form in the user interface and
      * receive a session ID.
      *
      * @access private
@@ -113,7 +113,7 @@ class LogonServiceImpl extends BaseServiceImpl
 
         $this->preInitSession();
         if ($this->_internalLogin($username, $password)) {
-            // Check if the user has administrator access to Openads.
+            // Check if the user has administrator access to OpenX.
             if (OA_Permission::isUserLinkedToAdmin()) {
 
                 $this->postInitSession();

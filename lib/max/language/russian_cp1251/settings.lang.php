@@ -1,77 +1,88 @@
-<?php // $Revision: 3830 $
+<?php
 
-/*----------------------------------------------------------------------*/
-/* Openads 2.0                                                          */
-/* ===========                                                          */
-/*                                                                      */
-/* Copyright (c) 2000-2007 by the Openads developers                    */
-/* For more information visit: http://www.openads.org                   */
-/*                                                                      */
-/* This program is free software. You can redistribute it and/or modify */
-/* it under the terms of the GNU General Public License as published by */
-/* the Free Software Foundation; either version 2 of the License.       */
-/*----------------------------------------------------------------------*/
-
-
+/*
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+|                                                                           |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+*/
 
 // Installer translation strings
-$GLOBALS['strInstall']					= "Установка";
-$GLOBALS['strChooseInstallLanguage']	= "Выберите язык для процедуры установки";
-$GLOBALS['strLanguageSelection']		= "Выбор Языка";
-$GLOBALS['strDatabaseSettings']			= "Настройки Базы Данных";
-$GLOBALS['strAdminSettings']			= "Настройки Администратора";
-$GLOBALS['strAdvancedSettings']			= "Расширенные Настройки";
-$GLOBALS['strOtherSettings']			= "Другие Настройки";
+$GLOBALS['strInstall']					= "";
+$GLOBALS['strChooseInstallLanguage']	= "    ";
+$GLOBALS['strLanguageSelection']		= " ";
+$GLOBALS['strDatabaseSettings']			= "  ";
+$GLOBALS['strAdminSettings']			= " ";
+$GLOBALS['strAdvancedSettings']			= " ";
+$GLOBALS['strOtherSettings']			= " ";
 
-$GLOBALS['strWarning']					= "Предупреждение";
-$GLOBALS['strFatalError']				= "Произошла фатальная ошибка";
-$GLOBALS['strAlreadyInstalled']			= "phpAdsNew уже установлена на этой системе. Если вы хотите ее настроить, переходите к <a href='settings-index.php'>интерфейсу настроек</a>";
-$GLOBALS['strCouldNotConnectToDB']		= "Не удалось связаться с базой данной, перепроверьте указанные вами параметры";
-$GLOBALS['strCreateTableTestFailed']	= "Указанный вами пользователь не имеет прав создавать или изменять структуру базы данных, пожалуйста, свяжитесь с администратором БД.";
-$GLOBALS['strUpdateTableTestFailed']	= "Указанный вами пользователь не имеет прав на изменение структуры базы данных, пожалуйста, свяжитесь с администратором БД.";
-$GLOBALS['strTablePrefixInvalid']		= "Приставка к имени таблицы содержит запрещенные символы";
-$GLOBALS['strTableInUse']				= "Указанная вами база даных уже используется для phpAdsNew, пожалуйста, укажите другую приставку к именам таблиц, или прочтите в руководстве инструкции по апгрейду.";
-$GLOBALS['strMayNotFunction']			= "Перед тем как проолжить, пожалуйта, исправьте эти возможные проблемы:";
-$GLOBALS['strIgnoreWarnings']			= "Игнорировать предупреждения";
-$GLOBALS['strWarningPHPversion']		= "phpAdsNew для корректной работы необходим PHP 3.0.8 или выше. Вы сейчас используете {php_version}.";
-$GLOBALS['strWarningRegisterGlobals']	= "Конфигурационная переменная PHP register_globals должна быть включена (on).";
-$GLOBALS['strWarningMagicQuotesGPC']	= "Конфигурационная переменная PHP magic_quotes_gpc должна быть включена (on).";
-$GLOBALS['strWarningMagicQuotesRuntime']= "Конфигурационная переменная PHP magic_quotes_runtime должна быть включена (on).";
-$GLOBALS['strConfigLockedDetected']		= "phpAdsNew определила, что ваш файл <b>config.inc.php</b> не может быть записан сервером.<br> Вы не можете продолжить, прежде чем поменяете права доступа к этому файлу. <br>Прочитайте прилагаемую документацию, если вы не знаете, как это сделать.";
-$GLOBALS['strCantUpdateDB']  			= "Не представляется возможным обновить базу данных. Если вы решите продолжить, все существующие баннеры, статистика и данные о клиентах будут стерты.";
-$GLOBALS['strTableNames']				= "Имена таблиц";
-$GLOBALS['strTablesPrefix']				= "Приставка к именам таблиц";
-$GLOBALS['strTablesType']				= "Тип таблиц";
+$GLOBALS['strWarning']					= "";
+$GLOBALS['strFatalError']				= "  ";
+$GLOBALS['strAlreadyInstalled']			= "phpAdsNew     .     ,   <a href='settings-index.php'> </a>";
+$GLOBALS['strCouldNotConnectToDB']		= "     ,    ";
+$GLOBALS['strCreateTableTestFailed']	= "           , ,    .";
+$GLOBALS['strUpdateTableTestFailed']	= "          , ,    .";
+$GLOBALS['strTablePrefixInvalid']		= "      ";
+$GLOBALS['strTableInUse']				= "       phpAdsNew, ,      ,       .";
+$GLOBALS['strMayNotFunction']			= "   , ,    :";
+$GLOBALS['strIgnoreWarnings']			= " ";
+$GLOBALS['strWarningPHPversion']		= "phpAdsNew     PHP 3.0.8  .    {php_version}.";
+$GLOBALS['strWarningRegisterGlobals']	= "  PHP register_globals    (on).";
+$GLOBALS['strWarningMagicQuotesGPC']	= "  PHP magic_quotes_gpc    (on).";
+$GLOBALS['strWarningMagicQuotesRuntime']= "  PHP magic_quotes_runtime    (on).";
+$GLOBALS['strConfigLockedDetected']		= "phpAdsNew ,    <b>config.inc.php</b>     .<br>    ,        . <br>  ,    ,   .";
+$GLOBALS['strCantUpdateDB']  			= "     .    ,   ,       .";
+$GLOBALS['strTableNames']				= " ";
+$GLOBALS['strTablesPrefix']				= "   ";
+$GLOBALS['strTablesType']				= " ";
 
-$GLOBALS['strInstallWelcome']			= "Добро пожаловать в phpAdsNew";
-$GLOBALS['strInstallMessage']			= "Прежде чем вы сможете начать использовать phpAdsNew, необходимо произвести конфигурацию и <br>создать базу данных. Щёлкните <b>Дальше</b> для продолжения.";
-$GLOBALS['strInstallSuccess']			= "<b>Установка phpAdsNew завершена..</b><br><br>Для корректного функционирования phpAdsNew вы также должны
-										   убедиться, что файл обслуживания запускается каждый день. Дополнительная информация по этому поводу может быть найдена в документации.
-										   <br><br>Щёлкните <b>Дальше</b> для перехода на страницу конфигурации, где вы можете 
-										   сконфигурировать дополнительные настройки. Пожалуйста, не забудьте заблокировать файл config.inc.php, когда вы закончите с настройками - это предотвратит возможный взлом системы.";
-$GLOBALS['strInstallNotSuccessful']		= "<b>Установка phpAdsNew не произошла</b><br><br>Некоторые части процесса установки не могли быть завершены.
-										   Возможно, эти проблемы исключительно временные, в таком случае вы можете просто щёлкнуть <b>Дальше</b> и вернуться к
-										   первому шагу процесса установки. Если вы хотите узнать больше о значении нижеследующего сообщения об ошибке и как её устранить, 
-										   обратитесь к поставляемой документации.";
-$GLOBALS['strErrorOccured']				= "Произошла следующая ошибка:";
-$GLOBALS['strErrorInstallDatabase']		= "Структура базы данных не могла быть создана.";
-$GLOBALS['strErrorInstallConfig']		= "Файл конфигурации или база данных не могут быть обновлены.";
-$GLOBALS['strErrorInstallDbConnect']	= "Не получилось открыть соединение с базой данных.";
+$GLOBALS['strInstallWelcome']			= "   phpAdsNew";
+$GLOBALS['strInstallMessage']			= "      phpAdsNew,     <br>  . Щё <b></b>  .";
+$GLOBALS['strInstallSuccess']			= "<b> phpAdsNew ..</b><br><br>   phpAdsNew   
+										   ,      .          .
+										   <br><br>Щё <b></b>     ,    
+										     . ,     config.inc.php,      -     .";
+$GLOBALS['strInstallNotSuccessful']		= "<b> phpAdsNew  </b><br><br>       .
+										   ,    ,        <b></b>   
+										      .               , 
+										      .";
+$GLOBALS['strErrorOccured']				= "  :";
+$GLOBALS['strErrorInstallDatabase']		= "      .";
+$GLOBALS['strErrorInstallConfig']		= "        .";
+$GLOBALS['strErrorInstallDbConnect']	= "      .";
 
-$GLOBALS['strUrlPrefix']				= "Префикс URL";
+$GLOBALS['strUrlPrefix']				= " URL";
 
-$GLOBALS['strProceed']					= "Дальше &gt;";
-$GLOBALS['strRepeatPassword']			= "Повторите пароль";
-$GLOBALS['strNotSamePasswords']			= "Пароли не совпали";
-$GLOBALS['strInvalidUserPwd']			= "Неверное имя пользователя или пароль";
+$GLOBALS['strProceed']					= " &gt;";
+$GLOBALS['strRepeatPassword']			= " ";
+$GLOBALS['strNotSamePasswords']			= "  ";
+$GLOBALS['strInvalidUserPwd']			= "    ";
 
-$GLOBALS['strUpgrade']					= "Обновить";
-$GLOBALS['strSystemUpToDate']			= "Ваша система не требует обновления. <br>Щёлкните по <b>Дальше</b> для перехода на домашнюю страницу.";
-$GLOBALS['strSystemNeedsUpgrade']		= "Сруктура базы данных и файл конфигурации должны быть обновлены для корректного функционирования системы. Щёлкните <b>Дальше</b>, чтобы запустить процесс обновления. <br>Будьте терпеливы? обновление может занять пару минут.";
-$GLOBALS['strSystemUpgradeBusy']		= "Происходит обновление системы? пожалуйста? подождите...";
-$GLOBALS['strServiceUnavalable']		= "Обслуживание временно недоступно. Происходит обновление системы";
+$GLOBALS['strUpgrade']					= "";
+$GLOBALS['strSystemUpToDate']			= "    . <br>Щё  <b></b>     .";
+$GLOBALS['strSystemNeedsUpgrade']		= "            . Щё <b></b>,    . <br> ?     .";
+$GLOBALS['strSystemUpgradeBusy']		= "  ? ? ...";
+$GLOBALS['strServiceUnavalable']		= "  .   ";
 
-$GLOBALS['strConfigNotWritable']		= "Ваш файл config.inc.php не имеет прав на запись в него";
+$GLOBALS['strConfigNotWritable']		= "  config.inc.php       ";
 
 
 
@@ -82,172 +93,172 @@ $GLOBALS['strConfigNotWritable']		= "Ваш файл config.inc.php не имеет прав на за
 /*-------------------------------------------------------*/
 
 // Global
-$GLOBALS['strChooseSection']			= "Выберите раздел";
-$GLOBALS['strDayFullNames'] 			= array("Воскресенье","Понедельник","Вторник","Среда","Четверг","Пятница","Суббота");
-$GLOBALS['strEditConfigNotPossible']    = "Отредактировать данные настройки невозможно, так как файл конфигурации заперт из соображений безопасности. ".
-										  "Если вы хотите произвести изменения, вам нужно сначала отпереть файл сonfig.inc.php.";
-$GLOBALS['strEditConfigPossible']		= "Можно редактировать все настройки, так как файл конфигурации не заперт, но это может привести к проблемам с безопасностью системы. ".
-										  "Если вы хотите обезопасить вашу систему, вам необходимо запереть файл config.inc.php.";
+$GLOBALS['strChooseSection']			= " ";
+$GLOBALS['strDayFullNames'] 			= array("","","","","","","");
+$GLOBALS['strEditConfigNotPossible']    = "   ,        . ".
+										  "    ,      onfig.inc.php.";
+$GLOBALS['strEditConfigPossible']		= "   ,      ,         . ".
+										  "     ,     config.inc.php.";
 
 
 
 // Database
-$GLOBALS['strDatabaseSettings']			= "Настройки базы данных";
-$GLOBALS['strDatabaseServer']			= "Сервер баз данных";
-$GLOBALS['strDbHost']					= "Имя хоста";
-$GLOBALS['strDbUser']					= "Имя пользователя";
-$GLOBALS['strDbPassword']				= "Пароль";
-$GLOBALS['strDbName']					= "Имя базы данных";
+$GLOBALS['strDatabaseSettings']			= "  ";
+$GLOBALS['strDatabaseServer']			= "  ";
+$GLOBALS['strDbHost']					= " ";
+$GLOBALS['strDbUser']					= " ";
+$GLOBALS['strDbPassword']				= "";
+$GLOBALS['strDbName']					= "  ";
 
-$GLOBALS['strDatabaseOptimalisations']	= "Оптимизация базы данных";
-$GLOBALS['strPersistentConnections']	= "Использовать постоянные соединения";
-$GLOBALS['strInsertDelayed']			= "Использовать отложенные вставки";
-$GLOBALS['strCompatibilityMode']		= "Использовать режим совместимости по базе данных";
-$GLOBALS['strCantConnectToDb']			= "Не могу связаться с базой данных";
+$GLOBALS['strDatabaseOptimalisations']	= "  ";
+$GLOBALS['strPersistentConnections']	= "  ";
+$GLOBALS['strInsertDelayed']			= "  ";
+$GLOBALS['strCompatibilityMode']		= "     ";
+$GLOBALS['strCantConnectToDb']			= "     ";
 
 
 
 // Invocation and Delivery
-$GLOBALS['strInvocationAndDelivery']	= "Настройки вызова и доставки";
+$GLOBALS['strInvocationAndDelivery']	= "   ";
 
-$GLOBALS['strKeywordRetrieval']			= "Извлечение по ключевым словам";
-$GLOBALS['strBannerRetrieval']			= "Метод извлечения баннеров";
-$GLOBALS['strRetrieveRandom']			= "Случайное извлечение (по умолчанию)";
-$GLOBALS['strRetrieveNormalSeq']		= "Обычное последовательное извлечение";
-$GLOBALS['strWeightSeq']				= "Последовательное извлечение с учётом весов";
-$GLOBALS['strFullSeq']					= "Полное последовательное извлечение";
-$GLOBALS['strUseConditionalKeys']		= "Разрешить логические операторы при прямой выборке";
-$GLOBALS['strUseMultipleKeys']			= "Разрешить множественные ключевые слова при прямой выборке";
-$GLOBALS['strUseAcl']					= "Оценивать ограничения по доставке в процессе показов";
+$GLOBALS['strKeywordRetrieval']			= "   ";
+$GLOBALS['strBannerRetrieval']			= "  ";
+$GLOBALS['strRetrieveRandom']			= "  ( )";
+$GLOBALS['strRetrieveNormalSeq']		= "  ";
+$GLOBALS['strWeightSeq']				= "    ";
+$GLOBALS['strFullSeq']					= "  ";
+$GLOBALS['strUseConditionalKeys']		= "     ";
+$GLOBALS['strUseMultipleKeys']			= "      ";
+$GLOBALS['strUseAcl']					= "      ";
 
-$GLOBALS['strDeliverySettings']                 = "Настройки доставки";
-$GLOBALS['strCacheType']                                = "Тип кэша доставки";
-$GLOBALS['strCacheFiles']                               = "Файлы";
-$GLOBALS['strCacheDatabase']                    = "База данных";
-$GLOBALS['strCacheShmop']                               = "Разделяемая память (shmop)";
+$GLOBALS['strDeliverySettings']                 = " ";
+$GLOBALS['strCacheType']                                = "  ";
+$GLOBALS['strCacheFiles']                               = "";
+$GLOBALS['strCacheDatabase']                    = " ";
+$GLOBALS['strCacheShmop']                               = "  (shmop)";
 
-$GLOBALS['strZonesSettings']			= "Извлечение зон";
-$GLOBALS['strZoneCache']				= "Кэшировать зоны (это должно ускорять работу при использовании зон)";
-$GLOBALS['strZoneCacheLimit']			= "Время между обновлениями кэша (в секундах)";
-$GLOBALS['strZoneCacheLimitErr']		= "Время между обновлениями кэша должно быть положительным целым числом";
+$GLOBALS['strZonesSettings']			= " ";
+$GLOBALS['strZoneCache']				= "  (      )";
+$GLOBALS['strZoneCacheLimit']			= "    ( )";
+$GLOBALS['strZoneCacheLimitErr']		= "        ";
 
-$GLOBALS['strP3PSettings']				= "Настройки P3P (политика обращения с частной информацией) ";
-$GLOBALS['strUseP3P']					= "Использовать P3P-политики";
-$GLOBALS['strP3PCompactPolicy']			= "Компакнтая политика P3P";
-$GLOBALS['strP3PPolicyLocation']		= "Место размещения P3P-политики";
+$GLOBALS['strP3PSettings']				= " P3P (    ) ";
+$GLOBALS['strUseP3P']					= " P3P-";
+$GLOBALS['strP3PCompactPolicy']			= "  P3P";
+$GLOBALS['strP3PPolicyLocation']		= "  P3P-";
 
 
 
 // Banner Settings
-$GLOBALS['strBannerSettings']			= "Настройки баннеров";
+$GLOBALS['strBannerSettings']			= " ";
 
-$GLOBALS['strTypeHtmlSettings']			= "Опции HTML-баннеров";
-$GLOBALS['strTypeHtmlAuto']				= "Автоматически изменять HTML-баннеры для регистрации кликов";
-$GLOBALS['strTypeHtmlPhp']				= "Разрешить выполнение PHP-выражений из HTML-баннера";
+$GLOBALS['strTypeHtmlSettings']			= " HTML-";
+$GLOBALS['strTypeHtmlAuto']				= "  HTML-   ";
+$GLOBALS['strTypeHtmlPhp']				= "  PHP-  HTML-";
 
-$GLOBALS['strTypeWebSettings']			= "Конфигурация веб-баннеров";
-$GLOBALS['strTypeWebMode']				= "Метод хранения";
-$GLOBALS['strTypeWebModeLocal']			= "Локальный режим (хранятся в локальном каталоге)";
-$GLOBALS['strTypeWebModeFtp']			= "FTP-режим (хранятся на внешнем FTP-сервере)";
-$GLOBALS['strTypeWebDir']				= "Каталог для локального режима хранения веб-баннеров";
-$GLOBALS['strTypeWebFtp']				= "Сервер для FTP-режима хранения веб-баннеров";
-$GLOBALS['strTypeWebUrl']				= "Публично доступный URL локального каталога или FTP-сервера";
-$GLOBALS['strDefaultBanners']			= "Баннеры по умолчанию";
-$GLOBALS['strDefaultBannerUrl']			= "URL баннера по умолчанию";
-$GLOBALS['strDefaultBannerTarget']		= "Назначение баннера по умолчанию";
+$GLOBALS['strTypeWebSettings']			= " -";
+$GLOBALS['strTypeWebMode']				= " ";
+$GLOBALS['strTypeWebModeLocal']			= "  (   )";
+$GLOBALS['strTypeWebModeFtp']			= "FTP- (   FTP-)";
+$GLOBALS['strTypeWebDir']				= "     -";
+$GLOBALS['strTypeWebFtp']				= "  FTP-  -";
+$GLOBALS['strTypeWebUrl']				= "  URL    FTP-";
+$GLOBALS['strDefaultBanners']			= "  ";
+$GLOBALS['strDefaultBannerUrl']			= "URL   ";
+$GLOBALS['strDefaultBannerTarget']		= "   ";
 
 
 
 // Statistics Settings
-$GLOBALS['strStatisticsSettings']		= "Настройки статистики";
+$GLOBALS['strStatisticsSettings']		= " ";
 
-$GLOBALS['strStatisticsFormat']			= "Формат статистики";
-$GLOBALS['strLogBeacon']				= "Использовать маячки для регистрации просмотров";
-$GLOBALS['strCompactStats']				= "Использовать компактную статистику";
-$GLOBALS['strLogAdviews']				= "Регистрировать просмотры";
-$GLOBALS['strLogAdclicks']				= "Регистрировать клики";
+$GLOBALS['strStatisticsFormat']			= " ";
+$GLOBALS['strLogBeacon']				= "    ";
+$GLOBALS['strCompactStats']				= "  ";
+$GLOBALS['strLogAdviews']				= " ";
+$GLOBALS['strLogAdclicks']				= " ";
 
-$GLOBALS['strGeotrackingType']                  = "Тип базы данных для геотаргетинга";
-$GLOBALS['strGeotrackingLocation']              = "Расположение базы данных для геотаргетинга";
-$GLOBALS['strGeotargeting']                     = "Геотаргетинг";
-$GLOBALS['strGeoLogStats']                      = "Регистрировать страну посетителя в статистике";
-$GLOBALS['strGeoStoreCookie']           = "Сохранять результат в куке для использования впоследствии";
+$GLOBALS['strGeotrackingType']                  = "    ";
+$GLOBALS['strGeotrackingLocation']              = "    ";
+$GLOBALS['strGeotargeting']                     = "";
+$GLOBALS['strGeoLogStats']                      = "    ";
+$GLOBALS['strGeoStoreCookie']           = "      ";
 
 
-$GLOBALS['strEmailWarnings']			= "Предупреждения по емэйлу";
-$GLOBALS['strAdminEmailHeaders']		= "Почтовые заголовки для обозначения автора ежедневных отчётов о рекламе";
-$GLOBALS['strWarnLimit']				= "Предупреждение о лимите";
-$GLOBALS['strWarnLimitErr']				= "Предупреждение о лимите должно быть положительным целым числом";
-$GLOBALS['strWarnAdmin']				= "Предупреждать администратора";
-$GLOBALS['strWarnClient']				= "Предупреждать клиента";
+$GLOBALS['strEmailWarnings']			= "  ";
+$GLOBALS['strAdminEmailHeaders']		= "        ";
+$GLOBALS['strWarnLimit']				= "  ";
+$GLOBALS['strWarnLimitErr']				= "       ";
+$GLOBALS['strWarnAdmin']				= " ";
+$GLOBALS['strWarnClient']				= " ";
 
-$GLOBALS['strRemoteHosts']				= "Удалённые хосты";
-$GLOBALS['strIgnoreHosts']				= "Игнорировать хосты";
-$GLOBALS['strReverseLookup']			= "Проверка обратного DNS";
-$GLOBALS['strProxyLookup']				= "Проверка прокси";
+$GLOBALS['strRemoteHosts']				= " ";
+$GLOBALS['strIgnoreHosts']				= " ";
+$GLOBALS['strReverseLookup']			= "  DNS";
+$GLOBALS['strProxyLookup']				= " ";
 
 
 
 // Administrator settings
-$GLOBALS['strAdministratorSettings']	= "Настройки администратора";
+$GLOBALS['strAdministratorSettings']	= " ";
 
-$GLOBALS['strLoginCredentials']			= "Данные для входа в систему";
-$GLOBALS['strAdminUsername']			= "Имя пользователя-администратора";
-$GLOBALS['strOldPassword']				= "Старый пароль";
-$GLOBALS['strNewPassword']				= "Новый пароль";
-$GLOBALS['strInvalidUsername']			= "Неверное имя пользователя";
-$GLOBALS['strInvalidPassword']			= "Неверный пароль";
+$GLOBALS['strLoginCredentials']			= "    ";
+$GLOBALS['strAdminUsername']			= " -";
+$GLOBALS['strOldPassword']				= " ";
+$GLOBALS['strNewPassword']				= " ";
+$GLOBALS['strInvalidUsername']			= "  ";
+$GLOBALS['strInvalidPassword']			= " ";
 
-$GLOBALS['strBasicInformation']			= "Основная информация";
-$GLOBALS['strAdminFullName']			= "Полное имя администратора";
-$GLOBALS['strAdminEmail']				= "Адрес электронной почты администратора";
-$GLOBALS['strCompanyName']				= "Название компании";
+$GLOBALS['strBasicInformation']			= " ";
+$GLOBALS['strAdminFullName']			= "  ";
+$GLOBALS['strAdminEmail']				= "   ";
+$GLOBALS['strCompanyName']				= " ";
 
-$GLOBALS['strAdminNovice']				= "Действия администратора по удалению требуют подтверждения для подстраховки";
+$GLOBALS['strAdminNovice']				= "       ";
 
 
 
 // User interface settings
-$GLOBALS['strGuiSettings']				= "Настройка интерфейса пользователя";
+$GLOBALS['strGuiSettings']				= "  ";
 
-$GLOBALS['strGeneralSettings']			= "Общие настройки";
-$GLOBALS['strAppName']					= "Имя приложения";
-$GLOBALS['strMyHeader']					= "Мой заголовок";
-$GLOBALS['strMyFooter']					= "Мой подвал";
+$GLOBALS['strGeneralSettings']			= " ";
+$GLOBALS['strAppName']					= " ";
+$GLOBALS['strMyHeader']					= " ";
+$GLOBALS['strMyFooter']					= " ";
 
-$GLOBALS['strClientInterface']			= "Клиентский интерфейс";
-$GLOBALS['strClientWelcomeEnabled']		= "Включить приветственное сообщение для клиентов";
-$GLOBALS['strClientWelcomeText']		= "Текст приветственного сообщения для клиентов<br>(разрешены тэги HTML)";
+$GLOBALS['strClientInterface']			= " ";
+$GLOBALS['strClientWelcomeEnabled']		= "    ";
+$GLOBALS['strClientWelcomeText']		= "    <br>(  HTML)";
 
 
 
 // Interface defaults
-$GLOBALS['strInterfaceDefaults']		= "Настройки интерфейса по умолчанию";
+$GLOBALS['strInterfaceDefaults']		= "   ";
 
-$GLOBALS['strStatisticsDefaults'] 		= "Статистика";
-$GLOBALS['strBeginOfWeek']				= "Начало недели";
-$GLOBALS['strPercentageDecimals']		= "Десятичные дроби";
+$GLOBALS['strStatisticsDefaults'] 		= "";
+$GLOBALS['strBeginOfWeek']				= " ";
+$GLOBALS['strPercentageDecimals']		= " ";
 
-$GLOBALS['strWeightDefaults']			= "Вес по умолчанию";
-$GLOBALS['strDefaultBannerWeight']		= "Вес баннера по умолчанию";
-$GLOBALS['strDefaultCampaignWeight']	= "Вес кампании по умолчанию";
-$GLOBALS['strDefaultBannerWErr']		= "Вес баннера по умолчанию должен быть положительным целым числом";
-$GLOBALS['strDefaultCampaignWErr']		= "Вес кампании по умолчанию должен быть положительным целым числом";
+$GLOBALS['strWeightDefaults']			= "  ";
+$GLOBALS['strDefaultBannerWeight']		= "   ";
+$GLOBALS['strDefaultCampaignWeight']	= "   ";
+$GLOBALS['strDefaultBannerWErr']		= "        ";
+$GLOBALS['strDefaultCampaignWErr']		= "        ";
 
-$GLOBALS['strAllowedBannerTypes']		= "Разрешённые типы баннеров";
-$GLOBALS['strTypeSqlAllow']				= "Разрешить баннеры, хранящиеся в SQL";
-$GLOBALS['strTypeWebAllow']				= "Разрешить баннеры, хранящиеся на вебсервере";
-$GLOBALS['strTypeUrlAllow']				= "Разрешить URL-баннеры";
-$GLOBALS['strTypeHtmlAllow']			= "Разрешить HTML-баннеры";
+$GLOBALS['strAllowedBannerTypes']		= "  ";
+$GLOBALS['strTypeSqlAllow']				= " ,   SQL";
+$GLOBALS['strTypeWebAllow']				= " ,   ";
+$GLOBALS['strTypeUrlAllow']				= " URL-";
+$GLOBALS['strTypeHtmlAllow']			= " HTML-";
 
 
 
 // Not used at the moment
-$GLOBALS['strTableBorderColor']			= "Цвет рамки таблицы";
-$GLOBALS['strTableBackColor']			= "Цвет фона таблицы";
-$GLOBALS['strTableBackColorAlt']		= "Альтернативный цвет фона таблицы";
-$GLOBALS['strMainBackColor']			= "Основной цвет фона";
-$GLOBALS['strOverrideGD']				= "Игнорировать автопределение формата картинок в GD";
-$GLOBALS['strTimeZone']					= "Временная зона";
+$GLOBALS['strTableBorderColor']			= "  ";
+$GLOBALS['strTableBackColor']			= "  ";
+$GLOBALS['strTableBackColorAlt']		= "   ";
+$GLOBALS['strMainBackColor']			= "  ";
+$GLOBALS['strOverrideGD']				= "     GD";
+$GLOBALS['strTimeZone']					= " ";
 
 ?>

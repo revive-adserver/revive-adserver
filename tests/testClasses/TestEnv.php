@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -73,7 +73,7 @@ class TestEnv
     }
 
     /**
-     * A method for setting up the core Openads tables in the test database.
+     * A method for setting up the core OpenX tables in the test database.
      */
     function setupCoreTables()
     {
@@ -92,18 +92,17 @@ class TestEnv
 
     /**
      * use children of the OA_Test_Data class
-     * to load a dataset using dataobjects
-     * see testData_0.3.27_delivery.php
+     * to load a dataset using either dataobjects or mdb2_schema
      *
      * @param string $source : file identifier
      * @return array $aIds : array of inserted entity ids
      */
     function loadData($source)
     {
-        if (file_exists(MAX_PATH . "/tests/data/testData_{$source}.php"))
+        if (file_exists(MAX_PATH . "/tests/datasets/test_{$source}.php"))
         {
             $classname = 'OA_Test_Data_'.str_replace('.','_',$source);
-            require_once(MAX_PATH . "/tests/data/testData_{$source}.php");
+            require_once(MAX_PATH . "/tests/datasets/test_{$source}.php");
             if (class_exists($classname))
             {
                 $obj = new $classname;

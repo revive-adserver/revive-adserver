@@ -2,14 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -26,14 +23,14 @@
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
 $Id$
-*/ 
+*/
 
-$GLOBALS['strPluginAffiliate'] 		= "Vygenerovat pøehled z historie vybraného vydavatele. Pøehled je exportován ve formátu CSV pro jednoduché pou¾ití v tabulkových procesorech.";
-$GLOBALS['strPluginCampaign'] 		= "Vygenerovat pøehled z historie vybrané kampanì. Pøehled je exportován ve formátu CSV pro jednoduché pou¾ití v tabulkových procesorech.";
-$GLOBALS['strPluginClient'] 		= "Vygenerovat pøehled z historie vybraného inzerenta. Pøehled je exportován ve formátu CSV pro jednoduché pou¾ití v tabulkových procesorech.";
-$GLOBALS['strPluginGlobal'] 		= "Vygenerovat pøehled z globální historie. Pøehled je exportován ve formátu CSV pro jednoduché pou¾ití v tabulkových procesorech..";
-$GLOBALS['strPluginZone'] 		= "Vygenerovat pøehled z historie vybrané zóny. Pøehled je exportován ve formátu CSV pro jednoduché pou¾ití v tabulkových procesorech.";
-$GLOBALS['strPluginCampaignDelivery']		  = "Poskytne pøehled o doruèování kampaní v prùbìhu vèerej¹ího dne";
-$GLOBALS['strPluginUnderdeliveringCampaigns'] = "Vygeneruje pøehled kampaní, které v prùbìhu vèerej¹ího dne nesplnily po¾adované doruèování";
+$GLOBALS['strPluginAffiliate'] 		= "Vygenerovat pï¿½ehled z historie vybranï¿½ho vydavatele. Pï¿½ehled je exportovï¿½n ve formï¿½tu CSV pro jednoduchï¿½ pouï¿½itï¿½ v tabulkovï¿½ch procesorech.";
+$GLOBALS['strPluginCampaign'] 		= "Vygenerovat pï¿½ehled z historie vybranï¿½ kampanï¿½. Pï¿½ehled je exportovï¿½n ve formï¿½tu CSV pro jednoduchï¿½ pouï¿½itï¿½ v tabulkovï¿½ch procesorech.";
+$GLOBALS['strPluginClient'] 		= "Vygenerovat pï¿½ehled z historie vybranï¿½ho inzerenta. Pï¿½ehled je exportovï¿½n ve formï¿½tu CSV pro jednoduchï¿½ pouï¿½itï¿½ v tabulkovï¿½ch procesorech.";
+$GLOBALS['strPluginGlobal'] 		= "Vygenerovat pï¿½ehled z globï¿½lnï¿½ historie. Pï¿½ehled je exportovï¿½n ve formï¿½tu CSV pro jednoduchï¿½ pouï¿½itï¿½ v tabulkovï¿½ch procesorech..";
+$GLOBALS['strPluginZone'] 		= "Vygenerovat pï¿½ehled z historie vybranï¿½ zï¿½ny. Pï¿½ehled je exportovï¿½n ve formï¿½tu CSV pro jednoduchï¿½ pouï¿½itï¿½ v tabulkovï¿½ch procesorech.";
+$GLOBALS['strPluginCampaignDelivery']		  = "Poskytne pï¿½ehled o doruï¿½ovï¿½nï¿½ kampanï¿½ v prï¿½bï¿½hu vï¿½erejï¿½ï¿½ho dne";
+$GLOBALS['strPluginUnderdeliveringCampaigns'] = "Vygeneruje pï¿½ehled kampanï¿½, kterï¿½ v prï¿½bï¿½hu vï¿½erejï¿½ï¿½ho dne nesplnily poï¿½adovanï¿½ doruï¿½ovï¿½nï¿½";
 
 ?>

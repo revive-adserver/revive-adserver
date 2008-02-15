@@ -2,14 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -27,124 +24,120 @@
 +---------------------------------------------------------------------------+
 $Id$
 */
-/* Turkish Translation by :												*/
-/* 		Metin AKTAÞ (metin@yapayzeka.net)								*/
-/* 		Bünyamin VICIL (bunyamin@yapayzeka.net)					        */
-/*----------------------------------------------------------------------*/
 
 // Main strings
-$GLOBALS['strChooseSection']			= "Bölüm Seçiniz";
+$GLOBALS['strChooseSection']			= "Bï¿½lï¿½m Seï¿½iniz";
 
 
 // Priority
-$GLOBALS['strRecalculatePriority']		= "Öncelikleri hesapla";
-$GLOBALS['strHighPriorityCampaigns']		= "Yüksek öncelikli kampanyalar";
-$GLOBALS['strAdViewsAssigned']			= "Belirlenen görünme";
-$GLOBALS['strLowPriorityCampaigns']		= "Düþük öncelikli kampanyalar";
-$GLOBALS['strPredictedAdViews']			= "Önceden belirtilmiþ Görünme";
+$GLOBALS['strRecalculatePriority']		= "ï¿½ncelikleri hesapla";
+$GLOBALS['strHighPriorityCampaigns']		= "Yï¿½ksek ï¿½ncelikli kampanyalar";
+$GLOBALS['strAdViewsAssigned']			= "Belirlenen gï¿½rï¿½nme";
+$GLOBALS['strLowPriorityCampaigns']		= "Dï¿½ï¿½ï¿½k ï¿½ncelikli kampanyalar";
+$GLOBALS['strPredictedAdViews']			= "ï¿½nceden belirtilmiï¿½ Gï¿½rï¿½nme";
 $GLOBALS['strPriorityDaysRunning']		= "There are currently {days} days worth of statistics available from where ".$phpAds_productname." can base its daily prediction on. ";
-$GLOBALS['strPriorityBasedLastWeek']		= "Bu tahmin bu hafta ve geçen haftanýn istatistiklerinden hazýrlanmýþtýr. ";
-$GLOBALS['strPriorityBasedLastDays']		= "Bu tahmin son iki günün istatistiklerinden hazýrlanmýþtýr. ";
-$GLOBALS['strPriorityBasedYesterday']		= "Bu tahmin dünün istatistiklerinden hazýrlanmýþtýr. ";
-$GLOBALS['strPriorityNoData']			= "Gerçeðe yakýn tahmin oluþturulmasý için yeterli istatistik bulunmamktadýr. Öncelikler gerçek zamanlý istatistikler için kullanýlabilir. ";
-$GLOBALS['strPriorityEnoughAdViews']		= "Yüksek öncelikli kampanyalarý memnun edebilmek için yeterli gösterim sayýsý olmalýdýr. ";
-$GLOBALS['strPriorityNotEnoughAdViews']		= "Bugün toplanan görüntilenmeler yüksek öncelikli kampanyanýn bilgisi için yeterli deðil. ";
+$GLOBALS['strPriorityBasedLastWeek']		= "Bu tahmin bu hafta ve geï¿½en haftanï¿½n istatistiklerinden hazï¿½rlanmï¿½ï¿½tï¿½r. ";
+$GLOBALS['strPriorityBasedLastDays']		= "Bu tahmin son iki gï¿½nï¿½n istatistiklerinden hazï¿½rlanmï¿½ï¿½tï¿½r. ";
+$GLOBALS['strPriorityBasedYesterday']		= "Bu tahmin dï¿½nï¿½n istatistiklerinden hazï¿½rlanmï¿½ï¿½tï¿½r. ";
+$GLOBALS['strPriorityNoData']			= "Gerï¿½eï¿½e yakï¿½n tahmin oluï¿½turulmasï¿½ iï¿½in yeterli istatistik bulunmamktadï¿½r. ï¿½ncelikler gerï¿½ek zamanlï¿½ istatistikler iï¿½in kullanï¿½labilir. ";
+$GLOBALS['strPriorityEnoughAdViews']		= "Yï¿½ksek ï¿½ncelikli kampanyalarï¿½ memnun edebilmek iï¿½in yeterli gï¿½sterim sayï¿½sï¿½ olmalï¿½dï¿½r. ";
+$GLOBALS['strPriorityNotEnoughAdViews']		= "Bugï¿½n toplanan gï¿½rï¿½ntilenmeler yï¿½ksek ï¿½ncelikli kampanyanï¿½n bilgisi iï¿½in yeterli deï¿½il. ";
 
 
 // Banner cache
-$GLOBALS['strRebuildBannerCache']		= "Banner hafýzasýný tekrar oluþtur";
+$GLOBALS['strRebuildBannerCache']		= "Banner hafï¿½zasï¿½nï¿½ tekrar oluï¿½tur";
 $GLOBALS['strBannerCacheExplaination']		= "
-	Banner hafýzasý bannerý göstermek için HTML kodlarýný içerir. Banner hafýzasý kullanmanýz bannerýn her gösteriminde yeniden HTML 
-	kodu üretmeyeceðinden dolayý görüntülenmesini hýzlandýrýr. Çünkü banner hafýzasý ".$phpAds_productname." programýnýn direk adresini(URL) 
-	ve bannerý bünyesinde bulundurur.
+	Banner hafï¿½zasï¿½ bannerï¿½ gï¿½stermek iï¿½in HTML kodlarï¿½nï¿½ iï¿½erir. Banner hafï¿½zasï¿½ kullanmanï¿½z bannerï¿½n her gï¿½steriminde yeniden HTML 
+	kodu ï¿½retmeyeceï¿½inden dolayï¿½ gï¿½rï¿½ntï¿½lenmesini hï¿½zlandï¿½rï¿½r. ï¿½ï¿½nkï¿½ banner hafï¿½zasï¿½ ".$phpAds_productname." programï¿½nï¿½n direk adresini(URL) 
+	ve bannerï¿½ bï¿½nyesinde bulundurur.
 ";
 
 
 // Zone cache
-$GLOBALS['strZoneCache']			= "Alan Hafýzasý";
-$GLOBALS['strAge']				= "Yaþ";
-$GLOBALS['strRebuildZoneCache']			= "Alan Hafýzasýný tekrar oluþtur";
+$GLOBALS['strZoneCache']			= "Alan Hafï¿½zasï¿½";
+$GLOBALS['strAge']				= "Yaï¿½";
+$GLOBALS['strRebuildZoneCache']			= "Alan Hafï¿½zasï¿½nï¿½ tekrar oluï¿½tur";
 $GLOBALS['strZoneCacheExplaination']		= "
-	Alan hafýzasý o alana ait bannerlarýn hýzlý açýlmasýný saðlar. Alan hafýzasý üzerinde bulunan tüm bannerlarýn kodlarýný içermektedir.
-	Hafýza alan güncelleþtirildiðinde veya banner eklendiðinde deðiþmektedir, bu yüzden hafýza geçerliliðini kaybeder.
-	Bu yüzden hafýza her {seconds} dakikada tekrar oluþturulmaktadýr, ama bu hafýza elle de yapýlabilmektedir.
+	Alan hafï¿½zasï¿½ o alana ait bannerlarï¿½n hï¿½zlï¿½ aï¿½ï¿½lmasï¿½nï¿½ saï¿½lar. Alan hafï¿½zasï¿½ ï¿½zerinde bulunan tï¿½m bannerlarï¿½n kodlarï¿½nï¿½ iï¿½ermektedir.
+	Hafï¿½za alan gï¿½ncelleï¿½tirildiï¿½inde veya banner eklendiï¿½inde deï¿½iï¿½mektedir, bu yï¿½zden hafï¿½za geï¿½erliliï¿½ini kaybeder.
+	Bu yï¿½zden hafï¿½za her {seconds} dakikada tekrar oluï¿½turulmaktadï¿½r, ama bu hafï¿½za elle de yapï¿½labilmektedir.
 ";
 
 
 // Storage
 $GLOBALS['strStorage']				= "Depolama";
-$GLOBALS['strMoveToDirectory']			= "Veritabanýnda depolanan resimleri bir dizine taþý";
+$GLOBALS['strMoveToDirectory']			= "Veritabanï¿½nda depolanan resimleri bir dizine taï¿½ï¿½";
 $GLOBALS['strStorageExplaination']		= "
-	Yerel bannerlarýn resimleri veritabanýnda veya bir klasör altýnda tutulabilir. Eðer resimleri
-	bir klasörde tutarsanýz bu veritabanýnýn yükünü azaltýr ama sistemi yavaþlatýr.
+	Yerel bannerlarï¿½n resimleri veritabanï¿½nda veya bir klasï¿½r altï¿½nda tutulabilir. Eï¿½er resimleri
+	bir klasï¿½rde tutarsanï¿½z bu veritabanï¿½nï¿½n yï¿½kï¿½nï¿½ azaltï¿½r ama sistemi yavaï¿½latï¿½r.
 ";
 
 
 // Storage
 $GLOBALS['strStatisticsExplaination']		= "
-	<i>Yoðunlaþtýrýlmýþ istatistikleri</i> aktif ettiniz, fakat eski istatistiklerinizin yapýsý gereksiz bilgileri de içeriyor. 
-	Eski istatistiklerinizi düzenlemek ister misiniz?
+	<i>Yoï¿½unlaï¿½tï¿½rï¿½lmï¿½ï¿½ istatistikleri</i> aktif ettiniz, fakat eski istatistiklerinizin yapï¿½sï¿½ gereksiz bilgileri de iï¿½eriyor. 
+	Eski istatistiklerinizi dï¿½zenlemek ister misiniz?
 ";
 
 
 // Product Updates
-$GLOBALS['strSearchingUpdates']			= "Güncellemeler kontrol ediliyor. Lütfen bekleyiniz...";
-$GLOBALS['strAvailableUpdates']			= "Mevcut ürün güncellemeleri";
-$GLOBALS['strDownloadZip']			= "Ýndir (.zip)";
-$GLOBALS['strDownloadGZip']			= "Ýndir (.tar.gz)";
+$GLOBALS['strSearchingUpdates']			= "Gï¿½ncellemeler kontrol ediliyor. Lï¿½tfen bekleyiniz...";
+$GLOBALS['strAvailableUpdates']			= "Mevcut ï¿½rï¿½n gï¿½ncellemeleri";
+$GLOBALS['strDownloadZip']			= "ï¿½ndir (.zip)";
+$GLOBALS['strDownloadGZip']			= "ï¿½ndir (.tar.gz)";
 
-$GLOBALS['strUpdateAlert']			= $phpAds_productname." programýnýn yeni sürümü bulunmaktadýr.                 \\n\\nBu güncelleme ile ilgili daha\\nfazla bilgi ister misiniz?";
-$GLOBALS['strUpdateAlertSecurity']		= $phpAds_productname." programýnýn yeni sürümü bulunmaktadýr.                 \\n\\nBu güncellemeyi yapmanýz \\ntavsiye ediliyor, çünklü bu sürüm \\ngüvenlik problemlerinin onarýlmýþ halini içeriyor.";
+$GLOBALS['strUpdateAlert']			= $phpAds_productname." programï¿½nï¿½n yeni sï¿½rï¿½mï¿½ bulunmaktadï¿½r.                 \\n\\nBu gï¿½ncelleme ile ilgili daha\\nfazla bilgi ister misiniz?";
+$GLOBALS['strUpdateAlertSecurity']		= $phpAds_productname." programï¿½nï¿½n yeni sï¿½rï¿½mï¿½ bulunmaktadï¿½r.                 \\n\\nBu gï¿½ncellemeyi yapmanï¿½z \\ntavsiye ediliyor, ï¿½ï¿½nklï¿½ bu sï¿½rï¿½m \\ngï¿½venlik problemlerinin onarï¿½lmï¿½ï¿½ halini iï¿½eriyor.";
 
 $GLOBALS['strUpdateServerDown']			= "
-    Tanýmlanamayan bir nedenden dolayý mevcut olan ürün <br>
-	güncellemelerine ulaþýlamýyor. Lütfen daha sonra tekrar deneyiniz.
+    Tanï¿½mlanamayan bir nedenden dolayï¿½ mevcut olan ï¿½rï¿½n <br>
+	gï¿½ncellemelerine ulaï¿½ï¿½lamï¿½yor. Lï¿½tfen daha sonra tekrar deneyiniz.
 ";
 
 $GLOBALS['strNoNewVersionAvailable']		= 
-	$phpAds_productname." sürümünüz güncellenmiþ. þu anda mevcut bir güncelleme bulunmuyor.
+	$phpAds_productname." sï¿½rï¿½mï¿½nï¿½z gï¿½ncellenmiï¿½. ï¿½u anda mevcut bir gï¿½ncelleme bulunmuyor.
 ";
 
 $GLOBALS['strNewVersionAvailable']		= "
-	<b>".$phpAds_productname." yeni sürümü bulunmaktadýr.</b><br> Bu güncellemeyi yüklemenizi tavsiye ederiz.
-	Çünkü bu sürüm bazý problemleri çözebilir ve yeni özellikler ekleyebilir. Daha fazla bilgi için
-	aþaðýdaki dosyada bulunan dökümanlarý okuyunuz.
+	<b>".$phpAds_productname." yeni sï¿½rï¿½mï¿½ bulunmaktadï¿½r.</b><br> Bu gï¿½ncellemeyi yï¿½klemenizi tavsiye ederiz.
+	ï¿½ï¿½nkï¿½ bu sï¿½rï¿½m bazï¿½ problemleri ï¿½ï¿½zebilir ve yeni ï¿½zellikler ekleyebilir. Daha fazla bilgi iï¿½in
+	aï¿½aï¿½ï¿½daki dosyada bulunan dï¿½kï¿½manlarï¿½ okuyunuz.
 ";
 
 $GLOBALS['strSecurityUpdate']			= "
-	<b>Bu güncellemeyi yüklemeniz þiddetle tavsiye ediliyor. Çünkü bu sürüm bazý güvenlik açýklarýný onarýyor.
-	.</b> Kullanmýþ olduðunuz ".$phpAds_productname." sürümü bazý saldýrýlara açýk olabilir. Daha fazla bilgi için
-	aþaðýdaki dosyada bulunan dökümanlarý okuyunuz.
+	<b>Bu gï¿½ncellemeyi yï¿½klemeniz ï¿½iddetle tavsiye ediliyor. ï¿½ï¿½nkï¿½ bu sï¿½rï¿½m bazï¿½ gï¿½venlik aï¿½ï¿½klarï¿½nï¿½ onarï¿½yor.
+	.</b> Kullanmï¿½ï¿½ olduï¿½unuz ".$phpAds_productname." sï¿½rï¿½mï¿½ bazï¿½ saldï¿½rï¿½lara aï¿½ï¿½k olabilir. Daha fazla bilgi iï¿½in
+	aï¿½aï¿½ï¿½daki dosyada bulunan dï¿½kï¿½manlarï¿½ okuyunuz.
 ";
 
 
 // Stats conversion
-$GLOBALS['strConverting']			= "Dönüþtürülüyor";
-$GLOBALS['strConvertingStats']			= "Ýstatistikler Dönüþtürülüyor...";
-$GLOBALS['strConvertStats']			= "Ýstatistikleri dönüþtür";
-$GLOBALS['strConvertAdViews']			= "Görüntülenme dönüþtür,";
-$GLOBALS['strConvertAdClicks']			= "Týklanma dönüþtürlüyor...";
-$GLOBALS['strConvertNothing']			= "Hiçbir þey dönüþtürülmedi...";
+$GLOBALS['strConverting']			= "Dï¿½nï¿½ï¿½tï¿½rï¿½lï¿½yor";
+$GLOBALS['strConvertingStats']			= "ï¿½statistikler Dï¿½nï¿½ï¿½tï¿½rï¿½lï¿½yor...";
+$GLOBALS['strConvertStats']			= "ï¿½statistikleri dï¿½nï¿½ï¿½tï¿½r";
+$GLOBALS['strConvertAdViews']			= "Gï¿½rï¿½ntï¿½lenme dï¿½nï¿½ï¿½tï¿½r,";
+$GLOBALS['strConvertAdClicks']			= "Tï¿½klanma dï¿½nï¿½ï¿½tï¿½rlï¿½yor...";
+$GLOBALS['strConvertNothing']			= "Hiï¿½bir ï¿½ey dï¿½nï¿½ï¿½tï¿½rï¿½lmedi...";
 $GLOBALS['strConvertFinished']			= "Bitti...";
 
 $GLOBALS['strConvertExplaination']		= "
-	Þu anda istatistiklerinizi depolamak için yoðunlaþtýrýlmýþ biçimi kullanýyorsunuz. Ama <br>
-	hala gereksiz içerikli istatistikleriniz bulunmakta. Bu gereksiz içerikli istatistikleriniz<br>
-	yoðunlaþtýrýlmýþ istatistiklere dönüþtürülmeden bu sayfalarý göremezsiniz. <br>
-	Ýstatistiklerinizi dönüstürmden veritabanýnýzý yedekleyiniz ! <br>
-	Gereksiz içerikli istatistiklerinizi yoðunlaþtýrýlmýþ istatistik biçimine dönüþtürmek istermisiniz?<br>
+	ï¿½u anda istatistiklerinizi depolamak iï¿½in yoï¿½unlaï¿½tï¿½rï¿½lmï¿½ï¿½ biï¿½imi kullanï¿½yorsunuz. Ama <br>
+	hala gereksiz iï¿½erikli istatistikleriniz bulunmakta. Bu gereksiz iï¿½erikli istatistikleriniz<br>
+	yoï¿½unlaï¿½tï¿½rï¿½lmï¿½ï¿½ istatistiklere dï¿½nï¿½ï¿½tï¿½rï¿½lmeden bu sayfalarï¿½ gï¿½remezsiniz. <br>
+	ï¿½statistiklerinizi dï¿½nï¿½stï¿½rmden veritabanï¿½nï¿½zï¿½ yedekleyiniz ! <br>
+	Gereksiz iï¿½erikli istatistiklerinizi yoï¿½unlaï¿½tï¿½rï¿½lmï¿½ï¿½ istatistik biï¿½imine dï¿½nï¿½ï¿½tï¿½rmek istermisiniz?<br>
 ";
 
 $GLOBALS['strConvertingExplaination']		= "
-	Kalan tüm gereksiz içerikli istatistikleriniz yoðunlaþtýrýlmýþ istatistiklere çevrildi.<br>
-	Tüm kayýtlarýn dönüþtürülmesi biraz süre alacaktýr. ÝBu süre içerisinde lütfen baþka sayfalarý
-	gezmeyiniz. Ýþlem sonunda size veritabaný üzerinde yapýlan deðiþikler ile ilgili rapor sunulacaktýr.
+	Kalan tï¿½m gereksiz iï¿½erikli istatistikleriniz yoï¿½unlaï¿½tï¿½rï¿½lmï¿½ï¿½ istatistiklere ï¿½evrildi.<br>
+	Tï¿½m kayï¿½tlarï¿½n dï¿½nï¿½ï¿½tï¿½rï¿½lmesi biraz sï¿½re alacaktï¿½r. ï¿½Bu sï¿½re iï¿½erisinde lï¿½tfen baï¿½ka sayfalarï¿½
+	gezmeyiniz. ï¿½ï¿½lem sonunda size veritabanï¿½ ï¿½zerinde yapï¿½lan deï¿½iï¿½ikler ile ilgili rapor sunulacaktï¿½r.
 ";
 
 $GLOBALS['strConvertFinishedExplaination']  	= "
-	Yoðunlaþtýrýlmýþ istatistiklere dönüþtürme iþlemi baþarýyla gerçekleþtirildi, <br>
-	þu anda veriler tekrar kullanýlabilir halde. Aþaðýda veritabanýnda yapýlan tüm<br>
-	deðiþiklikleri görebilirsiniz.<br>
+	Yoï¿½unlaï¿½tï¿½rï¿½lmï¿½ï¿½ istatistiklere dï¿½nï¿½ï¿½tï¿½rme iï¿½lemi baï¿½arï¿½yla gerï¿½ekleï¿½tirildi, <br>
+	ï¿½u anda veriler tekrar kullanï¿½labilir halde. Aï¿½aï¿½ï¿½da veritabanï¿½nda yapï¿½lan tï¿½m<br>
+	deï¿½iï¿½iklikleri gï¿½rebilirsiniz.<br>
 ";
 
 

@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                           |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -26,7 +26,7 @@ $Id:$
 */
 
 /**
- * @package    OpenadsDll
+ * @package    OpenXDll
  * @author     Ivan Klishch <iklishch@lohika.com>
  *
  * This file describes the AdvertiserInfo class.
@@ -80,14 +80,14 @@ class OA_Dll_AdvertiserInfo extends OA_Info
     var $emailAddress;
 
     /**
-     * The username variable is the name the contact uses to log into Openads.
+     * The username variable is the name the contact uses to log into OpenX.
      *
      * @var string $username
      */
     var $username;
 
     /**
-     * The password variable is the password the contact uses to log into Openads.
+     * The password variable is the password the contact uses to log into OpenX.
      *
      * @var string $password
      */
