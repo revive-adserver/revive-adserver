@@ -87,11 +87,13 @@ class OA_Dll_User extends OA_Dll
      */
     function _validateUsername(&$oUser, $oOldUser = null)
     {
-        $oldUsername = empty($oOldUser) ? '' : $oOldUser->username;
+        if (isset($oUser->username)) {
+            $oldUsername = empty($oOldUser) ? '' : $oOldUser->username;
 
-        if (!OA_Permission::isUsernameAllowed($oUser->username, $oldUsername)) {
-            $this->raiseError('Username must be unique');
-            return false;
+            if (!OA_Permission::isUsernameAllowed($oUser->username, $oldUsername)) {
+                $this->raiseError('Username must be unique');
+                return false;
+            }
         }
 
         return true;

@@ -117,7 +117,7 @@ class OA_Dll_UserTest extends DllUnitTestCase
                           $dllUserPartialMock->getLastError());
 
         // Modify
-        $oUserInfo->userName = 'modified User';
+        $oUserInfo->contactName = 'modified User';
 
         $this->assertTrue($dllUserPartialMock->modify($oUserInfo),
                           $dllUserPartialMock->getLastError());
