@@ -46,6 +46,8 @@ $fp = fopen(MAX_PATH .'/var/cache/test_api_openads-api-xmlrpc.php', 'w');
 fwrite($fp, '<'.'?php '.$api);
 require_once(MAX_PATH .'/var/cache/test_api_openads-api-xmlrpc.php');
 
+define('OA_INSTALLATION_STATUS', OA_INSTALLATION_STATUS_INSTALLED);
+
 /**
  * A common class for testing the webservices API
  *
@@ -75,7 +77,6 @@ class Test_OA_Api_XmlRpc extends UnitTestCase
         $oApi = &$GLOBALS['_STATIC']['staticGetApi'];
 
         if (empty($oApi)) {
-            define('OA_INSTALLATION_STATUS', OA_INSTALLATION_STATUS_INSTALLED);
 
             $doAccounts = OA_Dal::factoryDO('accounts');
             $doAccounts->account_type = OA_ACCOUNT_ADMIN;

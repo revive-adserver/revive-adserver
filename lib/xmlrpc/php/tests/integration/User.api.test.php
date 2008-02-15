@@ -187,6 +187,16 @@ class Test_OA_Api_XmlRpc_User extends Test_OA_Api_XmlRpc
         $this->assertEqual($doUsers->count(), 2);
     }
 
+    function testModifyWithSameUsername()
+    {
+		$oUser = $this->_createUserInfo();
+		$oUser->userId = $this->oApi->addUser($oUser);
+		$this->assertTrue($oUser->userId);
+
+		$oUser->contactName = 'modified';
+        $this->assertTrue($this->oApi->modifyUser($oUser));
+    }
+
 	function _sortUserList($a, $b)
 	{
 	    return $a->userId - $b->userId;

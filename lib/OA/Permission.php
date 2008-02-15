@@ -819,7 +819,7 @@ class OA_Permission
      */
     function isUsernameAllowed($newName, $oldName = null)
     {
-        if (!empty($oldName) && $oldName == $newName) {
+        if (!empty($oldName) && !strcasecmp($oldName, $newName)) {
             return true;
         }
         return !OA_Permission::userNameExists($newName);
