@@ -49,26 +49,19 @@ class SimulationScenario
 {
     var $requestFile = '';
     var $requestData = '';
-
     var $totalDelivery = 0;
     var $totalRequests = 0;
-
     var $aDelivered = array();
     var $aFailed = array();
-
     var $scenarioConfig = '';
-
     var $tablePrefix = '';
     var $oServiceLocator;
     var $oCoreTables;
     var $oDbh;
-
     var $profileOn = true;
     var $aProfile = array();
-
     var $adSelectCallback;
     var $aVarDump;
-
 
     /**
      * The constructor method.

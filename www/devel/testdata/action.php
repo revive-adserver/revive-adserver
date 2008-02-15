@@ -83,6 +83,11 @@ function doUpgrade($dbname)
     return $aMessages;
 }
 
+if (array_key_exists('btn_data_drop', $_POST))
+{
+    OA_DB::dropDatabase($_POST['dbname']);
+}
+
 $oIntegrity = new OA_DB_Integrity();
 $GLOBALS['_MAX']['CONF']['table']['prefix'] = '';
 $datasetfile = $_REQUEST['datasetfile'];
@@ -134,8 +139,8 @@ else if (array_key_exists('btn_data_dump', $_POST))
 {
     $aDatabase = $oIntegrity->getVersion();
     $oIntegrity->init($aDatabase['versionSchema'],$aDatasetFile['name'],false);
-    $aVariables['appver']   = $aDatabase['versionSchema'];
-    $aVariables['schema']   = $aDatabase['versionApp'];
+    $aVariables['appver']   = $aDatabase['versionApp'];
+    $aVariables['schema']   = $aDatabase['versionSchema'];
     $aVariables['exclude']  = $_POST['exclude'];
     $aVariables['output']   = TD_DATAPATH.$aDatasetFile['name'].'.xml';
     $aResults = $oIntegrity->dumpData($aVariables);

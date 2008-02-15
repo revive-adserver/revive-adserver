@@ -25,10 +25,7 @@
 $Id$
 */
 
-//require_once MAX_PATH . '/lib/OA/Dal.php';
-//require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
-
 require_once MAX_PATH . '/tests/testClasses/OATestData.php';
 
 /**
@@ -95,6 +92,89 @@ class OA_Test_Data_DataObjects extends OA_Test_Data
         $this->doVariables                  = OA_Dal::factoryDO('variables');
         return true;
 
+    }
+
+    /**
+     * demonstration / default
+     *
+     * A method to generate data for testing.
+     * can be overriden by child clases
+     *
+     * insertion order is important
+     *
+     * agency
+     * client
+     * affiliate
+     * campaign
+     * banner
+     * zone
+     * ad_zone_assoc
+     *
+     * @access private
+     */
+    function generateTestData()
+    {
+
+        if (!parent::init())
+        {
+            return false;
+        }
+
+        // Add an agency record
+        $aAgency['name'] = 'Test Agency';
+        $aAgency['contact'] = 'Test Contact';
+        $aAgency['email'] = 'agency@example.com';
+        $this->aIds['agency'][1] = $this->_insertAgency($aAgency);
+
+        // Add a client record (advertiser)
+        $aClient['agencyid'] = $this->aIds['agency'][1];
+        $aClient['clientname'] = 'Test Client';
+        $aClient['email'] = 'client@example.com';
+        $this->aIds['clients'][1] = $this->_insertClients($aClient);
+
+        // Add an affiliate (publisher) record
+        $aAffiliate['agencyid'] = $this->aIds['agency'][1];
+        $aAffiliate['name'] = 'Test Publisher';
+        $aAffiliate['mnemonic'] = 'ABC';
+        $aAffiliate['contact'] = 'Affiliate Contact';
+        $aAffiliate['email'] = 'affiliate@example.com';
+        $aAffiliate['website'] = 'www.example.com';
+        $this->aIds['affiliates'][1] = $this->_insertAffiliates($aAffiliate);
+
+        // Populate campaigns table
+        $aCampaign['campaignname'] = 'Test Campaign';
+        $aCampaign['clientid'] = $this->aIds['clients'][1];
+        $aCampaign['views'] = 500;
+        $aCampaign['clicks'] = 0;
+        $aCampaign['conversions'] = 401;
+        $this->aIds['campaigns'][1] = $this->_insertCampaigns($aCampaign);
+
+        // Add a banner
+        $aBanners['campaignid'] = $this->aIds['campaigns'][1];
+        $aBanners['contenttype'] = 'txt';
+        $aBanners['storagetype'] = 'txt';
+        $aBanners['url'] = 'http://www.example.com';
+        $aBanners['alt'] = 'Test Campaign - Text Banner';
+        $aBanners['compiledlimitation'] = 'phpAds_aclCheckDate(\'20050502\', \'!=\') and phpAds_aclCheckClientIP(\'2.22.22.2\', \'!=\') and phpAds_aclCheckLanguage(\'(sq)|(eu)|(fo)|(fi)\', \'!=\')';
+        $this->aIds['banners'][1] = $this->_insertBanners($aBanners);
+
+        // Add zone record
+        $aZone['affiliateid'] = $this->aIds['affiliates'][1];
+        $aZone['zonename'] = 'Default Zone';
+        $aZone['description'] = '';
+        $aZone['delivery'] = 0;
+        $aZone['zonetype'] =3;
+        $aZone['category'] = '';
+        $aZone['width'] = 728;
+        $aZone['height'] = 90;
+        $this->aIds['zones'][1] = $this->_insertZones($aZone);
+
+        // Add ad_zone_assoc record
+        $aAdZone['ad_id'] = $this->aIds['banners'][1];
+        $aAdZone['zone_id'] = $this->aIds['zones'][1];
+        $this->aIds['ad_zone_assoc'][1] = $this->_insertAdZoneAssoc($aAdZone);
+
+        return true;
     }
 
     function _insertAgency($aData)
@@ -288,90 +368,6 @@ class OA_Test_Data_DataObjects extends OA_Test_Data
     {
         $this->doVariables->setFrom($aData);
         return DataGenerator::generateOne($this->doVariables);
-    }
-
-
-    /**
-     * demonstration / default
-     *
-     * A method to generate data for testing.
-     * can be overriden by child clases
-     *
-     * insertion order is important
-     *
-     * agency
-     * client
-     * affiliate
-     * campaign
-     * banner
-     * zone
-     * ad_zone_assoc
-     *
-     * @access private
-     */
-    function generateTestData()
-    {
-
-        if (!parent::init())
-        {
-            return false;
-        }
-
-        // Add an agency record
-        $aAgency['name'] = 'Test Agency';
-        $aAgency['contact'] = 'Test Contact';
-        $aAgency['email'] = 'agency@example.com';
-        $this->aIds['agency'][1] = $this->_insertAgency($aAgency);
-
-        // Add a client record (advertiser)
-        $aClient['agencyid'] = $this->aIds['agency'][1];
-        $aClient['clientname'] = 'Test Client';
-        $aClient['email'] = 'client@example.com';
-        $this->aIds['clients'][1] = $this->_insertClients($aClient);
-
-        // Add an affiliate (publisher) record
-        $aAffiliate['agencyid'] = $this->aIds['agency'][1];
-        $aAffiliate['name'] = 'Test Publisher';
-        $aAffiliate['mnemonic'] = 'ABC';
-        $aAffiliate['contact'] = 'Affiliate Contact';
-        $aAffiliate['email'] = 'affiliate@example.com';
-        $aAffiliate['website'] = 'www.example.com';
-        $this->aIds['affiliates'][1] = $this->_insertAffiliates($aAffiliate);
-
-        // Populate campaigns table
-        $aCampaign['campaignname'] = 'Test Campaign';
-        $aCampaign['clientid'] = $this->aIds['clients'][1];
-        $aCampaign['views'] = 500;
-        $aCampaign['clicks'] = 0;
-        $aCampaign['conversions'] = 401;
-        $this->aIds['campaigns'][1] = $this->_insertCampaigns($aCampaign);
-
-        // Add a banner
-        $aBanners['campaignid'] = $this->aIds['campaigns'][1];
-        $aBanners['contenttype'] = 'txt';
-        $aBanners['storagetype'] = 'txt';
-        $aBanners['url'] = 'http://www.example.com';
-        $aBanners['alt'] = 'Test Campaign - Text Banner';
-        $aBanners['compiledlimitation'] = 'phpAds_aclCheckDate(\'20050502\', \'!=\') and phpAds_aclCheckClientIP(\'2.22.22.2\', \'!=\') and phpAds_aclCheckLanguage(\'(sq)|(eu)|(fo)|(fi)\', \'!=\')';
-        $this->aIds['banners'][1] = $this->_insertBanners($aBanners);
-
-        // Add zone record
-        $aZone['affiliateid'] = $this->aIds['affiliates'][1];
-        $aZone['zonename'] = 'Default Zone';
-        $aZone['description'] = '';
-        $aZone['delivery'] = 0;
-        $aZone['zonetype'] =3;
-        $aZone['category'] = '';
-        $aZone['width'] = 728;
-        $aZone['height'] = 90;
-        $this->aIds['zones'][1] = $this->_insertZones($aZone);
-
-        // Add ad_zone_assoc record
-        $aAdZone['ad_id'] = $this->aIds['banners'][1];
-        $aAdZone['zone_id'] = $this->aIds['zones'][1];
-        $this->aIds['ad_zone_assoc'][1] = $this->_insertAdZoneAssoc($aAdZone);
-
-        return true;
     }
 }
 

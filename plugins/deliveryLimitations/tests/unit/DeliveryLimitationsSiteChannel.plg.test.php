@@ -45,7 +45,7 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Site_Channel extends Plugins_Del
     {
         $this->UnitTestCase();
         TestEnv::restoreEnv();
-        $this->aIds = TestEnv::loadData('2.5.50_delivery');
+        $this->aIds = TestEnv::loadData('delivery_001');
     }
 
     function testCompile()

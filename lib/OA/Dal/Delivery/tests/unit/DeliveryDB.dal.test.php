@@ -55,7 +55,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
         $this->UnitTestCase();
         $this->oDbh = OA_DB::singleton();
         $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-        $this->aIds = TestEnv::loadData('2.5.50_delivery');
+        $this->aIds = TestEnv::loadData('delivery_001');
 
         // Disable caching
         $GLOBALS['OA_Delivery_Cache']['expiry'] = -1;

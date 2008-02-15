@@ -698,7 +698,15 @@ class MDB2_Schema_Parser extends XML_Parser
 
     function setData(&$array, $key, $value)
     {
-        $array[(count($array)-1)][$key] = $value;
+        $lastIdx = count($array) - 1;
+        if (isset($value['data']) && isset($array[$lastIdx][$key]['data'])) {
+            // Value is an array and has a data member, there might be something
+            // already stored, so we need to append rather then replace.
+            $value['data'] = $array[$lastIdx][$key]['data'].$value['data'];
+        } elseif (is_string($value) && isset($array[$lastIdx][$key])) {
+            $value =  $array[$lastIdx][$key].$value;
+        }
+        $array[$lastIdx][$key] = $value;
     }
 }
 

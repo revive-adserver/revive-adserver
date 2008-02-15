@@ -5,9 +5,9 @@
  <name>test_delivery_001</name>
  <create>true</create>
  <overwrite>false</overwrite>
- <version>2.5.60-beta-rc1</version>
+ <version>548</version>
  <status>final</status>
- <application>548</application>
+ <application>2.5.60-beta-rc1</application>
 
  <table>
 

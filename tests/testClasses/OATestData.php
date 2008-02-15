@@ -26,7 +26,6 @@ $Id $
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Dll.php';
-//require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
 /**
  *
@@ -38,10 +37,8 @@ require_once MAX_PATH . '/lib/OA/Dll.php';
  */
 class OA_Test_Data
 {
-
     var $oDbh;
     var $oNow;
-
     var $aIds = array(
                         'agency'=>array(),
                         'clients'=>array(),
@@ -57,8 +54,6 @@ class OA_Test_Data
                         'trackers'=>array(),
                         'variables'=>array()
                       );
-
-
     /**
      * The constructor method.
      */
@@ -76,7 +71,6 @@ class OA_Test_Data
         $this->oNow = new Date();
         return true;
     }
-
 
     /**
      *

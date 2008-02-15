@@ -5,9 +5,9 @@
  <name>ChrisBasic</name>
  <create>true</create>
  <overwrite>false</overwrite>
- <version>515</version>
+ <version>2.5.60-beta-rc1</version>
  <status>final</status>
- <application>2.4.0</application>
+ <application>548</application>
 
  <table>
 
@@ -229,38 +229,38 @@
     </field>
 
     <field>
-     <name>username</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>permissions</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>language</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>publiczones</name>
-     <value>f</value>
-    </field>
-
-    <field>
-     <name>last_accepted_agency_agreement</name>
-     <value>2000-01-01 00:00:00</value>
-    </field>
-
-    <field>
      <name>updated</name>
      <value>2007-02-06 16:54:38</value>
+    </field>
+
+    <field>
+     <name>an_website_id</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>oac_country_code</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>oac_language_id</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>oac_category_id</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>as_website_id</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>account_id</name>
+     <value></value>
     </field>
 
    </insert>
@@ -383,7 +383,7 @@
 
     <field>
      <name>value</name>
-     <value>515</value>
+     <value>548</value>
     </field>
 
    </insert>
@@ -397,7 +397,49 @@
 
     <field>
      <name>value</name>
-     <value>2.4.0</value>
+     <value>2.5.60-beta-rc1</value>
+    </field>
+
+   </insert>
+
+   <insert>
+
+    <field>
+     <name>name</name>
+     <value>platform_hash</value>
+    </field>
+
+    <field>
+     <name>value</name>
+     <value>f23cf2a81b87869793d1385d119f805d6c60c87c</value>
+    </field>
+
+   </insert>
+
+   <insert>
+
+    <field>
+     <name>name</name>
+     <value>maintenance_timestamp</value>
+    </field>
+
+    <field>
+     <name>value</name>
+     <value>1172138850</value>
+    </field>
+
+   </insert>
+
+   <insert>
+
+    <field>
+     <name>name</name>
+     <value>maintenance_cron_timestamp</value>
+    </field>
+
+    <field>
+     <name>value</name>
+     <value>0</value>
     </field>
 
    </insert>
@@ -422,11 +464,6 @@
     <field>
      <name>campaignid</name>
      <value>1</value>
-    </field>
-
-    <field>
-     <name>active</name>
-     <value>t</value>
     </field>
 
     <field>
@@ -500,7 +537,7 @@
     </field>
 
     <field>
-     <name>status</name>
+     <name>statustext</name>
      <value></value>
     </field>
 
@@ -541,7 +578,7 @@
 
     <field>
      <name>compiledlimitation</name>
-     <value>MAX_checkTime_Hour(&apos;9,10,11,12,13,14,15,16,17&apos;, &apos;=~&apos;)</value>
+     <value>)</value>
     </field>
 
     <field>
@@ -609,6 +646,21 @@
      <value></value>
     </field>
 
+    <field>
+     <name>an_banner_id</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>as_banner_id</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>status</name>
+     <value>0</value>
+    </field>
+
    </insert>
 
    <insert>
@@ -621,11 +673,6 @@
     <field>
      <name>campaignid</name>
      <value>2</value>
-    </field>
-
-    <field>
-     <name>active</name>
-     <value>t</value>
     </field>
 
     <field>
@@ -699,7 +746,7 @@
     </field>
 
     <field>
-     <name>status</name>
+     <name>statustext</name>
      <value></value>
     </field>
 
@@ -808,6 +855,21 @@
      <value></value>
     </field>
 
+    <field>
+     <name>an_banner_id</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>as_banner_id</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>status</name>
+     <value>0</value>
+    </field>
+
    </insert>
 
    <insert>
@@ -820,11 +882,6 @@
     <field>
      <name>campaignid</name>
      <value>3</value>
-    </field>
-
-    <field>
-     <name>active</name>
-     <value>t</value>
     </field>
 
     <field>
@@ -898,7 +955,7 @@
     </field>
 
     <field>
-     <name>status</name>
+     <name>statustext</name>
      <value></value>
     </field>
 
@@ -1005,6 +1062,21 @@
     <field>
      <name>parameters</name>
      <value></value>
+    </field>
+
+    <field>
+     <name>an_banner_id</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>as_banner_id</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>status</name>
+     <value>0</value>
     </field>
 
    </insert>
@@ -1059,11 +1131,6 @@
     <field>
      <name>activate</name>
      <value>2000-01-01</value>
-    </field>
-
-    <field>
-     <name>active</name>
-     <value>t</value>
     </field>
 
     <field>
@@ -1136,6 +1203,31 @@
      <value>0</value>
     </field>
 
+    <field>
+     <name>an_campaign_id</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>as_campaign_id</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>status</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>an_status</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>as_reject_reason</name>
+     <value>0</value>
+    </field>
+
    </insert>
 
    <insert>
@@ -1178,11 +1270,6 @@
     <field>
      <name>activate</name>
      <value>2000-01-01</value>
-    </field>
-
-    <field>
-     <name>active</name>
-     <value>t</value>
     </field>
 
     <field>
@@ -1255,6 +1342,31 @@
      <value>0</value>
     </field>
 
+    <field>
+     <name>an_campaign_id</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>as_campaign_id</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>status</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>an_status</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>as_reject_reason</name>
+     <value>0</value>
+    </field>
+
    </insert>
 
    <insert>
@@ -1297,11 +1409,6 @@
     <field>
      <name>activate</name>
      <value>2000-01-01</value>
-    </field>
-
-    <field>
-     <name>active</name>
-     <value>t</value>
     </field>
 
     <field>
@@ -1374,6 +1481,31 @@
      <value>0</value>
     </field>
 
+    <field>
+     <name>an_campaign_id</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>as_campaign_id</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>status</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>an_status</name>
+     <value>0</value>
+    </field>
+
+    <field>
+     <name>as_reject_reason</name>
+     <value>0</value>
+    </field>
+
    </insert>
 
   </initialization>
@@ -1414,26 +1546,6 @@
     </field>
 
     <field>
-     <name>clientusername</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>clientpassword</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>permissions</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>language</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>report</name>
      <value>f</value>
     </field>
@@ -1468,6 +1580,21 @@
      <value>0</value>
     </field>
 
+    <field>
+     <name>an_adnetwork_id</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>as_advertiser_id</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>account_id</name>
+     <value></value>
+    </field>
+
    </insert>
 
   </initialization>
@@ -1476,615 +1603,481 @@
 
  <table>
 
-  <name>preference</name>
+  <name>preferences</name>
 
   <initialization>
 
    <insert>
 
     <field>
-     <name>agencyid</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>config_version</name>
-     <value>0.3</value>
-    </field>
-
-    <field>
-     <name>my_header</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>my_footer</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>my_logo</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>language</name>
-     <value>english</value>
-    </field>
-
-    <field>
-     <name>name</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>company_name</name>
-     <value>mysite.com</value>
-    </field>
-
-    <field>
-     <name>override_gd_imageformat</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>begin_of_week</name>
+     <name>preference_id</name>
      <value>1</value>
     </field>
 
     <field>
-     <name>percentage_decimals</name>
+     <name>preference_name</name>
+     <value>language</value>
+    </field>
+
+    <field>
+     <name>account_type</name>
+     <value>TRAFFICKER</value>
+    </field>
+
+   </insert>
+
+   <insert>
+
+    <field>
+     <name>preference_id</name>
      <value>2</value>
     </field>
 
     <field>
-     <name>type_sql_allow</name>
-     <value>t</value>
+     <name>preference_name</name>
+     <value>company_name</value>
     </field>
 
     <field>
-     <name>type_url_allow</name>
-     <value>t</value>
+     <name>account_type</name>
+     <value>MANAGER</value>
+    </field>
+
+   </insert>
+
+   <insert>
+
+    <field>
+     <name>preference_id</name>
+     <value>3</value>
     </field>
 
     <field>
-     <name>type_web_allow</name>
-     <value>f</value>
+     <name>preference_name</name>
+     <value>ui_week_start_day</value>
     </field>
 
     <field>
-     <name>type_html_allow</name>
-     <value>t</value>
-    </field>
-
-    <field>
-     <name>type_txt_allow</name>
-     <value>t</value>
-    </field>
-
-    <field>
-     <name>banner_html_auto</name>
-     <value>t</value>
-    </field>
-
-    <field>
-     <name>admin</name>
-     <value>matteo</value>
-    </field>
-
-    <field>
-     <name>admin_pw</name>
-     <value>6f8f57715090da2632453988d9a1501b</value>
-    </field>
-
-    <field>
-     <name>admin_fullname</name>
-     <value>Your Name</value>
-    </field>
-
-    <field>
-     <name>admin_email</name>
-     <value>your@email.com</value>
-    </field>
-
-    <field>
-     <name>warn_admin</name>
-     <value>t</value>
-    </field>
-
-    <field>
-     <name>warn_agency</name>
-     <value>t</value>
-    </field>
-
-    <field>
-     <name>warn_client</name>
-     <value>t</value>
-    </field>
-
-    <field>
-     <name>warn_limit</name>
-     <value>100</value>
-    </field>
-
-    <field>
-     <name>admin_email_headers</name>
+     <name>account_type</name>
      <value></value>
     </field>
 
+   </insert>
+
+   <insert>
+
     <field>
-     <name>admin_novice</name>
-     <value>t</value>
+     <name>preference_id</name>
+     <value>4</value>
     </field>
 
     <field>
-     <name>default_banner_weight</name>
-     <value>1</value>
+     <name>preference_name</name>
+     <value>ui_percentage_decimals</value>
     </field>
 
     <field>
-     <name>default_campaign_weight</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>default_banner_url</name>
+     <name>account_type</name>
      <value></value>
     </field>
 
-    <field>
-     <name>default_banner_destination</name>
-     <value></value>
-    </field>
+   </insert>
+
+   <insert>
 
     <field>
-     <name>client_welcome</name>
-     <value>t</value>
-    </field>
-
-    <field>
-     <name>client_welcome_msg</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>publisher_welcome</name>
-     <value>t</value>
-    </field>
-
-    <field>
-     <name>publisher_welcome_msg</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>content_gzip_compression</name>
-     <value>f</value>
-    </field>
-
-    <field>
-     <name>userlog_email</name>
-     <value>t</value>
-    </field>
-
-    <field>
-     <name>gui_show_campaign_info</name>
-     <value>t</value>
-    </field>
-
-    <field>
-     <name>gui_show_campaign_preview</name>
-     <value>f</value>
-    </field>
-
-    <field>
-     <name>gui_campaign_anonymous</name>
-     <value>f</value>
-    </field>
-
-    <field>
-     <name>gui_show_banner_info</name>
-     <value>t</value>
-    </field>
-
-    <field>
-     <name>gui_show_banner_preview</name>
-     <value>t</value>
-    </field>
-
-    <field>
-     <name>gui_show_banner_html</name>
-     <value>f</value>
-    </field>
-
-    <field>
-     <name>gui_show_matching</name>
-     <value>t</value>
-    </field>
-
-    <field>
-     <name>gui_show_parents</name>
-     <value>f</value>
-    </field>
-
-    <field>
-     <name>gui_hide_inactive</name>
-     <value>f</value>
-    </field>
-
-    <field>
-     <name>gui_link_compact_limit</name>
-     <value>50</value>
-    </field>
-
-    <field>
-     <name>gui_header_background_color</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_header_foreground_color</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_header_active_tab_color</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_header_text_color</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_invocation_3rdparty_default</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>qmail_patch</name>
-     <value>f</value>
-    </field>
-
-    <field>
-     <name>updates_enabled</name>
-     <value>t</value>
-    </field>
-
-    <field>
-     <name>updates_cache</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>updates_timestamp</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>updates_last_seen</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>allow_invocation_plain</name>
-     <value>f</value>
-    </field>
-
-    <field>
-     <name>allow_invocation_plain_nocookies</name>
-     <value>t</value>
-    </field>
-
-    <field>
-     <name>allow_invocation_js</name>
-     <value>t</value>
-    </field>
-
-    <field>
-     <name>allow_invocation_frame</name>
-     <value>f</value>
-    </field>
-
-    <field>
-     <name>allow_invocation_xmlrpc</name>
-     <value>f</value>
-    </field>
-
-    <field>
-     <name>allow_invocation_local</name>
-     <value>t</value>
-    </field>
-
-    <field>
-     <name>allow_invocation_interstitial</name>
-     <value>t</value>
-    </field>
-
-    <field>
-     <name>allow_invocation_popup</name>
-     <value>t</value>
-    </field>
-
-    <field>
-     <name>allow_invocation_clickonly</name>
-     <value>t</value>
-    </field>
-
-    <field>
-     <name>auto_clean_tables</name>
-     <value>f</value>
-    </field>
-
-    <field>
-     <name>auto_clean_tables_interval</name>
+     <name>preference_id</name>
      <value>5</value>
     </field>
 
     <field>
-     <name>auto_clean_userlog</name>
-     <value>f</value>
+     <name>preference_name</name>
+     <value>warn_admin</value>
     </field>
 
     <field>
-     <name>auto_clean_userlog_interval</name>
-     <value>5</value>
+     <name>account_type</name>
+     <value>ADMIN</value>
+    </field>
+
+   </insert>
+
+   <insert>
+
+    <field>
+     <name>preference_id</name>
+     <value>6</value>
     </field>
 
     <field>
-     <name>auto_clean_tables_vacuum</name>
-     <value>t</value>
+     <name>preference_name</name>
+     <value>warn_email_manager</value>
     </field>
 
     <field>
-     <name>autotarget_factor</name>
-     <value>-1</value>
+     <name>account_type</name>
+     <value>MANAGER</value>
+    </field>
+
+   </insert>
+
+   <insert>
+
+    <field>
+     <name>preference_id</name>
+     <value>7</value>
     </field>
 
     <field>
-     <name>maintenance_timestamp</name>
-     <value>1172138850</value>
+     <name>preference_name</name>
+     <value>warn_email_advertiser</value>
     </field>
 
     <field>
-     <name>compact_stats</name>
-     <value>t</value>
+     <name>account_type</name>
+     <value>ADVERTISER</value>
+    </field>
+
+   </insert>
+
+   <insert>
+
+    <field>
+     <name>preference_id</name>
+     <value>8</value>
     </field>
 
     <field>
-     <name>statslastday</name>
-     <value>2000-01-01</value>
+     <name>preference_name</name>
+     <value>warn_email_admin_impression_limit</value>
     </field>
 
     <field>
-     <name>statslasthour</name>
-     <value>0</value>
+     <name>account_type</name>
+     <value>MANAGER</value>
+    </field>
+
+   </insert>
+
+   <insert>
+
+    <field>
+     <name>preference_id</name>
+     <value>9</value>
     </field>
 
     <field>
-     <name>default_tracker_status</name>
-     <value>1</value>
+     <name>preference_name</name>
+     <value>warn_email_admin_day_limit</value>
     </field>
 
     <field>
-     <name>default_tracker_type</name>
-     <value>1</value>
+     <name>account_type</name>
+     <value>MANAGER</value>
+    </field>
+
+   </insert>
+
+   <insert>
+
+    <field>
+     <name>preference_id</name>
+     <value>10</value>
     </field>
 
     <field>
-     <name>default_tracker_linkcampaigns</name>
-     <value>f</value>
+     <name>preference_name</name>
+     <value>ui_novice_user</value>
     </field>
 
     <field>
-     <name>publisher_agreement</name>
-     <value>f</value>
-    </field>
-
-    <field>
-     <name>publisher_agreement_text</name>
+     <name>account_type</name>
      <value></value>
     </field>
 
+   </insert>
+
+   <insert>
+
     <field>
-     <name>publisher_payment_modes</name>
+     <name>preference_id</name>
+     <value>11</value>
+    </field>
+
+    <field>
+     <name>preference_name</name>
+     <value>default_banner_weight</value>
+    </field>
+
+    <field>
+     <name>account_type</name>
+     <value>ADVERTISER</value>
+    </field>
+
+   </insert>
+
+   <insert>
+
+    <field>
+     <name>preference_id</name>
+     <value>12</value>
+    </field>
+
+    <field>
+     <name>preference_name</name>
+     <value>default_campaign_weight</value>
+    </field>
+
+    <field>
+     <name>account_type</name>
+     <value>ADVERTISER</value>
+    </field>
+
+   </insert>
+
+   <insert>
+
+    <field>
+     <name>preference_id</name>
+     <value>13</value>
+    </field>
+
+    <field>
+     <name>preference_name</name>
+     <value>default_banner_image_url</value>
+    </field>
+
+    <field>
+     <name>account_type</name>
+     <value>TRAFFICKER</value>
+    </field>
+
+   </insert>
+
+   <insert>
+
+    <field>
+     <name>preference_id</name>
+     <value>14</value>
+    </field>
+
+    <field>
+     <name>preference_name</name>
+     <value>default_banner_destination_url</value>
+    </field>
+
+    <field>
+     <name>account_type</name>
+     <value>TRAFFICKER</value>
+    </field>
+
+   </insert>
+
+   <insert>
+
+    <field>
+     <name>preference_id</name>
+     <value>15</value>
+    </field>
+
+    <field>
+     <name>preference_name</name>
+     <value>ui_show_campaign_info</value>
+    </field>
+
+    <field>
+     <name>account_type</name>
+     <value>ADVERTISER</value>
+    </field>
+
+   </insert>
+
+   <insert>
+
+    <field>
+     <name>preference_id</name>
+     <value>16</value>
+    </field>
+
+    <field>
+     <name>preference_name</name>
+     <value>ui_show_campaign_preview</value>
+    </field>
+
+    <field>
+     <name>account_type</name>
+     <value>ADVERTISER</value>
+    </field>
+
+   </insert>
+
+   <insert>
+
+    <field>
+     <name>preference_id</name>
+     <value>17</value>
+    </field>
+
+    <field>
+     <name>preference_name</name>
+     <value>ui_show_banner_info</value>
+    </field>
+
+    <field>
+     <name>account_type</name>
+     <value>ADVERTISER</value>
+    </field>
+
+   </insert>
+
+   <insert>
+
+    <field>
+     <name>preference_id</name>
+     <value>18</value>
+    </field>
+
+    <field>
+     <name>preference_name</name>
+     <value>ui_show_banner_preview</value>
+    </field>
+
+    <field>
+     <name>account_type</name>
+     <value>ADVERTISER</value>
+    </field>
+
+   </insert>
+
+   <insert>
+
+    <field>
+     <name>preference_id</name>
+     <value>19</value>
+    </field>
+
+    <field>
+     <name>preference_name</name>
+     <value>ui_show_banner_html</value>
+    </field>
+
+    <field>
+     <name>account_type</name>
+     <value>ADVERTISER</value>
+    </field>
+
+   </insert>
+
+   <insert>
+
+    <field>
+     <name>preference_id</name>
+     <value>20</value>
+    </field>
+
+    <field>
+     <name>preference_name</name>
+     <value>ui_show_matching_banners</value>
+    </field>
+
+    <field>
+     <name>account_type</name>
+     <value>TRAFFICKER</value>
+    </field>
+
+   </insert>
+
+   <insert>
+
+    <field>
+     <name>preference_id</name>
+     <value>21</value>
+    </field>
+
+    <field>
+     <name>preference_name</name>
+     <value>ui_show_matching_banners_parents</value>
+    </field>
+
+    <field>
+     <name>account_type</name>
+     <value>TRAFFICKER</value>
+    </field>
+
+   </insert>
+
+   <insert>
+
+    <field>
+     <name>preference_id</name>
+     <value>22</value>
+    </field>
+
+    <field>
+     <name>preference_name</name>
+     <value>ui_hide_inactive</value>
+    </field>
+
+    <field>
+     <name>account_type</name>
      <value></value>
     </field>
 
+   </insert>
+
+   <insert>
+
     <field>
-     <name>publisher_currencies</name>
+     <name>preference_id</name>
+     <value>23</value>
+    </field>
+
+    <field>
+     <name>preference_name</name>
+     <value>tracker_default_status</value>
+    </field>
+
+    <field>
+     <name>account_type</name>
      <value></value>
     </field>
 
+   </insert>
+
+   <insert>
+
     <field>
-     <name>publisher_categories</name>
+     <name>preference_id</name>
+     <value>24</value>
+    </field>
+
+    <field>
+     <name>preference_name</name>
+     <value>tracker_default_type</value>
+    </field>
+
+    <field>
+     <name>account_type</name>
      <value></value>
     </field>
 
+   </insert>
+
+   <insert>
+
     <field>
-     <name>publisher_help_files</name>
+     <name>preference_id</name>
+     <value>25</value>
+    </field>
+
+    <field>
+     <name>preference_name</name>
+     <value>tracker_link_campaigns</value>
+    </field>
+
+    <field>
+     <name>account_type</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>publisher_default_tax_id</name>
-     <value>f</value>
-    </field>
-
-    <field>
-     <name>publisher_default_approved</name>
-     <value>f</value>
-    </field>
-
-    <field>
-     <name>more_reports</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_column_id</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_column_requests</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_column_impressions</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_column_clicks</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_column_ctr</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_column_conversions</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_column_conversions_pending</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_column_sr_views</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_column_sr_clicks</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_column_revenue</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_column_cost</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_column_bv</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_column_num_items</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_column_revcpc</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_column_costcpc</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_column_technology_cost</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_column_income</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_column_income_margin</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_column_profit</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_column_margin</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_column_erpm</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_column_erpc</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_column_erps</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_column_eipm</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_column_eipc</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_column_eips</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_column_ecpm</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_column_ecpc</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_column_ecps</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>gui_column_epps</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>instance_id</name>
-     <value>f23cf2a81b87869793d1385d119f805d6c60c87c</value>
-    </field>
-
-    <field>
-     <name>maintenance_cron_timestamp</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>warn_limit_days</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -2108,7 +2101,7 @@
 
     <field>
      <name>sessiondata</name>
-     <value>a:6:{s:8:&quot;usertype&quot;;i:1;s:8:&quot;loggedin&quot;;s:1:&quot;t&quot;;s:8:&quot;agencyid&quot;;i:0;s:8:&quot;username&quot;;s:5:&quot;admin&quot;;s:5:&quot;prefs&quot;;a:1:{s:20:&quot;advertiser-index.php&quot;;a:4:{s:12:&quot;hideinactive&quot;;b:0;s:9:&quot;listorder&quot;;s:0:&quot;&quot;;s:14:&quot;orderdirection&quot;;s:0:&quot;&quot;;s:5:&quot;nodes&quot;;a:0:{}}}s:12:&quot;update_check&quot;;b:0;}</value>
+     <value>;b:0;}</value>
     </field>
 
     <field>
@@ -2232,12 +2225,12 @@
 
     <field>
      <name>technology_cost</name>
-     <value></value>
+     <value>0</value>
     </field>
 
     <field>
      <name>technology_cost_type</name>
-     <value></value>
+     <value>0</value>
     </field>
 
     <field>
@@ -2262,6 +2255,11 @@
 
     <field>
      <name>what</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>as_zone_id</name>
      <value></value>
     </field>
 
@@ -2371,12 +2369,12 @@
 
     <field>
      <name>technology_cost</name>
-     <value></value>
+     <value>0</value>
     </field>
 
     <field>
      <name>technology_cost_type</name>
-     <value></value>
+     <value>0</value>
     </field>
 
     <field>
@@ -2401,6 +2399,11 @@
 
     <field>
      <name>what</name>
+     <value></value>
+    </field>
+
+    <field>
+     <name>as_zone_id</name>
      <value></value>
     </field>
 
