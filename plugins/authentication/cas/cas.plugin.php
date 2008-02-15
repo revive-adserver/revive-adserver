@@ -26,6 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/other/common.php';
+require_once MAX_PATH . '/lib/OA/Central.php';
 require_once MAX_PATH . '/plugins/authentication/Authentication.php';
 require_once MAX_PATH . '/plugins/authentication/cas/CAS/CAS.php';
 require_once MAX_PATH . '/plugins/authentication/cas/CAS/client.php';
@@ -59,19 +60,36 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
      */
     var $oCentral;
 
+    var $defaultErrorUnkownMsg = 'Error while connecting with server (%s), please try to resend your data again.';
+    var $defaultErrorUnknownCode = 'Error while communicating with server, error code %d';
+
     var $aErrorCodes = array(
-        701 => 'User do not exists, please try again with different account',
-        702 => 'Wrong password, please try again',
-        703 => 'Such email already exists, please try again using different e-mail address',
-        704 => 'Invalid verification hash, please recheck you confirmation mail',
-        800 => 'Connection error, please send your data again',
-        801 => 'User not authenticated, please correct your credentials',
-        803 => 'Error in request to server - wrong parameters, please try to resend your data',
-        804 => 'User name do not match platform hash',
-        805 => 'Platform hash doesn\'t exist, please execute sync process',
-        806 => 'Server error',
-        807 => 'User not authorized',
-        808 => 'XML-RPC version not supported',
+        OA_CENTRAL_ERROR_SSO_USER_NOT_EXISTS
+            => 'User do not exists, please try again with different account',
+        OA_CENTRAL_ERROR_SSO_INVALID_PASSWORD
+            => 'Wrong password, please try again',
+        OA_CENTRAL_ERROR_SSO_EMAIL_EXISTS
+            => 'Such email already exists, please try again using different e-mail address',
+        OA_CENTRAL_ERROR_SSO_INVALID_VER_HASH
+            => 'Invalid verification hash, please recheck you confirmation mail',
+        OA_CENTRAL_ERROR_XML_RPC_CONNECTION_ERROR
+            => 'Connection error, please send your data again',
+        OA_CENTRAL_ERROR_ERROR_NOT_AUTHENTICATED
+            => 'User not authenticated, please correct your credentials',
+        OA_CENTRAL_ERROR_WRONG_PARAMETERS
+            => 'Error in request to server - wrong parameters, please try to resend your data',
+        OA_CENTRAL_ERROR_USERNAME_DOES_NOT_MATCH_PLATFORM
+            => 'User name do not match platform hash',
+        OA_CENTRAL_ERROR_PLATFORM_DOES_NOT_EXIST
+            => 'Platform hash doesn\'t exist, please execute sync process',
+        OA_CENTRAL_ERROR_SERVER_ERROR
+            => 'Server error',
+        OA_CENTRAL_ERROR_ERROR_NOT_AUTHORIZED
+            => 'User not authorized',
+        OA_CENTRAL_ERROR_XML_RPC_VERSION_NOT_SUPPORTED
+            => 'XML-RPC version not supported',
+        OA_CENTRAL_ERROR_M2M_PASSWORD_INVALID
+            => 'M2M authentication error - invalid password',
     );
 
     /**
@@ -138,9 +156,30 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
             if ($doUser) {
                 return $doUser;
             }
-            $this->displayRegistrationRequiredInfo($username);
+            $this->displayRegistrationRequiredInfo();
         }
         return null;
+    }
+
+    /**
+     * A method to check a username and password
+     *
+     * @param string $username
+     * @param string $password
+     * @return mixed A DataObjects_Users instance, or false if no matching user was found
+     */
+    function checkPassword($username, $password)
+    {
+        // Preload the Central object
+        $this->getCentralCas();
+
+        $result = $this->oCentral->checkUsernameMd5Password($username, md5($password));
+
+        if (PEAR::isError($result)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -191,7 +230,7 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
      *
      * @param string $userName
      */
-    function displayRegistrationRequiredInfo($userName = '')
+    function displayRegistrationRequiredInfo()
     {
         phpAds_PageHeader("1");
         $msg = MAX_Plugin_Translation::translate('strRegistrationRequiredInfo', $this->module, $this->package);
@@ -199,6 +238,7 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
             '{userName}'   => phpCAS::getUser(),
         );
         $msg = str_replace(array_keys($replacements), array_values($replacements), $msg);
+        echo $msg;
         phpAds_PageFooter();
         exit();
     }
@@ -218,7 +258,13 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
         if (isset($_SESSION['phpCAS'])) {
             unset($_SESSION['phpCAS']);
         }
-        $this->authenticateUser();
+        $result = $this->authenticateUser();
+        if ($result) {
+            phpAds_SessionDataRegister(OA_Auth::getSessionData($result));
+            phpAds_SessionDataStore();
+
+            return;
+        }
         exit;
     }
 
@@ -296,6 +342,7 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
      * A method to perform DLL level validation
      *
      * @todo Check user existence on SSO and get the username
+     * @todo Errors strings localisation
      *
      * @param OA_Dll_User $oUser
      * @param OA_Dll_UserInfo $oUserInfo
@@ -309,7 +356,8 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
         }
 
         if (!isset($oUserInfo->userId)) {
-            if (!$oUser->checkStructureRequiredStringField($oUserInfo, 'emailAddress', 64)) {
+            if (!$oUser->checkStructureRequiredStringField($oUserInfo,
+                    'emailAddress', 64)) {
                 return false;
             }
 
@@ -384,12 +432,28 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
      * @return array  Array containing error strings or empty
      *                array if no validation errors were found
      */
-    function validateUsersData($login, $password, $email)
+    function validateUsersData($data)
     {
-        return $this->validateUsersEmail($email);
+        $this->validateUsersEmail($data['email_address']);
+        return $this->getValidationErrors();
     }
 
-    function saveUser($login, $password, $contactName, $emailAddress, $accountId)
+    function saveUser($userid, $login, $password,
+        $contactName, $emailAddress, $accountId)
+    {
+        if (!empty($userid)) {
+            $doUsers = OA_Dal::factoryDO('users');
+            if ($doUsers->loadByProperty('user_id', $userid)) {
+                return parent::saveUser($doUsers, null, null, $contactName,
+                    $emailAddress, $accountId);
+            }
+            return false;
+        } else {
+            return $this->createUser($contactName, $emailAddress, $accountId);
+        }
+    }
+
+    function createUser($contactName, $emailAddress, $accountId)
     {
         $this->getCentralCas();
         $ssoUserId = $this->getAccountId($emailAddress);
@@ -398,31 +462,36 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
         }
         if (!$ssoUserId) {
             $superUserName = OA_Permission::getAccountName();
-            $ssoUserId = $this->createPartialAccount($receipientEmailAddress, $superUserName, $contactName);
+            $ssoUserId = $this->createPartialAccount($emailAddress,
+                $superUserName, $contactName);
             if (PEAR::isError($ssoUserId)) {
                 return false;
             }
         }
 
         $doUsers = OA_Dal::factoryDO('users');
+        $doUsers->loadByProperty('email_address', $emailAddress);
         $doUsers->sso_user_id = $ssoUserId;
-        return parent::saveUser($doUsers, $login, $password, $contactName, $contactName, $accountId);
+        return parent::saveUser($doUsers, null, null, $contactName,
+            $emailAddress, $accountId);
     }
 
-    function createPartialAccount($receipientEmailAddress, $superUserName, $contactName)
+    function createPartialAccount($receipientEmail, $superUserName, $contactName)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $emailFrom = $aConf['email']['fromName'] . '" <' . $aConf['email']['fromAddress'] . '>';
+        $emailFrom = $aConf['email']['fromName'] . ' <' .
+            $aConf['email']['fromAddress'] . '>';
         $this->getCentralCas();
 
         $subject = $this->getEmailSubject($superUserName);
-        $content = $this->getEmailBody($superUserName, $contactName);
-        $ssoUserId = $this->oCentral->createPartialAccount($receipientEmailAddress, $emailFrom, $subject, $content);
-        if (PEAR::isError($ssoUserId)) {
-            $this->addSignupError($ssoUserId);
-            return false;
+        $content = $this->getEmailBody($superUserName, $contactName,
+            $receipientEmail);
+        $ret = $this->oCentral->createPartialAccount($receipientEmail,
+            $emailFrom, $subject, $content);
+        if (PEAR::isError($ret)) {
+            $this->addSignupError($ret);
         }
-        return $ssoUserId;
+        return $ret;
     }
 
     /**
@@ -434,11 +503,14 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
     function getAccountId($emailAddress)
     {
         $this->getCentralCas();
-        $ssoUserId = $this->oCentral->getAccountId($emailAddress);
-        if (PEAR::isError($ssoUserId)) {
-            $this->addSignupError($ssoUserId);
+        $ret = $this->oCentral->getAccountId($emailAddress);
+        if (PEAR::isError($ret)) {
+            if ($ret->getCode() == OA_CENTRAL_ERROR_SSO_USER_NOT_EXISTS) {
+                return null;
+            }
+            $this->addSignupError($ret);
         }
-        return $ssoUserId;
+        return $ret;
     }
 
     /**
@@ -449,7 +521,8 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
      */
     function getEmailSubject($superUserName)
     {
-        $subject = MAX_Plugin_Translation::translate('strEmailSsoConfirmationSubject', $this->module, $this->package);
+        $subject = MAX_Plugin_Translation::translate('strEmailSsoConfirmationSubject',
+            $this->module, $this->package);
         return str_replace('{superUserName}', $superUserName, $subject);
     }
 
@@ -460,14 +533,19 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
      * @param $contactName
      * @return string
      */
-    function getEmailBody($superUserName, $contactName)
+    function getEmailBody($superUserName, $contactName, $receipientEmail)
     {
-        $subject = MAX_Plugin_Translation::translate('strEmailSsoConfirmationBody', $this->module, $this->package);
+        $subject = MAX_Plugin_Translation::translate('strEmailSsoConfirmationBody',
+            $this->module, $this->package);
+        $url = MAX::constructURL(MAX_URL_ADMIN, 'signup.php');
         $replacements = array(
             '{contactName}'   => $contactName,
             '{superUserName}' => $superUserName,
+            '{url}' => $url . '?email='.$receipientEmail.'&vh=${verificationHash}',
         );
-        return str_replace(array_keys($replacements), array_values($replacements), $subject);
+
+        return str_replace(array_keys($replacements),
+            array_values($replacements), $subject);
     }
 
     /**
@@ -483,15 +561,70 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
             parent::addSignupError($msg);
         } elseif(PEAR::isError($error)) {
             $errorMsg = $error->getMessage();
-            if (empty($msg)) {
+            if (empty($errorMsg)) {
                 $msg = MAX_Plugin_Translation::translate(
-                    'Error while communicating with server, error code %d', $this->module, $this->package);
+                    $this->defaultErrorUnknownCode, $this->module, $this->package);
                 $errorMsg = sprintf($msg, $error->getCode());
-                parent::addSignupError($errorMsg);
             }
+            $errorMsg = sprintf($this->defaultErrorUnkownMsg, $errorMsg);
+            parent::addSignupError($errorMsg);
         } else {
             parent::addSignupError($error);
         }
+    }
+
+    /**
+     * A method to change a user password
+     *
+     * @param DataObjects_Users $doUsers
+     * @param string $newPassword
+     * @param string $oldPassword
+     * @return bool
+     */
+    function changePassword(&$doUsers, $newPassword, $oldPassword)
+    {
+        $this->getCentralCas();
+
+        $doUsers = OA_Dal::staticGetDO('users', $doUsers->user_id);
+        $result = $this->oCentral->changePassword($doUsers->sso_user_id, md5($newPassword), md5($oldPassword));
+        if (PEAR::isError($result)) {
+            $errorCode = $result->getCode();
+            if (isset($this->aErrorCodes[$errorCode])) {
+                return new PEAR_Error($this->aErrorCodes[$errorCode], $errorCode);
+            } else {
+                return $result;
+            }
+        }
+
+        unset($doUser->password);
+        return true;
+    }
+
+    /**
+     * A method to change a user email
+     *
+     * @param DataObjects_Users $doUsers
+     * @param string $emailAddress
+     * @param string $password
+     * @return bool
+     */
+    function changeEmail(&$doUsers, $emailAddress, $password)
+    {
+        $this->getCentralCas();
+
+        $doUsers = OA_Dal::staticGetDO('users', $doUsers->user_id);
+        $result = $this->oCentral->changeEmail($doUsers->sso_user_id, $emailAddress, md5($password));
+        if (PEAR::isError($result)) {
+            $errorCode = $result->getCode();
+            if (isset($this->aErrorCodes[$errorCode])) {
+                return new PEAR_Error($this->aErrorCodes[$errorCode], $errorCode);
+            } else {
+                return $result;
+            }
+        }
+
+        $doUsers->email_address = $emailAddress;
+        return true;
     }
 }
 

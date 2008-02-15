@@ -51,6 +51,7 @@ function phpAds_registerGlobal()
 function phpAds_registerGlobalUnslashed()
 {
     $args = func_get_args();
+    $request = array();
     while (list(,$key) = each($args)) {
         if (isset($_GET[$key])) {
             $value = $_GET[$key];
@@ -66,9 +67,10 @@ function phpAds_registerGlobalUnslashed()
         else {
             $value = null;
         }
-        $GLOBALS[$key] = $value;
+        $GLOBALS[$key] = $request[$key] = $value;
         unset($value);
     }
+    return $request;
 }
 
 ?>

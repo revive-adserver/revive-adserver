@@ -36,15 +36,12 @@ require_once MAX_PATH . '/lib/OA/Session.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
 
 // Register input variables
-phpAds_registerGlobal ('login', 'returnurl');
+phpAds_registerGlobal ('userid', 'returnurl');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 $doAccounts = OA_Dal::factoryDO('accounts');
 $accountId = $doAccounts->getAdminAccountId();
-
-$doUsers = OA_Dal::factoryDO('users');
-$userid = $doUsers->getUserIdByUserName($login);
 
 /*-------------------------------------------------------*/
 /* Main code                                             */

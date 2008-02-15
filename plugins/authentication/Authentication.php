@@ -42,6 +42,8 @@ class Plugins_Authentication
      */
     var $aSignupErrors = array();
     
+    var $aValidationErrors = array();
+
     /**
      * Checks if credentials are passed and whether the plugin should carry on the authentication
      *
@@ -64,6 +66,19 @@ class Plugins_Authentication
      *                            or null if user wasn't succesfully authenticated
      */
     function authenticateUser()
+    {
+        OA::debug('Cannot run abstract method');
+        exit();
+    }
+
+    /**
+     * A method to check a username and password
+     *
+     * @param string $username
+     * @param string $password
+     * @return mixed A DataObjects_Users instance, or false if no matching user was found
+     */
+    function checkPassword($username, $password)
     {
         OA::debug('Cannot run abstract method');
         exit();
@@ -138,58 +153,11 @@ class Plugins_Authentication
         OA::debug('Cannot run abstract method');
         exit();
     }
-    
+
     function getMatchingUserId($email, $login)
     {
         OA::debug('Cannot run abstract method');
         exit();
-    }
-    
-    /**
-     * Validates user data - required for linking new users
-     *
-     * @param string $login
-     * @param string $password
-     * @return array  Array containing error strings or empty
-     *                array if no validation errors were found
-     */
-    function validateUsersData($login, $password, $email)
-    {
-        $aErrors = $this->validateUsersLogin($login);
-        $aErrors = array_merge($aErrors, $this->validateUsersPassword($password));
-        return array_merge($aErrors, $this->validateUsersEmail($email));
-    }
-
-    /**
-     * Validates user login - required for linking new users
-     *
-     * @param string $login
-     * @return array  Array containing error strings or empty
-     *                array if no validation errors were found
-     */
-    function validateUsersLogin($login)
-    {
-        if (empty($login)) {
-            return $GLOBALS['strInvalidUsername'];
-        } elseif (OA_Permission::userNameExists($login)) {
-            return $GLOBALS['strDuplicateClientName'];
-        }
-        return array();
-    }
-
-    /**
-     * Validates user password - required for linking new users
-     *
-     * @param string $password
-     * @return array  Array containing error strings or empty
-     *                array if no validation errors were found
-     */
-    function validateUsersPassword($password)
-    {
-        if (!strlen($password) || strstr("\\", $password)) {
-            return $GLOBALS['strInvalidPassword'];
-        }
-        return array();
     }
 
     /**
@@ -201,14 +169,15 @@ class Plugins_Authentication
      */
     function validateUsersEmail($email)
     {
-        if (!eregi("^[a-zA-Z0-9]+[_a-zA-Z0-9-]*(\.[_a-z0-9-]+)*@[a-z??????0-9]+(-[a-z??????0-9]+)*(\.[a-z??????0-9-]+)*(\.[a-z]{2,4})$", $email)) {
-            return $GLOBALS['strInvalidEmail'];
+        if (!eregi("^[a-zA-Z0-9]+[_a-zA-Z0-9-]*(\.[_a-z0-9-]+)*@[a-z??????0-9]+"
+                ."(-[a-z??????0-9]+)*(\.[a-z??????0-9-]+)*(\.[a-z]{2,4})$", $email)) {
+            $this->addValidationError($GLOBALS['strInvalidEmail']);
         }
-        return array();
     }
-    
+
     /**
-     * Method used in user access pages. Either creates new user if necessary or update existing one.
+     * Method used in user access pages. Either creates new user if 
+     * necessary or update existing one.
      *
      * @param DB_DataObject_Users $doUsers  Users dataobject with any preset variables
      * @param string $login  User name
@@ -218,16 +187,17 @@ class Plugins_Authentication
      * @param integer $accountId  a
      * @return integer  User ID or false on error
      */
-    function saveUser(&$doUsers, $login, $password, $contactName, $emailAddress, $accountId)
+    function saveUser(&$doUsers, $login, $password, $contactName, 
+        $emailAddress, $accountId)
     {
-        $userExists = $doUsers->fetchUserByUserName($emailAddress);
         $doUsers->contact_name = $contactName;
         $doUsers->email_address = $emailAddress;
-        if ($userExists) {
+        if ($doUsers->user_id) {
             $doUsers->update();
             return $doUsers->user_id;
         } else {
             $doUsers->default_account_id = $accountId;
+            $doUsers->username = $login;
             $doUsers->password = md5($password);
             return $doUsers->insert();
         }
@@ -242,7 +212,7 @@ class Plugins_Authentication
     {
         return $this->aSignupErrors;
     }
-    
+
     /**
      * Adds an error message to signup errors array
      *
@@ -256,6 +226,54 @@ class Plugins_Authentication
             $errorMessage = $error;
         }
         $this->aSignupErrors[] = $errorMessage;
+    }
+
+    /**
+     * Returns array of errors which happened during sigup
+     *
+     * @return array
+     */
+    function getValidationErrors()
+    {
+        return $this->aValidationErrors;
+    }
+
+    /**
+     * Adds an error message to validation errors array
+     *
+     * @param string $aValidationErrors
+     */
+    function addValidationError($error)
+    {
+        $this->aValidationErrors[] = $error;
+    }
+
+    /**
+     * A method to change a user password
+     *
+     * @param DataObjects_Users $doUsers
+     * @param string $newPassword
+     * @param string $oldPassword
+     * @return mixed True on success, PEAR_Error otherwise
+     */
+    function changePassword(&$doUsers, $newPassword, $oldPassword)
+    {
+        OA::debug('Cannot run abstract method');
+        exit();
+    }
+
+    /**
+     * A method to change a user email
+     *
+     * @param DataObjects_Users $doUsers
+     * @param string $emailAddress
+     * @param string $password
+     * @return bool
+     */
+    function changeEmail(&$doUsers, $emailAddress, $password)
+    {
+        OA::debug('Cannot run abstract method');
+        exit();
     }
 }
 

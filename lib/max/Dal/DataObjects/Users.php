@@ -126,21 +126,6 @@ class DataObjects_Users extends DB_DataObjectCommon
     }
 
     /**
-     * Fetch user by it's username
-     *
-     * @param string $userName
-     * @return boolean True on success else false
-     */
-    function fetchUserByUserName($userName)
-    {
-        $this->username = $userName;
-        if (!$this->find()) {
-            return false;
-        }
-        return $this->fetch();
-    }
-
-    /**
      * Returns array of users linked to entity
      *
      * @param string $entityName  Inventory entity name (affiliates, clients, etc)

@@ -220,6 +220,24 @@ class UserXmlRpcService extends BaseUserService
         }
     }
 
+    function updateSsoUserId(&$oParams) {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$oldSsoUserId, &$newSsoUserId),
+            array(true, true, true), $oParams, $oResponseWithError )) {
+
+            return $oResponseWithError;
+        }
+
+        if ($this->_oUserServiceImp->updateSsoUserId($sessionId, $oldSsoUserId, $newSsoUserId)) {
+
+            return XmlRpcUtils::booleanTypeResponse(true);
+
+        } else {
+
+            return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
+        }
+    }
+
 }
 
 /**
@@ -270,7 +288,15 @@ $server = new XML_RPC_Server(
             'docstring' => 'Get User List By Account Id'
         ),
 
+        'updateSsoUserId' => array(
+            'function'  => array($oUserXmlRpcService, 'updateSsoUserId'),
+            'signature' => array(
+                array('array', 'string', 'int', 'int')
+            ),
+            'docstring' => 'Change the SSO User ID field'
+        ),
     ),
+
     1  // serviceNow
 );
 

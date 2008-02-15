@@ -36,7 +36,7 @@ require_once MAX_PATH . '/lib/OA/Session.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
 
 // Register input variables
-phpAds_registerGlobal ('login', 'returnurl');
+phpAds_registerGlobal ('userid', 'returnurl');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
@@ -44,9 +44,6 @@ OA_Permission::enforceAccountPermission(OA_ACCOUNT_TRAFFICKER, OA_PERM_SUPER_ACC
 OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 
 $accountId = OA_Permission::getAccountIdForEntity('affiliates', $affiliateid);
-
-$doUsers = OA_Dal::factoryDO('users');
-$userid = $doUsers->getUserIdByUserName($login);
 
 /*-------------------------------------------------------*/
 /* Main code                                             */

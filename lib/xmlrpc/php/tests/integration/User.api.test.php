@@ -148,6 +148,45 @@ class Test_OA_Api_XmlRpc_User extends Test_OA_Api_XmlRpc
 		}
 	}
 
+    function testUpdateSsoUserId()
+    {
+		if (!$this->accountId) {
+			return;
+		}
+
+        $doUsers = OA_Dal::factoryDO('users');
+        $doUsers->username = 'sso1-'.time();
+        $doUsers->sso_user_id = 0;
+        $this->assertTrue($userId = DataGenerator::generateOne($doUsers));
+
+        $this->expectError();
+        // Will trigger an Unknown ssoUserId error
+        $this->assertFalse($this->oApi->updateSsoUserId(1001, 1002));
+
+        $doUsers = OA_Dal::factoryDO('users');
+        $doUsers->user_id = $userId;
+        $doUsers->sso_user_id = 1001;
+        $doUsers->update();
+
+        $this->assertTrue($this->oApi->updateSsoUserId(1001, 1002));
+
+        $doUsers = OA_Dal::factoryDO('users');
+        $doUsers->username = 'sso2-'.time();
+        $doUsers->sso_user_id = 1002;
+        $this->assertTrue(DataGenerator::generateOne($doUsers));
+
+        $doUsers = OA_Dal::factoryDO('users');
+        $doUsers->username = 'sso3-'.time();
+        $doUsers->sso_user_id = 1003;
+        $this->assertTrue(DataGenerator::generateOne($doUsers));
+
+        $this->assertTrue($this->oApi->updateSsoUserId(1002, 1001));
+
+        $doUsers = OA_Dal::factoryDO('users');
+        $doUsers->sso_user_id = 1001;
+        $this->assertEqual($doUsers->count(), 2);
+    }
+
 	function _sortUserList($a, $b)
 	{
 	    return $a->userId - $b->userId;
