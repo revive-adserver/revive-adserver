@@ -613,11 +613,7 @@ class OA_Upgrade
                 return true;
         }
 
-<<<<<<< .working
-        $this->oLogger->logOnly('looking for Openads');
-=======
         $this->oLogger->logOnly('Attempting to detect an existing OpenX installation...');
->>>>>>> .merge-right.r15926
         $this->detectOpenads();
         $strProductName = $this->getProductApplicationVersion();
         switch ($this->existing_installation_status)
