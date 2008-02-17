@@ -132,7 +132,7 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertEqual($oUpgrade->aPackage['authorEmail'],'test@openads.org','wrong value: authorEmail');
         $this->assertEqual($oUpgrade->aPackage['authorUrl'],'http://www.openx.org','wrong value: authorUrl');
         $this->assertEqual($oUpgrade->aPackage['license'],'LICENSE.txt','wrong value: license');
-        $this->assertEqual($oUpgrade->aPackage['description'],'OpenXUpgrade Test 1 to 2','wrong value: description');
+        $this->assertEqual($oUpgrade->aPackage['description'],'Openads Upgrade Test 1 to 2','wrong value: description');
         $this->assertEqual($oUpgrade->aPackage['versionFrom'],'1','wrong value: versionFrom');
         $this->assertEqual($oUpgrade->aPackage['versionTo'],'2','wrong value: versionTo');
 
