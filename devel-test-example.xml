@@ -1,26 +1,11 @@
 <tests>
   <php>
-    <!-- PHP name should not contain illegal characters for a database name, e.g. dots -->
-    <version name="php4_3_11" executable="/usr/local/php4/bin/php"/>
-    <version name="php4_4_6" executable="/usr/local/php-4.4.6/bin/php"/>
-    <version name="php5_0_5" executable="/usr/local/php-5.0.5/bin/php"/>
-    <version name="php5_1_2" executable="/usr/local/php-5.1.2/bin/php"/>
-    <version name="php5_2_1" executable="/usr/local/php-5.2.1/bin/php"/>
+    <version name="phpPHP_VER" executable="PHP_PATH"/>
   </php>
   <database>
-    <version name="mysql4.0.27" db.type="mysql" db.host="localhost" db.port="3309" db.username="username" db.password="password" db.name="cc" db.table.type="INNODB"/>
-    <version name="mysql4.1.22" db.type="mysql" db.host="localhost" db.port="3307" db.username="username" db.password="password" db.name="cc" db.table.type="INNODB"/>
-    <version name="mysql5.0.373" db.type="mysql" db.host="localhost" db.port="3308" db.username="username" db.password="password" db.name="cc" db.table.type="INNODB"/>
-    <version name="mysql4.0.27" db.type="mysql" db.host="localhost" db.port="3309" db.username="username" db.password="password" db.name="cc" db.table.type="MyISAM"/>
-    <version name="mysql4.1.22" db.type="mysql" db.host="localhost" db.port="3307" db.username="username" db.password="password" db.name="cc" db.table.type="MyISAM"/>
-    <version name="mysql5.0.373" db.type="mysql" db.host="localhost" db.port="3308" db.username="username" db.password="password" db.name="cc" db.table.type="MyISAM"/>
-    <!-- Table type set to PgSQL just for cosmetic reasons -->
-    <version name="pgsql8.0.12" db.type="pgsql" db.host="localhost" db.port="5432" db.username="username" db.password="password" db.name="cc" db.table.type="PgSQL"/>
-    <version name="pgsql8.1.8" db.type="pgsql" db.host="localhost" db.port="5433" db.username="username" db.password="password" db.name="cc" db.table.type="PgSQL"/>
-    <version name="pgsql8.2.3" db.type="pgsql" db.host="localhost" db.port="5434" db.username="username" db.password="password" db.name="cc" db.table.type="PgSQL"/>
+    <version name="DB_TYPEDB_VER" db.type="DB_TYPE" db.host="DB_HOST" db.port="DB_PORT" db.username="DB_USER" db.password="DB_PASS" db.name="DB_NAME" db.table.type="DB_TABLE_TYPE"/>
   </database>
   <audit>
-    <!-- Leave audit disabled, as it's not required anymore -->
-	<settings enabled="0"/>
+    <settings enabled="0"/>
   </audit>
 </tests>
