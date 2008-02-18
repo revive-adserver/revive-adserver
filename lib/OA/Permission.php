@@ -2,11 +2,14 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2008 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -74,7 +77,7 @@ define('OA_PERM_SUPER_ACCOUNT',    10);
  * A generic class which provides permissions related methods.
  *
  * @static
- * @package    OpenXPermission
+ * @package    OpenadsPermission
  */
 class OA_Permission
 {
@@ -108,13 +111,22 @@ class OA_Permission
         $aArgs = is_array($accountType) ? $accountType : func_get_args();
         $isAccount = OA_Permission::isAccount($aArgs);
         if (!$isAccount) {
-            if (OA_Permission::isManualAccountSwitch()) {
-                require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-                MAX_Admin_Redirect::redirect();
-            }
+            OA_Permission::redirectIfManualAccountSwitch();
             $isAccount = OA_Permission::attemptToSwitchToAccount($aArgs);
         }
         OA_Permission::enforceTrue($isAccount);
+    }
+    
+    /**
+     * Redirect to start page if account was switched manually
+     *
+     */
+    function redirectIfManualAccountSwitch()
+    {
+        if (OA_Permission::isManualAccountSwitch()) {
+            require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
+            MAX_Admin_Redirect::redirect();
+        }
     }
 
     /**
@@ -190,10 +202,13 @@ class OA_Permission
         if (!$allowNewEntity) {
             OA_Permission::enforceTrue(!empty($entityId));
         }
-        $hasAccess = OA_Permission::hasAccessToObject($entityTable, $entityId, $accountId)
-            || OA_Permission::isUserLinkedToAdmin();
+        $hasAccess = OA_Permission::hasAccessToObject($entityTable, $entityId, $accountId);
         if (!$hasAccess) {
+            OA_Permission::redirectIfManualAccountSwitch();
             $hasAccess = OA_Permission::attemptToSwitchForAccess($entityTable, $entityId);
+            if (!$hasAccess) {
+                $hasAccess = OA_Permission::isUserLinkedToAdmin();
+            }
         }
         OA_Permission::enforceTrue($hasAccess);
     }
