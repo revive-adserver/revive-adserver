@@ -45,7 +45,7 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Site_Channel extends Plugins_Del
     {
         $this->UnitTestCase();
         TestEnv::restoreEnv();
-        $error = TestEnv::loadData('2.5.50_delivery');
+        $this->aIds = TestEnv::loadData('2.5.50_delivery');
     }
 
     function testCompile()
@@ -73,11 +73,11 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Site_Channel extends Plugins_Del
     {
         $current_quotes_runtime = get_magic_quotes_runtime();
         set_magic_quotes_runtime(0);
-
+        $channelid  = $this->aIds['channel'][10];
         $GLOBALS['loc'] = 'localhost2';
-        $this->assertTrue(MAX_checkSite_Channel('10', '=='));
+        $this->assertTrue(MAX_checkSite_Channel($channelid, '=='));
         $GLOBALS['loc'] = 'blah.com';
-        $this->assertFalse(MAX_checkSite_Channel('10', '=='));
+        $this->assertFalse(MAX_checkSite_Channel($channelid, '=='));
 
         set_magic_quotes_runtime($current_quotes_runtime);
     }

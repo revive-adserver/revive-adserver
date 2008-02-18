@@ -19,6 +19,7 @@ if (array_key_exists('dumpStru', $_POST) ||
                      );
 
     $dsn = $_POST['database'];
+    $prefix = $_POST['table']['prefix'];
     $GLOBALS['_MAX']['CONF']['database'] = $dsn;
     $GLOBALS['_MAX']['CONF']['database']['type'] = $dsn['phptype'];
 
@@ -26,11 +27,11 @@ if (array_key_exists('dumpStru', $_POST) ||
 	$aConf = array('database' => $dsn);
 	//$aConf['database']['type'] = $aConf['database']['phptype'];
 
-    $mdb = &OA_DB::singleton(OA_DB::getDsn($aConf));
+    $oDbh = &OA_DB::singleton(OA_DB::getDsn($aConf));
 
     $options = array(   'force_defaults'=>false );
 
-    $schema = & MDB2_Schema::factory($mdb, $options);
+    $schema = & MDB2_Schema::factory($oDbh, $options);
 
     if (array_key_exists('dumpStru', $_POST)
         || array_key_exists('dumpData', $_POST))
@@ -44,6 +45,25 @@ if (array_key_exists('dumpStru', $_POST) ||
         {
             $dumpDirective = MDB2_SCHEMA_DUMP_CONTENT;
             $dumpfile_mdbs = $dumpfile_mdbs_data = $_POST['dumpfile_mdbs_data'];
+            $query = "SELECT * FROM {$prefix}application_variable";
+            $aResult = $oDbh->queryAll($query);
+            if (PEAR::isError($aResult))
+            {
+                $versionSchema = '';
+                $versionApp    = '';
+            }
+            foreach ($aResult as $k =>$aVal)
+            {
+                if ($aVal['name']=='tables_core')
+                {
+                    $versionSchema = $aVal['value'];
+                }
+                if ($aVal['name']=='oa_version')
+                {
+                    $versionApp = $aVal['value'];
+                }
+            }
+            $dumpfile_mdbs = 'data_tables_core_'.$versionSchema;
         }
 
         $def    = $schema->getDefinitionFromDatabase();
@@ -93,12 +113,12 @@ if (array_key_exists('dumpStru', $_POST) ||
         //$def['name'] = $dsn['database'];
         //$schema->createDatabase($def);
 
-        //$result = $mdb->manager->listDatabases();
-        if (in_array(strtolower($aDef['name']), array_map('strtolower', $mdb->manager->listDatabases())))
+        //$result = $oDbh->manager->listDatabases();
+        if (in_array(strtolower($aDef['name']), array_map('strtolower', $oDbh->manager->listDatabases())))
         {
-            $mdb->manager->dropDatabase($aDef['name']);
+            $oDbh->manager->dropDatabase($aDef['name']);
         }
-        if ($mdb->manager->createDatabase($aDef['name']))
+        if ($oDbh->manager->createDatabase($aDef['name']))
         {
             $schema->db = OA_DB::changeDatabase($aDef['name']);
             require_once MAX_PATH.'/lib/OA/DB/Table.php';
@@ -117,7 +137,7 @@ if (array_key_exists('dumpStru', $_POST) ||
 
     }
     $warnings = $schema->warnings;
-    $mdb->disconnect();
+    $oDbh->disconnect();
 }
 else
 {

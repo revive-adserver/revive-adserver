@@ -27,6 +27,7 @@
     <tr><td>username</td><td><input type="text" name="database[username]" value="<?php echo $dsn['username']; ?>"></td></tr>
     <tr><td>password</td><td><input type="text" name="database[password]" value="<?php echo $dsn['password']; ?>"></td></tr>
     <tr><td>db name</td><td><input type="text" name="database[name]" value="<?php echo $dsn['name']; ?>"></td></tr>
+    <tr><td>prefix</td><td><input type="text" name="table[prefix]" value="<?php echo $prefix; ?>"></td></tr>
     <tr><td><button name="dumpStru">Dump Schema as XML</button></td><td>to file&nbsp;<input type="text" name="dumpfile_mdbs_stru" value="<?php echo $dumpfile_mdbs_stru; ?>"></td></tr>
     <tr><td><button name="dumpData">Dump Data as XML</button></td><td>to file&nbsp;<input type="text" name="dumpfile_mdbs_data" value="<?php echo $dumpfile_mdbs_data; ?>"></td></tr>
     <tr><td><button name="diff">Compare Database to XML Schema</button></td><td>in file&nbsp;<select name="filediff"><?php echo $schemas; ?></select></td></tr>
