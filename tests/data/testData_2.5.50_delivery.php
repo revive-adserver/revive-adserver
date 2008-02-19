@@ -26,49 +26,27 @@ $Id$
 
 /**
  *
- * @abstract A class for generating/loading a dataset for delivery testing
+ * @abstract A class for generating a large dataset for delivery testing
  * @package Test Classes
  * @author     Monique Szpak <monique.szpak@openx.org>
+ * @todo replace constant ids with variable ids
+ * @todo refactor ad_zone_assoc links
  *
  */
 
-//require_once MAX_PATH . '/tests/testClasses/OATestData_DataObjects.php';
-//class OA_Test_Data_2_5_50_delivery extends OA_Test_Data_DataObjects
-require_once MAX_PATH . '/tests/testClasses/OATestData_MDB2Schema.php';
-class OA_Test_Data_2_5_50_delivery extends OA_Test_Data_MDB2Schema
+require_once MAX_PATH . '/tests/testClasses/OATestData.php';
+require_once MAX_PATH . '/lib/OA/Dll.php';
+
+class OA_Test_Data_2_5_50_delivery extends OA_Test_Data
 {
 
     function OA_Test_Data_2_5_50_delivery()
     {
+        $this->init();
     }
 
-    /**
-     * method for extending OA_Test_Data_MDB2Schema
-     */
     function generateTestData()
     {
-        if (!parent::init('2.5.56-beta-rc1_data_tables_core_548_oa_deliverytest.xml'))
-        {
-            return false;
-        }
-        if (!parent::generateTestData())
-        {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * method for extending OA_Test_Data_DataObject
-     */
-/*
-    function generateTestData()
-    {
-        if (!parent::init())
-        {
-            return false;
-        }
-
         // Disable Auditing while loading the test data:
         $GLOBALS['_MAX']['CONF']['audit']['enabled'] = false;
 
@@ -11754,7 +11732,7 @@ class OA_Test_Data_2_5_50_delivery extends OA_Test_Data_MDB2Schema
         $aChannel['acl_plugins'] = '';
         $aChannel['active'] = '1';
         $aChannel['comments'] = 'Agency ACL 1';
-        $this->aIds['channel'][1] = $this->_insertChannel($aChannel);
+        $this->aIds['channels'][1] = $this->_insertChannel($aChannel);
 
         //$aChannel['channelid'] = '2';
         $aChannel['agencyid'] = $this->aIds['agency'][1];
@@ -11765,7 +11743,7 @@ class OA_Test_Data_2_5_50_delivery extends OA_Test_Data_MDB2Schema
         $aChannel['acl_plugins'] =  'Site:Pageurl';
         $aChannel['active'] = '1';
         $aChannel['comments'] = 'Publisher ACL 1';
-        $this->aIds['channel'][2] = $this->_insertChannel($aChannel);
+        $this->aIds['channels'][2] = $this->_insertChannel($aChannel);
 
         //$aChannel['channelid']  = '3';
         $aChannel['agencyid'] = $this->aIds['agency'][1];
@@ -11776,7 +11754,7 @@ class OA_Test_Data_2_5_50_delivery extends OA_Test_Data_MDB2Schema
         $aChannel['acl_plugins'] = 'Client:Domain,Client:Ip';
         $aChannel['active'] = '1';
         $aChannel['comments'] = 'Publisher ACL 2';
-        $this->aIds['channel'][3] = $this->_insertChannel($aChannel);
+        $this->aIds['channels'][3] = $this->_insertChannel($aChannel);
 
         //$aChannel['channelid']  = '4';
         $aChannel['agencyid'] = $this->aIds['agency'][1];
@@ -11787,7 +11765,7 @@ class OA_Test_Data_2_5_50_delivery extends OA_Test_Data_MDB2Schema
         $aChannel['acl_plugins'] = '';
         $aChannel['active'] = '1';
         $aChannel['comments'] = 'Publisher ACL 3';
-        $this->aIds['channel'][4] = $this->_insertChannel($aChannel);
+        $this->aIds['channels'][4] = $this->_insertChannel($aChannel);
 
         //$aChannel['channelid']  = '5';
         $aChannel['agencyid'] = $this->aIds['agency'][1];
@@ -11798,7 +11776,7 @@ class OA_Test_Data_2_5_50_delivery extends OA_Test_Data_MDB2Schema
         $aChannel['acl_plugins'] = '';
         $aChannel['active'] = '1';
         $aChannel['comments'] = 'Publisher ACL 4';
-        $this->aIds['channel'][5] = $this->_insertChannel($aChannel);
+        $this->aIds['channels'][5] = $this->_insertChannel($aChannel);
 
         //$aChannel['channelid']  = '6';
         $aChannel['agencyid'] = $this->aIds['agency'][1];
@@ -11809,7 +11787,7 @@ class OA_Test_Data_2_5_50_delivery extends OA_Test_Data_MDB2Schema
         $aChannel['acl_plugins'] = '';
         $aChannel['active'] = '1';
         $aChannel['comments'] = 'Publisher ACL 5';
-        $this->aIds['channel'][6] = $this->_insertChannel($aChannel);
+        $this->aIds['channels'][6] = $this->_insertChannel($aChannel);
 
         //$aChannel['channelid']  = '7';
         $aChannel['agencyid'] = $this->aIds['agency'][1];
@@ -11820,7 +11798,7 @@ class OA_Test_Data_2_5_50_delivery extends OA_Test_Data_MDB2Schema
         $aChannel['acl_plugins'] = '';
         $aChannel['active'] = '1';
         $aChannel['comments'] = 'Publisher ACL 6';
-        $this->aIds['channel'][7] = $this->_insertChannel($aChannel);
+        $this->aIds['channels'][7] = $this->_insertChannel($aChannel);
 
         //$aChannel['channelid']  = '8';
         $aChannel['agencyid'] = $this->aIds['agency'][1];
@@ -11831,7 +11809,7 @@ class OA_Test_Data_2_5_50_delivery extends OA_Test_Data_MDB2Schema
         $aChannel['acl_plugins'] = '';
         $aChannel['active'] = '1';
         $aChannel['comments'] = 'Agency ACL 2';
-        $this->aIds['channel'][8] = $this->_insertChannel($aChannel);
+        $this->aIds['channels'][8] = $this->_insertChannel($aChannel);
 
         //$aChannel['channelid']  = '9';
         $aChannel['agencyid'] = $this->aIds['agency'][1];
@@ -11842,7 +11820,7 @@ class OA_Test_Data_2_5_50_delivery extends OA_Test_Data_MDB2Schema
         $aChannel['acl_plugins'] = '';
         $aChannel['active'] = '1';
         $aChannel['comments'] = '';
-        $this->aIds['channel'][9] = $this->_insertChannel($aChannel);
+        $this->aIds['channels'][9] = $this->_insertChannel($aChannel);
 
         //$aChannel['channelid']  = '10';
         $aChannel['agencyid'] = $this->aIds['agency'][1];
@@ -11853,7 +11831,7 @@ class OA_Test_Data_2_5_50_delivery extends OA_Test_Data_MDB2Schema
         $aChannel['acl_plugins'] =  'Site:Pageurl';
         $aChannel['active'] = '1';
         $aChannel['comments'] = '';
-        $this->aIds['channel'][10] = $this->_insertChannel($aChannel);
+        $this->aIds['channels'][10] = $this->_insertChannel($aChannel);
 
         // trackers
 
@@ -11884,7 +11862,6 @@ class OA_Test_Data_2_5_50_delivery extends OA_Test_Data_MDB2Schema
         $aVariables['variablecode'] = '';
         $this->aIds['variables'][2] = $this->_insertVariables($aVariables);
 
-        return true;
     }
 
     function _linkAdZones()
@@ -14076,9 +14053,8 @@ class OA_Test_Data_2_5_50_delivery extends OA_Test_Data_MDB2Schema
         $aAdZoneAssoc['priority'] = '0';
         $aAdZoneAssoc['link_type'] = '1';
         $this->_insertAdZoneAssoc($aAdZoneAssoc);
-    }
-*/
 
+    }
 }
 ?>
 

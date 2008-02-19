@@ -146,7 +146,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
 
         $this->assertIsA($aReturn, 'array');
         $this->assertEqual($zoneid, $aReturn['zone_id']);
-        $this->assertEqual($aReturn['default_banner_image_url'], "http://www.openx.org/themes/openx/images/header_logo.png");
+        $this->assertEqual($aReturn['default_banner_image_url'], "http://www.openx.org/themes/openads/images/header_logo.png");
         $this->assertEqual($aReturn['default_banner_destination_url'], "http://www.openx.org/");
         $this->assertIsA($aReturn['xAds'], 'array');
         $this->assertIsA($aReturn['cAds'], 'array');
@@ -252,7 +252,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
      */
     function test_OA_Dal_Delivery_getChannelLimitations()
     {
-        $channelid  = $this->aIds['channel'][1];
+        $channelid  = $this->aIds['channels'][1];
         $aReturn    = OA_Dal_Delivery_getChannelLimitations($channelid);
         //$prn        = var_export($aReturn, TRUE);
         $this->assertIsA($aReturn['acl_plugins'],'string');

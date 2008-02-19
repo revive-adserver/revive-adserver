@@ -388,99 +388,6 @@ class MDB2_Schema extends PEAR
     }
 
     // }}}
-    // {{{ parseDatabaseFileHeader()
-
-    /**
-     * Parse a database definition file by creating a schema format
-     * parser object and passing the file contents as parser input data stream.
-     *
-     * @param string the database schema file.
-     * @param array associative array that the defines the text string values
-     *              that are meant to be used to replace the variables that are
-     *              used in the schema description.
-     * @access public
-     */
-    function parseDatabaseFileHeader($input_file, $variables = array())
-    {
-        $class_name = $this->options['parser'];
-        $result = MDB2::loadClass($class_name, $this->db->getOption('debug'));
-        if (PEAR::isError($result)) {
-            return $result;
-        }
-        $variables['header_only'] = true;
-        $parser =& new $class_name($variables);
-        $parser->validate = false;
-        $result = $parser->setInputFile($input_file);
-        if (PEAR::isError($result))
-        {
-            return $result;
-        }
-        $result = $parser->parse();
-        if (PEAR::isError($result)) {
-            return $result;
-        }
-        if (PEAR::isError($parser->error)) {
-            return $parser->error;
-        }
-
-        return $parser->database_definition;
-    }
-
-    // }}}
-    // {{{ parseDatabaseDefinitionFile()
-
-    /**
-     * Parse a database definition file by creating a schema format
-     * parser object and passing the file contents as parser input data stream.
-     *
-     * @param string the database schema file.
-     * @param array associative array that the defines the text string values
-     *              that are meant to be used to replace the variables that are
-     *              used in the schema description.
-     * @param bool make function fail on invalid names
-     * @param array database structure definition
-     * @access public
-     */
-    function parseDatabaseContentFile($input_file, $variables = array(),
-        $fail_on_invalid_names = true, $structure = false, $database_definition)
-    {
-        $dtd_file = $this->options['dtd_file'];
-        if ($dtd_file) {
-            require_once 'XML/DTD/XmlValidator.php';
-            $dtd =& new XML_DTD_XmlValidator;
-            if (!$dtd->isValid($dtd_file, $input_file)) {
-                return $this->raiseError(MDB2_SCHEMA_ERROR_PARSE, null, null, $dtd->getMessage());
-            }
-        }
-
-        $class_name = $this->options['parser'];
-        $result = MDB2::loadClass($class_name, $this->db->getOption('debug'));
-        if (PEAR::isError($result)) {
-            return $result;
-        }
-
-        $parser =& new $class_name($variables, $fail_on_invalid_names, $structure, $this->options['valid_types'], $this->options['force_defaults']);
-        // structure has already been parsed
-        $parser->database_definition = $database_definition;
-        // don't validate database structure
-        $parser->validate = false;
-        $result = $parser->setInputFile($input_file);
-        if (PEAR::isError($result)) {
-            return $result;
-        }
-
-        $result = $parser->parse();
-        if (PEAR::isError($result)) {
-            return $result;
-        }
-        if (PEAR::isError($parser->error)) {
-            return $parser->error;
-        }
-
-        return $parser->database_definition;
-    }
-
-    // }}}
     // {{{ getDefinitionFromDatabase()
 
     /**
@@ -781,11 +688,10 @@ class MDB2_Schema extends PEAR
      * @param string name of the table
      * @param array  multi dimensional array that contains the
      *               structure and optional data of the table
-     * @param boolean insert autoincrement values?
      * @return bool|MDB2_Error MDB2_OK or error object
      * @access public
      */
-    function initializeTable($table_name, $table, $include_autoincrement=true)
+    function initializeTable($table_name, $table)
     {
         $query_insert = 'INSERT INTO %s (%s) VALUES (%s)';
         $query_update = 'UPDATE %s SET %s %s';
@@ -793,18 +699,14 @@ class MDB2_Schema extends PEAR
 
         $table_name = $this->db->quoteIdentifier($table_name, true);
 
-        $aResult['result']  = MDB2_OK;
-        $aResult['count']   = 0;
-        $aResult['errors']  = array();
-        $aResult['aIds'][0] = 0;
+        $result = MDB2_OK;
+
         foreach ($table['initialization'] as $instruction) {
             $query = '';
             switch ($instruction['type']) {
             case 'insert':
-                $data = $this->getInstructionFields($instruction, $table['fields'], $include_autoincrement);
+                $data = $this->getInstructionFields($instruction, $table['fields']);
                 if (!empty($data)) {
-                    $aResult['aIds'][] = $data['id'];
-                    unset($data['id']);
                     $fields = implode(', ', array_keys($data));
                     $values = implode(', ', array_values($data));
 
@@ -825,22 +727,15 @@ class MDB2_Schema extends PEAR
                 $where = $this->getInstructionWhere($instruction, $table['fields']);
                 $query = sprintf($query_delete, $table_name, $where);
                 break;
-            default:
-                return false;
             }
             if ($query) {
                 $result = $this->db->exec($query);
                 if (PEAR::isError($result)) {
-                    $aResult['errors'][] = $result->getUserInfo();
-                    $aResult['result'] = MDB2_ERROR;
-                }
-                if ($result)
-                {
-                    $aResult['count']++;
+                    return $result;
                 }
             }
         }
-        return $aResult;
+        return $result;
     }
 
     // }}}
@@ -991,7 +886,6 @@ class MDB2_Schema extends PEAR
      *                DML instruction to be processed.
      * @param array  multi dimensional array that contains the
      *                definition for current table's fields.
-     * @param boolean return autoincremnet field definitions in result?
      *
      * @return array  array of strings in the form 'field_name' => 'value'
      *
@@ -999,19 +893,11 @@ class MDB2_Schema extends PEAR
      * @static
      * @see MDB2_Schema::initializeTable()
      */
-    function getInstructionFields($instruction, $fields_definition = array(), $include_autoincrement=true)
+    function getInstructionFields($instruction, $fields_definition = array())
     {
         $fields = array();
         if (!empty($instruction['data']['field']) && is_array($instruction['data']['field'])) {
             foreach ($instruction['data']['field'] as $field) {
-                if (isset($fields_definition[$field['name']]['autoincrement']))
-                {
-                    if (!$include_autoincrement)
-                    {
-                        continue;
-                    }
-                    $fields['id'] = $field['group']['data'];
-                }
                 $fields[$field['name']] = $this->getExpression($field['group'], $fields_definition);
             }
         }
@@ -2196,11 +2082,7 @@ class MDB2_Schema extends PEAR
         if (PEAR::isError($result)) {
             return $result;
         }
-        $prefix = '';
-        if (isset($arguments['prefix']))
-        {
-            $prefix = $arguments['prefix'];
-        }
+
         // get initialization data
         if (isset($database_definition['tables']) && is_array($database_definition['tables'])
             && $dump == MDB2_SCHEMA_DUMP_ALL || $dump == MDB2_SCHEMA_DUMP_CONTENT
@@ -2211,7 +2093,7 @@ class MDB2_Schema extends PEAR
                     $fields[$field_name] = $field['type'];
                 }
                 $query = 'SELECT '.implode(', ', array_keys($fields)).' FROM ';
-                $query.= $this->db->quoteIdentifier($prefix.$table_name, true);
+                $query.= $this->db->quoteIdentifier($table_name, true);
                 $data = $this->db->queryAll($query, $fields, MDB2_FETCHMODE_ASSOC);
                 if (PEAR::isError($data)) {
                     return $data;
@@ -2237,107 +2119,9 @@ class MDB2_Schema extends PEAR
                 }
             }
         }
+
         $writer =& new $class_name($this->options['valid_types']);
         return $writer->dumpDatabase($database_definition, $arguments, $dump);
-    }
-
-    // }}}
-    // {{{ dumpDatabaseContent()
-
-    /**
-     * Dump a previously parsed database structure in the Metabase schema
-     * XML based format suitable for the Metabase parser. This function
-     * may optionally dump the database definition with initialization
-     * commands that specify the data that is currently present in the tables.
-     *
-     * @param array multi dimensional array that contains the current definition
-     * @param array associative array that takes pairs of tag
-     * names and values that define dump options.
-     *                 <pre>array (
-     *                     'output_mode'    =>    String
-     *                         'file' :   dump into a file
-     *                         default:   dump using a function
-     *                     'output'        =>    String
-     *                         depending on the 'Output_Mode'
-     *                                  name of the file
-     *                                  name of the function
-     *                     'end_of_line'        =>    String
-     *                         end of line delimiter that should be used
-     *                         default: "\n"
-     *                 );</pre>
-     * @param int that determines what data to dump
-     *              + MDB2_SCHEMA_DUMP_ALL       : the entire db
-     *              + MDB2_SCHEMA_DUMP_STRUCTURE : only the structure of the db
-     *              + MDB2_SCHEMA_DUMP_CONTENT   : only the content of the db
-     * @return bool|MDB2_Error MDB2_OK or error object
-     * @access public
-     */
-    function dumpDatabaseContent($database_definition, $arguments)
-    {
-        $class_name = $this->options['writer'];
-        $result = MDB2::loadClass($class_name, $this->db->getOption('debug'));
-        if (PEAR::isError($result)) {
-            return $result;
-        }
-        $prefix = '';
-        if (isset($arguments['prefix']))
-        {
-            $prefix = $arguments['prefix'];
-        }
-        $writer =& new $class_name($this->options['valid_types']);
-        $writer->dumpDatabaseHeader($database_definition, $arguments);
-        // get initialization data
-        if (isset($database_definition['tables']) && is_array($database_definition['tables']))
-        {
-            foreach ($database_definition['tables'] as $table_name => $table) {
-                $fields = array();
-                foreach ($table['fields'] as $field_name => $field) {
-                    $fields[$field_name] = $field['type'];
-                }
-                $query = 'SELECT '.implode(', ', array_keys($fields)).' FROM ';
-                $query.= $this->db->quoteIdentifier($prefix.$table_name, true);
-                $data = $this->db->queryAll($query, $fields, MDB2_FETCHMODE_ASSOC);
-                if (PEAR::isError($data)) {
-                    return $data;
-                }
-                if (!empty($data)) {
-                    $initialization = array();
-                    $lob_buffer_length = $this->db->getOption('lob_buffer_length');
-                    foreach ($data as $row) {
-                        $rows = array();
-                        foreach($row as $key => $lob) {
-                            if (is_resource($lob)) {
-                                $value = '';
-                                while (!feof($lob)) {
-                                    $value.= fread($lob, $lob_buffer_length);
-                                }
-                                $row[$key] = $value;
-                            }
-                            $rows[] = array('name' => $key, 'group' => array('type' => 'value', 'data' => $row[$key]));
-                        }
-                        $initialization[] = array('type' => 'insert', 'data' => array('field' => $rows));
-                    }
-                    $writer->dumpDatabaseTable($table_name, $initialization, $arguments);
-                }
-            }
-        }
-        $writer->dumpDatabaseFooter($database_definition, $arguments);
-    }
-
-    // }}}
-    // {{{ writeDumpArray()
-
-    function writeDumpArray($dir, $table, $array)
-    {
-        @mkdir(MAX_PATH.'/var/data/'.$dir);
-        $fh = fopen(MAX_PATH.'/var/data/'.$table.'.txt','w');
-        if (!$fh)
-        {
-            return false;
-        }
-        $result = fwrite($fh,serialize($array));
-        fclose($fh);
-        return true;
     }
 
     // }}}

@@ -71,6 +71,7 @@ require_once MAX_PATH.'/lib/OA/Upgrade/phpAdsNew.php';
 require_once(MAX_PATH.'/lib/OA/Upgrade/Configuration.php');
 require_once MAX_PATH.'/lib/OA/Upgrade/DB_Integrity.php';
 
+require_once MAX_PATH . '/lib/OA/Permission.php';
 require_once MAX_PATH . '/lib/OA/Preferences.php';
 
 
@@ -163,20 +164,12 @@ class OA_Upgrade
      * @param array $dsn
      * @return boolean
      */
-    function initDatabaseConnection($aConf=null)
+    function initDatabaseConnection($dsn=null)
     {
-        if (!$aConf)
-        {
-            $aConf = $GLOBALS['_MAX']['CONF'];
-        }
-        else
-        {
-            $this->oDbh = null;
-        }
         if (is_null($this->oDbh))
         {
             //$this->oDbh = OA_DB::singleton($dsn);
-            $this->oDbh = OA_DB::singleton(OA_DB::getDsn($aConf));
+            $this->oDbh = OA_DB::singleton(OA_DB::getDsn());
         }
         if (PEAR::isError($this->oDbh))
         {
@@ -937,11 +930,9 @@ class OA_Upgrade
             // treat this as a milestone upgrade for repair purposes
             //if (version_compare($this->versionInitialApplication,'2.3.34-beta')==0)
             // actually, better check for any version < .38 in case of upgrades from .34 prior to the repair pkg
-            $this->versionInitialSchema['tables_core'] = $this->oVersioner->getSchemaVersion('tables_core');
-
             if (version_compare($this->versionInitialApplication,'2.3.38-beta','<')==-1)
             {
-//                $this->versionInitialSchema['tables_core'] = $this->oVersioner->getSchemaVersion('tables_core');
+                $this->versionInitialSchema['tables_core'] = $this->oVersioner->getSchemaVersion('tables_core');
                 if ($this->versionInitialSchema['tables_core']=='129')
                 {
                     $this->versionInitialSchema['tables_core'] = '12934';
@@ -965,7 +956,7 @@ class OA_Upgrade
                 $this->aPackageList = $this->getUpgradePackageList($this->versionInitialApplication, $this->_readUpgradePackagesArray());
                 if (!$skipIntegrityCheck && count($this->aPackageList)>0)
                 {
-//                    $this->versionInitialSchema['tables_core'] = $this->oVersioner->getSchemaVersion('tables_core');
+                    $this->versionInitialSchema['tables_core'] = $this->oVersioner->getSchemaVersion('tables_core');
                     if (!$this->_checkDBIntegrity($this->versionInitialSchema['tables_core']))
                     {
                         $this->existing_installation_status = OA_STATUS_OAD_DBINTEG_FAILED;
@@ -1161,12 +1152,8 @@ class OA_Upgrade
      *
      * @return boolean
      */
-    function _createDatabase($aDsn='')
+    function _createDatabase()
     {
-        if ($aDsn)
-        {
-            $this->aDsn = $aDsn;
-        }
         $GLOBALS['_MAX']['CONF']['database']          = $this->aDsn['database'];
         $GLOBALS['_MAX']['CONF']['table']['prefix']   = $this->aDsn['table']['prefix'];
         $GLOBALS['_MAX']['CONF']['table']['type']     = $this->aDsn['table']['type'];

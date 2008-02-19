@@ -1,0 +1,18 @@
+<form method="POST" action="init.php">
+<table class="input">
+    <tr><th colspan="2">Simulation Configuration (Real Config)</th></tr>
+    <tr><td colspan="2"><?php if ($configError) { display_error('Enter a hostname that has a real configuration ini file (.conf.php)'); } ?></td></tr>
+    <tr><td class="label">Installed OpenX Admin Host</td>
+    <td><input name="realConfig" type="text" value="<?php echo $conf['realConfig']; ?>" size="32" /></td></tr>
+    <tr><th colspan="2">Simulation Target Database</th></tr>
+    <tr><td class="label">type</td><td><input name="simdb[type]"  type="text" value="<?php echo $conf['simdb']['type']; ?>" ></td></tr>
+    <tr><td class="label">host</td><td><input name="simdb[host]"  type="text" value="<?php echo $conf['simdb']['host']; ?>" ></td></tr>
+    <tr><td class="label">port</td><td><input name="simdb[port]"  type="text" value="<?php echo $conf['simdb']['port']; ?>" ></td></tr>
+    <tr><td class="label">username</td><td><input name="simdb[username]"  type="text" value="<?php echo $conf['simdb']['username']; ?>" ></td></tr>
+    <tr><td class="label">password</td><td><input name="simdb[password]"  type="text" value="<?php echo $conf['simdb']['password']; ?>" ></td></tr>
+    <tr><td class="label">name</td><td><input name="simdb[name]"  type="text" value="<?php echo $conf['simdb']['name']; ?>" ></td></tr>
+    <tr><td class="label">Switch on adSelect profiling?</td>
+    <td><input name="simdb[profile]" type="checkbox" value="1" <?php echo ($conf['simdb']['profile']?'checked':''); ?> /></td></tr>
+</table>
+<button name="submit" type="submit">Submit</button>
+</form>

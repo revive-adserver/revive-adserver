@@ -334,10 +334,10 @@ class OA_DB_Table
         $result = $this->oDbh->exec($query);
         OA::enableErrorHandling();
         if (PEAR::isError($result)) {
-            OA::debug('Temporary table exists ' . $table, PEAR_LOG_ERR);
+            OA::debug('Temporary table exists ' . $table, PEAR_LOG_ERROR);
             return false;
         }
-        OA::debug('Not found ' . $table, PEAR_LOG_ERR);
+        OA::debug('Not found ' . $table, PEAR_LOG_ERROR);
         return true;
     }
 
@@ -355,7 +355,7 @@ class OA_DB_Table
         $result = $this->oDbh->manager->dropTable($table);
         OA::enableErrorHandling();
         if (PEAR::isError($result)) {
-            OA::debug('Unable to drop table ' . $table, PEAR_LOG_ERR);
+            OA::debug('Unable to drop table ' . $table, PEAR_LOG_ERROR);
             return false;
         }
         if (!$this->dropSequence($table))
@@ -387,7 +387,7 @@ class OA_DB_Table
             OA::debug('Dropping the ' . $tableName . ' table', PEAR_LOG_DEBUG);
             $result = $this->dropTable($aConf['table']['prefix'].$tableName);
             if (PEAR::isError($result) || (!$result)) {
-                OA::debug('Unable to drop the table ' . $table, PEAR_LOG_ERR);
+                OA::debug('Unable to drop the table ' . $table, PEAR_LOG_ERROR);
                 $allTablesDropped = false;
             }
         }
@@ -409,7 +409,7 @@ class OA_DB_Table
         $result = $this->oDbh->exec($query);
         OA::enableErrorHandling();
         if (PEAR::isError($result)) {
-            OA::debug('Unable to truncate table ' . $table, PEAR_LOG_ERR);
+            OA::debug('Unable to truncate table ' . $table, PEAR_LOG_ERROR);
             return false;
         }
         if ($aConf['database']['type'] == 'mysql') {
@@ -417,7 +417,7 @@ class OA_DB_Table
             $result = $this->oDbh->exec("ALTER TABLE $table AUTO_INCREMENT = 1" );
             OA::enableErrorHandling();
             if (PEAR::isError($result)) {
-                OA::debug('Unable to set mysql auto_increment to 1', PEAR_LOG_ERR);
+                OA::debug('Unable to set mysql auto_increment to 1', PEAR_LOG_ERROR);
                 return false;
             }
         }
@@ -443,7 +443,7 @@ class OA_DB_Table
             OA::debug('Truncating the ' . $tableName . ' table', PEAR_LOG_DEBUG);
             $result = $this->truncateTable($aConf['table']['prefix'].$tableName);
             if (PEAR::isError($result)) {
-                OA::debug('Unable to truncate the table ' . $tableName, PEAR_LOG_ERR);
+                OA::debug('Unable to truncate the table ' . $tableName, PEAR_LOG_ERROR);
                 $allTablesTruncated = false;
             }
         }
@@ -476,7 +476,7 @@ class OA_DB_Table
                     OA::enableErrorHandling();
                     if (PEAR::isError($result))
                     {
-                        OA::debug('Unable to drop the sequence ' . $sequence, PEAR_LOG_ERR);
+                        OA::debug('Unable to drop the sequence ' . $sequence, PEAR_LOG_ERROR);
                         return false;
                     }
                     break;
@@ -503,7 +503,7 @@ class OA_DB_Table
             $result = $this->oDbh->exec("SELECT setval('$sequence', 1, false)");
             OA::enableErrorHandling();
             if (PEAR::isError($result)) {
-                OA::debug('Unable to reset sequence on table ' . $table, PEAR_LOG_ERR);
+                OA::debug('Unable to reset sequence on table ' . $table, PEAR_LOG_ERROR);
                 return false;
             }
         }
@@ -512,7 +512,7 @@ class OA_DB_Table
             $result = $this->oDbh->exec("ALTER TABLE {$GLOBALS['_MAX']['CONF']['table']['prefix']}{$sequence} AUTO_INCREMENT = 1");
             OA::enableErrorHandling();
             if (PEAR::isError($result)) {
-                OA::debug('Unable to reset sequence on table ' . $sequence, PEAR_LOG_ERR);
+                OA::debug('Unable to reset sequence on table ' . $sequence, PEAR_LOG_ERROR);
                 return false;
             }
         }
@@ -554,7 +554,7 @@ class OA_DB_Table
                     $sequence .= '_seq';
                     OA::debug('Resetting the ' . $sequence . ' sequence', PEAR_LOG_DEBUG);
                 	if (!$this->resetSequence($sequence)) {
-                	    OA::debug('Unable to reset the sequence ' . $sequence, PEAR_LOG_ERR);
+                	    OA::debug('Unable to reset the sequence ' . $sequence, PEAR_LOG_ERROR);
                 	    $allSequencesReset = false;
                 	}
                 }
@@ -565,7 +565,7 @@ class OA_DB_Table
                 {
                 	if (!$this->resetSequence($tableName))
                 	{
-                	    OA::debug('Unable to reset the auto-increment for ' . $tableName, PEAR_LOG_ERR);
+                	    OA::debug('Unable to reset the auto-increment for ' . $tableName, PEAR_LOG_ERROR);
                 	    $allSequencesReset = false;
                 	}
                 }

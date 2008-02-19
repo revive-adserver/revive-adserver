@@ -82,7 +82,6 @@ class MDB2_Schema_Parser extends XML_Parser
     var $error;
     var $structure = false;
     var $val;
-    var $validate = true;
 
     function __construct($variables, $fail_on_invalid_names = true, $structure = false, $valid_types = array(), $force_defaults = true)
     {
@@ -272,14 +271,12 @@ class MDB2_Schema_Parser extends XML_Parser
 
         /* Table definition */
         case 'database-table':
-            if ($this->validate)
-            {
-                $result = $this->val->validateTable($this->database_definition['tables'], $this->table, $this->table_name);
-                if (PEAR::isError($result)) {
-                    $this->raiseError($result->getUserinfo(), 0, $xp, $result->getCode());
-                }
+            $result = $this->val->validateTable($this->database_definition['tables'], $this->table, $this->table_name);
+            if (PEAR::isError($result)) {
+                $this->raiseError($result->getUserinfo(), 0, $xp, $result->getCode());
+            } else {
+                $this->database_definition['tables'][$this->table_name] = $this->table;
             }
-            $this->database_definition['tables'][$this->table_name] = $this->table;
             break;
         case 'database-table-name':
             if (isset($this->structure_tables[$this->table_name])) {
@@ -289,58 +286,47 @@ class MDB2_Schema_Parser extends XML_Parser
 
         /* Field declaration */
         case 'database-table-declaration-field':
-            if ($this->validate)
-            {
-                $result = $this->val->validateField($this->table['fields'], $this->field, $this->field_name);
-                if (PEAR::isError($result)) {
-                    $this->raiseError($result->getUserinfo(), 0, $xp, $result->getCode());
-                }
+            $result = $this->val->validateField($this->table['fields'], $this->field, $this->field_name);
+            if (PEAR::isError($result)) {
+                $this->raiseError($result->getUserinfo(), 0, $xp, $result->getCode());
+            } else {
+                $this->table['fields'][$this->field_name] = $this->field;
             }
-            $this->table['fields'][$this->field_name] = $this->field;
             break;
 
         /* Index declaration */
         case 'database-table-declaration-index':
-            if ($this->validate)
-            {
-                $result = $this->val->validateIndex($this->table['indexes'], $this->index, $this->index_name);
-                if (PEAR::isError($result)) {
-                    $this->raiseError($result->getUserinfo(), 0, $xp, $result->getCode());
-                }
+            $result = $this->val->validateIndex($this->table['indexes'], $this->index, $this->index_name);
+            if (PEAR::isError($result)) {
+                $this->raiseError($result->getUserinfo(), 0, $xp, $result->getCode());
+            } else {
+                $this->table['indexes'][$this->index_name] = $this->index;
             }
-            $this->table['indexes'][$this->index_name] = $this->index;
             break;
         case 'database-table-declaration-index-field':
-            if ($this->validate)
-            {
-                $result = $this->val->validateIndexField($this->index['fields'], $this->field, $this->field_name);
-                if (PEAR::isError($result)) {
-                    $this->raiseError($result->getUserinfo(), 0, $xp, $result->getCode());
-                }
+            $result = $this->val->validateIndexField($this->index['fields'], $this->field, $this->field_name);
+            if (PEAR::isError($result)) {
+                $this->raiseError($result->getUserinfo(), 0, $xp, $result->getCode());
+            } else {
+                $this->index['fields'][$this->field_name] = $this->field;
             }
-            $this->index['fields'][$this->field_name] = $this->field;
             break;
 
         /* Sequence declaration */
         case 'database-sequence':
-            if ($this->validate)
-            {
-                $result = $this->val->validateSequence($this->database_definition['sequences'], $this->sequence, $this->sequence_name);
-                if (PEAR::isError($result)) {
-                    $this->raiseError($result->getUserinfo(), 0, $xp, $result->getCode());
-                }
+            $result = $this->val->validateSequence($this->database_definition['sequences'], $this->sequence, $this->sequence_name);
+            if (PEAR::isError($result)) {
+                $this->raiseError($result->getUserinfo(), 0, $xp, $result->getCode());
+            } else {
+                $this->database_definition['sequences'][$this->sequence_name] = $this->sequence;
             }
-            $this->database_definition['sequences'][$this->sequence_name] = $this->sequence;
             break;
 
         /* End of File */
         case 'database':
-            if ($this->validate)
-            {
-                $result = $this->val->validateDatabase($this->database_definition);
-                if (PEAR::isError($result)) {
-                    $this->raiseError($result->getUserinfo(), 0, $xp, $result->getCode());
-                }
+            $result = $this->val->validateDatabase($this->database_definition);
+            if (PEAR::isError($result)) {
+                $this->raiseError($result->getUserinfo(), 0, $xp, $result->getCode());
             }
             break;
         }
@@ -516,13 +502,6 @@ class MDB2_Schema_Parser extends XML_Parser
                 $this->database_definition['status'].= $data;
             } else {
                 $this->database_definition['status'] = $data;
-            }
-            break;
-        case 'database-application':
-            if (isset($this->database_definition['application'])) {
-                $this->database_definition['application'].= $data;
-            } else {
-                $this->database_definition['application'] = $data;
             }
             break;
         case 'database-table-name':

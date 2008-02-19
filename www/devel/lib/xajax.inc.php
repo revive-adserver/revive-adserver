@@ -129,25 +129,6 @@ function loadSchema()
 	return $objResponse;
 }
 
-function loadDatasetList()
-{
-    $objResponse = new xajaxResponse();
-    $dh = opendir(MAX_PATH.'/tests/data/mdb2');
-    if ($dh)
-    {
-        while (false !== ($file = readdir($dh)))
-        {
-            if (strpos($file, '.xml')>0)
-            {
-                $opts.= '<option value="'.$file.'">'.$file.'</option>';
-            }
-        }
-        closedir($dh);
-        $objResponse->addAssign('datafile',"innerHTML", $opts);
-    }
-	return $objResponse;
-}
-
 function expandTable($table)
 {
 	$objResponse = new xajaxResponse();
@@ -368,7 +349,6 @@ $xajax->registerFunction("testAjax");
 $xajax->registerFunction('loadChangeset');
 $xajax->registerFunction('loadSchema');
 $xajax->registerFunction('loadSchemaFile');
-$xajax->registerFunction('loadDatasetList');
 $xajax->registerFunction('expandTable');
 $xajax->registerFunction('collapseTable');
 $xajax->registerFunction("editFieldProperty");

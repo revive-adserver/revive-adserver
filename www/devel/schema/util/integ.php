@@ -33,13 +33,9 @@ define('MAX_DEV', MAX_PATH.'/www/devel');
 
 require_once MAX_PATH.'/lib/OA/Upgrade/DB_Integrity.php';
 
-if (array_key_exists('xajax', $_POST))
-{
-}
 require_once MAX_PATH.'/www/devel/lib/xajax.inc.php';
 
 $oIntegrity = new OA_DB_Integrity();
-$aAppInfo = $oIntegrity->getVersion();
 
 if (array_key_exists('btn_integ_check', $_POST))
 {
@@ -71,31 +67,6 @@ else if (array_key_exists('btn_integ_exec', $_POST))
         $aMessages          = $oIntegrity->getMessages();
         $file_schema        = $oIntegrity->getFileSchema();
         $file_changes       = $oIntegrity->getFileChanges();
-    }
-}
-else if (array_key_exists('btn_data_dump', $_POST))
-{
-    $oIntegrity->init($aAppInfo['versionSchema']);
-    $aMessages = $oIntegrity->dumpData($aAppInfo['versionSchema'],$aAppInfo['versionApp'], $_POST['exclude']);
-    if (PEAR::isError($aMessages))
-    {
-        $aMessages[] = $aMessages->getUserInfo();
-    }
-}
-else if (array_key_exists('btn_data_load_dryrun', $_POST))
-{
-    $aMessages = $oIntegrity->loadData($_POST['datafile'],true);
-    if (PEAR::isError($aMessages))
-    {
-        $aMessages[] = $aMessages->getUserInfo();
-    }
-}
-else if (array_key_exists('btn_data_load', $_POST))
-{
-    $aMessages = $oIntegrity->loadData($_POST['datafile']);
-    if (PEAR::isError($aMessages))
-    {
-        $aMessages[] = $aMessages->getUserInfo();
     }
 }
 include 'tpl/integ.html';
