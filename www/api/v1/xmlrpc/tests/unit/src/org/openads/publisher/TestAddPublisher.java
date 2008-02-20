@@ -20,7 +20,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 package org.openads.publisher;
@@ -53,7 +53,6 @@ public class TestAddPublisher extends PublisherTestCase {
 		Map<String, Object> struct = new HashMap<String, Object>();
 		struct.put(PUBLISHER_NAME, "testPublisherName");
 		struct.put(EMAIL_ADDRESS, "test@gmail.com");
-		struct.put(USERNAME, TextUtils.generateUniqueName("testUsername"));
 
 		Object[] params = new Object[] { sessionId, struct };
 
@@ -71,7 +70,7 @@ public class TestAddPublisher extends PublisherTestCase {
 	public void testAddPublisherWithoutSomeRequiredFields()
 			throws MalformedURLException, XmlRpcException {
 		Map<String, Object> struct = new HashMap<String, Object>();
-		struct.put(USERNAME, TextUtils.generateUniqueName("testUsername"));
+		struct.put(PUBLISHER_NAME, "Publisher name");
 
 		Object[] params = new Object[] { sessionId, struct };
 
@@ -116,16 +115,6 @@ public class TestAddPublisher extends PublisherTestCase {
 		Map<String, Object> struct = new HashMap<String, Object>();
 		Object[] params = new Object[] { sessionId, struct };
 
-		struct.put(USERNAME, strGreaterThan64);
-		executeAddPublisherWithError(params, ErrorMessage.getMessage(
-				ErrorMessage.EXCEED_MAXIMUM_LENGTH_OF_FIELD, USERNAME));
-
-		struct.remove(USERNAME);
-		struct.put(PASSWORD, strGreaterThan64);
-		executeAddPublisherWithError(params, ErrorMessage.getMessage(
-				ErrorMessage.EXCEED_MAXIMUM_LENGTH_OF_FIELD, PASSWORD));
-
-		struct.remove(PASSWORD);
 		struct.put(PUBLISHER_NAME, strGreaterThan255);
 		executeAddPublisherWithError(params, ErrorMessage.getMessage(
 				ErrorMessage.EXCEED_MAXIMUM_LENGTH_OF_FIELD, PUBLISHER_NAME));
@@ -141,11 +130,7 @@ public class TestAddPublisher extends PublisherTestCase {
 		Map<String, Object> struct = new HashMap<String, Object>();
 		Object[] params = new Object[] { sessionId, struct };
 
-		struct.put(USERNAME, "");
-		executeAddPublisherWithError(params, ErrorMessage.getMessage(
-				ErrorMessage.USERNAME_IS_FEWER_THAN, "1"));
-
-		struct.remove(USERNAME);
+		struct.put(PUBLISHER_NAME, "testPublisher");
 		struct.put(EMAIL_ADDRESS, "");
 		executeAddPublisherWithError(params, ErrorMessage.EMAIL_IS_NOT_VALID);
 
@@ -163,8 +148,6 @@ public class TestAddPublisher extends PublisherTestCase {
 		struct.put(PUBLISHER_NAME, "");
 		struct.put(CONTACT_NAME, "");
 		struct.put(EMAIL_ADDRESS, TextUtils.MIN_ALLOWED_EMAIL);
-		struct.put(USERNAME, "s");
-		struct.put(PASSWORD, "");
 		Object[] params = new Object[] { sessionId, struct };
 		final Integer result = (Integer) execute(ADD_PUBLISHER_METHOD, params);
 		assertNotNull(result);
@@ -183,8 +166,6 @@ public class TestAddPublisher extends PublisherTestCase {
 		struct.put(PUBLISHER_NAME, TextUtils.getString(255));
 		struct.put(CONTACT_NAME, TextUtils.getString(255));
 		struct.put(EMAIL_ADDRESS, TextUtils.getString(55) + "@mail.com");
-		struct.put(USERNAME, TextUtils.generateUniqueString(64));
-		struct.put(PASSWORD, TextUtils.getString(64));
 		Object[] params = new Object[] { sessionId, struct };
 		final Integer result = (Integer) execute(ADD_PUBLISHER_METHOD, params);
 		assertNotNull(result);
@@ -205,6 +186,7 @@ public class TestAddPublisher extends PublisherTestCase {
 				.setServerURL(new URL(GlobalSettings.getPublisherServiceUrl()));
 
 		Map<String, Object> struct = new HashMap<String, Object>();
+		struct.put(PUBLISHER_NAME, "");
 		struct.put(AGENCY_ID, id);
 		Object[] params = new Object[] { sessionId, struct };
 
@@ -221,85 +203,6 @@ public class TestAddPublisher extends PublisherTestCase {
 	}
 
 	/**
-	 * Test methods for Duplicate Username Error, described in API
-	 *
-	 * @throws MalformedURLException
-	 * @throws XmlRpcException
-	 */
-	public void testAddPublisherDuplicateUsernameError()
-			throws MalformedURLException, XmlRpcException {
-		Map<String, Object> struct = new HashMap<String, Object>();
-		Object[] params = new Object[] { sessionId, struct };
-
-		String uniqueName = TextUtils.generateUniqueString(64);
-		struct.put(USERNAME, uniqueName);
-		struct.put(PASSWORD, "testpsw");
-
-		final Integer result = (Integer) execute(ADD_PUBLISHER_METHOD, params);
-		assertNotNull(result);
-
-		executeAddPublisherWithError(params,
-				ErrorMessage.USERNAME_MUST_BE_UNIQUE);
-
-		deletePublisher(result);
-	}
-
-	/**
-	 * Test methods for Username Format Error, described in API
-	 *
-	 * @throws MalformedURLException
-	 */
-	public void testAddPublisherUsernameFormatError1()
-			throws MalformedURLException {
-		Map<String, Object> struct = new HashMap<String, Object>();
-		Object[] params = new Object[] { sessionId, struct };
-
-		struct.put(PASSWORD, "testpsw");
-		executeAddPublisherWithError(params,
-				ErrorMessage.USERNAME_IS_NULL_AND_THE_PASSWORD_IS_NOT);
-	}
-
-	/**
-	 * Test methods for Username Format Error, described in API
-	 *
-	 * @throws MalformedURLException
-	 */
-	public void testAddPublisherUsernameFormatError2()
-			throws MalformedURLException {
-		Map<String, Object> struct = new HashMap<String, Object>();
-		struct.put(USERNAME, "");
-		struct.put(PASSWORD, "testpsw");
-		Object[] params = new Object[] { sessionId, struct };
-
-		try {
-			Integer result = (Integer) execute(ADD_PUBLISHER_METHOD, params);
-			deletePublisher(result);
-			fail(ErrorMessage.METHOD_EXECUTED_SUCCESSFULLY_BUT_SHOULD_NOT_HAVE);
-		} catch (XmlRpcException e) {
-			assertEquals(ErrorMessage.WRONG_ERROR_MESSAGE, ErrorMessage
-					.getMessage(ErrorMessage.USERNAME_IS_FEWER_THAN, "1"), e
-					.getMessage());
-		}
-	}
-
-	/**
-	 * Test methods for Password Format Error, described in API
-	 *
-	 * @throws MalformedURLException
-	 */
-	public void testAddPublisherPasswordFormatError()
-			throws MalformedURLException {
-		final String badPassword = TextUtils.BAD_PASSWORD;
-
-		Map<String, Object> struct = new HashMap<String, Object>();
-		Object[] params = new Object[] { sessionId, struct };
-		struct.put(USERNAME, TextUtils.generateUniqueString(64));
-		struct.put(PASSWORD, badPassword);
-		executeAddPublisherWithError(params, ErrorMessage.getMessage(
-				ErrorMessage.PASSWORDS_CANNOT_CONTAIN, "\\"));
-	}
-
-	/**
 	 * Test method with fields that has value of wrong type (error).
 	 *
 	 * @throws MalformedURLException
@@ -308,6 +211,7 @@ public class TestAddPublisher extends PublisherTestCase {
 
 		Map<String, Object> struct = new HashMap<String, Object>();
 		Object[] params = new Object[] { sessionId, struct };
+		struct.put(PUBLISHER_NAME, "");
 
 		struct.put(AGENCY_ID, TextUtils.NOT_INTEGER);
 		executeAddPublisherWithError(params, ErrorMessage.getMessage(

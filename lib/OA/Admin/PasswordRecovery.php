@@ -25,7 +25,7 @@ $Id$
 */
 
 /**
- * Password recovery for OpenX
+ * Password recovery for Openads
  *
  */
 

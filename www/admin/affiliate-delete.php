@@ -56,7 +56,8 @@ if (!empty($affiliateid))
 
     // User unsubscribed from adnetworks
     $doAffiliates->get($affiliateid);
-    $oacWebsiteId = ($doAffiliates->an_website_id) ? $doAffiliates->an_website_id : $doAffiliates->as_website_id;
+//    $oacWebsiteId = ($doAffiliates->an_website_id) ? $doAffiliates->an_website_id : $doAffiliates->as_website_id;
+    $oacWebsiteId = $doAffiliates->as_website_id;
     $aPublisher = array(
         array(
                 'id'            => $affiliateid,

@@ -20,7 +20,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 package org.openads.publisher;
@@ -61,7 +61,6 @@ public class TestGetPublisher extends PublisherTestCase {
 			checkParameter(publisher, PUBLISHER_NAME, myPublisher.get(PUBLISHER_NAME));
 			checkParameter(publisher, CONTACT_NAME, myPublisher.get(CONTACT_NAME));
 			checkParameter(publisher, EMAIL_ADDRESS, myPublisher.get(EMAIL_ADDRESS));
-			checkParameter(publisher, PASSWORD, "");
 		} finally {
 			deletePublisher(id);
 		}

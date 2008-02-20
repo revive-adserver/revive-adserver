@@ -2189,7 +2189,7 @@ class OA_DB_Upgrade
 
     /**
      * retrieve an array of table names from currently connected database
-     * uses the conf table prefix to search only for tables from the openx schema
+     * uses the conf table prefix to search only for tables from the openads schema
      *
      *
      * @param string : any additional (post-prefix) string to search for

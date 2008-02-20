@@ -20,7 +20,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 package org.openads.advertiser;
@@ -53,8 +53,6 @@ public class TestAddAdvertiser extends AdvertiserTestCase {
 		struct.put(AGENCY_ID, agencyId);
 		struct.put(ADVERTISER_NAME, "testAdvertiserName");
 		struct.put(CONTACT_NAME, "testContactName");
-		struct.put(USERNAME, TextUtils.generateUniqueName("advertiserUser"));
-		struct.put(PASSWORD, "qwerty");
 
 		Object[] params = new Object[] { sessionId, struct };
 		final Integer result = (Integer) client.execute(ADD_ADVERTISER_METHOD,
@@ -126,36 +124,6 @@ public class TestAddAdvertiser extends AdvertiserTestCase {
 		struct.put(CONTACT_NAME, strGreaterThan255);
 		executeAddAdvertiserWithError(params, ErrorMessage.getMessage(
 				ErrorMessage.EXCEED_MAXIMUM_LENGTH_OF_FIELD, CONTACT_NAME));
-
-		// test username
-		struct.remove(CONTACT_NAME);
-		struct.put(USERNAME, strGreaterThan64);
-		executeAddAdvertiserWithError(params, ErrorMessage.getMessage(
-				ErrorMessage.EXCEED_MAXIMUM_LENGTH_OF_FIELD, USERNAME));
-
-		// test password
-		struct.remove(USERNAME);
-		struct.put(PASSWORD, strGreaterThan64);
-		executeAddAdvertiserWithError(params, ErrorMessage.getMessage(
-				ErrorMessage.EXCEED_MAXIMUM_LENGTH_OF_FIELD, PASSWORD));
-
-	}
-
-	/**
-	 * Test method with fields that has value less than min
-	 *
-	 * @throws MalformedURLException
-	 */
-	public void testAddAdvertiserLessThanMinFieldValueError()
-			throws MalformedURLException {
-		Map<String, Object> struct = new HashMap<String, Object>();
-		Object[] params = new Object[] { sessionId, struct };
-
-		struct.put(ADVERTISER_NAME, "test advertiser name");
-		struct.put(USERNAME, "");
-
-		executeAddAdvertiserWithError(params, ErrorMessage.getMessage(
-				ErrorMessage.USERNAME_IS_FEWER_THAN, "1"));
 	}
 
 	/**
@@ -170,8 +138,6 @@ public class TestAddAdvertiser extends AdvertiserTestCase {
 		struct.put(ADVERTISER_NAME, "testAdvertiser");
 		struct.put(CONTACT_NAME, "");
 		struct.put(EMAIL_ADDRESS, TextUtils.MIN_ALLOWED_EMAIL);
-		struct.put(USERNAME, "s");
-		struct.put(PASSWORD, "");
 		Object[] params = new Object[] { sessionId, struct };
 
 		final Integer result = (Integer) client.execute(ADD_ADVERTISER_METHOD,
@@ -192,8 +158,6 @@ public class TestAddAdvertiser extends AdvertiserTestCase {
 		struct.put(ADVERTISER_NAME, TextUtils.getString(255));
 		struct.put(CONTACT_NAME, TextUtils.getString(255));
 		struct.put(EMAIL_ADDRESS, TextUtils.getString(59) + "@a.aa");
-		struct.put(USERNAME, TextUtils.generateUniqueString(64));
-		struct.put(PASSWORD, TextUtils.getString(64));
 		Object[] params = new Object[] { sessionId, struct };
 
 		final Integer result = (Integer) client.execute(ADD_ADVERTISER_METHOD,
@@ -219,93 +183,11 @@ public class TestAddAdvertiser extends AdvertiserTestCase {
 		struct.put(ADVERTISER_NAME, "testAdvertiserName");
 		struct.put(CONTACT_NAME, "testContactName");
 		struct.put(EMAIL_ADDRESS, "lola@gmail.com");
-		struct.put(USERNAME, TextUtils.generateUniqueName("advertiserUser"));
-		struct.put(PASSWORD, "qwerty");
 
 		Object[] params = new Object[] { sessionId, struct };
 
 		executeAddAdvertiserWithError(params, ErrorMessage.getMessage(
 				ErrorMessage.UNKNOWN_ID_ERROR, AGENCY_ID));
-	}
-
-	/**
-	 * Try to add advertiser with the same username as an existing admin,
-	 * agency, advertiser, or publisher username.
-	 *
-	 * @throws MalformedURLException
-	 */
-	public void testAddAdvertiserDuplicateUsernameError()
-			throws MalformedURLException {
-		Map<String, Object> struct = new HashMap<String, Object>();
-		struct.put(AGENCY_ID, agencyId);
-		struct.put(ADVERTISER_NAME, "testAdvertiserName");
-		struct.put(CONTACT_NAME, "testContactName");
-		struct.put(EMAIL_ADDRESS, "lola@gmail.com");
-		struct.put(USERNAME, GlobalSettings.getUserName());
-		struct.put(PASSWORD, "qwerty");
-		Object[] params = new Object[] { sessionId, struct };
-
-		executeAddAdvertiserWithError(params,
-				ErrorMessage.USERNAME_MUST_BE_UNIQUE);
-	}
-
-	/**
-	 * Try to add advertiser with username fewer than 1 characters.
-	 *
-	 * @throws MalformedURLException
-	 */
-	public void testAddAdvertiserUsernameFormatError1()
-			throws MalformedURLException {
-		Map<String, Object> struct = new HashMap<String, Object>();
-		struct.put(AGENCY_ID, agencyId);
-		struct.put(ADVERTISER_NAME, "testAdvertiserName");
-		struct.put(CONTACT_NAME, "testContactName");
-		struct.put(EMAIL_ADDRESS, "lola@gmail.com");
-		struct.put(USERNAME, "");
-		struct.put(PASSWORD, "qwerty");
-		Object[] params = new Object[] { sessionId, struct };
-
-		executeAddAdvertiserWithError(params, ErrorMessage.getMessage(
-				ErrorMessage.USERNAME_IS_FEWER_THAN, "1"));
-	}
-
-	/**
-	 * Try to add advertiser without username but with password.
-	 *
-	 * @throws MalformedURLException
-	 */
-	public void testAddAdvertiserUsernameFormatError2()
-			throws MalformedURLException {
-		Map<String, Object> struct = new HashMap<String, Object>();
-		struct.put(AGENCY_ID, agencyId);
-		struct.put(ADVERTISER_NAME, "testAdvertiserName");
-		struct.put(CONTACT_NAME, "testContactName");
-		struct.put(EMAIL_ADDRESS, "lola@gmail.com");
-		struct.put(PASSWORD, "qwerty");
-		Object[] params = new Object[] { sessionId, struct };
-
-		executeAddAdvertiserWithError(params,
-				ErrorMessage.USERNAME_IS_NULL_AND_THE_PASSWORD_IS_NOT);
-	}
-
-	/**
-	 * Try to add advertiser with unsupported characters in password.
-	 *
-	 * @throws MalformedURLException
-	 */
-	public void testAddAdvertiserPasswordFormatError()
-			throws MalformedURLException {
-		Map<String, Object> struct = new HashMap<String, Object>();
-		struct.put(AGENCY_ID, agencyId);
-		struct.put(ADVERTISER_NAME, "testAdvertiserName");
-		struct.put(CONTACT_NAME, "testContactName");
-		struct.put(EMAIL_ADDRESS, "lola@gmail.com");
-		struct.put(USERNAME, TextUtils.generateUniqueName("advertiserUser"));
-		struct.put(PASSWORD, "qwerty\\");
-		Object[] params = new Object[] { sessionId, struct };
-
-		executeAddAdvertiserWithError(params, ErrorMessage.getMessage(
-				ErrorMessage.PASSWORDS_CANNOT_CONTAIN, "\\"));
 	}
 
 	/**

@@ -1,0 +1,303 @@
+<?php
+
+/*
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+|                                                                           |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+*/
+
+/**
+ * @package    OpenX
+ * @author     Matteo Beccati <matteo.beccati@openx.org>
+ *
+ * The user XML-RPC service enables XML-RPC communication with the user object.
+ *
+ */
+
+// Require the initialisation file.
+require_once '../../../../init.php';
+
+// Require the XML-RPC classes.
+require_once MAX_PATH . '/lib/pear/XML/RPC/Server.php';
+
+// Require the base class, BaseUserService.
+require_once MAX_PATH . '/www/api/v1/common/BaseUserService.php';
+
+// Require the XML-RPC utilities.
+require_once MAX_PATH . '/www/api/v1/common/XmlRpcUtils.php';
+
+// Require the UserInfo helper class.
+require_once MAX_PATH . '/lib/OA/Dll/User.php';
+
+/**
+ * The UserXmlRpcService class extends the BaseUserService class.
+ *
+ */
+class UserXmlRpcService extends BaseUserService
+{
+    /**
+     * The UserXmlRpcService constructor calls the base service constructor
+     * to initialise the service.
+     *
+     */
+    function UserXmlRpcService()
+    {
+        $this->BaseUserService();
+    }
+
+    /**
+     * The addUser method adds details for a new user to the user
+     * object and returns either the user ID or an error message.
+     *
+     * @access public
+     *
+     * @param  XML_RPC_Message &$oParams
+     *
+     * @return XML_RPC_Response  data or error
+     */
+    function addUser(&$oParams)
+    {
+        $sessionId          = null;
+        $oUserInfo    = new OA_Dll_UserInfo();
+        $oResponseWithError = null;
+
+        if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0,
+                $oResponseWithError) ||
+            !XmlRpcUtils::getStructureScalarFields($oUserInfo, $oParams,
+                1, array('userName', 'contactName',
+                    'emailAddress', 'username', 'password',
+                    'defaultAccountId', 'active'), $oResponseWithError)) {
+
+            return $oResponseWithError;
+        }
+
+        if ($this->_oUserServiceImp->addUser($sessionId, $oUserInfo)) {
+            return XmlRpcUtils::integerTypeResponse($oUserInfo->userId);
+        } else {
+            return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
+        }
+    }
+
+    /**
+     * The modifyUser method changes the details for an existing user
+     * or returns an error message.
+     *
+     * @access public
+     *
+     * @param  XML_RPC_Message &$oParams
+     *
+     * @return XML_RPC_Response  data or error
+     */
+    function modifyUser(&$oParams)
+    {
+
+        $sessionId          = null;
+        $oUserInfo    = new OA_Dll_UserInfo();
+        $oResponseWithError = null;
+
+        if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0,
+                $oResponseWithError) ||
+            !XmlRpcUtils::getStructureScalarFields($oUserInfo, $oParams,
+                1, array('userId', 'userName', 'contactName',
+                    'emailAddress', 'username', 'password',
+                    'defaultAccountId', 'active'),
+                $oResponseWithError)) {
+
+            return $oResponseWithError;
+        }
+
+        if ($this->_oUserServiceImp->modifyUser($sessionId, $oUserInfo)) {
+            return XmlRpcUtils::booleanTypeResponse(true);
+        } else {
+            return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
+        }
+
+    }
+
+    /**
+     * The deleteUser method either deletes an existing user or
+     * returns an error message.
+     *
+     * @access public
+     *
+     * @param  XML_RPC_Message &$oParams
+     *
+     * @return XML_RPC_Response  data or error
+     */
+    function deleteUser(&$oParams)
+    {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$userId),
+            array(true, true), $oParams, $oResponseWithError )) {
+
+            return $oResponseWithError;
+        }
+
+        if ($this->_oUserServiceImp->deleteUser($sessionId, $userId)) {
+
+            return XmlRpcUtils::booleanTypeResponse(true);
+
+        } else {
+
+            return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
+        }
+    }
+
+    /**
+     * The getUser method returns either information about an user or
+     * an error message.
+     *
+     * @access public
+     *
+     * @param XML_RPC_Message &$oParams
+     *
+     * @return generated result (data or error)
+     */
+    function getUser(&$oParams) {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(
+                array(&$sessionId, &$userId),
+                array(true, true), $oParams, $oResponseWithError)) {
+           return $oResponseWithError;
+        }
+
+        $oUser = null;
+        if ($this->_oUserServiceImp->getUser($sessionId,
+                $userId, $oUser)) {
+
+            return XmlRpcUtils::getEntityResponse($oUser);
+        } else {
+
+            return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
+        }
+    }
+
+    /**
+     * The getUserListByAccountId method returns a list of users
+     * for an account, or returns an error message.
+     *
+     * @access public
+     *
+     * @param XML_RPC_Message &$oParams
+     *
+     * @return generated result (data or error)
+     */
+    function getUserListByAccountId(&$oParams) {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(
+                array(&$sessionId, &$accountId),
+                array(true, true), $oParams, $oResponseWithError)) {
+           return $oResponseWithError;
+        }
+
+        $aUserList = null;
+        if ($this->_oUserServiceImp->getUserListByAccountId($sessionId,
+                                            $accountId, $aUserList)) {
+
+            return XmlRpcUtils::getArrayOfEntityResponse($aUserList);
+        } else {
+
+            return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
+        }
+    }
+
+    function updateSsoUserId(&$oParams) {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$oldSsoUserId, &$newSsoUserId),
+            array(true, true, true), $oParams, $oResponseWithError )) {
+
+            return $oResponseWithError;
+        }
+
+        if ($this->_oUserServiceImp->updateSsoUserId($sessionId, $oldSsoUserId, $newSsoUserId)) {
+
+            return XmlRpcUtils::booleanTypeResponse(true);
+
+        } else {
+
+            return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
+        }
+    }
+
+}
+
+/**
+ * Initialise the XML-RPC server including the available methods and their signatures.
+ *
+**/
+$oUserXmlRpcService = new UserXmlRpcService();
+
+$server = new XML_RPC_Server(
+    array(
+        'addUser' => array(
+            'function'  => array($oUserXmlRpcService, 'addUser'),
+            'signature' => array(
+                array('int', 'string', 'struct')
+            ),
+            'docstring' => 'Add user'
+        ),
+
+        'modifyUser' => array(
+            'function'  => array($oUserXmlRpcService, 'modifyUser'),
+            'signature' => array(
+                array('int', 'string', 'struct')
+            ),
+            'docstring' => 'Modify user information'
+        ),
+
+        'deleteUser' => array(
+            'function'  => array($oUserXmlRpcService, 'deleteUser'),
+            'signature' => array(
+                array('int', 'string', 'int')
+            ),
+            'docstring' => 'Delete user'
+        ),
+
+        'getUser' => array(
+            'function'  => array($oUserXmlRpcService, 'getUser'),
+            'signature' => array(
+                array('struct', 'string', 'int')
+            ),
+            'docstring' => 'Get User Information'
+        ),
+
+        'getUserListByAccountId' => array(
+            'function'  => array($oUserXmlRpcService, 'getUserListByAccountId'),
+            'signature' => array(
+                array('array', 'string', 'int')
+            ),
+            'docstring' => 'Get User List By Account Id'
+        ),
+
+        'updateSsoUserId' => array(
+            'function'  => array($oUserXmlRpcService, 'updateSsoUserId'),
+            'signature' => array(
+                array('array', 'string', 'int', 'int')
+            ),
+            'docstring' => 'Change the SSO User ID field'
+        ),
+    ),
+
+    1  // serviceNow
+);
+
+?>

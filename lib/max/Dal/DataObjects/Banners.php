@@ -92,7 +92,6 @@ class DataObjects_Banners extends DB_DataObjectCommon
     ###END_AUTOCODE
 
     var $defaultValues = array(
-        'active' => 't',
         'contenttype' => 'gif',
         'storagetype' => 'sql',
         'autohtml' => 't',

@@ -20,7 +20,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 package org.openads.agency;
@@ -143,18 +143,6 @@ public class TestModifyAgency extends AgencyTestCase {
 		struct.put(CONTACT_NAME, strGreaterThan255);
 		executeModifyAgencyWithError(params, ErrorMessage.getMessage(
 				ErrorMessage.EXCEED_MAXIMUM_LENGTH_OF_FIELD, CONTACT_NAME));
-
-		// test username
-		struct.remove(CONTACT_NAME);
-		struct.put(USERNAME, strGreaterThan64);
-		executeModifyAgencyWithError(params, ErrorMessage.getMessage(
-				ErrorMessage.EXCEED_MAXIMUM_LENGTH_OF_FIELD, USERNAME));
-
-		// test password
-		struct.remove(USERNAME);
-		struct.put(PASSWORD, strGreaterThan64);
-		executeModifyAgencyWithError(params, ErrorMessage.getMessage(
-				ErrorMessage.EXCEED_MAXIMUM_LENGTH_OF_FIELD, PASSWORD));
 	}
 
 	/**
@@ -166,27 +154,8 @@ public class TestModifyAgency extends AgencyTestCase {
 			throws MalformedURLException {
 		Map<String, Object> struct = new HashMap<String, Object>();
 		struct.put(AGENCY_ID, agencyId);
-		struct.put(USERNAME, "");
-
-		try {
-
-			client.execute(MODIFY_AGENCY_METHOD, new Object[] { sessionId,
-					struct });
-			fail("Agency modified, but must not");
-
-			client.execute(MODIFY_AGENCY_METHOD, new Object[] { sessionId,
-					struct });
-			fail("Agency modified, but shouldn't have");
-
-		} catch (XmlRpcException e) {
-			assertEquals(ErrorMessage.WRONG_ERROR_MESSAGE, ErrorMessage
-					.getMessage(ErrorMessage.USERNAME_IS_FEWER_THAN, "1"), e
-					.getMessage());
-
-		}
 
 		// test emailAddress
-		struct.remove(USERNAME);
 		struct.put(EMAIL_ADDRESS, "");
 		try {
 			client.execute(MODIFY_AGENCY_METHOD, new Object[] { sessionId,
@@ -210,8 +179,6 @@ public class TestModifyAgency extends AgencyTestCase {
 		struct.put(AGENCY_NAME, "");
 		struct.put(CONTACT_NAME, "");
 		struct.put(EMAIL_ADDRESS, TextUtils.MIN_ALLOWED_EMAIL);
-		struct.put(USERNAME, "s");
-		struct.put(PASSWORD, "");
 		Object[] params = new Object[] { sessionId, struct };
 		final Boolean result = (Boolean) client.execute(MODIFY_AGENCY_METHOD,
 				params);
@@ -231,8 +198,6 @@ public class TestModifyAgency extends AgencyTestCase {
 		struct.put(AGENCY_NAME, TextUtils.getString(255));
 		struct.put(CONTACT_NAME, TextUtils.getString(255));
 		struct.put(EMAIL_ADDRESS, TextUtils.getString(55) + "@mail.com");
-		struct.put(USERNAME, TextUtils.generateUniqueString(64));
-		struct.put(PASSWORD, TextUtils.getString(64));
 		Object[] params = new Object[] { sessionId, struct };
 		final Boolean result = (Boolean) client.execute(MODIFY_AGENCY_METHOD,
 				params);
@@ -259,94 +224,6 @@ public class TestModifyAgency extends AgencyTestCase {
 		} catch (XmlRpcException e) {
 			assertEquals(ErrorMessage.WRONG_ERROR_MESSAGE, ErrorMessage
 					.getMessage(ErrorMessage.UNKNOWN_ID_ERROR, "agencyId"), e
-					.getMessage());
-		}
-	}
-
-	/**
-	 * Try to modify agency with the same username as an existing admin, agency,
-	 * advertiser, or publisher username.
-	 *
-	 * @throws MalformedURLException
-	 */
-	public void testModifyAgencyDuplicateUsernameError()
-			throws MalformedURLException {
-		Map<String, Object> struct = new HashMap<String, Object>();
-		struct.put(AGENCY_ID, agencyId);
-		struct.put(USERNAME, GlobalSettings.getUserName());
-		Object[] params = new Object[] { sessionId, struct };
-
-		try {
-			client.execute(MODIFY_AGENCY_METHOD, params);
-			fail("Agency modified but shouldn't have");
-		} catch (XmlRpcException e) {
-			assertEquals(ErrorMessage.WRONG_ERROR_MESSAGE,
-					ErrorMessage.USERNAME_MUST_BE_UNIQUE, e.getMessage());
-		}
-	}
-
-	/**
-	 * Try to modify agency with username fewer than 1 character.
-	 *
-	 * @throws MalformedURLException
-	 */
-	public void testModifyAgencyUsernameFormatError1()
-			throws MalformedURLException {
-		Map<String, Object> struct = new HashMap<String, Object>();
-		struct.put(AGENCY_ID, agencyId);
-		struct.put(USERNAME, "");
-		Object[] params = new Object[] { sessionId, struct };
-
-		try {
-			client.execute(MODIFY_AGENCY_METHOD, params);
-			fail("Agency modified but shouldn't have");
-		} catch (XmlRpcException e) {
-			assertEquals(ErrorMessage.WRONG_ERROR_MESSAGE, ErrorMessage
-					.getMessage(ErrorMessage.USERNAME_IS_FEWER_THAN, "1"), e
-					.getMessage());
-		}
-	}
-
-	/**
-	 * Try to modify agency when the username is null and the password is not.
-	 *
-	 * @throws MalformedURLException
-	 */
-	public void testModifyAgencyUsernameFormatError2()
-			throws MalformedURLException {
-		Map<String, Object> struct = new HashMap<String, Object>();
-		struct.put(AGENCY_ID, agencyId);
-		struct.put(PASSWORD, "password");
-		Object[] params = new Object[] { sessionId, struct };
-
-		try {
-			client.execute(MODIFY_AGENCY_METHOD, params);
-			fail("Agency modified but shouldn't have");
-		} catch (XmlRpcException e) {
-			assertEquals(ErrorMessage.WRONG_ERROR_MESSAGE,
-					ErrorMessage.USERNAME_IS_NULL_AND_THE_PASSWORD_IS_NOT, e
-							.getMessage());
-		}
-	}
-
-	/**
-	 * Try to modify agency when there is '\' character in the password.
-	 *
-	 * @throws MalformedURLException
-	 */
-	public void testModifyAgencyPasswordFormatError()
-			throws MalformedURLException {
-		Map<String, Object> struct = new HashMap<String, Object>();
-		struct.put(AGENCY_ID, agencyId);
-		struct.put(USERNAME, TextUtils.generateUniqueName("agencyUser"));
-		struct.put(PASSWORD, "password\\");
-		Object[] params = new Object[] { sessionId, struct };
-		try {
-			client.execute(MODIFY_AGENCY_METHOD, params);
-			fail("Agency modified but shouldn't have");
-		} catch (XmlRpcException e) {
-			assertEquals(ErrorMessage.WRONG_ERROR_MESSAGE, ErrorMessage
-					.getMessage(ErrorMessage.PASSWORDS_CANNOT_CONTAIN, "\\"), e
 					.getMessage());
 		}
 	}

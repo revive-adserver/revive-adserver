@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| OpenX  v${RELEASE_MAJOR_MINOR}                                                              |
 | =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
@@ -30,7 +30,7 @@ require_once 'MDB2.php';
 
 
 /**
- * An class for using distributed stats along with a master/slave database setup inside OpenX.
+ * An class for using distributed stats along with a master/slave database setup inside Openads.
  *
  * @package    OpenXDB
  * @subpackage Distributed

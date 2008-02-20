@@ -21,22 +21,34 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: custom-adnetworks.html 12771 2007-11-23 15:29:03Z matteo.beccati@openads.org $
+$Id$
 
 -->
 
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
 *}
+
+{* HOSTEDTODO: set the sso variable *}
+{assign var="sso" value="true"}
+
   <tr>
     <td width='100%' colspan="3">
 <div class="table-content">
 <table id="user-access-table" width="100%" cellspacing="0" cellpadding="0" border="0">
   <thead>
     <tr height="25">
+    {if $sso}
+      <td class="first" style="width: 25%">Email</td>
+    {else}
       <td class="first" style="width: 10%">User Name</td>
       <td style="width: 25%">Email</td>
+    {/if}
       <td style="width: 20%">Contact Name</td>
+    {if $sso}
+      <td style="width: 15%">Last logged in</td>
+    {else}
       <td style="width: 15%">Date linked</td>
+    {/if}
       <td style="width: 25%"></td>
     </tr>
 
@@ -50,14 +62,32 @@ $Id: custom-adnetworks.html 12771 2007-11-23 15:29:03Z matteo.beccati@openads.or
     {cycle name=row assign=rowType}
     <tbody class="{$rowType}">
       <tr height="25" {if $user.justModified}class="hl"{/if}>
-        <td class="first"><a href="{$editPage}?login={$user.username}&amp;{$entityIdName}={$entityIdValue}">{$user.username}</a></td>
-        <td><a href="{$editPage}?login={$user.username}&amp;{$entityIdName}={$entityIdValue}">{$user.email_address}</a></td>
+      {if $sso}
+        <td class="first"><a href="{$editPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}">{$user.email_address}</a></td>
+      {else}
+        <td class="first"><a href="{$editPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}">{$user.username}</a></td>
+        <td><a href="{$editPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}">{$user.email_address}</a></td>
+      {/if}
         <td>{$user.contact_name}</td>
+      {if $sso}
+        <td>{$user.linked}</td> {* HOSTEDTODO: put last login date/time here *}
+      {else}
         <td>{$user.linked}</td>
+      {/if}
         <td class="last">
-          <a href="{$editPage}?login={$user.username}&amp;{$entityIdName}={$entityIdValue}" class="permissions" style="padding-right: 10px">Permissions</a>
-          <a href="{$unlinkPage}?login={$user.username}&amp;{$entityIdName}={$entityIdValue}" class="unlink{if $user.toDelete} unlink-last{/if}">Unlink</a>
+          <a href="{$editPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}" class="permissions" style="padding-right: 10px">Permissions</a>
+          <a href="{$unlinkPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}" class="unlink{if $user.toDelete} unlink-last{else} unlink-normal{/if}">Unlink</a>
         </td>
+      </tr>
+
+      <tr class="break">
+        <td colspan="5" />
+      </tr>
+    </tbody>
+  {foreachelse}
+    <tbody class="odd">
+      <tr height="25" {if $user.justModified}class="hl"{/if}>
+        <td class="norows" colspan="5">No users linked to this entity{if $linkUrl}, you can <a href="{$linkUrl}">link an existing or a new user here</a>{/if}</td>
       </tr>
 
       <tr class="break">
@@ -69,18 +99,17 @@ $Id: custom-adnetworks.html 12771 2007-11-23 15:29:03Z matteo.beccati@openads.or
 </table>
 </div>
 
-<script type="text/javascript">
-{literal}
-  $(document).ready(function() {
-    initUnlinkUserDialog();
-  });
-{/literal}
-</script>
-
 {include file=confirmation-dialog.html
+         id="unlink-last" linkToConfirmClass="unlink-last"
          title="Unlinking user from last entity"
          message="Unlinking user from last entity will cause the user to be deleted. Would you like to unlink this user?"
          confirmLabel="Unlink &amp; delete user"}
+
+{include file=confirmation-dialog.html
+         id="unlink-normal" linkToConfirmClass="unlink-normal"
+         title="Unlinking user"
+         message="Are you sure you want to unlink this user?"
+         confirmLabel="Unlink user"}
 
     </td>
   </tr>

@@ -28,11 +28,20 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 
-$oDbh  = OA_DB::singleton();
+// Restrict access to only accounts which are allowed to link other accounts
+switch (OA_Permission::getAccountType()) {
+    case OA_ACCOUNT_TRAFFICKER:
+        OA_Permission::enforceAccountPermission(OA_ACCOUNT_TRAFFICKER, OA_PERM_SUPER_ACCOUNT);
+    break;
+    case OA_ACCOUNT_ADVERTISER:
+        OA_Permission::enforceAccountPermission(OA_ACCOUNT_ADVERTISER, OA_PERM_SUPER_ACCOUNT);
+    break;
+}
+
+$oDbh = &OA_DB::singleton();
 $query = $oDbh->quote('%'.$q.'%');
 $doUsers = OA_Dal::factoryDO('users');
-$doUsers->whereAdd('username LIKE '.$query, 'OR');
-$doUsers->whereAdd('email_address LIKE '.$query, 'OR');
+$doUsers->whereAdd('username LIKE '.$query . ' OR email_address LIKE '.$query);
 $doUsers->limit($limit);
 $doUsers->find();
 while ($doUsers->fetch()) {

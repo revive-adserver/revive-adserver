@@ -88,6 +88,9 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
           );
     }
 
+
+
+
     /**
      * A method to enable the auto-submit feature on selection change
      */
@@ -229,8 +232,8 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
             align      : 'Bl',
             weekNumbers: false,
             firstDay   : " . ($GLOBALS['pref']['ui_week_start_day'] ? 1 : 0) . ",
-            electric   : false
-        })
+            electric   : false,
+        });
         Calendar.setup({
             inputField : '{$this->_name}_end',
             ifFormat   : '%d %B %Y',
@@ -238,9 +241,9 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
             align      : 'Bl',
             weekNumbers: false,
             firstDay   : " . ($GLOBALS['pref']['ui_week_start_day'] ? 1 : 0) . ",
-            electric   : false
+            electric   : false,
         })
-
+        
         var field = document.getElementById('{$this->_name}_start');
         var oldOnSubmit = field.form.onsubmit;
 
@@ -280,10 +283,15 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
             document.getElementById('{$this->_name}_start').value = '$endDateStr';
             document.getElementById('{$this->_name}_preset').value = '{$this->_fieldSelectionValue}';
         }
+
         function {$this->_name}FormSubmit() {
-            document.getElementById('{$this->_name}_preset').form.submit();
+            var form = document.getElementById('{$this->_name}_preset').form;
+            if (checkDates(form)) {
+              form.submit();
+            }
             return false;
         }
+
         function {$this->_name}FormChange(bAutoSubmit)
         {
             var o = document.getElementById('{$this->_name}_preset');

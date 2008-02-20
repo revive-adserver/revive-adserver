@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 /**
@@ -49,6 +49,13 @@ class OA_Dll_AdvertiserInfo extends OA_Info
      * @var integer $advertiserId
      */
     var $advertiserId;
+
+    /**
+     * This field contains the ID of the advertiser account.
+     *
+     * @var integer $accountId
+     */
+    var $accountId;
 
     /**
      * This option provides the ID of the agency to associate with the advertiser.
@@ -79,25 +86,11 @@ class OA_Dll_AdvertiserInfo extends OA_Info
     var $emailAddress;
 
     /**
-     * This field provides the username the contact use to log into OpenX.
-     *
-     * @var string $username
-     */
-    var $username;
-
-    /**
-     * This field provides the password the contact uses to log into OpenX.
-     *
-     * @var string $password
-     */
-    var $password;
-
-    /**
      * This method sets all default values when adding a new advertiser.
      *
      */
     function setDefaultForAdd() {
-        if (is_null($this->agencyId)) {
+        if (empty($this->agencyId)) {
             $this->agencyId = OA_Permission::getAgencyId();
         }
     }
@@ -113,12 +106,11 @@ class OA_Dll_AdvertiserInfo extends OA_Info
     {
         return array(
                     'advertiserId' => 'integer',
+                    'accountId' => 'integer',
                     'agencyId' => 'integer',
                     'advertiserName' => 'string',
                     'contactName' => 'string',
-                    'emailAddress' => 'string',
-                    'username' => 'string',
-                    'password' => 'string'
+                    'emailAddress' => 'string'
                 );
     }
 }

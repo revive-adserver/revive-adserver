@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| OpenX  v${RELEASE_MAJOR_MINOR}                                                              |
 | =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
@@ -198,6 +198,9 @@ $existingPearPath = ini_get('include_path');
 $newPearPath = MAX_PATH . DIRECTORY_SEPARATOR.'lib' . DIRECTORY_SEPARATOR . 'pear';
 if (!empty($existingPearPath)) {
 $newPearPath .= PATH_SEPARATOR . $existingPearPath;
+}
+if (!ereg("\.", $newPearPath)) {
+$newPearPath = '.'.PATH_SEPARATOR . $newPearPath;
 }
 ini_set('include_path', $newPearPath);
 }

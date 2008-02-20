@@ -500,7 +500,7 @@ class OA_Upgrade
     }
 
     /**
-     * look for existing installations (phpAdsNew, MMM, Openads, OpenX)
+     * look for existing installations (phpAdsNew, MMM, Openads)
      * retrieve details and check for errors
      *
      * @return boolean
@@ -633,10 +633,10 @@ class OA_Upgrade
                 }
                 break;
             case OA_STATUS_OAD_CONFIG_DETECTED:
-                $this->oLogger->logError('OpenX'.$strDetected);
+                $this->oLogger->logError('Openads'.$strDetected);
                 break;
             case OA_STATUS_OAD_DBCONNECT_FAILED:
-                $this->oLogger->logError('OpenX'.$strDetected);
+                $this->oLogger->logError('Openads'.$strDetected);
                 $this->oLogger->logError($strNoConnect.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 return false;
             case OA_STATUS_OAD_DBINTEG_FAILED:
@@ -727,10 +727,10 @@ class OA_Upgrade
 //                    return false;
 //                }
                 if ($this->oDbh->dbsyntax == 'pgsql') {
-                    // @package    OpenX2.0 for PostgreSQL
+                    // Openads 2.0 for PostgreSQL
                     $this->versionInitialSchema['tables_core'] = '049';
                 } else {
-                    // @package    OpenX2.0
+                    // Openads 2.0
                     $this->versionInitialSchema['tables_core'] = '099';
                 }
                 if (!$skipIntegrityCheck && !$this->_checkDBIntegrity($this->versionInitialSchema['tables_core']))
@@ -912,7 +912,7 @@ class OA_Upgrade
 
 
     /**
-     * search for an existing @package    OpenXinstallation
+     * search for an existing OpenX installation
      *
      * @param boolean $skipIntegrityCheck
      * @return boolean
@@ -1742,7 +1742,7 @@ class OA_Upgrade
             }
             if (!$result)
             {
-                $this->oLogger->logError('@package    OpenXrequires database case sensitivity to work with uppercase prefixes');
+                $this->oLogger->logError('OpenX requires database case sensitivity to work with uppercase prefixes');
                 return false;
             }
         }
@@ -1833,7 +1833,7 @@ class OA_Upgrade
 
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
 
-        $oldTableMessagePrefix  = 'Your database contains an old @package    OpenXconfiguration table: ';
+        $oldTableMessagePrefix  = 'Your database contains an old OpenX configuration table: ';
         $oldTableMessagePostfix = 'If you are trying to upgrade this database, please copy your existing configuration file into the var folder of this install. If you wish to proceed with a fresh installation, please either choose a new Table Prefix or a new Database.';
         if (in_array($this->aDsn['table']['prefix'].'config', $aExistingTables))
         {

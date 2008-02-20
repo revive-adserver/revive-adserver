@@ -121,10 +121,10 @@ $GLOBALS['strCollapseAll']              = "<u>C</u>ollapse all";
 $GLOBALS['strShowAll']                  = "Show All";
 $GLOBALS['strNoAdminInterface']         = "The admin screen has been turned off for maintenance.  This does not affect the delivery of your campaigns.";
 $GLOBALS['strFilterBySource']           = "filter by source";
+$GLOBALS['strFieldStartDateBeforeEnd']  = "\'From\' date must be earlier then \'To\' date";
 $GLOBALS['strFieldContainsErrors']      = "The following fields contain errors:";
 $GLOBALS['strFieldFixBeforeContinue1']  = "Before you can continue you need";
 $GLOBALS['strFieldFixBeforeContinue2']  = "to correct these errors.";
-$GLOBALS['strFieldStartDateBeforeEnd']  = "\'From\' date must be earlier then \'To\' date";
 $GLOBALS['strDelimiter']                = "Delimiter";
 $GLOBALS['strMiscellaneous']            = "Miscellaneous";
 $GLOBALS['strCollectedAllStats']        = "All statistics";
@@ -193,7 +193,7 @@ $GLOBALS['strUserUnlinkedFromAccount']  = 'User was unlinked from account';
 $GLOBALS['strUserWasDeleted']           = 'User was deleted';
 $GLOBALS['strUserNotLinkedWithAccount'] = 'Such user is not linked with account';
 $GLOBALS['strCantDeleteOneAdminUser']   = 'You can\'t delete a user. At least one user needs to be linked with admin account.';
-$GLOBALS['strLinkUserHelp']             = '<br />Type user name. To link:<ul><li>existing user, type username and click on "link user"</li><li>new user, type his desired username and click on "link user"</li></ul>';
+$GLOBALS['strLinkUserHelp']             = 'To link an <b>existing user</b>, type username and click "' . $GLOBALS['strLinkUser'] . '".<br />To link a <b>new user</b>, type desired username and click "' . $GLOBALS['strLinkUser'] . '".';
 
 // Login & Permissions
 $GLOBALS['strUserAccess']               = "User Access";
@@ -210,15 +210,17 @@ $GLOBALS['strLogin']                    = "Login";
 $GLOBALS['strLogout']                   = "Logout";
 $GLOBALS['strUsername']                 = "Username";
 $GLOBALS['strPassword']                 = "Password";
+$GLOBALS['strPasswordRepaet']           = "Repeat password";
 $GLOBALS['strMyAccount']                = "My Account";
 $GLOBALS['strAccessDenied']             = "Access denied";
 $GLOBALS['strUsernameOrPasswordWrong']  = "The username and/or password were not correct. Please try again.";
 $GLOBALS['strPasswordWrong']            = "The password is not correct";
 $GLOBALS['strParametersWrong']          = "The parameters you supplied are not correct";
-$GLOBALS['strNotAdmin']                 = "You may not have enough privileges. Switch to different account or if you know the correct user details, you may login again below as a different user.";
+$GLOBALS['strNotAdmin']                 = "Your account does not have the required permissions to use this feature, you can log into another account to use it. Click <a href='logout.php'>here</a> to login as a different user.";
 $GLOBALS['strDuplicateClientName']      = "The username you provided already exists, please use a different username.";
 $GLOBALS['strDuplicateAgencyName']      = "The username you provided already exists, please use a different username.";
 $GLOBALS['strInvalidPassword']          = "The new password is invalid, please use a different password.";
+$GLOBALS['strInvalidEmail']             = "The email is not correctly formatted, please put a correct email address.";
 $GLOBALS['strNotSamePasswords']         = "The two passwords you supplied are not the same";
 $GLOBALS['strRepeatPassword']           = "Repeat Password";
 $GLOBALS['strOldPassword']              = "Old Password";
@@ -701,6 +703,7 @@ $GLOBALS['strZoneProperties']               = "Zone properties";
 $GLOBALS['strZoneHistory']                  = "Zone history";
 $GLOBALS['strNoZones']                      = "There are currently no zones defined";
 $GLOBALS['strConfirmDeleteZone']            = "Do you really want to delete this zone?";
+$GLOBALS['strConfirmDeleteZoneLinkActive']  = "There are paid for campaigns still linked to this zone, if you delete it these will not be able to run and you will not be paid for them.";
 $GLOBALS['strZoneType']                     = "Zone type";
 $GLOBALS['strBannerButtonRectangle']        = "Banner, Button or Rectangle";
 $GLOBALS['strInterstitial']                 = "Interstitial or Floating DHTML";
@@ -1106,16 +1109,16 @@ $GLOBALS['strAuditNoData']            = "No user activity has been recorded duri
 $GLOBALS['strAuditTrail']             = "Audit Trail";
 $GLOBALS['strAuditTrailSetup']          = "Setup the Audit Trail today";
 $GLOBALS['strAuditTrailGoTo']           = "Go to Audit Trail page";
-$GLOBALS['strAuditTrailNotEnabled']     = "<li>Audit Trail allows you to see who did what and when. Or to put it another way, it keeps track of system changes within OpenX</li>
+$GLOBALS['strAuditTrailNotEnabled']     = "<li>Audit Trail allows you to see who did what and when. Or to put it another way, it keeps track of system changes within " . MAX_PRODUCT_NAME ."</li>
         <li>You are seeing this message, because you have not activated the Audit Trail</li>
-        <li>Interested in learning more? Read the <a href='".OX_PRODUCT_DOCSURL."/settings/auditTrail' class='site-link' target='help' >Audit Trail documentation</a></li>";
+        <li>Interested in learning more? Read the <a href='http://".OX_PRODUCT_DOCSURL."/settings/auditTrail' class='site-link' target='help' >Audit Trail documentation</a></li>";
 
 // Widget - Campaign
 $GLOBALS['strCampaignGoTo']             = 'Go to Campaigns page';
 $GLOBALS['strCampaignSetUp']            = 'Set up a Campaign today';
 $GLOBALS['strCampaignNoRecords']        = '<li>Campaigns let you group together any number of banner ads, of any size, that share common advertising requirements</li>
         <li>Save time by grouping banners within a campaign and no longer define delivery settings for each ad separately</li>
-        <li>Check out the <a class="site-link" target="help" href="'.OX_PRODUCT_DOCSURL.'/inventory/advertisersAndCampaigns/campaigns">Campaign documentation</a>!</li>
+        <li>Check out the <a class="site-link" target="help" href="http://'.OX_PRODUCT_DOCSURL.'/inventory/advertisersAndCampaigns/campaigns">Campaign documentation</a>!</li>
 ';
 
 $GLOBALS['strCampaignNoDataTimeSpan']    = 'No campaigns have started or finished during the timeframe you have selected';

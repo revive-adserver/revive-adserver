@@ -35,7 +35,7 @@ $mem = memory_get_usage(true);
 $filename = basename($_SERVER["SCRIPT_NAME"]);
 
 if (!defined('MAX_PATH')) {
-    // make sure this script is executed only inside OpenX
+    // make sure this script is executed only inside Openads
     exit;
 }
 $memoryLock = MAX_PATH . '/var/MEMORY_LOCK';

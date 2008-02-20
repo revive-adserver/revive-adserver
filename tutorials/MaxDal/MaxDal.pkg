@@ -114,7 +114,7 @@
             in the Delivery Engine. Due to Max's goal of providing a high-performance,
             high-volume ad server, this entire DAL is database specific, and so would
             need to be ported to allow a currently non-supported database to be used
-            with OpenX.
+            with Openads.
             </para>
         </refsect2>
         <refsect2 id="{@id inventory_dal}">
@@ -133,7 +133,7 @@
             Due to the highly specialised nature of some of the data access requirements
             for the Maintenance Statistics Engine, there are some database specific
             classes in this module, which would need to be ported to allow a currently
-            non-supported database to be used with OpenX.
+            non-supported database to be used with Openads.
             </para>
         </refsect2>
     </refsect1>
@@ -142,7 +142,7 @@
         <title>Developing using the OpenX DAL</title>
         <para>
         The OpenX DAL has recently been refactored, and you may be confused about how
-        to use the DAL when developing in OpenX. Here are some guidelines to help you:
+        to use the DAL when developing in Openads. Here are some guidelines to help you:
         </para>
         <itemizedlist>
           <listitem>The {@link Admin_DA} class should not be called directly from
@@ -159,7 +159,7 @@
           <listitem>If you find that a method does not exist in the above classes for
                     your data access needs, make sure you look further "down" the DAL stack
                     (ie. in the more specific purpose classes). It could be that a method
-                    exists that was intented to be used by just one area of OpenX, but which
+                    exists that was intented to be used by just one area of Openads, but which
                     could be used elsewhere - if so, consider moving the method "up" the
                     stack.
           </listitem>

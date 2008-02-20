@@ -60,17 +60,19 @@ if (!MAX_checkPublisher($affiliateid)) {
 $doAffiliates = OA_Dal::factoryDO('affiliates');
 $doAffiliates->get($affiliateid);
 
+$anWebsiteId = $doAffiliates->as_website_id;
+
 $oacXmlRpcUrl         = $conf['oacXmlRpc']['protocol'] . '://' .
                         $conf['oacXmlRpc']['host'] .
                         ':' . $conf['oacXmlRpc']['port'];
 $publisherCentralLink = $oacXmlRpcUrl .
                         $conf['oacXmlRpc']['publihserUrl'] .
-						'?site=' . $doAffiliates->an_website_id;
+                        '?site=' . $anWebsiteId;
 $advertiserSignUpLink = $oacXmlRpcUrl .
                         $conf['oacXmlRpc']['signUpUrl'] .
-						'?site=' . $doAffiliates->an_website_id;
+                        '?site=' . $anWebsiteId;
 $advertiserSignUpHTML = '&lt;a href="' . $advertiserSignUpLink . '"&gt;' .
-						$advertiserSignUpLink . '&lt;/a&gt;';
+                        $advertiserSignUpLink . '&lt;/a&gt;';
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -87,7 +89,7 @@ MAX_displayNavigationPublisher($pageName, $aOtherPublishers, $aEntities);
 ?>
 
 <?php
-if (!$doAffiliates->an_website_id) {
+if (!$anWebsiteId) {
 ?>
 This Website is not subscribed to Ad Networks.
 <?php

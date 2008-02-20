@@ -20,7 +20,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 package org.openads.agency;
@@ -62,7 +62,6 @@ public class TestGetAgency extends AgencyTestCase {
 			checkParameter(agency, AGENCY_NAME, myAgency.get(AGENCY_NAME));
 			checkParameter(agency, CONTACT_NAME, myAgency.get(CONTACT_NAME));
 			checkParameter(agency, EMAIL_ADDRESS, myAgency.get(EMAIL_ADDRESS));
-			checkParameter(agency, PASSWORD, "");
 		} finally {
 			deleteAgency(id);
 		}

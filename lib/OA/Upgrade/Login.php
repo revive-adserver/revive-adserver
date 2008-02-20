@@ -45,7 +45,9 @@ class OA_Upgrade_Login
         phpAds_SessionStart();
         phpAds_SessionDataFetch();
 
-        if (OA_Auth::suppliedCredentials()) {
+        $oPlugin = &OA_Auth::staticGetAuthPlugin('internal');
+
+        if ($oPlugin->suppliedCredentials()) {
             // Clean up session
             $GLOBALS['session'] = array();
 
@@ -88,7 +90,15 @@ class OA_Upgrade_Login
 
     function autoLogin()
     {
+        $oPlugin = &OA_Auth::staticGetAuthPlugin();
+
         phpAds_SessionStart();
+
+        // No auto-login if auth is external
+        if (empty($oPlugin) || $oPlugin->package != 'internal') {
+            phpAds_SessionDataDestroy();
+            return;
+        }
 
         $doUser = OA_Dal::factoryDO('users');
 
@@ -111,10 +121,12 @@ class OA_Upgrade_Login
 
     function _checkLoginNew()
     {
-        $aCredentials = OA_Auth::getCredentials(false);
+        $oPlugin = &OA_Auth::staticGetAuthPlugin('internal');
+
+        $aCredentials = $oPlugin->getCredentials(false);
 
         if (!PEAR::isError($aCredentials)) {
-            $doUser = OA_Auth::checkPassword($aCredentials['username'], $aCredentials['password']);
+            $doUser = $oPlugin->checkPassword($aCredentials['username'], $aCredentials['password']);
 
             if ($doUser) {
                 phpAds_SessionDataRegister(OA_Auth::getSessionData($doUser));

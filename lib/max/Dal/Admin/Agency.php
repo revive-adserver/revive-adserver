@@ -27,6 +27,7 @@ $Id$
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Dal/Common.php';
+require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 
 class MAX_Dal_Admin_Agency extends MAX_Dal_Common
 {
@@ -47,11 +48,14 @@ class MAX_Dal_Admin_Agency extends MAX_Dal_Common
      */
     function getLogoutUrl($agencyId)
     {
-        $doAgency = OA_Dal::staticGetDO('agency', $agencyId);
+        $doAgency = null;
+        if ($agencyId) {
+            $doAgency = OA_Dal::staticGetDO('agency', $agencyId);
+        }
         if ($doAgency && !empty($doAgency->logout_url)) {
             return trim($doAgency->logout_url);
         }
-        return 'index.php';
+        return MAX::constructURL(MAX_URL_ADMIN, 'index.php');
     }
 
     /**

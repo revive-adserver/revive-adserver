@@ -20,7 +20,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 package org.openads.publisher;
@@ -131,35 +131,9 @@ public class TestModifyPublisher extends PublisherTestCase {
 		struct.put(PUBLISHER_ID, publisherId);
 		Object[] params = new Object[] { sessionId, struct };
 
-		struct.put(USERNAME, strGreaterThan64);
-		executeModifyPublisherWithError(params, ErrorMessage.getMessage(
-				ErrorMessage.EXCEED_MAXIMUM_LENGTH_OF_FIELD, USERNAME));
-
-		struct.remove(USERNAME);
-		struct.put(PASSWORD, strGreaterThan64);
-		executeModifyPublisherWithError(params, ErrorMessage.getMessage(
-				ErrorMessage.EXCEED_MAXIMUM_LENGTH_OF_FIELD, PASSWORD));
-
-		struct.remove(PASSWORD);
 		struct.put(PUBLISHER_NAME, strGreaterThan255);
 		executeModifyPublisherWithError(params, ErrorMessage.getMessage(
 				ErrorMessage.EXCEED_MAXIMUM_LENGTH_OF_FIELD, PUBLISHER_NAME));
-	}
-
-	/**
-	 * Test method with fields that has value less than min
-	 *
-	 * @throws MalformedURLException
-	 */
-	public void testModifyPublisherLessThanMinFieldValueError()
-			throws MalformedURLException {
-		Map<String, Object> struct = new HashMap<String, Object>();
-		struct.put(PUBLISHER_ID, publisherId);
-		struct.put(USERNAME, "");
-
-		executeModifyPublisherWithError(new Object[] { sessionId, struct },
-				ErrorMessage.getMessage(ErrorMessage.USERNAME_IS_FEWER_THAN,
-						"1"));
 	}
 
 	/**
@@ -175,8 +149,6 @@ public class TestModifyPublisher extends PublisherTestCase {
 		struct.put(PUBLISHER_NAME, "");
 		struct.put(CONTACT_NAME, "");
 		struct.put(EMAIL_ADDRESS, TextUtils.MIN_ALLOWED_EMAIL);
-		struct.put(USERNAME, TextUtils.generateUniqueString(64));
-		struct.put(PASSWORD, "");
 		Object[] params = new Object[] { sessionId, struct };
 		final Boolean result = (Boolean) execute(MODIFY_PUBLISHER_METHOD,
 				params);
@@ -197,8 +169,6 @@ public class TestModifyPublisher extends PublisherTestCase {
 		struct.put(PUBLISHER_NAME, TextUtils.getString(255));
 		struct.put(CONTACT_NAME, TextUtils.getString(255));
 		struct.put(EMAIL_ADDRESS, TextUtils.getString(55) + "@mail.com");
-		struct.put(USERNAME, TextUtils.generateUniqueString(64));
-		struct.put(PASSWORD, TextUtils.getString(64));
 		Object[] params = new Object[] { sessionId, struct };
 		final Boolean result = (Boolean) execute(MODIFY_PUBLISHER_METHOD,
 				params);
@@ -241,74 +211,6 @@ public class TestModifyPublisher extends PublisherTestCase {
 	}
 
 	/**
-	 * Test methods for Duplicate Username Error, described in API
-	 *
-	 * @throws MalformedURLException
-	 * @throws XmlRpcException
-	 */
-	public void testModifyPublisherDuplicateUsernameError()
-			throws MalformedURLException, XmlRpcException {
-		Map<String, Object> struct = new HashMap<String, Object>();
-		Object[] params = new Object[] { sessionId, struct };
-
-		struct.put(PUBLISHER_ID, publisherId);
-		struct.put(USERNAME, GlobalSettings.getUserName());
-		struct.put(PASSWORD, "testpsw");
-
-		executeModifyPublisherWithError(params,
-				ErrorMessage.USERNAME_MUST_BE_UNIQUE);
-	}
-
-	/**
-	 * Test methods for Username Format Error, described in API
-	 *
-	 * @throws MalformedURLException
-	 */
-	public void testModifyPublisherUsernameFormatError1()
-			throws MalformedURLException {
-		Map<String, Object> struct = new HashMap<String, Object>();
-		Object[] params = new Object[] { sessionId, struct };
-
-		struct.put(PUBLISHER_ID, publisherId);
-		struct.put(PASSWORD, "testpsw");
-		executeModifyPublisherWithError(params,
-				ErrorMessage.USERNAME_IS_NULL_AND_THE_PASSWORD_IS_NOT);
-	}
-
-	/**
-	 * Test methods for Username Format Error, described in API
-	 *
-	 * @throws MalformedURLException
-	 */
-	public void testModifyPublisherUsernameFormatError2()
-			throws MalformedURLException {
-		Map<String, Object> struct = new HashMap<String, Object>();
-		Object[] params = new Object[] { sessionId, struct };
-
-		struct.put(PUBLISHER_ID, publisherId);
-		struct.put(USERNAME, "");
-		struct.put(PASSWORD, "testpsw");
-		executeModifyPublisherWithError(params, ErrorMessage.getMessage(
-				ErrorMessage.USERNAME_IS_FEWER_THAN, "1"));
-	}
-
-	/**
-	 * Test methods for Password Format Error, described in API
-	 *
-	 * @throws MalformedURLException
-	 */
-	public void testModifyPublisherPasswordFormatError()
-			throws MalformedURLException {
-		Map<String, Object> struct = new HashMap<String, Object>();
-		Object[] params = new Object[] { sessionId, struct };
-		struct.put(PUBLISHER_ID, publisherId);
-		struct.put(USERNAME, TextUtils.generateUniqueString(64));
-		struct.put(PASSWORD, TextUtils.BAD_PASSWORD);
-		executeModifyPublisherWithError(params, ErrorMessage.getMessage(
-				ErrorMessage.PASSWORDS_CANNOT_CONTAIN, "\\"));
-	}
-
-	/**
 	 * Test method with fields that has value of wrong type (error).
 	 *
 	 * @throws MalformedURLException
@@ -319,11 +221,6 @@ public class TestModifyPublisher extends PublisherTestCase {
 		struct.put(PUBLISHER_ID, publisherId);
 		Object[] params = new Object[] { sessionId, struct };
 
-		struct.put(AGENCY_ID, TextUtils.NOT_INTEGER);
-		executeModifyPublisherWithError(params, ErrorMessage.getMessage(
-				ErrorMessage.FIELD_IS_NOT_INTEGER, AGENCY_ID));
-
-		struct.remove(AGENCY_ID);
 		struct.put(PUBLISHER_NAME, TextUtils.NOT_STRING);
 		executeModifyPublisherWithError(params, ErrorMessage.getMessage(
 				ErrorMessage.FIELD_IS_NOT_STRING, PUBLISHER_NAME));

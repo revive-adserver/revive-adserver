@@ -381,12 +381,16 @@ protocol    = https
 host        = login.openx.org
 port        = 443
 path        = /sso/login
+clientPath  = /sso
 signup      = /account/signup
 forgot      = /account/forgotPassword
 
 ;------------------------------------------------------------------------------------------;
 ; Plugins Settings                                                                         ;
 ;------------------------------------------------------------------------------------------;
+
+[authentication]
+type=internal
 
 [channelDerivation]
 cacheExpire=86400

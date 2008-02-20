@@ -20,7 +20,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 package org.openads.advertiser;
@@ -86,8 +86,6 @@ public class TestModifyAdvertiser extends AdvertiserTestCase {
 		struct.put(ADVERTISER_ID, advertiserId); // required
 		struct.put(ADVERTISER_NAME, "testAdvertiser");
 		struct.put(CONTACT_NAME, "advertiserName");
-		struct.put(USERNAME, TextUtils.generateUniqueName("advertiserUser"));
-		struct.put(PASSWORD, "qwerty");
 
 		Object[] params = new Object[] { sessionId, struct };
 		final Boolean result = (Boolean) client.execute(
@@ -141,38 +139,6 @@ public class TestModifyAdvertiser extends AdvertiserTestCase {
 		struct.put(CONTACT_NAME, strGreaterThan255);
 		executeModifyAdvertiserWithError(params, ErrorMessage.getMessage(
 				ErrorMessage.EXCEED_MAXIMUM_LENGTH_OF_FIELD, CONTACT_NAME));
-
-		// test username
-		struct.remove(CONTACT_NAME);
-		struct.put(USERNAME, strGreaterThan64);
-		executeModifyAdvertiserWithError(params, ErrorMessage.getMessage(
-				ErrorMessage.EXCEED_MAXIMUM_LENGTH_OF_FIELD, USERNAME));
-
-		// test password
-		struct.remove(USERNAME);
-		struct.put(PASSWORD, strGreaterThan64);
-		executeModifyAdvertiserWithError(params, ErrorMessage.getMessage(
-				ErrorMessage.EXCEED_MAXIMUM_LENGTH_OF_FIELD, PASSWORD));
-	}
-
-	/**
-	 * Test method with fields that has value less than min
-	 *
-	 * @throws MalformedURLException
-	 */
-	public void testModifyAdvertiserLessThanMinFieldValueError()
-			throws MalformedURLException {
-		assertNotNull(advertiserId);
-
-		Map<String, Object> struct = new HashMap<String, Object>();
-		struct.put(ADVERTISER_ID, advertiserId);
-
-		Object[] params = new Object[] { sessionId, struct };
-
-		struct.put(USERNAME, "");
-
-		executeModifyAdvertiserWithError(params, ErrorMessage.getMessage(
-				ErrorMessage.USERNAME_IS_FEWER_THAN, "1"));
 	}
 
 	/**
@@ -188,8 +154,6 @@ public class TestModifyAdvertiser extends AdvertiserTestCase {
 		struct.put(ADVERTISER_NAME, "");
 		struct.put(CONTACT_NAME, "");
 		struct.put(EMAIL_ADDRESS, TextUtils.MIN_ALLOWED_EMAIL);
-		struct.put(USERNAME, "s");
-		struct.put(PASSWORD, "");
 		Object[] params = new Object[] { sessionId, struct };
 		final Boolean result = (Boolean) client.execute(
 				MODIFY_ADVERTISER_METHOD, params);
@@ -209,10 +173,6 @@ public class TestModifyAdvertiser extends AdvertiserTestCase {
 		struct.put(ADVERTISER_NAME, TextUtils.getString(255));
 		struct.put(CONTACT_NAME, TextUtils.getString(255));
 		struct.put(EMAIL_ADDRESS, TextUtils.getString(59) + "@a.aa");
-		struct.put(USERNAME, System.getProperty("user.name")
-				+ TextUtils.getString(64 - System.getProperty("user.name")
-						.length()));
-		struct.put(PASSWORD, TextUtils.getString(64));
 		Object[] params = new Object[] { sessionId, struct };
 		final Boolean result = (Boolean) client.execute(
 				MODIFY_ADVERTISER_METHOD, params);
@@ -262,73 +222,6 @@ public class TestModifyAdvertiser extends AdvertiserTestCase {
 					.getMessage(ErrorMessage.UNKNOWN_ID_ERROR, AGENCY_ID), e
 					.getMessage());
 		}
-	}
-
-	/**
-	 * Try to modify advertiser with the same username as an existing admin,
-	 * agency, advertiser, or publisher username.
-	 *
-	 * @throws MalformedURLException
-	 */
-	public void testModifyAdvertiserDuplicateUsernameError()
-			throws MalformedURLException {
-		Map<String, Object> struct = new HashMap<String, Object>();
-		struct.put(ADVERTISER_ID, advertiserId);
-		struct.put(USERNAME, GlobalSettings.getUserName());
-		Object[] params = new Object[] { sessionId, struct };
-
-		executeModifyAdvertiserWithError(params,
-				ErrorMessage.USERNAME_MUST_BE_UNIQUE);
-	}
-
-	/**
-	 * Try to modify advertiser with username fewer than 1 character.
-	 *
-	 * @throws MalformedURLException
-	 */
-	public void testModifyAdvertiserUsernameFormatError1()
-			throws MalformedURLException {
-		Map<String, Object> struct = new HashMap<String, Object>();
-		struct.put(ADVERTISER_ID, advertiserId);
-		struct.put(USERNAME, "");
-		Object[] params = new Object[] { sessionId, struct };
-
-		executeModifyAdvertiserWithError(params, ErrorMessage.getMessage(
-				ErrorMessage.USERNAME_IS_FEWER_THAN, "1"));
-	}
-
-	/**
-	 * Try to modify advertiser when the username is null and the password is
-	 * not.
-	 *
-	 * @throws MalformedURLException
-	 */
-	public void testModifyAdvertiserUsernameFormatError2()
-			throws MalformedURLException {
-		Map<String, Object> struct = new HashMap<String, Object>();
-		struct.put(ADVERTISER_ID, advertiserId);
-		struct.put(PASSWORD, "password");
-		Object[] params = new Object[] { sessionId, struct };
-
-		executeModifyAdvertiserWithError(params,
-				ErrorMessage.USERNAME_IS_NULL_AND_THE_PASSWORD_IS_NOT);
-	}
-
-	/**
-	 * Try to modify advertiser when there is '\' character in the password.
-	 *
-	 * @throws MalformedURLException
-	 */
-	public void testModifyAdvertiserPasswordFormatError()
-			throws MalformedURLException {
-		Map<String, Object> struct = new HashMap<String, Object>();
-		struct.put(ADVERTISER_ID, advertiserId);
-		struct.put(USERNAME, TextUtils.generateUniqueName("advertiserUser"));
-		struct.put(PASSWORD, "password\\");
-		Object[] params = new Object[] { sessionId, struct };
-
-		executeModifyAdvertiserWithError(params, ErrorMessage.getMessage(
-				ErrorMessage.PASSWORDS_CANNOT_CONTAIN, "\\"));
 	}
 
 	/**

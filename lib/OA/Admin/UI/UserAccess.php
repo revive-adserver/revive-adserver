@@ -31,52 +31,209 @@ $Id$
  */
 class OA_Admin_UI_UserAccess
 {
-    /**
-     * Validates user login and password - required for linking new users
-     *
-     * @param string $login
-     * @param string $password
-     * @return array  Array containing error strings or empty
-     *                array if no validation errors were found
-     */
-    function validateUsersData($login, $password)
+    var $accountId;
+    var $userid;
+    var $request = array();
+    var $pagePrefix; // admin/agency/advertiser/affiliate
+    var $aErrors = array();
+    var $oPlugin;
+    var $callbackHeaderNavigation;
+    var $callbackFooterNavigation;
+    var $aAllowedPermissions = array();
+    var $aPermissions = array();
+    var $aHiddenFields = array();
+    var $redirectUrl;
+    var $backUrl;
+    
+    function init()
     {
-        $aErrors = OA_Admin_UI_UserAccess::validateUsersLogin($login);
-        return array_merge($aErrors, OA_Admin_UI_UserAccess::validateUsersPassword($password));
+        $this->initRequest();
+        $this->oPlugin = OA_Auth::staticGetAuthPlugin();
+        if (empty($this->userid)) {
+            $this->userid = $this->oPlugin->getMatchingUserId(
+                $this->request['email_address'], $this->request['login']);
+        }
     }
     
-    /**
-     * Validates user login - required for linking new users
-     *
-     * @param string $login
-     * @return array  Array containing error strings or empty
-     *                array if no validation errors were found
-     */
-    function validateUsersLogin($login)
+    function initRequest()
     {
-        $aErrormessage = array();
-        if (empty($login)) {
-            $aErrormessage[] = $GLOBALS['strInvalidUsername'];
-        } elseif (OA_Permission::userNameExists($login)) {
-            $aErrormessage[] = $GLOBALS['strDuplicateClientName'];
+        $this->request = phpAds_registerGlobalUnslashed (
+            'userid', 'login', 'passwd', 'passwd2', 'link', 'contact_name',
+            'email_address', 'permissions', 'submit'
+        );
+        $this->userid = $this->request['userid'];
+        if (isset($this->request['permissions'])) {
+            $this->aPermissions = $this->request['permissions'];
         }
-        return $aErrormessage;
     }
     
-    /**
-     * Validates user password - required for linking new users
-     *
-     * @param string $password
-     * @return array  Array containing error strings or empty
-     *                array if no validation errors were found
-     */
-    function validateUsersPassword($password)
+    function setAccountId($accountId)
     {
-        $aErrormessage = array();
-        if (!strlen($password) || strstr("\\", $password)) {
-            $aErrormessage[] = $GLOBALS['strInvalidPassword'];
+        $this->accountId = $accountId;
+    }
+    
+    function setPagePrefix($pagePrefix)
+    {
+        $this->pagePrefix = $pagePrefix;
+    }
+    
+    function setNavigationHeaderCallback($callback)
+    {
+        $this->callbackHeaderNavigation = $callback;
+    }
+    
+    function setNavigationFooterCallback($callback)
+    {
+        $this->callbackFooterNavigation = $callback;
+    }
+    
+    function process()
+    {
+        if (!empty($this->request['submit'])) {
+            $this->aErrors = $this->oPlugin->validateUsersData($this->request);
+            if (empty($this->aErrors)) {
+                $this->userid = $this->oPlugin->saveUser(
+                    $this->userid, $this->request['login'], $this->request['passwd'],
+                    $this->request['contact_name'], $this->request['email_address'],
+                    $this->accountId);
+                if ($this->userid) {
+                    OA_Admin_UI_UserAccess::linkUserToAccount(
+                        $this->userid, $this->accountId, $this->aPermissions,
+                        $this->aAllowedPermissions);
+                    MAX_Admin_Redirect::redirect($this->getRedirectUrl());
+                } else {
+                    $this->aErrors = $this->oPlugin->getSignupErrors();
+                }
+            }
         }
-        return $aErrormessage;
+        $this->display();
+    }
+    
+    function display()
+    {
+        $this->_processHeaderNavigation();
+        
+        require_once MAX_PATH . '/lib/OA/Admin/Template.php';
+
+        $oTpl = new OA_Admin_Template($this->pagePrefix.'-user.html');
+        $oTpl->assign('action', $this->pagePrefix.'-user.php');
+        $oTpl->assign('backUrl', $this->backUrl);
+        $oTpl->assign('method', 'POST');
+        $oTpl->assign('aErrors', $this->aErrors);
+        
+        $this->oPlugin->setTemplateVariables($oTpl);
+        
+        $oTpl->assign('existingUser', !empty($this->userid));
+        $oTpl->assign('showLinkButton', !empty($this->request['link']));
+        
+        $doUsers = OA_Dal::staticGetDO('users', $this->userid);
+        $userData = array();
+        if ($doUsers) {
+            $userData = $doUsers->toArray();
+        } else {
+            $userData['username'] = $this->request['login'];
+            $userData['contact_name'] = $this->request['contact_name'];
+            $userData['email_address'] = $this->request['email_address'];
+        }
+        $userData['userid'] = $this->userid;
+        
+        $aTplFields = array(
+            array(
+                'title'     => $strUserDetails,
+                'fields'    => $this->oPlugin->getUserDetailsFields($userData)
+            )
+        );
+        $aPermissionsFields = $this->_builPermissionFields();
+        if (!empty($aPermissionsFields)) {
+            $aTplFields[] = array(
+                'title'     => $GLOBALS['strPermissions'],
+                'fields'    => $aPermissionsFields
+            );
+        }
+        $oTpl->assign('fields', $aTplFields);
+        
+        $aHiddenFields = $this->_getHiddenFields($userData, $this->request['link'], $this->aHiddenFields);
+        $oTpl->assign('hiddenFields', $aHiddenFields);
+        
+        $oTpl->display();
+        
+        $this->_processFooterNavigation();
+        
+        phpAds_PageFooter();
+    }
+    
+    function _builPermissionFields()
+    {
+        $aPermissionsFields = array();
+        $c = 0;
+        foreach ($this->aAllowedPermissions as $permissionId => $aPermission) {
+            if (is_array($aPermission)) {
+                list($permissionName, $ident, $onClick) = $aPermission;
+            } else {
+                $permissionName = $aPermission;
+                $ident = false;
+                $onClick = false;
+            }
+            $aPermissionsFields[$c] = array(
+                        'name'      => 'permissions[]',
+                        'label'     => $permissionName,
+                        'type'      => 'checkbox',
+                        'value'     => $permissionId,
+                        'checked'   => OA_Permission::hasPermission($permissionId,
+                            $this->accountId, $this->userid),
+                        'hidden'    => $isTrafficker,
+                        'break'     => false,
+                        'id'        => 'permissions_'.$permissionId,
+                        'ident'     => $ident,
+                    );
+            if ($onClick) {
+                $aPermissionsFields[$c]['onclick'] = $onClick;
+            }
+            $c++;
+        }
+        return $aPermissionsFields;
+    }
+    
+    function _processHeaderNavigation()
+    {
+        if (is_callable($this->callbackHeaderNavigation)) {
+            call_user_func($this->callbackHeaderNavigation);
+        }
+    }
+    
+    function _processFooterNavigation()
+    {
+        if (is_callable($this->callbackFooterNavigation)) {
+            call_user_func($this->callbackFooterNavigation);
+        }
+    }
+    
+    function setAllowedPermissions($aAllowedPermissions)
+    {
+        $this->aAllowedPermissions = $aAllowedPermissions;
+    }
+    
+    function setHiddenFields($aHiddenFields)
+    {
+        $this->aHiddenFields = $aHiddenFields;
+    }
+    
+    function setRedirectUrl($redirectUrl)
+    {
+        $this->redirectUrl = $redirectUrl;
+    }
+    
+    function setBackUrl($backUrl)
+    {
+        $this->backUrl = $backUrl;
+    }
+    
+    function getRedirectUrl()
+    {
+        if (!empty($this->redirectUrl)) {
+            return $this->redirectUrl;
+        }
+        return $this->pagePrefix . '-access.php';
     }
     
     /**
@@ -88,113 +245,21 @@ class OA_Admin_UI_UserAccess
     {
         $oTpl->assign('method', 'GET');
         $oTpl->assign('strLinkUserHelp', $GLOBALS['strLinkUserHelp']);
-        
-        // TODOHOSTED: will need to know whether we're hosted or downloaded
-        $HOSTED = false; 
-        $oTpl->assign('hosted', $HOSTED);
-        
-        if ($HOSTED) {
-           $oTpl->assign('fields', array(
-               array(
-                   'title'     => "E-mail",
-                   'fields'    => array(
-                       array(
-                           'name'      => 'email',
-                           'label'     => $GLOBALS['strEmailToLink'],
-                           'value'     => '',
-                           'id'        => 'user-key'
-                       )
-                   )
-               )
-           ));
-        }
-        else
-        {
-           $oTpl->assign('fields', array(
-               array(
-                   'title'     => $strUsername,
-                   'fields'    => array(
-                       array(
-                           'name'      => 'login',
-                           'label'     => $GLOBALS['strUsernameToLink'],
-                           'value'     => '',
-                           'id'        => 'user-key'
-                       ),
-                   )
-               ),
-           ));
-        }
+
+        // Add variables required by the current authentication plugin
+        $oPlugin = OA_Auth::staticGetAuthPlugin();
+        $oPlugin->setTemplateVariables($oTpl);
     }
-    
-    /**
-     * Set user details fields required by user access (edit) pages
-     *
-     * @param array $userData  Array containing users data (see users table)
-     * @return array  Array formatted for use in template object as in user access pages
-     */
-    function getUserDetailsFields($userData)
-    {
-        
-        if ($HOSTED) {
-           $userDetailsFields[] = array(
-                          'name'      => 'email_address',
-                          'label'     => $GLOBALS['strEMail'],
-                          'value'     => 'test@test.com', // TODO: put e-mail here
-                          'freezed'   => true
-                      );
-        
-           if ($existingUser) {
-              $userDetailsFields[] = array(
-                           'type'      => 'custom',
-                           'template'  => 'link',
-                           'label'     => $GLOBALS['strPwdRecReset'],
-                           'href'      => 'user-password-reset.php', // TODO: put the actual password resetting script here
-                           'text'      => $GLOBALS['strPwdRecResetPwdThisUser']
-                       );
-           }
-           else {
-              $userDetailsFields[] = array(
-                           'name'      => 'contact',
-                           'label'     => $GLOBALS['strContactName'],
-                           'value'     => $userData['contact']
-                       );
-           }
-        }
-        else {
-           $userDetailsFields[] = array(
-                           'name'      => 'login',
-                           'label'     => $GLOBALS['strUsername'],
-                           'value'     => $userData['username'],
-                           'freezed'   => !empty($userData['user_id'])
-                       );
-           $userDetailsFields[] = array(
-                           'name'      => 'passwd',
-                           'label'     => $GLOBALS['strPassword'],
-                           'type'      => 'password',
-                           'value'     => '',
-                           'hidden'   => !empty($userData['user_id'])
-                       );
-           $userDetailsFields[] = array(
-                           'name'      => 'contact_name',
-                           'label'     => $GLOBALS['strContactName'],
-                           'value'     => $userData['contact_name'],
-                       );
-           $userDetailsFields[] = array(
-                           'name'      => 'email_address',
-                           'label'     => $GLOBALS['strEMail'],
-                           'value'     => $userData['email_address']
-                       );
-        }
-        return $userDetailsFields;
-    }
-    
+
     /**
      * Returns hidden fields used in pages entity-user
+     * 
+     * TODO - refactor this and move as class variables
      *
      * @param string $entityName
      * @param integer $entityId
      */
-    function getHiddenFields($login, $link, $entityName = null, $entityId = null)
+    function _getHiddenFields($userData, $link, $entities = array())
     {
         $hiddenFields = array(
             array(
@@ -203,26 +268,31 @@ class OA_Admin_UI_UserAccess
             ),
             array(
                 'name' => 'login',
-                'value' => $login
+                'value' => $userData['username']
             ),
             array(
                 'name'  => 'link',
                 'value' => $link
             ),
-            array(
-                'name'  => 'new_user',
-                'value' => !OA_Permission::userNameExists($login)
-            )
         );
-        if (!empty($entityName)) {
-            $hiddenFields[] = array(
-                'name' => $entityName,
-                'value' => $entityId
-            );
+        $fields = array('userid', 'email_address');
+        foreach ($fields as $field) {
+            if (!empty($userData[$field])) {
+                $hiddenFields[] = array(
+                    'name'  => $field,
+                    'value' => $userData[$field]
+                );
+            }
+        }
+        foreach ($entities as $entityName => $entityId)  {
+                $hiddenFields[] = array(
+                    'name' => $entityName,
+                    'value' => $entityId
+                );
         }
         return $hiddenFields;
     }
-    
+
     /**
      * Unlinks user from account and if necessary deletes user account.
      * Sets apropriate message
@@ -238,7 +308,7 @@ class OA_Admin_UI_UserAccess
             $doAccount_user_assoc->user_id = $userId;
             $doAccount_user_assoc->delete();
             OA_Session::setMessage($GLOBALS['strUserUnlinkedFromAccount']);
-            
+
             $doUsers = OA_Dal::staticGetDO('users', $userId);
             // delete user account if he is not linked anymore to any account
             if ($doUsers->countLinkedAccounts() == 0) {
@@ -251,7 +321,7 @@ class OA_Admin_UI_UserAccess
             OA_Session::setMessage($GLOBALS['strUserNotLinkedWithAccount']);
         }
     }
-    
+
     /**
      * Resets default user's account to one of the account's ids which is linked to him.
      *
@@ -267,7 +337,7 @@ class OA_Admin_UI_UserAccess
             $doUsers->update();
         }
     }
-    
+
     /**
      * Returns number of users linked to account
      *
@@ -280,33 +350,7 @@ class OA_Admin_UI_UserAccess
         $doAccount_user_assoc->account_id = $accountId;
         return $doAccount_user_assoc->count();
     }
-    
-    /**
-     * Method used in user access pages. Either creates new user if necessary or update existing one.
-     *
-     * @param string $login  User name
-     * @param string $password  Password
-     * @param string $contactName  Contact name
-     * @param string $emailAddress  Email address
-     * @param integer $accountId  a
-     * @return integer  User ID or false on error
-     */
-    function saveUser($login, $password, $contactName, $emailAddress, $accountId)
-    {
-        $doUsers = OA_Dal::factoryDO('users');
-        $userExists = $doUsers->fetchUserByUserName($login);
-        $doUsers->contact_name = $contactName;
-        $doUsers->email_address = $emailAddress;
-        if ($userExists) {
-            $doUsers->update();
-            return $doUsers->user_id;
-        } else {
-            $doUsers->default_account_id = $accountId;
-            $doUsers->password = md5($password);
-            return $doUsers->insert();
-        }
-    }
-    
+
     /**
      * Links user with account and set apropriate messages.
      * Common method reused across user access pages
@@ -323,6 +367,7 @@ class OA_Admin_UI_UserAccess
             OA_Session::setMessage($message);
         } else {
             if (!OA_Permission::isUserLinkedToAccount($accountId, $userId)) {
+                // TODO - add below - , $userId, $accountId
                 OA_Session::setMessage($GLOBALS['strUserLinkedToAccount']);
             } else {
                 OA_Session::setMessage($GLOBALS['strUserAccountUpdated']);
@@ -332,7 +377,7 @@ class OA_Admin_UI_UserAccess
                 $userId, $aAllowedPermissions);
         }
     }
-    
+
 }
 
 ?>

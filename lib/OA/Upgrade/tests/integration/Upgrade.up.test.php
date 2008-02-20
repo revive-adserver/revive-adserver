@@ -494,7 +494,7 @@ class Test_OA_Upgrade extends UnitTestCase
     }
 
     /**
-     * tests an openx upgrade where a series of upgrade packages may be required
+     * tests an openads upgrade where a series of upgrade packages may be required
      * the upgrade method will detectOpenXand cycle through the list of upgrade packages
      * executing the upgrade packages in the right order
      * until it runs out of upgrade packages

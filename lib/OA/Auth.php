@@ -38,7 +38,33 @@ require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 class OA_Auth
 {
     /**
-     * A method to log in the user
+     * Returns authentication plugin
+     *
+     * @static
+     * @param string $authType
+     * @return Plugins_Authentication
+     */
+    function &staticGetAuthPlugin($authType = null)
+    {
+        static $authPlugin;
+        static $authPluginType;
+
+        if (is_null($authPlugin) || $authPluginType != $authType) {
+            if (!empty($authType)) {
+                $authPlugin = &MAX_Plugin::factory('authentication', $authType);
+            } else {
+                $authPlugin = &MAX_Plugin::factoryPluginByModuleConfig('authentication');
+            }
+            if (!$authPlugin) {
+                OA::debug('Error while including authentication plugin', PEAR_LOG_ERR);
+            }
+            $authPluginType = $authType;
+        }
+        return $authPlugin;
+    }
+
+    /**
+     * Logs in an user
      *
      * @static
      *
@@ -64,13 +90,7 @@ class OA_Auth
         }
 
         if (OA_Auth::suppliedCredentials()) {
-            $aCredentials = OA_Auth::getCredentials();
-
-            if (PEAR::isError($aCredentials)) {
-                OA_Auth::displayError($aCredentials);
-            }
-
-            $doUser = OA_Auth::checkPassword($aCredentials['username'], $aCredentials['password']);
+            $doUser = OA_Auth::authenticateUser();
 
             if (!$doUser) {
                 OA_Auth::restart($GLOBALS['strUsernameOrPasswordWrong']);
@@ -92,10 +112,8 @@ class OA_Auth
      */
     function logout()
     {
-        phpAds_SessionDataDestroy();
-        $dalAgency = OA_Dal::factoryDAL('agency');
-        header ("Location: " . $dalAgency->getLogoutUrl($GLOBALS['agencyid']));
-        exit;
+        $authPlugin = &OA_Auth::staticGetAuthPlugin();
+        $authPlugin->logout();
     }
 
     /**
@@ -107,7 +125,21 @@ class OA_Auth
      */
     function suppliedCredentials()
     {
-        return isset($_POST['username']) || isset($_POST['password']);
+        $authPlugin = &OA_Auth::staticGetAuthPlugin();
+        return $authPlugin->suppliedCredentials();
+    }
+
+    /**
+     * A method to authenticate user
+     *
+     * @static
+     *
+     * @return bool
+     */
+    function authenticateUser()
+    {
+        $authPlugin = &OA_Auth::staticGetAuthPlugin();
+        return $authPlugin->authenticateUser();
     }
 
     /**
@@ -118,32 +150,6 @@ class OA_Auth
     function isLoggedIn()
     {
         return is_a(OA_Permission::getCurrentUser(), 'OA_Permission_User');
-    }
-
-    /**
-     * A method to get the login credential supplied as POST parameters
-     *
-     * Additional checks are also performed and error eventually returned
-     *
-     * @static
-     *
-     * @param bool $performCookieCheck
-     * @return mixed Array on success, PEAR_Error otherwise
-     */
-    function getCredentials($performCookieCheck = true)
-    {
-        if (empty($_POST['username']) || empty($_POST['password'])) {
-            return new PEAR_Error($GLOBALS['strEnterBoth']);
-        }
-
-        if ($performCookieCheck && $_COOKIE['sessionID'] != $_POST['oa_cookiecheck']) {
-            return new PEAR_Error($GLOBALS['strEnableCookies']);
-        }
-
-        return array(
-            'username' => MAX_commonGetPostValueUnslashed('username'),
-            'password' => MAX_commonGetPostValueUnslashed('password')
-        );
     }
 
     /**
@@ -175,28 +181,6 @@ class OA_Auth
         return array(
             'user' => false
         );
-    }
-
-    /**
-     * A static method to check a username and password
-     *
-     * @static
-     *
-     * @param string $username
-     * @param string $md5Password
-     * @return mixed A DataObjects_Users instance, or false if no matching user was found
-     */
-    function checkPassword($username, $password)
-    {
-        $doUser = OA_Dal::factoryDO('users');
-        $doUser->whereAdd('LOWER(username) = '.DBC::makeLiteral(strtolower($username)));
-        $doUser->whereAdd('password = '.DBC::makeLiteral(md5($password)));
-        $doUser->find();
-
-        if ($doUser->fetch()) {
-            return $doUser;
-        }
-        return false;
     }
 
     /**
@@ -235,52 +219,8 @@ class OA_Auth
      */
     function displayLogin($sMessage = '', $sessionID = 0, $inLineLogin = false)
     {
-        global $strUsername, $strPassword, $strLogin, $strWelcomeTo, $strEnterUsername, $strNoAdminInteface, $strForgotPassword;
-
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        $aPref = $GLOBALS['_MAX']['PREF'];
-
-        if (!$inLineLogin) {
-            phpAds_PageHeader(phpAds_Login);
-        }
-
-        // Check environment settings
-        $oSystemMgr = new OA_Environment_Manager();
-        $aSysInfo = $oSystemMgr->checkSystem();
-
-        foreach ($aSysInfo as $env => $vals) {
-            $errDetails = '';
-            if (is_array($vals['error'])) {
-                $errDetails = '<ul>';
-                foreach ($vals['actual'] as $key => $val) {
-                    $errDetails .= '<li>' . $key . ' &nbsp; => &nbsp; ' . $val . '</li>';
-                }
-                $errDetails .= '</ul>';
-                foreach ($vals['error'] as $key => $err) {
-                    phpAds_Die( ' Error: ' . $err, $errDetails );
-                }
-            }
-        }
-
-        $oTpl = new OA_Admin_Template('login.html');
-
-        $formAction = basename($_SERVER['PHP_SELF']);
-        if (!empty($_SERVER['QUERY_STRING'])) {
-            $formAction .= '?'.$_SERVER['QUERY_STRING'];
-        }
-
-        $appName = !empty($aPref['name']) ? $aPref['name'] : MAX_PRODUCT_NAME;
-
-        $oTpl->assign('uiEnabled', $aConf['ui']['enabled']);
-        $oTpl->assign('formAction', $formAction);
-        $oTpl->assign('sessionID', $sessionID);
-        $oTpl->assign('appName', $appName);
-        $oTpl->assign('message', $sMessage);
-
-        $oTpl->display();
-
-        phpAds_PageFooter();
-        exit;
+        $authLogin = &OA_Auth::staticGetAuthPlugin();
+        $authLogin->displayLogin($sMessage, $sessionID, $inLineLogin);
     }
 
     /**
@@ -295,7 +235,7 @@ class OA_Auth
     {
         $redirect = false;
         // Is it possible to detect that we are NOT in the admin directory
-        // via the URL the user is accessing OpenX with?
+        // via the URL the user is accessing OpenXwith?
         if (!preg_match('#/'. $location .'/?$#', $_SERVER['REQUEST_URI'])) {
             $dirName = dirname($_SERVER['REQUEST_URI']);
             if (!preg_match('#/'. $location .'$#', $dirName)) {

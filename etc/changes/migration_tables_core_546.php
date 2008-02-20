@@ -13,7 +13,9 @@ class Migration_546 extends Migration
                                                     'headers'           => 'admin_email_headers',
                                                     'logOutgoing'       => 'userlog_email',
                                                     'qmailPatch'        => 'qmail_patch',
-                                                    ),
+                                                    'fromName'          => 'admin_fullname',
+                                                    'fromAddress'       => 'admin_email'
+                                               ),
                           'delivery'        => array(
                                                     'clicktracking'     => 'gui_invocation_3rdparty_default',
                                                     ),
@@ -91,8 +93,6 @@ class Migration_546 extends Migration
                         'banner_html_auto',
                         'admin',
                         'admin_pw',
-                        'admin_fullname',
-                        'admin_email',
                         'client_welcome',
                         'client_welcome_msg',
                         'publisher_welcome',

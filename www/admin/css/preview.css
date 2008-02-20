@@ -17,8 +17,8 @@ html {
 }
 
 .invocationCodes .header h1 {
-	width: 170px;
-	height: 56px;
+  width: 170px;
+  height: 56px;
 	background: url(../images/logo-wtag.png) top left no-repeat;
 	text-indent: -2000em;
 	margin: 0 0 0 32px;

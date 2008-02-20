@@ -31,6 +31,7 @@ require_once MAX_PATH . '/lib/OA/Dal/Central/AdNetworks.php';
 
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 
+require_once MAX_PATH . '/lib/max/Admin/Invocation.php';
 
 /**
  * OAP binding to the ad networks OAC API
@@ -231,7 +232,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
         $aPref = $GLOBALS['_MAX']['PREF'];
         $oDbh = OA_DB::singleton();
         $aSubscriptions = $this->oMapper->subscribeWebsites($aWebsites);
-        
+
         if (PEAR::isError($aSubscriptions)) {
             return $aSubscriptions;
         }
@@ -285,7 +286,12 @@ class OA_Central_AdNetworks extends OA_Central_Common
             }
         }
 
+        $isAlexaDataFailed = false;
         for (reset($aSubscriptions['websites']); $ok && ($aWebsite = current($aSubscriptions['websites'])); next($aSubscriptions['websites'])) {
+            
+            $isAlexaDataFailed = ($aWebsite['isAlexaDataFailed']) ? 
+                                 $aWebsite['isAlexaDataFailed'] : $isAlexaDataFailed;
+                                 
             // Create new or use existing publisher
             $websiteIdx = key($aWebsites);
             foreach ($aWebsites as $key => $value) {
@@ -313,17 +319,17 @@ class OA_Central_AdNetworks extends OA_Central_Common
                     'oac_country_code' => $aWebsites[$websiteIdx]['country'],
                     'oac_language_id'  => $aWebsites[$websiteIdx]['language'],
                     'oac_category_id'  => $aWebsites[$websiteIdx]['category'],
-                    'as_website_id'    => $aWebsites[$websiteIdx]['advsignup']
+//                    'as_website_id'    => $aWebsites[$websiteIdx]['advsignup']
                 );
             }
 
             
             // an_website_id equal as_website_id
-            if ($aWebsites[$websiteIdx]['adnetworks']) {
-                $publisher += array(
-                    'an_website_id'   => $aWebsite['website_id'],
-                );
-            }
+//            if ($aWebsites[$websiteIdx]['adnetworks']) {
+//                $publisher += array(
+//                    'an_website_id'   => $aWebsite['website_id'],
+//                );
+//            }
             
             if ($aWebsites[$websiteIdx]['advsignup']) {
 	            $publisher += array(
@@ -469,7 +475,8 @@ class OA_Central_AdNetworks extends OA_Central_Common
             return new PEAR_Error('There was an error storing the data on the database');
         }
 
-        return $this->oDal->commit();
+        $return = array('commit' => $this->oDal->commit(), 'isAlexaDataFailed' => $isAlexaDataFailed);
+        return $return;
     }
 
     /**
@@ -546,7 +553,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
         $doZones = OA_Dal::factoryDO('zones');
         $doZones->affiliateid = $doPublishers->affiliateid;
         $doZones->find();
-        $anWebsiteId = ($doPublishers->an_website_id) ? $doPublishers->an_website_id : $doPublishers->as_website_id;
+        $anWebsiteId = $doPublishers->as_website_id;
         while ($doZones->fetch()) {
         	$this->updateZone($doZones, $anWebsiteId);
         }
@@ -622,6 +629,293 @@ class OA_Central_AdNetworks extends OA_Central_Common
         
     }
 
+    /**
+     * A get all Advertiser, Campaign and Banners from oac
+     *  and added this to the database.
+     *
+     */
+    function getWebsitesAdvertisers()
+    {
+        $doAdvertisers = OA_Dal::factoryDO('clients');
+        $doAdvertisers->find();
+        $requstIds = array();
+        while ($doAdvertisers->fetch()) {
+            if ($doAdvertisers->as_advertiser_id) {
+                $campaigns = array();
+                
+                $doCampaigns = OA_Dal::factoryDO('campaigns');
+                $doCampaigns->clientid = $doAdvertisers->clientid;
+                $doCampaigns->find();
+                while ($doCampaigns->fetch()) {
+                    if ($doCampaigns->as_campaign_id) {
+                        $campaigns[] = (int)$doCampaigns->as_campaign_id;
+                    }
+                }
+                $requstIds[$doAdvertisers->as_advertiser_id] = $campaigns;
+            }
+        }
+        
+        $requstIds = (count($requstIds)) ? $requstIds : array(null => null);
+        
+        $aRespAdvetisers = $this->oMapper->getWebsitesAdvertisers($requstIds);
+        
+        if (is_object($aRespAdvetisers)) {
+            return 0;            
+        }
+
+        foreach ($aRespAdvetisers['websitesAdvertisers'] as $aAdvertiser) {
+            // Update or insert advertiser to db
+            $doAdvertiser = OA_Dal::factoryDO('clients');
+            $doAdvertiser->as_advertiser_id = $aAdvertiser['id'];
+            $doAdvertiser->find();
+
+            $advertiserName    = $this->oDal->getUniqueAdvertiserName($aAdvertiser['first_name'] . "-" .
+                                                                      $aAdvertiser['last_name']
+                                                                     );
+
+            if ($doAdvertiser->fetch()) {
+                $advertiserId = $doAdvertiser->clientid;
+                
+                // Update Advertiser
+//                $doAdvertiser->clientname = $advertiserName;
+//                $doAdvertiser->contact    = $advertiserContact;
+//                $doAdvertiser->update();
+                
+            } else {
+                // Make Advertiser data from response
+                $advertiserContact = $aAdvertiser['country_name'] . " " .
+                                     $aAdvertiser['country_code'] . ", " . 
+                                     $aAdvertiser['city'] . ", " . 
+                                     $aAdvertiser['address'] . ", " .
+                                     $aAdvertiser['post_code'] ;
+                                     
+                // Create Advertiser
+                $advertiser = array(
+                    'clientname'       => $advertiserName,
+                    'as_advertiser_id' => $aAdvertiser['id'],
+                    'contact'          => $advertiserContact
+                );
+
+                $doAdvertiser = OA_Dal::factoryDO('clients');
+                $doAdvertiser->setFrom($advertiser);
+                $advertiserId = $doAdvertiser->insert();
+            }
+            // Campaigns
+            foreach ($aAdvertiser['campaigns'] as $aCampaign) {
+                $campaignClientId = $advertiserId;
+                
+                $doCampaign = OA_Dal::factoryDO('campaigns');
+                $doCampaign->as_campaign_id = $aCampaign['id'];
+                $doCampaign->find();
+
+                if ($doCampaign->fetch()) {
+                    // Update Campaign
+//                    $doCampaign->campaignname = $campaignName;
+//                    $doCampaign->activate     = $campaignActivate;
+//                    $doCampaign->expire       = $campaignExpire;
+//                    $doCampaign->status       = $campaignStatus;
+//                    $doCampaign->an_status    = $campaignAnStatus;
+//                    $doCampaign->revenue      = $campaignRevenue;
+//                    $doCampaign->revenue_type = $campaignRevenueType;
+//                    $doCampaign->weight       = $campaignWeight;
+//                    $doCampaign->clientid     = $campaignClientId;
+//                    $doCampaign->update();
+                    $campaignId = $doCampaign->campaignid;
+                } else {
+                    // Make Campaign data from response
+                    $campaignName        = $this->oDal->getUniqueCampaignName($aCampaign['id'] . 
+                                                                              "-" . $advertiserName);
+                    $campaignActivate    = date('Y-m-d',$aCampaign['start_date']/1000);
+                    $campaignExpire      = date('Y-m-d',$aCampaign['end_date']/1000);
+                    $campaignStatus      = $this->transformationStatus($aCampaign['status']);
+                    $campaignAnStatus    = $aCampaign['status'];
+                    $campaignRevenue     = $aCampaign['rate'];
+                    $campaignRevenueType = $aCampaign['pricing'];
+                    $campaignWeight      = $aCampaign['weight'];
+                
+                    // Create campaign
+                    $campaign = array(
+                        'clientid'       => $campaignClientId,
+                        'campaignname'   => $campaignName,
+                        'activate'       => $campaignActivate,
+                        'expire'         => $campaignExpire,
+                        'status'         => $campaignStatus,
+                        'an_status'      => $campaignAnStatus,
+                        'revenue'        => $campaignRevenue,
+                        'revenue_type'   => $campaignRevenueType,
+                        'weight'         => $campaignWeight,
+                        'as_campaign_id' => $aCampaign['id']
+                    );
+                    $doCampaign = OA_Dal::factoryDO('campaigns');
+                    $doCampaign -> setFrom($campaign);
+                    $campaignId = $doCampaign->insert();
+                }
+                
+                // get OAP zone by zone_id
+                $doZone             = OA_Dal::factoryDO('zones');
+                $doZone->as_zone_id = $aCampaign['zone_id'];
+                $doZone->find();
+                $doZone->fetch();
+                $zoneId = (int)$doZone->zoneid;
+                
+                // Banners
+                $bannerCampaignId = $campaignId;
+                foreach ($aCampaign['banners'] as $aBanner) {
+                    // Make Banner data from response
+                    $bannerUrl = $aBanner['url'];
+                    
+                    $doBanner = OA_Dal::factoryDO('banners');
+                    $doBanner->as_banner_id = $aBanner['id'];
+                    $doBanner->find();
+    
+                    if ($doBanner->fetch()) {
+                        // Update Banner
+//                        $doBanner->url        = $bannerUrl;
+//                        $doBanner->campaignid = $bannerCampaignId;
+                        $bannerId = $doBanner->bannerid;
+                    } else {
+                        // Create banner
+                        $banner = array(
+                            'campaignid'   => $bannerCampaignId,
+                            'url'          => $bannerUrl,
+                            'as_banner_id' => $aBanner['id']
+                        );
+                        $doBanner = OA_Dal::factoryDO('banners');
+                        $doBanner -> setFrom($banner);
+                        $bannerId = $doBanner->insert();
+                    }
+                    
+                    // Add banner zone assoc
+                    $doAdZone = OA_Dal::factoryDO('ad_zone_assoc');
+                    $doAdZone->ad_id = $bannerId;
+                    $doAdZone->find();
+                    
+                    if ($doAdZone->fetch()) {
+                        $doAdZone->zone_id = $zoneId;
+                        $id = $doAdZone->update();
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     * Set properties campaign to oac
+     *   call XMLRPC method
+     *
+     */
+    function setCampaignsProperties()
+    {
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->find();
+        $aCampaigns = array();
+        while ($doCampaigns->fetch()) {
+            if ($doCampaigns->as_campaign_id) {
+                
+                // Get Invocation Code
+                $invocationCode = '';
+                $doBanner = OA_Dal::factoryDO('banners');
+                $doBanner->campaignid = $doCampaigns->campaignid;
+                $doBanner->find();
+                if ($doBanner->fetch()) {
+                    $doAdZone = OA_Dal::factoryDO('ad_zone_assoc');
+                    $doAdZone->ad_id = $doBanner->bannerid;
+                    $doAdZone->find();
+                    if ($doAdZone->fetch()) {
+                        $doZone         = OA_Dal::factoryDO('zones');
+                        $doZone->zoneid = $doAdZone->zone_id;
+                        $doZone->find();
+                        $invocationCode = '';
+                        if ($doZone->fetch()) {
+                            $affiliateid = $doZone->affiliateid;
+                            $zoneid      = $doZone->zoneid;
+                            $codetype = 'adview';
+                            $invocationTag = MAX_Plugin::factory('invocationTags', $codetype);
+                            $maxInvocation = new MAX_Admin_Invocation();
+                            
+                            $invocationCode = $maxInvocation->generateInvocationCode($invocationTag);
+                        }
+                    }
+                }
+                
+                $aCampaigns[(int)$doCampaigns->as_campaign_id] = 
+                    array (
+                              'id'             => (int)$doCampaigns->campaignid,
+                              'invocationCode' => (string)$invocationCode,
+                              'deliveredCount' => (int)$doCampaigns->capping,
+                              'status'         => 
+                                    (string)$this->transformationStatusToOac($doCampaigns->status)
+                          );
+            }
+        }
+        
+        $aCampaigns = (count($aCampaigns)) ? $aCampaigns : array(null => null);
+      
+        // Call XMLRPC method
+        $result = $this->oMapper->setCampaignsProperties($aCampaigns);
+    }
+    
+    /**
+     * Method to transformation oac status to oap status.
+     *
+     * @param string $oacStatus  status in oac
+     * @return int  status in oap
+     */
+    function transformationStatus($oacStatus)
+    {
+        switch ($oacStatus) {
+            case 'AWAITING_APPROVAL' :
+                return OA_ENTITY_STATUS_APPROVAL;
+                break;
+            case 'APPROVED' :
+                return OA_ENTITY_STATUS_APPROVAL;
+                break;
+            case 'RUNNING' :
+                return OA_ENTITY_STATUS_RUNNING;
+                break;
+            case 'PAUSED' :
+                return OA_ENTITY_STATUS_PAUSED;
+                break;
+            case 'FINISHED' :
+                return OA_ENTITY_STATUS_EXPIRED;
+                break;
+            case 'REJECTED' :
+                return OA_ENTITY_STATUS_REJECTED;
+                break;
+        }
+    }
+    
+    /**
+     * Method to transformation oap status to oac status.
+     *
+     * @param int $oapStatus  status in oap
+     * @return string  status in oac
+     */
+    function transformationStatusToOac($oapStatus)
+    {
+        switch ($oapStatus) {
+            case OA_ENTITY_STATUS_APPROVAL :
+                return 'AWAITING_APPROVAL';
+                break;
+            case OA_ENTITY_STATUS_APPROVAL :
+                return 'APPROVED';
+                break;
+            case OA_ENTITY_STATUS_RUNNING :
+                return 'RUNNING';
+                break;
+            case OA_ENTITY_STATUS_PAUSED :
+                return 'PAUSED';
+                break;
+            case OA_ENTITY_STATUS_EXPIRED :
+                return 'FINISHED';
+                break;
+            case OA_ENTITY_STATUS_REJECTED :
+                return 'REJECTED';
+                break;
+        }
+    }
+    
+    
     /**
      * A method to get updates about subscribed websites
      *

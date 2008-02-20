@@ -581,7 +581,7 @@ class OA_Admin_Option
                         default:            $javascript .= 'value'; break;
                     }
                     $javascript .= " ".$regs[3]." ".$regs[4].$regs[5];
-                    $javascript .= " && ".$regs[1]."document.".$formName.".".$regs[2].".disabled ". $regs[3]. " false";
+                    $javascript .= " && !(".$regs[1]."document.".$formName.".".$regs[2].".disabled ". $regs[3]. " false)";
                 }
             }
             $javascript .= ");\n";
@@ -753,9 +753,9 @@ class OA_Admin_Option
     			    'account_type'  => $aPreference['account_type']
     			);
     		}
+    	}
 		// Get the type of the current accout
 		$currentAccountType = OA_Permission::getAccountType();
-    	}
 
         global $tabindex;
         $aItem['tabindex'] = $tabindex++;

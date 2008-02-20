@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 /**
@@ -68,7 +68,9 @@ class LogonServiceImpl extends BaseServiceImpl
         // Load the required language file.
         Language_Default::load();
 
-        $doUser = OA_Auth::checkPassword($username, $password);
+        $oPlugin = &MAX_Plugin::factory('authentication', 'internal');
+
+        $doUser = $oPlugin->checkPassword($username, $password);
         if ($doUser) {
             phpAds_SessionDataRegister(OA_Auth::getSessionData($doUser));
             return true;
@@ -113,7 +115,7 @@ class LogonServiceImpl extends BaseServiceImpl
 
         $this->preInitSession();
         if ($this->_internalLogin($username, $password)) {
-            // Check if the user has administrator access to OpenX.
+            // Check if the user has administrator access to Openads.
             if (OA_Permission::isUserLinkedToAdmin()) {
 
                 $this->postInitSession();

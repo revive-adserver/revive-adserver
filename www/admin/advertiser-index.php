@@ -101,6 +101,14 @@ require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
 $oTpl = new OA_Admin_Template('advertiser-index.html');
 
+// Get All Advertiser and Campaign from OAC
+require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
+$oAdNetworks = new OA_Central_AdNetworks();
+$oAdNetworks->getWebsitesAdvertisers();
+
+// Set campatings properties to OAC
+$oAdNetworks = new OA_Central_AdNetworks();
+$oAdNetworks->setCampaignsProperties();
 
 // Get clients & campaigns and build the tree
 // XXX: Now that the two are next to each other, some silliness

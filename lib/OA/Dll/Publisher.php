@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 /**
@@ -60,13 +60,9 @@ class OA_Dll_Publisher extends OA_Dll
         $publisherData['publisherName']  = $publisherData['name'];
         $publisherData['contactName']    = $publisherData['contact'];
         $publisherData['emailAddress']   = $publisherData['email'];
-        $publisherData['username']       = $publisherData['username'];
-        $publisherData['password']       = $publisherData['password'];
         $publisherData['agencyId']       = $publisherData['agencyid'];
         $publisherData['publisherId']    = $publisherData['affiliateid'];
-
-        // Do not return the password from the Dll.
-        unset($publisherData['password']);
+        $publisherData['accountId']      = $publisherData['account_id'];
 
         $oPublisher->readDataFromArray($publisherData);
         return  true;
@@ -75,8 +71,7 @@ class OA_Dll_Publisher extends OA_Dll
     /**
      * This method performs data validation for a publisher, for example to check
      * that an email address is an email address. Where necessary, the method connects
-     * to the OA_Dal to obtain information for other business validations, for example
-     * the username must be unique across relevant tables.
+     * to the OA_Dal to obtain information for other business validations.
      *
      * @access private
      *
@@ -96,34 +91,29 @@ class OA_Dll_Publisher extends OA_Dll
             $doPublisher = OA_Dal::factoryDO('affiliates');
             $doPublisher->get($oPublisher->publisherId);
             $publisherOld = $doPublisher->toArray();
-
-            if (!$this->checkIdExistence('affiliates', $oPublisher->publisherId)) {
+            if (!$this->checkStructureRequiredStringField($oPublisher, 'publisherName', 255) ||
+                !$this->checkIdExistence('affiliates', $oPublisher->publisherId)) {
                 return false;
             }
         } else {
-            // When adding a publisher, check that the required field 'publisherId' is correct.
-            if (!$this->checkStructureNotRequiredIntegerField($oPublisher, 'publisherId')) {
+            // When adding a publisher, check that the required field 'advertiserName' is correct.
+            if (!$this->checkStructureRequiredStringField($oPublisher, 'publisherName', 255)){
                 return false;
             }
         }
 
-        if ((!empty($oPublisher->emailAddress) &&
+        if ((isset($oPublisher->emailAddress) &&
             !$this->checkEmail($oPublisher->emailAddress)) ||
-            !$this->checkUniqueUserName($publisherOld['username'], $oPublisher->username) ||
             !$this->checkStructureNotRequiredIntegerField($oPublisher, 'agencyId') ||
-            !$this->checkStructureNotRequiredStringField($oPublisher, 'publisherName', 255) ||
             !$this->checkStructureNotRequiredStringField($oPublisher, 'contactName',255) ||
-            !$this->checkStructureNotRequiredStringField($oPublisher, 'username',64) ||
-            !$this->checkStructureNotRequiredStringField($oPublisher, 'password',64) ||
-            !$this->validateUsernamePassword($oPublisher->username, $oPublisher->password)) {
+            !$this->checkStructureNotRequiredStringField($oPublisher, 'emailAddress', 64)) {
 
             return false;
         }
 
-        if (isset($oPublisher->agencyId) && $oPublisher->agencyId != 0) {
-            if (!$this->checkIdExistence('agency', $oPublisher->agencyId)) {
-                return false;
-            }
+        // Check that an agencyID exists and that the user has permissions.
+        if (!$this->checkAgencyPermissions($oPublisher->agencyId)) {
+            return false;
         }
 
         return true;
@@ -160,11 +150,11 @@ class OA_Dll_Publisher extends OA_Dll
      *
      * @param OA_Dll_PublisherInfo &$oPublisher <br />
      *          <b>For adding</b><br />
-     *          <b>Optional properties:</b> agencyId, publisherName, contactName, emailAddress, username, password<br />
+     *          <b>Optional properties:</b> agencyId, publisherName, contactName, emailAddress<br />
      *
      *          <b>For modify</b><br />
      *          <b>Required properties:</b> publisherId<br />
-     *          <b>Optional properties:</b> agencyId, publisherName, contactName, emailAddress, username, password<br />
+     *          <b>Optional properties:</b> agencyId, publisherName, contactName, emailAddress<br />
      *
      * @return success boolean True if the operation was successful
      *
@@ -182,6 +172,7 @@ class OA_Dll_Publisher extends OA_Dll
             $oPublisher->setDefaultForAdd();
         } else {
             $oPublisher->publisherId = (int) $oPublisher->publisherId;
+
             // Capture the existing data
             /**
              * @todo This needs to be updated to use the getPublisher method, however right now
@@ -192,9 +183,7 @@ class OA_Dll_Publisher extends OA_Dll
             $publisherPrevData = $doPrevPublisher->toArray();
         }
 
-        // an_website_id equal as_website_id
-        $adnetworks_website_id = ($publisherPrevData['an_website_id']) ?
-                                  $publisherPrevData['an_website_id'] : $publisherPrevData['as_website_id'];
+        $adnetworks_website_id = $publisherPrevData['as_website_id'];
 
         $publisherData =  (array) $oPublisher;
 
@@ -208,49 +197,28 @@ class OA_Dll_Publisher extends OA_Dll
             $publisherData['website'] = '';
         }
 
-        // Sum the permissions values into a bitwise value
-        if (isset($oPublisher->permissions) && is_array($oPublisher->permissions)) {
-            $permissions = 0;
-            for ($i=0;$i<sizeof($oPublisher->permissions);$i++) {
-                $permissions += $oPublisher->permissions[$i];
-            }
-            $publisherData['permissions'] = $permissions;
-        }
-
         // Remap fields where the PublisherInfo object does not map directly to the DataObject.
         $publisherData['name']      = $oPublisher->publisherName;
         $publisherData['contact']   = $oPublisher->contactName;
         $publisherData['email']     = $oPublisher->emailAddress;
-        $publisherData['agencyid']  = $oPublisher->agencyId;
         $publisherData['oac_category_id'] = $oPublisher->oacCategoryId;
         $publisherData['oac_language_id'] = $oPublisher->oacLanguageId;
         $publisherData['oac_country_code'] = $oPublisher->oacCountryCode;
-        $publisherData['an_website_id'] = (!$oPublisher->adNetworks) ? '' : null;
+//        $publisherData['an_website_id'] = (!$oPublisher->adNetworks) ? '' : null;
         $publisherData['as_website_id'] = (!$oPublisher->advSignup)  ? '' : null;
-
-        if (isset($publisherData['password']) && (!is_null($publisherData['password'])) && ($publisherData['password'] != '********')) {
-            $publisherData['password'] = md5($oPublisher->password);
-        } else {
-            // Starred password passed in, leave as-is
-            unset($publisherData['password']);
-        }
-        if (empty($publisherData['username'])) {
-            $publisherData['username'] = $oPublisher->username = null;
-            $publisherData['password'] = $oPublisher->password = null;
-        }
 
         if ($this->_validate($oPublisher)) {
             $doPublisher = OA_Dal::factoryDO('affiliates');
             if (!isset($publisherData['publisherId'])) {
+                // Only set agency ID for insert
+                $publisherData['agencyid'] = $oPublisher->agencyId;
                 $doPublisher->setFrom($publisherData);
-    		    /**
-    		     * @todo The current mechanism requires the dataobject to have the username/password fields
-    		     *       set in order to trigger the User-creation, this should be factored out since the
-    		     *       $do->setFrom method won't set the fields if they've been removed from the DataObject
-    		     */
-    		    $doPublisher->username = $publisherData['username'];
-    		    $doPublisher->password = $publisherData['password'];
                 $oPublisher->publisherId = $doPublisher->insert();
+                if ($oPublisher->publisherId) {
+                    // Set the account ID
+                    $doPublisher = OA_Dal::staticGetDO('affiliates', $oPublisher->publisherId);
+                    $oPublisher->accountId = (int)$doPublisher->account_id;
+                }
             } else {
                 $doPublisher->get($publisherData['publisherId']);
                 $doPublisher->setFrom($publisherData);
@@ -258,10 +226,9 @@ class OA_Dll_Publisher extends OA_Dll
             }
             $oAdNetworks = new OA_Central_AdNetworks();
             // Initiate a call to OpenX Central if adnetworks are enabled or if OAC values are changed.
-            if ($oPublisher->adNetworks || $oPublisher->advSignup) {
+            if ($oPublisher->advSignup) {
                 // If adNetworks was not previously selected...
-                if (empty($publisherPrevData['an_website_id']) &&
-                    empty($publisherPrevData['as_website_id'])) {
+                if (empty($publisherPrevData['as_website_id'])) {
                     $aRpcPublisher = array(
 	                    array(
 	                            'id'         => $oPublisher->publisherId,
@@ -270,7 +237,7 @@ class OA_Dll_Publisher extends OA_Dll
 	                            'language'   => $oPublisher->oacLanguageId,
 	                            'category'   => $oPublisher->oacCategoryId,
 	                            'advsignup' => $oPublisher->advSignup,
-	                            'adnetworks' => $oPublisher->adNetworks,
+//	                            'adnetworks' => $oPublisher->adNetworks,
 	                    )
                     );
                     $result = $oAdNetworks->subscribeWebsites($aRpcPublisher);
@@ -279,13 +246,19 @@ class OA_Dll_Publisher extends OA_Dll
                         $this->_errorMessage = $result->getMessage();
                         return false;
                     }
+
+                    $this->_noticeMessage = (is_array($result) && $result['isAlexaDataFailed']) ?
+                                            'Retrieving Alexa data for one or more websites failed and is scheduled for tomorrow' : false;
+
+//                    echo('<pre>');
+//                    var_dump($result);
                 } else {
                     // This publisher was already signed up for adnetworks, only action if OAC related values have changed
                     if (($publisherPrevData['oac_category_id']  != $publisherData['oac_category_id']) ||
                         ($publisherPrevData['oac_language_id']  != $publisherData['oac_language_id']) ||
                         ($publisherPrevData['oac_country_code'] != $publisherData['oac_country_code']) ||
-                        ($publisherPrevData['as_website_id'] != $publisherData['as_website_id']) ||
-                        ($publisherPrevData['an_website_id'] != $publisherData['an_website_id'])
+                        ($publisherPrevData['as_website_id'] != $publisherData['as_website_id'])
+//                        || ($publisherPrevData['an_website_id'] != $publisherData['an_website_id'])
                     ) {
                         // OAC related fields have changed, so unsubscribe and resubscribe this publisher
                         $aError = $this->unsubscribePublisher($oAdNetworks, $oPublisher, $adnetworks_website_id);
@@ -297,7 +270,7 @@ class OA_Dll_Publisher extends OA_Dll
 		                            'language'   => $oPublisher->oacLanguageId,
 		                            'category'   => $oPublisher->oacCategoryId,
 		                            'advsignup'  => $oPublisher->advSignup,
-		                            'adnetworks' => $oPublisher->adNetworks,
+//		                            'adnetworks' => $oPublisher->adNetworks,
 		                    )
 	                    );
 //                        $result = $oAdNetworks->subscribeWebsites($aPublisher);

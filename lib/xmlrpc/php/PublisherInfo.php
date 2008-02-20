@@ -52,6 +52,13 @@ class OA_Dll_PublisherInfo extends OA_Info
     var $publisherId;
 
     /**
+     * This field contains the ID of the agency account.
+     *
+     * @var integer $accountId
+     */
+    var $accountId;
+
+    /**
      * The agencyID variable is the ID of the agency associated with the publisher.
      *
      * @var integer $agencyId
@@ -79,40 +86,15 @@ class OA_Dll_PublisherInfo extends OA_Info
      */
     var $emailAddress;
 
-    /**
-     * The username variable is the username the contact uses to log into OpenX.
-     *
-     * @var string $username
-     */
-    var $username;
-
-    /**
-     * The password variable is the password the contact uses to log into OpenX.
-     *
-     * @var string $password
-     */
-    var $password;
-
-    /**
-     * This functions sets all default values when adding a new publisher.
-     *
-     */
-    function setDefaultForAdd() {
-        if (is_null($this->agencyId)) {
-            $this->agencyId = 0;
-        }
-    }
-
     function getFieldsTypes()
     {
         return array(
                     'publisherId' => 'integer',
+                    'accountId' => 'integer',
                     'agencyId' => 'integer',
                     'publisherName' => 'string',
                     'contactName' => 'string',
-                    'emailAddress' => 'string',
-                    'username' => 'string',
-                    'password' => 'string'
+                    'emailAddress' => 'string'
                 );
     }
 }

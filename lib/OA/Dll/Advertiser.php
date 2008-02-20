@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 /**
@@ -60,13 +60,9 @@ class OA_Dll_Advertiser extends OA_Dll
         $advertiserData['agencyName']     = $advertiserData['name'];
         $advertiserData['contactName']    = $advertiserData['contact'];
         $advertiserData['emailAddress']   = $advertiserData['email'];
-        $advertiserData['username']       = $advertiserData['clientusername'];
-        $advertiserData['password']       = $advertiserData['clientpassword'];
         $advertiserData['agencyId']       = $advertiserData['agencyid'];
         $advertiserData['advertiserId']   = $advertiserData['clientid'];
-
-        // Do not return the password from the Dll.
-        unset($advertiserData['password']);
+        $advertiserData['accountId']      = $advertiserData['account_id'];
 
         $oAdvertiser->readDataFromArray($advertiserData);
         return  true;
@@ -75,8 +71,7 @@ class OA_Dll_Advertiser extends OA_Dll
     /**
      * This method performs data validation for an advertiser, for example to check
      * that an email address is an email address. Where necessary, the method connects
-     * to the OA_Dal to obtain information for other business validations,
-     * for example a username must be unique across all relevant tables.
+     * to the OA_Dal to obtain information for other business validations.
      *
      * @access private
      *
@@ -107,24 +102,17 @@ class OA_Dll_Advertiser extends OA_Dll
             }
         }
 
-
         if (isset($oAdvertiser->emailAddress) &&
             !$this->checkEmail($oAdvertiser->emailAddress) ||
-            !$this->checkUniqueUserName($advertiserOld['clientusername'], $oAdvertiser->username) ||
             !$this->checkStructureNotRequiredIntegerField($oAdvertiser, 'agencyId') ||
             !$this->checkStructureNotRequiredStringField($oAdvertiser, 'contactName', 255) ||
-            !$this->checkStructureNotRequiredStringField($oAdvertiser, 'emailAddress', 64) ||
-            !$this->checkStructureNotRequiredStringField($oAdvertiser, 'username', 64) ||
-            !$this->checkStructureNotRequiredStringField($oAdvertiser, 'password', 64) ||
-            !$this->validateUsernamePassword($oAdvertiser->username, $oAdvertiser->password)) {
+            !$this->checkStructureNotRequiredStringField($oAdvertiser, 'emailAddress', 64)) {
             return false;
         }
 
-        // Check that an agencyID exists.
-        if (isset($oAdvertiser->agencyId) && $oAdvertiser->agencyId != 0) {
-            if (!$this->checkIdExistence('agency', $oAdvertiser->agencyId)) {
-                return false;
-            }
+        // Check that an agencyID exists and that the user has permissions.
+        if (!$this->checkAgencyPermissions($oAdvertiser->agencyId)) {
+            return false;
         }
 
         return true;
@@ -181,11 +169,11 @@ class OA_Dll_Advertiser extends OA_Dll
      * @param OA_Dll_AdvertiserInfo &$oAdvertiser <br />
      *          <b>For adding</b><br />
      *          <b>Required properties:</b> advertiserName<br />
-     *          <b>Optional properties:</b> agencyId, contactName, emailAddress, username, password<br />
+     *          <b>Optional properties:</b> agencyId, contactName, emailAddress<br />
      *
      *          <b>For modify</b><br />
      *          <b>Required properties:</b> advertiserId<br />
-     *          <b>Optional properties:</b> agencyId, advertiserName, contactName, emailAddress, username, password<br />
+     *          <b>Optional properties:</b> agencyId, advertiserName, contactName, emailAddress<br />
      *
      * @return boolean  True if the operation was successful.
      *
@@ -198,8 +186,11 @@ class OA_Dll_Advertiser extends OA_Dll
             return false;
         }
 
-        if (!isset($oAdvertiser->advertiserId)) {
+        if (empty($oAdvertiser->advertiserId)) {
+            unset($oAdvertiser->advertiserId);
             $oAdvertiser->setDefaultForAdd();
+        } else {
+            $oAdvertiser->advertiserId = (int) $oAdvertiser->advertiserId;
         }
 
         $advertiserData = (array) $oAdvertiser;
@@ -209,20 +200,19 @@ class OA_Dll_Advertiser extends OA_Dll
         // Default fields
         $advertiserData['contact']        = $oAdvertiser->contactName;
         $advertiserData['email']          = $oAdvertiser->emailAddress;
-        $advertiserData['clientusername'] = $oAdvertiser->username;
-        $advertiserData['clientpassword'] = $oAdvertiser->password;
-        $advertiserData['agencyid']       = $oAdvertiser->agencyId;
-
-        // Password
-        if (isset($advertiserData['clientpassword'])) {
-            $advertiserData['clientpassword'] = md5($oAdvertiser->password);
-        }
 
         if ($this->_validate($oAdvertiser)) {
             $doAdvertiser = OA_Dal::factoryDO('clients');
             if (!isset($advertiserData['advertiserId'])) {
+                // Only set agency ID for insert
+                $advertiserData['agencyid'] = $oAdvertiser->agencyId;
                 $doAdvertiser->setFrom($advertiserData);
                 $oAdvertiser->advertiserId = $doAdvertiser->insert();
+                if ($oAdvertiser->advertiserId) {
+                    // Set the account ID
+                    $doAdvertiser = OA_Dal::staticGetDO('clients', $oAdvertiser->advertiserId);
+                    $oAdvertiser->accountId = (int)$doAdvertiser->account_id;
+                }
             } else {
                 $doAdvertiser->get($advertiserData['advertiserId']);
                 $doAdvertiser->setFrom($advertiserData);

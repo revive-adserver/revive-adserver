@@ -21,11 +21,13 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: affiliate-edit.html 12704 2007-11-22 11:35:42Z stanislaw.osinski@openads.org $
+$Id$
 
 -->*}
 <img src='images/icon-affiliate-new.gif' border='0' align='absmiddle'>&nbsp;
-<a href="affiliate-user-start.php?affiliateid={$entityIdValue}" accesskey=".$keyLinkUser.">{t str=LinkUser_Key}</a>&nbsp;&nbsp;
+{assign var="linkAffiliateUrl" value="affiliate-user-start.php?affiliateid=$entityIdValue" }
+
+<a href="{$linkAffiliateUrl}" accesskey=".$keyLinkUser.">{t str=LinkUser_Key}</a>&nbsp;&nbsp;
 {phpAds_ShowBreak}
 
 {if $infomessage}
@@ -35,4 +37,4 @@ $Id: affiliate-edit.html 12704 2007-11-22 11:35:42Z stanislaw.osinski@openads.or
   </div>
 {/if}
 
-{include file=user-access.html users=$users}
+{include file=user-access.html users=$users linkUrl=$linkAffiliateUrl}

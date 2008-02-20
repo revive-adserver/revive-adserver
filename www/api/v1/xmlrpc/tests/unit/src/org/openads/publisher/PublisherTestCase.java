@@ -20,7 +20,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 package org.openads.publisher;
@@ -54,8 +54,6 @@ public class PublisherTestCase extends AgencyTestCase {
 	protected final static String PUBLISHER_ADVERTISER_STATISTICS_METHOD = "publisherAdvertiserStatistics";
 
 	protected static final String PUBLISHER_ID = "publisherId";
-	protected static final String USERNAME = "username";
-	protected static final String PASSWORD = "password";
 	protected static final String PUBLISHER_NAME = "publisherName";
 	protected static final String EMAIL_ADDRESS = "emailAddress";
 
@@ -137,8 +135,6 @@ public class PublisherTestCase extends AgencyTestCase {
 		params.put(PUBLISHER_NAME, prefix + PUBLISHER_NAME);
 		params.put(CONTACT_NAME, prefix + CONTACT_NAME);
 		params.put(EMAIL_ADDRESS, prefix + "@mail.com");
-		params.put(USERNAME, TextUtils.generateUniqueName(prefix));
-		params.put(PASSWORD, prefix + PASSWORD);
 
 		return params;
 	}

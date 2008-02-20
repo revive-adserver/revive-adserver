@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 /**
@@ -124,9 +124,9 @@ class OA_Dll_BannerInfo extends OA_Info
     /**
      * A boolean field to indicate if the banner is active
      *
-     * @var boolean $active
+     * @var int $status
      */
-    var $active;
+    var $status;
 
     /**
      * A text field for HTML banners to indicate which adserver this ad is from
@@ -158,8 +158,8 @@ class OA_Dll_BannerInfo extends OA_Info
             $this->weight = 1;
         }
 
-        if (is_null($this->active)) {
-            $this->active = true;
+        if (is_null($this->status)) {
+            $this->status = OA_ENTITY_STATUS_RUNNING;
         }
 
     }
@@ -184,7 +184,9 @@ class OA_Dll_BannerInfo extends OA_Info
                     'width' => 'integer',
                     'height' => 'integer',
                     'weight' => 'integer',
-                    'url' => 'string'
+                    'url' => 'string',
+                    'status' => 'integer',
+                    'adserver' => 'string'
                 );
     }
 }

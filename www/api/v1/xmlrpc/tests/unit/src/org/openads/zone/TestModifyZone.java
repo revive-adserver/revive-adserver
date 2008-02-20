@@ -20,7 +20,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 package org.openads.zone;
@@ -165,7 +165,7 @@ public class TestModifyZone extends ZoneTestCase {
 			MalformedURLException {
 		Map<String, Object> struct = new HashMap<String, Object>();
 		struct.put(ZONE_ID, zoneId);
-		struct.put(ZONE_NAME, TextUtils.getString(255));
+		struct.put(ZONE_NAME, TextUtils.getString(245));
 		Object[] params = new Object[] { sessionId, struct };
 		final Boolean result = (Boolean) client.execute(MODIFY_ZONE_METHOD,
 				params);

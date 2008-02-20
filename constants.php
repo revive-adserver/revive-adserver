@@ -29,16 +29,16 @@ $Id$
  * @package    OpenX
  * @author     Andrew Hill <andrew@m3.net>
  *
- * A file to set up the environment constants for OpenX.
+ * A file to set up the environment constants for Openads.
  */
 
 /**
- * The environmental constants initialisation function for OpenX.
+ * The environmental constants initialisation function for Openads.
  */
 function setupConstants()
 {
-    // Define this version of OpenX's constants
-    define('OA_VERSION', '2.5.60-beta-rc1');
+    // Define this version of Openads's constants
+    define('OA_VERSION', '2.7.3-dev');
     define('MAX_PRODUCT_NAME',      'OpenX');
     define('MAX_PRODUCT_URL',       'www.openx.org');
     if (preg_match('/^(\d+\.\d+)/', OA_VERSION, $aMatches)) {
@@ -160,6 +160,9 @@ function setupConstants()
     define('MAX_FINANCE_ANYVAR', 8); // % of any variable   (zone-only)
     define('MAX_FINANCE_VARSUM', 9); // % of a variable sum (zone-only)
 
+    // OAC communication
+    define('OAC_RPC_TIMEOUT',   10); // RPC timeout to OAC in seconds
+
     $GLOBALS['_MAX']['STATUSES'] = array(
         MAX_CONNECTION_STATUS_IGNORE      => 'strStatusIgnore',       // start value
         MAX_CONNECTION_STATUS_PENDING     => 'strStatusPending',      // start value
@@ -239,7 +242,7 @@ function setupConstants()
         }
         if (!ereg("\.", $newPearPath)) {
             $newPearPath = '.'.PATH_SEPARATOR . $newPearPath;
-        }        
+        }
         ini_set('include_path', $newPearPath);
         // Parse the OpenX configuration file
         $GLOBALS['_MAX']['CONF'] = parseIniFile();

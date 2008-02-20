@@ -216,8 +216,7 @@ function setupIncludePath()
     }
     if (!ereg("\.", $newPearPath)) {
         $newPearPath = '.'.PATH_SEPARATOR . $newPearPath;
-    }        
-    
+    }
     ini_set('include_path', $newPearPath);
 }
 
@@ -235,7 +234,7 @@ function getMinimumRequiredMemory()
 }
 
 /**
- * Set a minimum amount of memory required by OpenX
+ * Set a minimum amount of memory required by Openads
  *
  * @param integer $setMemory  A new memory limit (in bytes)
  * @return boolean  true if memory is already bigger or when an attempt to

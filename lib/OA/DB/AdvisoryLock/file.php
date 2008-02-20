@@ -28,7 +28,7 @@ $Id$
 require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
 
 /**
- * An abstract class defining the interface for using advisory locks inside OpenX.
+ * An abstract class defining the interface for using advisory locks inside Openads.
  *
  * @package    OpenXDB
  * @subpackage AdvisoryLock

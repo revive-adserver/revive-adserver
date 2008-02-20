@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| OpenX  v${RELEASE_MAJOR_MINOR}                                                              |
 | =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
@@ -529,7 +529,7 @@ class Test_OA_Upgrade extends UnitTestCase
 
         $aExpected = array();
         $aExpected['db_pkgs'] = array();
-        $aExpected['name'] ='OpenX';
+        $aExpected['name'] ='Openads';
         $aExpected['creationDate'] ='2007-01-01';
         $aExpected['author'] ='Test Author';
 

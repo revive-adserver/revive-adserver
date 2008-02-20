@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 /**
@@ -49,6 +49,13 @@ class OA_Dll_PublisherInfo extends OA_Info
      * @var integer $publisherId
      */
     var $publisherId;
+
+    /**
+     * This field contains the ID of the publisher account.
+     *
+     * @var integer $accountId
+     */
+    var $accountId;
 
     /**
      * This field provides the ID of the agency associated with the publisher.
@@ -79,25 +86,11 @@ class OA_Dll_PublisherInfo extends OA_Info
     var $emailAddress;
 
     /**
-     * This field provides the username the contact uses to log into OpenX.
-     *
-     * @var string $username
-     */
-    var $username;
-
-    /**
-     * This field provides the password the contact uses to log into OpenX.
-     *
-     * @var string $password
-     */
-    var $password;
-
-    /**
      * This method sets all default values when adding a new publisher.
      *
      */
     function setDefaultForAdd() {
-        if (is_null($this->agencyId)) {
+        if (empty($this->agencyId)) {
             $this->agencyId = OA_Permission::getAgencyId();
         }
     }
@@ -113,12 +106,11 @@ class OA_Dll_PublisherInfo extends OA_Info
     {
         return array(
                     'publisherId' => 'integer',
+                    'accountId' => 'integer',
                     'agencyId' => 'integer',
                     'publisherName' => 'string',
                     'contactName' => 'string',
-                    'emailAddress' => 'string',
-                    'username' => 'string',
-                    'password' => 'string'
+                    'emailAddress' => 'string'
                 );
     }
 }

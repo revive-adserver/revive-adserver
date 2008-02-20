@@ -87,11 +87,16 @@ class OA_Dal_Central_Rpc
      * @todo M2M password retireval
      *
      * @param OA_Central_Common Caller class
+     * @param array $aConf
      * @return OA_Dal_Central_Rpc
      */
-    function OA_Dal_Central_Rpc(&$oCentral)
+    function OA_Dal_Central_Rpc(&$oCentral, $aConf = null)
     {
-        $this->_conf = $GLOBALS['_MAX']['CONF']['oacXmlRpc'];
+        if (!isset($aConf)) {
+            $this->_conf = $GLOBALS['_MAX']['CONF']['oacXmlRpc'];
+        } else {
+            $this->_conf = $aConf;
+        }
 
         $this->oXml = new OA_XML_RPC_Client(
             $this->_conf['path'],
@@ -164,7 +169,7 @@ class OA_Dal_Central_Rpc
         }
 
         OA::disableErrorHandling();
-        $oResponse = $this->oXml->send($oMsg);
+        $oResponse = $this->oXml->send($oMsg, OAC_RPC_TIMEOUT);
         OA::enableErrorHandling();
 
         if (!$oResponse) {

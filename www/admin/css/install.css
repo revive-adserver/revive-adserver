@@ -74,13 +74,15 @@ table.sysinfotable td.check-res {
 }
 
 img.install-icon {
-  margin-right: 20px;
+	margin-right: 20px;
 }
 
-.install .psub {
-  padding-left: 40px;
-  margin-bottom: 20px;
+.install .psub
+{
+	padding-left: 40px;
+	margin-bottom: 20px;
 }
+
 
 td.sysinfoerror, .sysinfoerror, td.sysinfowarning {
  color: #FFFFFF;

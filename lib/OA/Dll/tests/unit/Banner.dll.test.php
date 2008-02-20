@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Dll/Advertiser.php';
@@ -45,6 +45,10 @@ require_once MAX_PATH . '/lib/OA/Dll/tests/util/DllUnitTestCase.php';
 
 class OA_Dll_BannerTest extends DllUnitTestCase
 {
+    /**
+     * @var int
+     */
+    var $agencyId;
 
     /**
      * Errors
@@ -71,8 +75,13 @@ class OA_Dll_BannerTest extends DllUnitTestCase
         Mock::generatePartial(
             'OA_Dll_Advertiser',
             'PartialMockOA_Dll_Advertiser',
-            array('checkPermissions')
+            array('checkPermissions', 'getDefaultAgencyId')
         );
+    }
+
+    function setUp()
+    {
+        $this->agencyId = DataGenerator::generateOne('agency');
     }
 
     function tearDown()
@@ -89,8 +98,9 @@ class OA_Dll_BannerTest extends DllUnitTestCase
         $dllCampaignPartialMock   = new PartialMockOA_Dll_Campaign($this);
         $dllBannerPartialMock     = new PartialMockOA_Dll_Banner($this);
 
+        $dllAdvertiserPartialMock->setReturnValue('getDefaultAgencyId', $this->agencyId);
         $dllAdvertiserPartialMock->setReturnValue('checkPermissions', true);
-        $dllAdvertiserPartialMock->expectCallCount('checkPermissions', 1);
+        $dllAdvertiserPartialMock->expectCallCount('checkPermissions', 2);
 
         $dllCampaignPartialMock->setReturnValue('checkPermissions', true);
         $dllCampaignPartialMock->expectCallCount('checkPermissions', 1);
@@ -100,6 +110,7 @@ class OA_Dll_BannerTest extends DllUnitTestCase
 
         $oAdvertiserInfo = new OA_Dll_AdvertiserInfo();
         $oAdvertiserInfo->advertiserName = 'test Advertiser name';
+        $oAdvertiserInfo->agencyId       = $this->agencyId;
 
         $this->assertTrue($dllAdvertiserPartialMock->modify($oAdvertiserInfo),
                           $dllAdvertiserPartialMock->getLastError());
@@ -148,8 +159,9 @@ class OA_Dll_BannerTest extends DllUnitTestCase
         $dllCampaignPartialMock   = new PartialMockOA_Dll_Campaign($this);
         $dllBannerPartialMock     = new PartialMockOA_Dll_Banner($this);
 
+        $dllAdvertiserPartialMock->setReturnValue('getDefaultAgencyId', $this->agencyId);
         $dllAdvertiserPartialMock->setReturnValue('checkPermissions', true);
-        $dllAdvertiserPartialMock->expectCallCount('checkPermissions', 1);
+        $dllAdvertiserPartialMock->expectCallCount('checkPermissions', 2);
 
         $dllCampaignPartialMock->setReturnValue('checkPermissions', true);
         $dllCampaignPartialMock->expectCallCount('checkPermissions', 1);
@@ -159,6 +171,7 @@ class OA_Dll_BannerTest extends DllUnitTestCase
 
         $oAdvertiserInfo = new OA_Dll_AdvertiserInfo();
         $oAdvertiserInfo->advertiserName = 'test Advertiser name';
+        $oAdvertiserInfo->agencyId       = $this->agencyId;
 
         $this->assertTrue($dllAdvertiserPartialMock->modify($oAdvertiserInfo),
                           $dllAdvertiserPartialMock->getLastError());
@@ -259,8 +272,9 @@ class OA_Dll_BannerTest extends DllUnitTestCase
         $dllCampaignPartialMock = new PartialMockOA_Dll_Campaign($this);
         $dllBannerPartialMock = new PartialMockOA_Dll_Banner($this);
 
+        $dllAdvertiserPartialMock->setReturnValue('getDefaultAgencyId', $this->agencyId);
         $dllAdvertiserPartialMock->setReturnValue('checkPermissions', true);
-        $dllAdvertiserPartialMock->expectCallCount('checkPermissions', 1);
+        $dllAdvertiserPartialMock->expectCallCount('checkPermissions', 2);
 
         $dllCampaignPartialMock->setReturnValue('checkPermissions', true);
         $dllCampaignPartialMock->expectCallCount('checkPermissions', 1);
@@ -270,6 +284,7 @@ class OA_Dll_BannerTest extends DllUnitTestCase
 
         $oAdvertiserInfo = new OA_Dll_AdvertiserInfo();
         $oAdvertiserInfo->advertiserName = 'test Advertiser name';
+        $oAdvertiserInfo->agencyId       = $this->agencyId;
 
         $this->assertTrue($dllAdvertiserPartialMock->modify($oAdvertiserInfo),
                           $dllAdvertiserPartialMock->getLastError());

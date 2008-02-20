@@ -89,7 +89,7 @@ $GLOBALS['strInstallIntro']                 = "Thank you for choosing <a href='h
 <p>To help you with the installation process we have created an <a href='http://".OX_PRODUCT_DOCSURL."/wizard/qsg-install' target='_blank'>Installation Quick Start Quide</a> to take you through the process of getting up and running.
 For a more detailed guide to installing and configuring ".MAX_PRODUCT_NAME." visit the <a href='http://".OX_PRODUCT_DOCSURL."/wizard/admin-guide' target='_blank'>Administrator Guide</a>.";
 $GLOBALS['strRecoveryRequiredTitle']    = "Your previous upgrade attempt encountered an error";
-$GLOBALS['strRecoveryRequired']         = "There was an error while processing your previous upgrade and OpenX must attempt to recover the upgrade process. Please click the Recover button below.";
+$GLOBALS['strRecoveryRequired']         = "There was an error while processing your previous upgrade and " . MAX_PRODUCT_NAME . " must attempt to recover the upgrade process. Please click the Recover button below.";
 $GLOBALS['strTermsTitle']               = "Software license information";
 $GLOBALS['strTermsIntro']               = MAX_PRODUCT_NAME . " is distributed freely under an Open Source license, the GNU General Public License.";
 $GLOBALS['strPolicyTitle']               = "Privacy and Data Usage Policy";
@@ -99,8 +99,7 @@ $GLOBALS['strDbSetupIntro']               = "Please enter the details to connect
 <p> The next step will set up your database. Click ‘continue’ to proceed.</p>";
 $GLOBALS['strDbUpgradeIntro']             = "Below are the detected database details for your installation of " . MAX_PRODUCT_NAME . ". Please check to make sure that these details are correct.
 <p>The next step will upgrade your database. Click 'Continue' to upgrade your system.</p>";
-
-$GLOBALS['strOaUpToDate']               = "Your OpenX database and file structure are both using the most recent version and therefore no upgrade is required at this time. Please click Continue to proceed to the OpenX administration panel.";
+$GLOBALS['strOaUpToDate']               = "Your " . MAX_PRODUCT_NAME . " database and file structure are both using the most recent version and therefore no upgrade is required at this time. Please click Continue to proceed to the OpenX administration panel.";
 $GLOBALS['strOaUpToDateCantRemove']     = "Warning: the UPGRADE file is still present inside of your var folder. We are unable to remove this file because of insufficient permissions. Please delete this file yourself.";
 $GLOBALS['strRemoveUpgradeFile']               = "You must remove the UPGRADE file from the var folder.";
 $GLOBALS['strInstallSuccess']               = "Clicking 'Continue' will log you in to your ad server.
@@ -130,9 +129,10 @@ $GLOBALS['strInstallNotSuccessful']         = "<b>The installation of ".MAX_PROD
                                                 first step of the install process. If you want to know more on what the error message below means, and how to solve it,
                                                 please consult the supplied documentation.";
 $GLOBALS['strSystemCheck']                  = "System check";
-$GLOBALS['strSystemCheckIntro']             = MAX_PRODUCT_NAME . " has certain requirements which will now be checked. We will warn you if any settings need to be changed.";
-$GLOBALS['strDbSuccessIntro']               = "The " . MAX_PRODUCT_NAME . " database has now been created. Please click the 'Continue' button to proceed with configuring ". MAX_PRODUCT_NAME ." Administrator and Delivery settings.";
-$GLOBALS['strDbSuccessIntroUpgrade']        = "The " . MAX_PRODUCT_NAME . " database has now been updated.  Please click the 'Continue' button to proceed with reviewing the " . MAX_PRODUCT_NAME . " Administrator and Delivery settings.";
+$GLOBALS['strSystemCheckIntro']             = "The install wizard is checking your web server settings to ensure that the installation process can complete successfully.
+<p>Please check any highlighted issues to complete the installation process.</p>";
+$GLOBALS['strDbSuccessIntro']               = "The " . MAX_PRODUCT_NAME . " database has now been created. Please click the 'Continue' button to proceed with configuring " . MAX_PRODUCT_NAME . " Administrator and Delivery settings.";
+$GLOBALS['strDbSuccessIntroUpgrade']        = "Your system has been successfully upgraded.  The remaining screens will help you update the configuration of your new ad server.";
 $GLOBALS['strErrorOccured']                 = "The following error occured:";
 $GLOBALS['strErrorInstallDatabase']         = "The database structure could not be created.";
 $GLOBALS['strErrorInstallPrefs']            = "The administrator user preferences could not be written to the database.";
@@ -143,7 +143,7 @@ $GLOBALS['strErrorInstallDbConnect']        = "It was not possible to open a con
 $GLOBALS['strErrorWritePermissions']        = "File permission errors have been detected, and must be fixed before you can continue.<br />To fix the errors on a Linux system, try typing in the following command(s):";
 $GLOBALS['strErrorFixPermissionsCommand']   = "<i>chmod a+w %s</i>";
 $GLOBALS['strErrorWritePermissionsWin']     = "File permission errors have been detected, and must be fixed before you can continue.";
-$GLOBALS['strCheckDocumentation']           = "For more help, please see the <a href=\"http://".OX_PRODUCT_DOCSURL."\">OpenX documentation<a/>.";
+$GLOBALS['strCheckDocumentation']           = "For more help, please see the <a href=\"http://".OX_PRODUCT_DOCSURL."\">" . MAX_PRODUCT_NAME . " documentation<a/>.";
 
 $GLOBALS['strAdminUrlPrefix']               = "Admin Interface URL";
 $GLOBALS['strDeliveryUrlPrefix']            = "Delivery Engine URL";
@@ -175,7 +175,7 @@ $GLOBALS['strUnableToWritePrefs']                    = 'Unable to commit prefere
 $GLOBALS['strImageDirLockedDetected']	             = "The supplied <b>Images Folder</b> is not writeable by the server. <br>You can't proceed until you either change permissions of the folder or create the folder.";
 
 // Configuration Settings
-$GLOBALS['strConfigurationSetup']                    = 'Configuration Setup';
+$GLOBALS['strConfigurationSetup']                    = 'Configuration checklist';
 $GLOBALS['strConfigurationSettings']                 = 'Configuration settings';
 
 // Administrator Settings
@@ -206,9 +206,9 @@ $GLOBALS['strTimezoneSeeDocs']                       = "Please see the %DOCS% ab
 $GLOBALS['strTimezoneDocumentation']                 = "documentation";
 $GLOBALS['strLoginSettingsTitle']                    = "Administrator Login";
 $GLOBALS['strLoginSettingsIntro']                    = "In order to continue with the upgrade process, please enter your " . MAX_PRODUCT_NAME . " administrator user login details.  You must login as the administrator user to continue with the upgrade process.";
-$GLOBALS['strAdminSettingsTitle']                    = "Your Administrator Account";
-$GLOBALS['strAdminSettingsIntro']                    = "The administrator account is used to login to the " . MAX_PRODUCT_NAME . " interface and manage inventory, view statistics, and create tags. Please fill in the username, password, and email address of the administrator.";
-$GLOBALS['strConfigSettingsIntro']                   = "Please review the following configuration settings. It is very important that you carefully review these settings as they are vital to the performance and usage of " . MAX_PRODUCT_NAME;
+$GLOBALS['strAdminSettingsTitle']                    = "Create an administrator account";
+$GLOBALS['strAdminSettingsIntro']                    = "Please complete this form to create your ad server administration account.";
+$GLOBALS['strConfigSettingsIntro']                   = "Please check the configuration settings below and make any required changes before proceeding.";
 
 $GLOBALS['strEnableAutoMaintenance']	             = "Automatically perform maintenance during delivery if scheduled maintenance is not set up";
 

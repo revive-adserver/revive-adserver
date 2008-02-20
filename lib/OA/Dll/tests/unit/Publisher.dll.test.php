@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Dll/Agency.php';
@@ -43,6 +43,10 @@ require_once MAX_PATH . '/lib/OA/Dll/tests/util/DllUnitTestCase.php';
 
 class OA_Dll_PublisherTest extends DllUnitTestCase
 {
+    /**
+     * @var int
+     */
+    var $agencyId;
 
     /**
      * Errors
@@ -65,8 +69,13 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
         Mock::generatePartial(
             'OA_Dll_Publisher',
             'PartialMockOA_Dll_Publisher',
-            array('checkPermissions')
+            array('checkPermissions', 'getDefaultAgencyId')
         );
+    }
+
+    function setUp()
+    {
+        $this->agencyId = DataGenerator::generateOne('agency');
     }
 
     function tearDown()
@@ -81,16 +90,20 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
     {
         $dllPublisherPartialMock = new PartialMockOA_Dll_Publisher($this);
 
+        $dllPublisherPartialMock->setReturnValue('getDefaultAgencyId', $this->agencyId);
         $dllPublisherPartialMock->setReturnValue('checkPermissions', true);
-        $dllPublisherPartialMock->expectCallCount('checkPermissions', 5);
+        $dllPublisherPartialMock->expectCallCount('checkPermissions', 7);
 
         $oPublisherInfo = new OA_DLL_PublisherInfo();
 
         $oPublisherInfo->publisherName = 'test Publisher';
+        $oPublisherInfo->agencyId      = $this->agencyId;
 
         // Add
         $this->assertTrue($dllPublisherPartialMock->modify($oPublisherInfo),
             $dllPublisherPartialMock->getLastError());
+
+        $this->assertTrue($oPublisherInfo->accountId);
 
         // Modify
         $oPublisherInfo->publisherName = 'modified Publisher';
@@ -127,7 +140,7 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
         $dllAgencyPartialMock    = new PartialMockOA_Dll_Agency($this);
 
         $dllPublisherPartialMock->setReturnValue('checkPermissions', true);
-        $dllPublisherPartialMock->expectCallCount('checkPermissions', 6);
+        $dllPublisherPartialMock->expectCallCount('checkPermissions', 8);
 
         $dllAgencyPartialMock->setReturnValue('checkPermissions', true);
         $dllAgencyPartialMock->expectCallCount('checkPermissions', 1);
@@ -137,13 +150,13 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
         $this->assertTrue($dllAgencyPartialMock->modify($oAgencyInfo),
                           $dllAgencyPartialMock->getLastError());
 
+        $dllPublisherPartialMock->setReturnValue('getDefaultAgencyId', $oAgencyInfo->agencyId);
+
         $oPublisherInfo1                 = new OA_Dll_PublisherInfo();
-        $oPublisherInfo1->agencyId     = $oAgencyInfo->agencyId;
+        $oPublisherInfo1->agencyId       = $oAgencyInfo->agencyId;
         $oPublisherInfo1->publisherName  = 'test name 1';
         $oPublisherInfo1->contactName    = 'contact';
         $oPublisherInfo1->emailAddress   = 'name@domain.com';
-        $oPublisherInfo1->username       = 'publisher   user'.rand(1, 20);
-        $oPublisherInfo1->password       = 'password';
 
         $oPublisherInfo2                 = new OA_Dll_PublisherInfo();
         $oPublisherInfo2->agencyId       = $oAgencyInfo->agencyId;
@@ -154,6 +167,8 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
 
         $this->assertTrue($dllPublisherPartialMock->modify($oPublisherInfo2),
                           $dllPublisherPartialMock->getLastError());
+        $this->assertTrue($oPublisherInfo1->accountId);
+        $this->assertTrue($oPublisherInfo2->accountId);
 
         $oPublisherInfo1Get = null;
         $oPublisherInfo2Get = null;
@@ -189,6 +204,8 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
         // Check field value from list
         $this->assertFieldEqual($oPublisherInfo1, $oPublisherInfo1Get, 'publisherName');
         $this->assertFieldEqual($oPublisherInfo2, $oPublisherInfo2Get, 'publisherName');
+        $this->assertTrue($oPublisherInfo1->accountId);
+        $this->assertTrue($oPublisherInfo2->accountId);
 
 
         // Delete
@@ -215,12 +232,14 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
     {
         $dllPublisherPartialMock = new PartialMockOA_Dll_Publisher($this);
 
+        $dllPublisherPartialMock->setReturnValue('getDefaultAgencyId', $this->agencyId);
         $dllPublisherPartialMock->setReturnValue('checkPermissions', true);
-        $dllPublisherPartialMock->expectCallCount('checkPermissions', 5);
+        $dllPublisherPartialMock->expectCallCount('checkPermissions', 6);
 
         $oPublisherInfo = new OA_DLL_PublisherInfo();
 
         $oPublisherInfo->publisherName = 'test Publisher';
+        $oPublisherInfo->agencyId      = $this->agencyId;
 
         // Add
         $this->assertTrue($dllPublisherPartialMock->modify($oPublisherInfo),

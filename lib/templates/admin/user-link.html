@@ -42,12 +42,12 @@ $Id: custom-adnetworks.html 12771 2007-11-23 15:29:03Z matteo.beccati@openads.or
   {include file=edit-table/create.html from=$fields}
 
   <div class="controls">
-    {if $editMode}
-      <input value="{t str=SaveChanges}" class="main-submit" type="submit" {tabindex}>
-    {else}
+    {if $showLinkButton}
       <input value="<< {t str=Back}" type="button" {tabindex} onclick="javascript:location.href='{$backUrl}'">
       <input value="{t str=LinkUser}" class="main-submit" type="submit" {tabindex}>
       {if !$existingUser}<span class="hint">{t str=NewUserWillBeCreated}</span>{/if}
+    {else}
+      <input value="{t str=SaveChanges}" class="main-submit" type="submit" {tabindex}>
     {/if}
   </div>
 </form>

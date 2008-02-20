@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Dll/Agency.php';
@@ -80,11 +80,12 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
 
         $oAgencyInfo->agencyName = 'testAgency';
         $oAgencyInfo->contactName = 'Mike';
-        $oAgencyInfo->username = 'Mike';
 
         // Add
         $this->assertTrue($dllAgencyPartialMock->modify($oAgencyInfo),
                           $dllAgencyPartialMock->getLastError());
+
+        $this->assertTrue($oAgencyInfo->accountId);
 
         // Modify
         $oAgencyInfo->agencyName = 'modified Agency';
@@ -123,8 +124,6 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
         $oAgencyInfo1->agencyName   = 'test name 1';
         $oAgencyInfo1->contactName  = 'contact';
         $oAgencyInfo1->emailAddress = 'name@domain.com';
-        $oAgencyInfo1->username     = 'username';
-        $oAgencyInfo1->password     = 'password';
 
         $oAgencyInfo2               = new OA_Dll_AgencyInfo();
         $oAgencyInfo2->agencyName   = 'test name 2';
@@ -150,6 +149,8 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
         $this->assertNull($oAgencyInfo1Get->password,
                           'Field \'password\' must be null');
         $this->assertFieldEqual($oAgencyInfo2, $oAgencyInfo2Get, 'agencyName');
+        $this->assertTrue($oAgencyInfo1Get->accountId);
+        $this->assertTrue($oAgencyInfo2Get->accountId);
 
         // Get List
         $aAgencyList = array();
@@ -166,6 +167,8 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
         // Check field value from list
         $this->assertFieldEqual($oAgencyInfo1, $oAgencyInfo1Get, 'agencyName');
         $this->assertFieldEqual($oAgencyInfo2, $oAgencyInfo2Get, 'agencyName');
+        $this->assertTrue($oAgencyInfo1Get->accountId);
+        $this->assertTrue($oAgencyInfo2Get->accountId);
 
 
         // Delete

@@ -46,6 +46,7 @@ class MAX_Plugin_Translation
      * @param string $module   Module name
      * @param string $package  Package name
      * @see translate()
+     * @todo TODOLANG The CONF fallback below will fail
      *
      * @return boolean         True on success else false
      *
@@ -55,14 +56,16 @@ class MAX_Plugin_Translation
             // Already included
             return true;
         }
-        if (MAX_Plugin_Translation::includePluginLanguageFile($module, $package, $GLOBALS['_MAX']['PREF']['language'] )) {
-            return true;
+        if (!empty($GLOBALS['_MAX']['PREF']['language'])) {
+            $language = $GLOBALS['_MAX']['PREF']['language'];
+        } elseif (!empty($GLOBALS['_MAX']['CONF']['max']['language'])) {
+            $language = $GLOBALS['_MAX']['CONF']['max']['language'];
         } else {
-            return MAX_Plugin_Translation::includePluginLanguageFile(
-                $module,
-                $package,
-                $GLOBALS['_MAX']['CONF']['max']['language']
-            );
+            $language = 'english';
+        }
+        
+        if (MAX_Plugin_Translation::includePluginLanguageFile($module, $package, $language)) {
+            return true;
         }
     }
 
@@ -92,7 +95,7 @@ class MAX_Plugin_Translation
         }
         if (is_readable($path)) {
             include $path;
-            //  If current module is not the default openx module
+            //  If current module is not the default openads module
             if (isset($words)) {
                 if ($package === null) {
                     $GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module] = $words;

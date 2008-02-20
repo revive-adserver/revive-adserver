@@ -36,7 +36,7 @@ process is essentially:
      - PHP        >= 4.3.11
      - MySQL      >= 4.0.18
 
-   If you would like to have support for displaying graphs in the OpenX
+   If you would like to have support for displaying graphs in the Openads
    statistics pages, you will also need to make sure that PHP is installed
    with support for GD.
 
@@ -50,7 +50,7 @@ process is essentially:
    permission levels, create the database by hand, and set up a database user
    with permissions restricted to this database. See the complete installation
    documentation at http://docs.openx.org/ for details on the required
-   database permissions needed by OpenX.
+   database permissions needed by Openads.
 
 3) Unpack the OpenX download into the directory on your web server where
    you would like to install openads.

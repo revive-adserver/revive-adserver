@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 /**
@@ -73,12 +73,10 @@ define('OA_ENTITY_ADVSIGNUP_REJECT_BREAKTERMS', 4);
 class OA_Dll extends OA_BaseObjectWithErrors
 {
     var $aAllowTraffickerAndAbovePerm = array(
-        OA_ACCOUNT_ADMIN,
         OA_ACCOUNT_MANAGER,
         OA_ACCOUNT_TRAFFICKER
     );
     var $aAllowAdvertiserAndAbovePerm = array(
-        OA_ACCOUNT_ADMIN,
         OA_ACCOUNT_MANAGER,
         OA_ACCOUNT_ADVERTISER
     );
@@ -273,29 +271,6 @@ class OA_Dll extends OA_BaseObjectWithErrors
     }
 
     /**
-     * Checks if username is still available and if it is allowed to use.
-     *
-	 * @access public
-	 *
-     * @param string $oldUsername
-     * @param string $newUsername
-     *
-     * @return boolean  True if allowed
-     */
-    function checkUniqueUserName($oldUsername, $newUsername)
-    {
-        if (!isset($newUsername) || strlen($newUsername) == 0) {
-            return true;
-        }
-        if (!OA_Permission::isUsernameAllowed($newUsername, $oldUsername)) {
-        	$this->raiseError('Username must be unique');
-	        return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Checks if record for object exists in database.
      *
 	 * @access public
@@ -326,11 +301,13 @@ class OA_Dll extends OA_BaseObjectWithErrors
             case 'campaigns' :
                 $tableId = 'campaign';
                 break;
+            case 'users' :
+                $tableId = 'user';
+                break;
         }
 
         $doObject = OA_Dal::factoryDO($table);
-        $object = $doObject->get($id);
-        if (!$object) {
+        if (empty($id) || !($object= $doObject->get($id))) {
 	        $this->raiseError('Unknown '.$tableId.'Id Error');
 	        return false;
         } else {
@@ -390,11 +367,18 @@ class OA_Dll extends OA_BaseObjectWithErrors
                 $isError = true;
             }
         }
-        if (isset($id) && !OA_Permission::hasAccessToObject($table, $id)) {
-            $isError = true;
+        if (!empty($id) && !$this->checkIdExistence($table, $id)) {
+            return false;
         }
-        if (isset($allowed) && !OA_Permission::hasPermission($allowed)) {
-            $isError = true;
+        if (isset($id) && !OA_Permission::hasAccessToObject($table, $id)) {
+            if (!OA_Permission::attemptToSwitchForAccess($table, $id)) {
+                $isError = true;
+            }
+        }
+        if (isset($allowed)) {
+            if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER) && !OA_Permission::hasPermission($allowed)) {
+                $isError = true;
+            }
         }
         if ($isError) {
             $this->raiseError('Access forbidden');
@@ -403,6 +387,30 @@ class OA_Dll extends OA_BaseObjectWithErrors
             return true;
         }
     }
+
+    function getDefaultAgencyId()
+    {
+        return OA_Permission::getAgencyId();
+    }
+
+    function checkAgencyPermissions($agencyId)
+    {
+        if (!empty($agencyId)) {
+            if (!$this->checkIdExistence('agency', $agencyId)) {
+                return false;
+            }
+            if ($this->checkPermissions(OA_ACCOUNT_MANAGER, 'agency', $agencyId)) {
+                return true;
+            } elseif ($this->checkPermissions(array(OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER))) {
+                return $agencyId == $this->getDefaultAgencyId();
+            }
+            $this->raiseError('Wrong AgencyId');
+            return false;
+        }
+
+        return true;
+    }
+
 }
 
 ?>

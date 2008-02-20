@@ -2,11 +2,14 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2008 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -74,11 +77,10 @@ define('OA_PERM_SUPER_ACCOUNT',    10);
  * A generic class which provides permissions related methods.
  *
  * @static
- * @package    OpenXPermission
+ * @package    OpenadsPermission
  */
 class OA_Permission
 {
-
     /**
      * Helper method which checks whether $condition is true, if it is not true
      * it prints to the end user error message
@@ -109,13 +111,22 @@ class OA_Permission
         $aArgs = is_array($accountType) ? $accountType : func_get_args();
         $isAccount = OA_Permission::isAccount($aArgs);
         if (!$isAccount) {
-            if (OA_Permission::isManualAccountSwitch()) {
-                require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-                MAX_Admin_Redirect::redirect();
-            }
+            OA_Permission::redirectIfManualAccountSwitch();
             $isAccount = OA_Permission::attemptToSwitchToAccount($aArgs);
         }
         OA_Permission::enforceTrue($isAccount);
+    }
+    
+    /**
+     * Redirect to start page if account was switched manually
+     *
+     */
+    function redirectIfManualAccountSwitch()
+    {
+        if (OA_Permission::isManualAccountSwitch()) {
+            require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
+            MAX_Admin_Redirect::redirect();
+        }
     }
 
     /**
@@ -162,7 +173,8 @@ class OA_Permission
 
     /**
      * A method to show an error if the user doesn't have specific permissions to
-     * perform an action on an account
+     * perform an action on his account. This method only performs a permission check
+     * if user is working as an accountType
      *
      * @static
      * @param string $permission  See OA_PERM_* constants
@@ -171,7 +183,7 @@ class OA_Permission
     function enforceAccountPermission($accountType, $permission)
     {
         if (OA_Permission::isAccount($accountType)) {
-            OA_Permission::enforceTrue(OA_Permission::hasPermission($permission, $accountId));
+            OA_Permission::enforceTrue(OA_Permission::hasPermission($permission));
         }
         return true;
     }
@@ -190,9 +202,15 @@ class OA_Permission
         if (!$allowNewEntity) {
             OA_Permission::enforceTrue(!empty($entityId));
         }
-        OA_Permission::enforceTrue(
-            OA_Permission::hasAccessToObject($entityTable, $entityId, $accountId)
-            || OA_Permission::isUserLinkedToAdmin());
+        $hasAccess = OA_Permission::hasAccessToObject($entityTable, $entityId, $accountId);
+        if (!$hasAccess) {
+            OA_Permission::redirectIfManualAccountSwitch();
+            $hasAccess = OA_Permission::attemptToSwitchForAccess($entityTable, $entityId);
+            if (!$hasAccess) {
+                $hasAccess = OA_Permission::isUserLinkedToAdmin();
+            }
+        }
+        OA_Permission::enforceTrue($hasAccess);
     }
 
     /**
@@ -301,6 +319,32 @@ class OA_Permission
                 return true;
             }
         }
+        return false;
+    }
+
+    function attemptToSwitchForAccess($entityTable, $entityId)
+    {
+        if (!($userId = OA_Permission::getUserId())) {
+            return false;
+        }
+        $doEntity = OA_Dal::staticGetDO($entityTable, $entityId);
+        if ($doEntity) {
+           $aAccountIds = $doEntity->getAllOwningAccountIds();
+
+            foreach ($aAccountIds as $accountId) {
+                if (OA_Permission::hasAccess($accountId)) {
+                    OA_Permission::switchAccount($accountId, $hasAccess = true);
+                    return true;
+                }
+            }
+
+            if (OA_Permission::isUserLinkedToAdmin()) {
+                $accountId = $doEntity->getRootAccountId();
+                OA_Permission::switchAccount($accountId, $hasAccess = true);
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -463,33 +507,43 @@ class OA_Permission
      */
     function hasPermission($permissionId, $accountId = null, $userId = null)
     {
-        static $permissions;
-
-        if (is_null($permissions)) {
-            $permissions = array();
-        }
+        static $aCache = array();
 
         if ($accountId === null) {
-            $accountId = OA_Permission::getAccountId();
-        }
-        if ($userId === null) {
-            $userId = OA_Permission::getUserId();
-        }
-        if (empty($accountId) || empty($userId)) {
-            return false;
-        }
-        if (!isset($permissions[$userId][$accountId])) {
-            $doAccount_user_permission_assoc = OA_Dal::factoryDO('account_user_permission_assoc');
-            $doAccount_user_permission_assoc->user_id = $userId;
-            $doAccount_user_permission_assoc->account_id = $accountId;
-            $doAccount_user_permission_assoc->find();
-            while ($doAccount_user_permission_assoc->fetch()) {
-                $permissions[$userId][$accountId][$doAccount_user_permission_assoc->permission_id] =
-                    $doAccount_user_permission_assoc->is_allowed;
+            $accountId   = OA_Permission::getAccountId();
+            $accountType = OA_Permission::getAccountType();
+        } else {
+            $oAccounts   = OA_Dal::staticGetDO('accounts', $accountId);
+            if ($oAccounts) {
+                $accountType = $oAccounts->accountType;
+            } else {
+                // Account does not exist
+                Max::raiseError('No such account ID: '.$accountId);
+                return false;
             }
         }
-        return isset($permissions[$userId][$accountId][$permissionId]) ?
-            $permissions[$userId][$accountId][$permissionId] : false;
+        if (OA_Permission::isPermissionRelatedToAccountType($accountType, $permissionId)) {
+            if ($userId === null) {
+                $userId = OA_Permission::getUserId();
+            }
+            if (empty($accountId) || empty($userId)) {
+                return false;
+            }
+            if (!isset($aCache[$userId][$accountId])) {
+                $doAccount_user_permission_assoc = OA_Dal::factoryDO('account_user_permission_assoc');
+                $doAccount_user_permission_assoc->user_id = $userId;
+                $doAccount_user_permission_assoc->account_id = $accountId;
+                $doAccount_user_permission_assoc->find();
+                while ($doAccount_user_permission_assoc->fetch()) {
+                    $aCache[$userId][$accountId][$doAccount_user_permission_assoc->permission_id] =
+                        $doAccount_user_permission_assoc->is_allowed;
+                }
+            }
+        } else {
+            $aCache[$userId][$accountId][$permissionId] = true;
+        }
+        return isset($aCache[$userId][$accountId][$permissionId]) ?
+            $aCache[$userId][$accountId][$permissionId] : false;
     }
 
     /**
@@ -780,7 +834,7 @@ class OA_Permission
      */
     function isUsernameAllowed($newName, $oldName = null)
     {
-        if (!empty($oldName) && $oldName == $newName) {
+        if (!empty($oldName) && !strcasecmp($oldName, $newName)) {
             return true;
         }
         return !OA_Permission::userNameExists($newName);
@@ -887,6 +941,49 @@ class OA_Permission
     	    $doAccount_user_permission_assoc->user_id = $userId;
     	    $doAccount_user_permission_assoc->delete();
 	    }
+	}
+
+	/**
+	 * A private static method to return wether an account type is constrained by a
+	 * certain permission
+	 *
+	 * @static
+	 *
+	 * @param string $accountType
+	 * @param int    $permissionId
+	 * @return bool
+	 */
+	function isPermissionRelatedToAccountType($accountType, $permissionId)
+	{
+	    static $aMap = array(
+            OA_PERM_BANNER_ACTIVATE     => array(OA_ACCOUNT_ADVERTISER),
+            OA_PERM_BANNER_DEACTIVATE   => array(OA_ACCOUNT_ADVERTISER),
+            OA_PERM_BANNER_ADD          => array(OA_ACCOUNT_ADVERTISER),
+            OA_PERM_BANNER_EDIT         => array(OA_ACCOUNT_ADVERTISER),
+
+            OA_PERM_ZONE_ADD            => array(OA_ACCOUNT_TRAFFICKER),
+            OA_PERM_ZONE_DELETE         => array(OA_ACCOUNT_TRAFFICKER),
+            OA_PERM_ZONE_EDIT           => array(OA_ACCOUNT_TRAFFICKER),
+            OA_PERM_ZONE_INVOCATION     => array(OA_ACCOUNT_TRAFFICKER),
+            OA_PERM_ZONE_LINK           => array(OA_ACCOUNT_TRAFFICKER),
+
+            OA_PERM_SUPER_ACCOUNT       => array(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER),
+	    );
+
+	    static $aCache;
+
+	    $key = $accountType.','.$permission;
+
+	    if (isset($aCache[$key])) {
+	        return $aCache[$key];
+	    } elseif (isset($aMap[$permission])) {
+	        $aCache[$key] = in_array($accountType, $aMap[$permission]);
+	    } else {
+	        // Unexpected permission, we suppose it's related to all the account types
+	        $aCache[$key] = true;
+	    }
+
+	    return $aCache[$key];
 	}
 
 }

@@ -20,7 +20,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 package org.openads.utils;
@@ -31,6 +31,8 @@ import java.text.MessageFormat;
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class ErrorMessage {
+	public static final String ACCESS_FORBIDDEN = "Access forbidden";
+
 	public static final String WRONG_ERROR_MESSAGE = "Wrong error message";
 	public static final String EMAIL_IS_NOT_VALID = "Email is not valid";
 	public static final String USERNAME_IS_FEWER_THAN = "Username is fewer than {0} character";

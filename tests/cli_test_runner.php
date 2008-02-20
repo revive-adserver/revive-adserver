@@ -68,12 +68,7 @@ foreach ($aLayer as $layer) {
         foreach ($aDirectories as $dirName => $aFiles) {
             $oReporter->paintGroupStart("Directory $dirName ($testName)", count($aFiles));
             foreach ($aFiles as $fileName) {
-            	$oReporter->paintCaseStart("File $fileName ($testName)");
-            	// Drop database on PgSQL before starting
-                if (strcasecmp($GLOBALS['_MAX']['CONF']['database']['type'], 'pgsql') === 0)
-                {
-                    OA_DB::dropDatabase($GLOBALS['_MAX']['CONF']['database']['name']);
-                }
+                $oReporter->paintCaseStart("File $fileName ($testName)");
 
                 // Prepare the name of the test to display when running
                 for ($counter = 0; $counter < count($GLOBALS['_MAX']['TEST']['groups']) - 1; $counter++) {

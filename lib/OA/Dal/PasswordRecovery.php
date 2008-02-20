@@ -25,7 +25,7 @@ $Id$
 */
 
 /**
- * Password recovery DAL for OpenX
+ * Password recovery DAL for Openads
  *
  * @package OpenXDal
  */

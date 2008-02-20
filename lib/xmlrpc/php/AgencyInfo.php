@@ -51,6 +51,13 @@ class OA_Dll_AgencyInfo extends OA_Info
     var $agencyId;
 
     /**
+     * This field contains the ID of the agency account.
+     *
+     * @var integer $accountId
+     */
+    var $accountId;
+
+    /**
      * The agencycName variable is the name of the agency.
      *
      * @var string $agencyName
@@ -71,29 +78,14 @@ class OA_Dll_AgencyInfo extends OA_Info
      */
     var $emailAddress;
 
-    /**
-     * The username variable is the username the contact uses to log into OpenX.
-     *
-     * @var string $username
-     */
-    var $username;
-
-    /**
-     * The password variable is the password the contact uses to log into OpenX.
-     *
-     * @var string $password
-     */
-    var $password;
-
     function getFieldsTypes()
     {
         return array(
                     'agencyId' => 'integer',
+                    'accountId' => 'integer',
                     'agencyName' => 'string',
                     'contactName' => 'string',
-                    'emailAddress' => 'string',
-                    'username' => 'string',
-                    'password' => 'string'
+                    'emailAddress' => 'string'
                 );
     }
 }

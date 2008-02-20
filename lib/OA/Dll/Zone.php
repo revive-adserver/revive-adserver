@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 /**
@@ -104,7 +104,7 @@ class OA_Dll_Zone extends OA_Dll
     function _validate(&$oZone)
     {
         if (!$this->_validateZoneType($oZone->type) ||
-            !$this->checkStructureNotRequiredStringField($oZone, 'zoneName', 255) ||
+            !$this->checkStructureNotRequiredStringField($oZone, 'zoneName', 245) ||
             !$this->checkStructureNotRequiredIntegerField($oZone, 'width') ||
             !$this->checkStructureNotRequiredIntegerField($oZone, 'height')) {
 
@@ -497,6 +497,45 @@ class OA_Dll_Zone extends OA_Dll
         } else {
             return false;
         }
+    }
+
+    /**
+     * Method checked if zone linked to active campaign
+     *
+     * @param int $zoneId
+     * @return boolean  true if zone is connect to active campaign
+     */
+    function checkZoneLinkedToActiveCampaign($zoneId)
+    {
+        $doAdZone = OA_Dal::factoryDO('ad_zone_assoc');
+        $doAdZone->zone_id = $zoneId;
+        $doAdZone->find();
+        $linkBanners = array();
+        while ($doAdZone->fetch()) {
+            if (!in_array($doAdZone->ad_id, $linkBanners)) {
+                $linkBanners[] = $doAdZone->ad_id;
+            }
+        }
+
+        foreach ($linkBanners as $bannerId) {
+            $doBanner = OA_Dal::factoryDO('banners');
+            $doBanner->get($bannerId);
+            if (!in_array($doBanner->campaignid, $linkCampaigns)) {
+                $linkCampaigns[] = $doBanner->campaignid;
+            }
+        }
+
+        foreach ($linkCampaigns as $campaignId) {
+            $doCampaign = OA_Dal::factoryDO('campaigns');
+            $doCampaign->get($campaignId);
+            if ($doCampaign->status != OA_ENTITY_STATUS_EXPIRED ||
+                    $doCampaign->status != OA_ENTITY_STATUS_REJECTED) {
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

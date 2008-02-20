@@ -20,7 +20,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 package org.openads.campaign;
@@ -237,10 +237,6 @@ public class TestAddCampaign extends CampaignTestCase {
 
 		Map<String, Object> struct = new HashMap<String, Object>();
 		Object[] params = new Object[] { sessionId, struct };
-
-		struct.put(ADVERTISER_ID, TextUtils.NOT_INTEGER);
-		executeAddCampaignWithError(params, ErrorMessage.getMessage(
-				ErrorMessage.FIELD_IS_NOT_INTEGER, ADVERTISER_ID));
 
 		struct.put(ADVERTISER_ID, advertiserId);
 		struct.put(CAMPAIGN_NAME, TextUtils.NOT_STRING);

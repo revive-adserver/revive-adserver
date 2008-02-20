@@ -20,7 +20,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 package org.openads.agency;
@@ -70,8 +70,6 @@ public class TestAddAgency extends AgencyTestCase {
 		struct.put(AGENCY_NAME, "testAgancy");
 		struct.put(CONTACT_NAME, "test");
 		struct.put(EMAIL_ADDRESS, "test@mail.com");
-		struct.put(USERNAME, TextUtils.generateUniqueName("agencyUser"));
-		struct.put(PASSWORD, "qwerty");
 		Object[] params = new Object[] { sessionId, struct };
 		final Integer result = (Integer) client.execute(ADD_AGENCY_METHOD,
 				params);
@@ -108,8 +106,6 @@ public class TestAddAgency extends AgencyTestCase {
 		struct.put(AGENCY_NAME, "");
 		struct.put(CONTACT_NAME, "");
 		struct.put(EMAIL_ADDRESS, TextUtils.MIN_ALLOWED_EMAIL);
-		struct.put(USERNAME, "s");
-		struct.put(PASSWORD, "");
 		Object[] params = new Object[] { sessionId, struct };
 		final Integer result = (Integer) client.execute(ADD_AGENCY_METHOD,
 				params);
@@ -129,8 +125,6 @@ public class TestAddAgency extends AgencyTestCase {
 		struct.put(AGENCY_NAME, TextUtils.getString(255));
 		struct.put(CONTACT_NAME, TextUtils.getString(255));
 		struct.put(EMAIL_ADDRESS, TextUtils.getString(55) + "@mail.com");
-		struct.put(USERNAME, TextUtils.generateUniqueString(64));
-		struct.put(PASSWORD, TextUtils.getString(64));
 		Object[] params = new Object[] { sessionId, struct };
 		final Integer result = (Integer) client.execute(ADD_AGENCY_METHOD,
 				params);
@@ -184,117 +178,6 @@ public class TestAddAgency extends AgencyTestCase {
 		struct.put(CONTACT_NAME, strGreaterThan255);
 		executeAddAgencyWithError(params, ErrorMessage.getMessage(
 				ErrorMessage.EXCEED_MAXIMUM_LENGTH_OF_FIELD, CONTACT_NAME));
-
-		// test username
-		struct.remove(CONTACT_NAME);
-		struct.put(USERNAME, strGreaterThan64);
-		executeAddAgencyWithError(params, ErrorMessage.getMessage(
-				ErrorMessage.EXCEED_MAXIMUM_LENGTH_OF_FIELD, USERNAME));
-
-		// test password
-		struct.remove(USERNAME);
-		struct.put(PASSWORD, strGreaterThan64);
-		executeAddAgencyWithError(params, ErrorMessage.getMessage(
-				ErrorMessage.EXCEED_MAXIMUM_LENGTH_OF_FIELD, PASSWORD));
-	}
-
-	/**
-	 * Test method with fields that has value less than min
-	 *
-	 * @throws MalformedURLException
-	 */
-	public void testAddAgencyLessThanMinFieldValueError()
-			throws MalformedURLException {
-		Map<String, Object> struct = new HashMap<String, Object>();
-		Object[] params = new Object[] { sessionId, struct };
-
-		// test username
-		struct.put(AGENCY_NAME, "test advertiser name");
-		struct.put(USERNAME, "");
-
-		executeAddAgencyWithError(params, ErrorMessage.getMessage(
-				ErrorMessage.USERNAME_IS_FEWER_THAN, "1"));
-
-		// test emailAddress
-		struct.remove(USERNAME);
-		struct.put(EMAIL_ADDRESS, "");
-
-		executeAddAgencyWithError(params, ErrorMessage.EMAIL_IS_NOT_VALID);
-	}
-
-	/**
-	 * Try to add agency with the same username as an existing admin, agency,
-	 * advertiser, or publisher username.
-	 *
-	 * @throws MalformedURLException
-	 */
-	public void testAddAgencyDuplicateUsernameError()
-			throws MalformedURLException {
-		Map<String, String> struct = new HashMap<String, String>();
-		struct.put(AGENCY_NAME, "testAgency");
-		struct.put(CONTACT_NAME, "test");
-		struct.put(EMAIL_ADDRESS, "test@mail.com");
-		struct.put(USERNAME, GlobalSettings.getUserName());
-		struct.put(PASSWORD, "qwerty");
-		Object[] params = new Object[] { sessionId, struct };
-
-		executeAddAgencyWithError(params, ErrorMessage.USERNAME_MUST_BE_UNIQUE);
-	}
-
-	/**
-	 * Try to add agency with unsupported characters in password.
-	 *
-	 * @throws MalformedURLException
-	 */
-	public void testAddAgencyUsernameFormatError2()
-			throws MalformedURLException {
-		Map<String, String> struct = new HashMap<String, String>();
-		struct.put(AGENCY_NAME, "testAgency");
-		struct.put(CONTACT_NAME, "test");
-		struct.put(EMAIL_ADDRESS, "test@mail.com");
-		struct.put(USERNAME, "agencyUser");
-		struct.put(PASSWORD, "qwerty\\");
-		Object[] params = new Object[] { sessionId, struct };
-
-		executeAddAgencyWithError(params, ErrorMessage.getMessage(
-				ErrorMessage.PASSWORDS_CANNOT_CONTAIN, "\\"));
-	}
-
-	/**
-	 * Try to add agency with username fewer than 1 characters.
-	 *
-	 * @throws MalformedURLException
-	 */
-	public void testAddAgencyUsernameFormatError3()
-			throws MalformedURLException {
-		Map<String, String> struct = new HashMap<String, String>();
-		struct.put(AGENCY_NAME, "testAgency");
-		struct.put(CONTACT_NAME, "test");
-		struct.put(EMAIL_ADDRESS, "test@mail.com");
-		struct.put(USERNAME, "");
-		struct.put(PASSWORD, "qwerty");
-		Object[] params = new Object[] { sessionId, struct };
-
-		executeAddAgencyWithError(params, ErrorMessage.getMessage(
-				ErrorMessage.USERNAME_IS_FEWER_THAN, "1"));
-	}
-
-	/**
-	 * Try to add agency without username but with password.
-	 *
-	 * @throws MalformedURLException
-	 */
-	public void testAddAgencyUsernameFormatError4()
-			throws MalformedURLException {
-		Map<String, String> struct = new HashMap<String, String>();
-		struct.put(AGENCY_NAME, "testAgency");
-		struct.put(CONTACT_NAME, "test");
-		struct.put(EMAIL_ADDRESS, "test@mail.com");
-		struct.put(PASSWORD, "qwerty");
-		Object[] params = new Object[] { sessionId, struct };
-
-		executeAddAgencyWithError(params,
-				ErrorMessage.USERNAME_IS_NULL_AND_THE_PASSWORD_IS_NOT);
 	}
 
 	/**
@@ -313,11 +196,5 @@ public class TestAddAgency extends AgencyTestCase {
 		struct.put(AGENCY_NAME, TextUtils.NOT_STRING);
 		executeAddAgencyWithError(params, ErrorMessage.getMessage(
 				ErrorMessage.FIELD_IS_NOT_STRING, AGENCY_NAME));
-
-		struct.put(AGENCY_NAME, "test name");
-		struct.put(USERNAME, TextUtils.NOT_STRING);
-		executeAddAgencyWithError(params, ErrorMessage.getMessage(
-				ErrorMessage.FIELD_IS_NOT_STRING, USERNAME));
-
 	}
 }

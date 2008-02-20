@@ -90,12 +90,12 @@ class Test_OA_Admin_BannerCache extends UnitTestCase
          $aBanner['storagetype'] = 'html';
          $aBanner['filename'] = '';
          $aBanner['imageurl'] = '';
-         $aBanner['htmltemplate'] ='<a href=\'http://www.openx.org/download.html\' target=\'_blank\'>Download OpenX</a>';
+         $aBanner['htmltemplate'] ='<a href=\'http://www.openx.org/download.html\' target=\'_blank\'>Download Openads</a>';
          $aBanner['htmlcache'] ='';
          $aBanner['target'] = '_new';
          $aBanner['url'] = 'http://www.openx.org';
          $aBanner['adserver'] = '';
-         $aBanner['expected'] = "<a href='{clickurl}http://www.openx.org/download.html'  target='{target}'>Download OpenX</a>";
+         $aBanner['expected'] = "<a href='{clickurl}http://www.openx.org/download.html'  target='{target}'>Download Openads</a>";
          return $aBanner;
     }
 
@@ -197,8 +197,8 @@ htmltemplate: [targeturl]<a href=\'{targeturl}\' target=\'{target}\'[status] onM
    htmlcache: [targeturl]<a href=\'{targeturl}\' target=\'{target}\'[status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status]>[/targeturl]<img src=\'{imageurl}\' width=\'{width}\' height=\'{height}\' alt=\'{alt}\' title=\'{alt}\' border=\'0\'[nourl][status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status][/nourl]>[targeturl]</a>[/targeturl][bannertext]<br>[targeturl]<a href=\'{targeturl}\' target=\'{target}\'[status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status]>[/targeturl]{bannertext}[targeturl]</a>[/targeturl][/bannertext]
 *************************** 2. row ***************************
     bannerid: 2
-htmltemplate: <a href=\'http://www.openx.org/download.html\' target=\'_blank\'>Download OpenX</a>
-   htmlcache: <a href=\'{clickurl}http://www.openx.org/download.html\'  target=\'{target}\'>Download OpenX</a>
+htmltemplate: <a href=\'http://www.openx.org/download.html\' target=\'_blank\'>Download Openads</a>
+   htmlcache: <a href=\'{clickurl}http://www.openx.org/download.html\'  target=\'{target}\'>Download Openads</a>
 *************************** 3. row ***************************
     bannerid: 3
 htmltemplate: [targeturl]<a href=\'{targeturl}\' target=\'{target}\'[status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status]>[/targeturl]{bannertext}[targeturl]</a>[/targeturl]
