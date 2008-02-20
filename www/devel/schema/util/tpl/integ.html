@@ -1,30 +1,63 @@
-<html>
+fe<html>
 <head>
     <title>OpenX Schema Integrity Utilities</title>
     <link rel="stylesheet" type="text/css" href="css/upgrade.css"/>
 
-    <!--script type="text/javascript" src="schema.js"></script>
+    <script type="text/javascript" src="schema.js"></script>
     <script type="text/javascript" src="../../lib/xajax/xajax_js/xajax.js"></script>
     <script type="text/javascript">
         window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Javascript file could not be included. Perhaps the URL is incorrect?\nURL: ../lib/xajax/xajax_js/xajax.js'); } }, 6000);
-    </script-->
+    </script>
 
 </head>
-<body>
-<div class="tablediv">
-    <h2>OpenX Schema Integrity Utilities</h2>
-    <form name="frmInteg" method="POST" action="integ.php">
-        <button name="btn_integ_check">run an integrity check on <?php echo $GLOBALS['_MAX']['CONF']['database']['name']; ?> against schema version =></button>
-        <select name="version">
-            <option value="515" <?php echo ($version==515 ? 'selected' : '')?>>schema 515 (Openads 2.3.32-beta)</option>
-            <option value="129.34" <?php echo ($version==129.34 ? 'selected' : '')?>>schema 129.34 (Openads 2.3.34-beta)</option>
-            <option value="500" <?php echo ($version==500 ? 'selected' : '')?>>schema 500 (MMMv2.3.31-pr3)</option>
-            <option value="300" <?php echo ($version==300 ? 'selected' : '')?>>schema 300 (MMMv2.1.29-rc)</option>
-            <option value="099" <?php echo ($version==099 ? 'selected' : '')?>>schema 099 (PANv2.0.11-pr1)</option>
-        </select>
-    </form>
-</div>
+<body onload="xajax_loadDatasetList()">
 <form name="frmInteg" method="POST" action="integ.php">
+    <div class="tablediv">
+        <h2>Openads Schema Utilities</h2>
+<?php
+if (count($aAppInfo)>0)
+{
+    echo $aAppInfo['versionApp'].' == '.$GLOBALS['_MAX']['CONF']['database']['name'].' == schema_tables_core_'.$aAppInfo['versionSchema'].' == '.($aAppInfo['canUpgrade']? 'upgradeable' : 'not upgradeable');
+}
+?>
+    </div>
+    <div class="tablediv">
+        <button name="btn_data_dump">dump data to xml excluding </button>
+        backups<input type="checkbox" checked name="exclude[bak]" value="z_"/>
+        data raw<input type="checkbox" checked name="exclude[raw]" value="data_raw_"/>
+        data summary<input type="checkbox" checked name="exclude[sum]" value="data_summary_"/>
+        data intermediary<input type="checkbox" checked name="exclude[int]" value="data_intermediate_"/>
+        logs<input type="checkbox" checked name="exclude[log]" value="log_maintenance_"/>
+        actions<input type="checkbox" checked name="exclude[act]" value="_action"/>
+        audit<input type="checkbox" checked name="exclude[img]" value="images"/>
+        images<input type="checkbox" checked name="exclude[aud]" value="audit"/>
+   </div>
+    <div class="tablediv">
+            <button name="btn_data_load_dryrun">dry run</button>
+            <button name="btn_data_load">load data from =></button>
+            <select name="datafile" id="datafile"">
+            </select>
+    </div>
+
+   <div class="tablediv">
+            <button name="btn_integ_check">run an integrity check on schema against =></button>
+            <select name="version">
+                <option value="548" <?php echo ($version==548 ? 'selected' : '')?>>schema 548 (Openads 2.5.50-dev)</option>
+                <option value="515" <?php echo ($version==515 ? 'selected' : '')?>>schema 515 (Openads 2.3.32-beta >> 2.4.0)</option>
+                <option value="129.34" <?php echo ($version==129.34 ? 'selected' : '')?>>schema 129.34 (Openads 2.3.34-beta)</option>
+                <option value="500" <?php echo ($version==500 ? 'selected' : '')?>>schema 500 (MMMv2.3.31-pr3)</option>
+                <option value="300" <?php echo ($version==300 ? 'selected' : '')?>>schema 300 (MMMv2.1.29-rc)</option>
+                <option value="099" <?php echo ($version==099 ? 'selected' : '')?>>schema 099 (PANv2.0.11-pr1)</option>
+            </select>
+    </div>
+    <div class="tablediv">
+        <button name="btn_integ_exec" value="<?php echo $file_changes; ?>">execute the selected tasks using <?php echo $file_changes; ?></button>
+        <input name="changes_version" type="hidden" value="<?php echo $version; ?>" />
+    </div>
+<?php
+if (count($aTasks)>0)
+{
+?>
     <div class="tablediv">
         <button name="btn_integ_exec" value="<?php echo $file_changes; ?>">execute the selected tasks using <?php echo $file_changes; ?></button>
         <input name="changes_version" type="hidden" value="<?php echo $version; ?>" />
@@ -33,6 +66,7 @@
     <tr>
     <td class="tablebody" style="width:50%">
 <?php
+}
 if (count($aTasksConstructive)>0)
 {
     $tickAll = true;

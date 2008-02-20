@@ -82,6 +82,7 @@ class MDB2_Schema_Parser extends XML_Parser
     var $error;
     var $structure = false;
     var $val;
+    var $validate = true;
 
     function __construct($variables, $fail_on_invalid_names = true, $structure = false, $valid_types = array(), $force_defaults = true)
     {
@@ -271,12 +272,14 @@ class MDB2_Schema_Parser extends XML_Parser
 
         /* Table definition */
         case 'database-table':
-            $result = $this->val->validateTable($this->database_definition['tables'], $this->table, $this->table_name);
-            if (PEAR::isError($result)) {
-                $this->raiseError($result->getUserinfo(), 0, $xp, $result->getCode());
-            } else {
-                $this->database_definition['tables'][$this->table_name] = $this->table;
+            if ($this->validate)
+            {
+                $result = $this->val->validateTable($this->database_definition['tables'], $this->table, $this->table_name);
+                if (PEAR::isError($result)) {
+                    $this->raiseError($result->getUserinfo(), 0, $xp, $result->getCode());
+                }
             }
+            $this->database_definition['tables'][$this->table_name] = $this->table;
             break;
         case 'database-table-name':
             if (isset($this->structure_tables[$this->table_name])) {
@@ -286,47 +289,58 @@ class MDB2_Schema_Parser extends XML_Parser
 
         /* Field declaration */
         case 'database-table-declaration-field':
-            $result = $this->val->validateField($this->table['fields'], $this->field, $this->field_name);
-            if (PEAR::isError($result)) {
-                $this->raiseError($result->getUserinfo(), 0, $xp, $result->getCode());
-            } else {
-                $this->table['fields'][$this->field_name] = $this->field;
+            if ($this->validate)
+            {
+                $result = $this->val->validateField($this->table['fields'], $this->field, $this->field_name);
+                if (PEAR::isError($result)) {
+                    $this->raiseError($result->getUserinfo(), 0, $xp, $result->getCode());
+                }
             }
+            $this->table['fields'][$this->field_name] = $this->field;
             break;
 
         /* Index declaration */
         case 'database-table-declaration-index':
-            $result = $this->val->validateIndex($this->table['indexes'], $this->index, $this->index_name);
-            if (PEAR::isError($result)) {
-                $this->raiseError($result->getUserinfo(), 0, $xp, $result->getCode());
-            } else {
-                $this->table['indexes'][$this->index_name] = $this->index;
+            if ($this->validate)
+            {
+                $result = $this->val->validateIndex($this->table['indexes'], $this->index, $this->index_name);
+                if (PEAR::isError($result)) {
+                    $this->raiseError($result->getUserinfo(), 0, $xp, $result->getCode());
+                }
             }
+            $this->table['indexes'][$this->index_name] = $this->index;
             break;
         case 'database-table-declaration-index-field':
-            $result = $this->val->validateIndexField($this->index['fields'], $this->field, $this->field_name);
-            if (PEAR::isError($result)) {
-                $this->raiseError($result->getUserinfo(), 0, $xp, $result->getCode());
-            } else {
-                $this->index['fields'][$this->field_name] = $this->field;
+            if ($this->validate)
+            {
+                $result = $this->val->validateIndexField($this->index['fields'], $this->field, $this->field_name);
+                if (PEAR::isError($result)) {
+                    $this->raiseError($result->getUserinfo(), 0, $xp, $result->getCode());
+                }
             }
+            $this->index['fields'][$this->field_name] = $this->field;
             break;
 
         /* Sequence declaration */
         case 'database-sequence':
-            $result = $this->val->validateSequence($this->database_definition['sequences'], $this->sequence, $this->sequence_name);
-            if (PEAR::isError($result)) {
-                $this->raiseError($result->getUserinfo(), 0, $xp, $result->getCode());
-            } else {
-                $this->database_definition['sequences'][$this->sequence_name] = $this->sequence;
+            if ($this->validate)
+            {
+                $result = $this->val->validateSequence($this->database_definition['sequences'], $this->sequence, $this->sequence_name);
+                if (PEAR::isError($result)) {
+                    $this->raiseError($result->getUserinfo(), 0, $xp, $result->getCode());
+                }
             }
+            $this->database_definition['sequences'][$this->sequence_name] = $this->sequence;
             break;
 
         /* End of File */
         case 'database':
-            $result = $this->val->validateDatabase($this->database_definition);
-            if (PEAR::isError($result)) {
-                $this->raiseError($result->getUserinfo(), 0, $xp, $result->getCode());
+            if ($this->validate)
+            {
+                $result = $this->val->validateDatabase($this->database_definition);
+                if (PEAR::isError($result)) {
+                    $this->raiseError($result->getUserinfo(), 0, $xp, $result->getCode());
+                }
             }
             break;
         }
@@ -504,6 +518,13 @@ class MDB2_Schema_Parser extends XML_Parser
                 $this->database_definition['status'] = $data;
             }
             break;
+        case 'database-application':
+            if (isset($this->database_definition['application'])) {
+                $this->database_definition['application'].= $data;
+            } else {
+                $this->database_definition['application'] = $data;
+            }
+            break;
         case 'database-table-name':
             if (isset($this->table_name)) {
                 $this->table_name.= $data;
@@ -677,7 +698,15 @@ class MDB2_Schema_Parser extends XML_Parser
 
     function setData(&$array, $key, $value)
     {
-        $array[(count($array)-1)][$key] = $value;
+        $lastIdx = count($array) - 1;
+        if (isset($value['data']) && isset($array[$lastIdx][$key]['data'])) {
+            // Value is an array and has a data member, there might be something
+            // already stored, so we need to append rather then replace.
+            $value['data'] = $array[$lastIdx][$key]['data'].$value['data'];
+        } elseif (is_string($value) && isset($array[$lastIdx][$key])) {
+            $value =  $array[$lastIdx][$key].$value;
+        }
+        $array[$lastIdx][$key] = $value;
     }
 }
 

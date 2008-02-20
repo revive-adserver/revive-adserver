@@ -92,22 +92,24 @@ class TestEnv
 
     /**
      * use children of the OA_Test_Data class
-     * to load a dataset using dataobjects
-     * see testData_0.3.27_delivery.php
+     * to load a dataset using either dataobjects or mdb2_schema
      *
      * @param string $source : file identifier
      * @return array $aIds : array of inserted entity ids
      */
     function loadData($source)
     {
-        if (file_exists(MAX_PATH . "/tests/data/testData_{$source}.php"))
+        if (file_exists(MAX_PATH . "/tests/datasets/test_{$source}.php"))
         {
             $classname = 'OA_Test_Data_'.str_replace('.','_',$source);
-            require_once(MAX_PATH . "/tests/data/testData_{$source}.php");
+            require_once(MAX_PATH . "/tests/datasets/test_{$source}.php");
             if (class_exists($classname))
             {
                 $obj = new $classname;
-                $obj->generateTestData();
+                if (!$obj->generateTestData())
+                {
+                    MAX::raiseError('loadData error: generating Test Data '.$classname);
+                }
                 return $obj->aIds;
             }
             MAX::raiseError('loadData error: unable to find classname '.$classname);

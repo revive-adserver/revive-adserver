@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id $
+$Id$
 */
 
 require_once './init.php';
@@ -35,6 +35,16 @@ function parseLogFile()
     OA::disableErrorHandling();
 
     $fpsql = fopen(MAX_PATH."/var/sql.log", 'r');
+    if (!$fpsql)
+    {
+        $aResult[]['error'] = 'unable to open file '.MAX_PATH."/var/sql.log";
+        $aResult[]['error'] = 'to create '.MAX_PATH.'/var/sql.log, trigger logging by setting [debug] logSQL="select|update|insert|delete (as appropriate) in your conf file.';
+        $aResult[]['error'] = 'running the devel explain utility also creates mysqlsla.log which can be fed to mysqlsla for analysis: mysqlsla --user <dbuser> --host <dbhost> --port <dbport> --te --sort e --raw mysqlsla.log > mysqlsla.txt';
+        $aResult[]['error'] = 'running the devel explain utility also creates mysqlqp.log which can be fed to mysql-query-profiler for analysis: mysql-query-profiler --user <dbuser> --host <dbhost> --port <dbport> --database <dbname> mysqlqp.log > mysqlqp.txt
+';
+
+        return $aResult;
+    }
     while ($v = fgets($fpsql,4096))
     {
         $aQueries[] = $v;
