@@ -8,9 +8,9 @@
     <authorEmail>support@openads.org</authorEmail>
     <authorUrl>http://www.openads.org</authorUrl>
     <license>LICENSE.txt</license>
-    <description>Openads Upgrade 2.7.3</description>
+    <description>Openads Upgrade 2.5.61</description>
     <versionFrom></versionFrom>
-    <versionTo>2.7.3</versionTo>
+    <versionTo>2.5.61</versionTo>
 
     <!-- Database Packages -->
     <database>
@@ -25,8 +25,8 @@
     </database>
 
     <!-- Custom Install Scripts to execute -->
-    <!--prescript>prescript_openads_upgrade_2.7.3.php</prescript-->
-    <!--postscript>postscript_openads_upgrade_2.7.3.php</postscript-->
+    <!--prescript>prescript_openads_upgrade_2.5.61.php</prescript-->
+    <!--postscript>postscript_openads_upgrade_2.5.61.php</postscript-->
 
 
 </upgrade>
