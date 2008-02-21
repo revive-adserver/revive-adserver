@@ -437,6 +437,8 @@ $GLOBALS['strBannerStorage']                         = 'Banner Storage Settings'
 
 // Statistics & Maintenance Settings
 $GLOBALS['strMaintenanceSettings']                   = 'Maintenance Settings';
+$GLOBALS['strConversionTracking']                    = 'Conversion Tracking Settings';
+$GLOBALS['strEnableConversionTracking']              = 'Enable Conversion Tracking';
 $GLOBALS['strCsvImport']                             = 'Allow upload of offline conversions';
 $GLOBALS['strBlockAdViews']                          = 'Don\'t count Ad Impressions if the viewer has seen the same ad/zone pair within the specified time (seconds)';
 $GLOBALS['strBlockAdViewsError']                     = 'Ad Impression block value must be a non-negative integer';

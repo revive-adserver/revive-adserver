@@ -74,7 +74,13 @@ phpAds_PageShortcut($strClientHistory, 'stats.php?entity=advertiser&breakdown=hi
 if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     phpAds_PageHeader("4.1.3");
 	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
-	phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.5"));
+    $aTabSections = array("4.1.2", "4.1.3");
+    // Conditionally display conversion tracking values
+	if ($conf['logging']['trackerImpressions']) {
+	    $aTabSections[] = "4.1.4";
+	}
+    $aTabSections[] = "4.1.5";
+    phpAds_ShowSections($aTabSections);
 } else {
     phpAds_PageHeader('2.2');
 	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
@@ -461,7 +467,7 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 		}
 
 		if ($pref['ui_show_campaign_info']) {
-		      //divider
+            // Divider
             echo "<tr height='1' bgcolor='#f6f6f6'>";
             echo "<td></td>";
             echo "<td colspan='5' bgcolor='#bbbbbb'></td>";
@@ -484,14 +490,14 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 			echo "<td width='40%'>".$campaigns[$ckey]['expire']."</td>";
 			echo "</tr>";
 			echo "<tr height='25'>";
-			/*
-			// Disabled trackers, replaced with two &nbsp; data items below
-			echo "<td width='20%'>".$strConversionsBooked.":</td>";
-			echo "<td width='20%' align='right'>".($campaigns[$ckey]['conversions'] >= 0 ? $campaigns[$ckey]['conversions'] : $strUnlimited)."</td>";
-			*/
-			echo "<td width='20%'>&nbsp;</td>";
-			echo "<td width='20%'>&nbsp;</td>";
-
+			// Conditionally display conversion tracking values
+			if ($conf['logging']['trackerImpressions']) {
+                echo "<td width='20%'>".$strConversionsBooked.":</td>";
+                echo "<td width='20%' align='right'>".($campaigns[$ckey]['conversions'] >= 0 ? $campaigns[$ckey]['conversions'] : $strUnlimited)."</td>";
+			} else {
+                echo "<td width='20%'>&nbsp;</td>";
+                echo "<td width='20%'>&nbsp;</td>";
+			}
 			echo "<td width='10%'>&nbsp;</td>";
 			echo "<td width='20%'>".$strPriority.":</td>";
 			echo "<td width='40%'>".$campaigns[$ckey]['priority']."</td>";

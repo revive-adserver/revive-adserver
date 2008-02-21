@@ -74,7 +74,11 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     if ($result) {
         // The preferences were written correctly saved to the database,
         // go to the "next" preferences page from here
-        MAX_Admin_Redirect::redirect('account-preferences-language-timezone.php');
+        if ($conf['logging']['trackerImpressions']) {
+            MAX_Admin_Redirect::redirect('account-preferences-tracker.php');
+        } else {
+            MAX_Admin_Redirect::redirect('account-preferences-user-interface.php');
+        }
     }
     // Could not write the preferences to the database, store this
     // error message and continue

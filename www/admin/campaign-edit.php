@@ -956,7 +956,10 @@ echo "<tr><td colspan='3'>\n";
     </td>
   </tr>
 
-  <!--
+  <?php
+  // Conditionally display conversion tracking
+  if ($conf['logging']['trackerImpressions']) {
+  ?>
   <tr>
     <td><img src='images/spacer.gif' height='1' width='100%'></td>
     <td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
@@ -977,7 +980,9 @@ echo "<tr><td colspan='3'>\n";
       <div style="clear: both;"><input type="radio"  value="unl" name="rd_conv_bkd" id="unlimitedconversions" tabindex='<?php echo ($tabindex++); ?>'><label for="unlimitedconversions"><?php echo $strUnlimited; ?></label></div>
     </td>
   </tr>
-  -->
+  <?php
+  }
+  ?>
 
 <?php
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
@@ -1019,7 +1024,10 @@ echo "&nbsp;&nbsp;";
 echo "<select name='revenue_type' tabindex='".($tabindex++)."'>";
 echo "  <option value='".MAX_FINANCE_CPM."' ".(($row['revenue_type'] == MAX_FINANCE_CPM) ? ' SELECTED ' : '').">$strFinanceCPM</option>";
 echo "  <option value='".MAX_FINANCE_CPC."' ".(($row['revenue_type'] == MAX_FINANCE_CPC) ? ' SELECTED ' : '').">$strFinanceCPC</option>";
-//echo "  <option value='".MAX_FINANCE_CPA."' ".(($row['revenue_type'] == MAX_FINANCE_CPA) ? ' SELECTED ' : '').">$strFinanceCPA</option>";
+// Conditionally display conversion tracking
+if ($conf['logging']['trackerImpressions']) {
+  echo "  <option value='".MAX_FINANCE_CPA."' ".(($row['revenue_type'] == MAX_FINANCE_CPA) ? ' SELECTED ' : '').">$strFinanceCPA</option>";
+}
 echo "  <option value='".MAX_FINANCE_MT."' ".(($row['revenue_type'] == MAX_FINANCE_MT) ? ' SELECTED ' : '').">$strFinanceMT</option>";
 echo "</select>";
 echo "</td>"."\n";
@@ -1094,7 +1102,10 @@ echo "\t\t\t"."<td valign='top'><input type='radio' name='delivery' value='manua
 echo "\t\t\t"."<td valign='top'> <select name='target_type'>";
 echo "<option value='limit_impression' ".(($target_type == 'target_impression') ? ' SELECTED ' : ''). ">$strImpressions</option>";
 echo "<option value='limit_click' ".(($target_type == 'target_click') ? ' SELECTED ' : '').">$strClicks</option>";
-//echo "<option value='limit_conversion' ".(($target_type == 'target_conversion') ? ' SELECTED ' : '').">$strConversions</option>";
+// Conditionally display conversion tracking
+if ($conf['logging']['trackerImpressions']) {
+  echo "<option value='limit_conversion' ".(($target_type == 'target_conversion') ? ' SELECTED ' : '').">$strConversions</option>";
+}
 echo "</select> $strTo <input onBlur='phpAds_formPriorityUpdate(this.form);' class='flat' type='text' name='target_value' size='7' value='".(!empty($target_value) ? $target_value : '-')."' tabindex='".($tabindex++)."'> ".$strTargetPerDay."</td>"."\n";
 echo "\t\t"."</tr>"."\n";
 
@@ -1175,7 +1186,14 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
   $(document).ready(function() {
     phpAds_formUnlimitedCheck('unlimitedimpressions', 'impressions');
     phpAds_formUnlimitedCheck('unlimitedclicks', 'clicks');
-    //phpAds_formUnlimitedCheck('unlimitedconversions', 'conversions');
+    <?php
+    // Conditionally display conversion tracking
+    if ($conf['logging']['trackerImpressions']) {
+    ?>
+    phpAds_formUnlimitedCheck('unlimitedconversions', 'conversions');
+    <?php
+    }
+    ?>
     $(":input[name='rd_impr_bkd']").click(function() { phpAds_formUnlimitedClick('unlimitedimpressions', 'impressions', 'openadsRemainingImpressions'); return true; });
     $(":input[name='rd_click_bkd']").click(function() { phpAds_formUnlimitedClick('unlimitedclicks', 'clicks', 'openadsRemainingClicks'); return true;});
     $(":input[name='rd_conv_bkd']").click(function() { phpAds_formUnlimitedClick('unlimitedconversions', 'conversions'); return true;});
@@ -1443,13 +1461,20 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
                 f.clicks.value = '';
             }
         }
-       /* if (type == 'conversions') {
+        <?php
+        // Conditionally display conversion tracking
+        if ($conf['logging']['trackerImpressions']) {
+        ?>
+        if (type == 'conversions') {
             if (f.conversions.value != '-' && f.conversions.value != '') {
                 f.conversions.value = max_formattedNumberStringToFloat(f.conversions.value);
             } else {
                 f.conversions.value = '';
             }
-        }*/
+        }
+        <?php
+        }
+        ?>
     }
 
     function max_formFormat(f, type)
@@ -1470,14 +1495,21 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
                 f.clicks.value = max_formatNumberIgnoreDecimals(f.clicks.value);
             }
         }
-        /*if (type == 'conversions') {
+        <?php
+        // Conditionally display conversion tracking
+        if ($conf['logging']['trackerImpressions']) {
+        ?>
+        if (type == 'conversions') {
             if ((f.conversions.value == '') || (f.conversions.value == 0)) {
                 f.conversions.value = '-';
             }
             if (f.conversions.value != '-') {
                 f.conversions.value = max_formatNumberIgnoreDecimals(f.conversions.value);
             }
-        }*/
+        }
+        <?php
+        }
+        ?>
     }
 
     function max_formBookedUpdate(f)
@@ -1507,13 +1539,20 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
         }
         phpAds_setRemainingVisibility('remainingClicks', visibility);
 
-        /*if (max_formattedNumberStringToFloat(f.conversions.value) >= 0) {
+        <?php
+        // Conditionally display conversion tracking
+        if ($conf['logging']['trackerImpressions']) {
+        ?>
+        if (max_formattedNumberStringToFloat(f.conversions.value) >= 0) {
             var remaining = max_formattedNumberStringToFloat(f.conversions.value) - conversions_delivered;
             document.getElementById('remainingConversionsCount').innerHTML = max_formatNumberIgnoreDecimals(remaining);
             visibility = true;
         } else {
             visibility = false;
-        }*/
+        }
+        <?php
+        }
+        ?>
         phpAds_setRemainingVisibility('remainingConversions', visibility);
 
         phpAds_formPriorityUpdate(f);
@@ -1526,9 +1565,16 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
         // number of target impressions, clicks or conversions
         var autotarget_available =  ( !(f.endSet[0].checked == true) &&
                                       (
-                                        (!( isNaN(max_formattedNumberStringToFloat(f.impressions.value)) || (f.impressions.value == '') || (f.unlimitedimpressions.checked == true))) ||
-                                        (!( isNaN(max_formattedNumberStringToFloat(f.clicks.value))      || (f.clicks.value == '')      || (f.unlimitedclicks.checked == true)))
-//     || (!( isNaN(max_formattedNumberStringToFloat(f.conversions.value)) || (f.conversions.value == '') ||                                                                                                            (f.unlimitedconversions.checked == true)))
+                                        (!( isNaN(max_formattedNumberStringToFloat(f.impressions.value)) || (f.impressions.value == '') || (f.unlimitedimpressions.checked == true)))
+                                        || (!( isNaN(max_formattedNumberStringToFloat(f.clicks.value))      || (f.clicks.value == '')      || (f.unlimitedclicks.checked == true)))
+                                        <?php
+                                        // Conditionally display conversion tracking
+                                        if ($conf['logging']['trackerImpressions']) {
+                                        ?>
+                                        || (!( isNaN(max_formattedNumberStringToFloat(f.conversions.value)) || (f.conversions.value == '') || (f.unlimitedconversions.checked == true)))
+                                        <?php
+                                        }
+                                        ?>
                                       )
                                     );
         // When autotargeting is available, only High-Priority

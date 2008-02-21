@@ -92,6 +92,7 @@ class OA_Maintenance
         {
             OA::switchLogFile('maintenance');
 
+            OA::debug('', PEAR_LOG_INFO);
             OA::debug('Running maintenance tasks', PEAR_LOG_INFO);
 
             // Attempt to increase PHP memory

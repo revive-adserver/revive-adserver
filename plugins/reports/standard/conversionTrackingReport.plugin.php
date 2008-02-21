@@ -143,9 +143,8 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
         $this->_categoryName = MAX_Plugin_Translation::translate('Standard Reports', $this->module, $this->package);
         $this->_author       = 'Scott Switzer';
         $this->_export       = 'xls';
-        if ($this->_hasTrackers()) {
-            // 2007-12-10: Disabled the report for ALL users, see OA-46
-            // $this->_authorize = array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
+        if ($GLOBALS['_MAX']['CONF']['logging']['trackerImpressions'] && $this->_hasTrackers()) {
+            $this->_authorize = array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
         }
 
         $this->_import = $this->getDefaults();

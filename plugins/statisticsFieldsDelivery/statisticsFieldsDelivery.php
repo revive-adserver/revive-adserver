@@ -251,6 +251,68 @@ class Plugins_statisticsFieldsDelivery_statisticsFieldsDelivery extends MAX_Plug
         }
     }
 
+    /**
+     * A method to get all visibile columns from the plugin.
+     *
+     * @return array An array of columns names that can be displayed in statistics
+     *               screens, indexed by the column preference name. Will exclude
+     *               any columns where the "ctf" type is true IF conversion tracking
+     *               has been disabled in the system.
+     */
+    function getVisibilitySettings()
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $aPrefs = array();
+        foreach ($this->_aFields as $v) {
+            // Should the column be ignored due to conversion tracking?
+            if (!$aConf['logging']['trackerImpressions'] && $v['ctf']) {
+                // Conversion tracking is disabled, and this column
+                // has the "ctf" type set, so don't add the column
+                // to the array
+                continue;
+            }
+            // Add the column name to the array, indexed by the column's
+            // preference name
+            if (isset($v['pref'])) {
+                $var = $v['pref'];
+                $aPrefs[$var] = $v['name'];
+            }
+        }
+        return $aPrefs;
+    }
+
+    /**
+     * A method to get all of the preference names for those
+     * statistics columns that are related to conversion tracking.
+     *
+     * @return array An array of column preference names.
+     */
+    function getConversionColumnPreferenceNames()
+    {
+        $aPrefs = array();
+        foreach ($this->_aFields as $v) {
+            if (isset($v['ctf'])) {
+                $aPrefs[] = $v['pref'];
+            }
+        }
+        return $aPrefs;
+    }
+
+    /**
+     * A method to get the preference names for the
+     * "Sum Conversions" statistics columns.
+     *
+     * @return string The column preference name, or null
+     *                if not found
+     */
+    function getSumConversionsColumnPreferenceName()
+    {
+        if (isset($this->_aFields['sum_conversions'])) {
+            return $this->_aFields['sum_conversions']['pref'];
+        }
+        return null;
+    }
+
 
 
 
@@ -299,19 +361,6 @@ class Plugins_statisticsFieldsDelivery_statisticsFieldsDelivery extends MAX_Plug
         foreach ($this->_aFields as $k => $v) {
             if (isset($v['pref']) && isset($v['rank'])) {
                 $prefs[$v['pref']] = $v['rank'];
-            }
-        }
-
-        return $prefs;
-    }
-
-    function getVisibilitySettings()
-    {
-        $prefs = array();
-        foreach ($this->_aFields as $v) {
-            if (isset($v['pref'])) {
-                $var = $v['pref'];
-                $prefs[$var] = $v['name'];
             }
         }
 

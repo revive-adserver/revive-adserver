@@ -43,6 +43,9 @@ class Plugins_statisticsFieldsDelivery_affiliates_affiliates extends Plugins_sta
      */
     function Plugins_statisticsFieldsDelivery_affiliates_affiliates()
     {
+
+        $aConf = $GLOBALS['_MAX']['CONF'];
+
         // Set ordering to a high value to move columns to the right
         $this->displayOrder = 10;
 
@@ -50,99 +53,175 @@ class Plugins_statisticsFieldsDelivery_affiliates_affiliates extends Plugins_sta
         $this->module  = 'statisticsFieldsDelivery';
         $this->package = 'affiliates';
 
-        $this->_aFields = array(
-            'sum_revenue'               => array('name'  => MAX_Plugin_Translation::translate('_Revenue', $this->module, $this->package),
-                                                'short'  => MAX_Plugin_Translation::translate('Revenue', $this->module, $this->package),
-                                                'rank'   => 4,
-                                                'pref'   => 'ui_column_revenue',
-                                                'format' => 'currency'),
-            'sum_cost'                  => array('name'  => MAX_Plugin_Translation::translate('_Cost', $this->module, $this->package),
-                                                'short'  => MAX_Plugin_Translation::translate('Cost', $this->module, $this->package),
-                                                'pref'   => 'ui_column_cost',
-                                                'format' => 'currency'),
-            /*
-            'sum_bv'                    => array('name'  => MAX_Plugin_Translation::translate('_Basket value', $this->module, $this->package),
-                                                'short'  => MAX_Plugin_Translation::translate('Basket value', $this->module, $this->package),
-                                                'pref'   => 'ui_column_bv',
-                                                'format' => 'currency'),
-            'sum_num_items'             => array('name'  => MAX_Plugin_Translation::translate('_Number of items', $this->module, $this->package),
-                                                'short'  => MAX_Plugin_Translation::translate('Number of items', $this->module, $this->package),
-                                                'pref'   => 'ui_column_num_items',
-                                                'format' => 'default'),
-            */
-            'sum_revcpc'                => array('name'  => MAX_Plugin_Translation::translate('_Revenue CPC', $this->module, $this->package),
-                                                'short'  => MAX_Plugin_Translation::translate('Revenue CPC', $this->module, $this->package),
-                                                'pref'   => 'ui_column_revcpc',
-                                                'format' => 'currency'),
-            'sum_costcpc'               => array('name'  => MAX_Plugin_Translation::translate('_Cost CPC', $this->module, $this->package),
-                                                'short'  => MAX_Plugin_Translation::translate('Cost CPC', $this->module, $this->package),
-                                                'pref'   => 'ui_column_costcpc',
-                                                'format' => 'currency'),
+        $this->_aFields = array();
 
-            'sum_technology_cost'       => array('name'  => MAX_Plugin_Translation::translate('_Technology Cost', $this->module, $this->package),
-                                                'short'  => MAX_Plugin_Translation::translate('Technology Cost', $this->module, $this->package),
-                                                'pref'   => 'ui_column_technology_cost',
-                                                'format' => 'currency'),
-            'sum_income'                => array('name'  => MAX_Plugin_Translation::translate('_Income', $this->module, $this->package),
-                                                'short'  => MAX_Plugin_Translation::translate('Income', $this->module, $this->package),
-                                                'pref'   => 'ui_column_income',
-                                                'format' => 'currency'),
-            'sum_income_margin'         => array('name'  => MAX_Plugin_Translation::translate('_Income Margin', $this->module, $this->package),
-                                                'short'  => MAX_Plugin_Translation::translate('Income Margin', $this->module, $this->package),
-                                                'pref'   => 'ui_column_income_margin',
-                                                'format' => 'currency'),
-            'sum_profit'                => array('name'  => MAX_Plugin_Translation::translate('_Profit', $this->module, $this->package),
-                                                'short'  => MAX_Plugin_Translation::translate('Profit', $this->module, $this->package),
-                                                'pref'   => 'ui_column_profit',
-                                                'format' => 'currency'),
-            'sum_margin'                => array('name'  => MAX_Plugin_Translation::translate('_Margin', $this->module, $this->package),
-                                                'short'  => MAX_Plugin_Translation::translate('Margin', $this->module, $this->package),
-                                                'pref'   => 'ui_column_margin',
-                                                'format' => 'currency'),
-            'sum_erpm'                  => array('name'  => MAX_Plugin_Translation::translate('_ERPM', $this->module, $this->package),
-                                                'short'  => MAX_Plugin_Translation::translate('ERPM', $this->module, $this->package),
-                                                'pref'   => 'ui_column_erpm',
-                                                'format' => 'currency'),
-            'sum_erpc'                  => array('name'  => MAX_Plugin_Translation::translate('_ERPC', $this->module, $this->package),
-                                                'short'  => MAX_Plugin_Translation::translate('ERPC', $this->module, $this->package),
-                                                'pref'   => 'ui_column_erpc',
-                                                'format' => 'currency'),
-            /*
-            'sum_erps'                  => array('name'   => MAX_Plugin_Translation::translate('_ERPS', $this->module, $this->package),
-                                                'short'  => MAX_Plugin_Translation::translate('ERPS', $this->module, $this->package),
-                                                'pref'   => 'ui_column_erps',
-                                                'format' => 'currency'),
-            */
-            'sum_eipm'                  => array('name'  => MAX_Plugin_Translation::translate('_EIPM', $this->module, $this->package),
-                                                'short'  => MAX_Plugin_Translation::translate('EIPM', $this->module, $this->package),
-                                                'pref'   => 'ui_column_eipm',
-                                                'format' => 'currency'),
-            'sum_eipc'                  => array('name'  => MAX_Plugin_Translation::translate('_EIPC', $this->module, $this->package),
-                                                'short'  => MAX_Plugin_Translation::translate('EIPC', $this->module, $this->package),
-                                                'pref'   => 'ui_column_eipc',
-                                                'format' => 'currency'),
-            /*
-            'sum_eips'                  => array('name'   => MAX_Plugin_Translation::translate('_EIPS', $this->module, $this->package),
-                                                'short'  => MAX_Plugin_Translation::translate('EIPS', $this->module, $this->package),
-                                                'pref'   => 'ui_column_eips',
-                                                'format' => 'currency'),
-            */
-            'sum_ecpm'                  => array('name'  => MAX_Plugin_Translation::translate('_ECPM', $this->module, $this->package),
-                                                'short'  => MAX_Plugin_Translation::translate('ECPM', $this->module, $this->package),
-                                                'rank'   => 5,
-                                                'pref'   => 'ui_column_ecpm',
-                                                'format' => 'currency'),
-            'sum_ecpc'                  => array('name'  => MAX_Plugin_Translation::translate('_ECPC', $this->module, $this->package),
-                                                'short'  => MAX_Plugin_Translation::translate('ECPC', $this->module, $this->package),
-                                                'pref'   => 'ui_column_ecpc',
-                                                'format' => 'currency'),
-            /*
-            'sum_ecps'                  => array('name'  => MAX_Plugin_Translation::translate('_ECPS', $this->module, $this->package),
-                                                'short'  => MAX_Plugin_Translation::translate('ECPS', $this->module, $this->package),
-                                                'pref'   => 'ui_column_ecps',
-                                                'format' => 'currency')
-            */
-        );
+        $this->_aFields['sum_revenue'] =
+            array(
+                'name'   => MAX_Plugin_Translation::translate('_Revenue', $this->module, $this->package),
+                'short'  => MAX_Plugin_Translation::translate('Revenue', $this->module, $this->package),
+                'rank'   => 4,
+                'pref'   => 'ui_column_revenue',
+                'format' => 'currency'
+            );
+
+        $this->_aFields['sum_cost'] =
+            array(
+                'name'   => MAX_Plugin_Translation::translate('_Cost', $this->module, $this->package),
+                'short'  => MAX_Plugin_Translation::translate('Cost', $this->module, $this->package),
+                'pref'   => 'ui_column_cost',
+                'format' => 'currency'
+            );
+
+        $this->_aFields['sum_bv'] =
+            array(
+                'name'   => MAX_Plugin_Translation::translate('_Basket value', $this->module, $this->package),
+                'short'  => MAX_Plugin_Translation::translate('Basket value', $this->module, $this->package),
+                'pref'   => 'ui_column_bv',
+                'format' => 'currency',
+                'ctf'    => true
+            );
+
+        $this->_aFields['sum_num_items'] =
+            array(
+                'name'   => MAX_Plugin_Translation::translate('_Number of items', $this->module, $this->package),
+                'short'  => MAX_Plugin_Translation::translate('Number of items', $this->module, $this->package),
+                'pref'   => 'ui_column_num_items',
+                'format' => 'default',
+                'ctf'    => true
+            );
+
+        $this->_aFields['sum_revcpc'] =
+            array(
+                'name'   => MAX_Plugin_Translation::translate('_Revenue CPC', $this->module, $this->package),
+                'short'  => MAX_Plugin_Translation::translate('Revenue CPC', $this->module, $this->package),
+                'pref'   => 'ui_column_revcpc',
+                'format' => 'currency'
+            );
+
+        $this->_aFields['sum_costcpc'] =
+            array(
+                'name'   => MAX_Plugin_Translation::translate('_Cost CPC', $this->module, $this->package),
+                'short'  => MAX_Plugin_Translation::translate('Cost CPC', $this->module, $this->package),
+                'pref'   => 'ui_column_costcpc',
+                'format' => 'currency'
+            );
+
+        $this->_aFields['sum_technology_cost'] =
+            array(
+                'name'   => MAX_Plugin_Translation::translate('_Technology Cost', $this->module, $this->package),
+                'short'  => MAX_Plugin_Translation::translate('Technology Cost', $this->module, $this->package),
+                'pref'   => 'ui_column_technology_cost',
+                'format' => 'currency'
+            );
+
+        $this->_aFields['sum_income'] =
+            array(
+                'name'   => MAX_Plugin_Translation::translate('_Income', $this->module, $this->package),
+                'short'  => MAX_Plugin_Translation::translate('Income', $this->module, $this->package),
+                'pref'   => 'ui_column_income',
+                'format' => 'currency'
+            );
+
+        $this->_aFields['sum_income_margin'] =
+            array(
+                'name'   => MAX_Plugin_Translation::translate('_Income Margin', $this->module, $this->package),
+                'short'  => MAX_Plugin_Translation::translate('Income Margin', $this->module, $this->package),
+                'pref'   => 'ui_column_income_margin',
+                'format' => 'currency'
+            );
+
+        $this->_aFields['sum_profit'] =
+            array(
+                'name'   => MAX_Plugin_Translation::translate('_Profit', $this->module, $this->package),
+                'short'  => MAX_Plugin_Translation::translate('Profit', $this->module, $this->package),
+                'pref'   => 'ui_column_profit',
+                'format' => 'currency'
+            );
+
+        $this->_aFields['sum_margin'] =
+            array(
+                'name'   => MAX_Plugin_Translation::translate('_Margin', $this->module, $this->package),
+                'short'  => MAX_Plugin_Translation::translate('Margin', $this->module, $this->package),
+                'pref'   => 'ui_column_margin',
+                'format' => 'currency'
+            );
+
+        $this->_aFields['sum_erpm'] =
+            array(
+                'name'   => MAX_Plugin_Translation::translate('_ERPM', $this->module, $this->package),
+                'short'  => MAX_Plugin_Translation::translate('ERPM', $this->module, $this->package),
+                'pref'   => 'ui_column_erpm',
+                'format' => 'currency'
+            );
+
+        $this->_aFields['sum_erpc'] =
+            array(
+                'name'   => MAX_Plugin_Translation::translate('_ERPC', $this->module, $this->package),
+                'short'  => MAX_Plugin_Translation::translate('ERPC', $this->module, $this->package),
+                'pref'   => 'ui_column_erpc',
+                'format' => 'currency'
+            );
+
+        $this->_aFields['sum_erps'] =
+            array(
+                'name'   => MAX_Plugin_Translation::translate('_ERPS', $this->module, $this->package),
+                'short'  => MAX_Plugin_Translation::translate('ERPS', $this->module, $this->package),
+                'pref'   => 'ui_column_erps',
+                'format' => 'currency',
+                'ctf'    => true
+            );
+
+        $this->_aFields['sum_eipm'] =
+            array(
+                'name'   => MAX_Plugin_Translation::translate('_EIPM', $this->module, $this->package),
+                'short'  => MAX_Plugin_Translation::translate('EIPM', $this->module, $this->package),
+                'pref'   => 'ui_column_eipm',
+                'format' => 'currency'
+            );
+
+        $this->_aFields['sum_eipc'] =
+            array(
+                'name'   => MAX_Plugin_Translation::translate('_EIPC', $this->module, $this->package),
+                'short'  => MAX_Plugin_Translation::translate('EIPC', $this->module, $this->package),
+                'pref'   => 'ui_column_eipc',
+                'format' => 'currency'
+            );
+
+        $this->_aFields['sum_eips'] =
+            array(
+                'name'   => MAX_Plugin_Translation::translate('_EIPS', $this->module, $this->package),
+                'short'  => MAX_Plugin_Translation::translate('EIPS', $this->module, $this->package),
+                'pref'   => 'ui_column_eips',
+                'format' => 'currency',
+                'ctf'    => true
+            );
+
+        $this->_aFields['sum_ecpm'] =
+            array(
+                'name'   => MAX_Plugin_Translation::translate('_ECPM', $this->module, $this->package),
+                'short'  => MAX_Plugin_Translation::translate('ECPM', $this->module, $this->package),
+                'rank'   => 5,
+                'pref'   => 'ui_column_ecpm',
+                'format' => 'currency'
+            );
+
+        $this->_aFields['sum_ecpc'] =
+            array(
+                'name'   => MAX_Plugin_Translation::translate('_ECPC', $this->module, $this->package),
+                'short'  => MAX_Plugin_Translation::translate('ECPC', $this->module, $this->package),
+                'pref'   => 'ui_column_ecpc',
+                'format' => 'currency'
+            );
+
+        $this->_aFields['sum_ecps'] =
+            array(
+                'name'   => MAX_Plugin_Translation::translate('_ECPS', $this->module, $this->package),
+                'short'  => MAX_Plugin_Translation::translate('ECPS', $this->module, $this->package),
+                'pref'   => 'ui_column_ecps',
+                'format' => 'currency',
+                'ctf'    => true
+            );
+
     }
 
     /**

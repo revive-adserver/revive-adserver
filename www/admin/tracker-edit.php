@@ -47,9 +47,9 @@ phpAds_registerGlobal (
 );
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
 OA_Permission::enforceAccessToObject('clients', $clientid);
-OA_Permission::enforceAccessToObject('trackers', $trackerid);
+OA_Permission::enforceAccessToObject('trackers', $trackerid, true);
 
 // Initalise any tracker based plugins
 $plugins = array();

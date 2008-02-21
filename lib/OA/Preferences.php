@@ -433,6 +433,51 @@ class OA_Preferences
     }
 
     /**
+     * A method to disable all of the supplied columns from being displayed
+     * by *any* user in the system, should they have set those columns to
+     * be displayed.
+     *
+     * Can only be called by the admin account.
+     *
+     * @param array $aColumns An array of the "primary" statistics column
+     *                        names (i.e. less the "_label" and "_rank" suffixes)
+     *                        that need to be disabled.
+     */
+    function disableStatisticsColumns($aColumns)
+    {
+        // Ensure that this method is only ever called by the admin account
+        $currentAccountType = OA_Permission::getAccountType();
+        if ($currentAccountType != OA_ACCOUNT_ADMIN) {
+            return;
+        }
+        // Disable the required columns
+        foreach ($aColumns as $preference) {
+            // Obtain the preference ID value for the column
+            $doPreferences = OA_Dal::factoryDO('preferences');
+            $doPreferences->preference_name = $preference;
+            $doPreferences->find();
+            if ($doPreferences->getRowCount() != 1) {
+                // Could not locate the statistics column in the preferences
+                // table, so suspect that it does not exist, go to next column
+                continue;
+            }
+            $doPreferences->fetch();
+            $aColumnPreference = $doPreferences->toArray();
+            $columnPreferenceId = $aColumnPreference['preference_id'];
+            // Update any instances of this preference ID so that
+            // the column is disabled, but without making any other
+            // changes to custom rank values or column names
+            $doAccount_preference_assoc = OA_Dal::factoryDO('account_preference_assoc');
+            $doAccount_preference_assoc->preference_id = $columnPreferenceId;
+            $doAccount_preference_assoc->find();
+            while ($doAccount_preference_assoc->fetch()) {
+                $doAccount_preference_assoc->value = 0;
+                $doAccount_preference_assoc->update();
+            }
+        }
+    }
+
+    /**
      * A private static method to unset preferences.
      *
      * @static

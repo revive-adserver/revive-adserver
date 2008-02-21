@@ -65,10 +65,6 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
              'logging'                => 'adClicks',
              'bool'                   => 'true'
          ),
-         /*'logging_trackerImpressions' => array(
-             'logging'                => 'trackerImpressions',
-             'bool'                   => 'true'
-         ),*/
         'logging_reverseLookup'       => array(
              'logging'                => 'reverseLookup',
              'bool'                   => 'true'
@@ -134,11 +130,6 @@ $aSettings = array (
                 'name'    => 'logging_adClicks',
                 'text'    => $strLogAdClicks
             ),
-           /* array (
-                'type'    => 'checkbox',
-                'name'    => 'logging_trackerImpressions',
-                'text'    => $strLogTrackerImpressions
-            ),*/
             array (
                 'type'    => 'break'
             ),
