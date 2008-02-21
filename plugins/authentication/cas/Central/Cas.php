@@ -73,6 +73,19 @@ class OA_Central_Cas extends OA_Central_M2M
     {
         return $this->oMapper->createPartialAccount($userEmail, $emailFrom, $emailSubject, $emailContent);
     }
+    
+    /**
+     * Completes the creation of partial account
+     * @param $accountId email of new user
+     * @param $login sender email address of activation email
+     * @param $md5Password subject of activation email
+     * @param $verificationHash content of activation email, should contain
+     * @return boolean|PEAR_Error  True on success else false
+     */
+    function completePartialAccount($accountId, $login, $md5Password, $verificationHash)
+    {
+        return $this->oMapper->completePartialAccount($accountId, $login, $md5Password, $verificationHash);
+    }
 
     /**
      * Creates account for user and sends activation email.

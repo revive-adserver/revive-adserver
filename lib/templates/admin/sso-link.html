@@ -1,0 +1,67 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+|                                                                           |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+
+-->
+
+<table border='0' width='100%' cellpadding='0' cellspacing='0'>
+*}
+
+<div id="sso-link-form" {if $hide}style="display: none"{/if}>
+  {*
+    Error message to be shown when linking failed...
+  *}
+  {if $errorLinkFailed}
+  <div class="errormessageicon">
+    Your username or password are not correct. Please try again.
+  </div>
+  {/if}
+
+  {*
+    Form to be shown where there is a matching user.
+  *}
+  <form id="sso-link" action="sso-accounts.php" method='post' onsubmit='return max_formValidate(this);'>
+    <input type="hidden" name="info" value="link" />
+    <input type="hidden" name="ssoid" value="{$ssoid}" />
+    <input type="hidden" name="verification" value="{$verification}" />
+    
+    {include file=edit-table/create.html from=$fields}
+
+    <div class="controls">
+      <input value="Connect my account" class="main-submit" type="submit" {tabindex}>
+    </div>
+  </form>
+
+</div>
+
+<script>
+{literal}
+  max_formSetRequirements('ssoexistinguser', 'Desired user name', true);
+  max_formSetRequirements('ssoexistingpassword', 'Password', true);
+{/literal}
+</script>
+
+{*
+</table>
+*}

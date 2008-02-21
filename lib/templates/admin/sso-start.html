@@ -1,0 +1,95 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+|                                                                           |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+
+-->
+
+<table border='0' width='100%' cellpadding='0' cellspacing='0'>
+*}
+
+  {*
+    Error message to be shown when there is no matching user.
+  *}
+  {if $errorNoMatchingAccount}
+  <div class="errormessageicon">
+    There is no matching user. Check if your link is correct or contact your OpenX administrator.
+  </div>
+  {else}
+
+<div class="infomessage" id="intro"{if !$hideCreate || !$hideLink} style="display:none;"{/if}>
+	Welcome {$userName} <br />
+	You have been given access to an OpenX account by {$creator} account.<br/>
+	To confirm your details and complete the sign up
+	please create a new account or (if you have one) use your existing OpenX account.
+</div>
+
+<div style="font-weight: bold; margin-bottom: 2ex">
+  Do you already have OpenX account?
+</div>
+
+<div style="margin-bottom: 4ex">
+  <input id="haveaccount-yes" type="radio" name="haveaccount" value="yes" style="margin-left: 0"{if !$hideLink} checked="checked"{/if}><label for="haveaccount-yes" class="cb" style="padding-right: 1em">Yes, I want to use my existing account</label>
+  <input id="haveaccount-no" type="radio" name="haveaccount" value="no"{if !$hideCreate} checked="checked"{/if}><label for="haveaccount-no" class="cb">No, I want to create a new account</label>
+</div>
+
+{include file=sso-link.html fields=$fieldsLink hide=$hideLink"}
+{include file=sso-create.html fields=$fieldsCreate hide=$hideCreate"}
+
+<script>
+{literal}
+  $(document).ready(function() {
+    var switchForm = function() {
+      var selected = $("#haveaccount-yes").attr("checked") || $("#haveaccount-no").attr("checked") || false;
+      var haveAccount = $("#haveaccount-yes").attr("checked") || !$("#haveaccount-no").attr("checked");
+
+      if (!selected) {
+        $("#intro").slideFadeIn(500);
+        $("#sso-link-form, #sso-create-form").slideFadeOut(500);
+      }
+      else {
+        $("#intro").slideFadeOut();
+        if (haveAccount) {
+          $("#sso-create-form").slideFadeOut(500);
+          $("#sso-link-form").slideFadeIn(500);
+        }
+        else {
+          $("#sso-link-form").slideFadeOut(500);
+          $("#sso-create-form").slideFadeIn(500);
+        }
+
+        $(":input:visible:eq(0)").focus();
+      }
+    }
+
+    $("#haveaccount-yes, #haveaccount-no").click(switchForm);
+    switchForm();
+  });
+{/literal}
+</script>
+
+{/if}
+
+{*
+</table>
+*}

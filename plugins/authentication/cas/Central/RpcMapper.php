@@ -77,6 +77,24 @@ class OA_Central_RpcMapper_Cas extends OA_Central_RpcMapper
     }
 
     /**
+     * Completes the creation of partial account
+     * @param $accountId email of new user
+     * @param $login sender email address of activation email
+     * @param $md5Password subject of activation email
+     * @param $verificationHash content of activation email, should contain
+     * @return boolean|PEAR_Error  True on success else false
+     */
+    function completePartialAccount($accountId, $login, $md5Password, $verificationHash)
+    {
+        return $this->oRpc->callM2M('completePartialAccount', array(
+            new XML_RPC_Value($accountId, 'int'),
+            new XML_RPC_Value($login, 'string'),
+            new XML_RPC_Value($md5Password, 'string'),
+            new XML_RPC_Value($verificationHash, 'string')
+        ));
+    }
+
+    /**
      * Creates account for user and sends activation email.
      *
      * @param $userName User name
