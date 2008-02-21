@@ -67,6 +67,7 @@ class OA_Central_RpcMapper_Cas extends OA_Central_RpcMapper
      */
     function createPartialAccount($userEmail, $emailFrom, $emailSubject, $emailContent)
     {
+        $this->oRpc->setRemoveExtraLines(false);
         return $this->oRpc->callM2M('createPartialAccount', array(
             new XML_RPC_Value($userEmail, 'string'),
             new XML_RPC_Value($emailFrom, 'string'),
@@ -164,6 +165,20 @@ class OA_Central_RpcMapper_Cas extends OA_Central_RpcMapper
             new XML_RPC_Value($emailAddress, 'string'),
             new XML_RPC_Value($md5password, 'string')
         ));
+    }
+    
+    /**
+     * Sets a "remove_extra_lines" RPC Client option.
+     * By default it is set to true. It cause some problems when multiline data is send through XML-RPC.
+     * For example when email body are sent.
+     * 
+     * Forwards a call to OA_Dal_Central_Rpc
+     *
+     * @param boolean $option
+     */
+    function setRemoveExtraLines($option = true)
+    {
+        $this->oRpc->setRemoveExtraLines($option);
     }
 
 }
