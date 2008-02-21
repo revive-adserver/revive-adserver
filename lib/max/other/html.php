@@ -566,6 +566,7 @@ function MAX_displayZoneStats($aParams, $pageName, $anonymous, $aNodes, $expand,
 function MAX_displayNavigationCampaign($pageName, $aOtherAdvertisers, $aOtherCampaigns, $aEntities)
 {
     global $phpAds_TextDirection;
+    $aConf = $GLOBALS['_MAX']['CONF'];
 
     $advertiserId = $aEntities['clientid'];
     $placementId = $aEntities['campaignid'];
@@ -583,15 +584,30 @@ function MAX_displayNavigationCampaign($pageName, $aOtherAdvertisers, $aOtherCam
         $tabSections = array('2.1');
     } else {
         switch ($pageName) {
-            case 'campaign-edit.php'     : $tabValue = '4.1.3.2'; break;
-            case 'campaign-zone.php'     : $tabValue = '4.1.3.3'; break;
-            case 'campaign-banners.php'  : $tabValue = '4.1.3.4'; break;
-            // Disabled trackers!
-            //case 'campaign-trackers.php' : $tabValue = '4.1.3.5'; break;
+            case 'campaign-edit.php':
+                $tabValue = '4.1.3.2';
+                break;
+            case 'campaign-zone.php':
+                $tabValue = '4.1.3.3';
+                break;
+            case 'campaign-banners.php':
+                $tabValue = '4.1.3.4';
+                break;
+            case 'campaign-trackers.php':
+                // Conditionally display conversion tracking
+                if ($aConf['logging']['trackerImpressions']) {
+                    $tabValue = '4.1.3.5';
+                    break;
+                }
         }
 
-    // Get the tab sections
-    $tabSections = array('4.1.3.2', '4.1.3.3', '4.1.3.4'); //, '4.1.3.5'); // Disabled trackers!
+        // Get the tab sections
+        $tabSections = array('4.1.3.2', '4.1.3.3', '4.1.3.4');
+
+        // Conditionally display conversion tracking
+        if ($aConf['logging']['trackerImpressions']) {
+            $tabSections[] = '4.1.3.5';
+        }
     }
     foreach ($aOtherCampaigns as $otherCampaignId => $aOtherCampaign) {
         $otherCampaignName = MAX_buildName($otherCampaignId, $aOtherCampaign['name']);

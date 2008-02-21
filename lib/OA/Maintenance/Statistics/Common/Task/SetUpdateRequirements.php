@@ -69,6 +69,22 @@ class OA_Maintenance_Statistics_Common_Task_SetUpdateRequirements extends OA_Mai
         $this->oController->report = 'Maintenance Statistics Report: ' . $module . "\n";
         OA::debug('Running Maintenance Statistics Engine: ' . $module, PEAR_LOG_INFO);
         $this->oController->report .= "=====================================\n\n";
+        // Is this the Tracker module? If so, is conversion tracking disabled?
+        if ($this->oController->module == 'Tracker' && $aConf['logging']['trackerImpressions'] == false) {
+            // No need to test for if the module needs to run - it's not active
+            $this->oController->updateIntermediate = false;
+            $this->oController->updateFinal        = false;
+            // Log this fact
+            $message = "- Conversion tracking has been disabled.";
+            $this->oController->report .= $message . "\n";
+            OA::debug($message, PEAR_LOG_INFO);
+            $this->oController->report .= "\n";
+            $message = "- Maintenance statistics will NOT be run for the $module";
+            $this->oController->report .= $message . "\n";
+            OA::debug($message, PEAR_LOG_INFO);
+            $this->oController->report .= "\n";
+            return;
+        }
         $message = '- Maintenance start run time is ' . $oNowDate->format('%Y-%m-%d %H:%M:%S') . ' ' . $oNowDate->tz->getShortName();
         $this->oController->report .= $message . "\n";
         OA::debug($message, PEAR_LOG_DEBUG);

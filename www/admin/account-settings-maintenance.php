@@ -70,11 +70,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             'maintenance' => 'compactStats',
             'bool'        => true
         ),
-        'maintenance_compactStatsGrace'             => array('maintenance' => 'compactStatsGrace'),
-        /*
-        'logging_defaultImpressionConnectionWindow' => array('logging' => 'defaultImpressionConnectionWindow'),
-        'logging_defaultClickConnectionWindow'      => array('logging' => 'defaultClickConnectionWindow'),
-        */
+        'maintenance_compactStatsGrace' => array('maintenance' => 'compactStatsGrace'),
     );
     // Priority Settings
     $aElements += array(
@@ -173,29 +169,7 @@ $aSettings = array (
                 'size'    => 12,
                 'depends' => 'maintenance_compactStats==true',
                 'check'   => 'number+'
-            )/*,
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'logging_defaultImpressionConnectionWindow',
-                'text'    => $strDefaultImpConWindow,
-                'size'    => 12,
-                'depends' => 'logging_adImpressions==true && logging_trackerImpressions==true',
-                'check'   => 'number+'
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'logging_defaultClickConnectionWindow',
-                'text'    => $strDefaultCliConWindow,
-                'size'    => 12,
-                'depends' => 'logging_adClicks==true && logging_trackerImpressions==true',
-                'check'   => 'number+'
-            )*/
+            )
         )
     ),
     array (

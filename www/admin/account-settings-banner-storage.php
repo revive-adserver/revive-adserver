@@ -169,7 +169,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         if ($result) {
             // The settings configuration file was written correctly,
             // go to the "next" settings page from here
-            MAX_Admin_Redirect::redirect('account-settings-database.php');
+            MAX_Admin_Redirect::redirect('account-settings-tracking.php');
         }
         // Could not write the settings configuration file, store this
         // error message and continue

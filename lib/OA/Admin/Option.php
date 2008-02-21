@@ -128,7 +128,11 @@ class OA_Admin_Option
     {
         global $phpAds_TextDirection, $strHelp;
         global $tabindex;
-        if(!isset($tabindex)) $tabindex = 1;
+        $aConf = $GLOBALS['_MAX']['CONF'];
+
+        if (!isset($tabindex)) {
+            $tabindex = 1;
+        }
 
         $this->_writeJavascriptFunctions();
 
@@ -140,10 +144,11 @@ class OA_Admin_Option
          *        check strMainSettings
          */
         if ($this->_optionType == 'account-settings') {
-            $sections = array(
+            $aSections = array(
                 'banner-delivery' => array('name' => $GLOBALS['strBannerDelivery'],       'perm' => OA_ACCOUNT_ADMIN),
                 'banner-logging'  => array('name' => $GLOBALS['strBannerLogging'],        'perm' => OA_ACCOUNT_ADMIN),
                 'banner-storage'  => array('name' => $GLOBALS['strBannerStorage'],        'perm' => OA_ACCOUNT_ADMIN),
+                'tracking'        => array('name' => $GLOBALS['strConversionTracking'],   'perm' => OA_ACCOUNT_ADMIN),
                 'database'        => array('name' => $GLOBALS['strDatabaseSettings'],     'perm' => OA_ACCOUNT_ADMIN),
                 'debug'           => array('name' => $GLOBALS['strDebug'],                'perm' => OA_ACCOUNT_ADMIN),
                 'email'           => array('name' => $GLOBALS['strEmailSettings'],        'perm' => OA_ACCOUNT_ADMIN),
@@ -153,40 +158,45 @@ class OA_Admin_Option
                 'user-interface'  => array('name' => $GLOBALS['strGuiSettings'],          'perm' => OA_ACCOUNT_ADMIN),
             );
         } elseif ($this->_optionType == 'account-preferences') {
-            $sections = array(
-                'account' => array(
+            $aSections = array();
+            $aSections['account'] =
+                array(
                     'name' => $GLOBALS['strAccountPreferences'],
                     'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
-                ),
-                'banner' => array(
+                );
+            $aSections['banner'] =
+                array(
                     'name' => $GLOBALS['strBannerPreferences'],
                     'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
-                ),
-                'campaign-email-reports' => array(
+                );
+            $aSections['campaign-email-reports'] =
+                array(
                     'name' => $GLOBALS['strCampaignEmailReportsPreferences'],
                     'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
-                ),
-                'language-timezone' => array(
+                );
+            $aSections['language-timezone'] =
+                array(
                     'name' => $GLOBALS['strLanguageTimezonePreferences'],
                     'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
-                ),
-                /*
-                'tracker' => array(
-                    'name' => $GLOBALS['strTrackerPreferences'],
-                    'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
-                ),
-                */
-                'user-interface' => array(
+                );
+            if ($aConf['logging']['trackerImpressions']) {
+                $aSections['tracker'] =
+                    array(
+                        'name' => $GLOBALS['strTrackerPreferences'],
+                        'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
+                    );
+            }
+            $aSections['user-interface'] =
+                array(
                     'name' => $GLOBALS['strUserInterfacePreferences'],
                     'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
-                )
-            );
+                );
         }
 
         echo "<td><form name='settings_selection'><td height='35'><b>";
         echo $GLOBALS['strChooseSection'].":&nbsp;</b>";
         echo "<select name='section' onChange='options_goto_section();' tabindex='".($tabindex++)."'>";
-        foreach ($sections as $k => $v) {
+        foreach ($aSections as $k => $v) {
             if (OA_Permission::isAccount($v['perm'])) {
                 echo "<option value='{$k}'".($section == $k ? ' selected' : '').">{$v['name']}</option>";
             }
@@ -200,10 +210,13 @@ class OA_Admin_Option
     /**
      * Build and display the settings or preferences user interface
      *
-     * @param array $aData
-     * @param array $aErrors
+     * @param array $aData A multi-dimensional array outlining what to
+     *                     display for a setting or preference page.
+     *                     See pages for examples of layout.
+     * @param array   $aErrors An array of error messages to display to
+     *                         within the form.
      * @param integer $disableSubmit
-     * @param string $imgPath
+     * @param string  $imgPath
      */
     function show($aData, $aErrors = array(), $disableSubmit = 0, $imgPath = "")
     {
@@ -424,6 +437,9 @@ class OA_Admin_Option
                             break;
                         case 'statscolumns':
                             $this->_showStatsColumns($aItem, $value);
+                            break;
+                        case 'hiddencheckbox':
+                            $this->_showHiddenCheckbox($aItem, $value);
                             break;
                     }
                     // ???
@@ -654,6 +670,19 @@ class OA_Admin_Option
         $aItem['value'] = $value;
 
         $this->aOption[] = array('checkbox.html' => $aItem);
+    }
+
+    function _showHiddenCheckbox($aItem, $value)
+    {
+        global $tabindex;
+
+        $aItem['tabindex'] = $tabindex++;
+
+        // Make sure that 'f' for enums is also considered
+        $value = !empty($value) && (bool)strcasecmp($value, 'f');
+        $aItem['value'] = $value;
+
+        $this->aOption[] = array('hiddencheckbox.html' => $aItem);
     }
 
     function _showText($aItem, $value)
