@@ -9,8 +9,69 @@ require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
 class UserMigration extends Migration
 {
 
+    var $languageMap = array(
+        'chinese_big5'      => 'zh_CN',
+        'chinese_gb2312'    => 'zh_CN',
+        'czech'             => 'cs',
+        'dutch'             => 'nl',
+        'english'           => 'en',
+        'english_affiliates'=> 'en',
+        'english_us'        => 'en',
+        'french'            => 'fr',
+        'german'            => 'de',
+        'hebrew'            => 'he',
+        'indonesian'        => 'id',
+        'italian'           => 'it',
+        'korean'            => 'ko',
+        'polish'            => 'pl',
+        'portuguese'        => 'pt_BR',
+        'russian_cp1251'    => 'ru',
+        'russian_koi8r'     => 'ru',
+        'spanish'           => 'es',
+        'turkish'           => 'tr'
+    );
+
+    var $aLanguageByAgency = array();
+
     function UserMigration()
     {
+        // We will need the admin and per-agency languages to assign the correct "Default" languages to advertiser and websites
+        $prefix      = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+
+        $oDBH = OA_DB::singleton();
+
+        // Get admin language
+        $query = "
+            SELECT
+                agencyid AS id,
+                language AS language
+            FROM
+                " . $oDBH->quoteIdentifier($prefix.'preference') . "
+            WHERE
+                agencyid = 0
+        ";
+
+        $adminLang = $oDBH->getAssoc($query);
+
+        // Get agency languages
+        $query = "
+            SELECT
+                agencyid AS id,
+                language AS language
+            FROM
+                " . $oDBH->quoteIdentifier($prefix.'agency');
+        $agencyLang = $oDBH->getAssoc($query);
+
+        // Set the admin's language for id 0, then set each agencies language as specified, using admins if unset
+        $this->aLanguageByAgency[0] = !empty($adminLang[0]) ? $adminLang[0] : 'english';
+
+        foreach ($agencyLang as $id => $language) {
+            if (!empty($language)) {
+                $this->aLanguageByAgency[$id] = $language;
+            } else {
+                $this->aLanguageByAgency[$id] = $this->aLanguageByAgency[0];
+            }
+        }
     }
 
 	function _migrateUsers($group, $aUser)
@@ -34,11 +95,13 @@ class UserMigration extends Migration
 	    $query = "
 	       SELECT
 	           {$primaryKey} AS id,
+	           agencyid AS agency_id,
 	           {$fieldMap['name']} AS name,
 	           {$fieldMap['contact_name']} AS contact_name,
 	           {$fieldMap['email_address']} AS email_address,
 	           {$fieldMap['username']} AS username,
 	           {$fieldMap['password']} AS password,
+	           language AS language,
 	           {$fieldMap['permissions']} AS permissions
 	       FROM
     	       {$tblSource}
@@ -61,6 +124,19 @@ class UserMigration extends Migration
             }
             if (empty($aData['email_address'])) {
                 $aData['email_address'] = '';
+            }
+            if (empty($aData['language'])) {
+                if (!empty($this->aLanguageByAgency[$aData['agency_id']])) {
+                    $aData['language'] = $this->aLanguageByAgency[$aData['agency_id']];
+                } else {
+                    $aData['language'] = $this->aLanguageByAgency[0];
+                }
+            }
+            // Lookup their language in the language map, if we don't recognise it, convert it to english (sorry :()
+            if (!empty($this->languageMap[$aData['language']])) {
+                $aData['language'] = $this->languageMap[$aData['language']];
+            } else {
+                $aData['language'] = 'en';
             }
 
             $query = "
@@ -188,12 +264,14 @@ class UserMigration extends Migration
                         email_address,
                         username,
                         password,
+                        language,
                         default_account_id
                     ) VALUES (
                         ".$oDbh->quote($aData['contact_name']).",
                         ".$oDbh->quote($aData['email_address']).",
                         ".$oDbh->quote(strtolower($aData['username'])).",
                         ".$oDbh->quote($aData['password']).",
+                        ".$oDbh->quote($aData['language']).",
                         ".$oDbh->quote($defaultAccountId, 'integer')."
                     )
                 ";
