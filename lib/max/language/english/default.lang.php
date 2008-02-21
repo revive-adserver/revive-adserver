@@ -264,7 +264,7 @@ $GLOBALS['strStatsVariables']           = "Variables";
 $GLOBALS['strFinanceCPM']               = 'CPM';
 $GLOBALS['strFinanceCPC']               = 'CPC';
 $GLOBALS['strFinanceCPA']               = 'CPA';
-$GLOBALS['strFinanceMT']                = 'Monthly Tenancy';
+$GLOBALS['strFinanceMT']                = 'Tenancy';
 
 // Time and date related
 $GLOBALS['strDate']                     = "Date";
