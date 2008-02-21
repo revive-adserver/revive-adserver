@@ -174,7 +174,6 @@ $aSettings = array (
                 'type'    => 'password',
                 'name'    => 'pw2',
                 'text'    => $strRepeatPassword,
-                'depends' => 'pw!=""',
                 'check'   => 'compare:pw'
             )
         )
