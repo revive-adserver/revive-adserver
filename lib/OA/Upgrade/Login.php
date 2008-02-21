@@ -150,7 +150,8 @@ class OA_Upgrade_Login
             $aPref = $oDbh->queryRow($query, null, MDB2_FETCHMODE_ASSOC);
 
             if (is_array($aPref)) {
-                $aCredentials = OA_Auth::getCredentials(false);
+                $oPlugin = &OA_Auth::staticGetAuthPlugin('internal');
+                $aCredentials = $oPlugin->getCredentials(false);
 
                 if (!PEAR::isError($aCredentials)) {
                     if (strtolower($aPref['admin']) == strtolower($aCredentials['username']) &&
