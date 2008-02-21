@@ -581,7 +581,7 @@ class OA_Admin_Option
                         default:            $javascript .= 'value'; break;
                     }
                     $javascript .= " ".$regs[3]." ".$regs[4].$regs[5];
-                    $javascript .= " && !(".$regs[1]."document.".$formName.".".$regs[2].".disabled ". $regs[3]. " false)";
+                    $javascript .= " && ".$regs[1]."document.".$formName.".".$regs[2].".disabled ". $regs[3]. " false";
                 }
             }
             $javascript .= ");\n";
