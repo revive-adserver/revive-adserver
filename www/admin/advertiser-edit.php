@@ -43,7 +43,6 @@ phpAds_registerGlobalUnslashed(
     ,'contact'
     ,'comments'
     ,'email'
-    ,'clientlanguage'
     ,'clientreportlastdate'
     ,'clientreportprevious'
     ,'clientreportdeactivate'
@@ -76,8 +75,7 @@ if (isset($submit)) {
     }
     // Default fields
     $aClient['contact']  = trim($contact);
-    $aClient['email']    = trim($email);
-    $aClient['language'] = trim($clientlanguage);
+    $aClient['email']    = trim($email);  
     $aClient['comments'] = trim($comments);
 
     // Reports
@@ -109,10 +107,7 @@ if (isset($submit)) {
             $doClients->update();
 
             // Go to next page
-            if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-                // Set current session to new language
-                $session['language'] = $clientlanguage;
-                phpAds_SessionDataStore();
+            if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {                                
                 MAX_Admin_Redirect::redirect('index.php');
             } else {
                 MAX_Admin_Redirect::redirect("advertiser-campaigns.php?clientid=$clientid");
@@ -213,23 +208,7 @@ echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspac
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strEMail."</td><td>";
 echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='email' size='25' value='".phpAds_htmlQuotes($aClient['email'])."' style='width: 350px;' tabindex='".($tabindex++)."'>";
 echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-
-// Language
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strLanguage."</td><td>";
-echo "<select name='clientlanguage' tabindex='".($tabindex++)."'>";
-echo "<option value='' SELECTED>".$strDefault."</option>";
-
-$languages = MAX_Admin_Languages::AvailableLanguages();
-foreach ($languages as $k => $v) {
-    if (isset($aClient['language']) && $aClient['language'] == $k) {
-        echo "<option value='$k' selected>$v</option>";
-    } else {
-        echo "<option value='$k'>$v</option>";
-    }
-}
-
-echo "</select></td></tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
 
 // Footer
 echo "</table>";

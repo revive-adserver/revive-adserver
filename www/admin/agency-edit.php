@@ -42,8 +42,7 @@ phpAds_registerGlobalUnslashed (
 	,'agencyid'
 	,'name'
 	,'contact'
-	,'email'
-	,'agencylanguage'
+	,'email'	
 	,'submit'
 	,'logout_url'
 );
@@ -67,8 +66,7 @@ if (isset($submit)) {
 	$agency['name']           = trim($name);
 	// Default fields
 	$agency['contact'] 	 	  = trim($contact);
-	$agency['email'] 	 	  = trim($email);
-	$agency['agencylanguage'] = trim($agencylanguage);
+	$agency['email'] 	 	  = trim($email);	
 	$agency['logout_url']     = trim($logout_url);
 	// Permissions
 	if (count($errormessage) == 0) {
@@ -155,23 +153,7 @@ echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspac
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strEMail."</td><td>";
 echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='email' size='25' value='".phpAds_htmlQuotes($agency['email'])."' style='width: 350px;' tabindex='".($tabindex++)."'>";
 echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-
-// Language
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strLanguage."</td><td>";
-echo "<select name='agencylanguage' tabindex='".($tabindex++)."'>";
-echo "<option value='' SELECTED>".$strDefault."</option>";
-
-$languages = MAX_Admin_Languages::AvailableLanguages();
-foreach ($languages as $k => $v) {
-	if (isset($agency['agencylanguage']) && $agency['agencylanguage'] == $k) {
-		echo "<option value='$k' selected>$v</option>";
-	} else {
-		echo "<option value='$k'>$v</option>";
-	}
-}
-
-echo "</select></td></tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+echo "<td height='10' colspan='2'></td></tr>";
 
 // Footer
 echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
