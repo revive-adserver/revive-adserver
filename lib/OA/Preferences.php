@@ -72,6 +72,8 @@ class OA_Preferences
      */
     function loadPreferences($loadExtraInfo = false, $return = false, $parentOnly = false, $loadAdminOnly = false, $accountId = null)
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+
         // Ensure $parentOnly and $loadAdminOnly are correctly set
         if ($parentOnly && $loadAdminOnly) {
             // Cannot both be true!
@@ -217,6 +219,19 @@ class OA_Preferences
                 }
             }
         }
+
+        // Set the initial (default) language to conf value or english
+        $aPreferences['language'] = (!empty($aConf['max']['language'])) ? $aConf['max']['language'] : 'en';
+
+        // Add user preferences (currently language) to the prefs array
+        if ($userId = OA_Permission::getUserId()) {
+            $doUser = OA_Dal::factoryDO('users');
+            $doUser->get('user_id', $userId);
+            if (!empty($doUser->language)) {
+                $aPreferences['language'] = $doUser->language;
+            }
+        }
+
         // Return or store the preferences
         if ($return) {
             return $aPreferences;

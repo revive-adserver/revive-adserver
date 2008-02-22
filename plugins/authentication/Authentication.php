@@ -41,7 +41,7 @@ class Plugins_Authentication
      * @var array
      */
     var $aSignupErrors = array();
-    
+
     var $aValidationErrors = array();
 
     /**
@@ -176,7 +176,7 @@ class Plugins_Authentication
     }
 
     /**
-     * Method used in user access pages. Either creates new user if 
+     * Method used in user access pages. Either creates new user if
      * necessary or update existing one.
      *
      * @param DB_DataObject_Users $doUsers  Users dataobject with any preset variables
@@ -187,11 +187,12 @@ class Plugins_Authentication
      * @param integer $accountId  a
      * @return integer  User ID or false on error
      */
-    function saveUser(&$doUsers, $login, $password, $contactName, 
-        $emailAddress, $accountId)
+    function saveUser(&$doUsers, $login, $password, $contactName,
+        $emailAddress, $language, $accountId)
     {
         $doUsers->contact_name = $contactName;
         $doUsers->email_address = $emailAddress;
+        $doUsers->language = $language;
         if ($doUsers->user_id) {
             $doUsers->update();
             return $doUsers->user_id;
