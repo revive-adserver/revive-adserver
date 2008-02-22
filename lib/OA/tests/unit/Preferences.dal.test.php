@@ -56,6 +56,8 @@ class Test_OA_Preferences extends UnitTestCase
         // Test 1: Test with no user logged in, and ensure that no
         //         preferences are loaded.
         unset($GLOBALS['_MAX']['PREF']);
+        unset($GLOBALS['_MAX']['CONF']['max']['language']);
+
         OA_Preferences::loadPreferences();
         $this->assertNull($GLOBALS['_MAX']['PREF']);
 
@@ -132,7 +134,7 @@ class Test_OA_Preferences extends UnitTestCase
         OA_Preferences::loadPreferences();
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']));
-        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 1);
+        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 2);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_1']);
         $this->assertEqual($GLOBALS['_MAX']['PREF']['preference_1'], 'foo!');
 
@@ -149,7 +151,7 @@ class Test_OA_Preferences extends UnitTestCase
         OA_Preferences::loadPreferences();
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']));
-        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 1);
+        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 2);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_1']);
         $this->assertEqual($GLOBALS['_MAX']['PREF']['preference_1'], 'foo!');
 
@@ -167,7 +169,7 @@ class Test_OA_Preferences extends UnitTestCase
         OA_Preferences::loadPreferences();
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']));
-        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 2);
+        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 3);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_1']);
         $this->assertEqual($GLOBALS['_MAX']['PREF']['preference_1'], 'foo!');
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_2']);
@@ -212,7 +214,7 @@ class Test_OA_Preferences extends UnitTestCase
         OA_Preferences::loadPreferences();
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']));
-        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 2);
+        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 3);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_1']);
         $this->assertEqual($GLOBALS['_MAX']['PREF']['preference_1'], 'foo!');
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_2']);
@@ -233,7 +235,7 @@ class Test_OA_Preferences extends UnitTestCase
         OA_Preferences::loadPreferences();
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']));
-        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 2);
+        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 3);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_1']);
         $this->assertEqual($GLOBALS['_MAX']['PREF']['preference_1'], 'foo!');
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_2']);
@@ -264,7 +266,7 @@ class Test_OA_Preferences extends UnitTestCase
         OA_Preferences::loadPreferences();
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']));
-        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 2);
+        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 3);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_1']);
         $this->assertEqual($GLOBALS['_MAX']['PREF']['preference_1'], 'foo!');
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_2']);
@@ -311,7 +313,7 @@ class Test_OA_Preferences extends UnitTestCase
         OA_Preferences::loadPreferences();
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']));
-        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 2);
+        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 3);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_1']);
         $this->assertEqual($GLOBALS['_MAX']['PREF']['preference_1'], 'foo!');
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_2']);
@@ -338,7 +340,7 @@ class Test_OA_Preferences extends UnitTestCase
         OA_Preferences::loadPreferences();
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']));
-        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 3);
+        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 4);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_1']);
         $this->assertEqual($GLOBALS['_MAX']['PREF']['preference_1'], 'foo!');
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_2']);
@@ -362,7 +364,7 @@ class Test_OA_Preferences extends UnitTestCase
         OA_Preferences::loadPreferences();
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']));
-        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 3);
+        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 4);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_1']);
         $this->assertEqual($GLOBALS['_MAX']['PREF']['preference_1'], 'foo!');
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_2']);
@@ -396,7 +398,7 @@ class Test_OA_Preferences extends UnitTestCase
         OA_Preferences::loadPreferences();
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']));
-        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 3);
+        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 4);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_1']);
         $this->assertEqual($GLOBALS['_MAX']['PREF']['preference_1'], 'foo!');
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_2']);
@@ -430,13 +432,66 @@ class Test_OA_Preferences extends UnitTestCase
         OA_Preferences::loadPreferences();
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']));
-        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 3);
+        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 4);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_1']);
         $this->assertEqual($GLOBALS['_MAX']['PREF']['preference_1'], 'foo!');
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_2']);
         $this->assertEqual($GLOBALS['_MAX']['PREF']['preference_2'], 'bar!');
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_3']);
         $this->assertEqual($GLOBALS['_MAX']['PREF']['preference_3'], 'Admin Preference for Preference 3');
+
+        // Test 15: Test that with the admin account logged in, but no language preference (nor config language) that english is returned
+
+        // Update the existing user to clear the language field
+        $doUsers = OA_Dal::factoryDO('users');
+        $doUsers->username = 'admin';
+        $doUsers->find();
+        $doUsers->fetch();
+        $doUsers->language = '';
+        $doUsers->update();
+
+        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $this->assertNotNull($GLOBALS['_MAX']['PREF']);
+        OA_Preferences::loadPreferences();
+        $this->assertNotNull($GLOBALS['_MAX']['PREF']);
+        $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']));
+        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 4);
+        $this->assertNotNull($GLOBALS['_MAX']['PREF']['language']);
+        $this->assertEqual($GLOBALS['_MAX']['PREF']['language'], 'en');
+
+        // Test 16: Test that if we set a default in the conf array and have no user pref, this is returned:
+        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['CONF']['max']['language'] = 'de';
+        $this->assertNotNull($GLOBALS['_MAX']['PREF']);
+        OA_Preferences::loadPreferences();
+        $this->assertNotNull($GLOBALS['_MAX']['PREF']);
+        $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']));
+        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 4);
+        $this->assertNotNull($GLOBALS['_MAX']['PREF']['language']);
+        $this->assertEqual($GLOBALS['_MAX']['PREF']['language'], 'de');
+
+        // Test 17: Test that if we set a default in the conf array and have no user pref, this is returned:
+        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $this->assertNotNull($GLOBALS['_MAX']['PREF']);
+        OA_Preferences::loadPreferences();
+        $this->assertNotNull($GLOBALS['_MAX']['PREF']);
+        $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']));
+        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 4);
+        $this->assertNotNull($GLOBALS['_MAX']['PREF']['language']);
+        $this->assertEqual($GLOBALS['_MAX']['PREF']['language'], 'de');
+
+        // Test 18: Test that if we have a language set for the user, this is returned:
+        $doUsers->language = 'pt_BR';
+        $doUsers->update();
+
+        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $this->assertNotNull($GLOBALS['_MAX']['PREF']);
+        OA_Preferences::loadPreferences();
+        $this->assertNotNull($GLOBALS['_MAX']['PREF']);
+        $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']));
+        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 4);
+        $this->assertNotNull($GLOBALS['_MAX']['PREF']['language']);
+        $this->assertEqual($GLOBALS['_MAX']['PREF']['language'], 'pt_BR');
 
         DataGenerator::cleanUp();
     }
@@ -451,6 +506,8 @@ class Test_OA_Preferences extends UnitTestCase
         // Test 1: Test with no user logged in, and ensure that no
         //         preferences are loaded.
         unset($GLOBALS['_MAX']['PREF']);
+        unset($GLOBALS['_MAX']['CONF']['max']['language']);
+
         OA_Preferences::loadPreferences(true);
         $this->assertNull($GLOBALS['_MAX']['PREF']);
 
@@ -527,7 +584,7 @@ class Test_OA_Preferences extends UnitTestCase
         OA_Preferences::loadPreferences(true);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']));
-        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 1);
+        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 2);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_1']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']['preference_1']));
         $this->assertEqual(count($GLOBALS['_MAX']['PREF']['preference_1']), 2);
@@ -549,7 +606,7 @@ class Test_OA_Preferences extends UnitTestCase
         OA_Preferences::loadPreferences(true);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']));
-        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 2);
+        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 3);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_1']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']['preference_1']));
         $this->assertEqual(count($GLOBALS['_MAX']['PREF']['preference_1']), 2);
@@ -577,7 +634,7 @@ class Test_OA_Preferences extends UnitTestCase
         OA_Preferences::loadPreferences(true);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']));
-        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 2);
+        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 3);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_1']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']['preference_1']));
         $this->assertEqual(count($GLOBALS['_MAX']['PREF']['preference_1']), 2);
@@ -632,7 +689,7 @@ class Test_OA_Preferences extends UnitTestCase
         OA_Preferences::loadPreferences(true);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']));
-        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 2);
+        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 3);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_1']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']['preference_1']));
         $this->assertEqual(count($GLOBALS['_MAX']['PREF']['preference_1']), 2);
@@ -663,7 +720,7 @@ class Test_OA_Preferences extends UnitTestCase
         OA_Preferences::loadPreferences(true);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']));
-        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 2);
+        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 3);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_1']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']['preference_1']));
         $this->assertEqual(count($GLOBALS['_MAX']['PREF']['preference_1']), 2);
@@ -704,7 +761,7 @@ class Test_OA_Preferences extends UnitTestCase
         OA_Preferences::loadPreferences(true);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']));
-        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 2);
+        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 3);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_1']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']['preference_1']));
         $this->assertEqual(count($GLOBALS['_MAX']['PREF']['preference_1']), 2);
@@ -761,7 +818,7 @@ class Test_OA_Preferences extends UnitTestCase
         OA_Preferences::loadPreferences(true);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']));
-        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 2);
+        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 3);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_1']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']['preference_1']));
         $this->assertEqual(count($GLOBALS['_MAX']['PREF']['preference_1']), 2);
@@ -798,7 +855,7 @@ class Test_OA_Preferences extends UnitTestCase
         OA_Preferences::loadPreferences(true);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']));
-        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 3);
+        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 4);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_1']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']['preference_1']));
         $this->assertEqual(count($GLOBALS['_MAX']['PREF']['preference_1']), 2);
@@ -837,7 +894,7 @@ class Test_OA_Preferences extends UnitTestCase
         OA_Preferences::loadPreferences(true);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']));
-        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 3);
+        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 4);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_1']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']['preference_1']));
         $this->assertEqual(count($GLOBALS['_MAX']['PREF']['preference_1']), 2);
@@ -886,7 +943,7 @@ class Test_OA_Preferences extends UnitTestCase
         OA_Preferences::loadPreferences(true);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']));
-        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 3);
+        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 4);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_1']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']['preference_1']));
         $this->assertEqual(count($GLOBALS['_MAX']['PREF']['preference_1']), 2);
@@ -935,7 +992,7 @@ class Test_OA_Preferences extends UnitTestCase
         OA_Preferences::loadPreferences(true);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']));
-        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 3);
+        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 4);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_1']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']['preference_1']));
         $this->assertEqual(count($GLOBALS['_MAX']['PREF']['preference_1']), 2);
