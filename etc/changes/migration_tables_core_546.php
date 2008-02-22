@@ -54,7 +54,6 @@ class Migration_546 extends Migration
 
 
     var $aPrefMap = array(
-                        'language'                          => array('name'=>'language','value'=>'','level'=>OA_ACCOUNT_TRAFFICKER),
                         'company_name'                      => array('name'=>'company_name','value'=>'','level'=>OA_ACCOUNT_MANAGER),
                         'ui_week_start_day'                 => array('name'=>'begin_of_week','value'=>'','level'=>''),
                         'ui_percentage_decimals'            => array('name'=>'percentage_decimals','value'=>'','level'=>''),

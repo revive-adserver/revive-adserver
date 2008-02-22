@@ -29,14 +29,14 @@
     <notnull>true</notnull>
     <default></default>
    </field>
-   
+
    <field>
     <name>linked</name>
     <type>openads_datetime</type>
     <notnull>true</notnull>
     <default></default>
    </field>
-   
+
    <index>
     <name>account_user_assoc_pkey</name>
     <primary>true</primary>
@@ -120,7 +120,7 @@
   </declaration>
 
  </table>
- 
+
  <table>
 
   <name>accounts</name>
@@ -151,7 +151,7 @@
     <notnull>false</notnull>
     <default></default>
    </field>
-   
+
    <index>
     <name>accounts_pkey</name>
     <primary>true</primary>
@@ -6193,7 +6193,7 @@
   </declaration>
 
  </table>
- 
+
  <table>
 
   <name>session</name>
@@ -6613,6 +6613,14 @@
     <name>password</name>
     <type>openads_varchar</type>
     <length>64</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>language</name>
+    <type>openads_varchar</type>
+    <length>5</length>
     <notnull>false</notnull>
     <default></default>
    </field>

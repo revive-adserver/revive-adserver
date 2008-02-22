@@ -14,12 +14,13 @@ class DataObjects_Users extends DB_DataObjectCommon
     var $user_id;                         // int(9)  not_null primary_key auto_increment
     var $contact_name;                    // string(255)  not_null
     var $email_address;                   // string(64)  not_null
-    var $username;                        // string(64)  multiple_key
-    var $password;                        // string(64)
-    var $default_account_id;              // int(9)
+    var $username;                        // string(64)  unique_key
+    var $password;                        // string(64)  
+    var $language;                        // string(5)  
+    var $default_account_id;              // int(9)  
     var $comments;                        // blob(65535)  blob
     var $active;                          // int(1)  not_null
-    var $sso_user_id;                     // int(11)
+    var $sso_user_id;                     // int(11)  
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}

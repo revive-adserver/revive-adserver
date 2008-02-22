@@ -214,21 +214,21 @@ class Migration_546Test extends MigrationTest
         $this->oDbh->exec("INSERT INTO {$this->tblPrefsOld} (agencyid) VALUES (1)");
 
         $this->oDbh->exec("INSERT INTO {$this->tblAgency} (name, email) VALUES ('Agency 1', 'ag1@example.com')");
-        $this->oDbh->exec("INSERT INTO {$this->tblAgency} (name, email, username, password) VALUES ('Agency 2', 'ag2@example.com', 'agency2', 'agency2')");
-        $this->oDbh->exec("INSERT INTO {$this->tblAgency} (name, email, username, password) VALUES ('Agency 3', 'ag3@example.com', 'agency3', 'agency3')");
-        $this->oDbh->exec("INSERT INTO {$this->tblAgency} (name, email, username, password) VALUES ('Agency 4', 'ag4@example.com', 'agency4', NULL)");
+        $this->oDbh->exec("INSERT INTO {$this->tblAgency} (name, email, username, password, language) VALUES ('Agency 2', 'ag2@example.com', 'agency2', 'agency2', 'portuguese')");
+        $this->oDbh->exec("INSERT INTO {$this->tblAgency} (name, email, username, password, language) VALUES ('Agency 3', 'ag3@example.com', 'agency3', 'agency3', 'russian_koi8r')");
+        $this->oDbh->exec("INSERT INTO {$this->tblAgency} (name, email, username, password, language) VALUES ('Agency 4', 'ag4@example.com', 'agency4', NULL, 'french')");
         $this->oDbh->exec("INSERT INTO {$this->tblAgency} (name, email, username, password) VALUES ('Agency 5', 'ag5@example.com', NULL, 'agency3')");
 
-        $this->oDbh->exec("INSERT INTO {$this->tblAffilates} (name, email, agencyid) VALUES ('Publisher 1', 'pu1@example.com', 1)");
-        $this->oDbh->exec("INSERT INTO {$this->tblAffilates} (name, email, username, password) VALUES ('Publisher 2', 'pu2@example.com', 'publisher2', 'publisher2')");
+        $this->oDbh->exec("INSERT INTO {$this->tblAffilates} (name, email, language, agencyid) VALUES ('Publisher 1', 'pu1@example.com', 'korean', 1)");
+        $this->oDbh->exec("INSERT INTO {$this->tblAffilates} (name, email, language, username, password) VALUES ('Publisher 2', 'pu2@example.com', 'german', 'publisher2', 'publisher2')");
 
         $this->oDbh->exec("INSERT INTO {$this->tblChannel} (name, agencyid, affiliateid) VALUES ('Channel 1', 0, 0)");
         $this->oDbh->exec("INSERT INTO {$this->tblChannel} (name, agencyid, affiliateid) VALUES ('Channel 2', 0, 2)");
         $this->oDbh->exec("INSERT INTO {$this->tblChannel} (name, agencyid, affiliateid) VALUES ('Channel 3', 1, 0)");
         $this->oDbh->exec("INSERT INTO {$this->tblChannel} (name, agencyid, affiliateid) VALUES ('Channel 4', 1, 1)");
 
-        $this->oDbh->exec("INSERT INTO {$this->tblClients} (clientname, email, agencyid) VALUES ('Advertiser 1', 'ad1@example.com', 1)");
-        $this->oDbh->exec("INSERT INTO {$this->tblClients} (clientname, email, clientusername, clientpassword) VALUES ('Advertiser 2', 'ad2@example.com', 'advertiser2', 'advertiser2')");
+        $this->oDbh->exec("INSERT INTO {$this->tblClients} (clientname, email, language, agencyid) VALUES ('Advertiser 1', 'ad1@example.com', 'chinese_big5', 1)");
+        $this->oDbh->exec("INSERT INTO {$this->tblClients} (clientname, email, language, clientusername, clientpassword, agencyid) VALUES ('Advertiser 2', 'ad2@example.com', NULL, 'advertiser2', 'advertiser2', 3)");
 
     }
 
@@ -492,6 +492,7 @@ class Migration_546Test extends MigrationTest
             'email_address' => 'admin@example.com',
             'username' => 'admin',
             'password' => 'admin',
+            'language' => 'en',
             'default_account_id' => '2',
             'comments' => NULL,
             'active'   => '1',
@@ -586,6 +587,7 @@ class Migration_546Test extends MigrationTest
             'email_address' => 'ag2@example.com',
             'username' => 'agency2',
             'password' => 'agency2',
+            'language' => 'pt_BR',
             'default_account_id' => '4',
             'comments' => NULL,
             'active'   => '1',
@@ -597,6 +599,7 @@ class Migration_546Test extends MigrationTest
             'email_address' => 'ag3@example.com',
             'username' => 'agency3',
             'password' => 'agency3',
+            'language' => 'ru',
             'default_account_id' => '5',
             'comments' => NULL,
             'active'   => '1',
@@ -650,6 +653,7 @@ class Migration_546Test extends MigrationTest
             'email_address' => 'pu2@example.com',
             'username' => 'publisher2',
             'password' => 'publisher2',
+            'language' => 'de',
             'default_account_id' => '11',
             'comments' => NULL,
             'active'   => '1',
@@ -669,7 +673,7 @@ class Migration_546Test extends MigrationTest
           1 =>
           array (
             'clientid' => '2',
-            'agencyid' => '6',
+            'agencyid' => '3',
             'account_id' => '9',
           ),
         );
@@ -703,6 +707,7 @@ class Migration_546Test extends MigrationTest
             'email_address' => 'ad2@example.com',
             'username' => 'advertiser2',
             'password' => 'advertiser2',
+            'language' => 'ru',
             'default_account_id' => '9',
             'comments' => NULL,
             'active'   => '1',
@@ -751,7 +756,6 @@ class Migration_546Test extends MigrationTest
    function _getPrefsExpectations()
    {
     return array(
-                'language'=> array('value'=>$this->aPrefsOld['language'], 'level'=>OA_ACCOUNT_TRAFFICKER),
                 'company_name' => array('value'=>$this->aPrefsOld['company_name'],'level'=>OA_ACCOUNT_MANAGER),
                 'ui_week_start_day'=> array('value'=>$this->aPrefsOld['begin_of_week'], 'level'=>''),
                 'ui_percentage_decimals'=> array('value'=>$this->aPrefsOld['percentage_decimals'], 'level'=>''),
