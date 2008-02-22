@@ -44,7 +44,7 @@ class OA_Admin_UI_UserAccess
     var $aHiddenFields = array();
     var $redirectUrl;
     var $backUrl;
-    
+
     function init()
     {
         $this->initRequest();
@@ -54,39 +54,39 @@ class OA_Admin_UI_UserAccess
                 $this->request['email_address'], $this->request['login']);
         }
     }
-    
+
     function initRequest()
     {
         $this->request = phpAds_registerGlobalUnslashed (
             'userid', 'login', 'passwd', 'passwd2', 'link', 'contact_name',
-            'email_address', 'permissions', 'submit'
+            'email_address', 'permissions', 'submit', 'language'
         );
         $this->userid = $this->request['userid'];
         if (isset($this->request['permissions'])) {
             $this->aPermissions = $this->request['permissions'];
         }
     }
-    
+
     function setAccountId($accountId)
     {
         $this->accountId = $accountId;
     }
-    
+
     function setPagePrefix($pagePrefix)
     {
         $this->pagePrefix = $pagePrefix;
     }
-    
+
     function setNavigationHeaderCallback($callback)
     {
         $this->callbackHeaderNavigation = $callback;
     }
-    
+
     function setNavigationFooterCallback($callback)
     {
         $this->callbackFooterNavigation = $callback;
     }
-    
+
     function process()
     {
         if (!empty($this->request['submit'])) {
@@ -95,7 +95,7 @@ class OA_Admin_UI_UserAccess
                 $this->userid = $this->oPlugin->saveUser(
                     $this->userid, $this->request['login'], $this->request['passwd'],
                     $this->request['contact_name'], $this->request['email_address'],
-                    $this->accountId);
+                    $this->request['language'], $this->accountId);
                 if ($this->userid) {
                     OA_Admin_UI_UserAccess::linkUserToAccount(
                         $this->userid, $this->accountId, $this->aPermissions,
@@ -108,11 +108,11 @@ class OA_Admin_UI_UserAccess
         }
         $this->display();
     }
-    
+
     function display()
     {
         $this->_processHeaderNavigation();
-        
+
         require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
         $oTpl = new OA_Admin_Template($this->pagePrefix.'-user.html');
@@ -120,12 +120,12 @@ class OA_Admin_UI_UserAccess
         $oTpl->assign('backUrl', $this->backUrl);
         $oTpl->assign('method', 'POST');
         $oTpl->assign('aErrors', $this->aErrors);
-        
+
         $this->oPlugin->setTemplateVariables($oTpl);
-        
+
         $oTpl->assign('existingUser', !empty($this->userid));
         $oTpl->assign('showLinkButton', !empty($this->request['link']));
-        
+
         $doUsers = OA_Dal::staticGetDO('users', $this->userid);
         $userData = array();
         if ($doUsers) {
@@ -134,9 +134,10 @@ class OA_Admin_UI_UserAccess
             $userData['username'] = $this->request['login'];
             $userData['contact_name'] = $this->request['contact_name'];
             $userData['email_address'] = $this->request['email_address'];
+            $userData['language'] = $this->request['language'];
         }
         $userData['userid'] = $this->userid;
-        
+
         $aTplFields = array(
             array(
                 'title'     => $strUserDetails,
@@ -151,17 +152,17 @@ class OA_Admin_UI_UserAccess
             );
         }
         $oTpl->assign('fields', $aTplFields);
-        
+
         $aHiddenFields = $this->_getHiddenFields($userData, $this->request['link'], $this->aHiddenFields);
         $oTpl->assign('hiddenFields', $aHiddenFields);
-        
+
         $oTpl->display();
-        
+
         $this->_processFooterNavigation();
-        
+
         phpAds_PageFooter();
     }
-    
+
     function _builPermissionFields()
     {
         $aPermissionsFields = array();
@@ -193,41 +194,41 @@ class OA_Admin_UI_UserAccess
         }
         return $aPermissionsFields;
     }
-    
+
     function _processHeaderNavigation()
     {
         if (is_callable($this->callbackHeaderNavigation)) {
             call_user_func($this->callbackHeaderNavigation);
         }
     }
-    
+
     function _processFooterNavigation()
     {
         if (is_callable($this->callbackFooterNavigation)) {
             call_user_func($this->callbackFooterNavigation);
         }
     }
-    
+
     function setAllowedPermissions($aAllowedPermissions)
     {
         $this->aAllowedPermissions = $aAllowedPermissions;
     }
-    
+
     function setHiddenFields($aHiddenFields)
     {
         $this->aHiddenFields = $aHiddenFields;
     }
-    
+
     function setRedirectUrl($redirectUrl)
     {
         $this->redirectUrl = $redirectUrl;
     }
-    
+
     function setBackUrl($backUrl)
     {
         $this->backUrl = $backUrl;
     }
-    
+
     function getRedirectUrl()
     {
         if (!empty($this->redirectUrl)) {
@@ -235,7 +236,7 @@ class OA_Admin_UI_UserAccess
         }
         return $this->pagePrefix . '-access.php';
     }
-    
+
     /**
      * Assign common template variables
      *
@@ -253,7 +254,7 @@ class OA_Admin_UI_UserAccess
 
     /**
      * Returns hidden fields used in pages entity-user
-     * 
+     *
      * TODO - refactor this and move as class variables
      *
      * @param string $entityName

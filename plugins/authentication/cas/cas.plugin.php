@@ -32,6 +32,7 @@ require_once MAX_PATH . '/plugins/authentication/cas/CAS/CAS.php';
 require_once MAX_PATH . '/plugins/authentication/cas/CAS/client.php';
 require_once MAX_PATH . '/plugins/authentication/cas/OaCasClient.php';
 require_once MAX_PATH . '/www/admin/lib-sessions.inc.php';
+require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 
 /**
  * String which CAS client uses to store data in session
@@ -403,6 +404,9 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
     function getUserDetailsFields($userData)
     {
         $userExists = !empty($userData['user_id']);
+        $oLanguages = new MAX_Admin_Languages();
+        $aLanguages = $oLanguages->AvailableLanguages();
+
         $userDetailsFields[] = array(
                        'name'      => 'email_address',
                        'label'     => $GLOBALS['strEMail'],
@@ -415,6 +419,15 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
                      'value'     => $userData['contact_name'],
                      'freezed'   => $userExists
                  );
+         $userDetailsFields[] = array(
+                    'type'      => 'select',
+                    'name'      => 'language',
+                    'label'     => $GLOBALS['strLanguage'],
+                    'options'   => $aLanguages,
+                    'value'     => (!empty($userData['language'])) ? $userData['language'] : $GLOBALS['_MAX']['PREF']['language'],
+                    'freezed'   => $userExists
+                );
+
         return $userDetailsFields;
     }
 
@@ -439,13 +452,13 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
     }
 
     function saveUser($userid, $login, $password,
-        $contactName, $emailAddress, $accountId)
+        $contactName, $emailAddress, $language, $accountId)
     {
         if (!empty($userid)) {
             $doUsers = OA_Dal::factoryDO('users');
             if ($doUsers->loadByProperty('user_id', $userid)) {
                 return parent::saveUser($doUsers, null, null, $contactName,
-                    $emailAddress, $accountId);
+                    $emailAddress, $language, $accountId);
             }
             return false;
         } else {

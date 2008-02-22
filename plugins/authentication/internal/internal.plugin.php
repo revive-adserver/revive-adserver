@@ -26,6 +26,7 @@ $Id$
 
 require_once MAX_PATH . '/lib/max/other/common.php';
 require_once MAX_PATH . '/plugins/authentication/Authentication.php';
+require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 
 /**
  * Authentication internal plugin which authenticates user using internal
@@ -229,6 +230,9 @@ class Plugins_Authentication_Internal_Internal extends Plugins_Authentication
     {
         $userExists = !empty($userData['user_id']);
         $userDetailsFields = array();
+        $oLanguages = new MAX_Admin_Languages();
+        $aLanguages = $oLanguages->AvailableLanguages();
+
         $userDetailsFields[] = array(
                 'name'      => 'login',
                 'label'     => $GLOBALS['strUsername'],
@@ -261,6 +265,15 @@ class Plugins_Authentication_Internal_Internal extends Plugins_Authentication
                 'value'     => $userData['email_address'],
                 'freezed'   => $userExists
             );
+        $userDetailsFields[] = array(
+                'type'      => 'select',
+                'name'      => 'language',
+                'label'     => $GLOBALS['strLanguage'],
+                'options'   => $aLanguages,
+                'value'     => (!empty($userData['language'])) ? $userData['language'] : $GLOBALS['_MAX']['PREF']['language'],
+                'freezed'   => $userExists
+            );
+
         return $userDetailsFields;
     }
 
@@ -281,11 +294,11 @@ class Plugins_Authentication_Internal_Internal extends Plugins_Authentication
      * @return integer  User ID or false on error
      */
     function saveUser($userid, $login, $password,
-        $contactName, $emailAddress, $accountId)
+        $contactName, $emailAddress, $language, $accountId)
     {
         $doUsers = OA_Dal::factoryDO('users');
         $doUsers->loadByProperty('user_id', $userid);
-        return parent::saveUser($doUsers, $login, $password, $contactName, $emailAddress, $accountId);
+        return parent::saveUser($doUsers, $login, $password, $contactName, $emailAddress, $language, $accountId);
     }
 
     /**
@@ -315,7 +328,7 @@ class Plugins_Authentication_Internal_Internal extends Plugins_Authentication
         $doUsers->email_address = $emailAddress;
         return true;
     }
-    
+
     /**
      * Validates user login - required for linking new users
      *
@@ -367,7 +380,7 @@ class Plugins_Authentication_Internal_Internal extends Plugins_Authentication
             $this->validateUsersPassword($data['passwd']);
         }
         $this->validateUsersEmail($data['email_address']);
-        
+
         return $this->getValidationErrors();
     }
 }

@@ -35,6 +35,30 @@ $Id$
 class MAX_Admin_Languages
 {
 
+    var $aLanguageMap = array(
+        'chinese_gb2312'    => 'zh_CN',
+        'chinese_big5'      => 'zh_CN',
+        'czech'             => 'cs',
+        'dutch'             => 'nl',
+        'english'           => 'en',
+        'english_affiliates'=> 'en',
+        'english_us'        => 'en',
+        'french'            => 'fr',
+        'german'            => 'de',
+        'hebrew'            => 'he',
+        'indonesian'        => 'id',
+        'italian'           => 'it',
+        'korean'            => 'ko',
+        'polish'            => 'pl',
+        'portuguese'        => 'pt_BR',
+        'russian_cp1251'    => 'ru',
+        'russian_koi8r'     => 'ru',
+        'spanish'           => 'es',
+        'turkish'           => 'tr'
+    );
+
+    var $aDeprecated = array('english_affiliates', 'english_us');
+
     /**
      * A method for returning an array of the available translations.
      *
@@ -47,14 +71,46 @@ class MAX_Admin_Languages
         $langDirs = opendir(MAX_PATH . '/lib/max/language/');
         while ($langDir = readdir($langDirs)) {
             if (is_dir(MAX_PATH . '/lib/max/language/' . $langDir) &&
+                    !in_array($langDir, $this->aDeprecated) &&
                     file_exists(MAX_PATH . '/lib/max/language/' . $langDir . '/index.lang.php')) {
                 include_once MAX_PATH . '/lib/max/language/' . $langDir . '/index.lang.php' ;
-                $languages[$langDir] = $translation_readable;
+                $languageCode = $this->languageStringToCode($langDir);
+                $languages[$languageCode] = $translation_readable;
             }
         }
         closedir($langDirs);
         asort($languages, SORT_STRING);
         return $languages;
+    }
+
+    /**
+     * NOTE: This is a temporary wrapper method until the language folders are updated
+     * This method maps the language string into it's appropriate code
+     *
+     * @param string $string The language string (e.g. "english" or "spanish")
+     */
+    function languageStringToCode($string)
+    {
+        // First sanity check that a code wan't passed in
+        if (in_array($string, $this->aLanguageMap)) {
+            return $string;
+        }
+        return (isset($this->aLanguageMap[$string])) ? $this->aLanguageMap[$string] : 'en';
+    }
+
+    /**
+     * NOTE: This is a temporary wrapper method until the language folders are updated
+     * This method maps the language code into it's appropriate string
+     *
+     * @param string $code The language code (e.g. "en" or "es")
+     */
+    function languageCodeToString($code)
+    {
+        if (in_array($code, array_keys($this->aLanguageMap))) {
+            return $code;
+        }
+        $map = array_flip($this->aLanguageMap);
+        return (isset($map[$code])) ? $map[$code] : 'english';
     }
 
 }

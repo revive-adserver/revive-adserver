@@ -26,6 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Permission.php';
+require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 
 /**
  * @package    MaxUI
@@ -52,6 +53,9 @@ class Language_Default
         } else {
             $aPref = array();
         }
+        $oLanguage = new MAX_Admin_Languages();
+        $aPref['language'] = $oLanguage->languageCodeToString($aPref['language']);
+
         // Always load the English language, in case of incomplete translations
         include_once MAX_PATH . '/lib/max/language/english/default.lang.php';
         // Load the language from preferences, if possible, otherwise load
