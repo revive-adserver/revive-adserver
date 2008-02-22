@@ -112,6 +112,8 @@ if (empty($oConfigTimezone) && $aTimezone['calculated']) {
     $strTimezoneToDisplay = $strTimezone;
 }
 
+$oLanguage = new MAX_Admin_Languages();
+
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
 $aSettings = array (
@@ -122,7 +124,7 @@ $aSettings = array (
                 'type'    => 'select',
                 'name'    => 'language',
                 'text'    => $strLanguage,
-                'items'   => MAX_Admin_Languages::AvailableLanguages(),
+                'items'   => $oLanguage->AvailableLanguages(),
                 'disabled' => true
             ),
             array (

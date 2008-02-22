@@ -35,7 +35,8 @@
                 $strTimezoneToDisplay = $strTimezone;
             }
             // For language, setup English as first choice
-            $langVal = 'english';
+            $langVal = 'en';
+            $oLanguage = new MAX_Admin_Languages();
 
             $options->show(array (
                 array (
@@ -91,7 +92,7 @@
                             'text'  => $strLanguageSelection,
                             'req'   => true,
                             'value' => $langVal,
-                            'items' => MAX_Admin_Languages::AvailableLanguages()
+                            'items' => $oLanguage->AvailableLanguages()
                         ),
                         array (
                             'type'  => 'break'
