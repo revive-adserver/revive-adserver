@@ -183,7 +183,7 @@ class OA_Admin_Option
                 $aSections['tracker'] =
                     array(
                         'name' => $GLOBALS['strTrackerPreferences'],
-                        'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
+                        'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER)
                     );
             }
             $aSections['user-interface'] =
