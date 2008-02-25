@@ -444,7 +444,9 @@ class OA_Admin_Settings
      *                         and "merge", and the preg_split value will be used to split
      *                         the actual value into an array, and then remove any empty
      *                         values from the result, and then the resulting array will be
-     *                         merged with the merge value, and stored.
+     *                         merged with the merge value, and stored. The "merge_unique"
+     *                         value can also be set to true, in which case only unique
+     *                         values will be stored from the split array values.
      *
      *                         For example:
      *  array(
@@ -491,10 +493,18 @@ class OA_Admin_Settings
                 if (isset($aConfigInfo['preg_split']) && isset($aConfigInfo['merge'])) {
                     $pregSplit = $aConfigInfo['preg_split'];
                     $merge = $aConfigInfo['merge'];
+                    $mergeUnique = false;
+                    if ($aConfigInfo['merge_unique']) {
+                        $mergeUnique = true;
+                    }
                     unset($aConfigInfo['preg_split']);
                     unset($aConfigInfo['merge']);
+                    unset($aConfigInfo['merge_unique']);
                     foreach ($aConfigInfo as $levelKey => $itemKey) {
                         $aValues = preg_split($pregSplit, $value);
+                        if ($mergeUnique) {
+                            $aValues = array_unique($aValues);
+                        }
                         $aEmptyKeys = array_keys($aValues, '');
                         $counter = -1;
                         foreach ($aEmptyKeys as $key) {
@@ -507,6 +517,7 @@ class OA_Admin_Settings
                 } else {
                     unset($aConfigInfo['preg_split']);
                     unset($aConfigInfo['merge']);
+                    unset($aConfigInfo['merge_unique']);
                     foreach ($aConfigInfo as $levelKey => $itemKey) {
                         $this->settingChange($levelKey, $itemKey, $value);
                     }

@@ -81,9 +81,10 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Block Banner Logging Settings
     $aElements += array(
         'logging_ignoreHosts' => array(
-            'logging'    => 'ignoreHosts',
-            'preg_split' => "/ |,|;/",
-            'merge'      => ','
+            'logging'      => 'ignoreHosts',
+            'preg_split'   => "/ |,|;|\r|\n/",
+            'merge'        => ',',
+            'merge_unique' => true
         )
     );
     // Create a new settings object, and save the settings!

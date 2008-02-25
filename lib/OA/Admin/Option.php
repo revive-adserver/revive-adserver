@@ -373,6 +373,10 @@ class OA_Admin_Option
             					if (isset($aConf[$aSettingSection][$aSettingKey])) {
             						// Load the configuration .php file value
             						$value = $aConf[$aSettingSection][$aSettingKey];
+                                    // Show every host on a single line - a slight hack :-)
+                                    if ($aItem[name] == "logging_ignoreHosts") {
+                                        $value = eregi_replace(",", "\n", $value);
+                                    }
             					} elseif (isset($aConf[$aItem['name']][0])) {
             						// The value in the settings configuration file is an array,
             						// so re-constitute into a comma separated list
