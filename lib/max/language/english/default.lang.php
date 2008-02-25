@@ -984,9 +984,16 @@ $GLOBALS['strFullName']                         = "Full Name";
 $GLOBALS['strEmailAddress']                     = "Email address";
 $GLOBALS['strUserDetails']                      = "User Details";
 $GLOBALS['strLanguageTimezone']                 = "Language & Timezone";
-$GLOBALS['strLanguageTimezonePreferences']      = "Language and Timezone Preferences";
 $GLOBALS['strUserInterfacePreferences']         = 'User Interface Preferences';
 $GLOBALS['strInvocationPreferences']            = 'Invocation Preferences';
+$GLOBALS['strUserPreferences']                  = "User Preferences";
+$GLOBALS['strChangePassword']                   = "Change Password";
+$GLOBALS['strChangeEmail']                      = "Change E-mail";
+$GLOBALS['strCurrentPassword']                  = "Current Password";
+$GLOBALS['strChooseNewPassword']                = "Choose a new password";
+$GLOBALS['strReenterNewPassword']               = "Re-enter new password";
+$GLOBALS['strNameLanguage']                     = "Name & Language";
+
 
 
 // Global Settings

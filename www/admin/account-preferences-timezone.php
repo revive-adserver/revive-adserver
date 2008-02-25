@@ -37,18 +37,15 @@ require_once '../../init.php';
 
 // Required files
 require_once MAX_PATH . '/lib/OA/Admin/Option.php';
-require_once MAX_PATH . '/lib/OA/Preferences.php';
+require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
 
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
+require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/www/admin/config.php';
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER, OA_ACCOUNT_ADVERTISER);
-
-// Load the account's preferences, with additional information, into a specially named array
-$GLOBALS['_MAX']['PREF_EXTRA'] = OA_Preferences::loadPreferences(true, true);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
 
 // Create a new option object for displaying the setting's page's HTML form
 $oOptions = new OA_Admin_Option('preferences');
@@ -58,12 +55,10 @@ $aErrormessage = array();
 
 // If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
-    // Prepare an array of the HTML elements to process, and which
+	 // Prepare an array of the HTML elements to process, and which
     // of the preferences are checkboxes
-    $aElements   = array();
-    $aCheckboxes = array();
-    // Language & Timezone
-    $aElements[] = 'language';
+    $aElements   = array();       
+    //Timezone    
     $aElements[] = 'timezone';
     // Save the preferences
     $result = OA_Preferences::processPreferencesFromForm($aElements);
@@ -74,71 +69,71 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     }
     // Could not write the preferences to the database, store this
     // error message and continue
-    $aErrormessage[0][] = $strUnableToWritePrefs;
+    $aErrormessage[0][] = $strUnableToWritePrefs;	
 }
 
 // Display the settings page's header and sections
-phpAds_PageHeader("5.1");
+phpAds_PageHeader("5.2");
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     // Show all "My Account" sections
-    phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3"));
+    phpAds_ShowSections(array("5.1", "5.2", "5.3", "5.5", "5.6", "5.4"));
 } else if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     // Show the "Preferences", "User Log" and "Channel Management" sections of the "My Account" sections
-    phpAds_ShowSections(array("5.1", "5.3", "5.7"));
+    phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.7"));
 } else if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-    // Show the "Preferences" section of the "My Account" sections
+    // Show the "User Preferences" section of the "My Account" sections
     phpAds_ShowSections(array("5.1"));
 } else if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-    // Show the "Preferences" section of the "My Account" sections
+    // Show the "User Preferences" section of the "My Account" sections
     phpAds_ShowSections(array("5.1"));
 }
 
 // Set the correct section of the preference pages and display the drop-down menu
-$oOptions->selection("language-timezone");
+$oOptions->selection("timezone");
 
 // Get timezone dropdown information
 $aTimezones = OA_Admin_Timezones::availableTimezones(true);
+
 $oConfigTimezone = trim($GLOBALS['_MAX']['PREF']['timezone']);
+
 if (empty($oConfigTimezone)) {
     // There is no value stored in the configuration file, as it
     // is not required (ie. the TZ comes from the environment) -
     // so set that environment value in the config file now
     $GLOBALS['_MAX']['PREF']['timezone'] = $aTimezone['tz'];
 }
+
 // What display string do we need to show for the timezone?
-if (empty($oConfigTimezone) && $aTimezone['calculated']) {
-    $strTimezoneToDisplay = $strTimezoneEstimated . '<br />' . $strTimezoneGuessedValue;
+if (!empty($oConfigTimezone)) {
+	$strTimezoneToDisplay = $oConfigTimezone;
 } else {
-    $strTimezoneToDisplay = $strTimezone;
+	if ($aTimezone['calculated']) {	
+        $strTimezoneToDisplay = $strTimezoneEstimated . '<br />' . $strTimezoneGuessedValue;
+    } else {	
+        $strTimezoneToDisplay = $aTimezone['tz'];
+    }
 }
 
-$oLanguage = new MAX_Admin_Languages();
+$strTimezoneToDisplay = $GLOBALS['_MAX']['PREF']['timezone'];
+//$oConfigTimezone = trim($GLOBALS['_MAX']['PREF']['timezone']);
 
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
-$aSettings = array (
+$aSettings = array (    
     array (
-        'text'  => $strLanguageTimezone,
+        'text'  => $strTimezone,
         'items' => array (
-            array (
-                'type'    => 'select',
-                'name'    => 'language',
-                'text'    => $strLanguage,
-                'items'   => $oLanguage->AvailableLanguages(),
-                'disabled' => true
-            ),
-            array (
-                'type'    => 'break'
-            ),
             array (
                 'type'    => 'select',
                 'name'    => 'timezone',
                 'text'    => $strTimezoneToDisplay,
-                'items'   => $aTimezones
-            ),
+                'items'   => $aTimezones,
+                'value'   => $strTimezoneToDisplay
+            )
         )
     )
-);
+);   
+
 $oOptions->show($aSettings, $aErrormessage);
 
 // Display the page footer

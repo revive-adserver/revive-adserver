@@ -58,9 +58,9 @@ class OA_Admin_Option
      *
      * Requires, includes and loads the the required files.
      *
-     * @param string $optionType One of "settings" or "preferences", depending on if
-     *                           the options are to be displayed in the Settings or
-     *                           the Preferences section.
+     * @param string $optionType One of "settings", "preferences" or "user", depending
+     *                           on if the options are to be displayed in the Settings,
+     *                           Account Preferences or User Preferences section.
      */
     function OA_Admin_Option($optionType)
     {
@@ -159,11 +159,6 @@ class OA_Admin_Option
             );
         } elseif ($this->_optionType == 'account-preferences') {
             $aSections = array();
-            $aSections['account'] =
-                array(
-                    'name' => $GLOBALS['strAccountPreferences'],
-                    'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
-                );
             $aSections['banner'] =
                 array(
                     'name' => $GLOBALS['strBannerPreferences'],
@@ -174,11 +169,6 @@ class OA_Admin_Option
                     'name' => $GLOBALS['strCampaignEmailReportsPreferences'],
                     'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
                 );
-            $aSections['language-timezone'] =
-                array(
-                    'name' => $GLOBALS['strLanguageTimezonePreferences'],
-                    'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
-                );
             if ($aConf['logging']['trackerImpressions']) {
                 $aSections['tracker'] =
                     array(
@@ -186,9 +176,31 @@ class OA_Admin_Option
                         'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER)
                     );
             }
+            $aSections['timezone'] =
+                array(
+                    'name' => $GLOBALS['strTimezone'],
+                    'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
+                );
             $aSections['user-interface'] =
                 array(
                     'name' => $GLOBALS['strUserInterfacePreferences'],
+                    'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
+                );
+        } elseif ($this->_optionType == 'account-user') {
+        	$aSections = array();
+            $aSections['name-language'] =
+                array(
+                    'name' => $GLOBALS['strNameLanguage'],
+                    'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
+                );
+            $aSections['email'] =
+                array(
+                    'name' => $GLOBALS['strChangeEmail'],
+                    'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
+                );
+            $aSections['password'] =
+                array(
+                    'name' => $GLOBALS['strChangePassword'],
                     'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
                 );
         }
@@ -275,13 +287,14 @@ class OA_Admin_Option
             if (isset($aErrors[$i])) {
             	// Show the section header with the section error
             	$this->_showStartSection($aSection['text'], $aErrors[$i], $disableSubmit, $imgPath);
+            	$showBreak = true;
             } else {
             	// Show the section header
             	$this->_showStartSection($aSection['text'], NULL, $disableSubmit, $imgPath);
             }
             foreach ($aSection['items'] as $aItem) {
             	// Test to see if the item is a preference item, and if it needs to be hidden from the account in use
-            	if ($this->_optionType == 'account-preferences') {
+            	if ($this->_optionType == 'account-preferences' || $this->_optionType == 'account-user') {
             		$result = $this->_hideOrDisablePreference($aPref[$aItem['name']]['account_type']);
             		if ($result == 'hide') {
             			$aItem['visible'] = false;
@@ -299,7 +312,7 @@ class OA_Admin_Option
             			}
             		}
             		// Test to see if the item is a preference item, and if it needs to be disabled from the account in use
-            		if ($this->_optionType == 'account-preferences') {
+            		if ($this->_optionType == 'account-preferences' || $this->_optionType == 'account-user') {
             			$result = $this->_hideOrDisablePreference($aPref[$aItem['name']]['account_type']);
             			if ($result == 'disable') {
             				$aItem['disabled'] = true;
@@ -307,7 +320,7 @@ class OA_Admin_Option
             			}
             		}
             		// Update the JavaScript used to enable/disabled option items
-            		if ($this->_optionType == 'account-preferences' && $aItem['type'] == 'statscolumns') {
+            		if (($this->_optionType == 'account-preferences' || $this->_optionType == 'account-preferences-user') && $aItem['type'] == 'statscolumns') {
             			// The statscolumns data type needs to have some conversion work done to match
             			// the more simple data structure used by other option items
             			foreach ($aItem['rows'] as $aSubItem) {
@@ -339,6 +352,9 @@ class OA_Admin_Option
             						$value = $GLOBALS[$aItem['name'].'_defVal'];
             					}
             				}
+            			}
+            			if ($aItem[type] != 'break') {
+            			    $showBreak = true;
             			}
             		} else {
             			// The page had no error, so, get the value for the item from an appropriate source
@@ -503,7 +519,7 @@ class OA_Admin_Option
      *                     not be abled to be modified by the current acting account
      *                  - "hide" if the preference value should not be shown at all
      *                     to the current acting account
-     *                  - A empty string, otherwise.
+     *                  - An empty string, otherwise.
      */
     function _hideOrDisablePreference($preferenceType)
     {

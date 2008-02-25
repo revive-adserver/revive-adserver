@@ -40,8 +40,8 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-phpAds_PageHeader("5.3.1");
-phpAds_ShowSections(array("5.3.1"));
+phpAds_PageHeader("5.4.1");
+phpAds_ShowSections(array("5.4.1"));
 
 // Load the required language files
 Language_Userlog::load();

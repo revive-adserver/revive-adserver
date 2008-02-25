@@ -41,7 +41,7 @@ require_once MAX_PATH . '/www/admin/config.php';
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
 
 // Create a new option object for displaying the setting's page's HTML form
-$oOptions = new OA_Admin_Option('preferences');
+$oOptions = new OA_Admin_Option('user');
 
 // Prepare an array for storing error messages
 $aErrormessage = array();
@@ -52,16 +52,13 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     phpAds_registerGlobalUnslashed(
         'pwold',
         'pw',
-        'pw2',
-        'contact_name',
-        'email_address'
+        'pw2'        
     );
     // Get the DB_DataObject for the current user
     $doUsers = OA_Dal::factoryDO('users');
     $doUsers->get(OA_Permission::getUserId());
 
-    // Set defaults
-    $changeEmail    = isset($email_address);
+    // Set defaults    
     $changePassword = false;
 
     // Get the current authentication plugin instance
@@ -69,33 +66,21 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 
     // Check password
     if (!isset($pwold) || !$oPlugin->checkPassword(OA_Permission::getUsername(), $pwold)) {
-        $aErrormessage[2][] = $GLOBALS['strPasswordWrong'];
+        $aErrormessage[0][] = $GLOBALS['strPasswordWrong'];
     }
-
-    if (isset($contact_name)) {
-        $doUsers->contact_name = $contact_name;
-    }
-
     if (isset($pw) && strlen($pw) || isset($pw2) && strlen($pw2)) {
         if (!strlen($pw)  || strstr("\\", $pw)) {
-            $aErrormessage[1][] = $GLOBALS['strInvalidPassword'];
+            $aErrormessage[0][] = $GLOBALS['strInvalidPassword'];
         } elseif (strcmp($pw, $pw2)) {
-            $aErrormessage[1][] = $GLOBALS['strNotSamePasswords'];
+            $aErrormessage[0][] = $GLOBALS['strNotSamePasswords'];
         } else {
             $changePassword = true;
         }
-    }
-
-    if (!count($aErrormessage) && $changeEmail) {
-        $result = $oPlugin->changeEmail($doUsers, $email_address, $pwold);
-        if (PEAR::isError($result)) {
-            $aErrormessage[0][] = $result->getMessage();
-        }
-    }
+    }    
     if (!count($aErrormessage) && $changePassword) {
         $result = $oPlugin->changePassword($doUsers, $pw, $pwold);
         if (PEAR::isError($result)) {
-            $aErrormessage[1][] = $result->getMessage();
+            $aErrormessage[0][] = $result->getMessage();
         }
     }
     if (!count($aErrormessage)) {
@@ -105,7 +90,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         } else {
             // The "preferences" were written correctly saved to the database,
             // go to the "next" preferences page from here
-            MAX_Admin_Redirect::redirect('account-preferences-banner.php');
+            MAX_Admin_Redirect::redirect('account-user-password.php');
         }
     }
 }
@@ -114,20 +99,20 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 phpAds_PageHeader("5.1");
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     // Show all "My Account" sections
-    phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3"));
+    phpAds_ShowSections(array("5.1", "5.2", "5.3", "5.5", "5.6", "5.4"));
 } else if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     // Show the "Preferences", "User Log" and "Channel Management" sections of the "My Account" sections
-    phpAds_ShowSections(array("5.1", "5.3", "5.7"));
+    phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.7"));
 } else if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-    // Show the "Preferences" section of the "My Account" sections
+    // Show the "User Preferences" section of the "My Account" sections
     phpAds_ShowSections(array("5.1"));
 } else if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-    // Show the "Preferences" section of the "My Account" sections
+    // Show the "User Preferences" section of the "My Account" sections
     phpAds_ShowSections(array("5.1"));
 }
 
 // Set the correct section of the preference pages and display the drop-down menu
-$oOptions->selection("account");
+$oOptions->selection("password");
 
 // Get the current logged in user details
 $oUser = OA_Permission::getCurrentUser();
@@ -137,35 +122,52 @@ $aUser = $oUser->aUser;
 // output using the $oOption object
 $aSettings = array (
     array (
-        'text'  => $strUserDetails,
+        'text'  => $strChangePassword,
         'items' => array (
             array (
-                'type'    => 'text',
-                'name'    => 'contact_name',
-                'value'   => $aUser['contact_name'],
-                'text'    => $strFullName,
-                'size'    => 35
+                'type'     => 'plaintext',
+                'name'     => 'username',
+                'value'    => $aUser['username'],
+                'text'     => $strUsername,
+                'size'     => 35                           
+            ),
+            array (
+                'type'     => 'break'
+            ),             
+            array (
+                'type'     => 'plaintext',
+                'name'     => 'contact_name',
+                'value'    => $aUser['contact_name'],
+                'text'     => $strFullName,
+                'size'     => 35
+            ),
+            array (
+                'type'     => 'break'
+            ),
+            array (
+                'type'    => 'plaintext',
+                'name'    => 'email_address',
+                'value'   => $aUser['email_address'],
+                'text'    => $strEmailAddress,
+                'size'    => 35                
+            ),
+            array (
+                'type'    => 'break'
+            ),                                
+            array (
+                'type'    => 'password',
+                'name'    => 'pwold',
+                'text'    => $strCurrentPassword,
+                'disabled' => ''
+                          
             ),
             array (
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'text',
-                'name'    => 'email_address',
-                'value'   => $aUser['email_address'],
-                'text'    => $strEmailAddress,
-                'size'    => 35,
-                'check'   => 'email'
-            )
-        )
-    ),
-    array (
-        'text'  => $strNewPassword,
-        'items' => array (
-            array (
                 'type'    => 'password',
                 'name'    => 'pw',
-                'text'    => $strNewPassword,
+                'text'    => $strChooseNewPassword                                
             ),
             array (
                 'type'    => 'break'
@@ -173,23 +175,13 @@ $aSettings = array (
             array (
                 'type'    => 'password',
                 'name'    => 'pw2',
-                'text'    => $strRepeatPassword,
+                'text'    => $strReenterNewPassword,                
                 'check'   => 'compare:pw'
             )
         )
-    ),
-    array (
-        'text'  => $strPassword,
-        'items' => array (
-            array (
-                'type'    => 'password',
-                'name'    => 'pwold',
-                'text'    => $strPassword,
-                'req'     => true
-            )
-        )
-    ),
+    )    
 );
+
 $oOptions->show($aSettings, $aErrormessage);
 
 // Display the page footer
