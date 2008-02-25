@@ -146,9 +146,10 @@ class OA_Dal_Maintenance_Distributed extends OA_Dal_Maintenance_Common
             return;
         }
 
-        $oTimestamp->subtractSeconds((int)$aConf['lb']['compactStatsGrace']);
+        $oDate = new Date($oTimestamp);
+        $oDate->subtractSeconds((int)$aConf['lb']['compactStatsGrace']);
 
-        OA::debug(' - Pruning '.$sTableName.' until '.$oTimestamp->format('%Y-%m-%d %H:%M:%S'), PEAR_LOG_INFO);
+        OA::debug(' - Pruning '.$sTableName.' until '.$oDate->format('%Y-%m-%d %H:%M:%S'), PEAR_LOG_INFO);
 
         $sTableName = $this->_getTablename($sTableName);
         $query = "
@@ -156,7 +157,7 @@ class OA_Dal_Maintenance_Distributed extends OA_Dal_Maintenance_Common
               {$sTableName}
               WHERE
                 date_time < ".
-                    DBC::makeLiteral($oTimestamp->format('%Y-%m-%d %H:%M:%S'))."
+                    DBC::makeLiteral($oDate->format('%Y-%m-%d %H:%M:%S'))."
             ";
 
         return $this->oDbh->exec($query);
