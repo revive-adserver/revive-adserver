@@ -19,7 +19,7 @@ jQuery.fn.submitOnChange = function() {
 // All inputs marked with "submit-on-change" class will be
 // automatically turned into autosubmit inputs
 $(document).ready(function() {
-  $(".submit-on-change").submitOnChange();
+  $("select.submit-on-change").submitOnChange();
 });
 
 // Additional jQuery effect
@@ -35,6 +35,7 @@ jQuery.fn.slideFadeIn = function(speed, callback)
 }
 
 // Automatically installs validation on forms with the "validate" class
+// Also adds some custom validation rules
 $(document).ready(function () {
   // The validation plugin does not apply the validate() function to
   // all jQuery elements (kind of weird...), so we must use an explicit each()

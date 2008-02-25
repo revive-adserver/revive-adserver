@@ -141,18 +141,22 @@ else
 $oTpl->assign('hideLink', $hideLink);
 $oTpl->assign('fieldsLink', array(
     array(
-        'title'     => 'Please enter the username and password of your SSO account',
+        'title'     => 'Please enter username and password of your OpenX account',
         'fields'    => array(
             array(
                 'name'      => 'ssoexistinguser',
                 'label'     => 'User name',
-                'value'     => $ssoexistinguser
+                'value'     => $ssoexistinguser,
+                'title'     => 'Enter user name',
+                'clientValid' => 'required:true'
             ),
             array(
                 'name'      => 'ssoexistingpassword',
                 'type'        => 'password',
                 'label'     => 'Password',
-                'value'     => ''
+                'value'     => '',
+                'title'     => 'Enter password',
+                'clientValid' => 'required:true'
             )
         )
     ),
@@ -161,7 +165,7 @@ $oTpl->assign('fieldsLink', array(
 $oTpl->assign('hideCreate', $hideCreate);
 $oTpl->assign('fieldsCreate', array(
 array(
-    'title'     => 'Enter a username and password create a new SSO account ',
+    'title'     => 'Enter details for your new OpenX account',
     'fields'    => array(
         array(
             'name'      => 'ssonewemail',
@@ -173,12 +177,16 @@ array(
             'name'      => 'ssonewuser',
             'id'        => 'ssonewuser',
             'label'     => 'Desired user name',
+            'clientValid' => 'required:true',
+            'title'     => 'Enter desired user name',
             'value'     => $ssonewuser
         ),
         array(
             'name'      => 'ssonewpassword',
             'id'         => 'ssonewpassword',
             'type'        => 'password',
+            'clientValid' => 'required:true',
+            'title'     => 'Enter password',
             'label'     => 'Password',
             'value'     => ''
         ),
@@ -186,7 +194,9 @@ array(
             'name'      => 'ssonewpassword2',
             'id'        => 'ssonewpassword2',
             'type'        => 'password',
+            'clientValid' => "required:true,equalTo:'#ssonewpassword'",
             'label'     => 'Re-enter password',
+            'title'     => 'Re-enter the same password',
             'value'     => ''
         )
     )

@@ -38,14 +38,20 @@ $Id$
   {else}
 
 <div class="infomessage" id="intro"{if !$hideCreate || !$hideLink} style="display:none;"{/if}>
-	Welcome {$userName} <br />
-	You have been given access to an OpenX account by {$creator} account.<br/>
-	To confirm your details and complete the sign up
-	please create a new account or (if you have one) use your existing OpenX account.
+  <p>
+    Welcome {$userName|default:'John'},<br />
+  </p>
+
+  <p>
+    <b>{$creator|default:'The Big X'}</b> invited you to use OpenX
+    (Adserver|Platform|?). To accept this invitation, <a id="use-existing-account" href="#">enter user name and
+    password of your existing OpenX account</a> (the one you use for e.g. OpenX
+    Forum) or <a id="create-new-account" href="#">create a new OpenX account</a>.
+  </p>
 </div>
 
 <div style="font-weight: bold; margin-bottom: 2ex">
-  Do you already have OpenX account?
+  Do you already have an OpenX account?
 </div>
 
 <div style="margin-bottom: 4ex">
@@ -65,10 +71,8 @@ $Id$
 
       if (!selected) {
         $("#intro").slideFadeIn(500);
-        $("#sso-link-form, #sso-create-form").slideFadeOut(500);
       }
       else {
-        $("#intro").slideFadeOut();
         if (haveAccount) {
           $("#sso-create-form").slideFadeOut(500);
           $("#sso-link-form").slideFadeIn(500);
@@ -83,6 +87,14 @@ $Id$
     }
 
     $("#haveaccount-yes, #haveaccount-no").click(switchForm);
+    $("#use-existing-account").click(function() {
+      $("#haveaccount-yes").attr("checked", true);
+      switchForm();
+    });
+    $("#create-new-account").click(function() {
+      $("#haveaccount-no").attr("checked", true);
+      switchForm();
+    });
     switchForm();
   });
 {/literal}

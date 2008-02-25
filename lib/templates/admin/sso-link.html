@@ -41,7 +41,7 @@ $Id$
   {*
     Form to be shown where there is a matching user.
   *}
-  <form id="sso-link" action="sso-accounts.php" method='post' onsubmit='return max_formValidate(this);'>
+  <form id="sso-link" class="validate" action="sso-accounts.php" method='post' onsubmit='return max_formValidate(this);'>
     <input type="hidden" name="info" value="link" />
     <input type="hidden" name="ssoid" value="{$ssoid}" />
     <input type="hidden" name="verification" value="{$verification}" />
@@ -49,18 +49,11 @@ $Id$
     {include file=edit-table/create.html from=$fields}
 
     <div class="controls">
-      <input value="Connect my account" class="main-submit" type="submit" {tabindex}>
+      <input value="Accept invitation" class="main-submit" type="submit" {tabindex}>
     </div>
   </form>
 
 </div>
-
-<script>
-{literal}
-  max_formSetRequirements('ssoexistinguser', 'Desired user name', true);
-  max_formSetRequirements('ssoexistingpassword', 'Password', true);
-{/literal}
-</script>
 
 {*
 </table>

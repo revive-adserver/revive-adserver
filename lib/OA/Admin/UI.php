@@ -320,7 +320,7 @@ class OA_Admin_UI
 	
 	function genericJavascript() {
 		return array (
-			'js/jquery-1.2.1.min.js', 
+			'js/jquery-1.2.3.min.js', 
 			'js/jquery.bgiframe.min.js',
 			'js/jquery.dimensions.min.js',
 			'js/jquery.metadata.min.js',

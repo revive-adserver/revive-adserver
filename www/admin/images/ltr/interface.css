@@ -58,9 +58,14 @@ div.infomessage {
     margin-right: 80px;
     padding: 6px 6px 6px 32px;
     line-height: 18px;
-    background-image: url('../info.gif');
+    background-image: url('../images/info.gif');
     background-repeat: no-repeat;
     background-position: 8px 8px;
+}
+
+div.infomessage p {
+  margin-top: 0;
+  margin-bottom: 6px;
 }
 
 div.errormessageicon {
@@ -71,7 +76,7 @@ div.errormessageicon {
     margin-right: 80px;
     padding: 6px 6px 6px 32px;
     line-height: 18px;
-    background-image: url('../errormessage.gif');
+    background-image: url('../images/errormessage.gif');
     background-repeat: no-repeat;
     background-position: 8px 8px;
 }
@@ -129,6 +134,10 @@ textarea.code {
     border-right-width: 1px;
     border-bottom-width: 1px;
     border-left-width: 1px;
+}
+
+input.checkbox {
+  border: 0;
 }
 
 select.error:focus, textarea.error:focus, input.error:focus {
@@ -212,7 +221,7 @@ div.boxrow input {
 }
 
  input.accept {
-  background-image: url('../icon-checkmark.gif');
+  background-image: url('../images/icon-checkmark.gif');
   background-repeat: no-repeat;
   background-position: 4px 3px;
   padding-left: 14px;
@@ -624,14 +633,14 @@ span.start-edit:before {
 }
 */
 span.start-edit {
-  background-image: url('../icon-edit.gif');
+  background-image: url('../images/icon-edit.gif');
   background-repeat: no-repeat;
   background-position: 0 -1px;
   padding-left: 20px;
 }
 
 span.start-edit-disabled {
-  background-image: url('../icon-edit-disabled.gif');
+  background-image: url('../images/icon-edit-disabled.gif');
   background-repeat: no-repeat;
   background-position: 0 -1px;
   padding-left: 20px;
@@ -639,7 +648,7 @@ span.start-edit-disabled {
 }
 
 span.save-edit {
-  background-image: url('../icon-checkmark.gif');
+  background-image: url('../images/icon-checkmark.gif');
   background-repeat: no-repeat;
   background-position: 1px 2px;
   padding-left: 20px;
@@ -647,7 +656,7 @@ span.save-edit {
 }
 
 span.cancel-edit, span.cancel-add {
-  background-image: url('../icon-x.gif');
+  background-image: url('../images/icon-x.gif');
   background-repeat: no-repeat;
   background-position: 1px 2px;
   padding-left: 15px;
@@ -655,7 +664,7 @@ span.cancel-edit, span.cancel-add {
 }
 
 div.error-box {
-  background-image: url('../errormessage.gif');
+  background-image: url('../images/errormessage.gif');
   background-repeat: no-repeat;
   background-position: 5px 5px;
   background-color: #ffcccc;
@@ -663,7 +672,7 @@ div.error-box {
   padding-left: 25px;
   width: 70%; 
   border: 1px solid red; 
-  margin: 0 auto 0 auto;
+  margin: 0 auto 0 auto6;
   -moz-border-radius: 5px;
   text-align: left;
 }
@@ -726,7 +735,7 @@ form.new-form input[type='checkbox'] {
   margin: 0px 2px 0 2px;
 }
 
-label.cb {
+label.cb, a.cb {
   position: relative;
   top: -2px;
 }
@@ -883,7 +892,7 @@ td.norows {
 }
 
 a.permissions {
-  background-image: url('../icon-acl.gif');
+  background-image: url('../images/icon-acl.gif');
   background-repeat: no-repeat;
   padding-left: 18px;
   padding-bottom: 2px;
@@ -891,7 +900,7 @@ a.permissions {
 }
 
 a.unlink {
-  background-image: url('../icon-recycle.gif');
+  background-image: url('../images/icon-recycle.gif');
   background-repeat: no-repeat;
   padding-left: 18px;
   padding-bottom: 2px;
@@ -899,7 +908,7 @@ a.unlink {
 }
 
 a.edit {
-  background-image: url('../icon-edit.gif');
+  background-image: url('../images/icon-edit.gif');
   background-repeat: no-repeat;
   padding-left: 18px;
   padding-bottom: 2px;
@@ -925,7 +934,7 @@ div.terms iframe {
 
 .available, .notavailable {
   font-weight: bold;
-  margin: 0 0 0 1em;
+  margin: 0 0 0 0.5em;
 }
 .available {
   color: #22b24c;

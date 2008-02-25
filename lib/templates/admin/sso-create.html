@@ -38,90 +38,70 @@ $Id$
   </div>
   {/if}
 
-  <form id="sso-create-form" action="sso-accounts.php" method='post' onsubmit='return max_formValidate(this);'>
+  <form id="sso-create-form" class="validate" action="sso-accounts.php" method='post' onsubmit='return max_formValidate(this);'>
     <input type="hidden" name="info" value="create" />
     <input type="hidden" name="ssoid" value="{$ssoid}" />
     <input type="hidden" name="verification" value="{$verification}" />
 
     {include file=edit-table/create.html from=$fields}
 
-    <input type="checkbox" id="termsconsent" />
-    <label class="cb" for="termsconsent">I have read and agree to the OpenX <a href='#'>Terms and Conditions</a>.</label>
+    <input type="checkbox" name="termsconsent" id="termsconsent" class="checkbox {literal}{required:true}{/literal}" />
+    <label class="cb" for="termsconsent">I have read and agree to the OpenX</label> <a class="cb" href='#'>Terms and Conditions</a>
+    <label class="cb error hide" for="termsconsent">You must agree to the Terms and Conditions</label>
     
     <br />
 
-    <input type="checkbox" id="privacyconsent" />
-    <label class="cb" for="privacyconsent">I have read and agree to the OpenX <a href='#'>Data Privacy Policy</a>.</label>
+    <input type="checkbox" id="privacyconsent" name="privacyconsent" class="checkbox {literal}{required:true}{/literal}" />
+    <label class="cb" for="privacyconsent">I have read and agree to the OpenX</label> <a class="cb" href='#'>Data Privacy Policy</a>
+    <label class="cb error hide" for="privacyconsent">You must agree to the Data Privacy Policy</label>
 
     <div class="controls">
-      <input id="submit" value="Create OpenX Account" class="main-submit" type="submit" {tabindex}>
-      <span id="termshint" class="hint">To create an OpenX account, you must agree to terms of service above</span>
+      <input id="submit" value="Accept invitation & create account" class="main-submit" type="submit" {tabindex}>
+      <span id="userhint" class="hint">To create an OpenX account, you must choose a user name that is available</span>
     </div>
   </form>
 </div>
 
 <script>
 {literal}
-  max_formSetRequirements('ssonewuser', 'Desired user name', true);
-  max_formSetRequirements('ssonewpassword', 'Password', true);
-  max_formSetRequirements('ssonewpassword2', 'Re-enter password', true, 'compare:ssonewpassword');
-
   $(document).ready(function() {
-  	var termsSatisfied = false;
-  	var duplicateSatisfied = false;
+    var duplicateSatisfied = false;
   
     var updateSubmitButton = function() {
-		if (termsSatisfied && duplicateSatisfied) {
-	        $("#submit").attr("disabled", false);
-		} else {
-	        $("#submit").attr("disabled", true);
-		}
-	};
-	
-	var checkTerms = function() {
-      var termscheckbox = $("#termsconsent")[0];
-      var privacycheckbox = $("#privacyconsent")[0];
-      if (termscheckbox.checked && privacycheckbox.checked) {
-	  	termsSatisfied = true;
-		updateSubmitButton();
-        $("#termshint").fadeOut();
+      if (duplicateSatisfied) {
+        $("#submit").attr("disabled", false);
+        $("#userhint").fadeOut();
+      } else {
+        $("#submit").attr("disabled", true);
+        $("#userhint").fadeIn();
       }
-      else {
-	  	termsSatisfied = false;
-		updateSubmitButton();
-        $("#termshint").fadeIn();
+    };
+  
+    var checkDuplicate = function() {
+      if ($("#ssonewuser").val() != '') {
+        $.get("sso-accounts.php", { proposedusername: $("#ssonewuser").val() }, function(data) {
+          if (data == 'available') {
+            duplicateIndicator.addClass('available').removeClass('notavailable').text('Available').show();
+            duplicateSatisfied = true;
+            updateSubmitButton();
+          } else {
+            duplicateIndicator.addClass('notavailable').removeClass('available').text('Not available').show();
+            duplicateSatisfied = false;
+            updateSubmitButton();
+          }
+        });
+      } else {
+        duplicateIndicator.hide()
+        duplicateSatisfied = false;
+        updateSubmitButton();
       }
     };
 
-	var checkDuplicate = function() {
-	  if ($("#ssonewuser").val() != '') {
-	    $.get("sso-accounts.php", { proposedusername: $("#ssonewuser").val() }, function(data) {
-	      if (data == 'available') {
-		    duplicateIndicator.addClass('available').removeClass('notavailable').text('Available').show();
-			duplicateSatisfied = true;
-			updateSubmitButton();
-		  } else {
-		    duplicateIndicator.addClass('notavailable').removeClass('available').text('Not available').show();
-			duplicateSatisfied = false;
-			updateSubmitButton();
-		  }
-  	    });
-	  } else {
-	    duplicateIndicator.hide()
-		duplicateSatisfied = false;
-		updateSubmitButton();
-	  }
-	};
-
-	var duplicateIndicator = jQuery("<span></span>").hide();
-	$("#ssonewuser").after(duplicateIndicator);
-	$("#ssonewuser").change(checkDuplicate);
-	$("#ssonewuser").keyup(checkDuplicate);
-	checkDuplicate()
-
-    $("#termsconsent").click(checkTerms);
-    $("#privacyconsent").click(checkTerms);
-    checkTerms();
+    var duplicateIndicator = jQuery("<span></span>").hide();
+    $("#ssonewuser").after(duplicateIndicator);
+    $("#ssonewuser").change(checkDuplicate);
+    $("#ssonewuser").keyup(checkDuplicate);
+    checkDuplicate()
   });
 {/literal}
 </script>
