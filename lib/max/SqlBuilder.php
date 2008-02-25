@@ -42,15 +42,6 @@ class SqlBuilder
     // | for entity builders                   |
     // +---------------------------------------+
 
-//  not used anywhere
-#    function _addZeroStats(&$aRow, $id)
-#    {
-#        if (empty($aRow['sum_requests'])) $aRow['sum_requests'] = 0;
-#        if (empty($aRow['sum_views'])) $aRow['sum_views'] = 0;
-#        if (empty($aRow['sum_clicks'])) $aRow['sum_clicks'] = 0;
-#        if (empty($aRow['sum_conversions'])) $aRow['sum_conversions'] = 0;
-#    }
-
     /**
      * Returns the fields given the particular entity.
      *
@@ -978,122 +969,6 @@ class SqlBuilder
     // | for entity builders                   |
     // +---------------------------------------+
 
-    /**
-     * A method to delete complete rows from the specified table(s), limited
-     * to the rows specified by the $aLimitations.
-     *
-     * Note: Due to incompatibilities between MySQL <= 4.0 and MySQL >= 4.1
-     * in the way multi-table deletes are performed, it is not possible to
-     * use table aliases. As a result, all tables are referred to in raw
-     * table name format, and the limitations (if they exist) needed to be
-     * converted back from alias format to use raw table names. It's a bit
-     * of a hack, but unless this DAL supports MySQL version detection, it's
-     * all that can be done.
-     *
-     * @param array $aTables An array, containing the table names to delete from, and
-     *                       the associated table SQL alias(es). For example:
-     *                       array(
-     *                           'ad_zone_assoc' => 'az'
-     *                       )
-     * @param array $aLimitations An array, containing a the required SQL limitations
-     *                            to be used when performing the delete. For example:
-     *                            array(
-     *                                0 => 'az.zone_id=1',
-     *                                1 => 'az.ad_id=1'
-     *                            )
-     * @param array $aOtherTables An array, containing any other tables that need
-     *                            to be referenced by the limitations in order to
-     *                            carry out the delete. These are passed in using the
-     *                            same format as the $aTables array.
-     * @return mixed Either an integer, representing the number of rows affected by
-     *               the delete, or a PEAR::Error.
-     */
-/* REDUNDANT
-    function _delete($aTables, $aLimitations, $aOtherTables = null)
-    {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh =& OA_DB::singleton();
-        // Set the tables to delete from, using the table aliases
-        if (!is_array($aTables) || empty($aTables)) {
-            PEAR::raiseError('Invalid parameter $aTables');
-
-        }
-        $deleteTables = '';
-        foreach ($aTables as $table => $alias) {
-            // Check the table prefix is in place
-            if (!empty($conf['table']['prefix']) && (stristr($table, $conf['table']['prefix']) === false)) {
-                $table = $conf['table']['prefix'] . $table;
-            }
-            $table = $oDbh->quoteIdentifier($table,true);
-            $deleteTables .= ($deleteTables == '') ? $table : ', ' . $table;
-        }
-        // Set the list of table names and aliases to use
-        $tables = '';
-        foreach ($aTables as $table => $alias) {
-            // Check the table prefix is in place
-            if (!empty($conf['table']['prefix']) && (stristr($table, $conf['table']['prefix']) === false)) {
-                $table = $conf['table']['prefix'] . $table;
-            }
-            $table = $oDbh->quoteIdentifier($table,true);
-            $tables .= ($tables == '') ? $table : ', ' . $table;
-        }
-        if (is_array($aOtherTables)) {
-            foreach ($aOtherTables as $otherTable => $alias) {
-                // Ensure we don't use table name twice
-                if (is_null($aTables[$otherTable])) {
-                    // Check the table prefix is in place
-                    if (!empty($conf['table']['prefix']) && (stristr($otherTable, $conf['table']['prefix']) === false)) {
-                        $otherTable = $conf['table']['prefix'] . $otherTable;
-                    }
-                    $otherTable = $oDbh->quoteIdentifier($otherTable, true);
-                    $tables .= ($tables == '') ? $otherTable : ', ' . $otherTable;
-                }
-            }
-        }
-        // Prepare a reverse lookup array of aliases to table names
-        $aLimitationTables = array();
-        foreach ($aTables as $table => $alias) {
-            if (!empty($conf['table']['prefix']) && (stristr($table, $conf['table']['prefix']) === false)) {
-                $table = $conf['table']['prefix'] . $table;
-            }
-            $aLimitationTables[$alias] = $table;
-        }
-        if (is_array($aOtherTables)) {
-            foreach ($aOtherTables as $otherTable => $alias) {
-                if (!empty($conf['table']['prefix']) && (stristr($otherTable, $conf['table']['prefix']) === false)) {
-                    $otherTable = $conf['table']['prefix'] . $otherTable;
-                }
-                $aLimitationTables[$alias] = $otherTable;
-            }
-        }
-        // Set the WHERE limitations
-        $where = '';
-        if (is_array($aLimitations)) {
-            foreach ($aLimitations as $limitation) {
-                // Convert the limitation from alias form to table name form
-                foreach ($aLimitationTables as $alias => $table) {
-                    $table = $oDbh->quoteIdentifier($table, true);
-                    $limitation = preg_replace("/^$alias\./", "$table.", $limitation);
-                }
-                $where .= ($where == '') ? ' WHERE ' . $limitation : ' AND ' . $limitation;
-            }
-        }
-        // Set the final DELETE query
-        $query = 'DELETE FROM ' . $deleteTables;
-        if ($GLOBALS['_MAX']['CONF']['database']['type'] == 'mysql')
-        {
-            $query.= ' USING ' . $tables;
-        }
-        $query.= $where;
-        // Doublecheck that there is something in the WHERE clause
-        //  - to ensure that a bug does not delete the entire contents of a table!
-        if (strlen($where) > 0) {
-            return $oDbh->exec($query);
-        } else {
-            return PEAR::raiseError('Invalid WHERE clause');
-        }
-    }
-*/
     function _doDelete($table, $aParams)
     {
         $do = OA_Dal::factoryDO($table);
@@ -1279,47 +1154,6 @@ class SqlBuilder
         }
         return $aDataEntities;
     }
-
-
-    /**
-     * Performs an SQL update.
-     *
-     * @param array $aTable
-     * @param array $aVariables
-     * @param array $aLimitations
-     * @return integer  The number of rows affected by the update
-     */
-/* REDUNDANT
-    function _update($aTable, $aVariables, $aLimitations)
-    {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = OA_DB::singleton();
-        $table = '';
-        if (is_array($aTable)) {
-            foreach ($aTable as $tableName => $alias) {
-                $table = $oDbh->quoteIdentifier($tableName)." AS $alias";
-            }
-        }
-
-        $set = '';
-        foreach ($aVariables as $name => $value) {
-            if (is_string($value)) {
-                $value = addslashes($value);
-            }
-            $set .= ($set == '') ? " SET $name='$value'" : ",$name='$value'";
-        }
-
-        $where = '';
-        if (is_array($aLimitations)) {
-            foreach ($aLimitations as $limitation) {
-                $where .= ($where == '') ? " WHERE $limitation" : " AND $limitation";
-            }
-        }
-
-        $query = "UPDATE $table" . $set . $where;
-        $queryValid = true;
-
-        return $oDbh->exec($query);
-    }*/
 }
+
 ?>
