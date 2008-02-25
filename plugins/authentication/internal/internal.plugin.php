@@ -311,7 +311,7 @@ class Plugins_Authentication_Internal_Internal extends Plugins_Authentication
      */
     function changePassword(&$doUsers, $newPassword, $oldPassword)
     {
-        $doUser->password = md5($newPassword);
+        $doUsers->password = md5($newPassword);
         return true;
     }
 

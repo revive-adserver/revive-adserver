@@ -32,6 +32,6 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 
 // Redirect to the main "Preferences" page
-MAX_Admin_Redirect::redirect('account-preferences-account.php');
+MAX_Admin_Redirect::redirect('account-preferences-banner.php');
 
 ?>

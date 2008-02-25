@@ -106,19 +106,19 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $aErrormessage[0][] = $strUnableToWritePrefs;
 }
 
-phpAds_PageHeader("5.1");
+phpAds_PageHeader("5.2");
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     // Show all "My Account" sections
-    phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3"));
+    phpAds_ShowSections(array("5.1", "5.2", "5.3", "5.5", "5.6", "5.4"));
 } else if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     // Show the "Preferences", "User Log" and "Channel Management" sections of the "My Account" sections
-    phpAds_ShowSections(array("5.1", "5.3", "5.7"));
+    phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.7"));
 } else if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
     // Show the "Preferences" section of the "My Account" sections
-    phpAds_ShowSections(array("5.1"));
+    phpAds_ShowSections(array("5.2"));
 } else if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
     // Show the "Preferences" section of the "My Account" sections
-    phpAds_ShowSections(array("5.1"));
+    phpAds_ShowSections(array("5.2"));
 }
 
 // Set the correct section of the preference pages and display the drop-down menu

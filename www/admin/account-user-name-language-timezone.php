@@ -30,53 +30,66 @@ require_once '../../init.php';
 
 // Required files
 require_once MAX_PATH . '/lib/OA/Admin/Option.php';
-require_once MAX_PATH . '/lib/OA/Preferences.php';
+require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
 
+require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/www/admin/config.php';
+require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
 
-// Load the account's preferences, with additional information, into a specially named array
-$GLOBALS['_MAX']['PREF_EXTRA'] = OA_Preferences::loadPreferences(true, true);
-
 // Create a new option object for displaying the setting's page's HTML form
-$oOptions = new OA_Admin_Option('preferences');
+$oOptions = new OA_Admin_Option('user');
 
 // Prepare an array for storing error messages
 $aErrormessage = array();
 
 // If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
-    // Prepare an array of the HTML elements to process, and which
-    // of the preferences are checkboxes
-    $aElements   = array();
-    $aCheckboxes = array();
-    // Default Banners
-    $aElements[] = 'default_banner_image_url';
-    $aElements[] = 'default_banner_destination_url';
-    // HTML Banner Options
-    $aElements[] = 'auto_alter_html_banners_for_click_tracking';
-    $aCheckboxes['auto_alter_html_banners_for_click_tracking'] = true;
-    // Default Weight
-    $aElements[] = 'default_banner_weight';
-    $aElements[] = 'default_campaign_weight';
-    // Save the preferences
-    $result = OA_Preferences::processPreferencesFromForm($aElements, $aCheckboxes);
-    if ($result) {
-        // The preferences were written correctly saved to the database,
-        // go to the "next" preferences page from here
-        MAX_Admin_Redirect::redirect('account-preferences-campaign-email-reports.php');
+    // Register input variables
+    phpAds_registerGlobalUnslashed(                
+        'contact_name',
+        'language'        
+    );        
+    
+    // Get the DB_DataObject for the current user
+    $doUsers = OA_Dal::factoryDO('users');
+    $doUsers->get(OA_Permission::getUserId());
+
+    // Get the current authentication plugin instance
+    $oPlugin = OA_Auth::staticGetAuthPlugin();    
+
+    if (isset($contact_name)) {
+        $doUsers->contact_name = $contact_name;
     }
-    // Could not write the preferences to the database, store this
-    // error message and continue
-    $aErrormessage[0][] = $strUnableToWritePrefs;
+    if (isset($language)) {
+        $doUsers->language = $language;
+    }       
+        
+    if (!count($aErrormessage)) {
+        if (($doUsers->update() === false)) {
+            // Unable to update the preferences
+            $aErrormessage[0][] = $strUnableToWritePrefs;
+        } else {
+        	//Add the new username to the session
+            $oUser = &OA_Permission::getCurrentUser();
+            $oUser->aUser['contact_name'] = $contact_name;
+            $oUser->aUser['language'] = $language;                  
+                        
+            phpAds_SessionDataStore();
+                    	
+            // The "preferences" were written correctly saved to the database,
+            // go to the "next" preferences page from here
+            MAX_Admin_Redirect::redirect('account-user-email.php');
+        }
+    }
 }
 
-// Display the preference page's header and sections
-phpAds_PageHeader("5.2");
+// Display the settings page's header and sections
+phpAds_PageHeader("5.1");
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     // Show all "My Account" sections
     phpAds_ShowSections(array("5.1", "5.2", "5.3", "5.5", "5.6", "5.4"));
@@ -84,74 +97,72 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     // Show the "Preferences", "User Log" and "Channel Management" sections of the "My Account" sections
     phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.7"));
 } else if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-    // Show the "Preferences" section of the "My Account" sections
-    phpAds_ShowSections(array("5.2"));
+    // Show the "User Preferences" section of the "My Account" sections
+    phpAds_ShowSections(array("5.1"));
 } else if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-    // Show the "Preferences" section of the "My Account" sections
-    phpAds_ShowSections(array("5.2"));
+    // Show the "User Preferences" section of the "My Account" sections
+    phpAds_ShowSections(array("5.1"));
 }
 
 // Set the correct section of the preference pages and display the drop-down menu
-$oOptions->selection("banner");
+$oOptions->selection("name-language");
+
+// Get the current logged in user details
+$oUser = OA_Permission::getCurrentUser();
+$aUser = $oUser->aUser;
+
+//$aLanguages = MAX_Admin_Languages::AvailableLanguages();        
+$aLanguages = new MAX_Admin_Languages;        
 
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
 $aSettings = array (
     array (
-        'text'  => $strDefaultBanners,
+        'text'  => $strUserDetails,
         'items' => array (
-            array (
-                'type'    => 'text',
-                'name'    => 'default_banner_image_url',
-                'text'    => $strDefaultBannerUrl,
-                'size'    => 35,
-                'check'   => 'url'
+         array (
+                'type'     => 'plaintext',
+                'name'     => 'username',
+                'value'    => $aUser['username'],
+                'text'     => $strUsername,
+                'size'     => 35                           
             ),
             array (
                 'type'    => 'break'
             ),
             array (
+                'type'    => 'plaintext',
+                'name'    => 'email_address',
+                'value'   => $aUser['email_address'],
+                'text'    => $strEmailAddress,
+                'size'    => 35                
+            ),
+            array (
+                'type'    => 'break'
+            ),            
+            array (
                 'type'    => 'text',
-                'name'    => 'default_banner_destination_url',
-                'text'    => $strDefaultBannerDestination,
-                'size'    => 35,
-                'check'   => 'url'
+                'name'    => 'contact_name',
+                'value'   => $aUser['contact_name'],
+                'text'    => $strFullName,
+                'size'    => 35
             )
         )
     ),
     array (
-        'text'  => $strTypeHtmlSettings,
+        'text'  => $strLanguage,
         'items' => array (
             array (
-                'type'    => 'checkbox',
-                'name'    => 'auto_alter_html_banners_for_click_tracking',
-                'text'    => $strTypeHtmlAuto
-            )
-        )
-    ),
-    array (
-        'text'  => $strWeightDefaults,
-        'items' => array (
-            array (
-                'type'  => 'text',
-                'name'  => 'default_banner_weight',
-                'text'  => $strDefaultBannerWeight,
-                'size'  => 12,
-                'check' => 'number+'
-            ),
-            array (
-                'type'  => 'break'
-            ),
-            array (
-                'type'  => 'text',
-                'name'  => 'default_campaign_weight',
-                'text'  => $strDefaultCampaignWeight,
-                'size'  => 12,
-                'check' => 'number+'
+                'type'    => 'select',
+                'name'    => 'language',
+                'text'    => $strLanguage,
+                'items'   => $aLanguages->AvailableLanguages(),
+                'value'   => $GLOBALS['_MAX']['PREF']['language']
             )
         )
     )
-);
+);   
+
 $oOptions->show($aSettings, $aErrormessage);
 
 // Display the page footer

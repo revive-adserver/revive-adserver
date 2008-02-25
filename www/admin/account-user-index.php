@@ -28,41 +28,10 @@ $Id$
 // Require the initialisation file
 require_once '../../init.php';
 
-require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/www/admin/lib-maintenance.inc.php';
-require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
+// Required files
+require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 
-// Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
-
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
-
-phpAds_PageHeader("5.5");
-phpAds_ShowSections(array("5.1", "5.2", "5.3", "5.5", "5.6", "5.4", "5.7"));
-phpAds_MaintenanceSelection("storage");
-
-
-/*-------------------------------------------------------*/
-/* Main code                                             */
-/*-------------------------------------------------------*/
-
-echo "<br />";
-echo $strStorageExplaination;
-echo "<br /><br />";
-
-phpAds_ShowBreak();
-echo "<img src='images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-storage-move.php'>$strMoveToDirectory</a>&nbsp;&nbsp;";
-phpAds_ShowBreak();
-
-
-
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
-
-phpAds_PageFooter();
+// Redirect to the main "Preferences" page
+MAX_Admin_Redirect::redirect('account-user-name-language.php');
 
 ?>

@@ -207,12 +207,13 @@ function MMM_buildNavigation()
                 "4.4.1"                 =>  array("admin-user-start.php" => $GLOBALS['strLinkNewUser']),
                 "4.4.2"                 =>  array("admin-user.php?userid=".$_GET['userid'] => $GLOBALS['strUserProperties']),
             "5"                         =>  array("account-index.php" => $GLOBALS['strMyAccount']),
-              "5.1"                     =>  array("account-preferences-index.php" => $GLOBALS['strPreferences']),
-              "5.2"                     =>  array("account-settings-index.php" => $GLOBALS['strGlobalSettings']),
-              "5.3"                     =>  array("userlog-index.php" => $GLOBALS['strUserLog']),
-                "5.3.1"                 =>  array("userlog-details.php?userlogid=$userlogid" => $GLOBALS['strUserLogDetails']),
-              "5.4"                     =>  array("maintenance-index.php" => $GLOBALS['strMaintenance']),
-              "5.5"                     =>  array("updates-product.php" => $GLOBALS['strProductUpdates']),
+              "5.1"                     =>  array("account-user-name-language-timezone.php" => $GLOBALS['strUserPreferences']),
+              "5.2"                     =>  array("account-preferences-index.php" => $GLOBALS['strAccountPreferences']),
+              "5.3"                     =>  array("account-settings-index.php" => $GLOBALS['strGlobalSettings']),
+              "5.4"                     =>  array("userlog-index.php" => $GLOBALS['strUserLog']),
+                "5.4.1"                 =>  array("userlog-details.php?userlogid=$userlogid" => $GLOBALS['strUserLogDetails']),
+              "5.5"                     =>  array("maintenance-index.php" => $GLOBALS['strMaintenance']),
+              "5.6"                     =>  array("updates-product.php" => $GLOBALS['strProductUpdates']),
               "5.7"                     =>  array("channel-index.php" => $GLOBALS['strChannelManagement']),
                 "5.7.1"                 =>  array("channel-edit.php?agencyid=$agencyid" => $GLOBALS['strAddNewChannel']),
                 "5.7.2"                 =>  array("channel-edit.php?agencyid=$agencyid&channelid=$channelid" => $GLOBALS['strChannelProperties']),
@@ -325,8 +326,9 @@ function MMM_buildNavigation()
                 "4.4.1"             =>  array("agency-user-start.php" => $GLOBALS['strLinkNewUser']),
                 "4.4.2"             =>  array("agency-user.php?userid=".$_GET['userid'] => $GLOBALS['strUserProperties']),
             "5"                         =>  array("account-index.php" => $GLOBALS['strMyAccount']),
-              "5.1"                     =>  array("account-preferences-index.php" => $GLOBALS['strPreferences']),
-              "5.3"                     =>  array("userlog-index.php" => $GLOBALS['strUserLog']),
+              "5.1"                     =>  array("account-user-name-language-timezone.php" => $GLOBALS['strUserPreferences']),
+              "5.2"                     =>  array("account-preferences-index.php" => $GLOBALS['strAccountPreferences']),
+              "5.4"                     =>  array("userlog-index.php" => $GLOBALS['strUserLog']),
               "5.7"                     =>  array("channel-index.php" => $GLOBALS['strChannelManagement']),
                 "5.7.1"                 =>  array("channel-edit.php?agencyid=$agencyid" => $GLOBALS['strAddNewChannel']),
                 "5.7.2"                 =>  array("channel-edit.php?agencyid=$agencyid&channelid=$channelid" => $GLOBALS['strChannelProperties']),
@@ -374,7 +376,9 @@ function MMM_buildNavigation()
                 "2.3.2"                 =>  array("advertiser-user.php?clientid=$clientid&userid=".$_GET['userid'] => $GLOBALS['strUserProperties']),
             "3"                         =>  array("report-index.php?clientid=$clientid" => $GLOBALS['strReports']),
             "5"                         =>  array("account-index.php" => $GLOBALS['strMyAccount']),
-              "5.1"                     =>  array("account-preferences-index.php" => $GLOBALS['strPreferences'])
+              "5.1"                     =>  array("account-user-name-language-timezone.php" => $GLOBALS['strUserPreferences']),
+              "5.2"                     =>  array("account-preferences-index.php" => $GLOBALS['strAccountPreferences'])
+
         ),
 
         OA_ACCOUNT_TRAFFICKER => array (
@@ -402,7 +406,9 @@ function MMM_buildNavigation()
                 "2.3.1"             =>  array("affiliate-user-start.php?affiliateid=$affiliateid" => $GLOBALS['strLinkNewUser']),
                 "2.3.2"             =>  array("affiliate-user.php?affiliateid=$affiliateid&userid=".$_GET['userid'] => $GLOBALS['strUserProperties']),
             "5"                         =>  array("account-index.php" => $GLOBALS['strMyAccount']),
-              "5.1"                     =>  array("account-preferences-index.php" => $GLOBALS['strPreferences']),
+              "5.1"                 =>  array("account-user-name-language-timezone.php" => $GLOBALS['strUserPreferences']),
+              "5.2"                 =>  array("account-preferences-index.php" => $GLOBALS['strAccountPreferences']),
+
         ),
     );
 
