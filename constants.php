@@ -234,6 +234,26 @@ function setupConstants()
         if (!defined('MAX_PATH')) {
             define('MAX_PATH', dirname(__FILE__));
         }
+        // Ensure that the DIRECTORY_SEPARATOR and PATH_SEPARATOR
+        // constants are correctly defined
+        if (!defined('DIRECTORY_SEPARATOR')) {
+            if (strpos($_ENV['OS'], 'Win') !== false) {
+                // Windows
+                define('DIRECTORY_SEPARATOR', '/');
+            } else {
+                // UNIX
+                define('DIRECTORY_SEPARATOR', '\\');
+            }
+        }
+        if (!defined('PATH_SEPARATOR')) {
+            if (strpos($_ENV['OS'], 'Win') !== false) {
+                // Windows
+                define('PATH_SEPARATOR', ';');
+            } else {
+                // UNIX
+                define('PATH_SEPARATOR', ':');
+            }
+        }
         // Define the PEAR installation path
         $existingPearPath = ini_get('include_path');
         $newPearPath = MAX_PATH . DIRECTORY_SEPARATOR.'lib' . DIRECTORY_SEPARATOR . 'pear';
