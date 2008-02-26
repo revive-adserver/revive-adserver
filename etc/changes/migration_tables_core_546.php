@@ -14,7 +14,8 @@ class Migration_546 extends Migration
                                                     'logOutgoing'       => 'userlog_email',
                                                     'qmailPatch'        => 'qmail_patch',
                                                     'fromName'          => 'admin_fullname',
-                                                    'fromAddress'       => 'admin_email'
+                                                    'fromAddress'       => 'admin_email',
+                                                    'fromCompany'       => 'company_name'
                                                ),
                           'delivery'        => array(
                                                     'clicktracking'     => 'gui_invocation_3rdparty_default',
@@ -54,7 +55,6 @@ class Migration_546 extends Migration
 
 
     var $aPrefMap = array(
-                        'company_name'                      => array('name'=>'company_name','value'=>'','level'=>OA_ACCOUNT_MANAGER),
                         'ui_week_start_day'                 => array('name'=>'begin_of_week','value'=>'','level'=>''),
                         'ui_percentage_decimals'            => array('name'=>'percentage_decimals','value'=>'','level'=>''),
                         'warn_admin'                        => array('name'=>'warn_admin','value'=>'','level'=>OA_ACCOUNT_ADMIN),
@@ -488,11 +488,12 @@ class Migration_546 extends Migration
     function _writeSettings()
     {
         $oConfiguration = & new OA_Upgrade_Config();
-        foreach ($this->aConfMap AS $section => $aPair)
+        foreach ($this->aConfMap AS $section => $aPairs)
         {
-            $name = key($aPair);
-            $value = $this->aConfNew[$section][$name];
-            $oConfiguration->setValue($section,$name,$value);
+            foreach ($aPairs as $key => $value) {
+                $value = $this->aConfNew[$section][$key];
+                $oConfiguration->setValue($section,$key,$value);
+            }
         }
         return $oConfiguration->writeConfig();
     }

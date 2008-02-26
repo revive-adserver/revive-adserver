@@ -54,7 +54,8 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // E-mail Addresses
     $aElements += array(
         'email_fromName'    => array('email' => 'fromName'),
-        'email_fromAddress' => array('email' => 'fromAddress')
+        'email_fromAddress' => array('email' => 'fromAddress'),
+        'email_fromCompany' => array('email' => 'fromCompany')
     );
     // E-mail Log
     $aElements += array(
@@ -121,6 +122,16 @@ $aSettings = array (
                 'req'     => true,
                 'size'    => 35,
                 'check'   => 'email'
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
+                'type'    => 'text',
+                'name'    => 'email_fromCompany',
+                'text'    => $strEmailFromCompany,
+                'req'     => true,
+                'size'    => 35,
             )
         )
     ),

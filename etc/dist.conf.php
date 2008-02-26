@@ -263,6 +263,7 @@ headers                                  =
 qmailPatch                               = false
 fromName                                 =
 fromAddress                              =
+fromCompany                              =
 
 ;------------------------------------------------------------------------------------------;
 ; Debugging/Error Logging Details                                                          ;

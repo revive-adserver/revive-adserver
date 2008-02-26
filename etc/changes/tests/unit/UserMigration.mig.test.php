@@ -38,7 +38,7 @@ require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
  * @subpackage TestSuite
  * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
-class Migration_546Test extends MigrationTest
+ class Migration_546Test extends MigrationTest
 {
     var $tblPrefsOld;
     var $tblAgency;
@@ -307,11 +307,11 @@ class Migration_546Test extends MigrationTest
         $aSettingsExpectations = $this->_getSettingsExpectations();
         foreach ($aSettingsExpectations AS $section => $aPair)
         {
-            $name = key($aPair);
-            $value = $aPair[$name];
             $this->assertTrue(isset($aConf[$section]),'section missing');
-            $this->assertTrue(isset($aConf[$section][$name]),'key missing');
-            $this->assertEqual($aConf[$section][$name],$value,'incorrect value');
+            foreach ($aPair as $key => $value) {
+                $this->assertTrue(isset($aConf[$section][$key]),'key missing');
+                $this->assertEqual($aConf[$section][$key],$value,"incorrect value \$aConf[{$section}][{$key}]: {{$aConf[$section][$key]}} != {{$value}}");
+            }
         }
         TestEnv::restoreConfig();
     }
@@ -744,11 +744,12 @@ class Migration_546Test extends MigrationTest
    function _getSettingsExpectations()
    {
         $oMig = new Migration_546();
-        foreach ($oMig->aConfMap AS $section => $aPair)
+        foreach ($oMig->aConfMap AS $section => $aPairs)
         {
-            $name = key($aPair);
-            $value = $this->aPrefsOld[$aPair[$name]];
-            $aResult[$section][$name] = $value;
+            foreach ($aPairs as $newName => $oldName) {
+                $value = $this->aPrefsOld[$oldName];
+                $aResult[$section][$newName] = $value;
+            }
         }
         return $aResult;
    }
@@ -756,7 +757,6 @@ class Migration_546Test extends MigrationTest
    function _getPrefsExpectations()
    {
     return array(
-                'company_name' => array('value'=>$this->aPrefsOld['company_name'],'level'=>OA_ACCOUNT_MANAGER),
                 'ui_week_start_day'=> array('value'=>$this->aPrefsOld['begin_of_week'], 'level'=>''),
                 'ui_percentage_decimals'=> array('value'=>$this->aPrefsOld['percentage_decimals'], 'level'=>''),
                 'warn_admin'=> array('value'=>$this->aPrefsOld['warn_admin'], 'level'=>OA_ACCOUNT_ADMIN),
