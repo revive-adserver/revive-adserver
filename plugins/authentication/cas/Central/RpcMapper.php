@@ -186,6 +186,36 @@ class OA_Central_RpcMapper_Cas extends OA_Central_RpcMapper
     }
     
     /**
+     * Returns the sso account Id of matching user name/password.
+     *
+     * @param string $userName
+     * @param string $md5password
+     * @return boolean
+     */
+    function getAccountIdByUsernamePassword($userName, $md5password)
+    {
+        return $this->oRpc->callM2M('getAccountIdByUsernamePassword', array(
+            new XML_RPC_Value($userName, 'string'),
+            new XML_RPC_Value($md5password, 'string')
+        ));
+    }
+    
+    /**
+     * Deletes a partial account from the sso database.
+     *
+     * @param integer $ssoAccountId
+     * @param string $verificationHash
+     * @return boolean True if account was deleted or PEAR_Error on error
+     */
+    function rejectPartialAccount($ssoAccountId, $verificationHash)
+    {
+        return $this->oRpc->callM2M('rejectPartialAccount', array(
+            new XML_RPC_Value($ssoAccountId, 'int'),
+            new XML_RPC_Value($verificationHash, 'string')
+        ));
+    }
+    
+    /**
      * Sets a "remove_extra_lines" RPC Client option.
      * By default it is set to true. It cause some problems when multiline data is send through XML-RPC.
      * For example when email body are sent.

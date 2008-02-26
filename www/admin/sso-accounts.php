@@ -31,10 +31,12 @@ require_once '../../init.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/plugins/authentication/cas/Central/Cas.php';
 
+phpAds_SessionDataDestroy();
+
 // Register input variables
-phpAds_registerGlobalUnslashed ('info', 'ssoid', 'verification', 'ssoexistinguser',
+phpAds_registerGlobalUnslashed ('info', 'ssoid', 'email', 'vh', 'ssoexistinguser',
     'ssoexistingpassword', 'ssonewuser', 'ssonewpassword', 'ssonewpassword2',
-    'ssonewemail', 'proposedusername');
+    'email', 'proposedusername');
 
 if ($proposedusername != '') 
 {
@@ -60,7 +62,6 @@ function pageHeader()
 
     echo "<br><br>"; // todo - move to template
 }
-pageHeader();
 
 class SsoAccounts {
     var $aValidationErrors = array();
@@ -77,28 +78,56 @@ class SsoAccounts {
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
 $oTpl = new OA_Admin_Template('sso-start.html');
+$oCentral = &new OA_Central_Cas();
+$errors = array();
 
-if ($ssoid != '' && $verification != '') 
+if ($email != '' && $vh != '') 
 {
     $hideCreate = true;
     $hideLink = true;
+    
+    // check that $email and $vh are correct, it needs to be done in every call
+    $ssoid = $oCentral->confirmEmail($vh, $email);
+    $confirmed = $ssoid && !PEAR::isError($ssoid);
+    if (PEAR::isError($ssoid)) {
+        $errors[] = 'Server error: '.$ssoid->getMessage();
+    }
+    
+    $doUsers = OA_Dal::factoryDO('users');
+    if (!$doUsers->loadByProperty('email_address', $email)) {
+        $confirmed = false;
+    }
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') 
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && $confirmed) 
     {
         if ($info == 'link') 
         {
             if ($ssoexistinguser != '' && $ssoexistingpassword != '') 
             {
-                if (/* getAccountIdByUsernamePassword($ssoexistinguser, $ssoexistingpassword) */ false) 
+                $md5Password = md5($ssoexistingpassword);
+                $ssoAccountId = $oCentral->getAccountIdByUsernamePassword($ssoexistinguser, $md5Password);
+                if ($ssoAccountId && !PEAR::isError($ssoAccountId)) {
+                    $accountEmail = $oCentral->getAccountEmail($ssoAccountId);
+                }
+                if ($accountEmail && !PEAR::isError($accountEmail)) 
                 {
-                    // TO DO: handle data
-        
-                    // redirect somewhere else
-                    header ("Location: index.php");
+                    $doUsers->sso_user_id = $ssoAccountId;
+                    $doUsers->email_address = $accountEmail;
+                    $ret = $doUsers->update();
+                    if ($ret !== false && !PEAR::isError($ret)) {
+                        $oCentral->rejectPartialAccount($ssoid, $vh);
+                        $url = "sso-accounts.php?action=confirmation&userName=test";
+                        header ("Location: " . $url);
+                        exit();
+                    } else {
+                        // @todolang - move to translation files
+                        $errors[] = 'Error while updating an account. Please try again.';
+                    }
+                } else {
+                    // @todolang - move to translation files
+                    $errors[] = 'Your username or password are not correct. Please try again.';
                 }
             }
-            
-            $oTpl->assign('errorLinkFailed', true);
             $hideLink = false;
         }
         
@@ -106,13 +135,14 @@ if ($ssoid != '' && $verification != '')
         {
             if ($ssonewuser != '' && $ssonewpassword != '') 
             {
-                $oCentral = &new OA_Central_Cas();
-                $ret = $oCentral->completePartialAccount($ssoid, $ssonewuser, md5($ssonewpassword), $verification);
-                if ($ret)
+                $ret = $oCentral->completePartialAccount($ssoid, $ssonewuser,
+                    md5($ssonewpassword), $vh);
+                if ($ret && !PEAR::isError($ret))
                 {
                     // todo - set a message for a next page
-                    // redirect somewhere else
-                    header ("Location: index.php");
+                    $url = "sso-accounts.php?action=confirmation&userName=test";
+                    header ("Location: " . $url);
+                    exit();
                 }
             }
             
@@ -122,14 +152,13 @@ if ($ssoid != '' && $verification != '')
     }
     else 
     {
-        if (! /* confirmEmail($ssoid, $verification) */ true) 
+        if (!$confirmed)
         {
             // ssoid and verification could not be confirmed => no matching account 
+            // @todolang - move string to translation
+            $errors[] = "Error. There is no matching user. Check if your link is correct or contact your OpenX administrator.";
             $oTpl->assign('errorNoMatchingAccount', true);
         }
-        
-        // TO DO: Retrieve the proper e-mail address
-        $ssonewemail = 'niels@creatype.nl';
     }
 }
 else
@@ -138,6 +167,7 @@ else
     $oTpl->assign('errorNoMatchingAccount', true);
 }
 
+$oTpl->assign('errorMessage', implode('<br />', $errors));
 $oTpl->assign('hideLink', $hideLink);
 $oTpl->assign('fieldsLink', array(
     array(
@@ -168,10 +198,10 @@ array(
     'title'     => 'Enter details for your new OpenX account',
     'fields'    => array(
         array(
-            'name'      => 'ssonewemail',
+            'name'      => 'email',
             'disabled'  => true,
             'label'     => 'Email',
-            'value'     => $ssonewemail
+            'value'     => $email
         ),
         array(
             'id'        => 'ssonewuser',
@@ -213,7 +243,10 @@ array(
 ));
 
 $oTpl->assign('ssoid', $ssoid);
-$oTpl->assign('verification', $verification);
+$oTpl->assign('email', $email);
+$oTpl->assign('vh', $vh);
+
+pageHeader();
 
 $oTpl->display();
 

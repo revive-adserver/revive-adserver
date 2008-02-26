@@ -136,11 +136,17 @@ class OA_Central_Cas extends OA_Central_M2M
      *
      * @param string $verificationHash
      * @param string $email
-     * @return boolean
+     * @return integer
      */
     function confirmEmail($verificationHash, $email)
     {
-        return $this->oMapper->confirmEmail($verificationHash, $email);
+        $ret = $this->oMapper->confirmEmail($verificationHash, $email);
+        if (PEAR::isError($ret)) {
+            if ($ret->getCode() == OA_CENTRAL_ERROR_SSO_EMAIL_ALREADY_VERIFIED) {
+                return true;
+            }
+        }
+        return $ret;
     }
 
     /**
@@ -155,6 +161,32 @@ class OA_Central_Cas extends OA_Central_M2M
     function changeEmail($ssoUserId, $emailAddress, $md5password)
     {
         return $this->oMapper->changeEmail($ssoUserId, $emailAddress, $md5password);
+    }
+
+    /**
+     * Deletes a partial account from the sso database.
+     *
+     * @param integer $ssoAccountId
+     * @param string $verificationHash
+     * @return boolean
+     */
+    function rejectPartialAccount($ssoAccountId, $verificationHash)
+    {
+        return $this->oMapper->rejectPartialAccount($ssoAccountId, $verificationHash);
+    }
+
+    /**
+     * Returns the sso account Id of matching user name/password. If there is
+     * no matching user the Pear_error is returned instead with error code:
+     * OA_CENTRAL_ERROR_SSO_USER_NOT_EXISTS
+     *
+     * @param string $userName
+     * @param string $md5password
+     * @return boolean
+     */
+    function getAccountIdByUsernamePassword($userName, $md5password)
+    {
+        return $this->oMapper->getAccountIdByUsernamePassword($userName, $md5password);
     }
 
 }

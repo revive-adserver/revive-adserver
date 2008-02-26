@@ -32,9 +32,9 @@ $Id$
   {*
     Error message to be shown when linking failed...
   *}
-  {if $errorLinkFailed}
+  {if $errorMessage}
   <div class="errormessageicon">
-    Your username or password are not correct. Please try again.
+    {$errorMessage}
   </div>
   {/if}
 
@@ -44,7 +44,8 @@ $Id$
   <form id="sso-link" class="validate" action="sso-accounts.php" method='post' onsubmit='return max_formValidate(this);'>
     <input type="hidden" name="info" value="link" />
     <input type="hidden" name="ssoid" value="{$ssoid}" />
-    <input type="hidden" name="verification" value="{$verification}" />
+    <input type="hidden" name="email" value="{$email}" />
+    <input type="hidden" name="vh" value="{$vh}" />
     
     {include file=edit-table/create.html from=$fields}
 

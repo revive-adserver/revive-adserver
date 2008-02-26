@@ -544,13 +544,14 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
      *
      * @param $superUserName
      * @param $contactName
+     * @param $receipientEmail
      * @return string
      */
     function getEmailBody($superUserName, $contactName, $receipientEmail)
     {
         $subject = MAX_Plugin_Translation::translate('strEmailSsoConfirmationBody',
             $this->module, $this->package);
-        $url = MAX::constructURL(MAX_URL_ADMIN, 'signup.php');
+        $url = MAX::constructURL(MAX_URL_ADMIN, 'sso-accounts.php');
         $replacements = array(
             '{contactName}'   => $contactName,
             '{superUserName}' => $superUserName,
