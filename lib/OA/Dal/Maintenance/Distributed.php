@@ -198,7 +198,8 @@ class OA_Dal_Maintenance_Distributed extends OA_Dal_Maintenance_Common
      */
     function _getDataRawTableContent($sTableName, $oStart, $oEnd)
     {
-        $oEnd->subtractSeconds(1);
+        $oDate = new Date($oEnd);
+        $oDate->subtractSeconds(1);
 
         $query = "
               SELECT
@@ -208,7 +209,7 @@ class OA_Dal_Maintenance_Distributed extends OA_Dal_Maintenance_Common
               WHERE
                 date_time BETWEEN ".
                     DBC::makeLiteral($oStart->format('%Y-%m-%d %H:%M:%S'))." AND ".
-                    DBC::makeLiteral($oEnd->format('%Y-%m-%d %H:%M:%S'))."
+                    DBC::makeLiteral($oDate->format('%Y-%m-%d %H:%M:%S'))."
             ";
 
         $rsDataRaw = DBC::NewRecordSet($query);
