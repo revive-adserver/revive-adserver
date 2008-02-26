@@ -204,11 +204,11 @@ class OA_Permission
         }
         $hasAccess = OA_Permission::hasAccessToObject($entityTable, $entityId, $accountId);
         if (!$hasAccess) {
+            $hasAccess = OA_Permission::isUserLinkedToAdmin();
+        }
+        if (!$hasAccess) {
             OA_Permission::redirectIfManualAccountSwitch();
             $hasAccess = OA_Permission::attemptToSwitchForAccess($entityTable, $entityId);
-            if (!$hasAccess) {
-                $hasAccess = OA_Permission::isUserLinkedToAdmin();
-            }
         }
         OA_Permission::enforceTrue($hasAccess);
     }
