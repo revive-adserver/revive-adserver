@@ -238,6 +238,7 @@ $GLOBALS['strEmailSettings']                         = 'Email Settings';
 $GLOBALS['strEmailAddresses']                        = 'Email "From" Address';
 $GLOBALS['strEmailFromName']                         = 'Email "From" Name';
 $GLOBALS['strEmailFromAddress']                      = 'Email "From" Email Address';
+$GLOBALS['strEmailFromCompany']                      = 'Email "From" Email Company';
 $GLOBALS['strQmailPatch']                            = 'qmail patch';
 $GLOBALS['strEnableQmailPatch']                      = 'Enable qmail patch';
 $GLOBALS['strEmailHeader']                           = 'Email headers';

@@ -1351,6 +1351,8 @@ class OA_Upgrade
                                                   'action'=>UPGRADE_ACTION_UPGRADE_FAILED,
                                                  )
                                            );
+            // Reparse the config file to ensure that new items are loaded
+            $this->oConfiguration->aConfig = $GLOBALS['_MAX']['CONF'];
             if (!$this->_upgradeConfig())
             {
                 $this->oLogger->logError('Failed to upgrade configuration file');
@@ -1387,10 +1389,15 @@ class OA_Upgrade
      */
     function _upgradeConfig()
     {
+        // Reparse the config file to ensure that new items are loaded
+        $this->oConfiguration->aConfig = $GLOBALS['_MAX']['CONF'];
+
         $aConfig['database'] = $GLOBALS['_MAX']['CONF']['database'];
         $aConfig['table']    = $GLOBALS['_MAX']['CONF']['table'];
         $aConfig             = $this->initDatabaseParameters($aConfig);
         $this->saveConfigDB($aConfig);
+
+
         // Backs up the existing config file and merges any changes from dist.conf.php.
         if (!$this->oConfiguration->mergeConfig())
         {
