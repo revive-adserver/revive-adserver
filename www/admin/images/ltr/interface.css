@@ -735,7 +735,9 @@ form.new-form input[type='checkbox'] {
   margin: 0px 2px 0 2px;
 }
 
-label.cb, a.cb {
+/** Hide from IE 6 */
+html > body label.cb, 
+html > body a.cb {
   position: relative;
   top: -2px;
 }
@@ -931,16 +933,30 @@ div.terms iframe {
   height: 100%;
 }
 
-
-.available, .notavailable {
+.available-int, .unavailable-int, .checking-int {
   font-weight: bold;
   margin: 0 0 0 0.5em;
 }
-.available {
+
+.available-int {
   color: #22b24c;
 }
-.notavailable {
+
+.unavailable-int {
   color: #f15922;
 }
 
+#user-check-indicator .checking-int {
+  color: #808080;
+}
+
+#user-check-indicator.checking .unavailable-int,
+#user-check-indicator.checking .available-int,
+#user-check-indicator.available .unavailable-int,
+#user-check-indicator.available .checking-int,
+#user-check-indicator.unavailable .checking-int,
+#user-check-indicator.unavailable .available-int
+{
+  display: none;
+}
 

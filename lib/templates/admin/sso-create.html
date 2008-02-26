@@ -45,13 +45,13 @@ $Id$
 
     {include file=edit-table/create.html from=$fields}
 
-    <input type="checkbox" name="termsconsent" id="termsconsent" class="checkbox {literal}{required:true}{/literal}" />
+    <input type="checkbox" name="termsconsent" id="termsconsent" class="checkbox {literal}{required:true}{/literal}" {tabindex} />
     <label class="cb" for="termsconsent">I have read and agree to the OpenX</label> <a class="cb" href='#'>Terms and Conditions</a>
     <label class="cb error hide" for="termsconsent">You must agree to the Terms and Conditions</label>
     
     <br />
 
-    <input type="checkbox" id="privacyconsent" name="privacyconsent" class="checkbox {literal}{required:true}{/literal}" />
+    <input type="checkbox" id="privacyconsent" name="privacyconsent" class="checkbox {literal}{required:true}{/literal}" {tabindex} />
     <label class="cb" for="privacyconsent">I have read and agree to the OpenX</label> <a class="cb" href='#'>Data Privacy Policy</a>
     <label class="cb error hide" for="privacyconsent">You must agree to the Data Privacy Policy</label>
 
@@ -65,10 +65,8 @@ $Id$
 <script>
 {literal}
   $(document).ready(function() {
-    var duplicateSatisfied = false;
-  
-    var updateSubmitButton = function() {
-      if (duplicateSatisfied) {
+    var updateSubmitButton = function(texElement, userNameAvailable) {
+      if (userNameAvailable) {
         $("#submit").attr("disabled", false);
         $("#userhint").fadeOut();
       } else {
@@ -76,8 +74,19 @@ $Id$
         $("#userhint").fadeIn();
       }
     };
-  
-    var checkDuplicate = function() {
+
+    $("#ssonewuser").userNameCheck({
+      userNameCheckUrl: 'sso-accounts.php',
+      userNameParameterName: 'proposedusername',
+      checkTimeout: 500,
+      availableResultText: 'available',
+      indicatorSelector: '#user-check-indicator',
+      availableClass: 'available',
+      unavailableClass: 'unavailable',
+      callback: updateSubmitButton
+    });
+
+/*  var checkDuplicate = function() {
       if ($("#ssonewuser").val() != '') {
         $.get("sso-accounts.php", { proposedusername: $("#ssonewuser").val() }, function(data) {
           if (data == 'available') {
@@ -102,6 +111,7 @@ $Id$
     $("#ssonewuser").change(checkDuplicate);
     $("#ssonewuser").keyup(checkDuplicate);
     checkDuplicate()
+    */
   });
 {/literal}
 </script>

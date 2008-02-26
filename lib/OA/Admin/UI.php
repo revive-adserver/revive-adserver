@@ -326,6 +326,7 @@ class OA_Admin_UI
 			'js/jquery.metadata.min.js',
 			'js/jquery.validate.min.js',
 			'js/jquery.jqmodal.js',
+			'js/jquery.typewatch.js',
 			'js/jquery.autocomplete.min.js', 
 			'js/jscalendar/calendar.js',
 			'js/jscalendar/lang/calendar-en.js',
@@ -333,6 +334,7 @@ class OA_Admin_UI
 			'js/js-gui.js',
 			'js/sorttable.js',
 			'js/boxrow.js',
+			'js/oa.usernamecheck.js',
 			'js/oa.addirect.js',
 			'js/oa.help.js',
 			'js/formValidation.js'
@@ -344,21 +346,23 @@ class OA_Admin_UI
 		
 		if ($phpAds_TextDirection == 'ltr') {
 			return array (
-				'css/chrome.css',
-				'images/ltr/interface.css',
+            'css/jquery.jqmodal.css',
 				'css/jquery.autocomplete.css',
 				'css/oa.help.css',
-				'js/jscalendar/calendar-openads.css'
+				'css/chrome.css',
+				'js/jscalendar/calendar-openads.css',
+				'images/ltr/interface.css',
 			);
 		}
 		
 		return array (
-			'css/chrome.css',
-			'css/chrome-rtl.css',
-			'images/rtl/interface.css',
+			'css/jquery.jqmodal.css',
 			'css/jquery.autocomplete.css',
 			'css/oa.help.css',
-			'js/jscalendar/calendar-openads.css'
+			'css/chrome.css',
+			'css/chrome-rtl.css',
+			'js/jscalendar/calendar-openads.css',
+			'images/rtl/interface.css'
 		);
 	}
 }

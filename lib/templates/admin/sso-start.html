@@ -37,14 +37,13 @@ $Id$
   </div>
   {else}
 
-<div class="infomessage" id="intro"{if !$hideCreate || !$hideLink} style="display:none;"{/if}>
+<div class="infomessage" id="intro" style="margin-top: 0; {if !$hideCreate || !$hideLink}display:none{/if}">
   <p>
     Welcome {$userName|default:'John'},<br />
   </p>
 
   <p>
-    <b>{$creator|default:'The Big X'}</b> invited you to use OpenX
-    (Adserver|Platform|?). To accept this invitation, <a id="use-existing-account" href="#">enter user name and
+    <b>{$creator|default:'The Big X'}</b> invited you to use OpenX. To accept this invitation, <a id="use-existing-account" href="#">enter user name and
     password of your existing OpenX account</a> (the one you use for e.g. OpenX
     Forum) or <a id="create-new-account" href="#">create a new OpenX account</a>.
   </p>
@@ -55,8 +54,8 @@ $Id$
 </div>
 
 <div style="margin-bottom: 4ex">
-  <input id="haveaccount-yes" type="radio" name="haveaccount" value="yes" style="margin-left: 0"{if !$hideLink} checked="checked"{/if}><label for="haveaccount-yes" class="cb" style="padding-right: 1em">Yes, I want to use my existing account</label>
-  <input id="haveaccount-no" type="radio" name="haveaccount" value="no"{if !$hideCreate} checked="checked"{/if}><label for="haveaccount-no" class="cb">No, I want to create a new account</label>
+  <input id="haveaccount-yes" type="radio" name="haveaccount" value="yes" style="margin-left: 0"{if !$hideLink} checked="checked"{/if} {tabindex}><label for="haveaccount-yes" class="cb" style="padding-right: 1em">Yes, I want to use my existing account</label>
+  <input id="haveaccount-no" type="radio" name="haveaccount" value="no"{if !$hideCreate} checked="checked"{/if}><label for="haveaccount-no" class="cb" {tabindex}>No, I want to create a new account</label>
 </div>
 
 {include file=sso-link.html fields=$fieldsLink hide=$hideLink"}

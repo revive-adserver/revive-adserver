@@ -174,13 +174,22 @@ array(
             'value'     => $ssonewemail
         ),
         array(
+            'id'        => 'ssonewuser',
+            'type'      => 'custom',
+            'template'  => 'user-availability-check',
+            'label'     => 'Desired user name',
+            'title'     => 'Enter desired user name',
+            'value'     => $ssonewuser
+        ),           
+        /*
+        array(
             'name'      => 'ssonewuser',
             'id'        => 'ssonewuser',
             'label'     => 'Desired user name',
             'clientValid' => 'required:true',
             'title'     => 'Enter desired user name',
             'value'     => $ssonewuser
-        ),
+        ),*/
         array(
             'name'      => 'ssonewpassword',
             'id'         => 'ssonewpassword',
