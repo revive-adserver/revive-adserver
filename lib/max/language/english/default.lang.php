@@ -1094,7 +1094,6 @@ $GLOBALS['strWrongDateFormat']      = 'Wrong Date Format';
 $GLOBALS['strForgotPassword']         = "Forgot your password?";
 $GLOBALS['strPasswordRecovery']       = "Password recovery";
 $GLOBALS['strEmailRequired']          = "Email is a required field";
-$GLOBALS['strPwdRecEmailSent']        = "Recovery email sent";
 $GLOBALS['strPwdRecEmailNotFound']    = "Email address not found";
 $GLOBALS['strPwdRecPasswordSaved']    = "The new password was saved, proceed to <a href='index.php'>login</a>";
 $GLOBALS['strPwdRecWrongId']          = "Wrong ID";
@@ -1105,6 +1104,10 @@ $GLOBALS['strPwdRecResetLink']        = "Password reset link";
 $GLOBALS['strPwdRecResetPwdThisUser'] = "Reset password for this user";
 $GLOBALS['strPwdRecEmailPwdRecovery'] = "%s password recovery";
 $GLOBALS['strProceed']                = "Proceed &gt;";
+$GLOBALS['strNotifyPageMessage']      = "An e-mail has been sent to you, which includes a link that will allow you
+                                         to re-set your password and log in.<br />Please allow a few minutes for the e-mail to arrive.<br />
+                                         If you do not receive the e-mail, please check your spam folder.<br />
+                                         <a href=\"index.php\">Return the the main login page.</a>";
 
 // Audit
 $GLOBALS['strAdditionalItems']        = 'and additional items';

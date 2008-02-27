@@ -129,7 +129,7 @@ class OA_Admin_PasswordRecovery
             } else {
                 $sent = $this->sendRecoveryEmail(stripslashes($vars['email']));
                 if ($sent) {
-                    $this->displayMessage($GLOBALS['strPwdRecEmailSent']);
+                    $this->displayMessage($GLOBALS['strNotifyPageMessage']);
                 } else {
                 $this->displayRecoveryRequestForm($GLOBALS['strPwdRecEmailNotFound']);
                 }
@@ -154,9 +154,9 @@ class OA_Admin_PasswordRecovery
      */
     function displayMessage($message)
     {
-        phpAds_showBreak();
-
-        echo "<br /><span class='install'>{$message}</span><br /><br />";
+        phpAds_showBreak();       
+        
+        echo "<br /><span class='install'>{$message}</span><br /><br />";  
 
         phpAds_showBreak();
     }
