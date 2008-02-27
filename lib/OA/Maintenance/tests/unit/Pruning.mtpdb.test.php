@@ -112,7 +112,7 @@ class Test_Priority extends UnitTestCase
         // Test 3: values are old, zone_id = 1 : should not delete anything
         foreach ($aIds as $k => $id)
         {
-            $oDate->subtractSeconds(MAX_PREVIOUS_AD_DELIVERY_INFO_LIMIT);
+            $oDate->subtractSeconds((MAX_PREVIOUS_AD_DELIVERY_INFO_LIMIT+100));
             $doDSAZA->data_summary_ad_zone_assoc_id = $id;
             $doDSAZA->find(true);
             $doDSAZA->created = $oDate->getDate();
