@@ -85,7 +85,7 @@ function phpAds_showZoneBanners ($zoneId)
         echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";
         // Exclusive Advertisements
         if (!empty($aZoneLinkedAds['xAds'])) {
-              echo "<tr height='25'><th align='$phpAds_TextAlignLeft' colspan='6'><strong>$strExclusiveAds:</strong></th></tr>";
+            echo "<tr height='25'><th align='$phpAds_TextAlignLeft' colspan='6'><strong>$strExclusiveAds:</strong></th></tr>";
             echo "<tr height='25'>";
             echo "<td height='25' width='40%'>&nbsp;&nbsp;<b>".$strName."</b></td>";
             echo "<td height='25'><b>".$strID."</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
@@ -298,8 +298,11 @@ function phpAds_showZoneBanners ($zoneId)
                 $exactProbability = sprintf("%0.64f", $realProbability);
                 echo "<td height='25'><acronym title='{$exactProbability}'>".number_format($realProbability, $pref['ui_percentage_decimals'])."%</acronym> (".number_format($probability, $pref['ui_percentage_decimals'])."% of ".number_format($ofPriority, $pref['ui_percentage_decimals'])."%)</td>";
 
-                echo "<td height='25'>{$aLinkedAd['campaign_weight']}</td>";
+                // Weight
+                $weight = $aLinkedAd['campaign_weight']*$aLinkedAd['weight'];
+                echo "<td height='25'>{$weight}</td>";
 
+                // Limitations
                 $capping = _isAdCapped($aLinkedAd);
                 $limitations = _isAdLimited($aLinkedAd);
 
