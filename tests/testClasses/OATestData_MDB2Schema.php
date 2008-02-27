@@ -59,7 +59,7 @@ class OA_Test_Data_MDB2Schema extends OA_Test_Data
      * @param string $directory
      * @return boolean
      */
-    function init($datafile='fjsdj', $directory='/tests/datasets/')
+    function init($datafile='fjsdj', $directory='/tests/datasets/mdb2schema/')
     {
         if (!parent::init())
         {
@@ -67,7 +67,7 @@ class OA_Test_Data_MDB2Schema extends OA_Test_Data
         }
         if (!$directory)
         {
-            $directory = '/tests/datasets/';
+            $directory = '/tests/datasets/mdb2schema/';
         }
         $this->directory = $directory;
         if (substr_count($this->directory, MAX_PATH)<1)

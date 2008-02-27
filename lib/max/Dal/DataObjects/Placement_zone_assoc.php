@@ -95,24 +95,8 @@ class DataObjects_Placement_zone_assoc extends DB_DataObjectCommon
     function _buildAuditArray($actionid, &$aAuditFields)
     {
         $aAuditFields['key_desc']     = 'Campaign #'.$this->placement_id.' -> Zone #'.$this->zone_id;
-        switch ($actionid)
-        {
-            case OA_AUDIT_ACTION_UPDATE:
-                        break;
-            case OA_AUDIT_ACTION_INSERT:
-            case OA_AUDIT_ACTION_DELETE:
-                        break;
-        }
     }
 
-    function _formatValue($field)
-    {
-        switch ($field)
-        {
-            default:
-                return $this->$field;
-        }
-    }
 }
 
 ?>

@@ -273,19 +273,19 @@ class DataGenerator
      */
     function setDefaultValues(&$do, $counter = 0)
     {
-        foreach ($do->defaultValues as $k => $v) {
-            if (!isset($do->$k)) {
-                $do->$k = DataGenerator::getTemplateValue($v);
-            }
-        }
         $fields = $do->table();
         $keys = $do->keys();
         $table = $do->getTableWithoutPrefix();
         foreach ($fields as $fieldName => $fieldType) {
             if (!isset($do->$fieldName)) {
                 $fieldValue = DataGenerator::getFieldValueFromDataContainer($table, $fieldName, $counter);
-                if(!isset($fieldValue) && !in_array($fieldName, $keys)) {
-                    $fieldValue = DataGenerator::defaultValueByType($fieldType);
+                if(!isset($fieldValue) && !in_array($fieldName, $keys))
+                {
+                    $fieldValue = DataGenerator::defaultValueForObject($do, $fieldName, $fieldType);
+                    if(!isset($fieldValue))
+                    {
+                        $fieldValue = DataGenerator::defaultValueByType($fieldType);
+                    }
                 }
                 if (isset($fieldValue)) {
                     $do->$fieldName = $fieldValue;
@@ -313,6 +313,21 @@ class DataGenerator
             }
         }
         return null;
+    }
+
+    /**
+     * Return (or set) a default field value based individual dataobjects default array
+     *
+     * @see DB_DataObject for list of defined field types
+     *
+     * @param DataObject $do    DataObject to populate data in
+     * @param string $fieldName Field (column) name
+     * @return string
+     * @static
+     */
+    function defaultValueForObject(&$do, $fieldName, $fieldType)
+    {
+        return $do->setDefaultValue($fieldName, $fieldType);
     }
 
     /**
@@ -350,28 +365,6 @@ class DataGenerator
         }
         // If still nothing found use a global default
         return MAX_DATAGENERATOR_DEFAULT_VALUE;
-    }
-
-    /**
-     * Replace variable by template or return it if it's not a template
-     *
-     * Template variables:
-     * %DATE_TIME% is replaced with date('Y-m-d H:i:s')
-     *
-     * @todo This should be refactored if we will decide to add more templates
-     *
-     * @param string $val  Template variable
-     * @return string
-     * @static
-     */
-    function getTemplateValue($val)
-    {
-        switch ($val) {
-            case '%DATE_TIME%':
-                return date('Y-m-d H:i:s');
-            default:
-                return $val;
-        }
     }
 
     /**

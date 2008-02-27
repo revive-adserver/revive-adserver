@@ -68,12 +68,12 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Affiliates',$k,$v); }
 
+    var $defaultValues = array(
+                'agencyid' => 0,
+                );
+
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
-
-    var $defaultValues = array(
-        'publiczones' => 'f'
-    );
 
     /**
      * Returns affiliateid.
@@ -234,24 +234,6 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
     function _buildAuditArray($actionid, &$aAuditFields)
     {
         $aAuditFields['key_desc']     = $this->name;
-        switch ($actionid)
-        {
-            case OA_AUDIT_ACTION_INSERT:
-                        break;
-            case OA_AUDIT_ACTION_UPDATE:
-                        break;
-            case OA_AUDIT_ACTION_DELETE:
-                        break;
-        }
-    }
-
-    function _formatValue($field)
-    {
-        switch ($field)
-        {
-            default:
-                return $this->$field;
-        }
     }
 
 }

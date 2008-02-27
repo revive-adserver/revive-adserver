@@ -63,15 +63,5 @@ class DataObjects_Preferences extends DB_DataObjectCommon
     function _buildAuditArray($actionid, &$aAuditFields)
     {
         $aAuditFields['key_desc']     = $this->preference_name;
-
-        switch ($actionid)
-        {
-            case OA_AUDIT_ACTION_INSERT:
-                        break;
-            case OA_AUDIT_ACTION_UPDATE:
-                        break;
-            case OA_AUDIT_ACTION_DELETE:
-                        break;
-        }
     }
 }

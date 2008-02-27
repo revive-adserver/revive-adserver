@@ -716,6 +716,22 @@ class DB_DataObjectCommon extends DB_DataObject
         return false;
     }
 
+    function setDefaultValue($fieldName, $fieldType)
+    {
+        if (isset($this->defaultValues[$fieldName]))
+        {
+            if ($this->defaultValues[$fieldName] === '%DATE_TIME%')
+            {
+                return date('Y-m-d H:i:s');
+            }
+            else if ($this->defaultValues[$fieldName] === '%NO_DATE_TIME%')
+            {
+                return OA_Dal::noDateValue();
+            }
+            return $this->defaultValues[$fieldName];
+        }
+    }
+
     function _getKey()
     {
         $key = false;
@@ -1031,7 +1047,7 @@ class DB_DataObjectCommon extends DB_DataObject
         $keys = $this->keys();
         return !empty($keys) ? $keys[0] : null;
     }
-    
+
     /**
      * Quotes the string so it could be used safely inside SQL queries
      *
@@ -1043,7 +1059,7 @@ class DB_DataObjectCommon extends DB_DataObject
         $oDbh = &OA_DB::singleton();
         return $oDbh->quote($val);
     }
-    
+
     /**
      * Fetch DataObject by property
      *
@@ -1309,7 +1325,11 @@ class DB_DataObjectCommon extends DB_DataObject
                         // audit all data
                         foreach ($aFields AS $name => $type)
                         {
-                            $aAuditFields[$name] = $this->$name;
+                            $aAuditFields[$name] = $this->_formatValue($name, $type);
+                            if ($aAuditFields[$name] === NULL)
+                            {
+                                $aAuditFields[$name] = 'null';
+                            }
                         }
                         break;
             case OA_AUDIT_ACTION_UPDATE:
@@ -1322,8 +1342,8 @@ class DB_DataObjectCommon extends DB_DataObject
                                 // don't bother auditing timestamp changes?
                                 if ($name <> 'updated')
                                 {
-                                    $valNew = $dataobjectNew->_formatValue($name);
-                                    $valOld = !empty($dataobjectOld) ? $dataobjectOld->_formatValue($name) : '';
+                                    $valNew = $dataobjectNew->_formatValue($name, $type);
+                                    $valOld = !empty($dataobjectOld) ? $dataobjectOld->_formatValue($name,$type) : '';
                                     if ($valNew != $valOld)
                                     {
                                         $aAuditFields[$name]['was'] = $valOld;
@@ -1340,23 +1360,38 @@ class DB_DataObjectCommon extends DB_DataObject
         return $aAuditFields;
     }
 
-    function _formatValue($field)
+    /**
+     * The child _formatValue() method is called first
+     * allowing us to override specific formatting
+     * this will fill in default formatting
+     *
+     * @param string $field
+     * @param integer $type : dataobject type (found in db_schema.ini)
+     * @return mixed
+     */
+
+    function _formatValue($field, $type ='')
     {
-        return $this->$field;
+        switch ($type)
+        {
+            case 129:
+            case 1:
+                return (int) $this->$field;
+            case 145:
+                return $this->_boolToStr($this->$field);
+//  text / blob fields
+// override these in children?
+            case 194:
+                //return 'data too large to audit';
+                return htmlspecialchars($this->$field);
+            default:
+                return $this->$field;
+        }
     }
 
     function _buildAuditArray($actionid, &$aAuditFields)
     {
         $aAuditFields['key_desc']     = '';
-        switch ($actionid)
-        {
-            case OA_AUDIT_ACTION_INSERT:
-                        break;
-            case OA_AUDIT_ACTION_UPDATE:
-                        break;
-            case OA_AUDIT_ACTION_DELETE:
-                        break;
-        }
     }
 
     function _boolToStr($val)

@@ -48,6 +48,14 @@ class DataObjects_Targetstats extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Targetstats',$k,$v); }
 
+    var $defaultValues = array(
+                'day' => '%NO_DATE_TIME%',
+                'campaignid' => 0,
+                'target' => 0,
+                'views' => 0,
+                'modified' => 0,
+                );
+
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 

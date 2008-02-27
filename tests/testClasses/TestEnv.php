@@ -95,14 +95,16 @@ class TestEnv
      * to load a dataset using either dataobjects or mdb2_schema
      *
      * @param string $source : file identifier
+     * @param string $type : type identifier : 'dataobjects' or 'mdb2schema'
      * @return array $aIds : array of inserted entity ids
      */
-    function loadData($source)
+    function loadData($source, $type='dataobjects')
     {
-        if (file_exists(MAX_PATH . "/tests/datasets/test_{$source}.php"))
+        $file = MAX_PATH . '/tests/datasets/'.$type.'/test_'.$source.'.php';
+        if (file_exists($file))
         {
             $classname = 'OA_Test_Data_'.str_replace('.','_',$source);
-            require_once(MAX_PATH . "/tests/datasets/test_{$source}.php");
+            require_once($file);
             if (class_exists($classname))
             {
                 $obj = new $classname;
@@ -114,7 +116,7 @@ class TestEnv
             }
             MAX::raiseError('loadData error: unable to find classname '.$classname);
         }
-        MAX::raiseError('loadData error: unable to find data source file '.MAX_PATH . "/tests/data/testData_{$source}.php");
+        MAX::raiseError('loadData error: unable to find data source file '.$file);
         return false;
     }
 

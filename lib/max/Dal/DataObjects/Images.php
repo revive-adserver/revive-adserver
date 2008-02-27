@@ -140,26 +140,12 @@ class DataObjects_Images extends DB_DataObjectCommon
         $aAuditFields['key_desc']   = $this->filename;
         switch ($actionid)
         {
-            case OA_AUDIT_ACTION_INSERT:
-            case OA_AUDIT_ACTION_DELETE:
-                        $aAuditFields['contents']   = 'binary data not audited';
-                        break;
             case OA_AUDIT_ACTION_UPDATE:
                         $aAuditFields['bannerid']   = $this->bannerid;
                         break;
         }
     }
 
-    function _formatValue($field)
-    {
-        switch ($field)
-        {
-            case 'contents':
-                return 'binary data not audited';
-            default:
-                return $this->$field;
-        }
-    }
 }
 
 ?>

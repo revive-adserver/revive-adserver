@@ -58,6 +58,12 @@ class DataObjects_Channel extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Channel',$k,$v); }
 
+    var $defaultValues = array(
+                'agencyid' => 0,
+                'affiliateid' => 0,
+                'acls_updated' => '%NO_DATE_TIME%',
+                );
+
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
@@ -184,26 +190,12 @@ class DataObjects_Channel extends DB_DataObjectCommon
         $aAuditFields['key_desc']   = $this->name;
         switch ($actionid)
         {
-            case OA_AUDIT_ACTION_INSERT:
-            case OA_AUDIT_ACTION_DELETE:
-                        $aAuditFields['active'] = $this->_formatValue('active');
-                        break;
             case OA_AUDIT_ACTION_UPDATE:
                         $aAuditFields['affiliateid'] = $this->affiliateid;
                         break;
         }
     }
 
-    function _formatValue($field)
-    {
-        switch ($field)
-        {
-            case 'active':
-                return $this->_boolToStr($this->$field);
-            default:
-                return $this->$field;
-        }
-    }
 }
 
 ?>

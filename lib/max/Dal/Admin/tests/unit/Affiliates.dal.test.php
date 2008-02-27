@@ -59,14 +59,15 @@ class MAX_Dal_Admin_AffiliatesTest extends DalUnitTestCase
 
     function testGetAffiliateByKeyword()
     {
-        // Insert some affiliates
-        $aData = array(
-            'name' => array('foo', 'foobar'),
-            'agencyid' => array(1, 2)
-        );
-        $dg = new DataGenerator();
-        $dg->setData('affiliates', $aData);
-        $aAffiliateId = $dg->generate('affiliates', 2);
+        $doAffiliates = OA_Dal::factoryDO('affiliates');
+        $doAffiliates->name = 'foo';
+        $doAffiliates->agencyid = 1;
+        $aAffiliateId1 = DataGenerator::generateOne($doAffiliates);
+
+        $doAffiliates = OA_Dal::factoryDO('affiliates');
+        $doAffiliates->name = 'foobar';
+        $doAffiliates->agencyid = 2;
+        $aAffiliateId12= DataGenerator::generateOne($doAffiliates);
 
         // Search by name
         $expectedRows = 2;
@@ -77,7 +78,7 @@ class MAX_Dal_Admin_AffiliatesTest extends DalUnitTestCase
 
         // Search by id
         $expectedRows = 1;
-        $rsAffiliates = $this->dalAffiliates->getAffiliateByKeyword($aAffiliateId[0]);
+        $rsAffiliates = $this->dalAffiliates->getAffiliateByKeyword($aAffiliateId1);
         $rsAffiliates->find();
         $actualRows = $rsAffiliates->getRowCount();
         $this->assertEqual($actualRows, $expectedRows);

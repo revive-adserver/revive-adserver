@@ -89,22 +89,32 @@ class Test_OA_DB_Sql extends DbTestCase
     {
         $this->initTables(array('campaigns', 'trackers'));
 
-        $dg = new DataGenerator();
-        $dg->setData('campaigns', array(
-            'campaignid' => array(1, 2, 3),
-            'campaignname' => array('First', 'Fifth', 'Third'),
-            'views' => array(10, 50, 30)
-        ));
-        $dg->generate('campaigns', 3);
-        $cUpdated = OA_DB_Sql::updateWhereOne('campaigns', 'campaignid', 2,
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->campaignname = 'First';
+        $doCampaigns->views = 10;
+        $campaignId1 = DataGenerator::generateOne($doCampaigns);
+
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->campaignname = 'Third';
+        $doCampaigns->views = 30;
+        $campaignId2 = DataGenerator::generateOne($doCampaigns);
+
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->campaignname = 'Fifth';
+        $doCampaigns->views = 50;
+        $campaignId3 = DataGenerator::generateOne($doCampaigns);
+
+        $cUpdated = OA_DB_Sql::updateWhereOne('campaigns', 'campaignid', $campaignId2,
             array('campaignname' => 'Second', 'views' => 20));
+
         $this->assertEqual(1, $cUpdated);
-        $doCampaigns = OA_Dal::staticGetDO('campaigns', 2);
+        $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId2);
         $this->assertEqual('Second', $doCampaigns->campaignname);
         $this->assertEqual(20, $doCampaigns->views);
-        $doCampaigns = OA_Dal::staticGetDO('campaigns', 1);
+        $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId1);
         $this->assertEqual('First', $doCampaigns->campaignname);
         $this->assertEqual('10', $doCampaigns->views);
+
 
         $aConf = $GLOBALS['_MAX']['CONF'];
         $this->oaTable->dropTable($aConf['table']['prefix'].'campaigns');

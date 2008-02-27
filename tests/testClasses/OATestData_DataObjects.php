@@ -112,7 +112,7 @@ class OA_Test_Data_DataObjects extends OA_Test_Data
      *
      * @access private
      */
-    function generateTestData()
+    function generateTestData($linkAdZone=false)
     {
 
         if (!parent::init())
@@ -153,6 +153,8 @@ class OA_Test_Data_DataObjects extends OA_Test_Data
         $aBanners['campaignid'] = $this->aIds['campaigns'][1];
         $aBanners['contenttype'] = 'txt';
         $aBanners['storagetype'] = 'txt';
+        $aBanners['width'] = 468;
+        $aBanners['height'] = 60;
         $aBanners['url'] = 'http://www.example.com';
         $aBanners['alt'] = 'Test Campaign - Text Banner';
         $aBanners['compiledlimitation'] = 'phpAds_aclCheckDate(\'20050502\', \'!=\') and phpAds_aclCheckClientIP(\'2.22.22.2\', \'!=\') and phpAds_aclCheckLanguage(\'(sq)|(eu)|(fo)|(fi)\', \'!=\')';
@@ -165,16 +167,23 @@ class OA_Test_Data_DataObjects extends OA_Test_Data
         $aZone['delivery'] = 0;
         $aZone['zonetype'] =3;
         $aZone['category'] = '';
-        $aZone['width'] = 728;
-        $aZone['height'] = 90;
+        $aZone['width'] = 468;
+        $aZone['height'] = 60;
         $this->aIds['zones'][1] = $this->_insertZones($aZone);
 
+        if ($linkAdZone)
+        {
+            $this->linkAdZone();
+        }
+        return true;
+    }
+
+    function linkAdZone()
+    {
         // Add ad_zone_assoc record
         $aAdZone['ad_id'] = $this->aIds['banners'][1];
         $aAdZone['zone_id'] = $this->aIds['zones'][1];
         $this->aIds['ad_zone_assoc'][1] = $this->_insertAdZoneAssoc($aAdZone);
-
-        return true;
     }
 
     function _insertAgency($aData)

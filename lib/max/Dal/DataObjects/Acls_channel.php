@@ -49,6 +49,11 @@ class DataObjects_Acls_channel extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Acls_channel',$k,$v); }
 
+    var $defaultValues = array(
+                'logical' => 'and',
+                'comparison' => '==',
+                );
+
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 

@@ -1,11 +1,11 @@
 <?php
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2008 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -58,10 +58,11 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
         $doChannel->acls_updated = '2007-04-03 19:29:54';
         $channelId = DataGenerator::generateOne($doChannel, true);
 
+        $clientId = 7;
         $doTrackers = OA_Dal::factoryDO('trackers');
         $doTrackers->clientid = $clientId;
         $doTrackers->linkcampaigns = 't';
-        $aTrackerId = DataGenerator::generate($doTrackers, $numTrackers, true);
+        $aTrackerId = DataGenerator::generate($doTrackers, $numTrackers, false);
 
         $doTrackers = OA_Dal::factoryDO('trackers');
         $doTrackers->linkcampaigns = 'f';

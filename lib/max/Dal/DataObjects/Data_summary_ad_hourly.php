@@ -58,6 +58,13 @@ class DataObjects_Data_summary_ad_hourly extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Data_summary_ad_hourly',$k,$v); }
 
+    var $defaultValues = array(
+                'requests' => 0,
+                'impressions' => 0,
+                'clicks' => 0,
+                'conversions' => 0,
+                );
+
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 }

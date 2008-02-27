@@ -50,6 +50,13 @@ class DataObjects_Ad_zone_assoc extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Ad_zone_assoc',$k,$v); }
 
+    var $defaultValues = array(
+                'priority' => 0,
+                'link_type' => 1,
+                'priority_factor' => 0,
+                'to_be_delivered' => 1,
+                );
+
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
@@ -104,23 +111,9 @@ class DataObjects_Ad_zone_assoc extends DB_DataObjectCommon
             case OA_AUDIT_ACTION_UPDATE:
                         $aAuditFields['bannerid']            = $this->bannerid;
                         break;
-            case OA_AUDIT_ACTION_INSERT:
-            case OA_AUDIT_ACTION_DELETE:
-                        $aAuditFields['to_be_delivered']     = $this->_formatValue('to_be_delivered');
-                        break;
         }
     }
 
-    function _formatValue($field)
-    {
-        switch ($field)
-        {
-            case 'to_be_delivered':
-                return $this->_boolToStr($this->$field);
-            default:
-                return $this->$field;
-        }
-    }
 }
 
 ?>

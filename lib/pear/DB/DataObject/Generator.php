@@ -352,7 +352,7 @@ class DB_DataObject_Generator extends DB_DataObject
      * Currenly only works with mysql / mysqli
      * to use, you must set option: generate_links=true
      *
-     * @author Pascal Schöni
+     * @author Pascal Schï¿½ni
      */
     function generateForeignKeys()
     {
@@ -890,6 +890,8 @@ class DB_DataObject_Generator extends DB_DataObject
         }
         $body .= $this->derivedHookFunctions($input);
 
+        $body .= $this->_generateDefaultsArray($this->table);
+
         $body .= "{$n}    /* the code above is auto generated do not remove the tag below */";
         $body .= "{$n}    ###END_AUTOCODE{$n}";
 
@@ -1349,6 +1351,83 @@ class DB_DataObject_Generator extends DB_DataObject
                       "    }\n";
 
     }
+
+    function _generateDefaultsArray($table)
+    {
+        $__DB= &$GLOBALS['_DB_DATAOBJECT']['CONNECTIONS'][$this->_database_dsn_md5];
+        if (!in_array($__DB->phptype, array('mysql','mysqli'))) {
+            return; // cant handle non-mysql introspection for defaults.
+        }
+        $defs = $this->_generateDefinitionsTable();  // simplify this!?
+        $res = $__DB->getAll('DESCRIBE ' . $table,DB_FETCHMODE_ASSOC);
+        $aDefaults = array();
+        foreach($res as $aField) {
+            // this is initially very dumb... -> and it may mess up..
+            $type = $defs['table'][$aField['Field']];
+
+            //var_dump(array($ar['Field'], $ar['Default'], $defaults[$ar['Field']]));
+
+            $value = $aField['Default'];
+            $field = $aField['Field'];
+            $key   = $aField['Key'];
+            // what about multiple keys, foreign keys ?
+            if (   ($key == 'PRI')
+                || ($value === '')
+                || ($value === NULL)
+               )
+            {
+                continue;
+            }
+            else
+            {
+                switch (true) {
+
+                    case ($type & DB_DATAOBJECT_BOOL):
+                        $aDefaults[$field] = (int)(boolean) $value;
+                        break;
+
+                    case ($type & DB_DATAOBJECT_STR):
+                        $aDefaults[$field] =  "'" . addslashes($value) . "'";
+                        break;
+
+                    case ($type &  DB_DATAOBJECT_INT):
+                        $aDefaults[$field] = $value;
+                        break;
+
+                    case ($type & DB_DATAOBJECT_MYSQLTIMESTAMP): // not supported yet..
+                    case ($type & DB_DATAOBJECT_DATE):
+                    case ($type & DB_DATAOBJECT_TIME):
+                        if ($field == 'updated')
+                        {
+                            $aDefaults[$field] = '%DATE_TIME%';
+                        }
+                        else
+                        {
+                            $aDefaults[$field] = '%NO_DATE_TIME%';
+                        }
+                        break;
+
+                    default:
+                        $aDefaults[$field] = $value;
+                        break;
+
+                }
+            }
+        }
+        $ret = '';
+        if (!empty($aDefaults))
+        {
+            $ret = "\n".'    var $defaultValues = array('. "\n";
+                    foreach($aDefaults as $k=>$v)
+                    {
+                        $ret .= '                \''.addslashes($k).'\' => ' . $v . ",\n";
+
+                    }
+            $ret .= "                );\n";
+        }
+        return $ret;
+    }
+
     /**
     * Generate defaults Function - used generator_add_defaults or generator_no_ini is set.
     * Only supports mysql and mysqli ... welcome ideas for more..

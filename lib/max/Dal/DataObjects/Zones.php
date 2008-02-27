@@ -74,12 +74,21 @@ class DataObjects_Zones extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Zones',$k,$v); }
 
+    var $defaultValues = array(
+                'delivery' => 0,
+                'zonetype' => 0,
+                'width' => 0,
+                'height' => 0,
+                'appendtype' => 0,
+                'forceappend' => 'f',
+                'inventory_forecast_type' => 0,
+                'block' => 0,
+                'capping' => 0,
+                'session_capping' => 0,
+                );
+
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
-
-    var $defaultValues = array(
-        'forceappend' => 'f'
-    );
 
     /**
      * ON DELETE CASCADE is handled by parent class but we have
@@ -185,10 +194,6 @@ class DataObjects_Zones extends DB_DataObjectCommon
         $aAuditFields['key_desc']   = $this->zonename;
         switch ($actionid)
         {
-            case OA_AUDIT_ACTION_INSERT:
-            case OA_AUDIT_ACTION_DELETE:
-                        $aAuditFields['forceappend']    = $this->_formatValue('forceappend');
-                        break;
             case OA_AUDIT_ACTION_UPDATE:
                         if (!$this->affiliateid)
                         {
@@ -196,17 +201,6 @@ class DataObjects_Zones extends DB_DataObjectCommon
                         }
                         $aAuditFields['affiliateid']    = $this->affiliateid;
                         break;
-        }
-    }
-
-    function _formatValue($field)
-    {
-        switch ($field)
-        {
-            case 'forceappend':
-                 return $this->_boolToStr($this->$field);
-            default:
-                return $this->$field;
         }
     }
 
