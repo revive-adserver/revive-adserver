@@ -15,12 +15,12 @@ class DataObjects_Users extends DB_DataObjectCommon
     var $contact_name;                    // string(255)  not_null
     var $email_address;                   // string(64)  not_null
     var $username;                        // string(64)  unique_key
-    var $password;                        // string(64)  
-    var $language;                        // string(5)  
-    var $default_account_id;              // int(9)  
+    var $password;                        // string(64)
+    var $language;                        // string(5)
+    var $default_account_id;              // int(9)
     var $comments;                        // blob(65535)  blob
     var $active;                          // int(1)  not_null
-    var $sso_user_id;                     // int(11)  
+    var $sso_user_id;                     // int(11)
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
@@ -28,12 +28,12 @@ class DataObjects_Users extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Users',$k,$v); }
 
+    var $defaultValues = array(
+                'active' => 1,
+                );
+
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
-
-    var $defaultValues = array(
-        'active' => 1,
-    );
 
     /**
      * Handle all necessary operations when a user is inserted
@@ -223,15 +223,6 @@ class DataObjects_Users extends DB_DataObjectCommon
 
         // Do not log the password hash in the audit record, just the fact that it was changed
         if (isset($aAuditFields['password'])) { $aAuditFields['password'] = '******'; }
-        switch ($actionid)
-        {
-            case OA_AUDIT_ACTION_INSERT:
-                        break;
-            case OA_AUDIT_ACTION_UPDATE:
-                        break;
-            case OA_AUDIT_ACTION_DELETE:
-                        break;
-        }
     }
 }
 

@@ -309,6 +309,12 @@ class MAX_Dal_Common
     {
         return isset($this->orderListName[$listOrder]) ? $this->orderListName[$listOrder] : $this->orderListName[$this->defaultOrderListName];
     }
+
+    function _getTablename($tableName)
+    {
+        return $this->oDbh->quoteIdentifier($this->prefix.($this->conf['table'][$tableName] ? $this->conf['table'][$tableName] : $tableName), true);
+    }
+
 }
 
 ?>

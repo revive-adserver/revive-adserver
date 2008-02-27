@@ -86,15 +86,5 @@ class DataObjects_Account_user_assoc extends DB_DataObjectCommon
     function _buildAuditArray($actionid, &$aAuditFields)
     {
         $aAuditFields['key_desc']     = 'Account #'.$this->account_id.' -> User #'.$this->user_id;
-
-        switch ($actionid)
-        {
-            case OA_AUDIT_ACTION_INSERT:
-                        break;
-            case OA_AUDIT_ACTION_UPDATE:
-                        break;
-            case OA_AUDIT_ACTION_DELETE:
-                        break;
-        }
     }
 }

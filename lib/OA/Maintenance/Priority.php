@@ -103,9 +103,6 @@ class OA_Maintenance_Priority
             return false;
         }
 
-        // delete redundant data
-        $oDal->pruneDataSummaryAdZoneAssoc();
-
         // Release the MPE database-level lock
         $result = $oDal->releasePriorityLock();
         if (PEAR::isError($result)) {

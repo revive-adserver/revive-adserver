@@ -57,6 +57,15 @@ class DataObjects_Variables extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Variables',$k,$v); }
 
+    var $defaultValues = array(
+                'trackerid' => 0,
+                'datatype' => 'numeric',
+                'reject_if_empty' => 0,
+                'is_unique' => 0,
+                'unique_window' => 0,
+                'hidden' => 'f',
+                );
+
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
@@ -100,27 +109,8 @@ class DataObjects_Variables extends DB_DataObjectCommon
     function _buildAuditArray($actionid, &$aAuditFields)
     {
         $aAuditFields['key_desc']   = $this->name;
-        switch ($actionid)
-        {
-            case OA_AUDIT_ACTION_INSERT:
-            case OA_AUDIT_ACTION_DELETE:
-                        $aAuditFields['hidden']    = $this->_formatValue('hidden');
-                        break;
-            case OA_AUDIT_ACTION_UPDATE:
-                        break;
-        }
     }
 
-    function _formatValue($field)
-    {
-        switch ($field)
-        {
-            case 'hidden':
-                return $this->_boolToStr($this->$field);
-            default:
-                return $this->$field;
-        }
-    }
 }
 
 ?>

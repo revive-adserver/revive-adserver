@@ -40,6 +40,7 @@ require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
 require_once MAX_PATH . '/lib/OA/Email.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Statistics.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Pruning.php';
 require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once MAX_PATH . '/lib/OA/Preferences.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
@@ -159,6 +160,7 @@ class OA_Maintenance
             $this->_runOpenadsSync();
             $this->_runOpenadsCentral();
             $this->_runGeneralPruning();
+            $this->_runPriorityPruning();
             OA::debug('Midnight Maintenance Tasks Completed', PEAR_LOG_INFO);
         }
     }
@@ -273,6 +275,12 @@ class OA_Maintenance
         OA::debug('  Finished OpenX Central process.', PEAR_LOG_DEBUG);
     }
 
+    function _runPriorityPruning()
+    {
+        $oDal = new OA_Maintenance_Pruning();
+        $oDal->run();
+    }
+
     /**
      * A private method to run the "midnight" general pruning tasks.
      *
@@ -317,7 +325,6 @@ class OA_Maintenance
         // Make sure that the maintenance delivery cache is regenerated
         MAX_cacheCheckIfMaintenanceShouldRun(false);
     }
-
 }
 
 ?>

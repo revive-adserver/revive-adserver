@@ -50,6 +50,13 @@ class DataObjects_Userlog extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Userlog',$k,$v); }
 
+    var $defaultValues = array(
+                'timestamp' => 0,
+                'usertype' => 0,
+                'userid' => 0,
+                'action' => 0,
+                );
+
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 }

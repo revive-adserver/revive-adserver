@@ -49,6 +49,13 @@ class DataObjects_Tracker_append extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Tracker_append',$k,$v); }
 
+    var $defaultValues = array(
+                'tracker_id' => 0,
+                'rank' => 0,
+                'paused' => 'f',
+                'autotrack' => 'f',
+                );
+
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 }

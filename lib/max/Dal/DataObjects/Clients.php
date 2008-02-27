@@ -71,14 +71,17 @@ class DataObjects_Clients extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Clients',$k,$v); }
 
+    var $defaultValues = array(
+                'agencyid' => 0,
+                'report' => 't',
+                'reportinterval' => 7,
+                'reportlastdate' => '%NO_DATE_TIME%',
+                'reportdeactivate' => 't',
+                'lb_reporting' => 0,
+                );
+
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
-
-    var $defaultValues = array(
-        'report' => 't',
-        'reportdeactivate' => 't'
-    );
-
 
     /**
      * Returns clientid.
@@ -226,30 +229,6 @@ class DataObjects_Clients extends DB_DataObjectCommon
     function _buildAuditArray($actionid, &$aAuditFields)
     {
         $aAuditFields['key_desc']   = $this->clientname;
-        switch ($actionid)
-        {
-            case OA_AUDIT_ACTION_INSERT:
-            case OA_AUDIT_ACTION_DELETE:
-                        $aAuditFields['report']   = $this->_formatValue('report');
-                        $aAuditFields['reportdeactivate'] = $this->_formatValue('reportdeactivate');
-                        $aAuditFields['lb_reporting'] = $this->_formatValue('lb_reporting');
-                        break;
-            case OA_AUDIT_ACTION_UPDATE:
-                        break;
-        }
-    }
-
-    function _formatValue($field)
-    {
-        switch ($field)
-        {
-            case 'report':
-            case 'reportdeactivate':
-            case 'lb_reporting':
-                return $this->_boolToStr($this->$field);
-            default:
-                return $this->$field;
-        }
     }
 
 }

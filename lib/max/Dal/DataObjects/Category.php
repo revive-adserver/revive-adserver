@@ -73,25 +73,8 @@ class DataObjects_Category extends DB_DataObjectCommon
     function _buildAuditArray($actionid, &$aAuditFields)
     {
         $aAuditFields['key_desc']   = $this->name;
-        switch ($actionid)
-        {
-            case OA_AUDIT_ACTION_INSERT:
-                        break;
-            case OA_AUDIT_ACTION_UPDATE:
-                        break;
-            case OA_AUDIT_ACTION_DELETE:
-                        break;
-        }
     }
 
-    function _formatValue($field)
-    {
-        switch ($field)
-        {
-            default:
-                return $this->$field;
-        }
-    }
 }
 
 ?>

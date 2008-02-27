@@ -194,6 +194,15 @@ class LibAclTest extends DalUnitTestCase
     {
         $block = 125;
 
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->block = $block;
+        $bannerId = DataGenerator::generateOne($doBanners);
+    }
+
+    function OLD_test_MAX_AclCopy()
+    {
+        $block = 125;
+
         $dg = new DataGenerator();
         $dg->setDataOne('banners', array('block' => $block));
         $bannerId = $dg->generateOne('banners');
@@ -236,27 +245,35 @@ class LibAclTest extends DalUnitTestCase
     {
         DataGenerator::cleanUp(array('acls'));
 
-        $generator = new DataGenerator();
-        $bannerid = $generator->generateOne('banners');
+        $doBanners = OA_Dal::factoryDO('banners');
+        $bannerId = DataGenerator::generateOne($doBanners);
 
-        $generator->setData('acls', array(
-            'bannerid' => array($bannerid),
-            'logical' => array('and'),
-            'type' => array('Time:Day', 'Client:Domain'),
-            'comparison' => array('=~', '!~'),
-            'data' => array('0,1', 'openx.org'),
-            'executionorder' => array(1,0)
-        ));
-        $generator->generate('acls', 2);
+        $doAcls = OA_Dal::factoryDO('acls');
+        $doAcls->bannerid  = $bannerId;
+        $doAcls->logical = 'and';
+        $doAcls->type = 'Time:Day';
+        $doAcls->comparison = '=~';
+        $doAcls->data = '0,1';
+        $doAcls->executionorder = 1;
+        $aclsId1 = DataGenerator::generateOne($doAcls);
+
+        $doAcls = OA_Dal::factoryDO('acls');
+        $doAcls->bannerid  = $bannerId;
+        $doAcls->logical = 'and';
+        $doAcls->type = 'Client:Domain';
+        $doAcls->comparison = '!~';
+        $doAcls->data = 'openx.org';
+        $doAcls->executionorder = 0;
+        $aclsId2 = DataGenerator::generateOne($doAcls);
 
         $this->assertTrue(MAX_AclReCompileAll());
 
-        $doBanners =& OA_Dal::staticGetDO('banners', $bannerid);
+        $doBanners =& OA_Dal::staticGetDO('banners', $bannerId);
         $this->assertEqual(
             "MAX_checkClient_Domain('openx.org', '!~') and MAX_checkTime_Day('0,1', '=~')",
             $doBanners->compiledlimitation);
         $this->assertEqual("Client:Domain,Time:Day", $doBanners->acl_plugins);
-
     }
+
 }
 ?>

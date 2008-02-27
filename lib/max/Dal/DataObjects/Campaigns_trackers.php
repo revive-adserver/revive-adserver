@@ -49,6 +49,14 @@ class DataObjects_Campaigns_trackers extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Campaigns_trackers',$k,$v); }
 
+    var $defaultValues = array(
+                'campaignid' => 0,
+                'trackerid' => 0,
+                'viewwindow' => 0,
+                'clickwindow' => 0,
+                'status' => 1,
+                );
+
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
@@ -94,26 +102,12 @@ class DataObjects_Campaigns_trackers extends DB_DataObjectCommon
         $aAuditFields['key_desc']       = '';
         switch ($actionid)
         {
-            case OA_AUDIT_ACTION_INSERT:
-            case OA_AUDIT_ACTION_DELETE:
-                        $aAuditFields['status']     = $this->_formatValue('status');
-                        break;
             case OA_AUDIT_ACTION_UPDATE:
                         $aAuditFields['campaignid']   = $this->campaignid;
                         break;
         }
     }
 
-    function _formatValue($field)
-    {
-        switch ($field)
-        {
-            case 'status':
-                return $this->_boolToStr($this->$field);
-            default:
-                return $this->$field;
-        }
-    }
 }
 
 ?>

@@ -178,6 +178,7 @@ compactStats                        = true
 compactStatsGrace                   = 604800
 
 channelForecasting                  = false
+pruneCompletedCampaignsSummaryData  = false
 ;channelForecastingDaysBack          = 30     ; How many days from history should be used for forecasting
 ;channelForecastingDaysAhead         = 7      ; If campaign expire date is empty forecast for this number of days
 ;channelForecastingMaxDaysAhead      = 30     ; Even if campaign expire date is biger do not forecast more than

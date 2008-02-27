@@ -49,12 +49,6 @@ class OA_Dal_Maintenance_Common extends MAX_Dal_Common
         parent::MAX_Dal_Common();
     }
 
-    function _getTablename($tableName)
-    {
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        return $this->oDbh->quoteIdentifier($aConf['table']['prefix'].($aConf['table'][$tableName] ? $aConf['table'][$tableName] : $tableName), true);
-    }
-
     /**
      * A method to store data about the times that various Maintenance
      * processes ran.
@@ -408,31 +402,6 @@ class OA_Dal_Maintenance_Common extends MAX_Dal_Common
         // Find the largest, active tracker click connection window
         $clickWindow = $this->maxConnectionWindow('click');
         return array($impressionWindow, $clickWindow);
-    }
-
-    /**
-     * logs the overhead of a table
-     *
-     * @param string $table : name of table without prefix
-     */
-    function logTableOverhead($table)
-    {
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        $table = $aConf['table']['prefix'].$aConf['table'][$table];
-        $aResult = $this->oDbh->manager->getTableStatus($table);
-        if (isset($aResult[0]['data_free']) && is_numeric($aResult[0]['data_free']))
-        {
-            $overhead = $aResult[0]['data_free'];
-            OA::debug('Table '.$table.' overhead (number of allocated but unused bytes) = '.$overhead);
-            if ($overhead > 0)
-            {
-                OA::debug('To reclaim diskspace, consider optimising this table');
-            }
-        }
-        else
-        {
-            OA::debug('Table '.$table.' overhead (number of allocated but unused bytes) = unkown');
-        }
     }
 
 }

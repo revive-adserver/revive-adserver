@@ -73,12 +73,30 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Campaigns',$k,$v); }
 
+    var $defaultValues = array(
+                'clientid' => 0,
+                'views' => -1,
+                'clicks' => -1,
+                'conversions' => -1,
+                'expire' => '%NO_DATE_TIME%',
+                'activate' => '%NO_DATE_TIME%',
+                'priority' => 0,
+                'weight' => 1,
+                'target_impression' => 0,
+                'target_click' => 0,
+                'target_conversion' => 0,
+                'anonymous' => 'f',
+                'companion' => 0,
+                'block' => 0,
+                'capping' => 0,
+                'session_capping' => 0,
+                'status' => 0,
+                'an_status' => 0,
+                'as_reject_reason' => 0,
+                );
+
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
-
-    var $defaultValues = array(
-        'anonymous' => 'f'
-    );
 
     function insert()
     {
@@ -163,26 +181,12 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
         $aAuditFields['key_desc']     = $this->campaignname;
         switch ($actionid)
         {
-            case OA_AUDIT_ACTION_INSERT:
-            case OA_AUDIT_ACTION_DELETE:
-                        $aAuditFields['anonymous']  = $this->_formatValue('anonymous');
-                        break;
             case OA_AUDIT_ACTION_UPDATE:
                         $aAuditFields['clientid']   = $this->clientid;
                         break;
         }
     }
 
-    function _formatValue($field)
-    {
-        switch ($field)
-        {
-            case 'anonymous':
-                return $this->_boolToStr($this->$field);
-            default:
-                return $this->$field;
-        }
-    }
 }
 
 ?>

@@ -46,6 +46,10 @@ class DataObjects_Plugins_channel_delivery_assoc extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Plugins_channel_delivery_assoc',$k,$v); }
 
+    var $defaultValues = array(
+                'rule_order' => 0,
+                );
+
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 }

@@ -21,6 +21,10 @@ class DataObjects_Account_user_permission_assoc extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Account_user_permission_assoc',$k,$v); }
 
+    var $defaultValues = array(
+                'is_allowed' => 1,
+                );
+
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
@@ -63,17 +67,6 @@ class DataObjects_Account_user_permission_assoc extends DB_DataObjectCommon
      */
     function _buildAuditArray($actionid, &$aAuditFields)
     {
-
         $aAuditFields['key_desc']     = 'Account #'.$this->account_id.' -> User #'.$this->user_id . ' -> Permission #' . $this->permission_id;
-
-        switch ($actionid)
-        {
-            case OA_AUDIT_ACTION_INSERT:
-                        break;
-            case OA_AUDIT_ACTION_UPDATE:
-                        break;
-            case OA_AUDIT_ACTION_DELETE:
-                        break;
-        }
     }
 }

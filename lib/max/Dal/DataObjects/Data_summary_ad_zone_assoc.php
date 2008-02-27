@@ -61,6 +61,11 @@ class DataObjects_Data_summary_ad_zone_assoc extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Data_summary_ad_zone_assoc',$k,$v); }
 
+    var $defaultValues = array(
+                'priority_factor_limited' => 0,
+                'to_be_delivered' => 1,
+                );
+
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 }

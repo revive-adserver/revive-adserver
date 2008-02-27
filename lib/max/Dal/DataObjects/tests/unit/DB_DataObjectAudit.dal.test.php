@@ -302,7 +302,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aAudit['account_id'],$doAccount_User_Perm_Assoc->account_id);
         $this->assertEqual($aAudit['user_id'],$doAccount_User_Perm_Assoc->user_id);
         $this->assertEqual($aAudit['permission_id'],$doAccount_User_Perm_Assoc->permission_id);
-        $this->assertEqual($aAudit['is_allowed'],$doAccount_User_Perm_Assoc->is_allowed);
+        $this->assertEqual($aAudit['is_allowed'],'true');
 
         // generate a few more to ensure that the correct update is audited
         $doAccount_User_Perm_Assoc = OA_Dal::factoryDO('account_user_permission_assoc');
@@ -336,8 +336,8 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_UPDATE);
         $aAudit = unserialize($oAudit->details);
         $this->assertEqual($oAudit->username,OA_TEST_AUDIT_USERNAME);
-        $this->assertEqual($aAudit['is_allowed']['is'],'0');
-        $this->assertEqual($aAudit['is_allowed']['was'],'1');
+        $this->assertEqual($aAudit['is_allowed']['is'],'false');
+        $this->assertEqual($aAudit['is_allowed']['was'],'true');
 
         $doAccount_User_Perm_Assoc->delete();
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_DELETE);
@@ -1079,9 +1079,9 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aAudit['array']['ad_id'],$bannerId);
         $this->assertEqual($aAudit['array']['zone_id'],0);
         $this->assertEqual($aAudit['array']['link_type'],0);
-        $this->assertNull($aAudit['array']['priority']);
-        $this->assertNull($aAudit['array']['priority_factor']);
-        $this->assertNull($aAudit['array']['to_be_delivered']);
+        $this->assertEqual($aAudit['array']['priority'],0);
+        $this->assertEqual($aAudit['array']['priority_factor'],0);
+        $this->assertEqual($aAudit['array']['to_be_delivered'],0);
 
         // Test 3 :test the insert zone audit
         $aAudit = $aResult[16];

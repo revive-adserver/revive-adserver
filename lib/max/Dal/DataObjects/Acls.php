@@ -50,6 +50,11 @@ class DataObjects_Acls extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Acls',$k,$v); }
 
+    var $defaultValues = array(
+                'logical' => 'and',
+                'comparison' => '==',
+                );
+
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
@@ -104,22 +109,9 @@ class DataObjects_Acls extends DB_DataObjectCommon
         $aAuditFields['key_desc']     = $this->type;
         switch ($actionid)
         {
-            case OA_AUDIT_ACTION_INSERT:
-                        break;
             case OA_AUDIT_ACTION_UPDATE:
                         $aAuditFields['bannerid'] = $this->bannerid;
                         break;
-            case OA_AUDIT_ACTION_DELETE:
-                        break;
-        }
-    }
-
-    function _formatValue($field)
-    {
-        switch ($field)
-        {
-            default:
-                return $this->$field;
         }
     }
 

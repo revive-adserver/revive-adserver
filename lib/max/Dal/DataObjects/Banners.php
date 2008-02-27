@@ -88,15 +88,29 @@ class DataObjects_Banners extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Banners',$k,$v); }
 
+    var $defaultValues = array(
+                'campaignid' => 0,
+                'contenttype' => 'gif',
+                'pluginversion' => 0,
+                'storagetype' => 'sql',
+                'width' => 0,
+                'height' => 0,
+                'weight' => 1,
+                'seq' => 0,
+                'autohtml' => 't',
+                'block' => 0,
+                'capping' => 0,
+                'session_capping' => 0,
+                'appendtype' => 0,
+                'bannertype' => 0,
+                'alt_contenttype' => 'gif',
+                'acls_updated' => '%NO_DATE_TIME%',
+                'transparent' => 0,
+                'status' => 0,
+                );
+
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
-
-    var $defaultValues = array(
-        'contenttype' => 'gif',
-        'storagetype' => 'sql',
-        'autohtml' => 't',
-        'alt_contenttype' => 'gif'
-    );
 
     function delete($useWhere = false, $cascade = true, $parentid = null)
     {
@@ -231,33 +245,9 @@ class DataObjects_Banners extends DB_DataObjectCommon
         $aAuditFields['key_desc']   = $this->description;
         switch ($actionid)
         {
-            case OA_AUDIT_ACTION_INSERT:
-            case OA_AUDIT_ACTION_DELETE:
-                        $aAuditFields['active']        = $this->_formatValue('active');
-                        $aAuditFields['autohtml']      = $this->_formatValue('autohtml');
-                        $aAuditFields['transparent']   = $this->_formatValue('transparent');
-                        $aAuditFields['htmltemplate']  = 'data not audited';
-                        $aAuditFields['htmlcache']     = 'data not audited';
-                        break;
             case OA_AUDIT_ACTION_UPDATE:
                         $aAuditFields['campaignid']    = $this->campaignid;
                         break;
-        }
-    }
-
-    function _formatValue($field)
-    {
-        switch ($field)
-        {
-            case 'active':
-            case 'autohtml':
-            case 'transparent':
-                return $this->_boolToStr($this->$field);
-            case 'htmltemplate':
-            case 'htmlcache':
-                return 'data not audited';
-            default:
-                return $this->$field;
         }
     }
 

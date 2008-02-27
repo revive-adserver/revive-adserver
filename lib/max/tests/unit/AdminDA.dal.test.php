@@ -84,6 +84,22 @@ class Admin_DaTest extends DalUnitTestCase
         return (int) $result['max'];
     }
 
+    function _haveStats($array)
+    {
+        if (!is_array($array))
+        {
+            return false;
+        }
+        $stats = each($array);
+        return (is_array($stats)
+                && isset($stats[1])
+                && isset($stats[1]['sum_requests'])
+                && isset($stats[1]['sum_views'])
+                && isset($stats[1]['sum_clicks'])
+                && isset($stats[1]['sum_conversions'])
+                );
+    }
+
 
     // +---------------------------------------+
     // | Test relational/constraint-related    |
@@ -969,10 +985,14 @@ class Admin_DaTest extends DalUnitTestCase
         $this->assertTrue(count($ret));
 
         $stats = each($ret);
-        $this->assertTrue(array_key_exists('advertiser_id', $stats[1]));
-        $this->assertTrue(array_key_exists('placement_id', $stats[1]));
-        $this->assertTrue(array_key_exists('name', $stats[1]));
-        $this->assertTrue(array_key_exists('status', $stats[1]));
+        $this->assertTrue(is_array($stats));
+        if (is_array($stats))
+        {
+            $this->assertTrue(array_key_exists('advertiser_id', $stats[1]));
+            $this->assertTrue(array_key_exists('placement_id', $stats[1]));
+            $this->assertTrue(array_key_exists('name', $stats[1]));
+            $this->assertTrue(array_key_exists('status', $stats[1]));
+        }
     }
 
     function testFromCacheGetPlacement()
@@ -1000,10 +1020,7 @@ class Admin_DaTest extends DalUnitTestCase
     {
         $this->_generateStats();
         $ret = Admin_DA::getPlacementsStats(array('advertiser_id' => $this->clientId));
-        $this->assertTrue(is_array($ret));
-
-        $stats = each($ret);
-
+        $this->assertTrue($this->_haveStats($ret));
         /*
         Array
         (
@@ -1018,76 +1035,41 @@ class Admin_DaTest extends DalUnitTestCase
             [sum_conversions] => 11575
         )
         */
-
-        $this->assertTrue(array_key_exists('sum_requests', $stats[1]));
-        $this->assertTrue(array_key_exists('sum_views', $stats[1]));
-        $this->assertTrue(array_key_exists('sum_clicks', $stats[1]));
-        $this->assertTrue(array_key_exists('sum_conversions', $stats[1]));
     }
 
     function testGetPlacementsStatsTwoParams()
     {
         $this->_generateStats();
         $ret = Admin_DA::getPlacementsStats(array('advertiser_id' => $this->clientId, 'placement_id' => $this->campaignId));
-        $this->assertTrue(is_array($ret));
-
-        $stats = each($ret);
-        $this->assertTrue(array_key_exists('sum_requests', $stats[1]));
-        $this->assertTrue(array_key_exists('sum_views', $stats[1]));
-        $this->assertTrue(array_key_exists('sum_clicks', $stats[1]));
-        $this->assertTrue(array_key_exists('sum_conversions', $stats[1]));
+        $this->assertTrue($this->_haveStats($ret));
     }
 
     function testGetAdvertisersStats()
     {
         $this->_generateStats();
         $ret = Admin_DA::getAdvertisersStats(array('agency_id' => $this->agencyId));
-        $this->assertTrue(is_array($ret));
-
-        $stats = each($ret);
-        $this->assertTrue(array_key_exists('sum_requests', $stats[1]));
-        $this->assertTrue(array_key_exists('sum_views', $stats[1]));
-        $this->assertTrue(array_key_exists('sum_clicks', $stats[1]));
-        $this->assertTrue(array_key_exists('sum_conversions', $stats[1]));
+        $this->assertTrue($this->_haveStats($ret));
     }
 
     function testGetPublishersStats()
     {
         $this->_generateStats();
         $ret = Admin_DA::getPublishersStats(array('agency_id' => $this->agencyId));
-        $this->assertTrue(is_array($ret));
-
-        $stats = each($ret);
-        $this->assertTrue(array_key_exists('sum_requests', $stats[1]));
-        $this->assertTrue(array_key_exists('sum_views', $stats[1]));
-        $this->assertTrue(array_key_exists('sum_clicks', $stats[1]));
-        $this->assertTrue(array_key_exists('sum_conversions', $stats[1]));
+        $this->assertTrue($this->_haveStats($ret));
     }
 
     function testGetZonesStats()
     {
         $this->_generateStats();
         $ret = Admin_DA::getZonesStats(array('publisher_id' => $this->affiliateId));
-        $this->assertTrue(is_array($ret));
-
-        $stats = each($ret);
-        $this->assertTrue(array_key_exists('sum_requests', $stats[1]));
-        $this->assertTrue(array_key_exists('sum_views', $stats[1]));
-        $this->assertTrue(array_key_exists('sum_clicks', $stats[1]));
-        $this->assertTrue(array_key_exists('sum_conversions', $stats[1]));
+        $this->assertTrue($this->_haveStats($ret));
     }
 
     function testGetAdsStats()
     {
         $this->_generateStats();
         $ret = Admin_DA::getAdsStats(array('placement_id' => $this->campaignId));
-        $this->assertTrue(is_array($ret));
-
-        $stats = each($ret);
-        $this->assertTrue(array_key_exists('sum_requests', $stats[1]));
-        $this->assertTrue(array_key_exists('sum_views', $stats[1]));
-        $this->assertTrue(array_key_exists('sum_clicks', $stats[1]));
-        $this->assertTrue(array_key_exists('sum_conversions', $stats[1]));
+        $this->assertTrue($this->_haveStats($ret));
     }
 
     // +---------------------------------------+
@@ -1100,13 +1082,7 @@ class Admin_DaTest extends DalUnitTestCase
         $this->_generateStats();
 
         $ret = Admin_DA::fromCache('getPlacementsStats', array('advertiser_id' => $this->clientId));
-        $this->assertTrue(is_array($ret));
-        $this->assertTrue(count($ret));
-        $stats = each($ret);
-        $this->assertTrue(array_key_exists('sum_requests', $stats[1]));
-        $this->assertTrue(array_key_exists('sum_views', $stats[1]));
-        $this->assertTrue(array_key_exists('sum_clicks', $stats[1]));
-        $this->assertTrue(array_key_exists('sum_conversions', $stats[1]));
+        $this->assertTrue($this->_haveStats($ret));
     }
 
     function testFromCacheGetAdvertisersStats()
@@ -1147,49 +1123,14 @@ class Admin_DaTest extends DalUnitTestCase
 
     function _generateStats()
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh =& OA_DB::singleton();
 
-        $dg = new DataGenerator();
-        $this->agencyId = $dg->generateOne('agency');
-        $dg->setDataOne('clients', array('agencyid' => $this->agencyId));
-        $this->clientId = $dg->generateOne('clients');
-        $dg->setDataOne('campaigns', array('clientid' => $this->clientId));
-        $this->campaignId = $dg->generateOne('campaigns');
-        $dg->setDataOne('banners', array('campaignid' => $this->campaignId));
-        $this->bannerId = $dg->generateOne('banners');
-        $dg->setDataOne('affiliates', array('agencyid' => $this->agencyId));
-        $this->affiliateId = $dg->generateOne('affiliates');
-        $dg->setDataOne('zones', array('affiliateid' => $this->affiliateId));
-        $this->zoneId = $dg->generateOne('zones');
-
-        // Populate data_summary_ad_hourly
-        $statsTable = $dbh->quoteIdentifier($conf['table']['prefix'] . 'data_summary_ad_hourly', true);
-        for ($hour = 0; $hour < 24; $hour ++) {
-            $sql = "INSERT INTO $statsTable
-                (
-                    date_time,
-                    ad_id,
-                    creative_id,
-                    zone_id,
-                    requests,
-                    impressions,
-                    clicks,
-                    conversions,
-                    total_basket_value
-                ) VALUES (
-                    '". sprintf('%s %02d:00:00', substr(OA::getNow(), 0, 10), $hour) ."',
-                    $this->bannerId,
-                    ".rand(1, 999).",
-                    $this->zoneId,
-                    ".rand(1, 999).",
-                    ".rand(1, 999).",
-                    ".rand(1, 999).",
-                    ".rand(1, 999).",
-                    0
-                )";
-            $result = $dbh->exec($sql);
-        }
+        $this->aIds = TestEnv::loadData('data_summary_ad_hourly_001');
+        $this->agencyId = $this->aIds['agency'][1];
+        $this->clientId = $this->aIds['clients'][1];
+        $this->campaignId = $this->aIds['campaigns'][1];
+        $this->bannerId = $this->aIds['banners'][1];
+        $this->affiliateId = $this->aIds['affiliates'][1];
+        $this->zoneId = $this->aIds['zones'][1];
     }
 
 }

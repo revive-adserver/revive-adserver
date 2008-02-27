@@ -1,5 +1,4 @@
 <?php
-
 /*
 +---------------------------------------------------------------------------+
 | Openads v${RELEASE_MAJOR_MINOR}                                                              |
@@ -26,19 +25,54 @@ $Id$
 */
 
 /**
- * @package    Devel Utils
- * @subpackage Test Data
- * @author
+ *
+ * @abstract A class for generating/loading a dataset for delivery testing
+ * @package Test Classes
+ * @author Monique Szpak <monique.szpak@openads.org>
+ *
  */
 
-if (!defined('TD_PATH')) {
-    define('TD_PATH', MAX_PATH.'/www/devel/testdata/');
+require_once MAX_PATH . '/tests/testClasses/OATestData_DataObjects.php';
+class OA_Test_Data_data_summary_ad_hourly_001 extends OA_Test_Data_DataObjects
+{
+
+    function OA_Test_Data_data_summary_ad_hourly_001()
+    {
+    }
+
+    /**
+     * method for extending OA_Test_Data_DataObject
+     */
+
+    function generateTestData()
+    {
+        if (!parent::init())
+        {
+            return false;
+        }
+
+        // Disable Auditing while loading the test data:
+        $GLOBALS['_MAX']['CONF']['audit']['enabled'] = false;
+
+        parent::generateTestData();
+
+        for ($hour = 0; $hour < 24; $hour ++)
+        {
+            $doDSAH = OA_Dal::factoryDO('data_summary_ad_hourly');
+            $doDSAH->date_time = sprintf('%s %02d:00:00', substr(OA::getNow(), 0, 10), $hour);
+            $doDSAH->ad_id = $this->aIds['banners'][1];
+            $doDSAH->creative_id = rand(1, 999);
+            $doDSAH->zone_id = $this->aIds['zones'][1];
+            $doDSAH->requests = rand(1, 999);
+            $doDSAH->impressions = rand(1, 999);
+            $doDSAH->clicks = rand(1, 999);
+            $doDSAH->conversions = rand(1, 999);
+            $doDSAH->total_basket_value = 0;
+            $this->aIds['DSAH'][] = DataGenerator::generateOne($doDSAH);
+        }
+        return $this->aIds;
+    }
+
 }
-define('TD_TEMPLATES', SIM_PATH.'/templates');
-define('TD_DATAPATH', MAX_PATH.'/tests/datasets/mdb2schema/');
-
-error_reporting(E_ALL ^ E_NOTICE);
-define('TEST_ENVIRONMENT_RUNNING', true);
-
-
 ?>
+

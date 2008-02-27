@@ -98,6 +98,7 @@ class Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedAds extend
         // Test 3
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->updated = $oDateNow->format('%Y-%m-%d %H:%M:%S');
+        $doCampaigns->priority = 1;
         $doCampaigns->status  = OA_ENTITY_STATUS_RUNNING;
         $idCampaign = DataGenerator::generateOne($doCampaigns, true);
 
@@ -116,6 +117,7 @@ class Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedAds extend
         // Test 4
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->updated = $oDateNow->format('%Y-%m-%d %H:%M:%S');
+        $doCampaigns->priority = 1;
         $doCampaigns->status  = OA_ENTITY_STATUS_RUNNING;
         $idCampaign = DataGenerator::generateOne($doCampaigns, true);
 
@@ -135,6 +137,7 @@ class Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedAds extend
         // Test 5
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->updated = $oDateNow->format('%Y-%m-%d %H:%M:%S');
+        $doCampaigns->priority = 1;
         $doCampaigns->status  = OA_ENTITY_STATUS_RUNNING;
         $idCampaign = DataGenerator::generateOne($doCampaigns, true);
 
@@ -154,6 +157,7 @@ class Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedAds extend
         // Test 6
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->updated = $oDateNow->format('%Y-%m-%d %H:%M:%S');
+        $doCampaigns->priority = 1;
         $doCampaigns->status  = OA_ENTITY_STATUS_RUNNING;
         $idCampaign = DataGenerator::generateOne($doCampaigns, true);
 
@@ -172,6 +176,7 @@ class Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedAds extend
         // Test 7
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->updated = $oDateNow->format('%Y-%m-%d %H:%M:%S');
+        $doCampaigns->priority = 1;
         $doCampaigns->status  = OA_ENTITY_STATUS_AWAITING;
         $idCampaign = DataGenerator::generateOne($doCampaigns, true);
 
@@ -190,6 +195,7 @@ class Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedAds extend
         // Test 8
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->updated = $oDateNow->format('%Y-%m-%d %H:%M:%S');
+        $doCampaigns->priority = 1;
         $doCampaigns->status  = OA_ENTITY_STATUS_AWAITING;
         $idCampaign = DataGenerator::generateOne($doCampaigns, true);
 
@@ -209,6 +215,7 @@ class Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedAds extend
         $doCampaigns = OA_Dal::factoryDO('campaigns');
 
         $doCampaigns->updated = $oDateNow->format('%Y-%m-%d %H:%M:%S');
+        $doCampaigns->priority = 1;
         $doCampaigns->status  = OA_ENTITY_STATUS_RUNNING;
         $aIdCampaignsActive = DataGenerator::generate($doCampaigns, 2, true);
         $doCampaigns->status  = OA_ENTITY_STATUS_AWAITING;

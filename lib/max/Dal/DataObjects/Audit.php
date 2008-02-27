@@ -43,7 +43,6 @@ class DataObjects_Audit extends DB_DataObjectCommon
     var $__table = 'audit';                           // table name
     var $auditid;                         // int(9)  not_null primary_key auto_increment
     var $actionid;                        // int(9)  not_null
-    var $account_id;                      // int(9)  not_null
     var $context;                         // string(255)  not_null multiple_key
     var $contextid;                       // int(9)  
     var $parentid;                        // int(9)  multiple_key
@@ -52,12 +51,18 @@ class DataObjects_Audit extends DB_DataObjectCommon
     var $username;                        // string(64)  multiple_key
     var $usertype;                        // int(4)  not_null multiple_key
     var $updated;                         // datetime(19)  multiple_key binary
+    var $account_id;                      // int(9)  not_null multiple_key
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Audit',$k,$v); }
+
+    var $defaultValues = array(
+                'userid' => 0,
+                'usertype' => 0,
+                );
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

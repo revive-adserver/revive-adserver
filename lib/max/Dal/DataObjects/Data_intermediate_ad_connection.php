@@ -91,6 +91,11 @@ class DataObjects_Data_intermediate_ad_connection extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Data_intermediate_ad_connection',$k,$v); }
 
+    var $defaultValues = array(
+                'connection_status' => 4,
+                'inside_window' => 0,
+                );
+
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 }

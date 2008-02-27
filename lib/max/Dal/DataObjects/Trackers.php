@@ -58,13 +58,19 @@ class DataObjects_Trackers extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Trackers',$k,$v); }
 
+    var $defaultValues = array(
+                'clientid' => 0,
+                'viewwindow' => 0,
+                'clickwindow' => 0,
+                'blockwindow' => 0,
+                'status' => 1,
+                'type' => 1,
+                'linkcampaigns' => 'f',
+                'variablemethod' => 'default',
+                );
+
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
-
-    var $defaultValues = array(
-        'linkcampaigns' => 'f',
-        'variablemethod' => 'default'
-    );
 
     function duplicate()
     {
@@ -147,26 +153,12 @@ class DataObjects_Trackers extends DB_DataObjectCommon
         $aAuditFields['key_desc']     = $this->trackername;
         switch ($actionid)
         {
-            case OA_AUDIT_ACTION_INSERT:
-                        break;
             case OA_AUDIT_ACTION_UPDATE:
                         $aAuditFields['clientid'] = $this->clientid;
-                        break;
-            case OA_AUDIT_ACTION_DELETE:
                         break;
         }
     }
 
-    function _formatValue($field)
-    {
-        switch ($field)
-        {
-            case 'linkcampaigns':
-                return $this->_boolToStr($this->$field);
-            default:
-                return $this->$field;
-        }
-    }
 }
 
 ?>
