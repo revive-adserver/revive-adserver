@@ -61,8 +61,8 @@ $advertiserId   = MAX_getValue('advertiserId',    0);
 $campaignId     = MAX_getValue('campaignId',      0);
 $publisherId    = MAX_getValue('publisherId',     0);
 $zoneId         = MAX_getValue('zoneId',          0);
-$startDate      = MAX_getStoredValue('period_start');
-$endDate        = MAX_getStoredValue('period_end');
+$startDate      = MAX_getStoredValue('period_start', 0);
+$endDate        = MAX_getStoredValue('period_end', 0);
 $periodPreset   = MAX_getValue('period_preset', 'all_events');
 
 //  paging related input variables
