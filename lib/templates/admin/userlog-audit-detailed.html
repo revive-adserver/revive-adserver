@@ -43,7 +43,7 @@
 	    </thead>
 	    <tbody>
             {foreach from=$aAuditDetail.details key=key item=value name=details}
-            {cycle values='odd,even' assign=rowClass} 
+            {cycle values='odd,even' assign=rowClass}
                 {if is_array($value)}
             <tr class="{$rowClass}">
                 <td>{$key}</td>
@@ -58,8 +58,8 @@
                 {/if}
             {/foreach}
 	    </tbody>
-    </table>    
-    
+    </table>
+
     {if count($aAuditDetail.children) > 0}
     <p class="tableTitle">Children History</p>
     <table class="data-grid table">
@@ -78,13 +78,13 @@
                 <th width="10%">&nbsp;</th>
             </tr>
             {foreach from=$aAuditDetail.children key=key item=aValue name=info}
-            {cycle values='odd,even' assign=rowClass} 
+            {cycle values='odd,even' assign=rowClass}
             <tr class="{$rowClass}">
                 <td>{$aValue.updated}</td>
                 <td>
-                    {$aValue.username} has {$aValue.action} {$aValue.context} {if !empty($aValue.contextid)}(#{$aValue.contextid}){/if}
+                    {$aValue.username} {$aValue.action} {$aValue.context} {if !empty($aValue.contextid)}(#{$aValue.contextid}){/if}
                     {if !empty($aValue.parentcontext)}
-                        for {$aValue.parentcontext} (#{$aValue.parentcontextid})
+                        in {$aValue.parentcontext} (#{$aValue.parentcontextid})
                     {/if}
                     {if !empty($aValue.hasChildren)}
                         and additional items
