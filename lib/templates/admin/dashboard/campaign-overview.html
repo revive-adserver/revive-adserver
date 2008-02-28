@@ -42,7 +42,7 @@ $Id$
         <!-- normal view -->
         <ul class="widgetList campaignList">
            {foreach from=$aCampaign key=key item=aValue}
-            <li><div class="title"><a target="_top" href="{$baseUrl}?clientid={$aValue.details.clientid}&campaignid={$aValue.contextid}">{$aValue.details.campaignname}</a></div><div>{if is_array($aValue.details.status)}{showStatusText status=$aValue.details.status.is an_status=$aValue.details.an_status.is}{else}{showStatusText status=$aValue.details.status an_status=$aValue.details.an_status}{/if}</div></li>
+           <li><div class="title"><a target="_top" href="{$baseUrl}?clientid={$aValue.clientid}&campaignid={$aValue.campaignid}" title="{$aValue.name|escape}">{$aValue.name|escape}</a></div><div>{$aValue.action}</div></li>
             {/foreach}
         </ul>
     </div>

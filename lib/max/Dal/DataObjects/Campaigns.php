@@ -187,6 +187,69 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
         }
     }
 
+    /**
+     * perform post-audit actions
+     *
+     * @param int $actionid
+     * @param DataObjects_Campaigns $dataobjectOldù
+     * @param int $auditId
+     */
+    function _postAuditTrigger($actionid, $dataobjectOld, $auditId)
+    {
+        $aActionMap = array(
+            OA_ENTITY_STATUS_RUNNING  => 'Started',
+            OA_ENTITY_STATUS_EXPIRED  => 'Finished',
+            OA_ENTITY_STATUS_PAUSED   => 'Paused',
+            OA_ENTITY_STATUS_AWAITING => 'Paused',
+        );
+
+        switch ($actionid)
+        {
+            case OA_AUDIT_ACTION_INSERT:
+                $actionType = 'Added';
+            case OA_AUDIT_ACTION_UPDATE:
+                if (isset($this->status) && $this->status != $dataobjectOld->status) {
+                    if (isset($aActionMap[$this->status])) {
+                        $actionType = $aActionMap[$this->status];
+                    }
+                }
+        }
+
+        if (isset($actionType)) {
+            // Prepare action array
+            $maxItems = 6;
+            $aAction = array(
+                'campaignid' => $this->campaignid,
+                'name'       => $this->campaignname,
+                'clientid'   => $this->clientid,
+                'auditid'    => $auditId,
+                'action'     => $actionType
+            );
+            // Load cache
+            require_once MAX_PATH . '/lib/OA/Cache.php';
+            $oCache = new OA_Cache('campaignOverview', 'Widgets');
+            $aCache = $oCache->load(true);
+            if (!$aCache) {
+                // No cache, initialise
+                $aCache = array(
+                    'maxItems'  => $maxItems,
+                    'aAccounts' => array()
+                );
+            }
+            // Get owning account id
+            $accountId = $this->doAudit->account_id;
+            if (!isset($aCache['aAccounts'][$accountId])) {
+                // No cached array for this account id, initialise
+                $aCache['aAccounts'][$accountId] = array();
+            }
+            // Add current action as first item
+            array_unshift($aCache['aAccounts'][$accountId], $aAction);
+            // Only store most recent $maxItems actions, rekeying the array
+            $aCache['aAccounts'][$accountId] = array_slice($aCache['aAccounts'][$accountId], 0, $maxItems, false);
+            // Save cache
+            $oCache->save($aCache);
+        }
+    }
 }
 
 ?>
