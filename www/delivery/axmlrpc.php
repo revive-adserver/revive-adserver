@@ -2796,6 +2796,7 @@ if (!empty($aBanner['transparent'])) {
 $code .= "\n   ox_swf.addParam('wmode','transparent');";
 }
 $code .= "
+ox_swf.addParam('allowScriptAccess','always');
 ox_swf.write('ox_$rnd');
 /"."/ ]]> --></script>";
 $bannerText = $withText && !empty($aBanner['bannertext']) ? "<br />{$clickTag}{$aBanner['bannertext']}{$clickTagEnd}" : '';
