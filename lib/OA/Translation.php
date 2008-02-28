@@ -34,6 +34,8 @@ require_once MAX_PATH . '/lib/OA/Preferences.php';
  */
 class OA_Translation
 {
+    var $hasGettext;
+    
     /**
      * Boolean class property to control if the returned string should have HTML entities converted.
      *
@@ -80,17 +82,23 @@ class OA_Translation
 
     function OA_Translation()
     {
+        $this->hasGettext = function_exists('gettext');
+        
         if (isset($GLOBALS['_MAX']['PREF']['language'])) {
             // We are going to have to map the stored value
             // if it is not the full language_country code.
             $this->locale = $GLOBALS['_MAX']['PREF']['language'];
         }
         
-        //$this->locale = 'pl_PL';
-        setlocale(LC_ALL, $this->locale);
-        bindtextdomain("openx", MAX_PATH . '/lib/OA/locale');
-        bind_textdomain_codeset("openx", "UTF-8");
-        textdomain("openx");
+        //$this->locale = 'fr_FR';
+        
+        // TODO: Add support for PHP gettext library.
+        if ($this->hasGettext) {
+            setlocale(LC_ALL, $this->locale);
+            bindtextdomain("openx", MAX_PATH . '/lib/OA/locale');
+            bind_textdomain_codeset("openx", "UTF-8");
+            textdomain("openx");
+        }
     }
 
     /**
@@ -112,7 +120,7 @@ class OA_Translation
         // Look up string from available translation memories
         if (!empty($GLOBALS['str' . $sString])) { // codekey in smarty templates.
             $sReturn = $GLOBALS['str' . $sString];
-        } elseif (function_exists('gettext')) {
+        } elseif ($this->hasGettext) {
             $sReturn = gettext($sString);
         } else {
             $sReturn = $sString;
