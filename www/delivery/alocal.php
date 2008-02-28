@@ -1530,7 +1530,6 @@ $width = !empty($aBanner['width']) ? $aBanner['width'] : 0;
 $height = !empty($aBanner['height']) ? $aBanner['height'] : 0;
 $pluginVersion = !empty($aBanner['pluginversion']) ? $aBanner['pluginversion'] : '4';
 // $imageUrlPrefix = ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) ? $conf['type_web_ssl_url'] : $conf['type_web_url'];
-$fileName = !empty($aBanner['filename']) ? $aBanner['filename'] : '';
 $altImageAdCode = !empty($aBanner['alt_filename'])
 ? _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $logClick, false, true, true, $loc, $referer, false)
 // An empty image is required because the javascript is parsed before the DOM tree
@@ -1540,11 +1539,11 @@ $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
 if (!empty($clickUrl)) {  // There is a link
 $status = _adRenderBuildStatusCode($aBanner);
 $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
-$swfParams = 'clickTARGET='.$target.'&clickTAG=' . $clickUrl;
+$swfParams = array('clickTARGET' => $target, 'clickTAG' => $clickUrl);
 $clickTag = "<a href='$clickUrl' target='$target'$status>";
 $clickTagEnd = '</a>';
 } else {
-$swfParams = '';
+$swfParams = array();
 $clickTag = '';
 $clickTagEnd = '';
 }
@@ -1558,31 +1557,31 @@ $aBannerSwf = $aBanner;
 $aBannerSwf['noClickTag'] = true;
 foreach ($aAdParams['swf'] as $iKey => $aSwf) {
 $aBannerSwf['url'] = $aSwf['link'];
-$swfParams[] = "alink{$iKey}=".urlencode(_adRenderBuildClickUrl($aBannerSwf, $zoneId, $source, $ct0, $logClick));
-$swfParams[] = "atar{$iKey}=".urlencode($aSwf['tar']);
-}
-$swfParams = join('&', $swfParams);
+$swfParams["alink{$iKey}"] = _adRenderBuildClickUrl($aBannerSwf, $zoneId, $source, $ct0, $logClick);
+$swfParams["atar{$iKey}"]  = $aSwf['tar'];
 }
 }
-$fileUrl = _adRenderBuildFileUrl($aBanner, false, $swfParams);
-$protocol = ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) ? "https" : "http";
+}
+$fileUrl = _adRenderBuildFileUrl($aBanner, false);
 $rnd = md5(microtime());
+$swfId .= (!empty($aBanner['alt']) ? $aBanner['alt'] : 'Advertisement');
 $code = "
-<div id='m3_$rnd' style='display: inline;'>$altImageAdCode</div>
-<script type='text/javascript'>
-<!--/"."/ <![CDATA[
-var fo = new FlashObject('$fileUrl', 'mymovie', '$width', '$height', '$pluginVersion');";
+<div id='ox_$rnd' style='display: inline;'>$altImageAdCode</div>
+<script type='text/javascript'><!--/"."/ <![CDATA[
+var ox_swf = new FlashObject('{$fileUrl}', '{$swfId}', '{$width}', '{$height}', '{$pluginVersion}');\n";
+foreach ($swfParams as $key => $value) {
+// URL encode the value, but leave any Openads "magic macros" unescaped to allow substitution
+$code .= "    ox_swf.addVariable('{$key}', '" . preg_replace('#%7B(.*?)%7D#', '{$1}', urlencode($value)) . "');\n";
+}
 if (!empty($aBanner['transparent'])) {
-$code .= "
-fo.addParam('wmode','transparent');";
+$code .= "\n   ox_swf.addParam('wmode','transparent');";
 }
 $code .= "
-fo.write('m3_$rnd');
-/"."/ ]]> -->
-</script>";
+ox_swf.write('ox_$rnd');
+/"."/ ]]> --></script>";
 $bannerText = $withText && !empty($aBanner['bannertext']) ? "<br />{$clickTag}{$aBanner['bannertext']}{$clickTagEnd}" : '';
 $beaconTag = ($logView && $conf['logging']['adImpressions']) ? _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer) : '';
-return "{$prepend}{$code}{$bannerText}{$beaconTag}{$append}";
+return $prepend . $code . $bannerText . $beaconTag . $append;
 }
 function _adRenderQuicktime($aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $loc, $referer)
 {
