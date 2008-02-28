@@ -38,7 +38,7 @@ require_once MAX_PATH . '/lib/max/Dal/Admin/Campaigns.php';
 class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
 {
 
-    var $ooDalCampaigns;
+    var $oDalCampaigns;
 
     /**
      * The constructor method.

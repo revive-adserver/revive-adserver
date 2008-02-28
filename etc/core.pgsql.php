@@ -151,4 +151,15 @@ BEGIN
  RETURN $1 || $2;
 END;
 $$ LANGUAGE plpgsql STRICT IMMUTABLE;";
+
+$aCustomFunctions[] = "
+CREATE OR REPLACE FUNCTION IF(boolean, timestamptz, timestamptz) RETURNS timestamptz AS $$
+BEGIN
+ IF ($1) THEN
+  RETURN $2;
+ END IF;
+ RETURN $3;
+END;
+$$ LANGUAGE plpgsql STRICT IMMUTABLE;";
+
 ?>
