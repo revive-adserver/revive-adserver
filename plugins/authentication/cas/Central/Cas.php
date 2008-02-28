@@ -149,6 +149,20 @@ class OA_Central_Cas extends OA_Central_M2M
         return $ret;
     }
 
+
+    /**
+     * Check if verification hash is correct for the email
+     * And returns sso account Id
+     *
+     * @param string $verificationHash
+     * @param string $email
+     * @return integer
+     */
+    function checkEmail($verificationHash, $email)
+    {
+        return $this->oMapper->checkEmail($verificationHash, $email);
+    }
+
     /**
      * Changes user email. Method contacts SSO webservices, validate existing user's
      * password and changes the email to a new one
@@ -187,6 +201,17 @@ class OA_Central_Cas extends OA_Central_M2M
     function getAccountIdByUsernamePassword($userName, $md5password)
     {
         return $this->oMapper->getAccountIdByUsernamePassword($userName, $md5password);
+    }
+
+    /**
+     * Checks if userName is available.
+     *
+     * @param string $userName
+     * @return boolean  True if user name is available, else false
+     */
+    function isUserNameAvailable($userName)
+    {
+        return $this->oMapper->isUserNameAvailable($userName);
     }
 
 }

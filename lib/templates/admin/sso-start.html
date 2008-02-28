@@ -30,35 +30,31 @@ $Id$
 
   {*
     Error message to be shown when there is no matching user.
-    @todo - should we add an error icon here
-          - there are no links on this page
-  *}
   {if $errorMessage}
   <div class="errormessageicon">
     {$errorMessage}
   </div>
   {/if}
+  *}
   {if !$errorNoMatchingAccount}
 
 <div class="infomessage" id="intro" style="margin-top: 0; {if !$hideCreate || !$hideLink}display:none{/if}">
   <p>
-    Welcome {$userName|default:'John'},<br />
+    {t str="Welcome"} {$userName|default:'John'},<br />
   </p>
 
   <p>
-    <b>{$creator|default:'The Big X'}</b> invited you to use OpenX. To accept this invitation, <a id="use-existing-account" href="#">enter user name and
-    password of your existing OpenX account</a> (the one you use for e.g. OpenX
-    Forum) or <a id="create-new-account" href="#">create a new OpenX account</a>.
+    <b>{$creator|default:'The Big X'}</b> {t str="invited you to use OpenX. To accept this invitation,"} <a id="use-existing-account" href="#">{t str="enter user name and password of your existing OpenX account"}</a> ({t str="the one you use for e.g. OpenX Forum) or"} <a id="create-new-account" href="#">{t str="create a new OpenX account"}</a>.
   </p>
 </div>
 
 <div style="font-weight: bold; margin-bottom: 2ex">
-  Do you already have an OpenX account?
+  {t str="Do you already have an OpenX account?"}
 </div>
 
 <div style="margin-bottom: 4ex">
-  <input id="haveaccount-yes" type="radio" name="haveaccount" value="yes" style="margin-left: 0"{if !$hideLink} checked="checked"{/if} {tabindex}><label for="haveaccount-yes" class="cb" style="padding-right: 1em">Yes, I want to use my existing account</label>
-  <input id="haveaccount-no" type="radio" name="haveaccount" value="no"{if !$hideCreate} checked="checked"{/if}><label for="haveaccount-no" class="cb" {tabindex}>No, I want to create a new account</label>
+  <input id="haveaccount-yes" type="radio" name="haveaccount" value="yes" style="margin-left: 0"{if !$hideLink} checked="checked"{/if} {tabindex}><label for="haveaccount-yes" class="cb" style="padding-right: 1em">{t str="Yes, I want to use my existing account"}</label>
+  <input id="haveaccount-no" type="radio" name="haveaccount" value="no"{if !$hideCreate} checked="checked"{/if}><label for="haveaccount-no" class="cb" {tabindex}>{t str="No, I want to create a new account"}</label>
 </div>
 
 {include file=sso-link.html fields=$fieldsLink hide=$hideLink"}

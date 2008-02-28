@@ -168,6 +168,22 @@ class OA_Central_RpcMapper_Cas extends OA_Central_RpcMapper
     }
 
     /**
+     * Check if verification hash is correct for the email
+     * And returns sso account Id
+     *
+     * @param string $verificationHash
+     * @param string $email
+     * @return integer  Account Id
+     */
+    function checkEmail($verificationHash, $email)
+    {
+        return $this->oRpc->callM2M('checkEmail', array(
+            new XML_RPC_Value($verificationHash, 'string'),
+            new XML_RPC_Value($email, 'string')
+        ));
+    }
+
+    /**
      * Changes user email. Method contacts SSO webservices, validate existing user's
      * password and changes the email to a new one
      *
@@ -212,6 +228,19 @@ class OA_Central_RpcMapper_Cas extends OA_Central_RpcMapper
         return $this->oRpc->callM2M('rejectPartialAccount', array(
             new XML_RPC_Value($ssoAccountId, 'int'),
             new XML_RPC_Value($verificationHash, 'string')
+        ));
+    }
+    
+    /**
+     * Checks if such userName is available
+     *
+     * @param string $userName
+     * @return boolean True if such userName is available, else false
+     */
+    function isUserNameAvailable($userName)
+    {
+        return $this->oRpc->callM2M('isUserNameAvailable', array(
+            new XML_RPC_Value($userName, 'string')
         ));
     }
     

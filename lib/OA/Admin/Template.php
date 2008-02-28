@@ -153,11 +153,18 @@ class OA_Admin_Template extends Smarty
 
         if (!empty($aParams['str'])) {
             return $oTrans->translate($aParams['str']);
-        }
+        } else 
         if (!empty($aParams['key'])) {
             return $oTrans->translate($aParams['key']);
         }
-        $smarty->trigger_error("t: missing 'str' or 'key' parameters");
+        // If nothing found in global scope, return the value unchanged
+        if (!empty($aParams['str'])) {
+            return $aParams['str'];
+        }
+        if (!empty($aParams['key'])) {
+            return $aParams['key'];
+        }
+        $smarty->trigger_error("t: missing 'str' or 'key' parameters: ".$aParams['str']);
     }
 
     function _function_showStatusText($aParams, &$smarty)

@@ -38,9 +38,18 @@ phpAds_registerGlobalUnslashed ('info', 'ssoid', 'email', 'vh', 'ssoexistinguser
     'ssoexistingpassword', 'ssonewuser', 'ssonewpassword', 'ssonewpassword2',
     'email', 'proposedusername');
 
+$oCentral = &new OA_Central_Cas();
+$oPlugin = &MAX_Plugin::factory('authentication', 'cas');
+MAX_Plugin_Translation::registerInGlobalScope('authentication', 'cas');
+
 if ($proposedusername != '') 
 {
-    echo /* checkForDuplicates($proposedusername) */ strlen($proposedusername) > 4 ? 'available': 'notavailable';
+    // @todo - add validation here before passing username to xml-rpc call
+    // waiting here for a product decision on minimum length of username
+    $ret = $oCentral->isUserNameAvailable($proposedusername);
+    // @todo - add a possibility to return error message here
+    // the JavaScript code needs to be modified first
+    echo ($ret && !PEAR::isError($ret)) ? 'available': 'notavailable';
     exit;
 }
 
@@ -63,22 +72,12 @@ function pageHeader()
     echo "<br><br>"; // todo - move to template
 }
 
-class SsoAccounts {
-    var $aValidationErrors = array();
-    
-    function process()
-    {
-        
-    }
-}
-
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
 $oTpl = new OA_Admin_Template('sso-start.html');
-$oCentral = &new OA_Central_Cas();
 $errors = array();
 
 if ($email != '' && $vh != '') 
@@ -87,10 +86,10 @@ if ($email != '' && $vh != '')
     $hideLink = true;
     
     // check that $email and $vh are correct, it needs to be done in every call
-    $ssoid = $oCentral->confirmEmail($vh, $email);
+    $ssoid = $oCentral->checkEmail($vh, $email);
     $confirmed = $ssoid && !PEAR::isError($ssoid);
     if (PEAR::isError($ssoid)) {
-        $errors[] = 'Server error: '.$ssoid->getMessage();
+        $errors[] = $oPlugin->translate('Server error: ').$ssoid->getMessage();
     }
     
     $doUsers = OA_Dal::factoryDO('users');
@@ -120,12 +119,10 @@ if ($email != '' && $vh != '')
                         header ("Location: " . $url);
                         exit();
                     } else {
-                        // @todolang - move to translation files
-                        $errors[] = 'Error while updating an account. Please try again.';
+                        $errors[] = $oPlugin->translate('Error while updating an account. Please try again.');
                     }
                 } else {
-                    // @todolang - move to translation files
-                    $errors[] = 'Your username or password are not correct. Please try again.';
+                        $errors[] = $oPlugin->translate('Your username or password are not correct. Please try again.');
                 }
             }
             $hideLink = false;
@@ -143,10 +140,12 @@ if ($email != '' && $vh != '')
                     $url = "sso-accounts.php?action=confirmation&userName=test";
                     header ("Location: " . $url);
                     exit();
+                } elseif (PEAR::isError($ret)) {
+                    $errors[] = $oPlugin->translate('Server error: ') . $ret->getMessage();
                 }
             }
             
-            $oTpl->assign('errorCreateFailed', true);
+            $oTpl->assign('errorCreateFailed', $oPlugin->translate('Could not create your new OpenX account. Please try again.'));
             $hideCreate = false;
         }
     }
@@ -154,9 +153,7 @@ if ($email != '' && $vh != '')
     {
         if (!$confirmed)
         {
-            // ssoid and verification could not be confirmed => no matching account 
-            // @todolang - move string to translation
-            $errors[] = "Error. There is no matching user. Check if your link is correct or contact your OpenX administrator.";
+            $errors[] = $oPlugin->translate("Error. There is no matching user. Check if your link is correct or contact your OpenX administrator.");
             $oTpl->assign('errorNoMatchingAccount', true);
         }
     }
@@ -171,21 +168,21 @@ $oTpl->assign('errorMessage', implode('<br />', $errors));
 $oTpl->assign('hideLink', $hideLink);
 $oTpl->assign('fieldsLink', array(
     array(
-        'title'     => 'Please enter username and password of your OpenX account',
+        'title'     => $oPlugin->translate('Please enter username and password of your OpenX account'),
         'fields'    => array(
             array(
                 'name'      => 'ssoexistinguser',
-                'label'     => 'User name',
+                'label'     => $oPlugin->translate('User name'),
                 'value'     => $ssoexistinguser,
-                'title'     => 'Enter user name',
+                'title'     => $oPlugin->translate('Enter user name'),
                 'clientValid' => 'required:true'
             ),
             array(
                 'name'      => 'ssoexistingpassword',
                 'type'        => 'password',
-                'label'     => 'Password',
+                'label'     => $oPlugin->translate('Password'),
                 'value'     => '',
-                'title'     => 'Enter password',
+                'title'     => $oPlugin->translate('Enter password'),
                 'clientValid' => 'required:true'
             )
         )
@@ -195,38 +192,30 @@ $oTpl->assign('fieldsLink', array(
 $oTpl->assign('hideCreate', $hideCreate);
 $oTpl->assign('fieldsCreate', array(
 array(
-    'title'     => 'Enter details for your new OpenX account',
+    'title'     => $oPlugin->translate('Enter details for your new OpenX account'),
     'fields'    => array(
         array(
             'name'      => 'email',
             'disabled'  => true,
-            'label'     => 'Email',
+            'label'     => $oPlugin->translate('Email'),
             'value'     => $email
         ),
         array(
+            'name'        => 'ssonewuser',
             'id'        => 'ssonewuser',
             'type'      => 'custom',
             'template'  => 'user-availability-check',
-            'label'     => 'Desired user name',
-            'title'     => 'Enter desired user name',
+            'label'     => $oPlugin->translate('Desired user name'),
+            'title'     => $oPlugin->translate('Enter desired user name'),
             'value'     => $ssonewuser
         ),           
-        /*
-        array(
-            'name'      => 'ssonewuser',
-            'id'        => 'ssonewuser',
-            'label'     => 'Desired user name',
-            'clientValid' => 'required:true',
-            'title'     => 'Enter desired user name',
-            'value'     => $ssonewuser
-        ),*/
         array(
             'name'      => 'ssonewpassword',
             'id'         => 'ssonewpassword',
             'type'        => 'password',
             'clientValid' => 'required:true',
-            'title'     => 'Enter password',
-            'label'     => 'Password',
+            'title'     => $oPlugin->translate('Enter password'),
+            'label'     => $oPlugin->translate('Password'),
             'value'     => ''
         ),
         array(
@@ -234,8 +223,8 @@ array(
             'id'        => 'ssonewpassword2',
             'type'        => 'password',
             'clientValid' => "required:true,equalTo:'#ssonewpassword'",
-            'label'     => 'Re-enter password',
-            'title'     => 'Re-enter the same password',
+            'label'     => $oPlugin->translate('Re-enter password'),
+            'title'     => $oPlugin->translate('Re-enter the same password'),
             'value'     => ''
         )
     )

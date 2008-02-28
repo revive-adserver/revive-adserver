@@ -25,6 +25,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
+require_once MAX_PATH . '/lib/max/Plugin/Common.php';
 
 /**
  * Plugins_Authentication is an abstract class for Authentication plugins
@@ -33,7 +34,7 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  * @subpackage Authentication
  * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
-class Plugins_Authentication
+class Plugins_Authentication extends MAX_Plugin_Common 
 {
     /**
      * Array to keep a reference to signup errors (if any)
@@ -275,7 +276,7 @@ class Plugins_Authentication
     {
         OA::debug('Cannot run abstract method');
         exit();
-    }
+    }    
 }
 
 ?>
