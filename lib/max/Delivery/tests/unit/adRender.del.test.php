@@ -157,8 +157,12 @@ class test_DeliveryAdRender extends UnitTestCase
    		$i	= preg_match_all('/'.$aPattern['stru'].'/U', $return, $aMatch);
 		$this->assertTrue($i,'structure');
 
-		// Check for converded link
-		$this->assertTrue(preg_match('/alink1=.*example.*&atar1=_blank/', $aMatch['script_content'][0]));
+		// Check for converded link (now a FlashVar)
+		$this->assertTrue(preg_match('/addVariable\(\'alink1\',.*example.*/', $aMatch['script_content'][0]));
+
+		// And target
+		$this->assertTrue(strstr($aMatch['script_content'][0], "addVariable('atar1', '_blank')"));
+
 }
 
 	/**
@@ -249,7 +253,7 @@ class test_DeliveryAdRender extends UnitTestCase
         require_once MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderText.php';
 		$return = _adRenderText($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);
         $this->assertEqual($return, $expectNoBeacon);
-        
+
 		// Test that it should generate ad beacon
 		$GLOBALS['_MAX']['CONF']['logging']['adImpressions'] = true;
         require_once MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderText.php';
