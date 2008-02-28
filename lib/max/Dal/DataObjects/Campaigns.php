@@ -245,7 +245,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
             // Add current action as first item
             array_unshift($aCache['aAccounts'][$accountId], $aAction);
             // Only store most recent $maxItems actions, rekeying the array
-            $aCache['aAccounts'][$accountId] = array_slice($aCache['aAccounts'][$accountId], 0, $maxItems, false);
+            $aCache['aAccounts'][$accountId] = array_slice($aCache['aAccounts'][$accountId], 0, $maxItems);
             // Save cache
             $oCache->save($aCache);
         }
