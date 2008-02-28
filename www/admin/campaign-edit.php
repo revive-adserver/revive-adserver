@@ -390,6 +390,7 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
     $row['an_status']               = $doCampaigns->an_status;
     $row['as_reject_reason']        = $doCampaigns->as_reject_reason;
 
+    $row['activate']                = $data['activate'];
     if (OA_Dal::isValidDate($data['activate'])) {
         $oActivateDate              = new Date($data['activate']);
         $row['activate_f']          = $oActivateDate->format($date_format);
@@ -410,13 +411,9 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
     $row['block']               = $data['block'];
     $row['capping']             = $data['capping'];
     $row['session_capping']     = $data['session_capping'];
-    $row['impressionsRemaining'] = '';
-    $row['clicksRemaining'] = '';
-    $row['conversionsRemaining'] = '';
-
-    $row['impressionsRemaining'] = '';
-    $row['clicksRemaining']      = '';
-    $row['conversionsRemaining'] = '';
+    $row['impressionsRemaining'] = '-1';
+    $row['clicksRemaining']      = '-1';
+    $row['conversionsRemaining'] = '-1';
 
     // Get the campagin data from the data_intermediate_ad table, and store in $row
     if (($row['impressions'] >= 0) || ($row['clicks'] >= 0) || ($row['conversions'] >= 0)) {
@@ -884,11 +881,18 @@ if (isset($row['status']) && $row['status'] != OA_ENTITY_STATUS_RUNNING)
     $expire_ts = mktime(23, 59, 59, $row["expire_month"], $row["expire_dayofmonth"], $row["expire_year"]);
     $inactivebecause = array();
 
-    if ($row['impressions'] == 0) $inactivebecause[] =  $strNoMoreImpressions;
-    if ($row['clicks'] == 0) $inactivebecause[] =  $strNoMoreClicks;
-    if ($row['conversions'] == 0) $inactivebecause[] =  $strNoMoreConversions;
-    if ($activate_ts > 0 && $activate_ts > time()) $inactivebecause[] =  $strBeforeActivate;
-    if ($expire_ts > 0 && time() > $expire_ts) $inactivebecause[] =  $strAfterExpire;
+    if ($row['impressionsRemaining'] < 1) $inactivebecause[] =  $strNoMoreImpressions;
+    if ($row['clicksRemaining'] < 1) $inactivebecause[] =  $strNoMoreClicks;
+    //if (!empty($row['conversionsRemaining']) && $row['conversionsRemaining'] == 0) $inactivebecause[] =  $strNoMoreConversions;
+
+    if (!empty($row['activate']) && $row['activate'] != OA_Dal::noDateValue()) {
+        $activate_ts = mktime(23, 59, 59, $row["activate_month"], $row["activate_dayofmonth"], $row["activate_year"]);
+        if ($activate_ts > 0 && $activate_ts > time()) $inactivebecause[] =  $strBeforeActivate;
+    }
+    if (!empty($row['expire']) && $row['expire'] != OA_Dal::noDateValue()) {
+        $expire_ts = mktime(23, 59, 59, $row["expire_month"], $row["expire_dayofmonth"], $row["expire_year"]);
+        if ($expire_ts > 0 && time() > $expire_ts) $inactivebecause[] =  $strAfterExpire;
+    }
 
     if ($row['priority'] == 0  && $row['weight'] == 0) $inactivebecause[] =  $strWeightIsNull;
     if ($row['priority'] > 0  && $target_value == 0) $inactivebecause[] =  $strTargetIsNull;
