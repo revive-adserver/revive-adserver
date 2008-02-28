@@ -81,9 +81,9 @@
             <tr class="{$rowClass}">
                 <td>{$aValue.updated}</td>
                 <td>
-                    {$aValue.username} has {$aValue.action} {$aValue.context} "{$aValue.details.key_desc}" {if !empty($aValue.contextid)}(#{$aValue.contextid}){/if}
+                    {$aValue.username} {$aValue.action} {$aValue.context} "{$aValue.details.key_desc}" {if !empty($aValue.contextid)}(#{$aValue.contextid}){/if}
                     {if !empty($aValue.parentcontext)}
-                        for {$aValue.parentcontext} (#{$aValue.parentcontextid})
+                        in {$aValue.parentcontext} (#{$aValue.parentcontextid})
                     {/if}
                     {if !empty($aValue.hasChildren)}
                         and additional items
