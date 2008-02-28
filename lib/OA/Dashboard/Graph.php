@@ -29,10 +29,6 @@ require_once MAX_PATH . '/lib/OA/Dashboard/Widget.php';
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 require_once('Image/Graph.php');
 
-/**
- * A dashboard widget to diplay an RSS feed
- *
- */
 class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
 {
     var $aData;

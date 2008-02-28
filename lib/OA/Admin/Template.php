@@ -30,6 +30,7 @@ define('SMARTY_DIR', MAX_PATH . '/lib/smarty/');
 require_once MAX_PATH . '/lib/smarty/Smarty.class.php';
 require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
+require_once MAX_PATH . '/lib/OA/Translation.php';
 
 /**
  * A UI templating class.
@@ -148,11 +149,13 @@ class OA_Admin_Template extends Smarty
 
     function _function_t($aParams, &$smarty)
     {
+        $oTrans = new OA_Translation();
+
         if (!empty($aParams['str'])) {
-            return $GLOBALS['str'.$aParams['str']];
+            return $oTrans->translate($aParams['str']);
         }
         if (!empty($aParams['key'])) {
-            return $GLOBALS['key'.$aParams['key']];
+            return $oTrans->translate($aParams['key']);
         }
         $smarty->trigger_error("t: missing 'str' or 'key' parameters");
     }
@@ -203,6 +206,9 @@ class OA_Admin_Template extends Smarty
                 	    $text  = $strCampaignStatusRejected;
                 		break;
                 }
+                $oTrans = new OA_Translation();
+                $text = $oTrans->translate($text);
+
                 if ($status == OA_ENTITY_STATUS_APPROVAL) {
                     $text = "<a href='campaign-edit.php?clientid=".$aParams['clientid']."&campaignid=".$aParams['campaignid']."'>" .
                             $text . "</a>";

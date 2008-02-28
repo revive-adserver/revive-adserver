@@ -36,6 +36,7 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-gd.inc.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
+require_once MAX_PATH . '/lib/OA/Translation.php';
 
 // Register input variables
 phpAds_registerGlobal('expand', 'collapse', 'hideinactive', 'listorder', 'orderdirection');
@@ -55,6 +56,7 @@ $pageName = basename($_SERVER['PHP_SELF']);
 $tabindex = 1;
 $agencyId = OA_Permission::getAgencyId();
 $aEntities = array('clientid' => $clientid, 'campaignid' => $campaignid);
+$oTrans = new OA_Translation();
 
 // Display navigation
 $aOtherAdvertisers = Admin_DA::getAdvertisers(array('agency_id' => $agencyId));
@@ -171,7 +173,7 @@ if (isset($banners) && is_array($banners) && count($banners) > 0) {
 
 if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
     echo "\t\t\t\t<img src='images/icon-banner-new.gif' align='absmiddle' alt=''>&nbsp;";
-    echo "<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaignid."' accesskey='".$keyAddNew."'>".$strAddBanner_Key."</a>&nbsp;&nbsp;&nbsp;&nbsp;\n";
+    echo "<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaignid."' accesskey='".$keyAddNew."'>".$oTrans->translate('Add <u>n</u>ew banner')."</a>&nbsp;&nbsp;&nbsp;&nbsp;\n";
     phpAds_ShowBreak();
     echo "\t\t\t\t<br /><br />\n";
 }
