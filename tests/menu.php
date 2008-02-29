@@ -28,9 +28,9 @@ $Id$
 /**
  * A script to generate the tree menu for the test suite.
  *
- * @package    Max
+ * @package    OpenX
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 
 require_once 'init.php';
