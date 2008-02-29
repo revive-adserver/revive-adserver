@@ -1113,6 +1113,7 @@ $GLOBALS['strNotifyPageMessage']      = "An e-mail has been sent to you, which i
 $GLOBALS['strAdditionalItems']        = 'and additional items';
 $GLOBALS['strFor']                    = 'for';
 $GLOBALS['strHas']                    = 'has';
+$GLOBALS['strAdZoneAsscociation']     = 'Ad Zone Association';
 
 // Widget - Audit
 $GLOBALS['strAuditNoData']            = "No user activity has been recorded during the timeframe you have selected.";
