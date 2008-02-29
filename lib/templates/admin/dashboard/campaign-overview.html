@@ -32,6 +32,13 @@ $Id$
   <!--[if IE]>
       <link rel="stylesheet" type="text/css" href="css/dashboard-widget-ie.css" />
   <![endif]-->
+  <style type="text/css">{literal}
+    .campaign-added,
+    .campaign-started,
+    .campaign-restarted { color: green }
+    .campaign-paused { color: red }
+    .campaign-completed  { color: black }
+  {/literal}</style>
 </head>
 
 <body>
@@ -42,7 +49,7 @@ $Id$
         <!-- normal view -->
         <ul class="widgetList campaignList">
            {foreach from=$aCampaign key=key item=aValue}
-           <li><div class="title"><a target="_top" href="{$baseUrl}?clientid={$aValue.clientid}&campaignid={$aValue.campaignid}" title="{$aValue.name|escape}">{$aValue.name|escape}</a></div><div>{$aValue.action}</div></li>
+           <li><div class="title"><a target="_top" href="{$baseUrl}?clientid={$aValue.clientid}&campaignid={$aValue.campaignid}" title="{$aValue.name|escape}">{$aValue.name|escape}</a></div><div class="campaign-{$aValue.action}">{$aValue.actionDesc}</div></li>
             {/foreach}
         </ul>
     </div>

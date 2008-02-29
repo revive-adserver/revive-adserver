@@ -196,21 +196,23 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
      */
     function _postAuditTrigger($actionid, $dataobjectOld, $auditId)
     {
-        $aActionMap = array(
-            OA_ENTITY_STATUS_RUNNING  => 'Started',
-            OA_ENTITY_STATUS_EXPIRED  => 'Finished',
-            OA_ENTITY_STATUS_PAUSED   => 'Paused',
-            OA_ENTITY_STATUS_AWAITING => 'Paused',
-        );
+        $aActionMap = array();
+        $aActionMap[OA_ENTITY_STATUS_RUNNING][OA_ENTITY_STATUS_AWAITING] = 'started';
+        $aActionMap[OA_ENTITY_STATUS_RUNNING]['']  = 'restarted';
+        $aActionMap[OA_ENTITY_STATUS_EXPIRED]['']  = 'completed';
+        $aActionMap[OA_ENTITY_STATUS_PAUSED]['']   = 'paused';
+        $aActionMap[OA_ENTITY_STATUS_AWAITING][''] = 'paused';
 
         switch ($actionid)
         {
             case OA_AUDIT_ACTION_INSERT:
-                $actionType = 'Added';
+                $actionType = 'added';
             case OA_AUDIT_ACTION_UPDATE:
                 if (isset($this->status) && $this->status != $dataobjectOld->status) {
-                    if (isset($aActionMap[$this->status])) {
-                        $actionType = $aActionMap[$this->status];
+                    if (isset($aActionMap[$this->status][$dataobjectOld->status])) {
+                        $actionType = $aActionMap[$this->status][$dataobjectOld->status];
+                    } elseif (isset($aActionMap[$this->status][''])) {
+                        $actionType = $aActionMap[$this->status][''];
                     }
                 }
         }

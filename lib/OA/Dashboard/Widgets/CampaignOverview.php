@@ -84,7 +84,20 @@ class OA_Dashboard_Widget_CampaignOverview extends OA_Dashboard_Widget
                     }
                 }
             }
-            if (!count($aCampaign)) {
+            if (count($aCampaign)) {
+                $aActionMap = array(
+                    'added'     => $GLOBALS['strCampaignStatusAdded'],
+                    'started'   => $GLOBALS['strCampaignStatusStarted'],
+                    'restarted' => $GLOBALS['strCampaignStatusRestarted'],
+                    'completed' => $GLOBALS['strCampaignStatusExpired'],
+                    'paused'    => $GLOBALS['strCampaignStatusPaused'],
+                );
+                foreach ($aCampaign as $k => $v) {
+                    if (isset($aActionMap[$v['action']])) {
+                        $aCampaign[$k]['actionDesc'] = $aActionMap[$v['action']];
+                    }
+                }
+            } else {
                 // Check if the account has any campaign in its realm
                 $doCampaigns = OA_Dal::factoryDO('campaigns');
                 if (!empty($aParam['account_id'])) {
