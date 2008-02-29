@@ -311,11 +311,6 @@ class OA_Dll_AuditTest extends DllUnitTestCase
     {
         $dllAuditPartialMock = new PartialMockOA_Dll_Audit($this);
 
-        $aExpect = array(
-            array(true, 2),
-            array(false, 1)
-        );
-
         $oSpanDay  = new Date_Span('1-0-0-0');
 
         $oDate = & new Date(OA::getNow());
@@ -337,7 +332,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $aDetails['campaignname'] = 'Campaign 1';
         $aDetails['status'] = OA_ENTITY_STATUS_EXPIRED;
         $oAudit->details = serialize($aDetails);
-        $oAudit->insert();
+        $idAuditParent1 = $oAudit->insert();
         $aAudit = $oAudit->toArray();
 
         // child 1 record of record 1
@@ -350,7 +345,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oAudit->actionid = OA_AUDIT_ACTION_UPDATE;
         $oAudit->updated = $oDate->getDate();
         $oAudit->details = serialize($aDetails);
-        $oAudit->insert();
+        $idAuditChild1 = $oAudit->insert();
 
         // child 2 record of record 1
         $oAudit = OA_Dal::factoryDO('audit');
@@ -362,7 +357,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oAudit->actionid = OA_AUDIT_ACTION_UPDATE;
         $oAudit->updated = $oDate->getDate();
         $oAudit->details = serialize($aDetails);
-        $oAudit->insert();
+        $idAuditChild2 = $oAudit->insert();
 
         // record 2 - has no children
         $oAudit = OA_Dal::factoryDO('audit');
@@ -374,30 +369,33 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oAudit->actionid = OA_AUDIT_ACTION_UPDATE;
         $oAudit->updated = $oDate->getDate();
         $oAudit->details = serialize($aDetails);
-        $oAudit->insert();
+        $idAuditParent2 = $oAudit->insert();
 
         $aParam = array(
             'perPage'       => 10,
             'startRecord'   => 0
         );
         $aResult = $dllAuditPartialMock->getAuditLog($aParam);
-
         $this->assertEqual(count($aResult), 2);
 
-        for ($i = 0; $i < 2; $i++) {
-            $aChildren = $dllAuditPartialMock->getChildren($aResult[$i]['auditid'], $aResult[$i]['context']);
-            if ($this->assertEqual(!empty($aChildren), $aExpect[$i][0])) {
-                $this->assertEqual(count($aChildren), $aExpect[$i][1]);
-            }
-        }
+        $aChildren1 = $dllAuditPartialMock->getChildren($idAuditParent1, 'Campaign');
+        $this->assertTrue(!empty($aChildren1));
+        $this->assertEqual(count($aChildren1), 2);
+
+        $aChildren2 = $dllAuditPartialMock->getChildren($idAuditChild1, 'Campaign');
+        $this->assertFalse($aChildren2);
+
+        $aChildren3 = $dllAuditPartialMock->getChildren($idAuditChild2, 'Campaign');
+        $this->assertFalse($aChildren3);
+
+        $aChildren3 = $dllAuditPartialMock->getChildren($idAuditParent2, 'Campaign');
+        $this->assertFalse($aChildren3);
     }
 
     function test_hasChildren()
     {
         $dllAuditPartialMock = new PartialMockOA_Dll_Audit($this);
 
-        $aExpect = array(true, false);
-
         $oSpanDay  = new Date_Span('1-0-0-0');
 
         $oDate = & new Date(OA::getNow());
@@ -419,7 +417,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $aDetails['campaignname'] = 'Campaign 1';
         $aDetails['status'] = OA_ENTITY_STATUS_EXPIRED;
         $oAudit->details = serialize($aDetails);
-        $oAudit->insert();
+        $idAuditParent1 = $oAudit->insert();
         $aAudit = $oAudit->toArray();
 
         // child 1 record of record 1
@@ -432,7 +430,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oAudit->actionid = OA_AUDIT_ACTION_UPDATE;
         $oAudit->updated = $oDate->getDate();
         $oAudit->details = serialize($aDetails);
-        $oAudit->insert();
+        $idAuditChild1 = $oAudit->insert();
 
         // child 2 record of record 1
         $oAudit = OA_Dal::factoryDO('audit');
@@ -444,7 +442,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oAudit->actionid = OA_AUDIT_ACTION_UPDATE;
         $oAudit->updated = $oDate->getDate();
         $oAudit->details = serialize($aDetails);
-        $oAudit->insert();
+        $idAuditChild2 = $oAudit->insert();
 
         // record 2 - has no children
         $oAudit = OA_Dal::factoryDO('audit');
@@ -456,20 +454,26 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oAudit->actionid = OA_AUDIT_ACTION_UPDATE;
         $oAudit->updated = $oDate->getDate();
         $oAudit->details = serialize($aDetails);
-        $oAudit->insert();
+        $idAuditParent2 = $oAudit->insert();
 
         $aParam = array(
             'perPage'       => 10,
             'startRecord'   => 0
         );
         $aResult = $dllAuditPartialMock->getAuditLog($aParam);
-
         $this->assertEqual(count($aResult), 2);
 
-        for ($i = 0; $i < 2; $i++) {
-            $result = $dllAuditPartialMock->hasChildren($aResult[$i]['auditid'], $aResult[$i]['context']);
-            $this->assertEqual($result, $aExpect[$i]);
-        }
+        $hasChildren1 = $dllAuditPartialMock->hasChildren($idAuditParent1, 'Campaign');
+        $this->assertTrue($hasChildren1);
+
+        $hasChildren2 = $dllAuditPartialMock->hasChildren($idAuditChild1, 'Campaign');
+        $this->assertFalse($hasChildren2);
+
+        $hasChildren3 = $dllAuditPartialMock->hasChildren($idAuditChild2, 'Campaign');
+        $this->assertFalse($hasChildren3);
+
+        $hasChildren4 = $dllAuditPartialMock->hasChildren($idAuditParent2, 'Campaign');
+        $this->assertFalse($hasChildren4);
     }
 
     function test__removeParentContextId()
