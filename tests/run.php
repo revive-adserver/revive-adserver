@@ -30,9 +30,9 @@ $Id$
  * passed via the web client, as well as perform timing of the tests,
  * etc.
  *
- * @package    Max
+ * @package    OpenX
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  *
  * @todo Only show HTML when run from Web.
  */

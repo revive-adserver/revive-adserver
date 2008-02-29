@@ -89,7 +89,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
     {
         OA::debug('Running Maintenance Priority Engine: Get Required Ad Impressions for High Priority Campaigns', PEAR_LOG_DEBUG);
         OA::debug('- Where ' . $this->type, PEAR_LOG_DEBUG);
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $aAllPlacements = $this->_getValidPlacements();
         if (is_array($aAllPlacements) && (count($aAllPlacements) > 0)) {
             foreach ($aAllPlacements as $k => $oPlacement) {
@@ -185,7 +185,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
      */
     function getPlacementImpressionInventoryRequirement(&$oPlacement, $type, $ignorePast = false)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         if (!$ignorePast) {
             // Get campaign summary statistic totals
             if ($type == 'total') {
@@ -203,7 +203,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
         }
         $clickImpressions = $this->_getInventoryImpressionsRequired(
             $clickTarget,
-            $conf['priority']['defaultClickRatio'],
+            $aConf['priority']['defaultClickRatio'],
             $oPlacement->deliveredClicks,
             $oPlacement->deliveredImpressions);
         // Calculate impressions required to fulfill conversion requirement
@@ -214,7 +214,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
         }
         $conversionImpressions = $this->_getInventoryImpressionsRequired(
             $conversionTarget,
-            $conf['priority']['defaultConversionRatio'],
+            $aConf['priority']['defaultConversionRatio'],
             $oPlacement->deliveredConversions,
             $oPlacement->deliveredImpressions);
         // Get impression requirement
@@ -358,39 +358,75 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
                 OA::debug($message, PEAR_LOG_ERR);
                 continue;
             }
-            // Sum the weights of all ads in placement
-            $totalWeight = $this->_getPlacementAdWeightTotal($oPlacement);
-            if (PEAR::isError($totalWeight, MAX_ERROR_INVALIDARGS)) {
-                /**
-                 * @TODO Ensure that this PEAR::Error is handled by calling code, or
-                 *       raise an error instead of returning.
-                 */
-                return $totalWeight;
+            // Determine number of remaining operation intervals for placement
+            $placementRemainingOperationIntervals =
+                OA_OperationInterval::getIntervalsRemaining(
+                    $aCurrentOperationIntervalDates['start'],
+                    $oPlacementExpiryDate
+                );
+            // For all ads in the placement, determine:
+            // - If the ad is capable of delivery in the current operation
+            //   interval, or not, based on delivery limitation(s); and
+            // - The result of the weight of the ad multiplied by the
+            //   number of operation intervals remaining in which the ad
+            //   is capable of delivering
+            $aAdCurrentOperationInterval = array();
+            $aAdWeightRemainingOperationIntervals = array();
+            reset($oPlacement->aAds);
+            while (list($adId, $oAd) = each($oPlacement->aAds)) {
+                // Only calculate values for active ads
+                if ($oAd->active && ($oAd->weight > 0)) {
+                    // Prepare a delivery limitation object for the ad
+                    $oDeliveryLimitation =
+                        new OA_Maintenance_Priority_DeliveryLimitation($oAd->getDeliveryLimitations());
+                    // Is the ad blocked from delivering in the current operation interval?
+                    $aAdCurrentOperationInterval[$oAd->id] =
+                        $oDeliveryLimitation->deliveryBlocked($aCurrentOperationIntervalDates['start']);
+                    // Determine how many operation intervals remain that the ad can deliver in
+                    $adRemainingOperationIntervals =
+                        $oDeliveryLimitation->getActiveAdOperationIntervals(
+                            $placementRemainingOperationIntervals,
+                            $aCurrentOperationIntervalDates['start'],
+                            $oPlacementExpiryDate
+                        );
+                    // Determine the value of the ad weight multiplied by the number
+                    // of operation intervals remaining that the ad can deliver in
+                    if ($oAd->weight > 0) {
+                        $aAdWeightRemainingOperationIntervals[$oAd->id] =
+                            $oAd->weight * $adRemainingOperationIntervals;
+                    } else {
+                        $aAdWeightRemainingOperationIntervals[$oAd->id] = 0;
+                    }
+                }
             }
-            // Calculate number impressions per weight value of 1 (one)
-            $totalImpressionsPerUnitWeight = $oPlacement->requiredImpressions / $totalWeight;
+            // Get the total sum of the ad weight * remaining OI values
+            $sumAdWeightRemainingOperationIntervals = array_sum($aAdWeightRemainingOperationIntervals);
+            // For each (active) ad that is capable of delivering in the current
+            // operation interval, determine how many of the placement's required
+            // impressions should be alloced as the ad's required impressions
             // For each advertisement
             reset($oPlacement->aAds);
             while (list($adId, $oAd) = each($oPlacement->aAds)) {
-                // If the advertisement is active, and has a positive weight
-                if ($oAd->active && ($oAd->weight > 0)) {
-                    // Calculate the impressions the ad requires, based on the ad weight
-                    $totalRequiredAdImpressions = $oAd->weight * $totalImpressionsPerUnitWeight;
-                    if ($totalRequiredAdImpressions > 0) {
-                        // Based on the average zone pattern of the zones the ad is
-                        // linked to, calculate how many of these impressions should
-                        // be delivered in the next operation interval
-                        $oAd->requiredImpressions = $this->_getAdImpressions(
-                                $oAd,
-                                $totalRequiredAdImpressions,
-                                $aCurrentOperationIntervalDates['start'],
-                                $oPlacementExpiryDate
-                            );
-                        $aRequiredAdImpressions[] = array(
-                            'ad_id'                => $oAd->id,
-                            'required_impressions' => $oAd->requiredImpressions
+                // Get impressions required
+                $totalRequiredAdImpressions = 0;
+                if ($oAd->active && $oAd->weight > 0 && $aAdCurrentOperationInterval[$oAd->id] !== true) {
+                    $totalRequiredAdImpressions = $oPlacement->requiredImpressions *
+                        ($aAdWeightRemainingOperationIntervals[$oAd->id] / $sumAdWeightRemainingOperationIntervals);
+                }
+                if ($totalRequiredAdImpressions > 0) {
+                    // Based on the average zone pattern of the zones the ad is
+                    // linked to, calculate how many of these impressions should
+                    // be delivered in the next operation interval
+                    $oAd->requiredImpressions = $this->_getAdImpressions(
+                            $oAd,
+                            $totalRequiredAdImpressions,
+                            $aCurrentOperationIntervalDates['start'],
+                            $oPlacementExpiryDate
                         );
-                    }
+                    $aRequiredAdImpressions[] = array(
+                        'ad_id'                => $oAd->id,
+                        'required_impressions' => $oAd->requiredImpressions
+                    );
                 }
             }
         }
@@ -398,33 +434,6 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
         OA::setTempDebugPrefix('- ');
         $this->oTable->createTable('tmp_ad_required_impression');
         $this->oDal->saveRequiredAdImpressions($aRequiredAdImpressions);
-    }
-
-    /**
-     * A private method to sum all ad weight values of active advertisements for a
-     * given placement. If no ads, or if the sum is zero, the default summation weight
-     * is set to unity (1).
-     *
-     * @access private
-     * @param OA_Maintenance_Priority_Placement $oPlacement The placement.
-     * @return integer The ad weight total.
-     */
-    function _getPlacementAdWeightTotal($oPlacement)
-    {
-        $weight = 0;
-        if (is_a($oPlacement, 'OA_Maintenance_Priority_Placement')) {
-            reset($oPlacement->aAds);
-            while (list($adId, $oAd) = each($oPlacement->aAds)) {
-                if (is_a($oAd, 'OA_Maintenance_Priority_Ad') && $oAd->active) {
-                    $weight += ($oAd->weight > 0) ? $oAd->weight : 0;
-                }
-            }
-            if ($weight === 0) {
-                $weight = 1;
-            }
-            return $weight;
-        }
-        return PEAR::raiseError('Invalid Placement object argument', MAX_ERROR_INVALIDARGS);
     }
 
     /**
@@ -515,7 +524,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
      */
     function _getCumulativeZoneForecast($adId)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         if (empty($adId) || !is_numeric($adId)) {
             OA::debug('- Invalid advertisement ID argument', PEAR_LOG_ERR);
             return false;

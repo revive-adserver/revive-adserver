@@ -337,37 +337,6 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
     }
 
     /**
-     * A method to test the _getPlacementAdWeightTotal() method.
-     */
-    function test_getPlacementAdWeightTotal()
-    {
-        // Create a test Placement object with no Ads
-        $oPlacement = new OA_Maintenance_Priority_Placement(array('placement_id' => 1));
-        // Test the returned sum is unity
-        $oGetRequiredAdImpressionsLifetime =& $this->_getCurrentTask();
-        $this->assertEqual(1, $oGetRequiredAdImpressionsLifetime->_getPlacementAdWeightTotal($oPlacement));
-
-        // Create some test Ad objects
-        $oAd1 = new OA_Maintenance_Priority_Ad(array('ad_id' => 1, 'status' => OA_ENTITY_STATUS_RUNNING, 'type' => 'sql', 'weight' => 2));
-        $oAd2 = new OA_Maintenance_Priority_Ad(array('ad_id' => 2, 'status' => OA_ENTITY_STATUS_RUNNING, 'type' => 'sql', 'weight' => 1));
-        $oAd3 = new OA_Maintenance_Priority_Ad(array('ad_id' => 3, 'status' => OA_ENTITY_STATUS_RUNNING, 'type' => 'sql', 'weight' => 0));
-        $oAd4 = new OA_Maintenance_Priority_Ad(array('ad_id' => 4, 'status' => OA_ENTITY_STATUS_RUNNING, 'type' => 'sql', 'weight' => 3));
-        $oAd5 = new OA_Maintenance_Priority_Ad(array('ad_id' => 5, 'status' => OA_ENTITY_STATUS_RUNNING, 'type' => 'sql', 'weight' => -10));
-        $oAd6 = new OA_Maintenance_Priority_Ad(array('ad_id' => 6, 'status' => OA_ENTITY_STATUS_AWAITING, 'type' => 'sql', 'weight' => 100));
-        // Create a test Placement object
-        $oPlacement = new OA_Maintenance_Priority_Placement(array('placement_id' => 1));
-        // Add the Ads to the Placement
-        $oPlacement->aAds[] = $oAd1;
-        $oPlacement->aAds[] = $oAd2;
-        $oPlacement->aAds[] = $oAd3;
-        $oPlacement->aAds[] = $oAd4;
-        $oPlacement->aAds[] = $oAd5;
-        $oPlacement->aAds[] = $oAd6;
-        // Test the returned sum is correct
-        $this->assertEqual(6, $oGetRequiredAdImpressionsLifetime->_getPlacementAdWeightTotal($oPlacement));
-    }
-
-    /**
      * A method to test the distributePlacementImpressions() method.
      *
      * The test is carried out by ensuring that the correct values for the required

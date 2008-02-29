@@ -28,9 +28,9 @@ $Id$
 /**
  * The configuration file for the test suite.
  *
- * @package    Max
+ * @package    OpenX
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 
 // Define the different environment configurations
@@ -95,12 +95,10 @@ $GLOBALS['_MAX']['TEST'][$type . '_layers'] =
         'mtpdb' => array('Maintenance Priority Engine (DB)',    DB_WITH_TABLES),
         'plg'   => array('Plugins',                             DB_WITH_TABLES),
         'admin' => array('Administrative Interface',            NO_DB),
-        //'dev'   => array('Developer Tools',                     DB_WITH_TABLES),
-        'mol'   => array('OpenX Other Libraries',             DB_WITH_TABLES),
+        'mol'   => array('OpenX - Other Libraries',             DB_WITH_TABLES),
         'up'    => array('Upgrade Classes',                     DB_WITH_TABLES),
         'mig'   => array('Upgrade Migration Classes',           DB_NO_TABLES),
-        //'oac'   => array('OpenX Central',                     DB_NO_TABLES),
-        'oacdb' => array('OpenX Central (DB)',                DB_WITH_TABLES),
+        'oacdb' => array('OpenX Central (DB)',                  DB_WITH_TABLES),
         'util'  => array('Commonly used utilities',             NO_DB)
     );
 
@@ -123,12 +121,13 @@ define($type . '_TEST_STORE', 'tests/integration');
 // requirements for the test(s) in that layer
 $GLOBALS['_MAX']['TEST'][$type . '_layers'] =
     array(
-        'mts' => array('Maintenance Statistics Engine (DB)',   DB_NO_TABLES),
-        'mtp' => array('Maintenance Priority Engine (DB)',     DB_WITH_DATA),
-        'up'  => array('Upgrade Classes',                      DB_WITH_TABLES),
-        'zif' => array('Zone Impression Forecasting (DB)',     DB_WITH_TABLES),
-        'del' => array('Delivery Engine (DB)',                 DB_WITH_TABLES),
-        'api' => array('Webservices API',                      DB_WITH_TABLES),
+        'mts' => array('Maintenance Statistics Engine (DB)',        DB_NO_TABLES),
+        'mtp' => array('Maintenance Priority Engine (DB)',          DB_WITH_DATA),
+        'mpe' => array('Maintenance Priority Engine (DB, No Data)', DB_WITH_TABLES),
+        'up'  => array('Upgrade Classes',                           DB_WITH_TABLES),
+        'zif' => array('Zone Impression Forecasting (DB)',          DB_WITH_TABLES),
+        'del' => array('Delivery Engine (DB)',                      DB_WITH_TABLES),
+        'api' => array('Webservices API',                           DB_WITH_TABLES)
     );
 
 /*
