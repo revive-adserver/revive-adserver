@@ -26,6 +26,7 @@ $Id: Template.php 16124 2008-02-11 18:16:06Z andrew.hill@openads.org $
 */
 
 require_once MAX_PATH . '/lib/OA/Preferences.php';
+require_once MAX_PATH . '/lib/php-gettext/gettext.inc';
 
 /**
  * This class provides a translation mechanism which can be used throughout
@@ -34,8 +35,6 @@ require_once MAX_PATH . '/lib/OA/Preferences.php';
  */
 class OA_Translation
 {
-    var $hasGettext;
-    
     /**
      * Boolean class property to control if the returned string should have HTML entities converted.
      *
@@ -82,8 +81,6 @@ class OA_Translation
 
     function OA_Translation()
     {
-        $this->hasGettext = function_exists('gettext');
-        
         if (isset($GLOBALS['_MAX']['PREF']['language'])) {
             // We are going to have to map the stored value
             // if it is not the full language_country code.
@@ -91,14 +88,10 @@ class OA_Translation
         }
         
         //$this->locale = 'fr_FR';
-        
-        // TODO: Add support for PHP gettext library.
-        if ($this->hasGettext) {
-            setlocale(LC_ALL, $this->locale);
-            bindtextdomain("openx", MAX_PATH . '/lib/OA/locale');
-            bind_textdomain_codeset("openx", "UTF-8");
-            textdomain("openx");
-        }
+        T_setlocale(LC_ALL, $this->locale);
+        T_bindtextdomain("openx", MAX_PATH . "/lib/OA/locale");
+        T_bind_textdomain_codeset("openx", "UTF-8");
+        T_textdomain("openx");
     }
 
     /**
@@ -120,10 +113,8 @@ class OA_Translation
         // Look up string from available translation memories
         if (!empty($GLOBALS['str' . $sString])) { // codekey in smarty templates.
             $sReturn = $GLOBALS['str' . $sString];
-        } elseif ($this->hasGettext) {
-            $sReturn = gettext($sString);
         } else {
-            $sReturn = $sString;
+            $sReturn = T_($sString);
         }
 
         // If substitution variables have been provided
