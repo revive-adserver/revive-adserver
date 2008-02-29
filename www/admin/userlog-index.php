@@ -2,11 +2,14 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2008 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -45,14 +48,14 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-phpAds_PageHeader("5.4");
+phpAds_PageHeader("5.3");
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     // Show all "My Account" sections
-    phpAds_ShowSections(array("5.1", "5.2", "5.3", "5.5", "5.6", "5.4"));
+    phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3"));
     phpAds_UserlogSelection("index");
 } else {
     // Show the "Preferences", "User Log" and "Channel Management" sections of the "My Account" sections
-    phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.7"));
+    phpAds_ShowSections(array("5.1", "5.3", "5.7"));
 }
 
 
@@ -61,8 +64,8 @@ $advertiserId   = MAX_getValue('advertiserId',    0);
 $campaignId     = MAX_getValue('campaignId',      0);
 $publisherId    = MAX_getValue('publisherId',     0);
 $zoneId         = MAX_getValue('zoneId',          0);
-$startDate      = MAX_getStoredValue('period_start', 0);
-$endDate        = MAX_getStoredValue('period_end', 0);
+$startDate      = MAX_getStoredValue('period_start');
+$endDate        = MAX_getStoredValue('period_end');
 $periodPreset   = MAX_getValue('period_preset', 'all_events');
 
 //  paging related input variables
@@ -71,10 +74,14 @@ $orderdirection = MAX_getStoredValue('orderdirection',  'up');
 $setPerPage     = MAX_getStoredValue('setPerPage',      10);
 $pageID         = MAX_getStoredValue('pageID',          1);
 
-
 //  setup date selector
+$aPeriod = array(
+    'period_preset'     => $periodPreset,
+    'period_start'      => $startDate,
+    'period_end'        => $endDate
+);
 $daySpan = new OA_Admin_UI_Audit_DaySpanField('period');
-$daySpan->setValue($periodPreset);
+$daySpan->setValueFromArray($aPeriod);
 $daySpan->enableAutoSubmit();
 
 //  initialize parameters
