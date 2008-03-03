@@ -28,15 +28,10 @@ $Id$
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
 *}
 
-  {*
-    Error message to be shown when there is no matching user.
-  {if $errorMessage}
-  <div class="errormessageicon">
-    {$errorMessage}
-  </div>
-  {/if}
-  *}
-  {if !$errorNoMatchingAccount}
+<br/>
+<br/>
+
+{if !$errorNoMatchingAccount}
 
 <div class="infomessage" id="intro" style="margin-top: 0; {if !$hideCreate || !$hideLink}display:none{/if}">
   <p>
@@ -44,7 +39,7 @@ $Id$
   </p>
 
   <p>
-    <b>{$creator|default:'The Big X'}</b> {t str="invited you to use OpenX. To accept this invitation,"} <a id="use-existing-account" href="#">{t str="enter user name and password of your existing OpenX account"}</a> ({t str="the one you use for e.g. OpenX Forum) or"} <a id="create-new-account" href="#">{t str="create a new OpenX account"}</a>.
+    {t str="You have been invited to use OpenX. To accept this invitation,"} <a id="use-existing-account" href="#">{t str="enter user name and password of your existing OpenX account"}</a> ({t str="the one you use for e.g. OpenX Forum) or"} <a id="create-new-account" href="#">{t str="create a new OpenX account"}</a>.
   </p>
 </div>
 
@@ -98,6 +93,13 @@ $Id$
 {/literal}
 </script>
 
+{elseif $errorMessage}
+  <div class="errormessageicon">
+    {$errorMessage}
+  </div>
+  <p>
+  <a href="index.php">{t str="Click here"}</a> {t str="to sign-in as a different user."}
+  </p>
 {/if}
 
 {*

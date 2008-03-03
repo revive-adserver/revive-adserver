@@ -29,11 +29,11 @@ $conf = $GLOBALS['_MAX']['CONF'];
 $name = (!empty($GLOBALS['_MAX']['PREF']['name'])) ? $GLOBALS['_MAX']['PREF']['name'] : MAX_PRODUCT_NAME;
 
 $words = array(
-    // sso confirmation page (sso-accounts.php)
-    'Server error: ' => 'Server error: ',
+    // sso signup page (sso-accounts.php)
+    'Error: ' => 'Error: ',
     'Error while updating an account. Please try again.' => 'Error while updating an account. Please try again.',
     'Your username or password are not correct. Please try again.' => 'Your username or password are not correct. Please try again.',
-    "Error. There is no matching user. Check if your link is correct or contact your OpenX administrator." => "Error. There is no matching user. Check if your link is correct or contact your OpenX administrator.",
+    "Error: There is no matching user. Check if your link is correct or contact your OpenX administrator." => "Error: There is no matching user. Check if your link is correct or contact your OpenX administrator.",
     'User name' => 'User name',
     'Enter user name' => 'Enter user name',
     'Password' => 'Password',
@@ -48,6 +48,12 @@ $words = array(
     'Re-enter the same password' => 'Re-enter the same password',
     'Could not create your new OpenX account. Please try again.' => 'Could not create your new OpenX account. Please try again.',
     'Server error: ' => 'Server error: ',
+    'Your existing OpenX account was succesfully connected. You may use your existing credentials to sign-in.' => 'Your existing OpenX account was succesfully connected. You may use your existing credentials to sign-in.',
+    'Your OpenX account was succesfully created. You may now sign-in.' => 'Your OpenX account was succesfully created. You may now sign-in.',
+    'Click here' => 'Click here',
+    'to sign-in as a different user.' => 'to sign-in as a different user.',
+    // sso confirmation page (sso-confirm.php)
+    'Error: wrong parameters, user do not exist' => 'Error: wrong parameters, user do not exist',
     // plugins translations
     'I have read and agree to the OpenX' => 'I have read and agree to the OpenX',
     'Terms and Conditions' => 'Terms and Conditions',
@@ -58,15 +64,16 @@ $words = array(
     'To create an OpenX account, you must choose a user name that is available' => 'To create an OpenX account, you must choose a user name that is available',
     // lib/templates/admin/sso-start.html
     'Welcome' => 'Welcome',
-    'invited you to use OpenX. To accept this invitation,' => 'invited you to use OpenX. To accept this invitation,',
+    'You have been invited to use OpenX. To accept this invitation,' => 'You have been invited to use OpenX. To accept this invitation,',
     'enter user name and password of your existing OpenX account' => 'enter user name and password of your existing OpenX account',
     'the one you use for e.g. OpenX Forum) or' => 'the one you use for e.g. OpenX Forum) or',
     'create a new OpenX account' => 'create a new OpenX account',
     'Do you already have an OpenX account?' => 'Do you already have an OpenX account?',
     'Yes, I want to use my existing account' => 'Yes, I want to use my existing account',
     'No, I want to create a new account' => 'No, I want to create a new account',
-    '' => '',
-    '' => '',
+    // sso-confirm.html
+    'You may now' => 'You may now',
+    'sign-in here' => 'sign-in here',
     // plugins specific translations
     'Connection error, please send your data again' => 'Connection error, please send your data again',
     'User do not exists, please try again with different account' => 'User do not exists, please try again with different account',

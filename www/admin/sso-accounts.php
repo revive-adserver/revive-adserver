@@ -30,8 +30,10 @@ define ('OA_SKIP_LOGIN', 1);
 require_once '../../init.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/plugins/authentication/cas/Central/Cas.php';
+require_once MAX_PATH . '/lib/OA/Session.php';
 
 phpAds_SessionDataDestroy();
+phpAds_SessionStart();
 
 // Register input variables
 phpAds_registerGlobalUnslashed ('info', 'ssoid', 'email', 'vh', 'ssoexistinguser',
@@ -54,31 +56,13 @@ if ($proposedusername != '')
 }
 
 /*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
-function pageHeader()
-{
-    $nav = array ("1" => array("password-recovery.php" => $GLOBALS['strPasswordRecovery']));
-
-    $GLOBALS['OA_Navigation'] = array(
-        OA_ACCOUNT_ADMIN      => $nav,
-        OA_ACCOUNT_MANAGER    => $nav,
-        OA_ACCOUNT_ADVERTISER => $nav,
-        OA_ACCOUNT_TRAFFICKER => $nav
-    );
-
-    phpAds_PageHeader("1");
-
-    echo "<br><br>"; // todo - move to template
-}
-
-/*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
 $oTpl = new OA_Admin_Template('sso-start.html');
 $errors = array();
+$urlConfirm = "sso-confirm.php?id=";
 
 if ($email != '' && $vh != '') 
 {
@@ -89,12 +73,14 @@ if ($email != '' && $vh != '')
     $ssoid = $oCentral->checkEmail($vh, $email);
     $confirmed = $ssoid && !PEAR::isError($ssoid);
     if (PEAR::isError($ssoid)) {
-        $errors[] = $oPlugin->translate('Server error: ').$ssoid->getMessage();
+        $errors[] = $oPlugin->translate('Error: ').$ssoid->getMessage();
     }
     
     $doUsers = OA_Dal::factoryDO('users');
     if (!$doUsers->loadByProperty('email_address', $email)) {
         $confirmed = false;
+    } else {
+        $oTpl->assign('userName', $doUsers->contact_name);
     }
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && $confirmed) 
@@ -115,7 +101,9 @@ if ($email != '' && $vh != '')
                     $ret = $doUsers->update();
                     if ($ret !== false && !PEAR::isError($ret)) {
                         $oCentral->rejectPartialAccount($ssoid, $vh);
-                        $url = "sso-accounts.php?action=confirmation&userName=test";
+                        OA_Session::setMessage(
+                            $oPlugin->translate('Your existing OpenX account was succesfully connected. You may use your existing credentials to sign-in.'));
+                        $url = $urlConfirm . $doUsers->user_id;
                         header ("Location: " . $url);
                         exit();
                     } else {
@@ -136,12 +124,13 @@ if ($email != '' && $vh != '')
                     md5($ssonewpassword), $vh);
                 if ($ret && !PEAR::isError($ret))
                 {
-                    // todo - set a message for a next page
-                    $url = "sso-accounts.php?action=confirmation&userName=test";
+                    OA_Session::setMessage(
+                            $oPlugin->translate('Your OpenX account was succesfully created. You may now sign-in.'));
+                    $url = $urlConfirm . $doUsers->user_id;
                     header ("Location: " . $url);
                     exit();
                 } elseif (PEAR::isError($ret)) {
-                    $errors[] = $oPlugin->translate('Server error: ') . $ret->getMessage();
+                    $errors[] = $oPlugin->translate('Error: ') . $ret->getMessage();
                 }
             }
             
@@ -153,7 +142,7 @@ if ($email != '' && $vh != '')
     {
         if (!$confirmed)
         {
-            $errors[] = $oPlugin->translate("Error. There is no matching user. Check if your link is correct or contact your OpenX administrator.");
+            $errors[] = $oPlugin->translate("Error: There is no matching user. Check if your link is correct or contact your OpenX administrator.");
             $oTpl->assign('errorNoMatchingAccount', true);
         }
     }
@@ -235,7 +224,7 @@ $oTpl->assign('ssoid', $ssoid);
 $oTpl->assign('email', $email);
 $oTpl->assign('vh', $vh);
 
-pageHeader();
+phpAds_PageHeader("1");
 
 $oTpl->display();
 
