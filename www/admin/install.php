@@ -207,6 +207,12 @@ else if (array_key_exists('btn_dbsetup', $_POST))
         } else {
             $aDatabase = $oUpgrader->aDsn;
             $action    = OA_UPGRADE_DBSETUP;
+
+            // Timezone support - hack
+            if ($oUpgrader->versionInitialSchema['tables_core'] < 538) {
+                // Non TZ-enabled database
+                $errTz = true;
+            }
         }
     }
     else
@@ -256,6 +262,11 @@ else if (array_key_exists('btn_upgrade', $_POST))
             {
                 $message = 'Upgrade completed';
                 $action  = OA_UPGRADE_UPGRADE;
+
+                // Timezone support - hack
+                if ($oUpgrader->versionInitialSchema['tables_core'] < 538 && empty($_POST['noTzAlert'])) {
+                    OA_Dal_ApplicationVariables::set('utc_update', OA::getNowUTC());
+                }
             }
         }
     }
