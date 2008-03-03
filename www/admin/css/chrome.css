@@ -106,12 +106,12 @@ a:hover {
   	top: 9px;
   	width: 12px;
   	height: 12px;
-  
+
   	padding: 0;
   	margin: 0;
   	border: 0;
   	cursor: pointer;
-  
+
   	background: url(../images/searchfull.png) -194px -9px no-repeat;
 }
 
@@ -241,7 +241,7 @@ a:hover {
   -webkit-border-top-right-radius: 3px;
 }
 
-.hover .switchTrigger {  
+.hover .switchTrigger {
   background: url("../images/arrowwh-d.gif") no-repeat right;
   background-color: #9c9c9c;
   color: white;
@@ -266,28 +266,28 @@ a:hover {
   background: url('../images/accountswitcher-header.png') no-repeat;
   height: 1px;
   overflow: hidden;
-  
-  /* Fix IE bug: transparent PNG support */   
+
+  /* Fix IE bug: transparent PNG support */
   -background: none;
   -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/accountswitcher-header.png', sizingMethod='scale');
-} 
+}
 
 .expanded .switchDown {
   background: url('../images/accountswitcher-footer.png') no-repeat;
   height: 15px;
-  
-  /* Fix IE bug: transparent PNG support */   
+
+  /* Fix IE bug: transparent PNG support */
   -background: none;
   -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/accountswitcher-footer.png', sizingMethod='scale');
-} 
+}
 
 .expanded .switchMiddle {
   background: url('../images/accountswitcher-shadow.png') repeat-y;
   padding-left: 3px;
   padding-right: 3px;
   zoom:1;
-  
-  /* Fix IE bug: transparent PNG support - it breaks hovering on LI, not sure why */    
+
+  /* Fix IE bug: transparent PNG support - it breaks hovering on LI, not sure why */
   -background: none;
   -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/accountswitcher-shadow.png', sizingMethod='scale');
 }
@@ -347,7 +347,7 @@ a:hover {
 #oaNavigationExtra .accountSwitcher li.hover, #oaNavigationExtra .accountSwitcher .result ul li.hover a {
   background-color: #0767A8;
   color: white;
-  cursor: pointer; 
+  cursor: pointer;
 }
 
 #oaNavigationExtra .accountSwitcher .result ul li a {
@@ -563,3 +563,11 @@ select.switcher optgroup {
   	font-style: normal;
 }
 
+.stats-tz-warning {
+    margin-top: 1em;
+    border: 1px solid red;
+    background-color: pink;
+    padding: .5em;
+    color: black;
+    font-weight: bold;
+}

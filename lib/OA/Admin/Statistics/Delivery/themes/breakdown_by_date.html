@@ -16,6 +16,10 @@
     {showDaySpanSelector()}
     </div>
 
+    <div flexy:if="displayInaccurateStatsWarning" class="stats-tz-warning">
+        {tr(#strWarningInaccurateStats#)}
+    </div>
+
     <table width='100%' border='0' cellspacing='0' cellpadding='0'>
 	<tr>
         {if:!disableGraph}

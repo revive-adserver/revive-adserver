@@ -16,6 +16,10 @@
     {showDaySpanSelector()}
     </div>
 
+    <div flexy:if="displayInaccurateStatsWarning" class="stats-tz-warning">
+        {tr(#strWarningInaccurateStats#)}
+    </div>
+
     {scriptOpen:h}
 
     function getImage() {

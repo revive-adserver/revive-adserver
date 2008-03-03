@@ -63,6 +63,16 @@
 <form name="frmOpenads" id="frmOpenads" method="POST" action="install.php" onSubmit='return showLoaders(this);' style="margin:0; padding:0;">
 
 <?php
+if ($errTz) {
+?>
+<div id="errTz" class="sysmessage sysinfoerror">
+<p>WARNING!!!</p>
+
+<input type="checkbox" name="noTzAlert" id="noTzAlert" value="1" /><label for="noTzAlert">I have already converted...</label>
+</div>
+
+<?php
+}
 
     // Disable the form items if user is upgrading
     // Change $inputType so that disabled selects are text fields, so that the correct value can be displayed

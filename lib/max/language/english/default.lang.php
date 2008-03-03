@@ -927,6 +927,7 @@ $GLOBALS['strErrorEditingCampaign']             = "Error updating campaign:";
 $GLOBALS['strUnableToChangeCampaign']           = "Cannot apply this change because:";
 $GLOBALS['strDatesConflict']                    = "dates conflict with:";
 $GLOBALS['strEmailNoDates']                     = 'Email zone campaigns must have a start and end date';
+$GLOBALS['strWarningInaccurateStats']           = "Warning! The stats displayed might not be accurate";
 
 // Email
 $GLOBALS['strSirMadam']                         = "Sir/Madam";
@@ -1137,6 +1138,7 @@ $GLOBALS['strCampaignAuditNotActivated'] = '<li>In order to view campaigns which
         <li>You are seeing this message because you didn\'t activate the Audit Trail</li>
 ';
 $GLOBALS['strCampaignAuditTrailSetup']   = "Activate Audit Trail to start viewing Campaigns";
+
 
 /*-------------------------------------------------------*/
 /* Keyboard shortcut assignments                         */
