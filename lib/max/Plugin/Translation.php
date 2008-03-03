@@ -65,7 +65,8 @@ class MAX_Plugin_Translation
         }
         $oLanguages = new MAX_Admin_Languages();
         $language = $oLanguages->languageCodeToString($language);
-        
+        $language = 'english';
+        // @todo lang - fix when translation framework will be fixed
         if (MAX_Plugin_Translation::includePluginLanguageFile($module, $package, $language)) {
             return true;
         }

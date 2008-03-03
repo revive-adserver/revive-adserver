@@ -59,6 +59,17 @@ class OA_Central_Cas extends OA_Central_M2M
     }
 
     /**
+     * Returns email of sso account which matches the sso user id
+     *
+     * @param integer $ssoAccountId
+     * @return string
+     */
+    function getAccountEmail($ssoAccountId)
+    {
+        return $this->oMapper->getAccountEmail($ssoAccountId);
+    }
+
+    /**
      * Creates partial account for user and sends activation email.
      *
      * @param $userEmail email of new user

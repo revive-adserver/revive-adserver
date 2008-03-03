@@ -56,6 +56,19 @@ class OA_Central_RpcMapper_Cas extends OA_Central_RpcMapper
     }
 
     /**
+     * Returns email of sso account which matches the sso user id
+     *
+     * @param integer $ssoAccountId
+     * @return string
+     */
+    function getAccountEmail($ssoAccountId)
+    {
+        return $this->oRpc->callM2M('getAccountEmail', array(
+            new XML_RPC_Value($ssoAccountId, 'int')
+        ));
+    }
+
+    /**
      * Creates partial account for user and sends activation email.
      * @param $userEmail email of new user
      * @param $emailFrom sender email address of activation email
