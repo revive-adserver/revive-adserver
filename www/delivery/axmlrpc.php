@@ -2656,8 +2656,11 @@ break;
 // Transform any code
 $conf = $GLOBALS['_MAX']['CONF'];
 // Get the target
-if (empty($target))
+if (empty($target)) {
 $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
+} else {
+$target = htmlspecialchars($target);
+}
 // Get a timestamp
 list($usec, $sec) = explode(' ', microtime());
 $time = (float)$usec + (float)$sec;
@@ -2684,7 +2687,7 @@ $code = str_replace('{clickurlparams}', $maxparams, $code);  // This step needs 
 }
 $search = array('{timestamp}','{random}','{target}','{url_prefix}','{bannerid}','{zoneid}','{source}', '{pageurl}', '{width}', '{height}');
 $locReplace = isset($GLOBALS['loc']) ? $GLOBALS['loc'] : '';
-$replace = array($time, $random, $target, $urlPrefix, $aBanner['ad_id'], $zoneId, $source, urlencode($locReplace), $aBanner['width'], $aBanner['height']);
+$replace = array($time, $random, $target, $urlPrefix, $aBanner['ad_id'], $zoneId, htmlspecialchars($source), urlencode($locReplace), $aBanner['width'], $aBanner['height']);
 // Arrival URLs
 if (preg_match('#^\?(m3_data=[a-z0-9]+)#i', $logClick, $arrivalClick)) {
 $arrivalClick = $arrivalClick[1];
@@ -3068,7 +3071,7 @@ $log = $logClick ? '' : "{$del}log=no";
 // Determine the destination
 $dest = !empty($aBanner['url']) ? $aBanner['url'] : '';
 // If the passed in a ct0= value that is not a valid URL (simple checking), then ignore it
-$ct0 = (empty($ct0) || strtolower(substr($ct0, 0, 4)) != 'http') ? '' : $ct0;
+$ct0 = (empty($ct0) || strtolower(substr($ct0, 0, 4)) != 'http') ? '' : htmlspecialchars($ct0);
 if ($aBanner['contenttype'] == "swf" && empty($aBanner['noClickTag'])) {
 // Strip maxdest with SWF banners using clickTAG
 $maxdest = '';
