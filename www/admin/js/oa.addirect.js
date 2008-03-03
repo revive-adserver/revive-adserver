@@ -472,37 +472,41 @@ function initCampaignStatus()
  */
 jQuery.fn.confirmedLink = function(triggerLinkClass, closeIdPrefix)
 {
-  return this.each(function() {
-    $("#" + closeIdPrefix + "confirmation-dialog").jqm({
-        modal: true,
-        overlay: 40,
-        trigger: "." + triggerLinkClass,
-        onShow: function(hash) {
-          $("#" + closeIdPrefix + "cd-submit").one("click", function() {
-            location.href = hash.t.href;
-          });
-          hash.w.fadeIn("fast");
-        }
-    }).jqmAddClose("#" + closeIdPrefix + "cd-cancel");
-  });
-}
-
-/*
-function initUnlinkUserDialog()
-{
-  $("#confirmation-dialog").jqm({
+  $("#" + closeIdPrefix + "confirmation-dialog").jqm({
       modal: true,
       overlay: 40,
-      trigger: ".unlink-last",
+      trigger: "." + triggerLinkClass,
       onShow: function(hash) {
-        $("#cd-submit").one("click", function() {
+        $("#" + closeIdPrefix + "cd-submit").one("click", function() {
           location.href = hash.t.href;
         });
         hash.w.fadeIn("fast");
       }
-  }).jqmAddClose("#cd-cancel");
+  }).jqmAddClose("#" + closeIdPrefix + "cd-cancel");
 }
-*/
+
+/**
+ * Converts the provided links (pointing at legal documents) into
+ * a modal popup displaying the same contents.
+ */
+jQuery.terms = function(triggerLinksSelector, closeIdPrefix) {
+  $("#" + closeIdPrefix + "terms-dialog").jqm({
+      modal: true,
+      overlay: 40,
+      trigger: "." + triggerLinksSelector,
+      onShow: function(hash) {
+        var ha = hash;
+        $("#" + closeIdPrefix + "terms-contents").load(hash.t.href);
+        $("#" + closeIdPrefix + "terms-title").html("&nbsp;&nbsp;" + hash.t.title);
+        $("#" + hash.t.id + "c").attr("checked", false);
+        $("#" + closeIdPrefix + "terms-submit").one("click", function() {
+          $("#" + hash.t.id + "c").attr("checked", true);
+          $("#" + closeIdPrefix + "terms-dialog").jqmHide();
+        });
+        hash.w.fadeIn("fast");
+      }
+  }).jqmAddClose("#" + closeIdPrefix + "terms-cancel");
+}
 
 function copyValidationConstraints(fromObj, toObj)
 {

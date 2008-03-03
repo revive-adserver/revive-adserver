@@ -960,3 +960,44 @@ div.terms iframe {
   display: none;
 }
 
+.terms-contents {
+  height: 500px; 
+  overflow-y: scroll; 
+  overflow-x: none; 
+}
+
+.terms-contents .li1 {
+	padding-left : 2px;
+	padding-bottom: 2px;
+	padding-top: 2px;
+	font-style: normal;
+	font-weight: bold;
+}
+
+.terms-contents .li2txt {
+	margin: 25px;
+	padding-left: 25px;
+	padding-right: 20px;
+}
+
+.terms-contents .li2 {
+	margin-left:-25px;
+	margin-bottom: 0px;
+	float: left;
+}
+
+.terms-contents ul, 
+.terms-contents ol {
+  padding: 0pt 0.8em 0pt 1.5em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.terms-contents h1 {
+  border: 0;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  font-size: 200%;
+}
+
+

@@ -126,7 +126,7 @@ a:hover {
 #oaNavigation {
 	position: relative;
 	top: -24px;
-	z-index: 2;
+	z-index: 0;
 
 	height: 24px;
 	border-bottom: 1px solid #d1d1d1;
