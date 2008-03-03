@@ -303,6 +303,13 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     var $skipFormatting = false;
 
     /**
+     * A variable to decide if the big red TZ inaccuracy warning box should be displayed
+     *
+     * @var bool
+     */
+    var $displayInaccurateStatsWarning = false;
+
+    /**
      * A PHP5-style constructor that can be used to perform common
      * class instantiation by children classes.
      *
@@ -380,6 +387,9 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         if ($this->useHistoryClass) {
             $this->oHistory = new OA_Admin_Statistics_History();
         }
+
+        // Check if stats are accourate (when upgraded from a non-TZ enabled version
+        $this->_checkStatsAccuracy();
     }
 
     /**
@@ -1543,6 +1553,29 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         return false;
     }
 
+    /**
+     * A private method to check if the returned stats may be inaccurate
+     * becuase of an upgrade from a non TZ-enabled version
+     *
+     */
+    function _checkStatsAccuracy()
+    {
+        $utcUpdate = OA_Dal_ApplicationVariables::get('utc_update');
+        if (!empty($utcUpdate)) {
+            $oUpdate = new Date($utcUpdate);
+            $oUpdate->setTZbyID('UTC');
+            // Add 12 hours
+            $oUpdate->addSeconds(3600 * 12);
+            if (!empty($this->aDates['day_begin']) && !empty($this->aDates['day_end'])) {
+                $startDate = new Date($this->aDates['day_begin']);
+                $endDate   = new Date($this->aDates['day_end']);
+
+                if ($oUpdate->after($endDate) || $oUpdate->after($startDate)) {
+                    $this->displayInaccurateStatsWarning = true;
+                }
+            }
+        }
+    }
 }
 
 ?>

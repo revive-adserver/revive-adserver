@@ -14,6 +14,11 @@
     <div flexy:if="showDaySpanSelector">
     {showDaySpanSelector()}
     </div>
+
+    <div flexy:if="displayInaccurateStatsWarning" class="stats-tz-warning">
+        {tr(#strWarningInaccurateStats#)}
+    </div>
+
     {if:noStatsAvailable}
     <div class='errormessage' style='margin-top: 2em'><img class='errormessage' src='images/info.gif' width='16' height='16' border='0' align='absmiddle'>{showNoStatsString()}</div>
     {else:}
