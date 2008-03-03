@@ -52,8 +52,16 @@ $words = array(
     'Your OpenX account was succesfully created. You may now sign-in.' => 'Your OpenX account was succesfully created. You may now sign-in.',
     'Click here' => 'Click here',
     'to sign-in as a different user.' => 'to sign-in as a different user.',
+    'Error: There is no matching user. Check if your link is correct or contact your OpenX administrator.' => 'Error: There is no matching user. Check if your link is correct or contact your OpenX administrator.',
+    'Error: ' => 'Error: ',
+    'Error while updating an account. Please try again.' => 'Error while updating an account. Please try again.',
+    'Your username or password are not correct. Please try again.' => 'Your username or password are not correct. Please try again.',
+    'Could not create your new OpenX account. Please try again.' => 'Could not create your new OpenX account. Please try again.',
+    'Wrong parameters' => 'Wrong parameters',
     // sso confirmation page (sso-confirm.php)
     'Error: wrong parameters, user do not exist' => 'Error: wrong parameters, user do not exist',
+    'Your OpenX account was succesfully created. You may now sign-in.' => 'Your OpenX account was succesfully created. You may now sign-in.',
+    'Your existing OpenX account was succesfully connected. You may use your existing credentials to sign-in.' => 'Your existing OpenX account was succesfully connected. You may use your existing credentials to sign-in.',
     // plugins translations
     'I have read and agree to the OpenX' => 'I have read and agree to the OpenX',
     'Terms and Conditions' => 'Terms and Conditions',

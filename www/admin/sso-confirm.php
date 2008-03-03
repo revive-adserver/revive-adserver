@@ -29,10 +29,9 @@ define ('OA_SKIP_LOGIN', 1);
 
 require_once '../../init.php';
 require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/lib/OA/Session.php';
 
 // Register input variables
-phpAds_registerGlobalUnslashed ('id');
+phpAds_registerGlobalUnslashed ('id', 'action');
 
 $oPlugin = &MAX_Plugin::factory('authentication', 'cas');
 MAX_Plugin_Translation::registerInGlobalScope('authentication', 'cas');
@@ -50,7 +49,16 @@ if (!empty($id))
     $doUsers = OA_Dal::factoryDO('users');
     if ($doUsers->loadByProperty('user_id', $id)) {
         $oTpl->assign('userName', $doUsers->contact_name);
-        $oTpl->assign('ssoMessage', OA_Session::getMessage());
+        // todo: refactor to controller
+        switch ($action) {
+            case 'linked':
+                $message = $oPlugin->translate('Your existing OpenX account was succesfully connected. You may use your existing credentials to sign-in.');
+                break;
+            case 'created':
+                $message = $oPlugin->translate('Your OpenX account was succesfully created. You may now sign-in.');
+                break;
+        }
+        $oTpl->assign('ssoMessage', $message);
     } else {
         $errors[] = $oPlugin->translate('Error: such user do not exist');
     }

@@ -29,132 +29,30 @@ define ('OA_SKIP_LOGIN', 1);
 
 require_once '../../init.php';
 require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/plugins/authentication/cas/Central/Cas.php';
-require_once MAX_PATH . '/lib/OA/Session.php';
+require_once MAX_PATH . '/plugins/authentication/cas/Controller/ConfirmAccount.php';
 
 phpAds_SessionDataDestroy();
 phpAds_SessionStart();
 
 // Register input variables
-phpAds_registerGlobalUnslashed ('info', 'ssoid', 'email', 'vh', 'ssoexistinguser',
+$request = phpAds_registerGlobalUnslashed ('action', 'ssoid', 'email', 'vh', 'ssoexistinguser',
     'ssoexistingpassword', 'ssonewuser', 'ssonewpassword', 'ssonewpassword2',
     'email', 'proposedusername');
 
-$oCentral = &new OA_Central_Cas();
-$oPlugin = &MAX_Plugin::factory('authentication', 'cas');
-MAX_Plugin_Translation::registerInGlobalScope('authentication', 'cas');
 
-if ($proposedusername != '') 
-{
-    // @todo - add validation here before passing username to xml-rpc call
-    // waiting here for a product decision on minimum length of username
-    $ret = $oCentral->isUserNameAvailable($proposedusername);
-    // @todo - add a possibility to return error message here
-    // the JavaScript code needs to be modified first
-    echo ($ret && !PEAR::isError($ret)) ? 'available': 'notavailable';
-    exit;
-}
+$oController = new OA_Controller_SSO_ConfirmAccount();
+$oController->process($request);
 
-/*-------------------------------------------------------*/
-/* Main code                                             */
-/*-------------------------------------------------------*/
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
-
 $oTpl = new OA_Admin_Template('sso-start.html');
-$errors = array();
-$urlConfirm = "sso-confirm.php?id=";
+$oController->assignModelToView($oTpl);
+$oPlugin = &$oController->getCasPlugin();
 
-if ($email != '' && $vh != '') 
-{
-    $hideCreate = true;
-    $hideLink = true;
-    
-    // check that $email and $vh are correct, it needs to be done in every call
-    $ssoid = $oCentral->checkEmail($vh, $email);
-    $confirmed = $ssoid && !PEAR::isError($ssoid);
-    if (PEAR::isError($ssoid)) {
-        $errors[] = $oPlugin->translate('Error: ').$ssoid->getMessage();
-    }
-    
-    $doUsers = OA_Dal::factoryDO('users');
-    if (!$doUsers->loadByProperty('email_address', $email)) {
-        $confirmed = false;
-    } else {
-        $oTpl->assign('userName', $doUsers->contact_name);
-    }
-
-    if ($_SERVER['REQUEST_METHOD'] == 'POST' && $confirmed) 
-    {
-        if ($info == 'link') 
-        {
-            if ($ssoexistinguser != '' && $ssoexistingpassword != '') 
-            {
-                $md5Password = md5($ssoexistingpassword);
-                $ssoAccountId = $oCentral->getAccountIdByUsernamePassword($ssoexistinguser, $md5Password);
-                if ($ssoAccountId && !PEAR::isError($ssoAccountId)) {
-                    $accountEmail = $oCentral->getAccountEmail($ssoAccountId);
-                }
-                if ($accountEmail && !PEAR::isError($accountEmail)) 
-                {
-                    $doUsers->sso_user_id = $ssoAccountId;
-                    $doUsers->email_address = $accountEmail;
-                    $ret = $doUsers->update();
-                    if ($ret !== false && !PEAR::isError($ret)) {
-                        $oCentral->rejectPartialAccount($ssoid, $vh);
-                        OA_Session::setMessage(
-                            $oPlugin->translate('Your existing OpenX account was succesfully connected. You may use your existing credentials to sign-in.'));
-                        $url = $urlConfirm . $doUsers->user_id;
-                        header ("Location: " . $url);
-                        exit();
-                    } else {
-                        $errors[] = $oPlugin->translate('Error while updating an account. Please try again.');
-                    }
-                } else {
-                        $errors[] = $oPlugin->translate('Your username or password are not correct. Please try again.');
-                }
-            }
-            $hideLink = false;
-        }
-        
-        if ($info == 'create') 
-        {
-            if ($ssonewuser != '' && $ssonewpassword != '') 
-            {
-                $ret = $oCentral->completePartialAccount($ssoid, $ssonewuser,
-                    md5($ssonewpassword), $vh);
-                if ($ret && !PEAR::isError($ret))
-                {
-                    OA_Session::setMessage(
-                            $oPlugin->translate('Your OpenX account was succesfully created. You may now sign-in.'));
-                    $url = $urlConfirm . $doUsers->user_id;
-                    header ("Location: " . $url);
-                    exit();
-                } elseif (PEAR::isError($ret)) {
-                    $errors[] = $oPlugin->translate('Error: ') . $ret->getMessage();
-                }
-            }
-            
-            $oTpl->assign('errorCreateFailed', $oPlugin->translate('Could not create your new OpenX account. Please try again.'));
-            $hideCreate = false;
-        }
-    }
-    else 
-    {
-        if (!$confirmed)
-        {
-            $errors[] = $oPlugin->translate("Error: There is no matching user. Check if your link is correct or contact your OpenX administrator.");
-            $oTpl->assign('errorNoMatchingAccount', true);
-        }
-    }
-}
-else
-{
-    // ssoid and verification not provided => no matching account 
-    $oTpl->assign('errorNoMatchingAccount', true);
-}
-
-$oTpl->assign('errorMessage', implode('<br />', $errors));
-$oTpl->assign('hideLink', $hideLink);
+/**
+ * In later refactoring phase following template related code should 
+ * be moved to external ModelView class as well.
+ */
+$oTpl->assign('errorMessage', implode('<br />', $oController->getErrors()));
 $oTpl->assign('fieldsLink', array(
     array(
         'title'     => $oPlugin->translate('Please enter username and password of your OpenX account'),
@@ -178,7 +76,6 @@ $oTpl->assign('fieldsLink', array(
     ),
 ));
 
-$oTpl->assign('hideCreate', $hideCreate);
 $oTpl->assign('fieldsCreate', array(
 array(
     'title'     => $oPlugin->translate('Enter details for your new OpenX account'),
@@ -225,13 +122,7 @@ $oTpl->assign('email', $email);
 $oTpl->assign('vh', $vh);
 
 phpAds_PageHeader("1");
-
 $oTpl->display();
-
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
-
 phpAds_PageFooter();
 
 ?>
