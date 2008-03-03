@@ -173,9 +173,15 @@ class OA_Controller_SSO_ConfirmAccount
         }
     }
     
+    /**
+     * Returns true if checked value is equal false or it it is a PEAR_Error
+     *
+     * @param mixed $error
+     * @return boolean
+     */
     function isError($error)
     {
-        return PEAR::isError($error);
+        return $error === false || PEAR::isError($error);
     }
     
     function getErrors()
@@ -222,8 +228,12 @@ class OA_Controller_SSO_ConfirmAccount
      */
     function link()
     {
-        $this->verify();
-        $this->loadDoUsers();
+        if (!$this->verify()) {
+            return false;
+        }
+        if (!$this->loadDoUsers()) {
+            return false;
+        }
         $this->setModelProperty('hideLink', false);
         
         if (empty($this->request['ssoexistinguser']) || empty($this->request['ssoexistingpassword'])) 
@@ -258,38 +268,43 @@ class OA_Controller_SSO_ConfirmAccount
         } else {
             $this->addError($this->msgErrorWrongCredentials); 
         }
+        return false;
     }
 
 
-    function redirectToConfirmPageAndExit($action, $userId)
-    {
-        $url = sprintf($this->urlConfirm, $userId, $action);
-        header ("Location: " . $url);
-        exit();
-    }
-    
     /**
      * Action "create". Creates a new SSO account
      *
      */
     function create()
     {
-        $this->verify();
-        $this->loadDoUsers();
-        
+        if (!$this->verify()) {
+            return false;
+        }
+        if (!$this->loadDoUsers()) {
+            return false;
+        }
+        $this->setModelProperty('hideCreate', false);        
         if (!empty($this->request['ssonewuser']) && !empty($this->request['ssonewpassword'])) 
         {
             $ret = $this->oCentral->completePartialAccount($this->ssoAccountId, $this->request['ssonewuser'],
                 md5($this->request['ssonewpassword']), $this->request['vh']);
-            if ($ret && !$this->isError($ret))
+            if (!$this->isError($ret))
             {
                 $this->redirectToConfirmPageAndExit('created', $this->doUsers->user_id);
-            } elseif ($this->isError($ret)) {
+            } else {
                 $this->addError($ret);
             }
         }
         $this->setModelProperty('errorCreateFailed', $this->oPlugin->translate($this->msgErrorGeneralAccountCreateError));
-        $this->setModelProperty('hideCreate', false);
+        return false;
+    }
+    
+    function redirectToConfirmPageAndExit($action, $userId)
+    {
+        $url = sprintf($this->urlConfirm, $userId, $action);
+        header ("Location: " . $url);
+        exit();
     }
     
     /**
