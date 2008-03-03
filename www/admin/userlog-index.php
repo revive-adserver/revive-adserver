@@ -2,11 +2,14 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2008 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -71,10 +74,14 @@ $orderdirection = MAX_getStoredValue('orderdirection',  'up');
 $setPerPage     = MAX_getStoredValue('setPerPage',      10);
 $pageID         = MAX_getStoredValue('pageID',          1);
 
-
 //  setup date selector
+$aPeriod = array(
+    'period_preset'     => $periodPreset,
+    'period_start'      => $startDate,
+    'period_end'        => $endDate
+);
 $daySpan = new OA_Admin_UI_Audit_DaySpanField('period');
-$daySpan->setValue($periodPreset);
+$daySpan->setValueFromArray($aPeriod);
 $daySpan->enableAutoSubmit();
 
 //  initialize parameters

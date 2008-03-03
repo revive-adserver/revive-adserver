@@ -83,6 +83,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql STRICT IMMUTABLE;";
 
+// IF is not STRICT as the parameters may be NULL.
 $aCustomFunctions[] = "
 CREATE OR REPLACE FUNCTION IF(boolean, integer, integer) RETURNS integer AS $$
 BEGIN
@@ -91,8 +92,9 @@ BEGIN
  END IF;
  RETURN $3;
 END;
-$$ LANGUAGE plpgsql STRICT IMMUTABLE;";
+$$ LANGUAGE plpgsql IMMUTABLE;";
 
+// IF is not STRICT as the parameters may be NULL.
 $aCustomFunctions[] = "
 CREATE OR REPLACE FUNCTION IF(boolean, character varying, integer) RETURNS integer AS $$
 BEGIN
@@ -101,8 +103,9 @@ BEGIN
  END IF;
  RETURN $3;
 END;
-$$ LANGUAGE plpgsql STRICT IMMUTABLE;";
+$$ LANGUAGE plpgsql IMMUTABLE;";
 
+// IF is not STRICT as the parameters may be NULL.
 $aCustomFunctions[] = "
 CREATE OR REPLACE FUNCTION IF(boolean, character varying, character varying) RETURNS character varying AS $$
 BEGIN
@@ -111,7 +114,18 @@ BEGIN
  END IF;
  RETURN $3;
 END;
-$$ LANGUAGE plpgsql STRICT IMMUTABLE;";
+$$ LANGUAGE plpgsql IMMUTABLE;";
+
+// IF is not STRICT as the parameters may be NULL.
+$aCustomFunctions[] = "
+CREATE OR REPLACE FUNCTION IF(boolean, timestamptz, timestamptz) RETURNS timestamptz AS $$
+BEGIN
+ IF ($1) THEN
+  RETURN $2;
+ END IF;
+ RETURN $3;
+END;
+$$ LANGUAGE plpgsql IMMUTABLE;";
 
 // IFNULL is not STRICT as the $1 parameter may be NULL.
 $aCustomFunctions[] = "
@@ -151,4 +165,5 @@ BEGIN
  RETURN $1 || $2;
 END;
 $$ LANGUAGE plpgsql STRICT IMMUTABLE;";
+
 ?>

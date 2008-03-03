@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2008 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -243,7 +243,7 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
             firstDay   : " . ($GLOBALS['pref']['ui_week_start_day'] ? 1 : 0) . ",
             electric   : false,
         })
-        
+
         var field = document.getElementById('{$this->_name}_start');
         var oldOnSubmit = field.form.onsubmit;
 
@@ -254,11 +254,11 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
 
           return checkDates(this);
         }
-  
+
         function checkDates(form)
         {
           var startField = form.{$this->_name}_start;
-          var endField = form.{$this->_name}_end;   
+          var endField = form.{$this->_name}_end;
 
           if (!startField.disabled && startField.value != '') {
             var start = Date.parseDate(startField.value, '%d %B %Y');

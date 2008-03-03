@@ -82,9 +82,16 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $oSettings = new OA_Admin_Settings();
     $result = $oSettings->processSettingsFromForm($aElements);
     if ($result) {
+    	// Delete all the sessions if the UI is disabled
+    	// to force all the users to be logged out
+    	if (!$GLOBALS['ui_enabled']) {
+    		 $doSession = OA_Dal::factoryDO('session');
+    		 $doSession->whereAdd('1=1');
+    		 $doSession->delete(DB_DATAOBJECT_WHEREADD_ONLY);    		    		
+    	}    	
         // The settings configuration file was written correctly,
         // go to the "next" settings page from here
-        MAX_Admin_Redirect::redirect('account-settings-banner-delivery.php');
+        MAX_Admin_Redirect::redirect('account-settings-user-interface.php');
     }
     // Could not write the settings configuration file, store this
     // error message and continue

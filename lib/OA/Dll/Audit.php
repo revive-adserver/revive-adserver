@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Openads v${RELEASE_MAJOR_MINOR}                                           |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2008 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -26,8 +26,8 @@ $Id$
 */
 
 /**
- * @package    OpenXDll
- * @author     Alexander J. Tarachanowicz II <aj.tarachanowicz@openx.org>
+ * @package    OpenadsDll
+ * @author     Alexander J. Tarachanowicz II <aj.tarachanowicz@openads.org>
  */
 
 // Require the following classes:
@@ -49,6 +49,7 @@ class OA_Dll_Audit extends OA_Dll
     /**
      * Retrieves audit data for the selected context type
      *
+     * @param int $auditId Audit ID
      * @return array assoc array containing audit data
      */
     function getAuditDetail($auditId)
@@ -69,22 +70,31 @@ class OA_Dll_Audit extends OA_Dll
             $aAudit['children'] = $this->getChildren($aAudit['auditid'], $aAudit['context']);
         }
 
-        //  set action type
-        switch($aAudit['actionid']) {
-        case OA_AUDIT_ACTION_INSERT:
-            $aAudit['action'] = $GLOBALS['strInsert'];
-            break;
-        case OA_AUDIT_ACTION_UPDATE:
-            $aAudit['action'] = $GLOBALS['strUpdate'];
-            break;
-        case OA_AUDIT_ACTION_DELETE:
-            $aAudit['action'] = $GLOBALS['strDelete'];
-            break;
-        }
+        $aAudit['action'] = $this->getActionName($aAudit['actionid']);
 
         return $aAudit;
     }
 
+    /**
+     * Gets a log of audit events
+     *
+     * @param array $aParam An assoc array containing various parameters
+     *              $aParam = array('start_date'        => '2008-01-01',    // Date to begin filtering
+     *                              'end_date'          => '2008-01-01',    // Date to end filtering
+     *                              'advertiser_id'     => 123,             // Display all events for the specified advertiser
+     *                                                                      // can be used in conjuction with campaign_id and banner_id
+     *                              'campaign_id'       => 311,             // Display all events for the specified campaign
+     *                              'banner_id'         => 1062,            // Display all events for the specified banner
+     *                              'publisher_id'      => 3,               // Display all events for the specified publisher
+     *                                                                      // can be used in conjuction with zone_id
+     *                              'zone_id'           => 32,              // Display all events for the specified zone
+     *                              'order'             => 'timestamp',     // DB column to order by
+     *                              'listorder'         => 'down',          // Order direction
+     *                              'startRecord'       => 0,               // Record to begin paging
+     *                              'perPage'           => 10               // Number of items displayed per page
+     *
+     * @return array an assoc array containing the audit events for the specified parameters
+     */
     function getAuditLog($aParam)
     {
         $oAudit = OA_Dal::factoryDO('audit');
@@ -308,11 +318,19 @@ class OA_Dll_Audit extends OA_Dll
         return false;
     }
 
+    /**
+     * Gets the children for the selected audit event
+     *
+     * @param int $auditID Audit ID
+     * @param string $itemContext item context type
+     *
+     * @return array an array containing the children for the specified audit event
+     */
     function getChildren($auditID, $itemContext)
     {
         switch ($itemContext) {
         case 'Banner':
-            $context = 'Ad Zone Association';
+            $context = $GLOBALS['strAdZoneAssociation'];
             break;
         }
 
@@ -323,6 +341,8 @@ class OA_Dll_Audit extends OA_Dll
 
         while($oAudit->fetch()) {
             $aAudit = $oAudit->toArray();
+            $aAudit['action'] = $this->getActionName($aAudit['actionid']);
+
             //  check if child has children
             if ($this->hasChildren($aAudit['auditid'], $aAudit['context'])) {
                 $aAudit['children'] = $this->getChildren($aAudit['auditid'], $aAudit['context']);
@@ -330,14 +350,22 @@ class OA_Dll_Audit extends OA_Dll
             $aChildren[] = $aAudit;
         }
 
-        return $aChildren;
+        return (!empty($aChildren)) ? $aChildren : false;
     }
 
+    /**
+     * Check if the specified audit event has children events
+     *
+     * @param int $auditID Audit ID
+     * @param string $itemContext item context type
+     *
+     * @return boolan true if event has children else false
+     */
     function hasChildren($auditID, $itemContext)
     {
         switch ($itemContext) {
         case 'Banner':
-            $context = 'Ad Zone Association';
+            $context = $GLOBALS['strAdZoneAssociation'];
             break;
         }
 
@@ -349,6 +377,13 @@ class OA_Dll_Audit extends OA_Dll
         return ($numRows > 0) ? true : false;
     }
 
+    /**
+     * Removes parent context id
+     *
+     * @param array $aAudit assoc array which to remove the parent context id from
+     *
+     * @return boolean true on succes else false on failure
+     */
     function _removeParentContextId(&$aAudit)
     {
         switch ($aAudit['context']) {
@@ -356,28 +391,29 @@ class OA_Dll_Audit extends OA_Dll
         case 'Delivery Limitation':
         case 'Image':
             if (!is_array($aAudit['details']['bannerid'])) {
-                unset($aAudit['details']['banner']);
+                unset($aAudit['details']['bannerid']);
             }
-            break;
+            return true;
         case 'Banner':
         case 'Campaign Tracker':
             if (!is_array($aAudit['details']['campaignid'])) {
                 unset($aAudit['details']['campaignid']);
             }
-            break;
+            return true;
         case 'Campaign':
         case 'Tracker':
             if (!is_array($aAudit['details']['clientid'])) {
                 unset($aAudit['details']['clientid']);
             }
-            break;
+            return true;
         case 'Channel':
         case 'Zone':
             if (!is_array($aAudit['details']['affiliateid'])) {
                 unset($aAudit['details']['affiliateid']);
             }
-            break;
+            return true;
         }
+        return false;
     }
 
     /**
