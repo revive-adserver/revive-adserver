@@ -68,7 +68,10 @@ switch (OA_Permission::getAccountType()) {
         break;
 
     case OA_ACCOUNT_MANAGER:
-        OA_Permission::enforceAccountPermission(OA_ACCOUNT_MANAGER, OA_PERM_SUPER_ACCOUNT);
+        // Check that they have the super account permission
+        if (!OA_Permission::hasPermission(OA_PERM_SUPER_ACCOUNT)) {
+            break;
+        }
         // A manager account can only "see" those users that are already linked to the
         // current account, and to the advertiser and trafficker accounts that are in the
         // current account's realm -- display only these users -- but also exclude any
@@ -159,6 +162,9 @@ switch (OA_Permission::getAccountType()) {
         }
         // Convert any found user IDs into the correct format for display
         $aUserIds = array_unique($aUserIds);
+        if (empty($aUserIds)) {
+            break;
+        }
         $query = $oDbh->quote('%'.$q.'%');
         $doUsers = OA_Dal::factoryDO('users');
         $doUsers->whereAdd('(username LIKE ' . $query . ' OR email_address LIKE ' . $query . ')');
@@ -171,14 +177,12 @@ switch (OA_Permission::getAccountType()) {
         break;
 
     case OA_ACCOUNT_ADVERTISER:
-        OA_Permission::enforceAccountPermission(OA_ACCOUNT_ADVERTISER, OA_PERM_SUPER_ACCOUNT);
         // It would only be possible to display those users that are already linked to the
         // current advertiser account, as the realm of an advertiser account does not include
         // any other accounts - therefore, do not bother displaying any autocomplete information
         break;
 
     case OA_ACCOUNT_TRAFFICKER:
-        OA_Permission::enforceAccountPermission(OA_ACCOUNT_TRAFFICKER, OA_PERM_SUPER_ACCOUNT);
         // It would only be possible to display those users that are already linked to the
         // current trafficker account, as the realm of a trafficker account does not include
         // any other accounts - therefore, do not bother displaying any autocomplete information
