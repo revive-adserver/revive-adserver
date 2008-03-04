@@ -209,9 +209,11 @@ else if (array_key_exists('btn_dbsetup', $_POST))
             $action    = OA_UPGRADE_DBSETUP;
 
             // Timezone support - hack
-            if ($oUpgrader->versionInitialSchema['tables_core'] < 538) {
-                // Non TZ-enabled database
-                $errTz = true;
+            if ($installStatus != OA_STATUS_NOT_INSTALLED) {
+                if ($oUpgrader->versionInitialSchema['tables_core'] < 538) {
+                    // Non TZ-enabled database
+                    $errTz = true;
+                }
             }
         }
     }
