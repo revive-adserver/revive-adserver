@@ -1573,9 +1573,21 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                 if ($oUpdate->after($endDate) || $oUpdate->after($startDate)) {
                     $this->displayInaccurateStatsWarning = true;
                 }
+            } else {
+                // All statistics
+                $this->displayInaccurateStatsWarning = true;
             }
         }
     }
+
+    function showInaccurateStatsWarning()
+    {
+        echo $GLOBALS['strWarningInaccurateStats'].
+            ' <a href="#">'.
+            $GLOBALS['strWarningInaccurateReadMore']
+            .'</a>';
+    }
+
 }
 
 ?>
