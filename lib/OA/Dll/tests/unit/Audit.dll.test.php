@@ -27,7 +27,6 @@ $Id$
 
 require_once MAX_PATH . '/lib/OA/Dll/Audit.php';
 require_once MAX_PATH . '/lib/OA/Dll/tests/util/DllUnitTestCase.php';
-//require_once MAX_PATH . '/lib/max/Dal/DataObjects/Audit.php';
 
 /**
  * A class for testing DLL Agency methods
@@ -109,8 +108,9 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $aDetails['campaignname'] = 'Campaign 1';
         $aDetails['status'] = OA_ENTITY_STATUS_EXPIRED;
         $oAudit->details = serialize($aDetails);
-        $oAudit->insert();
-        $aExpect[] = $oAudit->toArray();
+        $idAudit = $oAudit->insert();
+        $aExpect[$idAudit] = $oAudit->toArray();
+        $aExpect[$idAudit]['details'] = $aDetails;
 
         // record 2
         $oDate->addSpan($oSpanDay);
@@ -118,22 +118,23 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oAudit->username = 'user2';
         $aDetails['status'] = OA_ENTITY_STATUS_RUNNING;
         $oAudit->details = serialize($aDetails);
-        $oAudit->insert();
-        $aExpect[] = $oAudit->toArray();
+        $idAudit = $oAudit->insert();
+        $aExpect[$idAudit] = $oAudit->toArray();
+        $aExpect[$idAudit]['details'] = $aDetails;
 
-        for ($i = 0; $i < 2; $i++) {
-            $aResult = $dllAuditPartialMock->getAuditDetail($aExpect[$i]['auditid']);
-            $aExpect[$i]['details'] = unserialize($aExpect[$i]['details']);
+        foreach ($aExpect AS $i => $aExpRow)
+        {
+            $aResRow = $dllAuditPartialMock->getAuditDetail($i);
 
-            $this->assertIsA($aResult, 'array');
-            $this->assertEqual($aResult['auditid'],$aExpect[$i]['auditid']);
-            $this->assertEqual($aResult['actionid'],$aExpect[$i]['actionid']);
-            $this->assertEqual($aResult['context'],$aExpect[$i]['context']);
-            $this->assertEqual($aResult['contextid'],$aExpect[$i]['contextid']);
-            $this->assertEqual($aResult['parentid'],$aExpect[$i]['parentid']);
-            $this->assertEqual($aResult['username'],$aExpect[$i]['username']);
-            $this->assertEqual($aResult['details']['campaignname'],$aExpect[$i]['details']['campaignname']);
-            $this->assertEqual($aResult['details']['status'],$aExpect[$i]['details']['status']);
+            $this->assertIsA($aResRow, 'array');
+            $this->assertEqual($aResRow['auditid'],$aExpRow['auditid']);
+            $this->assertEqual($aResRow['actionid'],$aExpRow['actionid']);
+            $this->assertEqual($aResRow['context'],$aExpRow['context']);
+            $this->assertEqual($aResRow['contextid'],$aExpRow['contextid']);
+            $this->assertEqual($aResRow['parentid'],$aExpRow['parentid']);
+            $this->assertEqual($aResRow['username'],$aExpRow['username']);
+            $this->assertEqual($aResRow['details']['campaignname'],$aExpRow['details']['campaignname']);
+            $this->assertEqual($aResRow['details']['status'],$aExpRow['details']['status']);
         }
     }
 
@@ -166,6 +167,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oAudit->details = serialize($aDetails);
         $idAudit = $oAudit->insert();
         $aExpect[$idAudit] = $oAudit->toArray();
+        $aExpect[$idAudit]['details'] = $aDetails;
 
         // record 2
         $oDate->addSpan($oSpanDay);
@@ -175,6 +177,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oAudit->details = serialize($aDetails);
         $idAudit = $oAudit->insert();
         $aExpect[$idAudit] = $oAudit->toArray();
+        $aExpect[$idAudit]['details'] = $aDetails;
 
         // record 3
         $oDate->addSpan($oSpanDay);
@@ -184,6 +187,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oAudit->details = serialize($aDetails);
         $idAudit = $oAudit->insert();
         $aExpect[$idAudit] = $oAudit->toArray();
+        $aExpect[$idAudit]['details'] = $aDetails;
 
         // record 4
         $oDate->addSpan($oSpanDay);
@@ -194,6 +198,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oAudit->details = serialize($aDetails);
         $idAudit = $oAudit->insert();
         $aExpect[$idAudit] = $oAudit->toArray();
+        $aExpect[$idAudit]['details'] = $aDetails;
 
         // record 5
         $oDate->addSpan($oSpanDay);
@@ -203,6 +208,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oAudit->details = serialize($aDetails);
         $idAudit = $oAudit->insert();
         $aExpect[$idAudit] = $oAudit->toArray();
+        $aExpect[$idAudit]['details'] = $aDetails;
 
         // record 6
         $oDate->addSpan($oSpanDay);
@@ -215,6 +221,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oAudit->details = serialize($aDetails);
         $idAudit = $oAudit->insert();
         $aExpect[$idAudit] = $oAudit->toArray();
+        $aExpect[$idAudit]['details'] = $aDetails;
 
         // record 7 - is a maintenance audit rec so should not be returned
         $oDate->addSpan($oSpanDay);
@@ -226,6 +233,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oAudit->details = serialize($aDetails);
         $idAudit = $oAudit->insert();
         $aExpect[$idAudit] = $oAudit->toArray();
+        $aExpect[$idAudit]['details'] = $aDetails;
 
         $oSpanDay  = new Date_Span('1-0-0-0');
 
@@ -251,7 +259,6 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         foreach ($aResults AS $i => $aResRow)
         {
             $aExpRow = $aExpect[$aResRow['auditid']];
-            $aExpRow['details'] = unserialize($aExpRow['details']);
             $this->assertEqual($aResRow['auditid'],$aExpRow['auditid']);
             $this->assertEqual($aResRow['actionid'],$aExpRow['actionid']);
             $this->assertEqual($aResRow['context'],$aExpRow['context']);
@@ -527,16 +534,19 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oAudit->updated = $oDate->getDate();
         $aDetails['status'] = OA_ENTITY_STATUS_RUNNING;
         $oAudit->details = serialize($aDetails);
-        $oAudit->insert();
-        $aExpect[4] = $oAudit->toArray();
+        $idAudit = $oAudit->insert();
+        $aExpect[$idAudit] = $oAudit->toArray();
+        $aExpect[$idAudit]['details'] = $aDetails;
+
 
         // record 3
         $oDate->addSpan($oSpanDay);
         $oAudit->updated = $oDate->getDate();
         $aDetails['status'] = OA_ENTITY_STATUS_EXPIRED;
         $oAudit->details = serialize($aDetails);
-        $oAudit->insert();
-        $aExpect[3] = $oAudit->toArray();
+        $idAudit = $oAudit->insert();
+        $aExpect[$idAudit] = $oAudit->toArray();
+        $aExpect[$idAudit]['details'] = $aDetails;
 
         // record 4
         $oDate->addSpan($oSpanDay);
@@ -545,16 +555,18 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $aDetails['campaignname'] = 'Campaign 2';
         $aDetails['status'] = OA_ENTITY_STATUS_RUNNING;
         $oAudit->details = serialize($aDetails);
-        $oAudit->insert();
-        $aExpect[2] = $oAudit->toArray();
+        $idAudit = $oAudit->insert();
+        $aExpect[$idAudit] = $oAudit->toArray();
+        $aExpect[$idAudit]['details'] = $aDetails;
 
         // record 5
         $oDate->addSpan($oSpanDay);
         $oAudit->updated = $oDate->getDate();
         $aDetails['status'] = OA_ENTITY_STATUS_EXPIRED;
         $oAudit->details = serialize($aDetails);
-        $oAudit->insert();
-        $aExpect[1] = $oAudit->toArray();
+        $idAudit = $oAudit->insert();
+        $aExpect[$idAudit] = $oAudit->toArray();
+        $aExpect[$idAudit]['details'] = $aDetails;
 
         // record 6
         $oDate->addSpan($oSpanDay);
@@ -564,8 +576,9 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $aDetails['campaignname'] = 'Campaign 3';
         $aDetails['status'] = OA_ENTITY_STATUS_RUNNING;
         $oAudit->details = serialize($aDetails);
-        $oAudit->insert();
-        $aExpect[0] = $oAudit->toArray();
+        $idAudit = $oAudit->insert();
+        $aExpect[$idAudit] = $oAudit->toArray();
+        $aExpect[$idAudit]['details'] = $aDetails;
 
         // record 7 - not a maintenance audit rec so should not be returned
         $oDate->addSpan($oSpanDay);
@@ -581,24 +594,24 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $aResults = $dllAuditPartialMock->getAuditLogForCampaignWidget($aParams);
 
         $this->assertIsA($aResults, 'array');
-        $this->assertEqual(count($aResults),5);
+        $this->assertEqual(count($aResults),count($aExpect));
 
-        for ($i=0;$i<5;$i++)
+        foreach ($aResults AS $i => $aResRow)
         {
-            $aRow = $aResults[$i];
-            $aExpect[$i]['details'] = unserialize($aExpect[$i]['details']);
-            $this->assertEqual($aRow['auditid'],$aExpect[$i]['auditid']);
-            $this->assertEqual($aRow['actionid'],$aExpect[$i]['actionid']);
-            $this->assertEqual($aRow['context'],$aExpect[$i]['context']);
-            $this->assertEqual($aRow['contextid'],$aExpect[$i]['contextid']);
-            $this->assertEqual($aRow['parentid'],$aExpect[$i]['parentid']);
-            $this->assertEqual($aRow['username'],$aExpect[$i]['username']);
-            $this->assertEqual($aRow['details']['campaignname'],$aExpect[$i]['details']['campaignname']);
-            $this->assertEqual($aRow['details']['status'],$aExpect[$i]['details']['status']);
+            $aExpRow = $aExpect[$aResRow['auditid']];
 
-            $oDate = new Date($aRow['updated']);
+            $this->assertEqual($aResRow['auditid'],$aExpRow['auditid']);
+            $this->assertEqual($aResRow['actionid'],$aExpRow['actionid']);
+            $this->assertEqual($aResRow['context'],$aExpRow['context']);
+            $this->assertEqual($aResRow['contextid'],$aExpRow['contextid']);
+            $this->assertEqual($aResRow['parentid'],$aExpRow['parentid']);
+            $this->assertEqual($aResRow['username'],$aExpRow['username']);
+            $this->assertEqual($aResRow['details']['campaignname'],$aExpRow['details']['campaignname']);
+            $this->assertEqual($aResRow['details']['status'],$aExpRow['details']['status']);
+
+            $oDate = new Date($aResRow['updated']);
             $oDate->toUTC();
-            $this->assertEqual($oDate->getDate(),$aExpect[$i]['updated']);
+            $this->assertEqual($oDate->getDate(),$aExpRow['updated']);
         }
 
         // Check that the account_id filter is working
@@ -644,8 +657,9 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oAudit->username = 'user2';
         $aDetails['status'] = OA_ENTITY_STATUS_RUNNING;
         $oAudit->details = serialize($aDetails);
-        $oAudit->insert();
-        $aExpect[4] = $oAudit->toArray();
+        $idAudit = $oAudit->insert();
+        $aExpect[$idAudit] = $oAudit->toArray();
+        $aExpect[$idAudit]['details'] = $aDetails;
 
         // record 3
         $oDate->addSpan($oSpanDay);
@@ -653,8 +667,9 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oAudit->username = 'user3';
         $aDetails['status'] = OA_ENTITY_STATUS_PAUSED;
         $oAudit->details = serialize($aDetails);
-        $oAudit->insert();
-        $aExpect[3] = $oAudit->toArray();
+        $idAudit = $oAudit->insert();
+        $aExpect[$idAudit] = $oAudit->toArray();
+        $aExpect[$idAudit]['details'] = $aDetails;
 
         // record 4
         $oDate->addSpan($oSpanDay);
@@ -663,8 +678,9 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $aDetails['campaignname'] = 'Campaign 2';
         $aDetails['status'] = OA_ENTITY_STATUS_RUNNING;
         $oAudit->details = serialize($aDetails);
-        $oAudit->insert();
-        $aExpect[2] = $oAudit->toArray();
+        $idAudit = $oAudit->insert();
+        $aExpect[$idAudit] = $oAudit->toArray();
+        $aExpect[$idAudit]['details'] = $aDetails;
 
         // record 5
         $oDate->addSpan($oSpanDay);
@@ -672,8 +688,9 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oAudit->username = 'user2';
         $aDetails['status'] = OA_ENTITY_STATUS_EXPIRED;
         $oAudit->details = serialize($aDetails);
-        $oAudit->insert();
-        $aExpect[1] = $oAudit->toArray();
+        $idAudit = $oAudit->insert();
+        $aExpect[$idAudit] = $oAudit->toArray();
+        $aExpect[$idAudit]['details'] = $aDetails;
 
         // record 6
         $oDate->addSpan($oSpanDay);
@@ -684,8 +701,9 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $aDetails['campaignname'] = 'Campaign 3';
         $aDetails['status'] = OA_ENTITY_STATUS_RUNNING;
         $oAudit->details = serialize($aDetails);
-        $oAudit->insert();
-        $aExpect[0] = $oAudit->toArray();
+        $idAudit = $oAudit->insert();
+        $aExpect[$idAudit] = $oAudit->toArray();
+        $aExpect[$idAudit]['details'] = $aDetails;
 
         // record 7 - is a maintenance audit rec so should not be returned
         $oDate->addSpan($oSpanDay);
@@ -703,24 +721,23 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $this->assertIsA($aResults, 'array');
         $this->assertEqual(count($aResults),5);
 
-        for ($i=0;$i<5;$i++)
+        foreach ($aResults AS $i => $aResRow)
         {
-            $aRow = $aResults[$i];
-            $aExpect[$i]['details'] = unserialize($aExpect[$i]['details']);
-            $this->assertEqual($aRow['auditid'],$aExpect[$i]['auditid']);
-            $this->assertEqual($aRow['actionid'],$aExpect[$i]['actionid']);
-            $this->assertEqual($aRow['context'],$aExpect[$i]['context']);
-            $this->assertEqual($aRow['contextid'],$aExpect[$i]['contextid']);
-            $this->assertEqual($aRow['parentid'],$aExpect[$i]['parentid']);
-            $this->assertEqual($aRow['username'],$aExpect[$i]['username']);
-            $this->assertEqual($aRow['details']['campaignname'],$aExpect[$i]['details']['campaignname']);
-            $this->assertEqual($aRow['details']['status'],$aExpect[$i]['details']['status']);
+            $aExpRow = $aExpect[$aResRow['auditid']];
 
-            $oDate = new Date($aRow['updated']);
+            $this->assertEqual($aResRow['auditid'],$aExpRow['auditid']);
+            $this->assertEqual($aResRow['actionid'],$aExpRow['actionid']);
+            $this->assertEqual($aResRow['context'],$aExpRow['context']);
+            $this->assertEqual($aResRow['contextid'],$aExpRow['contextid']);
+            $this->assertEqual($aResRow['parentid'],$aExpRow['parentid']);
+            $this->assertEqual($aResRow['username'],$aExpRow['username']);
+            $this->assertEqual($aResRow['details']['campaignname'],$aExpRow['details']['campaignname']);
+            $this->assertEqual($aResRow['details']['status'],$aExpRow['details']['status']);
+
+            $oDate = new Date($aResRow['updated']);
             $oDate->toUTC();
-            $this->assertEqual($oDate->getDate(),$aExpect[$i]['updated']);
+            $this->assertEqual($oDate->getDate(),$aExpRow['updated']);
         }
-
         // Check that the account_id filter is working
         $aParams = array('account_id' => 2);
         $aResults = $dllAuditPartialMock->getAuditLogForAuditWidget($aParams);
