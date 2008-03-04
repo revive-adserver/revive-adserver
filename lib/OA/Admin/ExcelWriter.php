@@ -95,6 +95,10 @@ class OA_Admin_ExcelWriter
                     case 'fg-red' :
                         $oFormat->setFgColor('red');
                         break;
+                    case 'warning':
+                        $oFormat->setColor('red');
+                        $oFormat->setBold();
+                        break;
                     case 'number' :
                         // We need to show a dash if a 'number' value is zero
                         // We're not using $GLOBALS['excel_integer_formatting']
@@ -149,7 +153,7 @@ class OA_Admin_ExcelWriter
         return $this->formats[$formatKey];
     }
 
-    function createReportWorksheet($name, $reportTitle, $aReportParameters, $firstColSize = 8)
+    function createReportWorksheet($name, $reportTitle, $aReportParameters, $aReportWarnings, $firstColSize = 8)
     {
         $workbook =& $this->_getExcelWriter();
         if (is_null($workbook)) {
@@ -179,6 +183,15 @@ class OA_Admin_ExcelWriter
         }
         $worksheet->setColumn(0,0,$firstColSize);
         $row += 2;
+
+        // Write Report Warnings
+        if (count($aReportWarnings)) {
+            foreach ($aReportWarnings as $value) {
+                $worksheet->write($row, 1, $value, $this->getFormat(array('warning')));
+                $row++;
+            }
+            $row += 2;
+        }
 
         $this->_worksheet[$name] =& $worksheet;
         $this->_currentRow[$name] = $row;

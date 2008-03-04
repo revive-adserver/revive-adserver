@@ -332,7 +332,12 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
     {
         // Create a worksheet
         $worksheetName = MAX_Plugin_Translation::translate('Connection Summary by Day', $this->module, $this->package);
-        $this->_oReportWriter->createReportWorksheet($worksheetName, $this->_name, $this->_getReportParametersForDisplay());
+        $this->_oReportWriter->createReportWorksheet(
+            $worksheetName,
+            $this->_name,
+            $this->_getReportParametersForDisplay(),
+            $this->_getReportWarningsForDisplay()
+        );
         // Create a subsection for each tracker
         foreach ($aTrackerVariables as $trackerId => $aTracker) {
             $trackerAnonymous = $this->_isTrackerLinkedToAnonymousCampaign($trackerId);
@@ -420,7 +425,12 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
     {
         // Create a worksheet
         $worksheetName = MAX_Plugin_Translation::translate('Variable Summary by Day', $this->module, $this->package);
-        $this->_oReportWriter->createReportWorksheet($worksheetName, $this->_name, $this->_getReportParametersForDisplay());
+        $this->_oReportWriter->createReportWorksheet(
+            $worksheetName,
+            $this->_name,
+            $this->_getReportParametersForDisplay(),
+            $this->_getReportWarningsForDisplay()
+        );
         // Create a subsection for each tracker
         foreach ($aTrackerVariables as $trackerId => $aTracker) {
             $trackerAnonymous = $this->_isTrackerLinkedToAnonymousCampaign($trackerId);
@@ -534,7 +544,12 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
     {
         // Create a worksheet
         $worksheetName = MAX_Plugin_Translation::translate('Variable Summary by Variable', $this->module, $this->package);
-        $this->_oReportWriter->createReportWorksheet($worksheetName, $this->_name, $this->_getReportParametersForDisplay());
+        $this->_oReportWriter->createReportWorksheet(
+            $worksheetName,
+            $this->_name,
+            $this->_getReportParametersForDisplay(),
+            $this->_getReportWarningsForDisplay()
+        );
         // Create a subsection for each tracker
         foreach ($aTrackerVariables as $trackerId => $aTracker) {
             if (!empty($aTracker['variables'])) {
@@ -622,7 +637,12 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
     {
         // Create a worksheet
         $worksheetName = MAX_Plugin_Translation::translate('Connection Detail', $this->module, $this->package);
-        $this->_oReportWriter->createReportWorksheet($worksheetName, $this->_name, $this->_getReportParametersForDisplay());
+        $this->_oReportWriter->createReportWorksheet(
+            $worksheetName,
+            $this->_name,
+            $this->_getReportParametersForDisplay(),
+            $this->_getReportWarningsForDisplay()
+        );
         $aStatus = $this->_getConnectionStatuses();
         // Create a subsection for each tracker
         foreach ($aTrackerVariables as $trackerId => $aTracker) {
