@@ -90,10 +90,10 @@ $GLOBALS['strInstallIntro']                 = "Thank you for choosing <a href='h
 For a more detailed guide to installing and configuring ".MAX_PRODUCT_NAME." visit the <a href='http://".OX_PRODUCT_DOCSURL."/wizard/admin-guide' target='_blank'>Administrator Guide</a>.";
 $GLOBALS['strRecoveryRequiredTitle']    = "Your previous upgrade attempt encountered an error";
 $GLOBALS['strRecoveryRequired']         = "There was an error while processing your previous upgrade and " . MAX_PRODUCT_NAME . " must attempt to recover the upgrade process. Please click the Recover button below.";
-$GLOBALS['strTermsTitle']               = "Software license information";
+$GLOBALS['strTermsTitle']               = "Terms and Conditions of Use ";
 $GLOBALS['strTermsIntro']               = MAX_PRODUCT_NAME . " is distributed freely under an Open Source license, the GNU General Public License.";
-$GLOBALS['strPolicyTitle']               = "Privacy and Data Usage Policy";
-$GLOBALS['strPolicyIntro']               = "Our data usage and privacy policy defines how ".MAX_PRODUCT_NAME." protects your privacy. Please review and agree to these terms to continue the installation.";
+$GLOBALS['strPolicyTitle']               = "Privacy Policy";
+$GLOBALS['strPolicyIntro']               = "Please review and agree to the following document to continue the installation.";
 $GLOBALS['strDbSetupTitle']               = "Database Settings";
 $GLOBALS['strDbSetupIntro']               = "Please enter the details to connect to your database. If you are unsure about these details, please contact your system administrator.
 <p> The next step will set up your database. Click ‘continue’ to proceed.</p>";
