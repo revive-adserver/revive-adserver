@@ -930,7 +930,9 @@ $GLOBALS['strErrorEditingCampaign']             = "Error updating campaign:";
 $GLOBALS['strUnableToChangeCampaign']           = "Cannot apply this change because:";
 $GLOBALS['strDatesConflict']                    = "dates conflict with:";
 $GLOBALS['strEmailNoDates']                     = 'Email zone campaigns must have a start and end date';
-$GLOBALS['strWarningInaccurateStats']           = "Warning! The stats displayed might not be accurate";
+$GLOBALS['strWarningInaccurateStats']           = "Some of these statistics were logged in a non-UTC timezone, and may not be displayed in the correct timezone.";
+$GLOBALS['strWarningInaccurateReadMore']        = "Read more about this";
+$GLOBALS['strWarningInaccurateReport']          = "Some of the statistics in this report were logged in a non-UTC timezone, and may not be displayed in the correct timezone";
 
 // Email
 $GLOBALS['strSirMadam']                         = "Sir/Madam";
