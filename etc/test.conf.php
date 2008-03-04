@@ -375,19 +375,19 @@ httpsPort   = 443
 
 [oacXmlRpc]
 protocol    = https
-host        = oac.openx.org
+host        = oxc.openx.org
 port        = 443
-path        = /oac/xmlrpc
-captcha     = /oac/captcha
-signUpUrl   = /oac/advertiser/signup
-publihserUrl= /oac/advertiser/defzone
+path        = /oxc/xmlrpc
+captcha     = /oxc/captcha
+signUpUrl   = /oxc/advertiser/signup
+publihserUrl= /oxc/advertiser/defzone
 
 [oacDashboard]
 protocol    = https
-host        = oac.openx.org
+host        = oxc.openx.org
 port        = 443
-path        = /oac/dashboard/home
-ssoCheck    = /oac/ssoCheck
+path        = /oxc/dashboard/home
+ssoCheck    = /oxc/ssoCheck
 
 [oacSSO]
 protocol    = https
