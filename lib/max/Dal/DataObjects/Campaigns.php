@@ -139,6 +139,36 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
         return $id;
     }
 
+    /**
+     * A method to duplicate: The campaign, the placement-zone-associations,
+     * the placement-tracker-associations and the campaign's banners.
+     *
+     * @return integer The new campaignid
+     */
+    function duplicate()
+    {
+    	// Duplicate campaign
+        $old_campaignId = $this->campaignid;
+        $this->campaignname = 'Copy of ' . $this->campaignname;
+        unset($this->campaignid);
+        $new_campaignId = $this->insert();
+
+        // Duplicate placement-zone-associations (Do this before duplicating banners to ensure an exact copy of ad-zone-assocs
+     	MAX_duplicatePlacementZones($old_campaignId, $new_campaignId);
+
+        // Duplicate original campaign's banners
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->campaignid = $old_campaignId;
+        $doBanners->find();
+        while ($doBanners->fetch()) {
+        	$doOriginalBanner = OA_Dal::factoryDO('banners');
+         	$doOriginalBanner->get($doBanners->bannerid);
+         	$new_bannerid = $doOriginalBanner->duplicate($new_campaignId);
+        }
+
+        return $new_campaignId;
+    }
+
     function _auditEnabled()
     {
         return true;
@@ -191,7 +221,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
      * perform post-audit actions
      *
      * @param int $actionid
-     * @param DataObjects_Campaigns $dataobjectOldù
+     * @param DataObjects_Campaigns $dataobjectOldï¿½
      * @param int $auditId
      */
     function _postAuditTrigger($actionid, $dataobjectOld, $auditId)

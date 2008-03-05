@@ -1311,9 +1311,9 @@ class DB_DataObjectCommon extends DB_DataObject
     /**
      * perform post-audit actions
      *
-     * @param int $actionid
-     * @param DB_DataObject_Common $dataobjectOldù
-     * @param int $auditId
+     * @param integer $actionid
+     * @param DB_DataObject_Common $dataobjectOldï¿½
+     * @param integer $auditId
      */
     function _postAuditTrigger($actionid, $dataobjectOld, $auditId)
     {
