@@ -106,11 +106,17 @@ class MAX_Admin_Languages
      */
     function languageCodeToString($code)
     {
+        // Check that we weren't passed a code
         if (in_array($code, array_keys($this->aLanguageMap))) {
             return $code;
         }
+
         $map = array_flip($this->aLanguageMap);
-        return (isset($map[$code])) ? $map[$code] : 'english';
+        $langString = (isset($map[$code])) ? $map[$code] : 'english';
+        if (in_array($langString, $this->aDeprecated)) {
+            return 'english';
+        }
+        return $langString;
     }
 
 }

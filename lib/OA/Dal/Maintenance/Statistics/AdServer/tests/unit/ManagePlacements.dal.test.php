@@ -667,7 +667,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         // based on the above
         Mock::generate('OA_Email');
         $oEmailMock = new MockOA_Email($this);
-        $oEmailMock->expectOnce('preparePlacementActivatedDeactivatedEmail', array("$campaignId"));
+        $oEmailMock->expectOnce('sendPlacementActivatedDeactivatedEmail', array("$campaignId"));
 
         // Register the mocked OA_Email class in the service locator
         $oServiceLocator = &OA_ServiceLocator::instance();
@@ -728,7 +728,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         // based on the above
         Mock::generate('OA_Email');
         $oEmailMock = new MockOA_Email($this);
-        $oEmailMock->expectOnce('preparePlacementActivatedDeactivatedEmail', array("$campaignId", 2));
+        $oEmailMock->expectOnce('sendPlacementActivatedDeactivatedEmail', array("$campaignId", 2));
 
         // Register the mocked OA_Email class in the service locator
         $oServiceLocator = &OA_ServiceLocator::instance();
@@ -796,7 +796,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         // based on the above
         Mock::generate('OA_Email');
         $oEmailMock = new MockOA_Email($this);
-        $oEmailMock->expectNever('preparePlacementImpendingExpiryEmail');
+        $oEmailMock->expectOnce('sendPlacementImpendingExpiryEmail');
 
         // Register the mocked OA_Email class in the service locator
         $oServiceLocator = &OA_ServiceLocator::instance();
@@ -818,7 +818,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         // expectations on how the class' methods should be called
         // based on the above
         $oEmailMock = new MockOA_Email($this);
-        $oEmailMock->expectNever('preparePlacementImpendingExpiryEmail');
+        $oEmailMock->expectOnce('sendPlacementImpendingExpiryEmail');
 
         // Register the mocked OA_Email class in the service locator
         $oServiceLocator = &OA_ServiceLocator::instance();
@@ -841,7 +841,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         // expectations on how the class' methods should be called
         // based on the above
         $oEmailMock = new MockOA_Email($this);
-        $oEmailMock->expectNever('preparePlacementImpendingExpiryEmail');
+        $oEmailMock->expectOnce('sendPlacementImpendingExpiryEmail');
 
         // Register the mocked OA_Email class in the service locator
         $oServiceLocator = &OA_ServiceLocator::instance();
@@ -871,7 +871,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         // expectations on how the class' methods should be called
         // based on the above
         $oEmailMock = new MockOA_Email($this);
-        $oEmailMock->expectOnce('preparePlacementImpendingExpiryEmail', array("$advertiserClientId", "$campaignId", 'impressions', '50'));
+        $oEmailMock->expectOnce('sendPlacementImpendingExpiryEmail', array($oDate, "$campaignId"));
 
         // Register the mocked OA_Email class in the service locator
         $oServiceLocator = &OA_ServiceLocator::instance();
@@ -880,46 +880,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         // Run the managePlacements() method and ensure that the correct
         // calls to OA_Email were made
         $oDate = new Date('2008-01-11 23:00:01');
-        $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
-        $oDsa = $oMDMSF->factory("AdServer");
-        $report = $oDsa->managePlacements($oDate);
-        $oEmailMock->tally();
-
-        // Now set the preference that states that the admin account
-        // wants to get email warnings if there is 1 day remaining
-        $this->_insertPreference($adminAccountId, $warnEmailAdminPreferenceDayLimitId, '1');
-
-        // Create a new instance of the mocked OA_Email class, and set
-        // expectations on how the class' methods should be called
-        // based on the above
-        $oEmailMock = new MockOA_Email($this);
-        $oEmailMock->expectOnce('preparePlacementImpendingExpiryEmail', array("$advertiserClientId", "$campaignId", 'impressions', '50'));
-
-        // Register the mocked OA_Email class in the service locator
-        $oServiceLocator = &OA_ServiceLocator::instance();
-        $oServiceLocator->register('OA_Email', $oEmailMock);
-
-        // Run the managePlacements() method and ensure that the correct
-        // calls to OA_Email were made
-        $oDate = new Date('2008-01-11 23:00:01');
-        $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
-        $oDsa = $oMDMSF->factory("AdServer");
-        $report = $oDsa->managePlacements($oDate);
-        $oEmailMock->tally();
-
-        // Create a new instance of the mocked OA_Email class, and set
-        // expectations on how the class' methods should be called
-        // based on the above
-        $oEmailMock = new MockOA_Email($this);
-        $oEmailMock->expectOnce('preparePlacementImpendingExpiryEmail', array("$advertiserClientId", "$campaignId", 'date', '2008-01-13'));
-
-        // Register the mocked OA_Email class in the service locator
-        $oServiceLocator = &OA_ServiceLocator::instance();
-        $oServiceLocator->register('OA_Email', $oEmailMock);
-
-        // Run the managePlacements() method and ensure that the correct
-        // calls to OA_Email were made
-        $oDate = new Date('2008-01-12 00:00:01');
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $oDsa = $oMDMSF->factory("AdServer");
         $report = $oDsa->managePlacements($oDate);

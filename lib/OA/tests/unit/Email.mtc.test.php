@@ -27,13 +27,14 @@ $Id$
 
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 require_once MAX_PATH . '/lib/OA/Email.php';
+require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
 
 /**
  * A class for testing the OA_Email class.
  *
  * @package    OpenX
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class Test_OA_Email extends UnitTestCase
 {
@@ -72,37 +73,39 @@ class Test_OA_Email extends UnitTestCase
     /**
      * Tests that an e-mail reporting on placement delivery is able to be
      * generated correctly.
-     *
-     * @TODO Re-enable test once the method has been fixed - see comments in method
-     *       about issues with language & new user/account properties/preferences.
-     *
      */
-    function XXXtestPreparePlacementDeliveryEmail()
+    function testPreparePlacementDeliveryEmail()
     {
         $aConf =& $GLOBALS['_MAX']['CONF'];
         $aConf['webpath']['admin'] = 'example.com';
+        $aConf['email']['fromAddress'] = 'send@example.com';
+        $aConf['email']['fromName'] = 'Andrew Hill';
+        $aConf['email']['fromCompany'] = 'OpenX Limited';
 
-        $oEmail = new OA_Email();
+        $mockName = uniqid('PartialMockOA_Email_');
+        Mock::generatePartial(
+            'OA_Email',
+            $mockName,
+            array('sendMail')
+        );
+
+        $oEmail = new $mockName();
+        $oEmail->setReturnValue('sendMail', true);
 
         // Prepare valid test data
         $advertiserId = 1;
         $oStartDate   = new Date('2007-05-13 23:59:59');
         $oEndDate     = new Date('2007-05-19 00:00:00');
-        $email        = 'andrew.hill@openads.org';
-        $name         = 'Andrew Hill';
+        $email        = 'andrew.hill@openx.org';
+        $user_name         = 'Andrew Hill';
         $clientName   = 'Foo Client';
 
-        // Prepare the admin email address and name
-        $oPreference = OA_Dal::factoryDO('preferences');
-        $oPreference->agencyid       = 0;
-        $oPreference->admin_fullname = 'Andrew Hill';
-        $oPreference->company_name   = 'OpenX Limited';
-        $oPreference->admin_email    = 'send@example.com';
-        DataGenerator::generateOne($oPreference);
+        // Setup a User array, but with no data
+        $aUser = array('username', 'contact_name', 'email_address');
 
         // Test with no advertiser data in the database, and ensure that
         // false is returned
-        $result = $oEmail->preparePlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
+        $result = $oEmail->preparePlacementDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
         $this->assertFalse($result);
 
         // Generate an advertiser with reports disabled and test, ensuring
@@ -113,7 +116,7 @@ class Test_OA_Email extends UnitTestCase
         $doClients->contact    = '';
         $doClients->report     = 'f';
         $advertiserId = DataGenerator::generateOne($doClients);
-        $result = $oEmail->preparePlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
+        $result = $oEmail->preparePlacementDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
         $this->assertFalse($result);
 
         // Generate an advertiser with reports enabled, but no other data,
@@ -124,7 +127,7 @@ class Test_OA_Email extends UnitTestCase
         $doClients->contact    = '';
         $doClients->report     = 't';
         $advertiserId = DataGenerator::generateOne($doClients);
-        $result = $oEmail->preparePlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
+        $result = $oEmail->preparePlacementDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
         $this->assertFalse($result);
 
         // Generate an advertiser with reports enabled, and a sigle placement,
@@ -138,7 +141,7 @@ class Test_OA_Email extends UnitTestCase
         $doPlacements = OA_Dal::factoryDO('campaigns');
         $doPlacements->clientid = $advertiserId;
         $placementId = DataGenerator::generateOne($doPlacements);
-        $result = $oEmail->preparePlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
+        $result = $oEmail->preparePlacementDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
         $this->assertFalse($result);
 
         // Generate an advertiser with reports enabled & an email address,
@@ -147,29 +150,43 @@ class Test_OA_Email extends UnitTestCase
         $doClients = OA_Dal::factoryDO('clients');
         $doClients->clientname = $clientName;
         $doClients->email      = $email;
-        $doClients->contact    = $name;
+        $doClients->contact    = $user_name;
         $doClients->report     = 't';
         $advertiserId = DataGenerator::generateOne($doClients);
+
+        // Create a user to link to this account
+        $doUser = OA_Dal::factoryDO('users');
+        $doUser->contact_name = $user_name;
+        $doUser->email_address = $email;
+        $doUser->language = 'en';
+        $userId = DataGenerator::generateOne($doUser);
+        $aUser = $doUser->toArray();
+
+        // Link the user to the account
+        $oUserAccess = new OA_Admin_UI_UserAccess();
+        $oUserAccess->linkUserToAccount($userId, $advertiserId, array(), array());
+
         $doPlacements = OA_Dal::factoryDO('campaigns');
         $doPlacements->clientid = $advertiserId;
         $placementId1 = DataGenerator::generateOne($doPlacements);
-        $aResult = $oEmail->preparePlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
+
+        Language_Default::load($doUser->language);
+        $aResult = $oEmail->preparePlacementDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
+
         $expectedSubject = "Advertiser report: $clientName";
-        $expectedContents  = "Dear $name,\n\n";
+        $expectedContents  = "Dear $user_name,\n\n";
         $expectedContents .= "Below you will find the banner statistics for $clientName:\n";
         global $date_format;
         $startDate = $oStartDate->format($date_format);
         $endDate   = $oEndDate->format($date_format);
         $expectedContents .= "This report includes statistics from $startDate up to $endDate.\n\n";
         $expectedContents .= "\nCampaign [id$placementId1] 1\n";
-        $expectedContents .= "http://example.com/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId1\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId1\n";
         $expectedContents .= "=======================================================\n\n";
         $expectedContents .= "There are no statistics available for this campaign\n\n\n\n";
-        $expectedContents .= "Regards,\n   Andrew Hill, Opens Ltd.";
+        $expectedContents .= "Regards,\n   Andrew Hill, OpenX Limited";
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 5);
-        $this->assertEqual($aResult['userEmail'], $email);
-        $this->assertEqual($aResult['userName'], $name);
+        $this->assertEqual(count($aResult), 3);
         $this->assertEqual($aResult['subject'], $expectedSubject);
         $this->assertEqual($aResult['contents'], $expectedContents);
 
@@ -178,27 +195,25 @@ class Test_OA_Email extends UnitTestCase
         $doPlacements = OA_Dal::factoryDO('campaigns');
         $doPlacements->clientid = $advertiserId;
         $placementId2 = DataGenerator::generateOne($doPlacements);
-        $aResult = $oEmail->preparePlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
+        $aResult = $oEmail->preparePlacementDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
         $expectedSubject = "Advertiser report: $clientName";
-        $expectedContents  = "Dear $name,\n\n";
+        $expectedContents  = "Dear $user_name,\n\n";
         $expectedContents .= "Below you will find the banner statistics for $clientName:\n";
         global $date_format;
         $startDate = $oStartDate->format($date_format);
         $endDate   = $oEndDate->format($date_format);
         $expectedContents .= "This report includes statistics from $startDate up to $endDate.\n\n";
         $expectedContents .= "\nCampaign [id$placementId1] 1\n";
-        $expectedContents .= "http://example.com/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId1\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId1\n";
         $expectedContents .= "=======================================================\n\n";
         $expectedContents .= "There are no statistics available for this campaign\n\n\n";
         $expectedContents .= "\nCampaign [id$placementId2] 1\n";
-        $expectedContents .= "http://example.com/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId2\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId2\n";
         $expectedContents .= "=======================================================\n\n";
         $expectedContents .= "There are no statistics available for this campaign\n\n\n\n";
         $expectedContents .= "Regards,\n   Andrew Hill, OpenX Limited";
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 5);
-        $this->assertEqual($aResult['userEmail'], $email);
-        $this->assertEqual($aResult['userName'], $name);
+        $this->assertEqual(count($aResult), 3);
         $this->assertEqual($aResult['subject'], $expectedSubject);
         $this->assertEqual($aResult['contents'], $expectedContents);
 
@@ -207,11 +222,9 @@ class Test_OA_Email extends UnitTestCase
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $placementId2;
         $adId1 = DataGenerator::generateOne($doBanners);
-        $aResult = $oEmail->preparePlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
+        $aResult = $oEmail->preparePlacementDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 5);
-        $this->assertEqual($aResult['userEmail'], $email);
-        $this->assertEqual($aResult['userName'], $name);
+        $this->assertEqual(count($aResult), 3);
         $this->assertEqual($aResult['subject'], $expectedSubject);
         $this->assertEqual($aResult['contents'], $expectedContents);
 
@@ -227,20 +240,20 @@ class Test_OA_Email extends UnitTestCase
         $doDataSummaryAdHourly->clicks      = 0;
         $doDataSummaryAdHourly->conversions = 0;
         DataGenerator::generateOne($doDataSummaryAdHourly);
-        $aResult = $oEmail->preparePlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
+        $aResult = $oEmail->preparePlacementDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
         $expectedSubject = "Advertiser report: $clientName";
-        $expectedContents  = "Dear $name,\n\n";
+        $expectedContents  = "Dear $user_name,\n\n";
         $expectedContents .= "Below you will find the banner statistics for $clientName:\n";
         global $date_format;
         $startDate = $oStartDate->format($date_format);
         $endDate   = $oEndDate->format($date_format);
         $expectedContents .= "This report includes statistics from $startDate up to $endDate.\n\n";
         $expectedContents .= "\nCampaign [id$placementId1] 1\n";
-        $expectedContents .= "http://example.com/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId1\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId1\n";
         $expectedContents .= "=======================================================\n\n";
         $expectedContents .= "There are no statistics available for this campaign\n\n\n";
         $expectedContents .= "\nCampaign [id$placementId2] 1\n";
-        $expectedContents .= "http://example.com/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId2\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId2\n";
         $expectedContents .= "=======================================================\n\n";
         $expectedContents .= " Banner  [id$adId2] 1\n";
         $expectedContents .= " ------------------------------------------------------\n";
@@ -249,9 +262,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "\n\n";
         $expectedContents .= "Regards,\n   Andrew Hill, OpenX Limited";
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 5);
-        $this->assertEqual($aResult['userEmail'], $email);
-        $this->assertEqual($aResult['userName'], $name);
+        $this->assertEqual(count($aResult), 3);
         $this->assertEqual($aResult['subject'], $expectedSubject);
         $this->assertEqual($aResult['contents'], $expectedContents);
 
@@ -279,20 +290,20 @@ class Test_OA_Email extends UnitTestCase
         $doDataSummaryAdHourly->clicks      = 0;
         $doDataSummaryAdHourly->conversions = 0;
         DataGenerator::generateOne($doDataSummaryAdHourly);
-        $aResult = $oEmail->preparePlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
+        $aResult = $oEmail->preparePlacementDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
         $expectedSubject = "Advertiser report: $clientName";
-        $expectedContents  = "Dear $name,\n\n";
+        $expectedContents  = "Dear $user_name,\n\n";
         $expectedContents .= "Below you will find the banner statistics for $clientName:\n";
         global $date_format;
         $startDate = $oStartDate->format($date_format);
         $endDate   = $oEndDate->format($date_format);
         $expectedContents .= "This report includes statistics from $startDate up to $endDate.\n\n";
         $expectedContents .= "\nCampaign [id$placementId1] 1\n";
-        $expectedContents .= "http://example.com/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId1\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId1\n";
         $expectedContents .= "=======================================================\n\n";
         $expectedContents .= "There are no statistics available for this campaign\n\n\n";
         $expectedContents .= "\nCampaign [id$placementId2] 1\n";
-        $expectedContents .= "http://example.com/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId2\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId2\n";
         $expectedContents .= "=======================================================\n\n";
         $expectedContents .= " Banner  [id$adId2] 1\n";
         $expectedContents .= " ------------------------------------------------------\n";
@@ -308,23 +319,24 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "\n\n";
         $expectedContents .= "Regards,\n   Andrew Hill, OpenX Limited";
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 5);
-        $this->assertEqual($aResult['userEmail'], $email);
-        $this->assertEqual($aResult['userName'], $name);
+        $this->assertEqual(count($aResult), 3);
         $this->assertEqual($aResult['subject'], $expectedSubject);
         $this->assertEqual($aResult['contents'], $expectedContents);
 
-        TestEnv::restoreConfig();
+//        TestEnv::restoreConfig();
         DataGenerator::cleanUp();
 
-        $aConf =& $GLOBALS['_MAX']['CONF'];
+//        $aConf =& $GLOBALS['_MAX']['CONF'];
         $aConf['webpath']['admin'] = 'example.com';
+        $aConf['email']['fromAddress'] = 'send@example.com';
+        $aConf['email']['fromName'] = 'Andrew Hill';
+        $aConf['email']['fromCompany'] = 'OpenX Limited';
 
         // Test with no start date
         $doClients = OA_Dal::factoryDO('clients');
         $doClients->clientname = $clientName;
         $doClients->email      = $email;
-        $doClients->contact    = $name;
+        $doClients->contact    = $user_name;
         $doClients->report     = 't';
         $advertiserId = DataGenerator::generateOne($doClients);
         $doPlacements = OA_Dal::factoryDO('campaigns');
@@ -352,16 +364,16 @@ class Test_OA_Email extends UnitTestCase
         $doDataSummaryAdHourly->clicks      = 0;
         $doDataSummaryAdHourly->conversions = 0;
         DataGenerator::generateOne($doDataSummaryAdHourly);
-        $aResult = $oEmail->preparePlacementDeliveryEmail($advertiserId, null, $oEndDate);
+        $aResult = $oEmail->preparePlacementDeliveryEmail($aUser, $advertiserId, null, $oEndDate);
         $expectedSubject = "Advertiser report: $clientName";
-        $expectedContents  = "Dear $name,\n\n";
+        $expectedContents  = "Dear $user_name,\n\n";
         $expectedContents .= "Below you will find the banner statistics for $clientName:\n";
         global $date_format;
         $startDate = $oStartDate->format($date_format);
         $endDate   = $oEndDate->format($date_format);
         $expectedContents .= "This report includes all statistics up to $endDate.\n\n";
         $expectedContents .= "\nCampaign [id$placementId1] 1\n";
-        $expectedContents .= "http://example.com/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId1\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId1\n";
         $expectedContents .= "=======================================================\n\n";
         $expectedContents .= " Banner  [id$adId1] 1\n";
         $expectedContents .= " ------------------------------------------------------\n";
@@ -372,664 +384,885 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "\n\n";
         $expectedContents .= "Regards,\n   Andrew Hill, OpenX Limited";
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 5);
-        $this->assertEqual($aResult['userEmail'], $email);
-        $this->assertEqual($aResult['userName'], $name);
+        $this->assertEqual(count($aResult), 3);
         $this->assertEqual($aResult['subject'], $expectedSubject);
         $this->assertEqual($aResult['contents'], $expectedContents);
+        DataGenerator::cleanUp(array('accounts'));
+//        TestEnv::restoreEnv();
+    }
 
-        TestEnv::restoreEnv();
+    function testSendPlacementDeliveryEmail()
+    {
+        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $aConf['webpath']['admin'] = 'example.com';
+        $aConf['email']['fromAddress'] = 'send@example.com';
+        $aConf['email']['fromName'] = 'Andrew Hill';
+        $aConf['email']['fromCompany'] = 'OpenX Limited';
+
+        $mockName = uniqid('PartialMockOA_Email_');
+        Mock::generatePartial(
+            'OA_Email',
+            $mockName,
+            array('sendMail')
+        );
+
+        $oEmail = new $mockName();
+        $oEmail->setReturnValue('sendMail', true);
+        $oEmail->expectCallCount('sendMail', 3);
+
+        // Prepare valid test data
+        $oStartDate   = new Date('2007-05-13 23:59:59');
+        $oEndDate     = new Date('2007-05-19 00:00:00');
+        $email        = 'andrew.hill@openx.org';
+        $name         = 'Andrew Hill';
+        $clientName   = 'Foo Client';
+
+        // Test with no advertiser data in the database, and ensure that
+        // false is returned
+        $result = $oEmail->sendPlacementDeliveryEmail(1, $oStartDate, $oEndDate);
+        $this->assertFalse($result);
+
+        // Create a user to link to this account (but don't link it yet)
+        $doUser = OA_Dal::factoryDO('users');
+        $doUser->contact_name = $clientName;
+        $doUser->email_address = $email;
+        $doUser->username = $clientName;
+        $doUser->language = 'en';
+        $userId = DataGenerator::generateOne($doUser);
+
+        // Generate an advertiser with reports disabled and test, ensuring
+        // that false is returned
+        $doClients = OA_Dal::factoryDO('clients');
+        $doClients->clientname = $clientName;
+        $doClients->email      = '';
+        $doClients->contact    = '';
+        $doClients->report     = 'f';
+        $advertiserId = DataGenerator::generateOne($doClients);
+        $result = $oEmail->sendPlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
+        $this->assertFalse($result);
+
+        $doClients = OA_Dal::factoryDO('clients');
+        $doClients->get('clientid', $advertiserId);
+
+        // Generate an advertiser with reports enabled, but no other data,
+        // and test, ensuring that false is returned
+        $doClients->report     = 't';
+        $doClients->update();
+        $result = $oEmail->sendPlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
+        $this->assertFalse($result);
+
+        $doPlacements = OA_Dal::factoryDO('campaigns');
+        $doPlacements->clientid = $advertiserId;
+        $placementId = DataGenerator::generateOne($doPlacements);
+
+        $result = $oEmail->sendPlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
+        $this->assertFalse($result);
+
+        // Link the user
+        $oUserAccess = new OA_Admin_UI_UserAccess();
+        $oUserAccess->linkUserToAccount($userId, $advertiserId, array(), array());
+
+        // With no stats, no email should be sent
+        $result = $oEmail->sendPlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
+        $this->assertEqual($result, 0);
+
+        // Create a banner
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->campaignid = $placementId;
+        $nammerId = DataGenerator::generateOne($doBanners);
+
+        // With no stats, no email should be sent
+        $result = $oEmail->sendPlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
+        $this->assertEqual($result, 0);
+
+        // Load up some stats
+        $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->date_time   = '2007-05-14 12:00:00';
+        $doDataSummaryAdHourly->ad_id       = $bannerId;
+        $doDataSummaryAdHourly->impressions = 5000;
+        $doDataSummaryAdHourly->clicks      = 0;
+        $doDataSummaryAdHourly->conversions = 0;
+        DataGenerator::generateOne($doDataSummaryAdHourly);
+
+        // With some stats and a linked user, one email should be sent
+        $result = $oEmail->sendPlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
+        $this->assertEqual($result, 1);
+
+        // Link another user to this account and ensure that two email are sent (may as well use a different language
+        $doUser = OA_Dal::factoryDO('users');
+        $doUser->contact_name = 'german_' . $clientName;
+        $doUser->email_address = 'german_' . $email;
+        $doUser->username = 'german_' . $clientName;
+        $doUser->language = 'de';
+        $userId2 = DataGenerator::generateOne($doUser);
+
+        // Link the user and ensure that 2 emails are sent
+        $oUserAccess = new OA_Admin_UI_UserAccess();
+        $oUserAccess->linkUserToAccount($userId2, $advertiserId, array(), array());
+
+        $result = $oEmail->sendPlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
+        $this->assertEqual($result, 2);
+
+//        TestEnv::restoreEnv();
+        DataGenerator::cleanUp();
     }
 
     /**
      * Tests that an e-mail reporting on impending placement expiration
      * is able to be generated correctly.
-     *
-     * @TODO Re-enable test once the method has been fixed - see comments in method
-     *       about issues with language & new user/account properties/preferences.
-     *
      */
-    function XXXtestPrepareplacementImpendingExpiryEmail()
+    function testSendAndPrepareplacementImpendingExpiryEmail()
     {
-        $aConf =& $GLOBALS['_MAX']['CONF'];
-        $aConf['webpath']['admin'] = 'example.com';
-
-        $oEmail = new OA_Email();
-
-        // Prepare valid test data
-        $dateReason    = 'date';
-        $dateValue     = '17-05-2007';
-        $impReason     = 'impressions';
-        $impValue      = 100;
-
         $adminContact  = 'Andrew Hill';
         $adminName     = 'OpenX Limited';
         $adminMail     = 'send@example.com';
+        $adminCompany  = 'Admin company name';
+
+        $adminAccountId= 100;
         $agencyName    = 'Agency Ltd.';
         $agencyContact = 'Mr. Foo Bar Agency';
         $agencyMail    = 'send@agency.com';
-        $clientName    = 'Foo Client';
 
-        // Prepare the admin email address and name, and set
-        // all users to receive warnings
-        $oPreference = OA_Dal::factoryDO('preferences');
-        $oPreference->agencyid       = 0;
-        $oPreference->admin_fullname = $adminContact;
-        $oPreference->admin_email    = $adminMail;
-        $oPreference->company_name   = $adminName;
-        $oPreference->warn_admin     = 't';
-        $oPreference->warn_agency    = 't';
-        $oPreference->warn_client    = 't';
-        DataGenerator::generateOne($oPreference);
+        $advertiserName    = 'Foo Client';
+        $advertiserMail    = 'advertiser@example.com';
+        $advertiserUsername= 'advertiserusername';
+
+        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $aConf['webpath']['admin'] = 'example.com';
+        $aConf['email']['fromAddress']  = $adminMail;
+        $aConf['email']['fromName']     = $adminName;
+        $aConf['email']['fromCompany']  = $adminCompany;
+
+        $mockName = uniqid('PartialMockOA_Email_');
+        Mock::generatePartial(
+            'OA_Email',
+            $mockName,
+            array('sendMail')
+        );
+
+        $oEmail = new $mockName();
+        $oEmail->setReturnValue('sendMail', true);
+
+        // Prepare valid test data
+        $dateReason    = 'date';
+        $dateValue     = '2007-05-15';
+        $impReason     = 'impressions';
+        $impValue      = 100;
+
+        // The tests below assume that the number of days before a campaign expires when the
+        $oCampaignDate = new Date($dateValue);
+        $oTwoDaysPriorDate = new Date();
+        $oTwoDaysPriorDate->copy($oCampaignDate);
+        $oTwoDaysPriorDate->subtractSeconds((2*24*60*60)-10);
+
+        $oNowDate = new Date($dateValue);
+
+        // Prepare an admin user
+         // Create the admin account
+        $doAccounts = OA_Dal::factoryDO('accounts');
+        $doAccounts->account_name = 'Administrator Account';
+        $doAccounts->account_type = OA_ACCOUNT_ADMIN;
+        $adminAccountId = DataGenerator::generateOne($doAccounts);
+
+        // Setup the admin account id
+        $doAppVar = OA_Dal::factoryDO('application_variable');
+        $doAppVar->name='admin_account_id';
+        $doAppVar->value=$adminAccountId;
+
+        // Create a user
+        $doAdminUser = OA_Dal::factoryDO('users');
+        $doAdminUser->contact_name = $adminContact;
+        $doAdminUser->email_address = $adminMail;
+        $doAdminUser->username = $adminName;
+        $doAdminUser->password = md5('password');
+        $doAdminUser->language = 'en';
+        $doAdminUser->default_account_id = $adminAccountId;
+        $adminUserId = DataGenerator::generateOne($doAdminUser);
+        $doAdminUser = OA_Dal::staticGetDO('users', $adminUserId);
+        $aAdminUser = $doAdminUser->toArray();
+
+        // Create admin account-user association
+        $doAUA = OA_Dal::factoryDO('account_user_assoc');
+        $doAUA->account_id = $adminAccountId;
+        $doAUA->user_id = $adminUserId;
+        $doAUA->insert();
 
         // Prepare an agency
-        $oAgency = OA_Dal::factoryDO('agency');
-        $oAgency->name    = $agencyName;
-        $oAgency->contact = $agencyContact;
-        $oAgency->email   = $agencyMail;
-        $agencyId = DataGenerator::generateOne($oAgency);
+        $doAgency = OA_Dal::factoryDO('agency');
+        $doAgency->name    = $agencyName;
+        $doAgency->contact = $agencyContact;
+        $doAgency->email   = $agencyMail;
+        $agencyId = DataGenerator::generateOne($doAgency);
+        $doAgency = OA_Dal::staticGetDO('agency', $agencyId); //get('agencyid', $agencyId);
+        $agencyAccountId = $doAgency->account_id;
 
-        // Test with no advertiser in the database and ensure false is returned
-        $result = $oEmail->preparePlacementImpendingExpiryEmail(1, 1, $dateReason, $dateValue);
-        $this->assertFalse($result);
-        $result = $oEmail->preparePlacementImpendingExpiryEmail(1, 1, $impReason, $impValue);
-        $this->assertFalse($result);
+        // Prepare an agency user
+        $doUser = OA_Dal::factoryDO('users');
+        $doUser->contact_name = $agencyContact;
+        $doUser->email_address = $agencyMail;
+        $doUser->username = $agencyName;
+        $doUser->language = 'en';
+        $agencyUserId = DataGenerator::generateOne($doUser);
+        $doAgencyUser = OA_Dal::staticGetDO('users', $agencyUserId);
+        $aAgencyUser = $doAgencyUser->toArray();
+
+        $oUserAccess = new OA_Admin_UI_UserAccess();
+
+        // Agency user
+        $oUserAccess->linkUserToAccount($agencyUserId, $doAgency->account_id, array(), array());
 
         // Generate an advertiser owned by the agency with no email adddress,
         // but no placements, and ensure false is returned
         $doClients = OA_Dal::factoryDO('clients');
-        $doClients->agencyid   = 1;
-        $doClients->clientname = $clientName;
+        $doClients->agencyid   = $agencyId;
+        $doClients->clientname = $advertiserName;
         $doClients->email      = '';
         $advertiserId1 = DataGenerator::generateOne($doClients);
-        $result = $oEmail->preparePlacementImpendingExpiryEmail($advertiserId1, 1, $dateReason, $dateValue);
-        $this->assertFalse($result);
-        $result = $oEmail->preparePlacementImpendingExpiryEmail($advertiserId1, 1, $impReason, $impValue);
-        $this->assertFalse($result);
+        $doClients = OA_Dal::staticGetDO('clients', 'clientid', $advertiserId1); // ->get('clientid', $advertiserId1);
+        $advertiserAccountId = $doClients->account_id;
 
-        // Generate a placement owned by the advertiser, and test with a
-        // different placement ID, and ensure false is returned
+        // Create an advertiser user
+        $doUser = OA_Dal::factoryDO('users');
+        $doUser->contact_name = $advertiserName;
+        $doUser->email_address = $advertiserMail;
+        $doUser->username = $advertiserUsername;
+        $doUser->language = 'en';
+        $userId = DataGenerator::generateOne($doUser);
+        $doAdvertiserUser = OA_Dal::staticGetDO('users', $userId);
+        $aAdvertiserUser = $doAdvertiserUser->toArray();
+
+        // Link the advertiser user
+        $oUserAccess->linkUserToAccount($userId, $doClients->account_id, array(), array());
+
+        // Create a campaign
         $doPlacements = OA_Dal::factoryDO('campaigns');
         $doPlacements->clientid = $advertiserId1;
-        $placementId1 = DataGenerator::generateOne($doPlacements);
-        $result = $oEmail->preparePlacementImpendingExpiryEmail($advertiserId1, $placementId1 + 1, $dateReason, $dateValue);
-        $this->assertFalse($result);
-        $result = $oEmail->preparePlacementImpendingExpiryEmail($advertiserId1, $placementId1 + 1, $impReason, $impValue);
-        $this->assertFalse($result);
+        $doPlacements->views = 50;
+        $doPlacements->expire = $oCampaignDate->format('%Y-%m-%d');
+        $placementId = DataGenerator::generateOne($doPlacements);
+        $doPlacements = OA_Dal::staticGetDO('campaigns', $placementId);
+        $aPlacement = $doPlacements->toArray();
 
-        // Test with the matching advertiser and placement IDs, and
-        // ensure the expected email is generated
-        $aResult = $oEmail->preparePlacementImpendingExpiryEmail($advertiserId1, $placementId1, $dateReason, $dateValue);
+        $result = $oEmail->sendPlacementImpendingExpiryEmail($oNowDate, $placementId);
+        // No emails should be sent yet because the preferences weren't set
+        $this->assertEqual($result, 0);
 
-        $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 2);
+        // Create the preference
+        $doPreferences = OA_Dal::factoryDO('preferences');
+        $doPreferences->preference_name = 'warn_email_admin';
+        $doPreferences->account_type = OA_ACCOUNT_ADMIN;
+        $warnEmailAdminPreferenceId = DataGenerator::generateOne($doPreferences);
 
-        $expectedSubject = "Impending campaign expiration: $clientName";
+        // Set the admin preference
+        $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');
+        $doAccount_Preference_Assoc->account_id = $adminAccountId;
+        $doAccount_Preference_Assoc->preference_id = $warnEmailAdminPreferenceId;
+        $doAccount_Preference_Assoc->value = 1;
+        DataGenerator::generateOne($doAccount_Preference_Assoc);
+
+        // Create the admin threshold preference
+        $doPreferences = OA_Dal::factoryDO('preferences');
+        $doPreferences->preference_name = 'warn_email_admin_impression_limit';
+        $doPreferences->account_type = OA_ACCOUNT_ADMIN;
+        $warnEmailAdminImpLimitPreferenceId = DataGenerator::generateOne($doPreferences);
+
+        // Set the admin preference
+        $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');
+        $doAccount_Preference_Assoc->account_id = $adminAccountId;
+        $doAccount_Preference_Assoc->preference_id = $warnEmailAdminImpLimitPreferenceId;
+        $doAccount_Preference_Assoc->value = 100;
+        DataGenerator::generateOne($doAccount_Preference_Assoc);
+
+        // Create the admin day warning
+        $doPreferences = OA_Dal::factoryDO('preferences');
+        $doPreferences->preference_name = 'warn_email_admin_day_limit';
+        $doPreferences->account_type = OA_ACCOUNT_ADMIN;
+        $warnEmailAdminDayLimitPreferenceId = DataGenerator::generateOne($doPreferences);
+
+        // Set the admin preference
+        $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');
+        $doAccount_Preference_Assoc->account_id = $adminAccountId;
+        $doAccount_Preference_Assoc->preference_id = $warnEmailAdminDayLimitPreferenceId;
+        $doAccount_Preference_Assoc->value = 2;
+        DataGenerator::generateOne($doAccount_Preference_Assoc);
+
+        // Set the agency preferences
+        $doPreferences = OA_Dal::factoryDO('preferences');
+        $doPreferences->preference_name = 'warn_email_manager';
+        $doPreferences->account_type = OA_ACCOUNT_MANAGER;
+        $warnEmailManagerPreferenceId = DataGenerator::generateOne($doPreferences);
+
+        $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');
+        $doAccount_Preference_Assoc->account_id = $agencyAccountId;
+        $doAccount_Preference_Assoc->preference_id = $warnEmailManagerPreferenceId;
+        $doAccount_Preference_Assoc->value = 0;
+        DataGenerator::generateOne($doAccount_Preference_Assoc);
+
+        $doPreferences = OA_Dal::factoryDO('preferences');
+        $doPreferences->preference_name = 'warn_email_manager_impression_limit';
+        $doPreferences->account_type = OA_ACCOUNT_MANAGER;
+        $warnEmailManagerImpLimitPreferenceId = DataGenerator::generateOne($doPreferences);
+
+        $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');
+        $doAccount_Preference_Assoc->account_id = $agencyAccountId;
+        $doAccount_Preference_Assoc->preference_id = $warnEmailManagerImpLimitPreferenceId;
+        $doAccount_Preference_Assoc->value = 100;
+        DataGenerator::generateOne($doAccount_Preference_Assoc);
+
+        $doPreferences = OA_Dal::factoryDO('preferences');
+        $doPreferences->preference_name = 'warn_email_manager_day_limit';
+        $doPreferences->account_type = OA_ACCOUNT_MANAGER;
+        $warnEmailManagerDayLimitPreferenceId = DataGenerator::generateOne($doPreferences);
+
+        $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');
+        $doAccount_Preference_Assoc->account_id = $agencyAccountId;
+        $doAccount_Preference_Assoc->preference_id = $warnEmailManagerDayLimitPreferenceId;
+        $doAccount_Preference_Assoc->value = 2;
+        DataGenerator::generateOne($doAccount_Preference_Assoc);
+
+        // Set the advertiser preferences
+        $doPreferences = OA_Dal::factoryDO('preferences');
+        $doPreferences->preference_name = 'warn_email_advertiser';
+        $doPreferences->account_type = OA_ACCOUNT_ADVERTISER;
+        $warnEmailAdvertiserPreferenceId = DataGenerator::generateOne($doPreferences);
+
+        $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');
+        $doAccount_Preference_Assoc->account_id = $advertiserAccountId;
+        $doAccount_Preference_Assoc->preference_id = $warnEmailAdvertiserPreferenceId;
+        $doAccount_Preference_Assoc->value = 0;
+        DataGenerator::generateOne($doAccount_Preference_Assoc);
+
+        $doPreferences = OA_Dal::factoryDO('preferences');
+        $doPreferences->preference_name = 'warn_email_advertiser_impression_limit';
+        $doPreferences->account_type = OA_ACCOUNT_ADVERTISER;
+        $warnEmailAdvertiserImpLimitPreferenceId = DataGenerator::generateOne($doPreferences);
+
+        $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');
+        $doAccount_Preference_Assoc->account_id = $advertiserAccountId;
+        $doAccount_Preference_Assoc->preference_id = $warnEmailAdvertiserImpLimitPreferenceId;
+        $doAccount_Preference_Assoc->value = 100;
+        DataGenerator::generateOne($doAccount_Preference_Assoc);
+
+        $doPreferences = OA_Dal::factoryDO('preferences');
+        $doPreferences->preference_name = 'warn_email_advertiser_day_limit';
+        $doPreferences->account_type = OA_ACCOUNT_ADVERTISER;
+        $warnEmailAdvertiserDayLimitPreferenceId = DataGenerator::generateOne($doPreferences);
+
+        $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');
+        $doAccount_Preference_Assoc->account_id = $advertiserAccountId;
+        $doAccount_Preference_Assoc->preference_id = $warnEmailAdvertiserDayLimitPreferenceId;
+        $doAccount_Preference_Assoc->value = 2;
+        DataGenerator::generateOne($doAccount_Preference_Assoc);
+
+        // Create another user linked to the advertiser account and ensure that an additional email is sent
+        $doUser = OA_Dal::factoryDO('users');
+        $doUser->contact_name = '2_' . $advertiserName;
+        $doUser->email_address = '2_' . $advertiserMail;
+        $doUser->username = '2_' . $clientName;
+        $doUser->language = 'de';
+        $advertiserUserId2 = DataGenerator::generateOne($doUser);
+        $doAdvertiserUser2 = OA_Dal::staticGetDO('users', $advertiserUserId2);
+        $aAdvertiserUser2 = $doAdvertiserUser2->toArray();
+
+        // Link the advertiser user
+        $oUserAccess->linkUserToAccount($advertiserUserId2, $doClients->account_id, array(), array());
+
+        // If the advertiser preference is off, then the advertiser should not be sent emails
+        // even if the admin/manager preference is on
+        $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');
+        $doAccount_Preference_Assoc->account_id = $advertiserAccountId;
+        $doAccount_Preference_Assoc->preference_id = $warnEmailAdvertiserPreferenceId;
+        $doAccount_Preference_Assoc->value = 0;
+        $doAccount_Preference_Assoc->update();
+
+        // And turning off the manager preference should leave just agency emails (2)
+        $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');
+        $doAccount_Preference_Assoc->account_id = $agencyAccountId;
+        $doAccount_Preference_Assoc->preference_id = $warnEmailManagerPreferenceId;
+        $doAccount_Preference_Assoc->value = 0;
+        $doAccount_Preference_Assoc->update();
+
+        // -- The above sets up the environment for the tests below -- //
+
+        // Check the body when passing in the admin user:
+        $expectedSubject = "Impending campaign expiration: $advertiserName";
         $expectedContents  = "Dear $adminContact,\n\n";
-        $expectedContents .= "The campaign belonging to $clientName shown below is due to end on $dateValue.\n\n";
+        $expectedContents .= "The campaign belonging to $advertiserName shown below is due to end on $dateValue.\n\n";
         $expectedContents .= "As a result, the campaign will soon be automatically disabled, and the\n";
         $expectedContents .= "following banners in the campaign will also be disabled:\n";
-        $expectedContents .= "\nCampaign [id$placementId1] 1\n";
-        $expectedContents .= "http://example.com/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId1\n";
+        $expectedContents .= "\nCampaign [id$placementId] 1\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId\n";
         $expectedContents .= "-------------------------------------------------------\n\n";
         $expectedContents .= " There are currently no banners defined\n\n";
         $expectedContents .= "-------------------------------------------------------\n\n\n";
-        $expectedContents .= "Regards,\n   $adminContact, $adminName";
-        $this->assertTrue(is_array($aResult[0]));
-        $this->assertEqual(count($aResult[0]), 4);
-        $this->assertEqual($aResult[0]['userEmail'], $adminMail);
-        $this->assertEqual($aResult[0]['userName'],  $adminContact);
-        $this->assertEqual($aResult[0]['subject'],   $expectedSubject);
-        $this->assertEqual($aResult[0]['contents'],  $expectedContents);
+        $expectedContents .= "Regards,\n   $adminName, $adminCompany";
 
-        $expectedSubject = "Impending campaign expiration: $clientName";
-        $expectedContents  = "Dear $agencyContact,\n\n";
-        $expectedContents .= "The campaign belonging to $clientName shown below is due to end on $dateValue.\n\n";
+        Language_Default::load($aAdminUser['language']);
+        $numSent = $oEmail->sendPlacementImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
+        $aResult = $oEmail->preparePlacementImpendingExpiryEmail($aAdminUser, $advertiserId1, $placementId, $dateReason, $dateValue, 'admin');
+
+        $this->assertEqual($numSent, 1);
+        $this->assertTrue(is_array($aResult));
+        $this->assertEqual(count($aResult), 2);
+        $this->assertEqual($aResult['subject'],   $expectedSubject);
+        $this->assertEqual($aResult['contents'],  $expectedContents);
+
+        // Manager user
+        $expectedSubject = "Impending campaign expiration: $advertiserName";
+        $expectedContents  = "Dear {$aAgencyUser['contact_name']},\n\n";
+        $expectedContents .= "The campaign belonging to $advertiserName shown below is due to end on $dateValue.\n\n";
         $expectedContents .= "As a result, the campaign will soon be automatically disabled, and the\n";
         $expectedContents .= "following banners in the campaign will also be disabled:\n";
-        $expectedContents .= "\nCampaign [id$placementId1] 1\n";
-        $expectedContents .= "http://example.com/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId1\n";
+        $expectedContents .= "\nCampaign [id$placementId] 1\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId\n";
         $expectedContents .= "-------------------------------------------------------\n\n";
         $expectedContents .= " There are currently no banners defined\n\n";
         $expectedContents .= "-------------------------------------------------------\n\n\n";
         $expectedContents .= "Regards,\n   $agencyContact, $agencyName";
-        $this->assertTrue(is_array($aResult[1]));
-        $this->assertEqual(count($aResult[1]), 4);
-        $this->assertEqual($aResult[1]['userEmail'], $agencyMail);
-        $this->assertEqual($aResult[1]['userName'],  $agencyContact);
-        $this->assertEqual($aResult[1]['subject'],   $expectedSubject);
-        $this->assertEqual($aResult[1]['contents'],  $expectedContents);
 
-        $aResult = $oEmail->preparePlacementImpendingExpiryEmail($advertiserId1, $placementId1, $impReason, $impValue);
+        Language_Default::load($aAgencyUser['language']);
+        $numSent = $oEmail->sendPlacementImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
+        $aResult = $oEmail->preparePlacementImpendingExpiryEmail($aAgencyUser, $advertiserId1, $placementId, $dateReason, $dateValue, 'manager');
 
+        $this->assertEqual($numSent, 1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
+        $this->assertEqual($aResult['subject'],   $expectedSubject);
+        $this->assertEqual($aResult['contents'],  $expectedContents);
 
-        $expectedSubject = "Impending campaign expiration: $clientName";
-        $expectedContents  = "Dear $adminContact,\n\n";
-        $expectedContents .= "The campaign belonging to $clientName shown below has less than $impValue impressions remaining.\n\n";
+        // The following should never be sent because a campaign without banners should never deliver (and therefore never reach the "remaining" threshold)
+        $expectedSubject = "Impending campaign expiration: $advertiserName";
+        $expectedContents  = "Dear {$aAdminUser['contact_name']},\n\n";
+        $expectedContents .= "The campaign belonging to $advertiserName shown below has less than $impValue impressions remaining.\n\n";
         $expectedContents .= "As a result, the campaign will soon be automatically disabled, and the\n";
         $expectedContents .= "following banners in the campaign will also be disabled:\n";
-        $expectedContents .= "\nCampaign [id$placementId1] 1\n";
-        $expectedContents .= "http://example.com/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId1\n";
+        $expectedContents .= "\nCampaign [id$placementId] 1\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId\n";
         $expectedContents .= "-------------------------------------------------------\n\n";
         $expectedContents .= " There are currently no banners defined\n\n";
         $expectedContents .= "-------------------------------------------------------\n\n\n";
-        $expectedContents .= "Regards,\n   $adminContact, $adminName";
-        $this->assertTrue(is_array($aResult[0]));
-        $this->assertEqual(count($aResult[0]), 4);
-        $this->assertEqual($aResult[0]['userEmail'], $adminMail);
-        $this->assertEqual($aResult[0]['userName'],  $adminContact);
-        $this->assertEqual($aResult[0]['subject'],   $expectedSubject);
-        $this->assertEqual($aResult[0]['contents'],  $expectedContents);
+        $expectedContents .= "Regards,\n   $adminName, $adminCompany";
 
-        $expectedSubject = "Impending campaign expiration: $clientName";
-        $expectedContents  = "Dear $agencyContact,\n\n";
-        $expectedContents .= "The campaign belonging to $clientName shown below has less than $impValue impressions remaining.\n\n";
+        Language_Default::load($aAdminUser['language']);
+        $numSent = $oEmail->sendPlacementImpendingExpiryEmail($oNowDate, $placementId);
+        $aResult = $oEmail->preparePlacementImpendingExpiryEmail($aAdminUser, $advertiserId1, $placementId, $impReason, $impValue, 'admin');
+        $this->assertEqual($numSent, 0);
+        $this->assertTrue(is_array($aResult));
+        $this->assertEqual(count($aResult), 2);
+        $this->assertEqual($aResult['subject'],   $expectedSubject);
+        $this->assertEqual($aResult['contents'],  $expectedContents);
+
+        $expectedSubject = "Impending campaign expiration: $advertiserName";
+        $expectedContents  = "Dear {$aAgencyUser['contact_name']},\n\n";
+        $expectedContents .= "The campaign belonging to $advertiserName shown below has less than $impValue impressions remaining.\n\n";
         $expectedContents .= "As a result, the campaign will soon be automatically disabled, and the\n";
         $expectedContents .= "following banners in the campaign will also be disabled:\n";
-        $expectedContents .= "\nCampaign [id$placementId1] 1\n";
-        $expectedContents .= "http://example.com/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId1\n";
+        $expectedContents .= "\nCampaign [id$placementId] 1\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId\n";
         $expectedContents .= "-------------------------------------------------------\n\n";
         $expectedContents .= " There are currently no banners defined\n\n";
         $expectedContents .= "-------------------------------------------------------\n\n\n";
         $expectedContents .= "Regards,\n   $agencyContact, $agencyName";
-        $this->assertTrue(is_array($aResult[1]));
-        $this->assertEqual(count($aResult[1]), 4);
-        $this->assertEqual($aResult[1]['userEmail'], $agencyMail);
-        $this->assertEqual($aResult[1]['userName'],  $agencyContact);
-        $this->assertEqual($aResult[1]['subject'],   $expectedSubject);
-        $this->assertEqual($aResult[1]['contents'],  $expectedContents);
 
-        // Update the advertiser to be owned by admin, set an email
-        // address for the advertiser, and add some banners to the
-        // campaign and re-test
-        $advertiserName = 'Andrew Hill';
-        $advertiserMail = 'andrew.hill@openads.org';
+        Language_Default::load($aAgencyUser['language']);
+        $numSent = $oEmail->sendPlacementImpendingExpiryEmail($oNowDate, $placementId);
+        $aResult = $oEmail->preparePlacementImpendingExpiryEmail($aAgencyUser, $advertiserId1, $placementId, $impReason, $impValue, 'manager');
+        $this->assertEqual($numSent, 0);
+        $this->assertTrue(is_array($aResult));
+        $this->assertEqual(count($aResult), 2);
+        $this->assertEqual($aResult['subject'],   $expectedSubject);
+        $this->assertEqual($aResult['contents'],  $expectedContents);
 
-        $doClients = OA_Dal::factoryDO('clients');
-        $doClients->clientid   = $advertiserId1;
-        $doClients->agencyid   = 0;
-        $doClients->contact    = $advertiserName;
-        $doClients->email      = $advertiserMail;
-        $doClients->update();
-
+        // Add some banners and retest
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->campaignid = $placementId1;
+        $doBanners->campaignid = $placementId;
         $doBanners->url        = '';
         $bannerId1 = DataGenerator::generateOne($doBanners);
 
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->campaignid = $placementId1;
+        $doBanners->campaignid = $placementId;
         $doBanners->url        = 'http://www.fornax.net/';
         $bannerId2 = DataGenerator::generateOne($doBanners);
 
-        $aResult = $oEmail->preparePlacementImpendingExpiryEmail($advertiserId1, $placementId1, $dateReason, $dateValue);
-
-        $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 2);
-
-        $expectedSubject = "Impending campaign expiration: $clientName";
-        $expectedContents  = "Dear $adminContact,\n\n";
-        $expectedContents .= "The campaign belonging to $clientName shown below is due to end on $dateValue.\n\n";
+        $expectedSubject = "Impending campaign expiration: $advertiserName";
+        $expectedContents  = "Dear {$aAdminUser['contact_name']},\n\n";
+        $expectedContents .= "The campaign belonging to $advertiserName shown below is due to end on $dateValue.\n\n";
         $expectedContents .= "As a result, the campaign will soon be automatically disabled, and the\n";
         $expectedContents .= "following banners in the campaign will also be disabled:\n";
-        $expectedContents .= "\nCampaign [id$placementId1] 1\n";
-        $expectedContents .= "http://example.com/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId1\n";
+        $expectedContents .= "\nCampaign [id$placementId] 1\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId\n";
         $expectedContents .= "-------------------------------------------------------\n\n";
         $expectedContents .= " Banner [id$bannerId1] 1\n\n";
         $expectedContents .= " Banner [id$bannerId2] 1\n";
         $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
         $expectedContents .= "-------------------------------------------------------\n\n\n";
-        $expectedContents .= "Regards,\n   $adminContact, $adminName";
-        $this->assertTrue(is_array($aResult[0]));
-        $this->assertEqual(count($aResult[0]), 4);
-        $this->assertEqual($aResult[0]['userEmail'], $adminMail);
-        $this->assertEqual($aResult[0]['userName'],  $adminContact);
-        $this->assertEqual($aResult[0]['subject'],   $expectedSubject);
-        $this->assertEqual($aResult[0]['contents'],  $expectedContents);
+        $expectedContents .= "Regards,\n   $adminName, $adminCompany";
 
-        $expectedSubject = "Impending campaign expiration: $clientName";
-        $expectedContents  = "Dear $advertiserName,\n\n";
+        Language_Default::load($aAdminUser['language']);
+        $numSent = $oEmail->sendPlacementImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
+        $aResult = $oEmail->preparePlacementImpendingExpiryEmail($aAdminUser, $advertiserId1, $placementId1, $dateReason, $dateValue, 'admin');
+        $this->assertEqual($numSent, 1);
+        $this->assertTrue(is_array($aResult));
+        $this->assertEqual(count($aResult), 2);
+        $this->assertEqual($aResult['subject'],   $expectedSubject);
+        $this->assertEqual($aResult['contents'],  $expectedContents);
+
+        $expectedSubject = "Impending campaign expiration: $advertiserName";
+        $expectedContents  = "Dear {$aAdvertiserUser['contact_name']},\n\n";
         $expectedContents .= "Your campaign shown below is due to end on $dateValue.\n\n";
         $expectedContents .= "As a result, the campaign will soon be automatically disabled, and the\n";
         $expectedContents .= "following banners in the campaign will also be disabled:\n";
-        $expectedContents .= "\nCampaign [id$placementId1] 1\n";
-        $expectedContents .= "http://example.com/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId1\n";
+        $expectedContents .= "\nCampaign [id$placementId] 1\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId\n";
         $expectedContents .= "-------------------------------------------------------\n\n";
         $expectedContents .= " Banner [id$bannerId1] 1\n\n";
         $expectedContents .= " Banner [id$bannerId2] 1\n";
         $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
         $expectedContents .= "-------------------------------------------------------\n\n\n";
-        $expectedContents .= "Regards,\n   $adminContact, $adminName";
-        $this->assertTrue(is_array($aResult[1]));
-        $this->assertEqual(count($aResult[1]), 4);
-        $this->assertEqual($aResult[1]['userEmail'], $advertiserMail);
-        $this->assertEqual($aResult[1]['userName'],  $advertiserName);
-        $this->assertEqual($aResult[1]['subject'],   $expectedSubject);
-        $this->assertEqual($aResult[1]['contents'],  $expectedContents);
+        $expectedContents .= "Regards,\n   $agencyContact, $agencyName";
 
-        $aResult = $oEmail->preparePlacementImpendingExpiryEmail($advertiserId1, $placementId1, $impReason, $impValue);
-
+        Language_Default::load($aAdvertiserUser['language']);
+        $numSent = $oEmail->sendPlacementImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
+        $aResult = $oEmail->preparePlacementImpendingExpiryEmail($aAdvertiserUser, $advertiserId1, $placementId, $dateReason, $dateValue, 'advertiser');
+        $this->assertEqual($numSent, 1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
+        $this->assertEqual($aResult['subject'],   $expectedSubject);
+        $this->assertEqual($aResult['contents'],  $expectedContents);
 
-        $expectedSubject = "Impending campaign expiration: $clientName";
+        // Enable the warn_email_advertiser preference and retest
+        $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');
+        $doAccount_Preference_Assoc->account_id = $advertiserAccountId;
+        $doAccount_Preference_Assoc->preference_id = $warnEmailAdvertiserPreferenceId;
+        $doAccount_Preference_Assoc->value = 1;
+        $doAccount_Preference_Assoc->update();
+
+        // So should now send 1 admin and 2 advertiser emails
+        $numSent = $oEmail->sendPlacementImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
+        $this->assertEqual($numSent, 3);
+
+        $expectedSubject = "Impending campaign expiration: $advertiserName";
         $expectedContents  = "Dear $adminContact,\n\n";
-        $expectedContents .= "The campaign belonging to $clientName shown below has less than $impValue impressions remaining.\n\n";
+        $expectedContents .= "The campaign belonging to $advertiserName shown below has less than $impValue impressions remaining.\n\n";
         $expectedContents .= "As a result, the campaign will soon be automatically disabled, and the\n";
         $expectedContents .= "following banners in the campaign will also be disabled:\n";
-        $expectedContents .= "\nCampaign [id$placementId1] 1\n";
-        $expectedContents .= "http://example.com/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId1\n";
+        $expectedContents .= "\nCampaign [id$placementId] 1\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId\n";
         $expectedContents .= "-------------------------------------------------------\n\n";
         $expectedContents .= " Banner [id$bannerId1] 1\n\n";
         $expectedContents .= " Banner [id$bannerId2] 1\n";
         $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
         $expectedContents .= "-------------------------------------------------------\n\n\n";
-        $expectedContents .= "Regards,\n   $adminContact, $adminName";
-        $this->assertTrue(is_array($aResult[0]));
-        $this->assertEqual(count($aResult[0]), 4);
-        $this->assertEqual($aResult[0]['userEmail'], $adminMail);
-        $this->assertEqual($aResult[0]['userName'],  $adminContact);
-        $this->assertEqual($aResult[0]['subject'],   $expectedSubject);
-        $this->assertEqual($aResult[0]['contents'],  $expectedContents);
+        $expectedContents .= "Regards,\n   $adminName, $adminCompany";
 
-        $expectedSubject = "Impending campaign expiration: $clientName";
-        $expectedContents  = "Dear $advertiserName,\n\n";
+        $aResult = $oEmail->preparePlacementImpendingExpiryEmail($aAdminUser, $advertiserId1, $placementId, $impReason, $impValue, 'admin');
+        $numSent = $oEmail->sendPlacementImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
+        $this->assertEqual($numSent, 3);
+        $this->assertTrue(is_array($aResult));
+        $this->assertEqual(count($aResult), 2);
+        $this->assertEqual($aResult['subject'],   $expectedSubject);
+        $this->assertEqual($aResult['contents'],  $expectedContents);
+
+        // Enable the warn_email_manager preference and retest
+        $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');
+        $doAccount_Preference_Assoc->account_id = $agencyAccountId;
+        $doAccount_Preference_Assoc->preference_id = $warnEmailManagerPreferenceId;
+        $doAccount_Preference_Assoc->value = 1;
+        $doAccount_Preference_Assoc->update();
+        $numSent = $oEmail->sendPlacementImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
+        $this->assertEqual($numSent, 4);
+
+        $expectedSubject = "Impending campaign expiration: $advertiserName";
+        $expectedContents  = "Dear {$aAdvertiserUser['contact_name']},\n\n";
         $expectedContents .= "Your campaign shown below has less than $impValue impressions remaining.\n\n";
         $expectedContents .= "As a result, the campaign will soon be automatically disabled, and the\n";
         $expectedContents .= "following banners in the campaign will also be disabled:\n";
-        $expectedContents .= "\nCampaign [id$placementId1] 1\n";
-        $expectedContents .= "http://example.com/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId1\n";
-        $expectedContents .= "-------------------------------------------------------\n\n";
-        $expectedContents .= " Banner [id$bannerId1] 1\n\n";
-        $expectedContents .= " Banner [id$bannerId2] 1\n";
-        $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
-        $expectedContents .= "-------------------------------------------------------\n\n\n";
-        $expectedContents .= "Regards,\n   $adminContact, $adminName";
-        $this->assertTrue(is_array($aResult[1]));
-        $this->assertEqual(count($aResult[1]), 4);
-        $this->assertEqual($aResult[1]['userEmail'], $advertiserMail);
-        $this->assertEqual($aResult[1]['userName'],  $advertiserName);
-        $this->assertEqual($aResult[1]['subject'],   $expectedSubject);
-        $this->assertEqual($aResult[1]['contents'],  $expectedContents);
-
-        // Repeat above tests, but have advertiser owned by agency
-        $doClients = OA_Dal::factoryDO('clients');
-        $doClients->clientid   = $advertiserId1;
-        $doClients->agencyid   = $agencyId;
-        $doClients->contact    = $advertiserName;
-        $doClients->email      = $advertiserMail;
-        $doClients->update();
-
-        $aResult = $oEmail->preparePlacementImpendingExpiryEmail($advertiserId1, $placementId1, $dateReason, $dateValue);
-
-        $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 3);
-
-        $expectedSubject = "Impending campaign expiration: $clientName";
-        $expectedContents  = "Dear $adminContact,\n\n";
-        $expectedContents .= "The campaign belonging to $clientName shown below is due to end on $dateValue.\n\n";
-        $expectedContents .= "As a result, the campaign will soon be automatically disabled, and the\n";
-        $expectedContents .= "following banners in the campaign will also be disabled:\n";
-        $expectedContents .= "\nCampaign [id$placementId1] 1\n";
-        $expectedContents .= "http://example.com/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId1\n";
-        $expectedContents .= "-------------------------------------------------------\n\n";
-        $expectedContents .= " Banner [id$bannerId1] 1\n\n";
-        $expectedContents .= " Banner [id$bannerId2] 1\n";
-        $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
-        $expectedContents .= "-------------------------------------------------------\n\n\n";
-        $expectedContents .= "Regards,\n   $adminContact, $adminName";
-        $this->assertTrue(is_array($aResult[0]));
-        $this->assertEqual(count($aResult[0]), 4);
-        $this->assertEqual($aResult[0]['userEmail'], $adminMail);
-        $this->assertEqual($aResult[0]['userName'],  $adminContact);
-        $this->assertEqual($aResult[0]['subject'],   $expectedSubject);
-        $this->assertEqual($aResult[0]['contents'],  $expectedContents);
-
-        $expectedSubject = "Impending campaign expiration: $clientName";
-        $expectedContents  = "Dear $agencyContact,\n\n";
-        $expectedContents .= "The campaign belonging to $clientName shown below is due to end on $dateValue.\n\n";
-        $expectedContents .= "As a result, the campaign will soon be automatically disabled, and the\n";
-        $expectedContents .= "following banners in the campaign will also be disabled:\n";
-        $expectedContents .= "\nCampaign [id$placementId1] 1\n";
-        $expectedContents .= "http://example.com/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId1\n";
+        $expectedContents .= "\nCampaign [id$placementId] 1\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId\n";
         $expectedContents .= "-------------------------------------------------------\n\n";
         $expectedContents .= " Banner [id$bannerId1] 1\n\n";
         $expectedContents .= " Banner [id$bannerId2] 1\n";
         $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
         $expectedContents .= "-------------------------------------------------------\n\n\n";
         $expectedContents .= "Regards,\n   $agencyContact, $agencyName";
-        $this->assertTrue(is_array($aResult[1]));
-        $this->assertEqual(count($aResult[1]), 4);
-        $this->assertEqual($aResult[1]['userEmail'], $agencyMail);
-        $this->assertEqual($aResult[1]['userName'],  $agencyContact);
-        $this->assertEqual($aResult[1]['subject'],   $expectedSubject);
-        $this->assertEqual($aResult[1]['contents'],  $expectedContents);
 
-        $expectedSubject = "Impending campaign expiration: $clientName";
-        $expectedContents  = "Dear $advertiserName,\n\n";
-        $expectedContents .= "Your campaign shown below is due to end on $dateValue.\n\n";
-        $expectedContents .= "As a result, the campaign will soon be automatically disabled, and the\n";
-        $expectedContents .= "following banners in the campaign will also be disabled:\n";
-        $expectedContents .= "\nCampaign [id$placementId1] 1\n";
-        $expectedContents .= "http://example.com/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId1\n";
+        $aResult = $oEmail->preparePlacementImpendingExpiryEmail($aAdvertiserUser, $advertiserId1, $placementId, $impReason, $impValue, 'advertiser');
+        $this->assertTrue(is_array($aResult));
+        $this->assertEqual(count($aResult), 2);
+        $this->assertEqual($aResult['subject'],   $expectedSubject);
+        $this->assertEqual($aResult['contents'],  $expectedContents);
+
+        // Check that advertiser2's email is send in their desired language (german)
+        $expectedSubject = "Bevorstehende Deaktivierung der Kampagne: $advertiserName";
+        $expectedContents  = "Sehr geehrte(r) {$aAdvertiserUser2['contact_name']},\n\n";
+        $expectedContents .= "Unten angegebene Ihre Kampagne hat weniger als {$impValue} Impressions �brig.\n\n";
+        $expectedContents .= "Auf Grund dessen wird die Kampagne bald deaktiviert und weiter unten angegebene Banner aus dieser Kampagne werden deaktiviert.\n";
+        $expectedContents .= "\nKampagne [id$placementId] 1\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId\n";
         $expectedContents .= "-------------------------------------------------------\n\n";
         $expectedContents .= " Banner [id$bannerId1] 1\n\n";
         $expectedContents .= " Banner [id$bannerId2] 1\n";
-        $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
+        $expectedContents .= "  verkn&uuml;pft mit: http://www.fornax.net/\n\n";
         $expectedContents .= "-------------------------------------------------------\n\n\n";
-        $expectedContents .= "Regards,\n   $agencyContact, $agencyName";
-        $this->assertTrue(is_array($aResult[2]));
-        $this->assertEqual(count($aResult[2]), 4);
-        $this->assertEqual($aResult[2]['userEmail'], $advertiserMail);
-        $this->assertEqual($aResult[2]['userName'],  $advertiserName);
-        $this->assertEqual($aResult[2]['subject'],   $expectedSubject);
-        $this->assertEqual($aResult[2]['contents'],  $expectedContents);
-
-        $aResult = $oEmail->preparePlacementImpendingExpiryEmail($advertiserId1, $placementId1, $impReason, $impValue);
-
+        $expectedContents .= "Mit freundlichem Gru&szlig;\n   $agencyContact, $agencyName";
+        $aResult = $oEmail->preparePlacementImpendingExpiryEmail($aAdvertiserUser2, $advertiserId1, $placementId, $impReason, $impValue, 'advertiser');
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 3);
-
-        $expectedSubject = "Impending campaign expiration: $clientName";
-        $expectedContents  = "Dear $adminContact,\n\n";
-        $expectedContents .= "The campaign belonging to $clientName shown below has less than $impValue impressions remaining.\n\n";
-        $expectedContents .= "As a result, the campaign will soon be automatically disabled, and the\n";
-        $expectedContents .= "following banners in the campaign will also be disabled:\n";
-        $expectedContents .= "\nCampaign [id$placementId1] 1\n";
-        $expectedContents .= "http://example.com/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId1\n";
-        $expectedContents .= "-------------------------------------------------------\n\n";
-        $expectedContents .= " Banner [id$bannerId1] 1\n\n";
-        $expectedContents .= " Banner [id$bannerId2] 1\n";
-        $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
-        $expectedContents .= "-------------------------------------------------------\n\n\n";
-        $expectedContents .= "Regards,\n   $adminContact, $adminName";
-        $this->assertTrue(is_array($aResult[0]));
-        $this->assertEqual(count($aResult[0]), 4);
-        $this->assertEqual($aResult[0]['userEmail'], $adminMail);
-        $this->assertEqual($aResult[0]['userName'],  $adminContact);
-        $this->assertEqual($aResult[0]['subject'],   $expectedSubject);
-        $this->assertEqual($aResult[0]['contents'],  $expectedContents);
-
-        $expectedSubject = "Impending campaign expiration: $clientName";
-        $expectedContents  = "Dear $agencyContact,\n\n";
-        $expectedContents .= "The campaign belonging to $clientName shown below has less than $impValue impressions remaining.\n\n";
-        $expectedContents .= "As a result, the campaign will soon be automatically disabled, and the\n";
-        $expectedContents .= "following banners in the campaign will also be disabled:\n";
-        $expectedContents .= "\nCampaign [id$placementId1] 1\n";
-        $expectedContents .= "http://example.com/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId1\n";
-        $expectedContents .= "-------------------------------------------------------\n\n";
-        $expectedContents .= " Banner [id$bannerId1] 1\n\n";
-        $expectedContents .= " Banner [id$bannerId2] 1\n";
-        $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
-        $expectedContents .= "-------------------------------------------------------\n\n\n";
-        $expectedContents .= "Regards,\n   $agencyContact, $agencyName";
-        $this->assertTrue(is_array($aResult[1]));
-        $this->assertEqual(count($aResult[1]), 4);
-        $this->assertEqual($aResult[1]['userEmail'], $agencyMail);
-        $this->assertEqual($aResult[1]['userName'],  $agencyContact);
-        $this->assertEqual($aResult[1]['subject'],   $expectedSubject);
-        $this->assertEqual($aResult[1]['contents'],  $expectedContents);
-
-        $expectedSubject = "Impending campaign expiration: $clientName";
-        $expectedContents  = "Dear $advertiserName,\n\n";
-        $expectedContents .= "Your campaign shown below has less than $impValue impressions remaining.\n\n";
-        $expectedContents .= "As a result, the campaign will soon be automatically disabled, and the\n";
-        $expectedContents .= "following banners in the campaign will also be disabled:\n";
-        $expectedContents .= "\nCampaign [id$placementId1] 1\n";
-        $expectedContents .= "http://example.com/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId1\n";
-        $expectedContents .= "-------------------------------------------------------\n\n";
-        $expectedContents .= " Banner [id$bannerId1] 1\n\n";
-        $expectedContents .= " Banner [id$bannerId2] 1\n";
-        $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
-        $expectedContents .= "-------------------------------------------------------\n\n\n";
-        $expectedContents .= "Regards,\n   $agencyContact, $agencyName";
-        $this->assertTrue(is_array($aResult[2]));
-        $this->assertEqual(count($aResult[2]), 4);
-        $this->assertEqual($aResult[2]['userEmail'], $advertiserMail);
-        $this->assertEqual($aResult[2]['userName'],  $advertiserName);
-        $this->assertEqual($aResult[2]['subject'],   $expectedSubject);
-        $this->assertEqual($aResult[2]['contents'],  $expectedContents);
-
-        TestEnv::restoreEnv();
-    }
-
-    /**
-     * Tests that an e-mail advising a placement has been activated is able to
-     * be generated correctly.
-     *
-     * @TODO Re-enable test once the method has been fixed - see comments in method
-     *       about issues with language & new user/account properties/preferences.
-     *
-     */
-    function XXXtestPrepareActivatePlacementEmail()
-    {
-        $aConf =& $GLOBALS['_MAX']['CONF'];
-        $aConf['webpath']['admin'] = 'example.com';
-
-        $oEmail = new OA_Email();
-
-        unset($GLOBALS['_MAX']['PREF']);
-
-        $email        = 'andrew.hill@openads.org';
-        $name         = 'Andrew Hill';
-        $clientName   = 'Foo Client';
-
-        // Prepare the admin email address and name
-        $oPreference = OA_Dal::factoryDO('preferences');
-        $oPreference->agencyid       = 0;
-        $oPreference->admin_fullname = 'Andrew Hill';
-        $oPreference->company_name   = 'OpenX Limited';
-        $oPreference->admin_email    = 'send@example.com';
-        DataGenerator::generateOne($oPreference);
-
-        // Prepare an advertiser
-        $doClients = OA_Dal::factoryDO('clients');
-        $doClients->clientname = $clientName;
-        $doClients->email      = $email;
-        $doClients->contact    = $name;
-        $doClients->report     = 't';
-        $advertiserId = DataGenerator::generateOne($doClients);
-
-        // Prepare a placement
-        $doPlacements = OA_Dal::factoryDO('campaigns');
-        $doPlacements->clientid = $advertiserId;
-        $placementId = DataGenerator::generateOne($doPlacements);
-
-        // Prepare banners
-        $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->campaignid = $placementId;
-        $doBanners->url        = '';
-        $bannerId1 = DataGenerator::generateOne($doBanners);
-
-        $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->campaignid = $placementId;
-        $doBanners->url        = 'http://www.fornax.net/';
-        $bannerId2 = DataGenerator::generateOne($doBanners);
-
-        $aResult = $oEmail->preparePlacementActivatedDeactivatedEmail($placementId);
-        $expectedSubject = 'Campiagn activated: Foo Client';
-        $expectedContents  = "Dear $name,\n\n";
-        $expectedContents .= 'Your campaign shown below has been activated because'. "\n";
-        $expectedContents .= 'the campaign activation date has been reached.' . "\n";
-        $expectedContents .= "\nCampaign [id$placementId] 1\n";
-        $expectedContents .= "http://example.com/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId\n";
-        $expectedContents .= "=======================================================\n\n";
-        $expectedContents .= " Banner  [id$bannerId1] 1\n\n";
-        $expectedContents .= " Banner  [id$bannerId2] 1\n";
-        $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
-        $expectedContents .= "\n";
-        $expectedContents .= "Regards,\n   Andrew Hill, OpenX Limited";
-        $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 4);
-        $this->assertEqual($aResult['userEmail'], $email);
-        $this->assertEqual($aResult['userName'],  $name);
-        $this->assertEqual($aResult['subject'],   $expectedSubject);
-        $this->assertEqual($aResult['contents'],  $expectedContents);
-
-        TestEnv::restoreEnv();
-    }
-
-    /**
-     * Tests that e-mails advising a placement has been deactivated is able to
-     * be generated correctly.
-     *
-     * @TODO Re-enable test once the method has been fixed - see comments in method
-     *       about issues with language & new user/account properties/preferences.
-     *
-     */
-    function XXXtestSendDeactivatePlacementEmail()
-    {
-        $aConf =& $GLOBALS['_MAX']['CONF'];
-        $aConf['webpath']['admin'] = 'example.com';
-
-        $oEmail = new OA_Email();
-
-        unset($GLOBALS['_MAX']['PREF']);
-
-        $email        = 'andrew.hill@openads.org';
-        $name         = 'Andrew Hill';
-        $clientName   = 'Foo Client';
-
-        // Prepare the admin email address and name
-        $oPreference = OA_Dal::factoryDO('preferences');
-        $oPreference->agencyid       = 0;
-        $oPreference->admin_fullname = 'Andrew Hill';
-        $oPreference->company_name   = 'OpenX Limited';
-        $oPreference->admin_email    = 'send@example.com';
-        DataGenerator::generateOne($oPreference);
-
-        // Prepare an advertiser
-        $doClients = OA_Dal::factoryDO('clients');
-        $doClients->clientname = $clientName;
-        $doClients->email      = $email;
-        $doClients->contact    = $name;
-        $doClients->report     = 't';
-        $advertiserId = DataGenerator::generateOne($doClients);
-
-        // Prepare a placement
-        $doPlacements = OA_Dal::factoryDO('campaigns');
-        $doPlacements->clientid = $advertiserId;
-        $placementId = DataGenerator::generateOne($doPlacements);
-
-        // Prepare banners
-        $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->campaignid = $placementId;
-        $doBanners->url        = '';
-        $bannerId1 = DataGenerator::generateOne($doBanners);
-
-        $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->campaignid = $placementId;
-        $doBanners->url        = 'http://www.fornax.net/';
-        $bannerId2 = DataGenerator::generateOne($doBanners);
-
-        $aResult = $oEmail->preparePlacementActivatedDeactivatedEmail($placementId, OA_PLACEMENT_DISABLED_IMPRESSIONS);
-        $expectedSubject = 'Campaign deactivated: Foo Client';
-        $expectedContents  = "Dear $name,\n\n";
-        $expectedContents .= 'Your campaign shown below has been deactivated because:'. "\n";
-        $expectedContents .= '  - there are no Impressions remaining.' . "\n";
-        $expectedContents .= "\nCampaign [id$placementId] 1\n";
-        $expectedContents .= "http://example.com/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId\n";
-        $expectedContents .= "=======================================================\n\n";
-        $expectedContents .= " Banner  [id$bannerId1] 1\n\n";
-        $expectedContents .= " Banner  [id$bannerId2] 1\n";
-        $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
-        $expectedContents .= "\n";
-        $expectedContents .= "Regards,\n   Andrew Hill, OpenX Limited";
-        $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 4);
-        $this->assertEqual($aResult['userEmail'], $email);
-        $this->assertEqual($aResult['userName'],  $name);
-        $this->assertEqual($aResult['subject'],   $expectedSubject);
-        $this->assertEqual($aResult['contents'],  $expectedContents);
-
-        $aResult = $oEmail->preparePlacementActivatedDeactivatedEmail($placementId, OA_PLACEMENT_DISABLED_CLICKS);
-        $expectedSubject = 'Campaign deactivated: Foo Client';
-        $expectedContents  = "Dear $name,\n\n";
-        $expectedContents .= 'Your campaign shown below has been deactivated because:'. "\n";
-        $expectedContents .= '  - there are no Clicks remaining.' . "\n";
-        $expectedContents .= "\nCampaign [id$placementId] 1\n";
-        $expectedContents .= "http://example.com/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId\n";
-        $expectedContents .= "=======================================================\n\n";
-        $expectedContents .= " Banner  [id$bannerId1] 1\n\n";
-        $expectedContents .= " Banner  [id$bannerId2] 1\n";
-        $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
-        $expectedContents .= "\n";
-        $expectedContents .= "Regards,\n   Andrew Hill, OpenX Limited";
-        $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 4);
-        $this->assertEqual($aResult['userEmail'], $email);
-        $this->assertEqual($aResult['userName'],  $name);
-        $this->assertEqual($aResult['subject'],   $expectedSubject);
-        $this->assertEqual($aResult['contents'],  $expectedContents);
-
-        $aResult = $oEmail->preparePlacementActivatedDeactivatedEmail($placementId, OA_PLACEMENT_DISABLED_CONVERSIONS);
-        $expectedSubject = 'Campaign deactivated: Foo Client';
-        $expectedContents  = "Dear $name,\n\n";
-        $expectedContents .= 'Your campaign shown below has been deactivated because:'. "\n";
-        $expectedContents .= '  - there are no Sales remaining.' . "\n";
-        $expectedContents .= "\nCampaign [id$placementId] 1\n";
-        $expectedContents .= "http://example.com/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId\n";
-        $expectedContents .= "=======================================================\n\n";
-        $expectedContents .= " Banner  [id$bannerId1] 1\n\n";
-        $expectedContents .= " Banner  [id$bannerId2] 1\n";
-        $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
-        $expectedContents .= "\n";
-        $expectedContents .= "Regards,\n   Andrew Hill, OpenX Limited";
-        $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 4);
-        $this->assertEqual($aResult['userEmail'], $email);
-        $this->assertEqual($aResult['userName'],  $name);
-        $this->assertEqual($aResult['subject'],   $expectedSubject);
-        $this->assertEqual($aResult['contents'],  $expectedContents);
-
-        $aResult = $oEmail->preparePlacementActivatedDeactivatedEmail($placementId, OA_PLACEMENT_DISABLED_DATE);
-        $expectedSubject = 'Campaign deactivated: Foo Client';
-        $expectedContents  = "Dear $name,\n\n";
-        $expectedContents .= 'Your campaign shown below has been deactivated because:'. "\n";
-        $expectedContents .= '  - the expiration date has been reached.' . "\n";
-        $expectedContents .= "\nCampaign [id$placementId] 1\n";
-        $expectedContents .= "http://example.com/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId\n";
-        $expectedContents .= "=======================================================\n\n";
-        $expectedContents .= " Banner  [id$bannerId1] 1\n\n";
-        $expectedContents .= " Banner  [id$bannerId2] 1\n";
-        $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
-        $expectedContents .= "\n";
-        $expectedContents .= "Regards,\n   Andrew Hill, OpenX Limited";
-        $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 4);
-        $this->assertEqual($aResult['userEmail'], $email);
-        $this->assertEqual($aResult['userName'],  $name);
-        $this->assertEqual($aResult['subject'],   $expectedSubject);
-        $this->assertEqual($aResult['contents'],  $expectedContents);
-
-        $reason = 0 | OA_PLACEMENT_DISABLED_IMPRESSIONS | OA_PLACEMENT_DISABLED_CLICKS | OA_PLACEMENT_DISABLED_DATE;
-        $aResult = $oEmail->preparePlacementActivatedDeactivatedEmail($placementId, $reason);
-        $expectedSubject = 'Campaign deactivated: Foo Client';
-        $expectedContents  = "Dear $name,\n\n";
-        $expectedContents .= 'Your campaign shown below has been deactivated because:'. "\n";
-        $expectedContents .= '  - there are no Impressions remaining' . "\n";
-        $expectedContents .= '  - there are no Clicks remaining' . "\n";
-        $expectedContents .= '  - the expiration date has been reached.' . "\n";
-        $expectedContents .= "\nCampaign [id$placementId] 1\n";
-        $expectedContents .= "http://example.com/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId\n";
-        $expectedContents .= "=======================================================\n\n";
-        $expectedContents .= " Banner  [id$bannerId1] 1\n\n";
-        $expectedContents .= " Banner  [id$bannerId2] 1\n";
-        $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
-        $expectedContents .= "\n";
-        $expectedContents .= "Regards,\n   Andrew Hill, OpenX Limited";
-        $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 4);
-        $this->assertEqual($aResult['userEmail'], $email);
-        $this->assertEqual($aResult['userName'],  $name);
+        $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult['subject'],   $expectedSubject);
         $this->assertEqual($aResult['contents'],  $expectedContents);
 
         DataGenerator::cleanUp();
     }
 
+    /**
+     * Tests that an e-mail advising a placement has been activated is able to
+     * be generated correctly.
+     *
+     */
+    function testPrepareActivateDeactivatePlacementEmail()
+    {
+        $adminContact  = 'Andrew Hill';
+        $adminName     = 'OpenX Limited';
+        $adminMail     = 'send@example.com';
+        $adminCompany  = 'Admin company name';
+
+        $adminAccountId= 100;
+        $agencyName    = 'Agency Ltd.';
+        $agencyContact = 'Mr. Foo Bar Agency';
+        $agencyMail    = 'send@agency.com';
+
+        $advertiserName    = 'Foo Client';
+        $advertiserMail    = 'advertiser@example.com';
+        $advertiserUsername= 'advertiserusername';
+
+        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $aConf['webpath']['admin'] = 'example.com';
+        $aConf['email']['fromAddress']  = $adminMail;
+        $aConf['email']['fromName']     = $adminName;
+        $aConf['email']['fromCompany']  = $adminCompany;
+
+        Mock::generatePartial(
+            'OA_Email',
+            'PartialMockOA_Email',
+            array('sendMail')
+        );
+
+        $oEmail = new PartialMockOA_Email();
+        $oEmail->setReturnValue('sendMail', true);
+
+        unset($GLOBALS['_MAX']['PREF']);
+
+        // Prepare an admin user
+         // Create the admin account
+        $doAccounts = OA_Dal::factoryDO('accounts');
+        $doAccounts->account_name = 'Administrator Account';
+        $doAccounts->account_type = OA_ACCOUNT_ADMIN;
+        $adminAccountId = DataGenerator::generateOne($doAccounts);
+
+        // Setup the admin account id
+        $doAppVar = OA_Dal::factoryDO('application_variable');
+        $doAppVar->name='admin_account_id';
+        $doAppVar->value=$adminAccountId;
+
+        // Create a user
+        $doAdminUser = OA_Dal::factoryDO('users');
+        $doAdminUser->contact_name = $adminContact;
+        $doAdminUser->email_address = $adminMail;
+        $doAdminUser->username = $adminName;
+        $doAdminUser->password = md5('password');
+        $doAdminUser->language = 'en';
+        $doAdminUser->default_account_id = $adminAccountId;
+        $adminUserId = DataGenerator::generateOne($doAdminUser);
+        $doAdminUser = OA_Dal::staticGetDO('users', $adminUserId);
+        $aAdminUser = $doAdminUser->toArray();
+
+        // Create admin account-user association
+        $doAUA = OA_Dal::factoryDO('account_user_assoc');
+        $doAUA->account_id = $adminAccountId;
+        $doAUA->user_id = $adminUserId;
+        $doAUA->insert();
+
+        $doAgency = OA_Dal::factoryDO('agency');
+        $doAgency->name    = $agencyName;
+        $doAgency->contact = $agencyContact;
+        $doAgency->email   = $agencyMail;
+        $agencyId = DataGenerator::generateOne($doAgency);
+        $doAgency = OA_Dal::staticGetDO('agency', $agencyId); //get('agencyid', $agencyId);
+        $agencyAccountId = $doAgency->account_id;
+
+        // Prepare an agency user
+        $doUser = OA_Dal::factoryDO('users');
+        $doUser->contact_name = $agencyContact;
+        $doUser->email_address = $agencyMail;
+        $doUser->username = $agencyName;
+        $doUser->language = 'en';
+        $agencyUserId = DataGenerator::generateOne($doUser);
+        $doAgencyUser = OA_Dal::staticGetDO('users', $agencyUserId);
+        $aAgencyUser = $doAgencyUser->toArray();
+
+        $oUserAccess = new OA_Admin_UI_UserAccess();
+
+        // Agency user
+        $oUserAccess->linkUserToAccount($agencyUserId, $doAgency->account_id, array(), array());
+
+        // Generate an advertiser owned by the agency
+        $doClients = OA_Dal::factoryDO('clients');
+        $doClients->agencyid   = $agencyId;
+        $doClients->clientname = $advertiserName;
+        $doClients->email      = '';
+        $advertiserId1 = DataGenerator::generateOne($doClients);
+        $doClients = OA_Dal::staticGetDO('clients', 'clientid', $advertiserId1);
+        $advertiserAccountId = $doClients->account_id;
+
+        // Create an advertiser user
+        $doUser = OA_Dal::factoryDO('users');
+        $doUser->contact_name = $advertiserName;
+        $doUser->email_address = $advertiserMail;
+        $doUser->username = $advertiserUsername;
+        $doUser->language = 'en';
+        $userId = DataGenerator::generateOne($doUser);
+        $doAdvertiserUser = OA_Dal::staticGetDO('users', $userId);
+        $aAdvertiserUser = $doAdvertiserUser->toArray();
+
+        // Link the advertiser user
+        $oUserAccess->linkUserToAccount($userId, $doClients->account_id, array(), array());
+
+        // Create a campaign
+        $doPlacements = OA_Dal::factoryDO('campaigns');
+        $doPlacements->clientid = $advertiserId1;
+        $placementId = DataGenerator::generateOne($doPlacements);
+
+        // Prepare banners
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->campaignid = $placementId;
+        $doBanners->url        = '';
+        $bannerId1 = DataGenerator::generateOne($doBanners);
+
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->campaignid = $placementId;
+        $doBanners->url        = 'http://www.fornax.net/';
+        $bannerId2 = DataGenerator::generateOne($doBanners);
+
+        // One copy should be sent
+        $result = $oEmail->sendPlacementActivatedDeactivatedEmail($placementId);
+        $this->assertEqual($result, 1);
+
+        $aResult = $oEmail->preparePlacementActivatedDeactivatedEmail($aAdvertiserUser, $placementId);
+
+        // Check the contents of the generated email are correct
+        $expectedSubject = 'Campiagn activated: Foo Client';
+        $expectedContents  = "Dear {$aAdvertiserUser['contact_name']},\n\n";
+        $expectedContents .= 'Your campaign shown below has been activated because'. "\n";
+        $expectedContents .= 'the campaign activation date has been reached.' . "\n";
+        $expectedContents .= "\nCampaign [id$placementId] 1\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/stats.php?clientid=$advertiserId1&campaignid={$placementId}&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=\n";
+        $expectedContents .= "=======================================================\n\n";
+        $expectedContents .= " Banner  [id$bannerId1] 1\n\n";
+        $expectedContents .= " Banner  [id$bannerId2] 1\n";
+        $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
+        $expectedContents .= "\n";
+        $expectedContents .= "Regards,\n   {$agencyContact}, {$agencyName}";
+        $this->assertTrue(is_array($aResult));
+        $this->assertEqual(count($aResult), 2);
+        $this->assertEqual($aResult['subject'],   $expectedSubject);
+        $this->assertEqual($aResult['contents'],  $expectedContents);
+
+        // Check for a campaign that should be deactivated
+        $expectedSubject = 'Campaign deactivated: Foo Client';
+        $expectedContents  = "Dear {$aAdvertiserUser['contact_name']},\n\n";
+        $expectedContents .= 'Your campaign shown below has been deactivated because:'. "\n";
+        $expectedContents .= '  - there are no Impressions remaining.' . "\n";
+        $expectedContents .= "\nCampaign [id$placementId] 1\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/stats.php?clientid=$advertiserId1&campaignid={$placementId}&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=\n";
+        $expectedContents .= "=======================================================\n\n";
+        $expectedContents .= " Banner  [id$bannerId1] 1\n\n";
+        $expectedContents .= " Banner  [id$bannerId2] 1\n";
+        $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
+        $expectedContents .= "\n";
+        $expectedContents .= "Regards,\n   {$agencyContact}, {$agencyName}";
+        $aResult = $oEmail->preparePlacementActivatedDeactivatedEmail($aAdvertiserUser, $placementId, OA_PLACEMENT_DISABLED_IMPRESSIONS);
+        $this->assertTrue(is_array($aResult));
+        $this->assertEqual(count($aResult), 2);
+        $this->assertEqual($aResult['subject'],   $expectedSubject);
+        $this->assertEqual($aResult['contents'],  $expectedContents);
+
+        $aResult = $oEmail->preparePlacementActivatedDeactivatedEmail($aAdvertiserUser, $placementId, OA_PLACEMENT_DISABLED_CLICKS);
+        $expectedSubject = 'Campaign deactivated: Foo Client';
+        $expectedContents  = "Dear {$aAdvertiserUser['contact_name']},\n\n";
+        $expectedContents .= 'Your campaign shown below has been deactivated because:'. "\n";
+        $expectedContents .= '  - there are no Clicks remaining.' . "\n";
+        $expectedContents .= "\nCampaign [id$placementId] 1\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/stats.php?clientid=$advertiserId1&campaignid={$placementId}&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=\n";
+        $expectedContents .= "=======================================================\n\n";
+        $expectedContents .= " Banner  [id$bannerId1] 1\n\n";
+        $expectedContents .= " Banner  [id$bannerId2] 1\n";
+        $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
+        $expectedContents .= "\n";
+        $expectedContents .= "Regards,\n   {$agencyContact}, {$agencyName}";
+        $this->assertTrue(is_array($aResult));
+        $this->assertEqual(count($aResult), 2);
+        $this->assertEqual($aResult['subject'],   $expectedSubject);
+        $this->assertEqual($aResult['contents'],  $expectedContents);
+
+        $aResult = $oEmail->preparePlacementActivatedDeactivatedEmail($aAdvertiserUser, $placementId, OA_PLACEMENT_DISABLED_CONVERSIONS);
+        $expectedSubject = 'Campaign deactivated: Foo Client';
+        $expectedContents  = "Dear {$aAdvertiserUser['contact_name']},\n\n";
+        $expectedContents .= 'Your campaign shown below has been deactivated because:'. "\n";
+        $expectedContents .= '  - there are no Sales remaining.' . "\n";
+        $expectedContents .= "\nCampaign [id$placementId] 1\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/stats.php?clientid=$advertiserId1&campaignid={$placementId}&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=\n";
+        $expectedContents .= "=======================================================\n\n";
+        $expectedContents .= " Banner  [id$bannerId1] 1\n\n";
+        $expectedContents .= " Banner  [id$bannerId2] 1\n";
+        $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
+        $expectedContents .= "\n";
+        $expectedContents .= "Regards,\n   {$agencyContact}, {$agencyName}";
+        $this->assertTrue(is_array($aResult));
+        $this->assertEqual(count($aResult), 2);
+        $this->assertEqual($aResult['subject'],   $expectedSubject);
+        $this->assertEqual($aResult['contents'],  $expectedContents);
+
+        $aResult = $oEmail->preparePlacementActivatedDeactivatedEmail($aAdvertiserUser, $placementId, OA_PLACEMENT_DISABLED_DATE);
+        $expectedSubject = 'Campaign deactivated: Foo Client';
+        $expectedContents  = "Dear {$aAdvertiserUser['contact_name']},\n\n";
+        $expectedContents .= 'Your campaign shown below has been deactivated because:'. "\n";
+        $expectedContents .= '  - the expiration date has been reached.' . "\n";
+        $expectedContents .= "\nCampaign [id$placementId] 1\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/stats.php?clientid=$advertiserId1&campaignid={$placementId}&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=\n";
+        $expectedContents .= "=======================================================\n\n";
+        $expectedContents .= " Banner  [id$bannerId1] 1\n\n";
+        $expectedContents .= " Banner  [id$bannerId2] 1\n";
+        $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
+        $expectedContents .= "\n";
+        $expectedContents .= "Regards,\n   {$agencyContact}, {$agencyName}";
+        $this->assertTrue(is_array($aResult));
+        $this->assertEqual(count($aResult), 2);
+        $this->assertEqual($aResult['subject'],   $expectedSubject);
+        $this->assertEqual($aResult['contents'],  $expectedContents);
+
+        $reason = 0 | OA_PLACEMENT_DISABLED_IMPRESSIONS | OA_PLACEMENT_DISABLED_CLICKS | OA_PLACEMENT_DISABLED_DATE;
+        $aResult = $oEmail->preparePlacementActivatedDeactivatedEmail($aAdvertiserUser, $placementId, $reason);
+        $expectedSubject = 'Campaign deactivated: Foo Client';
+        $expectedContents  = "Dear {$aAdvertiserUser['contact_name']},\n\n";
+        $expectedContents .= 'Your campaign shown below has been deactivated because:'. "\n";
+        $expectedContents .= '  - there are no Impressions remaining' . "\n";
+        $expectedContents .= '  - there are no Clicks remaining' . "\n";
+        $expectedContents .= '  - the expiration date has been reached.' . "\n";
+        $expectedContents .= "\nCampaign [id$placementId] 1\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/stats.php?clientid=$advertiserId1&campaignid={$placementId}&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=\n";
+        $expectedContents .= "=======================================================\n\n";
+        $expectedContents .= " Banner  [id$bannerId1] 1\n\n";
+        $expectedContents .= " Banner  [id$bannerId2] 1\n";
+        $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
+        $expectedContents .= "\n";
+        $expectedContents .= "Regards,\n   {$agencyContact}, {$agencyName}";
+        $this->assertTrue(is_array($aResult));
+        $this->assertEqual(count($aResult), 2);
+        $this->assertEqual($aResult['subject'],   $expectedSubject);
+        $this->assertEqual($aResult['contents'],  $expectedContents);
+
+        TestEnv::restoreEnv();
+    }
 }
 
 ?>

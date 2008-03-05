@@ -25,6 +25,8 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Session.php';
+
 /**
  * Common UserAccess related UI methods
  *
