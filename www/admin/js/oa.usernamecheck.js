@@ -15,6 +15,7 @@
     availableClass: 'available',
     unavailableClass: 'unavailable',
     checkingClass: 'checking',
+    errorClass: 'error',
     callback: function (textElement, userAvailable) { }
   };
 
@@ -33,8 +34,8 @@
 
     var checkUserNameAvailability = function(userNameToCheck, element) {
       // Option for the XHR
-      var ajaxOptions = { };
-      ajaxOptions[o.userNameParameterName] = userNameToCheck;
+      var ajaxData = { };
+      ajaxData[o.userNameParameterName] = userNameToCheck;
 
       // Element to show the results
       var $indicator = $(o.indicatorSelector);
@@ -49,14 +50,21 @@
       // Do the XHR
       $indicator.addClass(o.checkingClass).removeClass(o.unavailableClass).removeClass(o.availableClass);
       $indicator.show();
-      $.get(o.userNameCheckUrl, ajaxOptions, function(data) {
-        $indicator.removeClass(o.checkingClass);
-        if (data == o.availableResultText) {
-          $indicator.addClass(o.availableClass).removeClass(o.unavailableClass);
-          o.callback.apply(element, [element, true]);
-        } else {
-          $indicator.removeClass(o.availableClass).addClass(o.unavailableClass);
-          o.callback.apply(element, [element, false]);
+      $.ajax({
+        url: o.userNameCheckUrl, 
+        data: ajaxData, 
+        success: function(data) {
+          $indicator.removeClass(o.checkingClass).removeClass(o.errorClass);
+          if (data == o.availableResultText) {
+            $indicator.addClass(o.availableClass).removeClass(o.unavailableClass);
+            o.callback.apply(element, [element, true]);
+          } else {
+            $indicator.removeClass(o.availableClass).addClass(o.unavailableClass);
+            o.callback.apply(element, [element, false]);
+          }
+        },
+        error: function() {
+          $indicator.removeClass(o.checkingClass).addClass(o.errorClass);
         }
       });
     };

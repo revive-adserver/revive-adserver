@@ -61,6 +61,7 @@ div.infomessage {
     background-image: url('../images/info.gif');
     background-repeat: no-repeat;
     background-position: 8px 8px;
+    width: 540px;
 }
 
 div.infomessage p {
@@ -933,7 +934,7 @@ div.terms iframe {
   height: 100%;
 }
 
-.available-int, .unavailable-int, .checking-int {
+.available-int, .unavailable-int, .checking-int, .error-int {
   font-weight: bold;
   margin: 0 0 0 0.5em;
 }
@@ -946,16 +947,23 @@ div.terms iframe {
   color: #f15922;
 }
 
-#user-check-indicator .checking-int {
+#user-check-indicator .checking-int,
+#user-check-indicator .error-int {
   color: #808080;
 }
 
 #user-check-indicator.checking .unavailable-int,
 #user-check-indicator.checking .available-int,
+#user-check-indicator.checking .error-int,
+#user-check-indicator.error .unavailable-int,
+#user-check-indicator.error .available-int,
+#user-check-indicator.error .checking-int,
 #user-check-indicator.available .unavailable-int,
 #user-check-indicator.available .checking-int,
+#user-check-indicator.available .error-int,
 #user-check-indicator.unavailable .checking-int,
-#user-check-indicator.unavailable .available-int
+#user-check-indicator.unavailable .available-int,
+#user-check-indicator.unavailable .error-int
 {
   display: none;
 }
