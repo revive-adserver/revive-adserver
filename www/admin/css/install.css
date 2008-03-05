@@ -60,12 +60,12 @@ table.sysinfotable {
 }
 
 table.sysinfotable td.check {
-	text-align: left;
+  text-align: left;
   font-weight: bold;
 }
 
 table.sysinfotable td.check-res {
-	text-align: right;
+  text-align: right;
 }
 
 
@@ -74,13 +74,13 @@ table.sysinfotable td.check-res {
 }
 
 img.install-icon {
-	margin-right: 20px;
+  margin-right: 20px;
 }
 
 .install .psub
 {
-	padding-left: 40px;
-	margin-bottom: 20px;
+  padding-left: 40px;
+  margin-bottom: 20px;
 }
 
 
@@ -457,23 +457,23 @@ div.zone-title {
 }
 
 #terms-container .li1 {
-	padding-left : 2px;
-	padding-bottom: 2px;
-	padding-top: 2px;
-	font-style: normal;
-	font-weight: bold;
+  padding-left : 2px;
+  padding-bottom: 2px;
+  padding-top: 2px;
+  font-style: normal;
+  font-weight: bold;
 }
 
 #terms-container .li2txt {
-	margin: 25px;
-	padding-left: 25px;
-	padding-right: 20px;
+  margin: 25px;
+  padding-left: 25px;
+  padding-right: 20px;
 }
 
 #terms-container .li2 {
-	margin-left:-25px;
-	margin-bottom: 0px;
-	float: left;
+  margin-left:-25px;
+  margin-bottom: 0px;
+  float: left;
 }
 
 #terms-container ul, #terms-container ol {

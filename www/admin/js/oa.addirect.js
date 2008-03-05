@@ -493,7 +493,7 @@ jQuery.terms = function(triggerLinksSelector, closeIdPrefix) {
   $("#" + closeIdPrefix + "terms-dialog").jqm({
       modal: true,
       overlay: 40,
-      trigger: "." + triggerLinksSelector,
+      trigger: triggerLinksSelector,
       onShow: function(hash) {
         var ha = hash;
         $("#" + closeIdPrefix + "terms-contents").load(hash.t.href);
