@@ -664,15 +664,11 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         if (!extension_loaded('gd')) {
           $this->aGraphData['noGraph'] = true;
     } else {
-
-            $imgPath = MAX::constructUrl(MAX_URL_IMAGE);
-            $imgPath = substr($imgPath, 0, strlen($imgPath) - 1);
+            $imgPath = rtrim(MAX::constructURL(MAX_URL_IMAGE), '/');
             if (!function_exists('imagecreate')) {
                 $this->aGraphData['noGraph'] = $GLOBALS['strGDnotEnabled'];
             } else {
-                $tmpUrl = preg_replace('/stats.php/', 'stats-showgraph.php', $_SERVER['REQUEST_URI']);
-                $tmpUrl = substr(strrchr($tmpUrl, '/'), 1);
-                $tmpUrl = MAX::constructUrl(MAX_URL_ADMIN, $tmpUrl);
+            	$tmpUrl = MAX::constructURL(MAX_URL_ADMIN) . 'stats-showgraph.php?' . $_SERVER['QUERY_STRING'];
                 foreach ($graphFilterArray as $k => $v) {
                     $tmpUrl .= '&graphFields[]=' . $v;
                 }
