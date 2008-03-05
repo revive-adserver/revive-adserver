@@ -139,6 +139,36 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
         return $id;
     }
 
+    /**
+     * A method to duplicate: The campaign, the placement-zone-associations,
+     * the placement-tracker-associations and the campaign's banners.
+     *
+     * @return integer The new campaignid
+     */
+    function duplicate()
+    {
+    	// Duplicate campaign
+        $old_campaignId = $this->campaignid;
+        $this->campaignname = 'Copy of ' . $this->campaignname;
+        unset($this->campaignid);
+        $new_campaignId = $this->insert();
+
+        // Duplicate placement-zone-associations (Do this before duplicating banners to ensure an exact copy of ad-zone-assocs
+     	MAX_duplicatePlacementZones($old_campaignId, $new_campaignId);
+
+        // Duplicate original campaign's banners
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->campaignid = $old_campaignId;
+        $doBanners->find();
+        while ($doBanners->fetch()) {
+        	$doOriginalBanner = OA_Dal::factoryDO('banners');
+         	$doOriginalBanner->get($doBanners->bannerid);
+         	$new_bannerid = $doOriginalBanner->duplicate($new_campaignId);
+        }
+
+        return $new_campaignId;
+    }
+
     function _auditEnabled()
     {
         return true;
@@ -184,6 +214,72 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
             case OA_AUDIT_ACTION_UPDATE:
                         $aAuditFields['clientid']   = $this->clientid;
                         break;
+        }
+    }
+
+    /**
+     * perform post-audit actions
+     *
+     * @param int $actionid
+     * @param DataObjects_Campaigns $dataobjectOld�
+     * @param int $auditId
+     */
+    function _postAuditTrigger($actionid, $dataobjectOld, $auditId)
+    {
+        $aActionMap = array();
+        $aActionMap[OA_ENTITY_STATUS_RUNNING][OA_ENTITY_STATUS_AWAITING] = 'started';
+        $aActionMap[OA_ENTITY_STATUS_RUNNING]['']  = 'restarted';
+        $aActionMap[OA_ENTITY_STATUS_EXPIRED]['']  = 'completed';
+        $aActionMap[OA_ENTITY_STATUS_PAUSED]['']   = 'paused';
+        $aActionMap[OA_ENTITY_STATUS_AWAITING][''] = 'paused';
+
+        switch ($actionid)
+        {
+            case OA_AUDIT_ACTION_INSERT:
+                $actionType = 'added';
+            case OA_AUDIT_ACTION_UPDATE:
+                if (isset($this->status) && $this->status != $dataobjectOld->status) {
+                    if (isset($aActionMap[$this->status][$dataobjectOld->status])) {
+                        $actionType = $aActionMap[$this->status][$dataobjectOld->status];
+                    } elseif (isset($aActionMap[$this->status][''])) {
+                        $actionType = $aActionMap[$this->status][''];
+                    }
+                }
+        }
+
+        if (isset($actionType)) {
+            // Prepare action array
+            $maxItems = 6;
+            $aAction = array(
+                'campaignid' => $this->campaignid,
+                'name'       => $this->campaignname,
+                'clientid'   => $this->clientid,
+                'auditid'    => $auditId,
+                'action'     => $actionType
+            );
+            // Load cache
+            require_once MAX_PATH . '/lib/OA/Cache.php';
+            $oCache = new OA_Cache('campaignOverview', 'Widgets');
+            $aCache = $oCache->load(true);
+            if (!$aCache) {
+                // No cache, initialise
+                $aCache = array(
+                    'maxItems'  => $maxItems,
+                    'aAccounts' => array()
+                );
+            }
+            // Get owning account id
+            $accountId = $this->doAudit->account_id;
+            if (!isset($aCache['aAccounts'][$accountId])) {
+                // No cached array for this account id, initialise
+                $aCache['aAccounts'][$accountId] = array();
+            }
+            // Add current action as first item
+            array_unshift($aCache['aAccounts'][$accountId], $aAction);
+            // Only store most recent $maxItems actions, rekeying the array
+            $aCache['aAccounts'][$accountId] = array_slice($aCache['aAccounts'][$accountId], 0, $maxItems);
+            // Save cache
+            $oCache->save($aCache);
         }
     }
 

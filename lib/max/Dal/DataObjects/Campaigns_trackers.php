@@ -99,7 +99,7 @@ class DataObjects_Campaigns_trackers extends DB_DataObjectCommon
      */
     function _buildAuditArray($actionid, &$aAuditFields)
     {
-        $aAuditFields['key_desc']       = '';
+        $aAuditFields['key_desc'] = 'Campaign #'.$this->campaignid.' -> Tracker #'.$this->trackerid;
         switch ($actionid)
         {
             case OA_AUDIT_ACTION_UPDATE:

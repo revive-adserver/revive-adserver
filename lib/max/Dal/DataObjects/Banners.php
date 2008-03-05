@@ -124,17 +124,21 @@ class DataObjects_Banners extends DB_DataObjectCommon
 
     /**
      * Duplicates the banner.
-     *
+     * @param string $new_campaignId only when the banner is 
+     *        duplicated as consequence of a campaign duplication
      * @return int  the new bannerid
      *
      */
-    function duplicate()
+    function duplicate($new_campaignId = null)
     {
         // unset the bannerId
         $old_adId = $this->bannerid;
         unset($this->bannerid);
 
         $this->description = 'Copy of ' . $this->description;
+        if ($new_campaignId != null) {
+        	$this->campaignid = $new_campaignId;
+        }
 
         // Set the filename
         // We want to rename column 'storagetype' to 'type' so...

@@ -54,7 +54,11 @@ if (!empty($newclientid)) {
 
 if (!empty($campaignid)) {
     if (!empty($duplicate)) {
-        $newCampaignId = MAX_duplicatePlacement($campaignid, $clientid);
+    	// Duplicate the campaign
+    	$doCampaigns = OA_Dal::factoryDO('campaigns');
+    	$doCampaigns->get($campaignid);
+    	$newCampaignId = $doCampaigns->duplicate();
+    	    	
         if ($newCampaignId) {
             Header ("Location: {$returnurl}?clientid={$clientid}&campaignid={$newCampaignId}");
             exit;
