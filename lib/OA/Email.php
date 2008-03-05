@@ -29,6 +29,7 @@ require_once MAX_PATH . '/lib/max/language/Default.php';
 
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once MAX_PATH . '/lib/OA/Preferences.php';
 
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
@@ -59,12 +60,15 @@ class OA_Email
      *                          'userEmail' => The email address to send the report to.
      *                          'userName'  => The real name of the email address, or null.
      */
-    function preparePlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate)
+    function preparePlacementDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate)
     {
+
+        Language_Default::load($aUser['language']);
+
         OA::debug('   - Preparing "placement delivery" report for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
 
         /**
-         * @TODO: Need to update this to load the correct language for the owning advertiser - which
+         * @doing: Need to update this to load the correct language for the owning advertiser - which
          *        probably means sending a separate email report to every user linked to the advertiser
          *        account, based on that user's language (once language has been set as a user property).
          */
@@ -77,8 +81,6 @@ class OA_Email
         $aResult = array(
             'subject'   => '',
             'contents'  => '',
-            'userEmail' => '',
-            'userName'  => null,
             'hasAdviews' => false,
         );
 
@@ -93,9 +95,9 @@ class OA_Email
             OA::debug('   - Reports disabled for advertiser ID ' . $advertiserId . '.', PEAR_LOG_ERR);
             return false;
         }
-        // Does the advertiser have an email address?
-        if (empty($aAdvertiser['email'])) {
-            OA::debug('   - No email for advertiser ID ' . $advertiserId . '.', PEAR_LOG_ERR);
+//         Does the advertiser have an email address?
+        if (empty($aUser['email_address'])) {
+            OA::debug('   - No email for User ID ' . $aUser['user_id']. '.', PEAR_LOG_ERR);
             return false;
         }
 
@@ -110,7 +112,9 @@ class OA_Email
 
         // Prepare the final email - add the greeting to the advertiser
         $email = "$strMailHeader\n";
-        if (!empty($aAdvertiser['contact'])) {
+        if (!empty($aUser['contact_name'])) {
+            $greetingTo = $aUser['contact_name'];
+        } else if (!empty($aAdvertiser['contact'])) {
             $greetingTo = $aAdvertiser['contact'];
         } else if (!empty($aAdvertiser['clientname'])) {
             $greetingTo = $aAdvertiser['clientname'];
@@ -142,10 +146,37 @@ class OA_Email
         // Prepare & return the final email array
         $aResult['subject']    = $strMailSubject . ': ' . $aAdvertiser['clientname'];
         $aResult['contents']   = $email;
-        $aResult['userEmail']  = $aAdvertiser['email'];
-        $aResult['userName']   = $aAdvertiser['contact'];
         $aResult['hasAdviews'] = ($aEmailBody['adviews'] > 0);
         return $aResult;
+    }
+
+    function sendPlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate) {
+
+        $aLinkedUsers = $this->getUsersLinkedToAccount('clients', $advertiserId);
+        $copiesSent = 0;
+        if (!empty($aLinkedUsers) && is_array($aLinkedUsers)) {
+            foreach ($aLinkedUsers as $aUser) {
+                $aEmail = $this->preparePlacementDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
+                if ($aEmail !== false) {
+                    if (!isset($aEmail['hasAdviews']) || $aEmail['hasAdviews'] !== false) {
+                        if ($this->sendMail($aEmail['subject'], $aEmail['contents'], $aUser['email_address'], $aUser['contact_name'])) {
+                            $copiesSent++;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Only update the last sent date if we actually sent out at least one copy of the email
+        if ($copiesSent) {
+            // Update the last run date to "today"
+            OA::debug('   - Updating the date the report was last sent for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
+            $doUpdateClients = OA_Dal::factoryDO('clients');
+            $doUpdateClients->clientid = $advertiserId;
+            $doUpdateClients->reportlastdate = OA::getNow();
+            $doUpdateClients->update();
+        }
+        return $copiesSent;
     }
 
     /**
@@ -159,10 +190,6 @@ class OA_Email
      */
     function _preparePlacementDeliveryEmailBody($advertiserId, $oStartDate, $oEndDate)
     {
-        // Load the preferences and default language
-        $aPref = $this->_loadPrefs();
-        Language_Default::load();
-
         // Load the "Campaign" and "Banner" strings, and prepare formatting strings
         global $strCampaign, $strBanner;
         $strCampaignLength = strlen($strCampaign);
@@ -300,10 +327,6 @@ class OA_Email
     {
         $oDbh =& OA_DB::singleton();
 
-        // Load the preferences and default language
-        $aPref = $this->_loadPrefs();
-        Language_Default::load();
-
         // Obtain the required date format
         global $date_format;
 
@@ -370,6 +393,108 @@ class OA_Email
         );
     }
 
+    function sendPlacementImpendingExpiryEmail($oDate, $placementId) {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        global $date_format;
+
+        $doPlacement = OA_Dal::staticGetDO('campaigns', $placementId);
+        $aPlacement = $doPlacement->toArray();
+
+        $aPreviousOIDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+
+        $aLinkedUsers['advertiser'] = $this->getUsersLinkedToAccount('clients', $aPlacement['clientid']);
+
+        $doClients = OA_Dal::staticGetDO('clients', $aPlacement['clientid']);
+        $doAgency = OA_Dal::staticGetDO('agency', $doClients->agencyid);
+
+        $aLinkedUsers['manager']    = $this->getUsersLinkedToAccount('agency',  $doClients->agencyid);
+        $aLinkedUsers['admin']      = $this->getAdminUsersLinkedToAccount();
+
+        $oPreference = new OA_Preferences();
+
+        $aPrefs['advertiser'] = $oPreference->loadAccountPreferences($doClients->account_id, true);
+        $aPrefs['manager']    = $oPreference->loadAccountPreferences($doAgency->account_id, true);
+        $aPrefs['admin']    = $oPreference->loadPreferences(false, true, false, true);
+
+        $copiesSent = 0;
+        foreach ($aLinkedUsers as $accountType => $aUsers) {
+            if ($aPrefs[$accountType]['warn_email_' . $accountType]) {
+                // Does the account type want warnings when the impressions are low?
+                if ($aPrefs[$accountType]['warn_email_' . $accountType . '_impression_limit'] > 0 && $aPlacement['views'] > 0) {
+                    // Test to see if the placements impressions remaining are less than the limit
+                    $dalCampaigns = OA_Dal::factoryDAL('campaigns');
+                    $remainingImpressions = $dalCampaigns->getAdImpressionsLeft($aPlacement['campaignid']);
+                    if ($remainingImpressions < $aPrefs[$accountType]['warn_email_' . $accountType . '_impression_limit']) {
+                        // Yes, the placement will expire soon! But did the placement just reach
+                        // the point where it is about to expire, or did it happen a while ago?
+                        $previousRemainingImpressions =
+                            $dalCampaigns->getAdImpressionsLeft($aPlacement['campaignid'], $aPreviousOIDates['end']);
+                        if ($previousRemainingImpressions >= $aPrefs[$accountType]['warn_email_' . $accountType . '_impression_limit']) {
+                            // Yes! This is the operation interval that the boundary
+                            // was crossed to the point where it's about to expire,
+                            // so send that email, baby!
+                            foreach ($aUsers as $aUser) {
+                                $aEmail = $this->preparePlacementImpendingExpiryEmail(
+                                    $aUser,
+                                    $aPlacement['clientid'],
+                                    $aPlacement['campaignid'],
+                                    'impressions',
+                                    $aPrefs[$accountType]['warn_email_' . $accountType . '_impression_limit'],
+                                    $accountType
+                                );
+
+                                if ($aEmail !== false) {
+                                    if ($this->sendMail($aEmail['subject'], $aEmail['contents'], $aUser['email_address'], $aUser['contact_name'])) {
+                                        $copiesSent++;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                // Does the account type want warnings when the days are low?
+                if ($aPrefs[$accountType]['warn_email_' . $accountType . '_day_limit'] > 0 && $aPlacement['expire'] != OA_Dal::noDateValue()) {
+                    // Calculate the date that should be used to see if the warning needs to be sent
+                    $warnSeconds = (int) ($aPrefs[$accountType]['warn_email_' . $accountType . '_day_limit'] + 1) * SECONDS_PER_DAY;
+                    $oEndDate = new Date($aPlacement['expire'] . ' 23:59:59');  // Convert day to end of Date
+                    $oTestDate = new Date();
+                    $oTestDate->copy($oDate);
+                    $oTestDate->addSeconds($warnSeconds);
+                    // Test to see if the test date is after the placement's expiration date
+                    if ($oTestDate->after($oEndDate)) {
+                        // Yes, the placement will expire soon! But did the placement just reach
+                        // the point where it is about to expire, or did it happen a while ago?
+                        $oiSeconds = (int) $aConf['maintenance']['operationInterval'] * 60;
+                        $oTestDate->subtractSeconds($oiSeconds);
+                        if (!$oTestDate->after($oEndDate)) {
+                            // Yes! This is the operation interval that the boundary
+                            // was crossed to the point where it's about to expire,
+                            // so send those emails, baby!
+                            foreach ($aUsers as $aUser) {
+                                $aEmail = $this->preparePlacementImpendingExpiryEmail(
+                                    $aUser,
+                                    $aPlacement['clientid'],
+                                    $aPlacement['campaignid'],
+                                    'date',
+                                    $oEndDate->format($date_format),
+                                    $accountType
+                                );
+                                if ($aEmail !== false) {
+                                    if ($this->sendMail($aEmail['subject'], $aEmail['contents'], $aUser['email_address'], $aUser['contact_name'])) {
+                                        $copiesSent++;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        // Restore the default language strings
+        Language_Default::load();
+        return $copiesSent;
+    }
+
     /**
      * A method for preparing an advertiser's "impending placement expiry" report.
      *
@@ -390,31 +515,16 @@ class OA_Email
      *                          'userEmail' => The email address to send the report to.
      *                          'userName'  => The real name of the email address, or null.
      */
-    function preparePlacementImpendingExpiryEmail($advertiserId, $placementId, $reason, $value, $type)
+    function preparePlacementImpendingExpiryEmail($aUser, $advertiserId, $placementId, $reason, $value, $type)
     {
         OA::debug('   - Preparing "impending expiry" report for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
 
-        /**
-         * @TODO: Need to update this to load the correct language for the owning advertiser - which
-         *        probably means sending a separate email report to every user linked to the advertiser
-         *        account, based on that user's language (once language has been set as a user property).
-         */
+        Language_Default::load($aUser['language']);
 
         // Load the required strings
         global $strImpendingCampaignExpiryDateBody, $strImpendingCampaignExpiryImpsBody, $strMailHeader,
                $strSirMadam, $strTheCampiaignBelongingTo, $strYourCampaign, $strImpendingCampaignExpiryBody,
                $strMailFooter, $strImpendingCampaignExpiry;
-
-        // Prepare the result array
-        $aResult = array();
-
-        // Prepare the sub-result array
-        $aSubResult = array(
-            'subject'   => '',
-            'contents'  => '',
-            'userEmail' => '',
-            'userName'  => null
-        );
 
         // Prepare the expiration email body
         if ($reason == 'date') {
@@ -425,66 +535,9 @@ class OA_Email
             return false;
         }
 
-        // Prepare the array of users that want warning emails
-        $aUsers = array();
-        if ($aPref['warn_admin'] == 't') {
-            $aUsers['admin'] = 'admin';
-        }
-        if ($aPref['warn_agency'] == 't') {
-            $aUsers['agency'] = 'agency';
-        }
-        if ($aPref['warn_client'] == 't') {
-            $aUsers['advertiser'] = 'advertiser';
-        }
-        if (empty($aUsers)) {
-            return false;
-        }
-
         // Get the advertiser's details
         $aAdvertiser = $this->_loadAdvertiser($advertiserId);
         if ($aAdvertiser === false) {
-            return false;
-        }
-
-        // Is warning the agency is set, is the agency ID the same as the admin ID?
-        if (isset($aUsers['agency']) && $aAdvertiser['agencyid'] == 0) {
-            OA::debug('   - Advertiser ID ' . $advertiserId . ' is owned by admin, no need to warn agency.', PEAR_LOG_ERR);
-            $aUsers['admin'] = 'admin';
-            unset($aUsers['agency']);
-        }
-
-        // Get & test the admin user's email address details, if required
-        if (isset($aUsers['admin'])) {
-            $aAdminOwner = $this->_loadAdminPreferences();
-            if ($aAdminOwner === false) {
-                unset($aUsers['admin']);
-            } else if (empty($aAdminOwner['admin_email'])) {
-                OA::debug('   - No email for admin.', PEAR_LOG_ERR);
-                unset($aUsers['admin']);
-            }
-        }
-
-        // Get & test the agency user's email address details, if required
-        if (isset($aUsers['agency'])) {
-            $aAgencyOwner = $this->_loadAgency($aAdvertiser['agencyid']);
-            if ($aAgencyOwner === false) {
-                unset($aUsers['agency']);
-            } else if (empty($aAgencyOwner['email'])) {
-                OA::debug('   - No email for agency.', PEAR_LOG_ERR);
-                unset($aUsers['agency']);
-            }
-        }
-
-        // Test the advertiser's email address details, if required
-        if (isset($aUsers['advertiser'])) {
-            if (empty($aAdvertiser['email'])) {
-                OA::debug('   - No email for advertiser ID ' . $advertiserId . '.', PEAR_LOG_ERR);
-                unset($aUsers['advertiser']);
-            }
-        }
-
-        // Re-test that there is still at least one user to report to
-        if (empty($aUsers)) {
             return false;
         }
 
@@ -509,81 +562,53 @@ class OA_Email
             return false;
         }
 
-        foreach ($aUsers as $user) {
-            // Prepare the final email - add the greeting to the user
-            $email = "$strMailHeader\n";
-            if ($user == 'admin') {
-                if (!empty($aAdminOwner['admin_fullname'])) {
-                    $contactName = $aAdminOwner['admin_fullname'];
-                } else if (!empty($aAdminOwner['company_name'])) {
-                    $contactName = $aAdminOwner['company_name'];
-                } else {
-                    $contactName = $strSirMadam;
-                }
-            } else if ($user == 'agency') {
-                if (!empty($aAgencyOwner['contact'])) {
-                    $contactName = $aAgencyOwner['contact'];
-                } else if (!empty($aAgencyOwner['name'])) {
-                    $contactName = $aAgencyOwner['name'];
-                } else {
-                    $contactName = $strSirMadam;
-                }
-            } else if ($user == 'advertiser') {
-                if (!empty($aAdvertiser['contact'])) {
-                    $contactName = $aAdvertiser['contact'];
-                } else if (!empty($aAdvertiser['clientname'])) {
-                    $contactName = $aAdvertiser['clientname'];
-                } else {
-                    $contactName = $strSirMadam;
-                }
-            }
-            $email = str_replace("{contact}", $contactName, $email);
+        $email = "$strMailHeader\n";
+        // Set the correct greeting, start with username, then advertiser contact/name,
+        // then admin name/company, fallback to generic
+        if (!empty($aUser['contact_name'])) {
+            $greetingTo = $aUser['contact_name'];
+        } else if (!empty($aAdvertiser['contact'])) {
+            $greetingTo = $aAdvertiser['contact'];
+        } else if (!empty($aAdvertiser['clientname'])) {
+            $greetingTo = $aAdvertiser['clientname'];
+        } else if (!empty($conf['email']['fromName'])) {
+            $greetingTo = $conf['email']['fromName'];
+        } else if (!empty($conf['email']['fromCompany'])) {
+            $greetingTo = $conf['email']['fromCompany'];
+        } else {
+            $greetingTo = $strSirMadam;
+        }
 
-            // Prepare the final email - add the report type description
-            // and the name of the advertiser the report is about
-            $email .= $reason . "\n\n";
-            if ($user == 'admin') {
-                $campaignReplace = $strTheCampiaignBelongingTo . ' ' . trim($aAdvertiser['clientname']);
-            } else if ($user == 'agency') {
-                $campaignReplace = $strTheCampiaignBelongingTo . ' ' . trim($aAdvertiser['clientname']);
-            } else if ($user == 'advertiser') {
-                $campaignReplace = $strYourCampaign;
-            }
-            $email = str_replace("{clientname}", $campaignReplace, $email);
-            $email = str_replace("{date}",  $value, $email);
-            $email = str_replace("{limit}", $value, $email);
-            $email .= $strImpendingCampaignExpiryBody . "\n\n";
+        $email = str_replace("{contact}", $greetingTo, $email);
 
-            // Prepare the final email - add the report body
-            $email .= "$emailBody\n";
+        // Prepare the final email - add the report type description
+        // and the name of the advertiser the report is about
+        $email .= $reason . "\n\n";
+        if ($type == 'advertiser') {
+            $campaignReplace = $strYourCampaign;
+        } else {
+            $campaignReplace = $strTheCampiaignBelongingTo . ' ' . trim($aAdvertiser['clientname']);
+        }
+        $email = str_replace("{clientname}", $campaignReplace, $email);
+        $email = str_replace("{date}",  $value, $email);
+        $email = str_replace("{limit}", $value, $email);
+        $email .= $strImpendingCampaignExpiryBody . "\n\n";
 
-            // Prepare the final email - add the "regards" signature
-            if ($user == 'admin') {
-                $email .= $this->_prepareRegards(0);
-            } else {
-                $email .= $this->_prepareRegards($aAdvertiser['agencyid']);
-            }
+        // Prepare the final email - add the report body
+        $email .= "$emailBody\n";
 
-            // Prepare the user's final email array
-            $aSubResult['subject']   = $strImpendingCampaignExpiry . ': ' . $aAdvertiser['clientname'];
-            $aSubResult['contents']  = $email;
-            if ($user == 'admin') {
-                $aSubResult['userEmail'] = $aAdminOwner['admin_email'];
-                $aSubResult['userName']  = $aAdminOwner['admin_fullname'];
-            } else if ($user == 'agency') {
-                $aSubResult['userEmail'] = $aAgencyOwner['email'];
-                $aSubResult['userName']  = $aAgencyOwner['contact'];
-            } else if ($user == 'advertiser') {
-                $aSubResult['userEmail'] = $aAdvertiser['email'];
-                $aSubResult['userName']  = $aAdvertiser['contact'];
-            }
-
-            // Store the final email array
-            $aResult[] = $aSubResult;
+        // Prepare the final email - add the "regards" signature
+        if ($type == 'admin') {
+            $email .= $this->_prepareRegards(0);
+        } else {
+            $email .= $this->_prepareRegards($aAdvertiser['agencyid']);
         }
 
         // Return the emails to be sent
-        return $aResult;
+        return array(
+            'subject'   => $strImpendingCampaignExpiry . ': ' . $aAdvertiser['clientname'],
+            'contents'  => $email,
+        );
     }
 
     /**
@@ -596,10 +621,6 @@ class OA_Email
      */
     function _preparePlacementImpendingExpiryEmailBody($advertiserId, $aPlacement)
     {
-        // Load the preferences and default language
-        $aPref = $this->_loadPrefs();
-        Language_Default::load();
-
         // Load required strings
         global $strCampaign, $strBanner, $strLinkedTo, $strNoBanners;
 
@@ -661,19 +682,15 @@ class OA_Email
      *                          'userEmail' => The email address to send the report to.
      *                          'userName'  => The real name of the email address, or null.
      */
-    function preparePlacementActivatedDeactivatedEmail($placementId, $reason = null)
+    function preparePlacementActivatedDeactivatedEmail($aUser, $placementId, $reason = null)
     {
+        Language_Default::load($aUser['language']);
+
         if (is_null($reason)) {
             OA::debug('   - Preparing "placement activated" email for placement ID ' . $placementId. '.', PEAR_LOG_DEBUG);
         } else {
             OA::debug('   - Preparing "placement deactivated" email for placement ID ' . $placementId. '.', PEAR_LOG_DEBUG);
         }
-
-        /**
-         * @TODO: Need to update this to load the correct language for the owning advertiser - which
-         *        probably means sending a separate email report to every user linked to the advertiser
-         *        account, based on that user's language (once language has been set as a user property).
-         */
 
         // Load the required strings
         global $strMailHeader, $strSirMadam,
@@ -699,7 +716,9 @@ class OA_Email
 
         // Prepare the final email - add the greeting to the advertiser
         $email = "$strMailHeader\n";
-        if (!empty($aAdvertiser['contact'])) {
+        if (!empty($aUser['contact_name'])) {
+            $greetingTo = $aUser['contact_name'];
+        } else if (!empty($aAdvertiser['contact'])) {
             $greetingTo = $aAdvertiser['contact'];
         } else if (!empty($aAdvertiser['clientname'])) {
             $greetingTo = $aAdvertiser['clientname'];
@@ -742,9 +761,31 @@ class OA_Email
             $aResult['subject']   = $strMailBannerDeactivatedSubject . ': ' . $aAdvertiser['clientname'];
         }
         $aResult['contents']  = $email;
-        $aResult['userEmail'] = $aAdvertiser['email'];
-        $aResult['userName']  = $aAdvertiser['contact'];
         return $aResult;
+    }
+
+    function sendPlacementActivatedDeactivatedEmail($placementId, $reason = null)
+    {
+        $doPlacement = OA_Dal::factoryDO('campaigns');
+        $doClient = OA_Dal::factoryDO('clients');
+        $doPlacement->joinAdd($doClient);
+        $doPlacement->get('campaignid', $placementId);
+        $aLinkedUsers = $this->getUsersLinkedToAccount('clients', $doPlacement->clientid);
+        $copiesSent = 0;
+
+        if (!empty($aLinkedUsers) && is_array($aLinkedUsers)) {
+            foreach ($aLinkedUsers as $aUser) {
+                $aEmail = $this->preparePlacementActivatedDeactivatedEmail($aUser, $doPlacement->campaignid, $reason);
+                if ($aEmail !== false) {
+                    if ($this->sendMail($aEmail['subject'], $aEmail['contents'], $aUser['email_address'], $aUser['contact_name'])) {
+                        $copiesSent++;
+                    }
+                }
+            }
+            // Restore the default language strings
+            Language_Default::load();
+        }
+        return $copiesSent;
     }
 
     /**
@@ -757,10 +798,6 @@ class OA_Email
      */
     function _preparePlacementActivatedDeactivatedEmailBody($aPlacement)
     {
-        // Load the preferences and default language
-        $aPref = $this->_loadPrefs();
-        Language_Default::load();
-
         // Load the "Campaign" and "Banner" strings, and prepare formatting strings
         global $strCampaign, $strBanner;
         $strCampaignLength = strlen($strCampaign);
@@ -913,7 +950,8 @@ class OA_Email
     function _prepareRegards($agencyId)
     {
         $aPref = $this->_loadPrefs();
-        Language_Default::load();
+        $aConf = $GLOBALS['_MAX']['CONF'];
+
         global $strMailFooter, $strDefaultMailFooter;
 
         $regards   = '';
@@ -940,14 +978,14 @@ class OA_Email
         }
         if ($agencyId == 0 || $useAgency) {
             // Send regards of the admin user
-            if (!empty($aPref['admin_fullname'])) {
-                $regards .= $aPref['admin_fullname'];
+            if (!empty($aConf['email']['fromName'])) {
+                $regards .= $aConf['email']['fromName'];
             }
-            if (!empty($aPref['company_name'])) {
+            if (!empty($aConf['email']['fromCompany'])) {
                 if (!empty($regards)) {
                     $regards .= ', ';
                 }
-                $regards .= $aPref['company_name'];
+                $regards .= $aConf['email']['fromCompany'];
             }
         }
         if (!empty($regards)) {
@@ -956,6 +994,29 @@ class OA_Email
             $result = $strDefaultMailFooter;
         }
         return $result;
+    }
+
+    /**
+     * This method gets all users linked to a particular account
+     * This may not be required, but I thought that in the future, this would be a per-user setting
+     * So wrapping it here should make that functionality easier to implement
+     *
+     * @param string $entityName  Inventory entity name (affiliates, clients, etc)
+     * @param integer $entityId  Inventory entity ID
+     * @return array
+     */
+    function getUsersLinkedToAccount($entityName, $entityId)
+    {
+        // Get any users linked to this account
+        $doUsers = OA_Dal::factoryDO('users');
+        return $doUsers->getAccountUsersByEntity($entityName, $entityId);
+    }
+
+    function getAdminUsersLinkedToAccount()
+    {
+        // Get any users linked to the admin account
+        $doUsers = OA_Dal::factoryDO('users');
+        return $doUsers->getAdminUsers();
     }
 
     /**
@@ -976,6 +1037,10 @@ class OA_Email
         $aConf = $GLOBALS['_MAX']['CONF'];
 
     	global $phpAds_CharSet;
+
+    	// For the time being we're sending plain text emails only, so decode any HTML entities
+    	$contents = html_entity_decode($contents, ENT_QUOTES);
+
     	// Build the "to:" header for the email
     	if (!get_cfg_var('SMTP')) {
     		$toParam = '"'.$userName.'" <'.$userEmail.'>';

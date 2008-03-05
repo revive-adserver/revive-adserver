@@ -137,14 +137,7 @@ class OA_Preferences
                     if (!is_numeric($accountId)) {
                         $managerAccountId = OA_Permission::getAccountId();
                     } else {
-                        $managerAccountId = 0;
-                        $doAgency = OA_Dal::factoryDO('clients');
-                        $doAgency->account_id = $accountId;
-                        $doAgency->find();
-                        if ($doAgency->getRowCount() == 1) {
-                            $aManagerAccountId = $doAgency->getAll(array('agencyid'), false, true);
-                            $managerAccountId = $aManagerAccountId[0];
-                        }
+                        $managerAccountId = $accountId;
                     }
                     if ($managerAccountId == 0) {
                         OA_Preferences::_unsetPreferences();
