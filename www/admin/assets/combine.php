@@ -49,7 +49,7 @@ if ($type != 'js' && $type != 'css') {
 
 // Build our paths
 $base = realpath(dirname(dirname(__FILE__)));
-$cache = realpath(dirname(dirname($base)) . '/var/cache');
+$cacheFolder = realpath(dirname(dirname($base)) . '/var/cache');
 
 // Check if files exist
 $elements = explode(',', $_GET['files']);
@@ -61,9 +61,10 @@ while (list(,$element) = each($elements)) {
 	$dirSep = preg_quote(DIRECTORY_SEPARATOR, '#');
 	if (preg_match("#^{$dirSep}(images|css|js){$dirSep}#", substr($path, strlen($base)))) {
 		$files[] = $path;
-	} else {
-		header ("HTTP/1.0 403 Forbidden");
-		exit;
+	} 
+	else {
+	   header ("HTTP/1.0 403 Forbidden");
+	   exit;
 	}
 }
 
@@ -82,7 +83,7 @@ if (!strstr($_SERVER['HTTP_USER_AGENT'], 'Opera') &&
 		$encoding = 'none';
 }
 
-// Determine the date of the last modication
+// Determine the date of the last modification
 $modified = 0;
 while (list(,$file) = each($files)) {
 	$modified = max($modified, filemtime($file));
@@ -112,10 +113,11 @@ if (_STRATEGY_ETAG_) {
 	}
 }
 
-$cacheFile = $cache . '/combine_' . $hash;
+$cacheFile = $cacheFolder . '/combine_' . $hash;
 if (_STRATEGY_CACHE_ && file_exists($cacheFile)) {
 	$contents = file_get_contents($cacheFile);
-} else {
+} 
+else {
 	$contents = '';
 	reset ($files);
 	while (list(,$file) = each($files)) {
@@ -126,7 +128,7 @@ if (_STRATEGY_CACHE_ && file_exists($cacheFile)) {
 		$contents = gzencode($contents, 9, $encoding == 'gzip' ? FORCE_GZIP : FORCE_DEFLATE);
 	}
 
-	if (_STRATEGY_CACHE_) {
+	if (_STRATEGY_CACHE_ && is_writable($cacheFolder)) {
 		if ($fp = fopen($cacheFile, 'wb')) {
 			fwrite($fp, $contents);
 			fclose($fp);
