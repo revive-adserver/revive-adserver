@@ -49,7 +49,7 @@ class OA_Maintenance_Pruning extends MAX_Dal_Common
         parent::MAX_Dal_Common();
     }
 
-    function _run()
+    function run()
     {
         $this->_pruneDataSummaryAdZoneAssoc();
     }
