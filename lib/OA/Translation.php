@@ -26,12 +26,13 @@ $Id: Template.php 16124 2008-02-11 18:16:06Z andrew.hill@openads.org $
 */
 
 require_once MAX_PATH . '/lib/OA/Preferences.php';
-require_once MAX_PATH . '/lib/php-gettext/gettext.inc';
+//require_once MAX_PATH . '/lib/php-gettext/gettext.inc';
 
 /**
  * This class provides a translation mechanism which can be used throughout
  * the application, the translation memories are loaded from the application
  *
+ * @todo This is just wrapping the old GLOBALS array. Need to plug in a proper i18n library.
  */
 class OA_Translation
 {
@@ -47,7 +48,7 @@ class OA_Translation
      *
      * @var string The language code for the selected language
      */
-    var $locale = 'en_GB';
+    var $locale = 'en_US';
 
     /**
      * This map maps the possible existing language selections to their new language codes
@@ -88,10 +89,10 @@ class OA_Translation
         }
         
         //$this->locale = 'fr_FR';
-        T_setlocale(LC_ALL, $this->locale);
-        T_bindtextdomain("openx", MAX_PATH . "/lib/OA/locale");
-        T_bind_textdomain_codeset("openx", "UTF-8");
-        T_textdomain("openx");
+//        T_setlocale(LC_ALL, $this->locale);
+//        T_bindtextdomain("openx", MAX_PATH . "/lib/OA/locale");
+//        T_bind_textdomain_codeset("openx", "UTF-8");
+//        T_textdomain("openx");
     }
 
     /**
@@ -110,11 +111,11 @@ class OA_Translation
      */
     function translate($sString, $aValues = array(), $pluralVar = false)
     {
-        // Look up string from available translation memories
-        if (!empty($GLOBALS['str' . $sString])) { // codekey in smarty templates.
+        if (!empty($GLOBALS['str' . $sString])) { 
             $sReturn = $GLOBALS['str' . $sString];
         } else {
-            $sReturn = T_($sString);
+//            $sReturn = T_($sString);
+            $return = $sString;
         }
 
         // If substitution variables have been provided
@@ -134,7 +135,7 @@ class OA_Translation
         $sReturn = ($this->htmlEntities) ? htmlentities($sReturn) : $sReturn;
         
         // For debugging
-        //$sReturn = '<strike>' . $sReturn . '</strike>';
+//        $sReturn = '<strike>' . $sReturn . '</strike>';
         return $sReturn;
     }
 }
