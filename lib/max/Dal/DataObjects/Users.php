@@ -20,7 +20,7 @@ class DataObjects_Users extends DB_DataObjectCommon
     var $default_account_id;              // int(9)
     var $comments;                        // blob(65535)  blob
     var $active;                          // int(1)  not_null
-    var $sso_user_id;                     // int(11)
+    var $sso_user_id;                     // int(11)  
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}

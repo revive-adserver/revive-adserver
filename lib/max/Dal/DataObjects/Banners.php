@@ -78,9 +78,11 @@ class DataObjects_Banners extends DB_DataObjectCommon
     var $keyword;                         // string(255)  not_null
     var $transparent;                     // int(1)  not_null
     var $parameters;                      // blob(65535)  blob
-    var $an_banner_id;                    // int(11)
-    var $as_banner_id;                    // int(11)
+    var $an_banner_id;                    // int(11)  
+    var $as_banner_id;                    // int(11)  
     var $status;                          // int(11)  not_null
+    var $ad_direct_status;                // int(4)  not_null
+    var $ad_direct_rejection_reason_id;    // int(4)  not_null
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}

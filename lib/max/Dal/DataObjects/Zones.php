@@ -56,17 +56,20 @@ class DataObjects_Zones extends DB_DataObjectCommon
     var $forceappend;                     // string(1)  enum
     var $inventory_forecast_type;         // int(6)  not_null
     var $comments;                        // blob(65535)  blob
-    var $cost;                            // real(12)
-    var $cost_type;                       // int(6)
-    var $cost_variable_id;                // string(255)
-    var $technology_cost;                 // real(12)
-    var $technology_cost_type;            // int(6)
+    var $cost;                            // real(12)  
+    var $cost_type;                       // int(6)  
+    var $cost_variable_id;                // string(255)  
+    var $technology_cost;                 // real(12)  
+    var $technology_cost_type;            // int(6)  
     var $updated;                         // datetime(19)  not_null binary
     var $block;                           // int(11)  not_null
     var $capping;                         // int(11)  not_null
     var $session_capping;                 // int(11)  not_null
     var $what;                            // blob(65535)  not_null blob
-    var $as_zone_id;                      // int(11)
+    var $as_zone_id;                      // int(11)  
+    var $is_in_ad_direct;                 // int(1)  not_null
+    var $rate;                            // real(21)  
+    var $pricing;                         // string(50)  not_null
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
