@@ -503,7 +503,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         Mock::generatePartial(
             'DB_DataObjectCommon',
             $mockDo = 'DB_DataObjectCommon'.rand(),
-            array('getChanges')
+            array('_cloneObjectFromDatabase')
         );
 
         $oDoOld = new $mockDo($this);
@@ -529,7 +529,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $oDoNew->col2 = 'def';
 
         $oDo = clone($oDoOld);
-        $oDo->setReturnValue('getChanges', $oDoNew);
+        $oDo->setReturnValue('_cloneObjectFromDatabase', $oDoNew);
         $oDo->_tableName = 'table1';
 
         // prepare *update* audit values
