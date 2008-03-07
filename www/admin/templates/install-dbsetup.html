@@ -1,6 +1,6 @@
 <?php if (!defined('MAX_PATH')) { exit; } ?>
 
-    
+
 
     <br />
     <table border='0' cellpadding='0' cellspacing='0' width='100%'>
@@ -69,7 +69,7 @@
 if ($errTz) {
 ?>
 <div id="errTz" class="sysmessage sysinfowarning">
-<p>As of this version OpenX stores dates in UTC time rather than in server time.</p> 
+<p>As of this version OpenX stores dates in UTC time rather than in server time.</p>
 <p>
     If you want historical statistics to be displayed with the correct timezone, upgrade your data manually.  Learn more <a target="help" href="https://developer.openx.org/wiki/display/ADMIN/Dealing+with+Timezones">here</a>.
     Your statistics values will remain accurate even if you leave your data untouched.
@@ -98,70 +98,70 @@ if ($errTz) {
             'text'  => $strDatabaseSettings,
             'items' => array (
                 array (
-                    'type'    => $inputType,
-                    'name'    => 'aConfig[database][type]',
-                    'text'    => $strDbType,
-                    'disabled' => $disableForm,
-                    'onchange' => 'switchDbTypes(this);',
-                    'value'   => $aDatabase['database']['type'],
-                    'items'   => getSupportedDbTypes()
+                    'type'      => $inputType,
+                    'name'      => 'aConfig[database][type]',
+                    'text'      => $strDbType,
+                    'disabled'  => $disableForm,
+                    'onchange'  => 'switchDbTypes(this);',
+                    'value'     => $aDatabase['database']['type'],
+                    'items'     => getSupportedDbTypes()
                 ),
                 array (
-                    'type'    => 'break'
+                    'type'      => 'break'
                 ),
                 array (
-                    'type'    => 'text',
-                    'name'    => 'aConfig[database][host]',
-                    'text'    => $strDbHost,
-                    'disabled' => $disableForm,
-                    'req'     => true,
-                    'value'   => $aDatabase['database']['host']
+                    'type'      => 'text',
+                    'name'      => 'aConfig[database][host]',
+                    'text'      => $strDbHost,
+                    'disabled'  => $disableForm,
+                    'req'       => true,
+                    'value'     => $aDatabase['database']['host']
                 ),
                 array (
-                    'type'    => 'break'
+                    'type'      => 'break'
                 ),
                 array (
-                    'type'    => 'text',
-                    'name'    => 'aConfig[database][port]',
-                    'text'    => $strDbPort,
-                    'disabled' => $disableForm,
-                    'req'     => true,
-                    'value'   => $aDatabase['database']['port']
+                    'type'      => 'text',
+                    'name'      => 'aConfig[database][port]',
+                    'text'      => $strDbPort,
+                    'disabled'  => $disableForm,
+                    'req'       => true,
+                    'value'     => $aDatabase['database']['port']
                 ),
                 array (
-                    'type'    => 'break'
+                    'type'      => 'break'
                 ),
                 array (
-                    'type'    => 'text',
-                    'name'    => 'aConfig[database][username]',
-                    'text'    => $strDbUser,
-                    'disabled' => $disableForm,
-                    'req'     => true,
-                    'autooff' => true,
-                    'value'   => $aDatabase['database']['username']
+                    'type'      => 'text',
+                    'name'      => 'aConfig[database][username]',
+                    'text'      => $strDbUser,
+                    'disabled'  => $disableForm,
+                    'req'       => true,
+                    'autooff'   => true,
+                    'value'     => $aDatabase['database']['username']
                 ),
                 array (
-                    'type'    => 'break'
+                    'type'      => 'break'
                 ),
                 array (
-                    'type'    => 'password',
-                    'name'    => 'aConfig[database][password]',
-                    'text'    => $strDbPassword,
-                    'disabled' => $disableForm,
-                    'req'     => false,
-                    'autooff' => true,
-                    'value'   => $aDatabase['database']['password']
+                    'type'      => 'password',
+                    'name'      => 'aConfig[database][password]',
+                    'text'      => $strDbPassword,
+                    'disabled'  => $disableForm,
+                    'req'       => false,
+                    'autooff'   => true,
+                    'value'     => $aDatabase['database']['password']
                 ),
                 array (
-                    'type'    => 'break'
+                    'type'      => 'break'
                 ),
                 array (
-                    'type'    => 'text',
-                    'name'    => 'aConfig[database][name]',
-                    'text'    => $strDbName,
-                    'disabled' => $disableForm,
-                    'req'     => true,
-                    'value'   => $aDatabase['database']['name']
+                    'type'      => 'text',
+                    'name'      => 'aConfig[database][name]',
+                    'text'      => $strDbName,
+                    'disabled'  => $disableForm,
+                    'req'       => true,
+                    'value'     => $aDatabase['database']['name']
                 )
             )
         ),
@@ -172,7 +172,7 @@ if ($errTz) {
                     'type'      => $inputType,
                     'name'      => 'aConfig[table][type]',
                     'text'      => $strTablesType,
-                    'disabled'   => $disableForm,
+                    'disabled'  => $disableForm,
                     'value'     => $aDatabase['table']['type'],
                     'items'     => getSupportedTableTypes()
                 ),
@@ -183,7 +183,7 @@ if ($errTz) {
                     'type'      => 'text',
                     'name'      => 'aConfig[table][prefix]',
                     'text'      => $strTablesPrefix,
-                    'disabled'   => $disableForm,
+                    'disabled'  => $disableForm,
                     'req'       => false,
                     'maxlength' => '7',
                     'value'     => $aDatabase['table']['prefix']
