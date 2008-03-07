@@ -96,7 +96,7 @@ if (time() >= $iLastCronRun + 3600) {
     echo "<b>Scheduled maintenance seems to be correctly running.</b>"."<br><br>";
 
     if (!empty($conf['maintenance']['autoMaintenance'])) {
-        echo "Automatic maintenance is enabled. For best performance it is advised to <a href='settings-admin.php'>disable automatic maintenance</a>.";
+        echo "Automatic maintenance is enabled. For best performance it is advised to <a href='account-settings-maintenance.php'>disable automatic maintenance</a>.";
     } else {
         echo "Automatic maintenance is disabled.";
     }
