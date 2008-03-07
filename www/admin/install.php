@@ -100,9 +100,16 @@ function getSupportedDbTypes()
 {
     // These values must be the same as used for the
     // data access layer file names!
-    $types['mysql'] = 'MySQL';
-    $types['pgsql'] = 'PostgreSQL';
-    return $types;
+    $aTypes = array();
+    if (extension_loaded('mysql'))
+    {
+        $aTypes['mysql'] = 'MySQL';
+    }
+    if (extension_loaded('pgsql'))
+    {
+        $aTypes['pgsql'] = 'PostgreSQL';
+    }
+    return $aTypes;
 }
 
  /**
@@ -114,9 +121,17 @@ function getSupportedTableTypes()
 {
     // These values must be the same as used for the
     // data access layer file names!
-    $types['MYISAM'] = 'MyISAM';
-    $types['INNODB'] = 'InnoDB';
-    return $types;
+    $aTypes = array();
+    if (extension_loaded('mysql'))
+    {
+        $aTypes['MYISAM'] = 'MyISAM';
+        $aTypes['INNODB'] = 'InnoDB';
+    }
+    if (empty($aTypes))
+    {
+        $aTypes[''] = 'Default';
+    }
+    return $aTypes;
 }
 
  /**

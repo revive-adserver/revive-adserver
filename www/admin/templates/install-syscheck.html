@@ -102,6 +102,7 @@
             $sysinfoarray['actual']['xml']  = ($sysinfoarray['actual']['xml']  == false ? 'NOT LOADED ' . $errorImage : 'LOADED ' .$passImage);
             $sysinfoarray['actual']['zlib'] = ($sysinfoarray['actual']['zlib'] == false ? 'NOT LOADED ' . $errorImage : 'LOADED ' .$passImage);
             $sysinfoarray['actual']['mysql'] = ($sysinfoarray['actual']['mysql'] == false ? 'NOT LOADED ' . $errorImage : 'LOADED ' .$passImage);
+            $sysinfoarray['actual']['pgsql'] = ($sysinfoarray['actual']['pgsql'] == false ? 'NOT LOADED ' . $errorImage : 'LOADED ' .$passImage);
             $halt = (($halt) || ($sysinfoarray['error']));
 
             $sysinfoheading = (!$sysinfoarray['error']? $passImage . ' PHP - no errors' : $errorImage . ' <span class="red">PHP - errors detected</span>');

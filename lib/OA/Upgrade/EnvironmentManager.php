@@ -138,6 +138,7 @@ class OA_Environment_Manager
         // some users have the mysqli extension and not the mysql, some have both
         // only a problem if they don't have mysql extension (until we handle mysqli)
         $aResult['mysql']                = extension_loaded('mysql');
+        $aResult['pgsql']                = extension_loaded('pgsql');
 
         // set_time_limit is used throughout maintenance to increase the timeout for scripts
         // if user has disabled the set_time_limit function
@@ -378,9 +379,8 @@ class OA_Environment_Manager
         if (!$this->aInfo['PHP']['actual']['zlib']) {
             $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_ZLIB] = 'The zlib extension must be loaded';
         }
-        if (!$this->aInfo['PHP']['actual']['mysql']) {
-            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MYSQL] = 'The mysql extension must be loaded';
-
+        if (!($this->aInfo['PHP']['actual']['mysql'] || $this->aInfo['PHP']['actual']['pgsql'])) {
+            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MYSQL] = 'Either the mysql or the pgsql extension must be loaded';
         }
         if ($this->aInfo['PHP']['actual']['timeout']) {
             $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_TIMEOUT] = 'The PHP function set_time_limit() has been disabled and ';
