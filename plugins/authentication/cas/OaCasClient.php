@@ -116,6 +116,25 @@ class OaCasClient extends CASClient
         phpAds_Die($title="Authentication Error", $message);
         exit();
     }
+    
+  /**
+   * This method is used to retrieve the base URL of the CAS server.
+   * @return a URL.
+   * @private
+   */
+  function getServerBaseURL()
+    { 
+      $protocol = $GLOBALS['_MAX']['CONF']['oacSSO']['protocol'];
+      // the URL is build only when needed
+      if ( empty($this->_server['base_url']) ) {
+	   $this->_server['base_url'] = $protocol . '://'
+	  .$this->getServerHostname()
+	  .':'
+	  .$this->getServerPort()
+	  .$this->getServerURI();
+      }
+      return $this->_server['base_url']; 
+    }
 }
 
 ?>

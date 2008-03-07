@@ -31,6 +31,7 @@ $Id$
  */
 
 require_once MAX_PATH.'/lib/OA/Dal.php';
+require_once MAX_PATH.'/lib/Plugin.php';
 
 class OA_Dal_PasswordRecovery extends OA_Dal
 {
@@ -110,6 +111,9 @@ class OA_Dal_PasswordRecovery extends OA_Dal
 
         if ($doPwdRecovery->fetch()) {
             $userId = $doPwdRecovery->user_id;
+            
+            $doPlugin = MAX_Plugin::factory('authentication');
+            $doPlugin->changePassword($doUser, $password);
             $doUser = OA_Dal::factoryDO('users');
             $doUser->user_id = $userId;
             $doUser->password = md5($password);

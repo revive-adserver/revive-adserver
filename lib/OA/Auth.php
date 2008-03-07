@@ -143,7 +143,11 @@ class OA_Auth
     function authenticateUser()
     {
         $authPlugin = &OA_Auth::staticGetAuthPlugin();
-        return $authPlugin->authenticateUser();
+        $doUsers = &$authPlugin->authenticateUser();
+        if ($doUsers) {
+            $doUsers->logDateLastLogIn();
+        }
+        return $doUsers;
     }
 
     /**

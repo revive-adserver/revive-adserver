@@ -63,6 +63,8 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
 
     var $defaultErrorUnkownMsg = 'Error while connecting with server (%s), please try to resend your data again.';
     var $defaultErrorUnknownCode = 'Error while communicating with server, error code %d';
+    
+    var $msgErrorUserAlreadyLinked = 'Server error: One of the users already is connected with this SSO User ID';
 
     var $aErrorCodes = array(
         OA_CENTRAL_ERROR_SSO_USER_NOT_EXISTS
@@ -144,7 +146,7 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
      * @return DataObjects_Users  returns users dataobject on success authentication
      *                            or null if user wasn't succesfully authenticated
      */
-    function authenticateUser()
+    function &authenticateUser()
     {
         $this->restorePhpCasSession();
 
@@ -190,7 +192,11 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
      */
     function getUser()
     {
-        return $this->getUserById(phpCAS::getUserId());
+        $doUsers = &$this->getUserById(phpCAS::getUserId());
+        if ($doUsers && empty($doUsers->username)) {
+            $doUsers->username = phpCAS::getUser();
+        }
+        return $doUsers;
     }
 
     /**
@@ -199,7 +205,7 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
      * @param integer $userId
      * @return mixed A DataObjects_Users instance, or null if no matching user was found
      */
-    function getUserById($userId)
+    function &getUserById($userId)
     {
         $doUser = OA_Dal::factoryDO('users');
         $doUser->sso_user_id = $userId;
@@ -471,6 +477,7 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
         $this->getCentralCas();
         $ssoUserId = $this->getAccountId($emailAddress);
         if (PEAR::isError($ssoUserId)) {
+            $this->addSignupError($ssoUserId);
             return false;
         }
         if (!$ssoUserId) {
@@ -478,17 +485,24 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
             $ssoUserId = $this->createPartialAccount($emailAddress,
                 $superUserName, $contactName);
             if (PEAR::isError($ssoUserId)) {
+                $this->addSignupError($ssoUserId);
                 return false;
             }
         }
 
+        $doUsers = OA_Dal::factoryDO('users');
+        if ($doUsers->loadByProperty('sso_user_id', $ssoUserId)) {
+            $this->addSignupError($this->msgErrorUserAlreadyLinked);
+            return false;
+        }
+        
         $doUsers = OA_Dal::factoryDO('users');
         $doUsers->loadByProperty('email_address', $emailAddress);
         $doUsers->sso_user_id = $ssoUserId;
         return parent::saveUser($doUsers, null, null, $contactName,
             $emailAddress, $accountId);
     }
-
+    
     function createPartialAccount($receipientEmail, $superUserName, $contactName)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
@@ -565,7 +579,7 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
     /**
      * Adds an error message to signup errors array
      *
-     * @param string|PEAR_Error $errorMessage
+     * @param string|PEAR_Error $error
      */
     function addSignupError($error)
     {
@@ -609,7 +623,6 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
                 return $result;
             }
         }
-
         unset($doUser->password);
         return true;
     }
@@ -638,6 +651,37 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
         }
 
         $doUsers->email_address = $emailAddress;
+        return true;
+    }
+    
+    /**
+     * Sets a new password on a user
+     *
+     * @param integer $userId
+     * @param string $newPassword
+     * @return boolean
+     */
+    function setNewPassword($userId, $newPassword)
+    {
+        $this->getCentralCas();
+        $doUsers = OA_Dal::staticGetDO('users', $userId);
+        if (!$doUsers) {
+            return false;
+        }
+        $result = $this->oCentral->setPassword($doUsers->sso_user_id,
+            md5($newPassword));
+        if (PEAR::isError($result)) {
+            $errorCode = $result->getCode();
+            if (isset($this->aErrorCodes[$errorCode])) {
+                return new PEAR_Error($this->aErrorCodes[$errorCode], $errorCode);
+            } else {
+                return $result;
+            }
+        }
+        if (!empty($doUsers->password)) {
+            // update the password only if it was stored before
+            return parent::setNewPassword($userId, $newPassword);
+        }
         return true;
     }
 }

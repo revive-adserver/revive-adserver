@@ -30,8 +30,10 @@ define ('OA_SKIP_LOGIN', 1);
 require_once '../../init.php';
 require_once MAX_PATH . '/www/admin/config.php';
 
+phpAds_SessionDataDestroy();
+
 // Register input variables
-phpAds_registerGlobalUnslashed ('id', 'action');
+phpAds_registerGlobalUnslashed ('id', 'action', 'email');
 
 $oPlugin = &MAX_Plugin::factory('authentication', 'cas');
 MAX_Plugin_Translation::registerInGlobalScope('authentication', 'cas');
@@ -47,7 +49,8 @@ $errors = array();
 if (!empty($id)) 
 {
     $doUsers = OA_Dal::factoryDO('users');
-    if ($doUsers->loadByProperty('user_id', $id)) {
+    $exist = $doUsers->loadByProperty('user_id', $id);
+    if ($exist && $doUsers->email_address == $email) {
         $oTpl->assign('userName', $doUsers->contact_name);
         // todo: refactor to controller
         switch ($action) {

@@ -5690,6 +5690,20 @@
     <notnull>false</notnull>
     <default></default>
    </field>
+   
+   <field>
+    <name>date_created</name>
+    <type>openads_datetime</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+   
+   <field>
+    <name>date_last_login</name>
+    <type>openads_datetime</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
 
    <index>
     <name>users_pkey</name>
@@ -5705,6 +5719,15 @@
     <unique>true</unique>
     <field>
      <name>username</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+   
+   <index>
+    <name>sso_user_id</name>
+    <unique>true</unique>
+    <field>
+     <name>sso_user_id</name>
      <sorting>ascending</sorting>
     </field>
    </index>

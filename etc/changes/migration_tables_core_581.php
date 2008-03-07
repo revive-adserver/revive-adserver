@@ -17,6 +17,10 @@ class Migration_581 extends Migration
 		$this->aTaskList_constructive[] = 'afterAddField__campaigns__hosted_views';
 		$this->aTaskList_constructive[] = 'beforeAddField__campaigns__hosted_clicks';
 		$this->aTaskList_constructive[] = 'afterAddField__campaigns__hosted_clicks';
+		$this->aTaskList_constructive[] = 'beforeAddField__users__date_created';
+		$this->aTaskList_constructive[] = 'afterAddField__users__date_created';
+		$this->aTaskList_constructive[] = 'beforeAddField__users__date_last_login';
+		$this->aTaskList_constructive[] = 'afterAddField__users__date_last_login';
 		$this->aTaskList_constructive[] = 'beforeAddField__zones__is_in_ad_direct';
 		$this->aTaskList_constructive[] = 'afterAddField__zones__is_in_ad_direct';
 		$this->aTaskList_constructive[] = 'beforeAddField__zones__rate';
@@ -29,6 +33,8 @@ class Migration_581 extends Migration
 		$this->aObjectMap['banners']['ad_direct_rejection_reason_id'] = array('fromTable'=>'banners', 'fromField'=>'ad_direct_rejection_reason_id');
 		$this->aObjectMap['campaigns']['hosted_views'] = array('fromTable'=>'campaigns', 'fromField'=>'hosted_views');
 		$this->aObjectMap['campaigns']['hosted_clicks'] = array('fromTable'=>'campaigns', 'fromField'=>'hosted_clicks');
+		$this->aObjectMap['users']['date_created'] = array('fromTable'=>'users', 'fromField'=>'date_created');
+		$this->aObjectMap['users']['date_last_login'] = array('fromTable'=>'users', 'fromField'=>'date_last_login');
 		$this->aObjectMap['zones']['is_in_ad_direct'] = array('fromTable'=>'zones', 'fromField'=>'is_in_ad_direct');
 		$this->aObjectMap['zones']['rate'] = array('fromTable'=>'zones', 'fromField'=>'rate');
 		$this->aObjectMap['zones']['pricing'] = array('fromTable'=>'zones', 'fromField'=>'pricing');
@@ -104,6 +110,26 @@ class Migration_581 extends Migration
 	function afterAddField__zones__pricing()
 	{
 		return $this->afterAddField('zones', 'pricing');
+	}
+
+	function beforeAddField__users__date_created()
+	{
+		return $this->beforeAddField('users', 'date_created');
+	}
+
+	function afterAddField__users__date_created()
+	{
+		return $this->afterAddField('users', 'date_created');
+	}
+
+	function beforeAddField__users__date_last_login()
+	{
+		return $this->beforeAddField('users', 'date_last_login');
+	}
+
+	function afterAddField__users__date_last_login()
+	{
+		return $this->afterAddField('users', 'date_last_login');
 	}
 
 }

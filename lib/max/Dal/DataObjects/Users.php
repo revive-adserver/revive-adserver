@@ -3,6 +3,10 @@
  * Table Definition for users
  */
 require_once 'DB_DataObjectCommon.php';
+require_once MAX_PATH . '/lib/OA/Permission.php';
+require_once 'Date.php';
+
+define('OA_UNVERIFIED_VALID_DAYS', 28);
 
 class DataObjects_Users extends DB_DataObjectCommon
 {
@@ -21,6 +25,8 @@ class DataObjects_Users extends DB_DataObjectCommon
     var $comments;                        // blob(65535)  blob
     var $active;                          // int(1)  not_null
     var $sso_user_id;                     // int(11)  
+    var $date_created;                    // datetime(19)
+    var $date_last_login;                 // datetime(19)
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
@@ -30,6 +36,8 @@ class DataObjects_Users extends DB_DataObjectCommon
 
     var $defaultValues = array(
                 'active' => 1,
+                'sso_user_id' => OA_DATAOBJECT_DEFAULT_NULL,
+                'date_last_login' => OA_DATAOBJECT_DEFAULT_NULL
                 );
 
     /* the code above is auto generated do not remove the tag below */
@@ -45,7 +53,9 @@ class DataObjects_Users extends DB_DataObjectCommon
         if (isset($this->username)) {
             $this->username = strtolower($this->username);
         }
-
+        if (empty($this->date_created)) {
+            $this->date_created = $this->formatDate(new Date());
+        }
         return parent::insert();
     }
 
@@ -160,6 +170,127 @@ class DataObjects_Users extends DB_DataObjectCommon
         $doUsers->joinAdd($doAccount_user_assoc);
         $doUsers->find();
         return $this->_buildUsersTable($doUsers);
+    }
+    
+    /**
+     * Updates the date_last_log_in time of user.
+     *
+     * @return date
+     */
+    function logDateLastLogIn($date = null)
+    {
+        if (!$date) {
+            $date = new Date();
+        }
+        $this->date_last_login = $this->formatDate($date);
+        return $this->update();
+    }
+    
+    /**
+     * This method should be called when a user claims existing sso account
+     * and it turns out that the sso account he wants to use is already linked
+     * to existing user. In such case all accounts and permissions
+     * from his partial account should be relinked to his existing account.
+     *
+     * @param integer $fromUserId
+     * @param integer $toUserId
+     * @return boolean
+     */
+    function relinkAccounts($existingUserId, $partialUserId)
+    {
+        $existingAccountIds = $this->getLinkedAccountsIds($existingUserId);
+        $partialAccountIds = $this->getLinkedAccountsIds($partialUserId);
+        $newAccounts = array_diff($partialAccountIds, $existingAccountIds);
+        foreach ($newAccounts as $newAccountId) {
+            if (!OA_Permission::setAccountAccess($newAccountId, $existingUserId)) {
+                return false;
+            }
+        }
+        return $this->addUserPermissions($existingUserId, 
+            $this->getUsersPermissions($partialUserId));
+    }
+    
+    /**
+     * Sets on the user account accounts/permissions.
+     *
+     * @param integer $userId
+     * @param array $aAccountPermissions
+     */
+    function addUserPermissions($userId, $aAccountPermissions)
+    {
+        foreach ($aAccountPermissions as $accountId => $aPermissions) {
+            foreach ($aPermissions as $permissionId => $isAllowed) {
+                $doAccount_user_permission_assoc =
+                    OA_Dal::factoryDO('account_user_permission_assoc');
+                $doAccount_user_permission_assoc->account_id = $accountId;
+                $doAccount_user_permission_assoc->user_id = $userId;
+                $doAccount_user_permission_assoc->permission_id = $permissionId;
+                $doAccount_user_permission_assoc->is_allowed = 1;
+                if (!$doAccount_user_permission_assoc->find()) {
+                    if (!$doAccount_user_permission_assoc->insert()) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * Returns an array of users permissions. Format of array:
+     * array(
+     *   accountId => array(
+     *       permissions_id => is_allowed
+     *     )
+     * )
+     *
+     * @param integer $userId
+     * @return array
+     */
+    function getUsersPermissions($userId)
+    {
+        $aPermissions = array();
+        $doAccount_user_permission_assoc =
+            OA_Dal::factoryDO('account_user_permission_assoc');
+        $doAccount_user_permission_assoc->user_id = $userId;
+        $doAccount_user_permission_assoc->find();
+        while ($doAccount_user_permission_assoc->fetch()) {
+            $aPermissions[$doAccount_user_permission_assoc->account_id]
+                [$doAccount_user_permission_assoc->permission_id] =
+                    $doAccount_user_permission_assoc->is_allowed;
+        }
+        return $aPermissions;
+    }
+    
+    /**
+     * Returns array of account Ids which user is linked to
+     *
+     * @return array
+     */
+    function getLinkedAccountsIds($userId = null)
+    {
+        if (empty($userId)) {
+            $userId = $this->user_id;
+        }
+        $doAccount_user_assoc = OA_Dal::factoryDO('account_user_assoc');
+        $doAccount_user_assoc->user_id = $userId;
+        return $doAccount_user_assoc->getAll('account_id');
+    }
+    
+    /**
+     * Deletes users who are not linked with any sso account, never logged
+     * in and their account was created before OA_UNVERIFIED_VALID_DAYS days
+     *
+     * @return boolean
+     */
+    function deleteUnverifiedUsers()
+    {
+        $monthAgo = new Date();
+        $monthAgo->subtractSeconds(OA_UNVERIFIED_VALID_DAYS * SECONDS_PER_DAY);
+        $this->whereAdd('date_created < "' . $this->formatDate($monthAgo).'"');
+        $this->whereAdd('sso_user_id IS NULL');
+        $this->whereAdd('date_last_login IS NULL');
+        return $this->delete(DB_DATAOBJECT_WHEREADD_ONLY);
     }
 
     /**

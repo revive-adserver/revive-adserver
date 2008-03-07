@@ -31,6 +31,9 @@ require_once MAX_PATH . '/lib/OA/Permission.php';
 
 require_once 'DB/DataObject.php';
 
+define('OA_DATETIME_FORMAT', '%Y-%m-%d %H:%M:%S');
+define('OA_DATAOBJECT_DEFAULT_NULL', 'NULL');
+
 /**
  * The non-DB specific Data Abstraction Layer (DAL) class for the User Interface (Admin).
  *
@@ -1380,6 +1383,17 @@ class DB_DataObjectCommon extends DB_DataObject
         }
 
         return false;
+    }
+    
+    /**
+     * Returns the date transformed into default format (as string)
+     *
+     * @param Date $date
+     * @return string
+     */
+    function formatDate($date)
+    {
+        return $date->format(OA_DATETIME_FORMAT);
     }
 
     /**

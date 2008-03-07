@@ -508,7 +508,6 @@ class OA_Permission
     function hasPermission($permissionId, $accountId = null, $userId = null)
     {
         static $aCache = array();
-
         if ($accountId === null) {
             $accountId   = OA_Permission::getAccountId();
             $accountType = OA_Permission::getAccountType();
@@ -523,27 +522,28 @@ class OA_Permission
             }
         }
         if (OA_Permission::isPermissionRelatedToAccountType($accountType, $permissionId)) {
-            if ($userId === null) {
-                $userId = OA_Permission::getUserId();
-            }
-            if (empty($accountId) || empty($userId)) {
-                return false;
-            }
-            if (!isset($aCache[$userId][$accountId])) {
-                $doAccount_user_permission_assoc = OA_Dal::factoryDO('account_user_permission_assoc');
-                $doAccount_user_permission_assoc->user_id = $userId;
-                $doAccount_user_permission_assoc->account_id = $accountId;
-                $doAccount_user_permission_assoc->find();
-                while ($doAccount_user_permission_assoc->fetch()) {
-                    $aCache[$userId][$accountId][$doAccount_user_permission_assoc->permission_id] =
-                        $doAccount_user_permission_assoc->is_allowed;
-                }
-            }
+            $aCache[$userId][$accountId] = 
+                OA_Permission::getAccountUsersPermissions($userId, $accountId);
         } else {
             $aCache[$userId][$accountId][$permissionId] = true;
         }
         return isset($aCache[$userId][$accountId][$permissionId]) ?
             $aCache[$userId][$accountId][$permissionId] : false;
+    }
+    
+    function getAccountUsersPermissions($userId, $accountId)
+    {
+        $aPermissions = array();
+        $doAccount_user_permission_assoc =
+            OA_Dal::factoryDO('account_user_permission_assoc');
+        $doAccount_user_permission_assoc->user_id = $userId;
+        $doAccount_user_permission_assoc->account_id = $accountId;
+        $doAccount_user_permission_assoc->find();
+        while ($doAccount_user_permission_assoc->fetch()) {
+            $aPermissions[$doAccount_user_permission_assoc->permission_id] =
+                    $doAccount_user_permission_assoc->is_allowed;
+        }
+        return $aPermissions;
     }
 
     /**

@@ -66,7 +66,7 @@ class OA_Controller_SSO_ConfirmAccount
     var $isVerified = false;
     var $ssoAccountId;
     var $doUsers;
-    var $urlConfirm = "sso-confirm.php?id=%d&action=%s";
+    var $urlConfirm = "sso-confirm.php?id=%d&action=%s&email=%s";
     
     /**
      * Messages
@@ -242,21 +242,22 @@ class OA_Controller_SSO_ConfirmAccount
             return false;
         }
         
-        $ssoAccountId = $this->getSsoAccountId();
-        if (!$ssoAccountId) {
+        $ssoLinkAccountId = $this->getSsoAccountIdByUsernamePassword();
+        if (!$ssoLinkAccountId) {
         	return false;
         }
         
         // @todo - add a database constraint on sso_user_id
-        if ($this->checkIfSsoUserExists($ssoAccountId)) {
-            // TODO - bug! this needs to be fixed
-            // return true;
+        if ($userId = $this->checkIfSsoUserExists($ssoLinkAccountId)) {
+            if ($this->useExistingAccount($userId, $this->doUsers->user_id)) {
+                $this->redirectToConfirmPageAndExit('linked', $userId);
+            }
         }
         
-        $accountEmail = $this->getSsoAccountEmail($ssoAccountId);
+        $accountEmail = $this->getSsoAccountEmail($ssoLinkAccountId);
         if ($accountEmail)
         {
-            $this->doUsers->sso_user_id = $ssoAccountId;
+            $this->doUsers->sso_user_id = $ssoLinkAccountId;
             $this->doUsers->email_address = $accountEmail;
             $ret = $this->doUsers->update();
             if ($ret !== false && !$this->isError($ret)) {
@@ -271,6 +272,25 @@ class OA_Controller_SSO_ConfirmAccount
         return false;
     }
 
+    /**
+     * Relinks all accounts and permissions from partial account to existing account
+     *
+     * @param integer $existingUserId
+     * @param integer $partialUserId
+     * @return boolean
+     */
+    function useExistingAccount($existingUserId, $partialUserId)
+    {
+        $doUsers = OA_Dal::factoryDO('users');
+        if (!$doUsers->relinkAccounts($existingUserId, $partialUserId)) {
+            return false;
+        }
+        $doUsers = OA_Dal::staticGetDO('users', $partialUserId);
+        if (!$doUsers) {
+            return false;
+        }
+        return $doUsers->delete();
+    }
 
     /**
      * Action "create". Creates a new SSO account
@@ -302,7 +322,8 @@ class OA_Controller_SSO_ConfirmAccount
     
     function redirectToConfirmPageAndExit($action, $userId)
     {
-        $url = sprintf($this->urlConfirm, $userId, $action);
+        $doUsers = OA_Dal::staticGetDO('users', $userId);
+        $url = sprintf($this->urlConfirm, $userId, $action, $doUsers->email_address);
         header ("Location: " . $url);
         exit();
     }
@@ -335,7 +356,7 @@ class OA_Controller_SSO_ConfirmAccount
         return $this->oPlugin;
     }
     
-    function getSsoAccountId()
+    function getSsoAccountIdByUsernamePassword()
     {
         $md5Password = md5($this->request['ssoexistingpassword']);
         $ret = $this->oCentral->getAccountIdByUsernamePassword(

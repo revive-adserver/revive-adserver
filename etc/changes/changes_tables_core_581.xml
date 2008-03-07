@@ -52,6 +52,36 @@
           </add>
         </table>
         <table>
+          <name>users</name>
+          <add>
+            <field>
+              <name>date_created</name>
+              <type>openads_datetime</type>
+              <notnull>false</notnull>
+              <default></default>
+              <was>date_created</was>
+            </field>
+            <field>
+              <name>date_last_login</name>
+              <type>openads_datetime</type>
+              <notnull>false</notnull>
+              <default></default>
+              <was>date_created</was>
+            </field>
+          </add>
+          <index>
+            <add>
+              <name>sso_user_id</name>
+              <was>sso_user_id</was>
+              <unique>true</unique>
+              <indexfield>
+                <name>sso_user_id</name>
+                <sorting>ascending</sorting>
+              </indexfield>
+            </add>
+          </index>
+        </table>
+        <table>
           <name>zones</name>
           <add>
             <field>

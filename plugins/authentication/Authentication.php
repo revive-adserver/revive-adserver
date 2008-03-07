@@ -66,7 +66,7 @@ class Plugins_Authentication extends MAX_Plugin_Common
      * @return DataObjects_Users  returns users dataobject on success authentication
      *                            or null if user wasn't succesfully authenticated
      */
-    function authenticateUser()
+    function &authenticateUser()
     {
         OA::debug('Cannot run abstract method');
         exit();
@@ -262,6 +262,23 @@ class Plugins_Authentication extends MAX_Plugin_Common
     {
         OA::debug('Cannot run abstract method');
         exit();
+    }
+
+    /**
+     * A method to set a new user password
+     *
+     * @param string $userId
+     * @param string $newPassword
+     * @return mixed True on success, PEAR_Error otherwise
+     */
+    function setNewPassword($userId, $newPassword)
+    {
+        $doUsers = OA_Dal::staticGetDO('users', $userId);
+        if (!$doUsers) {
+            return false;
+        }
+        $doUsers->password = md5($newPassword);
+        return $doUsers->update();
     }
 
     /**

@@ -161,6 +161,7 @@ class OA_Maintenance
             $this->_runOpenadsCentral();
             $this->_runGeneralPruning();
             $this->_runPriorityPruning();
+            $this->_runDeleteUnverifiedAccounts();
             OA::debug('Midnight Maintenance Tasks Completed', PEAR_LOG_INFO);
         }
     }
@@ -268,6 +269,43 @@ class OA_Maintenance
     {
         $oDal = new OA_Maintenance_Pruning();
         $oDal->run();
+    }
+
+    function _runDeleteUnverifiedAccounts()
+    {
+        if ($this->_isCasPluginEnabled()) {
+            $processName = 'delete unverified accounts';
+            $this->_startProcessDebugMessage($processName);
+            
+            $doUsers = OA_Dal::factoryDO('users');
+            $result = $doUsers->deleteUnverifiedUsers();
+            
+            $this->_debugIfError($processName, $result);
+            $this->_stopProcessDebugMessage($processName);
+        }
+    }
+    
+    function _startProcessDebugMessage($processName)
+    {
+        OA::debug('  Starting OpenX '.$processName.' process.', PEAR_LOG_DEBUG);
+    }
+    
+    function _stopProcessDebugMessage()
+    {
+        OA::debug('  Starting OpenX '.$processName.' process.', PEAR_LOG_DEBUG);
+    }
+    
+    function _debugIfError($processName, $error)
+    {
+        if (PEAR::isError($error)) {
+            OA::debug("OpenX $processName error (".$error->getCode()."): "
+                . $error->getMessage(), PEAR_LOG_INFO);
+        }
+    }
+    
+    function _isCasPluginEnabled()
+    {
+        return $GLOBALS['_MAX']['CONF']['authentication']['type'] == 'cas';
     }
 
     /**
