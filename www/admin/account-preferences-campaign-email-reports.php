@@ -74,10 +74,11 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     if ($result) {
         // The preferences were written correctly saved to the database,
         // go to the "next" preferences page from here
-        if ($conf['logging']['trackerImpressions']) {
+        if ($conf['logging']['trackerImpressions'] && (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)
+             || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))) {
             MAX_Admin_Redirect::redirect('account-preferences-tracker.php');
         } else {
-            MAX_Admin_Redirect::redirect('account-preferences-user-interface.php');
+        	MAX_Admin_Redirect::redirect('account-preferences-timezone.php');            
         }
     }
     // Could not write the preferences to the database, store this
@@ -95,10 +96,10 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.7"));
 } else if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
     // Show the "Preferences" section of the "My Account" sections
-    phpAds_ShowSections(array("5.2"));
+    phpAds_ShowSections(array("5.1", "5.2"));
 } else if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
     // Show the "Preferences" section of the "My Account" sections
-    phpAds_ShowSections(array("5.2"));
+    phpAds_ShowSections(array("5.1", "5.2"));
 }
 
 // Set the correct section of the preference pages and display the drop-down menu
