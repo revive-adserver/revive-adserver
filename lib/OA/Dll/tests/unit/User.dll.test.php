@@ -243,7 +243,7 @@ class OA_Dll_UserTest extends DllUnitTestCase
         $dllUserPartialMock = new PartialMockOA_Dll_User($this);
 
         $dllUserPartialMock->setReturnValue('checkPermissions', true);
-        $dllUserPartialMock->expectCallCount('checkPermissions', 5);
+        $dllUserPartialMock->expectCallCount('checkPermissions', 4);
 
         $doUsers = OA_Dal::factoryDO('users');
         $doUsers->username = 'sso1-'.time();
@@ -259,23 +259,6 @@ class OA_Dll_UserTest extends DllUnitTestCase
 
         $this->assertTrue($dllUserPartialMock->updateSsoUserId(1001, 1002),
                           $dllUserPartialMock->getLastError());
-
-        $doUsers = OA_Dal::factoryDO('users');
-        $doUsers->username = 'sso2-'.time();
-        $doUsers->sso_user_id = 1002;
-        $this->assertTrue(DataGenerator::generateOne($doUsers));
-
-        $doUsers = OA_Dal::factoryDO('users');
-        $doUsers->username = 'sso3-'.time();
-        $doUsers->sso_user_id = 1003;
-        $this->assertTrue(DataGenerator::generateOne($doUsers));
-
-        $this->assertTrue($dllUserPartialMock->updateSsoUserId(1002, 1001),
-                          $dllUserPartialMock->getLastError());
-
-        $doUsers = OA_Dal::factoryDO('users');
-        $doUsers->sso_user_id = 1001;
-        $this->assertEqual($doUsers->count(), 2);
 
         // Test errors
         $this->assertTrue((!$dllUserPartialMock->updateSsoUserId(0, 1) &&
