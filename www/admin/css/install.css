@@ -69,10 +69,6 @@ table.sysinfotable td.check-res {
 }
 
 
-.sysmessage {
- font-weight: bold;
-}
-
 img.install-icon {
   margin-right: 20px;
 }
@@ -83,23 +79,26 @@ img.install-icon {
   margin-bottom: 20px;
 }
 
+.sysmessage {
+ font-weight: bold;
+}
 
-td.sysinfoerror, .sysinfoerror, td.sysinfowarning {
- color: #FFFFFF;
+.sysmessage p {
+	margin: 5px 0px 5px 0px;
+}
+
+td.sysinfoerror, td.sysinfowarning {
  font-weight: bold;
  text-align: left;
  line-height: 17px;
  background-color: #880000;
  border: 0;
+ color: #FFFFFF;
 }
-div.sysinfowarning {
- border: 1px dotted #eee;
- width: 85%;
- margin: 5px auto 0 auto;
- color: #fff;
-}
+
+
 td.sysinfowarning, .sysinfowarning {
- background-color: #d26a0d;
+    background-color: #d26a0d;
 }
 td.errContainer {
  border-bottom: 1px solid #DDDDDD;
@@ -109,10 +108,42 @@ td.sysinfoerror i, td.sysinfowarning i {
  font-weight: normal;
  font-size: 12px;
 }
-.sysinfoerror a, .sysinfowarning a {
+
+td.sysinfoerror a, td.sysinfowarning a {
  color: #FFFFFF;
  text-decoration: underline;
 }
+
+/*div.sysinfowarning {
+    border: 1px dotted #eee;
+    width: 85%;
+    margin: 5px auto 0 auto;
+    color: #fff;
+}*/
+
+div.sysinfoerror, div.sysinfowarning {
+  background:    url('../images/install-error-small.gif') no-repeat 10px 50%;
+  background-color: #FFFFE1;
+  border: 1px dashed #990000;
+  margin-top: 8px;
+  margin-bottom: 16px;
+  padding: 10px 10px 10px 60px;
+  line-height: 18px;
+  width: 65%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+
+div.sysinfoerror {
+  color: #990000;
+}
+
+
+div.sysinfoerror li {
+    margin-bottom: 5px;
+}
+
 
 .floatleft {
     color: #333;
@@ -122,26 +153,6 @@ td.sysinfoerror i, td.sysinfowarning i {
 
 .centered, td.centered {
  text-align: center;
-}
-
-div.sysinfoerror {
-    background-image:    url('../images/install-error-small.gif');
-    background-repeat:   no-repeat;
-    background-position: 10px 50%;
-    color: #990000;
-  background-color: #FFFFE1;
-  border: 1px dashed #990000;
-  margin-top: 8px;
-  margin-bottom: 16px;
-  padding: 6px 6px 15px 50px;
-  line-height: 18px;
-  width: 65%;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: left;
-}
-div.sysinfoerror li {
-    margin-bottom: 5px;
 }
 
 .pageLoader {
