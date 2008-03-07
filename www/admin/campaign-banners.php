@@ -401,10 +401,10 @@ if (isset($banners) && count($banners)) {
     if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
         echo "<img src='images/icon-recycle.gif' border='0' align='absmiddle' alt=''>&nbsp;<a href='banner-delete.php?clientid=".$clientid."&campaignid=".$campaignid."&returnurl=campaign-banners.php'".phpAds_DelConfirm($strConfirmDeleteAllBanners).">$strDeleteAllBanners</a>&nbsp;&nbsp;&nbsp;&nbsp;";
         if ($countActive < count($banners)) {
-            echo "<img src='images/icon-activate.gif' border='0' align='absmiddle' alt=''>&nbsp;<a href='banner-activate.php?clientid=".$clientid."&campaignid=".$campaignid."&value=f'>$strActivateAllBanners</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+            echo "<img src='images/icon-activate.gif' border='0' align='absmiddle' alt=''>&nbsp;<a href='banner-activate.php?clientid=".$clientid."&campaignid=".$campaignid."&value=" . OA_ENTITY_STATUS_PAUSED . "'>$strActivateAllBanners</a>&nbsp;&nbsp;&nbsp;&nbsp;";
         }
         if ($countActive > 0) {
-            echo "<img src='images/icon-deactivate.gif' border='0' align='absmiddle' alt=''>&nbsp;<a href='banner-activate.php?clientid=".$clientid."&campaignid=".$campaignid."&value=t'>$strDeactivateAllBanners</a>&nbsp;&nbsp;";
+            echo "<img src='images/icon-deactivate.gif' border='0' align='absmiddle' alt=''>&nbsp;<a href='banner-activate.php?clientid=".$clientid."&campaignid=".$campaignid."&value=" . OA_ENTITY_STATUS_RUNNING . "'>$strDeactivateAllBanners</a>&nbsp;&nbsp;";
         }
     }
     echo "</td>";

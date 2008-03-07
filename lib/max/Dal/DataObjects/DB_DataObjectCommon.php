@@ -34,12 +34,15 @@ require_once 'DB/DataObject.php';
 /**
  * The non-DB specific Data Abstraction Layer (DAL) class for the User Interface (Admin).
  *
+ * This class extends the PEAR::DB_DataObjects class, and adds extra functionality!
+ *
  * @package    DataObjects
  * @author     David Keen <david.keen@openx.org>
  * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
 class DB_DataObjectCommon extends DB_DataObject
 {
+
     /**
      * If its true the delete() method will try to delete also all
      * records which has reference to this record
@@ -100,11 +103,17 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     var $triggerSqlDie = true;
 
+    /**
+     * The local instance of a DB_DataOjects object for the audit table
+     *
+     * @var DataObjects_Audit
+     */
     var $doAudit;
 
-    /**
-     * //// Public methods, added to help users to optimize the use of DataObjects
-     */
+    //////////////////////////////////////////////////////////////////////
+    // Public methods, added to help users to optimize the use of       //
+    // DB_DataObjects                                                   //
+    //////////////////////////////////////////////////////////////////////
 
     /**
      * Loads corresponding DAL class. Plain SQL should be kept inside DAL class
@@ -197,10 +206,11 @@ class DB_DataObjectCommon extends DB_DataObject
     }
 
     /**
-     * Either insert new record or update existing one
-     * if the object is already created
+     * Either insert new record or update existing one,
+     * if the object already exists in the database
      *
-     * @return integer  ID of new record (if PK is sequence) or boolean
+     * @return mixed The ID of new record (if the PK is sequence), or
+     *               or the boolean true.
      */
     function save()
     {
@@ -212,11 +222,13 @@ class DB_DataObjectCommon extends DB_DataObject
     }
 
     /**
-     * Checks if there is any object in hierarchy of objects (it uses information from link.ini to buil hierarchy)
-     * which belongs to user's account.
+     * A method to check if this DB_DataOject is in the hierarchy of objects which
+     * belongs to the current Account User.
      *
-     * @return boolean|null     Returns true if belong to account, false if doesn't and null if it wasn't
-     *                          able to find object in references
+     * The method uses information from the link.ini file to build the object hierarchy.
+     *
+     * @return mixed Returns true if belong to account, false if doesn't and null
+     *               if it wasn't able to find this object in references.
      */
     function belongsToUsersAccount()
     {
@@ -316,7 +328,6 @@ class DB_DataObjectCommon extends DB_DataObject
      * @param string $referenceTable
      * @param string $tableId
      * @return boolean  True on success
-     * @access public
      */
     function addReferenceFilter($referenceTable, $tableId)
     {
@@ -335,12 +346,12 @@ class DB_DataObjectCommon extends DB_DataObject
     }
 
    /**
-    * Returns the number of rows in a query
-    * Note it returns number of records from the last search (find())
+    * A method to return the number of rows found by the last call
+    * to this DB_DataObject's find() method.
     *
-    * @see count()
-    * @return int number of rows
-    * @access public
+    * @see DB_DataObject::count()
+    *
+    * @return integer The number of rows found.
     */
     function getRowCount() {
         return $this->N;
@@ -538,10 +549,11 @@ class DB_DataObjectCommon extends DB_DataObject
         return $this->whereAdd($query, $logic);
     }
 
-    /**
-     * //// Protected methods, could be overwritten in child classes but
-     * //// a good practice is to call them in child methods by parent::methodName()
-     */
+    //////////////////////////////////////////////////////////////////////
+    // Protected methods. Could be overwritten in child classes but     //
+    // it's good practice is to call them in child methods via          //
+    // parent::methodName().                                            //
+    //////////////////////////////////////////////////////////////////////
 
     /**
      * This method is called explicitly by the OA_Dal class methods used
@@ -676,44 +688,67 @@ class DB_DataObjectCommon extends DB_DataObject
     }
 
     /**
-     * Could automatically handle updating "updated" datetime field
-     * before calling parent update()
+     * A method for updating the data stored in the database for a given
+     * DB_DataObject. Extends the {@link DB_DataObject::update()} method
+     * to include auditing of the changes, if required.
      *
      * @see DB_DataObject::update()
-     * @param object $dataObject
-     * @return boolean
+     *
      * @access public
+     * @param mixed $dataObject An optional parameter. Either a DB_DataObject
+     *                          object that should be used for the update, or
+     *                          the constant DB_DATAOBJECT_WHEREADD_ONLY, in
+     *                          which case the current object's whereAdd()
+     *                          method call value will be used to idenfity
+     *                          one or more rows which will *all* be updated.
+     * @return boolean True on update success, false otherwise.
      */
     function update($dataObject = false)
     {
-        $doOriginal = $this->getChanges();
+        // Is this update for a single DB_DataObject, or potentially
+        // more than one record?
+        if ($dataObject == DB_DATAOBJECT_WHEREADD_ONLY)
+        {
+            // Prepare a new DB_DataObject to obtain all rows
+            // that will be affected
+            $doAffected = OA_Dal::factoryDO($this->_tableName);
+            $doAffected->_query['condition'] = $this->_query['condition'];
+            // Generate an array of all DB_DataObjects that will
+            // be udpated
+            $aDB_DataObjects = array();
+            $doAffected->find();
+            while ($doAffected->fetch())
+            {
+                $aDB_DataObjects[] = $doAffected->_cloneObjectFromDatabase();
+            }
+            // Update ALL of the required records
+            $result = parent::update($dataObject);
+            if ($result)
+            {
+                // If required, log the changes in the audit trail
+                foreach ($aDB_DataObjects as $doAffected)
+                {
+                    // Re-clone the object from the database to obtain
+                    // what is now the updated DB_DataObject
+                    $doUpdated = $doAffected->_cloneObjectFromDatabase();
+                    $doUpdated->audit(2, $doAffected);
+                }
+            }
+            return $result;
+        }
+        // Obtain a copy of the original DB_DataObject from the
+        // database before updating the data
+        $doOriginal = $this->_cloneObjectFromDatabase();
+        // Update the "updated" field of this object
         $this->_refreshUpdated();
+        // Update!
         $result = parent::update($dataObject);
-        if ($result) {
+        if ($result)
+        {
+            // If required, log the change in the audit trail
             $this->audit(2, $doOriginal);
         }
         return $result;
-    }
-
-    function getChanges()
-    {
-        $aKeys = $this->keys();
-        if ($aKeys)
-        {
-            $doOriginal = OA_Dal::factoryDO($this->_tableName);
-            if ($doOriginal)
-            {
-                foreach ($aKeys as $k => $v)
-                {
-                    $doOriginal->$v = $this->$v;
-                }
-                if ($doOriginal->find(true))
-                {
-                    return $doOriginal;
-                }
-            }
-        }
-        return false;
     }
 
     function setDefaultValue($fieldName, $fieldType)
@@ -760,10 +795,42 @@ class DB_DataObjectCommon extends DB_DataObject
         return $result;
     }
 
+    //////////////////////////////////////////////////////////////////////
+    // Private methods. Shouldn't be overwritten and shouldn't be       //
+    // called directly unless it's really necessary and you know what   //
+    // you are doing!                                                   //
+    //////////////////////////////////////////////////////////////////////
+
     /**
-     * //// Private methods - shouldn't be overwritten and you shouldn't call them directly
-     * //// until it's really necessary and you know what your are doing
+     * A private method to create a new DB_DataObject of the same type
+     * as the current DB_DataObject, copy over all of the current object's
+     * primark key values (based on the result of the keys() method), and
+     * then try to locate this record in the database.
+     *
+     * @access private
+     * @return mixed Either the "original" DB_DataObject, if it can be
+     *               found, otherwise false.
      */
+    function _cloneObjectFromDatabase()
+    {
+        $aKeys = $this->keys();
+        if ($aKeys)
+        {
+            $doOriginal = OA_Dal::factoryDO($this->_tableName);
+            if ($doOriginal)
+            {
+                foreach ($aKeys as $k => $v)
+                {
+                    $doOriginal->$v = $this->$v;
+                }
+                if ($doOriginal->find(true))
+                {
+                    return $doOriginal;
+                }
+            }
+        }
+        return false;
+    }
 
     /**
      * Keeps the original (without prefix) table name
@@ -813,14 +880,21 @@ class DB_DataObjectCommon extends DB_DataObject
     }
 
     /**
-     * Used by both insert() and update() to update "updated" field
+     * Used by both insert() and update() to update the date/time
+     * value stored in an "updated" field of the table.
+     *
+     * @TODO Deprecate this method if/when all "updated" fields have
+     *       been removed from the schemata.
+     *
      * @access private
      */
     function _refreshUpdated()
     {
-        if ($this->refreshUpdatedFieldIfExists) {
+        if ($this->refreshUpdatedFieldIfExists)
+        {
             $fields = $this->table();
-            if (array_key_exists('updated', $fields)) {
+            if (array_key_exists('updated', $fields))
+            {
                 $this->updated = date('Y-m-d H:i:s');
             }
         }
@@ -1347,7 +1421,7 @@ class DB_DataObjectCommon extends DB_DataObject
                         }
                         break;
             case OA_AUDIT_ACTION_UPDATE:
-                        $dataobjectNew = $this->getChanges();
+                        $dataobjectNew = $this->_cloneObjectFromDatabase();
                         // only audit data that has changed
                         if ($dataobjectNew)
                         {
