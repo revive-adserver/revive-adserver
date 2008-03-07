@@ -192,7 +192,7 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
      */
     function getUser()
     {
-        $doUsers = &$this->getUserById(phpCAS::getUserId());
+        $doUsers = &$this->getUserBySsoUserId(phpCAS::getUserId());
         if ($doUsers && empty($doUsers->username)) {
             $doUsers->username = phpCAS::getUser();
         }
@@ -202,10 +202,10 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
     /**
      * Returns user by Id or null if no such user exists
      *
-     * @param integer $userId
+     * @param integer $userId  Sso account id
      * @return mixed A DataObjects_Users instance, or null if no matching user was found
      */
-    function &getUserById($userId)
+    function &getUserBySsoUserId($userId)
     {
         $doUser = OA_Dal::factoryDO('users');
         $doUser->sso_user_id = $userId;

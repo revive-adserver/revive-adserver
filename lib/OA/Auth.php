@@ -145,7 +145,11 @@ class OA_Auth
         $authPlugin = &OA_Auth::staticGetAuthPlugin();
         $doUsers = &$authPlugin->authenticateUser();
         if ($doUsers) {
+            // do not upgrade username
+            $tmpUserName = $doUsers->username;
+            unset($doUsers->username);
             $doUsers->logDateLastLogIn();
+            $doUsers->username = $tmpUserName;
         }
         return $doUsers;
     }

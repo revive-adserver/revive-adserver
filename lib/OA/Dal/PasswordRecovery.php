@@ -31,7 +31,7 @@ $Id$
  */
 
 require_once MAX_PATH.'/lib/OA/Dal.php';
-require_once MAX_PATH.'/lib/Plugin.php';
+require_once MAX_PATH.'/lib/max/Plugin.php';
 
 class OA_Dal_PasswordRecovery extends OA_Dal
 {
