@@ -151,6 +151,21 @@ class OA_Central_RpcMapper_Cas extends OA_Central_RpcMapper
     }
 
     /**
+     * Set a new user password
+     *
+     * @param integer $ssoUserId
+     * @param string $newPassword
+     * @return boolean
+     */
+    function setPassword($ssoUserId, $newPassword)
+    {
+        return $this->oRpc->callM2M('setPassword', array(
+            new XML_RPC_Value($ssoUserId, 'int'),
+            new XML_RPC_Value($newPassword, 'string')
+        ));
+    }
+
+    /**
      * Checks if password of sso user with $ssoUserId is valid.
      *
      * @param string $username

@@ -131,6 +131,18 @@ class OA_Central_Cas extends OA_Central_M2M
     }
 
     /**
+     * Set a new password for user.
+     *
+     * @param integer $ssoUserId
+     * @param string $newPassword
+     * @return boolean
+     */
+    function setPassword($ssoUserId, $newPassword)
+    {
+        return $this->oMapper->setPassword($ssoUserId, $newPassword);
+    }
+
+    /**
      * Checks if password of sso user with $ssoUserId is valid.
      *
      * @param string $username

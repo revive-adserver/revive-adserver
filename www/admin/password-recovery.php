@@ -36,15 +36,11 @@ require_once MAX_PATH . '/lib/OA/Admin/PasswordRecovery.php';
 
 $recovery_page = new OA_Admin_PasswordRecovery();
 
-if (true || $recovery_page->checkAccess()) {
-    $method = $_SERVER['REQUEST_METHOD'];
-    if ($method == 'POST') {
-        $recovery_page->handlePost($_POST);
-    } else {
-        $recovery_page->handleGet($_GET);
-    }
+$method = $_SERVER['REQUEST_METHOD'];
+if ($method == 'POST') {
+    $recovery_page->handlePost($_POST);
 } else {
-     MAX_Admin_Redirect::redirect('index.php');
+    $recovery_page->handleGet($_GET);
 }
 
 ?>
