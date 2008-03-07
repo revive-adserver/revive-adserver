@@ -103,7 +103,7 @@ if ($errTz) {
                     'type'    => $inputType,
                     'name'    => 'aConfig[database][type]',
                     'text'    => $strDbType,
-                    'enabled' => $disableForm,
+                    'disabled' => $disableForm,
                     'onchange' => 'switchDbTypes(this);',
                     'value'   => $aDatabase['database']['type'],
                     'items'   => getSupportedDbTypes()
@@ -115,7 +115,7 @@ if ($errTz) {
                     'type'    => 'text',
                     'name'    => 'aConfig[database][host]',
                     'text'    => $strDbHost,
-                    'enabled' => $disableForm,
+                    'disabled' => $disableForm,
                     'req'     => true,
                     'value'   => $aDatabase['database']['host']
                 ),
@@ -126,7 +126,7 @@ if ($errTz) {
                     'type'    => 'text',
                     'name'    => 'aConfig[database][port]',
                     'text'    => $strDbPort,
-                    'enabled' => $disableForm,
+                    'disabled' => $disableForm,
                     'req'     => true,
                     'value'   => $aDatabase['database']['port']
                 ),
@@ -137,7 +137,7 @@ if ($errTz) {
                     'type'    => 'text',
                     'name'    => 'aConfig[database][username]',
                     'text'    => $strDbUser,
-                    'enabled' => $disableForm,
+                    'disabled' => $disableForm,
                     'req'     => true,
                     'autooff' => true,
                     'value'   => $aDatabase['database']['username']
@@ -149,7 +149,7 @@ if ($errTz) {
                     'type'    => 'password',
                     'name'    => 'aConfig[database][password]',
                     'text'    => $strDbPassword,
-                    'enabled' => $disableForm,
+                    'disabled' => $disableForm,
                     'req'     => false,
                     'autooff' => true,
                     'value'   => $aDatabase['database']['password']
@@ -161,7 +161,7 @@ if ($errTz) {
                     'type'    => 'text',
                     'name'    => 'aConfig[database][name]',
                     'text'    => $strDbName,
-                    'enabled' => $disableForm,
+                    'disabled' => $disableForm,
                     'req'     => true,
                     'value'   => $aDatabase['database']['name']
                 )
@@ -174,7 +174,7 @@ if ($errTz) {
                     'type'      => $inputType,
                     'name'      => 'aConfig[table][type]',
                     'text'      => $strTablesType,
-                    'enabled'   => $disableForm,
+                    'disabled'   => $disableForm,
                     'value'     => $aDatabase['table']['type'],
                     'items'     => getSupportedTableTypes()
                 ),
@@ -185,7 +185,7 @@ if ($errTz) {
                     'type'      => 'text',
                     'name'      => 'aConfig[table][prefix]',
                     'text'      => $strTablesPrefix,
-                    'enabled'   => $disableForm,
+                    'disabled'   => $disableForm,
                     'req'       => false,
                     'maxlength' => '7',
                     'value'     => $aDatabase['table']['prefix']
