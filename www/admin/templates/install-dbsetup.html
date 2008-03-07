@@ -1,4 +1,7 @@
 <?php if (!defined('MAX_PATH')) { exit; } ?>
+
+    
+
     <br />
     <table border='0' cellpadding='0' cellspacing='0' width='100%'>
     <tr>
@@ -65,21 +68,16 @@
 <?php
 if ($errTz) {
 ?>
-<div id="errTz" class="sysmessage sysinfoerror">
+<div id="errTz" class="sysmessage sysinfowarning">
+<p>As of this version OpenX stores dates in UTC time rather than in server time.</p> 
 <p>
-    WARNING! This upgrade will involved the conversion of data logging
-    from local server time to UTC time. Unless you upgrade your data
-    manually, historical statistics will no longer be displayed with
-    exactly the correct timezone (although your statistics values will
-    remain accurate). <a href="#">Learn more about this issue, and how
-    to resolve it</a> if this is important to you
+    If you want historical statistics to be displayed with the correct timezone, upgrade your data manually.  Learn more <a target="help" href="https://developer.openx.org/wiki/display/ADMIN/Dealing+with+Timezones">here</a>.
+    Your statistics values will remain accurate even if you leave your data untouched.
 </p>
-
+<p>
 <input type="checkbox" name="noTzAlert" id="noTzAlert" value="1" />
-<label for="noTzAlert">
-    I have read the above, and manually updated my data. Do not display
-    any warnings when showing historical statistics.
-</label>
+<label for="noTzAlert">Do not display timezone warnings in the future</label>
+<p>
 </div>
 
 <?php
