@@ -38,7 +38,9 @@ class UserMigration extends Migration
         // We will need the admin and per-agency languages to assign the correct "Default" languages to advertiser and websites
         $prefix      = $GLOBALS['_MAX']['CONF']['table']['prefix'];
 
+        // Correctly initialise the Migration object
         $oDBH = OA_DB::singleton();
+        $this->init($oDBH);
 
         // Get admin language
         $query = "
@@ -82,7 +84,7 @@ class UserMigration extends Migration
 	    $oDbh  = &OA_DB::singleton();
 
         $prefix      = $aConf['table']['prefix'];
-	    $tblSource   = $oDbh->quoteIdentifier($prefix.$sourceTable, true);
+	    $tblSource   = $this->_getQuotedTableName($sourceTable);
 	    $tblAccounts = $oDbh->quoteIdentifier($prefix.'accounts', true);
         $tblUsers    = $oDbh->quoteIdentifier($prefix.'users', true);
         $tblAppVar   = $oDbh->quoteIdentifier($prefix.'application_variable', true);

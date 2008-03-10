@@ -94,7 +94,7 @@ class Migration_544 extends Migration
 
 	    $aUserdata = array(
 	       'ADMIN' => array(
-	           'sourceTable' => $aConf['table']['preference'],
+	           'sourceTable' => 'preference',
 	           'primaryKey'  => 'agencyid',
 	           'fieldMap'    => array(
 	                    'name'          => $this->oDBH->quote('Administrator'),
@@ -107,7 +107,7 @@ class Migration_544 extends Migration
                'whereAdd'     => 'agencyid = 0',
 	       ),
 	       'MANAGER' => array(
-	           'sourceTable' => $aConf['table']['agency'],
+	           'sourceTable' => 'agency',
 	           'primaryKey'  => 'agencyid',
 	           'fieldMap'    => array(
                         'name'          => 'name',
@@ -120,7 +120,7 @@ class Migration_544 extends Migration
                'whereAdd'     => 'account_id IS NULL',
 	       ),
 	       'ADVERTISER' => array(
-	           'sourceTable' => $aConf['table']['clients'],
+	           'sourceTable' => 'clients',
 	           'primaryKey'  => 'clientid',
 	           'fieldMap'    => array(
                         'name'          => 'clientname',
@@ -138,7 +138,7 @@ class Migration_544 extends Migration
                     ),
 	       ),
 	       'TRAFFICKER' => array(
-	           'sourceTable' => $aConf['table']['affiliates'],
+	           'sourceTable' => 'affiliates',
 	           'primaryKey'  => 'affiliateid',
 	           'fieldMap'    => array(
                         'name'          => 'name',
