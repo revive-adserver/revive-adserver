@@ -42,29 +42,32 @@ class OA_Upgrade_Login
             return true;
         }
 
+        // Clean up session
+        $GLOBALS['session'] = array();
+
+        // Detection needs to happen every time to make sure that database parameters are
+        $oUpgrader = new OA_Upgrade();
+        $openadsDetected = $oUpgrader->detectOpenads(true) ||
+            $oUpgrader->existing_installation_status == OA_STATUS_CURRENT_VERSION;
+
+        // Sequentially check, to avoid useless work
+        if (!$openadsDetected) {
+            if (!($panDetected = $oUpgrader->detectPAN(true))) {
+                if (!($maxDetected = $oUpgrader->detectMAX(true))) {
+                    if (!($max01Detected = $oUpgrader->detectMAX01(true))) {
+                        // No upgrade-able version detected, return
+                        return false;
+                    }
+                }
+            }
+        }
+
         phpAds_SessionStart();
         phpAds_SessionDataFetch();
 
         $oPlugin = &OA_Auth::staticGetAuthPlugin('internal');
 
         if ($oPlugin->suppliedCredentials()) {
-            // Clean up session
-            $GLOBALS['session'] = array();
-
-            $oUpgrader = new OA_Upgrade();
-
-            $openadsDetected = $oUpgrader->detectOpenads(true) ||
-                $oUpgrader->existing_installation_status == OA_STATUS_CURRENT_VERSION;
-
-            // Sequentially check, to avoid useless work
-            if (!$openadsDetected) {
-                if (!($panDetected = $oUpgrader->detectPAN(true))) {
-                    if (!($maxDetected = $oUpgrader->detectMAX(true))) {
-                        $max01Detected = $oUpgrader->detectMAX01(true);
-                    }
-                }
-            }
-
             // The new Users, Account, Permissions & Preference feature was introduced in OpenX 2.5.46-dev
             $newLogin = $openadsDetected && version_compare($oUpgrader->versionInitialApplication, '2.5.46-dev', '>=') == -1;
 

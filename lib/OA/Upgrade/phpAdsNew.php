@@ -70,8 +70,10 @@ class OA_phpAdsNew
     {
         if ($this->detected)
         {
+            PEAR::pushErrorHandling();
             $query = "SELECT config_version FROM {$this->prefix}config";
             $result = $this->oDbh->queryOne($query);
+            PEAR::popErrorHandling();
             if (PEAR::isError($result))
             {
                 return false;
