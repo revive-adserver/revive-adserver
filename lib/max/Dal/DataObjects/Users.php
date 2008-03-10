@@ -287,7 +287,7 @@ class DataObjects_Users extends DB_DataObjectCommon
     {
         $monthAgo = new Date();
         $monthAgo->subtractSeconds(OA_UNVERIFIED_VALID_DAYS * SECONDS_PER_DAY);
-        $this->whereAdd('date_created < "' . $this->formatDate($monthAgo).'"');
+        $this->whereAdd('date_created < \'' . $this->formatDate($monthAgo).'\'');
         $this->whereAdd('sso_user_id IS NULL');
         $this->whereAdd('date_last_login IS NULL');
         return $this->delete(DB_DATAOBJECT_WHEREADD_ONLY);
