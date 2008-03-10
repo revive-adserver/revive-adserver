@@ -232,7 +232,7 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
             align      : 'Bl',
             weekNumbers: false,
             firstDay   : " . ($GLOBALS['pref']['ui_week_start_day'] ? 1 : 0) . ",
-            electric   : false,
+            electric   : false
         });
         Calendar.setup({
             inputField : '{$this->_name}_end',
@@ -241,8 +241,8 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
             align      : 'Bl',
             weekNumbers: false,
             firstDay   : " . ($GLOBALS['pref']['ui_week_start_day'] ? 1 : 0) . ",
-            electric   : false,
-        })
+            electric   : false
+        });
 
         var field = document.getElementById('{$this->_name}_start');
         var oldOnSubmit = field.form.onsubmit;

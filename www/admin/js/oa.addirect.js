@@ -548,7 +548,6 @@ function initAccoutSwitcher()
       $switcher.removeClass("expanded");
       $(".accountSwitcherOverlay").hide();
     }
-    return true;
   });
   
   $(document).keydown(function(event) {
