@@ -42,7 +42,7 @@ open:function(s,t){var h=H[s],c=h.c,cc='.'+c.closeClass,z=(/^\d+$/.test(h.w.css(
  else o=false;
 
  h.o=(o)?o.addClass(c.overlayClass).prependTo('body'):false;
- //h.o ? h.w.appendTo('body') : false;
+ h.o ? h.w.appendTo('body') : false;
  
  if(ie6){$('html,body').css({height:'100%',width:'100%'});if(o){o=o.css({position:'absolute'})[0];for(var y in {Top:1,Left:1})o.style.setExpression(y.toLowerCase(),"(_=(document.documentElement.scroll"+y+" || document.body.scroll"+y+"))+'px'");}}
 
