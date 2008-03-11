@@ -48,6 +48,7 @@ headerBackgroundColor               =
 headerActiveTabColor                =
 headerTextColor                     =
 gzipCompression                     = false
+combineAssets                       = true
 
 ;------------------------------------------------------------------------------------------;
 ; Database Settings                                                                        ;
