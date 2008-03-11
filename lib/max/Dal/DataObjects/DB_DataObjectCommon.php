@@ -764,10 +764,15 @@ class DB_DataObjectCommon extends DB_DataObject
             }
             else if ($this->defaultValues[$fieldName] === '%NO_DATE_TIME%')
             {
-                return OA_Dal::noDateValue();
+                return OA_Dal::noDateString();
             }
             return $this->defaultValues[$fieldName];
         }
+        else if ($fieldName == 'updated')
+        {
+            return date('Y-m-d H:i:s');
+        }
+        return NULL;
     }
 
     function _getKey()
@@ -1384,7 +1389,7 @@ class DB_DataObjectCommon extends DB_DataObject
 
         return false;
     }
-    
+
     /**
      * Returns the date transformed into default format (as string)
      *

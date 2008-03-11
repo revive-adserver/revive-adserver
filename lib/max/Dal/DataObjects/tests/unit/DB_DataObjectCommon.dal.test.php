@@ -67,6 +67,23 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $this->assertIsA($dalClients, 'MAX_Dal_Common');
     }
 
+    function testSetDefaultValue()
+    {
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+
+        // Test 1 : Date Values
+
+        $doCampaigns->expire = $doCampaigns->setDefaultValue('expire',6);
+        $this->assertEqual($doCampaigns->expire,OA_Dal::noDateString());
+
+        $doCampaigns->activate = $doCampaigns->setDefaultValue('activate',6);
+        $this->assertEqual($doCampaigns->expire,OA_Dal::noDateString());
+
+        $doCampaigns->updated = $doCampaigns->setDefaultValue('updated',6);
+        $this->assertTrue(OA_Dal::isValidDate($doCampaigns->updated));
+        $this->assertTrue(time()-strtotime($doCampaigns->updated) < 10, 'elapsed time exceeds margin of 10 seconds');
+    }
+
     function testGetAll()
     {
         // test it returns empty array when no data
