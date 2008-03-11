@@ -1008,4 +1008,21 @@ div.terms iframe {
   font-size: 200%;
 }
 
+/** User log */
+.filterLabel {
+    float:left;
+    font-weight:bold;
+    padding-right:0.5em;
+    text-align:left;
+    width:10em;
+}
+.filterWrapper {
+    margin-bottom: 5px;
+}
+
+.tableTitle {
+    font-weight: bold;
+    font-size: 9pt;
+    margin-bottom: 0;
+}
 

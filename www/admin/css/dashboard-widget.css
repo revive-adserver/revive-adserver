@@ -332,3 +332,19 @@ div.widgetButtons div {
   width: 817px;
   height: 818px;
 }
+
+/** Campaign overview */
+.campaign-added,
+.campaign-started,
+.campaign-restarted {
+  color: green 
+}
+
+.campaign-paused { 
+  color: red 
+}
+
+.campaign-completed  { 
+  color: black 
+}
+
