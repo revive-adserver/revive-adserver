@@ -176,28 +176,6 @@ if (isset($submit)) {
             $target_conversion = 0;
         }
 
-//        $status = OA_ENTITY_STATUS_RUNNING;
-
-        if ($impressions == 0 || $clicks == 0 || $conversions == 0) {
-            $status = OA_ENTITY_STATUS_PAUSED;
-        }
-        if (!empty($activate) && $activate != OA_Dal::noDateValue()) {
-            list($activeYear, $activeMonth, $activeDay) = explode('-', $activate);
-            if (time() < mktime(0, 0, 0, $activateMonth, $activateDay, $activateYear)) {
-                $status = OA_ENTITY_STATUS_AWAITING;
-            }
-        }
-        if (!empty($expire) && $expire != OA_Dal::noDateValue()) {
-            list($expireYear, $expireMonth, $expireDay) = explode('-', $expire);
-            if (time() > mktime(23, 59, 59, $expireMonth, $expireDay, $expireYear)) {
-                $status = OA_ENTITY_STATUS_EXPIRED;
-            }
-        }
-
-        // Set campaign inactive if weight and target are both null and autotargeting is disabled
-        if ($status == OA_ENTITY_STATUS_RUNNING && !(($target_impression > 0 || $target_click > 0 || $target_conversion > 0) || $weight > 0 || (OA_Dal::isValidDate($expire) && ($impressions > 0 || $clicks > 0 || $conversions > 0)))) {
-            $status = OA_ENTITY_STATUS_PAUSED;
-        }
         if ($anonymous != 't') {
             $anonymous = 'f';
         }
@@ -221,9 +199,8 @@ if (isset($submit)) {
         $doCampaigns->views = $impressions;
         $doCampaigns->clicks = $clicks;
         $doCampaigns->conversions = $conversions;
-        $doCampaigns->expire = $expire;
-        $doCampaigns->activate = $activate;
-        $doCampaigns->status = $status;
+        $doCampaigns->expire = OA_Dal::isValidDate($expire) ? $expire : 0.00;
+        $doCampaigns->activate = OA_Dal::isValidDate($activate) ? $activate : 0.00;
         $doCampaigns->priority = $priority;
         $doCampaigns->weight = $weight;
         $doCampaigns->target_impression = $target_impression;
@@ -262,6 +239,8 @@ if (isset($submit)) {
         // - the campaign is active and target/weight are changed
         //
         if (!$new_campaign) {
+            $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignid);
+            $status = $doCampaigns->status;
             switch(true) {
             case ((bool)$status != (bool)$status_old):
                 // Run the Maintenance Priority Engine process
@@ -881,7 +860,7 @@ echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
 if (isset($row['status']) && $row['status'] != OA_ENTITY_STATUS_RUNNING)
 {
     $activate_ts = mktime(23, 59, 59, $row["activate_month"], $row["activate_dayofmonth"], $row["activate_year"]);
-    $expire_ts = mktime(23, 59, 59, $row["expire_month"], $row["expire_dayofmonth"], $row["expire_year"]);
+    $expire_ts = $row['expire_year'] ? mktime(23, 59, 59, $row["expire_month"], $row["expire_dayofmonth"], $row["expire_year"]) : 0;
     $inactivebecause = array();
 
     if ($row['impressions'] == 0) $inactivebecause[] =  $strNoMoreImpressions;

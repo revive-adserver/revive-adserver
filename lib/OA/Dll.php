@@ -42,9 +42,10 @@ require_once MAX_PATH . '/lib/pear/Date.php';
 
 // Standard statuses
 define('OA_ENTITY_STATUS_RUNNING',                0);
-define('OA_ENTITY_STATUS_PAUSED',                 1);
+define('OA_ENTITY_STATUS_INACTIVE',               1);
 define('OA_ENTITY_STATUS_AWAITING',               2);
 define('OA_ENTITY_STATUS_EXPIRED',                3);
+define('OA_ENTITY_STATUS_PAUSED',                 4);
 
 // Special status which has always to be used when the entity is inactive for a remote reason
 define('OA_ENTITY_STATUS_PENDING',               -1);

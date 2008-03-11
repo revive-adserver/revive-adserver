@@ -42,9 +42,9 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     var $campaignid;                      // int(9)  not_null primary_key auto_increment
     var $campaignname;                    // string(255)  not_null
     var $clientid;                        // int(9)  not_null multiple_key
-    var $views;                           // int(11)  
-    var $clicks;                          // int(11)  
-    var $conversions;                     // int(11)  
+    var $views;                           // int(11)
+    var $clicks;                          // int(11)
+    var $conversions;                     // int(11)
     var $expire;                          // date(10)  binary
     var $activate;                        // date(10)  binary
     var $priority;                        // int(11)  not_null
@@ -53,16 +53,16 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     var $target_click;                    // int(11)  not_null
     var $target_conversion;               // int(11)  not_null
     var $anonymous;                       // string(1)  not_null enum
-    var $companion;                       // int(1)  
+    var $companion;                       // int(1)
     var $comments;                        // blob(65535)  blob
-    var $revenue;                         // real(12)  
-    var $revenue_type;                    // int(6)  
+    var $revenue;                         // real(12)
+    var $revenue_type;                    // int(6)
     var $updated;                         // datetime(19)  not_null binary
     var $block;                           // int(11)  not_null
     var $capping;                         // int(11)  not_null
     var $session_capping;                 // int(11)  not_null
-    var $an_campaign_id;                  // int(11)  
-    var $as_campaign_id;                  // int(11)  
+    var $an_campaign_id;                  // int(11)
+    var $as_campaign_id;                  // int(11)
     var $status;                          // int(11)  not_null
     var $an_status;                       // int(11)  not_null
     var $as_reject_reason;                // int(11)  not_null
@@ -100,8 +100,150 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
+    /**
+     * A method to set the correct status based
+     *
+     * @param DataObjects_Campaigns $oldDoCampaigns
+     */
+    function setStatus($oldDoCampaigns = null)
+    {
+        $this->_coalesce($oldDoCampaigns, array('expire'));
+        if ($this->_isExpired()) {
+            $this->status = OA_ENTITY_STATUS_EXPIRED;
+            return;
+        }
+
+        $this->_coalesce($oldDoCampaigns, array('views', 'clicks', 'conversions'));
+        if ($this->_hasExceeededBookings()) {
+            $this->status = OA_ENTITY_STATUS_EXPIRED;
+            return;
+        }
+
+        $this->_coalesce($oldDoCampaigns, array('activate'));
+        if ($this->_isAwaiting()) {
+            $this->status = OA_ENTITY_STATUS_AWAITING;
+            return;
+        }
+
+        $this->_coalesce($oldDoCampaigns, array('status'));
+        if ($this->status == OA_ENTITY_STATUS_EXPIRED || $this->status == OA_ENTITY_STATUS_AWAITING) {
+            if (isset($oldDoCampaigns)) {
+                if ($oldDoCampaigns->status == OA_ENTITY_STATUS_EXPIRED || $oldDoCampaigns->status == OA_ENTITY_STATUS_AWAITING) {
+                    $this->status = OA_ENTITY_RUNNING;
+                } else {
+                    $this->status = $oldDoCampaigns->status;
+                }
+            } else {
+                $this->status = OA_ENTITY_RUNNING;
+            }
+        }
+
+        // Set campaign inactive if weight and target are both null and autotargeting is disabled
+        $this->_coalesce($oldDoCampaigns, array('target_impression', 'target_click', 'target_conversion', 'weight'));
+        $targetOk     = $this->target_impression > 0 || $this->target_click > 0 || $this->target_conversion > 0;
+        $weightOk     = $this->weight > 0;
+        $autotargeted = OA_Dal::isValidDate($this->expire) && ($this->impressions > 0 || $this->clicks > 0 || $this->conversions > 0);
+        if ($this->status == OA_ENTITY_STATUS_RUNNING && !$autotargeted && !($targetOk || $weightOk)) {
+            $this->status = OA_ENTITY_STATUS_INACTIVE;
+        } elseif ($this->status == OA_ENTITY_STATUS_INACTIVE && !$autotargeted && ($targetOk || $weightOk)) {
+            $this->status = OA_ENTITY_STATUS_RUNNING;
+        }
+    }
+
+    function _coalesce($oldDoCampaigns, $aFields)
+    {
+        foreach ($aFields as $fieldName) {
+            if (!isset($this->$fieldName) && isset($oldDoCampaigns)) {
+                $this->$fieldName = $oldDoCampaigns->$fieldName;
+            }
+        }
+    }
+
+    /**
+     * A method to check if the campaign is awaiting activation
+     *
+     * @return bool
+     */
+    function _isAwaiting()
+    {
+        if (!empty($this->activate)) {
+            $oNow = new Date();
+            $oActivate = new Date($this->activate);
+            if ($oNow->before($oActivate)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * A method to check if the campaign is expired
+     *
+     * @return bool
+     */
+    function _isExpired()
+    {
+        if (!empty($this->expire)) {
+            $oNow = new Date();
+            $oExpire = new Date($this->expire);
+            $oExpire->setHour(23);
+            $oExpire->setMinute(59);
+            $oExpire->setSecond(59);
+            if ($oNow->after($oExpire)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    function _hasExceeededBookings()
+    {
+        if (!empty($this->campaignid)) {
+            if ($this->views > 0 || $this->clicks > 0 || $this->conversions > 0) {
+                $doBanners = OA_Dal::factoryDO('banners');
+                $doBanners->campaignid = $this->campaignid;
+                $doDia = OA_Dal::factoryDO('data_intermediate_ad');
+                $doDia->selectAdd();
+                $doDia->selectAdd('SUM(impressions) AS impressions');
+                $doDia->selectAdd('SUM(clicks) AS clicks');
+                $doDia->selectAdd('SUM(conversions) AS conversions');
+                $doDia->joinAdd($doBanners);
+                $aStats = $doDia->getAll(array());
+
+                if (isset($aStats[0])) {
+                    if ($this->views > 0 && $aStats[0]['impressions'] >= $this->views) {
+                        return true;
+                    }
+                    if ($this->clicks > 0 && $aStats[0]['clicks'] >= $this->clicks) {
+                        return true;
+                    }
+                    if ($this->conversions > 0 && $aStats[0]['conversions'] >= $this->conversions) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    function update()
+    {
+        if (isset($this->campaignid)) {
+            // Set the correct campaign status, loading the old data
+            $this->setStatus(OA_Dal::staticGetDO('campaigns', $this->campaignid));
+        }
+
+        return parent::update();
+    }
+
     function insert()
     {
+        // Set the correct campaign status
+        $this->setStatus();
+
         $id = parent::insert();
         if (!$id) {
             return $id;
