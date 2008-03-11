@@ -115,7 +115,7 @@ class OA_Translation
             $sReturn = $GLOBALS['str' . $sString];
         } else {
 //            $sReturn = T_($sString);
-            $return = $sString;
+            $sReturn = $sString;
         }
 
         // If substitution variables have been provided
@@ -135,7 +135,7 @@ class OA_Translation
         $sReturn = ($this->htmlEntities) ? htmlentities($sReturn) : $sReturn;
         
         // For debugging
-//        $sReturn = '<strike>' . $sReturn . '</strike>';
+        //$sReturn = '<strike>' . $sReturn . '</strike>';
         return $sReturn;
     }
 }
