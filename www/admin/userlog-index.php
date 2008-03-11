@@ -40,6 +40,7 @@ require_once MAX_PATH . '/lib/OA/Dll/Audit.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/Field/AuditDaySpanField.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once 'Pager/Pager.php';
+require_once MAX_PATH . '/lib/OA/Translation.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
@@ -118,6 +119,8 @@ if (!empty($publisherId)) {
     }
 }
 
+$oTrans = new OA_Translation();
+
 $aParams = array(
     'advertiser_id' => $advertiserId,
     'campaign_id'   => $campaignId,
@@ -127,6 +130,8 @@ $aParams = array(
     'listorder'     => $listorder,
     'start_date'    => $startDate,
     'end_date'      => $endDate,
+    'prevImg'       => '<< ' . $oTrans->translate('Back'),
+    'nextImg'       => $oTrans->translate('Next') . ' >>'
 );
 
 // Account security

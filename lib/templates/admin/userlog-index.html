@@ -49,7 +49,7 @@
     <table class="data-grid table">
         <tbody>
             <tr class="header">
-                <th width="15%"><a href="userlog-index.php?{$urlParam}">Timestamp</a>
+                <th width="15%"><a href="userlog-index.php?{$urlParam}">{t str='Timestamp'}</a>
                     <a href="userlog-index.php?{$urlParam}">
                         {if $orderdirection == 'up'}
                         <img src="images/caret-u.gif" />
@@ -58,7 +58,7 @@
                         {/if}
                     </a>
                 </th>
-                <th>Event</th>
+                <th>{t str='Event'}</th>
                 <th width="10%">&nbsp;</th>
             </tr>
             {if count($aAuditData) > 0}
@@ -67,7 +67,7 @@
             <tr class="{$rowClass}">
                 <td>{$aValue.updated}</td>
                 <td>
-                    {$aValue.username} {$aValue.action} {$aValue.context} "{$aValue.details.key_desc}" {if !empty($aValue.contextid)}(#{$aValue.contextid}){/if}
+                    {$aValue.username} {t str=$aValue.action} {$aValue.context} "{$aValue.details.key_desc}" {if !empty($aValue.contextid)}(#{$aValue.contextid}){/if}
                     {if !empty($aValue.parentcontext)}
                         in {$aValue.parentcontext} (#{$aValue.parentcontextid})
                     {/if}
@@ -75,7 +75,7 @@
                         and additional items
                     {/if}
                 </td>
-                <td><a href="userlog-audit-detailed.php?auditId={$aValue.auditid}"><img src="images/icon-zoom.gif" />&nbsp;View</a></td>
+                <td><a href="userlog-audit-detailed.php?auditId={$aValue.auditid}"><img src="images/icon-zoom.gif" />&nbsp;{t str=View}</a></td>
             </tr>
             {/foreach}
             {else}

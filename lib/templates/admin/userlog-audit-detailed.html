@@ -1,5 +1,5 @@
 <div>
-    <p class="tableTitle">Event Details</p>
+    <p class="tableTitle">{t str='Event Details'}</p>
     <table class="data-grid table">
         <tbody>
             <tr class="odd">
@@ -16,7 +16,7 @@
             </tr>
             <tr class="even">
                 <td class="label">{t str=Action}</td>
-                <td style="text-align:left;">{$aAuditDetail.action}</td>
+                <td style="text-align:left;">{t str=$aAuditDetail.action}</td>
             </tr>
             <tr class="odd">
                 <td class="label">{t str=Username}</td>
@@ -24,7 +24,7 @@
             </tr>
         </tbody>
     </table>
-    <p class="tableTitle">Event History</p>
+    <p class="tableTitle">{t str='Event History'}</p>
     <table class="data-grid table">
 	    <thead>
 	        <tr class="header">

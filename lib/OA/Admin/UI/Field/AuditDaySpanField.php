@@ -26,14 +26,18 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Admin/UI/Field/DaySpanField.php';
+require_once MAX_PATH . '/lib/OA/Translation.php';
 
 class OA_Admin_UI_Audit_DaySpanField extends Admin_UI_DaySpanField
 {
+    var $oTrans;
+    
     function OA_Admin_UI_Audit_DaySpanField($name = 'AuditDaySpanField',
                          $fieldSelectionDefault = 'all_events',
                          $aFieldSelectionNames = null)
     {
         parent::Admin_UI_DaySpanField($name, $fieldSelectionDefault, $aFieldSelectionNames);
+        $this->oTrans = new OA_Translation();
     }
 
     /**
@@ -77,10 +81,10 @@ class OA_Admin_UI_Audit_DaySpanField extends Admin_UI_DaySpanField
 
         echo "
         </select>
-        <label for='{$this->_name}_start' style='margin-left: 1em'> From</label>
+        <label for='{$this->_name}_start' style='margin-left: 1em'> {$this->oTrans->translate('From')}</label>
         <input class='date' name='{$this->_name}_start' id='{$this->_name}_start' type='text' value='$startDateStr' tabindex='".$this->_tabIndex++."' />
         <input type='image' src='images/icon-calendar.gif' id='{$this->_name}_start_button' align='absmiddle' border='0' tabindex='".$this->_tabIndex++."' />
-        <label for='{$this->_name}_end' style='margin-left: 1em'> To</label>
+        <label for='{$this->_name}_end' style='margin-left: 1em'> {$this->oTrans->translate('To')}</label>
         <input class='date' name='{$this->_name}_end' id='{$this->_name}_end' type='text' value='$endDateStr' tabindex='".$this->_tabIndex++."' />
         <input type='image' src='images/icon-calendar.gif' id='{$this->_name}_end_button' align='absmiddle' border='0' tabindex='".$this->_tabIndex++."' />
         <script type='text/javascript'>
