@@ -27,6 +27,7 @@ $Id$
 
 require_once MAX_PATH . '/lib/OA/Dashboard/Widget.php';
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
+require_once MAX_PATH . '/lib/OA/Translation.php';
 require_once('Image/Graph.php');
 
 class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
@@ -38,6 +39,8 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
      * @var OA_Admin_Template
      */
     var $oTpl;
+    
+    var $oTrans;
 
     /**
      * The class constructor
@@ -48,6 +51,8 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
     function OA_Dashboard_Widget_Graph($aParams)
     {
         parent::OA_Dashboard_Widget($aParams);
+        
+        $this->oTrans = new OA_Translation();
 
         $gdAvailable = extension_loaded('gd');
 
@@ -63,7 +68,8 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
 
     function getCacheId()
     {
-        return array(get_class($this));
+        // Cache the graphs for each locale.
+        return array(get_class($this), $GLOBALS['_MAX']['PREF']['language']);
     }
 
     function isDataRequired()
@@ -121,7 +127,7 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
     {
         $this->aData = array();
         for ($i = 0; $i < 7; $i++) {
-            $day = date('D', time() - 86400 * (7 - $i));
+            $day = $GLOBALS['strDayShortCuts'][date('w', time() - 86400 * (7 - $i))];
             $this->aData[0][$day] = 0;
             $this->aData[1][$day] = 0;
         }
@@ -254,7 +260,7 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
         foreach ($aUnits as $k => $v) {
             if ($value >= $v) {
                 $value = $value / $v;
-                $unit  = $k;
+                $unit  = $this->oTrans->translate($k);
             }
         }
 
