@@ -212,11 +212,11 @@ class OA_Admin_UI
         // Defaults for validation
         $aLocale = localeconv();
         if (isset($GLOBALS['phpAds_ThousandsSeperator'])) {
-        	$separator = $GLOBALS['phpAds_ThousandsSeperator'];
+            $separator = $GLOBALS['phpAds_ThousandsSeperator'];
         } elseif (isset($aLocale['thousands_sep'])) {
-        	$separator = $aLocale['thousands_sep'];
+            $separator = $aLocale['thousands_sep'];
         } else {
-        	$separator = ',';
+            $separator = ',';
         }
 
         $this->oTpl->assign('thousandsSeperator', $separator);
@@ -228,9 +228,12 @@ class OA_Admin_UI
         $this->oTpl->assign('strWarningMissingClosing', html_entity_decode($GLOBALS['strWarningMissingClosing']));
         $this->oTpl->assign('strSubmitAnyway', html_entity_decode($GLOBALS['strSubmitAnyway']));
 
-		// Javascript and stylesheets to include
-		$this->oTpl->assign('genericStylesheets', urlencode(implode(',', $this->genericStylesheets())));
-		$this->oTpl->assign('genericJavascript', urlencode(implode(',', $this->genericJavascript())));
+        // Javascript and stylesheets to include
+        $this->oTpl->assign('genericStylesheets', urlencode(implode(',', $this->genericStylesheets())));
+        $this->oTpl->assign('genericJavascript', urlencode(implode(',', $this->genericJavascript())));
+        $this->oTpl->assign('aGenericStyleshets', $this->genericStylesheets());
+        $this->oTpl->assign('aGenericJavascript', $this->genericJavascript());
+        $this->oTpl->assign('combineAssets', $conf['ui']['combineAssets']);
 
         if (!empty($session['RUN_MPE']) && $session['RUN_MPE']) {
             require_once MAX_PATH . '/www/admin/lib-maintenance-priority.inc.php';
@@ -317,54 +320,54 @@ class OA_Admin_UI
             ob_end_flush();
         }
     }
-	
-	function genericJavascript() {
-		return array (
-			'js/jquery-1.2.3.min.js', 
-			'js/jquery.bgiframe.min.js',
-			'js/jquery.dimensions.min.js',
-			'js/jquery.metadata.min.js',
-			'js/jquery.validate.min.js',
-			'js/jquery.jqmodal.js',
-			'js/jquery.typewatch.js',
-			'js/jquery.autocomplete.min.js', 
-			'js/jscalendar/calendar.js',
-			'js/jscalendar/lang/calendar-en.js',
-			'js/jscalendar/calendar-setup.js',
-			'js/js-gui.js',
-			'js/sorttable.js',
-			'js/boxrow.js',
-			'js/oa.usernamecheck.js',
-			'js/oa.addirect.js',
-			'js/oa.help.js',
-			'js/formValidation.js'
-		);
-	}
-	
-	function genericStylesheets() {
-		global $phpAds_TextDirection;
-		
-		if ($phpAds_TextDirection == 'ltr') {
-			return array (
+    
+    function genericJavascript() {
+        return array (
+            'js/jquery-1.2.3.min.js', 
+            'js/jquery.bgiframe.min.js',
+            'js/jquery.dimensions.min.js',
+            'js/jquery.metadata.min.js',
+            'js/jquery.validate.min.js',
+            'js/jquery.jqmodal.js',
+            'js/jquery.typewatch.js',
+            'js/jquery.autocomplete.min.js', 
+            'js/jscalendar/calendar.js',
+            'js/jscalendar/lang/calendar-en.js',
+            'js/jscalendar/calendar-setup.js',
+            'js/js-gui.js',
+            'js/sorttable.js',
+            'js/boxrow.js',
+            'js/oa.usernamecheck.js',
+            'js/oa.addirect.js',
+            'js/oa.help.js',
+            'js/formValidation.js'
+        );
+    }
+    
+    function genericStylesheets() {
+        global $phpAds_TextDirection;
+        
+        if ($phpAds_TextDirection == 'ltr') {
+            return array (
             'css/jquery.jqmodal.css',
-				'css/jquery.autocomplete.css',
-				'css/oa.help.css',
-				'css/chrome.css',
-				'js/jscalendar/calendar-openads.css',
-				'images/ltr/interface.css',
-			);
-		}
-		
-		return array (
-			'css/jquery.jqmodal.css',
-			'css/jquery.autocomplete.css',
-			'css/oa.help.css',
-			'css/chrome.css',
-			'css/chrome-rtl.css',
-			'js/jscalendar/calendar-openads.css',
-			'images/rtl/interface.css'
-		);
-	}
+                'css/jquery.autocomplete.css',
+                'css/oa.help.css',
+                'css/chrome.css',
+                'js/jscalendar/calendar-openads.css',
+                'images/ltr/interface.css',
+            );
+        }
+        
+        return array (
+            'css/jquery.jqmodal.css',
+            'css/jquery.autocomplete.css',
+            'css/oa.help.css',
+            'css/chrome.css',
+            'css/chrome-rtl.css',
+            'js/jscalendar/calendar-openads.css',
+            'images/rtl/interface.css'
+        );
+    }
 }
 
 ?>

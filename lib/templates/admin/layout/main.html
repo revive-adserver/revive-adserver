@@ -32,7 +32,13 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 <meta name="generator" content="{$metaGenerator}" />
 <meta name="robots" content="noindex, nofollow" />
 
+{if $combineAssets}
 <link rel="stylesheet" type="text/css" href="assets/combine.php?type=css&files={$genericStylesheets}" />
+{else}
+  {foreach from=$aGenericStyleshets item=stylesheet}
+<link rel="stylesheet" type="text/css" href="{$stylesheet}" />
+  {/foreach}
+{/if}
 
 <script type="text/javascript">
 <!--
@@ -48,7 +54,13 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 	};
 //-->
 </script>
+{if $combineAssets}
 <script type="text/javascript" src="assets/combine.php?type=js&files={$genericJavascript}"></script>
+{else}
+  {foreach from=$aGenericJavascript item=javascript}
+<script type="text/javascript" src="{$javascript}"></script>
+  {/foreach}
+{/if}
 
 {$jsMPE}
 {$jsFlash}
