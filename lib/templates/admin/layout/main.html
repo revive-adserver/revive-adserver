@@ -32,35 +32,8 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 <meta name="generator" content="{$metaGenerator}" />
 <meta name="robots" content="noindex, nofollow" />
 
-{if $combineAssets}
-<link rel="stylesheet" type="text/css" href="assets/combine.php?type=css&files={$genericStylesheets}" />
-{else}
-  {foreach from=$aGenericStyleshets item=stylesheet}
-<link rel="stylesheet" type="text/css" href="{$stylesheet}" />
-  {/foreach}
-{/if}
-
-<script type="text/javascript">
-<!--
-	var validatorPreferences = {literal}{{/literal}
-		'strFieldContainsErrors': "{$strFieldContainsErrors|escape:'javascript'}",
-		'strFieldFixBeforeContinue1': "{$strFieldFixBeforeContinue1|escape:'javascript'}",
-		'strFieldFixBeforeContinue2': "{$strFieldFixBeforeContinue2|escape:'javascript'}",
-		'strWarningMissing': "{$strWarningMissing|escape:'javascript'}",
-		'strWarningMissingOpening': "{$strWarningMissingOpening|escape:'javascript'}",
-		'strWarningMissingClosing': "{$strWarningMissingClosing|escape:'javascript'}",
-		'strSubmitAnyway': "{$strSubmitAnyway|escape:'javascript'}",
-		'thousandsSeperator': "{$thousandsSeperator}"
-	};
-//-->
-</script>
-{if $combineAssets}
-<script type="text/javascript" src="assets/combine.php?type=js&files={$genericJavascript}"></script>
-{else}
-  {foreach from=$aGenericJavascript item=javascript}
-<script type="text/javascript" src="{$javascript}"></script>
-  {/foreach}
-{/if}
+{include file=layout/styles.html}
+{include file=layout/scripts.html}
 
 {$jsMPE}
 {$jsFlash}
