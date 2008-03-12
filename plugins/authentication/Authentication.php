@@ -227,7 +227,9 @@ class Plugins_Authentication extends MAX_Plugin_Common
         } else {
             $errorMessage = $error;
         }
-        $this->aSignupErrors[] = $errorMessage;
+        if (!in_array($errorMessage, $this->aSignupErrors)) {
+            $this->aSignupErrors[] = $errorMessage;
+        }
     }
 
     /**
