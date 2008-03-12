@@ -323,14 +323,14 @@ class OA_Admin_UI
     
     function genericJavascript() {
         return array (
-            'js/jquery-1.2.3.min.js', 
-            'js/jquery.bgiframe.min.js',
-            'js/jquery.dimensions.min.js',
-            'js/jquery.metadata.min.js',
-            'js/jquery.validate.min.js',
+            'js/jquery-1.2.3.js', 
+            'js/jquery.bgiframe.js',
+            'js/jquery.dimensions.js',
+            'js/jquery.metadata.js',
+            'js/jquery.validate.js',
             'js/jquery.jqmodal.js',
             'js/jquery.typewatch.js',
-            'js/jquery.autocomplete.min.js', 
+            'js/jquery.autocomplete.js', 
             'js/jscalendar/calendar.js',
             'js/jscalendar/lang/calendar-en.js',
             'js/jscalendar/calendar-setup.js',
@@ -354,7 +354,7 @@ class OA_Admin_UI
                 'css/oa.help.css',
                 'css/chrome.css',
                 'js/jscalendar/calendar-openads.css',
-                'images/ltr/interface.css',
+                'css/interface-ltr.css',
             );
         }
         
@@ -365,7 +365,7 @@ class OA_Admin_UI
             'css/chrome.css',
             'css/chrome-rtl.css',
             'js/jscalendar/calendar-openads.css',
-            'images/rtl/interface.css'
+            'css/interface-rtl.css'
         );
     }
 }

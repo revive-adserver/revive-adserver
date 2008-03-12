@@ -28,8 +28,7 @@ $Id$
 // For performance reasons this file is standalone from the rest of the
 // product and does not include any configuration files or libraries!
 
-
-
+require_once 'jsmin-1.1.1.php';
 
 // Enable advanced caching control using ETag headers
 define ('_STRATEGY_ETAG_', true);
@@ -121,7 +120,12 @@ else {
 	$contents = '';
 	reset ($files);
 	while (list(,$file) = each($files)) {
-		$contents .= "\n\n" . file_get_contents($file);
+      if (preg_match("/\.js$/", $file)) {
+         // Minify JS
+		   $contents .= "\n\n" . JSMin::minify(file_get_contents($file));
+      } else {
+		   $contents .= "\n\n" . file_get_contents($file);
+      }
 	}
 
 	if ($encoding != 'none') {
