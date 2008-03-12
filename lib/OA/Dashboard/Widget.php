@@ -102,6 +102,7 @@ class OA_Dashboard_Widget extends OA_Central
         $url .= strpos($url, '?') === false ? '?' : '&';
         $url .= 'ticket='.urlencode($m2mTicket);
         $url .= '&oapPath='.urlencode(preg_replace('#/$#', '', MAX::constructURL(MAX_URL_ADMIN, '')));
+        $url .= '&lang=' . $GLOBALS['_MAX']['PREF']['language'];
 
         return $url;
     }
