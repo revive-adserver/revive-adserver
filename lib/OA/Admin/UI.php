@@ -337,9 +337,10 @@ class OA_Admin_UI
             'js/js-gui.js',
             'js/sorttable.js',
             'js/boxrow.js',
-            'js/oa.usernamecheck.js',
-            'js/oa.addirect.js',
-            'js/oa.help.js',
+            'js/ox.usernamecheck.js',
+            'js/ox.addirect.js',
+            'js/ox.help.js',
+            'js/ox.util.js',
             'js/formValidation.js'
         );
     }
