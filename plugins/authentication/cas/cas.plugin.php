@@ -687,6 +687,29 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
         }
         return true;
     }
+    
+    /**
+     * Delete unverified accounts. By default deletes accounts
+     * which are older than 28 days, noone ever logged into
+     * and are not connected to any sso user id
+     * (their sso_user_id is null)
+     *
+     * @param OA_Maintenance $oMaintenance
+     * @return boolean  True on success, otherwise false
+     */
+    function deleteUnverifiedUsers(&$oMaintenance)
+    {
+        $processName = 'delete unverified accounts';
+        $oMaintenance->_startProcessDebugMessage($processName);
+            
+        $doUsers = OA_Dal::factoryDO('users');
+        $result = $doUsers->deleteUnverifiedUsers();
+        
+        $oMaintenance->_debugIfError($processName, $result);
+        $oMaintenance->_stopProcessDebugMessage($processName);
+        
+        return PEAR::isError($result) ? false : true;
+    }
 }
 
 ?>

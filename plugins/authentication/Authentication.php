@@ -293,7 +293,18 @@ class Plugins_Authentication extends MAX_Plugin_Common
     {
         OA::debug('Cannot run abstract method');
         exit();
-    }    
+    }
+    
+    /**
+     * Delete unverified accounts. Used by cas
+     *
+     * @param OA_Maintenance $oMaintenance
+     * @return boolean
+     */
+    function deleteUnverifiedUsers(&$oMaintenance)
+    {
+        return true;
+    }
 }
 
 ?>

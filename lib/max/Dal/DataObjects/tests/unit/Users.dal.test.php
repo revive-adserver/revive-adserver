@@ -128,7 +128,7 @@ class DataObjects_UsersTest extends DalUnitTestCase
         $doUsers = OA_Dal::factoryDO('users');
         $cExistingUsers = $doUsers->count();
         
-        // this user just been created
+        // this user was created recently
         $doUsers = OA_Dal::factoryDO('users');
         $date = new Date();
         $date->subtractSeconds(SECONDS_PER_DAY);
@@ -136,15 +136,16 @@ class DataObjects_UsersTest extends DalUnitTestCase
         $this->createUser($doUsers);
         
         // this user was created over a month ago - should be deleted
+        $overMonthAgoSeconds = 31 * SECONDS_PER_DAY;
         $doUsers = OA_Dal::factoryDO('users');
-        $date->subtractSeconds((OA_UNVERIFIED_VALID_DAYS + 1) * SECONDS_PER_DAY);
+        $date->subtractSeconds($overMonthAgoSeconds);
         $doUsers->date_created = $doUsers->formatDate($date);
         $this->createUser($doUsers);
         
         // this was created over a month ago but is verified
         $doUsers = OA_Dal::factoryDO('users');
         $date = new Date();
-        $date->subtractSeconds((OA_UNVERIFIED_VALID_DAYS + 1) * SECONDS_PER_DAY);
+        $date->subtractSeconds($overMonthAgoSeconds);
         $doUsers->date_created = $doUsers->formatDate($date);
         $doUsers->sso_user_id = 123;
         $this->createUser($doUsers);
@@ -153,7 +154,7 @@ class DataObjects_UsersTest extends DalUnitTestCase
         $this->assertEqual($doUsers->count(), 3 + $cExistingUsers);
         
         $doUsers = OA_Dal::factoryDO('users');
-        $doUsers->deleteUnverifiedUsers();
+        $doUsers->deleteUnverifiedUsers(28 * SECONDS_PER_DAY);
         
         // check if one record was deleted
         $doUsers = OA_Dal::factoryDO('users');

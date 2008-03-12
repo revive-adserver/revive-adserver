@@ -394,6 +394,7 @@ forgot      = /account/forgotPassword
 
 [authentication]
 type=internal
+deleteUnverifiedUsersAfter = 2419200   ; 28 days (in seconds)
 
 [channelDerivation]
 cacheExpire=86400

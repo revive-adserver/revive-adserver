@@ -6,8 +6,6 @@ require_once 'DB_DataObjectCommon.php';
 require_once MAX_PATH . '/lib/OA/Permission.php';
 require_once 'Date.php';
 
-define('OA_UNVERIFIED_VALID_DAYS', 28);
-
 class DataObjects_Users extends DB_DataObjectCommon
 {
     var $onDeleteCascade = true;
@@ -279,14 +277,22 @@ class DataObjects_Users extends DB_DataObjectCommon
     
     /**
      * Deletes users who are not linked with any sso account, never logged
-     * in and their account was created before OA_UNVERIFIED_VALID_DAYS days
+     * in and their account was created before deleteUnverifiedUsersAfter days.
+     * Where deleteUnverifiedUsersAfter is defined in config in 
+     * "authentication" section.
      *
      * @return boolean
      */
-    function deleteUnverifiedUsers()
+    function deleteUnverifiedUsers($deleteOlderThanSeconds = null)
     {
+        if (empty($deleteOlderThanSeconds)) {
+            // by default 28 days
+            $deleteOlderThanSeconds = OA::getConfigOption('authentication',
+                'deleteUnverifiedUsersAfter', 2419200);
+        }
         $monthAgo = new Date();
-        $monthAgo->subtractSeconds(OA_UNVERIFIED_VALID_DAYS * SECONDS_PER_DAY);
+        $monthAgo->subtractSeconds($deleteOlderThanSeconds);
+        
         $this->whereAdd('date_created < \'' . $this->formatDate($monthAgo).'\'');
         $this->whereAdd('sso_user_id IS NULL');
         $this->whereAdd('date_last_login IS NULL');

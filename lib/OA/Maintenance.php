@@ -273,16 +273,8 @@ class OA_Maintenance
 
     function _runDeleteUnverifiedAccounts()
     {
-        if ($this->_isCasPluginEnabled()) {
-            $processName = 'delete unverified accounts';
-            $this->_startProcessDebugMessage($processName);
-            
-            $doUsers = OA_Dal::factoryDO('users');
-            $result = $doUsers->deleteUnverifiedUsers();
-            
-            $this->_debugIfError($processName, $result);
-            $this->_stopProcessDebugMessage($processName);
-        }
+        $oPlugin = OA_Auth::staticGetAuthPlugin();
+        $oPlugin->deleteUnverifiedUsers($this);
     }
     
     function _startProcessDebugMessage($processName)
@@ -303,11 +295,6 @@ class OA_Maintenance
         }
     }
     
-    function _isCasPluginEnabled()
-    {
-        return $GLOBALS['_MAX']['CONF']['authentication']['type'] == 'cas';
-    }
-
     /**
      * A private method to run the "midnight" general pruning tasks.
      *
