@@ -238,6 +238,40 @@ class OA_Dll_UserTest extends DllUnitTestCase
         $dllUserPartialMock->tally();
     }
 
+    function testUpdateUserEmailBySsoId()
+    {
+        $dllUserPartialMock = new PartialMockOA_Dll_User($this);
+
+        $dllUserPartialMock->setReturnValue('checkPermissions', true);
+        $dllUserPartialMock->expectCallCount('checkPermissions', 4);
+
+        $doUsers = OA_Dal::factoryDO('users');
+        $doUsers->username = 'sso1-'.time();
+        $doUsers->sso_user_id = 1;
+        $this->assertTrue($userId = DataGenerator::generateOne($doUsers));
+
+        $this->assertFalse($dllUserPartialMock->updateUserEmailBySsoId(1001, 'email@example.com'));
+
+        $doUsers = OA_Dal::factoryDO('users');
+        $doUsers->user_id = $userId;
+        $doUsers->sso_user_id = 1001;
+        $doUsers->update();
+
+        $this->assertTrue($dllUserPartialMock->updateUserEmailBySsoId(1001, 'email@example.com'),
+                          $dllUserPartialMock->getLastError());
+
+        // Test errors
+        $this->assertTrue((!$dllUserPartialMock->updateSsoUserId(0, 'email@example.com') &&
+                          $dllUserPartialMock->getLastError() == $this->wrongParmError),
+            $this->_getMethodShouldReturnError($this->wrongParmError));
+
+        $this->assertTrue((!$dllUserPartialMock->updateSsoUserId(1, '') &&
+                          $dllUserPartialMock->getLastError() == $this->wrongParmError),
+            $this->_getMethodShouldReturnError($this->wrongParmError));
+
+        $dllUserPartialMock->tally();
+    }
+
     function testUpdateSsoUserId()
     {
         $dllUserPartialMock = new PartialMockOA_Dll_User($this);

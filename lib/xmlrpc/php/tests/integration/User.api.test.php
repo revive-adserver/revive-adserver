@@ -148,7 +148,7 @@ class Test_OA_Api_XmlRpc_User extends Test_OA_Api_XmlRpc
 		}
 	}
 
-    function testUpdateSsoUserId()
+    function testUpdateSsoUser()
     {
 		if (!$this->accountId) {
 			return;
@@ -156,12 +156,18 @@ class Test_OA_Api_XmlRpc_User extends Test_OA_Api_XmlRpc
 
         $doUsers = OA_Dal::factoryDO('users');
         $doUsers->username = 'sso1-'.time();
-        $doUsers->sso_user_id = 0;
+        $doUsers->email = 'email@example'.time().'.com';
+        $doUsers->sso_user_id = 123;
+        $email = 'email@example.com';
         $this->assertTrue($userId = DataGenerator::generateOne($doUsers));
 
         $this->expectError();
         // Will trigger an Unknown ssoUserId error
         $this->assertFalse($this->oApi->updateSsoUserId(1001, 1002));
+        
+        $this->expectError();
+        // Will trigger an Unknown ssoUserId error
+        $this->assertFalse($this->oApi->updateUserEmailBySsoId(1001, $email));
 
         $doUsers = OA_Dal::factoryDO('users');
         $doUsers->user_id = $userId;
@@ -169,6 +175,7 @@ class Test_OA_Api_XmlRpc_User extends Test_OA_Api_XmlRpc
         $doUsers->update();
 
         $this->assertTrue($this->oApi->updateSsoUserId(1001, 1002));
+        $this->assertTrue($this->oApi->updateUserEmailBySsoId(1002, $email));
     }
 
     function testModifyWithSameUsername()

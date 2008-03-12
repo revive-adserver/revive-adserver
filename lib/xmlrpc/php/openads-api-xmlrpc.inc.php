@@ -1033,6 +1033,19 @@ class OA_Api_Xmlrpc
     }
 
     /**
+     * This method updates users email by his SSO User Id
+     *
+     * @param int $ssoUserId
+     * @param string $email
+     * @return bool
+     */
+    function updateUserEmailBySsoId($ssoUserId, $email)
+    {
+        return (bool) $this->_sendWithSession('UserXmlRpcService.php', 'updateUserEmailBySsoId',
+                                              array((int)$ssoUserId, $email));
+    }
+
+    /**
      * This method deletes a user from the user object.
      *
      * @param int $userId

@@ -193,8 +193,11 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
     function getUser()
     {
         $doUsers = &$this->getUserBySsoUserId(phpCAS::getUserId());
-        if ($doUsers && empty($doUsers->username)) {
-            $doUsers->username = phpCAS::getUser();
+        if ($doUsers) {
+            if (empty($doUsers->username)) {
+                $doUsers->username = phpCAS::getUser();
+            }
+            $doUsers->email_address = phpCAS::getUserEmail();
         }
         return $doUsers;
     }
