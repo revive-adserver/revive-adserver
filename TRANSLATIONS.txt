@@ -45,6 +45,9 @@ We then generate the language files (.mo files) which are included in the
 ad server distribution.
 
 Register to help
+----------------
 
 Find out more and register to help us with localisation work on our website:
 http://www.openx.org/community/localisation
+
+-- The OpenX Team
