@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -214,7 +214,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->selectAdd("views AS impressions");
         $doCampaigns->selectAdd("DATE_FORMAT(expire, '$date_format') as expire_f");
-        $doCampaigns->selectAdd("TO_DAYS(expire) - TO_DAYS(IF(activate>'$now', activate, '$now')) as days_left");
+        $doCampaigns->selectAdd("TO_DAYS(expire) - TO_DAYS('$now') as days_left");
         $doCampaigns->get($campaignId);
         $aCampaignData = $doCampaigns->toArray();
 
@@ -223,7 +223,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             // Store the campaign's set expiration date as a possible
             // date that may cause the campaign to expire
 			$aExpiration[] = array(
-				"daysLeft"  => round($aCampaignData['days_left']) < 0 ? 0 : round($aCampaignData['days_left']),
+				"daysLeft"  => round($aCampaignData['days_left']),
 				"date"	  	=> $aCampaignData['expire_f'],
 				"absolute"  => true
 			);

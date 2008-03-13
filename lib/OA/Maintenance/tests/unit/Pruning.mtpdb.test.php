@@ -161,7 +161,7 @@ class Test_Priority extends UnitTestCase
         // make sure 9 rows in table
         $this->assertEqual($this->_countRowsInDSAZA(),9);
 
-        // ad_id 1 => campaignid 1 => active, high priority, not expired
+        // ad_id 1 => campaignid 1 => active, high priority, expired
         $doCampaigns = OA_Dal::staticGetDO('campaigns', $this->idCampaign1);
         $doCampaigns->priority          = 5;
         $doCampaigns->status            = OA_ENTITY_STATUS_RUNNING;
@@ -171,7 +171,7 @@ class Test_Priority extends UnitTestCase
         $doCampaigns->views             = 0;
         $doCampaigns->clicks            = 0;
         $doCampaigns->conversions       = 0;
-        $doCampaigns->expire            = OA_Dal::noDateString();
+        $doCampaigns->expire            = $expire;
         $doCampaigns->update();
 
         // ad_id 2 => campaignid 2 => not active, high priority, expired
@@ -352,10 +352,10 @@ class Test_Priority extends UnitTestCase
         // make sure 9 rows in table
         $this->assertEqual($this->_countRowsInDSAZA(),9);
 
-        // ad_id 1 => campaignid 1 => active, high priority, not expired, target impressions not reached
+        // ad_id 1 => campaignid 1 => not active, high priority, not expired, target impressions not reached
         $doCampaigns = OA_Dal::staticGetDO('campaigns', $this->idCampaign1);
         $doCampaigns->priority          = 5;
-        $doCampaigns->status            = OA_ENTITY_STATUS_RUNNING;
+        $doCampaigns->status            = OA_ENTITY_STATUS_EXPIRED;
         $doCampaigns->target_impression = 0;
         $doCampaigns->target_click      = 0;
         $doCampaigns->target_conversion = 0;
