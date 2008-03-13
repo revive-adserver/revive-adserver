@@ -76,7 +76,12 @@ else if (array_key_exists('btn_integ_exec', $_POST))
 else if (array_key_exists('btn_data_dump', $_POST))
 {
     $oIntegrity->init($aAppInfo['versionSchema']);
-    $aMessages = $oIntegrity->dumpData($aAppInfo['versionSchema'],$aAppInfo['versionApp'], $_POST['exclude']);
+    $aAppInfoMap = array(
+        'schema'  => $aAppInfo['versionSchema'],
+        'appver'  => $aAppInfo['versionApp'],
+        'exclude' => $_POST['exclude'],
+    );
+    $aMessages = $oIntegrity->dumpData($aAppInfoMap);
     if (PEAR::isError($aMessages))
     {
         $aMessages[] = $aMessages->getUserInfo();
