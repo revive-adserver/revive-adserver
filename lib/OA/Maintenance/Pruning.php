@@ -207,7 +207,7 @@ class OA_Maintenance_Pruning extends MAX_Dal_Common
      */
     function _logTableOverhead($table)
     {
-        $table = $this->_getTablename($table);
+        $table = $this->_getTablenameUnquoted($table);
         $aResult = $this->oDbh->manager->getTableStatus($table);
         if (isset($aResult[0]['data_free']) && is_numeric($aResult[0]['data_free']))
         {
