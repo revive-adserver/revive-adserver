@@ -92,7 +92,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_AC
 		echo "\t\t\t\t<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;\n";
 		echo "\t\t\t\t<b>".phpAds_getClientName($clientid)."</b>\n";
 		echo "\t\t\t\t<br /><br /><br />\n";
-		phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.4"));
+		phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.4", "4.1.5"));
 }
 
 /*-------------------------------------------------------*/
