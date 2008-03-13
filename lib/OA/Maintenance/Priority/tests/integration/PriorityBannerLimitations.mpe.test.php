@@ -90,6 +90,7 @@ class Maintenance_TestOfMaintenancePriorityAdServerBannerLimitations extends Uni
         OA_setTimeZone('GMT');
 
         $oServiceLocator = &OA_ServiceLocator::instance();
+        $oServiceLocator->register('now', new Date('2008-02-27'));
 
         // Prepare the test campaign
         $doCampaigns = OA_Dal::factoryDO('campaigns');
