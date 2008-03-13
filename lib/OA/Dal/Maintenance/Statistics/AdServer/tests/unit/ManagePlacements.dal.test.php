@@ -73,9 +73,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
      */
     function testManagePlacements()
     {
-        $oServiceLocator = OA_ServiceLocator::instance();
-        $oServiceLocator->register('now', new Date('2004-06-05 09:00:00'));
-
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $oDsa = $oMDMSF->factory("AdServer");
 
@@ -235,9 +232,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
             'campaignid' => $idCampaign7,
         );
         $idBanner9 = $this->_insertAd($aData);
-
-        // Reset now
-        $oServiceLocator->remove('now');
 
         /******************************************************************************/
 
@@ -502,9 +496,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         );
         $idDIA8 = $this->_insertDataIntermediateAd($aData);
 
-        // Reset now
-        $oServiceLocator->remove('now');
-
         /******************************************************************************/
 
         // Test 5: Now that impressions, clicks and conversions have been
@@ -556,9 +547,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
      */
     function testManagePlacementsNoRestart()
     {
-        $oServiceLocator = OA_ServiceLocator::instance();
-        $oServiceLocator->register('now', new Date('2005-12-07 10:01:00'));
-
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $oDsa = $oMDMSF->factory("AdServer");
 
@@ -586,7 +574,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         // - Lifetime target of 10 impressions
         // - Start date of 2005-12-07
         // - End date of 2005-12-09
-        // - Campaign currently running, will be expired after we insert stats
+        // - Campaign currently expired
         $aData = array(
             'campaignname' => 'Test Campaign 1',
             'clientid'     => $advertiserClientId,
@@ -595,7 +583,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
             'conversions'  => -1,
             'activate'     => '2005-12-07',
             'expire'       => '2005-12-09',
-            'status'       => OA_ENTITY_STATUS_RUNNING
+            'status'       => OA_ENTITY_STATUS_EXIPRED
         );
         $idCampaign1 = $this->_insertPlacement($aData);
 
@@ -621,11 +609,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
             'conversions'           => 0
         );
         $idDIA1 = $this->_insertDataIntermediateAd($aData);
-
-        // Make sure that campaign 1 is expired
-        $doCampaigns = OA_Dal::staticGetDO('campaigns', $idCampaign1);
-        $doCampaigns->status = OA_ENTITY_STATUS_RUNNING;
-        $doCampaigns->update();
 
         /******************************************************************************/
 
@@ -655,22 +638,12 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
      */
     function testManagePlacementsEmailsPlacementActivated()
     {
-        // Set now as 1 week before
-        $oDateNow = new Date();
-        $oDateNow->subtractSpan(new Date_Span('7-0-0-0'));
-        $oServiceLocator = OA_ServiceLocator::instance();
-        $oServiceLocator->register('now', $oDateNow);
-
-        // Create the required accounts & set the various ID values
-        $aValues = $this->_createAccounts();
-        $managerAgencyId = $aValues['managerAgency'];
-
         // Prepare a single placement that is inactive, and has an old
         // activation date (so that it will need to be activated)
+
         $aData = array(
-            'agencyid' => $managerAgencyId,
-            'contact'  => 'Test Placement Activated Contact',
-            'email'    => 'postmaster@placement.activated'
+           'contact' => 'Test Placement Activated Contact',
+           'email'   => 'postmaster@placement.activated'
         );
         $advertiserId = $this->_insertAdvertiser($aData);
 
@@ -678,15 +651,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         $oDateStart = new Date();
         $oDateStart->copy($oDate);
         $oDateStart->subtractSeconds(SECONDS_PER_HOUR + 1);
-
         $aData = array(
             'status' => OA_ENTITY_STATUS_AWAITING,
             'activate'   => $oDateStart->format('%Y-%m-%d')
         );
         $campaignId = $this->_insertPlacement($aData);
-
-        // Reset now
-        $oServiceLocator->remove('now');
 
         $aData = array(
             'campaignid' => $campaignId
@@ -788,11 +757,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         global $date_format;
         $date_format = '%Y-%m-%d';
 
-        // Set now as 1 week before
-        $oDateNow = new Date('2008-01-10');
-        $oServiceLocator = OA_ServiceLocator::instance();
-        $oServiceLocator->register('now', $oDateNow);
-
         // Insert the required preference values for dealing with email warnings
         $warnEmailAdminPreferenceId                = $this->_createPreference('warn_email_admin', OA_ACCOUNT_ADMIN);
         $warnEmailAdminPreferenceImpressionLimitId = $this->_createPreference('warn_email_admin_impression_limit', OA_ACCOUNT_ADMIN);
@@ -820,9 +784,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
             'expire'   => '2008-01-13'
         );
         $campaignId = $this->_insertPlacement($aData);
-
-        // Reset now
-        $oServiceLocator->remove('now');
 
         // Insert a banner for the placement
         $aData = array(
@@ -1152,22 +1113,22 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
             WHERE
                 campaignid = " . $idCampaign;
         $aRow = $this->oDbh->queryRow($query);
-        if (isset($impressions)) {
+        if (!is_null($impressions)) {
             $this->assertEqual($aRow['views'], $impressions);
         }
-        if (isset($clicks)) {
+        if (!is_null($clicks)) {
             $this->assertEqual($aRow['clicks'], $clicks);
         }
-        if (isset($conversions)) {
+        if (!is_null($conversions)) {
             $this->assertEqual($aRow['conversions'], $conversions);
         }
-        if (isset($startDate)) {
+        if (!is_null($startDate)) {
             $this->assertEqual($aRow['activate'], $startDate);
         }
-        if (isset($endDate)) {
+        if (!is_null($endDate)) {
             $this->assertEqual($aRow['expire'], $endDate);
         }
-        if (isset($status)) {
+        if (!is_null($status)) {
             $this->assertEqual($aRow['status'], $status);
         }
 

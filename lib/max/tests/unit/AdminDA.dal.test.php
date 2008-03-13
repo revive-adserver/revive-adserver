@@ -298,7 +298,7 @@ class Admin_DaTest extends DalUnitTestCase
         $id = Admin_DA::addTracker(array(
             'trackername' => 'foo',
             'description' => 'bar',
-            'clientid' => 0,
+            'clientid' => rand(1,9999),
             'appendcode' => 'a'
             ));
 
@@ -335,7 +335,7 @@ class Admin_DaTest extends DalUnitTestCase
         $ret = Admin_DA::addTracker(array(
             'trackername' => 'foo',
             'description' => 'bar',
-            'clientid' => 0,
+            'clientid' => rand(1,9999),
             'appendcode' => 'a'
             ));
         $this->assertTrue(is_int($ret));
@@ -352,7 +352,7 @@ class Admin_DaTest extends DalUnitTestCase
         $trackerId = Admin_DA::addTracker(array(
             'trackername' => 'foo',
             'description' => 'bar',
-            'clientid' => 0,
+            'clientid' => rand(1,9999),
             'appendcode' => 'a'
             ));
         $this->assertTrue(is_int($trackerId));
@@ -380,7 +380,7 @@ class Admin_DaTest extends DalUnitTestCase
     {
         $id = Admin_DA::addPlacement(array(
             'campaignname' => 'foo',
-            'clientid' => 0,
+            'clientid' => rand(1,9999),
             'views' => rand(1,9999),
             'clicks' => rand(1,9999),
             'conversions' => rand(1,9999),
@@ -434,7 +434,7 @@ class Admin_DaTest extends DalUnitTestCase
     {
         $id = Admin_DA::addPlacement(array(
             'campaignname' => 'foo',
-            'clientid' => 0,
+            'clientid' => rand(1,9999),
             'views' => rand(1,9999),
             'clicks' => rand(1,9999),
             'conversions' => rand(1,9999),
@@ -458,7 +458,7 @@ class Admin_DaTest extends DalUnitTestCase
 
         $placementId = Admin_DA::addPlacement(array(
             'campaignname' => 'foo',
-            'clientid' => 0,
+            'clientid' => rand(1,9999),
             'views' => rand(1,9999),
             'clicks' => rand(1,9999),
             'conversions' => rand(1,9999),
@@ -926,7 +926,7 @@ class Admin_DaTest extends DalUnitTestCase
     {
         $id = Admin_DA::addPlacement(array(
             'campaignname' => 'foo',
-            'clientid' => 0,
+            'clientid' => rand(1,9999),
             'views' => rand(1,9999),
             'clicks' => rand(1,9999),
             'conversions' => rand(1,9999),
@@ -974,7 +974,7 @@ class Admin_DaTest extends DalUnitTestCase
     {
         $id = Admin_DA::addPlacement(array(
             'campaignname' => 'foo',
-            'clientid' => 0,
+            'clientid' => rand(1,9999),
             'views' => rand(1,9999),
             'clicks' => rand(1,9999),
             'conversions' => rand(1,9999),
@@ -1002,7 +1002,7 @@ class Admin_DaTest extends DalUnitTestCase
     {
         $id = Admin_DA::addPlacement(array(
             'campaignname' => 'foo',
-            'clientid' => 0,
+            'clientid' => rand(1,9999),
             'views' => rand(1,9999),
             'clicks' => rand(1,9999),
             'conversions' => rand(1,9999),

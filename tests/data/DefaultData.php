@@ -89,10 +89,6 @@ class DefaultData
     function insertDefaultData()
     {
         $oDbh = &OA_DB::singleton();
-        // Set now
-        $oServiceLocator = OA_ServiceLocator::instance();
-        $oldNow = $oServiceLocator->get('now');
-        $oServiceLocator->register('now', new Date('2005-03-01'));
         // Add a default agency
         $agencyID = Admin_DA::addAgency(
             array(
@@ -296,12 +292,6 @@ class DefaultData
                 'link_type' => 1
             )
         );
-        // Restore "now"
-        if ($oldNow) {
-            $oServiceLocator->register('now', $oldNow);
-        } else {
-            $oServiceLocator->remove('now');
-        }
     }
 
 }

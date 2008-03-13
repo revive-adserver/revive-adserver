@@ -87,7 +87,7 @@ class OA_Dummy_Data
     {
         $doClients = OA_Dal::factoryDO('clients');
         $doClients->clientname          = 'Default Advertiser';
-        $doClients->agencyid            = $this->agencyId;
+        $doClients->acencyid            = $this->agencyId;
         $doClients->contact             = 'Advertiser1';
         $doClients->email               = 'advertiser@example.com';
         $doClients->clientusername      = '';
