@@ -404,23 +404,33 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
         }
     }
 
+    function isEmailHidded($userExists, $userData, $link)
+    {
+        $valid = true;
+        if (!empty($userData['email_address'])) {
+            $valid = $this->isValidaEmail($userData['email_address']);
+        }
+        return $userExists || ($valid && $link);
+    }
+    
     /**
-     * TODO - move templates related method to separate class
+     * Build an array required by template
      *
      * @param unknown_type $userData
      * @return unknown
      */
-    function getUserDetailsFields($userData)
+    function getUserDetailsFields($userData, $link)
     {
         $userExists = !empty($userData['user_id']);
         $oLanguages = new MAX_Admin_Languages();
         $aLanguages = $oLanguages->AvailableLanguages();
+        $hideEmail = $this->isEmailHidded($userExists, $userData, $link);
 
         $userDetailsFields[] = array(
                        'name'      => 'email_address',
                        'label'     => $GLOBALS['strEMail'],
                        'value'     => $userData['email_address'],
-                       'freezed'   => $userExists
+                       'freezed'   => $hideEmail
                  );
         $userDetailsFields[] = array(
                      'name'      => 'contact_name',

@@ -143,7 +143,8 @@ class OA_Admin_UI_UserAccess
         $aTplFields = array(
             array(
                 'title'     => $strUserDetails,
-                'fields'    => $this->oPlugin->getUserDetailsFields($userData)
+                'fields'    => $this->oPlugin->getUserDetailsFields($userData,
+                                   $this->request['link'])
             )
         );
         $aPermissionsFields = $this->_builPermissionFields();

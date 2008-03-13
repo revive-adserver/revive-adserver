@@ -505,11 +505,14 @@ class OA_Permission
      */
     function hasPermission($permissionId, $accountId = null, $userId = null)
     {
-        if (OA_Permission::isUserLinkedToAdmin()) {
+        if (empty($userId)) {
+            $userId = OA_Permission::getUserId();
+        }
+        if (OA_Permission::isUserLinkedToAdmin($userId)) {
             return true;
         }
         static $aCache = array();
-        if ($accountId === null) {
+        if (empty($accountId)) {
             $accountId   = OA_Permission::getAccountId();
             $accountType = OA_Permission::getAccountType();
         } else {
