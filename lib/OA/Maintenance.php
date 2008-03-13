@@ -205,10 +205,10 @@ class OA_Maintenance
                 $oSpan = new Date_Span();
                 $oSpan->setFromDateDiff($oReportLastDate, $oNowDate);
                 $daysSinceLastReport = (int) floor($oSpan->toDays());
-                if ($daysSinceLastReport >= $aAdvertiser['reportinterval']) {
+                if ($daysSinceLastReport >= $aAdvertiser['reportinterval']) {                    	            	
                     $sendReport = true;
-                }
-            }
+                }                
+            } 
             if ($sendReport) {
                 // Prepare the end date of the report
                 $oReportEndDate = new Date();
