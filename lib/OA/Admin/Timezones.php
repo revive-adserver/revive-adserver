@@ -175,8 +175,7 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
                 // as this method should be called before the ini scripts!
                 global $_DATE_TIMEZONE_DATA;
                 if (!isset($_DATE_TIMEZONE_DATA)) {
-                    require_once '../../lib/pear/Date/TimeZone.php';
-                    global $_DATE_TIMEZONE_DATA;
+                    include(dirname(__FILE__).'/../../pear/Date/TimeZone.php');
                 }
                 reset($_DATE_TIMEZONE_DATA);
                 foreach (array_keys($_DATE_TIMEZONE_DATA) as $key) {
