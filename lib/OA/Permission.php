@@ -423,8 +423,6 @@ class OA_Permission
      * Indirect access could be in case if user has access to one of the parent
      * entities.
      *
-     * TODOPERM - should we implement indirect access here?
-     *
      * @static
      * @param int $accountId
      * @return boolean
@@ -507,9 +505,14 @@ class OA_Permission
      */
     function hasPermission($permissionId, $accountId = null, $userId = null)
     {
+        if (empty($userId)) {
+            $userId = OA_Permission::getUserId();
+        }
+        if (OA_Permission::isUserLinkedToAdmin($userId)) {
+            return true;
+        }
         static $aCache = array();
-
-        if ($accountId === null) {
+        if (empty($accountId)) {
             $accountId   = OA_Permission::getAccountId();
             $accountType = OA_Permission::getAccountType();
         } else {
