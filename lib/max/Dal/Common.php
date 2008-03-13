@@ -312,7 +312,12 @@ class MAX_Dal_Common
 
     function _getTablename($tableName)
     {
-        return $this->oDbh->quoteIdentifier($this->prefix.($this->conf['table'][$tableName] ? $this->conf['table'][$tableName] : $tableName), true);
+        return $this->oDbh->quoteIdentifier($this->_getTablenameUnquoted($tableName), true);
+    }
+
+    function _getTablenameUnquoted($tableName)
+    {
+        return $this->prefix.($this->conf['table'][$tableName] ? $this->conf['table'][$tableName] : $tableName);
     }
 
 }

@@ -151,10 +151,15 @@ class OA_Maintenance
      */
     function _runMidnightTasks()
     {
+        global $aServerTimezone;
+
         $iLastRun = new Date((int) OA_Dal_ApplicationVariables::get('maintenance_timestamp'));
         $lastMidnight = new Date(date('Y-m-d'));
+        if (!empty($aServerTimezone['tz'])) {
+            $lastMidnight->setTZbyID($aServerTimezone['tz']);
+        }
 
-        if ($iLastRun->after($lastMidnight)) {
+        if ($iLastRun->before($lastMidnight)) {
             OA::debug('Running Midnight Maintenance Tasks', PEAR_LOG_INFO);
             $this->_runReports();
             $this->_runOpenadsSync();
@@ -205,10 +210,10 @@ class OA_Maintenance
                 $oSpan = new Date_Span();
                 $oSpan->setFromDateDiff($oReportLastDate, $oNowDate);
                 $daysSinceLastReport = (int) floor($oSpan->toDays());
-                if ($daysSinceLastReport >= $aAdvertiser['reportinterval']) {                    	            	
+                if ($daysSinceLastReport >= $aAdvertiser['reportinterval']) {
                     $sendReport = true;
-                }                
-            } 
+                }
+            }
             if ($sendReport) {
                 // Prepare the end date of the report
                 $oReportEndDate = new Date();
