@@ -29,6 +29,7 @@ $Id$
  * Table Definition for campaigns
  */
 require_once 'DB_DataObjectCommon.php';
+require_once MAX_PATH . '/lib/OA/Preferences.php';
 
 class DataObjects_Campaigns extends DB_DataObjectCommon
 {

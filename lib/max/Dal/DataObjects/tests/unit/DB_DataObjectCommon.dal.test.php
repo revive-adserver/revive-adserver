@@ -78,10 +78,6 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
 
         $doCampaigns->activate = $doCampaigns->setDefaultValue('activate',6);
         $this->assertEqual($doCampaigns->expire,OA_Dal::noDateValue());
-
-        $doCampaigns->updated = $doCampaigns->setDefaultValue('updated',6);
-        $this->assertTrue(OA_Dal::isValidDate($doCampaigns->updated));
-        $this->assertTrue(time()-strtotime($doCampaigns->updated) < 10, 'elapsed time exceeds margin of 10 seconds');
     }
 
     function testGetAll()
