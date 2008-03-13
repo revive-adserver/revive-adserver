@@ -166,9 +166,9 @@ class Test_Priority extends UnitTestCase
         $this->_validateDszihRowsRange($oStartDate, $oEndDate);
         // Test 1: Ensure correct number of links in the ad_zone_assoc table
         $this->assertEqual($this->_azaRows(), 7); // 4 proper associations + 3 default with zone 0
-        // Test 1: Ensure correct number if links in the ad_zone_assoc table with priority > 0
+        // Test 1: Ensure correct number of links in the ad_zone_assoc table with priority > 0
         $this->assertEqual($this->_azaRows(true), 7);
-        // Test 1: Ensure correct number if links in the data_summary_ad_zone_assoc table with priority >
+        // Test 1: Ensure correct number of links in the data_summary_ad_zone_assoc table with priority >
         $this->assertEqual($this->_dsazaRows(true), 7);
         // Test 1: Ensure that the priorities in the ad_zone_assoc and data_summary_ad_zone_assoc
         // tables are set correctly
@@ -364,9 +364,9 @@ class Test_Priority extends UnitTestCase
         $this->_validateDszihRowsSpecific($oDate);
         // Test 2: Ensure correct number of links in the ad_zone_assoc table
         $this->assertEqual($this->_azaRows(), 7); // 4 proper associations + 3 default with zone 0
-        // Test 2: Ensure correct number if links in the ad_zone_assoc table with priority > 0
+        // Test 2: Ensure correct number of links in the ad_zone_assoc table with priority > 0
         $this->assertEqual($this->_azaRows(true), 7);
-        // Test 2: Ensure correct number if links in the data_summary_ad_zone_assoc table with priority > 0
+        // Test 2: Ensure correct number of links in the data_summary_ad_zone_assoc table with priority > 0
         $this->assertEqual($this->_dsazaRows(true), 14);
         // Test 2: Ensure that the priorities in the ad_zone_assoc and data_summary_ad_zone_assoc
         // tables are set correctly
@@ -565,9 +565,9 @@ class Test_Priority extends UnitTestCase
         $this->_validateDszihRowsSpecific($oDate);
         // Test 3: Ensure correct number of links in the ad_zone_assoc table
         $this->assertEqual($this->_azaRows(), 7); // 4 proper associations + 3 default with zone 0
-        // Test 3: Ensure correct number if links in the ad_zone_assoc table with priority > 0
+        // Test 3: Ensure correct number of links in the ad_zone_assoc table with priority > 0
         $this->assertEqual($this->_azaRows(true), 7);
-        // Test 3: Ensure correct number if links in the data_summary_ad_zone_assoc table with priority > 0
+        // Test 3: Ensure correct number of links in the data_summary_ad_zone_assoc table with priority > 0
         $this->assertEqual($this->_dsazaRows(true), 21);
         // Test 3: Ensure that the priorities in the ad_zone_assoc and data_summary_ad_zone_assoc
         // tables are set correctly

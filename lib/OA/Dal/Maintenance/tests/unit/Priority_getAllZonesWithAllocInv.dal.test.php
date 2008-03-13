@@ -82,6 +82,7 @@ class Test_OA_Dal_Maintenance_Priority_getAllZonesWithAllocInv extends UnitTestC
         $campaignId2 = DataGenerator::generateOne($doCampaigns);
 
         $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->expire    = '2000-01-01';
         $doCampaigns->status    = OA_ENTITY_STATUS_EXPIRED;
         $doCampaigns->priority  = '5';
         $campaignId3 = DataGenerator::generateOne($doCampaigns);
