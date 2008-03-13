@@ -97,7 +97,7 @@ class Test_OA_Email extends UnitTestCase
         $oStartDate   = new Date('2007-05-13 23:59:59');
         $oEndDate     = new Date('2007-05-19 00:00:00');
         $email        = 'andrew.hill@openx.org';
-        $user_name         = 'Andrew Hill';
+        $user_name    = 'Andrew Hill';
         $clientName   = 'Foo Client';
 
         // Setup a User array, but with no data
@@ -168,6 +168,7 @@ class Test_OA_Email extends UnitTestCase
 
         $doPlacements = OA_Dal::factoryDO('campaigns');
         $doPlacements->clientid = $advertiserId;
+        $doPlacements->status = '0';
         $placementId1 = DataGenerator::generateOne($doPlacements);
 
         Language_Default::load($doUser->language);

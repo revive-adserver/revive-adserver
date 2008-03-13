@@ -95,7 +95,7 @@ class OA_Email
             OA::debug('   - Reports disabled for advertiser ID ' . $advertiserId . '.', PEAR_LOG_ERR);
             return false;
         }
-//         Does the advertiser have an email address?
+        // Does the advertiser have an email address?
         if (empty($aUser['email_address'])) {
             OA::debug('   - No email for User ID ' . $aUser['user_id']. '.', PEAR_LOG_ERR);
             return false;
@@ -225,79 +225,81 @@ class OA_Email
         $doPlacements->orderBy('campaignid');
         $doPlacements->find();
         if ($doPlacements->getRowCount() > 0) {
-            while ($doPlacements->fetch()) {
-                $aPlacement = $doPlacements->toArray();
-                // Add the name of the placement to the report
-                $emailBody .= "\n" . sprintf($strCampaignPrint, $strCampaign) . ' ';
-                $emailBody .= strip_tags(phpAds_buildName($aPlacement['campaignid'], $aPlacement['campaignname'])) . "\n";
-                // Add a URL link to the placement
-                $page = 'campaign-edit.php?clientid=' . $advertiserId . '&campaignid=' . $aPlacement['campaignid'];
-                $emailBody .= MAX::constructURL(MAX_URL_ADMIN, $page) . "\n";
-                // Add a nice divider
-                $emailBody .= "=======================================================\n\n";
-                // Fetch all ads in the placement
-                $doBanners = OA_Dal::factoryDO('banners');
-                $doBanners->campaignid = $aPlacement['campaignid'];
-                $doBanners->orderBy('bannerid');
-                $doBanners->find();
-                if ($doBanners->getRowCount() > 0) {
-                    $adsWithDelivery = false;
-                    while ($doBanners->fetch()) {
-                        $aAd = $doBanners->toArray();
-                        // Get the total impressions, clicks and conversions delivered by this ad
-                        $adImpressions = phpAds_totalViews($aAd['bannerid']);
-                        $adClicks      = phpAds_totalClicks($aAd['bannerid']);
-                        $adConversions = phpAds_totalConversions($aAd['bannerid']);
-                        if ($adImpressions > 0 || $adClicks > 0 || $adConversions > 0) {
-                            $adsWithDelivery = true;
-                            // This ad has delivered at some stage, add the name of the ad to the report
-                            $emailBody .= sprintf($strBannerPrint, $strBanner) . ' ';
-                            $emailBody .= strip_tags(phpAds_buildBannerName($aAd['bannerid'], $aAd['description'], $aAd['alt'])) . "\n";
-                            // If the ad has a URL, add the URL the add is linked to to the report
-                            if (!empty($aAd['URL'])) {
-                                $emailBody .= $strLinkedTo . ': ' . $aAd['URL'] . "\n";
+            while ($doPlacements->fetch()) {         	
+            	$aPlacement = $doPlacements->toArray();            	
+            	if ($aPlacement['status'] == '0') {
+            		// Add the name of the placement to the report
+            		$emailBody .= "\n" . sprintf($strCampaignPrint, $strCampaign) . ' ';
+                    $emailBody .= strip_tags(phpAds_buildName($aPlacement['campaignid'], $aPlacement['campaignname'])) . "\n";
+                    // Add a URL link to the placement
+                    $page = 'campaign-edit.php?clientid=' . $advertiserId . '&campaignid=' . $aPlacement['campaignid'];
+                    $emailBody .= MAX::constructURL(MAX_URL_ADMIN, $page) . "\n";
+                    // Add a nice divider
+                    $emailBody .= "=======================================================\n\n";
+                    // Fetch all ads in the placement
+                    $doBanners = OA_Dal::factoryDO('banners');
+                    $doBanners->campaignid = $aPlacement['campaignid'];
+                    $doBanners->orderBy('bannerid');
+                    $doBanners->find();
+                    if ($doBanners->getRowCount() > 0) {
+                        $adsWithDelivery = false;
+                        while ($doBanners->fetch()) {
+                            $aAd = $doBanners->toArray();
+                            // Get the total impressions, clicks and conversions delivered by this ad
+                            $adImpressions = phpAds_totalViews($aAd['bannerid']);
+                            $adClicks      = phpAds_totalClicks($aAd['bannerid']);
+                            $adConversions = phpAds_totalConversions($aAd['bannerid']);
+                            if ($adImpressions > 0 || $adClicks > 0 || $adConversions > 0) {
+                                $adsWithDelivery = true;
+                                // This ad has delivered at some stage, add the name of the ad to the report
+                                $emailBody .= sprintf($strBannerPrint, $strBanner) . ' ';
+                                $emailBody .= strip_tags(phpAds_buildBannerName($aAd['bannerid'], $aAd['description'], $aAd['alt'])) . "\n";
+                                // If the ad has a URL, add the URL the add is linked to to the report
+                                if (!empty($aAd['URL'])) {
+                                    $emailBody .= $strLinkedTo . ': ' . $aAd['URL'] . "\n";
+                                }
+                                // Add a divider before the ad's stats
+                                $emailBody .= " ------------------------------------------------------\n";
+                                $adHasStats = false;
+                                if ($adImpressions > 0) {
+                                    // The ad has impressions
+                                    $adHasStats = true;
+                                    $emailBody .= sprintf($adTextPrint, $strTotalImpressions) . ': ';
+                                    $emailBody .= sprintf('%15s', phpAds_formatNumber($adImpressions)) . "\n";
+                                    // Fetch the ad's impressions for the report period, grouped by day
+                                    $aEmailBody = $this->_preparePlacementDeliveryEmailBodyStats($aAd['bannerid'], $oStartDate, $oEndDate, 'impressions', $adTextPrint);
+                                    $emailBody .= $aEmailBody['body'];
+                                    $totalAdviewsInPeriod += $aEmailBody['adviews'];
+                                }
+                                if ($adClicks > 0) {
+                                    // The ad has clicks
+                                    $adHasStats = true;
+                                    $emailBody .= "\n" . sprintf($adTextPrint, $strTotalClicks) . ': ';
+                                    $emailBody .= sprintf('%15s', phpAds_formatNumber($adClicks)) . "\n";
+                                    // Fetch the ad's clicks for the report period, grouped by day
+                                    $aEmailBody = $this->_preparePlacementDeliveryEmailBodyStats($aAd['bannerid'], $oStartDate, $oEndDate, 'clicks', $adTextPrint);
+                                    $emailBody .= $aEmailBody['body'];
+                                    $totalAdviewsInPeriod += $aEmailBody['adviews'];
+                                }
+                                if ($adConversions > 0) {
+                                    // The ad has conversions
+                                    $adHasStats = true;
+                                    $emailBody .= "\n" . sprintf($adTextPrint, $strTotalConversions) . ': ';
+                                    $emailBody .= sprintf('%15s', phpAds_formatNumber($adConversions)) . "\n";
+                                    // Fetch the ad's conversions for the report period, grouped by day
+                                    $aEmailBody = $this->_preparePlacementDeliveryEmailBodyStats($aAd['bannerid'], $oStartDate, $oEndDate, 'conversions', $adTextPrint);
+                                    $emailBody .= $aEmailBody['body'];
+                                    $totalAdviewsInPeriod += $aEmailBody['adviews'];
+                                }
+                                $emailBody .= "\n";
                             }
-                            // Add a divider before the ad's stats
-                            $emailBody .= " ------------------------------------------------------\n";
-                            $adHasStats = false;
-                            if ($adImpressions > 0) {
-                                // The ad has impressions
-                                $adHasStats = true;
-                                $emailBody .= sprintf($adTextPrint, $strTotalImpressions) . ': ';
-                                $emailBody .= sprintf('%15s', phpAds_formatNumber($adImpressions)) . "\n";
-                                // Fetch the ad's impressions for the report period, grouped by day
-                                $aEmailBody = $this->_preparePlacementDeliveryEmailBodyStats($aAd['bannerid'], $oStartDate, $oEndDate, 'impressions', $adTextPrint);
-                                $emailBody .= $aEmailBody['body'];
-                                $totalAdviewsInPeriod += $aEmailBody['adviews'];
-                            }
-                            if ($adClicks > 0) {
-                                // The ad has clicks
-                                $adHasStats = true;
-                                $emailBody .= "\n" . sprintf($adTextPrint, $strTotalClicks) . ': ';
-                                $emailBody .= sprintf('%15s', phpAds_formatNumber($adClicks)) . "\n";
-                                // Fetch the ad's clicks for the report period, grouped by day
-                                $aEmailBody = $this->_preparePlacementDeliveryEmailBodyStats($aAd['bannerid'], $oStartDate, $oEndDate, 'clicks', $adTextPrint);
-                                $emailBody .= $aEmailBody['body'];
-                                $totalAdviewsInPeriod += $aEmailBody['adviews'];
-                            }
-                            if ($adConversions > 0) {
-                                // The ad has conversions
-                                $adHasStats = true;
-                                $emailBody .= "\n" . sprintf($adTextPrint, $strTotalConversions) . ': ';
-                                $emailBody .= sprintf('%15s', phpAds_formatNumber($adConversions)) . "\n";
-                                // Fetch the ad's conversions for the report period, grouped by day
-                                $aEmailBody = $this->_preparePlacementDeliveryEmailBodyStats($aAd['bannerid'], $oStartDate, $oEndDate, 'conversions', $adTextPrint);
-                                $emailBody .= $aEmailBody['body'];
-                                $totalAdviewsInPeriod += $aEmailBody['adviews'];
-                            }
-                            $emailBody .= "\n";
                         }
                     }
-                }
-                // Did the placement have any stats?
-                if ($adsWithDelivery != true) {
-                    $emailBody .= $strNoStatsForCampaign . "\n\n\n";
-                }
+                    // Did the placement have any stats?
+                    if ($adsWithDelivery != true) {
+                        $emailBody .= $strNoStatsForCampaign . "\n\n\n";
+                    }
+            	} 
             }
         }
 
