@@ -43,7 +43,7 @@ open:function(s,t){var h=H[s],c=h.c,cc='.'+c.closeClass,z=(/^\d+$/.test(h.w.css(
 
  //h.o=(o)?o.addClass(c.overlayClass).prependTo('body'):false;
  h.o=(o)?o.addClass(c.overlayClass):false;
- if (h.o && !($.browser.msie && $.browser.version == 6.0)) { 
+ if (h.o && !($.browser.msie && (parseInt($.browser.version) == 6))) { 
   h.w.parent().append(h.o);
  }
 
