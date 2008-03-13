@@ -248,11 +248,19 @@ class OA_Admin_UI_UserAccess
     function assignUserStartTemplateVariables(&$oTpl)
     {
         $oTpl->assign('method', 'GET');
-        $oTpl->assign('strLinkUserHelp', $GLOBALS['strLinkUserHelp']);
-
         // Add variables required by the current authentication plugin
         $oPlugin = OA_Auth::staticGetAuthPlugin();
         $oPlugin->setTemplateVariables($oTpl);
+        $helpString = OA_Admin_UI_UserAccess::getHelpString(
+            $oTpl->get_template_vars('sso'));
+        $oTpl->assign('strLinkUserHelp', $helpString);
+    }
+    
+    function getHelpString($isSso)
+    {
+        $name = ($isSso) ? $GLOBALS['strLinkUserHelpEmail']
+            : $GLOBALS['strLinkUserHelpUser'];
+        return str_replace('%s', $name, $GLOBALS['strLinkUserHelp']);
     }
 
     /**
