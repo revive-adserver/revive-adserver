@@ -44,10 +44,15 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
 
 phpAds_PageHeader("4.3");
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
-    phpAds_ShowSections(array("4.1", "4.3", "4.4"));
+    $sections = array("4.1", "4.3");
 } else {
-    phpAds_ShowSections(array("4.1", "4.2", "4.3"));
+    $sections = array("4.1", "4.2", "4.3");
 }
+if (OA_Permission::hasPermission(OA_PERM_SUPER_ACCOUNT)) {
+    $sections[] = '4.4';
+}
+phpAds_ShowSections($sections);
+
 
 
 
