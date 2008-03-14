@@ -12,6 +12,7 @@
     <include name="LICENSE.txt"/>
     <include name="README.txt"/>
     <include name="RELEASE_NOTES.txt"/>
+    <include name="TRANSLATIONS.txt"/>
     <include name="UPGRADE.txt"/>
     <include name="POLICY.txt"/>
     <include name="*.php"/>
