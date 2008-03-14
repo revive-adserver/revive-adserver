@@ -94,7 +94,7 @@ class OA_UpgradePrescript_2_0_11
             $aFunctions = array(
                 'unix_timestamp(timestamptz)',
                 'from_unixtime(int4)',
-                'to_days(timestamp)',
+                'to_days(timestamptz)',
                 'dayofmonth(timestamptz)',
                 'month(timestamptz)',
                 'year(timestamptz)',
