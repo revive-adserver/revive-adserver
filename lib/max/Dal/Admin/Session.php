@@ -50,6 +50,10 @@ class MAX_Dal_Admin_Session extends MAX_Dal_Common
             if (preg_match('/^(\d\d\d\d)(\d\d)(\d\d)(\d\d)(\d\d)(\d\d)$/', $doSession->lastused, $m)) {
                 $doSession->lastused = "{$m[1]}-{$m[2]}-{$m[3]} {$m[4]}:{$m[5]}:{$m[6]}";
             }
+            // Deal with PgSQL timestamp with timezone
+            if (preg_match('/^(\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d)./', $doSession->lastused, $m)) {
+                $doSession->lastused = $m[1];
+            }
             $timeNow = strtotime(OA::getNowUTC());
             $timeLastUsed = strtotime($doSession->lastused);
             if ($timeNow - $timeLastUsed < 3600) {

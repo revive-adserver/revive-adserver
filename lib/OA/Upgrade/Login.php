@@ -63,7 +63,8 @@ class OA_Upgrade_Login
         }
 
         phpAds_SessionStart();
-        phpAds_SessionDataFetch();
+
+        OA_Upgrade_Login::readSession($panDetected);
 
         $oPlugin = &OA_Auth::staticGetAuthPlugin('internal');
 
@@ -84,8 +85,6 @@ class OA_Upgrade_Login
                     return false;
                 }
             }
-
-            phpAds_SessionDataStore();
         }
 
         return OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isUserLinkedToAdmin();
@@ -170,7 +169,41 @@ class OA_Upgrade_Login
                     }
                 }
             }
+
+            // Openads for PostgreSQL 2.0 session.last_used field is a
+            // timestamp with timezone, which gives troubles reading back
+            // session data if TZ offset is > 0
+            if ($tableName == 'config' && $oDbh->dbsyntax == 'pgsql') {
+                // Make sure that session time is loaded as UTC
+                $oDbh->exec("SET TIMEZONE TO 'UTC'");
+                phpAds_SessionDataStore();
+                $oDbh->exec("SET TIMEZONE TO DEFAULT");
+                return;
+            }
+
+            phpAds_SessionDataStore();
         }
+    }
+
+    function readSession($panDetected)
+    {
+        // Openads for PostgreSQL 2.0 session.last_used field is a
+        // timestamp with timezone, which gives troubles reading back
+        // session data if TZ offset is > 0
+        if ($panDetected) {
+            $oDbh = OA_DB::singleton();
+            if (!PEAR::isError($oDbh)) {
+                if ($oDbh->dbsyntax == 'pgsql') {
+                    // Make sure that session time is loaded as UTC
+                    $oDbh->exec("SET TIMEZONE TO 'UTC'");
+                    phpAds_SessionDataFetch();
+                    $oDbh->exec("SET TIMEZONE TO DEFAULT");
+                    return;
+                }
+            }
+        }
+
+        phpAds_SessionDataFetch();
     }
 }
 
