@@ -286,7 +286,7 @@ $aSettings = array (
                 'type'    => 'checkbox',
                 'name'    => 'geotargeting_saveStats',
                 'text'    => $strGeoSaveStats,
-                'depends' => 'geotargeting_type>0'
+                'depends' => 'geotargeting_type==1 || geotargeting_type==2'
             ),
             array (
                 'type'    => 'break'
@@ -295,7 +295,7 @@ $aSettings = array (
                 'type'    => 'checkbox',
                 'name'    => 'geotargeting_showUnavailable',
                 'text'    => $strGeoShowUnavailable,
-                'depends' => 'geotargeting_type>0'
+                'depends' => 'geotargeting_type==1 || geotargeting_type==2'
             )
         )
     )
