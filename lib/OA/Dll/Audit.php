@@ -422,46 +422,6 @@ class OA_Dll_Audit extends OA_Dll
      * @param array $aParam
      * @return array
      */
-    function getAuditLogForCampaignWidget($aParam)
-    {
-        $oAudit = OA_Dal::factoryDO('audit');
-
-        if (!empty($aParam['account_id'])) {
-            $oAudit->account_id = $aParam['account_id'];
-        }
-
-        $oDate = new Date();
-        $oDate->subtractSpan(new Date_Span('7-0-0-0'));
-        $oDate->toUTC();
-        $oAudit->whereAdd("context = 'Campaign'");
-        $oAudit->whereAdd("username = 'Maintenance'");
-        $oAudit->whereAdd('parentid IS NULL');
-        $oAudit->whereAdd("updated >= ".DBC::makeLiteral($oDate->format('%Y-%m-%d %H:%M:%S')));
-        $oAudit->orderBy('auditid DESC');
-        $oAudit->limit(0, 5);
-
-        $numRows = $oAudit->find();
-
-        $oNow = new Date();
-        $aResult = array();
-        while ($oAudit->fetch()) {
-            $aAudit = $oAudit->toArray();
-            $oDate = new Date($aAudit['updated']);
-            $oDate->setTZbyID('UTC');
-            $oDate->convertTZ($oNow->tz);
-            $aAudit['updated'] = $oDate->format('%Y-%m-%d %H:%M:%S');
-            $aAudit['details'] = unserialize($aAudit['details']);
-            $aResult[] = $aAudit;
-        }
-        return $aResult;
-    }
-
-    /**
-     * requires permission checks
-     *
-     * @param array $aParam
-     * @return array
-     */
     function getAuditLogForAuditWidget($aParam = array())
     {
         $oAudit = OA_Dal::factoryDO('audit');
