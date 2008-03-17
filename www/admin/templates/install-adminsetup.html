@@ -80,23 +80,23 @@
                             'req'   => true,
                             'check' => 'email',
                             'value' => $aAdmin['email']
-                        )
-                    )
-                ),
-                array (
-                    'text'  => $strPreferences,
-                    'items' => array (
+                        ),
+                        array (
+                            'type'  => 'break'
+                        ),
                         array (
                             'type'  => 'select',
-                            'name'  => 'aPrefs[language]',
+                            'name'  => 'aAdmin[language]',
                             'text'  => $strLanguageSelection,
                             'req'   => true,
                             'value' => $langVal,
                             'items' => $oLanguage->AvailableLanguages()
                         ),
-                        array (
-                            'type'  => 'break'
-                        ),
+                    )
+                ),
+                array (
+                    'text'  => $strPreferences,
+                    'items' => array (
                         array (
                             'type'  => 'select',
                             'name'  => 'aPrefs[timezone]',

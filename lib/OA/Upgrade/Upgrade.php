@@ -1526,6 +1526,7 @@ class OA_Upgrade
         $doUser->username = $aAdmin['name'];
         $doUser->password = md5($aAdmin['pword']);
         $doUser->default_account_id = $agencyAccountId;
+        $doUser->language = $aAdmin['language'];
         $userId = $doUser->insert();
 
         if (!$userId) {
