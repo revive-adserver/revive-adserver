@@ -619,7 +619,6 @@ class OA_Preferences
             'warn_email_advertiser'                         => array('account_type' => OA_ACCOUNT_ADVERTISER,   'default' => true),
             'warn_email_advertiser_impression_limit'        => array('account_type' => OA_ACCOUNT_ADVERTISER,   'default' => 100),
             'warn_email_advertiser_day_limit'               => array('account_type' => OA_ACCOUNT_ADVERTISER,   'default' => 1),
-            'language'                                      => array('account_type' => null,                    'default' => 'english'),
             'timezone'                                      => array('account_type' => OA_ACCOUNT_MANAGER,      'default' => ''),
             'tracker_default_status'                        => array('account_type' => OA_ACCOUNT_ADVERTISER,   'default' => MAX_CONNECTION_STATUS_APPROVED),
             'tracker_default_type'                          => array('account_type' => OA_ACCOUNT_ADVERTISER,   'default' => MAX_CONNECTION_TYPE_SALE),
