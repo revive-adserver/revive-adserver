@@ -108,29 +108,34 @@ class Migration_546 extends Migration
      * @var array
      */
     var $aPrefMap = array(
-        'ui_week_start_day'                 => array('name' => 'begin_of_week',                 'value' => '',  'level' => ''),
-        'ui_percentage_decimals'            => array('name' => 'percentage_decimals',           'value' => '',  'level' => ''),
-        'warn_admin'                        => array('name' => 'warn_admin',                    'value' => '',  'level' => OA_ACCOUNT_ADMIN),
-        'warn_email_manager'                => array('name' => 'warn_agency',                   'value' => '',  'level' => OA_ACCOUNT_MANAGER),
-        'warn_email_advertiser'             => array('name' => 'warn_client',                   'value' => '',  'level' => OA_ACCOUNT_ADVERTISER),
-        'warn_email_admin_impression_limit' => array('name' => 'warn_limit',                    'value' => '',  'level' => OA_ACCOUNT_MANAGER),
-        'warn_email_admin_day_limit'        => array('name' => 'warn_limit_days',               'value' => '',  'level' => OA_ACCOUNT_MANAGER),
-        'ui_novice_user'                    => array('name' => 'admin_novice',                  'value' => 'f', 'level' => ''),
-        'default_banner_weight'             => array('name' => 'default_banner_weight',         'value' => '1', 'level' => OA_ACCOUNT_ADVERTISER),
-        'default_campaign_weight'           => array('name' => 'default_campaign_weight',       'value' => '1', 'level' => OA_ACCOUNT_ADVERTISER),
-        'default_banner_image_url'          => array('name' => 'default_banner_url',            'value' => '',  'level' => OA_ACCOUNT_TRAFFICKER),
-        'default_banner_destination_url'    => array('name' => 'default_banner_destination',    'value' => '',  'level' => OA_ACCOUNT_TRAFFICKER),
-        'ui_show_campaign_info'             => array('name' => 'gui_show_campaign_info',        'value' => '',  'level' => OA_ACCOUNT_ADVERTISER),
-        'ui_show_campaign_preview'          => array('name' => 'gui_show_campaign_preview',     'value' => '',  'level' => OA_ACCOUNT_ADVERTISER),
-        'ui_show_banner_info'               => array('name' => 'gui_show_banner_info',          'value' => '',  'level' => OA_ACCOUNT_ADVERTISER),
-        'ui_show_banner_preview'            => array('name' => 'gui_show_banner_preview',       'value' => '',  'level' => OA_ACCOUNT_ADVERTISER),
-        'ui_show_banner_html'               => array('name' => 'gui_show_banner_html',          'value' => '',  'level' => OA_ACCOUNT_ADVERTISER),
-        'ui_show_matching_banners'          => array('name' => 'gui_show_matching',             'value' => '',  'level' => OA_ACCOUNT_TRAFFICKER),
-        'ui_show_matching_banners_parents'  => array('name' => 'gui_show_parents',              'value' => '',  'level' => OA_ACCOUNT_TRAFFICKER),
-        'ui_hide_inactive'                  => array('name' => 'gui_hide_inactive',             'value' => '',  'level' => ''),
-        'tracker_default_status'            => array('name' => 'default_tracker_status',        'value' => '',  'level' => ''),
-        'tracker_default_type'              => array('name' => 'default_tracker_type',          'value' => '',  'level' => ''),
-        'tracker_link_campaigns'            => array('name' => 'default_tracker_linkcampaigns', 'value' => '',  'level' => '')
+        'auto_alter_html_banners_for_click_tracking' => array('name' => 'banner_html_auto',              'value' => '',  'level' => OA_ACCOUNT_ADVERTISER),
+        'ui_week_start_day'                          => array('name' => 'begin_of_week',                 'value' => '',  'level' => ''),
+        'ui_percentage_decimals'                     => array('name' => 'percentage_decimals',           'value' => '',  'level' => ''),
+        'warn_email_admin'                           => array('name' => 'warn_admin',                    'value' => '',  'level' => OA_ACCOUNT_ADMIN),
+        'warn_email_admin_impression_limit'          => array('name' => 'warn_limit',                    'value' => '',  'level' => OA_ACCOUNT_ADMIN),
+        'warn_email_admin_day_limit'                 => array('name' => 'warn_limit_days',               'value' => '',  'level' => OA_ACCOUNT_ADMIN),
+        'warn_email_manager'                         => array('name' => 'warn_agency',                   'value' => '',  'level' => OA_ACCOUNT_MANAGER),
+        'warn_email_manager_impression_limit'        => array('name' => 'warn_limit',                    'value' => '',  'level' => OA_ACCOUNT_MANAGER),
+        'warn_email_manager_day_limit'               => array('name' => 'warn_limit_days',               'value' => '',  'level' => OA_ACCOUNT_MANAGER),
+        'warn_email_advertiser'                      => array('name' => 'warn_client',                   'value' => '',  'level' => OA_ACCOUNT_ADVERTISER),
+        'warn_email_advertiser_impression_limit'     => array('name' => 'warn_limit',                    'value' => '',  'level' => OA_ACCOUNT_ADVERTISER),
+        'warn_email_advertiser_day_limit'            => array('name' => 'warn_limit_days',               'value' => '',  'level' => OA_ACCOUNT_ADVERTISER),
+        'ui_novice_user'                             => array('name' => 'admin_novice',                  'value' => 'f', 'level' => ''),
+        'default_banner_weight'                      => array('name' => 'default_banner_weight',         'value' => '1', 'level' => OA_ACCOUNT_ADVERTISER),
+        'default_campaign_weight'                    => array('name' => 'default_campaign_weight',       'value' => '1', 'level' => OA_ACCOUNT_ADVERTISER),
+        'default_banner_image_url'                   => array('name' => 'default_banner_url',            'value' => '',  'level' => OA_ACCOUNT_TRAFFICKER),
+        'default_banner_destination_url'             => array('name' => 'default_banner_destination',    'value' => '',  'level' => OA_ACCOUNT_TRAFFICKER),
+        'ui_show_campaign_info'                      => array('name' => 'gui_show_campaign_info',        'value' => '',  'level' => OA_ACCOUNT_ADVERTISER),
+        'ui_show_campaign_preview'                   => array('name' => 'gui_show_campaign_preview',     'value' => '',  'level' => OA_ACCOUNT_ADVERTISER),
+        'ui_show_banner_info'                        => array('name' => 'gui_show_banner_info',          'value' => '',  'level' => OA_ACCOUNT_ADVERTISER),
+        'ui_show_banner_preview'                     => array('name' => 'gui_show_banner_preview',       'value' => '',  'level' => OA_ACCOUNT_ADVERTISER),
+        'ui_show_banner_html'                        => array('name' => 'gui_show_banner_html',          'value' => '',  'level' => OA_ACCOUNT_ADVERTISER),
+        'ui_show_matching_banners'                   => array('name' => 'gui_show_matching',             'value' => '',  'level' => OA_ACCOUNT_TRAFFICKER),
+        'ui_show_matching_banners_parents'           => array('name' => 'gui_show_parents',              'value' => '',  'level' => OA_ACCOUNT_TRAFFICKER),
+        'ui_hide_inactive'                           => array('name' => 'gui_hide_inactive',             'value' => '',  'level' => ''),
+        'tracker_default_status'                     => array('name' => 'default_tracker_status',        'value' => '',  'level' => OA_ACCOUNT_ADVERTISER),
+        'tracker_default_type'                       => array('name' => 'default_tracker_type',          'value' => '',  'level' => OA_ACCOUNT_ADVERTISER),
+        'tracker_link_campaigns'                     => array('name' => 'default_tracker_linkcampaigns', 'value' => '',  'level' => OA_ACCOUNT_ADVERTISER)
     );
 
     /**
@@ -154,7 +159,6 @@ class Migration_546 extends Migration
         'agencyid',
         'config_version',
         'override_gd_imageformat',
-        'banner_html_auto',
         'admin',
         'admin_pw',
         'client_welcome',
@@ -527,6 +531,11 @@ class Migration_546 extends Migration
             if (!is_null($aPrefOld[$aVal['name']])) {
                 $this->aPrefMap[$newName]['value'] = $aPrefOld[$aVal['name']];
             }
+        }
+        // Re-iterate over the values now that they have been set to remove
+        // values no longer required
+        foreach ($this->aPrefMap AS $newName => $aVal)
+        {
             unset($aPrefOld[$aVal['name']]);
         }
         // The only remaining preferences of interest are old style "gui_column_name" entries
