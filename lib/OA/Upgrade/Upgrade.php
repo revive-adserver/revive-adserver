@@ -1566,27 +1566,47 @@ class OA_Upgrade
         }
 
         // Store the timezone selected for the admin account preference
+        $timezonePreferenceId = 0;
         $doPreferences = OA_Dal::factoryDO('preferences');
         $doPreferences->preference_name = 'timezone';
         $doPreferences->find();
         if ($doPreferences->getRowCount() != 1) {
-            // The preference may not exist yet during upgrade
+            // The timezone preference may not exist yet, create
             $doPreferences = OA_Dal::factoryDO('preferences');
             $doPreferences->preference_name = 'timezone';
             $doPreferences->account_type = OA_ACCOUNT_MANAGER;
-            $doPreferences->insert();
-            $doPreferences = OA_Dal::factoryDO('preferences');
-            $doPreferences->preference_name = 'timezone';
-            $doPreferences->find();
+            $timezonePreferenceId = $doPreferences->insert();
+        } else if ($doPreferences->fetch()) {
+            // Get the preference ID
+            $timezonePreferenceId = $doPreferences->preference_id;
         }
-        if ($doPreferences->fetch()) {
-            $doAPA = OA_Dal::factoryDO('account_preference_assoc');
-            $doAPA->account_id    = $adminAccountId;
-            $doAPA->preference_id = $doPreferences->preference_id;
-            $doAPA->value         = $aPrefs['timezone'];
-            $result = $doAPA->update();
+        if ($timezonePreferenceId == 0) {
+            $this->oLogger->logError("Error locating the timezone preference ID");
+            return false;
+        }
+        // Try to locate the admin account/preference ID
+        $doAccount_preference_assoc = OA_Dal::factoryDO('account_preference_assoc');
+        $doAccount_preference_assoc->account_id    = $adminAccountId;
+        $doAccount_preference_assoc->preference_id = $timezonePreferenceId;
+        $doAccount_preference_assoc->find();
+        if ($doAccount_preference_assoc->getRowCount() != 1) {
+            // There is no preference value yet, create it!
+            $doAccount_preference_assoc = OA_Dal::factoryDO('account_preference_assoc');
+            $doAccount_preference_assoc->account_id    = $adminAccountId;
+            $doAccount_preference_assoc->preference_id = $timezonePreferenceId;
+            $doAccount_preference_assoc->value         = $aPrefs['timezone'];
+            $result = $doAccount_preference_assoc->insert();
             if (!$result) {
-                $this->oLogger->logError("Error adding timezone preference default of: '".$aPref['timezone']."'");
+                $this->oLogger->logError("Error adding admin account timezone preference of: '".$aPref['timezone']."'");
+                return false;
+            }
+        } else {
+            // Update the preference
+            $doAccount_preference_assoc->fetch();
+            $doAccount_preference_assoc->value = $aPrefs['timezone'];
+            $doAccount_preference_assoc->update();
+            if (!$result) {
+                $this->oLogger->logError("Error updating admin account timezone preference to: '".$aPref['timezone']."'");
                 return false;
             }
         }
