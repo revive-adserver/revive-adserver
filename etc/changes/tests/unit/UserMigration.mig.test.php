@@ -59,7 +59,8 @@ require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
      * An array of arrays, each containing known good preference table
      * configurations from past OpenX versions.
      *
-     * 0 => Known good preference set from Openads 2.0
+     * 0 => A known good preference set from an OpenX 2.4 system that was upgraded
+     *          from Openads 2.0.11-pr1
      * 1 => Default set from OpenX 2.4.4 after installation
      *
      * @var array
