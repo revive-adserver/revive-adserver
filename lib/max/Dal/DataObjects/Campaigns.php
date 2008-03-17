@@ -403,11 +403,12 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
         }
     }
 
+
     /**
      * perform post-audit actions
      *
      * @param int $actionid
-     * @param DataObjects_Campaigns $dataobjectOld�
+     * @param DataObjects_Campaigns $dataobjectOld?
      * @param int $auditId
      */
     function _postAuditTrigger($actionid, $dataobjectOld, $auditId)
@@ -468,7 +469,6 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
             $oCache->save($aCache);
         }
     }
-
 }
 
 ?>

@@ -1372,6 +1372,8 @@ class DB_DataObjectCommon extends DB_DataObject
                     $this->doAudit->updated = OA::getNowUTC();
                     // Finally, insert the audit record
                     $id = $this->doAudit->insert();
+                    // Perform post-audit actions
+                    $this->_postAuditTrigger($actionid, $oDataObject, $id);
                     return $id;
                 }
             }

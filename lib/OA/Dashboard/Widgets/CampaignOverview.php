@@ -27,6 +27,7 @@ $Id$
 
 require_once MAX_PATH . '/lib/OA/Dashboard/Widget.php';
 require_once MAX_PATH . '/lib/OA/Dll/Audit.php';
+require_once MAX_PATH . '/lib/OA/Cache.php';
 
 /**
  * A dashboard widget to diplay an Campaign overview
@@ -38,11 +39,6 @@ class OA_Dashboard_Widget_CampaignOverview extends OA_Dashboard_Widget
      * @var OA_Admin_Template
      */
     var $oTpl;
-
-    /**
-     * @var Total items to display
-     */
-    var $totalItems = 6;
 
     /**
      * The class constructor
@@ -69,15 +65,37 @@ class OA_Dashboard_Widget_CampaignOverview extends OA_Dashboard_Widget
             $this->oTpl->assign('siteTitle',    $GLOBALS['strCampaignAuditTrailSetup']);
             $this->oTpl->assign('siteUrl',      MAX::constructUrl(MAX_URL_ADMIN, 'account-settings-debug.php'));
         } else {
-            if (!OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
-                $aParam['account_id'] = OA_Permission::getAccountId();
+            $oCache = new OA_Cache('campaignOverview', 'Widgets');
+            $aCache = $oCache->load(true);
+            $aCampaign = array();
+            if (isset($aCache['maxItems'])) {
+                if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
+                    foreach ($aCache['aAccounts'] as $aActions) {
+                        foreach ($aActions as $aAction) {
+                            $aCampaign[$aAction['auditid']] = $aAction;
+                        }
+                    }
+                    krsort($aCampaign);
+                    $aCampaign = array_slice($aCampaign, 0, $aCache['maxItems'], false);
+                } else {
+                    $accountId = OA_Permission::getAccountId();
+                    if (isset($aCache['aAccounts'][$accountId])) {
+                        $aCampaign = $aCache['aAccounts'][$accountId];
+                    }
+                }
             }
-
-            $oAudit = & new OA_Dll_Audit();
-            $aCampaign = $oAudit->getAuditLogForCampaignWidget($aParam);
-            if (count($aCampaign) > 0) {
-                foreach ($aCampaign as $key => $aValue) {
-                    $aCampaign[$key]['details']['campaignname'] = (strlen($aValue['details']['key_desc']) > 35) ? substr($aValue['details']['key_desc'], 0, 35).'...' : $aValue['details']['key_desc'];
+            if (count($aCampaign)) {
+                $aActionMap = array(
+                    'added'     => $GLOBALS['strCampaignStatusAdded'],
+                    'started'   => $GLOBALS['strCampaignStatusStarted'],
+                    'restarted' => $GLOBALS['strCampaignStatusRestarted'],
+                    'completed' => $GLOBALS['strCampaignStatusExpired'],
+                    'paused'    => $GLOBALS['strCampaignStatusPaused'],
+                );
+                foreach ($aCampaign as $k => $v) {
+                    if (isset($aActionMap[$v['action']])) {
+                        $aCampaign[$k]['actionDesc'] = $aActionMap[$v['action']];
+                    }
                 }
             } else {
                 // Check if the account has any campaign in its realm
