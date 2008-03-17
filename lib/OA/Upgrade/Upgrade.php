@@ -1601,8 +1601,12 @@ class OA_Upgrade
                 return false;
             }
         } else {
-            // Update the preference
+            // Update the preference, if required
             $doAccount_preference_assoc->fetch();
+            if ($doAccount_preference_assoc->value == $aPrefs['timezone']) {
+                // No need to update, it's already been set
+                return true;
+            }
             $doAccount_preference_assoc->value = $aPrefs['timezone'];
             $result = $doAccount_preference_assoc->update();
             if (!$result) {
