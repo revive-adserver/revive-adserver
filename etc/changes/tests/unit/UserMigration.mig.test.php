@@ -59,7 +59,7 @@ require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
      * An array of arrays, each containing known good preference table
      * configurations from past OpenX versions.
      *
-     * 0 => Known good preference set from phpAdsNew
+     * 0 => Known good preference set from Openads 2.0
      * 1 => Default set from OpenX 2.4.4 after installation
      *
      * @var array
@@ -334,9 +334,14 @@ require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
      */
     function testUpgrade()
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
         // Run the tests for every set of preferences that have been defined
         foreach (array_keys($this->aPrefsOld) as $set) {
-
+            if ($set == 1 && $aConf['database']['type'] != 'mysql')
+            {
+                // OpenX 2.4.4 is only valid for MySQL
+                continue;
+            }
             // Initialise the database at schema 542
             $this->initDatabase(
                 542,
