@@ -330,7 +330,12 @@ else if (array_key_exists('btn_adminsetup', $_POST))
         $aConfig = $oUpgrader->getConfig();
         $_POST['aConfig']['webpath']['admin'] = $aConfig['webpath']['admin'];
 
-        if ($oUpgrader->saveConfig($_POST['aConfig']) && $oUpgrader->putSyncSettings($syncEnabled))
+        // Store the detected timezone of the system, whatever that is
+        require_once('../../lib/OA/Admin/Timezones.php');
+        $aTimezone = OA_Admin_Timezones::getTimezone();
+        $aTimezone['timezone'] = $aTimezone['tz'];
+
+        if ($oUpgrader->saveConfig($_POST['aConfig']) && $oUpgrader->putSyncSettings($syncEnabled) && $oUpgrader->putTimezoneAccountPreference($aTimezone))
         {
             if (!checkFolderPermissions($_POST['aConfig']['store']['webDir'])) {
                 $aConfig                    = $_POST['aConfig'];
@@ -347,7 +352,7 @@ else if (array_key_exists('btn_adminsetup', $_POST))
                 {
                     //Hide the IDsetup, instead display the finish page
                     //$action = OA_UPGRADE_SITESSETUP;
-                    $message = 'Congratulations you have finished upgrading Openads';
+                    $message = 'Congratulations, you have finished upgrading OpenX';
                     //$oUpgrader->setOpenadsInstalledOn();
                     $action = OA_UPGRADE_FINISH;
                 }
