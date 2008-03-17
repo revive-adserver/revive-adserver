@@ -266,6 +266,9 @@ class TestRunner
      */
     function setupEnv($layer, $keepDatabase = false)
     {
+        if (is_null($layer)) {
+            $layer = $_GET['layer'];
+        }
         $type = $GLOBALS['_MAX']['TEST']['test_type'];
         $envType = $GLOBALS['_MAX']['TEST'][$type . '_layers'][$layer][1];
         // Ensure the config file is fresh

@@ -73,6 +73,17 @@ class MigrationTest extends DbTestCase
         }
     }
 
+    /**
+     * A method to allow the database to be initialised so that:
+     * - It is created at a given database schema version, so that upgrades can be
+     *   tested; and
+     * - Only required tables are created.
+     *
+     * @param integer $schemaVersion The database schema version to initialise
+     *                               the database with.
+     * @param array $aTables An array of table names (no prefix) to create.
+     * @return boolean True on success, false otherwise.
+     */
     function initDatabase($schemaVersion, $aTables)
     {
         $prefix = $this->getPrefix();
@@ -80,7 +91,7 @@ class MigrationTest extends DbTestCase
 
         $aExistingTables = $this->oDbh->manager->listTables();
 
-        foreach($aTables as $table)
+        foreach ($aTables as $table)
         {
             if (in_array($prefix . $table, $aExistingTables))
             {

@@ -127,6 +127,8 @@ class TestEnv
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $result = OA_DB::dropDatabase($aConf['database']['name']);
+        unset($GLOBALS['_OA']['CONNECTIONS']);
+        $GLOBALS['_MDB2_databases'] = array();
     }
 
     /**
