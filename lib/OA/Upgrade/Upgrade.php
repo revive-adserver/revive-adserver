@@ -1597,16 +1597,16 @@ class OA_Upgrade
             $doAccount_preference_assoc->value         = $aPrefs['timezone'];
             $result = $doAccount_preference_assoc->insert();
             if (!$result) {
-                $this->oLogger->logError("Error adding admin account timezone preference of: '".$aPref['timezone']."'");
+                $this->oLogger->logError("Error adding admin account timezone preference of: '".$aPrefs['timezone']."'");
                 return false;
             }
         } else {
             // Update the preference
             $doAccount_preference_assoc->fetch();
             $doAccount_preference_assoc->value = $aPrefs['timezone'];
-            $doAccount_preference_assoc->update();
+            $result = $doAccount_preference_assoc->update();
             if (!$result) {
-                $this->oLogger->logError("Error updating admin account timezone preference to: '".$aPref['timezone']."'");
+                $this->oLogger->logError("Error updating admin account timezone preference to: '".$aPrefs['timezone']."'");
                 return false;
             }
         }
