@@ -642,6 +642,7 @@ class OA_DB_Table
         $origTable = substr($table, strlen($aConf['table']['prefix']));
         return substr($tableName . '_' . preg_replace("/^{$origTable}_/", '', $index), 0, 63);
     }
+
 }
 
 ?>
