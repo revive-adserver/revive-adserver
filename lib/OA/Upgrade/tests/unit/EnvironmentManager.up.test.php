@@ -53,7 +53,6 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $oEnvMgr->aInfo['PHP']['actual']['memory_limit'] = '';
         $oEnvMgr->aInfo['PHP']['actual']['safe_mode'] = '0';
         $oEnvMgr->aInfo['PHP']['actual']['magic_quotes_runtime'] = '0';
-        //$oEnvMgr->aInfo['PHP']['actual']['date.timezone'] = 'Europe/London';
 
         $oEnvMgr->aInfo['PHP']['actual']['version'] = '4.3.9';
         $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_VERSION,'version 4.3.9');
@@ -89,9 +88,6 @@ class Test_OA_Environment_Manager extends UnitTestCase
 
         $oEnvMgr->aInfo['PHP']['actual']['magic_quotes_runtime'] = '0';
         $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_NOERROR,'magic_quotes_runtime off');
-
-//        $oEnvMgr->aInfo['PHP']['actual']['date.timezone'] = '';
-//        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_TIMEZONE,'date.timezone unset');
     }
 
     function test_checkCriticalFilePermissions()

@@ -567,8 +567,8 @@ else if (array_key_exists('btn_sitessetup', $_POST))
             // Save admin credentials
             $oUpgrader->putAdmin($_POST['aAdmin']);
 
-            // Save language and timezone
-            $oUpgrader->putPreferences($_POST['aPrefs']);
+            // Save admim account preference for timezone
+            $oUpgrader->putTimezoneAccountPreference($_POST['aPrefs']);
 
             // Initialise template
             $oTpl = new OA_Admin_Template('install/sites.html');

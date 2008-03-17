@@ -1548,40 +1548,47 @@ class OA_Upgrade
         return $this->putDefaultPreferences($adminAccountId);
     }
 
-    function putPreferences($aPrefs)
+    /**
+     * A method to store the timezone account preference for the admin account.
+     *
+     * @param array $aPrefs An array which must contain the key "timezone",
+     *                      containing the desired timezone.
+     * @return boolean True on success, false otherwise.
+     */
+    function putTimezoneAccountPreference($aPrefs)
     {
         $adminAccountId = OA_Dal_ApplicationVariables::get('admin_account_id');
 
         if (!$adminAccountId) {
-            $this->oLogger->logError('error getting the admin account ID');
+            $this->oLogger->logError('Error getting the admin account ID');
             return false;
         }
 
-        $oPreferences = new OA_Preferences();
-
-        $aPrefs = array(
-            'timezone' => $aPrefs['timezone'],
-            'language' => $aPrefs['language'],
-        );
-
-        foreach ($aPrefs as $prefName => $value) {
+        // Store the timezone selected for the admin account preference
+        $doPreferences = OA_Dal::factoryDO('preferences');
+        $doPreferences->preference_name = 'timezone';
+        $doPreferences->find();
+        if ($doPreferences->getRowCount() != 1) {
+            // The preference may not exist yet during upgrade
             $doPreferences = OA_Dal::factoryDO('preferences');
-            $doPreferences->preference_name = $prefName;
+            $doPreferences->preference_name = 'timezone';
+            $doPreferences->preference_name = OA_ACCOUNT_MANAGER;
+            $doPreferences->insert();
+            $doPreferences = OA_Dal::factoryDO('preferences');
+            $doPreferences->preference_name = 'timezone';
             $doPreferences->find();
-            if ($doPreferences->fetch()) {
-                $doAPA = OA_Dal::factoryDO('account_preference_assoc');
-                $doAPA->account_id    = $adminAccountId;
-                $doAPA->preference_id = $doPreferences->preference_id;
-                $doAPA->value         = $value;
-                $result = $doAPA->update();
-
-                if (!$result) {
-                    $this->oLogger->logError("error adding preference default for $prefName: '".$aPref['default']."'");
-                    return false;
-                }
+        }
+        if ($doPreferences->fetch()) {
+            $doAPA = OA_Dal::factoryDO('account_preference_assoc');
+            $doAPA->account_id    = $adminAccountId;
+            $doAPA->preference_id = $doPreferences->preference_id;
+            $doAPA->value         = $aPrefs['timezone'];
+            $result = $doAPA->update();
+            if (!$result) {
+                $this->oLogger->logError("Error adding timezone preference default of: '".$aPref['timezone']."'");
+                return false;
             }
         }
-
         return true;
     }
 
