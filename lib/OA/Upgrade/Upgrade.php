@@ -1573,7 +1573,7 @@ class OA_Upgrade
             // The preference may not exist yet during upgrade
             $doPreferences = OA_Dal::factoryDO('preferences');
             $doPreferences->preference_name = 'timezone';
-            $doPreferences->preference_name = OA_ACCOUNT_MANAGER;
+            $doPreferences->account_type = OA_ACCOUNT_MANAGER;
             $doPreferences->insert();
             $doPreferences = OA_Dal::factoryDO('preferences');
             $doPreferences->preference_name = 'timezone';
