@@ -1579,7 +1579,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     function showInaccurateStatsWarning()
     {
         echo $GLOBALS['strWarningInaccurateStats'].
-            ' <a href="#">'.
+            ' <a href="https://developer.openx.org/wiki/display/ADMIN/Dealing+with+Timezones" target="_blank">'.
             $GLOBALS['strWarningInaccurateReadMore']
             .'</a>';
     }
