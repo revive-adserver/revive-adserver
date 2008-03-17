@@ -585,7 +585,7 @@ require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
         $this->assertEqual(count($aResults), count($aExpectations));
         foreach ($aResults as $nameNew => $aVals)
         {
-            $this->assertTrue(array_key_exists($nameNew, $aExpectations));
+            $this->assertTrue(array_key_exists($nameNew, $aExpectations), "Did not locate preference $nameNew");
             if (array_key_exists($nameNew, $aExpectations))
             {
                 // Deal with the conversion of display/don't display values in column preferences
@@ -655,98 +655,118 @@ require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
     function _getPrefsExpectations($set)
     {
         $aReturn = array(
-            'ui_week_start_day'                   => array(
-                                                        'value' => $this->aPrefsOld[$set]['begin_of_week'],
-                                                        'level' =>''
-                                                     ),
-            'ui_percentage_decimals'              => array(
-                                                        'value' => $this->aPrefsOld[$set]['percentage_decimals'],
-                                                        'level' => ''
-                                                     ),
-            'warn_admin'                          => array(
-                                                        'value' => $this->aPrefsOld[$set]['warn_admin'],
-                                                        'level' => OA_ACCOUNT_ADMIN
-                                                     ),
-            'warn_email_manager'                  => array(
-                                                        'value' => $this->aPrefsOld[$set]['warn_agency'],
-                                                        'level' => OA_ACCOUNT_MANAGER
-                                                     ),
-            'warn_email_advertiser'               => array(
-                                                        'value' => $this->aPrefsOld[$set]['warn_client'],
-                                                        'level' => OA_ACCOUNT_ADVERTISER
-                                                     ),
-            'warn_email_admin_impression_limit'   => array(
-                                                        'value' => $this->aPrefsOld[$set]['warn_limit'],
-                                                        'level' => OA_ACCOUNT_MANAGER
-                                                     ),
-            'ui_novice_user'                      => array(
-                                                        'value' => $this->aPrefsOld[$set]['admin_novice'],
-                                                        'level' => ''
-                                                     ),
-            'default_banner_weight'               => array(
-                                                        'value' => $this->aPrefsOld[$set]['default_banner_weight'],
-                                                        'level' => OA_ACCOUNT_ADVERTISER
-                                                     ),
-            'default_campaign_weight'             => array(
-                                                        'value' => $this->aPrefsOld[$set]['default_campaign_weight'],
-                                                        'level' => OA_ACCOUNT_ADVERTISER
-                                                     ),
-            'default_banner_image_url'            => array(
-                                                        'value' => $this->aPrefsOld[$set]['default_banner_url'],
-                                                        'level' => OA_ACCOUNT_TRAFFICKER
-                                                     ),
-            'default_banner_destination_url'      => array(
-                                                        'value' => $this->aPrefsOld[$set]['default_banner_destination'],
-                                                        'level' => OA_ACCOUNT_TRAFFICKER
-                                                     ),
-            'ui_show_campaign_info'               => array(
-                                                        'value' => $this->aPrefsOld[$set]['gui_show_campaign_info'],
-                                                        'level' => OA_ACCOUNT_ADVERTISER
-                                                     ),
-            'ui_show_campaign_preview'            => array(
-                                                        'value' => $this->aPrefsOld[$set]['gui_show_campaign_preview'],
-                                                        'level' => OA_ACCOUNT_ADVERTISER
-                                                     ),
-            'ui_show_banner_info'                 => array(
-                                                        'value' => $this->aPrefsOld[$set]['gui_show_banner_info'],
-                                                        'level' => OA_ACCOUNT_ADVERTISER
-                                                     ),
-            'ui_show_banner_preview'              => array(
-                                                        'value' => $this->aPrefsOld[$set]['gui_show_banner_preview'],
-                                                        'level' => OA_ACCOUNT_ADVERTISER
-                                                     ),
-            'ui_show_banner_html'                 => array(
-                                                        'value' => $this->aPrefsOld[$set]['gui_show_banner_html'],
-                                                        'level' => OA_ACCOUNT_ADVERTISER
-                                                     ),
-            'ui_show_matching_banners'            => array(
-                                                        'value' => $this->aPrefsOld[$set]['gui_show_matching'],
-                                                        'level' => OA_ACCOUNT_TRAFFICKER
-                                                     ),
-            'ui_show_matching_banners_parents'    => array(
-                                                        'value' => $this->aPrefsOld[$set]['gui_show_parents'],
-                                                        'level' => OA_ACCOUNT_TRAFFICKER
-                                                     ),
-            'ui_hide_inactive'                    => array(
-                                                        'value' => $this->aPrefsOld[$set]['gui_hide_inactive'],
-                                                        'level' => ''
-                                                     ),
-            'tracker_default_status'              => array(
-                                                        'value' => $this->aPrefsOld[$set]['default_tracker_status'],
-                                                        'level' => ''
-                                                     ),
-            'tracker_default_type'                => array(
-                                                        'value' => $this->aPrefsOld[$set]['default_tracker_type'],
-                                                        'level' => ''
-                                                     ),
-            'tracker_link_campaigns'              => array(
-                                                        'value' => $this->aPrefsOld[$set]['default_tracker_linkcampaigns'],
-                                                        'level' => ''
-                                                     ),
-            'warn_email_admin_day_limit'          => array(
-                                                        'value' => $this->aPrefsOld[$set]['warn_limit_days'],
-                                                        'level' => OA_ACCOUNT_MANAGER
-                                                     )
+            'default_banner_image_url'                   => array(
+                                                               'value' => $this->aPrefsOld[$set]['default_banner_url'],
+                                                               'level' => OA_ACCOUNT_TRAFFICKER
+                                                            ),
+            'default_banner_destination_url'             => array(
+                                                               'value' => $this->aPrefsOld[$set]['default_banner_destination'],
+                                                               'level' => OA_ACCOUNT_TRAFFICKER
+                                                            ),
+            'auto_alter_html_banners_for_click_tracking' => array(
+                                                               'value' => $this->aPrefsOld[$set]['banner_html_auto'],
+                                                               'level' => OA_ACCOUNT_ADVERTISER
+                                                            ),
+            'default_banner_weight'                      => array(
+                                                               'value' => $this->aPrefsOld[$set]['default_banner_weight'],
+                                                               'level' => OA_ACCOUNT_ADVERTISER
+                                                            ),
+            'default_campaign_weight'                    => array(
+                                                               'value' => $this->aPrefsOld[$set]['default_campaign_weight'],
+                                                               'level' => OA_ACCOUNT_ADVERTISER
+                                                            ),
+            'warn_email_admin'                           => array(
+                                                               'value' => $this->aPrefsOld[$set]['warn_admin'],
+                                                               'level' => OA_ACCOUNT_ADMIN
+                                                            ),
+            'warn_email_admin_impression_limit'          => array(
+                                                               'value' => $this->aPrefsOld[$set]['warn_limit'],
+                                                               'level' => OA_ACCOUNT_ADMIN
+                                                            ),
+            'warn_email_admin_day_limit'                 => array(
+                                                               'value' => $this->aPrefsOld[$set]['warn_limit_days'],
+                                                               'level' => OA_ACCOUNT_ADMIN
+                                                            ),
+            'warn_email_manager'                         => array(
+                                                               'value' => $this->aPrefsOld[$set]['warn_agency'],
+                                                               'level' => OA_ACCOUNT_MANAGER
+                                                            ),
+            'warn_email_manager_impression_limit'        => array(
+                                                               'value' => $this->aPrefsOld[$set]['warn_limit'],
+                                                               'level' => OA_ACCOUNT_MANAGER
+                                                            ),
+            'warn_email_manager_day_limit'               => array(
+                                                               'value' => $this->aPrefsOld[$set]['warn_limit_days'],
+                                                                'level' => OA_ACCOUNT_MANAGER
+                                                            ),
+            'warn_email_advertiser'                      => array(
+                                                               'value' => $this->aPrefsOld[$set]['warn_client'],
+                                                               'level' => OA_ACCOUNT_ADVERTISER
+                                                            ),
+            'warn_email_advertiser_impression_limit'     => array(
+                                                               'value' => $this->aPrefsOld[$set]['warn_limit'],
+                                                               'level' => OA_ACCOUNT_ADVERTISER
+                                                            ),
+            'warn_email_advertiser_day_limit'            => array(
+                                                               'value' => $this->aPrefsOld[$set]['warn_limit_days'],
+                                                               'level' => OA_ACCOUNT_ADVERTISER
+                                                            ),
+            'tracker_default_status'                     => array(
+                                                               'value' => $this->aPrefsOld[$set]['default_tracker_status'],
+                                                               'level' => OA_ACCOUNT_ADVERTISER
+                                                            ),
+            'tracker_default_type'                       => array(
+                                                               'value' => $this->aPrefsOld[$set]['default_tracker_type'],
+                                                               'level' => OA_ACCOUNT_ADVERTISER
+                                                            ),
+            'tracker_link_campaigns'                     => array(
+                                                               'value' => $this->aPrefsOld[$set]['default_tracker_linkcampaigns'],
+                                                               'level' => OA_ACCOUNT_ADVERTISER
+                                                            ),
+            'ui_show_campaign_info'                      => array(
+                                                               'value' => $this->aPrefsOld[$set]['gui_show_campaign_info'],
+                                                               'level' => OA_ACCOUNT_ADVERTISER
+                                                            ),
+            'ui_show_banner_info'                        => array(
+                                                               'value' => $this->aPrefsOld[$set]['gui_show_banner_info'],
+                                                               'level' => OA_ACCOUNT_ADVERTISER
+                                                            ),
+            'ui_show_campaign_preview'                   => array(
+                                                               'value' => $this->aPrefsOld[$set]['gui_show_campaign_preview'],
+                                                               'level' => OA_ACCOUNT_ADVERTISER
+                                                            ),
+            'ui_show_banner_html'                        => array(
+                                                               'value' => $this->aPrefsOld[$set]['gui_show_banner_html'],
+                                                               'level' => OA_ACCOUNT_ADVERTISER
+                                                            ),
+            'ui_show_banner_preview'                     => array(
+                                                               'value' => $this->aPrefsOld[$set]['gui_show_banner_preview'],
+                                                               'level' => OA_ACCOUNT_ADVERTISER
+                                                            ),
+            'ui_hide_inactive'                           => array(
+                                                               'value' => $this->aPrefsOld[$set]['gui_hide_inactive'],
+                                                               'level' => ''
+                                                            ),
+            'ui_show_matching_banners'                   => array(
+                                                               'value' => $this->aPrefsOld[$set]['gui_show_matching'],
+                                                               'level' => OA_ACCOUNT_TRAFFICKER
+                                                            ),
+            'ui_show_matching_banners_parents'           => array(
+                                                               'value' => $this->aPrefsOld[$set]['gui_show_parents'],
+                                                               'level' => OA_ACCOUNT_TRAFFICKER
+                                                            ),
+            'ui_novice_user'                             => array(
+                                                               'value' => $this->aPrefsOld[$set]['admin_novice'],
+                                                               'level' => ''
+                                                            ),
+            'ui_week_start_day'                          => array(
+                                                               'value' => $this->aPrefsOld[$set]['begin_of_week'],
+                                                               'level' =>''
+                                                            ),
+            'ui_percentage_decimals'                     => array(
+                                                               'value' => $this->aPrefsOld[$set]['percentage_decimals'],
+                                                               'level' => ''
+                                                            )
         );
         if ($set == 0) {
             $aColumnPreferences = array(
