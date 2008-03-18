@@ -134,6 +134,8 @@ class OA_Upgrade_Login
                 phpAds_SessionDataRegister(OA_Auth::getSessionData($doUser));
             }
         }
+
+        phpAds_SessionDataStore();
     }
 
     function _checkLoginOld($tableName, $agencySupport)
