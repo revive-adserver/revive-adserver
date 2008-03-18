@@ -178,6 +178,51 @@ class Test_OA_Maintenance extends UnitTestCase
         DataGenerator::cleanUp();
     }
 
+    function testGetLastRun()
+    {
+        $oMaintenance = new OA_Maintenance();
+
+        $this->assertNull($oMaintenance->getLastRun());
+
+        $iLastRun = strtotime('2002-01-01');
+        OA_Dal_ApplicationVariables::set('maintenance_timestamp', $iLastRun);
+
+        $oDate = new Date((int)$iLastRun);
+        $this->assertTrue($oDate->equals($oMaintenance->getLastRun()));
+
+        OA_Dal_ApplicationVariables::delete('maintenance_timestamp');
+    }
+
+    function testIsMidnightMaintenance()
+    {
+        $oNowDate = new Date('2008-01-28 00:00:10');
+        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator->register('now', $oNowDate);
+
+        $oMaintenance = new OA_Maintenance();
+
+        // No previous run
+        $oLastRun = null;
+        $this->assertTrue($oMaintenance->isMidnightMaintenance($oLastRun));
+
+        // Last run was 6 seconds ago, midnight did already pass
+        $oLastRun = new Date('2008-01-28 00:00:04');
+        $this->assertFalse($oMaintenance->isMidnightMaintenance($oLastRun));
+
+        // Last run was one hour ago, midnight has passed
+        $oLastRun = new Date('2008-01-27 23:00:04');
+        $this->assertTrue($oMaintenance->isMidnightMaintenance($oLastRun));
+
+        // Midnight did already pass in CET
+        $GLOBALS['aServerTimezone']['tz'] = 'CET';
+        $this->assertFalse($oMaintenance->isMidnightMaintenance($oLastRun));
+
+        // Not midnight yet in New York, last run was at 17PM local time
+        $GLOBALS['aServerTimezone']['tz'] = 'EST';
+        $oLastRun = new Date('2008-01-27 12:00:04');
+        $this->assertFalse($oMaintenance->isMidnightMaintenance($oLastRun));
+    }
+
 }
 
 ?>
