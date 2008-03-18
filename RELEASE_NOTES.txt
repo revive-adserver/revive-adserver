@@ -46,7 +46,7 @@ System Requirements
 -------------------
 
 Before installing, please make sure your server meets the system
-requirements [http://www.openx.org/docs/openads-${RELEASE_MAJOR_MINOR}-guide/requirements.html].
+requirements [http://www.openx.org/docs/openx-${RELEASE_MAJOR_MINOR}-guide/requirements.html].
 
 
 Downloading and Installing
@@ -61,14 +61,14 @@ Downloading and Installing
 
    Installing OpenX ${RELEASE_VERSION} is a straightforward process. Follow
    these steps
-   [http://www.openx.org/docs/openads-${RELEASE_MAJOR_MINOR}-guide/installing-openads.html] and
+   [http://www.openx.org/docs/openx-${RELEASE_MAJOR_MINOR}-guide/installing-openx.html] and
    use the links to refer to detailed information on each step where
    necessary.
 
  * Upgrading OpenX ${RELEASE_VERSION}
 
    Upgrading to OpenX ${RELEASE_VERSION} is a straightforward process. Follow
-   these steps [http://www.openx.org/docs/openads-${RELEASE_MAJOR_MINOR}-guide/upgrading.html]
+   these steps [http://www.openx.org/docs/openx-${RELEASE_MAJOR_MINOR}-guide/upgrading.html]
    and use the links to refer to detailed information on each step where
    necessary.
 
@@ -138,7 +138,7 @@ read this before reporting any new bugs.
  * Some users have reported issues of being logged out when viewing
    statistics. This can be worked around by ensuring that the timezone is
    correctly set in PHP
-   [http://www.openx.org/docs/openads-${RELEASE_MAJOR_MINOR}-guide/administrator-settings.html].
+   [http://www.openx.org/docs/openx-${RELEASE_MAJOR_MINOR}-guide/administrator-settings.html].
 
  * See https://developer.openx.org/ for the latest bug reports.
 
