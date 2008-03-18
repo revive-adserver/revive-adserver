@@ -201,7 +201,6 @@ class OA_Maintenance
         OA::debug('Running Midnight Maintenance Tasks', PEAR_LOG_INFO);
         $this->_runReports();
         $this->_runOpenadsSync();
-        $this->_runOpenadsCentral();
         $this->_runGeneralPruning();
         $this->_runPriorityPruning();
         OA::debug('Midnight Maintenance Tasks Completed', PEAR_LOG_INFO);
