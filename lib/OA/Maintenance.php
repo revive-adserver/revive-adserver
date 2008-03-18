@@ -100,6 +100,8 @@ class OA_Maintenance
             increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
             // Set UTC timezone
             OA_setTimeZoneUTC();
+            // Get last run
+            $oLastRun = $this->getLastRun();
             // Update the timestamp for old maintenance code and auto-maintenance
             $this->updateLastRun();
             // Record the current time, and register with the OA_ServiceLocator
@@ -117,7 +119,9 @@ class OA_Maintenance
             // Run the Maintenance Statistics Engine (MSE) process
             $this->_runMSE();
             // Run the "midnight" tasks, if required
-            $this->_runMidnightTasks();
+            if ($this->isMidnightMaintenance($oLastRun)) {
+                $this->_runMidnightTasks();
+            }
             // Release lock before starting MPE
             $oLock->release();
 
@@ -145,30 +149,63 @@ class OA_Maintenance
     }
 
     /**
+     * A method with returns the last time maintenance was run
+     *
+     * @return Date A Date object, or null if maintenance did never run
+     */
+    function getLastRun()
+    {
+        $iLastRun = OA_Dal_ApplicationVariables::get('maintenance_timestamp');
+        if ($iLastRun) {
+            return new Date((int)$iLastRun);
+        }
+
+        return null;
+    }
+
+    /**
+     * A method to check if midnight tasks should run
+     *
+     * @param Date $oLastRun
+     * @return boolean
+     */
+    function isMidnightMaintenance($oLastRun)
+    {
+        global $aServerTimezone;
+
+        if (empty($oLastRun)) {
+            return true;
+        }
+
+        $oServiceLocator = &OA_ServiceLocator::instance();
+        $lastMidnight = new Date($oServiceLocator->get('now'));
+        if (!empty($aServerTimezone['tz'])) {
+            $lastMidnight->convertTZbyID($aServerTimezone['tz']);
+        }
+        $lastMidnight->setHour(0);
+        $lastMidnight->setMinute(0);
+        $lastMidnight->setSecond(0);
+
+        $oLastRunCopy = new Date($oLastRun);
+
+        return $oLastRunCopy->before($lastMidnight);
+    }
+
+    /**
      * A private method to run midnight maintenance tasks.
      *
      * @access private
      */
-    function _runMidnightTasks()
+    function _runMidnightTasks($oLastRun)
     {
-        global $aServerTimezone;
-
-        $iLastRun = new Date((int) OA_Dal_ApplicationVariables::get('maintenance_timestamp'));
-        $lastMidnight = new Date(date('Y-m-d'));
-        if (!empty($aServerTimezone['tz'])) {
-            $lastMidnight->setTZbyID($aServerTimezone['tz']);
-        }
-
-        if ($iLastRun->before($lastMidnight)) {
-            OA::debug('Running Midnight Maintenance Tasks', PEAR_LOG_INFO);
-            $this->_runReports();
-            $this->_runOpenadsSync();
-            $this->_runOpenadsCentral();
-            $this->_runGeneralPruning();
-            $this->_runPriorityPruning();
-            $this->_runDeleteUnverifiedAccounts();
-            OA::debug('Midnight Maintenance Tasks Completed', PEAR_LOG_INFO);
-        }
+        OA::debug('Running Midnight Maintenance Tasks', PEAR_LOG_INFO);
+        $this->_runReports();
+        $this->_runOpenadsSync();
+        $this->_runOpenadsCentral();
+        $this->_runGeneralPruning();
+        $this->_runPriorityPruning();
+        $this->_runDeleteUnverifiedAccounts();
+        OA::debug('Midnight Maintenance Tasks Completed', PEAR_LOG_INFO);
     }
 
     /**
@@ -281,17 +318,17 @@ class OA_Maintenance
         $oPlugin = OA_Auth::staticGetAuthPlugin();
         $oPlugin->deleteUnverifiedUsers($this);
     }
-    
+
     function _startProcessDebugMessage($processName)
     {
         OA::debug('  Starting OpenX '.$processName.' process.', PEAR_LOG_DEBUG);
     }
-    
+
     function _stopProcessDebugMessage()
     {
         OA::debug('  Starting OpenX '.$processName.' process.', PEAR_LOG_DEBUG);
     }
-    
+
     function _debugIfError($processName, $error)
     {
         if (PEAR::isError($error)) {
@@ -299,7 +336,7 @@ class OA_Maintenance
                 . $error->getMessage(), PEAR_LOG_INFO);
         }
     }
-    
+
     /**
      * A private method to run the "midnight" general pruning tasks.
      *
