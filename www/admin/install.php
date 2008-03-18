@@ -335,7 +335,7 @@ else if (array_key_exists('btn_adminsetup', $_POST))
         $aTimezone = OA_Admin_Timezones::getTimezone();
         $aTimezone['timezone'] = $aTimezone['tz'];
 
-        if ($oUpgrader->saveConfig($_POST['aConfig']) && $oUpgrader->putSyncSettings($syncEnabled) && $oUpgrader->putTimezoneAccountPreference($aTimezone))
+        if ($oUpgrader->saveConfig($_POST['aConfig']) && $oUpgrader->putSyncSettings($syncEnabled) && $oUpgrader->putTimezoneAccountPreference($aTimezone, true))
         {
             if (!checkFolderPermissions($_POST['aConfig']['store']['webDir'])) {
                 $aConfig                    = $_POST['aConfig'];

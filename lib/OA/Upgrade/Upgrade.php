@@ -1554,14 +1554,24 @@ class OA_Upgrade
      *
      * @param array $aPrefs An array which must contain the key "timezone",
      *                      containing the desired timezone.
+     * @param boolean $ignoreNoAdminAccount If true, then ignore the case
+     *                                      where the admin account does not
+     *                                      exist, as this is an installation,
+     *                                      and the method will be called again
+     *                                      later on, once the admin account
+     *                                      has actually been created.
      * @return boolean True on success, false otherwise.
      */
-    function putTimezoneAccountPreference($aPrefs)
+    function putTimezoneAccountPreference($aPrefs, $ignoreNoAdminAccount = false)
     {
         $adminAccountId = OA_Dal_ApplicationVariables::get('admin_account_id');
 
         if (!$adminAccountId) {
             $this->oLogger->logError('Error getting the admin account ID');
+            if ($ignoreNoAdminAccount) {
+                $this->oLogger->logError('Ignoring error when getting the admin account ID - installing, so not yet required');
+                return true;
+            }
             return false;
         }
 
