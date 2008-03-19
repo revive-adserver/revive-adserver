@@ -193,14 +193,19 @@ if (isset($submit)) {
         // Get the capping variables
         _initCappingVariables();
 
+        $noDateValue = OA_Dal::noDateValue();
+        if (!isset($noDateValue)) {
+            $noDateValue = 0;
+        }
+
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->campaignname = $campaignname;
         $doCampaigns->clientid = $clientid;
         $doCampaigns->views = $impressions;
         $doCampaigns->clicks = $clicks;
         $doCampaigns->conversions = $conversions;
-        $doCampaigns->expire = OA_Dal::isValidDate($expire) ? $expire : 0.00;
-        $doCampaigns->activate = OA_Dal::isValidDate($activate) ? $activate : 0.00;
+        $doCampaigns->expire = $noDateValue;
+        $doCampaigns->activate = $noDateValue;
         $doCampaigns->priority = $priority;
         $doCampaigns->weight = $weight;
         $doCampaigns->target_impression = $target_impression;
