@@ -71,7 +71,9 @@ jQuery.terms = function(triggerLinksSelector, closeIdPrefix) {
       trigger: triggerLinksSelector,
       onShow: function(hash) {
         var ha = hash;
-        $("#" + closeIdPrefix + "terms-contents").load(hash.t.href);
+        $("#" + closeIdPrefix + "terms-contents").load(hash.t.href, {}, function() { 
+          this.scrollTop = 0;
+        });
         $("#" + closeIdPrefix + "terms-title").html("&nbsp;&nbsp;" + hash.t.title);
         $("#" + hash.t.id + "c").attr("checked", false);
         $("#" + closeIdPrefix + "terms-submit").one("click", function() {
