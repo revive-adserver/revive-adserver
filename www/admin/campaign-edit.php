@@ -204,8 +204,8 @@ if (isset($submit)) {
         $doCampaigns->views = $impressions;
         $doCampaigns->clicks = $clicks;
         $doCampaigns->conversions = $conversions;
-        $doCampaigns->expire = $noDateValue;
-        $doCampaigns->activate = $noDateValue;
+        $doCampaigns->expire = OA_Dal::isValidDate($expire) ? $expire : $noDateValue;
+        $doCampaigns->activate = OA_Dal::isValidDate($activate) ? $activate : $noDateValue;
         $doCampaigns->priority = $priority;
         $doCampaigns->weight = $weight;
         $doCampaigns->target_impression = $target_impression;
