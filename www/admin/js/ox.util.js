@@ -65,15 +65,26 @@ jQuery.fn.confirmedLink = function(triggerLinkClass, closeIdPrefix)
  * a modal popup displaying the same contents.
  */
 jQuery.terms = function(triggerLinksSelector, closeIdPrefix) {
+  if($.browser.msie && (parseInt($.browser.version) == 6)) {
+    // Fall back to opening in a new window on IE6.
+    return this;
+  }
+ 
   $("#" + closeIdPrefix + "terms-dialog").jqm({
       modal: true,
       overlay: 40,
       trigger: triggerLinksSelector,
       onShow: function(hash) {
-        var ha = hash;
-        $("#" + closeIdPrefix + "terms-contents").load(hash.t.href, {}, function() { 
+        var windowHeight = $(window).height();
+        var topOffset = 0.15;
+        var extraHeader = 70;
+        var $termsContents = $("#" + closeIdPrefix + "terms-contents");
+        $termsContents.height(windowHeight * (1 - 2 * topOffset) - extraHeader);
+        
+        $termsContents.html("<a href='" + hash.t.href + "' target='_blank'>" + hash.t.title + "</a>");
+        $termsContents.load(hash.t.href, null, function() { 
           this.scrollTop = 0;
-        });
+        }); 
         $("#" + closeIdPrefix + "terms-title").html("&nbsp;&nbsp;" + hash.t.title);
         $("#" + hash.t.id + "c").attr("checked", false);
         $("#" + closeIdPrefix + "terms-submit").one("click", function() {
