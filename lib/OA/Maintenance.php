@@ -196,7 +196,7 @@ class OA_Maintenance
      *
      * @access private
      */
-    function _runMidnightTasks($oLastRun)
+    function _runMidnightTasks()
     {
         OA::debug('Running Midnight Maintenance Tasks', PEAR_LOG_INFO);
         $this->_runReports();
