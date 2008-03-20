@@ -62,10 +62,16 @@ $Id$
     <!-- no campaigns view -->
     <div class="widgetListWrapper widgetContainer">
         <ul class="widgetList campaignList">
-            {t str=CampaignNoRecords}
+            {if $isAdmin == true}
+                {t str=CampaignNoRecordsAdmin}
+            {else}
+                {t str=CampaignNoRecords}
+            {/if}
         </ul>
     </div>
+    {if $isAdmin != true}
     <div><a class="site-link" target="_top" href="{$siteUrl}">{t str=CampaignSetUp}</a></div>
+    {/if}
     <!-- end of no campaigns view -->
     {/if}
     {/if}
