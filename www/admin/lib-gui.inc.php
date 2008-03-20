@@ -52,6 +52,7 @@ function phpAds_PageContext($name, $link, $selected)
     global $phpAds_context;
     $phpAds_context[] = array(
         'name' => $name,
+        'name_full' => preg_replace("/<\\/?span.*>/U", "",$name),
         'link' => $link,
         'selected' => $selected
     );
