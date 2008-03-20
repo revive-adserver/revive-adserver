@@ -80,7 +80,7 @@ class Plugins_InvocationTags_adviewnocookies_adviewnocookies extends Plugins_Inv
     function isAllowed($extra)
     {
         $isAllowed = parent::isAllowed($extra);
-        if((is_array($extra) && $extra['delivery'] == phpAds_ZoneText) || $this->maxInvocation->zone_invocation) {
+        if($this->maxInvocation->zone_invocation && is_array($extra) && $extra['delivery'] != MAX_ZoneEmail) {
             return false;
         } else {
             return $isAllowed;
