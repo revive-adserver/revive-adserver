@@ -1361,6 +1361,12 @@ class OA_Upgrade
                                                   'action'=>UPGRADE_ACTION_UPGRADE_FAILED,
                                                  )
                                            );
+            // Update SQL functions to the latest version
+            if (PEAR::isError(OA_DB::createFunctions())) {
+                $this->$this->oLogger->logError('Failed to update SQL functions');
+                $this->message = 'Failed to update SQL functions';
+                return false;
+            }
             // Reparse the config file to ensure that new items are loaded
             $this->oConfiguration->aConfig = $GLOBALS['_MAX']['CONF'];
             if (!$this->_upgradeConfig())
