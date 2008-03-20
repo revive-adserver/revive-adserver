@@ -39,6 +39,10 @@ persistent                          = false
 mysql4_compatibility                = false
 protocol			                = tcp
 
+[databaseCharset]
+checkComplete                       = false
+clientCharset                       =
+
 [databaseMysql]
 statisticsSortBufferSize            =
 

@@ -321,6 +321,7 @@ class SimulationScenario
                             $oRequest->target,
                             $oRequest->source,
                             $oRequest->withText,
+                            $oRequest->charset,
                             $oRequest->context,
                             $oRequest->richMedia,
                             $oRequest->ct0,
@@ -729,6 +730,7 @@ class SimulationRequest
     var $source    = "";
     var $withText  = "";
     var $context   = "";
+    var $charset   = "";
     var $richMedia = "";
     var $ct0       = "";
     var $referer   = "";

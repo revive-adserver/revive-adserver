@@ -46,7 +46,7 @@ if (!empty($aBanner))
     $conf               = $GLOBALS['_MAX']['CONF'];
     $bannerName         = strip_tags(phpAds_buildBannerName ($bannerid, $aBanner['name'], $aBanner['alt']));
     $sizeDescription    = ($aBanner['type'] == 'txt') ? '&nbsp;' : "&nbsp;&nbsp;&nbsp;width: {$aBanner['width']}&nbsp;&nbsp;height: {$aBanner['height']}";
-    $bannerCode         = MAX_adRender($aBanner, 0, '', '', '', true, false, false);
+    $bannerCode         = MAX_adRender($aBanner, 0, '', '', '', true, '', false, false);
     $protocol           = ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) ? "https" : "http";
     $deliveryUrl        = $protocol .':'. MAX_commonConstructPartialDeliveryUrl($conf['file']['flash']);
     echo "

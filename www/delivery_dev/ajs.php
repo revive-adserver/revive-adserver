@@ -61,7 +61,7 @@ if (isset($exclude) && $exclude != '' && $exclude != ',') {
 $target = '';
 
 // Get the banner
-$output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
+$output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $charset, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
 
 // Block this banner for next invocation
 if (!empty($block) && !empty($output['bannerid'])) {
@@ -86,7 +86,8 @@ $JScontext = (!empty($context)) ? "<script type='text/javascript'>document.conte
 MAX_cookieFlush();
 
 // Show the banner
-header("Content-type: application/x-javascript");
+MAX_commonSendContentTypeHeader("application/x-javascript", $charset);
+
 if (isset($output['contenttype']) && $output['contenttype'] == 'swf' && !$mmm_fo) {
     echo MAX_flashGetFlashObjectInline();
 }

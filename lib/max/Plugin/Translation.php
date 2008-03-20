@@ -61,9 +61,9 @@ class MAX_Plugin_Translation
         } elseif (!empty($GLOBALS['_MAX']['CONF']['max']['language'])) {
             $language = $GLOBALS['_MAX']['CONF']['max']['language'];
         } else {
-            $language = 'english';
+            $language = 'en';
         }
-        
+
         if (MAX_Plugin_Translation::includePluginLanguageFile($module, $package, $language)) {
             return true;
         }

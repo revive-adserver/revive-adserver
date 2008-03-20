@@ -125,6 +125,7 @@ $GLOBALS['_MAX']['TEST'][$type . '_layers'] =
         'mtp' => array('Maintenance Priority Engine (DB)',          DB_WITH_DATA),
         'mpe' => array('Maintenance Priority Engine (DB, No Data)', DB_WITH_TABLES),
         'up'  => array('Upgrade Classes',                           DB_WITH_TABLES),
+        'mig' => array('Upgrade Migration Classes',                 DB_NO_TABLES),
         'zif' => array('Zone Impression Forecasting (DB)',          DB_WITH_TABLES),
         'del' => array('Delivery Engine (DB)',                      DB_WITH_TABLES),
         'api' => array('Webservices API',                           DB_WITH_TABLES)

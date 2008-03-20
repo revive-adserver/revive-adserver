@@ -238,6 +238,12 @@ class OA_Upgrade_Config
         $this->setValue('database', 'mysql4_compatibility', $aConfig['mysql4_compatibility']);
     }
 
+    function setupConfigDatabaseCharset($aConfig)
+    {
+        $this->setValue('databaseCharset', 'checkComplete', $aConfig['checkComplete']);
+        $this->setValue('databaseCharset', 'clientCharset', $aConfig['clientCharset']);
+    }
+
     function setupConfigTable($aConfig)
     {
         $this->setValue('table', 'prefix', $aConfig['prefix']);

@@ -57,18 +57,16 @@ class Language_Default
         if (is_null($lang)) {
             $lang = $aPref['language'];
         }
-        $oLanguage = new MAX_Admin_Languages();
-        $langString = $oLanguage->languageCodeToString($lang);
 
         // Always load the English language, in case of incomplete translations
-        include MAX_PATH . '/lib/max/language/english/default.lang.php';
+        include MAX_PATH . '/lib/max/language/en/default.lang.php';
         // Load the language from preferences, if possible, otherwise load
         // the global preference, if possible
-        if (!empty($langString) && ($langString != 'english') && file_exists(MAX_PATH .
-                '/lib/max/language/' . $langString . '/default.lang.php')) {
-            include MAX_PATH . '/lib/max/language/' . $langString .
+        if (!empty($lang) && ($lang != 'en') && file_exists(MAX_PATH .
+                '/lib/max/language/' . $lang . '/default.lang.php')) {
+            include MAX_PATH . '/lib/max/language/' . $lang .
                 '/default.lang.php';
-        } elseif (($aConf['max']['language'] != 'english') && file_exists(MAX_PATH .
+        } elseif (($aConf['max']['language'] != 'en ') && file_exists(MAX_PATH .
                 '/lib/max/language/' . $aConf['max']['language'] . '/default.lang.php')) {
             include MAX_PATH . '/lib/max/language/' . $aConf['max']['language'] .
                 '/default.lang.php';

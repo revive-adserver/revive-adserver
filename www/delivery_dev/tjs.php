@@ -42,7 +42,7 @@ $userid = MAX_cookieGetUniqueViewerID(false);
 $conversionsid = NULL;
 $variables_script = '';
 
-header("Content-type: application/x-javascript");
+MAX_commonSendContentTypeHeader("application/x-javascript", $charset);
 
 // Log the tracker impression
 $logVars = false;

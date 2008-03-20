@@ -355,7 +355,8 @@ require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
                     'clients',
                     'preference',
                     'preference_advertiser',
-                    'preference_publisher'
+                    'preference_publisher',
+                    'acls', 'acls_channel', 'banners', 'campaigns', 'tracker_append', 'trackers', 'userlog', 'variables', 'zones'
                 )
             );
             // Set up the database with the standard set of accounts,

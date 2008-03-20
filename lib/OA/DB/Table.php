@@ -487,20 +487,27 @@ class OA_DB_Table
     }
 
     /**
-     * Resets a (postgresql) sequence to 1
+     * Resets a (postgresql) sequence to a value, defaulting to 1
      *
      * @param string $sequence the name of the sequence to reset
+     * @param int    $value    the sequence value return for the next entry
      * @return boolean true on success, false otherwise
      */
-    function resetSequence($sequence)
+    function resetSequence($sequence, $value = 1)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         OA::debug('Resetting sequence ' . $sequence, PEAR_LOG_DEBUG);
         OA::disableErrorHandling(null);
 
+        if ($value < 1) {
+            $value = 1;
+        } else {
+            $value = (int)$value;
+        }
+
         if ($aConf['database']['type'] == 'pgsql') {
             $sequence = $this->oDbh->quoteIdentifier($sequence,true);
-            $result = $this->oDbh->exec("SELECT setval('$sequence', 1, false)");
+            $result = $this->oDbh->exec("SELECT setval('$sequence', {$value}, false)");
             OA::enableErrorHandling();
             if (PEAR::isError($result)) {
                 OA::debug('Unable to reset sequence on table ' . $table, PEAR_LOG_ERR);
@@ -509,7 +516,7 @@ class OA_DB_Table
         }
         else if ($aConf['database']['type'] == 'mysql')
         {
-            $result = $this->oDbh->exec("ALTER TABLE {$GLOBALS['_MAX']['CONF']['table']['prefix']}{$sequence} AUTO_INCREMENT = 1");
+            $result = $this->oDbh->exec("ALTER TABLE {$GLOBALS['_MAX']['CONF']['table']['prefix']}{$sequence} AUTO_INCREMENT = {$value}");
             OA::enableErrorHandling();
             if (PEAR::isError($result)) {
                 OA::debug('Unable to reset sequence on table ' . $sequence, PEAR_LOG_ERR);

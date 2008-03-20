@@ -59,6 +59,7 @@ require_once 'MDB2/Schema.php';
 
 require_once MAX_PATH.'/lib/OA.php';
 require_once MAX_PATH.'/lib/OA/DB.php';
+require_once MAX_PATH.'/lib/OA/DB/Charset.php';
 require_once MAX_PATH.'/lib/OA/Dal/ApplicationVariables.php';
 require_once(MAX_PATH.'/lib/OA/Upgrade/UpgradeLogger.php');
 require_once(MAX_PATH.'/lib/OA/Upgrade/DB_Upgrade.php');
@@ -215,6 +216,14 @@ class OA_Upgrade
             $result = $this->oDbh->exec("SET SESSION sql_mode='MYSQL40'");
             $aConfig['database']['mysql4_compatibility'] = !PEAR::isError($result);
         }
+
+        // Set charset information
+        $oDbc = &OA_DB_Charset::factory($this->oDbh);
+        $charset = $oDbc->getConfigurationValue();
+        $aConfig['databaseCharset'] = array(
+            'checkComplete' => true,
+            'clientCharset' => $charset ? $charset : ''
+        );
 
         return $aConfig;
     }
@@ -1247,6 +1256,7 @@ class OA_Upgrade
     function saveConfigDB($aConfig)
     {
         $this->oConfiguration->setupConfigDatabase($aConfig['database']);
+        $this->oConfiguration->setupConfigDatabaseCharset($aConfig['databaseCharset']);
         $this->oConfiguration->setupConfigTable($aConfig['table']);
         return $this->oConfiguration->writeConfig();
     }
@@ -2224,6 +2234,29 @@ class OA_Upgrade
                 }
             }
             return $aResult;
+        }
+        return false;
+    }
+
+    /**
+     * This method examines the recovery file (if present) and finds the first "version_from"
+     * value, this allows us to know the version that this upgrade came from orignally
+     *
+     * It shouldn't be necessary to use this very often, but it's here if you need it
+     *
+     * @return mixed string/boolean The version_from string, or false if it can't be found
+     */
+    function getOriginalApplicationVersion()
+    {
+        $aResult = $this->seekRecoveryFile();
+        if (is_array($aResult) && isset($aResult[0]['auditId']))
+        {
+            $auditId = $aResult[0]['auditId'];
+            $aAudit = $this->oAuditor->queryAuditByUpgradeId($auditId);
+            if (is_array($aAudit[0]) && isset($aAudit[0]['version_from']))
+            {
+                return $aAudit[0]['version_from'];
+            }
         }
         return false;
     }

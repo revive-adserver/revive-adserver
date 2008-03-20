@@ -18,7 +18,7 @@ class OA_TranslationMaintenance
 {
 
     // Setup variables
-    var $_masterLang  = 'english';
+    var $_masterLang  = 'en';
     var $_otherLangs  = array(
         'spanish'               => 'es',
         'german'                => 'de',

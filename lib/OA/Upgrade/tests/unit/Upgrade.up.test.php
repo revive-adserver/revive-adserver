@@ -481,6 +481,38 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade->_pickupRecoveryFile();
     }
 
+    function test_getOriginalApplicationVersion()
+    {
+        $oUpgrade  = new OA_Upgrade();
+
+        Mock::generatePartial(
+            'OA_UpgradeAuditor',
+            $mockAuditor = 'OA_UpgradeAuditor'.rand(),
+            array('queryAuditByUpgradeId',"getUpgradeActionId")
+        );
+        $oUpgrade->oAuditor = new $mockAuditor($this);
+
+        $oUpgrade->oAuditor->setReturnValueAt(0,'getUpgradeActionId',1);
+        $this->assertTrue($oUpgrade->_writeRecoveryFile(),'failed to write recovery file');
+
+        $oUpgrade->oAuditor->setReturnValueAt(1,'getUpgradeActionId',2);
+        $this->assertTrue($oUpgrade->_writeRecoveryFile(),'failed to write recovery file');
+
+        $oUpgrade->oAuditor->setReturnValueAt(2,'getUpgradeActionId',3);
+        $this->assertTrue($oUpgrade->_writeRecoveryFile(),'failed to write recovery file');
+
+        $aAudit = array(0 => array('upgrade_action_id'=>1,
+                        'upgrade_name'=>'openads_upgrade_2.0.11_to_2.3.0',
+                        'version_to'=>'2.3.0',
+                        'version_from'=>'2.0.11'
+                       ));
+        $oUpgrade->oAuditor->setReturnValue('queryAuditByUpgradeId', $aAudit);
+
+        $this->assertEqual($oUpgrade->getOriginalApplicationVersion(),'2.0.11');
+
+        $oUpgrade->_pickupRecoveryFile();
+    }
+
     /**
      * method to test the PostUpgradeTask methods
      * write file

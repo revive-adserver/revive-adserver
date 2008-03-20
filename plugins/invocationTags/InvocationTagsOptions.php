@@ -662,6 +662,63 @@ class Plugins_InvocationTagsOptions
         return $option;
     }
 
+    /**
+     * Generate the HTML option for charset inclusion
+     *
+     * @return string    A string containing html for option
+     */
+    function charset()
+    {
+        $conf = $GLOBALS['_MAX']['CONF'];
+        $pref = $GLOBALS['_MAX']['PREF'];
+
+        $maxInvocation =& $this->maxInvocation;
+
+        $option = "
+        <tr>
+            <td width='30'>&nbsp;</td>
+            <td width='200'>{$GLOBALS['strCharset']}</td>
+            <td width='370'>
+        ";
+
+        // Add selection box for output adservers
+        $option .= "<select name='charset' tabindex='" . ($maxInvocation->tabindex++) . "'>";
+        $option .= "<option value='' ". ((empty($maxInvocation->charset) && empty($maxInvocation->canDetectCharset)) ? ' selected="selected"' : '') .">{$GLOBALS['strNone']}</option>";
+
+        if ($maxInvocation->canDetectCharset) {
+            $option .= "<option value=''".(empty($maxInvocation->charset) ? ' selected="selected"' : '').">{$GLOBALS['strAutoDetect']}</option>";
+        }
+
+        $availableCharsets = $this->_getAvailableCharsets();
+
+        asort($availableCharsets);
+        foreach ($availableCharsets as $charset) {
+            $option .= "<option value='{$charset}'".($maxInvocation->charset == $charset ? ' selected="selected"' : '').">" . $charset . "</option>\n";
+        }
+        $option .= "</select>";
+        $option .= "</tr>";
+        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
+        return $option;
+    }
+
+    function _getAvailableCharsets()
+    {
+        if (function_exists('mb_convert_encoding')) {    // Try mbstring
+            return array(
+                'UCS-4', 'UCS-4BE', 'UCS-4LE', 'UCS-2', 'UCS-2BE', 'UCS-2LE', 'UTF-32', 'UTF-32BE', 'UTF-32LE', 'UTF-16',
+                'UTF-16BE', 'UTF-16LE', 'UTF-7', 'UTF7-IMAP', 'UTF-8', 'ASCII', 'EUC-JP', 'SJIS', 'eucJP-win', 'SJIS-win',
+                'ISO-2022-JP', 'JIS', 'ISO-8859-1', 'ISO-8859-2', 'ISO-8859-3', 'ISO-8859-4', 'ISO-8859-5', 'ISO-8859-6',
+                'ISO-8859-7', 'ISO-8859-8', 'ISO-8859-9', 'ISO-8859-10', 'ISO-8859-13', 'ISO-8859-14', 'ISO-8859-15',
+                'byte2be', 'byte2le', 'byte4be', 'byte4le', 'BASE64', 'HTML-ENTITIES', '7bit', '8bit', 'EUC-CN', 'CP936',
+                'HZ', 'EUC-TW', 'CP950', 'BIG-5', 'EUC-KR', 'UHC (CP949)', 'ISO-2022-KR', 'Windows-1251 (CP1251)',
+                'Windows-1252 (CP1252)', 'CP866 (IBM866)', 'KOI8-R',
+            );
+        } else if (function_exists('iconv')) { // No? try iconv
+            return array('ISO-8859-1', 'ISO-8859-2', 'ISO-8859-3', 'ISO-8859-4', 'ISO-8859-5', 'ISO-8859-6', 'UTF-8');
+        } else if (function_exists('utf8_encode')) { // No? try utf8_encode/decode
+            return array('UTF-8', 'ISO-8859-1');
+        }
+    }
 }
 
 ?>

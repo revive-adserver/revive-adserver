@@ -100,7 +100,8 @@ class Plugins_InvocationTags_adjs_adjs extends Plugins_InvocationTags
             'target'        => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'source'        => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'withtext'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'blockcampaign' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD
+            'blockcampaign' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'charset'       => MAX_PLUGINS_INVOCATION_TAGS_STANDARD
         );
 
         return $options;
@@ -154,6 +155,12 @@ class Plugins_InvocationTags_adjs_adjs extends Plugins_InvocationTags
 
         // Don't pass in exclude unless necessary
         $buffer .= "   if (document.MAX_used != ',') document.write (\"&amp;exclude=\" + document.MAX_used);\n";
+
+        if (empty($mi->charset)) {
+            $buffer .= "   document.write (document.charset ? '&amp;charset='+document.charset : (document.characterSet ? '&amp;charset='+document.characterSet : ''));\n";
+        } else {
+            $buffer .= "   document.write ('&amp;charset=" . $mi->charset . "');\n";
+        }
         $buffer .= "   document.write (\"&amp;loc=\" + escape(window.location));\n";
         $buffer .= "   if (document.referrer) document.write (\"&amp;referer=\" + escape(document.referrer));\n";
         $buffer .= "   if (document.context) document.write (\"&context=\" + escape(document.context));\n";
@@ -172,6 +179,11 @@ class Plugins_InvocationTags_adjs_adjs extends Plugins_InvocationTags
             $buffer .= "<noscript>{$mi->backupImage}</noscript>\n";
         }
         return $buffer;
+    }
+
+    function setInvocation(&$invocation) {
+        $this->maxInvocation = &$invocation;
+        $this->maxInvocation->canDetectCharset = true;
     }
 
 }

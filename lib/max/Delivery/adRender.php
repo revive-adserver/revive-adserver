@@ -93,6 +93,7 @@ $Id$
  * @param string  $target       The target attribute for generated <a href> links
  * @param string  $ct0          The 3rd party click tracking URL to redirect to after logging
  * @param boolean $withtext     Should "text below banner" be appended to the generated code
+ * @param string  $charset      Character set to convert the rendered output into
  * @param bookean $logClick     Should this click be logged (clicks in admin should not be logged)
  * @param boolean $logView      Should this view be logged (views in admin should not be logged
  *                              also - 3rd party callback logging should not be logged at view time)
@@ -105,7 +106,7 @@ $Id$
  *
  * @return string   The HTML to display this ad
  */
-function MAX_adRender($aBanner, $zoneId=0, $source='', $target='', $ct0='', $withText=false, $logClick=true, $logView=true, $richMedia=true, $loc='', $referer='', $context = array())
+function MAX_adRender($aBanner, $zoneId=0, $source='', $target='', $ct0='', $withText=false, $charset = '', $logClick=true, $logView=true, $richMedia=true, $loc='', $referer='', $context = array())
 {
     $code = '';
     switch ($aBanner['contenttype']) {
@@ -195,7 +196,8 @@ function MAX_adRender($aBanner, $zoneId=0, $source='', $target='', $ct0='', $wit
         }
     }
     $code = str_replace($search, $replace, $code);
-    return $code;
+//    return $code;
+    return MAX_commonConvertEncoding($code, $charset);
 }
 
 /**

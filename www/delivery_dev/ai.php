@@ -53,11 +53,11 @@ if (!empty($filename)) {
 			header("Last-Modified: ".gmdate('D, d M Y H:i:s', $aCreative['t_stamp']).' GMT');
 			if (isset($contenttype) && $contenttype != '') {
 				switch ($contenttype) {
-					case 'swf': header('Content-type: application/x-shockwave-flash; name='.$filename); break;
-					case 'dcr': header('Content-type: application/x-director; name='.$filename); break;
-					case 'rpm': header('Content-type: audio/x-pn-realaudio-plugin; name='.$filename); break;
-					case 'mov': header('Content-type: video/quicktime; name='.$filename); break;
-					default:	header('Content-type: image/'.$contenttype.'; name='.$filename); break;
+					case 'swf': MAX_header('Content-type: application/x-shockwave-flash; name='.$filename); break;
+					case 'dcr': MAX_header('Content-type: application/x-director; name='.$filename); break;
+					case 'rpm': MAX_header('Content-type: audio/x-pn-realaudio-plugin; name='.$filename); break;
+					case 'mov': MAX_header('Content-type: video/quicktime; name='.$filename); break;
+					default:	MAX_header('Content-type: image/'.$contenttype.'; name='.$filename); break;
 				}
 			}
 			echo $aCreative['contents'];

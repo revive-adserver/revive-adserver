@@ -55,7 +55,7 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
         $this->UnitTestCase();
 
         $GLOBALS['_MAX']['PREF'] = array(
-            'language'    => 'english',
+            'language'    => 'en',
             'admin_name'  => 'Foo Bar',
             'admin_email' => 'foo@example.com'
         );
@@ -185,8 +185,8 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
         $this->_setUpAppVars();
 
         $aLanguages = array(
-            1 => 'English',
-            2 => 'Italian'
+            1 => 'en',
+            2 => 'it'
         );
 
         $oResponse = new XML_RPC_Response(XML_RPC_encode($aLanguages));

@@ -304,7 +304,7 @@ class DataObjectAuditTest
         $doPreference = OA_Dal::factoryDO('preference');
         $doPreference->agencyid = 0;
         $doPreference->name = 'Default Agency';
-        $doPreference->language = 'English';
+        $doPreference->language = 'en';
         $doPreference->admin_fullname = 'Default Admin';
         $doPreference->admin_email = 'admin@default.com';
         $agencyId0 = DataGenerator::generateOne($doPreference);

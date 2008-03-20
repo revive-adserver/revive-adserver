@@ -53,6 +53,10 @@ gzipCompression                     = false
 ; Database Settings                                                                        ;
 ;------------------------------------------------------------------------------------------;
 
+[databaseCharset]
+checkComplete                       = false
+clientCharset                       =
+
 [databaseMysql]
 statisticsSortBufferSize            =
 

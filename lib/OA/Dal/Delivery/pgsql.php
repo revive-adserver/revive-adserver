@@ -69,7 +69,10 @@ function OA_Dal_Delivery_connect($database = 'database') {
         $dbLink = @pg_connect(join(' ', $dbParams));
     }
     if ($dbLink && !empty($conf['databasePgsql']['schema'])) {
-            @pg_query("SET search_path='{$conf['databasePgsql']['schema']}'");
+        @pg_query($dbLink, "SET search_path='{$conf['databasePgsql']['schema']}'");
+    }
+    if ($dbLink && !empty($conf['databaseCharset']['checkComplete']) && !empty($conf['databaseCharset']['clientCharset'])) {
+        @pg_client_encoding($dbLink, $conf['databaseCharset']['clientCharset']);
     }
     return $dbLink;
 }

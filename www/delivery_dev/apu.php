@@ -65,7 +65,7 @@ if (!isset($resizable))  $resizable  = 0;
 if (!isset($scrollbars)) $scrollbars = 0;
 
 // Get the banner
-$row = MAX_adSelect($what, $clientid, $target, $source, $withtext, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
+$row = MAX_adSelect($what, $clientid, $target, $source, $withtext, $charset, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
 $row['zoneid'] = 0;
 if (isset($zoneid)) {
     $row['zoneid'] = $zoneid;
@@ -82,7 +82,7 @@ $contenturl = MAX_commonGetDeliveryUrl($conf['file']['content']) . "?bannerid={$
 /* Build the code needed to pop up a window              */
 /*-------------------------------------------------------*/
 
-header("Content-type: application/x-javascript");
+MAX_commonSendContentTypeHeader("application/x-javascript");
 echo "
 var MAX_errorhandler = null;
 

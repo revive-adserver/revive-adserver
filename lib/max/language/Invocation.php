@@ -47,16 +47,16 @@ class Language_Invocation
         $conf = $GLOBALS['_MAX']['CONF'];
         $pref = isset($GLOBALS['_MAX']['PREF']['language'])
             ? $GLOBALS['_MAX']['PREF']
-            : array('language' => 'english');
+            : array('language' => 'en');
         // Always load the English language, in case of incomplete translations
-        include_once MAX_PATH . '/lib/max/language/english/invocation.lang.php';
+        include_once MAX_PATH . '/lib/max/language/en/invocation.lang.php';
         // Load the language from preferences, if possible, otherwise load
         // the global preference, if possible
-        if (($pref['language'] != 'english') && file_exists(MAX_PATH .
+        if (($pref['language'] != 'en') && file_exists(MAX_PATH .
                 '/lib/max/language/' . $pref['language'] . '/invocation.lang.php')) {
             include_once MAX_PATH . '/lib/max/language/' . $pref['language'] .
                 '/invocation.lang.php';
-        } elseif (($conf['max']['language'] != 'english') && file_exists(MAX_PATH .
+        } elseif (($conf['max']['language'] != 'en') && file_exists(MAX_PATH .
                 '/lib/max/language/' . $conf['max']['language'] . '/invocation.lang.php')) {
             include_once MAX_PATH . '/lib/max/language/' . $conf['max']['language'] .
                 '/invocation.lang.php';

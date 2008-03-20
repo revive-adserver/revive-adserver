@@ -143,6 +143,9 @@ class Plugins_InvocationTags_Adlayer_Layerstyles_Cursor_Invocation
     	$mi->parameters[] = 'offsetx='.$offsetx;
     	$mi->parameters[] = 'offsety='.$offsety;
 
+        if (!empty($mi->charset)) {
+    	    $mi->parameters[] = 'charset='.urlencode($mi->charset);
+        }
     	if ($trail == '1')
     		$mi->parameters[] = 'stickyness='.$stickyness;
 
@@ -175,6 +178,7 @@ class Plugins_InvocationTags_Adlayer_Layerstyles_Cursor_Invocation
     		'campaignid'  => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
     		'target'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
     		'source'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+      		'charset'     => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
     		'layerstyle'  => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM,
     		'layercustom' => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM
     	);

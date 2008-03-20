@@ -215,6 +215,9 @@ class Plugins_InvocationTags extends MAX_Plugin_Common
         if (isset($mi->target) && $mi->target != '') {
             $mi->parameters['target'] = "target=".urlencode($mi->target);
         }
+        if (isset($mi->charset) && $mi->charset != '') {
+            $mi->parameters['charset'] = "charset=".urlencode($mi->charset);
+        }
         if (!empty($mi->cachebuster)) {
             $mi->parameters['cb'] = "cb=" . $mi->macros['cachebuster'];
         }

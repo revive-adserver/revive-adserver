@@ -40,7 +40,7 @@ $loc = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http'
     getHostName() .
 	$_SERVER['REQUEST_URI'];
 // This function is a wrapper to view raw, this allows for future migration
-function view_local($what, $zoneid = 0, $campaignid = 0, $bannerid = 0, $target = '', $source = '', $withtext = '', $context = '') {
+function view_local($what, $zoneid = 0, $campaignid = 0, $bannerid = 0, $target = '', $source = '', $withtext = '', $context = '', $charset = '') {
     // start stacked output buffering
     ob_start();
 
@@ -56,7 +56,7 @@ function view_local($what, $zoneid = 0, $campaignid = 0, $bannerid = 0, $target 
         }
     }
 
-    $output = MAX_adSelect($what, '', $target, $source, $withtext, $context, true, '', $GLOBALS['loc'], $GLOBALS['referer']);
+    $output = MAX_adSelect($what, '', $target, $source, $withtext, $charset, $context, true, '', $GLOBALS['loc'], $GLOBALS['referer']);
     if (isset($output['contenttype']) && $output['contenttype'] == 'swf') {
         $output['html'] = MAX_flashGetFlashObjectExternal() . $output['html'];
     }
@@ -117,7 +117,7 @@ function view_spc($what, $target = '', $source = '', $withtext = 0, $block = 0, 
         }
 
         // Get the banner
-        $output = MAX_adSelect('zone:'.$zoneid, '', $target, $source, $withtext, $context, true, '', $GLOBALS['loc'], $GLOBALS['referer']);
+        $output = MAX_adSelect('zone:'.$zoneid, '', $target, $source, $withtext, $charset, $context, true, '', $GLOBALS['loc'], $GLOBALS['referer']);
         if (isset($output['contenttype']) && $output['contenttype'] == 'swf') {
             $fo_required = true;
         }

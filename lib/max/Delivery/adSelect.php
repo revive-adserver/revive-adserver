@@ -129,7 +129,7 @@ require_once MAX_PATH . '/lib/max/Delivery/cache.php';
  *                              )
  *                      )
  */
-function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $withtext = 0, $context = array(), $richmedia = true, $ct0 = '', $loc = '', $referer = '')
+function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $withtext = 0, $charset = '', $context = array(), $richmedia = true, $ct0 = '', $loc = '', $referer = '')
 {
     $conf = $GLOBALS['_MAX']['CONF'];
 
@@ -230,7 +230,7 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
                 }
             }
         }
-        $outputbuffer = MAX_adRender($row, $zoneId, $source, $target, $ct0, $withtext, true, true, $richmedia, $loc, $referer, $context);
+        $outputbuffer = MAX_adRender($row, $zoneId, $source, $target, $ct0, $withtext, $charset, true, true, $richmedia, $loc, $referer, $context);
         $output = array('html'       => $outputbuffer,
                      'bannerid'   => $row['bannerid'],
                      'contenttype'=> $row['contenttype'],

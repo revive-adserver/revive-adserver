@@ -46,7 +46,7 @@ if (!defined('PHPADSNEW_INCLUDED'))
 
 	function view_raw($what, $clientid = 0, $target = '', $source = '', $withtext = 0, $context = 0, $richmedia = true)
 	{
-		$output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $context, $richmedia, '', '', '');
+		$output = MAX_adSelect($what, $clientid, $target, $source, $withtext, '', $context, $richmedia, '', '', '');
 
 		return $output;
 	}
