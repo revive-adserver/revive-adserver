@@ -1580,14 +1580,16 @@ class OA_Upgrade
      */
     function putTimezoneAccountPreference($aPrefs, $ignoreNoAdminAccount = false)
     {
+        $this->oLogger->log('Preparing to set timezone preference...');
         $adminAccountId = OA_Dal_ApplicationVariables::get('admin_account_id');
 
         if (!$adminAccountId) {
             $this->oLogger->logError('Error getting the admin account ID');
             if ($ignoreNoAdminAccount) {
-                $this->oLogger->logError('Ignoring error when getting the admin account ID - installing, so not yet required');
+                $this->oLogger->logError('Ignoring above error when getting the admin account ID - installing, so not yet required');
                 return true;
             }
+            $this->oLogger->logError('Cannot ignore error getting the admin account ID - not setting the timezone preference');
             return false;
         }
 
@@ -1598,6 +1600,7 @@ class OA_Upgrade
         $doPreferences->find();
         if ($doPreferences->getRowCount() != 1) {
             // The timezone preference may not exist yet, create
+            $this->oLogger->log('Did not find the timezone preference ID, creating in preferences table...');
             $doPreferences = OA_Dal::factoryDO('preferences');
             $doPreferences->preference_name = 'timezone';
             $doPreferences->account_type = OA_ACCOUNT_MANAGER;
@@ -1610,6 +1613,7 @@ class OA_Upgrade
             $this->oLogger->logError("Error locating the timezone preference ID");
             return false;
         }
+        $this->oLogger->log("Found timezone preference ID of $timezonePreferenceId");
         // Try to locate the admin account/preference ID
         $doAccount_preference_assoc = OA_Dal::factoryDO('account_preference_assoc');
         $doAccount_preference_assoc->account_id    = $adminAccountId;
@@ -1617,6 +1621,7 @@ class OA_Upgrade
         $doAccount_preference_assoc->find();
         if ($doAccount_preference_assoc->getRowCount() != 1) {
             // There is no preference value yet, create it!
+            $this->oLogger->log('Did not find the admin account\'s timezone association, inserting preference...');
             $doAccount_preference_assoc = OA_Dal::factoryDO('account_preference_assoc');
             $doAccount_preference_assoc->account_id    = $adminAccountId;
             $doAccount_preference_assoc->preference_id = $timezonePreferenceId;
@@ -1626,11 +1631,14 @@ class OA_Upgrade
                 $this->oLogger->logError("Error adding admin account timezone preference of: '".$aPrefs['timezone']."'");
                 return false;
             }
+            $this->oLogger->log("Added the admin account timezone preference of: '".$aPrefs['timezone']."'");
         } else {
             // Update the preference, if required
+            $this->oLogger->log('Found the admin account\'s timezone association, updating preference...');
             $doAccount_preference_assoc->fetch();
             if ($doAccount_preference_assoc->value == $aPrefs['timezone']) {
                 // No need to update, it's already been set
+                $this->oLogger->log('Existing admin account\'s timezone association value not changed, no update needed');
                 return true;
             }
             $doAccount_preference_assoc->value = $aPrefs['timezone'];
@@ -1639,6 +1647,7 @@ class OA_Upgrade
                 $this->oLogger->logError("Error updating admin account timezone preference to: '".$aPrefs['timezone']."'");
                 return false;
             }
+            $this->oLogger->log("Updated the admin account timezone preference to: '".$aPrefs['timezone']."'");
         }
         return true;
     }
@@ -2041,60 +2050,6 @@ class OA_Upgrade
         }
         return true;
     }
-
-    /**
-     * for each schema, replace the upgraded tables with the backup tables
-     *
-     * @return boolean
-     */
-/*    function rollbackSchemas()
-    {
-        foreach ($this->versionInitialSchema AS $schema => $version)
-        {
-            if ($this->oVersioner->getSchemaVersion($schema) != $version)
-            {
-                krsort($this->aDBPackages);
-                foreach ($this->aDBPackages as $k=>$aPkg)
-                {
-                    $this->oAuditor->oDBAuditor->logAuditAction(array('info1'=>'UPGRADE FAILED',
-                                                               'info2'=>'ROLLING BACK',
-                                                               'action'=>DB_UPGRADE_ACTION_UPGRADE_FAILED,
-                                                              )
-                                                        );
-                    if (!$this->oDBUpgrader->init('destructive', $aPkg['schema'], $aPkg['version']))
-                    {
-                        return false;
-                    }
-                    if (!$this->oDBUpgrader->prepRollback())
-                    {
-                        return false;
-                    }
-                    if (!$this->oDBUpgrader->rollback())
-                    {
-                        $this->oLogger->logError('ROLLBACK FAILED: '.$aPkg['schema'].'_'.$aPkg['version']);
-                        return false;
-                    }
-                    if (!$this->oDBUpgrader->init('constructive', $aPkg['schema'], $aPkg['version'], true))
-                    {
-                        return false;
-                    }
-                    if (!$this->oDBUpgrader->prepRollback())
-                    {
-                        return false;
-                    }
-                    if (!$this->oDBUpgrader->rollback())
-                    {
-                        $this->oLogger->logError('ROLLBACK FAILED: '.$aPkg['schema'].'_'.$aPkg['version']);
-                        return false;
-                    }
-                    $this->oLogger->logError('ROLLBACK SUCCEEDED: '.$aPkg['schema'].'_'.$aPkg['version']);
-                    $this->oVersioner->putSchemaVersion($aPkg['schema'], $aPkg['version']);
-                }
-                $this->oVersioner->putSchemaVersion($schema, $version);
-            }
-        }
-        return true;
-    }*/
 
     /**
      * use the xml parser to parse the upgrade package
@@ -2543,118 +2498,6 @@ class OA_Upgrade
         return $aFiles;
     }
 
-    /**
-     * compile a list of changesets available in /etc/changes
-     * could be used for a changeset manager
-     * THIS IS NOT USED BY THE UPGRADER
-     *
-     * @return array
-     */
-    /*
-    function _getChangesetList($schema)
-    {
-        $aFiles = array();
-        $dh = opendir(MAX_PATH.'/etc/changes');
-        if ($dh) {
-            while (false !== ($file = readdir($dh)))
-            {
-                $aMatches = array();
-                if (preg_match("/schema_{$schema}_([\d])+\.xml/", $file, $aMatches))
-                {
-                    $version = $aMatches[1];
-                    $fileSchema = basename($file);
-                    $aFiles[$version] = array();
-                    $fileChanges = str_replace('schema', 'changes', $fileSchema);
-                    $fileMigrate = str_replace('schema', 'migration', $fileSchema);
-                    $fileMigrate = str_replace('xml', 'php', $fileMigrate);
-                    if (!file_exists(MAX_CHG.$fileChanges))
-                    {
-                        $fileChanges = 'not found';
-                    }
-                    $aFiles[$version]['changeset'] = $fileChanges;
-                    if (!file_exists(MAX_CHG.$fileMigrate))
-                    {
-                        $fileMigrate = 'not found';
-                    }
-                    $aFiles[$version]['migration'] = $fileMigrate;
-                    $aFiles[$version]['schema'] = $fileSchema;
-                }
-            }
-        }
-        closedir($dh);
-        return $aFiles;
-    }
-    */
+}
 
-    /**
-     * Open each changeset and determine the version and timings
-     * THIS IS NOT USED BY THE UPGRADER
-     *
-     * @return boolean
-     */
-/*    function _compileChangesetInfo()
-    {
-        $this->aChangesetList = $this->_getChangesetList();
-        foreach ($this->aChangesetList as $version=>$aFiles)
-        {
-            $file       = MAX_PATH.'/etc/changes/'.$aFiles['changeset'];
-            $aChanges   = $this->oDBUpgrader->oSchema->parseChangesetDefinitionFile($file);
-            if (!$this->_isPearError($aChanges, "failed to parse changeset ({$file})"))
-            {
-                $this->_log('changeset found in file: '.$file);
-                $this->_log('name: '.$aChanges['name']);
-                $this->_log('version: '.$aChanges['version']);
-                $this->_log('comments: '.$aChanges['comments']);
-                $this->_log(($aChanges['constructive'] ? 'constructive changes found' : 'constructive changes not found'));
-                $this->_log(($aChanges['destructive'] ? 'destructive changes found' : 'destructive changes not found'));
-            }
-            else
-            {
-                return false;
-            }
-        }
-        return true;
-    } */
-
-    /**
-     * THIS IS NOT USED BY THE UPGRADER
-     *
-     * @return boolean
-     */
-/*    function _checkChangesetAudit($schema)
-    {
-        $aResult = $this->oAuditor->oDBAuditor->queryAudit(null, null, $schema, DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED);
-        if ($aResult)
-        {
-            foreach ($aResult as $k=>$v)
-            {
-                $this->oLogger->log($v['schema_name'].' upgraded to version '.$v['version'].' on '.$v['updated']);
-            }
-        }
-        return true;
-    }*/}
-
-    /**
-     * retrieve a list of available upgrade packages
-     * THIS IS NOT USED BY THE UPGRADER
-     *
-     * @return array
-     */
-/*    function _getPackageList()
-    {
-        $aFiles = array();
-        $dh = opendir($this->upgradePath);
-        if ($dh) {
-            while (false !== ($file = readdir($dh)))
-            {
-                $aMatches = array();
-                if (preg_match('/openads_upgrade_[\w\W\d]+_to_([\w\W\d])+\.xml/', $file, $aMatches))
-                {
-                    $aFiles[] = $file;
-                }
-            }
-        }
-        closedir($dh);
-        return $aFiles;
-    }*/
 ?>
