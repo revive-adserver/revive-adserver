@@ -439,9 +439,12 @@ a:hover {
 #oaSidebar #oaSidebarContext {
 	border-bottom: 1px solid #ccc;
 	padding: 4px 0;
+	padding-right: 3px;
 }
 #oaSidebarContext li {
 	background: url(../images/box-0.gif) 18px 4px no-repeat;
+	overflow: hidden;
+	word-wrap: break-word;
 }
 
 #oaSidebarContext li.selected {

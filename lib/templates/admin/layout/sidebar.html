@@ -38,7 +38,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 {if $aSideContext|@count}
     <ul id="oaSidebarContext">
 {foreach item=s from=$aSideContext}
-        <li class="{if $s.selected}selected{/if}"><a href="{$s.link|escape}"{if $s.accesskey}accesskey="{$s.accesskey}"{/if}>{$s.name}</a></li>
+        <li class="{if $s.selected}selected{/if}"><a href="{$s.link|escape}"{if $s.accesskey}accesskey="{$s.accesskey}"{/if} title="{$s.name_full}">{$s.name}</a></li>
 {/foreach}
     </ul>
 {/if}
