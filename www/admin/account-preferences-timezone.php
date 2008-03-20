@@ -61,10 +61,11 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 	 // Prepare an array of the HTML elements to process, and which
     // of the preferences are checkboxes
     $aElements   = array();
-    //Timezone
+    $aCheckboxes = array();
+    // Timezone
     $aElements[] = 'timezone';
     // Save the preferences
-    $result = OA_Preferences::processPreferencesFromForm($aElements);
+    $result = OA_Preferences::processPreferencesFromForm($aElements, $aCheckboxes);
     if ($result) {
         // The preferences were written correctly saved to the database,
         // go to the "next" preferences page from here
