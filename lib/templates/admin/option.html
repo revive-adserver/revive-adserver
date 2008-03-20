@@ -1,10 +1,10 @@
 
-{if OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED}
+{if $oxInstalled}
 <form id='settingsform' name='settingsform' ENCTYPE='multipart/form-data' method='post' action='{$formUrl}' onSubmit='return max_formValidate(this);'>
-    {if OA_Permission::isAccount(OA_ACCOUNT_ADMIN) && $this->_optionType == 'account-settings'}
+    {if $adminUser && $optionType == 'account-settings'}
     <br />
     <div class='errormessage'><img class='errormessage' src='images/padlock-{$image}.gif' width='16' height='16' border='0' align='absmiddle'>
-        {if $configLocked}{$GLOBALS.strEditConfigNotPossible}{else}{$GLOBALS.strEditConfigPossible}{/if}
+        {if $configLocked}{t str=EditConfigNotPossible}{else}{t str=EditConfigPossible}{/if}
     </div>
     {/if}
 {/if}
@@ -15,26 +15,8 @@
     {/foreach}
 {/foreach}
 
-{if OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED}
-    {if $disableSubmit == 0}
-        <br /><br /><input type="submit" name="submitsettings" value="{$GLOBALS.strSaveChanges}" tabindex="{$tabindex++}"></form>
-    {else}
-        <input type="submit" name="submitCreateTemplate"
-        {if $errors[0] == MAX_ERROR_YOU_HAVE_NO_TRACKERS || $errors[0] == MAX_ERROR_YOU_HAVE_NO_CAMPAIGNS}
-            disabled="disabled"
-        {/if}
-        value="Create CSV Template"> <br /><br />
-
-        <input type='hidden' name='MAX_FILE_SIZE' value='{$max_file_size}' />
-        <input type="hidden" name="start_upload" value="0" />
-        <input type="hidden" name="field_changed" value="none" />
-        Choose a file to upload: (Max size: {$this->_bytes_to_display($max_file_size)}) <input name="uploadedfile" type="file" /><br />
-        <input type="submit" name="uploadFile" onClick='setUploadConversionValues();'
-        {if $errors[0] == MAX_ERROR_YOU_HAVE_NO_TRACKERS || $errors[0] == MAX_ERROR_YOU_HAVE_NO_CAMPAIGNS}
-            disabled="disabled"
-        {/if}
-        value="Upload File" />
-    {/if}
+{if $oxInstalled}
+    <br /><br /><input type="submit" name="submitsettings" value="{t str=SaveChanges}" tabindex="{$tabindex++}"></form>
 {/if}
 
 {literal}
