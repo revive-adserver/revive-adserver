@@ -42,33 +42,6 @@ class Test_EncodingMigration extends MigrationTest
      */
     function Test_EncodingMigration()
     {
-        $aConf = &$GLOBALS['_MAX']['CONF'];
-
-        $charset = 'latin1';
-        $this->oDbh = &OA_DB::singleton();
-        if ($this->oDbh->dbsyntax == 'pgsql') {
-            // Get LC_CTYPE
-            $cType = $this->oDbh->queryOne("SHOW LC_CTYPE");
-            if (preg_match('/\.1252$/', $cType)) {
-                // Windows Locale is incompatible with LATIN1
-                $charset = 'WIN1252';
-            }
-        }
-
-        OA_DB::disconnectAll();
-        define('OA_DB_MDB2_DEFAULT_CHARSET', $charset);
-        TestEnv::teardownDB();
-        OA_DB::createDatabase($aConf['database']['name']);
-        OA_DB::disconnectAll();
-
-        // Set charset information
-        $aConf['databaseCharset'] = array(
-            'checkComplete' => true,
-            'clientCharset' => $charset ? $charset : ''
-        );
-
-        $this->oDbh = &OA_DB::singleton();
-
         $this->UnitTestCase();
     }
 
@@ -78,6 +51,27 @@ class Test_EncodingMigration extends MigrationTest
      */
     function test_convertEncoding()
     {
+        // Force client charset to latin1 so that the behaviour is similar to a real latin1 database
+        // even if the database is encoded in utf8. At first we tried to drop the database an recreate
+        // a latin1 encoded database, but PgSQL doesn't allow LATIN1 databases if the locale is set to
+        // UTF-8.
+        $GLOBALS['_MAX']['CONF']['databaseCharset'] = array(
+            'checkComplete' => true,
+            'clientCharset' => 'latin1'
+        );
+
+        // However MySQL versions < 4.1.2 didn't support charsets, so we don't need to do that
+        // and assume that a database can store any 8bit data (which is in fact true)
+        if ($this->oDbh->dbsyntax == 'mysql') {
+            $aVersion = $this->oDbh->getServerVersion();
+            if (version_compare($aVersion['native'], '4.1.2', '<')) {
+                $GLOBALS['_MAX']['CONF']['databaseCharset']['clientCharset'] = '';
+            }
+        }
+
+        // Set client charset
+        OA_DB::setCharset($this->oDbh);
+
         // These tables are required for the encoding migration
         $aTables = array('acls', 'acls_channel', 'ad_zone_assoc', 'affiliates', 'affiliates_extra', 'agency', 'application_variable', 'banners', 'campaigns', 'channel', 'clients', 'preference', 'session', 'tracker_append', 'trackers', 'userlog', 'variables', 'zones');
 
@@ -110,16 +104,24 @@ class Test_EncodingMigration extends MigrationTest
         $tblCampaigns = $this->oDbh->quoteIdentifier($this->getPrefix().'campaigns', true);
 
         // Check that the campaign names are correctly created:
-        $query = "SELECT campaignid, MD5(campaignname) AS md5 FROM {$tblCampaigns}";
+        $query = "SELECT campaignid, campaignname FROM {$tblCampaigns}";
         $result = $this->oDbh->queryAll($query);
+        foreach (array_keys($result) as $k) {
+            $result[$k]['md5'] = md5($result[$k]['campaignname']);
+            unset($result[$k]['campaignname']);
+        }
         $this->assertIdentical($result, $expected['latin1_utf8']);
 
         // Upgrade the dataset and ensure that the upgraded campaign names were upgraded correctly:
         $this->upgradeToVersion(544);
 
         // Fields requiring encoding changes should now be correct
-        $query = "SELECT campaignid, MD5(campaignname) AS md5 FROM {$tblCampaigns}";
+        $query = "SELECT campaignid, campaignname FROM {$tblCampaigns}";
         $result = $this->oDbh->queryAll($query);
+        foreach (array_keys($result) as $k) {
+            $result[$k]['md5'] = md5($result[$k]['campaignname']);
+            unset($result[$k]['campaignname']);
+        }
         $this->assertIdentical($result, $expected['utf8_utf8']);
     }
 
