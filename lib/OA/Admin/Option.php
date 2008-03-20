@@ -504,8 +504,11 @@ class OA_Admin_Option
         $this->oTpl->assign('checkbuffer',      $checkbuffer);
         $this->oTpl->assign('dependbuffer',     $dependbuffer);
         $this->oTpl->assign('usertypebuffer',   $usertypebuffer);
-        $this->oTpl->assign('GLOBALS',          $GLOBALS);
         $this->oTpl->assign('tabindex',         $tabindex);
+        $this->oTpl->assign('optionType',       $this->_optionType);
+        $this->oTpl->assign('adminUser',        OA_Permission::isAccount(OA_ACCOUNT_ADMIN));
+        $this->oTpl->assign('oxInstalled',      OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED);
+        
         $this->oTpl->display();
     }
 
