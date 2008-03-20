@@ -1136,6 +1136,7 @@ $GLOBALS['strCampaignNoRecords']        = '<li>Campaigns let you group together 
         <li>Save time by grouping banners within a campaign and no longer define delivery settings for each ad separately</li>
         <li>Check out the <a class="site-link" target="help" href="http://'.OX_PRODUCT_DOCSURL.'/inventory/advertisersAndCampaigns/campaigns">Campaign documentation</a>!</li>
 ';
+$GLOBALS['strCampaignNoRecordsAdmin']   = '<li>There is no campaign activity to display.</li>';
 
 $GLOBALS['strCampaignNoDataTimeSpan']    = 'No campaigns have started or finished during the timeframe you have selected';
 $GLOBALS['strCampaignAuditNotActivated'] = '<li>In order to view campaigns which have started or finished during the timeframe you have selected, the Audit Trail must be activated</li>

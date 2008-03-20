@@ -110,6 +110,9 @@ class OA_Dashboard_Widget_CampaignOverview extends OA_Dashboard_Widget
                 $doCampaigns->limit(1);
 
                 $this->oTpl->assign('hasCampaigns', $doCampaigns->count());
+                if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
+                    $this->oTpl->assign('isAdmin', true);
+                }
             }
 
             $this->oTpl->assign('screen',       'enabled');
