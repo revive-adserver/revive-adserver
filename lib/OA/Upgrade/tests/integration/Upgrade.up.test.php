@@ -509,12 +509,13 @@ class Test_OA_Upgrade extends UnitTestCase
         Mock::generatePartial(
                                 'OA_Upgrade_Config',
                                 $mockConfig = 'OA_Upgrade_Config'.rand(),
-                                array('mergeConfig','setupConfigDatabase','setupConfigTable','writeConfig','getConfigBackupName')
+                                array('mergeConfig','setupConfigDatabase','setupConfigTable','setValue','writeConfig','getConfigBackupName')
                              );
         $oUpgrade->oConfiguration = new $mockConfig($this);
 
         $oUpgrade->oConfiguration->setReturnValue('setupConfigDatabase', true);
         $oUpgrade->oConfiguration->setReturnValue('setupConfigTable', true);
+        $oUpgrade->oConfiguration->setReturnValue('setValue', true);
         $oUpgrade->oConfiguration->setReturnValue('writeConfig', true);
 
         $oUpgrade->oConfiguration->expectCallCount('mergeConfig', 1);

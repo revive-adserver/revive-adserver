@@ -123,6 +123,7 @@ class OA_DB_Integrity
     function dumpData($aVariables)
     {
         $aResult = array();
+        $aVariables['exclude']['hack'] = "(ad_category_assoc|campaigns_trackers|category|lb_local|password_recovery|placement_zone_assoc|plugins_channel_delivery_assoc|plugins_channel_delivery_domains|plugins_channel_delivery_rules|targetstats|variable_publisher)";
         foreach ($aVariables['exclude'] AS $k => $pattern)
         {
             foreach ($this->oDBUpgrader->aDefinitionNew['tables'] AS $table => $aDef)

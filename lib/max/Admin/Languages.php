@@ -74,28 +74,12 @@ class MAX_Admin_Languages
                     !in_array($langDir, $this->aDeprecated) &&
                     file_exists(MAX_PATH . '/lib/max/language/' . $langDir . '/index.lang.php')) {
                 include_once MAX_PATH . '/lib/max/language/' . $langDir . '/index.lang.php' ;
-                $languageCode = $this->languageStringToCode($langDir);
-                $languages[$languageCode] = $translation_readable;
+                $languages[$langDir] = $translation_readable;
             }
         }
         closedir($langDirs);
         asort($languages, SORT_STRING);
         return $languages;
-    }
-
-    /**
-     * NOTE: This is a temporary wrapper method until the language folders are updated
-     * This method maps the language string into it's appropriate code
-     *
-     * @param string $string The language string (e.g. "english" or "spanish")
-     */
-    function languageStringToCode($string)
-    {
-        // First sanity check that a code wan't passed in
-        if (in_array($string, $this->aLanguageMap)) {
-            return $string;
-        }
-        return (isset($this->aLanguageMap[$string])) ? $this->aLanguageMap[$string] : 'en';
     }
 
     /**

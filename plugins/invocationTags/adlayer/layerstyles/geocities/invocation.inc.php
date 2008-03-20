@@ -107,6 +107,9 @@ class Plugins_InvocationTags_Adlayer_Layerstyles_Geocities_Invocation
     	if (isset($closetext)) {
     	    $mi->parameters[] = 'closetext='.urlencode($closetext);
     	}
+        if (!empty($mi->charset)) {
+    	    $mi->parameters[] = 'charset='.urlencode($mi->charset);
+    	}
 
     	if (isset($collapsetime) && $collapsetime > 0) {
     		$mi->parameters[] = 'collapsetime='.$collapsetime;
@@ -135,6 +138,7 @@ class Plugins_InvocationTags_Adlayer_Layerstyles_Geocities_Invocation
     		'campaignid'  => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
     		'target'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
     		'source'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+    		'charset'     => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
     		'layerstyle'  => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM,
     		'layercustom' => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM
     	);

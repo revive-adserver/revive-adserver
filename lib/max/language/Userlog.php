@@ -47,14 +47,14 @@ class Language_Userlog
         $conf = $GLOBALS['_MAX']['CONF'];
         $pref = $GLOBALS['_MAX']['PREF'];
         // Always load the English language, in case of incomplete translations
-        include_once MAX_PATH . '/lib/max/language/english/userlog.lang.php';
+        include_once MAX_PATH . '/lib/max/language/en/userlog.lang.php';
         // Load the language from preferences, if possible, otherwise load
         // the global preference, if possible
-        if (($pref['language'] != 'english') && file_exists(MAX_PATH .
+        if (($pref['language'] != 'en') && file_exists(MAX_PATH .
                 '/lib/max/language/' . $pref['language'] . '/userlog.lang.php')) {
             include_once MAX_PATH . '/lib/max/language/' . $pref['language'] .
                 '/userlog.lang.php';
-        } elseif (($conf['max']['language'] != 'english') && file_exists(MAX_PATH .
+        } elseif (($conf['max']['language'] != 'en') && file_exists(MAX_PATH .
                 '/lib/max/language/' . $conf['max']['language'] . '/userlog.lang.php')) {
             include_once MAX_PATH . '/lib/max/language/' . $conf['max']['language'] .
                 '/userlog.lang.php';

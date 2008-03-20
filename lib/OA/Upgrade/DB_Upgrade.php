@@ -1664,7 +1664,7 @@ class OA_DB_Upgrade
                                 $this->aTaskList['tables']['remove'][] = $this->_compileTaskTable($task, $table);
                             }
                             else
-                            {
+                            {echo "{$table} not found<br />";
                                 $this->_logError('hmmm.. couldn\'t find table in database: '.$this->prefix.$table);
                                 $this->_halt();
                                 return false;

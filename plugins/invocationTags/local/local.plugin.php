@@ -89,6 +89,7 @@ class Plugins_InvocationTags_local_local extends Plugins_InvocationTags
             'campaignid'    => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'target'        => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'source'        => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'charset'       => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'withtext'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'block'         => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'blockcampaign' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
@@ -122,33 +123,24 @@ class Plugins_InvocationTags_local_local extends Plugins_InvocationTags
         if (!isset($mi->campaignid) || $mi->campaignid == '') $mi->campaignid = 0;
         if (!isset($mi->bannerid)   || $mi->bannerid == '')   $mi->bannerid = 0;
 
-        $buffer .= "<"."?php\n";
-        $buffer .= "  // The MAX_PATH below should point to the base of your {$name} installation\n";
+        $buffer = "<"."?php\n  //" . $buffer;
+        $buffer .= (!empty($mi->comments)) ? "  // The MAX_PATH below should point to the base of your {$name} installation\n" : '';
         $buffer .= "  define('MAX_PATH', '" . MAX_PATH . "');\n";
-        $buffer .= "  if (@include_once(MAX_PATH . '/www/delivery/{$conf['file']['local']}')) {\n";
+        $buffer .= "  if (@include_once(MAX_PATH . '/www/delivery" . (preg_match('#_dev\/?$#', $conf['webpath']['delivery']) ? '_dev' : '') . "/{$conf['file']['local']}')) {\n";
         $buffer .= "    if (!isset($"."phpAds_context)) {\n      $"."phpAds_context = array();\n    }\n";
-        if (isset($mi->raw) && $mi->raw == '1') {
-            $buffer .= "    $"."phpAds_raw = view_local ('$mi->what', $mi->zoneid, $mi->campaignid, $mi->bannerid, '$mi->target', '$mi->source', '$mi->withtext', $"."phpAds_context);\n";
-            if (isset($mi->block) && $mi->block == '1') {
-                $buffer .= "    $"."phpAds_context[] = array('!=' => 'bannerid:'.$"."phpAds_raw['bannerid']);\n";
-            }
-            if (isset($mi->blockcampaign) && $mi->blockcampaign == '1') {
-                $buffer .= "    $"."phpAds_context[] = array('!=' => 'campaignid:'.$"."phpAds_raw['campaignid']);\n";
-            }
-            $buffer .= "  }\n    \n";
-            $buffer .= "  // " . MAX_Plugin_Translation::translate('Assign the $phpAds_raw[\'html\'] variable to your template', $this->module, $this->package) . "\n";
-            $buffer .= "  // echo $"."phpAds_raw['html'];\n";
-        } else {
-            $buffer .= "    $"."phpAds_raw = view_local('$mi->what', $mi->zoneid, $mi->campaignid, $mi->bannerid, '$mi->target', '$mi->source', '$mi->withtext', $"."phpAds_context);\n";
-            if (isset($mi->block) && $mi->block == '1') {
-                $buffer .= "    $"."phpAds_context[] = array('!=' => 'bannerid:'.$"."phpAds_raw['bannerid']);\n";
-            }
-            if (isset($mi->blockcampaign) && $mi->blockcampaign == '1') {
-                $buffer .= "    $"."phpAds_context[] = array('!=' => 'campaignid:'.$"."phpAds_raw['campaignid']);\n";
-            }
-            $buffer .= "    echo $"."phpAds_raw['html'];\n";
-            $buffer .= "  }\n";
+        if (!empty($mi->comments)) {
+            $buffer .= "    // function view_local(\$what, \$zoneid=0, \$campaignid=0, \$bannerid=0, \$target='', \$source='', \$withtext='', \$context='', \$charset='')\n";
         }
+        $buffer .= "    $"."phpAds_raw = view_local('{$mi->what}', {$mi->zoneid}, {$mi->campaignid}, {$mi->bannerid}, '{$mi->target}', '{$mi->source}', '{$mi->withtext}', \$phpAds_context, '{$mi->charset}');\n";
+        if (isset($mi->block) && $mi->block == '1') {
+            $buffer .= "    $"."phpAds_context[] = array('!=' => 'bannerid:'.$"."phpAds_raw['bannerid']);\n";
+        }
+        if (isset($mi->blockcampaign) && $mi->blockcampaign == '1') {
+            $buffer .= "    $"."phpAds_context[] = array('!=' => 'campaignid:'.$"."phpAds_raw['campaignid']);\n";
+        }
+        $buffer .= "  }\n";
+        $buffer .= (isset($mi->raw) && $mi->raw == '1') ? "  // " . MAX_Plugin_Translation::translate('Assign the $phpAds_raw[\'html\'] variable to your template', $this->module, $this->package) . "\n  // " : '  ';
+        $buffer .= "echo $"."phpAds_raw['html'];\n";
         $buffer .= "?".">\n";
 
         return $buffer;

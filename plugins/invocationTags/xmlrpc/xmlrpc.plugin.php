@@ -93,6 +93,7 @@ class Plugins_InvocationTags_xmlrpc_xmlrpc extends Plugins_InvocationTags
             'campaignid'    => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'target'        => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'source'        => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'charset'       => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'withtext'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'block'         => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'blockcampaign' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
@@ -168,12 +169,11 @@ class Plugins_InvocationTags_xmlrpc_xmlrpc extends Plugins_InvocationTags
                     $buffer .= ', false';
                 }
                 $buffer .= ', ' . $mi->timeout . ');' . "\n";
-                $buffer .= '    $adArray = $oaXmlRpc->view(\'' .
-                    $mi->what . '\', ' .
-                    $mi->campaignid . ', \'' .
-                    $mi->target . '\', \'' .
-                    $mi->source . '\', ' .
-                    $mi->withtext . ', $OA_context);' . "\n";
+                if (!empty($mi->comments)) {
+                    $buffer .= "\n    //view(\$what='', \$campaignid=0, \$target='', \$source='', \$withText=false, \$context=array(), \$charset='')\n";
+                }
+                $buffer .= "    \$adArray = \$oaXmlRpc->view('{$mi->what}', {$mi->campaignid}, '{$mi->target}', '{$mi->source}', {$mi->withtext}, \$OA_context, '{$mi->charset}');\n";
+
                 if (isset($mi->block) && $mi->block == '1') {
                     $buffer .= '    $OA_context[] = array(\'!=\' => \'bannerid:\'.$adArray[\'bannerid\']);' . "\n";
                 }

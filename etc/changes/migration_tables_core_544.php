@@ -2,6 +2,7 @@
 
 require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
 require_once MAX_PATH . '/etc/changes/UserMigration.php';
+require_once MAX_PATH . '/etc/changes/EncodingMigration.php';
 require_once(MAX_PATH.'/lib/OA/Dal/ApplicationVariables.php');
 
 class Migration_544 extends Migration
@@ -91,6 +92,11 @@ class Migration_544 extends Migration
 	function beforeAlterField__application_variable__value()
 	{
 	    $aConf = $GLOBALS['_MAX']['CONF'];
+
+	    // Encoding changes must be made before remapping the users, because the user migration
+	    // loses the exact encoding of the language pack (in preparation for UTF-8 only packs)
+	    $oEncodingMigration = new EncodingMigration();
+	    $oEncodingMigration->convertEncoding();
 
 	    $aUserdata = array(
 	       'ADMIN' => array(

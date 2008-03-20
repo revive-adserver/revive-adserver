@@ -56,6 +56,7 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
         'withtext' => 0,
         'noscript' => 1,
         'ssl' => 0,
+        'charset' => '',
     );
 
     /**
@@ -225,6 +226,10 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
 						$optionName = MAX_Plugin_Translation::translate('Option - SSL', $this->module, $this->package);
 						$optionValue = intval($mi->$feature) ? $GLOBALS['strYes'] : $GLOBALS['strNo'];
 						break;
+				case 'charset':
+						$optionName = $GLOBALS['strCharset'];
+						$optionValue = empty($mi->$feature) ? $GLOBALS['strAutoDetect'] : $mi->$feature;
+						break;
 				default:
 						$optionName = $feature;
 						$optionValue = $mi->$feature;
@@ -368,6 +373,7 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
             'target'        => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'source'        => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'withtext'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'charset'       => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'noscript'      => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM,
             'ssl'           => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM,
         );
@@ -386,7 +392,6 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
         $noscript = (isset($maxInvocation->noscript)) ? $maxInvocation->noscript : $this->defaultOptionValues['noscript'];
 
         $option = '';
-        $option .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>" . MAX_Plugin_Translation::translate('Option - noscript', $this->module, $this->package) . "</td>";
         $option .= "<td width='370'><input type='radio' id='noscript-y' name='noscript' value='1'".($noscript == 1 ? " checked='checked'" : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;<label for='noscript-y'>".$GLOBALS['strYes']."</label><br />";
@@ -396,14 +401,12 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
         return $option;
     }
 
-
     function ssl()
     {
         $maxInvocation = &$this->maxInvocation;
         $ssl = (isset($maxInvocation->ssl)) ? $maxInvocation->ssl : $this->defaultOptionValues['ssl'];
 
         $option = '';
-        $option .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>" . MAX_Plugin_Translation::translate('Option - SSL', $this->module, $this->package) . "</td>";
         $option .= "<td width='370'><input type='radio' id='ssl-y' name='ssl' value='1'".($ssl == 1 ? " checked='checked'" : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;<label for='ssl-y'>".$GLOBALS['strYes']."</label><br />";
@@ -411,6 +414,11 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
         $option .= "</tr>";
         $option .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
         return $option;
+    }
+
+    function setInvocation(&$invocation) {
+        $this->maxInvocation = &$invocation;
+        $this->maxInvocation->canDetectCharset = true;
     }
 
     function getHeaderCode()

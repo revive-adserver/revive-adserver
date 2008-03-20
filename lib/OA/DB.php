@@ -28,6 +28,7 @@ $Id$
 require_once 'MDB2.php';
 require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/OA.php';
+require_once MAX_PATH . '/lib/OA/DB/Charset.php';
 
 define('OA_DB_MDB2_DEFAULT_OPTIONS', MDB2_PORTABILITY_ALL ^ MDB2_PORTABILITY_EMPTY_TO_NULL);
 
@@ -110,7 +111,13 @@ class OA_DB
                     }
                 }
             } elseif (strcasecmp($aConf['database']['type'], 'pgsql') === 0) {
-                $aOptions['quote_identifier'] = '"';
+                $aOptions['quote_identifier'] = true;
+	        }
+	        // Add default charset - custom OpenX
+	        if (defined('OA_DB_MDB2_DEFAULT_CHARSET')) {
+	            $aOptions['default_charset'] = OA_DB_MDB2_DEFAULT_CHARSET;
+	        } else {
+    	        $aOptions['default_charset'] = 'utf8';
 	        }
             // this will log select queries to a var/sql.log
             // currently used for analysis purposes
@@ -133,6 +140,11 @@ class OA_DB
             OA::disableErrorHandling();
             $success = $oDbh->connect();
             OA::enableErrorHandling();
+            if (PEAR::isError($success)) {
+                return $success;
+            }
+            // Set charset if needed
+            $success = OA_DB::setCharset($oDbh);
             if (PEAR::isError($success)) {
                 return $success;
             }
@@ -324,7 +336,7 @@ class OA_DB
         if (PEAR::isError($oDbh)) {
             return $oDbh;
         }
-        $functionsFile = MAX_PATH . '/etc/core.' . $oDbh->dsn['phptype'] . '.php';
+        $functionsFile = MAX_PATH . '/etc/core.'.strtolower($oDbh->dbsyntax).'.php';
         if (is_readable($functionsFile)) {
             if ($oDbh->dsn['phptype'] == 'pgsql') {
                 $result = OA_DB::_createLanguage();
@@ -405,6 +417,9 @@ class OA_DB
         if (PEAR::isError($result)) {
             return false;
         }
+        // Throw away any connections to this database since it doesn't exist anymore
+        unset($GLOBALS['_OA']['CONNECTIONS']);
+        $GLOBALS['_MDB2_databases'] = array();
         return true;
     }
 
@@ -507,6 +522,25 @@ class OA_DB
         }
 
         return true;
+    }
+
+    /**
+     * A method to set the client encoding.
+     *
+     * @param MDB2_Driver_common $oDbh
+     * @return mixed True on succes, PEAR_Error otherwise
+     */
+    function setCharset($oDbh)
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+
+        $oDbc = OA_DB_Charset::factory($oDbh);
+        if (!empty($aConf['databaseCharset']['checkComplete'])) {
+            $charset = $aConf['databaseCharset']['clientCharset'];
+        } else {
+            $charset = $oDbc->getConfigurationValue();
+        }
+        return $oDbc->setClientCharset($charset);
     }
 
     /**

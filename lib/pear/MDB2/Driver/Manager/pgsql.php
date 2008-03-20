@@ -72,7 +72,13 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
         }
 
         $name = $db->quoteIdentifier($name, true);
-        return $db->standaloneQuery("CREATE DATABASE $name", null, true);
+        $query = "CREATE DATABASE $name";
+        // Charset handling - custom OpenX
+        if ($charset = $db->getOption('default_charset')) {
+            $charset = "'".addslashes($charset)."'";
+            $query .= " ENCODING $charset";
+        }
+        return $db->standaloneQuery($query, null, true);
     }
 
     // }}}

@@ -40,7 +40,7 @@ MAX_commonRegisterGlobalsArray(array('id'));
 $output = OA_SPCGetJavaScript($id);
 
 // Output JS
-header("Content-Type: text/javascript");
+MAX_commonSendContentTypeHeader("application/x-javascript");
 header("Content-Size: ".strlen($output));
 header("Expires: ".gmdate('r', time() + 86400));
 
@@ -80,6 +80,13 @@ function OA_SPCGetJavaScript($affiliateid)
     {$varprefix}spc+=\"src='\"+{$varprefix}p+\"".MAX_commonConstructPartialDeliveryUrl($conf['file']['singlepagecall'])."?zones=\"+{$varprefix}zoneids;
     {$varprefix}spc+=\"&source=\"+{$varprefix}source+\"&r=\"+{$varprefix}r;" .
     ((!empty($additionalParams)) ? "\n    {$varprefix}spc+=\"{$additionalParams}\";" : '') . "
+    ";
+    if (!empty($_GET['charset'])) {
+        $script .= "{$varprefix}spc+='&amp;charset=" . $_GET['charset'] . "';\n";
+    } else {
+        $script .= "{$varprefix}spc+=(document.charset ? '&amp;charset='+document.charset : (document.characterSet ? '&amp;charset='+document.characterSet : ''));\n";
+    }
+    $script .= "
     if (window.location) {$varprefix}spc+=\"&loc=\"+escape(window.location);
     if (document.referrer) {$varprefix}spc+=\"&referer=\"+escape(document.referrer);
     {$varprefix}spc+=\"'><\"+\"/script>\";

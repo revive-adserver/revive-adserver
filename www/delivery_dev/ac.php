@@ -33,6 +33,8 @@ require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
 require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 
+MAX_commonSendContentTypeHeader('text/html');
+
 //Register any script specific input variables
 MAX_commonRegisterGlobalsArray(array('timeout'));
 $timeout  = !empty($timeout) ? $timeout : 0;

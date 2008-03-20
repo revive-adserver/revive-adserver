@@ -62,7 +62,7 @@ foreach ($zones as $thisZone) {
 
     $what = 'zone:'.$thisZoneid;
     // Get the banner
-    $output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
+    $output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $charset, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
 
     // Store the html2js'd output for this ad
     $spc_output .= MAX_javascriptToHTML($output['html'], $conf['var']['prefix'] . "output['{$varname}']", false, false) . "\n";
@@ -88,7 +88,7 @@ foreach ($zones as $thisZone) {
 MAX_cookieFlush();
 
 // Setup the banners for this page
-header("Content-type: application/x-javascript");
+MAX_commonSendContentTypeHeader("application/x-javascript", $charset);
 header("Content-Size: ".strlen($spc_output));
 
 echo $spc_output;

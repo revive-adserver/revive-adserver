@@ -10,25 +10,27 @@ class UserMigration extends Migration
 {
 
     var $languageMap = array(
-        'chinese_big5'      => 'zh_CN',
-        'chinese_gb2312'    => 'zh_CN',
-        'czech'             => 'cs',
-        'dutch'             => 'nl',
-        'english'           => 'en',
-        'english_affiliates'=> 'en',
-        'english_us'        => 'en',
-        'french'            => 'fr',
-        'german'            => 'de',
-        'hebrew'            => 'he',
-        'indonesian'        => 'id',
-        'italian'           => 'it',
-        'korean'            => 'ko',
-        'polish'            => 'pl',
-        'portuguese'        => 'pt_BR',
-        'russian_cp1251'    => 'ru',
-        'russian_koi8r'     => 'ru',
-        'spanish'           => 'es',
-        'turkish'           => 'tr'
+        'chinese_big5'          => 'zh_CN',
+        'chinese_gb2312'        => 'zh_CN',
+        'czech'                 => 'cs',
+        'dutch'                 => 'nl',
+        'english'               => 'en',
+        'english_affiliates'    => 'en',
+        'english_us'            => 'en',
+        'french'                => 'fr',
+        'german'                => 'de',
+        'hebrew'                => 'he',
+        'hungarian'             => 'hu',
+        'indonesian'            => 'id',
+        'italian'               => 'it',
+        'korean'                => 'ko',
+        'polish'                => 'pl',
+        'portuguese'            => 'pt_BR',
+        'brazilian_portuguese'  => 'pt_BR',
+        'russian_cp1251'        => 'ru',
+        'russian_koi8r'         => 'ru',
+        'spanish'               => 'es',
+        'turkish'               => 'tr'
     );
 
     var $aLanguageByAgency = array();

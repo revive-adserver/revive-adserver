@@ -54,6 +54,10 @@ combineAssets                       = true
 ; Database Settings                                                                        ;
 ;------------------------------------------------------------------------------------------;
 
+[databaseCharset]
+checkComplete                       = false
+clientCharset                       =
+
 [databaseMysql]
 statisticsSortBufferSize            =
 

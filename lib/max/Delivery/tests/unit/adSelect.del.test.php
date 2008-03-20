@@ -45,7 +45,7 @@ class test_DeliveryAdSelect extends UnitTestCase
     {
         $this->UnitTestCase();
     }
-    
+
     function tearDown()
     {
         // Clean up so as not to interfere with the following test classes.
@@ -72,13 +72,14 @@ class test_DeliveryAdSelect extends UnitTestCase
 		$target       = 'http://www.target.com';
 		$source       = 'http://www.source.com';
 		$withText	  =	false;
+		$charset      = '';
 		$context	  =	0;
 		$richMedia    = true;
 		$ct0		  =	'';
 		$loc		  =	0;
 		$referer	  = 'http://some.referrer.com/';
 
-	    $return       = MAX_adSelect($what, $campaignid, $target, $source, $withtext, $context, $richmedia, $ct0, $loc, $referer);
+	    $return       = MAX_adSelect($what, $campaignid, $target, $source, $withtext, $charset, $context, $richmedia, $ct0, $loc, $referer);
 
 		$this->assertTrue(TRUE);
 	}

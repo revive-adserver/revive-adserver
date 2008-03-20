@@ -62,11 +62,10 @@ class MAX_Plugin_Translation
             $language = $GLOBALS['_MAX']['PREF']['language'];
         } elseif (!empty($GLOBALS['_MAX']['CONF']['max']['language'])) {
             $language = $GLOBALS['_MAX']['CONF']['max']['language'];
+        } else {
+            $language = 'en';
         }
-        $oLanguages = new MAX_Admin_Languages();
-        $language = $oLanguages->languageCodeToString($language);
-        $language = 'english';
-        // @todo lang - fix when translation framework will be fixed
+
         if (MAX_Plugin_Translation::includePluginLanguageFile($module, $package, $language)) {
             return true;
         }
@@ -131,7 +130,7 @@ class MAX_Plugin_Translation
     function translate($key, $module, $package = null)
     {
         MAX_Plugin_Translation::lazyInit($module, $package);
-        
+
         // First try and get a translation from the specific package...
         if (isset($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module][$package][$key])) {
             return $GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module][$package][$key];
@@ -143,7 +142,7 @@ class MAX_Plugin_Translation
             return $key;
         }
     }
-    
+
     /**
      * Initialize translation files
      *
@@ -159,12 +158,12 @@ class MAX_Plugin_Translation
             MAX_Plugin_Translation::init($module, $package);
         }
     }
-    
+
     /**
      * This method register all strings in global scope $GLOBALS so
-     * all string can be used with general templates method 
+     * all string can be used with general templates method
      * OA_Admin_Template->_function_t
-     * 
+     *
      * Warning: as this method register all translation string in global scope
      * (as global variables) consider this a hack.
      * However as we do not have any other global translation solution
@@ -177,7 +176,7 @@ class MAX_Plugin_Translation
     {
         MAX_Plugin_Translation::lazyInit($module, $package);
         if (isset($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module][$package])) {
-            foreach ($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module][$package] as 
+            foreach ($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module][$package] as
                 $key => $translation) {
                     if (is_string($key)) {
                         $GLOBALS['str'.$key] = $translation;
@@ -185,7 +184,7 @@ class MAX_Plugin_Translation
             }
         }
         if (isset($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module])) {
-            foreach ($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module][$package] as 
+            foreach ($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module][$package] as
                 $key => $translation) {
                     if (is_string($key)) {
                         $GLOBALS['str'.$key] = $translation;

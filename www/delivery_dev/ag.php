@@ -35,9 +35,9 @@ require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 $output = MAX_cacheGetGoogleJavaScript();
 
 // Output JS
-header("Content-Type: text/javascript");
-header("Content-Size: ".strlen($output));
-header("Expires: ".gmdate('r', time() + 86400));
+MAX_commonSendContentTypeHeader("application/x-javascript");
+MAX_header("Content-Size: ".strlen($output));
+MAX_header("Expires: ".gmdate('r', time() + 86400));
 
 echo $output;
 

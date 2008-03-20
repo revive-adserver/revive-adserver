@@ -998,6 +998,66 @@ array_walk($var, 'MAX_commonRemoveSpecialChars');
 }
 }
 }
+function MAX_commonConvertEncoding($content, $toEncoding, $fromEncoding = 'UTF-8', $aExtensions = null) {
+// Sanity check :)
+if (($toEncoding == $fromEncoding) || empty($toEncoding)) {
+return $content;
+}
+// Default extensions
+if (!isset($aExtensions) || !is_array($aExtensions)) {
+$aExtensions = array('iconv', 'mbstring', 'xml');
+}
+// Walk arrays
+if (is_array($content)) {
+foreach ($content as $key => $value) {
+$content[$key] = MAX_commonConvertEncoding($value, $toEncoding, $fromEncoding, $aExtensions);
+}
+return $content;
+} else {
+// Uppercase charsets
+$toEncoding   = strtoupper($toEncoding);
+$fromEncoding = strtoupper($fromEncoding);
+// Charset mapping
+$aMap = array();
+$aMap['mbstring']['WINDOWS-1255'] = 'ISO-8859-8'; // Best match to convert hebrew w/ mbstring
+$aMap['xml']['ISO-8859-15'] = 'ISO-8859-1'; // Best match
+// Start conversion
+$converted = false;
+foreach ($aExtensions as $extension) {
+$mappedFromEncoding = isset($aMap[$extension][$fromEncoding]) ? $aMap[$extension][$fromEncoding] : $fromEncoding;
+$mappedToEncoding   = isset($aMap[$extension][$toEncoding])   ? $aMap[$extension][$toEncoding]   : $toEncoding;
+switch ($extension) {
+case 'iconv':
+if (function_exists('iconv')) {
+$converted = @iconv($mappedFromEncoding, $mappedToEncoding, $content);
+}
+break;
+case 'mbstring':
+if (function_exists('mb_convert_encoding')) {
+$converted = @mb_convert_encoding($content, $mappedToEncoding, $mappedFromEncoding);
+}
+break;
+case 'xml':
+if (function_exists('utf8_encode')) {
+// Does this actually help us at all? it can only convert between UTF8 and ISO-8859-1
+if ($mappedToEncoding == 'UTF-8' && $mappedFromEncoding == 'ISO-8859-1') {
+$converted = utf8_encode($content);
+} elseif ($mappedToEncoding == 'ISO-8859-1' && $mappedFromEncoding == 'UTF-8') {
+$converted = utf8_decode($content);
+}
+}
+break;
+}
+}
+return $converted ? $converted : $content;
+}
+}
+function MAX_commonSendContentTypeHeader($type = 'text/html', $charset = null)
+{
+$header = 'Content-type: ' . $type;
+if (!empty($charset)) { $header .= '; charset=' . $charset; }
+MAX_header($header);
+}
 function MAX_commonSetNoCacheHeaders()
 {
 MAX_header('Pragma: no-cache');
@@ -1088,14 +1148,15 @@ return($string);
 }
 function MAX_commonInitVariables()
 {
-MAX_commonRegisterGlobalsArray(array('context', 'source', 'target', 'withText', 'withtext', 'ct0', 'what', 'loc', 'referer', 'zoneid', 'campaignid', 'bannerid', 'clientid'));
-global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid;
+MAX_commonRegisterGlobalsArray(array('context', 'source', 'target', 'withText', 'withtext', 'ct0', 'what', 'loc', 'referer', 'zoneid', 'campaignid', 'bannerid', 'clientid', 'charset'));
+global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid, $charset;
 if (!isset($context)) 	$context = array();
 if (!isset($source))	$source = '';
 if (!isset($target)) 	$target = '_blank';
 if (isset($withText) && !isset($withtext))  $withtext = $withText;
-if (!isset($withtext)) 	$withtext = '';
-if (!isset($ct0)) 	$ct0 = '';
+if (!isset($withtext))  $withtext = '';
+if (!isset($ct0)) 	    $ct0 = '';
+if (!isset($charset)) 	$charset = 'UTF-8';
 if (!isset($what)) {
 if (!empty($bannerid)) {
 $what = 'bannerid:'.$bannerid;
@@ -1140,7 +1201,8 @@ $GLOBALS['_MAX']['CONF']['var']['capCampaign'],
 $GLOBALS['_MAX']['CONF']['var']['sessionCapCampaign'],
 $GLOBALS['_MAX']['CONF']['var']['blockZone'],
 $GLOBALS['_MAX']['CONF']['var']['capZone'],
-$GLOBALS['_MAX']['CONF']['var']['sessionCapZone']);
+$GLOBALS['_MAX']['CONF']['var']['sessionCapZone']
+);
 }
 function MAX_commonDisplay1x1()
 {
@@ -1573,9 +1635,9 @@ return $output;
 // Get JS
 $output = MAX_cacheGetGoogleJavaScript();
 // Output JS
-header("Content-Type: text/javascript");
-header("Content-Size: ".strlen($output));
-header("Expires: ".gmdate('r', time() + 86400));
+MAX_commonSendContentTypeHeader("application/x-javascript");
+MAX_header("Content-Size: ".strlen($output));
+MAX_header("Expires: ".gmdate('r', time() + 86400));
 echo $output;
 
 

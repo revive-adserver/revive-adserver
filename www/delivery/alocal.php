@@ -999,6 +999,66 @@ array_walk($var, 'MAX_commonRemoveSpecialChars');
 }
 }
 }
+function MAX_commonConvertEncoding($content, $toEncoding, $fromEncoding = 'UTF-8', $aExtensions = null) {
+// Sanity check :)
+if (($toEncoding == $fromEncoding) || empty($toEncoding)) {
+return $content;
+}
+// Default extensions
+if (!isset($aExtensions) || !is_array($aExtensions)) {
+$aExtensions = array('iconv', 'mbstring', 'xml');
+}
+// Walk arrays
+if (is_array($content)) {
+foreach ($content as $key => $value) {
+$content[$key] = MAX_commonConvertEncoding($value, $toEncoding, $fromEncoding, $aExtensions);
+}
+return $content;
+} else {
+// Uppercase charsets
+$toEncoding   = strtoupper($toEncoding);
+$fromEncoding = strtoupper($fromEncoding);
+// Charset mapping
+$aMap = array();
+$aMap['mbstring']['WINDOWS-1255'] = 'ISO-8859-8'; // Best match to convert hebrew w/ mbstring
+$aMap['xml']['ISO-8859-15'] = 'ISO-8859-1'; // Best match
+// Start conversion
+$converted = false;
+foreach ($aExtensions as $extension) {
+$mappedFromEncoding = isset($aMap[$extension][$fromEncoding]) ? $aMap[$extension][$fromEncoding] : $fromEncoding;
+$mappedToEncoding   = isset($aMap[$extension][$toEncoding])   ? $aMap[$extension][$toEncoding]   : $toEncoding;
+switch ($extension) {
+case 'iconv':
+if (function_exists('iconv')) {
+$converted = @iconv($mappedFromEncoding, $mappedToEncoding, $content);
+}
+break;
+case 'mbstring':
+if (function_exists('mb_convert_encoding')) {
+$converted = @mb_convert_encoding($content, $mappedToEncoding, $mappedFromEncoding);
+}
+break;
+case 'xml':
+if (function_exists('utf8_encode')) {
+// Does this actually help us at all? it can only convert between UTF8 and ISO-8859-1
+if ($mappedToEncoding == 'UTF-8' && $mappedFromEncoding == 'ISO-8859-1') {
+$converted = utf8_encode($content);
+} elseif ($mappedToEncoding == 'ISO-8859-1' && $mappedFromEncoding == 'UTF-8') {
+$converted = utf8_decode($content);
+}
+}
+break;
+}
+}
+return $converted ? $converted : $content;
+}
+}
+function MAX_commonSendContentTypeHeader($type = 'text/html', $charset = null)
+{
+$header = 'Content-type: ' . $type;
+if (!empty($charset)) { $header .= '; charset=' . $charset; }
+MAX_header($header);
+}
 function MAX_commonSetNoCacheHeaders()
 {
 MAX_header('Pragma: no-cache');
@@ -1089,14 +1149,15 @@ return($string);
 }
 function MAX_commonInitVariables()
 {
-MAX_commonRegisterGlobalsArray(array('context', 'source', 'target', 'withText', 'withtext', 'ct0', 'what', 'loc', 'referer', 'zoneid', 'campaignid', 'bannerid', 'clientid'));
-global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid;
+MAX_commonRegisterGlobalsArray(array('context', 'source', 'target', 'withText', 'withtext', 'ct0', 'what', 'loc', 'referer', 'zoneid', 'campaignid', 'bannerid', 'clientid', 'charset'));
+global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid, $charset;
 if (!isset($context)) 	$context = array();
 if (!isset($source))	$source = '';
 if (!isset($target)) 	$target = '_blank';
 if (isset($withText) && !isset($withtext))  $withtext = $withText;
-if (!isset($withtext)) 	$withtext = '';
-if (!isset($ct0)) 	$ct0 = '';
+if (!isset($withtext))  $withtext = '';
+if (!isset($ct0)) 	    $ct0 = '';
+if (!isset($charset)) 	$charset = 'UTF-8';
 if (!isset($what)) {
 if (!empty($bannerid)) {
 $what = 'bannerid:'.$bannerid;
@@ -1141,7 +1202,8 @@ $GLOBALS['_MAX']['CONF']['var']['capCampaign'],
 $GLOBALS['_MAX']['CONF']['var']['sessionCapCampaign'],
 $GLOBALS['_MAX']['CONF']['var']['blockZone'],
 $GLOBALS['_MAX']['CONF']['var']['capZone'],
-$GLOBALS['_MAX']['CONF']['var']['sessionCapZone']);
+$GLOBALS['_MAX']['CONF']['var']['sessionCapZone']
+);
 }
 function MAX_commonDisplay1x1()
 {
@@ -1399,7 +1461,7 @@ function _areCookiesDisabled($filterActive = true)
 // Since MAX_cookieGetUniqueViewerID() has to have been called by this point
 return !empty($GLOBALS['_MAX']['COOKIE']['newViewerId']) && $filterActive;
 }
-function MAX_adRender($aBanner, $zoneId=0, $source='', $target='', $ct0='', $withText=false, $logClick=true, $logView=true, $richMedia=true, $loc='', $referer='', $context = array())
+function MAX_adRender($aBanner, $zoneId=0, $source='', $target='', $ct0='', $withText=false, $charset = '', $logClick=true, $logView=true, $richMedia=true, $loc='', $referer='', $context = array())
 {
 $code = '';
 switch ($aBanner['contenttype']) {
@@ -1486,7 +1548,8 @@ $replace[] = urlencode($_REQUEST[$macros[1][$i]]);
 }
 }
 $code = str_replace($search, $replace, $code);
-return $code;
+//    return $code;
+return MAX_commonConvertEncoding($code, $charset);
 }
 function _adRenderImage($aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $richMedia=true, $loc, $referer, $useAppend=true)
 {
@@ -2166,7 +2229,7 @@ $output = OA_Delivery_Cache_store_return($sName, $output);
 }
 return $output;
 }
-function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $withtext = 0, $context = array(), $richmedia = true, $ct0 = '', $loc = '', $referer = '')
+function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $withtext = 0, $charset = '', $context = array(), $richmedia = true, $ct0 = '', $loc = '', $referer = '')
 {
 $conf = $GLOBALS['_MAX']['CONF'];
 // For local mode and XML-RPC calls the some parameters are not set in the global scope
@@ -2259,7 +2322,7 @@ $row['append'] .= $ad['append'];
 }
 }
 }
-$outputbuffer = MAX_adRender($row, $zoneId, $source, $target, $ct0, $withtext, true, true, $richmedia, $loc, $referer, $context);
+$outputbuffer = MAX_adRender($row, $zoneId, $source, $target, $ct0, $withtext, $charset, true, true, $richmedia, $loc, $referer, $context);
 $output = array('html'       => $outputbuffer,
 'bannerid'   => $row['bannerid'],
 'contenttype'=> $row['contenttype'],
@@ -2661,7 +2724,7 @@ $loc = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http'
 getHostName() .
 $_SERVER['REQUEST_URI'];
 // This function is a wrapper to view raw, this allows for future migration
-function view_local($what, $zoneid = 0, $campaignid = 0, $bannerid = 0, $target = '', $source = '', $withtext = '', $context = '') {
+function view_local($what, $zoneid = 0, $campaignid = 0, $bannerid = 0, $target = '', $source = '', $withtext = '', $context = '', $charset = '') {
 // start stacked output buffering
 ob_start();
 if (!((strstr($what, 'zone')) or (strstr($what, 'campaign')) or (strstr($what, 'banner')))) {
@@ -2675,7 +2738,7 @@ if ($bannerid) {
 $what = "bannerid:".$bannerid;
 }
 }
-$output = MAX_adSelect($what, '', $target, $source, $withtext, $context, true, '', $GLOBALS['loc'], $GLOBALS['referer']);
+$output = MAX_adSelect($what, '', $target, $source, $withtext, $charset, $context, true, '', $GLOBALS['loc'], $GLOBALS['referer']);
 if (isset($output['contenttype']) && $output['contenttype'] == 'swf') {
 $output['html'] = MAX_flashGetFlashObjectExternal() . $output['html'];
 }
@@ -2721,7 +2784,7 @@ $zoneid = $data;
 $varname = $zoneid = $zone;
 }
 // Get the banner
-$output = MAX_adSelect('zone:'.$zoneid, '', $target, $source, $withtext, $context, true, '', $GLOBALS['loc'], $GLOBALS['referer']);
+$output = MAX_adSelect('zone:'.$zoneid, '', $target, $source, $withtext, $charset, $context, true, '', $GLOBALS['loc'], $GLOBALS['referer']);
 if (isset($output['contenttype']) && $output['contenttype'] == 'swf') {
 $fo_required = true;
 }

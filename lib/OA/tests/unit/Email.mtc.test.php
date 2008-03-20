@@ -1003,9 +1003,9 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "-------------------------------------------------------\n\n";
         $expectedContents .= " Banner [id$bannerId1] 1\n\n";
         $expectedContents .= " Banner [id$bannerId2] 1\n";
-        $expectedContents .= "  verkn&uuml;pft mit: http://www.fornax.net/\n\n";
+        $expectedContents .= "  verknüpft mit: http://www.fornax.net/\n\n";
         $expectedContents .= "-------------------------------------------------------\n\n\n";
-        $expectedContents .= "Mit freundlichem Gru&szlig;\n   $agencyContact, $agencyName";
+        $expectedContents .= "Mit freundlichem Gruß\n   $agencyContact, $agencyName";
         $aResult = $oEmail->preparePlacementImpendingExpiryEmail($aAdvertiserUser2, $advertiserId1, $placementId, $impReason, $impValue, 'advertiser');
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);

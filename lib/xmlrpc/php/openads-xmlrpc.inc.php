@@ -90,7 +90,7 @@ class OA_XmlRpc
      *
      * @return array
      */
-    function view($what = '', $campaignid = 0, $target = '', $source = '', $withText = false, $context = array())
+    function view($what = '', $campaignid = 0, $target = '', $source = '', $withText = false, $context = array(), $charset = '')
     {
         global $XML_RPC_String, $XML_RPC_Boolean;
         global $XML_RPC_Array, $XML_RPC_Struct;
@@ -147,6 +147,8 @@ class OA_XmlRpc
             new XML_RPC_Value($xmlContext,    $XML_RPC_Array)
         ));
 
+        $this->path .= '?start_debug=1&debug_port=10000&debug_host=127.0.0.1&debug_stop=1&no_remote=1';
+
         // Create an XML-RPC client to communicate with the XML-RPC server:
         $client = new XML_RPC_Client($this->path, $this->host, $this->port);
 
@@ -165,7 +167,7 @@ class OA_XmlRpc
 
             unset($response['cookies']);
 
-            return $response;
+            return $this->_convertEncoding($response, $charset);
         }
 
         return array(
@@ -175,7 +177,7 @@ class OA_XmlRpc
         );
     }
 
-    function spc($what, $target = '', $source = '', $withtext = 0, $block = 0, $blockcampaign = 0)
+    function spc($what, $target = '', $source = '', $withtext = 0, $block = 0, $blockcampaign = 0, $charset = '')
     {
         global $XML_RPC_String, $XML_RPC_Boolean;
         global $XML_RPC_Array, $XML_RPC_Struct;
@@ -248,7 +250,7 @@ class OA_XmlRpc
 
             unset($response['cookies']);
 
-            return $response;
+            return $this->_convertEncoding($response, $charset);
         }
 
         return array(
@@ -256,6 +258,37 @@ class OA_XmlRpc
             'bannerid'   => 0,
             'campaignid' => 0
         );
+    }
+
+    function _convertEncoding($var, $toEncoding, $fromEncoding = 'UTF-8')
+    {
+        // Sanity check :)
+        if (($toEncoding == $fromEncoding) || empty($toEncoding)) {
+            return $var;
+        }
+
+        // Walk arrays
+        if (is_array($var)) {
+            foreach ($var as $key => $value) {
+                $var[$key] = $this->_convertEncoding($value, $toEncoding, $fromEncoding);
+            }
+            return $var;
+        } else {
+            $converted = false;
+            if (function_exists('mb_convert_encoding')) {    // Try mbstring
+                $converted = @mb_convert_encoding($var, $toEncoding, $fromEncoding);
+            } else if (function_exists('iconv')) { // No? try iconv
+                $converted = @iconv($fromEncoding, $toEncoding, $var);
+            } else if (function_exists('utf8_encode')) { // No? try utf8_encode/decode
+                // Does this actually help us at all? it can only convert between UTF8 and ISO-8859-1
+                if ($toEncoding == 'UTF-8' && $fromEncoding == 'ISO-8859-1') {
+                    $converted = utf8_encode($var);
+                } elseif ($toEncoding == 'ISO-8859-1' && $fromEncoding == 'UTF-8') {
+                    $converted = utf8_decode($var);
+                }
+            }
+            return $converted ? $converted : $var;
+        }
     }
 }
 

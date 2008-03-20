@@ -176,6 +176,9 @@ class Plugins_InvocationTags_Adlayer_Layerstyles_Floater_Invocation
     			$lmargin = $rmargin = '';
     		}
     	}
+        if (!empty($mi->charset)) {
+    	    $mi->parameters[] = 'charset='.urlencode($mi->charset);
+    	}
     	$mi->parameters[] = 'layerstyle=floater';
     	$mi->parameters[] = 'ltr='.(isset($ltr) ?  $ltr : 't');
     	$mi->parameters[] = 'loop='.(isset($loop) ?  $loop : 'n');
@@ -214,6 +217,7 @@ class Plugins_InvocationTags_Adlayer_Layerstyles_Floater_Invocation
     		'campaignid'  => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
     		'target'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
     		'source'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+    		'charset'     => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
     		'layerstyle'  => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM,
     		'layercustom' => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM
     	);

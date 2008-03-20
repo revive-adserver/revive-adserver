@@ -39,7 +39,7 @@ $GLOBALS['_MAX']['CONF']['log']['enabled'] = false;
 $GLOBALS['_MAX']['CONF']['webpath'] = null;
 $GLOBALS['_MAX']['CONF']['openads']['sslPort'] = null;
 $GLOBALS['_MAX']['HTTP'] = null;
-$GLOBALS['_MAX']['PREF']['language'] = 'english';
+$GLOBALS['_MAX']['PREF']['language'] = 'en';
 $GLOBALS['_MAX']['CONF']['oacXmlRpc'] = array(
     'protocol'    => 'https',
     'host'        => 'oac.openx.org',
@@ -78,7 +78,7 @@ foreach (array('getCategories', 'getCountries', 'getLanguages') as $method) {
     echo $method.": "; flush();
     $msg = new XML_RPC_Message('oac.'.$method);
     $msg->addParam(XML_RPC_encode(array('protocolVersion' => 3, 'ph' => '')));
-    $msg->addParam(new XML_RPC_Value('english', 'string'));
+    $msg->addParam(new XML_RPC_Value('en', 'string'));
     $result = $oXml->send($msg);
     if (!$result || $result->faultCode() || $result->faultString()) {
         clean_up();

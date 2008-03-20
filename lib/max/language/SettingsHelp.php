@@ -51,14 +51,14 @@ class Language_SettingsHelp
             $aPref = array();
         }
         // Always load the English language, in case of incomplete translations
-        include_once MAX_PATH . '/lib/max/language/english/settings-help.lang.php';
+        include_once MAX_PATH . '/lib/max/language/en/settings-help.lang.php';
         // Load the language from preferences, if possible, otherwise load
         // the global preference, if possible
-        if (!empty($aPref['language']) && ($aPref['language'] != 'english') && file_exists(MAX_PATH .
+        if (!empty($aPref['language']) && ($aPref['language'] != 'en') && file_exists(MAX_PATH .
                 '/lib/max/language/' . $aPref['language'] . '/settings-help.lang.php')) {
             include_once MAX_PATH . '/lib/max/language/' . $aPref['language'] .
                 '/settings-help.lang.php';
-        } elseif (($aConf['max']['language'] != 'english') && file_exists(MAX_PATH .
+        } elseif (($aConf['max']['language'] != 'en') && file_exists(MAX_PATH .
                 '/lib/max/language/' . $aConf['max']['language'] . '/settings-help.lang.php')) {
             include_once MAX_PATH . '/lib/max/language/' . $aConf['max']['language'] .
                 '/settings-help.lang.php';

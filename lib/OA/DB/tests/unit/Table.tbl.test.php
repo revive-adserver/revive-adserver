@@ -330,89 +330,90 @@ class Test_OA_DB_Table extends UnitTestCase
         $this->assertEqual($aExistingTables[0], 'test_table');
         $this->assertTrue($oTable->dropTable('test_table'));
 
-        // Test 2
-        $conf =& $GLOBALS['_MAX']['CONF'];
-        if ($conf['database']['type'] == 'mysql') {
-            // Ensure that MySQL version >= 4.1, as no character set support in earlier versions
-            $oDbh =& OA_DB::singleton();
-            $aMysqlVersion = $oDbh->getServerVersion();
-            if (($aMysqlVersion['major'] == 4 && $aMysqlVersion['minor'] >= 1) || ($aMysqlVersion['major'] > 4)) {
-
-                $this->_writeStringTestDatabaseSchema();
-                $conf['table']['prefix'] = '';
-
-                // Create tables with default character set.
-                $oTable = new OA_DB_Table();
-                $oTable->temporary = false;
-                $oTable->init(MAX_PATH . '/var/test.xml');
-                $oTable->createTable('test_table');
-
-                $oTempTable = new OA_DB_Table();
-                $oTempTable->temporary = true;
-                $oTempTable->init(MAX_PATH . '/var/test.xml');
-                $oTempTable->createTable('the_second_table');
-
-                // Insert data
-                $query = "INSERT INTO test_table (test_column) VALUES ('foo')";
-                $oDbh->query($query);
-                $query = "INSERT INTO the_second_table (test_column) VALUES ('foo')";
-                $oDbh->query($query);
-
-                // Check the values can be compared.
-                $query = "SELECT * FROM test_table JOIN the_second_table USING (test_column)";
-                $result = $oDbh->query($query);
-                $actual = $result->numRows();
-                $this->assertEqual($actual, 1);
-
-                // Change the charset of the database to something really weird.
-                $query = "ALTER DATABASE {$conf['database']['name']} CHARACTER SET koi8u";
-                $oDbh->query($query);
-
-                // Re-create the temp table
-                $oTempTable->dropTable('the_second_table');
-                $oTempTable = new OA_DB_Table();
-                $oTempTable->temporary = true;
-                $oTempTable->init(MAX_PATH . '/var/test.xml');
-                $oTempTable->createTable('the_second_table');
-
-                // Insert data
-                $query = "INSERT INTO the_second_table (test_column) VALUES ('foo')";
-                $oDbh->query($query);
-
-                // Check the values cannot be compared.
-                $query = "SELECT * FROM test_table JOIN the_second_table USING (test_column)";
-                OA::disableErrorHandling();
-                $result = $oDbh->query($query);
-                OA::enableErrorHandling();
-                $this->assertIsA($result, 'PEAR_Error');
-
-                // Re-create the normal table
-                $oTable->dropTable('test_table');
-                $oTable = new OA_DB_Table();
-                $oTable->temporary = false;
-                $oTable->init(MAX_PATH . '/var/test.xml');
-                $oTable->createTable('test_table');
-
-                // Insert data
-                $query = "INSERT INTO test_table (test_column) VALUES ('foo')";
-                $oDbh->query($query);
-
-                // Check the values can be compared in the funky charset.
-                $query = "SELECT * FROM test_table JOIN the_second_table USING (test_column)";
-                $result = $oDbh->query($query);
-                $actual = $result->numRows();
-                $this->assertEqual($actual, 1);
-
-                // Clean up
-                $query = "ALTER DATABASE {$conf['database']['name']} CHARACTER SET DEFAULT";
-                $oDbh->query($query);
-                unlink(MAX_PATH . '/var/test.xml');
-                $oTable->dropTable('test_table');
-                $oTable->dropTable('the_second_table');
-
-            }
-        }
-
+        // Test 2 - Since we have now updated the MDB2 driver to set the charset on create,
+        // this test should no longer be relevant
+//        $conf =& $GLOBALS['_MAX']['CONF'];
+//        if ($conf['database']['type'] == 'mysql') {
+//            // Ensure that MySQL version >= 4.1, as no character set support in earlier versions
+//            $oDbh =& OA_DB::singleton();
+//            $aMysqlVersion = $oDbh->getServerVersion();
+//            if (($aMysqlVersion['major'] == 4 && $aMysqlVersion['minor'] >= 1) || ($aMysqlVersion['major'] > 4)) {
+//
+//                $this->_writeStringTestDatabaseSchema();
+//                $conf['table']['prefix'] = '';
+//
+//                // Create tables with default character set.
+//                $oTable = new OA_DB_Table();
+//                $oTable->temporary = false;
+//                $oTable->init(MAX_PATH . '/var/test.xml');
+//                $oTable->createTable('test_table');
+//
+//                $oTempTable = new OA_DB_Table();
+//                $oTempTable->temporary = true;
+//                $oTempTable->init(MAX_PATH . '/var/test.xml');
+//                $oTempTable->createTable('the_second_table');
+//
+//                // Insert data
+//                $query = "INSERT INTO test_table (test_column) VALUES ('foo')";
+//                $oDbh->query($query);
+//                $query = "INSERT INTO the_second_table (test_column) VALUES ('foo')";
+//                $oDbh->query($query);
+//
+//                // Check the values can be compared.
+//                $query = "SELECT * FROM test_table JOIN the_second_table USING (test_column)";
+//                $result = $oDbh->query($query);
+//                $actual = $result->numRows();
+//                $this->assertEqual($actual, 1);
+//
+//                // Change the charset of the database to something really weird.
+//                $query = "ALTER DATABASE {$conf['database']['name']} CHARACTER SET koi8u";
+//                $oDbh->query($query);
+//
+//                // Re-create the temp table
+//                $oTempTable->dropTable('the_second_table');
+//                $oTempTable = new OA_DB_Table();
+//                $oTempTable->temporary = true;
+//                $oTempTable->init(MAX_PATH . '/var/test.xml');
+//                $oTempTable->createTable('the_second_table');
+//
+//                // Insert data
+//                $query = "INSERT INTO the_second_table (test_column) VALUES ('foo')";
+//                $oDbh->query($query);
+//
+//                // Check the values cannot be compared.
+//                $query = "SELECT * FROM test_table JOIN the_second_table USING (test_column)";
+//                OA::disableErrorHandling();
+//                $result = $oDbh->query($query);
+//                OA::enableErrorHandling();
+//                $this->assertIsA($result, 'PEAR_Error');
+//
+//                // Re-create the normal table
+//                $oTable->dropTable('test_table');
+//                $oTable = new OA_DB_Table();
+//                $oTable->temporary = false;
+//                $oTable->init(MAX_PATH . '/var/test.xml');
+//                $oTable->createTable('test_table');
+//
+//                // Insert data
+//                $query = "INSERT INTO test_table (test_column) VALUES ('foo')";
+//                $oDbh->query($query);
+//
+//                // Check the values can be compared in the funky charset.
+//                $query = "SELECT * FROM test_table JOIN the_second_table USING (test_column)";
+//                $result = $oDbh->query($query);
+//                $actual = $result->numRows();
+//                $this->assertEqual($actual, 1);
+//
+//                // Clean up
+//                $query = "ALTER DATABASE {$conf['database']['name']} CHARACTER SET DEFAULT";
+//                $oDbh->query($query);
+//                unlink(MAX_PATH . '/var/test.xml');
+//                $oTable->dropTable('test_table');
+//                $oTable->dropTable('the_second_table');
+//
+//            }
+//        }
+//
         // Test 3
         $conf =& $GLOBALS['_MAX']['CONF'];
         $oDbh =& OA_DB::singleton();
@@ -542,6 +543,21 @@ class Test_OA_DB_Table extends UnitTestCase
         {
             $this->assertTrue($v['test_id1'] == $v['test_desc1'],'sequence problem after reset: '.$v['test_id1'].'=>'.$v['test_desc1']);
         }
+        $query = "DELETE FROM ".$oDbh->quoteIdentifier('test_table1',true);
+        $oDbh->query($query);
+        $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table1',true);
+        $aRows = $oDbh->queryAll($query);
+        $this->assertEqual(count($aRows),0,'failed to delete rows from test_table1');
+
+        // Test second parameter
+        $this->assertTrue($oTable->resetSequence($sequence, 1000),'failed to reset sequence on test_table1');
+
+        $query = "INSERT INTO ".$oDbh->quoteIdentifier('test_table1',true)." (test_desc1) VALUES ('1')";
+        $oDbh->exec($query);
+
+        $nextId = $oDbh->queryOne("SELECT test_id1 FROM ".$oDbh->quoteIdentifier('test_table1',true));
+        $this->assertEqual($nextId, 1000);
+
         $oTable->dropTable('test_table1');
         @unlink(MAX_PATH . '/var/test.xml');
     }

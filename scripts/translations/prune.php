@@ -41,7 +41,7 @@ if (!ini_get('safe_mode')) {
     @ignore_user_abort(true);
 }
 
-$langFilePath       = MAX_PATH . '/lib/max/language/english';
+$langFilePath       = MAX_PATH . '/lib/max/language/en';
 $staleTransFile     = MAX_PATH . '/var/stale.trans.log';
 $allTransFile       = MAX_PATH . '/var/all.trans.log';
 $existingTransFile  = MAX_PATH . '/var/existing.trans.log';

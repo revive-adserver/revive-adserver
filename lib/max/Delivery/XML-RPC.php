@@ -203,6 +203,9 @@ function OA_Delivery_XmlRpc_View($params)
     {
         $p = $params->getParam($i);
 
+        // Bump the params array to account for the inserted $charset parameter
+        if ($i == 6) { $view_params[] = ''; }
+
         if ($i) {
             // Put the decoded value the view arg array
             $view_params[] = XML_RPC_decode($p);
@@ -444,7 +447,7 @@ function OA_Delivery_XmlRpc_SPC($params)
         }
 
         // Get the banner
-        $output = MAX_adSelect('zone:'.$zoneid, '', $target, $source, $withtext, $context, $richmedia, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
+        $output = MAX_adSelect('zone:'.$zoneid, '', $target, $source, $withtext, '', $context, $richmedia, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
 
         $spc_output[$varname] = $output['html'];
 

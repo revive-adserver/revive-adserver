@@ -188,6 +188,9 @@ class Plugins_InvocationTags_Adlayer_Layerstyles_Simple_Invocation
     	$mi->parameters[] = 'valign='.(isset($valign) ? $valign : 'top');
     	$mi->parameters[] = 'padding='.(isset($padding) ? (int)$padding : '2');
 
+    	if (!empty($mi->charset)) {
+    	    $mi->parameters[] = 'charset='.urlencode($mi->charset);
+    	}
     	if (isset($closetime) && $closetime > 0) {
     		$mi->parameters[] = 'closetime='.$closetime;
     	}
@@ -239,6 +242,7 @@ class Plugins_InvocationTags_Adlayer_Layerstyles_Simple_Invocation
     		'campaignid'  => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
     		'target'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
     		'source'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+    		'charset'     => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
     		'layerstyle'  => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM,
     		'layercustom' => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM
     	);

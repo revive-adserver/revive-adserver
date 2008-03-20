@@ -40,6 +40,7 @@ phpAds_registerGlobal (
     ,'bannerid'
     ,'blockcampaign'
     ,'campaignid'
+    ,'charset'
     ,'clientid'
     ,'codetype'
     ,'comments'
@@ -135,7 +136,8 @@ class MAX_Admin_Invocation {
             'top', 'transparent', 'uniqueid',
             'website', 'what', 'width',
             'withtext', 'zoneid', 'xmlrpcproto',
-            'xmlrpctimeout', 'comments'
+            'xmlrpctimeout', 'comments',
+            'charset'
         );
 
         // Add any plugin-specific option values to the global array...

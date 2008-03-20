@@ -143,6 +143,7 @@ class OA_Test_Data_MDB2Schema extends OA_Test_Data
             $this->_fixTestData($aTable);
             $aTable['fields'] = $this->oTable->aDefinition['tables'][$table_name]['fields'];
             $aTableResult = $this->oSchema->initializeTable($prefix.$table_name, $aTable,true);
+            $this->_fixSequences($prefix, $table_name, $aTable);
             $this->aIds[$table_name] = $aTableResult['aIds'];
         }
         return true;
@@ -159,9 +160,28 @@ class OA_Test_Data_MDB2Schema extends OA_Test_Data
             // Remove those ugly 0000-00-00
             foreach ($aTable['initialization'] as $k1 => $v1) {
                 foreach ($v1['data']['field'] as $k2 => $v2) {
-                    if ($v2['group']['data'] === '0000-00-00') {
+                    if ($v2['group']['data'] === '0000-00-00' || $v2['group']['data'] === '0000-00-00 00:00:00') {
                         unset($aTable['initialization'][$k1]['data']['field'][$k2]);
                     }
+                }
+            }
+        }
+    }
+
+    /**
+     * fixes sequence values for pgsql
+     *
+     * @param array $aTable
+     */
+    function _fixSequences($prefix, $table_name, &$aTable)
+    {
+        if ($this->oDbh->dbsyntax == 'pgsql') {
+            foreach ($aTable['fields'] as $fieldName => $fieldProperties) {
+                if (!empty($fieldProperties['autoincrement'])) {
+                    $tblName = $this->oDbh->quoteIdentifier($prefix.$table_name, true);
+                    $seqName = "{$prefix}{$table_name}_{$fieldName}_seq";
+                    $maxValue = $this->oDbh->queryOne("SELECT MAX({$fieldName}) FROM {$tblName}");
+                    OA_DB_Table::resetSequence($seqName, $maxValue + 1);
                 }
             }
         }

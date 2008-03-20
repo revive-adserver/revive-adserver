@@ -277,7 +277,7 @@ function phpAds_buildBannerCode($bannerid, $fullpreview = false)
     $aBanner = Admin_DA::getAd($bannerid);
     $aBanner['storagetype'] = $aBanner['type'];
     $aBanner['bannerid'] = $aBanner['ad_id'];
-    $bannerCode = MAX_adRender($aBanner, 0, '', '', '', true, false, false);
+    $bannerCode = MAX_adRender($aBanner, 0, '', '', '', true, '', false, false);
     return $bannerCode;
 }
 
