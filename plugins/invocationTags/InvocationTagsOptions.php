@@ -692,8 +692,8 @@ class Plugins_InvocationTagsOptions
         $availableCharsets = $this->_getAvailableCharsets();
 
         asort($availableCharsets);
-        foreach ($availableCharsets as $charset) {
-            $option .= "<option value='{$charset}'".($maxInvocation->charset == $charset ? ' selected="selected"' : '').">" . $charset . "</option>\n";
+        foreach ($availableCharsets as $charsetCode => $charsetName) {
+            $option .= "<option value='{$charsetCode}'".($maxInvocation->charset == $charsetCode ? ' selected="selected"' : '').">" . $charsetName . "</option>\n";
         }
         $option .= "</select>";
         $option .= "</tr>";
@@ -703,20 +703,43 @@ class Plugins_InvocationTagsOptions
 
     function _getAvailableCharsets()
     {
-        if (function_exists('mb_convert_encoding')) {    // Try mbstring
+        if (function_exists('iconv') || function_exists('mb_convert_encoding')) {
             return array(
-                'UCS-4', 'UCS-4BE', 'UCS-4LE', 'UCS-2', 'UCS-2BE', 'UCS-2LE', 'UTF-32', 'UTF-32BE', 'UTF-32LE', 'UTF-16',
-                'UTF-16BE', 'UTF-16LE', 'UTF-7', 'UTF7-IMAP', 'UTF-8', 'ASCII', 'EUC-JP', 'SJIS', 'eucJP-win', 'SJIS-win',
-                'ISO-2022-JP', 'JIS', 'ISO-8859-1', 'ISO-8859-2', 'ISO-8859-3', 'ISO-8859-4', 'ISO-8859-5', 'ISO-8859-6',
-                'ISO-8859-7', 'ISO-8859-8', 'ISO-8859-9', 'ISO-8859-10', 'ISO-8859-13', 'ISO-8859-14', 'ISO-8859-15',
-                'byte2be', 'byte2le', 'byte4be', 'byte4le', 'BASE64', 'HTML-ENTITIES', '7bit', '8bit', 'EUC-CN', 'CP936',
-                'HZ', 'EUC-TW', 'CP950', 'BIG-5', 'EUC-KR', 'UHC (CP949)', 'ISO-2022-KR', 'Windows-1251 (CP1251)',
-                'Windows-1252 (CP1252)', 'CP866 (IBM866)', 'KOI8-R',
+                'ISO-8859-6'    => 'Arabic (ISO-8859-6)',
+                'Windows-1256'  => 'Arabic (Windows-1256)',
+                'ISO-8859-4'    => 'Baltic (ISO-8859-4)',
+                'Windows-1257'  => 'Baltic (Windows-1257)',
+                'ISO-8859-2'    => 'Central European (ISO-8859-2)',
+                'Windows-1250'  => 'Central European (Windows-1250)',
+                'GB18030'       => 'Chinese Simplified (GB18030)',
+                'GB2312'        => 'Chinese Simplified (GB2312)',
+                'HZ'            => 'Chinese Simplified (HZ)',
+                'Big5'          => 'Chinese Traditional (Big5)',
+                'ISO-8859-5'    => 'Cyrillic (ISO-8859-5)',
+                'Windows-1251'  => 'Cyrillic (Windows-1251)',
+                'ISO-8859-13'   => 'Estonian (ISO-8859-13)',
+                'ISO-8859-7'    => 'Greek (ISO-8859-7)',
+                'Windows-1253'  => 'Greek (Windows-1253)',
+                'ISO-8859-8-l'  => 'Hebrew (ISO Logical: ISO-8859-8-l)',
+                'ISO-8859-8'    => 'Hebrew (ISO:Visual: ISO-8859-8)',
+                'Windows-1255'  => 'Hebrew (Windows-1255)',
+                'EUC-JP'        => 'Japanese (EUC-JP)',
+                'Shift-JIS'     => 'Japanese (Shift-JIS)',
+                'EUC-KR'        => 'Korean (EUC-KR)',
+                'ISO-8859-15'   => 'Latin 9 (ISO-8859-15)',
+                'TIS-620'       => 'Thai (TIS-620)',
+                'ISO-8859-9'    => 'Turkish (ISO-8859-9)',
+                'Windows-1254'  => 'Turkish (Windows-1254)',
+                'UTF-8'         => 'Unicode (UTF-8)',
+                'Windows-1258'  => 'Vietnamese (Windows-1258)',
+                'ISO-8859-1'    => 'Western European (ISO-8859-1)',
+                'Windows-1252'  => 'Western European (Windows-1252)'
             );
-        } else if (function_exists('iconv')) { // No? try iconv
-            return array('ISO-8859-1', 'ISO-8859-2', 'ISO-8859-3', 'ISO-8859-4', 'ISO-8859-5', 'ISO-8859-6', 'UTF-8');
         } else if (function_exists('utf8_encode')) { // No? try utf8_encode/decode
-            return array('UTF-8', 'ISO-8859-1');
+            return array(
+                'UTF-8'         => 'Unicode (UTF-8)',
+                'ISO-8859-1'    => 'Western European (ISO-8859-1)',
+            );
         }
     }
 }
