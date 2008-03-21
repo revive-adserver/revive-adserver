@@ -487,10 +487,13 @@ class OA_DB_Table
     }
 
     /**
-     * Resets a (postgresql) sequence to a value, defaulting to 1
+     * Resets a (postgresql) sequence to a value
+     *
+     * Note: the value parameter is ignored on MySQL. Autoincrements will always be resetted
+     * to 1 or the highest value already present in the table.
      *
      * @param string $sequence the name of the sequence to reset
-     * @param int    $value    the sequence value return for the next entry
+     * @param int    $value    the sequence value for the next entry
      * @return boolean true on success, false otherwise
      */
     function resetSequence($sequence, $value = 1)
@@ -499,27 +502,27 @@ class OA_DB_Table
         OA::debug('Resetting sequence ' . $sequence, PEAR_LOG_DEBUG);
         OA::disableErrorHandling(null);
 
-        if ($value < 1) {
-            $value = 1;
-        } else {
-            $value = (int)$value;
-        }
-
         if ($aConf['database']['type'] == 'pgsql') {
+            if ($value < 1) {
+                $value = 1;
+            } else {
+                $value = (int)$value;
+            }
+
             $sequence = $this->oDbh->quoteIdentifier($sequence,true);
             $result = $this->oDbh->exec("SELECT setval('$sequence', {$value}, false)");
             OA::enableErrorHandling();
             if (PEAR::isError($result)) {
-                OA::debug('Unable to reset sequence on table ' . $table, PEAR_LOG_ERR);
+                OA::debug('Unable to reset sequence ' . $sequence, PEAR_LOG_ERR);
                 return false;
             }
         }
         else if ($aConf['database']['type'] == 'mysql')
         {
-            $result = $this->oDbh->exec("ALTER TABLE {$GLOBALS['_MAX']['CONF']['table']['prefix']}{$sequence} AUTO_INCREMENT = {$value}");
+            $result = $this->oDbh->exec("ALTER TABLE {$GLOBALS['_MAX']['CONF']['table']['prefix']}{$sequence} AUTO_INCREMENT = 1");
             OA::enableErrorHandling();
             if (PEAR::isError($result)) {
-                OA::debug('Unable to reset sequence on table ' . $sequence, PEAR_LOG_ERR);
+                OA::debug('Unable to reset auto increment on table ' . $sequence, PEAR_LOG_ERR);
                 return false;
             }
         }

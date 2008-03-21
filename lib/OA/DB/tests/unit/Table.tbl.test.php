@@ -556,7 +556,12 @@ class Test_OA_DB_Table extends UnitTestCase
         $oDbh->exec($query);
 
         $nextId = $oDbh->queryOne("SELECT test_id1 FROM ".$oDbh->quoteIdentifier('test_table1',true));
-        $this->assertEqual($nextId, 1000);
+
+        if ($oDbh->dbsyntax == 'pgsql') {
+            $this->assertEqual($nextId, 1000);
+        } else {
+            $this->assertEqual($nextId, 1);
+        }
 
         $oTable->dropTable('test_table1');
         @unlink(MAX_PATH . '/var/test.xml');
