@@ -511,6 +511,8 @@ class OA_Dll_Zone extends OA_Dll
         $doAdZone->zone_id = $zoneId;
         $doAdZone->find();
         $linkBanners = array();
+        $linkCampaigns = array();
+        
         while ($doAdZone->fetch()) {
             if (!in_array($doAdZone->ad_id, $linkBanners)) {
                 $linkBanners[] = $doAdZone->ad_id;
