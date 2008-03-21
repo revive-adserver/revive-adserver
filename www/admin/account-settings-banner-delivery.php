@@ -193,9 +193,9 @@ foreach ($aInvocationSettings as $pluginKey => $invocationCode) {
 }
 function MAX_sortSetting($a, $b)
 {
-   return strcmp($a['text'], $b['text']);
+   return strcasecmp($a['text'], $b['text']); //we allow names eg. 'iFrame' and 'Interstitial' treated equally
 }
-usort($aInvocations[0]['items'], 'MAX_sortSetting');
+usort($aInvocations['items'], 'MAX_sortSetting');
 
 // This page depends on 3rdPartyServers plugins, so use the plugin
 // information from earlier to generate the elements for the plugins
