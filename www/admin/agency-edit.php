@@ -178,11 +178,8 @@ $unique_names = $doAgency->getUniqueValuesFromColumn('name', $agency['name']);
 	max_formSetRequirements('contact', '<?php echo addslashes($strContact); ?>', true);
 	max_formSetRequirements('email', '<?php echo addslashes($strEMail); ?>', true, 'email');
 <?php if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) { ?>
-	max_formSetRequirements('name', '<?php echo addslashes($strName); ?>', true, 'unique');
-	max_formSetRequirements('agencyusername', '<?php echo addslashes($strUsername); ?>', false, 'unique');
-
-	max_formSetUnique('name', '|<?php echo addslashes(implode('|', $unique_names)); ?>|');
-	max_formSetUnique('agencyusername', '|<?php echo addslashes(implode('|', $unique_users)); ?>|');
+    max_formSetRequirements('name', '<?php echo addslashes($strName); ?>', true, 'unique');
+    max_formSetUnique('name', '|<?php echo addslashes(implode('|', $unique_names)); ?>|');
 <?php } ?>
 //-->
 </script>
