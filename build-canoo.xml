@@ -105,7 +105,7 @@
       <arg value="webpath.deliverySSL=${openx.url}/delivery"/>
       <arg value="webpath.images=${openx.url}/images"/>
       <arg value="webpath.imagesSSL=${openx.url}/images"/>
-      <arg value="openx.installed=1"/>
+      <arg value="openads.installed=1"/>
       <arg value="table.prefix=oa_"/>
       <arg value="maintenance.autoMaintenance=0"/>
     </exec>
