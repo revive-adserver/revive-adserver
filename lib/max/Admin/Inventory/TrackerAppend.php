@@ -60,6 +60,7 @@ class MAX_Admin_Inventory_TrackerAppend
 
         $this->advertiser_id = MAX_getValue('clientid', 0);
         $this->tracker_id    = MAX_getValue('trackerid', 0);
+        $this->codes = array();
     }
 
     /**
