@@ -141,11 +141,13 @@ class MAX_Admin_Invocation {
         );
 
         // Add any plugin-specific option values to the global array...
-        foreach($invocationTag->defaultOptionValues as $key => $default) {
-            phpAds_registerGlobal($key);
-            $globalVariables[] = $key;
+        if (isset($invocationTag->defaultOptionValues)) {
+            foreach($invocationTag->defaultOptionValues as $key => $default) {
+                phpAds_registerGlobal($key);
+                $globalVariables[] = $key;
+            }
         }
-
+        
         foreach($globalVariables as $makeMeGlobal) {
             global $$makeMeGlobal;
             // If values are unset, populate them from the Plugin/Parent object if present
