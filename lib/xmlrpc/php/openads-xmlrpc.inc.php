@@ -147,8 +147,6 @@ class OA_XmlRpc
             new XML_RPC_Value($xmlContext,    $XML_RPC_Array)
         ));
 
-        $this->path .= '?start_debug=1&debug_port=10000&debug_host=127.0.0.1&debug_stop=1&no_remote=1';
-
         // Create an XML-RPC client to communicate with the XML-RPC server:
         $client = new XML_RPC_Client($this->path, $this->host, $this->port);
 
@@ -260,34 +258,71 @@ class OA_XmlRpc
         );
     }
 
-    function _convertEncoding($var, $toEncoding, $fromEncoding = 'UTF-8')
+    /**
+     * A function to convert a string from one encoding to another using any available extensions
+     * returns the string unchanged if no suitable libraries are available
+     *
+     * The function will recursively walk arrays.
+     *
+     * @param mixed  $content The string to be converted, or an array
+     * @param string $toEncoding The destination encoding
+     * @param string $fromEncoding The source encoding (if known)
+     * @param string $aExtensions An array of engines to be used, currently supported are iconv, mbstrng, xml.
+     * @return string The converted string
+     */
+    function _convertEncoding($content, $toEncoding, $fromEncoding = 'UTF-8', $aExtensions = null)
     {
         // Sanity check :)
         if (($toEncoding == $fromEncoding) || empty($toEncoding)) {
-            return $var;
+            return $content;
         }
-
+        // Default extensions
+        if (!isset($aExtensions) || !is_array($aExtensions)) {
+            $aExtensions = array('iconv', 'mbstring', 'xml');
+        }
         // Walk arrays
-        if (is_array($var)) {
-            foreach ($var as $key => $value) {
-                $var[$key] = $this->_convertEncoding($value, $toEncoding, $fromEncoding);
+        if (is_array($content)) {
+            foreach ($content as $key => $value) {
+                $content[$key] = $this->_convertEncoding($value, $toEncoding, $fromEncoding, $aExtensions);
             }
-            return $var;
+            return $content;
         } else {
+            // Uppercase charsets
+            $toEncoding   = strtoupper($toEncoding);
+            $fromEncoding = strtoupper($fromEncoding);
+            // Charset mapping
+            $aMap = array();
+            $aMap['mbstring']['WINDOWS-1255'] = 'ISO-8859-8'; // Best match to convert hebrew w/ mbstring
+            $aMap['xml']['ISO-8859-15'] = 'ISO-8859-1'; // Best match
+            // Start conversion
             $converted = false;
-            if (function_exists('mb_convert_encoding')) {    // Try mbstring
-                $converted = @mb_convert_encoding($var, $toEncoding, $fromEncoding);
-            } else if (function_exists('iconv')) { // No? try iconv
-                $converted = @iconv($fromEncoding, $toEncoding, $var);
-            } else if (function_exists('utf8_encode')) { // No? try utf8_encode/decode
-                // Does this actually help us at all? it can only convert between UTF8 and ISO-8859-1
-                if ($toEncoding == 'UTF-8' && $fromEncoding == 'ISO-8859-1') {
-                    $converted = utf8_encode($var);
-                } elseif ($toEncoding == 'ISO-8859-1' && $fromEncoding == 'UTF-8') {
-                    $converted = utf8_decode($var);
+            foreach ($aExtensions as $extension) {
+                $mappedFromEncoding = isset($aMap[$extension][$fromEncoding]) ? $aMap[$extension][$fromEncoding] : $fromEncoding;
+                $mappedToEncoding   = isset($aMap[$extension][$toEncoding])   ? $aMap[$extension][$toEncoding]   : $toEncoding;
+                switch ($extension) {
+                    case 'iconv':
+                        if (function_exists('iconv')) {
+                            $converted = @iconv($mappedFromEncoding, $mappedToEncoding, $content);
+                        }
+                        break;
+                    case 'mbstring':
+                        if (function_exists('mb_convert_encoding')) {
+                            $converted = @mb_convert_encoding($content, $mappedToEncoding, $mappedFromEncoding);
+                        }
+                        break;
+                    case 'xml':
+                        if (function_exists('utf8_encode')) {
+                            // Does this actually help us at all? it can only convert between UTF8 and ISO-8859-1
+                            if ($mappedToEncoding == 'UTF-8' && $mappedFromEncoding == 'ISO-8859-1') {
+                                $converted = utf8_encode($content);
+                            } elseif ($mappedToEncoding == 'ISO-8859-1' && $mappedFromEncoding == 'UTF-8') {
+                                $converted = utf8_decode($content);
+                            }
+                        }
+                        break;
                 }
             }
-            return $converted ? $converted : $var;
+            return $converted ? $converted : $content;
         }
     }
 }
