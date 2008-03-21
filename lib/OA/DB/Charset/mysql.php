@@ -46,11 +46,9 @@ class OA_DB_Charset_mysql extends OA_DB_Charset
      */
     function OA_DB_Charset_mysql(&$oDbh)
     {
-        parent::OA_DB_Charset($oDbh);
-
-        $aVersion = $this->oDbh->getServerVersion();
-        if (version_compare($aVersion['native'], '4.1.2', '<')) {
-            $this->oDbh = null;
+        $aVersion = $oDbh->getServerVersion();
+        if (version_compare($aVersion['native'], '4.1.2', '>=')) {
+            parent::OA_DB_Charset($oDbh);
         }
     }
 
