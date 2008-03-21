@@ -107,9 +107,6 @@ phpAds_ShowSections(array("5.1", "5.2", "5.3", "5.5", "5.6", "5.4"));
 // Set the correct section of the settings pages and display the drop-down menu
 $oOptions->selection('banner-logging');
 
-// Change ignore_hosts into a string, so the function handles it good
-$conf['ignoreHosts'] = join("\n", $conf['ignoreHosts']);
-
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
 $aSettings = array (
