@@ -174,8 +174,11 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
             }
 
             $scaleY2 = 1.75;
-            $factor = max($this->aData[0]) / max($this->aData[1]) / $scaleY2;
-
+            $maxImpr = max($this->aData[0]);
+            $maxClick = max($this->aData[1]);
+            $relation = $maxImpr / ($maxClick > 0 ? $maxClick : 1); // impressions/clicks 
+            $factor = $relation / $scaleY2; //scale down to make click ~ 57% of impressions bar height
+            
             foreach ($this->aData[1] as $k => $v) {
                 $Datasets[1]->addPoint($k, $v * $factor);
             }
