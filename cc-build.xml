@@ -3,9 +3,11 @@
 
 	<macrodef name="svn-update">
 		<attribute name="workDir"/>
+		<attribute name="username"/>
+		<attribute name="password"/>
 		<sequential>
 			<exec dir="@{workDir}" executable="svn" failonerror="true">
-				<arg line="update --non-interactive"/>
+				<arg line="update --non-interactive --username @{username} --password @{password}"/>
 			</exec>
 		</sequential>
 	</macrodef>
@@ -20,7 +22,7 @@
 	</target>
 
 	<target name="update">
-		<svn-update workDir="${basedir}"/>
+		<svn-update workDir="${basedir}" username="cruise" password="cruise"/>
 	</target>
 
 	<target name="clone">
