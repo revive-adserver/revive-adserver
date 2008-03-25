@@ -2261,7 +2261,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $aResult = array();
         // Prepare the default zone impression forecast value
         require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/ForecastZoneImpressions.php';
-        $multiplier = $this->aConf['maintenance']['operationInterval'] / 60;
+        $multiplier = $aConf['maintenance']['operationInterval'] / 60;
         $ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS = (int) round(ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS * $multiplier);
         if ($ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS < ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS_MINIMUM) {
             $ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS = ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS_MINIMUM;
