@@ -41,9 +41,12 @@ class OA_Sync
 {
     var $aConf;
     var $aPref;
-    var $oDbh;
-
     var $_conf;
+
+    /**
+     * @var MDB2_Driver_Common
+     */
+    var $oDbh;
 
     /**
      * Constructor
@@ -172,6 +175,12 @@ class OA_Sync
             new XML_RPC_Value(OA_Dal_ApplicationVariables::get('platform_hash'), 'string')
         );
 
+        if ($this->oDbh->dbsyntax == 'pgsql') {
+            $dbms = 'PostgreSQL';
+        } else {
+            $dbms = 'MySQL';
+        }
+
         // Prepare software data
         $params[] = XML_RPC_Encode(array(
             'os_type'                   => php_uname('s'),
@@ -180,7 +189,7 @@ class OA_Sync
             'webserver_type'            => isset($_SERVER['SERVER_SOFTWARE']) ? preg_replace('#^(.*?)/.*$#', '$1', $_SERVER['SERVER_SOFTWARE']) : '',
             'webserver_version'            => isset($_SERVER['SERVER_SOFTWARE']) ? preg_replace('#^.*?/(.*?)(?: .*)?$#', '$1', $_SERVER['SERVER_SOFTWARE']) : '',
 
-            'db_type'                   => phpAds_dbmsname,
+            'db_type'                   => $dbms,
             'db_version'                => $this->oDbh->queryOne("SELECT VERSION()"),
 
             'php_version'               => phpversion(),
