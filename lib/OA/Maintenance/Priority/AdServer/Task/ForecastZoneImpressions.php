@@ -569,7 +569,7 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
             $oRangeUpperDate->copy($aRange[$max]['start']);
             // Get the average impressions delivered by the zone in previous
             // operation intervals, for the required operation interval range
-            $aZoneImpressionAverages = $this->_getZoneImpressionAverages($zoneId, $oRangeLowerDate, $oRageUpperDate);
+            $aZoneImpressionAverages = $this->_getZoneImpressionAverages($zoneId, $oRangeLowerDate, $oRangeUpperDate);
             // Get the details of all forecast and actual impressions of the
             // zone for the required operation interval range, offset by the
             // required time interval, so that current trends in differences
