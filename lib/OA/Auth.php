@@ -97,6 +97,7 @@ class OA_Auth
             $doUser = OA_Auth::authenticateUser();
 
             if (!$doUser) {
+                sleep(3);
                 OA_Auth::restart($GLOBALS['strUsernameOrPasswordWrong']);
             }
 
