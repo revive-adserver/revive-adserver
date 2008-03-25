@@ -1463,6 +1463,14 @@ return !empty($GLOBALS['_MAX']['COOKIE']['newViewerId']) && $filterActive;
 }
 function MAX_adRender($aBanner, $zoneId=0, $source='', $target='', $ct0='', $withText=false, $charset = '', $logClick=true, $logView=true, $richMedia=true, $loc='', $referer='', $context = array())
 {
+$conf = $GLOBALS['_MAX']['CONF'];
+// Sanitize these user-inputted variables before passing to the _adRenderX calls
+if (empty($target)) {
+$target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
+} else {
+$target = htmlspecialchars($target);
+}
+$source = htmlspecialchars($source);
 $code = '';
 switch ($aBanner['contenttype']) {
 case 'gif'  :
@@ -1497,13 +1505,6 @@ $code = _adRenderText($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $l
 break;
 }
 // Transform any code
-$conf = $GLOBALS['_MAX']['CONF'];
-// Get the target
-if (empty($target)) {
-$target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
-} else {
-$target = htmlspecialchars($target);
-}
 // Get a timestamp
 list($usec, $sec) = explode(' ', microtime());
 $time = (float)$usec + (float)$sec;
@@ -1530,7 +1531,7 @@ $code = str_replace('{clickurlparams}', $maxparams, $code);  // This step needs 
 }
 $search = array('{timestamp}','{random}','{target}','{url_prefix}','{bannerid}','{zoneid}','{source}', '{pageurl}', '{width}', '{height}');
 $locReplace = isset($GLOBALS['loc']) ? $GLOBALS['loc'] : '';
-$replace = array($time, $random, $target, $urlPrefix, $aBanner['ad_id'], $zoneId, htmlspecialchars($source), urlencode($locReplace), $aBanner['width'], $aBanner['height']);
+$replace = array($time, $random, $target, $urlPrefix, $aBanner['ad_id'], $zoneId, $source, urlencode($locReplace), $aBanner['width'], $aBanner['height']);
 // Arrival URLs
 if (preg_match('#^\?(m3_data=[a-z0-9]+)#i', $logClick, $arrivalClick)) {
 $arrivalClick = $arrivalClick[1];
