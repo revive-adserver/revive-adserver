@@ -87,16 +87,23 @@ class MAX_Plugin_Translation
      */
     function includePluginLanguageFile($module, $package, $language, $path = null)
     {
+        // Required for lazy initialization
+        if ($package === null && !isset($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module])) {
+            $GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module] = array();
+        } else if (!isset($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module][$package])) {
+            $GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module][$package] = array();
+        }
+
         if ($path === null) {
             if ($package === null) {
                 $path = MAX_PATH . '/plugins/' . $module . '/_lang/';
             } else {
                 $path = MAX_PATH . '/plugins/' . $module . '/' . $package . '/_lang/';
             }
-            $path .=  $language . '.php';
         }
-        if (is_readable($path)) {
-            include $path;
+        // Load up the english translation if available
+        if (is_readable($path . 'en.php')) {
+            include $path . 'en.php';
             //  If current module is not the default openads module
             if (isset($words)) {
                 if ($package === null) {
@@ -104,14 +111,21 @@ class MAX_Plugin_Translation
                 } else {
                     $GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module][$package] = $words;
                 }
+            }
+            unset($words);
+        }
+
+        if (is_readable($path . $language . '.php')) {
+            include $path . $language . '.php';
+            //  If current module is not the default openads module
+            if (isset($words)) {
+                if ($package === null) {
+                    $GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module] = array_merge($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module], $words);
+                } else {
+                    $GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module][$package] = array_merge($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module][$package], $words);
+                }
                 return true;
             }
-        }
-        // Required for lazy initialization
-        if ($package === null) {
-            $GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module] = false;
-        } else {
-            $GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module][$package] = false;
         }
         return false;
     }
