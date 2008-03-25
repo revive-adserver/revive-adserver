@@ -47,8 +47,6 @@ class OA_Maintenance_Auto
     	// loading libraries and connecting to the db
     	flush();
 
-    	OA_Preferences::loadAdminAccountPreferences();
-
         $aConf = $GLOBALS['_MAX']['CONF'];
 
         // Set longer time out, and ignore user abort
@@ -69,6 +67,8 @@ class OA_Maintenance_Auto
 		if ($oLock->get(OA_DB_ADVISORYLOCK_MAINTENANCE))
 		{
             OA::debug('Running Automatic Maintenance Task', PEAR_LOG_INFO);
+
+        	OA_Preferences::loadAdminAccountPreferences();
 
 		    require_once MAX_PATH . '/lib/OA/Maintenance.php';
 			$oMaint = new OA_Maintenance();
