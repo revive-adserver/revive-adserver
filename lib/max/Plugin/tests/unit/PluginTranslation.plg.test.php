@@ -48,25 +48,46 @@ $Id$
 
             $ret = MAX_Plugin_Translation::includePluginLanguageFile($module, null, $language);
             $this->assertIdentical($ret, false);
-            $this->assertIdentical($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module], false);
+            $this->assertIdentical($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module], array());
 
             $ret = MAX_Plugin_Translation::includePluginLanguageFile($module, $package, $language);
             $this->assertIdentical($ret, false);
-            $this->assertIdentical($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module][$package], false);
+            $this->assertIdentical($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module][$package], array());
 
             $translate = 'Some translation string';
             $ret = MAX_Plugin_Translation::translate($translate, $module, $package);
             // translation wasn't included so should return the same value
             $this->assertIdentical($ret, $translate);
 
-            $path = MAX_PLUGINTRANSLATION_TEST_DIR . '/translation.php';
-            include $path;
-            $ret = MAX_Plugin_Translation::includePluginLanguageFile($module,null,null,$path);
+            $path = MAX_PLUGINTRANSLATION_TEST_DIR . '/_lang/';
+            include $path . 'en.php';
+            $enWords = $words;
+
+            include $path . 'pl.php';
+            $plWords = $words;
+
+            $ret = MAX_Plugin_Translation::includePluginLanguageFile($module,null,'en',$path);
             $this->assertIdentical($ret, true);
-            $this->assertIdentical($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module], $words);
+            $this->assertIdentical($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module], $enWords);
 
             $ret = MAX_Plugin_Translation::translate('translate me', $module, $package);
             $this->assertIdentical($ret, 'translated text');
+
+            // Clear the translation memory
+            unset($GLOBALS['_MAX']['PLUGIN_TRANSLATION']);
+
+            $ret = MAX_Plugin_Translation::includePluginLanguageFile($module,null,'pl',$path);
+            $this->assertIdentical($ret, true);
+            $this->assertIdentical($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module], array_merge($enWords, $plWords));
+
+            // Check that a translation which doesn't exist in the selected language falls through to the english
+            $ret = MAX_Plugin_Translation::translate('translate me (fallback to english)', $module, $package);
+            $this->assertIdentical($ret, 'this is from the english pack');
+
+            // Check that a translation key which doesn't exist in selected or english languages returns the key unchanged
+            $ret = MAX_Plugin_Translation::translate('this string does not exist in the language packs', $module, $package);
+            $this->assertIdentical($ret, 'this string does not exist in the language packs');
+
         }
 
         /**
