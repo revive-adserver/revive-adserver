@@ -45,6 +45,7 @@ function phpAds_MaintenanceSelection($subSection, $mainSection='maintenance')
         ,$strMaintenance
         ,$strCheckForUpdates
         ,$strViewPastUpdates
+        ,$strEncoding
     ;
 
 ?>
@@ -92,6 +93,7 @@ function maintenance_goto_section()
             }
 
             echo "<option value='appendcodes'".($subSection == 'appendcodes' ? ' selected' : '').">Append codes</option>";
+            echo "<option value='encoding'".($subSection == 'encoding' ? ' selected' : '').">$strEncoding</option>";
         }
     }
 
