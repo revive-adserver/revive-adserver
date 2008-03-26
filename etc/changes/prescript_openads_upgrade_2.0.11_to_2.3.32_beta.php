@@ -46,7 +46,11 @@ class OA_UpgradePrescript_2_0_11
 
             $result = $this->oUpgrade->oDbh->exec("ALTER TABLE {$prefix}zones ALTER zonename TYPE varchar(245)");
 
+            // This ALTER TABLE needs to run in UTC because it stores a UTC timestamp
+            $result = $this->oUpgrade->oDbh->exec("SET timezone = 'UTC'");
             $result = $this->oUpgrade->oDbh->exec("ALTER TABLE {$prefix}session ALTER lastused TYPE timestamp");
+            $result = $this->oUpgrade->oDbh->exec("SET timezone = DEFAULT");
+
             $result = $this->oUpgrade->oDbh->exec("ALTER TABLE {$prefix}images ALTER t_stamp TYPE timestamp");
 
             $result = $this->oUpgrade->oDbh->exec("DROP INDEX ".OA_phpAdsNew::phpPgAdsPrefixedIndex('banners_clientid_idx', $prefix));
