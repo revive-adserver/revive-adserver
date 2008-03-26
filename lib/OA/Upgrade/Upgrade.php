@@ -1780,7 +1780,7 @@ class OA_Upgrade
                 {
                     $this->oLogger->log('method is callable '.$method);
                     $aParams = array(&$this);
-                    if (!call_user_func(array($oScript, $method), &$aParams))
+                    if (!call_user_func(array($oScript, $method), $aParams))
                     {
                         $this->oLogger->logError('script returned false '.$className);
                         return false;
