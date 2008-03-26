@@ -63,8 +63,6 @@ class OA_Admin_UI
      */
     function showHeader($ID, $extra="", $imgPath="", $showSidebar=true, $showMainNav=true, $noBorder = false)
     {
-        echo $ID;
-        
         global $phpAds_TextDirection;
         global $phpAds_GUIDone;
         global $phpAds_context, $phpAds_shortcuts;
