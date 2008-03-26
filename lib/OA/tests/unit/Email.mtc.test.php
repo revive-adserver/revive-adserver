@@ -1151,7 +1151,7 @@ class Test_OA_Email extends UnitTestCase
         $aResult = $oEmail->preparePlacementActivatedDeactivatedEmail($aAdvertiserUser, $placementId);
 
         // Check the contents of the generated email are correct
-        $expectedSubject = 'Campiagn activated: Foo Client';
+        $expectedSubject = 'Campaign activated: Foo Client';
         $expectedContents  = "Dear {$aAdvertiserUser['contact_name']},\n\n";
         $expectedContents .= 'Your campaign shown below has been activated because'. "\n";
         $expectedContents .= 'the campaign activation date has been reached.' . "\n";
