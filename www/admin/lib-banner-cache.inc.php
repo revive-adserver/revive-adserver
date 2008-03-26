@@ -28,7 +28,7 @@ function processBanners($commit = false)
 {
     $doBanners = OA_Dal::factoryDO('banners');
 
-    if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
+    if ((OA_INSTALLATION_STATUS === OA_INSTALLATION_STATUS_INSTALLED) && OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
     {
         $doBanners->addReferenceFilter('agency', $agencyId = OA_Permission::getEntityId());
     }
