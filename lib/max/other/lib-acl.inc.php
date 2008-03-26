@@ -345,7 +345,7 @@ function MAX_AclCopy($page, $from, $to) {
 
             // Copy ACLs
             $query = "
-                INSERT INTO {$table}
+                INSERT INTO {$table} (bannerid, logical, type, comparison, data, executionorder)
                     SELECT
                         ". $oDbh->quote($to, 'integer') .", logical, type, comparison, data, executionorder
                     FROM
