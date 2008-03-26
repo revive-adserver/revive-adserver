@@ -85,11 +85,11 @@ $Id$
     		</td>
 
     		<td height='25' style="padding-right: 10px;">
-    			<a href='advertiser-campaigns.php?clientid={$clientId}' title="{t str=CampaignOverview}"><img src='images/icon-overview.gif' border='0' align='absmiddle' alt='{t str=Overview}'>&nbsp;{t str=Overview}</a>
+    			<img src='images/icon-overview.gif' border='0' align='absmiddle' alt='{t str=Overview}'>&nbsp;<a href='advertiser-campaigns.php?clientid={$clientId}' title="{t str=CampaignOverview}">{t str=Overview}</a>
             </td>
 
     		<td height='25' style="padding-right: 10px;">
-    			<a href='advertiser-delete.php?clientid={$clientId}&returnurl=advertiser-index.php'{phpAds_DelConfirm str=ConfirmDeleteClient}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>
+    			<img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;<a href='advertiser-delete.php?clientid={$clientId}&returnurl=advertiser-index.php'{phpAds_DelConfirm str=ConfirmDeleteClient}>{t str=Delete}</a>
     		</td>
     	</tr>
 
@@ -129,18 +129,18 @@ $Id$
 
         <td height='25' style="padding-right: 15px;">
           {if !$campaign.banners}
-            <a href='banner-edit.php?clientid={$clientId}&campaignid={$campaignId}' title="{t str=AddBanner}"><img src='images/icon-banner-new.gif' border='0' align='absmiddle' alt='{t str=Create}'>&nbsp;{t str=Create}</a>
+            <img src='images/icon-banner-new.gif' border='0' align='absmiddle' alt='{t str=Create}'>&nbsp;<a href='banner-edit.php?clientid={$clientId}&campaignid={$campaignId}' title="{t str=AddBanner}">{t str=Create}</a>
           {else}
             &nbsp;
           {/if}
         </td>
 
         <td height='25' style="padding-right: 15px;">
-            <a href='campaign-banners.php?clientid={$clientId}&campaignid={$campaignId}' title="{t str=BannerOverview}"><img src='images/icon-overview-light.gif' border='0' align='absmiddle' alt='{t str=Overview}'>&nbsp;{t str=Overview}</a>
+            <img src='images/icon-overview-light.gif' border='0' align='absmiddle' alt='{t str=Overview}'>&nbsp;<a href='campaign-banners.php?clientid={$clientId}&campaignid={$campaignId}' title="{t str=BannerOverview}">{t str=Overview}</a>
         </td>
 
         <td height='25' style="padding-right: 15px;">
-            <a href='campaign-delete.php?clientid={$clientId}&campaignid={$campaignId}&returnurl=advertiser-index.php'{phpAds_DelConfirm str=ConfirmDeleteCampaign}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>
+            <img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;<a href='campaign-delete.php?clientid={$clientId}&campaignid={$campaignId}&returnurl=advertiser-index.php'{phpAds_DelConfirm str=ConfirmDeleteCampaign}>{t str=Delete}</a>
         </td>
       </tr>
 
@@ -165,10 +165,10 @@ $Id$
         {/if}
         <td>&nbsp;</td>
         <td height='25'>
-            <a href='banner-acl.php?clientid={$clientId}&campaignid={$campaignId}&bannerid={$bannerId}'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='{t str=ACL}'>&nbsp;{t str=ACL}</a>
+            <img src='images/icon-acl.gif' border='0' align='absmiddle' alt='{t str=ACL}'>&nbsp;<a href='banner-acl.php?clientid={$clientId}&campaignid={$campaignId}&bannerid={$bannerId}'>{t str=ACL}</a>
         </td>
         <td height='25'>
-            <a href='banner-delete.php?clientid={$clientId}&campaignid={$campaignId}&bannerid={$bannerId}&returnurl=advertiser-index.php' {phpAds_DelConfirm str=ConfirmDeleteBanner}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>
+            <img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;<a href='banner-delete.php?clientid={$clientId}&campaignid={$campaignId}&bannerid={$bannerId}&returnurl=advertiser-index.php' {phpAds_DelConfirm str=ConfirmDeleteBanner}>{t str=Delete}</a>
         </td>
       </tr>
               {/foreach}

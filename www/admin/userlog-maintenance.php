@@ -112,9 +112,10 @@ while ($doUserLog->fetch() && $row = $doUserLog->toArray())
 	// Details
 	echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
 	if ($row['details'] != '')
-	{
+	{		
+		echo "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;";
 		echo "<a href='userlog-details.php?userlogid=".$row['userlogid']."'>";
-		echo "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;".$strDetails."</a>";
+		echo $strDetails."</a>";
 	}
 	else
 		echo "&nbsp;";
@@ -138,7 +139,7 @@ if ($doUserLog->getRowCount() > 0)
 {
 	echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	echo "<tr><td height='25' colspan='2'>";
-		echo "<a href='userlog-delete.php'><img src='images/icon-recycle.gif' border='0' align='absmiddle'>&nbsp;".$strDeleteLog."</a>";
+		echo "<img src='images/icon-recycle.gif' border='0' align='absmiddle'>&nbsp;<a href='userlog-delete.php'>".$strDeleteLog."</a>";
 	echo "</td><td height='25' colspan='2' align='".$phpAds_TextAlignRight."'>";
 		if ($start > 0)
 		{

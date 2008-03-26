@@ -311,7 +311,7 @@ if ($doCampaigns->getRowCount() == 0) {
             if ($campaign['active'] == 't') {
                 echo "<img src='images/icon-campaign.gif' align='absmiddle'>";
             } else {
-                echo "<img src='images/icon-campaign-d.gif' align='absmiddle'>";
+                echo "<img src='images/icon-campaign-d.gif' align='absmiddle'>&nbsp;";
             }
 
             // Name

@@ -371,20 +371,20 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 		// Button 1
 		echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
 		if (($campaigns[$ckey]['expand'] == '1' || !isset($campaigns[$ckey]['banners'])) && !OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER))
-			echo "<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."' title='$strAddBanner'><img src='images/icon-banner-new.gif' border='0' align='absmiddle' alt='$strCreate'>&nbsp;$strCreate</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+			echo "<img src='images/icon-banner-new.gif' border='0' align='absmiddle' alt='$strCreate'>&nbsp;<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."' title='$strAddBanner'>$strCreate</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 		else
 			echo "&nbsp;";
 		echo "</td>";
 
 		// Button 2
 		echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
-		echo "<a href='campaign-banners.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."' title='$strBannerOverview'><img src='images/icon-overview-light.gif' border='0' align='absmiddle' alt='$strOverview'>&nbsp;$strOverview</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+		echo "<img src='images/icon-overview-light.gif' border='0' align='absmiddle' alt='$strOverview'>&nbsp;<a href='campaign-banners.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."' title='$strBannerOverview'>$strOverview</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 		echo "</td>";
 
 		// Button 3
 		echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
 		if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-    		echo "<a href='campaign-delete.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."&returnurl=advertiser-campaigns.php'".phpAds_DelConfirm($strConfirmDeleteCampaign)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+    		echo "<img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;<a href='campaign-delete.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."&returnurl=advertiser-campaigns.php'".phpAds_DelConfirm($strConfirmDeleteCampaign).">$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 		} else {
 		    echo "&nbsp;";
 		}
@@ -453,14 +453,14 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 				if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
 				    echo "&nbsp;";
 				} else {
-    				echo "<a href='banner-acl.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."&bannerid=".$banners[$bkey]['bannerid']."'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+    				echo "<img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;<a href='banner-acl.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."&bannerid=".$banners[$bkey]['bannerid']."'>$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 				}
 				echo "</td>";
 
 				// Button 3
 				echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
 				if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-    				echo "<a href='banner-delete.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."&bannerid=".$banners[$bkey]['bannerid']."&returnurl=advertiser-campaigns.php'".phpAds_DelConfirm($strConfirmDeleteBanner)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+    				echo "<img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;<a href='banner-delete.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."&bannerid=".$banners[$bkey]['bannerid']."&returnurl=advertiser-campaigns.php'".phpAds_DelConfirm($strConfirmDeleteBanner).">$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 				}
 				echo "</td></tr>";
 			}

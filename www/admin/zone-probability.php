@@ -136,13 +136,13 @@ function phpAds_showZoneBanners ($zoneId)
                     $linkEnd = '';
                 }
                 if (!$capping && !$limitations) {
-                    echo "{$linkStart}<img src='images/icon-no-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;<strong>$strNoLimitations</strong>{$linkEnd}";
+                    echo "<img src='images/icon-no-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;{$linkStart}<strong>$strNoLimitations</strong>{$linkEnd}";
                 } elseif ($limitations && $capping) {
-                    echo "{$linkStart}<img src='images/icon-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;$strLimitations &amp; $strCapping{$linkEnd}";
+                    echo "<img src='images/icon-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;{$linkStart}$strLimitations &amp; $strCapping{$linkEnd}";
                 } elseif ($limitations) {
-                    echo "{$linkStart}<img src='images/icon-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;$strLimitations{$linkEnd}";
+                    echo "<img src='images/icon-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;{$linkStart}$strLimitations{$linkEnd}";
                 } elseif ($capping) {
-                    echo "{$linkStart}<img src='images/icon-acl.gif' alt='Capping' align='middle' border='0'>&nbsp;$strCapping{$linkEnd}";
+                    echo "<img src='images/icon-acl.gif' alt='Capping' align='middle' border='0'>&nbsp;{$linkStart}$strCapping{$linkEnd}";
                 }
                 echo "</td>";
 
@@ -155,9 +155,10 @@ function phpAds_showZoneBanners ($zoneId)
                     $height = $aLinkedAd['bannertext'] ? $aLinkedAd['height'] + 90 : $aLinkedAd['height'] + 64;
                 }
                 echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
+                echo "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;";
                 echo "<a href='banner-htmlpreview.php?bannerid=".$adId."' target='_new' ";
                 echo "onClick=\"return openWindow('banner-htmlpreview.php?bannerid=".$adId."', '', 'status=no,scrollbars=no,resizable=no,width=".$width.",height=".$height."');\">";
-                echo "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;".$strShowBanner."</a>&nbsp;&nbsp;";
+                echo $strShowBanner."</a>&nbsp;&nbsp;";
                 echo "</td>";
                 echo "</tr>";
             }
@@ -224,13 +225,13 @@ function phpAds_showZoneBanners ($zoneId)
 
                 echo "<td height='25'>";
                 if (!$capping && !$limitations) {
-                    echo "{$linkStart}<img src='images/icon-no-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;$strNoLimitations{$linkEnd}";
+                    echo "<img src='images/icon-no-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;{$linkStart}$strNoLimitations{$linkEnd}";
                 } elseif ($limitations && $capping) {
-                    echo "{$linkStart}<img src='images/icon-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;$strLimitations &amp; $strCapping{$linkEnd}";
+                    echo "<img src='images/icon-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;{$linkStart}$strLimitations &amp; $strCapping{$linkEnd}";
                 } elseif ($limitations) {
-                    echo "{$linkStart}<img src='images/icon-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;$strLimitations{$linkEnd}";
+                    echo "<img src='images/icon-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;{$linkStart}$strLimitations{$linkEnd}";
                 } elseif ($capping) {
-                    echo "{$linkStart}<img src='images/icon-acl.gif' alt='Capping' align='middle' border='0'>&nbsp;$strCapping{$linkEnd}";
+                    echo "<img src='images/icon-acl.gif' alt='Capping' align='middle' border='0'>&nbsp;{$linkStart}$strCapping{$linkEnd}";
                 }
                 echo "</td>";
 
@@ -243,9 +244,10 @@ function phpAds_showZoneBanners ($zoneId)
                     $height = $aLinkedAd['bannertext'] ? $aLinkedAd['height'] + 90 : $aLinkedAd['height'] + 64;
                 }
                 echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
+                echo "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;";
                 echo "<a href='banner-htmlpreview.php?bannerid=".$adId."' target='_new' ";
                 echo "onClick=\"return openWindow('banner-htmlpreview.php?bannerid=".$adId."', '', 'status=no,scrollbars=no,resizable=no,width=".$width.",height=".$height."');\">";
-                echo "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;".$strShowBanner."</a>&nbsp;&nbsp;";
+                echo $strShowBanner."</a>&nbsp;&nbsp;";
                 echo "</td>";
                 echo "</tr>";
                 }
@@ -316,13 +318,13 @@ function phpAds_showZoneBanners ($zoneId)
 
                 echo "<td height='25'>";
                 if (!$capping && !$limitations) {
-                    echo "{$linkStart}<img src='images/icon-no-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;$strNoLimitations{$linkEnd}";
+                    echo "<img src='images/icon-no-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;{$linkStart}$strNoLimitations{$linkEnd}";
                 } elseif ($limitations && $capping) {
-                    echo "{$linkStart}<img src='images/icon-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;$strLimitations &amp; $strCapping{$linkEnd}";
+                    echo "<img src='images/icon-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;{$linkStart}$strLimitations &amp; $strCapping{$linkEnd}";
                 } elseif ($limitations) {
-                    echo "{$linkStart}<img src='images/icon-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;$strLimitations{$linkEnd}";
+                    echo "<img src='images/icon-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;{$linkStart}$strLimitations{$linkEnd}";
                 } elseif ($capping) {
-                    echo "{$linkStart}<img src='images/icon-acl.gif' alt='Capping' align='middle' border='0'>&nbsp;$strCapping{$linkEnd}";
+                    echo "<img src='images/icon-acl.gif' alt='Capping' align='middle' border='0'>&nbsp;{$linkStart}$strCapping{$linkEnd}";
                 }
                 echo "</td>";
 
@@ -335,9 +337,10 @@ function phpAds_showZoneBanners ($zoneId)
                     $height = $aLinkedAd['bannertext'] ? $aLinkedAd['height'] + 90 : $aLinkedAd['height'] + 64;
                 }
                 echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
+                echo "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;";
                 echo "<a href='banner-htmlpreview.php?bannerid=".$adId."' target='_new' ";
                 echo "onClick=\"return openWindow('banner-htmlpreview.php?bannerid=".$adId."', '', 'status=no,scrollbars=no,resizable=no,width=".$width.",height=".$height."');\">";
-                echo "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;".$strShowBanner."</a>&nbsp;&nbsp;";
+                echo $strShowBanner."</a>&nbsp;&nbsp;";
                 echo "</td>";
                 echo "</tr>";
             }

@@ -102,7 +102,7 @@ $Id$
 		{* Button - Create *}
 		<td height='25'>
       {if !$affiliate.zones}
-			 <a href='zone-edit.php?affiliateid={$affiliate.affiliateid}' title="{t str=AddNewZone}"><img src='images/icon-zone-new.gif' border='0' align='absmiddle' alt='{t str=Create}'>&nbsp;{t str=Create}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			 <img src='images/icon-zone-new.gif' border='0' align='absmiddle' alt='{t str=Create}'>&nbsp;<a href='zone-edit.php?affiliateid={$affiliate.affiliateid}' title="{t str=AddNewZone}">{t str=Create}</a>&nbsp;&nbsp;&nbsp;&nbsp;
       {else}
 	     &nbsp;
 	    {/if}
@@ -110,25 +110,25 @@ $Id$
 
 		{* Button - Zone overview *}
 		<td height='25'>
-			<a href='affiliate-zones.php?affiliateid={$affiliate.affiliateid}' title="{t str=ZoneOverview}">{$zone_overview_warning_start}<img src='images/{$zone_overview_icon}' border='0' align='absmiddle' alt='{t str=Zones}'>{$zone_overview_warning_end}&nbsp;{t str=Zones}</a>&nbsp;&nbsp;
+			<img src='images/{$zone_overview_icon}' border='0' align='absmiddle' alt='{t str=Zones}'>{$zone_overview_warning_end}&nbsp;<a href='affiliate-zones.php?affiliateid={$affiliate.affiliateid}' title="{t str=ZoneOverview}">{$zone_overview_warning_start}{t str=Zones}</a>&nbsp;&nbsp;
 
 		</td>
 
 		{* Button - Channel overview *}
-		<td height='25'>
-			<a href='affiliate-channels.php?affiliateid={$affiliate.affiliateid}'>
+		<td height='25'>			
 			{if !$affiliate.channels}
-			    <img src='images/icon-channel-d.gif' border='0' align='absmiddle' alt='{t str=Channels}'>
+			    <img src='images/icon-channel-d.gif' border='0' align='absmiddle' alt='{t str=Channels}'>&nbsp;
 		    {else}
-			    <img src='images/icon-channel.gif' border='0' align='absmiddle' alt='{t str=Channels}'>
+			    <img src='images/icon-channel.gif' border='0' align='absmiddle' alt='{t str=Channels}'>&nbsp;
 			{/if}
-		    &nbsp;{t str=Channels}</a>&nbsp;&nbsp;
+			<a href='affiliate-channels.php?affiliateid={$affiliate.affiliateid}'>
+		    {t str=Channels}</a>&nbsp;&nbsp;
 
 		</td>
 
 		{* Button - Delete *}
 		<td height='25'>
-			<a href='affiliate-delete.php?affiliateid={$affiliate.affiliateid}&returnurl=affiliate-index.php'{phpAds_DelConfirm str=ConfirmDeleteAffiliate}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;<a href='affiliate-delete.php?affiliateid={$affiliate.affiliateid}&returnurl=affiliate-index.php'{phpAds_DelConfirm str=ConfirmDeleteAffiliate}>{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
 		</td>
     </tr>
 
@@ -208,13 +208,13 @@ $Id$
 
 			{* Button 2 *}
 			<td height='25'>
-			<a href='zone-include.php?affiliateid={$affiliate.affiliateid}&zoneid={$zone.zoneid}'><img src='images/icon-zone-linked.gif' border='0' align='absmiddle' alt='{t str=IncludedBanners}'>&nbsp;{t str=IncludedBanners}</a>&nbsp;&nbsp;
+			<img src='images/icon-zone-linked.gif' border='0' align='absmiddle' alt='{t str=IncludedBanners}'>&nbsp;<a href='zone-include.php?affiliateid={$affiliate.affiliateid}&zoneid={$zone.zoneid}'>{t str=IncludedBanners}</a>&nbsp;&nbsp;
 
 			</td>
 
 			{* Button 4 *}
 			<td height='25'>
-			<a href='zone-delete.php?affiliateid={$affiliate.affiliateid}&zoneid={$zone.zoneid}&returnurl=affiliate-index.php' {phpAds_DelConfirm str=ConfirmDeleteZone}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;<a href='zone-delete.php?affiliateid={$affiliate.affiliateid}&zoneid={$zone.zoneid}&returnurl=affiliate-index.php' {phpAds_DelConfirm str=ConfirmDeleteZone}>{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
 			</td></tr>
 
 
