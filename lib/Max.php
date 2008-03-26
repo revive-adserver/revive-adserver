@@ -177,7 +177,11 @@ EOF;
     function assetPath($asset = null)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $pathWithSuffix = $conf['webpath']['adminAssetsVersionSegment'];
+        
+        $pathWithSuffix = MAX::constructURL(MAX_URL_ADMIN) . $conf['webpath']['adminAssetsVersionSegment'];
+        if (substr($pathWithSuffix, strlen($pathWithSuffix) - 1) === '/') {
+        	$pathWithSuffix = substr($pathWithSuffix, 0, strlen($pathWithSuffix) - 1);
+        }
         
     	if ($asset != null)
     	{
