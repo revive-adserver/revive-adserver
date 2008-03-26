@@ -72,6 +72,9 @@ define('OA_PERM_ZONE_LINK',         9);
 
 define('OA_PERM_SUPER_ACCOUNT',    10);
 
+define('OA_PERM_USER_LOG_ACCESS',    11);
+
+
 
 /**
  * A generic class which provides permissions related methods.
@@ -970,6 +973,8 @@ class OA_Permission
             OA_PERM_ZONE_EDIT           => array(OA_ACCOUNT_TRAFFICKER),
             OA_PERM_ZONE_INVOCATION     => array(OA_ACCOUNT_TRAFFICKER),
             OA_PERM_ZONE_LINK           => array(OA_ACCOUNT_TRAFFICKER),
+            
+            OA_PERM_USER_LOG_ACCESS     => array(OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER),            
 
             OA_PERM_SUPER_ACCOUNT       => array(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER),
 	    );

@@ -106,6 +106,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
 $aAllowedPermissions[OA_PERM_BANNER_EDIT] = $strAllowClientModifyBanner;
 $aAllowedPermissions[OA_PERM_BANNER_DEACTIVATE] = $strAllowClientDisableBanner;
 $aAllowedPermissions[OA_PERM_BANNER_ACTIVATE] = $strAllowClientActivateBanner;
+$aAllowedPermissions[OA_PERM_USER_LOG_ACCESS] = $strAllowAuditTrailAccess;
 $userAccess->setAllowedPermissions($aAllowedPermissions);
 
 

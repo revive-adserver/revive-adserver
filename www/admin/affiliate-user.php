@@ -105,6 +105,7 @@ $aAllowedPermissions[OA_PERM_ZONE_ADD]        = array($strAllowAffiliateAddZone,
 $aAllowedPermissions[OA_PERM_ZONE_DELETE]     = array($strAllowAffiliateDeleteZone,   true, false);
 $aAllowedPermissions[OA_PERM_ZONE_LINK]       = array($strAllowAffiliateLinkBanners,  false, false);
 $aAllowedPermissions[OA_PERM_ZONE_INVOCATION] = array($strAllowAffiliateGenerateCode, false, false);
+$aAllowedPermissions[OA_PERM_USER_LOG_ACCESS] = array($strAllowAuditTrailAccess, false, false);
 $userAccess->setAllowedPermissions($aAllowedPermissions);
 
 

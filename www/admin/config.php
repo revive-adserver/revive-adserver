@@ -431,8 +431,13 @@ function MMM_buildNavigation()
             $GLOBALS['OA_Navigation'][OA_ACCOUNT_ADVERTISER]['2'] = array("advertiser-access.php?clientid=$clientid" => $GLOBALS['strUserAccess']);
         }
         $GLOBALS['OA_Navigation'][OA_ACCOUNT_ADVERTISER]['5'] = $myAccount;
-
-    } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+        
+        //add user log link for advertisers if allowed
+        if (OA_Permission::hasPermission(OA_PERM_USER_LOG_ACCESS)) {
+            $GLOBALS['OA_Navigation'][OA_ACCOUNT_ADVERTISER]["5.4"] =  array("userlog-index.php" => $GLOBALS['strUserLog']);
+        }
+    } 
+    elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
         if (OA_Permission::hasPermission(OA_PERM_ZONE_EDIT) || OA_Permission::hasPermission(OA_PERM_ZONE_ADD)) {
             $GLOBALS['OA_Navigation'][OA_ACCOUNT_TRAFFICKER]['2.1.1'] = array("zone-edit.php?affiliateid=$affiliateid&zoneid=$zoneid" => $GLOBALS['strZoneProperties']);
         }
@@ -443,6 +448,11 @@ function MMM_buildNavigation()
             $GLOBALS['OA_Navigation'][OA_ACCOUNT_TRAFFICKER]['2.1.4'] = array("zone-invocation.php?affiliateid=$affiliateid&zoneid=$zoneid" => $GLOBALS['strInvocationcode']);
             $GLOBALS['OA_Navigation'][OA_ACCOUNT_TRAFFICKER]['2.2']   = array("affiliate-invocation.php?affiliateid=$affiliateid" => $GLOBALS['strInvocationcode']);
         }
+        //add user log link for traffickers if allowed
+        if (OA_Permission::hasPermission(OA_PERM_USER_LOG_ACCESS)) {
+            $GLOBALS['OA_Navigation'][OA_ACCOUNT_TRAFFICKER]["5.4"] =  array("userlog-index.php" => $GLOBALS['strUserLog']);
+        }
+        
     } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
         if (!$aConf['sync']['checkForUpdates'] || !OA::getAvailableSSLExtensions()) {
             unset($GLOBALS['OA_Navigation'][OA_ACCOUNT_MANAGER]['1']);

@@ -94,13 +94,15 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
 } else if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     // Show the "Preferences", "User Log" and "Channel Management" sections of the "My Account" sections
     phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.7"));
-} else if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-    // Show the "Preferences" section of the "My Account" sections
-    phpAds_ShowSections(array("5.1", "5.2"));
-} else if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-    // Show the "Preferences" section of the "My Account" sections
-    phpAds_ShowSections(array("5.1", "5.2"));
-}
+} 
+else if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+    // Show the "User Preferences" section of the "My Account" sections
+    $sections = array("5.1", "5.2");
+    if (OA_Permission::hasPermission(OA_PERM_USER_LOG_ACCESS)) {
+        $sections[] = "5.4";
+    }
+    phpAds_ShowSections($sections);
+} 
 
 // Set the correct section of the preference pages and display the drop-down menu
 $oOptions->selection("campaign-email-reports");
