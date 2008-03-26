@@ -46,6 +46,7 @@ class OA_UpgradePostscript_2_3_31
         }
         $this->oUpgrade->addPostUpgradeTask('Rebuild_Banner_Cache');
         $this->oUpgrade->addPostUpgradeTask('Maintenance_Priority');
+        $this->oUpgrade->addPostUpgradeTask('Recompile_Acls');
         return true;
     }
 
