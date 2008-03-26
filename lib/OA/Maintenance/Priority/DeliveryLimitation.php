@@ -298,13 +298,13 @@ class OA_Maintenance_Priority_DeliveryLimitation
      * last week. (There are 160 operation intervals in a week in this example.)
      * For operation interval IDs 0, 1 and 40, in the last week of delivery, the
      * ad is blocked from showing.
-	 */
-	function getAdvertisementLifeData($oNowDate, $oEndDate, $aCumulativeZoneForecast)
-	{
-	    $aResult = array();
-	    if (!is_a($oNowDate, 'date') || !is_a($oEndDate, 'date') || !is_array($aCumulativeZoneForecast)) {
-	        return $aResult;
-	    }
+     */
+    function getAdvertisementLifeData($oNowDate, $oEndDate, $aCumulativeZoneForecast)
+    {
+        $aResult = array();
+        if (!is_a($oNowDate, 'date') || !is_a($oEndDate, 'date') || !is_array($aCumulativeZoneForecast)) {
+            return $aResult;
+        }
         // Get the current operation interval ID and start/end dates
         $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNowDate);
         // Look at every operation interval between now and the end of the placement
@@ -327,7 +327,7 @@ class OA_Maintenance_Priority_DeliveryLimitation
             $aDates = OA_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($oParamDate);
         }
         return $aResult;
-	}
+    }
 
     /**
      * A private method to calcuate if a set of OR grouped operation groups
