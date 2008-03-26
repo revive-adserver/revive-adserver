@@ -81,7 +81,7 @@
                         and additional items
                     {/if}
                 </td>
-                <td><a href="userlog-audit-detailed.php?auditId={$aValue.auditid}"><img src="images/icon-zoom.gif" />&nbsp;View</a></td>
+                <td><img src="images/icon-zoom.gif" />&nbsp;<a href="userlog-audit-detailed.php?auditId={$aValue.auditid}">View</a></td>
             </tr>
             {if count($aValue.children) > 0}
                 {foreach from=$aValue.children key=k item=val}
@@ -96,7 +96,7 @@
 		                        and additional items
 		                    {/if}
 		                </td>
-		                <td><a href="userlog-audit-detailed.php?auditId={$val.auditid}"><img src="images/icon-zoom.gif" />&nbsp;View</a></td>
+		                <td><img src="images/icon-zoom.gif" />&nbsp;<a href="userlog-audit-detailed.php?auditId={$val.auditid}">View</a></td>
 		            </tr>
                 {/foreach}
             {/if}

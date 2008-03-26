@@ -1223,7 +1223,7 @@ function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideIn
     &nbsp;&nbsp;&nbsp;&nbsp;<img src='$adIcon' align='absmiddle'>&nbsp;$adLink</td>
 <td>$adId</td>
 <td align='$phpAds_TextAlignRight'>
-    <a href='banner-htmlpreview.php?bannerid=$adId' target='_new' onClick=\"return openWindow('banner-htmlpreview.php?bannerid=$adId', '', 'status=no,scrollbars=no,resizable=no,width=$adWidth,height=$adHeight');\"><img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;{$GLOBALS['strShowBanner']}</a>&nbsp;&nbsp;
+    <img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;<a href='banner-htmlpreview.php?bannerid=$adId' target='_new' onClick=\"return openWindow('banner-htmlpreview.php?bannerid=$adId', '', 'status=no,scrollbars=no,resizable=no,width=$adWidth,height=$adHeight');\">{$GLOBALS['strShowBanner']}</a>&nbsp;&nbsp;
 </td>
 </tr>";
                 } else {
@@ -1339,7 +1339,7 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='$adIcon' align='absmiddle'>&nbsp;$adLink</td>
         <td>$adId</td>
         <td align=".$GLOBALS['phpAds_TextAlignRight'].">
-            <a href='banner-htmlpreview.php?bannerid=$adId' target='_new' onClick=\"return openWindow('banner-htmlpreview.php?bannerid=$adId', '', 'status=no,scrollbars=no,resizable=no,width=$adWidth,height=$adHeight');\"><img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;{$GLOBALS['strShowBanner']}</a>&nbsp;&nbsp;
+            <img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;<a href='banner-htmlpreview.php?bannerid=$adId' target='_new' onClick=\"return openWindow('banner-htmlpreview.php?bannerid=$adId', '', 'status=no,scrollbars=no,resizable=no,width=$adWidth,height=$adHeight');\">{$GLOBALS['strShowBanner']}</a>&nbsp;&nbsp;
         </td>
     </tr>";
                         } else {
@@ -1565,8 +1565,8 @@ function MAX_displayChannels($channels, $aParams) {
             // Buttons
             echo "<td height='25' colspan='3'>";
 
-            echo "<a href='channel-acl.php?{$entityString}channelid={$channel['channel_id']}'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='{$GLOBALS['strIncludedBanners']}'>&nbsp;{$GLOBALS['strEditChannelLimitations']}</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-            echo "<a href='channel-delete.php?{$entityString}channelid={$channel['channel_id']}&returnurl=".(empty($aParams['affiliateid']) ? 'channel-index.php' : 'affiliate-channels.php')."'".phpAds_DelConfirm($GLOBALS['strConfirmDeleteChannel'])."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{$GLOBALS['strDelete']}'>&nbsp;{$GLOBALS['strDelete']}</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+            echo "<img src='images/icon-acl.gif' border='0' align='absmiddle' alt='{$GLOBALS['strIncludedBanners']}'>&nbsp;<a href='channel-acl.php?{$entityString}channelid={$channel['channel_id']}'>{$GLOBALS['strEditChannelLimitations']}</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+            echo "<img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{$GLOBALS['strDelete']}'>&nbsp;<a href='channel-delete.php?{$entityString}channelid={$channel['channel_id']}&returnurl=".(empty($aParams['affiliateid']) ? 'channel-index.php' : 'affiliate-channels.php')."'".phpAds_DelConfirm($GLOBALS['strConfirmDeleteChannel']).">{$GLOBALS['strDelete']}</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 
             echo "</td></tr>";
             $i++;

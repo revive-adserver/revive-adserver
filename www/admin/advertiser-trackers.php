@@ -208,14 +208,14 @@ while ($doTrackers->fetch() && $row_trackers = $doTrackers->toArray())
 	// Button 1, 2 & 3
 	echo "\t\t\t\t\t<td height='25'>";
 	if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
-		echo "<a href='tracker-campaigns.php?clientid=".$clientid."&trackerid=".$row_trackers['trackerid']."'><img src='images/icon-zone-linked.gif' border='0' align='absmiddle'>&nbsp;$strLinkedCampaigns</a>";
+		echo "<img src='images/icon-zone-linked.gif' border='0' align='absmiddle'>&nbsp;<a href='tracker-campaigns.php?clientid=".$clientid."&trackerid=".$row_trackers['trackerid']."'>$strLinkedCampaigns</a>";
 	else
 		echo "&nbsp;";
 	echo "</td>\n";
 
 	echo "\t\t\t\t\t<td height='25'>";
 	if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
-		echo "<a href='tracker-delete.php?clientid=".$clientid."&trackerid=".$row_trackers['trackerid']."&returnurl=advertiser-trackers.php'".phpAds_DelConfirm($strConfirmDeleteTracker)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>";
+		echo "<img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;<a href='tracker-delete.php?clientid=".$clientid."&trackerid=".$row_trackers['trackerid']."&returnurl=advertiser-trackers.php'".phpAds_DelConfirm($strConfirmDeleteTracker).">$strDelete</a>";
 	else
 		echo "&nbsp;";
 	echo "</td>\n";

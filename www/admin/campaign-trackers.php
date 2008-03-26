@@ -249,7 +249,7 @@ if ($doTrackers->getRowCount() == 0) {
         }
 
         // Campaign icon
-        echo "<img src='images/icon-tracker.gif' align='absmiddle'>";
+        echo "<img src='images/icon-tracker.gif' align='absmiddle'>&nbsp;";
 
         // Name
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
