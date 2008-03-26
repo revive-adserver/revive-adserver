@@ -225,6 +225,16 @@ class Migration_122 extends Migration
             return $this->_logErrorAndReturnFalse('Error deleting data during migration 122: '.$result->getUserInfo());
         }
 
+        // Update sequence on PostgreSQL
+        if ($this->oDBH->dbsyntax == 'pgsql') {
+            $seqCampaigns = $this->oDBH->quote($this->oDBH->quoteIdentifier($prefix.'campaigns_campaignid_seq', true));
+            $sql = "SELECT setval($seqCampaigns, MAX(campaignid)) FROM $tableCampaigns";
+            $result = $this->oDBH->exec($sql);
+            if (PEAR::isError($result)) {
+                return $this->_logErrorAndReturnFalse('Error resetting campaigns sequence during migration 122: '.$result->getUserInfo());
+            }
+        }
+
         return true;
 	}
 
