@@ -25,7 +25,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 
 -->*}
 {if $applicationName && $logoFilePath}
-    <div id="oaHeaderBranding" class="brandingCustom"><img src="images/{$logoFilePath|escape}" alt="{$applicationName|escape}" /></div>
+    <div id="oaHeaderBranding" class="brandingCustom"><img src="{$assetPath|escape}/images/{$logoFilePath|escape}" alt="{$applicationName|escape}" /></div>
 {elseif $applicationName}
     <div id="oaHeaderBranding" class="brandingName"><div></div>{$applicationName|escape}</div>
 {else}

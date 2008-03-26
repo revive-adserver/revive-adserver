@@ -47,14 +47,14 @@ $Id$
 	<td height='25' width="12%">&nbsp;</td>
 	<td height='25' width="17%">&nbsp;</td>
 </tr>
-<tr height='1'><td colspan='7' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+<tr height='1'><td colspan='7' bgcolor='#888888'><img src='{$assetPath|escape}/images/break.gif' height='1' width='100%'></td></tr>
 
 {if !$affiliates|@count}
 	<tr height='25' bgcolor='#F6F6F6'><td height='25' colspan='7'>
 	&nbsp;&nbsp;{t str=NoAffiliates}
 	</td></tr>
 
-	<td colspan='7' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>
+	<td colspan='7' bgcolor='#888888'><img src='{$assetPath|escape}/images/break.gif' height='1' width='100%'></td>
 {else}
 
 {cycle name=bgcolor values="#FFFFFF,#F6F6F6" assign=bgColor reset=1}
@@ -67,15 +67,15 @@ $Id$
 		<td height='25'>
 		{if $affiliate.zones}
 		    {if $affiliate.expand}
-				&nbsp;<a href='affiliate-index.php?collapse={$affiliate.affiliateid}'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;
+				&nbsp;<a href='affiliate-index.php?collapse={$affiliate.affiliateid}'><img src='{$assetPath|escape}/images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;
 			{else}
-				&nbsp;<a href='affiliate-index.php?expand={$affiliate.affiliateid}'><img src='images/{$phpAds_TextDirection}/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;
+				&nbsp;<a href='affiliate-index.php?expand={$affiliate.affiliateid}'><img src='{$assetPath|escape}/images/{$phpAds_TextDirection}/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;
 			{/if}
 		{else}
-			&nbsp;<img src='images/spacer.gif' height='16' width='16'>&nbsp;
+			&nbsp;<img src='{$assetPath|escape}/images/spacer.gif' height='16' width='16'>&nbsp;
 
 		{/if}
-			<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;
+			<img src='{$assetPath|escape}/images/icon-affiliate.gif' align='absmiddle'>&nbsp;
 		    {* set low priority campaign warning if any of this affiliate's zones *}
 		    {* are without low-priority ads *}
 		    {assign var='zone_overview_icon' value='icon-zone.gif'}
@@ -102,7 +102,7 @@ $Id$
 		{* Button - Create *}
 		<td height='25'>
       {if !$affiliate.zones}
-			 <img src='images/icon-zone-new.gif' border='0' align='absmiddle' alt='{t str=Create}'>&nbsp;<a href='zone-edit.php?affiliateid={$affiliate.affiliateid}' title="{t str=AddNewZone}">{t str=Create}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			 <img src='{$assetPath|escape}/images/icon-zone-new.gif' border='0' align='absmiddle' alt='{t str=Create}'>&nbsp;<a href='zone-edit.php?affiliateid={$affiliate.affiliateid}' title="{t str=AddNewZone}">{t str=Create}</a>&nbsp;&nbsp;&nbsp;&nbsp;
       {else}
 	     &nbsp;
 	    {/if}
@@ -110,16 +110,16 @@ $Id$
 
 		{* Button - Zone overview *}
 		<td height='25'>
-			<img src='images/{$zone_overview_icon}' border='0' align='absmiddle' alt='{t str=Zones}'>{$zone_overview_warning_end}&nbsp;<a href='affiliate-zones.php?affiliateid={$affiliate.affiliateid}' title="{t str=ZoneOverview}">{$zone_overview_warning_start}{t str=Zones}</a>&nbsp;&nbsp;
+			<img src='{$assetPath|escape}/images/{$zone_overview_icon}' border='0' align='absmiddle' alt='{t str=Zones}'>{$zone_overview_warning_end}&nbsp;<a href='affiliate-zones.php?affiliateid={$affiliate.affiliateid}' title="{t str=ZoneOverview}">{$zone_overview_warning_start}{t str=Zones}</a>&nbsp;&nbsp;
 
 		</td>
 
 		{* Button - Channel overview *}
 		<td height='25'>			
 			{if !$affiliate.channels}
-			    <img src='images/icon-channel-d.gif' border='0' align='absmiddle' alt='{t str=Channels}'>&nbsp;
+			    <img src='{$assetPath|escape}/images/icon-channel-d.gif' border='0' align='absmiddle' alt='{t str=Channels}'>&nbsp;
 		    {else}
-			    <img src='images/icon-channel.gif' border='0' align='absmiddle' alt='{t str=Channels}'>&nbsp;
+			    <img src='{$assetPath|escape}/images/icon-channel.gif' border='0' align='absmiddle' alt='{t str=Channels}'>&nbsp;
 			{/if}
 			<a href='affiliate-channels.php?affiliateid={$affiliate.affiliateid}'>
 		    {t str=Channels}</a>&nbsp;&nbsp;
@@ -128,7 +128,7 @@ $Id$
 
 		{* Button - Delete *}
 		<td height='25'>
-			<img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;<a href='affiliate-delete.php?affiliateid={$affiliate.affiliateid}&returnurl=affiliate-index.php'{phpAds_DelConfirm str=ConfirmDeleteAffiliate}>{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<img src='{$assetPath|escape}/images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;<a href='affiliate-delete.php?affiliateid={$affiliate.affiliateid}&returnurl=affiliate-index.php'{phpAds_DelConfirm str=ConfirmDeleteAffiliate}>{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
 		</td>
     </tr>
 
@@ -141,14 +141,14 @@ $Id$
 			{* Divider *}
 			<tr height='1'>
 
-			<td bgcolor='{$bgColor}'><img src='images/spacer.gif' width='1' height='1'></td>
-			<td colspan='7' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>
+			<td bgcolor='{$bgColor}'><img src='{$assetPath|escape}/images/spacer.gif' width='1' height='1'></td>
+			<td colspan='7' bgcolor='#888888'><img src='{$assetPath|escape}/images/break-l.gif' height='1' width='100%'></td>
 			</tr>
 
 			{* Icon & name *}
 			<tr height='25' bgcolor='{$bgColor}'><td height='25'>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<img src='images/spacer.gif' height='16' width='16' align='absmiddle'>&nbsp;
+			<img src='{$assetPath|escape}/images/spacer.gif' height='16' width='16' align='absmiddle'>&nbsp;
 
 			{if $zone.num_ads}
     			{if $zone.delivery == $phpAds_ZoneBanner}
@@ -162,25 +162,25 @@ $Id$
 	                	{assign var='zone_overview_warning_end' value='</acronym>'}
 	                {/if}
 
-	                {$zone_overview_warning_start}<img src='images/{$zone_overview_icon}' align='absmiddle'>{$zone_overview_warning_end}&nbsp;
+	                {$zone_overview_warning_start}<img src='{$assetPath|escape}/images/{$zone_overview_icon}' align='absmiddle'>{$zone_overview_warning_end}&nbsp;
 
 	            {elseif $zone.delivery == $phpAds_ZoneInterstitial}
-					<img src='images/icon-interstitial.gif' align='absmiddle'>&nbsp;
+					<img src='{$assetPath|escape}/images/icon-interstitial.gif' align='absmiddle'>&nbsp;
 				{elseif $zone.delivery == $phpAds_ZonePopup}
-					<img src='images/icon-popup.gif' align='absmiddle'>&nbsp;
+					<img src='{$assetPath|escape}/images/icon-popup.gif' align='absmiddle'>&nbsp;
 				{elseif $zone.delivery == $phpAds_ZoneText}
-					<img src='images/icon-textzone.gif' align='absmiddle'>&nbsp;
+					<img src='{$assetPath|escape}/images/icon-textzone.gif' align='absmiddle'>&nbsp;
                 {/if}
 			{else}
 				{if $zone.delivery == $phpAds_ZoneBanner}
-					<img src='images/icon-zone-d.gif' align='absmiddle'>&nbsp;
+					<img src='{$assetPath|escape}/images/icon-zone-d.gif' align='absmiddle'>&nbsp;
 				{elseif $zone.delivery == $phpAds_ZoneInterstitial}
-					<img src='images/icon-interstitial-d.gif' align='absmiddle'>&nbsp;
+					<img src='{$assetPath|escape}/images/icon-interstitial-d.gif' align='absmiddle'>&nbsp;
 				{elseif $zone.delivery == $phpAds_ZonePopup}
-					<img src='images/icon-popup-d.gif' align='absmiddle'>&nbsp;
+					<img src='{$assetPath|escape}/images/icon-popup-d.gif' align='absmiddle'>&nbsp;
 
 				{elseif $zone.delivery == $phpAds_ZoneText}
-					<img src='images/icon-textzone-d.gif' align='absmiddle'>&nbsp;
+					<img src='{$assetPath|escape}/images/icon-textzone-d.gif' align='absmiddle'>&nbsp;
 				{/if}
 			{/if}
 
@@ -208,19 +208,19 @@ $Id$
 
 			{* Button 2 *}
 			<td height='25'>
-			<img src='images/icon-zone-linked.gif' border='0' align='absmiddle' alt='{t str=IncludedBanners}'>&nbsp;<a href='zone-include.php?affiliateid={$affiliate.affiliateid}&zoneid={$zone.zoneid}'>{t str=IncludedBanners}</a>&nbsp;&nbsp;
+			<img src='{$assetPath|escape}/images/icon-zone-linked.gif' border='0' align='absmiddle' alt='{t str=IncludedBanners}'>&nbsp;<a href='zone-include.php?affiliateid={$affiliate.affiliateid}&zoneid={$zone.zoneid}'>{t str=IncludedBanners}</a>&nbsp;&nbsp;
 
 			</td>
 
 			{* Button 4 *}
 			<td height='25'>
-			<img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;<a href='zone-delete.php?affiliateid={$affiliate.affiliateid}&zoneid={$zone.zoneid}&returnurl=affiliate-index.php' {phpAds_DelConfirm str=ConfirmDeleteZone}>{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<img src='{$assetPath|escape}/images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;<a href='zone-delete.php?affiliateid={$affiliate.affiliateid}&zoneid={$zone.zoneid}&returnurl=affiliate-index.php' {phpAds_DelConfirm str=ConfirmDeleteZone}>{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
 			</td></tr>
 
 
 		{/foreach}
 	{/if}
-	<tr height='1'><td colspan='7' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+	<tr height='1'><td colspan='7' bgcolor='#888888'><img src='{$assetPath|escape}/images/break.gif' height='1' width='100%'></td></tr>
 {/foreach}
 {/if}
 
@@ -228,26 +228,26 @@ $Id$
 <tr height='25'>
 
 	<td height='25'>&nbsp;&nbsp;
-		<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;
+		<img src='{$assetPath|escape}/images/icon-zone.gif' align='absmiddle'>&nbsp;
 		{t str=ZonesWithoutAffiliate}</td>
 	<td height='25'>&nbsp;-&nbsp;</td>
 	<td height='25' colspan='3'>
 		<a href='affiliate-edit.php?move=t'>
-		<img src='images/{$phpAds_TextDirection}/icon-update.gif' border='0' align='absmiddle' alt='{t str=MoveToNewAffiliate}'>&nbsp;{t str=MoveToNewAffiliate}</a>&nbsp;&nbsp;
+		<img src='{$assetPath|escape}/images/{$phpAds_TextDirection}/icon-update.gif' border='0' align='absmiddle' alt='{t str=MoveToNewAffiliate}'>&nbsp;{t str=MoveToNewAffiliate}</a>&nbsp;&nbsp;
 
 	</td>
 </tr>
 
-<tr height='1'><td colspan='7' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+<tr height='1'><td colspan='7' bgcolor='#888888'><img src='{$assetPath|escape}/images/break.gif' height='1' width='100%'></td></tr>
 {/if}
 
 <tr>
 	<td height='25' colspan='7' align='{$phpAds_TextAlignRight}'>
-		<img src='images/triangle-d.gif' align='absmiddle' border='0'>
+		<img src='{$assetPath|escape}/images/triangle-d.gif' align='absmiddle' border='0'>
 		&nbsp;<a href='affiliate-index.php?expand=all' accesskey='{$keyExpandAll}'>{t str=ExpandAll}</a>
 		&nbsp;&nbsp;|&nbsp;&nbsp;
 
-		<img src='images/{$phpAds_TextDirection}/triangle-l.gif' align='absmiddle' border='0'>
+		<img src='{$assetPath|escape}/images/{$phpAds_TextDirection}/triangle-l.gif' align='absmiddle' border='0'>
 		&nbsp;<a href='affiliate-index.php?expand=none' accesskey='{$keyCollapseAll}'>{t str=CollapseAll}</a>
 	</td>
 </tr>

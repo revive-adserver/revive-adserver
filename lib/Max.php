@@ -147,7 +147,7 @@ EOF;
         if ($type == MAX_URL_ADMIN) {
             $path = $conf['webpath']['admin'];
         } elseif ($type == MAX_URL_IMAGE) {
-            $path = $conf['webpath']['admin'] . '/images';
+            $path = $conf['webpath']['admin'] . $conf['webpath']['adminAssetsVersionSegment'] . '/images';
         } else {
             return null;
         }
@@ -164,6 +164,29 @@ EOF;
         }
         // Return the URL
         return $GLOBALS['_MAX']['HTTP'] . $path . $file;
+    }
+    
+    /**
+     * A method to construct URLs for static assets, such as images, CSS and JavaScripts
+     * based on OpenX installation and configuration details.
+     *
+     * @param string $asset a relative path to the asset, optional
+     * @return the URL to the asset. If asset was not provided, 
+     * 			the path does not contain a trailing slash.
+     */
+    function assetPath($asset = null)
+    {
+        $conf = $GLOBALS['_MAX']['CONF'];
+        $pathWithSuffix = $conf['webpath']['adminAssetsVersionSegment'];
+        
+    	if ($asset != null)
+    	{
+    		return $pathWithSuffix . "/" . $asset;
+    	}
+    	else
+    	{
+	    	return $pathWithSuffix;
+    	}
     }
 }
 

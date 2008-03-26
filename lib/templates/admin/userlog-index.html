@@ -37,7 +37,7 @@
 	    <span class="filterLabel">{t str=Date}</span>
 	    {$daySpan->display()}
 	       <a href='#' onclick='return periodFormSubmit()'>
-	           <img src='images/ltr/go_blue.gif' border='0' tabindex='6' />
+	           <img src='{$assetPath|escape}/images/ltr/go_blue.gif' border='0' tabindex='6' />
 	       </a>
     </div>
     <div>
@@ -52,9 +52,9 @@
                 <th width="15%"><a href="userlog-index.php?{$urlParam}">{t str='Timestamp'}</a>
                     <a href="userlog-index.php?{$urlParam}">
                         {if $orderdirection == 'up'}
-                        <img src="images/caret-u.gif" />
+                        <img src="{$assetPath|escape}/images/caret-u.gif" />
                         {else}
-                        <img src="images/caret-ds.gif" />
+                        <img src="{$assetPath|escape}/images/caret-ds.gif" />
                         {/if}
                     </a>
                 </th>
@@ -75,7 +75,7 @@
                         and additional items
                     {/if}
                 </td>
-                <td><img src="images/icon-zoom.gif" />&nbsp;<a href="userlog-audit-detailed.php?auditId={$aValue.auditid}">{t str=View}</a></td>
+                <td><img src="{$assetPath|escape}/images/icon-zoom.gif" />&nbsp;<a href="userlog-audit-detailed.php?auditId={$aValue.auditid}">{t str=View}</a></td>
             </tr>
             {/foreach}
             {else}

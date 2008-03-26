@@ -28,26 +28,26 @@ $Id$
 {if !$_e.hidden}
 {if $_e.type == 'section'}<table border='0' width='100%' cellpadding='0' cellspacing='0'>
 <tr><td height='25' colspan='3'><b>{$_e.title}</b></td></tr>
-<tr height='1'><td width='30'><img src='images/break.gif' height='1' width='30'></td>
-<td width='200'><img src='images/break.gif' height='1' width='200'></td>
-<td width='100%'><img src='images/break.gif' height='1' width='100%'></td></tr>
+<tr height='1'><td width='30'><img src='{$assetPath|escape}/images/break.gif' height='1' width='30'></td>
+<td width='200'><img src='{$assetPath|escape}/images/break.gif' height='1' width='200'></td>
+<td width='100%'><img src='{$assetPath|escape}/images/break.gif' height='1' width='100%'></td></tr>
 <tr><td height='10' colspan='3'>&nbsp;</td></tr>
     {if $_e.errors}
     <tr><td>&nbsp;</td><td height='10' colspan='2'>
     <table cellpadding='0' cellspacing='0' border='0'><tr><td>
-    <img src='images/error.gif' align='absmiddle'>&nbsp;
+    <img src='{$assetPath|escape}/images/error.gif' align='absmiddle'>&nbsp;
     {foreach item=_eErr from=$_e.errors}
     <font color='#AA0000'><b>{$_eErr}</b></font><br />
     {/foreach}
     </td></tr></table></td></tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>
-    <tr><td><img src='images/spacer.gif' height='1' width='100%'></td>
-    <td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>
+    <tr><td><img src='{$assetPath|escape}/images/spacer.gif' height='1' width='100%'></td>
+    <td colspan='2'><img src='{$assetPath|escape}/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>
     {/if}
 {/if}
 {if $_e.type != 'section' && $_e.break}
     <tr>
-        <td><img src='images/spacer.gif' height='1' width='30'></td>
-        <td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'>
+        <td><img src='{$assetPath|escape}/images/spacer.gif' height='1' width='30'></td>
+        <td colspan='1'><img src='{$assetPath|escape}/images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='{$assetPath|escape}/images/spacer.gif' height='1' width='100%'>
     </tr>
 {/if}
 {if $_e.type == 'text' || $_e.type == 'password' || !$_e.type}
@@ -91,7 +91,7 @@ $Id$
         <td width='30'>&nbsp;</td>
         <td colspan='2'>
             {if $_e.old}<input type='hidden' name="{$_e.name|escape}_old" value="{$_e.old|escape}">{/if}
-            {if $_e.indent}<img src='images/indent.gif'>{/if}<input type='checkbox' name="{$_e.name|escape}"
+            {if $_e.indent}<img src='{$assetPath|escape}/images/indent.gif'>{/if}<input type='checkbox' name="{$_e.name|escape}"
                 id="{$_e.id|default:$_e.name|escape}" value="{$_e.value|escape}"{tabindex}
                 {if $_e.checked} checked="checked"{/if}
                 {if $_e.disabled} disabled="disabled"{/if}
@@ -107,9 +107,9 @@ $Id$
     <tr>
         <td height='10' colspan='3'>&nbsp;</td>
     </tr>
-    <tr height='1'><td width='30'><img src='images/break.gif' height='1' width='30'></td>
-        <td width='200'><img src='images/break.gif' height='1' width='200'></td>
-        <td width='100%'><img src='images/break.gif' height='1' width='100%'></td>
+    <tr height='1'><td width='30'><img src='{$assetPath|escape}/images/break.gif' height='1' width='30'></td>
+        <td width='200'><img src='{$assetPath|escape}/images/break.gif' height='1' width='200'></td>
+        <td width='100%'><img src='{$assetPath|escape}/images/break.gif' height='1' width='100%'></td>
     </tr>
     <tr>
         <td height='10' colspan='3'>&nbsp;</td>

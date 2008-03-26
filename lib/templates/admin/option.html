@@ -3,7 +3,7 @@
 <form id='settingsform' name='settingsform' ENCTYPE='multipart/form-data' method='post' action='{$formUrl}' onSubmit='return max_formValidate(this);'>
     {if $adminUser && $optionType == 'account-settings'}
     <br />
-    <div class='errormessage'><img class='errormessage' src='images/padlock-{$image}.gif' width='16' height='16' border='0' align='absmiddle'>
+    <div class='errormessage'><img class='errormessage' src='{$assetPath|escape}/images/padlock-{$image}.gif' width='16' height='16' border='0' align='absmiddle'>
         {if $configLocked}{t str=EditConfigNotPossible}{else}{t str=EditConfigPossible}{/if}
     </div>
     {/if}

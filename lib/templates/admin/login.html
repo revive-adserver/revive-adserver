@@ -31,16 +31,16 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
     <input type="hidden" name="oa_cookiecheck" value="{$sessionID|escape}" />
     <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-            <td width="80" valign="bottom"><img src="images/login-welcome.gif">&nbsp;&nbsp;</td>
+            <td width="80" valign="bottom"><img src="{$assetPath|escape}/images/login-welcome.gif">&nbsp;&nbsp;</td>
             <td width="100%" valign="bottom">
                 <span class="tab-s">{t str=WelcomeTo} {$appName|escape}</span><br />
                 <span class="install">{t str=EnterUsername}</span><br />
     {if $message}
-                <div class="errormessage" style="width: 400px;"><img class="errormessage" src="images/errormessage.gif" align="absmiddle" />
+                <div class="errormessage" style="width: 400px;"><img class="errormessage" src="{$assetPath|escape}/images/errormessage.gif" align="absmiddle" />
                     <span class="tab-r">{$message}</span>
                 </div>
     {else}
-                <img src="images/break-el.gif" width="400" height="1" vspace="8" />
+                <img src="{$assetPath|escape}/images/break-el.gif" width="400" height="1" vspace="8" />
     {/if}
             </td>
         </tr>
@@ -61,7 +61,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
                         <td><input type="submit" name="login" id="login" value="{t str=Login}"{tabindex} /></td>
                     </tr>
                 </table>
-                <img src="images/break-el.gif" width="400" height="1" vspace="8" /><br />
+                <img src="{$assetPath|escape}/images/break-el.gif" width="400" height="1" vspace="8" /><br />
                 <a href="password-recovery.php">{t str=ForgotPassword}</a>
             </td>
         </tr>
@@ -74,5 +74,5 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 </script>
 {else}
 {phpAds_ShowBreak}
-<br /><img src="images/info.gif" align="absmiddle">&nbsp;{t str=NoAdminInterface}
+<br /><img src="{$assetPath|escape}/images/info.gif" align="absmiddle">&nbsp;{t str=NoAdminInterface}
 {/if}

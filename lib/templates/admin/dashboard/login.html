@@ -55,12 +55,12 @@ $Id$
 
                 <form id="loginForm" action="" method="POST">
                     <div class="line">
-                      <label for="sso_username"><img src="images/dashboard/user_green.gif" />&nbsp;Single sign-on username</label>
+                      <label for="sso_username"><img src="{$assetPath|escape}/images/dashboard/user_green.gif" />&nbsp;Single sign-on username</label>
                       <input type="text" id="sso_username" name="sso_username" value="{$ssoAdmin|escape}"{if $disabledUsername} disabled="disabled"{/if}{tabindex} />
                     </div>
 
                     <div class="line">
-                        <label for="sso_password"><img src="images/dashboard/key.gif" />&nbsp;Single sign-on password</label>
+                        <label for="sso_password"><img src="{$assetPath|escape}/images/dashboard/key.gif" />&nbsp;Single sign-on password</label>
                         <input type="password" id="sso_password" name="sso_password"{tabindex} />
                     </div>
 

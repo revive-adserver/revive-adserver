@@ -16,7 +16,7 @@
             {html_options options=$aItem.items selected=$aItem.value}
             </select>
 		    {if $aItem.showSubmitButton}
-		        &nbsp;<a href="javascript:void(0)" onClick="document.forms['settingsform'].submit();"><img src="images/ltr/go_blue.gif" border="0"></a>
+		        &nbsp;<a href="javascript:void(0)" onClick="document.forms['settingsform'].submit();"><img src="{$assetPath|escape}/images/ltr/go_blue.gif" border="0"></a>
 		    {/if}
         </td>
         <td>{$this->_showPadLock($aItem)}</td>

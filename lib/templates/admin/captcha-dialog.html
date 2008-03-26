@@ -38,7 +38,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
     <div class="captcha">
       {$message} by entering the security code shown below (*):<br/>
       <div>
-      <img id="captcha" src="images/spacer.gif" />
+      <img id="captcha" src="{$assetPath|escape}/images/spacer.gif" />
       <input class="flat" name="captcha-value" type="text" autocomplete="off" {tabindex}/>
       <input name="captcha-random" id="captcha-random" type="hidden" value="" />
       </div>
