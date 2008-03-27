@@ -20,7 +20,7 @@
     </div>
 
     {if:noStatsAvailable}
-    <div class='errormessage' style='margin-top: 2em'><img class='errormessage' src='images/info.gif' width='16' height='16' border='0' align='absmiddle'>{showNoStatsString()}</div>
+    <div class='errormessage' style='margin-top: 2em'><img class='errormessage' src='{assetPath}/images/info.gif' width='16' height='16' border='0' align='absmiddle'>{showNoStatsString()}</div>
     {else:}
     <table width="100%" class="table">
         <thead>
@@ -40,14 +40,14 @@
             </tr>
             <tr flexy:foreach="aEntitiesData,e" class="{e[htmlclass]}">
                 <td class="{e[nameclass]}" nowrap="nowrap">
-                    <img src="images/spacer.gif" width="{e[padding]}" height="16" align="absmiddle" />
+                    <img src="{assetPath}/images/spacer.gif" width="{e[padding]}" height="16" align="absmiddle" />
                     {if:e[num_children]}
-                    <a flexy:if="e[expanded]" href="{pageURI}collapse={e[prefix]:u}{e[id]:u}"><img src="images/triangle-d.gif" width="16" height="16" align="absmiddle" border="0" /></a>
-                    <a flexy:if="!e[expanded]" href="{pageURI}expand={e[prefix]:u}{e[id]:u}"><img src="images/{phpAds_TextDirection}/triangle-l.gif" width="16" align="absmiddle" height="16" border="0" /></a>
+                    <a flexy:if="e[expanded]" href="{pageURI}collapse={e[prefix]:u}{e[id]:u}"><img src="{assetPath}/images/triangle-d.gif" width="16" height="16" align="absmiddle" border="0" /></a>
+                    <a flexy:if="!e[expanded]" href="{pageURI}expand={e[prefix]:u}{e[id]:u}"><img src="{assetPath}/images/{phpAds_TextDirection}/triangle-l.gif" width="16" align="absmiddle" height="16" border="0" /></a>
                     {else:}
-                    <img src="images/spacer.gif" width="16" height="16" align="absmiddle" />
+                    <img src="{assetPath}/images/spacer.gif" width="16" height="16" align="absmiddle" />
                     {end:}
-                    <img src="{e[icon]}" align="absmiddle" />&nbsp;
+                    <img src="{assetPath}/{e[icon]}" align="absmiddle" />&nbsp;
                     <a flexy:if="entityLink(e[prefix])" href="{entityLink(e[prefix])}&{e[linkparams]}">{if:e[name]}{e[name]}{else:}{tr(#strUntitled#)}{end:}</a>
                     <span flexy:if="!entityLink(e[prefix])">{if:e[name]}{e[name]}{else:}{tr(#strUntitled#)}{end:}</span>
                 </td>
@@ -66,23 +66,23 @@
     <div style="float: left" flexy:if="showHideInactive">
         &nbsp;&nbsp;
         {if:hideInactive}
-            <img src='images/icon-activate.gif' align='absmiddle' border='0' />&nbsp;<a href='{pageURI}hideinactive=0'>{tr(#strShowAll#)}</a> | {hiddenEntitiesText}
+            <img src='{assetPath}/images/icon-activate.gif' align='absmiddle' border='0' />&nbsp;<a href='{pageURI}hideinactive=0'>{tr(#strShowAll#)}</a> | {hiddenEntitiesText}
         {else:}
-            <img src='images/icon-hideinactivate.gif' align='absmiddle' border='0' />&nbsp;<a href='{pageURI}hideinactive=1'>{tr(#strHideInactive#)}</a>
+            <img src='{assetPath}/images/icon-hideinactivate.gif' align='absmiddle' border='0' />&nbsp;<a href='{pageURI}hideinactive=1'>{tr(#strHideInactive#)}</a>
         {end:}
         {foreach:showHideLevels,level,hide}
-          | <img src='{hide[icon]}' align='absmiddle' border='0' />&nbsp;<a href="{pageURI}startlevel={level}">{hide[text]}</a>
+          | <img src='{assetPath}/{hide[icon]}' align='absmiddle' border='0' />&nbsp;<a href="{pageURI}startlevel={level}">{hide[text]}</a>
         {end:}
     </div>
     <div style="float: left" flexy:if="!showHideInactive">
         {foreach:showHideLevels,level,hide}
-        | <img src='{hide[icon]}' align='absmiddle' border='0' />&nbsp;<a href="{pageURI}startlevel={level}">{hide[text]}</a>
+        | <img src='{assetPath}/{hide[icon]}' align='absmiddle' border='0' />&nbsp;<a href="{pageURI}startlevel={level}">{hide[text]}</a>
         {end:}
     </div>
     <div style="float: right">
-        <img src="images/triangle-d.gif" align="absmiddle" border="0" />&nbsp;<a href="{pageURI}expand=all" accesskey="{tr(#keyExpandAll#)}">{tr(#strExpandAll#):h}</a>
+        <img src="{assetPath}/images/triangle-d.gif" align="absmiddle" border="0" />&nbsp;<a href="{pageURI}expand=all" accesskey="{tr(#keyExpandAll#)}">{tr(#strExpandAll#):h}</a>
         &nbsp;&nbsp;|&nbsp;&nbsp;
-        <img src="images/{phpAds_TextDirection}/triangle-l.gif" align="absmiddle" border="0" />&nbsp;<a href="{pageURI}expand=none" accesskey="{tr(#keyCollapseAll#)}">{tr(#strCollapseAll#):h}</a>
+        <img src="{assetPath}/images/{phpAds_TextDirection}/triangle-l.gif" align="absmiddle" border="0" />&nbsp;<a href="{pageURI}expand=none" accesskey="{tr(#keyCollapseAll#)}">{tr(#strCollapseAll#):h}</a>
         &nbsp;&nbsp;
     </div>
     {end:}

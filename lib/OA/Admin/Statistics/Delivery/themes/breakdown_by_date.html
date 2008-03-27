@@ -26,7 +26,7 @@
     		<td style="padding-bottom:5px; white-space: nowrap;">
     			<br />
     			<a href="stats.php?{aGraphData[queryString]}&plugin=advertiser:statshistory" accesskey="e">
-                <img src="images/excel.gif" border="0" alt="" /> {strExportStatisticsToExcel:h}
+                <img src="{assetPath}/images/excel.gif" border="0" alt="" /> {strExportStatisticsToExcel:h}
                 </a>
     		</td>
     		<td width="90%">&nbsp;</td>
@@ -34,7 +34,7 @@
     		<td style="padding-bottom:5px; white-space: nowrap;">
     			<br />
     			<span style="color: #999999;">
-                <img src="images/excel.gif" border="0" alt="" /> {strExportStatisticsToExcel:h}</span>
+                <img src="{assetPath}/images/excel.gif" border="0" alt="" /> {strExportStatisticsToExcel:h}</span>
     		</td>
     		<td width="90%">&nbsp;</td>
     	{end:}
@@ -45,7 +45,7 @@
   <tr>
 	<td style="padding-left: 40px;">
     {if:noStatsAvailable}
-    <div class='errormessage' style='margin-top: 2em'><img class='errormessage' src='images/info.gif' width='16' height='16' border='0' align='absmiddle'>{showNoStatsString()}</div>
+    <div class='errormessage' style='margin-top: 2em'><img class='errormessage' src='{assetPath}/images/info.gif' width='16' height='16' border='0' align='absmiddle'>{showNoStatsString()}</div>
     {else:}
     <table width="100%" class="table">
         <thead>
@@ -59,7 +59,7 @@
         <tbody>
             <tr flexy:foreach="aStatsData,h" class="{h[htmlclass]}">
                 <td class="{h[htmlclass]}" nowrap="nowrap">
-                    <img src="{statsIcon}" width="16" height="16" align="absmiddle" />
+                    <img src="{assetPath}/{statsIcon}" width="16" height="16" align="absmiddle" />
                     <a href="{h[link]}" flexy:if="h[link]">{h[date_f]}</a>
                     <span flexy:if="!h[link]">{h[date_f]}</span>
                 </td>
