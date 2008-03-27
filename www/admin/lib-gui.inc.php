@@ -68,7 +68,7 @@ function phpAds_PageShortcut($name, $link, $icon)
     $phpAds_shortcuts[] = array(
         'name' => $name,
         'link' => $link,
-        'icon' => $icon
+        'icon' => MAX::assetPath() . "/" . $icon
     );
 }
 

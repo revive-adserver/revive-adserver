@@ -214,7 +214,7 @@ class Plugins_InvocationTags_adlayer_adlayer extends Plugins_InvocationTags
         }
         $option .= "</select>";
         $option .= "</td></tr>";
-        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td></tr>";
+        $option .= "<tr><td width='30'><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td></tr>";
 
         return $option;
     }

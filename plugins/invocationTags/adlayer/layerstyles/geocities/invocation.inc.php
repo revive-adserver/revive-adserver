@@ -58,7 +58,7 @@ class Plugins_InvocationTags_Adlayer_Layerstyles_Geocities_Invocation
     	$buffer = '';
 
     	$buffer .= "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-    	$buffer .= "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>";
+    	$buffer .= "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-el.gif' height='1' width='100%'></td></tr>";
     	$buffer .= "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
@@ -69,22 +69,22 @@ class Plugins_InvocationTags_Adlayer_Layerstyles_Geocities_Invocation
     		$buffer .= "<option value='right'".($align == 'right' ? ' selected' : '').">".MAX_Plugin_Translation::translate('Right', 'invocationTags')."</option>";
     	$buffer .= "</select>";
     	$buffer .= "</td></tr>";
-    	$buffer .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
+    	$buffer .= "<tr><td width='30'><img src='" . MAX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
     	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Close text', 'invocationTags')."</td><td width='370'>";
     		$buffer .= "<input class='flat' type='text' name='closetext' size='' value='".$closetext."' style='width:175px;' tabindex='".($tabindex++)."'></td></tr>";
-    	$buffer .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
+    	$buffer .= "<tr><td width='30'><img src='" . MAX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
     	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Automatically collapse after', 'invocationTags')."</td><td width='370'>";
     		$buffer .= "<input class='flat' type='text' name='collapsetime' size='' value='".(isset($collapsetime) ? $collapsetime : '-')."' style='width:60px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrSeconds']."</td></tr>";
-    	$buffer .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
+    	$buffer .= "<tr><td width='30'><img src='" . MAX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
     	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Banner padding', 'invocationTags')."</td><td width='370'>";
     		$buffer .= "<input class='flat' type='text' name='padding' size='' value='".(isset($padding) ? $padding : '0')."' style='width:60px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
-    	$buffer .= "<tr><td width='30'><img src='images/spacer.gif' height='5' width='100%'></td></tr>";
+    	$buffer .= "<tr><td width='30'><img src='" . MAX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	return $buffer;
     }

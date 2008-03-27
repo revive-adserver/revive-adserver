@@ -88,7 +88,7 @@ define('phpAds_installing',     true);
 // changed form name for javascript dependent fields
 $GLOBALS['settings_formName'] = "frmOpenads";
 
-$imgPath = '';
+$imgPath = MAX::assetPath() . "/";
 $installStatus = 'unknown';
 
  /**

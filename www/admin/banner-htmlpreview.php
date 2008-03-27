@@ -60,11 +60,11 @@ if (!empty($aBanner))
 <table cellpadding='0' cellspacing='0' border='0'>
 <tr height='32'>
     <td width='32'><img src='" . MAX::assetPath() . "/images/cropmark-tl.gif' width='32' height='32'></td>
-    <td background='images/ruler-top.gif'>&nbsp;</td>
+    <td background='" . MAX::assetPath() . "/images/ruler-top.gif'>&nbsp;</td>
     <td width='32'><img src='" . MAX::assetPath() . "/images/cropmark-tr.gif' width='32' height='32'></td>
 </tr>
 <tr height='{$aBanner['height']}'>
-    <td width='32' background='images/ruler-left.gif'>&nbsp;</td>
+    <td width='32' background='" . MAX::assetPath() . "/images/ruler-left.gif'>&nbsp;</td>
     <td bgcolor='#FFFFFF' width='{$aBanner['width']}'>
         $bannerCode
     </td>

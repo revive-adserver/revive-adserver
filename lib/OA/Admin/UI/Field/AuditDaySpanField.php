@@ -171,8 +171,8 @@ class OA_Admin_UI_Audit_DaySpanField extends Admin_UI_DaySpanField
 
             document.getElementById('{$this->_name}_start_button').readOnly = !specific;
             document.getElementById('{$this->_name}_end_button').readOnly = !specific;
-            document.getElementById('{$this->_name}_start_button').src = specific ? 'images/icon-calendar.gif' : 'images/icon-calendar-d.gif';
-            document.getElementById('{$this->_name}_end_button').src = specific ? 'images/icon-calendar.gif' : 'images/icon-calendar-d.gif';
+            document.getElementById('{$this->_name}_start_button').src = specific ? '" . MAX::assetPath() . "/images/icon-calendar.gif' : '" . MAX::assetPath() . "/images/icon-calendar-d.gif';
+            document.getElementById('{$this->_name}_end_button').src = specific ? '" . MAX::assetPath() . "/images/icon-calendar.gif' : '" . MAX::assetPath() . "/images/icon-calendar-d.gif';
             document.getElementById('{$this->_name}_start_button').style.cursor = specific ? 'auto' : 'default';
             document.getElementById('{$this->_name}_end_button').style.cursor = specific ? 'auto' : 'default';
 

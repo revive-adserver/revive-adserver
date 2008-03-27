@@ -318,7 +318,7 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
             </p>
 
             <div class='sizePreview " . (count($customClass) ? ' ' . implode(' ', $customClass) : '') . "' style='width: {$width}px; height: {$height}px;'>
-                <img src='images/watermark.png' alt='' />
+                <img src='" . MAX::assetPath() . "/images/watermark.png' alt='' />
 				<span>{$widthLabel} x {$heightLabel}</span>
             </div>
 
@@ -338,7 +338,7 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
             	Banners should now appear on your website
             </p>
 
-        	<button id='closeWindow'><img src='images/cross.png' alt='' />Close this window</button>
+        	<button id='closeWindow'><img src='" . MAX::assetPath() . "/images/cross.png' alt='' />Close this window</button>
         </div>
 
         <div class='generated'>
@@ -397,7 +397,7 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
         $option .= "<td width='370'><input type='radio' id='noscript-y' name='noscript' value='1'".($noscript == 1 ? " checked='checked'" : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;<label for='noscript-y'>".$GLOBALS['strYes']."</label><br />";
         $option .= "<input type='radio' id='noscript-n' name='noscript' value='0'".($noscript == 0 ? " checked='checked'" : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;<label for='noscript-n'>".$GLOBALS['strNo']."</label></td>";
         $option .= "</tr>";
-        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+        $option .= "<tr><td width='30'><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
         return $option;
     }
 
@@ -412,7 +412,7 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
         $option .= "<td width='370'><input type='radio' id='ssl-y' name='ssl' value='1'".($ssl == 1 ? " checked='checked'" : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;<label for='ssl-y'>".$GLOBALS['strYes']."</label><br />";
         $option .= "<input type='radio' name='ssl' id='ssl-y' value='0'".($ssl == 0 ? " checked='checked'" : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;<label for='ssl-n'>".$GLOBALS['strNo']."</label></td>";
         $option .= "</tr>";
-        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+        $option .= "<tr><td width='30'><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
         return $option;
     }
 
