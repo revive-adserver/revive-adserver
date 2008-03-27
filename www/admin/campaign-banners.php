@@ -172,7 +172,7 @@ if (isset($banners) && is_array($banners) && count($banners) > 0) {
 }
 
 if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-    echo "\t\t\t\t<img src='images/icon-banner-new.gif' align='absmiddle' alt=''>&nbsp;";
+    echo "\t\t\t\t<img src='" . MAX::assetPath() . "/images/icon-banner-new.gif' align='absmiddle' alt=''>&nbsp;";
     echo "<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaignid."' accesskey='".$keyAddNew."'>".$oTrans->translate('AddBanner_Key')."</a>&nbsp;&nbsp;&nbsp;&nbsp;\n";
     phpAds_ShowBreak();
     echo "\t\t\t\t<br /><br />\n";
@@ -187,10 +187,10 @@ echo "<td height='25' width='40%'><b>&nbsp;&nbsp;<a href='campaign-banners.php?c
 if (($listorder == "name") || ($listorder == "")) {
     if  (($orderdirection == "") || ($orderdirection == "down")) {
         echo ' <a href="campaign-banners.php?clientid='.$clientid.'&campaignid='.$campaignid.'&orderdirection=up">';
-        echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
+        echo '<img src="' . MAX::assetPath() . '/images/caret-ds.gif" border="0" alt="" title="">';
     } else{
         echo ' <a href="campaign-banners.php?clientid='.$clientid.'&campaignid='.$campaignid.'&orderdirection=down">';
-        echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
+        echo '<img src="' . MAX::assetPath() . '/images/caret-u.gif" border="0" alt="" title="">';
     }
     echo '</a>';
 }
@@ -201,10 +201,10 @@ echo '<td height="25"><b><a href="campaign-banners.php?clientid='.$clientid.'&ca
 if ($listorder == "id") {
     if  (($orderdirection == "") || ($orderdirection == "down")) {
         echo '<a href="campaign-banners.php?clientid='.$clientid.'&campaignid='.$campaignid.'&orderdirection=up">';
-        echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
+        echo '<img src="' . MAX::assetPath() . '/images/caret-ds.gif" border="0" alt="" title="">';
     } else {
         echo ' <a href="campaign-banners.php?clientid='.$clientid.'&campaignid='.$campaignid.'&orderdirection=down">';
-        echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
+        echo '<img src="' . MAX::assetPath() . '/images/caret-u.gif" border="0" alt="" title="">';
     }
     echo '</a>';
 }
@@ -215,7 +215,7 @@ echo "<td height='25'>&nbsp;</td>";
 echo "<td height='25'>&nbsp;</td>";
 echo "</tr>";
 
-echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%' alt=''></td></tr>";
+echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%' alt=''></td></tr>";
 
 
 if (!isset($banners) || !is_array($banners) || count($banners) == 0) {
@@ -226,7 +226,7 @@ if (!isset($banners) || !is_array($banners) || count($banners) == 0) {
     $i=0;
     foreach (array_keys($banners) as $bkey) {
         if ($i > 0) {
-            echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%' alt=''></td></tr>";
+            echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='100%' alt=''></td></tr>";
         }
 
         // Icon & name
@@ -245,9 +245,9 @@ if (!isset($banners) || !is_array($banners) || count($banners) == 0) {
 
         if (!$pref['ui_show_campaign_preview']) {
             if ($banners[$bkey]['expand'] == '1') {
-                echo "<a href='campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid."&collapse=".$banners[$bkey]['bannerid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0' alt=''></a>&nbsp;";
+                echo "<a href='campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid."&collapse=".$banners[$bkey]['bannerid']."'><img src='" . MAX::assetPath() . "/images/triangle-d.gif' align='absmiddle' border='0' alt=''></a>&nbsp;";
             } else {
-                echo "<a href='campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid."&expand=".$banners[$bkey]['bannerid']."'><img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0' alt=''></a>&nbsp;";
+                echo "<a href='campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid."&expand=".$banners[$bkey]['bannerid']."'><img src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0' alt=''></a>&nbsp;";
             }
         } else {
             echo "&nbsp;";
@@ -255,23 +255,23 @@ if (!isset($banners) || !is_array($banners) || count($banners) == 0) {
 
         if ($banners[$bkey]['status'] == OA_ENTITY_STATUS_RUNNING) {
             if ($banners[$bkey]['type'] == 'html') {
-                echo "<img src='images/icon-banner-html.gif' align='absmiddle' alt=''>";
+                echo "<img src='" . MAX::assetPath() . "/images/icon-banner-html.gif' align='absmiddle' alt=''>";
             } elseif ($banners[$bkey]['type'] == 'txt') {
-                echo "<img src='images/icon-banner-text.gif' align='absmiddle' alt=''>";
+                echo "<img src='" . MAX::assetPath() . "/images/icon-banner-text.gif' align='absmiddle' alt=''>";
             } elseif ($banners[$bkey]['type'] == 'url') {
-                echo "<img src='images/icon-banner-url.gif' align='absmiddle' alt=''>";
+                echo "<img src='" . MAX::assetPath() . "/images/icon-banner-url.gif' align='absmiddle' alt=''>";
             } else {
-                echo "<img src='images/icon-banner-stored.gif' align='absmiddle' alt=''>";
+                echo "<img src='" . MAX::assetPath() . "/images/icon-banner-stored.gif' align='absmiddle' alt=''>";
             }
         } else {
             if ($banners[$bkey]['type'] == 'html') {
-                echo "<img src='images/icon-banner-html-d.gif' align='absmiddle'>";
+                echo "<img src='" . MAX::assetPath() . "/images/icon-banner-html-d.gif' align='absmiddle'>";
             } elseif ($banners[$bkey]['type'] == 'txt') {
-                echo "<img src='images/icon-banner-text-d.gif' align='absmiddle'>";
+                echo "<img src='" . MAX::assetPath() . "/images/icon-banner-text-d.gif' align='absmiddle'>";
             } elseif ($banners[$bkey]['type'] == 'url') {
-                echo "<img src='images/icon-banner-url-d.gif' align='absmiddle'>";
+                echo "<img src='" . MAX::assetPath() . "/images/icon-banner-url-d.gif' align='absmiddle'>";
             } else {
-                echo "<img src='images/icon-banner-stored-d.gif' align='absmiddle'>";
+                echo "<img src='" . MAX::assetPath() . "/images/icon-banner-stored-d.gif' align='absmiddle'>";
             }
         }
 
@@ -289,7 +289,7 @@ if (!isset($banners) || !is_array($banners) || count($banners) == 0) {
         // Button 1
         echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
         if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-            echo "<img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;<a href='banner-acl.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$banners[$bkey]['bannerid']."'>$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+            echo "<img src='" . MAX::assetPath() . "/images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;<a href='banner-acl.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$banners[$bkey]['bannerid']."'>$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
         } else {
             echo "&nbsp;";
         }
@@ -300,10 +300,10 @@ if (!isset($banners) || !is_array($banners) || count($banners) == 0) {
         $canActivate   = !OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) || OA_Permission::hasPermission(OA_PERM_BANNER_ACTIVATE);
         $canDeactivate = !OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) || OA_Permission::hasPermission(OA_PERM_BANNER_DEACTIVATE);
         if ($banners[$bkey]["status"] == OA_ENTITY_STATUS_RUNNING && $canDeactivate) {
-            echo "<img src='images/icon-deactivate.gif' align='absmiddle' border='0'>&nbsp;<a href='banner-activate.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$banners[$bkey]["bannerid"]."&value=".$banners[$bkey]["status"]."'>";
+            echo "<img src='" . MAX::assetPath() . "/images/icon-deactivate.gif' align='absmiddle' border='0'>&nbsp;<a href='banner-activate.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$banners[$bkey]["bannerid"]."&value=".$banners[$bkey]["status"]."'>";
             echo $strDeActivate;
         } elseif ($banners[$bkey]["status"] == OA_ENTITY_STATUS_PAUSED && $canActivate) {
-            echo "<img src='images/icon-activate.gif' align='absmiddle' border='0'>&nbsp;<a href='banner-activate.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$banners[$bkey]["bannerid"]."&value=".$banners[$bkey]["status"]."'>";
+            echo "<img src='" . MAX::assetPath() . "/images/icon-activate.gif' align='absmiddle' border='0'>&nbsp;<a href='banner-activate.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$banners[$bkey]["bannerid"]."&value=".$banners[$bkey]["status"]."'>";
             echo $strActivate;
         } else {
             echo "&nbsp;";
@@ -315,15 +315,15 @@ if (!isset($banners) || !is_array($banners) || count($banners) == 0) {
         if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             echo "&nbsp;";
         } else {
-            echo "<img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;<a href='banner-delete.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$banners[$bkey]['bannerid']."&returnurl=campaign-banners.php'".phpAds_DelConfirm($strConfirmDeleteBanner).">$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+            echo "<img src='" . MAX::assetPath() . "/images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;<a href='banner-delete.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$banners[$bkey]['bannerid']."&returnurl=campaign-banners.php'".phpAds_DelConfirm($strConfirmDeleteBanner).">$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
         }
         echo "</td></tr>";
 
         // Extra banner info
         if ($pref['ui_show_banner_info']) {
             echo "<tr height='1'>";
-            echo "<td ".($i%2==0?"bgcolor='#F6F6F6'":"")."><img src='images/spacer.gif' width='1' height='1'></td>";
-            echo "<td colspan='4' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>";
+            echo "<td ".($i%2==0?"bgcolor='#F6F6F6'":"")."><img src='" . MAX::assetPath() . "/images/spacer.gif' width='1' height='1'></td>";
+            echo "<td colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td>";
             echo "</tr>";
 
             echo "<tr ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td colspan='1'>&nbsp;</td><td colspan='4'>";
@@ -365,24 +365,24 @@ if (!isset($banners) || !is_array($banners) || count($banners) == 0) {
 //  - Display how many inactive banners have been hidden, if applicable
 //  - Expand all banner entries
 //  - Collapse all banner entries
-echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%' alt=''></td></tr>";
+echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%' alt=''></td></tr>";
 echo "<tr height='25'><td colspan='2' height='25' nowrap>";
 if ($hideinactive == true) {
-    echo "&nbsp;&nbsp;<img src='images/icon-activate.gif' align='absmiddle' border='0'>";
+    echo "&nbsp;&nbsp;<img src='" . MAX::assetPath() . "/images/icon-activate.gif' align='absmiddle' border='0'>";
     echo "&nbsp;<a href='campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid."&hideinactive=0'>".$strShowAll."</a>";
     echo "&nbsp;&nbsp;|&nbsp;&nbsp;".$bannersHidden." ".$strInactiveBannersHidden;
 } else {
-    echo "&nbsp;&nbsp;<img src='images/icon-hideinactivate.gif' align='absmiddle' border='0'>";
+    echo "&nbsp;&nbsp;<img src='" . MAX::assetPath() . "/images/icon-hideinactivate.gif' align='absmiddle' border='0'>";
     echo "&nbsp;<a href='campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid."&hideinactive=1'>".$strHideInactiveBanners."</a>";
 }
 echo "</td>";
 
 if (!$pref['ui_show_campaign_preview']) {
     echo "<td colspan='3' align='".$phpAds_TextAlignRight."' nowrap>";
-    echo "<img src='images/triangle-d.gif' align='absmiddle' border='0' alt=''>";
+    echo "<img src='" . MAX::assetPath() . "/images/triangle-d.gif' align='absmiddle' border='0' alt=''>";
     echo "&nbsp;<a href='campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid."&expand=all' accesskey='".$keyExpandAll."'>".$strExpandAll."</a>";
     echo "&nbsp;&nbsp;|&nbsp;&nbsp;";
-    echo "<img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0' alt=''>";
+    echo "<img src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0' alt=''>";
     echo "&nbsp;<a href='campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid."&expand=none' accesskey='".$keyCollapseAll."'>".$strCollapseAll."</a>";
     echo "</td>";
 } else {
@@ -395,16 +395,16 @@ echo "</tr>";
 //  - Activate all banners, if banners exist and some banners are inactive
 //  - Deactivate all banners, if banners exist and some banners are active
 if (isset($banners) && count($banners)) {
-    echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%' alt=''></td></tr>";
+    echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-el.gif' height='1' width='100%' alt=''></td></tr>";
     echo "<tr height='25'>";
     echo "<td colspan='5' height='25' align='".$phpAds_TextAlignRight."'>";
     if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-        echo "<img src='images/icon-recycle.gif' border='0' align='absmiddle' alt=''>&nbsp;<a href='banner-delete.php?clientid=".$clientid."&campaignid=".$campaignid."&returnurl=campaign-banners.php'".phpAds_DelConfirm($strConfirmDeleteAllBanners).">$strDeleteAllBanners</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+        echo "<img src='" . MAX::assetPath() . "/images/icon-recycle.gif' border='0' align='absmiddle' alt=''>&nbsp;<a href='banner-delete.php?clientid=".$clientid."&campaignid=".$campaignid."&returnurl=campaign-banners.php'".phpAds_DelConfirm($strConfirmDeleteAllBanners).">$strDeleteAllBanners</a>&nbsp;&nbsp;&nbsp;&nbsp;";
         if ($countActive < count($banners)) {
-            echo "<img src='images/icon-activate.gif' border='0' align='absmiddle' alt=''>&nbsp;<a href='banner-activate.php?clientid=".$clientid."&campaignid=".$campaignid."&value=" . OA_ENTITY_STATUS_PAUSED . "'>$strActivateAllBanners</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+            echo "<img src='" . MAX::assetPath() . "/images/icon-activate.gif' border='0' align='absmiddle' alt=''>&nbsp;<a href='banner-activate.php?clientid=".$clientid."&campaignid=".$campaignid."&value=" . OA_ENTITY_STATUS_PAUSED . "'>$strActivateAllBanners</a>&nbsp;&nbsp;&nbsp;&nbsp;";
         }
         if ($countActive > 0) {
-            echo "<img src='images/icon-deactivate.gif' border='0' align='absmiddle' alt=''>&nbsp;<a href='banner-activate.php?clientid=".$clientid."&campaignid=".$campaignid."&value=" . OA_ENTITY_STATUS_RUNNING . "'>$strDeactivateAllBanners</a>&nbsp;&nbsp;";
+            echo "<img src='" . MAX::assetPath() . "/images/icon-deactivate.gif' border='0' align='absmiddle' alt=''>&nbsp;<a href='banner-activate.php?clientid=".$clientid."&campaignid=".$campaignid."&value=" . OA_ENTITY_STATUS_RUNNING . "'>$strDeactivateAllBanners</a>&nbsp;&nbsp;";
         }
     }
     echo "</td>";
@@ -417,7 +417,7 @@ echo "<br /><br />";
 
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 echo "<tr><td height='25' colspan='3'><b>$strCreditStats</b></td></tr>";
-echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%' alt=''></td></tr>";
+echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%' alt=''></td></tr>";
 
 $dalCampaigns = OA_Dal::factoryDAL('campaigns');
 $desc = $dalCampaigns->getDaysLeftString($campaignid);
@@ -428,10 +428,10 @@ $adConversionsLeft = phpAds_formatNumber($dalCampaigns->getAdConversionsLeft($ca
 echo "<tr><td height='25' width='33%'>$strViewCredits: <b>$adImpressionsLeft</b></td>";
 echo "<td height='25' width='33%'>$strClickCredits: <b>$adClicksLeft</b></td>";
 echo "<td height='25' width='33%'>$strConversionCredits: <b>$adConversionsLeft</b></td></tr>";
-echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%' alt=''></td></tr>";
+echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-el.gif' height='1' width='100%' alt=''></td></tr>";
 echo "<tr><td height='25' colspan='3'>$desc</td></tr>";
 
-echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%' alt=''></td></tr>";
+echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%' alt=''></td></tr>";
 echo "</table>";
 echo "<br /><br />";
 

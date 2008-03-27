@@ -298,7 +298,7 @@ class OA_Admin_Template extends Smarty
                     $caret = $orderdirection == 'down' ? 'ds'  : 'u';
 
                     $buffer .= ' <a href="'.htmlspecialchars($url.'orderdirection='.$order).'">';
-                    $buffer .= '<img src="images/caret-'.$caret.'.gif" border="0" alt="" title="">';
+                    $buffer .= '<img src="' . MAX::assetPath() . '/images/caret-'.$caret.'.gif" border="0" alt="" title="">';
                     $buffer .= '</a>';
                 }
 

@@ -96,7 +96,7 @@ if ($agencyid != '') {
 	OA_Admin_Menu::setAgencyPageContext($agencyid, 'agency-edit.php');
 	phpAds_PageHeader("4.1.2");
 	$doAgency = OA_Dal::staticGetDO('agency', $agencyid);
-	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".$doAgency->name."</b><br /><br /><br />";
+	echo "<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".$doAgency->name."</b><br /><br /><br />";
 	phpAds_ShowSections(array("4.1.2", "4.1.3"));
 	// Do not get this information if the page
 	// is the result of an error message
@@ -108,7 +108,7 @@ if ($agencyid != '') {
 	}
 } else {
 	phpAds_PageHeader("4.1.1");
-	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($agencyid)."</b><br /><br /><br />";
+	echo "<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($agencyid)."</b><br /><br /><br />";
 	phpAds_ShowSections(array("4.1.1"));
 	// Do not set this information if the page
 	// is the result of an error message
@@ -132,31 +132,31 @@ echo "<input type='hidden' name='agencyid' value='".(isset($agencyid) && $agency
 // Header
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 echo "<tr><td height='25' colspan='3'><b>".$strBasicInformation."</b></td></tr>";
-echo "<tr height='1'><td width='30'><img src='images/break.gif' height='1' width='30'></td>";
-echo "<td width='200'><img src='images/break.gif' height='1' width='200'></td>";
-echo "<td width='100%'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+echo "<tr height='1'><td width='30'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='30'></td>";
+echo "<td width='200'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='200'></td>";
+echo "<td width='100%'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 // Agency Name
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strName."</td>";
 echo "<td><input onBlur='max_formValidateElement(this);' class='flat' type='text' name='name' size='25' value='".phpAds_htmlQuotes($agency['name'])."' style='width: 350px;' tabindex='".($tabindex++)."'></td>";
-echo "</tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+echo "</tr><tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 // Contact
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strContact."</td><td>";
 echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='contact' size='25' value='".phpAds_htmlQuotes($agency['contact'])."' style='width: 350px;' tabindex='".($tabindex++)."'>";
-echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+echo "</td></tr><tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 // Email
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strEMail."</td><td>";
 echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='email' size='25' value='".phpAds_htmlQuotes($agency['email'])."' style='width: 350px;' tabindex='".($tabindex++)."'>";
-echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
+echo "</td></tr><tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
 echo "<td height='10' colspan='2'></td></tr>";
 
 // Footer
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
 echo "</table>";
 
 echo "<br /><br />";

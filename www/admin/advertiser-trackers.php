@@ -89,7 +89,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_AC
 	phpAds_PageShortcut($strClientHistory, 'stats.php?entity=advertiser&breakdown=history&clientid='.$clientid, 'images/icon-statistics.gif');
 
 	phpAds_PageHeader("4.1.4");
-		echo "\t\t\t\t<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;\n";
+		echo "\t\t\t\t<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;\n";
 		echo "\t\t\t\t<b>".phpAds_getClientName($clientid)."</b>\n";
 		echo "\t\t\t\t<br /><br /><br />\n";
 		phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.4", "4.1.5"));
@@ -107,7 +107,7 @@ $doTrackers->find();
 
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
 {
-	echo "\t\t\t\t<img src='images/icon-tracker-new.gif' border='0' align='absmiddle'>\n";
+	echo "\t\t\t\t<img src='" . MAX::assetPath() . "/images/icon-tracker-new.gif' border='0' align='absmiddle'>\n";
 	echo "\t\t\t\t<a href='tracker-edit.php?clientid=".$clientid."' accesskey='".$keyAddNew."'>".$strAddTracker_Key."</a>&nbsp;&nbsp;\n";
 	phpAds_ShowBreak();
 }
@@ -128,12 +128,12 @@ if (($listorder == "name") || ($listorder == ""))
 	if  (($orderdirection == "") || ($orderdirection == "down"))
 	{
 		echo "<a href='advertiser-trackers.php?clientid=".$clientid."&orderdirection=up'>";
-		echo "<img src='images/caret-ds.gif' border='0' alt='' title=''>";
+		echo "<img src='" . MAX::assetPath() . "/images/caret-ds.gif' border='0' alt='' title=''>";
 	}
 	else
 	{
 		echo "<a href='advertiser-trackers.php?clientid=".$clientid."&orderdirection=down'>";
-		echo "<img src='images/caret-u.gif' border='0' alt='' title=''>";
+		echo "<img src='" . MAX::assetPath() . "/images/caret-u.gif' border='0' alt='' title=''>";
 	}
 	echo "</a>";
 }
@@ -147,12 +147,12 @@ if ($listorder == "id")
 	if  (($orderdirection == "") || ($orderdirection == "down"))
 	{
 		echo "<a href='advertiser-trackers.php?clientid=".$clientid."&orderdirection=up'>";
-		echo "<img src='images/caret-ds.gif' border='0' alt='' title=''>";
+		echo "<img src='" . MAX::assetPath() . "/images/caret-ds.gif' border='0' alt='' title=''>";
 	}
 	else
 	{
 		echo "<a href='advertiser-trackers.php?clientid=".$clientid."&orderdirection=down'>";
-		echo "<img src='images/caret-u.gif' border='0' alt='' title=''>";
+		echo "<img src='" . MAX::assetPath() . "/images/caret-u.gif' border='0' alt='' title=''>";
 	}
 	echo "</a>";
 }
@@ -164,7 +164,7 @@ echo "\t\t\t\t\t<td height='25'>&nbsp;</td>\n";
 echo "\t\t\t\t</tr>\n";
 
 echo "\t\t\t\t<tr height='1'>\n";
-echo "\t\t\t\t\t<td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>\n";
+echo "\t\t\t\t\t<td colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>\n";
 echo "\t\t\t\t</tr>\n";
 
 
@@ -177,7 +177,7 @@ if (!$doTrackers->getRowCount())
 	echo "\t\t\t\t</tr>\n";
 
 	echo "\t\t\t\t<tr>\n";
-	echo "\t\t\t\t\t<td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>\n";
+	echo "\t\t\t\t\t<td colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>\n";
 	echo "\t\t\t\t</tr>\n";
 }
 
@@ -187,12 +187,12 @@ while ($doTrackers->fetch() && $row_trackers = $doTrackers->toArray())
 	if ($i > 0)
 	{
 		echo "\t\t\t\t<tr>\n";
-		echo "\t\t\t\t\t<td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>\n";
+		echo "\t\t\t\t\t<td colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>\n";
 		echo "\t\t\t\t</tr>\n";
 	}
 	echo "\t\t\t\t<tr height='25'".($i%2==0?" bgcolor='#F6F6F6'":"").">\n";
 	echo "\t\t\t\t\t<td height='25'>";
-	echo "&nbsp;&nbsp;<img src='images/icon-tracker.gif' align='absmiddle'>&nbsp;";
+	echo "&nbsp;&nbsp;<img src='" . MAX::assetPath() . "/images/icon-tracker.gif' align='absmiddle'>&nbsp;";
 
 	if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
 		echo "<a href='tracker-edit.php?clientid=".$clientid."&trackerid=".$row_trackers['trackerid']."'>".$row_trackers['trackername']."</a>";
@@ -208,14 +208,14 @@ while ($doTrackers->fetch() && $row_trackers = $doTrackers->toArray())
 	// Button 1, 2 & 3
 	echo "\t\t\t\t\t<td height='25'>";
 	if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
-		echo "<img src='images/icon-zone-linked.gif' border='0' align='absmiddle'>&nbsp;<a href='tracker-campaigns.php?clientid=".$clientid."&trackerid=".$row_trackers['trackerid']."'>$strLinkedCampaigns</a>";
+		echo "<img src='" . MAX::assetPath() . "/images/icon-zone-linked.gif' border='0' align='absmiddle'>&nbsp;<a href='tracker-campaigns.php?clientid=".$clientid."&trackerid=".$row_trackers['trackerid']."'>$strLinkedCampaigns</a>";
 	else
 		echo "&nbsp;";
 	echo "</td>\n";
 
 	echo "\t\t\t\t\t<td height='25'>";
 	if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
-		echo "<img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;<a href='tracker-delete.php?clientid=".$clientid."&trackerid=".$row_trackers['trackerid']."&returnurl=advertiser-trackers.php'".phpAds_DelConfirm($strConfirmDeleteTracker).">$strDelete</a>";
+		echo "<img src='" . MAX::assetPath() . "/images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;<a href='tracker-delete.php?clientid=".$clientid."&trackerid=".$row_trackers['trackerid']."&returnurl=advertiser-trackers.php'".phpAds_DelConfirm($strConfirmDeleteTracker).">$strDelete</a>";
 	else
 		echo "&nbsp;";
 	echo "</td>\n";
@@ -228,11 +228,11 @@ while ($doTrackers->fetch() && $row_trackers = $doTrackers->toArray())
 if ($doTrackers->getRowCount())
 {
 	echo "\t\t\t\t<tr height='1'>\n";
-	echo "\t\t\t\t\t<td colspan='4' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td>\n";
+	echo "\t\t\t\t\t<td colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-el.gif' height='1' width='100%'></td>\n";
 	echo "\t\t\t\t</tr>\n";
 	echo "\t\t\t\t<tr height='25'>\n";
 	echo "\t\t\t\t\t<td colspan='4' height='25' align='".$phpAds_TextAlignRight."'>";
-	echo "<img src='images/icon-recycle.gif' border='0' align='absmiddle'>&nbsp;<a href='tracker-delete.php?clientid=".$clientid."&returnurl=advertiser-trackers.php'".phpAds_DelConfirm($strConfirmDeleteAllTrackers).">$strDeleteAllTrackers</a>&nbsp;&nbsp;";
+	echo "<img src='" . MAX::assetPath() . "/images/icon-recycle.gif' border='0' align='absmiddle'>&nbsp;<a href='tracker-delete.php?clientid=".$clientid."&returnurl=advertiser-trackers.php'".phpAds_DelConfirm($strConfirmDeleteAllTrackers).">$strDeleteAllTrackers</a>&nbsp;&nbsp;";
 	echo "</td>\n";
 	echo "\t\t\t\t</tr>\n";
 }

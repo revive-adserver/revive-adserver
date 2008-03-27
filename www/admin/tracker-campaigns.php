@@ -162,11 +162,11 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_AC
     $extra .= "\t\t\t\t<input type='hidden' name='returnurl' value='tracker-campaigns.php'>"."\n";
     $extra .= "\t\t\t\t<br /><br />"."\n";
     $extra .= "\t\t\t\t<b>$strModifyTracker</b><br />"."\n";
-    $extra .= "\t\t\t\t<img src='images/break.gif' height='1' width='160' vspace='4'><br />"."\n";
-    $extra .= "\t\t\t\t<img src='images/icon-duplicate-tracker.gif' align='absmiddle'>&nbsp;<a href='tracker-modify.php?clientid=".$clientid."&trackerid=".$trackerid."&duplicate=true&returnurl=tracker-campaigns.php'>$strDuplicate</a><br />"."\n";
-    $extra .= "\t\t\t\t<img src='images/break.gif' height='1' width='160' vspace='4'><br />"."\n";
-    $extra .= "\t\t\t\t<img src='images/icon-move-tracker.gif' align='absmiddle'>&nbsp;$strMoveTo<br />"."\n";
-    $extra .= "\t\t\t\t<img src='images/spacer.gif' height='1' width='160' vspace='2'><br />"."\n";
+    $extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />"."\n";
+    $extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/icon-duplicate-tracker.gif' align='absmiddle'>&nbsp;<a href='tracker-modify.php?clientid=".$clientid."&trackerid=".$trackerid."&duplicate=true&returnurl=tracker-campaigns.php'>$strDuplicate</a><br />"."\n";
+    $extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />"."\n";
+    $extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/icon-move-tracker.gif' align='absmiddle'>&nbsp;$strMoveTo<br />"."\n";
+    $extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='160' vspace='2'><br />"."\n";
     $extra .= "\t\t\t\t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"."\n";
     $extra .= "\t\t\t\t<select name='moveto' style='width: 110;'>"."\n";
 
@@ -183,17 +183,17 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_AC
     }
 
     $extra .= "\t\t\t\t</select>&nbsp;\n";
-    $extra .= "\t\t\t\t<input type='image' src='images/".$phpAds_TextDirection."/go_blue.gif'><br />\n";
-    $extra .= "\t\t\t\t<img src='images/break.gif' height='1' width='160' vspace='4'><br />\n";
-    $extra .= "\t\t\t\t<img src='images/icon-recycle.gif' align='absmiddle'>\n";
+    $extra .= "\t\t\t\t<input type='image' src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/go_blue.gif'><br />\n";
+    $extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />\n";
+    $extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/icon-recycle.gif' align='absmiddle'>\n";
     $extra .= "\t\t\t\t<a href='tracker-delete.php?clientid=$clientid&trackerid=$trackerid&returnurl=advertiser-trackers.php'".phpAds_DelConfirm($strConfirmDeleteTracker).">$strDelete</a><br />\n";
     $extra .= "\t\t\t\t</form>\n";
 
 
     phpAds_PageHeader("4.1.4.3", $extra);
-    echo "\t\t\t\t<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($clientid)."\n";
-    echo "\t\t\t\t<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>\n";
-    echo "\t\t\t\t<img src='images/icon-tracker.gif' align='absmiddle'>\n";
+    echo "\t\t\t\t<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($clientid)."\n";
+    echo "\t\t\t\t<img src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/caret-rs.gif'>\n";
+    echo "\t\t\t\t<img src='" . MAX::assetPath() . "/images/icon-tracker.gif' align='absmiddle'>\n";
     echo "\t\t\t\t<b>".phpAds_getTrackerName($trackerid)."</b><br /><br /><br />\n";
     phpAds_ShowSections(array("4.1.4.2", "4.1.4.3", "4.1.4.5", "4.1.4.6", "4.1.4.4"));
 }
@@ -216,10 +216,10 @@ echo "\t\t\t\t\t\t<b>&nbsp;&nbsp;<a href='tracker-campaigns.php?clientid=".$clie
 if (($listorder == "name") || ($listorder == "")) {
     if  (($orderdirection == "") || ($orderdirection == "down")) {
         echo " <a href='tracker-campaigns.php?clientid=".$clientid."&trackerid=".$trackerid."&orderdirection=up'>";
-        echo "<img src='images/caret-ds.gif' border='0' alt='' title=''>";
+        echo "<img src='" . MAX::assetPath() . "/images/caret-ds.gif' border='0' alt='' title=''>";
     } else {
         echo " <a href='tracker-campaigns.php?clientid=".$clientid."&trackerid=".$trackerid."&orderdirection=down'>";
-        echo "<img src='images/caret-u.gif' border='0' alt='' title=''>";
+        echo "<img src='" . MAX::assetPath() . "/images/caret-u.gif' border='0' alt='' title=''>";
     }
     echo "</a>";
 }
@@ -232,10 +232,10 @@ echo "<b><a href='tracker-campaigns.php?clientid=".$clientid."&trackerid=".$trac
 if ($listorder == "id") {
     if  (($orderdirection == "") || ($orderdirection == "down")) {
         echo " <a href='tracker-campaigns.php?clientid=".$clientid."&trackerid=".$trackerid."&orderdirection=up'>";
-        echo "<img src='images/caret-ds.gif' border='0' alt='' title=''>";
+        echo "<img src='" . MAX::assetPath() . "/images/caret-ds.gif' border='0' alt='' title=''>";
     } else {
         echo " <a href='tracker-campaigns.php?clientid=".$clientid."&trackerid=".$trackerid."&orderdirection=down'>";
-        echo "<img src='images/caret-u.gif' border='0' alt='' title=''>";
+        echo "<img src='" . MAX::assetPath() . "/images/caret-u.gif' border='0' alt='' title=''>";
     }
     echo "</a>";
 }
@@ -252,7 +252,7 @@ echo "\t\t\t\t\t</td>\n";
 echo "\t\t\t\t</tr>\n";
 
 echo "\t\t\t\t<tr height='1'>\n";
-echo "\t\t\t\t\t<td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>\n";
+echo "\t\t\t\t\t<td colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>\n";
 echo "\t\t\t\t</tr>\n";
 
 $i = 0;
@@ -291,7 +291,7 @@ if ($doCampaigns->getRowCount() == 0) {
         if ($campaign['active'] == 't' || $hideinactive != '1') {
             if ($i > 0) {
                 echo "\t\t\t\t<tr height='1'>\n";
-                echo "\t\t\t\t\t<td colspan='4' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>\n";
+                echo "\t\t\t\t\t<td colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td>\n";
                 echo "\t\t\t\t</tr>\n";
             }
             echo "\t\t\t\t<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">\n";
@@ -309,9 +309,9 @@ if ($doCampaigns->getRowCount() == 0) {
 
             // Campaign icon
             if ($campaign['active'] == 't') {
-                echo "<img src='images/icon-campaign.gif' align='absmiddle'>";
+                echo "<img src='" . MAX::assetPath() . "/images/icon-campaign.gif' align='absmiddle'>";
             } else {
-                echo "<img src='images/icon-campaign-d.gif' align='absmiddle'>&nbsp;";
+                echo "<img src='" . MAX::assetPath() . "/images/icon-campaign-d.gif' align='absmiddle'>&nbsp;";
             }
 
             // Name
@@ -370,8 +370,8 @@ if ($doCampaigns->getRowCount() == 0) {
 
             // Mini Break Line
             echo "\t\t\t\t<tr height='1'>\n";
-            echo "\t\t\t\t\t<td".($i%2==0?" bgcolor='#F6F6F6'":"")."><img src='images/spacer.gif' height='1' width='100%'></td>\n";
-            echo "\t\t\t\t\t<td colspan='3'><img src='images/break-l.gif' height='1' width='100%'></td>\n";
+            echo "\t\t\t\t\t<td".($i%2==0?" bgcolor='#F6F6F6'":"")."><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>\n";
+            echo "\t\t\t\t\t<td colspan='3'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td>\n";
             echo "\t\t\t\t</tr>\n";
 
             echo "<tr height='25'".($i%2==0?" bgcolor='#F6F6F6'":"").">";
@@ -418,8 +418,8 @@ if ($doCampaigns->getRowCount() == 0) {
 
                 // Mini Break Line
                 echo "\t\t\t\t<tr height='1'>\n";
-                echo "\t\t\t\t\t<td".($i%2==0?" bgcolor='#F6F6F6'":"")."><img src='images/spacer.gif' height='1' width='100%'></td>\n";
-                echo "\t\t\t\t\t<td colspan='3'><img src='images/break-l.gif' height='1' width='100%'></td>\n";
+                echo "\t\t\t\t\t<td".($i%2==0?" bgcolor='#F6F6F6'":"")."><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>\n";
+                echo "\t\t\t\t\t<td colspan='3'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td>\n";
                 echo "\t\t\t\t</tr>\n";
 
                 echo "<tr height='25'".($i%2==0?" bgcolor='#F6F6F6'":"").">";
@@ -442,7 +442,7 @@ if ($doCampaigns->getRowCount() == 0) {
     }
 }
 
-echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>"."\n";
+echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td></tr>"."\n";
 echo "<tr ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td height='25'>"."\n";
 echo "<input type='checkbox' name='checkall' value=''".($checkedall == true ? ' checked' : '')." onclick='phpAds_toggleAll();' tabindex='".($tabindex++)."'>"."\n";
 echo "<b>".$strCheckAllNone."</b>"."\n";
@@ -452,15 +452,15 @@ echo "<td>&nbsp;</td>\n";
 echo "<td>&nbsp;</td>\n";
 echo "</tr>\n";
 
-echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>"."\n";
+echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>"."\n";
 echo "<tr><td height='25' align='".$phpAds_TextAlignLeft."' nowrap>"."\n";
 
 if ($hideinactive == true) {
-    echo "&nbsp;&nbsp;<img src='images/icon-activate.gif' align='absmiddle' border='0'>";
+    echo "&nbsp;&nbsp;<img src='" . MAX::assetPath() . "/images/icon-activate.gif' align='absmiddle' border='0'>";
     echo "&nbsp;<a href='tracker-campaigns.php?clientid=".$clientid."&trackerid=".$trackerid."&hideinactive=0'>".$strShowAll."</a>";
     echo "&nbsp;&nbsp;|&nbsp;&nbsp;".$campaignshidden." ".$strInactiveCampaignsHidden;
 } else {
-    echo "&nbsp;&nbsp;<img src='images/icon-hideinactivate.gif' align='absmiddle' border='0'>"."\n";
+    echo "&nbsp;&nbsp;<img src='" . MAX::assetPath() . "/images/icon-hideinactivate.gif' align='absmiddle' border='0'>"."\n";
     echo "&nbsp;<a href='tracker-campaigns.php?clientid=".$clientid."&trackerid=".$trackerid."&hideinactive=1'>".$strHideInactiveCampaigns."</a>"."\n";
 }
 

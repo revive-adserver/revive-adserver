@@ -178,10 +178,7 @@ EOF;
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         
-        $pathWithSuffix = MAX::constructURL(MAX_URL_ADMIN) . $conf['webpath']['adminAssetsVersionSegment'];
-        if (substr($pathWithSuffix, strlen($pathWithSuffix) - 1) === '/') {
-        	$pathWithSuffix = substr($pathWithSuffix, 0, strlen($pathWithSuffix) - 1);
-        }
+        $pathWithSuffix = "." . $conf['webpath']['adminAssetsVersionSegment'];
         
     	if ($asset != null)
     	{

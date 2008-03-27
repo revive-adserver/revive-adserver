@@ -1503,7 +1503,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                     $bc['name'] = '<b>'.$bc['name'].'</b>';
                 }
                 if ($k > 0) {
-                    echo "&nbsp;<img src='images/".$GLOBALS['phpAds_TextDirection']."/caret-rs.gif'>&nbsp;";
+                    echo "&nbsp;<img src='" . MAX::assetPath() . "/images/".$GLOBALS['phpAds_TextDirection']."/caret-rs.gif'>&nbsp;";
                 }
                 echo '<img src="'.$bc['icon'].'" align="absmiddle" />&nbsp;'.$bc['name'];
             }

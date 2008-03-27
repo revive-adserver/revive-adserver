@@ -552,8 +552,8 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
                 echo "<option value='".$ckey."'>".$affiliateArray[$ckey]."</option>";
             echo "</select></td>";
             echo "</tr>";
-            echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
-            echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+            echo "<tr><td width='30'><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+            echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
         }
     }
 */
@@ -574,8 +574,8 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
             echo "<option value='".$ckey."'>".$trackerArray[$ckey]."</option>";
         echo "</select></td>";
         echo "</tr>";
-        echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
-        echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+        echo "<tr><td width='30'><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+        echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
     }
 */
 }

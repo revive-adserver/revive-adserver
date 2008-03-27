@@ -99,9 +99,9 @@ This Website is not subscribed to Ad Networks.
 <tbody>
    <tr><td height="25" colspan="3"><b>Advertiser Sign Up options</b></td></tr>
    <tr height="1">
-   <td width="30"><img width="30" height="1" src="images/break.gif"/></td>
-      <td width="200"><img width="200" height="1" src="images/break.gif"/></td>
-      <td width="100%"><img width="100%" height="1" src="images/break.gif"/></td>
+   <td width="30"><img width="30" height="1" src="<?php echo MAX::assetPath() ?>/images/break.gif"/></td>
+      <td width="200"><img width="200" height="1" src="<?php echo MAX::assetPath() ?>/images/break.gif"/></td>
+      <td width="100%"><img width="100%" height="1" src="<?php echo MAX::assetPath() ?>/images/break.gif"/></td>
    </tr>
    <tr>
       <td height="10" colspan="3"></td>
@@ -119,9 +119,9 @@ This Website is not subscribed to Ad Networks.
 <tbody>
    <tr><td height="25" colspan="3"><b>Advertiser Sign Up link</b></td></tr>
    <tr height="1">
-   <td width="30"><img width="30" height="1" src="images/break.gif"/></td>
-      <td width="200"><img width="200" height="1" src="images/break.gif"/></td>
-      <td width="100%"><img width="100%" height="1" src="images/break.gif"/></td>
+   <td width="30"><img width="30" height="1" src="<?php echo MAX::assetPath() ?>/images/break.gif"/></td>
+      <td width="200"><img width="200" height="1" src="<?php echo MAX::assetPath() ?>/images/break.gif"/></td>
+      <td width="100%"><img width="100%" height="1" src="<?php echo MAX::assetPath() ?>/images/break.gif"/></td>
    </tr>
    <tr>
       <td height="10" colspan="3"></td>

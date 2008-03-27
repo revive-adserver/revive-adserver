@@ -43,7 +43,7 @@ if (PEAR::isError($oDbh))
         Language_Default::load();
         phpAds_PageHeader(OA_Auth::login($checkRedirectFunc));
         phpAds_ShowBreak();
-        echo "<br /><img src='images/info.gif' align='absmiddle'>&nbsp;";
+        echo "<br /><img src='" . MAX::assetPath() . "/images/info.gif' align='absmiddle'>&nbsp;";
         echo $strNoAdminInterface;
         phpAds_PageFooter();
         exit;

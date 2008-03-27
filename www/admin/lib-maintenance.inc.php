@@ -101,7 +101,7 @@ function maintenance_goto_section()
     // echo "<option value='finance'".($subSection == 'finance' ? ' selected' : '').">Finance</option>";
 
     echo "</select>&nbsp;<a href='javascript:void(0)' onClick='maintenance_goto_section();'>";
-    echo "<img src='images/".$phpAds_TextDirection."/go_blue.gif' border='0'></a>";
+    echo "<img src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/go_blue.gif' border='0'></a>";
     echo "</td></form></tr>";
       echo "</table>";
 

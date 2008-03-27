@@ -73,13 +73,13 @@ function phpAds_showCache ()
 		echo "<td height='25'><b>".$strSize."</b></td>";
 		echo "</tr>";
 
-		echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+		echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
 
 		foreach (array_keys($rows) as $key) {
 			strtok($key, "=");
 			$what = strtok("&");
 
-			if ($i > 0) echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
+			if ($i > 0) echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td></tr>";
 
 	    	echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
 
@@ -88,9 +88,9 @@ function phpAds_showCache ()
 
 			// Icon
 			if (substr($what,0,5) == 'zone:')
-				echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
+				echo "<img src='" . MAX::assetPath() . "/images/icon-zone.gif' align='absmiddle'>&nbsp;";
 			else
-				echo "<img src='images/icon-generatecode.gif' align='absmiddle'>&nbsp;";
+				echo "<img src='" . MAX::assetPath() . "/images/icon-generatecode.gif' align='absmiddle'>&nbsp;";
 
 
 			// Name
@@ -104,7 +104,7 @@ function phpAds_showCache ()
 		}
 
 		// Footer
-		echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+		echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
 		echo "</table>";
 	}
 }
@@ -127,7 +127,7 @@ echo "<br /><br />";
 
 phpAds_ShowBreak();
 
-echo "<img src='images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-cache-rebuild.php'>$strRebuildDeliveryCache</a>&nbsp;&nbsp;";
+echo "<img src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-cache-rebuild.php'>$strRebuildDeliveryCache</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
 
 echo "<br /><br />";

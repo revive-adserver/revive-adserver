@@ -171,18 +171,18 @@ if ($bannerid != '') {
         phpAds_PageShortcut($strBannerHistory, 'stats.php?entity=banner&breakdown=history&clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid, 'images/icon-statistics.gif');
 
         phpAds_PageHeader("4.1.3.4.5");
-        echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;".phpAds_getParentClientName($campaignid);
-        echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
-        echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getCampaignName($campaignid);
-        echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
-        echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerid)."</b><br /><br />";
+        echo "<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;".phpAds_getParentClientName($campaignid);
+        echo "&nbsp;<img src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
+        echo "<img src='" . MAX::assetPath() . "/images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getCampaignName($campaignid);
+        echo "&nbsp;<img src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
+        echo "<img src='" . MAX::assetPath() . "/images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerid)."</b><br /><br />";
         echo phpAds_buildBannerCode($bannerid)."<br /><br /><br /><br />";
         phpAds_ShowSections(array("4.1.3.4.5"));
     } else {
         phpAds_PageHeader("1.2.2.3");
-        echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getCampaignName($campaignid);
-        echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
-        echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerid)."</b><br /><br />";
+        echo "<img src='" . MAX::assetPath() . "/images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getCampaignName($campaignid);
+        echo "&nbsp;<img src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
+        echo "<img src='" . MAX::assetPath() . "/images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerid)."</b><br /><br />";
         echo phpAds_buildBannerCode($bannerid)."<br /><br /><br /><br />";
         phpAds_ShowSections(array("1.2.2.3"));
     }
@@ -222,8 +222,8 @@ if ($result) {
     echo "<input type='hidden' name='campaignid' value='$campaignid'>";
     echo "<input type='hidden' name='bannerid' value='$bannerid'>";
 
-    echo "<tr><td height='25' colspan='4' bgcolor='#FFFFFF'><img src='images/".$phpAds_TextDirection."/icon-undo.gif' align='absmiddle'>&nbsp;<b>".$strHardcodedLinks."</b></td></tr>";
-    echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+    echo "<tr><td height='25' colspan='4' bgcolor='#FFFFFF'><img src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' align='absmiddle'>&nbsp;<b>".$strHardcodedLinks."</b></td></tr>";
+    echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
     echo "<tr><td height='10' colspan='4'>&nbsp;</td></tr>";
 
     $i=0;
@@ -233,7 +233,7 @@ if ($result) {
 
         if ($i > 0) {
             echo "<tr><td height='20' colspan='4'>&nbsp;</td></tr>";
-            echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+            echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
             echo "<tr><td height='10' colspan='4'>&nbsp;</td></tr>";
         }
 
@@ -243,8 +243,8 @@ if ($result) {
         echo " value='".phpAds_htmlQuotes($url)."'>";
         echo "<input type='radio' name='chosen_link' value='".$key."'".($i == 0 ? ' checked' : '')."></td></tr>";
 
-        echo "<tr><td colspan='2'><img src='images/spacer.gif' height='1' width='100%'></td>";
-        echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+        echo "<tr><td colspan='2'><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+        echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
         echo "<tr><td width='30'>&nbsp;</td><td width='30'>&nbsp;</td>";
         echo "<td width='200'>".$strTarget."</td>";
@@ -253,8 +253,8 @@ if ($result) {
         echo "</td></tr>";
 
         if (count($result) > 1) {
-            echo "<tr><td colspan='2'><img src='images/spacer.gif' height='1' width='100%'></td>";
-            echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+            echo "<tr><td colspan='2'><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+            echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
             echo "<tr><td width='30'>&nbsp;</td><td width='30'>&nbsp;</td>";
             echo "<td width='200'>".$strOverwriteSource."</td>";
@@ -265,7 +265,7 @@ if ($result) {
     }
 
     echo "<tr><td height='20' colspan='4'>&nbsp;</td></tr>";
-    echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+    echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
     echo "</table>";
     echo "<br /><br />";
 

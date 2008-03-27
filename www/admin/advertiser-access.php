@@ -46,7 +46,7 @@ OA_Permission::enforceAccessToObject('clients', $clientid);
 /*-------------------------------------------------------*/
 
 if (!empty($clientid)) {
-    $icon = "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
+    $icon = "<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
 	if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
 		OA_Admin_Menu::setAdvertiserPageContext($clientid, 'advertiser-access.php');
 		phpAds_PageShortcut($strClientHistory, 'stats.php?entity=advertiser&breakdown=history&clientid='.$clientid, 'images/icon-statistics.gif');
@@ -71,7 +71,7 @@ if (!empty($clientid)) {
 	}
 } else {
 	phpAds_PageHeader("4.1.1");
-	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
+	echo "<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
 	phpAds_ShowSections(array("4.1.1"));
 }
 $tabindex = 1;

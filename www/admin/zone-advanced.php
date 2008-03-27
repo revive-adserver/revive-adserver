@@ -207,9 +207,9 @@ echo "
             <td colspan='3'><b>$strChainSettings</b></td>
         </tr>
         <tr height='1'>
-            <td width='30'><img src='images/break.gif' height='1' width='30'></td>
-            <td width='200'><img src='images/break.gif' height='1' width='200'></td>
-            <td width='100%'><img src='images/break.gif' height='1' width='100%'></td>
+            <td width='30'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='30'></td>
+            <td width='200'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='200'></td>
+            <td width='100%'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>
         </tr>
         <tr height='10'>
             <td colspan='3'>&nbsp;</td>
@@ -219,10 +219,10 @@ echo "
             <td width='200' valign='top'>$strZoneNoDelivery</td>
             <td width='370'><input type='radio' id='chaintype-s' name='chaintype' value='0'".($zone['chain'] == '' ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;<label for='chaintype-s'>$strZoneStopDelivery</label><br /><input type='radio' id='chaintype-z' name='chaintype' value='1'".($zone['chain'] != '' && $chainzone != '' ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;<label for='chaintype-z'>$strZoneOtherZone</label><br /><br />";
 
-if ($zone['delivery'] == phpAds_ZoneBanner) echo "<img src='images/icon-zone.gif' align='top'>";
-if ($zone['delivery'] == phpAds_ZoneInterstitial) echo "<img src='images/icon-interstitial.gif' align='top'>";
-if ($zone['delivery'] == phpAds_ZonePopup) echo "<img src='images/icon-popup.gif' align='top'>";
-if ($zone['delivery'] == phpAds_ZoneText) echo "<img src='images/icon-textzone.gif' align='top'>";
+if ($zone['delivery'] == phpAds_ZoneBanner) echo "<img src='" . MAX::assetPath() . "/images/icon-zone.gif' align='top'>";
+if ($zone['delivery'] == phpAds_ZoneInterstitial) echo "<img src='" . MAX::assetPath() . "/images/icon-interstitial.gif' align='top'>";
+if ($zone['delivery'] == phpAds_ZonePopup) echo "<img src='" . MAX::assetPath() . "/images/icon-popup.gif' align='top'>";
+if ($zone['delivery'] == phpAds_ZoneText) echo "<img src='" . MAX::assetPath() . "/images/icon-textzone.gif' align='top'>";
 
 echo "&nbsp;&nbsp;<select name='chainzone' style='width: 200;' onchange='phpAds_formSelectZone()' tabindex='".($tabindex++)."'>";
 
@@ -280,9 +280,9 @@ echo "
             <td colspan='3'><b>$strZoneForecasting</b></td>
         </tr>
         <tr height='1'>
-            <td width='30'><img src='images/break.gif' height='1' width='30'></td>
-            <td width='200'><img src='images/break.gif' height='1' width='200'></td>
-            <td width='100%'><img src='images/break.gif' height='1' width='100%'></td>
+            <td width='30'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='30'></td>
+            <td width='200'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='200'></td>
+            <td width='100%'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>
         </tr>
         <tr height='10'>
             <td colspan='3'>&nbsp;</td>
@@ -314,9 +314,9 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
             <td colspan='3'><b>$strAppendSettings</b></td>
         </tr>
         <tr height='1'>
-            <td width='30'><img src='images/break.gif' height='1' width='30'></td>
-            <td width='200'><img src='images/break.gif' height='1' width='200'></td>
-            <td width='100%'><img src='images/break.gif' height='1' width='100%'></td>
+            <td width='30'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='30'></td>
+            <td width='200'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='200'></td>
+            <td width='100%'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>
         </tr>
         <tr height='10'>
             <td colspan='3'>&nbsp;</td>
@@ -381,7 +381,7 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
             <td height='10' colspan='3'>&nbsp;</td>
         </tr>
         <tr height='1'>
-            <td colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>
+            <td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td>
         </tr>
         <tr>
             <td height='10' colspan='3'>&nbsp;</td>
@@ -437,12 +437,12 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
                 </tr>
                 <tr>
                     <td>&nbsp;</td>
-                    <td width='100%'><img src='images/spacer.gif' height='1' width='100%' align='absmiddle' vspace='1'>";
+                    <td width='100%'><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%' align='absmiddle' vspace='1'>";
 
         if (count($available[phpAds_ZonePopup]))
-            echo "<img src='images/icon-popup.gif' align='top'>";
+            echo "<img src='" . MAX::assetPath() . "/images/icon-popup.gif' align='top'>";
         else
-            echo "<img src='images/icon-popup-d.gif' align='top'>";
+            echo "<img src='" . MAX::assetPath() . "/images/icon-popup-d.gif' align='top'>";
 
         echo "&nbsp;&nbsp;<select name='appendpopup' style='width: 200;' onchange='phpAds_formSelectAppendZone(0)'" . (count($available[phpAds_ZonePopup]) ? '' : ' DISABLED')." tabindex='".($tabindex++)."'>";
 
@@ -462,12 +462,12 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
                 </tr>
                 <tr>
                     <td>&nbsp;</td>
-                    <td width='100%'><img src='images/spacer.gif' height='1' width='100%' align='absmiddle' vspace='1'>";
+                    <td width='100%'><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%' align='absmiddle' vspace='1'>";
 
         if (count($available[phpAds_ZoneInterstitial]))
-            echo "<img src='images/icon-interstitial.gif' align='top'>";
+            echo "<img src='" . MAX::assetPath() . "/images/icon-interstitial.gif' align='top'>";
         else
-            echo "<img src='images/icon-interstitial-d.gif' align='top'>";
+            echo "<img src='" . MAX::assetPath() . "/images/icon-interstitial-d.gif' align='top'>";
 
         echo "&nbsp;&nbsp;<select name='appendinterstitial' style='width: 200;' ";
         echo "onchange='phpAds_formSelectAppendZone(1)'";
@@ -490,7 +490,7 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
             <td height='10' colspan='3'>&nbsp;</td>
         </tr>
         <tr height='1'>
-            <td colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>
+            <td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td>
         </tr>
         <tr>
             <td height='10' colspan='3'>&nbsp;</td>
@@ -524,7 +524,7 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
     }
 
     echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-    echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+    echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
     echo "</table>";
 }
 
@@ -542,7 +542,7 @@ elseif ($zone['delivery'] == phpAds_ZoneText )
     <td colspan='3'><b>$strAppendSettings</b></td>
 </tr>
 <tr height='1'>
-    <td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>
+    <td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>
 </tr>
 <tr>
     <td height='10' colspan='3'>&nbsp;</td>
@@ -564,8 +564,8 @@ elseif ($zone['delivery'] == phpAds_ZoneText )
     <td><textarea name='prepend' rows='6' cols='55' style='width: 100%;' tabindex='".($tabindex++)."'>".htmlspecialchars($zone['prepend'])."</textarea></td>
 </tr>
 <tr>
-    <td><img src='images/spacer.gif' height='1' width='100%'></td>
-    <td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
+    <td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>
+    <td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td>
 </tr>
 <tr>
     <td width='30'>&nbsp;</td><td width='200' valign='top'>$strZoneAppendHTML</td>
@@ -579,7 +579,7 @@ elseif ($zone['delivery'] == phpAds_ZoneText )
     <td height='10' colspan='3'>&nbsp;</td>
 </tr>
 <tr height='1'>
-    <td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>
+    <td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>
 </tr>
 </table>";
 } else {
