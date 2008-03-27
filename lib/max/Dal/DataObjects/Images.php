@@ -145,7 +145,18 @@ class DataObjects_Images extends DB_DataObjectCommon
                         break;
         }
     }
-
+    
+    
+    function _formatValue($field, $type ='')
+    {
+        $fieldVal = $this->$field; 
+        if ($fieldVal instanceof DB_DataObject_Cast && $fieldVal->type == 'blob') {
+            return 'binary data';
+        }
+        else { 
+            parent::_formatValue($field, $type);
+        }
+    }
 }
 
 ?>

@@ -1489,6 +1489,7 @@ class DB_DataObjectCommon extends DB_DataObject
 //  text / blob fields
 // override these in children?
             case 194:
+            case 66:
                 //return 'data too large to audit';
                 return htmlspecialchars($this->$field);
             default:

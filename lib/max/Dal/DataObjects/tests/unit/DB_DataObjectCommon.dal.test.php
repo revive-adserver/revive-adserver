@@ -612,6 +612,27 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $oDO->doAudit->tally();
     }
 
+    
+    function testFormatValue() 
+    {
+        $dbObject = new DB_DataObjectCommon();
+        $dbObject->someValue = true;
+        
+        $valueType = array('booleanVar' => array('val' => true, 'type' => 145, 'expected' => 'true'),
+                            'intVar1' => array('val' => 123, 'type' => 1, 'expected' => '123'),
+                            'intVar2' => array('val' => 234, 'type' => 129, 'expected' => '234'), 
+                            'blobVar1'=> array('val' => '<p>12345</p>', 'type'=> 194, 'expected' => '&lt;p&gt;12345&lt;/p&gt;'),
+                            'blobVar2'=> array('val' => '<p>012345</p>', 'type' => 66, 'expected' => '&lt;p&gt;012345&lt;/p&gt;'));
+        
+        foreach ($valueType as $name => $arr) {
+            $dbObject->$name = $arr['val'];
+            $result = $dbObject->_formatValue($name, $arr['type']);
+            $this->assertNotNull($result, "Assert not null for field $name failed");
+            $this->assertEqual($arr['expected'], $result, "Assert equals for field $name failed: got $result");
+        }
+    }
+    
+    
     function testBoolToStr()
     {
         $this->assertEqual(DB_DataObjectCommon::_boolToStr('t'),'true');
