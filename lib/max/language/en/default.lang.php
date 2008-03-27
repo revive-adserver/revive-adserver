@@ -1125,6 +1125,7 @@ $GLOBALS['strAdditionalItems']        = 'and additional items';
 $GLOBALS['strFor']                    = 'for';
 $GLOBALS['strHas']                    = 'has';
 $GLOBALS['strAdZoneAsscociation']     = 'Ad Zone Association';
+$GLOBALS['strBinaryData']             = 'Binary data';
 
 // Widget - Audit
 $GLOBALS['strAuditNoData']            = "No user activity has been recorded during the timeframe you have selected.";

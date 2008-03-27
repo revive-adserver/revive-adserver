@@ -1,4 +1,4 @@
-<?php
+up<?php
 
 /*
 +---------------------------------------------------------------------------+
@@ -48,6 +48,44 @@ class DataObjects_Images extends DB_DataObjectCommon
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
+
+
+    /**
+     * fetches next row into this objects var's
+     *
+     * Note: it is ovverridden to deal with automatic unescaping of blob data on pgsql,
+     *       also dealing with the MDB2_PORTABILITY_RTRIM option which needs to be disabled
+     *       in order to retrieve correct binary data
+     *
+     * @access  public
+     * @return  boolean on success
+     */
+    function fetch()
+    {
+        $oDbh = &$this->getDatabaseConnection();
+        if (empty($oDbh)) {
+            return false;
+        }
+        // When using PgSQL we need to disable MDB2_PORTABILITY_RTRIM portability option
+        if ($psql = $oDbh->dbsyntax == 'pgsql') {
+            $portability = $oDbh->getOption('portability');
+            if ($rtrim = $portability & MDB2_PORTABILITY_RTRIM) {
+                $oDbh->setOption('portability', $portability ^ MDB2_PORTABILITY_RTRIM);
+            }
+        }
+        // Fetch result
+        $result = parent::fetch();
+        // Reset portability options, in case they have been modified
+        if ($pgsql && $rtrim) {
+            $oDbh->setOption('portability', $portability);
+        }
+        // Unescape data on PgSQL
+        if ($pgsql && $result) {
+            $this->contents = pg_unescape_bytea($this->contents);
+        }
+
+        return $result;
+    }
 
     /**
      * Table has no autoincrement/sequence so we override sequenceKey().
@@ -137,6 +175,9 @@ class DataObjects_Images extends DB_DataObjectCommon
      */
     function _buildAuditArray($actionid, &$aAuditFields)
     {
+        // Do not log binary data
+        $aAuditFields['contents'] = $GLOBALS['strBinaryData'];
+
         $aAuditFields['key_desc']   = $this->filename;
         switch ($actionid)
         {
