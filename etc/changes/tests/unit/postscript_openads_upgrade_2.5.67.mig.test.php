@@ -28,7 +28,7 @@ require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 
-require_once MAX_PATH . '/etc/changes/postscript_openads_upgrade_2.7.4.php';
+require_once MAX_PATH . '/etc/changes/postscript_openads_upgrade_2.5.67.php';
 
 /**
  * A class for testing non standard DataObjects_Users methods
@@ -37,7 +37,7 @@ require_once MAX_PATH . '/etc/changes/postscript_openads_upgrade_2.7.4.php';
  * @subpackage TestSuite
  *
  */
-class Migration_postscript_2_7_4_UsersTest extends MigrationTest
+class Migration_postscript_2_5_67_UsersTest extends MigrationTest
 {
     function setUp()
     {
@@ -52,26 +52,26 @@ class Migration_postscript_2_7_4_UsersTest extends MigrationTest
         $doAudit = OA_Dal::factoryDO('audit');
         $doAudit->context = $doUsers->_getContext();
         DataGenerator::generate($doAudit, $cUsers = 3);
-        
+
         $doTrackers = OA_Dal::factoryDO('trackers');
         $doAudit = OA_Dal::factoryDO('audit');
         $contextTrackers = $doAudit->context = $doTrackers->_getContext();
         DataGenerator::generate($doAudit, $cTrackers = 2);
-        
+
         // run the upgrade
         Mock::generatePartial(
-            'OA_UpgradePostscript_2_7_4',
-            $mockName = 'OA_UpgradePostscript_2_7_4'.rand(),
+            'OA_UpgradePostscript_2_5_67',
+            $mockName = 'OA_UpgradePostscript_2_5_67_'.rand(),
             array('logOnly','logError')
         );
         $doMockPostUpgrade = new $mockName($this);
         $doMockPostUpgrade->updateAuditContext();
-        
+
         // test results
         $doAudit = OA_Dal::factoryDO('audit');
         $doAudit->context = $doUsers->getTableWithoutPrefix();
         $this->assertEqual($doAudit->count(), $cUsers);
-        
+
         $doAudit = OA_Dal::factoryDO('audit');
         $doAudit->context = $doTrackers->getTableWithoutPrefix();
         $this->assertEqual($doAudit->count(), $cTrackers);

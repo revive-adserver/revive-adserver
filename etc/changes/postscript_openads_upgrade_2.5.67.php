@@ -25,15 +25,15 @@
 $Id$
 */
 
-$className = 'OA_UpgradePostscript_2_7_4';
+$className = 'OA_UpgradePostscript_2_5_67';
 
 require_once MAX_PATH . '/lib/OA/DB/Table.php';
 
-class OA_UpgradePostscript_2_7_4
+class OA_UpgradePostscript_2_5_67
 {
     var $oUpgrade;
 
-    function OA_UpgradePostscript_2_7_4()
+    function OA_UpgradePostscript_2_5_67()
     {
 
     }
@@ -43,12 +43,12 @@ class OA_UpgradePostscript_2_7_4
         $this->oUpgrade = & $aParams[0];
         return $this->updateAuditContext();
     }
-    
+
     function logOnly($msg)
     {
         $this->oUpgrade->oLogger->logOnly($msg);
     }
-    
+
     function logError($msg)
     {
         $this->oUpgrade->oLogger->logError($msg);
@@ -63,7 +63,7 @@ class OA_UpgradePostscript_2_7_4
     {
         $doAudit = OA_Dal::factoryDO('audit');
         $aTables = OA_DB_Table::listOATablesCaseSensitive($prefix);
-        
+
         foreach ($aTables as $prefixedTableName) {
             $tableName = $doAudit->getTableWithoutPrefix($prefixedTableName);
             $do = OA_Dal::factoryDO($tableName);
@@ -85,7 +85,7 @@ class OA_UpgradePostscript_2_7_4
                 }
             }
         }
-        
+
         $this->logOnly('audit log updated');
         return true;
     }
