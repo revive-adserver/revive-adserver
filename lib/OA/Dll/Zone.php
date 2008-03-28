@@ -36,6 +36,8 @@ require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/OA/Dll/ZoneInfo.php';
 require_once MAX_PATH . '/lib/OA/Dal/Statistics/Zone.php';
 
+// Legacy Admin_DA
+require_once MAX_PATH . '/lib/max/Admin_DA.php';
 
 /**
  * The OA_Dll_Zone class extends the base OA_Dll class.
@@ -512,7 +514,7 @@ class OA_Dll_Zone extends OA_Dll
         $doAdZone->find();
         $linkBanners = array();
         $linkCampaigns = array();
-        
+
         while ($doAdZone->fetch()) {
             if (!in_array($doAdZone->ad_id, $linkBanners)) {
                 $linkBanners[] = $doAdZone->ad_id;
@@ -540,6 +542,114 @@ class OA_Dll_Zone extends OA_Dll
         return false;
     }
 
+    /**
+     * A method to link a banner to a zone
+     *
+     * @param int $zoneId
+     * @param int $bannerId
+     * @return bool
+     */
+    function linkBanner($zoneId, $bannerId)
+    {
+        if ($this->checkIdExistence('zones', $zoneId)) {
+            $doZones = OA_Dal::staticGetDO('zones', $zoneId);
+            if (!$this->checkPermissions(null, 'affiliates', $doZones->affiliateid, OA_PERM_ZONE_LINK)) {
+                return false;
+            }
+
+            if ($this->checkIdExistence('banners', $bannerId)) {
+                $aLinkedAds = Admin_DA::getAdZones(array('zone_id' => $zoneId), false, 'ad_id');
+                if (!isset($aLinkedAds[$bannerId])) {
+                    $result = Admin_DA::addAdZone(array('zone_id' => $zoneId, 'ad_id' => $bannerId));
+
+                    if (PEAR::isError($result)) {
+                        $this->raiseError($result->getMessage());
+                        return false;
+                    }
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * A method to link a campaign to a zone
+     *
+     * @param int $zoneId
+     * @param int $campaignId
+     * @return bool
+     */
+    function linkCampaign($zoneId, $campaignId)
+    {
+        if ($this->checkIdExistence('zones', $zoneId)) {
+            $doZones = OA_Dal::staticGetDO('zones', $zoneId);
+            if (!$this->checkPermissions(null, 'affiliates', $doZones->affiliateid, OA_PERM_ZONE_LINK)) {
+                return false;
+            }
+
+            if ($this->checkIdExistence('campaigns', $campaignId)) {
+                $aLinkedPlacements = Admin_DA::getPlacementZones(array('zone_id' => $zoneId), false, 'placement_id');
+                if (!isset($aLinkedPlacements[$campaignId])) {
+                    $result = Admin_DA::addPlacementZone(array('zone_id' => $zoneId, 'placement_id' => $campaignId));
+
+                    if (PEAR::isError($result)) {
+                        $this->raiseError($result->getMessage());
+                        return false;
+                    }
+
+                    MAX_addLinkedAdsToZone($zoneId, $campaignId);
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * A method to unlink a banner from a zone
+     *
+     * @param int $zoneId
+     * @param int $bannerId
+     * @return bool
+     */
+    function unlinkBanner($zoneId, $bannerId)
+    {
+        if ($this->checkIdExistence('zones', $zoneId)) {
+            $doZones = OA_Dal::staticGetDO('zones', $zoneId);
+            if (!$this->checkPermissions(null, 'affiliates', $doZones->affiliateid, OA_PERM_ZONE_LINK)) {
+                return false;
+            }
+
+            return Admin_DA::deleteAdZones(array('zone_id' => $zoneId, 'ad_id' => $bannerId));
+        }
+
+        return false;
+    }
+
+    /**
+     * A method to unlink a campaign from a zone
+     *
+     * @param int $zoneId
+     * @param int $campaignId
+     * @return bool
+     */
+    function unlinkCampaign($zoneId, $campaignId)
+    {
+        if ($this->checkIdExistence('zones', $zoneId)) {
+            $doZones = OA_Dal::staticGetDO('zones', $zoneId);
+            if (!$this->checkPermissions(null, 'affiliates', $doZones->affiliateid, OA_PERM_ZONE_LINK)) {
+                return false;
+            }
+
+            return Admin_DA::deletePlacementZones(array('zone_id' => $zoneId, 'placement_id' => $campaignId));
+        }
+
+        return false;
+    }
 }
 
 ?>

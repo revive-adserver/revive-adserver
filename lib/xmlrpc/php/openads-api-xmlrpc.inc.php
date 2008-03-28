@@ -1196,7 +1196,29 @@ class OA_Api_Xmlrpc
                                             $zoneId, $oStartDate, $oEndDate);
     }
 
+    function linkBanner($zoneId, $bannerId)
+    {
+        return (bool) $this->_sendWithSession('ZoneXmlRpcService.php',
+                                              'linkBanner', array((int)$zoneId, (int)$bannerId));
+    }
 
+    function linkCampaign($zoneId, $campaignId)
+    {
+        return (bool) $this->_sendWithSession('ZoneXmlRpcService.php',
+                                              'linkCampaign', array((int)$zoneId, (int)$campaignId));
+    }
+
+    function unlinkBanner($zoneId, $bannerId)
+    {
+        return (bool) $this->_sendWithSession('ZoneXmlRpcService.php',
+                                              'unlinkBanner', array((int)$zoneId, (int)$bannerId));
+    }
+
+    function unlinkCampaign($zoneId, $campaignId)
+    {
+        return (bool) $this->_sendWithSession('ZoneXmlRpcService.php',
+                                              'unlinkCampaign', array((int)$zoneId, (int)$campaignId));
+    }
 }
 
 ?>

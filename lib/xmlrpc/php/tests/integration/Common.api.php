@@ -65,14 +65,14 @@ class Test_OA_Api_XmlRpc extends UnitTestCase
      */
     var $oApi;
 
-    function Test_OA_Api_XmlRpc()
+    function Test_OA_Api_XmlRpc($createDefaultManager = true)
     {
         $this->UnitTestCase();
 
-        $this->oApi = &Test_OA_Api_XmlRpc::staticGetApi();
+        $this->oApi = &Test_OA_Api_XmlRpc::staticGetApi($createDefaultManager);
     }
 
-    function &staticGetApi()
+    function &staticGetApi($createDefaultManager = true)
     {
         $oApi = &$GLOBALS['_STATIC']['staticGetApi'];
 
@@ -80,16 +80,24 @@ class Test_OA_Api_XmlRpc extends UnitTestCase
 
             $doAccounts = OA_Dal::factoryDO('accounts');
             $doAccounts->account_type = OA_ACCOUNT_ADMIN;
-            $accountId = DataGenerator::generateOne($doAccounts);
+            $adminAccountId = DataGenerator::generateOne($doAccounts);
+
+            if ($createDefaultManager) {
+                $doAgency = OA_Dal::factoryDO('agency');
+                $doAgency->name = 'Default Manager';
+                $agencyId = DataGenerator::generateOne($doAgency);
+                $doAgency = OA_Dal::staticGetDO('agency', $agencyId);
+                $managerAccountId = $doAgency->account_id;
+            }
 
             $doUsers = OA_Dal::factoryDO('users');
             $doUsers->username = 'admin_'.md5(uniqid('', true));
             $doUsers->password = md5('secret');
-            $doUsers->default_account_id = $accountId;
+            $doUsers->default_account_id = $createDefaultManager ? $managerAccountId : $adminAccountId;
             $userId = DataGenerator::generateOne($doUsers);
 
             $doAUA = OA_Dal::factoryDO('account_user_assoc');
-            $doAUA->account_id = $accountId;
+            $doAUA->account_id = $adminAccountId;
             $doAUA->user_id    = $userId;
             DataGenerator::generateOne($doAUA);
 

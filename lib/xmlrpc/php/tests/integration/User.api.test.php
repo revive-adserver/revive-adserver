@@ -46,6 +46,11 @@ class Test_OA_Api_XmlRpc_User extends Test_OA_Api_XmlRpc
      */
     var $accountId;
 
+    function Test_OA_Api_XmlRpc_User()
+    {
+        parent::Test_OA_Api_XmlRpc(false);
+    }
+
     function setUp()
     {
 		if (!$this->oApi) {
@@ -164,7 +169,7 @@ class Test_OA_Api_XmlRpc_User extends Test_OA_Api_XmlRpc
         $this->expectError();
         // Will trigger an Unknown ssoUserId error
         $this->assertFalse($this->oApi->updateSsoUserId(1001, 1002));
-        
+
         $this->expectError();
         // Will trigger an Unknown ssoUserId error
         $this->assertFalse($this->oApi->updateUserEmailBySsoId(1001, $email));
