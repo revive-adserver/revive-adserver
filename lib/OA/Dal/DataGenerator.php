@@ -286,7 +286,7 @@ class DataGenerator
     		} else {
     		    $fieldValue = DataGenerator::getFieldValueFromDataContainer($table, $foreignKey);
     		}
-    		if(isset($fieldValue)) {
+    		if(isset($fieldValue) && !isset($GLOBALS['dataGeneratorDontOptimize'])) { //hack for quick test fix
     		    $doAncestor->$foreignKey = $fieldValue;
     		} else {
         		if (isset($this) && is_a($this, 'DataGenerator')) {

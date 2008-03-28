@@ -69,11 +69,11 @@ class Migration_postscript_2_7_4_UsersTest extends MigrationTest
         
         // test results
         $doAudit = OA_Dal::factoryDO('audit');
-        $doAudit->context = $doUsers->_getContext();
+        $doAudit->context = $doUsers->getTableWithoutPrefix();
         $this->assertEqual($doAudit->count(), $cUsers);
         
         $doAudit = OA_Dal::factoryDO('audit');
-        $doAudit->context = $doTrackers->_getContext();
+        $doAudit->context = $doTrackers->getTableWithoutPrefix();
         $this->assertEqual($doAudit->count(), $cTrackers);
     }
 

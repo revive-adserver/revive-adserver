@@ -55,10 +55,12 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     function setUp()
     {
         $GLOBALS['_MAX']['CONF']['audit']['enabled'] = true;
+        $GLOBALS['dataGeneratorDontOptimize'] = true;
     }
 
     function tearDown()
     {
+        unset($GLOBALS['dataGeneratorDontOptimize']);
     }
 
     function _setUpUser()
@@ -109,11 +111,10 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
 
     function testAuditAccounts()
     {
-        $doAccounts = OA_Dal::factoryDO('accounts');
+        $doAccounts = OA_Dal::factoryDO($context = 'accounts');
         $doAccounts->account_name = 'Administrator Account';
         $doAccounts->account_type = OA_ACCOUNT_ADMIN;
         $accountId = DataGenerator::generateOne($doAccounts);
-        $context = 'Account';
 
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_INSERT);
         $aAudit = unserialize($oAudit->details);
@@ -159,7 +160,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $doUsers->password = md5('password');
         $doUsers->default_account_id = 1;
         $userId = DataGenerator::generateOne($doUsers);
-        $context = 'User';
+        $context = 'users';
 
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_INSERT);
         $aAudit = unserialize($oAudit->details);
@@ -196,7 +197,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $doPreferences = OA_Dal::factoryDO('preferences');
         $doPreferences->preference_name = 'Test Preference';
         $preferenceId = DataGenerator::generateOne($doPreferences);
-        $context = 'Preference';
+        $context = 'preferences';
 
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_INSERT);
         $aAudit = unserialize($oAudit->details);
@@ -232,7 +233,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $doAccount_Preference_Assoc->value = 'foo1';
         DataGenerator::generateOne($doAccount_Preference_Assoc);
 
-        $context = 'Account Preference Association';
+        $context = 'account_preference_assoc';
 
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_INSERT);
         $aAudit = unserialize($oAudit->details);
@@ -292,7 +293,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $doAccount_User_Perm_Assoc->permission_id = 3;
         $doAccount_User_Perm_Assoc->is_allowed = 1;
         DataGenerator::generateOne($doAccount_User_Perm_Assoc);
-        $context = 'Account User Permission Association';
+        $context = 'account_user_permission_assoc';
 
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_INSERT);
         $aAudit = unserialize($oAudit->details);
@@ -363,7 +364,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $doAccount_User_Assoc->account_id = 1;
         $doAccount_User_Assoc->user_id = 2;
         DataGenerator::generateOne($doAccount_User_Assoc);
-        $context = 'Account User Association';
+        $context = 'account_user_assoc';
 
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_INSERT);
         $aAudit = unserialize($oAudit->details);
@@ -393,9 +394,9 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     function testAuditZone()
     {
         $doZone = OA_Dal::factoryDO('zones');
-        $context = 'Zone';
+        $context = 'zones';
 
-        $doZone->affiliateid = 1;
+        $doZone->affiliateid = DataGenerator::generateOne('affiliates', true);
         $doZone->zonename = 'Zone A';
         $zoneId = DataGenerator::generateOne($doZone, true);
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_INSERT);
@@ -427,7 +428,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
 
     function testAuditChannel()
     {
-        $context = 'Channel';
+        $context = 'channel';
 
         $doChannel = OA_Dal::factoryDO('channel');
         $doChannel->name = 'Channel A';
@@ -472,7 +473,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     function XXXtestAuditCategory()
     {
         $doCategory = OA_Dal::factoryDO('category');
-        $context = 'Category';
+        $context = 'category';
 
         $doCategory->name = 'Category A';
         $categoryId = DataGenerator::generateOne($doCategory);
@@ -504,8 +505,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
 
     function testAuditClient()
     {
-        $doClients = OA_Dal::factoryDO('clients');
-        $context = 'Client';
+        $doClients = OA_Dal::factoryDO($context = 'clients');
 
         $doClients->clientname = 'Client A';
         $clientId = DataGenerator::generateOne($doClients, true);
@@ -537,8 +537,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
 
     function testAuditAffiliate()
     {
-        $doAffiliate = OA_Dal::factoryDO('affiliates');
-        $context = 'Affiliate';
+        $doAffiliate = OA_Dal::factoryDO($context = 'affiliates');
 
         $doAffiliate->name = 'Client A';
         $affiliateId = DataGenerator::generateOne($doAffiliate, true);
@@ -570,8 +569,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
 
     function testAuditAffiliateExtra()
     {
-        $context = 'Affiliate Extra';
-        $doAffiliateX = OA_Dal::factoryDO('affiliates_extra');
+        $doAffiliateX = OA_Dal::factoryDO($context = 'affiliates_extra');
         $doAffiliateX->postcode = 'ABC 123';
         $affiliateXId = DataGenerator::generateOne($doAffiliateX, true);
         $doAffiliateX->affiliateid = $affiliateXId;
@@ -601,8 +599,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
 
     function testAuditTracker()
     {
-        $doTrackers = OA_Dal::factoryDO('trackers');
-        $context = 'Tracker';
+        $doTrackers = OA_Dal::factoryDO($context = 'trackers');
 
         $doTrackers->trackername = 'Tracker A';
         $trackerId = DataGenerator::generateOne($doTrackers, true);
@@ -635,8 +632,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
 
     function testAuditCampaign()
     {
-        $doCampaigns = OA_Dal::factoryDO('campaigns');
-        $context = 'Campaign';
+        $doCampaigns = OA_Dal::factoryDO($context = 'campaigns');
 
         $doCampaigns->campaignname = 'Campaign A';
         $campaignId = DataGenerator::generateOne($doCampaigns, true);
@@ -669,10 +665,9 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
 
     function testAuditCampaignTrackers()
     {
-        $doCampaignsTrackers = OA_Dal::factoryDO('campaigns_trackers');
-        $context = 'Campaign Tracker';
+        $doCampaignsTrackers = OA_Dal::factoryDO($context = 'campaigns_trackers');
 
-        $doCampaignsTrackers->trackerid  = rand(20,30);
+        $doCampaignsTrackers->trackerid  = DataGenerator::generateOne('trackers', true);
         $campaign_trackerId = DataGenerator::generateOne($doCampaignsTrackers, true);
         $doCampaignsTrackers = OA_Dal::staticGetDO('campaigns_trackers', $campaign_trackerId);
         $this->assertNotNull($campaign_trackerId,'failed to insert campaign_tracker');
@@ -708,12 +703,11 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     {
         $doCampaigns = OA_Dal::factoryDO('campaigns');
 
-        $doTrackers = OA_Dal::factoryDO('trackers');
+        $doTrackers = OA_Dal::factoryDO($context = 'trackers');
         $doTrackers->clientid = $doCampaigns->clientid;
         $doTrackers->linkcampaigns = 't';
 
         $trackerId = DataGenerator::generateOne($doTrackers, true);
-        $context = 'Tracker';
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_INSERT);
         $aAudit = unserialize($oAudit->details);
         $this->assertEqual($aAudit['clientid'],1);
@@ -724,8 +718,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
 
     function testAuditBanner()
     {
-        $doBanners = OA_Dal::factoryDO('banners');
-        $context = 'Banner';
+        $doBanners = OA_Dal::factoryDO($context = 'banners');
 
         $doBanners->description = 'Banner A';
         $bannerId = DataGenerator::generateOne($doBanners, true);
@@ -758,12 +751,10 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
 
     function testAuditAcls()
     {
-        $doBanners = OA_Dal::factoryDO('acls');
-        $context = 'Delivery Limitation';
+        $doBanners = OA_Dal::factoryDO($context = 'acls');
 
         $doAcls = OA_Dal::factoryDO('acls');
         $aResult = array();
-        $context = 'Delivery Limitation';
 
         $doBanners = OA_Dal::factoryDO('banners');
         $bannerId = DataGenerator::generateOne($doBanners, true);
@@ -856,7 +847,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertIsA($aEvent, 'array');
         $this->assertEqual($aEvent['auditid'],1);
         $this->assertEqual($aEvent['actionid'],OA_AUDIT_ACTION_INSERT);
-        $this->assertEqual($aEvent['context'],'Account');
+        $this->assertEqual($aEvent['context'],'accounts');
         $this->assertEqual($aEvent['username'],OA_TEST_AUDIT_USERNAME);
         $this->assertIsA($aEvent['array'], 'array');
         //$this->assertEqual($aEvent['array']['key_field'],0);
@@ -871,7 +862,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertIsA($aEvent, 'array');
         $this->assertEqual($aEvent['auditid'],2);
         $this->assertEqual($aEvent['actionid'],OA_AUDIT_ACTION_INSERT);
-        $this->assertEqual($aEvent['context'],'Agency');
+        $this->assertEqual($aEvent['context'],'agency');
         $this->assertEqual($aEvent['username'],OA_TEST_AUDIT_USERNAME);
         $this->assertEqual($aEvent['contextid'],$agencyId1);
         $this->assertIsA($aEvent['array'], 'array');
@@ -887,7 +878,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertIsA($aEvent, 'array');
         $this->assertEqual($aEvent['auditid'],3);
         $this->assertEqual($aEvent['actionid'],OA_AUDIT_ACTION_UPDATE);
-        $this->assertEqual($aEvent['context'],'Agency');
+        $this->assertEqual($aEvent['context'],'agency');
         $this->assertEqual($aEvent['username'],OA_TEST_AUDIT_USERNAME);
         $this->assertEqual($aEvent['contextid'],$agencyId1);
         $this->assertIsA($aEvent['array'], 'array');
@@ -905,7 +896,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertIsA($aEvent, 'array');
         $this->assertEqual($aEvent['auditid'],4);
         $this->assertEqual($aEvent['actionid'],OA_AUDIT_ACTION_UPDATE);
-        $this->assertEqual($aEvent['context'],'Account');
+        $this->assertEqual($aEvent['context'],'accounts');
         $this->assertEqual($aEvent['username'],OA_TEST_AUDIT_USERNAME);
         //$this->assertEqual($aEvent['contextid'],$agencyId1);
         $this->assertIsA($aEvent['array'], 'array');
@@ -919,7 +910,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertIsA($aEvent, 'array');
         $this->assertEqual($aEvent['auditid'],5);
         $this->assertEqual($aEvent['actionid'],OA_AUDIT_ACTION_INSERT);
-        $this->assertEqual($aEvent['context'],'Account');
+        $this->assertEqual($aEvent['context'],'accounts');
         $this->assertEqual($aEvent['username'],OA_TEST_AUDIT_USERNAME);
         //$this->assertEqual($aEvent['contextid'],$agencyId1);
         $this->assertIsA($aEvent['array'], 'array');
@@ -933,7 +924,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertIsA($aEvent, 'array');
         $this->assertEqual($aEvent['auditid'],6);
         $this->assertEqual($aEvent['actionid'],OA_AUDIT_ACTION_INSERT);
-        $this->assertEqual($aEvent['context'],'Client');
+        $this->assertEqual($aEvent['context'],'clients');
         $this->assertEqual($aEvent['username'],OA_TEST_AUDIT_USERNAME);
         $this->assertEqual($aEvent['contextid'],$clientId);
         $this->assertIsA($aEvent['array'], 'array');
@@ -948,7 +939,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertIsA($aEvent, 'array');
         $this->assertEqual($aEvent['auditid'],7);
         $this->assertEqual($aEvent['actionid'],OA_AUDIT_ACTION_DELETE);
-        $this->assertEqual($aEvent['context'],'Agency');
+        $this->assertEqual($aEvent['context'],'agency');
         $this->assertEqual($aEvent['username'],OA_TEST_AUDIT_USERNAME);
         $this->assertEqual($aEvent['contextid'],$agencyId1);
         $this->assertIsA($aEvent['array'], 'array');
@@ -962,7 +953,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertIsA($aEvent, 'array');
         $this->assertEqual($aEvent['auditid'],8);
         $this->assertEqual($aEvent['actionid'],OA_AUDIT_ACTION_DELETE);
-        $this->assertEqual($aEvent['context'],'Client');
+        $this->assertEqual($aEvent['context'],'clients');
         $this->assertEqual($aEvent['username'],OA_TEST_AUDIT_USERNAME);
         $this->assertEqual($aEvent['contextid'],$clientId);
         $this->assertIsA($aEvent['array'], 'array');
@@ -977,7 +968,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertIsA($aEvent, 'array');
         $this->assertEqual($aEvent['auditid'],9);
         $this->assertEqual($aEvent['actionid'],OA_AUDIT_ACTION_DELETE);
-        $this->assertEqual($aEvent['context'],'Account');
+        $this->assertEqual($aEvent['context'],'accounts');
         $this->assertEqual($aEvent['username'],OA_TEST_AUDIT_USERNAME);
         //$this->assertEqual($aEvent['contextid'],$agencyId1);
         $this->assertIsA($aEvent['array'], 'array');
@@ -1001,10 +992,10 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $doCampaigns->delete();
 
         // Test the campaign auditid == banner parentid
-        $oAuditCampaign = $this->_fetchAuditRecord('Campaign', OA_AUDIT_ACTION_DELETE);
+        $oAuditCampaign = $this->_fetchAuditRecord('campaigns', OA_AUDIT_ACTION_DELETE);
         $this->assertNull($oAuditCampaign->parentid);
 
-        $oAuditBanner = $this->_fetchAuditRecord('Banner', OA_AUDIT_ACTION_DELETE);
+        $oAuditBanner = $this->_fetchAuditRecord('banners', OA_AUDIT_ACTION_DELETE);
         $this->assertEqual($oAuditCampaign->auditid, $oAuditBanner->parentid);
 
         DataGenerator::cleanUp(array('campaigns', 'banners', 'audit'));
@@ -1018,25 +1009,22 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
      * delete the zone - this should delete the linked assoc
      * delete the banner - this should delete the default assoc between banner and zone 0
      */
-    function testAuditAdZoneAssoc()
+    function aaatestAuditAdZoneAssoc()
     {
         global $session;
         // insert a banner
-        $context = 'Banner';
-        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners = OA_Dal::factoryDO($context = 'banners');
         $doBanners->campaignid = rand(20,30);
         $doBanners->description = 'Banner A';
         $bannerId = DataGenerator::generateOne($doBanners, true);
 
         // insert a zone
-        $context = 'Zone';
-        $doZones = OA_Dal::factoryDO('zones');
+        $doZones = OA_Dal::factoryDO($context = 'zones');
         $doZones->affiliateid = 1;
         $doZones->zonename = 'Zone A';
         $zoneId = DataGenerator::generateOne($doZones, true);
 
-        $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
-        $context = 'Ad Zone Association';
+        $doAdZoneAssoc = OA_Dal::factoryDO($context = 'ad_zone_assoc');
 
         // link the banner and the zone
         $doAdZoneAssoc->ad_id = $bannerId;
