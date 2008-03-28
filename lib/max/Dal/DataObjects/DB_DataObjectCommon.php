@@ -254,6 +254,11 @@ class DB_DataObjectCommon extends DB_DataObject
             $accountId = OA_Permission::getAccountId();
         }
         if (!$this->N) {
+            $key = $this->getFirstPrimaryKey();
+            if (empty($this->$key)) {
+                MAX::raiseError('Key on object is not set, table: '.$this->getTableWithoutPrefix());
+                return null;
+            }
             if (!$this->find($autoFetch = true)) {
                 return null;
             }
@@ -300,16 +305,16 @@ class DB_DataObjectCommon extends DB_DataObject
         if (is_null($cachedTables)) {
             $cachedTables = array();
         }
-        if (isset($cachedTables[$table][$link][$ths->$key])) {
+        if (isset($cachedTables[$table][$link][$this->$key])) {
             $doCheck = OA_Dal::factoryDO($table);
-            $doCheck->setFrom($cachedTables[$table][$link][$ths->$key]);
+            $doCheck->setFrom($cachedTables[$table][$link][$this->$key]);
             $doCheck->N = 1;
         } else {
             $doCheck = $this->getLink($key, $table, $link);
             if (!$doCheck) {
                 return null;
             }
-            $cachedTables[$table][$link][$ths->$key] = $doCheck->toArray();
+            $cachedTables[$table][$link][$this->$key] = $doCheck->toArray();
         }
         return $doCheck;
     }
@@ -1358,7 +1363,7 @@ class DB_DataObjectCommon extends DB_DataObject
                     $this->doAudit = $this->factory('audit');
                 }
                 $this->doAudit->actionid   = $actionid;
-                $this->doAudit->context    = $this->_getContext();
+                $this->doAudit->context    = $this->getTableWithoutPrefix();
                 $this->doAudit->contextid  = $this->_getContextId();
                 $this->doAudit->parentid   = $parentid;
                 $this->doAudit->username   = OA_Permission::getUsername();
@@ -1387,6 +1392,11 @@ class DB_DataObjectCommon extends DB_DataObject
             }
         }
 
+        return false;
+    }
+    
+    function _getContext()
+    {
         return false;
     }
 

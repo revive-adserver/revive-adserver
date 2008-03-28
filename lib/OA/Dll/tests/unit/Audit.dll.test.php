@@ -99,7 +99,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oDateCopy->toUTC();
         $oAudit = OA_Dal::factoryDO('audit');
         $oAudit->account_id = 1;
-        $oAudit->context = 'Campaign';
+        $oAudit->context = 'campaigns';
         $oAudit->contextid = 1;
         $oAudit->parentid = null;
         $oAudit->username = 'user1';
@@ -156,7 +156,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oDateCopy->toUTC();
         $oAudit = OA_Dal::factoryDO('audit');
         $oAudit->account_id = 1;
-        $oAudit->context = 'Campaign';
+        $oAudit->context = 'campaigns';
         $oAudit->contextid = 1;
         $oAudit->parentid = null;
         $oAudit->username = 'user1';
@@ -294,10 +294,10 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         );
 
         $aContext = array(
-            array('context' => 'Banner',    'details' => array('campaignid' => 1)),
-            array('context' => 'Campaign',  'details' => array('clientid' => 2)),
-            array('context' => 'Channel',   'details' => array('affiliateid' => 3)),
-            array('context' => 'Zone',      'details' => array('affiliateid' => 4)),
+            array('context' => 'banners',    'details' => array('campaignid' => 1)),
+            array('context' => 'campaigns',  'details' => array('clientid' => 2)),
+            array('context' => 'channel',   'details' => array('affiliateid' => 3)),
+            array('context' => 'zones',      'details' => array('affiliateid' => 4)),
         );
 
         for ($i = 0; $i < 4; $i++) {
@@ -330,7 +330,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         // record 1
         $oAudit = OA_Dal::factoryDO('audit');
         $oAudit->account_id = 1;
-        $oAudit->context = 'Campaign';
+        $oAudit->context = 'campaigns';
         $oAudit->contextid = 1;
         $oAudit->parentid = null;
         $oAudit->username = 'Maintenance';
@@ -345,7 +345,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         // child 1 record of record 1
         $oAudit = OA_Dal::factoryDO('audit');
         $oAudit->account_id = 1;
-        $oAudit->context = 'Campaign';
+        $oAudit->context = 'campaigns';
         $oAudit->contextid = 1;
         $oAudit->parentid = $aAudit['auditid'];
         $oAudit->username = 'Maintenance';
@@ -357,7 +357,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         // child 2 record of record 1
         $oAudit = OA_Dal::factoryDO('audit');
         $oAudit->account_id = 1;
-        $oAudit->context = 'Campaign';
+        $oAudit->context = 'campaigns';
         $oAudit->contextid = 1;
         $oAudit->parentid = $aAudit['auditid'];
         $oAudit->username = 'Maintenance';
@@ -369,7 +369,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         // record 2 - has no children
         $oAudit = OA_Dal::factoryDO('audit');
         $oAudit->account_id = 1;
-        $oAudit->context = 'Campaign';
+        $oAudit->context = 'campaigns';
         $oAudit->contextid = 1;
         $oAudit->parentid = null;
         $oAudit->username = 'Maintenance';
@@ -415,7 +415,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         // record 1
         $oAudit = OA_Dal::factoryDO('audit');
         $oAudit->account_id = 1;
-        $oAudit->context = 'Campaign';
+        $oAudit->context = 'campaigns';
         $oAudit->contextid = 1;
         $oAudit->parentid = null;
         $oAudit->username = 'Maintenance';
@@ -430,7 +430,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         // child 1 record of record 1
         $oAudit = OA_Dal::factoryDO('audit');
         $oAudit->account_id = 1;
-        $oAudit->context = 'Campaign';
+        $oAudit->context = 'campaigns';
         $oAudit->contextid = 1;
         $oAudit->parentid = $aAudit['auditid'];
         $oAudit->username = 'Maintenance';
@@ -442,7 +442,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         // child 2 record of record 1
         $oAudit = OA_Dal::factoryDO('audit');
         $oAudit->account_id = 1;
-        $oAudit->context = 'Campaign';
+        $oAudit->context = 'campaigns';
         $oAudit->contextid = 1;
         $oAudit->parentid = $aAudit['auditid'];
         $oAudit->username = 'Maintenance';
@@ -454,7 +454,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         // record 2 - has no children
         $oAudit = OA_Dal::factoryDO('audit');
         $oAudit->account_id = 1;
-        $oAudit->context = 'Campaign';
+        $oAudit->context = 'campaigns';
         $oAudit->contextid = 1;
         $oAudit->parentid = null;
         $oAudit->username = 'Maintenance';
@@ -489,10 +489,10 @@ class OA_Dll_AuditTest extends DllUnitTestCase
 
         $aExpect    = array('bannerid', 'campaignid', 'clientid', 'affiliateid');
         $aContext   = array(
-            array('context' => 'Image',     'details' => array('bannerid' => 1)),
-            array('context' => 'Banner',    'details' => array('campaignid' => 2)),
-            array('context' => 'Campaign',  'details' => array('clientid' => 3)),
-            array('context' => 'Zone',      'details' => array('affiliateid' => 4)),
+            array('context' => 'images',     'details' => array('bannerid' => 1)),
+            array('context' => 'banners',    'details' => array('campaignid' => 2)),
+            array('context' => 'campaigns',  'details' => array('clientid' => 3)),
+            array('context' => 'zones',      'details' => array('affiliateid' => 4)),
         );
 
         for ($i = 0; $i < 4; $i++) {
@@ -520,7 +520,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oDateCopy->toUTC();
         $oAudit = OA_Dal::factoryDO('audit');
         $oAudit->account_id = 1;
-        $oAudit->context = 'Campaign';
+        $oAudit->context = 'campaigns';
         $oAudit->contextid = 1;
         $oAudit->parentid = null;
         $oAudit->username = 'user1';
@@ -607,7 +607,8 @@ class OA_Dll_AuditTest extends DllUnitTestCase
 
             $this->assertEqual($aResRow['auditid'],$aExpRow['auditid']);
             $this->assertEqual($aResRow['actionid'],$aExpRow['actionid']);
-            $this->assertEqual($aResRow['context'],$aExpRow['context']);
+            $this->assertEqual($aResRow['context'],
+                $dllAuditPartialMock->getContextDescription($aExpRow['context']));
             $this->assertEqual($aResRow['contextid'],$aExpRow['contextid']);
             $this->assertEqual($aResRow['parentid'],$aExpRow['parentid']);
             $this->assertEqual($aResRow['username'],$aExpRow['username']);
@@ -624,6 +625,14 @@ class OA_Dll_AuditTest extends DllUnitTestCase
 
         $this->assertIsA($aResults, 'array');
         $this->assertEqual(count($aResults),1);
+    }
+    
+    function testGetContext()
+    {
+        $audit = new OA_Dll_Audit();
+        $context = $audit->getContextDescription($table = 'campaigns');
+        $doCampaigns = OA_Dal::factoryDO($table);
+        $this->assertEqual($context, $doCampaigns->_getContext());
     }
 }
 

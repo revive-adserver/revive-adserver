@@ -586,15 +586,12 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $oDO->expectOnce('_auditEnabled');
         $oDO->setReturnValue('_getContextId', 2);
         $oDO->expectOnce('_getContextId');
-        $oDO->setReturnValue('_getContext', 'Test');
-        $oDO->expectOnce('_getContext');
         $oDO->setReturnValue('getOwningAccountId', 0);
         $oDO->expectOnce('getOwningAccountId');
 
-        $oDO->_tableName = 'table1';
+        $oDO->_tableName = $oDO->__table = 'table1';
         $oDO->col1 = 111;
         $oDO->col2 = 'abc';
-        //$oDO->updated = '2000-01-01';
 
         $oDO->doAudit = new $mockDO($oDO);
         $oDO->doAudit->setReturnValue('insert', 1);
@@ -603,9 +600,8 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $oDO->audit(1, null);
 
         $this->assertEqual($oDO->doAudit->actionid, 1);
-        $this->assertEqual($oDO->doAudit->context, 'Test');
+        $this->assertEqual($oDO->doAudit->context, $oDO->_tableName);
         $this->assertEqual($oDO->doAudit->contextid, 2);
-        //$this->assertEqual($oDO->doAudit->updated, '2000-01-01');
         $this->assertEqual(unserialize($oDO->doAudit->details), $aPrep);
 
         $oDO->tally();

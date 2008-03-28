@@ -66,4 +66,40 @@ class DataObjects_Audit extends DB_DataObjectCommon
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
+    
+    /**
+     * The belongsToAccount() method behaves in a different way
+     * in "audit" table case. To check if user has access
+     * to view specific audit we need to check if user has access
+     * to a audited object.
+     *
+     * @param string $accountId Account id
+     * @param boolean $checkPermission Check if user has access to account in which a permission was logged
+     * @return boolean|null     Returns true if belong to account, false if doesn't and null if it wasn't
+     *                          able to find object in references
+     */
+    function belongsToAccount($accountId = null, $checkPermission = true)
+    {
+        if (!$this->N) {
+            $key = $this->getFirstPrimaryKey();
+            if (empty($this->$key)) {
+                MAX::raiseError('Key on object is not set, table: '.$this->getTableWithoutPrefix());
+                return null;
+            }
+            if (!$this->find($autoFetch = true)) {
+                return null;
+            }
+        }
+        if ($checkPermission && OA_Permission::hasAccess($this->account_id)) {
+            return true;
+        }
+        $doAuditedObject = OA_Dal::staticGetDO($this->context,
+            $this->contextid);
+        if ($doAuditedObject) {
+            return $doAuditedObject->belongsToAccount($accountId);
+        }
+        MAX::raiseError('Record do not exist, table ' . $this->context
+            . ', id: ' . $this->contextid);
+        return false;
+    }
 }

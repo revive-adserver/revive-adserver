@@ -26,23 +26,20 @@ $Id$
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
-require_once MAX_PATH . '/lib/max/Dal/DataObjects/Banners.php';
 
 /**
- * A class for testing non standard DataObjects_Banners methods
+ * A class for testing non standard DataObjects_Audit methods
  *
  * @package    MaxDal
  * @subpackage TestSuite
  *
  */
-class DataObjects_BannersTest extends DalUnitTestCase
+class DataObjects_AuditTest extends DalUnitTestCase
 {
-    /**
-     * The constructor method.
-     */
-    function DataObjects_BannersTest()
+    function DataObjects_AuditTest()
     {
         $this->UnitTestCase();
+        DataGenerator::cleanUp();
     }
 
     function tearDown()
@@ -50,57 +47,68 @@ class DataObjects_BannersTest extends DalUnitTestCase
         DataGenerator::cleanUp();
     }
 
-    function testDuplicate()
+    function testBelongsToAccount()
     {
-        $filename = 'test.gif';
-
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->filename = $filename;
-        $doBanners->storagetype = 'sql';
-        $doBanners->acls_updated = '2007-04-03 19:28:06';
-
-        $id1 = DataGenerator::generateOne($doBanners, true);
-
-        $doBanners = OA_Dal::staticGetDO('banners', $id1);
-
+        
         Mock::generatePartial(
             'DataObjects_Banners',
             $mockBanners = 'DataObjects_Banners'.rand(),
-            array('_imageDuplicate')
+            array('getOwningAccountId')
         );
         $doMockBanners = new $mockBanners($this);
         $doMockBanners->init();
-        $doMockBanners->setFrom($doBanners);
-        $doMockBanners->bannerid = $doBanners->bannerid; // setFrom() doesn't copy primary key
-        $doMockBanners->setReturnValue('_imageDuplicate', $filename);
-        // make sure image was duplicated as well
-        $doMockBanners->expectOnce('_imageDuplicate');
-        $id2 = $doMockBanners->duplicate(); // duplicate
-        $doMockBanners->tally();
 
-        $this->assertNotEmpty($id2);
-        $this->assertNotEqual($id1, $id2);
+        $clientId = DataGenerator::generateOne('clients', true);
+        $doClients = OA_Dal::staticGetDO('clients', $clientId);
+        $accountId = $doClients->account_id;
+        
+        $dg = new DataGenerator();
+        $dg->setData('campaigns', array('clientid' => array($clientId)));
+        $doMockBanners->setReturnValue('getOwningAccountId', $accountId);
 
-        $doBanners1 = OA_Dal::staticGetDO('banners', $id1);
-        $doBanners2 = OA_Dal::staticGetDO('banners', $id2);
-        // assert they are equal (but without comparing primary key)
-        $this->assertNotEqualDataObjects($this->stripKeys($doBanners1), $this->stripKeys($doBanners2));
+        $this->enableAuditing(true);
+        $bannerId = $dg->generateOne($doMockBanners, true);
+        $this->enableAuditing(false);
 
-        // Test that the only difference is their description
-        $doBanners1->description = $doBanners2->description = null;
-        $this->assertEqualDataObjects($this->stripKeys($doBanners1), $this->stripKeys($doBanners2));
+        $doBanners = OA_Dal::staticGetDO('banners', $bannerId);
+
+        $doAudit = OA_Dal::factoryDO('audit');
+        $doAudit->context = 'banners';
+        $doAudit->contextid = $bannerId;
+        $this->assertTrue($doAudit->find($autoFetch = true));
+        $this->assertTrue($doAudit->belongsToAccount($accountId, false));
+
+        // generate different audit on campaign
+        $dg = new DataGenerator();
+        $doMockBanners = new $mockBanners($this);
+        $doMockBanners->init();
+        $clientId2 = DataGenerator::generateOne('clients', true);
+        $doClients = OA_Dal::staticGetDO('clients', $clientId2);
+        $accountId2 = $doClients->account_id;
+        $dg->setData('campaigns', array('clientid' => array($clientId2)));
+        $doMockBanners->setReturnValue('getOwningAccountId', $accountId2);
+
+        $this->enableAuditing(true);
+        $bannerId2 = $dg->generateOne($doMockBanners, true);
+        $this->enableAuditing(false);
+
+        $doAudit = OA_Dal::factoryDO('audit');
+        $doAudit->context = 'banners';
+        $doAudit->contextid = $bannerId2;
+        $this->assertTrue($doAudit->find($autoFetch = true));
+        $this->assertTrue($doAudit->belongsToAccount($accountId2, false));
+        $this->assertFalse($doAudit->belongsToAccount($accountId, false));
     }
-
-    function testInsert()
+    
+    /**
+     * Turn on/off auditing
+     *
+     * @param boolean $audit
+     */
+    function enableAuditing($audit)
     {
-        $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->acls_updated = '2007-04-03 19:28:06';
-        $bannerId = DataGenerator::generateOne($doBanners, true);
-        $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
-        $doAdZoneAssoc->ad_id = $bannerId;
-        $doAdZoneAssoc->zone_id = 0;
-        $this->assertTrue($doAdZoneAssoc->find());
-        $this->assertTrue($doAdZoneAssoc->fetch());
+        $GLOBALS['_MAX']['CONF']['audit']['enabled'] = $audit;
     }
 
 }

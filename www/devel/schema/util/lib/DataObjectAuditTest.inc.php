@@ -131,7 +131,6 @@ class DataObjectAuditTest
 
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $aResult = array();
-        $context = 'Campaign';
 
         $doCampaigns->clientid = rand(20,30);
         $doCampaigns->campaignname = 'My New Campaign';
@@ -160,7 +159,6 @@ class DataObjectAuditTest
 
         $doBanners = OA_Dal::factoryDO('banners');
         $aResult = array();
-        $context = 'Banner';
 
         $doBanners->campaignid = rand(20,30);
         $doBanners->description = 'My New Banner';
@@ -175,7 +173,6 @@ class DataObjectAuditTest
 
         $doAcls = OA_Dal::factoryDO('acls');
         $aResult = array();
-        $context = 'Delivery Limitation';
 
         $doAcls->bannerid = $bannerId;
         $doAcls->logical = 'and';
@@ -200,7 +197,6 @@ class DataObjectAuditTest
         $session['usertype'] = rand(1,10);
         $doZone = OA_Dal::factoryDO('zones');
         $aResult = array();
-        $context = 'Zone';
 
         $doZone->agencyid = rand(20,30);
         $doZone->affiliateid = rand(20,30);
@@ -226,7 +222,6 @@ class DataObjectAuditTest
 
         $doBanners = OA_Dal::factoryDO('banners');
         $aResult = array();
-        $context = 'Banner';
 
         $doBanners->campaignid = rand(20,30);
         $doBanners->description = 'My New Banner';
@@ -238,7 +233,6 @@ class DataObjectAuditTest
 
         $doZone = OA_Dal::factoryDO('zones');
         $aResult = array();
-        $context = 'Zone';
 
         $doZone->agencyid = rand(20,30);
         $doZone->affiliateid = rand(20,30);
@@ -246,7 +240,6 @@ class DataObjectAuditTest
         $zoneId = DataGenerator::generateOne($doZone);
 
         $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
-        $context = 'Ad Zone Association';
 
         $doAdZoneAssoc->ad_id = $bannerId;
         $doAdZoneAssoc->zone_id = $zoneId;
@@ -273,7 +266,6 @@ class DataObjectAuditTest
 
         $doClients = OA_Dal::factoryDO('clients');
         $aResult = array();
-        $context = 'Client';
 
         $doClients->agencyid = rand(20,30);
         $doClients->clientname = 'My New Client';
