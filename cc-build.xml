@@ -38,7 +38,7 @@
 		<ant antfile="build.xml" dir="${basedir}/target" output="build.log" target="simpletest" />
 	</target>
 
-	<target name="test-canoo" depends="update, clean, clone">
+	<target name="test-canoo" depends="clean, clone">
     	<ant antfile="build.xml" dir="${basedir}/target" output="build.log" target="test-canoo-local" >
     		<property name="run.local" value="true"/>
     	</ant>

@@ -78,21 +78,21 @@ echo "<br /><br />";
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 echo "<tr><td height='25'>&nbsp;&nbsp;<b>".$strDate."</b></td>";
 echo "<td height='25'><b>".$strAction."</b></td></tr>";
-echo "<td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>";
+echo "<td colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>";
 
 
 if ($doUserLog->getRowCount() == 0)
 {
 	echo "<tr height='25' bgcolor='#F6F6F6'><td height='25' colspan='4'>";
 	echo "&nbsp;&nbsp;".$strNoActionsLogged."</td></tr>";
-	echo "<td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>";
+	echo "<td colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>";
 }
 
 $i=0;
 
 while ($doUserLog->fetch() && $row = $doUserLog->toArray())
 {
-	if ($i > 0) echo "<td colspan='4' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>";
+	if ($i > 0) echo "<td colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td>";
 	echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
 
 	// Timestamp
@@ -103,9 +103,9 @@ while ($doUserLog->fetch() && $row = $doUserLog->toArray())
 	echo "<td height='25'>";
 	switch ($row['usertype'])
 	{
-		case phpAds_userDeliveryEngine:	echo "<img src='images/icon-generatecode.gif' align='absmiddle'>&nbsp;".$strDeliveryEngine; break;
-		case phpAds_userMaintenance:	echo "<img src='images/icon-time.gif' align='absmiddle'>&nbsp;".$strMaintenance; break;
-		case phpAds_userAdministrator:	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;".$strAdministrator; break;
+		case phpAds_userDeliveryEngine:	echo "<img src='" . MAX::assetPath() . "/images/icon-generatecode.gif' align='absmiddle'>&nbsp;".$strDeliveryEngine; break;
+		case phpAds_userMaintenance:	echo "<img src='" . MAX::assetPath() . "/images/icon-time.gif' align='absmiddle'>&nbsp;".$strMaintenance; break;
+		case phpAds_userAdministrator:	echo "<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;".$strAdministrator; break;
 	}
 	echo "</td>";
 
@@ -113,7 +113,7 @@ while ($doUserLog->fetch() && $row = $doUserLog->toArray())
 	echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
 	if ($row['details'] != '')
 	{		
-		echo "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;";
+		echo "<img src='" . MAX::assetPath() . "/images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;";
 		echo "<a href='userlog-details.php?userlogid=".$row['userlogid']."'>";
 		echo $strDetails."</a>";
 	}
@@ -129,7 +129,7 @@ while ($doUserLog->fetch() && $row = $doUserLog->toArray())
 	// Action
 	$action = $strUserlog[$row['action']];
 	$action = str_replace ('{id}', $row['object'], $action);
-	echo "<td height='20' colspan='2'><img src='images/spacer.gif' height='16' width='16' align='absmiddle'>&nbsp;".$action."</td>";
+	echo "<td height='20' colspan='2'><img src='" . MAX::assetPath() . "/images/spacer.gif' height='16' width='16' align='absmiddle'>&nbsp;".$action."</td>";
 	echo "</tr>";
 
 	$i++;
@@ -137,21 +137,21 @@ while ($doUserLog->fetch() && $row = $doUserLog->toArray())
 
 if ($doUserLog->getRowCount() > 0)
 {
-	echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+	echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
 	echo "<tr><td height='25' colspan='2'>";
-		echo "<img src='images/icon-recycle.gif' border='0' align='absmiddle'>&nbsp;<a href='userlog-delete.php'>".$strDeleteLog."</a>";
+		echo "<img src='" . MAX::assetPath() . "/images/icon-recycle.gif' border='0' align='absmiddle'>&nbsp;<a href='userlog-delete.php'>".$strDeleteLog."</a>";
 	echo "</td><td height='25' colspan='2' align='".$phpAds_TextAlignRight."'>";
 		if ($start > 0)
 		{
 			echo "<a href='userlog-index.php?start=".($start - 1)."'>";
-			echo "<img src='images/arrow-l.gif' border='0' align='absmiddle'>".$strPrevious."</a>";
+			echo "<img src='" . MAX::assetPath() . "/images/arrow-l.gif' border='0' align='absmiddle'>".$strPrevious."</a>";
 		}
 		if ($count > ($start + 1) * $limit)
 		{
 			if ($start > 0) echo "&nbsp;|&nbsp;";
 
 			echo "<a href='userlog-index.php?start=".($start + 1)."'>";
-			echo $strNext."<img src='images/arrow-r.gif' border='0' align='absmiddle'></a>";
+			echo $strNext."<img src='" . MAX::assetPath() . "/images/arrow-r.gif' border='0' align='absmiddle'></a>";
 		}
 	echo "</td></tr>";
 }

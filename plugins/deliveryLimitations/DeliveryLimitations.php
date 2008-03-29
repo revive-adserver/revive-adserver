@@ -127,7 +127,7 @@ class Plugins_DeliveryLimitations extends MAX_Plugin_Common
     {
         global $tabindex;
         if ($this->executionorder > 0) {
-            echo "<tr><td colspan='4'><img src='images/break-el.gif' width='100%' height='1'></td></tr>";
+            echo "<tr><td colspan='4'><img src='" . MAX::assetPath() . "/images/break-el.gif' width='100%' height='1'></td></tr>";
         }
 
         $bgcolor = $this->executionorder % 2 == 0 ? "#E6E6E6" : "#FFFFFF";
@@ -143,7 +143,7 @@ class Plugins_DeliveryLimitations extends MAX_Plugin_Common
             echo "</select>";
         }
         echo "</td><td width='130'>";
-		echo "<table cellpadding='2'><tr><td><img src='images/icon-acl.gif' align='absmiddle'>&nbsp;</td><td><strong>{$this->package}</strong>:<br />{$this->displayName}</td></tr></table>";
+		echo "<table cellpadding='2'><tr><td><img src='" . MAX::assetPath() . "/images/icon-acl.gif' align='absmiddle'>&nbsp;</td><td><strong>{$this->package}</strong>:<br />{$this->displayName}</td></tr></table>";
 		echo "<input type='hidden' name='acl[{$this->executionorder}][type]' value='{$this->type}'>";
 		echo "<input type='hidden' name='acl[{$this->executionorder}][executionorder]' value='{$this->executionorder}'>";
 		echo "</td><td >";
@@ -153,20 +153,20 @@ class Plugins_DeliveryLimitations extends MAX_Plugin_Common
         echo "</td>";
         // Show buttons
 		echo "<td align='{$GLOBALS['phpAds_TextAlignRight']}'>";
-		echo "<input type='image' name='action[del][{$this->executionorder}]' value='{$this->executionorder}' src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{$GLOBALS['strDelete']}'>";
+		echo "<input type='image' name='action[del][{$this->executionorder}]' value='{$this->executionorder}' src='" . MAX::assetPath() . "/images/icon-recycle.gif' border='0' align='absmiddle' alt='{$GLOBALS['strDelete']}'>";
 		echo "&nbsp;&nbsp;";
-		echo "<img src='images/break-el.gif' width='1' height='35'>";
+		echo "<img src='" . MAX::assetPath() . "/images/break-el.gif' width='1' height='35'>";
 		echo "&nbsp;&nbsp;";
 
 		if ($this->executionorder && $this->executionorder < $this->count)
-			echo "<input type='image' name='action[up][{$this->executionorder}]' src='images/triangle-u.gif' border='0' alt='{$GLOBALS['strUp']}' align='absmiddle'>";
+			echo "<input type='image' name='action[up][{$this->executionorder}]' src='" . MAX::assetPath() . "/images/triangle-u.gif' border='0' alt='{$GLOBALS['strUp']}' align='absmiddle'>";
 		else
-			echo "<img src='images/triangle-u-d.gif' alt='{$GLOBALS['strUp']}' align='absmiddle'>";
+			echo "<img src='" . MAX::assetPath() . "/images/triangle-u-d.gif' alt='{$GLOBALS['strUp']}' align='absmiddle'>";
 
 		if ($this->executionorder < $this->count - 1) {
-			echo "<input type='image' name='action[down][{$this->executionorder}]' src='images/triangle-d.gif' border='0' alt='{$GLOBALS['strDown']}' align='absmiddle'>";
+			echo "<input type='image' name='action[down][{$this->executionorder}]' src='" . MAX::assetPath() . "/images/triangle-d.gif' border='0' alt='{$GLOBALS['strDown']}' align='absmiddle'>";
 		} else {
-			echo "<img src='images/triangle-d-d.gif' alt='{$GLOBALS['strDown']}' align='absmiddle'>";
+			echo "<img src='" . MAX::assetPath() . "/images/triangle-d-d.gif' alt='{$GLOBALS['strDown']}' align='absmiddle'>";
 		}
 
 		echo "&nbsp;&nbsp;</td></tr>";
@@ -176,7 +176,7 @@ class Plugins_DeliveryLimitations extends MAX_Plugin_Common
         echo "<br /><br /></td></tr>";
 
         //if (!isset($acl[$key]['type']) || $acl[$key]['type'] != $previous_type && $previous_type != '')
-        //echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+        //echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
 
     }
 

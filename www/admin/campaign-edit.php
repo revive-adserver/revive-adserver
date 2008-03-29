@@ -314,7 +314,7 @@ if ($campaignid != "") {
     if ($submit && !empty($errors)) {
         // Message
         echo "<br>";
-        echo "<div class='errormessage'><img class='errormessage' src='images/errormessage.gif' align='absmiddle'>";
+        echo "<div class='errormessage'><img class='errormessage' src='" . MAX::assetPath() . "/images/errormessage.gif' align='absmiddle'>";
         echo "<span class='tab-r'>{$GLOBALS['strErrorEditingCampaign']}</span><br><br>";
         foreach ($errors as $aError) {
             echo "{$GLOBALS['strUnableToChangeCampaign']} - " . $aError->message . "<br>";
@@ -325,16 +325,16 @@ if ($campaignid != "") {
     if (isset($move) && $move == 't') {
         // Convert client to campaign
         phpAds_PageHeader("4.1.3.2");
-        echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($clientid);
-        echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
-        echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".$strUntitled."</b><br /><br /><br />";
+        echo "<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($clientid);
+        echo "&nbsp;<img src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
+        echo "<img src='" . MAX::assetPath() . "/images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".$strUntitled."</b><br /><br /><br />";
         phpAds_ShowSections(array("4.1.3.2"));
     } else {
         // New campaign
         phpAds_PageHeader("4.1.3.1");
-        echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($clientid);
-        echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
-        echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".$strUntitled."</b><br /><br /><br />";
+        echo "<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($clientid);
+        echo "&nbsp;<img src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
+        echo "<img src='" . MAX::assetPath() . "/images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".$strUntitled."</b><br /><br /><br />";
         phpAds_ShowSections(array("4.1.3.1"));
     }
 }
@@ -374,7 +374,6 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
     $row['an_status']               = $doCampaigns->an_status;
     $row['as_reject_reason']        = $doCampaigns->as_reject_reason;
 
-    $row['activate']                = $data['activate'];
     if (OA_Dal::isValidDate($data['activate'])) {
         $oActivateDate              = new Date($data['activate']);
         $row['activate_f']          = $oActivateDate->format($date_format);
@@ -395,9 +394,13 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
     $row['block']               = $data['block'];
     $row['capping']             = $data['capping'];
     $row['session_capping']     = $data['session_capping'];
-    $row['impressionsRemaining'] = '-1';
-    $row['clicksRemaining']      = '-1';
-    $row['conversionsRemaining'] = '-1';
+    $row['impressionsRemaining'] = '';
+    $row['clicksRemaining'] = '';
+    $row['conversionsRemaining'] = '';
+
+    $row['impressionsRemaining'] = '';
+    $row['clicksRemaining']      = '';
+    $row['conversionsRemaining'] = '';
 
     // Get the campagin data from the data_intermediate_ad table, and store in $row
     if (($row['impressions'] >= 0) || ($row['clicks'] >= 0) || ($row['conversions'] >= 0)) {
@@ -567,7 +570,7 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 
         echo "
         <input class='date' name='{$name}' id='{$name}' type='text' value='$dateStr' tabindex='".$tabindex++."' onchange=\"phpAds_formDateCheck('".$name."');\"/>
-        <input type='image' src='images/icon-calendar.gif' id='{$name}_button' align='absmiddle' border='0' tabindex='".$tabindex++."' />
+        <input type='image' src='" . MAX::assetPath() . "/images/icon-calendar.gif' id='{$name}_button' align='absmiddle' border='0' tabindex='".$tabindex++."' />
         <script type='text/javascript'>
         <!--
         Calendar.setup({
@@ -846,7 +849,7 @@ echo "<input type='hidden' name='previousconversions' value='".(isset($row["conv
 
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>"."\n";
 echo "<tr><td height='25' colspan='3'><b>".$strBasicInformation."</b></td></tr>"."\n";
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>"."\n";
+echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>"."\n";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
 
 echo "<tr>"."\n";
@@ -856,7 +859,7 @@ echo "\t"."<td><input onBlur='phpAds_formPriorityUpdate(this.form);' class='flat
 echo "</tr>"."\n";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
 echo "<tr><td height='25' colspan='3'><a name='inv-det' ></a><b>".$strInventoryDetails."</b></td></tr>"."\n";
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>"."\n";
+echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>"."\n";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
 
 if (isset($row['status']) && $row['status'] != OA_ENTITY_STATUS_RUNNING)
@@ -865,27 +868,20 @@ if (isset($row['status']) && $row['status'] != OA_ENTITY_STATUS_RUNNING)
     $expire_ts = $row['expire_year'] ? mktime(23, 59, 59, $row["expire_month"], $row["expire_dayofmonth"], $row["expire_year"]) : 0;
     $inactivebecause = array();
 
-    if ($row['impressionsRemaining'] < 1) $inactivebecause[] =  $strNoMoreImpressions;
-    if ($row['clicksRemaining'] < 1) $inactivebecause[] =  $strNoMoreClicks;
-    //if (!empty($row['conversionsRemaining']) && $row['conversionsRemaining'] == 0) $inactivebecause[] =  $strNoMoreConversions;
-
-    if (!empty($row['activate']) && $row['activate'] != OA_Dal::noDateValue()) {
-        $activate_ts = mktime(23, 59, 59, $row["activate_month"], $row["activate_dayofmonth"], $row["activate_year"]);
-        if ($activate_ts > 0 && $activate_ts > time()) $inactivebecause[] =  $strBeforeActivate;
-    }
-    if (!empty($row['expire']) && $row['expire'] != OA_Dal::noDateValue()) {
-        $expire_ts = mktime(23, 59, 59, $row["expire_month"], $row["expire_dayofmonth"], $row["expire_year"]);
-        if ($expire_ts > 0 && time() > $expire_ts) $inactivebecause[] =  $strAfterExpire;
-    }
+    if ($row['impressions'] == 0) $inactivebecause[] =  $strNoMoreImpressions;
+    if ($row['clicks'] == 0) $inactivebecause[] =  $strNoMoreClicks;
+    if ($row['conversions'] == 0) $inactivebecause[] =  $strNoMoreConversions;
+    if ($activate_ts > 0 && $activate_ts > time()) $inactivebecause[] =  $strBeforeActivate;
+    if ($expire_ts > 0 && time() > $expire_ts) $inactivebecause[] =  $strAfterExpire;
 
     if ($row['priority'] == 0  && $row['weight'] == 0) $inactivebecause[] =  $strWeightIsNull;
     if ($row['priority'] > 0  && $target_value == 0) $inactivebecause[] =  $strTargetIsNull;
 
     echo "<tr>"."\n";
     echo "\t"."<td width='30' valign='top'>&nbsp;</td>"."\n";
-    echo "\t"."<td colspan='2'><div class='errormessage'><img class='errormessage' src='images/info.gif' width='16' height='16' border='0' align='absmiddle'>".$strClientDeactivated." ".join(', ', $inactivebecause)."</div><br /></td>"."\n";
+    echo "\t"."<td colspan='2'><div class='errormessage'><img class='errormessage' src='" . MAX::assetPath() . "/images/info.gif' width='16' height='16' border='0' align='absmiddle'>".$strClientDeactivated." ".join(', ', $inactivebecause)."</div><br /></td>"."\n";
     echo "</tr>"."\n";
-    echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td></tr>"."\n";
+    echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td></tr>"."\n";
 }
 
 echo "<tr><td colspan='3'>\n";
@@ -903,7 +899,7 @@ echo "<tr><td colspan='3'>\n";
 			    <span id='remainingImpressions' >Impressions remaining:<span id='remainingImpressionsCount'>2500</span></span><br/>
 			    <?php if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) { ?>
 					  <!--span id="openadsRemainingImpressions">OpenX impressions remaining: <span id='openadsRemainingImpressionsCount'>3000<!-- REAL DATA GOES HERE -></span>
-					    <span class="link hide" help="help-openads-remaining-impressions" id="openadsRemainingImpressionsHelpLink"><img style="border: none; position: relative; top:5px;" src="images/help-book.gif" /></span>
+					    <span class="link hide" help="help-openads-remaining-impressions" id="openadsRemainingImpressionsHelpLink"><img style="border: none; position: relative; top:5px;" src="<?php echo MAX::assetPath() ?>/images/help-book.gif" /></span>
 			      </span-->
 			     	<div class="hide" id="help-openads-remaining-impressions" style="height: auto; width: 290px;">
 		          Campaign's remaining impressions number is too small to satisfy the number booked by advertiser. It means that the local remaining click number is lower than central remaining click number and you should increase the booked impressions by the missing value.
@@ -916,8 +912,8 @@ echo "<tr><td colspan='3'>\n";
   </tr>
 
   <tr>
-    <td><img src='images/spacer.gif' height='1' width='100%'></td>
-    <td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
+    <td><img src='<?php echo MAX::assetPath() ?>/images/spacer.gif' height='1' width='100%'></td>
+    <td colspan='2'><img src='<?php echo MAX::assetPath() ?>/images/break-l.gif' height='1' width='200' vspace='6'></td>
   </tr>
 
   <tr>
@@ -932,7 +928,7 @@ echo "<tr><td colspan='3'>\n";
           <span  id='remainingClicks' >Clicks remaining:<span id='remainingClicksCount'>200</span></span><br/>
           <?php if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) { ?>
 	          <!--span id="openadsRemainingClicks">OpenX clicks remaining: <span id='openadsRemainingClicksCount'>600<!-- REAL DATA GOES HERE -></span-->
-	            <span class="link hide"	help="help-openads-remaining-clicks" id="openadsRemainingClicksHelpLink"><img style="border: none; position: relative; top:5px;" src="images/help-book.gif" /></span>
+	            <span class="link hide"	help="help-openads-remaining-clicks" id="openadsRemainingClicksHelpLink"><img style="border: none; position: relative; top:5px;" src="<?php echo MAX::assetPath() ?>/images/help-book.gif" /></span>
 	          </span>
 	         <div class="hide" id="help-openads-remaining-clicks" style="height: auto; width: 290px;">
 	          Campaign's remaining clicks number is too small to satisfy the number booked by advertiser. It means that the local remaining click number is lower than central remaining click number and you should increase the booked clicks by the missing value.
@@ -949,8 +945,8 @@ echo "<tr><td colspan='3'>\n";
   if ($conf['logging']['trackerImpressions']) {
   ?>
   <tr>
-    <td><img src='images/spacer.gif' height='1' width='100%'></td>
-    <td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
+    <td><img src='<?php echo MAX::assetPath() ?>/images/spacer.gif' height='1' width='100%'></td>
+    <td colspan='2'><img src='<?php echo MAX::assetPath() ?>/images/break-l.gif' height='1' width='200' vspace='6'></td>
   </tr>
 
   <tr>
@@ -975,7 +971,7 @@ echo "<tr><td colspan='3'>\n";
 <?php
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
 echo "<tr><td height='25' colspan='3'><b>".$strContractDetails."</b></td></tr>"."\n";
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>"."\n";
+echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>"."\n";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
 
 echo "<tr>"."\n";
@@ -987,8 +983,8 @@ phpAds_showDateEdit('start', isset($row["activate_dayofmonth"]) ? $row["activate
 echo "</td>"."\n";
 echo "</tr>"."\n";
 echo "<tr>"."\n";
-echo "\t"."<td><img src='images/spacer.gif' height='1' width='100%'></td>"."\n";
-echo "\t"."<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>"."\n";
+echo "\t"."<td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>"."\n";
+echo "\t"."<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td>"."\n";
 echo "</tr>"."\n";
 
 echo "<tr>"."\n";
@@ -1000,8 +996,8 @@ phpAds_showDateEdit('end', isset($row["expire_dayofmonth"]) ? $row["expire_dayof
 echo "</td>"."\n";
 echo "</tr>"."\n";
 echo "<tr>"."\n";
-echo "\t"."<td><img src='images/spacer.gif' height='1' width='100%'></td>"."\n";
-echo "\t"."<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>"."\n";
+echo "\t"."<td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>"."\n";
+echo "\t"."<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td>"."\n";
 echo "</tr>"."\n";
 
 echo "<tr>"."\n";
@@ -1023,8 +1019,8 @@ echo "</tr>"."\n";
 ?>
 
 <!--tr>
-  <td><img width="100%" height="1" src="images/spacer.gif"/></td>
-  <td colspan="2"><img width="200" vspace="6" height="1" src="images/break-l.gif"/></td>
+  <td><img width="100%" height="1" src="<?php echo MAX::assetPath() ?>/images/spacer.gif"/></td>
+  <td colspan="2"><img width="200" vspace="6" height="1" src="<?php echo MAX::assetPath() ?>/images/break-l.gif"/></td>
 </tr>
 
 <tr>
@@ -1035,7 +1031,7 @@ echo "</tr>"."\n";
 <?php
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
 echo "<tr><td height='25' colspan='3'><b>".$strPriorityInformation."</b></td></tr>"."\n";
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>"."\n";
+echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>"."\n";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
 
 echo "<tr>"."\n";
@@ -1071,8 +1067,8 @@ echo "\t"."</td>"."\n";
 echo "</tr>"."\n";
 
 echo "<tr>"."\n";
-echo "\t"."<td><img src='images/spacer.gif' height='1' width='100%'></td>"."\n";
-echo "\t"."<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>"."\n";
+echo "\t"."<td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>"."\n";
+echo "\t"."<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td>"."\n";
 echo "</tr>";
 
 echo "<tr>"."\n";
@@ -1106,8 +1102,8 @@ echo "\t"."</td>"."\n";
 echo "</tr>"."\n";
 
 echo "<tr>"."\n";
-echo "\t"."<td><img src='images/spacer.gif' height='1' width='100%'></td>"."\n";
-echo "\t"."<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>"."\n";
+echo "\t"."<td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>"."\n";
+echo "\t"."<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td>"."\n";
 echo "</tr>";
 
 echo "<tr>"."\n";
@@ -1137,7 +1133,7 @@ echo "</table></td></tr>\n";
 
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
 echo "<tr><td height='25' colspan='3'><b>".$strMiscellaneous."</b></td></tr>"."\n";
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>"."\n";
+echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>"."\n";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
 
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
@@ -1149,7 +1145,7 @@ echo "' tabindex='".($tabindex++)."'>".htmlspecialchars($row['comments'])."</tex
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>"."\n";
+echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>"."\n";
 echo "</table>"."\n";
 
 echo "<br /><br />"."\n";

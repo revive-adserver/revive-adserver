@@ -159,11 +159,12 @@ class Test_OA_Dal_Maintenance_Priority_getPlacements extends UnitTestCase
         $doBanners->alt_filename = '';
         $doBanners->alt_imageurl = '';
         $doBanners->alt_contenttype = '';
-
+        
+        $clientId = DataGenerator::generateOne('clients', true);
 
         // Add 3 campaigns - haha!
         $doCampaigns->campaignname = 'Test Campaign 1';
-        $doCampaigns->clientid = 1;
+        $doCampaigns->clientid = $clientId;
         $doCampaigns->views = 0;
         $doCampaigns->clicks = 400;
         $doCampaigns->conversions = 0;
@@ -178,7 +179,7 @@ class Test_OA_Dal_Maintenance_Priority_getPlacements extends UnitTestCase
         $idCampaign1 = DataGenerator::generateOne($doCampaigns, true);
 
         $doCampaigns->campaignname = 'Test Campaign 2';
-        $doCampaigns->clientid = 1;
+        $doCampaigns->clientid = $clientId;
         $doCampaigns->views = 0;
         $doCampaigns->clicks = 0;
         $doCampaigns->conversions = 400;
@@ -193,7 +194,7 @@ class Test_OA_Dal_Maintenance_Priority_getPlacements extends UnitTestCase
         $idCampaign2 = DataGenerator::generateOne($doCampaigns, true);
 
         $doCampaigns->campaignname = 'Test Campaign 3';
-        $doCampaigns->clientid = 1;
+        $doCampaigns->clientid = $clientId;
         $doCampaigns->views = 500;
         $doCampaigns->clicks = 0;
         $doCampaigns->conversions = 0;
@@ -208,7 +209,7 @@ class Test_OA_Dal_Maintenance_Priority_getPlacements extends UnitTestCase
         $idCampaign3 = DataGenerator::generateOne($doCampaigns, true);
 
         $doCampaigns->campaignname = 'Test Campaign 4';
-        $doCampaigns->clientid = 1;
+        $doCampaigns->clientid = $clientId;
         $doCampaigns->views = 500;
         $doCampaigns->clicks = 0;
         $doCampaigns->conversions = 401;
@@ -223,7 +224,7 @@ class Test_OA_Dal_Maintenance_Priority_getPlacements extends UnitTestCase
         $idCampaign4 = DataGenerator::generateOne($doCampaigns, true);
 
         $doCampaigns->campaignname = 'Test Campaign 5';
-        $doCampaigns->clientid = 1;
+        $doCampaigns->clientid = $clientId;
         $doCampaigns->views = 500;
         $doCampaigns->clicks = 0;
         $doCampaigns->conversions = 401;

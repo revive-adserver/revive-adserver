@@ -58,9 +58,15 @@ div.infomessage {
     margin-right: 80px;
     padding: 6px 6px 6px 32px;
     line-height: 18px;
-    background-image: url('../info.gif');
+    background-image: url('../images/info.gif');
     background-repeat: no-repeat;
     background-position: 8px 8px;
+    width: 540px;
+}
+
+div.infomessage p {
+  margin-top: 0;
+  margin-bottom: 6px;
 }
 
 div.errormessageicon {
@@ -71,7 +77,7 @@ div.errormessageicon {
     margin-right: 80px;
     padding: 6px 6px 6px 32px;
     line-height: 18px;
-    background-image: url('../errormessage.gif');
+    background-image: url('../images/errormessage.gif');
     background-repeat: no-repeat;
     background-position: 8px 8px;
 }
@@ -129,6 +135,10 @@ textarea.code {
     border-right-width: 1px;
     border-bottom-width: 1px;
     border-left-width: 1px;
+}
+
+input.checkbox {
+  border: 0;
 }
 
 select.error:focus, textarea.error:focus, input.error:focus {
@@ -212,7 +222,7 @@ div.boxrow input {
 }
 
  input.accept {
-  background-image: url('../icon-checkmark.gif');
+  background-image: url('../images/icon-checkmark.gif');
   background-repeat: no-repeat;
   background-position: 4px 3px;
   padding-left: 14px;
@@ -624,14 +634,14 @@ span.start-edit:before {
 }
 */
 span.start-edit {
-  background-image: url('../icon-edit.gif');
+  background-image: url('../images/icon-edit.gif');
   background-repeat: no-repeat;
   background-position: 0 -1px;
   padding-left: 20px;
 }
 
 span.start-edit-disabled {
-  background-image: url('../icon-edit-disabled.gif');
+  background-image: url('../images/icon-edit-disabled.gif');
   background-repeat: no-repeat;
   background-position: 0 -1px;
   padding-left: 20px;
@@ -639,7 +649,7 @@ span.start-edit-disabled {
 }
 
 span.save-edit {
-  background-image: url('../icon-checkmark.gif');
+  background-image: url('../images/icon-checkmark.gif');
   background-repeat: no-repeat;
   background-position: 1px 2px;
   padding-left: 20px;
@@ -647,7 +657,7 @@ span.save-edit {
 }
 
 span.cancel-edit, span.cancel-add {
-  background-image: url('../icon-x.gif');
+  background-image: url('../images/icon-x.gif');
   background-repeat: no-repeat;
   background-position: 1px 2px;
   padding-left: 15px;
@@ -655,7 +665,7 @@ span.cancel-edit, span.cancel-add {
 }
 
 div.error-box {
-  background-image: url('../errormessage.gif');
+  background-image: url('../images/errormessage.gif');
   background-repeat: no-repeat;
   background-position: 5px 5px;
   background-color: #ffcccc;
@@ -663,7 +673,7 @@ div.error-box {
   padding-left: 25px;
   width: 70%; 
   border: 1px solid red; 
-  margin: 0 auto 0 auto;
+  margin: 0 auto 0 auto6;
   -moz-border-radius: 5px;
   text-align: left;
 }
@@ -726,7 +736,9 @@ form.new-form input[type='checkbox'] {
   margin: 0px 2px 0 2px;
 }
 
-label.cb {
+/** Hide from IE 6 */
+html > body label.cb, 
+html > body a.cb {
   position: relative;
   top: -2px;
 }
@@ -883,7 +895,7 @@ td.norows {
 }
 
 a.permissions {
-  background-image: url('../icon-acl.gif');
+  background-image: url('../images/icon-acl.gif');
   background-repeat: no-repeat;
   padding-left: 18px;
   padding-bottom: 2px;
@@ -891,7 +903,7 @@ a.permissions {
 }
 
 a.unlink {
-  background-image: url('../icon-recycle.gif');
+  background-image: url('../images/icon-recycle.gif');
   background-repeat: no-repeat;
   padding-left: 18px;
   padding-bottom: 2px;
@@ -899,7 +911,7 @@ a.unlink {
 }
 
 a.edit {
-  background-image: url('../icon-edit.gif');
+  background-image: url('../images/icon-edit.gif');
   background-repeat: no-repeat;
   padding-left: 18px;
   padding-bottom: 2px;
@@ -921,3 +933,96 @@ div.terms iframe {
   width: 100%;
   height: 100%;
 }
+
+.available-int, .unavailable-int, .checking-int, .error-int {
+  font-weight: bold;
+  margin: 0 0 0 0.5em;
+}
+
+.available-int {
+  color: #22b24c;
+}
+
+.unavailable-int {
+  color: #f15922;
+}
+
+#user-check-indicator .checking-int,
+#user-check-indicator .error-int {
+  color: #808080;
+}
+
+#user-check-indicator.checking .unavailable-int,
+#user-check-indicator.checking .available-int,
+#user-check-indicator.checking .error-int,
+#user-check-indicator.error .unavailable-int,
+#user-check-indicator.error .available-int,
+#user-check-indicator.error .checking-int,
+#user-check-indicator.available .unavailable-int,
+#user-check-indicator.available .checking-int,
+#user-check-indicator.available .error-int,
+#user-check-indicator.unavailable .checking-int,
+#user-check-indicator.unavailable .available-int,
+#user-check-indicator.unavailable .error-int
+{
+  display: none;
+}
+
+.terms-contents {
+  height: 500px; 
+  overflow-y: scroll; 
+  overflow-x: none; 
+}
+
+.terms-contents .li1 {
+	padding-left : 2px;
+	padding-bottom: 2px;
+	padding-top: 2px;
+	font-style: normal;
+	font-weight: bold;
+}
+
+.terms-contents .li2txt {
+	margin: 25px;
+	padding-left: 25px;
+	padding-right: 20px;
+}
+
+.terms-contents .li2 {
+	margin-left:-25px;
+	margin-bottom: 0px;
+	float: left;
+}
+
+.terms-contents ul, 
+.terms-contents ol {
+  padding: 0pt 0.8em 0pt 1.5em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.terms-contents h1 {
+  border: 0;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  font-size: 200%;
+}
+
+/** User log */
+.filterLabel {
+    float:left;
+    font-weight:bold;
+    padding-right:0.5em;
+    text-align:left;
+    width:10em;
+}
+.filterWrapper {
+    margin-bottom: 5px;
+}
+
+.tableTitle {
+    font-weight: bold;
+    font-size: 9pt;
+    margin-bottom: 0;
+}
+

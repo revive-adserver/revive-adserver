@@ -53,7 +53,7 @@ class OA_Admin_Statistics_Targeting_Flexy extends OA_Admin_Statistics_Common
     {
         if ($k == 'average') {
             if ($aArray[$k] === true || (is_numeric($aArray[$k]) && $aArray[$k] > 0)) {
-                return '<img src="images/warning.gif" width="16 height="16" alt="" title="" />';
+                return '<img src="' . MAX::assetPath() . '/images/warning.gif" width="16 height="16" alt="" title="" />';
             } else if (preg_match('/light$/', $aArray[$k])) {
                 return parent::showValue($aArray, $k);
             } else if (preg_match('/dark$/', $aArray[$k])) {

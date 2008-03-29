@@ -97,6 +97,7 @@ class OA_Auth
             $doUser = OA_Auth::authenticateUser();
 
             if (!$doUser) {
+                sleep(3);
                 OA_Auth::restart($GLOBALS['strUsernameOrPasswordWrong']);
             }
 
@@ -143,7 +144,15 @@ class OA_Auth
     function authenticateUser()
     {
         $authPlugin = &OA_Auth::staticGetAuthPlugin();
-        return $authPlugin->authenticateUser();
+        $doUsers = &$authPlugin->authenticateUser();
+        if ($doUsers) {
+            // never upgrade the username
+            $tmpUserName = $doUsers->username;
+            unset($doUsers->username);
+            $doUsers->logDateLastLogIn();
+            $doUsers->username = $tmpUserName;
+        }
+        return $doUsers;
     }
 
     /**

@@ -1363,7 +1363,7 @@ class OA_Upgrade
                                            );
             // Update SQL functions to the latest version
             if (PEAR::isError(OA_DB::createFunctions())) {
-                $this->$this->oLogger->logError('Failed to update SQL functions');
+                $this->oLogger->logError('Failed to update SQL functions');
                 $this->message = 'Failed to update SQL functions';
                 return false;
             }
@@ -1378,7 +1378,7 @@ class OA_Upgrade
             {
                 if (!$this->oVersioner->putApplicationVersion($version))
                 {
-                    $this->$this->oLogger->logError('Failed to update application version to '.$version);
+                    $this->oLogger->logError('Failed to update application version to '.$version);
                     $this->message = 'Failed to update application version to '.$version;
                     return false;
                 }

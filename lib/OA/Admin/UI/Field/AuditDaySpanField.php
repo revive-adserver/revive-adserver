@@ -26,14 +26,18 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Admin/UI/Field/DaySpanField.php';
+require_once MAX_PATH . '/lib/OA/Translation.php';
 
 class OA_Admin_UI_Audit_DaySpanField extends Admin_UI_DaySpanField
 {
+    var $oTrans;
+    
     function OA_Admin_UI_Audit_DaySpanField($name = 'AuditDaySpanField',
                          $fieldSelectionDefault = 'all_events',
                          $aFieldSelectionNames = null)
     {
         parent::Admin_UI_DaySpanField($name, $fieldSelectionDefault, $aFieldSelectionNames);
+        $this->oTrans = new OA_Translation();
     }
 
     /**
@@ -77,12 +81,12 @@ class OA_Admin_UI_Audit_DaySpanField extends Admin_UI_DaySpanField
 
         echo "
         </select>
-        <label for='{$this->_name}_start' style='margin-left: 1em'> From</label>
+        <label for='{$this->_name}_start' style='margin-left: 1em'> {$this->oTrans->translate('From')}</label>
         <input class='date' name='{$this->_name}_start' id='{$this->_name}_start' type='text' value='$startDateStr' tabindex='".$this->_tabIndex++."' />
-        <input type='image' src='images/icon-calendar.gif' id='{$this->_name}_start_button' align='absmiddle' border='0' tabindex='".$this->_tabIndex++."' />
-        <label for='{$this->_name}_end' style='margin-left: 1em'> To</label>
+        <input type='image' src='" . MAX::assetPath() . "/images/icon-calendar.gif' id='{$this->_name}_start_button' align='absmiddle' border='0' tabindex='".$this->_tabIndex++."' />
+        <label for='{$this->_name}_end' style='margin-left: 1em'> {$this->oTrans->translate('To')}</label>
         <input class='date' name='{$this->_name}_end' id='{$this->_name}_end' type='text' value='$endDateStr' tabindex='".$this->_tabIndex++."' />
-        <input type='image' src='images/icon-calendar.gif' id='{$this->_name}_end_button' align='absmiddle' border='0' tabindex='".$this->_tabIndex++."' />
+        <input type='image' src='" . MAX::assetPath() . "/images/icon-calendar.gif' id='{$this->_name}_end_button' align='absmiddle' border='0' tabindex='".$this->_tabIndex++."' />
         <script type='text/javascript'>
         <!--
         Calendar.setup({
@@ -167,8 +171,8 @@ class OA_Admin_UI_Audit_DaySpanField extends Admin_UI_DaySpanField
 
             document.getElementById('{$this->_name}_start_button').readOnly = !specific;
             document.getElementById('{$this->_name}_end_button').readOnly = !specific;
-            document.getElementById('{$this->_name}_start_button').src = specific ? 'images/icon-calendar.gif' : 'images/icon-calendar-d.gif';
-            document.getElementById('{$this->_name}_end_button').src = specific ? 'images/icon-calendar.gif' : 'images/icon-calendar-d.gif';
+            document.getElementById('{$this->_name}_start_button').src = specific ? '" . MAX::assetPath() . "/images/icon-calendar.gif' : '" . MAX::assetPath() . "/images/icon-calendar-d.gif';
+            document.getElementById('{$this->_name}_end_button').src = specific ? '" . MAX::assetPath() . "/images/icon-calendar.gif' : '" . MAX::assetPath() . "/images/icon-calendar-d.gif';
             document.getElementById('{$this->_name}_start_button').style.cursor = specific ? 'auto' : 'default';
             document.getElementById('{$this->_name}_end_button').style.cursor = specific ? 'auto' : 'default';
 

@@ -5,7 +5,7 @@
  <name>openads</name>
  <create>true</create>
  <overwrite>false</overwrite>
- <version>580</version>
+ <version>581</version>
  <status>final</status>
 
  <table>
@@ -1451,6 +1451,22 @@
     <default>0</default>
    </field>
 
+   <field>
+    <name>ad_direct_status</name>
+    <type>openads_tinyint</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>ad_direct_rejection_reason_id</name>
+    <type>openads_tinyint</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
    <index>
     <name>banners_campaignid</name>
     <field>
@@ -1685,6 +1701,22 @@
 
    <field>
     <name>as_reject_reason</name>
+    <type>openads_int</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>hosted_views</name>
+    <type>openads_int</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>hosted_clicks</name>
     <type>openads_int</type>
     <length>11</length>
     <notnull>true</notnull>
@@ -5658,6 +5690,20 @@
     <notnull>false</notnull>
     <default></default>
    </field>
+   
+   <field>
+    <name>date_created</name>
+    <type>openads_datetime</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+   
+   <field>
+    <name>date_last_login</name>
+    <type>openads_datetime</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
 
    <index>
     <name>users_pkey</name>
@@ -5673,6 +5719,15 @@
     <unique>true</unique>
     <field>
      <name>username</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+   
+   <index>
+    <name>sso_user_id</name>
+    <unique>true</unique>
+    <field>
+     <name>sso_user_id</name>
      <sorting>ascending</sorting>
     </field>
    </index>
@@ -6082,6 +6137,30 @@
     <length>11</length>
     <notnull>false</notnull>
     <default></default>
+   </field>
+
+   <field>
+    <name>is_in_ad_direct</name>
+    <type>openads_tinyint</type>
+    <length>1</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>rate</name>
+    <type>openads_decimal</type>
+    <length>19,2</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>pricing</name>
+    <type>openads_varchar</type>
+    <length>50</length>
+    <notnull>true</notnull>
+    <default>CPM</default>
    </field>
 
    <index>

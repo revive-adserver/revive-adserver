@@ -30,6 +30,7 @@ define('SMARTY_DIR', MAX_PATH . '/lib/smarty/');
 require_once MAX_PATH . '/lib/smarty/Smarty.class.php';
 require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
+require_once MAX_PATH . '/lib/OA/Translation.php';
 
 /**
  * A UI templating class.
@@ -90,6 +91,7 @@ class OA_Admin_Template extends Smarty
         $this->assign('phpAds_TextDirection',  $GLOBALS['phpAds_TextDirection']);
         $this->assign('phpAds_TextAlignLeft',  $GLOBALS['phpAds_TextAlignLeft']);
         $this->assign('phpAds_TextAlignRight', $GLOBALS['phpAds_TextAlignRight']);
+        $this->assign('assetPath', MAX::assetPath());
     }
 
     /**
@@ -148,13 +150,22 @@ class OA_Admin_Template extends Smarty
 
     function _function_t($aParams, &$smarty)
     {
+        $oTrans = new OA_Translation();
+
         if (!empty($aParams['str'])) {
-            return $GLOBALS['str'.$aParams['str']];
+            return $oTrans->translate($aParams['str']);
+        } else 
+        if (!empty($aParams['key'])) {
+            return $oTrans->translate($aParams['key']);
+        }
+        // If nothing found in global scope, return the value unchanged
+        if (!empty($aParams['str'])) {
+            return $aParams['str'];
         }
         if (!empty($aParams['key'])) {
-            return $GLOBALS['key'.$aParams['key']];
+            return $aParams['key'];
         }
-        $smarty->trigger_error("t: missing 'str' or 'key' parameters");
+        $smarty->trigger_error("t: missing 'str' or 'key' parameters: ".$aParams['str']);
     }
 
     function _function_showStatusText($aParams, &$smarty)
@@ -203,6 +214,9 @@ class OA_Admin_Template extends Smarty
                 	    $text  = $strCampaignStatusRejected;
                 		break;
                 }
+                $oTrans = new OA_Translation();
+                $text = $oTrans->translate($text);
+
                 if ($status == OA_ENTITY_STATUS_APPROVAL) {
                     $text = "<a href='campaign-edit.php?clientid=".$aParams['clientid']."&campaignid=".$aParams['campaignid']."'>" .
                             $text . "</a>";
@@ -249,7 +263,7 @@ class OA_Admin_Template extends Smarty
         }
 
         if (!empty($type)) {
-            return 'images/icon-'.$type.$flavour.($active ? '' : '-d').'.gif';
+            return MAX::assetPath('images/icon-'.$type.$flavour.($active ? '' : '-d').'.gif');
         }
 
         $smarty->trigger_error("t: missing parameter(s)");
@@ -284,7 +298,7 @@ class OA_Admin_Template extends Smarty
                     $caret = $orderdirection == 'down' ? 'ds'  : 'u';
 
                     $buffer .= ' <a href="'.htmlspecialchars($url.'orderdirection='.$order).'">';
-                    $buffer .= '<img src="images/caret-'.$caret.'.gif" border="0" alt="" title="">';
+                    $buffer .= '<img src="' . MAX::assetPath() . '/images/caret-'.$caret.'.gif" border="0" alt="" title="">';
                     $buffer .= '</a>';
                 }
 

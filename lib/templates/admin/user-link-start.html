@@ -50,7 +50,8 @@ var returnEmail = {if $returnEmail}true{else}false{/if};
         }
       },
       selectFirst: false,
-      mustMatch: false
+      mustMatch: false,
+      scroll: false
     }).result(function() {
       updateHint();
       $("#link-user-button").focus();

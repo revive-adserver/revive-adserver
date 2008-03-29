@@ -87,7 +87,7 @@ if ($affiliateid != "") {
     OA_Admin_Menu::setPublisherPageContext($affiliateid, 'affiliate-edit.php');
     phpAds_PageShortcut($strAffiliateHistory, 'stats.php?entity=affiliate&breakdown=history&affiliateid='.$affiliateid, 'images/icon-statistics.gif');
     phpAds_PageHeader("4.2.2");
-    echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br /><br /><br />";
+    echo "<img src='" . MAX::assetPath() . "/images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br /><br /><br />";
     phpAds_ShowSections(array("4.2.2", "4.2.3","4.2.4","4.2.5","4.2.6","4.2.7"));
 
     // Do not get this information if the page
@@ -100,7 +100,7 @@ if ($affiliateid != "") {
     }
 } else {
     phpAds_PageHeader("4.2.1");
-    echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br /><br /><br />";
+    echo "<img src='" . MAX::assetPath() . "/images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br /><br /><br />";
     phpAds_ShowSections(array("4.2.1"));
 }
 

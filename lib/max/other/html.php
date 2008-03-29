@@ -71,7 +71,7 @@ function MAX_getEntityIcon($entity, $active=true, $type='')
             }
             break;
     }
-    return $icon;
+    return MAX::assetPath() . "/" . $icon;
 }
 
 function MAX_displayZoneHeader($pageName, $listorder, $orderdirection, $entityIds=null, $anonymous=false)
@@ -82,16 +82,16 @@ function MAX_displayZoneHeader($pageName, $listorder, $orderdirection, $entityId
     $column3 = _getHtmlHeaderColumn($GLOBALS['strDescription'], 'description', $pageName, $entityIds, $listorder, $orderdirection);
     echo "
     <tr height='1'>
-        <td><img src='images/spacer.gif' width='300' height='1' border='0' alt='' title=''></td>
-        <td><img src='images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
-        <td width='100%'><img src='images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
+        <td><img src='" . MAX::assetPath() . "/images/spacer.gif' width='300' height='1' border='0' alt='' title=''></td>
+        <td><img src='" . MAX::assetPath() . "/images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
+        <td width='100%'><img src='" . MAX::assetPath() . "/images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
     </tr>
     <tr height='25'>
         <td>$column1</td>
         <td>$column2</td>
         <td>$column3</td>
     </tr>
-    <tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+    <tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
 }
 
 function MAX_displayStatsHeader($pageName, $listorder, $orderdirection, $entityIds=null, $anonymous=false)
@@ -107,14 +107,14 @@ function MAX_displayStatsHeader($pageName, $listorder, $orderdirection, $entityI
     $column8 = _getHtmlHeaderColumn($GLOBALS['strCNVRShort'], 'cnvr', $pageName, $entityIds, $listorder, $orderdirection);
     echo "
     <tr height='1'>
-        <td><img src='images/spacer.gif' width='200' height='1' border='0' alt='' title=''></td>
-        <td><img src='images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
-        <td><img src='images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
-        <td><img src='images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
-        <td><img src='images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
-        <td><img src='images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
-        <td><img src='images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
-        <td><img src='images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
+        <td><img src='" . MAX::assetPath() . "/images/spacer.gif' width='200' height='1' border='0' alt='' title=''></td>
+        <td><img src='" . MAX::assetPath() . "/images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
+        <td><img src='" . MAX::assetPath() . "/images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
+        <td><img src='" . MAX::assetPath() . "/images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
+        <td><img src='" . MAX::assetPath() . "/images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
+        <td><img src='" . MAX::assetPath() . "/images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
+        <td><img src='" . MAX::assetPath() . "/images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
+        <td><img src='" . MAX::assetPath() . "/images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
     </tr>
     <tr height='25'>
         <td width='30%'>$column1</td>
@@ -126,7 +126,7 @@ function MAX_displayStatsHeader($pageName, $listorder, $orderdirection, $entityI
         <td align='$phpAds_TextAlignRight'>$column7</td>
         <td align='$phpAds_TextAlignRight'>$column8</td>
     </tr>
-    <tr height='1'><td colspan='8' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+    <tr height='1'><td colspan='8' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
 }
 
 function MAX_displayStatsHistoryHeader($pageName, $listorder, $orderdirection, $entityIds=null)
@@ -141,12 +141,12 @@ function MAX_displayStatsHistoryHeader($pageName, $listorder, $orderdirection, $
     echo "
         <table border='0' cellpadding='0' cellspacing='0' width='100%'>
         <tr height='1'>
-            <td><img src='images/spacer.gif' width='200' height='1' border='0' alt='' title=''></td>
-            <td><img src='images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
-            <td><img src='images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
-            <td><img src='images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
-            <td><img src='images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
-            <td><img src='images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
+            <td><img src='" . MAX::assetPath() . "/images/spacer.gif' width='200' height='1' border='0' alt='' title=''></td>
+            <td><img src='" . MAX::assetPath() . "/images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
+            <td><img src='" . MAX::assetPath() . "/images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
+            <td><img src='" . MAX::assetPath() . "/images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
+            <td><img src='" . MAX::assetPath() . "/images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
+            <td><img src='" . MAX::assetPath() . "/images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
         </tr>
         <tr height='25'>
             <td width='30%'>$column1</td>
@@ -156,14 +156,14 @@ function MAX_displayStatsHistoryHeader($pageName, $listorder, $orderdirection, $
             <td align='$phpAds_TextAlignRight'>$column5</td>
             <td align='$phpAds_TextAlignRight'>$column6</td>
         </tr>
-        <tr height='1'><td colspan='7' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+        <tr height='1'><td colspan='7' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>
     ";
 }
 
 function MAX_displayNoStatsMessage()
 {
     echo "
-    <br /><br /><div class='errormessage'><img class='errormessage' src='images/info.gif' width='16' height='16' border='0' align='absmiddle'>{$GLOBALS['strNoStats']}</div>";
+    <br /><br /><div class='errormessage'><img class='errormessage' src='" . MAX::assetPath() . "/images/info.gif' width='16' height='16' border='0' align='absmiddle'>{$GLOBALS['strNoStats']}</div>";
 }
 
 function _getHtmlHeaderColumn($title, $name, $pageName, $entityIds, $listorder, $orderdirection, $showColumn = true)
@@ -172,9 +172,9 @@ function _getHtmlHeaderColumn($title, $name, $pageName, $entityIds, $listorder, 
     $entity = _getEntityString($entityIds);
     if ($listorder == $name) {
         if (($orderdirection == '') || ($orderdirection == 'down')) {
-            $str = "<a href='$pageName?{$entity}orderdirection=up'><img src='images/caret-ds.gif' border='0' alt='' title=''></a>";
+            $str = "<a href='$pageName?{$entity}orderdirection=up'><img src='" . MAX::assetPath() . "/images/caret-ds.gif' border='0' alt='' title=''></a>";
         } else {
-            $str = "<a href='$pageName?{$entity}orderdirection=down'><img src='images/caret-u.gif' border='0' alt='' title=''></a>";
+            $str = "<a href='$pageName?{$entity}orderdirection=down'><img src='" . MAX::assetPath() . "/images/caret-u.gif' border='0' alt='' title=''></a>";
         }
     }
     return $showColumn ? "<b><a href='$pageName?{$entity}listorder=$name'>$title</a>$str</b>" : '';
@@ -237,7 +237,7 @@ function MAX_displayPeriodSelectionForm($period, $pageName, &$tabindex, $hiddenV
         <option value='m'".($period == 'monthly' ? ' selected' : '').">{$GLOBALS['strMonthlyHistory']}</option>
     </select>
     &nbsp;&nbsp;
-    <input type='image' src='images/$phpAds_TextDirection/go_blue.gif' border='0' name='submit'>
+    <input type='image' src='" . MAX::assetPath() . "/images/$phpAds_TextDirection/go_blue.gif' border='0' name='submit'>
     &nbsp;";
     _displayHiddenValues($hiddenValues);
     echo "
@@ -258,14 +258,14 @@ function MAX_displayHistoryStatsDaily($aHistoryStats, $aTotalHistoryStats, $page
         $cnvr = phpAds_buildRatioPercentage($stats['sum_conversions'], $stats['sum_clicks']);
         echo "
         <tr height='25' bgcolor='$bgColor'>
-            <td>&nbsp;<img src='images/icon-date.gif' align='absmiddle' alt=''>&nbsp;<a href='$pageName?{$entity}'>$day</a></td>
+            <td>&nbsp;<img src='" . MAX::assetPath() . "/images/icon-date.gif' align='absmiddle' alt=''>&nbsp;<a href='$pageName?{$entity}'>$day</a></td>
             <td align='right'>$views</td>
             <td align='right'>$clicks</td>
             <td align='right'>$ctr</td>
             <td align='right'>$conversions</td>
             <td align='right'>$cnvr</td>
         </tr>
-        <tr><td height='1' colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%' alt=''></td></tr>
+        <tr><td height='1' colspan='6' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%' alt=''></td></tr>
         ";
     }
     echo "
@@ -314,12 +314,12 @@ function MAX_displayPublisherZoneStats($aParams, $pageName, $anonymous, $aNodes,
                 <td>";
                 if (!empty($publisher['num_children'])) {
                     if ($publisherExpanded)
-                        echo "&nbsp;<a href='$pageName?{$entity}collapse=p$publisherId'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
+                        echo "&nbsp;<a href='$pageName?{$entity}collapse=p$publisherId'><img src='" . MAX::assetPath() . "/images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
                     else
-                        echo "&nbsp;<a href='$pageName?{$entity}expand=p$publisherId'><img src='images/$phpAds_TextDirection/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
+                        echo "&nbsp;<a href='$pageName?{$entity}expand=p$publisherId'><img src='" . MAX::assetPath() . "/images/$phpAds_TextDirection/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
                 }
                 else
-                    echo "&nbsp;<img src='images/spacer.gif' height='16' width='16'>&nbsp;";
+                    echo "&nbsp;<img src='" . MAX::assetPath() . "/images/spacer.gif' height='16' width='16'>&nbsp;";
 
                 echo "
                     <img src='$publisherIcon' align='absmiddle'>&nbsp;
@@ -344,8 +344,8 @@ function MAX_displayPublisherZoneStats($aParams, $pageName, $anonymous, $aNodes,
                 if (!empty($publisher['num_children']) && $publisherExpanded) {
                     echo "
             <tr height='1'>
-                <td$bgcolor><img src='images/spacer.gif' width='1' height='1'></td>
-                <td colspan='8' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>
+                <td$bgcolor><img src='" . MAX::assetPath() . "/images/spacer.gif' width='1' height='1'></td>
+                <td colspan='8' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td>
             </tr>";
 
 
@@ -365,7 +365,7 @@ function MAX_displayPublisherZoneStats($aParams, $pageName, $anonymous, $aNodes,
                         echo "
             <tr height='25'$bgcolor>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <img src='images/spacer.gif' height='16' width='16' align='absmiddle'>&nbsp;
+                    <img src='" . MAX::assetPath() . "/images/spacer.gif' height='16' width='16' align='absmiddle'>&nbsp;
                     <img src='$zoneIcon' align='absmiddle'>&nbsp;
                     <a href='stats.php?entity=zone&breakdown=history&affiliateid=$publisherId&zoneid=$zoneId'>{$zone['name']}</a>
                 </td>
@@ -380,7 +380,7 @@ function MAX_displayPublisherZoneStats($aParams, $pageName, $anonymous, $aNodes,
                     }
                 }
                 echo "
-                <tr height='1'><td colspan='8' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+                <tr height='1'><td colspan='8' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
             } else {
                 $publishersHidden++;
             }
@@ -403,7 +403,7 @@ function MAX_displayPublisherZoneStats($aParams, $pageName, $anonymous, $aNodes,
             <td align='$phpAds_TextAlignRight'>".phpAds_buildCTR($totalClicks, $totalConversions)."</td>
         </tr>
         <tr height='1'>
-            <td colspan='8' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>
+            <td colspan='8' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>
         </tr>";
         if (!$anonymous) {
             $publisherIcon = MAX_getEntityIcon('publisher');
@@ -412,14 +412,14 @@ function MAX_displayPublisherZoneStats($aParams, $pageName, $anonymous, $aNodes,
             <td colspan='4' align='$phpAds_TextAlignLeft' nowrap>";
 
             if ($hideinactive == true) {
-                echo "&nbsp;&nbsp;<img src='images/icon-activate.gif' align='absmiddle' border='0'>&nbsp;<a href='$pageName?{$entity}hideinactive=0'>{$GLOBALS['strShowAll']}</a>&nbsp;&nbsp;|&nbsp;&nbsp;$publishersHidden {$GLOBALS['strInactivePublishersHidden']}";
+                echo "&nbsp;&nbsp;<img src='" . MAX::assetPath() . "/images/icon-activate.gif' align='absmiddle' border='0'>&nbsp;<a href='$pageName?{$entity}hideinactive=0'>{$GLOBALS['strShowAll']}</a>&nbsp;&nbsp;|&nbsp;&nbsp;$publishersHidden {$GLOBALS['strInactivePublishersHidden']}";
             } else {
-                echo "&nbsp;&nbsp;<img src='images/icon-hideinactivate.gif' align='absmiddle' border='0'>&nbsp;<a href='$pageName?{$entity}hideinactive=1'>{$GLOBALS['strHideInactivePublishers']}</a>";
+                echo "&nbsp;&nbsp;<img src='" . MAX::assetPath() . "/images/icon-hideinactivate.gif' align='absmiddle' border='0'>&nbsp;<a href='$pageName?{$entity}hideinactive=1'>{$GLOBALS['strHideInactivePublishers']}</a>";
             }
 
             echo "
             </td>
-            <td colspan='4' align='$phpAds_TextAlignRight' nowrap><img src='images/triangle-d.gif' align='absmiddle' border='0'>&nbsp;<a href='$pageName?{$entity}expand=all' accesskey='$keyExpandAll'>{$GLOBALS['strExpandAll']}</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src='images/$phpAds_TextDirection/triangle-l.gif' align='absmiddle' border='0'>&nbsp;<a href='$pageName?{$entity}expand=none' accesskey='$keyCollapseAll'>{$GLOBALS['strCollapseAll']}</a>&nbsp;&nbsp;</td>
+            <td colspan='4' align='$phpAds_TextAlignRight' nowrap><img src='" . MAX::assetPath() . "/images/triangle-d.gif' align='absmiddle' border='0'>&nbsp;<a href='$pageName?{$entity}expand=all' accesskey='$keyExpandAll'>{$GLOBALS['strExpandAll']}</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src='" . MAX::assetPath() . "/images/$phpAds_TextDirection/triangle-l.gif' align='absmiddle' border='0'>&nbsp;<a href='$pageName?{$entity}expand=none' accesskey='$keyCollapseAll'>{$GLOBALS['strCollapseAll']}</a>&nbsp;&nbsp;</td>
         </tr>
         <tr height='25'>";
             if ($showPublisher == 't') {
@@ -478,7 +478,7 @@ function MAX_displayZoneStats($aParams, $pageName, $anonymous, $aNodes, $expand,
                 $bgcolor = ($i++ % 2 == 0) ? " bgcolor='#F6F6F6'" : '';
                 echo "
         <tr height='25'$bgcolor>
-            <td>&nbsp;<img src='images/spacer.gif' height='16' width='16'>&nbsp;
+            <td>&nbsp;<img src='" . MAX::assetPath() . "/images/spacer.gif' height='16' width='16'>&nbsp;
                 <img src='$zoneIcon' align='absmiddle'>&nbsp;";
                 if ($anonymous) {
                     echo "
@@ -504,7 +504,7 @@ function MAX_displayZoneStats($aParams, $pageName, $anonymous, $aNodes, $expand,
             <td align='$phpAds_TextAlignRight'>$zoneConversions</td>
             <td align='$phpAds_TextAlignRight'>$zoneSr</td>
         </tr>
-        <tr height='1'><td colspan='8' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+        <tr height='1'><td colspan='8' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
             } else {
                 $publishersHidden++;
             }
@@ -527,7 +527,7 @@ function MAX_displayZoneStats($aParams, $pageName, $anonymous, $aNodes, $expand,
             <td align='$phpAds_TextAlignRight'>".phpAds_buildCTR($totalClicks, $totalConversions)."</td>
         </tr>
         <tr height='1'>
-            <td colspan='8' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>
+            <td colspan='8' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>
         </tr>";
         if (!$anonymous) {
             echo "
@@ -535,22 +535,22 @@ function MAX_displayZoneStats($aParams, $pageName, $anonymous, $aNodes, $expand,
             <td colspan='4' align='$phpAds_TextAlignLeft' nowrap>";
 
             if ($hideinactive == true) {
-                echo "&nbsp;&nbsp;<img src='images/icon-activate.gif' align='absmiddle' border='0'>&nbsp;<a href='$pageName?{$entity}hideinactive=0'>{$GLOBALS['strShowAll']}</a>&nbsp;&nbsp;|&nbsp;&nbsp;$publishersHidden {$GLOBALS['strInactivePublishersHidden']}";
+                echo "&nbsp;&nbsp;<img src='" . MAX::assetPath() . "/images/icon-activate.gif' align='absmiddle' border='0'>&nbsp;<a href='$pageName?{$entity}hideinactive=0'>{$GLOBALS['strShowAll']}</a>&nbsp;&nbsp;|&nbsp;&nbsp;$publishersHidden {$GLOBALS['strInactivePublishersHidden']}";
             } else {
-                echo "&nbsp;&nbsp;<img src='images/icon-hideinactivate.gif' align='absmiddle' border='0'>&nbsp;<a href='$pageName?{$entity}hideinactive=1'>{$GLOBALS['strHideInactivePublishers']}</a>";
+                echo "&nbsp;&nbsp;<img src='" . MAX::assetPath() . "/images/icon-hideinactivate.gif' align='absmiddle' border='0'>&nbsp;<a href='$pageName?{$entity}hideinactive=1'>{$GLOBALS['strHideInactivePublishers']}</a>";
             }
 
             echo "
             </td>
-            <td colspan='4' align='$phpAds_TextAlignRight' nowrap><img src='images/triangle-d.gif' align='absmiddle' border='0'>&nbsp;<a href='$pageName?{$entity}expand=all'>{$GLOBALS['strExpandAll']}</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src='images/$phpAds_TextDirection/triangle-l.gif' align='absmiddle' border='0'>&nbsp;<a href='$pageName?{$entity}expand=none'>{$GLOBALS['strCollapseAll']}</a>&nbsp;&nbsp;</td>
+            <td colspan='4' align='$phpAds_TextAlignRight' nowrap><img src='" . MAX::assetPath() . "/images/triangle-d.gif' align='absmiddle' border='0'>&nbsp;<a href='$pageName?{$entity}expand=all'>{$GLOBALS['strExpandAll']}</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src='" . MAX::assetPath() . "/images/$phpAds_TextDirection/triangle-l.gif' align='absmiddle' border='0'>&nbsp;<a href='$pageName?{$entity}expand=none'>{$GLOBALS['strCollapseAll']}</a>&nbsp;&nbsp;</td>
         </tr>
         <tr height='25'>";
             if ($showPublisher == 't') {
                 echo "
-            <td colspan='7' align='$phpAds_TextAlignLeft' nowrap>&nbsp;&nbsp;<img src='images/icon-affiliate.gif' align='absmiddle'><a href='$pageName?{$entity}showpublisher=f'> Hide parent publisher</a></td>";
+            <td colspan='7' align='$phpAds_TextAlignLeft' nowrap>&nbsp;&nbsp;<img src='" . MAX::assetPath() . "/images/icon-affiliate.gif' align='absmiddle'><a href='$pageName?{$entity}showpublisher=f'> Hide parent publisher</a></td>";
             } else {
                 echo "
-            <td colspan='7' align='$phpAds_TextAlignLeft' nowrap>&nbsp;&nbsp;<img src='images/icon-affiliate.gif' align='absmiddle'><a href='$pageName?{$entity}showpublisher=t'> Show parent publisher</a></td>";
+            <td colspan='7' align='$phpAds_TextAlignLeft' nowrap>&nbsp;&nbsp;<img src='" . MAX::assetPath() . "/images/icon-affiliate.gif' align='absmiddle'><a href='$pageName?{$entity}showpublisher=t'> Show parent publisher</a></td>";
             }
             echo "
         </tr>";
@@ -640,11 +640,11 @@ function MAX_displayNavigationCampaign($pageName, $aOtherAdvertisers, $aOtherCam
     <input type='hidden' name='returnurl' value='$pageName'>
     <br /><br />
     <b>{$GLOBALS['strModifyCampaign']}</b><br />
-    <img src='images/break.gif' height='1' width='160' vspace='4'><br />
-    <img src='images/icon-move-campaign.gif' align='absmiddle'>&nbsp;<a href='campaign-modify.php?duplicate=1&$entityString&returnurl=$pageName'>{$GLOBALS['strDuplicate']}</a><br />
-    <img src='images/break.gif' height='1' width='160' vspace='4'><br />
-    <img src='images/icon-move-campaign.gif' align='absmiddle'>&nbsp;{$GLOBALS['strMoveTo']}<br />
-    <img src='images/spacer.gif' height='1' width='160' vspace='2'><br />
+    <img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />
+    <img src='" . MAX::assetPath() . "/images/icon-move-campaign.gif' align='absmiddle'>&nbsp;<a href='campaign-modify.php?duplicate=1&$entityString&returnurl=$pageName'>{$GLOBALS['strDuplicate']}</a><br />
+    <img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />
+    <img src='" . MAX::assetPath() . "/images/icon-move-campaign.gif' align='absmiddle'>&nbsp;{$GLOBALS['strMoveTo']}<br />
+    <img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='160' vspace='2'><br />
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <select name='newclientid' style='width: 110;'>";
         $aOtherAdvertisers = _multiSort($aOtherAdvertisers,'name','advertiser_id');
@@ -659,16 +659,16 @@ function MAX_displayNavigationCampaign($pageName, $aOtherAdvertisers, $aOtherCam
         $deleteConfirm = phpAds_DelConfirm($GLOBALS['strConfirmDeleteCampaign']);
         $extra .= "
             </select>
-            <input type='image' src='images/$phpAds_TextDirection/go_blue.gif'><br />
-            <img src='images/break.gif' height='1' width='160' vspace='4'><br />
-            <img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='campaign-delete.php?$entityString&returnurl=advertiser-campaigns.php'$deleteConfirm>{$GLOBALS['strDelete']}</a><br />
+            <input type='image' src='" . MAX::assetPath() . "/images/$phpAds_TextDirection/go_blue.gif'><br />
+            <img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />
+            <img src='" . MAX::assetPath() . "/images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='campaign-delete.php?$entityString&returnurl=advertiser-campaigns.php'$deleteConfirm>{$GLOBALS['strDelete']}</a><br />
             </form>";
     }
 
     phpAds_PageHeader($tabValue, $extra);
     echo "
-<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;$advertiserName&nbsp;<img src='images/$phpAds_TextDirection/caret-rs.gif'>&nbsp;
-<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>$campaignName</b><br /><br /><br />";
+<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;$advertiserName&nbsp;<img src='" . MAX::assetPath() . "/images/$phpAds_TextDirection/caret-rs.gif'>&nbsp;
+<img src='" . MAX::assetPath() . "/images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>$campaignName</b><br /><br /><br />";
     phpAds_ShowSections($tabSections);
 }
 
@@ -745,11 +745,11 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
 <input type='hidden' name='returnurl' value='$pageName'>
 <br /><br />
 <b>{$GLOBALS['strModifyBanner']}</b><br />
-<img src='images/break.gif' height='1' width='160' vspace='4'><br />
-<img src='images/icon-duplicate-banner.gif' align='absmiddle'>&nbsp;<a href='banner-modify.php?duplicate=true&$entityString&returnurl=$pageName'>{$GLOBALS['strDuplicate']}</a><br />
-<img src='images/break.gif' height='1' width='160' vspace='4'><br />
-<img src='images/icon-move-banner.gif' align='absmiddle'>&nbsp;{$GLOBALS['strMoveTo']}<br />
-<img src='images/spacer.gif' height='1' width='160' vspace='2'><br />
+<img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />
+<img src='" . MAX::assetPath() . "/images/icon-duplicate-banner.gif' align='absmiddle'>&nbsp;<a href='banner-modify.php?duplicate=true&$entityString&returnurl=$pageName'>{$GLOBALS['strDuplicate']}</a><br />
+<img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />
+<img src='" . MAX::assetPath() . "/images/icon-move-banner.gif' align='absmiddle'>&nbsp;{$GLOBALS['strMoveTo']}<br />
+<img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='160' vspace='2'><br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <select name='moveto' style='width: 120px;'>";
     $aOtherCampaigns = _multiSort($aOtherCampaigns,'name','placement_id');
@@ -770,12 +770,12 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
     $deleteConfirm = phpAds_DelConfirm($GLOBALS['strConfirmDeleteBanner']);
     $extra .= "
 </select>
-<input type='image' name='moveto' src='images/$phpAds_TextDirection/go_blue.gif'><br />
-<img src='images/break.gif' height='1' width='160' vspace='4'><br />
+<input type='image' name='moveto' src='" . MAX::assetPath() . "/images/$phpAds_TextDirection/go_blue.gif'><br />
+<img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />
         ";
     if ($pageName == 'banner-acl.php') {
-        $extra .= "<img src='images/icon-duplicate-acl.gif' align='absmiddle'>&nbsp;{$GLOBALS['strApplyLimitationsTo']}<br />";
-        $extra .= "<img src='images/spacer.gif' height='1' width='160' vspace='2'><br />";
+        $extra .= "<img src='" . MAX::assetPath() . "/images/icon-duplicate-acl.gif' align='absmiddle'>&nbsp;{$GLOBALS['strApplyLimitationsTo']}<br />";
+        $extra .= "<img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='160' vspace='2'><br />";
         $extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
         $extra .= "<select name='applyto' style='width: 110;'>";
 
@@ -785,11 +785,11 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
                 $extra .= "<option value='{$aOtherBanner['ad_id']}'>" . MAX_buildName($aOtherBanner['ad_id'], $aOtherBanner['name']) . "</option>";
             }
         }
-        $extra .= "</select>&nbsp;<input type='image' name='applyto' src='images/".$phpAds_TextDirection."/go_blue.gif'><br />";
-        $extra .= "<img src='images/break.gif' height='1' width='160' vspace='4'><br />";
+        $extra .= "</select>&nbsp;<input type='image' name='applyto' src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/go_blue.gif'><br />";
+        $extra .= "<img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />";
     }
     if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-        $extra .= "<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='banner-delete.php?$entityString&returnurl=campaign-banners.php'$deleteConfirm>{$GLOBALS['strDelete']}</a><br />";
+        $extra .= "<img src='" . MAX::assetPath() . "/images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='banner-delete.php?$entityString&returnurl=campaign-banners.php'$deleteConfirm>{$GLOBALS['strDelete']}</a><br />";
     }
     $extra .= "</form>";
     $advertiserName = phpAds_getClientName($advertiserId);
@@ -807,9 +807,9 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
     }
     phpAds_PageHeader($tabValue, $extra);
     echo "
-<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;$advertiserName&nbsp;<img src='images/$phpAds_TextDirection/caret-rs.gif'>&nbsp;
-<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;$campaignName&nbsp;<img src='images/$phpAds_TextDirection/caret-rs.gif'>&nbsp;
-<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>$bannerName</b><br /><br />
+<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;$advertiserName&nbsp;<img src='" . MAX::assetPath() . "/images/$phpAds_TextDirection/caret-rs.gif'>&nbsp;
+<img src='" . MAX::assetPath() . "/images/icon-campaign.gif' align='absmiddle'>&nbsp;$campaignName&nbsp;<img src='" . MAX::assetPath() . "/images/$phpAds_TextDirection/caret-rs.gif'>&nbsp;
+<img src='" . MAX::assetPath() . "/images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>$bannerName</b><br /><br />
 $bannerCode<br /><br /><br /><br />";
     phpAds_ShowSections($tabSections);
 }
@@ -886,18 +886,18 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
             ";
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_DELETE)) {
             $extra .= "<b>{$GLOBALS['strModifyZone']}</b><br />
-            <img src='images/break.gif' height='1' width='160' vspace='4'><br />";
+            <img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />";
         }
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_ADD)) {
                 $extra .= "
-                    <img src='images/icon-duplicate-zone.gif' align='absmiddle'>&nbsp;<a href='zone-modify.php?duplicate=true&$entityString&returnurl=$pageName'>{$GLOBALS['strDuplicate']}</a><br />
-                    <img src='images/break.gif' height='1' width='160' vspace='4'><br />
+                    <img src='" . MAX::assetPath() . "/images/icon-duplicate-zone.gif' align='absmiddle'>&nbsp;<a href='zone-modify.php?duplicate=true&$entityString&returnurl=$pageName'>{$GLOBALS['strDuplicate']}</a><br />
+                    <img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />
                 ";
         }
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $extra .= "
-            <img src='images/icon-move-zone.gif' align='absmiddle'>&nbsp;{$GLOBALS['strMoveTo']}<br />
-            <img src='images/spacer.gif' height='1' width='160' vspace='2'><br />
+            <img src='" . MAX::assetPath() . "/images/icon-move-zone.gif' align='absmiddle'>&nbsp;{$GLOBALS['strMoveTo']}<br />
+            <img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='160' vspace='2'><br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <select name='newaffiliateid' style='width: 110;'>";
                 $aOtherPublishers = _multiSort($aOtherPublishers,'name','publisher_id');
@@ -913,18 +913,18 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
             $deleteConfirm = phpAds_DelConfirm($GLOBALS['strConfirmDeleteZone']);
             $extra .= "
                 </select>
-                <input type='image' src='images/$phpAds_TextDirection/go_blue.gif'><br />
-                <img src='images/break.gif' height='1' width='160' vspace='4'><br />
-                <img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='zone-delete.php?$entityString&returnurl=affiliate-zones.php'$deleteConfirm>{$GLOBALS['strDelete']}</a><br />
+                <input type='image' src='" . MAX::assetPath() . "/images/$phpAds_TextDirection/go_blue.gif'><br />
+                <img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />
+                <img src='" . MAX::assetPath() . "/images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='zone-delete.php?$entityString&returnurl=affiliate-zones.php'$deleteConfirm>{$GLOBALS['strDelete']}</a><br />
             ";
         }
         $extra .= "</form>";
     }
     phpAds_PageHeader($tabValue, $extra);
     if (!OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-        echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;$publisherName&nbsp;<img src='images/$phpAds_TextDirection/caret-rs.gif'>&nbsp;";
+        echo "<img src='" . MAX::assetPath() . "/images/icon-affiliate.gif' align='absmiddle'>&nbsp;$publisherName&nbsp;<img src='" . MAX::assetPath() . "/images/$phpAds_TextDirection/caret-rs.gif'>&nbsp;";
     }
-    echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<b>$zoneName</b><br /><br /><br />";
+    echo "<img src='" . MAX::assetPath() . "/images/icon-zone.gif' align='absmiddle'>&nbsp;<b>$zoneName</b><br /><br /><br />";
     phpAds_ShowSections($tabSections);
 
 }
@@ -966,7 +966,7 @@ function MAX_displayNavigationPublisher($pageName, $aOtherPublishers, $aEntities
     phpAds_PageShortcut($GLOBALS['strAffiliateHistory'], 'stats.php?entity=affiliate&breakdown=history&affiliateid='.$publisherId, 'images/icon-statistics.gif');
 
     phpAds_PageHeader($tabValue, $extra = '');
-    echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>$publisherName</b><br /><br /><br />";
+    echo "<img src='" . MAX::assetPath() . "/images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>$publisherName</b><br /><br /><br />";
     phpAds_ShowSections($tabSections);
 }
 
@@ -1034,8 +1034,8 @@ function MAX_displayNavigationChannel($pageName, $aOtherChannels, $aEntities)
 <input type='hidden' name='returnurl' value='$pageName'>
 <br /><br />
 <b>{$GLOBALS['strChannel']}</b><br />
-<img src='images/break.gif' height='1' width='160' vspace='4'><br />
-<img src='images/icon-duplicate-channel.gif' align='absmiddle'>&nbsp;<a href='channel-modify.php?duplicate=true&{$entityString}returnurl=$pageName'>{$GLOBALS['strDuplicate']}</a><br />";
+<img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />
+<img src='" . MAX::assetPath() . "/images/icon-duplicate-channel.gif' align='absmiddle'>&nbsp;<a href='channel-modify.php?duplicate=true&{$entityString}returnurl=$pageName'>{$GLOBALS['strDuplicate']}</a><br />";
 
     if ($channelType == 'publisher') {
         $deleteReturlUrl = 'affiliate-channels.php';
@@ -1045,8 +1045,8 @@ function MAX_displayNavigationChannel($pageName, $aOtherChannels, $aEntities)
 
     $deleteConfirm = phpAds_DelConfirm($GLOBALS['strConfirmDeleteChannel']);
     $extra .= "
-<img src='images/break.gif' height='1' width='160' vspace='4'><br />
-<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='channel-delete.php?{$entityString}returnurl={$deleteReturlUrl}'{$deleteConfirm}>{$GLOBALS['strDelete']}</a><br />
+<img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />
+<img src='" . MAX::assetPath() . "/images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='channel-delete.php?{$entityString}returnurl={$deleteReturlUrl}'{$deleteConfirm}>{$GLOBALS['strDelete']}</a><br />
 </form>";
 
     if (!empty($publisherId)) {
@@ -1058,7 +1058,7 @@ function MAX_displayNavigationChannel($pageName, $aOtherChannels, $aEntities)
             $channelName = $GLOBALS['strUntitled'];
         }
         $publisherName = phpAds_getAffiliateName($publisherId);
-        echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;$publisherName&nbsp;<img src='images/$phpAds_TextDirection/caret-rs.gif'>&nbsp;";
+        echo "<img src='" . MAX::assetPath() . "/images/icon-affiliate.gif' align='absmiddle'>&nbsp;$publisherName&nbsp;<img src='" . MAX::assetPath() . "/images/$phpAds_TextDirection/caret-rs.gif'>&nbsp;";
     } else {
         if (!empty($channelId)) {
             phpAds_PageHeader($tabValue, $extra);
@@ -1068,7 +1068,7 @@ function MAX_displayNavigationChannel($pageName, $aOtherChannels, $aEntities)
         }
     }
 
-    echo "<img src='images/icon-channel.gif' align='absmiddle'>&nbsp;<b>$channelName</b><br /><br /><br />";
+    echo "<img src='" . MAX::assetPath() . "/images/icon-channel.gif' align='absmiddle'>&nbsp;<b>$channelName</b><br /><br /><br />";
     phpAds_ShowSections($tabSections);
 
 }
@@ -1102,7 +1102,7 @@ function _displayZoneEntitySelectionCell($entity, $entityId, $aOtherEntities, $e
     global $phpAds_TextDirection;
 
     $onChange = $autoSubmit ? " onChange='this.form.submit();'" : '';
-    $submitIcon = $autoSubmit ? '' : "&nbsp;<input type='hidden' name='action' value='set'><input type='image' src='images/$phpAds_TextDirection/go_blue.gif' border='0' tabindex='".($tabIndex++)."'>";
+    $submitIcon = $autoSubmit ? '' : "&nbsp;<input type='hidden' name='action' value='set'><input type='image' src='" . MAX::assetPath() . "/images/$phpAds_TextDirection/go_blue.gif' border='0' tabindex='".($tabIndex++)."'>";
     $tabInfo = " tabindex='" . ($tabIndex++) . "'";
     $entityIcon = MAX_getEntityIcon($entity);
     echo "
@@ -1174,7 +1174,7 @@ function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideIn
 <td>&nbsp;</td>
 </tr>
 <tr height='1'>
-<td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>
+<td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>
 </tr>";
     $i = 0;
     $inactive = 0;
@@ -1191,7 +1191,7 @@ function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideIn
                 if ($i > 0) {
                     echo "
 <tr height='1'>
-<td colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>
+<td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td>
 </tr>";
             }
             echo "
@@ -1214,16 +1214,16 @@ function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideIn
                     $adHeight = $aAd['contenttype'] == 'txt' ? 200 : $aAd['height'] + (!empty($aAd['bannertext']) ? 90 : 64);
                     echo "
 <tr height='1'>
-<td$bgcolor><img src='images/spacer.gif' width='1' height='1'></td>
-<td colspan='2' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td>
+<td$bgcolor><img src='" . MAX::assetPath() . "/images/spacer.gif' width='1' height='1'></td>
+<td colspan='2' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-el.gif' height='1' width='100%'></td>
 </tr>
 <tr height='25'$bgcolor>
 <td>
-    &nbsp;&nbsp;<a href='$pageName?affiliateid=$publisherId&zoneid=$zoneId&bannerid=$adId&action=remove'><img src='images/caret-l.gif' border='0' align='absmiddle'></a>
+    &nbsp;&nbsp;<a href='$pageName?affiliateid=$publisherId&zoneid=$zoneId&bannerid=$adId&action=remove'><img src='" . MAX::assetPath() . "/images/caret-l.gif' border='0' align='absmiddle'></a>
     &nbsp;&nbsp;&nbsp;&nbsp;<img src='$adIcon' align='absmiddle'>&nbsp;$adLink</td>
 <td>$adId</td>
 <td align='$phpAds_TextAlignRight'>
-    <img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;<a href='banner-htmlpreview.php?bannerid=$adId' target='_new' onClick=\"return openWindow('banner-htmlpreview.php?bannerid=$adId', '', 'status=no,scrollbars=no,resizable=no,width=$adWidth,height=$adHeight');\">{$GLOBALS['strShowBanner']}</a>&nbsp;&nbsp;
+    <img src='" . MAX::assetPath() . "/images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;<a href='banner-htmlpreview.php?bannerid=$adId' target='_new' onClick=\"return openWindow('banner-htmlpreview.php?bannerid=$adId', '', 'status=no,scrollbars=no,resizable=no,width=$adWidth,height=$adHeight');\">{$GLOBALS['strShowBanner']}</a>&nbsp;&nbsp;
 </td>
 </tr>";
                 } else {
@@ -1240,10 +1240,10 @@ function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideIn
     $hideInactiveText = $hideInactive ? $GLOBALS['strShowAll'] : $GLOBALS['strHideInactiveBanners'];
     $hideInactiveStats = $hideInactive ? "&nbsp;&nbsp;|&nbsp;&nbsp;$inactive {$GLOBALS['strInactiveBannersHidden']}" : '';
     $hideInactiveValue = $hideInactive ? '0' : '1';
-    $hideInactiveIcon = $hideInactive ? 'images/icon-activate.gif' : 'images/icon-hideinactivate.gif';
+    $hideInactiveIcon = MAX::assetPath($hideInactive ? 'images/icon-activate.gif' : 'images/icon-hideinactivate.gif');
     echo "
 <tr height='1'>
-<td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>
+<td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>
 </tr>
 <tr height='25'>
 <td colspan='2'>
@@ -1251,7 +1251,7 @@ function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideIn
     <a href='$pageName?affiliateid=$publisherId&zoneid=$zoneId&hideinactive=$hideInactiveValue'>$hideInactiveText</a>$hideInactiveStats
 </td>
 <td align='right'>
-    <img src='images/icon-campaign-d.gif' align='absmiddle' border='0'>
+    <img src='" . MAX::assetPath() . "/images/icon-campaign-d.gif' align='absmiddle' border='0'>
     <a href='$pageName?affiliateid=$publisherId&zoneid=$zoneId&showcampaigns=$showParentValue'>$showParentText</a>
 </table>";
 }
@@ -1267,7 +1267,7 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
         <td>&nbsp;</td>
     </tr>
     <tr height='1'>
-        <td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>
+        <td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>
     </tr>";
 
         $i = 0;
@@ -1308,13 +1308,13 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
                 if ($i > 0) {
                     echo "
     <tr height='1'>
-        <td colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>
+        <td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td>
     </tr>";
                 }
                 echo "
     <tr height='25'$bgcolor>
         <td>
-            &nbsp;&nbsp;<a href='$pageName?affiliateid=$publisherId&zoneid=$zoneId&campaignid=$placementId&action=remove'><img src='images/caret-l.gif' border='0' align='absmiddle'></a>
+            &nbsp;&nbsp;<a href='$pageName?affiliateid=$publisherId&zoneid=$zoneId&campaignid=$placementId&action=remove'><img src='" . MAX::assetPath() . "/images/caret-l.gif' border='0' align='absmiddle'></a>
             &nbsp;&nbsp;<img src='$placementIcon' align='absmiddle'>
             &nbsp;$placementLink
         </td>
@@ -1332,14 +1332,14 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
                             $adHeight = $aAd['contenttype'] == 'txt' ? 200 : $aAd['height'] + (!empty($aAd['bannertext']) ? 90 : 64);
                             echo "
     <tr height='1'>
-        <td$bgcolor><img src='images/spacer.gif' width='1' height='1'></td>
-        <td colspan='2' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td>
+        <td$bgcolor><img src='" . MAX::assetPath() . "/images/spacer.gif' width='1' height='1'></td>
+        <td colspan='2' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-el.gif' height='1' width='100%'></td>
     </tr>
     <tr height='25'$bgcolor>
         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='$adIcon' align='absmiddle'>&nbsp;$adLink</td>
         <td>$adId</td>
         <td align=".$GLOBALS['phpAds_TextAlignRight'].">
-            <img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;<a href='banner-htmlpreview.php?bannerid=$adId' target='_new' onClick=\"return openWindow('banner-htmlpreview.php?bannerid=$adId', '', 'status=no,scrollbars=no,resizable=no,width=$adWidth,height=$adHeight');\">{$GLOBALS['strShowBanner']}</a>&nbsp;&nbsp;
+            <img src='" . MAX::assetPath() . "/images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;<a href='banner-htmlpreview.php?bannerid=$adId' target='_new' onClick=\"return openWindow('banner-htmlpreview.php?bannerid=$adId', '', 'status=no,scrollbars=no,resizable=no,width=$adWidth,height=$adHeight');\">{$GLOBALS['strShowBanner']}</a>&nbsp;&nbsp;
         </td>
     </tr>";
                         } else {
@@ -1357,10 +1357,10 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
         $hideInactiveText = $hideInactive ? $GLOBALS['strShowAll'] : $GLOBALS['strHideInactiveCampaigns'];
         $hideInactiveStats = $hideInactive ? "&nbsp;&nbsp;|&nbsp;&nbsp;$inactive {$GLOBALS['strInactiveCampaignsHidden']}" : '';
         $hideInactiveValue = $hideInactive ? '0' : '1';
-        $hideInactiveIcon = $hideInactive ? 'images/icon-activate.gif' : 'images/icon-hideinactivate.gif';
+        $hideInactiveIcon = MAX::assetPath($hideInactive ? 'images/icon-activate.gif' : 'images/icon-hideinactivate.gif');
         echo "
     <tr height='1'>
-        <td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>
+        <td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>
     </tr>
     <tr height='25'>
         <td colspan='2'>
@@ -1368,7 +1368,7 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
             <a href='$pageName?affiliateid=$publisherId&zoneid=$zoneId&hideinactive=$hideInactiveValue'>$hideInactiveText</a>$hideInactiveStats
         </td>
         <td align='right'>
-            <img src='images/icon-banner-stored-d.gif' align='absmiddle' border='0'>
+            <img src='" . MAX::assetPath() . "/images/icon-banner-stored-d.gif' align='absmiddle' border='0'>
             <a href='$pageName?affiliateid=$publisherId&zoneid=$zoneId&showbanners=$showMatchingValue'>$showMatchingText</a>
     </table>";
         if (!empty($directLinkedAds)) {
@@ -1410,7 +1410,7 @@ function MAX_displayPlacementAdSelectionViewForm($publisherId, $zoneId, $view, $
         <!--option value='category'$categorySelected>{$GLOBALS['strLinkedCategories']}</option-->
         <option value='ad'$adSelected>{$GLOBALS['strLinkedBanners']}</option>
     </select>
-    &nbsp;<input type='image' src='images/$phpAds_TextDirection/go_blue.gif' border='0'>
+    &nbsp;<input type='image' src='" . MAX::assetPath() . "/images/$phpAds_TextDirection/go_blue.gif' border='0'>
     $disabledHidden
 </td>
 </tr>
@@ -1429,11 +1429,11 @@ function MAX_displayAcls($acls, $aParams) {
     if (!empty($GLOBALS['action'])) {
         // We are part way through making changes, show a message
         //echo "<br>";
-        echo "<div class='errormessage'><img class='errormessage' src='images/warning.gif' align='absmiddle'>";
+        echo "<div class='errormessage'><img class='errormessage' src='" . MAX::assetPath() . "/images/warning.gif' align='absmiddle'>";
         echo "<span class='tab-s'>You have unsaved changes on this page, make sure you press &quot;Save Changes&quot; when finished</span><br>";
         echo "</div>";
     } elseif (!MAX_AclValidate($page, $aParams)) {
-        echo "<div class='errormessage'><img class='errormessage' src='images/warning.gif' align='absmiddle'>";
+        echo "<div class='errormessage'><img class='errormessage' src='" . MAX::assetPath() . "/images/warning.gif' align='absmiddle'>";
         echo "<span class='tab-r'>WARNING: The delivery engine limitations <strong>DO NOT AGREE</strong> with the limitations shown below<br />Please hit save changes to update the delivery engine's rules</span><br>";
         echo "</div>";
     }
@@ -1444,14 +1444,14 @@ function MAX_displayAcls($acls, $aParams) {
     }
     echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
     echo "<tr><td height='25' colspan='4' bgcolor='#FFFFFF'><b>{$GLOBALS['strDeliveryLimitations']}</b></td></tr>";
-    echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+    echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
 
     if (empty($acls)) {
         echo "<tr><td height='24' colspan='4' bgcolor='#F6F6F6'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$GLOBALS['strNoLimitations']}</td></tr>";
-        echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+        echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
     } else {
         echo "<tr><td height='25' colspan='4' bgcolor='#F6F6F6'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$GLOBALS['strOnlyDisplayWhen']}</td></tr>";
-        echo "<tr><td colspan='4'><img src='images/break-el.gif' width='100%' height='1'></td></tr>";
+        echo "<tr><td colspan='4'><img src='" . MAX::assetPath() . "/images/break-el.gif' width='100%' height='1'></td></tr>";
 
         foreach ($acls as $aclId => $acl) {
             list($package, $name) = explode(':', $acl['type']);
@@ -1472,13 +1472,13 @@ function MAX_displayAcls($acls, $aParams) {
             $url .= "{$name}={$value}&";
         }
         $url .= "action[clear]=true";
-        echo "<img src='images/icon-recycle.gif' border='0' align='absmiddle'>&nbsp;
+        echo "<img src='" . MAX::assetPath() . "/images/icon-recycle.gif' border='0' align='absmiddle'>&nbsp;
                 <a href='{$url}'>{$GLOBALS['strRemoveAllLimitations']}</a>&nbsp;&nbsp;&nbsp;&nbsp;
         ";
     }
 
     echo "</td><td height='30' colspan='2' align='{$GLOBALS['phpAds_TextAlignRight']}'>";
-    echo "<img src='images/icon-acl-add.gif' align='absmiddle'>&nbsp;";
+    echo "<img src='" . MAX::assetPath() . "/images/icon-acl-add.gif' align='absmiddle'>&nbsp;";
     echo "<select name='type' accesskey='{$GLOBALS['keyAddNew']}' tabindex='".($tabindex++)."'>";
 
     $deliveryLimitations = MAX_Plugin::getPlugins('deliveryLimitations', null, false);
@@ -1490,7 +1490,7 @@ function MAX_displayAcls($acls, $aParams) {
 
     echo "</select>";
     echo "&nbsp;";
-    echo "<input type='image' name='action[new]' src='images/{$GLOBALS['phpAds_TextDirection']}/go_blue.gif' border='0' align='absmiddle' alt='{$GLOBALS['strSave']}'>";
+    echo "<input type='image' name='action[new]' src='" . MAX::assetPath() . "/images/{$GLOBALS['phpAds_TextDirection']}/go_blue.gif' border='0' align='absmiddle' alt='{$GLOBALS['strSave']}'>";
     echo "</td></tr>";
 
     echo "</table>";
@@ -1508,20 +1508,20 @@ function MAX_displayChannels($channels, $aParams) {
     echo "<td height='25'>&nbsp;</td>";
     echo "</tr>";
 
-    echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+    echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
 
     if (empty($channels)) {
         echo "<tr height='25' bgcolor='#F6F6F6'><td height='25' colspan='3'>";
         echo "&nbsp;&nbsp;{$GLOBALS['strNoChannels']}</td></tr>";
 
-        echo "<td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+        echo "<td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
     } else {
         $i = 0;
         foreach ($channels as $channelId => $channel) {
-            if ($i > 0) echo "<td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>";
+            if ($i > 0) echo "<td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>";
             echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
             echo "<td height='25'>&nbsp;&nbsp;";
-            echo "<img src='images/icon-channel.gif' align='absmiddle'>&nbsp;";
+            echo "<img src='" . MAX::assetPath() . "/images/icon-channel.gif' align='absmiddle'>&nbsp;";
 
             // set channel ownership info for display
             if ($GLOBALS['pageName'] != 'affiliate-channels.php') {
@@ -1554,8 +1554,8 @@ function MAX_displayChannels($channels, $aParams) {
             echo "</tr>";
 
             echo "<tr height='1'>";
-            echo "<td ".($i%2==0?"bgcolor='#F6F6F6'":"")."><img src='images/spacer.gif' width='1' height='1'></td>";
-            echo "<td colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>";
+            echo "<td ".($i%2==0?"bgcolor='#F6F6F6'":"")."><img src='" . MAX::assetPath() . "/images/spacer.gif' width='1' height='1'></td>";
+            echo "<td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td>";
             echo "</tr>";
             echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
 
@@ -1565,14 +1565,14 @@ function MAX_displayChannels($channels, $aParams) {
             // Buttons
             echo "<td height='25' colspan='3'>";
 
-            echo "<img src='images/icon-acl.gif' border='0' align='absmiddle' alt='{$GLOBALS['strIncludedBanners']}'>&nbsp;<a href='channel-acl.php?{$entityString}channelid={$channel['channel_id']}'>{$GLOBALS['strEditChannelLimitations']}</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-            echo "<img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{$GLOBALS['strDelete']}'>&nbsp;<a href='channel-delete.php?{$entityString}channelid={$channel['channel_id']}&returnurl=".(empty($aParams['affiliateid']) ? 'channel-index.php' : 'affiliate-channels.php')."'".phpAds_DelConfirm($GLOBALS['strConfirmDeleteChannel']).">{$GLOBALS['strDelete']}</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+            echo "<img src='" . MAX::assetPath() . "/images/icon-acl.gif' border='0' align='absmiddle' alt='{$GLOBALS['strIncludedBanners']}'>&nbsp;<a href='channel-acl.php?{$entityString}channelid={$channel['channel_id']}'>{$GLOBALS['strEditChannelLimitations']}</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+            echo "<img src='" . MAX::assetPath() . "/images/icon-recycle.gif' border='0' align='absmiddle' alt='{$GLOBALS['strDelete']}'>&nbsp;<a href='channel-delete.php?{$entityString}channelid={$channel['channel_id']}&returnurl=".(empty($aParams['affiliateid']) ? 'channel-index.php' : 'affiliate-channels.php')."'".phpAds_DelConfirm($GLOBALS['strConfirmDeleteChannel']).">{$GLOBALS['strDelete']}</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 
             echo "</td></tr>";
             $i++;
         }
         if (!empty($channels)) {
-            echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+            echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
         }
     }
     echo "</table>";

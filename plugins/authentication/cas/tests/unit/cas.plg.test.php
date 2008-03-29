@@ -106,15 +106,17 @@ class Test_Plugins_Authentication_Cas_Cas extends UnitTestCase
     function testGetUser()
     {
         $username = 'boo';
+        $ssoUserId = 123;
         $doUsers = OA_Dal::factoryDO('users');
         $doUsers->username = $username;
-        $id = DataGenerator::generateOne($doUsers);
+        $doUsers->sso_user_id = $ssoUserId;
+        DataGenerator::generateOne($doUsers);
 
-        $ret = $this->oPlugin->getUserById($id);
+        $ret = $this->oPlugin->getUserBySsoUserId($ssoUserId);
         $this->assertIsA($ret, 'DataObjects_Users');
-        $this->assertEqual($ret->user_id, $id);
+        $this->assertEqual($ret->sso_user_id, $ssoUserId);
 
-        $ret = $this->oPlugin->getUserById(123);
+        $ret = $this->oPlugin->getUserBySsoUserId(-1);
         $this->assertNull($ret);
     }
 

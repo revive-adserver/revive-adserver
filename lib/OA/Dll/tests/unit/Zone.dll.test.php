@@ -319,7 +319,77 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
         $this->_testStatistics('getZoneBannerStatistics');
     }
 
+    function testLinkUnlinkBanner()
+    {
+        $dllZonePartialMock = new PartialMockOA_Dll_Zone($this);
 
+        $dllZonePartialMock->setReturnValue('checkPermissions', true);
+        $dllZonePartialMock->expectCallCount('checkPermissions', 5);
+
+        // Non existent zone
+        $this->assertFalse($dllZonePartialMock->linkBanner(1, 1));
+
+        $doZones = OA_Dal::factoryDO('zones');
+        $doZones->width  = '468';
+        $doZones->height = '60';
+        $zoneId = DataGenerator::generateOne($doZones);
+
+        // Non existent banner
+        $this->assertFalse($dllZonePartialMock->linkBanner($zoneId, 1));
+
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->width  = '468';
+        $doBanners->height = '60';
+        $bannerId = DataGenerator::generateOne($doBanners);
+
+        // Matching banner
+        $this->assertTrue($dllZonePartialMock->linkBanner($zoneId, $bannerId));
+
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->width  = '234';
+        $doBanners->height = '60';
+        $bannerId2 = DataGenerator::generateOne($doBanners);
+
+        // Non matching banner
+        $this->assertFalse($dllZonePartialMock->linkBanner($zoneId, $bannerId2));
+
+        // Matching banner
+        $this->assertTrue($dllZonePartialMock->unlinkBanner($zoneId, $bannerId));
+
+        // Non matching banner
+        $this->assertFalse($dllZonePartialMock->unlinkBanner($zoneId, $bannerId2));
+    }
+
+    function testLinkUnlinkCampaign()
+    {
+        $dllZonePartialMock = new PartialMockOA_Dll_Zone($this);
+
+        $dllZonePartialMock->setReturnValue('checkPermissions', true);
+        $dllZonePartialMock->expectCallCount('checkPermissions', 3);
+
+        // Non existent zone
+        $this->assertFalse($dllZonePartialMock->linkCampaign(1, 1));
+
+        $doZones = OA_Dal::factoryDO('zones');
+        $doZones->width  = '468';
+        $doZones->height = '60';
+        $zoneId = DataGenerator::generateOne($doZones);
+
+        // Non existent banner
+        $this->assertFalse($dllZonePartialMock->linkCampaign($zoneId, 1));
+
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->width  = '468';
+        $doBanners->height = '60';
+        $bannerId = DataGenerator::generateOne($doBanners, true);
+
+        $doBanners  = OA_Dal::staticGetDO('banners', $bannerId);
+        $campaignId = $doBanners->campaignid;
+
+        $this->assertTrue($dllZonePartialMock->linkCampaign($zoneId, $campaignId));
+
+        $this->assertTrue($dllZonePartialMock->unlinkCampaign($zoneId, $campaignId));
+    }
 }
 
 ?>

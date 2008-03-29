@@ -80,6 +80,13 @@ class OA_Dal_Central_Rpc
      * @var OA_Central_M2M
      */
     var $oCentral;
+    
+    /**
+     * Allows to remove extra lines from the XML-RPC message
+     *
+     * @var boolean
+     */
+    var $remove_extra_lines = true;
 
     /**
      * Class constructor
@@ -126,6 +133,7 @@ class OA_Dal_Central_Rpc
         $aPref = $GLOBALS['_MAX']['PREF'];
 
         $oMsg = new XML_RPC_Message('oac.'.$methodName);
+        $oMsg->remove_extra_lines = $this->remove_extra_lines;
 
         $aHeader = array(
             'protocolVersion' => OA_DAL_CENTRAL_PROTOCOL_VERSION,
@@ -315,6 +323,15 @@ class OA_Dal_Central_Rpc
         OA_Dal_Central_M2M::setM2MPassword($this->oCentral->accountId, $result);
 
         return true;
+    }
+    
+    /**
+     * Sets a "remove_extra_lines" RPC Client option.
+     * @param boolean $option
+     */
+    function setRemoveExtraLines($option = true)
+    {
+        $this->remove_extra_lines = $option;
     }
 
 }

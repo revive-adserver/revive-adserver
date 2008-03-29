@@ -59,6 +59,17 @@ class OA_Central_Cas extends OA_Central_M2M
     }
 
     /**
+     * Returns email of sso account which matches the sso user id
+     *
+     * @param integer $ssoAccountId
+     * @return string
+     */
+    function getAccountEmail($ssoAccountId)
+    {
+        return $this->oMapper->getAccountEmail($ssoAccountId);
+    }
+
+    /**
      * Creates partial account for user and sends activation email.
      *
      * @param $userEmail email of new user
@@ -72,6 +83,19 @@ class OA_Central_Cas extends OA_Central_M2M
     function createPartialAccount($userEmail, $emailFrom, $emailSubject, $emailContent)
     {
         return $this->oMapper->createPartialAccount($userEmail, $emailFrom, $emailSubject, $emailContent);
+    }
+    
+    /**
+     * Completes the creation of partial account
+     * @param $accountId email of new user
+     * @param $login sender email address of activation email
+     * @param $md5Password subject of activation email
+     * @param $verificationHash content of activation email, should contain
+     * @return boolean|PEAR_Error  True on success else false
+     */
+    function completePartialAccount($accountId, $login, $md5Password, $verificationHash)
+    {
+        return $this->oMapper->completePartialAccount($accountId, $login, $md5Password, $verificationHash);
     }
 
     /**
@@ -107,6 +131,18 @@ class OA_Central_Cas extends OA_Central_M2M
     }
 
     /**
+     * Set a new password for user.
+     *
+     * @param integer $ssoUserId
+     * @param string $newPassword
+     * @return boolean
+     */
+    function setPassword($ssoUserId, $newPassword)
+    {
+        return $this->oMapper->setPassword($ssoUserId, $newPassword);
+    }
+
+    /**
      * Checks if password of sso user with $ssoUserId is valid.
      *
      * @param string $username
@@ -123,11 +159,31 @@ class OA_Central_Cas extends OA_Central_M2M
      *
      * @param string $verificationHash
      * @param string $email
-     * @return boolean
+     * @return integer
      */
     function confirmEmail($verificationHash, $email)
     {
-        return $this->oMapper->confirmEmail($verificationHash, $email);
+        $ret = $this->oMapper->confirmEmail($verificationHash, $email);
+        if (PEAR::isError($ret)) {
+            if ($ret->getCode() == OA_CENTRAL_ERROR_SSO_EMAIL_ALREADY_VERIFIED) {
+                return true;
+            }
+        }
+        return $ret;
+    }
+
+
+    /**
+     * Check if verification hash is correct for the email
+     * And returns sso account Id
+     *
+     * @param string $verificationHash
+     * @param string $email
+     * @return integer
+     */
+    function checkEmail($verificationHash, $email)
+    {
+        return $this->oMapper->checkEmail($verificationHash, $email);
     }
 
     /**
@@ -142,6 +198,43 @@ class OA_Central_Cas extends OA_Central_M2M
     function changeEmail($ssoUserId, $emailAddress, $md5password)
     {
         return $this->oMapper->changeEmail($ssoUserId, $emailAddress, $md5password);
+    }
+
+    /**
+     * Deletes a partial account from the sso database.
+     *
+     * @param integer $ssoAccountId
+     * @param string $verificationHash
+     * @return boolean
+     */
+    function rejectPartialAccount($ssoAccountId, $verificationHash)
+    {
+        return $this->oMapper->rejectPartialAccount($ssoAccountId, $verificationHash);
+    }
+
+    /**
+     * Returns the sso account Id of matching user name/password. If there is
+     * no matching user the Pear_error is returned instead with error code:
+     * OA_CENTRAL_ERROR_SSO_USER_NOT_EXISTS
+     *
+     * @param string $userName
+     * @param string $md5password
+     * @return boolean
+     */
+    function getAccountIdByUsernamePassword($userName, $md5password)
+    {
+        return $this->oMapper->getAccountIdByUsernamePassword($userName, $md5password);
+    }
+
+    /**
+     * Checks if userName is available.
+     *
+     * @param string $userName
+     * @return boolean  True if user name is available, else false
+     */
+    function isUserNameAvailable($userName)
+    {
+        return $this->oMapper->isUserNameAvailable($userName);
     }
 
 }

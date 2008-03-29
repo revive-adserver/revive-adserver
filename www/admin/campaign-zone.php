@@ -154,7 +154,7 @@ echo "
                 $checked = $allchecked ? ' checked' : '';
                 if ($i > 0) echo "
 <tr height='1'>
-    <td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>
+    <td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>
 </tr>";
 
                 echo "
@@ -164,7 +164,7 @@ echo "
             <tr>
                 <td>&nbsp;</td>
                 <td valign='top'><input name='affiliate[$publisherId]' type='checkbox' value='t'$checked onClick='toggleZones($publisherId);' tabindex='$tabindex'>&nbsp;&nbsp;</td>
-                <td valign='top'><img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;</td>
+                <td valign='top'><img src='" . MAX::assetPath() . "/images/icon-affiliate.gif' align='absmiddle'>&nbsp;</td>
                 <td><a href='affiliate-edit.php?affiliateid=$publisherId'>$publisherName</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
             </tr>
         </table>
@@ -190,7 +190,7 @@ echo "
                             continue;
                         }
                         if ($aZone['width'] == -1 && $aZone['height'] == -1) {
-                            $warning = "<acronym title='Warning: Zone is *x*'><img src='images/warning.gif' alt='Zone is *x*' /></acronym> ";
+                            $warning = "<acronym title='Warning: Zone is *x*'><img src='" . MAX::assetPath() . "/images/warning.gif' alt='Zone is *x*' /></acronym> ";
                         } else {
                             $warning = '';
                         }
@@ -216,14 +216,14 @@ echo "
             }
         }
         echo "
-<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
     }
     if (!$zoneToSelect) {
         echo "
 <tr height='25' bgcolor='#F6F6F6'>
     <td colspan='4'>&nbsp;&nbsp;{$GLOBALS['strNoZonesToLinkToCampaign']}</td>
 </tr>
-<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
     }
 
     echo "

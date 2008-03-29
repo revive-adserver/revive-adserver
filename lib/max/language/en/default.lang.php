@@ -193,7 +193,9 @@ $GLOBALS['strUserUnlinkedFromAccount']  = 'User was unlinked from account';
 $GLOBALS['strUserWasDeleted']           = 'User was deleted';
 $GLOBALS['strUserNotLinkedWithAccount'] = 'Such user is not linked with account';
 $GLOBALS['strCantDeleteOneAdminUser']   = 'You can\'t delete a user. At least one user needs to be linked with admin account.';
-$GLOBALS['strLinkUserHelp']             = 'To link an <b>existing user</b>, type username and click "' . $GLOBALS['strLinkUser'] . '".<br />To link a <b>new user</b>, type desired username and click "' . $GLOBALS['strLinkUser'] . '".';
+$GLOBALS['strLinkUserHelp']             = 'To link an <b>existing user</b>, type %s and click "' . $GLOBALS['strLinkUser'] . '".<br />To link a <b>new user</b>, type desired %s and click "' . $GLOBALS['strLinkUser'] . '".';
+$GLOBALS['strLinkUserHelpUser']         = 'username';
+$GLOBALS['strLinkUserHelpEmail']        = 'email address';
 
 // Login & Permissions
 $GLOBALS['strUserAccess']               = "User Access";
@@ -211,7 +213,6 @@ $GLOBALS['strLogout']                   = "Logout";
 $GLOBALS['strUsername']                 = "Username";
 $GLOBALS['strPassword']                 = "Password";
 $GLOBALS['strPasswordRepaet']           = "Repeat password";
-$GLOBALS['strMyAccount']                = "My Account";
 $GLOBALS['strAccessDenied']             = "Access denied";
 $GLOBALS['strUsernameOrPasswordWrong']  = "The username and/or password were not correct. Please try again.";
 $GLOBALS['strPasswordWrong']            = "The password is not correct";
@@ -322,6 +323,8 @@ $GLOBALS['strAllowClientActivateBanner']        = "Allow this user to activate h
 $GLOBALS['strAllowClientViewTargetingStats']    = "Allow this user to view targeting statistics";
 $GLOBALS['strAllowCreateAccounts']              = "Allow this user to create new accounts";
 $GLOBALS['strCsvImportConversions']             = "Allow this user to import offline conversions";
+
+$GLOBALS['strAllowAuditTrailAccess']             = "Allow this user to access the audit trail";
 
 // Campaign
 $GLOBALS['strCampaign']                     = "Campaign";
@@ -877,14 +880,14 @@ $GLOBALS['strAnonPublishers']            = "Anonymous websites";
 $GLOBALS['strAllAvailZones']             = "All available zones";
 
 // Userlog
-$GLOBALS['strUserLog']                = "User log";
+$GLOBALS['strUserLog']                = "User Log";
 $GLOBALS['strUserLogDetails']        = "User log details";
 $GLOBALS['strDeleteLog']            = "Delete log";
 $GLOBALS['strAction']                = "Action";
 $GLOBALS['strNoActionsLogged']        = "No actions are logged";
 
 // Code generation
-$GLOBALS['strGenerateBannercode']        = "Direct selection";
+$GLOBALS['strGenerateBannercode']        = "Direct Selection";
 $GLOBALS['strChooseInvocationType']        = "Please choose the type of banner invocation";
 $GLOBALS['strGenerate']                    = "Generate";
 $GLOBALS['strParameters']                = "Tag settings";
@@ -1033,8 +1036,8 @@ $GLOBALS['strAllowMoreReports']           = "Allow 'More Reports' button";
 // Channels
 $GLOBALS['strChannel']                    = "Channel";
 $GLOBALS['strChannels']                   = "Channels";
-$GLOBALS['strChannelOverview']              = "Channel overview";
-$GLOBALS['strChannelManagement']          = "Channel management";
+$GLOBALS['strChannelOverview']              = "Channel Overview";
+$GLOBALS['strChannelManagement']          = "Channel Management";
 $GLOBALS['strAddNewChannel']              = "Add new channel";
 $GLOBALS['strAddNewChannel_Key']          = "Add <u>n</u>ew channel";
 $GLOBALS['strNoChannels']                 = "There are currently no channels defined";
@@ -1122,6 +1125,7 @@ $GLOBALS['strAdditionalItems']        = 'and additional items';
 $GLOBALS['strFor']                    = 'for';
 $GLOBALS['strHas']                    = 'has';
 $GLOBALS['strAdZoneAsscociation']     = 'Ad Zone Association';
+$GLOBALS['strBinaryData']             = 'Binary data';
 
 // Widget - Audit
 $GLOBALS['strAuditNoData']            = "No user activity has been recorded during the timeframe you have selected.";

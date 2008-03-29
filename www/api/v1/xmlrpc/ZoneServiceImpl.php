@@ -320,6 +320,42 @@ class ZoneServiceImpl extends BaseServiceImpl
         }
     }
 
+    function linkBanner($sessionId, $zoneId, $bannerId)
+    {
+        if ($this->verifySession($sessionId)) {
+            return $this->_validateResult($this->_dllZone->linkBanner($zoneId, $bannerId));
+        } else {
+            return false;
+        }
+    }
+
+    function linkCampaign($sessionId, $zoneId, $campaignId)
+    {
+        if ($this->verifySession($sessionId)) {
+            return $this->_validateResult($this->_dllZone->linkCampaign($zoneId, $campaignId));
+        } else {
+            return false;
+        }
+    }
+
+    function unlinkBanner($sessionId, $zoneId, $bannerId)
+    {
+        if ($this->verifySession($sessionId)) {
+            return $this->_validateResult($this->_dllZone->unlinkBanner($zoneId, $bannerId));
+        } else {
+            return false;
+        }
+    }
+
+    function unlinkCampaign($sessionId, $zoneId, $campaignId)
+    {
+        if ($this->verifySession($sessionId)) {
+            return $this->_validateResult($this->_dllZone->unlinkCampaign($zoneId, $campaignId));
+        } else {
+            return false;
+        }
+    }
+
 }
 
 

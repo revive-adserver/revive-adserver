@@ -369,6 +369,70 @@ class ZoneXmlRpcService extends BaseZoneService
         }
     }
 
+    function linkBanner($oParams)
+    {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(
+                array(&$sessionId, &$zoneId, &$bannerId),
+                array(true, true, true), $oParams, $oResponseWithError)) {
+           return $oResponseWithError;
+        }
+
+        if ($this->_oZoneServiceImp->linkBanner($sessionId, $zoneId, $bannerId)) {
+            return XmlRpcUtils::booleanTypeResponse(true);
+        } else {
+            return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
+        }
+    }
+
+    function linkCampaign($oParams)
+    {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(
+                array(&$sessionId, &$zoneId, &$campaignId),
+                array(true, true, true), $oParams, $oResponseWithError)) {
+           return $oResponseWithError;
+        }
+
+        if ($this->_oZoneServiceImp->linkCampaign($sessionId, $zoneId, $campaignId)) {
+            return XmlRpcUtils::booleanTypeResponse(true);
+        } else {
+            return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
+        }
+    }
+
+    function unlinkBanner($oParams)
+    {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(
+                array(&$sessionId, &$zoneId, &$bannerId),
+                array(true, true, true), $oParams, $oResponseWithError)) {
+           return $oResponseWithError;
+        }
+
+        if ($this->_oZoneServiceImp->unlinkBanner($sessionId, $zoneId, $bannerId)) {
+            return XmlRpcUtils::booleanTypeResponse(true);
+        } else {
+            return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
+        }
+    }
+
+    function unlinkCampaign($oParams)
+    {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(
+                array(&$sessionId, &$zoneId, &$campaignId),
+                array(true, true, true), $oParams, $oResponseWithError)) {
+           return $oResponseWithError;
+        }
+
+        if ($this->_oZoneServiceImp->unlinkCampaign($sessionId, $zoneId, $campaignId)) {
+            return XmlRpcUtils::booleanTypeResponse(true);
+        } else {
+            return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
+        }
+    }
+
 }
 
 /**
@@ -457,6 +521,38 @@ $server = new XML_RPC_Server(
                 array('array', 'string', 'int')
             ),
             'docstring' => 'Get Zone List By Publisher Id'
+        ),
+
+        'linkBanner' => array(
+            'function'  => array($oZoneXmlRpcService, 'linkBanner'),
+            'signature' => array(
+                array('int', 'string', 'int', 'int')
+            ),
+            'docstring' => 'Link a banner to a zone'
+        ),
+
+        'linkCampaign' => array(
+            'function'  => array($oZoneXmlRpcService, 'linkCampaign'),
+            'signature' => array(
+                array('int', 'string', 'int', 'int')
+            ),
+            'docstring' => 'Link a campaign to a zone'
+        ),
+
+        'unlinkBanner' => array(
+            'function'  => array($oZoneXmlRpcService, 'unlinkBanner'),
+            'signature' => array(
+                array('int', 'string', 'int', 'int')
+            ),
+            'docstring' => 'Unlink a banner to from zone'
+        ),
+
+        'unlinkCampaign' => array(
+            'function'  => array($oZoneXmlRpcService, 'unlinkCampaign'),
+            'signature' => array(
+                array('int', 'string', 'int', 'int')
+            ),
+            'docstring' => 'Unlink a campaign from a zone'
         ),
 
     ),

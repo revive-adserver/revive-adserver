@@ -194,7 +194,7 @@ function _echoDeliveryCappingHtml($tabindex, $aText, $aCappedObject, $type = nul
       </td>";
         }
     } else {
-        echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>"."\n";
+        echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>"."\n";
         echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
     }
 
@@ -220,13 +220,13 @@ function _echoDeliveryCappingHtml($tabindex, $aText, $aCappedObject, $type = nul
     echo "
     </tr>
 
-    <tr><td><img src='images/spacer.gif' height='1' width='100%'></td>
-    <td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>";
+    <tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>
+    <td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td>";
 
     if ($showExtra) {
         echo "
-    <td><img src='images/spacer.gif' height='1' width='100%'></td>
-    <td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>";
+    <td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>
+    <td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td>";
     }
 
     echo "
@@ -256,12 +256,12 @@ function _echoDeliveryCappingHtml($tabindex, $aText, $aCappedObject, $type = nul
     }
    echo "
     </tr>
-    <tr><td><img src='images/spacer.gif' height='1' width='100%'></td>
-    <td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>";
+    <tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>
+    <td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td>";
    if ($showExtra) {
     echo "
-        <td><img src='images/spacer.gif' height='1' width='100%'></td>
-        <td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>";
+        <td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>
+        <td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td>";
     }
     echo "
     </tr>
@@ -288,13 +288,13 @@ function _echoDeliveryCappingHtml($tabindex, $aText, $aCappedObject, $type = nul
     echo "
     </tr>
 
-    <tr><td><img src='images/spacer.gif' height='1' width='100%'></td>
-    <td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>";
+    <tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>
+    <td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td>";
 
     if ($showExtra) {
         echo "
-    <td><img src='images/spacer.gif' height='1' width='100%'></td>
-    <td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>";
+    <td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>
+    <td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td>";
     }
     echo "<tr><td height='10' colspan='6'>&nbsp;</td></tr>";
 

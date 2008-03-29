@@ -32,23 +32,8 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 <meta name="generator" content="{$metaGenerator}" />
 <meta name="robots" content="noindex, nofollow" />
 
-<link rel="stylesheet" type="text/css" href="assets/combine.php?type=css&files={$genericStylesheets}" />
-
-<script type="text/javascript">
-<!--
-	var validatorPreferences = {literal}{{/literal}
-		'strFieldContainsErrors': "{$strFieldContainsErrors|escape:'javascript'}",
-		'strFieldFixBeforeContinue1': "{$strFieldFixBeforeContinue1|escape:'javascript'}",
-		'strFieldFixBeforeContinue2': "{$strFieldFixBeforeContinue2|escape:'javascript'}",
-		'strWarningMissing': "{$strWarningMissing|escape:'javascript'}",
-		'strWarningMissingOpening': "{$strWarningMissingOpening|escape:'javascript'}",
-		'strWarningMissingClosing': "{$strWarningMissingClosing|escape:'javascript'}",
-		'strSubmitAnyway': "{$strSubmitAnyway|escape:'javascript'}",
-		'thousandsSeperator': "{$thousandsSeperator}"
-	};
-//-->
-</script>
-<script type="text/javascript" src="assets/combine.php?type=js&files={$genericJavascript}"></script>
+{include file=layout/styles.html}
+{include file=layout/scripts.html}
 
 {$jsMPE}
 {$jsFlash}
@@ -86,7 +71,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 {/if}
 
 {if $buttonReportBugs}
-        <li class="buttonReportBugs"><a href="http://www.openx.org/support/reporting-bugs" target="_blank">Report bug</a></li>
+        <li class="buttonReportBugs"><a href="http://www.openx.org/support/reporting-bugs" target="_blank">{t str='Report bug'}</a></li>
 {/if}
 
 {if $buttonLogout}
@@ -166,7 +151,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
             <tr>
 {if !$noBorder}
-                <td colspan='2' height='10'><img src='{$imgPath}images/spacer.gif' height='1'></td>
+                <td colspan='2' height='10'><img src='{$assetPath}/images/images/spacer.gif' height='1'></td>
             </tr>
             <tr>
                 <td width="20">&nbsp;</td>

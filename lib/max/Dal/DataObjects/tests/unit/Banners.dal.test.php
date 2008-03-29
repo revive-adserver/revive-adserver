@@ -26,6 +26,7 @@ $Id$
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
+require_once MAX_PATH . '/lib/max/Dal/DataObjects/Banners.php';
 
 /**
  * A class for testing non standard DataObjects_Banners methods

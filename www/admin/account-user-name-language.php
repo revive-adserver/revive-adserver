@@ -93,16 +93,19 @@ phpAds_PageHeader("5.1");
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     // Show all "My Account" sections
     phpAds_ShowSections(array("5.1", "5.2", "5.3", "5.5", "5.6", "5.4"));
-} else if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+} 
+else if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     // Show the "Preferences", "User Log" and "Channel Management" sections of the "My Account" sections
     phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.7"));
-} else if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+} 
+else if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER, OA_ACCOUNT_ADVERTISER)) {
     // Show the "User Preferences" section of the "My Account" sections
-    phpAds_ShowSections(array("5.1", "5.2"));
-} else if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-    // Show the "User Preferences" section of the "My Account" sections
-    phpAds_ShowSections(array("5.1", "5.2"));
-}
+    $sections = array("5.1", "5.2");
+    if (OA_Permission::hasPermission(OA_PERM_USER_LOG_ACCESS)) {
+        $sections[] = "5.4";
+    }
+    phpAds_ShowSections($sections);
+} 
 
 // Set the correct section of the preference pages and display the drop-down menu
 $oOptions->selection("name-language");

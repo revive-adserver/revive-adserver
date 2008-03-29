@@ -238,6 +238,24 @@ class UserXmlRpcService extends BaseUserService
         }
     }
 
+    function updateUserEmailBySsoId(&$oParams) {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$ssoUserId, &$email),
+            array(true, true, true), $oParams, $oResponseWithError )) {
+
+            return $oResponseWithError;
+        }
+
+        if ($this->_oUserServiceImp->updateUserEmailBySsoId($sessionId, $ssoUserId, $email)) {
+
+            return XmlRpcUtils::booleanTypeResponse(true);
+
+        } else {
+
+            return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
+        }
+    }
+
 }
 
 /**
@@ -294,6 +312,14 @@ $server = new XML_RPC_Server(
                 array('array', 'string', 'int', 'int')
             ),
             'docstring' => 'Change the SSO User ID field'
+        ),
+
+        'updateUserEmailBySsoId' => array(
+            'function'  => array($oUserXmlRpcService, 'updateUserEmailBySsoId'),
+            'signature' => array(
+                array('array', 'string', 'int', 'string')
+            ),
+            'docstring' => 'Change users email for the user who match the SSO User ID'
         ),
     ),
 

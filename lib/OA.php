@@ -326,6 +326,24 @@ class OA
             PEAR::popErrorHandling();
         }
     }
+    
+    /**
+     * Returns the option from config or the default value if that option
+     * do not exist.
+     *
+     * @param string $section  Section name
+     * @param string $name     Option name
+     * @param string $default  Default value to return if the option we
+     *                         are looking for do not exist.
+     * @return string
+     */
+    function getConfigOption($section, $name, $default = null)
+    {
+        if (isset($GLOBALS['_MAX']['CONF'][$section][$name])) {
+            return $GLOBALS['_MAX']['CONF'][$section][$name];
+        }
+        return $default;
+    }
 }
 
 ?>

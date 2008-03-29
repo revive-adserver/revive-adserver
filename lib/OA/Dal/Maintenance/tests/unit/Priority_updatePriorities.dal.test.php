@@ -369,11 +369,13 @@ class Test_OA_Dal_Maintenance_Priority_updatePriorities extends UnitTestCase
     function _generateTestData()
     {
         $oNow = new Date();
+        
+        $clientId = DataGenerator::generateOne('clients', true);
 
         // Populate campaigns table
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->campaignname = 'Test Campaign';
-        $doCampaigns->clientid = 1;
+        $doCampaigns->clientid = $clientId;
         $doCampaigns->views = 500;
         $doCampaigns->clicks = 0;
         $doCampaigns->conversions = 401;

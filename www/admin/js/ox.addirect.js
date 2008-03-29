@@ -1,48 +1,3 @@
-/**
- * Utility methods. To be refactored to a separate JS file once we
- * have JS merging/minification done.
- */
-
-// Turns an input into an autosubmit one
-jQuery.fn.submitOnChange = function() {
-  return this.each(function ()
-  {
-    $(this).bind("change", function()
-    {
-      if (this.form) {
-        this.form.submit();
-      }
-    });
-  });
-};
-
-// All inputs marked with "submit-on-change" class will be
-// automatically turned into autosubmit inputs
-$(document).ready(function() {
-  $(".submit-on-change").submitOnChange();
-});
-
-// Additional jQuery effect
-jQuery.fn.slideFadeOut = function(speed, callback)
-{
-  return this.animate({height: 'hide', opacity: 'hide', marginTop: 'hide', marginBottom: 'hide'}, speed, callback);
-}
-
-// Additional jQuery effect
-jQuery.fn.slideFadeIn = function(speed, callback)
-{
-  return this.animate({height: 'show', opacity: 'show', marginTop: 'show', marginBottom: 'show'}, speed, callback);
-}
-
-// Automatically installs validation on forms with the "validate" class
-$(document).ready(function () {
-  // The validation plugin does not apply the validate() function to
-  // all jQuery elements (kind of weird...), so we must use an explicit each()
-  $("form.validate").each(function() {
-    $(this).validate();
-  });
-});
-
 // Reimplement using jQuery validation plugin!
 function validatePublisher(form, suffix, fieldSuffix, errorSuffix, customAction)
 {
@@ -462,46 +417,6 @@ function initCampaignStatus()
         }
     });
 }
-
-
-/** 
- * A function for making dialog-confirmed links. Note that
- * configuration-dialog.html must be included which contains
- * the actual confirmation dialog code.
- */
-jQuery.fn.confirmedLink = function(triggerLinkClass, closeIdPrefix)
-{
-  return this.each(function() {
-    $("#" + closeIdPrefix + "confirmation-dialog").jqm({
-        modal: true,
-        overlay: 40,
-        trigger: "." + triggerLinkClass,
-        onShow: function(hash) {
-          $("#" + closeIdPrefix + "cd-submit").one("click", function() {
-            location.href = hash.t.href;
-          });
-          hash.w.fadeIn("fast");
-        }
-    }).jqmAddClose("#" + closeIdPrefix + "cd-cancel");
-  });
-}
-
-/*
-function initUnlinkUserDialog()
-{
-  $("#confirmation-dialog").jqm({
-      modal: true,
-      overlay: 40,
-      trigger: ".unlink-last",
-      onShow: function(hash) {
-        $("#cd-submit").one("click", function() {
-          location.href = hash.t.href;
-        });
-        hash.w.fadeIn("fast");
-      }
-  }).jqmAddClose("#cd-cancel");
-}
-*/
 
 function copyValidationConstraints(fromObj, toObj)
 {

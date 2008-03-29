@@ -212,6 +212,27 @@ class OA_Admin_UI_UserAccess
         }
     }
 
+    /**
+     * Sets a allowedPermissions array. It could be either array:
+     * array(
+     *   permissionId => "permission name",
+     *   ..
+     * )
+     * 
+     * or array of arrays, defined as:
+     * array(
+     *   permissionId => array("permission name", ident, onclick)
+     *   ..
+     * )
+     * where ident and onlick are used to make idents in permissions.
+     * To do a margin before the permissions "ident"
+     * should be equal true. onlick is a javascript function
+     * name which should be executed when a permission checkbox
+     * is clicked. It is used to enable/disable some checkboxes.
+     * Example: see the affiliate-user.php file.
+     *
+     * @param unknown_type $aAllowedPermissions
+     */
     function setAllowedPermissions($aAllowedPermissions)
     {
         $this->aAllowedPermissions = $aAllowedPermissions;
@@ -248,11 +269,19 @@ class OA_Admin_UI_UserAccess
     function assignUserStartTemplateVariables(&$oTpl)
     {
         $oTpl->assign('method', 'GET');
-        $oTpl->assign('strLinkUserHelp', $GLOBALS['strLinkUserHelp']);
-
         // Add variables required by the current authentication plugin
         $oPlugin = OA_Auth::staticGetAuthPlugin();
         $oPlugin->setTemplateVariables($oTpl);
+        $helpString = OA_Admin_UI_UserAccess::getHelpString(
+            $oTpl->get_template_vars('sso'));
+        $oTpl->assign('strLinkUserHelp', $helpString);
+    }
+    
+    function getHelpString($isSso)
+    {
+        $name = ($isSso) ? $GLOBALS['strLinkUserHelpEmail']
+            : $GLOBALS['strLinkUserHelpUser'];
+        return str_replace('%s', $name, $GLOBALS['strLinkUserHelp']);
     }
 
     /**

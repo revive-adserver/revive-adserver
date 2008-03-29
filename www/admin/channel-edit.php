@@ -119,18 +119,18 @@ echo "<input type='hidden' name='channelid' value='" . ((empty($channelid)) ? '0
 
 echo "<br /><table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 echo "<tr><td height='25' colspan='3'><b>{$GLOBALS['strBasicInformation']}</b></td></tr>";
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>{$GLOBALS['strName']}</td><td>";
 echo "<input class='flat' type='text' name='name' size='35' style='width:350px;' value='".phpAds_htmlQuotes($channel['name'])."' tabindex='".($tabIndex++)."'></td>";
-echo "</tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+echo "</tr><tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>{$GLOBALS['strDescription']}</td><td>";
 echo "<input class='flat' size='35' type='text' name='description' style='width:350px;' value='".phpAds_htmlQuotes($channel["description"])."' tabindex='".($tabIndex++)."'></td>";
-echo "</tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+echo "</tr><tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 echo "<tr><td width='30'>&nbsp;</td>";
@@ -141,7 +141,7 @@ echo "' tabindex='".($tabIndex++)."'>".htmlspecialchars($channel['comments'])."<
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
 echo "</table>";
 
 echo "<br /><br />";

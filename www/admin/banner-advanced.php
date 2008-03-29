@@ -157,9 +157,9 @@ if ($banner['type'] != 'txt' || count($invPlugins)){
 if ($banner['type'] != 'txt') {
     echo "<br /><table border='0' width='100%' cellpadding='0' cellspacing='0'>";
     echo "<tr><td height='25' colspan='3'><b>".$strAppendSettings."</b></td></tr>";
-    echo "<tr height='1'><td width='30'><img src='images/break.gif' height='1' width='30'></td>";
-    echo "<td width='200'><img src='images/break.gif' height='1' width='200'></td>";
-    echo "<td width='100%'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+    echo "<tr height='1'><td width='30'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='30'></td>";
+    echo "<td width='200'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='200'></td>";
+    echo "<td width='100%'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
     echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
     // Get available zones
@@ -208,7 +208,7 @@ if ($banner['type'] != 'txt') {
 
     // Line
     echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-    echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
+    echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td></tr>";
     echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
     if ($banner['appendtype'] == phpAds_ZoneAppendZone) {
@@ -245,12 +245,12 @@ if ($banner['type'] != 'txt') {
         echo (count($available[phpAds_ZonePopup]) ? ' onClick="phpAds_formSelectAppendDelivery(0)"' : ' DISABLED');
         echo ($appenddelivery == phpAds_ZonePopup ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;</td><td>";
         echo $GLOBALS['strPopup'].":</td></tr>";
-        echo "<tr><td>&nbsp;</td><td width='100%'><img src='images/spacer.gif' height='1' width='100%' align='absmiddle' vspace='1'>";
+        echo "<tr><td>&nbsp;</td><td width='100%'><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%' align='absmiddle' vspace='1'>";
 
         if (count($available[phpAds_ZonePopup])) {
-            echo "<img src='images/icon-popup.gif' align='top'>";
+            echo "<img src='" . MAX::assetPath() . "/images/icon-popup.gif' align='top'>";
         } else {
-            echo "<img src='images/icon-popup-d.gif' align='top'>";
+            echo "<img src='" . MAX::assetPath() . "/images/icon-popup-d.gif' align='top'>";
         }
 
         echo "&nbsp;&nbsp;<select name='appendpopup' style='width: 200;' ";
@@ -271,12 +271,12 @@ if ($banner['type'] != 'txt') {
         echo (count($available[phpAds_ZoneInterstitial]) ? ' onClick="phpAds_formSelectAppendDelivery(1)"' : ' DISABLED');
         echo ($appenddelivery == phpAds_ZoneInterstitial ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;</td><td>";
         echo $GLOBALS['strInterstitial'].":</td></tr>";
-        echo "<tr><td>&nbsp;</td><td width='100%'><img src='images/spacer.gif' height='1' width='100%' align='absmiddle' vspace='1'>";
+        echo "<tr><td>&nbsp;</td><td width='100%'><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%' align='absmiddle' vspace='1'>";
 
         if (count($available[phpAds_ZoneInterstitial])) {
-            echo "<img src='images/icon-interstitial.gif' align='top'>";
+            echo "<img src='" . MAX::assetPath() . "/images/icon-interstitial.gif' align='top'>";
         } else {
-            echo "<img src='images/icon-interstitial-d.gif' align='top'>";
+            echo "<img src='" . MAX::assetPath() . "/images/icon-interstitial-d.gif' align='top'>";
         }
         echo "&nbsp;&nbsp;<select name='appendinterstitial' style='width: 200;' ";
         echo "onchange='phpAds_formSelectAppendZone(1)'";
@@ -293,7 +293,7 @@ if ($banner['type'] != 'txt') {
 
         // Line
         echo "</table></td></tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-        echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
+        echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td></tr>";
         echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
         // It shouldn't be necessary to load zone attributes from db
@@ -321,10 +321,10 @@ if ($banner['type'] != 'txt') {
 
     // Footer
     echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-    echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+    echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
     echo "</table><br />";
 } else {
-    echo "<br /><br /><div class='errormessage'><img class='errormessage' src='images/info.gif' width='16' height='16' border='0' align='absmiddle'>";
+    echo "<br /><br /><div class='errormessage'><img class='errormessage' src='" . MAX::assetPath() . "/images/info.gif' width='16' height='16' border='0' align='absmiddle'>";
     echo $strAppendTextAdNotPossible;
     echo "</div>";
     echo "<input type='hidden' name='append' value=''>";

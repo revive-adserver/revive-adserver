@@ -1,17 +1,3 @@
-{literal}
-<style type="text/css">
-.filterLabel {
-    float:left;
-    font-weight:bold;
-    padding-right:0.5em;
-    text-align:left;
-    width:10em;
-}
-.filterWrapper {
-    margin-bottom: 5px;
-}
-{/literal}
-</style>
 <form id="auditForm" name="auditForm" method="POST">
 <input type='hidden' name='listorder' value='{$listorder}'>
 <input type='hidden' name='orderdirection' value='{$orderdirection}'>
@@ -51,7 +37,7 @@
 	    <span class="filterLabel">{t str=Date}</span>
 	    {$daySpan->display()}
 	       <a href='#' onclick='return periodFormSubmit()'>
-	           <img src='images/ltr/go_blue.gif' border='0' tabindex='6' />
+	           <img src='{$assetPath|escape}/images/ltr/go_blue.gif' border='0' tabindex='6' />
 	       </a>
     </div>
     <div>
@@ -63,16 +49,16 @@
     <table class="data-grid table">
         <tbody>
             <tr class="header">
-                <th width="15%"><a href="userlog-index.php?{$urlParam}">Timestamp</a>
+                <th width="15%"><a href="userlog-index.php?{$urlParam}">{t str='Timestamp'}</a>
                     <a href="userlog-index.php?{$urlParam}">
                         {if $orderdirection == 'up'}
-                        <img src="images/caret-u.gif" />
+                        <img src="{$assetPath|escape}/images/caret-u.gif" />
                         {else}
-                        <img src="images/caret-ds.gif" />
+                        <img src="{$assetPath|escape}/images/caret-ds.gif" />
                         {/if}
                     </a>
                 </th>
-                <th>Event</th>
+                <th>{t str='Event'}</th>
                 <th width="10%">&nbsp;</th>
             </tr>
             {if count($aAuditData) > 0}
@@ -81,7 +67,7 @@
             <tr class="{$rowClass}">
                 <td>{$aValue.updated}</td>
                 <td>
-                    {$aValue.username} {$aValue.action} {$aValue.context} "{$aValue.details.key_desc}" {if !empty($aValue.contextid)}(#{$aValue.contextid}){/if}
+                    {$aValue.username} {t str=$aValue.action} {$aValue.contextDescription} "{$aValue.details.key_desc}" {if !empty($aValue.contextid)}(#{$aValue.contextid}){/if}
                     {if !empty($aValue.parentcontext)}
                         in {$aValue.parentcontext} (#{$aValue.parentcontextid})
                     {/if}
@@ -89,7 +75,7 @@
                         and additional items
                     {/if}
                 </td>
-                <td><img src="images/icon-zoom.gif" />&nbsp;<a href="userlog-audit-detailed.php?auditId={$aValue.auditid}">{t str=View}2</a></td>
+                <td><img src="{$assetPath|escape}/images/icon-zoom.gif" />&nbsp;<a href="userlog-audit-detailed.php?auditId={$aValue.auditid}">{t str=View}</a></td>
             </tr>
             {/foreach}
             {else}

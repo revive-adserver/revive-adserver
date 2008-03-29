@@ -48,7 +48,7 @@ $userAccess->init();
 
 function OA_headerNavigation()
 {
-    $icon = "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>"
+    $icon = "<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>"
         .phpAds_getClientName($clientid)."</b><br /><br /><br />";
     if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
         phpAds_PageHeader("4.1.5.2");
@@ -106,6 +106,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
 $aAllowedPermissions[OA_PERM_BANNER_EDIT] = $strAllowClientModifyBanner;
 $aAllowedPermissions[OA_PERM_BANNER_DEACTIVATE] = $strAllowClientDisableBanner;
 $aAllowedPermissions[OA_PERM_BANNER_ACTIVATE] = $strAllowClientActivateBanner;
+$aAllowedPermissions[OA_PERM_USER_LOG_ACCESS] = $strAllowAuditTrailAccess;
 $userAccess->setAllowedPermissions($aAllowedPermissions);
 
 

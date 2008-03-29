@@ -113,7 +113,7 @@ class OA_Dal
     {
         OA_DAL::_setupDataObjectOptions();
         $do = OA_Dal::factoryDO($table);
-        if (PEAR::isError($do)) {
+        if (PEAR::isError($do) || !$do) {
             return false;
         }
         if (!$do->get($k, $v)) {

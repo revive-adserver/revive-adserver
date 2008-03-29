@@ -30,7 +30,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Factory.php';
 require_once MAX_PATH . '/lib/OA/Central/Dashboard.php';
 
 /**
- * A dashboard widget to diplay an RSS feed of the OpenX Blog
+ * A dashboard widget to diplay the community statistics graph.
  *
  */
 class OA_Dashboard_Widget_GraphOAC extends OA_Dashboard_Widget_Graph

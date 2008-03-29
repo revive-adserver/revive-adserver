@@ -90,7 +90,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     phpAds_PageShortcut($strAffiliateHistory, 'stats.php?entity=affiliate&breakdown=history&affiliateid='.$affiliateid, 'images/icon-statistics.gif');
 
     phpAds_PageHeader("4.2.3");
-    echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br /><br /><br />";
+    echo "<img src='" . MAX::assetPath() . "/images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br /><br /><br />";
     phpAds_ShowSections(array("4.2.2", "4.2.3", "4.2.4", "4.2.5", "4.2.6", "4.2.7"));
 } else {
     $sections = array("2.1");
@@ -116,7 +116,7 @@ $doZones->find();
 
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_ADD))
 {
-    echo "<img src='images/icon-zone-new.gif' border='0' align='absmiddle'>&nbsp;";
+    echo "<img src='" . MAX::assetPath() . "/images/icon-zone-new.gif' border='0' align='absmiddle'>&nbsp;";
     echo "<a href='zone-edit.php?affiliateid=".$affiliateid."' accesskey='".$keyAddNew."'>".$strAddNewZone_Key."</a>&nbsp;&nbsp;";
     phpAds_ShowBreak();
 }
@@ -135,12 +135,12 @@ if (($listorder == "name") || ($listorder == ""))
     if  (($orderdirection == "") || ($orderdirection == "down"))
     {
         echo ' <a href="affiliate-zones.php?affiliateid='.$affiliateid.'&orderdirection=up">';
-        echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
+        echo '<img src="' . MAX::assetPath() . '/images/caret-ds.gif" border="0" alt="" title="">';
     }
     else
     {
         echo ' <a href="affiliate-zones.php?affiliateid='.$affiliateid.'&orderdirection=down">';
-        echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
+        echo '<img src="' . MAX::assetPath() . '/images/caret-u.gif" border="0" alt="" title="">';
     }
     echo '</a>';
 }
@@ -153,12 +153,12 @@ if ($listorder == "id")
     if  (($orderdirection == "") || ($orderdirection == "down"))
     {
         echo ' <a href="affiliate-zones.php?affiliateid='.$affiliateid.'&orderdirection=up">';
-        echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
+        echo '<img src="' . MAX::assetPath() . '/images/caret-ds.gif" border="0" alt="" title="">';
     }
     else
     {
         echo ' <a href="affiliate-zones.php?affiliateid='.$affiliateid.'&orderdirection=down">';
-        echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
+        echo '<img src="' . MAX::assetPath() . '/images/caret-u.gif" border="0" alt="" title="">';
     }
     echo '</a>';
 }
@@ -171,12 +171,12 @@ if ($listorder == "size")
     if  (($orderdirection == "") || ($orderdirection == "down"))
     {
         echo ' <a href="affiliate-zones.php?affiliateid='.$affiliateid.'&orderdirection=up">';
-        echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
+        echo '<img src="' . MAX::assetPath() . '/images/caret-ds.gif" border="0" alt="" title="">';
     }
     else
     {
         echo ' <a href="affiliate-zones.php?affiliateid='.$affiliateid.'&orderdirection=down">';
-        echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
+        echo '<img src="' . MAX::assetPath() . '/images/caret-u.gif" border="0" alt="" title="">';
     }
     echo '</a>';
 }
@@ -185,7 +185,7 @@ echo "</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
 echo "<td height='25'>&nbsp;</td>";
 echo "</tr>";
 
-echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
 
 
 if ($doZones->getRowCount() == 0)
@@ -194,7 +194,7 @@ if ($doZones->getRowCount() == 0)
     echo "&nbsp;&nbsp;".$strNoZones;
     echo "</td></tr>";
 
-    echo "<td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>";
+    echo "<td colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>";
 }
 
 $i=0;
@@ -205,7 +205,7 @@ while ($doZones->fetch() && $row_zones = $doZones->toArray())
         $strConfirmDeleteZoneLinkActive . '\n' . $strConfirmDeleteZone
         : $strConfirmDeleteZone;
 
-    if ($i > 0) echo "<td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>";
+    if ($i > 0) echo "<td colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>";
     echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
 
     echo "<td height='25'>&nbsp;&nbsp;";
@@ -215,34 +215,34 @@ while ($doZones->fetch() && $row_zones = $doZones->toArray())
         if ($row_zones['delivery'] == phpAds_ZoneBanner) {
             if (count($aZoneAds['lAds']) == 0) {
                 // There are linked ads, but no low-priority ads (this will result in serving blanks)
-                echo "<acronym title='Warning - There are no low-priority ads linked to this zone'><img src='images/icon-zone-w.gif' align='absmiddle' />&nbsp;</acronym>";
+                echo "<acronym title='Warning - There are no low-priority ads linked to this zone'><img src='" . MAX::assetPath() . "/images/icon-zone-w.gif' align='absmiddle' />&nbsp;</acronym>";
             } else {
-                echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
+                echo "<img src='" . MAX::assetPath() . "/images/icon-zone.gif' align='absmiddle'>&nbsp;";
             }
         } elseif ($row_zones['delivery'] == phpAds_ZoneInterstitial) {
-            echo "<img src='images/icon-interstitial.gif' align='absmiddle'>&nbsp;";
+            echo "<img src='" . MAX::assetPath() . "/images/icon-interstitial.gif' align='absmiddle'>&nbsp;";
         } elseif ($row_zones['delivery'] == phpAds_ZonePopup) {
-            echo "<img src='images/icon-popup.gif' align='absmiddle'>&nbsp;";
+            echo "<img src='" . MAX::assetPath() . "/images/icon-popup.gif' align='absmiddle'>&nbsp;";
         } elseif ($row_zones['delivery'] == phpAds_ZoneText) {
-            echo "<img src='images/icon-textzone.gif' align='absmiddle'>&nbsp;";
+            echo "<img src='" . MAX::assetPath() . "/images/icon-textzone.gif' align='absmiddle'>&nbsp;";
         } elseif ($row_zones['delivery'] == MAX_ZoneEmail) {
-            echo "<img src='images/icon-zone-email.gif' align='absmiddle'>&nbsp;";
+            echo "<img src='" . MAX::assetPath() . "/images/icon-zone-email.gif' align='absmiddle'>&nbsp;";
         } elseif ($row_zones['delivery'] == MAX_ZoneClick) {
-            echo "<img src='images/icon-zone-click.gif' align='absmiddle'>&nbsp;";
+            echo "<img src='" . MAX::assetPath() . "/images/icon-zone-click.gif' align='absmiddle'>&nbsp;";
         }
     } else {
         if ($row_zones['delivery'] == phpAds_ZoneBanner) {
-            echo "<img src='images/icon-zone-d.gif' align='absmiddle'>&nbsp;";
+            echo "<img src='" . MAX::assetPath() . "/images/icon-zone-d.gif' align='absmiddle'>&nbsp;";
         } elseif ($row_zones['delivery'] == phpAds_ZoneInterstitial) {
-            echo "<img src='images/icon-interstitial-d.gif' align='absmiddle'>&nbsp;";
+            echo "<img src='" . MAX::assetPath() . "/images/icon-interstitial-d.gif' align='absmiddle'>&nbsp;";
         } elseif ($row_zones['delivery'] == phpAds_ZonePopup) {
-            echo "<img src='images/icon-popup-d.gif' align='absmiddle'>&nbsp;";
+            echo "<img src='" . MAX::assetPath() . "/images/icon-popup-d.gif' align='absmiddle'>&nbsp;";
         } elseif ($row_zones['delivery'] == phpAds_ZoneText) {
-            echo "<img src='images/icon-textzone-d.gif' align='absmiddle'>&nbsp;";
+            echo "<img src='" . MAX::assetPath() . "/images/icon-textzone-d.gif' align='absmiddle'>&nbsp;";
         } elseif ($row_zones['delivery'] == MAX_ZoneEmail) {
-            echo "<img src='images/icon-zone-email-d.gif' align='absmiddle'>&nbsp;";
+            echo "<img src='" . MAX::assetPath() . "/images/icon-zone-email-d.gif' align='absmiddle'>&nbsp;";
         } elseif ($row_zones['delivery'] == MAX_ZoneClick) {
-            echo "<img src='images/icon-zone-click-d.gif' align='absmiddle'>&nbsp;";
+            echo "<img src='" . MAX::assetPath() . "/images/icon-zone-click-d.gif' align='absmiddle'>&nbsp;";
         }
     }
 
@@ -280,8 +280,8 @@ while ($doZones->fetch() && $row_zones = $doZones->toArray())
     echo "</tr>";
 
     echo "<tr height='1'>";
-    echo "<td ".($i%2==0?"bgcolor='#F6F6F6'":"")."><img src='images/spacer.gif' width='1' height='1'></td>";
-    echo "<td colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>";
+    echo "<td ".($i%2==0?"bgcolor='#F6F6F6'":"")."><img src='" . MAX::assetPath() . "/images/spacer.gif' width='1' height='1'></td>";
+    echo "<td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td>";
     echo "</tr>";
     echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
 
@@ -290,10 +290,10 @@ while ($doZones->fetch() && $row_zones = $doZones->toArray())
 
     // Button 1, 2 & 3
     echo "<td height='25' colspan='3'>";
-    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_LINK)) echo "<img src='images/icon-zone-linked.gif' border='0' align='absmiddle' alt='$strIncludedBanners'>&nbsp;<a href='zone-include.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'>$strIncludedBanners</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-    echo "<img src='images/icon-zone-probability.gif' border='0' align='absmiddle' alt='$strProbability'>&nbsp;<a href='zone-probability.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'>$strProbability</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_INVOCATION)) echo "<img src='images/icon-generatecode.gif' border='0' align='absmiddle' alt='$strInvocationcode'>&nbsp;<a href='zone-invocation.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'>$strInvocationcode</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_DELETE)) echo "<img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;<a href='zone-delete.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."&returnurl=affiliate-zones.php'".phpAds_DelConfirm($strConfirmDeleteZone).">$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_LINK)) echo "<img src='" . MAX::assetPath() . "/images/icon-zone-linked.gif' border='0' align='absmiddle' alt='$strIncludedBanners'>&nbsp;<a href='zone-include.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'>$strIncludedBanners</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+    echo "<img src='" . MAX::assetPath() . "/images/icon-zone-probability.gif' border='0' align='absmiddle' alt='$strProbability'>&nbsp;<a href='zone-probability.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'>$strProbability</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_INVOCATION)) echo "<img src='" . MAX::assetPath() . "/images/icon-generatecode.gif' border='0' align='absmiddle' alt='$strInvocationcode'>&nbsp;<a href='zone-invocation.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'>$strInvocationcode</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_DELETE)) echo "<img src='" . MAX::assetPath() . "/images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;<a href='zone-delete.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."&returnurl=affiliate-zones.php'".phpAds_DelConfirm($strConfirmDeleteZone).">$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
     echo "</td></tr>";
 
     $i++;
@@ -301,7 +301,7 @@ while ($doZones->fetch() && $row_zones = $doZones->toArray())
 
 if ($doZones->getRowCount() > 0)
 {
-    echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+    echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
 }
 
 echo "</table>";

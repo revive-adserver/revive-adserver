@@ -234,6 +234,28 @@ class UserServiceImpl extends BaseServiceImpl
         }
     }
 
+    /**
+     * This method updates users email for the user who is matching SSO user Id
+     *
+     * @access public
+     *
+     * @param string $sessionId
+     * @param int $ssoUserId
+     * @param string $email
+     * @return bool
+     */
+    function updateUserEmailBySsoId($sessionId, $ssoUserId, $email)
+    {
+        if ($this->verifySession($sessionId)) {
+
+            return $this->_validateResult(
+                $this->_dllUser->updateUserEmailBySsoId($ssoUserId, $email));
+        } else {
+
+            return false;
+        }
+    }
+
 }
 
 

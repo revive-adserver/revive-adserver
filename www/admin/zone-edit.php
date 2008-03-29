@@ -348,12 +348,12 @@ $tabindex = 1;
 
 if (!empty($zoneid)) {
     // Only display the notices when *changing* a zone, not for new zones
-    echo "<div class='errormessage' id='warning_change_zone_type' style='display:none'> <img class='errormessage' src='images/errormessage.gif' align='absmiddle' />";
+    echo "<div class='errormessage' id='warning_change_zone_type' style='display:none'> <img class='errormessage' src='" . MAX::assetPath() . "/images/errormessage.gif' align='absmiddle' />";
     echo "<span class='tab-r'> {$GLOBALS['strWarning']}:</span><br />";
     echo "{$GLOBALS['strWarnChangeZoneType']}";
     echo "</div>";
 
-    echo "<div class='errormessage' id='warning_change_zone_size' style='display:none'> <img class='errormessage' src='images/warning.gif' align='absmiddle' />";
+    echo "<div class='errormessage' id='warning_change_zone_size' style='display:none'> <img class='errormessage' src='" . MAX::assetPath() . "/images/warning.gif' align='absmiddle' />";
     echo "<span class='tab-s'> {$GLOBALS['strNotice']}:</span><br />";
     echo "{$GLOBALS['strWarnChangeZoneSize']}";
     echo "</div>";
@@ -365,43 +365,43 @@ echo "<input type='hidden' name='affiliateid' value='".(isset($affiliateid) && $
 
 echo "<br /><table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 echo "<tr><td height='25' colspan='3'><b>".$strBasicInformation."</b></td></tr>";
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strName."</td><td>";
 echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='zonename' size='35' style='width:350px;' value='".phpAds_htmlQuotes($zone['zonename'])."' tabindex='".($tabindex++)."'></td>";
-echo "</tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+echo "</tr><tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strDescription."</td><td>";
 echo "<input class='flat' size='35' type='text' name='description' style='width:350px;' value='".phpAds_htmlQuotes($zone["description"])."' tabindex='".($tabindex++)."'></td>";
-echo "</tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+echo "</tr><tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'><br />".$strZoneType."</td><td><table>";
 echo "<tr><td><input type='radio' id='delivery-b' name='delivery' value='".phpAds_ZoneBanner."'".($zone['delivery'] == phpAds_ZoneBanner ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();' onChange='oa_hide(\"warning_change_zone_type\");' tabindex='".($tabindex++)."'>";
-echo "&nbsp;<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;<label for='delivery-b'>".$strBannerButtonRectangle."</label></td></tr>";
+echo "&nbsp;<img src='" . MAX::assetPath() . "/images/icon-zone.gif' align='absmiddle'>&nbsp;<label for='delivery-b'>".$strBannerButtonRectangle."</label></td></tr>";
 
 if ($conf['allowedTags']['adlayer'] || $zone['delivery'] == phpAds_ZoneInterstitial)
 {
     echo "<tr><td><input type='radio' id='delivery-i' name='delivery' value='".phpAds_ZoneInterstitial."'".($zone['delivery'] == phpAds_ZoneInterstitial ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();' onChange='oa_hide(\"warning_change_zone_type\");' tabindex='".($tabindex++)."'>";
-    echo "&nbsp;<img src='images/icon-interstitial.gif' align='absmiddle'>&nbsp;<label for='delivery-i'>".$strInterstitial."</label></td></tr>";
+    echo "&nbsp;<img src='" . MAX::assetPath() . "/images/icon-interstitial.gif' align='absmiddle'>&nbsp;<label for='delivery-i'>".$strInterstitial."</label></td></tr>";
 }
 
 if ($conf['allowedTags']['popup'] || $zone['delivery'] == phpAds_ZonePopup)
 {
     echo "<tr><td><input type='radio' id='delivery-p' name='delivery' value='".phpAds_ZonePopup."'".($zone['delivery'] == phpAds_ZonePopup ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();' onChange='oa_hide(\"warning_change_zone_type\");' tabindex='".($tabindex++)."'>";
-    echo "&nbsp;<img src='images/icon-popup.gif' align='absmiddle'>&nbsp;<label for='delivery-p'>".$strPopup."</label></td></tr>";
+    echo "&nbsp;<img src='" . MAX::assetPath() . "/images/icon-popup.gif' align='absmiddle'>&nbsp;<label for='delivery-p'>".$strPopup."</label></td></tr>";
 }
 
 echo "<tr><td><input type='radio' id='delivery-t' name='delivery' value='".phpAds_ZoneText."'".($zone['delivery'] == phpAds_ZoneText ? ' CHECKED' : '')." onClick='phpAds_formDisableSize();' " . (($zone['delivery'] != phpAds_ZoneText) ? "onChange='oa_show(\"warning_change_zone_type\");'" : "onChange='oa_hide(\"warning_change_zone_type\");'") . " tabindex='".($tabindex++)."'>";
-echo "&nbsp;<img src='images/icon-textzone.gif' align='absmiddle'>&nbsp;<label for='delivery-t'>".$strTextAdZone."</label></td></tr>";
+echo "&nbsp;<img src='" . MAX::assetPath() . "/images/icon-textzone.gif' align='absmiddle'>&nbsp;<label for='delivery-t'>".$strTextAdZone."</label></td></tr>";
 
 echo "<tr><td><input type='radio' id='delivery-e' name='delivery' value='".MAX_ZoneEmail."'".($zone['delivery'] == MAX_ZoneEmail ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();' " . (($zone['delivery'] != MAX_ZoneEmail) ? "onChange='oa_show(\"warning_change_zone_type\");'" : "onChange='oa_hide(\"warning_change_zone_type\");'") . " tabindex='".($tabindex++)."'>";
-echo "&nbsp;<img src='images/icon-zone-email.gif' align='absmiddle'>&nbsp;<label for='delivery-e'>".$strEmailAdZone."</label></td></tr>";
+echo "&nbsp;<img src='" . MAX::assetPath() . "/images/icon-zone-email.gif' align='absmiddle'>&nbsp;<label for='delivery-e'>".$strEmailAdZone."</label></td></tr>";
 
 //echo "<tr><td><input type='radio' name='delivery' value='".MAX_ZoneClick."'".($zone['delivery'] == MAX_ZoneClick ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();' tabindex='".($tabindex++)."'>";
-//echo "&nbsp;<img src='images/icon-zone-click.gif' align='absmiddle'>&nbsp;".$strZoneClick."</td></tr>";
+//echo "&nbsp;<img src='" . MAX::assetPath() . "/images/icon-zone-click.gif' align='absmiddle'>&nbsp;".$strZoneClick."</td></tr>";
 
 echo "</table></td></tr>";
 
@@ -415,8 +415,8 @@ if ($zone['delivery'] == phpAds_ZoneText)
 else
     $sizedisabled = '';
 
-echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'><br />".$strSize."</td><td>";
 
@@ -447,8 +447,8 @@ echo $strHeight.": <input class='flat' size='5' type='text' name='height' value=
 echo "</td></tr></table>";
 echo "</td></tr>";
 
-echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 echo "<tr><td width='30'>&nbsp;</td>";
@@ -533,8 +533,8 @@ echo "</select>";
 echo "</td></tr>";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
-echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
@@ -554,8 +554,8 @@ echo "<span id='technology_cost_cpm_description' style='margin-left: 7px;'>per s
 echo "</td></tr>";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
-echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
@@ -566,7 +566,7 @@ echo "' tabindex='".($tabindex++)."'>".htmlspecialchars($zone['comments'])."</te
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
 echo "</table>";
 
 echo "<br /><br />";

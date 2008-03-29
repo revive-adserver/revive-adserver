@@ -188,7 +188,7 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
                         value='{$aChannel['channel_id']}'".(in_array($aChannel['channel_id'], $this->data) ? ' checked="checked"' : '')."
                     />
                     {$aChannel['name']}
-                    <a href='{$editUrl}' target='_blank'><img src='images/{$GLOBALS['phpAds_TextDirection']}/go_blue.gif' border='0' align='absmiddle' alt='{$GLOBALS['strView']}'></a>
+                    <a href='{$editUrl}' target='_blank'><img src='" . MAX::assetPath() . "/images/{$GLOBALS['phpAds_TextDirection']}/go_blue.gif' border='0' align='absmiddle' alt='{$GLOBALS['strView']}'></a>
                 </div>";
         }
         echo "</div>";

@@ -29,11 +29,11 @@ $Id$
 <input type="hidden" name="btn_finish" value="1" />
 <table border="0" cellpadding="0" cellspacing="0" width="100%">
 <tr>
-<td valign="top"><img class="install-icon" src="images/install-search.png"></td><td width="100%" valign="top">
+<td valign="top"><img class="install-icon" src="{$assetPath|escape}/images/install-search.png"></td><td width="100%" valign="top">
 <br>
 <span class="tab-s">Tags Setup</span>
 <br>
-<img src="images/break-el.gif" width="100%" height="1" vspace="8"><span class="install">
+<img src="{$assetPath|escape}/images/break-el.gif" width="100%" height="1" vspace="8"><span class="install">
             This page contains the tags that need to be inserted on your sites
             to display ads. Please select <b>Tag type</b>, <b>Ad size</b> and <b>Site</b>, and then
             cut and paste the code for each site and zone and place it in the
@@ -101,7 +101,7 @@ $Id$
                   Example:
                   <div style="width: {$z.width|replace:'*':'150'}px;
 height: {$z.height|replace:'*':'150'}px;" class="sizePreview">
-<img alt="" src="images/watermark.gif"><span>{$z.width} x {$z.height}</span>
+<img alt="" src="{$assetPath|escape}/images/watermark.gif"><span>{$z.width} x {$z.height}</span>
 </div>
 </div>
 </div>
@@ -112,7 +112,7 @@ height: {$z.height|replace:'*':'150'}px;" class="sizePreview">
 <br>
 <br>
 <br>
-<img width="100%" vspace="5" height="1" src="images/break-el.gif"><input type="submit" class="button" name="btn_finish" value="Continue &raquo;"{tabindex}><input type="hidden" name="dirPage" id="dirPage" value="">
+<img width="100%" vspace="5" height="1" src="{$assetPath|escape}/images/break-el.gif"><input type="submit" class="button" name="btn_finish" value="Continue &raquo;"{tabindex}><input type="hidden" name="dirPage" id="dirPage" value="">
 </form>
 
 

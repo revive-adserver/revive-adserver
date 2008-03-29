@@ -54,7 +54,7 @@ class Plugins_Authentication_Internal_Internal extends Plugins_Authentication
      * @return DataObjects_Users  returns users dataobject on success authentication
      *                            or null if user wasn't succesfully authenticated
      */
-    function authenticateUser()
+    function &authenticateUser()
     {
         $aCredentials = $this->getCredentials();
         if (PEAR::isError($aCredentials)) {

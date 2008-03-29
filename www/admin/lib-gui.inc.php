@@ -68,7 +68,7 @@ function phpAds_PageShortcut($name, $link, $icon)
     $phpAds_shortcuts[] = array(
         'name' => $name,
         'link' => $link,
-        'icon' => $icon
+        'icon' => MAX::assetPath() . "/" . $icon
     );
 }
 
@@ -285,7 +285,7 @@ function phpAds_sqlDie()
 /* Display a custom error message and die                */
 /*-------------------------------------------------------*/
 
-function phpAds_Die($title="Error", $message="Unknown error", $imgPath="")
+function phpAds_Die($title="Error", $message="Unknown error")
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     global $phpAds_GUIDone, $phpAds_TextDirection;
@@ -298,7 +298,7 @@ function phpAds_Die($title="Error", $message="Unknown error", $imgPath="")
     }
     // Message
     echo "<br>";
-    echo "<div class='errormessage'><img class='errormessage' src='".$imgPath."images/errormessage.gif' align='absmiddle'>";
+    echo "<div class='errormessage'><img class='errormessage' src='". MAX::assetPath() ."/images/errormessage.gif' align='absmiddle'>";
     echo "<span class='tab-r'>".$title."</span><br><br>".$message."</div><br>";
     // Die
     if ($title == $GLOBALS['strAccessDenied']) {

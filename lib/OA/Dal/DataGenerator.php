@@ -78,7 +78,11 @@ class DataGenerator
      */
     function generateOne($do, $generateParents = false)
     {
-        $ids = DataGenerator::generate($do, 1, $generateParents);
+        if (!empty($this) && is_a($this, 'DataGenerator')) {
+            $ids = $this->generate($do, 1, $generateParents);
+        } else {
+            $ids = DataGenerator::generate($do, 1, $generateParents);
+        }
         return array_pop($ids);
     }
 
@@ -119,28 +123,57 @@ class DataGenerator
                 return array();
             }
         }
-
         if ($generateParents) {
-            $links = $do->links();
-        	foreach ($links as $foreignKey => $linkedTableField) {
-        		list($linkedTable, $linkedField) = explode(':', $linkedTableField);
-        		$table = $do->getTableWithoutPrefix($linkedTable);
-    	        $linkedPrimaryKeyVal = isset($do->$foreignKey) ? $do->$foreignKey : null;
-        		$do->$foreignKey = DataGenerator::addAncestor($table, $linkedPrimaryKeyVal);
-        	}
+	        if (!empty($this) && is_a($this, 'DataGenerator')) {
+    	       $this->generateParents($do);
+	        } else {
+    	       DataGenerator::generateParents($do);
+	        }
         }
         $doOriginal = clone($do);
-        DataGenerator::setDefaultValues($do);
+        if (isset($this) && is_a($this, 'DataGenerator')) {
+            $this->setDefaultValues($do);
+        } else {
+            DataGenerator::setDefaultValues($do);
+        }
         DataGenerator::trackData($do->getTableWithoutPrefix());
 
         $ids = array();
         for ($i = 0; $i < $numberOfCopies; $i++) {
             $id = $do->insert();
             $do = clone($doOriginal);
-            DataGenerator::setDefaultValues($do, $i+1);
+            if (!empty($this) && is_a($this, 'DataGenerator')) {
+                $this->setDefaultValues($do, $i+1);
+            } else {
+                DataGenerator::setDefaultValues($do, $i+1);
+            }
             $ids[] = $id;
         }
         return $ids;
+    }
+    
+    /**
+     * Generate parents records using the relationship defined in links.ini file
+     *
+     * @param DB_DataObject $do
+     */
+    function generateParents($do)
+    {
+        $links = $do->links();
+    	foreach ($links as $foreignKey => $linkedTableField) {
+    	    if (!empty($do->$foreignKey)) {
+    	        // parent is already set
+    	        continue;
+    	    }
+    		list($linkedTable, $linkedField) = explode(':', $linkedTableField);
+    		$table = $do->getTableWithoutPrefix($linkedTable);
+	        $linkedPrimaryKeyVal = isset($do->$foreignKey) ? $do->$foreignKey : null;
+	        if (!empty($this) && is_a($this, 'DataGenerator')) {
+    	       $do->$foreignKey = $this->addAncestor($table, $linkedPrimaryKeyVal);
+	        } else {
+    	       $do->$foreignKey = DataGenerator::addAncestor($table, $linkedPrimaryKeyVal);
+	        }
+    	}
     }
 
     /**
@@ -238,13 +271,30 @@ class DataGenerator
             // it's possible to preset parent id's (only one level up so far)
             $doAncestor->$primaryKeyField = $primaryKey;
         }
-        DataGenerator::setDefaultValues($doAncestor);
+        if (!empty($this) && is_a($this, 'DataGenerator')) {
+            $this->setDefaultValues($doAncestor);
+        } else {
+            DataGenerator::setDefaultValues($doAncestor);
+        }
 
         $links = $doAncestor->links();
     	foreach ($links as $foreignKey => $linkedTableField) {
     		list($ancestorTableWithPrefix, $link) = explode(':', $linkedTableField);
     		$ancestorTable = $doAncestor->getTableWithoutPrefix($ancestorTableWithPrefix);
-    		$doAncestor->$foreignKey = DataGenerator::addAncestor($ancestorTable);
+    		if (isset($this) && is_a($this, 'DataGenerator')) {
+    		    $fieldValue = $this->getFieldValueFromDataContainer($table, $foreignKey);
+    		} else {
+    		    $fieldValue = DataGenerator::getFieldValueFromDataContainer($table, $foreignKey);
+    		}
+    		if(isset($fieldValue) && !isset($GLOBALS['dataGeneratorDontOptimize'])) { //hack for quick test fix
+    		    $doAncestor->$foreignKey = $fieldValue;
+    		} else {
+        		if (isset($this) && is_a($this, 'DataGenerator')) {
+        		    $doAncestor->$foreignKey = $this->addAncestor($ancestorTable);
+        		} else {
+        		    $doAncestor->$foreignKey = DataGenerator::addAncestor($ancestorTable);
+        		}
+    		}
     	}
     	DataGenerator::trackData($table);
     	$id = $doAncestor->insert();
@@ -278,7 +328,11 @@ class DataGenerator
         $table = $do->getTableWithoutPrefix();
         foreach ($fields as $fieldName => $fieldType) {
             if (!isset($do->$fieldName)) {
-                $fieldValue = DataGenerator::getFieldValueFromDataContainer($table, $fieldName, $counter);
+                if (!empty($this) && is_a($this, 'DataGenerator')) {
+                    $fieldValue = $this->getFieldValueFromDataContainer($table, $fieldName, $counter);
+                } else {
+                    $fieldValue = DataGenerator::getFieldValueFromDataContainer($table, $fieldName, $counter);
+                }
                 if(!isset($fieldValue) && !in_array($fieldName, $keys))
                 {
                     $fieldValue = DataGenerator::defaultValueForObject($do, $fieldName, $fieldType);
@@ -288,7 +342,10 @@ class DataGenerator
                     }
                 }
                 if (isset($fieldValue)) {
-                    $do->$fieldName = $fieldValue;
+                    if ($fieldValue != OA_DATAOBJECT_DEFAULT_NULL) {
+                        // exception for NULLs
+                        $do->$fieldName = $fieldValue;
+                    }
                 }
             }
         }
@@ -304,7 +361,7 @@ class DataGenerator
      * @access package private
      * @static
      */
-    function getFieldValueFromDataContainer($table, $fieldName, $counter)
+    function getFieldValueFromDataContainer($table, $fieldName, $counter = 0)
     {
         if (isset($this)) {
             if (isset($this->data[$table]) && isset($this->data[$table][$fieldName])) {

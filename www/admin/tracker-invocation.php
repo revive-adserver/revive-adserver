@@ -97,11 +97,11 @@ if ($trackerid != "") {
 	$extra .= "\t\t\t\t<input type='hidden' name='returnurl' value='tracker-invocation.php'>"."\n";
 	$extra .= "\t\t\t\t<br /><br />"."\n";
 	$extra .= "\t\t\t\t<b>$strModifyTracker</b><br />"."\n";
-	$extra .= "\t\t\t\t<img src='images/break.gif' height='1' width='160' vspace='4'><br />"."\n";
-	$extra .= "\t\t\t\t<img src='images/icon-duplicate-tracker.gif' align='absmiddle'>&nbsp;<a href='tracker-modify.php?clientid=".$clientid."&trackerid=".$trackerid."&duplicate=true&returnurl=tracker-invocation.php'>$strDuplicate</a><br />"."\n";
-	$extra .= "\t\t\t\t<img src='images/break.gif' height='1' width='160' vspace='4'><br />"."\n";
-	$extra .= "\t\t\t\t<img src='images/icon-move-tracker.gif' align='absmiddle'>&nbsp;$strMoveTo<br />"."\n";
-	$extra .= "\t\t\t\t<img src='images/spacer.gif' height='1' width='160' vspace='2'><br />"."\n";
+	$extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />"."\n";
+	$extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/icon-duplicate-tracker.gif' align='absmiddle'>&nbsp;<a href='tracker-modify.php?clientid=".$clientid."&trackerid=".$trackerid."&duplicate=true&returnurl=tracker-invocation.php'>$strDuplicate</a><br />"."\n";
+	$extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />"."\n";
+	$extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/icon-move-tracker.gif' align='absmiddle'>&nbsp;$strMoveTo<br />"."\n";
+	$extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='160' vspace='2'><br />"."\n";
 	$extra .= "\t\t\t\t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"."\n";
 	$extra .= "\t\t\t\t<select name='moveto' style='width: 110;'>"."\n";
 
@@ -115,31 +115,31 @@ if ($trackerid != "") {
 		$extra .= "\t\t\t\t\t<option value='".$row['clientid']."'>".phpAds_buildName($row['clientid'], $row['clientname'])."</option>\n";
 	}
 	$extra .= "\t\t\t\t</select>&nbsp;\n";
-	$extra .= "\t\t\t\t<input type='image' src='images/".$phpAds_TextDirection."/go_blue.gif'><br />\n";
-	$extra .= "\t\t\t\t<img src='images/break.gif' height='1' width='160' vspace='4'><br />\n";
-	$extra .= "\t\t\t\t<img src='images/icon-recycle.gif' align='absmiddle'>\n";
+	$extra .= "\t\t\t\t<input type='image' src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/go_blue.gif'><br />\n";
+	$extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />\n";
+	$extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/icon-recycle.gif' align='absmiddle'>\n";
 	$extra .= "\t\t\t\t<a href='tracker-delete.php?clientid=$clientid&trackerid=$trackerid&returnurl=advertiser-trackers.php'".phpAds_DelConfirm($strConfirmDeleteTracker).">$strDelete</a><br />\n";
 	$extra .= "\t\t\t\t</form>\n";
 
 	phpAds_PageHeader("4.1.4.4", $extra);
-		echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;".phpAds_getClientName(phpAds_getTrackerParentClientID($trackerid));
-		echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
-		echo "<img src='images/icon-tracker.gif' align='absmiddle'>&nbsp;<b>".phpAds_getTrackerName($trackerid)."</b><br /><br /><br />";
+		echo "<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;".phpAds_getClientName(phpAds_getTrackerParentClientID($trackerid));
+		echo "&nbsp;<img src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
+		echo "<img src='" . MAX::assetPath() . "/images/icon-tracker.gif' align='absmiddle'>&nbsp;<b>".phpAds_getTrackerName($trackerid)."</b><br /><br /><br />";
 		phpAds_ShowSections(array("4.1.4.2", "4.1.4.3", "4.1.4.5", "4.1.4.6", "4.1.4.4"));
 } else {
 	if (isset($move) && $move == 't') {
 		// Convert client to tracker
 		phpAds_PageHeader("4.1.4.4");
-		echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($clientid);
-		echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
-		echo "<img src='images/icon-tracker.gif' align='absmiddle'>&nbsp;<b>".$strUntitled."</b><br /><br /><br />";
+		echo "<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($clientid);
+		echo "&nbsp;<img src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
+		echo "<img src='" . MAX::assetPath() . "/images/icon-tracker.gif' align='absmiddle'>&nbsp;<b>".$strUntitled."</b><br /><br /><br />";
 		phpAds_ShowSections(array("4.1.4.4"));
 	} else {
 		// New tracker
 		phpAds_PageHeader("4.1.4.1");
-		echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($clientid);
-		echo "&nbsp;<img src='images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
-		echo "<img src='images/icon-tracker.gif' align='absmiddle'>&nbsp;<b>".$strUntitled."</b><br /><br /><br />";
+		echo "<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($clientid);
+		echo "&nbsp;<img src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
+		echo "<img src='" . MAX::assetPath() . "/images/icon-tracker.gif' align='absmiddle'>&nbsp;<b>".$strUntitled."</b><br /><br /><br />";
 		phpAds_ShowSections(array("4.1.4.1"));
 	}
 }
@@ -208,11 +208,11 @@ echo "<select name='invtype' onChange=\"this.form.submit()\">\n";
 echo "<option value='img' " . ($invtype != 'js' ? 'selected="selected"' : '') . " >Image Tag</option>\n";
 echo "<option value='js' "  . ($invtype == 'js' ? 'selected="selected"' : '') . " >Javascript Tag</option>\n";
 echo "</select>\n";
-echo "&nbsp;<input type='image' src='images/".$phpAds_TextDirection."/go_blue.gif' border='0'>\n";
+echo "&nbsp;<input type='image' src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/go_blue.gif' border='0'>\n";
 echo "</form>\n";
 
 if ($invtype == 'img' && !empty($trackerDetails['appendcode'])) {
-    echo "<div class='errormessage'><img class='errormessage' src='images/warning.gif' align='absmiddle'>
+    echo "<div class='errormessage'><img class='errormessage' src='" . MAX::assetPath() . "/images/warning.gif' align='absmiddle'>
               <span class='tab-r'>{$GLOBALS['strWarning']}</span> - {$GLOBALS['strImgWithAppendWarning']}
           </div>";
 }
@@ -220,11 +220,11 @@ if ($invtype == 'img' && !empty($trackerDetails['appendcode'])) {
 echo "</td></tr>\n";
 phpAds_ShowBreak();
 
-echo "<tr><td height='25'><img src='images/icon-generatecode.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strTrackercode']."</b></td>";
+echo "<tr><td height='25'><img src='" . MAX::assetPath() . "/images/icon-generatecode.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strTrackercode']."</b></td>";
 
 // Show clipboard button only on IE since Mozilla will throw a security warning
 if (strpos ($_SERVER['HTTP_USER_AGENT'], 'MSIE') > 0 &&	strpos ($_SERVER['HTTP_USER_AGENT'], 'Opera') < 1) {
-	echo "<td height='25' align='right'width='95%'><img src='images/icon-clipboard.gif' align='absmiddle'>&nbsp;";
+	echo "<td height='25' align='right'width='95%'><img src='" . MAX::assetPath() . "/images/icon-clipboard.gif' align='absmiddle'>&nbsp;";
 	echo "<a href='javascript:max_CopyClipboard(\"bannercode\");'>".$GLOBALS['strCopyToClipboard']."</a></td><td width='5%'>&nbsp;</td></tr>";
 } else {
 	echo "<td colspan='2'>&nbsp;</td>";
@@ -235,7 +235,7 @@ echo "</table>";
 echo "<br />";
 // END CODE
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>"."\n";
+echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>"."\n";
 echo "</table>"."\n";
 
 /*-------------------------------------------------------*/

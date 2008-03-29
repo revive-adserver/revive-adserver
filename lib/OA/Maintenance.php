@@ -201,8 +201,10 @@ class OA_Maintenance
         OA::debug('Running Midnight Maintenance Tasks', PEAR_LOG_INFO);
         $this->_runReports();
         $this->_runOpenadsSync();
+        $this->_runOpenadsCentral();
         $this->_runGeneralPruning();
         $this->_runPriorityPruning();
+        $this->_runDeleteUnverifiedAccounts();
         OA::debug('Midnight Maintenance Tasks Completed', PEAR_LOG_INFO);
     }
 
@@ -283,10 +285,56 @@ class OA_Maintenance
         OA::debug('  Finished OpenX Sync process.', PEAR_LOG_DEBUG);
     }
 
+
+
+    /**
+     * A private method to run OpenX Central related tasks.
+     *
+     * @access private
+     */
+    function _runOpenadsCentral()
+    {
+        OA::debug('  Starting OpenX Central process.', PEAR_LOG_DEBUG);
+        if ($this->aConf['sync']['checkForUpdates'] && OA_Dal_ApplicationVariables::get('sso_admin'))
+        {
+            require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
+            $oAdNetworks = new OA_Central_AdNetworks();
+            $result = $oAdNetworks->getRevenue();
+            if (PEAR::isError($result)) {
+                OA::debug("OpenX Central error (".$result->getCode()."): ".$result->getMessage(), PEAR_LOG_INFO);
+            }
+        }
+        OA::debug('  Finished OpenX Central process.', PEAR_LOG_DEBUG);
+    }
+
     function _runPriorityPruning()
     {
         $oDal = new OA_Maintenance_Pruning();
         $oDal->run();
+    }
+
+    function _runDeleteUnverifiedAccounts()
+    {
+        $oPlugin = OA_Auth::staticGetAuthPlugin();
+        $oPlugin->deleteUnverifiedUsers($this);
+    }
+
+    function _startProcessDebugMessage($processName)
+    {
+        OA::debug('  Starting OpenX '.$processName.' process.', PEAR_LOG_DEBUG);
+    }
+
+    function _stopProcessDebugMessage()
+    {
+        OA::debug('  Starting OpenX '.$processName.' process.', PEAR_LOG_DEBUG);
+    }
+
+    function _debugIfError($processName, $error)
+    {
+        if (PEAR::isError($error)) {
+            OA::debug("OpenX $processName error (".$error->getCode()."): "
+                . $error->getMessage(), PEAR_LOG_INFO);
+        }
     }
 
     /**

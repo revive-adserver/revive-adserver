@@ -69,11 +69,7 @@ $Id$
         <td><a href="{$editPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}">{$user.email_address}</a></td>
       {/if}
         <td>{$user.contact_name}</td>
-      {if $sso}
-        <td>{$user.linked}</td> {* HOSTEDTODO: put last login date/time here *}
-      {else}
-        <td>{$user.linked}</td>
-      {/if}
+        <td>{$user.date_last_login}</td>
         <td class="last">
           <a href="{$editPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}" class="permissions" style="padding-right: 10px">Permissions</a>
           <a href="{$unlinkPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}" class="unlink{if $user.toDelete} unlink-last{else} unlink-normal{/if}">Unlink</a>

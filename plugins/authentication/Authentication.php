@@ -25,6 +25,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
+require_once MAX_PATH . '/lib/max/Plugin/Common.php';
 
 /**
  * Plugins_Authentication is an abstract class for Authentication plugins
@@ -33,7 +34,7 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  * @subpackage Authentication
  * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
-class Plugins_Authentication
+class Plugins_Authentication extends MAX_Plugin_Common 
 {
     /**
      * Array to keep a reference to signup errors (if any)
@@ -65,7 +66,7 @@ class Plugins_Authentication
      * @return DataObjects_Users  returns users dataobject on success authentication
      *                            or null if user wasn't succesfully authenticated
      */
-    function authenticateUser()
+    function &authenticateUser()
     {
         OA::debug('Cannot run abstract method');
         exit();
@@ -277,6 +278,23 @@ class Plugins_Authentication
     }
 
     /**
+     * A method to set a new user password
+     *
+     * @param string $userId
+     * @param string $newPassword
+     * @return mixed True on success, PEAR_Error otherwise
+     */
+    function setNewPassword($userId, $newPassword)
+    {
+        $doUsers = OA_Dal::staticGetDO('users', $userId);
+        if (!$doUsers) {
+            return false;
+        }
+        $doUsers->password = md5($newPassword);
+        return $doUsers->update();
+    }
+
+    /**
      * A method to change a user email
      *
      * @param DataObjects_Users $doUsers
@@ -288,6 +306,17 @@ class Plugins_Authentication
     {
         OA::debug('Cannot run abstract method');
         exit();
+    }
+    
+    /**
+     * Delete unverified accounts. Used by cas
+     *
+     * @param OA_Maintenance $oMaintenance
+     * @return boolean
+     */
+    function deleteUnverifiedUsers(&$oMaintenance)
+    {
+        return true;
     }
 }
 

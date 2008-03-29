@@ -60,6 +60,7 @@ class OA_Dll_Audit extends OA_Dll
         $oAudit->details = unserialize($oAudit->details);
         $aAudit = $oAudit->toArray();
         $aAudit['name'] = $aAudit['details']['key_desc'];
+        $aAudit['contextDescription'] = $this->getContextDescription($aAudit['context']);
         unset($aAudit['details']['key_desc']);
 
         // remove parent context id
@@ -125,7 +126,7 @@ class OA_Dll_Audit extends OA_Dll
                 && empty($aParam['campaign_id']))
             {
                 //  Display advertiser being inserted
-                $where = "context = 'Client' AND contextid = {$aParam['advertiser_id']}";
+                $where = "context = 'clients' AND contextid = {$aParam['advertiser_id']}";
                 $oAudit->whereAdd($where);
 
                 //  retrieve all campaigns with clientid
@@ -139,7 +140,7 @@ class OA_Dll_Audit extends OA_Dll
                         $aCampaign[] = $oCampaign->campaignid;
                     }
                     if (!empty($aCampaign)) {
-                        $where = "context = 'Campaign' AND contextid IN (". implode(',', $aCampaign) .")";
+                        $where = "context = 'campaigns' AND contextid IN (". implode(',', $aCampaign) .")";
                         $oAudit->whereAdd($where, 'OR');
                     }
                 }
@@ -154,7 +155,7 @@ class OA_Dll_Audit extends OA_Dll
                         $aBanner[] = $oBanner->bannerid;
                     }
                     if (!empty($aBanner)) {
-                        $where .= " OR context = 'Banner' AND contextid IN (". implode(',', $aBanner) .")";
+                        $where .= " OR context = 'banners' AND contextid IN (". implode(',', $aBanner) .")";
                         $oAudit->whereAdd($where, 'OR');
                     }
                 }
@@ -164,7 +165,7 @@ class OA_Dll_Audit extends OA_Dll
                 && !empty($aParam['campaign_id']) && ($aParam['campaign_id'] > 0))
             {
                 //  display campaign being inserted
-                $where = " context = 'Campaign' AND contextid = {$aParam['campaign_id']}";
+                $where = " context = 'campaigns' AND contextid = {$aParam['campaign_id']}";
                 $oAudit->whereAdd($where);
                 //  retrieve all banners that belong to above campaigns
                 $oBanner = OA_Dal::factoryDO('banners');
@@ -177,7 +178,7 @@ class OA_Dll_Audit extends OA_Dll
                         $aBanner[] = $oBanner->bannerid;
                     }
                     if (!empty($aBanner)) {
-                        $oAudit->whereAdd("context = 'Banner' AND contextid IN (". implode(',', $aBanner) .")", 'OR');
+                        $oAudit->whereAdd("context = 'banners' AND contextid IN (". implode(',', $aBanner) .")", 'OR');
                     }
                 }
             }
@@ -185,7 +186,7 @@ class OA_Dll_Audit extends OA_Dll
             if (!empty($aParam['publisher_id']) && ($aParam['publisher_id'] > 0)
                 && empty($aParam['zone_id']))
             {
-                $where = "context = 'Publisher' AND contextid = {$aParam['publisher_id']}";
+                $where = "context = 'affiliates' AND contextid = {$aParam['publisher_id']}";
 
                 //  retrieve all zones for the selected publisher
                 $oZone = OA_Dal::factoryDO('zones');
@@ -198,7 +199,7 @@ class OA_Dll_Audit extends OA_Dll
                         $aZone[] = $oZone->zoneid;
                     }
                     if (!empty($aZone)) {
-                        $where .= " OR context = 'Zone' AND contextid IN (". implode(',', $aZone) .")";
+                        $where .= " OR context = 'zones' AND contextid IN (". implode(',', $aZone) .")";
                     }
                 }
 
@@ -213,7 +214,7 @@ class OA_Dll_Audit extends OA_Dll
                         $aChannel[] = $oChannel->channelid;
                     }
                     if (!empty($aCampaign)) {
-                        $where .= " OR context = 'Channel' AND contextid IN (". implode(',', $aChannel) .")";
+                        $where .= " OR context = 'channel' AND contextid IN (". implode(',', $aChannel) .")";
                     }
                 }
                 $oAudit->whereAdd($where);
@@ -223,7 +224,7 @@ class OA_Dll_Audit extends OA_Dll
             if (!empty($aParam['publisher_id']) && ($aParam['publisher_id'] > 0)
                 && !empty($aParam['zone_id']) && ($aParam['zone_id'] > 0))
             {
-                $oAudit->whereAdd("context = 'Zone' AND contextid = {$aParam['zone_id']}");
+                $oAudit->whereAdd("context = 'zones' AND contextid = {$aParam['zone_id']}");
             }
 
             //  Make sure that no items that are children are not displayed
@@ -261,11 +262,33 @@ class OA_Dll_Audit extends OA_Dll
                 if (empty($aAudit['username'])) {
                     $aAudit['username'] = 'Installer';
                 }
+                $aAudit['contextDescription'] = $this->getContextDescription($aAudit['context']);
 
                 $aAuditInfo[] = $aAudit;
             }
         }
         return $aAuditInfo;
+    }
+    
+    /**
+     * Returns context for given table name
+     *
+     * @param string $tableName
+     * @return string  Context
+     */
+    function getContextDescription($tableName)
+    {
+        static $contexts = array();
+        if (isset($contexts[$tableName])) {
+            return $contexts[$tableName];
+        }
+        $do = OA_Dal::factoryDO($tableName);
+        if ($do) {
+            $contexts[$tableName] = $do->_getContext();
+        } else {
+            $contexts[$tableName] = $tableName;
+        }
+        return $contexts[$tableName];
     }
 
 
@@ -301,16 +324,16 @@ class OA_Dll_Audit extends OA_Dll
      */
     function getParentContextData(& $aContext) {
         switch($aContext['context']) {
-        case 'Banner':
+        case 'banners':
             $aContext['parentcontext']    = $GLOBALS['strCampaign'];
             $aContext['parentcontextid']  = $aContext['details']['campaignid'];
             return true;
-        case 'Campaign':
+        case 'campaigns':
             $aContext['parentcontext']    = $GLOBALS['strClient'];
             $aContext['parentcontextid']  = $aContext['details']['clientid'];
             return true;
-        case 'Channel':
-        case 'Zone':
+        case 'channel':
+        case 'zones':
             $aContext['parentcontext']    = $GLOBALS['strAffiliate'];
             $aContext['parentcontextid']  = $aContext['details']['affiliateid'];
             return true;
@@ -329,7 +352,7 @@ class OA_Dll_Audit extends OA_Dll
     function getChildren($auditID, $itemContext)
     {
         switch ($itemContext) {
-        case 'Banner':
+        case 'banners':
             $context = $GLOBALS['strAdZoneAssociation'];
             break;
         }
@@ -342,6 +365,7 @@ class OA_Dll_Audit extends OA_Dll
         while($oAudit->fetch()) {
             $aAudit = $oAudit->toArray();
             $aAudit['action'] = $this->getActionName($aAudit['actionid']);
+            $aAudit['contextDescription'] = $this->getContextDescription($aAudit['context']);
 
             //  check if child has children
             if ($this->hasChildren($aAudit['auditid'], $aAudit['context'])) {
@@ -364,7 +388,7 @@ class OA_Dll_Audit extends OA_Dll
     function hasChildren($auditID, $itemContext)
     {
         switch ($itemContext) {
-        case 'Banner':
+        case 'banners':
             $context = $GLOBALS['strAdZoneAssociation'];
             break;
         }
@@ -387,27 +411,27 @@ class OA_Dll_Audit extends OA_Dll
     function _removeParentContextId(&$aAudit)
     {
         switch ($aAudit['context']) {
-        case 'Ad Zone Association':
-        case 'Delivery Limitation':
-        case 'Image':
+        case 'ad_zone_assoc':
+        case 'acls':
+        case 'images':
             if (!is_array($aAudit['details']['bannerid'])) {
                 unset($aAudit['details']['bannerid']);
             }
             return true;
-        case 'Banner':
-        case 'Campaign Tracker':
+        case 'banners':
+        case 'campaigns_trackers':
             if (!is_array($aAudit['details']['campaignid'])) {
                 unset($aAudit['details']['campaignid']);
             }
             return true;
-        case 'Campaign':
-        case 'Tracker':
+        case 'campaigns':
+        case 'trackers':
             if (!is_array($aAudit['details']['clientid'])) {
                 unset($aAudit['details']['clientid']);
             }
             return true;
-        case 'Channel':
-        case 'Zone':
+        case 'channel':
+        case 'zones':
             if (!is_array($aAudit['details']['affiliateid'])) {
                 unset($aAudit['details']['affiliateid']);
             }
@@ -450,6 +474,7 @@ class OA_Dll_Audit extends OA_Dll
             $oDate->convertTZ($oNow->tz);
             $aAudit['updated'] = $oDate->format('%Y-%m-%d %H:%M:%S');
             $aAudit['details'] = unserialize($aAudit['details']);
+            $aAudit['context'] = $this->getContextDescription($aAudit['context']);
             $aResult[] = $aAudit;
         }
         return $aResult;

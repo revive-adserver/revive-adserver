@@ -161,7 +161,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
     if (!empty($action) && PEAR::isError($result)) {
         // Message
         echo "<br>";
-        echo "<div class='errormessage'><img class='errormessage' src='images/errormessage.gif' align='absmiddle'>";
+        echo "<div class='errormessage'><img class='errormessage' src='" . MAX::assetPath() . "/images/errormessage.gif' align='absmiddle'>";
         echo "<span class='tab-r'>{$GLOBALS['strUnableToLinkBanner']}</span><br><br>{$GLOBALS['strErrorLinkingBanner']} <br />" . $result->message . "</div><br>";
     }
 

@@ -126,7 +126,7 @@ if ($clientid != "") {
         OA_Admin_Menu::setAdvertiserPageContext($clientid, 'advertiser-index.php');
         phpAds_PageShortcut($strClientHistory, 'stats.php?entity=advertiser&breakdown=history&clientid='.$clientid, 'images/icon-statistics.gif');
         phpAds_PageHeader("4.1.2");
-        echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
+        echo "<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
         $aTabSections = array("4.1.2", "4.1.3");
         // Conditionally display conversion tracking values
 		if ($conf['logging']['trackerImpressions']) {
@@ -153,7 +153,7 @@ if ($clientid != "") {
     }
 } else {
     phpAds_PageHeader("4.1.1");
-    echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
+    echo "<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
     phpAds_ShowSections(array("4.1.1"));
     // Do not set this information if the page
     // is the result of an error message
@@ -181,9 +181,9 @@ echo "<input type='hidden' name='clientid' value='".(isset($clientid) && $client
 // Header
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 echo "<tr><td height='25' colspan='3'><b>".$strBasicInformation."</b></td></tr>";
-echo "<tr height='1'><td width='30'><img src='images/break.gif' height='1' width='30'></td>";
-echo "<td width='200'><img src='images/break.gif' height='1' width='200'></td>";
-echo "<td width='100%'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+echo "<tr height='1'><td width='30'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='30'></td>";
+echo "<td width='200'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='200'></td>";
+echo "<td width='100%'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 // Clientname
@@ -195,19 +195,19 @@ if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     echo "<td>".(isset($aClient['clientname']) ? $aClient['clientname'] : '')."</td>";
 }
 
-echo "</tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+echo "</tr><tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 // Contact
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strContact."</td><td>";
 echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='contact' size='25' value='".phpAds_htmlQuotes($aClient['contact'])."' style='width: 350px;' tabindex='".($tabindex++)."'>";
-echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+echo "</td></tr><tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 // Email
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strEMail."</td><td>";
 echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='email' size='25' value='".phpAds_htmlQuotes($aClient['email'])."' style='width: 350px;' tabindex='".($tabindex++)."'>";
-echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
+echo "</td></tr><tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
 echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
 
 // Footer
@@ -216,9 +216,9 @@ echo "</table>";
 // Header
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 echo "<tr><td height='25' colspan='3'><b>".$strMailSubject."</b></td></tr>";
-echo "<tr height='1'><td width='30'><img src='images/break.gif' height='1' width='30'></td>";
-echo "<td width='200'><img src='images/break.gif' height='1' width='200'></td>";
-echo "<td width='100%'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+echo "<tr height='1'><td width='30'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='30'></td>";
+echo "<td width='200'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='200'></td>";
+echo "<td width='100%'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 // Reports
@@ -236,8 +236,8 @@ echo "<input type='checkbox' id='clientreport' name='clientreport' value='t'".($
 echo $strSendAdvertisingReport;
 echo "</label></td></tr>";
 
-echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strNoDaysBetweenReports."</td><td>";
 echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='clientreportinterval' size='25' value='".$aClient['reportinterval']."' tabindex='".($tabindex++)."'>";
 echo "</td></tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
@@ -252,18 +252,18 @@ echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 if (isset($errormessage) && count($errormessage)) {
     echo "<tr><td>&nbsp;</td><td height='10' colspan='2'>";
     echo "<table cellpadding='0' cellspacing='0' border='0'><tr><td>";
-    echo "<img src='images/error.gif' align='absmiddle'>&nbsp;";
+    echo "<img src='" . MAX::assetPath() . "/images/error.gif' align='absmiddle'>&nbsp;";
     foreach ($errormessage as $k => $v)
         echo "<font color='#AA0000'><b>".$v."</b></font><br />";
 
     echo "</td></tr></table></td></tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-    echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-    echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+    echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+    echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 }
 
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
 echo "<tr><td height='25' colspan='3'><b>".$strMiscellaneous."</b></td></tr>"."\n";
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>"."\n";
+echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>"."\n";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
 
 echo "<tr>"."\n";

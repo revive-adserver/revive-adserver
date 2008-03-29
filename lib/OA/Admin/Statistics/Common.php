@@ -243,6 +243,13 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      * @var string
      */
     var $pageURI;
+    
+    /**
+     * A path for static assets (images, CSS, JavaScripts).
+     *
+     * @var string
+     */
+    var $assetPath = ".";
 
     /**
      * An array for storing information about the statistics to display
@@ -620,6 +627,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
 
         // Generate URI used to add other parameters
         $this->_generatePageURI();
+        $this->assetPath = MAX::assetPath();
 
         // Add context links, if any
         if (!is_null($this->aPageContext) && is_array($this->aPageContext)) {
@@ -731,7 +739,8 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
 
         // Generate URI used to add other parameters
         $this->_generatePageURI();
-
+        $this->assetPath = MAX::assetPath();
+        
         // Add context links, if any
         if (is_array($this->aPageContext))
             call_user_func_array(array($this, '_showContext'), $this->aPageContext);
@@ -1503,9 +1512,9 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                     $bc['name'] = '<b>'.$bc['name'].'</b>';
                 }
                 if ($k > 0) {
-                    echo "&nbsp;<img src='images/".$GLOBALS['phpAds_TextDirection']."/caret-rs.gif'>&nbsp;";
+                    echo "&nbsp;<img src='" . MAX::assetPath() . "/images/".$GLOBALS['phpAds_TextDirection']."/caret-rs.gif'>&nbsp;";
                 }
-                echo '<img src="'.$bc['icon'].'" align="absmiddle" />&nbsp;'.$bc['name'];
+                echo '<img src="'.MAX::assetPath($bc['icon']).'" align="absmiddle" />&nbsp;'.$bc['name'];
             }
             if (count($this->aPageBreadcrumbs)) {
                 echo "<br /><br /><br />";

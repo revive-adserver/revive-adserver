@@ -391,12 +391,12 @@ if (!isset($bannerid) || $bannerid == '') {
 
 } else {
     // Only display the notices when *changing* a banner size, not for new banners
-    echo "<div class='errormessage' id='warning_change_zone_type' style='display:none'> <img class='errormessage' src='images/errormessage.gif' align='absmiddle' />";
+    echo "<div class='errormessage' id='warning_change_zone_type' style='display:none'> <img class='errormessage' src='" . MAX::assetPath() . "/images/errormessage.gif' align='absmiddle' />";
     echo "<span class='tab-r'> {$GLOBALS['strWarning']}:</span><br />";
     echo "{$GLOBALS['strWarnChangeZoneType']}";
     echo "</div>";
 
-    echo "<div class='errormessage' id='warning_change_banner_size' style='display:none'> <img class='errormessage' src='images/warning.gif' align='absmiddle' />";
+    echo "<div class='errormessage' id='warning_change_banner_size' style='display:none'> <img class='errormessage' src='" . MAX::assetPath() . "/images/warning.gif' align='absmiddle' />";
     echo "<span class='tab-s'> {$GLOBALS['strNotice']}:</span><br />";
     echo "{$GLOBALS['strWarnChangeBannerSize']}";
     echo "</div>";
@@ -498,8 +498,8 @@ if(isset($session['htmlerrormsg']) && strlen($session['htmlerrormsg']) > 0) {
 
 if ($type == 'sql') {
     echo "<br /><table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='#F6F6F6'>";
-    echo "<tr><td height='25' colspan='3' bgcolor='#FFFFFF'><img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".$strMySQLBanner."</b></td></tr>";
-    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+    echo "<tr><td height='25' colspan='3' bgcolor='#FFFFFF'><img src='" . MAX::assetPath() . "/images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".$strMySQLBanner."</b></td></tr>";
+    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
     echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
     if (isset($row['filename']) && $row['filename'] != '') {
@@ -509,14 +509,14 @@ if ($type == 'sql') {
         echo "<tr valign='top'><td><input type='radio' name='replaceimage' value='f' checked tabindex='".($tabindex++)."'></td><td>&nbsp;";
 
         switch ($row['contenttype']) {
-            case 'swf':  echo "<img src='images/icon-filetype-swf.gif' align='absmiddle'> ".$row['filename']; break;
-            case 'dcr':  echo "<img src='images/icon-filetype-swf.gif' align='absmiddle'> ".$row['filename']; break;
-            case 'jpeg': echo "<img src='images/icon-filetype-jpg.gif' align='absmiddle'> ".$row['filename']; break;
-            case 'gif':  echo "<img src='images/icon-filetype-gif.gif' align='absmiddle'> ".$row['filename']; break;
-            case 'png':  echo "<img src='images/icon-filetype-png.gif' align='absmiddle'> ".$row['filename']; break;
-            case 'rpm':  echo "<img src='images/icon-filetype-rpm.gif' align='absmiddle'> ".$row['filename']; break;
-            case 'mov':  echo "<img src='images/icon-filetype-mov.gif' align='absmiddle'> ".$row['filename']; break;
-            default:     echo "<img src='images/icon-banner-stored.gif' align='absmiddle'> ".$row['filename']; break;
+            case 'swf':  echo "<img src='" . MAX::assetPath() . "/images/icon-filetype-swf.gif' align='absmiddle'> ".$row['filename']; break;
+            case 'dcr':  echo "<img src='" . MAX::assetPath() . "/images/icon-filetype-swf.gif' align='absmiddle'> ".$row['filename']; break;
+            case 'jpeg': echo "<img src='" . MAX::assetPath() . "/images/icon-filetype-jpg.gif' align='absmiddle'> ".$row['filename']; break;
+            case 'gif':  echo "<img src='" . MAX::assetPath() . "/images/icon-filetype-gif.gif' align='absmiddle'> ".$row['filename']; break;
+            case 'png':  echo "<img src='" . MAX::assetPath() . "/images/icon-filetype-png.gif' align='absmiddle'> ".$row['filename']; break;
+            case 'rpm':  echo "<img src='" . MAX::assetPath() . "/images/icon-filetype-rpm.gif' align='absmiddle'> ".$row['filename']; break;
+            case 'mov':  echo "<img src='" . MAX::assetPath() . "/images/icon-filetype-mov.gif' align='absmiddle'> ".$row['filename']; break;
+            default:     echo "<img src='" . MAX::assetPath() . "/images/icon-banner-stored.gif' align='absmiddle'> ".$row['filename']; break;
         }
 
         $size = phpAds_ImageSize($type, $row['filename']);
@@ -535,7 +535,7 @@ if ($type == 'sql') {
         echo "</label></div>";
 
         echo "</td></tr></table><br /><br /></td></tr>";
-        echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+        echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
         echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
     } else {
         echo "<input type='hidden' name='replaceimage' value='t'>";
@@ -549,7 +549,7 @@ if ($type == 'sql') {
         echo "</label></div>";
 
         echo "<br /><br /></td></tr>";
-        echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+        echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
         echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
     }
 
@@ -558,8 +558,8 @@ if ($type == 'sql') {
         echo "<td width='200'>".$strURL."</td>";
         echo "<td><input class='flat' size='35' type='text' name='url' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($row["url"])."' tabindex='".($tabindex++)."'></td></tr>";
 
-        echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-        echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+        echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+        echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
         echo "<tr><td width='30'>&nbsp;</td>";
         echo "<td width='200'>".$strTarget."</td>";
@@ -570,7 +570,7 @@ if ($type == 'sql') {
         foreach ($hardcoded_links as $key => $val) {
             if ($i > 0) {
                 echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
-                echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
+                echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td></tr>";
                 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
             }
 
@@ -580,8 +580,8 @@ if ($type == 'sql') {
             echo "<input type='radio' name='alink_chosen' value='".$key."'".($val == $row['url'] ? ' checked' : '')." tabindex='".($tabindex++)."'></td></tr>";
 
             if (isset($hardcoded_targets[$key])) {
-                echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-                echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+                echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+                echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
                 echo "<tr><td width='30'>&nbsp;</td>";
                 echo "<td width='200'>".$strTarget."</td>";
@@ -590,8 +590,8 @@ if ($type == 'sql') {
             }
 
             if (count($hardcoded_links) > 1) {
-                echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-                echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+                echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+                echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
                 echo "<tr><td width='30'>&nbsp;</td>";
                 echo "<td width='200'>".$strOverwriteSource."</td>";
@@ -604,28 +604,28 @@ if ($type == 'sql') {
     }
 
     echo "<tr><td height='30' colspan='3'>&nbsp;</td></tr>";
-    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
     echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strAlt."</td>";
     echo "<td><input class='flat' size='35' type='text' name='alt' style='width:350px;' value='".$row["alt"]."' tabindex='".($tabindex++)."'></td></tr>";
-    echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-    echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+    echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+    echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strStatusText."</td>";
     echo "<td><input class='flat' size='35' type='text' name='statustext' style='width:350px;' value='".phpAds_htmlQuotes($row["statustext"])."' tabindex='".($tabindex++)."'></td></tr>";
-    echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-    echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+    echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+    echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strTextBelow."</td>";
     echo "<td><input class='flat' size='35' type='text' name='bannertext' style='width:350px;' value='".$row["bannertext"]."' tabindex='".($tabindex++)."'></td></tr>";
 
     if (isset($bannerid) && $bannerid != '') {
-        echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-        echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+        echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+        echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
         echo "<tr><td width='30'>&nbsp;</td>";
         echo "<td width='200'>".$strSize."</td>";
@@ -635,8 +635,8 @@ if ($type == 'sql') {
 
     if (!isset($row['contenttype']) || $row['contenttype'] == 'swf')
     {
-        echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-        echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+        echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+        echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
         echo "<tr><td width='30'>&nbsp;</td>";
         echo "<td width='200'>".$strSwfTransparency."</td>";
         echo "<td><select name='transparent' tabindex='".($tabindex++)."'>";
@@ -646,7 +646,7 @@ if ($type == 'sql') {
     }
 
     echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
-    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
     echo "</table>";
 }
 
@@ -656,16 +656,16 @@ if ($type == 'web') {
         if ($message == 'invalidFileType') {
             $message = 'you have submitted an invalid file type, please check and resubmit';
         }
-        echo "<div class='errormessage' style='width: 500px;'><img class='errormessage' src='images/errormessage.gif' align='absmiddle'>";
+        echo "<div class='errormessage' style='width: 500px;'><img class='errormessage' src='" . MAX::assetPath() . "/images/errormessage.gif' align='absmiddle'>";
         echo "<span class='tab-r'>$message</span></div>";
     }
     if ($row['contenttype'] == 'swf' && empty($row['alt_contenttype'])) {
-        echo "<div class='errormessage'><img class='errormessage' src='images/warning.gif' align='absmiddle'>";
+        echo "<div class='errormessage'><img class='errormessage' src='" . MAX::assetPath() . "/images/warning.gif' align='absmiddle'>";
         echo "<span class='tab-s'>This flash creative does not have a backup gif</span><br>";
         echo "</div>";
     }
-    echo "<tr><td height='25' colspan='3' bgcolor='#FFFFFF'><img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".$strWebBanner."</b></td></tr>";
-    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+    echo "<tr><td height='25' colspan='3' bgcolor='#FFFFFF'><img src='" . MAX::assetPath() . "/images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".$strWebBanner."</b></td></tr>";
+    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
     echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
     if (isset($row['filename']) && $row['filename'] != '') {
@@ -675,14 +675,14 @@ if ($type == 'web') {
         echo "<tr valign='top'><td><input type='radio' name='replaceimage' value='f' checked tabindex='".($tabindex++)."'></td><td>&nbsp;";
 
         switch ($row['contenttype']) {
-            case 'swf':  echo "<img src='images/icon-filetype-swf.gif' align='absmiddle'> ".$row['filename']; break;
-            case 'dcr':  echo "<img src='images/icon-filetype-swf.gif' align='absmiddle'> ".$row['filename']; break;
-            case 'jpeg': echo "<img src='images/icon-filetype-jpg.gif' align='absmiddle'> ".$row['filename']; break;
-            case 'gif':  echo "<img src='images/icon-filetype-gif.gif' align='absmiddle'> ".$row['filename']; break;
-            case 'png':  echo "<img src='images/icon-filetype-png.gif' align='absmiddle'> ".$row['filename']; break;
-            case 'rpm':  echo "<img src='images/icon-filetype-rpm.gif' align='absmiddle'> ".$row['filename']; break;
-            case 'mov':  echo "<img src='images/icon-filetype-mov.gif' align='absmiddle'> ".$row['filename']; break;
-            default:     echo "<img src='images/icon-banner-stored.gif' align='absmiddle'> ".$row['filename']; break;
+            case 'swf':  echo "<img src='" . MAX::assetPath() . "/images/icon-filetype-swf.gif' align='absmiddle'> ".$row['filename']; break;
+            case 'dcr':  echo "<img src='" . MAX::assetPath() . "/images/icon-filetype-swf.gif' align='absmiddle'> ".$row['filename']; break;
+            case 'jpeg': echo "<img src='" . MAX::assetPath() . "/images/icon-filetype-jpg.gif' align='absmiddle'> ".$row['filename']; break;
+            case 'gif':  echo "<img src='" . MAX::assetPath() . "/images/icon-filetype-gif.gif' align='absmiddle'> ".$row['filename']; break;
+            case 'png':  echo "<img src='" . MAX::assetPath() . "/images/icon-filetype-png.gif' align='absmiddle'> ".$row['filename']; break;
+            case 'rpm':  echo "<img src='" . MAX::assetPath() . "/images/icon-filetype-rpm.gif' align='absmiddle'> ".$row['filename']; break;
+            case 'mov':  echo "<img src='" . MAX::assetPath() . "/images/icon-filetype-mov.gif' align='absmiddle'> ".$row['filename']; break;
+            default:     echo "<img src='" . MAX::assetPath() . "/images/icon-banner-stored.gif' align='absmiddle'> ".$row['filename']; break;
         }
 
         $size = phpAds_ImageSize($type, $row['filename']);
@@ -701,7 +701,7 @@ if ($type == 'web') {
         echo "</label></div>";
 
         echo "</td></tr></table><br /><br /></td></tr>";
-        echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+        echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
         echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
     } else {
         echo "<input type='hidden' name='replaceimage' value='t'>";
@@ -714,7 +714,7 @@ if ($type == 'web') {
         echo "</label></div>";
 
         echo "<br /><br /></td></tr>";
-        echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+        echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
         echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
     }
 
@@ -725,7 +725,7 @@ if ($type == 'web') {
             echo "<td><table cellpadding='0' cellspacing='0' border='0'>";
             echo "<tr valign='top'><td><input type='radio' name='replacealtimage' value='f' checked tabindex='".($tabindex++)."'></td><td>&nbsp;";
 
-            echo "<img src='images/icon-filetype-gif.gif' align='absmiddle'> ".$row['alt_filename'];
+            echo "<img src='" . MAX::assetPath() . "/images/icon-filetype-gif.gif' align='absmiddle'> ".$row['alt_filename'];
 
             $size = phpAds_ImageSize($type, $row['alt_filename']);
             if (round($size / 1024) == 0) {
@@ -739,7 +739,7 @@ if ($type == 'web') {
             echo "<td>&nbsp;<input class='flat' size='26' type='file' name='uploadalt' style='width:250px;' onChange='selectFile(this);' tabindex='".($tabindex++)."'>";
 
             echo "</td></tr></table><br /><br /></td></tr>";
-            echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+            echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
             echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
         } else {
             echo "<input type='hidden' name='replacealtimage' value='t'>";
@@ -748,7 +748,7 @@ if ($type == 'web') {
             echo "<td><input class='flat' size='26' type='file' name='uploadalt' style='width:350px;' onChange='selectFile(this);' tabindex='".($tabindex++)."'>";
 
             echo "<br /><br /></td></tr>";
-            echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+            echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
             echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
         }
     }
@@ -758,8 +758,8 @@ if ($type == 'web') {
         echo "<td width='200'>".$strURL."</td>";
         echo "<td><input class='flat' size='35' type='text' name='url' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($row["url"])."' tabindex='".($tabindex++)."'></td></tr>";
 
-        echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-        echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+        echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+        echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
         echo "<tr><td width='30'>&nbsp;</td>";
         echo "<td width='200'>".$strTarget."</td>";
@@ -770,7 +770,7 @@ if ($type == 'web') {
         foreach ($hardcoded_links as $key => $val) {
             if ($i > 0) {
                 echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
-                echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
+                echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td></tr>";
                 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
             }
 
@@ -780,8 +780,8 @@ if ($type == 'web') {
             echo "<input type='radio' name='alink_chosen' value='".$key."'".($val == $row['url'] ? ' checked' : '')." tabindex='".($tabindex++)."'></td></tr>";
 
             if (isset($hardcoded_targets[$key])) {
-                echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-                echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+                echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+                echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
                 echo "<tr><td width='30'>&nbsp;</td>";
                 echo "<td width='200'>".$strTarget."</td>";
@@ -789,8 +789,8 @@ if ($type == 'web') {
                 echo "</td></tr>";
             }
 
-            echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-            echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+            echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+            echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
             echo "<tr><td width='30'>&nbsp;</td>";
             echo "<td width='200'>".$strOverwriteSource."</td>";
@@ -803,28 +803,28 @@ if ($type == 'web') {
     }
 
     echo "<tr><td height='30' colspan='3'>&nbsp;</td></tr>";
-    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
     echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strAlt."</td>";
     echo "<td><input class='flat' size='35' type='text' name='alt' style='width:350px;' value='".$row["alt"]."' tabindex='".($tabindex++)."'></td></tr>";
-    echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-    echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+    echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+    echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strStatusText."</td>";
     echo "<td><input class='flat' size='35' type='text' name='statustext' style='width:350px;' value='".phpAds_htmlQuotes($row["statustext"])."' tabindex='".($tabindex++)."'></td></tr>";
-    echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-    echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+    echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+    echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strTextBelow."</td>";
     echo "<td><input class='flat' size='35' type='text' name='bannertext' style='width:350px;' value='".$row["bannertext"]."' tabindex='".($tabindex++)."'></td></tr>";
 
     if (isset($bannerid) && $bannerid != '') {
-        echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-        echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+        echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+        echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
         echo "<tr><td width='30'>&nbsp;</td>";
         echo "<td width='200'>".$strSize."</td>";
@@ -834,8 +834,8 @@ if ($type == 'web') {
 
     if (!isset($row['contenttype']) || $row['contenttype'] == 'swf')
     {
-        echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-        echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+        echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+        echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
         echo "<tr><td width='30'>&nbsp;</td>";
         echo "<td width='200'>".$strSwfTransparency."</td>";
         echo "<td><select name='transparent' tabindex='".($tabindex++)."'>";
@@ -845,14 +845,14 @@ if ($type == 'web') {
     }
 
     echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
-    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
     echo "</table>";
 }
 
 if ($type == 'url') {
     echo "<br /><table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='#F6F6F6'>";
-    echo "<tr><td height='25' colspan='3' bgcolor='#FFFFFF'><img src='images/icon-banner-url.gif' align='absmiddle'>&nbsp;<b>".$strURLBanner."</b></td></tr>";
-    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+    echo "<tr><td height='25' colspan='3' bgcolor='#FFFFFF'><img src='" . MAX::assetPath() . "/images/icon-banner-url.gif' align='absmiddle'>&nbsp;<b>".$strURLBanner."</b></td></tr>";
+    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
     echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
     echo "<tr><td width='30'>&nbsp;</td>";
@@ -860,40 +860,40 @@ if ($type == 'url') {
     echo "<td><input class='flat' size='35' type='text' name='imageurl' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($row["imageurl"])."' tabindex='".($tabindex++)."'></td></tr>";
 
     echo "<tr><td height='30' colspan='3'>&nbsp;</td></tr>";
-    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
     echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strURL."</td>";
     echo "<td><input class='flat' size='35' type='text' name='url' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($row["url"])."' tabindex='".($tabindex++)."'></td></tr>";
-    echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-    echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+    echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+    echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strTarget."</td>";
     echo "<td><input class='flat' size='16' type='text' name='target' style='width:150px;' dir='ltr' value='".$row["target"]."' tabindex='".($tabindex++)."'></td></tr>";
 
     echo "<tr><td height='30' colspan='3'>&nbsp;</td></tr>";
-    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
     echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strAlt."</td>";
     echo "<td><input class='flat' size='35' type='text' name='alt' style='width:350px;' value='".$row["alt"]."' tabindex='".($tabindex++)."'></td></tr>";
-    echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-    echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+    echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+    echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strStatusText."</td>";
     echo "<td><input class='flat' size='35' type='text' name='statustext' style='width:350px;' value='".phpAds_htmlQuotes($row["statustext"])."' tabindex='".($tabindex++)."'></td></tr>";
-    echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-    echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+    echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+    echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strTextBelow."</td>";
     echo "<td><input class='flat' size='35' type='text' name='bannertext' style='width:350px;' value='".$row["bannertext"]."' tabindex='".($tabindex++)."'></td></tr>";
-    echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-    echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+    echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+    echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strSize."</td>";
@@ -902,14 +902,14 @@ if ($type == 'url') {
     echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."' " . (!empty($bannerid) ? "onChange='oa_sizeChangeUpdateMessage(\"warning_change_banner_size\");'" : '' )." tabindex='".($tabindex++)."'></td></tr>";
 
     echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
-    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
     echo "</table>";
 }
 
 if ($type == 'html') {
     echo "<br /><table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='#F6F6F6'>";
-    echo "<tr><td height='25' colspan='3' bgcolor='#FFFFFF'><img src='images/icon-banner-html.gif' align='absmiddle'>&nbsp;<b>".$strHTMLBanner."</b></td></tr>";
-    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+    echo "<tr><td height='25' colspan='3' bgcolor='#FFFFFF'><img src='" . MAX::assetPath() . "/images/icon-banner-html.gif' align='absmiddle'>&nbsp;<b>".$strHTMLBanner."</b></td></tr>";
+    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
     echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
     echo "<tr><td width='30'>&nbsp;</td>";
@@ -920,8 +920,8 @@ if ($type == 'html') {
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td colspan='2'>";
     echo "<table><tr>";
-    echo "<td><img src='images/spacer.gif' height='1' width='250'></td>";
-    echo "<td><img src='images/spacer.gif' height='1' width='280'></td>";
+    echo "<td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='250'></td>";
+    echo "<td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='280'></td>";
     echo "</tr>";
     echo "<tr>";
     echo "<td><input type='checkbox' onClick='alterHtmlCheckbox()' id='autohtml' name='autohtml' value='t'".(!isset($row["autohtml"]) || $row["autohtml"] == 't' ? ' checked' : '')." tabindex='".($tabindex++)."'> <label for='autohtml'>".$strAutoChangeHTML."</label></td>";
@@ -941,20 +941,20 @@ if ($type == 'html') {
     // end of modified section
 
     echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
-    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
     echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strURL."</td>";
     echo "<td><input class='flat' size='35' type='text' name='url' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($row["url"])."' tabindex='".($tabindex++)."'></td></tr>";
-    echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-    echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+    echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+    echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strTarget."</td>";
     echo "<td><input class='flat' size='35' type='text' name='target' style='width:350px;' dir='ltr' value='".$row["target"]."' tabindex='".($tabindex++)."'></td></tr>";
-    echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-    echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+    echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+    echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strSize."</td>";
@@ -962,14 +962,14 @@ if ($type == 'html') {
     echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."' " . (!empty($bannerid) ? "onChange='oa_sizeChangeUpdateMessage(\"warning_change_banner_size\");'" : '' )." tabindex='".($tabindex++)."'></td></tr>";
 
     echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
-    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
     echo "</table>";
 }
 
 if ($type == 'txt') {
     echo "<br /><table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='#F6F6F6'>";
-    echo "<tr><td height='25' colspan='3' bgcolor='#FFFFFF'><img src='images/icon-banner-text.gif' align='absmiddle'>&nbsp;<b>".$strTextBanner."</b></td></tr>";
-    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+    echo "<tr><td height='25' colspan='3' bgcolor='#FFFFFF'><img src='" . MAX::assetPath() . "/images/icon-banner-text.gif' align='absmiddle'>&nbsp;<b>".$strTextBanner."</b></td></tr>";
+    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
     echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
     echo "<tr><td width='30'>&nbsp;</td>";
@@ -977,21 +977,21 @@ if ($type == 'txt') {
     echo "' tabindex='".($tabindex++)."'>".$row['bannertext']."</textarea></td></tr>";
 
     echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
-    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
     echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strURL."</td>";
     echo "<td><input class='flat' size='35' type='text' name='url' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($row["url"])."' tabindex='".($tabindex++)."'></td></tr>";
-    echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-    echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+    echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+    echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strTarget."</td>";
     echo "<td><input class='flat' size='16' type='text' name='target' style='width:150px;' dir='ltr' value='".$row["target"]."' tabindex='".($tabindex++)."'></td></tr>";
 
     echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
-    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
     echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
     echo "<tr><td width='30'>&nbsp;</td>";
@@ -999,7 +999,7 @@ if ($type == 'txt') {
     echo "<td><input class='flat' size='35' type='text' name='statustext' style='width:350px;' value='".phpAds_htmlQuotes($row["statustext"])."' tabindex='".($tabindex++)."'></td></tr>";
 
     echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
-    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
     echo "</table>";
 }
 
@@ -1010,20 +1010,20 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_AC
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strKeyword."</td>";
     echo "<td><input class='flat' size='35' type='text' name='keyword' style='width:350px;' value='".phpAds_htmlQuotes($row["keyword"])."' tabindex='".($tabindex++)."'></td></tr>";
-    echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-    echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+    echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+    echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strDescription."</td>";
     echo "<td><input class='flat' size='35' type='text' name='description' style='width:350px;' value='".phpAds_htmlQuotes($row["description"])."' tabindex='".($tabindex++)."'></td></tr>";
-    echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-    echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+    echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+    echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strWeight."</td>";
     echo "<td><input class='flat' size='6' type='text' name='weight' value='".(isset($row["weight"]) ? $row["weight"] : $pref['default_banner_weight'])."' tabindex='".($tabindex++)."'></td></tr>";
     echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+    echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
     echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
     echo "<tr><td width='30'>&nbsp;</td>";

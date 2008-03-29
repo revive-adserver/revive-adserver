@@ -56,6 +56,19 @@ class OA_Central_RpcMapper_Cas extends OA_Central_RpcMapper
     }
 
     /**
+     * Returns email of sso account which matches the sso user id
+     *
+     * @param integer $ssoAccountId
+     * @return string
+     */
+    function getAccountEmail($ssoAccountId)
+    {
+        return $this->oRpc->callM2M('getAccountEmail', array(
+            new XML_RPC_Value($ssoAccountId, 'int')
+        ));
+    }
+
+    /**
      * Creates partial account for user and sends activation email.
      * @param $userEmail email of new user
      * @param $emailFrom sender email address of activation email
@@ -67,11 +80,30 @@ class OA_Central_RpcMapper_Cas extends OA_Central_RpcMapper
      */
     function createPartialAccount($userEmail, $emailFrom, $emailSubject, $emailContent)
     {
+        $this->oRpc->setRemoveExtraLines(false);
         return $this->oRpc->callM2M('createPartialAccount', array(
             new XML_RPC_Value($userEmail, 'string'),
             new XML_RPC_Value($emailFrom, 'string'),
             new XML_RPC_Value($emailSubject, 'string'),
             new XML_RPC_Value($emailContent, 'string')
+        ));
+    }
+
+    /**
+     * Completes the creation of partial account
+     * @param $accountId email of new user
+     * @param $login sender email address of activation email
+     * @param $md5Password subject of activation email
+     * @param $verificationHash content of activation email, should contain
+     * @return boolean|PEAR_Error  True on success else false
+     */
+    function completePartialAccount($accountId, $login, $md5Password, $verificationHash)
+    {
+        return $this->oRpc->callM2M('completePartialAccount', array(
+            new XML_RPC_Value($accountId, 'int'),
+            new XML_RPC_Value($login, 'string'),
+            new XML_RPC_Value($md5Password, 'string'),
+            new XML_RPC_Value($verificationHash, 'string')
         ));
     }
 
@@ -119,6 +151,21 @@ class OA_Central_RpcMapper_Cas extends OA_Central_RpcMapper
     }
 
     /**
+     * Set a new user password
+     *
+     * @param integer $ssoUserId
+     * @param string $newPassword
+     * @return boolean
+     */
+    function setPassword($ssoUserId, $newPassword)
+    {
+        return $this->oRpc->callM2M('setPassword', array(
+            new XML_RPC_Value($ssoUserId, 'int'),
+            new XML_RPC_Value($newPassword, 'string')
+        ));
+    }
+
+    /**
      * Checks if password of sso user with $ssoUserId is valid.
      *
      * @param string $username
@@ -149,6 +196,22 @@ class OA_Central_RpcMapper_Cas extends OA_Central_RpcMapper
     }
 
     /**
+     * Check if verification hash is correct for the email
+     * And returns sso account Id
+     *
+     * @param string $verificationHash
+     * @param string $email
+     * @return integer  Account Id
+     */
+    function checkEmail($verificationHash, $email)
+    {
+        return $this->oRpc->callM2M('checkEmail', array(
+            new XML_RPC_Value($verificationHash, 'string'),
+            new XML_RPC_Value($email, 'string')
+        ));
+    }
+
+    /**
      * Changes user email. Method contacts SSO webservices, validate existing user's
      * password and changes the email to a new one
      *
@@ -164,6 +227,63 @@ class OA_Central_RpcMapper_Cas extends OA_Central_RpcMapper
             new XML_RPC_Value($emailAddress, 'string'),
             new XML_RPC_Value($md5password, 'string')
         ));
+    }
+    
+    /**
+     * Returns the sso account Id of matching user name/password.
+     *
+     * @param string $userName
+     * @param string $md5password
+     * @return boolean
+     */
+    function getAccountIdByUsernamePassword($userName, $md5password)
+    {
+        return $this->oRpc->callM2M('getAccountIdByUsernamePassword', array(
+            new XML_RPC_Value($userName, 'string'),
+            new XML_RPC_Value($md5password, 'string')
+        ));
+    }
+    
+    /**
+     * Deletes a partial account from the sso database.
+     *
+     * @param integer $ssoAccountId
+     * @param string $verificationHash
+     * @return boolean True if account was deleted or PEAR_Error on error
+     */
+    function rejectPartialAccount($ssoAccountId, $verificationHash)
+    {
+        return $this->oRpc->callM2M('rejectPartialAccount', array(
+            new XML_RPC_Value($ssoAccountId, 'int'),
+            new XML_RPC_Value($verificationHash, 'string')
+        ));
+    }
+    
+    /**
+     * Checks if such userName is available
+     *
+     * @param string $userName
+     * @return boolean True if such userName is available, else false
+     */
+    function isUserNameAvailable($userName)
+    {
+        return $this->oRpc->callM2M('isUserNameAvailable', array(
+            new XML_RPC_Value($userName, 'string')
+        ));
+    }
+    
+    /**
+     * Sets a "remove_extra_lines" RPC Client option.
+     * By default it is set to true. It cause some problems when multiline data is send through XML-RPC.
+     * For example when email body are sent.
+     * 
+     * Forwards a call to OA_Dal_Central_Rpc
+     *
+     * @param boolean $option
+     */
+    function setRemoveExtraLines($option = true)
+    {
+        $this->oRpc->setRemoveExtraLines($option);
     }
 
 }

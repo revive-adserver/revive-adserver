@@ -2427,6 +2427,13 @@ if (is_null($mode) && is_null($options)) {
 PEAR::popErrorHandling();
 }
 }
+function getConfigOption($section, $name, $default = null)
+{
+if (isset($GLOBALS['_MAX']['CONF'][$section][$name])) {
+return $GLOBALS['_MAX']['CONF'][$section][$name];
+}
+return $default;
+}
 }
 class MAX
 {

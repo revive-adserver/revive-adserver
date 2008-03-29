@@ -80,7 +80,7 @@
 		<td style="padding-bottom:5px; white-space: nowrap;">
 			<br />
 			<a href="stats.php?{aGraphData[queryString]}&plugin=advertiser:statshistory" accesskey="e">
-            <img src="images/excel.gif" border="0" alt="" /> {strExportStatisticsToExcel:h}
+            <img src="{assetPath}/images/excel.gif" border="0" alt="" /> {strExportStatisticsToExcel:h}
             </a>
 		</td>
 		<td width="90%">&nbsp;</td>
@@ -99,7 +99,7 @@
 		<td style="padding-bottom:5px; white-space: nowrap;">
 			<br />
 			<span style="color: #999999;">
-            <img src="images/excel.gif" border="0" alt="" /> {strExportStatisticsToExcel:h}</span>
+            <img src="{assetPath}/images/excel.gif" border="0" alt="" /> {strExportStatisticsToExcel:h}</span>
 		</td>
 		<td width="90%">&nbsp;</td>
 	{end:}
@@ -107,7 +107,7 @@
 	</table>
     <div id="statsgraph" style="text-align: center; display:none; background-color:#f9f9f9; border: 1px solid #cccccc; padding: 10px; width: 850px; margin-top: 15px; margin-bottom: 15px;">
 	    {if:aGraphData[noGraph]}
-	    	<div class='errormessage' style='margin-top: 2em'><img class='errormessage' src='images/info.gif' width='16' height='16' border='0' align='absmiddle'>&nbsp;{aGraphData[noGraph]:h}</div>
+	    	<div class='errormessage' style='margin-top: 2em'><img class='errormessage' src='{assetPath}/images/info.gif' width='16' height='16' border='0' align='absmiddle'>&nbsp;{aGraphData[noGraph]:h}</div>
 	    {else:}
         <img id="imageLinkSrcTemp" src="" style="display: none;" />
 		    <img id="imageLinkSrc" src="{aGraphData[imgPath]}/ltr/preloader.gif" style="border: 1px solid #cccccc;padding: 5px;margin: 10px; background-color: #ffffff; text-align:center;" /><form method="post" action="{aGraphData[formSubmitLink]}">
@@ -131,7 +131,7 @@
   <tr>
 	<td style="padding-left: 40px;">
     {if:noStatsAvailable}
-    <div class='errormessage' style='margin-top: 2em'><img class='errormessage' src='images/info.gif' width='16' height='16' border='0' align='absmiddle'>{showNoStatsString()}</div>
+    <div class='errormessage' style='margin-top: 2em'><img class='errormessage' src='{assetPath}/images/info.gif' width='16' height='16' border='0' align='absmiddle'>{showNoStatsString()}</div>
     {else:}
     <table width="100%" cellspacing="2" class="table">
         <thead>

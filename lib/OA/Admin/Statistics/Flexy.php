@@ -66,7 +66,7 @@ class OA_Admin_Statistics_Flexy
 
         echo "
         <a href='#' onclick='return periodFormSubmit()'>
-        <img src='images/{$GLOBALS['phpAds_TextDirection']}/go_blue.gif' border='0' tabindex='".$this->tabindex++."' /></a>
+        <img src='" . MAX::assetPath() . "/images/{$GLOBALS['phpAds_TextDirection']}/go_blue.gif' border='0' tabindex='".$this->tabindex++."' /></a>
         </form>";
     }
 
@@ -136,7 +136,7 @@ class OA_Admin_Statistics_Flexy
     function listOrderImage($fieldname)
     {
         if ($this->listOrderField == $fieldname) {
-            return "images/caret-".($this->listOrderDirection == 'up' ? 'u': 'ds').".gif";
+            return MAX::assetPath("images/caret-".($this->listOrderDirection == 'up' ? 'u': 'ds').".gif");
         } else {
             return false;
         }

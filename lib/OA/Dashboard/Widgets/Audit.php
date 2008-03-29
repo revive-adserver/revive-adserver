@@ -27,6 +27,7 @@ $Id$
 
 require_once MAX_PATH . '/lib/OA/Dashboard/Widget.php';
 require_once MAX_PATH . '/lib/OA/Dll/Audit.php';
+require_once MAX_PATH . '/lib/OA/Translation.php';
 
 /**
  * A dashboard widget to diplay an RSS feed of the OpenX Blog
@@ -34,6 +35,7 @@ require_once MAX_PATH . '/lib/OA/Dll/Audit.php';
  */
 class OA_Dashboard_Widget_Audit extends OA_Dashboard_Widget
 {
+    var $oTrans;
 
     /**
      * The class constructor
@@ -48,6 +50,7 @@ class OA_Dashboard_Widget_Audit extends OA_Dashboard_Widget
         $aConf = $GLOBALS['_MAX']['CONF'];
 
         $this->oTpl = new OA_Admin_Template('dashboard/audit.html');
+        $this->oTrans = new OA_Translation();
     }
 
     function display()
@@ -66,7 +69,7 @@ class OA_Dashboard_Widget_Audit extends OA_Dashboard_Widget
             $aAuditData = $oAudit->getAuditLogForAuditWidget($aParam);
             if (count($aAuditData) > 0) {
                 foreach ($aAuditData as $key => $aValue) {
-                    $aValue['action'] = $oAudit->getActionName($aValue['actionid']);
+                    $aValue['action'] = $this->oTrans->translate($oAudit->getActionName($aValue['actionid']));
                     $result = $oAudit->getParentContextData($aValue);
 
                     $str = "{$aValue['username']} {$GLOBALS['strHas']} {$aValue['action']} {$aValue['context']}";

@@ -59,7 +59,7 @@ phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.7"));
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-echo "<img src='images/icon-channel-add.gif' border='0' align='absmiddle'>&nbsp;";
+echo "<img src='" . MAX::assetPath() . "/images/icon-channel-add.gif' border='0' align='absmiddle'>&nbsp;";
 echo "<a href='channel-edit.php?agencyid={$agencyId}' accesskey='".$keyAddNew."'>{$GLOBALS['strAddNewChannel_Key']}</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
 

@@ -132,6 +132,18 @@ class MAX_Plugin_Common
     {
         return MAX_Plugin::cleanPluginCache($this->module, $this->package, $this-> name, $mode);
     }
+    
+    /**
+     * Translates string using module/package translation file
+     *
+     * @param string $string  String to translate
+     * @return string  Translated string
+     */
+    function translate($string)
+    {
+        return MAX_Plugin_Translation::translate($string, $this->module, $this->package);
+    }
+
 }
 
 ?>

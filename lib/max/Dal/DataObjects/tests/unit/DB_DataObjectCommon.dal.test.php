@@ -78,6 +78,10 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
 
         $doCampaigns->activate = $doCampaigns->setDefaultValue('activate',6);
         $this->assertEqual($doCampaigns->expire,OA_Dal::noDateValue());
+
+        $doCampaigns->updated = $doCampaigns->setDefaultValue('updated',6);
+        $this->assertTrue(OA_Dal::isValidDate($doCampaigns->updated));
+        $this->assertTrue(time()-strtotime($doCampaigns->updated) < 10, 'elapsed time exceeds margin of 10 seconds');
     }
 
     function testGetAll()
@@ -582,15 +586,12 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $oDO->expectOnce('_auditEnabled');
         $oDO->setReturnValue('_getContextId', 2);
         $oDO->expectOnce('_getContextId');
-        $oDO->setReturnValue('_getContext', 'Test');
-        $oDO->expectOnce('_getContext');
         $oDO->setReturnValue('getOwningAccountId', 0);
         $oDO->expectOnce('getOwningAccountId');
 
-        $oDO->_tableName = 'table1';
+        $oDO->_tableName = $oDO->__table = 'table1';
         $oDO->col1 = 111;
         $oDO->col2 = 'abc';
-        //$oDO->updated = '2000-01-01';
 
         $oDO->doAudit = new $mockDO($oDO);
         $oDO->doAudit->setReturnValue('insert', 1);
@@ -599,15 +600,35 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $oDO->audit(1, null);
 
         $this->assertEqual($oDO->doAudit->actionid, 1);
-        $this->assertEqual($oDO->doAudit->context, 'Test');
+        $this->assertEqual($oDO->doAudit->context, $oDO->_tableName);
         $this->assertEqual($oDO->doAudit->contextid, 2);
-        //$this->assertEqual($oDO->doAudit->updated, '2000-01-01');
         $this->assertEqual(unserialize($oDO->doAudit->details), $aPrep);
 
         $oDO->tally();
         $oDO->doAudit->tally();
     }
 
+    
+    function testFormatValue() 
+    {
+        $dbObject = new DB_DataObjectCommon();
+        $dbObject->someValue = true;
+        
+        $valueType = array('booleanVar' => array('val' => true, 'type' => 145, 'expected' => 'true'),
+                            'intVar1' => array('val' => 123, 'type' => 1, 'expected' => '123'),
+                            'intVar2' => array('val' => 234, 'type' => 129, 'expected' => '234'), 
+                            'blobVar1'=> array('val' => '<p>12345</p>', 'type'=> 194, 'expected' => '&lt;p&gt;12345&lt;/p&gt;'),
+                            'blobVar2'=> array('val' => '<p>012345</p>', 'type' => 66, 'expected' => '&lt;p&gt;012345&lt;/p&gt;'));
+        
+        foreach ($valueType as $name => $arr) {
+            $dbObject->$name = $arr['val'];
+            $result = $dbObject->_formatValue($name, $arr['type']);
+            $this->assertNotNull($result, "Assert not null for field $name failed");
+            $this->assertEqual($arr['expected'], $result, "Assert equals for field $name failed: got $result");
+        }
+    }
+    
+    
     function testBoolToStr()
     {
         $this->assertEqual(DB_DataObjectCommon::_boolToStr('t'),'true');

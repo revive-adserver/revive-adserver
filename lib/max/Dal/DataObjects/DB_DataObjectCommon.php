@@ -31,6 +31,9 @@ require_once MAX_PATH . '/lib/OA/Permission.php';
 
 require_once 'DB/DataObject.php';
 
+define('OA_DATETIME_FORMAT', '%Y-%m-%d %H:%M:%S');
+define('OA_DATAOBJECT_DEFAULT_NULL', 'NULL');
+
 /**
  * The non-DB specific Data Abstraction Layer (DAL) class for the User Interface (Admin).
  *
@@ -251,6 +254,11 @@ class DB_DataObjectCommon extends DB_DataObject
             $accountId = OA_Permission::getAccountId();
         }
         if (!$this->N) {
+            $key = $this->getFirstPrimaryKey();
+            if (empty($this->$key)) {
+                MAX::raiseError('Key on object is not set, table: '.$this->getTableWithoutPrefix());
+                return null;
+            }
             if (!$this->find($autoFetch = true)) {
                 return null;
             }
@@ -297,16 +305,16 @@ class DB_DataObjectCommon extends DB_DataObject
         if (is_null($cachedTables)) {
             $cachedTables = array();
         }
-        if (isset($cachedTables[$table][$link][$ths->$key])) {
+        if (isset($cachedTables[$table][$link][$this->$key])) {
             $doCheck = OA_Dal::factoryDO($table);
-            $doCheck->setFrom($cachedTables[$table][$link][$ths->$key]);
+            $doCheck->setFrom($cachedTables[$table][$link][$this->$key]);
             $doCheck->N = 1;
         } else {
             $doCheck = $this->getLink($key, $table, $link);
             if (!$doCheck) {
                 return null;
             }
-            $cachedTables[$table][$link][$ths->$key] = $doCheck->toArray();
+            $cachedTables[$table][$link][$this->$key] = $doCheck->toArray();
         }
         return $doCheck;
     }
@@ -765,6 +773,11 @@ class DB_DataObjectCommon extends DB_DataObject
             }
             return $this->defaultValues[$fieldName];
         }
+        else if ($fieldName == 'updated')
+        {
+            return date('Y-m-d H:i:s');
+        }
+        return NULL;
     }
 
     function _getKey()
@@ -1350,7 +1363,7 @@ class DB_DataObjectCommon extends DB_DataObject
                     $this->doAudit = $this->factory('audit');
                 }
                 $this->doAudit->actionid   = $actionid;
-                $this->doAudit->context    = $this->_getContext();
+                $this->doAudit->context    = $this->getTableWithoutPrefix();
                 $this->doAudit->contextid  = $this->_getContextId();
                 $this->doAudit->parentid   = $parentid;
                 $this->doAudit->username   = OA_Permission::getUsername();
@@ -1381,12 +1394,28 @@ class DB_DataObjectCommon extends DB_DataObject
 
         return false;
     }
+    
+    function _getContext()
+    {
+        return false;
+    }
+
+    /**
+     * Returns the date transformed into default format (as string)
+     *
+     * @param Date $date
+     * @return string
+     */
+    function formatDate($date)
+    {
+        return $date->format(OA_DATETIME_FORMAT);
+    }
 
     /**
      * perform post-audit actions
      *
      * @param integer $actionid
-     * @param DB_DataObject_Common $dataobjectOld
+     * @param DB_DataObject_Common $dataobjectOld�
      * @param integer $auditId
      */
     function _postAuditTrigger($actionid, $dataobjectOld, $auditId)
@@ -1470,6 +1499,7 @@ class DB_DataObjectCommon extends DB_DataObject
 //  text / blob fields
 // override these in children?
             case 194:
+            case 66:
                 //return 'data too large to audit';
                 return htmlspecialchars($this->$field);
             default:

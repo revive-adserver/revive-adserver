@@ -1,0 +1,97 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+|                                                                           |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+
+-->
+
+<table border='0' width='100%' cellpadding='0' cellspacing='0'>
+*}
+
+{include file=terms-dialog.html id="tac"} 
+<div id="sso-create-form" {if $hide}style="display: none"{/if}>
+  {*
+    Error message to be shown when linking failed...
+  *}
+  {if $errorMessage}
+  <div class="errormessageicon">
+    {$errorMessage}
+  </div>
+  {/if}
+
+  <form id="sso-create-form" class="validate" action="sso-accounts.php" method='post' onsubmit='return max_formValidate(this);'>
+    <input type="hidden" name="action" value="create" />
+    <input type="hidden" name="email" value="{$email}" />
+    <input type="hidden" name="vh" value="{$vh}" />
+
+    {include file=edit-table/create.html from=$fields}
+
+    <input type="checkbox" name="tclinkc" id="tclinkc" class="checkbox {literal}{required:true}{/literal}" {tabindex} />
+    <label class="cb" for="tclinkc">{t str="Accept invitation & create account"}</label> <a class="cb" id="tclink" href='terms-and-conditions.html' target="_blank" title="{t str='Terms and Conditions'}">{t str="Terms and Conditions"}</a>
+    <label class="cb error hide" for="tclinkc">{t str="You must agree to the Terms and Conditions"}</label>
+    
+    <br />
+
+    <input type="checkbox" id="pplinkc" name="pplinkc" class="checkbox {literal}{required:true}{/literal}" {tabindex} />
+    <label class="cb" for="pplinkc">{t str="I have read and agree to the OpenX"}</label> <a class="cb" id="pplink" href='privacy-policy.html' target="_blank" title="{t str='Data Privacy Policy'}">{t str="Data Privacy Policy"}</a>
+    <label class="cb error hide" for="pplinkc">{t str="You must agree to the Data Privacy Policy"}</label>
+
+    <div class="controls">
+      <input id="submit" value="{t str="Accept invitation & create account"}" class="main-submit" type="submit" {tabindex}>
+      <span id="userhint" class="hint">{t str="To create an OpenX account, you must choose a user name that is available"}</span>
+    </div>
+  </form>
+</div>
+
+<script>
+{literal}
+  $(document).ready(function() {
+    var updateSubmitButton = function(texElement, userNameAvailable) {
+      if (userNameAvailable) {
+        $("#submit").attr("disabled", false);
+        $("#userhint").fadeOut();
+      } else {
+        $("#submit").attr("disabled", true);
+        $("#userhint").fadeIn();
+      }
+    };
+
+    $("#ssonewuser").userNameCheck({
+      userNameCheckUrl: 'sso-accounts.php?action=check&',
+      userNameParameterName: 'proposedusername',
+      checkTimeout: 500,
+      availableResultText: 'available',
+      indicatorSelector: '#user-check-indicator',
+      availableClass: 'available',
+      unavailableClass: 'unavailable',
+      callback: updateSubmitButton
+    });
+
+    $.terms("#tclink, #pplink", "tac");
+  });
+{/literal}
+</script>
+
+{*
+</table>
+*}

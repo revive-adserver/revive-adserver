@@ -358,6 +358,38 @@ class OA_Dll_User extends OA_Dll
 
         return true;
     }
+
+    /**
+     * This method updates users email for SSO User Id
+     *
+     * @param int $ssoUserId
+     * @param string $email
+     * @return bool
+     */
+    function updateUserEmailBySsoId($ssoUserId, $email)
+    {
+        if (!$this->checkPermissions(OA_ACCOUNT_ADMIN)) {
+            return false;
+        }
+
+        if (empty($ssoUserId) || empty($email)) {
+            $this->raiseError('Wrong Parameters');
+            return false;
+        }
+
+        $doUsers = OA_Dal::factoryDO('users');
+        $doUsers->whereAdd('sso_user_id = '.$doUsers->quote($ssoUserId));
+        $doUsers->email_address = $email;
+
+        if (!$doUsers->update(DB_DATAOBJECT_WHEREADD_ONLY)) {
+            // this will be quite common message
+            // maybe we shouln't consider different handling in this case?
+            $this->raiseError('Unknown ssoUserId Error while updating user email');
+            return false;
+        }
+
+        return true;
+    }
 }
 
 ?>

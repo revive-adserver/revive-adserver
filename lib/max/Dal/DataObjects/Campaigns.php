@@ -29,7 +29,6 @@ $Id$
  * Table Definition for campaigns
  */
 require_once 'DB_DataObjectCommon.php';
-require_once MAX_PATH . '/lib/OA/Preferences.php';
 
 class DataObjects_Campaigns extends DB_DataObjectCommon
 {
@@ -67,6 +66,8 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     var $status;                          // int(11)  not_null
     var $an_status;                       // int(11)  not_null
     var $as_reject_reason;                // int(11)  not_null
+    var $hosted_views;                    // int(11)  not_null
+    var $hosted_clicks;                   // int(11)  not_null
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
@@ -403,12 +404,11 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
         }
     }
 
-
     /**
      * perform post-audit actions
      *
      * @param int $actionid
-     * @param DataObjects_Campaigns $dataobjectOld?
+     * @param DataObjects_Campaigns $dataobjectOld�
      * @param int $auditId
      */
     function _postAuditTrigger($actionid, $dataobjectOld, $auditId)

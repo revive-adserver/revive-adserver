@@ -784,6 +784,9 @@ class Admin_DaTest extends DalUnitTestCase
         unset($aZone1['capping']);
         unset($aZone1['session_capping']);
         unset($aZone1['category']);
+        unset($aZone1['is_in_ad_direct']);
+        unset($aZone1['rate']);
+        unset($aZone1['pricing']);
         $aZone1 = array_filter($aZone1, 'strlen');
 
         $aZone2 = Admin_DA::getZones(array('zone_id' => $ret));

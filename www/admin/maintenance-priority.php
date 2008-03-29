@@ -87,13 +87,13 @@ function phpAds_showBanners()
 		echo "<td height='25'><b>".$strProbability."</b></td>";
 		echo "</tr>";
 
-		echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+		echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
 
 		// Banners
 		foreach (array_keys($rows) as $key) {
 			$name = phpAds_getBannerName($rows[$key]['bannerid'], 60, false);
 
-			if ($i > 0) echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
+			if ($i > 0) echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td></tr>";
 
 	    	echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
 
@@ -102,11 +102,11 @@ function phpAds_showBanners()
 
 			// Banner icon
 			if ($rows[$key]['storagetype'] == 'html')
-				echo "<img src='images/icon-banner-html.gif' align='absmiddle'>&nbsp;";
+				echo "<img src='" . MAX::assetPath() . "/images/icon-banner-html.gif' align='absmiddle'>&nbsp;";
 			elseif ($rows[$key]['storagetype'] == 'url')
-				echo "<img src='images/icon-banner-url.gif' align='absmiddle'>&nbsp;";
+				echo "<img src='" . MAX::assetPath() . "/images/icon-banner-url.gif' align='absmiddle'>&nbsp;";
 			else
-				echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
+				echo "<img src='" . MAX::assetPath() . "/images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
 
 			// Name
 			echo $name;
@@ -121,7 +121,7 @@ function phpAds_showBanners()
 		}
 
 		// Footer
-		echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+		echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
 		echo "</table>";
 	}
 }
@@ -133,7 +133,7 @@ function phpAds_showBanners()
 echo "<br />";
 
 // Show recalculate button
-echo "<img src='images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-priority-calculate.php'>$strRecalculatePriority</a>&nbsp;&nbsp;";
+echo "<img src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-priority-calculate.php'>$strRecalculatePriority</a>&nbsp;&nbsp;";
 echo "<br /><br />";
 phpAds_ShowBreak();
 
@@ -141,7 +141,7 @@ echo "<br /><br />";
 //echo 'This page needs to be re-written to show an agency-based list of ad/zone priority data...';
 echo "<br /><br />";
 
-echo "<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+echo "<tr height='1'><td colspan='2' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
 echo "</table>";
 echo "<br /><br />";
 
