@@ -27,6 +27,7 @@ $Id$
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
 
 require_once MAX_PATH . '/etc/changes/postscript_openads_upgrade_2.5.67.php';
 
@@ -58,6 +59,11 @@ class Migration_postscript_2_5_67_UsersTest extends MigrationTest
         $contextTrackers = $doAudit->context = $doTrackers->_getContext();
         DataGenerator::generate($doAudit, $cTrackers = 2);
 
+        $oUpgrade  = new OA_Upgrade();
+        $this->oConfiguration = $oUpgrade->oConfiguration;
+        $oUpgrade->initDatabaseConnection();
+        $oDbh = & $oUpgrade->oDbh;
+
         // run the upgrade
         Mock::generatePartial(
             'OA_UpgradePostscript_2_5_67',
@@ -65,6 +71,7 @@ class Migration_postscript_2_5_67_UsersTest extends MigrationTest
             array('logOnly','logError')
         );
         $doMockPostUpgrade = new $mockName($this);
+        $doMockPostUpgrade->oUpgrade = &$oUpgrade;
         $doMockPostUpgrade->updateAuditContext();
 
         // test results

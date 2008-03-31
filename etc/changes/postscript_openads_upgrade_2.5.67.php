@@ -63,20 +63,21 @@ class OA_UpgradePostscript_2_5_67
     {
         $doAudit = OA_Dal::factoryDO('audit');
         $aTables = OA_DB_Table::listOATablesCaseSensitive($prefix);
+        $prefix = OA_Dal::getTablePrefix();
 
         foreach ($aTables as $prefixedTableName) {
             $tableName = $doAudit->getTableWithoutPrefix($prefixedTableName);
-            $do = OA_Dal::factoryDO($tableName);
-            if ($do) {
-                $context = $do->_getContext();
+            if ($this->checkIfDataObjectExists($tableName)) {
+                $do = OA_Dal::factoryDO($tableName);
+                $context = $do->_quote($do->_getContext());
                 if ($context) {
-                    $GLOBALS['_MAX']['CONF']['audit']['enabled'] = false;
-                    $doAudit = OA_Dal::factoryDO('audit');
-                    $doAudit->context = $do->getTableWithoutPrefix();
-                    $doAudit->whereAdd("context = '".$context."'");
-                    $ret = $doAudit->update(DB_DATAOBJECT_WHEREADD_ONLY);
-                    $GLOBALS['_MAX']['CONF']['audit']['enabled'] = true;
-                    if ($ret === false) {
+                    $sql = "UPDATE {$prefix}audit
+                        SET context = '". $do->getTableWithoutPrefix() ."'
+                        WHERE context = ". $context;
+
+                    $ret = $this->oUpgrade->oDbh->exec($sql);
+
+                    if (PEAR::isError($ret) || $ret === false) {
                         $this->logError(
                             'Error while updating context for table: '
                                 .$do->getTableWithoutPrefix());
@@ -88,6 +89,12 @@ class OA_UpgradePostscript_2_5_67
 
         $this->logOnly('audit log updated');
         return true;
+    }
+
+    function checkIfDataObjectExists($table)
+    {
+        $fileName = MAX_PATH . '/lib/max/Dal/DataObjects/'.ucfirst($table).'.php';
+        return file_exists($fileName);
     }
 
 }
