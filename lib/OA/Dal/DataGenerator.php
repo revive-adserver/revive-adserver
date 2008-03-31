@@ -151,13 +151,13 @@ class DataGenerator
         }
         return $ids;
     }
-    
+
     /**
      * Generate parents records using the relationship defined in links.ini file
      *
      * @param DB_DataObject $do
      */
-    function generateParents($do)
+    function generateParents(&$do)
     {
         $links = $do->links();
     	foreach ($links as $foreignKey => $linkedTableField) {
