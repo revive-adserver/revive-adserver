@@ -715,6 +715,7 @@ class Plugins_InvocationTagsOptions
                 'GB2312'        => 'Chinese Simplified (GB2312)',
                 'HZ'            => 'Chinese Simplified (HZ)',
                 'Big5'          => 'Chinese Traditional (Big5)',
+                'KOI8-R'        => 'Cyrillic (KOI8-R)',
                 'ISO-8859-5'    => 'Cyrillic (ISO-8859-5)',
                 'Windows-1251'  => 'Cyrillic (Windows-1251)',
                 'ISO-8859-13'   => 'Estonian (ISO-8859-13)',
