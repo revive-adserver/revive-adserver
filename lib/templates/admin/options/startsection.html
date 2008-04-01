@@ -7,25 +7,25 @@
             <input type='hidden' name='submitDisabled' value='true'>
         {/if}
             <td height='25' colspan='4'>
-                <img src='{$aItem.imgPath}images/icon-{$aItem.icon}.gif' width='16' height='16' align='absmiddle'>&nbsp;
+                <img src='{$assetPath}/images/icon-{$aItem.icon}.gif' width='16' height='16' align='absmiddle'>&nbsp;
                 <b>{$aItem.name}</b>
             </td>
         </tr>
         <tr height='1'>
-	        <td bgcolor='#888888' width='30'><img src='{$aItem.imgPath}images/break.gif' height='1' width='30'></td>
-	        <td bgcolor='#888888' width='250'><img src='{$aItem.imgPath}images/break.gif' height='1' width='250'></td>
-	        <td bgcolor='#888888' width='100%'><img src='{$aItem.imgPath}images/break.gif' height='1' width='1'></td>
-	        <td bgcolor='#888888' width='30'><img src='{$aItem.imgPath}images/break.gif' height='1' width='30'></td>
+	        <td bgcolor='#888888' width='30'><img src='{$assetPath}/images/break.gif' height='1' width='30'></td>
+	        <td bgcolor='#888888' width='250'><img src='{$assetPath}/images/break.gif' height='1' width='250'></td>
+	        <td bgcolor='#888888' width='100%'><img src='{$assetPath}/images/break.gif' height='1' width='1'></td>
+	        <td bgcolor='#888888' width='30'><img src='{$assetPath}/images/break.gif' height='1' width='30'></td>
         </tr>
         <tr>
-            <td height='10' colspan='4'><img src='{$aItem.imgPath}images/spacer.gif' width='30' height='1'></td>
+            <td height='10' colspan='4'><img src='{$assetPath}/images/spacer.gif' width='30' height='1'></td>
         </tr>
         {if $aItem.error|@count}
         <tr>
             <td width='30'>&nbsp;</td><td height='10' colspan='2'>
                 <table width='100%' border='0' cellspacing='0' cellpadding='0'>
                     </tr>
-                        <td width='22' valign='top'><img src='{$aItem.imgPath}images/error.gif' width='16' height='16'>&nbsp;&nbsp;</td>
+                        <td width='22' valign='top'><img src='{$assetPath}/images/error.gif' width='16' height='16'>&nbsp;&nbsp;</td>
                         <td valign='top'>
                             <font color='#AA0000'><b>
 				            {if $aItem.error|@is_array}
@@ -44,12 +44,12 @@
 
         <tr>
             <td height='10' width='30'>&nbsp;</td>
-            <td height='10' width='200'><img src='{$aItem.imgPath}images/spacer.gif' width='200' height='1'></td>
+            <td height='10' width='200'><img src='{$assetPath}/images/spacer.gif' width='200' height='1'></td>
             <td height='10' width='100%'>&nbsp;</td><td height='10' width='30'>&nbsp;</td>
         </tr>
         <tr>
-            <td height='14' width='30'><img src='{$aItem.imgPath}images/spacer.gif' height='1' width='100%'></td>
-            <td height='14' width='200'><img src='{$aItem.imgPath}images/break-l.gif' height='1' width='200' vspace='6'></td>
-            <td height='14' width='100%'>&nbsp;</td><td height='14' width='30'><img src='{$aItem.imgPath}images/spacer.gif' height='1' width='100%'>
+            <td height='14' width='30'><img src='{$assetPath}/images/spacer.gif' height='1' width='100%'></td>
+            <td height='14' width='200'><img src='{$assetPath}/images/break-l.gif' height='1' width='200' vspace='6'></td>
+            <td height='14' width='100%'>&nbsp;</td><td height='14' width='30'><img src='{$assetPath}/images/spacer.gif' height='1' width='100%'>
         </tr>
         {/if}
