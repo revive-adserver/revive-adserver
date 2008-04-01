@@ -53,7 +53,7 @@ if (!empty($aBanner))
 <html>
 <head>
 <title>$bannerName</title>
-<link rel='stylesheet' href='css/interface-$phpAds_TextDirection.css'>
+<link rel='stylesheet' href='" . MAX::assetPath() . "/css/interface-$phpAds_TextDirection.css'>
 <script type='text/javascript' src='$deliveryUrl'></script>
 </head>
 <body marginheight='0' marginwidth='0' leftmargin='0' topmargin='0' bgcolor='#EFEFEF'>

@@ -237,7 +237,7 @@ class OA_Admin_UI
 
         if (!empty($session['RUN_MPE']) && $session['RUN_MPE']) {
             require_once MAX_PATH . '/www/admin/lib-maintenance-priority.inc.php';
-            $this->oTpl->assign('jsMPE', $xajax->getJavascript('./', 'js/xajax.js'));
+            $this->oTpl->assign('jsMPE', $xajax->getJavascript(MAX::assetPath(), 'js/xajax.js'));
         }
 
         if (!defined('phpAds_installing')) {

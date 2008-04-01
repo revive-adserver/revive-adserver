@@ -147,7 +147,7 @@ EOF;
         if ($type == MAX_URL_ADMIN) {
             $path = $conf['webpath']['admin'];
         } elseif ($type == MAX_URL_IMAGE) {
-            $path = $conf['webpath']['admin'] . $conf['webpath']['adminAssetsVersionSegment'] . '/images';
+            $path = $conf['webpath']['admin'] . "/" . MAX::assetPath("/images");
         } else {
             return null;
         }
@@ -177,9 +177,14 @@ EOF;
     function assetPath($asset = null)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
+        $assetsVersion = $conf['webpath']['adminAssetsVersion'];
         
-        $pathWithSuffix = "." . $conf['webpath']['adminAssetsVersionSegment'];
-        
+    	$pathWithSuffix = "assets";
+        if (strlen($assetsVersion)) 
+        {
+        	$pathWithSuffix .= "/" . $assetsVersion;
+        }
+    	
     	if ($asset != null)
     	{
     		return $pathWithSuffix . "/" . $asset;

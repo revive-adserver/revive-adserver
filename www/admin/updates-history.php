@@ -157,7 +157,7 @@ if (count($aMessages)>0)
 /* Display                                               */
 /*-------------------------------------------------------*/
 ?>
-        <script type="text/javascript" src="js/xajax.js"></script>
+        <script type="text/javascript" src="<?php echo MAX::assetPath() ?>/js/xajax.js"></script>
         <script type="text/javascript">
         <?php
         include MAX_PATH . '/var/templates_compiled/schema.js';

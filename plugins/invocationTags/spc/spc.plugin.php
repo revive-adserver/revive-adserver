@@ -32,6 +32,7 @@ $Id$
  *
  */
 
+require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/plugins/invocationTags/InvocationTags.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/lib/max/Delivery/common.php';
@@ -136,8 +137,8 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
 <html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
 <head>
     <title>Tags for [id{$affiliate['affiliateid']}] {$affiliate['name']}</title>
-        <link rel='stylesheet' type='text/css' href='css/preview.css' />
-		<script type='text/javascript' src='js/jquery-1.2.1.min.js'></script>
+        <link rel='stylesheet' type='text/css' href='" . MAX::assetPath() .  "/css/preview.css' />
+		<script type='text/javascript' src='" . MAX::assetPath() .  "/js/jquery-1.2.1.min.js'></script>
 
         <script type='text/javascript'>
 		<!--

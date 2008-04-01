@@ -25,9 +25,9 @@ $Id$
 
 -->*}
 {if $combineAssets}
-<link rel="stylesheet" type="text/css" href="assets/combine.php?type=css&files={$genericStylesheets}" />
+<link rel="stylesheet" type="text/css" href="{$assetPath}/combine/combine.php?type=css&files={$genericStylesheets}" />
 {else}
   {foreach from=$aGenericStyleshets item=stylesheet}
-<link rel="stylesheet" type="text/css" href="{$stylesheet}" />
+<link rel="stylesheet" type="text/css" href="{$assetPath}/{$stylesheet}" />
   {/foreach}
 {/if}

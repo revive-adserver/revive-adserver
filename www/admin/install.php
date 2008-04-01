@@ -64,7 +64,7 @@ $oSystemMgr = &$oUpgrader->oSystemMgr;
 $oSystemMgr->getAllInfo();
 if (!$oSystemMgr->checkMemory()) {
     $memory = getMinimumRequiredMemory() / 1048576;
-    echo '<link rel="stylesheet" type="text/css" href="css/install.css"/><br />';
+    echo '<link rel="stylesheet" type="text/css" href="' . MAX::assetPath() . '/css/install.css"/><br />';
     echo '<div class="sysmessage sysinfoerror" style="text-align: center;">The minimum amount of memory <a href="http://' . OX_PRODUCT_DOCSURL . '/requirements" target="_blank" style="color: #990000">required</a> by OpenX is <b>'. $memory
         .' MB</b>. <br />Please <a href="http://www.openx.org/support/faq.html" target="_blank" style="color: #990000">increase</a> your PHP memory_limit before continuing.</div>';
     exit(1);

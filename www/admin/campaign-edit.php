@@ -1163,8 +1163,8 @@ $doCampaigns = OA_Dal::factoryDO('campaigns');
 $doCampaigns->clientid = $clientid;
 $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['campaignname']);
 ?>
-<script language='javascript' type='text/javascript' src='js/datecheck.js'></script>
-<script language='javascript' type='text/javascript' src='js/numberFormat.php'></script>
+<script language='javascript' type='text/javascript' src='<?php echo MAX::assetPath() ?>/js/datecheck.js'></script>
+<script language='javascript' type='text/javascript' src='numberFormat.js.php'></script>
 <script language='JavaScript'>
 <!--
   $(document).ready(function() {
