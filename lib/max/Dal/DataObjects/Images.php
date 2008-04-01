@@ -1,4 +1,4 @@
-up<?php
+<?php
 
 /*
 +---------------------------------------------------------------------------+
@@ -186,15 +186,15 @@ class DataObjects_Images extends DB_DataObjectCommon
                         break;
         }
     }
-    
-    
+
+
     function _formatValue($field, $type ='')
     {
-        $fieldVal = $this->$field; 
+        $fieldVal = $this->$field;
         if (is_a($fieldVal, 'DB_DataObject_Cast') && $fieldVal->type == 'blob') {
             return 'binary data';
         }
-        else { 
+        else {
             parent::_formatValue($field, $type);
         }
     }
