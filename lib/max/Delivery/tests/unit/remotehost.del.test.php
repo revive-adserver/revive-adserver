@@ -61,7 +61,7 @@ class test_DeliveryRemotehost extends UnitTestCase
         $serverSave = $_SERVER;
 
         // This $_SERVER dump was provided by a user running HAProxy
-        $_SERVER = array (
+        $sampleSERVER = array (
             'HTTP_HOST' => 'max.i12.de',
             'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; U; Linux i686; en-GB; rv:1.8.1.5) Gecko/20070718 Fedora/2.0.0.5-1.fc7 Firefox/2.0.0.5',
             'HTTP_ACCEPT' => 'text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5',
@@ -71,7 +71,6 @@ class test_DeliveryRemotehost extends UnitTestCase
             'HTTP_KEEP_ALIVE' => '300',
             'HTTP_COOKIE' => 'phpAds_id=abcdef1234567890acdef1234567890a',
             'HTTP_CONNECTION' => 'close',
-            'HTTP_X_FORWARDED_FOR' => '123.123.123.123',
             'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin',
             'SERVER_SIGNATURE' => '<address>Apache/2.0.59 (Unix) Server at max.i12.de Port 80</address>',
             'SERVER_SOFTWARE' => 'Apache/2.0.59 (Unix)',
@@ -103,11 +102,31 @@ class test_DeliveryRemotehost extends UnitTestCase
         // I am unsure if this is a bug in OpenX or HAProxy, but the above dump does not contain
         // either an HTTP_VIA/REMOTE_HOST header, therefore OpenX assumes this is not proxied
         // I am adding it to "fix" the test
-        $_SERVER['HTTP_VIA'] = '194.85.1.1 (Squid/2.4.STABLE7)';
 
         $GLOBALS['_MAX']['CONF']['logging']['proxyLookup'] = true;
+
+        // Check if just HTTP_VIA in the above array:
+        $_SERVER = $sampleSERVER;
+        $_SERVER['HTTP_VIA'] = '194.85.1.1 (Squid/2.4.STABLE7)';
+        $_SERVER['HTTP_FORWARDED_FOR'] = '124.124.124.124';
+
+        $return = MAX_remotehostProxyLookup();
+        $this->assertTrue($_SERVER['REMOTE_ADDR'] == $_SERVER['HTTP_FORWARDED_FOR']);
+
+        // Test with 'HTTP_X_FORWARDED_FOR' instead of via
+        $_SERVER = $sampleSERVER;
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '125.125.125.125';
+
         $return = MAX_remotehostProxyLookup();
         $this->assertTrue($_SERVER['REMOTE_ADDR'] == $_SERVER['HTTP_X_FORWARDED_FOR']);
+
+        // Check that if neither are set, then the remotehost lookup entry is performed
+        $_SERVER = $sampleSERVER;
+        $_SERVER['REMOTE_HOST'] = 'my.proxy.com';
+        $_SERVER['HTTP_CLIENT_IP'] = '126.126.126.126';
+
+        $return = MAX_remotehostProxyLookup();
+        $this->assertTrue($_SERVER['REMOTE_ADDR'] == $_SERVER['HTTP_CLIENT_IP']);
 
         $_SERVER = $serverSave;
     }

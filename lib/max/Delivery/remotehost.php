@@ -57,7 +57,7 @@ function MAX_remotehostProxyLookup()
     if ($conf['logging']['proxyLookup']) {
         // Determine if the viewer has come via an HTTP proxy
         $proxy = false;
-        if (!empty($_SERVER['HTTP_VIA'])) {
+        if (!empty($_SERVER['HTTP_VIA']) || !empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
             $proxy = true;
         } elseif (!empty($_SERVER['REMOTE_HOST'])) {
             $aProxyHosts = array(
@@ -66,7 +66,7 @@ function MAX_remotehostProxyLookup()
                 'inktomi'
             );
             foreach ($aProxyHosts as $proxyName) {
-                if (strpos($proxyName, $_SERVER['REMOTE_HOST']) !== false) {
+                if (strpos($_SERVER['REMOTE_HOST'], $proxyName) !== false) {
                     $proxy = true;
                     break;
                 }
