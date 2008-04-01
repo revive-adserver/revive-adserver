@@ -2,6 +2,7 @@
 <!DOCTYPE project SYSTEM          "../../includes/WebTest.dtd" [
   <!ENTITY config SYSTEM          "../../includes/config.xml">
   <!ENTITY checkForErrors SYSTEM  "../../modules/errors.xml">
+  <!ENTITY verifyHeaders SYSTEM   "../../modules/headers.xml">
 ]
 >
 
@@ -12,7 +13,7 @@
 <project name="Openads delivery - apu.php" basedir="../.." default="main">
   <import file="../../includes/init.xml"/>
   <import file="${webtest.home}/lib/taskdef.xml"/>
-  
+
   <property name="delivery_file" value="apu.php"/>
 
   <target name="canoo-test">
@@ -21,6 +22,7 @@
       <steps>
         <invoke description="Invoke delivery file" url="delivery_test/apu.php" />
         &checkForErrors;
+        &verifyHeaders;
         <!-- check that its JavaScript opens the window MAX_2 -->
         <verifyText description="Check that JavaScript opens the pop-up" text="window.open" />
         <!-- <selectWindow name="MAX_2" /> -->
@@ -29,7 +31,7 @@
       </steps>
     </testSpec>
   </target>
-  
+
   <!-- clean cache, run a canoo test (without cache), and then run again (with cache) -->
   <target name="main" depends="test-cache" />
 

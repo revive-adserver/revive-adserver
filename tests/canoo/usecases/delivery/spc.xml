@@ -2,6 +2,7 @@
 <!DOCTYPE project SYSTEM           "../../includes/WebTest.dtd" [
   <!ENTITY config SYSTEM           "../../includes/config.xml">
   <!ENTITY checkForErrors SYSTEM   "../../modules/errors.xml">
+  <!ENTITY verifyHeaders SYSTEM    "../../modules/headers.xml">
 ]
 >
 
@@ -19,6 +20,7 @@
       <steps>
         <invoke description="Invoke delivery file" url="/delivery/spc.php?zones=1%7C&amp;source=/test/preview&amp;r=87082893&amp;loc=http%3A//dev.openx.org/admin/affiliate-preview.php%3Faffiliateid%3D1%26codetype%3Dspc&amp;referer=http%3A//dev.openx.org/admin/affiliate-invocation.php%3Faffiliateid%3D1" />
         &checkForErrors;
+        &verifyHeaders;
         <verifyText description="Check that it contains JavaScript" text="OA_output['1']" />
         <!--verifyText description="Check that JS prints: 'html test banner'" regex="true" text="html test banner" /-->
       </steps>

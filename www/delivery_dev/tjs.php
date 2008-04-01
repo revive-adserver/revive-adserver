@@ -33,6 +33,9 @@ require_once(MAX_PATH . '/lib/max/Delivery/cache.php');
 require_once(MAX_PATH . '/lib/max/Delivery/javascript.php');
 require_once MAX_PATH . '/lib/max/Delivery/tracker.php';
 
+// No Caching
+MAX_commonSetNoCacheHeaders();
+
 //Register any script specific input variables
 MAX_commonRegisterGlobalsArray(array('trackerid', 'inherit'));
 if (empty($trackerid)) $trackerid = 0;

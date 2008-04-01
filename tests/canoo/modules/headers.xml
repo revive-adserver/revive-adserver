@@ -1,0 +1,24 @@
+<storeHeader name="Cache-Control" property="header_cache-control" />
+<storeHeader name="Pragma" property="header_pragma" />
+<storeHeader name="Date" property="header_date" />
+
+<!-- Verify that the correct anti-caching headers are sent -->
+<verifyProperty description="Verify 'Cache control' header is set and is correct"
+      name="header_cache-control"
+      text="private, max-age=0, no-cache"
+      />
+
+<verifyProperty description="Verify 'Pragma' header is set and is correct"
+      name="header_pragma"
+      text="no-cache"
+      />
+
+<!-- Currently I'm just testing that something is set, this may be extended to check against
+     valid date formats - http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.3.1 -->
+<verifyProperty description="Verify 'Date' header is set"
+      name="header_date"
+      text="^.*$"
+      regex="true"
+      />
+
+

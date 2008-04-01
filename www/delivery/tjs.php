@@ -1746,6 +1746,8 @@ $buffer = "document.write(\"\");";
 }
 return $buffer;
 }
+// No Caching
+MAX_commonSetNoCacheHeaders();
 //Register any script specific input variables
 MAX_commonRegisterGlobalsArray(array('trackerid', 'inherit'));
 if (empty($trackerid)) $trackerid = 0;

@@ -2513,7 +2513,7 @@ $conf = $GLOBALS['_MAX']['CONF'];
 if ($type == MAX_URL_ADMIN) {
 $path = $conf['webpath']['admin'];
 } elseif ($type == MAX_URL_IMAGE) {
-$path = $conf['webpath']['admin'] . '/images';
+$path = $conf['webpath']['admin'] . "/" . MAX::assetPath("/images");
 } else {
 return null;
 }
@@ -2530,6 +2530,24 @@ $path = preg_replace('#/#', ':' . $conf['openads']['sslPort'] . '/', $path);
 }
 // Return the URL
 return $GLOBALS['_MAX']['HTTP'] . $path . $file;
+}
+function assetPath($asset = null)
+{
+$conf = $GLOBALS['_MAX']['CONF'];
+$assetsVersion = $conf['webpath']['adminAssetsVersion'];
+$pathWithSuffix = "assets";
+if (strlen($assetsVersion))
+{
+$pathWithSuffix .= "/" . $assetsVersion;
+}
+if ($asset != null)
+{
+return $pathWithSuffix . "/" . $asset;
+}
+else
+{
+return $pathWithSuffix;
+}
 }
 }
 function pearErrorHandler($oError)
