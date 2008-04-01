@@ -99,40 +99,47 @@ $pageName = basename($_SERVER['PHP_SELF']);
 $oTpl = new OA_Admin_Template('userlog-index.html');
 
 //  get advertisers & publishers for filters
+$showAdvertisers = OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADMIN);
+$showPublishers = OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADMIN);
+
 $agencyId = OA_Permission::getAgencyId();
-$advertiser = Admin_DA::getAdvertisers(array('agency_id' => $agencyId));
-$aAdvertiser[0] = $GLOBALS['strSelectAdvertiser'];
-foreach($advertiser as $key => $aValue) {
-    $aAdvertiser[$aValue['advertiser_id']] = $aValue['name'];
-}
-$aCampaign = array();
-if (!empty($advertiserId)) {
-    $campaign = Admin_DA::getCampaigns(array('client_id' => $advertiserId));
-    $aCampaign[0] = $GLOBALS['strSelectPlacement'];
-    foreach($campaign as $key => $aValue) {
-        $aCampaign[$aValue['campaign_id']] = $aValue['campaignname'];
+
+//get advertisers if we show them
+if ($showAdvertisers) {
+    $advertiserList = Admin_DA::getAdvertisers(array('agency_id' => $agencyId));
+    $aAdvertiser[0] = $GLOBALS['strSelectAdvertiser'];
+    foreach($advertiserList as $key => $aValue) {
+        $aAdvertiser[$aValue['advertiser_id']] = $aValue['name'];
+    }
+    $aCampaign = array();
+    if (!empty($advertiserId)) {
+        $campaign = Admin_DA::getCampaigns(array('client_id' => $advertiserId));
+        $aCampaign[0] = $GLOBALS['strSelectPlacement'];
+        foreach($campaign as $key => $aValue) {
+            $aCampaign[$aValue['campaign_id']] = $aValue['campaignname'];
+        }
     }
 }
-$publisher = Admin_DA::getPublishers(array('agency_id' => $agencyId));
-$aPublisher[0] = $GLOBALS['strSelectPublisher'];
-foreach ($publisher as $key => $aValue) {
-    $aPublisher[$aValue['publisher_id']] = $aValue['name'];
-}
-if (!empty($publisherId)) {
-    $zone = Admin_DA::getZones(array('publisher_id' => $publisherId));
-    $aZone[0] = $GLOBALS['strSelectZone'];
-    foreach ($zone as $key => $aValue) {
-        $aZone[$aValue['zone_id']] = $aValue['name'];
+
+//get publishers if we show them
+if ($showPublishers) {
+    $publisher = Admin_DA::getPublishers(array('agency_id' => $agencyId));
+    $aPublisher[0] = $GLOBALS['strSelectPublisher'];
+    foreach ($publisher as $key => $aValue) {
+        $aPublisher[$aValue['publisher_id']] = $aValue['name'];
+    }
+    if (!empty($publisherId)) {
+        $zone = Admin_DA::getZones(array('publisher_id' => $publisherId));
+        $aZone[0] = $GLOBALS['strSelectZone'];
+        foreach ($zone as $key => $aValue) {
+            $aZone[$aValue['zone_id']] = $aValue['name'];
+        }
     }
 }
 
 $oTrans = new OA_Translation();
 
 $aParams = array(
-    'advertiser_id' => $advertiserId,
-    'campaign_id'   => $campaignId,
-    'publisher_id'  => $publisherId,
-    'zone_id'       => $zoneId,
     'order'         => $orderdirection,
     'listorder'     => $listorder,
     'start_date'    => $startDate,
@@ -140,6 +147,17 @@ $aParams = array(
     'prevImg'       => '<< ' . $oTrans->translate('Back'),
     'nextImg'       => $oTrans->translate('Next') . ' >>'
 );
+
+//only pass advertiser or website props if we show related checkboxes
+if ($showAdvertisers) {
+    $aParams['advertiser_id']= $advertiserId;
+    $aParams['campaign_id'] = $campaignId;
+}
+if ($showPublishers) {
+    $aParams['publisher_id']  = $publisherId;
+    $aParams['zone_id'] = $zoneId;
+}
+
 
 // Account security
 if (!OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
@@ -188,12 +206,21 @@ $aUrlParam['$orderdirection']   = ($orderdirection == 'down') ? "orderdirection=
 $urlParam = implode('&', $aUrlParam);
 
 //  assign vars to template
+$oTpl->assign('showAdvertisers', $showAdvertisers);
+$oTpl->assign('showPublishers',  $showPublishers);
+
+if ($showAdvertisers) {
+    $oTpl->assign('aAdvertiser',        $aAdvertiser);
+    $oTpl->assign('aCampaign',          $aCampaign);
+}
+if ($showPublishers) {
+    $oTpl->assign('aPublisher',         $aPublisher);
+    $oTpl->assign('aZone',              $aZone);
+}
+
+$oTpl->assign('aAuditEnabled',      OA::getConfigOption('audit', 'enabled', false));
 $oTpl->assign('aAuditData',         $aAuditData);
 $oTpl->assign('aPeriodPreset',      $aPeriodPreset);
-$oTpl->assign('aAdvertiser',        $aAdvertiser);
-$oTpl->assign('aCampaign',          $aCampaign);
-$oTpl->assign('aPublisher',         $aPublisher);
-$oTpl->assign('aZone',              $aZone);
 $oTpl->assign('context',            $context);
 $oTpl->assign('advertiserId',       $advertiserId);
 $oTpl->assign('campaignId',         $campaignId);

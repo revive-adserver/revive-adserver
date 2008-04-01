@@ -7,6 +7,7 @@
 <fieldset id="auditFilter">
     <legend>{t str=Filters}</legend>
 
+    {if $showAdvertisers}
 	<div class="filterWrapper">
 	    <label class="filterLabel" for="advertiserId">{t str=Advertiser}</label>
 	    <span>
@@ -17,9 +18,12 @@
 	        <select style="width:25%" id="campaignId" name="campaignId" onchange="submitForm();">
 	            {html_options options=$aCampaign selected=$campaignId}
 	        </select>
-	        {/if}
+		    {/if}
 	    </span>
 	</div>
+   {/if}
+	
+    {if $showPublishers}
 	<div class="filterWrapper">
 	    <label class="filterLabel" for="publisherId">{t str=Publisher}</label>
 	    <span>
@@ -33,6 +37,8 @@
 	        {/if}
 	    </span>
 	</div>
+	{/if}
+	
 	<div class="filterWrapper">
 	    <span class="filterLabel">{t str=Date}</span>
 	    {$daySpan->display()}
@@ -44,6 +50,14 @@
         <input type="button" value="{t str=Clear}" onclick="resetFilter();" />
     </div>
 </fieldset>
+
+{if !$aAuditEnabled}
+	<div class='errormessage'><img class='errormessage' src='{$assetPath|escape}/images/info.gif' width='16' height='16' border='0' align='absmiddle'>
+	    {t str=AuditTrailDisabled} 
+	</div>
+{/if}
+    
+
 
 <div>
     <table class="data-grid table">
@@ -100,7 +114,7 @@
         var url  = 'userlog-index.php';
         var aUrl = [];
 
-        if (form.advertiserId.options[form.advertiserId.selectedIndex].value != '') {
+        if (form.advertiserId && form.advertiserId.options[form.advertiserId.selectedIndex].value != '') {
 	        var advertiserId = form.advertiserId.options[form.advertiserId.selectedIndex].value;
 	        aUrl.push('advertiserId=' + advertiserId);
 	        if (form.origAdvertiserId.value == advertiserId && form.elements['campaignId'] && form.campaignId.disabled == false) {
@@ -108,7 +122,7 @@
 	            aUrl.push('campaignId=' + campaignId);
 	        }
 	    }
-        if (form.publisherId.options[form.publisherId.selectedIndex].value != '') {
+        if (form.publisherId && form.publisherId.options[form.publisherId.selectedIndex].value != '') {
             var publisherId = form.publisherId.options[form.publisherId.selectedIndex].value;
             aUrl.push('publisherId=' + publisherId);
 	        if (form.origPublisherId.value == publisherId && form.elements['zoneId'] && form.zoneId.disabled == false) {
@@ -142,10 +156,10 @@
     function toggleForm() {
         var form = document.getElementById('auditForm');
 
-        if (form.advertiserId.options[form.advertiserId.selectedIndex].value > 0) {
+        if (form.publisherId && form.advertiserId && form.advertiserId.options[form.advertiserId.selectedIndex].value > 0) {
             //  disable publisher widget
             form.publisherId.disabled = true;
-        } else if (form.publisherId.options[form.publisherId.selectedIndex].value > 0) {
+        } else if (form.advertiserId && form.publisherId && form.publisherId.options[form.publisherId.selectedIndex].value > 0) {
             // disable advertiser widget
             form.advertiserId.disabled = true;
         }
@@ -156,14 +170,14 @@
     function resetFilter() {
         var form = document.getElementById('auditForm');
         //  reset advertiser filter
-        if (form.advertiserId.options[form.advertiserId.selectedIndex].value != '') {
+        if (form.advertiserId && form.advertiserId.options[form.advertiserId.selectedIndex].value != '') {
             form.advertiserId.selectedIndex = 0;
             if (form.elements['campaignId'] && form.campaignId.disabled == false) {
                 form.campaignId.selectedIndex = 0;
             }
         }
         //  reset website filter
-        if (form.publisherId.options[form.publisherId.selectedIndex].value != '') {
+        if (form.publisherId && form.publisherId.options[form.publisherId.selectedIndex].value != '') {
             form.publisherId.selectedIndex = 0;
             if (form.elements['zoneId'] && form.zoneId.disabled == false) {
                 form.zoneId.selectedIndex = 0;

@@ -1354,7 +1354,7 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     function audit($actionid, $oDataObject = null, $parentid = null)
     {
-        if (isset($GLOBALS['_MAX']['CONF']['audit']) && $GLOBALS['_MAX']['CONF']['audit']['enabled'])
+        if (OA::getConfigOption('audit', 'enabled', false))
         {
             if ($this->_auditEnabled())
             {
