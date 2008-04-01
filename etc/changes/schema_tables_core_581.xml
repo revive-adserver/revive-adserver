@@ -5653,6 +5653,14 @@
    </field>
 
    <field>
+    <name>language</name>
+    <type>openads_varchar</type>
+    <length>5</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
     <name>default_account_id</name>
     <type>openads_mediumint</type>
     <length>9</length>
@@ -5689,14 +5697,14 @@
     <notnull>false</notnull>
     <default></default>
    </field>
-   
+
    <field>
     <name>date_last_login</name>
     <type>openads_datetime</type>
     <notnull>false</notnull>
     <default></default>
    </field>
-   
+
    <index>
     <name>users_pkey</name>
     <primary>true</primary>
