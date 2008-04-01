@@ -277,13 +277,11 @@ $OA_Geo_ISO3166['ZA'] = "South Africa";
 $OA_Geo_ISO3166['ZM'] = "Zambia";
 $OA_Geo_ISO3166['ZW'] = "Zimbabwe";
 
-
-// MaxMind Geo-IP special codes
-$OA_Geo_ISO3166['A1'] = "Anonymous Proxy";
-$OA_Geo_ISO3166['A2'] = "Satellite Provider";
-$OA_Geo_ISO3166['O1'] = "Other";
-
-$OA_Geo_ISO3166_MaxMind = array('A1', 'A2', 'O1');
+$OA_Geo_ISO3166_MaxMind = array(
+    'A1' => "Anonymous Proxy",
+    'A2' => "Satellite Provider",
+    'O1' => "Other",
+);
 
 // Deprecated
 $OA_Geo_ISO3166['CS'] = "Serbia and Montenegro";

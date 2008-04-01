@@ -36,8 +36,8 @@ if (!isset($GLOBALS['_MAX']['_GEOCACHE']['city'])) {
     require MAX_PATH . '/plugins/deliveryLimitations/Geo/data/res-iso3166.inc.php';
     require MAX_PATH . '/plugins/deliveryLimitations/Geo/Country.res.inc.php';
 
-    foreach ($OA_Geo_ISO3166_MaxMind as $v) {
-        unset($res[$v]);
+    foreach ($OA_Geo_ISO3166_MaxMind as $k => $v) {
+        unset($res[$k]);
     }
 
     $res = array('' => MAX_Plugin_Translation::translate('---Any---', $this->module, $this->package)) +
