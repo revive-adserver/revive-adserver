@@ -1309,6 +1309,7 @@ list($key, $value) = each($value);
 list($item,$id) = explode(':', $value);
 switch ($item) {
 case 'campaignid':  $value = 'c:' . $id; break;
+case 'clientid':    $value = 'a:' . $id; break;
 case 'bannerid':    $value = 'b:' . $id; break;
 case 'companionid': $value = 'p:' . $id; break;
 }
@@ -1332,8 +1333,9 @@ foreach ($array as $value) {
 if (empty($value)) { continue; }
 list($item, $id) = explode(':', $value);
 switch ($item) {
-case 'c': $unpacked[] = array($key => 'campaignid:'. $id); break;
-case 'b': $unpacked[] = array($key => 'bannerid:' .  $id); break;
+case 'c': $unpacked[] = array($key => 'campaignid:' . $id); break;
+case 'a': $unpacked[] = array($key => 'clientid:'   . $id); break;
+case 'b': $unpacked[] = array($key => 'bannerid:'   . $id); break;
 case 'p': $unpacked[] = array($key => 'companionid:'.$id); break;
 }
 }
@@ -2331,8 +2333,8 @@ $output = array('html'       => $outputbuffer,
 'height'     => $row['height'],
 'url'        => $row['url'],
 'campaignid' => $row['campaignid'],
+'context'    => _adSelectBuildContext($row, $context)
 );
-$output['context'] = (!empty($row['zone_companion']) && (is_array($row['zone_companion']))) ? _adSelectBuildCompanionContext($row, $context) : array();
 // If ad-logging is disabled, the log beacon won't be sent, so set the capping at request
 if (MAX_Delivery_cookie_cappingOnRequest()) {
 if ($row['block_ad'] > 0 || $row['cap_ad'] > 0 || $row['session_cap_ad'] > 0) {
@@ -2578,6 +2580,10 @@ if (isset($aContext['campaign']['exclude'][$aAd['placement_id']])) {
 // Excludelist campaigns
 return false;
 }
+if (isset($aContext['client']['exclude'][$aAd['client_id']])) {
+// Excludelist clients
+return false;
+}
 if (sizeof($aContext['banner']['include']) && !isset($aContext['banner']['include'][$aAd['ad_id']])) {
 // Includelist banners
 return false;
@@ -2595,6 +2601,7 @@ $aAd['alt_filename'] == '' &&
 return false;
 }
 if (MAX_limitationsIsAdForbidden($aAd)) {
+// Capping & blocking
 return false;
 }
 if ($_SERVER['SERVER_PORT'] == 443 && $aAd['type'] == 'html' && ($aAd['adserver'] != 'max' || preg_match("#src\s?=\s?['\"]http:#", $aAd['htmlcache']))) {
@@ -2606,6 +2613,7 @@ if ($_SERVER['SERVER_PORT'] == 443 && $aAd['type'] == 'url' && (substr($aAd['ima
 return false;
 }
 if ($conf['delivery']['acls'] && !MAX_limitationsCheckAcl($aAd, $source)) {
+// Delivery limitations
 return false;
 }
 // If any of the above failed, this function will have already returned false
@@ -2617,6 +2625,7 @@ function _adSelectBuildContextArray(&$aLinkedAds, $adArrayVar, $context)
 $aContext = array(
 'campaign' => array('exclude' => array(), 'include' => array()),
 'banner'   => array('exclude' => array(), 'include' => array()),
+'client'   => array('exclude' => array(), 'include' => array()),
 );
 if (is_array($context) && !empty($context)) {
 $cContext = count($context);
@@ -2634,6 +2643,12 @@ case 'campaignid':
 switch ($key) {
 case '!=': $aContext['campaign']['exclude'][$value] = true; break;
 case '==': $aContext['campaign']['include'][$value] = true; break;
+}
+break;
+case 'clientid':
+switch ($key) {
+case '!=': $aContext['client']['exclude'][$value] = true; break;
+case '==': $aContext['client']['include'][$value] = true; break;
 }
 break;
 case 'companionid':
@@ -2671,7 +2686,7 @@ case '==': $aContext['banner']['include'][$value] = true; break;
 }
 return $aContext;
 }
-function _adSelectBuildCompanionContext($aBanner, $context) {
+function _adSelectBuildContext($aBanner, $context = array()) {
 if (count($aBanner['zone_companion']) > 0) {
 // This zone call has companion banners linked to it.
 // So pass into the next call that we would like a banner from this campaign, and not from the other companion linked campaigns;
@@ -2679,6 +2694,9 @@ foreach ($aBanner['zone_companion'] AS $companionCampaign) {
 $key = ($aBanner['placement_id'] == $companionCampaign) ? '==' : '!=';
 $context[] = array($key => "companionid:$companionCampaign");
 }
+}
+if (isset($aBanner['advertiser_limitation']) && $aBanner['advertiser_limitation'] == '1') {
+$context[] = array('!=' => 'clientid:' . $aBanner['client_id']);
 }
 return $context;
 }

@@ -1309,6 +1309,7 @@ list($key, $value) = each($value);
 list($item,$id) = explode(':', $value);
 switch ($item) {
 case 'campaignid':  $value = 'c:' . $id; break;
+case 'clientid':    $value = 'a:' . $id; break;
 case 'bannerid':    $value = 'b:' . $id; break;
 case 'companionid': $value = 'p:' . $id; break;
 }
@@ -1332,8 +1333,9 @@ foreach ($array as $value) {
 if (empty($value)) { continue; }
 list($item, $id) = explode(':', $value);
 switch ($item) {
-case 'c': $unpacked[] = array($key => 'campaignid:'. $id); break;
-case 'b': $unpacked[] = array($key => 'bannerid:' .  $id); break;
+case 'c': $unpacked[] = array($key => 'campaignid:' . $id); break;
+case 'a': $unpacked[] = array($key => 'clientid:'   . $id); break;
+case 'b': $unpacked[] = array($key => 'bannerid:'   . $id); break;
 case 'p': $unpacked[] = array($key => 'companionid:'.$id); break;
 }
 }
