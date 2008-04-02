@@ -908,7 +908,7 @@ class DB_DataObjectCommon extends DB_DataObject
             $fields = $this->table();
             if (array_key_exists('updated', $fields))
             {
-                $this->updated = date('Y-m-d H:i:s');
+                $this->updated = gmdate('Y-m-d H:i:s');
             }
         }
     }
@@ -1394,7 +1394,7 @@ class DB_DataObjectCommon extends DB_DataObject
 
         return false;
     }
-    
+
     function _getContext()
     {
         return false;

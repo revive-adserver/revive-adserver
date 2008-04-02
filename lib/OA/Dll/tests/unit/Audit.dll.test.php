@@ -626,7 +626,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $this->assertIsA($aResults, 'array');
         $this->assertEqual(count($aResults),1);
     }
-    
+
     function testGetContext()
     {
         $audit = new OA_Dll_Audit();
