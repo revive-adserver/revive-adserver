@@ -80,7 +80,7 @@ class OA_Dal_Central_Rpc
      * @var OA_Central_M2M
      */
     var $oCentral;
-    
+
     /**
      * Allows to remove extra lines from the XML-RPC message
      *
@@ -181,7 +181,7 @@ class OA_Dal_Central_Rpc
         OA::enableErrorHandling();
 
         if (!$oResponse) {
-            return new PEAR_Error('XML-RPC connection error', 800);
+            return new PEAR_Error('XML-RPC connection error', OA_CENTRAL_ERROR_XML_RPC_CONNECTION_ERROR);
         }
 
         if ($oResponse->faultCode() || $oResponse->faultString()) {
@@ -221,7 +221,14 @@ class OA_Dal_Central_Rpc
             return new PEAR_Error($oResponse->faultString(), $oResponse->faultCode());
         }
 
-        return XML_RPC_decode($oResponse->value());
+        $ret = XML_RPC_decode($oResponse->value());
+        // handling unknown server errors
+        // this may happen due to difference in Java/PHP XML-RPC handling errors
+        if (is_array($ret) && (isset($ret['faultCode'])
+                || isset($ret['faultCode']))) {
+            return new PEAR_Error('Unknown server error', OA_CENTRAL_ERROR_SERVER_ERROR);
+        }
+        return $ret;
     }
 
     /**
@@ -324,7 +331,7 @@ class OA_Dal_Central_Rpc
 
         return true;
     }
-    
+
     /**
      * Sets a "remove_extra_lines" RPC Client option.
      * @param boolean $option
