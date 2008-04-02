@@ -57,14 +57,14 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     // Show all "My Account" sections
     phpAds_ShowSections(array("5.1", "5.2", "5.3", "5.5", "5.6", "5.4"));
     phpAds_UserlogSelection("index");
-} 
+}
 else if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     // Show the "Preferences", "User Log" and "Channel Management" sections of the "My Account" sections
     phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.7"));
 }
 else if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
     phpAds_ShowSections(array("5.1", "5.2", "5.4"));
-} 
+}
 
 
 // Register input variables
@@ -105,10 +105,16 @@ $showPublishers = OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER, OA_ACCOUNT_MAN
 $agencyId = OA_Permission::getAgencyId();
 
 //get advertisers if we show them
+$aAdvertiser = $aPublisher = array();
 if ($showAdvertisers) {
-    $advertiserList = Admin_DA::getAdvertisers(array('agency_id' => $agencyId));
-    $aAdvertiser[0] = $GLOBALS['strSelectAdvertiser'];
-    foreach($advertiserList as $key => $aValue) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+        $advertiserId    = OA_Permission::getEntityId();
+        $aAdvertiserList = Admin_DA::getAdvertisers(array('advertiser_id' => $advertiserId));
+    } else {
+        $aAdvertiserList = Admin_DA::getAdvertisers(array('agency_id' => $agencyId));
+        $aAdvertiser[0]  = $GLOBALS['strSelectAdvertiser'];
+    }
+    foreach($aAdvertiserList as $key => $aValue) {
         $aAdvertiser[$aValue['advertiser_id']] = $aValue['name'];
     }
     $aCampaign = array();
@@ -123,9 +129,14 @@ if ($showAdvertisers) {
 
 //get publishers if we show them
 if ($showPublishers) {
-    $publisher = Admin_DA::getPublishers(array('agency_id' => $agencyId));
-    $aPublisher[0] = $GLOBALS['strSelectPublisher'];
-    foreach ($publisher as $key => $aValue) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+        $publisherId    = OA_Permission::getEntityId();
+        $aPublisherList = Admin_DA::getPublishers(array('publisher_id' => $publisherId));
+    } else {
+        $aPublisherList = Admin_DA::getPublishers(array('agency_id' => $agencyId));
+        $aPublisher[0]  = $GLOBALS['strSelectPublisher'];
+    }
+    foreach ($aPublisherList as $key => $aValue) {
         $aPublisher[$aValue['publisher_id']] = $aValue['name'];
     }
     if (!empty($publisherId)) {
