@@ -157,9 +157,12 @@ class test_DeliveryAdSelect extends UnitTestCase
 
 	}
 
-	function test_adSelectBuildCompanionContext()
+	/**
+	 * This test tests the companion context building
+	 */
+	function test_adSelectBuildContext_companion()
 	{
-		$this->sendMessage('test_adSelectBuildCompanionContext');
+		$this->sendMessage('test_adSelectBuildContext');
 
 		$aBanner	= array('placement_id' => '56',
 							'zone_companion' => array (
@@ -175,17 +178,31 @@ class test_DeliveryAdSelect extends UnitTestCase
                                                   )
 							);
 		$context	= '';
-		$ret = _adSelectBuildCompanionContext($aBanner, $context);
+		$ret = _adSelectBuildContext($aBanner, $context);
 		$this->assertIsA($ret, 'array');
 		$this->assertIsA($ret[0], 'array');
         $this->assertEqual($ret[0]['!='], 'companionid:55');
 
         $aBanner['placement_id'] = '55';
-		$ret = _adSelectBuildCompanionContext($aBanner, $context);
+		$ret = _adSelectBuildContext($aBanner, $context);
 		$this->assertIsA($ret[0], 'array');
         $this->assertEqual($ret[0]['=='], 'companionid:55');
-	}
 
+        // Check that if the advertiser_limitation is enabled, that the return array includes the correct exclusion
+		$aBanner	= array('placement_id' => '56', 'client_id' => '1', 'advertiser_limitation' => '1');
+		$context	= array();
+		$ret = _adSelectBuildContext($aBanner, $context);
+		$this->assertIsA($ret, 'array');
+		$this->assertIsA($ret[0], 'array');
+        $this->assertEqual($ret[0]['!='], 'clientid:1');
+
+        // And if the advertiser_limitation is not enabled...
+        $aBanner	= array('placement_id' => '56', 'client_id' => '1', 'advertiser_limitation' => '0');
+		$context	= array();
+		$ret = _adSelectBuildContext($aBanner, $context);
+		$this->assertEqual($ret, array());
+
+    }
 
 	function test_getNextZone()
 	{

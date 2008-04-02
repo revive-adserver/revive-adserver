@@ -64,6 +64,7 @@ class DataObjects_Clients extends DB_DataObjectCommon
     var $an_adnetwork_id;                 // int(11)  
     var $as_advertiser_id;                // int(11)  
     var $account_id;                      // int(9)  unique_key
+    var $advertiser_limitation;           // int(1)  not_null
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
@@ -78,6 +79,7 @@ class DataObjects_Clients extends DB_DataObjectCommon
                 'reportlastdate' => '%NO_DATE_TIME%',
                 'reportdeactivate' => 't',
                 'lb_reporting' => 0,
+                'advertiser_limitation' => 0,
                 );
 
     /* the code above is auto generated do not remove the tag below */

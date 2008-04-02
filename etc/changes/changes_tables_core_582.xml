@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>582</version>
+  <comments>Added the advertiser_limitation field to the clients table</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>582</version>
+      <change>
+        <table>
+          <name>clients</name>
+          <add>
+            <field>
+              <name>advertiser_limitation</name>
+              <type>openads_tinyint</type>
+              <length>1</length>
+              <notnull>1</notnull>
+              <default>0</default>
+              <was>advertiser_limitation</was>
+            </field>
+          </add>
+        </table>
+      </change>
+    </changeset>
+  </constructive>
+  <destructive>
+    <changeset>
+      <name>openads</name>
+      <version>582</version>
+    </changeset>
+  </destructive>
+</instructionset>

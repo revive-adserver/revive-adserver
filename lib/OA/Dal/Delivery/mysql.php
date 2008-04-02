@@ -492,6 +492,8 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
             c.block AS block_campaign,
             c.capping AS cap_campaign,
             c.session_capping AS session_cap_campaign,
+            c.clientid AS client_id,
+            m.advertiser_limitation AS advertiser_limitation,
             a.account_id AS account_id
         FROM
             {$conf['table']['prefix']}{$conf['table']['banners']} AS d JOIN
@@ -745,14 +747,19 @@ function OA_Dal_Delivery_getAd($ad_id) {
         c.campaignid AS campaign_id,
         c.block AS block_campaign,
         c.capping AS cap_campaign,
-        c.session_capping AS session_cap_campaign
+        c.session_capping AS session_cap_campaign,
+        m.clientid AS client_id,
+        m.advertiser_limitation AS advertiser_limitation
     FROM
         {$conf['table']['prefix']}{$conf['table']['banners']} AS d,
-        {$conf['table']['prefix']}{$conf['table']['campaigns']} AS c
+        {$conf['table']['prefix']}{$conf['table']['campaigns']} AS c,
+        {$conf['table']['prefix']}{$conf['table']['clients']} AS m
     WHERE
         d.bannerid={$ad_id}
         AND
         d.campaignid = c.campaignid
+        AND
+        m.clientid = c.clientid
     ";
     $rAd = OA_Dal_Delivery_query($query);
     if (!is_resource($rAd)) {
@@ -1369,12 +1376,15 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
             'm.block AS block_campaign',
             'm.capping AS cap_campaign',
             'm.session_capping AS session_cap_campaign',
+            'cl.clientid AS client_id',
+            'cl.advertiser_limitation AS advertiser_limitation',
             'a.account_id AS account_id'
     );
 
     $aTables = array(
         "{$conf['table']['prefix']}{$conf['table']['banners']} AS d",
         "JOIN {$conf['table']['prefix']}{$conf['table']['campaigns']} AS m ON (d.campaignid = m.campaignid) ",
+        "JOIN {$conf['table']['prefix']}{$conf['table']['clients']} AS cl ON (m.clientid = cl.clientid) ",
         "JOIN {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']} AS az ON (d.bannerid = az.ad_id)"
     );
     $select = "

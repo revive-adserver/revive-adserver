@@ -323,8 +323,8 @@ $GLOBALS['strAllowClientActivateBanner']        = "Allow this user to activate h
 $GLOBALS['strAllowClientViewTargetingStats']    = "Allow this user to view targeting statistics";
 $GLOBALS['strAllowCreateAccounts']              = "Allow this user to create new accounts";
 $GLOBALS['strCsvImportConversions']             = "Allow this user to import offline conversions";
-
-$GLOBALS['strAllowAuditTrailAccess']             = "Allow this user to access the audit trail";
+$GLOBALS['strAdvertiserLimitation']             = 'Display only one banner from this advertiser on a web page';
+$GLOBALS['strAllowAuditTrailAccess']            = "Allow this user to access the audit trail";
 
 // Campaign
 $GLOBALS['strCampaign']                     = "Campaign";

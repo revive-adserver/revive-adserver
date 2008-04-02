@@ -44,6 +44,7 @@ phpAds_registerGlobalUnslashed(
     ,'comments'
     ,'email'
     ,'clientreportlastdate'
+	,'advertiser_limitation'
     ,'clientreportprevious'
     ,'clientreportdeactivate'
     ,'clientreport'
@@ -75,8 +76,11 @@ if (isset($submit)) {
     }
     // Default fields
     $aClient['contact']  = trim($contact);
-    $aClient['email']    = trim($email);  
+    $aClient['email']    = trim($email);
     $aClient['comments'] = trim($comments);
+
+	// Same advertiser limitation
+	$aClient['advertiser_limitation']  = isset($advertiser_limitation) ? 1 : 0;
 
     // Reports
     $aClient['report'] = isset($clientreport) ? 't' : 'f';
@@ -107,7 +111,7 @@ if (isset($submit)) {
             $doClients->update();
 
             // Go to next page
-            if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {                                
+            if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
                 MAX_Admin_Redirect::redirect('index.php');
             } else {
                 MAX_Admin_Redirect::redirect("advertiser-campaigns.php?clientid=$clientid");
@@ -257,6 +261,7 @@ if (isset($errormessage) && count($errormessage)) {
         echo "<font color='#AA0000'><b>".$v."</b></font><br />";
 
     echo "</td></tr></table></td></tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+		$client['advertiser_limitation']= 'f';
     echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
     echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 }
@@ -267,6 +272,16 @@ echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetP
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
 
 echo "<tr>"."\n";
+
+// Enable advertiser exclusion
+echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
+echo "<input type='checkbox' name='advertiser_limitation' value='1'".($aClient['advertiser_limitation'] == '1' ? ' checked="checked"' : '')." tabindex='".($tabindex++)."'>&nbsp;";
+echo $strAdvertiserLimitation;
+echo "</td></tr>";
+
+echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
+echo "<img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'>";
+echo "</td></tr>";
 
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 echo "<tr><td width='30'>&nbsp;</td>";

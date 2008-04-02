@@ -239,8 +239,8 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
                      'height'     => $row['height'],
                      'url'        => $row['url'],
                      'campaignid' => $row['campaignid'],
+                     'context'    => _adSelectBuildContext($row, $context)
                     );
-         $output['context'] = (!empty($row['zone_companion']) && (is_array($row['zone_companion']))) ? _adSelectBuildCompanionContext($row, $context) : array();
          // If ad-logging is disabled, the log beacon won't be sent, so set the capping at request
          if (MAX_Delivery_cookie_cappingOnRequest()) {
              if ($row['block_ad'] > 0 || $row['cap_ad'] > 0 || $row['session_cap_ad'] > 0) {
@@ -595,6 +595,11 @@ function _adSelectCheckCriteria($aAd, $aContext, $source, $richMedia)
         return false;
     }
 
+    if (isset($aContext['client']['exclude'][$aAd['client_id']])) {
+        // Excludelist clients
+        return false;
+    }
+
     if (sizeof($aContext['banner']['include']) && !isset($aContext['banner']['include'][$aAd['ad_id']])) {
         // Includelist banners
         return false;
@@ -606,15 +611,16 @@ function _adSelectCheckCriteria($aAd, $aContext, $source, $richMedia)
     }
 
     if (   // Exclude richmedia banners if no alt image is specified
-                 $richMedia == false &&
-                 $aAd['alt_filename'] == '' &&
-                 !($aAd['contenttype'] == 'jpeg' || $aAd['contenttype'] == 'gif' || $aAd['contenttype'] == 'png') &&
-                 !($aAd['type'] == 'url' && $aAd['contenttype'] == '')
-             ) {
+        $richMedia == false &&
+        $aAd['alt_filename'] == '' &&
+        !($aAd['contenttype'] == 'jpeg' || $aAd['contenttype'] == 'gif' || $aAd['contenttype'] == 'png') &&
+        !($aAd['type'] == 'url' && $aAd['contenttype'] == '')
+       ) {
         return false;
     }
 
     if (MAX_limitationsIsAdForbidden($aAd)) {
+        // Capping & blocking
         return false;
     }
 
@@ -629,6 +635,7 @@ function _adSelectCheckCriteria($aAd, $aContext, $source, $richMedia)
     }
 
     if ($conf['delivery']['acls'] && !MAX_limitationsCheckAcl($aAd, $source)) {
+        // Delivery limitations
         return false;
     }
 
@@ -642,6 +649,7 @@ function _adSelectBuildContextArray(&$aLinkedAds, $adArrayVar, $context)
     $aContext = array(
         'campaign' => array('exclude' => array(), 'include' => array()),
         'banner'   => array('exclude' => array(), 'include' => array()),
+        'client'   => array('exclude' => array(), 'include' => array()),
     );
 
     if (is_array($context) && !empty($context)) {
@@ -663,6 +671,12 @@ function _adSelectBuildContextArray(&$aLinkedAds, $adArrayVar, $context)
                     switch ($key) {
                         case '!=': $aContext['campaign']['exclude'][$value] = true; break;
                         case '==': $aContext['campaign']['include'][$value] = true; break;
+                    }
+                break;
+                case 'clientid':
+                    switch ($key) {
+                        case '!=': $aContext['client']['exclude'][$value] = true; break;
+                        case '==': $aContext['client']['include'][$value] = true; break;
                     }
                 break;
                 case 'companionid':
@@ -711,7 +725,7 @@ function _adSelectBuildContextArray(&$aLinkedAds, $adArrayVar, $context)
  *                            - and excluding banner/campaigns from this ad-call
  * @return array              The updated context array
  */
-function _adSelectBuildCompanionContext($aBanner, $context) {
+function _adSelectBuildContext($aBanner, $context = array()) {
     if (count($aBanner['zone_companion']) > 0) {
         // This zone call has companion banners linked to it.
         // So pass into the next call that we would like a banner from this campaign, and not from the other companion linked campaigns;
@@ -719,6 +733,9 @@ function _adSelectBuildCompanionContext($aBanner, $context) {
             $key = ($aBanner['placement_id'] == $companionCampaign) ? '==' : '!=';
             $context[] = array($key => "companionid:$companionCampaign");
         }
+    }
+    if (isset($aBanner['advertiser_limitation']) && $aBanner['advertiser_limitation'] == '1') {
+        $context[] = array('!=' => 'clientid:' . $aBanner['client_id']);
     }
     return $context;
 }

@@ -109,6 +109,8 @@ class DataObjects_Banners extends DB_DataObjectCommon
                 'acls_updated' => '%NO_DATE_TIME%',
                 'transparent' => 0,
                 'status' => 0,
+                'ad_direct_status' => 0,
+                'ad_direct_rejection_reason_id' => 0,
                 );
 
     /* the code above is auto generated do not remove the tag below */

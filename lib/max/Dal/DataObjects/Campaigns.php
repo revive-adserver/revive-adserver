@@ -42,9 +42,9 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     var $campaignid;                      // int(9)  not_null primary_key auto_increment
     var $campaignname;                    // string(255)  not_null
     var $clientid;                        // int(9)  not_null multiple_key
-    var $views;                           // int(11)
-    var $clicks;                          // int(11)
-    var $conversions;                     // int(11)
+    var $views;                           // int(11)  
+    var $clicks;                          // int(11)  
+    var $conversions;                     // int(11)  
     var $expire;                          // date(10)  binary
     var $activate;                        // date(10)  binary
     var $priority;                        // int(11)  not_null
@@ -53,16 +53,16 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     var $target_click;                    // int(11)  not_null
     var $target_conversion;               // int(11)  not_null
     var $anonymous;                       // string(1)  not_null enum
-    var $companion;                       // int(1)
+    var $companion;                       // int(1)  
     var $comments;                        // blob(65535)  blob
-    var $revenue;                         // real(12)
-    var $revenue_type;                    // int(6)
+    var $revenue;                         // real(12)  
+    var $revenue_type;                    // int(6)  
     var $updated;                         // datetime(19)  not_null binary
     var $block;                           // int(11)  not_null
     var $capping;                         // int(11)  not_null
     var $session_capping;                 // int(11)  not_null
-    var $an_campaign_id;                  // int(11)
-    var $as_campaign_id;                  // int(11)
+    var $an_campaign_id;                  // int(11)  
+    var $as_campaign_id;                  // int(11)  
     var $status;                          // int(11)  not_null
     var $an_status;                       // int(11)  not_null
     var $as_reject_reason;                // int(11)  not_null
@@ -95,6 +95,8 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
                 'status' => 0,
                 'an_status' => 0,
                 'as_reject_reason' => 0,
+                'hosted_views' => 0,
+                'hosted_clicks' => 0,
                 );
 
     /* the code above is auto generated do not remove the tag below */

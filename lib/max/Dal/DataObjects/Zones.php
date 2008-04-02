@@ -88,6 +88,8 @@ class DataObjects_Zones extends DB_DataObjectCommon
                 'block' => 0,
                 'capping' => 0,
                 'session_capping' => 0,
+                'is_in_ad_direct' => 0,
+                'pricing' => 'CPM',
                 );
 
     /* the code above is auto generated do not remove the tag below */

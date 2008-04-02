@@ -66,6 +66,15 @@ $output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $charset, 
 // Block this banner for next invocation
 if (!empty($block) && !empty($output['bannerid'])) {
     $output['context'][] = array('!=' => 'bannerid:' . $output['bannerid']);
+// Block this banner for next invocation
+if (!empty($block) && !empty($output['bannerid'])) {
+    $output['context'][] = array('!=' => 'bannerid:' . $output['bannerid']);
+}
+
+// Block this campaign for next invocation
+if (!empty($blockcampaign) && !empty($output['campaignid'])) {
+    $output['context'][] = array('!=' => 'campaignid:' . $output['campaignid']);
+}
 }
 
 // Block this campaign for next invocation
