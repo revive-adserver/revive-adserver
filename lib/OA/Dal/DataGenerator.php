@@ -365,13 +365,16 @@ class DataGenerator
     {
         if (isset($this)) {
             if (isset($this->data[$table]) && isset($this->data[$table][$fieldName])) {
-                $index = $counter % count($this->data[$table][$fieldName]);
-                return $this->data[$table][$fieldName][$index];
+                if (is_array($this->data[$table][$fieldName])) {
+                    $index = $counter % count($this->data[$table][$fieldName]);
+                    return $this->data[$table][$fieldName][$index];
+                } else {
+                    return $this->data[$table][$fieldName];
+                }
             }
         }
         return null;
     }
-
     /**
      * Return (or set) a default field value based individual dataobjects default array
      *
