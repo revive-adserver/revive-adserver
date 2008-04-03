@@ -432,6 +432,8 @@ $GLOBALS['strProxyLookup']                           = 'Try to determine the rea
 $GLOBALS['strSniff']                                 = 'Extract the viewer\'s operating system and web browser information using phpSniff';
 $GLOBALS['strPreventLogging']                        = 'Block Banner Logging Settings';
 $GLOBALS['strIgnoreHosts']                           = 'Don\'t log any statistics for viewers using any of the following IP addresses or hostnames';
+$GLOBALS['strIgnoreUserAgents']                      = '<b>Don\'t</b> log statistics from clients with any of the following strings in their user-agent (one-per-line)';
+$GLOBALS['strEnforceUserAgents']                     = '<b>Only</b> log statistics from clients with any of the following strings in their user-agent (one-per-line)';
 
 // Banner Storage Settings
 $GLOBALS['strBannerStorage']                         = 'Banner Storage Settings';

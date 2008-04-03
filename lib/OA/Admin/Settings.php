@@ -489,6 +489,9 @@ class OA_Admin_Settings
                 if (isset($aConfigInfo['bool'])) {
                     $value = 'true';
                 }
+                if (!empty($aConfigInfo['trim'])) {
+                    $value = trim($value);
+                }
                 unset($aConfigInfo['bool']);
                 if (isset($aConfigInfo['preg_split']) && isset($aConfigInfo['merge'])) {
                     $pregSplit = $aConfigInfo['preg_split'];
@@ -504,6 +507,9 @@ class OA_Admin_Settings
                         $aValues = preg_split($pregSplit, $value);
                         if ($mergeUnique) {
                             $aValues = array_unique($aValues);
+                        }
+                        if (!empty($aConfigInfo['trim'])) {
+                            array_walk($aValues, 'trim');
                         }
                         $aEmptyKeys = array_keys($aValues, '');
                         $counter = -1;

@@ -373,10 +373,6 @@ class OA_Admin_Option
             					if (isset($aConf[$aSettingSection][$aSettingKey])) {
             						// Load the configuration .php file value
             						$value = $aConf[$aSettingSection][$aSettingKey];
-                                    // Show every host on a single line - a slight hack :-)
-                                    if ($aItem[name] == "logging_ignoreHosts") {
-                                        $value = eregi_replace(",", "\n", $value);
-                                    }
             					} elseif (isset($aConf[$aItem['name']][0])) {
             						// The value in the settings configuration file is an array,
             						// so re-constitute into a comma separated list
@@ -416,6 +412,11 @@ class OA_Admin_Option
             					$value = '';
             				}
             			}
+            			if (!empty($value) && isset($aItem['preg_split']) && isset($aItem['merge'])) {
+            			    $aValues = preg_split($aItem['preg_split'], $value);
+                            $value = implode($aItem['merge'], $aValues);
+            			}
+
             			if ($aItem[type] != 'break') {
             			    $showBreak = true;
             			}
@@ -508,7 +509,7 @@ class OA_Admin_Option
         $this->oTpl->assign('optionType',       $this->_optionType);
         $this->oTpl->assign('adminUser',        OA_Permission::isAccount(OA_ACCOUNT_ADMIN));
         $this->oTpl->assign('oxInstalled',      OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED);
-        
+
         $this->oTpl->display();
     }
 

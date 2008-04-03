@@ -825,6 +825,29 @@ OA_Dal_Delivery_logVariableValues($variables, $serverRawTrackerImpressionId, $se
 function _viewersHostOkayToLog()
 {
 $conf = $GLOBALS['_MAX']['CONF'];
+$agent = strtolower($_SERVER['HTTP_USER_AGENT']);
+// Check the user-agent against the list of known browsers (if set)
+if (!empty($conf['logging']['enforceUserAgents'])) {
+$aKnownBrowsers = explode('|', strtolower($conf['logging']['enforceUserAgents']));
+$allowed = false;
+foreach ($aKnownBrowsers as $browser) {
+if (strpos($agent, $browser) !== false) {
+$allowed = true;
+break;
+}
+}
+if (!$allowed) return false;
+}
+// Check the user-agent against the list of known bots (if set)
+if (!empty($conf['logging']['ignoreUserAgents'])) {
+$aKnownBots = explode('|', strtolower($conf['logging']['ignoreUserAgents']));
+foreach ($aKnownBots as $bot) {
+if (strpos($agent, $bot) !== false) {
+return false;
+}
+}
+}
+// Check if this IP address has been blocked
 if (!empty($conf['logging']['ignoreHosts'])) {
 $hosts = str_replace(',', '|', $conf['logging']['ignoreHosts']);
 $hosts = '#('.$hosts.')$#i';

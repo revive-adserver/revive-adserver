@@ -178,6 +178,8 @@ sniff                               = false
 defaultImpressionConnectionWindow   =
 defaultClickConnectionWindow        =
 ignoreHosts                         =         ; Comma separated list of hosts
+ignoreUserAgents                    =         ; Pipe separated list of user-agents to ignore
+enforceUserAgents                   =         ; Pipe separated list of user-agents to enforce
 
 [maintenance]
 autoMaintenance                     = 1

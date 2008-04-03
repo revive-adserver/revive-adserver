@@ -54,6 +54,10 @@ class Delivery_TestOfLog extends UnitTestCase
         // Use a reference to $GLOBALS['_MAX']['CONF'] so that the configuration
         // options can be changed while the test is running
         $conf = &$GLOBALS['_MAX']['CONF'];
+
+        // Save the $_SERVER so we don't affect other tests
+        $serverSave = $_SERVER;
+
         // Set a fake, known IP address and host name
         $_SERVER['REMOTE_ADDR'] = '24.24.24.24';
         $_SERVER['REMOTE_HOST'] = '';
@@ -98,8 +102,88 @@ class Delivery_TestOfLog extends UnitTestCase
         $conf['logging']['ignoreHosts'] = '23.23.23.23,' . gethostbyaddr($_SERVER['REMOTE_ADDR']);
         // Test
         $this->assertFalse(_viewersHostOkayToLog());
+
         // Reset the configuration
         TestEnv::restoreConfig();
+
+        // Test the ignore/enforce User-Agent features
+        $browserUserAgent = 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1) ';
+        $botUserAgent = 'Yahoo! Slurp';
+
+        // Nothing in either restriction list, should return true
+        $conf['logging']['ignoreUserAgents']  = '';
+        $conf['logging']['enforceUserAgents'] = '';
+
+        // Empty user-agent
+        $_SERVER['HTTP_USER_AGENT'] = '';
+        $this->assertTrue(_viewersHostOkayToLog());
+        // Valid user-agent:
+        $_SERVER['HTTP_USER_AGENT'] = $browserUserAgent;
+        $this->assertTrue(_viewersHostOkayToLog());
+        // Bot
+        $_SERVER['HTTP_USER_AGENT'] = $botUserAgent;
+        $this->assertTrue(_viewersHostOkayToLog());
+
+        // Enforce valid
+        $conf['logging']['enforceUserAgents'] = $browserUserAgent;
+        $conf['logging']['ignoreUserAgents']  = '';
+
+        // Empty user-agent
+        $_SERVER['HTTP_USER_AGENT'] = '';
+        $this->assertFalse(_viewersHostOkayToLog());
+        // Valid user-agent:
+        $_SERVER['HTTP_USER_AGENT'] = $browserUserAgent;
+        $this->assertTrue(_viewersHostOkayToLog());
+        // Bot
+        $_SERVER['HTTP_USER_AGENT'] = $botUserAgent;
+        $this->assertFalse(_viewersHostOkayToLog());
+
+        // Ignore bots
+        $conf['logging']['enforceUserAgents'] = '';
+        $conf['logging']['ignoreUserAgents']  = $botUserAgent;
+
+        // Empty user-agent
+        $_SERVER['HTTP_USER_AGENT'] = '';
+        $this->assertTrue(_viewersHostOkayToLog());
+        // Valid user-agent:
+        $_SERVER['HTTP_USER_AGENT'] = $browserUserAgent;
+        $this->assertTrue(_viewersHostOkayToLog());
+        // Bot
+        $_SERVER['HTTP_USER_AGENT'] = $botUserAgent;
+        $this->assertFalse(_viewersHostOkayToLog());
+
+        // Ignore bots
+        $conf['logging']['enforceUserAgents'] = $browserUserAgent;
+        $conf['logging']['ignoreUserAgents']  = $botUserAgent;
+
+        // Empty user-agent
+        $_SERVER['HTTP_USER_AGENT'] = '';
+        $this->assertFalse(_viewersHostOkayToLog());
+        // Valid user-agent:
+        $_SERVER['HTTP_USER_AGENT'] = $browserUserAgent;
+        $this->assertTrue(_viewersHostOkayToLog());
+        // Bot
+        $_SERVER['HTTP_USER_AGENT'] = $botUserAgent;
+        $this->assertFalse(_viewersHostOkayToLog());
+
+        // Check that valid and bot conf settings can be | delimited strings
+        $conf['logging']['enforceUserAgents'] = 'BlackBerry|HotJava|' . $browserUserAgent . '|iCab';
+        $conf['loggnig']['ignoreUserAgents']  = 'AdsBot-Google|ask+jeeves|' . $botUserAgent . '|YahooSeeker';
+
+        // Empty user-agent
+        $_SERVER['HTTP_USER_AGENT'] = '';
+        $this->assertFalse(_viewersHostOkayToLog());
+        // Valid user-agent:
+        $_SERVER['HTTP_USER_AGENT'] = $browserUserAgent;
+        $this->assertTrue(_viewersHostOkayToLog());
+        // Bot
+        $_SERVER['HTTP_USER_AGENT'] = $botUserAgent;
+        $this->assertFalse(_viewersHostOkayToLog());
+
+        // Reset the configuration
+        TestEnv::restoreConfig();
+
+        $_SERVER = $serverSave;
     }
 
     /**

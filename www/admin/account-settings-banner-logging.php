@@ -87,6 +87,28 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             'merge_unique' => true
         )
     );
+
+    // Block User-Agents
+    $aElements += array(
+        'logging_ignoreUserAgents' => array(
+            'logging'      => 'ignoreUserAgents',
+            'preg_split'   => "/\r|\n/",
+            'merge'        => '|',
+            'merge_unique' => true,
+            'trim'         => true,
+        )
+    );
+
+    // Enforce User-Agents
+    $aElements += array(
+        'logging_enforceUserAgents' => array(
+            'logging'      => 'enforceUserAgents',
+            'preg_split'   => "/\r|\n/",
+            'merge'        => '|',
+            'merge_unique' => true,
+            'trim'         => true,
+        )
+    );
     // Create a new settings object, and save the settings!
     $oSettings = new OA_Admin_Settings();
     $result = $oSettings->processSettingsFromForm($aElements);
@@ -152,10 +174,32 @@ $aSettings = array (
         'text'  => $strPreventLogging,
         'items' => array (
             array (
+                'type'      => 'textarea',
+                'name'      => 'logging_ignoreHosts',
+                'text'      => $strIgnoreHosts,
+                'preg_split'=> '/,/',
+                'merge'     => "\n",
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
                 'type'    => 'textarea',
-                'name'    => 'logging_ignoreHosts',
-                'text'    => $strIgnoreHosts
-            )
+                'name'    => 'logging_ignoreUserAgents',
+                'text'    => $strIgnoreUserAgents,
+                'preg_split'=> '/\|/',
+                'merge'     => "\n",
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
+                'type'    => 'textarea',
+                'name'    => 'logging_enforceUserAgents',
+                'text'    => $strEnforceUserAgents,
+                'preg_split'=> '/\|/',
+                'merge'     => "\n",
+            ),
         )
     )
 );
