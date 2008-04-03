@@ -354,6 +354,9 @@ openads             = openads       ; Used as identifier for the adsense click t
 
 [lb]
 enabled             = false         ; Should distributed stats be enabled
+hasSuper            = false         ; Does the user used to insert the stats into the main
+                                    ; database have the SUPER permissions, so the BINLOG
+                                    ; can be disabled?
 type                = mysql         ; Main database details
 host                = localhost
 port                = 3306

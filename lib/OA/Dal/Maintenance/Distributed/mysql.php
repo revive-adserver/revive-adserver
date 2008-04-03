@@ -46,6 +46,7 @@ class OA_Dal_Maintenance_Distributed_mysql extends OA_Dal_Maintenance_Distribute
      */
     function _processTable($sTableName, $oStart, $oEnd)
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
         OA::debug(' - Copying '.$sTableName.' from '.$oStart->format('%Y-%m-%d %H:%M:%S').' to '.$oEnd->format('%Y-%m-%d %H:%M:%S'), PEAR_LOG_INFO);
 
         $sTableName = $this->_getTablename($sTableName);
@@ -90,6 +91,13 @@ class OA_Dal_Maintenance_Distributed_mysql extends OA_Dal_Maintenance_Distribute
                 }
 
                 if (count($aExecQueries)) {
+                    // Disable the binlog for the inserts
+                    if ($aConf['lb']['hasSuper']) {
+                        $result = $oMainDbh->exec('SET SQL_LOG_BIN = 0');
+                        if (PEAR::isError($result)) {
+                            OA::debug(' - Unable to disable the bin log', PEAR_LOG_DEBUG);
+                        }
+                    }
                     foreach ($aExecQueries as $execQuery) {
                         $result = $oMainDbh->exec($execQuery);
                         if (PEAR::isError($result)) {
