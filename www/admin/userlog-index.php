@@ -129,7 +129,7 @@ if ($showAdvertisers) {
 
 //get publishers if we show them
 if ($showPublishers) {
-    if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
         $publisherId    = OA_Permission::getEntityId();
         $aPublisherList = Admin_DA::getPublishers(array('publisher_id' => $publisherId));
     } else {
