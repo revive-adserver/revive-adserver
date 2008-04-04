@@ -2736,10 +2736,9 @@ $conf = $GLOBALS['_MAX']['CONF'];
 // Sanitize these user-inputted variables before passing to the _adRenderX calls
 if (empty($target)) {
 $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
-} else {
-$target = htmlspecialchars($target);
 }
-$source = htmlspecialchars($source);
+$target = htmlspecialchars($target, ENT_QUOTES);
+$source = htmlspecialchars($source, ENT_QUOTES);
 $code = '';
 switch ($aBanner['contenttype']) {
 case 'gif'  :
@@ -3185,7 +3184,7 @@ $log = $logClick ? '' : "{$del}log=no";
 // Determine the destination
 $dest = !empty($aBanner['url']) ? $aBanner['url'] : '';
 // If the passed in a ct0= value that is not a valid URL (simple checking), then ignore it
-$ct0 = (empty($ct0) || strtolower(substr($ct0, 0, 4)) != 'http') ? '' : htmlspecialchars($ct0);
+$ct0 = (empty($ct0) || strtolower(substr($ct0, 0, 4)) != 'http') ? '' : htmlspecialchars($ct0, ENT_QUOTES);
 if ($aBanner['contenttype'] == "swf" && empty($aBanner['noClickTag'])) {
 // Strip maxdest with SWF banners using clickTAG
 $maxdest = '';

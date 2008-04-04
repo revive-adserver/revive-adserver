@@ -563,7 +563,7 @@ if ($type == 'sql') {
 
         echo "<tr><td width='30'>&nbsp;</td>";
         echo "<td width='200'>".$strTarget."</td>";
-        echo "<td><input class='flat' size='16' type='text' name='target' style='width:150px;' dir='ltr' value='".$row["target"]."' tabindex='".($tabindex++)."'></td></tr>";
+        echo "<td><input class='flat' size='16' maxlength='16' type='text' name='target' style='width:150px;' dir='ltr' value='".phpAds_htmlQuotes($row["target"])."' tabindex='".($tabindex++)."'></td></tr>";
     } else {
         $i = 0;
 
@@ -585,7 +585,7 @@ if ($type == 'sql') {
 
                 echo "<tr><td width='30'>&nbsp;</td>";
                 echo "<td width='200'>".$strTarget."</td>";
-                echo "<td><input class='flat' size='16' type='text' name='atar[".$key."]' style='width:150px;' dir='ltr' value='".phpAds_htmlQuotes($hardcoded_targets[$key])."' tabindex='".($tabindex++)."'>";
+                echo "<td><input class='flat' size='16' maxlength='16' type='text' name='atar[".$key."]' style='width:150px;' dir='ltr' value='".phpAds_htmlQuotes($hardcoded_targets[$key])."' tabindex='".($tabindex++)."'>";
                 echo "</td></tr>";
             }
 
@@ -763,7 +763,7 @@ if ($type == 'web') {
 
         echo "<tr><td width='30'>&nbsp;</td>";
         echo "<td width='200'>".$strTarget."</td>";
-        echo "<td><input class='flat' size='16' type='text' name='target' style='width:150px;' dir='ltr' value='".$row["target"]."' tabindex='".($tabindex++)."'></td></tr>";
+        echo "<td><input class='flat' size='16' maxlength='16' type='text' name='target' style='width:150px;' dir='ltr' value='".phpAds_htmlQuotes($row["target"])."' tabindex='".($tabindex++)."'></td></tr>";
     } else {
         $i = 0;
 
@@ -785,7 +785,7 @@ if ($type == 'web') {
 
                 echo "<tr><td width='30'>&nbsp;</td>";
                 echo "<td width='200'>".$strTarget."</td>";
-                echo "<td><input class='flat' size='16' type='text' name='atar[".$key."]' style='width:150px;' dir='ltr' value='".phpAds_htmlQuotes($hardcoded_targets[$key])."' tabindex='".($tabindex++)."'>";
+                echo "<td><input class='flat' size='16' maxlength='16' type='text' name='atar[".$key."]' style='width:150px;' dir='ltr' value='".phpAds_htmlQuotes($hardcoded_targets[$key])."' tabindex='".($tabindex++)."'>";
                 echo "</td></tr>";
             }
 
@@ -871,7 +871,7 @@ if ($type == 'url') {
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strTarget."</td>";
-    echo "<td><input class='flat' size='16' type='text' name='target' style='width:150px;' dir='ltr' value='".$row["target"]."' tabindex='".($tabindex++)."'></td></tr>";
+    echo "<td><input class='flat' size='16' maxlength='16' type='text' name='target' style='width:150px;' dir='ltr' value='".phpAds_htmlQuotes($row["target"])."' tabindex='".($tabindex++)."'></td></tr>";
 
     echo "<tr><td height='30' colspan='3'>&nbsp;</td></tr>";
     echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
@@ -952,7 +952,7 @@ if ($type == 'html') {
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strTarget."</td>";
-    echo "<td><input class='flat' size='35' type='text' name='target' style='width:350px;' dir='ltr' value='".$row["target"]."' tabindex='".($tabindex++)."'></td></tr>";
+    echo "<td><input class='flat' size='35' maxlength='16' type='text' name='target' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($row["target"])."' tabindex='".($tabindex++)."'></td></tr>";
     echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
     echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
@@ -988,7 +988,7 @@ if ($type == 'txt') {
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strTarget."</td>";
-    echo "<td><input class='flat' size='16' type='text' name='target' style='width:150px;' dir='ltr' value='".$row["target"]."' tabindex='".($tabindex++)."'></td></tr>";
+    echo "<td><input class='flat' size='16' maxlength='16' type='text' name='target' style='width:150px;' dir='ltr' value='".phpAds_htmlQuotes($row["target"])."' tabindex='".($tabindex++)."'></td></tr>";
 
     echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
     echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
