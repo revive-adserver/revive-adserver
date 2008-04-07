@@ -1,6 +1,6 @@
--- MySQL dump 10.11
+-- MySQL dump 10.10
 --
--- Host: localhost    Database: oa_canoo
+-- Host: localhost    Database: ox_canoo
 -- ------------------------------------------------------
 -- Server version	5.0.22
 
@@ -31,11 +31,12 @@ CREATE TABLE `oa_account_preference_assoc` (
 -- Dumping data for table `oa_account_preference_assoc`
 --
 
-LOCK TABLES `oa_account_preference_assoc` WRITE;
+
 /*!40000 ALTER TABLE `oa_account_preference_assoc` DISABLE KEYS */;
-INSERT INTO `oa_account_preference_assoc` VALUES (1,1,'english'),(1,2,'0'),(1,3,'2'),(1,4,'t'),(1,5,'t'),(1,6,'t'),(1,7,'100'),(1,8,'1'),(1,9,'t'),(1,10,'1'),(1,11,'1'),(1,12,''),(1,13,''),(1,14,'t'),(1,15,'t'),(1,16,'t'),(1,17,'t'),(1,18,'t'),(1,19,'t'),(1,20,'t'),(1,21,'t'),(1,22,'1'),(1,23,'1'),(1,24,'f'),(1,25,'t'),(1,26,''),(1,27,'0'),(1,28,'t'),(1,29,''),(1,30,'0'),(1,31,'t'),(1,32,''),(1,33,'0'),(1,34,'t'),(1,35,''),(1,36,'0'),(1,37,'t'),(1,38,''),(1,39,'0'),(1,40,'t'),(1,41,''),(1,42,'0'),(1,43,'t'),(1,44,''),(1,45,'0'),(1,46,'t'),(1,47,''),(1,48,'0'),(1,49,'t'),(1,50,''),(1,51,'0'),(1,52,'t'),(1,53,''),(1,54,'0'),(1,55,'t'),(1,56,''),(1,57,'0'),(1,58,'t'),(1,59,''),(1,60,'0'),(1,61,'t'),(1,62,''),(1,63,'0'),(1,64,'t'),(1,65,''),(1,66,'0'),(1,67,'t'),(1,68,''),(1,69,'0'),(1,70,'t'),(1,71,''),(1,72,'0'),(1,73,'t'),(1,74,''),(1,75,'0'),(1,76,'t'),(1,77,''),(1,78,'0'),(1,79,'t'),(1,80,''),(1,81,'0'),(1,82,'t'),(1,83,''),(1,84,'0'),(1,85,'t'),(1,86,''),(1,87,'0'),(1,88,'t'),(1,89,''),(1,90,'0'),(1,91,'t'),(1,92,''),(1,93,'0'),(1,94,'t'),(1,95,''),(1,96,'0'),(1,97,'t'),(1,98,''),(1,99,'0'),(1,100,'t'),(1,101,''),(1,102,'0'),(1,103,'t'),(1,104,''),(1,105,'0'),(1,106,'t'),(1,107,''),(1,108,'0'),(1,109,'t'),(1,110,''),(1,111,'0'),(1,112,'t'),(1,113,''),(1,114,'0');
-/*!40000 ALTER TABLE `oa_account_preference_assoc` ENABLE KEYS */;
+LOCK TABLES `oa_account_preference_assoc` WRITE;
+INSERT INTO `oa_account_preference_assoc` VALUES (1,1,'english'),(1,2,'0'),(1,3,'2'),(1,4,'t'),(1,5,'t'),(1,6,'t'),(1,7,'100'),(1,8,'1'),(1,9,'t'),(1,10,'1'),(1,11,'1'),(1,12,''),(1,13,''),(1,14,'t'),(1,15,'t'),(1,16,'t'),(1,17,'t'),(1,18,'t'),(1,19,'t'),(1,20,'t'),(1,21,'t'),(1,22,'1'),(1,23,'1'),(1,24,'f'),(1,25,'t'),(1,26,''),(1,27,'0'),(1,28,'t'),(1,29,''),(1,30,'0'),(1,31,'t'),(1,32,''),(1,33,'0'),(1,34,'t'),(1,35,''),(1,36,'0'),(1,37,'t'),(1,38,''),(1,39,'0'),(1,40,'t'),(1,41,''),(1,42,'0'),(1,43,'t'),(1,44,''),(1,45,'0'),(1,46,'t'),(1,47,''),(1,48,'0'),(1,49,'t'),(1,50,''),(1,51,'0'),(1,52,'t'),(1,53,''),(1,54,'0'),(1,55,'t'),(1,56,''),(1,57,'0'),(1,58,'t'),(1,59,''),(1,60,'0'),(1,61,'t'),(1,62,''),(1,63,'0'),(1,64,'t'),(1,65,''),(1,66,'0'),(1,67,'t'),(1,68,''),(1,69,'0'),(1,70,'t'),(1,71,''),(1,72,'0'),(1,73,'t'),(1,74,''),(1,75,'0'),(1,76,'t'),(1,77,''),(1,78,'0'),(1,79,'t'),(1,80,''),(1,81,'0'),(1,82,'t'),(1,83,''),(1,84,'0'),(1,85,'t'),(1,86,''),(1,87,'0'),(1,88,'t'),(1,89,''),(1,90,'0'),(1,91,'t'),(1,92,''),(1,93,'0'),(1,94,'t'),(1,95,''),(1,96,'0'),(1,97,'t'),(1,98,''),(1,99,'0'),(1,100,'t'),(1,101,''),(1,102,'0'),(1,103,'t'),(1,104,''),(1,105,'0'),(1,106,'t'),(1,107,''),(1,108,'0'),(1,109,'t'),(1,110,''),(1,111,'0'),(1,112,'t'),(1,113,''),(1,114,'0'),(1,115,'Europe/London');
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_account_preference_assoc` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_account_user_assoc`
@@ -54,11 +55,12 @@ CREATE TABLE `oa_account_user_assoc` (
 -- Dumping data for table `oa_account_user_assoc`
 --
 
-LOCK TABLES `oa_account_user_assoc` WRITE;
+
 /*!40000 ALTER TABLE `oa_account_user_assoc` DISABLE KEYS */;
+LOCK TABLES `oa_account_user_assoc` WRITE;
 INSERT INTO `oa_account_user_assoc` VALUES (1,1,'2008-01-11 14:45:32'),(2,1,'2008-01-11 14:45:32'),(3,2,'2008-01-11 14:45:32'),(4,3,'2008-01-11 14:45:32'),(5,4,'2008-01-11 14:45:32');
-/*!40000 ALTER TABLE `oa_account_user_assoc` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_account_user_assoc` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_account_user_permission_assoc`
@@ -77,10 +79,11 @@ CREATE TABLE `oa_account_user_permission_assoc` (
 -- Dumping data for table `oa_account_user_permission_assoc`
 --
 
-LOCK TABLES `oa_account_user_permission_assoc` WRITE;
+
 /*!40000 ALTER TABLE `oa_account_user_permission_assoc` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oa_account_user_permission_assoc` ENABLE KEYS */;
+LOCK TABLES `oa_account_user_permission_assoc` WRITE;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_account_user_permission_assoc` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_accounts`
@@ -91,6 +94,8 @@ CREATE TABLE `oa_accounts` (
   `account_id` mediumint(9) NOT NULL auto_increment,
   `account_type` varchar(16) NOT NULL default '',
   `account_name` varchar(255) default NULL,
+  `m2m_password` varchar(32) default NULL,
+  `m2m_ticket` varchar(32) default NULL,
   PRIMARY KEY  (`account_id`),
   KEY `oa_accounts_account_type` (`account_type`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -99,11 +104,12 @@ CREATE TABLE `oa_accounts` (
 -- Dumping data for table `oa_accounts`
 --
 
-LOCK TABLES `oa_accounts` WRITE;
+
 /*!40000 ALTER TABLE `oa_accounts` DISABLE KEYS */;
-INSERT INTO `oa_accounts` VALUES (1,'ADMIN','Administrator'),(2,'MANAGER','Default manager'),(3,'MANAGER','Test Agency'),(4,'ADVERTISER','Advertiser 1'),(5,'TRAFFICKER','Publisher 1'),(6,'TRAFFICKER','Agency Publisher 1');
-/*!40000 ALTER TABLE `oa_accounts` ENABLE KEYS */;
+LOCK TABLES `oa_accounts` WRITE;
+INSERT INTO `oa_accounts` VALUES (1,'ADMIN','Administrator',NULL,NULL),(2,'MANAGER','Default manager',NULL,NULL),(3,'MANAGER','Test Agency',NULL,NULL),(4,'ADVERTISER','Advertiser 1',NULL,NULL),(5,'TRAFFICKER','Publisher 1',NULL,NULL),(6,'TRAFFICKER','Agency Publisher 1',NULL,NULL);
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_accounts` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_acls`
@@ -125,11 +131,12 @@ CREATE TABLE `oa_acls` (
 -- Dumping data for table `oa_acls`
 --
 
-LOCK TABLES `oa_acls` WRITE;
+
 /*!40000 ALTER TABLE `oa_acls` DISABLE KEYS */;
+LOCK TABLES `oa_acls` WRITE;
 INSERT INTO `oa_acls` VALUES (1,'and','Site:Channel','=~','7',0);
-/*!40000 ALTER TABLE `oa_acls` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_acls` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_acls_channel`
@@ -151,10 +158,11 @@ CREATE TABLE `oa_acls_channel` (
 -- Dumping data for table `oa_acls_channel`
 --
 
-LOCK TABLES `oa_acls_channel` WRITE;
+
 /*!40000 ALTER TABLE `oa_acls_channel` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oa_acls_channel` ENABLE KEYS */;
+LOCK TABLES `oa_acls_channel` WRITE;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_acls_channel` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_ad_category_assoc`
@@ -172,10 +180,11 @@ CREATE TABLE `oa_ad_category_assoc` (
 -- Dumping data for table `oa_ad_category_assoc`
 --
 
-LOCK TABLES `oa_ad_category_assoc` WRITE;
+
 /*!40000 ALTER TABLE `oa_ad_category_assoc` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oa_ad_category_assoc` ENABLE KEYS */;
+LOCK TABLES `oa_ad_category_assoc` WRITE;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_ad_category_assoc` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_ad_zone_assoc`
@@ -199,11 +208,12 @@ CREATE TABLE `oa_ad_zone_assoc` (
 -- Dumping data for table `oa_ad_zone_assoc`
 --
 
-LOCK TABLES `oa_ad_zone_assoc` WRITE;
+
 /*!40000 ALTER TABLE `oa_ad_zone_assoc` DISABLE KEYS */;
+LOCK TABLES `oa_ad_zone_assoc` WRITE;
 INSERT INTO `oa_ad_zone_assoc` VALUES (1,0,1,1,0,1670960,1),(2,1,1,0.9,1,100,1),(3,0,2,0,0,1,1),(4,1,2,0,1,1,1),(5,2,1,0.9,1,100,1),(6,0,3,0,0,0,1),(7,1,3,0,1,1,1);
-/*!40000 ALTER TABLE `oa_ad_zone_assoc` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_ad_zone_assoc` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_affiliates`
@@ -235,11 +245,12 @@ CREATE TABLE `oa_affiliates` (
 -- Dumping data for table `oa_affiliates`
 --
 
-LOCK TABLES `oa_affiliates` WRITE;
+
 /*!40000 ALTER TABLE `oa_affiliates` DISABLE KEYS */;
+LOCK TABLES `oa_affiliates` WRITE;
 INSERT INTO `oa_affiliates` VALUES (1,2,'Publisher 1','','','Andrew Hill','andrew.hill@openads.org','http://www.fornax.net/blog/','2007-05-15 13:29:57',NULL,'',NULL,NULL,NULL,5),(2,1,'Agency Publisher 1','','','Andrew Hill','andrew.hill@openads.org','http://fornax.net','2007-05-15 13:41:40',NULL,'',NULL,NULL,NULL,6);
-/*!40000 ALTER TABLE `oa_affiliates` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_affiliates` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_affiliates_extra`
@@ -271,11 +282,12 @@ CREATE TABLE `oa_affiliates_extra` (
 -- Dumping data for table `oa_affiliates_extra`
 --
 
-LOCK TABLES `oa_affiliates_extra` WRITE;
+
 /*!40000 ALTER TABLE `oa_affiliates_extra` DISABLE KEYS */;
+LOCK TABLES `oa_affiliates_extra` WRITE;
 INSERT INTO `oa_affiliates_extra` VALUES (1,'','','','','','','','','','Cheque by post','GBP',0,0,0,'',''),(2,'','','','','','','','','','Cheque by post','GBP',0,0,0,NULL,NULL);
-/*!40000 ALTER TABLE `oa_affiliates_extra` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_affiliates_extra` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_agency`
@@ -299,11 +311,12 @@ CREATE TABLE `oa_agency` (
 -- Dumping data for table `oa_agency`
 --
 
-LOCK TABLES `oa_agency` WRITE;
+
 /*!40000 ALTER TABLE `oa_agency` DISABLE KEYS */;
+LOCK TABLES `oa_agency` WRITE;
 INSERT INTO `oa_agency` VALUES (1,'Test Agency','Andrew Hill','andrew.hill@openads.org','',0,'2007-05-15 12:54:16',3),(2,'Default manager',NULL,'andrew.hill@openads.org',NULL,1,'0000-00-00 00:00:00',2);
-/*!40000 ALTER TABLE `oa_agency` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_agency` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_application_variable`
@@ -320,11 +333,12 @@ CREATE TABLE `oa_application_variable` (
 -- Dumping data for table `oa_application_variable`
 --
 
-LOCK TABLES `oa_application_variable` WRITE;
+
 /*!40000 ALTER TABLE `oa_application_variable` DISABLE KEYS */;
-INSERT INTO `oa_application_variable` VALUES ('admin_account_id','1'),('oa_version','2.5.48-dev'),('platform_hash','39adcaa8840247618ff928521ba95397770c5b67'),('sync_cache','b:0;'),('sync_last_run','2008-01-11 14:47:04'),('sync_timestamp','1200062824'),('tables_core','546');
-/*!40000 ALTER TABLE `oa_application_variable` ENABLE KEYS */;
+LOCK TABLES `oa_application_variable` WRITE;
+INSERT INTO `oa_application_variable` VALUES ('admin_account_id','1'),('oa_version','2.7.5-dev'),('platform_hash','39adcaa8840247618ff928521ba95397770c5b67'),('sync_cache','b:0;'),('sync_last_run','2008-04-07 15:15:14'),('sync_timestamp','1207577714'),('tables_core','582');
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_application_variable` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_audit`
@@ -342,23 +356,26 @@ CREATE TABLE `oa_audit` (
   `username` varchar(64) default NULL,
   `usertype` tinyint(4) NOT NULL default '0',
   `updated` datetime default NULL,
+  `account_id` mediumint(9) NOT NULL,
   PRIMARY KEY  (`auditid`),
   KEY `oa_audit_parentid_contextid` (`parentid`,`contextid`),
   KEY `oa_audit_updated` (`updated`),
   KEY `oa_audit_usertype` (`usertype`),
   KEY `oa_audit_username` (`username`),
-  KEY `oa_audit_context_actionid` (`context`,`actionid`)
+  KEY `oa_audit_context_actionid` (`context`,`actionid`),
+  KEY `oa_audit_account_id` (`account_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `oa_audit`
 --
 
-LOCK TABLES `oa_audit` WRITE;
+
 /*!40000 ALTER TABLE `oa_audit` DISABLE KEYS */;
-INSERT INTO `oa_audit` VALUES (1,1,'Account User Association',0,NULL,'a:4:{s:10:\"account_id\";i:1;s:7:\"user_id\";i:1;s:6:\"linked\";s:19:\"2008-01-11 14:45:32\";s:8:\"key_desc\";s:21:\"Account #1 -> User #1\";}',0,'admin',0,'2008-01-11 14:45:32'),(2,1,'Account User Association',0,NULL,'a:4:{s:10:\"account_id\";i:2;s:7:\"user_id\";i:1;s:6:\"linked\";s:19:\"2008-01-11 14:45:32\";s:8:\"key_desc\";s:21:\"Account #2 -> User #1\";}',0,'admin',0,'2008-01-11 14:45:32'),(3,1,'Account User Association',0,NULL,'a:4:{s:10:\"account_id\";i:3;s:7:\"user_id\";i:2;s:6:\"linked\";s:19:\"2008-01-11 14:45:32\";s:8:\"key_desc\";s:21:\"Account #3 -> User #2\";}',0,'admin',0,'2008-01-11 14:45:32'),(4,1,'Account User Association',0,NULL,'a:4:{s:10:\"account_id\";i:4;s:7:\"user_id\";i:3;s:6:\"linked\";s:19:\"2008-01-11 14:45:32\";s:8:\"key_desc\";s:21:\"Account #4 -> User #3\";}',0,'admin',0,'2008-01-11 14:45:32'),(5,1,'Account User Association',0,NULL,'a:4:{s:10:\"account_id\";i:5;s:7:\"user_id\";i:4;s:6:\"linked\";s:19:\"2008-01-11 14:45:32\";s:8:\"key_desc\";s:21:\"Account #5 -> User #4\";}',0,'admin',0,'2008-01-11 14:45:32');
-/*!40000 ALTER TABLE `oa_audit` ENABLE KEYS */;
+LOCK TABLES `oa_audit` WRITE;
+INSERT INTO `oa_audit` VALUES (1,1,'account_user_assoc',0,NULL,'a:4:{s:10:\"account_id\";i:1;s:7:\"user_id\";i:1;s:6:\"linked\";s:19:\"2008-01-11 14:45:32\";s:8:\"key_desc\";s:21:\"Account #1 -> User #1\";}',0,'admin',0,'2008-01-11 14:45:32',0),(2,1,'account_user_assoc',0,NULL,'a:4:{s:10:\"account_id\";i:2;s:7:\"user_id\";i:1;s:6:\"linked\";s:19:\"2008-01-11 14:45:32\";s:8:\"key_desc\";s:21:\"Account #2 -> User #1\";}',0,'admin',0,'2008-01-11 14:45:32',0),(3,1,'account_user_assoc',0,NULL,'a:4:{s:10:\"account_id\";i:3;s:7:\"user_id\";i:2;s:6:\"linked\";s:19:\"2008-01-11 14:45:32\";s:8:\"key_desc\";s:21:\"Account #3 -> User #2\";}',0,'admin',0,'2008-01-11 14:45:32',0),(4,1,'account_user_assoc',0,NULL,'a:4:{s:10:\"account_id\";i:4;s:7:\"user_id\";i:3;s:6:\"linked\";s:19:\"2008-01-11 14:45:32\";s:8:\"key_desc\";s:21:\"Account #4 -> User #3\";}',0,'admin',0,'2008-01-11 14:45:32',0),(5,1,'account_user_assoc',0,NULL,'a:4:{s:10:\"account_id\";i:5;s:7:\"user_id\";i:4;s:6:\"linked\";s:19:\"2008-01-11 14:45:32\";s:8:\"key_desc\";s:21:\"Account #5 -> User #4\";}',0,'admin',0,'2008-01-11 14:45:32',0);
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_audit` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_banners`
@@ -407,6 +424,8 @@ CREATE TABLE `oa_banners` (
   `parameters` text,
   `an_banner_id` int(11) default NULL,
   `as_banner_id` int(11) default NULL,
+  `ad_direct_status` tinyint(4) NOT NULL default '0',
+  `ad_direct_rejection_reason_id` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`bannerid`),
   KEY `oa_banners_campaignid` (`campaignid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -415,11 +434,12 @@ CREATE TABLE `oa_banners` (
 -- Dumping data for table `oa_banners`
 --
 
-LOCK TABLES `oa_banners` WRITE;
+
 /*!40000 ALTER TABLE `oa_banners` DISABLE KEYS */;
-INSERT INTO `oa_banners` VALUES (1,1,'html',0,'html','','','Test HTML Banner!','Test HTML Banner!',468,60,1,0,'','','','',0,'','','t','',0,0,0,'(MAX_checkSite_Channel(\'7\', \'=~\'))','Site:Channel','',0,0,'','','gif','','2007-08-29 14:38:32','2007-05-15 15:01:43','',0,'N;',NULL,NULL),(2,2,'html',0,'html','','','html test banner','<a href=\"{clickurl}\" target=\"{target}\">html test banner</a>',468,60,1,0,'','http://www.example.com','','',0,'','test banner','t','max',0,0,0,'','','',0,0,'','','gif','','2007-08-29 14:38:32','0000-00-00 00:00:00','',0,'N;',NULL,NULL),(3,3,'gif',0,'sql','468x60.gif','','','',468,60,1,0,'','http://www.example.com','alt text','',0,'','sample gif banner','f','',0,0,0,'','','',0,0,'','','gif','','2007-08-29 14:38:32','0000-00-00 00:00:00','',0,'N;',NULL,NULL);
-/*!40000 ALTER TABLE `oa_banners` ENABLE KEYS */;
+LOCK TABLES `oa_banners` WRITE;
+INSERT INTO `oa_banners` VALUES (1,1,'html',0,'html','','','Test HTML Banner!','Test HTML Banner!',468,60,1,0,'','','','',0,'','','t','',0,0,0,'(MAX_checkSite_Channel(\'7\', \'=~\'))','Site:Channel','',0,0,'','','gif','','2007-08-29 14:38:32','2007-05-15 15:01:43','',0,'N;',NULL,NULL,0,0),(2,2,'html',0,'html','','','html test banner','<a href=\"{clickurl}\" target=\"{target}\">html test banner</a>',468,60,1,0,'','http://canoo.dev.openx.org/live-openx/www/delivery_test/example.php','','',0,'','test banner','t','max',0,0,0,'','','',0,0,'','','gif','','2007-08-29 14:38:32','0000-00-00 00:00:00','',0,'N;',NULL,NULL,0,0),(3,3,'gif',0,'sql','468x60.gif','','','',468,60,1,0,'','http://canoo.dev.openx.org/live-openx/www/delivery_test/example.php','alt text','',0,'','sample gif banner','f','',0,0,0,'','','',0,0,'','','gif','','2007-08-29 14:38:32','0000-00-00 00:00:00','',0,'N;',NULL,NULL,0,0);
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_banners` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_campaigns`
@@ -453,6 +473,9 @@ CREATE TABLE `oa_campaigns` (
   `as_campaign_id` int(11) default NULL,
   `status` int(11) NOT NULL default '0',
   `an_status` int(11) NOT NULL default '0',
+  `as_reject_reason` int(11) NOT NULL default '0',
+  `hosted_views` int(11) NOT NULL default '0',
+  `hosted_clicks` int(11) NOT NULL default '0',
   PRIMARY KEY  (`campaignid`),
   KEY `oa_campaigns_clientid` (`clientid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -461,11 +484,12 @@ CREATE TABLE `oa_campaigns` (
 -- Dumping data for table `oa_campaigns`
 --
 
-LOCK TABLES `oa_campaigns` WRITE;
+
 /*!40000 ALTER TABLE `oa_campaigns` DISABLE KEYS */;
-INSERT INTO `oa_campaigns` VALUES (1,'Advertiser 1 - Default Campaign',1,100000000,-1,-1,'2007-07-01','0000-00-00',10,0,0,0,0,'f',0,'',NULL,NULL,'2007-05-15 09:54:06',0,0,0,NULL,NULL,0,0),(2,'test campaign',1,-1,-1,-1,'0000-00-00','0000-00-00',-1,1,0,0,0,'t',0,'',NULL,NULL,'2007-05-16 12:55:24',0,0,0,NULL,NULL,0,0),(3,'campaign 2 (gif)',1,-1,-1,-1,'0000-00-00','0000-00-00',0,1,0,0,0,'t',0,'',NULL,NULL,'2007-05-17 13:14:43',0,0,0,NULL,NULL,0,0);
-/*!40000 ALTER TABLE `oa_campaigns` ENABLE KEYS */;
+LOCK TABLES `oa_campaigns` WRITE;
+INSERT INTO `oa_campaigns` VALUES (1,'Advertiser 1 - Default Campaign',1,100000000,-1,-1,'2007-07-01','0000-00-00',10,0,0,0,0,'f',0,'',NULL,NULL,'2007-05-15 09:54:06',0,0,0,NULL,NULL,0,0,0,0,0),(2,'test campaign',1,-1,-1,-1,'0000-00-00','0000-00-00',-1,1,0,0,0,'t',0,'',NULL,NULL,'2007-05-16 12:55:24',0,0,0,NULL,NULL,0,0,0,0,0),(3,'campaign 2 (gif)',1,-1,-1,-1,'0000-00-00','0000-00-00',0,1,0,0,0,'t',0,'',NULL,NULL,'2007-05-17 13:14:43',0,0,0,NULL,NULL,0,0,0,0,0);
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_campaigns` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_campaigns_trackers`
@@ -488,11 +512,12 @@ CREATE TABLE `oa_campaigns_trackers` (
 -- Dumping data for table `oa_campaigns_trackers`
 --
 
-LOCK TABLES `oa_campaigns_trackers` WRITE;
+
 /*!40000 ALTER TABLE `oa_campaigns_trackers` DISABLE KEYS */;
+LOCK TABLES `oa_campaigns_trackers` WRITE;
 INSERT INTO `oa_campaigns_trackers` VALUES (1,3,1,3,3,4);
-/*!40000 ALTER TABLE `oa_campaigns_trackers` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_campaigns_trackers` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_category`
@@ -509,10 +534,11 @@ CREATE TABLE `oa_category` (
 -- Dumping data for table `oa_category`
 --
 
-LOCK TABLES `oa_category` WRITE;
+
 /*!40000 ALTER TABLE `oa_category` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oa_category` ENABLE KEYS */;
+LOCK TABLES `oa_category` WRITE;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_category` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_channel`
@@ -538,11 +564,12 @@ CREATE TABLE `oa_channel` (
 -- Dumping data for table `oa_channel`
 --
 
-LOCK TABLES `oa_channel` WRITE;
+
 /*!40000 ALTER TABLE `oa_channel` DISABLE KEYS */;
+LOCK TABLES `oa_channel` WRITE;
 INSERT INTO `oa_channel` VALUES (7,2,0,'Test Admin Channel 2','','true','true',1,'','0000-00-00 00:00:00','0000-00-00 00:00:00');
-/*!40000 ALTER TABLE `oa_channel` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_channel` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_clients`
@@ -565,6 +592,7 @@ CREATE TABLE `oa_clients` (
   `an_adnetwork_id` int(11) default NULL,
   `as_advertiser_id` int(11) default NULL,
   `account_id` mediumint(9) default NULL,
+  `advertiser_limitation` tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (`clientid`),
   UNIQUE KEY `oa_clients_account_id` (`account_id`),
   KEY `oa_clients_agencyid` (`agencyid`)
@@ -574,11 +602,12 @@ CREATE TABLE `oa_clients` (
 -- Dumping data for table `oa_clients`
 --
 
-LOCK TABLES `oa_clients` WRITE;
+
 /*!40000 ALTER TABLE `oa_clients` DISABLE KEYS */;
-INSERT INTO `oa_clients` VALUES (1,2,'Advertiser 1','advertiser','example@example.com','f',7,'2007-04-27','t','','2007-05-16 12:54:09',2,NULL,NULL,4);
-/*!40000 ALTER TABLE `oa_clients` ENABLE KEYS */;
+LOCK TABLES `oa_clients` WRITE;
+INSERT INTO `oa_clients` VALUES (1,2,'Advertiser 1','advertiser','example@example.com','f',7,'2007-04-27','t','','2007-05-16 12:54:09',2,NULL,NULL,4,0);
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_clients` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_data_intermediate_ad`
@@ -613,10 +642,11 @@ CREATE TABLE `oa_data_intermediate_ad` (
 -- Dumping data for table `oa_data_intermediate_ad`
 --
 
-LOCK TABLES `oa_data_intermediate_ad` WRITE;
+
 /*!40000 ALTER TABLE `oa_data_intermediate_ad` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oa_data_intermediate_ad` ENABLE KEYS */;
+LOCK TABLES `oa_data_intermediate_ad` WRITE;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_data_intermediate_ad` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_data_intermediate_ad_connection`
@@ -683,10 +713,11 @@ CREATE TABLE `oa_data_intermediate_ad_connection` (
 -- Dumping data for table `oa_data_intermediate_ad_connection`
 --
 
-LOCK TABLES `oa_data_intermediate_ad_connection` WRITE;
+
 /*!40000 ALTER TABLE `oa_data_intermediate_ad_connection` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oa_data_intermediate_ad_connection` ENABLE KEYS */;
+LOCK TABLES `oa_data_intermediate_ad_connection` WRITE;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_data_intermediate_ad_connection` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_data_intermediate_ad_variable_value`
@@ -708,10 +739,11 @@ CREATE TABLE `oa_data_intermediate_ad_variable_value` (
 -- Dumping data for table `oa_data_intermediate_ad_variable_value`
 --
 
-LOCK TABLES `oa_data_intermediate_ad_variable_value` WRITE;
+
 /*!40000 ALTER TABLE `oa_data_intermediate_ad_variable_value` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oa_data_intermediate_ad_variable_value` ENABLE KEYS */;
+LOCK TABLES `oa_data_intermediate_ad_variable_value` WRITE;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_data_intermediate_ad_variable_value` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_data_raw_ad_click`
@@ -761,11 +793,12 @@ CREATE TABLE `oa_data_raw_ad_click` (
 -- Dumping data for table `oa_data_raw_ad_click`
 --
 
-LOCK TABLES `oa_data_raw_ad_click` WRITE;
+
 /*!40000 ALTER TABLE `oa_data_raw_ad_click` DISABLE KEYS */;
+LOCK TABLES `oa_data_raw_ad_click` WRITE;
 INSERT INTO `oa_data_raw_ad_click` VALUES ('1d0b8f22878ee21edac4d01eeb8793bd','','2007-08-29 15:19:19',2,0,0,NULL,NULL,'','127.0.0.1','127.0.0.1',NULL,NULL,NULL,NULL,NULL,NULL,'','Mozilla/4.0 (compatible; MSIE 6.0b; Windows 98)','','',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
-/*!40000 ALTER TABLE `oa_data_raw_ad_click` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_data_raw_ad_click` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_data_raw_ad_impression`
@@ -815,10 +848,12 @@ CREATE TABLE `oa_data_raw_ad_impression` (
 -- Dumping data for table `oa_data_raw_ad_impression`
 --
 
-LOCK TABLES `oa_data_raw_ad_impression` WRITE;
+
 /*!40000 ALTER TABLE `oa_data_raw_ad_impression` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oa_data_raw_ad_impression` ENABLE KEYS */;
+LOCK TABLES `oa_data_raw_ad_impression` WRITE;
+INSERT INTO `oa_data_raw_ad_impression` VALUES ('__7bf7b383f5a3bb57540c5fa17926ae','','2008-04-07 14:14:49',2,0,0,NULL,NULL,'en-us,en;q=0.5','127.0.0.2','127.0.0.2',NULL,NULL,NULL,NULL,NULL,NULL,'','Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.13) Gecko/20080328 Fedora/1.1.9-1.fc8 SeaMonkey/1.1.9','','',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_data_raw_ad_impression` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_data_raw_ad_request`
@@ -857,10 +892,11 @@ CREATE TABLE `oa_data_raw_ad_request` (
 -- Dumping data for table `oa_data_raw_ad_request`
 --
 
-LOCK TABLES `oa_data_raw_ad_request` WRITE;
+
 /*!40000 ALTER TABLE `oa_data_raw_ad_request` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oa_data_raw_ad_request` ENABLE KEYS */;
+LOCK TABLES `oa_data_raw_ad_request` WRITE;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_data_raw_ad_request` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_data_raw_tracker_impression`
@@ -909,11 +945,12 @@ CREATE TABLE `oa_data_raw_tracker_impression` (
 -- Dumping data for table `oa_data_raw_tracker_impression`
 --
 
-LOCK TABLES `oa_data_raw_tracker_impression` WRITE;
+
 /*!40000 ALTER TABLE `oa_data_raw_tracker_impression` DISABLE KEYS */;
+LOCK TABLES `oa_data_raw_tracker_impression` WRITE;
 INSERT INTO `oa_data_raw_tracker_impression` VALUES (1,'singleDB','6e8928c9063f85e75c8a457b42f50257','','2007-06-01 15:13:26',1,'','','en-us,en;q=0.5','127.0.0.1','127.0.0.1','',0,'','','','','','Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11','','',0,'','','','0.0000','0.0000','','','','',''),(2,'singleDB','6e8928c9063f85e75c8a457b42f50257','','2007-06-01 15:13:37',1,'','','en-us,en;q=0.5','127.0.0.1','127.0.0.1','',0,'','','','','','Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11','','',0,'','','','0.0000','0.0000','','','','',''),(3,'singleDB','6e8928c9063f85e75c8a457b42f50257','','2007-06-01 15:23:06',1,'','','en-us,en;q=0.5','127.0.0.1','127.0.0.1','',0,'','','','','','Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11','','',0,'','','','0.0000','0.0000','','','','',''),(4,'singleDB','6e8928c9063f85e75c8a457b42f50257','','2007-06-01 15:23:07',1,'','','en-us,en;q=0.5','127.0.0.1','127.0.0.1','',0,'','','','','','Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11','','',0,'','','','0.0000','0.0000','','','','',''),(5,'singleDB','6e8928c9063f85e75c8a457b42f50257','','2007-06-01 15:24:37',1,'','','en-us,en;q=0.5','127.0.0.1','127.0.0.1','',0,'','','','','','Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11','','',0,'','','','0.0000','0.0000','','','','',''),(6,'singleDB','6e8928c9063f85e75c8a457b42f50257','','2007-06-01 15:25:53',1,'','','en-us,en;q=0.5','127.0.0.1','127.0.0.1','',0,'','','','','','Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11','','',0,'','','','0.0000','0.0000','','','','','');
-/*!40000 ALTER TABLE `oa_data_raw_tracker_impression` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_data_raw_tracker_impression` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_data_raw_tracker_variable_value`
@@ -933,11 +970,12 @@ CREATE TABLE `oa_data_raw_tracker_variable_value` (
 -- Dumping data for table `oa_data_raw_tracker_variable_value`
 --
 
-LOCK TABLES `oa_data_raw_tracker_variable_value` WRITE;
+
 /*!40000 ALTER TABLE `oa_data_raw_tracker_variable_value` DISABLE KEYS */;
+LOCK TABLES `oa_data_raw_tracker_variable_value` WRITE;
 INSERT INTO `oa_data_raw_tracker_variable_value` VALUES (1,'singleDB',1,'2007-06-01 15:13:26','123'),(1,'singleDB',2,'2007-06-01 15:13:26','test123'),(2,'singleDB',1,'2007-06-01 15:13:37','123'),(2,'singleDB',2,'2007-06-01 15:13:37','test123'),(3,'singleDB',1,'2007-06-01 15:23:06','123'),(3,'singleDB',2,'2007-06-01 15:23:06','test123'),(4,'singleDB',1,'2007-06-01 15:23:07','123'),(4,'singleDB',2,'2007-06-01 15:23:07','test123'),(5,'singleDB',1,'2007-06-01 15:25:09','123'),(5,'singleDB',2,'2007-06-01 15:25:09','test123'),(6,'singleDB',1,'2007-06-01 15:25:53','123'),(6,'singleDB',2,'2007-06-01 15:25:53','test123');
-/*!40000 ALTER TABLE `oa_data_raw_tracker_variable_value` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_data_raw_tracker_variable_value` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_data_summary_ad_hourly`
@@ -970,10 +1008,11 @@ CREATE TABLE `oa_data_summary_ad_hourly` (
 -- Dumping data for table `oa_data_summary_ad_hourly`
 --
 
-LOCK TABLES `oa_data_summary_ad_hourly` WRITE;
+
 /*!40000 ALTER TABLE `oa_data_summary_ad_hourly` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oa_data_summary_ad_hourly` ENABLE KEYS */;
+LOCK TABLES `oa_data_summary_ad_hourly` WRITE;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_data_summary_ad_hourly` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_data_summary_ad_zone_assoc`
@@ -1011,10 +1050,11 @@ CREATE TABLE `oa_data_summary_ad_zone_assoc` (
 -- Dumping data for table `oa_data_summary_ad_zone_assoc`
 --
 
-LOCK TABLES `oa_data_summary_ad_zone_assoc` WRITE;
+
 /*!40000 ALTER TABLE `oa_data_summary_ad_zone_assoc` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oa_data_summary_ad_zone_assoc` ENABLE KEYS */;
+LOCK TABLES `oa_data_summary_ad_zone_assoc` WRITE;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_data_summary_ad_zone_assoc` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_data_summary_channel_daily`
@@ -1038,10 +1078,11 @@ CREATE TABLE `oa_data_summary_channel_daily` (
 -- Dumping data for table `oa_data_summary_channel_daily`
 --
 
-LOCK TABLES `oa_data_summary_channel_daily` WRITE;
+
 /*!40000 ALTER TABLE `oa_data_summary_channel_daily` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oa_data_summary_channel_daily` ENABLE KEYS */;
+LOCK TABLES `oa_data_summary_channel_daily` WRITE;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_data_summary_channel_daily` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_data_summary_zone_impression_history`
@@ -1067,10 +1108,11 @@ CREATE TABLE `oa_data_summary_zone_impression_history` (
 -- Dumping data for table `oa_data_summary_zone_impression_history`
 --
 
-LOCK TABLES `oa_data_summary_zone_impression_history` WRITE;
+
 /*!40000 ALTER TABLE `oa_data_summary_zone_impression_history` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oa_data_summary_zone_impression_history` ENABLE KEYS */;
+LOCK TABLES `oa_data_summary_zone_impression_history` WRITE;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_data_summary_zone_impression_history` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_images`
@@ -1088,11 +1130,12 @@ CREATE TABLE `oa_images` (
 -- Dumping data for table `oa_images`
 --
 
-LOCK TABLES `oa_images` WRITE;
+
 /*!40000 ALTER TABLE `oa_images` DISABLE KEYS */;
-INSERT INTO `oa_images` VALUES ('468x60.gif','GIF89aï¿½<\0ï¿½\0\0uuuï¿½ï¿½ï¿½DDDï¿½ï¿½ï¿½ï¿½ï¿½?ï¿½ï¿½000ï¿½ï¿½ï¿½   eeeï¿½ï¿½ï¿½UUUï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\0\0\0!ï¿½\0\0\0\0\0,\0\0\0\0ï¿½<\0\0ï¿½ï¿½ï¿½Iï¿½ï¿½8ï¿½?ï¿½`(ï¿½diï¿½hï¿½ï¿½lï¿½p,ï¿½tmï¿½xï¿½ï¿½|ï¿½?ï¿½ï¿½cH\nPï¿½\"ï¿½(\nBï¿½ï¿½X6ï¿½\rï¿½ï¿½JZï¿½Pï¿½ï¿½$ï¿½Qï¿½zï¿½nW\Zï¿½ï¿½$0ï¿½ï¿½ï¿½?$ï¿½ï¿½ï¿½\0bnuqz\'	Bï¿½C	ï¿½ï¿½ï¿½ï¿½.ï¿½s\"	ï¿½xï¿½ï¿½ï¿½x\0ï¿½ï¿½ï¿½Eï¿½$\0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½#\nï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Dï¿½!~ï¿½?ï¿½?ï¿½ï¿½ï¿½qï¿½\nï¿½w?ï¿½?ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½6ï¿½ï¿½ï¿½vï¿½ï¿½Eï¿½ï¿½ï¿½>ï¿½#ï¿½C.pï¿½`Sï¿½8t\0QRï¿½5xsï¿½ï¿½?(ï¿½ï¿½ï¿½ï¿½Aï¿½D\"ï¿½0\\<ï¿½Nï¿½?Rï¿½ï¿½ï¿½$?81leï¿½ï¿½d(Sï¿½[4ï¿½\0 @@ï¿½ï¿½E2ï¿½ï¿½ï¿½I(\0ï¿½Pï¿½ï¿½0ï¿½\0ï¿½s0ï¿½?dï¿½ï¿½aï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½\0ï¿½\"$ï¿½\\	}ï¿½?ï¿½Hï¿½ï¿½\\hï¿½ï¿½ï¿½gï¿½ï¿½tï¿½ï¿½^ï¿½{,;ï¿½ï¿½2ï¿½ï¿½<ï¿½T	ï¿½5Pï¿½\Zï¿½hk^Sï¿½\04ï¿½ï¿½	ï¿½ï¿½@6?\'ï¿½ï¿½a8ï¿½\0.ï¿½?y-ï¿½ï¿½Sï¿½Fï¿½e+8j7ï¿½ï¿½ï¿½<ï¿½ï¿½?CGï¿½Qï¿½w?Vï¿½ï¿½ï¿½Jï¿½!ï¿½ï¿½\0Kw?Aï¿½n6ï¿½Eï¿½ï¿½ï¿½}Cï¿½ï¿½_il \"ï¿½5Hï¿½lï¿½ï¿½ï¿½\00 \0sï¿½ï¿½/ï¿½lï¿½ï¿½e!ï¿½ï¿½ï¿½ï¿½uï¿½ï¿½ï¿½k@ï¿½ï¿½tï¿½xï¿½PmXï¿½i@ï¿½@ï¿½ï¿½urï¿½ï¿½Cï¿½ï¿½BVï¿½Iï¿½!ï¿½ï¿½ï¿½$ï¿½ï¿½ [ï¿½Bï¿½fP8ï¿½O?\0ï¿½ï¿½7ï¿½ï¿½-ï¿½i?ï¿½9ï¿½Fï¿½0ï¿½yï¿½+ï¿½ï¿½ï¿½Dï¿½ï¿½ï¿½ï¿½eiï¿½nï¿½ï¿½\nGï¿½ï¿½AahZï¿½ï¿½ï¿½=ï¿½Xï¿½$ï¿½Bï¿½3f(qu9bï¿½Zï¿½ï¿½.ï¿½ï¿½ï¿½A\Z*jï¿½ï¿½ï¿½(ï¿½wTp\0Qï¿½ï¿½ï¿½\"(ï¿½H}YIï¿½Cï¿½yï¿½jï¿½9ï¿½*ï¿½ï¿½?ï¿½t\0ï¿½Bï¿½ï¿½,\nr*zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\rï¿½\0}ï¿½e@ï¿½ï¿½r?\Zï¿½v?zï¿½Nï¿½ï¿½M@ï¿½Wï¿½jpï¿½ï¿½ï¿½ï¿½&?ï¿½^p,rï¿½tï¿½\ZlJ\n~ï¿½ï¿½dï¿½T\0ï¿½cï¿½>?ï¿½\0ï¿½b=ï¿½ï¿½kqz\nï¿½ï¿½ï¿½pï¿½ï¿½ ï¿½qï¿½8ï¿½ï¿½ï¿½ï¿½ï¿½?ï¿½ï¿½?\Zï¿½ï¿½4ï¿½gWP.ï¿½qï¿½ï¿½I\0$Oï¿½ï¿½ï¿½ï¿½ï¿½;ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½5Wmï¿½ï¿½CHï¿½30Qï¿½zï¿½\\ï¿½ï¿½Zï¿½ï¿½ï¿½]?A?mm5ï¿½[ï¿½6ï¿½igï¿½ï¿½\"ï¿½4\0cï¿½ï¿½ï¿½ï¿½vï¿½ï¿½Mlï¿½o[-ï¿½\0ï¿½ï¿½l/ï¿½ï¿½ï¿½ï¿½\rK\0$npï¿½(ï¿½ï¿½\rKï¿½ï¿½ï¿½?ï¿½(R]xï¿½Xï¿½&ï¿½ï¿½ï¿½\0g`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½2@ï¿½ï¿½ï¿½nW?ï¿½nï¿½ï¿½ï¿½!uï¿½ï¿½ï¿½.j?ï¿½~zUï¿½ï¿½.ï¿½ï¿½<Qï¿½~ï¿½vï¿½ï¿½<ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½+ï¿½ï¿½9ï¿½ï¿½ï¿½ï¿½?ï¿½O??ï¿½Dï¿½ï¿½ï¿½ï¿½ï¿½=ï¿½ï¿½/[zï¿½ï¿½smTï¿½ ï¿½ï¿½\Zï¿½ï¿½cï¿½+\Zï¿½ï¿½\nï¿½lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[[ï¿½&0ï¿½ï¿½ï¿½l>xï¿½\Z(ï¿½ï¿½D@ï¿½ï¿½@ï¿½Aï¿½ï¿½]ï¿½ï¿½ï¿½-ï¿½$ï¿½!Nï¿½{?Bï¿½	ï¿½?xï¿½\\Lï¿½#ï¿½ï¿½~~ï¿½aï¿½ï¿½*\Z*ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Uï¿½aK]ï¿½Jï¿½/ï¿½ï¿½ï¿½wï¿½ ï¿½ï¿½C\r\\?ï¿½ï¿½Wï¿½?Fï¿½ï¿½1Yï¿½? e-ï¿½ï¿½ï¿½s\0ï¿½^F(#ï¿½qtt@%ï¿½xï¿½ï¿½Zï¿½Iï¿½Xï¿½ï¿½%ï¿½ï¿½ï¿½ï¿½DC2ï¿½ï¿½*ï¿½Nfï¿½aï¿½4ï¿½\"\'ï¿½ï¿½?Hï¿½wMï¿½@ï¿½ï¿½ï¿½ï¿½q}ï¿½tï¿½Pï¿½ï¿½ï¿½ï¿½CR@6(_(EYï¿½Gï¿½?Kï¿½)Xï¿½)b\0ï¿½ï¿½ï¿½Oï¿½ï¿½J8lï¿½.ï¿½4Jï¿½<&ï¿½ï¿½ï¿½ï¿½0?ï¿½I ï¿½3ï¿½\r65ï¿½Mï¿½(ï¿½\0fï¿½&5{ï¿½ï¿½nï¿½ï¿½c+ï¿½ï¿½J xSï¿½)Rï¿½;;Pï¿½ï¿½ï¿½\"?:ï¿½Sï¿½}X@Vï¿½ï¿½3#5Oï¿½Bï¿½ï¿½ï¿½zï¿½ï¿½\r 4ï¿½&\nï¿½Uï¿½ï¿½t\rtï¿½ï¿½Yï¿½9ï¿½Q*ï¿½ï¿½ï¿½-ï¿½yï¿½?\"ï¿½#ï¿½ï¿½N:ï¿½	}ï¿½ï¿½URAï¿½qï¿½ï¿½ï¿½ï¿½hD%;ï¿½J`ï¿½E8Lï¿½ï¿½jï¿½|n vCï¿½`\ZHï¿½4ï¿½ï¿½9@Sï¿½ï¿½?zuï¿½^ï¿½ï¿½!P8Kï¿½ï¿½kï¿½1ï¿½ ?%ï¿½ï¿½ï¿½%ï¿½ï¿½.ï¿½xï¿½,ï¿½Xï¿½=ï¿½ï¿½ï¿½ï¿½TTï¿½d`ï¿½g?zE.ï¿½#>IHï¿½]%Gï¿½ï¿½sï¿½_ï¿½Z5o>ï¿½sï¿½Sï¿½Zlï¿½RCï¿½ï¿½ï¿½J5ï¿½8ï¿½ï¿½Ccï¿½ï¿½6Kï¿½M\0ï¿½?lï¿½,ï¿½ï¿½ ]ï¿½\0ï¿½Cj;\0(4\0Bï¿½*ï¿½:?gvï¿½Gï¿½Eï¿½msFï¿½Z\n,bï¿½ï¿½lGgï¿½ï¿½Sï¿½ï¿½ï¿½6ï¿½Zï¿½Y%?)LNï¿½ï¿½ï¿½Lwï¿½ï¿½ï¿½MpaQ$dNï¿½zï¿½ZRï¿½;?ï¿½ Qd=?ï¿½	v@ï¿½ï¿½ï¿½Uï¿½(ï¿½fï¿½ï¿½EUQï¿½^ï¿½ï¿½ï¿½[ï¿½X=pï¿½?ï¿½Iï¿½Kï¿½\\:?Iï¿½	ï¿½ï¿½Nï¿½ï¿½`ï¿½AXyï¿½8%`Gl-ï¿½}ï¿½-ï¿½UWï¿½ï¿½,ï¿½uï¿½-ï¿½Nï¿½\0#ï¿½ï¿½h]/<ï¿½NtXSUaï¿½,}ï¿½ï¿½vï¿½1ï¿½xï¿½?eï¿½Pï¿½ï¿½\rï¿½ï¿½ï¿½ï¿½.m.oï¿½ï¿½,sï¿½[?ï¿½ï¿½ï¿½dï¿½ï¿½	ï¿½[A`ï¿½2(c)ï¿½%%ï¿½f0?|ï¿½ï¿½:?g6ï¿½?Nï¿½\nï¿½ï¿½ï¿½F;\Z\0\0;','2007-05-17 12:01:02');
-/*!40000 ALTER TABLE `oa_images` ENABLE KEYS */;
+LOCK TABLES `oa_images` WRITE;
+INSERT INTO `oa_images` VALUES ('468x60.gif','GIF89a<\0\0\0uuuDDD?000   eeeUUU\0\0\0!\0\0\0\0\0,\0\0\0\0<\0\0I8?`(dihlp,tmx|?cH\nP\"(\nBX6\rJZP$QznW\Z$0?$\0bnuqz\'	BC	.s\"	xx\0E$\0A#\nCD!~??q\nw??6vE>#C.p`S8t\0QR5xs?(AD\"0\\<N?R$?81led(S[4\0 @@E2I(\0P0\0s0?daY\0\"$\\	}?H\\hgt^{,;2<T	5P\Zhk^S\04	@6?\'a8\0.?y-SFe+8j7<?CGQw?VJ!\0Kw?An6E}C_il \"5Hl\00 \0s/le!uk@txPmXi@@urCBVI!$ [BfP8O?\07-i?9F0y+Dein\nGAahZ=X$B3f(qu9bZ.A\Z*j(wTp\0Q\"(H}YICyj9*?t\0B,\nr*z\r\0}e@r?\Zv?zNM@Wjp&?^p,rt\ZlJ\n~dT\0c>?\0b=kqz\np q8??\Z4gWP.qI\0$O;l5WmCH30Qz\\Z]?A?mm5[6ig\"4\0cvMlo[-\0l/\rK\0$np(\rK?(R]xX&\0g`2@nW?n!u.j?~zU.<Q~v<s+9?O??D=/[zsmT \Zc+\Z\nl[[&0l>x\Z(D@@A]-$!N{?B	?x\\L#~~a*\Z*UaK]J/w C\r\\?W?F1Y? e-s\0^F(#qtt@%xZIX%DC2*Nfa4\"\'?HwM@q}tPCR@6(_(EYG?K)X)b\0OJ8l.4J<&0?I 3\r65M(\0f&5{nc+J xS)R;;P\"?:S}X@V3#5OBz\r 4&\nUt\rtY9Q*-y?\"#N:	}URAqhD%;J`E8Lj|n vC`\ZH49@S?zu^!P8Kk1 ?%%.x,X=TTd`g?zE.#>IH]%Gs_Z5o>sSZlRCJ58Cc6KM\0?l, ]\0Cj;\0(4\0B*:?gvGEmsFZ\n,blGgS6ZY%?)LNLwMpaQ$dNzZR;? Qd=?	v@U(fEUQ^[X=p?IK\\:?I	N`AXy8%`Gl-}-UW,u-N\0#h]/<NtXSUa,}v1x?eP\r.m.o,s[?d	[A`2(c)%%f0?|:?g6?N\nF;\Z\0\0;','2007-05-17 12:01:02');
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_images` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_lb_local`
@@ -1107,10 +1150,11 @@ CREATE TABLE `oa_lb_local` (
 -- Dumping data for table `oa_lb_local`
 --
 
-LOCK TABLES `oa_lb_local` WRITE;
+
 /*!40000 ALTER TABLE `oa_lb_local` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oa_lb_local` ENABLE KEYS */;
+LOCK TABLES `oa_lb_local` WRITE;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_lb_local` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_log_maintenance_forecasting`
@@ -1131,10 +1175,11 @@ CREATE TABLE `oa_log_maintenance_forecasting` (
 -- Dumping data for table `oa_log_maintenance_forecasting`
 --
 
-LOCK TABLES `oa_log_maintenance_forecasting` WRITE;
+
 /*!40000 ALTER TABLE `oa_log_maintenance_forecasting` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oa_log_maintenance_forecasting` ENABLE KEYS */;
+LOCK TABLES `oa_log_maintenance_forecasting` WRITE;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_log_maintenance_forecasting` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_log_maintenance_priority`
@@ -1156,10 +1201,11 @@ CREATE TABLE `oa_log_maintenance_priority` (
 -- Dumping data for table `oa_log_maintenance_priority`
 --
 
-LOCK TABLES `oa_log_maintenance_priority` WRITE;
+
 /*!40000 ALTER TABLE `oa_log_maintenance_priority` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oa_log_maintenance_priority` ENABLE KEYS */;
+LOCK TABLES `oa_log_maintenance_priority` WRITE;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_log_maintenance_priority` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_log_maintenance_statistics`
@@ -1182,10 +1228,11 @@ CREATE TABLE `oa_log_maintenance_statistics` (
 -- Dumping data for table `oa_log_maintenance_statistics`
 --
 
-LOCK TABLES `oa_log_maintenance_statistics` WRITE;
+
 /*!40000 ALTER TABLE `oa_log_maintenance_statistics` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oa_log_maintenance_statistics` ENABLE KEYS */;
+LOCK TABLES `oa_log_maintenance_statistics` WRITE;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_log_maintenance_statistics` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_password_recovery`
@@ -1205,10 +1252,11 @@ CREATE TABLE `oa_password_recovery` (
 -- Dumping data for table `oa_password_recovery`
 --
 
-LOCK TABLES `oa_password_recovery` WRITE;
+
 /*!40000 ALTER TABLE `oa_password_recovery` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oa_password_recovery` ENABLE KEYS */;
+LOCK TABLES `oa_password_recovery` WRITE;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_password_recovery` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_placement_zone_assoc`
@@ -1228,11 +1276,12 @@ CREATE TABLE `oa_placement_zone_assoc` (
 -- Dumping data for table `oa_placement_zone_assoc`
 --
 
-LOCK TABLES `oa_placement_zone_assoc` WRITE;
+
 /*!40000 ALTER TABLE `oa_placement_zone_assoc` DISABLE KEYS */;
+LOCK TABLES `oa_placement_zone_assoc` WRITE;
 INSERT INTO `oa_placement_zone_assoc` VALUES (1,1,1),(2,1,2),(3,2,3);
-/*!40000 ALTER TABLE `oa_placement_zone_assoc` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_placement_zone_assoc` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_plugins_channel_delivery_assoc`
@@ -1253,10 +1302,11 @@ CREATE TABLE `oa_plugins_channel_delivery_assoc` (
 -- Dumping data for table `oa_plugins_channel_delivery_assoc`
 --
 
-LOCK TABLES `oa_plugins_channel_delivery_assoc` WRITE;
+
 /*!40000 ALTER TABLE `oa_plugins_channel_delivery_assoc` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oa_plugins_channel_delivery_assoc` ENABLE KEYS */;
+LOCK TABLES `oa_plugins_channel_delivery_assoc` WRITE;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_plugins_channel_delivery_assoc` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_plugins_channel_delivery_domains`
@@ -1274,10 +1324,11 @@ CREATE TABLE `oa_plugins_channel_delivery_domains` (
 -- Dumping data for table `oa_plugins_channel_delivery_domains`
 --
 
-LOCK TABLES `oa_plugins_channel_delivery_domains` WRITE;
+
 /*!40000 ALTER TABLE `oa_plugins_channel_delivery_domains` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oa_plugins_channel_delivery_domains` ENABLE KEYS */;
+LOCK TABLES `oa_plugins_channel_delivery_domains` WRITE;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_plugins_channel_delivery_domains` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_plugins_channel_delivery_rules`
@@ -1296,52 +1347,11 @@ CREATE TABLE `oa_plugins_channel_delivery_rules` (
 -- Dumping data for table `oa_plugins_channel_delivery_rules`
 --
 
-LOCK TABLES `oa_plugins_channel_delivery_rules` WRITE;
+
 /*!40000 ALTER TABLE `oa_plugins_channel_delivery_rules` DISABLE KEYS */;
+LOCK TABLES `oa_plugins_channel_delivery_rules` WRITE;
+UNLOCK TABLES;
 /*!40000 ALTER TABLE `oa_plugins_channel_delivery_rules` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `oa_preference_advertiser`
---
-
-DROP TABLE IF EXISTS `oa_preference_advertiser`;
-CREATE TABLE `oa_preference_advertiser` (
-  `advertiser_id` int(11) NOT NULL,
-  `preference` varchar(255) NOT NULL default '',
-  `value` text NOT NULL,
-  PRIMARY KEY  (`advertiser_id`,`preference`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `oa_preference_advertiser`
---
-
-LOCK TABLES `oa_preference_advertiser` WRITE;
-/*!40000 ALTER TABLE `oa_preference_advertiser` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oa_preference_advertiser` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `oa_preference_publisher`
---
-
-DROP TABLE IF EXISTS `oa_preference_publisher`;
-CREATE TABLE `oa_preference_publisher` (
-  `publisher_id` int(11) NOT NULL,
-  `preference` varchar(255) NOT NULL default '',
-  `value` text NOT NULL,
-  PRIMARY KEY  (`publisher_id`,`preference`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `oa_preference_publisher`
---
-
-LOCK TABLES `oa_preference_publisher` WRITE;
-/*!40000 ALTER TABLE `oa_preference_publisher` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oa_preference_publisher` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `oa_preferences`
@@ -1361,11 +1371,12 @@ CREATE TABLE `oa_preferences` (
 -- Dumping data for table `oa_preferences`
 --
 
-LOCK TABLES `oa_preferences` WRITE;
+
 /*!40000 ALTER TABLE `oa_preferences` DISABLE KEYS */;
-INSERT INTO `oa_preferences` VALUES (1,'language','ADMIN'),(2,'ui_week_start_day','ADMIN'),(3,'ui_percentage_decimals','ADMIN'),(4,'warn_admin','ADMIN'),(5,'warn_email_manager','ADMIN'),(6,'warn_email_advertiser','ADMIN'),(7,'warn_email_admin_impression_limit','ADMIN'),(8,'warn_email_admin_day_limit','ADMIN'),(9,'ui_novice_user','ADMIN'),(10,'default_banner_weight','ADMIN'),(11,'default_campaign_weight','ADMIN'),(12,'default_banner_image_url','ADMIN'),(13,'default_banner_destination_url','ADMIN'),(14,'ui_show_campaign_info','ADMIN'),(15,'ui_show_campaign_preview','ADMIN'),(16,'ui_show_banner_info','ADMIN'),(17,'ui_show_banner_preview','ADMIN'),(18,'ui_show_banner_html','ADMIN'),(19,'ui_show_matching_banners','ADMIN'),(20,'ui_show_matching_banners_parents','ADMIN'),(21,'ui_hide_inactive','ADMIN'),(22,'tracker_default_status','ADMIN'),(23,'tracker_default_type','ADMIN'),(24,'tracker_link_campaigns','ADMIN'),(25,'ui_column_id','ADMIN'),(26,'ui_column_id_label','ADMIN'),(27,'ui_column_id_rank','ADMIN'),(28,'ui_column_requests','ADMIN'),(29,'ui_column_requests_label','ADMIN'),(30,'ui_column_requests_rank','ADMIN'),(31,'ui_column_impressions','ADMIN'),(32,'ui_column_impressions_label','ADMIN'),(33,'ui_column_impressions_rank','ADMIN'),(34,'ui_column_clicks','ADMIN'),(35,'ui_column_clicks_label','ADMIN'),(36,'ui_column_clicks_rank','ADMIN'),(37,'ui_column_ctr','ADMIN'),(38,'ui_column_ctr_label','ADMIN'),(39,'ui_column_ctr_rank','ADMIN'),(40,'ui_column_conversions','ADMIN'),(41,'ui_column_conversions_label','ADMIN'),(42,'ui_column_conversions_rank','ADMIN'),(43,'ui_column_conversions_pending','ADMIN'),(44,'ui_column_conversions_pending_label','ADMIN'),(45,'ui_column_conversions_pending_rank','ADMIN'),(46,'ui_column_sr_views','ADMIN'),(47,'ui_column_sr_views_label','ADMIN'),(48,'ui_column_sr_views_rank','ADMIN'),(49,'ui_column_sr_clicks','ADMIN'),(50,'ui_column_sr_clicks_label','ADMIN'),(51,'ui_column_sr_clicks_rank','ADMIN'),(52,'ui_column_revenue','ADMIN'),(53,'ui_column_revenue_label','ADMIN'),(54,'ui_column_revenue_rank','ADMIN'),(55,'ui_column_cost','ADMIN'),(56,'ui_column_cost_label','ADMIN'),(57,'ui_column_cost_rank','ADMIN'),(58,'ui_column_bv','ADMIN'),(59,'ui_column_bv_label','ADMIN'),(60,'ui_column_bv_rank','ADMIN'),(61,'ui_column_num_items','ADMIN'),(62,'ui_column_num_items_label','ADMIN'),(63,'ui_column_num_items_rank','ADMIN'),(64,'ui_column_revcpc','ADMIN'),(65,'ui_column_revcpc_label','ADMIN'),(66,'ui_column_revcpc_rank','ADMIN'),(67,'ui_column_costcpc','ADMIN'),(68,'ui_column_costcpc_label','ADMIN'),(69,'ui_column_costcpc_rank','ADMIN'),(70,'ui_column_technology_cost','ADMIN'),(71,'ui_column_technology_cost_label','ADMIN'),(72,'ui_column_technology_cost_rank','ADMIN'),(73,'ui_column_income','ADMIN'),(74,'ui_column_income_label','ADMIN'),(75,'ui_column_income_rank','ADMIN'),(76,'ui_column_income_margin','ADMIN'),(77,'ui_column_income_margin_label','ADMIN'),(78,'ui_column_income_margin_rank','ADMIN'),(79,'ui_column_profit','ADMIN'),(80,'ui_column_profit_label','ADMIN'),(81,'ui_column_profit_rank','ADMIN'),(82,'ui_column_margin','ADMIN'),(83,'ui_column_margin_label','ADMIN'),(84,'ui_column_margin_rank','ADMIN'),(85,'ui_column_erpm','ADMIN'),(86,'ui_column_erpm_label','ADMIN'),(87,'ui_column_erpm_rank','ADMIN'),(88,'ui_column_erpc','ADMIN'),(89,'ui_column_erpc_label','ADMIN'),(90,'ui_column_erpc_rank','ADMIN'),(91,'ui_column_erps','ADMIN'),(92,'ui_column_erps_label','ADMIN'),(93,'ui_column_erps_rank','ADMIN'),(94,'ui_column_eipm','ADMIN'),(95,'ui_column_eipm_label','ADMIN'),(96,'ui_column_eipm_rank','ADMIN'),(97,'ui_column_eipc','ADMIN'),(98,'ui_column_eipc_label','ADMIN'),(99,'ui_column_eipc_rank','ADMIN'),(100,'ui_column_eips','ADMIN'),(101,'ui_column_eips_label','ADMIN'),(102,'ui_column_eips_rank','ADMIN'),(103,'ui_column_ecpm','ADMIN'),(104,'ui_column_ecpm_label','ADMIN'),(105,'ui_column_ecpm_rank','ADMIN'),(106,'ui_column_ecpc','ADMIN'),(107,'ui_column_ecpc_label','ADMIN'),(108,'ui_column_ecpc_rank','ADMIN'),(109,'ui_column_ecps','ADMIN'),(110,'ui_column_ecps_label','ADMIN'),(111,'ui_column_ecps_rank','ADMIN'),(112,'ui_column_epps','ADMIN'),(113,'ui_column_epps_label','ADMIN'),(114,'ui_column_epps_rank','ADMIN');
-/*!40000 ALTER TABLE `oa_preferences` ENABLE KEYS */;
+LOCK TABLES `oa_preferences` WRITE;
+INSERT INTO `oa_preferences` VALUES (1,'language','ADMIN'),(2,'ui_week_start_day','ADMIN'),(3,'ui_percentage_decimals','ADMIN'),(4,'warn_admin','ADMIN'),(5,'warn_email_manager','ADMIN'),(6,'warn_email_advertiser','ADMIN'),(7,'warn_email_admin_impression_limit','ADMIN'),(8,'warn_email_admin_day_limit','ADMIN'),(9,'ui_novice_user','ADMIN'),(10,'default_banner_weight','ADMIN'),(11,'default_campaign_weight','ADMIN'),(12,'default_banner_image_url','ADMIN'),(13,'default_banner_destination_url','ADMIN'),(14,'ui_show_campaign_info','ADMIN'),(15,'ui_show_campaign_preview','ADMIN'),(16,'ui_show_banner_info','ADMIN'),(17,'ui_show_banner_preview','ADMIN'),(18,'ui_show_banner_html','ADMIN'),(19,'ui_show_matching_banners','ADMIN'),(20,'ui_show_matching_banners_parents','ADMIN'),(21,'ui_hide_inactive','ADMIN'),(22,'tracker_default_status','ADMIN'),(23,'tracker_default_type','ADMIN'),(24,'tracker_link_campaigns','ADMIN'),(25,'ui_column_id','ADMIN'),(26,'ui_column_id_label','ADMIN'),(27,'ui_column_id_rank','ADMIN'),(28,'ui_column_requests','ADMIN'),(29,'ui_column_requests_label','ADMIN'),(30,'ui_column_requests_rank','ADMIN'),(31,'ui_column_impressions','ADMIN'),(32,'ui_column_impressions_label','ADMIN'),(33,'ui_column_impressions_rank','ADMIN'),(34,'ui_column_clicks','ADMIN'),(35,'ui_column_clicks_label','ADMIN'),(36,'ui_column_clicks_rank','ADMIN'),(37,'ui_column_ctr','ADMIN'),(38,'ui_column_ctr_label','ADMIN'),(39,'ui_column_ctr_rank','ADMIN'),(40,'ui_column_conversions','ADMIN'),(41,'ui_column_conversions_label','ADMIN'),(42,'ui_column_conversions_rank','ADMIN'),(43,'ui_column_conversions_pending','ADMIN'),(44,'ui_column_conversions_pending_label','ADMIN'),(45,'ui_column_conversions_pending_rank','ADMIN'),(46,'ui_column_sr_views','ADMIN'),(47,'ui_column_sr_views_label','ADMIN'),(48,'ui_column_sr_views_rank','ADMIN'),(49,'ui_column_sr_clicks','ADMIN'),(50,'ui_column_sr_clicks_label','ADMIN'),(51,'ui_column_sr_clicks_rank','ADMIN'),(52,'ui_column_revenue','ADMIN'),(53,'ui_column_revenue_label','ADMIN'),(54,'ui_column_revenue_rank','ADMIN'),(55,'ui_column_cost','ADMIN'),(56,'ui_column_cost_label','ADMIN'),(57,'ui_column_cost_rank','ADMIN'),(58,'ui_column_bv','ADMIN'),(59,'ui_column_bv_label','ADMIN'),(60,'ui_column_bv_rank','ADMIN'),(61,'ui_column_num_items','ADMIN'),(62,'ui_column_num_items_label','ADMIN'),(63,'ui_column_num_items_rank','ADMIN'),(64,'ui_column_revcpc','ADMIN'),(65,'ui_column_revcpc_label','ADMIN'),(66,'ui_column_revcpc_rank','ADMIN'),(67,'ui_column_costcpc','ADMIN'),(68,'ui_column_costcpc_label','ADMIN'),(69,'ui_column_costcpc_rank','ADMIN'),(70,'ui_column_technology_cost','ADMIN'),(71,'ui_column_technology_cost_label','ADMIN'),(72,'ui_column_technology_cost_rank','ADMIN'),(73,'ui_column_income','ADMIN'),(74,'ui_column_income_label','ADMIN'),(75,'ui_column_income_rank','ADMIN'),(76,'ui_column_income_margin','ADMIN'),(77,'ui_column_income_margin_label','ADMIN'),(78,'ui_column_income_margin_rank','ADMIN'),(79,'ui_column_profit','ADMIN'),(80,'ui_column_profit_label','ADMIN'),(81,'ui_column_profit_rank','ADMIN'),(82,'ui_column_margin','ADMIN'),(83,'ui_column_margin_label','ADMIN'),(84,'ui_column_margin_rank','ADMIN'),(85,'ui_column_erpm','ADMIN'),(86,'ui_column_erpm_label','ADMIN'),(87,'ui_column_erpm_rank','ADMIN'),(88,'ui_column_erpc','ADMIN'),(89,'ui_column_erpc_label','ADMIN'),(90,'ui_column_erpc_rank','ADMIN'),(91,'ui_column_erps','ADMIN'),(92,'ui_column_erps_label','ADMIN'),(93,'ui_column_erps_rank','ADMIN'),(94,'ui_column_eipm','ADMIN'),(95,'ui_column_eipm_label','ADMIN'),(96,'ui_column_eipm_rank','ADMIN'),(97,'ui_column_eipc','ADMIN'),(98,'ui_column_eipc_label','ADMIN'),(99,'ui_column_eipc_rank','ADMIN'),(100,'ui_column_eips','ADMIN'),(101,'ui_column_eips_label','ADMIN'),(102,'ui_column_eips_rank','ADMIN'),(103,'ui_column_ecpm','ADMIN'),(104,'ui_column_ecpm_label','ADMIN'),(105,'ui_column_ecpm_rank','ADMIN'),(106,'ui_column_ecpc','ADMIN'),(107,'ui_column_ecpc_label','ADMIN'),(108,'ui_column_ecpc_rank','ADMIN'),(109,'ui_column_ecps','ADMIN'),(110,'ui_column_ecps_label','ADMIN'),(111,'ui_column_ecps_rank','ADMIN'),(112,'ui_column_epps','ADMIN'),(113,'ui_column_epps_label','ADMIN'),(114,'ui_column_epps_rank','ADMIN'),(115,'timezone','MANAGER');
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_preferences` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_session`
@@ -1383,11 +1394,12 @@ CREATE TABLE `oa_session` (
 -- Dumping data for table `oa_session`
 --
 
-LOCK TABLES `oa_session` WRITE;
+
 /*!40000 ALTER TABLE `oa_session` DISABLE KEYS */;
-INSERT INTO `oa_session` VALUES ('phpads465c3580ef7ff1.90755088','a:6:{s:8:\"usertype\";i:1;s:8:\"loggedin\";s:1:\"t\";s:8:\"agencyid\";i:0;s:8:\"username\";s:5:\"admin\";s:5:\"prefs\";a:8:{s:20:\"advertiser-index.php\";a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";a:0:{}}s:7:\"GLOBALS\";a:3:{s:13:\"period_preset\";s:5:\"today\";s:12:\"period_start\";s:10:\"2007-06-01\";s:10:\"period_end\";s:10:\"2007-06-01\";}s:9:\"stats.php\";a:5:{s:9:\"listorder\";s:4:\"name\";s:14:\"orderdirection\";s:2:\"up\";s:10:\"startlevel\";i:0;s:5:\"nodes\";s:0:\"\";s:12:\"hideinactive\";b:1;}s:19:\"affiliate-index.php\";a:3:{s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";s:0:\"\";}s:24:\"advertiser-campaigns.php\";a:1:{i:1;a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";s:0:\"\";}}s:23:\"advertiser-trackers.php\";a:2:{s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";}s:21:\"tracker-campaigns.php\";a:3:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";}s:21:\"tracker-variables.php\";a:1:{s:9:\"trackerid\";s:1:\"1\";}}s:12:\"update_check\";b:0;}','2007-06-01 15:09:52'),('phpads465d96668fc721.60249221','a:6:{s:8:\"usertype\";i:1;s:8:\"loggedin\";s:1:\"t\";s:8:\"agencyid\";i:0;s:8:\"username\";s:5:\"admin\";s:5:\"prefs\";a:3:{s:20:\"advertiser-index.php\";a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";a:0:{}}s:24:\"advertiser-campaigns.php\";a:1:{i:1;a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";s:0:\"\";}}s:23:\"advertiser-trackers.php\";a:2:{s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";}}s:12:\"update_check\";b:0;}','2007-06-01 17:15:27'),('phpads4666d2619a15a3.52419402','a:6:{s:8:\"usertype\";i:1;s:8:\"loggedin\";s:1:\"t\";s:8:\"agencyid\";i:0;s:8:\"username\";s:5:\"admin\";s:5:\"prefs\";a:1:{s:20:\"advertiser-index.php\";a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";a:0:{}}}s:12:\"update_check\";b:0;}','2007-06-06 16:27:35'),('phpads468a364daaa084.23126755','a:6:{s:8:\"usertype\";i:1;s:8:\"loggedin\";s:1:\"t\";s:8:\"agencyid\";i:0;s:8:\"username\";s:5:\"admin\";s:5:\"prefs\";a:2:{s:20:\"advertiser-index.php\";a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";a:0:{}}s:19:\"affiliate-index.php\";a:3:{s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";s:0:\"\";}}s:12:\"update_check\";b:0;}','2007-07-03 14:48:40'),('phpads46d44deed3dd40.69179106','a:6:{s:8:\"usertype\";i:1;s:8:\"loggedin\";s:1:\"t\";s:8:\"agencyid\";i:0;s:8:\"username\";s:5:\"admin\";s:5:\"prefs\";a:1:{s:20:\"advertiser-index.php\";a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";a:0:{}}}s:15:\"maint_update_js\";b:1;}','2007-08-30 11:06:32'),('phpads47877c12cd8115.03124044','a:3:{s:4:\"user\";O:18:\"oa_permission_user\":2:{s:5:\"aUser\";a:10:{s:7:\"user_id\";s:1:\"1\";s:12:\"contact_name\";s:11:\"Andrew Hill\";s:13:\"email_address\";s:23:\"andrew.hill@openads.org\";s:8:\"username\";s:5:\"admin\";s:18:\"default_account_id\";s:1:\"2\";s:8:\"comments\";s:0:\"\";s:6:\"active\";s:1:\"1\";s:10:\"account_id\";s:1:\"2\";s:12:\"account_type\";s:7:\"MANAGER\";s:12:\"account_name\";s:15:\"Default manager\";}s:8:\"aAccount\";a:5:{s:10:\"account_id\";s:1:\"1\";s:12:\"account_type\";s:5:\"ADMIN\";s:12:\"account_name\";s:13:\"Administrator\";s:9:\"entity_id\";i:0;s:9:\"agency_id\";i:0;}}s:5:\"prefs\";a:1:{s:20:\"advertiser-index.php\";a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";a:0:{}}}s:15:\"maint_update_js\";b:1;}','2008-01-11 14:47:54');
-/*!40000 ALTER TABLE `oa_session` ENABLE KEYS */;
+LOCK TABLES `oa_session` WRITE;
+INSERT INTO `oa_session` VALUES ('phpads465c3580ef7ff1.90755088','a:6:{s:8:\"usertype\";i:1;s:8:\"loggedin\";s:1:\"t\";s:8:\"agencyid\";i:0;s:8:\"username\";s:5:\"admin\";s:5:\"prefs\";a:8:{s:20:\"advertiser-index.php\";a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";a:0:{}}s:7:\"GLOBALS\";a:3:{s:13:\"period_preset\";s:5:\"today\";s:12:\"period_start\";s:10:\"2007-06-01\";s:10:\"period_end\";s:10:\"2007-06-01\";}s:9:\"stats.php\";a:5:{s:9:\"listorder\";s:4:\"name\";s:14:\"orderdirection\";s:2:\"up\";s:10:\"startlevel\";i:0;s:5:\"nodes\";s:0:\"\";s:12:\"hideinactive\";b:1;}s:19:\"affiliate-index.php\";a:3:{s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";s:0:\"\";}s:24:\"advertiser-campaigns.php\";a:1:{i:1;a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";s:0:\"\";}}s:23:\"advertiser-trackers.php\";a:2:{s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";}s:21:\"tracker-campaigns.php\";a:3:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";}s:21:\"tracker-variables.php\";a:1:{s:9:\"trackerid\";s:1:\"1\";}}s:12:\"update_check\";b:0;}','2007-06-01 15:09:52'),('phpads465d96668fc721.60249221','a:6:{s:8:\"usertype\";i:1;s:8:\"loggedin\";s:1:\"t\";s:8:\"agencyid\";i:0;s:8:\"username\";s:5:\"admin\";s:5:\"prefs\";a:3:{s:20:\"advertiser-index.php\";a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";a:0:{}}s:24:\"advertiser-campaigns.php\";a:1:{i:1;a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";s:0:\"\";}}s:23:\"advertiser-trackers.php\";a:2:{s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";}}s:12:\"update_check\";b:0;}','2007-06-01 17:15:27'),('phpads4666d2619a15a3.52419402','a:6:{s:8:\"usertype\";i:1;s:8:\"loggedin\";s:1:\"t\";s:8:\"agencyid\";i:0;s:8:\"username\";s:5:\"admin\";s:5:\"prefs\";a:1:{s:20:\"advertiser-index.php\";a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";a:0:{}}}s:12:\"update_check\";b:0;}','2007-06-06 16:27:35'),('phpads468a364daaa084.23126755','a:6:{s:8:\"usertype\";i:1;s:8:\"loggedin\";s:1:\"t\";s:8:\"agencyid\";i:0;s:8:\"username\";s:5:\"admin\";s:5:\"prefs\";a:2:{s:20:\"advertiser-index.php\";a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";a:0:{}}s:19:\"affiliate-index.php\";a:3:{s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";s:0:\"\";}}s:12:\"update_check\";b:0;}','2007-07-03 14:48:40'),('phpads46d44deed3dd40.69179106','a:6:{s:8:\"usertype\";i:1;s:8:\"loggedin\";s:1:\"t\";s:8:\"agencyid\";i:0;s:8:\"username\";s:5:\"admin\";s:5:\"prefs\";a:1:{s:20:\"advertiser-index.php\";a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";a:0:{}}}s:15:\"maint_update_js\";b:1;}','2007-08-30 11:06:32'),('phpads47877c12cd8115.03124044','a:3:{s:4:\"user\";O:18:\"oa_permission_user\":2:{s:5:\"aUser\";a:10:{s:7:\"user_id\";s:1:\"1\";s:12:\"contact_name\";s:11:\"Andrew Hill\";s:13:\"email_address\";s:23:\"andrew.hill@openads.org\";s:8:\"username\";s:5:\"admin\";s:18:\"default_account_id\";s:1:\"2\";s:8:\"comments\";s:0:\"\";s:6:\"active\";s:1:\"1\";s:10:\"account_id\";s:1:\"2\";s:12:\"account_type\";s:7:\"MANAGER\";s:12:\"account_name\";s:15:\"Default manager\";}s:8:\"aAccount\";a:5:{s:10:\"account_id\";s:1:\"1\";s:12:\"account_type\";s:5:\"ADMIN\";s:12:\"account_name\";s:13:\"Administrator\";s:9:\"entity_id\";i:0;s:9:\"agency_id\";i:0;}}s:5:\"prefs\";a:1:{s:20:\"advertiser-index.php\";a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";a:0:{}}}s:15:\"maint_update_js\";b:1;}','2008-01-11 14:47:54'),('phpads47fa2a7aea9436.83952628','a:3:{s:4:\"user\";O:18:\"OA_Permission_User\":2:{s:5:\"aUser\";a:12:{s:7:\"user_id\";s:1:\"1\";s:12:\"contact_name\";s:11:\"Andrew Hill\";s:13:\"email_address\";s:23:\"andrew.hill@openads.org\";s:8:\"username\";s:5:\"admin\";s:18:\"default_account_id\";s:1:\"2\";s:8:\"comments\";s:0:\"\";s:6:\"active\";s:1:\"1\";s:8:\"language\";s:0:\"\";s:11:\"sso_user_id\";s:0:\"\";s:12:\"date_created\";s:0:\"\";s:15:\"date_last_login\";s:0:\"\";s:8:\"is_admin\";b:1;}s:8:\"aAccount\";a:7:{s:10:\"account_id\";s:1:\"1\";s:12:\"account_type\";s:5:\"ADMIN\";s:12:\"account_name\";s:13:\"Administrator\";s:12:\"m2m_password\";s:0:\"\";s:10:\"m2m_ticket\";s:0:\"\";s:9:\"entity_id\";i:0;s:9:\"agency_id\";i:0;}}s:5:\"prefs\";a:1:{s:20:\"advertiser-index.php\";a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";a:0:{}}}s:15:\"maint_update_js\";b:1;}','2008-04-07 14:15:47');
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_session` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_targetstats`
@@ -1406,10 +1418,11 @@ CREATE TABLE `oa_targetstats` (
 -- Dumping data for table `oa_targetstats`
 --
 
-LOCK TABLES `oa_targetstats` WRITE;
+
 /*!40000 ALTER TABLE `oa_targetstats` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oa_targetstats` ENABLE KEYS */;
+LOCK TABLES `oa_targetstats` WRITE;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_targetstats` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_tracker_append`
@@ -1431,10 +1444,11 @@ CREATE TABLE `oa_tracker_append` (
 -- Dumping data for table `oa_tracker_append`
 --
 
-LOCK TABLES `oa_tracker_append` WRITE;
+
 /*!40000 ALTER TABLE `oa_tracker_append` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oa_tracker_append` ENABLE KEYS */;
+LOCK TABLES `oa_tracker_append` WRITE;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_tracker_append` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_trackers`
@@ -1463,11 +1477,12 @@ CREATE TABLE `oa_trackers` (
 -- Dumping data for table `oa_trackers`
 --
 
-LOCK TABLES `oa_trackers` WRITE;
+
 /*!40000 ALTER TABLE `oa_trackers` DISABLE KEYS */;
+LOCK TABLES `oa_trackers` WRITE;
 INSERT INTO `oa_trackers` VALUES (1,'Sample Tracker','',1,3,3,0,4,1,'f','js','','2007-06-01 15:09:47');
-/*!40000 ALTER TABLE `oa_trackers` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_trackers` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_userlog`
@@ -1489,10 +1504,11 @@ CREATE TABLE `oa_userlog` (
 -- Dumping data for table `oa_userlog`
 --
 
-LOCK TABLES `oa_userlog` WRITE;
+
 /*!40000 ALTER TABLE `oa_userlog` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oa_userlog` ENABLE KEYS */;
+LOCK TABLES `oa_userlog` WRITE;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_userlog` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_users`
@@ -1508,19 +1524,25 @@ CREATE TABLE `oa_users` (
   `default_account_id` mediumint(9) default NULL,
   `comments` text,
   `active` tinyint(1) NOT NULL default '1',
+  `language` varchar(5) default NULL,
+  `sso_user_id` int(11) default NULL,
+  `date_created` datetime default NULL,
+  `date_last_login` datetime default NULL,
   PRIMARY KEY  (`user_id`),
-  UNIQUE KEY `oa_users_username` (`username`)
+  UNIQUE KEY `oa_users_username` (`username`),
+  UNIQUE KEY `oa_users_sso_user_id` (`sso_user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `oa_users`
 --
 
-LOCK TABLES `oa_users` WRITE;
+
 /*!40000 ALTER TABLE `oa_users` DISABLE KEYS */;
-INSERT INTO `oa_users` VALUES (1,'Andrew Hill','andrew.hill@openads.org','admin','5f4dcc3b5aa765d61d8327deb882cf99',2,NULL,1),(2,'Andrew Hill','andrew.hill@openads.org','agency','5f4dcc3b5aa765d61d8327deb882cf99',3,NULL,1),(3,'advertiser','example@example.com','advertiser1','fe1f4b7940d69cf3eb289fad37c3ae40',4,NULL,1),(4,'Andrew Hill','andrew.hill@openads.org','publisher','5f4dcc3b5aa765d61d8327deb882cf99',5,NULL,1);
-/*!40000 ALTER TABLE `oa_users` ENABLE KEYS */;
+LOCK TABLES `oa_users` WRITE;
+INSERT INTO `oa_users` VALUES (1,'Andrew Hill','andrew.hill@openads.org','admin','5f4dcc3b5aa765d61d8327deb882cf99',2,NULL,1,NULL,NULL,NULL,NULL),(2,'Andrew Hill','andrew.hill@openads.org','agency','5f4dcc3b5aa765d61d8327deb882cf99',3,NULL,1,NULL,NULL,NULL,NULL),(3,'advertiser','example@example.com','advertiser1','fe1f4b7940d69cf3eb289fad37c3ae40',4,NULL,1,NULL,NULL,NULL,NULL),(4,'Andrew Hill','andrew.hill@openads.org','publisher','5f4dcc3b5aa765d61d8327deb882cf99',5,NULL,1,NULL,NULL,NULL,NULL);
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_users` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_variable_publisher`
@@ -1538,10 +1560,11 @@ CREATE TABLE `oa_variable_publisher` (
 -- Dumping data for table `oa_variable_publisher`
 --
 
-LOCK TABLES `oa_variable_publisher` WRITE;
+
 /*!40000 ALTER TABLE `oa_variable_publisher` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oa_variable_publisher` ENABLE KEYS */;
+LOCK TABLES `oa_variable_publisher` WRITE;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_variable_publisher` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_variables`
@@ -1570,11 +1593,12 @@ CREATE TABLE `oa_variables` (
 -- Dumping data for table `oa_variables`
 --
 
-LOCK TABLES `oa_variables` WRITE;
+
 /*!40000 ALTER TABLE `oa_variables` DISABLE KEYS */;
+LOCK TABLES `oa_variables` WRITE;
 INSERT INTO `oa_variables` VALUES (1,1,'boo','Sample number','numeric',NULL,0,0,0,'var boo = \\\'%%BOO_VALUE%%\\\'','f','2007-06-01 15:09:47'),(2,1,'foo','Sample string','string',NULL,0,0,0,'var foo = \\\'%%FOO_VALUE%%\\\'','f','2007-06-01 15:09:47');
-/*!40000 ALTER TABLE `oa_variables` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_variables` ENABLE KEYS */;
 
 --
 -- Table structure for table `oa_zones`
@@ -1610,6 +1634,9 @@ CREATE TABLE `oa_zones` (
   `session_capping` int(11) NOT NULL default '0',
   `what` text NOT NULL,
   `as_zone_id` int(11) default NULL,
+  `is_in_ad_direct` tinyint(1) NOT NULL default '0',
+  `rate` decimal(19,2) default NULL,
+  `pricing` varchar(50) NOT NULL default 'CPM',
   PRIMARY KEY  (`zoneid`),
   KEY `oa_zones_zonenameid` (`zonename`,`zoneid`),
   KEY `oa_zones_affiliateid` (`affiliateid`)
@@ -1619,11 +1646,12 @@ CREATE TABLE `oa_zones` (
 -- Dumping data for table `oa_zones`
 --
 
-LOCK TABLES `oa_zones` WRITE;
+
 /*!40000 ALTER TABLE `oa_zones` DISABLE KEYS */;
-INSERT INTO `oa_zones` VALUES (1,1,'Publisher 1 - Default','',0,3,'',468,60,'','','','',0,'f',0,'',NULL,NULL,'',NULL,NULL,'2007-04-27 15:37:19',0,0,0,'',NULL),(2,2,'Agency Publisher 1 - Default','',0,3,'',468,60,'','','','',0,'f',0,'',NULL,NULL,'',NULL,NULL,'2007-05-15 13:41:44',0,0,0,'',NULL);
-/*!40000 ALTER TABLE `oa_zones` ENABLE KEYS */;
+LOCK TABLES `oa_zones` WRITE;
+INSERT INTO `oa_zones` VALUES (1,1,'Publisher 1 - Default','',0,3,'',468,60,'','','','',0,'f',0,'',NULL,NULL,'',NULL,NULL,'2007-04-27 15:37:19',0,0,0,'',NULL,0,NULL,'CPM'),(2,2,'Agency Publisher 1 - Default','',0,3,'',468,60,'','','','',0,'f',0,'',NULL,NULL,'',NULL,NULL,'2007-05-15 13:41:44',0,0,0,'',NULL,0,NULL,'CPM');
 UNLOCK TABLES;
+/*!40000 ALTER TABLE `oa_zones` ENABLE KEYS */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -1634,4 +1662,3 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2008-01-11 14:51:41
