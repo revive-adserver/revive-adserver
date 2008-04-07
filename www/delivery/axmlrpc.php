@@ -3954,7 +3954,7 @@ case '==': $aContext['banner']['include'][$value] = true; break;
 return $aContext;
 }
 function _adSelectBuildContext($aBanner, $context = array()) {
-if (count($aBanner['zone_companion']) > 0) {
+if (!empty($aBanner['zone_companion'])) {
 // This zone call has companion banners linked to it.
 // So pass into the next call that we would like a banner from this campaign, and not from the other companion linked campaigns;
 foreach ($aBanner['zone_companion'] AS $companionCampaign) {
