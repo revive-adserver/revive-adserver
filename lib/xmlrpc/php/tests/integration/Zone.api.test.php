@@ -131,6 +131,26 @@ class Test_OA_Api_XmlRpc_Zone extends Test_OA_Api_XmlRpc
         $this->expectError();
         $this->assertFalse($this->oApi->unlinkCampaign($this->zoneId, $campaignId));
 	}
+
+	function testGenerateTags()
+	{
+		if (!$this->zoneId) {
+			return;
+		}
+
+		$this->expectError();
+        $this->assertFalse($this->oApi->generateTags(-1, 'foo'));
+
+		$this->expectError();
+        $this->assertFalse($this->oApi->generateTags($this->zoneId, 'foo'));
+
+        $tag1 = $this->oApi->generateTags($this->zoneId, 'adjs');
+        $tag2 = $this->oApi->generateTags($this->zoneId, 'adjs', array('source' => 'x'));
+
+        $this->assertTrue($tag1);
+        $this->assertTrue($tag2);
+        $this->assertNotEqual($tag1, $tag2);
+	}
 }
 
 ?>

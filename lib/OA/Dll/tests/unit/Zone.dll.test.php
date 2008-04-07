@@ -390,6 +390,32 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
 
         $this->assertTrue($dllZonePartialMock->unlinkCampaign($zoneId, $campaignId));
     }
+
+    function testGenerateTags()
+    {
+        $dllZonePartialMock = new PartialMockOA_Dll_Zone($this);
+
+        $dllZonePartialMock->setReturnValue('checkPermissions', true);
+        $dllZonePartialMock->expectCallCount('checkPermissions', 3);
+
+        // Non existent zone
+        $this->assertFalse($dllZonePartialMock->generateTags(1, 'foo'));
+
+        $doZones = OA_Dal::factoryDO('zones');
+        $doZones->width  = '468';
+        $doZones->height = '60';
+        $zoneId = DataGenerator::generateOne($doZones);
+
+        // Non existent code type
+        $this->assertFalse($dllZonePartialMock->generateTags($zoneId, 'foo'));
+
+        $tag1 = $dllZonePartialMock->generateTags($zoneId, 'adjs');
+        $tag2 = $dllZonePartialMock->generateTags($zoneId, 'adjs', array('source' => 'x'));
+
+        $this->assertTrue($tag1);
+        $this->assertTrue($tag2);
+        $this->assertNotEqual($tag1, $tag2);
+    }
 }
 
 ?>

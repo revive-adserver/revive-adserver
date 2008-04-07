@@ -1219,6 +1219,15 @@ class OA_Api_Xmlrpc
         return (bool) $this->_sendWithSession('ZoneXmlRpcService.php',
                                               'unlinkCampaign', array((int)$zoneId, (int)$campaignId));
     }
+
+    function generateTags($zoneId, $codeType, $aParams = null)
+    {
+        if (!isset($aParams)) {
+            $aParams = array();
+        }
+        return $this->_sendWithSession('ZoneXmlRpcService.php',
+                                              'generateTags', array((int)$zoneId, $codeType, $aParams));
+    }
 }
 
 ?>

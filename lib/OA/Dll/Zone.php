@@ -650,6 +650,42 @@ class OA_Dll_Zone extends OA_Dll
 
         return false;
     }
+
+    function generateTags($zoneId, $codeType, $aParams = null)
+    {
+        if ($this->checkIdExistence('zones', $zoneId)) {
+            $doZones = OA_Dal::staticGetDO('zones', $zoneId);
+            if (!$this->checkPermissions(null, 'affiliates', $doZones->affiliateid, OA_PERM_ZONE_INVOCATION)) {
+                return false;
+            }
+            if (!empty($codeType)) {
+                require_once MAX_PATH . '/lib/max/Admin/Invocation.php';
+
+                $maxInvocation = new MAX_Admin_Invocation();
+
+                // factory plugin for this $codetype
+                OA::disableErrorHandling();
+                $invocationTag = MAX_Plugin::factory('invocationTags', $codeType);
+                OA::enableErrorHandling();
+                if($invocationTag === false) {
+                    $this->raiseError('Error while factory invocationTag plugin');
+                    return false;
+                }
+                $invocationTag->setInvocation($this);
+
+                $aParams['zoneid']   = $zoneId;
+                $aParams['codetype'] = $codeType;
+
+                $buffer = $maxInvocation->generateInvocationCode($invocationTag, $aParams);
+
+                return $buffer;
+            } else {
+                $this->raiseError('Parameter codeType wrong');
+            }
+        }
+
+        return false;
+    }
 }
 
 ?>

@@ -34,54 +34,6 @@ require_once MAX_PATH . '/lib/max/Plugin.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 
-// Register input variables
-phpAds_registerGlobal (
-     'block'
-    ,'bannerid'
-    ,'blockcampaign'
-    ,'campaignid'
-    ,'charset'
-    ,'clientid'
-    ,'codetype'
-    ,'comments'
-    ,'bannerUrl'
-    ,'delay'
-    ,'delay_type'
-    ,'generate'
-    ,'height'
-    ,'hostlanguage'
-    ,'iframetracking'
-    ,'ilayer'
-    ,'layerstyle'
-    ,'left'
-    ,'location'
-    ,'menubar'
-    ,'popunder'
-    ,'raw'
-    ,'refresh'
-    ,'resizable'
-    ,'resize'
-    ,'scrollbars'
-    ,'source'
-    ,'status'
-    ,'submitbutton'
-    ,'target'
-    ,'template'
-    ,'thirdpartytrack'
-    ,'cachebuster'
-    ,'timeout'
-    ,'toolbars'
-    ,'top'
-    ,'transparent'
-    ,'uniqueid'
-    ,'website'
-    ,'what'
-    ,'width'
-    ,'withtext'
-    ,'xmlrpcproto'
-    ,'xmlrpctimeout'
-);
-
 // Load the required language files
 Language_Invocation::load();
 
@@ -97,71 +49,130 @@ class MAX_Admin_Invocation {
         'cacheBuster'      => 1,
         'comments'         => 1,
     );
-    /**
-     * Generate bannercode (invocation code for banner)
-     *
-     * @param object $invocationTag    If null the invocation tag is factory by MAX_Plugin class,
-     *                                 else this object is used
-     *
-     * @return string    Generated invocation code
-     */
-    function generateInvocationCode(&$invocationTag)
+
+    function getAllowedVariables()
     {
-
-        $conf = $GLOBALS['_MAX']['CONF'];
-
-        // codetype is needed to do lazy invocation of the invocation tag so register it seperatly
-        global $codetype;
-        $this->codetype = $codetype;
-
-        if($invocationTag === null) {
-            $invocationTag = MAX_Plugin::factory('invocationTags', $codetype);
-        }
-        if($invocationTag === false) {
-            OA::debug('Error while factory invocationTag plugin');
-            exit();
-        }
-
-        $globalVariables = array(
-            'affiliateid', 'bannerid', 'block',
-            'blockcampaign', 'campaignid', 'clientid',
-            'bannerUrl', 'delay', 'delay_type',
-            'domains_table', 'extra', 'height',
-            'hostlanguage', 'ilayer', 'iframetracking', 'left',
-            'location', 'menubar', 'parameters', 'popunder',
-            'raw', 'refresh', 'resizable',
-            'resize', 'scrollbars', 'source',
-            'status', 'target', 'template',
-            'thirdpartytrack', 'cachebuster', 'timeout', 'toolbars',
-            'top', 'transparent', 'uniqueid',
-            'website', 'what', 'width',
-            'withtext', 'zoneid', 'xmlrpcproto',
-            'xmlrpctimeout', 'comments',
-            'charset'
+        $aVariables = array(
+            // IDs
+            'affiliateid', 'bannerid', 'clientid', 'campaignid', 'zoneid',
+            // Special vars
+            'codetype', 'submitbutton',
+            // Others
+            'bannerUrl',
+            'block',
+            'blockcampaign',
+            'cachebuster',
+            'charset',
+            'comments',
+            'delay',
+            'delay_type',
+            'domains_table',
+            'extra',
+            'height',
+            'hostlanguage',
+            'iframetracking',
+            'ilayer',
+            'left',
+            'location',
+            'menubar',
+            'parameters',
+            'popunder',
+            'raw',
+            'refresh',
+            'resizable',
+            'resize',
+            'scrollbars',
+            'source',
+            'status',
+            'target',
+            'template',
+            'thirdpartytrack',
+            'timeout',
+            'toolbars',
+            'top',
+            'transparent',
+            'uniqueid',
+            'website',
+            'what',
+            'width',
+            'withtext',
+            'xmlrpcproto',
+            'xmlrpctimeout',
         );
 
         // Add any plugin-specific option values to the global array...
         if (isset($invocationTag->defaultOptionValues)) {
             foreach($invocationTag->defaultOptionValues as $key => $default) {
-                phpAds_registerGlobal($key);
-                $globalVariables[] = $key;
+                $aVariables[] = $key;
             }
         }
-        
-        foreach($globalVariables as $makeMeGlobal) {
-            global $$makeMeGlobal;
-            // If values are unset, populate them from the Plugin/Parent object if present
-            if (is_null($$makeMeGlobal)) {
-                // Check the plugin first, fall-back to the parent
-                if (isset($invocationTag->defaultOptionValues[$makeMeGlobal])) {
-                    $$makeMeGlobal = $invocationTag->defaultOptionValues[$makeMeGlobal];
-                } else if (isset($this->defaultOptionValues[$makeMeGlobal])) {
-                    $$makeMeGlobal = $this->defaultOptionValues[$makeMeGlobal];
+
+        return $aVariables;
+    }
+
+    /**
+     * A method to assign invocation variables to the current object
+     *
+     * @param array $aParams The invocation parameters. If null, variables will be fetched from $GLOBALS
+     */
+    function assignVariables($aParams = null)
+    {
+        // Get all variables
+        $globalVariables = $this->getAllowedVariables();
+
+        // Check if we need to fetch variables from the global scope
+        if (!isset($aParams)) {
+            // Register globals
+            call_user_func_array('phpAds_registerGlobal', $globalVariables);
+
+            foreach($globalVariables as $makeMeGlobal) {
+                global $$makeMeGlobal;
+                // If values are unset, populate them from the Plugin/Parent object if present
+                if (isset($$makeMeGlobal)) {
+                    // Check the plugin first, fall-back to the parent
+                    if (isset($invocationTag->defaultOptionValues[$makeMeGlobal])) {
+                        $$makeMeGlobal = $invocationTag->defaultOptionValues[$makeMeGlobal];
+                    } else if (isset($this->defaultOptionValues[$makeMeGlobal])) {
+                        $$makeMeGlobal = $this->defaultOptionValues[$makeMeGlobal];
+                    }
+                }
+                // also make this variable a class attribute
+                // so plugins could have an access to these values (and modify them)
+                $this->$makeMeGlobal =& $$makeMeGlobal;
+            }
+        } else {
+            // Variables passed in as a parameter
+            foreach($globalVariables as $makeMeGlobal) {
+                if (isset($aParams[$makeMeGlobal])) {
+                    $this->$makeMeGlobal = $aParams[$makeMeGlobal];
                 }
             }
-            // also make this variable a class attribute
-            // so plugins could have an access to these values (and modify them)
-            $this->$makeMeGlobal =& $$makeMeGlobal;
+        }
+
+    }
+
+    /**
+     * Generate bannercode (invocation code for banner)
+     *
+     * @param object $invocationTag    If null the invocation tag is factory by MAX_Plugin class,
+     *                                 else this object is used
+     * @param array  $aParams          Input parameters, if null globals will be fetched
+     *
+     * @return string    Generated invocation code
+     */
+    function generateInvocationCode(&$invocationTag, $aParams = null)
+    {
+        $conf = $GLOBALS['_MAX']['CONF'];
+
+        // register all the variables
+        $this->assignVariables($aParams);
+
+        if($invocationTag === null) {
+            $invocationTag = MAX_Plugin::factory('invocationTags', $this->codetype);
+        }
+        if($invocationTag === false) {
+            OA::debug('Error while factory invocationTag plugin');
+            exit();
         }
 
         // pass global variables as object attributes
@@ -233,41 +244,24 @@ class MAX_Admin_Invocation {
      *
      * @param array $extra
      * @param boolean $zone_invocation
+     * @param array  $aParams          Input parameters, if null globals will be fetched
      *
      * @return string  Generated invocation form
      */
-    function placeInvocationForm($extra = '', $zone_invocation = false)
+    function placeInvocationForm($extra = '', $zone_invocation = false, $aParams = null)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $pref = $GLOBALS['_MAX']['PREF'];
 
-        $globalVariables = array(
-            'block', 'blockcampaign', 'campaignid',
-            'clientid', 'codetype', 'bannerUrl', 'delay',
-            'delay_type', 'generate', 'height',
-            'hostlanguage', 'ilayer', 'layerstyle',
-            'left', 'location', 'menubar',
-            'phpAds_TextDirection', 'popunder', 'raw',
-            'refresh', 'resizable', 'resize',
-            'scrollbars', 'source', 'status',
-            'submitbutton', 'tabindex', 'target',
-            'template', 'timeout', 'toolbars',
-            'top', 'transparent', 'uniqueid',
-            'what', 'width', 'withtext',
-            'bannerid', 'thirdpartytrack', 'cachebuster', 'xmlrpcproto',
-            'xmlrpctimeout', 'zoneid', 'comments',
-        );
-
         $buffer = '';
-
         $this->zone_invocation = $zone_invocation;
 
-        foreach($globalVariables as $makeMeGlobal) {
-            global $$makeMeGlobal;
-            // also make this variable a class attribute
-            // so plugins could have an access to these values and modify them
-            $this->$makeMeGlobal =& $$makeMeGlobal;
-        }
+        // register all the variables
+        $this->assignVariables($aParams);
+
+        // Deal with special variables
+        $codetype = $this->codetype;
+        $submitbutton = $this->submitbutton;
 
         // Check if affiliate is on the same server as the delivery code
         if (!empty($extra['website'])) {

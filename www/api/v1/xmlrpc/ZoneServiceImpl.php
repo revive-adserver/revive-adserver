@@ -356,6 +356,19 @@ class ZoneServiceImpl extends BaseServiceImpl
         }
     }
 
+    function generateTags($sessionId, $zoneId, $codeType, $aParams, &$generatedTag)
+    {
+        if ($this->verifySession($sessionId)) {
+            $result = $this->_dllZone->generateTags($zoneId, $codeType, $aParams);
+            if ($this->_validateResult($result)) {
+                $generatedTag = $result;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }
 
 

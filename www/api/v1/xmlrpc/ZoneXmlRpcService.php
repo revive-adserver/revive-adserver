@@ -433,6 +433,22 @@ class ZoneXmlRpcService extends BaseZoneService
         }
     }
 
+    function generateTags($oParams)
+    {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(
+                array(&$sessionId, &$zoneId, &$codeType, &$aParams),
+                array(true, true, true, false), $oParams, $oResponseWithError)) {
+           return $oResponseWithError;
+        }
+
+        if ($this->_oZoneServiceImp->generateTags($sessionId, $zoneId, $codeType, $aParams, $generatedTag)) {
+            return XmlRpcUtils::stringTypeResponse($generatedTag);
+        } else {
+            return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
+        }
+    }
+
 }
 
 /**
@@ -551,6 +567,15 @@ $server = new XML_RPC_Server(
             'function'  => array($oZoneXmlRpcService, 'unlinkCampaign'),
             'signature' => array(
                 array('int', 'string', 'int', 'int')
+            ),
+            'docstring' => 'Unlink a campaign from a zone'
+        ),
+
+        'generateTags' => array(
+            'function'  => array($oZoneXmlRpcService, 'generateTags'),
+            'signature' => array(
+                array('string', 'string', 'int', 'string', 'struct'),
+                array('string', 'string', 'int', 'string', 'array')
             ),
             'docstring' => 'Unlink a campaign from a zone'
         ),
