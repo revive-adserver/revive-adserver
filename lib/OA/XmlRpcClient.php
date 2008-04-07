@@ -50,8 +50,8 @@ class OA_XML_RPC_Client extends XML_RPC_Client
                             $proxy_user = '', $proxy_pass = '')
     {
         if ($aExtensions = OA::getAvailableSSLExtensions()) {
-            $this->hasCurl    = (bool)array_search('curl', $aExtensions);
-            $this->hasOpenssl = (bool)array_search('openssl', $aExtensions);
+            $this->hasCurl    = in_array('curl', $aExtensions);
+            $this->hasOpenssl = in_array('openssl', $aExtensions);
         }
 
         $this->verifyPeer = false;
