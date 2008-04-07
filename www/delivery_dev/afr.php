@@ -92,7 +92,13 @@ if (isset($refresh) && is_numeric($refresh) && $refresh > 0) {
     $dest = MAX_commonGetDeliveryUrl($conf['file']['frame']).'?'.$_SERVER['QUERY_STRING'];
     parse_str($_SERVER['QUERY_STRING'], $qs);
     $dest .= (!array_key_exists('loc', $qs)) ? "&loc=" . urlencode($loc) : '';
-	$outputHtml .= "<meta http-equiv='refresh' content='".$refresh.";url=".htmlspecialchars($dest)."'>\n";
+
+    // Try to use JS location.replace since browsers deal with this and history much better than meta-refresh
+	$outputHtml .= "
+    <script type='text/javascript'><!--// <![CDATA[
+        setTimeout('window.location.replace(\"{$dest}\")', " . ($refresh * 1000) . ");
+    // ]]> --></script><noscript><meta http-equiv='refresh' content='".$refresh.";url={$dest}'></noscript>
+    ";
 }
 
 if (isset($resize) && $resize == 1) {
