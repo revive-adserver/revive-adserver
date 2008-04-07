@@ -185,7 +185,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
      */
     function getPlacementImpressionInventoryRequirement(&$oPlacement, $type, $ignorePast = false)
     {
-        OA::debug('  - Getting impression inventory requirements for placement ID: ' . $oPlacement->id);
+        OA::debug('  - Getting impression inventory requirements for placement ID: ' . $oPlacement->id, PEAR_LOG_DEBUG);
         $aConf = $GLOBALS['_MAX']['CONF'];
         if (!$ignorePast) {
             // Get campaign summary statistic totals
@@ -317,7 +317,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
             OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($this->_getDate());
         // For each placement
         foreach ($aPlacements as $oPlacement) {
-            OA::debug('  - Distributing impression inventory requirements for placement ID: ' . $oPlacement->id);
+            OA::debug('  - Distributing impression inventory requirements for placement ID: ' . $oPlacement->id, PEAR_LOG_DEBUG);
             // Get date object to represent placement expiration date
             if (
                    ($oPlacement->impressionTargetDaily > 0)
@@ -455,7 +455,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
      */
     function _getAdImpressions($oAd, $totalRequiredAdImpressions, $oDate, $oPlacementExpiryDate)
     {
-        OA::debug('    - Working on ad ID: ' . $oAd->id);
+        OA::debug('    - Working on ad ID: ' . $oAd->id, PEAR_LOG_DEBUG);
         // Check the parameters, and return 0 impressions if not valid
         if (!is_a($oAd, 'OA_Maintenance_Priority_Ad') || !is_numeric($totalRequiredAdImpressions) ||
             !is_a($oDate, 'Date') || !is_a($oPlacementExpiryDate, 'Date')) {
