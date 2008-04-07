@@ -671,7 +671,7 @@ class OA_Dll_Zone extends OA_Dll
                     $this->raiseError('Error while factory invocationTag plugin');
                     return false;
                 }
-                $invocationTag->setInvocation($this);
+                $invocationTag->setInvocation($maxInvocation);
 
                 $aParams['zoneid']   = $zoneId;
                 $aParams['codetype'] = $codeType;
