@@ -42,6 +42,8 @@
             var hostObj        = new getObj('database_host');
         }
 
+        if (localSocketObj.obj.disabled) return;
+
         if (localSocketObj.obj.checked == true) {
             hostObj.obj.disabled = true;
             if (dbTypeObj.obj.value == 'mysql') {

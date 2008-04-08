@@ -138,10 +138,11 @@ $oSettings = array (
                 'type'       => 'break'
             ),
             array (
-                'type'       => 'text',
-                'name'       => 'database_host',
-                'text'       => $strDbHost,
-                'req'        => true,
+                    'type'    => 'checkbox',
+                    'name'    => 'database_localsocket',
+                    'text'    => $strDbLocal,
+                    'onclick' => 'toggleSocketInput(this);',
+                    'req'     => false,
             ),
             array (
                 'type'       => 'break'
@@ -153,11 +154,13 @@ $oSettings = array (
                     'req'     => false,
             ),
             array (
-                    'type'    => 'checkbox',
-                    'name'    => 'database_localsocket',
-                    'text'    => $strDbLocal,
-                    'onclick' => 'toggleSocketInput(this);',
-                    'req'     => false,
+                'type'       => 'break'
+            ),
+            array (
+                'type'       => 'text',
+                'name'       => 'database_host',
+                'text'       => $strDbHost,
+                'req'        => true,
             ),
             array (
                 'type'       => 'break'

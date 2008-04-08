@@ -120,7 +120,7 @@ if ($errTz) {
                     'name'    => 'aConfig[database][localsocket]',
                     'text'    => $strDbLocal,
                     'onclick' => 'toggleSocketInput(this);',
-                    'enabled' => $disableForm,
+                    'disabled'=> $disableForm,
                     'req'     => false,
                     'value'   => ($aDatabase['database']['localsocket'] || $aDatabase['database']['protocol'] == 'unix'),
                 ),
@@ -131,7 +131,7 @@ if ($errTz) {
                     'type'    => 'text',
                     'name'    => 'aConfig[database][socket]',
                     'text'    => $strDbSocket,
-                    'enabled' => $disableForm,
+                    'disabled'=> $disableForm,
                     'req'     => false,
                     'value'   => $aDatabase['database']['socket']
                 ),
