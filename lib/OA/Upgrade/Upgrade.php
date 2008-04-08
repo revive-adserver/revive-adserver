@@ -1030,6 +1030,12 @@ class OA_Upgrade
         // Always use lower case prefixes for new installs
         $aConfig['table']['prefix'] = strtolower($aConfig['table']['prefix']);
 
+        if ($aConfig['database']['localsocket'] == true) {
+            $aConfig['database']['protocol'] = 'unix';
+        } else {
+            $aConfig['database']['protocol'] = 'tcp';
+        }
+
         $this->aDsn['database'] = $aConfig['database'];
         $this->aDsn['table']    = $aConfig['table'];
 

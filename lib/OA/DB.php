@@ -255,11 +255,13 @@ class OA_DB
         // otherwise no protocol is set and therefore defaults to tcp
     	if (isset($aConf['database']['protocol']) && $aConf['database']['protocol']=='unix')
     	{
+            $host = (!empty($aConf['database']['socket']))
+                        ? $aConf['database']['protocol'] . '(' . $aConf['database']['socket'] .')'
+                        : $aConf['database']['protocol'] . '+' . $aConf['database']['host'];
             $dsn = $dbType . '://' .
                 $aConf['database']['username'] . ':' .
                 $aConf['database']['password'] . '@' .
-                $aConf['database']['protocol'] . '(' .
-                $aConf['database']['port']     . ')/' .
+                $host . '/' .
                 $aConf['database']['name'];
     	}
     	else

@@ -32,6 +32,7 @@ combineAssets                       = true
 [database]
 type                                =
 host                                =
+socket                              =
 port                                =
 username                            =
 password                            =

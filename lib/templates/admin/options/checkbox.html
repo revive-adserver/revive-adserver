@@ -5,7 +5,7 @@
         <img src='{$assetPath|escape}/images/indent.gif'>
     {/if}
         <input type='checkbox' name='{$aItem.name}' id='{$aItem.name}' value='true' {if $aItem.value == true}checked='checked'{/if} {if $aItem.disabled}disabled='disabled'{/if}
-            onClick='phpAds_refreshEnabled();' tabindex='{$aItem.tabindex++}'><label for='{$aItem.name}'>{$aItem.text}</label>
+            onClick='phpAds_refreshEnabled(); {$aItem.onclick}' tabindex='{$aItem.tabindex++}'><label for='{$aItem.name}'>{$aItem.text}</label>
     </td>
     <td>{$this->_showPadLock($aItem)}</td>
 </tr>

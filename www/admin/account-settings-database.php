@@ -55,10 +55,12 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $aElements += array(
         'database_type'     => array('database' => 'type'),
         'database_host'     => array('database' => 'host'),
+        'database_socket'   => array('database' => 'socket'),
         'database_port'     => array('database' => 'port'),
         'database_username' => array('database' => 'username'),
         'database_password' => array('database' => 'password'),
-        'database_name'     => array('database' => 'name')
+        'database_name'     => array('database' => 'name'),
+        'database_protocol' => array('database' => 'protocol')
     );
     // Database Optimision Settings
     $aElements += array(
@@ -72,18 +74,27 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Test the database connectivity
     phpAds_registerGlobal(
         'database_host',
+        'database_socket',
         'database_port',
         'database_username',
         'database_password',
         'database_name'
     );
+
+    //  if database socket is null set to empty so it's updated by processSettingsFromForm()
+    $database_socket = (is_null($database_socket)) ? '' : $database_socket;
+
     $aDsn = array();
     $aDsn['database']['type']     = $database_type;
     $aDsn['database']['host']     = $database_host;
+    $aDsn['database']['socket']   = $database_socket;
     $aDsn['database']['port']     = $database_port;
     $aDsn['database']['username'] = $database_username;
     $aDsn['database']['password'] = $database_password;
     $aDsn['database']['name']     = $database_name;
+    $database_protocol = (!empty($database_socket)) ? 'unix' : 'tcp';
+    $aDsn['database']['protocol'] = $database_protocol;
+
     $dsn = OA_DB::getDsn($aDsn);
     $oDbh = OA_DB::singleton($dsn);
     if (!PEAR::isError($oDbh)) {
@@ -131,6 +142,22 @@ $oSettings = array (
                 'name'       => 'database_host',
                 'text'       => $strDbHost,
                 'req'        => true,
+            ),
+            array (
+                'type'       => 'break'
+            ),
+            array (
+                    'type'    => 'text',
+                    'name'    => 'database_socket',
+                    'text'    => $strDbSocket,
+                    'req'     => false,
+            ),
+            array (
+                    'type'    => 'checkbox',
+                    'name'    => 'database_localsocket',
+                    'text'    => $strDbLocal,
+                    'onclick' => 'toggleSocketInput(this);',
+                    'req'     => false,
             ),
             array (
                 'type'       => 'break'

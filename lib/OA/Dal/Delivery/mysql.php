@@ -59,6 +59,9 @@ function OA_Dal_Delivery_connect($database = 'database') {
     }
     $dbPort     = isset($dbConf['port']) ? $dbConf['port'] : 3306;
     $dbHost     = $dbPort != 3306 ? $dbConf['host'].':'.$dbPort : $dbConf['host'];
+    if ($dbConf['protocol'] == 'unix' && !empty($dbConf['socket'])) {
+        $dbHost = ':' . $dbConf['socket'];
+    }
     $dbUser     = $dbConf['username'];
     $dbPassword = $dbConf['password'];
     $dbName     = $dbConf['name'];

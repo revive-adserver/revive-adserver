@@ -379,6 +379,10 @@ class OA_Admin_Option
             						$value = implode(', ', $aConf[$aItem['name']]);
             					}
             				}
+            				// toggle the checkbox if a local db socket is being used
+                            if ($aSettingSection == 'database' && $aItem['name'] == 'database_localsocket') {
+                                $value = ($aConf[$aSettingSection]['protocol'] == 'unix') ? true : false;
+                            }
             				// If that did not work, and the item is a preference, try to load the
             				// item value from the preferences values in the database
             				if (is_null($value) && $this->_optionType == 'account-preferences') {
@@ -506,6 +510,7 @@ class OA_Admin_Option
         $this->oTpl->assign('dependbuffer',     $dependbuffer);
         $this->oTpl->assign('usertypebuffer',   $usertypebuffer);
         $this->oTpl->assign('tabindex',         $tabindex);
+        $this->oTpl->assign('section',          $aSettingSection);
         $this->oTpl->assign('optionType',       $this->_optionType);
         $this->oTpl->assign('adminUser',        OA_Permission::isAccount(OA_ACCOUNT_ADMIN));
         $this->oTpl->assign('oxInstalled',      OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED);

@@ -220,9 +220,10 @@ $GLOBALS['strOpenadsEmail']                          = MAX_PRODUCT_NAME . " emai
 // Database Settings
 $GLOBALS['strDatabaseSettings']                      = 'Database Settings';
 $GLOBALS['strDatabaseServer']                        = 'Database Server Settings';
-$GLOBALS['strDbLocal']                               = 'Connect to local server using sockets'; // Pg only
+$GLOBALS['strDbLocal']                               = 'Use local socket connection';
 $GLOBALS['strDbType']                                = 'Database Type';
 $GLOBALS['strDbHost']                                = 'Database Hostname';
+$GLOBALS['strDbSocket']                              = 'Database Socket';
 $GLOBALS['strDbPort']                                = 'Database Port Number';
 $GLOBALS['strDbUser']                                = 'Database Username';
 $GLOBALS['strDbPassword']                            = 'Database Password';

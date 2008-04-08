@@ -230,12 +230,14 @@ class OA_Upgrade_Config
     {
         $this->setValue('database', 'type',     $aConfig['type']);
         $this->setValue('database', 'host',     $aConfig['host']);
+        $this->setValue('database', 'socket',   $aConfig['socket']);
         $this->setValue('database', 'port',     $aConfig['port']);
         $this->setValue('database', 'username', $aConfig['username']);
         $this->setValue('database', 'password', $aConfig['password']);
         $this->setValue('database', 'name',     $aConfig['name']);
         $this->setValue('database', 'persistent',     $aConfig['persistent']);
         $this->setValue('database', 'mysql4_compatibility', $aConfig['mysql4_compatibility']);
+        $this->setValue('database', 'protocol', $aConfig['protocol']);
     }
 
     function setupConfigDatabaseCharset($aConfig)

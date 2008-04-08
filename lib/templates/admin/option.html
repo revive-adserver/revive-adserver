@@ -26,6 +26,39 @@
         document.settingsform.start_upload.value = 1;
         document.settingsform.submit();
     }
+
+    function toggleSocketInput() {
+        var dbTypeObj      = new getObj('aConfig[database][type]');
+        if (dbTypeObj.obj) {
+            var localSocketObj = new getObj('aConfig[database][localsocket]');
+            var socketObj      = new getObj('aConfig[database][socket]');
+            var portObj        = new getObj('aConfig[database][port]');
+            var hostObj        = new getObj('aConfig[database][host]');
+        } else {
+            var dbTypeObj      = new getObj('database_type');
+            var localSocketObj = new getObj('database_localsocket');
+            var socketObj      = new getObj('database_socket');
+            var portObj        = new getObj('database_port');
+            var hostObj        = new getObj('database_host');
+        }
+
+        if (localSocketObj.obj.checked == true) {
+            hostObj.obj.disabled = true;
+            if (dbTypeObj.obj.value == 'mysql') {
+                socketObj.obj.disabled = false;
+                portObj.obj.disabled = true;
+            } else {
+                socketObj.obj.disabled = true;
+                portObj.obj.disabled = false;
+            }
+        } else {
+            socketObj.obj.disabled = true;
+            hostObj.obj.disabled = false;
+            if (dbTypeObj.obj.value == 'mysql') {
+                portObj.obj.disabled = false;
+            }
+        }
+    }
 //-->
 </script>
 <script language='JavaScript'>
@@ -37,6 +70,11 @@
 
 phpAds_refreshEnabled();
 {/literal}
+
+{if $section == 'database'}
+toggleSocketInput();
+{/if}
+
 {$checkbuffer}
 {$usertypebuffer}
 {literal}

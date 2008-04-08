@@ -11,6 +11,7 @@
 [database]
 type                                = mysql
 host                                = localhost
+socket                              =
 port                                = 3306
 username                            =
 password                            =
@@ -19,7 +20,7 @@ name                                = oa_simpletest ; Don't set this to be your 
                                                     ; created/dropped during testing!
 persistent                          = false
 mysql4_compatibility                = false
-protocol			                = tcp
+protocol                            = tcp
 
 ;------------------------------------------------------------------------------------------;
 ; Do NOT Change Any Of The Following!                                                      ;

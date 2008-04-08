@@ -56,6 +56,7 @@
             TblTypeObj.obj.disabled = 'disabled';
             pgsqlWarn.style.display = 'block';
         }
+        toggleSocketInput();
     }
     </script>
 
@@ -93,6 +94,11 @@ if ($errTz) {
         $inputType   = 'select';
     }
 
+    //  get default socket
+        if (empty($aDatabase['database']['socket']) && $aDatabase['database']['type'] == 'mysql') {
+        $aDatabase['database']['socket'] = str_replace("'", '', ini_get('mysql.default_socket'));
+    }
+
     $options->show(array (
         array (
             'text'  => $strDatabaseSettings,
@@ -110,6 +116,30 @@ if ($errTz) {
                     'type'      => 'break'
                 ),
                 array (
+                    'type'    => 'checkbox',
+                    'name'    => 'aConfig[database][localsocket]',
+                    'text'    => $strDbLocal,
+                    'onclick' => 'toggleSocketInput(this);',
+                    'enabled' => $disableForm,
+                    'req'     => false,
+                    'value'   => ($aDatabase['database']['localsocket'] || $aDatabase['database']['protocol'] == 'unix'),
+                ),
+                array (
+                    'type'      => 'break'
+                ),
+                array (
+                    'type'    => 'text',
+                    'name'    => 'aConfig[database][socket]',
+                    'text'    => $strDbSocket,
+                    'enabled' => $disableForm,
+                    'req'     => false,
+                    'value'   => $aDatabase['database']['socket']
+                ),
+
+                array (
+                    'type'      => 'break'
+                ),
+                array (
                     'type'      => 'text',
                     'name'      => 'aConfig[database][host]',
                     'text'      => $strDbHost,
@@ -118,7 +148,7 @@ if ($errTz) {
                     'value'     => $aDatabase['database']['host']
                 ),
                 array (
-                    'type'      => 'break'
+                    'type'    => 'break'
                 ),
                 array (
                     'type'      => 'text',
@@ -194,6 +224,7 @@ if ($errTz) {
 ?>
                 <script type='text/javascript'>
                     switchDbTypes();
+                    toggleSocketInput();
                 </script>
                 <input type="submit" class="button" name="btn_upgrade" value="<?php echo ($displayError ? $strBtnRetry : $strBtnContinue); ?>" tabindex="<?php echo ($tabindex++); ?>" <?php echo $disableButton; ?>>
                 <input type="hidden" name="dirPage" id="dirPage" value="" />
