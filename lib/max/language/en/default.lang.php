@@ -549,7 +549,7 @@ $GLOBALS['strAdserverTypeFalk']         = "Rich Media - Falk";
 $GLOBALS['strAdserverTypeMediaplex']    = "Rich Media - Mediaplex";
 $GLOBALS['strAdserverTypeTangozebra']   = "Rich Media - Tango Zebra";
 $GLOBALS['strGenericOutputAdServer'] = "Generic";
-$GLOBALS['strSwfTransparency']		= "Transparent background (Flash-only)";
+$GLOBALS['strSwfTransparency']		= "Allow transparent background";
 
 // Banner (swf)
 $GLOBALS['strCheckSWF']                = "Check for hard-coded links inside the Flash file";
