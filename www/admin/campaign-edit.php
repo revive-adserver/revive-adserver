@@ -1307,17 +1307,21 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
         var activation_enabled = isDateSetActive('start', form);
         var expiry_enabled = isDateSetActive('end', form);
         // No sense in comparing inactive values
-        if ((activation_enabled && expiry_enabled)) {
+        if (activation_enabled) {
             activateDate = newDateFromNamedFields(document, form, 'start');
-            expireDate = newDateFromNamedFields(document, form, 'end');
             if (!activateDate) {
                 alert('The start date of this campaign is not a valid date');
                 return false;
             }
+        }
+        if(expiry_enabled) {
+            expireDate = newDateFromNamedFields(document, form, 'end');
             if (!expireDate) {
                 alert('The end date of this campaign is not a valid date');
                 return false;
             }
+        }
+        if (activation_enabled && expiry_enabled) {
             if (!isDateEqual(activateDate, expireDate) && isDateBefore(expireDate, activateDate)) {
                 alert('The selected dates for this campaign are invalid\n(Campaign ends before it starts!).\n');
                 return false;
