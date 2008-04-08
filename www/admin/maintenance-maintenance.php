@@ -31,7 +31,7 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-maintenance.inc.php';
-require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Status.php';
 
 
 // Security check
@@ -52,31 +52,17 @@ phpAds_MaintenanceSelection("maintenance");
 
 echo "<br>";
 
-$aConf = $GLOBALS['_MAX']['CONF'];
-$aPref = $GLOBALS['_MAX']['PREF'];
+$oMaintStatus = new OA_Maintenance_Status();
 
-$iLastCronRun = (int) OA_Dal_ApplicationVariables::get('maintenance_cron_timestamp');
-
-// Make sure that negative values don't break the script
-if ($iLastCronRun > 0) {
-    $iLastCronRun = strtotime(date('Y-m-d H:00:00', $iLastCronRun));
-}
-
-if (time() >= $iLastCronRun + 3600) {
+if (!$oMaintStatus->isScheduledMaintenanceRunning) {
     // Scheduled maintenance wasn't run in the last hour
 
     echo "<b>Scheduled maintenance hasn't run in the past hour. This may mean that you have not set it up correctly.</b>"."<br><br>";
 
-    $iLastRun = (int) OA_Dal_ApplicationVariables::get('maintenance_timestamp');
-    // Make sure that negative values don't break the script
-    if ($iLastRun > 0) {
-        $iLastRun = strtotime(date('Y-m-d H:00:00', $iLastRun));
-    }
-
-    if (time() >= $iLastRun + 3600) {
+    if (!$oMaintStatus->isAutoMaintenanceRunning) {
         // Automatic maintenance wasn't run in the last hour
 
-        if (!empty($conf['maintenance']['autoMaintenance'])) {
+        if ($oMaintStatus->isAutoMaintenanceEnabled) {
             echo "Automatic maintenance is enabled, but it has not been triggered. Note that automatic maintenance is triggered only when OpenX delivers banners.
                   For best performance it is advised to set up <a href='http://" . OX_PRODUCT_DOCSURL . "/maintenance' target='_blank'>scheduled maintenance</a>.";
         } else {
@@ -85,17 +71,18 @@ if (time() >= $iLastCronRun + 3600) {
                   you must <a href='settings-admin.php'>enable auto maintenance</a> to ensure that ".MAX_PRODUCT_NAME." works correctly.";
         }
     } else {
-        if (!empty($conf['maintenance']['autoMaintenance']))
+        if ($oMaintStatus->isAutoMaintenanceEnabled) {
             echo "Automatic maintenance is enabled and will trigger maintenance every hour.
                   For best performance it is advised to set up <a href='http://" . OX_PRODUCT_DOCSURL . "/maintenance' target='_blank'>scheduled maintenance</a>.";
-        else
+        } else {
             echo "Automatic maintenance is disabled too but a maintenance task has recently run. To make sure that ".MAX_PRODUCT_NAME." works correctly you should either
                   set up <a href='http://" . OX_PRODUCT_DOCSURL . "/maintenance' target='_blank'>scheduled maintenance</a> or <a href='settings-admin.php'>enable auto maintenance</a>. ";
+        }
     }
 } else {
     echo "<b>Scheduled maintenance seems to be correctly running.</b>"."<br><br>";
 
-    if (!empty($conf['maintenance']['autoMaintenance'])) {
+    if ($oMaintStatus->isAutoMaintenanceEnabled) {
         echo "Automatic maintenance is enabled. For best performance it is advised to <a href='account-settings-maintenance.php'>disable automatic maintenance</a>.";
     } else {
         echo "Automatic maintenance is disabled.";

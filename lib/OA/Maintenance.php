@@ -164,6 +164,21 @@ class OA_Maintenance
     }
 
     /**
+     * A method with returns the last time scheduled maintenance was run
+     *
+     * @return Date A Date object, or null if scheduled maintenance did never run
+     */
+    function getLastScheduledRun()
+    {
+        $iLastRun = OA_Dal_ApplicationVariables::get('maintenance_cron_timestamp');
+        if ($iLastRun) {
+            return new Date((int)$iLastRun);
+        }
+
+        return null;
+    }
+
+    /**
      * A method to check if midnight tasks should run
      *
      * @param Date $oLastRun
