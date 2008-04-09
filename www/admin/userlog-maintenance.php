@@ -66,7 +66,7 @@ if (!$count = $doUserLog->count()) {
     $count = 0;
 }
 
-$limit = 15;
+$limit = 10;
 $start = isset($start) ? (int) $start : 0;
 
 $doUserLog = OA_Dal::factoryDO('userlog');
@@ -143,14 +143,14 @@ if ($doUserLog->getRowCount() > 0)
 	echo "</td><td height='25' colspan='2' align='".$phpAds_TextAlignRight."'>";
 		if ($start > 0)
 		{
-			echo "<a href='userlog-index.php?start=".($start - 1)."'>";
+			echo "<a href='userlog-maintenance.php?start=".($start - 1)."'>";
 			echo "<img src='" . MAX::assetPath() . "/images/arrow-l.gif' border='0' align='absmiddle'>".$strPrevious."</a>";
 		}
 		if ($count > ($start + 1) * $limit)
 		{
 			if ($start > 0) echo "&nbsp;|&nbsp;";
 
-			echo "<a href='userlog-index.php?start=".($start + 1)."'>";
+			echo "<a href='userlog-maintenance.php?start=".($start + 1)."'>";
 			echo $strNext."<img src='" . MAX::assetPath() . "/images/arrow-r.gif' border='0' align='absmiddle'></a>";
 		}
 	echo "</td></tr>";
