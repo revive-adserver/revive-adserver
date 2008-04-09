@@ -83,7 +83,7 @@ function phpAds_PageShortcut($name, $link, $icon)
  * @param int imgPath: a relative path to Images, CSS files. Used if calling function from anything other than admin folder
  * @param boolean set to false if you do not wish to show the grey sidebar
  * @param boolean set to false if you do not wish to show the main navigation
- * @param boolean set to true to hide white borders in the main part
+ * @param boolean set to true to hide white borders between main nav and sub nav in the main part
  */
 function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $showMainNav=true, $noBorder = false)
 {

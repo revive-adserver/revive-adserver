@@ -2,7 +2,7 @@
 /* Fonts */
 
 body, table, td, select, textarea, input  {
-	font-family: Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 11px;
 }
 
@@ -93,33 +93,39 @@ img#helpIcon {
 }
 
 .topLink {
-	color: #FFFFFF;
-	font-size: 11px;
-	font-weight: bold;
-	text-decoration: none;
+    color: #FFFFFF;
+    font-size: 11px;
+    font-weight: bold;
+    text-decoration: none;
 }
 .topLink:hover {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 .topLink:hover span{
-	text-decoration: underline;
+    text-decoration: underline;
 }
 * html a.topLink:hover{
-	text-decoration: underline;
+    text-decoration: underline;
 }
 
 .topLink img{
-	border: 0;
-	vertical-align: middle;
-	height: 16px;
-	width: 16px;
+    border: 0;
+    vertical-align: middle;
+    height: 16px;
+    width: 16px;
+}
+
+div.helpLink {
+    width: 100%;
+    text-align: right;
+    margin-top: 10px;
 }
 
 /* Form elements */
 select[disabled], textarea[disabled], input[disabled], input[disabled]
-{ 
-	background-color : #eeeff2
+{
+    background-color : #eeeff2
 }
 
 textarea:focus, input[type=text]:focus, input[type=password]:focus {
@@ -180,12 +186,12 @@ textarea.comments {
 }
 
 div.box {
-    height:100px; 
-    width:275px; 
+    height:100px;
+    width:275px;
     background-color: #FFFFFF;
     border: 1px solid #7F9DB9;
 
-    overflow: auto; 
+    overflow: auto;
     overflow-x: hidden;
     overflow-y: scroll;
 
@@ -230,8 +236,8 @@ div.boxrow input {
  }
 
 fieldset {
-	border: 1px solid #CDCDCD;
-	padding: 10px; 
+    border: 1px solid #CDCDCD;
+    padding: 10px;
 }
 
 
@@ -549,9 +555,9 @@ label.error {
 
 /** Extra CSS adde for Ad Direct integration */
 .section .title {
-    font-weight: bold;	
+    font-weight: bold;
     padding: 5px 0px;
-    border-bottom: 1px solid #CFCFCF;  
+    border-bottom: 1px solid #CFCFCF;
 }
 
 .section .content {
@@ -623,7 +629,7 @@ div.filters {
   cursor: pointer;
 }
 .font-small {
-	font-size: 80%;
+    font-size: 80%;
 }
 
 /*
@@ -671,8 +677,8 @@ div.error-box {
   background-color: #ffcccc;
   padding: 5px;
   padding-left: 25px;
-  width: 70%; 
-  border: 1px solid red; 
+  width: 70%;
+  border: 1px solid red;
   margin: 0 auto 0 auto6;
   -moz-border-radius: 5px;
   text-align: left;
@@ -688,7 +694,7 @@ select.inline {
 }
 
 .main-submit {
-    font-weight: bold;  
+    font-weight: bold;
 }
 
 .arrow-submit {
@@ -706,10 +712,10 @@ select.inline {
 }
 
 form.new-form div.line:after, .clearfix:after {
-    content: "."; 
-    display: block; 
-    height: 0; 
-    clear: both; 
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
     visibility: hidden;
 }
 
@@ -737,7 +743,7 @@ form.new-form input[type='checkbox'] {
 }
 
 /** Hide from IE 6 */
-html > body label.cb, 
+html > body label.cb,
 html > body a.cb {
   position: relative;
   top: -2px;
@@ -752,7 +758,7 @@ form.new-form label.inline {
 }
 
 form.new-form input[type='text'], form.new-form select {
-  width: 18em; 
+  width: 18em;
 }
 
 form.new-form input.main {
@@ -764,10 +770,10 @@ form.new-form {
 }
 
 form .controls {
-	width:100%;
-	text-align:left;
-	margin-top: 15px;
-	padding-top: 7px;
+    width:100%;
+    text-align:left;
+    margin-top: 15px;
+    padding-top: 7px;
 }
 
 a.adv-list-entry {
@@ -826,7 +832,7 @@ a.adv-list-entry {
   font-style: italic;
 }
 
-.sts-awaiting, .sts-awaiting:hover, .sts-insufficient, 
+.sts-awaiting, .sts-awaiting:hover, .sts-insufficient,
 .sts-awaiting a, .sts-awaiting:hover a, .sts-insufficient a{
   color: #EF0E17 !important;
 }
@@ -843,7 +849,7 @@ a.adv-list-entry {
     border: 1px solid #D7D7D7;
     width: 90%;
     margin: 15px 0px;
-} 
+}
 
 pre.invocation-codes {
   background: #FFFFFF none repeat scroll 0%;
@@ -969,32 +975,32 @@ div.terms iframe {
 }
 
 .terms-contents {
-  height: 500px; 
-  overflow-y: scroll; 
-  overflow-x: none; 
+  height: 500px;
+  overflow-y: scroll;
+  overflow-x: none;
 }
 
 .terms-contents .li1 {
-	padding-left : 2px;
-	padding-bottom: 2px;
-	padding-top: 2px;
-	font-style: normal;
-	font-weight: bold;
+    padding-left : 2px;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    font-style: normal;
+    font-weight: bold;
 }
 
 .terms-contents .li2txt {
-	margin: 25px;
-	padding-left: 25px;
-	padding-right: 20px;
+    margin: 25px;
+    padding-left: 25px;
+    padding-right: 20px;
 }
 
 .terms-contents .li2 {
-	margin-left:-25px;
-	margin-bottom: 0px;
-	float: left;
+    margin-left:-25px;
+    margin-bottom: 0px;
+    float: left;
 }
 
-.terms-contents ul, 
+.terms-contents ul,
 .terms-contents ol {
   padding: 0pt 0.8em 0pt 1.5em;
   margin-top: 1em;

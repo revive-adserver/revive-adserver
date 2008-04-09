@@ -23,7 +23,8 @@
 +---------------------------------------------------------------------------+
 $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 
--->*}{if $uiPart == 'header'}
+-->*}
+{if $uiPart == 'header'}
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html{if $phpAds_TextDirection != 'ltr'} dir="{$phpAds_TextDirection}"{/if}>
 <head>
@@ -66,9 +67,6 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
         <li class="infoUser">{$infoUser|escape}</li>
 {/if}
 
-{if $helpLink}
-        <li class="buttonHelp"><a href="{$helpLink|escape}" target="help">{t str=Help}</a></li>
-{/if}
 
 {if $buttonReportBugs}
         <li class="buttonReportBugs"><a href="http://www.openx.org/support/reporting-bugs" target="_blank">{t str='Report bug'}</a></li>
@@ -151,8 +149,16 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
             <tr>
 {if !$noBorder}
-                <td colspan='2' height='10'><img src='{$assetPath}/images/spacer.gif' height='1'></td>
+            {if $helpLink}
+                <td width='20'>&nbsp;</td>
+                <td>
+                    <div class='helpLink'>
+                        <a href="{$helpLink|escape}" target="help">{t str=Help}</a>
+                    </div>
+                </td>
+                <td width='40'>&nbsp;</td>
             </tr>
+            {/if}
             <tr>
                 <td width="20">&nbsp;</td>
 {/if}

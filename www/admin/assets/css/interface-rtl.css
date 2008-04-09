@@ -1,9 +1,9 @@
 
 /* Fonts */
 
-body, table, td, select, textarea, input  { 
-    font-family: Arial, Helvetica, sans-serif; 
-    font-size: 12px; 
+body, table, td, select, textarea, input  {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
 }
 
 span.link {
@@ -40,72 +40,78 @@ img#helpIcon {
 }
 
 .topLink {
-	color: #FFFFFF;
-	font-size: 11px;
-	font-weight: bold;
-	text-decoration: none;
+    color: #FFFFFF;
+    font-size: 11px;
+    font-weight: bold;
+    text-decoration: none;
 }
 .topLink:hover {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 .topLink:hover span{
-	text-decoration: underline;
+    text-decoration: underline;
 }
 *html a.topLink:hover{
-	text-decoration: underline;
+    text-decoration: underline;
 }
 
 .topLink img{
-	border: 0;
-	vertical-align: middle;
-	height: 16px;
-	width: 16px;
+    border: 0;
+    vertical-align: middle;
+    height: 16px;
+    width: 16px;
+}
+
+div.helpLink {
+    width: 100%;
+    text-align: left;
+    margin-top: 10px;
 }
 
 /* Form elements */
 
-select.flat, textarea.flat, input.flat, 
+select.flat, textarea.flat, input.flat,
 select.error, textarea.error, input.error,
-textarea.code { 
+textarea.code {
     border-style: solid;
-    border-top-width: 1px; 
-    border-right-width: 1px; 
-    border-bottom-width: 1px; 
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
     border-left-width: 1px;
 }
 
 select.flat, textarea.flat, input.flat,
-textarea.code { 
+textarea.code {
     border-color : #888888;
 }
 
-select.error, textarea.error, input.error { 
+select.error, textarea.error, input.error {
     border-color : #990000;
 }
 
 textarea.code, textarea.code-gray {
     font-family: "Lucida Console", "Courier New", Courier, monospace;
-    font-size: 12px; 
-    line-height: 15px; 
+    font-size: 12px;
+    line-height: 15px;
 }
 
 textarea.code-gray {
     border-style: solid;
-    border-top-width: 0px; 
-    border-right-width: 0px; 
-    border-bottom-width: 0px; 
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-bottom-width: 0px;
     border-left-width: 0px;
     color: #808080;
 }
 
 div.box {
-    height:100px; 
-    width:275px; 
+    height:100px;
+    width:275px;
     background-color: #FFFFFF;
     border: 1px solid #7F9DB9;
 
-    overflow: auto; 
+    overflow: auto;
     overflow-x: hidden;
     overflow-y: scroll;
 
@@ -127,7 +133,7 @@ div.boxtitle {
 }
 
 div.boxrow {
-    cursor: pointer; 
+    cursor: pointer;
     border-bottom: 1px #DDDDDD solid;
     padding-top: 2px;
     padding-bottom: 2px;
@@ -144,10 +150,10 @@ div.boxrow input {
 
 
 /* Custom */
-.install { 
+.install {
     font-size: 1.1em;
     line-height: 21px;
-    color: #000066; 
+    color: #000066;
 }
 
 td.cellenabled {

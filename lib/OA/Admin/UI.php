@@ -59,7 +59,7 @@ class OA_Admin_UI
      *                     from anything other than admin folder
      * @param bool $showSidebar Set to false if you do not wish to show the grey sidebar
      * @param bool $showMainNav Set to false if you do not wish to show the main navigation
-     * @param bool $noBorder Set to true to hide white borders in the main part
+     * @param bool $noBorder Set to true to hide white borders between sub nav and main nav in the main part
      */
     function showHeader($ID, $extra="", $imgPath="", $showSidebar=true, $showMainNav=true, $noBorder = false)
     {
@@ -320,17 +320,17 @@ class OA_Admin_UI
             ob_end_flush();
         }
     }
-    
+
     function genericJavascript() {
         return array (
-            'js/jquery-1.2.3.js', 
+            'js/jquery-1.2.3.js',
             'js/jquery.bgiframe.js',
             'js/jquery.dimensions.js',
             'js/jquery.metadata.js',
             'js/jquery.validate.js',
             'js/jquery.jqmodal.js',
             'js/jquery.typewatch.js',
-            'js/jquery.autocomplete.js', 
+            'js/jquery.autocomplete.js',
             'js/jscalendar/calendar.js',
             'js/jscalendar/lang/calendar-en.js',
             'js/jscalendar/calendar-setup.js',
@@ -344,10 +344,10 @@ class OA_Admin_UI
             'js/formValidation.js'
         );
     }
-    
+
     function genericStylesheets() {
         global $phpAds_TextDirection;
-        
+
         if ($phpAds_TextDirection == 'ltr') {
             return array (
             'css/jquery.jqmodal.css',
@@ -358,7 +358,7 @@ class OA_Admin_UI
                 'css/interface-ltr.css',
             );
         }
-        
+
         return array (
             'css/jquery.jqmodal.css',
             'css/jquery.autocomplete.css',
