@@ -78,8 +78,12 @@ class Plugins_Authentication_Internal_Internal extends Plugins_Authentication
             return new PEAR_Error($GLOBALS['strEnterBoth']);
         }
 
-        if ($performCookieCheck && $_COOKIE['sessionID'] != $_POST['oa_cookiecheck']) {
+        if ($performCookieCheck && !isset($_COOKIE['sessionID'])) {
             return new PEAR_Error($GLOBALS['strEnableCookies']);
+        }
+        
+        if ($performCookieCheck && $_COOKIE['sessionID'] != $_POST['oa_cookiecheck']) {
+            return new PEAR_Error($GLOBALS['strSessionIDNotMatch']);
         }
 
         return array(
@@ -135,6 +139,8 @@ class Plugins_Authentication_Internal_Internal extends Plugins_Authentication
 
         $aConf = $GLOBALS['_MAX']['CONF'];
         $aPref = $GLOBALS['_MAX']['PREF'];
+        
+        header('Cache-Control: max-age:0, no-cache, proxy-revalidate, must-revalidate');
 
         if (!$inLineLogin) {
             phpAds_PageHeader(phpAds_Login);

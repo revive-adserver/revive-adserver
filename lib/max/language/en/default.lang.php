@@ -208,6 +208,7 @@ $GLOBALS['strWelcomeTo']                = "Welcome to";
 $GLOBALS['strEnterUsername']            = "Enter your username and password to log in";
 $GLOBALS['strEnterBoth']                = "Please enter both your username and password";
 $GLOBALS['strEnableCookies']            = "You need to enable cookies before you can use ".MAX_PRODUCT_NAME;
+$GLOBALS['strSessionIDNotMatch']        = "Session cookie error, please log in again";
 $GLOBALS['strLogin']                    = "Login";
 $GLOBALS['strLogout']                   = "Logout";
 $GLOBALS['strUsername']                 = "Username";
