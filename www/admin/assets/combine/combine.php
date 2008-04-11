@@ -46,7 +46,7 @@ if ($type != 'js' && $type != 'css') {
 	exit;
 }
 
-//disable zlib compression for it collides with our logic
+//disable zlib compression for it collides with combine logic
 $zlibCompression = ini_get('zlib.output_compression');
 if ($zlibCompression) {
     ini_set("zlib.output_compression", 0);
