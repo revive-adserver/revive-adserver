@@ -46,6 +46,12 @@ if ($type != 'js' && $type != 'css') {
 	exit;
 }
 
+//disable zlib compression for it collides with our logic
+$zlibCompression = ini_get('zlib.output_compression');
+if ($zlibCompression) {
+    ini_set("zlib.output_compression", 0);
+}
+
 // Build our paths
 $base = realpath(dirname(dirname(__FILE__)));
 $cacheFolder = realpath(dirname(dirname($base)) . '/var/cache');
@@ -144,3 +150,5 @@ header ("Content-Type: text/" . ($type == 'js' ? 'javascript' : $type));
 header ("Content-Encoding: " . $encoding);
 header ('Content-Length: ' . strlen($contents));
 echo $contents;
+
+?>

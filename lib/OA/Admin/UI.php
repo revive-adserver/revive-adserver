@@ -198,7 +198,11 @@ class OA_Admin_UI
 
         // Use gzip content compression
         if (isset($conf['ui']['gzipCompression']) && $conf['ui']['gzipCompression']) {
-            ob_start("ob_gzhandler");
+            //enable compression if it's not alredy handled by the zlib and ob_gzhandler is loaded 
+            $zlibCompression = ini_get('zlib.output_compression');
+            if (!$zlibCompression && function_exists('ob_gzhandler')) {
+                ob_start("ob_gzhandler");
+            }
         }
 
         // Send header with charset info
@@ -317,7 +321,11 @@ class OA_Admin_UI
         }
 
         if (isset($aConf['ui']['gzipCompression']) && $aConf['ui']['gzipCompression']) {
-            ob_end_flush();
+            //flush if we have used ob_gzhandler 
+            $zlibCompression = ini_get('zlib.output_compression');
+            if (!$zlibCompression && function_exists('ob_gzhandler')) {
+                ob_end_flush();
+            }
         }
     }
 
