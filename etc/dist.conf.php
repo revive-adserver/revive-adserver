@@ -22,7 +22,7 @@ headerForegroundColor               =
 headerBackgroundColor               =
 headerActiveTabColor                =
 headerTextColor                     =
-gzipCompression                     = false
+gzipCompression                     = true
 combineAssets                       = true
 
 ;------------------------------------------------------------------------------------------;
