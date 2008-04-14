@@ -267,7 +267,7 @@ $GLOBALS['_MAX']['FILES'][$file] = true;
 $file = '/lib/max/Delivery/cookie.php';
 $GLOBALS['_MAX']['FILES'][$file] = true;
 $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'] = array();
-function MAX_cookieSet($name, $value, $expire = 0)
+function MAX_cookieAdd($name, $value, $expire = 0)
 {
 if (!isset($GLOBALS['_MAX']['COOKIE']['CACHE'])) {
 $GLOBALS['_MAX']['COOKIE']['CACHE'] = array();
@@ -276,7 +276,7 @@ $GLOBALS['_MAX']['COOKIE']['CACHE'][$name] = array($value, $expire);
 }
 function MAX_cookieSetViewerIdAndRedirect($viewerId) {
 $conf = $GLOBALS['_MAX']['CONF'];
-MAX_cookieSet($conf['var']['viewerId'], $viewerId, _getTimeYearFromNow());
+MAX_cookieAdd($conf['var']['viewerId'], $viewerId, _getTimeYearFromNow());
 MAX_cookieFlush();
 // Determine if the access to OpenX was made using HTTPS
 if ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) {
@@ -382,9 +382,9 @@ $_COOKIE[$cookieName][$adId] = $cookie;
 }
 }
 // Delete the temporary capping cookie
-MAX_cookieSet("_{$cookieName}[{$adId}]", false, _getTimeYearAgo());
+MAX_cookieAdd("_{$cookieName}[{$adId}]", false, _getTimeYearAgo());
 // Work around a bug in IE where the cookie name is sometimes URL-encoded
-MAX_cookieSet("%5F" . urlencode($cookieName.'['.$adId.']'), false, _getTimeYearAgo());
+MAX_cookieAdd("%5F" . urlencode($cookieName.'['.$adId.']'), false, _getTimeYearAgo());
 }
 }
 }
@@ -463,7 +463,7 @@ $setBlock = true;
 } else {
 $value = 1;
 }
-MAX_cookieSet("_{$conf['var']['cap' . $type]}[{$id}]", $value, $expire);
+MAX_cookieAdd("_{$conf['var']['cap' . $type]}[{$id}]", $value, $expire);
 }
 if ($sessionCap > 0) {
 // The unpack capping cookies function deals with imcrementing the counter
@@ -479,14 +479,14 @@ $setBlock = true;
 } else {
 $value = 1;
 }
-MAX_cookieSet("_{$conf['var']['sessionCap' . $type]}[{$id}]", $value, 0);
+MAX_cookieAdd("_{$conf['var']['sessionCap' . $type]}[{$id}]", $value, 0);
 }
 if ($block > 0 || $setBlock) {
 // This blocking cookie is limited to 30 days
 // Store a cookie using the current time so that the system knows when
 // the last time this viewer saw this ad, an ad in this campaign or an
 // ad in this zone
-MAX_cookieSet("_{$conf['var']['block' . $type]}[{$id}]", MAX_commonGetTimeNow(), _getTimeThirtyDaysFromNow());
+MAX_cookieAdd("_{$conf['var']['block' . $type]}[{$id}]", MAX_commonGetTimeNow(), _getTimeThirtyDaysFromNow());
 }
 }
 function _generateP3PHeader()
@@ -1794,7 +1794,7 @@ MAX_commonRemoveSpecialChars($_REQUEST);
 // Get the viewer ID, and the ad, campaign, creative and zone variables to be logged
 // from the request variables
 $viewerId     = MAX_cookieGetUniqueViewerID();
-MAX_cookieSet($conf['var']['viewerId'], $viewerId, _getTimeYearFromNow());
+MAX_cookieAdd($conf['var']['viewerId'], $viewerId, _getTimeYearFromNow());
 $aAdIds       = MAX_Delivery_log_getArrGetVariable('adId');
 $aCampaignIds = MAX_Delivery_log_getArrGetVariable('campaignId');
 $aCreativeIds = MAX_Delivery_log_getArrGetVariable('creativeId');
