@@ -59,9 +59,6 @@ if (!empty($banner['html']) && !empty($n)) {
     if (!empty($source)) {
         $cookie[$conf['var']['channel']] = $source;
     }
-    // Added code to update the destination URL stored in the cookie to hold the correct random value (Bug # 88)
-    global $cookie_random;
-    $cookie[$conf['var']['dest']] = str_replace('{random}', $cookie_random, $row['url']);
     // Set the cookie
     MAX_cookieAdd($conf['var']['vars'] . "[$n]", serialize($cookie));
 }
