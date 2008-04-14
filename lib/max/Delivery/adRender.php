@@ -321,7 +321,7 @@ function _adRenderFlash($aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
     $fileUrl = _adRenderBuildFileUrl($aBanner, false);
     $rnd = md5(microtime());
 
-    $swfId .= (!empty($aBanner['alt']) ? $aBanner['alt'] : 'Advertisement');
+    $swfId = (!empty($aBanner['alt']) ? $aBanner['alt'] : 'Advertisement');
 
     $code = "
 <div id='ox_$rnd' style='display: inline;'>$altImageAdCode</div>
