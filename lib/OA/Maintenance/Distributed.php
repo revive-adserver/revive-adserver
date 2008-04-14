@@ -30,7 +30,6 @@ require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/DB/Distributed.php';
 require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
-require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 
@@ -55,7 +54,7 @@ class OA_Maintenance_Distributed
 
         $oLock =& OA_DB_AdvisoryLock::factory();
 
-        if ($oLock->get(OA_DB_ADVISORYLOCK_DISTIRBUTED))
+        if ($oLock->get(OA_DB_ADVISORYLOCK_DISTRIBUTED))
         {
             OA::debug('Running Maintenance Distributed Engine', PEAR_LOG_INFO);
 

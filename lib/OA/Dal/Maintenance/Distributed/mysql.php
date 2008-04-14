@@ -78,7 +78,8 @@ class OA_Dal_Maintenance_Distributed_mysql extends OA_Dal_Maintenance_Distribute
 
                 if (!$query) {
                     $query = $sInsert.$sRow;
-                } elseif (strlen($query) + strlen($sRow) + 1 < $packetSize) {
+                // Leave 4 bytes headroom for max_allowed_packet
+                } elseif (strlen($query) + strlen($sRow) + 4 < $packetSize) {
                     $query .= ','.$sRow;
                 } else {
                     $aExecQueries[] = $query;
