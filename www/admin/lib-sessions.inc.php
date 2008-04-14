@@ -80,7 +80,7 @@ function phpAds_SessionStart()
 	if (empty($_COOKIE['sessionID'])) {
 		$session = array();
 		$_COOKIE['sessionID'] = uniqid('phpads', 1);
-		MAX_cookieSet('sessionID', $_COOKIE['sessionID']);
+		MAX_cookieAdd('sessionID', $_COOKIE['sessionID']);
 		MAX_cookieFlush();
 	}
 	return $_COOKIE['sessionID'];
@@ -148,7 +148,7 @@ function phpAds_SessionDataDestroy()
 	global $session;
     $dal->deleteSession($_COOKIE['sessionID']);
 
-    MAX_cookieSet('sessionID', '');
+    MAX_cookieAdd('sessionID', '');
     MAX_cookieFlush();
 
 	unset($session);

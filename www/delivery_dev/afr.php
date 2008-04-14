@@ -63,7 +63,7 @@ if (!empty($banner['html']) && !empty($n)) {
     global $cookie_random;
     $cookie[$conf['var']['dest']] = str_replace('{random}', $cookie_random, $row['url']);
     // Set the cookie
-    MAX_cookieSet($conf['var']['vars'] . "[$n]", serialize($cookie));
+    MAX_cookieAdd($conf['var']['vars'] . "[$n]", serialize($cookie));
 }
 
 MAX_cookieFlush();

@@ -68,11 +68,11 @@ if (!empty($row['html'])) {
         MAX_Delivery_log_logAdImpression($userid, $row['bannerid'], null, $zoneid);
     }
     // Redirect to the banner
-    MAX_cookieSet($conf['var']['vars'] . "[$n]", serialize($cookie));
+    MAX_cookieAdd($conf['var']['vars'] . "[$n]", serialize($cookie));
     MAX_cookieFlush();
 	MAX_redirect($row['html']);
 } else {
-	MAX_cookieSet($conf['var']['vars'] . "[$n]", 'DEFAULT');
+	MAX_cookieAdd($conf['var']['vars'] . "[$n]", 'DEFAULT');
 	MAX_cookieFlush();
 	// Show 1x1 Gif, to ensure not broken image icon is shown.
 	MAX_commonDisplay1x1();

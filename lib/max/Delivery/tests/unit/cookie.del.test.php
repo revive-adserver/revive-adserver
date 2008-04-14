@@ -46,17 +46,17 @@ class Delivery_TestOfCookie extends UnitTestCase
     }
 
     /**
-     * A method to test the MAX_cookieSet() function.
+     * A method to test the MAX_cookieAdd() function.
      *
      * This function does not output cookies, instead it sets a global cookie array or ads to it if it exists
      *
      */
-    function test_MAX_cookieSet()
+    function test_MAX_cookieAdd()
     {
         //Unset the cookie cache array
         unset($GLOBALS['_MAX']['COOKIE']['CACHE']);
         // Set a test cookie
-        MAX_cookieSet('test', 'test');
+        MAX_cookieAdd('test', 'test');
 
         $this->assertIsA($GLOBALS['_MAX']['COOKIE']['CACHE']['test'], 'array');
         $this->assertEqual($GLOBALS['_MAX']['COOKIE']['CACHE']['test'][0], 'test');
@@ -64,7 +64,7 @@ class Delivery_TestOfCookie extends UnitTestCase
 
         unset($GLOBALS['_MAX']['COOKIE']['CACHE']);
         // Set a test cookie with an expiry time
-        MAX_cookieSet('test', 'test', 60);
+        MAX_cookieAdd('test', 'test', 60);
         $this->assertIsA($GLOBALS['_MAX']['COOKIE']['CACHE']['test'], 'array');
         $this->assertEqual($GLOBALS['_MAX']['COOKIE']['CACHE']['test'][0], 'test');
         $this->assertEqual($GLOBALS['_MAX']['COOKIE']['CACHE']['test'][1], 60);
@@ -168,7 +168,7 @@ class Delivery_TestOfCookie extends UnitTestCase
      * To self with the additional querystring parameter "ct=1" (cookieTest = 1) to indicate that a
      *
      */
-    function test_MAX_cookieSetViewerIdAndRedirect() {
+    function test_MAX_cookieAddViewerIdAndRedirect() {
         $conf =& $GLOBALS['_MAX']['CONF'];
         // Disable the p3p policies because those are tested elsewhere and we need the redirect header to be [0]
         $conf['p3p']['policies'] = false;

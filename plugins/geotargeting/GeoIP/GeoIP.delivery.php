@@ -74,7 +74,7 @@ function OA_Geo_GeoIP_getInfo($useCookie = true)
 
     // Store this information in the cookie for later use
     if ($useCookie) {
-        MAX_cookieSet($conf['var']['viewerGeo'], OA_Geo_GeoIP_packCookie($ret));
+        MAX_cookieAdd($conf['var']['viewerGeo'], OA_Geo_GeoIP_packCookie($ret));
     }
 
     return $ret;

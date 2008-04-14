@@ -80,7 +80,7 @@ for ($i = 0; $i < count($adId); $i++) {
 }
 
 // Set the userid cookie
-MAX_cookieSet($conf['var']['viewerId'], $viewerId, time() + $conf['cookie']['permCookieSeconds']);
+MAX_cookieAdd($conf['var']['viewerId'], $viewerId, time() + $conf['cookie']['permCookieSeconds']);
 MAX_cookieFlush();
 
 // Get the URL that we are going to redirect to
