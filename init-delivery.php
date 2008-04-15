@@ -78,6 +78,9 @@ MAX_remotehostSetGeoInfo();
 // Set common delivery parameters in the global scope
 MAX_commonInitVariables();
 
+// Load cookie data from client/plugin
+MAX_cookieLoad();
+
 // Unpack the packed capping cookies
 MAX_cookieUnpackCapping();
 

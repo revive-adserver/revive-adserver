@@ -41,6 +41,18 @@ $GLOBALS['_MAX']['FILES'][$file] = true;
 
 $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'] = array();
 
+// Include the cookie storage library
+if (!is_callable('MAX_cookieSet')) {
+    if (!empty($conf['cookie']['plugin']) && is_readable(MAX_PATH . "/plugins/cookieStorage/{$conf['cookie']['plugin']}.delivery.php")) {
+        include MAX_PATH . "/plugins/cookieStorage/{$conf['cookie']['plugin']}.delivery.php";
+    } else {
+        function MAX_cookieSet($name, $value, $expire, $path = '/', $domain = null) { return MAX_cookieClientCookieSet($name, $value, $expire, $path, $domain); }
+        function MAX_cookieUnset($name) { return MAX_cookieClientCookieUnset($name); }
+        function MAX_cookieFlush() { return MAX_cookieClientCookieFlush(); }
+        function MAX_cookieLoad() { return true; }
+    }
+}
+
 /**
  * Adds a cookie into the global cookie cache
  *
@@ -85,67 +97,6 @@ function MAX_cookieSetViewerIdAndRedirect($viewerId) {
     ###START_STRIP_DELIVERY
     }
     ###END_STRIP_DELIVERY
-}
-
-/**
- * Send all cookies in the global cookie cache to the browser
- *
- */
-function MAX_cookieFlush()
-{
-    $conf = $GLOBALS['_MAX']['CONF'];
-
-    MAX_cookieSendP3PHeaders();
-
-    if (!empty($GLOBALS['_MAX']['COOKIE']['CACHE'])) {
-        // Set cookies
-        reset($GLOBALS['_MAX']['COOKIE']['CACHE']);
-        while (list($name,$v) = each ($GLOBALS['_MAX']['COOKIE']['CACHE'])) {
-            list($value, $expire) = $v;
-            MAX_setcookie($name, $value, $expire, '/', (!empty($conf['cookie']['domain']) ? $conf['cookie']['domain'] : null));
-        }
-        // Clear cache
-        $GLOBALS['_MAX']['COOKIE']['CACHE'] = array();
-    }
-
-    // Compact all individual cookies into packed except for any cookies for the current bannerid
-    // We only need to set these packed cookies if new capping data has been merged
-    $cookieNames = $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'];
-
-	if (!is_array($cookieNames))
-		return;
-
-    // For each type of cookie, repack if necessary
-    foreach ($cookieNames as $cookieName) {
-        // We only need to write out the compacted cookie if a new item is to be inserted (or updated)
-        if (empty($_COOKIE["_{$cookieName}"])) {
-            continue;
-        }
-        switch ($cookieName) {
-            case $conf['var']['blockAd']            : $expire = _getTimeThirtyDaysFromNow(); break;
-            case $conf['var']['capAd']              : $expire = _getTimeYearFromNow(); break;
-            case $conf['var']['sessionCapAd']       : $expire = 0; break;
-            case $conf['var']['blockCampaign']      : $expire = _getTimeThirtyDaysFromNow(); break;
-            case $conf['var']['capCampaign']        : $expire = _getTimeYearFromNow(); break;
-            case $conf['var']['sessionCapCampaign'] : $expire = 0; break;
-            case $conf['var']['blockZone']          : $expire = _getTimeThirtyDaysFromNow(); break;
-            case $conf['var']['capZone']            : $expire = _getTimeYearFromNow(); break;
-            case $conf['var']['sessionCapZone']     : $expire = 0; break;
-        }
-        if (!empty($_COOKIE[$cookieName]) && is_array($_COOKIE[$cookieName])) {
-            $data = array();
-            foreach ($_COOKIE[$cookieName] as $adId => $value) {
-                $data[] = "{$adId}.{$value}";
-            }
-            // RFC says that maximum cookie data length is 4096 bytes
-            // So we are assuming that 2048 will be valid in most browsers
-            // Discard oldest data until we are under the limit
-            while (strlen(implode('_', $data)) > 2048) {
-                $data = array_slice($data, 1);
-            }
-            MAX_setcookie($cookieName, implode('_', $data), $expire, '/', (!empty($conf['cookie']['domain']) ? $conf['cookie']['domain'] : null));
-        }
-    }
 }
 
 function _getTimeThirtyDaysFromNow()
@@ -201,9 +152,7 @@ function MAX_cookieUnpackCapping()
                     }
                 }
                 // Delete the temporary capping cookie
-                MAX_cookieAdd("_{$cookieName}[{$adId}]", false, _getTimeYearAgo());
-                // Work around a bug in IE where the cookie name is sometimes URL-encoded
-                MAX_cookieAdd("%5F" . urlencode($cookieName.'['.$adId.']'), false, _getTimeYearAgo());
+                MAX_cookieUnset("_{$cookieName}[{$adId}]");
             }
         }
     }
@@ -278,17 +227,6 @@ function MAX_cookieGetCookielessViewerID()
 }
 
 /**
- * Send the appropriate P3P headers to attempt to permit 3rd party cookies
- *
- */
-function MAX_cookieSendP3PHeaders() {
-    // Send P3P headers
-    if ($GLOBALS['_MAX']['CONF']['p3p']['policies']) {
-		MAX_header("P3P: ". _generateP3PHeader());
-	}
-}
-
-/**
  * A function to check when capping cookies need to be set.
  *
  * @return boolean True if cookies need to be set on request
@@ -358,6 +296,121 @@ function MAX_Delivery_cookie_setCapping($type, $id, $block = 0, $cap = 0, $sessi
         // ad in this zone
         MAX_cookieAdd("_{$conf['var']['block' . $type]}[{$id}]", MAX_commonGetTimeNow(), _getTimeThirtyDaysFromNow());
     }
+}
+
+/**
+ * This function sets a cookie in the client's browser
+ *
+ * @param string $name  - The name of the cookie to set
+ * @param mixed  $value - The value to set for this cookie
+ * @param int    $expire- The expiry time (unix timestamp) of this cookie
+ * @param string $path  - The (optional) path that this cookie is valid for
+ * @param string $domain- The (optional) domain to set this cookie under
+ *
+ * @return null
+ */
+function MAX_cookieClientCookieSet($name, $value, $expire, $path = '/', $domain = null)
+{
+    ###START_STRIP_DELIVERY
+    if(empty($GLOBALS['is_simulation']) && !defined('TEST_ENVIRONMENT_RUNNING')) {
+    ###END_STRIP_DELIVERY
+        if (isset($GLOBALS['_OA']['invocationType']) && $GLOBALS['_OA']['invocationType'] == 'xml-rpc') {
+            if (!isset($GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'])) {
+                $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'] = array();
+            }
+            $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'][$name] = array($value, $expire);
+        } else {
+            @setcookie($name, $value, $expire, $path, $domain);
+        }
+    ###START_STRIP_DELIVERY
+    } else {
+       $_COOKIE[$name] = $value;
+    }
+    ###END_STRIP_DELIVERY
+}
+
+function MAX_cookieClientCookieUnset($name)
+{
+    MAX_cookieSet($name, false, _getTimeYearAgo());
+    // Work around a bug in IE where the cookie name is sometimes URL-encoded
+    MAX_cookieSet(str_replace('_', '%5F', urlencode($name)), false, _getTimeYearAgo());
+}
+
+/**
+ * Send all cookies in the global cookie cache to the browser
+ *
+ */
+function MAX_cookieClientCookieFlush()
+{
+    $conf = $GLOBALS['_MAX']['CONF'];
+
+    MAX_cookieSendP3PHeaders();
+
+    if (!empty($GLOBALS['_MAX']['COOKIE']['CACHE'])) {
+        // Set cookies
+        reset($GLOBALS['_MAX']['COOKIE']['CACHE']);
+        while (list($name,$v) = each ($GLOBALS['_MAX']['COOKIE']['CACHE'])) {
+            list($value, $expire) = $v;
+            // Treat the viewerId cookie differently, (always set in client)
+            if ($name == $conf['var']['viewerId']) {
+                MAX_cookieClientCookieSet($name, $value, $expire, '/', (!empty($conf['cookie']['domain']) ? $conf['cookie']['domain'] : null));
+            } else {
+                MAX_cookieSet($name, $value, $expire, '/', (!empty($conf['cookie']['domain']) ? $conf['cookie']['domain'] : null));
+            }
+        }
+        // Clear cache
+        $GLOBALS['_MAX']['COOKIE']['CACHE'] = array();
+    }
+
+    // Compact all individual cookies into packed except for any cookies for the current bannerid
+    // We only need to set these packed cookies if new capping data has been merged
+    $cookieNames = $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'];
+
+	if (!is_array($cookieNames))
+		return;
+
+    // For each type of cookie, repack if necessary
+    foreach ($cookieNames as $cookieName) {
+        // We only need to write out the compacted cookie if a new item is to be inserted (or updated)
+        if (empty($_COOKIE["_{$cookieName}"])) {
+            continue;
+        }
+        switch ($cookieName) {
+            case $conf['var']['blockAd']            : $expire = _getTimeThirtyDaysFromNow(); break;
+            case $conf['var']['capAd']              : $expire = _getTimeYearFromNow(); break;
+            case $conf['var']['sessionCapAd']       : $expire = 0; break;
+            case $conf['var']['blockCampaign']      : $expire = _getTimeThirtyDaysFromNow(); break;
+            case $conf['var']['capCampaign']        : $expire = _getTimeYearFromNow(); break;
+            case $conf['var']['sessionCapCampaign'] : $expire = 0; break;
+            case $conf['var']['blockZone']          : $expire = _getTimeThirtyDaysFromNow(); break;
+            case $conf['var']['capZone']            : $expire = _getTimeYearFromNow(); break;
+            case $conf['var']['sessionCapZone']     : $expire = 0; break;
+        }
+        if (!empty($_COOKIE[$cookieName]) && is_array($_COOKIE[$cookieName])) {
+            $data = array();
+            foreach ($_COOKIE[$cookieName] as $adId => $value) {
+                $data[] = "{$adId}.{$value}";
+            }
+            // RFC says that maximum cookie data length is 4096 bytes
+            // So we are assuming that 2048 will be valid in most browsers
+            // Discard oldest data until we are under the limit
+            while (strlen(implode('_', $data)) > 2048) {
+                $data = array_slice($data, 1);
+            }
+            MAX_cookieSet($cookieName, implode('_', $data), $expire, '/', (!empty($conf['cookie']['domain']) ? $conf['cookie']['domain'] : null));
+        }
+    }
+}
+
+/**
+ * Send the appropriate P3P headers to attempt to permit 3rd party cookies
+ *
+ */
+function MAX_cookieSendP3PHeaders() {
+    // Send P3P headers
+    if ($GLOBALS['_MAX']['CONF']['p3p']['policies']) {
+		MAX_header("P3P: ". _generateP3PHeader());
+	}
 }
 
 /**
