@@ -35,9 +35,6 @@ installed                           = true
 requireSSL                          = false
 sslPort                             = 443
 
-[max]
-installed                           = true
-
 [ui]
 enabled                             = true
 applicationName                     =

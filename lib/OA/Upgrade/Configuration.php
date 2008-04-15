@@ -196,8 +196,6 @@ class OA_Upgrade_Config
 
     function setupConfigPan($aConfig)
     {
-
-
         foreach ($aConfig AS $section => $aKey)
         {
             foreach ($aKey AS $name => $value)

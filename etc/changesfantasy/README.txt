@@ -28,7 +28,7 @@ to test upgrade possibilities of an up-to-date installation of OpenX.
 
 The package may be used as a reference for building real-world upgrade packages.
 
-To execete a fantasy upgrade:
+To execute a fantasy upgrade:
 
 [1] Your OpenX installation must be at the latest version already
 [2] Copy var/UPGRADE to var/UPGRADE.FANTASY to trigger

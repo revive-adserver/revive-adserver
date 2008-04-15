@@ -1246,11 +1246,7 @@ class OA_Upgrade
      */
     function getConfig()
     {
-        if (!$GLOBALS['_MAX']['CONF']['max']['installed'])
-        {
-            $this->oConfiguration->getInitialConfig();
-        }
-        return $this->oConfiguration->aConfig;
+    	return $this->oConfiguration->aConfig;
     }
 
     /**

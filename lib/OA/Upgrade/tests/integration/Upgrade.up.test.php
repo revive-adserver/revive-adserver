@@ -384,6 +384,7 @@ class Test_OA_Upgrade extends UnitTestCase
     {
         $oUpgrade  = new OA_Upgrade();
         $oUpgrade->initDatabaseConnection();
+        $GLOBALS['_MAX']['CONF']['max']['installed'] = 1;
 
 //        Mock::generatePartial(
 //            'OA_DB_Integrity',
@@ -407,6 +408,8 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_CAN_UPGRADE,'wrong upgrade status code, expected '.OA_STATUS_CAN_UPGRADE.' got '.$oUpgrade->existing_installation_status);
         $this->assertEqual($oUpgrade->aPackageList[0], 'openads_upgrade_2.3.31_to_2.3.32_beta.xml','wrong package file assigned');
         $this->_deleteTestAppVarRecordAllNames('max_version');
+
+        unset($GLOBALS['_MAX']['CONF']['max']['installed']);
 
 //        $oUpgrade->oIntegrity->tally();
     }

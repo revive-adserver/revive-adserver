@@ -26,7 +26,7 @@
 
     <!-- Custom Install Scripts to execute -->
     <!--prescript>prescript_openads_upgrade_2.5.68.php</prescript-->
-    <!--<postscript>postscript_openads_upgrade_2.5.68.php</postscript>-->
+    <postscript>postscript_openads_upgrade_2.5.68.php</postscript>
 
 
 </upgrade>
