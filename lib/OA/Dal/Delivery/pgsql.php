@@ -505,9 +505,9 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
         WHERE
             az.zone_id = {$zoneid}
           AND
-            d.status = 0
+            d.status <= 0
           AND
-            c.status = 0
+            c.status <= 0
     ";
 
     $rAds = OA_Dal_Delivery_query($query);
@@ -1403,8 +1403,8 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
     );
     $select = "
       az.zone_id = 0
-      AND m.status = 0
-      AND d.status = 0";
+      AND m.status <= 0
+      AND d.status <= 0";
 
     // Add preconditions to query
     if ($precondition != '')

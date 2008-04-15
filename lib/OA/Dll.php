@@ -48,7 +48,7 @@ define('OA_ENTITY_STATUS_EXPIRED',                3);
 define('OA_ENTITY_STATUS_INACTIVE',               4);
 
 // Special status which has always to be used when the entity is inactive for a remote reason
-define('OA_ENTITY_STATUS_PENDING',               -1);
+define('OA_ENTITY_STATUS_PENDING',               10);
 
 // Advertiser signup statuses
 define('OA_ENTITY_STATUS_APPROVAL',              21);
