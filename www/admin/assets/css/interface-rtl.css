@@ -63,12 +63,6 @@ img#helpIcon {
     width: 16px;
 }
 
-div.helpLink {
-    width: 100%;
-    text-align: left;
-    margin-top: 10px;
-}
-
 /* Form elements */
 
 select.flat, textarea.flat, input.flat,

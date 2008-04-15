@@ -67,6 +67,9 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
         <li class="infoUser">{$infoUser|escape}</li>
 {/if}
 
+{if $helpLink}
+        <li class="buttonHelp"><a href="{$helpLink|escape}" target="help">{t str=Help}</a></li>
+{/if}
 
 {if $buttonReportBugs}
         <li class="buttonReportBugs"><a href="http://www.openx.org/support/reporting-bugs" target="_blank">{t str='Report bug'}</a></li>
@@ -149,16 +152,8 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
             <tr>
 {if !$noBorder}
-            {if $helpLink}
-                <td width='20'>&nbsp;</td>
-                <td>
-                    <div class='helpLink'>
-                        <a href="{$helpLink|escape}" target="help">{t str=Help}</a>
-                    </div>
-                </td>
-                <td width='40'>&nbsp;</td>
+                <td colspan='2' height='10'><img src='{$assetPath}/images/spacer.gif' height='1'></td>
             </tr>
-            {/if}
             <tr>
                 <td width="20">&nbsp;</td>
 {/if}

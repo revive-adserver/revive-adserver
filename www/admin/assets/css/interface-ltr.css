@@ -116,12 +116,6 @@ img#helpIcon {
     width: 16px;
 }
 
-div.helpLink {
-    width: 100%;
-    text-align: right;
-    margin-top: 10px;
-}
-
 /* Form elements */
 select[disabled], textarea[disabled], input[disabled], input[disabled]
 {
