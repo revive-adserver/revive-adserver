@@ -334,6 +334,7 @@ logClick            = log           ; Used to indicate if a click should be logg
 n                   = n             ; Used to name a cookie containing displayed banner information
 params              = oaparams      ; Used to pass in custom delimited key=value pairs into an ad-call
 viewerId            = OAID          ; Used for passing viewer ID cookie value
+viewerGeo           = OAGEO         ; Used for storing view geo-location information in a session cookie
 campaignId          = campaignid    ; Used for passing campaign ID cookie value
 adId                = bannerid      ; Used for passing ad ID cookie value
 creativeId          = cid           ; Used for passing creative ID cookie value
@@ -433,6 +434,7 @@ geoipDmaLocation=
 geoipOrgLocation=
 geoipIspLocation=
 geoipNetspeedLocation=
+showUnavailable=false
 
 ;------------------------------------------------------------------------------------------;
 ; Audit Settings                                                                           ;

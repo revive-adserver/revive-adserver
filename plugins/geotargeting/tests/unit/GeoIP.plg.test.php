@@ -77,31 +77,8 @@ class Delivery_TestOfPlugins_Geotargeting_GeoIP_GeoIP extends UnitTestCase
         $conf = &$GLOBALS['_MAX']['CONF'];
 
         $GLOBALS['_MAX']['GEO_IP'] = '24.24.24.24';
-        // Test without the default database, and no additional MaxMind GeoIP databases
-        $GLOBALS['_MAX']['CONF']['geotargeting']['useBundledCountryDatabase'] = false;
-        $conf['geotargeting']['geoipCountryLocation'] = '';
-        $conf['geotargeting']['geoipRegionLocation'] = '';
-        $conf['geotargeting']['geoipCityLocation'] = '';
-        $conf['geotargeting']['geoipAreaLocation'] = '';
-        $conf['geotargeting']['geoipDmaLocation'] = '';
-        $conf['geotargeting']['geoipOrgLocation'] = '';
-        $conf['geotargeting']['geoipIspLocation'] = '';
-        $conf['geotargeting']['geoipNetspeedLocation'] = '';
-        $result = MAX_Plugin::callStaticMethod('geotargeting', 'GeoIP', 'GeoIP', 'getInfo');
-        $this->assertNull($result['country_code']);
-        $this->assertNull($result['region']);
-        $this->assertNull($result['city']);
-        $this->assertNull($result['postal_code']);
-        $this->assertNull($result['latitude']);
-        $this->assertNull($result['longitude']);
-        $this->assertNull($result['dma_code']);
-        $this->assertNull($result['area_code']);
-        $this->assertNull($result['organisation']);
-        $this->assertNull($result['netspeed']);
 
-        $GLOBALS['_MAX']['GEO_IP'] = '24.24.24.24';
         // Test with the default database, and no additional MaxMind GeoIP databases
-        $GLOBALS['_MAX']['CONF']['geotargeting']['useBundledCountryDatabase'] = true;
         $conf['geotargeting']['geoipCountryLocation'] = '';
         $conf['geotargeting']['geoipRegionLocation'] = '';
         $conf['geotargeting']['geoipCityLocation'] = '';
@@ -270,7 +247,7 @@ class Delivery_TestOfPlugins_Geotargeting_GeoIP_GeoIP extends UnitTestCase
             $conf['geotargeting']['geoipIspLocation'] = '';
             $conf['geotargeting']['geoipNetspeedLocation'] = '';
             $result = MAX_Plugin::callStaticMethod('geotargeting', 'GeoIP', 'GeoIP', 'getInfo');
-            $this->assertNull($result['country_code']);
+            $this->assertequal($result['country_code'], 'US');
             $this->assertNull($result['region']);
             $this->assertNull($result['city']);
             $this->assertNull($result['postal_code']);
@@ -283,6 +260,7 @@ class Delivery_TestOfPlugins_Geotargeting_GeoIP_GeoIP extends UnitTestCase
             $this->assertNull($result['netspeed']);
         }
     }
+    // Note: ISP database populates organisation field and this is what's tested by delivery
     function testGetInfo_IspDb()
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
@@ -299,7 +277,7 @@ class Delivery_TestOfPlugins_Geotargeting_GeoIP_GeoIP extends UnitTestCase
             $conf['geotargeting']['geoipIspLocation'] = $ispFile;
             $conf['geotargeting']['geoipNetspeedLocation'] = '';
             $result = MAX_Plugin::callStaticMethod('geotargeting', 'GeoIP', 'GeoIP', 'getInfo');
-            $this->assertNull($result['country_code']);
+            $this->assertequal($result['country_code'], 'US');
             $this->assertNull($result['region']);
             $this->assertNull($result['city']);
             $this->assertNull($result['postal_code']);
@@ -307,8 +285,8 @@ class Delivery_TestOfPlugins_Geotargeting_GeoIP_GeoIP extends UnitTestCase
             $this->assertNull($result['longitude']);
             $this->assertNull($result['dma_code']);
             $this->assertNull($result['area_code']);
-            $this->assertNull($result['organisation']);
-            $this->assertEqual($result['isp'], 'Road Runner');
+            $this->assertEqual($result['organisation'], 'Road Runner');
+            $this->assertNull($result['isp']);
             $this->assertNull($result['netspeed']);
         }
     }

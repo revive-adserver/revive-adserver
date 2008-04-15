@@ -338,6 +338,7 @@ function OA_Geo_GeoIP_seek($fp, $ipnum)
     $dma_code       = false;
     $area_code      = false;
     $organisation   = false;
+    $isp            = false;
     $netspeed       = false;
     $proxy          = false;
 

@@ -56,10 +56,6 @@ function OA_Geo_GeoIP_getInfo($useCookie = true)
 
     $aGeoConf = $conf['geotargeting'];
 
-    if (!empty($aGeoConf['useBundledCountryDatabase'])) {
-        $aGeoConf['geoipCountryLocation'] = MAX_PATH . '/plugins/geotargeting/GeoIP/data/FreeGeoIPCountry.dat';
-    }
-
     $ret = array();
     foreach ($aGeoConf as $key => $db) {
         if ((substr($key, 0, 5) == 'geoip') && !empty($db) && is_readable($db)) {
@@ -68,6 +64,15 @@ function OA_Geo_GeoIP_getInfo($useCookie = true)
                 if (!empty($value)) {
                     $ret[$feature] = $geo[$feature];
                 }
+            }
+        }
+    }
+
+    if (empty($ret['country_code']) && empty($aGeoConf['geoipCountryLocation'])) {
+        $geo = OA_Geo_GeoIP_getGeo($ip, MAX_PATH . '/plugins/geotargeting/GeoIP/data/FreeGeoIPCountry.dat');
+        foreach ($geo as $feature => $value) {
+            if (!empty($value) && empty($ret[$feature])) {
+                $ret[$feature] = $geo[$feature];
             }
         }
     }
