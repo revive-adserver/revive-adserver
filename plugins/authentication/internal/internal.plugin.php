@@ -81,7 +81,7 @@ class Plugins_Authentication_Internal_Internal extends Plugins_Authentication
         if ($performCookieCheck && !isset($_COOKIE['sessionID'])) {
             return new PEAR_Error($GLOBALS['strEnableCookies']);
         }
-        
+
         if ($performCookieCheck && $_COOKIE['sessionID'] != $_POST['oa_cookiecheck']) {
             return new PEAR_Error($GLOBALS['strSessionIDNotMatch']);
         }
@@ -139,7 +139,7 @@ class Plugins_Authentication_Internal_Internal extends Plugins_Authentication
 
         $aConf = $GLOBALS['_MAX']['CONF'];
         $aPref = $GLOBALS['_MAX']['PREF'];
-        
+
         header('Cache-Control: max-age:0, no-cache, proxy-revalidate, must-revalidate');
 
         if (!$inLineLogin) {
@@ -254,7 +254,7 @@ class Plugins_Authentication_Internal_Internal extends Plugins_Authentication
             );
         $userDetailsFields[] = array(
                 'name'      => 'passwd2',
-                'label'     => $GLOBALS['strPasswordRepaet'],
+                'label'     => $GLOBALS['strPasswordRepeat'],
                 'type'      => 'password',
                 'value'     => '',
                 'hidden'   => !empty($userData['user_id'])
