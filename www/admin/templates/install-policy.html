@@ -3,7 +3,7 @@
     OA_GUI_getHtmlForDbLoader('Detecting previous OpenX installation...');
 ?>
 
-<form name="frmOpenads" method="POST" action="install.php" onSubmit="showLoader();">
+<form id="frmOpenads" name="frmOpenads" method="POST" action="install.php" onSubmit="showLoader();">
 <input type="hidden" name="hdn_policy" value="" />
 <table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td valign='top'><img class="install-icon" src='<?php echo $imgPath; ?>images/install-terms.png'></td><td width='100%' valign='top'><br><span class='tab-s'><?php echo $strPolicyTitle; ?></span><br><img src='<?php echo $imgPath; ?>images/break-el.gif' width='100%' height='1' vspace='8'><span class='install'><?php echo $strPolicyIntro; ?>
 
@@ -28,5 +28,5 @@
 
 <img src='<?php echo $imgPath; ?>images/break-el.gif' height='1' width='100%' vspace='5'>
 
-                    <input type="submit" class="button" name="btn_syscheck" value="<?php echo $strBtnAgree; ?>" tabindex="<?php echo ($tabindex++); ?>" />
-                    <input type="submit" class="button floatleft" name="btn_terms" value="<?php echo $strBtnDontAgree; ?>" tabindex="<?php echo ($tabindex++) ?>" />
+                    <input type="submit" class="button" id="btn_syscheck" name="btn_syscheck" value="<?php echo $strBtnAgree; ?>" tabindex="<?php echo ($tabindex++); ?>" />
+                    <input type="submit" class="button floatleft" id="btn_terms" name="btn_terms" value="<?php echo $strBtnDontAgree; ?>" tabindex="<?php echo ($tabindex++) ?>" />

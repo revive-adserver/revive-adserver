@@ -14,7 +14,7 @@
 </table>
 <br>
 
-<form name="frmOpenads" method="POST" action="install.php" onSubmit='return max_formValidate(this);' style="margin:0; padding:0;">
+<form id="frmOpenads" name="frmOpenads" method="POST" action="install.php" onSubmit='return max_formValidate(this);' style="margin:0; padding:0;">
 
 <?php
             // Setup list of all timezones, calculate selected timezone
@@ -110,9 +110,9 @@
             ), $errormessage, 0, $imgPath);
 ?>
 
-                <input type="submit"  class="button" name="btn_sitessetup" value="<?php echo $strBtnContinue; ?>" tabindex="<?php echo ($tabindex++); ?>" />
+                <input type="submit"  class="button" id="btn_sitessetup" name="btn_sitessetup" value="<?php echo $strBtnContinue; ?>" tabindex="<?php echo ($tabindex++); ?>" />
                 <input type="hidden" name="dirPage" id="dirPage" value="" />
 </form>
 
 <form name="frmOpenads2" id="frmOpenads2" method="POST" action="install.php" style="margin:0; padding:0;">
-                <input type="submit"  class="button floatleft" name="btn_configsetup" value="<?php echo $strBtnGoBack; ?>" tabindex="<?php echo ($tabindex++); ?>" />
+                <input type="submit"  class="button floatleft" id="btn_configsetup" name="btn_configsetup" value="<?php echo $strBtnGoBack; ?>" tabindex="<?php echo ($tabindex++); ?>" />

@@ -17,7 +17,7 @@
     </tr>
     </table>
     <br />
-
+    <form id="frmOpenads" name="frmOpenads" method="POST" action="install.php">
     <table border='0' width='100%' cellpadding='0' cellspacing='0'>
         <tr>
             <td height='25' colspan='4'><img src='<?php echo $imgPath; ?>images/icon-setup.gif' width='16' height='16' align='absmiddle'>&nbsp;<b>System Checks</b></td>
@@ -32,8 +32,6 @@
             <td height='10' colspan='4'><img src='<?php echo MAX::assetPath() ?>/images/spacer.gif' width='30' height='1'></td>
         </tr>
         <tr>
-        <form name="frmOpenads" method="POST" action="install.php">
-
         <?php
             $errorImage = "<img src='".$imgPath."images/icon-x.gif' width='10' height='9'>";
             $warnImage = "<img src='".$imgPath."images/icon-warning.gif' width='12' height='12'>";

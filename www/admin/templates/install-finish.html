@@ -15,7 +15,7 @@
     <br />
     <br />
 
-<form name="frmOpenads" method="POST" action="install.php">
+<form id="frmOpenads" name="frmOpenads" method="POST" action="install.php">
     <input type="hidden" name="aAdminPost" id="aAdminPost" value="<?php echo htmlspecialchars(stripslashes($_POST['aAdminPost'])); ?>">
-    <input type="submit"  class="button" name="btn_openads" value="<?php echo $strBtnContinue; ?>" tabindex="1" />
+    <input type="submit"  class="button" id="btn_openads" name="btn_openads" value="<?php echo $strBtnContinue; ?>" tabindex="1" />
 </form>

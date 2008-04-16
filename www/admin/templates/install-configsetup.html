@@ -27,7 +27,7 @@ if ($errMessage) {
 </table>
 <br>
 
-<form name="frmOpenads" method="POST" action="install.php" onSubmit='return max_formValidate(this);'>
+<form id="frmOpenads" name="frmOpenads" method="POST" action="install.php" onSubmit='return max_formValidate(this);'>
 
 <?php
 
@@ -133,11 +133,11 @@ if ($errMessage) {
 
 if ($errMessage) {
 ?>
-                <input type="submit" class="button" name="btn_adminsetup" value="<?php echo $strBtnRetry; ?>" tabindex="<?php echo ($tabindex++); ?>" />
+                <input type="submit" class="button" id="btn_adminsetup" name="btn_adminsetup" value="<?php echo $strBtnRetry; ?>" tabindex="<?php echo ($tabindex++); ?>" />
 <?php
 } else {
 ?>
-                <input type="submit" class="button" name="btn_adminsetup" value="<?php echo $strBtnContinue; ?>" tabindex="<?php echo ($tabindex++); ?>" />
+                <input type="submit" class="button" id="btn_adminsetup" name="btn_adminsetup" value="<?php echo $strBtnContinue; ?>" tabindex="<?php echo ($tabindex++); ?>" />
 <?php
 }
 ?>

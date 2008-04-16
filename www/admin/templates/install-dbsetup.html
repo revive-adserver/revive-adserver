@@ -226,12 +226,12 @@ if ($errTz) {
                     switchDbTypes();
                     toggleSocketInput();
                 </script>
-                <input type="submit" class="button" name="btn_upgrade" value="<?php echo ($displayError ? $strBtnRetry : $strBtnContinue); ?>" tabindex="<?php echo ($tabindex++); ?>" <?php echo $disableButton; ?>>
+                <input type="submit" class="button" id="btn_upgrade" name="btn_upgrade" value="<?php echo ($displayError ? $strBtnRetry : $strBtnContinue); ?>" tabindex="<?php echo ($tabindex++); ?>" <?php echo $disableButton; ?>>
                 <input type="hidden" name="dirPage" id="dirPage" value="" />
 </form>
 
 <form name="frmOpenads2" id="frmOpenads2" method="POST" action="install.php" style="margin:0; padding:0;">
-                <input type="submit" class="button floatleft" name="btn_syscheck" value="<?php echo $strBtnGoBack; ?>" tabindex="<?php echo ($tabindex++); ?>" />
+                <input type="submit" class="button floatleft" id="btn_syscheck" name="btn_syscheck" value="<?php echo $strBtnGoBack; ?>" tabindex="<?php echo ($tabindex++); ?>" />
 </form>
 <form>
 

@@ -19,7 +19,7 @@
     </div>
 <?php } ?>
 
-<form name="frmOpenads" method="POST" action="install.php" onSubmit='return max_formValidate(this);' style="margin:0; padding:0;">
+<form id="frmOpenads" name="frmOpenads" method="POST" action="install.php" onSubmit='return max_formValidate(this);' style="margin:0; padding:0;">
 
 <?php
             $options->show(array (
@@ -48,9 +48,9 @@
             ), $errormessage, 0, $imgPath);
 ?>
 
-                <input type="submit"  class="button" name="btn_dbsetup" value="<?php echo $strBtnContinue; ?>" tabindex="<?php echo ($tabindex++); ?>" />
+                <input type="submit"  class="button" id="btn_dbsetup" name="btn_dbsetup" value="<?php echo $strBtnContinue; ?>" tabindex="<?php echo ($tabindex++); ?>" />
                 <input type="hidden" name="dirPage" id="dirPage" value="" />
 </form>
 
 <form name="frmOpenads2" id="frmOpenads2" method="POST" action="install.php" style="margin:0; padding:0;">
-                <input type="submit"  class="button floatleft" name="btn_syscheck" value="<?php echo $strBtnGoBack; ?>" tabindex="<?php echo ($tabindex++); ?>" />
+                <input type="submit"  class="button floatleft" id="btn_syscheck" name="btn_syscheck" value="<?php echo $strBtnGoBack; ?>" tabindex="<?php echo ($tabindex++); ?>" />
