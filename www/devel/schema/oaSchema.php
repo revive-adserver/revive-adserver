@@ -30,6 +30,8 @@
  *
  */
 
+//require_once MAX_DEV.'/lib/upms.inc.php';
+
 require_once MAX_DEV.'/lib/pear.inc.php';
 require_once 'MDB2.php';
 require_once 'MDB2/Schema.php';
@@ -87,6 +89,8 @@ class Openads_Schema_Manager
     var $dbo_name = 'openads_dbo';
 
     var $oLogger;
+
+    var $aXMLRPCServer = false;
 
     /**
      * php5 class constructor
@@ -174,6 +178,8 @@ class Openads_Schema_Manager
 
         $this->dd_file = MAX_DEV.'/etc/dd.generic.xml';
         $this->aDD_definition = $this->oSchema->parseDictionaryDefinitionFile($this->dd_file);
+
+        //$this->aXMLRPCServer = array('path'=>'/upms/xmlrpc.php', 'host'=>'localhost','port'=>'80');
     }
 
     /**
@@ -281,7 +287,7 @@ class Openads_Schema_Manager
             {
                 $this->working_file_schema = $this->schema_final;
                 $this->parseWorkingDefinitionFile();
-                $this->version++;
+                $this->version = $this->_getNextVersion();
                 $this->writeWorkingDefinitionFile();
                 $result = file_exists($this->schema_trans);
             }
@@ -348,6 +354,23 @@ class Openads_Schema_Manager
             $this->oLogger->logError('Failed to commit final schema');
         }
         return $result;
+    }
+
+    /**
+     *
+     * @return integer
+     */
+    function _getNextVersion()
+    {
+        if (!$this->aXMLRPCServer)
+        {
+            $id = $this->version + 1;
+        }
+        else
+        {
+            $id = $this->_getNextVersionXMLRPC();
+        }
+        return $id;
     }
 
     /**
@@ -1606,6 +1629,130 @@ class Openads_Schema_Manager
             return false;
         }
         return in_array(strtolower($database_name), array_map('strtolower', $result));
+    }
+
+///////////////// work in progress - xml-rpc package management
+    /**
+     * register the version with the schema upms server
+     * stamp the transitional files as final
+     * copy transitional files to final destinations
+     * remove transitional files
+     *
+     * @return boolean
+     */
+    function commitFinalXMLRPC($comments='', $version='', $name='')
+    {
+        $this->oLogger->log('Committing Final Schema');
+        if (empty($comments)||empty($version)||empty($name))
+        {
+            if (empty($name))
+            {
+                $this->oLogger->logError('User name is empty');
+            }
+            if (empty($version))
+            {
+                $this->oLogger->logError('Version is empty');
+            }
+            if (empty($comments))
+            {
+                $this->oLogger->logError('Comments is empty');
+            }
+            return false;
+        }
+        $this->version =  ($version ? $version : $this->version);
+        if (!$this->_registerVersion($version, $name, $comments))
+        {
+            $this->oLogger->logError('Failed to register schema version');
+            return false;
+        }
+        $result = ($this->use_links ? file_exists($this->links_trans) : true);
+        if (!$result)
+        {
+            $this->oLogger->logError('Links file not found '.$this->links_trans);
+            return false;
+        }
+        if (!file_exists($this->schema_trans))
+        {
+            $this->oLogger->logError('Schema file not found '.$this->schema_trans);
+            return false;
+        }
+        $this->setWorkingFiles();
+
+        $this->parseWorkingDefinitionFile();
+
+        $basename   = $this->_getBasename();
+        $this->aDB_definition['version'] =  $this->version;
+        $this->aDump_options['custom_tags']['status']='final';
+        $this->changes_final = $this->path_changes_final.'changes_'.$basename.'.xml';
+        if (!$this->createChangeset($this->changes_final, $comments, $version))
+        {
+            $this->oLogger->logError('Failed to create changeset '.$this->changes_final);
+            return false;
+        }
+        $this->_generateDataObjects($this->changes_final, $basename);
+        if (!$this->writeWorkingDefinitionFile($this->schema_final))
+        {
+            $this->oLogger->logError('Failed to write file '.$this->schema_final);
+            return false;
+        }
+        $schema = $this->path_changes_final.'schema_'.$basename.'.xml';
+        if (!$this->writeWorkingDefinitionFile($schema))
+        {
+            $this->oLogger->logError('Failed to write file '.$schema);
+            return false;
+        }
+        if ($this->use_links)
+        {
+            if (!file_exists($this->links_trans))
+            {
+                $this->oLogger->logError('Links file not found '.$this->links_trans);
+                return false;
+            }
+            if (!copy($this->links_trans, $this->links_final))
+            {
+                $this->oLogger->logError('Failed to write file '.$this->links_final);
+                return false;
+            }
+        }
+        $this->deleteTransitional();
+        return true;
+    }
+
+    /**
+     *
+     * @return integer
+     */
+    function _getNextVersionXMLRPC()
+    {
+        $id = UPMS_getNextVersion($this->aXMLRPCServer);
+        if (!$id)
+        {
+            return false;
+        }
+        return $id;
+    }
+
+    function _registerVersion($id, $name, $comments='-')
+    {
+        if ($this->aXMLRPCServer)
+        {
+            $aOld = UPMS_checkVersion($this->aXMLRPCServer, $id);
+            if (is_array($aOld) && array_key_exists($id, $aOld))
+            {
+                //$aErrors[] = 'Schema version '.$id.' was registered by '.$aOld[$id]['user'].' on '.$aOld[$id]['registered'];
+                return false;
+            }
+            else
+            {
+                $aNew = UPMS_registerVersion($this->aXMLRPCServer, $id, $name, $comments);
+                if (!is_array($aNew))
+                {
+                    //$aErrors[] = $aNew;
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
 }

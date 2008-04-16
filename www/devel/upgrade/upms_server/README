@@ -1,0 +1,11 @@
+copy or link this folder on a server so that it is available as 'http://localhost/upms'
+
+create a database ox_upms and load the data from source upms/ox_upms.sql
+
+edit the upms/config.ini.php to set your database username and password
+
+test server functionality: install openx and browse to openx_hostname/www/devel/upgrade/
+
+test schema editor integration: install openx and browse to openx_hostname/www/devel/schema/
+
+see ticket OX-1507 for TO DO list
