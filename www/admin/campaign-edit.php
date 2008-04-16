@@ -1165,7 +1165,7 @@ $doCampaigns->clientid = $clientid;
 $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['campaignname']);
 ?>
 <script language='javascript' type='text/javascript' src='<?php echo MAX::assetPath() ?>/js/datecheck.js'></script>
-<script language='javascript' type='text/javascript' src='numberFormat.js.php'></script>
+<script language='javascript' type='text/javascript' src='numberFormat.js.php?lang=<?php echo $GLOBALS['_MAX']['PREF']['language'] ?>'></script>
 <script language='JavaScript'>
 <!--
   $(document).ready(function() {

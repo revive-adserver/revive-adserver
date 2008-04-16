@@ -27,6 +27,7 @@ $Id$
 
 /**
  * @package    OpenXUI
+ * @param 	   lang - symbol of language used on administrator UI (default value = 'en')
  * @author     Andrew Hill <andrew.hill@openx.org>
  *
  * A collection of JavaScript functions for formatting numbers.
@@ -49,19 +50,16 @@ $Id$
  *       JS support for numbers.
  */
 
-// Require the initialisation file
-require_once '../../init.php';
+//Always load the English language, in case of incomplete translations
+include '../../lib/max/language/en/default.lang.php';
 
-// Required files
-require_once MAX_PATH . '/lib/max/language/Default.php';
-
-require_once MAX_PATH . '/lib/OA/Preferences.php';
-
-// Load the user preferences from the database
-$pref = OA_Preferences::loadAdminAccountPreferences(true);
-
-// Load the required language files
-Language_Default::load();
+$lang = $_GET['lang'];
+if (isset($lang) && $lang != "en") {
+    //if selected directory exist, read language file
+    if ( is_readable("../../lib/max/language/".$lang."/default.lang.php")) {
+        include '../../lib/max/language/'.$lang.'/default.lang.php';
+    }
+}
 
 // Send content-type header
 header("Content-type: application/x-javascript");
