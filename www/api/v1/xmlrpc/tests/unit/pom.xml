@@ -16,7 +16,18 @@
 	</modules>
 	
 	<dependencies>
-	
+		<dependency>
+			<groupId>org.apache.xmlrpc</groupId>
+			<artifactId>xmlrpc-common</artifactId>
+			<version>3.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.xmlrpc</groupId>
+			<artifactId>xmlrpc-client</artifactId>
+			<version>3.1</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 	
 	<build>
