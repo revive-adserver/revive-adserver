@@ -934,6 +934,7 @@ $GLOBALS['strErrorLinkingBanner']               = "It was not possible to link t
 $GLOBALS['strUnableToLinkBanner']               = "Cannot link this banner: ";
 $GLOBALS['strErrorEditingCampaign']             = "Error updating campaign:";
 $GLOBALS['strUnableToChangeCampaign']           = "Cannot apply this change because:";
+$GLOBALS['strErrorEditingCampaignRevenue']      = "incorrect number format in Revenue Information field";
 $GLOBALS['strDatesConflict']                    = "dates conflict with:";
 $GLOBALS['strEmailNoDates']                     = 'Email zone campaigns must have a start and end date';
 $GLOBALS['strWarningInaccurateStats']           = "Some of these statistics were logged in a non-UTC timezone, and may not be displayed in the correct timezone.";

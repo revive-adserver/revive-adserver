@@ -40,6 +40,7 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-maintenance-priority.inc.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
+require_once MAX_PATH . '/lib/OA/Admin/NumberFormat.php';
 
 // Register input variables
 phpAds_registerGlobalUnslashed(
@@ -88,7 +89,6 @@ OA_Permission::enforceAccessToObject('campaigns', $campaignid, true);
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
 /*-------------------------------------------------------*/
-
 if (isset($submit)) {
 	$expire = !empty($end) ? date('Y-m-d', strtotime($end)) : OA_Dal::noDateValue();
     $activate = !empty($start) ? date('Y-m-d', strtotime($start)) : OA_Dal::noDateValue();
@@ -111,6 +111,22 @@ if (isset($submit)) {
                 }
             }
         }
+    }
+
+    //correct and check revenue
+
+    //correction revenue from other formats (23234,34 or 23 234,34 or 23.234,34)
+    //to format acceptable by is_numeric (23234.34)
+    $corrected_revenue = OA_Admin_NumberFormat::unformatNumber($revenue);
+    if ( $corrected_revenue !== false ) {
+        $revenue = $corrected_revenue;
+        unset($corrected_revenue);
+    }
+    if (!(is_numeric($revenue))) {
+        // Suppress PEAR error handling to show this error only on top of HTML form
+        PEAR::pushErrorHandling(null);
+        $errors[] = PEAR::raiseError($GLOBALS['strErrorEditingCampaignRevenue']);
+        PEAR::popErrorHandling();
     }
 
     if (empty($errors)) {
@@ -185,7 +201,7 @@ if (isset($submit)) {
         }
         $new_campaign = $campaignid == 'null';
 
-        if (!(is_numeric($revenue)) || ($revenue <= 0)) {
+        if (empty($revenue) || ($revenue <= 0)) {
             // No revenue information, set to null
             $revenue = 'NULL';
             $revenue_type = 'NULL';
@@ -390,7 +406,7 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
     $row['anonymous']           = $data['anonymous'];
     $row['companion']           = $data['companion'];
     $row['comments']            = $data['comments'];
-    $row['revenue']             = $data['revenue'];
+    $row['revenue']             = OA_Admin_NumberFormat::formatNumber($data['revenue'], 4);
     $row['revenue_type']        = $data['revenue_type'];
     $row['block']               = $data['block'];
     $row['capping']             = $data['capping'];
@@ -470,7 +486,7 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
 
     // Set the default financial information
     if (!isset($row['revenue'])) {
-        $row['revenue'] = '0.0000';
+        $row['revenue'] = OA_Admin_NumberFormat::formatNumber(0, 4);
     }
 
 } else {
