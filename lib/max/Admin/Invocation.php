@@ -250,6 +250,8 @@ class MAX_Admin_Invocation {
      */
     function placeInvocationForm($extra = '', $zone_invocation = false, $aParams = null)
     {
+        global $phpAds_TextDirection;
+        
         $conf = $GLOBALS['_MAX']['CONF'];
         $pref = $GLOBALS['_MAX']['PREF'];
 
