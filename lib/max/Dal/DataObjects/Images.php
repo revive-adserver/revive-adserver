@@ -67,7 +67,7 @@ class DataObjects_Images extends DB_DataObjectCommon
             return false;
         }
         // When using PgSQL we need to disable MDB2_PORTABILITY_RTRIM portability option
-        if ($psql = $oDbh->dbsyntax == 'pgsql') {
+        if ($pgsql = $oDbh->dbsyntax == 'pgsql') {
             $portability = $oDbh->getOption('portability');
             if ($rtrim = $portability & MDB2_PORTABILITY_RTRIM) {
                 $oDbh->setOption('portability', $portability ^ MDB2_PORTABILITY_RTRIM);
