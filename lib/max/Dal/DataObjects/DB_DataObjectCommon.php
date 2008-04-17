@@ -717,17 +717,19 @@ class DB_DataObjectCommon extends DB_DataObject
         // more than one record?
         if ($dataObject == DB_DATAOBJECT_WHEREADD_ONLY)
         {
-            // Prepare a new DB_DataObject to obtain all rows
-            // that will be affected
-            $doAffected = OA_Dal::factoryDO($this->_tableName);
-            $doAffected->_query['condition'] = $this->_query['condition'];
-            // Generate an array of all DB_DataObjects that will
-            // be udpated
             $aDB_DataObjects = array();
-            $doAffected->find();
-            while ($doAffected->fetch())
-            {
-                $aDB_DataObjects[] = $doAffected->_cloneObjectFromDatabase();
+            if ($this->_auditEnabled()) {
+                // Prepare a new DB_DataObject to obtain all rows
+                // that will be affected
+                $doAffected = OA_Dal::factoryDO($this->_tableName);
+                $doAffected->_query['condition'] = $this->_query['condition'];
+                // Generate an array of all DB_DataObjects that will
+                // be udpated
+                $doAffected->find();
+                while ($doAffected->fetch())
+                {
+                    $aDB_DataObjects[] = $doAffected->_cloneObjectFromDatabase();
+                }
             }
             // Update ALL of the required records
             $result = parent::update($dataObject);
@@ -817,7 +819,7 @@ class DB_DataObjectCommon extends DB_DataObject
     /**
      * A private method to create a new DB_DataObject of the same type
      * as the current DB_DataObject, copy over all of the current object's
-     * primark key values (based on the result of the keys() method), and
+     * primary key values (based on the result of the keys() method), and
      * then try to locate this record in the database.
      *
      * @access private
