@@ -49,6 +49,20 @@ class OA_Admin_Statistics_Factory
      */
     function &getController($controllerType = '', $aParams = null)
     {
+        // Instantiate & return the required statistics class
+        OA_Admin_Statistics_Factory::_getControllerClass($controllerType, $aParams, $class, $file);
+        return OA_Admin_Statistics_Factory::_instantiateController($file, $class, $aParams);
+    }
+
+    function _instantiateController($file, $class, $aParams = null)
+    {
+        require_once $file;
+        $oController = new $class($aParams);
+        return $oController;
+    }
+
+    function _getControllerClass($controllerType = '', $aParams = null, &$class, &$file)
+    {
         if (!is_array($aParams)) {
             $aParams = array();
         }
@@ -87,12 +101,8 @@ class OA_Admin_Statistics_Factory
         foreach ($aSecondary as $string) {
             $class .= $string;
         }
-
-        // Instantiate & return the required statistics class
-        require_once $file;
-        $oController = new $class($aParams);
-        return $oController;
     }
+
 
 }
 

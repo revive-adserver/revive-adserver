@@ -44,7 +44,7 @@ class Test_OA_Admin_Statistics_Factory extends UnitTestCase
      *
      * @var unknown_type
      */
-    var $testTypes = array(
+    var $testTypesDelivery = array(
         'advertiser-affiliates'         => 'OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliates',
         'advertiser-affiliate-history'  => 'OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliateHistory',
         'advertiser-campaigns'          => 'OA_Admin_Statistics_Delivery_Controller_AdvertiserCampaigns',
@@ -85,6 +85,13 @@ class Test_OA_Admin_Statistics_Factory extends UnitTestCase
         'zone-history'                  => 'OA_Admin_Statistics_Delivery_Controller_ZoneHistory'
     );
 
+    var $testTypesTargeting = array(
+        'banner-targeting'         => 'OA_Admin_Statistics_Targeting_Controller_BannerTargeting',
+        'banner-targeting-daily'  => 'OA_Admin_Statistics_Targeting_Controller_BannerTargetingDaily',
+        'campaign-targeting'          => 'OA_Admin_Statistics_Targeting_Controller_CampaignTargeting',
+        'campaign-targeting-daily'            => 'OA_Admin_Statistics_Targeting_Controller_CampaignTargetingDaily',
+    );
+
     /**
      * The constructor method.
      */
@@ -93,17 +100,62 @@ class Test_OA_Admin_Statistics_Factory extends UnitTestCase
         $this->UnitTestCase();
     }
 
+    function test_getControllerClass()
+    {
+        $expectPath = '/Statistics/Delivery/Controller/';
+        foreach ($this->testTypesDelivery as $controllerType => $expectedClassName)
+        {
+            $aType = explode('-',$controllerType);
+            $expectFile= '';
+            foreach ($aType AS $string)
+            {
+                $expectFile.= ucfirst($string);
+            }
+            OA_Admin_Statistics_Factory::_getControllerClass($controllerType, null, $class, $file);
+            $this->assertEqual($class, $expectedClassName);
+            $this->assertPattern("(\/Statistics\/Delivery\/Controller\/{$expectFile}\.php)",$file);
+        }
+        foreach ($this->testTypesTargeting as $controllerType => $expectedClassName)
+        {
+            $aType = explode('-',$controllerType);
+            $expectFile= '';
+            foreach ($aType AS $string)
+            {
+                $expectFile.= ucfirst($string);
+            }
+            OA_Admin_Statistics_Factory::_getControllerClass($controllerType, null, $class, $file);
+            $this->assertEqual($class, $expectedClassName);
+            $this->assertPattern("(\/Statistics\/Targeting\/Controller\/{$expectFile}\.php)",$file);
+        }
+    }
+
+    function test_instantiateController()
+    {
+        $file = MAX_PATH.'/lib/OA/Admin/Statistics/tests/data/TestStatisticsController.php';
+        $aParams = array();
+        $class = 'OA_Admin_Statistics_Test';
+        $oObject =& OA_Admin_Statistics_Factory::_instantiateController($file, $class, $aParams);
+        $this->assertIsA($oObject, $class);
+    }
+
     /**
+     *
+     * PROBLEM: if any of the classes use database in their constructor this test will fail
+     * the test layer has no database
+     *
      * A method to test that the correct class is returned for appropriate
      * $controllerType input values
      */
-    function testGetController()
+    function test_GetController()
     {
-        foreach ($this->testTypes as $controllerType => $expectedClassName) {
+        /*foreach ($this->testTypes as $controllerType => $expectedClassName) {
             $oController =& OA_Admin_Statistics_Factory::getController($controllerType);
             $this->assertTrue(is_a($oController, $expectedClassName));
-        }
+        }*/
     }
+
+
+
 
 }
 
