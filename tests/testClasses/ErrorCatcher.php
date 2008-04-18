@@ -40,6 +40,7 @@ class SimpletestErrorCatcher
     function deactivate()
     {
         $this->active = false;
+		ob_end_flush();
     }
 
     function shutdown()
@@ -47,7 +48,7 @@ class SimpletestErrorCatcher
         if ($this->active) {
             $buffer = ob_get_clean();
             if (strlen($buffer)) {
-                echo "<h1>Warning: unclean exit</h1>\n".$buffer;
+                echo $buffer;
                 die(1);
             }
         }
