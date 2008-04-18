@@ -243,7 +243,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      * @var string
      */
     var $pageURI;
-    
+
     /**
      * A path for static assets (images, CSS, JavaScripts).
      *
@@ -394,9 +394,6 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         if ($this->useHistoryClass) {
             $this->oHistory = new OA_Admin_Statistics_History();
         }
-
-        // Check if stats are accourate (when upgraded from a non-TZ enabled version
-        $this->_checkStatsAccuracy();
     }
 
     /**
@@ -493,6 +490,9 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      */
     function output($graphMode = false)
     {
+        // Check if stats are accourate (when upgraded from a non-TZ enabled version
+        $this->_checkStatsAccuracy();
+
         if ($this->outputType == 'deliveryEntity') {
 
             // Display the entity delivery stats
@@ -740,7 +740,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         // Generate URI used to add other parameters
         $this->_generatePageURI();
         $this->assetPath = MAX::assetPath();
-        
+
         // Add context links, if any
         if (is_array($this->aPageContext))
             call_user_func_array(array($this, '_showContext'), $this->aPageContext);
