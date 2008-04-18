@@ -901,7 +901,8 @@ class PEAR_Error
             } else {
                 $format = $options;
             }
-            die(sprintf($format, $msg));
+            //die(sprintf($format, $msg));
+            trigger_error(sprintf($format, $msg), E_USER_NOTICE);
         }
         if ($this->mode & PEAR_ERROR_CALLBACK) {
             if (is_callable($this->callback)) {
