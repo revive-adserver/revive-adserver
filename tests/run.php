@@ -41,9 +41,12 @@ require_once 'init.php';
 
 // Required files
 require_once MAX_PATH . '/tests/testClasses/TestRunner.php';
+require_once MAX_PATH . '/tests/testClasses/ErrorCatcher.php';
 
 $runner = new TestRunner();
 $runner->findDefaults();
+
+$oErrorCatcher = new SimpletestErrorCatcher($runner);
 
 /* TODO: Extract this to the paintHeader() method of a reporter */
 if ($runner->output_format_name == 'html') {
@@ -133,6 +136,8 @@ if ($runner->output_format_name == 'html') {
     echo '</b> seconds.</div>';
 }
 */
+
+$oErrorCatcher->deactivate();
 
 $runner->exitWithCode();
 
