@@ -49,7 +49,7 @@ public class GlobalSettings {
 	private static final String OUTPUT_TO_CONSOLE = "OutputToConsole";
 	private static final String LOG_FILE_NAME = "LogFileName";
 
-	private static final String BUNDLE_NAME = "org.openads.config.config"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME = "config"; //$NON-NLS-1$
 
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle
 			.getBundle(BUNDLE_NAME);
