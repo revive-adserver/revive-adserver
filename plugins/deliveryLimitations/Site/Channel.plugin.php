@@ -133,29 +133,18 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
 
         $aChannels = array();
 
-        // Get all of the admin channels that could be used for this banner
-        $aAdminChannels = Admin_DA::getChannels(array('channel_type' => 'admin'), true);
-        foreach ($aAdminChannels as $aChannel) {
+        // Get all of the agency channels that could be used for this banner
+        $aAgencyChannels = Admin_DA::getChannels(array('agency_id' => $this->agencyid, 'channel_type' => 'agency'), true);
+        foreach ($aAgencyChannels as $aChannel) {
             $channelId = $aChannel['channel_id'];
             $aChannels[$channelId] = $aChannel;
         }
 
-        // Get all of the agency channels that could be used for this banner
-        if ($this->agencyid != 0) {
-            $aAgencyChannels = Admin_DA::getChannels(array('agency_id' => $this->agencyid, 'channel_type' => 'agency'), true);
-            foreach ($aAgencyChannels as $aChannel) {
-                $channelId = $aChannel['channel_id'];
-                $aChannels[$channelId] = $aChannel;
-            }
-        }
-
         // Get all of the publisher channels that could be used for this banner
-        if ($this->agencyid != 0) {
-            $aPublisherChannels = Admin_DA::getChannels(array('agency_id' => $this->agencyid, 'channel_type' => 'publisher'), true);
-            foreach ($aPublisherChannels as $aChannel) {
-                $channelId = $aChannel['channel_id'];
-                $aChannels[$channelId] = $aChannel;
-            }
+        $aPublisherChannels = Admin_DA::getChannels(array('agency_id' => $this->agencyid, 'channel_type' => 'publisher'), true);
+        foreach ($aPublisherChannels as $aChannel) {
+            $channelId = $aChannel['channel_id'];
+            $aChannels[$channelId] = $aChannel;
         }
 
         $aSelectedChannels = array();

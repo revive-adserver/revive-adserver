@@ -1099,10 +1099,7 @@ class Admin_DA
 
     function getChannels($aParams, $allFields = false)
     {
-        if (isset($aParams['channel_type']) && $aParams['channel_type'] == 'admin'){
-            $aParams['channel_type'] = 'agency';
-        }
-        elseif (!isset($aParams['channel_type'])) {
+        if (!isset($aParams['channel_type'])) {
             if (!empty($aParams['publisher_id'])) {
                 $aParams['channel_type'] = 'publisher';
             } elseif ((isset($aParams['publisher_id']) && !$aParams['publisher_id']) || (isset($aParams['agency_id']))) {
