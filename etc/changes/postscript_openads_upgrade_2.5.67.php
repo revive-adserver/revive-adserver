@@ -33,6 +33,30 @@ class OA_UpgradePostscript_2_5_67
 {
     var $oUpgrade;
 
+    var $languageMap = array(
+        'chinese_big5'          => 'zh_CN',
+        'chinese_gb2312'        => 'zh_CN',
+        'czech'                 => 'cs',
+        'dutch'                 => 'nl',
+        'english'               => 'en',
+        'english_affiliates'    => 'en',
+        'english_us'            => 'en',
+        'french'                => 'fr',
+        'german'                => 'de',
+        'hebrew'                => 'he',
+        'hungarian'             => 'hu',
+        'indonesian'            => 'id',
+        'italian'               => 'it',
+        'korean'                => 'ko',
+        'polish'                => 'pl',
+        'portuguese'            => 'pt_BR',
+        'brazilian_portuguese'  => 'pt_BR',
+        'russian_cp1251'        => 'ru',
+        'russian_koi8r'         => 'ru',
+        'spanish'               => 'es',
+        'turkish'               => 'tr'
+    );
+
     function OA_UpgradePostscript_2_5_67()
     {
 
@@ -41,7 +65,7 @@ class OA_UpgradePostscript_2_5_67
     function execute($aParams)
     {
         $this->oUpgrade = & $aParams[0];
-        return $this->updateAuditContext();
+        return $this->updateAuditContext() && $this->removeMaxSection();
     }
 
     function logOnly($msg)
@@ -95,6 +119,28 @@ class OA_UpgradePostscript_2_5_67
     {
         $fileName = MAX_PATH . '/lib/max/Dal/DataObjects/'.ucfirst($table).'.php';
         return file_exists($fileName);
+    }
+
+    function removeMaxSection()
+    {
+        unset($this->oUpgrade->oConfiguration->aConfig['max']['installed']);
+        unset($this->oUpgrade->oConfiguration->aConfig['max']['uiEnabled']);
+
+        $lang = 'en';
+        if (!empty($this->oUpgrade->oConfiguration->aConfig['max']['language'])) {
+			if (isset($this->languageMap[$this->oUpgrade->oConfiguration->aConfig['max']['language']])) {
+				$lang = $this->languageMap[$this->oUpgrade->oConfiguration->aConfig['max']['language']];
+			}
+        }
+		$this->oUpgrade->oConfiguration->aConfig['openads']['language'] = $lang;
+
+        unset($this->oUpgrade->oConfiguration->aConfig['max']['language']);
+        if (empty($this->oUpgrade->oConfiguration->aConfig['max'])) {
+        	unset($this->oUpgrade->oConfiguration->aConfig['max']);
+        	$this->oUpgrade->oLogger->log('Removed max section');
+        }
+        $this->oUpgrade->oConfiguration->writeConfig();
+        return true;
     }
 
 }

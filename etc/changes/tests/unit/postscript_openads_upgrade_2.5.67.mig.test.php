@@ -84,5 +84,70 @@ class Migration_postscript_2_5_67_UsersTest extends MigrationTest
         $this->assertEqual($doAudit->count(), $cTrackers);
     }
 
+    function testRemoveMaxSection()
+    {
+    	// prepare data
+        $oUpgrade  = new OA_Upgrade();
+
+
+        Mock::generatePartial(
+            'OA_UpgradePostscript_2_5_67',
+            $mockName = 'OA_UpgradePostscript_2_5_67_'.rand(),
+            array('logOnly','logError')
+        );
+        $doMockPostUpgrade = new $mockName($this);
+        $doMockPostUpgrade->oUpgrade = &$oUpgrade;
+
+        // delete max section to make a new max section for testing
+        unset($doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['max']);
+
+        $this->assertNull($doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['max']);
+
+        // add installed, uiEnabled and language to max section as can be possible
+        // to find at openx
+        $doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['max']['installed'] = '';
+        $doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['max']['uiEnabled'] = '1';
+        $doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['max']['language'] = 'english';
+
+        // check that aConfig max section is not null
+        $this->assertNotNull($doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['max']);
+
+        // remove max section
+        $doMockPostUpgrade->removeMaxSection();
+
+        // check that aConfig max section has been removed
+        $this->assertNull($doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['max']);
+
+        // assert that ['openads']['language'] has been created with the correct value
+        $this->assertEqual($doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['openads']['language'], 'en');
+
+        // generate the max section with more than the three possible original openx parameters
+        $doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['max']['installed'] = '';
+        $doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['max']['uiEnabled'] = '1';
+        $doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['max']['language'] = 'catalan';
+        $doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['max']['foo'] = 'foo';
+
+        // try to remove max section
+        $doMockPostUpgrade->removeMaxSection();
+
+        // assert that max section has not been removed because it has no original openx parameters
+        $this->assertNotNull($doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['max']);
+
+        // assert that the no original openx parameters still at the max section with their original value
+        $this->assertEqual($doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['max']['foo'], 'foo');
+
+        // assert that ['openads']['language'] has been created with the default value because
+        // the language is not recognise
+        $this->assertEqual($doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['openads']['language'], 'en');
+
+        // remove the not original openx parameter
+        unset($doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['max']['foo']);
+
+        // try to remove max section
+        $doMockPostUpgrade->removeMaxSection();
+
+        // check if the max section has been removed as is expected
+        $this->assertNull($doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['max']);
+    }
 }
 ?>

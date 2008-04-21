@@ -22,6 +22,14 @@
             <file>changes_tables_core_581.xml</file>
             <file>migration_tables_core_581.php</file>
         </package>
+        <package>
+            <version>582</version>
+            <stamp>582</stamp>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_582.xml</file>
+            <file>changes_tables_core_582.xml</file>
+            <file>migration_tables_core_582.php</file>
+        </package>
     </database>
 
     <!-- Custom Install Scripts to execute -->
