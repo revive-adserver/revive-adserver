@@ -223,6 +223,7 @@ $aSettings = array(
                 'type'    => 'text',
                 'name'    => 'delivery_cacheExpire',
                 'text'    => $strDeliveryCacheLimit,
+                'check'    => 'wholeNumber'
             )
         )
     ),

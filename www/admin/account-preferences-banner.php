@@ -83,7 +83,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
 } else if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     // Show the "Preferences", "User Log" and "Channel Management" sections of the "My Account" sections
     phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.7"));
-} 
+}
 else if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
     // Show the "User Preferences" section of the "My Account" sections
     $sections = array("5.1", "5.2");
@@ -91,7 +91,7 @@ else if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || OA_Permission::isAcc
         $sections[] = "5.4";
     }
     phpAds_ShowSections($sections);
-} 
+}
 
 // Set the correct section of the preference pages and display the drop-down menu
 $oOptions->selection("banner");
@@ -139,7 +139,7 @@ $aSettings = array (
                 'name'  => 'default_banner_weight',
                 'text'  => $strDefaultBannerWeight,
                 'size'  => 12,
-                'check' => 'number+'
+                'check' => 'wholeNumber'
             ),
             array (
                 'type'  => 'break'
@@ -149,7 +149,7 @@ $aSettings = array (
                 'name'  => 'default_campaign_weight',
                 'text'  => $strDefaultCampaignWeight,
                 'size'  => 12,
-                'check' => 'number+'
+                'check' => 'wholeNumber'
             )
         )
     )

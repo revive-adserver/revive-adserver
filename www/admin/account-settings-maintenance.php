@@ -168,7 +168,7 @@ $aSettings = array (
                 'text'    => $strMaintenanceCompactStatsGrace,
                 'size'    => 12,
                 'depends' => 'maintenance_compactStats==true',
-                'check'   => 'number+'
+                'check'   => 'wholeNumber'
             )
         )
     ),

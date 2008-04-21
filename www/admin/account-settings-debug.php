@@ -193,7 +193,10 @@ $aSettings = array (
                 'text'    => $strDebugIdent,
                 'req'     => true,
                 'depends' => 'log_enabled==1'
-            ),
+            )
+            /* These fields are hidden because mCal debug log type
+               is not supported at this moment
+            ,
             array (
                 'type'    => 'break'
             ),
@@ -211,7 +214,7 @@ $aSettings = array (
                 'name'    => 'log_paramsPassword',
                 'text'    => $strDebugPassword,
                 'depends' => 'log_enabled==1 && log_type==1 || log_type==2'
-            )
+            )*/
         )
     )
 );

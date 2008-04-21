@@ -158,7 +158,7 @@ $aSettings = array (
                 'text'    => $strDefaultImpConWindow,
                 'size'    => 12,
                 'depends' => 'logging_trackerImpressions==1 && logging_adImpressions==1',
-                'check'   => 'number+'
+                'check'   => 'wholeNumber'
             ),
             array (
                 'type'    => 'break'
@@ -169,7 +169,7 @@ $aSettings = array (
                 'text'    => $strDefaultCliConWindow,
                 'size'    => 12,
                 'depends' => 'logging_trackerImpressions==1 && logging_adClicks==1',
-                'check'   => 'number+'
+                'check'   => 'wholeNumber'
             )
         )
     )

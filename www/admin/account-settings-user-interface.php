@@ -87,8 +87,8 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     	if (!$GLOBALS['ui_enabled']) {
     		 $doSession = OA_Dal::factoryDO('session');
     		 $doSession->whereAdd('1=1');
-    		 $doSession->delete(DB_DATAOBJECT_WHEREADD_ONLY);    		    		
-    	}    	
+    		 $doSession->delete(DB_DATAOBJECT_WHEREADD_ONLY);
+    	}
         // The settings configuration file was written correctly,
         // go to the "next" settings page from here
         MAX_Admin_Redirect::redirect('account-settings-user-interface.php');
@@ -212,7 +212,8 @@ $aSettings = array (
             array (
                 'type'  => 'text',
                 'name'  => 'openads_sslPort',
-                'text'  => $sslPort
+                'text'  => $sslPort,
+                'check' => 'wholeNumber'
             ),
         )
     )

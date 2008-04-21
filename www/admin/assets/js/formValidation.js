@@ -85,9 +85,9 @@ function max_formSetUnique(obj, unique)
  *
  * @param {Object} length set the minimum and maximum length for the field.
  *                       Pass object with properties: min, max.
- *                       Either min and max can be set. 
+ *                       Either min and max can be set.
  *                       Negative values and 0 (zero) for min are ignored.
- *                       Examples: {max: 10}, {min: 2, max: 10}, {min: 5} 
+ *                       Examples: {max: 10}, {min: 2, max: 10}, {min: 5}
  */
 function max_formSetLength(obj, length)
 {
@@ -99,7 +99,7 @@ function max_formSetLength(obj, length)
     }
     if (length && length.max) {
       obj.maxLength = length.max;
-    }  
+    }
   }
 }
 
@@ -136,7 +136,7 @@ function max_formValidateElement(obj)
 {
     // Delimiter to use
     var tdelimiter = validatorPreferences.thousandsSeperator;
-	
+
   //skip validation in condition not met
   if (obj.valCondition && !eval(obj.valCondition)) {
     return false;
@@ -160,8 +160,16 @@ function max_formValidateElement(obj)
 			if ((obj.validateCheck == 'email') && ((val.indexOf('@') < 1) || (val.indexOf('@') == (val.length - 1)))) {
 				err = true;
 			}
-			// Check number and number+ data
+			// Check number* data
 			if ((obj.validateCheck == 'number*') && ((isNaN(val) && (val != '*')) || (parseInt(val) < 0))) {
+				err = true;
+			}
+			// Check number data
+			if ((obj.validateCheck == 'number') && ((isNaN(val)) || (parseInt(val) < 0))) {
+				err = true;
+			}
+			// Check whole number data
+			if ((obj.validateCheck == 'wholeNumber') && ((isNaN(val)) || (parseInt(val) < 0) || (val.indexOf('.') != -1))) {
 				err = true;
 			}
 			// Check number+ data
@@ -243,15 +251,15 @@ function max_formValidateElement(obj)
 				}
 			}
 		}
-		
+
 	    if (obj.minLength && obj.value.length < obj.minLength) {
 	        err = true;
 	    }
-    
+
 	    if (obj.maxLength && obj.maxLength > 0 && obj.value.length > obj.maxLength) { //this is unlikely since browser should contrain that
 	        err = true;
 	    }
-		
+
 		// Change class
 		if (err) {
 			obj.className='error';

@@ -170,6 +170,7 @@ $oSettings = array (
                 'name'       => 'database_port',
                 'text'       => $strDbPort,
                 'req'        => true,
+                'check'      => 'wholeNumber'
             ),
             array (
                 'type'       => 'break'
