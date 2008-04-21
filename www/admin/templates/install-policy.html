@@ -9,23 +9,6 @@
 
 <div id="terms-container" style=""><?php readfile("privacy-policy.html"); ?></div></span></td></tr></table>
 
-<?php
-			$isEnabled = (isset($_SESSION['checkForUpdates'])) ? $_SESSION['checkForUpdates'] : true;
-            $options->show(array (
-                array (
-                    'text'    => $GLOBALS['strSpecifySyncSettings'],
-                    'items'   => array (
-                        array (
-                            'type'    => 'checkbox',
-                            'name'    => 'sync_checkForUpdates',
-                            'text'    => $strAdminCheckUpdates,
-                            'value'   => $isEnabled ,
-                        )
-                    )
-                )
-            ), $errormessage, 0, $imgPath);
-?>
-
 <img src='<?php echo $imgPath; ?>images/break-el.gif' height='1' width='100%' vspace='5'>
 
                     <input type="submit" class="button" id="btn_syscheck" name="btn_syscheck" value="<?php echo $strBtnAgree; ?>" tabindex="<?php echo ($tabindex++); ?>" />

@@ -176,9 +176,8 @@ else if (array_key_exists('btn_syscheck', $_POST) || $_POST['dirPage'] == OA_UPG
     // store checkForUpdates value into session, so that they can be inserted into DB once DB has been created
     session_start();
 
-    if (isset($_POST['hdn_policy'])) {
-        $_SESSION['checkForUpdates'] = isset($_POST['sync_checkForUpdates']);
-    }
+    // Always check for updates
+    $_SESSION['checkForUpdates'] = true;
 
     $aSysInfo = $oUpgrader->checkEnvironment();
 
