@@ -228,6 +228,7 @@ $GLOBALS['strDbPort']                                = 'Database Port Number';
 $GLOBALS['strDbUser']                                = 'Database Username';
 $GLOBALS['strDbPassword']                            = 'Database Password';
 $GLOBALS['strDbName']                                = 'Database Name';
+$GLOBALS['strDbNameHint']                            = 'Database will be created if it does not exist';
 $GLOBALS['strDatabaseOptimalisations']               = 'Database Optimisation Settings';
 $GLOBALS['strPersistentConnections']                 = 'Use Persistent Connections';
 $GLOBALS['strCantConnectToDb']                       = 'Can\'t Connect to Database';
