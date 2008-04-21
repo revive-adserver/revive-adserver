@@ -90,7 +90,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         'store_ftpUsername' => array('store' => 'ftpUsername'),
         'store_ftpPassword' => array('store' => 'ftpPassword'),
         'store_ftpPassive'  => array(
-            'store' => 'ftpPassword',
+            'store' => 'ftpPassive',
             'bool'  => 'true'
         )
     );
@@ -116,6 +116,10 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     }
     phpAds_registerGlobal('store_ftpHost');
     if (isset($store_ftpHost)) {
+    	phpAds_registerGlobal('store_ftpUsername');
+    	phpAds_registerGlobal('store_ftpPassword');
+    	phpAds_registerGlobal('store_ftpPassive');
+    	phpAds_registerGlobal('store_ftpPath');
         // Check that PHP has support for FTP
         if (function_exists('ftp_connect')) {
             // Check that the FTP host can be contacted
@@ -125,21 +129,21 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
                     if ($store_ftpPassive) {
                         ftp_pasv($ftpsock, true);
                     }
-                    if (empty($store_ftpPath) || @ftp_chdir($ftpsock, $store_ftpPath)) {
+                	//Check path to ensure there is not a leading slash
+                    if (($store_ftpPath != "") && (substr($store_ftpPath, 0, 1) == "/")) {
+                        $store_ftpPath = substr($store_ftpPath, 1);
+                    }
+                        
+                    if (empty($store_ftpPath) || @ftp_chdir($ftpsock, $store_ftpPath)) { // Changes path if store_ftpPath is not empty!
                         // Save the 1x1.gif temporarily
                         $filename = MAX_PATH . '/var/1x1.gif';
                         $fp = @fopen($filename, 'w+');
                         @fwrite($fp, base64_decode('R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=='));
-                        // Check path to ensure there is not a leading slash
-                        if (($store_ftpPath != "") && (substr($store_ftpPath, 0, 1) == "/")) {
-                            $store_ftpPath = substr($store_ftpPath, 1);
-                        }
-                        // Change path
-                        if ($store_ftpPath != "") {
-                            @ftp_chdir($ftpsock, $store_ftpPath);
-                        }
+                        
                         // Upload to server
-                        @ftp_put($ftpsock, '1x1.gif', MAX_PATH.'/var/1x1.gif', FTP_BINARY);
+                        if (!@ftp_put($ftpsock, '1x1.gif', MAX_PATH.'/var/1x1.gif', FTP_BINARY)){
+                        	$aErrormessage[0][] = $strTypeFTPErrorUpload;
+                        }
                         // Chmod file so that it's world readable
                         if (function_exists('ftp_chmod') && !@ftp_chmod($ftpsock, 0644, '1x1.gif')) {
                             OA::debug('Unable to modify FTP permissions for file: '. $store_ftpPath .'/1x1.gif', PEAR_LOG_INFO);
