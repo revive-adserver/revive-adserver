@@ -42,12 +42,12 @@ $GLOBALS['strOpenadsIdSettings']            = "OpenX ID Settings";
 $GLOBALS['strWarning']                      = "Warning";
 $GLOBALS['strFatalError']                   = "A fatal error occurred";
 $GLOBALS['strUpdateError']                  = "An error occured while updating";
-$GLOBALS['strBtnContinue']                  = "Continue Â»";
-$GLOBALS['strBtnRecover']                   = "Recover Â»";
-$GLOBALS['strBtnStartAgain']                   = "Start Upgrade Again Â»";
-$GLOBALS['strBtnGoBack']                    = "Â« Go Back";
-$GLOBALS['strBtnAgree']                     = "I Agree Â»";
-$GLOBALS['strBtnDontAgree']                 = "Â« I Disagree";
+$GLOBALS['strBtnContinue']                  = "Continue »";
+$GLOBALS['strBtnRecover']                   = "Recover »";
+$GLOBALS['strBtnStartAgain']                   = "Start Upgrade Again »";
+$GLOBALS['strBtnGoBack']                    = "« Go Back";
+$GLOBALS['strBtnAgree']                     = "I Agree »";
+$GLOBALS['strBtnDontAgree']                 = "« I Disagree";
 $GLOBALS['strBtnRetry']                     = "Retry";
 $GLOBALS['strUpdateDatabaseError']          = "Due to unknown reasons the update of the database structure wasn't succesful. The recommended way to proceed is to click <b>Retry updating</b> to try to correct these potential problems. If you are sure these errors won't affect the functionality of ".MAX_PRODUCT_NAME." you can click <b>Ignore errors</b> to continue. Ignoring these errors may cause serious problems and is not recommended!";
 $GLOBALS['strAlreadyInstalled']             = MAX_PRODUCT_NAME." is already installed on this system. If you want to configure it go to the <a href='account-index.php'>settings interface</a>";
@@ -96,7 +96,7 @@ $GLOBALS['strPolicyTitle']               = "Privacy Policy";
 $GLOBALS['strPolicyIntro']               = "Please review and agree to the following document to continue the installation.";
 $GLOBALS['strDbSetupTitle']               = "Database Settings";
 $GLOBALS['strDbSetupIntro']               = "Please enter the details to connect to your database. If you are unsure about these details, please contact your system administrator.
-<p> The next step will set up your database. Click â€�continueâ€™ to proceed.</p>";
+<p> The next step will set up your database. Click ‘continue’ to proceed.</p>";
 $GLOBALS['strDbUpgradeIntro']             = "Below are the detected database details for your installation of " . MAX_PRODUCT_NAME . ". Please check to make sure that these details are correct.
 <p>The next step will upgrade your database. Click 'Continue' to upgrade your system.</p>";
 $GLOBALS['strOaUpToDate']               = "Your " . MAX_PRODUCT_NAME . " database and file structure are both using the most recent version and therefore no upgrade is required at this time. Please click Continue to proceed to the OpenX administration panel.";
