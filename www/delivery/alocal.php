@@ -1508,7 +1508,7 @@ function _areCookiesDisabled($filterActive = true)
 // Since MAX_cookieGetUniqueViewerID() has to have been called by this point
 return !empty($GLOBALS['_MAX']['COOKIE']['newViewerId']) && $filterActive;
 }
-function MAX_adRender($aBanner, $zoneId=0, $source='', $target='', $ct0='', $withText=false, $charset = '', $logClick=true, $logView=true, $richMedia=true, $loc='', $referer='', $context = array())
+function MAX_adRender(&$aBanner, $zoneId=0, $source='', $target='', $ct0='', $withText=false, $charset = '', $logClick=true, $logView=true, $richMedia=true, $loc='', $referer='', $context = array())
 {
 $conf = $GLOBALS['_MAX']['CONF'];
 // Sanitize these user-inputted variables before passing to the _adRenderX calls
@@ -1517,22 +1517,26 @@ $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
 }
 $target = htmlspecialchars($target, ENT_QUOTES);
 $source = htmlspecialchars($source, ENT_QUOTES);
+$bannerContent = "";
 $code = '';
 switch ($aBanner['contenttype']) {
 case 'gif'  :
 case 'jpeg' :
 case 'png'  :
 $code = _adRenderImage($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, false, $richMedia, $loc, $referer);
+$bannerContent = _adRenderBuildFileUrl($aBanner);
 break;
 case 'swf'  :
 if ($richMedia) {
 $code = _adRenderFlash($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $loc, $referer);
 } else {
 $code = _adRenderImage($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, true, $richMedia, $loc, $referer);
+$bannerContent =_adRenderBuildFileUrl($aBanner, true);
 }
 break;
 case 'txt'  :
 $code = _adRenderText($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, false, $loc, $referer);
+$bannerContent = $aBanner['bannertext'];
 break;
 case 'mov'  :
 $code = _adRenderQuicktime($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $loc, $referer);
@@ -1541,12 +1545,15 @@ default :
 switch ($aBanner['type']) {
 case 'html' :
 $code = _adRenderHtml($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, false, $loc, $referer);
+$bannerContent = $aBanner['htmltemplate'];
 break;
 case 'url' : // External banner without a recognised content type - assume image...
 $code = _adRenderImage($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, false, $richMedia, $loc, $referer);
+$bannerContent = _adRenderBuildFileUrl($aBanner);
 break;
 case 'txt' :
 $code = _adRenderText($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, false, $loc, $referer);
+$bannerContent = $aBanner['bannertext'];
 }
 break;
 }
@@ -1595,6 +1602,12 @@ $replace[] = urlencode($_REQUEST[$macros[1][$i]]);
 }
 }
 $code = str_replace($search, $replace, $code);
+$clickUrl = str_replace($search, $replace, $clickUrl);
+$aBanner['clickUrl'] = $clickUrl;
+$logUrl = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&amp;');
+$logUrl = str_replace($search, $replace, $logUrl);
+$aBanner['logUrl'] = $logUrl;
+$aBanner['bannerContent'] = $bannerContent;
 //    return $code;
 return MAX_commonConvertEncoding($code, $charset);
 }
@@ -2370,15 +2383,19 @@ $row['append'] .= $ad['append'];
 }
 }
 $outputbuffer = MAX_adRender($row, $zoneId, $source, $target, $ct0, $withtext, $charset, true, true, $richmedia, $loc, $referer, $context);
-$output = array('html'       => $outputbuffer,
-'bannerid'   => $row['bannerid'],
-'contenttype'=> $row['contenttype'],
-'alt'        => $row['alt'],
-'width'      => $row['width'],
-'height'     => $row['height'],
-'url'        => $row['url'],
-'campaignid' => $row['campaignid'],
-'context'    => _adSelectBuildContext($row, $context)
+$output = array(
+'html'          => $outputbuffer,
+'bannerid'      => $row['bannerid'],
+'contenttype'   => $row['contenttype'],
+'alt'           => $row['alt'],
+'width'         => $row['width'],
+'height'        => $row['height'],
+'url'           => $row['url'],
+'campaignid'    => $row['campaignid'],
+'clickUrl'	     => $row['clickUrl'],
+'logUrl'        => $row['logUrl'],
+'bannerContent' => $row['bannerContent'],
+'context'       => _adSelectBuildContext($row, $context)
 );
 // If ad-logging is disabled, the log beacon won't be sent, so set the capping at request
 if (MAX_Delivery_cookie_cappingOnRequest()) {
