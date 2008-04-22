@@ -292,6 +292,8 @@ class OA_Admin_Option
             	// Show the section header
             	$this->_showStartSection($aSection['text'], NULL, $disableSubmit, $imgPath);
             }
+            
+            $sectionHasRequiredField = false;
             foreach ($aSection['items'] as $aItem) {
             	// Test to see if the item is a preference item, and if it needs to be hidden from the account in use
             	if ($this->_optionType == 'account-preferences' || $this->_optionType == 'account-user') {
@@ -468,6 +470,9 @@ class OA_Admin_Option
                             break;
                     }
                     // ???
+                    if (isset($aItem['req'])) {
+                    	$sectionHasRequiredField = true;
+                    }
                     if (isset($aItem['check']) || isset($aItem['req'])) {
                         if (!isset($aItem['check'])) {
                             $aItem['check'] = '';
@@ -485,7 +490,7 @@ class OA_Admin_Option
                     }
                 }
             }
-            $this->_showEndSection();
+            $this->_showEndSection($sectionHasRequiredField);
         }
 
         if (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED)
@@ -671,9 +676,9 @@ class OA_Admin_Option
         $this->aOption[] = array('startsection.html' => $aItem);
     }
 
-    function _showEndSection()
+    function _showEndSection($sectionHasRequiredField = false)
     {
-        $this->aOption[] = array('endsection.html' => array());
+        $this->aOption[] = array('endsection.html' => array('hasRequiredField' => $sectionHasRequiredField));
     }
 
     function _showPlainText($aItem)

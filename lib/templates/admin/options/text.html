@@ -1,6 +1,8 @@
 <tr>
     <td>&nbsp;</td>
-    <td id='cell_{$aItem.name}' class='{if $aItem.disabled}celldisabled{else}cellenabled{/if}' valign='top'>{$aItem.text}</td>
+    <td id='cell_{$aItem.name}' class='{if $aItem.disabled}celldisabled{else}cellenabled{/if}' valign='top'>{$aItem.text}
+    {if $aItem.req}<span class="required">*</span>{/if}
+    </td>
     <td width='100%' valign='top'>
     {if $aItem.freeze}
         <strong>{$aItem.value|escape}</strong>

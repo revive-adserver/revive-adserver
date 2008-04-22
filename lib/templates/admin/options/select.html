@@ -1,6 +1,8 @@
 {if $aItem.items}
     <tr><td>&nbsp;</td>
-        <td id='cell_{$aItem.name}' class='{if $aItem.disabled}celldisabled{else}cellenabled{/if}'>{$aItem.text}</td>
+        <td id='cell_{$aItem.name}' class='{if $aItem.disabled}celldisabled{else}cellenabled{/if}'>{$aItem.text}
+        {if $aItem.req}<span class="required">*</span>{/if}
+        </td>
         <td width='100%'>
             <select name='{$aItem.name}' id='{$aItem.name}'
 		    {if $aItem.reload == 'yes'}

@@ -574,3 +574,18 @@ select.switcher optgroup {
     color: black;
     font-weight: bold;
 }
+
+
+span.required {
+  font-weight: bold;
+  color: red;
+  font-size: 150%;
+  line-height: 50%;
+  position: relative;
+  top: 0.3ex;
+}
+
+td.required-explanation {
+  color: #606060;
+  padding-bottom: 5px;
+}

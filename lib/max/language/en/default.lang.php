@@ -142,6 +142,7 @@ $GLOBALS['strValue']                    = 'Value';
 $GLOBALS['strAdmin']                    = 'Admin';
 $GLOBALS['strWarning']                  = 'Warning';
 $GLOBALS['strNotice']                   = 'Notice';
+$GLOBALS['strRequiredField']            = 'Required field';
 
 // Dashboard
 $GLOBALS['strDashboardCommunity']       = 'Community';
