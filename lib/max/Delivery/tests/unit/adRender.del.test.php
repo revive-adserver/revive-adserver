@@ -59,6 +59,19 @@ class test_DeliveryAdRender extends UnitTestCase
 //      require_once MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderImage.php';
 //	    $return = _adRenderImage($aBanner, $zoneId, $source, $target, $ct0, $withText, $logClick, $logView, $richMedia, $loc, $referer, $context);
 //		$this->assertEqual($return, $result);
+
+        // Silly test, test patch OX-2091
+        require MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderImage.php';
+
+        $this->assertNull($aBanner['bannerContent']);
+        $this->assertNull($aBanner['logUrl']);
+        $this->assertNull($aBanner['clickUrl']);
+
+        $return = MAX_adRender($aBanner);
+
+        $this->assertTrue($aBanner['bannerContent']);
+        $this->assertTrue($aBanner['logUrl']);
+        $this->assertTrue($aBanner['clickUrl']);
 	}
 
 	/**
@@ -77,7 +90,7 @@ class test_DeliveryAdRender extends UnitTestCase
         // $aBanner = (array)OA_Dal_Delivery_getAd(7);
         // $prn    = print_r($aBanner, TRUE);
 
-        require_once MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderImage.php';
+        require MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderImage.php';
 
 		$return	= _adRenderImage($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $richMedia, $loc, $referer, $useAppend);
 		$this->assertEqual($return, $expect);
@@ -105,7 +118,7 @@ class test_DeliveryAdRender extends UnitTestCase
 //        $aBanner = (array)OA_Dal_Delivery_getAd(2);
 //        $prn    = print_r($aBanner, TRUE);
 
-        require_once MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderFlash.php';
+        require MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderFlash.php';
         $return		= _adRenderFlash($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);
 
 		$flags		= null;

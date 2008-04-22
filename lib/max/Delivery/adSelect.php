@@ -231,29 +231,33 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
             }
         }
         $outputbuffer = MAX_adRender($row, $zoneId, $source, $target, $ct0, $withtext, $charset, true, true, $richmedia, $loc, $referer, $context);
-        $output = array('html'       => $outputbuffer,
-                     'bannerid'   => $row['bannerid'],
-                     'contenttype'=> $row['contenttype'],
-                     'alt'        => $row['alt'],
-                     'width'      => $row['width'],
-                     'height'     => $row['height'],
-                     'url'        => $row['url'],
-                     'campaignid' => $row['campaignid'],
-                     'context'    => _adSelectBuildContext($row, $context)
-                    );
-         // If ad-logging is disabled, the log beacon won't be sent, so set the capping at request
-         if (MAX_Delivery_cookie_cappingOnRequest()) {
-             if ($row['block_ad'] > 0 || $row['cap_ad'] > 0 || $row['session_cap_ad'] > 0) {
-                 MAX_Delivery_cookie_setCapping('Ad', $row['bannerid'], $row['block_ad'], $row['cap_ad'], $row['session_cap_ad']);
-             }
-             if ($row['block_campaign'] > 0 || $row['cap_campaign'] > 0 || $row['session_cap_campaign'] > 0) {
-                 MAX_Delivery_cookie_setCapping('Campaign', $row['campaign_id'], $row['block_campaign'], $row['cap_campaign'], $row['session_cap_campaign']);
-             }
-             if ($row['block_zone'] > 0 || $row['cap_zone'] > 0 || $row['session_cap_zone'] > 0) {
-                 MAX_Delivery_cookie_setCapping('Zone', $row['zoneid'], $row['block_zone'], $row['cap_zone'], $row['session_cap_zone']);
-             }
-         }
-         return $output;
+        $output = array(
+            'html'          => $outputbuffer,
+            'bannerid'      => $row['bannerid'],
+            'contenttype'   => $row['contenttype'],
+            'alt'           => $row['alt'],
+            'width'         => $row['width'],
+            'height'        => $row['height'],
+            'url'           => $row['url'],
+            'campaignid'    => $row['campaignid'],
+            'clickUrl'	     => $row['clickUrl'],
+            'logUrl'        => $row['logUrl'],
+            'bannerContent' => $row['bannerContent'],
+            'context'       => _adSelectBuildContext($row, $context)
+        );
+        // If ad-logging is disabled, the log beacon won't be sent, so set the capping at request
+        if (MAX_Delivery_cookie_cappingOnRequest()) {
+            if ($row['block_ad'] > 0 || $row['cap_ad'] > 0 || $row['session_cap_ad'] > 0) {
+                MAX_Delivery_cookie_setCapping('Ad', $row['bannerid'], $row['block_ad'], $row['cap_ad'], $row['session_cap_ad']);
+            }
+            if ($row['block_campaign'] > 0 || $row['cap_campaign'] > 0 || $row['session_cap_campaign'] > 0) {
+                MAX_Delivery_cookie_setCapping('Campaign', $row['campaign_id'], $row['block_campaign'], $row['cap_campaign'], $row['session_cap_campaign']);
+            }
+            if ($row['block_zone'] > 0 || $row['cap_zone'] > 0 || $row['session_cap_zone'] > 0) {
+                MAX_Delivery_cookie_setCapping('Zone', $row['zoneid'], $row['block_zone'], $row['cap_zone'], $row['session_cap_zone']);
+            }
+        }
+        return $output;
     } else {
         // No banner found
         if (!empty($row['default'])) {

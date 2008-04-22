@@ -95,7 +95,7 @@ $aPattern['stru']   = '(?P<structure>(?P<divA><div (?P<divA_div_attrib>[\w\W\s]+
                     .'(?P<divA_content>(?P<divA_href><a (?P<divA_href_attrib>[\w\W\s]+)>'
                     .'(?P<divA_img><img (?P<divA_img_attrib>[\w\W\s]+)>)'
                     .'<\/a>))'
-                    .'<\/div>)[\s\W]'
+                    .'<\/div>)[\s\W]*'
                     .'(?P<script><script (?P<script_attrib>[\w\W\s]+)>'
                     .'(?P<script_content>[\w\W\s]+)'
                     .'<\/script>)'

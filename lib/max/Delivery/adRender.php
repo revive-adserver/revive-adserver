@@ -106,7 +106,7 @@ $Id$
  *
  * @return string   The HTML to display this ad
  */
-function MAX_adRender($aBanner, $zoneId=0, $source='', $target='', $ct0='', $withText=false, $charset = '', $logClick=true, $logView=true, $richMedia=true, $loc='', $referer='', $context = array())
+function MAX_adRender(&$aBanner, $zoneId=0, $source='', $target='', $ct0='', $withText=false, $charset = '', $logClick=true, $logView=true, $richMedia=true, $loc='', $referer='', $context = array())
 {
     $conf = $GLOBALS['_MAX']['CONF'];
 
@@ -116,23 +116,26 @@ function MAX_adRender($aBanner, $zoneId=0, $source='', $target='', $ct0='', $wit
     }
     $target = htmlspecialchars($target, ENT_QUOTES);
     $source = htmlspecialchars($source, ENT_QUOTES);
-
+	$bannerContent = "";
     $code = '';
     switch ($aBanner['contenttype']) {
         case 'gif'  :
         case 'jpeg' :
         case 'png'  :
             $code = _adRenderImage($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, false, $richMedia, $loc, $referer);
+            $bannerContent = _adRenderBuildFileUrl($aBanner);
             break;
         case 'swf'  :
             if ($richMedia) {
                 $code = _adRenderFlash($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $loc, $referer);
             } else {
                 $code = _adRenderImage($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, true, $richMedia, $loc, $referer);
+                $bannerContent =_adRenderBuildFileUrl($aBanner, true);
             }
             break;
         case 'txt'  :
             $code = _adRenderText($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, false, $loc, $referer);
+            $bannerContent = $aBanner['bannertext'];
             break;
         case 'mov'  :
             $code = _adRenderQuicktime($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $loc, $referer);
@@ -141,12 +144,15 @@ function MAX_adRender($aBanner, $zoneId=0, $source='', $target='', $ct0='', $wit
             switch ($aBanner['type']) {
                 case 'html' :
                     $code = _adRenderHtml($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, false, $loc, $referer);
+                    $bannerContent = $aBanner['htmltemplate'];
                     break;
                 case 'url' : // External banner without a recognised content type - assume image...
                     $code = _adRenderImage($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, false, $richMedia, $loc, $referer);
+                    $bannerContent = _adRenderBuildFileUrl($aBanner);
                     break;
                 case 'txt' :
                     $code = _adRenderText($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, false, $loc, $referer);
+                    $bannerContent = $aBanner['bannertext'];
             }
             break;
     }
@@ -198,7 +204,18 @@ function MAX_adRender($aBanner, $zoneId=0, $source='', $target='', $ct0='', $wit
             $replace[] = urlencode($_REQUEST[$macros[1][$i]]);
         }
     }
+
     $code = str_replace($search, $replace, $code);
+
+    $clickUrl = str_replace($search, $replace, $clickUrl);
+    $aBanner['clickUrl'] = $clickUrl;
+
+    $logUrl = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&amp;');
+    $logUrl = str_replace($search, $replace, $logUrl);
+    $aBanner['logUrl'] = $logUrl;
+
+    $aBanner['bannerContent'] = $bannerContent;
+
 //    return $code;
     return MAX_commonConvertEncoding($code, $charset);
 }
