@@ -31,6 +31,7 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/www/admin/lib-maintenance-priority.inc.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Creative/File.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
@@ -40,7 +41,6 @@ $banner = MAX_commonGetValueUnslashed('banner');
 // Required files
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-storage.inc.php';
-require_once MAX_PATH . '/www/admin/lib-swf.inc.php';
 require_once MAX_PATH . '/www/admin/lib-banner.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
@@ -155,7 +155,13 @@ if (isset($submit)) {
 
     // Deal with any files that are uploaded.
     if (!empty($_FILES['upload']) && $replaceimage == 't') {
-        $aFile = _handleUploadedFile('upload', $type);
+        $oFile = OA_Creative_File::factoryUploadedFile('upload');
+        if (PEAR::isError($oFile)) {
+            phpAds_PageHeader(1);
+            phpAds_Die($strErrorOccurred, $oFile->getMessage());
+        }
+        $oFile->store($type);
+        $aFile = $oFile->getFileDetails();
         if (!empty($aFile)) {
             $aVariables['filename']      = $aFile['filename'];
             $aVariables['contenttype']   = $aFile['contenttype'];
@@ -166,7 +172,14 @@ if (isset($submit)) {
         }
     }
     if (!empty($_FILES['uploadalt']) && $replacealtimage == 't') {
-        $aFile = _handleUploadedFile('uploadalt', $type, true);
+        //TODO: Check image only? - Wasn't enforced before
+        $oFile = OA_Creative_File::factoryUploadedFile('upload');
+        if (PEAR::isError($oFile)) {
+            phpAds_PageHeader(1);
+            phpAds_Die($strErrorOccurred, $oFile->getMessage());
+        }
+        $oFile->store($type);
+        $aFile = $oFile->getFileDetails();
         if (!empty($aFile)) {
             $aVariables['alt_filename']    = $aFile['filename'];
             $aVariables['alt_contenttype'] = $aFile['contenttype'];
@@ -225,13 +238,14 @@ if (isset($submit)) {
         }
     }
 
-    // Delete any old banners...
-    if (!empty($aBanner['filename']) && $aBanner['filename'] != $aVariables['filename']) {
-        phpAds_ImageDelete($aBanner['type'], $aBanner['filename']);
-    }
-    if (!empty($aBanner['alt_filename']) && $aBanner['alt_filename'] != $aVariables['alt_filename']) {
-        phpAds_ImageDelete($aBanner['type'], $aBanner['alt_filename']);
-    }
+//TODO: deleting images is not viable because they could still be in use in the delivery cache
+//    // Delete any old banners...
+//    if (!empty($aBanner['filename']) && $aBanner['filename'] != $aVariables['filename']) {
+//        phpAds_ImageDelete($aBanner['storagetype'], $aBanner['filename']);
+//    }
+//    if (!empty($aBanner['alt_filename']) && $aBanner['alt_filename'] != $aVariables['alt_filename']) {
+//        phpAds_ImageDelete($aBanner['storagetype'], $aBanner['alt_filename']);
+//    }
 
     // Clients are only allowed to modify certain fields, ensure that other fields are unchanged
     if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
@@ -1056,57 +1070,6 @@ echo "<br /><br />";
 
 phpAds_PageFooter();
 
-function _handleUploadedFile($name, $type, $imageOnly=false)
-{
-    // Set some default parameters
-    $aFile = array();
-    $aFile['filename'] = '';
-    $aFile['contenttype'] = '';
-    $aFile['editswf'] = false;
-    $aFile['pluginversion'] = 0;
-    $aFile['width'] = 0;
-    $aFile['height'] = 0;
-
-    if (!empty($_FILES[$name]['name']) && $_FILES[$name]['tmp_name'] != 'none') {
-        $uploaded = $_FILES[$name];
-        // Store the uploaded file
-        _storeUploadedFile($uploaded);
-        // Set some parameters of the file...
-        $aFile['width'] = $uploaded['width'];
-        $aFile['height'] = $uploaded['height'];
-        $aFile['contenttype'] = _getFileContentType($uploaded['name']);
-        // Set Flash-specific features
-        if ($aFile['contenttype'] == 'swf') {
-
-            // Fix any wrong-case'd clickTAG commands
-            if(phpAds_SWFCompressed($uploaded['buffer'])) {
-                $uploaded['buffer'] = phpAds_SWFDecompress($uploaded['buffer']);
-                $uploaded['buffer'] = preg_replace("/([c|C][l|L][i|I][c|C][k|K][t|T][a|A][g|G])/", "clickTAG", $uploaded['buffer']);
-                $uploaded['buffer'] = phpAds_SWFCompress($uploaded['buffer']);
-            } else {
-                $uploaded['buffer'] = preg_replace("/([c|C][l|L][i|I][c|C][k|K][t|T][a|A][g|G])/", "clickTAG", $uploaded['buffer']);
-            }
-
-            $aFlashFile = _handleFlashFile($uploaded);
-            $aFile = array_merge($aFile, $aFlashFile);
-        }
-        $aFile['filename'] = phpAds_ImageStore($type, basename(stripslashes($uploaded['name'])), $uploaded['buffer']);
-    }
-    return $aFile;
-}
-
-function _handleFlashFile($uploaded)
-{
-    $aFile = array();
-    // Get dimensions of Flash file
-    list ($aFile['width'], $aFile['height']) = phpAds_SWFDimensions($uploaded['buffer']);
-    $aFile['pluginversion'] = phpAds_SWFVersion($uploaded['buffer']);
-    // Check if the Flash banner includes hard coded urls
-    $aFile['editswf'] = ($aFile['pluginversion'] >= 3 && phpAds_SWFInfo($uploaded['buffer']));
-
-    return $aFile;
-}
-
 function _getBannerContentType($aVariables, $alt=false)
 {
     $contentType = '';
@@ -1128,104 +1091,6 @@ function _getBannerContentType($aVariables, $alt=false)
     }
 
     return $contentType;
-}
-function _getFileContentType($fileName, $alt=false)
-{
-    $contentType = '';
-
-    $ext = substr($fileName, strrpos($fileName, '.') + 1);
-    switch (strtolower($ext)) {
-        case 'jpeg': $contentType = 'jpeg'; break;
-        case 'jpg':  $contentType = 'jpeg'; break;
-        case 'png':  $contentType = 'png';  break;
-        case 'gif':  $contentType = 'gif';  break;
-        case 'swf':  $contentType = $alt ? '' : 'swf';  break;
-        case 'dcr':  $contentType = $alt ? '' : 'dcr';  break;
-        case 'rpm':  $contentType = $alt ? '' : 'rpm';  break;
-        case 'mov':  $contentType = $alt ? '' : 'mov';  break;
-    }
-    return $contentType;
-}
-
-function _storeUploadedFile(&$uploaded, $imageOnly=false)
-{
-    if (function_exists('is_uploaded_file')) {
-        $upload_valid = @is_uploaded_file($uploaded['tmp_name']);
-    } else {
-        if (!$tmp_file = get_cfg_var('upload_tmp_dir')) {
-            $tmp_file = tempnam('','');
-            @unlink($tmp_file);
-            $tmp_file = dirname($tmp_file);
-        }
-
-        $tmp_file .= '/' . basename($uploaded['tmp_name']);
-        $tmp_file = str_replace('\\', '/', $tmp_file);
-        $tmp_file  = ereg_replace('/+', '/', $tmp_file);
-
-        $up_file = str_replace('\\', '/', $uploaded['tmp_name']);
-        $up_file = ereg_replace('/+', '/', $up_file);
-
-        $upload_valid = ($tmp_file == $up_file);
-    }
-
-    $uploadError = true;
-    $uploadErrorMessage = '';
-    if (!$upload_valid) {
-        $uploadErrorMessage = $strErrorUploadSecurity;
-    } else {
-        if (@file_exists ($uploaded['tmp_name'])) {
-            // Read the contents of the file in a buffer
-            if ($fp = @fopen($uploaded['tmp_name'], "rb")) {
-                $uploaded['buffer'] = '';
-                while (!feof($fp)) {
-                    $uploaded['buffer'] .= @fread($fp, 8192);
-                }
-                @fclose ($fp);
-                $uploadError = false;
-            } else {
-                // Check if moving the file is possible
-                if (function_exists("move_uploaded_file")) {
-                    $tmp_dir = MAX_PATH.'/var/cache/'.basename($uploaded['tmp_name']);
-
-                    // Try to move the file
-                    if (@move_uploaded_file ($uploaded['tmp_name'], $tmp_dir)) {
-                        $uploaded['tmp_name'] = $tmp_dir;
-
-                        // Try again if the file is readable
-                        if ($fp = @fopen($uploaded['tmp_name'], "rb")) {
-                            $uploaded['buffer'] = '';
-                            while (!feof($fp)) {
-                                $uploaded['buffer'] .= @fread($fp, 8192);
-                            }
-                            @fclose($fp);
-                            $uploadError = false;
-                        }
-                    }
-                }
-            }
-
-            if ($uploadError && empty($uploadErrorMessage)) {
-                $uploadErrorMessage = $strErrorUploadBasedir;
-            }
-
-            // Determine width and height
-            $size = @getimagesize($uploaded['tmp_name']);
-            $uploaded['width'] = $size[0];
-            $uploaded['height'] = $size[1];
-        } else {
-            $uploadErrorMessage = $strErrorUploadUnknown;
-        }
-    }
-
-    if ($uploadError) {
-        phpAds_PageHeader("1");
-        phpAds_Die ('Error', $uploadErrorMessage);
-    }
-
-    // Remove temporary file
-    if (@file_exists($uploaded['tmp_name'])) {
-        @unlink ($uploaded['tmp_name']);
-    }
 }
 
 ?>
