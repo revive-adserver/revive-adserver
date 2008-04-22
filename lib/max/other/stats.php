@@ -76,10 +76,21 @@ $Id$
 
     function MAX_sortArray(&$aArr, $column, $ascending = true)
     {
-        // I need to set these variables as globals so that they can be accessed in the Array compare function.
-        $GLOBALS['sortColumn'] = $column;
+        // Store $column and $ascending for use in _sortArrayCompare()
+        $GLOBALS['sortColumn']    = $column;
         $GLOBALS['sortAscending'] = $ascending;
-        uasort($aArr, '_sortArrayCompare');
+
+        // If array keys are days (yyyy-mm-dd format), and the array is to be sorted by 'day',
+        // use ksort to avoid comparing strings with formatted dates
+        if ($column == 'day' && preg_match("/^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/", key($aArr)) == 1) {
+            if ($ascending) {
+                ksort($aArr);
+            } else {
+                krsort($aArr);
+            }
+        } else {
+            uasort($aArr, '_sortArrayCompare');
+        }
     }
 
     function _sortArrayCompare($a, $b)
