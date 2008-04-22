@@ -457,7 +457,7 @@ div.zone-title {
   margin-bottom: 1ex;
 }
 
-#terms-container {
+.terms-container {
   height: 200px; 
   overflow-y: scroll;
   overflow-x: none;
@@ -467,7 +467,7 @@ div.zone-title {
   margin-bottom: 1em;
 }
 
-#terms-container .li1 {
+.terms-container .li1 {
   padding-left : 2px;
   padding-bottom: 2px;
   padding-top: 2px;
@@ -475,25 +475,25 @@ div.zone-title {
   font-weight: bold;
 }
 
-#terms-container .li2txt {
+.terms-container .li2txt {
   margin: 25px;
   padding-left: 25px;
   padding-right: 20px;
 }
 
-#terms-container .li2 {
+.terms-container .li2 {
   margin-left:-25px;
   margin-bottom: 0px;
   float: left;
 }
 
-#terms-container ul, #terms-container ol {
+.terms-container ul, .terms-container ol {
   padding: 0pt 0.8em 0pt 1.5em;
   margin-top: 1em;
   margin-bottom: 1em;
 }
 
-#terms-container h1 {
+.terms-container h1 {
   margin-top: 1em;
   margin-bottom: 1em;
   font-size: 200%;

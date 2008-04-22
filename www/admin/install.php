@@ -610,12 +610,6 @@ else if (array_key_exists('btn_terms', $_POST))
 {
     $action = OA_UPGRADE_TERMS;
 }
-else if (array_key_exists('btn_policy', $_POST))
-{
-    session_start();
-
-    $action = OA_UPGRADE_POLICY;
-}
 else if (array_key_exists('btn_finish', $_POST))
 {
     if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
@@ -680,7 +674,6 @@ elseif ($installStatus !== 'unknown')
 $activeNav = array (
                     OA_UPGRADE_WELCOME        =>      '10',
                     OA_UPGRADE_TERMS          =>      '20',
-                    OA_UPGRADE_POLICY         =>      '25',
                     OA_UPGRADE_SYSCHECK       =>      '30',
                     OA_UPGRADE_APPCHECK       =>      '30',
                     OA_UPGRADE_DBSETUP        =>      '50',
@@ -712,8 +705,7 @@ foreach ($activeNav as $key=>$val) {
 // Setup array for navigation
 $OA_Navigation = array (
     '10'     =>  array($navLinks[OA_UPGRADE_WELCOME]     => 'Welcome'),
-    '20'     =>  array($navLinks[OA_UPGRADE_TERMS]       => 'Terms'),
-    '25'     =>  array($navLinks[OA_UPGRADE_POLICY]      => 'Policy'),
+    '20'     =>  array($navLinks[OA_UPGRADE_TERMS]       => 'Terms & Privacy'),
     '30'     =>  array($navLinks[OA_UPGRADE_SYSCHECK]    => 'System Check'),
     '40'     =>  array($navLinks[OA_UPGRADE_APPCHECK]    => 'Application Check'),
     '45'     =>  array($navLinks[OA_UPGRADE_LOGIN]       => 'Login'),
