@@ -35,6 +35,7 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/OA/Session.php';
 require_once MAX_PATH . '/lib/OA/Admin/Menu.php';
+require_once MAX_PATH . '/lib/max/other/html.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
@@ -46,12 +47,11 @@ OA_Permission::enforceAccessToObject('clients', $clientid);
 /*-------------------------------------------------------*/
 
 if (!empty($clientid)) {
-    $icon = "<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
 	if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
 		OA_Admin_Menu::setAdvertiserPageContext($clientid, 'advertiser-access.php');
 		phpAds_PageShortcut($strClientHistory, 'stats.php?entity=advertiser&breakdown=history&clientid='.$clientid, 'images/icon-statistics.gif');
 		phpAds_PageHeader("4.1.5");
-		echo $icon;
+        MAX_displayAdvertiserBreadcrumbs($clientid);
 		$aTabSections = array("4.1.2", "4.1.3");
         // Conditionally display conversion tracking values
 		if ($conf['logging']['trackerImpressions']) {
@@ -61,8 +61,8 @@ if (!empty($clientid)) {
 		phpAds_ShowSections($aTabSections);
 	} else {
 		phpAds_PageHeader('2.3');
-		echo $icon;
-    	$sections = array();
+		MAX_displayAdvertiserBreadcrumbs($clientid);
+        $sections = array();
     	if (OA_Permission::hasPermission(OA_PERM_BANNER_ACTIVATE) || OA_Permission::hasPermission(OA_PERM_BANNER_EDIT)) {
         	$sections[] = '2.2';
     	}
@@ -70,8 +70,9 @@ if (!empty($clientid)) {
     	phpAds_ShowSections($sections);
 	}
 } else {
-	phpAds_PageHeader("4.1.1");
-	echo "<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
+    phpAds_PageHeader("4.1.1");
+    MAX_displayInventoryBreadcrumbs(array(array("name" => phpAds_getClientName($clientid))), 
+                                    "advertiser");
 	phpAds_ShowSections(array("4.1.1"));
 }
 $tabindex = 1;

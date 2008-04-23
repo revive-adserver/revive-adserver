@@ -35,6 +35,7 @@ require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/OA/Admin/Menu.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
+require_once MAX_PATH . '/lib/max/other/html.php';
 
 // Register input variables
 phpAds_registerGlobalUnslashed(
@@ -130,12 +131,14 @@ if ($clientid != "") {
         OA_Admin_Menu::setAdvertiserPageContext($clientid, 'advertiser-index.php');
         phpAds_PageShortcut($strClientHistory, 'stats.php?entity=advertiser&breakdown=history&clientid='.$clientid, 'images/icon-statistics.gif');
         phpAds_PageHeader("4.1.2");
-        echo "<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
+
+        MAX_displayAdvertiserBreadcrumbs($clientid);
+                
         $aTabSections = array("4.1.2", "4.1.3");
         // Conditionally display conversion tracking values
-		if ($conf['logging']['trackerImpressions']) {
-		    $aTabSections[] = "4.1.4";
-		}
+				if ($conf['logging']['trackerImpressions']) {
+				    $aTabSections[] = "4.1.4";
+				}
         $aTabSections[] = "4.1.5";
         phpAds_ShowSections($aTabSections);
     } else {
@@ -157,7 +160,7 @@ if ($clientid != "") {
     }
 } else {
     phpAds_PageHeader("4.1.1");
-    echo "<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
+    MAX_displayAdvertiserBreadcrumbs($clientid);
     phpAds_ShowSections(array("4.1.1"));
     // Do not set this information if the page
     // is the result of an error message
@@ -280,7 +283,7 @@ echo $strAdvertiserLimitation;
 echo "</td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-echo "<img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'>";
+echo "<img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'>";
 echo "</td></tr>";
 
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";

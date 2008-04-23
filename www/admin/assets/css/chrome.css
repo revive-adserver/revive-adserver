@@ -575,6 +575,60 @@ select.switcher optgroup {
     font-weight: bold;
 }
 
+div.breadcrumb {
+	margin: 10px 0px 17px 20px;
+	font-size: 10px;
+}
+
+div.onlytitle {
+	margin-top: 12px;
+}
+
+div.breadcrumb h3 {
+	font-size: 18px;
+	font-weight: bold;
+	margin: 6px 0 0 0;
+	color: #666666;
+}
+
+div.breadcrumb h3 span.label {
+  color: #333333;
+}
+
+div.breadcrumb span.sep {
+	padding-left: 2ex;
+	padding-right: 2ex;
+	position: relative;
+	color: #606060;
+}
+
+div.breadcrumb a.adv,
+div.breadcrumb a.camp,
+div.breadcrumb a.ban,
+div.breadcrumb a.webs {
+    padding: 2px 0px 2px 20px;
+	background-repeat: no-repeat;
+}
+
+div.breadcrumb a.adv {
+	background-image: url("../images/icon-advertiser.gif");
+}
+
+div.breadcrumb a.camp {
+	background-image: url("../images/icon-campaign.gif");
+}
+
+div.breadcrumb a.ban {
+	background-image: url("../images/icon-campaign.gif");
+}
+
+div.breadcrumb a.webs {
+	background-image: url("../images/icon-affiliate.gif");
+}
+
+a.ent {
+	font-weight: bold;
+}
 
 span.required {
   font-weight: bold;

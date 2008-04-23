@@ -38,6 +38,7 @@ require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/lib/OA/Dll/Publisher.php';
 require_once MAX_PATH . '/lib/OA/Session.php';
 require_once MAX_PATH . '/lib/OA/Admin/Menu.php';
+require_once MAX_PATH . '/lib/max/other/html.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
@@ -53,7 +54,7 @@ if (!empty($affiliateid)) {
         OA_Admin_Menu::setPublisherPageContext($affiliateid, 'affiliate-access.php');
         phpAds_PageShortcut($strAffiliateHistory, 'stats.php?entity=affiliate&breakdown=history&affiliateid='.$affiliateid, 'images/icon-statistics.gif');
         phpAds_PageHeader("4.2.7");
-        echo "<img src='" . MAX::assetPath() . "/images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br /><br /><br />";
+        MAX_displayWebsiteBreadcrumbs($affiliateid);
         phpAds_ShowSections(array("4.2.2", "4.2.3","4.2.4","4.2.5","4.2.6","4.2.7"));
     } else {
         phpAds_PageHeader('2.3');
@@ -62,11 +63,12 @@ if (!empty($affiliateid)) {
             $sections[] = '2.2';
         }
         $sections[] = '2.3';
+        MAX_displayWebsiteBreadcrumbs($affiliateid);
         phpAds_ShowSections($sections);
     }
 } else {
     phpAds_PageHeader("4.2.1");
-    echo "<img src='" . MAX::assetPath() . "/images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br /><br /><br />";
+    MAX_displayWebsiteBreadcrumbs($affiliateid);
     phpAds_ShowSections(array("4.2.1"));
 }
 

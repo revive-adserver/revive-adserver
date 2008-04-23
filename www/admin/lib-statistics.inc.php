@@ -52,7 +52,7 @@ function phpAds_breakString($str, $maxLen, $append = "...")
 
 function phpAds_buildName($id, $name)
 {
-    return ("<span dir='".$GLOBALS['phpAds_TextDirection']."'>[id$id]</span> ".$name);
+    return ($name);
 }
 
 /*-------------------------------------------------------*/
@@ -241,7 +241,7 @@ function phpAds_getZoneName($zoneid)
 
 function phpAds_buildAffiliateName($affiliateid, $name)
 {
-    return ("<span dir='".$GLOBALS['phpAds_TextDirection']."'>[id$affiliateid]</span> $name");
+    return $name;
 }
 
 /*-------------------------------------------------------*/

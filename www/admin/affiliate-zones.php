@@ -35,6 +35,7 @@ require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-size.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/lib/max/Delivery/cache.php';
+require_once MAX_PATH . '/lib/max/other/html.php';
 
 require_once MAX_PATH . '/lib/OA/Dll/Zone.php';
 
@@ -90,7 +91,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     phpAds_PageShortcut($strAffiliateHistory, 'stats.php?entity=affiliate&breakdown=history&affiliateid='.$affiliateid, 'images/icon-statistics.gif');
 
     phpAds_PageHeader("4.2.3");
-    echo "<img src='" . MAX::assetPath() . "/images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br /><br /><br />";
+    MAX_displayWebsiteBreadcrumbs($affiliateid);
     phpAds_ShowSections(array("4.2.2", "4.2.3", "4.2.4", "4.2.5", "4.2.6", "4.2.7"));
 } else {
     $sections = array("2.1");

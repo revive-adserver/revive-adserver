@@ -36,6 +36,7 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/OA/Permission.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
+require_once MAX_PATH . '/lib/max/other/html.php';
 
 phpAds_registerGlobalUnslashed('expand', 'collapse', 'hideinactive', 'listorder', 'orderdirection');
 
@@ -73,7 +74,7 @@ phpAds_PageShortcut($strClientHistory, 'stats.php?entity=advertiser&breakdown=hi
 
 if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     phpAds_PageHeader("4.1.3");
-	echo "<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
+    MAX_displayAdvertiserBreadcrumbs($clientid);
     $aTabSections = array("4.1.2", "4.1.3");
     // Conditionally display conversion tracking values
 	if ($conf['logging']['trackerImpressions']) {
@@ -83,8 +84,8 @@ if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     phpAds_ShowSections($aTabSections);
 } else {
     phpAds_PageHeader('2.2');
-	echo "<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
-	$sections = array('2.2');
+    MAX_displayAdvertiserBreadcrumbs($clientid);
+    $sections = array('2.2');
 	if (OA_Permission::hasPermission(OA_PERM_SUPER_ACCOUNT)) {
 	    $sections[] = '2.3';
 	}

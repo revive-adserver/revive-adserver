@@ -38,7 +38,7 @@ function MAX_getDisplayName($name, $length = 60, $append = '...')
 
 function MAX_buildName($id, $name)
 {
-    return "<span dir='{$GLOBALS['phpAds_TextDirection']}'>[id$id]</span> $name";
+    return $name;
 }
 
 function MAX_getEntityIcon($entity, $active=true, $type='')
@@ -563,6 +563,113 @@ function MAX_displayZoneStats($aParams, $pageName, $anonymous, $aNodes, $expand,
     }
 }
 
+function MAX_displayInventoryBreadcrumbs($aEntityNamesUrls, $entityClass, $newEntity)
+{
+	$aEntityLabelsClasses = MAX_buildBreadcrumbLabelsCssClasses($entityClass);
+	
+    echo "<div class='breadcrumb'>";
+    for ($i = 0; $i < count($aEntityNamesUrls) - 1; $i++) {
+	    echo "<a href='" . $aEntityNamesUrls[$i]["url"] . "' class='ent " . $aEntityLabelsClasses[$i]['class'] . "'>" . $aEntityLabelsClasses[$i]['label'] . ": " . $aEntityNamesUrls[$i]["name"] . "</a>";
+	    if ($i < count($aEntityNamesUrls) - 2) {
+	    	echo "<span class='sep'>&gt;</span>";
+	    }
+    }
+    echo "<h3><span class='label'>" . $aEntityLabelsClasses[count($aEntityNamesUrls) - 1][$newEntity ? "newLabel" : "label"] . "</span>";
+    if (!$newEntity) {
+        echo ": " . $aEntityNamesUrls[count($aEntityNamesUrls) - 1]["name"] . "</h3>";
+    }
+    echo "</h3>";
+}
+
+function MAX_buildBreadcrumbLabelsCssClasses($entityClass)
+{
+	$advertiser = array("label" => "Advertiser", "newLabel" => "Add new advertiser", "class" => "adv");
+	$campaign = array("label" => "Campaign", "newLabel" => "Add new campaign", "class" => "camp");
+	$tracker = array("label" => "Tracker", "newLabel" => "Add new tracker", "class" => "track");
+	$banner = array("label" => "Banner", "newLabel" => "Add new banner", "class" => "ban");
+	$website = array("label" => "Website", "newLabel" => "Add new website", "class" => "webs");
+	$zone = array("label" => "Zone", "newLabel" => "Add new zone", "class" => "zone");
+	$channel = array("label" => "Channel", "newLabel" => "Add new channel", "class" => "chan");
+	$agency = array("label" => "Agency", "newLabel" => "Add new agency", "class" => "agen");
+	
+	$bannerTree = array($advertiser, $campaign, $banner);
+	$trackerTree = array($advertiser, $tracker);
+	$zoneTree = array($website, $zone);
+	$traffickerZoneTree = array($zone);
+	$channelTree = array($website, $channel);
+	$globalChannelTree = array($channel);
+	$agencyTree = array($agency);
+	
+	// In theory we could put these into an array indexed by the entity
+	// class, but it's probably not worth it.
+	if ($entityClass == "banner" || $entityClass == "campaign" || $entityClass == "advertiser")
+	{
+		return $bannerTree; 
+	}
+	else if ($entityClass == "tracker")
+	{
+		return $trackerTree;
+	}
+	else if ($entityClass == "website" || $entityClass == "zone")
+	{
+		return $zoneTree;
+	}
+	else if ($entityClass == "trafficker-zone") 
+    {
+		return $traffickerZoneTree;
+	}
+	else if ($entityClass == "channel") 
+    {
+    	return $channelTree;
+	}
+	else if ($entityClass == "global-channel")
+	{
+		return $globalChannelTree;
+	}
+	else if ($entityClass == "agency")
+	{
+		return $agencyTree;
+	}
+	else
+	{
+		return null;
+	}
+}
+
+
+function MAX_displayAdvertiserBreadcrumbs($clientid)
+{
+    MAX_displayInventoryBreadcrumbs(array(array("name" => phpAds_getClientName($clientid))), "advertiser", $clientid == '');
+}
+
+function MAX_displayTrackerBreadcrumbs($trackerid, $clientid)
+{
+	if ($trackerid) {
+        $parentClientId = phpAds_getTrackerParentClientID($trackerid);
+        $trackerName = phpAds_getTrackerName($trackerid);
+	}
+	else {
+		$parentClientId = $clientid;
+		$trackerName = "";
+	}
+    $advertiserEditUrl = "advertiser-edit.php?clientid=$parentClientId";
+    MAX_displayInventoryBreadcrumbs(array(
+                                        array("name" => phpAds_getClientName($parentClientId), "url" => $advertiserEditUrl),
+                                        array("name" => $trackerName)
+                                    ), "tracker", $trackerid == null);
+}
+
+function MAX_displayWebsiteBreadcrumbs($affiliateid)
+{
+	if ($affiliateid) {
+        $websiteName = phpAds_getAffiliateName($affiliateid);
+	}
+	else {
+		$websiteName = "";
+	}
+    MAX_displayInventoryBreadcrumbs(array(array("name" => $websiteName)), "website", $affiliateid == null);
+}
+
 function MAX_displayNavigationCampaign($pageName, $aOtherAdvertisers, $aOtherCampaigns, $aEntities)
 {
     global $phpAds_TextDirection;
@@ -627,8 +734,10 @@ function MAX_displayNavigationCampaign($pageName, $aOtherAdvertisers, $aOtherCam
         phpAds_PageContext($otherCampaignName, $page, $current);
     }
 
+    $advertiserEditUrl = "advertiser-edit.php?clientid=$advertiserId";
+    
     if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-        phpAds_PageShortcut($GLOBALS['strClientProperties'], "advertiser-edit.php?clientid=$advertiserId", 'images/icon-advertiser.gif');
+        phpAds_PageShortcut($GLOBALS['strClientProperties'], $advertiserEditUrl, 'images/icon-advertiser.gif');
     }
     phpAds_PageShortcut($GLOBALS['strCampaignHistory'], "stats.php?entity=campaign&breakdown=history&$entityString", 'images/icon-statistics.gif');
 
@@ -666,9 +775,10 @@ function MAX_displayNavigationCampaign($pageName, $aOtherAdvertisers, $aOtherCam
     }
 
     phpAds_PageHeader($tabValue, $extra);
-    echo "
-<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;$advertiserName&nbsp;<img src='" . MAX::assetPath() . "/images/$phpAds_TextDirection/caret-rs.gif'>&nbsp;
-<img src='" . MAX::assetPath() . "/images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>$campaignName</b><br /><br /><br />";
+    MAX_displayInventoryBreadcrumbs(array(
+                                      array("name" => $advertiserName, "url" => $advertiserEditUrl),
+                                      array("name" => $campaignName)), 
+                                    "campaign");
     phpAds_ShowSections($tabSections);
 }
 
@@ -729,11 +839,13 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
         phpAds_PageContext($otherBannerName, $page, $current);
     }
 
+    $advertiserEditUrl = "advertiser-edit.php?clientid=$advertiserId";
+    $campaignEditUrl = "campaign-edit.php?clientid=$advertiserId&campaignid=$campaignId";
     if (OA_Permission::hasAccessToObject('clients', $advertiserId)) {
-        phpAds_PageShortcut($GLOBALS['strClientProperties'], "advertiser-edit.php?clientid=$advertiserId", 'images/icon-advertiser.gif');
+        phpAds_PageShortcut($GLOBALS['strClientProperties'], $advertiserEditUrl, 'images/icon-advertiser.gif');
     }
     if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-        phpAds_PageShortcut($GLOBALS['strCampaignProperties'], "campaign-edit.php?clientid=$advertiserId&campaignid=$campaignId", 'images/icon-campaign.gif');
+        phpAds_PageShortcut($GLOBALS['strCampaignProperties'], $campaignEditUrl, 'images/icon-campaign.gif');
     }
     phpAds_PageShortcut($GLOBALS['strBannerHistory'], "stats.php?entity=banner&breakdown=history&$entityString", 'images/icon-statistics.gif');
 
@@ -806,12 +918,20 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
         $bannerCode = '';
     }
     phpAds_PageHeader($tabValue, $extra);
-    echo "
-<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;$advertiserName&nbsp;<img src='" . MAX::assetPath() . "/images/$phpAds_TextDirection/caret-rs.gif'>&nbsp;
-<img src='" . MAX::assetPath() . "/images/icon-campaign.gif' align='absmiddle'>&nbsp;$campaignName&nbsp;<img src='" . MAX::assetPath() . "/images/$phpAds_TextDirection/caret-rs.gif'>&nbsp;
-<img src='" . MAX::assetPath() . "/images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>$bannerName</b><br /><br />
-$bannerCode<br /><br /><br /><br />";
-    phpAds_ShowSections($tabSections);
+    
+    MAX_displayInventoryBreadcrumbs(array(
+                                      array("name" => $advertiserName, "url" => $advertiserEditUrl),
+                                      array("name" => $campaignName, "url" => $campaignEditUrl), 
+                                      array("name" => $bannerName)), 
+                                    "banner", $bannerId == '');
+    if ($bannerCode != '') {
+    	echo "<br />";
+    }
+	echo "$bannerCode";
+    if ($bannerCode != '') {
+        echo "<br /><br />";
+    }
+	phpAds_ShowSections($tabSections);
 }
 
 function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $aEntities)
@@ -871,8 +991,9 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
         phpAds_PageContext($otherZoneName, $page, $current);
     }
 
+    $publisherEditUrl = "affiliate-edit.php?affiliateid=$publisherId";
     if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER)) {
-        phpAds_PageShortcut($GLOBALS['strAffiliateProperties'], "affiliate-edit.php?affiliateid=$publisherId", 'images/icon-affiliate.gif');
+        phpAds_PageShortcut($GLOBALS['strAffiliateProperties'], $publisherEditUrl, 'images/icon-affiliate.gif');
     }
     phpAds_PageShortcut($GLOBALS['strZoneHistory'], "stats.php?entity=zone&breakdown=history&$entityString", 'images/icon-statistics.gif');
 
@@ -922,9 +1043,16 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
     }
     phpAds_PageHeader($tabValue, $extra);
     if (!OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-        echo "<img src='" . MAX::assetPath() . "/images/icon-affiliate.gif' align='absmiddle'>&nbsp;$publisherName&nbsp;<img src='" . MAX::assetPath() . "/images/$phpAds_TextDirection/caret-rs.gif'>&nbsp;";
+    	MAX_displayInventoryBreadcrumbs(array(
+    	                                   array("name" => $publisherName, "url" => $publisherEditUrl),
+    	                                   array("name" => $zoneName)
+    	                               ), "zone");
     }
-    echo "<img src='" . MAX::assetPath() . "/images/icon-zone.gif' align='absmiddle'>&nbsp;<b>$zoneName</b><br /><br /><br />";
+    else {
+        MAX_displayInventoryBreadcrumbs(array(
+                                           array("name" => $zoneName)
+                                       ), "trafficker-zone");
+    }
     phpAds_ShowSections($tabSections);
 
 }
@@ -966,7 +1094,7 @@ function MAX_displayNavigationPublisher($pageName, $aOtherPublishers, $aEntities
     phpAds_PageShortcut($GLOBALS['strAffiliateHistory'], 'stats.php?entity=affiliate&breakdown=history&affiliateid='.$publisherId, 'images/icon-statistics.gif');
 
     phpAds_PageHeader($tabValue, $extra = '');
-    echo "<img src='" . MAX::assetPath() . "/images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>$publisherName</b><br /><br /><br />";
+    MAX_displayInventoryBreadcrumbs(array(array("name" => $publisherName)), "website");
     phpAds_ShowSections($tabSections);
 }
 
@@ -1022,8 +1150,9 @@ function MAX_displayNavigationChannel($pageName, $aOtherChannels, $aEntities)
         phpAds_PageContext($otherChannelName, $page, $current);
     }
 
+    $publisherEditUrl = "affiliate-edit.php?affiliateid=$publisherId";
     if ($channelType == 'publisher') {
-        phpAds_PageShortcut($GLOBALS['strAffiliateProperties'], "affiliate-edit.php?affiliateid=$publisherId", 'images/icon-affiliate.gif');
+        phpAds_PageShortcut($GLOBALS['strAffiliateProperties'], $publisherEditUrl, 'images/icon-affiliate.gif');
         phpAds_PageShortcut($GLOBALS['strAffiliateHistory'], "stats.php?entity=affiliate&breakdown=history&affiliateid=$publisherId", 'images/icon-statistics.gif');
     }
 
@@ -1051,24 +1180,28 @@ function MAX_displayNavigationChannel($pageName, $aOtherChannels, $aEntities)
 
     if (!empty($publisherId)) {
         // Determine which tab is highlighted
+        $publisherName = phpAds_getAffiliateName($publisherId);
         if (!empty($channelId)) {
             phpAds_PageHeader($tabValue, $extra);
+            MAX_displayInventoryBreadcrumbs(array(
+                                                array("name" => $publisherName, url => $publisherEditUrl), 
+                                                array("name" => $channelName)), "channel");
         } else {
             phpAds_PageHeader($tabValue);
-            $channelName = $GLOBALS['strUntitled'];
+            MAX_displayInventoryBreadcrumbs(array(
+                                                array("name" => $publisherName, url => $publisherEditUrl), 
+                                                array("name" => $channelName)), "channel", true);
         }
-        $publisherName = phpAds_getAffiliateName($publisherId);
-        echo "<img src='" . MAX::assetPath() . "/images/icon-affiliate.gif' align='absmiddle'>&nbsp;$publisherName&nbsp;<img src='" . MAX::assetPath() . "/images/$phpAds_TextDirection/caret-rs.gif'>&nbsp;";
     } else {
         if (!empty($channelId)) {
             phpAds_PageHeader($tabValue, $extra);
+            MAX_displayInventoryBreadcrumbs(array(array("name" => $channelName)), "global-channel");
         } else {
             phpAds_PageHeader($tabValue);
-            $channelName = $GLOBALS['strUntitled'];
+            MAX_displayInventoryBreadcrumbs(array(array("name" => "")), "global-channel", true);
         }
     }
 
-    echo "<img src='" . MAX::assetPath() . "/images/icon-channel.gif' align='absmiddle'>&nbsp;<b>$channelName</b><br /><br /><br />";
     phpAds_ShowSections($tabSections);
 
 }

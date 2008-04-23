@@ -32,6 +32,7 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
+require_once MAX_PATH . '/lib/max/other/html.php';
 
 // Register input variables
 phpAds_registerGlobal ('listorder', 'orderdirection');
@@ -89,10 +90,8 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_AC
 	phpAds_PageShortcut($strClientHistory, 'stats.php?entity=advertiser&breakdown=history&clientid='.$clientid, 'images/icon-statistics.gif');
 
 	phpAds_PageHeader("4.1.4");
-		echo "\t\t\t\t<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;\n";
-		echo "\t\t\t\t<b>".phpAds_getClientName($clientid)."</b>\n";
-		echo "\t\t\t\t<br /><br /><br />\n";
-		phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.4", "4.1.5"));
+	MAX_displayAdvertiserBreadcrumbs($clientid);
+    phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.4", "4.1.5"));
 }
 
 /*-------------------------------------------------------*/

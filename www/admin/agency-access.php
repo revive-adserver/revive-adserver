@@ -35,6 +35,7 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/OA/Session.php';
 require_once MAX_PATH . '/lib/OA/Admin/Menu.php';
+require_once MAX_PATH . '/lib/max/other/html.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
@@ -50,7 +51,7 @@ if ($agencyid != '') {
     	OA_Admin_Menu::setAgencyPageContext($agencyid, 'agency-edit.php');
     	phpAds_PageHeader("4.1.3");
     	$doAgency = OA_Dal::staticGetDO('agency', $agencyid);
-    	echo "<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".$doAgency->name."</b><br /><br /><br />";
+        MAX_displayInventoryBreadcrumbs(array(array("name" => $doAgency->name)), "agency");
     	phpAds_ShowSections(array("4.1.2", "4.1.3"));
     } else {
         phpAds_PageHeader('4.4');
@@ -58,7 +59,7 @@ if ($agencyid != '') {
     }
 } else {
 	phpAds_PageHeader("4.1.1");
-	echo "<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($agencyid)."</b><br /><br /><br />";
+	MAX_displayInventoryBreadcrumbs(array(array("name" => phpAds_getClientName($agencyid))), "agency");
 	phpAds_ShowSections(array("4.1.1"));
 }
 $tabindex = 1;
