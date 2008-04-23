@@ -76,6 +76,18 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         'logging_sniff'               => array(
               'logging'               => 'sniff',
               'bool'                  => 'true'
+         ),
+        'logging_useragent'           => array(
+             'logging'                => 'useragent',
+             'bool'                   => 'true'
+         ),
+        'logging_pageInfo'            => array(
+             'logging'                => 'pageInfo',
+             'bool'                   => 'true'
+         ),
+        'logging_referer'             => array(
+              'logging'               => 'referer',
+              'bool'                  => 'true'
          )
     );
     // Block Banner Logging Settings
@@ -167,6 +179,24 @@ $aSettings = array (
                 'type'    => 'checkbox',
                 'name'    => 'logging_sniff',
                 'text'    => $strSniff
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
+                'type'    => 'checkbox',
+                'name'    => 'logging_useragent',
+                'text'    => $strLoggingUseragent
+            ),
+            array (
+                'type'    => 'checkbox',
+                'name'    => 'logging_pageInfo',
+                'text'    => $strLoggingPageInfo
+            ),
+            array (
+                'type'    => 'checkbox',
+                'name'    => 'logging_referer',
+                'text'    => $strLoggingReferer
             )
         )
     ),

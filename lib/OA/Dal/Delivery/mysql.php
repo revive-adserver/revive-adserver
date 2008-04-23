@@ -1004,13 +1004,16 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
         $query .= "
                 query,";
     }
-    if (isset($_GET['referer'])) {
+    if ($GLOBALS['_MAX']['CONF']['logging']['referer'] && isset($_GET['referer'])) {
         $query .= "
                 referer,";
     }
     $query .= "
-                search_term,
+                search_term,";
+    if ($GLOBALS['_MAX']['CONF']['logging']['useragent']) {
+        $query .= "
                 user_agent,";
+    }
     if (isset($userAgentInfo['os'])) {
         $query .= "
                 os,";
@@ -1106,13 +1109,16 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
         $query .= "
                 '{$zoneInfo['query']}',";
     }
-    if (isset($_GET['referer'])) {
+    if ($GLOBALS['_MAX']['CONF']['logging']['referer'] && isset($_GET['referer'])) {
         $query .= "
                 '{$_GET['referer']}',";
     }
     $query .= "
-                '',
+                '',";
+    if ($GLOBALS['_MAX']['CONF']['logging']['useragent']) {
+        $query .= "
                 '".substr($_SERVER['HTTP_USER_AGENT'], 0, 255)."',";
+    }
     if (isset($userAgentInfo['os'])) {
         $query .= "
                 '{$userAgentInfo['os']}',";
