@@ -143,7 +143,7 @@
   	<chmod dir="${basedir}/var" perm="a+rwx" type="dir"/>
   	<chmod dir="${basedir}/var" perm="a+rw" type="both" includes="**/*"/>
   	<chmod dir="${basedir}/www" perm="a+rwx" type="dir"/>
-  	<chmod dir="${basedir}/www" perm="a+rw" type="both" includes="**/*"/>
+  	<chmod dir="${basedir}/www" perm="a+rw" type="both" includes="**/*" parallel="false"/>
   </target>
 
   <target name="setup-delivery-files">
