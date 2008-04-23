@@ -194,35 +194,44 @@ class Delivery_TestOfLog extends UnitTestCase
         // Use a reference to $GLOBALS['_MAX']['CONF'] so that the configuration
         // options can be changed while the test is running
         $conf = &$GLOBALS['_MAX']['CONF'];
-        // Disable reverse lookups
-        $conf['logging']['reverseLookup'] = false;
-        // Disable geotargeting
-        $conf['geotargeting']['type'] = false;
-        // Disable sniffing
-        $conf['logging']['sniff'] = false;
-        // Set the remote IP address
+
+        // Prepare the test environment by setting the remove IP
+        // address, removing the remote host name, referer,
+        // user-agent, and channels
         $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
-        // Unset the remote host name
         unset($_SERVER['REMOTE_HOST']);
-        // Unset the HTTP referer
         unset($_SERVER['HTTP_REFERER']);
-        // Unset the user agent
         unset($_SERVER['HTTP_USER_AGENT']);
-        // Unset the $GLOBALS['_MAX']['CHANNELS'] array
         unset($GLOBALS['_MAX']['CHANNELS']);
+
         // Set a non-SSL port
         $_SERVER['SERVER_PORT'] = 80;
+
+
+
+        // Test 1: No geotargeting, no phpSniff and no page
+        //         info logging
+        $conf['geotargeting']['type']      = null;
+        $conf['geotargeting']['saveStats'] = false;
+        $conf['logging']['sniff']          = false;
+        $conf['logging']['pageInfo']       = false;
+
         // Ensure initialisation data preparation is done
         MAX_remotehostProxyLookup();
         MAX_remotehostReverseLookup();
         MAX_remotehostSetClientInfo();
         MAX_remotehostSetGeoInfo();
-        // Test
+
+        // Unset the result information variables
         unset($geotargeting);
         unset($zoneInfo);
         unset($userAgentInfo);
         $maxHttps = '';
+
+        // Call _prepareLogInfo()
         list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
+
+        // Test the results
         $this->assertEqual($_SERVER['REMOTE_HOST'], $_SERVER['REMOTE_ADDR']);
         foreach($geotargeting as $check) {
             $this->assertTrue(empty($check));
@@ -234,22 +243,34 @@ class Delivery_TestOfLog extends UnitTestCase
             $this->assertTrue(empty($check));
         }
         $this->assertEqual($maxHttps, 0);
-        // Enable reverse lookups
-        $conf['logging']['reverseLookup'] = true;
-        // Unset the remote host name
-        unset($_SERVER['REMOTE_HOST']);
+
+
+
+        // Test 2: As for test one, BUT NOW WITH
+        //         GEOTARGETING ENABLED, BUT NO
+        //         GEO DATA AVAILABLE
+        $conf['geotargeting']['type']      = null;
+        $conf['geotargeting']['saveStats'] = true;
+        $conf['logging']['sniff']          = false;
+        $conf['logging']['pageInfo']       = false;
+
         // Ensure initialisation data preparation is done
         MAX_remotehostProxyLookup();
         MAX_remotehostReverseLookup();
         MAX_remotehostSetClientInfo();
         MAX_remotehostSetGeoInfo();
-        // Test
+
+        // Unset the result information variables
         unset($geotargeting);
         unset($zoneInfo);
         unset($userAgentInfo);
         $maxHttps = '';
+
+        // Call _prepareLogInfo()
         list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
-        $this->assertEqual($_SERVER['REMOTE_HOST'], gethostbyaddr($_SERVER['REMOTE_ADDR']));
+
+        // Test the results
+        $this->assertEqual($_SERVER['REMOTE_HOST'], $_SERVER['REMOTE_ADDR']);
         foreach($geotargeting as $check) {
             $this->assertTrue(empty($check));
         }
@@ -260,40 +281,59 @@ class Delivery_TestOfLog extends UnitTestCase
             $this->assertTrue(empty($check));
         }
         $this->assertEqual($maxHttps, 0);
-        // Enable geotargeting
-        $conf['geotargeting']['saveStats'] = 'true';
-        // Set some fake geotargeting info
-        $GLOBALS['_MAX']['CLIENT_GEO']['country_code'] = 'US';
-        $GLOBALS['_MAX']['CLIENT_GEO']['country_name'] = 'United States';
-        $GLOBALS['_MAX']['CLIENT_GEO']['region'] = 'VA';
-        $GLOBALS['_MAX']['CLIENT_GEO']['city'] = 'Herndon';
-        $GLOBALS['_MAX']['CLIENT_GEO']['postal_code'] = '20171';
-        $GLOBALS['_MAX']['CLIENT_GEO']['latitude'] = '38.9252';
-        $GLOBALS['_MAX']['CLIENT_GEO']['longitude'] = '-77.3928';
-        $GLOBALS['_MAX']['CLIENT_GEO']['dma_code'] = '42';
-        $GLOBALS['_MAX']['CLIENT_GEO']['area_code'] = '00';
-        $GLOBALS['_MAX']['CLIENT_GEO']['organisation'] = 'Foo';
-        $GLOBALS['_MAX']['CLIENT_GEO']['isp'] = 'Bar';
-        $GLOBALS['_MAX']['CLIENT_GEO']['netspeed'] = 'Unknown';
-        // Test
+
+
+
+        // Test 3: As for test two, BUT NOW WITH
+        //         GEO DATA AVAILABLE
+        $conf['geotargeting']['type']      = null;
+        $conf['geotargeting']['saveStats'] = true;
+        $conf['logging']['sniff']          = false;
+        $conf['logging']['pageInfo']       = false;
+
+        // Set some geotargeting data
+        $GLOBALS['_MAX']['CLIENT_GEO']['country_code']  = 'US';
+        $GLOBALS['_MAX']['CLIENT_GEO']['country_name']  = 'United States';
+        $GLOBALS['_MAX']['CLIENT_GEO']['region']        = 'VA';
+        $GLOBALS['_MAX']['CLIENT_GEO']['city']          = 'Herndon';
+        $GLOBALS['_MAX']['CLIENT_GEO']['postal_code']   = '20171';
+        $GLOBALS['_MAX']['CLIENT_GEO']['latitude']      = '38.9252';
+        $GLOBALS['_MAX']['CLIENT_GEO']['longitude']     = '-77.3928';
+        $GLOBALS['_MAX']['CLIENT_GEO']['dma_code']      = '42';
+        $GLOBALS['_MAX']['CLIENT_GEO']['area_code']     = '00';
+        $GLOBALS['_MAX']['CLIENT_GEO']['organisation']  = 'Foo';
+        $GLOBALS['_MAX']['CLIENT_GEO']['isp']           = 'Bar';
+        $GLOBALS['_MAX']['CLIENT_GEO']['netspeed']      = 'Unknown';
+
+        // Ensure initialisation data preparation is done
+        MAX_remotehostProxyLookup();
+        MAX_remotehostReverseLookup();
+        MAX_remotehostSetClientInfo();
+        MAX_remotehostSetGeoInfo();
+
+        // Unset the result information variables
         unset($geotargeting);
         unset($zoneInfo);
         unset($userAgentInfo);
         $maxHttps = '';
+
+        // Call _prepareLogInfo()
         list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
-        $this->assertEqual($_SERVER['REMOTE_HOST'], gethostbyaddr($_SERVER['REMOTE_ADDR']));
+
+        // Test the results
+        $this->assertEqual($_SERVER['REMOTE_HOST'], $_SERVER['REMOTE_ADDR']);
         $this->assertEqual($geotargeting['country_code'], 'US');
         $this->assertEqual($geotargeting['country_name'], 'United States');
-        $this->assertEqual($geotargeting['region'], 'VA');
-        $this->assertEqual($geotargeting['city'], 'Herndon');
-        $this->assertEqual($geotargeting['postal_code'], '20171');
-        $this->assertEqual($geotargeting['latitude'], '38.9252');
-        $this->assertEqual($geotargeting['longitude'], '-77.3928');
-        $this->assertEqual($geotargeting['dma_code'], '42');
-        $this->assertEqual($geotargeting['area_code'], '00');
+        $this->assertEqual($geotargeting['region'],       'VA');
+        $this->assertEqual($geotargeting['city'],         'Herndon');
+        $this->assertEqual($geotargeting['postal_code'],  '20171');
+        $this->assertEqual($geotargeting['latitude'],     '38.9252');
+        $this->assertEqual($geotargeting['longitude'],    '-77.3928');
+        $this->assertEqual($geotargeting['dma_code'],     '42');
+        $this->assertEqual($geotargeting['area_code'],    '00');
         $this->assertEqual($geotargeting['organisation'], 'Foo');
-        $this->assertEqual($geotargeting['isp'], 'Bar');
-        $this->assertEqual($geotargeting['netspeed'], 'Unknown');
+        $this->assertEqual($geotargeting['isp'],          'Bar');
+        $this->assertEqual($geotargeting['netspeed'],     'Unknown');
         foreach($zoneInfo as $check) {
             $this->assertTrue(empty($check));
         }
@@ -301,27 +341,157 @@ class Delivery_TestOfLog extends UnitTestCase
             $this->assertTrue(empty($check));
         }
         $this->assertEqual($maxHttps, 0);
-        // Set a passed in referer location
-        $_GET['loc'] = 'http://www.example.com/test.html';
-        // Test
+
+
+
+        // Test 4: As for test one, BUT NOW WITH
+        //         phpSniff ENABLED, BUT NO CLIENT
+        //         DATA AVAILABLE
+        $conf['geotargeting']['type']      = null;
+        $conf['geotargeting']['saveStats'] = false;
+        $conf['logging']['sniff']          = true;
+        $conf['logging']['pageInfo']       = false;
+
+        // Ensure initialisation data preparation is done
+        MAX_remotehostProxyLookup();
+        MAX_remotehostReverseLookup();
+        MAX_remotehostSetClientInfo();
+        MAX_remotehostSetGeoInfo();
+
+        // Unset the result information variables
         unset($geotargeting);
         unset($zoneInfo);
         unset($userAgentInfo);
         $maxHttps = '';
+
+        // Call _prepareLogInfo()
         list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
-        $this->assertEqual($_SERVER['REMOTE_HOST'], gethostbyaddr($_SERVER['REMOTE_ADDR']));
-        $this->assertEqual($geotargeting['country_code'], 'US');
-        $this->assertEqual($geotargeting['country_name'], 'United States');
-        $this->assertEqual($geotargeting['region'], 'VA');
-        $this->assertEqual($geotargeting['city'], 'Herndon');
-        $this->assertEqual($geotargeting['postal_code'], '20171');
-        $this->assertEqual($geotargeting['latitude'], '38.9252');
-        $this->assertEqual($geotargeting['longitude'], '-77.3928');
-        $this->assertEqual($geotargeting['dma_code'], '42');
-        $this->assertEqual($geotargeting['area_code'], '00');
-        $this->assertEqual($geotargeting['organisation'], 'Foo');
-        $this->assertEqual($geotargeting['isp'], 'Bar');
-        $this->assertEqual($geotargeting['netspeed'], 'Unknown');
+
+        // Test the results
+        $this->assertEqual($_SERVER['REMOTE_HOST'], $_SERVER['REMOTE_ADDR']);
+        foreach($geotargeting as $check) {
+            $this->assertTrue(empty($check));
+        }
+        foreach($zoneInfo as $check) {
+            $this->assertTrue(empty($check));
+        }
+        foreach($userAgentInfo as $check) {
+            $this->assertTrue(empty($check));
+        }
+        $this->assertEqual($maxHttps, 0);
+
+
+
+        // Test 5: As for test four, BUT NOW WITH
+        //         CLIENT DATA AVAILABLE
+        $conf['geotargeting']['type']      = null;
+        $conf['geotargeting']['saveStats'] = false;
+        $conf['logging']['sniff']          = true;
+        $conf['logging']['pageInfo']       = false;
+
+        // Set some client data
+        $GLOBALS['_MAX']['CLIENT']['os'] = '2k';
+        $GLOBALS['_MAX']['CLIENT']['long_name'] = 'msie';
+        $GLOBALS['_MAX']['CLIENT']['browser'] = 'ie';
+
+        // Ensure initialisation data preparation is done
+        MAX_remotehostProxyLookup();
+        MAX_remotehostReverseLookup();
+        MAX_remotehostSetClientInfo();
+        MAX_remotehostSetGeoInfo();
+
+        // Unset the result information variables
+        unset($geotargeting);
+        unset($zoneInfo);
+        unset($userAgentInfo);
+        $maxHttps = '';
+
+        // Call _prepareLogInfo()
+        list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
+
+        // Test the results
+        $this->assertEqual($_SERVER['REMOTE_HOST'], $_SERVER['REMOTE_ADDR']);
+        foreach($geotargeting as $check) {
+            $this->assertTrue(empty($check));
+        }
+        foreach($zoneInfo as $check) {
+            $this->assertTrue(empty($check));
+        }
+        $this->assertEqual($userAgentInfo['os'], '2k');
+        $this->assertEqual($userAgentInfo['long_name'], 'msie');
+        $this->assertEqual($userAgentInfo['browser'], 'ie');
+        $this->assertEqual($maxHttps, 0);
+
+
+
+        // Test 6: As for test one, BUT NOW WITH
+        //         pageInfo ENABLED, BUT NO LOC
+        //         OR HTTP_REFERER DATA AVAILABLE
+        $conf['geotargeting']['type']      = null;
+        $conf['geotargeting']['saveStats'] = false;
+        $conf['logging']['sniff']          = false;
+        $conf['logging']['pageInfo']       = true;
+
+        // Ensure initialisation data preparation is done
+        MAX_remotehostProxyLookup();
+        MAX_remotehostReverseLookup();
+        MAX_remotehostSetClientInfo();
+        MAX_remotehostSetGeoInfo();
+
+        // Unset the result information variables
+        unset($geotargeting);
+        unset($zoneInfo);
+        unset($userAgentInfo);
+        $maxHttps = '';
+
+        // Call _prepareLogInfo()
+        list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
+
+        // Test the results
+        $this->assertEqual($_SERVER['REMOTE_HOST'], $_SERVER['REMOTE_ADDR']);
+        foreach($geotargeting as $check) {
+            $this->assertTrue(empty($check));
+        }
+        foreach($zoneInfo as $check) {
+            $this->assertTrue(empty($check));
+        }
+        foreach($userAgentInfo as $check) {
+            $this->assertTrue(empty($check));
+        }
+        $this->assertEqual($maxHttps, 0);
+
+
+
+        // Test 7: As for test six, BUT NOW WITH
+        //         LOC DATA AVAILABLE
+        $conf['geotargeting']['type']      = null;
+        $conf['geotargeting']['saveStats'] = false;
+        $conf['logging']['sniff']          = false;
+        $conf['logging']['pageInfo']       = true;
+
+        // Set a passed in referer location
+        $_GET['loc'] = 'http://www.example.com/test.html';
+
+        // Ensure initialisation data preparation is done
+        MAX_remotehostProxyLookup();
+        MAX_remotehostReverseLookup();
+        MAX_remotehostSetClientInfo();
+        MAX_remotehostSetGeoInfo();
+
+        // Unset the result information variables
+        unset($geotargeting);
+        unset($zoneInfo);
+        unset($userAgentInfo);
+        $maxHttps = '';
+
+        // Call _prepareLogInfo()
+        list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
+
+        // Test the results
+        $this->assertEqual($_SERVER['REMOTE_HOST'], $_SERVER['REMOTE_ADDR']);
+        foreach($geotargeting as $check) {
+            $this->assertTrue(empty($check));
+        }
         $this->assertEqual($zoneInfo['scheme'], 0);
         $this->assertEqual($zoneInfo['host'], 'www.example.com');
         $this->assertEqual($zoneInfo['path'], '/test.html');
@@ -331,29 +501,129 @@ class Delivery_TestOfLog extends UnitTestCase
             $this->assertTrue(empty($check));
         }
         $this->assertEqual($maxHttps, 0);
-        // Set a passed in referer location
-        $_GET['loc'] = 'http://www.example.com/test.html';
-        // Set an array of channel ids
-        $GLOBALS['_MAX']['CHANNELS'] = '|1|2|3|';
-        // Test
+
+
+
+        // Test 8: As for test six, BUT NOW WITH
+        //         HTTP_REFERER DATA AVAILABLE
+        $conf['geotargeting']['type']      = null;
+        $conf['geotargeting']['saveStats'] = false;
+        $conf['logging']['sniff']          = false;
+        $conf['logging']['pageInfo']       = true;
+
+        // Unset the passed in referer location from before
+        unset($_GET['loc']);
+
+        // Set a normal referer location
+        $_SERVER['HTTP_REFERER'] = 'https://example.com/test.php?foo=bar';
+
+        // Ensure initialisation data preparation is done
+        MAX_remotehostProxyLookup();
+        MAX_remotehostReverseLookup();
+        MAX_remotehostSetClientInfo();
+        MAX_remotehostSetGeoInfo();
+
+        // Unset the result information variables
         unset($geotargeting);
         unset($zoneInfo);
         unset($userAgentInfo);
         $maxHttps = '';
+
+        // Call _prepareLogInfo()
         list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
-        $this->assertEqual($_SERVER['REMOTE_HOST'], gethostbyaddr($_SERVER['REMOTE_ADDR']));
-        $this->assertEqual($geotargeting['country_code'], 'US');
-        $this->assertEqual($geotargeting['country_name'], 'United States');
-        $this->assertEqual($geotargeting['region'], 'VA');
-        $this->assertEqual($geotargeting['city'], 'Herndon');
-        $this->assertEqual($geotargeting['postal_code'], '20171');
-        $this->assertEqual($geotargeting['latitude'], '38.9252');
-        $this->assertEqual($geotargeting['longitude'], '-77.3928');
-        $this->assertEqual($geotargeting['dma_code'], '42');
-        $this->assertEqual($geotargeting['area_code'], '00');
-        $this->assertEqual($geotargeting['organisation'], 'Foo');
-        $this->assertEqual($geotargeting['isp'], 'Bar');
-        $this->assertEqual($geotargeting['netspeed'], 'Unknown');
+
+        // Test the results
+        $this->assertEqual($_SERVER['REMOTE_HOST'], $_SERVER['REMOTE_ADDR']);
+        foreach($geotargeting as $check) {
+            $this->assertTrue(empty($check));
+        }
+        $this->assertEqual($zoneInfo['scheme'], 1);
+        $this->assertEqual($zoneInfo['host'], 'example.com');
+        $this->assertEqual($zoneInfo['path'], '/test.php');
+        $this->assertEqual($zoneInfo['query'], 'foo=bar');
+        $this->assertNull($zoneInfo['channel_ids']);
+        foreach($userAgentInfo as $check) {
+            $this->assertTrue(empty($check));
+        }
+        $this->assertEqual($maxHttps, 0);
+
+
+
+        // Test 9: As for test six, BUT NOW WITH
+        //         LOC AND HTTP_REFERER DATA AVAILABLE
+        $conf['geotargeting']['type']      = null;
+        $conf['geotargeting']['saveStats'] = false;
+        $conf['logging']['sniff']          = false;
+        $conf['logging']['pageInfo']       = true;
+
+        // Set a passed in referer location
+        $_GET['loc'] = 'http://www.example.com/test.html';
+
+        // Set a normal referer location
+        $_SERVER['HTTP_REFERER'] = 'https://example.com/test.php?foo=bar';
+
+        // Ensure initialisation data preparation is done
+        MAX_remotehostProxyLookup();
+        MAX_remotehostReverseLookup();
+        MAX_remotehostSetClientInfo();
+        MAX_remotehostSetGeoInfo();
+
+        // Unset the result information variables
+        unset($geotargeting);
+        unset($zoneInfo);
+        unset($userAgentInfo);
+        $maxHttps = '';
+
+        // Call _prepareLogInfo()
+        list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
+
+        // Test the results
+        $this->assertEqual($_SERVER['REMOTE_HOST'], $_SERVER['REMOTE_ADDR']);
+        foreach($geotargeting as $check) {
+            $this->assertTrue(empty($check));
+        }
+        $this->assertEqual($zoneInfo['scheme'], 0);
+        $this->assertEqual($zoneInfo['host'], 'www.example.com');
+        $this->assertEqual($zoneInfo['path'], '/test.html');
+        $this->assertNull($zoneInfo['query']);
+        $this->assertNull($zoneInfo['channel_ids']);
+        foreach($userAgentInfo as $check) {
+            $this->assertTrue(empty($check));
+        }
+        $this->assertEqual($maxHttps, 0);
+
+
+
+        // Test 10: As for test nine, BUT WITH CHANNEL
+        //          ID VALUES SET
+        $conf['geotargeting']['type']      = null;
+        $conf['geotargeting']['saveStats'] = false;
+        $conf['logging']['sniff']          = false;
+        $conf['logging']['pageInfo']       = true;
+
+        // Set an "array" of channel ids
+        $GLOBALS['_MAX']['CHANNELS'] = '|1|2|3|';
+
+        // Ensure initialisation data preparation is done
+        MAX_remotehostProxyLookup();
+        MAX_remotehostReverseLookup();
+        MAX_remotehostSetClientInfo();
+        MAX_remotehostSetGeoInfo();
+
+        // Unset the result information variables
+        unset($geotargeting);
+        unset($zoneInfo);
+        unset($userAgentInfo);
+        $maxHttps = '';
+
+        // Call _prepareLogInfo()
+        list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
+
+        // Test the results
+        $this->assertEqual($_SERVER['REMOTE_HOST'], $_SERVER['REMOTE_ADDR']);
+        foreach($geotargeting as $check) {
+            $this->assertTrue(empty($check));
+        }
         $this->assertEqual($zoneInfo['scheme'], 0);
         $this->assertEqual($zoneInfo['host'], 'www.example.com');
         $this->assertEqual($zoneInfo['path'], '/test.html');
@@ -363,100 +633,48 @@ class Delivery_TestOfLog extends UnitTestCase
             $this->assertTrue(empty($check));
         }
         $this->assertEqual($maxHttps, 0);
-        // Test
+
+
+
+        // Test 11: As for test one, BUT WITH AN SSL
+        //          SERVER PORT
+        $conf['geotargeting']['type']      = null;
+        $conf['geotargeting']['saveStats'] = false;
+        $conf['logging']['sniff']          = false;
+        $conf['logging']['pageInfo']       = false;
+
+        // Set the server port
+        $_SERVER['SERVER_PORT'] = $conf['openads']['sslPort'];
+
+        // Ensure initialisation data preparation is done
+        MAX_remotehostProxyLookup();
+        MAX_remotehostReverseLookup();
+        MAX_remotehostSetClientInfo();
+        MAX_remotehostSetGeoInfo();
+
+        // Unset the result information variables
         unset($geotargeting);
         unset($zoneInfo);
         unset($userAgentInfo);
-        unset($_GET['loc']);
         $maxHttps = '';
 
-        // Set a normal referer
-        $_SERVER['HTTP_REFERER'] = 'https://example.com/test.php?foo=bar';
-
+        // Call _prepareLogInfo()
         list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
-        $this->assertEqual($_SERVER['REMOTE_HOST'], gethostbyaddr($_SERVER['REMOTE_ADDR']));
-        $this->assertEqual($geotargeting['country_code'], 'US');
-        $this->assertEqual($geotargeting['country_name'], 'United States');
-        $this->assertEqual($geotargeting['region'], 'VA');
-        $this->assertEqual($geotargeting['city'], 'Herndon');
-        $this->assertEqual($geotargeting['postal_code'], '20171');
-        $this->assertEqual($geotargeting['latitude'], '38.9252');
-        $this->assertEqual($geotargeting['longitude'], '-77.3928');
-        $this->assertEqual($geotargeting['dma_code'], '42');
-        $this->assertEqual($geotargeting['area_code'], '00');
-        $this->assertEqual($geotargeting['organisation'], 'Foo');
-        $this->assertEqual($geotargeting['isp'], 'Bar');
-        $this->assertEqual($geotargeting['netspeed'], 'Unknown');
-        $this->assertEqual($zoneInfo['scheme'], 1);
-        $this->assertEqual($zoneInfo['host'], 'example.com');
-        $this->assertEqual($zoneInfo['path'], '/test.php');
-        $this->assertEqual($zoneInfo['query'], 'foo=bar');
+
+        // Test the results
+        $this->assertEqual($_SERVER['REMOTE_HOST'], $_SERVER['REMOTE_ADDR']);
+        foreach($geotargeting as $check) {
+            $this->assertTrue(empty($check));
+        }
+        foreach($zoneInfo as $check) {
+            $this->assertTrue(empty($check));
+        }
         foreach($userAgentInfo as $check) {
             $this->assertTrue(empty($check));
         }
-        $this->assertEqual($maxHttps, 0);
-        // Enable sniffing
-        $conf['logging']['sniff'] = true;
-        // Set the client parameters...
-        $GLOBALS['_MAX']['CLIENT']['os'] = '2k';
-        $GLOBALS['_MAX']['CLIENT']['long_name'] = 'msie';
-        $GLOBALS['_MAX']['CLIENT']['browser'] = 'ie';
-        // Test
-        unset($geotargeting);
-        unset($zoneInfo);
-        unset($userAgentInfo);
-        $maxHttps = '';
-        list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
-        $this->assertEqual($_SERVER['REMOTE_HOST'], gethostbyaddr($_SERVER['REMOTE_ADDR']));
-        $this->assertEqual($geotargeting['country_code'], 'US');
-        $this->assertEqual($geotargeting['country_name'], 'United States');
-        $this->assertEqual($geotargeting['region'], 'VA');
-        $this->assertEqual($geotargeting['city'], 'Herndon');
-        $this->assertEqual($geotargeting['postal_code'], '20171');
-        $this->assertEqual($geotargeting['latitude'], '38.9252');
-        $this->assertEqual($geotargeting['longitude'], '-77.3928');
-        $this->assertEqual($geotargeting['dma_code'], '42');
-        $this->assertEqual($geotargeting['area_code'], '00');
-        $this->assertEqual($geotargeting['organisation'], 'Foo');
-        $this->assertEqual($geotargeting['isp'], 'Bar');
-        $this->assertEqual($geotargeting['netspeed'], 'Unknown');
-        $this->assertEqual($zoneInfo['scheme'], 1);
-        $this->assertEqual($zoneInfo['host'], 'example.com');
-        $this->assertEqual($zoneInfo['path'], '/test.php');
-        $this->assertEqual($zoneInfo['query'], 'foo=bar');
-        $this->assertEqual($userAgentInfo['os'], '2k');
-        $this->assertEqual($userAgentInfo['long_name'], 'msie');
-        $this->assertEqual($userAgentInfo['browser'], 'ie');
-        $this->assertEqual($maxHttps, 0);
-        // Set the request to be "HTTPS"
-        $_SERVER['SERVER_PORT'] = $conf['openads']['sslPort'];
-        // Test
-        unset($geotargeting);
-        unset($zoneInfo);
-        unset($userAgentInfo);
-        $maxHttps = '';
-        list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
-        $this->assertEqual($_SERVER['REMOTE_HOST'], gethostbyaddr($_SERVER['REMOTE_ADDR']));
-        $this->assertEqual($geotargeting['country_code'], 'US');
-        $this->assertEqual($geotargeting['country_name'], 'United States');
-        $this->assertEqual($geotargeting['region'], 'VA');
-        $this->assertEqual($geotargeting['city'], 'Herndon');
-        $this->assertEqual($geotargeting['postal_code'], '20171');
-        $this->assertEqual($geotargeting['latitude'], '38.9252');
-        $this->assertEqual($geotargeting['longitude'], '-77.3928');
-        $this->assertEqual($geotargeting['dma_code'], '42');
-        $this->assertEqual($geotargeting['area_code'], '00');
-        $this->assertEqual($geotargeting['organisation'], 'Foo');
-        $this->assertEqual($geotargeting['isp'], 'Bar');
-        $this->assertEqual($geotargeting['netspeed'], 'Unknown');
-        $this->assertEqual($zoneInfo['scheme'], 1);
-        $this->assertEqual($zoneInfo['host'], 'example.com');
-        $this->assertEqual($zoneInfo['path'], '/test.php');
-        $this->assertEqual($zoneInfo['query'], 'foo=bar');
-        $this->assertEqual($userAgentInfo['os'], '2k');
-        $this->assertEqual($userAgentInfo['long_name'], 'msie');
-        $this->assertEqual($userAgentInfo['browser'], 'ie');
         $this->assertEqual($maxHttps, 1);
+
+
 
         // Reset the configuration
         TestEnv::restoreConfig();
