@@ -722,10 +722,10 @@ require(MAX_PATH . '/lib/OA/Dal/Delivery/' . strtolower($conf['database']['type'
 function MAX_Delivery_log_logAdRequest($viewerId, $adId, $creativeId, $zoneId)
 {
 if (_viewersHostOkayToLog()) {
-$conf = $GLOBALS['_MAX']['CONF'];
+$aConf = $GLOBALS['_MAX']['CONF'];
 list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
 $geotargeting = array();
-$table = $conf['table']['prefix'] . $conf['table']['data_raw_ad_request'];
+$table = $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_request'];
 MAX_Dal_Delivery_Include();
 OA_Dal_Delivery_logAction(
 $table,
@@ -743,9 +743,9 @@ $maxHttps
 function MAX_Delivery_log_logAdImpression($viewerId, $adId, $creativeId, $zoneId)
 {
 if (_viewersHostOkayToLog()) {
-$conf = $GLOBALS['_MAX']['CONF'];
+$aConf = $GLOBALS['_MAX']['CONF'];
 list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
-$table = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
+$table = $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_impression'];
 MAX_Dal_Delivery_Include();
 OA_Dal_Delivery_logAction(
 $table,
@@ -763,9 +763,9 @@ $maxHttps
 function MAX_Delivery_log_logAdClick($viewerId, $adId, $creativeId, $zoneId)
 {
 if (_viewersHostOkayToLog()) {
-$conf = $GLOBALS['_MAX']['CONF'];
+$aConf = $GLOBALS['_MAX']['CONF'];
 list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
-$table = $conf['table']['prefix'] . $conf['table']['data_raw_ad_click'];
+$table = $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_click'];
 MAX_Dal_Delivery_Include();
 OA_Dal_Delivery_logAction(
 $table,
@@ -783,21 +783,21 @@ $maxHttps
 function MAX_Delivery_log_logTrackerImpression($viewerId, $trackerId)
 {
 if (_viewersHostOkayToLog()) {
-$conf = $GLOBALS['_MAX']['CONF'];
-if (empty($conf['rawDatabase']['host'])) {
-if (!empty($conf['lb']['enabled'])) {
-$conf['rawDatabase']['host'] = $_SERVER['SERVER_ADDR'];
+$aConf = $GLOBALS['_MAX']['CONF'];
+if (empty($aConf['rawDatabase']['host'])) {
+if (!empty($aConf['lb']['enabled'])) {
+$aConf['rawDatabase']['host'] = $_SERVER['SERVER_ADDR'];
 } else {
-$conf['rawDatabase']['host'] = 'singleDB';
+$aConf['rawDatabase']['host'] = 'singleDB';
 }
 }
-if (isset($conf['rawDatabase']['serverRawIp'])) {
-$serverRawIp = $conf['rawDatabase']['serverRawIp'];
+if (isset($aConf['rawDatabase']['serverRawIp'])) {
+$serverRawIp = $aConf['rawDatabase']['serverRawIp'];
 } else {
-$serverRawIp = $conf['rawDatabase']['host'];
+$serverRawIp = $aConf['rawDatabase']['host'];
 }
 list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
-$table = $conf['table']['prefix'] . $conf['table']['data_raw_tracker_impression'];
+$table = $aConf['table']['prefix'] . $aConf['table']['data_raw_tracker_impression'];
 MAX_Dal_Delivery_Include();
 $rawTrackerImpressionId = OA_Dal_Delivery_logTracker(
 $table,
@@ -815,7 +815,7 @@ return false;
 }
 function MAX_Delivery_log_logVariableValues($variables, $trackerId, $serverRawTrackerImpressionId, $serverRawIp)
 {
-$conf = $GLOBALS['_MAX']['CONF'];
+$aConf = $GLOBALS['_MAX']['CONF'];
 // Get the variable information, including the Variable ID
 foreach ($variables as $variable) {
 if (isset($_GET[$variable['name']])) {
@@ -854,11 +854,11 @@ OA_Dal_Delivery_logVariableValues($variables, $serverRawTrackerImpressionId, $se
 }
 function _viewersHostOkayToLog()
 {
-$conf = $GLOBALS['_MAX']['CONF'];
+$aConf = $GLOBALS['_MAX']['CONF'];
 $agent = strtolower($_SERVER['HTTP_USER_AGENT']);
 // Check the user-agent against the list of known browsers (if set)
-if (!empty($conf['logging']['enforceUserAgents'])) {
-$aKnownBrowsers = explode('|', strtolower($conf['logging']['enforceUserAgents']));
+if (!empty($aConf['logging']['enforceUserAgents'])) {
+$aKnownBrowsers = explode('|', strtolower($aConf['logging']['enforceUserAgents']));
 $allowed = false;
 foreach ($aKnownBrowsers as $browser) {
 if (strpos($agent, $browser) !== false) {
@@ -869,8 +869,8 @@ break;
 if (!$allowed) return false;
 }
 // Check the user-agent against the list of known bots (if set)
-if (!empty($conf['logging']['ignoreUserAgents'])) {
-$aKnownBots = explode('|', strtolower($conf['logging']['ignoreUserAgents']));
+if (!empty($aConf['logging']['ignoreUserAgents'])) {
+$aKnownBots = explode('|', strtolower($aConf['logging']['ignoreUserAgents']));
 foreach ($aKnownBots as $bot) {
 if (strpos($agent, $bot) !== false) {
 return false;
@@ -878,8 +878,8 @@ return false;
 }
 }
 // Check if this IP address has been blocked
-if (!empty($conf['logging']['ignoreHosts'])) {
-$hosts = str_replace(',', '|', $conf['logging']['ignoreHosts']);
+if (!empty($aConf['logging']['ignoreHosts'])) {
+$hosts = str_replace(',', '|', $aConf['logging']['ignoreHosts']);
 $hosts = '#('.$hosts.')$#i';
 // Format the hosts to ignore in a PCRE format
 $hosts = str_replace('.', '\.', $hosts);
@@ -897,27 +897,30 @@ return true;
 }
 function _prepareLogInfo()
 {
-$conf = $GLOBALS['_MAX']['CONF'];
+$aConf = $GLOBALS['_MAX']['CONF'];
 // Get the Geotargeting information, if required
 $geotargeting = array();
-if (isset($conf['geotargeting']['saveStats']) && $conf['geotargeting']['saveStats'] && !empty($GLOBALS['_MAX']['CLIENT_GEO'])) {
+if (isset($aConf['geotargeting']['saveStats']) && $aConf['geotargeting']['saveStats'] && !empty($GLOBALS['_MAX']['CLIENT_GEO'])) {
 $geotargeting = $GLOBALS['_MAX']['CLIENT_GEO'];
 } else {
 $geotargeting = array(
-'country_code' => null,
-'region' => null,
-'city' => null,
-'postal_code' => null,
-'latitude' => null,
-'longitude' => null,
-'dma_code' => null,
-'area_code' => null,
-'organisation' => null,
-'netspeed' => null,
-'continent' => null);
+'country_code'  => null,
+'region'        => null,
+'city'          => null,
+'postal_code'   => null,
+'latitude'      => null,
+'longitude'     => null,
+'dma_code'      => null,
+'area_code'     => null,
+'organisation'  => null,
+'netspeed'      => null,
+'continent'     => null
+);
 }
-// Get the zone location information, if possible
+// Get the zone location information, if set up to log this,
+// and if possible
 $zoneInfo = array();
+if ($aConf['logging']['pageInfo']) {
 if (!empty($_GET['loc'])) {
 $zoneInfo = parse_url($_GET['loc']);
 } elseif (!empty($_SERVER['HTTP_REFERER'])) {
@@ -929,8 +932,9 @@ $zoneInfo['scheme'] = ($zoneInfo['scheme'] == 'https') ? 1 : 0;
 if (isset($GLOBALS['_MAX']['CHANNELS'])) {
 $zoneInfo['channel_ids'] = $GLOBALS['_MAX']['CHANNELS'];
 }
+}
 // Get the operating system and browser type, if required
-if ($conf['logging']['sniff'] && isset($GLOBALS['_MAX']['CLIENT'])) {
+if ($aConf['logging']['sniff'] && isset($GLOBALS['_MAX']['CLIENT'])) {
 $userAgentInfo = array(
 'os' => $GLOBALS['_MAX']['CLIENT']['os'],
 'long_name' => $GLOBALS['_MAX']['CLIENT']['long_name'],
@@ -941,16 +945,31 @@ $userAgentInfo = array();
 }
 // Determine if the access to OpenX was made using HTTPS
 $maxHttps = 0;  // https is false
-if ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) {
+if ($_SERVER['SERVER_PORT'] == $aConf['openads']['sslPort']) {
 $maxHttps = 1;   // https is true
 }
-if (!isset($zoneInfo['channel_ids'])) $zoneInfo['channel_ids'] = null;
-if (!isset($zoneInfo['scheme'])) $zoneInfo['scheme'] = null;
-if (!isset($zoneInfo['host'])) $zoneInfo['host'] = null;
-if (!isset($zoneInfo['path'])) $zoneInfo['path'] = null;
-if (!isset($zoneInfo['query'])) $zoneInfo['query'] = null;
-if (!isset($userAgentInfo['os'])) $userAgentInfo['os'] = '';
-if (!isset($userAgentInfo['browser'])) $userAgentInfo['browser'] = '';
+// Set required info for logging
+if (!isset($zoneInfo['channel_ids'])) {
+$zoneInfo['channel_ids'] = null;
+}
+if (!isset($zoneInfo['scheme'])) {
+$zoneInfo['scheme'] = null;
+}
+if (!isset($zoneInfo['host'])) {
+$zoneInfo['host'] = null;
+}
+if (!isset($zoneInfo['path'])) {
+$zoneInfo['path'] = null;
+}
+if (!isset($zoneInfo['query'])) {
+$zoneInfo['query'] = null;
+}
+if (!isset($userAgentInfo['os'])) {
+$userAgentInfo['os'] = '';
+}
+if (!isset($userAgentInfo['browser'])) {
+$userAgentInfo['browser'] = '';
+}
 return array($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps);
 }
 function MAX_Delivery_log_getArrGetVariable($name)
