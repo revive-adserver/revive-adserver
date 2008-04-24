@@ -59,14 +59,14 @@ class OA_Dll_BannerInfo extends OA_Info
     var $campaignId;
 
     /**
-     * The nbannerName variable is the name of the banner.
+     * The bannerName variable is the name of the banner.
      *
      * @var integer $bannerName
      */
     var $bannerName;
 
     /**
-     * The storageType variable is one of the following: 'sql','web','url','html','network','txt'.
+     * The storageType variable is one of the following: 'sql','web','url','html',,'txt'.
      *
      * @var enum $storageType
      */
@@ -108,6 +108,20 @@ class OA_Dll_BannerInfo extends OA_Info
     var $height;
 
     /**
+     * This field provides the priority weight of the banner.
+     *
+     * @var integer $weight
+     */
+    var $weight;
+
+    /**
+     * This field provides the HTML target of the banner (e.g. _blank, _self)
+     *
+     * @var text $target
+     */
+    var $target;
+
+    /**
      * The url variable is the destination URL of the banner.
      *
      * @var text $url
@@ -127,6 +141,44 @@ class OA_Dll_BannerInfo extends OA_Info
      * @var string $adserver
      */
     var $adserver;
+
+    /**
+     * This field provides transparency information for SWF banners
+     *
+     * @var boolean
+     */
+    var $transparent;
+
+    /**
+     * An array field for SQL/Web banners to contain the image name and binary data
+     *
+     * Array
+     * (
+     *      [filename] => banner.swf
+     *      [content]  => {binarydata}
+     *      [editswf]  => true
+     * )
+     *
+     * If the editswf member is present and true, any SWF files will be scanned for hardcoded
+     * links and eventually converted
+     *
+     * @var array
+     */
+    var $aImage;
+
+    /**
+     * An array field for SQL/Web banners to contain the backup image name and binary data
+     * in case the primary image is a swf file
+     *
+     * Array
+     * (
+     *      [filename] => banner.gif
+     *      [content]  => {binarydata}
+     * )
+     *
+     * @var array
+     */
+    var $aBackupImage;
 
     /**
      * This method sets all default values when adding a new banner.
@@ -153,6 +205,30 @@ class OA_Dll_BannerInfo extends OA_Info
             $this->status = 0;
         }
 
+        if (!isset($this->transparent)) {
+            $this->status = false;
+        }
+
+    }
+
+    function encodeImage($aImage)
+    {
+        return new XML_RPC_Value(array(
+            'filename' => new XML_RPC_Value($aImage['filename']),
+            'content'  => new XML_RPC_Value($aImage['content'], 'base64'),
+            'editswf'  => new XML_RPC_Value(!empty($aImage['editswf']), 'boolean'),
+        ), 'struct');
+    }
+
+    function toArray()
+    {
+        $aInfo = parent::toArray();
+        if (isset($this->aImage)) {
+            $aInfo['aImage'] = $this->encodeImage($this->aImage);
+        }
+        if (isset($this->aBackupImage)) {
+            $aInfo['aBackupImage'] = $this->encodeImage($this->aBackupImage);
+        }
     }
 
     function getFieldsTypes()
@@ -162,15 +238,17 @@ class OA_Dll_BannerInfo extends OA_Info
                     'campaignId' => 'integer',
                     'bannerName' => 'string',
                     'storageType' => 'string',
-                    'fileName' => 'string',
                     'imageURL' => 'string',
                     'htmlTemplate' => 'string',
                     'width' => 'integer',
                     'height' => 'integer',
                     'weight' => 'integer',
+                    'target' => 'string',
                     'url' => 'string',
                     'status' => 'integer',
-                    'adserver' => 'string'
+                    'adserver' => 'string',
+                    'aImage' => 'custom',
+                    'aBackupImage' => 'custom'
                 );
     }
 }

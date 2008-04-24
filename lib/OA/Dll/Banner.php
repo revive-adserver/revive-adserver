@@ -35,6 +35,7 @@ $Id$
 require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/OA/Dll/BannerInfo.php';
 require_once MAX_PATH . '/lib/OA/Dal/Statistics/Banner.php';
+require_once MAX_PATH . '/lib/OA/Creative/File.php';
 
 
 /**
@@ -44,6 +45,15 @@ require_once MAX_PATH . '/lib/OA/Dal/Statistics/Banner.php';
 
 class OA_Dll_Banner extends OA_Dll
 {
+    /**
+     * @var OA_Creative_File
+     */
+    var $oImage;
+    /**
+     * @var OA_Creative_File
+     */
+    var $oBackupImage;
+
     /**
      * This method sets BannerInfo from a data array.
      *
@@ -68,6 +78,23 @@ class OA_Dll_Banner extends OA_Dll
         return  true;
     }
 
+    function _validateImage($aImage, &$oImage)
+    {
+        if (empty($aImage['filename'])) {
+            $this->raiseError("Image filename empty");
+            return false;
+        }
+        if (empty($aImage['content'])) {
+            $this->raiseError("Image content empty");
+            return false;
+        }
+        $oImage = OA_Creative_File::factoryString($aImage['filename'], $aImage['content']);
+        if (PEAR::isError($oImage)) {
+            $this->raiseError($oImage->getMessage());
+        }
+        return true;
+    }
+
     /**
      * This method performs data validation for a banner, for example to check
      * that an email address is an email address. Where necessary, the method connects
@@ -82,6 +109,8 @@ class OA_Dll_Banner extends OA_Dll
      */
     function _validate(&$oBanner)
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+
         if (isset($oBanner->bannerId)) {
             // When modifying a banner, check correct field types are used and the bannerID exists.
             if (!$this->checkStructureNotRequiredIntegerField($oBanner, 'campaignId') ||
@@ -101,20 +130,42 @@ class OA_Dll_Banner extends OA_Dll
             return false;
         }
 
-        $storageTypes = array('sql', 'web', 'url', 'html', 'network', 'txt');
+        // Check that storage type is allowed
+        if (!isset($oBanner->bannerId)) {
+            if (!isset($oBanner->storageType) || empty($aConf['allowedBanners'][$oBanner->storageType])) {
+                $storageTypes = array_keys($aConf['allowedBanners']);
+                $this->raiseError('Field \'storageType\' must be one of the enum: '.join(', ', $storageTypes));
+                return false;
+            }
+        } else {
+            $doBanners = OA_Dal::staticGetDO('banners', $oBanner->bannerId);
+            $oBanner->storageType = $doBanners->storagetype;
+        }
 
-        if (isset($oBanner->storageType) and !in_array($oBanner->storageType, $storageTypes)) {
-            $this->raiseError('Field \'storageType\' must be one of the enum: \'sql\', \'web\', \'url\', \'html\', \'network\', \'txt\'');
-            return false;
+        // Check that image is provided when storagetype is sql or web
+        if ($oBanner->storageType == 'sql' || $oBanner->storageType == 'web') {
+            if (isset($oBanner->aImage)) {
+                if (!$this->_validateImage($oBanner->aImage, $this->oImage)) {
+                    return false;
+                }
+            }
+            if ($this->oImage->contentType == 'swf') {
+                if (isset($oBanner->aBackupImage)) {
+                    // Get backup image
+                    if (!$this->_validateImage($oBanner->aBackupImage, $this->oBackupImage)) {
+                        return false;
+                    }
+                }
+            }
         }
 
         if (!$this->checkStructureNotRequiredStringField($oBanner, 'bannerName', 255) ||
-            !$this->checkStructureNotRequiredStringField($oBanner, 'fileName', 255) ||
             !$this->checkStructureNotRequiredStringField($oBanner, 'imageURL', 255) ||
             !$this->checkStructureNotRequiredStringField($oBanner, 'htmlTemplate') ||
             !$this->checkStructureNotRequiredIntegerField($oBanner, 'width') ||
             !$this->checkStructureNotRequiredIntegerField($oBanner, 'height') ||
             !$this->checkStructureNotRequiredIntegerField($oBanner, 'weight') ||
+            !$this->checkStructureNotRequiredStringField($oBanner, 'target') ||
             !$this->checkStructureNotRequiredStringField($oBanner, 'url') ||
             !$this->checkStructureNotRequiredBooleanField($oBanner, 'active') ||
             !$this->checkStructureNotRequiredStringField($oBanner, 'adserver')
@@ -215,15 +266,43 @@ class OA_Dll_Banner extends OA_Dll
         $bannerData['filename']     = $oBanner->fileName;
         $bannerData['imageurl']     = $oBanner->imageURL;
         $bannerData['htmltemplate'] = $oBanner->htmlTemplate;
-        $bannerData['active']       = ($oBanner->active) ? 't' : 'f';
 
-        // Different content types have different requirements...
-        switch($bannerData['storagetype']) {
-            case 'html':
-                $bannerData['contenttype'] = $bannerData['storagetype'];
-            break;
-        }
         if ($this->_validate($oBanner)) {
+            $bannerData['storagetype'] = $oBanner->storageType;
+            switch($bannerData['storagetype']) {
+                case 'html':
+                case 'txt':
+                    $bannerData['contenttype'] = $bannerData['storagetype'];
+                    break;
+                case 'sql':
+                case 'web':
+                    if (!empty($oBanner->aImage)) {
+                        // Hardcoded link conversion
+                        $bannerData['parameters'] = '';
+                        if (!empty($oBanner->aImage['editswf'])) {
+                            $aLinks = array_keys($this->oImage->hardcodedLinks);
+                            list($result, $params) = phpAds_SWFConvert($this->oImage->content, true, $aLinks);
+                            if ($result != $this->oImage->content) {
+                                $this->oImage->content = $result;
+                                $bannerData['parameters'] = serialize(array('swf' => $params));
+                                $bannerData['url']        = $this->oImage->hardcodedLinks[1][0];
+                                $bannerData['target']     = $this->oImage->hardcodedLinks[1][1];
+                            }
+                        }
+                        $this->oImage->store($bannerData['storagetype']);
+                        $bannerData['contenttype'] = $this->oImage->contentType;
+                        $bannerData['filename']   = $this->oImage->fileName;
+                        $bannerData['width']      = $this->oImage->width;
+                        $bannerData['height']     = $this->oImage->height;
+                    }
+                    if (isset($this->oBackupImage)) {
+                        $this->oBackupImage->store($bannerData['storagetype']);
+                        $bannerData['alt_contentype'] = $this->oBackupImage->contentType;
+                        $bannerData['alt_filename']   = $this->oBackupImage->fileName;
+                    }
+                    break;
+            }
+
             $doBanner = OA_Dal::factoryDO('banners');
             if (!isset($bannerData['bannerId'])) {
                 $doBanner->setFrom($bannerData);

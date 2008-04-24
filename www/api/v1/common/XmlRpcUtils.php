@@ -176,7 +176,7 @@ class XmlRpcUtils
      */
     function getEntityWithNotNullFields(&$oInfoObject)
     {
-        $aInfoData = (array) $oInfoObject;
+        $aInfoData = $oInfoObject->toArray();
         $aReturnData = array();
 
         foreach ($aInfoData as $fieldName => $fieldValue) {
@@ -318,6 +318,9 @@ class XmlRpcUtils
                     return new XML_RPC_Value($value, $GLOBALS['XML_RPC_DateTime']);
 
                 }
+
+            case 'custom':
+                return $variable;
         }
         Max::raiseError('Unsupported Xml Rpc type \'' . $type . '\'');
         exit;
@@ -394,6 +397,23 @@ class XmlRpcUtils
             $result = $oParam->scalarval();
             return true;
         }
+    }
+
+    /**
+     * Get non-scalar value from parameter
+     *
+     * @access private
+     *
+     * @param mixed &$result
+     * @param XML_RPC_Value &$oParam
+     * @param XML_RPC_Response &$oResponseWithError
+     *
+     * @return boolean  shows true if method was executed successfully
+     */
+    function _getNonScalarValue(&$result, &$oParam, &$oResponseWithError)
+    {
+        $result = XML_RPC_decode($oParam);
+        return true;
     }
 
     /**
@@ -515,6 +535,40 @@ class XmlRpcUtils
         }
     }
 
+
+    /**
+     * Gets Structure Non Scalar field from XML RPC Value parameter
+     *
+     * @access private
+     *
+     * @param structure &$oStructure  to return data
+     * @param XML_RPC_Value $oStructParam
+     * @param string $fieldName
+     * @param XML_RPC_Response &$responseWithError
+     *
+     * @return boolean  shows true if method was executed successfully
+     */
+    function _getStructureNonScalarField(&$oStructure, &$oStructParam, $fieldName, &$oResponseWithError)
+    {
+        $oParam = $oStructParam->structmem($fieldName);
+        if (isset($oParam)) {
+            if ($oParam->kindOf() != 'scalar') {
+
+                return XmlRpcUtils::_getNonScalarValue($oStructure->$fieldName, $oParam, $oResponseWithError);
+
+            } else {
+
+                $oResponseWithError = XmlRpcUtils::generateError(
+                    'Structure field \'' . $fieldName .'\' should be non-scalar type ');
+                return false;
+            }
+        } else {
+
+            return true;
+
+        }
+    }
+
     /**
      * Gets Structure Scalar fields
      *
@@ -541,6 +595,43 @@ class XmlRpcUtils
                 return false;
             }
         }
+        return true;
+    }
+
+    /**
+     * Gets Structure Scalar and non-Scalar fields
+     *
+     * @access public
+     *
+     * @param structure &$oStructure  to return data
+     * @param XML_RPC_Message &$oParams
+     * @param integer $idxParam
+     * @param array $aScalars Field names array
+     * @param array $aNonScalars Field names array
+     * @param XML_RPC_Response &$oResponseWithError
+     *
+     * @return boolean  shows true if method was executed successfully
+     */
+    function getStructureScalarAndNotScalarFields(&$oStructure, &$oParams, $idxParam,
+        $aScalars, $aNonScalars, &$oResponseWithError)
+    {
+        $result = XmlRpcUtils::getStructureScalarFields($oStructure, $oParams, $idxParam, $aScalars, $oResponseWithError);
+
+        if ($result) {
+            $oStructParam = $oParams->getParam($idxParam);
+
+            foreach ($aNonScalars as $fieldName) {
+
+                if (!XmlRpcUtils::_getStructureNonScalarField($oStructure, $oStructParam,
+                    $fieldName, $oResponseWithError)) {
+
+                    return false;
+                }
+            }
+        } else {
+            return false;
+        }
+
         return true;
     }
 }

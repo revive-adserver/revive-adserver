@@ -102,6 +102,9 @@ class XmlRpcUtils
                     return new XML_RPC_Value($value, $GLOBALS['XML_RPC_DateTime']);
 
                 }
+
+            case 'custom':
+                return $variable;
         }
         die('Unsupported Xml Rpc type \'' . $type . '\'');
     }

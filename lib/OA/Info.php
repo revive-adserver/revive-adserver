@@ -88,6 +88,11 @@ class OA_Info
             }
         }
     }
+
+    function toArray()
+    {
+        return (array)$this;
+    }
 }
 
 ?>

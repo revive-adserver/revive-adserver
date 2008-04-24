@@ -82,10 +82,11 @@ class BannerXmlRpcService extends BaseBannerService
 
         if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0,
                 $oResponseWithError) ||
-            !XmlRpcUtils::getStructureScalarFields($oBannerInfo, $oParams,
+            !XmlRpcUtils::getStructureScalarAndNotScalarFields($oBannerInfo, $oParams,
                 1, array('campaignId', 'bannerName', 'storageType', 'fileName',
                         'imageURL', 'htmlTemplate', 'width', 'height', 'weight',
-                        'url', 'active', 'adserver'), $oResponseWithError)) {
+                        'target', 'url', 'status', 'adserver', 'transparent'),
+                   array('aImage', 'aBackupImage'), $oResponseWithError)) {
 
             return $oResponseWithError;
         }
@@ -115,10 +116,11 @@ class BannerXmlRpcService extends BaseBannerService
 
         if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0,
                 $oResponseWithError) ||
-            !XmlRpcUtils::getStructureScalarFields($oBannerInfo, $oParams,
-                1, array('bannerId', 'campaignId', 'bannerName', 'storageType',
-                        'fileName', 'imageURL', 'htmlTemplate', 'width', 'height',
-                        'weight', 'url', 'active', 'adserver'), $oResponseWithError)) {
+            !XmlRpcUtils::getStructureScalarAndNotScalarFields($oBannerInfo, $oParams,
+                1, array('bannerId', 'campaignId', 'bannerName', 'storageType', 'fileName',
+                        'imageURL', 'htmlTemplate', 'width', 'height', 'weight',
+                        'target', 'url', 'status', 'adserver', 'transparent'),
+                   array('aImage', 'aBackupImage'), $oResponseWithError)) {
 
             return $oResponseWithError;
         }
