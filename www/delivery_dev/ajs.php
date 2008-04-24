@@ -61,7 +61,7 @@ if (isset($exclude) && $exclude != '' && $exclude != ',') {
 $target = '';
 
 // Get the banner
-$output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $charset, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
+$output = MAX_adSelect($what, $campaignid, $target, $source, $withtext, $charset, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
 
 // Block this banner for next invocation
 if (!empty($block) && !empty($output['bannerid'])) {

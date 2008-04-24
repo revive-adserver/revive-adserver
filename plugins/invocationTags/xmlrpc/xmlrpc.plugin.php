@@ -121,7 +121,7 @@ class Plugins_InvocationTags_xmlrpc_xmlrpc extends Plugins_InvocationTags
         if (!isset($mi->clientid) || $mi->clientid == '') {
             $mi->clientid = 0;
         }
-        if (!isset($mi->campaignid) || $mi->campaignid == '') {
+        if (empty($mi->campaignid)) {
             $mi->campaignid = 0;
         }
         if ($mi->xmlrpcproto) {

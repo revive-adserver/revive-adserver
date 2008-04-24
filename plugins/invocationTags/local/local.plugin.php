@@ -118,10 +118,10 @@ class Plugins_InvocationTags_local_local extends Plugins_InvocationTags
         $path = MAX_PATH;
         $path = str_replace('\\', '/', $path);
 
-        if (!isset($mi->clientid)   || $mi->clientid == '')   $mi->clientid = 0;
-        if (!isset($mi->zoneid)     || $mi->zoneid == '')     $mi->zoneid = 0;
-        if (!isset($mi->campaignid) || $mi->campaignid == '') $mi->campaignid = 0;
-        if (!isset($mi->bannerid)   || $mi->bannerid == '')   $mi->bannerid = 0;
+        if (empty($mi->clientid))   $mi->clientid = 0;
+        if (empty($mi->zoneid))     $mi->zoneid = 0;
+        if (empty($mi->campaignid)) $mi->campaignid = 0;
+        if (empty($mi->bannerid))   $mi->bannerid = 0;
 
         $buffer = "<"."?php\n  //" . $buffer;
         $buffer .= (!empty($mi->comments)) ? "  // The MAX_PATH below should point to the base of your {$name} installation\n" : '';

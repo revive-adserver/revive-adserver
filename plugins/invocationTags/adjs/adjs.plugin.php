@@ -130,7 +130,7 @@ class Plugins_InvocationTags_adjs_adjs extends Plugins_InvocationTags
         if (isset($mi->blockcampaign) && $mi->blockcampaign == '1') {
             $mi->parameters['blockcampaign'] = "blockcampaign=1";
         }
-        if (isset($mi->campaignid) && ($mi->campaignid != '')) {
+        if (!empty($mi->campaignid)) {
             $mi->parameters['campaignid'] = "campaignid=".$mi->campaignid;
         }
         // The cachebuster for JS tags is auto-generated
