@@ -100,9 +100,9 @@ $Id$
             </td>
         {/if}
 		{* Button - Create *}
-		<td height='25'>
+		<td height='25' style="width: 18%">
       {if !$affiliate.zones}
-			 <img src='{$assetPath|escape}/images/icon-zone-new.gif' border='0' align='absmiddle' alt='{t str=Create}'>&nbsp;<a href='zone-edit.php?affiliateid={$affiliate.affiliateid}' title="{t str=AddNewZone}">{t str=Create}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			 <img src='{$assetPath|escape}/images/icon-zone-new.gif' border='0' align='absmiddle' alt='{t str=AddNewZone}'>&nbsp;<a href='zone-edit.php?affiliateid={$affiliate.affiliateid}' title="{t str=AddNewZone}">{t str=AddNewZone}</a>&nbsp;&nbsp;&nbsp;&nbsp;
       {else}
 	     &nbsp;
 	    {/if}
