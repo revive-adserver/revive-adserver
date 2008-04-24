@@ -581,7 +581,7 @@ div.breadcrumb {
 }
 
 div.onlytitle {
-	margin-top: 12px;
+	margin-top: 16px;
 }
 
 div.breadcrumb h3 {
@@ -593,6 +593,10 @@ div.breadcrumb h3 {
 
 div.breadcrumb h3 span.label {
   color: #333333;
+}
+
+div.breadcrumb h3 span.dest {
+  color: #999999;
 }
 
 div.breadcrumb span.sep {

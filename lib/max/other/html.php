@@ -567,7 +567,12 @@ function MAX_displayInventoryBreadcrumbs($aEntityNamesUrls, $entityClass, $newEn
 {
 	$aEntityLabelsClasses = MAX_buildBreadcrumbLabelsCssClasses($entityClass);
 	
-    echo "<div class='breadcrumb'>";
+    echo "<div class='breadcrumb";
+    if (count($aEntityNamesUrls) == 1) {
+        echo " onlytitle";
+    }
+    echo "'>";
+    
     for ($i = 0; $i < count($aEntityNamesUrls) - 1; $i++) {
 	    echo "<a href='" . $aEntityNamesUrls[$i]["url"] . "' class='ent " . $aEntityLabelsClasses[$i]['class'] . "'>" . $aEntityLabelsClasses[$i]['label'] . ": " . $aEntityNamesUrls[$i]["name"] . "</a>";
 	    if ($i < count($aEntityNamesUrls) - 2) {
@@ -576,21 +581,26 @@ function MAX_displayInventoryBreadcrumbs($aEntityNamesUrls, $entityClass, $newEn
     }
     echo "<h3><span class='label'>" . $aEntityLabelsClasses[count($aEntityNamesUrls) - 1][$newEntity ? "newLabel" : "label"] . "</span>";
     if (!$newEntity) {
-        echo ": " . $aEntityNamesUrls[count($aEntityNamesUrls) - 1]["name"] . "</h3>";
-    }
-    echo "</h3>";
+        echo ": " . $aEntityNamesUrls[count($aEntityNamesUrls) - 1]["name"];
+    } 
+//    else {
+//    	if (count($aEntityNamesUrls) - 2 >= 0) {
+//    		echo " <span class='dest'>to " . $aEntityLabelsClasses[count($aEntityNamesUrls) - 2]["label"] . ": " . $aEntityNamesUrls[count($aEntityNamesUrls) - 2]["name"] . "</span>";
+//    	}
+//    }
+    echo "</h3></div>";
 }
 
 function MAX_buildBreadcrumbLabelsCssClasses($entityClass)
 {
-	$advertiser = array("label" => "Advertiser", "newLabel" => "Add new advertiser", "class" => "adv");
-	$campaign = array("label" => "Campaign", "newLabel" => "Add new campaign", "class" => "camp");
-	$tracker = array("label" => "Tracker", "newLabel" => "Add new tracker", "class" => "track");
-	$banner = array("label" => "Banner", "newLabel" => "Add new banner", "class" => "ban");
-	$website = array("label" => "Website", "newLabel" => "Add new website", "class" => "webs");
-	$zone = array("label" => "Zone", "newLabel" => "Add new zone", "class" => "zone");
-	$channel = array("label" => "Channel", "newLabel" => "Add new channel", "class" => "chan");
-	$agency = array("label" => "Agency", "newLabel" => "Add new agency", "class" => "agen");
+	$advertiser = array("label" => $GLOBALS['strClient'], "newLabel" => $GLOBALS['strAddClient'], "class" => "adv");
+	$campaign = array("label" => $GLOBALS['strCampaign'], "newLabel" => $GLOBALS['strAddCampaign'], "class" => "camp");
+	$tracker = array("label" => $GLOBALS['strTracker'], "newLabel" => $GLOBALS['strAddTracker'], "class" => "track");
+	$banner = array("label" => $GLOBALS['strBanner'], "newLabel" => $GLOBALS['strAddBanner'], "class" => "ban");
+	$website = array("label" => $GLOBALS['strAffiliate'], "newLabel" => $GLOBALS['strAddNewAffiliate'], "class" => "webs");
+	$zone = array("label" => $GLOBALS['strZone'], "newLabel" => $GLOBALS['strAddNewZone'], "class" => "zone");
+	$channel = array("label" => $GLOBALS['strChannel'], "newLabel" => $GLOBALS['strAddNewChannel'], "class" => "chan");
+	$agency = array("label" => $GLOBALS['strAgency'], "newLabel" => $GLOBALS['strAddAgency'], "class" => "agen");
 	
 	$bannerTree = array($advertiser, $campaign, $banner);
 	$trackerTree = array($advertiser, $tracker);
