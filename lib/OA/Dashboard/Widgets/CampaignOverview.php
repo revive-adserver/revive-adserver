@@ -91,6 +91,7 @@ class OA_Dashboard_Widget_CampaignOverview extends OA_Dashboard_Widget
                     'restarted' => $GLOBALS['strCampaignStatusRestarted'],
                     'completed' => $GLOBALS['strCampaignStatusExpired'],
                     'paused'    => $GLOBALS['strCampaignStatusPaused'],
+                	'deleted'   => $GLOBALS['strCampaignStatusDeleted'],
                 );
                 foreach ($aCampaign as $k => $v) {
                     if (isset($aActionMap[$v['action']])) {

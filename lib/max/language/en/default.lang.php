@@ -414,6 +414,7 @@ $GLOBALS['strCampaignStatusRejected']      = "Rejected";
 $GLOBALS['strCampaignStatusAdded']         = "Added";
 $GLOBALS['strCampaignStatusStarted']       = "Started";
 $GLOBALS['strCampaignStatusRestarted']     = "Restarted";
+$GLOBALS['strCampaignStatusDeleted']       = "Deleted";
 $GLOBALS['strCampaignApprove']             = "Approve";
 $GLOBALS['strCampaignApproveDescription']  = "accept this campaign";
 $GLOBALS['strCampaignReject']              = "Reject";

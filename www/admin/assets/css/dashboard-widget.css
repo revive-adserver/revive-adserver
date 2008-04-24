@@ -340,7 +340,8 @@ div.widgetButtons div {
   color: green 
 }
 
-.campaign-paused { 
+.campaign-paused,
+.campaign-deleted { 
   color: red 
 }
 

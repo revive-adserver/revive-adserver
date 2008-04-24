@@ -410,7 +410,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
      * perform post-audit actions
      *
      * @param int $actionid
-     * @param DataObjects_Campaigns $dataobjectOld�
+     * @param DataObjects_Campaigns $dataobjectOld
      * @param int $auditId
      */
     function _postAuditTrigger($actionid, $dataobjectOld, $auditId)
@@ -434,8 +434,11 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
                         $actionType = $aActionMap[$this->status][''];
                     }
                 }
+                break;
+            case OA_AUDIT_ACTION_DELETE:
+            	$actionType = 'deleted';
+            	break;
         }
-
         if (isset($actionType)) {
             // Prepare action array
             $maxItems = 6;
@@ -463,8 +466,20 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
                 // No cached array for this account id, initialise
                 $aCache['aAccounts'][$accountId] = array();
             }
+            
             // Add current action as first item
             array_unshift($aCache['aAccounts'][$accountId], $aAction);
+            
+            //if current campaign is deleted, delete campaignid in all messages concernig this campaign
+            if ($actionType=='deleted') {
+            	//var_dump($aCache['aAccounts'][$accountId]);
+             	foreach ($aCache['aAccounts'][$accountId] as $k => $v) {
+                    if ($v['campaignid'] == $aAction['campaignid']) {
+                        $aCache['aAccounts'][$accountId][$k]['campaignid'] = "";
+                    }
+                }
+            }
+            
             // Only store most recent $maxItems actions, rekeying the array
             $aCache['aAccounts'][$accountId] = array_slice($aCache['aAccounts'][$accountId], 0, $maxItems);
             // Save cache
