@@ -1250,7 +1250,8 @@ case 'clientid':    $clientid   = $matches[2]; break;
 }
 }
 // 2.0 backwards compatibility - clientid parameter was used to fetch a campaign
-if (!isset($clientid))  $clientid = '';
+if (!isset($clientid)) $clientid = '';
+if (!isset($campaignid))  $campaignid = $clientid;
 $source = MAX_commonDeriveSource($source);
 if (!empty($loc)) {
 $loc = stripslashes($loc);
@@ -2848,7 +2849,7 @@ include MAX_PATH . '/plugins/invocationTags/adlayer/layerstyles/'.$layerstyle.'/
 $limitations = MAX_layerGetLimitations();
 MAX_commonSendContentTypeHeader("application/x-javascript", $charset);
 if ($limitations['compatible']) {
-$output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $charset, $context, $limitations['richmedia'], $GLOBALS['ct0'], $GLOBALS['loc'], $GLOBALS['referer']);
+$output = MAX_adSelect($what, $campaignid, $target, $source, $withtext, $charset, $context, $limitations['richmedia'], $GLOBALS['ct0'], $GLOBALS['loc'], $GLOBALS['referer']);
 MAX_cookieFlush();
 // Exit if no matching banner was found
 if (empty($output['html'])) {

@@ -1250,7 +1250,8 @@ case 'clientid':    $clientid   = $matches[2]; break;
 }
 }
 // 2.0 backwards compatibility - clientid parameter was used to fetch a campaign
-if (!isset($clientid))  $clientid = '';
+if (!isset($clientid)) $clientid = '';
+if (!isset($campaignid))  $campaignid = $clientid;
 $source = MAX_commonDeriveSource($source);
 if (!empty($loc)) {
 $loc = stripslashes($loc);
@@ -2859,7 +2860,7 @@ $context[] = array ("!=" => $exclude[$i]);
 // Unset default value for $target causing target specified for banner to be used
 $target = '';
 // Get the banner
-$output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $charset, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
+$output = MAX_adSelect($what, $campaignid, $target, $source, $withtext, $charset, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
 // Block this banner for next invocation
 if (!empty($block) && !empty($output['bannerid'])) {
 $output['context'][] = array('!=' => 'bannerid:' . $output['bannerid']);

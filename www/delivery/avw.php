@@ -1250,7 +1250,8 @@ case 'clientid':    $clientid   = $matches[2]; break;
 }
 }
 // 2.0 backwards compatibility - clientid parameter was used to fetch a campaign
-if (!isset($clientid))  $clientid = '';
+if (!isset($clientid)) $clientid = '';
+if (!isset($campaignid))  $campaignid = $clientid;
 $source = MAX_commonDeriveSource($source);
 if (!empty($loc)) {
 $loc = stripslashes($loc);
@@ -2799,7 +2800,7 @@ $target = '';           // Target cannot be dynamically set in basic tags.
 $context = array();     // I don't think that $context is valid in adview.php...
 $ct0 = '';              // Click tracking should be done using external tags rather than this way...
 $withText = 0;          // Cannot write text using a simple tag...
-$row = MAX_adSelect($what, $clientid, $target, $source, $withText, $charset, $context, $richMedia, $ct0, $loc, $referer);
+$row = MAX_adSelect($what, $campaignid, $target, $source, $withText, $charset, $context, $richMedia, $ct0, $loc, $referer);
 if (!empty($row['html'])) {
 // Send bannerid headers
 $cookie = array();
