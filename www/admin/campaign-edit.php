@@ -122,7 +122,7 @@ if (isset($submit)) {
         $revenue = $corrected_revenue;
         unset($corrected_revenue);
     }
-    if (!(is_numeric($revenue))) {
+    if (!empty($revenue) && !(is_numeric($revenue))) {
         // Suppress PEAR error handling to show this error only on top of HTML form
         PEAR::pushErrorHandling(null);
         $errors[] = PEAR::raiseError($GLOBALS['strErrorEditingCampaignRevenue']);
@@ -514,7 +514,7 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
     $row["activate"]       = '';
     $row["priority"]    = 0;
     $row["anonymous"]    = ($pref['gui_campaign_anonymous'] == 't') ? 't' : '';
-    $row['revenue']     = '0.0000';
+    $row['revenue']     = OA_Admin_NumberFormat::formatNumber(0, 4);;
     $row['revenue_type']     = null;
     $row['target']     = null;
     $row['impressionsRemaining']     = null;

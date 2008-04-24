@@ -38,6 +38,7 @@ require_once MAX_PATH . '/www/admin/lib-size.inc.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
+require_once MAX_PATH . '/lib/OA/Admin/NumberFormat.php';
 
 // Register input variables
 phpAds_registerGlobalUnslashed(
@@ -98,190 +99,219 @@ if (isset($submit))
         }
     }
 
-    if (!(is_numeric($cost)) || ($cost <= 0)) {
-        // No cost information, set to null
-        $cost = 'NULL';
-        $cost_type = 'NULL';
+    //correction cost and technology_cost from other formats (23234,34 or 23 234,34 or 23.234,34)
+    //to format acceptable by is_numeric (23234.34)
+    $corrected_cost = OA_Admin_NumberFormat::unformatNumber($cost);
+    if ( $corrected_cost !== false ) {
+        $cost = $corrected_cost;
+        unset($corrected_cost);
     }
-
-    if (!(is_numeric($technology_cost)) || ($technology_cost <= 0)) {
-        // No cost information, set to null
-        $technology_cost = 'NULL';
-        $technology_cost_type = 'NULL';
+    if (!empty($cost) && !(is_numeric($cost))) {
+        // Suppress PEAR error handling to show this error only on top of HTML form
+        PEAR::pushErrorHandling(null);
+        $errors[] = PEAR::raiseError($GLOBALS['strErrorEditingZoneCost']);
+        PEAR::popErrorHandling();
     }
-
-    if ($cost_type == MAX_FINANCE_VARSUM && is_array($cost_variable_id_mult)) {
-        $cost_variable_id = 0;
-        foreach ($cost_variable_id_mult as $val) {
-            if ($cost_variable_id) {
-                $cost_variable_id .= "," . $val;
-            } else {
-                $cost_variable_id = $val;
-            }
-        }
+    
+    $corrected_technology_cost = OA_Admin_NumberFormat::unformatNumber($technology_cost);
+    if ( $corrected_technology_cost !== false ) {
+        $technology_cost = $corrected_technology_cost;
+        unset($corrected_technology_cost);
     }
-
-    // Edit
-    if (!empty($zoneid))
-    {
-        // before we commit any changes to db, store whether the size has changed
-        $aZone = Admin_DA::getZone($zoneid);
-        $size_changed = ($width != $aZone['width'] || $height != $aZone['height']) ? true : false;
-        $type_changed = ($delivery != $aZone['delivery']) ? true : false;
-
-        $doZones = OA_Dal::factoryDO('zones');
-        $doZones->zonename = $zonename;
-        $doZones->description = $description;
-        $doZones->width = $width;
-        $doZones->height = $height;
-        $doZones->comments = $comments;
-        $doZones->cost = $cost;
-        $doZones->cost_type = $cost_type;
-        if ($cost_type == MAX_FINANCE_ANYVAR || $cost_type == MAX_FINANCE_VARSUM) {
-            $doZones->cost_variable_id = $cost_variable_id;
+    if (!empty($technology_cost) && !(is_numeric($technology_cost))) {
+        // Suppress PEAR error handling to show this error only on top of HTML form
+        PEAR::pushErrorHandling(null);
+        $errors[] = PEAR::raiseError($GLOBALS['strErrorEditingZoneTechnologyCost']);
+        PEAR::popErrorHandling();
+    }
+    
+    if (empty($errors)) {
+        
+        if (!(is_numeric($cost)) || ($cost <= 0)) {
+            // No cost information, set to null
+            $cost = 'NULL';
+            $cost_type = 'NULL';
         }
-        $doZones->technology_cost = $technology_cost;
-        $doZones->technology_cost_type = $technology_cost_type;
-        $doZones->delivery = $delivery;
-        if ($delivery != phpAds_ZoneText && $delivery != phpAds_ZoneBanner) {
-            $doZones->append = '';
+    
+        if (!(is_numeric($technology_cost)) || ($technology_cost <= 0)) {
+            // No cost information, set to null
+            $technology_cost = 'NULL';
+            $technology_cost_type = 'NULL';
         }
-        if ($delivery != phpAds_ZoneText) {
-            $doZones->prepend = '';
-        }
-        $doZones->zoneid = $zoneid;
-        $doZones->update();
-
-        // Ad  Networks
-        $doPublisher = OA_Dal::factoryDO('affiliates');
-        $doPublisher->get($affiliateid);
-        $anWebsiteId = $doPublisher->as_website_id;
-        if ($anWebsiteId) {
-        	$oAdNetworks = new OA_Central_AdNetworks();
-            $doZones->get($zoneid);
-			$oAdNetworks->updateZone($doZones, $anWebsiteId);
-        }
-
-        // Reset append codes which called this zone
-        $doZones = OA_Dal::factoryDO('zones');
-        $doZones->appendtype = phpAds_ZoneAppendZone;
-
-        if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
-        {
-            $doZones->addReferenceFilter('agency', OA_Permission::getEntityId());
-        }
-        elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER))
-        {
-              $doZones->addReferenceFilter('affiliates', OA_Permission::getEntityId());
-        }
-        $doZones->find();
-
-        while ($doZones->fetch() && $row = $doZones->toArray())
-        {
-            $append = phpAds_ZoneParseAppendCode($row['append']);
-
-            if ($append[0]['zoneid'] == $zoneid)
-            {
-                $doZonesClone = clone($doZones);
-                $doZonesClone->appendtype = phpAds_ZoneAppendRaw;
-                $doZonesClone->append = '';
-                $doZonesClone->update();
-            }
-        }
-
-        if ($type_changed && $delivery == MAX_ZoneEmail) {
-            // Unlink all campaigns/banners linked to this zone
-            $aPlacementZones = Admin_DA::getPlacementZones(array('zone_id' => $zoneid), true, 'placement_id');
-            if (!empty($aPlacementZones)) {
-                foreach ($aPlacementZones as $placementId => $aPlacementZone) {
-                    Admin_DA::deletePlacementZones(array('zone_id' => $zoneid, 'placement_id' => $placementId));
+    
+        if ($cost_type == MAX_FINANCE_VARSUM && is_array($cost_variable_id_mult)) {
+            $cost_variable_id = 0;
+            foreach ($cost_variable_id_mult as $val) {
+                if ($cost_variable_id) {
+                    $cost_variable_id .= "," . $val;
+                } else {
+                    $cost_variable_id = $val;
                 }
             }
-            $aAdZones = Admin_DA::getAdZones(array('zone_id' => $zoneid), false, 'ad_id');
-            if (!empty($aAdZones)) {
-                foreach ($aAdZones as $adId => $aAdZone) {
-                    Admin_DA::deleteAdZones(array('zone_id' => $zoneid, 'ad_id' => $adId));
-                }
-            }
-        } else if ($size_changed) {
+        }
+    
+        // Edit
+        if (!empty($zoneid))
+        {
+            // before we commit any changes to db, store whether the size has changed
             $aZone = Admin_DA::getZone($zoneid);
-
-            // Loop through all appended banners and make sure that they still fit...
-            $aAds = Admin_DA::getAdZones(array('zone_id' => $zoneid), false, 'ad_id');
-            if (!empty($aAds)) {
-             foreach ($aAds as $adId => $aAd) {
-                $aAd = Admin_DA::getAd($adId);
-                    if ( (($aZone['type'] == phpAds_ZoneText) && ($aAd['type'] != 'txt'))
-                    || (($aAd['width'] != $aZone['width']) && ($aZone['width'] > -1))
-                    || (($aAd['height'] != $aZone['height']) && ($aZone['height'] > -1)) ) {
+            $size_changed = ($width != $aZone['width'] || $height != $aZone['height']) ? true : false;
+            $type_changed = ($delivery != $aZone['delivery']) ? true : false;
+    
+            $doZones = OA_Dal::factoryDO('zones');
+            $doZones->zonename = $zonename;
+            $doZones->description = $description;
+            $doZones->width = $width;
+            $doZones->height = $height;
+            $doZones->comments = $comments;
+            $doZones->cost = $cost;
+            $doZones->cost_type = $cost_type;
+            if ($cost_type == MAX_FINANCE_ANYVAR || $cost_type == MAX_FINANCE_VARSUM) {
+                $doZones->cost_variable_id = $cost_variable_id;
+            }
+            $doZones->technology_cost = $technology_cost;
+            $doZones->technology_cost_type = $technology_cost_type;
+            $doZones->delivery = $delivery;
+            if ($delivery != phpAds_ZoneText && $delivery != phpAds_ZoneBanner) {
+                $doZones->append = '';
+            }
+            if ($delivery != phpAds_ZoneText) {
+                $doZones->prepend = '';
+            }
+            $doZones->zoneid = $zoneid;
+            $doZones->update();
+    
+            // Ad  Networks
+            $doPublisher = OA_Dal::factoryDO('affiliates');
+            $doPublisher->get($affiliateid);
+            $anWebsiteId = $doPublisher->as_website_id;
+            if ($anWebsiteId) {
+            	$oAdNetworks = new OA_Central_AdNetworks();
+                $doZones->get($zoneid);
+    			$oAdNetworks->updateZone($doZones, $anWebsiteId);
+            }
+    
+            // Reset append codes which called this zone
+            $doZones = OA_Dal::factoryDO('zones');
+            $doZones->appendtype = phpAds_ZoneAppendZone;
+    
+            if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
+            {
+                $doZones->addReferenceFilter('agency', OA_Permission::getEntityId());
+            }
+            elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER))
+            {
+                  $doZones->addReferenceFilter('affiliates', OA_Permission::getEntityId());
+            }
+            $doZones->find();
+    
+            while ($doZones->fetch() && $row = $doZones->toArray())
+            {
+                $append = phpAds_ZoneParseAppendCode($row['append']);
+    
+                if ($append[0]['zoneid'] == $zoneid)
+                {
+                    $doZonesClone = clone($doZones);
+                    $doZonesClone->appendtype = phpAds_ZoneAppendRaw;
+                    $doZonesClone->append = '';
+                    $doZonesClone->update();
+                }
+            }
+    
+            if ($type_changed && $delivery == MAX_ZoneEmail) {
+                // Unlink all campaigns/banners linked to this zone
+                $aPlacementZones = Admin_DA::getPlacementZones(array('zone_id' => $zoneid), true, 'placement_id');
+                if (!empty($aPlacementZones)) {
+                    foreach ($aPlacementZones as $placementId => $aPlacementZone) {
+                        Admin_DA::deletePlacementZones(array('zone_id' => $zoneid, 'placement_id' => $placementId));
+                    }
+                }
+                $aAdZones = Admin_DA::getAdZones(array('zone_id' => $zoneid), false, 'ad_id');
+                if (!empty($aAdZones)) {
+                    foreach ($aAdZones as $adId => $aAdZone) {
                         Admin_DA::deleteAdZones(array('zone_id' => $zoneid, 'ad_id' => $adId));
                     }
                 }
-            }
-
-            // Check if any campaigns linked to this zone have ads that now fit.
-            // If so, link them to the zone.
-            $aPlacementZones = Admin_DA::getPlacementZones(array('zone_id' => $zoneid), true);
-            if (!empty($aPlacementZones)) {
-                foreach($aPlacementZones as $aPlacementZone) {
-                // get ads in this campaign
-                $aAds = Admin_DA::getAds(array('placement_id' => $aPlacementZone['placement_id']), true);
-                    foreach ($aAds as $adId => $aAd) {
-                        Admin_DA::addAdZone(array('zone_id' => $zoneid, 'ad_id' => $adId));
+            } else if ($size_changed) {
+                $aZone = Admin_DA::getZone($zoneid);
+    
+                // Loop through all appended banners and make sure that they still fit...
+                $aAds = Admin_DA::getAdZones(array('zone_id' => $zoneid), false, 'ad_id');
+                if (!empty($aAds)) {
+                 foreach ($aAds as $adId => $aAd) {
+                    $aAd = Admin_DA::getAd($adId);
+                        if ( (($aZone['type'] == phpAds_ZoneText) && ($aAd['type'] != 'txt'))
+                        || (($aAd['width'] != $aZone['width']) && ($aZone['width'] > -1))
+                        || (($aAd['height'] != $aZone['height']) && ($aZone['height'] > -1)) ) {
+                            Admin_DA::deleteAdZones(array('zone_id' => $zoneid, 'ad_id' => $adId));
+                        }
+                    }
+                }
+    
+                // Check if any campaigns linked to this zone have ads that now fit.
+                // If so, link them to the zone.
+                $aPlacementZones = Admin_DA::getPlacementZones(array('zone_id' => $zoneid), true);
+                if (!empty($aPlacementZones)) {
+                    foreach($aPlacementZones as $aPlacementZone) {
+                    // get ads in this campaign
+                    $aAds = Admin_DA::getAds(array('placement_id' => $aPlacementZone['placement_id']), true);
+                        foreach ($aAds as $adId => $aAd) {
+                            Admin_DA::addAdZone(array('zone_id' => $zoneid, 'ad_id' => $adId));
+                        }
                     }
                 }
             }
+    
         }
-
-    }
-    // Add
-    else
-    {
-        $doZones = OA_Dal::factoryDO('zones');
-        $doZones->affiliateid = $affiliateid;
-        $doZones->zonename = $zonename;
-        $doZones->zonetype = phpAds_ZoneCampaign;
-        $doZones->description = $description;
-        $doZones->comments = $comments;
-        $doZones->width = $width;
-        $doZones->height = $height;
-        $doZones->delivery = $delivery;
-        $doZones->cost = $cost;
-        $doZones->cost_type = $cost_type;
-        $doZones->technology_cost = $technology_cost;
-        $doZones->technology_cost_type = $technology_cost_type;
-        if ($cost_type == MAX_FINANCE_ANYVAR || $cost_type == MAX_FINANCE_VARSUM) {
-            $doZones->cost_variable_id = $cost_variable_id;
+        // Add
+        else
+        {
+            $doZones = OA_Dal::factoryDO('zones');
+            $doZones->affiliateid = $affiliateid;
+            $doZones->zonename = $zonename;
+            $doZones->zonetype = phpAds_ZoneCampaign;
+            $doZones->description = $description;
+            $doZones->comments = $comments;
+            $doZones->width = $width;
+            $doZones->height = $height;
+            $doZones->delivery = $delivery;
+            $doZones->cost = $cost;
+            $doZones->cost_type = $cost_type;
+            $doZones->technology_cost = $technology_cost;
+            $doZones->technology_cost_type = $technology_cost_type;
+            if ($cost_type == MAX_FINANCE_ANYVAR || $cost_type == MAX_FINANCE_VARSUM) {
+                $doZones->cost_variable_id = $cost_variable_id;
+            }
+    
+            // The following fields are NOT NULL but do not get values set in the form.
+            // Should these fields be changed to NULL in the schema or should they have a default value?
+            $doZones->category = '';
+            $doZones->ad_selection = '';
+            $doZones->chain = '';
+            $doZones->prepend = '';
+            $doZones->append = '';
+    
+            $zoneid = $doZones->insert();
+    
+            // Ad  Networks
+            $doPublisher = OA_Dal::factoryDO('affiliates');
+            $doPublisher->get($affiliateid);
+            $anWebsiteId = $doPublisher->as_website_id;
+            if ($anWebsiteId) {
+            	$oAdNetworks = new OA_Central_AdNetworks();
+    			$oAdNetworks->updateZone($doZones, $anWebsiteId);
+            }
         }
-
-        // The following fields are NOT NULL but do not get values set in the form.
-        // Should these fields be changed to NULL in the schema or should they have a default value?
-        $doZones->category = '';
-        $doZones->ad_selection = '';
-        $doZones->chain = '';
-        $doZones->prepend = '';
-        $doZones->append = '';
-
-        $zoneid = $doZones->insert();
-
-        // Ad  Networks
-        $doPublisher = OA_Dal::factoryDO('affiliates');
-        $doPublisher->get($affiliateid);
-        $anWebsiteId = $doPublisher->as_website_id;
-        if ($anWebsiteId) {
-        	$oAdNetworks = new OA_Central_AdNetworks();
-			$oAdNetworks->updateZone($doZones, $anWebsiteId);
-        }
-    }
-
-    if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-        if (OA_Permission::hasPermission(OA_PERM_ZONE_LINK)) {
-            MAX_Admin_Redirect::redirect("zone-include.php?affiliateid=$affiliateid&zoneid=$zoneid");
+    
+        if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+            if (OA_Permission::hasPermission(OA_PERM_ZONE_LINK)) {
+                MAX_Admin_Redirect::redirect("zone-include.php?affiliateid=$affiliateid&zoneid=$zoneid");
+            } else {
+                MAX_Admin_Redirect::redirect("zone-probability.php?affiliateid=$affiliateid&zoneid=$zoneid");
+            }
         } else {
-            MAX_Admin_Redirect::redirect("zone-probability.php?affiliateid=$affiliateid&zoneid=$zoneid");
+            MAX_Admin_Redirect::redirect("zone-advanced.php?affiliateid=$affiliateid&zoneid=$zoneid");
         }
-    } else {
-        MAX_Admin_Redirect::redirect("zone-advanced.php?affiliateid=$affiliateid&zoneid=$zoneid");
     }
 }
 
@@ -298,6 +328,18 @@ if (isset($submit))
     $aOtherPublishers = Admin_DA::getPublishers(array('agency_id' => $agencyId));
     $aOtherZones = Admin_DA::getZones(array('publisher_id' => $affiliateid));
     MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $aEntities);
+    
+    //show errors
+    if ($submit && !empty($errors)) {
+        // Message
+        echo "<br>";
+        echo "<div class='errormessage'><img class='errormessage' src='" . MAX::assetPath() . "/images/errormessage.gif' align='absmiddle'>";
+        echo "<span class='tab-r'>{$GLOBALS['strErrorEditingZone']}</span><br><br>";
+        foreach ($errors as $aError) {
+            echo "{$GLOBALS['strUnableToChangeZone']} - " . $aError->message . "<br>";
+        }
+        echo "</div>";
+    }
 
 
 /*-------------------------------------------------------*/
@@ -318,6 +360,11 @@ if (!empty($zoneid)) {
     // Set the default financial information
     if (!isset($zone['cost'])) {
         $zone['cost'] = '0.0000';
+    } else {
+        $zone['cost'] = OA_Admin_NumberFormat::formatNumber($zone['cost'], 4);
+    }
+    if (isset($zone['technology_cost'])) {
+        $zone['technology_cost'] = OA_Admin_NumberFormat::formatNumber($zone['technology_cost'], 4);
     }
 
     $zoneName = $zone['zonename'];
@@ -335,7 +382,7 @@ if (!empty($zoneid)) {
     $zone['width']             = '468';
     $zone['height']         = '60';
     $zone['delivery']        = phpAds_ZoneBanner;
-    $zone['cost']           = '0.0000';
+    $zone['cost']           = OA_Admin_NumberFormat::formatNumber(0, 4);;
     $zone['cost_type']      = null;
     $zone['technology_cost'] = null;
     $zone['technology_cost_type'] = null;
