@@ -50,6 +50,12 @@ $Id$
  *       JS support for numbers.
  */
 
+// Setup the application constants since these are referenced in the language packs
+// there's a slight hack here to prevent constants from parsing the config files
+include('../../constants.php');
+$GLOBALS['_MAX']['CONF'] = true;
+setupConstants();
+
 //Always load the English language, in case of incomplete translations
 include '../../lib/max/language/en/default.lang.php';
 
