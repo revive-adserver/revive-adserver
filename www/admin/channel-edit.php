@@ -64,7 +64,7 @@ if (!empty($affiliateid)) {
 /* Process submitted form                                */
 /*-------------------------------------------------------*/
 
-if (isset($submit) && $submit == $GLOBALS['strSaveChanges']) {
+if (!empty($submit)) {
     if (empty($affiliateid)) $affiliateid = 0;
     if ($channelid) {
         $doChannel = OA_Dal::factoryDO('channel');
