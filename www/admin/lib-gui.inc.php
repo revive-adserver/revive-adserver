@@ -142,6 +142,7 @@ function phpAds_ShowSections($sections, $params=false, $openNewTable=true, $imgP
 	echo "</td></tr></table>";
 
 	echo "<div id='oaSection'>";
+	echo "<a id='context-help' target='_blank' href='" . OA_Admin_Help::getDocLinkFromPhpAdsNavId($OA_Navigation_ID) . "'>Help</a>";
 	echo "<ul id='oaSectionTabs'>";
 
     // Prepare Navigation

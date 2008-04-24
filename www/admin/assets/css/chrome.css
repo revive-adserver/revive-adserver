@@ -382,6 +382,13 @@ a:hover {
 	top: -24px;
 }
 
+#context-help {
+	position: absolute;
+	right: 40px;
+	margin-top: 32px;
+	padding-left: 20px;
+	background: url(../images/icon-help.gif) no-repeat left 2px;
+}
 
 #oaSidebar {
 	position: absolute;
@@ -650,4 +657,8 @@ span.required {
 td.required-explanation {
   color: #606060;
   padding-bottom: 5px;
+}
+
+#auditFilter {
+	margin-top: 12px;
 }
