@@ -81,7 +81,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_AC
 	while ($doAdvertiser->fetch() && $row = $doAdvertiser->toArray())
 	{
 		phpAds_PageContext(
-			phpAds_buildName ($row['clientid'], $row['clientname']),
+			MAX_buildName ($row['clientid'], $row['clientname']),
 			"advertiser-trackers.php?clientid=".$row['clientid'],
 			$clientid == $row['clientid']
 		);

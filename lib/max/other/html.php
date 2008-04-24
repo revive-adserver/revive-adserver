@@ -649,7 +649,8 @@ function MAX_buildBreadcrumbLabelsCssClasses($entityClass)
 
 function MAX_displayAdvertiserBreadcrumbs($clientid)
 {
-    MAX_displayInventoryBreadcrumbs(array(array("name" => phpAds_getClientName($clientid))), "advertiser", $clientid == '');
+	$clientdetails = phpAds_getClientDetails($clientid);
+    MAX_displayInventoryBreadcrumbs(array(array("name" => $clientdetails['clientname'])), "advertiser", $clientid == '');
 }
 
 function MAX_displayTrackerBreadcrumbs($trackerid, $clientid)
@@ -672,7 +673,8 @@ function MAX_displayTrackerBreadcrumbs($trackerid, $clientid)
 function MAX_displayWebsiteBreadcrumbs($affiliateid)
 {
 	if ($affiliateid) {
-        $websiteName = phpAds_getAffiliateName($affiliateid);
+		$publisher = Admin_DA::getPublisher($affiliateid);
+        $websiteName = $publisher['name'];
 	}
 	else {
 		$websiteName = "";
@@ -837,7 +839,7 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
         $campaignAnonymous = $campaign['anonymous'] == 't' ? true : false;
         $aOtherBanner['name'] = MAX_getAdName($aOtherBanner['name'], null, null, $campaignAnonymous, $otherBannerId);
 
-        $otherBannerName = phpAds_buildName($otherBannerId, $aOtherBanner['name']);
+        $otherBannerName = MAX_buildName($otherBannerId, $aOtherBanner['name']);
 
         $page = "{$pageName}?{$otherEntityString}bannerid={$otherBannerId}&";
         if ($otherBannerId == $bannerId) {
@@ -914,7 +916,8 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
         $extra .= "<img src='" . MAX::assetPath() . "/images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='banner-delete.php?$entityString&returnurl=campaign-banners.php'$deleteConfirm>{$GLOBALS['strDelete']}</a><br />";
     }
     $extra .= "</form>";
-    $advertiserName = phpAds_getClientName($advertiserId);
+    $advertiserDetails = phpAds_getClientDetails($advertiserId);
+    $advertiserName = $advertiserDetails['clientname'];
 
     // Build ad preview
     if ($bannerId) {
@@ -934,12 +937,9 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
                                       array("name" => $campaignName, "url" => $campaignEditUrl), 
                                       array("name" => $bannerName)), 
                                     "banner", $bannerId == '');
+	echo "<div class='bannercode'>$bannerCode</div>";
     if ($bannerCode != '') {
-    	echo "<br />";
-    }
-	echo "$bannerCode";
-    if ($bannerCode != '') {
-        echo "<br /><br />";
+        echo "<br />";
     }
 	phpAds_ShowSections($tabSections);
 }

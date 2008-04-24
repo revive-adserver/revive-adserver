@@ -606,6 +606,10 @@ div.breadcrumb span.sep {
 	color: #606060;
 }
 
+div.bannercode {
+	margin-left: 20px;
+}
+
 div.breadcrumb a.adv,
 div.breadcrumb a.camp,
 div.breadcrumb a.ban,

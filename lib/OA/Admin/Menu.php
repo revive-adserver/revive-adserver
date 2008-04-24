@@ -54,7 +54,7 @@ class OA_Admin_Menu
         $doAffiliates->find();
         while ($doAffiliates->fetch()) {
             phpAds_PageContext(
-                phpAds_buildAffiliateName ($doAffiliates->affiliateid, $doAffiliates->name),
+                MAX_buildName ($doAffiliates->affiliateid, $doAffiliates->name),
                 "$pageName?affiliateid=".$doAffiliates->affiliateid,
                 $affiliateid == $doAffiliates->affiliateid
             );
@@ -81,7 +81,7 @@ class OA_Admin_Menu
 
 		while ($doClients->fetch()) {
 			phpAds_PageContext(
-				phpAds_buildName ($doClients->clientid, $doClients->clientname),
+				MAX_buildName ($doClients->clientid, $doClients->clientname),
 				"$pageName?clientid=".$doClients->clientid,
 				$clientid == $doClients->clientid
 			);
@@ -94,7 +94,7 @@ class OA_Admin_Menu
     	$doAgency->find();
     	while ($doAgency->fetch()) {
     		phpAds_PageContext(
-    			phpAds_buildName ($doAgency->agencyid, $doAgency->name),
+    			MAX_buildName ($doAgency->agencyid, $doAgency->name),
     			"$pageName?agencyid=".$doAgency->agencyid,
     			$agencyid == $doAgency->agencyid
     		);

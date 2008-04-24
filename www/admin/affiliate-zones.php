@@ -82,7 +82,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
 
     while ($doAffiliates->fetch() && $row = $doAffiliates->toArray()) {
         phpAds_PageContext(
-            phpAds_buildAffiliateName ($row['affiliateid'], $row['name']),
+            MAX_buildName ($row['affiliateid'], $row['name']),
             "affiliate-zones.php?affiliateid=".$row['affiliateid'],
             $affiliateid == $row['affiliateid']
         );

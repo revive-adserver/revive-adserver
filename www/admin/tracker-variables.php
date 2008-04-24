@@ -292,7 +292,7 @@ if (isset($navorder) && isset($navdirection)) {
 
 while ($doTrackers->fetch() && $row = $doTrackers->toArray()) {
     phpAds_PageContext(
-        phpAds_buildName ($row['trackerid'], $row['trackername']),
+        MAX_buildName ($row['trackerid'], $row['trackername']),
         "tracker-variables.php?clientid=".$clientid."&trackerid=".$row['trackerid'],
         $trackerid == $row['trackerid']
     );
@@ -324,7 +324,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_AC
     $doClients->find();
 
     while ($doClients->fetch() && $row = $doClients->toArray()) {
-        $extra .= "\t\t\t\t\t<option value='".$row['clientid']."'>".phpAds_buildName($row['clientid'], $row['clientname'])."</option>\n";
+        $extra .= "\t\t\t\t\t<option value='".$row['clientid']."'>".MAX_buildName($row['clientid'], $row['clientname'])."</option>\n";
     }
 
     $extra .= "\t\t\t\t</select>&nbsp;\n";

@@ -55,7 +55,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     $doAffiliates->find();
     while ($doAffiliates->fetch() && $row = $doAffiliates->toArray()) {
         phpAds_PageContext(
-            phpAds_buildAffiliateName ($row['affiliateid'], $row['name']),
+            MAX_buildName ($row['affiliateid'], $row['name']),
             "affiliate-invocation.php?affiliateid=".$row['affiliateid'],
             $affiliateid == $row['affiliateid']
         );
