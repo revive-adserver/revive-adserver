@@ -612,7 +612,9 @@ $_SERVER['REMOTE_HOST'] = $_SERVER['REMOTE_ADDR'];
 function MAX_remotehostSetClientInfo()
 {
 if ($GLOBALS['_MAX']['CONF']['logging']['sniff'] && isset($_SERVER['HTTP_USER_AGENT'])) {
+if (!class_exists('phpSniff')) {
 include MAX_PATH . '/lib/phpSniff/phpSniff.class.php';
+}
 $client = new phpSniff($_SERVER['HTTP_USER_AGENT']);
 $GLOBALS['_MAX']['CLIENT'] = $client->_browser_info;
 }
