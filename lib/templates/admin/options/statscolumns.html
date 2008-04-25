@@ -51,7 +51,7 @@
               &nbsp;
             </td>
             <td id='cell_{$aColumnArray.name}_rank'>
-              <input type='text' size='10' name='{$aColumnArray.name}_rank' value="{$aColumnArray.rank_value|escape}" {if $aColumnArray.disabled}disabled='disabled'{/if} tabindex='{$aItem.tabindex++}'>
+              <input onBlur='max_formValidateElement(this);' type='text' size='10' name='{$aColumnArray.name}_rank' value="{$aColumnArray.rank_value|escape}" {if $aColumnArray.disabled}disabled='disabled'{/if} tabindex='{$aItem.tabindex++}'>
             </td>
           </tr>
           {/foreach}

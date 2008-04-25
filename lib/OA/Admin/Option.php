@@ -292,7 +292,7 @@ class OA_Admin_Option
             	// Show the section header
             	$this->_showStartSection($aSection['text'], NULL, $disableSubmit, $imgPath);
             }
-            
+
             $sectionHasRequiredField = false;
             foreach ($aSection['items'] as $aItem) {
             	// Test to see if the item is a preference item, and if it needs to be hidden from the account in use
@@ -333,8 +333,10 @@ class OA_Admin_Option
             				);
                             $aRankItem = array(
                                 'name'    => $aSubItem['name'] . '_rank',
-                                'depends' => $aSubItem['name'] . '==true'
+                                'depends' => $aSubItem['name'] . '==true',
+                                'check'   => 'wholeNumber'
                             );
+                            $checkbuffer .= "max_formSetRequirements('".$aSubItem['name'] . '_rank'."', '".addslashes($aSubItem['text'])."', false, 'wholeNumber');\n";
                             // Add the fake item dependencies
                             $dependbuffer .= $this->_showCheckDependancies($aData, $aLabelItem);
                             $dependbuffer .= $this->_showCheckDependancies($aData, $aRankItem);
