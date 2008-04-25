@@ -102,9 +102,15 @@ class OA_Dll_Audit extends OA_Dll
 
         //  apply filters
         if (!empty($aParam['account_id'])) {
-            $oAudit->account_id = $aParam['account_id'];
+            //check all owned accounts
+            $aParam['account_ids'] = $this->getOwnedAccounts($aParam['account_id']);
+            //if no owned accounts or own only one, set this account to $oAudit
+            if (!isset($aParam['account_ids']) || count($aParam['account_ids'])<=1) { 
+                $oAudit->account_id = $aParam['account_id'];
+                $aParam['account_ids'] = null;
+            }
         }
-
+        
         if (!empty($aParam) && is_array($aParam)) {
 
             if (!empty($aParam['start_date']) && !is_null($aParam['start_date'])
@@ -143,20 +149,20 @@ class OA_Dll_Audit extends OA_Dll
                         $where = "context = 'campaigns' AND contextid IN (". implode(',', $aCampaign) .")";
                         $oAudit->whereAdd($where, 'OR');
                     }
-                }
-                //  retrieve all banners that belong to above campaigns
-                $oBanner = OA_Dal::factoryDO('banners');
-                $oBanner->selectAdd();
-                $oBanner->selectAdd('bannerid');
-                $oBanner->whereAdd('campaignid IN ('. implode(',', $aCampaign) .')');
-                $numRows = $oBanner->find();
-                if ($numRows > 0) {
-                    while ($oBanner->fetch()) {
-                        $aBanner[] = $oBanner->bannerid;
-                    }
-                    if (!empty($aBanner)) {
-                        $where .= " OR context = 'banners' AND contextid IN (". implode(',', $aBanner) .")";
-                        $oAudit->whereAdd($where, 'OR');
+                    //  retrieve all banners that belong to above campaigns
+                    $oBanner = OA_Dal::factoryDO('banners');
+                    $oBanner->selectAdd();
+                    $oBanner->selectAdd('bannerid');
+                    $oBanner->whereAdd('campaignid IN ('. implode(',', $aCampaign) .')');
+                    $numRows = $oBanner->find();
+                    if ($numRows > 0) {
+                        while ($oBanner->fetch()) {
+                            $aBanner[] = $oBanner->bannerid;
+                        }
+                        if (!empty($aBanner)) {
+                            $where .= " OR context = 'banners' AND contextid IN (". implode(',', $aBanner) .")";
+                            $oAudit->whereAdd($where, 'OR');
+                        }
                     }
                 }
             }
@@ -225,6 +231,11 @@ class OA_Dll_Audit extends OA_Dll
                 && !empty($aParam['zone_id']) && ($aParam['zone_id'] > 0))
             {
                 $oAudit->whereAdd("context = 'zones' AND contextid = {$aParam['zone_id']}");
+            }
+            
+            // Display only log for selected (owned) accounts 
+            if (isset($aParam['account_ids'])) {
+                $oAudit->whereAdd("account_id IN (". implode(',', $aParam['account_ids']) .")");
             }
 
             //  Make sure that no items that are children are not displayed
@@ -451,7 +462,13 @@ class OA_Dll_Audit extends OA_Dll
         $oAudit = OA_Dal::factoryDO('audit');
 
         if (!empty($aParam['account_id'])) {
-            $oAudit->account_id = $aParam['account_id'];
+            //check all owned accounts
+            $aParam['account_ids'] = $this->getOwnedAccounts($aParam['account_id']);
+            //if no owned accounts or own only one, set this account to $oAudit
+            if (!isset($aParam['account_ids']) || count($aParam['account_ids'])<=1) { 
+                $oAudit->account_id = $aParam['account_id'];
+                $aParam['account_ids'] = null;
+            }
         }
 
         $oDate = new Date();
@@ -460,6 +477,10 @@ class OA_Dll_Audit extends OA_Dll
         $oAudit->whereAdd("username <> 'Maintenance'");
         $oAudit->whereAdd('parentid IS NULL');
         $oAudit->whereAdd("updated >= ".DBC::makeLiteral($oDate->format('%Y-%m-%d %H:%M:%S')));
+        // Display only log for selected (owned) accounts 
+        if (isset($aParam['account_ids'])) {
+            $oAudit->whereAdd("account_id IN (". implode(',', $aParam['account_ids']) .")");
+        }
         $oAudit->orderBy('auditid DESC');
         $oAudit->limit(0, 5);
 
@@ -480,5 +501,70 @@ class OA_Dll_Audit extends OA_Dll
         return $aResult;
     }
 
+    /**
+     * returns owned accouts ids for given account_id
+     *
+     * @param int $account_id Account Id
+     * @return array 
+     */
+    function getOwnedAccounts($account_id) {
+        $aAccountIds = array();
+        $accout_type = OA_Permission::getAccountTypeByAccountId($account_id);
+        
+        switch ($accout_type) {
+            case OA_ACCOUNT_MANAGER:
+                $aAccountIds[] = $account_id;
+                //retrive all agency
+                $oAgency = OA_Dal::factoryDO('agency');
+                $oAgency->selectAdd();
+                $oAgency->selectAdd('agencyid');
+                $oAgency->account_id = $account_id;
+                $numRows = $oAgency->find();
+                if ($numRows > 0) {
+                    $aAgency = array();
+                    while ($oAgency->fetch()) {
+                        $aAgency[] = $oAgency->agencyid;
+                    }
+                    //retrive all affiliates' account ids by agency ids
+                    $oAffiliates = OA_Dal::factoryDO('affiliates');
+                    $oAffiliates->selectAdd();
+                    $oAffiliates->selectAdd('account_id');
+                    $oAffiliates->whereAdd('agencyid IN ('. implode(',', $aAgency) .')');
+                    $numRows = $oAffiliates->find();
+                    if ($numRows > 0) {
+                        while ($oAffiliates->fetch()) {
+                             $aAccountIds[] = $oAffiliates->account_id;
+                        }
+                    }
+                    //retrive all clients' account ids by agency ids
+                    $oClients = OA_Dal::factoryDO('clients');
+                    $oClients->selectAdd();
+                    $oClients->selectAdd('account_id');
+                    $oClients->whereAdd('agencyid IN ('. implode(',', $aAgency) .')');
+                    $numRows = $oClients->find();
+                    if ($numRows > 0) {
+                        while ($oClients->fetch()) {
+                             $aAccountIds[] = $oClients->account_id;
+                        }
+                    }
+                }
+                break;
+            case OA_ACCOUNT_ADMIN:
+                // just selecting all account ids
+                $oAccounts = OA_Dal::factoryDO('accounts');
+                $oAccounts->selectAdd();
+                $oAccounts->selectAdd('account_id');
+                $numRows = $oAccounts->find();
+                if ($numRows > 0) {
+                    while ($oAccounts->fetch()) {
+                         $aAccountIds[] = $oAccounts->account_id;
+                    }
+                }
+                break;
+            default:
+                $aAccountIds[] = $account_id;
+        }
+        return $aAccountIds;
+    }
 }
 ?>

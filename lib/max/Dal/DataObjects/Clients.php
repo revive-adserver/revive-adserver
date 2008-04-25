@@ -121,10 +121,13 @@ class DataObjects_Clients extends DB_DataObjectCommon
      *             "account_id" column of the audit trail
      *             database table
      */
+    /* disabled due to fixing OX-2573
+     * now calling getOwningAccountId from parent (DB_DataObjectCommon)
     function getOwningAccountId()
     {
         return $this->_getOwningAccountIdFromParent('agency', 'agencyid', $allAccounts);
     }
+	*/
 
     /**
      * A private method to return all the account IDs of the

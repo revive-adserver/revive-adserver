@@ -108,12 +108,12 @@ $agencyId = OA_Permission::getAgencyId();
 $aAdvertiser = $aPublisher = array();
 if ($showAdvertisers) {
     if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-        $advertiserId    = OA_Permission::getEntityId();
-        $aAdvertiserList = Admin_DA::getAdvertisers(array('advertiser_id' => $advertiserId));
+        $tempAdvertiserId    = OA_Permission::getEntityId();
+        $aAdvertiserList = Admin_DA::getAdvertisers(array('advertiser_id' => $tempAdvertiserId));
     } else {
         $aAdvertiserList = Admin_DA::getAdvertisers(array('agency_id' => $agencyId));
-        $aAdvertiser[0]  = $GLOBALS['strSelectAdvertiser'];
     }
+    $aAdvertiser[0]  = $GLOBALS['strSelectAdvertiser'];
     foreach($aAdvertiserList as $key => $aValue) {
         $aAdvertiser[$aValue['advertiser_id']] = $aValue['name'];
     }
@@ -130,12 +130,12 @@ if ($showAdvertisers) {
 //get publishers if we show them
 if ($showPublishers) {
     if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-        $publisherId    = OA_Permission::getEntityId();
-        $aPublisherList = Admin_DA::getPublishers(array('publisher_id' => $publisherId));
+        $tempPublisherId    = OA_Permission::getEntityId();
+        $aPublisherList = Admin_DA::getPublishers(array('publisher_id' => $tempPublisherId));
     } else {
         $aPublisherList = Admin_DA::getPublishers(array('agency_id' => $agencyId));
-        $aPublisher[0]  = $GLOBALS['strSelectPublisher'];
     }
+    $aPublisher[0]  = $GLOBALS['strSelectPublisher'];
     foreach ($aPublisherList as $key => $aValue) {
         $aPublisher[$aValue['publisher_id']] = $aValue['name'];
     }
