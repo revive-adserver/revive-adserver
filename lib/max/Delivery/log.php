@@ -335,6 +335,8 @@ function _prepareLogInfo()
             $zoneInfo = parse_url($_GET['loc']);
         } elseif (!empty($_SERVER['HTTP_REFERER'])) {
             $zoneInfo = parse_url($_SERVER['HTTP_REFERER']);
+        } elseif (!empty($GLOBALS['loc'])) {
+            $zoneInfo = parse_url($GLOBALS['loc']);
         }
         if (!empty($zoneInfo['scheme'])) {
             $zoneInfo['scheme'] = ($zoneInfo['scheme'] == 'https') ? 1 : 0;
