@@ -232,27 +232,29 @@ foreach (array_keys($clients) as $clientid) {
     $client = &$clients[$clientid];
 
     $aCount['advertisers']++;
-    foreach (array_keys($client['campaigns']) as $campaignid) {
-        $campaign = &$client['campaigns'][$campaignid];
-
-        $aCount['campaigns']++;
-        foreach (array_keys($campaign['banners']) as $bannerid) {
-            $banner = &$campaign['banners'][$bannerid];
-
-            $aCount['banners']++;
-            if ($hideinactive && $banner['status'] != OA_ENTITY_STATUS_RUNNING) {
-                unset($campaign['banners'][$bannerid]);
-            } else {
-                $aCount['banners_active']++;
+    if (isset($client['campaigns'])) {
+        foreach (array_keys($client['campaigns']) as $campaignid) {
+            $campaign = &$client['campaigns'][$campaignid];
+    
+            $aCount['campaigns']++;
+            foreach (array_keys($campaign['banners']) as $bannerid) {
+                $banner = &$campaign['banners'][$bannerid];
+    
+                $aCount['banners']++;
+                if ($hideinactive && $banner['status'] != OA_ENTITY_STATUS_RUNNING) {
+                    unset($campaign['banners'][$bannerid]);
+                } else {
+                    $aCount['banners_active']++;
+                }
             }
-        }
-
-        if ($hideinactive && ($campaign['status'] != OA_ENTITY_STATUS_RUNNING || !count($campaign['banners']))) {
-            $aCount['banners_active'] -= count($campaign['banners']);
-            unset($client['campaigns'][$campaignid]);
-            $aCount['an_hidden']++;
-        } else {
-            $aCount['campaigns_active']++;
+    
+            if ($hideinactive && ($campaign['status'] != OA_ENTITY_STATUS_RUNNING || !count($campaign['banners']))) {
+                $aCount['banners_active'] -= count($campaign['banners']);
+                unset($client['campaigns'][$campaignid]);
+                $aCount['an_hidden']++;
+            } else {
+                $aCount['campaigns_active']++;
+            }
         }
     }
 
