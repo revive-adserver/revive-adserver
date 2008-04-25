@@ -634,51 +634,63 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $doCampaigns = OA_Dal::factoryDO($table);
         $this->assertEqual($context, $doCampaigns->_getContext());
     }
-    
+
     function testGetOwnedAccounts()
     {
-        $audit = new OA_Dll_Audit();
+        $oDllAudit = new OA_Dll_Audit();
 
-        //fill this arrays when creating owned accounts
+        // Fill this arrays when creating owned accounts
         $aAdminReferenceSet = array();
         $aManagerReferenceSet = array();
-               
-        //create admin accounts
-        $oAccounts = OA_Dal::factoryDO('accounts');
-        $oAccounts->account_type = OA_ACCOUNT_ADMIN;
-        $adminId = DataGenerator::generateOne($oAccounts);
+
+        // Create admin accounts
+        $doAccounts = OA_Dal::factoryDO('accounts');
+        $doAccounts->account_type = OA_ACCOUNT_ADMIN;
+        $adminId = DataGenerator::generateOne($doAccounts);
         $aAdminReferenceSet[] = $adminId;
-        
-        //create agency assigned to manager (accout id 2)
-        $oAgency = OA_Dal::factoryDO('agency');
-        $agencyId = DataGenerator::generateOne($oAgency);
-        $aAgency = $oAgency->toArray();
+
+        // Create agency assigned to manager (accout id 2)
+        $doAgency = OA_Dal::factoryDO('agency');
+        $agencyId = DataGenerator::generateOne($doAgency);
+        $doAgency = OA_Dal::factoryDO('agency');
+        $doAgency->agencyid = $agencyId;
+        $doAgency->find();
+        $doAgency->fetch();
+        $aAgency = $doAgency->toArray();
         $aAdminReferenceSet[] = $aAgency['account_id'];
         $aManagerReferenceSet[] = $aAgency['account_id'];
-        
-        //create affiliate
-        $oAffiliates = OA_Dal::factoryDO('affiliates');
-        $oAffiliates->agencyid = $agencyId;
-        $affiliateId = DataGenerator::generateOne($oAffiliates);
-        $aAffiliates = $oAffiliates->toArray();
+
+        // Create affiliate
+        $doAffiliates = OA_Dal::factoryDO('affiliates');
+        $doAffiliates->agencyid = $agencyId;
+        $affiliateId = DataGenerator::generateOne($doAffiliates);
+        $doAffiliates = OA_Dal::factoryDO('affiliates');
+        $doAffiliates->affiliateid = $affiliateId;
+        $doAffiliates->find();
+        $doAffiliates->fetch();
+        $aAffiliates = $doAffiliates->toArray();
         $aAdminReferenceSet[] = $aAffiliates['account_id'];
         $aManagerReferenceSet[] = $aAffiliates['account_id'];
-        
-        //create client
-        $oClients = OA_Dal::factoryDO('clients');
-        $oClients->agencyid = $agencyId;
-        $clientId = DataGenerator::generateOne($oClients);
-        $aClients = $oClients->toArray();
+
+        // Create client
+        $doClients = OA_Dal::factoryDO('clients');
+        $doClients->agencyid = $agencyId;
+        $clientId = DataGenerator::generateOne($doClients);
+        $doClients = OA_Dal::factoryDO('clients');
+        $doClients->clientid = $clientId;
+        $doClients->find();
+        $doClients->fetch();
+        $aClients = $doClients->toArray();
         $aAdminReferenceSet[] = $aClients['account_id'];
         $aManagerReferenceSet[] = $aClients['account_id'];
-                
-        $aResult = $audit->getOwnedAccounts($adminId);
+
+        $aResult = $oDllAudit->getOwnedAccounts($adminId);
         $this->assertEqual($aResult, $aAdminReferenceSet);
-        $aResult = $audit->getOwnedAccounts($aAgency['account_id']); 
+        $aResult = $oDllAudit->getOwnedAccounts($aAgency['account_id']);
         $this->assertEqual($aResult, $aManagerReferenceSet);
-        $aResult = $audit->getOwnedAccounts($aAffiliates['account_id']); 
+        $aResult = $oDllAudit->getOwnedAccounts($aAffiliates['account_id']);
         $this->assertEqual($aResult, array($aAffiliates['account_id']));
-        $aResult = $audit->getOwnedAccounts($aClients['account_id']); 
+        $aResult = $oDllAudit->getOwnedAccounts($aClients['account_id']);
         $this->assertEqual($aResult, array($aClients['account_id']));
     }
 }
