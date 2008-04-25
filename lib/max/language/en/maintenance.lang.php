@@ -29,29 +29,38 @@ $Id$
 $GLOBALS['strChooseSection']			= "Choose section";
 
 // Maintenance
-$GLOBALS['strMaintenanceHasntRun']		= "<b>Scheduled maintenance hasn't run in the past hour. This may mean that you have not set it up correctly.</b>";
+$GLOBALS['strScheduledMaintenanceHasntRun']	   = "<b>Scheduled maintenance hasn't run in the past hour. This may mean that you have not set it up correctly.</b>";
+
 $GLOBALS['strAutoMantenaceEnabledAndHasntRun'] = "
-	Automatic maintenance is enabled, but it has not been triggered. Note that automatic maintenance is triggered only when OpenX delivers banners.
-    For best performance it is advised to set up <a href='http://" . OX_PRODUCT_DOCSURL . "/maintenance' target='_blank'>scheduled maintenance</a>.
+	Automatic maintenance is enabled, but it has not been triggered. Automatic maintenance is triggered only when ".MAX_PRODUCT_NAME." delivers banners.
+    For the best performance, you should set up <a href='http://" . OX_PRODUCT_DOCSURL . "/maintenance' target='_blank'>scheduled maintenance</a>.
 ";
+
 $GLOBALS['strAutoMantenaceDisabledAndHasntRun'] = "
-	Also, automatic maintenance is disabled, so when ".MAX_PRODUCT_NAME." delivers banners, maintenance is not triggered.
-	If you do not plan to run <a href='http://" . OX_PRODUCT_DOCSURL . "/maintenance' target='_blank'>scheduled maintenance</a>,
-	you must <a href='settings-admin.php'>enable auto maintenance</a> to ensure that ".MAX_PRODUCT_NAME." works correctly.
+	Automatic maintenance is currently disabled, so when ".MAX_PRODUCT_NAME." delivers banners, automatic maintenance will not be triggered.
+	For the best performance, you should set up <a href='http://" . OX_PRODUCT_DOCSURL . "/maintenance' target='_blank'>scheduled maintenance</a>.
+    However, if you are not going to set up <a href='http://" . OX_PRODUCT_DOCSURL . "/maintenance' target='_blank'>scheduled maintenance</a>,
+    then you <i>must</i> <a href='settings-admin.php'>enable auto maintenance</a> to ensure that ".MAX_PRODUCT_NAME." works correctly.
 ";
 
 $GLOBALS['strAutoMantenaceEnabledAndRunning']   = "
-	Automatic maintenance is enabled and will trigger maintenance every hour.
-    For best performance it is advised to set up <a href='http://" . OX_PRODUCT_DOCSURL . "/maintenance' target='_blank'>scheduled maintenance</a>.
-";
-$GLOBALS['strAutoMantenaceDisabledAndRunning']  = "
-	Automatic maintenance is disabled too but a maintenance task has recently run. To make sure that ".MAX_PRODUCT_NAME." works correctly you should either
-    set up <a href='http://" . OX_PRODUCT_DOCSURL . "/maintenance' target='_blank'>scheduled maintenance</a> or <a href='settings-admin.php'>enable auto maintenance</a>.
+	Automatic maintenance is enabled and will be triggered, as required, when ".MAX_PRODUCT_NAME." delivers banners.
+	However, for the best performance, you should set up <a href='http://" . OX_PRODUCT_DOCSURL . "/maintenance' target='_blank'>scheduled maintenance</a>.
 ";
 
-$GLOBALS['strMantenaceRunning']  		= "<b>Scheduled maintenance seems to be correctly running.</b>";
-$GLOBALS['strAutoMantenaceEnabled']		= "Automatic maintenance is enabled. For best performance it is advised to <a href='account-settings-maintenance.php'>disable automatic maintenance</a>.";
-$GLOBALS['strAutoMantenaceDisabled']	= "Automatic maintenance is disabled.";
+$GLOBALS['strAutoMantenaceDisabledAndRunning']  = "
+	However, automatic maintenance has recently been disabled. To ensure that ".MAX_PRODUCT_NAME." works correctly, you should
+	either set up <a href='http://" . OX_PRODUCT_DOCSURL . "/maintenance' target='_blank'>scheduled maintenance</a> or
+	<a href='settings-admin.php'>re-enable automatic maintenance</a>.
+	<br><br>
+	For the best performance, you should set up <a href='http://" . OX_PRODUCT_DOCSURL . "/maintenance' target='_blank'>scheduled maintenance</a>.
+";
+
+$GLOBALS['strScheduledMantenaceRunning']  		= "<b>Scheduled maintenance is running correctly.</b>";
+
+$GLOBALS['strAutomaticMaintenanceHasRun']  		= "<b>Automatic maintenance is running correctly.</b>";
+
+$GLOBALS['strAutoMantenaceEnabled']		= "However, automatic maintenance is still enabled. For the best performance, you should <a href='account-settings-maintenance.php'>disable automatic maintenance</a>.";
 
 
 // Priority

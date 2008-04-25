@@ -55,34 +55,41 @@ echo "<br>";
 $oMaintStatus = new OA_Maintenance_Status();
 
 if (!$oMaintStatus->isScheduledMaintenanceRunning) {
-    // Scheduled maintenance wasn't run in the last hour
-
-    echo $strMaintenanceHasntRun;
-    echo "<br><br>";
-
+    // Scheduled maintenance WAS NOT run in the last hour
     if (!$oMaintStatus->isAutoMaintenanceRunning) {
-        // Automatic maintenance wasn't run in the last hour
-
+        // Automatic maintenance WAS NOT run in the last hour
         if ($oMaintStatus->isAutoMaintenanceEnabled) {
+            // Automatic maintenance IS enabled
+            echo $strScheduledMaintenanceHasntRun;
+            echo "<br><br>";
             echo $strAutoMantenaceEnabledAndHasntRun;
         } else {
+            // Automatic maintenance IS NOT enabled
+            echo $strScheduledMaintenanceHasntRun;
+            echo "<br><br>";
             echo $strAutoMantenaceDisabledAndHasntRun;
         }
     } else {
+        // Automatic maintenance WAS run in the last hour
         if ($oMaintStatus->isAutoMaintenanceEnabled) {
+            // Automatic maintenance IS enabled
+            echo $strAutomaticMaintenanceHasRun;
+            echo "<br><br>";
             echo $strAutoMantenaceEnabledAndRunning;
         } else {
+            // Automatic maintenance IS NOT enabled
+            echo $strAutomaticMaintenanceHasRun;
+            echo "<br><br>";
             echo $strAutoMantenaceDisabledAndRunning;
         }
     }
 } else {
-    echo $strMantenaceRunning;
-    echo "<br><br>";
-
+    // Scheduled maintenance WAS run in the last hour
+    echo $strScheduledMantenaceRunning;
     if ($oMaintStatus->isAutoMaintenanceEnabled) {
+        // Automatic maintenance IS enabled
+        echo "<br><br>";
         echo $strAutoMantenaceEnabled;
-    } else {
-        echo $strAutoMantenaceDisabled;
     }
 }
 
