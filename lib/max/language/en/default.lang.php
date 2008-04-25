@@ -430,6 +430,7 @@ $GLOBALS['strReasonBadCreative']           = "Inappropriate creative";
 $GLOBALS['strReasonBadUrl']                = "Inappropriate destination url";
 $GLOBALS['strReasonBreakTerms']            = "Website againts terms and conditions";
 
+
 // Tracker
 $GLOBALS['strTracker']                    = "Tracker";
 $GLOBALS['strTrackerOverview']            = "Tracker overview";
@@ -862,9 +863,11 @@ $GLOBALS['strRecentHosts']             = "Most recent requesting hosts";
 
 // Expiration
 $GLOBALS['strExpired']                = "Expired";
-$GLOBALS['strExpiration']             = "Expiration";
 $GLOBALS['strNoExpiration']           = "No expiration date set";
-$GLOBALS['strEstimated']              = "Estimated expiration";
+$GLOBALS['strEstimated']              = "Estimated expiration date";
+$GLOBALS['strNoExpirationEstimation'] = "No expiration estimated yet";
+$GLOBALS['strDaysAgo']                = "days ago";
+$GLOBALS['strCampaignStop']           = "Campaign stop";
 
 // Reports
 $GLOBALS['strReports']                = "Reports";

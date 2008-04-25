@@ -420,7 +420,7 @@ echo "<tr><td height='25' colspan='3'><b>$strCreditStats</b></td></tr>";
 echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%' alt=''></td></tr>";
 
 $dalCampaigns = OA_Dal::factoryDAL('campaigns');
-$desc = $dalCampaigns->getDaysLeftString($campaignid);
+$expirationDates = $dalCampaigns->getDaysLeftString($campaignid);
 $adImpressionsLeft = phpAds_formatNumber($dalCampaigns->getAdImpressionsLeft($campaignid));
 $adClicksLeft = phpAds_formatNumber($dalCampaigns->getAdClicksLeft($campaignid));
 $adConversionsLeft = phpAds_formatNumber($dalCampaigns->getAdConversionsLeft($campaignid));
@@ -429,7 +429,18 @@ echo "<tr><td height='25' width='33%'>$strViewCredits: <b>$adImpressionsLeft</b>
 echo "<td height='25' width='33%'>$strClickCredits: <b>$adClicksLeft</b></td>";
 echo "<td height='25' width='33%'>$strConversionCredits: <b>$adConversionsLeft</b></td></tr>";
 echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-el.gif' height='1' width='100%' alt=''></td></tr>";
-echo "<tr><td height='25' colspan='3'>$desc</td></tr>";
+
+echo "<tr><td height='25' width='33%'>";
+if (!empty($expirationDates['estimatedExpiration'])) {
+    echo "" . $expirationDates['estimatedExpiration'];
+    echo "</td>";
+    if (!empty($expirationDates['campaignExpiration'])) {
+    	echo "<td height='25' width='33%'>" . $expirationDates['campaignExpiration'] . "</td>";
+    }
+} elseif (!empty($expirationDates['campaignExpiration'])) {
+	echo "" . $expirationDates['campaignExpiration'] ;
+}
+echo "</td></tr>";
 
 echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%' alt=''></td></tr>";
 echo "</table>";

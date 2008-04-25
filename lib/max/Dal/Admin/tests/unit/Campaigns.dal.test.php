@@ -187,17 +187,38 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
     /**
      * A method to test the getDaysLeftString() method.
      */
-    function test_getDaysLeftString()
+     function testGetDaysLeftString()
     {
-        $GLOBALS['strExpiration']   = 'Expiration';
-        $GLOBALS['strEstimated']    = 'Estimated Expiration';
-        $GLOBALS['strNoExpiration'] = 'No expiration date set';
-        $GLOBALS['date_format']     = '%d.%m.%Y';
-        $GLOBALS['strDaysLeft']     = 'Days left';
+        /*
+    	Possible cases for testing:
+    	Case 1 -> Campaign without expiration date and without a estimated
+    	          expiration date yet
+    	Case 2 -> Campaign without expiration date and with a estimated
+    	          expiration date
+    	Case 3 -> Campaign with expiration date and without a estimated
+    	          expiration date
+    	Case 4 -> Campaign with expiration date reached
+    	Case 5 -> Campaign with expiration date and with estimated
+    	          expiration date minor than the expiration date
+    	Case 6 -> Campaign with expiration date and with estimated
+    	          expiration date equals to the expiration date
+    	Case 7 -> Campaign with expiration date and with estimated
+    	          expiration date higher than the expiration date
+        */
+
+        $GLOBALS['strExpirationDate']         = "Expiration date";
+        $GLOBALS['strNoExpiration']           = "No expiration date set";
+        $GLOBALS['strEstimated']              = "Estimated expiration date";
+        $GLOBALS['strNoExpirationEstimation'] = "No expiration estimated yet";
+        $GLOBALS['strCampaignStop']           = "Campaign stop";
+        $GLOBALS['strDaysAgo']                = "days ago";
+        $GLOBALS['strDaysLeft']               = "Days left";
+        $GLOBALS['date_format']               = '%d.%m.%Y';
 
 
-
-        // Test an unlimited campaign with no expiration date
+        // Case 1
+        // Test an unlimited campaign without expiration date and without a
+        // estimated expiration date yet
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->views       = 0;
         $doCampaigns->clicks      = 0;
@@ -210,46 +231,18 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $aCampaignIds = $dg->generate($doCampaigns, 1, true);
         $campaignId = $aCampaignIds[0];
 
-        $expected = $GLOBALS['strExpiration'].": ".$GLOBALS['strNoExpiration'];
-        $actual = $this->oDalCampaigns->getDaysLeftString($campaignId);
-        $this->assertEqual($actual, $expected);
-
-
-
-        // Prepare a date 10 days in the future
-        $daysLeft = 10;
-        $oDate = new Date();
-        $oDate->addSeconds($daysLeft * SECONDS_PER_DAY);
-
-
-
-        // Test an unlimited campaign which expires 10 days in the future
-        $doCampaigns = OA_Dal::factoryDO('campaigns');
-        $doCampaigns->views       = 0;
-        $doCampaigns->clicks      = 0;
-        $doCampaigns->conversions = 0;
-        $doCampaigns->expire      = $oDate->format('%Y-%m-%d');
-        $aData = array(
-            'reportlastdate' => array('2007-04-03 18:39:45')
+        $expected = array(
+            'estimatedExpiration' => $GLOBALS['strEstimated'].": " .
+                                     $GLOBALS['strNoExpirationEstimation'],
+            'campaignExpiration' => $GLOBALS['strNoExpiration']
         );
-        $dg = new DataGenerator();
-        $dg->setData('clients', $aData);
-        $aCampaignIds = $dg->generate($doCampaigns, 1, true);
-        $campaignId = $aCampaignIds[0];
-
-        // Link a banner to this campaign
-        $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->campaignid = $campaignId;
-        $doBanners->acls_updated = '2007-04-03 18:39:45';
-        $bannerId = DataGenerator::generateOne($doBanners);
-
-        $expected = $GLOBALS['strExpiration'] . ': ' . $oDate->format('%d.%m.%Y') . " (".$GLOBALS['strDaysLeft'].": " . $daysLeft. ')';
         $actual = $this->oDalCampaigns->getDaysLeftString($campaignId);
         $this->assertEqual($actual, $expected);
 
 
-
-        // Test an impression limited campaign with no expiration date
+        // Case 2.1
+        // Test a campaign (an impression limited campaign) without
+        // expiration date and with a estimated expiration date
         $totalImpressions = 1000;
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->views       = $totalImpressions;
@@ -283,17 +276,27 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $doDSAH->conversions = $conversions;
         $dsahId = DataGenerator::generateOne($doDSAH);
 
-        $daysLeft = 19; // Delivered 50 impressions in 1 day. So, expect to take 19 days to deliver remaining 950
+        // Delivered 50 impressions in 1 day. So, expect to take 19 days
+        // to deliver remaining 950
+        $daysLeft = 19;
         $oExpirationDate = new Date();
         $oExpirationDate->copy($oDate);
         $oExpirationDate->addSeconds($daysLeft * SECONDS_PER_DAY);
-        $expected = $GLOBALS['strEstimated'] . ': ' . $oExpirationDate->format('%d.%m.%Y') . " (".$GLOBALS['strDaysLeft'].": " . $daysLeft .")";
+
+        $expected = array(
+            'estimatedExpiration' => $GLOBALS['strEstimated'].": " .
+                                     $oExpirationDate->format('%d.%m.%Y') .
+                                     " (" . $GLOBALS['strDaysLeft']  . ": " .
+                                     $daysLeft . ")",
+            'campaignExpiration' => $GLOBALS['strNoExpiration']
+        );
         $actual = $this->oDalCampaigns->getDaysLeftString($campaignId);
         $this->assertEqual($actual, $expected);
 
 
-
-        // Test a click limited campaign with no expiration date
+        // Case 2.2
+        // Test a campaign (click limited campaign) without
+        // expiration date and with a estimated expiration date
         $totalClicks = 500;
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->views       = 0;
@@ -327,17 +330,27 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $doDSAH->conversions = $conversions;
         $dsahId = DataGenerator::generateOne($doDSAH);
 
-        $daysLeft = 99; // Delivered 5 clicks in 1 day. So, expect to take 99 days to deliver remaining 495
+        // Delivered 5 clicks in 1 day. So, expect to take 99 days to deliver
+        // remaining 495
+        $daysLeft = 99;
         $oExpirationDate = new Date();
         $oExpirationDate->copy($oDate);
         $oExpirationDate->addSeconds($daysLeft * SECONDS_PER_DAY);
-        $expected = $GLOBALS['strEstimated'] . ': ' . $oExpirationDate->format('%d.%m.%Y') . " (".$GLOBALS['strDaysLeft'].": " . $daysLeft .")";
+
+        $expected = array(
+            'estimatedExpiration' => $GLOBALS['strEstimated'].": " .
+                                     $oExpirationDate->format('%d.%m.%Y') .
+                                     " (" . $GLOBALS['strDaysLeft']  . ": " .
+                                     $daysLeft . ")",
+            'campaignExpiration' => $GLOBALS['strNoExpiration']
+        );
         $actual = $this->oDalCampaigns->getDaysLeftString($campaignId);
         $this->assertEqual($actual, $expected);
 
 
-
-        // Test a conversion limited campaign with no expiration date
+        // Case 2.3
+        // Test a campaign (conversion limited campaign)
+        // without expiration date and with a estimated expiration date
         $totalConversions = 10;
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->views       = 0;
@@ -371,17 +384,26 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $doDSAH->conversions = $conversions;
         $dsahId = DataGenerator::generateOne($doDSAH);
 
-        $daysLeft = 9; // Delivered 1 conversion in 1 day. So, expect to take 9 days to deliver remaining 9
+        // Delivered 1 conversion in 1 day. So, expect to take 9 days to deliver remaining 9
+        $daysLeft = 9;
         $oExpirationDate = new Date();
         $oExpirationDate->copy($oDate);
         $oExpirationDate->addSeconds($daysLeft * SECONDS_PER_DAY);
-        $expected = $GLOBALS['strEstimated'] . ': ' . $oExpirationDate->format('%d.%m.%Y') . " (".$GLOBALS['strDaysLeft'].": " . $daysLeft .")";
+
+        $expected = array(
+            'estimatedExpiration' => $GLOBALS['strEstimated'].": " .
+                                     $oExpirationDate->format('%d.%m.%Y') .
+                                     " (" . $GLOBALS['strDaysLeft']  . ": " .
+                                     $daysLeft . ")",
+            'campaignExpiration' => $GLOBALS['strNoExpiration']
+        );
         $actual = $this->oDalCampaigns->getDaysLeftString($campaignId);
         $this->assertEqual($actual, $expected);
 
 
-
-        // Test a triple limited campaign with no expiration date
+        // Case 2.4
+        // Test a triple limited campaign without expiration date
+        // and with a estimated expiration date
         $totalImpressions = 1000;
         $totalClicks      = 500;
         $totalConversions = 10;
@@ -417,27 +439,270 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $doDSAH->conversions = $conversions;
         $dsahId = DataGenerator::generateOne($doDSAH);
 
-        // Delivered 50 impressions in 1 day. So, expect to take 19 days to deliver remaining 950
-        // Delivered 5 clicks in 1 day. So, expect to take 99 days to deliver remaining 495
-        // Delivered 1 conversion in 1 day. So, expect to take 9 days to deliver remaining 9
-        $daysLeft = 9; // Smallest of the above 3 values!
+        // Delivered 50 impressions in 1 day. So, expect to take 19 days to
+        // deliver remaining 950
+        // Delivered 5 clicks in 1 day. So, expect to take 99 days to deliver
+        // remaining 495
+        // Delivered 1 conversion in 1 day. So, expect to take 9 days to deliver
+        // remaining 9
+
+        // The estimated expiration will be calucalated based on impression targets
+        // or based on click targets or based on conversion targets (following this order).
+        $daysLeft = 19;
         $oExpirationDate = new Date();
         $oExpirationDate->copy($oDate);
         $oExpirationDate->addSeconds($daysLeft * SECONDS_PER_DAY);
-        $expected = $GLOBALS['strEstimated'] . ': ' . $oExpirationDate->format('%d.%m.%Y') . " (".$GLOBALS['strDaysLeft'].": " . $daysLeft .")";
+
+        $expected = array(
+            'estimatedExpiration' => $GLOBALS['strEstimated'].": " .
+                                     $oExpirationDate->format('%d.%m.%Y') .
+                                     " (" . $GLOBALS['strDaysLeft']  . ": " .
+                                     $daysLeft . ")",
+            'campaignExpiration' => $GLOBALS['strNoExpiration']
+        );
         $actual = $this->oDalCampaigns->getDaysLeftString($campaignId);
         $this->assertEqual($actual, $expected);
 
 
+        // Case 3
+        // Test a campaign with expiration date and without a estimated expiration date
 
         // Prepare a date 10 days in the future
         $daysLeft = 10;
         $oDate = new Date();
         $oDate->addSeconds($daysLeft * SECONDS_PER_DAY);
 
+        // Test an unlimited campaign which expires 10 days in the future
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->views       = 0;
+        $doCampaigns->clicks      = 0;
+        $doCampaigns->conversions = 0;
+        $doCampaigns->expire      = $oDate->format('%Y-%m-%d');
+        $aData = array(
+            'reportlastdate' => array('2007-04-03 18:39:45')
+        );
+        $dg = new DataGenerator();
+        $dg->setData('clients', $aData);
+        $aCampaignIds = $dg->generate($doCampaigns, 1, true);
+        $campaignId = $aCampaignIds[0];
+
+        // Link a banner to this campaign
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->campaignid = $campaignId;
+        $doBanners->acls_updated = '2007-04-03 18:39:45';
+        $bannerId = DataGenerator::generateOne($doBanners);
+
+        $expected = array(
+            'estimatedExpiration' => $GLOBALS['strEstimated'].": " .
+                                     $GLOBALS['strNoExpirationEstimation'],
+            'campaignExpiration' => $GLOBALS['strExpirationDate'] . ": " .
+                                    $oDate->format('%d.%m.%Y') .
+                                    " (" . $GLOBALS['strDaysLeft'] . ": " .
+                                    $daysLeft . ")"
+        );
+        $actual = $this->oDalCampaigns->getDaysLeftString($campaignId);
+        $this->assertEqual($actual, $expected);
 
 
-        // Test a triple limited campaign with an expiration date 10 days in the future
+        // Case 4
+        // Campaign with expiration date reached
+
+        // Prepare a campaign with expiration date reached
+        $daysExpired = 5;
+        $oDate = new Date();
+        $oDate->subtractSeconds($daysExpired * SECONDS_PER_DAY);
+
+        // Test an unlimited campaign which expired 5 days ago
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->views       = 0;
+        $doCampaigns->clicks      = 0;
+        $doCampaigns->conversions = 0;
+        $doCampaigns->expire      = $oDate->format('%Y-%m-%d');
+        $aData = array(
+            'reportlastdate' => array('2007-04-03 18:39:45')
+        );
+        $dg = new DataGenerator();
+        $dg->setData('clients', $aData);
+        $aCampaignIds = $dg->generate($doCampaigns, 1, true);
+        $campaignId = $aCampaignIds[0];
+
+        // Link a banner to this campaign
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->campaignid = $campaignId;
+        $doBanners->acls_updated = '2007-04-03 18:39:45';
+        $bannerId = DataGenerator::generateOne($doBanners);
+
+        $expected = array(
+            'estimatedExpiration' => '',
+            'campaignExpiration' =>  $GLOBALS['strCampaignStop'] . ": " .
+                                     $oDate->format('%d.%m.%Y') . " ("  .
+                                     $daysExpired . " " .
+                                     $GLOBALS['strDaysAgo'] . ")"
+        );
+        $actual = $this->oDalCampaigns->getDaysLeftString($campaignId);
+        $this->assertEqual($actual, $expected);
+
+
+        // Case 5
+        // Campaign with expiration date and with estimated
+        // expiration date minor than the expiration date
+
+        // Prepare a date 25 days in the future
+        $daysLeft = 25;
+        $oDate = new Date();
+        $oDate->addSeconds($daysLeft * SECONDS_PER_DAY);
+
+        $campaignExpiration = $GLOBALS['strExpirationDate'] . ": " .
+                              $oDate->format('%d.%m.%Y') . " (" .
+                              $GLOBALS['strDaysLeft'] . ": " .
+                              $daysLeft . ")";
+
+        $totalImpressions = 1000;
+        $totalClicks      = 500;
+        $totalConversions = 10;
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->expire      = $oDate->format('%Y-%m-%d');
+        $doCampaigns->views       = $totalImpressions;
+        $doCampaigns->clicks      = $totalClicks;
+        $doCampaigns->conversions = $totalConversions;
+        $aData = array(
+            'reportlastdate' => array('2007-04-03 18:39:45')
+        );
+        $dg = new DataGenerator();
+        $dg->setData('clients', $aData);
+        $aCampaignIds = $dg->generate($doCampaigns, 1, true);
+        $campaignId = $aCampaignIds[0];
+
+        // Link a banner to this campaign
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->campaignid = $campaignId;
+        $doBanners->acls_updated = '2007-04-03 18:39:45';
+        $bannerId = DataGenerator::generateOne($doBanners);
+
+        // Insert conversion delivery data occurring today
+        $oDate = new Date();
+        $impressions = 50;
+        $clicks      = 5;
+        $conversions = 1;
+        $doDSAH = OA_Dal::factoryDO('data_intermediate_ad');
+        $doDSAH->day         = $oDate->format('%Y-%m-%d');
+        $doDSAH->hour        = 10;
+        $doDSAH->ad_id       = $bannerId;
+        $doDSAH->impressions = $impressions;
+        $doDSAH->clicks      = $clicks;
+        $doDSAH->conversions = $conversions;
+        $dsahId = DataGenerator::generateOne($doDSAH);
+
+        // Delivered 50 impressions in 1 day. So, expect to take 19 days to
+        // deliver remaining 950
+        // Delivered 5 clicks in 1 day. So, expect to take 99 days to deliver
+        // remaining 495
+        // Delivered 1 conversion in 1 day. So, expect to take 9 days to deliver
+        // remaining 9
+
+        // The estimated expiration will be calucalated based onimpression targets
+        // or based on click targets or based on conversion targets (following this order).
+        $daysLeft = 19;
+        $oExpirationDate = new Date();
+        $oExpirationDate->copy($oDate);
+        $oExpirationDate->addSeconds($daysLeft * SECONDS_PER_DAY);
+
+        $expected = array(
+            'estimatedExpiration' => $GLOBALS['strEstimated'].": " .
+                                     $oExpirationDate->format('%d.%m.%Y') .
+                                     " (" . $GLOBALS['strDaysLeft']  . ": " .
+                                     $daysLeft . ")",
+            'campaignExpiration' => $campaignExpiration
+        );
+        $actual = $this->oDalCampaigns->getDaysLeftString($campaignId);
+        $this->assertEqual($actual, $expected);
+
+
+        // Case 6
+        // Campaign with expiration date and with estimated
+        // expiration date equals to the expiration date
+
+        // Prepare a date 19 days in the future
+        $daysLeft = 19;
+        $oDate = new Date();
+        $oDate->addSeconds($daysLeft * SECONDS_PER_DAY);
+
+        $campaignExpiration = $GLOBALS['strExpirationDate'] . ": " .
+                              $oDate->format('%d.%m.%Y') . " (" .
+                              $GLOBALS['strDaysLeft'] . ": " . $daysLeft . ")";
+
+        $totalImpressions = 1000;
+        $totalClicks      = 500;
+        $totalConversions = 10;
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->expire      = $oDate->format('%Y-%m-%d');
+        $doCampaigns->views       = $totalImpressions;
+        $doCampaigns->clicks      = $totalClicks;
+        $doCampaigns->conversions = $totalConversions;
+        $aData = array(
+            'reportlastdate' => array('2007-04-03 18:39:45')
+        );
+        $dg = new DataGenerator();
+        $dg->setData('clients', $aData);
+        $aCampaignIds = $dg->generate($doCampaigns, 1, true);
+        $campaignId = $aCampaignIds[0];
+
+        // Link a banner to this campaign
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->campaignid = $campaignId;
+        $doBanners->acls_updated = '2007-04-03 18:39:45';
+        $bannerId = DataGenerator::generateOne($doBanners);
+
+        // Insert conversion delivery data occurring today
+        $oDate = new Date();
+        $impressions = 50;
+        $clicks      = 5;
+        $conversions = 1;
+        $doDSAH = OA_Dal::factoryDO('data_intermediate_ad');
+        $doDSAH->day         = $oDate->format('%Y-%m-%d');
+        $doDSAH->hour        = 10;
+        $doDSAH->ad_id       = $bannerId;
+        $doDSAH->impressions = $impressions;
+        $doDSAH->clicks      = $clicks;
+        $doDSAH->conversions = $conversions;
+        $dsahId = DataGenerator::generateOne($doDSAH);
+
+        // Delivered 50 impressions in 1 day. So, expect to take 19 days to
+        // deliver remaining 950
+        // Delivered 5 clicks in 1 day. So, expect to take 99 days to deliver
+        // remaining 495
+        // Delivered 1 conversion in 1 day. So, expect to take 9 days to
+        // deliver remaining 9
+
+        // The estimated expiration will be calucalated based on impression targets
+        // or based on click targets or based on conversion targets (following this order).
+        $daysLeft = 19;
+        $oExpirationDate = new Date();
+        $oExpirationDate->copy($oDate);
+        $oExpirationDate->addSeconds($daysLeft * SECONDS_PER_DAY);
+
+        $expected = array(
+            'estimatedExpiration' => $GLOBALS['strEstimated'].": " .
+                                     $oExpirationDate->format('%d.%m.%Y') . " (" .
+                                     $GLOBALS['strDaysLeft']  . ": " .
+                                     $daysLeft . ")",
+            'campaignExpiration' => $campaignExpiration
+        );
+        $actual = $this->oDalCampaigns->getDaysLeftString($campaignId);
+        $this->assertEqual($actual, $expected);
+
+
+        // Case 7
+    	// Campaign with expiration date and with estimated
+    	// expiration date higher than the expiration date
+
+        // Prepare a date 10 days in the future
+        $daysLeft = 10;
+        $oDate = new Date();
+        $oDate->addSeconds($daysLeft * SECONDS_PER_DAY);
+
+        // Test a triple limited campaign with an expiration date 10 days
+        // in the future
         $totalImpressions = 1000;
         $totalClicks      = 500;
         $totalConversions = 10;
@@ -453,6 +718,10 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $dg->setData('clients', $aData);
         $aCampaignIds = $dg->generate($doCampaigns, 1, true);
         $campaignId = $aCampaignIds[0];
+
+        $campaignExpiration = $GLOBALS['strExpirationDate'] . ": " .
+                              $oDate->format('%d.%m.%Y') . " (" .
+                              $GLOBALS['strDaysLeft'] . ": " . $daysLeft . ")";
 
         // Link a banner to this campaign
         $doBanners = OA_Dal::factoryDO('banners');
@@ -475,75 +744,31 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $dsahId = DataGenerator::generateOne($doDSAH);
 
         // Expiration date is in 10 days
-        // Delivered 50 impressions in 1 day. So, expect to take 19 days to deliver remaining 950
-        // Delivered 5 clicks in 1 day. So, expect to take 99 days to deliver remaining 495
-        // Delivered 1 conversion in 1 day. So, expect to take 9 days to deliver remaining 9
-        $daysLeft = 9; // Smallest of the above 4 values!
+        // Delivered 50 impressions in 1 day. So, expect to take 19 days to
+        // deliver remaining 950
+        // Delivered 5 clicks in 1 day. So, expect to take 99 days to
+        // deliver remaining 495
+        // Delivered 1 conversion in 1 day. So, expect to take 9 days to
+        // deliver remaining 9
+
+        // The estimated expiration will be calucalated based on impression targets
+        // or based on click targets or based on conversion targets (following this order)
+        $estimatedDaysLeft = 19;
         $oExpirationDate = new Date();
         $oExpirationDate->copy($oDate);
-        $oExpirationDate->addSeconds($daysLeft * SECONDS_PER_DAY);
-        $expected = $GLOBALS['strEstimated'] . ': ' . $oExpirationDate->format('%d.%m.%Y') . " (".$GLOBALS['strDaysLeft'].": " . $daysLeft .")";
-        $actual = $this->oDalCampaigns->getDaysLeftString($campaignId);
-        $this->assertEqual($actual, $expected);
+        $oExpirationDate->addSeconds($estimatedDaysLeft * SECONDS_PER_DAY);
 
-
-
-        // Prepare a date 8 days in the future
-        $daysLeft = 8;
-        $oDate = new Date();
-        $oDate->addSeconds($daysLeft * SECONDS_PER_DAY);
-
-
-
-        // Test a triple limited campaign with an expiration date 8 days in the future
-        $totalImpressions = 1000;
-        $totalClicks      = 500;
-        $totalConversions = 10;
-        $doCampaigns = OA_Dal::factoryDO('campaigns');
-        $doCampaigns->views       = $totalImpressions;
-        $doCampaigns->clicks      = $totalClicks;
-        $doCampaigns->conversions = $totalConversions;
-        $doCampaigns->expire      = $oDate->format('%Y-%m-%d');
-        $aData = array(
-            'reportlastdate' => array('2007-04-03 18:39:45')
+        // The extimated expiration is higher than the expiration set by the user
+        // so the value of the extimated expiration will be null because is not a
+        // relevant estimation because the campaign will expire before this estimation.
+        $expected = array(
+            'estimatedExpiration' => '',
+            'campaignExpiration' => $campaignExpiration
         );
-        $dg = new DataGenerator();
-        $dg->setData('clients', $aData);
-        $aCampaignIds = $dg->generate($doCampaigns, 1, true);
-        $campaignId = $aCampaignIds[0];
-
-        // Link a banner to this campaign
-        $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->campaignid = $campaignId;
-        $doBanners->acls_updated = '2007-04-03 18:39:45';
-        $bannerId = DataGenerator::generateOne($doBanners);
-
-        // Insert conversion delivery data occurring today
-        $oDate = new Date();
-        $impressions = 50;
-        $clicks      = 5;
-        $conversions = 1;
-        $doDSAH = OA_Dal::factoryDO('data_intermediate_ad');
-        $doDSAH->day         = $oDate->format('%Y-%m-%d');
-        $doDSAH->hour        = 10;
-        $doDSAH->ad_id       = $bannerId;
-        $doDSAH->impressions = $impressions;
-        $doDSAH->clicks      = $clicks;
-        $doDSAH->conversions = $conversions;
-        $dsahId = DataGenerator::generateOne($doDSAH);
-
-        // Expiration date is in 8 days
-        // Delivered 50 impressions in 1 day. So, expect to take 19 days to deliver remaining 950
-        // Delivered 5 clicks in 1 day. So, expect to take 99 days to deliver remaining 495
-        // Delivered 1 conversion in 1 day. So, expect to take 9 days to deliver remaining 9
-        $daysLeft = 8; // Smallest of the above 4 values!
-        $oExpirationDate = new Date();
-        $oExpirationDate->copy($oDate);
-        $oExpirationDate->addSeconds($daysLeft * SECONDS_PER_DAY);
-        $expected = $GLOBALS['strExpiration'] . ': ' . $oExpirationDate->format('%d.%m.%Y') . " (".$GLOBALS['strDaysLeft'].": " . $daysLeft .")";
         $actual = $this->oDalCampaigns->getDaysLeftString($campaignId);
         $this->assertEqual($actual, $expected);
     }
+
 
     function testGetAdClicksLeft()
     {
