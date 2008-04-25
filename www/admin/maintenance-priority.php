@@ -141,7 +141,6 @@ echo "<br /><br />";
 //echo 'This page needs to be re-written to show an agency-based list of ad/zone priority data...';
 echo "<br /><br />";
 
-echo "<tr height='1'><td colspan='2' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
 echo "</table>";
 echo "<br /><br />";
 
