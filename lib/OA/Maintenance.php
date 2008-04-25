@@ -45,7 +45,7 @@ require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once MAX_PATH . '/lib/OA/Preferences.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
  * A library class for providing common maintenance process methods.
@@ -93,7 +93,7 @@ class OA_Maintenance
         {
             OA::switchLogFile('maintenance');
 
-            OA::debug('', PEAR_LOG_INFO);
+            OA::debug();
             OA::debug('Running maintenance tasks', PEAR_LOG_INFO);
 
             // Attempt to increase PHP memory

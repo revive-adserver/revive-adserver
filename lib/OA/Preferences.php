@@ -87,7 +87,7 @@ class OA_Preferences
             $currentAccountType = OA_Permission::getAccountType();
             // If no user logged in, and we are supposed to load a specific account's
             // preferences, load the account type of that specific account
-            if (is_null($currentAccountType) && is_numeric($accountId)) {
+            if (empty($currentAccountType) && is_numeric($accountId)) {
                 // Get the account type for the specified account
                 $doAccounts = OA_Dal::factoryDO('accounts');
                 $doAccounts->account_id = $accountId;
