@@ -189,16 +189,65 @@ class OA_Environment_Manager
         }
 
         // If upgrading, must also be able to write to:
-        //  - The configuration file (if the web hosts is the same as
+        //  - The configuration file(s) (if the web hosts is the same as
         //    it was, the user cannot have the config file locked, as
-        //    new items might need to be merged into the config).
+        //    new items might need to be merged into the config file(s)).
+        //  - The default configuration file, if it exists, needs to
+        //    be able to be written to by the web server also.
         //  - The INSTALLED file needs to be able to be "touched",
         //    as this is done for all upgrades/installs.
         if (OA_INSTALLATION_STATUS != OA_INSTALLATION_STATUS_INSTALLED) {
             $configFile = MAX_PATH . '/var/' . getHostName() . '.conf.php';
             if (file_exists($configFile)) {
+                // Test if *this* config file can be written to, as the
+                // installer might need to do this later
                 if (!OA_Admin_Settings::isConfigWritable($configFile)) {
                     $aErrors[$configFile] = 'NOT writeable';
+                } else {
+                    $this->aInfo['PERMS']['expected'][] = $configFile;
+                }
+                // Test if this configuration file is the real one or not
+                // by looking for a realConfig value
+                $aUpgradeConfig = @parse_ini_file($configFile, true);
+                if (!empty($aUpgradeConfig['realConfig'])) {
+                    // This is not the real configuration file! Use
+                    // the one suggested instead
+                    $configFile = MAX_PATH . '/var/' . $aUpgradeConfig['realConfig'] . '.conf.php';
+                    $aUpgradeConfig = @parse_ini_file($configFile, true);
+                }
+                // Now inspect the possible configuration file(s) that
+                // may exist, based on the webpaths in use
+                $aPossibleConfigFiles = array();
+                if (!empty($aUpgradeConfig['webpath']['admin'])) {
+                    $url = @parse_url('http://' . $aUpgradeConfig['webpath']['admin']);
+                    $aPossibleConfigFiles[] = MAX_PATH . '/var/' . $url['host']  . '.conf.php';
+                }
+                if (!empty($aUpgradeConfig['webpath']['delivery'])) {
+                    $url = @parse_url('http://' . $aUpgradeConfig['webpath']['delivery']);
+                    $aPossibleConfigFiles[] = MAX_PATH . '/var/' . $url['host']  . '.conf.php';
+                }
+                if (!empty($aUpgradeConfig['webpath']['deliverySSL'])) {
+                    $url = @parse_url('http://' . $aUpgradeConfig['webpath']['deliverySSL']);
+                    $aPossibleConfigFiles[] = MAX_PATH . '/var/' . $url['host']  . '.conf.php';
+                }
+                $aPossibleConfigFiles = array_unique($aPossibleConfigFiles);
+                if (!empty($aPossibleConfigFiles)) {
+                    foreach ($aPossibleConfigFiles as $configFile) {
+                        if (!OA_Admin_Settings::isConfigWritable($configFile)) {
+                            $aErrors[$configFile] = 'NOT writeable';
+                        } else {
+                            $this->aInfo['PERMS']['expected'][] = $configFile;
+                        }
+                    }
+                }
+            }
+            // Test the default.conf.php file
+            $configFile = MAX_PATH . '/var/default.conf.php';
+            if (file_exists($configFile)) {
+                if (!OA_Admin_Settings::isConfigWritable($configFile)) {
+                    $aErrors[$configFile] = 'NOT writeable';
+                } else {
+                    $this->aInfo['PERMS']['expected'][] = $configFile;
                 }
             }
             $installerFile = MAX_PATH . '/var/INSTALLED';
