@@ -201,7 +201,10 @@ class OA_Admin_UI
             //enable compression if it's not alredy handled by the zlib and ob_gzhandler is loaded 
             $zlibCompression = ini_get('zlib.output_compression');
             if (!$zlibCompression && function_exists('ob_gzhandler')) {
-                ob_start("ob_gzhandler");
+                // enable compression only if it wasn't enabled previously (e.g by widget)
+                if (ob_get_contents()===false) {
+                    ob_start("ob_gzhandler");
+                }
             }
         }
 
