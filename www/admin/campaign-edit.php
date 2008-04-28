@@ -540,7 +540,6 @@ if (!isset($row['conversions']) || (isset($row['conversions']) && $row['conversi
     $row["conversions"] = -1;
 if (!isset($row['priority']) || (isset($row['priority']) && $row['priority'] == ""))
     $row["priority"] = 5;
-
 if ($row['status'] == OA_ENTITY_STATUS_RUNNING && OA_Dal::isValidDate($row['expire']) && $row['impressions'] > 0)
     $delivery = 'auto';
 elseif ($row['target'] > 0)
@@ -1071,6 +1070,10 @@ echo "\t\t"."</tr>"."\n";
 echo "\t\t"."<tr>"."\n";
 echo "\t\t\t"."<td valign='top'><input type='radio' id='priority-h' name='priority' value='2'".(($row['priority'] > '0' && $campaignid != '') ? ' checked' : '')." onClick=\"phpAds_formPriorityRadioClick(this);\" tabindex='".($tabindex++)."'></td>"."\n";
 echo "\t\t\t"."<td valign='top'> <select name='high_priority_value'>";
+if ($row['priority'] == '0' || $row['priority'] == 0) {
+	$lowPriority = true;
+	$row['priority'] = 5;
+}
 for ($i = 10; $i >= 1; $i--) {
     echo "<option value='$i'".($row['priority'] == $i ? 'SELECTED' : '').">$strHigh ($i)</option>";
 }
@@ -1078,7 +1081,7 @@ echo "</select></td>"."\n";
 echo "\t\t\t"."<td valign='top'>".$strPriorityHigh."</td>"."\n";
 echo "\t\t"."</tr>"."\n";
 
-echo "\t\t\t"."<td valign='top'><input type='radio' id='priority-l' name='priority' value='0'".(($row['priority'] == '0' || $campaignid == '') ? ' checked' : '')." onClick=\"phpAds_formPriorityRadioClick(this);\" tabindex='".($tabindex++)."'></td>"."\n";
+echo "\t\t\t"."<td valign='top'><input type='radio' id='priority-l' name='priority' value='0'".(($lowPriority || $campaignid == '') ? ' checked' : '')." onClick=\"phpAds_formPriorityRadioClick(this);\" tabindex='".($tabindex++)."'></td>"."\n";
 echo "\t\t\t"."<td valign='top'><label for='priority-l'>".$strLow."</label></td>"."\n";
 echo "\t\t\t"."<td valign='top'>".$strPriorityLow."</td>"."\n";
 echo "\t\t"."</tr>"."\n";
@@ -1227,8 +1230,8 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
     max_formSetRequirements('impressions', '<?php echo addslashes($strImpressionsBooked); ?>', false, 'formattedNumber');
     max_formSetRequirements('clicks', '<?php echo addslashes($strClicksBooked); ?>', false, 'formattedNumber');
     max_formSetRequirements('conversions', '<?php echo addslashes($strConversionsBooked); ?>', false, 'formattedNumber');
-    max_formSetRequirements('weight', '<?php echo addslashes($strCampaignWeight); ?>', false, 'number');
-    max_formSetRequirements('target_value', '<?php echo addslashes($strTargetPerDay); ?>', false, 'number+');
+    max_formSetRequirements('weight', '<?php echo addslashes($strCampaignWeight); ?>', false, 'wholeNumber-');
+    max_formSetRequirements('target_value', '<?php echo addslashes($strTargetPerDay); ?>', false, 'wholeNumber-');
     max_formSetUnique('campaignname', '|<?php echo addslashes(implode('|', $unique_names)); ?>|');
 
     var previous_target = '';

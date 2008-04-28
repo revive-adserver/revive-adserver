@@ -172,6 +172,16 @@ function max_formValidateElement(obj)
 			if ((obj.validateCheck == 'wholeNumber') && ((isNaN(val)) || (parseInt(val) < 0) || (val.indexOf('.') != -1))) {
 				err = true;
 			}
+			// Check whole number data and if the value is a dash '-' replace it with 0 value
+			if (obj.validateCheck == 'wholeNumber-') {
+				var valString = val.toString();
+				if (valString == '-') {
+					valString = 0;
+                }
+                else if (isNaN(val) || (parseInt(val) < 0) || (val.indexOf('.') != -1)) {
+				    err = true;
+			    }
+			}
 			// Check number+ data
 			if (obj.validateCheck.substr(0,7) == 'number+') {
 				min = obj.validateCheck.substr(7,obj.validateCheck.length - 7);
