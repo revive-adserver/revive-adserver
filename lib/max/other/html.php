@@ -689,15 +689,18 @@ function MAX_displayTrackerBreadcrumbs($trackerid, $clientid)
 {
 	if ($trackerid) {
         $parentClientId = phpAds_getTrackerParentClientID($trackerid);
-        $trackerName = phpAds_getTrackerName($trackerid);
+        $tracker = phpAds_getTrackerDetails($trackerid);
+        $trackerName = $tracker['trackername'];
 	}
 	else {
 		$parentClientId = $clientid;
 		$trackerName = "";
 	}
     $advertiserEditUrl = "advertiser-edit.php?clientid=$parentClientId";
+    $advertiser = phpAds_getClientDetails($parentClientId);
+    $advertiserName = $advertiser['clientname'];
     MAX_displayInventoryBreadcrumbs(array(
-                                        array("name" => phpAds_getClientName($parentClientId), "url" => $advertiserEditUrl),
+                                        array("name" => $advertiserName, "url" => $advertiserEditUrl),
                                         array("name" => $trackerName)
                                     ), "tracker", $trackerid == null);
 }
