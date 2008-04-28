@@ -47,7 +47,7 @@
                     {else:}
                     <img src="{assetPath}/images/spacer.gif" width="16" height="16" align="absmiddle" />
                     {end:}
-                    <img src="{assetPath}/{e[icon]}" align="absmiddle" />&nbsp;
+                    <img src="{e[icon]}" align="absmiddle" />&nbsp;
                     <a flexy:if="entityLink(e[prefix])" href="{entityLink(e[prefix])}&{e[linkparams]}">{if:e[name]}{e[name]}{else:}{tr(#strUntitled#)}{end:}</a>
                     <span flexy:if="!entityLink(e[prefix])">{if:e[name]}{e[name]}{else:}{tr(#strUntitled#)}{end:}</span>
                 </td>
