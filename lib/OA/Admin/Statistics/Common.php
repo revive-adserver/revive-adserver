@@ -514,7 +514,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
             // Add the day as a breadcrumb trail if looking at a day breakdown
             if (preg_match('/daily$/', $this->breakdown)) {
                 $oDate = new Date($this->aDates['day_begin']);
-                $this->_addBreadcrumb($oDate->format($GLOBALS['date_format']), 'images/icon-date.gif');
+                $this->_addBreadcrumb($oDate->format($GLOBALS['date_format']), 'images/icon-date.gif', 'day');
             }
 
             // Display the delivery history or targeting history stats

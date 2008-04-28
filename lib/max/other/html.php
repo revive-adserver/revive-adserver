@@ -638,6 +638,9 @@ function MAX_buildBreadcrumbInfo($entityClass)
 	       
 		case 'agency':   
 	       return array("label" => $GLOBALS['strAgency'], "newLabel" => $GLOBALS['strAddAgency'], "class" => "agen");
+	       
+		case 'day':   
+	       return array("label" => $GLOBALS['strDay'], "newLabel" => '', "class" => "day");
 	}
 	
 	return null;
