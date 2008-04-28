@@ -45,21 +45,32 @@
         if (localSocketObj.obj.disabled) return;
 
         if (localSocketObj.obj.checked == true) {
-            hostObj.obj.disabled = true;
+            setInputDisabled(hostObj.obj, true);
             if (dbTypeObj.obj.value == 'mysql') {
-                socketObj.obj.disabled = false;
-                portObj.obj.disabled = true;
+                setInputDisabled(socketObj.obj, false);
+                setInputDisabled(portObj.obj, true);
             } else {
-                socketObj.obj.disabled = true;
-                portObj.obj.disabled = false;
+                setInputDisabled(socketObj.obj, true);
+                setInputDisabled(portObj.obj, false);
             }
         } else {
-            socketObj.obj.disabled = true;
-            hostObj.obj.disabled = false;
+            setInputDisabled(socketObj.obj, true);
+            setInputDisabled(hostObj.obj, false);
             if (dbTypeObj.obj.value == 'mysql') {
-                portObj.obj.disabled = false;
+                setInputDisabled(portObj.obj, false);
             }
         }
+    }
+    
+    function setInputDisabled(input, disabled)
+    {
+      input.disabled = disabled;
+      
+      if (disabled) {
+        $(input).parent().prev().find(".required").hide();
+      } else {
+        $(input).parent().prev().find(".required").show();
+      }
     }
 //-->
 </script>
