@@ -624,7 +624,7 @@ $GLOBALS['strNetspeed']                   = "Internet Connection Speed";
 $GLOBALS['strReferer']                    = "Referring page";
 $GLOBALS['strDeliveryLimitations']        = "Delivery Limitations";
 
-$GLOBALS['strDeliveryCapping']            = "Delivery Capping per visitor";
+$GLOBALS['strDeliveryCapping']            = "Delivery capping per visitor";
 $GLOBALS['strDeliveryCappingReset']       = "Reset view counters after:";
 $GLOBALS['strDeliveryCappingTotal']       = "in total";
 $GLOBALS['strDeliveryCappingSession']     = "per session";
