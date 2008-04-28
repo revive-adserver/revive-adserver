@@ -339,7 +339,8 @@ if ($campaignid != "") {
         echo "</div>";
     }
 } else {
-    $advertiserName = phpAds_getClientName($clientid);
+    $advertiser = phpAds_getClientDetails($clientid);
+    $advertiserName = $advertiser['clientname'];
     $advertiserEditUrl = "advertiser-edit.php?clientid=$clientid";
     if (isset($move) && $move == 't') {
         // Convert client to campaign
