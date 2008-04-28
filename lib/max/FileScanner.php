@@ -251,7 +251,7 @@ class MAX_FileScanner
 	 *
 	 * @param string $fileName  File name
 	 *
-	 * @return string  Key, this is package name and blugin name
+	 * @return string  Key, this is package name and plugin name
 	 */
 	function buildKey($fileName)
 	{
@@ -264,8 +264,8 @@ class MAX_FileScanner
     		$matches = null;
     	    ereg($this->_allowedFileMask, $fileName, $matches);
     	}
-	    if (is_array($matches) && count($matches) == 3) {
-            $key = $matches[1].':'.$matches[2];
+	    if (is_array($matches) && count($matches) == 4) {
+            $key = $matches[2].':'.$matches[3];
             return $key;
         }
         return null;

@@ -45,7 +45,7 @@ define('MAX_PLUGINS_VAR_WRITE_MODE', 0755);
  */
 define('MAX_PLUGINS_EXTENSION', '.plugin.php');
 define('MAX_PLUGINS_EXTENSION_ESC', '\.plugin\.php');
-define('MAX_PLUGINS_FILE_MASK', '^.*/([a-zA-Z0-9\-_]*)/([a-zA-Z0-9\-_]*)'.MAX_PLUGINS_EXTENSION_ESC.'$');
+define('MAX_PLUGINS_FILE_MASK', '^.*/plugins/([a-zA-Z0-9\-_]*)/?([a-zA-Z0-9\-_]*)?/([a-zA-Z0-9\-_]*)'.MAX_PLUGINS_EXTENSION_ESC.'$');
 
 /**
  * MAX_Plugin is a static helper class for dealing with plugins. It
@@ -58,8 +58,8 @@ define('MAX_PLUGINS_FILE_MASK', '^.*/([a-zA-Z0-9\-_]*)/([a-zA-Z0-9\-_]*)'.MAX_PL
  *
  * @static
  * @package    OpenXPlugin
- * @author     Andrew Hill <andrew@m3.net>
- * @author     Radek Maciaszek <radek@m3.net>
+ * @author     Andrew Hill <andrew@openx.org>
+ * @author     Radek Maciaszek <radek@openx.org>
  */
 class MAX_Plugin
 {
@@ -112,7 +112,9 @@ class MAX_Plugin
         if ($name === null) {
             $name = $package;
         }
-        $fileName = MAX_PATH . "/plugins/$module/$package/$name".MAX_PLUGINS_EXTENSION;
+        $packagePath = empty($package) ? "" : $package."/";
+
+        $fileName = MAX_PATH . "/plugins/$module/". $packagePath ."$name".MAX_PLUGINS_EXTENSION;
         if (!file_exists($fileName)) {
             MAX::raiseError("Unable to include the file $fileName.");
             return false;
@@ -178,10 +180,13 @@ class MAX_Plugin
         foreach ($pluginFiles as $key => $pluginFile) {
             $pluginInfo = explode(':', $key);
             if (count($pluginInfo) > 1) {
-                if ($onlyPluginNameAsIndex) {
-                    $plugins[$pluginInfo[1]] = MAX_Plugin::factory($module, $pluginInfo[0], $pluginInfo[1]);
-                } else {
-                    $plugins[$key] = MAX_Plugin::factory($module, $pluginInfo[0], $pluginInfo[1]);
+                $plugin = MAX_Plugin::factory($module, $pluginInfo[0], $pluginInfo[1]);
+                if ($plugin !== false) {
+                    if ($onlyPluginNameAsIndex) {
+                        $plugins[$pluginInfo[1]] = $plugin ;
+                    } else {
+                        $plugins[$key] = $plugin;
+                    }
                 }
             }
         }
