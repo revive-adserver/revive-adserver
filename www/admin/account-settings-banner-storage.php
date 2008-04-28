@@ -51,13 +51,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // location to save the values in the settings configuration
     // file
     $aElements = array();
-    // Allowed Invocation Types
-    foreach ($aInvocationSettings as $invocationSettingKey => $invocationSettingVal) {
-        $aElements[$invocationSettingVal] = array(
-            'allowedTags' => $invocationSettingKey,
-            'bool'        => true
-        );
-    }
+
     // Allowed Banner Types
     $aElements += array(
         'allowedBanners_sql' => array(
@@ -133,13 +127,13 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
                     if (($store_ftpPath != "") && (substr($store_ftpPath, 0, 1) == "/")) {
                         $store_ftpPath = substr($store_ftpPath, 1);
                     }
-                        
+
                     if (empty($store_ftpPath) || @ftp_chdir($ftpsock, $store_ftpPath)) { // Changes path if store_ftpPath is not empty!
                         // Save the 1x1.gif temporarily
                         $filename = MAX_PATH . '/var/1x1.gif';
                         $fp = @fopen($filename, 'w+');
                         @fwrite($fp, base64_decode('R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=='));
-                        
+
                         // Upload to server
                         if (!@ftp_put($ftpsock, '1x1.gif', MAX_PATH.'/var/1x1.gif', FTP_BINARY)){
                         	$aErrormessage[0][] = $strTypeFTPErrorUpload;
