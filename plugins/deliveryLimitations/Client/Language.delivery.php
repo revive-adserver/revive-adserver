@@ -45,14 +45,20 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
 function MAX_checkClient_Language($limitation, $op, $aParams = array())
 {
     if (empty($aParams)) {
-        $aParams = $GLOBALS['_MAX']['CLIENT'];
+        if (!empty($GLOBALS['_MAX']['CLIENT']['language'])) {
+            $language = $GLOBALS['_MAX']['CLIENT']['language'];
+        } else if (!empty($_SERVER['HTTP_ACCEPT_LANGUAGE']))  {
+            $language = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+        }
+    } else {
+        $language = $aParams['language'];
     }
-    if ($limitation == '' || empty($aParams)) {
+    if ($limitation == '' || empty($language)) {
         return true;
     }
 
     $aLimitation = MAX_limitationsGetAFromS($limitation);
-    $aLanguages = MAX_limitationsGetAFromS($aParams['language']);
+    $aLanguages = MAX_limitationsGetAFromS($limitation);
 
     $aMatchedValues = array_intersect($aLimitation, $aLanguages);
     if ('=~' == $op) {

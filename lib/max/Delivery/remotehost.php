@@ -43,6 +43,22 @@ $GLOBALS['_MAX']['FILES'][$file] = true;
  */
 
 /**
+ * Wrapper function to set all remotehost information, by default this will execute if the invocationType is
+ * not set to "xml-rpc" (xml-rpc calls this after re-populating the $_SERVER array)
+ *
+ * @param boolean $run Ignore invocationType checking?
+ */
+function MAX_remotehostSetInfo($run = false)
+{
+    if (empty($GLOBALS['_OA']['invocationType']) || $run || ($GLOBALS['_OA']['invocationType'] != 'xml-rpc')) {
+        MAX_remotehostProxyLookup();
+        MAX_remotehostReverseLookup();
+        MAX_remotehostSetClientInfo();
+        MAX_remotehostSetGeoInfo();
+    }
+}
+
+/**
  * A function to convert the $_SERVER['REMOTE_ADDR'] global variable
  * from the current value to the real remote viewer's value, should
  * that viewer be coming via an HTTP proxy.

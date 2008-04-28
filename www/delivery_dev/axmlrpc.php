@@ -25,6 +25,10 @@
 $Id$
 */
 
+// Set a global variable to let the other functions know
+// they are serving an XML-RPC request.
+$GLOBALS['_OA']['invocationType'] = 'xml-rpc';
+
 // Require the initialisation file
 require_once '../../init-delivery.php';
 

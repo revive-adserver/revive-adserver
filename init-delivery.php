@@ -70,10 +70,7 @@ require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 
 // Set the viewer's remote information used in logging
 // and delivery limitation evaluation
-MAX_remotehostProxyLookup();
-MAX_remotehostReverseLookup();
-MAX_remotehostSetClientInfo();
-MAX_remotehostSetGeoInfo();
+MAX_remotehostSetInfo();
 
 // Set common delivery parameters in the global scope
 MAX_commonInitVariables();

@@ -44,7 +44,10 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  */
 function MAX_checkClient_Useragent($limitation, $op, $aParams = array())
 {
-    return MAX_limitationsMatchString('ua', $limitation, $op, $aParams);
+    if (empty($aParams)) {
+        $aParams = $_SERVER;
+    }
+    return MAX_limitationsMatchString('HTTP_USER_AGENT', $limitation, $op, $aParams);
 }
 
 ?>

@@ -259,7 +259,7 @@ function OA_Delivery_XmlRpc_View($params)
             foreach ($p['cookies'] as $key => $value) {
                 $_COOKIE[$key] = MAX_commonAddslashesRecursive($value);
             }
-
+            MAX_remotehostSetInfo(true);
             MAX_cookieUnpackCapping();
         }
     }
