@@ -135,7 +135,7 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignZoneHistory extends OA_Adm
             $params['affiliateid'] = $aZones[$k]['publisher_id'];
             $params['zoneid'] = $k;
             phpAds_PageContext(
-                phpAds_buildName($k, MAX_getZoneName($v['name'], null, $v['anonymous'], $k)),
+                MAX_buildName($k, MAX_getZoneName($v['name'], null, $v['anonymous'], $k)),
                 $this->_addPageParamsToURI($this->pageName, $params, true),
                 $zoneId == $k
             );

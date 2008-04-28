@@ -132,7 +132,7 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateCampaignHistory extends O
         foreach ($aPlacements as $k => $v){
             $params['campaignid'] = $k;
             phpAds_PageContext(
-                phpAds_buildName($k, MAX_getPlacementName($v)),
+                MAX_buildName($k, MAX_getPlacementName($v)),
                 $this->_addPageParamsToURI($this->pageName, $params, true),
                 $placementId == $k
             );

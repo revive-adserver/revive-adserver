@@ -565,24 +565,44 @@ function MAX_displayZoneStats($aParams, $pageName, $anonymous, $aNodes, $expand,
 
 function MAX_displayInventoryBreadcrumbs($aEntityNamesUrls, $entityClass, $newEntity)
 {
-	$aEntityLabelsClasses = MAX_buildBreadcrumbLabelsCssClasses($entityClass);
-	
+    MAX_displayInventoryBreadcrumbsInternal($aEntityNamesUrls, MAX_buildBreadcrumbPath($entityClass), $newEntity);
+}
+
+function MAX_displayInventoryBreadcrumbsInternal($aEntityNamesUrls, $breadcrumbPath, $newEntity)
+{
+	// Opening div
     echo "<div class='breadcrumb";
     if (count($aEntityNamesUrls) == 1) {
         echo " onlytitle";
     }
     echo "'>";
     
+    // Breadcrumbs above the main title
     for ($i = 0; $i < count($aEntityNamesUrls) - 1; $i++) {
-	    echo "<a href='" . $aEntityNamesUrls[$i]["url"] . "' class='ent " . $aEntityLabelsClasses[$i]['class'] . "'>" . $aEntityLabelsClasses[$i]['label'] . ": " . $aEntityNamesUrls[$i]["name"] . "</a>";
+    	$breadcrumbInfo = MAX_buildBreadcrumbInfo($breadcrumbPath[$i]);
+    	$url = $aEntityNamesUrls[$i]["url"];
+    	
+    	if (strlen($url) > 0) {
+	       echo "<a href='" . $url . "' class='ent " . $breadcrumbInfo['class'] . "'>" . $breadcrumbInfo['label'] . ": " . $aEntityNamesUrls[$i]["name"] . "</a>";
+    	}
+    	else {
+	       echo "<span class='ent " . $breadcrumbInfo['class'] . "'>" . $breadcrumbInfo['label'] . ": " . $aEntityNamesUrls[$i]["name"] . "</span>";
+    	}
+    	
 	    if ($i < count($aEntityNamesUrls) - 2) {
 	    	echo "<span class='sep'>&gt;</span>";
 	    }
     }
-    echo "<h3><span class='label'>" . $aEntityLabelsClasses[count($aEntityNamesUrls) - 1][$newEntity ? "newLabel" : "label"] . "</span>";
+    
+    // Main title
+    $breadcrumbInfo = MAX_buildBreadcrumbInfo($breadcrumbPath[count($aEntityNamesUrls) - 1]);
+    echo "<h3><span class='label'>" . $breadcrumbInfo[$newEntity ? "newLabel" : "label"] . "</span>";
     if (!$newEntity) {
         echo ": " . $aEntityNamesUrls[count($aEntityNamesUrls) - 1]["name"];
     } 
+    
+    // Code for more verbose title when adding new entities. 
+    // I'm not sure how this would relate to translations though. 
 //    else {
 //    	if (count($aEntityNamesUrls) - 2 >= 0) {
 //    		echo " <span class='dest'>to " . $aEntityLabelsClasses[count($aEntityNamesUrls) - 2]["label"] . ": " . $aEntityNamesUrls[count($aEntityNamesUrls) - 2]["name"] . "</span>";
@@ -591,59 +611,68 @@ function MAX_displayInventoryBreadcrumbs($aEntityNamesUrls, $entityClass, $newEn
     echo "</h3></div>";
 }
 
-function MAX_buildBreadcrumbLabelsCssClasses($entityClass)
+function MAX_buildBreadcrumbInfo($entityClass)
 {
-	$advertiser = array("label" => $GLOBALS['strClient'], "newLabel" => $GLOBALS['strAddClient'], "class" => "adv");
-	$campaign = array("label" => $GLOBALS['strCampaign'], "newLabel" => $GLOBALS['strAddCampaign'], "class" => "camp");
-	$tracker = array("label" => $GLOBALS['strTracker'], "newLabel" => $GLOBALS['strAddTracker'], "class" => "track");
-	$banner = array("label" => $GLOBALS['strBanner'], "newLabel" => $GLOBALS['strAddBanner'], "class" => "ban");
-	$website = array("label" => $GLOBALS['strAffiliate'], "newLabel" => $GLOBALS['strAddNewAffiliate'], "class" => "webs");
-	$zone = array("label" => $GLOBALS['strZone'], "newLabel" => $GLOBALS['strAddNewZone'], "class" => "zone");
-	$channel = array("label" => $GLOBALS['strChannel'], "newLabel" => $GLOBALS['strAddNewChannel'], "class" => "chan");
-	$agency = array("label" => $GLOBALS['strAgency'], "newLabel" => $GLOBALS['strAddAgency'], "class" => "agen");
+	switch ($entityClass)
+	{
+		case 'advertiser':
+	       return array("label" => $GLOBALS['strClient'], "newLabel" => $GLOBALS['strAddClient'], "class" => "adv");
+	       
+		case 'campaign':
+	       return array("label" => $GLOBALS['strCampaign'], "newLabel" => $GLOBALS['strAddCampaign'], "class" => "camp");
+	       
+		case 'tracker':   
+	       return array("label" => $GLOBALS['strTracker'], "newLabel" => $GLOBALS['strAddTracker'], "class" => "track");
+	    
+		case 'banner':   
+	       return array("label" => $GLOBALS['strBanner'], "newLabel" => $GLOBALS['strAddBanner'], "class" => "ban");
+	       
+		case 'website':   
+	       return array("label" => $GLOBALS['strAffiliate'], "newLabel" => $GLOBALS['strAddNewAffiliate'], "class" => "webs");
+	       
+		case 'zone':   
+            return array("label" => $GLOBALS['strZone'], "newLabel" => $GLOBALS['strAddNewZone'], "class" => "zone");
+            
+		case 'channel':   
+	       return array("label" => $GLOBALS['strChannel'], "newLabel" => $GLOBALS['strAddNewChannel'], "class" => "chan");
+	       
+		case 'agency':   
+	       return array("label" => $GLOBALS['strAgency'], "newLabel" => $GLOBALS['strAddAgency'], "class" => "agen");
+	}
 	
-	$bannerTree = array($advertiser, $campaign, $banner);
-	$trackerTree = array($advertiser, $tracker);
-	$zoneTree = array($website, $zone);
-	$traffickerZoneTree = array($zone);
-	$channelTree = array($website, $channel);
-	$globalChannelTree = array($channel);
-	$agencyTree = array($agency);
+	return null;
+}
+
+function MAX_buildBreadcrumbPath($entityClass)
+{
+	switch ($entityClass)
+	{
+		case 'banner':
+		case 'campaign':
+		case 'advertiser':
+			return array('advertiser', 'campaign', 'banner');
+			
+		case 'tracker':
+			return array('advertiser', 'tracker');
+			
+		case 'website':
+		case 'zone':
+			return array('website', 'zone');
+			
+		case 'trafficker-zone':
+			return array('zone');
+			
+		case 'channel':
+			return array('website', 'channel');
+			
+		case 'global-channel':
+			return array('channel');
+			
+		case 'agency':
+			return array('agency');
+	}
 	
-	// In theory we could put these into an array indexed by the entity
-	// class, but it's probably not worth it.
-	if ($entityClass == "banner" || $entityClass == "campaign" || $entityClass == "advertiser")
-	{
-		return $bannerTree; 
-	}
-	else if ($entityClass == "tracker")
-	{
-		return $trackerTree;
-	}
-	else if ($entityClass == "website" || $entityClass == "zone")
-	{
-		return $zoneTree;
-	}
-	else if ($entityClass == "trafficker-zone") 
-    {
-		return $traffickerZoneTree;
-	}
-	else if ($entityClass == "channel") 
-    {
-    	return $channelTree;
-	}
-	else if ($entityClass == "global-channel")
-	{
-		return $globalChannelTree;
-	}
-	else if ($entityClass == "agency")
-	{
-		return $agencyTree;
-	}
-	else
-	{
-		return null;
-	}
+	return null;
 }
 
 

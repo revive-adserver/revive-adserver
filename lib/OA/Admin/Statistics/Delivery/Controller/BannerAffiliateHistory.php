@@ -135,7 +135,7 @@ class OA_Admin_Statistics_Delivery_Controller_BannerAffiliateHistory extends OA_
         foreach ($aPublishers as $k => $v){
             $params['affiliateid'] = $k;
             phpAds_PageContext(
-                phpAds_buildName($k, MAX_getPublisherName($v['name'], null, $v['anonymous'], $k)),
+                MAX_buildName($k, MAX_getPublisherName($v['name'], null, $v['anonymous'], $k)),
                 $this->_addPageParamsToURI($this->pageName, $params, true),
                 $publisherId == $k
             );

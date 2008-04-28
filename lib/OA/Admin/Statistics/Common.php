@@ -960,8 +960,9 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                 if (count($advertisers) == 1) {
                     $advertiser = current($advertisers);
                     $this->_addBreadcrumb(
-                        phpAds_buildName($advertiser['advertiser_id'], $advertiser['name']),
-                        MAX_getEntityIcon('advertiser')
+                        MAX_buildName($advertiser['advertiser_id'], $advertiser['name']),
+                        MAX_getEntityIcon('advertiser'),
+                        $type
                     );
                 }
             }
@@ -976,8 +977,9 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                 // mask campaign name if anonymous campaign
                    $campaign['name'] = MAX_getPlacementName($campaign);
                 $this->_addBreadcrumb(
-                    phpAds_buildName($campaign['placement_id'], $campaign['name']),
-                    MAX_getEntityIcon('placement')
+                    MAX_buildName($campaign['placement_id'], $campaign['name']),
+                    MAX_getEntityIcon('placement'),
+                    $type
                 );
             }
             break;
@@ -993,8 +995,9 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                 $campaignAnonymous = $campaign['anonymous'] == 't' ? true : false;
                    $banner['name'] = MAX_getAdName($banner['name'], null, null, $campaignAnonymous, $banner['ad_id']);
                 $this->_addBreadcrumb(
-                    phpAds_buildName($banner['ad_id'], $banner['name']),
-                    MAX_getEntityIcon('ad')
+                    MAX_buildName($banner['ad_id'], $banner['name']),
+                    MAX_getEntityIcon('ad'),
+                    $type
                 );
             }
             break;
@@ -1005,8 +1008,9 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                 if (count($publishers) == 1) {
                     $publisher = current($publishers);
                     $this->_addBreadcrumb(
-                        phpAds_buildName($publisher['publisher_id'], $publisher['name']),
-                        MAX_getEntityIcon('publisher')
+                        MAX_buildName($publisher['publisher_id'], $publisher['name']),
+                        MAX_getEntityIcon('publisher'),
+                        'website'
                     );
                 }
             }
@@ -1019,8 +1023,9 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
 
                 $zone = current($zones);
                 $this->_addBreadcrumb(
-                    phpAds_buildName($zone['zone_id'], $zone['name']),
-                    MAX_getEntityIcon('zone')
+                    MAX_buildName($zone['zone_id'], $zone['name']),
+                    MAX_getEntityIcon('zone'),
+                    $type
                 );
             }
             break;
@@ -1033,10 +1038,11 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      *
      * @param string Breadcrumb text
      * @param string Breadcrumb icon
+     * @param string Breadcrumb entity type
      */
-    function _addBreadcrumb($name, $icon)
+    function _addBreadcrumb($name, $icon, $type = '')
     {
-        $this->aPageBreadcrumbs[] = array('name' => $name, 'icon' => $icon);
+        $this->aPageBreadcrumbs[] = array('name' => $name, 'icon' => $icon, 'type' => $type);
     }
 
     /**
@@ -1068,7 +1074,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                         foreach ($advertisers as $advertiser) {
                             $params['clientid'] = $advertiser['advertiser_id'];
                             phpAds_PageContext(
-                                phpAds_buildName($advertiser['advertiser_id'], $advertiser['name']),
+                                MAX_buildName($advertiser['advertiser_id'], $advertiser['name']),
                                 $this->_addPageParamsToURI($this->pageName, $params, true),
                                 $current_id == $advertiser['advertiser_id']
                             );
@@ -1085,7 +1091,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                         // mask campaign name if anonymous campaign
                         $campaign['name'] = MAX_getPlacementName($campaign);
                         phpAds_PageContext(
-                            phpAds_buildName($campaign['placement_id'], $campaign['name']),
+                            MAX_buildName($campaign['placement_id'], $campaign['name']),
                             $this->_addPageParamsToURI($this->pageName, $params, true),
                             $current_id == $campaign['placement_id']
                         );
@@ -1103,7 +1109,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                         $campaignAnonymous = $campaign['anonymous'] == 't' ? true : false;
                         $banner['name'] = MAX_getAdName($banner['name'], null, null, $campaignAnonymous, $banner['ad_id']);
                         phpAds_PageContext(
-                            phpAds_buildName($banner['ad_id'], $banner['name']),
+                            MAX_buildName($banner['ad_id'], $banner['name']),
                             $this->_addPageParamsToURI($this->pageName, $params, true),
                             $current_id == $banner['ad_id']
                         );
@@ -1120,7 +1126,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                         foreach ($campaigns as $publisher) {
                             $params['affiliateid'] = $publisher['publisher_id'];
                             phpAds_PageContext(
-                                phpAds_buildName($publisher['publisher_id'], $publisher['name']),
+                                MAX_buildName($publisher['publisher_id'], $publisher['name']),
                                 $this->_addPageParamsToURI($this->pageName, $params, true),
                                 $current_id == $publisher['publisher_id']
                             );
@@ -1146,7 +1152,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                             if (isset($aPlacements[$campaign['placement_id']])) {
                                 $params['campaignid'] = $campaign['placement_id'];
                                 phpAds_PageContext(
-                                    phpAds_buildName($campaign['placement_id'], $campaign['name']),
+                                    MAX_buildName($campaign['placement_id'], $campaign['name']),
                                     $this->_addPageParamsToURI($this->pageName, $params, true),
                                     $current_id == $campaign['placement_id']
                                 );
@@ -1162,7 +1168,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                     foreach ($zones as $zone) {
                         $params['zoneid'] = $zone['zone_id'];
                         phpAds_PageContext(
-                            phpAds_buildName($zone['zone_id'], $zone['name']),
+                            MAX_buildName($zone['zone_id'], $zone['name']),
                             $this->_addPageParamsToURI($this->pageName, $params, true),
                             $current_id == $zone['zone_id']
                         );
@@ -1507,18 +1513,13 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     function _showBreadcrumbs()
     {
         if (!empty($this->aPageBreadcrumbs) && is_array($this->aPageBreadcrumbs)) {
-            foreach ($this->aPageBreadcrumbs as $k => $bc) {
-                if ($k == count($this->aPageBreadcrumbs) - 1) {
-                    $bc['name'] = '<b>'.$bc['name'].'</b>';
-                }
-                if ($k > 0) {
-                    echo "&nbsp;<img src='" . MAX::assetPath() . "/images/".$GLOBALS['phpAds_TextDirection']."/caret-rs.gif'>&nbsp;";
-                }
-                echo '<img src="'.MAX::assetPath($bc['icon']).'" align="absmiddle" />&nbsp;'.$bc['name'];
+
+        	$breadcrumbPath = array();
+            foreach ($this->aPageBreadcrumbs as $bc) {
+            	array_push($breadcrumbPath, $bc['type']);
             }
-            if (count($this->aPageBreadcrumbs)) {
-                echo "<br /><br /><br />";
-            }
+        	
+            MAX_displayInventoryBreadcrumbsInternal($this->aPageBreadcrumbs, $breadcrumbPath);
         }
     }
 

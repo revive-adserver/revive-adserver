@@ -617,31 +617,31 @@ div.bannercode {
 	margin-left: 20px;
 }
 
-div.breadcrumb a.adv,
-div.breadcrumb a.camp,
-div.breadcrumb a.ban,
-div.breadcrumb a.webs {
+div.breadcrumb .adv,
+div.breadcrumb .camp,
+div.breadcrumb .ban,
+div.breadcrumb .webs {
     padding: 2px 0px 2px 20px;
 	background-repeat: no-repeat;
 }
 
-div.breadcrumb a.adv {
+div.breadcrumb .adv {
 	background-image: url("../images/icon-advertiser.gif");
 }
 
-div.breadcrumb a.camp {
+div.breadcrumb .camp {
 	background-image: url("../images/icon-campaign.gif");
 }
 
-div.breadcrumb a.ban {
+div.breadcrumb .ban {
 	background-image: url("../images/icon-campaign.gif");
 }
 
-div.breadcrumb a.webs {
+div.breadcrumb .webs {
 	background-image: url("../images/icon-affiliate.gif");
 }
 
-a.ent {
+.ent {
 	font-weight: bold;
 }
 

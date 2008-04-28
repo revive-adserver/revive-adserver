@@ -133,7 +133,7 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateBannerHistory extends OA_
             $params['campaignid'] = $v['placement_id'];
             $params['bannerid'] = $k;
             phpAds_PageContext(
-                phpAds_buildName($k, MAX_getAdName($v['name'], null, null, $v['anonymous'], $k)),
+                MAX_buildName($k, MAX_getAdName($v['name'], null, null, $v['anonymous'], $k)),
                 $this->_addPageParamsToURI($this->pageName, $params, true),
                 $adId == $k
             );
