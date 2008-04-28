@@ -510,6 +510,25 @@ if(isset($session['htmlerrormsg']) && strlen($session['htmlerrormsg']) > 0) {
     echo "&nbsp;<input type='submit' name='submit' value='Save Anyway' tabindex='10'>";
 }
 
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+	echo "<br /><table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+	
+	echo "<tr><td height='25' colspan='3' bgcolor='#FFFFFF'><b>".$strBasicInformation."</b></td></tr>";
+	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
+	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+	
+	echo "<tr><td width='30'>&nbsp;</td>";
+	echo "<td width='200'>".$strName."</td>";
+	if (!empty($bannerid)) {
+	   $bannerDescription = phpAds_htmlQuotes($row["description"]);
+	} else {
+	   $bannerDescription = $strUntitled;	
+	}
+	echo "<td><input class='flat' size='35' type='text' name='description' style='width:350px;' value='".$bannerDescription."' tabindex='".($tabindex++)."'></td></tr>";
+	
+	echo "</table><br />";
+}
+	
 if ($type == 'sql') {
     echo "<br /><table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='#F6F6F6'>";
     echo "<tr><td height='25' colspan='3' bgcolor='#FFFFFF'><img src='" . MAX::assetPath() . "/images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".$strMySQLBanner."</b></td></tr>";
@@ -1024,12 +1043,6 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_AC
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strKeyword."</td>";
     echo "<td><input class='flat' size='35' type='text' name='keyword' style='width:350px;' value='".phpAds_htmlQuotes($row["keyword"])."' tabindex='".($tabindex++)."'></td></tr>";
-    echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
-    echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-
-    echo "<tr><td width='30'>&nbsp;</td>";
-    echo "<td width='200'>".$strDescription."</td>";
-    echo "<td><input class='flat' size='35' type='text' name='description' style='width:350px;' value='".phpAds_htmlQuotes($row["description"])."' tabindex='".($tabindex++)."'></td></tr>";
     echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
     echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
