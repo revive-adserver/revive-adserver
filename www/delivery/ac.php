@@ -2444,6 +2444,7 @@ list ($key, $value) = each($context[$i]);
 $valueArray = explode(':', $value);
 if (count($valueArray) == 1) {
 list($value) = $valueArray;
+$type = "";
 } else {
 list($type, $value) = $valueArray;
 }
