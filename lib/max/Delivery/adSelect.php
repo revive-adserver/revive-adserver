@@ -666,6 +666,7 @@ function _adSelectBuildContextArray(&$aLinkedAds, $adArrayVar, $context)
 
             if (count($valueArray) == 1) {
                 list($value) = $valueArray;
+                $type = "";
             } else {
                 list($type, $value) = $valueArray;
             }
