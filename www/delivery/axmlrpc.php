@@ -43,6 +43,9 @@ $Id$
  *
  */
 
+// Set a global variable to let the other functions know
+// they are serving an XML-RPC request.
+$GLOBALS['_OA']['invocationType'] = 'xml-rpc';
 // Require the initialisation file
 function parseDeliveryIniFile($configPath = null, $configFile = null, $sections = true)
 {
@@ -539,6 +542,15 @@ return $p3p_header;
 }
 $file = '/lib/max/Delivery/remotehost.php';
 $GLOBALS['_MAX']['FILES'][$file] = true;
+function MAX_remotehostSetInfo($run = false)
+{
+if (empty($GLOBALS['_OA']['invocationType']) || $run || ($GLOBALS['_OA']['invocationType'] != 'xml-rpc')) {
+MAX_remotehostProxyLookup();
+MAX_remotehostReverseLookup();
+MAX_remotehostSetClientInfo();
+MAX_remotehostSetGeoInfo();
+}
+}
 function MAX_remotehostProxyLookup()
 {
 $conf = $GLOBALS['_MAX']['CONF'];
@@ -1410,10 +1422,7 @@ return $unpacked;
 }
 // Set the viewer's remote information used in logging
 // and delivery limitation evaluation
-MAX_remotehostProxyLookup();
-MAX_remotehostReverseLookup();
-MAX_remotehostSetClientInfo();
-MAX_remotehostSetGeoInfo();
+MAX_remotehostSetInfo();
 // Set common delivery parameters in the global scope
 MAX_commonInitVariables();
 // Load cookie data from client/plugin
@@ -4226,6 +4235,7 @@ $_SERVER[$varName] = $p[$xmlName];
 foreach ($p['cookies'] as $key => $value) {
 $_COOKIE[$key] = MAX_commonAddslashesRecursive($value);
 }
+MAX_remotehostSetInfo(true);
 MAX_cookieUnpackCapping();
 }
 }
