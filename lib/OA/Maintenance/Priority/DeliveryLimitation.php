@@ -117,7 +117,7 @@ class OA_Maintenance_Priority_DeliveryLimitation
 
     /**
      * A method to check if the group of delivery limitations will block delivery
-     * for the ad, given an Date representing a time in an operation interval for
+     * for the ad, given a Date representing a time in an operation interval for
      * which delivery blocking is desired to be tested.
      *
      * @param PEAR::Date $oDate An PEAR::Date object, representing a date/time in
@@ -198,10 +198,10 @@ class OA_Maintenance_Priority_DeliveryLimitation
      */
     function getActiveAdOperationIntervals($placementRemainingIntervals, $oDate, $oPlacementEndDate)
 	{
-	    $conf = $GLOBALS['_MAX']['CONF'];
+	    $aConf = $GLOBALS['_MAX']['CONF'];
         // Are delivery limitations activated in the configuration? If not, return
         // the complete count of remaining placement operation intervals
-        if (!$conf['delivery']['acls']) {
+        if (!$aConf['delivery']['acls']) {
             return $placementRemainingIntervals;
         }
         // Are there any possible blocking operation groups? If not, return the
