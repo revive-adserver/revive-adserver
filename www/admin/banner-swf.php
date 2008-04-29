@@ -176,14 +176,12 @@ if ($bannerid != '') {
         echo "<img src='" . MAX::assetPath() . "/images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getCampaignName($campaignid);
         echo "&nbsp;<img src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
         echo "<img src='" . MAX::assetPath() . "/images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerid)."</b><br /><br />";
-        echo phpAds_buildBannerCode($bannerid)."<br /><br /><br /><br />";
         phpAds_ShowSections(array("4.1.3.4.5"));
     } else {
         phpAds_PageHeader("1.2.2.3");
         echo "<img src='" . MAX::assetPath() . "/images/icon-campaign.gif' align='absmiddle'>&nbsp;".phpAds_getCampaignName($campaignid);
         echo "&nbsp;<img src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
         echo "<img src='" . MAX::assetPath() . "/images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".phpAds_getBannerName($bannerid)."</b><br /><br />";
-        echo phpAds_buildBannerCode($bannerid)."<br /><br /><br /><br />";
         phpAds_ShowSections(array("1.2.2.3"));
     }
 
