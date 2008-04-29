@@ -4014,6 +4014,7 @@ $aLinkedAds[$adArrayVar][$iAdId]['priority'] *= $companionScaleFactor;
 }
 }
 }
+$aContext['campaign']['include'][$value] = true;
 break;
 }
 break;
