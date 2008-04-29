@@ -372,14 +372,14 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 		// Button 1
 		echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
 		if (($campaigns[$ckey]['expand'] == '1' || !isset($campaigns[$ckey]['banners'])) && !OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER))
-			echo "<img src='" . MAX::assetPath() . "/images/icon-banner-new.gif' border='0' align='absmiddle' alt='$strCreate'>&nbsp;<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."' title='$strAddBanner'>$strCreate</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+			echo "<img src='" . MAX::assetPath() . "/images/icon-banner-new.gif' border='0' align='absmiddle' alt='$strCreate'>&nbsp;<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."' title='$strAddBanner'>$strAddBanner</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 		else
 			echo "&nbsp;";
 		echo "</td>";
 
 		// Button 2
 		echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
-		echo "<img src='" . MAX::assetPath() . "/images/icon-overview-light.gif' border='0' align='absmiddle' alt='$strOverview'>&nbsp;<a href='campaign-banners.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."' title='$strBannerOverview'>$strOverview</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+		echo "<img src='" . MAX::assetPath() . "/images/icon-overview-light.gif' border='0' align='absmiddle' alt='$strBanners'>&nbsp;<a href='campaign-banners.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."' title='$strBanners'>$strBanners</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 		echo "</td>";
 
 		// Button 3
