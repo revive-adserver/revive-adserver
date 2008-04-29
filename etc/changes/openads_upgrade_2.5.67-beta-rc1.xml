@@ -8,9 +8,9 @@
     <authorEmail>support@openads.org</authorEmail>
     <authorUrl>http://www.openads.org</authorUrl>
     <license>LICENSE.txt</license>
-    <description>Openads Upgrade 2.5.67</description>
+    <description>Openads Upgrade 2.5.67-beta-rc1</description>
     <versionFrom></versionFrom>
-    <versionTo>2.5.67</versionTo>
+    <versionTo>2.5.67-beta-rc1</versionTo>
 
     <!-- Database Packages -->
     <database>
@@ -22,19 +22,10 @@
             <file>changes_tables_core_581.xml</file>
             <file>migration_tables_core_581.php</file>
         </package>
-        <package>
-            <version>582</version>
-            <stamp>582</stamp>
-            <schema>tables_core</schema>
-            <file>schema_tables_core_582.xml</file>
-            <file>changes_tables_core_582.xml</file>
-            <file>migration_tables_core_582.php</file>
-        </package>
     </database>
 
     <!-- Custom Install Scripts to execute -->
-    <!--prescript>prescript_openads_upgrade_2.5.67.php</prescript-->
-    <postscript>postscript_openads_upgrade_2.5.67.php</postscript>
-
+    <!--prescript>prescript_openads_upgrade_2.5.67-beta-rc1.php</prescript-->
+    <!--postscript>postscript_openads_upgrade_2.5.67-beta-rc1.php</postscript-->
 
 </upgrade>
