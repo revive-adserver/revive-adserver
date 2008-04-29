@@ -34,6 +34,7 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/OA/Session.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
+require_once MAX_PATH . '/lib/max/other/html.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
@@ -45,10 +46,11 @@ $userAccess->init();
 
 function OA_headerNavigation()
 {
+	global $affiliateid;
+	
     if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
         phpAds_PageHeader("4.2.7.2");
-        echo "<img src='" . MAX::assetPath() . "/images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>"
-            .phpAds_getAffiliateName($affiliateid)."</b><br /><br /><br />";
+        MAX_displayWebsiteBreadcrumbs($affiliateid);
         phpAds_ShowSections(array("4.2.2", "4.2.3","4.2.4","4.2.5","4.2.6","4.2.7", "4.2.7.2"));
     } else {
         phpAds_PageHeader('2.3.2');
@@ -58,6 +60,7 @@ function OA_headerNavigation()
         }
         $sections[] = '2.3';
         $sections[] = '2.3.2';
+        MAX_displayWebsiteBreadcrumbs($affiliateid);
         phpAds_ShowSections($sections);
     }
 }

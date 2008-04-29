@@ -34,6 +34,7 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/OA/Session.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
+require_once MAX_PATH . '/lib/max/other/html.php';
 
 // Register input variables
 phpAds_registerGlobalUnslashed ('login', 'passwd', 'link', 'contact_name', 'email_address', 'permissions', 'submit');
@@ -48,11 +49,9 @@ $userAccess->init();
 
 function OA_headerNavigation()
 {
-    $icon = "<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>"
-        .phpAds_getClientName($clientid)."</b><br /><br /><br />";
     if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
         phpAds_PageHeader("4.1.5.2");
-        echo $icon;
+        MAX_displayAdvertiserBreadcrumbs($GLOBALS['clientid']);
         phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.5", "4.1.5.2"));
     } else {
     	$sections = array();
@@ -62,7 +61,7 @@ function OA_headerNavigation()
         $sections[] = '2.3';
         $sections[] = '2.3.2';
         phpAds_PageHeader('2.3.2');
-        echo $icon;
+        MAX_displayAdvertiserBreadcrumbs($GLOBALS['clientid']);
     	phpAds_ShowSections($sections);
     }
 }
