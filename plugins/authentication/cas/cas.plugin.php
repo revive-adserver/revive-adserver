@@ -445,7 +445,7 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
                     'label'     => $GLOBALS['strLanguage'],
                     'options'   => $aLanguages,
                     'value'     => (!empty($userData['language'])) ? $userData['language'] : $GLOBALS['_MAX']['PREF']['language'],
-                    'freezed'   => $userExists
+                    'disabled'   => $userExists
                 );
 
         return $userDetailsFields;
