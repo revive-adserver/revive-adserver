@@ -172,10 +172,10 @@ class OA_Admin_UI_UserAccess
         $c = 0;
         foreach ($this->aAllowedPermissions as $permissionId => $aPermission) {
             if (is_array($aPermission)) {
-                list($permissionName, $ident, $onClick) = $aPermission;
+                list($permissionName, $indent, $onClick) = $aPermission;
             } else {
                 $permissionName = $aPermission;
-                $ident = false;
+                $indent = false;
                 $onClick = false;
             }
             $aPermissionsFields[$c] = array(
@@ -188,7 +188,7 @@ class OA_Admin_UI_UserAccess
                         'hidden'    => $isTrafficker,
                         'break'     => false,
                         'id'        => 'permissions_'.$permissionId,
-                        'ident'     => $ident,
+                        'indent'     => $indent,
                     );
             if ($onClick) {
                 $aPermissionsFields[$c]['onclick'] = $onClick;
@@ -218,14 +218,14 @@ class OA_Admin_UI_UserAccess
      *   permissionId => "permission name",
      *   ..
      * )
-     * 
+     *
      * or array of arrays, defined as:
      * array(
-     *   permissionId => array("permission name", ident, onclick)
+     *   permissionId => array("permission name", indent, onclick)
      *   ..
      * )
-     * where ident and onlick are used to make idents in permissions.
-     * To do a margin before the permissions "ident"
+     * where indent and onlick are used to make indents in permissions.
+     * To do a margin before the permissions "indent"
      * should be equal true. onlick is a javascript function
      * name which should be executed when a permission checkbox
      * is clicked. It is used to enable/disable some checkboxes.
@@ -276,7 +276,7 @@ class OA_Admin_UI_UserAccess
             $oTpl->get_template_vars('sso'));
         $oTpl->assign('strLinkUserHelp', $helpString);
     }
-    
+
     function getHelpString($isSso)
     {
         $name = ($isSso) ? $GLOBALS['strLinkUserHelpEmail']
