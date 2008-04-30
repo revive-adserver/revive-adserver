@@ -593,6 +593,7 @@ class OA_Api_Xmlrpc
             $oCampaignInfo->readDataFromArray($dataCampaign);
             $returnData[] = $oCampaignInfo;
         }
+        return $returnData;
     }
 
     /**
