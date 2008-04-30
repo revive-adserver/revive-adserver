@@ -278,9 +278,9 @@ echo "<tr>"."\n";
 
 // Enable advertiser exclusion
 echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-echo "<input type='checkbox' name='advertiser_limitation' value='1'".($aClient['advertiser_limitation'] == '1' ? ' checked="checked"' : '')." tabindex='".($tabindex++)."'>&nbsp;";
+echo "<input type='checkbox' id='advertiser_limitation' name='advertiser_limitation' value='1'".($aClient['advertiser_limitation'] == '1' ? ' checked="checked"' : '')." tabindex='".($tabindex++)."'>&nbsp;<label for='advertiser_limitation'>";
 echo $strAdvertiserLimitation;
-echo "</td></tr>";
+echo "</label></td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
 echo "<img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'>";
