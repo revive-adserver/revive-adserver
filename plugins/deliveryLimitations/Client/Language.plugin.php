@@ -59,18 +59,6 @@ class Plugins_DeliveryLimitations_Client_Language extends Plugins_DeliveryLimita
         $this->setAValues(array_keys($this->res));
     }
 
-
-    /**
-     * Return if this plugin is available in the current context
-     *
-     * @return boolean
-     */
-    function isAllowed()
-    {
-        return ((isset($GLOBALS['_MAX']['GEO_DATA']['country_code']))
-            || $GLOBALS['_MAX']['CONF']['geotargeting']['showUnavailable']);
-    }
-
     function displayArrayData()
     {
         $tabindex =& $GLOBALS['tabindex'];

@@ -48,7 +48,7 @@ function MAX_checkClient_Language($limitation, $op, $aParams = array())
         if (!empty($GLOBALS['_MAX']['CLIENT']['language'])) {
             $language = $GLOBALS['_MAX']['CLIENT']['language'];
         } else if (!empty($_SERVER['HTTP_ACCEPT_LANGUAGE']))  {
-            $language = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+            $language = preg_replace('#;q=[0-9\.]+#', '', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
         }
     } else {
         $language = $aParams['language'];

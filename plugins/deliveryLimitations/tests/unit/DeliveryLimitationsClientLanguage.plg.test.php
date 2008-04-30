@@ -93,6 +93,11 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Client_Language extends Plugins_
         $GLOBALS['_MAX']['CLIENT']['language'] = 'en-us,en,pl';
         $this->assertFalse(MAX_checkClient_Language('af', '=~'));
         $this->assertTrue(MAX_checkClient_Language('af,pl', '=~'));
+        unset($GLOBALS['_MAX']['CLIENT']['language']);
+        $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'pl-PL,pl;q=0.9,en;q=0.8';
+        $this->assertFalse(MAX_checkClient_Language('fr', '=~'));
+        $this->assertTrue(MAX_checkClient_Language('pl', '=~'));
+        $this->assertFalse(MAX_checkClient_Language('pl', '!~'));
     }
 }
 
