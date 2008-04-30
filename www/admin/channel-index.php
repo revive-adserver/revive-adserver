@@ -50,9 +50,6 @@ $tabindex = 1;
 /*-------------------------------------------------------*/
 
 phpAds_PageHeader("5.7");
-// Show the "Preferences", "User Log" and "Channel Management" sections of the "My Account" sections
-phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.7"));
-
 
 
 /*-------------------------------------------------------*/

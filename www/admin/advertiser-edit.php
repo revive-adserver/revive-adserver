@@ -133,7 +133,7 @@ if ($clientid != "") {
         phpAds_PageHeader("4.1.2");
 
         MAX_displayAdvertiserBreadcrumbs($clientid);
-                
+
         $aTabSections = array("4.1.2", "4.1.3");
         // Conditionally display conversion tracking values
 				if ($conf['logging']['trackerImpressions']) {
@@ -159,9 +159,9 @@ if ($clientid != "") {
         }
     }
 } else {
-    phpAds_PageHeader("4.1.1");
+    phpAds_PageHeader('advertiser-edit_new');
     MAX_displayAdvertiserBreadcrumbs($clientid);
-    phpAds_ShowSections(array("4.1.1"));
+    //phpAds_ShowSections(array("4.1.1"));
     // Do not set this information if the page
     // is the result of an error message
     if (!isset($aClient)) {

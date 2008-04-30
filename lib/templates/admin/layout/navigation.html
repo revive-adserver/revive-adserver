@@ -32,7 +32,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
       <li class="passive {if $smarty.section.n.first} first{else}{if $smarty.section.n.last} last{/if}{/if}{if $aNav[$smarty.section.n.index_prev].selected} after-active{/if}">
 {/if}
         <div class="left"><div class="right">
-          <a href="{$aNav[n].filename|escape}" accesskey="{t key=Home}">{$aNav[n].title|escape}</a>
+          <a href="{$adminBaseURL}{$aNav[n].filename|escape}" accesskey="{t key=Home}">{$aNav[n].title|escape}</a>
         </div></div>
       </li>
 {/section}

@@ -176,24 +176,12 @@ if ($trackerid != "") {
     $extra .= "\t\t\t\t<a href='tracker-delete.php?clientid=$clientid&trackerid=$trackerid&returnurl=advertiser-trackers.php'".phpAds_DelConfirm($strConfirmDeleteTracker).">$strDelete</a><br />\n";
     $extra .= "\t\t\t\t</form>\n";
 
-    phpAds_PageHeader("4.1.4.2", $extra);
+    phpAds_PageHeader(null, $extra);
     MAX_displayTrackerBreadcrumbs($trackerid);
-    phpAds_ShowSections(array("4.1.4.2", "4.1.4.3", "4.1.4.5", "4.1.4.6", "4.1.4.4"));
 } else {
-    if (isset($move) && $move == 't') {
-        // Convert client to tracker
-        // TODO: is this still used? if not, we may want to remove it
-    	phpAds_PageHeader("4.1.4.2");
-        echo "<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($clientid);
-        echo "&nbsp;<img src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
-        echo "<img src='" . MAX::assetPath() . "/images/icon-tracker.gif' align='absmiddle'>&nbsp;<b>".$strUntitled."</b><br /><br /><br />";
-        phpAds_ShowSections(array("4.1.4.2"));
-    } else {
-        // New tracker
-        phpAds_PageHeader("4.1.4.1");
-        MAX_displayTrackerBreadcrumbs(null, $clientid);
-        phpAds_ShowSections(array("4.1.4.1"));
-    }
+    // New tracker
+    phpAds_PageHeader("tracker-edit_new");
+    MAX_displayTrackerBreadcrumbs(null, $clientid);
 }
 
 if ($trackerid != "" || (isset($move) && $move == 't')) {

@@ -44,7 +44,7 @@ OA_Permission::enforceAccessToObject('agency', $agencyid);
 /*-------------------------------------------------------*/
 
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
-    phpAds_PageHeader("4.1.3.1");
+    phpAds_PageHeader("agency-access");
     $doAgency = OA_Dal::staticGetDO('agency', $agencyid);
     MAX_displayInventoryBreadcrumbs(array(array("name" => $doAgency->name)), "agency");
     phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.3.1"));

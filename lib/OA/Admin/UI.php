@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -28,6 +28,8 @@ $Id$
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/SmartyInserts.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/UI.php';
+require_once MAX_PATH . '/lib/OA/Admin/Menu.php';
+require_once MAX_PATH . '/lib/OA/Admin/Menu/Checker.php';
 
 /**
  * A class to generate all the UI parts
@@ -40,6 +42,8 @@ class OA_Admin_UI
      */
     var $oTpl;
 
+    var $aLinkParams;
+
     /**
      * Class constructor
      *
@@ -48,6 +52,24 @@ class OA_Admin_UI
     function OA_Admin_UI()
     {
         $this->oTpl = new OA_Admin_Template('layout/main.html');
+        $this->setLinkParams();
+    }
+
+    function setLinkParams()
+    {
+        global $affiliateid, $agencyid, $bannerid, $campaignid, $channelid, $clientid, $day, $trackerid, $userlogid, $zoneid;
+
+        $this->aLinkParams = array('affiliateid'    => $affiliateid,
+                                     'agencyid'     => $agencyid,
+                                     'bannerid'     => $bannerid,
+                                     'campaignid'   => $campaignid,
+                                     'channelid'    => $channelid,
+                                     'clientid'     => $clientid,
+                                     'day'          => $day,
+                                     'trackerid'    => $trackerid,
+                                     'userlogid'    => $userlogid,
+                                     'zoneid'       => $zoneid,
+                                    );
     }
 
     /**
@@ -60,49 +82,193 @@ class OA_Admin_UI
      * @param bool $showSidebar Set to false if you do not wish to show the grey sidebar
      * @param bool $showMainNav Set to false if you do not wish to show the main navigation
      * @param bool $noBorder Set to true to hide white borders between sub nav and main nav in the main part
+     * @param bool $showSidePlugins Set to false if you do not wish to show the plugins sidebar
      */
     function showHeader($ID, $extra="", $imgPath="", $showSidebar=true, $showMainNav=true, $noBorder = false)
     {
-        global $phpAds_TextDirection;
-        global $phpAds_GUIDone;
-        global $phpAds_context, $phpAds_shortcuts;
-        global $pages;
+        //echo "ID:".$ID;
+
+        global $phpAds_shortcuts;
         global $phpAds_CharSet;
         global $OA_Navigation, $OA_Navigation_ID;
-        global $xajax, $session;
 
         $conf = $GLOBALS['_MAX']['CONF'];
-        $pref = $GLOBALS['_MAX']['PREF'];
 
         $phpAds_GUIDone = true;
         $OA_Navigation_ID   = $ID;
 
-        $aNav           = array();
-        $aSide          = array();
+        $aMainNav       = array();
+        $aSectionNav    = array();
+        $aSideNav       = array();
         $aSideContext   = array();
         $aSideShortcuts = array();
 
         $pageTitle = !empty($conf['ui']['applicationName']) ? $conf['ui']['applicationName'] : MAX_PRODUCT_NAME;
 
         // Travel navigation
-        if ($ID != phpAds_Login && $ID != phpAds_Error) {
-            // Select active navigation array
-            $accountType = OA_Permission::getAccountType();
-            $pages = isset($OA_Navigation[$accountType]) ? $OA_Navigation[$accountType] : array();
+        if ($ID !== phpAds_Login && $ID !== phpAds_Error) {
 
-            // Build sidebar
-            $sections = explode('.', $ID);
-            $sectionID = '';
+            //get system navigation
+            $oMenu = OA_Admin_Menu::singleton();
+            //update page title
+            $oCurrentSection = $oMenu->get($ID);
+            if ($oCurrentSection != null) {
+                $pageTitle .= ' - '.$oCurrentSection->getName();
+            } else {
+                phpAds_Die($GLOBALS['strErrorOccurred'], 'Menu system error: <strong>' . OA_Permission::getAccountType(true) . '::' . $ID . '</strong> not found for the current user');
+            }
 
+            // compile navigation arrays
+            $this->_compileNavigationTabBar($ID, $oMenu, $aMainNav);
+            $this->_compileSectionTabBar($ID, $oMenu, $aSectionNav);
+            $this->_compileSideNavigation($ID, $oMenu, $aSideNav);
+
+            // build context
+            $this->_buildSideContext($aSideContext);
+
+            // Include shortcuts
+            if (count($phpAds_shortcuts)) {
+                $aSideShortcuts = $phpAds_shortcuts;
+            }
+
+        } else {
+            // Build tabbed navigation bar
+            if ($ID == phpAds_Login) {
+                $aMainNav[] = array(
+                    'title'    => $GLOBALS['strAuthentification'],
+                    'filename' => 'index.php',
+                    'selected' => true
+                );
+            } elseif ($ID == phpAds_Error) {
+                $aMainNav[] = array(
+                    'title'    => $GLOBALS['strErrorOccurred'],
+                    'filename' => 'index.php',
+                    'selected' => true
+                );
+            }
+        }
+
+        // Tabbed navigation bar and sidebar
+        $this->oTpl->assign('aNav', $aMainNav);
+        $this->oTpl->assign('aSectionNav', $aSectionNav);
+        $this->oTpl->assign('aSide', $aSideNav);
+        $this->oTpl->assign('aSideContext', $aSideContext);
+        $this->oTpl->assign('aSideShortcuts', $aSideShortcuts);
+
+        // Include custom HTML for the sidebar
+        if ($extra) {
+            $this->oTpl->assign('sidebarExtra', $extra);
+        }
+
+        // Use gzip content compression
+        if (isset($conf['ui']['gzipCompression']) && $conf['ui']['gzipCompression']) {
+            //enable compression if it's not alredy handled by the zlib and ob_gzhandler is loaded
+            $zlibCompression = ini_get('zlib.output_compression');
+            if (!$zlibCompression && function_exists('ob_gzhandler')) {
+                // enable compression only if it wasn't enabled previously (e.g by widget)
+                if (ob_get_contents()===false) {
+                    ob_start("ob_gzhandler");
+                }
+            }
+        }
+
+        // Send header with charset info
+        header ("Content-Type: text/html".(isset($phpAds_CharSet) && $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : ""));
+
+        $this->_assignLayout($pageTitle, $imgPath);
+
+        $this->_assignJavascriptandCSS();
+
+        $this->_assignValidationDefaults();
+
+        $this->_assignAlertMPE();
+
+        $this->_assignInstalling();
+
+        $this->_assignBranding($conf['ui']['applicationName'], $conf['ui']['logoFilePath']);
+
+        $this->_assignSearch();
+
+        $this->_assignUserAccountInfo();
+
+        $this->oTpl->assign('showMainNav', $showMainNav);
+        $this->oTpl->assign('showSidebar', $showSidebar);
+        $this->oTpl->assign('noBorder', $noBorder);
+
+        $this->oTpl->assign('uiPart', 'header');
+        $this->oTpl->display();
+    }
+
+    function _assignInstalling()
+    {
+        global $phpAds_installing;
+        if (!defined('phpAds_installing')) {
+            // Include the flashObject resource file
+            $this->oTpl->assign('jsFlash', MAX_flashGetFlashObjectExternal());
+        }
+    }
+
+    function _assignLayout($pageTitle, $imgPath)
+    {
+        $this->oTpl->assign('pageTitle', $pageTitle);
+        $this->oTpl->assign('imgPath', $imgPath);
+        $this->oTpl->assign('metaGenerator', MAX_PRODUCT_NAME.' v'.OA_VERSION.' - http://'.MAX_PRODUCT_URL);
+    }
+
+    function _assignAlertMPE()
+    {
+        global $xajax, $session;
+        if (!empty($session['RUN_MPE']) && $session['RUN_MPE']) {
+            require_once MAX_PATH . '/www/admin/lib-maintenance-priority.inc.php';
+            $this->oTpl->assign('jsMPE', $xajax->getJavascript('./', 'js/xajax.js'));
+        }
+    }
+
+    function _assignBranding($appName, $logoPath)
+    {
+        $this->oTpl->assign('applicationName', $appName);
+        $this->oTpl->assign('logoFilePath', $logoPath);
+        $this->oTpl->assign('productName', MAX_PRODUCT_NAME);
+    }
+
+    function _compileSideNavigation($sectionID, $oMenu, &$aSideNav)
+    {
+        $aParentSections = $oMenu->getParentSections($sectionID);
+
+        $parentCount = count($aParentSections);
+        for ($i = 0; $i < $parentCount; $i++)
+        {
+            $aSideNav[] = array(
+                'title' => $aParentSections[$i]->getName(),
+                'filename' => $aParentSections[$i]->getLink($this->aLinkParams),
+                'top' => $i == 0,
+                'up'  => $i == ($parentCount - 1),
+                'first' => $i == 1,
+                'current' => false
+            );
+        }
+
+        $oCurrentSection = $oMenu->get($sectionID);
+        if ($oCurrentSection != null) {
+            $aSideNav[] = array(
+              'title' => $oCurrentSection->getName(),
+              'filename' => $oCurrentSection->getLink($this->aLinkParams),
+              'top' => $parentCount == 0,
+              'up'  => false,
+              'first' => $parentCount == 1,
+              'current' => $parentCount > 0
+            );
+        }
+    }
+
+
+    function _OLDcompileSideNavigation($ID, $sections, &$sectionID, $pages, &$aSide)
+    {
             for ($i = 0; $i < count($sections) - 1; $i++)
             {
                 $sectionID .= $sections[$i];
                 list($filename, $title) = each($pages[$sectionID]);
                 $sectionID .= ".";
-
-                $linkUp    = $i == count($sections) - 2;
-                $linkTop   = !$i;
-                $linkFirst = $i == 1;
 
                 $aSide[] = array(
                     'title' => $title,
@@ -124,98 +290,57 @@ class OA_Admin_UI
                     'first' => count($sections) == 2,
                     'current' => count($sections) > 1
                 );
-
-                $pageTitle .= ' - '.$title;
             }
+    }
 
-            $up_limit = count($phpAds_context);
-            $down_limit = 0;
 
-            // Build Context
-            if (count($phpAds_context)) {
-                $selectedcontext = '';
-                for ($ci = $down_limit; $ci < $up_limit; $ci++) {
-                    if ($phpAds_context[$ci]['selected']) {
-                        $selectedcontext = $ci;
-                    }
-                }
-                for ($ci = $down_limit; $ci < $up_limit; $ci++) {
-                    if ($ci == $selectedcontext - 1) {
-                        $phpAds_context[$ci]['accesskey'] = $GLOBALS['keyPreviousItem'];
-                    }
-                    if ($ci == $selectedcontext + 1) {
-                        $phpAds_context[$ci]['accesskey'] = $GLOBALS['keyNextItem'];
-                    }
-                }
+    function _compileNavigationTabBar($sectionID, $oMenu, &$aMainNav)
+    {
+        $aRootPages = $oMenu->getRootSections();
+    	  $aParentSections = $oMenu->getParentSections($sectionID);
+        $rootParentId = !empty($aParentSections) ? $aParentSections[0]->getId() : $sectionID;
 
-                $aSideContext = $phpAds_context;
-            }
-
-            // Include shortcuts
-            if (count($phpAds_shortcuts)) {
-                $aSideShortcuts = $phpAds_shortcuts;
-            }
-
-            // Build tabbed navigation bar
-            foreach (array_keys($pages) as $key) {
-                if (strpos($key, '.') === false) {
-                    reset($pages[$key]);
-                    list($filename, $title) = each($pages[$key]);
-                    $aNav[] = array(
-                        'title'    => $title,
-                        'filename' => $filename,
-                        'selected' => $key == $sections[0]
-                    );
-                }
-            }
-        } else {
-            // Build tabbed navigation bar
-            if ($ID == phpAds_Login) {
-                $aNav[] = array(
-                    'title'    => $GLOBALS['strAuthentification'],
-                    'filename' => 'index.php',
-                    'selected' => true
-                );
-            } elseif ($ID == phpAds_Error) {
-                $aNav[] = array(
-                    'title'    => $GLOBALS['strError'],
-                    'filename' => 'index.php',
-                    'selected' => true
-                );
-            }
+        for ($i = 0; $i < count($aRootPages); $i++) {
+            $aMainNav[]= array(
+              'title'    => $aRootPages[$i]->getName(),
+              'filename' => $aRootPages[$i]->getLink($this->aLinkParams),
+              'selected' => $aRootPages[$i]->getId() == $rootParentId
+            );
         }
+    }
 
-        // Tabbed navigation bar and sidebar
-        $this->oTpl->assign('aNav', $aNav);
-        $this->oTpl->assign('aSide', $aSide);
-        $this->oTpl->assign('aSideContext', $aSideContext);
-        $this->oTpl->assign('aSideShortcuts', $aSideShortcuts);
 
-        // Include custom HTML for the sidebar
-        if ($extra) {
-            $this->oTpl->assign('sidebarExtra', $extra);
-        }
+    function _compileSectionTabBar($ID, $oMenu, &$aSectionNav)
+    {
+      $oCurrentSection = $oMenu->get($ID);
 
-        // Use gzip content compression
-        if (isset($conf['ui']['gzipCompression']) && $conf['ui']['gzipCompression']) {
-            //enable compression if it's not alredy handled by the zlib and ob_gzhandler is loaded 
-            $zlibCompression = ini_get('zlib.output_compression');
-            if (!$zlibCompression && function_exists('ob_gzhandler')) {
-                // enable compression only if it wasn't enabled previously (e.g by widget)
-                if (ob_get_contents()===false) {
-                    ob_start("ob_gzhandler");
-                }
-            }
-        }
+      //at the moment every root section in fact links to one of its children,
+      //so there is no page for a root section actually
+      //for broken implementations where there is such page we could check if we are root section and display children instead of siblings
+      if ($oMenu->isRootSection($oCurrentSection)) {
+      	$aSections = $oCurrentSection->getSections();
+      }
+      else {
+        $aParent = $oCurrentSection->getParent();
+        $aSections =$aParent->getSections();
+      }
 
-        // Send header with charset info
-        header ("Content-Type: text/html".(isset($phpAds_CharSet) && $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : ""));
+      //filter out exclusive and affixed sections from view if they're not active
+      $aSections = array_values(array_filter($aSections, array(new OA_Admin_Section_Type_Filter($oCurrentSection), 'accept')));
 
-        // Generate layout
-        $this->oTpl->assign('pageTitle', $pageTitle);
-        $this->oTpl->assign('imgPath', $imgPath);
-        $this->oTpl->assign('metaGenerator', MAX_PRODUCT_NAME.' v'.OA_VERSION.' - http://'.MAX_PRODUCT_URL);
 
+      for ($i = 0; $i < count($aSections); $i++) {
+        $aSectionNav[]= array(
+          'title'    => $aSections[$i]->getName(),
+          'filename' => $aSections[$i]->getLink($this->aLinkParams),
+          'selected' => $aSections[$i]->getId() == $ID
+          );
+      }
+    }
+
+
+    function _assignValidationDefaults()
+    {
         // Defaults for validation
         $aLocale = localeconv();
         if (isset($GLOBALS['phpAds_ThousandsSeperator'])) {
@@ -234,33 +359,31 @@ class OA_Admin_UI
         $this->oTpl->assign('strWarningMissingOpening', html_entity_decode($GLOBALS['strWarningMissingOpening']));
         $this->oTpl->assign('strWarningMissingClosing', html_entity_decode($GLOBALS['strWarningMissingClosing']));
         $this->oTpl->assign('strSubmitAnyway', html_entity_decode($GLOBALS['strSubmitAnyway']));
+    }
 
+    function _assignJavascriptandCSS()
+    {
+        global $installing; //if installing no admin base URL is known yet
+        //URL to combine script
+        $this->oTpl->assign('adminBaseURL', $installing ? '' : MAX::constructURL(MAX_URL_ADMIN, ''));
         // Javascript and stylesheets to include
         $this->oTpl->assign('genericStylesheets', urlencode(implode(',', $this->genericStylesheets())));
         $this->oTpl->assign('genericJavascript', urlencode(implode(',', $this->genericJavascript())));
         $this->oTpl->assign('aGenericStyleshets', $this->genericStylesheets());
         $this->oTpl->assign('aGenericJavascript', $this->genericJavascript());
         $this->oTpl->assign('combineAssets', $conf['ui']['combineAssets']);
+    }
 
-        if (!empty($session['RUN_MPE']) && $session['RUN_MPE']) {
-            require_once MAX_PATH . '/www/admin/lib-maintenance-priority.inc.php';
-            $this->oTpl->assign('jsMPE', $xajax->getJavascript(MAX::assetPath(), 'js/xajax.js'));
-        }
-
-        if (!defined('phpAds_installing')) {
-            // Include the flashObject resource file
-            $this->oTpl->assign('jsFlash', MAX_flashGetFlashObjectExternal());
-        }
-
-        // Branding
-        $this->oTpl->assign('applicationName', $conf['ui']['applicationName']);
-        $this->oTpl->assign('logoFilePath', $conf['ui']['logoFilePath']);
-        $this->oTpl->assign('productName', MAX_PRODUCT_NAME);
-
+    function _assignSearch()
+    {
         $displaySearch = ($ID != phpAds_Login && $ID != phpAds_Error && OA_Auth::isLoggedIn() && OA_Permission::isAccount(OA_ACCOUNT_MANAGER) && !defined('phpAds_installing'));
         $this->oTpl->assign('displaySearch', $displaySearch);
         $this->oTpl->assign('searchUrl', MAX::constructURL(MAX_URL_ADMIN, 'admin-search.php'));
+    }
 
+    function _assignUserAccountInfo()
+    {
+        global $OA_Navigation_ID, $session;
         // Show currently logged on user and IP
         if (OA_Auth::isLoggedIn() || defined('phpAds_installing')) {
             $this->oTpl->assign('helpLink', OA_Admin_Help::getDocLinkFromPhpAdsNavId($OA_Navigation_ID));
@@ -299,13 +422,33 @@ class OA_Admin_UI
                 $this->oTpl->assign('buttonStartOver', true);
             }
         }
+    }
 
-        $this->oTpl->assign('showMainNav', $showMainNav);
-        $this->oTpl->assign('showSidebar', $showSidebar);
-        $this->oTpl->assign('noBorder', $noBorder);
+    function _buildSideContext(&$aSideContext)
+    {
+        global $phpAds_context;
 
-        $this->oTpl->assign('uiPart', 'header');
-        $this->oTpl->display();
+        $up_limit = count($phpAds_context);
+        $down_limit = 0;
+
+        if (count($phpAds_context)) {
+            $selectedcontext = '';
+            for ($ci = $down_limit; $ci < $up_limit; $ci++) {
+                if ($phpAds_context[$ci]['selected']) {
+                    $selectedcontext = $ci;
+                }
+            }
+            for ($ci = $down_limit; $ci < $up_limit; $ci++) {
+                if ($ci == $selectedcontext - 1) {
+                    $phpAds_context[$ci]['accesskey'] = $GLOBALS['keyPreviousItem'];
+                }
+                if ($ci == $selectedcontext + 1) {
+                    $phpAds_context[$ci]['accesskey'] = $GLOBALS['keyNextItem'];
+                }
+            }
+
+            $aSideContext = $phpAds_context;
+        }
     }
 
     function showFooter()
@@ -324,7 +467,7 @@ class OA_Admin_UI
         }
 
         if (isset($aConf['ui']['gzipCompression']) && $aConf['ui']['gzipCompression']) {
-            //flush if we have used ob_gzhandler 
+            //flush if we have used ob_gzhandler
             $zlibCompression = ini_get('zlib.output_compression');
             if (!$zlibCompression && function_exists('ob_gzhandler')) {
                 ob_end_flush();
@@ -381,5 +524,4 @@ class OA_Admin_UI
         );
     }
 }
-
 ?>

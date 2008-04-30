@@ -22,40 +22,30 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:report-specifics.php 4488 2006-03-22 16:32:06Z roh@m3.net $
+$Id$
 */
 
-// Require the initialisation file
-require_once '../../init.php';
+class OA_Admin_Section_Type_Filter
+{
+  var $oCurrentSection;
 
-// Include required files
-require_once MAX_PATH . '/lib/OA/Admin/Reports/Index.php';
+  function OA_Admin_Section_Type_Filter($oCurrentSection)
+  {
+  	$this->oCurrentSection = $oCurrentSection;
+  }
 
-// Register input variables
-phpAds_registerGlobal ('selection');
 
-// Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
+  function accept($oSection)
+  {
+  	$currentId = $this->oCurrentSection->getId();
 
-// Load the required language files
-Language_Report::load();
+  	//if section is affixed show it only if it's active
+    if ($oSection->isAffixed() || $oSection->isExclusive()) {
+    	return $oSection->getId() == $currentId;
+    }
 
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
-
-phpAds_PageHeader("report-index");
-
-/*-------------------------------------------------------*/
-/* Main code                                             */
-/*-------------------------------------------------------*/
-$oModule = new OA_Admin_Reports_Index();
-$oModule->displayReportGeneration($selection);
-
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
-
-phpAds_PageFooter();
-
+    //filter out other sections if current is exclusive
+    return !$this->oCurrentSection->isExclusive();
+  }
+}
 ?>

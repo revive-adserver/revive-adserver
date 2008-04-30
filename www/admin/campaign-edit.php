@@ -342,23 +342,13 @@ if ($campaignid != "") {
     $advertiser = phpAds_getClientDetails($clientid);
     $advertiserName = $advertiser['clientname'];
     $advertiserEditUrl = "advertiser-edit.php?clientid=$clientid";
-    if (isset($move) && $move == 't') {
-        // Convert client to campaign
-        // TODO: is this still used? if not, we may want to remove it
-        phpAds_PageHeader("4.1.3.2");
-        echo "<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($clientid);
-        echo "&nbsp;<img src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/caret-rs.gif'>&nbsp;";
-        echo "<img src='" . MAX::assetPath() . "/images/icon-campaign.gif' align='absmiddle'>&nbsp;<b>".$strUntitled."</b><br /><br /><br />";
-        phpAds_ShowSections(array("4.1.3.2"));
-    } else {
-        // New campaign
-        phpAds_PageHeader("4.1.3.1");
-        MAX_displayInventoryBreadcrumbs(array(
-                                            array("name" => $advertiserName, "url" => $advertiserEditUrl),
-                                            array("name" => "")), 
-                                        "campaign", true);
-        phpAds_ShowSections(array("4.1.3.1"));
-    }
+
+   // New campaign
+    phpAds_PageHeader("campaign-edit_new");
+    MAX_displayInventoryBreadcrumbs(array(
+                                        array("name" => $advertiserName, "url" => $advertiserEditUrl),
+                                        array("name" => "")),
+                                    "campaign", true);
 }
 
 if ($campaignid != "" || (isset($move) && $move == 't')) {

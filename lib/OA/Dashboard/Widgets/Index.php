@@ -42,7 +42,7 @@ class OA_Dashboard_Widget_Index extends OA_Dashboard_Widget
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
-        phpAds_PageHeader('1.0', '', '', false, true, true);
+        phpAds_PageHeader('1', '', '', false, true, true);
 
         $oTpl = new OA_Admin_Template('dashboard/main.html');
 

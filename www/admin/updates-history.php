@@ -58,8 +58,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-phpAds_PageHeader("5.6");
-phpAds_ShowSections(array("5.1", "5.2", "5.3", "5.5", "5.6", "5.4", "5.7"));
+phpAds_PageHeader("updates-index");
 phpAds_MaintenanceSelection("history", "updates");
 
 /*-------------------------------------------------------*/

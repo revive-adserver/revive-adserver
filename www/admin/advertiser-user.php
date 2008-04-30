@@ -50,7 +50,7 @@ $userAccess->init();
 function OA_headerNavigation()
 {
     if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-        phpAds_PageHeader("4.1.5.2");
+        phpAds_PageHeader("advertiser-access");
         MAX_displayAdvertiserBreadcrumbs($GLOBALS['clientid']);
         phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.5", "4.1.5.2"));
     } else {
@@ -79,7 +79,7 @@ function OA_footerNavigation()
             var e = findObj('permissions_".OA_PERM_ZONE_EDIT."');
             var a = findObj('permissions_".OA_PERM_ZONE_ADD."');
             var d = findObj('permissions_".OA_PERM_ZONE_DELETE."');
-    
+
             a.disabled = d.disabled = !e.checked;
             if (!e.checked) {
                 a.checked = d.checked = false;

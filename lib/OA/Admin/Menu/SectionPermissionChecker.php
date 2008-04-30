@@ -22,40 +22,49 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:report-specifics.php 4488 2006-03-22 16:32:06Z roh@m3.net $
+$Id$
 */
 
-// Require the initialisation file
-require_once '../../init.php';
+/**
+ * An acceptor that takes into account permissions that are required to access the section.
+ * - if the list of required permissions associated this acceptor is sempty, section gets accepted
+ * - if the list is not empty current user must have at least one of the permissions required by this acceptor
+ *
+ */
+class OA_Admin_SectionPermissionChecker
+{
+    var $aPermissions; //list of permissions user must have for the checker to be satisfied (only on of the list is required)
 
-// Include required files
-require_once MAX_PATH . '/lib/OA/Admin/Reports/Index.php';
+    function OA_Admin_SectionPermissionChecker($aPermissions = array())
+    {
+        $this->aPermissions = $aPermissions;
+    }
 
-// Register input variables
-phpAds_registerGlobal ('selection');
 
-// Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
+    function check($oSection)
+    {
+        $aPermissions = $this->_getAcceptedPermissions();
 
-// Load the required language files
-Language_Report::load();
+        //no required permissions, we can show the section
+        if (empty ($aPermissions)) {
+            return true;
+		}
 
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
+        $hasRequiredPermission = false;
+        for($i = 0; $i < count ( $aPermissions ); $i ++) {
+            $hasRequiredPermission = OA_Permission::hasPermission ( $aPermissions [$i] );
+            if ($hasRequiredPermission) {
+                break;
+            }
+        }
 
-phpAds_PageHeader("report-index");
+        return $hasRequiredPermission;
+	}
 
-/*-------------------------------------------------------*/
-/* Main code                                             */
-/*-------------------------------------------------------*/
-$oModule = new OA_Admin_Reports_Index();
-$oModule->displayReportGeneration($selection);
 
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
-
-phpAds_PageFooter();
-
+    function _getAcceptedPermissions()
+    {
+        return $this->aPermissions;
+    }
+}
 ?>

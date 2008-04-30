@@ -47,22 +47,8 @@ $userAccess->init();
 function OA_headerNavigation()
 {
 	global $affiliateid;
-	
-    if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-        phpAds_PageHeader("4.2.7.2");
-        MAX_displayWebsiteBreadcrumbs($affiliateid);
-        phpAds_ShowSections(array("4.2.2", "4.2.3","4.2.4","4.2.5","4.2.6","4.2.7", "4.2.7.2"));
-    } else {
-        phpAds_PageHeader('2.3.2');
-        $sections = array('2.1');
-        if (OA_Permission::hasPermission(OA_PERM_ZONE_INVOCATION)) {
-            $sections[] = '2.2';
-        }
-        $sections[] = '2.3';
-        $sections[] = '2.3.2';
-        MAX_displayWebsiteBreadcrumbs($affiliateid);
-        phpAds_ShowSections($sections);
-    }
+    phpAds_PageHeader("affiliate-access");
+    MAX_displayWebsiteBreadcrumbs($affiliateid);
 }
 $userAccess->setNavigationHeaderCallback('OA_headerNavigation');
 
@@ -78,7 +64,7 @@ function OA_footerNavigation()
             var e = findObj('permissions_".OA_PERM_ZONE_EDIT."');
             var a = findObj('permissions_".OA_PERM_ZONE_ADD."');
             var d = findObj('permissions_".OA_PERM_ZONE_DELETE."');
-    
+
             a.disabled = d.disabled = !e.checked;
             if (!e.checked) {
                 a.checked = d.checked = false;
@@ -102,7 +88,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
 {
     $aAllowedPermissions[OA_PERM_SUPER_ACCOUNT] = array($strAllowCreateAccounts, false);
 }
-$aAllowedPermissions[OA_PERM_ZONE_EDIT]       = array($strAllowAffiliateModifyZones,  false, 
+$aAllowedPermissions[OA_PERM_ZONE_EDIT]       = array($strAllowAffiliateModifyZones,  false,
                                                       'MMM_cascadePermissionsChange()');
 $aAllowedPermissions[OA_PERM_ZONE_ADD]        = array($strAllowAffiliateAddZone,      true, false);
 $aAllowedPermissions[OA_PERM_ZONE_DELETE]     = array($strAllowAffiliateDeleteZone,   true, false);

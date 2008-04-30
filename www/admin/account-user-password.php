@@ -52,13 +52,13 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     phpAds_registerGlobalUnslashed(
         'pwold',
         'pw',
-        'pw2'        
+        'pw2'
     );
     // Get the DB_DataObject for the current user
     $doUsers = OA_Dal::factoryDO('users');
     $doUsers->get(OA_Permission::getUserId());
 
-    // Set defaults    
+    // Set defaults
     $changePassword = false;
 
     // Get the current authentication plugin instance
@@ -76,7 +76,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         } else {
             $changePassword = true;
         }
-    }    
+    }
     if (!count($aErrormessage) && $changePassword) {
         $result = $oPlugin->changePassword($doUsers, $pw, $pwold);
         if (PEAR::isError($result)) {
@@ -96,22 +96,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 }
 
 // Display the settings page's header and sections
-phpAds_PageHeader("5.1");
-if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
-    // Show all "My Account" sections
-    phpAds_ShowSections(array("5.1", "5.2", "5.3", "5.5", "5.6", "5.4"));
-} else if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-    // Show the "Preferences", "User Log" and "Channel Management" sections of the "My Account" sections
-    phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.7"));
-} 
-else if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-    // Show the "User Preferences" section of the "My Account" sections
-    $sections = array("5.1", "5.2");
-    if (OA_Permission::hasPermission(OA_PERM_USER_LOG_ACCESS)) {
-        $sections[] = "5.4";
-    }
-    phpAds_ShowSections($sections);
-} 
+phpAds_PageHeader("account-user-index");
 
 // Set the correct section of the preference pages and display the drop-down menu
 $oOptions->selection("password");
@@ -131,11 +116,11 @@ $aSettings = array (
                 'name'     => 'username',
                 'value'    => $aUser['username'],
                 'text'     => $strUsername,
-                'size'     => 35                           
+                'size'     => 35
             ),
             array (
                 'type'     => 'break'
-            ),             
+            ),
             array (
                 'type'     => 'plaintext',
                 'name'     => 'contact_name',
@@ -151,17 +136,17 @@ $aSettings = array (
                 'name'    => 'email_address',
                 'value'   => $aUser['email_address'],
                 'text'    => $strEmailAddress,
-                'size'    => 35                
+                'size'    => 35
             ),
             array (
                 'type'    => 'break'
-            ),                                
+            ),
             array (
                 'type'    => 'password',
                 'name'    => 'pwold',
                 'text'    => $strCurrentPassword,
                 'disabled' => ''
-                          
+
             ),
             array (
                 'type'    => 'break'
@@ -169,7 +154,7 @@ $aSettings = array (
             array (
                 'type'    => 'password',
                 'name'    => 'pw',
-                'text'    => $strChooseNewPassword                                
+                'text'    => $strChooseNewPassword
             ),
             array (
                 'type'    => 'break'
@@ -177,11 +162,11 @@ $aSettings = array (
             array (
                 'type'    => 'password',
                 'name'    => 'pw2',
-                'text'    => $strReenterNewPassword,                
+                'text'    => $strReenterNewPassword,
                 'check'   => 'compare:pw'
             )
         )
-    )    
+    )
 );
 
 $oOptions->show($aSettings, $aErrormessage);

@@ -61,7 +61,7 @@ class OA_Cache
             'cacheDir'                      => MAX_PATH . '/var/cache/',
             'lifeTime'                      => null,
             'readControlType'               => 'md5',
-            'dontCacheWhenTheResultIsFalse' => true,
+            //'dontCacheWhenTheResultIsFalse' => true, - this property does not exist
             'automaticSerialization'        => true
         ));
 
@@ -74,7 +74,7 @@ class OA_Cache
      *
      * @return mixed
      */
-    function load($doNotTestCacheValidity = false)
+    function load($doNotTestCacheValidity = true)
     {
         return $this->oCache->get($this->id, $this->group, $doNotTestCacheValidity);
     }
@@ -89,6 +89,12 @@ class OA_Cache
     {
         return $this->oCache->save($cache, $this->id, $this->group);
     }
+
+    function clear()
+    {
+        return $this->oCache->remove($this->id, $this->group);
+    }
+
 }
 
 ?>

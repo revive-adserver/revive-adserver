@@ -22,40 +22,25 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:report-specifics.php 4488 2006-03-22 16:32:06Z roh@m3.net $
+$Id$
 */
 
-// Require the initialisation file
-require_once '../../init.php';
+/**
+ * An acceptor that can be used to filter out sections from collections.
+ * For every section it invokes its related checker and returns the result of the check.
+ */
+class OA_Admin_SectionCheckerFilter
+{
+    function OA_Admin_SectionCheckerFilter()
+    {
+    }
 
-// Include required files
-require_once MAX_PATH . '/lib/OA/Admin/Reports/Index.php';
 
-// Register input variables
-phpAds_registerGlobal ('selection');
+    function accept($oSection)
+    {
+        $checker = $oSection->getChecker();
 
-// Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
-
-// Load the required language files
-Language_Report::load();
-
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
-
-phpAds_PageHeader("report-index");
-
-/*-------------------------------------------------------*/
-/* Main code                                             */
-/*-------------------------------------------------------*/
-$oModule = new OA_Admin_Reports_Index();
-$oModule->displayReportGeneration($selection);
-
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
-
-phpAds_PageFooter();
-
+        return $checker->check($oSection);
+    }
+}
 ?>

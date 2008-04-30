@@ -87,7 +87,7 @@ if (isset($formId)) {
 if ($affiliateid != "") {
     OA_Admin_Menu::setPublisherPageContext($affiliateid, 'affiliate-edit.php');
     phpAds_PageShortcut($strAffiliateHistory, 'stats.php?entity=affiliate&breakdown=history&affiliateid='.$affiliateid, 'images/icon-statistics.gif');
-    phpAds_PageHeader("4.2.2");
+    phpAds_PageHeader();
     MAX_displayWebsiteBreadcrumbs($affiliateid);
     phpAds_ShowSections(array("4.2.2", "4.2.3","4.2.4","4.2.5","4.2.6","4.2.7"));
 
@@ -100,7 +100,7 @@ if ($affiliateid != "") {
         }
     }
 } else {
-    phpAds_PageHeader("4.2.1");
+    phpAds_PageHeader("affiliate-edit_new");
     MAX_displayWebsiteBreadcrumbs(null);
     phpAds_ShowSections(array("4.2.1"));
 }
@@ -195,15 +195,8 @@ $oTpl->display();
 
 <script language='JavaScript'>
 <!--
-    max_formSetRequirements('website', '<?php echo addslashes($strWebsite); ?>', true, 'url');
-    max_formSetRequirements('category', '<?php echo addslashes($strCategory); ?>', true, 'present');
-    max_formSetRequirements('country', '<?php echo addslashes($strCountry); ?>', true, 'present');
-    max_formSetRequirements('language', '<?php echo addslashes($strLanguage); ?>', true, 'present');
-    max_formSetConditionalValidate('category', '$("#advsignup").get(0).checked==true');
-    max_formSetConditionalValidate('country', '$("#advsignup").get(0).checked==true');
-    max_formSetConditionalValidate('language', '$("#advsignup").get(0).checked==true');
-    max_formSetRequirements('name', '<?php echo addslashes($strName); ?>', true, 'unique');
-    max_formSetUnique('name', '|<?php echo addslashes(implode('|', $aUniqueNames)); ?>|');
+    max_formSetRequirements('rate', '<?php echo addslashes($strRate); ?>', true, 'present');
+    max_formSetRequirements('pricing', '<?php echo addslashes($strPricing); ?>', true, 'present');
 //-->
 </script>
 

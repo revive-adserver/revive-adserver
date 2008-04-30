@@ -50,25 +50,25 @@ $aErrormessage = array();
 // If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Register input variables
-    phpAds_registerGlobalUnslashed(                
+    phpAds_registerGlobalUnslashed(
         'contact_name',
-        'language'        
-    );        
-    
+        'language'
+    );
+
     // Get the DB_DataObject for the current user
     $doUsers = OA_Dal::factoryDO('users');
     $doUsers->get(OA_Permission::getUserId());
 
     // Get the current authentication plugin instance
-    $oPlugin = OA_Auth::staticGetAuthPlugin();    
+    $oPlugin = OA_Auth::staticGetAuthPlugin();
 
     if (isset($contact_name)) {
         $doUsers->contact_name = $contact_name;
     }
     if (isset($language)) {
         $doUsers->language = $language;
-    }       
-        
+    }
+
     if (!count($aErrormessage)) {
         if (($doUsers->update() === false)) {
             // Unable to update the preferences
@@ -77,10 +77,10 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         	//Add the new username to the session
             $oUser = &OA_Permission::getCurrentUser();
             $oUser->aUser['contact_name'] = $contact_name;
-            $oUser->aUser['language'] = $language;                  
-                        
+            $oUser->aUser['language'] = $language;
+
             phpAds_SessionDataStore();
-                    	
+
             // The "preferences" were written correctly saved to the database,
             // go to the "next" preferences page from here
             MAX_Admin_Redirect::redirect('account-user-email.php');
@@ -89,15 +89,15 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 }
 
 // Display the settings page's header and sections
-phpAds_PageHeader("5.1");
+phpAds_PageHeader('account-user-index');
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     // Show all "My Account" sections
     phpAds_ShowSections(array("5.1", "5.2", "5.3", "5.5", "5.6", "5.4"));
-} 
+}
 else if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     // Show the "Preferences", "User Log" and "Channel Management" sections of the "My Account" sections
     phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.7"));
-} 
+}
 else if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER, OA_ACCOUNT_ADVERTISER)) {
     // Show the "User Preferences" section of the "My Account" sections
     $sections = array("5.1", "5.2");
@@ -105,7 +105,7 @@ else if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER, OA_ACCOUNT_ADVERTISER))
         $sections[] = "5.4";
     }
     phpAds_ShowSections($sections);
-} 
+}
 
 // Set the correct section of the preference pages and display the drop-down menu
 $oOptions->selection("name-language");
@@ -114,8 +114,8 @@ $oOptions->selection("name-language");
 $oUser = OA_Permission::getCurrentUser();
 $aUser = $oUser->aUser;
 
-//$aLanguages = MAX_Admin_Languages::AvailableLanguages();        
-$aLanguages = new MAX_Admin_Languages;        
+//$aLanguages = MAX_Admin_Languages::AvailableLanguages();
+$aLanguages = new MAX_Admin_Languages;
 
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
@@ -128,7 +128,7 @@ $aSettings = array (
                 'name'     => 'username',
                 'value'    => $aUser['username'],
                 'text'     => $strUsername,
-                'size'     => 35                           
+                'size'     => 35
             ),
             array (
                 'type'    => 'break'
@@ -138,11 +138,11 @@ $aSettings = array (
                 'name'    => 'email_address',
                 'value'   => $aUser['email_address'],
                 'text'    => $strEmailAddress,
-                'size'    => 35                
+                'size'    => 35
             ),
             array (
                 'type'    => 'break'
-            ),            
+            ),
             array (
                 'type'    => 'text',
                 'name'    => 'contact_name',
@@ -164,7 +164,7 @@ $aSettings = array (
             )
         )
     )
-);   
+);
 
 $oOptions->show($aSettings, $aErrormessage);
 

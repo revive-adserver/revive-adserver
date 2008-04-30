@@ -730,39 +730,6 @@ function MAX_displayNavigationCampaign($pageName, $aOtherAdvertisers, $aOtherCam
     $otherEntityString = _getEntityString($aOtherEntities);
     $advertiserName = MAX_buildName($advertiserId, $aOtherAdvertisers[$advertiserId]['name']);
 
-    // Determine which tab is highlighted
-    if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-        if ($pageName == 'campaign-banners.php') {
-            $tabValue = "2.1";
-        }
-        $tabSections = array('2.1');
-    } else {
-        switch ($pageName) {
-            case 'campaign-edit.php':
-                $tabValue = '4.1.3.2';
-                break;
-            case 'campaign-zone.php':
-                $tabValue = '4.1.3.3';
-                break;
-            case 'campaign-banners.php':
-                $tabValue = '4.1.3.4';
-                break;
-            case 'campaign-trackers.php':
-                // Conditionally display conversion tracking
-                if ($aConf['logging']['trackerImpressions']) {
-                    $tabValue = '4.1.3.5';
-                    break;
-                }
-        }
-
-        // Get the tab sections
-        $tabSections = array('4.1.3.2', '4.1.3.3', '4.1.3.4');
-
-        // Conditionally display conversion tracking
-        if ($aConf['logging']['trackerImpressions']) {
-            $tabSections[] = '4.1.3.5';
-        }
-    }
     foreach ($aOtherCampaigns as $otherCampaignId => $aOtherCampaign) {
         $otherCampaignName = MAX_buildName($otherCampaignId, $aOtherCampaign['name']);
         $page = "{$pageName}?{$otherEntityString}campaignid={$otherCampaignId}&";
@@ -823,7 +790,7 @@ function MAX_displayNavigationCampaign($pageName, $aOtherAdvertisers, $aOtherCam
             </form>";
     }
 
-    phpAds_PageHeader($tabValue, $extra);
+    phpAds_PageHeader(null, $extra);
     MAX_displayInventoryBreadcrumbs(array(
                                       array("name" => $advertiserName, "url" => $advertiserEditUrl),
                                       array("name" => $campaignName)), 
@@ -831,7 +798,7 @@ function MAX_displayNavigationCampaign($pageName, $aOtherAdvertisers, $aOtherCam
     phpAds_ShowSections($tabSections);
 }
 
-function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners, $aEntities)
+function MAX_getBannerNavigationExtra($pageName, $aOtherCampaigns, $aOtherBanners, $aEntities)
 {
     global $phpAds_TextDirection;
 
@@ -841,66 +808,6 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
     $entityString = _getEntityString($aEntities);
     $aOtherEntities = $aEntities;
     unset($aOtherEntities['bannerid']);
-    $otherEntityString = _getEntityString($aOtherEntities);
-
-    // Determine which tab is highlighted
-    if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-        switch ($pageName) {
-            case 'banner-edit.php'   : $tabValue = '2.1.1'; break;
-        }
-        // Get the tab sections
-        $tabSections = array('2.1.1');
-    } else {
-        // Get the tab sections
-        $tabSections = array('4.1.3.4.2', '4.1.3.4.3', '4.1.3.4.4', '4.1.3.4.6');
-
-        switch ($pageName) {
-            case 'banner-zone.php'     : $tabValue = '4.1.3.4.4'; break;
-            case 'banner-acl.php'      : $tabValue = '4.1.3.4.3'; break;
-            case 'banner-edit.php'     :
-                if (empty($bannerId)) {
-                    $tabValue = '4.1.3.4.1';
-                    $tabSections = array('4.1.3.4.1');
-                } else {
-                    $tabValue = '4.1.3.4.2';
-                }
-                break;
-            case 'banner-advanced.php' : $tabValue = '4.1.3.4.6'; break;
-        }
-    }
-    $bannerName = '';
-    foreach ($aOtherBanners as $otherBannerId => $aOtherBanner) {
-
-        // mask banner name if anonymous campaign
-        $campaign = Admin_DA::getPlacement($aOtherBanner['placement_id']);
-        $campaignAnonymous = $campaign['anonymous'] == 't' ? true : false;
-        $aOtherBanner['name'] = MAX_getAdName($aOtherBanner['name'], null, null, $campaignAnonymous, $otherBannerId);
-
-        $otherBannerName = MAX_buildName($otherBannerId, $aOtherBanner['name']);
-
-        $page = "{$pageName}?{$otherEntityString}bannerid={$otherBannerId}&";
-        if ($otherBannerId == $bannerId) {
-            $current = true;
-            $bannerName = $otherBannerName;
-        } else {
-            $current = false;
-        }
-        phpAds_PageContext($otherBannerName, $page, $current);
-    }
-
-    $advertiserEditUrl = "advertiser-edit.php?clientid=$advertiserId";
-    $campaignEditUrl = "campaign-edit.php?clientid=$advertiserId&campaignid=$campaignId";
-    if (OA_Permission::hasAccessToObject('clients', $advertiserId)) {
-        phpAds_PageShortcut($GLOBALS['strClientProperties'], $advertiserEditUrl, 'images/icon-advertiser.gif');
-    }
-    
-    if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-        phpAds_PageShortcut($GLOBALS['strCampaignProperties'], $campaignEditUrl, 'images/icon-campaign.gif');
-    } else {
-        $advertiserEditUrl = "advertiser-campaigns.php?clientid=$advertiserId";
-        $campaignEditUrl = "campaign-banners.php?clientid=$advertiserId&campaignid=$campaignId";
-    }
-    phpAds_PageShortcut($GLOBALS['strBannerHistory'], "stats.php?entity=banner&breakdown=history&$entityString", 'images/icon-statistics.gif');
 
     $extra  = "
 <form action='banner-modify.php'>
@@ -960,6 +867,64 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
     $advertiserDetails = phpAds_getClientDetails($advertiserId);
     $advertiserName = $advertiserDetails['clientname'];
 
+
+ 
+ 
+    return $extra; 
+} 
+ 
+function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners, $aEntities) 
+{ 
+    global $phpAds_TextDirection; 
+ 
+    $advertiserId = $aEntities['clientid']; 
+    $campaignId = $aEntities['campaignid']; 
+    $bannerId = $aEntities['bannerid']; 
+    $entityString = _getEntityString($aEntities); 
+    $aOtherEntities = $aEntities; 
+    unset($aOtherEntities['bannerid']); 
+    $otherEntityString = _getEntityString($aOtherEntities); 
+    switch ($pageName) { 
+        case 'banner-edit.php': 
+            if (empty($bannerId)) { 
+                $tabValue = 'banner-edit_new'; 
+            } else { 
+                $tabValue = 'banner-edit'; 
+            } 
+            break; 
+        default: $tabSections = basename($pageName); break; 
+    } 
+ 
+    $bannerName = ''; 
+    foreach ($aOtherBanners as $otherBannerId => $aOtherBanner) { 
+ 
+        // mask banner name if anonymous campaign 
+        $campaign = Admin_DA::getPlacement($aOtherBanner['placement_id']); 
+        $campaignAnonymous = $campaign['anonymous'] == 't' ? true : false; 
+        $aOtherBanner['name'] = MAX_getAdName($aOtherBanner['name'], null, null, $campaignAnonymous, $otherBannerId); 
+ 
+        $otherBannerName = phpAds_buildName($otherBannerId, $aOtherBanner['name']); 
+ 
+        $page = "{$pageName}?{$otherEntityString}bannerid={$otherBannerId}&"; 
+        if ($otherBannerId == $bannerId) { 
+            $current = true; 
+            $bannerName = $otherBannerName; 
+        } else { 
+            $current = false; 
+        } 
+        phpAds_PageContext($otherBannerName, $page, $current); 
+    } 
+ 
+    if (OA_Permission::hasAccessToObject('clients', $advertiserId)) { 
+        phpAds_PageShortcut($GLOBALS['strClientProperties'], "advertiser-edit.php?clientid=$advertiserId", 'images/icon-advertiser.gif'); 
+    } 
+    if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) { 
+        phpAds_PageShortcut($GLOBALS['strCampaignProperties'], "campaign-edit.php?clientid=$advertiserId&campaignid=$campaignId", 'images/icon-campaign.gif'); 
+    } 
+    phpAds_PageShortcut($GLOBALS['strBannerHistory'], "stats.php?entity=banner&breakdown=history&$entityString", 'images/icon-statistics.gif'); 
+ 
+    $extra = MAX_getBannerNavigationExtra($pageName, $aOtherCampaigns, $aOtherBanners, $aEntities); 
+ 
     // Build ad preview
     if ($bannerId) {
         require_once (MAX_PATH . '/lib/max/Delivery/adRender.php');
@@ -1005,18 +970,14 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
         $tabSections = array('4.2.3.2', '4.2.3.6', '4.2.3.3', '4.2.3.4', '4.2.3.5');
         // Determine which tab is highlighted
         switch ($pageName) {
-            case 'zone-include.php'    : $tabValue = '4.2.3.3'; break;
             case 'zone-edit.php'       :
                 if (empty($zoneId)) {
-                    $tabValue = '4.2.3.1';
-                    $tabSections = array('4.2.3.1');
+                    $tabValue = 'zone-edit_new';
                 } else {
-                    $tabValue = '4.2.3.2';
+                    $tabValue = 'zone-edit';
                 }
                 break;
-            case 'zone-advanced.php'    : $tabValue = '4.2.3.6'; break;
-            case 'zone-probability.php' : $tabValue = '4.2.3.4'; break;
-            case 'zone-invocation.php'  : $tabValue = '4.2.3.5'; break;
+            default: $tabSections = basename($pageName); break;
         }
     } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
         $tabSections = array();
@@ -1167,14 +1128,14 @@ function MAX_displayNavigationChannel($pageName, $aOtherChannels, $aEntities)
     if ($channelType == 'publisher') {
         // Determine which tab is highlighted
         switch ($pageName) {
-            case 'channel-edit.php' : $tabValue = (!empty($channelId)) ? '4.2.4.2' : '4.2.4.1'; break;
+            case 'channel-edit.php' : $tabValue = (!empty($channelId)) ? 'channel-edit-affiliate' : 'channel-edit-affiliate_new'; break;
             case 'channel-acl.php' : $tabValue = '4.2.4.3'; break;
         }
         $tabSections = (!empty($channelId)) ? array('4.2.4.2', '4.2.4.3') : array('4.2.4.1');
     } else {
         // Determine which tab is highlighted
         switch ($pageName) {
-            case 'channel-edit.php' : $tabValue = (!empty($channelId)) ? '5.7.2' : '5.7.1'; break;
+            case 'channel-edit.php' : $tabValue = (!empty($channelId)) ? 'channel-edit' : 'channel-edit_new'; break; 
             case 'channel-acl.php' : $tabValue = '5.7.3'; break;
         }
         $tabSections = (!empty($channelId)) ? array('5.7.2', '5.7.3') : array('5.7.1');

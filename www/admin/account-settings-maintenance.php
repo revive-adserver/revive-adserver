@@ -93,8 +93,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 }
 
 // Display the settings page's header and sections
-phpAds_PageHeader("5.3");
-phpAds_ShowSections(array("5.1", "5.2", "5.3", "5.5", "5.6", "5.4"));
+phpAds_PageHeader('account-settings-index');
 
 // Set the correct section of the settings pages and display the drop-down menu
 $oOptions->selection("maintenance");

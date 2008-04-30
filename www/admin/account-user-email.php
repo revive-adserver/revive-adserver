@@ -50,16 +50,16 @@ $aErrormessage = array();
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Register input variables
     phpAds_registerGlobalUnslashed(
-        'pw',        
+        'pw',
         'email_address'
-    );    
-    
+    );
+
     // Get the DB_DataObject for the current user
     $doUsers = OA_Dal::factoryDO('users');
     $doUsers->get(OA_Permission::getUserId());
 
     // Set defaults
-    $changeEmail = isset($email_address);    
+    $changeEmail = isset($email_address);
 
     // Get the current authentication plugin instance
     $oPlugin = OA_Auth::staticGetAuthPlugin();
@@ -78,17 +78,17 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         if (PEAR::isError($result)) {
             $aErrormessage[0][] = $result->getMessage();
         }
-    }    
+    }
     if (!count($aErrormessage)) {
         if (($doUsers->update() === false)) {
             // Unable to update the preferences
             $aErrormessage[0][] = $strUnableToWritePrefs;
         } else {
         	//Add the new username to the session
-            $oUser = &OA_Permission::getCurrentUser();            
+            $oUser = &OA_Permission::getCurrentUser();
             $oUser->aUser['email_address'] = $email_address;
             phpAds_SessionDataStore();
-        	
+
             // The "preferences" were written correctly saved to the database,
             // go to the "next" preferences page from here
             MAX_Admin_Redirect::redirect('account-user-password.php');
@@ -97,22 +97,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 }
 
 // Display the settings page's header and sections
-phpAds_PageHeader("5.1");
-if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
-    // Show all "My Account" sections
-    phpAds_ShowSections(array("5.1", "5.2", "5.3", "5.5", "5.6", "5.4"));
-} else if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-    // Show the "Preferences", "User Log" and "Channel Management" sections of the "My Account" sections
-    phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.7"));
-} 
-else if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-    // Show the "User Preferences" section of the "My Account" sections
-    $sections = array("5.1", "5.2");
-    if (OA_Permission::hasPermission(OA_PERM_USER_LOG_ACCESS)) {
-        $sections[] = "5.4";
-    }
-    phpAds_ShowSections($sections);
-} 
+phpAds_PageHeader("account-user-index");
 
 // Set the correct section of the preference pages and display the drop-down menu
 $oOptions->selection("email");
@@ -132,7 +117,7 @@ $aSettings = array (
                 'name'     => 'username',
                 'value'    => $aUser['username'],
                 'text'     => $strUsername,
-                'size'     => 35                           
+                'size'     => 35
             ),
             array (
                 'type'    => 'break'
@@ -151,7 +136,7 @@ $aSettings = array (
                 'type'    => 'password',
                 'name'    => 'pw',
                 'text'    => $strPassword,
-                'req'     => true,                
+                'req'     => true,
             ),
             array (
                 'type'    => 'break'
@@ -162,11 +147,11 @@ $aSettings = array (
                 'value'   => $aUser['email_address'],
                 'text'    => $strEmailAddress,
                 'size'    => 35,
-                'check'   => 'email'                
+                'check'   => 'email'
             )
         )
     )
-); 
+);
 
 $oOptions->show($aSettings, $aErrormessage);
 

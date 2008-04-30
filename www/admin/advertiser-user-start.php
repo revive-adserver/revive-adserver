@@ -44,7 +44,7 @@ OA_Permission::enforceAccessToObject('clients', $clientid);
 /*-------------------------------------------------------*/
 
 if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-    phpAds_PageHeader("4.1.5.1");
+    phpAds_PageHeader('advertiser-access');
     MAX_displayAdvertiserBreadcrumbs($clientid);
     phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.5", "4.1.5.1"));
 } else {

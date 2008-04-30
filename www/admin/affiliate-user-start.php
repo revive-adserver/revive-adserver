@@ -43,21 +43,8 @@ OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-    phpAds_PageHeader("4.2.7.1");
-    MAX_displayWebsiteBreadcrumbs($affiliateid);
-    phpAds_ShowSections(array("4.2.2", "4.2.3","4.2.4","4.2.5","4.2.6","4.2.7", "4.2.7.1"));
-} else {
-    phpAds_PageHeader('2.3.1');
-    $sections = array('2.1');
-    if (OA_Permission::hasPermission(OA_PERM_ZONE_INVOCATION)) {
-        $sections[] = '2.2';
-    }
-    $sections[] = '2.3';
-    $sections[] = '2.3.1';
-    MAX_displayWebsiteBreadcrumbs($affiliateid);
-    phpAds_ShowSections($sections);
-}
+phpAds_PageHeader('affiliate-access');
+MAX_displayWebsiteBreadcrumbs($affiliateid);
 
 /*-------------------------------------------------------*/
 /* Main code                                             */

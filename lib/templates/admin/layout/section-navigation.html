@@ -1,9 +1,8 @@
-<?php
+{*<!--
 
-/*
 +---------------------------------------------------------------------------+
 | OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -22,40 +21,33 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:report-specifics.php 4488 2006-03-22 16:32:06Z roh@m3.net $
-*/
+$Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 
-// Require the initialisation file
-require_once '../../init.php';
+-->*}
+    {*// Close current table 
+    TODO this closing needs to be refactored  *}
+    
+{if !empty($aSectionNav)}
+    
+    </td></tr></table>
+    
+    <div id='oaSection'>
+    <ul id='oaSectionTabs'>
+    {section name=n loop=$aSectionNav}
+      {if $aSectionNav[n].selected}
+        <li class="active {if $smarty.section.n.first} first{/if}{if $smarty.section.n.last} last{/if}">
+      {else}
+        <li class="passive {if $smarty.section.n.first} first{else}{if $smarty.section.n.last} last{/if}{/if}{if $aSectionNav[$smarty.section.n.index_prev].selected} after-active{/if}">
+      {/if}
+          <div class="left"><div class="right">
+            <a href="{$adminBaseURL}{$aSectionNav[n].filename|escape}" accesskey="{t key=Home}">{$aSectionNav[n].title|escape}</a>
+          </div></div>
+        </li>
+    {/section}
+    </ul></div>
 
-// Include required files
-require_once MAX_PATH . '/lib/OA/Admin/Reports/Index.php';
-
-// Register input variables
-phpAds_registerGlobal ('selection');
-
-// Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
-
-// Load the required language files
-Language_Report::load();
-
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
-
-phpAds_PageHeader("report-index");
-
-/*-------------------------------------------------------*/
-/* Main code                                             */
-/*-------------------------------------------------------*/
-$oModule = new OA_Admin_Reports_Index();
-$oModule->displayReportGeneration($selection);
-
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
-
-phpAds_PageFooter();
-
-?>
+  {*if $sectionOpenNewTable*} 
+    <table width='100%' border='0' cellspacing='0' cellpadding='0'><tr>
+    <td width='40'>&nbsp;</td><td><br />
+  {*/if*}    
+{/if}

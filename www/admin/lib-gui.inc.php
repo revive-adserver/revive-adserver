@@ -76,19 +76,24 @@ function phpAds_PageShortcut($name, $link, $icon)
 /**
  * Show page header
  *
- * @todo Remove this
+ * @todo Remove the "if stats, use numeric system" mechanism, should happen with the stats rewrite
+ *       Also, this function seems to just be a wrapper to OA_Admin_UI::showHeader()... removing it would seem to make sense
  *
- * @param int ID
- * @param int Extra
- * @param int imgPath: a relative path to Images, CSS files. Used if calling function from anything other than admin folder
+ * @param string ID If not passed in (or null) the page filename is used as the ID
+ * @param string Extra
+ * @param string imgPath: a relative path to Images, CSS files. Used if calling function from anything other than admin folder
  * @param boolean set to false if you do not wish to show the grey sidebar
  * @param boolean set to false if you do not wish to show the main navigation
  * @param boolean set to true to hide white borders between main nav and sub nav in the main part
  */
-function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $showMainNav=true, $noBorder = false)
+function phpAds_PageHeader($ID = null, $extra="", $imgPath="", $showSidebar=true, $showMainNav=true, $noBorder = false)
 {
+    if (is_null($ID) || (($ID !== phpAds_Login && $ID !== phpAds_Error && basename($_SERVER['SCRIPT_NAME']) != 'stats.php') && (preg_match('#^[0-9](\.[0-9])*$#', $ID)))) {
+        $ID = basename(substr($_SERVER['SCRIPT_NAME'], 0, strrpos($_SERVER['SCRIPT_NAME'], '.')));
+    }
     $GLOBALS['_MAX']['ADMIN_UI'] = new OA_Admin_UI();
     $GLOBALS['_MAX']['ADMIN_UI']->showHeader($ID, $extra, $imgPath, $showSidebar, $showMainNav, $noBorder);
+    $GLOBALS['phpAds_GUIDone'] = true;
 }
 
 /*-------------------------------------------------------*/
@@ -136,6 +141,7 @@ function showParams($params)
  */
 function phpAds_ShowSections($sections, $params=false, $openNewTable=true, $imgPath='', $customNav=false)
 {
+	/*
     global $OA_Navigation, $OA_Navigation_ID;
 
 	// Close current table
@@ -172,7 +178,8 @@ function phpAds_ShowSections($sections, $params=false, $openNewTable=true, $imgP
 				echo "<span>{$sectionStr}</span>";
             }
 			echo "</div></div></li>";
-        } else {
+        }
+      else {
 			echo "<li class='passive" . ($i == 0 ? " first" : "" ) . ($i == count($sections) - 1 ? " last" : "" ) . ($previousselected ? "  after-active" : "") . "'>";
 			echo "<div class='right'><div class='left'>";
             if (!empty($sectionUrl)) {
@@ -191,6 +198,7 @@ function phpAds_ShowSections($sections, $params=false, $openNewTable=true, $imgP
         echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'><tr>";
         echo "<td width='40'>&nbsp;</td><td><br />";
     }
+*/
 }
 
 /*-------------------------------------------------------*/
@@ -290,6 +298,8 @@ function phpAds_Die($title="Error", $message="Unknown error")
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     global $phpAds_GUIDone, $phpAds_TextDirection;
+
+    $header = ($title == $GLOBALS['strAccessDenied']) ? phpAds_Login : phpAds_Error;
     // Header
     if ($phpAds_GUIDone == false) {
         if (!isset($phpAds_TextDirection)) {
@@ -302,7 +312,7 @@ function phpAds_Die($title="Error", $message="Unknown error")
     echo "<div class='errormessage'><img class='errormessage' src='". MAX::assetPath() ."/images/errormessage.gif' align='absmiddle'>";
     echo "<span class='tab-r'>".$title."</span><br><br>".$message."</div><br>";
     // Die
-    if ($title == $GLOBALS['strAccessDenied']) {
+    if ($header == phpAds_Login) {
         $_COOKIE['sessionID'] = phpAds_SessionStart();
         OA_Auth::displayLogin('', $_COOKIE['sessionID'], true);
     }
@@ -331,7 +341,7 @@ function phpAds_DelConfirm($msg)
 
 /**
  * Displays progress bar in the supposed centre of the screen. Accompanied by
- * the Javascript showLoader() function in the openads.js.
+ * the Javascript showLoader() function in the openx.js.
  *
  * @param string $message Message to be displayed with the progress bar.
  */

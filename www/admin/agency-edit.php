@@ -43,7 +43,7 @@ phpAds_registerGlobalUnslashed (
 	,'agencyid'
 	,'name'
 	,'contact'
-	,'email'	
+	,'email'
 	,'submit'
 	,'logout_url'
 );
@@ -67,7 +67,7 @@ if (isset($submit)) {
 	$agency['name']           = trim($name);
 	// Default fields
 	$agency['contact'] 	 	  = trim($contact);
-	$agency['email'] 	 	  = trim($email);	
+	$agency['email'] 	 	  = trim($email);
 	$agency['logout_url']     = trim($logout_url);
 	// Permissions
 	if (count($errormessage) == 0) {
@@ -95,10 +95,9 @@ if (isset($submit)) {
 
 if ($agencyid != '') {
 	OA_Admin_Menu::setAgencyPageContext($agencyid, 'agency-edit.php');
-	phpAds_PageHeader("4.1.2");
+	phpAds_PageHeader();
 	$doAgency = OA_Dal::staticGetDO('agency', $agencyid);
 	MAX_displayInventoryBreadcrumbs(array(array("name" => $doAgency->name)), "agency");
-	phpAds_ShowSections(array("4.1.2", "4.1.3"));
 	// Do not get this information if the page
 	// is the result of an error message
 	if (!isset($agency)) {
@@ -108,9 +107,8 @@ if ($agencyid != '') {
 	    }
 	}
 } else {
-	phpAds_PageHeader("4.1.1");
+	phpAds_PageHeader("agency-edit_new");
     MAX_displayInventoryBreadcrumbs(array(array("name" => "")), "agency", true);
-    	phpAds_ShowSections(array("4.1.1"));
 	// Do not set this information if the page
 	// is the result of an error message
 	if (!isset($agency)) {

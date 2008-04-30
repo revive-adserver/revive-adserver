@@ -40,7 +40,7 @@ require_once MAX_PATH . '/lib/OA/Permission.php';
 
 require_once MAX_PATH . '/www/admin/config.php';
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
-OA_Permission::enforceTrue(isset($GLOBALS['OA_Navigation'][OA_ACCOUNT_MANAGER]['1']));
+//OA_Permission::enforceTrue(isset($GLOBALS['OA_Navigation'][OA_ACCOUNT_MANAGER]['1']));
 
 
 $widget = !empty($_REQUEST['widget']) ? $_REQUEST['widget'] : 'Index';

@@ -22,40 +22,47 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:report-specifics.php 4488 2006-03-22 16:32:06Z roh@m3.net $
+$Id$
 */
 
-// Require the initialisation file
-require_once '../../init.php';
+/**
+ * An acceptor that takes into account roles that are required to access the section.
+ * - if the list of allowed accounts associated with the acceptor is empty, section gets accepted
+ * - if the list is not empty current user must be of one of the account types required by this acceptor
+ */
+class OA_Admin_SectionAccountChecker
+{
+    var $aAccountTypes; //list of account types accepted by this acceptor
 
-// Include required files
-require_once MAX_PATH . '/lib/OA/Admin/Reports/Index.php';
+    function OA_Admin_SectionAccountChecker($aAccountTypes = array())
+    {
+        $this->aAccountTypes = $aAccountTypes;
+    }
 
-// Register input variables
-phpAds_registerGlobal ('selection');
 
-// Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
+    function check($oSection)
+    {
+        $aAccounts = $this->_getAllowedAccountTypes();
 
-// Load the required language files
-Language_Report::load();
+  	    //no required accounts to show it
+  	    if (empty($aAccounts)) {
+  		    return true;
+  	    }
+        $isAllowedAccount = false;
+	  	for ($i = 0; $i < count($aAccounts); $i++) {
+	       $isAllowedAccount = OA_Permission::isAccount($aAccounts[$i]);
+	       if ($isAllowedAccount) {
+	           break;
+	       }
+	  	}
 
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
+        return $isAllowedAccount;
+    }
 
-phpAds_PageHeader("report-index");
 
-/*-------------------------------------------------------*/
-/* Main code                                             */
-/*-------------------------------------------------------*/
-$oModule = new OA_Admin_Reports_Index();
-$oModule->displayReportGeneration($selection);
-
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
-
-phpAds_PageFooter();
-
+    function _getAllowedAccountTypes()
+    {
+        return $this->aAccountTypes;
+    }
+}
 ?>

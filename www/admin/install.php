@@ -685,7 +685,7 @@ $activeNav = array (
 if (!empty($_COOKIE['oat']) && $_COOKIE['oat'] != OA_UPGRADE_UPGRADE) {
     $activeNav[OA_UPGRADE_ADMINSETUP]     =      '70';
     $activeNav[OA_UPGRADE_SITESSETUP]     =      '80';
-    $activeNav[OA_UPGRADE_TAGSSETUP]      =      '90';
+    //$activeNav[OA_UPGRADE_TAGSSETUP]      =      '90';
 } else {
     $activeNav[OA_UPGRADE_LOGIN]          =      '45';
 }
@@ -702,45 +702,56 @@ foreach ($activeNav as $key=>$val) {
     }
 }
 
+
 // Setup array for navigation
-$OA_Navigation = array (
-    '10'     =>  array($navLinks[OA_UPGRADE_WELCOME]     => 'Welcome'),
-    '20'     =>  array($navLinks[OA_UPGRADE_TERMS]       => 'Terms & Privacy'),
-    '30'     =>  array($navLinks[OA_UPGRADE_SYSCHECK]    => 'System Check'),
-    '40'     =>  array($navLinks[OA_UPGRADE_APPCHECK]    => 'Application Check'),
-    '45'     =>  array($navLinks[OA_UPGRADE_LOGIN]       => 'Login'),
-    '50'     =>  array($navLinks[OA_UPGRADE_DBSETUP]     => 'Database'),
-    '60'     =>  array($navLinks[OA_UPGRADE_CONFIGSETUP] => 'Configuration'),
-    '70'     =>  array($navLinks[OA_UPGRADE_ADMINSETUP]  => 'Admin'),
-    '80'     =>  array($navLinks[OA_UPGRADE_SITESSETUP]  => 'Sites'),
-    '90'     =>  array($navLinks[OA_UPGRADE_TAGSSETUP]   => 'Tags'),
-    '100'    =>  array('' => 'Finished')
+$aInstallerSections = array (
+    '10'     =>  new OA_Admin_Menu_Section('10',  'Welcome',           $navLinks[OA_UPGRADE_WELCOME]),
+    '20'     =>  new OA_Admin_Menu_Section('20',  'Terms',             $navLinks[OA_UPGRADE_TERMS]),
+    '25'     =>  new OA_Admin_Menu_Section('25',  'Policy',            $navLinks[OA_UPGRADE_POLICY]),
+    '30'     =>  new OA_Admin_Menu_Section('30',  'System Check',      $navLinks[OA_UPGRADE_SYSCHECK]),
+    '40'     =>  new OA_Admin_Menu_Section('40',  'Application Check', $navLinks[OA_UPGRADE_APPCHECK]),
+    '45'     =>  new OA_Admin_Menu_Section('45',  'Login',             $navLinks[OA_UPGRADE_LOGIN]),
+    '50'     =>  new OA_Admin_Menu_Section('50',  'Database',          $navLinks[OA_UPGRADE_DBSETUP]),
+    '60'     =>  new OA_Admin_Menu_Section('60',  'Configuration',     $navLinks[OA_UPGRADE_CONFIGSETUP]),
+    '70'     =>  new OA_Admin_Menu_Section('70',  'Admin',             $navLinks[OA_UPGRADE_ADMINSETUP]),
+    '80'     =>  new OA_Admin_Menu_Section('80',  'Sites',             $navLinks[OA_UPGRADE_SITESSETUP]),
+//    '90'     =>  new OA_Admin_Menu_Section('90',  'Tags',              $navLinks[OA_UPGRADE_TAGSSETUP]),
+    '100'    =>  new OA_Admin_Menu_Section('100', 'Finished',          '')
 );
 
-// display header, with proper 'active page' marked using $activeNav[$action]
-phpAds_PageHeader($activeNav[$action],'', $imgPath, false, false);
-
 // setup which sections to display
-$showSections = array();
+$oMenu = OA_Admin_Menu::singleton();
+$currentSectionID = "'".$activeNav[$action]."'";
+$oMenu->add(new OA_Admin_Menu_Section($currentSectionID,  '', ''));
+
 foreach ($activeNav as $val) {
-    if (!in_array($val, $showSections))
-        $showSections[] = $val;
+	if ($oMenu->get($val) == null) {
+    $oMenu->addTo($currentSectionID, $aInstallerSections[$val]);
+	}
 }
 
+// display header and navigation, with proper 'active page' marked using $activeNav[$action]
+phpAds_PageHeader($activeNav[$action],'', $imgPath, false, false);
+
 // display navigation
-phpAds_ShowSections($showSections, false, true, $imgPath, $OA_Navigation);
+//phpAds_ShowSections($showSections, false, true, $imgPath, $OA_Navigation);
+
 
 // calculate percentage complete
+$currSection = $oMenu->get($currentSectionID);
+$showSections = $currSection->getSections();
+
 $totalNav     = count($showSections)-1;
 $progressRate = 100 / $totalNav;
-foreach($showSections as $key=>$val) {
-    if ($val == $activeNav[$action]) {
-        if ($key == 0) {
+
+for($i = 0; $i < count($showSections); $i++) {
+    if ($activeNav[$action] == $showSections[$i]->getId()) {
+        if ($i == 0) {
             $progressVal = 0;
-        } elseif ($key == $totalNav) {
+        } elseif ($i == $totalNav) {
             $progressVal = 100;
         } else {
-            $progressVal = round(($key) * $progressRate);
+            $progressVal = round(($i) * $progressRate);
         }
         break;
     } else {
