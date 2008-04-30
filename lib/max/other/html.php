@@ -785,6 +785,8 @@ function MAX_displayNavigationCampaign($pageName, $aOtherAdvertisers, $aOtherCam
     
     if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
         phpAds_PageShortcut($GLOBALS['strClientProperties'], $advertiserEditUrl, 'images/icon-advertiser.gif');
+    } else {
+        $advertiserEditUrl = "advertiser-campaigns.php?clientid=$advertiserId";
     }
     phpAds_PageShortcut($GLOBALS['strCampaignHistory'], "stats.php?entity=campaign&breakdown=history&$entityString", 'images/icon-statistics.gif');
 
@@ -891,8 +893,12 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
     if (OA_Permission::hasAccessToObject('clients', $advertiserId)) {
         phpAds_PageShortcut($GLOBALS['strClientProperties'], $advertiserEditUrl, 'images/icon-advertiser.gif');
     }
+    
     if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
         phpAds_PageShortcut($GLOBALS['strCampaignProperties'], $campaignEditUrl, 'images/icon-campaign.gif');
+    } else {
+        $advertiserEditUrl = "advertiser-campaigns.php?clientid=$advertiserId";
+        $campaignEditUrl = "campaign-banners.php?clientid=$advertiserId&campaignid=$campaignId";
     }
     phpAds_PageShortcut($GLOBALS['strBannerHistory'], "stats.php?entity=banner&breakdown=history&$entityString", 'images/icon-statistics.gif');
 
@@ -1039,6 +1045,8 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
     $publisherEditUrl = "affiliate-edit.php?affiliateid=$publisherId";
     if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER)) {
         phpAds_PageShortcut($GLOBALS['strAffiliateProperties'], $publisherEditUrl, 'images/icon-affiliate.gif');
+    } else {
+        $publisherEditUrl = "affiliate-zones.php?affiliateid=$publisherId";
     }
     phpAds_PageShortcut($GLOBALS['strZoneHistory'], "stats.php?entity=zone&breakdown=history&$entityString", 'images/icon-statistics.gif');
 
@@ -1087,17 +1095,10 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
         $extra .= "</form>";
     }
     phpAds_PageHeader($tabValue, $extra);
-    if (!OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-    	MAX_displayInventoryBreadcrumbs(array(
-    	                                   array("name" => $publisherName, "url" => $publisherEditUrl),
-    	                                   array("name" => $zoneName)
-    	                               ), "zone");
-    }
-    else {
-        MAX_displayInventoryBreadcrumbs(array(
-                                           array("name" => $zoneName)
-                                       ), "trafficker-zone");
-    }
+    MAX_displayInventoryBreadcrumbs(array(
+                                       array("name" => $publisherName, "url" => $publisherEditUrl),
+                                       array("name" => $zoneName)
+                                   ), "zone");
     phpAds_ShowSections($tabSections);
 
 }
