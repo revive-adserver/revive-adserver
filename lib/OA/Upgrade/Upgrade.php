@@ -1029,6 +1029,8 @@ class OA_Upgrade
 
         // Always use lower case prefixes for new installs
         $aConfig['table']['prefix'] = strtolower($aConfig['table']['prefix']);
+        // Trim whitespace from database name
+        $aConfig['database']['name'] = trim($aConfig['database']['name']);
 
         if ($aConfig['database']['localsocket'] == true) {
             $aConfig['database']['protocol'] = 'unix';
@@ -1196,12 +1198,14 @@ class OA_Upgrade
             if (PEAR::isError($result))
             {
                 $this->oLogger->logError($result->getMessage());
+                $this->oLogger->logError($result->getUserInfo());
                 return false;
             }
             $this->oDbh = OA_DB::changeDatabase($this->aDsn['database']['name']);
             if (PEAR::isError($this->oDbh))
             {
                 $this->oLogger->logError($this->oDbh->getMessage());
+                $this->oLogger->logError($this->getUserInfo());
                 $this->oDbh = null;
                 return false;
             }
