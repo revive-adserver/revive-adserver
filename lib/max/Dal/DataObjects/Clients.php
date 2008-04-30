@@ -51,18 +51,18 @@ class DataObjects_Clients extends DB_DataObjectCommon
     var $__table = 'clients';                         // table name
     var $clientid;                        // int(9)  not_null primary_key auto_increment
     var $agencyid;                        // int(9)  not_null multiple_key
-    var $clientname;                      // string(255)  not_null
-    var $contact;                         // string(255)  
-    var $email;                           // string(64)  not_null
-    var $report;                          // string(1)  not_null enum
+    var $clientname;                      // string(765)  not_null
+    var $contact;                         // string(765)
+    var $email;                           // string(192)  not_null
+    var $report;                          // string(3)  not_null enum
     var $reportinterval;                  // int(9)  not_null
     var $reportlastdate;                  // date(10)  not_null binary
-    var $reportdeactivate;                // string(1)  not_null enum
+    var $reportdeactivate;                // string(3)  not_null enum
     var $comments;                        // blob(65535)  blob
     var $updated;                         // datetime(19)  not_null binary
     var $lb_reporting;                    // int(1)  not_null
-    var $an_adnetwork_id;                 // int(11)  
-    var $as_advertiser_id;                // int(11)  
+    var $an_adnetwork_id;                 // int(11)
+    var $as_advertiser_id;                // int(11)
     var $account_id;                      // int(9)  unique_key
     var $advertiser_limitation;           // int(1)  not_null
 
@@ -111,33 +111,28 @@ class DataObjects_Clients extends DB_DataObjectCommon
     }
 
     /**
-     * A private method to return the account ID of the
-     * account that should "own" audit trail entries for
-     * this entity type; NOT related to the account ID
-     * of the currently active account performing an
-     * action.
+     * A method to return the ID of the manager account
+     * that "owns" this advertiser account.
      *
-     * @return int The account ID to insert into the
-     *             "account_id" column of the audit trail
-     *             database table
+     * @return integer The account ID of the "owning"
+     *                 manager account. Returns the
+     *                 admin account ID if no owning
+     *                 manager account can be found.
      */
-    /* disabled due to fixing OX-2573
-     * now calling getOwningAccountId from parent (DB_DataObjectCommon)
-    function getOwningAccountId()
+    function getOwningManagerId()
     {
-        return $this->_getOwningAccountIdFromParent('agency', 'agencyid', $allAccounts);
-    }
-	*/
-
-    /**
-     * A private method to return all the account IDs of the
-     * accounts that own the entity
-     *
-     * @return array An array containing all the account IDs
-     */
-    function getAllOwningAccountIds()
-    {
-        return array($this->getOwningAccountId(), parent::getOwningAccountId());
+        $doAgency = OA_Dal::factoryDO('agency');
+        $doAgency->agencyid = $this->agencyid;
+        $doAgency->find();
+        if ($doAgency->getRowCount() == 1) {
+            $doAgency->fetch();
+            return $doAgency->account_id;
+        } else {
+            // Could not find the owning manager
+            // account ID, return the ID of the
+            // admin account instead
+            return OA_Dal_ApplicationVariables::get('admin_account_id');
+        }
     }
 
     /**

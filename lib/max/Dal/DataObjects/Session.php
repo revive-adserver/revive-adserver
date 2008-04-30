@@ -37,7 +37,7 @@ class DataObjects_Session extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     var $__table = 'session';                         // table name
-    var $sessionid;                       // string(32)  not_null primary_key
+    var $sessionid;                       // string(96)  not_null primary_key
     var $sessiondata;                     // blob(65535)  not_null blob
     var $lastused;                        // datetime(19)  binary
 

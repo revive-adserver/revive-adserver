@@ -43,15 +43,17 @@ class DataObjects_Audit extends DB_DataObjectCommon
     var $__table = 'audit';                           // table name
     var $auditid;                         // int(9)  not_null primary_key auto_increment
     var $actionid;                        // int(9)  not_null
-    var $context;                         // string(255)  not_null multiple_key
-    var $contextid;                       // int(9)  
+    var $context;                         // string(765)  not_null multiple_key
+    var $contextid;                       // int(9)
     var $parentid;                        // int(9)  multiple_key
     var $details;                         // blob(65535)  not_null blob
     var $userid;                          // int(9)  not_null
-    var $username;                        // string(64)  multiple_key
+    var $username;                        // string(192)  multiple_key
     var $usertype;                        // int(4)  not_null multiple_key
     var $updated;                         // datetime(19)  multiple_key binary
     var $account_id;                      // int(9)  not_null multiple_key
+    var $advertiser_account_id;           // int(9)  multiple_key
+    var $website_account_id;              // int(9)  multiple_key
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
@@ -62,24 +64,32 @@ class DataObjects_Audit extends DB_DataObjectCommon
     var $defaultValues = array(
                 'userid' => 0,
                 'usertype' => 0,
+                'advertiser_account_id' => OA_DATAOBJECT_DEFAULT_NULL,
+                'website_account_id' => OA_DATAOBJECT_DEFAULT_NULL
                 );
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
-    
+
     /**
-     * The belongsToAccount() method behaves in a different way
-     * in "audit" table case. To check if user has access
-     * to view specific audit we need to check if user has access
-     * to a audited object.
+     * The belongsToAccount() method behaves in a different way when looking
+     * at entries in the "audit" table. To check if an account has access
+     * to view specific audit data, we only need to check if the account's
+     * ID is set in the appropriate column in the record.
      *
-     * @param string $accountId Account id
-     * @param boolean $checkPermission Check if user has access to account in which a permission was logged
-     * @return boolean|null     Returns true if belong to account, false if doesn't and null if it wasn't
-     *                          able to find object in references
+     * @param string $accountId The account ID to test if this DB_DataObject is
+     *                          owned by.
+     * @return boolean|null     Returns true if the entity belongs to the specified
+     *                          account, false if doesn't, or null if it was not
+     *                          possible to find the required object references.
      */
-    function belongsToAccount($accountId = null, $checkPermission = true)
+    function belongsToAccount($accountId = null)
     {
+        // Set the account ID, if not passed in
+        if (empty($accountId)) {
+            $accountId = OA_Permission::getAccountId();
+        }
+        // Prepare $this with the required info of the "entity" to be tested
         if (!$this->N) {
             $key = $this->getFirstPrimaryKey();
             if (empty($this->$key)) {
@@ -90,16 +100,40 @@ class DataObjects_Audit extends DB_DataObjectCommon
                 return null;
             }
         }
-        if ($checkPermission && OA_Permission::hasAccess($this->account_id)) {
+        // Test the account ID type, and then test for access
+        $accountType = OA_Permission::getAccountTypeByAccountId($accountId);
+        // Test the access to the audit trail entry
+        if ($accountType == OA_ACCOUNT_ADMIN) {
+            // Admin always has access
             return true;
+        } else if ($accountType == OA_ACCOUNT_MANAGER) {
+            // Test if the account ID is equal to the account_id field
+            if (is_null($this->account_id)) {
+                return null;
+            }
+            if ($this->account_id == $accountId) {
+                return true;
+            }
+        } else if ($accountType == OA_ACCOUNT_ADVERTISER) {
+            // Test if the account ID is equal to the advertiser_account_id field
+            if (is_null($this->advertiser_account_id)) {
+                return null;
+            }
+            if ($this->advertiser_account_id == $accountId) {
+                return true;
+            }
+        } else if ($accountType == OA_ACCOUNT_TRAFFICKER) {
+            // Test if the account ID is equal to the website_account_id field
+            if (is_null($this->website_account_id)) {
+                return null;
+            }
+            if ($this->website_account_id == $accountId) {
+                return true;
+            }
         }
-        $doAuditedObject = OA_Dal::staticGetDO($this->context,
-            $this->contextid);
-        if ($doAuditedObject) {
-            return $doAuditedObject->belongsToAccount($accountId);
-        }
-        MAX::raiseError('Record do not exist, table ' . $this->context
-            . ', id: ' . $this->contextid);
         return false;
     }
+
 }
+
+?>

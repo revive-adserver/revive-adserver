@@ -48,18 +48,18 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
     var $__table = 'affiliates';                      // table name
     var $affiliateid;                     // int(9)  not_null primary_key auto_increment
     var $agencyid;                        // int(9)  not_null multiple_key
-    var $name;                            // string(255)  not_null
-    var $mnemonic;                        // string(5)  not_null
+    var $name;                            // string(765)  not_null
+    var $mnemonic;                        // string(15)  not_null
     var $comments;                        // blob(65535)  blob
-    var $contact;                         // string(255)  
-    var $email;                           // string(64)  not_null
-    var $website;                         // string(255)  
+    var $contact;                         // string(765)
+    var $email;                           // string(192)  not_null
+    var $website;                         // string(765)
     var $updated;                         // datetime(19)  not_null binary
-    var $an_website_id;                   // int(11)  
-    var $oac_country_code;                // string(2)  not_null
-    var $oac_language_id;                 // int(11)  
-    var $oac_category_id;                 // int(11)  
-    var $as_website_id;                   // int(11)  
+    var $an_website_id;                   // int(11)
+    var $oac_country_code;                // string(6)  not_null
+    var $oac_language_id;                 // int(11)
+    var $oac_category_id;                 // int(11)
+    var $as_website_id;                   // int(11)
     var $account_id;                      // int(9)  unique_key
 
     /* ZE2 compatibility trick*/
@@ -85,7 +85,6 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
         return $this->affiliateid;
     }
 
-
     /**
      * Returns 0 if the last_accepted_agency_agreement is set to not null,
      * not zero value. Otherwise, returns 1.
@@ -96,7 +95,6 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
     {
         return $this->last_accepted_agency_agreement ? 0 : 1;
     }
-
 
     function _auditEnabled()
     {
@@ -114,33 +112,28 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
     }
 
     /**
-     * A private method to return the account ID of the
-     * account that should "own" audit trail entries for
-     * this entity type; NOT related to the account ID
-     * of the currently active account performing an
-     * action.
+     * A method to return the ID of the manager account
+     * that "owns" this advertiser account.
      *
-     * @return integer The account ID to insert into the
-     *                 "account_id" column of the audit trail
-     *                 database table.
+     * @return integer The account ID of the "owning"
+     *                 manager account. Returns the
+     *                 admin account ID if no owning
+     *                 manager account can be found.
      */
-    /* disabled due to fixing OX-2573
-     * now calling getOwningAccountId from parent (DB_DataObjectCommon)
-    function getOwningAccountId()
+    function getOwningManagerId()
     {
-        return $this->_getOwningAccountIdFromParent('agency', 'agencyid');
-    }
-	*/
-
-    /**
-     * A private method to return all the account IDs of the
-     * accounts that own the entity
-     *
-     * @return array An array containing all the account IDs
-     */
-    function getAllOwningAccountIds()
-    {
-        return array($this->getOwningAccountId(), parent::getOwningAccountId());
+        $doAgency = OA_Dal::factoryDO('agency');
+        $doAgency->agencyid = $this->agencyid;
+        $doAgency->find();
+        if ($doAgency->getRowCount() == 1) {
+            $doAgency->fetch();
+            return $doAgency->account_id;
+        } else {
+            // Could not find the owning manager
+            // account ID, return the ID of the
+            // admin account instead
+            return OA_Dal_ApplicationVariables::get('admin_account_id');
+        }
     }
 
     /**

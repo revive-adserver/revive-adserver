@@ -76,7 +76,7 @@ class OA_Dashboard_Widget_CampaignOverview extends OA_Dashboard_Widget
                         }
                     }
                 } else {
-                    $aAccountsId = OA_Dll_Audit::getOwnedAccounts(OA_Permission::getAccountId());
+                    $aAccountsId = OA_Permission::getOwnedAccounts(OA_Permission::getAccountId());
                     foreach ($aAccountsId as $accountId) {
                         if (isset($aCache['aAccounts'][$accountId])) {
                             foreach ($aCache['aAccounts'][$accountId] as $aAction){

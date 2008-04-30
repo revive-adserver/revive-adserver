@@ -36,8 +36,8 @@ class DataObjects_Images extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     var $__table = 'images';                          // table name
-    var $filename;                        // string(128)  not_null primary_key
-    var $contents;                        // blob(4294967295)  not_null blob binary
+    var $filename;                        // string(384)  not_null primary_key
+    var $contents;                        // blob(16777215)  not_null blob binary
     var $t_stamp;                         // datetime(19)  binary
 
     /* ZE2 compatibility trick*/
@@ -161,30 +161,49 @@ class DataObjects_Images extends DB_DataObjectCommon
     }
 
     /**
-     * A private method to return the account ID of the
-     * account that should "own" audit trail entries for
-     * this entity type; NOT related to the account ID
-     * of the currently active account performing an
-     * action.
+     * A method to return an array of account IDs of the account(s) that
+     * should "own" any audit trail entries for this entity type; these
+     * are NOT related to the account ID of the currently active account
+     * (which is performing some kind of action on the entity), but is
+     * instead related to the type of entity, and where in the account
+     * heirrachy the entity is located.
      *
-     * @return integer The account ID to insert into the
-     *                 "account_id" column of the audit trail
-     *                 database table.
+     * @return array An array containing up to three indexes:
+     *                  - "OA_ACCOUNT_ADMIN" or "OA_ACCOUNT_MANAGER":
+     *                      Contains the account ID of the manager account
+     *                      that needs to be able to see the audit trail
+     *                      entry, or, the admin account, if the entity
+     *                      is a special case where only the admin account
+     *                      should see the entry.
+     *                  - "OA_ACCOUNT_ADVERTISER":
+     *                      Contains the account ID of the advertiser account
+     *                      that needs to be able to see the audit trail
+     *                      entry, if such an account exists.
+     *                  - "OA_ACCOUNT_TRAFFICKER":
+     *                      Contains the account ID of the trafficker account
+     *                      that needs to be able to see the audit trail
+     *                      entry, if such an account exists.
      */
-    function getOwningAccountId()
+    function getOwningAccountIds()
     {
+        // Find the banner that contains this image, if possible
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->storagetype = 'sql';
         $doBanners->filename = $this->filename;
         $doBanners->find();
-
-        if ($doBanners->fetch()) {
-            return $doBanners->getOwningAccountId();
+        if ($doBanners->getRowCount() == 1) {
+            $doBanners->fetch();
+            // Return the owning account IDs of the image's owning
+            // banner
+            return $doBanners->getOwningAccountIds();
         }
-
-        return OA_Dal_ApplicationVariables::get('admin_account_id');
+        // Alas, the image doesn't have an owning banner yet,
+        // so return the special case of
+        $aAccountIds = array(
+            OA_ACCOUNT_ADMIN => OA_Dal_ApplicationVariables::get('admin_account_id')
+        );
+        return $aAccountIds;
     }
-
 
     /**
      * build an image specific audit array

@@ -37,7 +37,7 @@ class DataObjects_Plugins_channel_delivery_domains extends DB_DataObjectCommon
 
     var $__table = 'plugins_channel_delivery_domains';    // table name
     var $domain_id;                       // int(10)  not_null primary_key unsigned auto_increment
-    var $domain_name;                     // string(255)  not_null multiple_key
+    var $domain_name;                     // string(765)  not_null multiple_key
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}

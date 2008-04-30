@@ -37,9 +37,9 @@ class DataObjects_Acls_channel extends DB_DataObjectCommon
 
     var $__table = 'acls_channel';                    // table name
     var $channelid;                       // int(9)  not_null primary_key multiple_key
-    var $logical;                         // string(3)  not_null
-    var $type;                            // string(32)  not_null
-    var $comparison;                      // string(2)  not_null
+    var $logical;                         // string(9)  not_null
+    var $type;                            // string(96)  not_null
+    var $comparison;                      // string(6)  not_null
     var $data;                            // blob(65535)  not_null blob
     var $executionorder;                  // int(10)  not_null primary_key unsigned
 

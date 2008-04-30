@@ -40,8 +40,8 @@ class DataObjects_Tracker_append extends DB_DataObjectCommon
     var $tracker_id;                      // int(9)  not_null multiple_key
     var $rank;                            // int(11)  not_null
     var $tagcode;                         // blob(65535)  not_null blob
-    var $paused;                          // string(1)  not_null enum
-    var $autotrack;                       // string(1)  not_null enum
+    var $paused;                          // string(3)  not_null enum
+    var $autotrack;                       // string(3)  not_null enum
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}

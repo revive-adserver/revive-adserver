@@ -573,7 +573,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         Mock::generatePartial(
             'DB_DataObjectCommon',
             $mockDO = 'DB_DataObjectCommon'.rand(),
-            array('_prepAuditArray','_buildAuditArray','_auditEnabled','insert','_getContext','_getContextId','getOwningAccountId')
+            array('_prepAuditArray','_buildAuditArray','_auditEnabled','insert','_getContext','_getContextId','getOwningAccountIds')
         );
 
         $oDO = new $mockDO($this);
@@ -586,8 +586,8 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $oDO->expectOnce('_auditEnabled');
         $oDO->setReturnValue('_getContextId', 2);
         $oDO->expectOnce('_getContextId');
-        $oDO->setReturnValue('getOwningAccountId', 0);
-        $oDO->expectOnce('getOwningAccountId');
+        $oDO->setReturnValue('getOwningAccountIds', array(OA_ACCOUNT_MANAGER => 0));
+        $oDO->expectOnce('getOwningAccountIds');
 
         $oDO->_tableName = $oDO->__table = 'table1';
         $oDO->col1 = 111;
@@ -608,18 +608,18 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $oDO->doAudit->tally();
     }
 
-    
-    function testFormatValue() 
+
+    function testFormatValue()
     {
         $dbObject = new DB_DataObjectCommon();
         $dbObject->someValue = true;
-        
+
         $valueType = array('booleanVar' => array('val' => true, 'type' => 145, 'expected' => 'true'),
                             'intVar1' => array('val' => 123, 'type' => 1, 'expected' => '123'),
-                            'intVar2' => array('val' => 234, 'type' => 129, 'expected' => '234'), 
+                            'intVar2' => array('val' => 234, 'type' => 129, 'expected' => '234'),
                             'blobVar1'=> array('val' => '<p>12345</p>', 'type'=> 194, 'expected' => '&lt;p&gt;12345&lt;/p&gt;'),
                             'blobVar2'=> array('val' => '<p>012345</p>', 'type' => 66, 'expected' => '&lt;p&gt;012345&lt;/p&gt;'));
-        
+
         foreach ($valueType as $name => $arr) {
             $dbObject->$name = $arr['val'];
             $result = $dbObject->_formatValue($name, $arr['type']);
@@ -627,8 +627,8 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
             $this->assertEqual($arr['expected'], $result, "Assert equals for field $name failed: got $result");
         }
     }
-    
-    
+
+
     function testBoolToStr()
     {
         $this->assertEqual(DB_DataObjectCommon::_boolToStr('t'),'true');

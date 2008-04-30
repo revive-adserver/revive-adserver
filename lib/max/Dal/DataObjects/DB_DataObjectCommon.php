@@ -240,19 +240,26 @@ class DB_DataObjectCommon extends DB_DataObject
     }
 
     /**
-     * This method uses information from links.ini to handle hierarchy of tables.
+     * This method uses information from the DB_DataObjects links.ini file to handle
+     * the hierarchy of tables, and find out if a DB_DataOjects "entity" belongs to
+     * a given account ID.
+     *
      * It checks if there is a linked (referenced) object to this object with
      * table==$accountTable and id==$accountId
      *
-     * @param string $accountId Account id
-     * @return boolean|null     Returns true if belong to account, false if doesn't and null if it wasn't
-     *                          able to find object in references
+     * @param string $accountId The account ID to test if this DB_DataObject is
+     *                          owned by.
+     * @return boolean|null     Returns true if the entity belongs to the specified
+     *                          account, false if doesn't, or null if it was not
+     *                          possible to find the required object references.
      */
     function belongsToAccount($accountId = null)
     {
+        // Set the account ID, if not passed in
         if (empty($accountId)) {
             $accountId = OA_Permission::getAccountId();
         }
+        // Prepare $this with the required info of the "entity" to be tested
         if (!$this->N) {
             $key = $this->getFirstPrimaryKey();
             if (empty($this->$key)) {
@@ -1240,107 +1247,230 @@ class DB_DataObjectCommon extends DB_DataObject
         return $userId;
     }
 
+    /**
+     * A private method to determine if auditing should be enabled for
+     * a DB_DataObjectCommon-based class, or not (assuming that auditing
+     * is globally enabled in the OpenX settings).
+     *
+     * Default is to not enable. Override in any children classes, as
+     * required.
+     *
+     * @access private
+     * @return boolean True if auditing should be performed, false
+     *                 otherwise.
+     */
     function _auditEnabled()
     {
         return false;
     }
 
     /**
-     * A private method to return the account ID of the
-     * account that should "own" audit trail entries for
-     * this entity type; NOT related to the account ID
-     * of the currently active account performing an
-     * action.
+     * A method to return an array of account IDs of the account(s) that
+     * should "own" any audit trail entries for this entity type; these
+     * are NOT related to the account ID of the currently active account
+     * (which is performing some kind of action on the entity), but is
+     * instead related to the type of entity, and where in the account
+     * heirrachy the entity is located.
      *
-     * @return int The account ID to insert into the
-     *             "account_id" column of the audit trail
-     *             database table
+     * Works by locating the "account_id" column in this DB_DataObject,
+     * and converting this into the array of owning account IDs.
+     *
+     * @param string $parentTable The name of another table to look in
+     *                            for the "account_id" column, if this
+     *                            DB_DataObject does not have such a column.
+     * @param string $parentKey Name of the key that relates this
+     *                          DB_DataObject and the parent entity in
+     *                          $parentTable.
+     * @return array An array containing up to three indexes:
+     *                  - "OA_ACCOUNT_ADMIN" or "OA_ACCOUNT_MANAGER":
+     *                      Contains the account ID of the manager account
+     *                      that needs to be able to see the audit trail
+     *                      entry, or, the admin account, if the entity
+     *                      is a special case where only the admin account
+     *                      should see the entry.
+     *                  - "OA_ACCOUNT_ADVERTISER":
+     *                      Contains the account ID of the advertiser account
+     *                      that needs to be able to see the audit trail
+     *                      entry, if such an account exists.
+     *                  - "OA_ACCOUNT_TRAFFICKER":
+     *                      Contains the account ID of the trafficker account
+     *                      that needs to be able to see the audit trail
+     *                      entry, if such an account exists.
      */
-    function getOwningAccountId()
+    function getOwningAccountIds($parentTable = null, $parentKeyName = null)
     {
+        // Use a static cache to store previously calculated owning
+        // account IDs
         static $aCache = array();
 
-        $primaryKey = $this->getFirstPrimaryKey();
-        $tableName  = $this->getTableWithoutPrefix();
+        // Get this DB_DataObject's table name and primary key name
+        $tableName      = $this->getTableWithoutPrefix();
+        $primaryKeyName = $this->getFirstPrimaryKey();
 
-        if (!empty($aCache[$tableName][$this->$primaryKey])) {
-            return $aCache[$tableName][$this->$primaryKey];
-        }
+        // Is this a call to get the owning account IDs directly from
+        // this DB_DataObject, or do we need to look at a parent?
+        if (is_null($parentTable) && is_null($parentKeyName)) {
 
-        $aColumns = $this->table();
-        if (!isset($aColumns['account_id'])) {
-            MAX::raiseError($tableName.' is not directly linked to accounts', PEAR_LOG_ERR);
-        }
-        if (!empty($this->account_id)) {
-            $doThis = OA_Dal::staticGetDO($tableName, $this->$primaryKey);
-            if ($doThis) {
-                $account_id = $doThis->account_id;
+            // Get the directly owning account ID from this DB_DataObject
+
+            // If the owning account IDs have already been calculated,
+            // return them directly
+            if (!empty($aCache[$tableName][$this->$primaryKeyName])) {
+                return $aCache[$tableName][$this->$primaryKeyName];
             }
+
+            // Test to ensure that the account ID column exists in this
+            // DB_DataObject
+            $aColumns = $this->table();
+            if (!isset($aColumns['account_id'])) {
+                $message = "Cannot locate owning account IDs for entity in table '$tableName', " .
+                            "as the table is not directly linked to an account.";
+                MAX::raiseError($message, PEAR_LOG_ERR);
+            }
+
+            // Set the directly owning account ID based on the account_id
+            // column value
+            if (empty($this->account_id)) {
+                $doThis = OA_Dal::staticGetDO($tableName, $this->$primaryKeyName);
+                if ($doThis != false) {
+                    $directOwnerAccountId = $doThis->account_id;
+                }
+            } else {
+                $directOwnerAccountId = $this->account_id;
+            }
+
+            // Do we have the directly owning account ID?
+            if (empty($directOwnerAccountId)) {
+                $message = "Cannot locate owning account IDs for entity in table '$tableName', " .
+                            "as the 'account_id' column was empty where column '$primaryKeyName' was " .
+                            " equal to '{$this->$primaryKeyName}'.";
+                MAX::raiseError($message, PEAR_LOG_ERR);
+            }
+
+            // Convert the directly onwing account ID into an array of owning
+            // account IDs
+            $aResult = $this->_getOwningAccountIdsByAccountId($directOwnerAccountId);
+
+            // Store the result in the cache array
+            $aCache[$tableName][$this->$primaryKeyName] = $aResult;
+
+            // Return the result
+            return $aCache[$tableName][$this->$primaryKeyName];
+
         } else {
-            $account_id = $this->account_id;
-        }
 
-        if (empty($account_id)) {
-            MAX::raiseError('No account ID associated to the entity', PEAR_LOG_ERR);
-        }
+            // Get the directly owning account ID from a parent table
 
-        return $aCache[$tableName][$this->$primaryKey] = $account_id;
+            // If the owning account IDs have already been calculated,
+            // return them directly
+            if (!empty($aCache[$tableName][$this->$primaryKeyName][$parentTable])) {
+                return $aCache[$tableName][$this->$primaryKeyName][$parentTable];
+            }
+
+            // Test to ensure that the parent key column passed into the
+            // method exists in this DB_DataObject
+            if (empty($this->$parentKeyName)) {
+                $doThis = OA_Dal::staticGetDO($tableName, $this->$primaryKeyName);
+                if ($doThis) {
+                    $parentKeyValue = $doThis->$parentKeyName;
+                }
+            } else {
+                $parentKeyValue = $this->$parentKeyName;
+            }
+
+            // Do we have the parent table key value?
+            if (empty($parentKeyValue)) {
+                $message = "Cannot locate owning account IDs for entity in table '$tableName', " .
+                            "as the parent key value could not be located where column " .
+                            "'$primaryKeyName' was  equal to '{$this->$primaryKeyName}'.";
+                MAX::raiseError($message, PEAR_LOG_ERR);
+            }
+
+            // Get the DB_DataObject for the parnet table
+            $doParent = OA_Dal::staticGetDO($parentTable, $parentKeyValue);
+            if ($doParent == false) {
+                $message = "Cannot locate owning account IDs for entity in table '$tableName', " .
+                            "as the parent data object could not be created where column " .
+                            "'$primaryKeyName' was  equal to '{$this->$primaryKeyName}'.";
+                MAX::raiseError($message, PEAR_LOG_ERR);
+            }
+
+            // Get the result of calling the getOwningAccountIds() method on the
+            // parent DB_DataObject
+            $aResult = $doParent->getOwningAccountIds();
+
+            // Store the result in the cache array
+            $aCache[$tableName][$this->$primaryKeyName][$parentTable] = $aResult;
+
+            // Return the result
+            return $aCache[$tableName][$this->$primaryKeyName][$parentTable];
+        }
     }
 
     /**
-     * A private method to return all the account IDs of the
-     * accounts that own the entity
+     * A private method to return the owning account IDs in a format suitable
+     * for use by the DB_DataObjectCommon::getOwningAccountIds() method as a
+     * return parameter, given the account ID of the account that is the owner
+     * of the entity being audited.
      *
-     * @return array An array containing all the account IDs
+     * @access private
+     * @param integer $accountId The account ID that "owns" the entity being
+     *                           audited.
+     * @return array An array with the same format as the return array of the
+     *               DB_DataObjectCommon::getOwningAccountIds() method.
      */
-    function getAllOwningAccountIds()
+    function _getOwningAccountIdsByAccountId($accountId)
     {
-        return array($this->getOwningAccountId());
-    }
-
-    /**
-     * A private method to return the account ID of the
-     * parent entity
-     *
-     * @param string $parentTable The parent table name
-     * @param string $parentKey   The parent key in the current table
-     * @param bool   $allAccounts If true, the function returns all the possible accounts,
-     *                            not only the root (manager) account
-     * @return mixed The account ID to insert into the
-     *               "account_id" column of the audit trail
-     *               database table, or an array in case $allAccounts is true
-     */
-    function _getOwningAccountIdFromParent($parentTable, $parentKey, $allAccounts = false)
-    {
-        static $aCache = array();
-
-        $primaryKey = $this->getFirstPrimaryKey();
-        $tableName  = $this->getTableWithoutPrefix();
-
-        if (!empty($aCache[$tableName][$this->$primaryKey][$allAccounts])) {
-            return $aCache[$tableName][$this->$primaryKey][$allAccounts];
-        }
-
-        if (empty($this->$parentKey)) {
-            $doThis = OA_Dal::staticGetDO($tableName, $this->$primaryKey);
-            if ($doThis) {
-                $value = $doThis->$parentKey;
+        // Get the type of the "owning" account
+        $accountType = OA_Permission::getAccountTypeByAccountId($accountId);
+        if ($accountType == OA_ACCOUNT_ADMIN) {
+            // Simply return the admin account ID
+            $aAccountIds = array(
+                OA_ACCOUNT_ADMIN => $accountId
+            );
+        } else if ($accountType == OA_ACCOUNT_MANAGER) {
+            // Simply return the manager account ID
+            $aAccountIds = array(
+                OA_ACCOUNT_MANAGER => $accountId
+            );
+        } else if ($accountType == OA_ACCOUNT_ADVERTISER) {
+            // Set the owning manager account ID to the admin
+            // account ID, in case something goes wrong
+            $managerAccountId = OA_Dal_ApplicationVariables::get('admin_account_id');
+            // This is an advertiser account, so find the
+            // "owning" manager account ID
+            $doClients = OA_Dal::factoryDO('clients');
+            $doClients->account_id = $accountId;
+            $doClients->find();
+            if ($doClients->getRowCount() == 1) {
+                $doClients->fetch();
+                $managerAccountId = $doClients->getOwningManagerId();
             }
-        } else {
-            $value = $this->$parentKey;
+            // Return the manager and advertiser account IDs
+            $aAccountIds = array(
+                OA_ACCOUNT_MANAGER    => $managerAccountId,
+                OA_ACCOUNT_ADVERTISER => $accountId
+            );
+        } else if ($accountType == OA_ACCOUNT_TRAFFICKER) {
+            // Set the owning manager account ID to the admin
+            // account ID, in case something goes wrong
+            $managerAccountId = OA_Dal_ApplicationVariables::get('admin_account_id');
+            // This is a trafficker account, so find the
+            // "owning" manager account ID
+            $doAffiliates = OA_Dal::factoryDO('affiliates');
+            $doAffiliates->account_id = $accountId;
+            $doAffiliates->find();
+            if ($doAffiliates->getRowCount() == 1) {
+                $doAffiliates->fetch();
+                $managerAccountId = $doAffiliates->getOwningManagerId();
+            }
+            // Return the manager and trafficker account IDs
+            $aAccountIds = array(
+                OA_ACCOUNT_MANAGER    => $managerAccountId,
+                OA_ACCOUNT_TRAFFICKER => $accountId
+            );
         }
-        if (empty($value)) {
-            MAX::raiseError('No parent ID associated to the entity', PEAR_LOG_ERR);
-        }
-
-        $doParent = OA_Dal::staticGetDO($parentTable, $value);
-        if (!$doParent) {
-            MAX::raiseError('No parent entity found', PEAR_LOG_ERR);
-        }
-
-        $method = $allAccounts ? 'getAllOwningAccountIds' : 'getOwningAccountId';
-
-        return $aCache[$tableName][$this->$primaryKey][$allAccounts] = $doParent->$method();
+        return $aAccountIds;
     }
 
     /**
@@ -1373,9 +1503,23 @@ class DB_DataObjectCommon extends DB_DataObject
                 if (!isset($this->doAudit->usertype)) {
                     $this->doAudit->usertype = 0;
                 }
-                // Set the account ID of the account that directly owns the
-                // item being audited
-                $this->doAudit->account_id = $this->getOwningAccountId();
+                // Set the account IDs that need to be used in auditing
+                // this type of entity record
+                $aAccountIds = $this->getOwningAccountIds();
+                // Set the primary account ID
+                if (isset($aAccountIds[OA_ACCOUNT_MANAGER])) {
+                    $this->doAudit->account_id = $aAccountIds[OA_ACCOUNT_MANAGER];
+                } else {
+                    $this->doAudit->account_id = $aAccountIds[OA_ACCOUNT_ADMIN];
+                }
+                // Set the advertiser account ID, if required
+                if (isset($aAccountIds[OA_ACCOUNT_ADVERTISER])) {
+                    $this->doAudit->advertiser_account_id = $aAccountIds[OA_ACCOUNT_ADVERTISER];
+                }
+                // Set the trafficker account ID, if required
+                if (isset($aAccountIds[OA_ACCOUNT_TRAFFICKER])) {
+                    $this->doAudit->website_account_id = $aAccountIds[OA_ACCOUNT_TRAFFICKER];
+                }
                 // Prepare a generic array of data to be stored in the audit record
                 $aAuditFields = $this->_prepAuditArray($actionid, $oDataObject);
                 // Individual objects can customise this data (add, remove, format...)

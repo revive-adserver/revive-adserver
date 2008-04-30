@@ -14,17 +14,18 @@ class DataObjects_Users extends DB_DataObjectCommon
 
     var $__table = 'users';                           // table name
     var $user_id;                         // int(9)  not_null primary_key auto_increment
-    var $contact_name;                    // string(255)  not_null
-    var $email_address;                   // string(64)  not_null
-    var $username;                        // string(64)  unique_key
-    var $password;                        // string(64)
-    var $language;                        // string(5)
+    var $contact_name;                    // string(765)  not_null
+    var $email_address;                   // string(192)  not_null
+    var $username;                        // string(192)  unique_key
+    var $password;                        // string(192)
+    var $language;                        // string(15)
     var $default_account_id;              // int(9)
     var $comments;                        // blob(65535)  blob
     var $active;                          // int(1)  not_null
-    var $sso_user_id;                     // int(11)  
+    var $sso_user_id;                     // int(11)
     var $date_created;                    // datetime(19)
     var $date_last_login;                 // datetime(19)
+    var $email_updated;                   // datetime(19)
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
@@ -35,7 +36,8 @@ class DataObjects_Users extends DB_DataObjectCommon
     var $defaultValues = array(
                 'active' => 1,
                 'sso_user_id' => OA_DATAOBJECT_DEFAULT_NULL,
-                'date_last_login' => OA_DATAOBJECT_DEFAULT_NULL
+                'date_last_login' => OA_DATAOBJECT_DEFAULT_NULL,
+                'email_updated' => OA_DATAOBJECT_DEFAULT_NULL
                 );
 
     /* the code above is auto generated do not remove the tag below */
@@ -169,7 +171,7 @@ class DataObjects_Users extends DB_DataObjectCommon
         $doUsers->find();
         return $this->_buildUsersTable($doUsers);
     }
-    
+
     /**
      * Updates the date_last_log_in time of user.
      *
@@ -183,7 +185,7 @@ class DataObjects_Users extends DB_DataObjectCommon
         $this->date_last_login = $this->formatDate($date);
         return $this->update();
     }
-    
+
     /**
      * This method should be called when a user claims existing sso account
      * and it turns out that the sso account he wants to use is already linked
@@ -204,10 +206,10 @@ class DataObjects_Users extends DB_DataObjectCommon
                 return false;
             }
         }
-        return $this->addUserPermissions($existingUserId, 
+        return $this->addUserPermissions($existingUserId,
             $this->getUsersPermissions($partialUserId));
     }
-    
+
     /**
      * Sets on the user account accounts/permissions.
      *
@@ -233,7 +235,7 @@ class DataObjects_Users extends DB_DataObjectCommon
         }
         return true;
     }
-    
+
     /**
      * Returns an array of users permissions. Format of array:
      * array(
@@ -259,7 +261,7 @@ class DataObjects_Users extends DB_DataObjectCommon
         }
         return $aPermissions;
     }
-    
+
     /**
      * Returns array of account Ids which user is linked to
      *
@@ -274,11 +276,11 @@ class DataObjects_Users extends DB_DataObjectCommon
         $doAccount_user_assoc->user_id = $userId;
         return $doAccount_user_assoc->getAll('account_id');
     }
-    
+
     /**
      * Deletes users who are not linked with any sso account, never logged
      * in and their account was created before deleteUnverifiedUsersAfter days.
-     * Where deleteUnverifiedUsersAfter is defined in config in 
+     * Where deleteUnverifiedUsersAfter is defined in config in
      * "authentication" section.
      *
      * @return boolean
@@ -292,7 +294,7 @@ class DataObjects_Users extends DB_DataObjectCommon
         }
         $monthAgo = new Date();
         $monthAgo->subtractSeconds($deleteOlderThanSeconds);
-        
+
         $this->whereAdd('date_created < \'' . $this->formatDate($monthAgo).'\'');
         $this->whereAdd('sso_user_id IS NULL');
         $this->whereAdd('date_last_login IS NULL');
@@ -333,19 +335,43 @@ class DataObjects_Users extends DB_DataObjectCommon
     }
 
     /**
-     * A private method to return the account ID of the
-     * account that should "own" audit trail entries for
-     * this entity type; NOT related to the account ID
-     * of the currently active account performing an
-     * action.
+     * A method to return an array of account IDs of the account(s) that
+     * should "own" any audit trail entries for this entity type; these
+     * are NOT related to the account ID of the currently active account
+     * (which is performing some kind of action on the entity), but is
+     * instead related to the type of entity, and where in the account
+     * heirrachy the entity is located.
      *
-     * @return integer The account ID to insert into the
-     *                 "account_id" column of the audit trail
-     *                 database table.
+     * @return array An array containing up to three indexes:
+     *                  - "OA_ACCOUNT_ADMIN" or "OA_ACCOUNT_MANAGER":
+     *                      Contains the account ID of the manager account
+     *                      that needs to be able to see the audit trail
+     *                      entry, or, the admin account, if the entity
+     *                      is a special case where only the admin account
+     *                      should see the entry.
+     *                  - "OA_ACCOUNT_ADVERTISER":
+     *                      Contains the account ID of the advertiser account
+     *                      that needs to be able to see the audit trail
+     *                      entry, if such an account exists.
+     *                  - "OA_ACCOUNT_TRAFFICKER":
+     *                      Contains the account ID of the trafficker account
+     *                      that needs to be able to see the audit trail
+     *                      entry, if such an account exists.
      */
-    function getOwningAccountId()
+    function getOwningAccountIds()
     {
-        return OA_Dal_ApplicationVariables::get('admin_account_id');
+        // Special case - return the admin account ID only.
+        // This is because we can only store one account ID for each
+        // type of account, however, it's possible for a user to be
+        // linked to (for example) multiple accounts, which are in turn
+        // owned by multiple manager accounts, so it's simply not possible
+        // to record all possible manager account IDs; so, we restrict
+        // auditing of user entities to be only visible to the admin
+        // account
+        $aAccountIds = array(
+            OA_ACCOUNT_ADMIN => OA_Dal_ApplicationVariables::get('admin_account_id')
+        );
+        return $aAccountIds;
     }
 
     /**

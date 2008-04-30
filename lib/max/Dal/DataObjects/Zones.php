@@ -41,8 +41,8 @@ class DataObjects_Zones extends DB_DataObjectCommon
     var $__table = 'zones';                           // table name
     var $zoneid;                          // int(9)  not_null primary_key auto_increment
     var $affiliateid;                     // int(9)  multiple_key
-    var $zonename;                        // string(245)  not_null multiple_key
-    var $description;                     // string(255)  not_null
+    var $zonename;                        // string(735)  not_null multiple_key
+    var $description;                     // string(765)  not_null
     var $delivery;                        // int(6)  not_null
     var $zonetype;                        // int(6)  not_null
     var $category;                        // blob(65535)  not_null blob
@@ -53,23 +53,23 @@ class DataObjects_Zones extends DB_DataObjectCommon
     var $prepend;                         // blob(65535)  not_null blob
     var $append;                          // blob(65535)  not_null blob
     var $appendtype;                      // int(4)  not_null
-    var $forceappend;                     // string(1)  enum
+    var $forceappend;                     // string(3)  enum
     var $inventory_forecast_type;         // int(6)  not_null
     var $comments;                        // blob(65535)  blob
-    var $cost;                            // real(12)  
-    var $cost_type;                       // int(6)  
-    var $cost_variable_id;                // string(255)  
-    var $technology_cost;                 // real(12)  
-    var $technology_cost_type;            // int(6)  
+    var $cost;                            // unknown(12)
+    var $cost_type;                       // int(6)
+    var $cost_variable_id;                // string(765)
+    var $technology_cost;                 // unknown(12)
+    var $technology_cost_type;            // int(6)
     var $updated;                         // datetime(19)  not_null binary
     var $block;                           // int(11)  not_null
     var $capping;                         // int(11)  not_null
     var $session_capping;                 // int(11)  not_null
     var $what;                            // blob(65535)  not_null blob
-    var $as_zone_id;                      // int(11)  
+    var $as_zone_id;                      // int(11)
     var $is_in_ad_direct;                 // int(1)  not_null
-    var $rate;                            // real(21)  
-    var $pricing;                         // string(50)  not_null
+    var $rate;                            // unknown(21)
+    var $pricing;                         // string(150)  not_null
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
@@ -173,19 +173,35 @@ class DataObjects_Zones extends DB_DataObjectCommon
     }
 
     /**
-     * A private method to return the account ID of the
-     * account that should "own" audit trail entries for
-     * this entity type; NOT related to the account ID
-     * of the currently active account performing an
-     * action.
+     * A method to return an array of account IDs of the account(s) that
+     * should "own" any audit trail entries for this entity type; these
+     * are NOT related to the account ID of the currently active account
+     * (which is performing some kind of action on the entity), but is
+     * instead related to the type of entity, and where in the account
+     * heirrachy the entity is located.
      *
-     * @return integer The account ID to insert into the
-     *                 "account_id" column of the audit trail
-     *                 database table.
+     * @return array An array containing up to three indexes:
+     *                  - "OA_ACCOUNT_ADMIN" or "OA_ACCOUNT_MANAGER":
+     *                      Contains the account ID of the manager account
+     *                      that needs to be able to see the audit trail
+     *                      entry, or, the admin account, if the entity
+     *                      is a special case where only the admin account
+     *                      should see the entry.
+     *                  - "OA_ACCOUNT_ADVERTISER":
+     *                      Contains the account ID of the advertiser account
+     *                      that needs to be able to see the audit trail
+     *                      entry, if such an account exists.
+     *                  - "OA_ACCOUNT_TRAFFICKER":
+     *                      Contains the account ID of the trafficker account
+     *                      that needs to be able to see the audit trail
+     *                      entry, if such an account exists.
      */
-    function getOwningAccountId()
+    function getOwningAccountIds()
     {
-        return $this->_getOwningAccountIdFromParent('affiliates', 'affiliateid');
+        // Zones don't have an account_id, get it from the parent
+        // website account (stored in the "affiliates" table) using
+        // the "affiliateid" key
+        return parent::getOwningAccountIds('affiliates', 'affiliateid');
     }
 
     /**

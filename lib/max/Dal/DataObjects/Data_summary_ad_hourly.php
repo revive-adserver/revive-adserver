@@ -45,11 +45,11 @@ class DataObjects_Data_summary_ad_hourly extends DB_DataObjectCommon
     var $impressions;                     // int(10)  not_null unsigned
     var $clicks;                          // int(10)  not_null unsigned
     var $conversions;                     // int(10)  not_null unsigned
-    var $total_basket_value;              // real(12)  
+    var $total_basket_value;              // unknown(12)  
     var $total_num_items;                 // int(11)  
-    var $total_revenue;                   // real(12)  
-    var $total_cost;                      // real(12)  
-    var $total_techcost;                  // real(12)  
+    var $total_revenue;                   // unknown(12)  
+    var $total_cost;                      // unknown(12)  
+    var $total_techcost;                  // unknown(12)  
     var $updated;                         // datetime(19)  not_null binary
 
     /* ZE2 compatibility trick*/

@@ -40,11 +40,11 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
 
     var $__table = 'campaigns';                       // table name
     var $campaignid;                      // int(9)  not_null primary_key auto_increment
-    var $campaignname;                    // string(255)  not_null
+    var $campaignname;                    // string(765)  not_null
     var $clientid;                        // int(9)  not_null multiple_key
-    var $views;                           // int(11)  
-    var $clicks;                          // int(11)  
-    var $conversions;                     // int(11)  
+    var $views;                           // int(11)
+    var $clicks;                          // int(11)
+    var $conversions;                     // int(11)
     var $expire;                          // date(10)  binary
     var $activate;                        // date(10)  binary
     var $priority;                        // int(11)  not_null
@@ -52,17 +52,17 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     var $target_impression;               // int(11)  not_null
     var $target_click;                    // int(11)  not_null
     var $target_conversion;               // int(11)  not_null
-    var $anonymous;                       // string(1)  not_null enum
-    var $companion;                       // int(1)  
+    var $anonymous;                       // string(3)  not_null enum
+    var $companion;                       // int(1)
     var $comments;                        // blob(65535)  blob
-    var $revenue;                         // real(12)  
-    var $revenue_type;                    // int(6)  
+    var $revenue;                         // unknown(12)
+    var $revenue_type;                    // int(6)
     var $updated;                         // datetime(19)  not_null binary
     var $block;                           // int(11)  not_null
     var $capping;                         // int(11)  not_null
     var $session_capping;                 // int(11)  not_null
-    var $an_campaign_id;                  // int(11)  
-    var $as_campaign_id;                  // int(11)  
+    var $an_campaign_id;                  // int(11)
+    var $as_campaign_id;                  // int(11)
     var $status;                          // int(11)  not_null
     var $an_status;                       // int(11)  not_null
     var $as_reject_reason;                // int(11)  not_null
@@ -189,7 +189,8 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
             $oActivate = new Date($this->activate);
             if (!empty($this->clientid)) {
                 // Set timezone
-                $aPrefs = OA_Preferences::loadAccountPreferences($this->getOwningAccountId(), true);
+                $aAccounts = $this->getOwningAccountIds();
+                $aPrefs = OA_Preferences::loadAccountPreferences($aAccounts[OA_ACCOUNT_ADVERTISER], true);
                 if (isset($aPrefs['timezone'])) {
                     $oActivate->setTZbyID($aPrefs['timezone']);
                 }
@@ -225,7 +226,8 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
             $oExpire->setSecond(59);
             if (!empty($this->clientid)) {
                 // Set timezone
-                $aPrefs = OA_Preferences::loadAccountPreferences($this->getOwningAccountId(), true);
+                $aAccounts = $this->getOwningAccountIds();
+                $aPrefs = OA_Preferences::loadAccountPreferences($aAccounts[OA_ACCOUNT_ADVERTISER], true);
                 if (isset($aPrefs['timezone'])) {
                     $oExpire->setTZbyID($aPrefs['timezone']);
                 }
@@ -374,19 +376,35 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     }
 
     /**
-     * A private method to return the account ID of the
-     * account that should "own" audit trail entries for
-     * this entity type; NOT related to the account ID
-     * of the currently active account performing an
-     * action.
+     * A method to return an array of account IDs of the account(s) that
+     * should "own" any audit trail entries for this entity type; these
+     * are NOT related to the account ID of the currently active account
+     * (which is performing some kind of action on the entity), but is
+     * instead related to the type of entity, and where in the account
+     * heirrachy the entity is located.
      *
-     * @return integer The account ID to insert into the
-     *                 "account_id" column of the audit trail
-     *                 database table.
+     * @return array An array containing up to three indexes:
+     *                  - "OA_ACCOUNT_ADMIN" or "OA_ACCOUNT_MANAGER":
+     *                      Contains the account ID of the manager account
+     *                      that needs to be able to see the audit trail
+     *                      entry, or, the admin account, if the entity
+     *                      is a special case where only the admin account
+     *                      should see the entry.
+     *                  - "OA_ACCOUNT_ADVERTISER":
+     *                      Contains the account ID of the advertiser account
+     *                      that needs to be able to see the audit trail
+     *                      entry, if such an account exists.
+     *                  - "OA_ACCOUNT_TRAFFICKER":
+     *                      Contains the account ID of the trafficker account
+     *                      that needs to be able to see the audit trail
+     *                      entry, if such an account exists.
      */
-    function getOwningAccountId()
+    function getOwningAccountIds()
     {
-        return $this->_getOwningAccountIdFromParent('clients', 'clientid');
+        // Campaigns don't have an account_id, get it from the parent
+        // advertiser account (stored in the "clients" table) using
+        // the "clientid" key
+        return parent::getOwningAccountIds('clients', 'clientid');
     }
 
    /**
@@ -466,10 +484,10 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
                 // No cached array for this account id, initialise
                 $aCache['aAccounts'][$accountId] = array();
             }
-            
+
             // Add current action as first item
             array_unshift($aCache['aAccounts'][$accountId], $aAction);
-            
+
             //if current campaign is deleted, delete campaignid in all messages concernig this campaign
             if ($actionType=='deleted') {
             	//var_dump($aCache['aAccounts'][$accountId]);
@@ -479,7 +497,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
                     }
                 }
             }
-            
+
             // Only store most recent $maxItems actions, rekeying the array
             $aCache['aAccounts'][$accountId] = array_slice($aCache['aAccounts'][$accountId], 0, $maxItems);
             // Save cache

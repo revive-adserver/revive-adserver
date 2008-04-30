@@ -39,9 +39,9 @@ class DataObjects_Ad_zone_assoc extends DB_DataObjectCommon
     var $ad_zone_assoc_id;                // int(9)  not_null primary_key auto_increment
     var $zone_id;                         // int(9)  multiple_key
     var $ad_id;                           // int(9)  multiple_key
-    var $priority;                        // real(22)  
+    var $priority;                        // real(22)
     var $link_type;                       // int(6)  not_null
-    var $priority_factor;                 // real(22)  
+    var $priority_factor;                 // real(22)
     var $to_be_delivered;                 // int(1)  not_null
 
     /* ZE2 compatibility trick*/
@@ -76,25 +76,60 @@ class DataObjects_Ad_zone_assoc extends DB_DataObjectCommon
     }
 
     /**
-     * A private method to return the account ID of the
-     * account that should "own" audit trail entries for
-     * this entity type; NOT related to the account ID
-     * of the currently active account performing an
-     * action.
+     * A method to return an array of account IDs of the account(s) that
+     * should "own" any audit trail entries for this entity type; these
+     * are NOT related to the account ID of the currently active account
+     * (which is performing some kind of action on the entity), but is
+     * instead related to the type of entity, and where in the account
+     * heirrachy the entity is located.
      *
-     * @return integer The account ID to insert into the
-     *                 "account_id" column of the audit trail
-     *                 database table.
+     * @return array An array containing up to three indexes:
+     *                  - "OA_ACCOUNT_ADMIN" or "OA_ACCOUNT_MANAGER":
+     *                      Contains the account ID of the manager account
+     *                      that needs to be able to see the audit trail
+     *                      entry, or, the admin account, if the entity
+     *                      is a special case where only the admin account
+     *                      should see the entry.
+     *                  - "OA_ACCOUNT_ADVERTISER":
+     *                      Contains the account ID of the advertiser account
+     *                      that needs to be able to see the audit trail
+     *                      entry, if such an account exists.
+     *                  - "OA_ACCOUNT_TRAFFICKER":
+     *                      Contains the account ID of the trafficker account
+     *                      that needs to be able to see the audit trail
+     *                      entry, if such an account exists.
      */
-    function getOwningAccountId()
+    function getOwningAccountIds()
     {
-        if (!empty($this->zone_id)) {
-            // Return the manager from the trafficker/zone side
-            return $this->_getOwningAccountIdFromParent('zones', 'zone_id');
-        } else {
-            // Return the manager from the advertiser/banner side
-            return $this->_getOwningAccountIdFromParent('banners', 'ad_id');
+        // Ad/zone associations are a special case, as both the
+        // advertiser and the website accounts should be able to see
+        // the audit entries, so the results of two calls need to be
+        // merged
+        $aAdvertiserAccountIds = array();
+        if (!empty($this->ad_id)) {
+            // Ad/zone assocs don't have an account_id, get it from
+            // the parent banner (stored in the "banners" table) using
+            // the "ad_id" key
+            $aAdvertiserAccountIds = parent::getOwningAccountIds('banners', 'ad_id');
         }
+        $aWebsiteAccountIds = array();
+        if (!empty($this->zone_id)) {
+            // Ad/zone assocs don't have an account_id, get it from
+            // the parent zone (stored in the "zones" table) using
+            // the "zone_id" key
+            $aWebsiteAccountIds = parent::getOwningAccountIds('zones', 'zone_id');
+        }
+        // Check that the manager account IDs match from the two results
+        if (isset($aAdvertiserAccountIds[OA_ACCOUNT_MANAGER]) && isset($aWebsiteAccountIds[OA_ACCOUNT_MANAGER])) {
+            if ($aAdvertiserAccountIds[OA_ACCOUNT_MANAGER] != $aWebsiteAccountIds[OA_ACCOUNT_MANAGER]) {
+                $message = "Cannot locate owning account IDs for ad/zone association, as manager account IDs, " .
+                            "do not match, where ad ID was {$this->ad_id} and zone ID was {$this->zone_id}.";
+                MAX::raiseError($message, PEAR_LOG_ERR);
+            }
+        }
+        // Merge the arrays and return
+        $aResult = array_merge($aAdvertiserAccountIds, $aWebsiteAccountIds);
+        return $aResult;
     }
 
     /**

@@ -119,7 +119,7 @@ class OA_Permission
         }
         OA_Permission::enforceTrue($isAccount);
     }
-    
+
     /**
      * Redirect to start page if account was switched manually
      *
@@ -192,15 +192,18 @@ class OA_Permission
     }
 
     /**
-     * A method to show an error is the current user/account doesn't have access
-     * to DataObject (defined by it's table name)
+     * A method to show an error if the current user/account doesn't have access
+     * to the specified DB_DataObject (defined by table name and entity ID).
      *
      * @static
-     * @param string $entityTable  Table name
-     * @param int $entityId  Entity ID (or empty if a new one is being created)
-     * @param bool $allowNewEntity  Allow creation of a new entity, defaults to false
+     * @param string  $entityTable    The name of the table.
+     * @param integer $entityId       Optional entity ID -- when set, tests if the current
+     *                                account has access to the enity, when not set,  tests
+     *                                if the current account can create a new entity in the
+     *                                table.
+     * @param boolean $allowNewEntity Allow creation of a new entity, defaults to false.
      */
-    function enforceAccessToObject($entityTable, $entityId, $allowNewEntity = false)
+    function enforceAccessToObject($entityTable, $entityId = null, $allowNewEntity = false)
     {
         if (!$allowNewEntity) {
             OA_Permission::enforceTrue(!empty($entityId));
@@ -332,7 +335,7 @@ class OA_Permission
         }
         $doEntity = OA_Dal::staticGetDO($entityTable, $entityId);
         if ($doEntity) {
-           $aAccountIds = $doEntity->getAllOwningAccountIds();
+           $aAccountIds = $doEntity->getOwningAccountIds();
 
             foreach ($aAccountIds as $accountId) {
                 if (OA_Permission::hasAccess($accountId)) {
@@ -529,7 +532,7 @@ class OA_Permission
             }
         }
         if (OA_Permission::isPermissionRelatedToAccountType($accountType, $permissionId)) {
-            $aCache[$userId][$accountId] = 
+            $aCache[$userId][$accountId] =
                 OA_Permission::getAccountUsersPermissions($userId, $accountId);
         } else {
             $aCache[$userId][$accountId][$permissionId] = true;
@@ -537,7 +540,7 @@ class OA_Permission
         return isset($aCache[$userId][$accountId][$permissionId]) ?
             $aCache[$userId][$accountId][$permissionId] : false;
     }
-    
+
     function getAccountUsersPermissions($userId, $accountId)
     {
         $aPermissions = array();
@@ -973,8 +976,8 @@ class OA_Permission
             OA_PERM_ZONE_EDIT           => array(OA_ACCOUNT_TRAFFICKER),
             OA_PERM_ZONE_INVOCATION     => array(OA_ACCOUNT_TRAFFICKER),
             OA_PERM_ZONE_LINK           => array(OA_ACCOUNT_TRAFFICKER),
-            
-            OA_PERM_USER_LOG_ACCESS     => array(OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER),            
+
+            OA_PERM_USER_LOG_ACCESS     => array(OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER),
 
             OA_PERM_SUPER_ACCOUNT       => array(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER),
 	    );
@@ -994,6 +997,78 @@ class OA_Permission
 
 	    return $aCache[$key];
 	}
+
+    /**
+     * Returns all of the account IDs for those accounts "owned"
+     * by the given account ID.
+     *
+     * @param int $accountId The desired "parent" account account to test
+     *                       for all "owned" account IDs.
+     * @return array An array of account IDs, including the account itself.
+     */
+    function getOwnedAccounts($accountId) {
+        $aAccountIds = array();
+        $accoutType = OA_Permission::getAccountTypeByAccountId($accountId);
+        switch ($accoutType) {
+            case OA_ACCOUNT_MANAGER:
+                $aAccountIds[] = $accountId;
+                // Retrive the agency ID that corresponds with the manager account
+                $doAgency = OA_Dal::factoryDO('agency');
+                $doAgency->selectAdd();
+                $doAgency->selectAdd('agencyid');
+                $doAgency->account_id = $accountId;
+                $doAgency->find();
+                if ($doAgency->getRowCount() == 1)
+                {
+                    $doAgency->fetch();
+                    $agencyId = $doAgency->agencyid;
+                    // Retrieve all advertiser account IDs that the manager
+                    // account "owns" (from the affiliates table)
+                    $doAffiliates = OA_Dal::factoryDO('affiliates');
+                    $doAffiliates->selectAdd();
+                    $doAffiliates->selectAdd('account_id');
+                    $doAffiliates->agencyid = $agencyId;
+                    $doAffiliates->find();
+                    if ($doAffiliates->getRowCount() > 0)
+                    {
+                        $doAffiliates->fetch();
+                        $aAccountIds[] = $doAffiliates->account_id;
+                    }
+                    // Retrieve all website account IDs that the manager
+                    // account "owns" (from the clients table)
+                    $doClients = OA_Dal::factoryDO('clients');
+                    $doClients->selectAdd();
+                    $doClients->selectAdd('account_id');
+                    $doClients->agencyid = $agencyId;
+                    $doClients->find();
+                    if ($doClients->getRowCount() > 0)
+                    {
+                        while ($doClients->fetch())
+                        {
+                            $aAccountIds[] = $doClients->account_id;
+                        }
+                    }
+                }
+                break;
+            case OA_ACCOUNT_ADMIN:
+                // Select all account IDs
+                $doAccounts = OA_Dal::factoryDO('accounts');
+                $doAccounts->selectAdd();
+                $doAccounts->selectAdd('account_id');
+                $doAccounts->find();
+                if ($doAccounts->getRowCount() > 0)
+                {
+                    while ($doAccounts->fetch())
+                    {
+                         $aAccountIds[] = $doAccounts->account_id;
+                    }
+                }
+                break;
+            default:
+                $aAccountIds[] = $accountId;
+        }
+        return $aAccountIds;
+    }
 
 }
 

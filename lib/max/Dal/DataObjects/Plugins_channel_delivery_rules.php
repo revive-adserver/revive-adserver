@@ -37,8 +37,8 @@ class DataObjects_Plugins_channel_delivery_rules extends DB_DataObjectCommon
 
     var $__table = 'plugins_channel_delivery_rules';    // table name
     var $rule_id;                         // int(10)  not_null primary_key unsigned auto_increment
-    var $modifier;                        // string(100)  not_null
-    var $client;                          // string(100)  not_null
+    var $modifier;                        // string(300)  not_null
+    var $client;                          // string(300)  not_null
     var $rule;                            // blob(65535)  not_null blob
 
     /* ZE2 compatibility trick*/

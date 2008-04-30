@@ -18,6 +18,13 @@
 		<default></default>
 	</field>
 	<field>
+		<name>openads_generic_id_null_permitted</name>
+		<type>openads_mediumint</type>
+		<length>9</length>
+		<notnull>false</notnull>
+		<default></default>
+	</field>
+	<field>
 		<name>openads_generic_id_default0</name>
 		<type>openads_mediumint</type>
 		<length>9</length>

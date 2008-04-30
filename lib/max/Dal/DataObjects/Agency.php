@@ -47,10 +47,10 @@ class DataObjects_Agency extends DB_DataObjectCommon
 
     var $__table = 'agency';                          // table name
     var $agencyid;                        // int(9)  not_null primary_key auto_increment
-    var $name;                            // string(255)  not_null
-    var $contact;                         // string(255)  
-    var $email;                           // string(64)  not_null
-    var $logout_url;                      // string(255)  
+    var $name;                            // string(765)  not_null
+    var $contact;                         // string(765)  
+    var $email;                           // string(192)  not_null
+    var $logout_url;                      // string(765)  
     var $active;                          // int(1)  
     var $updated;                         // datetime(19)  not_null binary
     var $account_id;                      // int(9)  unique_key

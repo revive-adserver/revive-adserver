@@ -61,11 +61,18 @@ class OA_Dashboard_Widget_Audit extends OA_Dashboard_Widget
             $this->oTpl->assign('siteTitle',    $GLOBALS['strAuditTrailSetup']);
             $this->oTpl->assign('siteUrl',      MAX::constructUrl(MAX_URL_ADMIN, 'account-settings-debug.php'));
         } else {
-            if (!OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
-                $aParam['account_id'] = OA_Permission::getAccountId();
+            // Account security
+            if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+                $aParams['account_id'] = OA_Permission::getAccountId();
+            }
+            if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+                $aParams['advertiser_account_id'] = OA_Permission::getAccountId();
+            }
+            if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+                $aParams['website_account_id'] = OA_Permission::getAccountId();
             }
 
-            $oAudit = & new OA_Dll_Audit();
+            $oAudit = new OA_Dll_Audit();
             $aAuditData = $oAudit->getAuditLogForAuditWidget($aParam);
             if (count($aAuditData) > 0) {
                 foreach ($aAuditData as $key => $aValue) {

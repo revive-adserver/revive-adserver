@@ -40,15 +40,15 @@ class DataObjects_Variables extends DB_DataObjectCommon
     var $__table = 'variables';                       // table name
     var $variableid;                      // int(9)  not_null primary_key unsigned auto_increment
     var $trackerid;                       // int(9)  not_null multiple_key
-    var $name;                            // string(250)  not_null
-    var $description;                     // string(250)  
-    var $datatype;                        // string(7)  not_null enum
-    var $purpose;                         // string(12)  enum
+    var $name;                            // string(750)  not_null
+    var $description;                     // string(750)
+    var $datatype;                        // string(21)  not_null enum
+    var $purpose;                         // string(36)  enum
     var $reject_if_empty;                 // int(1)  not_null unsigned
     var $is_unique;                       // int(11)  not_null multiple_key
     var $unique_window;                   // int(11)  not_null
-    var $variablecode;                    // string(255)  not_null
-    var $hidden;                          // string(1)  not_null enum
+    var $variablecode;                    // string(765)  not_null
+    var $hidden;                          // string(3)  not_null enum
     var $updated;                         // datetime(19)  not_null binary
 
     /* ZE2 compatibility trick*/
@@ -85,19 +85,35 @@ class DataObjects_Variables extends DB_DataObjectCommon
     }
 
     /**
-     * A private method to return the account ID of the
-     * account that should "own" audit trail entries for
-     * this entity type; NOT related to the account ID
-     * of the currently active account performing an
-     * action.
+     * A method to return an array of account IDs of the account(s) that
+     * should "own" any audit trail entries for this entity type; these
+     * are NOT related to the account ID of the currently active account
+     * (which is performing some kind of action on the entity), but is
+     * instead related to the type of entity, and where in the account
+     * heirrachy the entity is located.
      *
-     * @return integer The account ID to insert into the
-     *                 "account_id" column of the audit trail
-     *                 database table.
+     * @return array An array containing up to three indexes:
+     *                  - "OA_ACCOUNT_ADMIN" or "OA_ACCOUNT_MANAGER":
+     *                      Contains the account ID of the manager account
+     *                      that needs to be able to see the audit trail
+     *                      entry, or, the admin account, if the entity
+     *                      is a special case where only the admin account
+     *                      should see the entry.
+     *                  - "OA_ACCOUNT_ADVERTISER":
+     *                      Contains the account ID of the advertiser account
+     *                      that needs to be able to see the audit trail
+     *                      entry, if such an account exists.
+     *                  - "OA_ACCOUNT_TRAFFICKER":
+     *                      Contains the account ID of the trafficker account
+     *                      that needs to be able to see the audit trail
+     *                      entry, if such an account exists.
      */
-    function getOwningAccountId()
+    function getOwningAccountIds()
     {
-        return $this->_getOwningAccountIdFromParent('trackers', 'trackerid');
+        // Variables don't have an account_id, get it from the
+        // parent tracker (stored in the "trackers" table) using
+        // the "trackerid" key
+        return parent::getOwningAccountIds('trackers', 'trackerid');
     }
 
     /**

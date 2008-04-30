@@ -171,11 +171,17 @@ if ($showPublishers) {
 
 
 // Account security
-if (!OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
+if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     $aParams['account_id'] = OA_Permission::getAccountId();
 }
+if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+    $aParams['advertiser_account_id'] = OA_Permission::getAccountId();
+}
+if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+    $aParams['website_account_id'] = OA_Permission::getAccountId();
+}
 
-$oUserlog = & new OA_Dll_Audit();
+$oUserlog = new OA_Dll_Audit();
 $aAuditData = $oUserlog->getAuditLog($aParams);
 
 $aParams['totalItems'] = count($aAuditData);

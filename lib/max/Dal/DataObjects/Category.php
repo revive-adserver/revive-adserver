@@ -38,7 +38,7 @@ class DataObjects_Category extends DB_DataObjectCommon
 
     var $__table = 'category';                        // table name
     var $category_id;                     // int(10)  not_null primary_key unsigned auto_increment
-    var $name;                            // string(255)  
+    var $name;                            // string(765)  
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
