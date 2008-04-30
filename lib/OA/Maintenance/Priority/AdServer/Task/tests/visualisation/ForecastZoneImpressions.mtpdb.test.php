@@ -37,6 +37,7 @@ require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once MAX_PATH . '/lib/pear/Image/Canvas.php';
 require_once MAX_PATH . '/lib/pear/Image/Graph.php';
 
+set_time_limit(900);
 
 /**
  * A class for testing the OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions class.
@@ -124,7 +125,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
                 {$this->tblBanners}
                 (
                     bannerid,
-                    active,
+                    status,
                     htmltemplate,
                     htmlcache,
                     url,
@@ -135,7 +136,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
             VALUES
                 (
                     1,
-                    't',
+                    ".OA_ENTITY_STATUS_RUNNING.",
                     '',
                     '',
                     '',
@@ -371,7 +372,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
                 {$this->tblBanners}
                 (
                     bannerid,
-                    active,
+                    status,
                     htmltemplate,
                     htmlcache,
                     url,
@@ -382,7 +383,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
             VALUES
                 (
                     1,
-                    't',
+                    ".OA_ENTITY_STATUS_RUNNING.",
                     '',
                     '',
                     '',
@@ -624,7 +625,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
                 {$this->tblBanners}
                 (
                     bannerid,
-                    active,
+                    status,
                     htmltemplate,
                     htmlcache,
                     url,
@@ -635,7 +636,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
             VALUES
                 (
                     1,
-                    't',
+                    ".OA_ENTITY_STATUS_RUNNING.",
                     '',
                     '',
                     '',
