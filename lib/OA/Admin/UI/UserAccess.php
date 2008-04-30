@@ -142,7 +142,7 @@ class OA_Admin_UI_UserAccess
 
         $aTplFields = array(
             array(
-                'title'     => $strUserDetails,
+                'title'     => $GLOBALS['strUserDetails'],
                 'fields'    => $this->oPlugin->getUserDetailsFields($userData,
                                    $this->request['link'])
             )
