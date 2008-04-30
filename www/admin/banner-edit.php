@@ -138,7 +138,9 @@ if (isset($submit)) {
     $aVariables['storagetype']     = $type;
     $aVariables['filename']        = !empty($aBanner['filename']) ? $aBanner['filename'] : '';
     $aVariables['contenttype']     = !empty($aBanner['contenttype']) ? $aBanner['contenttype'] : '';
-    $aVariables['contenttype']     = ($type == 'url') ? _getFileContentType($aVariables['imageurl']) : $aVariables['contenttype'];
+    $aVariables['contenttype']     = ($type == 'url')
+        ? OA_Creative_File::staticGetContentTypeByExtension($aVariables['imageurl'])
+        : $aVariables['contenttype'];
     $aVariables['contenttype']     = ($type == 'txt') ? 'txt' : $aVariables['contenttype'];
     $aVariables['alt_filename']    = !empty($aBanner['alt_filename']) ? $aBanner['alt_filename'] : '';
     $aVariables['alt_contenttype'] = !empty($aBanner['alt_contenttype']) ? $aBanner['alt_contenttype'] : '';
@@ -1082,28 +1084,5 @@ echo "<br /><br />";
 /*********************************************************/
 
 phpAds_PageFooter();
-
-function _getBannerContentType($aVariables, $alt=false)
-{
-    $contentType = '';
-    $type = $aVariables['type'];
-
-    switch ($type) {
-        case 'html' :
-            $contentType = $alt ? '' : 'html';
-            break;
-        case 'url' :
-            $contentType = $alt ? '' : _getFileContentType($aVariables['imageurl']);
-            break;
-        case 'txt' :
-            $contentType = 'txt';
-            break;
-        default :
-            $fileName = $alt ? $aVariables['alt_filename'] : $aVariables['filename'];
-            $contentType = _getFileContentType($fileName, $alt);
-    }
-
-    return $contentType;
-}
 
 ?>

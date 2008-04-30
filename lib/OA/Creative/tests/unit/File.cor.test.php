@@ -148,6 +148,17 @@ class Test_OA_Creative_File extends UnitTestCase
         }
     }
 
+    function testStaticGetContentTypeByExtension()
+    {
+        $this->assertEqual('jpeg',
+            OA_Creative_File::staticGetContentTypeByExtension('file1.jpg'));
+        $this->assertEqual('png',
+            OA_Creative_File::staticGetContentTypeByExtension(
+                'http://www.example.com/files/banner.png'));
+        $file = new OA_Creative_File('file1.jpg');
+        $this->assertEqual('jpeg', $file->getContentTypeByExtension());
+    }
+
     function testRichMedia()
     {
         // Allow supported richmedia by extension, no matter what the content is

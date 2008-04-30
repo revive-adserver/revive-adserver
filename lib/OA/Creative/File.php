@@ -113,9 +113,15 @@ class OA_Creative_File extends OA_Creative
 
     function getContentTypeByExtension($alt = false)
     {
+        return OA_Creative_File::staticGetContentTypeByExtension(
+            $this->fileName, $alt);
+    }
+    
+    function staticGetContentTypeByExtension($fileName, $alt = false)
+    {
         $contentType = '';
 
-        $ext = substr($this->fileName, strrpos($this->fileName, '.') + 1);
+        $ext = substr($fileName, strrpos($fileName, '.') + 1);
         switch (strtolower($ext)) {
             case 'jpeg': $contentType = 'jpeg'; break;
             case 'jpg':  $contentType = 'jpeg'; break;
