@@ -75,14 +75,18 @@ class OA_Dashboard_Widget_CampaignOverview extends OA_Dashboard_Widget
                             $aCampaign[$aAction['auditid']] = $aAction;
                         }
                     }
-                    krsort($aCampaign);
-                    $aCampaign = array_slice($aCampaign, 0, $aCache['maxItems'], false);
                 } else {
-                    $accountId = OA_Permission::getAccountId();
-                    if (isset($aCache['aAccounts'][$accountId])) {
-                        $aCampaign = $aCache['aAccounts'][$accountId];
+                    $aAccountsId = OA_Dll_Audit::getOwnedAccounts(OA_Permission::getAccountId());
+                    foreach ($aAccountsId as $accountId) {
+                        if (isset($aCache['aAccounts'][$accountId])) {
+                            foreach ($aCache['aAccounts'][$accountId] as $aAction){
+                                $aCampaign[$aAction['auditid']] = $aAction;
+                            }
+                        }
                     }
                 }
+                krsort($aCampaign);
+                $aCampaign = array_slice($aCampaign, 0, $aCache['maxItems']);
             }
             if (count($aCampaign)) {
                 $aActionMap = array(
