@@ -416,7 +416,9 @@ class OA_Admin_UI
                     !isset($session['maint_update_js'])
                 );
 
-                $this->oTpl->assign('maintenanceAlert', OA_Dal_Maintenance_UI::alertNeeded());
+                if (OA_Permission::isUserLinkedToAdmin()) {
+                    $this->oTpl->assign('maintenanceAlert', OA_Dal_Maintenance_UI::alertNeeded());
+                }
 
             } else {
                 $this->oTpl->assign('buttonStartOver', true);
