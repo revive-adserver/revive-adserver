@@ -86,7 +86,9 @@ if (isset($submit))
     }
 
     // Move on to the next page
-    Header("Location: campaign-banners.php?clientid=$advertiserId&campaignid=$campaignId");
+    $oUI = new OA_Admin_UI();
+    MAX_Admin_Redirect::redirect($oUI->getNextPage());
+//        Header("Location: campaign-banners.php?clientid=$advertiserId&campaignid=$campaignId");
     exit;
 }
 

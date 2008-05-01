@@ -88,9 +88,6 @@ function phpAds_PageShortcut($name, $link, $icon)
  */
 function phpAds_PageHeader($ID = null, $extra="", $imgPath="", $showSidebar=true, $showMainNav=true, $noBorder = false)
 {
-    if (is_null($ID) || (($ID !== phpAds_Login && $ID !== phpAds_Error && basename($_SERVER['SCRIPT_NAME']) != 'stats.php') && (preg_match('#^[0-9](\.[0-9])*$#', $ID)))) {
-        $ID = basename(substr($_SERVER['SCRIPT_NAME'], 0, strrpos($_SERVER['SCRIPT_NAME'], '.')));
-    }
     $GLOBALS['_MAX']['ADMIN_UI'] = new OA_Admin_UI();
     $GLOBALS['_MAX']['ADMIN_UI']->showHeader($ID, $extra, $imgPath, $showSidebar, $showMainNav, $noBorder);
     $GLOBALS['phpAds_GUIDone'] = true;

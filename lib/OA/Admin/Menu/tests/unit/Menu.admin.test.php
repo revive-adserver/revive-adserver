@@ -237,7 +237,30 @@ class Test_OA_Admin_Menu
         $this->assertSectionListsEqual($sections, $menu->getRootSections());
     }
 
+    function testGetNextSection()
+    {
+        //build hierarchy
+        $menu = &new OA_Admin_Menu();
+        $sections = $this->generateSections(5, 1);
 
+        $menu->add($sections[0]);
+        $parentId = $sections[0]->getId();
+        for ($i = 1; $i < count($sections); $i++) {
+            $menu->addTo($parentId, $sections[$i]);
+        }
+
+        // Calling this at the root section should return the current section if it exists
+        $next = $menu->getNextSection($parentId);
+        $this->assertEqual($next, $sections[0]);
+
+        // First tab of 2nd level should return 2nd tab of 2nd level
+        $next = $menu->getNextSection('my-section2');
+        $this->assertEqual($next, $sections[2]);
+
+        // Last tab of 2nd level should return the parent tab
+        $next = $menu->getNextSection('my-section5');
+        $this->assertEqual($next, $sections[0]);
+    }
 
     function testIsRootSection()
     {

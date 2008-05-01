@@ -217,6 +217,33 @@ class OA_Admin_Menu
         return array_reverse($aParents);
     }
 
+    /**
+     * This method gets the "next" page, the logic is currently:
+     * Get the next tab on the current level, if this is the last tab, go to the parent tab
+     *
+     * @param string $sectionId
+     * @return object OA_Admin_Menu_Section
+     */
+    function getNextSection($sectionId)
+    {
+        $parentSections = $this->getParentSections($sectionId);
+        if (empty($parentSections)) {
+            return $this->get($sectionId);
+        }
+        $parentSection = $parentSections[count($parentSections)-1];
+
+        $self = false;
+        foreach ($parentSection->aSectionsMap as $sectionName => $section) {
+            if ($sectionName == $sectionId) {
+                $self = true;
+                continue;
+            }
+            if ($self) {
+                return $section;
+            }
+        }
+        return $parentSection;
+    }
 
     //BUILDER methods - not secured
     /**
@@ -309,7 +336,6 @@ class OA_Admin_Menu
 
         return $result;
     }
-
 
     /**
      * Private

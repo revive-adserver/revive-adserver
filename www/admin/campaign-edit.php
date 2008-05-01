@@ -295,7 +295,8 @@ if (isset($submit)) {
         $group = 'campaign_'.$campaignid;
         $cache->clean($group);
 
-        MAX_Admin_Redirect::redirect("campaign-zone.php?clientid=$clientid&campaignid=$campaignid");
+        $oUI = new OA_Admin_UI();
+        MAX_Admin_Redirect::redirect($oUI->getNextPage());
     }
 }
 

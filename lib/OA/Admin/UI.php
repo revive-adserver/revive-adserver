@@ -30,6 +30,7 @@ require_once MAX_PATH . '/lib/OA/Admin/UI/SmartyInserts.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/UI.php';
 require_once MAX_PATH . '/lib/OA/Admin/Menu.php';
 require_once MAX_PATH . '/lib/OA/Admin/Menu/Checker.php';
+require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 
 /**
  * A class to generate all the UI parts
@@ -84,9 +85,9 @@ class OA_Admin_UI
      * @param bool $noBorder Set to true to hide white borders between sub nav and main nav in the main part
      * @param bool $showSidePlugins Set to false if you do not wish to show the plugins sidebar
      */
-    function showHeader($ID, $extra="", $imgPath="", $showSidebar=true, $showMainNav=true, $noBorder = false)
+    function showHeader($ID = null, $extra="", $imgPath="", $showSidebar=true, $showMainNav=true, $noBorder = false)
     {
-        //echo "ID:".$ID;
+        $ID = $this->getId($ID);
 
         global $phpAds_shortcuts;
         global $phpAds_CharSet;
@@ -197,6 +198,22 @@ class OA_Admin_UI
 
         $this->oTpl->assign('uiPart', 'header');
         $this->oTpl->display();
+    }
+
+    function getID($ID)
+    {
+        if (is_null($ID) || (($ID !== phpAds_Login && $ID !== phpAds_Error && basename($_SERVER['SCRIPT_NAME']) != 'stats.php') && (preg_match('#^[0-9](\.[0-9])*$#', $ID)))) {
+            return basename(substr($_SERVER['SCRIPT_NAME'], 0, strrpos($_SERVER['SCRIPT_NAME'], '.')));
+        }
+        return $ID;
+    }
+
+    function getNextPage($sectionId = null)
+    {
+        $sectionId = OA_Admin_UI::getID($sectionId);
+        $oMenu = OA_Admin_Menu::singleton();
+        $nextSection = $oMenu->getNextSection($sectionId);
+        return $nextSection->getLink($this->aLinkParams);
     }
 
     function _assignInstalling()

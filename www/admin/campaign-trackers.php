@@ -105,9 +105,8 @@ if (!empty($campaignid)) {
 
             }
         }
-
-        header ("Location: campaign-trackers.php?clientid=".$clientid."&campaignid=".$campaignid);
-        exit;
+        $oUI = new OA_Admin_UI();
+        MAX_Admin_Redirect::redirect($oUI->getNextPage());
     }
 }
 
