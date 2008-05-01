@@ -1281,6 +1281,8 @@ class DB_DataObjectCommon extends DB_DataObject
      * @param string $parentKey Name of the key that relates this
      *                          DB_DataObject and the parent entity in
      *                          $parentTable.
+     * @param boolean $resetCache When true, reset the internal cache and
+     *                            return null.
      * @return array An array containing up to three indexes:
      *                  - "OA_ACCOUNT_ADMIN" or "OA_ACCOUNT_MANAGER":
      *                      Contains the account ID of the manager account
@@ -1297,11 +1299,17 @@ class DB_DataObjectCommon extends DB_DataObject
      *                      that needs to be able to see the audit trail
      *                      entry, if such an account exists.
      */
-    function getOwningAccountIds($parentTable = null, $parentKeyName = null)
+    function getOwningAccountIds($parentTable = null, $parentKeyName = null, $resetCache = false)
     {
         // Use a static cache to store previously calculated owning
         // account IDs
         static $aCache = array();
+
+        // Reset the cache?
+        if ($resetCache) {
+            $aCache = array();
+            return;
+        }
 
         // Get this DB_DataObject's table name and primary key name
         $tableName      = $this->getTableWithoutPrefix();

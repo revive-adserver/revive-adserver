@@ -189,7 +189,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($oAudit->username,OA_TEST_AUDIT_USERNAME);
         $this->assertEqual($aAudit['user_id'],$doUsers->user_id);
 
-        DataGenerator::cleanUp(array('users', 'audit'));
+        DataGenerator::cleanUp(array('accounts', 'users', 'audit'));
     }
 
     function testAuditPreferences()
@@ -222,7 +222,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($oAudit->username,OA_TEST_AUDIT_USERNAME);
         $this->assertEqual($aAudit['preference_id'],$preferenceId);
 
-        DataGenerator::cleanUp(array('users', 'audit'));
+        DataGenerator::cleanUp(array('accounts', 'users', 'audit'));
     }
 
     function testAuditAccountPreferenceAssoc()
@@ -282,7 +282,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($oAudit->username,OA_TEST_AUDIT_USERNAME);
         //$this->assertEqual($aAudit['preference_id'],$preferenceId);
 
-        DataGenerator::cleanUp(array('account_preference_assoc', 'audit'));
+        DataGenerator::cleanUp(array('accounts', 'account_preference_assoc', 'audit'));
     }
 
     function testAuditAccountUserPermissionAssoc()
@@ -348,7 +348,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aAudit['account_id'],$doAccount_User_Perm_Assoc->account_id);
         $this->assertEqual($aAudit['user_id'],$doAccount_User_Perm_Assoc->user_id);
 
-        DataGenerator::cleanUp(array('account_user_permission_assoc', 'audit'));
+        DataGenerator::cleanUp(array('accounts', 'account_user_permission_assoc', 'audit'));
     }
 
     function testAuditAccountUserAssoc()
@@ -388,7 +388,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aAudit['account_id'],$doAccount_User_Assoc->account_id);
         $this->assertEqual($aAudit['user_id'],$doAccount_User_Assoc->user_id);
 
-        DataGenerator::cleanUp(array('audit'));
+        DataGenerator::cleanUp(array('accounts', 'audit'));
     }
 
     function testAuditZone()
@@ -423,7 +423,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($oAudit->username,OA_TEST_AUDIT_USERNAME);
         $this->assertEqual($aAudit['zoneid'],$zoneId);
 
-        DataGenerator::cleanUp(array('zones', 'audit'));
+        DataGenerator::cleanUp(array('accounts', 'zones', 'audit'));
     }
 
     function testAuditChannel()
@@ -464,7 +464,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($oAudit->username,OA_TEST_AUDIT_USERNAME);
         $this->assertEqual($aAudit['channelid'],$channelId);
 
-        DataGenerator::cleanUp(array('affiliates', 'channel', 'audit'));
+        DataGenerator::cleanUp(array('accounts', 'affiliates', 'channel', 'audit'));
     }
 
     /**
@@ -500,7 +500,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($oAudit->username,OA_TEST_AUDIT_USERNAME);
         $this->assertEqual($aAudit['category_id'],$categoryId);
 
-        DataGenerator::cleanUp(array('category', 'audit'));
+        DataGenerator::cleanUp(array('accounts', 'category', 'audit'));
     }
 
     function testAuditClient()
@@ -532,7 +532,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($oAudit->username,OA_TEST_AUDIT_USERNAME);
         $this->assertEqual($aAudit['clientid'],$clientId);
 
-        DataGenerator::cleanUp(array('clients', 'audit'));
+        DataGenerator::cleanUp(array('accounts', 'clients', 'audit'));
     }
 
     function testAuditAffiliate()
@@ -564,7 +564,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($oAudit->username,OA_TEST_AUDIT_USERNAME);
         $this->assertEqual($aAudit['affiliateid'],$affiliateId);
 
-        DataGenerator::cleanUp(array('affiliates', 'audit'));
+        DataGenerator::cleanUp(array('accounts', 'affiliates', 'audit'));
     }
 
     function testAuditAffiliateExtra()
@@ -594,7 +594,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($oAudit->username,OA_TEST_AUDIT_USERNAME);
         $this->assertEqual($aAudit['affiliateid'],$doAffiliateX->affiliateid);
 
-        DataGenerator::cleanUp(array('affiliates_extra', 'audit'));
+        DataGenerator::cleanUp(array('accounts', 'affiliates_extra', 'audit'));
     }
 
     function testAuditTracker()
@@ -627,7 +627,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($oAudit->username,OA_TEST_AUDIT_USERNAME);
         $this->assertEqual($aAudit['trackerid'],$trackerId);
 
-        DataGenerator::cleanUp(array('trackers', 'audit'));
+        DataGenerator::cleanUp(array('accounts', 'trackers', 'audit'));
     }
 
     function testAuditCampaign()
@@ -660,7 +660,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($oAudit->username,OA_TEST_AUDIT_USERNAME);
         $this->assertEqual($aAudit['campaignid'],$campaignId);
 
-        DataGenerator::cleanUp(array('campaigns', 'audit'));
+        DataGenerator::cleanUp(array('accounts', 'campaigns', 'audit'));
     }
 
     function testAuditCampaignTrackers()
@@ -696,7 +696,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($oAudit->username,OA_TEST_AUDIT_USERNAME);
         $this->assertEqual($aAudit['campaign_trackerid'],$campaign_trackerId,'expected (details) campaign_trackerid '.$campaign_trackerId.' got '.$aAudit['campaign_trackerid']);
 
-        DataGenerator::cleanUp(array('campaigns_trackers', 'audit'));
+        DataGenerator::cleanUp(array('accounts', 'campaigns_trackers', 'audit'));
     }
 
     function testAuditCampaignLinkTrackers()
@@ -713,7 +713,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aAudit['clientid'],1);
         $this->assertEqual($aAudit['trackerid'],$trackerId);
 
-        DataGenerator::cleanUp(array('campaigns', 'trackers', 'campaigns_trackers', 'audit'));
+        DataGenerator::cleanUp(array('accounts', 'campaigns', 'trackers', 'campaigns_trackers', 'audit'));
     }
 
     function testAuditBanner()
@@ -746,7 +746,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($oAudit->username,OA_TEST_AUDIT_USERNAME);
         $this->assertEqual($aAudit['bannerid'],$bannerId);
 
-        DataGenerator::cleanUp(array('banners', 'audit'));
+        DataGenerator::cleanUp(array('accounts', 'banners', 'audit'));
     }
 
     function testAuditAcls()
@@ -803,7 +803,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aAudit['data'],$doAcls->data);
         $this->assertEqual($aAudit['executionorder'],$doAcls->executionorder);
 
-        DataGenerator::cleanUp(array('acls', 'audit'));
+        DataGenerator::cleanUp(array('accounts', 'acls', 'audit'));
     }
 
     function testAuditAgency()
@@ -976,7 +976,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aEvent['array']['account_name'],'Agency Changed');
         $this->assertEqual($aEvent['array']['account_type'],'MANAGER');
 
-        DataGenerator::cleanUp(array('agency', 'clients', 'audit'));
+        DataGenerator::cleanUp(array('accounts', 'agency', 'clients', 'audit'));
     }
 
     function testAuditParentId()
@@ -998,7 +998,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $oAuditBanner = $this->_fetchAuditRecord('banners', OA_AUDIT_ACTION_DELETE);
         $this->assertEqual($oAuditCampaign->auditid, $oAuditBanner->parentid);
 
-        DataGenerator::cleanUp(array('campaigns', 'banners', 'audit'));
+        DataGenerator::cleanUp(array('accounts', 'campaigns', 'banners', 'audit'));
 
     }
 
@@ -1012,21 +1012,44 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     function aaatestAuditAdZoneAssoc()
     {
         global $session;
-        // insert a banner
-        $doBanners = OA_Dal::factoryDO($context = 'banners');
-        $doBanners->campaignid = rand(20,30);
+
+        // In this test, all ancestors are generated manually, otherwise the
+        // DataGenerator will create separate "owning" manager accounts for
+        // the banner and the zone; and linking these is not permitted!
+
+        // Insert a common manager account
+        $doAgency = OA_Dal::factoryDO('agency');
+        $agencyId = DataGenerator::generateOne($doAgency);
+
+        // Insert an advertiser
+        $doClients = OA_Dal::factoryDO('clients');
+        $doClients->agencyid = $agencyId;
+        $advertiserId = DataGenerator::generateOne($doClients);
+
+        // Insert a campaign
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->clientid = $advertiserId;
+        $campaignId = DataGenerator::generateOne($doCampaigns);
+
+        // Insert a banner
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->campaignid = $campaignId;
         $doBanners->description = 'Banner A';
-        $bannerId = DataGenerator::generateOne($doBanners, true);
+        $bannerId = DataGenerator::generateOne($doBanners);
 
-        // insert a zone
-        $doZones = OA_Dal::factoryDO($context = 'zones');
-        $doZones->affiliateid = 1;
+        // Insert a website
+        $doAffiliates = OA_Dal::factoryDO('affiliates');
+        $doAffiliates->agencyid = $agencyId;
+        $websiteId = DataGenerator::generateOne($doAffiliates);
+
+        // Insert a zone
+        $doZones = OA_Dal::factoryDO('zones');
+        $doZones->affiliateid = $websiteId;
         $doZones->zonename = 'Zone A';
-        $zoneId = DataGenerator::generateOne($doZones, true);
+        $zoneId = DataGenerator::generateOne($doZones);
 
-        $doAdZoneAssoc = OA_Dal::factoryDO($context = 'ad_zone_assoc');
-
-        // link the banner and the zone
+        // Link the banner and the zone
+        $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
         $doAdZoneAssoc->ad_id = $bannerId;
         $doAdZoneAssoc->zone_id = $zoneId;
         $doAdZoneAssoc->link_type = 99;
@@ -1146,7 +1169,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aAudit['array']['priority_factor'], 0);
         $this->assertEqual($aAudit['array']['to_be_delivered'], 0);
 
-        DataGenerator::cleanUp(array('banners', 'zones', 'ad_zone_assoc', 'audit'));
+        DataGenerator::cleanUp(array('accounts', 'banners', 'zones', 'ad_zone_assoc', 'audit'));
     }
 
 }

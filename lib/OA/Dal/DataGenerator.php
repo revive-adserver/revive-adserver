@@ -177,7 +177,8 @@ class DataGenerator
     }
 
     /**
-     * Remove the data from all tables where DataGenerator generated any records
+     * Remove the data from all tables where DataGenerator generated any records,
+     * and also reset the auditing account ownership cache.
      *
      * @param array $addTablesToCleanUp  Array of any additional tables DataGenerator should
      *                                   delete data from
@@ -196,6 +197,9 @@ class DataGenerator
         }
         // Cleanup ancestor ids
         DataGenerator::getReferenceId();
+        // Clean up the auditing account ownership cache
+        $doAccounts = OA_Dal::factoryDO('accounts');
+        $doAccounts->getOwningAccountIds(null, null, true);
     }
 
     /**
