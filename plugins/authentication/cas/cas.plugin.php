@@ -175,14 +175,11 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
     {
         // Preload the Central object
         $this->getCentralCas();
-
         $result = $this->oCentral->checkUsernameMd5Password($username, md5($password));
-
         if (PEAR::isError($result)) {
             return false;
         }
-
-        return true;
+        return (bool) $result;
     }
 
     /**
