@@ -254,7 +254,8 @@ class Test_OA_Admin_Menu
         $this->assertFalse($menu->isRootSection($nullSection));
 
         //check the id instead of the section itself
-        $this->assertFalse($menu->isRootSection($sections[0]->getId()));
+        $rootSection = $sections[0]->getId();
+        $this->assertFalse($menu->isRootSection($rootSection));
 
         //check the root section
         for ($i = 0; $i < count($sections); $i++) {
