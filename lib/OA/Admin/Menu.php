@@ -166,7 +166,8 @@ class OA_Admin_Menu
      */
     function isRootSection(&$oSection, $checkAccess = true)
     {
-        return object_in_array($oSection, $this->getRootSections($checkAccess), true);
+        $rootSections = $this->getRootSections($checkAccess);
+        return object_in_array($oSection, $rootSections, true);
     }
 
 
