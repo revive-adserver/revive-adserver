@@ -2022,7 +2022,6 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      */
     function getActiveZones()
     {
-        $aConf = $GLOBALS['_MAX']['CONF'];
         $table1 = $this->_getTablename('zones');
         $table2 = $this->_getTablename('ad_zone_assoc');
         $table3 = $this->_getTablename('banners');

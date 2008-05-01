@@ -188,14 +188,7 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
         parent::OA_Maintenance_Priority_AdServer_Task();
         // Store the configuration array
         $this->aConf = $GLOBALS['_MAX']['CONF'];
-        // Get the current "now" time from the OA_ServiceLocator,
-        // or set it if required
-        $oServiceLocator =& OA_ServiceLocator::instance();
-        $this->oDateNow =& $oServiceLocator->get('now');
-        if (!$this->oDateNow) {
-            $this->oDateNow = new Date();
-            $oServiceLocator->register('now', $this->oDateNow);
-        }
+        $this->oDateNow = $this->getDateNow();
         // Set the date to update ZIF values until - that is, the end of the
         // current operation interval
         $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($this->oDateNow);
@@ -207,6 +200,7 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
         $aData = $this->oDal->getMaintenancePriorityLastRunInfo(DAL_PRIORITY_UPDATE_ZIF);
         $this->oPriorityUpdatedToDate = (is_null($aData['updated_to'])) ? null : new Date($aData['updated_to']);
         $this->priorityOperationInterval = $aData['operation_interval'];
+
         // Prepare the list of all active zones in the system
         $this->aActiveZoneIDs = $this->_getActiveZonesIDs();
         // Set other zone ID arrays to empty arrays
@@ -215,12 +209,30 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
         // Set the results arrays to an empty arrays
         $this->aForecastResults = array();
         $this->aPastForecastResults = array();
+
         // Set the default forecast value
         $multiplier = $this->aConf['maintenance']['operationInterval'] / 60;
         $this->ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS = (int) round(ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS * $multiplier);
         if ($this->ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS < ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS_MINIMUM) {
             $this->ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS = ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS_MINIMUM;
         }
+    }
+
+    /**
+     * Get the current "now" time from the OA_ServiceLocator,
+     * or create it if not set yet
+     *
+     * TODO: Move this somewhere to Date utility
+     */
+    function getDateNow()
+    {
+        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oDateNow =& $oServiceLocator->get('now');
+        if (!$oDateNow) {
+            $oDateNow = new Date();
+            $oServiceLocator->register('now', $oDateNow);
+        }
+        return $oDateNow;
     }
 
     /**
@@ -261,6 +273,17 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
     {
         OA::debug('Running Maintenance Priority Engine: Zone Impression Forecast Update', PEAR_LOG_DEBUG);
         $oStartDate = new Date();
+
+        $this->forecast();
+
+        // Record the completion of the task in the database
+        OA::debug('- Recording completion of the Forecast Zone Impressions task', PEAR_LOG_DEBUG);
+        $oEndDate = new Date();
+        $this->oDal->setMaintenancePriorityLastRunInfo($oStartDate, $oEndDate, $this->oUpdateToDate, DAL_PRIORITY_UPDATE_ZIF);
+    }
+
+    function forecast()
+    {
         // Determine type of update required
         $type = $this->_getUpdateTypeRequired();
         // Are we updating the ZIF values for all operation intervals?
@@ -326,10 +349,6 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
             $oPastStartDate->subtractSeconds(SECONDS_PER_WEEK - OA_OperationInterval::secondsPerOperationInterval());
             $this->oDal->updatePastZoneImpressionForecasts($this->aPastForecastResults, $oPastStartDate);
         }
-        // Record the completion of the task in the database
-        OA::debug('- Recording completion of the Forecast Zone Impressions task', PEAR_LOG_DEBUG);
-        $oEndDate = new Date();
-        $this->oDal->setMaintenancePriorityLastRunInfo($oStartDate, $oEndDate, $this->oUpdateToDate, DAL_PRIORITY_UPDATE_ZIF);
     }
 
     /**
