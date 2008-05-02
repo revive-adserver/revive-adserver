@@ -84,7 +84,7 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
      *
      * Array
      * (
-     *      [0] => Array
+     *      [0] => Array (imps)
      *          (
      *              [09-01] => 1000
      *              [09-02] => 1000
@@ -95,7 +95,7 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
      *              [09-07] => 1000
      *          )
      *
-     *      [1] => Array
+     *      [1] => Array (clicks)
      *          (
      *              [09-01] => 10
      *              [09-02] => 10
@@ -113,7 +113,9 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
         if (isset($aData[0]) && is_array($aData[0]) && isset($aData[1]) && is_array($aData[1])) {
             for ($i = 0; $i < 2; $i++) {
                 foreach ($aData[$i] as $k => $v) {
-                    $this->aData[$i][$k] = $v;
+                    // OXC gives us the days in english, eg Mon.
+                    $day = $this->oTrans->translate($k);
+                    $this->aData[$i][$day] = $v;
                 }
             }
         }
@@ -127,7 +129,7 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
     {
         $this->aData = array();
         for ($i = 0; $i < 7; $i++) {
-            $day = $GLOBALS['strDayShortCuts'][date('w', time() - 86400 * (7 - $i))];
+            $day = $this->oTrans->translate(date('D', time() - 86400 * (7 - $i)));
             $this->aData[0][$day] = 0;
             $this->aData[1][$day] = 0;
         }
@@ -258,12 +260,13 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
      */
     function _formatY($value)
     {
+        $oTrans = new OA_Translation();
         $unit = '';
         $aUnits = array('B' => 1000000000, 'M' => 1000000, 'k' => 1000);
         foreach ($aUnits as $k => $v) {
             if ($value >= $v) {
                 $value = $value / $v;
-                $unit  = $this->oTrans->translate($k);
+                $unit  = $oTrans->translate($k);
             }
         }
 
