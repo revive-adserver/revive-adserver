@@ -1062,8 +1062,11 @@ echo "\t\t"."</tr>"."\n";
 echo "\t\t"."<tr>"."\n";
 echo "\t\t\t"."<td valign='top'><input type='radio' id='priority-h' name='priority' value='2'".(($row['priority'] > '0' && $campaignid != '') ? ' checked' : '')." onClick=\"phpAds_formPriorityRadioClick(this);\" tabindex='".($tabindex++)."'></td>"."\n";
 echo "\t\t\t"."<td valign='top'> <select name='high_priority_value'>";
-if ($row['priority'] == '0' || $row['priority'] == 0) {
+// If is a low priority campaign or a exclusive priority campaign show the disabled High Priority Level as 5
+if ($row['priority'] == '0') {
 	$lowPriority = true;
+	$row['priority'] = 5;
+} elseif ($row['priority'] == '-1') {
 	$row['priority'] = 5;
 }
 for ($i = 10; $i >= 1; $i--) {
