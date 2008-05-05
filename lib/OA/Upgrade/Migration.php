@@ -168,6 +168,11 @@ class Migration
 
 	}
 
+	/**
+	 * Returns database table prefix.
+	 *
+	 * @return string Table prefix
+	 */
     function getPrefix()
     {
         return $GLOBALS['_MAX']['CONF']['table']['prefix'];
@@ -383,6 +388,32 @@ class Migration
         return true;
     }
 
+    /**
+     * Resets the sequence value for a given table and its id field to the
+     * maximum value currently in the table. This way after upgrade the
+     * sequence should be ready to use for inserting new campaigns, websites...
+     * This function have effect only on PostgreSQL. It does nothing when
+     * called on a different database.
+     *
+     * On database error the function logs an error and returns false.
+     *
+     * @param string $table Name of the table (without prefix)
+     * @param string $field Name of the id field (eg. affiliateid, campaignid)
+     * @param int $idxMigration Migration number which calls this function
+     * @return boolean True on success, false on error.
+     */
+    function resetSequence($table, $field, $idxMigration)
+    {
+        if ($this->oDBH->dbsyntax == 'pgsql') {
+            $dbTable = new OA_DB_Table();
+            $result = $dbTable->resetSequenceByData($table, $field);
+            if (PEAR::isError($result)) {
+                return $this->_logErrorAndReturnFalse(
+                    "Error resetting {$table} sequence during migration $idxMigration: ".$result->getUserInfo());
+            }
+        }
+        return true;
+    }
 }
 
 ?>

@@ -160,6 +160,39 @@ class Test_OA_DB extends UnitTestCase
         $this->assertTrue(PEAR::isError($oDbh));
     }
 
+
+    function testGetSequenceName()
+    {
+        $conf =& $GLOBALS['_MAX']['CONF'];
+        $prefix = $conf['table']['prefix'] = 'ox_';
+
+        $oDbh = &OA_DB::singleton();
+
+        if ($oDbh->dbsyntax == 'pgsql') {
+            $this->assertEqual(OA_DB::getSequenceName($oDbh, 'x', 'a'),
+                'ox_x_a_seq');
+            $this->assertEqual(OA_DB::getSequenceName($oDbh, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxyy', 'a'),
+                'ox_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx_a_seq');
+            $this->assertEqual(OA_DB::getSequenceName($oDbh, 'x', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabb'),
+                'ox_x_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_seq');
+            $this->assertEqual(OA_DB::getSequenceName($oDbh, 'xxxxxxxxxxxxxxxxxxxxxxxxxxy', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaab'),
+                'ox_xxxxxxxxxxxxxxxxxxxxxxxxxx_aaaaaaaaaaaaaaaaaaaaaaaaaaaaa_seq');
+
+            $this->assertEqual(OA_DB::getSequenceName($oDbh, 'x', 'a', false),
+                'ox_x_a');
+            $this->assertEqual(OA_DB::getSequenceName($oDbh, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxyy', 'a', false),
+                'ox_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx_a');
+            $this->assertEqual(OA_DB::getSequenceName($oDbh, 'x', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabb', false),
+                'ox_x_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+            $this->assertEqual(OA_DB::getSequenceName($oDbh, 'xxxxxxxxxxxxxxxxxxxxxxxxxxy', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaab', false),
+                'ox_xxxxxxxxxxxxxxxxxxxxxxxxxx_aaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+        } else {
+            $this->assertEqual(OA_DB::getSequenceName($oDbh, 'x', 'a'), 'x');
+            $this->assertEqual(OA_DB::getSequenceName($oDbh, 'x', 'a', false), 'x');
+        }
+
+        TestEnv::restoreConfig();
+    }
 }
 
 

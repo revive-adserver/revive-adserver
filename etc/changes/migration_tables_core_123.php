@@ -104,7 +104,6 @@ class Migration_123 extends Migration
 	{
 		return $this->afterAddField('affiliates', 'updated');
 	}
-
 }
 
 ?>

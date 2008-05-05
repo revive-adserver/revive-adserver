@@ -77,5 +77,12 @@ class migration_tables_core_122Test extends MigrationTest
         $this->assertTrue($rsClients->find());
         $this->assertTrue($rsClients->fetch());
         $this->assertEqual(count($aAValues) - $cCampaigns, $rsClients->get('nclients'));
+        
+        if ($this->oDbh->dbsyntax == 'pgsql') {
+            $value = $this->oDbh->queryOne(
+                "SELECT NEXTVAL('{$prefix}campaigns_campaignid_seq')");
+            
+            $this->assertTrue($value > 5, "The current sequence value is $value.");
+        }
     }
 }

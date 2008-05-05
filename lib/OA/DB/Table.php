@@ -653,6 +653,46 @@ class OA_DB_Table
         return substr($tableName . '_' . preg_replace("/^{$origTable}_/", '', $index), 0, 63);
     }
 
+    /**
+     * Resets the sequence value for a given table and its id field to the
+     * maximum value currently in the table. This way after upgrade the
+     * sequence should be ready to use for inserting new campaigns, websites...
+     * This function have effect only on PostgreSQL. It does nothing when
+     * called on a different database.
+     *
+     * On database error the function logs an error and returns false.
+     *
+     * @param string $table Name of the table (without prefix)
+     * @param string $field Name of the id field (eg. affiliateid, campaignid)
+     * @return PEAR_Error True on success, PEAR_Error object on failure.
+     */
+    function resetSequenceByData($table, $field)
+    {
+        if ($this->oDbh->dbsyntax == 'pgsql') {
+            $prefix = $this->getPrefix();
+            $tableName = $prefix . $table;
+            $sequenceName = OA_DB::getSequenceName($this->oDbh, $table, $field);
+            $qSeq = $this->oDbh->quoteIdentifier($sequenceName, true);
+            $qFld = $this->oDbh->quoteIdentifier($field, true);
+            $qTbl = $this->oDbh->quoteIdentifier($tableName, true);
+            $sql = "SELECT setval(".$this->oDbh->quote($qSeq).", MAX({$qFld})) FROM {$qTbl}";
+            $result = $this->oDbh->exec($sql);
+            if (PEAR::isError($result)) {
+                return $result;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Returns a prefix used for prefixing database tables.
+     *
+     * @return string
+     */
+    function getPrefix()
+    {
+        return $GLOBALS['_MAX']['CONF']['table']['prefix'];
+    }
 }
 
 ?>

@@ -924,18 +924,14 @@ class DB_DataObject extends DB_DataObject_Overload
         if (($key !== false) && !$useNative) {
 
             if (!$seq) {
-                // Hack! PostgreSQL SERIAL columns use tablename_columnname_seq
-                // by default, and DB_DataObjects/MDB2/MDB2_Schema don't yet
-                // all agree on how to do this...
-                if ($dbtype == 'pgsql') {
-                    $keyvalue =  $DB->nextId($this->__table . '_' . $key);
-                } else {
-                    $keyvalue =  $DB->nextId($this->__table);
-                }
+                // Since recent versions OA_DB is capable to generate sequence names for nextId
+                // with both MySQL and PgSQL compatibility
+                $seq = OA_DB::getSequenceName($DB, $this->_tableName, $key, false);
+                $keyvalue =  $DB->nextId($seq);
             } else {
                 $f = $DB->getOption('seqname_format');
                 $DB->setOption('seqname_format','%s');
-                $keyvalue =  $DB->nextId($seq);
+                $keyvalue = $DB->nextId($seq);
                 $DB->setOption('seqname_format',$f);
             }
             if (PEAR::isError($keyvalue)) {

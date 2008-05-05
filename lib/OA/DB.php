@@ -546,6 +546,42 @@ class OA_DB
     }
 
     /**
+     * Creates and returns a sequence name for a given table and field.
+     *
+     * When used to get the parameter for MDB2::nextId(), set $appendSuffix to false
+     *
+     * Note: On MySQL the method will return the table name as-is
+     *
+     * @param MDB2_Driver_Common $oDbh
+     * @param string $table
+     * @param string $field
+     * @param bool $appendSuffix PgSQL only
+     * @return string Sequence name
+     */
+    function getSequenceName($oDbh, $table, $field, $appendSuffix = true)
+    {
+        if ($oDbh->dbsyntax == 'pgsql') {
+            $tableName = $GLOBALS['_MAX']['CONF']['table']['prefix'] . $table;
+            $fieldName = $field;
+
+            // Hint: (max length) - (chars needed for '_' and '_seq') = 63 - 5 = 58
+            if (strlen($tableName) + strlen($fieldName) > 58) {
+                if (strlen($fieldName) < 29) {
+                    $tableName = substr($tableName, 0, 58 - strlen($fieldName));
+                } elseif (strlen($tableName) < 29) {
+                    $fieldName = substr($fieldName, 0, 58 - strlen($tableName));
+                } else {
+                    $tableName = substr($tableName, 0, 29);
+                    $fieldName = substr($fieldName, 0, 29);
+                }
+            }
+            return $tableName.'_'.$fieldName.($appendSuffix ? '_seq' : '');
+        }
+
+        return $table;
+    }
+
+    /**
      * A method to set the PEAR::MDB2 quote_identifier option so that table/column
      * names will be quoted, so that tables definitions can be obtained in a case
      * sensitive fashion.
