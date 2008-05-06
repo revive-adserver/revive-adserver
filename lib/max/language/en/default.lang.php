@@ -879,6 +879,7 @@ $GLOBALS['strCampaignStop']           = "Campaign stop";
 
 // Reports
 $GLOBALS['strReports']                = "Reports";
+$GLOBALS['strAdvancedReports']        = "Advanced Reports";
 $GLOBALS['strAdminReports']           = "Admin Reports";
 $GLOBALS['strAdvertiserReports']      = "Advertiser Reports";
 $GLOBALS['strAgencyReports']          = "Agency Reports";
