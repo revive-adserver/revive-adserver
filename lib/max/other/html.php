@@ -570,45 +570,26 @@ function MAX_displayInventoryBreadcrumbs($aEntityNamesUrls, $entityClass, $newEn
 
 function MAX_displayInventoryBreadcrumbsInternal($aEntityNamesUrls, $breadcrumbPath, $newEntity)
 {
-	// Opening div
-    echo "<div class='breadcrumb";
-    if (count($aEntityNamesUrls) == 1) {
-        echo " onlytitle";
-    }
-    echo "'>";
+    global $phpAds_breadcrumbs;
+    
+    $path = array();
     
     // Breadcrumbs above the main title
-    for ($i = 0; $i < count($aEntityNamesUrls) - 1; $i++) {
+    for ($i = 0; $i < count($aEntityNamesUrls); $i++) {
     	$breadcrumbInfo = MAX_buildBreadcrumbInfo($breadcrumbPath[$i]);
-    	$url = $aEntityNamesUrls[$i]["url"];
     	
-    	if (strlen($url) > 0) {
-	       echo "<a href='" . $url . "' class='ent " . $breadcrumbInfo['class'] . "'>" . $breadcrumbInfo['label'] . ": " . $aEntityNamesUrls[$i]["name"] . "</a>";
-    	}
-    	else {
-	       echo "<span class='ent " . $breadcrumbInfo['class'] . "'>" . $breadcrumbInfo['label'] . ": " . $aEntityNamesUrls[$i]["name"] . "</span>";
-    	}
-    	
-	    if ($i < count($aEntityNamesUrls) - 2) {
-	    	echo "<span class='sep'>&gt;</span>";
-	    }
+        $path[] = array(
+            'name' => $aEntityNamesUrls[$i]["name"],
+            'url' => $aEntityNamesUrls[$i]["url"],
+            'label' => ($newEntity && $i == count($aEntityNamesUrls) -1 ? $breadcrumbInfo['newLabel'] : $breadcrumbInfo['label']),
+            'cssClass' => $breadcrumbInfo['class']
+        );    	
     }
     
-    // Main title
-    $breadcrumbInfo = MAX_buildBreadcrumbInfo($breadcrumbPath[count($aEntityNamesUrls) - 1]);
-    echo "<h3><span class='label'>" . $breadcrumbInfo[$newEntity ? "newLabel" : "label"] . "</span>";
-    if (!$newEntity) {
-        echo ": " . $aEntityNamesUrls[count($aEntityNamesUrls) - 1]["name"];
-    } 
-    
-    // Code for more verbose title when adding new entities. 
-    // I'm not sure how this would relate to translations though. 
-//    else {
-//    	if (count($aEntityNamesUrls) - 2 >= 0) {
-//    		echo " <span class='dest'>to " . $aEntityLabelsClasses[count($aEntityNamesUrls) - 2]["label"] . ": " . $aEntityNamesUrls[count($aEntityNamesUrls) - 2]["name"] . "</span>";
-//    	}
-//    }
-    echo "</h3></div>";
+    $phpAds_breadcrumbs = array(
+        'path' => $path,
+        'newEntity' => $newEntity
+    );
 }
 
 function MAX_buildBreadcrumbInfo($entityClass)
@@ -790,11 +771,11 @@ function MAX_displayNavigationCampaign($pageName, $aOtherAdvertisers, $aOtherCam
             </form>";
     }
 
-    phpAds_PageHeader(null, $extra);
     MAX_displayInventoryBreadcrumbs(array(
                                       array("name" => $advertiserName, "url" => $advertiserEditUrl),
                                       array("name" => $campaignName)), 
                                     "campaign");
+    phpAds_PageHeader(null, $extra);
     phpAds_ShowSections($tabSections);
 }
 
@@ -903,7 +884,7 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
         $campaignAnonymous = $campaign['anonymous'] == 't' ? true : false; 
         $aOtherBanner['name'] = MAX_getAdName($aOtherBanner['name'], null, null, $campaignAnonymous, $otherBannerId); 
  
-        $otherBannerName = phpAds_buildName($otherBannerId, $aOtherBanner['name']); 
+        $otherBannerName = MAX_buildName($otherBannerId, $aOtherBanner['name']); 
  
         $page = "{$pageName}?{$otherEntityString}bannerid={$otherBannerId}&"; 
         if ($otherBannerId == $bannerId) { 
@@ -915,11 +896,15 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
         phpAds_PageContext($otherBannerName, $page, $current); 
     } 
  
+    $advertiserEditUrl = '';
+    $campaignEditUrl = '';
     if (OA_Permission::hasAccessToObject('clients', $advertiserId)) { 
-        phpAds_PageShortcut($GLOBALS['strClientProperties'], "advertiser-edit.php?clientid=$advertiserId", 'images/icon-advertiser.gif'); 
+        $advertiserEditUrl = "advertiser-edit.php?clientid=$advertiserId";
+        phpAds_PageShortcut($GLOBALS['strClientProperties'], $advertiserEditUrl, 'images/icon-advertiser.gif'); 
     } 
     if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) { 
-        phpAds_PageShortcut($GLOBALS['strCampaignProperties'], "campaign-edit.php?clientid=$advertiserId&campaignid=$campaignId", 'images/icon-campaign.gif'); 
+        $campaignEditUrl = "campaign-edit.php?clientid=$advertiserId&campaignid=$campaignId";
+        phpAds_PageShortcut($GLOBALS['strCampaignProperties'], $campaignEditUrl, 'images/icon-campaign.gif'); 
     } 
     phpAds_PageShortcut($GLOBALS['strBannerHistory'], "stats.php?entity=banner&breakdown=history&$entityString", 'images/icon-statistics.gif'); 
  
@@ -936,13 +921,16 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
         $extra = '';
         $bannerCode = '';
     }
-    phpAds_PageHeader($tabValue, $extra);
     
+    $advertiserDetails = phpAds_getClientDetails($advertiserId);
+    $advertiserName = $advertiserDetails['clientname'];
     MAX_displayInventoryBreadcrumbs(array(
                                       array("name" => $advertiserName, "url" => $advertiserEditUrl),
-                                      array("name" => $campaignName, "url" => $campaignEditUrl), 
+                                      array("name" => $campaign['name'], "url" => $campaignEditUrl), 
                                       array("name" => $bannerName)), 
                                     "banner", $bannerId == '');
+    phpAds_PageHeader($tabValue, $extra);
+    
 	echo "<div class='bannercode'>$bannerCode</div>";
     if ($bannerCode != '') {
         echo "<br />";
@@ -1055,11 +1043,11 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
         }
         $extra .= "</form>";
     }
-    phpAds_PageHeader($tabValue, $extra);
     MAX_displayInventoryBreadcrumbs(array(
                                        array("name" => $publisherName, "url" => $publisherEditUrl),
                                        array("name" => $zoneName)
                                    ), "zone");
+    phpAds_PageHeader($tabValue, $extra);
     phpAds_ShowSections($tabSections);
 
 }
@@ -1100,8 +1088,8 @@ function MAX_displayNavigationPublisher($pageName, $aOtherPublishers, $aEntities
 
     phpAds_PageShortcut($GLOBALS['strAffiliateHistory'], 'stats.php?entity=affiliate&breakdown=history&affiliateid='.$publisherId, 'images/icon-statistics.gif');
 
-    phpAds_PageHeader($tabValue, $extra = '');
     MAX_displayInventoryBreadcrumbs(array(array("name" => $publisherName)), "website");
+    phpAds_PageHeader($tabValue, $extra = '');
     phpAds_ShowSections($tabSections);
 }
 
@@ -1189,23 +1177,23 @@ function MAX_displayNavigationChannel($pageName, $aOtherChannels, $aEntities)
         // Determine which tab is highlighted
         $publisherName = phpAds_getAffiliateName($publisherId);
         if (!empty($channelId)) {
-            phpAds_PageHeader($tabValue, $extra);
             MAX_displayInventoryBreadcrumbs(array(
                                                 array("name" => $publisherName, url => $publisherEditUrl), 
                                                 array("name" => $channelName)), "channel");
+            phpAds_PageHeader($tabValue, $extra);
         } else {
-            phpAds_PageHeader($tabValue);
             MAX_displayInventoryBreadcrumbs(array(
                                                 array("name" => $publisherName, url => $publisherEditUrl), 
                                                 array("name" => $channelName)), "channel", true);
+            phpAds_PageHeader($tabValue);
         }
     } else {
         if (!empty($channelId)) {
-            phpAds_PageHeader($tabValue, $extra);
             MAX_displayInventoryBreadcrumbs(array(array("name" => $channelName)), "global-channel");
+            phpAds_PageHeader($tabValue, $extra);
         } else {
-            phpAds_PageHeader($tabValue);
             MAX_displayInventoryBreadcrumbs(array(array("name" => "")), "global-channel", true);
+            phpAds_PageHeader($tabValue);
         }
     }
 
@@ -1566,6 +1554,25 @@ function MAX_displayAcls($acls, $aParams) {
     $page = basename($_SERVER['PHP_SELF']);
     $conf = $GLOBALS['_MAX']['CONF'];
 
+    echo "<form action='{$page}' method='post'>";
+    
+    echo "<img src='" . MAX::assetPath() . "/images/icon-acl-add.gif' align='absmiddle'>&nbsp;Add delivery limitation&nbsp;&nbsp;";
+    echo "<select name='type' accesskey='{$GLOBALS['keyAddNew']}' tabindex='".($tabindex++)."'>";
+
+    $deliveryLimitations = MAX_Plugin::getPlugins('deliveryLimitations', null, false);
+    foreach ($deliveryLimitations as $pluginName => $plugin) {
+        if ($plugin->isAllowed($page)) {
+            echo "<option value='{$pluginName}'>" . $plugin->package . ' - ' . $plugin->getName() . "</option>";
+        }
+    }
+
+    echo "</select>";
+    echo "&nbsp;";
+    echo "<input type='submit' class='flat' name='action[new]' value='" . $GLOBALS['strAdd'] . "'";
+    
+    phpAds_ShowBreak();
+    echo "<br />";
+    
     if (!empty($GLOBALS['action'])) {
         // We are part way through making changes, show a message
         //echo "<br>";
@@ -1578,7 +1585,6 @@ function MAX_displayAcls($acls, $aParams) {
         echo "</div>";
     }
 
-    echo "<form action='{$page}' method='post'>";
     foreach ($aParams as $name => $value) {
         echo "<input type='hidden' name='{$name}' value='{$value}' />";
     }
@@ -1618,19 +1624,6 @@ function MAX_displayAcls($acls, $aParams) {
     }
 
     echo "</td><td height='30' colspan='2' align='{$GLOBALS['phpAds_TextAlignRight']}'>";
-    echo "<img src='" . MAX::assetPath() . "/images/icon-acl-add.gif' align='absmiddle'>&nbsp;";
-    echo "<select name='type' accesskey='{$GLOBALS['keyAddNew']}' tabindex='".($tabindex++)."'>";
-
-    $deliveryLimitations = MAX_Plugin::getPlugins('deliveryLimitations', null, false);
-    foreach ($deliveryLimitations as $pluginName => $plugin) {
-        if ($plugin->isAllowed($page)) {
-            echo "<option value='{$pluginName}'>" . $plugin->package . ' - ' . $plugin->getName() . "</option>";
-        }
-    }
-
-    echo "</select>";
-    echo "&nbsp;";
-    echo "<input type='image' name='action[new]' src='" . MAX::assetPath() . "/images/{$GLOBALS['phpAds_TextDirection']}/go_blue.gif' border='0' align='absmiddle' alt='{$GLOBALS['strSave']}'>";
     echo "</td></tr>";
 
     echo "</table>";

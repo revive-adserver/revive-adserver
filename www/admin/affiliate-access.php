@@ -53,22 +53,22 @@ if (!empty($affiliateid)) {
     if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
         OA_Admin_Menu::setPublisherPageContext($affiliateid, 'affiliate-access.php');
         phpAds_PageShortcut($strAffiliateHistory, 'stats.php?entity=affiliate&breakdown=history&affiliateid='.$affiliateid, 'images/icon-statistics.gif');
-        phpAds_PageHeader("4.2.7");
         MAX_displayWebsiteBreadcrumbs($affiliateid);
+        phpAds_PageHeader("4.2.7");
         phpAds_ShowSections(array("4.2.2", "4.2.3","4.2.4","4.2.5","4.2.6","4.2.7"));
     } else {
+        MAX_displayWebsiteBreadcrumbs($affiliateid);
         phpAds_PageHeader('2.3');
         $sections = array('2.1');
         if (OA_Permission::hasPermission(OA_PERM_ZONE_INVOCATION)) {
             $sections[] = '2.2';
         }
         $sections[] = '2.3';
-        MAX_displayWebsiteBreadcrumbs($affiliateid);
         phpAds_ShowSections($sections);
     }
 } else {
-    phpAds_PageHeader("4.2.1");
     MAX_displayWebsiteBreadcrumbs($affiliateid);
+    phpAds_PageHeader("4.2.1");
     phpAds_ShowSections(array("4.2.1"));
 }
 

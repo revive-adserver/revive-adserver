@@ -176,12 +176,12 @@ if ($trackerid != "") {
     $extra .= "\t\t\t\t<a href='tracker-delete.php?clientid=$clientid&trackerid=$trackerid&returnurl=advertiser-trackers.php'".phpAds_DelConfirm($strConfirmDeleteTracker).">$strDelete</a><br />\n";
     $extra .= "\t\t\t\t</form>\n";
 
-    phpAds_PageHeader(null, $extra);
     MAX_displayTrackerBreadcrumbs($trackerid);
+    phpAds_PageHeader(null, $extra);
 } else {
     // New tracker
-    phpAds_PageHeader("tracker-edit_new");
     MAX_displayTrackerBreadcrumbs(null, $clientid);
+    phpAds_PageHeader("tracker-edit_new");
 }
 
 if ($trackerid != "" || (isset($move) && $move == 't')) {

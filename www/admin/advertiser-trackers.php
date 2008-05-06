@@ -89,8 +89,8 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_AC
 
 	phpAds_PageShortcut($strClientHistory, 'stats.php?entity=advertiser&breakdown=history&clientid='.$clientid, 'images/icon-statistics.gif');
 
-	phpAds_PageHeader("4.1.4");
 	MAX_displayAdvertiserBreadcrumbs($clientid);
+	phpAds_PageHeader("4.1.4");
     phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.4", "4.1.5"));
 }
 

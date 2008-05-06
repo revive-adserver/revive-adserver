@@ -50,8 +50,8 @@ if (!empty($clientid)) {
 	if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
 		OA_Admin_Menu::setAdvertiserPageContext($clientid, 'advertiser-access.php');
 		phpAds_PageShortcut($strClientHistory, 'stats.php?entity=advertiser&breakdown=history&clientid='.$clientid, 'images/icon-statistics.gif');
-		phpAds_PageHeader("4.1.5");
         MAX_displayAdvertiserBreadcrumbs($clientid);
+		phpAds_PageHeader("4.1.5");
 		$aTabSections = array("4.1.2", "4.1.3");
         // Conditionally display conversion tracking values
 		if ($conf['logging']['trackerImpressions']) {
@@ -70,9 +70,9 @@ if (!empty($clientid)) {
     	phpAds_ShowSections($sections);
 	}
 } else {
-    phpAds_PageHeader("4.1.1");
     MAX_displayInventoryBreadcrumbs(array(array("name" => phpAds_getClientName($clientid))), 
                                     "advertiser");
+    phpAds_PageHeader("4.1.1");
 	phpAds_ShowSections(array("4.1.1"));
 }
 $tabindex = 1;

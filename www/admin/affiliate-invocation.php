@@ -63,8 +63,8 @@ if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
 
     phpAds_PageShortcut($strAffiliateProperties, 'affiliate-edit.php?affiliateid='.$affiliateid, 'images/icon-affiliate.gif');
     phpAds_PageShortcut($strZoneHistory, 'stats.php?entity=zone&breakdown=history&affiliateid='.$affiliateid.'&zoneid='.$zoneid, 'images/icon-statistics.gif');
-    phpAds_PageHeader("4.2.5");
     MAX_displayWebsiteBreadcrumbs($affiliateid);
+    phpAds_PageHeader("4.2.5");
     phpAds_ShowSections(array("4.2.2", "4.2.3","4.2.4","4.2.5","4.2.6","4.2.7"));
 } else {
     $sections = array();

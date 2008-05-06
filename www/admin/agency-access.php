@@ -49,17 +49,17 @@ OA_Permission::enforceAccessToObject('agency', $agencyid);
 if ($agencyid != '') {
     if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     	OA_Admin_Menu::setAgencyPageContext($agencyid, 'agency-edit.php');
-    	phpAds_PageHeader("4.1.3");
     	$doAgency = OA_Dal::staticGetDO('agency', $agencyid);
         MAX_displayInventoryBreadcrumbs(array(array("name" => $doAgency->name)), "agency");
+    	phpAds_PageHeader("4.1.3");
     	phpAds_ShowSections(array("4.1.2", "4.1.3"));
     } else {
         phpAds_PageHeader('4.4');
         phpAds_ShowSections(array("4.1", "4.2", "4.3", "4.4"));
     }
 } else {
-	phpAds_PageHeader("4.1.1");
 	MAX_displayInventoryBreadcrumbs(array(array("name" => phpAds_getClientName($agencyid))), "agency");
+	phpAds_PageHeader("4.1.1");
 	phpAds_ShowSections(array("4.1.1"));
 }
 $tabindex = 1;

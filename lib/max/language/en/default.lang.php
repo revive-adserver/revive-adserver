@@ -112,6 +112,7 @@ $GLOBALS['strFilteredTotal']            = "Total (filtered)";
 $GLOBALS['strActive']                   = "active";
 $GLOBALS['strFrom']                     = "From";
 $GLOBALS['strTo']                       = "to";
+$GLOBALS['strAdd']                      = "Add";
 $GLOBALS['strLinkedTo']                 = "linked to";
 $GLOBALS['strDaysLeft']                 = "Days left";
 $GLOBALS['strCheckAllNone']             = "Check all / none";

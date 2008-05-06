@@ -637,6 +637,9 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         // Add shortcuts, if any
         $this->_showShortcuts();
 
+        // Show the breadcrumbs
+        $this->_showBreadcrumbs();
+
         // Display header, top tab section links and left hand side navigation column
         phpAds_PageHeader($this->pageId);
 
@@ -647,9 +650,6 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
             echo $this->welcomeText;
             echo "<br/><br/><br/>";
         }
-
-        // Show the breadcrumbs
-        $this->_showBreadcrumbs();
 
         // Show the page sections
         phpAds_ShowSections($this->aPageSections, $this->aPageParams, $openNewTable=false);

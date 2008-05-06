@@ -90,8 +90,8 @@ if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
 
     phpAds_PageShortcut($strAffiliateHistory, 'stats.php?entity=affiliate&breakdown=history&affiliateid='.$affiliateid, 'images/icon-statistics.gif');
 
-    phpAds_PageHeader("4.2.3");
     MAX_displayWebsiteBreadcrumbs($affiliateid);
+    phpAds_PageHeader("4.2.3");
     phpAds_ShowSections(array("4.2.2", "4.2.3", "4.2.4", "4.2.5", "4.2.6", "4.2.7"));
 } else {
     $sections = array("2.1");

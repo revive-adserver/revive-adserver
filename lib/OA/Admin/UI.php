@@ -90,6 +90,7 @@ class OA_Admin_UI
         $ID = $this->getId($ID);
 
         global $phpAds_shortcuts;
+        global $phpAds_breadcrumbs;
         global $phpAds_CharSet;
         global $OA_Navigation, $OA_Navigation_ID;
 
@@ -103,6 +104,7 @@ class OA_Admin_UI
         $aSideNav       = array();
         $aSideContext   = array();
         $aSideShortcuts = array();
+        $aBreadcrumbs = array();
 
         $pageTitle = !empty($conf['ui']['applicationName']) ? $conf['ui']['applicationName'] : MAX_PRODUCT_NAME;
 
@@ -131,7 +133,9 @@ class OA_Admin_UI
             if (count($phpAds_shortcuts)) {
                 $aSideShortcuts = $phpAds_shortcuts;
             }
-
+           
+            // Include breadcrumbs
+            $aBreadcrumbs = $phpAds_breadcrumbs;
         } else {
             // Build tabbed navigation bar
             if ($ID == phpAds_Login) {
@@ -155,6 +159,7 @@ class OA_Admin_UI
         $this->oTpl->assign('aSide', $aSideNav);
         $this->oTpl->assign('aSideContext', $aSideContext);
         $this->oTpl->assign('aSideShortcuts', $aSideShortcuts);
+        $this->oTpl->assign('aBreadcrumbs', $aBreadcrumbs);
 
         // Include custom HTML for the sidebar
         if ($extra) {

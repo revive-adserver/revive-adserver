@@ -39,6 +39,7 @@ $OA_Navigation_ID  = '';
 $phpAds_GUIDone    = false;
 $phpAds_context    = array();
 $phpAds_shortcuts  = array();
+$phpAds_breadcrumbs  = array();
 
 define("phpAds_Login", 0);
 define("phpAds_Error", -1);

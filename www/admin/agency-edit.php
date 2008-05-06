@@ -95,9 +95,9 @@ if (isset($submit)) {
 
 if ($agencyid != '') {
 	OA_Admin_Menu::setAgencyPageContext($agencyid, 'agency-edit.php');
-	phpAds_PageHeader();
 	$doAgency = OA_Dal::staticGetDO('agency', $agencyid);
 	MAX_displayInventoryBreadcrumbs(array(array("name" => $doAgency->name)), "agency");
+	phpAds_PageHeader();
 	// Do not get this information if the page
 	// is the result of an error message
 	if (!isset($agency)) {
@@ -107,8 +107,8 @@ if ($agencyid != '') {
 	    }
 	}
 } else {
-	phpAds_PageHeader("agency-edit_new");
     MAX_displayInventoryBreadcrumbs(array(array("name" => "")), "agency", true);
+	phpAds_PageHeader("agency-edit_new");
 	// Do not set this information if the page
 	// is the result of an error message
 	if (!isset($agency)) {

@@ -73,8 +73,8 @@ while ($doClients->fetch() && $row = $doClients->toArray()) {
 phpAds_PageShortcut($strClientHistory, 'stats.php?entity=advertiser&breakdown=history&clientid='.$clientid, 'images/icon-statistics.gif');
 
 if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-    phpAds_PageHeader("4.1.3");
     MAX_displayAdvertiserBreadcrumbs($clientid);
+    phpAds_PageHeader("4.1.3");
     $aTabSections = array("4.1.2", "4.1.3");
     // Conditionally display conversion tracking values
 	if ($conf['logging']['trackerImpressions']) {

@@ -158,6 +158,30 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
                 <td width="20">&nbsp;</td>
 {/if}
                 <td>
+{if $aBreadcrumbs}
+	<div class="breadcrumb{if $aBreadcrumbs.path|@count == 1} onlytitle{/if}">
+	    {assign var=totalbc value=$aBreadcrumbs.path|@count}
+	    {section name=topbc start=0 loop=$totalbc-1}
+	        {if $aBreadcrumbs.path[topbc].url}
+	            <a href="{$aBreadcrumbs.path[topbc].url}" class="ent {$aBreadcrumbs.path[topbc].cssClass}">{$aBreadcrumbs.path[topbc].label}: {$aBreadcrumbs.path[topbc].name}</a>
+	        {else}
+	            <span class="ent {$aBreadcrumbs.path[topbc].cssClass}">{$aBreadcrumbs.path[topbc].label}: {$aBreadcrumbs.path[topbc].name}</span>
+	        {/if}
+	        
+	        {if $smarty.section.topbc.index lt $totalbc-2}
+	            <span class='sep'>&gt;</span>
+	        {/if}
+	    {/section}
+	    
+	    {assign var=mainbcindex value=$totalbc-1}
+	    <h3>
+	        <span class='label'>{$aBreadcrumbs.path[$mainbcindex].label}</span>
+	        {if !$aBreadcrumbs.newEntity}:{/if} 
+	        {$aBreadcrumbs.path[$mainbcindex].name}
+	    </h3>
+	</div>
+{/if}
+                
 {include file=layout/section-navigation.html}
 {* Footer *}
 {else}

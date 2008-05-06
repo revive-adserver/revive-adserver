@@ -87,8 +87,8 @@ if (isset($formId)) {
 if ($affiliateid != "") {
     OA_Admin_Menu::setPublisherPageContext($affiliateid, 'affiliate-edit.php');
     phpAds_PageShortcut($strAffiliateHistory, 'stats.php?entity=affiliate&breakdown=history&affiliateid='.$affiliateid, 'images/icon-statistics.gif');
-    phpAds_PageHeader();
     MAX_displayWebsiteBreadcrumbs($affiliateid);
+    phpAds_PageHeader();
     phpAds_ShowSections(array("4.2.2", "4.2.3","4.2.4","4.2.5","4.2.6","4.2.7"));
 
     // Do not get this information if the page
