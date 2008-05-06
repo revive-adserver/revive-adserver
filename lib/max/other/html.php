@@ -1556,7 +1556,7 @@ function MAX_displayAcls($acls, $aParams) {
 
     echo "<form action='{$page}' method='post'>";
     
-    echo "<img src='" . MAX::assetPath() . "/images/icon-acl-add.gif' align='absmiddle'>&nbsp;Add delivery limitation&nbsp;&nbsp;";
+    echo "<label><img src='" . MAX::assetPath() . "/images/icon-acl-add.gif' align='absmiddle'>&nbsp;". $GLOBALS['strACLAdd'] .": &nbsp;";
     echo "<select name='type' accesskey='{$GLOBALS['keyAddNew']}' tabindex='".($tabindex++)."'>";
 
     $deliveryLimitations = MAX_Plugin::getPlugins('deliveryLimitations', null, false);
@@ -1566,7 +1566,7 @@ function MAX_displayAcls($acls, $aParams) {
         }
     }
 
-    echo "</select>";
+    echo "</select></label>";
     echo "&nbsp;";
     echo "<input type='submit' class='flat' name='action[new]' value='" . $GLOBALS['strAdd'] . "'";
     
