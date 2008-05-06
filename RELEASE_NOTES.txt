@@ -96,8 +96,8 @@ Downloading and Installing
    ---------------------------------------------------------------
    | Max Media Manager v0.1              | v0.1.29-rc            |
    ---------------------------------------------------------------
-   | Openads 2.0 for Postgresql          | Not supported         |
-   |  (formerly phpPgAds)                | at this time          |
+   | Openads 2.0 for Postgresql          | 2.0.11-pr1            |
+   |  (formerly phpPgAds)                |   (Alpha)             |
    ---------------------------------------------------------------
 
    If you are not running one of these versions, you will need to upgrade
