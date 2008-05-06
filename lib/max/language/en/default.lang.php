@@ -1040,17 +1040,17 @@ $GLOBALS['strCheckForUpdates']        = "Check for Updates";
 $GLOBALS['strViewPastUpdates']        = "Manage Past Updates and Backups";
 
 // Agency
-$GLOBALS['strAgencyManagement']              = "Agency Management";
-$GLOBALS['strAgency']                      = "Agency";
-$GLOBALS['strAgencies']                   = "Agencies";
-$GLOBALS['strAddAgency']                   = "Add new agency";
-$GLOBALS['strAddAgency_Key']               = "Add <u>n</u>ew agency";
-$GLOBALS['strTotalAgencies']               = "Total agencies";
-$GLOBALS['strAgencyProperties']              = "Agency Properties";
-$GLOBALS['strNoAgencies']                 = "There are currently no agencies defined";
-$GLOBALS['strConfirmDeleteAgency']           = "Do you really want to delete this agency?";
-$GLOBALS['strHideInactiveAgencies']          = "Hide inactive agencies";
-$GLOBALS['strInactiveAgenciesHidden']     = "inactive agency(ies) hidden";
+$GLOBALS['strAgencyManagement']              = "Account Management";
+$GLOBALS['strAgency']                      = "Account";
+$GLOBALS['strAgencies']                   = "Accounts";
+$GLOBALS['strAddAgency']                   = "Add new account";
+$GLOBALS['strAddAgency_Key']               = "Add <u>n</u>ew account";
+$GLOBALS['strTotalAgencies']               = "Total accounts";
+$GLOBALS['strAgencyProperties']              = "Account Properties";
+$GLOBALS['strNoAgencies']                 = "There are currently no accounts defined";
+$GLOBALS['strConfirmDeleteAgency']           = "Do you really want to delete this account?";
+$GLOBALS['strHideInactiveAgencies']          = "Hide inactive accounts";
+$GLOBALS['strInactiveAgenciesHidden']     = "inactive account(s) hidden";
 $GLOBALS['strAllowAgencyEditConversions'] = "Allow this user to edit conversions";
 $GLOBALS['strAllowMoreReports']           = "Allow 'More Reports' button";
 
