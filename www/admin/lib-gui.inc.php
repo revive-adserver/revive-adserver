@@ -40,6 +40,7 @@ $phpAds_GUIDone    = false;
 $phpAds_context    = array();
 $phpAds_shortcuts  = array();
 $phpAds_breadcrumbs  = array();
+$phpAds_breadcrumbs_extra  = '';
 
 define("phpAds_Login", 0);
 define("phpAds_Error", -1);

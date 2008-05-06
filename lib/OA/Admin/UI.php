@@ -91,6 +91,7 @@ class OA_Admin_UI
 
         global $phpAds_shortcuts;
         global $phpAds_breadcrumbs;
+        global $phpAds_breadcrumbs_extra;
         global $phpAds_CharSet;
         global $OA_Navigation, $OA_Navigation_ID;
 
@@ -160,6 +161,7 @@ class OA_Admin_UI
         $this->oTpl->assign('aSideContext', $aSideContext);
         $this->oTpl->assign('aSideShortcuts', $aSideShortcuts);
         $this->oTpl->assign('aBreadcrumbs', $aBreadcrumbs);
+        $this->oTpl->assign('breadcrumbsExtra', $phpAds_breadcrumbs_extra);
 
         // Include custom HTML for the sidebar
         if ($extra) {

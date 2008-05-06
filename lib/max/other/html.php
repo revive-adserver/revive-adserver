@@ -929,13 +929,16 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
                                       array("name" => $campaign['name'], "url" => $campaignEditUrl), 
                                       array("name" => $bannerName)), 
                                     "banner", $bannerId == '');
+    
+    global $phpAds_breadcrumbs_extra;
+	$phpAds_breadcrumbs_extra .= "<div class='bannercode'>$bannerCode</div>";
+    if ($bannerCode != '') {
+        $phpAds_breadcrumbs_extra .= "<br />";
+    }
+    
     phpAds_PageHeader($tabValue, $extra);
     
-	echo "<div class='bannercode'>$bannerCode</div>";
-    if ($bannerCode != '') {
-        echo "<br />";
-    }
-	phpAds_ShowSections($tabSections);
+    phpAds_ShowSections($tabSections);
 }
 
 function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $aEntities)

@@ -1,0 +1,51 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+|                                                                           |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
+
+-->*}
+
+{if $aBreadcrumbs}
+    <div class="breadcrumb{if $aBreadcrumbs.path|@count == 1} onlytitle{/if}">
+        {assign var=totalbc value=$aBreadcrumbs.path|@count}
+        {section name=topbc start=0 loop=$totalbc-1}
+            {if $aBreadcrumbs.path[topbc].url}
+                <a href="{$aBreadcrumbs.path[topbc].url}" class="ent {$aBreadcrumbs.path[topbc].cssClass}">{$aBreadcrumbs.path[topbc].label}: {$aBreadcrumbs.path[topbc].name}</a>
+            {else}
+                <span class="ent {$aBreadcrumbs.path[topbc].cssClass}">{$aBreadcrumbs.path[topbc].label}: {$aBreadcrumbs.path[topbc].name}</span>
+            {/if}
+            
+            {if $smarty.section.topbc.index lt $totalbc-2}
+                <span class='sep'>&gt;</span>
+            {/if}
+        {/section}
+        
+        {assign var=mainbcindex value=$totalbc-1}
+        <h3>
+            <span class='label'>{$aBreadcrumbs.path[$mainbcindex].label}</span>{if !$aBreadcrumbs.newEntity}:{/if} 
+            {$aBreadcrumbs.path[$mainbcindex].name}
+        </h3>
+    </div>
+{/if}
+
+{$breadcrumbsExtra}
