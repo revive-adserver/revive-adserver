@@ -49,7 +49,7 @@ class DataObjects_AuditTest extends DalUnitTestCase
 
     function testBelongsToAccount()
     {
-        $doBanners = OA_Dal::factoryDO('banners');
+        OA_Dal::factoryDO('banners'); // Initialise the class so it can be mocked.
 
         Mock::generatePartial(
             'DataObjects_Banners',
@@ -61,33 +61,53 @@ class DataObjects_AuditTest extends DalUnitTestCase
 
         $clientId = DataGenerator::generateOne('clients', true);
         $doClients = OA_Dal::staticGetDO('clients', $clientId);
+        $agencyId  = $doClients->agencyid;
         $accountId = $doClients->account_id;
+
+        $doAgency = OA_Dal::staticGetDO('agency', $agencyId);
+        $managerId = $doAgency->account_id;
 
         $dg = new DataGenerator();
         $dg->setData('campaigns', array('clientid' => array($clientId)));
-        $doMockBanners->setReturnValue('getOwningAccountIds', array(OA_ACCOUNT_ADVERTISER => $accountId));
+        $doMockBanners->setReturnValue(
+            'getOwningAccountIds',
+            array(
+                OA_ACCOUNT_MANAGER    => $managerId,
+                OA_ACCOUNT_ADVERTISER => $accountId
+            )
+        );
 
         $this->enableAuditing(true);
         $bannerId = $dg->generateOne($doMockBanners, true);
         $this->enableAuditing(false);
 
-        $doBanners = OA_Dal::staticGetDO('banners', $bannerId);
-
         $doAudit = OA_Dal::factoryDO('audit');
         $doAudit->context = 'banners';
         $doAudit->contextid = $bannerId;
-        $this->assertTrue($doAudit->find($autoFetch = true));
+        $this->assertTrue($doAudit->find(true));
         $this->assertTrue($doAudit->belongsToAccount($accountId, false));
 
         // generate different audit on campaign
         $dg = new DataGenerator();
         $doMockBanners = new $mockBanners($this);
         $doMockBanners->init();
+
         $clientId2 = DataGenerator::generateOne('clients', true);
         $doClients = OA_Dal::staticGetDO('clients', $clientId2);
+        $agencyId2  = $doClients->agencyid;
         $accountId2 = $doClients->account_id;
+
+        $doAgency = OA_Dal::staticGetDO('agency', $agencyId2);
+        $managerId2 = $doAgency->account_id;
+
         $dg->setData('campaigns', array('clientid' => array($clientId2)));
-        $doMockBanners->setReturnValue('getOwningAccountIds', array(OA_ACCOUNT_ADVERTISER => $accountId2));
+        $doMockBanners->setReturnValue(
+            'getOwningAccountIds',
+            array(
+                OA_ACCOUNT_MANAGER    => $managerId2,
+                OA_ACCOUNT_ADVERTISER => $accountId2
+            )
+        );
 
         $this->enableAuditing(true);
         $bannerId2 = $dg->generateOne($doMockBanners, true);
@@ -96,7 +116,7 @@ class DataObjects_AuditTest extends DalUnitTestCase
         $doAudit = OA_Dal::factoryDO('audit');
         $doAudit->context = 'banners';
         $doAudit->contextid = $bannerId2;
-        $this->assertTrue($doAudit->find($autoFetch = true));
+        $this->assertTrue($doAudit->find(true));
         $this->assertTrue($doAudit->belongsToAccount($accountId2, false));
         $this->assertFalse($doAudit->belongsToAccount($accountId, false));
     }

@@ -228,13 +228,12 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     function testAuditAccountPreferenceAssoc()
     {
         $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');
-        $doAccount_Preference_Assoc->account_id = 1;
+        $doAccount_Preference_Assoc->account_id = $this->generateAccountId();
         $doAccount_Preference_Assoc->preference_id = 1;
         $doAccount_Preference_Assoc->value = 'foo1';
         DataGenerator::generateOne($doAccount_Preference_Assoc);
 
         $context = 'account_preference_assoc';
-
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_INSERT);
         $aAudit = unserialize($oAudit->details);
         $this->assertEqual($oAudit->username,OA_TEST_AUDIT_USERNAME);
@@ -288,7 +287,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     function testAuditAccountUserPermissionAssoc()
     {
         $doAccount_User_Perm_Assoc = OA_Dal::factoryDO('account_user_permission_assoc');
-        $doAccount_User_Perm_Assoc->account_id = 1;
+        $doAccount_User_Perm_Assoc->account_id = $this->generateAccountId();
         $doAccount_User_Perm_Assoc->user_id = 2;
         $doAccount_User_Perm_Assoc->permission_id = 3;
         $doAccount_User_Perm_Assoc->is_allowed = 1;
@@ -354,7 +353,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     function testAuditAccountUserAssoc()
     {
         $doAccount_User_Perm_Assoc = OA_Dal::factoryDO('account_user_permission_assoc');
-        $doAccount_User_Perm_Assoc->account_id = 1;
+        $doAccount_User_Perm_Assoc->account_id = $this->generateAccountId();
         $doAccount_User_Perm_Assoc->user_id = 2;
         $doAccount_User_Perm_Assoc->permission_id = 3;
         $doAccount_User_Perm_Assoc->is_allowed = 1;
@@ -1001,7 +1000,21 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         DataGenerator::cleanUp(array('accounts', 'campaigns', 'banners', 'audit'));
 
     }
-
+    
+    function getMatchingAudit($aResult, $context, $contextId, $action = null)
+    {
+        foreach($aResult as $aAudit) {
+            if ($aAudit['context'] == $context && $aAudit['contextid'] == $contextId) {
+                if (!empty($action) && $action != $aAudit['actionid']) {
+                    continue;
+                }
+                return $aAudit;
+            }
+        }
+        MAX::raiseError('No matchind audit record, context: '.$context.', contextid: '.$contextId);
+        return false;
+    }
+    
     /**
      * auditing a more complex scenario
      * create a banner - this should create a default assoc between banner and zone 0
@@ -1009,7 +1022,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
      * delete the zone - this should delete the linked assoc
      * delete the banner - this should delete the default assoc between banner and zone 0
      */
-    function aaatestAuditAdZoneAssoc()
+    function testAuditAdZoneAssoc()
     {
         global $session;
 
@@ -1070,9 +1083,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $aResult = $this->_fetchAuditArrayAll();
 
         // Test 1 :test the insert banner audit
-        $aAudit = $aResult[8];
-        $this->assertEqual($aAudit['auditid'],8);
-        $this->assertEqual($aAudit['actionid'],OA_AUDIT_ACTION_INSERT);
+        $aAudit = $this->getMatchingAudit($aResult, 'banners', $bannerId, OA_AUDIT_ACTION_INSERT);
         $this->assertEqual($aAudit['username'],OA_TEST_AUDIT_USERNAME);
         $this->assertEqual($aAudit['contextid'],$bannerId);
         $this->assertEqual($aAudit['array']['key_desc'],$doBanners->description);
@@ -1081,9 +1092,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aAudit['array']['campaignid'],$doBanners->campaignid);
 
         // Test 2 :test the insert (default) adzoneassoc audit
-        $aAudit = $aResult[9];
-        $this->assertEqual($aAudit['auditid'],9);
-        $this->assertEqual($aAudit['actionid'],OA_AUDIT_ACTION_INSERT);
+        $aAudit = $this->getMatchingAudit($aResult, 'ad_zone_assoc', $adZoneAssocId-1, OA_AUDIT_ACTION_INSERT);
         $this->assertEqual($aAudit['username'],OA_TEST_AUDIT_USERNAME);
         $this->assertEqual($aAudit['contextid'],$adZoneAssocId-1);
         $this->assertEqual($aAudit['array']['key_desc'],'Ad #'.$bannerId.' -> Zone #0');
@@ -1095,9 +1104,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aAudit['array']['to_be_delivered'],0);
 
         // Test 3 :test the insert zone audit
-        $aAudit = $aResult[16];
-        $this->assertEqual($aAudit['auditid'],16);
-        $this->assertEqual($aAudit['actionid'],OA_AUDIT_ACTION_INSERT);
+        $aAudit = $this->getMatchingAudit($aResult, 'zones', $zoneId, OA_AUDIT_ACTION_INSERT);
         $this->assertEqual($aAudit['username'],OA_TEST_AUDIT_USERNAME);
         $this->assertEqual($aAudit['contextid'],$zoneId);
         $this->assertEqual($aAudit['array']['key_desc'],$doZones->zonename);
@@ -1106,9 +1113,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aAudit['array']['affiliateid'],$doZones->affiliateid);
 
         // Test 4: test the insert (user linked) adzoneassoc audit
-        $aAudit = $aResult[17];
-        $this->assertEqual($aAudit['auditid'],17);
-        $this->assertEqual($aAudit['actionid'],OA_AUDIT_ACTION_INSERT);
+        $aAudit = $this->getMatchingAudit($aResult, 'ad_zone_assoc', $adZoneAssocId, OA_AUDIT_ACTION_INSERT);
         $this->assertEqual($aAudit['username'],OA_TEST_AUDIT_USERNAME);
         $this->assertEqual($aAudit['contextid'],$adZoneAssocId);
         $this->assertEqual($aAudit['array']['key_desc'],'Ad #'.$bannerId.' -> Zone #'.$zoneId);
@@ -1120,9 +1125,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aAudit['array']['to_be_delivered'],'true');
 
         // Test 5 :test the delete zone audit
-        $aAudit = $aResult[18];
-        $this->assertEqual($aAudit['auditid'],18);
-        $this->assertEqual($aAudit['actionid'],OA_AUDIT_ACTION_DELETE);
+        $aAudit = $this->getMatchingAudit($aResult, 'zones', $zoneId, OA_AUDIT_ACTION_DELETE);
         $this->assertEqual($aAudit['username'],OA_TEST_AUDIT_USERNAME);
         $this->assertEqual($aAudit['contextid'],$zoneId);
         $this->assertEqual($aAudit['array']['key_desc'],$doZones->zonename);
@@ -1131,9 +1134,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aAudit['array']['affiliateid'],$doZones->affiliateid);
 
         // Test 6: test the delete (user linked) adzoneassoc audit
-        $aAudit = $aResult[19];
-        $this->assertEqual($aAudit['auditid'],19);
-        $this->assertEqual($aAudit['actionid'],OA_AUDIT_ACTION_DELETE);
+        $aAudit = $this->getMatchingAudit($aResult, 'ad_zone_assoc', $adZoneAssocId, OA_AUDIT_ACTION_DELETE);
         $this->assertEqual($aAudit['username'],OA_TEST_AUDIT_USERNAME);
         $this->assertEqual($aAudit['contextid'],$adZoneAssocId);
         $this->assertEqual($aAudit['array']['key_desc'],'Ad #'.$bannerId.' -> Zone #'.$zoneId);
@@ -1145,9 +1146,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aAudit['array']['to_be_delivered'],'true');
 
         // Test 7 :test the delete banner audit
-        $aAudit = $aResult[20];
-        $this->assertEqual($aAudit['auditid'],20);
-        $this->assertEqual($aAudit['actionid'],OA_AUDIT_ACTION_DELETE);
+        $aAudit = $this->getMatchingAudit($aResult, 'banners', $bannerId, OA_AUDIT_ACTION_DELETE);
         $this->assertEqual($aAudit['username'],OA_TEST_AUDIT_USERNAME);
         $this->assertEqual($aAudit['contextid'],$bannerId);
         $this->assertEqual($aAudit['array']['key_desc'],$doBanners->description);
@@ -1156,9 +1155,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aAudit['array']['campaignid'],$doBanners->campaignid);
 
         // Test 8: test the delete (default) audit result
-        $aAudit = $aResult[21];
-        $this->assertEqual($aAudit['auditid'],21);
-        $this->assertEqual($aAudit['actionid'],OA_AUDIT_ACTION_DELETE);
+        $aAudit = $this->getMatchingAudit($aResult, 'ad_zone_assoc', $adZoneAssocId-1, OA_AUDIT_ACTION_DELETE);
         $this->assertEqual($aAudit['username'],OA_TEST_AUDIT_USERNAME);
         $this->assertEqual($aAudit['contextid'],$adZoneAssocId-1);
         $this->assertEqual($aAudit['array']['key_desc'],'Ad #'.$bannerId.' -> Zone #0');
@@ -1171,7 +1168,14 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
 
         DataGenerator::cleanUp(array('accounts', 'banners', 'zones', 'ad_zone_assoc', 'audit'));
     }
-
+    
+    function generateAccountId()
+    {
+        $doAccounts = OA_Dal::factoryDO('accounts');
+        $doAccounts->account_name = 'Default Manager';
+        $doAccounts->account_type = OA_ACCOUNT_MANAGER;
+        return DataGenerator::generateOne($doAccounts);
+    }
 }
 
 ?>
