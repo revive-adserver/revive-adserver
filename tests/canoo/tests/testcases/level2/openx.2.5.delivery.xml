@@ -32,7 +32,10 @@
 		 
 		 
 		<subant inheritall="true">
-        	<filelist dir="${testcase.dir}/level2/delivery/">
+        	<fileset dir="${testcase.dir}/level2/delivery/">
+        		<include name="*.xml"/>
+			</fileset>
+<!--        		
 				<file name="ac.xml" />
 				<file name="afr.xml" />
 				<file name="ag.xml" />
@@ -48,7 +51,8 @@
 				<file name="lg.xml" />  
 				<file name="ti.xml" />
 				<file name="tjs.xml" />
-			</filelist>
+-->
+        		
         </subant>
 	</target>
 	<!--	
