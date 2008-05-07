@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE project SYSTEM "../../../dtd/WebTest.dtd"[
+]>
+
+<project name="OpenX" basedir="." default="main">
+	<property name="openx.url" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}"/>
+	<property name="openx.example_url" value="${openx.url}/delivery_test/example.php"/>
+	<taskdef name="sqlunit" classname="net.sourceforge.sqlunit.ant.SqlunitTask">
+    <classpath>
+      <!-- <pathelement location="../lib/sqlunit-5.0.jar" /> -->
+		<pathelement location="${basedir}/../lib/sqlunit-5.0.jar" />
+    </classpath>
+  </taskdef>
+	
+	 <target name="main">
+		<!-- <sql driver="com.mysql.jdbc.Driver" url="jdbc:mysql://${db.host}:${db.port}/${db.name}" userid="${db.login}" -->
+		<!-- @TODO add support for pgsql -->
+		<sql driver="com.mysql.jdbc.Driver" url="jdbc:mysql://${db.host}:${db.port}/${db.name}" userid="${db.login}"
+			password="${db.password}">
+			<!-- <transaction src="sql/dropTables.sql"/> -->
+			<transaction src="config/delivery_ox.sql"/>
+			<!-- <transaction src="sql/delivery.sql"/> -->
+			<classpath>
+				<fileset dir="../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+			<transaction> UPDATE ox_banners SET url = "${openx.example_url}" WHERE url
+				= "http://www.example.com" </transaction>
+		</sql>
+		 
+		 
+		<subant inheritall="true">
+        	<filelist dir="${testcase.dir}/level2/delivery/">
+				<file name="ac.xml" />
+				<file name="afr.xml" />
+				<file name="ag.xml" />
+				<file name="ai.xml" />
+				<file name="ajs.xml" />
+				<file name="spc.xml" />
+				<file name="al.xml" />
+				<file name="alocal.xml" />
+				<file name="apu.xml" />
+				<file name="avw.xml" />
+				<file name="axmlrpc.xml" />
+				<file name="ck.xml" />
+				<file name="lg.xml" />  
+				<file name="ti.xml" />
+				<file name="tjs.xml" />
+			</filelist>
+        </subant>
+	</target>
+	<!--	
+				<file name="openx.inventory.xml"/>
+				<file name="openx.dashboard.xml"/>
+				
+				<file name="openx.common.inventory.advertiserscampaigns.xml"/>
+	<fileset dir="${testcase.dir}/level2" includes="openx.dashboard.xml"/>
+		<subant inheritall="true">
+	 
+	<target name="main">  <target name="delivery">  target="canoo-test"
+		<echo message="Base URL: ${openads.url}" />
+		<ant antfile="testcases/level2/delivery/ac.xml" />
+		<ant antfile="testcases/level2/delivery/afr.xml" />
+		<ant antfile="testcases/level2/delivery/ag.xml" />
+		<ant antfile="testcases/level2/delivery/ai.xml" />
+		<ant antfile="testcases/level2/delivery/ajs.xml" />
+		<ant antfile="testcases/level2/delivery/spc.xml" />
+		<ant antfile="testcases/level2/delivery/al.xml" />
+		<ant antfile="testcases/level2/delivery/alocal.xml" />
+		<ant antfile="testcases/level2/delivery/apu.xml" />
+		<ant antfile="testcases/level2/delivery/avw.xml" />
+		<ant antfile="testcases/level2/delivery/axmlrpc.xml" />
+		<ant antfile="testcases/level2/delivery/ck.xml" />
+		<ant antfile="testcases/level2/delivery/lg.xml" />
+		<ant antfile="testcases/level2/delivery/ti.xml" />
+		<ant antfile="testcases/level2/delivery/tjs.xml" /> 
+	</target>
+	 -->	
+</project>

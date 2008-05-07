@@ -1,0 +1,16 @@
+<sql
+    driver="com.mysql.jdbc.Driver"
+    url="jdbc:mysql://${db.host}:${db.port}/"
+    userid="${db.login}"
+    password="${db.password}"
+    >
+  <classpath>
+    <fileset dir="${basedir}/../lib/">
+      <include name="**/*.jar"/>
+    </fileset>
+  </classpath>
+  
+  <transaction>
+    drop database if exists ${db.name}
+  </transaction>
+</sql>

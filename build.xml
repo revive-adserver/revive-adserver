@@ -202,7 +202,8 @@
   	<echo>test-canoo finished</echo>
   </target>
 
-  <target name="test-canoo-local" depends="canoo-create-openx-configuration-local, setup-delivery-files, run-test-canoo">
+  <!-- <target name="test-canoo-local" depends="canoo-create-openx-configuration-local, setup-delivery-files, run-test-canoo"> -->
+  <target name="test-canoo-local" depends="setup-delivery-files, run-test-canoo">
     <property name="run.local" value="true" />
   	<antcall target="clean-delivery"></antcall>
   </target>

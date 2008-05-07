@@ -1,0 +1,17 @@
+				<group description="a group of steps (page title, help etc.) executed at every point of installation process">
+					<verifyText description="Check text on page" 
+						text="Progress" />
+					<verifyTitle description="Check page title"
+						regex="true"
+						text="OpenX*" />
+					<!--  verify that logo.png is loaded -->
+					<verifyText description="Check if 'Help' exists" 
+						text="Help" />
+					<verifyText description="Check is 'Start over' exists" 
+						text="Start over" />				
+					<!-- 
+					<verifyElementText description="Check if help exists"
+						type="topLink"
+						text="Help"/>
+					 -->
+				</group>

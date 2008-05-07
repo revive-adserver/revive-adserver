@@ -1,0 +1,17 @@
+				<ifStep description="Data Setup screen is available only in 2.4.x">
+					<condition>
+						<verifyProperty description="Verify property 'var' contains the string '2.6'"
+							name="ver"
+							text="2.4"
+							regex="false" />
+					</condition>
+					<then>
+						&universal;
+						<setRadioButton description="Check radio button chk_dummydata: 0" name="chk_dummydata" value="0"/>
+						<setRadioButton description="Check radio button chk_dummydata: 1" name="chk_dummydata" value="1"/>
+						<!--  <clickButton label="Continue »"/> -->
+						<clickButton description="Click 'Continue »' button"
+							name="btn_finish" />
+					</then>
+				</ifStep>
+			

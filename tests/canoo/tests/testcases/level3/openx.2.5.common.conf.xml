@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE project SYSTEM "../../../dtd/Project.dtd"[
+	<!ENTITY config  SYSTEM "file:../modules/config_openx.xml">
+	<!ENTITY login  SYSTEM "file:../modules/login_admin.xml">
+	<!ENTITY common_verification  SYSTEM "file:../modules/common_pages.xml">
+]>
+
+<project name="OpenX" basedir="." default="main">
+	 <target name="main">
+		<subant inheritall="true">
+        	<filelist dir="${testcase.dir}/level3/common/">
+				<file name="openx.2.5.common.conf..xml" />
+			</filelist>
+        </subant>
+	</target>	
+</project>

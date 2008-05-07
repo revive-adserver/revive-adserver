@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE project SYSTEM               "../../../../dtd/WebTest.dtd" [
+	<!ENTITY login  SYSTEM "../../modules/login_admin.xml">
+	<!ENTITY config SYSTEM               "../../modules/config_openx.xml">
+	<!ENTITY checkForErrors SYSTEM       "../../modules/errors.xml">
+	<!ENTITY verifyLinks SYSTEM          "../../modules/links.xml">
+	<!ENTITY verifyLoginBeacon SYSTEM    "../../modules/loginBeacon.xml">
+]
+>
+
+<!-- Test that ac.php prints the banner
+  @TODO and that it wraps it into <html><head><body> tags -->
+<project name="OpenX delivery - ac.php" basedir="../.." default="main">
+ 
+	<import file="../../modules/init.xml"/>
+	<!-- <import file="${webtest.home}/lib/taskdef.xml"/> -->
+
+	<target name="canoo-test">
+		<webtest name="${ant.project.name}">
+			&config;
+			<steps>
+				<invoke description="Invoke delivery file" url="/delivery/ac.php?bannerid=2" />
+				&checkForErrors;
+				<verifyTitle description="Check that title contains 'Advertisement'" text="Advertisement" />
+				<verifyText description="Check that ad prints: 'html test banner'" regex="true" text="html test banner" />
+				&verifyLoginBeacon;
+				&verifyLinks;
+			</steps>
+		</webtest>
+	</target>
+
+	<!-- clean cache, run a canoo test (without cache), and then run again (with cache) -->
+	<target name="main" depends="test-cache" />
+</project>

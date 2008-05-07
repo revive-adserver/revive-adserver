@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE project SYSTEM               "../../../../dtd/WebTest.dtd" [
+  <!ENTITY config SYSTEM           "../../modules/config_openx.xml">
+  <!ENTITY checkForErrors SYSTEM   "../../modules/errors.xml">
+  <!ENTITY verifyLinks SYSTEM      "../../modules/links.xml">
+]
+>
+
+<!-- Test that included alocal.php file correctly prints the ad -->
+
+<project name="OpenX delivery - afr.php" basedir="../.." default="main">
+  <import file="../../modules/init.xml"/>
+  <!-- <import file="${webtest.home}/lib/taskdef.xml"/> -->
+
+  <target name="canoo-test">
+    <webtest name="${ant.project.name}">
+      &config;
+      <steps>
+        <invoke description="Invoke delivery file" url="/delivery_test/alocal.php" />
+        &checkForErrors;
+        <verifyText description="Check that image is included" regex="true" text="img src=.*ai.php" />
+        &verifyLinks;
+      </steps>
+    </webtest>
+  </target>
+  
+  <!-- clean cache, run a canoo test (without cache), and then run again (with cache) -->
+  <target name="main" depends="test-cache" />
+
+</project>

@@ -1,0 +1,32 @@
+				&universal;
+				<verifyText description="Check text on page" 
+					text="Database Settings" />
+				<!-- TODO: Error&options support (ifstep) -->
+				<setSelectField name="aConfig[database][type]" 
+					text="PostgreSQL"/>
+				<setinputfield description="set database username" 
+					name="aConfig[database][username]"
+					value="${db.postgresql.login}" />
+				<setInputField description="Set password field aConfig[database][password]: openx" 
+					name="aConfig[database][password]" 
+					value="${db.postgresql.password}"/>
+				<setinputfield description="set database name" 
+					name="aConfig[database][name]"
+					value="${db.name}" />
+				<!--
+				<verifyLinks description="Check Links" 
+				    depth="0" 
+				    onsiteonly="true"
+				    ignoreForeignJSErrors="true" />
+				-->
+				<clickButton description="Click 'Continue »' button" 
+					label="Continue »"
+					save="dbsetup_" />
+
+				<!-- htmlId="btn_upgrade" -->
+
+				<verifyText description="Check text on page" 
+					text="Your database has successfully been created" />
+				<clickButton description="Click 'Continue »' button"
+					name="btn_configsetup" />
+					<!--  label="Continue »" />  -->

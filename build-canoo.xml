@@ -79,7 +79,7 @@
 
   <target name="canoo-unpack-package">
     <canoo-ssh command="tar xzf ${canoo.package} -C ${ec2.openx.dir}"/>
-    <canoo-ssh command="touch ${ec2.openx.dir}/var/INSTALLED"/>
+    <!-- <canoo-ssh command="touch ${ec2.openx.dir}/var/INSTALLED"/> -->
     <canoo-ssh command="chmod -R a+w ${ec2.openx.dir}/var"/>
     <canoo-ssh command="chmod -R a+w ${ec2.openx.dir}/www/images"/>
     <canoo-scp dir="${ec2.openx.dir}/www">
@@ -116,7 +116,7 @@
     </canoo-scp>
     <canoo-ssh command="rm -f ${ec2.openx.dir}/var/UPGRADE"/>
   </target>
-
+<!--
   <target name="canoo-create-openx-configuration-local">
   	<echo message="Creating local configuration"/>
     <property name="openx.url" value="${canoo.host}/${canoo.basepath}"/>
@@ -138,13 +138,15 @@
       <arg value="maintenance.autoMaintenance=0"/>
     </exec>
   	<copy overwrite="true" todir="${basedir}/var" file="${basedir}/tests/${canoo.host}.conf.php"/>
-  	<copy overwrite="true" tofile="${basedir}/var/INSTALLED" file="${basedir}/tests/${canoo.host}.conf.php"/>
+  	<!- <copy overwrite="true" tofile="${basedir}/var/INSTALLED" file="${basedir}/tests/${canoo.host}.conf.php"/> ->
   	<delete file="${basedir}/var/UPGRADE"/>
   	<chmod dir="${basedir}/var" perm="a+rwx" type="dir"/>
   	<chmod dir="${basedir}/var" perm="a+rw" type="both" includes="**/*"/>
   	<chmod dir="${basedir}/www" perm="a+rwx" type="dir"/>
   	<chmod dir="${basedir}/www" perm="a+rw" type="both" includes="**/*" parallel="false"/>
   </target>
+-->
+	
 
   <target name="setup-delivery-files">
   	<copy todir="${delivery_test}">
@@ -178,10 +180,45 @@
     </sequential>
   </macrodef>
 
-  <target name="run-test-canoo">
-  	<echo message="Running ${canoo.webtest.exec} defined in config ${property_file}"/>
-    <execute-webtest target="init-delivery-db" />
-    <execute-webtest target="delivery" properties="-Dcanoo.host=${canoo.host} -Dec2.admin.password=${ec2.admin.password} -Dec2.openx.dir=${ec2.openx.dir}" />
+	<target name="init.check.unix">
+		<condition property="is.unix">
+			<os family="unix" />
+		</condition>	
+	</target>
+	
+	<target name="init.check.windows">
+		<condition property="is.windows">
+			<os family="windows" />
+		</condition>	
+	</target>
+	
+	<target name="init.canoo.unix" depends="init.check.unix" if="is.unix">
+		<echo message="Canoo tests - init" />
+		<echo message="Unix setup" />
+		<echo message="Chmod on var and www/images directory"/>
+		
+	  	<chmod dir="${basedir}/var" perm="a+rwx" type="dir"/>
+	  	<chmod dir="${basedir}/var" perm="a+rw" type="both" includes="**/*"/>
+	  	<chmod dir="${basedir}/www" perm="a+rwx" type="dir"/>
+	  	<chmod dir="${basedir}/www" perm="a+rw" type="both" includes="**/*" parallel="false"/>
+	</target>
+
+	<target name="init.canoo.windows" depends="init.check.windows" if="is.windows">
+		<echo message="Canoo tests - init"/>
+		<echo message="Windows setup - nothing to do"/>
+		<echo message="This target is for further purposes"/>
+	</target>
+
+	
+  <target name="run-test-canoo" depends="init.canoo.unix, init.canoo.windows">
+  	<echo message="Running Canoo tests" />
+    <!--<execute-webtest target="init-delivery-db" /> -->
+    <!-- <execute-webtest target="delivery" properties="-Dcanoo.host=${canoo.host} -Dec2.admin.password=${ec2.admin.password} -Dec2.openx.dir=${ec2.openx.dir}" /> -->
+	<subant inheritall="true">
+		<filelist dir="${basedir}/tests/canoo/">
+			<file name="build.xml" />
+		</filelist>
+	</subant>
   </target>
 
   <target name="test-canoo-one">

@@ -1,0 +1,41 @@
+				&universal;
+				<verifyText description="Check text on page" 
+					text="Database Settings" />
+				<!-- TODO: Error&options support (ifstep) -->
+				<setinputfield description="set database username" 
+					name="aConfig[database][username]"
+					value="${db.login}" />
+
+				<setinputfield description="set database password" 
+					name="aConfig[database][password]"
+					value="${db.password}" />
+					
+				<setinputfield description="set database name" 
+					name="aConfig[database][name]"
+					value="${db.name}" />
+
+				<setinputfield description="set database host" 
+					name="aConfig[database][host]"
+					value="${db.host}" />
+
+				<setinputfield description="set database port" 
+					name="aConfig[database][port]"
+					value="${db.port}" />
+					
+				<!--
+				<verifyLinks description="Check Links" 
+				    depth="0" 
+				    onsiteonly="true"
+				    ignoreForeignJSErrors="true" />
+				-->
+				<clickButton description="Click 'Continue »' button" 
+					label="Continue »"
+					save="dbsetup_" />
+
+				<!-- htmlId="btn_upgrade" -->
+
+				<verifyText description="Check text on page" 
+					text="Your database has successfully been created" />
+				<clickButton description="Click 'Continue »' button"
+					name="btn_configsetup" />
+					<!--  label="Continue »" />  -->

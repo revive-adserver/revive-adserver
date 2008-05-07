@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE project SYSTEM "./../../../../dtd/WebTest.dtd"[
+]>
+
+<project name="OpenX" basedir="." default="main">
+	<target name="main">
+		<subant failonerror="false" inheritall="true">
+        	<filelist dir="${testcase.dir}/level2/common/">
+				<!--
+				<file name="openx.inventory.xml"/>
+				<file name="openx.dashboard.xml"/>
+				
+				<file name="openx.common.inventory.advertiserscampaigns.xml"/>
+				-->
+			</filelist>
+<!--            <fileset dir="${testcase.dir}/level2" includes="openx.dashboard.xml"/> -->
+        </subant>
+	</target>
+</project>

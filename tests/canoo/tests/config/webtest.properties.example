@@ -1,0 +1,62 @@
+################################################
+# Test suite configuration file
+################################################
+
+### WebTests config
+wt.host=localhost
+wt.port=80
+wt.protocol=http
+wt.basepath=/oxp/
+
+wt.failOnError=true
+wt.enableJS=true
+wt.throwExceptionOnScriptError=true
+wt.browser=Mozilla/5.0 (Windows; U; Windows NT 5.1; pl; rv:1.8.1.12) Gecko/20080201 Firefox/2.0.0.12
+
+## General settings
+testcase.dir=./testcases
+testcase.level0.pattern=*mysql.xml
+testcase.level2.pattern=*.xml
+testcase.level3.pattern=*.xml
+screens=manual_results
+
+## To turn on/off specific level of tests just uncomment/comment appropriate line below
+test.level0=true
+test.level1=true
+test.level2=true
+#test.level3=true
+
+## db settings
+db.login=openx
+db.postgresql.login=postgres
+db.password=
+db.postgresql.password=openx
+db.name=openx
+db.host=localhost
+db.port=3306
+db.postgresql.port=5432
+
+## Login settings
+admin.login=openx
+admin.pass=openx
+
+manager.login=
+manager.pass=
+
+advertiser.login=
+advertiser.pass=
+
+trafficer.login=
+trafficer.pass=
+
+page.login.title=OpenX
+
+## 1st Level tests settings
+page.title=OpenX - Home
+#page.text=Home
+page.text=Statistics
+
+#Cookies names
+viewerId=OAID
+
+webtest.home=/usr/bin/canoo

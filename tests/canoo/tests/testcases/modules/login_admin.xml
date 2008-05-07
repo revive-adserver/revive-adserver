@@ -1,0 +1,20 @@
+        <invoke 
+          stepid="Login page"
+          url="/" />
+        <verifytitle 
+          stepid="Test login page title"
+          text="${page.login.title}" />
+
+		<setinputfield stepid="Input user name" 
+			name="username"
+			value="${admin.login}" />
+		<setinputfield stepid="Input password" 
+			name="password"
+			value="${admin.pass}" />
+		<clickbutton 
+			label="Login"
+			stepid="login submit" />
+		<verifytitle stepid="Successful login test"
+			text="${page.title}" />
+		<verifytext stepid="Successful login test"
+			text="${page.text}" />

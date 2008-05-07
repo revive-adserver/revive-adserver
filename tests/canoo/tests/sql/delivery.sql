@@ -1,0 +1,1664 @@
+-- MySQL dump 10.10
+--
+-- Host: localhost    Database: ox_canoo
+-- ------------------------------------------------------
+-- Server version	5.0.22
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `ox_account_preference_assoc`
+--
+
+DROP TABLE IF EXISTS `ox_account_preference_assoc`;
+CREATE TABLE `ox_account_preference_assoc` (
+  `account_id` mediumint(9) NOT NULL,
+  `preference_id` mediumint(9) NOT NULL,
+  `value` text NOT NULL,
+  PRIMARY KEY  (`account_id`,`preference_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_account_preference_assoc`
+--
+
+
+/*!40000 ALTER TABLE `ox_account_preference_assoc` DISABLE KEYS */;
+LOCK TABLES `ox_account_preference_assoc` WRITE;
+INSERT INTO `ox_account_preference_assoc` VALUES (1,1,'english'),(1,2,'0'),(1,3,'2'),(1,4,'t'),(1,5,'t'),(1,6,'t'),(1,7,'100'),(1,8,'1'),(1,9,'t'),(1,10,'1'),(1,11,'1'),(1,12,''),(1,13,''),(1,14,'t'),(1,15,'t'),(1,16,'t'),(1,17,'t'),(1,18,'t'),(1,19,'t'),(1,20,'t'),(1,21,'t'),(1,22,'1'),(1,23,'1'),(1,24,'f'),(1,25,'t'),(1,26,''),(1,27,'0'),(1,28,'t'),(1,29,''),(1,30,'0'),(1,31,'t'),(1,32,''),(1,33,'0'),(1,34,'t'),(1,35,''),(1,36,'0'),(1,37,'t'),(1,38,''),(1,39,'0'),(1,40,'t'),(1,41,''),(1,42,'0'),(1,43,'t'),(1,44,''),(1,45,'0'),(1,46,'t'),(1,47,''),(1,48,'0'),(1,49,'t'),(1,50,''),(1,51,'0'),(1,52,'t'),(1,53,''),(1,54,'0'),(1,55,'t'),(1,56,''),(1,57,'0'),(1,58,'t'),(1,59,''),(1,60,'0'),(1,61,'t'),(1,62,''),(1,63,'0'),(1,64,'t'),(1,65,''),(1,66,'0'),(1,67,'t'),(1,68,''),(1,69,'0'),(1,70,'t'),(1,71,''),(1,72,'0'),(1,73,'t'),(1,74,''),(1,75,'0'),(1,76,'t'),(1,77,''),(1,78,'0'),(1,79,'t'),(1,80,''),(1,81,'0'),(1,82,'t'),(1,83,''),(1,84,'0'),(1,85,'t'),(1,86,''),(1,87,'0'),(1,88,'t'),(1,89,''),(1,90,'0'),(1,91,'t'),(1,92,''),(1,93,'0'),(1,94,'t'),(1,95,''),(1,96,'0'),(1,97,'t'),(1,98,''),(1,99,'0'),(1,100,'t'),(1,101,''),(1,102,'0'),(1,103,'t'),(1,104,''),(1,105,'0'),(1,106,'t'),(1,107,''),(1,108,'0'),(1,109,'t'),(1,110,''),(1,111,'0'),(1,112,'t'),(1,113,''),(1,114,'0'),(1,115,'Europe/London');
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_account_preference_assoc` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_account_user_assoc`
+--
+
+DROP TABLE IF EXISTS `ox_account_user_assoc`;
+CREATE TABLE `ox_account_user_assoc` (
+  `account_id` mediumint(9) NOT NULL,
+  `user_id` mediumint(9) NOT NULL,
+  `linked` datetime NOT NULL,
+  PRIMARY KEY  (`account_id`,`user_id`),
+  KEY `ox_account_user_assoc_user_id` (`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_account_user_assoc`
+--
+
+
+/*!40000 ALTER TABLE `ox_account_user_assoc` DISABLE KEYS */;
+LOCK TABLES `ox_account_user_assoc` WRITE;
+INSERT INTO `ox_account_user_assoc` VALUES (1,1,'2008-01-11 14:45:32'),(2,1,'2008-01-11 14:45:32'),(3,2,'2008-01-11 14:45:32'),(4,3,'2008-01-11 14:45:32'),(5,4,'2008-01-11 14:45:32');
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_account_user_assoc` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_account_user_permission_assoc`
+--
+
+DROP TABLE IF EXISTS `ox_account_user_permission_assoc`;
+CREATE TABLE `ox_account_user_permission_assoc` (
+  `account_id` mediumint(9) NOT NULL,
+  `user_id` mediumint(9) NOT NULL,
+  `permission_id` mediumint(9) NOT NULL,
+  `is_allowed` tinyint(1) NOT NULL default '1',
+  PRIMARY KEY  (`account_id`,`user_id`,`permission_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_account_user_permission_assoc`
+--
+
+
+/*!40000 ALTER TABLE `ox_account_user_permission_assoc` DISABLE KEYS */;
+LOCK TABLES `ox_account_user_permission_assoc` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_account_user_permission_assoc` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_accounts`
+--
+
+DROP TABLE IF EXISTS `ox_accounts`;
+CREATE TABLE `ox_accounts` (
+  `account_id` mediumint(9) NOT NULL auto_increment,
+  `account_type` varchar(16) NOT NULL default '',
+  `account_name` varchar(255) default NULL,
+  `m2m_password` varchar(32) default NULL,
+  `m2m_ticket` varchar(32) default NULL,
+  PRIMARY KEY  (`account_id`),
+  KEY `ox_accounts_account_type` (`account_type`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_accounts`
+--
+
+
+/*!40000 ALTER TABLE `ox_accounts` DISABLE KEYS */;
+LOCK TABLES `ox_accounts` WRITE;
+INSERT INTO `ox_accounts` VALUES (1,'ADMIN','Administrator',NULL,NULL),(2,'MANAGER','Default manager',NULL,NULL),(3,'MANAGER','Test Agency',NULL,NULL),(4,'ADVERTISER','Advertiser 1',NULL,NULL),(5,'TRAFFICKER','Publisher 1',NULL,NULL),(6,'TRAFFICKER','Agency Publisher 1',NULL,NULL);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_accounts` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_acls`
+--
+
+DROP TABLE IF EXISTS `ox_acls`;
+CREATE TABLE `ox_acls` (
+  `bannerid` mediumint(9) NOT NULL default '0',
+  `logical` varchar(3) NOT NULL default 'and',
+  `type` varchar(32) NOT NULL default '',
+  `comparison` char(2) NOT NULL default '==',
+  `data` text NOT NULL,
+  `executionorder` int(10) unsigned NOT NULL default '0',
+  UNIQUE KEY `bannerid_executionorder` (`bannerid`,`executionorder`),
+  KEY `bannerid` (`bannerid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_acls`
+--
+
+
+/*!40000 ALTER TABLE `ox_acls` DISABLE KEYS */;
+LOCK TABLES `ox_acls` WRITE;
+INSERT INTO `ox_acls` VALUES (1,'and','Site:Channel','=~','7',0);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_acls` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_acls_channel`
+--
+
+DROP TABLE IF EXISTS `ox_acls_channel`;
+CREATE TABLE `ox_acls_channel` (
+  `channelid` mediumint(9) NOT NULL default '0',
+  `logical` varchar(3) NOT NULL default 'and',
+  `type` varchar(32) NOT NULL default '',
+  `comparison` char(2) NOT NULL default '==',
+  `data` text NOT NULL,
+  `executionorder` int(10) unsigned NOT NULL default '0',
+  UNIQUE KEY `channelid_executionorder` (`channelid`,`executionorder`),
+  KEY `channelid` (`channelid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_acls_channel`
+--
+
+
+/*!40000 ALTER TABLE `ox_acls_channel` DISABLE KEYS */;
+LOCK TABLES `ox_acls_channel` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_acls_channel` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_ad_category_assoc`
+--
+
+DROP TABLE IF EXISTS `ox_ad_category_assoc`;
+CREATE TABLE `ox_ad_category_assoc` (
+  `ad_category_assoc_id` int(10) unsigned NOT NULL auto_increment,
+  `category_id` int(10) unsigned NOT NULL,
+  `ad_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`ad_category_assoc_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_ad_category_assoc`
+--
+
+
+/*!40000 ALTER TABLE `ox_ad_category_assoc` DISABLE KEYS */;
+LOCK TABLES `ox_ad_category_assoc` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_ad_category_assoc` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_ad_zone_assoc`
+--
+
+DROP TABLE IF EXISTS `ox_ad_zone_assoc`;
+CREATE TABLE `ox_ad_zone_assoc` (
+  `ad_zone_assoc_id` mediumint(9) NOT NULL auto_increment,
+  `zone_id` mediumint(9) default NULL,
+  `ad_id` mediumint(9) default NULL,
+  `priority` double default '0',
+  `link_type` smallint(6) NOT NULL default '1',
+  `priority_factor` double default '0',
+  `to_be_delivered` tinyint(1) NOT NULL default '1',
+  PRIMARY KEY  (`ad_zone_assoc_id`),
+  KEY `ad_zone_assoc_zone_id` (`zone_id`),
+  KEY `ad_id` (`ad_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_ad_zone_assoc`
+--
+
+
+/*!40000 ALTER TABLE `ox_ad_zone_assoc` DISABLE KEYS */;
+LOCK TABLES `ox_ad_zone_assoc` WRITE;
+INSERT INTO `ox_ad_zone_assoc` VALUES (1,0,1,1,0,1670960,1),(2,1,1,0.9,1,100,1),(3,0,2,0,0,1,1),(4,1,2,0,1,1,1),(5,2,1,0.9,1,100,1),(6,0,3,0,0,0,1),(7,1,3,0,1,1,1);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_ad_zone_assoc` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_affiliates`
+--
+
+DROP TABLE IF EXISTS `ox_affiliates`;
+CREATE TABLE `ox_affiliates` (
+  `affiliateid` mediumint(9) NOT NULL auto_increment,
+  `agencyid` mediumint(9) NOT NULL default '0',
+  `name` varchar(255) NOT NULL default '',
+  `mnemonic` varchar(5) NOT NULL default '',
+  `comments` text,
+  `contact` varchar(255) default NULL,
+  `email` varchar(64) NOT NULL default '',
+  `website` varchar(255) default NULL,
+  `updated` datetime default NULL,
+  `an_website_id` int(11) default NULL,
+  `oac_country_code` char(2) NOT NULL default '',
+  `oac_language_id` int(11) default NULL,
+  `oac_category_id` int(11) default NULL,
+  `as_website_id` int(11) default NULL,
+  `account_id` mediumint(9) default NULL,
+  PRIMARY KEY  (`affiliateid`),
+  UNIQUE KEY `ox_affiliates_account_id` (`account_id`),
+  KEY `ox_affiliates_agencyid` (`agencyid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_affiliates`
+--
+
+
+/*!40000 ALTER TABLE `ox_affiliates` DISABLE KEYS */;
+LOCK TABLES `ox_affiliates` WRITE;
+INSERT INTO `ox_affiliates` VALUES (1,2,'Publisher 1','','','Andrew Hill','andrew.hill@openads.org','http://www.fornax.net/blog/','2007-05-15 13:29:57',NULL,'',NULL,NULL,NULL,5),(2,1,'Agency Publisher 1','','','Andrew Hill','andrew.hill@openads.org','http://fornax.net','2007-05-15 13:41:40',NULL,'',NULL,NULL,NULL,6);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_affiliates` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_affiliates_extra`
+--
+
+DROP TABLE IF EXISTS `ox_affiliates_extra`;
+CREATE TABLE `ox_affiliates_extra` (
+  `affiliateid` mediumint(9) NOT NULL,
+  `address` text,
+  `city` varchar(255) default NULL,
+  `postcode` varchar(64) default NULL,
+  `country` varchar(255) default NULL,
+  `phone` varchar(64) default NULL,
+  `fax` varchar(64) default NULL,
+  `account_contact` varchar(255) default NULL,
+  `payee_name` varchar(255) default NULL,
+  `tax_id` varchar(64) default NULL,
+  `mode_of_payment` varchar(64) default NULL,
+  `currency` varchar(64) default NULL,
+  `unique_users` int(11) default NULL,
+  `unique_views` int(11) default NULL,
+  `page_rank` int(11) default NULL,
+  `category` varchar(255) default NULL,
+  `help_file` varchar(255) default NULL,
+  PRIMARY KEY  (`affiliateid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_affiliates_extra`
+--
+
+
+/*!40000 ALTER TABLE `ox_affiliates_extra` DISABLE KEYS */;
+LOCK TABLES `ox_affiliates_extra` WRITE;
+INSERT INTO `ox_affiliates_extra` VALUES (1,'','','','','','','','','','Cheque by post','GBP',0,0,0,'',''),(2,'','','','','','','','','','Cheque by post','GBP',0,0,0,NULL,NULL);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_affiliates_extra` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_agency`
+--
+
+DROP TABLE IF EXISTS `ox_agency`;
+CREATE TABLE `ox_agency` (
+  `agencyid` mediumint(9) NOT NULL auto_increment,
+  `name` varchar(255) NOT NULL default '',
+  `contact` varchar(255) default NULL,
+  `email` varchar(64) NOT NULL default '',
+  `logout_url` varchar(255) default NULL,
+  `active` smallint(1) default '0',
+  `updated` datetime NOT NULL,
+  `account_id` mediumint(9) default NULL,
+  PRIMARY KEY  (`agencyid`),
+  UNIQUE KEY `ox_agency_account_id` (`account_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_agency`
+--
+
+
+/*!40000 ALTER TABLE `ox_agency` DISABLE KEYS */;
+LOCK TABLES `ox_agency` WRITE;
+INSERT INTO `ox_agency` VALUES (1,'Test Agency','Andrew Hill','andrew.hill@openads.org','',0,'2007-05-15 12:54:16',3),(2,'Default manager',NULL,'andrew.hill@openads.org',NULL,1,'0000-00-00 00:00:00',2);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_agency` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_application_variable`
+--
+
+DROP TABLE IF EXISTS `ox_application_variable`;
+CREATE TABLE `ox_application_variable` (
+  `name` varchar(255) NOT NULL default '',
+  `value` text NOT NULL,
+  PRIMARY KEY  (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_application_variable`
+--
+
+
+/*!40000 ALTER TABLE `ox_application_variable` DISABLE KEYS */;
+LOCK TABLES `ox_application_variable` WRITE;
+INSERT INTO `ox_application_variable` VALUES ('admin_account_id','1'),('ox_version','2.7.5-dev'),('platform_hash','39adcaa8840247618ff928521ba95397770c5b67'),('sync_cache','b:0;'),('sync_last_run','2008-04-07 15:15:14'),('sync_timestamp','1207577714'),('tables_core','582');
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_application_variable` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_audit`
+--
+
+DROP TABLE IF EXISTS `ox_audit`;
+CREATE TABLE `ox_audit` (
+  `auditid` mediumint(9) NOT NULL auto_increment,
+  `actionid` mediumint(9) NOT NULL,
+  `context` varchar(255) NOT NULL default '',
+  `contextid` mediumint(9) default NULL,
+  `parentid` mediumint(9) default NULL,
+  `details` text NOT NULL,
+  `userid` mediumint(9) NOT NULL default '0',
+  `username` varchar(64) default NULL,
+  `usertype` tinyint(4) NOT NULL default '0',
+  `updated` datetime default NULL,
+  `account_id` mediumint(9) NOT NULL,
+  PRIMARY KEY  (`auditid`),
+  KEY `ox_audit_parentid_contextid` (`parentid`,`contextid`),
+  KEY `ox_audit_updated` (`updated`),
+  KEY `ox_audit_usertype` (`usertype`),
+  KEY `ox_audit_username` (`username`),
+  KEY `ox_audit_context_actionid` (`context`,`actionid`),
+  KEY `ox_audit_account_id` (`account_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_audit`
+--
+
+
+/*!40000 ALTER TABLE `ox_audit` DISABLE KEYS */;
+LOCK TABLES `ox_audit` WRITE;
+INSERT INTO `ox_audit` VALUES (1,1,'account_user_assoc',0,NULL,'a:4:{s:10:\"account_id\";i:1;s:7:\"user_id\";i:1;s:6:\"linked\";s:19:\"2008-01-11 14:45:32\";s:8:\"key_desc\";s:21:\"Account #1 -> User #1\";}',0,'admin',0,'2008-01-11 14:45:32',0),(2,1,'account_user_assoc',0,NULL,'a:4:{s:10:\"account_id\";i:2;s:7:\"user_id\";i:1;s:6:\"linked\";s:19:\"2008-01-11 14:45:32\";s:8:\"key_desc\";s:21:\"Account #2 -> User #1\";}',0,'admin',0,'2008-01-11 14:45:32',0),(3,1,'account_user_assoc',0,NULL,'a:4:{s:10:\"account_id\";i:3;s:7:\"user_id\";i:2;s:6:\"linked\";s:19:\"2008-01-11 14:45:32\";s:8:\"key_desc\";s:21:\"Account #3 -> User #2\";}',0,'admin',0,'2008-01-11 14:45:32',0),(4,1,'account_user_assoc',0,NULL,'a:4:{s:10:\"account_id\";i:4;s:7:\"user_id\";i:3;s:6:\"linked\";s:19:\"2008-01-11 14:45:32\";s:8:\"key_desc\";s:21:\"Account #4 -> User #3\";}',0,'admin',0,'2008-01-11 14:45:32',0),(5,1,'account_user_assoc',0,NULL,'a:4:{s:10:\"account_id\";i:5;s:7:\"user_id\";i:4;s:6:\"linked\";s:19:\"2008-01-11 14:45:32\";s:8:\"key_desc\";s:21:\"Account #5 -> User #4\";}',0,'admin',0,'2008-01-11 14:45:32',0);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_audit` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_banners`
+--
+
+DROP TABLE IF EXISTS `ox_banners`;
+CREATE TABLE `ox_banners` (
+  `bannerid` mediumint(9) NOT NULL auto_increment,
+  `campaignid` mediumint(9) NOT NULL default '0',
+  `contenttype` enum('gif','jpeg','png','html','swf','dcr','rpm','mov','txt') NOT NULL default 'gif',
+  `pluginversion` mediumint(9) NOT NULL default '0',
+  `storagetype` enum('sql','web','url','html','network','txt') NOT NULL default 'sql',
+  `filename` varchar(255) NOT NULL default '',
+  `imageurl` varchar(255) NOT NULL default '',
+  `htmltemplate` text NOT NULL,
+  `htmlcache` text NOT NULL,
+  `width` smallint(6) NOT NULL default '0',
+  `height` smallint(6) NOT NULL default '0',
+  `weight` tinyint(4) NOT NULL default '1',
+  `seq` tinyint(4) NOT NULL default '0',
+  `target` varchar(16) NOT NULL default '',
+  `url` text NOT NULL,
+  `alt` varchar(255) NOT NULL default '',
+  `statustext` varchar(255) NOT NULL default '',
+  `status` int(11) NOT NULL default '0',
+  `bannertext` text NOT NULL,
+  `description` varchar(255) NOT NULL default '',
+  `autohtml` enum('t','f') NOT NULL default 't',
+  `adserver` varchar(50) NOT NULL default '',
+  `block` int(11) NOT NULL default '0',
+  `capping` int(11) NOT NULL default '0',
+  `session_capping` int(11) NOT NULL default '0',
+  `compiledlimitation` text NOT NULL,
+  `acl_plugins` text,
+  `append` text NOT NULL,
+  `appendtype` tinyint(4) NOT NULL default '0',
+  `bannertype` tinyint(4) NOT NULL default '0',
+  `alt_filename` varchar(255) NOT NULL default '',
+  `alt_imageurl` varchar(255) NOT NULL default '',
+  `alt_contenttype` enum('gif','jpeg','png') NOT NULL default 'gif',
+  `comments` text,
+  `updated` datetime NOT NULL,
+  `acls_updated` datetime NOT NULL default '0000-00-00 00:00:00',
+  `keyword` varchar(255) NOT NULL default '',
+  `transparent` tinyint(1) NOT NULL default '0',
+  `parameters` text,
+  `an_banner_id` int(11) default NULL,
+  `as_banner_id` int(11) default NULL,
+  `ad_direct_status` tinyint(4) NOT NULL default '0',
+  `ad_direct_rejection_reason_id` tinyint(4) NOT NULL default '0',
+  PRIMARY KEY  (`bannerid`),
+  KEY `ox_banners_campaignid` (`campaignid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_banners`
+--
+
+
+/*!40000 ALTER TABLE `ox_banners` DISABLE KEYS */;
+LOCK TABLES `ox_banners` WRITE;
+INSERT INTO `ox_banners` VALUES (1,1,'html',0,'html','','','Test HTML Banner!','Test HTML Banner!',468,60,1,0,'','','','',0,'','','t','',0,0,0,'(MAX_checkSite_Channel(\'7\', \'=~\'))','Site:Channel','',0,0,'','','gif','','2007-08-29 14:38:32','2007-05-15 15:01:43','',0,'N;',NULL,NULL,0,0),(2,2,'html',0,'html','','','html test banner','<a href=\"{clickurl}\" target=\"{target}\">html test banner</a>',468,60,1,0,'','https://developer.openx.org/','','',0,'','test banner','t','max',0,0,0,'','','',0,0,'','','gif','','2007-08-29 14:38:32','0000-00-00 00:00:00','',0,'N;',NULL,NULL,0,0),(3,3,'gif',0,'sql','468x60.gif','','','',468,60,1,0,'','https://developer.openx.org/','alt text','',0,'','sample gif banner','f','',0,0,0,'','','',0,0,'','','gif','','2007-08-29 14:38:32','0000-00-00 00:00:00','',0,'N;',NULL,NULL,0,0);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_banners` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_campaigns`
+--
+
+DROP TABLE IF EXISTS `ox_campaigns`;
+CREATE TABLE `ox_campaigns` (
+  `campaignid` mediumint(9) NOT NULL auto_increment,
+  `campaignname` varchar(255) NOT NULL default '',
+  `clientid` mediumint(9) NOT NULL default '0',
+  `views` int(11) default '-1',
+  `clicks` int(11) default '-1',
+  `conversions` int(11) default '-1',
+  `expire` date default '0000-00-00',
+  `activate` date default '0000-00-00',
+  `priority` int(11) NOT NULL default '0',
+  `weight` tinyint(4) NOT NULL default '1',
+  `target_impression` int(11) NOT NULL default '0',
+  `target_click` int(11) NOT NULL default '0',
+  `target_conversion` int(11) NOT NULL default '0',
+  `anonymous` enum('t','f') NOT NULL default 'f',
+  `companion` smallint(1) default '0',
+  `comments` text,
+  `revenue` decimal(10,4) default NULL,
+  `revenue_type` smallint(6) default NULL,
+  `updated` datetime NOT NULL,
+  `block` int(11) NOT NULL default '0',
+  `capping` int(11) NOT NULL default '0',
+  `session_capping` int(11) NOT NULL default '0',
+  `an_campaign_id` int(11) default NULL,
+  `as_campaign_id` int(11) default NULL,
+  `status` int(11) NOT NULL default '0',
+  `an_status` int(11) NOT NULL default '0',
+  `as_reject_reason` int(11) NOT NULL default '0',
+  `hosted_views` int(11) NOT NULL default '0',
+  `hosted_clicks` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`campaignid`),
+  KEY `ox_campaigns_clientid` (`clientid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_campaigns`
+--
+
+
+/*!40000 ALTER TABLE `ox_campaigns` DISABLE KEYS */;
+LOCK TABLES `ox_campaigns` WRITE;
+INSERT INTO `ox_campaigns` VALUES (1,'Advertiser 1 - Default Campaign',1,100000000,-1,-1,'2007-07-01','0000-00-00',10,0,0,0,0,'f',0,'',NULL,NULL,'2007-05-15 09:54:06',0,0,0,NULL,NULL,0,0,0,0,0),(2,'test campaign',1,-1,-1,-1,'0000-00-00','0000-00-00',-1,1,0,0,0,'t',0,'',NULL,NULL,'2007-05-16 12:55:24',0,0,0,NULL,NULL,0,0,0,0,0),(3,'campaign 2 (gif)',1,-1,-1,-1,'0000-00-00','0000-00-00',0,1,0,0,0,'t',0,'',NULL,NULL,'2007-05-17 13:14:43',0,0,0,NULL,NULL,0,0,0,0,0);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_campaigns` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_campaigns_trackers`
+--
+
+DROP TABLE IF EXISTS `ox_campaigns_trackers`;
+CREATE TABLE `ox_campaigns_trackers` (
+  `campaign_trackerid` mediumint(9) NOT NULL auto_increment,
+  `campaignid` mediumint(9) NOT NULL default '0',
+  `trackerid` mediumint(9) NOT NULL default '0',
+  `viewwindow` mediumint(9) NOT NULL default '0',
+  `clickwindow` mediumint(9) NOT NULL default '0',
+  `status` smallint(1) unsigned NOT NULL default '4',
+  PRIMARY KEY  (`campaign_trackerid`),
+  KEY `campaigns_trackers_campaignid` (`campaignid`),
+  KEY `campaigns_trackers_trackerid` (`trackerid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_campaigns_trackers`
+--
+
+
+/*!40000 ALTER TABLE `ox_campaigns_trackers` DISABLE KEYS */;
+LOCK TABLES `ox_campaigns_trackers` WRITE;
+INSERT INTO `ox_campaigns_trackers` VALUES (1,3,1,3,3,4);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_campaigns_trackers` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_category`
+--
+
+DROP TABLE IF EXISTS `ox_category`;
+CREATE TABLE `ox_category` (
+  `category_id` int(10) unsigned NOT NULL auto_increment,
+  `name` varchar(255) default NULL,
+  PRIMARY KEY  (`category_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_category`
+--
+
+
+/*!40000 ALTER TABLE `ox_category` DISABLE KEYS */;
+LOCK TABLES `ox_category` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_category` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_channel`
+--
+
+DROP TABLE IF EXISTS `ox_channel`;
+CREATE TABLE `ox_channel` (
+  `channelid` mediumint(9) NOT NULL auto_increment,
+  `agencyid` mediumint(9) NOT NULL default '0',
+  `affiliateid` mediumint(9) NOT NULL default '0',
+  `name` varchar(255) default NULL,
+  `description` varchar(255) default NULL,
+  `compiledlimitation` text NOT NULL,
+  `acl_plugins` text,
+  `active` smallint(1) default NULL,
+  `comments` text,
+  `updated` datetime NOT NULL,
+  `acls_updated` datetime NOT NULL default '0000-00-00 00:00:00',
+  PRIMARY KEY  (`channelid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_channel`
+--
+
+
+/*!40000 ALTER TABLE `ox_channel` DISABLE KEYS */;
+LOCK TABLES `ox_channel` WRITE;
+INSERT INTO `ox_channel` VALUES (7,2,0,'Test Admin Channel 2','','true','true',1,'','0000-00-00 00:00:00','0000-00-00 00:00:00');
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_channel` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_clients`
+--
+
+DROP TABLE IF EXISTS `ox_clients`;
+CREATE TABLE `ox_clients` (
+  `clientid` mediumint(9) NOT NULL auto_increment,
+  `agencyid` mediumint(9) NOT NULL default '0',
+  `clientname` varchar(255) NOT NULL default '',
+  `contact` varchar(255) default NULL,
+  `email` varchar(64) NOT NULL default '',
+  `report` enum('t','f') NOT NULL default 't',
+  `reportinterval` mediumint(9) NOT NULL default '7',
+  `reportlastdate` date NOT NULL default '0000-00-00',
+  `reportdeactivate` enum('t','f') NOT NULL default 't',
+  `comments` text,
+  `updated` datetime NOT NULL,
+  `lb_reporting` tinyint(1) NOT NULL default '0',
+  `an_adnetwork_id` int(11) default NULL,
+  `as_advertiser_id` int(11) default NULL,
+  `account_id` mediumint(9) default NULL,
+  `advertiser_limitation` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`clientid`),
+  UNIQUE KEY `ox_clients_account_id` (`account_id`),
+  KEY `ox_clients_agencyid` (`agencyid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_clients`
+--
+
+
+/*!40000 ALTER TABLE `ox_clients` DISABLE KEYS */;
+LOCK TABLES `ox_clients` WRITE;
+INSERT INTO `ox_clients` VALUES (1,2,'Advertiser 1','advertiser','example@example.com','f',7,'2007-04-27','t','','2007-05-16 12:54:09',2,NULL,NULL,4,0);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_clients` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_data_intermediate_ad`
+--
+
+DROP TABLE IF EXISTS `ox_data_intermediate_ad`;
+CREATE TABLE `ox_data_intermediate_ad` (
+  `data_intermediate_ad_id` bigint(20) NOT NULL auto_increment,
+  `date_time` datetime NOT NULL,
+  `operation_interval` int(10) unsigned NOT NULL,
+  `operation_interval_id` int(10) unsigned NOT NULL,
+  `interval_start` datetime NOT NULL,
+  `interval_end` datetime NOT NULL,
+  `ad_id` int(10) unsigned NOT NULL,
+  `creative_id` int(10) unsigned NOT NULL,
+  `zone_id` int(10) unsigned NOT NULL,
+  `requests` int(10) unsigned NOT NULL default '0',
+  `impressions` int(10) unsigned NOT NULL default '0',
+  `clicks` int(10) unsigned NOT NULL default '0',
+  `conversions` int(10) unsigned NOT NULL default '0',
+  `total_basket_value` decimal(10,4) NOT NULL default '0.0000',
+  `total_num_items` int(11) NOT NULL default '0',
+  `updated` datetime NOT NULL,
+  PRIMARY KEY  (`data_intermediate_ad_id`),
+  KEY `ox_data_intermediate_ad_ad_id_date_time` (`ad_id`,`date_time`),
+  KEY `ox_data_intermediate_ad_zone_id_date_time` (`zone_id`,`date_time`),
+  KEY `ox_data_intermediate_ad_date_time` (`date_time`),
+  KEY `ox_data_intermediate_ad_interval_start` (`interval_start`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_data_intermediate_ad`
+--
+
+
+/*!40000 ALTER TABLE `ox_data_intermediate_ad` DISABLE KEYS */;
+LOCK TABLES `ox_data_intermediate_ad` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_data_intermediate_ad` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_data_intermediate_ad_connection`
+--
+
+DROP TABLE IF EXISTS `ox_data_intermediate_ad_connection`;
+CREATE TABLE `ox_data_intermediate_ad_connection` (
+  `data_intermediate_ad_connection_id` bigint(20) NOT NULL auto_increment,
+  `server_raw_ip` varchar(16) NOT NULL default '',
+  `server_raw_tracker_impression_id` bigint(20) NOT NULL,
+  `viewer_id` varchar(32) default NULL,
+  `viewer_session_id` varchar(32) default NULL,
+  `tracker_date_time` datetime NOT NULL,
+  `connection_date_time` datetime default NULL,
+  `tracker_id` int(10) unsigned NOT NULL,
+  `ad_id` int(10) unsigned NOT NULL,
+  `creative_id` int(10) unsigned NOT NULL,
+  `zone_id` int(10) unsigned NOT NULL,
+  `tracker_channel` varchar(255) default NULL,
+  `connection_channel` varchar(255) default NULL,
+  `tracker_channel_ids` varchar(64) default NULL,
+  `connection_channel_ids` varchar(64) default NULL,
+  `tracker_language` varchar(13) default NULL,
+  `connection_language` varchar(13) default NULL,
+  `tracker_ip_address` varchar(16) default NULL,
+  `connection_ip_address` varchar(16) default NULL,
+  `tracker_host_name` varchar(255) default NULL,
+  `connection_host_name` varchar(255) default NULL,
+  `tracker_country` char(2) default NULL,
+  `connection_country` char(2) default NULL,
+  `tracker_https` int(10) unsigned default NULL,
+  `connection_https` int(10) unsigned default NULL,
+  `tracker_domain` varchar(255) default NULL,
+  `connection_domain` varchar(255) default NULL,
+  `tracker_page` varchar(255) default NULL,
+  `connection_page` varchar(255) default NULL,
+  `tracker_query` varchar(255) default NULL,
+  `connection_query` varchar(255) default NULL,
+  `tracker_referer` varchar(255) default NULL,
+  `connection_referer` varchar(255) default NULL,
+  `tracker_search_term` varchar(255) default NULL,
+  `connection_search_term` varchar(255) default NULL,
+  `tracker_user_agent` varchar(255) default NULL,
+  `connection_user_agent` varchar(255) default NULL,
+  `tracker_os` varchar(32) default NULL,
+  `connection_os` varchar(32) default NULL,
+  `tracker_browser` varchar(32) default NULL,
+  `connection_browser` varchar(32) default NULL,
+  `connection_action` int(10) unsigned default NULL,
+  `connection_window` int(10) unsigned default NULL,
+  `connection_status` int(10) unsigned NOT NULL default '4',
+  `inside_window` tinyint(1) NOT NULL default '0',
+  `comments` text,
+  `updated` datetime NOT NULL,
+  PRIMARY KEY  (`data_intermediate_ad_connection_id`),
+  KEY `data_intermediate_ad_connection_tracker_date_time` (`tracker_date_time`),
+  KEY `data_intermediate_ad_connection_tracker_id` (`tracker_id`),
+  KEY `data_intermediate_ad_connection_ad_id` (`ad_id`),
+  KEY `data_intermediate_ad_connection_zone_id` (`zone_id`),
+  KEY `data_intermediate_ad_connection_viewer_id` (`viewer_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_data_intermediate_ad_connection`
+--
+
+
+/*!40000 ALTER TABLE `ox_data_intermediate_ad_connection` DISABLE KEYS */;
+LOCK TABLES `ox_data_intermediate_ad_connection` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_data_intermediate_ad_connection` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_data_intermediate_ad_variable_value`
+--
+
+DROP TABLE IF EXISTS `ox_data_intermediate_ad_variable_value`;
+CREATE TABLE `ox_data_intermediate_ad_variable_value` (
+  `data_intermediate_ad_variable_value_id` bigint(20) NOT NULL auto_increment,
+  `data_intermediate_ad_connection_id` bigint(20) NOT NULL,
+  `tracker_variable_id` int(11) NOT NULL,
+  `value` varchar(50) default NULL,
+  PRIMARY KEY  (`data_intermediate_ad_variable_value_id`),
+  KEY `data_intermediate_ad_connection_id` (`data_intermediate_ad_connection_id`),
+  KEY `data_intermediate_ad_variable_value_tracker_variable_id` (`tracker_variable_id`),
+  KEY `data_intermediate_ad_variable_value_tracker_value` (`value`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_data_intermediate_ad_variable_value`
+--
+
+
+/*!40000 ALTER TABLE `ox_data_intermediate_ad_variable_value` DISABLE KEYS */;
+LOCK TABLES `ox_data_intermediate_ad_variable_value` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_data_intermediate_ad_variable_value` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_data_raw_ad_click`
+--
+
+DROP TABLE IF EXISTS `ox_data_raw_ad_click`;
+CREATE TABLE `ox_data_raw_ad_click` (
+  `viewer_id` varchar(32) default NULL,
+  `viewer_session_id` varchar(32) default NULL,
+  `date_time` datetime NOT NULL,
+  `ad_id` int(10) unsigned NOT NULL,
+  `creative_id` int(10) unsigned NOT NULL,
+  `zone_id` int(10) unsigned NOT NULL,
+  `channel` varchar(255) default NULL,
+  `channel_ids` varchar(64) default NULL,
+  `language` varchar(32) default NULL,
+  `ip_address` varchar(16) default NULL,
+  `host_name` varchar(255) default NULL,
+  `country` char(2) default NULL,
+  `https` tinyint(1) default NULL,
+  `domain` varchar(255) default NULL,
+  `page` varchar(255) default NULL,
+  `query` varchar(255) default NULL,
+  `referer` varchar(255) default NULL,
+  `search_term` varchar(255) default NULL,
+  `user_agent` varchar(255) default NULL,
+  `os` varchar(32) default NULL,
+  `browser` varchar(32) default NULL,
+  `max_https` tinyint(1) default NULL,
+  `geo_region` varchar(50) default NULL,
+  `geo_city` varchar(50) default NULL,
+  `geo_postal_code` varchar(10) default NULL,
+  `geo_latitude` decimal(8,4) default NULL,
+  `geo_longitude` decimal(8,4) default NULL,
+  `geo_dma_code` varchar(50) default NULL,
+  `geo_area_code` varchar(50) default NULL,
+  `geo_organisation` varchar(50) default NULL,
+  `geo_netspeed` varchar(20) default NULL,
+  `geo_continent` varchar(13) default NULL,
+  KEY `data_raw_ad_click_viewer_id` (`viewer_id`),
+  KEY `data_raw_ad_click_date_time` (`date_time`),
+  KEY `data_raw_ad_click_ad_id` (`ad_id`),
+  KEY `data_raw_ad_click_zone_id` (`zone_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_data_raw_ad_click`
+--
+
+
+/*!40000 ALTER TABLE `ox_data_raw_ad_click` DISABLE KEYS */;
+LOCK TABLES `ox_data_raw_ad_click` WRITE;
+INSERT INTO `ox_data_raw_ad_click` VALUES ('1d0b8f22878ee21edac4d01eeb8793bd','','2007-08-29 15:19:19',2,0,0,NULL,NULL,'','127.0.0.1','127.0.0.1',NULL,NULL,NULL,NULL,NULL,NULL,'','Mozilla/4.0 (compatible; MSIE 6.0b; Windows 98)','','',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_data_raw_ad_click` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_data_raw_ad_impression`
+--
+
+DROP TABLE IF EXISTS `ox_data_raw_ad_impression`;
+CREATE TABLE `ox_data_raw_ad_impression` (
+  `viewer_id` varchar(32) default NULL,
+  `viewer_session_id` varchar(32) default NULL,
+  `date_time` datetime NOT NULL,
+  `ad_id` int(10) unsigned NOT NULL,
+  `creative_id` int(10) unsigned NOT NULL,
+  `zone_id` int(10) unsigned NOT NULL,
+  `channel` varchar(255) default NULL,
+  `channel_ids` varchar(64) default NULL,
+  `language` varchar(32) default NULL,
+  `ip_address` varchar(16) default NULL,
+  `host_name` varchar(255) default NULL,
+  `country` char(2) default NULL,
+  `https` tinyint(1) default NULL,
+  `domain` varchar(255) default NULL,
+  `page` varchar(255) default NULL,
+  `query` varchar(255) default NULL,
+  `referer` varchar(255) default NULL,
+  `search_term` varchar(255) default NULL,
+  `user_agent` varchar(255) default NULL,
+  `os` varchar(32) default NULL,
+  `browser` varchar(32) default NULL,
+  `max_https` tinyint(1) default NULL,
+  `geo_region` varchar(50) default NULL,
+  `geo_city` varchar(50) default NULL,
+  `geo_postal_code` varchar(10) default NULL,
+  `geo_latitude` decimal(8,4) default NULL,
+  `geo_longitude` decimal(8,4) default NULL,
+  `geo_dma_code` varchar(50) default NULL,
+  `geo_area_code` varchar(50) default NULL,
+  `geo_organisation` varchar(50) default NULL,
+  `geo_netspeed` varchar(20) default NULL,
+  `geo_continent` varchar(13) default NULL,
+  KEY `data_raw_ad_impression_viewer_id` (`viewer_id`),
+  KEY `data_raw_ad_impression_date_time` (`date_time`),
+  KEY `data_raw_ad_impression_ad_id` (`ad_id`),
+  KEY `data_raw_ad_impression_zone_id` (`zone_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_data_raw_ad_impression`
+--
+
+
+/*!40000 ALTER TABLE `ox_data_raw_ad_impression` DISABLE KEYS */;
+LOCK TABLES `ox_data_raw_ad_impression` WRITE;
+INSERT INTO `ox_data_raw_ad_impression` VALUES ('__7bf7b383f5a3bb57540c5fa17926ae','','2008-04-07 14:14:49',2,0,0,NULL,NULL,'en-us,en;q=0.5','127.0.0.2','127.0.0.2',NULL,NULL,NULL,NULL,NULL,NULL,'','Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.13) Gecko/20080328 Fedora/1.1.9-1.fc8 SeaMonkey/1.1.9','','',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_data_raw_ad_impression` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_data_raw_ad_request`
+--
+
+DROP TABLE IF EXISTS `ox_data_raw_ad_request`;
+CREATE TABLE `ox_data_raw_ad_request` (
+  `viewer_id` varchar(32) default NULL,
+  `viewer_session_id` varchar(32) default NULL,
+  `date_time` datetime NOT NULL,
+  `ad_id` int(10) unsigned NOT NULL,
+  `creative_id` int(10) unsigned NOT NULL,
+  `zone_id` int(10) unsigned NOT NULL,
+  `channel` varchar(255) default NULL,
+  `channel_ids` varchar(64) default NULL,
+  `language` varchar(32) default NULL,
+  `ip_address` varchar(16) default NULL,
+  `host_name` varchar(255) default NULL,
+  `https` tinyint(1) default NULL,
+  `domain` varchar(255) default NULL,
+  `page` varchar(255) default NULL,
+  `query` varchar(255) default NULL,
+  `referer` varchar(255) default NULL,
+  `search_term` varchar(255) default NULL,
+  `user_agent` varchar(255) default NULL,
+  `os` varchar(32) default NULL,
+  `browser` varchar(32) default NULL,
+  `max_https` tinyint(1) default NULL,
+  KEY `ox_data_raw_ad_request_viewer_id` (`viewer_id`),
+  KEY `ox_data_raw_ad_request_date_time` (`date_time`),
+  KEY `ox_data_raw_ad_request_ad_id` (`ad_id`),
+  KEY `ox_data_raw_ad_request_zone_id` (`zone_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_data_raw_ad_request`
+--
+
+
+/*!40000 ALTER TABLE `ox_data_raw_ad_request` DISABLE KEYS */;
+LOCK TABLES `ox_data_raw_ad_request` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_data_raw_ad_request` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_data_raw_tracker_impression`
+--
+
+DROP TABLE IF EXISTS `ox_data_raw_tracker_impression`;
+CREATE TABLE `ox_data_raw_tracker_impression` (
+  `server_raw_tracker_impression_id` bigint(20) NOT NULL auto_increment,
+  `server_raw_ip` varchar(16) NOT NULL default '',
+  `viewer_id` varchar(32) NOT NULL default '',
+  `viewer_session_id` varchar(32) default NULL,
+  `date_time` datetime NOT NULL,
+  `tracker_id` int(10) unsigned NOT NULL,
+  `channel` varchar(255) default NULL,
+  `channel_ids` varchar(64) default NULL,
+  `language` varchar(32) default NULL,
+  `ip_address` varchar(16) default NULL,
+  `host_name` varchar(255) default NULL,
+  `country` char(2) default NULL,
+  `https` int(10) unsigned default NULL,
+  `domain` varchar(255) default NULL,
+  `page` varchar(255) default NULL,
+  `query` varchar(255) default NULL,
+  `referer` varchar(255) default NULL,
+  `search_term` varchar(255) default NULL,
+  `user_agent` varchar(255) default NULL,
+  `os` varchar(32) default NULL,
+  `browser` varchar(32) default NULL,
+  `max_https` int(10) unsigned default NULL,
+  `geo_region` varchar(50) default NULL,
+  `geo_city` varchar(50) default NULL,
+  `geo_postal_code` varchar(10) default NULL,
+  `geo_latitude` decimal(8,4) default NULL,
+  `geo_longitude` decimal(8,4) default NULL,
+  `geo_dma_code` varchar(50) default NULL,
+  `geo_area_code` varchar(50) default NULL,
+  `geo_organisation` varchar(50) default NULL,
+  `geo_netspeed` varchar(20) default NULL,
+  `geo_continent` varchar(13) default NULL,
+  PRIMARY KEY  (`server_raw_tracker_impression_id`,`server_raw_ip`),
+  KEY `data_raw_tracker_impression_viewer_id` (`viewer_id`),
+  KEY `data_raw_tracker_impression_date_time` (`date_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_data_raw_tracker_impression`
+--
+
+
+/*!40000 ALTER TABLE `ox_data_raw_tracker_impression` DISABLE KEYS */;
+LOCK TABLES `ox_data_raw_tracker_impression` WRITE;
+INSERT INTO `ox_data_raw_tracker_impression` VALUES (1,'singleDB','6e8928c9063f85e75c8a457b42f50257','','2007-06-01 15:13:26',1,'','','en-us,en;q=0.5','127.0.0.1','127.0.0.1','',0,'','','','','','Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11','','',0,'','','','0.0000','0.0000','','','','',''),(2,'singleDB','6e8928c9063f85e75c8a457b42f50257','','2007-06-01 15:13:37',1,'','','en-us,en;q=0.5','127.0.0.1','127.0.0.1','',0,'','','','','','Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11','','',0,'','','','0.0000','0.0000','','','','',''),(3,'singleDB','6e8928c9063f85e75c8a457b42f50257','','2007-06-01 15:23:06',1,'','','en-us,en;q=0.5','127.0.0.1','127.0.0.1','',0,'','','','','','Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11','','',0,'','','','0.0000','0.0000','','','','',''),(4,'singleDB','6e8928c9063f85e75c8a457b42f50257','','2007-06-01 15:23:07',1,'','','en-us,en;q=0.5','127.0.0.1','127.0.0.1','',0,'','','','','','Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11','','',0,'','','','0.0000','0.0000','','','','',''),(5,'singleDB','6e8928c9063f85e75c8a457b42f50257','','2007-06-01 15:24:37',1,'','','en-us,en;q=0.5','127.0.0.1','127.0.0.1','',0,'','','','','','Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11','','',0,'','','','0.0000','0.0000','','','','',''),(6,'singleDB','6e8928c9063f85e75c8a457b42f50257','','2007-06-01 15:25:53',1,'','','en-us,en;q=0.5','127.0.0.1','127.0.0.1','',0,'','','','','','Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11','','',0,'','','','0.0000','0.0000','','','','','');
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_data_raw_tracker_impression` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_data_raw_tracker_variable_value`
+--
+
+DROP TABLE IF EXISTS `ox_data_raw_tracker_variable_value`;
+CREATE TABLE `ox_data_raw_tracker_variable_value` (
+  `server_raw_tracker_impression_id` bigint(20) NOT NULL,
+  `server_raw_ip` varchar(16) NOT NULL default '',
+  `tracker_variable_id` int(11) NOT NULL,
+  `date_time` datetime default NULL,
+  `value` varchar(50) default NULL,
+  PRIMARY KEY  (`server_raw_tracker_impression_id`,`server_raw_ip`,`tracker_variable_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_data_raw_tracker_variable_value`
+--
+
+
+/*!40000 ALTER TABLE `ox_data_raw_tracker_variable_value` DISABLE KEYS */;
+LOCK TABLES `ox_data_raw_tracker_variable_value` WRITE;
+INSERT INTO `ox_data_raw_tracker_variable_value` VALUES (1,'singleDB',1,'2007-06-01 15:13:26','123'),(1,'singleDB',2,'2007-06-01 15:13:26','test123'),(2,'singleDB',1,'2007-06-01 15:13:37','123'),(2,'singleDB',2,'2007-06-01 15:13:37','test123'),(3,'singleDB',1,'2007-06-01 15:23:06','123'),(3,'singleDB',2,'2007-06-01 15:23:06','test123'),(4,'singleDB',1,'2007-06-01 15:23:07','123'),(4,'singleDB',2,'2007-06-01 15:23:07','test123'),(5,'singleDB',1,'2007-06-01 15:25:09','123'),(5,'singleDB',2,'2007-06-01 15:25:09','test123'),(6,'singleDB',1,'2007-06-01 15:25:53','123'),(6,'singleDB',2,'2007-06-01 15:25:53','test123');
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_data_raw_tracker_variable_value` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_data_summary_ad_hourly`
+--
+
+DROP TABLE IF EXISTS `ox_data_summary_ad_hourly`;
+CREATE TABLE `ox_data_summary_ad_hourly` (
+  `data_summary_ad_hourly_id` bigint(20) NOT NULL auto_increment,
+  `date_time` datetime NOT NULL,
+  `ad_id` int(10) unsigned NOT NULL,
+  `creative_id` int(10) unsigned NOT NULL,
+  `zone_id` int(10) unsigned NOT NULL,
+  `requests` int(10) unsigned NOT NULL default '0',
+  `impressions` int(10) unsigned NOT NULL default '0',
+  `clicks` int(10) unsigned NOT NULL default '0',
+  `conversions` int(10) unsigned NOT NULL default '0',
+  `total_basket_value` decimal(10,4) default NULL,
+  `total_num_items` int(11) default NULL,
+  `total_revenue` decimal(10,4) default NULL,
+  `total_cost` decimal(10,4) default NULL,
+  `total_techcost` decimal(10,4) default NULL,
+  `updated` datetime NOT NULL,
+  PRIMARY KEY  (`data_summary_ad_hourly_id`),
+  KEY `ox_data_summary_ad_hourly_date_time` (`date_time`),
+  KEY `ox_data_summary_ad_hourly_ad_id_date_time` (`ad_id`,`date_time`),
+  KEY `ox_data_summary_ad_hourly_zone_id_date_time` (`zone_id`,`date_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_data_summary_ad_hourly`
+--
+
+
+/*!40000 ALTER TABLE `ox_data_summary_ad_hourly` DISABLE KEYS */;
+LOCK TABLES `ox_data_summary_ad_hourly` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_data_summary_ad_hourly` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_data_summary_ad_zone_assoc`
+--
+
+DROP TABLE IF EXISTS `ox_data_summary_ad_zone_assoc`;
+CREATE TABLE `ox_data_summary_ad_zone_assoc` (
+  `data_summary_ad_zone_assoc_id` bigint(20) NOT NULL auto_increment,
+  `operation_interval` int(10) unsigned NOT NULL,
+  `operation_interval_id` int(10) unsigned NOT NULL,
+  `interval_start` datetime NOT NULL,
+  `interval_end` datetime NOT NULL,
+  `ad_id` int(10) unsigned NOT NULL,
+  `zone_id` int(10) unsigned NOT NULL,
+  `required_impressions` int(10) unsigned NOT NULL,
+  `requested_impressions` int(10) unsigned NOT NULL,
+  `priority` double NOT NULL,
+  `priority_factor` double default NULL,
+  `priority_factor_limited` smallint(6) NOT NULL default '0',
+  `past_zone_traffic_fraction` double default NULL,
+  `created` datetime NOT NULL,
+  `created_by` int(10) unsigned NOT NULL,
+  `expired` datetime default NULL,
+  `expired_by` int(10) unsigned default NULL,
+  `to_be_delivered` tinyint(1) NOT NULL default '1',
+  PRIMARY KEY  (`data_summary_ad_zone_assoc_id`),
+  KEY `data_summary_ad_zone_assoc_interval_start` (`interval_start`),
+  KEY `data_summary_ad_zone_assoc_interval_end` (`interval_end`),
+  KEY `data_summary_ad_zone_assoc_ad_id` (`ad_id`),
+  KEY `data_summary_ad_zone_assoc_zone_id` (`zone_id`),
+  KEY `expired` (`expired`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_data_summary_ad_zone_assoc`
+--
+
+
+/*!40000 ALTER TABLE `ox_data_summary_ad_zone_assoc` DISABLE KEYS */;
+LOCK TABLES `ox_data_summary_ad_zone_assoc` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_data_summary_ad_zone_assoc` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_data_summary_channel_daily`
+--
+
+DROP TABLE IF EXISTS `ox_data_summary_channel_daily`;
+CREATE TABLE `ox_data_summary_channel_daily` (
+  `data_summary_channel_daily_id` bigint(20) NOT NULL auto_increment,
+  `day` date NOT NULL,
+  `channel_id` int(10) unsigned NOT NULL,
+  `zone_id` int(10) unsigned NOT NULL,
+  `forecast_impressions` int(10) unsigned NOT NULL default '0',
+  `actual_impressions` int(10) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`data_summary_channel_daily_id`),
+  KEY `data_summary_channel_daily_day` (`day`),
+  KEY `data_summary_channel_daily_channel_id` (`channel_id`),
+  KEY `data_summary_channel_daily_zone_id` (`zone_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_data_summary_channel_daily`
+--
+
+
+/*!40000 ALTER TABLE `ox_data_summary_channel_daily` DISABLE KEYS */;
+LOCK TABLES `ox_data_summary_channel_daily` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_data_summary_channel_daily` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_data_summary_zone_impression_history`
+--
+
+DROP TABLE IF EXISTS `ox_data_summary_zone_impression_history`;
+CREATE TABLE `ox_data_summary_zone_impression_history` (
+  `data_summary_zone_impression_history_id` bigint(20) NOT NULL auto_increment,
+  `operation_interval` int(10) unsigned NOT NULL,
+  `operation_interval_id` int(10) unsigned NOT NULL,
+  `interval_start` datetime NOT NULL,
+  `interval_end` datetime NOT NULL,
+  `zone_id` int(10) unsigned NOT NULL,
+  `forecast_impressions` int(10) unsigned default NULL,
+  `actual_impressions` int(10) unsigned default NULL,
+  `est` smallint(6) default NULL,
+  PRIMARY KEY  (`data_summary_zone_impression_history_id`),
+  KEY `data_summary_zone_impression_history_operation_interval_id` (`operation_interval_id`),
+  KEY `data_summary_zone_impression_history_zone_id` (`zone_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_data_summary_zone_impression_history`
+--
+
+
+/*!40000 ALTER TABLE `ox_data_summary_zone_impression_history` DISABLE KEYS */;
+LOCK TABLES `ox_data_summary_zone_impression_history` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_data_summary_zone_impression_history` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_images`
+--
+
+DROP TABLE IF EXISTS `ox_images`;
+CREATE TABLE `ox_images` (
+  `filename` varchar(128) NOT NULL default '',
+  `contents` longblob NOT NULL,
+  `t_stamp` datetime default NULL,
+  PRIMARY KEY  (`filename`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_images`
+--
+
+
+/*!40000 ALTER TABLE `ox_images` DISABLE KEYS */;
+LOCK TABLES `ox_images` WRITE;
+INSERT INTO `ox_images` VALUES ('468x60.gif','GIF89aù<\0ù\0\0uuuùùùDDDùùùùù?ùù000ùùù   eeeùùùUUUùùùùùù\0\0\0!ù\0\0\0\0\0,\0\0\0\0ù<\0\0ùùùIùù8ù?ù`(ùdiùhùùlùp,ùtmùxùù|ù?ùùcH\nPù\"ù(\nBùùX6ù\rùùJZùPùù$ùQùzùnW\Zùù$0ùùù?$ùùù\0bnuqz\'	BùC	ùùùù.ùs\"	ùxùùùx\0ùùùEù$\0ùùùùùùùAù#\nùùCùùùùùùDù!~ù?ù?ùùùqù\nùw?ù?ùùùùùù6ùùùvùùEùùù>ù#ùC.pù`Sù8t\0QRù5xsùù?(ùùùùAùD\"ù0\\<ùNù?Rùùù$?81leùùd(Sù[4ù\0 @@ùùE2ùùùI(\0ùPùù0ù\0ùs0ù?dùùaùYùùùùù\0ù\"$ù\\	}ù?ùHùù\\hùùùgùùtùù^ù{,;ùù2ùù<ùT	ù5Pù\Zùhk^Sù\04ùù	ùù@6?\'ùùa8ù\0.ù?y-ùùSùFùe+8j7ùùù<ùù?CGùQùw?VùùùJù!ùù\0Kw?Aùn6ùEùùù}Cùù_il \"ù5Hùlùùù\00 \0sùù/ùlùùe!ùùùùuùùùk@ùùtùxùPmXùi@ù@ùùurùùCùùBVùIù!ùùù$ùù [ùBùfP8ùO?\0ùù7ùù-ùi?ù9ùFù0ùyù+ùùùDùùùùeiùnùù\nGùùAahZùùù=ùXù$ùBù3f(qu9bùZùù.ùùùA\Z*jùùù(ùwTp\0Qùùù\"(ùH}YIùCùyùjù9ù*ùù?ùt\0ùBùù,\nr*zùùùùùù\rù\0}ùe@ùùr?\Zùv?zùNùùM@ùWùjpùùùù&?ù^p,rùtù\ZlJ\n~ùùdùT\0ùcù>?ù\0ùb=ùùkqz\nùùùpùù ùqù8ùùùùù?ùù?\Zùù4ùgWP.ùqùùI\0$Oùùùùù;ùlùùùùù5WmùùCHù30Qùzù\\ùùZùùù]?A?mm5ù[ù6ùigùù\"ù4\0cùùùùvùùMlùo[-ù\0ùùl/ùùùù\rK\0$npù(ùù\rKùùù?ù(R]xùXù&ùùù\0g`ùùùùùù2@ùùùnW?ùnùùù!uùùù.j?ù~zUùù.ùù<Qù~ùvùù<ùsùùùùù+ùù9ùùùù?ùO??ùDùùùùù=ùù/[zùùsmTù ùù\Zùùcù+\Zùù\nùlùùùùùùù[[ù&0ùùùl>xù\Z(ùùD@ùù@ùAùù]ùùù-ù$ù!Nù{?Bù	ù?xù\\Lù#ùù~~ùaùù*\Z*ùùùùùùùUùaK]ùJù/ùùùwù ùùC\r\\?ùùWù?Fùù1Yù? e-ùùùs\0ù^F(#ùqtt@%ùxùùZùIùXùù%ùùùùDC2ùù*ùNfùaù4ù\"\'ùù?HùwMù@ùùùùq}ùtùPùùùùCR@6(_(EYùGù?Kù)Xù)b\0ùùùOùùJ8lù.ù4Jù<&ùùùù0?ùI ù3ù\r65ùMù(ù\0fù&5{ùùnùùc+ùùJ xSù)Rù;;Pùùù\"?:ùSù}X@Vùù3#5OùBùùùzùù\r 4ù&\nùUùùt\rtùùYù9ùQ*ùùù-ùyù?\"ù#ùùN:ù	}ùùURAùqùùùùhD%;ùJ`ùE8Lùùjù|n vCù`\ZHù4ùù9@Sùù?zuù^ùù!P8Kùùkù1ù ?%ùùù%ùù.ùxù,ùXù=ùùùùTTùd`ùg?zE.ù#>IHù]%Gùùsù_ùZ5o>ùsùSùZlùRCùùùJ5ù8ùùCcùù6KùM\0ù?lù,ùù ]ù\0ùCj;\0(4\0Bù*ù:?gvùGùEùmsFùZ\n,bùùlGgùùSùùù6ùZùY%?)LNùùùLwùùùMpaQ$dNùzùZRù;?ù Qd=?ù	v@ùùùUù(ùfùùEUQù^ùùù[ùX=pù?ùIùKù\\:?Iù	ùùNùù`ùAXyù8%`Gl-ù}ù-ùUWùù,ùuù-ùNù\0#ùùh]/<ùNtXSUaù,}ùùvù1ùxù?eùPùù\rùùùù.m.oùù,sù[?ùùùdùù	ù[A`ù2(c)ù%%ùf0?|ùù:?g6ù?Nù\nùùùF;\Z\0\0;','2007-05-17 12:01:02');
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_images` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_lb_local`
+--
+
+DROP TABLE IF EXISTS `ox_lb_local`;
+CREATE TABLE `ox_lb_local` (
+  `last_run` int(11) NOT NULL default '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_lb_local`
+--
+
+
+/*!40000 ALTER TABLE `ox_lb_local` DISABLE KEYS */;
+LOCK TABLES `ox_lb_local` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_lb_local` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_log_maintenance_forecasting`
+--
+
+DROP TABLE IF EXISTS `ox_log_maintenance_forecasting`;
+CREATE TABLE `ox_log_maintenance_forecasting` (
+  `log_maintenance_forecasting_id` int(11) NOT NULL auto_increment,
+  `start_run` datetime NOT NULL,
+  `end_run` datetime NOT NULL,
+  `operation_interval` int(11) NOT NULL,
+  `duration` int(11) NOT NULL,
+  `updated_to` datetime default NULL,
+  PRIMARY KEY  (`log_maintenance_forecasting_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_log_maintenance_forecasting`
+--
+
+
+/*!40000 ALTER TABLE `ox_log_maintenance_forecasting` DISABLE KEYS */;
+LOCK TABLES `ox_log_maintenance_forecasting` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_log_maintenance_forecasting` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_log_maintenance_priority`
+--
+
+DROP TABLE IF EXISTS `ox_log_maintenance_priority`;
+CREATE TABLE `ox_log_maintenance_priority` (
+  `log_maintenance_priority_id` int(11) NOT NULL auto_increment,
+  `start_run` datetime NOT NULL,
+  `end_run` datetime NOT NULL,
+  `operation_interval` int(11) NOT NULL,
+  `duration` int(11) NOT NULL,
+  `run_type` tinyint(3) unsigned NOT NULL,
+  `updated_to` datetime default NULL,
+  PRIMARY KEY  (`log_maintenance_priority_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_log_maintenance_priority`
+--
+
+
+/*!40000 ALTER TABLE `ox_log_maintenance_priority` DISABLE KEYS */;
+LOCK TABLES `ox_log_maintenance_priority` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_log_maintenance_priority` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_log_maintenance_statistics`
+--
+
+DROP TABLE IF EXISTS `ox_log_maintenance_statistics`;
+CREATE TABLE `ox_log_maintenance_statistics` (
+  `log_maintenance_statistics_id` int(11) NOT NULL auto_increment,
+  `start_run` datetime NOT NULL,
+  `end_run` datetime NOT NULL,
+  `duration` int(11) NOT NULL,
+  `adserver_run_type` int(2) default NULL,
+  `search_run_type` int(2) default NULL,
+  `tracker_run_type` int(2) default NULL,
+  `updated_to` datetime default NULL,
+  PRIMARY KEY  (`log_maintenance_statistics_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_log_maintenance_statistics`
+--
+
+
+/*!40000 ALTER TABLE `ox_log_maintenance_statistics` DISABLE KEYS */;
+LOCK TABLES `ox_log_maintenance_statistics` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_log_maintenance_statistics` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_password_recovery`
+--
+
+DROP TABLE IF EXISTS `ox_password_recovery`;
+CREATE TABLE `ox_password_recovery` (
+  `user_type` varchar(64) NOT NULL default '',
+  `user_id` int(10) NOT NULL,
+  `recovery_id` varchar(64) NOT NULL default '',
+  `updated` datetime NOT NULL,
+  PRIMARY KEY  (`user_type`,`user_id`),
+  UNIQUE KEY `recovery_id` (`recovery_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_password_recovery`
+--
+
+
+/*!40000 ALTER TABLE `ox_password_recovery` DISABLE KEYS */;
+LOCK TABLES `ox_password_recovery` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_password_recovery` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_placement_zone_assoc`
+--
+
+DROP TABLE IF EXISTS `ox_placement_zone_assoc`;
+CREATE TABLE `ox_placement_zone_assoc` (
+  `placement_zone_assoc_id` mediumint(9) NOT NULL auto_increment,
+  `zone_id` mediumint(9) default NULL,
+  `placement_id` mediumint(9) default NULL,
+  PRIMARY KEY  (`placement_zone_assoc_id`),
+  KEY `placement_zone_assoc_zone_id` (`zone_id`),
+  KEY `placement_id` (`placement_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_placement_zone_assoc`
+--
+
+
+/*!40000 ALTER TABLE `ox_placement_zone_assoc` DISABLE KEYS */;
+LOCK TABLES `ox_placement_zone_assoc` WRITE;
+INSERT INTO `ox_placement_zone_assoc` VALUES (1,1,1),(2,1,2),(3,2,3);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_placement_zone_assoc` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_plugins_channel_delivery_assoc`
+--
+
+DROP TABLE IF EXISTS `ox_plugins_channel_delivery_assoc`;
+CREATE TABLE `ox_plugins_channel_delivery_assoc` (
+  `rule_id` int(10) unsigned NOT NULL default '0',
+  `domain_id` int(10) unsigned NOT NULL default '0',
+  `rule_order` tinyint(4) NOT NULL default '0',
+  PRIMARY KEY  (`rule_id`,`domain_id`),
+  KEY `domain_id` (`domain_id`),
+  KEY `rule_id` (`rule_id`),
+  KEY `rule_order` (`rule_order`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_plugins_channel_delivery_assoc`
+--
+
+
+/*!40000 ALTER TABLE `ox_plugins_channel_delivery_assoc` DISABLE KEYS */;
+LOCK TABLES `ox_plugins_channel_delivery_assoc` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_plugins_channel_delivery_assoc` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_plugins_channel_delivery_domains`
+--
+
+DROP TABLE IF EXISTS `ox_plugins_channel_delivery_domains`;
+CREATE TABLE `ox_plugins_channel_delivery_domains` (
+  `domain_id` int(10) unsigned NOT NULL auto_increment,
+  `domain_name` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`domain_id`),
+  KEY `domain_name` (`domain_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_plugins_channel_delivery_domains`
+--
+
+
+/*!40000 ALTER TABLE `ox_plugins_channel_delivery_domains` DISABLE KEYS */;
+LOCK TABLES `ox_plugins_channel_delivery_domains` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_plugins_channel_delivery_domains` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_plugins_channel_delivery_rules`
+--
+
+DROP TABLE IF EXISTS `ox_plugins_channel_delivery_rules`;
+CREATE TABLE `ox_plugins_channel_delivery_rules` (
+  `rule_id` int(10) unsigned NOT NULL auto_increment,
+  `modifier` varchar(100) NOT NULL default '',
+  `client` varchar(100) NOT NULL default '',
+  `rule` text NOT NULL,
+  PRIMARY KEY  (`rule_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_plugins_channel_delivery_rules`
+--
+
+
+/*!40000 ALTER TABLE `ox_plugins_channel_delivery_rules` DISABLE KEYS */;
+LOCK TABLES `ox_plugins_channel_delivery_rules` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_plugins_channel_delivery_rules` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_preferences`
+--
+
+DROP TABLE IF EXISTS `ox_preferences`;
+CREATE TABLE `ox_preferences` (
+  `preference_id` mediumint(9) NOT NULL auto_increment,
+  `preference_name` varchar(64) NOT NULL default '',
+  `account_type` varchar(16) NOT NULL default '',
+  PRIMARY KEY  (`preference_id`),
+  UNIQUE KEY `ox_preferences_preference_name` (`preference_name`),
+  KEY `ox_preferences_account_type` (`account_type`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_preferences`
+--
+
+
+/*!40000 ALTER TABLE `ox_preferences` DISABLE KEYS */;
+LOCK TABLES `ox_preferences` WRITE;
+INSERT INTO `ox_preferences` VALUES (1,'language','ADMIN'),(2,'ui_week_start_day','ADMIN'),(3,'ui_percentage_decimals','ADMIN'),(4,'warn_admin','ADMIN'),(5,'warn_email_manager','ADMIN'),(6,'warn_email_advertiser','ADMIN'),(7,'warn_email_admin_impression_limit','ADMIN'),(8,'warn_email_admin_day_limit','ADMIN'),(9,'ui_novice_user','ADMIN'),(10,'default_banner_weight','ADMIN'),(11,'default_campaign_weight','ADMIN'),(12,'default_banner_image_url','ADMIN'),(13,'default_banner_destination_url','ADMIN'),(14,'ui_show_campaign_info','ADMIN'),(15,'ui_show_campaign_preview','ADMIN'),(16,'ui_show_banner_info','ADMIN'),(17,'ui_show_banner_preview','ADMIN'),(18,'ui_show_banner_html','ADMIN'),(19,'ui_show_matching_banners','ADMIN'),(20,'ui_show_matching_banners_parents','ADMIN'),(21,'ui_hide_inactive','ADMIN'),(22,'tracker_default_status','ADMIN'),(23,'tracker_default_type','ADMIN'),(24,'tracker_link_campaigns','ADMIN'),(25,'ui_column_id','ADMIN'),(26,'ui_column_id_label','ADMIN'),(27,'ui_column_id_rank','ADMIN'),(28,'ui_column_requests','ADMIN'),(29,'ui_column_requests_label','ADMIN'),(30,'ui_column_requests_rank','ADMIN'),(31,'ui_column_impressions','ADMIN'),(32,'ui_column_impressions_label','ADMIN'),(33,'ui_column_impressions_rank','ADMIN'),(34,'ui_column_clicks','ADMIN'),(35,'ui_column_clicks_label','ADMIN'),(36,'ui_column_clicks_rank','ADMIN'),(37,'ui_column_ctr','ADMIN'),(38,'ui_column_ctr_label','ADMIN'),(39,'ui_column_ctr_rank','ADMIN'),(40,'ui_column_conversions','ADMIN'),(41,'ui_column_conversions_label','ADMIN'),(42,'ui_column_conversions_rank','ADMIN'),(43,'ui_column_conversions_pending','ADMIN'),(44,'ui_column_conversions_pending_label','ADMIN'),(45,'ui_column_conversions_pending_rank','ADMIN'),(46,'ui_column_sr_views','ADMIN'),(47,'ui_column_sr_views_label','ADMIN'),(48,'ui_column_sr_views_rank','ADMIN'),(49,'ui_column_sr_clicks','ADMIN'),(50,'ui_column_sr_clicks_label','ADMIN'),(51,'ui_column_sr_clicks_rank','ADMIN'),(52,'ui_column_revenue','ADMIN'),(53,'ui_column_revenue_label','ADMIN'),(54,'ui_column_revenue_rank','ADMIN'),(55,'ui_column_cost','ADMIN'),(56,'ui_column_cost_label','ADMIN'),(57,'ui_column_cost_rank','ADMIN'),(58,'ui_column_bv','ADMIN'),(59,'ui_column_bv_label','ADMIN'),(60,'ui_column_bv_rank','ADMIN'),(61,'ui_column_num_items','ADMIN'),(62,'ui_column_num_items_label','ADMIN'),(63,'ui_column_num_items_rank','ADMIN'),(64,'ui_column_revcpc','ADMIN'),(65,'ui_column_revcpc_label','ADMIN'),(66,'ui_column_revcpc_rank','ADMIN'),(67,'ui_column_costcpc','ADMIN'),(68,'ui_column_costcpc_label','ADMIN'),(69,'ui_column_costcpc_rank','ADMIN'),(70,'ui_column_technology_cost','ADMIN'),(71,'ui_column_technology_cost_label','ADMIN'),(72,'ui_column_technology_cost_rank','ADMIN'),(73,'ui_column_income','ADMIN'),(74,'ui_column_income_label','ADMIN'),(75,'ui_column_income_rank','ADMIN'),(76,'ui_column_income_margin','ADMIN'),(77,'ui_column_income_margin_label','ADMIN'),(78,'ui_column_income_margin_rank','ADMIN'),(79,'ui_column_profit','ADMIN'),(80,'ui_column_profit_label','ADMIN'),(81,'ui_column_profit_rank','ADMIN'),(82,'ui_column_margin','ADMIN'),(83,'ui_column_margin_label','ADMIN'),(84,'ui_column_margin_rank','ADMIN'),(85,'ui_column_erpm','ADMIN'),(86,'ui_column_erpm_label','ADMIN'),(87,'ui_column_erpm_rank','ADMIN'),(88,'ui_column_erpc','ADMIN'),(89,'ui_column_erpc_label','ADMIN'),(90,'ui_column_erpc_rank','ADMIN'),(91,'ui_column_erps','ADMIN'),(92,'ui_column_erps_label','ADMIN'),(93,'ui_column_erps_rank','ADMIN'),(94,'ui_column_eipm','ADMIN'),(95,'ui_column_eipm_label','ADMIN'),(96,'ui_column_eipm_rank','ADMIN'),(97,'ui_column_eipc','ADMIN'),(98,'ui_column_eipc_label','ADMIN'),(99,'ui_column_eipc_rank','ADMIN'),(100,'ui_column_eips','ADMIN'),(101,'ui_column_eips_label','ADMIN'),(102,'ui_column_eips_rank','ADMIN'),(103,'ui_column_ecpm','ADMIN'),(104,'ui_column_ecpm_label','ADMIN'),(105,'ui_column_ecpm_rank','ADMIN'),(106,'ui_column_ecpc','ADMIN'),(107,'ui_column_ecpc_label','ADMIN'),(108,'ui_column_ecpc_rank','ADMIN'),(109,'ui_column_ecps','ADMIN'),(110,'ui_column_ecps_label','ADMIN'),(111,'ui_column_ecps_rank','ADMIN'),(112,'ui_column_epps','ADMIN'),(113,'ui_column_epps_label','ADMIN'),(114,'ui_column_epps_rank','ADMIN'),(115,'timezone','MANAGER');
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_preferences` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_session`
+--
+
+DROP TABLE IF EXISTS `ox_session`;
+CREATE TABLE `ox_session` (
+  `sessionid` varchar(32) NOT NULL default '',
+  `sessiondata` longblob NOT NULL,
+  `lastused` datetime default NULL,
+  PRIMARY KEY  (`sessionid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_session`
+--
+
+
+/*!40000 ALTER TABLE `ox_session` DISABLE KEYS */;
+LOCK TABLES `ox_session` WRITE;
+INSERT INTO `ox_session` VALUES ('phpads465c3580ef7ff1.90755088','a:6:{s:8:\"usertype\";i:1;s:8:\"loggedin\";s:1:\"t\";s:8:\"agencyid\";i:0;s:8:\"username\";s:5:\"admin\";s:5:\"prefs\";a:8:{s:20:\"advertiser-index.php\";a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";a:0:{}}s:7:\"GLOBALS\";a:3:{s:13:\"period_preset\";s:5:\"today\";s:12:\"period_start\";s:10:\"2007-06-01\";s:10:\"period_end\";s:10:\"2007-06-01\";}s:9:\"stats.php\";a:5:{s:9:\"listorder\";s:4:\"name\";s:14:\"orderdirection\";s:2:\"up\";s:10:\"startlevel\";i:0;s:5:\"nodes\";s:0:\"\";s:12:\"hideinactive\";b:1;}s:19:\"affiliate-index.php\";a:3:{s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";s:0:\"\";}s:24:\"advertiser-campaigns.php\";a:1:{i:1;a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";s:0:\"\";}}s:23:\"advertiser-trackers.php\";a:2:{s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";}s:21:\"tracker-campaigns.php\";a:3:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";}s:21:\"tracker-variables.php\";a:1:{s:9:\"trackerid\";s:1:\"1\";}}s:12:\"update_check\";b:0;}','2007-06-01 15:09:52'),('phpads465d96668fc721.60249221','a:6:{s:8:\"usertype\";i:1;s:8:\"loggedin\";s:1:\"t\";s:8:\"agencyid\";i:0;s:8:\"username\";s:5:\"admin\";s:5:\"prefs\";a:3:{s:20:\"advertiser-index.php\";a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";a:0:{}}s:24:\"advertiser-campaigns.php\";a:1:{i:1;a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";s:0:\"\";}}s:23:\"advertiser-trackers.php\";a:2:{s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";}}s:12:\"update_check\";b:0;}','2007-06-01 17:15:27'),('phpads4666d2619a15a3.52419402','a:6:{s:8:\"usertype\";i:1;s:8:\"loggedin\";s:1:\"t\";s:8:\"agencyid\";i:0;s:8:\"username\";s:5:\"admin\";s:5:\"prefs\";a:1:{s:20:\"advertiser-index.php\";a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";a:0:{}}}s:12:\"update_check\";b:0;}','2007-06-06 16:27:35'),('phpads468a364daaa084.23126755','a:6:{s:8:\"usertype\";i:1;s:8:\"loggedin\";s:1:\"t\";s:8:\"agencyid\";i:0;s:8:\"username\";s:5:\"admin\";s:5:\"prefs\";a:2:{s:20:\"advertiser-index.php\";a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";a:0:{}}s:19:\"affiliate-index.php\";a:3:{s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";s:0:\"\";}}s:12:\"update_check\";b:0;}','2007-07-03 14:48:40'),('phpads46d44deed3dd40.69179106','a:6:{s:8:\"usertype\";i:1;s:8:\"loggedin\";s:1:\"t\";s:8:\"agencyid\";i:0;s:8:\"username\";s:5:\"admin\";s:5:\"prefs\";a:1:{s:20:\"advertiser-index.php\";a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";a:0:{}}}s:15:\"maint_update_js\";b:1;}','2007-08-30 11:06:32'),('phpads47877c12cd8115.03124044','a:3:{s:4:\"user\";O:18:\"ox_permission_user\":2:{s:5:\"aUser\";a:10:{s:7:\"user_id\";s:1:\"1\";s:12:\"contact_name\";s:11:\"Andrew Hill\";s:13:\"email_address\";s:23:\"andrew.hill@openads.org\";s:8:\"username\";s:5:\"admin\";s:18:\"default_account_id\";s:1:\"2\";s:8:\"comments\";s:0:\"\";s:6:\"active\";s:1:\"1\";s:10:\"account_id\";s:1:\"2\";s:12:\"account_type\";s:7:\"MANAGER\";s:12:\"account_name\";s:15:\"Default manager\";}s:8:\"aAccount\";a:5:{s:10:\"account_id\";s:1:\"1\";s:12:\"account_type\";s:5:\"ADMIN\";s:12:\"account_name\";s:13:\"Administrator\";s:9:\"entity_id\";i:0;s:9:\"agency_id\";i:0;}}s:5:\"prefs\";a:1:{s:20:\"advertiser-index.php\";a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";a:0:{}}}s:15:\"maint_update_js\";b:1;}','2008-01-11 14:47:54'),('phpads47fa2a7aea9436.83952628','a:3:{s:4:\"user\";O:18:\"ox_Permission_User\":2:{s:5:\"aUser\";a:12:{s:7:\"user_id\";s:1:\"1\";s:12:\"contact_name\";s:11:\"Andrew Hill\";s:13:\"email_address\";s:23:\"andrew.hill@openads.org\";s:8:\"username\";s:5:\"admin\";s:18:\"default_account_id\";s:1:\"2\";s:8:\"comments\";s:0:\"\";s:6:\"active\";s:1:\"1\";s:8:\"language\";s:0:\"\";s:11:\"sso_user_id\";s:0:\"\";s:12:\"date_created\";s:0:\"\";s:15:\"date_last_login\";s:0:\"\";s:8:\"is_admin\";b:1;}s:8:\"aAccount\";a:7:{s:10:\"account_id\";s:1:\"1\";s:12:\"account_type\";s:5:\"ADMIN\";s:12:\"account_name\";s:13:\"Administrator\";s:12:\"m2m_password\";s:0:\"\";s:10:\"m2m_ticket\";s:0:\"\";s:9:\"entity_id\";i:0;s:9:\"agency_id\";i:0;}}s:5:\"prefs\";a:1:{s:20:\"advertiser-index.php\";a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";a:0:{}}}s:15:\"maint_update_js\";b:1;}','2008-04-07 14:15:47');
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_session` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_targetstats`
+--
+
+DROP TABLE IF EXISTS `ox_targetstats`;
+CREATE TABLE `ox_targetstats` (
+  `day` date NOT NULL default '0000-00-00',
+  `campaignid` mediumint(9) NOT NULL default '0',
+  `target` int(11) NOT NULL default '0',
+  `views` int(11) NOT NULL default '0',
+  `modified` tinyint(4) NOT NULL default '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_targetstats`
+--
+
+
+/*!40000 ALTER TABLE `ox_targetstats` DISABLE KEYS */;
+LOCK TABLES `ox_targetstats` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_targetstats` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_tracker_append`
+--
+
+DROP TABLE IF EXISTS `ox_tracker_append`;
+CREATE TABLE `ox_tracker_append` (
+  `tracker_append_id` int(11) NOT NULL auto_increment,
+  `tracker_id` mediumint(9) NOT NULL default '0',
+  `rank` int(11) NOT NULL default '0',
+  `tagcode` text NOT NULL,
+  `paused` enum('t','f') NOT NULL default 'f',
+  `autotrack` enum('t','f') NOT NULL default 'f',
+  PRIMARY KEY  (`tracker_append_id`),
+  KEY `tracker_id` (`tracker_id`,`rank`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_tracker_append`
+--
+
+
+/*!40000 ALTER TABLE `ox_tracker_append` DISABLE KEYS */;
+LOCK TABLES `ox_tracker_append` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_tracker_append` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_trackers`
+--
+
+DROP TABLE IF EXISTS `ox_trackers`;
+CREATE TABLE `ox_trackers` (
+  `trackerid` mediumint(9) NOT NULL auto_increment,
+  `trackername` varchar(255) NOT NULL default '',
+  `description` varchar(255) NOT NULL default '',
+  `clientid` mediumint(9) NOT NULL default '0',
+  `viewwindow` mediumint(9) NOT NULL default '0',
+  `clickwindow` mediumint(9) NOT NULL default '0',
+  `blockwindow` mediumint(9) NOT NULL default '0',
+  `status` smallint(1) unsigned NOT NULL default '4',
+  `type` smallint(1) unsigned NOT NULL default '1',
+  `linkcampaigns` enum('t','f') NOT NULL default 'f',
+  `variablemethod` enum('default','js','dom','custom') NOT NULL default 'default',
+  `appendcode` text NOT NULL,
+  `updated` datetime NOT NULL,
+  PRIMARY KEY  (`trackerid`),
+  KEY `trackers_clientid` (`clientid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_trackers`
+--
+
+
+/*!40000 ALTER TABLE `ox_trackers` DISABLE KEYS */;
+LOCK TABLES `ox_trackers` WRITE;
+INSERT INTO `ox_trackers` VALUES (1,'Sample Tracker','',1,3,3,0,4,1,'f','js','','2007-06-01 15:09:47');
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_trackers` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_userlog`
+--
+
+DROP TABLE IF EXISTS `ox_userlog`;
+CREATE TABLE `ox_userlog` (
+  `userlogid` mediumint(9) NOT NULL auto_increment,
+  `timestamp` int(11) NOT NULL default '0',
+  `usertype` tinyint(4) NOT NULL default '0',
+  `userid` mediumint(9) NOT NULL default '0',
+  `action` mediumint(9) NOT NULL default '0',
+  `object` mediumint(9) default NULL,
+  `details` longblob,
+  PRIMARY KEY  (`userlogid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_userlog`
+--
+
+
+/*!40000 ALTER TABLE `ox_userlog` DISABLE KEYS */;
+LOCK TABLES `ox_userlog` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_userlog` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_users`
+--
+
+DROP TABLE IF EXISTS `ox_users`;
+CREATE TABLE `ox_users` (
+  `user_id` mediumint(9) NOT NULL auto_increment,
+  `contact_name` varchar(255) NOT NULL default '',
+  `email_address` varchar(64) NOT NULL default '',
+  `username` varchar(64) default NULL,
+  `password` varchar(64) default NULL,
+  `default_account_id` mediumint(9) default NULL,
+  `comments` text,
+  `active` tinyint(1) NOT NULL default '1',
+  `language` varchar(5) default NULL,
+  `sso_user_id` int(11) default NULL,
+  `date_created` datetime default NULL,
+  `date_last_login` datetime default NULL,
+  PRIMARY KEY  (`user_id`),
+  UNIQUE KEY `ox_users_username` (`username`),
+  UNIQUE KEY `ox_users_sso_user_id` (`sso_user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_users`
+--
+
+
+/*!40000 ALTER TABLE `ox_users` DISABLE KEYS */;
+LOCK TABLES `ox_users` WRITE;
+INSERT INTO `ox_users` VALUES (1,'Andrew Hill','andrew.hill@openads.org','admin','5f4dcc3b5aa765d61d8327deb882cf99',2,NULL,1,NULL,NULL,NULL,NULL),(2,'Andrew Hill','andrew.hill@openads.org','agency','5f4dcc3b5aa765d61d8327deb882cf99',3,NULL,1,NULL,NULL,NULL,NULL),(3,'advertiser','example@example.com','advertiser1','fe1f4b7940d69cf3eb289fad37c3ae40',4,NULL,1,NULL,NULL,NULL,NULL),(4,'Andrew Hill','andrew.hill@openads.org','publisher','5f4dcc3b5aa765d61d8327deb882cf99',5,NULL,1,NULL,NULL,NULL,NULL);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_users` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_variable_publisher`
+--
+
+DROP TABLE IF EXISTS `ox_variable_publisher`;
+CREATE TABLE `ox_variable_publisher` (
+  `variable_id` int(11) NOT NULL,
+  `publisher_id` int(11) NOT NULL,
+  `visible` tinyint(1) NOT NULL,
+  PRIMARY KEY  (`variable_id`,`publisher_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_variable_publisher`
+--
+
+
+/*!40000 ALTER TABLE `ox_variable_publisher` DISABLE KEYS */;
+LOCK TABLES `ox_variable_publisher` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_variable_publisher` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_variables`
+--
+
+DROP TABLE IF EXISTS `ox_variables`;
+CREATE TABLE `ox_variables` (
+  `variableid` mediumint(9) unsigned NOT NULL auto_increment,
+  `trackerid` mediumint(9) NOT NULL default '0',
+  `name` varchar(250) NOT NULL default '',
+  `description` varchar(250) default NULL,
+  `datatype` enum('numeric','string','date') NOT NULL default 'numeric',
+  `purpose` enum('basket_value','num_items','post_code') default NULL,
+  `reject_if_empty` smallint(1) unsigned NOT NULL default '0',
+  `is_unique` int(11) NOT NULL default '0',
+  `unique_window` int(11) NOT NULL default '0',
+  `variablecode` varchar(255) NOT NULL default '',
+  `hidden` enum('t','f') NOT NULL default 'f',
+  `updated` datetime NOT NULL,
+  PRIMARY KEY  (`variableid`),
+  KEY `variables_is_unique` (`is_unique`),
+  KEY `variables_trackerid` (`trackerid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_variables`
+--
+
+
+/*!40000 ALTER TABLE `ox_variables` DISABLE KEYS */;
+LOCK TABLES `ox_variables` WRITE;
+INSERT INTO `ox_variables` VALUES (1,1,'boo','Sample number','numeric',NULL,0,0,0,'var boo = \\\'%%BOO_VALUE%%\\\'','f','2007-06-01 15:09:47'),(2,1,'foo','Sample string','string',NULL,0,0,0,'var foo = \\\'%%FOO_VALUE%%\\\'','f','2007-06-01 15:09:47');
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_variables` ENABLE KEYS */;
+
+--
+-- Table structure for table `ox_zones`
+--
+
+DROP TABLE IF EXISTS `ox_zones`;
+CREATE TABLE `ox_zones` (
+  `zoneid` mediumint(9) NOT NULL auto_increment,
+  `affiliateid` mediumint(9) default NULL,
+  `zonename` varchar(245) NOT NULL default '',
+  `description` varchar(255) NOT NULL default '',
+  `delivery` smallint(6) NOT NULL default '0',
+  `zonetype` smallint(6) NOT NULL default '0',
+  `category` text NOT NULL,
+  `width` smallint(6) NOT NULL default '0',
+  `height` smallint(6) NOT NULL default '0',
+  `ad_selection` text NOT NULL,
+  `chain` text NOT NULL,
+  `prepend` text NOT NULL,
+  `append` text NOT NULL,
+  `appendtype` tinyint(4) NOT NULL default '0',
+  `forceappend` enum('t','f') default 'f',
+  `inventory_forecast_type` smallint(6) NOT NULL default '0',
+  `comments` text,
+  `cost` decimal(10,4) default NULL,
+  `cost_type` smallint(6) default NULL,
+  `cost_variable_id` varchar(255) default NULL,
+  `technology_cost` decimal(10,4) default NULL,
+  `technology_cost_type` smallint(6) default NULL,
+  `updated` datetime NOT NULL,
+  `block` int(11) NOT NULL default '0',
+  `capping` int(11) NOT NULL default '0',
+  `session_capping` int(11) NOT NULL default '0',
+  `what` text NOT NULL,
+  `as_zone_id` int(11) default NULL,
+  `is_in_ad_direct` tinyint(1) NOT NULL default '0',
+  `rate` decimal(19,2) default NULL,
+  `pricing` varchar(50) NOT NULL default 'CPM',
+  PRIMARY KEY  (`zoneid`),
+  KEY `ox_zones_zonenameid` (`zonename`,`zoneid`),
+  KEY `ox_zones_affiliateid` (`affiliateid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ox_zones`
+--
+
+
+/*!40000 ALTER TABLE `ox_zones` DISABLE KEYS */;
+LOCK TABLES `ox_zones` WRITE;
+INSERT INTO `ox_zones` VALUES (1,1,'Publisher 1 - Default','',0,3,'',468,60,'','','','',0,'f',0,'',NULL,NULL,'',NULL,NULL,'2007-04-27 15:37:19',0,0,0,'',NULL,0,NULL,'CPM'),(2,2,'Agency Publisher 1 - Default','',0,3,'',468,60,'','','','',0,'f',0,'',NULL,NULL,'',NULL,NULL,'2007-05-15 13:41:44',0,0,0,'',NULL,0,NULL,'CPM');
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ox_zones` ENABLE KEYS */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+

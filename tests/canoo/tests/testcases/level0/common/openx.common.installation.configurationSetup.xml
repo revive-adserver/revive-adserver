@@ -1,0 +1,16 @@
+				&universal;
+				<verifyText description="Check text on page" 
+					text="Configuration settings" />
+				<!-- 
+				<setSelectField
+		            description="Set timezone to Europe/Warsaw"
+		            name="aConfig[timezone][location]"
+		            value="Europe/Warsaw" />
+				-->
+				<clickButton description="Click 'Continue »' button"
+					name="btn_adminsetup" />				
+					
+					<!--
+					label="Continue »" />
+					xpath="//input[1]" /> 
+						btn_login -->

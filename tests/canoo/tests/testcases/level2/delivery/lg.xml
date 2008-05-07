@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE project SYSTEM               "../../../../dtd/WebTest.dtd" [
+  <!ENTITY config SYSTEM           "../../modules/config_openx.xml">
+  <!ENTITY checkForErrors SYSTEM    "../../modules/errors.xml">
+  <!ENTITY checkForImageGif SYSTEM  "../../modules/gif.xml">
+  <!ENTITY deleteRawData SYSTEM     "../../../sql/sql_delete_raw_data.xml">
+  <!ENTITY verifyHeaders SYSTEM     "../../modules/headers.xml">
+]
+>
+
+<!--
+  Test that lg.php returns binary data (1x1 GIF)
+
+  @TODO Check (using sqlunit) that lg.php logs the data into database
+-->
+<project name="OpenX delivery - lg.php" basedir="../.." default="main">
+  <import file="../../modules/init.xml"/>
+  <!-- <import file="${webtest.home}/lib/taskdef.xml"/> -->
+
+  <target name="canoo-test">
+    <!-- remove any tracker impressions and tracker variable values before the test -->
+    &deleteRawData;
+
+    <webtest name="${ant.project.name}">
+    &config;
+      <steps>
+        <invoke description="Invoke delivery file lg.php" url="/delivery/lg.php?bannerid=1&amp;zoneid=1" />
+        &checkForErrors;
+        &verifyHeaders;
+        &checkForImageGif;
+      </steps>
+    </webtest>
+
+    <!-- test that ad requests and impressions are logged in database -->
+	  <echo>!!!!!!!!!!!!!!!!!! ${basedir}</echo>
+    <!-- <sqlunit testFile="${basedir}/testcases/level2/sqlunit/data_raw_ad_impression.xml" haltOnFailure="true" debug="false"/> --> <!--  debug="false"@TODO ${debug} -->
+  </target>
+
+  <!-- clean cache, run a canoo test (without cache), and then run again (with cache) -->
+  <target name="main" depends="test-cache" />
+
+</project>

@@ -1,10 +1,15 @@
-<!-- canoo configuration -->
-<config
-  host="${host}"
-  port="${port}"
-  protocol="${protocol}"
-  basepath="${basepath}"
-  resultpath="target"
-  resultfile="simpleResult.xml"
-  summary="true"
-  saveresponse="true" />
+<!-- 
+Like all files of this folder, this content will be available as entity
+using the DTD (here &config;) 
+-->
+<config 
+	host="${wt.host}" 
+	port="${wt.port}" 
+	protocol="${wt.protocol}" 
+	basepath="${wt.basepath}"
+	summary="true" 
+	saveresponse="true" 
+	resultfile="${wt.resultfile}" 
+	resultpath="${wt.resultpath}" 
+	haltonfailure="false" 
+	haltonerror="false" />

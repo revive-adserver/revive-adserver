@@ -1,0 +1,8 @@
+<!-- sqlunit connection configuration -->
+<connection>
+    <driver>com.mysql.jdbc.Driver</driver>
+    <url>jdbc:mysql://${db.host}/${db.name}</url>
+    <user>${db.login}</user>
+    <password>${db.password}</password>
+    <jarfile-url>${basedir}/../lib/mysql-connector-java-3.1.13-bin.jar</jarfile-url>
+</connection>
