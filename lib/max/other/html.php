@@ -924,9 +924,11 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
     
     $advertiserDetails = phpAds_getClientDetails($advertiserId);
     $advertiserName = $advertiserDetails['clientname'];
+    $campaignDetails = Admin_DA::getPlacement($campaignId);
+    $campaignName = $campaignDetails['name'];
     MAX_displayInventoryBreadcrumbs(array(
                                       array("name" => $advertiserName, "url" => $advertiserEditUrl),
-                                      array("name" => $campaign['name'], "url" => $campaignEditUrl), 
+                                      array("name" => $campaignName, "url" => $campaignEditUrl), 
                                       array("name" => $bannerName)), 
                                     "banner", $bannerId == '');
     
