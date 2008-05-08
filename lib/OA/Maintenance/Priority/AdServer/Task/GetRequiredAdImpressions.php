@@ -318,6 +318,13 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
         // For each placement
         foreach ($aPlacements as $oPlacement) {
             OA::debug('  - Distributing impression inventory requirements for placement ID: ' . $oPlacement->id, PEAR_LOG_DEBUG);
+            $adsCount = count($oPlacement->aAds);
+            if ($adsCount == 1) {
+                $adsWord = 'ad';
+            } else {
+                $adsWord = 'ads';
+            }
+            OA::debug("    - Placement has $adsCount $adsWord.", PEAR_LOG_DEBUG);
             // Get date object to represent placement expiration date
             if (
                    ($oPlacement->impressionTargetDaily > 0)
@@ -355,11 +362,13 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
                 // Error! There should not be any other kind of high-priority
                 // placement in terms of activation/expiration dates and
                 // either (total) inventory requirements or daily targets
-                $message = "- Error calculating the end date for Placement ID {$oPlacement->id}.";
+                $message = "- Error calculating the end date for Placement ID {$oPlacement->id}";
                 OA::debug($message, PEAR_LOG_ERR);
                 continue;
             }
             // Determine number of remaining operation intervals for placement
+            $message = "  - Calculating placement remaining operation intervals.";
+            OA::debug($message, PEAR_LOG_DEBUG);
             $placementRemainingOperationIntervals =
                 OA_OperationInterval::getIntervalsRemaining(
                     $aCurrentOperationIntervalDates['start'],
@@ -367,25 +376,46 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
                 );
             // For all ads in the placement, determine:
             // - If the ad is capable of delivery in the current operation
-            //   interval, or not, based on delivery limitation(s); and
+            //   interval, or not, based on if it is linked to any zones, and,
+            //   if so:
+            // - If the ad is capable of delivery in the current operation
+            //   interval, or not, based on delivery limitation(s), and if so;
             // - The result of the weight of the ad multiplied by the
             //   number of operation intervals remaining in which the ad
             //   is capable of delivering
-            $aAdCurrentOperationInterval = array();
+            $aAdZones                             = array();
+            $aAdDeliveryLimtations                = array();
+            $aAdCurrentOperationInterval          = array();
             $aAdWeightRemainingOperationIntervals = array();
+            $aInvalidAdIds                        = array();
             reset($oPlacement->aAds);
-            while (list($adId, $oAd) = each($oPlacement->aAds)) {
+            while (list($key, $oAd) = each($oPlacement->aAds)) {
                 // Only calculate values for active ads
                 if ($oAd->active && ($oAd->weight > 0)) {
+                    $message = "    - Calculating remaining operation intervals for ad ID: {$oAd->id}";
+                    OA::debug($message, PEAR_LOG_DEBUG);
+                    // Get all zones associated with the ad
+                    $aAdsZones = $this->oDal->getAdZoneAssociationsByAds(array($oAd->id));
+                    $aAdZones[$oAd->id] = @$aAdsZones[$oAd->id];
+                    if (is_null($aAdZones[$oAd->id])) {
+                        $aInvalidAdIds[] = $oAd->id;
+                        $message = "      - Ad ID {$oAd->id} has no linked zones, will skip...";
+                        OA::debug($message, PEAR_LOG_ERR);
+                        continue;
+                    }
                     // Prepare a delivery limitation object for the ad
-                    $oDeliveryLimitation =
-                        new OA_Maintenance_Priority_DeliveryLimitation($oAd->getDeliveryLimitations());
+                    $aAdDeliveryLimtations[$oAd->id]  = new OA_Maintenance_Priority_DeliveryLimitation($oAd->getDeliveryLimitations());
                     // Is the ad blocked from delivering in the current operation interval?
-                    $aAdCurrentOperationInterval[$oAd->id] =
-                        $oDeliveryLimitation->deliveryBlocked($aCurrentOperationIntervalDates['start']);
+                    $aAdCurrentOperationInterval[$oAd->id] = $aAdDeliveryLimtations[$oAd->id]->deliveryBlocked($aCurrentOperationIntervalDates['start']);
+                    if ($aAdCurrentOperationInterval[$oAd->id] === true) {
+                        $aInvalidAdIds[] = $oAd->id;
+                        $message = "      - Ad ID {$oAd->id} is blocked this OI, will skip...";
+                        OA::debug($message, PEAR_LOG_ERR);
+                        continue;
+                    }
                     // Determine how many operation intervals remain that the ad can deliver in
                     $adRemainingOperationIntervals =
-                        $oDeliveryLimitation->getActiveAdOperationIntervals(
+                        $aAdDeliveryLimtations[$oAd->id]->getActiveAdOperationIntervals(
                             $placementRemainingOperationIntervals,
                             $aCurrentOperationIntervalDates['start'],
                             $oPlacementExpiryDate
@@ -407,7 +437,12 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
             // impressions should be alloced as the ad's required impressions
             // For each advertisement
             reset($oPlacement->aAds);
-            while (list($adId, $oAd) = each($oPlacement->aAds)) {
+            while (list($key, $oAd) = each($oPlacement->aAds)) {
+                if (in_array($oAd->id, $aInvalidAdIds)) {
+                    OA::debug('    - Skipping ad ID: ' . $oAd->id, PEAR_LOG_DEBUG);
+                    continue;
+                }
+                OA::debug('    - Caclulating required impressions for ad ID: ' . $oAd->id, PEAR_LOG_DEBUG);
                 // Get impressions required
                 $totalRequiredAdImpressions = 0;
                 if ($oAd->active && $oAd->weight > 0 && $aAdCurrentOperationInterval[$oAd->id] !== true) {
@@ -422,7 +457,9 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
                             $oAd,
                             $totalRequiredAdImpressions,
                             $aCurrentOperationIntervalDates['start'],
-                            $oPlacementExpiryDate
+                            $oPlacementExpiryDate,
+                            $aAdDeliveryLimtations[$oAd->id],
+                            $aAdZones[$oAd->id]
                         );
                     $aRequiredAdImpressions[] = array(
                         'ad_id'                => $oAd->id,
@@ -450,20 +487,23 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
      * @param PEAR::Date $oDate A Date object, set in the current operation interval.
      * @param PEAR::Date $oPlacementExpiryDate A Date object representing the end of the advertisement's
      *                                         parent placement.
+     * @param OA_Maintenance_Priority_DeliveryLimitation $oDeliveryLimitation The delivery limitation
+     *                                                                        object for the ad.
+     * @param array $aAdZones An array of arrays, no particular index in the outer array, in the
+     *                        inner arrays, each as an index "zone_id" containing one zone ID that
+     *                        the ad is linked to.
      * @return integer The number of impressions the advertisement should deliver in the next
      *                 operation interval.
      */
-    function _getAdImpressions($oAd, $totalRequiredAdImpressions, $oDate, $oPlacementExpiryDate)
+    function _getAdImpressions($oAd, $totalRequiredAdImpressions, $oDate, $oPlacementExpiryDate, $oDeliveryLimitation, $aAdZones)
     {
-        OA::debug('    - Working on ad ID: ' . $oAd->id, PEAR_LOG_DEBUG);
         // Check the parameters, and return 0 impressions if not valid
         if (!is_a($oAd, 'OA_Maintenance_Priority_Ad') || !is_numeric($totalRequiredAdImpressions) ||
-            !is_a($oDate, 'Date') || !is_a($oPlacementExpiryDate, 'Date')) {
+            !is_a($oDate, 'Date') || !is_a($oPlacementExpiryDate, 'Date') ||
+            !is_a($oDeliveryLimitation, 'OA_Maintenance_Priority_DeliveryLimitation') ||
+            !is_array($aAdZones) || empty($aAdZones)) {
             return 0;
         }
-        // Create a new delivery limitaion object for the advertisement's delivery limitaitons
-        $oDeliveryLimitation =
-            new OA_Maintenance_Priority_DeliveryLimitation($oAd->getDeliveryLimitations());
         if ($oDeliveryLimitation->deliveryBlocked($oDate) == true) {
             // The advertisement is not currently able to deliver, and so
             // no impressions should be allocated for this operation interval
@@ -471,28 +511,18 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
         }
         // Get the cumulative associated zones forecasts for the previous week's
         // zone inventory forecasts, keyed by the operation interval ID
-        $aCumulativeZoneForecast = $this->_getCumulativeZoneForecast($oAd->id);
-        // Get the array representing the total run of the advertisement over the
-        // life of the placement, based on which operation intervals the ad is
-        // blocked/not blocked in
-        $aAdvertLifeData = $oDeliveryLimitation->getAdvertisementLifeData(
-            $oDate,
-            $oPlacementExpiryDate,
-            $aCumulativeZoneForecast
-        );
-        // Loop over the advertisement's life data, and sum the total (cumulative)
-        // zone forecast impressions that will be available over the lifetime of
-        // the the ad
-        $totalLifetimeImpressions = 0;
-        foreach ($aAdvertLifeData as $aWeekData) {
-            foreach ($aWeekData as $aIntervalData) {
-                if (!$aIntervalData['blocked'] && !is_null($aIntervalData['forecast_impressions'])) {
-                    $totalLifetimeImpressions += $aIntervalData['forecast_impressions'];
-                }
-            }
-        }
+        $aCumulativeZoneForecast = $this->_getCumulativeZoneForecast($oAd->id, $aAdZones);
+        // Get the total number of zone impressions remaining in which this
+        // ad is capable of delivering (taking into account any operation
+        // intervals where the ad is blocked)
+        $totalAdLifetimeZoneImpressionsRemaining =
+            $oDeliveryLimitation->getAdLifetimeZoneImpressionsRemaining(
+                $oDate,
+                $oPlacementExpiryDate,
+                $aCumulativeZoneForecast
+            );
         // Are there impressions forecast?
-        if ($totalLifetimeImpressions == 0) {
+        if ($totalAdLifetimeZoneImpressionsRemaining == 0) {
             return 0;
         }
         // Get the current operation interval ID
@@ -500,7 +530,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
         // Scale the total required impressions for the ad over its lifetime
         // into the current operation interval forecast, relative to the total
         // zone-pattern based forecast for the remaining lifetime of the ad
-        $scale = $aCumulativeZoneForecast[$currentOperationIntervalID] / $totalLifetimeImpressions;
+        $scale = $aCumulativeZoneForecast[$currentOperationIntervalID] / $totalAdLifetimeZoneImpressionsRemaining;
         $impressions = $totalRequiredAdImpressions * $scale;
         return round($impressions);
     }
@@ -515,6 +545,9 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
      *
      * @access private
      * @param integer $adId The advertisement ID.
+     * @param array $aAdZones An array of arrays, no particular index in the outer array, in the
+     *                        inner arrays, each as an index "zone_id" containing one zone ID that
+     *                        the ad is linked to.
      * @return mixed Array on success, false on failure. If an array, it is of the format:
      *                  array(
      *                      [operation_interval_id] => forecast_impressions,
@@ -524,21 +557,22 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
      *                                  .
      *                  )
      */
-    function _getCumulativeZoneForecast($adId)
+    function _getCumulativeZoneForecast($adId, $aAdZones)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         if (empty($adId) || !is_numeric($adId)) {
             OA::debug('- Invalid advertisement ID argument', PEAR_LOG_ERR);
             return false;
         }
-        // Get all zones associated with the advertisement
-        $aAdZones = $this->oDal->getAdZoneAssociationsByAds(array($adId));
-        $aZones = @$aAdZones[$adId];
+        if (!is_array($aAdZones)) {
+            OA::debug('- Invalid zone array argument', PEAR_LOG_ERR);
+            return false;
+        }
         // Initialise the results array with the number operation intervals in a week
         $aResults = array_fill(0, OA_OperationInterval::operationIntervalsPerWeek(), 0);
         // Get the forcast impressions for the previous week
-        if (is_array($aZones) && !empty($aZones)) {
-            foreach ($aZones as $aZone) {
+        if (!empty($aAdZones)) {
+            foreach ($aAdZones as $aZone) {
                 if (!is_array($this->aZoneForecasts[$aZone['zone_id']])) {
                     $this->aZoneForecasts[$aZone['zone_id']] =
                         $this->oDal->getPreviousWeekZoneForcastImpressions($aZone['zone_id']);

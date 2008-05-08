@@ -136,7 +136,7 @@ class OA_OperationInterval
         $hours = $oDateCopy->getHour();
         $minutes = $oDateCopy->getMinute();
         $totalMinutes = ($days * 24 * 60) + ($hours * 60) + $minutes;
-        return(floor($totalMinutes / $operationInterval));
+        return (int) (floor($totalMinutes / $operationInterval));
     }
 
     /**

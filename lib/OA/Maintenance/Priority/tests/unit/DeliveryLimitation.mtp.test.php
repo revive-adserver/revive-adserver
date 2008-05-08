@@ -661,236 +661,170 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
     }
 
     /**
-     * A method to test the getAdvertisementLifeData() method.
+     * A method to test the getAdLifetimeZoneImpressionsRemaining() method.
      *
-     * Test 1: Test with invalid parameters, and ensure an empty array is returned.
-     * Test 2: Test with equal start and end dates, and ensure an array with just
-     *         this operation interval's data is returned.
-     * Test 3: Test with a small range of dates in one week, and ensure that an array
-     *         for each operation interval is returned.
-     * Test 4: Test with a small range of dates over two weeks, and ensure that an
-     *         array for each operation interval is returned.
-     * Test 5: Test with a multi-week range, a cumulative zone forecast, and a set
-     *         of limitations, and ensure that the correct results are returned.
+     * Test 1: Test with invalid parameters, and ensure that zero is returned.
+     * Test 2: Test with equal start and end dates, and ensure just that OI's
+     *         data is returned.
+     * Test 3: Test with a small range of dates in one week, that the correct
+     *         sum is returned.
+     * Test 4: Test with a small range of dates over three days, covering two
+     *         weeks, and ensure that the correct result is returned.
+     * Test 5: Test with a limitation that blocks less than 50% of the remaining
+     *         range, and ensure that the correct result is returned.
+     * Test 6: Test with a limitation that blocks more than 50% of the remaining
+     *         range, and ensure that the correct result is returned.
      */
-    function testGetAdvertisementLifeData()
+    function testGetAdLifetimeZoneImpressionsRemaining()
     {
-        $conf =& $GLOBALS['_MAX']['CONF'];
-        $conf['maintenance']['operationInterval'] = 60;
+        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $aConf['maintenance']['operationInterval'] = 60;
 
         $aDeliveryLimitations = array();
         $oDeliveryLimitationManager = new OA_Maintenance_Priority_DeliveryLimitation($aDeliveryLimitations);
 
         // Test 1
-        $oDate = new Date();
+        $oDate = new Date('2006-02-15 11:07:15');
         $aCumulativeZoneForecast = array();
-        $result = $oDeliveryLimitationManager->getAdvertisementLifeData('foo', $oDate, $aCumulativeZoneForecast);
-        $this->assertTrue(is_array($result));
-        $this->assertEqual(count($result), 0);
-        $result = $oDeliveryLimitationManager->getAdvertisementLifeData($oDate, 'foo', $aCumulativeZoneForecast);
-        $this->assertTrue(is_array($result));
-        $this->assertEqual(count($result), 0);
-        $result = $oDeliveryLimitationManager->getAdvertisementLifeData($oDate, $oDate, 'foo');
-        $this->assertTrue(is_array($result));
-        $this->assertEqual(count($result), 0);
+        $aCumulativeZoneForecast = $this->_fillForecastArray($aCumulativeZoneForecast);
+        $result = $oDeliveryLimitationManager->getAdLifetimeZoneImpressionsRemaining('foo', $oDate, $aCumulativeZoneForecast);
+        $this->assertEqual($result, 0);
+        $result = $oDeliveryLimitationManager->getAdLifetimeZoneImpressionsRemaining($oDate, 'foo', $aCumulativeZoneForecast);
+        $this->assertEqual($result, 0);
+        $result = $oDeliveryLimitationManager->getAdLifetimeZoneImpressionsRemaining($oDate, $oDate, 'foo');
+        $this->assertEqual($result, 0);
 
         // Test 2
-        $oDate = new Date();
+        $oDate = new Date('2006-02-15 23:07:15');
         $aCumulativeZoneForecast = array();
-        $result = $oDeliveryLimitationManager->getAdvertisementLifeData($oDate, $oDate, $aCumulativeZoneForecast);
-        $this->assertTrue(is_array($result));
-        $this->assertEqual(count($result), 1, 'expecting 1, got '.count($result).' results for date '.$oDate->getDate());
-        $this->assertTrue(is_array($result[0]));
-        $this->assertEqual(count($result[0]), 1);
-        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $this->assertTrue(is_array($result[0][$operationIntervalID]));
-        $this->assertEqual(count($result[0][$operationIntervalID]), 2);
-        $this->assertNull($result[0][$operationIntervalID]['forecast_impressions']);
-        $this->assertFalse($result[0][$operationIntervalID]['blocked']);
+        $aCumulativeZoneForecast = $this->_fillForecastArray($aCumulativeZoneForecast);
+        $result = $oDeliveryLimitationManager->getAdLifetimeZoneImpressionsRemaining($oDate, $oDate, $aCumulativeZoneForecast);
+        $this->assertEqual($result, 1);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
+        $aCumulativeZoneForecast[$operationIntervalID] = 50;
+        $previousOperationIntervalId = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $aCumulativeZoneForecast[$previousOperationIntervalId] = 5;
+        $nextOperationIntervalId = OA_OperationInterval::nextOperationIntervalID($operationIntervalID);
+        $aCumulativeZoneForecast[$nextOperationIntervalId] = 7;
+        $aCumulativeZoneForecast = $this->_fillForecastArray($aCumulativeZoneForecast);
+        $result = $oDeliveryLimitationManager->getAdLifetimeZoneImpressionsRemaining($oDate, $oDate, $aCumulativeZoneForecast);
+        $this->assertEqual($result, 50);
 
         // Test 3
         $oStartDate = new Date('2006-02-15 11:07:15');
-        $oEndDate = new Date('2006-02-15 15:59:59');
+        $oEndDate = new Date('2006-02-15 23:59:59');
+
         $aCumulativeZoneForecast = array();
-        $result = $oDeliveryLimitationManager->getAdvertisementLifeData($oStartDate, $oEndDate, $aCumulativeZoneForecast);
-        $this->assertTrue(is_array($result));
-        $this->assertEqual(count($result), 1);
-        $this->assertTrue(is_array($result[0]));
-        $this->assertEqual(count($result[0]), 5);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 10:00:01'));
+        $aCumulativeZoneForecast[$operationIntervalID] = 1;
         $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 11:00:01'));
-        $this->assertTrue(is_array($result[0][$operationIntervalID]));
-        $this->assertEqual(count($result[0][$operationIntervalID]), 2);
-        $this->assertNull($result[0][$operationIntervalID]['forecast_impressions']);
-        $this->assertFalse($result[0][$operationIntervalID]['blocked']);
+        $aCumulativeZoneForecast[$operationIntervalID] = 10;
         $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 12:00:01'));
-        $this->assertTrue(is_array($result[0][$operationIntervalID]));
-        $this->assertEqual(count($result[0][$operationIntervalID]), 2);
-        $this->assertNull($result[0][$operationIntervalID]['forecast_impressions']);
-        $this->assertFalse($result[0][$operationIntervalID]['blocked']);
+        $aCumulativeZoneForecast[$operationIntervalID] = 100;
         $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 13:00:01'));
-        $this->assertTrue(is_array($result[0][$operationIntervalID]));
-        $this->assertEqual(count($result[0][$operationIntervalID]), 2);
-        $this->assertNull($result[0][$operationIntervalID]['forecast_impressions']);
-        $this->assertFalse($result[0][$operationIntervalID]['blocked']);
+        $aCumulativeZoneForecast[$operationIntervalID] = 1000;
         $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 14:00:01'));
-        $this->assertTrue(is_array($result[0][$operationIntervalID]));
-        $this->assertEqual(count($result[0][$operationIntervalID]), 2);
-        $this->assertNull($result[0][$operationIntervalID]['forecast_impressions']);
-        $this->assertFalse($result[0][$operationIntervalID]['blocked']);
+        $aCumulativeZoneForecast[$operationIntervalID] = 10000;
         $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 15:00:01'));
-        $this->assertTrue(is_array($result[0][$operationIntervalID]));
-        $this->assertEqual(count($result[0][$operationIntervalID]), 2);
-        $this->assertNull($result[0][$operationIntervalID]['forecast_impressions']);
-        $this->assertFalse($result[0][$operationIntervalID]['blocked']);
+        $aCumulativeZoneForecast[$operationIntervalID] = 100000;
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 16:00:01'));
+        $aCumulativeZoneForecast[$operationIntervalID] = 1000000;
+        $aCumulativeZoneForecast = $this->_fillForecastArray($aCumulativeZoneForecast);
+
+        $result = $oDeliveryLimitationManager->getAdLifetimeZoneImpressionsRemaining($oStartDate, $oEndDate, $aCumulativeZoneForecast);
+        $this->assertEqual($result, 1111110 + 7);
 
         // Test 4
         $oStartDate = new Date('2006-02-18 22:07:15');
-        $oEndDate = new Date('2006-02-19 02:59:59');
+        $oEndDate = new Date('2006-02-20 23:59:59');
+
         $aCumulativeZoneForecast = array();
-        $result = $oDeliveryLimitationManager->getAdvertisementLifeData($oStartDate, $oEndDate, $aCumulativeZoneForecast);
-        $this->assertTrue(is_array($result));
-        $this->assertEqual(count($result), 2);
-        $this->assertTrue(is_array($result[0]));
-        $this->assertEqual(count($result[0]), 2);
-        $this->assertTrue(is_array($result[1]));
-        $this->assertEqual(count($result[1]), 3);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-18 21:00:01'));
+        $aCumulativeZoneForecast[$operationIntervalID] = 1;
         $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-18 22:00:01'));
-        $this->assertTrue(is_array($result[0][$operationIntervalID]));
-        $this->assertEqual(count($result[0][$operationIntervalID]), 2);
-        $this->assertNull($result[0][$operationIntervalID]['forecast_impressions']);
-        $this->assertFalse($result[0][$operationIntervalID]['blocked']);
+        $aCumulativeZoneForecast[$operationIntervalID] = 10;
         $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-18 23:00:01'));
-        $this->assertTrue(is_array($result[0][$operationIntervalID]));
-        $this->assertEqual(count($result[0][$operationIntervalID]), 2);
-        $this->assertNull($result[0][$operationIntervalID]['forecast_impressions']);
-        $this->assertFalse($result[0][$operationIntervalID]['blocked']);
+        $aCumulativeZoneForecast[$operationIntervalID] = 100;
         $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-19 00:00:01'));
-        $this->assertTrue(is_array($result[1][$operationIntervalID]));
-        $this->assertEqual(count($result[1][$operationIntervalID]), 2);
-        $this->assertNull($result[1][$operationIntervalID]['forecast_impressions']);
-        $this->assertFalse($result[1][$operationIntervalID]['blocked']);
+        $aCumulativeZoneForecast[$operationIntervalID] = 1000;
         $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-19 01:00:01'));
-        $this->assertTrue(is_array($result[1][$operationIntervalID]));
-        $this->assertEqual(count($result[1][$operationIntervalID]), 2);
-        $this->assertNull($result[1][$operationIntervalID]['forecast_impressions']);
-        $this->assertFalse($result[1][$operationIntervalID]['blocked']);
+        $aCumulativeZoneForecast[$operationIntervalID] = 10000;
         $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-19 02:00:01'));
-        $this->assertTrue(is_array($result[1][$operationIntervalID]));
-        $this->assertEqual(count($result[1][$operationIntervalID]), 2);
-        $this->assertNull($result[1][$operationIntervalID]['forecast_impressions']);
-        $this->assertFalse($result[1][$operationIntervalID]['blocked']);
+        $aCumulativeZoneForecast[$operationIntervalID] = 100000;
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-19 03:00:01'));
+        $aCumulativeZoneForecast[$operationIntervalID] = 1000000;
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-19 04:00:01'));
+        $aCumulativeZoneForecast[$operationIntervalID] = 10000000;
+        $aCumulativeZoneForecast = $this->_fillForecastArray($aCumulativeZoneForecast);
+
+        $result = $oDeliveryLimitationManager->getAdLifetimeZoneImpressionsRemaining($oStartDate, $oEndDate, $aCumulativeZoneForecast);
+        $this->assertEqual($result, 110 + 11111000 + 19 + 24);
 
         // Test 5
+        $oStartDate = new Date('2006-02-07 12:07:15');
+        $oEndDate = new Date('2006-02-07 23:59:59');
+
         $aDeliveryLimitations = array(
             array(
                 'ad_id'          => 1,
                 'logical'        => 'and',
-                'type'           => 'Time:Date',
-                'comparison'     => '!=',
-                'data'           => '2006-02-26',
+                'type'           => 'Time:Hour',
+                'comparison'     => '!~',
+                'data'           => '23',
                 'executionorder' => 0
             )
         );
         $oDeliveryLimitationManager = new OA_Maintenance_Priority_DeliveryLimitation($aDeliveryLimitations);
+        $oDeliveryLimitationManager->getActiveAdOperationIntervals(12, $oStartDate, $oEndDate);
+
+        $aCumulativeZoneForecast = array();
+        $aCumulativeZoneForecast = $this->_fillForecastArray($aCumulativeZoneForecast);
+
+        $result = $oDeliveryLimitationManager->getAdLifetimeZoneImpressionsRemaining($oStartDate, $oEndDate, $aCumulativeZoneForecast);
+        $this->assertEqual($result, 11);
+
+        // Test 6
         $oStartDate = new Date('2006-02-07 12:07:15');
-        $oEndDate = new Date('2006-02-27 23:59:59');
-        $aCumulativeZoneForecast = array(
-            12 => 57,
-            80 => 22
+        $oEndDate = new Date('2006-02-08 23:59:59');
+
+        $aDeliveryLimitations = array(
+            array(
+                'ad_id'          => 1,
+                'logical'        => 'and',
+                'type'           => 'Time:Hour',
+                'comparison'     => '=~',
+                'data'           => '22',
+                'executionorder' => 0
+            )
         );
-        $result = $oDeliveryLimitationManager->getAdvertisementLifeData($oStartDate, $oEndDate, $aCumulativeZoneForecast);
-        $this->assertTrue(is_array($result));
-        $this->assertEqual(count($result), 4);
-        $this->assertTrue(is_array($result[0]));
-        $this->assertEqual(count($result[0]), 12 + (4 * 24));
-        $this->assertTrue(is_array($result[1]));
-        $this->assertEqual(count($result[1]), (7 * 24));
-        $this->assertTrue(is_array($result[2]));
-        $this->assertEqual(count($result[2]), (7 * 24));
-        $this->assertTrue(is_array($result[3]));
-        $this->assertEqual(count($result[3]), (2 * 24));
-        $oTestDateStart = new Date('2006-02-07 12:00:01');
-        $oTestDateEnd   = new Date('2006-02-11 23:00:01');
-        while (!$oTestDateStart->after($oTestDateEnd)) {
-            $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oTestDateStart);
-            $this->assertTrue(is_array($result[0][$operationIntervalID]));
-            $this->assertEqual(count($result[0][$operationIntervalID]), 2);
-            if ($operationIntervalID == 12) {
-                $this->assertEqual($result[0][$operationIntervalID]['forecast_impressions'], 57);
-            } elseif ($operationIntervalID == 80) {
-                $this->assertEqual($result[0][$operationIntervalID]['forecast_impressions'], 22);
-            } else {
-                $this->assertNull($result[0][$operationIntervalID]['forecast_impressions']);
-            }
-            $this->assertFalse($result[0][$operationIntervalID]['blocked']);
-            $oTestDateStart->addSeconds(OA_OperationInterval::secondsPerOperationInterval());
-        }
-        $oTestDateStart = new Date('2006-02-12 00:00:01');
-        $oTestDateEnd   = new Date('2006-02-18 23:00:01');
-        while (!$oTestDateStart->after($oTestDateEnd)) {
-            $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oTestDateStart);
-            $this->assertTrue(is_array($result[1][$operationIntervalID]));
-            $this->assertEqual(count($result[1][$operationIntervalID]), 2);
-            if ($operationIntervalID == 12) {
-                $this->assertEqual($result[1][$operationIntervalID]['forecast_impressions'], 57);
-            } elseif ($operationIntervalID == 80) {
-                $this->assertEqual($result[1][$operationIntervalID]['forecast_impressions'], 22);
-            } else {
-                $this->assertNull($result[1][$operationIntervalID]['forecast_impressions']);
-            }
-            $this->assertFalse($result[1][$operationIntervalID]['blocked']);
-            $oTestDateStart->addSeconds(OA_OperationInterval::secondsPerOperationInterval());
-        }
-        $oTestDateStart = new Date('2006-02-19 00:00:01');
-        $oTestDateEnd   = new Date('2006-02-25 23:00:01');
-        while (!$oTestDateStart->after($oTestDateEnd)) {
-            $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oTestDateStart);
-            $this->assertTrue(is_array($result[2][$operationIntervalID]));
-            $this->assertEqual(count($result[2][$operationIntervalID]), 2);
-            if ($operationIntervalID == 12) {
-                $this->assertEqual($result[2][$operationIntervalID]['forecast_impressions'], 57);
-            } elseif ($operationIntervalID == 80) {
-                $this->assertEqual($result[2][$operationIntervalID]['forecast_impressions'], 22);
-            } else {
-                $this->assertNull($result[2][$operationIntervalID]['forecast_impressions']);
-            }
-            $this->assertFalse($result[2][$operationIntervalID]['blocked']);
-            $oTestDateStart->addSeconds(OA_OperationInterval::secondsPerOperationInterval());
-        }
-        $oTestDateStart = new Date('2006-02-26 00:00:01');
-        $oTestDateEnd   = new Date('2006-02-26 23:00:01');
-        while (!$oTestDateStart->after($oTestDateEnd)) {
-            $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oTestDateStart);
-            $this->assertTrue(is_array($result[3][$operationIntervalID]));
-            $this->assertEqual(count($result[3][$operationIntervalID]), 2);
-            if ($operationIntervalID == 12) {
-                $this->assertEqual($result[3][$operationIntervalID]['forecast_impressions'], 57);
-            } elseif ($operationIntervalID == 80) {
-                $this->assertEqual($result[3][$operationIntervalID]['forecast_impressions'], 22);
-            } else {
-                $this->assertNull($result[3][$operationIntervalID]['forecast_impressions']);
-            }
-            $this->assertTrue($result[3][$operationIntervalID]['blocked']);
-            $oTestDateStart->addSeconds(OA_OperationInterval::secondsPerOperationInterval());
-        }
-        $oTestDateStart = new Date('2006-02-27 00:00:01');
-        $oTestDateEnd   = new Date('2006-02-27 23:00:01');
-        while (!$oTestDateStart->after($oTestDateEnd)) {
-            $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oTestDateStart);
-            $this->assertTrue(is_array($result[3][$operationIntervalID]));
-            $this->assertEqual(count($result[3][$operationIntervalID]), 2);
-            if ($operationIntervalID == 12) {
-                $this->assertEqual($result[3][$operationIntervalID]['forecast_impressions'], 57);
-            } elseif ($operationIntervalID == 80) {
-                $this->assertEqual($result[3][$operationIntervalID]['forecast_impressions'], 22);
-            } else {
-                $this->assertNull($result[3][$operationIntervalID]['forecast_impressions']);
-            }
-            $this->assertFalse($result[3][$operationIntervalID]['blocked']);
-            $oTestDateStart->addSeconds(OA_OperationInterval::secondsPerOperationInterval());
-        }
+        $oDeliveryLimitationManager = new OA_Maintenance_Priority_DeliveryLimitation($aDeliveryLimitations);
+        $oDeliveryLimitationManager->getActiveAdOperationIntervals(12, $oStartDate, $oEndDate);
+
+        $aCumulativeZoneForecast = array();
+        $aCumulativeZoneForecast = $this->_fillForecastArray($aCumulativeZoneForecast);
+
+        $result = $oDeliveryLimitationManager->getAdLifetimeZoneImpressionsRemaining($oStartDate, $oEndDate, $aCumulativeZoneForecast);
+        $this->assertEqual($result, 2);
 
         TestEnv::restoreConfig();
+    }
+
+    /**
+     * A private method to fill an array of ZIF data with 1 as the default forecast
+     * for and operation interval that is not yet set.
+     *
+     * @param array $aArray
+     */
+    function _fillForecastArray($aArray)
+    {
+        $intervalsPerWeek = OA_OperationInterval::operationIntervalsPerWeek();
+        for ($counter = 0; $counter < $intervalsPerWeek; $counter++) {
+            if (empty($aArray[$counter])) {
+                $aArray[$counter] = 1;
+            }
+        }
+        return $aArray;
     }
 
 }

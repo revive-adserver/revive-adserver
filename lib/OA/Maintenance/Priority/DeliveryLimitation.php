@@ -40,8 +40,48 @@ require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 class OA_Maintenance_Priority_DeliveryLimitation
 {
 
+    /**
+     * An array for storing all of the delivery limitations for the ad.
+     *
+     * @var array
+     */
     var $aRules           = array();
+
+    /**
+     * An array for storing all of the delivery limitations for the ad
+     * that related to blocking limitations.
+     *
+     * @var array
+     */
     var $aOperationGroups = array();
+
+    /**
+     * An integer to store how many operation intervals in the remaining
+     * campaign lifetime are blocked by delivery limitations. Set when
+     * the getActiveAdOperationIntervals() method is called.
+     *
+     * @var integer
+     */
+    var $blockedOperationIntervalCount;
+
+    /**
+     * An array to store an array of the start/end dates of any operation
+     * intervals found that are blocked. Indexed by the operation interval
+     * start date in "YYYY-MM-DD HH:MM:SS" format. Set when
+     * the getActiveAdOperationIntervals() method is called.
+     *
+     * @var array
+     */
+    var $aBlockedOperationIntervalDates;
+
+    /**
+     * An integer to store how many operation intervals exist in the
+     * remaining campaign lifetime. Set when the
+     * getActiveAdOperationIntervals() method is called.
+     *
+     * @var integer
+     */
+    var $remainingOperationIntervalCount;
 
     /**
      * Constructor method.
@@ -177,7 +217,12 @@ class OA_Maintenance_Priority_DeliveryLimitation
         $blockedIntervals = 0;
         while (!$oLoopDate->after($oPlacementEndDate)) {
             if ($this->deliveryBlocked($oLoopDate)) {
+                // Update the count of blocked intervals, but
+                // also store the start/end dates of the blocked
+                // interval for later use
                 $blockedIntervals++;
+                $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oLoopDate);
+                $this->aBlockedOperationIntervalDates[$aDates['start']->format('%Y-%m-%d %H:%M:%S')] = $aDates;
             }
             $oLoopDate->addSeconds(OA_OperationInterval::secondsPerOperationInterval());
         }
@@ -199,30 +244,38 @@ class OA_Maintenance_Priority_DeliveryLimitation
     function getActiveAdOperationIntervals($placementRemainingIntervals, $oDate, $oPlacementEndDate)
 	{
 	    $aConf = $GLOBALS['_MAX']['CONF'];
+	    $this->remainingOperationIntervalCount = $placementRemainingIntervals;
         // Are delivery limitations activated in the configuration? If not, return
         // the complete count of remaining placement operation intervals
         if (!$aConf['delivery']['acls']) {
+            $this->blockedOperationIntervalCount = 0;
             return $placementRemainingIntervals;
         }
         // Are there any possible blocking operation groups? If not, return the
         // complete count of remaining placement operation intervals
         if ($this->_getOperationGroupCount() == 0) {
+            $this->blockedOperationIntervalCount = 0;
             return $placementRemainingIntervals;
         }
         // Determine in how many of the remaining operation intervals the
         // advertisement will be blocked
         $blockedIntervals = $this->getBlockedOperationIntervalCount($oDate, $oPlacementEndDate);
+        $this->blockedOperationIntervalCount = $blockedIntervals;
         return ($placementRemainingIntervals - $blockedIntervals);
 	}
 
 	/**
-	 * A method to obtain an array, representing the cumulative zone forecast impressions,
-	 * for all the zones an advertisement is linked to, cloned out over the advertisement's
-	 * entire remaining lifetime in the placement, with any blocked operation intervals so
-	 * marked.
+	 * A method to obtain the sum of the zone forecast impression value, for all the zones
+	 * an advertisement is linked to, cloned out over the advertisement's entire remaining
+	 * lifetime in the placement, with any blocked operation intervals removed.
+	 *
+	 * Requires that the getActiveAdOperationIntervals() method have previously been
+	 * called to function correctly.
 	 *
 	 * @param PEAR::Date $oNowDate The current date.
-	 * @param PEAR::Date $oEndDate The end date of the placement.
+	 * @param PEAR::Date $oEndDate The end date of the placement. Note that if the end
+	 *                             date supplied is not at the end of a day, it will be
+	 *                             converted to be treated as such.
 	 * @param array $aCumulativeZoneForecast The cumulative forecast impressions, indexed
 	 *                                       by operation interval ID, of all the zones the
 	 *                                       advertisement is linked to.
@@ -233,100 +286,117 @@ class OA_Maintenance_Priority_DeliveryLimitation
      *                                  .
      *                                  .
      *                  )
-     * @return array An array representing an advertisements remaining lifetime. Consists
-     *               of a sub array for each week (or partial week) in the ad's remaining
-     *               lifetime, each containing another array, indexed by the operation
-     *               interval in that week. This final array contains the cumulative zone
-     *               impression forcast for that operation interval, as well as if the
-     *               ad is blocked in that interval, or not. For example:
-     *                  array(
-     *                      0 => array(
-     *                          80 => array(
-     *                                    [forecast_impressions] => 57
-     *                                    [blocked]              => false
-     *                                ),
-     *                          81 => array(
-     *                                    [forecast_impressions] => 57
-     *                                    [blocked]              => false
-     *                                ),
-     *                             .
-     *                             .
-     *                             .
-     *                         160 => array(
-     *                                    [forecast_impressions] => 88
-     *                                    [blocked]              => false
-     *                                )
-     *                      ),
-     *                      1 => array(
-     *                           0 => array(
-     *                                    [forecast_impressions] => 951
-     *                                    [blocked]              => false
-     *                                ),
-     *                           1 => array(
-     *                                    [forecast_impressions] => 12
-     *                                    [blocked]              => false
-     *                                ),
-     *                             .
-     *                             .
-     *                             .
-     *                         160 => array(
-     *                                    [forecast_impressions] => 8
-     *                                    [blocked]              => false
-     *                                )
-     *                      ),
-     *                      2 => array(
-     *                           0 => array(
-     *                                    [forecast_impressions] => 951
-     *                                    [blocked]              => true
-     *                                ),
-     *                           1 => array(
-     *                                    [forecast_impressions] => 12
-     *                                    [blocked]              => true
-     *                                ),
-     *                             .
-     *                             .
-     *                             .
-     *                          40 => array(
-     *                                    [forecast_impressions] => 19
-     *                                    [blocked]              => true
-     *                                )
-     *                      )
-     *                  )
-     * In the above example, the ad will run for the remainder of this week,
-     * all of next week, and some of the week after that. It starts at operation
-     * interval ID 80 in this week, and ends in operation interval ID 40 in the
-     * last week. (There are 160 operation intervals in a week in this example.)
-     * For operation interval IDs 0, 1 and 40, in the last week of delivery, the
-     * ad is blocked from showing.
+     * @return integer The ad's total remaining zone impression forecast for all zone for
+     *                 the remaining life of the ad.
      */
-    function getAdvertisementLifeData($oNowDate, $oEndDate, $aCumulativeZoneForecast)
+    function getAdLifetimeZoneImpressionsRemaining($oNowDate, $oEndDate, $aCumulativeZoneForecast)
     {
-        $aResult = array();
-        if (!is_a($oNowDate, 'date') || !is_a($oEndDate, 'date') || !is_array($aCumulativeZoneForecast)) {
-            return $aResult;
+        $totalAdLifetimeZoneImpressionsRemaining = 0;
+
+        // Test the parameters, if invalid, return zero
+        if (!is_a($oNowDate, 'date') || !is_a($oEndDate, 'date') || !is_array($aCumulativeZoneForecast) ||
+            (count($aCumulativeZoneForecast) != OA_OperationInterval::operationIntervalsPerWeek())) {
+            return $totalAdLifetimeZoneImpressionsRemaining;
         }
-        // Get the current operation interval ID and start/end dates
+
+        // Ensure that the end of placement date is at the end of the day
+        $oEndDateCopy = new Date();
+        $oEndDateCopy->copy($oEndDate);
+        $oEndDateCopy->setHour(23);
+        $oEndDateCopy->setMinute(59);
+        $oEndDateCopy->setSecond(59);
+
+        // Ensure that the $aCumulativeZoneForecast array is sorted by key, so that it can
+        // be accessed by array_slice, regardless of the order that the ZIF data was added
+        // to the array
+        ksort($aCumulativeZoneForecast);
+
+        // Step 1: Calculate the sum of the ZIF values from "now" until the end of "today"
         $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNowDate);
-        // Look at every operation interval between now and the end of the placement
-        while ($aDates['start']->before($oEndDate)) {
-            // Which week are we in?
+        $oEndOfToday = new Date();
+        $oEndOfToday->copy($aDates['start']);
+        $oEndOfToday->setHour(23);
+        $oEndOfToday->setMinute(59);
+        $oEndOfToday->setSecond(59);
+        while ($aDates['start']->before($oEndOfToday)) {
+            // Find the Operation Interval ID for this Operation Interval
             $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
-            if (empty($aResult)) {
-                $week = 0;
-            } elseif ($operationIntervalID == 0) {
-                $week++;
+            // As iteration over every OI is required anyway, test to see if
+            // the ad is blocked in this OI; if not, add the ZIF values to the
+            // running total
+            if (empty($this->aBlockedOperationIntervalDates[$aDates['start']->format('%Y-%m-%d %H:%M:%S')])) {
+                $totalAdLifetimeZoneImpressionsRemaining += $aCumulativeZoneForecast[$operationIntervalID];
             }
-            // Store the week/operation interval data
-            $aResult[$week][$operationIntervalID] = array(
-                'forecast_impressions' => $aCumulativeZoneForecast[$operationIntervalID],
-                'blocked'              => $this->deliveryBlocked($aDates['start'])
-            );
-            // Go to the next operation interval
-            $oParamDate = new Date();
-            $oParamDate->copy($aDates['start']);
-            $aDates = OA_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($oParamDate);
+            // Go to the next operation interval in "today"
+            $oTempDate = new Date();
+            $oTempDate->copy($aDates['start']);
+            $aDates = OA_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($oTempDate);
         }
-        return $aResult;
+
+        // Step 2: Calculate how many times each day of the week occurs between the end of
+        //         "today" (i.e. starting "tomorrow morning") and the last day the ad can run
+        $aDays = array();
+        $oStartOfTomorrow = new Date();
+        $oStartOfTomorrow->copy($oEndOfToday);
+        $oStartOfTomorrow->addSeconds(1);
+        $oTempDate = new Date();
+        $oTempDate->copy($oStartOfTomorrow);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oTempDate);
+        while ($aDates['start']->before($oEndDateCopy)) {
+            // Increase the count for this day of the week
+            $aDays[$aDates['start']->getDayOfWeek()]++;
+            // Go to the next day
+            $oTempDate->addSeconds(SECONDS_PER_DAY);
+            $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oTempDate);
+        }
+
+        // Step 3: For every possible day of the week (assuming that day of the week is in the
+        //         ad's remaining lifetime), calculate the sum of the ZIF values for every
+        //         operation interval in that day
+        if (!empty($aDays)) {
+            $operationIntervalsPerDay = OA_OperationInterval::operationIntervalsPerDay();
+            $oTempDate = new Date();
+            $oTempDate->copy($oStartOfTomorrow);
+            $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oTempDate);
+            for ($counter = 0; $counter < 7; $counter++) {
+                // Are there any instances of this day in the campaign?
+                if ($aDays[$oTempDate->getDayOfWeek()] > 0) {
+                    // Calculate the sum of the zone forecasts for this day of week
+                    $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oTempDate);
+                    $dayStartOperationIntervalId = OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
+                    $aDayCumulativeZoneForecast = array_slice($aCumulativeZoneForecast, $dayStartOperationIntervalId, $operationIntervalsPerDay);
+                    $forecastSum = array_sum($aDayCumulativeZoneForecast);
+                    // Multiply this day's forecast sum value by the number of times this
+                    // day of week appears in the remainder of the campaign and add the
+                    // value to the running total
+                    $totalAdLifetimeZoneImpressionsRemaining += $forecastSum * $aDays[$oTempDate->getDayOfWeek()];
+                }
+                // Go to the next day
+                $oTempDate->addSeconds(SECONDS_PER_DAY);
+            }
+        }
+
+        // Step 4: Subtract any blocked interval values
+        if ($this->blockedOperationIntervalCount > 0) {
+            OA::debug("      - Subtracting {$this->blockedOperationIntervalCount} blocked intervals", PEAR_LOG_DEBUG);
+            // Iterate over the blocked interval dates, exclude those that are "today",
+            // and use these to subtract the required ZIF values from the running total
+            $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNowDate);
+            $oEndOfToday = new Date();
+            $oEndOfToday->copy($aDates['start']);
+            $oEndOfToday->setHour(23);
+            $oEndOfToday->setMinute(59);
+            $oEndOfToday->setSecond(59);
+            foreach ($this->aBlockedOperationIntervalDates as $aDates) {
+                if ($aDates['start']->after($oEndOfToday)) {
+                    $blockedOperationInvervalID = OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
+                    $totalAdLifetimeZoneImpressionsRemaining -= $aCumulativeZoneForecast[$blockedOperationInvervalID];
+                }
+            }
+        }
+
+        // Return the calculated value
+        return $totalAdLifetimeZoneImpressionsRemaining;
     }
 
     /**
