@@ -7,7 +7,7 @@
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
-|                                                                           |
+|                                                                          |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
 | the Free Software Foundation; either version 2 of the License, or         |
@@ -28,6 +28,6 @@ $Id$
 // Meta information
 $translation_readable   = "Indonesian";
 $translation_maintainer	= "Rachim Tamsjadi";
-$translation_contact	= "tamsjadi@icqmail.com";
+$translation_contact	= "tamsy@users.sourceforge.net";
 
 ?>

@@ -7,7 +7,7 @@
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
-|                                                                           |
+|                                                                          |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
 | the Free Software Foundation; either version 2 of the License, or         |
@@ -33,14 +33,14 @@ $GLOBALS['strAdministrator']				= "Administrator";
 
 
 $GLOBALS['strUserlog'] = array (
-	phpAds_actionAdvertiserReportMailed 		=> "Pengiriman laporan kepada Pemasang Iklan {id} melalui E-mail dilakukan.",
-	phpAds_actionPublisherReportMailed 		=> "Pengiriman laporan kepada Penerbit {id} melalui E-mail dilakukan.",
-	phpAds_actionWarningMailed			=> "Pengiriman laporan tentang pemberhentian untuk kampanye {id} melalui E-mail dilakukan.",
-	phpAds_actionDeactivationMailed			=> "Pengiriman notifikasi tentang pemberhentian untuk kampanye {id} melalui E-mail dilakukan.",
-	phpAds_actionPriorityCalculation		=> "Rekalkulasi prioritas dilakukan.",
-	phpAds_actionPriorityAutoTargeting		=> "Rekalkulasi target kampanye dilakukan.",
-	phpAds_actionDeactiveCampaign			=> "Kampanye {id} dihentikan.",
-	phpAds_actionActiveCampaign			=> "Kampanye {id} diaktifkan.",
+	phpAds_actionAdvertiserReportMailed 		=> "Pengiriman laporan kepada Pemasang Iklan {id} melalui E-mail telah dilakukan.",
+	phpAds_actionPublisherReportMailed 		=> "Pengiriman laporan kepada Penerbit {id} melalui E-mail telah dilakukan.",
+	phpAds_actionWarningMailed			=> "Pengiriman laporan tentang pemberhentian untuk kampanye {id} melalui E-mail telah dilakukan.",
+	phpAds_actionDeactivationMailed			=> "Pengiriman notifikasi tentang pemberhentian untuk kampanye {id} melalui E-mail telah dilakukan.",
+	phpAds_actionPriorityCalculation		=> "Rekalkulasi prioritas telah dilakukan.",
+	phpAds_actionPriorityAutoTargeting		=> "Rekalkulasi target kampanye telah dilakukan.",
+	phpAds_actionDeactiveCampaign			=> "Kampanye {id} telah dihentikan.",
+	phpAds_actionActiveCampaign			=> "Kampanye {id} telah diaktifkan.",
 	phpAds_actionAutoClean				=> "Pembersihan database secara otomatis."
 );
 
