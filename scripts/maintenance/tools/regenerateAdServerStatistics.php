@@ -178,8 +178,8 @@ $query = "
     DELETE FROM
         {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
     WHERE
-        interval_start = '" . $oStartDate->format('%Y-%m-%d %H:%M:%S') . "'
-        AND interval_end = '" . $oEndDate->format('%Y-%m-%d %H:%M:%S') . "'";
+        interval_start >= '" . $oStartDate->format('%Y-%m-%d %H:%M:%S') . "'
+        AND interval_end <= '" . $oEndDate->format('%Y-%m-%d %H:%M:%S') . "'";
 $rows = $oDbh->exec($query);
 
 // Delete any summary rows from the data_summary_ad_hourly table
