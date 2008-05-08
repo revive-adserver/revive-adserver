@@ -43,6 +43,10 @@
     		<property name="run.local" value="true"/>
     	</ant>
 	</target>
+	
+	<target name="test-canoo-schemaspy" depends="test-canoo">
+		<ant antfile="build.xml" dir="${basedir}/target/tests/schemaspy" output="schemaspy.log" target="schemaspy" />
+	</target>
 
 	<target name="make-release">
 		<ant antfile="build.xml" dir="${basedir}" output="build.log" target="release" />

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="schemaspy" default="schemaspy">
+
+	<property file="${basedir}/../canoo/tests/config/webtest.properties"/>
+	
+	<target name="schemaspy">
+		
+		<echo>SchemaSpy started</echo>
+		
+		<delete dir="target"/>
+		<mkdir dir="target"/>
+		
+		<java jar="${basedir}/lib/schemaSpy_3.1.1.jar" fork="true"  failonerror="true" maxmemory="256m" dir="${basedir}">
+			<arg value="-t"/>
+			<arg value="mysql"/>
+			<arg value="-host"/>
+			<arg value="${db.host}:${db.port}"/>
+			<arg value="-db"/>
+			<arg value="${db.name}"/>
+			<arg value="-cp"/>
+			<arg path="${basedir}/../canoo/lib/mysql-connector-java-3.1.13-bin.jar"/>
+			<arg value="-u"/>
+			<arg value="${db.login}"/>
+			<arg value="-o"/>
+			<arg path="${basedir}/target"/>
+			<arg value="-p"/>
+			<arg value="${db.password}"/>
+		</java>
+		
+		<echo>SchemaSpy finished</echo>
+		
+	</target>
+
+</project>
