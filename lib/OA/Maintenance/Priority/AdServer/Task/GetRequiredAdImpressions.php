@@ -407,12 +407,6 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
                     $aAdDeliveryLimtations[$oAd->id]  = new OA_Maintenance_Priority_DeliveryLimitation($oAd->getDeliveryLimitations());
                     // Is the ad blocked from delivering in the current operation interval?
                     $aAdCurrentOperationInterval[$oAd->id] = $aAdDeliveryLimtations[$oAd->id]->deliveryBlocked($aCurrentOperationIntervalDates['start']);
-                    if ($aAdCurrentOperationInterval[$oAd->id] === true) {
-                        $aInvalidAdIds[] = $oAd->id;
-                        $message = "      - Ad ID {$oAd->id} is blocked this OI, will skip...";
-                        OA::debug($message, PEAR_LOG_ERR);
-                        continue;
-                    }
                     // Determine how many operation intervals remain that the ad can deliver in
                     $adRemainingOperationIntervals =
                         $aAdDeliveryLimtations[$oAd->id]->getActiveAdOperationIntervals(
@@ -449,23 +443,27 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
                     $totalRequiredAdImpressions = $oPlacement->requiredImpressions *
                         ($aAdWeightRemainingOperationIntervals[$oAd->id] / $sumAdWeightRemainingOperationIntervals);
                 }
-                if ($totalRequiredAdImpressions > 0) {
-                    // Based on the average zone pattern of the zones the ad is
-                    // linked to, calculate how many of these impressions should
-                    // be delivered in the next operation interval
-                    $oAd->requiredImpressions = $this->_getAdImpressions(
-                            $oAd,
-                            $totalRequiredAdImpressions,
-                            $aCurrentOperationIntervalDates['start'],
-                            $oPlacementExpiryDate,
-                            $aAdDeliveryLimtations[$oAd->id],
-                            $aAdZones[$oAd->id]
-                        );
-                    $aRequiredAdImpressions[] = array(
-                        'ad_id'                => $oAd->id,
-                        'required_impressions' => $oAd->requiredImpressions
-                    );
+                if ($totalRequiredAdImpressions <= 0) {
+                    OA::debug('      - No required impressions for ad ID: ' . $oAd->id, PEAR_LOG_DEBUG);
+                    continue;
                 }
+                // Based on the average zone pattern of the zones the ad is
+                // linked to, calculate how many of these impressions should
+                // be delivered in the next operation interval
+                OA::debug('      - Caclulating next OI required impressions for ad ID: ' . $oAd->id, PEAR_LOG_DEBUG);
+                $oAd->requiredImpressions = $this->_getAdImpressions(
+                        $oAd,
+                        $totalRequiredAdImpressions,
+                        $aCurrentOperationIntervalDates['start'],
+                        $oPlacementExpiryDate,
+                        $aAdDeliveryLimtations[$oAd->id],
+                        $aAdZones[$oAd->id]
+                    );
+                $aRequiredAdImpressions[] = array(
+                    'ad_id'                => $oAd->id,
+                    'required_impressions' => $oAd->requiredImpressions
+                );
+
             }
         }
         // Save the required impressions into the temporary database table
