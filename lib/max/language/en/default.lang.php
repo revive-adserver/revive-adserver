@@ -1007,6 +1007,7 @@ $GLOBALS['strSourceEdit']                       = "Edit Sources";
 // Preferences
 $GLOBALS['strPreferences']                      = "Preferences";
 $GLOBALS['strMyAccount']                        = "My Account";
+$GLOBALS['strConfiguration']                    = "Configuration";
 $GLOBALS['strMainPreferences']                  = "Main Preferences";
 $GLOBALS['strAccountPreferences']               = "Account Preferences";
 $GLOBALS['strCampaignEmailReportsPreferences']  = "Campaign email Reports Preferences";

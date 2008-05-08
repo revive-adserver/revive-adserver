@@ -101,10 +101,13 @@ function _buildNavigation($accountType)
             $oMenu->add(new OA_Admin_Menu_Section("account-index", $GLOBALS['strMyAccount'], "account-index.php"));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-user-index", $GLOBALS['strUserPreferences'], "account-user-index.php"));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-preferences-index", $GLOBALS['strPreferences'], "account-preferences-index.php"));
-                $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-settings-index", $GLOBALS['strGlobalSettings'], "account-settings-index.php"));
-                $oMenu->addTo("account-index", new OA_Admin_Menu_Section("maintenance-index", $GLOBALS['strMaintenance'], "maintenance-index.php"));
-                $oMenu->addTo("account-index", new OA_Admin_Menu_Section("updates-index", $GLOBALS['strProductUpdates'], "updates-product.php"));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("userlog-index", $GLOBALS['strUserLog'], "userlog-index.php"));
+                
+            $oMenu->add(new OA_Admin_Menu_Section("configuration", $GLOBALS['strConfiguration'], "account-settings-index.php"));
+                $oMenu->addTo("configuration", new OA_Admin_Menu_Section("account-settings-index", $GLOBALS['strGlobalSettings'], "account-settings-index.php"));
+                $oMenu->addTo("configuration", new OA_Admin_Menu_Section("maintenance-index", $GLOBALS['strMaintenance'], "maintenance-index.php"));
+                $oMenu->addTo("configuration", new OA_Admin_Menu_Section("updates-index", $GLOBALS['strProductUpdates'], "updates-product.php"));
+                
         break;
         case OA_ACCOUNT_MANAGER:
             $oMenu->add(new OA_Admin_Menu_Section("dashboard", $GLOBALS['strHome'], "dashboard.php"));
