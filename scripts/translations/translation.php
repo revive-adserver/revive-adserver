@@ -26,8 +26,23 @@ class OA_TranslationMaintenance
         'Brazilian Portuguese'  => 'pt_br',
         'Chinese Simplified'    => 'zh-s',
         'french'                => 'fr',
+        'polish'                => 'pl',
     );
-
+    var $_aLang     = array (
+        'english'               => 'en',
+        'spanish'               => 'es',
+        'german'                => 'de',
+        'russian_utf8'          => 'ru',
+        'Brazilian Portuguese'  => 'pt_br',
+        'Chinese Simplified'    => 'zh-s',
+        'french'                => 'fr',
+        'polish'                => 'pl',
+        'indonesian'            => 'id',
+        'persian'               => 'pr',
+        'japanese'              => 'ja',
+        'czech'                 => 'cs',
+        'turkish'               => 'tr'
+    );
     var $_lang;
     var $_var;
     var $_buildVar    = false;
@@ -47,7 +62,7 @@ class OA_TranslationMaintenance
     var $lang;
     var $aRegex = array(
         "#^(.*?)\['(.*)'\](\[.*\])*(\s*=\s*)([\"])(.*)([^\\\\])([\"])(;)#sm",
-        "#^(.*?)\['(.*)'\](\[.*\])*(\s*=\s*)([\'])(.*)([^\\\\])([\'])(;)#sm"
+        "#^(.*?)\['(.*)'\](\[.*\])*(\s*=\s*)([\'])(.*)([^\\\\])([`])(;)#sm"
     );
     var $aConstant = array(
         'MAX_PRODUCT_NAME', 'MAX_PRODUCT_URL', 'OX_PRODUCT_DOCSURL',
@@ -71,14 +86,27 @@ class OA_TranslationMaintenance
 
         $command = $GLOBALS['argv'][1];
 
-        $languageKey = ($command == 'merge' || $command == 'mergestrike' || $command == 'remove_keys' || $command == 'createcsv')
+        $languageKey = ($command == 'merge' || $command == 'mergestrike' || $command == 'mergePOT'
+                        || $command == 'mergePluginPOT' || $command == 'mergePlugin'
+                        || $command == 'remove_keys' || $command == 'createcsv')
             ? array_slice($GLOBALS['argv'], 4)
             : array_slice($GLOBALS['argv'], 3);
         $this->lang = implode(' ', $languageKey);
 
-        if ($command == 'merge' || $command == 'mergestrike' || $command == 'remove_keys' || $command == 'createcsv') {
-            $this->inputFile = $GLOBALS['argv'][2];
-            $this->outputDir = $GLOBALS['argv'][3];
+        if ($command == 'merge' || $command == 'mergestrike' || $command == 'mergePOT'
+            || $command == 'mergePluginPOT' || $command == 'mergePlugin' || $command == 'remove_keys'
+            || $command == 'createcsv')
+        {
+            if ($command == 'mergePOT' || $command == 'mergePluginPOT') {
+                $this->inputFile = realpath($GLOBALS['argv'][2]);
+                $this->potFile = realpath($GLOBALS['argv'][3]);
+                if (!is_readable($this->potFile)) {
+                    $this->displayHelpMsg('Unable to read POT file');
+                }
+            } else {
+                $this->inputFile = $GLOBALS['argv'][2];
+                $this->outputDir = $GLOBALS['argv'][3];
+            }
         } else {
             $this->outputDir = $GLOBALS['argv'][2];
         }
@@ -90,6 +118,15 @@ class OA_TranslationMaintenance
             case 'mergestrike': $this->_addStrikeTags = true;
             case 'merge':
                 $this->mergeTranslation();
+                break;
+            case 'mergePlugin':
+                $this->mergePluginTranslation();
+                break;
+            case 'mergePOT':
+                $this->mergePOT();
+                break;
+            case 'mergePluginPOT':
+                $this->mergePluginPOT();
                 break;
             case 'missing_keys':
                 $this->detectMissingKey();
@@ -226,7 +263,7 @@ class OA_TranslationMaintenance
         return $aMasterLangKey;
     }
 
-    function loadTranslationFromDir($dir, $lang, $escapeNewline = false)
+    function loadTranslationFromDir($dir, $lang, $escapeNewline = false, $groupByFile = true)
     {
         //  iterate lang files reading each file
         if (!$outputDir = opendir($dir .'/'. $lang)) {
@@ -298,7 +335,11 @@ class OA_TranslationMaintenance
                                     }
                                 }
 
-                                $aMasterKey[$file][$k] = $trans;
+                                if ($groupByFile) {
+                                    $aMasterKey[$file][$k] = $trans;
+                                } else {
+                                    $aMasterKey[$k] = $trans;
+                                }
                             }
                         }
                         $this->_var = '';
@@ -330,7 +371,11 @@ class OA_TranslationMaintenance
 
                         if (!empty($matches)) {
                             if (array_key_exists(0, $this->_array) && $this->_array[0] == '') {
-                                $aMasterKey[$file][$matches[2]] = "array()";
+                                if ($groupByFile) {
+                                    $aMasterKey[$file][$matches[2]] = "array()";
+                                } else {
+                                    $aMasterKey[$matches[2]] = "array()";
+                                }
                             } elseif (!empty($this->_array)) {
                             //  iterate through array adding each item to list of master keys
                                 foreach ($this->_array as $key => $value) {
@@ -361,7 +406,11 @@ class OA_TranslationMaintenance
                                             }
                                         }
                                     }
-                                    $aMasterKey[$file][$k] = $trans;
+                                    if ($groupByFile) {
+                                        $aMasterKey[$file][$k] = $trans;
+                                    } else {
+                                        $aMasterKey[$k] = $trans;
+                                    }
                                 }
                             }
                         }
@@ -417,6 +466,24 @@ class OA_TranslationMaintenance
             }
 
         echo "{$this->_new} translations merged <br />\n {$this->_old} translations maintained<br />\n {$this->_add} translations added<br />\n";
+        }
+    }
+
+    function mergePluginTranslation()
+    {
+        //  detect if missing args
+        if (empty($this->inputFile) || empty($this->outputDir)) { $this->displayHelpMsg(''); }
+
+        if (is_dir($this->outputDir)) {
+            $this->aLang = $this->loadTranslationFromCSV();
+
+            //  detect if CSV contains the specified language
+            if (empty($this->aLang[$this->lang])) { $this->displayHelpMsg('    The following keys were found:' . implode(', ', array_keys($this->aLang)) . "\n"); }
+
+            $result = $this->_mergePluginTranslation();
+
+        } else {
+            $this->displayHelpMsg('Output directory not found: '. $this->outputDir);
         }
     }
 
@@ -493,6 +560,157 @@ class OA_TranslationMaintenance
         $result = $this->_addNewTrans();
     }
 
+    function _mergePluginTranslation()
+    {
+        //  load plugin files
+        $aPluginLangFile = array();
+        findPluginLangFiles($this->outputDir, $aPluginLangFile);
+
+        //  load plugin lang translations
+        $aPluginWord = array();
+        foreach ($aPluginLangFile as $folder => $files) {
+            $path = substr($folder, strrpos($this->outputDir, '/')+1);
+            foreach ($files as $file) {
+                if (substr($file, 0, strrpos($file, '.')) == $this->_aLang[$this->lang]) {
+                    $lang = substr($file, 0, strrpos($file, '.'));
+                    $words = array();
+                    include($folder . DIRECTORY_SEPARATOR . $file);
+                    foreach ($words as $key => $value) {
+                        $aPluginWord[$lang][$path][$key] = $value;
+                    }
+                }
+            }
+        }
+
+        //  merge translations from CSV with plugin lang translations
+        foreach ($this->aLang[$this->lang] as $key => $tran) {
+            //  check if CSV translation diffs from current translation
+            $path = $this->aLang['path/to/file'][$key];
+            $existingTran = (!empty($aPluginWord[$this->_aLang[$this->lang]][$path][$key]))
+                ? $aPluginWord[$this->_aLang[$this->lang]][$path][$key]
+                : false;
+            if ($existingTran == false || $tran != $existingTran) { //  update if different or does not exist
+                $aPluginWord[$this->_aLang[$this->lang]][$path][$key] = $tran;
+            }
+        }
+
+        //  update / create plugin lang files with latest translations
+        foreach ($aPluginWord[$this->_aLang[$this->lang]] as $path => $aTran) {
+
+            //  build filename
+            $file = substr($this->outputDir, 0, strrpos($this->outputDir, '/')+1) . $path .'/'. $this->_aLang[$this->lang] .'.php';
+
+            //  load current file
+            if (is_file($file)) { // file is empty must populate with translations
+                $source  = file_get_contents($file);
+                $aToken = token_get_all($source);
+
+            //  load english file as a template if exists
+            } else {
+                $tmplFile = substr($this->outputDir, 0, strrpos($this->outputDir, '/')+1) . $path .'/'. $this->_masterLang .'.php';
+                if (is_file($tmplFile)) {
+                    $source  = file_get_contents($tmplFile);
+                    $aToken = token_get_all($source);
+                }
+            }
+
+            $this->fp = fopen($file, 'w+');
+
+            //  parse tokens updating file with updated translations
+            foreach ($aToken as $token) {
+                if (is_string($token) && $this->_buildVar) {
+                    $this->_var .= $token;
+
+                    //  check if finished building varaiable if true replace current translation
+                    //  with the transaltions from CSV
+                    if (substr($token, strlen($token)-1) == ';') {
+                        fwrite($this->fp, $this->_var);
+
+                        //  reset variables
+                        $this->_buildVar = false;
+                        $this->_var = '';
+                    }
+                } elseif (is_string($token) && $this->_buildArray) {
+                    //  set value for indexed array, associative arrays are handeled by _mergeArray()
+                    if ($token == ',' && empty($this->_arrayKey)) {
+                        $this->_array[$this->_arrayCount] = $this->_arrayVal;
+                        $this->_arrayCount++;
+                        $this->_arrayVal = '';
+                    } elseif ($token == ',' && !empty($this->_arrayKey)) {
+                        $this->_array[$this->_arrayKey] = $this->_arrayVal;
+                        $this->_arrayKey = $this->_arrayVal = '';
+                    }
+
+                    if (substr($token, strlen($token)-1) == ';') {
+                        //  add last item to array container
+                        if (!empty($this->_arrayKey) && !empty($this->_arrayVal)) {
+                            $this->_array[$this->_arrayKey] = $this->_arrayVal;
+                            $this->_arrayKey = $this->_arrayVal = '';
+                        } elseif (empty($this->_arrayKey) && !empty($this->_arrayVal)) {
+                            $this->_array[$this->_arrayCount] = $this->_arrayVal;
+                            $this->_arrayCount++;
+                            $this->_arrayVal = '';
+                        }
+                        //  add array opening to $this->_var and write out to file
+                        $this->_var .= " array(\n";
+                        fwrite($this->fp, $this->_var);
+
+                        //  loop through updated plugin translation array writing to file
+                        foreach ($aPluginWord[$this->_aLang[$this->lang]][$path] as $key => $trans) {
+                            $key = (strstr($key, "'")) ? str_replace("'", "\'", $key) : $key;
+
+                            $delimiter = (strstr($trans, '".')) ? '"' : "'";
+                            $trans = (strstr($trans, "'")) ? str_replace("'", "\'", $trans) : $trans;
+                            $trans = (strstr($trans, '$')) ? str_replace('$', '\$', $trans) : $trans;
+                            $str = "    '$key' => $delimiter$trans$delimiter,\n";
+                            fwrite($this->fp, $str);
+                        }
+
+                        //  close array def
+                        fwrite($this->fp, ");");
+
+                        //  reset variables
+                        $this->_array = array();
+                        $this->_buildArray = false;
+                        $this->_var = '';
+                    }
+                } elseif (is_array($token)) {
+                    $result = $this->_parseToken($token);
+                    if (!empty($this->_line)) {
+                        fwrite($this->fp, $this->_line);
+                    }
+                } elseif (is_string($token) && !$this->_buildVar) {
+                    fwrite($this->fp, $token);
+                }
+
+                //  if not building $words array write line current line to file
+
+                //  if building $words array keep looping until end of array token is encountered
+                //  then write all plugin translations to file
+
+
+            }
+
+
+            $x = 0;
+            if ($x == 1) {
+                $fp = fopen($file, 'a');
+                fwrite($fp, "<?php\n");
+                fwrite($fp, "    \$words = array(\n");
+                foreach($aTran as $key => $tran) {
+                    $tran = (strstr($tran, "\n")) ? str_replace("\n", '\n'."\n", $tran) : $tran;
+                    $delimiter = (strstr($tran, '".')) ? '"' : '"';
+                    $key = (strstr($tran, "'")) ? str_replace("'", "\'", $key) : $key;
+                    fwrite($fp, "        '$key' => ". $delimiter ."$tran". $delimiter .",\n");
+                }
+                fwrite($fp, "    );\n");
+                fwrite($fp, "?>\n");
+            }
+        }
+
+
+    }
+
     function _mergeVar()
     {
         //  extract key
@@ -553,7 +771,6 @@ class OA_TranslationMaintenance
                     //  remove matching translation
                     unset($this->aLang[$this->lang][$k]);
                 }
-
                 //  write array to file
                 $line = '';
                 foreach ($this->_array as $key => $value) {
@@ -677,6 +894,16 @@ class OA_TranslationMaintenance
                 $this->_arrayVal = '';
                 $this->_arrayCount = 0;
                 $this->_array = array();
+                break;
+            case T_IF:
+            case T_ELSE:
+            case T_ISSET:
+                $this->_line .= $text;
+                break;
+            case T_BOOLEAN_AND:
+            case T_BOOLEAN_OR:
+                $this->_var .= $text;
+                break;
             default:
                 // anything else -> output "as is"
                 break;
@@ -1028,20 +1255,20 @@ class OA_TranslationMaintenance
 
         $PLUGIN_FILE = fopen($app_base . DIRECTORY_SEPARATOR . 'plugins.pot', 'w');
 
-        $author = 'chris.nutting@openads.org';
+        $author = 'chris.nutting@openx.org';
 
         // Write .pot header
         fwrite($PLUGIN_FILE, '# OpenX (core strings) template.
-# FIRST AUTHOR <chris.nutting@openads.org>, 2008.
+# FIRST AUTHOR <chris.nutting@openx.org>, 2008.
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenX plugins\n"
-"Report-Msgid-Bugs-To: Anna Skorupa <anna.skorupa@openads.org>\n"
+"Report-Msgid-Bugs-To: Anna Skorupa <anna.skorupa@openx.org>\n"
 "POT-Creation-Date: ' . date('Y-m-d H:iO') . '\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Chris Nutting <chris.nutting@openads.org>\n"
-"Language-Team: Translations <translations@openads.org>\n"
+"Last-Translator: Chris Nutting <chris.nutting@openx.org>\n"
+"Language-Team: Translations <translations@openx.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1152,6 +1379,109 @@ msgstr ""
         fclose($CORE_FILE);
     }
 
+    function mergePOT() {
+        if (empty($this->inputFile) || empty($this->potFile) || empty($this->lang)) { $this->displayHelpMsg(''); }
+
+        if (is_dir($this->inputFile)) {
+            $this->aTran = $this->loadTranslationFromDir($this->inputFile, $this->lang, false, false);
+
+            $msgID = false;
+            $msgstr = false;
+            $aFile = file($this->potFile);
+            foreach ( $aFile as $line => $val) {
+
+                // check if new string
+                switch ($val) {
+                case (substr($val, 0, 2) == '#:'): //  new string
+                    $k = substr($val, 3, -2);
+                    if (substr($val, 3, 3) == 'str') {
+                        $aTransID = explode(' ', $k);
+                    }
+                    break;
+                case (substr($val, 0, 6) == 'msgstr'):
+                    foreach ($aTransID as $idx => $key) {
+                        // check it translation exists in lang files and add to .PO
+                        if (!empty($this->aTran[$key])) {
+                            $aFile[$line] = 'msgstr '. $this->aTran[$key] ."\n";
+                            $aTransIDTmp[] = $key;
+                        }
+                    }
+                    break;
+                }
+            }
+
+            //  write modifications back to .PO file
+            $fp = fopen($this->potFile .'.'. $this->lang, 'w');
+            foreach ($aFile as $text) {
+                fwrite($fp, $text);
+            }
+        } else {
+            $this->displayHelpMsg('Path to language files is not a directory');
+        }
+
+    }
+
+    function mergePluginPOT() {
+        include realpath('../../init.php');
+
+        if (empty($this->inputFile) || empty($this->potFile) || empty($this->lang)) { $this->displayHelpMsg(''); }
+
+        if (is_dir($this->inputFile)) {
+            $pluginLangFiles = array();
+            findPluginLangFiles($this->inputFile, $pluginLangFiles);
+            foreach ($pluginLangFiles as $folder => $files) {
+                $path = substr($folder, strrpos($this->inputFile, '/')+1);
+                foreach ($files as $file) {
+                    if (substr($file, 0, strrpos($file, '.')) == $this->lang) {
+                        $lang = substr($file, 0, strrpos($file, '.'));
+                        $words = array();
+                        include($folder . DIRECTORY_SEPARATOR . $file);
+                        foreach ($words as $key => $value) {
+                            $pluginWords[$lang][$path][$key] = $value;
+                        }
+                    }
+                }
+            }
+
+            $msgID = false;
+            $msgstr = false;
+            $aFile = file($this->potFile);
+            foreach ($aFile as $line => $val) {
+
+                // check if new string
+                switch ($val) {
+                case (substr($val, 0, 2) == '#:'): //  new string
+                    $aPiece = explode(' - ', substr($val, 3, -1));
+                    $aTransID[] = array(
+                        'key'   => $aPiece[0],
+                        'path'  => $aPiece[1]
+                    );
+                    break;
+                case (substr($val, 0, 6) == 'msgstr'):
+                    if (!empty($aTransID)) {
+                        foreach ($aTransID as $idx => $aVal) {
+                            // check it translation exists in lang files and add to .PO
+                            if (!empty($pluginWords[$this->lang][$aVal['path']][$aVal['key']])) {
+                                $str = $pluginWords[$this->lang][$aVal['path']][$aVal['key']];
+                                $str = str_replace("\n", '\\n'."\n", $str);
+                                $aFile[$line] = 'msgstr "'. $str ."\"\n";
+                            }
+                        }
+                    }
+                    break;
+                }
+            }
+
+            //  write modifications back to .PO file
+            $fp = fopen($this->potFile .'.'. $this->lang, 'w');
+            foreach ($aFile as $text) {
+                fwrite($fp, $text);
+            }
+        } else {
+            $this->displayHelpMsg('Path to language files is not a directory');
+        }
+    }
+
     function displayHelpMsg($message = null)
     {
         echo "Command syntax: \n";
@@ -1172,6 +1502,11 @@ msgstr ""
         echo "\t\t input_file - The absolute path for the file to read the unused language strings from\n";
         echo "\t\t output_dir - The absolute path for the folder to read the existing languages files from (and to update)\n";
         echo "\t\t language - The languge that is being prase\n";
+        echo "\nmergePOT - Merge translations from language files into the specified POT and output PO in output_dir";
+        echo "\t Parameters: \n";
+        echo "\t\t lang_dir - The path where language files are stored\n";
+        echo "\t\t pot_file - The path to the POT file which will be compared against the language files and used for output\n";
+        echo "\t\t language - The language that is being parsed\n";
 
         if (!is_null($message)) {
             echo  "\n\n". $message ."\n";
