@@ -274,6 +274,7 @@ $GLOBALS['strPEAR_LOG_EMERG']                        = 'PEAR_LOG_EMERG - Least I
 $GLOBALS['strDebugIdent']                            = 'Debug Identification String';
 $GLOBALS['strDebugUsername']                         = 'mCal, SQL Server Username';
 $GLOBALS['strDebugPassword']                         = 'mCal, SQL Server Password';
+$GLOBALS['strProductionSystem']                      =  'Production System';
 
 // Delivery Settings
 $GLOBALS['strDeliverySettings']                      = 'Delivery Settings';

@@ -60,6 +60,10 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     );
     // Debug Logging Settings
     $aElements += array(
+        'debug_production' => array(
+            'debug' => 'production',
+            'bool'  => true
+        ),
         'log_enabled' => array(
             'log'  => 'enabled',
             'bool' => true
@@ -114,6 +118,14 @@ $aSettings = array (
     array (
         'text'  => $strDebug,
         'items' => array (
+            array (
+                'type'    => 'checkbox',
+                'name'    => 'debug_production',
+                'text'    => $strProductionSystem
+            ),
+            array (
+                'type'    => 'break'
+            ),
             array (
                 'type'    => 'checkbox',
                 'name'    => 'log_enabled',
