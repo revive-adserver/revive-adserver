@@ -94,7 +94,7 @@ class OA_Admin_UI
         global $phpAds_breadcrumbs_extra;
         global $phpAds_CharSet;
         global $OA_Navigation, $OA_Navigation_ID;
-
+        global $conf;
         $conf = $GLOBALS['_MAX']['CONF'];
 
         $phpAds_GUIDone = true;
@@ -387,7 +387,7 @@ class OA_Admin_UI
 
     function _assignJavascriptandCSS()
     {
-        global $installing; //if installing no admin base URL is known yet
+        global $installing, $conf; //if installing no admin base URL is known yet
         //URL to combine script
         $this->oTpl->assign('adminBaseURL', $installing ? '' : MAX::constructURL(MAX_URL_ADMIN, ''));
         // Javascript and stylesheets to include
