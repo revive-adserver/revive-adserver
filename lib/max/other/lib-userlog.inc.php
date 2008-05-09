@@ -112,12 +112,11 @@ function phpAds_UserlogSelection($subSection, $mainSection='userlog')
         ,$strViewPastUpdates
     ;
 
-require_once MAX_PATH . '/lib/max/language/Settings.php';
-require_once MAX_PATH . '/lib/max/language/Userlog.php';
+require_once MAX_PATH . '/lib/max/language/Loader.php';
 
-Language_Settings::load();
-Language_Default::load();
-Language_Userlog::load();
+Language_Loader::load('settings');
+Language_Loader::load('default');
+Language_Loader::load('userlog');
 
 ?>
 <script language="JavaScript">

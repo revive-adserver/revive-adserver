@@ -1,5 +1,4 @@
 <?php
-
 /*
 +---------------------------------------------------------------------------+
 | OpenX v${RELEASE_MAJOR_MINOR}                                                                |
@@ -28,38 +27,57 @@ $Id$
 /**
  * @package    MaxUI
  * @subpackage Language
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openx.org>
+ * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  */
 
 /**
  * A class that can be used to load the necessary language file(s) for
- * reports.
+ * selected part of system.
  *
  * @static
  */
-class Language_Report
-{
+class Language_Loader {
+
     /**
-     * The method to load the report language file(s).
+     * The method to load the selected language file.
+     * 
+     * Section should to be a name of requested language file excluding the .lang.php extension.
+     * Lang is a name of directory with language files
+     *
+     * @param string $section section of the system 
+     * @param string $lang  language symbol
      */
-    function load()
-    {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $pref = $GLOBALS['_MAX']['PREF'];
+    function load($section = 'default', $lang = null) {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        if (!empty($GLOBALS['_MAX']['PREF'])) {
+            $aPref = $GLOBALS['_MAX']['PREF'];
+        } else {
+            $aPref = array();
+        }
+        if (is_null($lang) && !empty($aPref['language'])) {
+            $lang = $aPref['language'];
+        }
         // Always load the English language, in case of incomplete translations
-        include_once MAX_PATH . '/lib/max/language/en/report.lang.php';
+        if (file_exists (MAX_PATH . '/lib/max/language/en/' . $section . '.lang.php')) {
+            include MAX_PATH . '/lib/max/language/en/' . $section . '.lang.php';
+        } else { 
+            return; // Wrong section
+        }
         // Load the language from preferences, if possible, otherwise load
         // the global preference, if possible
-        if (($pref['language'] != 'en') && file_exists(MAX_PATH .
-                '/lib/max/language/' . $pref['language'] . '/report.lang.php')) {
-            include_once MAX_PATH . '/lib/max/language/' . $pref['language'] .
-                '/report.lang.php';
-        } elseif (($conf['max']['language'] != 'en') && file_exists(MAX_PATH .
-                '/lib/max/language/' . $conf['max']['language'] . '/report.lang.php')) {
-            include_once MAX_PATH . '/lib/max/language/' . $conf['max']['language'] .
-                '/report.lang.php';
+        if (!empty($lang) && 
+                file_exists(MAX_PATH . '/lib/max/language/' . $lang . '/' . $section . '.lang.php')) {
+            if ($lang != 'en') {
+                include MAX_PATH . '/lib/max/language/' . $lang . '/' . $section . '.lang.php';
+            }
+        } elseif (($aConf['max']['language'] != 'en') && file_exists(MAX_PATH .
+                '/lib/max/language/' . $aConf['max']['language'] . '/' . $section . '.lang.php')) {
+            include MAX_PATH . '/lib/max/language/' . $aConf['max']['language'] .
+                '/' . $section . '.lang.php';
         }
     }
+
 }
 
 ?>

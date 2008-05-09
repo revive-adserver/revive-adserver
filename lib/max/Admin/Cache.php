@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/language/Default.php';
+require_once MAX_PATH . '/lib/max/language/Loader.php';
 
 /**
  * A class for determining the available delivery caching modes.
@@ -44,7 +44,7 @@ class MAX_Admin_Cache
      */
     function AvailableCachingModes()
     {
-        Language_Default::load();
+        Language_Loader::load('default');
         $modes = array();
         $modes['none'] = $GLOBALS['strNone'];
         if (is_writable(MAX_PATH . '/var/cache')) {

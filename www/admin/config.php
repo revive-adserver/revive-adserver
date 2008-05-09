@@ -26,7 +26,7 @@ $Id$
 */
 
 // Required files
-require_once MAX_PATH . '/lib/max/language/Default.php';
+require_once MAX_PATH . '/lib/max/language/Loader.php';
 require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
 require_once MAX_PATH . '/lib/max/other/lib-userlog.inc.php';
 require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
@@ -39,7 +39,7 @@ if (PEAR::isError($oDbh))
 {
     // Check if UI is enabled
     if (!$conf['ui']['enabled']) {
-        Language_Default::load();
+        Language_Loader::load('default');
         phpAds_PageHeader(OA_Auth::login($checkRedirectFunc));
         phpAds_ShowBreak();
         echo "<br /><img src='" . MAX::assetPath() . "/images/info.gif' align='absmiddle'>&nbsp;";
@@ -74,7 +74,7 @@ $pref = $GLOBALS['_MAX']['PREF'];
 OA_setTimeZoneLocal();
 
 // Load the required language files
-Language_Default::load();
+Language_Loader::load('default');
 
 // Register variables
 phpAds_registerGlobalUnslashed(
@@ -119,9 +119,9 @@ function OA_Start($checkRedirectFunc = null)
     }
     if (!OA_Auth::isLoggedIn() || OA_Auth::suppliedCredentials()) {
         // Required files
-        include_once MAX_PATH . '/lib/max/language/Default.php';
+        include_once MAX_PATH . '/lib/max/language/Loader.php';
         // Load the required language files
-        Language_Default::load();
+        Language_Loader::load('default');
 
         phpAds_SessionDataRegister(OA_Auth::login($checkRedirectFunc));
     }

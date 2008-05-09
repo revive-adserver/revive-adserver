@@ -35,9 +35,8 @@ require_once 'Date.php';
 
 require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/max/Dal/DataObjects/Audit.php';
-require_once MAX_PATH . '/lib/max/language/Userlog.php';
-Language_Userlog::load();
-
+require_once MAX_PATH . '/lib/max/language/Loader.php';
+Language_Loader::load('userlog');
 
 /**
  * The OA_Dll_Audit class extends the OA_Dll class.

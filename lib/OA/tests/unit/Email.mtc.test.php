@@ -171,7 +171,7 @@ class Test_OA_Email extends UnitTestCase
         $doPlacements->status = '0';
         $placementId1 = DataGenerator::generateOne($doPlacements);
 
-        Language_Default::load($doUser->language);
+        Language_Loader::load('default', $doUser->language);
         $aResult = $oEmail->preparePlacementDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
 
         $expectedSubject = "Advertiser report: $clientName";
@@ -798,7 +798,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "-------------------------------------------------------\n\n\n";
         $expectedContents .= "Regards,\n   $adminName, $adminCompany";
 
-        Language_Default::load($aAdminUser['language']);
+        Language_Loader::load('default', $aAdminUser['language']);
         $numSent = $oEmail->sendPlacementImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
         $aResult = $oEmail->preparePlacementImpendingExpiryEmail($aAdminUser, $advertiserId1, $placementId, $dateReason, $dateValue, 'admin');
 
@@ -821,7 +821,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "-------------------------------------------------------\n\n\n";
         $expectedContents .= "Regards,\n   $agencyContact, $agencyName";
 
-        Language_Default::load($aAgencyUser['language']);
+        Language_Loader::load('default', $aAgencyUser['language']);
         $numSent = $oEmail->sendPlacementImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
         $aResult = $oEmail->preparePlacementImpendingExpiryEmail($aAgencyUser, $advertiserId1, $placementId, $dateReason, $dateValue, 'manager');
 
@@ -844,7 +844,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "-------------------------------------------------------\n\n\n";
         $expectedContents .= "Regards,\n   $adminName, $adminCompany";
 
-        Language_Default::load($aAdminUser['language']);
+        Language_Loader::load('default', $aAdminUser['language']);
         $numSent = $oEmail->sendPlacementImpendingExpiryEmail($oNowDate, $placementId);
         $aResult = $oEmail->preparePlacementImpendingExpiryEmail($aAdminUser, $advertiserId1, $placementId, $impReason, $impValue, 'admin');
         $this->assertEqual($numSent, 0);
@@ -865,7 +865,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "-------------------------------------------------------\n\n\n";
         $expectedContents .= "Regards,\n   $agencyContact, $agencyName";
 
-        Language_Default::load($aAgencyUser['language']);
+        Language_Loader::load('default', $aAgencyUser['language']);
         $numSent = $oEmail->sendPlacementImpendingExpiryEmail($oNowDate, $placementId);
         $aResult = $oEmail->preparePlacementImpendingExpiryEmail($aAgencyUser, $advertiserId1, $placementId, $impReason, $impValue, 'manager');
         $this->assertEqual($numSent, 0);
@@ -899,7 +899,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "-------------------------------------------------------\n\n\n";
         $expectedContents .= "Regards,\n   $adminName, $adminCompany";
 
-        Language_Default::load($aAdminUser['language']);
+        Language_Loader::load('default', $aAdminUser['language']);
         $numSent = $oEmail->sendPlacementImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
         $aResult = $oEmail->preparePlacementImpendingExpiryEmail($aAdminUser, $advertiserId1, $placementId1, $dateReason, $dateValue, 'admin');
         $this->assertEqual($numSent, 1);
@@ -922,7 +922,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "-------------------------------------------------------\n\n\n";
         $expectedContents .= "Regards,\n   $agencyContact, $agencyName";
 
-        Language_Default::load($aAdvertiserUser['language']);
+        Language_Loader::load('default', $aAdvertiserUser['language']);
         $numSent = $oEmail->sendPlacementImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
         $aResult = $oEmail->preparePlacementImpendingExpiryEmail($aAdvertiserUser, $advertiserId1, $placementId, $dateReason, $dateValue, 'advertiser');
         $this->assertEqual($numSent, 1);

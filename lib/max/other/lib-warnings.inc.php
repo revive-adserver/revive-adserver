@@ -52,9 +52,9 @@ function phpAds_warningMail($campaign)
             }
             $pref = $GLOBALS['_MAX']['PREF'];
             // Required files
-            include_once MAX_PATH . '/lib/max/language/Default.php';
+            include_once MAX_PATH . '/lib/max/language/Loader.php';
             // Load the required language files
-            Language_Default::load();
+            Language_Loader::load('default');
 			// Build email
 			$Subject = $strImpressionsClicksConversionsLow.": ".$campaign['campaignname'];
 			$Body    = "$strMailHeader\n";

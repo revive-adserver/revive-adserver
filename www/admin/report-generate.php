@@ -29,7 +29,7 @@ $Id$
 require_once '../../init.php';
 
 // Include required files
-require_once MAX_PATH . '/lib/max/language/Report.php';
+require_once MAX_PATH . '/lib/max/language/Loader.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/OA/Admin/Reports/Generate.php';
 
@@ -60,7 +60,7 @@ if (!is_null($_GET['period_preset']) && ($_GET['period_preset'] == 'specific')) 
 }
 
 // Load the required language files
-Language_Report::load();
+Language_Loader::load('report');
 
 // Register input variables
 phpAds_registerGlobal('plugin');

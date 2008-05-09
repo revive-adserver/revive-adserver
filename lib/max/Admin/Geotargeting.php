@@ -26,7 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Plugin.php';
-require_once MAX_PATH . '/lib/max/language/Default.php';
+require_once MAX_PATH . '/lib/max/language/Loader.php';
 
 /**
  * A class for determining the available geotargeting modes.
@@ -45,7 +45,7 @@ class MAX_Admin_Geotargeting
      */
     function AvailableGeotargetingModes()
     {
-        Language_Default::load();
+        Language_Loader::load('default');
         
         $plugins = &MAX_Plugin::getPlugins('geotargeting');
         $modes['none'] = $GLOBALS['strNone'];

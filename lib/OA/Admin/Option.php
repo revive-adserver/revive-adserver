@@ -28,9 +28,7 @@ $Id: lib-settings.inc.php 12449 2007-11-15 13:40:06Z miguel.correa@openads.org $
 // Required files
 require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
-require_once MAX_PATH . '/lib/max/language/Default.php';
-require_once MAX_PATH . '/lib/max/language/Settings.php';
-require_once MAX_PATH . '/lib/max/language/SettingsHelp.php';
+require_once MAX_PATH . '/lib/max/language/Loader.php';
 
 /**
  * A class to deal with the display of settings and preferences
@@ -65,9 +63,9 @@ class OA_Admin_Option
     function OA_Admin_Option($optionType)
     {
         // Load the required language files
-        Language_Default::load();
-        Language_Settings::load();
-        Language_SettingsHelp::load();
+        Language_Loader::load('default');
+        Language_Loader::load('settings');
+        Language_Loader::load('settings-help');
 
         // Set the supplied Settings or Preferences information
         $this->_optionType = 'account-' . $optionType;

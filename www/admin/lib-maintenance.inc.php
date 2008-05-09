@@ -26,10 +26,10 @@ $Id$
 */
 
 // Required files
-require_once MAX_PATH . '/lib/max/language/Maintenance.php';
+require_once MAX_PATH . '/lib/max/language/Loader.php';
 
 // Load the required language files
-Language_Maintenance::load();
+Language_Loader::load('maintenance');
 
 function phpAds_MaintenanceSelection($subSection, $mainSection='maintenance')
 {

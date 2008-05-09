@@ -30,7 +30,7 @@ require_once '../../init.php';
 
 // Required files
 require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/max/language/Userlog.php';
+require_once MAX_PATH . '/lib/max/language/Loader.php';
 require_once MAX_PATH . '/www/admin/config.php';
 
 // Security check
@@ -44,7 +44,7 @@ phpAds_PageHeader("5.4.1");
 phpAds_ShowSections(array("5.4.1"));
 
 // Load the required language files
-Language_Userlog::load();
+Language_Loader::load('userlog');
 
 /*-------------------------------------------------------*/
 /* Main code                                             */

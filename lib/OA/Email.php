@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/language/Default.php';
+require_once MAX_PATH . '/lib/max/language/Loader.php';
 
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
@@ -63,7 +63,7 @@ class OA_Email
     function preparePlacementDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate)
     {
 
-        Language_Default::load($aUser['language']);
+        Language_Loader::load('default',$aUser['language']);
 
         OA::debug('   - Preparing "placement delivery" report for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
 
@@ -493,7 +493,7 @@ class OA_Email
             }
         }
         // Restore the default language strings
-        Language_Default::load();
+        Language_Loader::load('default');
         return $copiesSent;
     }
 
@@ -521,7 +521,7 @@ class OA_Email
     {
         OA::debug('   - Preparing "impending expiry" report for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
 
-        Language_Default::load($aUser['language']);
+        Language_Loader::load('default',$aUser['language']);
 
         // Load the required strings
         global $strImpendingCampaignExpiryDateBody, $strImpendingCampaignExpiryImpsBody, $strMailHeader,
@@ -686,7 +686,7 @@ class OA_Email
      */
     function preparePlacementActivatedDeactivatedEmail($aUser, $placementId, $reason = null)
     {
-        Language_Default::load($aUser['language']);
+        Language_Loader::load('default',$aUser['language']);
 
         if (is_null($reason)) {
             OA::debug('   - Preparing "placement activated" email for placement ID ' . $placementId. '.', PEAR_LOG_DEBUG);
@@ -785,7 +785,7 @@ class OA_Email
                 }
             }
             // Restore the default language strings
-            Language_Default::load();
+            Language_Loader::load('default');
         }
         return $copiesSent;
     }

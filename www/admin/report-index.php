@@ -38,7 +38,7 @@ phpAds_registerGlobal ('selection');
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
 
 // Load the required language files
-Language_Report::load();
+Language_Loader::load('report');
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */

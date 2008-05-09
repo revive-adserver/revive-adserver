@@ -30,7 +30,7 @@ require_once '../../init.php';
 
 // Required files
 require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/max/language/Userlog.php';
+require_once MAX_PATH . '/lib/max/language/Loader.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/max/other/lib-userlog.inc.php';
 
@@ -55,7 +55,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
 }
 
 // Load the required language files
-Language_Userlog::load();
+Language_Loader::load('userlog');
 
 /*-------------------------------------------------------*/
 /* Main code                                             */

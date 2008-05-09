@@ -35,7 +35,7 @@ $Id$
 require_once MAX_PATH . '/lib/OA/BaseObjectWithErrors.php';
 
 // Init required files
-require_once MAX_PATH . '/lib/max/language/Default.php';
+require_once MAX_PATH . '/lib/max/language/Loader.php';
 require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
 require_once MAX_PATH . '/lib/max/other/lib-userlog.inc.php';
 
@@ -166,7 +166,7 @@ class BaseServiceImpl extends  OA_BaseObjectWithErrors
         OA_Preferences::loadPreferences();
 
         // Load the required language files
-        Language_Default::load();
+        Language_Loader::load('default');
 
         // Register variables
         phpAds_registerGlobalUnslashed(

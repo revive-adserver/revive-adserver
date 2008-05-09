@@ -64,9 +64,9 @@ class LogonServiceImpl extends BaseServiceImpl
     function _internalLogin($username, $password)
     {
         // Require the default language file.
-        include_once MAX_PATH . '/lib/max/language/Default.php';
+        include_once MAX_PATH . '/lib/max/language/Loader.php';
         // Load the required language file.
-        Language_Default::load();
+        Language_Loader::load('default');
 
         $oPlugin = &MAX_Plugin::factory('authentication', 'internal');
 
