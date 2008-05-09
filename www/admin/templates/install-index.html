@@ -43,15 +43,6 @@ function changePage(page) {
             case OA_UPGRADE_INSTALL             : include MAX_PATH . '/www/admin/templates/install-success.html';     break;
             case OA_UPGRADE_CONFIGSETUP         : include MAX_PATH . '/www/admin/templates/install-configsetup.html'; break;
             case OA_UPGRADE_ADMINSETUP          : include MAX_PATH . '/www/admin/templates/install-adminsetup.html';  break;
-
-            case OA_UPGRADE_SITESSETUP          :
-            case OA_UPGRADE_TAGSSETUP           :
-                if (!is_a($oTpl, 'OA_Admin_Template')) {
-                    die('Missing template');
-                }
-                $oTpl->display();
-                break;
-
             case OA_UPGRADE_FINISH              : include MAX_PATH . '/www/admin/templates/install-finish.html';      break;
             default                             : include MAX_PATH . '/www/admin/templates/install-welcome.html';     break;
         }
