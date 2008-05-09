@@ -2462,9 +2462,6 @@ case '==': $aContext['client']['include'][$value] = true; break;
 }
 break;
 case 'companionid':
-// Don't apply companionid context to non companion ads, this could result in
-// blanks delivered or exclusive campaigns not being served.
-if ($adArrayVar == 'cAds' || $adArrayVar == 'clAds') {
 switch ($key) {
 case '!=': $aContext['campaign']['exclude'][$value]   = true; break;
 case '==':
@@ -2488,7 +2485,6 @@ $aLinkedAds[$adArrayVar][$iAdId]['priority'] *= $companionScaleFactor;
 }
 $aContext['campaign']['include'][$value] = true;
 break;
-}
 }
 break;
 default:
