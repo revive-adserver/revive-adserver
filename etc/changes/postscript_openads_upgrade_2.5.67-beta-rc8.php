@@ -69,15 +69,30 @@ class OA_UpgradePostscript_2_5_67_RC8
                                 OA::disableErrorHandling();
                                 $result = $this->oDbh->exec("ALTER TABLE {$qOldSequence} RENAME TO {$qNewSequence}");
                                 if (PEAR::isError($result)) {
-                                    $this->logError("Could not rename {$oldSequenceName} to {$newSequenceName}");
+                                    if ($result->getCode() == MDB2_ERROR_ALREADY_EXISTS) {
+                                        $result = $this->oDbh->exec("DROP SEQUENCE {$qNewSequence}");
+                                        if (PEAR::isError($result)) {
+                                            $this->logError("Could not drop existing sequence {$newSequenceName}: ".$result->getUserInfo());
+                                            return false;
+                                        }
+                                        $result = $this->oDbh->exec("ALTER TABLE {$qOldSequence} RENAME TO {$qNewSequence}");
+                                    }
+                                }
+                                if (PEAR::isError($result)) {
+                                    $this->logError("Could not rename {$oldSequenceName} to {$newSequenceName}: ".$result->getUserInfo());
                                     return false;
                                 }
                                 $result = $this->oDbh->exec("ALTER TABLE {$qTable} ALTER {$qField} SET DEFAULT nextval(".$this->oDbh->quote($qNewSequence).")");
                                 if (PEAR::isError($result)) {
-                                    $this->logError("Could not set column default to sequence {$newSequenceName}");
+                                    $this->logError("Could not set column default to sequence {$newSequenceName}: ".$result->getUserInfo());
                                     return false;
                                 }
                                 OA::enableErrorHandling();
+                                $result = $oTable->resetSequenceByData($tableName, $fieldName);
+                                if (PEAR::isError($result)) {
+                                    $this->logError("Could not reset sequence value for {$newSequenceName}: ".$result->getUserInfo());
+                                    return false;
+                                }
                                 $this->logOnly("Successfully renamed {$oldSequenceName} to {$newSequenceName}");
                             }
                         } else {

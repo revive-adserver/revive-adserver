@@ -61,6 +61,34 @@ class Migration_postscript_2_5_67_RC8Test extends MigrationTest
             $this->oDbh->exec("ALTER TABLE {$sequenceName} RENAME TO {$prefix}foobar");
             $this->oDbh->exec("ALTER TABLE {$prefix}affiliates ALTER affiliateid SET DEFAULT nextval('{$prefix}foobar')");
 
+            // Create a publisher using the nextID call to generate the ID beforehand (two will fail because IDs already exist)
+            $aAValues = array(
+                array(
+                    'affiliateid' => $this->oDbh->nextID($prefix.'affiliates_affiliateid'),
+                    'name' => 'z1'
+                ),
+                array(
+                    'affiliateid' => $this->oDbh->nextID($prefix.'affiliates_affiliateid'),
+                    'name' => 'z2'
+                ),
+                array(
+                    'affiliateid' => $this->oDbh->nextID($prefix.'affiliates_affiliateid'),
+                    'name' => 'z3'
+                ),
+            );
+            $aExpect = array(
+                'PEAR_Error',
+                'PEAR_Error',
+                'int'
+            );
+            $this->oDbh->expectError(MDB2_ERROR_CONSTRAINT);
+            foreach ($aAValues as $key => $aValues) {
+                $sql = OA_DB_Sql::sqlForInsert('affiliates', $aValues);
+                $result = $this->oDbh->exec($sql);
+                $this->assertIsA($result, $aExpect[$key]);
+            }
+            $this->oDbh->popExpect();
+
             Mock::generatePartial(
                 'OA_UpgradeLogger',
                 $mockLogger = 'OA_UpgradeLogger'.rand(),
@@ -82,7 +110,7 @@ class Migration_postscript_2_5_67_RC8Test extends MigrationTest
 
             $value = $this->oDbh->queryOne("SELECT nextval('$sequenceName')");
 
-            $this->assertTrue($value > 2, "The current sequence value is $value.");
+            $this->assertEqual($value, 4, "The current sequence value is $value (expected: 4)");
         }
     }
 }
