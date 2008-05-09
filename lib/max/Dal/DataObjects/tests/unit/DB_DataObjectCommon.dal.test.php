@@ -336,12 +336,17 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         // Add that unique name to database
         $doAgency = OA_Dal::factoryDO('agency');
         $doAgency->name = $uniqueName;
-        DataGenerator::generateOne($doAgency);
+        $duplicateAgencyId = DataGenerator::generateOne($doAgency);
 
         // Test second duplication
         $doAgency = OA_Dal::staticGetDO('agency', $agencyId);
         $uniqueName = $doAgency->getUniqueNameForDuplication('name');
         $this->assertEqual($uniqueName, $name.' (3)');
+        
+        // Test duplication from duplicate
+        $doAgency = OA_Dal::staticGetDO('agency', $duplicateAgencyId);
+        $nameFromDuplicate = $doAgency->getUniqueNameForDuplication('name');
+        $this->assertEqual($name . ' (3)', $nameFromDuplicate);
     }
 
     function testDeleteById()

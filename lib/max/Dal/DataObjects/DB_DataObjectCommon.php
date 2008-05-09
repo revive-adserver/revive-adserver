@@ -497,7 +497,8 @@ class DB_DataObjectCommon extends DB_DataObject
                     DB_DATAOBJECT_ERROR_INVALIDARGS);
             return null;
         }
-        if (ereg("^(.*) \([0-9]+\)$", $this->$columnName, $regs = null)) {
+        $regs = null;
+        if (ereg("^(.*) \([0-9]+\)$", $this->$columnName, $regs)) {
             $basename = $regs[1];
         } else {
             $basename = $this->$columnName;
