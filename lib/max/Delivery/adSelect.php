@@ -685,33 +685,29 @@ function _adSelectBuildContextArray(&$aLinkedAds, $adArrayVar, $context)
                     }
                 break;
                 case 'companionid':
-                    // Don't apply companionid context to non companion ads, this could result in
-                    // blanks delivered or exclusive campaigns not being served.
-                    if ($adArrayVar == 'cAds' || $adArrayVar == 'clAds') {
-                        switch ($key) {
-                            case '!=': $aContext['campaign']['exclude'][$value]   = true; break;
-                            case '==':
-                            if ($adArrayVar == 'cAds') {
-                            	$includeCampaignID[$value] = true;
-                                // Rescale the priorities for the available companion campaigns...
-                                $companionPrioritySum = 0;
-                                foreach ($aLinkedAds[$adArrayVar] as $iAdId => $aAd) {
-                                    if (isset($aContext['campaign']['include'][$aAd['placement_id']])) {
-                                        $companionPrioritySum += $aAd['priority'];
-                                    } else {
-                                        unset($aLinkedAds[$adArrayVar][$iAdId]);
-                                    }
-                                }
-                                if ($companionPrioritySum > 0) {
-                                    $companionScaleFactor = 1 / $companionPrioritySum;
-                                    foreach($aLinkedAds[$adArrayVar] as $iAdId => $aAd) {
-                                        $aLinkedAds[$adArrayVar][$iAdId]['priority'] *= $companionScaleFactor;
-                                    }
+                    switch ($key) {
+                        case '!=': $aContext['campaign']['exclude'][$value]   = true; break;
+                        case '==':
+                        if ($adArrayVar == 'cAds') {
+                        	$includeCampaignID[$value] = true;
+                            // Rescale the priorities for the available companion campaigns...
+                            $companionPrioritySum = 0;
+                            foreach ($aLinkedAds[$adArrayVar] as $iAdId => $aAd) {
+                                if (isset($aContext['campaign']['include'][$aAd['placement_id']])) {
+                                    $companionPrioritySum += $aAd['priority'];
+                                } else {
+                                    unset($aLinkedAds[$adArrayVar][$iAdId]);
                                 }
                             }
-                            $aContext['campaign']['include'][$value] = true;
-                            break;
+                            if ($companionPrioritySum > 0) {
+                                $companionScaleFactor = 1 / $companionPrioritySum;
+                                foreach($aLinkedAds[$adArrayVar] as $iAdId => $aAd) {
+                                    $aLinkedAds[$adArrayVar][$iAdId]['priority'] *= $companionScaleFactor;
+                                }
+                            }
                         }
+                        $aContext['campaign']['include'][$value] = true;
+                        break;
                     }
                 break;
                 default:
