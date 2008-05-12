@@ -243,7 +243,7 @@ function _adRenderImage($aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     if (!$richMedia) {
-        return _adRenderBuildFileUrl($aBanner, $useAlt, '{random}');
+        return _adRenderBuildFileUrl($aBanner, $useAlt);
     }
     $prepend = (!empty($aBanner['prepend']) && $useAppend) ? $aBanner['prepend'] : '';
     $append = (!empty($aBanner['append']) && $useAppend) ? $aBanner['append'] : '';
