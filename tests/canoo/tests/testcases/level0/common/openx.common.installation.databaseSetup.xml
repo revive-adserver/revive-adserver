@@ -35,7 +35,7 @@
 				<!-- htmlId="btn_upgrade" -->
 
 				<verifyText description="Check text on page" 
-					text="Your database has successfully been created" />
+					text="The OpenX database has now been created" />
 				<clickButton description="Click 'Continue »' button"
 					name="btn_configsetup" />
 					<!--  label="Continue »" />  -->
