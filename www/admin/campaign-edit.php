@@ -345,11 +345,11 @@ if ($campaignid != "") {
     $advertiserEditUrl = "advertiser-edit.php?clientid=$clientid";
 
    // New campaign
-    phpAds_PageHeader("campaign-edit_new");
     MAX_displayInventoryBreadcrumbs(array(
                                         array("name" => $advertiserName, "url" => $advertiserEditUrl),
                                         array("name" => "")),
                                     "campaign", true);
+    phpAds_PageHeader("campaign-edit_new");
 }
 
 if ($campaignid != "" || (isset($move) && $move == 't')) {

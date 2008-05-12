@@ -100,8 +100,8 @@ if ($affiliateid != "") {
         }
     }
 } else {
-    phpAds_PageHeader("affiliate-edit_new");
     MAX_displayWebsiteBreadcrumbs(null);
+    phpAds_PageHeader("affiliate-edit_new");
     phpAds_ShowSections(array("4.2.1"));
 }
 

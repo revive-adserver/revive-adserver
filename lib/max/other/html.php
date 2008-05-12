@@ -582,6 +582,7 @@ function MAX_displayInventoryBreadcrumbsInternal($aEntityNamesUrls, $breadcrumbP
             'name' => $aEntityNamesUrls[$i]["name"],
             'url' => $aEntityNamesUrls[$i]["url"],
             'label' => ($newEntity && $i == count($aEntityNamesUrls) -1 ? $breadcrumbInfo['newLabel'] : $breadcrumbInfo['label']),
+            'newTarget' => $breadcrumbInfo['newTarget'],
             'cssClass' => $breadcrumbInfo['class']
         );    	
     }
@@ -600,22 +601,22 @@ function MAX_buildBreadcrumbInfo($entityClass)
 	       return array("label" => $GLOBALS['strClient'], "newLabel" => $GLOBALS['strAddClient'], "class" => "adv");
 	       
 		case 'campaign':
-	       return array("label" => $GLOBALS['strCampaign'], "newLabel" => $GLOBALS['strAddCampaign'], "class" => "camp");
+	       return array("label" => $GLOBALS['strCampaign'], "newLabel" => $GLOBALS['strAddCampaign'], "newTarget" => $GLOBALS['strCampaignForAdvertiser'], "class" => "camp");
 	       
 		case 'tracker':   
-	       return array("label" => $GLOBALS['strTracker'], "newLabel" => $GLOBALS['strAddTracker'], "class" => "track");
+	       return array("label" => $GLOBALS['strTracker'], "newLabel" => $GLOBALS['strAddTracker'], "newTarget" => $GLOBALS['strTrackerForAdvertiser'], "class" => "track");
 	    
 		case 'banner':   
-	       return array("label" => $GLOBALS['strBanner'], "newLabel" => $GLOBALS['strAddBanner'], "class" => "ban");
+	       return array("label" => $GLOBALS['strBanner'], "newLabel" => $GLOBALS['strAddBanner'], "newTarget" => $GLOBALS['strBannerToCampaign'], "class" => "ban");
 	       
 		case 'website':   
 	       return array("label" => $GLOBALS['strAffiliate'], "newLabel" => $GLOBALS['strAddNewAffiliate'], "class" => "webs");
 	       
 		case 'zone':   
-            return array("label" => $GLOBALS['strZone'], "newLabel" => $GLOBALS['strAddNewZone'], "class" => "zone");
+            return array("label" => $GLOBALS['strZone'], "newLabel" => $GLOBALS['strAddNewZone'], "newTarget" => $GLOBALS['strZoneToWebsite'], "class" => "zone");
             
 		case 'channel':   
-	       return array("label" => $GLOBALS['strChannel'], "newLabel" => $GLOBALS['strAddNewChannel'], "class" => "chan");
+	       return array("label" => $GLOBALS['strChannel'], "newLabel" => $GLOBALS['strAddNewChannel'], "newTarget" => $GLOBALS['strChannelToWebsite'], "class" => "chan");
 	       
 		case 'agency':   
 	       return array("label" => $GLOBALS['strAgency'], "newLabel" => $GLOBALS['strAddAgency'], "class" => "agen");
@@ -700,7 +701,7 @@ function MAX_displayWebsiteBreadcrumbs($affiliateid)
 
 function MAX_displayNavigationCampaign($pageName, $aOtherAdvertisers, $aOtherCampaigns, $aEntities)
 {
-    global $phpAds_TextDirection;
+	global $phpAds_TextDirection;
     $aConf = $GLOBALS['_MAX']['CONF'];
 
     $advertiserId = $aEntities['clientid'];
@@ -1050,8 +1051,8 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
     }
     MAX_displayInventoryBreadcrumbs(array(
                                        array("name" => $publisherName, "url" => $publisherEditUrl),
-                                       array("name" => $zoneName)
-                                   ), "zone");
+                                       array("name" => empty($zoneId) ? '' : $zoneName)
+                                   ), "zone", empty($zoneId));
     phpAds_PageHeader($tabValue, $extra);
     phpAds_ShowSections($tabSections);
 
@@ -1180,7 +1181,8 @@ function MAX_displayNavigationChannel($pageName, $aOtherChannels, $aEntities)
 
     if (!empty($publisherId)) {
         // Determine which tab is highlighted
-        $publisherName = phpAds_getAffiliateName($publisherId);
+        $publisher = Admin_DA::getPublisher($publisherId);
+        $publisherName = $publisher['name'];
         if (!empty($channelId)) {
             MAX_displayInventoryBreadcrumbs(array(
                                                 array("name" => $publisherName, url => $publisherEditUrl), 

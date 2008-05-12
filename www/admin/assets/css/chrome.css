@@ -602,8 +602,9 @@ div.breadcrumb h3 span.label {
   color: #333333;
 }
 
-div.breadcrumb h3 span.dest {
-  color: #999999;
+div.breadcrumb h3 span.dest,
+div.breadcrumb h3 span.target {
+	  color: #999999;
 }
 
 div.breadcrumb span.sep {

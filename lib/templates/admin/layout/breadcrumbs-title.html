@@ -41,9 +41,14 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
         {/section}
         
         {assign var=mainbcindex value=$totalbc-1}
+        {assign var=targetindex value=$totalbc-2}
         <h3>
             <span class='label'>{$aBreadcrumbs.path[$mainbcindex].label}</span>{if !$aBreadcrumbs.newEntity}:{/if} 
             {$aBreadcrumbs.path[$mainbcindex].name}
+            {if $aBreadcrumbs.newEntity && $aBreadcrumbs.path[$mainbcindex].newTarget}
+                <span class='target'>{$aBreadcrumbs.path[$mainbcindex].newTarget} {$aBreadcrumbs.path[$targetindex].name}</span>
+            {/if} 
+            
         </h3>
     </div>
 {/if}
