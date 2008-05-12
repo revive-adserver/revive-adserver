@@ -87,14 +87,14 @@ class OA_TranslationMaintenance
         $command = $GLOBALS['argv'][1];
 
         $languageKey = ($command == 'merge' || $command == 'mergestrike' || $command == 'mergePOT'
-                        || $command == 'mergePluginPOT' || $command == 'mergePlugin'
+                        || $command == 'mergePluginPOT' || $command == 'mergePlugin' || $command == 'mergeStrickPlugin'
                         || $command == 'remove_keys' || $command == 'createcsv')
             ? array_slice($GLOBALS['argv'], 4)
             : array_slice($GLOBALS['argv'], 3);
         $this->lang = implode(' ', $languageKey);
 
         if ($command == 'merge' || $command == 'mergestrike' || $command == 'mergePOT'
-            || $command == 'mergePluginPOT' || $command == 'mergePlugin' || $command == 'remove_keys'
+            || $command == 'mergePluginPOT' || $command == 'mergePlugin' || $command == 'mergeStrickPlugin' || $command == 'remove_keys'
             || $command == 'createcsv')
         {
             if ($command == 'mergePOT' || $command == 'mergePluginPOT') {
@@ -119,6 +119,7 @@ class OA_TranslationMaintenance
             case 'merge':
                 $this->mergeTranslation();
                 break;
+            case 'mergeStrikePlugin': $this->_addStrikeTags = true;
             case 'mergePlugin':
                 $this->mergePluginTranslation();
                 break;
