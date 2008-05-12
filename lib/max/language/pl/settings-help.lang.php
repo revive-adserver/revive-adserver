@@ -433,14 +433,14 @@ $GLOBALS['phpAds_hlp_gui_show_campaign_info'] = "
 		
 $GLOBALS['phpAds_hlp_gui_show_banner_info'] = "
 		If this option is enabled extra information about each banner will be shown on the 
-		<i>Banner overview</i> page. The extra information includes the destination URL, keywords, 
+		<i>Banners</i> page. The extra information includes the destination URL, keywords, 
 		size and the banner weight.
 		";
 		
 $GLOBALS['phpAds_hlp_gui_show_campaign_preview'] = "
-		If this option is enabled a preview of all banners will be shown on the <i>Banner overview</i> 
+		If this option is enabled a preview of all banners will be shown on the <i>Banners</i> 
 		page. If this option is disabled it is still possible to show a preview of each banner by click 
-		on the triangle next to each banner on the <i>Banner overview</i> page.
+		on the triangle next to each banner on the <i>Banners</i> page.
 		";
 		
 $GLOBALS['phpAds_hlp_gui_show_banner_html'] = "

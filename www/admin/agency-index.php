@@ -198,7 +198,7 @@ else
         echo "\t\t\t\t\t<td height='25'>&nbsp;</td>\n";
         echo "\t\t\t\t\t<td height='25'>&nbsp;</td>\n";
 
-        // Button - Channel overview
+        // Button - Channels
         echo "<td height='25'>";
         if (OA_Permission::hasAccess($agency['account_id'])) {
             echo "<a href='account-switch.php?account_id={$agency['account_id']}'>";

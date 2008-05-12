@@ -30,11 +30,11 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonCrossHistory.ph
 /**
  * The class to display the delivery statistcs for the page:
  *
- * Statistics -> Publishers & Zones -> Zone Overview -> Zone History -> Daily Statistics
+ * Statistics -> Publishers & Zones -> Zones -> Zone History -> Daily Statistics
  *
  * and:
  *
- * Statistics -> Publishers & Zones -> Zone Overview -> Campaign Distribution -> Distribution History -> Daily Statistics
+ * Statistics -> Publishers & Zones -> Zones -> Campaign Distribution -> Distribution History -> Daily Statistics
  *
  * @package    OpenXAdmin
  * @subpackage StatisticsDelivery
