@@ -191,11 +191,11 @@ class Plugins_Reports_Admin_Breakdown extends Plugins_Reports
                 s.date_time <= ". $oDbh->quote($this->_oDaySpan->getEndDateString('%Y-%m-%d %H:%M:%S'), 'date') ."
             GROUP BY
                 agency_name";
-		$aData = $oDbh->queryAll($query);
-		if (PEAR::isError($aData)) {
-		    $aData = array();;
-		}
-		return $aData;
+        $aData = $oDbh->queryAll($query);
+        if (PEAR::isError($aData)) {
+            $aData = array();;
+        }
+        return $aData;
     }
 }
 

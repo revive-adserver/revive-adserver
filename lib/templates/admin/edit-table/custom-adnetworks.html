@@ -30,9 +30,9 @@ $Id$
 <tr>
     <!-- Add logic to the Advertiser Sign Up checkbox, probably in a way similar to the AdNetworks checkbox above -->
     <td width="30">&nbsp;</td>
-    <td width="200">Advertiser Sign Up</td>
+    <td width="200">{t str=AdvertiserSignup}</td>
     <td>
-        <input type="checkbox" name="advsignup" {tabindex} id="advsignup" value="t"{if $_e.vars.checked_advsignup} checked="checked"{/if} class="cb">&nbsp;<label for="advsignup">Sign up for Advertiser self service and Payment</label>
+        <input type="checkbox" name="advsignup" {tabindex} id="advsignup" value="t"{if $_e.vars.checked_advsignup} checked="checked"{/if} class="cb">&nbsp;<label for="advsignup">{t str=AdvertiserSignupDesc}</label>
     </td>
 </tr>
 {*

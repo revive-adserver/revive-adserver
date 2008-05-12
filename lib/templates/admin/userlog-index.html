@@ -86,7 +86,7 @@
                         in {$aValue.parentcontext} (#{$aValue.parentcontextid})
                     {/if}
                     {if !empty($aValue.hasChildren)}
-                        and additional items
+                        {t str=AdditionalItems}
                     {/if}
                 </td>
                 <td><img src="{$assetPath|escape}/images/icon-zoom.gif" />&nbsp;<a href="userlog-audit-detailed.php?auditId={$aValue.auditid}">{t str=View}</a></td>

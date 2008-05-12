@@ -164,17 +164,17 @@ class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends Plugins_Report
     {
         // Prepare the headers for the worksheet
         $aHeaders = array();
-        $key = MAX_Plugin_Translation::translate('Campaign Name', $this->module, $this->package);
+        $key = $GLOBALS['strCampaignName'];
         $aHeaders[$key] = 'text';
         $key = MAX_Plugin_Translation::translate('Type', $this->module, $this->package);
         $aHeaders[$key] = 'text';
-        $key = MAX_Plugin_Translation::translate('Status', $this->module, $this->package);
+        $key = $GLOBALS['strStatus'];
         $aHeaders[$key] = 'text';
-        $key = MAX_Plugin_Translation::translate('Priority', $this->module, $this->package);
+        $key = $GLOBALS['strPriority'];
         $aHeaders[$key] = 'text';
-        $key = MAX_Plugin_Translation::translate('Start Date', $this->module, $this->package);
+        $key = $GLOBALS['strStartDate'];
         $aHeaders[$key] = 'date';
-        $key = MAX_Plugin_Translation::translate('End Date', $this->module, $this->package);
+        $key = $GLOBALS['strEndDate'];
         $aHeaders[$key] = 'date';
         $key = MAX_Plugin_Translation::translate('Booked Impressions', $this->module, $this->package);
         $aHeaders[$key] = 'number';
@@ -192,7 +192,7 @@ class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends Plugins_Report
         $aData = $this->_prepareDeliveryPerformanceData($aData);
         // Add the worksheet
         $this->createSubReport(
-            MAX_Plugin_Translation::translate('Campaign Delivery', $this->module, $this->package),
+            $GLOBALS['strCampaignDelivery'],
             $aHeaders,
             $aData
         );

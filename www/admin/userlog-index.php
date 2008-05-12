@@ -222,6 +222,14 @@ $aUrlParam['$orderdirection']   = ($orderdirection == 'down') ? "orderdirection=
 
 $urlParam = implode('&', $aUrlParam);
 
+//  replace context with translation
+foreach ($aAuditData as $key => $aValue) {
+    $k = 'str'. str_replace(' ', '', $aValue['context']);
+    if (!empty($GLOBALS[$k])) {
+        $aAuditData[$key]['context'] = $GLOBALS[$k];
+    }
+}
+
 //  assign vars to template
 $oTpl->assign('showAdvertisers', $showAdvertisers);
 $oTpl->assign('showPublishers',  $showPublishers);

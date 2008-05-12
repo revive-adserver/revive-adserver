@@ -172,16 +172,16 @@ if (count($aMessages)>0)
                 <tr height='25'>
                     <td height='25'>&nbsp;</td>
                     <td height='25'>
-                        <b style="color: #003399;">&nbsp;&nbsp;Date</b>
+                        <b style="color: #003399;">&nbsp;&nbsp;<?php echo $strDate ?></b>
                     </td>
                     <td height="25">
-                        <b style="color: #003399;">From Version</b>
+                        <b style="color: #003399;"><?php echo $strFromVersion ?></b>
                     </td>
                     <td height="25">
-                        <b style="color: #003399;">To Version</b>
+                        <b style="color: #003399;"><?php echo $strToVersion ?></b>
                     </td>
                     <td height="25">
-                        <b style="color: #003399;">Status</b>
+                        <b style="color: #003399;"><?php echo $strStatus ?></b>
                     </td>
                     <td height='25' width='70'>
                         <b style="color: #003399;">&nbsp;</b>
@@ -206,10 +206,10 @@ if (count($aMessages)>0)
                             if ($v['backups']) {
                         ?>
                         <td height='25' width='25'>
-                            &nbsp;<a href="#" onclick="return false;" title="Toggle data backup details"><img id="img_expand_<?php echo $v['upgrade_action_id']; ?>" src="<?php echo MAX::assetPath() ?>/images/<?php echo $phpAds_TextDirection; ?>/triangle-l.gif" alt="click to view backup details" onclick="xajax_expandOSURow('<?php echo $v['upgrade_action_id']; ?>');" border="0" /><img id="img_collapse_<?php echo $v['upgrade_action_id']; ?>" src="<?php echo MAX::assetPath() ?>/images/triangle-d.gif" style="display:none" alt="click to hide backup details" onclick="xajax_collapseOSURow('<?php echo $v['upgrade_action_id']; ?>');" border="0" /></a>
+                            &nbsp;<a href="#" onclick="return false;" title="<?php echo $strToggleDataBackupDetails ?>"><img id="img_expand_<?php echo $v['upgrade_action_id']; ?>" src="<?php echo MAX::assetPath() ?>/images/<?php echo $phpAds_TextDirection; ?>/triangle-l.gif" alt="<?php echo $GLOBALS['strClickViewBackupDetails'] ?>" onclick="xajax_expandOSURow('<?php echo $v['upgrade_action_id']; ?>');" border="0" /><img id="img_collapse_<?php echo $v['upgrade_action_id']; ?>" src="<?php echo MAX::assetPath() ?>/images/triangle-d.gif" style="display:none" alt="<?php echo $GLOBALS['strClickHideBackupDetails'] ?>" onclick="xajax_collapseOSURow('<?php echo $v['upgrade_action_id']; ?>');" border="0" /></a>
                         </td>
                         <td height='25'>
-                            <b>&nbsp;<a href="#" title="Show data backup details" id="text_expand_<?php echo $v['upgrade_action_id']; ?>" onclick="xajax_expandOSURow('<?php echo $v['upgrade_action_id']; ?>');return false;"><?php echo $v['updated']; ?></a><a href="#" title="Hide data backup details" id="text_collapse_<?php echo $v['upgrade_action_id']; ?>" style="display:none" onclick="xajax_collapseOSURow('<?php echo $v['upgrade_action_id']; ?>');return false;"><?php echo $v['updated']; ?></a></b>
+                            <b>&nbsp;<a href="#" title="<?php echo $strShowBackupDetails ?>" id="text_expand_<?php echo $v['upgrade_action_id']; ?>" onclick="xajax_expandOSURow('<?php echo $v['upgrade_action_id']; ?>');return false;"><?php echo $v['updated']; ?></a><a href="#" title="<?php echo $GLOBALS['strHideBackupDetails'] ?>" id="text_collapse_<?php echo $v['upgrade_action_id']; ?>" style="display:none" onclick="xajax_collapseOSURow('<?php echo $v['upgrade_action_id']; ?>');return false;"><?php echo $v['updated']; ?></a></b>
                         <?php
                             } else {
                         ?>
@@ -219,13 +219,13 @@ if (count($aMessages)>0)
                         ?>
                         </td>
                         <td height='25'>
-                            <?php echo ($v['version_from']) ? $v['version_from'] : '<b>Installation</b>'; ?>
+                            <?php echo ($v['version_from']) ? $v['version_from'] : '<b>'. $strInstallation .'</b>'; ?>
                         </td>
                         <td height='25'>
                             <?php echo $v['version_to']; ?>
                         </td>
                         <td height='25'>
-                            <span style="text-transform:lowercase;"><?php  echo ($v['upgrade_name'] == 'version stamp') ? 'Updated database version stamp' : $v['description']; ?></span>
+                            <span style="text-transform:lowercase;"><?php  echo ($v['upgrade_name'] == 'version stamp') ? $strUpdatedDbVersionStamp : $aProductStatus[$v['description']]; ?></span>
                         </td>
                         <td height='25' align='right'>
                         </td>
@@ -237,7 +237,7 @@ if (count($aMessages)>0)
                         <table width='100%' cellpadding='5' cellspacing='0' border='0' style='border: 0px solid #ccc; margin: 10px 0 10px 0; '>
                         <tr height='20'>
                             <td width="235" style="border-bottom: 1px solid #ccc;">
-                            Artifacts:
+                            <?php echo $strArtifacts ?>:
                             </td>
                             <td width="100" style="border-bottom: 1px solid #ccc;">
                             <?php echo ($v['backups']) ? "<b>" : ""; echo ($v['backupsExist']) ? $v['backups'] + !empty($v['logfile']) + !empty($v['confbackup']) : 0; echo ($v['backups']) ? "</b>" : ""; ?>
@@ -246,7 +246,7 @@ if (count($aMessages)>0)
                             <?php
                             if ($v['backupsExist']) {
                             ?>
-                                <img src='<?php echo MAX::assetPath() ?>/images/icon-recycle.gif' border='0' align='absmiddle' alt='Delete'><input type="submit" name="btn_clean_audit" onClick="return confirm('Do you really want to delete all backups created from this upgrade?')" style="cursor: pointer; border: 0; background: 0; color: #003399;font-size: 13px;" value="Delete Artifacts">
+                                <img src='<?php echo MAX::assetPath() ?>/images/icon-recycle.gif' border='0' align='absmiddle' alt='<?php echo $strDelete ?>'><input type="submit" name="btn_clean_audit" onClick="return confirm('<?php echo $strBackupDeleteConfirm ?>')" style="cursor: pointer; border: 0; background: 0; color: #003399;font-size: 13px;" value="<?php echo $strDeleteArtifacts ?>">
                             <?php
                             } else {
                             ?>
@@ -261,26 +261,26 @@ if (count($aMessages)>0)
                             if ($v['backupsExist']) {
                             ?>
                             <td width="235">
-                            Backup database tables:
+                            <?php echo $strBackupDbTables ?>:
                             </td>
                             <td width="100" colspan="2">
                             <?php echo $v['backups'];
                             if ($v['backups']) {
                             ?>
-                            <a href="#" onclick="return false;" title="Toggle data backup details"><img id="info_expand_<?php echo $v['upgrade_action_id']; ?>" src="<?php echo MAX::assetPath() ?>/images/info.gif" alt="click to view backup details" onclick="xajax_expandOSURow('<?php echo $v['upgrade_action_id']; ?>');" border="0" /><img id="info_collapse_<?php echo $v['upgrade_action_id']; ?>" src="<?php echo MAX::assetPath() ?>/images/info.gif" style="display:none" alt="click to hide backup details" onclick="xajax_collapseOSURow('<?php echo $v['upgrade_action_id']; ?>');" border="0" /></a>
+                            <a href="#" onclick="return false;" title="<?php echo $strToggleDataBackupDetails ?>"><img id="info_expand_<?php echo $v['upgrade_action_id']; ?>" src="<?php echo MAX::assetPath() ?>/images/info.gif" alt="<?php echo $strClickViewBackupDetails ?>" onclick="xajax_expandOSURow('<?php echo $v['upgrade_action_id']; ?>');" border="0" /><img id="info_collapse_<?php echo $v['upgrade_action_id']; ?>" src="<?php echo MAX::assetPath() ?>/images/info.gif" style="display:none" alt="<?php echo $strClickHideBackupDetails ?>" onclick="xajax_collapseOSURow('<?php echo $v['upgrade_action_id']; ?>');" border="0" /></a>
                             <?php
                             }
                             ?>
                             </td>
                         </tr>
                         <tr height='20'>
-                            <td>Log files:</td>
+                            <td><?php echo $strLogFiles ?>:</td>
                             <td colspan="2">
                             <?php echo ($v['logfile']) ? '1' : '0'; ?>
                             </td>
                         </tr>
                         <tr height='20'>
-                            <td>Conf backups:</td>
+                            <td><?php echo $strConfigBackups ?>:</td>
                             <td colspan="2">
                             <?php echo ($v['confbackup']) ? '1' : '0'; ?>
                             </td>

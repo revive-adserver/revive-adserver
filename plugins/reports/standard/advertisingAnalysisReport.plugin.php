@@ -123,18 +123,18 @@ class Plugins_Reports_Standard_AdvertisingAnalysisReport extends Plugins_Reports
         // Prepare the array for displaying the generation page
         $aImport = array(
             'period' => array(
-                'title'            => MAX_Plugin_Translation::translate('Period', $this->module, $this->package),
+                'title'            => $GLOBALS['strPeriod'],
                 'type'             => 'date-month',
                 'default'          => $default_period_preset
             ),
             'scope'  => array(
-                'title'            => MAX_Plugin_Translation::translate('Limitations', $this->module, $this->package),
+                'title'            => $GLOBALS['strLimitations'],
                 'type'             => 'scope',
                 'scope_advertiser' => $default_scope_advertiser,
                 'scope_publisher'  => $default_scope_publisher
             ),
             'sheets' => array(
-                'title'            => MAX_Plugin_Translation::translate('Worksheets', $this->module, $this->package),
+                'title'            => $GLOBALS['strWorksheets'],
                 'type'             => 'sheet',
                 'sheets'           => $aSheets
             )

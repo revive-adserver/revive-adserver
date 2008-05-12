@@ -22,11 +22,12 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id:maintenance.lang.php 20042 2008-05-09 01:10:00Z aj.tarachanowicz@openx.org $
 */
 
 // Main strings
 $GLOBALS['strChooseSection']			= "Choose section";
+$GLOBALS['strAppendCodes']              = 'Append codes';
 
 // Maintenance
 $GLOBALS['strScheduledMaintenanceHasntRun']	   = "<b>Scheduled maintenance hasn't run in the past hour. This may mean that you have not set it up correctly.</b>";
@@ -210,4 +211,35 @@ $GLOBALS['strConvertFinishedExplaination']  	= "
 	to the database.<br />
 ";
 
+//  Maintenace
+$GLOBALS['strAutoMaintenanceDisabled'] = "Automatic maintenance is disabled.";
+$GLOBALS['strAutoMaintenanceEnabled']  = "Automatic maintenance is enabled. For best performance it is advised to <a href='settings-admin.php'>disable automatic maintenance</a>.";
+$GLOBALS['strScheduledMaintenance']         = "Scheduled maintenance seems to be correctly running.";
+$GLOBALS['strScheduledMaintenanceNotRun']   = "Scheduled maintenance hasn't run in the past hour. This may mean that you have not set it up correctly.";
+$GLOBALS['strAutoMaintenanceEnabledNotTriggered']  = "Automatic maintenance is enabled, but it has not been triggered. Note that automatic maintenance is triggered only when Openads delivers banners.";
+$GLOBALS['strAutoMaintenanceBestPerformance']      = "For best performance it is advised to set up <a href='http://docs.openads.org/openads-2.3-guide/maintenance.html' target='_blank'>scheduled maintenance</a>.";
+$GLOBALS['strAutoMaintenanceEnabledWilltTrigger']  = "Automatic maintenance is enabled and will trigger maintenance every hour.";
+$GLOBALS['strAutoMaintenanceDisabledMaintenanceRan'] = "Automatic maintenance is disabled too but a maintenance task has recently run. To make sure that ".MAX_PRODUCT_NAME." works correctly you should either
+ set up <a href='http://docs.openads.org/openads-2.3-guide/maintenance.html' target='_blank'>scheduled maintenance</a> or <a href='settings-admin.php'>enable auto maintenance</a>. ";
+$GLOBALS['strAutoMaintenanceDisabledNotTriggered'] = "Also, automatic maintenance is disabled, so when ".MAX_PRODUCT_NAME." delivers banners, maintenance is not triggered.
+ If you do not plan to run <a href='http://docs.openads.org/openads-2.3-guide/maintenance.html' target='_blank'>scheduled maintenance</a>,
+ you must <a href='settings-admin.php'>enable auto maintenance</a> to ensure that ".MAX_PRODUCT_NAME." works correctly.";
+
+//  Deliver Limitations
+$GLOBALS['strDeliveryLimitations']      = 'Delivery Limitations';
+$GLOBALS['strAllBannerChannelCompiled'] = 'All banner/channel compiled limitation values have been recompiled';
+$GLOBALS['strBannerChannelResult']      = "Here are the results of the banner/channel compiled limitation validation";
+$GLOBALS['strChannelCompiledLimitationsValid']  = "All channel compiled limitations are valid";
+$GLOBALS['strBannerCompiledLimitationsValid']   = "All banner compiled limitations are valid";
+$GLOBALS['strErrorsFound']              = "Errors found";
+$GLOBALS['strRepairCompiledLimitations']        = "Some inconsistancies were found above, you can repair these using the button below, this will recompile the compiled limitation for every banner/channel in the system<br />";
+$GLOBALS['strRecompile']                = 'Recompile';
+
+//  Append codes
+$GLOBALS['strAppendCodesDesc']          = "Under some circumstances the delivery engine can disagree with the stored append codes for trackers, use the folowing link to validate the append codes in the database";
+$GLOBALS['strCheckAppendCodes']         = "Check Append codes";
+$GLOBALS['strAppendCodesRecompiled']    = "All compiled append codes values have been recompiled";
+$GLOBALS['strAppendCodesResult']        = "Here are the results of the compiled append codes validation";
+$GLOBALS['strAppendCodesValid']         = "All tracker compiled appendcodes are valid";
+$GLOBALS['strRepairAppenedCodes']       = "Some inconsistancies were found above, you can repair these using the button below, this will recompile the append codes for every tracker in the system";
 ?>

@@ -43,7 +43,7 @@ function phpAds_getBannerSize ($width, $height)
 		if ($phpAds_IAB[$key]['width'] == $width &&
 			$phpAds_IAB[$key]['height'] == $height)
 		{
-			$result = $key;
+			$result = $GLOBALS['strIab'][$key];
 		}
 	}
 

@@ -55,14 +55,14 @@ phpAds_MaintenanceSelection("acls");
 
 if (!empty($action) && ($action == 'Recompile')) {
     MAX_AclReCompileAll();
-    echo "<strong>All banner/channel compiledlimitation values have been recompiled<br />";
+    echo "<strong>$strAllBannerChannelCompiled</strong><br />";
 }
 
-echo "Here are the results of the banner/channel compiledlimitation validation";
+echo $strBannerChannelResult;
 phpAds_ShowBreak();
-// Check the ACLs in the database against the compiledlimitation strings...
+// Check the ACLs in the database against the compiled limitation strings...
 
-echo "<strong>Channels:</strong>";
+echo "<strong>". $strChannels .":</strong>";
 phpAds_showBreak();
 
 // Check all the channels...
@@ -80,11 +80,11 @@ while ($rsChannel->fetch() && $row = $rsChannel->toArray()) {
     }
 }
 if ($allChannelsValid) {
-    echo "All channel compiledlimitations are valid";
+    echo $strChannelCompiledLimitationsValid;
 }
 phpAds_showBreak();
 
-echo "<strong>Banners:</strong>";
+echo "<strong>$strBanners:</strong>";
 phpAds_ShowBreak();
 
 $dalBanners = OA_Dal::factoryDAL('banners');
@@ -102,15 +102,15 @@ while ($rsBanners->fetch() && $row = $rsBanners->toArray()) {
     }
 }
 if ($allBannersValid) {
-    echo "All banner compiledlimitations are valid";
+    echo $strBannerCompiledLimitationsValid;
 }
 
 if (!$allBannersValid || !$allChannelsValid) {
     phpAds_ShowBreak();
-    echo "<br /><strong>Errors found</strong><br /><br />";
-    echo "Some inconsistancies were found above, you can repair these using the button below, this will recompile the compiledlimitation for every banner/channel in the system<br />";
+    echo "<br /><strong>". $strErrorsFound ."</strong><br /><br />";
+    echo $strRepairCompiledLimitations;
     echo "<form action='{$_SERVER['PHP_SELF']}' METHOD='GET'>";
-    echo "<input type='submit' name='action' value='Recompile' />";
+    echo "<input type='submit' name='action' value='$strRecompile' />";
     echo "</form>";
 }
 ?>

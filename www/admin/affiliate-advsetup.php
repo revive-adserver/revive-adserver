@@ -97,7 +97,7 @@ This Website is not subscribed to Ad Networks.
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tbody>
-   <tr><td height="25" colspan="3"><b>Advertiser Sign Up options</b></td></tr>
+   <tr><td height="25" colspan="3"><b><?php echo $strAdvertiserSignupOption ?>/b></td></tr>
    <tr height="1">
    <td width="30"><img width="30" height="1" src="<?php echo MAX::assetPath() ?>/images/break.gif"/></td>
       <td width="200"><img width="200" height="1" src="<?php echo MAX::assetPath() ?>/images/break.gif"/></td>
@@ -108,7 +108,7 @@ This Website is not subscribed to Ad Networks.
    </tr>
    <tr>
       <td width="100%" colspan="3">
-         To edit your Advertiser Sign Up options, follow to
+         <?php echo $strAdvertiserSignupOptionDesc ?>
          <a target="_blank" href="<?php echo $publisherCentralLink?>"><?php echo $publisherCentralLink?></a>
       </td>
    </tr>
@@ -117,7 +117,7 @@ This Website is not subscribed to Ad Networks.
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-top: 30px">
 <tbody>
-   <tr><td height="25" colspan="3"><b>Advertiser Sign Up link</b></td></tr>
+   <tr><td height="25" colspan="3"><b><?php echo $strAdvertiserSignupLink ?></b></td></tr>
    <tr height="1">
    <td width="30"><img width="30" height="1" src="<?php echo MAX::assetPath() ?>/images/break.gif"/></td>
       <td width="200"><img width="200" height="1" src="<?php echo MAX::assetPath() ?>/images/break.gif"/></td>
@@ -128,8 +128,8 @@ This Website is not subscribed to Ad Networks.
    </tr>
    <tr>
       <td width="100%" colspan="3">
-         To add an Advertiser Sign Up link to your site, please copy the HTML below:
-         <pre class="invocation-codes js"><?php echo $advertiserSignUpHTML?></pre>
+        <?php echo $strAdvertiserSignupLinkDesc ?>
+        <pre class="invocation-codes js"><?php echo $advertiserSignUpHTML?></pre>
       </td>
    </tr>
 </tbody>

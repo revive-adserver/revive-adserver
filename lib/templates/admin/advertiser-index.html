@@ -33,7 +33,7 @@ $Id$
 <br>
 
 <div class="section">
-<div class="title">&nbsp;Advertisers</div>
+<div class="title">&nbsp;{t str=Clients}</div>
 <div class="content">
 
 {include file=advertiser-index-list.html from=$aAdvertisers aCount=$aCount}
@@ -42,13 +42,13 @@ $Id$
 </div>
 
 <div class="section">
-<div class="title">&nbsp;Overall</div>
+<div class="title">&nbsp;{t str=Overall}</div>
 <div class="content">
 <table width="100%" border="0" align="center" cellspacing="0" cellpadding="0">
   <tr>
-    <td height="25"><b>{$aCount.advertisers}</b> advertiser(s)</td>
-    <td height="25"><b>{$aCount.campaigns}</b> campaign(s) (<i>{$aCount.campaigns_active} active</i>)</td>
-    <td height="25"><b>{$aCount.banners}</b> banner(s) (<i>{$aCount.banners_active} active</i>)</td>
+    <td height="25"><b>{$aCount.advertisers}</b> {t str=OverallAdvertisers}</td>
+    <td height="25"><b>{$aCount.campaigns}</b> {t str=OverallCampaigns} (<i>{$aCount.campaigns_active} {t str=Active}</i>)</td>
+    <td height="25"><b>{$aCount.banners}</b> {t str=OverallBanners} (<i>{$aCount.banners_active} {t str=Active}</i>)</td>
   </tr>
   <tr class="break">
       <td colspan="3"></td>

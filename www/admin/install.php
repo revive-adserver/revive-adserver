@@ -76,6 +76,10 @@ require_once MAX_PATH . '/lib/OA/Permission.php';
 require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 require_once MAX_PATH . '/lib/OA/Admin/Option.php';
+require_once MAX_PATH . '/lib/max/language/Loader.php';
+
+//  load translations for installer
+Language_Loader::load('installer');
 
 $options = new OA_Admin_Option('settings');
 
@@ -262,7 +266,7 @@ else if (array_key_exists('btn_upgrade', $_POST))
         {
             if ($oUpgrader->install($_POST['aConfig']))
             {
-                $message = 'Your database has successfully been created for OpenX '.OA_VERSION;
+                $message = $strDBCreatedSuccesful.' '.OA_VERSION;
                 $action  = OA_UPGRADE_INSTALL;
             }
         }
@@ -274,7 +278,7 @@ else if (array_key_exists('btn_upgrade', $_POST))
             }
             elseif ($oUpgrader->upgrade($oUpgrader->package_file))
             {
-                $message = 'Upgrade completed';
+                $message = $strUpgradeComplete;
                 $action  = OA_UPGRADE_UPGRADE;
 
                 // Timezone support - hack
@@ -347,7 +351,7 @@ else if (array_key_exists('btn_adminsetup', $_POST))
                 }
                 else
                 {
-                    $message = 'Congratulations, you have finished upgrading OpenX';
+                    $message = $strUpgradeComplete;
                     //$oUpgrader->setOpenadsInstalledOn();
                     $action = OA_UPGRADE_FINISH;
                 }
@@ -357,9 +361,9 @@ else if (array_key_exists('btn_adminsetup', $_POST))
         {
             $aConfig    = $_POST['aConfig'];
             if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL) {
-                $errMessage = 'We are unable to create your configuration file. Please re-check the permissions of the OpenX var folder.';
+                $errMessage = $strUnableCreateConfFile;
             } else {
-                $errMessage = 'We are unable to update your configuration file. Please re-check the permissions of the OpenX var folder, and also check the permissions of the previous install\'s config file that you copied into this folder.';
+                $errMessage = $strUnableUpdateConfFile;
             }
             $action     = OA_UPGRADE_CONFIGSETUP;
         }
@@ -398,11 +402,11 @@ else if (array_key_exists('btn_finish', $_POST))
 
             // Save admim account preference for timezone
             $oUpgrader->putTimezoneAccountPreference($_POST['aPrefs']);
-            $message = 'Your OpenX installation is now complete.';
+            $message = $strInstallComplete;
         }
         else
         {
-            $message = 'Congratulations you have finished upgrading Openads';
+            $message = $strUpgradeComplete;
         }
     }
     //$oUpgrader->setOpenadsInstalledOn();

@@ -271,6 +271,7 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
                 $Dataset2,
                 IMAGE_GRAPH_AXIS_Y_SECONDARY
             );
+            $PlotA->setTitle($strStatsArea);
             $AxisY =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
             $AxisY->forceMinimum(.1);
             $AxisYsecondary =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y_SECONDARY);

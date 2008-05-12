@@ -166,19 +166,19 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
         // Prepare the array for displaying the generation page
         $aImport = array(
             'period' => array(
-                'title'            => MAX_Plugin_Translation::translate('Period', $this->module, $this->package),
+                'title'            => $GLOBALS['strPeriod'],
                 'type'             => 'date-month',
                 'default'          => $default_period_preset
             ),
             'scope'  => array(
-                'title'            => MAX_Plugin_Translation::translate('Limitations', $this->module, $this->package),
+                'title'            => $GLOBALS['strLimitations'],
                 'type'             => 'scope',
                 'filter'           => 'tracker-present',
                 'scope_advertiser' => $default_scope_advertiser,
                 'scope_publisher'  => $default_scope_publisher
             ),
             'sheets' => array(
-                'title'            => MAX_Plugin_Translation::translate('Worksheets', $this->module, $this->package),
+                'title'            => $GLOBALS['strWorksheets'],
                 'type'             => 'sheet',
                 'sheets'           => array(
                     'performance_by_day'   => MAX_Plugin_Translation::translate('Performance by Day', $this->module, $this->package),
@@ -345,7 +345,7 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
             $aStatus = $this->_getConnectionStatuses();
             // Prepare the tracker's data
             $aHeaders = array();
-            $key = MAX_Plugin_Translation::translate('Date', $this->module, $this->package);
+            $key = $GLOBALS['strDate'];
             $aHeaders[$key] = 'date';
             $key = MAX_Plugin_Translation::translate('Total Connections', $this->module, $this->package);
             $aHeaders[$key] = 'number';
@@ -437,9 +437,9 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
             $trackerName = MAX_getTrackerName($aTracker['tracker_name'], null, $trackerAnonymous, $trackerId);
             // Prepare the tracker's data
             $aHeaders = array();
-            $key = MAX_Plugin_Translation::translate('Date', $this->module, $this->package);
+            $key = $GLOBALS['strDate'];
             $aHeaders[$key] = 'date';
-            $key = MAX_Plugin_Translation::translate('Conversions', $this->module, $this->package);
+            $key = $GLOBALS['strConversions'];
             $aHeaders[$key] = 'numeric';
             if (!empty($aTracker['variables'])) {
                 foreach ($aTracker['variables'] as $trackerVariableId => $aTrackerVariable) {
@@ -447,9 +447,9 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
                     if (($aTrackerVariable['tracker_variable_data_type'] == 'int' || $aTrackerVariable['tracker_variable_data_type'] == 'numeric') && ($aTrackerVariable['tracker_variable_is_unique'] == 0)) {
                         // Don't display if the user is a publisher and the variable is hidden
                         if (!OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || $aTrackerVariable['tracker_variable_hidden'] != 't') {
-                            $key = MAX_Plugin_Translation::translate('Total ' . $variableName, $this->module, $this->package);
+                            $key = $GLOBALS['strTotal'];
                             $aHeaders[$key] = 'numeric';
-                            $key = MAX_Plugin_Translation::translate('Average ' . $variableName, $this->module, $this->package);
+                            $key = $GLOBALS['strAverage'];
                             $aHeaders[$key] = 'decimal';
                         }
                     }
@@ -567,9 +567,9 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
                     $trackerAnonymous = $this->_isTrackerLinkedToAnonymousCampaign($trackerId);
                     $trackerName = MAX_getTrackerName($aTracker['tracker_name'].' - '.$bdVariableName, null, $trackerAnonymous, $trackerId);
                     $aHeaders = array();
-                    $key = MAX_Plugin_Translation::translate('Value', $this->module, $this->package);
+                    $key = $GLOBALS['strValue'];
                     $aHeaders[$key] = $aBdVariable['tracker_variable_data_type'] == 'date' ? 'datetime' : 'text';
-                    $key = MAX_Plugin_Translation::translate('Conversions', $this->module, $this->package);
+                    $key = $GLOBALS['strConversions'];
                     $aHeaders[$key] = 'numeric';
                     if (!empty($aTracker['variables'])) {
                         foreach ($aTracker['variables'] as $trackerVariableId => $aTrackerVariable) {
@@ -577,9 +577,9 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
                             if (($aTrackerVariable['tracker_variable_data_type'] == 'int' || $aTrackerVariable['tracker_variable_data_type'] == 'numeric') && ($aTrackerVariable['tracker_variable_is_unique'] == 0)) {
                                 // Don't display if the user is a publisher and the variable is hidden
                                 if (!OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || $aTrackerVariable['tracker_variable_hidden'] != 't') {
-                                    $key = MAX_Plugin_Translation::translate('Total ' . $variableName, $this->module, $this->package);
+                                    $key = $GLOBALS['strTotal'];
                                     $aHeaders[$key] = 'numeric';
-                                    $key = MAX_Plugin_Translation::translate('Average ' . $variableName, $this->module, $this->package);
+                                    $key = $GLOBALS['strAverage'];
                                     $aHeaders[$key] = 'decimal';
                                 }
                             }
@@ -678,12 +678,12 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
             $key = MAX_Plugin_Translation::translate('Comment', $this->module, $this->package);
             $aHeaders[$key] = 'text';
             if ($this->_shouldDisplaySourceField()) {
-                $key = MAX_Plugin_Translation::translate('Source', $this->module, $this->package);
+                $key = $GLOBALS['strSource'];
                 $aHeaders[$key] = 'text';
             }
             $key = MAX_Plugin_Translation::translate('Advertiser Name', $this->module, $this->package);
             $aHeaders[$key] = 'text';
-            $key = MAX_Plugin_Translation::translate('Tracker Name', $this->module, $this->package);
+            $key = $GLOBALS['strTrackerName'];
             $aHeaders[$key] = 'text';
             $key = MAX_Plugin_Translation::translate('Ad Name', $this->module, $this->package);
             $aHeaders[$key] = 'text';
@@ -697,17 +697,17 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
             $aHeaders[$key] = 'datetime';
             $key = MAX_Plugin_Translation::translate('IP Address', $this->module, $this->package);
             $aHeaders[$key] = 'text';
-            $key = MAX_Plugin_Translation::translate('Country', $this->module, $this->package);
+            $key = $GLOBALS['strCountry'];
             $aHeaders[$key] = 'text';
-            $key = MAX_Plugin_Translation::translate('Domain', $this->module, $this->package);
+            $key = $GLOBALS['strDomain'];
             $aHeaders[$key] = 'text';
-            $key = MAX_Plugin_Translation::translate('Language', $this->module, $this->package);
+            $key = $GLOBALS['strLanguage'];
             $aHeaders[$key] = 'text';
-            $key = MAX_Plugin_Translation::translate('OS', $this->module, $this->package);
+            $key = $GLOBALS['strOS'];
             $aHeaders[$key] = 'text';
-            $key = MAX_Plugin_Translation::translate('Browser', $this->module, $this->package);
+            $key = $GLOBALS['strBrowser'];
             $aHeaders[$key] = 'text';
-            $key = MAX_Plugin_Translation::translate('Window Delay', $this->module, $this->package);
+            $key = $GLOBALS['strWindowDelay'];
             $aHeaders[$key] = 'text';
             $aData = array();
             if (!empty($aConnections[$trackerId]['connections'])) {
@@ -1211,15 +1211,15 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
         switch ($code)
         {
             case MAX_CONNECTION_AD_IMPRESSION:
-                return MAX_Plugin_Translation::translate('Impression', $this->module, $this->package);
+                return $GLOBALS['strImpression'];
             case MAX_CONNECTION_AD_CLICK:
-                return MAX_Plugin_Translation::translate('Click', $this->module, $this->package);
+                return $GLOBALS['strClick'];
             case MAX_CONNECTION_AD_MANUAL:
-                return MAX_Plugin_Translation::translate('Manual', $this->module, $this->package);
+                return $GLOBALS['strManual'];
             case MAX_CONNECTION_AD_ARRIVAL:
-                return MAX_Plugin_Translation::translate('Arrival', $this->module, $this->package);
+                return $GLOBALS['strArrival'];
         }
-        return MAX_Plugin_Translation::translate('Unknown', $this->module, $this->package);
+        return $GLOBALS['strUnknown'];
     }
 
     /**

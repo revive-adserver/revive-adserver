@@ -289,9 +289,9 @@ echo "
         </tr>
         <tr>
             <td width='30'>&nbsp;</td>
-            <td width='200'>Inventory Forecasting</td>
+            <td width='200'>$strInventoryForecasting</td>
             <td width='100%'>
-                <input type='checkbox' id='inventory_forecast_type_channel' name='inventory_forecast_type_channel' value='8'".($zone['inventory_forecast_type'] & 8 ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;<label for='inventory_forecast_type_channel'>Channel</label><br />
+                <input type='checkbox' id='inventory_forecast_type_channel' name='inventory_forecast_type_channel' value='8'".($zone['inventory_forecast_type'] & 8 ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;$strChannel<br />
             </td>
         </tr>
         <tr>

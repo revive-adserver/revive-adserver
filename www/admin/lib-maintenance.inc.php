@@ -89,10 +89,11 @@ function maintenance_goto_section()
 //                echo "<option value='cache'".($subSection == 'zones' ? ' selected' : '').">".$strCache."</option>";
 
             if ($conf['delivery']['acls']) {
-                echo "<option value='acls'".($subSection == 'acls' ? ' selected' : '').">Delivery Limitations</option>";
+                echo "<option value='acls'".($subSection == 'acls' ? ' selected' : '').">".$strDeliveryLimitations."</option>";
             }
 
-            echo "<option value='appendcodes'".($subSection == 'appendcodes' ? ' selected' : '').">Append codes</option>";
+            echo "<option value='appendcodes'".($subSection == 'appendcodes' ? ' selected' : '').">".$strAppendCodes."</option>";
+            echo "<option value='encoding'".($subSection == 'encoding' ? ' selected' : '').">$strEncoding</option>";
             echo "<option value='encoding'".($subSection == 'encoding' ? ' selected' : '').">$strEncoding</option>";
         }
     }

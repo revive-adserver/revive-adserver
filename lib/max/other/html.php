@@ -1582,11 +1582,11 @@ function MAX_displayAcls($acls, $aParams) {
         // We are part way through making changes, show a message
         //echo "<br>";
         echo "<div class='errormessage'><img class='errormessage' src='" . MAX::assetPath() . "/images/warning.gif' align='absmiddle'>";
-        echo "<span class='tab-s'>You have unsaved changes on this page, make sure you press &quot;Save Changes&quot; when finished</span><br>";
+        echo "<span class='tab-s'>$strUnsavedChanges</span><br>";
         echo "</div>";
     } elseif (!MAX_AclValidate($page, $aParams)) {
         echo "<div class='errormessage'><img class='errormessage' src='" . MAX::assetPath() . "/images/warning.gif' align='absmiddle'>";
-        echo "<span class='tab-r'>WARNING: The delivery engine limitations <strong>DO NOT AGREE</strong> with the limitations shown below<br />Please hit save changes to update the delivery engine's rules</span><br>";
+        echo "<span class='tab-r'>$strDeliveryLimitationsDisagree</span><br>";
         echo "</div>";
     }
 

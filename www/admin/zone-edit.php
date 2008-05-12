@@ -477,9 +477,9 @@ foreach (array_keys($phpAds_IAB) as $key)
 {
     if ($phpAds_IAB[$key]['width'] == $zone['width'] &&
         $phpAds_IAB[$key]['height'] == $zone['height'])
-        echo "<option value='".$phpAds_IAB[$key]['width']."x".$phpAds_IAB[$key]['height']."' selected>".$key."</option>";
+        echo "<option value='".$phpAds_IAB[$key]['width']."x".$phpAds_IAB[$key]['height']."' selected>".$GLOBALS['strIab'][$key]."</option>";
     else
-        echo "<option value='".$phpAds_IAB[$key]['width']."x".$phpAds_IAB[$key]['height']."'>".$key."</option>";
+        echo "<option value='".$phpAds_IAB[$key]['width']."x".$phpAds_IAB[$key]['height']."'>".$GLOBALS['strIab'][$key]."</option>";
 }
 
 echo "<option value='-'".(!$exists ? ' SELECTED' : '').">Custom</option>";
@@ -508,11 +508,11 @@ echo "  <option value='".MAX_FINANCE_CPM."' ".(($zone['cost_type'] == MAX_FINANC
 echo "  <option value='".MAX_FINANCE_CPC."' ".(($zone['cost_type'] == MAX_FINANCE_CPC) ? ' SELECTED ' : '').">$strFinanceCPC</option>";
 echo "  <option value='".MAX_FINANCE_CPA."' ".(($zone['cost_type'] == MAX_FINANCE_CPA) ? ' SELECTED ' : '').">$strFinanceCPA</option>";
 echo "  <option value='".MAX_FINANCE_MT."' ".(($zone['cost_type'] == MAX_FINANCE_MT) ? ' SELECTED ' : '').">$strFinanceMT</option>";
-echo "  <option value='".MAX_FINANCE_RS."' ".(($zone['cost_type'] == MAX_FINANCE_RS) ? ' SELECTED ' : '').">". '% Revenue split' ."</option>";
-echo "  <option value='".MAX_FINANCE_BV."' ".(($zone['cost_type'] == MAX_FINANCE_BV) ? ' SELECTED ' : '').">". '% Basket value' ."</option>";
-echo "  <option value='".MAX_FINANCE_AI."' ".(($zone['cost_type'] == MAX_FINANCE_AI) ? ' SELECTED ' : '').">". 'Amount per item' ."</option>";
-echo "  <option value='".MAX_FINANCE_ANYVAR."' ".(($zone['cost_type'] == MAX_FINANCE_ANYVAR) ? ' SELECTED ' : '').">". '% Custom variable' ."</option>";
-echo "  <option value='".MAX_FINANCE_VARSUM."' ".(($zone['cost_type'] == MAX_FINANCE_VARSUM) ? ' SELECTED ' : '').">". '% Sum of variables' ."</option>";
+echo "  <option value='".MAX_FINANCE_RS."' ".(($zone['cost_type'] == MAX_FINANCE_RS) ? ' SELECTED ' : '').">$strPercentRevenueSplit</option>";
+echo "  <option value='".MAX_FINANCE_BV."' ".(($zone['cost_type'] == MAX_FINANCE_BV) ? ' SELECTED ' : '')."> $strPercentBasketValue</option>";
+echo "  <option value='".MAX_FINANCE_AI."' ".(($zone['cost_type'] == MAX_FINANCE_AI) ? ' SELECTED ' : '').">$strAmountPerItem</option>";
+echo "  <option value='".MAX_FINANCE_ANYVAR."' ".(($zone['cost_type'] == MAX_FINANCE_ANYVAR) ? ' SELECTED ' : '').">$strPercentCustomVariable</option>";
+echo "  <option value='".MAX_FINANCE_VARSUM."' ".(($zone['cost_type'] == MAX_FINANCE_VARSUM) ? ' SELECTED ' : '').">$strPercentSumVariables</option>";
 echo "</select>";
 echo "&nbsp;&nbsp;";
 echo "<span id='cost_cpm_description' style='margin-left: 7px;'>per single impression<span>";
@@ -593,7 +593,7 @@ echo "&nbsp;&nbsp;";
 echo "<select name='technology_cost_type' id='technology_cost_type' onchange='m3_updateFinance()'>";
 echo "  <option value='".MAX_FINANCE_CPM."' ".(($zone['technology_cost_type'] == MAX_FINANCE_CPM) ? ' SELECTED ' : '').">$strFinanceCPM</option>";
 echo "  <option value='".MAX_FINANCE_CPC."' ".(($zone['technology_cost_type'] == MAX_FINANCE_CPC) ? ' SELECTED ' : '').">$strFinanceCPC</option>";
-echo "  <option value='".MAX_FINANCE_RS."' ".(($zone['technology_cost_type'] == MAX_FINANCE_RS) ? ' SELECTED ' : '').">". '% Revenue split' ."</option>";
+echo "  <option value='".MAX_FINANCE_RS."' ".(($zone['technology_cost_type'] == MAX_FINANCE_RS) ? ' SELECTED ' : '').">$strPercentRevenueSplit</option>";
 echo "</select>";
 echo "&nbsp;&nbsp;";
 echo "<span id='technology_cost_cpm_description' style='margin-left: 7px;'>per single impression<span>";

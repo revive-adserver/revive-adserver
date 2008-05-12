@@ -346,23 +346,21 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 		}
 		echo "</td>";
 
-        // status
-        if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) {
-            if ($campaigns[$ckey]['status'] == -1) {
-                echo "<td class=\"sts sts-pending\">Pending</td>";
-            } elseif ($campaigns[$ckey]['status'] == 0) {
-                echo "<td class=\"sts sts-accepted\">Running</td>";
-            } elseif ($campaigns[$ckey]['status'] == 1) {
-                echo "<td class=\"sts sts-paused\">Paused</td>";
-            } elseif ($campaigns[$ckey]['status'] == 2) {
-                echo "<td class=\"sts not-started\">Not started yet</td>";
-            } elseif ($campaigns[$ckey]['status'] == 3) {
-                echo "<td class=\"sts sts-finished\">Finished</td>";
-            } elseif ($campaigns[$ckey]['status'] == 21) {
-                echo "<td class=\"sts sts-awaiting\"><a href='campaign-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'>Awaiting approval &raquo;</a></td>";
-            } elseif ($campaigns[$ckey]['status'] == 22) {
-                echo "<td class=\"sts sts-rejected\">Rejected</td>";
-            }
+    // status
+        if ($campaigns[$ckey]['status'] == -1) {
+            echo "<td class=\"sts sts-pending\">$strCampaignStatusPending</td>";
+        } elseif ($campaigns[$ckey]['status'] == 0) {
+            echo "<td class=\"sts sts-accepted\">$strCampaignStatusRunning;</td>";
+        } elseif ($campaigns[$ckey]['status'] == 1) {
+            echo "<td class=\"sts sts-paused\">$strCampaignStatusPaused;</td>";
+        } elseif ($campaigns[$ckey]['status'] == 2) {
+            echo "<td class=\"sts not-started\">$strCampaignStatusAwaiting</td>";
+        } elseif ($campaigns[$ckey]['status'] == 3) {
+            echo "<td class=\"sts sts-finished\">$strCampaignStatusExpired</td>";
+        } elseif ($campaigns[$ckey]['status'] == 21) {
+            echo "<td class=\"sts sts-awaiting\"><a href='campaign-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'>$strCampaignStatusApproval &raquo;</a></td>";
+        } elseif ($campaigns[$ckey]['status'] == 22) {
+            echo "<td class=\"sts sts-rejected\">$strCampaignStatusRejected</td>";
         }
 
         //echo "<td height='25'><span class='sts-awaiting'><a href='campaign-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'>Awaiting approval &raquo;</a></span></td>";

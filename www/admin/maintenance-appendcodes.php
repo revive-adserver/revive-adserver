@@ -48,8 +48,8 @@ phpAds_MaintenanceSelection("appendcodes");
 
 echo "<br />";
 
-echo "<img src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>Under some circumstances the delivery engine can disagree with the stored append codes for trackers, use the folowing link to validate the append codes in the database<br /><br />";
-echo "&nbsp;<a href='maintenance-appendcode-check.php'>Check Append codes</a>&nbsp;&nbsp;";
+echo "<img src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>". $strAppendCodesDesc ."<br /><br />";
+echo "&nbsp;<a href='maintenance-appendcode-check.php'>". $strCheckAppendCodes ."</a>&nbsp;&nbsp;";
 echo "<br /><br />";
 phpAds_ShowBreak();
 

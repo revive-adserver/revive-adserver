@@ -57,14 +57,14 @@ $tr = & new MAX_Dal_Inventory_Trackers();
 
 if (!empty($action) && ($action == 'Recompile')) {
     $tr->recompileAppendCodes();
-    echo "<strong>All compiled appendcodes values have been recompiled<br />";
+    echo "<strong>$strAppendCodesRecompiled<br />";
 }
 
-echo "Here are the results of the compiled appendcodes validation";
+echo $strAppendCodesResult;
 phpAds_ShowBreak();
 // Check the append codes in the database against the compiled appendcode strings...
 
-echo "<strong>Trackers:</strong>";
+echo "<strong>$strTrackers:</strong>";
 phpAds_showBreak();
 
 // Check all the trackers...
@@ -75,16 +75,16 @@ foreach ($diffs as $v) {
 }
 
 if ($allTrackersValid = !count($diffs)) {
-    echo "All tracker compiled appendcodes are valid";
+    echo $strAppendCodesValid;
 }
 phpAds_showBreak();
 
 if (!$allTrackersValid) {
     phpAds_ShowBreak();
-    echo "<br /><strong>Errors found</strong><br /><br />";
-    echo "Some inconsistancies were found above, you can repair these using the button below, this will recompile the append codes for every tracker in the system<br />";
+    echo "<br /><strong>$strErrorsFound</strong><br /><br />";
+    echo "$strRepairAppenedCodes<br />";
     echo "<form action='{$_SERVER['PHP_SELF']}' METHOD='GET'>";
-    echo "<input type='submit' name='action' value='Recompile' />";
+    echo "<input type='submit' name='action' value='$strRecompile' />";
     echo "</form>";
 }
 ?>

@@ -22,57 +22,14 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id:invocation.lang.php 20042 2008-05-09 01:10:00Z aj.tarachanowicz@openx.org $
 */
 
-$conf = $GLOBALS['_MAX']['CONF'];
-
-$words = array(
-    // Long names
-    '_Revenue'         => 'Einnahmen',
-    '_Cost'            => 'Kosten',
-    '_Basket value'    => 'Warenkorb Wert',
-    '_Number of items' => 'St&uuml;ckzahl',
-    '_Revenue CPC'     => 'Einnahmen CPC',
-    '_Cost CPC'        => 'Kosten CPC',
-    '_Technology Cost' => 'Serverkosten',
-    '_Income'          => 'Einnahmen',
-    '_Income Margin'   => 'Verdienstspanne',
-    '_Profit'          => 'Gewinn',
-    '_Margin'          => 'Gewinnmarge',
-    '_ERPM'            => 'ERPM',
-    '_ERPC'            => 'ERPC',
-    '_ERPS'            => 'ERPS',
-    '_EIPM'            => 'EIPM',
-    '_EIPC'            => 'EIPC',
-    '_EIPS'            => 'EIPS',
-    '_EPPM'            => 'EPPM',
-    '_EPPC'            => 'EPPC',
-    '_ECPS'            => 'ECPS',
-    '_EPPS'            => 'EPPS',
-
-    // Short names
-    'Revenue'         => 'Einn.',
-    'Cost'            => 'Kosten',
-    'Basket value'    => 'WK',
-    'Number of items' => 'Stk',
-    'Revenue CPC'     => 'Einn. CPC',
-    'Cost CPC'        => 'Kosten CPC',
-    'Technology Cost' => 'Server',
-    'Income'          => 'Einnahmen',
-    'Income Margin'   => 'Verdienstsp.',
-    'Profit'          => 'Gewinn',
-    'Margin'          => 'Gew.Marge',
-    'ERPM'            => 'ERPM',
-    'ERPC'            => 'ERPC',
-    'ERPS'            => 'ERPS',
-    'EIPM'            => 'EIPM',
-    'EIPC'            => 'EIPC',
-    'EIPS'            => 'EIPS',
-    'EPPM'            => 'EPPM',
-    'EPPC'            => 'EPPC',
-    'ECPS'            => 'ECPS',
-    'EPPS'            => 'EPPS',
-);
-
+$GLOBALS['strContinue']                         = 'Continue';
+$GLOBALS['strUpgradeCompleted']                 = 'Upgrade completed';
+$GLOBALS['strDBCreatedSuccessful']              = 'Your database has successfully been created for '. MAX_PRODUCT_NAME;
+$GLOBALS['strInstallComplete']                  = 'Your OpenX installation is now complete.';
+$GLOBALS['strUpgradeComplete']                  = 'Congratulations, you have finished upgrading '. MAX_PRODUCT_NAME;
+$GLOBALS['strUnableCreateConfFile']             = 'We are unable to create your configuration file. Please re-check the permissions of the '. MAX_PRODUCT_NAME .' var folder.';
+$GLOBALS['strUnableUpdateConfFile']             = 'We are unable to update your configuration file. Please re-check the permissions of the '. MAX_PRODUCT_NAME .' var folder, and also check the permissions of the previous install\'s config file that you copied into this folder.';
 ?>

@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id:settings.lang.php 20042 2008-05-09 01:10:00Z aj.tarachanowicz@openx.org $
 */
 
 // Installer translation strings

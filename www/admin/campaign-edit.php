@@ -837,7 +837,7 @@ if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) {
          </tbody>
     </table>
     <div style="width:100%;text-align:left;padding: 15px 0px 0px 0px;margin-bottom: 50px;">
-    <input value="Change status" name='submit_status' type="submit" {tabindex}>
+    <input value="<?php echo $strChangeStatus ?>" name='submit_status' type="submit" {tabindex}>
     </div>
 
     <?php
@@ -908,14 +908,15 @@ echo "<tr><td colspan='3'>\n";
 		      <input type="radio" value="no" name="rd_impr_bkd" id="limitedimpressions" tabindex='<?php echo ($tabindex++); ?>' <?php echo ($row["impressions"] >= 0 ? 'checked' : '') ?> /><input class='flat' type='text' name='impressions' size='25'  value='<?php echo ($row["impressions"] >= 0 ? $row["impressions"] : '-') ?>' tabindex='<?php echo ($tabindex++); ?>'>
 		    </div>
 		    <div id="remainingImpressionsSection">
-			    <span id='remainingImpressions' >Impressions remaining:<span id='remainingImpressionsCount'>2500</span></span><br/>
+			    <span id='remainingImpressions' ><?php echo $strImpressionsRemaining ?>:<span id='remainingImpressionsCount'>2500</span></span><br/>
 			    <?php if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) { ?>
-					  <!--span id="openadsRemainingImpressions">OpenX impressions remaining: <span id='openadsRemainingImpressionsCount'>3000<!-- REAL DATA GOES HERE -></span>
-					    <span class="link hide" help="help-openads-remaining-impressions" id="openadsRemainingImpressionsHelpLink"><img style="border: none; position: relative; top:5px;" src="<?php echo MAX::assetPath() ?>/images/help-book.gif" /></span>
-			      </span-->
-			     	<div class="hide" id="help-openads-remaining-impressions" style="height: auto; width: 290px;">
-		          Campaign's remaining impressions number is too small to satisfy the number booked by advertiser. It means that the local remaining click number is lower than central remaining click number and you should increase the booked impressions by the missing value.
-		       	</div>
+
+				  <!-- span id="openadsRemainingImpressions"><?php echo $strOpenxImpressionsRemaining ?>: <span id='openadsRemainingImpressionsCount'>3000<!-- REAL DATA GOES HERE --></span>
+				    <span class="link hide" help="help-openads-remaining-impressions" id="openadsRemainingImpressionsHelpLink"><img style="border: none; position: relative; top:5px;" src="<?php echo MAX::assetPath() ?>/images/help-book.gif" /></span>
+		      </span -->
+		     	<div class="hide" id="help-openads-remaining-impressions" style="height: auto; width: 290px;">
+	          		<?php echo $strOpenxImpressionsRemainingHelp ?>
+	       	    </div>
 	       	<?php } ?>
 		    </div>
 		  </div>
@@ -937,15 +938,15 @@ echo "<tr><td colspan='3'>\n";
           <input type="radio" value="no" name="rd_click_bkd" id="limitedclicks" tabindex='<?php echo ($tabindex++); ?>' <?php echo ($row["clicks"] >= 0 ? 'checked' : '') ?> /><input class='flat' type='text' name='clicks' size='25'  value='<?php echo ($row["clicks"] >= 0 ? $row["clicks"] : '-') ?>' tabindex='<?php echo ($tabindex++); ?>'>
         </div>
         <div id="remainingClicksSection">
-          <span  id='remainingClicks' >Clicks remaining:<span id='remainingClicksCount'>200</span></span><br/>
+          <span  id='remainingClicks' ><?php echo $strClicksRemaining ?>:<span id='remainingClicksCount'>200</span></span><br/>
           <?php if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) { ?>
-	          <!--span id="openadsRemainingClicks">OpenX clicks remaining: <span id='openadsRemainingClicksCount'>600<!-- REAL DATA GOES HERE -></span-->
-	            <span class="link hide"	help="help-openads-remaining-clicks" id="openadsRemainingClicksHelpLink"><img style="border: none; position: relative; top:5px;" src="<?php echo MAX::assetPath() ?>/images/help-book.gif" /></span>
-	          </span>
-	         <div class="hide" id="help-openads-remaining-clicks" style="height: auto; width: 290px;">
-	          Campaign's remaining clicks number is too small to satisfy the number booked by advertiser. It means that the local remaining click number is lower than central remaining click number and you should increase the booked clicks by the missing value.
-	         </div>
-          <?php } ?>
+          <!-- span id="openadsRemainingClicks"><?php echo $strOpenxClicksRemaining ?>: <span id='openadsRemainingClicksCount'>600<!-- REAL DATA GOES HERE --></span -->
+            <span class="link hide"	help="help-openads-remaining-clicks" id="openadsRemainingClicksHelpLink"><img style="border: none; position: relative; top:5px;" src="<?php echo MAX::assetPath() ?>/images/help-book.gif" /></span>
+          </span>
+         <div class="hide" id="help-openads-remaining-clicks" style="height: auto; width: 290px;">
+          <?php echo $strOpenxClicksRemainingHelp ?>
+         </div>
+         <?php } ?>
         </div>
       </div>
       <div style="clear: both;"><input type="radio"  value="unl" name="rd_click_bkd" id="unlimitedclicks" tabindex='<?php echo ($tabindex++); ?>'><label for="unlimitedclicks"><?php echo $strUnlimited; ?></label></div>
@@ -1037,7 +1038,7 @@ echo "</tr>"."\n";
 
 <tr>
     <td width="30"></td>
-    <td width="200" valign="top">Total revenue</td>
+    <td width="200" valign="top"><?php echo $strTotalRevenue ?></td>
     <td>REVENUE VALUE GOES HERE</td>
 </tr-->
 <?php

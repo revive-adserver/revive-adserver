@@ -328,7 +328,7 @@ class Plugins_InvocationTagsOptions
 
         $option = '';
         $option .= "<tr><td width='30'>&nbsp;</td>";
-        $option .= "<td width='200'>". 'Include code to track Google AdSense clicks' ."</td>";
+        $option .= "<td width='200'>". $GLOBALS['strIframeGoogleClickTracking'] ."</td>";
         $option .= "<td width='370'><input type='radio' name='iframetracking' value='1'".(!isset($maxInvocation->iframetracking) || $maxInvocation->iframetracking == 1 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strYes']."<br />";
         $option .= "<input type='radio' name='iframetracking' value='0'".(isset($maxInvocation->iframetracking) && $maxInvocation->iframetracking == 0 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strNo']."</td>";
         $option .= "</tr>";

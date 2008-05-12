@@ -68,6 +68,10 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
             'US/Hawaii', 'US/Indiana-Starke', 'US/Michigan', 'US/Mountain', 'US/Pacific',
             'US/Pacific-New', 'US/Samoa', 'UTC', 'W-SU', 'WET', 'Zulu');
 
+        // Load translations
+        require_once MAX_PATH .'/lib/max/language/Loader.php';
+        Language_Loader::load('timezone');
+
         // Load global array of timezones
         require_once MAX_PATH .'/lib/pear/Date/TimeZone.php';
         $aTimezoneKey = Date_TimeZone::getAvailableIDs();
@@ -86,6 +90,7 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
                 $offset = OA_Admin_Timezones::_convertOffset($_DATE_TIMEZONE_DATA[$key]['offset']);
                 //  build arrays used for sorting time zones
                 $origOffset = $_DATE_TIMEZONE_DATA[$key]['offset'];
+                $key = (!empty($GLOBALS['strTimezoneList'][$key])) ? $GLOBALS['strTimezoneList'][$key] : $key;
                 if ($origOffset >= 0) {
                     $aTimezone[$offset][$key] = "(GMT+$offset) $key";
                 } else {

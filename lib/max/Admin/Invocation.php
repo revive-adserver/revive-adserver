@@ -364,10 +364,7 @@ class MAX_Admin_Invocation {
                 } elseif ($codetype == 'local' && !$server_same) {
                     $buffer .= "
                         <div class='errormessage'><img class='errormessage' src='" . MAX::assetPath() . "/images/warning.gif' align='absmiddle'>
-                            <span class='tab-s'><strong>Warning:</strong> Local mode invocation will ONLY work if the site calling the code
-                            is on the same physical machine as the adserver</span><br />
-                            Check that the MAX_PATH defined in the code below points to the base directory of your MAX installation<br />
-                            and that you have a config file for the domain of the site showing the ads (in MAX_PATH/var)
+                            $strWarningLocalInvocation
                         </div>";
                 }
 

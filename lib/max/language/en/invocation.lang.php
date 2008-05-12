@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id:invocation.lang.php 20042 2008-05-09 01:10:00Z aj.tarachanowicz@openx.org $
 */
 
 // Other
@@ -52,6 +52,7 @@ $GLOBALS['strIFrameRefreshAfter']                   = "Refresh after";
 $GLOBALS['strIframeResizeToBanner']                 = "Resize iframe to banner dimensions";
 $GLOBALS['strIframeMakeTransparent']                = "Make the iframe transparent";
 $GLOBALS['strIframeIncludeNetscape4']               = "Include Netscape 4 compatible ilayer";
+$GLOBALS['strIframeGoogleClickTracking']            = 'Include code to track Google AdSense clicks';
 
 
 // PopUp
@@ -153,5 +154,11 @@ $GLOBALS['strWebBannerWarning2']    = "<br /> 2) Upload the banner to your webse
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "Warning";
 $GLOBALS['strImgWithAppendWarning'] = "This tracker has appended code, appended code will <strong>only</strong> work with JavaScript tags";
+
+// Local Invocation
+$GLOBALS['strWarningLocalInvocation'] = "<span class='tab-s'><strong>Warning:</strong> Local mode invocation will ONLY work if the site calling the code
+ is on the same physical machine as the adserver</span><br />
+Check that the MAX_PATH defined in the code below points to the base directory of your MAX installation<br />
+and that you have a config file for the domain of the site showing the ads (in MAX_PATH/var)";
 
 ?>

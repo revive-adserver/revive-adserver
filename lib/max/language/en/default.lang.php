@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id:default.lang.php 20042 2008-05-09 01:10:00Z aj.tarachanowicz@openx.org $
 */
 
 // Set text direction and characterset
@@ -150,6 +150,15 @@ $GLOBALS['strDashboardCommunity']       = 'Community';
 $GLOBALS['strDashboardDashboard']       = 'Dashboard';
 $GLOBALS['strDashboardForum']           = 'OpenX Forum';
 $GLOBALS['strDashboardDocs']            = 'OpenX Docs';
+$GLOBALS['strHomePageDisabled']         = 'Your home page is disabled';
+$GLOBALS['strNoSslSupport']             = 'Your installation does not currently support SSL';
+$GLOBALS['strSslAccessCentralSys']      = 'To access the Home page, your ad server must be able to log on securely to our central
+ system, using secure socket layer (SSL).';
+$GLOBALS['strInstallSslExtension']      = 'It is necessary to install a PHP extension to communicate with SSL, either openssl or
+ SSL-enabled curl. For more information contact your system administrator.';
+$GLOBALS['strChoosenDisableHomePage']   = 'You have choosen to disable your Home page.';
+$GLOBALS['strAccessHomePage']           = 'Click here to access your Home page';
+$GLOBALS['strEditSyncSettings']         = 'and edit your synchronization settings';
 
 // Priority
 $GLOBALS['strPriority']                 = "Priority";
@@ -279,6 +288,11 @@ $GLOBALS['strFinanceCPM']               = 'CPM';
 $GLOBALS['strFinanceCPC']               = 'CPC';
 $GLOBALS['strFinanceCPA']               = 'CPA';
 $GLOBALS['strFinanceMT']                = 'Monthly Tenancy';
+$GLOBALS['strPercentRevenueSplit']      = '% Revenue split';
+$GLOBALS['strPercentBasketValue']       = '% Basket value';
+$GLOBALS['strAmountPerItem']            = 'Amount per item';
+$GLOBALS['strPercentCustomVariable']    = '% Custom variable';
+$GLOBALS['strPercentSumVariables']      = '% Sum of variables';
 
 // Time and date related
 $GLOBALS['strDate']                     = "Date";
@@ -318,8 +332,13 @@ $GLOBALS['strSite']                         = 'Site';
 $GLOBALS['strHideInactive']                 = "Hide inactive";
 $GLOBALS['strHideInactiveAdvertisers']      = "Hide inactive advertisers";
 $GLOBALS['strInactiveAdvertisersHidden']    = "inactive advertiser(s) hidden";
-
-
+$GLOBALS['strOverallAdvertisers']           = "advertiser(s)";
+$GLOBALS['strAdvertiserSignup']             = "Advertiser Sign Up";
+$GLOBALS['strAdvertiserSignupDesc']         = "Sign up for Advertiser self service and Payment";
+$GLOBALS['strAdvertiserSignupLink']         = 'Advertiser Sign Up link';
+$GLOBALS['strAdvertiserSignupLinkDesc']     = 'To add an Advertiser Sign Up link to your site, please copy the HTML below:';
+$GLOBALS['strAdvertiserSignupOption']       = 'Advertiser Sign Up option';
+$GLOBALS['strAdvertiserSignunOptionDesc']   = 'To edit your Advertiser Sign Up options, follow to';
 // Advertisers properties
 $GLOBALS['strContact']                          = "Contact";
 $GLOBALS['strContactName']                      = "Contact Name";
@@ -342,6 +361,7 @@ $GLOBALS['strAllowAuditTrailAccess']            = "Allow this user to access the
 // Campaign
 $GLOBALS['strCampaign']                     = "Campaign";
 $GLOBALS['strCampaigns']                    = "Campaigns";
+$GLOBALS['strOverallCampaigns']             = "campaign(s)";
 $GLOBALS['strTotalCampaigns']               = "Total campaigns";
 $GLOBALS['strActiveCampaigns']              = "Active campaigns";
 $GLOBALS['strAddCampaign']                  = "Add new campaign";
@@ -398,9 +418,15 @@ $GLOBALS['strExpirationDateComment']    = "Campaign will finish at the end of th
 $GLOBALS['strActivationDate']            = "Activation date";
 $GLOBALS['strActivationDateComment']    = "Campaign will commence at the start of this day";
 $GLOBALS['strRevenueInfo']              = 'Revenue Information';
+$GLOBALS['strTotalRevenue']             = 'Total Revenue';
 $GLOBALS['strImpressionsRemaining']     = "Impressions Remaining";
+$GLOBALS['strOpenxImpressionsRemaining']     = "Openads impressions remaining";
+$GLOBALS['strOpenxImpressionsRemainingHelp'] = "Campaign's remaining impressions number is too small to satisfy the number booked by advertiser. It means that the local remaining click number is lower than central remaining click number and you should increase the booked impressions by the missing value.";
 $GLOBALS['strClicksRemaining']             = "Clicks Remaining";
+$GLOBALS['strOpenxClicksRemaining']             = "Openads clicks remaining";
+$GLOBALS['strOpenxClicksRemainingHelp']         = "Campaign's remaining clicks number is too small to satisfy the number booked by advertiser. It means that the local remaining click number is lower than central remaining click number and you should increase the booked clicks by the missing value.";
 $GLOBALS['strConversionsRemaining']     = "Conversions Remaining";
+$GLOBALS['strOpenxConversionsRemaining']     = "Openads conversions remaining";
 $GLOBALS['strImpressionsBooked']         = "Impressions Booked";
 $GLOBALS['strClicksBooked']             = "Clicks Booked";
 $GLOBALS['strConversionsBooked']         = "Conversions Booked";
@@ -414,6 +440,7 @@ $GLOBALS['strTargetPerDay']                = "per day.";
 $GLOBALS['strPriorityAutoTargeting']    = "Automatic - Distribute the remaining inventory evenly over the remaining number of days.";
 $GLOBALS['strCampaignWarningNoWeight']     = "The priority of this campaign has been set to low, \nbut the weight is set to zero or it has not been \nspecified. This will cause the campaign to be \ndeactivated and its banners won't be delivered \nuntil the weight has been set to a valid number. \n\nAre you sure you want to continue?";
 $GLOBALS['strCampaignWarningNoTarget']     = "The priority of this campaign has been set to high, \nbut the target number of Impressions are not specified. \nThis will cause the campaign to be deactivated and \nits banners won't be delivered until a valid target \nnumber of Impressions has been set. \n\nAre you sure you want to continue?";
+$GLOBALS['strCampaignStatusPending']       = "Pending";
 $GLOBALS['strCampaignStatusRunning']       = "Running";
 $GLOBALS['strCampaignStatusPaused']        = "Paused";
 $GLOBALS['strCampaignStatusAwaiting']      = "Awaiting";
@@ -438,10 +465,13 @@ $GLOBALS['strReasonSiteNotLive']           = "Site not live";
 $GLOBALS['strReasonBadCreative']           = "Inappropriate creative";
 $GLOBALS['strReasonBadUrl']                = "Inappropriate destination url";
 $GLOBALS['strReasonBreakTerms']            = "Website againts terms and conditions";
+$GLOBALS['strChangeStatus']                = "Change status";
 
 
 // Tracker
 $GLOBALS['strTracker']                    = "Tracker";
+$GLOBALS['strTrackers']                   = "Trackers";
+$GLOBALS['strTrackerOverview']            = "Tracker overview";
 $GLOBALS['strTrackerPreferences']            = "Tracker Preferences";
 $GLOBALS['strAddTracker']                 = "Add new tracker";
 $GLOBALS['strAddTracker_Key']             = "Add <u>n</u>ew tracker";
@@ -465,6 +495,7 @@ $GLOBALS['strClick']                      = "Click";
 $GLOBALS['strView']                       = "View";
 $GLOBALS['strArrival']                    = "Arrival";
 $GLOBALS['strManual']                     = "Manual";
+$GLOBALS['strImpression']                 = "Impression";
 $GLOBALS['strConversionClickWindow']      = "Count conversions which occur within this number of seconds of a click";
 $GLOBALS['strConversionViewWindow']       = "Count conversions which occur within this number of seconds of a view";
 $GLOBALS['strTotalTrackerImpressions']    = "Total Impressions";
@@ -515,6 +546,7 @@ $GLOBALS['strWarningMissing']                = 'Warning, possibly missing ';
 $GLOBALS['strWarningMissingClosing']         = ' closing tag ">"';
 $GLOBALS['strWarningMissingOpening']         = ' opening tag "<"';
 $GLOBALS['strSubmitAnyway']       		     = 'Submit Anyway';
+$GLOBALS['strOverallBanners']             = 'banner(s)';
 
 // Banner Preferences
 $GLOBALS['strBannerPreferences']                     = 'Banner Preferences';
@@ -746,6 +778,23 @@ $GLOBALS['strWarnChangeZoneType']           = 'Changing the zone type to text or
                                                 </ul>';
 $GLOBALS['strWarnChangeZoneSize']           = 'Changing the zone size will unlink any banners that are not the new size, and will add any banners from linked campaigns which are the new size';
 $GLOBALS['strWarnChangeBannerSize']         = 'Changing the banner size will unlink this banner from any zones that are not the new size, and if this banner\'s <strong>campaign</strong> is linked to a zone of the new size, this banner will be automatically linked';
+$GLOBALS['strInventoryForecasting']         = 'Inventory Forecasting';
+$GLOBALS['strIab']['IAB Full Banner (468 x 60)']    = 'IAB Full Banner (468 x 60)';
+$GLOBALS['strIab']['IAB Skyscraper (120 x 600)']    = 'IAB Skyscraper (120 x 600)';
+$GLOBALS['strIab']['IAB Leaderboard (728 x 90)']    = 'IAB Leaderboard (728 x 90)';
+$GLOBALS['strIab']['IAB Button 1 (120 x 90)']       = 'IAB Button 1 (120 x 90)';
+$GLOBALS['strIab']['IAB Button 2 (120 x 60)']       = 'IAB Button 2 (120 x 60)';
+$GLOBALS['strIab']['IAB Half Banner (234 x 60)']    = 'IAB Half Banner (234 x 60)';
+$GLOBALS['strIab']['IAB Leader Board (728 x 90) *'] = 'IAB Leader Board (728 x 90) *';
+$GLOBALS['strIab']['IAB Micro Bar (88 x 31)']       = 'IAB Micro Bar (88 x 31)';
+$GLOBALS['strIab']['IAB Square Button (125 x 125)'] = 'IAB Square Button (125 x 125)';
+$GLOBALS['strIab']['IAB Rectangle (180 x 150) *']   = 'IAB Rectangle (180 x 150) *';
+$GLOBALS['strIab']['IAB Square Pop-up (250 x 250)'] = 'IAB Square Pop-up (250 x 250)';
+$GLOBALS['strIab']['IAB Vertical Banner (120 x 240)']       = 'IAB Vertical Banner (120 x 240)';
+$GLOBALS['strIab']['IAB Medium Rectangle (300 x 250) *']    = 'IAB Medium Rectangle (300 x 250) *';
+$GLOBALS['strIab']['IAB Large Rectangle (336 x 280)']       = 'IAB Large Rectangle (336 x 280)';
+$GLOBALS['strIab']['IAB Vertical Rectangle (240 x 400)']    = 'IAB Vertical Rectangle (240 x 400)';
+$GLOBALS['strIab']['IAB Wide Skyscraper (160 x 600) *']     = 'IAB Wide Skyscraper (160 x 600) *';
 
 // Advanced zone settings
 $GLOBALS['strAdvanced']                    = "Advanced";
@@ -862,6 +911,7 @@ $GLOBALS['strShowGraphOfStatistics']     = "Show <u>G</u>raph of Statistics";
 $GLOBALS['strExportStatisticsToExcel']   = "<u>E</u>xport Statistics to Excel";
 $GLOBALS['strGDnotEnabled']              = "You must have GD enabled in PHP to display graphs. <br />Please see <a href='http://www.php.net/gd' target='_blank'>http://www.php.net/gd</a> for more information, including how to install GD on your server.";
 $GLOBALS['strTTFnotEnabled']             = "You have GD enabled in PHP but there is a problem with FreeType support. <br /> Freetype is needed in order to show the graph. <br />Please check your server configuration.";
+$GLOBALS['strStatsArea']                 = "Area";
 
 // Hosts
 $GLOBALS['strHosts']                = "Hosts";
@@ -871,6 +921,7 @@ $GLOBALS['strRecentHosts']             = "Most recent requesting hosts";
 
 // Expiration
 $GLOBALS['strExpired']                = "Expired";
+$GLOBALS['strExpiration']             = "Expiration";
 $GLOBALS['strNoExpiration']           = "No expiration date set";
 $GLOBALS['strEstimated']              = "Estimated expiration date";
 $GLOBALS['strNoExpirationEstimation'] = "No expiration estimated yet";
@@ -888,6 +939,9 @@ $GLOBALS['strSelectReport']           = "Select the report you want to generate"
 $GLOBALS['strStartDate']              = "Start Date";
 $GLOBALS['strEndDate']                = "End Date";
 $GLOBALS['strNoData']                 = "There is no data available for this time period";
+$GLOBALS['strPeriod']                 = 'Period';
+$GLOBALS['strLimitations']            = 'Limitations';
+$GLOBALS['strWorksheets']             = 'Worksheets';
 
 // Admin_UI_Fields
 $GLOBALS['strAllAdvertisers']            = "All advertisers";
@@ -1018,8 +1072,18 @@ $GLOBALS['strFullName']                         = "Full Name";
 $GLOBALS['strEmailAddress']                     = "Email address";
 $GLOBALS['strUserDetails']                      = "User Details";
 $GLOBALS['strLanguageTimezone']                 = "Language & Timezone";
+$GLOBALS['strLanguageTimezonePreferences']      = "Language and Timezone Preferences";
 $GLOBALS['strUserInterfacePreferences']         = 'User Interface Preferences';
 $GLOBALS['strInvocationPreferences']            = 'Invocation Preferences';
+$GLOBALS['strColumnName']                       = 'Column Name';
+$GLOBALS['strShowColumn']                       = 'Show Column';
+$GLOBALS['strCustomColumnName']                 = 'Custom Column Name';
+$GLOBALS['strColumnRank']                       = 'Column Rank';
+$GLOBALS['str_ID']                                 = 'ID';
+$GLOBALS['str_Requests']                           = 'Requests';
+$GLOBALS['str_Impressions']                        = 'Impressions';
+$GLOBALS['str_Clicks']                             = 'Clicks';
+$GLOBALS['str_CTR']                                = 'CTR';
 $GLOBALS['strUserPreferences']                  = "User Preferences";
 $GLOBALS['strChangePassword']                   = "Change Password";
 $GLOBALS['strChangeEmail']                      = "Change E-mail";
@@ -1028,6 +1092,55 @@ $GLOBALS['strChooseNewPassword']                = "Choose a new password";
 $GLOBALS['strReenterNewPassword']               = "Re-enter new password";
 $GLOBALS['strNameLanguage']                     = "Name & Language";
 
+// Long names
+$GLOBALS['str_Revenue']                             = 'Revenue';
+$GLOBALS['str_Cost']                                = 'Cost';
+$GLOBALS['str_Basket value']                        = 'Basket value';
+$GLOBALS['str_Number of items']                     = 'Number of items';
+$GLOBALS['str_Revenue CPC']                         = 'Revenue CPC';
+$GLOBALS['str_Cost CPC']                            = 'Cost CPC';
+$GLOBALS['str_Technology Cost']                     = 'Technology Cost';
+$GLOBALS['str_Income']                              = 'Income';
+$GLOBALS['str_Income Margin']                       = 'Income Margin';
+$GLOBALS['str_Profit']                              = 'Profit';
+$GLOBALS['str_Margin']                              = 'Margin';
+$GLOBALS['str_ERPM']                                = 'ERPM';
+$GLOBALS['str_ERPC']                                = 'ERPC';
+$GLOBALS['str_ERPS']                                = 'ERPS';
+$GLOBALS['str_EIPM']                                = 'EIPM';
+$GLOBALS['str_EIPC']                                = 'EIPC';
+$GLOBALS['str_EIPS']                                = 'EIPS';
+$GLOBALS['str_ECPM']                                = 'ECPM';
+$GLOBALS['str_ECPC']                                = 'ECPC';
+$GLOBALS['str_ECPS']                                = 'ECPS';
+$GLOBALS['str_EPPM']                                = 'EPPM';
+$GLOBALS['str_EPPC']                                = 'EPPC';
+$GLOBALS['str_EPPS']                                = 'EPPS';
+
+    // Short names
+$GLOBALS['strRevenue']                              = 'Rev.';
+$GLOBALS['strCost']                                 = 'Cost';
+$GLOBALS['strBasket value']                         = 'BV';
+$GLOBALS['strNumber of items']                      = 'Num. Items';
+$GLOBALS['strRevenue CPC']                          = 'Rev. CPC';
+$GLOBALS['strCost CPC']                             = 'Cost CPC';
+$GLOBALS['strTechnology Cost']                      = 'Tech. Cost';
+$GLOBALS['strIncome']                               = 'Income';
+$GLOBALS['strIncome Margin']                        = 'Inc. Margin';
+$GLOBALS['strProfit']                               = 'Profit';
+$GLOBALS['strMargin']                               = 'Margin';
+$GLOBALS['strERPM']                                 = 'ERPM';
+$GLOBALS['strERPC']                                 = 'ERPC';
+$GLOBALS['strERPS']                                 = 'ERPS';
+$GLOBALS['strEIPM']                                 = 'EIPM';
+$GLOBALS['strEIPC']                                 = 'EIPC';
+$GLOBALS['strEIPS']                                 = 'EIPS';
+$GLOBALS['strECPM']                                 = 'ECPM';
+$GLOBALS['strECPC']                                 = 'ECPC';
+$GLOBALS['strECPS']                                 = 'ECPS';
+$GLOBALS['strEPPM']                                 = 'EPPM';
+$GLOBALS['strEPPC']                                 = 'EPPC';
+$GLOBALS['strEPPS']                                 = 'EPPS';
 
 
 // Global Settings
@@ -1040,6 +1153,23 @@ $GLOBALS['strAdminSettings']                = "Administration Settings";
 $GLOBALS['strProductUpdates']         = "Product Updates";
 $GLOBALS['strCheckForUpdates']        = "Check for Updates";
 $GLOBALS['strViewPastUpdates']        = "Manage Past Updates and Backups";
+$GLOBALS['strFromVersion']            = "From Version";
+$GLOBALS['strToVersion']              = "To Version";
+$GLOBALS['strToggleDataBackupDetails']= "Toggle data backup details";
+$GLOBALS['strClickViewBackupDetails'] = "click to view backup details";
+$GLOBALS['strClickHideBackupDetails'] = "click to hide backup details";
+$GLOBALS['strShowBackupDetails']      = "Show data backup details";
+$GLOBALS['strHideBackupDetails']      = "Hide data backup details";
+$GLOBALS['strInstallation']           = "Installation";
+$GLOBALS['strBackupDeleteConfirm']    = "Do you really want to delete all backups created from this upgrade?";
+$GLOBALS['strDeleteArtifacts']         = "Delete Artifacts";
+$GLOBALS['strArtifacts']              = "Artifacts";
+$GLOBALS['strBackupDbTables']         = "Backup database tables";
+$GLOBALS['strLogFiles']               = 'Log files';
+$GLOBALS['strConfigBackups']          = 'Conf backups';
+$GLOBALS['strUpdatedDbVersionStamp']  = 'Updated database version stamp';
+$GLOBALS['aProductStatus']['UPGRADE COMPLETE']  = 'UPGRADE COMPLETE';
+$GLOBALS['aProductStatus']['UPGRADE FAILED']    = "UPGRADE FAILED";
 
 // Agency
 $GLOBALS['strAgencyManagement']              = "Account Management";
@@ -1055,6 +1185,7 @@ $GLOBALS['strHideInactiveAgencies']          = "Hide inactive accounts";
 $GLOBALS['strInactiveAgenciesHidden']     = "inactive account(s) hidden";
 $GLOBALS['strAllowAgencyEditConversions'] = "Allow this user to edit conversions";
 $GLOBALS['strAllowMoreReports']           = "Allow 'More Reports' button";
+$GLOBALS['strSwitchAccount']              = "Switch to this account";
 
 // Channels
 $GLOBALS['strChannel']                    = "Channel";
@@ -1128,6 +1259,7 @@ $GLOBALS['strWrongDateFormat']      = 'Wrong Date Format';
 $GLOBALS['strForgotPassword']         = "Forgot your password?";
 $GLOBALS['strPasswordRecovery']       = "Password recovery";
 $GLOBALS['strEmailRequired']          = "Email is a required field";
+$GLOBALS['strPwdRecEmailSent']        = "Recovery email sent";
 $GLOBALS['strPwdRecEmailNotFound']    = "Email address not found";
 $GLOBALS['strPwdRecPasswordSaved']    = "The new password was saved, proceed to <a href='index.php'>login</a>";
 $GLOBALS['strPwdRecWrongId']          = "Wrong ID";
@@ -1150,6 +1282,12 @@ $GLOBALS['strHas']                    = 'has';
 $GLOBALS['strAdZoneAsscociation']     = 'Ad Zone Association';
 $GLOBALS['strBinaryData']             = 'Binary data';
 $GLOBALS['strAuditTrailDisabled']     = 'Audit Trail has been disabled by administrator. No further events are logged and shown in Audit Trail list.';
+$GLOBALS['strAccount']                  = 'Account';
+$GLOBALS['strAccountUserAssociation']   = 'Account User Association';
+$GLOBALS['strEvent']                    = 'Event';
+$GLOBALS['strImage']                    = 'Image';
+$GLOBALS['strCampaignZoneAssociation']      = 'Campaign Zone Association';
+$GLOBALS['strAccountPreferenceAssociation'] = 'Account Preference Association';
 
 
 // Widget - Audit
@@ -1176,6 +1314,8 @@ $GLOBALS['strCampaignAuditNotActivated'] = '<li>In order to view campaigns which
 ';
 $GLOBALS['strCampaignAuditTrailSetup']   = "Activate Audit Trail to start viewing Campaigns";
 
+$GLOBALS['strUnsavedChanges']       = "You have unsaved changes on this page, make sure you press &quot;Save Changes&quot; when finished";
+$GLOBALS['strDeliveryLimitationsDisagree'] = "WARNING: The delivery engine limitations <strong>DO NOT AGREE</strong> with the limitations shown below<br />Please hit save changes to update the delivery engine's rules";
 
 /*-------------------------------------------------------*/
 /* Keyboard shortcut assignments                         */

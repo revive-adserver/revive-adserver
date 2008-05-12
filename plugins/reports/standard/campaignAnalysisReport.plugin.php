@@ -143,17 +143,17 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends Plugins_Reports
         // Prepare the array for displaying the generation page
         $aImport = array(
             'period'   => array(
-                'title'   => MAX_Plugin_Translation::translate('Period', $this->module, $this->package),
+                'title'   => $GLOBALS['strPeriod'],
                 'type'    => 'date-month',
                 'default' => $default_period_preset
             ),
             'campaign' => array(
-                'title'   => MAX_Plugin_Translation::translate('Campaign', $this->module, $this->package),
+                'title'   => $GLOBALS['strCampaign'],
                 'type'    => 'campaignid-dropdown',
                 'default' =>  $default_campaign
             ),
             'sheets'   => array(
-                'title'   => MAX_Plugin_Translation::translate('Worksheets', $this->module, $this->package),
+                'title'   => $GLOBALS['strWorksheets'],
                 'type'    => 'sheet',
                 'sheets'  => array(
                     'daily_breakdown' => MAX_Plugin_Translation::translate('Daily Breakdown', $this->module, $this->package),
@@ -259,11 +259,11 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends Plugins_Reports
     {
         $aParams = array();
         if ($this->_advertiserName !== false) {
-            $key = MAX_Plugin_Translation::translate('Advertiser', $this->module, $this->package);
+            $key = $GLOBALS['strAdvertiser'];
             $aParams[$key] = $this->_advertiserName;
         }
         if ($this->_placementName !== false) {
-            $key = MAX_Plugin_Translation::translate('Campaign', $this->module, $this->package);
+            $key = $GLOBALS['strCampaign'];
             $aParams[$key] = $this->_placementName;
         }
         $aParams += $this->_getDisplayableParametersFromDaySpan();
