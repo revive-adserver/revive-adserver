@@ -52,14 +52,14 @@ $options = array(
     'generator_exclude_regex' => '/(data_raw_.*|data_summary_channel_.*|data_summary_zone_country.*|data_summary_zone_domain.*|data_summary_zone_site.*|data_summary_zone_source.*|database_action|z_.*)/'
 );
 
-require_once 'DB/DataObject/Generator.php';
+require_once MAX_PATH . '/lib/OA/DB/DataObject/Generator.php';
 // remove original dbdo keys file as it is unable to update an existing file
 $schemaFile = $MAX_ENT_DIR . '/db_schema.ini';
 if (is_file($schemaFile)) {
     unlink($schemaFile);
 }
 
-$generator = new DB_DataObject_Generator();
+$generator = new OA_DB_DataObject_Generator();
 $generator->start();
 
 // rename schema ini file

@@ -1554,7 +1554,7 @@ class Openads_Schema_Manager
             'generator_exclude_regex' => '/(data_raw_.*|data_summary_channel_.*|data_summary_zone_country.*|data_summary_zone_domain.*|data_summary_zone_site.*|data_summary_zone_source.*|database_action)/'
         );
 
-        require_once 'DB/DataObject/Generator.php';
+        require_once MAX_PATH . '/lib/OA/DB/DataObject/Generator.php';
         // the generated schema will be named after the database used
         $dbo_schemaFileTmp = $this->path_dbo.$this->dbo_name.'.ini';
         // remove original dbdo keys file as it is unable to update an existing file
@@ -1564,7 +1564,7 @@ class Openads_Schema_Manager
             unlink($dbo_schemaFile);
         }
 
-        $generator = new DB_DataObject_Generator();
+        $generator = new OA_DB_DataObject_Generator();
         $generator->start();
 
         // rename schema ini file
