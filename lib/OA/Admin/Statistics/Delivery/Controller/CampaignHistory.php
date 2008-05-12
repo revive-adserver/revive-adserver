@@ -30,7 +30,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonHistory.php';
 /**
  * The class to display the delivery statistcs for the page:
  *
- * Statistics -> Advertisers & Campaigns -> Campaign Overview -> Campaign History
+ * Statistics -> Advertisers & Campaigns -> Campaigns -> Campaign History
  *
  * @package    OpenXAdmin
  * @subpackage StatisticsDelivery

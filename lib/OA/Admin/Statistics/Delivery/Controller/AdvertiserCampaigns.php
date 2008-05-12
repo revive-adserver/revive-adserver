@@ -30,7 +30,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonEntity.php';
 /**
  * The class to display the delivery statistcs for the page:
  *
- * Statistics -> Advertisers & Campaigns -> Campaign Overview
+ * Statistics -> Advertisers & Campaigns -> Campaigns
  *
  * @package    OpenXAdmin
  * @subpackage StatisticsDelivery

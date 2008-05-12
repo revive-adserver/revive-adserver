@@ -30,7 +30,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Targeting/CommonPlacement.php'
 /**
  * The class to display the targeting statistcs for the page:
  *
- * Statistics -> Advertisers & Campaigns -> Campaign Overview -> Targeting Statistics -> Daily Statistics
+ * Statistics -> Advertisers & Campaigns -> Campaigns -> Targeting Statistics -> Daily Statistics
  *
  * @package    OpenXAdmin
  * @subpackage StatisticsTargeting

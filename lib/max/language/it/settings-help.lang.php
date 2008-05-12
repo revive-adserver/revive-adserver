@@ -506,13 +506,13 @@ $GLOBALS['phpAds_hlp_gui_show_campaign_info'] = "
 
 $GLOBALS['phpAds_hlp_gui_show_banner_info'] = "
 		Se questa opzione è attiva verranno visualizzate informazioni aggiuntive nella pagina
-		<i>".$GLOBALS['strBannerOverview']."</i>. Queste informazioni comprendono l'URL di destinazione,
+		<i>".$GLOBALS['strBanners']."</i>. Queste informazioni comprendono l'URL di destinazione,
 		le parole chiave, la dimensione e il peso dei banner.
 		";
 
 $GLOBALS['phpAds_hlp_gui_show_campaign_preview'] = "
 		Se questa opzione è attiva verrà mostrata un'anteprima nella pagina
-		<i>".$GLOBALS['strBannerOverview']."</i>. Se l'opzione è disabilitata sarà comunque
+		<i>".$GLOBALS['strBanners']."</i>. Se l'opzione è disabilitata sarà comunque
 		possibile visualizzare l'anteprima cliccando sul triangolo posto a fianco di ogni banner.
 		";
 

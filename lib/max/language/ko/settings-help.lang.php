@@ -451,7 +451,7 @@ $GLOBALS['phpAds_hlp_default_campaign_weight'] = "
 
 $GLOBALS['phpAds_hlp_gui_show_campaign_info'] = "
 		If this option is enabled extra information about each campain will be shown on the
-		<i>Campaign overview</i> page. The extra information includes the number of AdViews remaining,
+		<i>Campaigns</i> page. The extra information includes the number of AdViews remaining,
 		the number of AdClicks remaining, activation date, expiration date and the priority settings.
 		";
 
@@ -482,7 +482,7 @@ $GLOBALS['phpAds_hlp_gui_show_banner_preview'] = "
 
 $GLOBALS['phpAds_hlp_gui_hide_inactive'] = "
 		If this option is enabled all inactive banners, campaigns and advertisers will be hidden from the
-		<i>Advertisers & Campaigns</i> and <i>Campaign overview</i> pages. If this option is enabled it is
+		<i>Advertisers & Campaigns</i> and <i>Campaigns</i> pages. If this option is enabled it is
 		still possible to view the hidden items, by clicking on the <i>Show all</i> button on the bottom
 		of the page.
 		";

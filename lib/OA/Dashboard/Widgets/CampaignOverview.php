@@ -30,7 +30,7 @@ require_once MAX_PATH . '/lib/OA/Dll/Audit.php';
 require_once MAX_PATH . '/lib/OA/Cache.php';
 
 /**
- * A dashboard widget to diplay an Campaign overview
+ * A dashboard widget to diplay an Campaigns
  *
  */
 class OA_Dashboard_Widget_CampaignOverview extends OA_Dashboard_Widget

@@ -371,7 +371,7 @@ $GLOBALS['strGeotrackingGeoipNetspeedLocationError'] = 'The MaxMind GeoIP Netspe
 // Interface Settings
 $GLOBALS['strInventory']                             = 'Inventory';
 $GLOBALS['strUploadConversions']                     = 'Upload Conversions';
-$GLOBALS['strShowCampaignInfo']                      = 'Show extra campaign info on <i>Campaign overview</i> page';
+$GLOBALS['strShowCampaignInfo']                      = 'Show extra campaign info on <i>Campaigns</i> page';
 $GLOBALS['strShowBannerInfo']                        = 'Show extra banner info on <i>Banner overview</i> page';
 $GLOBALS['strShowCampaignPreview']                   = 'Show preview of all banners on <i>Banner overview</i> page';
 $GLOBALS['strShowBannerHTML']                        = 'Show actual banner instead of plain HTML code for HTML banner preview';

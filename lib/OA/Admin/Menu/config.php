@@ -43,10 +43,10 @@ function _buildNavigation($accountType)
                 $oMenu->addTo("2", new OA_Admin_Menu_Section("2.1", $GLOBALS['strClientsAndCampaigns'], "stats.php?1=1"));
                 $oMenu->addTo("2.1", new OA_Admin_Menu_Section("2.1.1", $GLOBALS['strClientHistory'], "stats.php?entity=advertiser&breakdown=history&clientid={clientid}"));
                 $oMenu->addTo("2.1.1", new OA_Admin_Menu_Section("2.1.1.1", $GLOBALS['strDailyStats'], "stats.php?entity=advertiser&breakdown=daily&clientid={clientid}&day={day}"));
-                $oMenu->addTo("2.1", new OA_Admin_Menu_Section("2.1.2", $GLOBALS['strCampaignOverview'], "stats.php?entity=advertiser&breakdown=campaigns&clientid={clientid}"));
+                $oMenu->addTo("2.1", new OA_Admin_Menu_Section("2.1.2", $GLOBALS['strCampaigns'], "stats.php?entity=advertiser&breakdown=campaigns&clientid={clientid}"));
                 $oMenu->addTo("2.1.2", new OA_Admin_Menu_Section("2.1.2.1", $GLOBALS['strCampaignHistory'], "stats.php?entity=campaign&breakdown=history&clientid={clientid}&campaignid={campaignid}"));
                 $oMenu->addTo("2.1.2.1", new OA_Admin_Menu_Section("2.1.2.1.1", $GLOBALS['strDailyStats'], "stats.php?entity=campaign&breakdown=daily&clientid={clientid}&campaignid={campaignid}&day={day}"));
-                $oMenu->addTo("2.1.2", new OA_Admin_Menu_Section("2.1.2.2", $GLOBALS['strBannerOverview'], "stats.php?entity=campaign&breakdown=banners&clientid={clientid}&campaignid={campaignid}"));
+                $oMenu->addTo("2.1.2", new OA_Admin_Menu_Section("2.1.2.2", $GLOBALS['strBanners'], "stats.php?entity=campaign&breakdown=banners&clientid={clientid}&campaignid={campaignid}"));
                 $oMenu->addTo("2.1.2.2", new OA_Admin_Menu_Section("2.1.2.2.1", $GLOBALS['strBannerHistory'], "stats.php?entity=banner&breakdown=history&clientid={clientid}&campaignid={campaignid}&bannerid={bannerid}"));
                 $oMenu->addTo("2.1.2.2.1", new OA_Admin_Menu_Section("2.1.2.2.1.1", $GLOBALS['strDailyStats'], "stats.php?entity=banner&breakdown=daily&clientid={clientid}&campaignid={campaignid}&bannerid={bannerid}&day={day}"));
                 $oMenu->addTo("2.1.2.2", new OA_Admin_Menu_Section("2.1.2.2.2", $GLOBALS['strPublisherDistribution'], "stats.php?entity=banner&breakdown=affiliates&clientid={clientid}&campaignid={campaignid}&bannerid={bannerid}"));
@@ -73,7 +73,7 @@ function _buildNavigation($accountType)
                 $oMenu->addTo("2", new OA_Admin_Menu_Section("2.4", $GLOBALS['strAffiliatesAndZones'], "stats.php?entity=global&breakdown=affiliates"));
                 $oMenu->addTo("2.4", new OA_Admin_Menu_Section("2.4.1", $GLOBALS['strAffiliateHistory'], "stats.php?entity=affiliate&breakdown=history&affiliateid={affiliateid}"));
                 $oMenu->addTo("2.4.1", new OA_Admin_Menu_Section("2.4.1.1", $GLOBALS['strDailyStats'], "stats.php?entity=affiliate&breakdown=daily&affiliateid={affiliateid}&day={day}"));
-                $oMenu->addTo("2.4", new OA_Admin_Menu_Section("2.4.2", $GLOBALS['strZoneOverview'], "stats.php?entity=affiliate&breakdown=zones&affiliateid={affiliateid}"));
+                $oMenu->addTo("2.4", new OA_Admin_Menu_Section("2.4.2", $GLOBALS['strZones'], "stats.php?entity=affiliate&breakdown=zones&affiliateid={affiliateid}"));
                 $oMenu->addTo("2.4.2", new OA_Admin_Menu_Section("2.4.2.1", $GLOBALS['strZoneHistory'], "stats.php?entity=zone&breakdown=history&affiliateid={affiliateid}&zoneid={zoneid}"));
                 $oMenu->addTo("2.4.2.1", new OA_Admin_Menu_Section("2.4.2.1.1", $GLOBALS['strDailyStats'], "stats.php?entity=zone&breakdown=daily&affiliateid={affiliateid}&zoneid={zoneid}&day={day}"));
                 $oMenu->addTo("2.4.2", new OA_Admin_Menu_Section("2.4.2.2", $GLOBALS['strCampaignDistribution'], "stats.php?entity=zone&breakdown=campaigns&affiliateid={affiliateid}&zoneid={zoneid}"));
@@ -117,10 +117,10 @@ function _buildNavigation($accountType)
                 $oMenu->addTo("2", new OA_Admin_Menu_Section("2.1", $GLOBALS['strClientsAndCampaigns'], "stats.php?1=1"));
                 $oMenu->addTo("2.1", new OA_Admin_Menu_Section("2.1.1", $GLOBALS['strClientHistory'], "stats.php?entity=advertiser&breakdown=history&clientid={clientid}"));
                 $oMenu->addTo("2.1.1", new OA_Admin_Menu_Section("2.1.1.1", $GLOBALS['strDailyStats'], "stats.php?entity=advertiser&breakdown=daily&clientid={clientid}&day={day}"));
-                $oMenu->addTo("2.1", new OA_Admin_Menu_Section("2.1.2", $GLOBALS['strCampaignOverview'], "stats.php?entity=advertiser&breakdown=campaigns&clientid={clientid}"));
+                $oMenu->addTo("2.1", new OA_Admin_Menu_Section("2.1.2", $GLOBALS['strCampaigns'], "stats.php?entity=advertiser&breakdown=campaigns&clientid={clientid}"));
                 $oMenu->addTo("2.1.2", new OA_Admin_Menu_Section("2.1.2.1", $GLOBALS['strCampaignHistory'], "stats.php?entity=campaign&breakdown=history&clientid={clientid}&campaignid={campaignid}"));
                 $oMenu->addTo("2.1.2.1", new OA_Admin_Menu_Section("2.1.2.1.1", $GLOBALS['strDailyStats'], "stats.php?entity=campaign&breakdown=daily&clientid={clientid}&campaignid={campaignid}&day={day}"));
-                $oMenu->addTo("2.1.2", new OA_Admin_Menu_Section("2.1.2.2", $GLOBALS['strBannerOverview'], "stats.php?entity=campaign&breakdown=banners&clientid={clientid}&campaignid={campaignid}"));
+                $oMenu->addTo("2.1.2", new OA_Admin_Menu_Section("2.1.2.2", $GLOBALS['strBanners'], "stats.php?entity=campaign&breakdown=banners&clientid={clientid}&campaignid={campaignid}"));
                 $oMenu->addTo("2.1.2.2", new OA_Admin_Menu_Section("2.1.2.2.1", $GLOBALS['strBannerHistory'], "stats.php?entity=banner&breakdown=history&clientid={clientid}&campaignid={campaignid}&bannerid={bannerid}"));
                 $oMenu->addTo("2.1.2.2.1", new OA_Admin_Menu_Section("2.1.2.2.1.1", $GLOBALS['strDailyStats'], "stats.php?entity=banner&breakdown=daily&clientid={clientid}&campaignid={campaignid}&bannerid={bannerid}&day={day}"));
                 $oMenu->addTo("2.1.2.2", new OA_Admin_Menu_Section("2.1.2.2.2", $GLOBALS['strPublisherDistribution'], "stats.php?entity=banner&breakdown=affiliates&clientid={clientid}&campaignid={campaignid}&bannerid={bannerid}"));
@@ -149,7 +149,7 @@ function _buildNavigation($accountType)
                 $oMenu->addTo("2", new OA_Admin_Menu_Section("2.4", $GLOBALS['strAffiliatesAndZones'], "stats.php?entity=global&breakdown=affiliates"));
                 $oMenu->addTo("2.4", new OA_Admin_Menu_Section("2.4.1", $GLOBALS['strAffiliateHistory'], "stats.php?entity=affiliate&breakdown=history&affiliateid={affiliateid}"));
                 $oMenu->addTo("2.4.1", new OA_Admin_Menu_Section("2.4.1.1", $GLOBALS['strDailyStats'], "stats.php?entity=affiliate&breakdown=daily&affiliateid={affiliateid}&day={day}"));
-                $oMenu->addTo("2.4", new OA_Admin_Menu_Section("2.4.2", $GLOBALS['strZoneOverview'], "stats.php?entity=affiliate&breakdown=zones&affiliateid={affiliateid}"));
+                $oMenu->addTo("2.4", new OA_Admin_Menu_Section("2.4.2", $GLOBALS['strZones'], "stats.php?entity=affiliate&breakdown=zones&affiliateid={affiliateid}"));
                 $oMenu->addTo("2.4.2", new OA_Admin_Menu_Section("2.4.2.1", $GLOBALS['strZoneHistory'], "stats.php?entity=zone&breakdown=history&affiliateid={affiliateid}&zoneid={zoneid}"));
                 $oMenu->addTo("2.4.2.1", new OA_Admin_Menu_Section("2.4.2.1.1", $GLOBALS['strDailyStats'], "stats.php?entity=zone&breakdown=daily&affiliateid={affiliateid}&zoneid={zoneid}&day={day}"));
                 $oMenu->addTo("2.4.2", new OA_Admin_Menu_Section("2.4.2.2", $GLOBALS['strCampaignDistribution'], "stats.php?entity=zone&breakdown=campaigns&affiliateid={affiliateid}&zoneid={zoneid}"));
@@ -169,11 +169,11 @@ function _buildNavigation($accountType)
             $oMenu->addTo("inventory", new OA_Admin_Menu_Section("advertiser-index", $GLOBALS['strClientsAndCampaigns'], "advertiser-index.php"));
                 $oMenu->addTo("advertiser-index", new OA_Admin_Menu_Section("advertiser-edit_new", $GLOBALS['strAddClient'], "advertiser-edit.php", true));
                 $oMenu->addTo("advertiser-index", new OA_Admin_Menu_Section("advertiser-edit", $GLOBALS['strClientProperties'], "advertiser-edit.php?clientid={clientid}"));
-                $oMenu->addTo("advertiser-index", new OA_Admin_Menu_Section("advertiser-campaigns", $GLOBALS['strCampaignOverview'], "advertiser-campaigns.php?clientid={clientid}"));
+                $oMenu->addTo("advertiser-index", new OA_Admin_Menu_Section("advertiser-campaigns", $GLOBALS['strCampaigns'], "advertiser-campaigns.php?clientid={clientid}"));
                     $oMenu->addTo("advertiser-campaigns", new OA_Admin_Menu_Section("campaign-edit_new", $GLOBALS['strAddCampaign'], "campaign-edit.php?clientid={clientid}", true));
                     $oMenu->addTo("advertiser-campaigns", new OA_Admin_Menu_Section("campaign-edit", $GLOBALS['strCampaignProperties'], "campaign-edit.php?clientid={clientid}&campaignid={campaignid}"));
                     $oMenu->addTo("advertiser-campaigns", new OA_Admin_Menu_Section("campaign-zone", $GLOBALS['strLinkedZones'], "campaign-zone.php?clientid={clientid}&campaignid={campaignid}"));
-                    $oMenu->addTo("advertiser-campaigns", new OA_Admin_Menu_Section("campaign-banners", $GLOBALS['strBannerOverview'], "campaign-banners.php?clientid={clientid}&campaignid={campaignid}"));
+                    $oMenu->addTo("advertiser-campaigns", new OA_Admin_Menu_Section("campaign-banners", $GLOBALS['strBanners'], "campaign-banners.php?clientid={clientid}&campaignid={campaignid}"));
                         $oMenu->addTo("campaign-banners", new OA_Admin_Menu_Section("banner-edit_new", $GLOBALS['strAddBanner'], "banner-edit.php?clientid={clientid}&campaignid={campaignid}", true));
                         $oMenu->addTo("campaign-banners", new OA_Admin_Menu_Section("banner-edit", $GLOBALS['strBannerProperties'], "banner-edit.php?clientid={clientid}&campaignid={campaignid}&bannerid={bannerid}"));
                         $oMenu->addTo("campaign-banners", new OA_Admin_Menu_Section("banner-acl", $GLOBALS['strModifyBannerAcl'], "banner-acl.php?clientid={clientid}&campaignid={campaignid}&bannerid={bannerid}"));
@@ -181,7 +181,7 @@ function _buildNavigation($accountType)
                         $oMenu->addTo("campaign-banners", new OA_Admin_Menu_Section("banner-advanced", $GLOBALS['strAdvanced'], "banner-advanced.php?clientid={clientid}&campaignid={campaignid}&bannerid={bannerid}"));
                 if ($aConf['logging']['trackerImpressions']) {
                     $oMenu->addTo("advertiser-campaigns", new OA_Admin_Menu_Section("campaign-trackers", $GLOBALS['strLinkedTrackers'], "campaign-trackers.php?clientid={clientid}&campaignid={campaignid}"));
-                        $oMenu->addTo("advertiser-index", new OA_Admin_Menu_Section("advertiser-trackers", $GLOBALS['strTrackerOverview'], "advertiser-trackers.php?clientid={clientid}"));
+                        $oMenu->addTo("advertiser-index", new OA_Admin_Menu_Section("advertiser-trackers", $GLOBALS['strTrackers'], "advertiser-trackers.php?clientid={clientid}"));
                             $oMenu->addTo("advertiser-trackers", new OA_Admin_Menu_Section("tracker-edit_new", $GLOBALS['strAddTracker'], "tracker-edit.php?clientid={clientid}", true));
                             $oMenu->addTo("advertiser-trackers", new OA_Admin_Menu_Section("tracker-edit", $GLOBALS['strTrackerProperties'], "tracker-edit.php?clientid={clientid}&trackerid={trackerid}"));
                             $oMenu->addTo("advertiser-trackers", new OA_Admin_Menu_Section("tracker-campaigns", $GLOBALS['strLinkedCampaigns'], "tracker-campaigns.php?clientid={clientid}&trackerid={trackerid}"));
@@ -194,14 +194,14 @@ function _buildNavigation($accountType)
             $oMenu->addTo("inventory", new OA_Admin_Menu_Section("affiliate-index", $GLOBALS['strAffiliatesAndZones'], "affiliate-index.php"));
                 $oMenu->addTo("affiliate-index", new OA_Admin_Menu_Section("affiliate-edit_new", $GLOBALS['strAddAffiliate'], "affiliate-edit.php", true));
                 $oMenu->addTo("affiliate-index", new OA_Admin_Menu_Section("affiliate-edit", $GLOBALS['strAffiliateProperties'], "affiliate-edit.php?affiliateid={affiliateid}"));
-                $oMenu->addTo('affiliate-index', new OA_Admin_Menu_Section('affiliate-zones', $GLOBALS['strZoneOverview'], 'affiliate-zones.php?affiliateid={affiliateid}'));
+                $oMenu->addTo('affiliate-index', new OA_Admin_Menu_Section('affiliate-zones', $GLOBALS['strZones'], 'affiliate-zones.php?affiliateid={affiliateid}'));
                     $oMenu->addTo('affiliate-zones', new OA_Admin_Menu_Section('zone-edit_new', $GLOBALS['strAddNewZone'], 'zone-edit.php?affiliateid={affiliateid}', true));
                     $oMenu->addTo('affiliate-zones', new OA_Admin_Menu_Section('zone-edit', $GLOBALS['strZoneProperties'], 'zone-edit.php?affiliateid={affiliateid}&zoneid={zoneid}'));
                     $oMenu->addTo('affiliate-zones', new OA_Admin_Menu_Section('zone-advanced', $GLOBALS['strAdvanced'], 'zone-advanced.php?affiliateid={affiliateid}&zoneid={zoneid}'));
                     $oMenu->addTo('affiliate-zones', new OA_Admin_Menu_Section('zone-include', $GLOBALS['strIncludedBanners'], 'zone-include.php?affiliateid={affiliateid}&zoneid={zoneid}'));
                     $oMenu->addTo('affiliate-zones', new OA_Admin_Menu_Section('zone-probability', $GLOBALS['strProbability'], 'zone-probability.php?affiliateid={affiliateid}&zoneid={zoneid}'));
                     $oMenu->addTo('affiliate-zones', new OA_Admin_Menu_Section('zone-invocation', $GLOBALS['strInvocationcode'], 'zone-invocation.php?affiliateid={affiliateid}&zoneid={zoneid}'));
-                $oMenu->addTo('affiliate-index', new OA_Admin_Menu_Section('affiliate-channels', $GLOBALS['strChannelOverview'], 'affiliate-channels.php?affiliateid={affiliateid}'));
+                $oMenu->addTo('affiliate-index', new OA_Admin_Menu_Section('affiliate-channels', $GLOBALS['strChannels'], 'affiliate-channels.php?affiliateid={affiliateid}'));
                     $oMenu->addTo('affiliate-channels', new OA_Admin_Menu_Section('channel-edit-affiliate_new', $GLOBALS['strAddNewChannel'], 'channel-edit.php?affiliateid={affiliateid}', true));
                     $oMenu->addTo('affiliate-channels', new OA_Admin_Menu_Section('channel-edit-affiliate', $GLOBALS['strAddNewChannel'], 'channel-edit.php?affiliateid={affiliateid}&channelid={channelid}', true));
                 $oMenu->addTo('affiliate-index', new OA_Admin_Menu_Section('affiliate-invocation', $GLOBALS['strInvocationcode'], 'affiliate-invocation.php?affiliateid={affiliateid}'));
@@ -224,7 +224,7 @@ function _buildNavigation($accountType)
             $oMenu->add(new OA_Admin_Menu_Section("1", $GLOBALS['strStats'], "stats.php?entity=affiliate&breakdown=history&affiliateid={affiliateid}"));
                 $oMenu->addTo("1", new OA_Admin_Menu_Section("1.1", $GLOBALS['strAffiliateHistory'], "stats.php?entity=affiliate&breakdown=history&affiliateid={affiliateid}"));
                 $oMenu->addTo("1.1", new OA_Admin_Menu_Section("1.1.1", $GLOBALS['strDailyStats'], "stats.php?entity=affiliate&breakdown=daily&affiliateid={affiliateid}&day={day}"));
-                $oMenu->addTo("1", new OA_Admin_Menu_Section("1.2", $GLOBALS['strZoneOverview'], "stats.php?entity=affiliate&breakdown=zones&affiliateid={affiliateid}"));
+                $oMenu->addTo("1", new OA_Admin_Menu_Section("1.2", $GLOBALS['strZones'], "stats.php?entity=affiliate&breakdown=zones&affiliateid={affiliateid}"));
                 $oMenu->addTo("1.2", new OA_Admin_Menu_Section("1.2.1", $GLOBALS['strZoneHistory'], "stats.php?entity=zone&breakdown=history&affiliateid={affiliateid}&zoneid={zoneid}"));
                 $oMenu->addTo("1.2.1", new OA_Admin_Menu_Section("1.2.1.1", $GLOBALS['strDailyStats'], "stats.php?entity=zone&breakdown=daily&affiliateid={affiliateid}&zoneid={zoneid}&day={day}"));
                 $oMenu->addTo("1.2", new OA_Admin_Menu_Section("1.2.2", $GLOBALS['strCampaignDistribution'], "stats.php?entity=zone&breakdown=campaigns&affiliateid={affiliateid}&zoneid={zoneid}"));
@@ -240,7 +240,7 @@ function _buildNavigation($accountType)
                 $oMenu->addTo("1", new OA_Admin_Menu_Section("report-index", $GLOBALS['strAdvancedReports'], "report-index.php?affiliateid={affiliateid}"));
 
             $oMenu->add(new OA_Admin_Menu_Section("inventory", $GLOBALS['strAdminstration'], "affiliate-zones.php?affiliateid={affiliateid}"));
-                $oMenu->addTo("inventory", new OA_Admin_Menu_Section("affiliate-zones", $GLOBALS['strZoneOverview'], "affiliate-zones.php?affiliateid={affiliateid}"));
+                $oMenu->addTo("inventory", new OA_Admin_Menu_Section("affiliate-zones", $GLOBALS['strZones'], "affiliate-zones.php?affiliateid={affiliateid}"));
                     $oMenu->addTo('affiliate-zones', new OA_Admin_Menu_Section('zone-edit_new', $GLOBALS['strAddNewZone'], 'zone-edit.php?affiliateid={affiliateid}', true));
                     $oMenu->addTo('affiliate-zones', new OA_Admin_Menu_Section('zone-edit', $GLOBALS['strZoneProperties'], 'zone-edit.php?affiliateid={affiliateid}&zoneid={zoneid}'));
                     $oMenu->addTo('affiliate-zones', new OA_Admin_Menu_Section('zone-include', $GLOBALS['strIncludedBanners'], 'zone-include.php?affiliateid={affiliateid}&zoneid={zoneid}'));
@@ -258,10 +258,10 @@ function _buildNavigation($accountType)
             $oMenu->add(new OA_Admin_Menu_Section("1", $GLOBALS['strStats'], "stats.php?entity=advertiser&breakdown=history&clientid={clientid}"));
             $oMenu->addTo("1", new OA_Admin_Menu_Section("1.1", $GLOBALS['strClientHistory'], "stats.php?entity=advertiser&breakdown=history&clientid={clientid}"));
             $oMenu->addTo("1.1", new OA_Admin_Menu_Section("1.1.1", $GLOBALS['strDailyStats'], "stats.php?entity=advertiser&breakdown=daily&clientid={clientid}&day={day}"));
-            $oMenu->addTo("1", new OA_Admin_Menu_Section("1.2", $GLOBALS['strCampaignOverview'], "stats.php?entity=advertiser&breakdown=campaigns&clientid={clientid}"));
+            $oMenu->addTo("1", new OA_Admin_Menu_Section("1.2", $GLOBALS['strCampaigns'], "stats.php?entity=advertiser&breakdown=campaigns&clientid={clientid}"));
             $oMenu->addTo("1.2", new OA_Admin_Menu_Section("1.2.1", $GLOBALS['strCampaignHistory'], "stats.php?entity=campaign&breakdown=history&clientid={clientid}&campaignid={campaignid}"));
             $oMenu->addTo("1.2.1", new OA_Admin_Menu_Section("1.2.1.1", $GLOBALS['strDailyStats'], "stats.php?entity=campaign&breakdown=daily&clientid={clientid}&campaignid={campaignid}&day={day}"));
-            $oMenu->addTo("1.2", new OA_Admin_Menu_Section("1.2.2", $GLOBALS['strBannerOverview'], "stats.php?entity=campaign&breakdown=banners&clientid={clientid}&campaignid={campaignid}"));
+            $oMenu->addTo("1.2", new OA_Admin_Menu_Section("1.2.2", $GLOBALS['strBanners'], "stats.php?entity=campaign&breakdown=banners&clientid={clientid}&campaignid={campaignid}"));
             $oMenu->addTo("1.2.2", new OA_Admin_Menu_Section("1.2.2.1", $GLOBALS['strBannerHistory'], "stats.php?entity=banner&breakdown=history&clientid={clientid}&campaignid={campaignid}&bannerid={bannerid}"));
             $oMenu->addTo("1.2.2.1", new OA_Admin_Menu_Section("1.2.2.1.1", $GLOBALS['strDailyStats'], "stats.php?entity=banner&breakdown=daily&clientid={clientid}&campaignid={campaignid}&bannerid={bannerid}&day={day}"));
             $oMenu->addTo("1.2.2", new OA_Admin_Menu_Section("1.2.2.2", $GLOBALS['strBannerProperties'], "banner-edit.php?clientid={clientid}&campaignid={campaignid}&bannerid={bannerid}"));
@@ -284,8 +284,8 @@ function _buildNavigation($accountType)
             $oMenu->addTo("1", new OA_Admin_Menu_Section("report-index", $GLOBALS['strAdvancedReports'], "report-index.php?clientid={clientid}"));
 
             $oMenu->add(new OA_Admin_Menu_Section("inventory", $GLOBALS['strAdminstration'], "advertiser-campaigns.php?clientid={clientid}"));
-                $oMenu->addTo("inventory", new OA_Admin_Menu_Section("advertiser-campaigns", $GLOBALS['strCampaignOverview'], "advertiser-campaigns.php?clientid={clientid}"));
-                    $oMenu->addTo("advertiser-campaigns", new OA_Admin_Menu_Section("campaign-banners", $GLOBALS['strBannerOverview'], "campaign-banners.php?clientid={clientid}&campaignid={campaignid}"));
+                $oMenu->addTo("inventory", new OA_Admin_Menu_Section("advertiser-campaigns", $GLOBALS['strCampaigns'], "advertiser-campaigns.php?clientid={clientid}"));
+                    $oMenu->addTo("advertiser-campaigns", new OA_Admin_Menu_Section("campaign-banners", $GLOBALS['strBanners'], "campaign-banners.php?clientid={clientid}&campaignid={campaignid}"));
                         $oMenu->addTo("campaign-banners", new OA_Admin_Menu_Section("banner-edit", $GLOBALS['strBannerProperties'], "banner-edit.php?clientid={clientid}&campaignid={campaignid}&bannerid={bannerid}"));
                 $oMenu->addTo("inventory", new OA_Admin_Menu_Section("advertiser-access", $GLOBALS['strUserAccess'], "advertiser-access.php?clientid={clientid}"));
             $oMenu->add(new OA_Admin_Menu_Section("account-index", $GLOBALS['strMyAccount'], "account-index.php"));
