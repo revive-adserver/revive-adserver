@@ -90,6 +90,7 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignHistory extends OA_Admin_S
 
         // Security check
         OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
+        $this->_checkObjectsExist($advertiserId, $placementId);
         $this->_checkAccess(array('advertiser' => $advertiserId, 'placement' => $placementId));
 
         // Add standard page parameters
@@ -142,6 +143,33 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignHistory extends OA_Admin_S
 
     }
 
+    /**
+     * Function check if advertiser or placement exists
+     * if not: display proper error message
+     * Error message contains link to:
+     * - advertiser summary statistics if campaign does not exists
+     * - stats.php if advertiser does not exists
+     *
+     * @param int $advertiserId Advertiser Id
+     * @param int $placementId  Placement Id (Campaign Id)
+     */
+    function _checkObjectsExist($advertiserId, $placementId)
+    {
+        // Check if placement (campaign) exist 
+        if (0 == count(Admin_DA::getPlacements(
+                array(  'advertiser_id' => $advertiserId,
+                        'placement_id' => $placementId)))) {
+            phpAds_PageHeader('2'); 
+            // Check if advertiser (clientid) exist
+            if (0 == count(Admin_DA::getPlacements(
+                    array(  'advertiser_id' => $advertiserId)))) {
+                phpAds_Die($GLOBALS['strDeadLink'], str_replace('{link}', 'stats.php', $GLOBALS['strNoAdvertiser']));
+            } else {
+                $link = "stats.php?".htmlspecialchars(preg_replace('#campaignid=[0-9]*&?#', '', $_SERVER['QUERY_STRING']), ENT_QUOTES);
+                phpAds_Die($GLOBALS['strDeadLink'], str_replace('{link}', $link, $GLOBALS['strNoPlacement']));
+            }
+        }
+    }
 }
 
 ?>

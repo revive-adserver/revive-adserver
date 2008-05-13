@@ -248,6 +248,9 @@ $GLOBALS['strRepeatPassword']           = "Repeat Password";
 $GLOBALS['strOldPassword']              = "Old Password";
 $GLOBALS['strNewPassword']              = "New Password";
 $GLOBALS['strNoBannerId']               = "No banner ID";
+$GLOBALS['strDeadLink']                 = "Your link is invalid.";
+$GLOBALS['strNoPlacement']              = "Selected campaign does not exist. Try this <a href='{link}'>link</a> instead";
+$GLOBALS['strNoAdvertiser']             = "Selected advertiser does not exist. Try this <a href='{link}'>link</a> instead";
 
 // General advertising
 $GLOBALS['strRequests']                 = 'Requests';
