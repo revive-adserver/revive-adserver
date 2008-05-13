@@ -55,6 +55,8 @@
 	                 <artifactId>maven-surefire-plugin</artifactId>
 	                 <configuration>
 	                     <excludes>
+	                       <exclude>**/TestGetBanner.*</exclude> <!-- disabled during OX-2555 -->
+						   <exclude>**/TestGetBannerListByCampaignId.*</exclude> <!-- disabled during OX-2555 -->	                     
 	                       <exclude>**/Abstract*</exclude>
 	                       <exclude>**/*Case.*</exclude>
 	                       <exclude>**/*$*</exclude>

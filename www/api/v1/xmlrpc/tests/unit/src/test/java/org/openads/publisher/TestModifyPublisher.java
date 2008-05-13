@@ -30,7 +30,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.xmlrpc.XmlRpcException;
-import org.openads.config.GlobalSettings;
 import org.openads.utils.ErrorMessage;
 import org.openads.utils.TextUtils;
 
@@ -202,6 +201,7 @@ public class TestModifyPublisher extends PublisherTestCase {
 		deleteAgency(agencyId);
 
 		struct.put(PUBLISHER_ID, publisherId);
+		struct.put(PUBLISHER_NAME, "test"+PUBLISHER_NAME);
 		struct.put(AGENCY_ID, agencyId);
 
 		executeModifyPublisherWithError(params, ErrorMessage.getMessage(

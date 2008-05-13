@@ -54,7 +54,6 @@ public class PublisherTestCase extends AgencyTestCase {
 	protected final static String PUBLISHER_ADVERTISER_STATISTICS_METHOD = "publisherAdvertiserStatistics";
 
 	protected static final String PUBLISHER_ID = "publisherId";
-	protected static final String PUBLISHER_NAME = "publisherName";
 	protected static final String EMAIL_ADDRESS = "emailAddress";
 
 	protected Integer agencyId = null;

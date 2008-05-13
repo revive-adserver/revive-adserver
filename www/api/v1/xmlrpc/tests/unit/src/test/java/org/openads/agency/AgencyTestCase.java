@@ -60,6 +60,7 @@ public class AgencyTestCase extends WebServiceTestCase {
 	protected static final String EMAIL_ADDRESS = "emailAddress";
 	protected static final String CONTACT_NAME = "contactName";
 	protected static final String AGENCY_NAME = "agencyName";
+	protected static final String PUBLISHER_NAME = "publisherName";
 
 	protected void setUp() throws Exception {
 		super.setUp();
