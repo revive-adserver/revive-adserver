@@ -694,6 +694,30 @@ class Test_OA_Upgrade extends UnitTestCase
 
     }
 
+    function test_checkDatabaseName()
+    {
+        $oUpgrade  = new OA_Upgrade();
+        $aParam = array();
+        $aParam['database']['type'] = 'mysql';
+        $aParam['database']['name'] = 'test white space ';
+        $this->assertFalse($oUpgrade->checkDatabaseName($aParam));
+        $aParam['database']['name'] = 'special'.chr(255).'char';
+        $this->assertFalse($oUpgrade->checkDatabaseName($aParam));
+        $aParam['database']['name'] = 'characters/that are not allowed in filenames.';
+        $this->assertFalse($oUpgrade->checkDatabaseName($aParam));
+        $aParam['database']['name'] = 'abcdefghij1234567890123456789012345678901234567890123456789012345'; //65 chars
+        $this->assertFalse($oUpgrade->checkDatabaseName($aParam));
+        $aParam['database']['name'] = 'abcdefghij123456789012345678901234567890123456789012345678901234'; //64 chars
+        $this->assertTrue($oUpgrade->checkDatabaseName($aParam));
+        $aParam['database']['type'] = 'pgsql';
+        $this->assertFalse($oUpgrade->checkDatabaseName($aParam)); //64 chars
+        $aParam['database']['name'] = 'abcdefghij12345678901234567890123456789012345678901234567890123'; //63 chars
+        $this->assertTrue($oUpgrade->checkDatabaseName($aParam)); 
+        $aParam['database']['name'] = '1 is first character alfabetic';
+        $this->assertFalse($oUpgrade->checkDatabaseName($aParam));
+        $aParam['database']['name'] = 'properName';
+        $this->assertTrue($oUpgrade->checkDatabaseName($aParam));
+    }
 
 }
 
