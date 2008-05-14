@@ -61,12 +61,18 @@ class Test_ConfirmAccount extends UnitTestCase
 
     function testCheckIfSsoUserExists()
     {
+        // generate one users to ensure his ID is != 1
         $doUsers = OA_Dal::factoryDO('users');
+        $doUsers->username = 'boo' . 1;
+        DataGenerator::generate('users');
+        
+        $doUsers = OA_Dal::factoryDO('users');
+        $doUsers->username = 'boo' . 2;
         $doUsers->sso_user_id = $ssoUserId = 123;
-        DataGenerator::generate($doUsers);
+        $userId = DataGenerator::generateOne($doUsers);
         
         $ret = OA_Controller_SSO_ConfirmAccount::checkIfSsoUserExists($ssoUserId);
-        $this->assertTrue($ret);
+        $this->assertEqual($ret, $userId);
         
         $ret = OA_Controller_SSO_ConfirmAccount::checkIfSsoUserExists(12345);
         $this->assertFalse($ret);
