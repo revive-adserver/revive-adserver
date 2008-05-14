@@ -348,7 +348,10 @@ class OA_Controller_SSO_ConfirmAccount
     {
         $doUsersCheck = OA_Dal::factoryDO('users');
         $doUsersCheck->sso_user_id = $ssoAccountId;
-        return $doUsersCheck->find();
+        if ($doUsersCheck->find(true)) {
+            return $doUsersCheck->user_id;
+        }
+        return false;
     }
     
     function &getCasPlugin()
