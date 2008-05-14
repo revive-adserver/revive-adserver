@@ -111,6 +111,10 @@ class OA_Dll_Banner extends OA_Dll
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
+        // Clean up
+        $this->oImage = null;
+        $this->oBackupImage = null;
+
         if (isset($oBanner->bannerId)) {
             // When modifying a banner, check correct field types are used and the bannerID exists.
             if (!$this->checkStructureNotRequiredIntegerField($oBanner, 'campaignId') ||
@@ -137,9 +141,11 @@ class OA_Dll_Banner extends OA_Dll
                 $this->raiseError('Field \'storageType\' must be one of the enum: '.join(', ', $storageTypes));
                 return false;
             }
+            $contentType = '';
         } else {
             $doBanners = OA_Dal::staticGetDO('banners', $oBanner->bannerId);
             $oBanner->storageType = $doBanners->storagetype;
+            $contentType = $doBanners->contenttype;
         }
 
         // Check that image is provided when storagetype is sql or web
@@ -148,14 +154,24 @@ class OA_Dll_Banner extends OA_Dll
                 if (!$this->_validateImage($oBanner->aImage, $this->oImage)) {
                     return false;
                 }
+                $contentType = $this->oImage->contentType == 'swf';
+            } elseif (!isset($oBanner->bannerId)) {
+                $this->raiseError('Field \'aImage\' must not be empty');
+                return false;
             }
-            if ($this->oImage->contentType == 'swf') {
+            if ($contentType == 'swf') {
                 if (isset($oBanner->aBackupImage)) {
                     // Get backup image
                     if (!$this->_validateImage($oBanner->aBackupImage, $this->oBackupImage)) {
                         return false;
                     }
                 }
+            } else {
+                // Remove backup gif
+                $oBanner->aBackupImage = array(
+                    'filename' => null,
+                    'content' =>  ''
+                );
             }
         }
 
@@ -238,7 +254,6 @@ class OA_Dll_Banner extends OA_Dll
      */
     function modify(&$oBanner)
     {
-
         if (!isset($oBanner->bannerId)) {
             // Add
             $oBanner->setDefaultForAdd();
@@ -279,7 +294,7 @@ class OA_Dll_Banner extends OA_Dll
                     if (!empty($oBanner->aImage)) {
                         // Hardcoded link conversion
                         $bannerData['parameters'] = '';
-                        if (!empty($oBanner->aImage['editswf'])) {
+                        if ($this->oImage->contentType == 'swf' && !empty($oBanner->aImage['editswf'])) {
                             $aLinks = array_keys($this->oImage->hardcodedLinks);
                             list($result, $params) = phpAds_SWFConvert($this->oImage->content, true, $aLinks);
                             if ($result != $this->oImage->content) {
@@ -295,10 +310,15 @@ class OA_Dll_Banner extends OA_Dll
                         $bannerData['width']      = $this->oImage->width;
                         $bannerData['height']     = $this->oImage->height;
                     }
-                    if (isset($this->oBackupImage)) {
-                        $this->oBackupImage->store($bannerData['storagetype']);
-                        $bannerData['alt_contentype'] = $this->oBackupImage->contentType;
-                        $bannerData['alt_filename']   = $this->oBackupImage->fileName;
+                    if (!empty($oBanner->aBackupImage)) {
+                        if (isset($this->oBackupImage)) {
+                            $this->oBackupImage->store($bannerData['storagetype']);
+                            $bannerData['alt_contenttype'] = $this->oBackupImage->contentType;
+                            $bannerData['alt_filename']   = $this->oBackupImage->fileName;
+                        } elseif (!isset($oBanner->aBackupImage['filename'])) {
+                            $bannerData['alt_contenttype'] = '';
+                            $bannerData['alt_filename']   = '';
+                        }
                     }
                     break;
             }

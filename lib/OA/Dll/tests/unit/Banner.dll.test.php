@@ -112,7 +112,7 @@ class OA_Dll_BannerTest extends DllUnitTestCase
         $dllCampaignPartialMock->expectCallCount('checkPermissions', 1);
 
         $dllBannerPartialMock->setReturnValue('checkPermissions', true);
-        $dllBannerPartialMock->expectCallCount('checkPermissions', 11);
+        $dllBannerPartialMock->expectCallCount('checkPermissions', 12);
 
         $oAdvertiserInfo = new OA_Dll_AdvertiserInfo();
         $oAdvertiserInfo->advertiserName = 'test Advertiser name';
@@ -237,6 +237,26 @@ class OA_Dll_BannerTest extends DllUnitTestCase
         $this->assertEqual(file_get_contents($img), $this->binaryGif);
         $this->assertTrue(unlink($img));
 
+        // Modify back to gif
+        $oBannerInfo2 = new OA_Dll_BannerInfo();
+        $oBannerInfo2->bannerId = (int)$doBanners->bannerid;
+        $oBannerInfo2->aImage = array(
+            'filename' => 'foo.gif',
+            'content'  => $this->binaryGif
+        );
+
+        $this->assertTrue($dllBannerPartialMock->modify($oBannerInfo2),
+                          $dllBannerPartialMock->getLastError());
+
+        $doBanners = OA_Dal::staticGetDO('banners', $oBannerInfo2->bannerId);
+        $this->assertEqual($doBanners->width, 1);
+        $this->assertEqual($doBanners->height, 1);
+        $this->assertEqual($doBanners->contenttype, 'gif');
+        $this->assertFalse($doBanners->alt_contenttype);
+
+        $img = $GLOBALS['_MAX']['CONF']['store']['webDir'].'/'.$doBanners->filename;
+        $this->assertEqual(file_get_contents($img), $this->binaryGif);
+        $this->assertTrue(unlink($img));
 
         // Add swf (SQL stored, no conversion)
         $oBannerInfo2 = new OA_Dll_BannerInfo();
