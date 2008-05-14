@@ -37,7 +37,7 @@ $GLOBALS['strInvocationLocal']			= "Modo local";
 
 
 // Other
-$GLOBALS['strCopyToClipboard']			= "Copiar al Portapapeles";
+$GLOBALS['strCopyToClipboard']			= "Copiar al portapapeles";
 
 
 // Measures
@@ -48,15 +48,15 @@ $GLOBALS['strAbbrSeconds']				= "seg";
 // Common Invocation Parameters
 $GLOBALS['strInvocationWhat']			= "Selección de banner";
 $GLOBALS['strInvocationClientID']		= "Anunciante o campaña";
-$GLOBALS['strInvocationTarget']			= "Frame objetivo";
-$GLOBALS['strInvocationSource']			= "Fuente";
+$GLOBALS['strInvocationTarget']			= "Marco de destino";
+$GLOBALS['strInvocationSource']			= "Origen";
 $GLOBALS['strInvocationWithText']		= "Mostrar texto después del banner";
 $GLOBALS['strInvocationDontShowAgain']	= "No volver a mostrar el banner en la misma página";
 $GLOBALS['strInvocationTemplate'] 		= "Guardar el baner en una variable para ser usado en una plantilla";
 
 
 // Iframe
-$GLOBALS['strIFrameRefreshAfter']		= "Actualizar despues de";
+$GLOBALS['strIFrameRefreshAfter']		= "Actualizar despu&eacute;s de";
 $GLOBALS['strIframeResizeToBanner']		= "Ajustar el iframe según las dimensiones del banner";
 $GLOBALS['strIframeMakeTransparent']	= "Hacer el iframe transparente";
 $GLOBALS['strIframeIncludeNetscape4']	= "Incluir ilayer compatible con Netscape 4";
@@ -114,11 +114,21 @@ $GLOBALS['strRightMargin']				= "Margen Derecho";
 $GLOBALS['strTransparentBackground']	= "Fondo trasparente";
 
 
-$GLOBALS['strAdLayerStyleName']				= array(
-	'geocities'		=> "Geocities",
-	'simple'		=> "Simple",
-	'cursor'		=> "Cursor",
-	'floater'		=> "Floater"
-);
+$GLOBALS['strAdLayerStyleName']['geocities'] = "Geocities";
+$GLOBALS['strAdLayerStyleName']['simple'] = "Simple";
+$GLOBALS['strAdLayerStyleName']['cursor'] = "Cursor";
+$GLOBALS['strAdLayerStyleName']['floater'] = "Flotante";
 
+
+
+
+// Note: new translatiosn not found in original lang files but found in CSV
+$GLOBALS['strCopy'] = "Copiar al portapapeles";
+$GLOBALS['strInvocationCampaignID'] = "Campa&ntilde;a";
+$GLOBALS['strInvocationDontShowAgainCampaign'] = "No volver a mostrar un banner de la misma campa&ntilde;a en la misma p&aacute;gina";
+$GLOBALS['strInvocationBannerID'] = "ID banner";
+$GLOBALS['strInvocationComments'] = "Incluir comentarios";
+$GLOBALS['str3rdPartyTrack'] = "Permitir <i>clicktracking</i> de servidores de terceros";
+$GLOBALS['strCacheBuster'] = "Insertar c&oacute;digo anti-cache";
+$GLOBALS['strImgWithAppendWarning'] = "Este tracker tiene c&oacute;digo asociado; dicho c&oacute;digo <strong>s&oacute;lo</strong> funcionar&aacute; con tags Javascript";
 ?>

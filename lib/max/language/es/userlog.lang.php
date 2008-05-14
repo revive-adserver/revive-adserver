@@ -27,21 +27,48 @@ $Id$
 
 // Set translation strings
 
-$GLOBALS['strDeliveryEngine']				= "Motor de Entregas";
+$GLOBALS['strDeliveryEngine']				= "Motor de entrega";
 $GLOBALS['strMaintenance']					= "Mantenimiento";
 $GLOBALS['strAdministrator']				= "Administrador";
 
 
-$GLOBALS['strUserlog'] = array (
-	phpAds_actionAdvertiserReportMailed 	=> "Reporte para el Anunciante {id} enviado via e-mail",
-	phpAds_actionPublisherReportMailed 		=> "Reporte para el Afiliado {id} enviado via e-mail",
-	phpAds_actionWarningMailed				=> "Aviso de desactivación de campaña {id} enviado via e-mail",
-	phpAds_actionDeactivationMailed			=> "Notificación de campaña desactivada {id} enviada via e-mail",
-	phpAds_actionPriorityCalculation		=> "Prioridad recalculada",
-	phpAds_actionPriorityAutoTargeting		=> "Objetivos de Campaña recalculados",
-	phpAds_actionDeactiveCampaign			=> "Campaña {id} desactivada",
-	phpAds_actionActiveCampaign				=> "Campaña {id} activada",
-	phpAds_actionAutoClean					=> "Autolimpieza de la base de datos"
-);
+$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Informe para anunciante {id} enviado por e-mail";
+$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "Informe para p&aacute;gina web {id} enviado por e-mail";
+$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "Aviso de desactivaci&oacute;n de campa&ntilde;a {id} enviado v&iacute;a e-mail";
+$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "Notificaci&oacute;n de la desactivaci&oacute;n de la campa&ntilde;a {id} enviada por e-mail";
+$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "Prioridades recalculadas";
+$GLOBALS['strUserlog'][phpAds_actionPriorityAutoTargeting] = "Objetivos de Campaña recalculados";
+$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "Campaña {id} desactivada";
+$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Campaña {id} activada";
+$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Autolimpieza de la base de datos";
 
+
+
+
+// Note: new translatiosn not found in original lang files but found in CSV
+$GLOBALS['strUserlog']['hpAds_actionBatchStatistic'] = "Estad&iacute;sticas compiladas";
+$GLOBALS['strAudit'] = "Log Audit";
+$GLOBALS['strLogging'] = "Grabando";
+$GLOBALS['strDebugLog'] = "Log Debug";
+$GLOBALS['strEvent'] = "Evento";
+$GLOBALS['strTimestamp'] = "Timestamp";
+$GLOBALS['strDeleted'] = "borrado";
+$GLOBALS['strInserted'] = "insertado";
+$GLOBALS['strUpdated'] = "actualizado";
+$GLOBALS['strInsert'] = "Insertar";
+$GLOBALS['strUpdate'] = "Actualizar";
+$GLOBALS['strHas'] = "tiene";
+$GLOBALS['strFilters'] = "Filtros";
+$GLOBALS['strAdvertiser'] = "Anunciante";
+$GLOBALS['strPublisher'] = "P&aacute;gina web";
+$GLOBALS['strType'] = "Tipo";
+$GLOBALS['strParameter'] = "Par&aacute;metro";
+$GLOBALS['strValue'] = "Valor";
+$GLOBALS['strDetailedView'] = "Vista detallada";
+$GLOBALS['strReturnAuditTrail'] = "Volver a Audit Trail";
+$GLOBALS['strAuditTrail'] = "Audit Trail";
+$GLOBALS['strMaintenanceLog'] = "Log de mantenimiento";
+$GLOBALS['strAuditResultsNotFound'] = "No hay eventos que concuerden con el criterio de selecci&oacute;n";
+$GLOBALS['strCollectedAllEvents'] = "Todos los eventos";
+$GLOBALS['strClear'] = "Limpiar";
 ?>
