@@ -556,9 +556,9 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
                 $aRows['clAds'][$aAd['ad_id']] = $aAd;
                 $totals['clAds'] += $aAd['priority'];
             } else {
-                // Sore a paid priority companion ad
+                // Store a paid priority companion ad
                 $aRows['zone_companion'][] = $aAd['placement_id'];
-                $aRows['cAds'][$aAd['ad_id']] = $aAd;
+                $aRows['cAds'][$aAd['campaign_priority']][$aAd['ad_id']] = $aAd;
             }
 
         }
@@ -575,7 +575,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
     // If there are paid companion ads, prepare array of priority totals
     // to allow delivery to do the scaling work later
     if (is_array($aRows['cAds'])) {
-        $totals['cAds'] = _pgsqlGetTotalPrioritiesByCP($aRows['ads']);
+        $totals['cAds'] = _pgsqlGetTotalPrioritiesByCP($aRows['cAds']);
     }
     // If there are low priority companion ads, sort by priority
     if (is_array($aRows['clAds'])) {
@@ -669,9 +669,9 @@ function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = tru
                 $aRows['clAds'][$aAd['ad_id']] = $aAd;
                 $totals['clAds'] += $aAd['priority'];
             } else {
-                // Sore a paid priority companion ad
+                // Store a paid priority companion ad
                 $aRows['zone_companion'][] = $aAd['placement_id'];
-                $aRows['cAds'][$aAd['ad_id']] = $aAd;
+                $aRows['cAds'][$aAd['campaign_priority']][$aAd['ad_id']] = $aAd;
             }
 
         }
@@ -688,7 +688,7 @@ function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = tru
     // If there are paid companion ads, prepare array of priority totals
     // to allow delivery to do the scaling work later
     if (isset($aRows['cAds']) && is_array($aRows['cAds'])) {
-        $totals['cAds'] = _pgsqlGetTotalPrioritiesByCP($aRows['ads']);
+        $totals['cAds'] = _pgsqlGetTotalPrioritiesByCP($aRows['cAds']);
     }
     // If there are low priority companion ads, sort by priority
     if (isset($aRows['clAds']) && is_array($aRows['clAds'])) {

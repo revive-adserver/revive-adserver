@@ -430,8 +430,14 @@ function _adSelectCommon($aAds, $context, $source, $richMedia)
         $aLinkedAd = _adSelect($aAds, $context, $source, $richMedia, 'xAds');
         // If no ad selected, and a previous ad on the page has set that companion ads should be selected...
         if (!is_array($aLinkedAd) && isset($aAds['zone_companion']) && is_array($aAds['zone_companion']) && !empty($context)) {
-            // Try to select a normal companion ad...
-            $aLinkedAd = _adSelect($aAds, $context, $source, $richMedia, 'cAds');
+            // The companion paid ads are now grouped by campaign-priority so we need to iterate over the
+            for ($i=10;$i>0;$i--) {
+                if (!empty($aAds['cAds'][$i])) {
+                    $aLinkedAd = _adSelect($aAds, $context, $source, $richMedia, 'cAds', $i);
+                    // Did we pick an ad from this campaign-priority level?
+                    if (is_array($aLinkedAd)) { break; }
+                }
+            }
             // If still no ad selected...
             if (!is_array($aLinkedAd)) {
                 // Select one of the low-priority companion ads
@@ -525,56 +531,41 @@ function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $adArrayVar = 'a
 
     $conf = $GLOBALS['_MAX']['CONF'];
 
-    $prioritysum = 0;
-    if (($adArrayVar == 'ads') || ($adArrayVar == 'cAds')) {
-        $prioritysum = 1;
+    $paidAds = ($adArrayVar == 'ads') || ($adArrayVar == 'cAds');
+
+    if ($paidAds) {
+        // Paid campaigns have a sum of priorities of unity, so pick
+        // a float random number between 0 and 1, inclusive.
+        $ranweight = (mt_rand(0, $GLOBALS['_MAX']['MAX_RAND']) / $GLOBALS['_MAX']['MAX_RAND']);
     } else {
+        // All other campaigns have integer-based priority values, so
+        // select an integer random number between 0 and the sum of all the
+        // priority values
+        $prioritysum = 0;
         foreach ($aAds as $aAd) {
             $prioritysum += $aAd['priority'];
         }
+        if (!$prioritysum) {
+            // No priority, exit!
+            return;
+        }
+        $ranweight = ($prioritysum > 1) ? mt_rand(0, $prioritysum - 1) : 0;
     }
 
-    while ($prioritysum && sizeof($aAds) > 0) {
-        $low = 0;
-        $high = 0;
-        $paidPriorityCounter = 0;
-        if (($adArrayVar == 'ads') || ($adArrayVar == 'cAds')) {
-            // Paid campaigns have a sum of priorities of unity, so pick
-            // a random number between 0 and $prioritysum, inclusive.
-            $ranweight = (mt_rand(0, $GLOBALS['_MAX']['MAX_RAND']) / $GLOBALS['_MAX']['MAX_RAND']) * $prioritysum;
-
-        } else {
-            // All other campaigns have integer-based priority values, so
-            // select a random number between 0 and the sum of all the
-            // priority values
-            $ranweight = ($prioritysum > 1) ? mt_rand(0, $prioritysum - 1) : 0;
-        }
-        // Perform selection of an ad, based on the random number
-        foreach($aAds as $adId => $aLinkedAd) {
-            if (is_array($aLinkedAd)) {
-                $placementId = $aLinkedAd['placement_id'];
-                $low = $high;
-                $high += $aLinkedAd['priority'];
-                if ($high > $ranweight && $low <= $ranweight) {
-                    // We have already tested the delivery limitations against the current impression
-                    return $aLinkedAd;
-                } else {
-                    // This ad did not match the random value generated. If we
-                    // are also looking for a paid placement ad, count the number
-                    // of iterations (ads we have looked at), so that we know
-                    // when we have selected the blank ad
-                    if (($adArrayVar == 'ads') || ($adArrayVar == 'cAds')) {
-                        $paidPriorityCounter++;
-                    }
-                    // Have we tested all the ads yet?
-                    if ($paidPriorityCounter == count($aAds)) {
-                        // Yes, and no ad was suitable, so no paid ad should be shown
-                        return;
-                    }
-                }
+    // Perform selection of an ad, based on the random number
+    $low = 0;
+    $high = 0;
+    foreach($aAds as $aLinkedAd) {
+        if (is_array($aLinkedAd)) {
+            $low = $high;
+            $high += $aLinkedAd['priority'];
+            if ($high > $ranweight && $low <= $ranweight) {
+                return $aLinkedAd;
             }
         }
     }
+
+    return;
 }
 
 /**
@@ -687,27 +678,7 @@ function _adSelectBuildContextArray(&$aLinkedAds, $adArrayVar, $context)
                 case 'companionid':
                     switch ($key) {
                         case '!=': $aContext['campaign']['exclude'][$value]   = true; break;
-                        case '==':
-                        if ($adArrayVar == 'cAds') {
-                        	$includeCampaignID[$value] = true;
-                            // Rescale the priorities for the available companion campaigns...
-                            $companionPrioritySum = 0;
-                            foreach ($aLinkedAds[$adArrayVar] as $iAdId => $aAd) {
-                                if (isset($aContext['campaign']['include'][$aAd['placement_id']])) {
-                                    $companionPrioritySum += $aAd['priority'];
-                                } else {
-                                    unset($aLinkedAds[$adArrayVar][$iAdId]);
-                                }
-                            }
-                            if ($companionPrioritySum > 0) {
-                                $companionScaleFactor = 1 / $companionPrioritySum;
-                                foreach($aLinkedAds[$adArrayVar] as $iAdId => $aAd) {
-                                    $aLinkedAds[$adArrayVar][$iAdId]['priority'] *= $companionScaleFactor;
-                                }
-                            }
-                        }
-                        $aContext['campaign']['include'][$value] = true;
-                        break;
+                        case '==': $aContext['campaign']['include'][$value] = true; break;
                     }
                 break;
                 default:
