@@ -1196,19 +1196,19 @@ $GLOBALS['strAllowMoreReports']           = "Allow 'More Reports' button";
 $GLOBALS['strSwitchAccount']              = "Switch to this account";
 
 // Channels
-$GLOBALS['strChannel']                    = "Channel";
-$GLOBALS['strChannels']                   = "Channels";
-$GLOBALS['strChannelOverview']              = "Channel Overview";
-$GLOBALS['strChannelManagement']          = "Channel Management";
-$GLOBALS['strAddNewChannel']              = "Add new channel";
-$GLOBALS['strAddNewChannel_Key']          = "Add <u>n</u>ew channel";
+$GLOBALS['strChannel']                    = "Targeting Channel";
+$GLOBALS['strChannels']                   = "Targeting Channels";
+$GLOBALS['strChannelOverview']            = "Targeting Channel Overview";
+$GLOBALS['strChannelManagement']          = "Targeting Channel Management";
+$GLOBALS['strAddNewChannel']              = "Add new Targeting Channel";
+$GLOBALS['strAddNewChannel_Key']          = "Add <u>n</u>ew Targeting Channel";
 $GLOBALS['strChannelToWebsite']           = "to website";
-$GLOBALS['strNoChannels']                 = "There are currently no channels defined";
-$GLOBALS['strEditChannelLimitations']     = "Edit channel limitations";
-$GLOBALS['strChannelProperties']          = "Channel properties";
+$GLOBALS['strNoChannels']                 = "There are currently no targeting channels defined";
+$GLOBALS['strEditChannelLimitations']     = "Edit targeting channel limitations";
+$GLOBALS['strChannelProperties']          = "Targeting Channel properties";
 $GLOBALS['strChannelLimitations']         = "Delivery Options";
-$GLOBALS['strConfirmDeleteChannel']       = "Do you really want to delete this channel?";
-$GLOBALS['strModifychannel']              = "Edit channel";
+$GLOBALS['strConfirmDeleteChannel']       = "Do you really want to delete this targeting channel?";
+$GLOBALS['strModifychannel']              = "Edit targeting channel";
 
 // Tracker Variables
 $GLOBALS['strVariableName']             = "Variable Name";
