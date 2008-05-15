@@ -143,17 +143,21 @@ class test_DeliveryAdSelect extends UnitTestCase
 //        $aLinkedAds = (array)OA_Dal_Delivery_getZoneLinkedAds(61);
 //        $prn = var_export($aLinkedAds, TRUE);
 
+        // Note: The total priority of 'ads' array is forcibly set to 1 instead of 0.98901098901 to ensure
+        // the test is predictable and something is always delivered
+        $aLinked_ads['priority']['ads'][5] = 1;
+
         // Test1
 		$return   = _adSelect($aLinked_xAds, $context, $source, $richMedia, 'xAds');
 		$this->assertTrue(array_key_exists($return['ad_id'], $aLinked_xAds['xAds']));
 
         // Test2
-		$return   = _adSelect($aLinked_ads, $context, $source, $richMedia, 'ads');
-		$this->assertTrue(array_key_exists($return['ad_id'], $aLinked_ads['ads']));
+		$return   = _adSelect($aLinked_ads, $context, $source, $richMedia, 'ads', 5);
+		$this->assertTrue(array_key_exists($return['ad_id'], $aLinked_ads['ads'][5]));
 
 		// Test3:
-		$return   = _adSelect($aLinked_cAds, $context, $source, $richMedia, 'cAds');
-		$this->assertTrue(array_key_exists($return['ad_id'], $aLinked_cAds['cAds']));
+		$return   = _adSelect($aLinked_cAds, $context, $source, $richMedia, 'cAds', 5);
+		$this->assertTrue(array_key_exists($return['ad_id'], $aLinked_cAds['cAds'][5]));
 
 	}
 
