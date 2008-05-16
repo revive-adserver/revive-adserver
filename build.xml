@@ -10,7 +10,7 @@
   <!-- Import the svn commands -->
   <import file="build-svn.xml"/>
   <!-- Import the canoo scripts -->
-  <import file="build-canoo.xml"/>
+  <!-- <import file="build-canoo.xml"/> -->
 
   <!-- OpenX Package Integrity Plugin -->
   <taskdef name="checkdistribution" classname="org.openads.ant.CheckDistributionTask"/>
@@ -186,6 +186,7 @@
     <ant antfile="tests.xml"/>
   </target>
 
+<!--
   <target name="test-canoo" description="Test canoo remotely or if -Drun.local=true switch exist tests it locally">
   	<echo>test-canoo started</echo>
     <if>
@@ -200,10 +201,11 @@
       </else>
     </if>
   	<echo>test-canoo finished</echo>
-  </target>
+  </target> -->
 
   <!-- <target name="test-canoo-local" depends="canoo-create-openx-configuration-local, setup-delivery-files, run-test-canoo"> -->
-  <target name="test-canoo-local" depends="setup-delivery-files, run-test-canoo">
+  <!--
+	<target name="test-canoo-local" depends="setup-delivery-files, run-test-canoo">
     <property name="run.local" value="true" />
   	<antcall target="clean-delivery"></antcall>
   </target>
@@ -213,5 +215,5 @@
   <target name="test-canoo-prepare" depends="clean, checkconsistency, init-version, package-bzip2-canoo, canoo-prepare-dir, canoo-copy-package, canoo-unpack-package, canoo-create-openx-configuration-remote"/>
 
   <target name="simpletest" depends="clean, init, test-all, package" />
-
+-->
 </project>
