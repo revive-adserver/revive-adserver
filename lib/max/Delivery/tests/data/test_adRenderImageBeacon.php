@@ -41,7 +41,7 @@ $referer 	= '';
 
 
 // break a known result structure down into individual elements
-$aPattern['struct']     = "(?P<divB><div (?P<divB_attrib>id='beacon_\d+'[\w\W\s]+)>"
+$aPattern['struct']     = "(?P<divB><div (?P<divB_attrib>id='beacon_\{random\}'[\w\W\s]+)>"
                         . "(?P<divB_content><img (?P<divB_img_attrib>[\w\W\s]+)>)"
                         . "<\/div>)"
                         . "";

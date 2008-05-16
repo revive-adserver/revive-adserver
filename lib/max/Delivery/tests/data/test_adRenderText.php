@@ -79,6 +79,6 @@ $aBanner    =   array(
 $expectNoBeacon =
 '<a href=\'http://'.$GLOBALS['_MAX']['CONF']['webpath']['delivery'].'/'.$GLOBALS['_MAX']['CONF']['file']['click'].'?oaparams=2__bannerid=5__zoneid=0__cb={random}__maxdest=http://www.m3.net\' target=\'_blank\'>m3 media services</a>';
 $expect = $expectNoBeacon .
-"<div id='beacon_5' style='position: absolute; left: 0px; top: 0px; visibility: hidden;'><img src='http://".$GLOBALS['_MAX']['CONF']['webpath']['delivery']."/".$GLOBALS['_MAX']['CONF']['file']['log']."?bannerid=5&amp;campaignid=1&amp;zoneid=0&amp;referer=http%3A%2F%2Fsome.referrer.com%2F&amp;cb={random}' width='0' height='0' alt='' style='width: 0px; height: 0px;' /></div>";
+"<div id='beacon_{random}' style='position: absolute; left: 0px; top: 0px; visibility: hidden;'><img src='http://".$GLOBALS['_MAX']['CONF']['webpath']['delivery']."/".$GLOBALS['_MAX']['CONF']['file']['log']."?bannerid=5&amp;campaignid=1&amp;zoneid=0&amp;referer=http%3A%2F%2Fsome.referrer.com%2F&amp;cb={random}' width='0' height='0' alt='' style='width: 0px; height: 0px;' /></div>";
 
 ?>

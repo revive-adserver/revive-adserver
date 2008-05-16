@@ -219,7 +219,7 @@ class test_DeliveryAdRender extends UnitTestCase
 <param name='autoplay' value='true'>
 <embed src='' controller='false' autoplay='true' width='104' height='104' pluginspace='http://www.apple.com/quicktime/download/'></embed>
 <noembed><p>before</p><p>after</p></noembed>
-</object><div id='beacon_' style='position: absolute; left: 0px; top: 0px; visibility: hidden;'><img src='http://".$GLOBALS['_MAX']['CONF']['webpath']['delivery']."/".$GLOBALS['_MAX']['CONF']['file']['log']."?bannerid=&amp;campaignid=&amp;zoneid=0&amp;cb={random}' width='0' height='0' alt='' style='width: 0px; height: 0px;' /></div>$append";
+</object><div id='beacon_{random}' style='position: absolute; left: 0px; top: 0px; visibility: hidden;'><img src='http://".$GLOBALS['_MAX']['CONF']['webpath']['delivery']."/".$GLOBALS['_MAX']['CONF']['file']['log']."?bannerid=&amp;campaignid=&amp;zoneid=0&amp;cb={random}' width='0' height='0' alt='' style='width: 0px; height: 0px;' /></div>$append";
 
 		$ret 	= _adRenderQuicktime($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);
         $this->assertEqual($ret, $expect);

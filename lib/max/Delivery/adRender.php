@@ -233,7 +233,7 @@ function MAX_adRenderImageBeacon($logUrl, $userAgent = null)
     if (!isset($userAgent) && isset($_SERVER['HTTP_USER_AGENT'])) {
         $userAgent = $_SERVER['HTTP_USER_AGENT'];
     }
-    $beaconId = 'beacon_'.md5(uniqid('', true));
+    $beaconId = 'beacon_{random}';
     // Add beacon image for logging
     if (isset($userAgent) && preg_match("#Mozilla/(1|2|3|4)#", $userAgent)
         && !preg_match("#compatible#", $userAgent)) {
@@ -733,8 +733,7 @@ function _adRenderImageBeacon($aBanner, $zoneId = 0, $source = '', $loc = '', $r
     if (empty($logUrl)) {
         $logUrl = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&');
     }
-    $beacon = "$div<img src='$logUrl' width='0' height='0' alt=''{$style} />{$divEnd}";
-    return $beacon;
+    return MAX_adRenderImageBeacon($logUrl);
 }
 
 /**
