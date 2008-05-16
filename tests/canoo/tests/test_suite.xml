@@ -30,7 +30,7 @@
 	
 	<target name="Level1" if="test.level1" depends="Level0">
 		<echo>Starting smoke tests - 1st level...</echo>
-			<ant antfile="${testcase.dir}/level1/openads_smoke.xml" />
+			<ant antfile="${testcase.dir}/level1/openx.smoke.xml" />
 		<echo>###################################</echo>		
 		<echo># 1st level smoke test - FINISHED!#</echo>
 		<echo>###################################</echo>				
