@@ -195,7 +195,7 @@ class OA_Admin_UI
 
         $this->_assignBranding($conf['ui']['applicationName'], $conf['ui']['logoFilePath']);
 
-        $this->_assignSearch();
+        $this->_assignSearch($ID);
 
         $this->_assignUserAccountInfo();
 
@@ -398,7 +398,7 @@ class OA_Admin_UI
         $this->oTpl->assign('combineAssets', $conf['ui']['combineAssets']);
     }
 
-    function _assignSearch()
+    function _assignSearch($ID)
     {
         $displaySearch = ($ID !== phpAds_Login && $ID !== phpAds_Error && OA_Auth::isLoggedIn() && OA_Permission::isAccount(OA_ACCOUNT_MANAGER) && !defined('phpAds_installing'));
         $this->oTpl->assign('displaySearch', $displaySearch);
