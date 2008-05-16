@@ -42,3 +42,7 @@ db.port=3306
 # set database name and host
 db.name=openx
 db.host=localhost
+
+## Marketplace
+marketplace.enabled=true
+#marketplace.enabled=false
