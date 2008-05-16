@@ -151,7 +151,13 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
         $originalBannerId = intval(substr($what,9));
     }
     $userid = MAX_cookieGetUniqueViewerID();
-    MAX_cookieAdd($conf['var']['viewerId'], $userid, MAX_commonGetTimeNow()+31536000); // 365*24*60*60
+    // marketplace
+    if (!empty($conf['marketplace']['enabled']) && !empty($conf['marketplace']['cacheTime'])) {
+        $expiry = $conf['marketplace']['cacheTime'] < 0 ? null : MAX_commonGetTimeNow + $conf['marketplace']['cacheTime'];
+    } else {
+        $expiry = _getTimeYearFromNow();
+    }
+    MAX_cookieSet($conf['var']['viewerId'], $userid, $expiry);
     $outputbuffer = '';
     // Set flag
     $found = false;

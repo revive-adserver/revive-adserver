@@ -32,6 +32,10 @@ require_once '../../init-delivery.php';
 require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
 require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 require_once MAX_PATH . '/lib/max/Delivery/javascript.php';
+require_once MAX_PATH . '/lib/max/Delivery/marketplace.php';
+
+// Marketplace
+MAX_marketplaceGetIdWithRedirect();
 
 // No Caching
 MAX_commonSetNoCacheHeaders();
@@ -90,18 +94,19 @@ if (!empty($output['context'])) {
     }
 }
 
-$JScontext = (!empty($context)) ? "<script type='text/javascript'>document.context='".MAX_commonPackContext($context)."'; </script>" : '';
+// Append context, if any
+$output['html'] .= (!empty($context)) ? "<script type='text/javascript'>document.context='".MAX_commonPackContext($context)."'; </script>" : '';
 
 MAX_cookieFlush();
 
 // Show the banner
-MAX_commonSendContentTypeHeader("application/x-javascript", $charset);
+MAX_commonSendContentTypeHeader("text/javascript", $charset);
 
 if (isset($output['contenttype']) && $output['contenttype'] == 'swf' && !$mmm_fo) {
     echo MAX_flashGetFlashObjectInline();
 }
 
-$uniqid = substr(md5(uniqid('', 1)), 0, 8);
-echo MAX_javascriptToHTML($output['html'] . $JScontext, "MAX_{$uniqid}");
+// Output the code
+echo MAX_javascriptToHTML($output['html'], 'OX_'.substr(md5(uniqid('', 1)), 0, 8));
 
 ?>

@@ -31,6 +31,10 @@ require_once '../../init-delivery.php';
 // Required files
 require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
 require_once MAX_PATH . '/lib/max/Delivery/flash.php';
+require_once MAX_PATH . '/lib/max/Delivery/marketplace.php';
+
+// Marketplace
+MAX_marketplaceGetIdWithRedirect();
 
 // No Caching
 MAX_commonSetNoCacheHeaders();

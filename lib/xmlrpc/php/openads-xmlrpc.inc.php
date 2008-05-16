@@ -159,7 +159,7 @@ class OA_XmlRpc
 
             if (isset($response['cookies']) && is_array($response['cookies'])) {
                 foreach ($response['cookies'] as $cookieName => $cookieValue) {
-                    setcookie($cookieName, $cookieValue[0], $cookieValue[1]);
+                    setcookie($cookieName, $cookieValue[0], (int)$cookieValue[1]);
                 }
             }
 

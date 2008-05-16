@@ -352,6 +352,7 @@ vars                = OAVARS        ; Used for passing variables
 trackonly           = trackonly     ; Used to avoid redirecting after a click
 openads             = openads       ; Used as identifier for the adsense click tracking comments
 
+
 ;------------------------------------------------------------------------------------------;
 ; Load Balancing / Distributed Statistics                                                  ;
 ;------------------------------------------------------------------------------------------;
@@ -442,6 +443,18 @@ showUnavailable=false
 
 [audit]
 enabled=0
+
+;------------------------------------------------------------------------------------------;
+; Pre-emprive Network Settings                                                             ;
+;------------------------------------------------------------------------------------------;
+
+[marketplace]
+enabled=1
+cacheTime=-1
+idHost=id.openx.net
+bidHost=bid.openx.net
+defaultEnabled=1
+defaultCPM=0.5000
 
 ;------------------------------------------------------------------------------------------;
 ; Test configuration

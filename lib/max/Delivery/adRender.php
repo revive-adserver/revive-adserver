@@ -221,6 +221,36 @@ function MAX_adRender(&$aBanner, $zoneId=0, $source='', $target='', $ct0='', $wi
 }
 
 /**
+ * This function builds the HTML to display a 1x1 logging beacon
+ *
+ * @param string $logUrl    The log URL
+ * @param array  $userAgent The optional user agent, if null $_SERVER[HTTP_USER_AGENT]
+ *                          will be used
+ * @return string The HTML to show the 1x1 logging beacon
+ */
+function MAX_adRenderImageBeacon($logUrl, $userAgent = null)
+{
+    if (!isset($userAgent) && isset($_SERVER['HTTP_USER_AGENT'])) {
+        $userAgent = $_SERVER['HTTP_USER_AGENT'];
+    }
+    $beaconId = 'beacon_'.md5(uniqid('', true));
+    // Add beacon image for logging
+    if (isset($userAgent) && preg_match("#Mozilla/(1|2|3|4)#", $userAgent)
+        && !preg_match("#compatible#", $userAgent)) {
+        $div = "<layer id='{$beaconId}' width='0' height='0' border='0' visibility='hide'>";
+        $style = '';
+        $divEnd = '</layer>';
+    } else {
+        $div = "<div id='{$beaconId}' style='position: absolute; left: 0px; top: 0px; visibility: hidden;'>";
+        $style = " style='width: 0px; height: 0px;'";
+        $divEnd = '</div>';
+    }
+    $beacon = "$div<img src='".htmlspecialchars($logUrl)."' width='0' height='0' alt=''{$style} />{$divEnd}";
+    return $beacon;
+}
+
+
+/**
  * This function builds the HTML code to display an "image" ad (e.g. GIF/JPG/PNG)
  *
  * @param array   $aBanner      The ad-array for the ad to render code for
@@ -694,24 +724,15 @@ function _adRenderBuildLogURL($aBanner, $zoneId = 0, $source = '', $loc = '', $r
  * @param string  $source       The "source" parameter passed into the adcall
  * @param string  $loc          The "current page" URL
  * @param string  $referer      The "referring page" URL
+ * @param string  $logUrl       The log URL, if empty, it will be generated automatically (default)
  *
  * @return string   The HTML to show the 1x1 logging beacon
  */
-function _adRenderImageBeacon($aBanner, $zoneId = 0, $source = '', $loc = '', $referer = '')
+function _adRenderImageBeacon($aBanner, $zoneId = 0, $source = '', $loc = '', $referer = '', $logUrl = '')
 {
-    $conf = $GLOBALS['_MAX']['CONF'];
-    // Add beacon image for logging
-    if (isset($_SERVER['HTTP_USER_AGENT']) && preg_match("#Mozilla/(1|2|3|4)#", $_SERVER['HTTP_USER_AGENT'])
-        && !preg_match("#compatible#", $_SERVER['HTTP_USER_AGENT'])) {
-        $div = "<layer id='beacon_{$aBanner['ad_id']}' width='0' height='0' border='0' visibility='hide'>";
-        $style = '';
-        $divEnd = '</layer>';
-    } else {
-        $div = "<div id='beacon_{$aBanner['ad_id']}' style='position: absolute; left: 0px; top: 0px; visibility: hidden;'>";
-        $style = " style='width: 0px; height: 0px;'";
-        $divEnd = '</div>';
+    if (empty($logUrl)) {
+        $logUrl = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&');
     }
-    $logUrl = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&amp;');
     $beacon = "$div<img src='$logUrl' width='0' height='0' alt=''{$style} />{$divEnd}";
     return $beacon;
 }

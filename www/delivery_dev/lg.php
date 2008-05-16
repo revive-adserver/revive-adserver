@@ -45,8 +45,14 @@ MAX_commonRemoveSpecialChars($_REQUEST);
 
 // Get the viewer ID, and the ad, campaign, creative and zone variables to be logged
 // from the request variables
-$viewerId     = MAX_cookieGetUniqueViewerID();
-MAX_cookieAdd($conf['var']['viewerId'], $viewerId, _getTimeYearFromNow());
+$viewerId     = MAX_cookieGetUniqueViewerId();
+// marketplace
+if (!empty($conf['marketplace']['enabled']) && !empty($conf['marketplace']['cacheTime'])) {
+    $expiry = $conf['marketplace']['cacheTime'] < 0 ? null : MAX_commonGetTimeNow + $conf['marketplace']['cacheTime'];
+} else {
+    $expiry = _getTimeYearFromNow();
+}
+MAX_cookieAdd($conf['var']['viewerId'], $viewerId, $expiry);
 $aAdIds       = MAX_Delivery_log_getArrGetVariable('adId');
 $aCampaignIds = MAX_Delivery_log_getArrGetVariable('campaignId');
 $aCreativeIds = MAX_Delivery_log_getArrGetVariable('creativeId');

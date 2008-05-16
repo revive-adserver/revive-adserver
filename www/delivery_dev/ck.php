@@ -71,7 +71,7 @@ for ($i = 0; $i < count($adId); $i++) {
     } else {
         $creativeId[$i] = 0;
     }
-    if (($adId[$i] > 0) && ($conf['logging']['adClicks']) && !(isset($_GET['log']) && ($_GET['log'] == 'no'))) {
+    if (($adId[$i] > 0 || $adId[$i] == -1) && ($conf['logging']['adClicks']) && !(isset($_GET['log']) && ($_GET['log'] == 'no'))) {
         if (isset($_REQUEST['channel_ids'])) {
             $GLOBALS['_MAX']['CHANNELS'] = str_replace($conf['delivery']['chDelimiter'], $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST['channel_ids']);
         }

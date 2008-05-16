@@ -76,18 +76,23 @@ function MAX_cookieAdd($name, $value, $expire = 0)
  * @param string $viewerId The viewerId value to attempt to set
  */
 function MAX_cookieSetViewerIdAndRedirect($viewerId) {
-    $conf = $GLOBALS['_MAX']['CONF'];
+    $aConf = $GLOBALS['_MAX']['CONF'];
 
-    MAX_cookieAdd($conf['var']['viewerId'], $viewerId, _getTimeYearFromNow());
+    if (!empty($aConf['marketplace']['enabled']) && !empty($aConf['marketplace']['cacheTime'])) {
+        $expiry = $aConf['marketplace']['cacheTime'] < 0 ? 0 : MAX_commonGetTimeNow + $aConf['marketplace']['cacheTime'];
+    } else {
+        $expiry = _getTimeYearFromNow();
+    }
+    MAX_cookieAdd($conf['var']['viewerId'], $viewerId, $expiry);
     MAX_cookieFlush();
 
     // Determine if the access to OpenX was made using HTTPS
-    if ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) {
+    if ($_SERVER['SERVER_PORT'] == $aConf['openads']['sslPort']) {
         $url = MAX_commonConstructSecureDeliveryUrl(basename($_SERVER['PHP_SELF']));
     } else {
         $url = MAX_commonConstructDeliveryUrl(basename($_SERVER['PHP_SELF']));
     }
-    $url .= "?{$conf['var']['cookieTest']}=1&" . $_SERVER['QUERY_STRING'];
+    $url .= "?{$aConf['var']['cookieTest']}=1&" . $_SERVER['QUERY_STRING'];
     MAX_header("Location: {$url}");
 
     ###START_STRIP_DELIVERY
@@ -186,30 +191,37 @@ function _isBlockCookie($cookieName)
  * If a new viewerId was created, then a flag is set in $GLOBALS['_MAX']['COOKIE']['newViewerId']
  *
  * @param bool $create Should a viewer ID be created if not present in $_COOKIE ?
+ * @param bool $oxidOnly Should a viewer ID be retrieved from the local cookie ?
  *
  * @return string The viewer ID
  */
-function MAX_cookieGetUniqueViewerID($create = true)
+function MAX_cookieGetUniqueViewerId($create = true, $oxidOnly = false)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    if (isset($_COOKIE[$conf['var']['viewerId']])) {
-        $userid = $_COOKIE[$conf['var']['viewerId']];
+    $uuidRegex = '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}';
+    if (isset($_GET['openxid'])) {
+        if (preg_match('/^(?:0|'.$uuidRegex.')$/Di', $_GET['openxid'])) {
+            $viewerId = $_GET['openxid'];
+        }
     } else {
-        if ($create) {
-            $remote_address = $_SERVER['REMOTE_ADDR'];
-            $local_address  = $conf['webpath']['delivery']; // How do I get the IP address of this server?
-            // Get the exact time
-            list($usec, $sec) = explode(" ", microtime());
-            $time = (float) $usec + (float) $sec;
-            // Get a random number
-            $random = mt_rand(0,999999999);
-            $userid = substr(md5($local_address.$time.$remote_address.$random),0,32);  // Need to find a way to generate this...
+        $viewerId = null;
+    }
+    if (!$oxidOnly && empty($viewerId)) {
+        if (isset($_COOKIE[$conf['var']['viewerId']])) {
+            $viewerId = $_COOKIE[$conf['var']['viewerId']];
+            if (!empty($conf['marketplace']['enabled']) && !preg_match('/^'.$uuidRegex.'$/Di', $viewerId)) {
+                // Don't accept local cookies if ID service is enabled
+                $viewerId = null;
+            }
+        } elseif ($create) {
+            $viewerId = md5(uniqid('', true));  // Need to find a way to generate this...
             $GLOBALS['_MAX']['COOKIE']['newViewerId'] = true;
         } else {
-            $userid = null;
+            $viewerId = null;
         }
     }
-    return $userid;
+
+    return $viewerId;
 }
 
 /**

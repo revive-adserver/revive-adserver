@@ -958,7 +958,7 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
     if ((empty($viewerId) || !empty($GLOBALS['_MAX']['COOKIE']['newViewerId']))) {
         $log_viewerId = MAX_cookieGetCookielessViewerID();
     } else {
-        $log_viewerId = $viewerId;
+        $log_viewerId = str_replace('-', '', $viewerId);
     }
     // Log the raw data
     $query = "
@@ -1202,7 +1202,7 @@ function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
     if ((empty($viewerId) || !empty($GLOBALS['_MAX']['COOKIE']['newViewerId']))) {
         $log_viewerId = MAX_cookieGetCookielessViewerID();
     } else {
-        $log_viewerId = $viewerId;
+        $log_viewerId = str_replace('-', '', $viewerId);
     }
     $source = isset($_GET['source']) ? $_GET['source'] : '';
     $referer = isset($_GET['referer']) ? $_GET['referer'] : '';

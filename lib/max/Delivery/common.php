@@ -235,7 +235,7 @@ function MAX_commonSetNoCacheHeaders()
 {
     MAX_header('Pragma: no-cache');
     MAX_header('Cache-Control: private, max-age=0, no-cache');
-    MAX_header('Date: '.gmdate('D, d M Y H:i:s', MAX_commonGetTimeNow()).' GMT');
+    MAX_header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 }
 
 /**
