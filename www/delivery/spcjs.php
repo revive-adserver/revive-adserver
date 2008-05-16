@@ -286,16 +286,21 @@ $GLOBALS['_MAX']['COOKIE']['CACHE'] = array();
 $GLOBALS['_MAX']['COOKIE']['CACHE'][$name] = array($value, $expire);
 }
 function MAX_cookieSetViewerIdAndRedirect($viewerId) {
-$conf = $GLOBALS['_MAX']['CONF'];
-MAX_cookieAdd($conf['var']['viewerId'], $viewerId, _getTimeYearFromNow());
+$aConf = $GLOBALS['_MAX']['CONF'];
+if (!empty($aConf['marketplace']['enabled']) && !empty($aConf['marketplace']['cacheTime'])) {
+$expiry = $aConf['marketplace']['cacheTime'] < 0 ? 0 : MAX_commonGetTimeNow + $aConf['marketplace']['cacheTime'];
+} else {
+$expiry = _getTimeYearFromNow();
+}
+MAX_cookieAdd($conf['var']['viewerId'], $viewerId, $expiry);
 MAX_cookieFlush();
 // Determine if the access to OpenX was made using HTTPS
-if ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) {
+if ($_SERVER['SERVER_PORT'] == $aConf['openads']['sslPort']) {
 $url = MAX_commonConstructSecureDeliveryUrl(basename($_SERVER['PHP_SELF']));
 } else {
 $url = MAX_commonConstructDeliveryUrl(basename($_SERVER['PHP_SELF']));
 }
-$url .= "?{$conf['var']['cookieTest']}=1&" . $_SERVER['QUERY_STRING'];
+$url .= "?{$aConf['var']['cookieTest']}=1&" . $_SERVER['QUERY_STRING'];
 MAX_header("Location: {$url}");
 exit;
 }
@@ -360,27 +365,32 @@ return true;
 }
 return false;
 }
-function MAX_cookieGetUniqueViewerID($create = true)
+function MAX_cookieGetUniqueViewerId($create = true, $oxidOnly = false)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
-if (isset($_COOKIE[$conf['var']['viewerId']])) {
-$userid = $_COOKIE[$conf['var']['viewerId']];
+$uuidRegex = '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}';
+if (isset($_GET['openxid'])) {
+if (preg_match('/^(?:0|'.$uuidRegex.')$/Di', $_GET['openxid'])) {
+$viewerId = $_GET['openxid'];
+}
 } else {
-if ($create) {
-$remote_address = $_SERVER['REMOTE_ADDR'];
-$local_address  = $conf['webpath']['delivery']; // How do I get the IP address of this server?
-// Get the exact time
-list($usec, $sec) = explode(" ", microtime());
-$time = (float) $usec + (float) $sec;
-// Get a random number
-$random = mt_rand(0,999999999);
-$userid = substr(md5($local_address.$time.$remote_address.$random),0,32);  // Need to find a way to generate this...
+$viewerId = null;
+}
+if (!$oxidOnly && empty($viewerId)) {
+if (isset($_COOKIE[$conf['var']['viewerId']])) {
+$viewerId = $_COOKIE[$conf['var']['viewerId']];
+if (!empty($conf['marketplace']['enabled']) && !preg_match('/^'.$uuidRegex.'$/Di', $viewerId)) {
+// Don't accept local cookies if ID service is enabled
+$viewerId = null;
+}
+} elseif ($create) {
+$viewerId = md5(uniqid('', true));  // Need to find a way to generate this...
 $GLOBALS['_MAX']['COOKIE']['newViewerId'] = true;
 } else {
-$userid = null;
+$viewerId = null;
 }
 }
-return $userid;
+return $viewerId;
 }
 function MAX_cookieGetCookielessViewerID()
 {
@@ -1148,7 +1158,7 @@ function MAX_commonSetNoCacheHeaders()
 {
 MAX_header('Pragma: no-cache');
 MAX_header('Cache-Control: private, max-age=0, no-cache');
-MAX_header('Date: '.gmdate('D, d M Y H:i:s', MAX_commonGetTimeNow()).' GMT');
+MAX_header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 }
 function MAX_commonAddslashesRecursive($a)
 {
@@ -1756,6 +1766,60 @@ return @file_get_contents($conf['file']['flash']);
 return file_get_contents(MAX_PATH . '/www/delivery/' . $conf['file']['flash']);
 }
 }
+$file = '/lib/OA/Delivery/marketplace.php';
+$GLOBALS['_MAX']['FILES'][$file] = true;
+function MAX_marketplaceGetIdWithRedirect($scriptName = null)
+{
+$aConf = $GLOBALS['_MAX']['CONF'];
+if (!empty($aConf['marketplace']['enabled'])) {
+$oxidOnly = $aConf['marketplace']['cacheTime'] == 0;
+$viewerId = MAX_cookieGetUniqueViewerId(false, $oxidOnly);
+if (!isset($viewerId) && !isset($_GET['openxid'])) {
+$scriptName = isset($scriptName) ? $scriptName : basename($_SERVER['SCRIPT_NAME']);
+$oxpUrl = MAX_commonGetDeliveryUrl($scriptName).'?'.$_SERVER['QUERY_STRING'].'&openxid=OPENX_ID';
+$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
+$url .= $aConf['marketplace']['idHost'].'/redir?r='.urlencode($oxpUrl);
+$url .= '&pid=OpenXDemo';
+$url .= '&cb='.mt_rand(0, PHP_INT_MAX);
+header("Location: {$url}");
+exit;
+}
+}
+}
+function MAX_marketplaceGetIdSpcGet($varPrefix)
+{
+$aConf = $GLOBALS['_MAX']['CONF'];
+$script = '';
+if (!empty($aConf['marketplace']['enabled'])) {
+$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
+$url .= $aConf['marketplace']['idHost'].'/jsox?n='.urlencode($varPrefix.'spc');
+$url .= '&pid=OpenXDemo';
+$url .= '&cb='.mt_rand(0, PHP_INT_MAX);
+$script .= "
+var {$varPrefix}spc=\"<\"+\"script type='text/javascript' \";
+{$varPrefix}spc+=\"src='".htmlspecialchars($url, ENT_QUOTES)."'><\"+\"/script>\";
+document.write({$varPrefix}spc);
+";
+}
+return $script;
+}
+function MAX_marketplaceGetIdSpcDisplay($varPrefix)
+{
+$aConf = $GLOBALS['_MAX']['CONF'];
+$script = '';
+if (!empty($aConf['marketplace']['enabled'])) {
+$script .= "
+{$varPrefix}spc+=\"&openxid=OPENX_ID'><\"+\"/script>\";";
+} else {
+$script .= "
+{$varPrefix}spc+=\"<\"+\"/script>\";";
+}
+if (empty($aConf['marketplace']['enabled'])) {
+$script .= "
+document.write({$varPrefix}spc);";
+}
+return $script;
+}
 // Get the affiliateid from the querystring if present
 MAX_commonRegisterGlobalsArray(array('id'));
 // Get JS
@@ -1769,8 +1833,8 @@ MAX_cookieFlush();
 echo $output;
 function OA_SPCGetJavaScript($affiliateid)
 {
-$conf = $GLOBALS['_MAX']['CONF'];
-$varprefix = $conf['var']['prefix'];
+$aConf = $GLOBALS['_MAX']['CONF'];
+$varprefix = $aConf['var']['prefix'];
 $aZones = OA_cacheGetPublisherZones($affiliateid);
 foreach ($aZones as $zoneid => $aZone) {
 $zones[$aZone['type']][] = "            '" . addslashes($aZone['name']) . "' : {$zoneid}";
@@ -1791,9 +1855,13 @@ var {$varprefix}zoneids = '" . implode('|', array_keys($aZones)) . "';
 if (typeof({$varprefix}source) == 'undefined') { {$varprefix}source = ''; }
 var {$varprefix}p=location.protocol=='https:'?'https:':'http:';
 var {$varprefix}r=Math.floor(Math.random()*99999999);
-{$varprefix}output = new Array();
+{$varprefix}output = new Array();";
+$script .= MAX_marketplaceGetIdSpcGet($varprefix);
+// Add the FlashObject include to the SPC output
+$script .= MAX_javascriptToHTML(MAX_flashGetFlashObjectExternal(), $varprefix . 'fo');
+$script .= "
 var {$varprefix}spc=\"<\"+\"script type='text/javascript' \";
-{$varprefix}spc+=\"src='\"+{$varprefix}p+\"".MAX_commonConstructPartialDeliveryUrl($conf['file']['singlepagecall'])."?zones=\"+{$varprefix}zoneids;
+{$varprefix}spc+=\"src='\"+{$varprefix}p+\"".MAX_commonConstructPartialDeliveryUrl($aConf['file']['singlepagecall'])."?zones=\"+{$varprefix}zoneids;
 {$varprefix}spc+=\"&source=\"+{$varprefix}source+\"&r=\"+{$varprefix}r;" .
 ((!empty($additionalParams)) ? "\n    {$varprefix}spc+=\"{$additionalParams}\";" : '') . "
 ";
@@ -1804,9 +1872,9 @@ $script .= "{$varprefix}spc+=(document.charset ? '&amp;charset='+document.charse
 }
 $script .= "
 if (window.location) {$varprefix}spc+=\"&loc=\"+escape(window.location);
-if (document.referrer) {$varprefix}spc+=\"&referer=\"+escape(document.referrer);
-{$varprefix}spc+=\"'><\"+\"/script>\";
-document.write({$varprefix}spc);
+if (document.referrer) {$varprefix}spc+=\"&referer=\"+escape(document.referrer);";
+$script .= MAX_marketplaceGetIdSpcDisplay($varprefix);
+$script .= "
 function {$varprefix}show(name) {
 if (typeof({$varprefix}output[name]) == 'undefined') {
 return;
@@ -1819,7 +1887,7 @@ if (typeof({$varprefix}popupZones[name]) == 'undefined') {
 return;
 }
 var {$varprefix}pop=\"<\"+\"script type='text/javascript' \";
-{$varprefix}pop+=\"src='\"+{$varprefix}p+\"".MAX_commonConstructPartialDeliveryUrl($conf['file']['popup'])."?zoneid=\"+{$varprefix}popupZones[name];
+{$varprefix}pop+=\"src='\"+{$varprefix}p+\"".MAX_commonConstructPartialDeliveryUrl($aConf['file']['popup'])."?zoneid=\"+{$varprefix}popupZones[name];
 {$varprefix}pop+=\"&source=\"+{$varprefix}source+\"&r=\"+{$varprefix}r;" .
 ((!empty($additionalParams)) ? "\n        {$varprefix}spc+=\"{$additionalParams}\";" : '') . "
 {$varprefix}spc+=\"{$additionalParams}\";
@@ -1829,8 +1897,6 @@ if (document.referrer) {$varprefix}pop+=\"&referer=\"+escape(document.referrer);
 document.write({$varprefix}pop);
 }
 ";
-// Add the FlashObject include to the SPC output
-$script .= MAX_javascriptToHTML(MAX_flashGetFlashObjectExternal(), $varprefix . 'fo');
 return $script;
 }
 

@@ -286,16 +286,21 @@ $GLOBALS['_MAX']['COOKIE']['CACHE'] = array();
 $GLOBALS['_MAX']['COOKIE']['CACHE'][$name] = array($value, $expire);
 }
 function MAX_cookieSetViewerIdAndRedirect($viewerId) {
-$conf = $GLOBALS['_MAX']['CONF'];
-MAX_cookieAdd($conf['var']['viewerId'], $viewerId, _getTimeYearFromNow());
+$aConf = $GLOBALS['_MAX']['CONF'];
+if (!empty($aConf['marketplace']['enabled']) && !empty($aConf['marketplace']['cacheTime'])) {
+$expiry = $aConf['marketplace']['cacheTime'] < 0 ? 0 : MAX_commonGetTimeNow + $aConf['marketplace']['cacheTime'];
+} else {
+$expiry = _getTimeYearFromNow();
+}
+MAX_cookieAdd($conf['var']['viewerId'], $viewerId, $expiry);
 MAX_cookieFlush();
 // Determine if the access to OpenX was made using HTTPS
-if ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) {
+if ($_SERVER['SERVER_PORT'] == $aConf['openads']['sslPort']) {
 $url = MAX_commonConstructSecureDeliveryUrl(basename($_SERVER['PHP_SELF']));
 } else {
 $url = MAX_commonConstructDeliveryUrl(basename($_SERVER['PHP_SELF']));
 }
-$url .= "?{$conf['var']['cookieTest']}=1&" . $_SERVER['QUERY_STRING'];
+$url .= "?{$aConf['var']['cookieTest']}=1&" . $_SERVER['QUERY_STRING'];
 MAX_header("Location: {$url}");
 exit;
 }
@@ -360,27 +365,32 @@ return true;
 }
 return false;
 }
-function MAX_cookieGetUniqueViewerID($create = true)
+function MAX_cookieGetUniqueViewerId($create = true, $oxidOnly = false)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
-if (isset($_COOKIE[$conf['var']['viewerId']])) {
-$userid = $_COOKIE[$conf['var']['viewerId']];
+$uuidRegex = '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}';
+if (isset($_GET['openxid'])) {
+if (preg_match('/^(?:0|'.$uuidRegex.')$/Di', $_GET['openxid'])) {
+$viewerId = $_GET['openxid'];
+}
 } else {
-if ($create) {
-$remote_address = $_SERVER['REMOTE_ADDR'];
-$local_address  = $conf['webpath']['delivery']; // How do I get the IP address of this server?
-// Get the exact time
-list($usec, $sec) = explode(" ", microtime());
-$time = (float) $usec + (float) $sec;
-// Get a random number
-$random = mt_rand(0,999999999);
-$userid = substr(md5($local_address.$time.$remote_address.$random),0,32);  // Need to find a way to generate this...
+$viewerId = null;
+}
+if (!$oxidOnly && empty($viewerId)) {
+if (isset($_COOKIE[$conf['var']['viewerId']])) {
+$viewerId = $_COOKIE[$conf['var']['viewerId']];
+if (!empty($conf['marketplace']['enabled']) && !preg_match('/^'.$uuidRegex.'$/Di', $viewerId)) {
+// Don't accept local cookies if ID service is enabled
+$viewerId = null;
+}
+} elseif ($create) {
+$viewerId = md5(uniqid('', true));  // Need to find a way to generate this...
 $GLOBALS['_MAX']['COOKIE']['newViewerId'] = true;
 } else {
-$userid = null;
+$viewerId = null;
 }
 }
-return $userid;
+return $viewerId;
 }
 function MAX_cookieGetCookielessViewerID()
 {
@@ -1147,7 +1157,7 @@ function MAX_commonSetNoCacheHeaders()
 {
 MAX_header('Pragma: no-cache');
 MAX_header('Cache-Control: private, max-age=0, no-cache');
-MAX_header('Date: '.gmdate('D, d M Y H:i:s', MAX_commonGetTimeNow()).' GMT');
+MAX_header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 }
 function MAX_commonAddslashesRecursive($a)
 {

@@ -286,16 +286,21 @@ $GLOBALS['_MAX']['COOKIE']['CACHE'] = array();
 $GLOBALS['_MAX']['COOKIE']['CACHE'][$name] = array($value, $expire);
 }
 function MAX_cookieSetViewerIdAndRedirect($viewerId) {
-$conf = $GLOBALS['_MAX']['CONF'];
-MAX_cookieAdd($conf['var']['viewerId'], $viewerId, _getTimeYearFromNow());
+$aConf = $GLOBALS['_MAX']['CONF'];
+if (!empty($aConf['marketplace']['enabled']) && !empty($aConf['marketplace']['cacheTime'])) {
+$expiry = $aConf['marketplace']['cacheTime'] < 0 ? 0 : MAX_commonGetTimeNow + $aConf['marketplace']['cacheTime'];
+} else {
+$expiry = _getTimeYearFromNow();
+}
+MAX_cookieAdd($conf['var']['viewerId'], $viewerId, $expiry);
 MAX_cookieFlush();
 // Determine if the access to OpenX was made using HTTPS
-if ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) {
+if ($_SERVER['SERVER_PORT'] == $aConf['openads']['sslPort']) {
 $url = MAX_commonConstructSecureDeliveryUrl(basename($_SERVER['PHP_SELF']));
 } else {
 $url = MAX_commonConstructDeliveryUrl(basename($_SERVER['PHP_SELF']));
 }
-$url .= "?{$conf['var']['cookieTest']}=1&" . $_SERVER['QUERY_STRING'];
+$url .= "?{$aConf['var']['cookieTest']}=1&" . $_SERVER['QUERY_STRING'];
 MAX_header("Location: {$url}");
 exit;
 }
@@ -360,27 +365,32 @@ return true;
 }
 return false;
 }
-function MAX_cookieGetUniqueViewerID($create = true)
+function MAX_cookieGetUniqueViewerId($create = true, $oxidOnly = false)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
-if (isset($_COOKIE[$conf['var']['viewerId']])) {
-$userid = $_COOKIE[$conf['var']['viewerId']];
+$uuidRegex = '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}';
+if (isset($_GET['openxid'])) {
+if (preg_match('/^(?:0|'.$uuidRegex.')$/Di', $_GET['openxid'])) {
+$viewerId = $_GET['openxid'];
+}
 } else {
-if ($create) {
-$remote_address = $_SERVER['REMOTE_ADDR'];
-$local_address  = $conf['webpath']['delivery']; // How do I get the IP address of this server?
-// Get the exact time
-list($usec, $sec) = explode(" ", microtime());
-$time = (float) $usec + (float) $sec;
-// Get a random number
-$random = mt_rand(0,999999999);
-$userid = substr(md5($local_address.$time.$remote_address.$random),0,32);  // Need to find a way to generate this...
+$viewerId = null;
+}
+if (!$oxidOnly && empty($viewerId)) {
+if (isset($_COOKIE[$conf['var']['viewerId']])) {
+$viewerId = $_COOKIE[$conf['var']['viewerId']];
+if (!empty($conf['marketplace']['enabled']) && !preg_match('/^'.$uuidRegex.'$/Di', $viewerId)) {
+// Don't accept local cookies if ID service is enabled
+$viewerId = null;
+}
+} elseif ($create) {
+$viewerId = md5(uniqid('', true));  // Need to find a way to generate this...
 $GLOBALS['_MAX']['COOKIE']['newViewerId'] = true;
 } else {
-$userid = null;
+$viewerId = null;
 }
 }
-return $userid;
+return $viewerId;
 }
 function MAX_cookieGetCookielessViewerID()
 {
@@ -1148,7 +1158,7 @@ function MAX_commonSetNoCacheHeaders()
 {
 MAX_header('Pragma: no-cache');
 MAX_header('Cache-Control: private, max-age=0, no-cache');
-MAX_header('Date: '.gmdate('D, d M Y H:i:s', MAX_commonGetTimeNow()).' GMT');
+MAX_header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 }
 function MAX_commonAddslashesRecursive($a)
 {
@@ -1922,6 +1932,26 @@ $aBanner['bannerContent'] = $bannerContent;
 //    return $code;
 return MAX_commonConvertEncoding($code, $charset);
 }
+function MAX_adRenderImageBeacon($logUrl, $userAgent = null)
+{
+if (!isset($userAgent) && isset($_SERVER['HTTP_USER_AGENT'])) {
+$userAgent = $_SERVER['HTTP_USER_AGENT'];
+}
+$beaconId = 'beacon_'.md5(uniqid('', true));
+// Add beacon image for logging
+if (isset($userAgent) && preg_match("#Mozilla/(1|2|3|4)#", $userAgent)
+&& !preg_match("#compatible#", $userAgent)) {
+$div = "<layer id='{$beaconId}' width='0' height='0' border='0' visibility='hide'>";
+$style = '';
+$divEnd = '</layer>';
+} else {
+$div = "<div id='{$beaconId}' style='position: absolute; left: 0px; top: 0px; visibility: hidden;'>";
+$style = " style='width: 0px; height: 0px;'";
+$divEnd = '</div>';
+}
+$beacon = "$div<img src='".htmlspecialchars($logUrl)."' width='0' height='0' alt=''{$style} />{$divEnd}";
+return $beacon;
+}
 function _adRenderImage($aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $richMedia=true, $loc, $referer, $useAppend=true)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
@@ -2238,21 +2268,11 @@ if (!empty($referer)) $url .= $amp . "referer=" . urlencode($referer);
 $url .= $amp . "cb={random}";
 return $url;
 }
-function _adRenderImageBeacon($aBanner, $zoneId = 0, $source = '', $loc = '', $referer = '')
+function _adRenderImageBeacon($aBanner, $zoneId = 0, $source = '', $loc = '', $referer = '', $logUrl = '')
 {
-$conf = $GLOBALS['_MAX']['CONF'];
-// Add beacon image for logging
-if (isset($_SERVER['HTTP_USER_AGENT']) && preg_match("#Mozilla/(1|2|3|4)#", $_SERVER['HTTP_USER_AGENT'])
-&& !preg_match("#compatible#", $_SERVER['HTTP_USER_AGENT'])) {
-$div = "<layer id='beacon_{$aBanner['ad_id']}' width='0' height='0' border='0' visibility='hide'>";
-$style = '';
-$divEnd = '</layer>';
-} else {
-$div = "<div id='beacon_{$aBanner['ad_id']}' style='position: absolute; left: 0px; top: 0px; visibility: hidden;'>";
-$style = " style='width: 0px; height: 0px;'";
-$divEnd = '</div>';
+if (empty($logUrl)) {
+$logUrl = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&');
 }
-$logUrl = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&amp;');
 $beacon = "$div<img src='$logUrl' width='0' height='0' alt=''{$style} />{$divEnd}";
 return $beacon;
 }
@@ -2338,7 +2358,13 @@ $originalCampaignId = intval(substr($what,11));
 $originalBannerId = intval(substr($what,9));
 }
 $userid = MAX_cookieGetUniqueViewerID();
-MAX_cookieAdd($conf['var']['viewerId'], $userid, MAX_commonGetTimeNow()+31536000); // 365*24*60*60
+// marketplace
+if (!empty($conf['marketplace']['enabled']) && !empty($conf['marketplace']['cacheTime'])) {
+$expiry = $conf['marketplace']['cacheTime'] < 0 ? null : MAX_commonGetTimeNow + $conf['marketplace']['cacheTime'];
+} else {
+$expiry = _getTimeYearFromNow();
+}
+MAX_cookieSet($conf['var']['viewerId'], $userid, $expiry);
 $outputbuffer = '';
 // Set flag
 $found = false;
@@ -2798,6 +2824,62 @@ return @file_get_contents($conf['file']['flash']);
 return file_get_contents(MAX_PATH . '/www/delivery/' . $conf['file']['flash']);
 }
 }
+$file = '/lib/OA/Delivery/marketplace.php';
+$GLOBALS['_MAX']['FILES'][$file] = true;
+function MAX_marketplaceGetIdWithRedirect($scriptName = null)
+{
+$aConf = $GLOBALS['_MAX']['CONF'];
+if (!empty($aConf['marketplace']['enabled'])) {
+$oxidOnly = $aConf['marketplace']['cacheTime'] == 0;
+$viewerId = MAX_cookieGetUniqueViewerId(false, $oxidOnly);
+if (!isset($viewerId) && !isset($_GET['openxid'])) {
+$scriptName = isset($scriptName) ? $scriptName : basename($_SERVER['SCRIPT_NAME']);
+$oxpUrl = MAX_commonGetDeliveryUrl($scriptName).'?'.$_SERVER['QUERY_STRING'].'&openxid=OPENX_ID';
+$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
+$url .= $aConf['marketplace']['idHost'].'/redir?r='.urlencode($oxpUrl);
+$url .= '&pid=OpenXDemo';
+$url .= '&cb='.mt_rand(0, PHP_INT_MAX);
+header("Location: {$url}");
+exit;
+}
+}
+}
+function MAX_marketplaceGetIdSpcGet($varPrefix)
+{
+$aConf = $GLOBALS['_MAX']['CONF'];
+$script = '';
+if (!empty($aConf['marketplace']['enabled'])) {
+$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
+$url .= $aConf['marketplace']['idHost'].'/jsox?n='.urlencode($varPrefix.'spc');
+$url .= '&pid=OpenXDemo';
+$url .= '&cb='.mt_rand(0, PHP_INT_MAX);
+$script .= "
+var {$varPrefix}spc=\"<\"+\"script type='text/javascript' \";
+{$varPrefix}spc+=\"src='".htmlspecialchars($url, ENT_QUOTES)."'><\"+\"/script>\";
+document.write({$varPrefix}spc);
+";
+}
+return $script;
+}
+function MAX_marketplaceGetIdSpcDisplay($varPrefix)
+{
+$aConf = $GLOBALS['_MAX']['CONF'];
+$script = '';
+if (!empty($aConf['marketplace']['enabled'])) {
+$script .= "
+{$varPrefix}spc+=\"&openxid=OPENX_ID'><\"+\"/script>\";";
+} else {
+$script .= "
+{$varPrefix}spc+=\"<\"+\"/script>\";";
+}
+if (empty($aConf['marketplace']['enabled'])) {
+$script .= "
+document.write({$varPrefix}spc);";
+}
+return $script;
+}
+// Marketplace
+MAX_marketplaceGetIdWithRedirect();
 // No Caching
 MAX_commonSetNoCacheHeaders();
 //Register any script specific input variables
