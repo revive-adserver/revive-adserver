@@ -18,7 +18,15 @@
   <property name="canoo.log" value="${basedir}/canoo.log"/>
   <property name="timeout" value="60000"/>
   <property name="delivery_test" value="${basedir}/www/delivery_test"/>
-
+	
+	<property file="${basedir}/tests/canoo/tests/config/webtest.properties"/>
+	<property file="${basedir}/tests/canoo/tests/config/tests.properties"/>
+	
+	<property name="wt.resultpath" location="results"/>
+	<property name="wt.resultfile" value="webtestResults.xml"/>
+	
+	<property name="wt.testInWork" value="tests/canoo/tests/test_suite"/>
+	
   <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
 
   <condition property="property_file" value="user.local.properties" else="user.remote.properties">
@@ -30,6 +38,34 @@
   <property name="ec2.openx.config" value="${canoo.host}.conf.php"/>
   <property name="ec2.openx.database" value="openx"/>
 
+	<import file="${wt.home}/webtest.xml" description="Import all functionalities for a full build"/>
+	<import file="${basedir}/tests/canoo/definitions.xml" description="Import all functionalities for a full build"/>
+
+	
+	<macrodef name="enableMarketPlace" description="Enable or disable MarketPlace in delivery scripts before installation.">
+	    <attribute name="enable" description="Should be MarketPlace enabled"/>
+	    <sequential>
+			<if>
+	        <istrue value="@{enable}"/>
+	        <then>
+			<replace file="${basedir}/etc/dist.conf.php">
+				<replacetoken><![CDATA[[marketplace]
+enabled=0]]></replacetoken>
+				<replacevalue><![CDATA[[marketplace]
+enabled=1]]></replacevalue>
+			</replace>
+	        </then>
+	        <else>
+			<replace file="${basedir}/etc/dist.conf.php">
+				<replacetoken><![CDATA[[marketplace]
+enabled=1]]></replacetoken>
+				<replacevalue><![CDATA[[marketplace]
+enabled=0]]></replacevalue>
+			</replace>
+	        </else>
+	      </if>
+	    </sequential>
+	</macrodef>
   <macrodef name="canoo-ssh" description="Executes ssh command on the currently configured ec2 machine.">
     <attribute name="command" description="Command to be executed."/>
     <attribute name="username" default="admin"/>
@@ -201,24 +237,26 @@
 	  	<chmod dir="${basedir}/var" perm="a+rw" type="both" includes="**/*"/>
 	  	<chmod dir="${basedir}/www" perm="a+rwx" type="dir"/>
 	  	<chmod dir="${basedir}/www" perm="a+rw" type="both" includes="**/*" parallel="false"/>
+		<enableMarketPlace enable="${marketplace.enabled}"/>
 	</target>
 
 	<target name="init.canoo.windows" depends="init.check.windows" if="is.windows">
 		<echo message="Canoo tests - init"/>
 		<echo message="Windows setup - nothing to do"/>
 		<echo message="This target is for further purposes"/>
+		<enableMarketPlace enable="${marketplace.enabled}"/>
 	</target>
 
 	
-  <target name="run-test-canoo" depends="init.canoo.unix, init.canoo.windows">
+  <target name="run-test-canoo" depends="init.canoo.unix, init.canoo.windows, wt.full">
   	<echo message="Running Canoo tests" />
     <!--<execute-webtest target="init-delivery-db" /> -->
-    <!-- <execute-webtest target="delivery" properties="-Dcanoo.host=${canoo.host} -Dec2.admin.password=${ec2.admin.password} -Dec2.openx.dir=${ec2.openx.dir}" /> -->
+    <!-- <execute-webtest target="delivery" properties="-Dcanoo.host=${canoo.host} -Dec2.admin.password=${ec2.admin.password} -Dec2.openx.dir=${ec2.openx.dir}" />
 	<subant inheritall="true">
 		<filelist dir="${basedir}/tests/canoo/">
 			<file name="build.xml" />
 		</filelist>
-	</subant>
+	</subant> -->
   </target>
 
   <target name="test-canoo-one">
