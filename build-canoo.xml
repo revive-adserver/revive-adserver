@@ -248,7 +248,7 @@ enabled=0]]></replacevalue>
 	</target>
 
 	
-  <target name="run-test-canoo" depends="init.canoo.unix, init.canoo.windows, wt.full">
+  <target name="run-test-canoo" depends="setup-delivery-files, init.canoo.unix, init.canoo.windows, wt.full">
   	<echo message="Running Canoo tests" />
     <!--<execute-webtest target="init-delivery-db" /> -->
     <!-- <execute-webtest target="delivery" properties="-Dcanoo.host=${canoo.host} -Dec2.admin.password=${ec2.admin.password} -Dec2.openx.dir=${ec2.openx.dir}" />
