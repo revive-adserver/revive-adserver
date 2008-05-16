@@ -55,7 +55,6 @@ if (isset($session['prefs']['advertiser-index.php']['nodes'])) {
 if (!empty($clientid)) {
     $doClients = OA_Dal::factoryDO('clients');
     $doClients->clientid = $clientid;
-    $doClients->get($clientid);
     $doClients->delete();
 
     // Delete the advertiser from the $node_array,
