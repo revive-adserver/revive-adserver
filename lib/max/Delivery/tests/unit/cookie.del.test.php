@@ -89,7 +89,7 @@ class Delivery_TestOfCookie extends UnitTestCase
         // With marketplace enabled, only UUIDs are ok
         $conf['marketplace']['enabled'] = 1;
         $this->assertNull(MAX_cookieGetUniqueViewerID());
-        $_COOKIE[$conf['var']['viewerId']] = 'deadf00d-dead-f00d-dead-f00d-deadf00d';
+        $_COOKIE[$conf['var']['viewerId']] = 'deadf00d-dead-f00d-dead-f00ddeadf00d';
         $this->assertEqual(MAX_cookieGetUniqueViewerID(), 'deadf00d-dead-f00d-dead-f00ddeadf00d');
 
         // Test that the a value is not set if $create=false
