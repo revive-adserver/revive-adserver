@@ -292,7 +292,7 @@ $expiry = $aConf['marketplace']['cacheTime'] < 0 ? 0 : MAX_commonGetTimeNow + $a
 } else {
 $expiry = _getTimeYearFromNow();
 }
-MAX_cookieAdd($conf['var']['viewerId'], $viewerId, $expiry);
+MAX_cookieAdd($aConf['var']['viewerId'], $viewerId, $expiry);
 MAX_cookieFlush();
 // Determine if the access to OpenX was made using HTTPS
 if ($_SERVER['SERVER_PORT'] == $aConf['openads']['sslPort']) {
