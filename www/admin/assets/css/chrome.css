@@ -43,7 +43,7 @@ a:hover {
 	text-indent: -1000px;
   /* Fix IE bug: transparent PNG support */
   -background: none;
-  -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/logo-wtag.png');
+  -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='assets/images/logo-wtag.png');
 }
 
 .brandingName {
@@ -66,7 +66,7 @@ a:hover {
 
 	/* Fix IE bug: transparent PNG support */
 	-background: none;
-	-filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/logo-s.png');
+	-filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='assets/images/logo-s.png');
 }
 
 
@@ -269,7 +269,7 @@ a:hover {
 
   /* Fix IE bug: transparent PNG support */
   -background: none;
-  -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/accountswitcher-header.png', sizingMethod='scale');
+  -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='assets/images/accountswitcher-header.png', sizingMethod='scale');
 }
 
 .expanded .switchDown {
@@ -278,7 +278,7 @@ a:hover {
 
   /* Fix IE bug: transparent PNG support */
   -background: none;
-  -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/accountswitcher-footer.png', sizingMethod='scale');
+  -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='assets/images/accountswitcher-footer.png', sizingMethod='scale');
 }
 
 .expanded .switchMiddle {
@@ -289,7 +289,7 @@ a:hover {
 
   /* Fix IE bug: transparent PNG support - it breaks hovering on LI, not sure why */
   -background: none;
-  -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/accountswitcher-shadow.png', sizingMethod='scale');
+  -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='assets/images/accountswitcher-shadow.png', sizingMethod='scale');
 }
 
 .expanded .switchMiddleBody {
@@ -378,8 +378,7 @@ a:hover {
 
 
 #oaMain {
-	position: relative;
-	top: -24px;
+	margin-top: -24px;
 }
 
 #context-help {
@@ -392,16 +391,12 @@ a:hover {
 
 #oaSidebar {
 	position: absolute;
-	top: 0;
 	left: 0;
 
 	width: 160px;
 	margin: 0 1px 0 0;
 	padding: 0 0 0 20px;
 	color: #0767A8;
-
-	/* Fix IE bug: absolute position should not be relative to padding of parent element */
-	-left: -180px;
 }
 
 #oaSidebar h3 {
