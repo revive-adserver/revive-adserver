@@ -400,7 +400,7 @@ class OA_Admin_UI
 
     function _assignSearch()
     {
-        $displaySearch = ($ID != phpAds_Login && $ID != phpAds_Error && OA_Auth::isLoggedIn() && OA_Permission::isAccount(OA_ACCOUNT_MANAGER) && !defined('phpAds_installing'));
+        $displaySearch = ($ID !== phpAds_Login && $ID !== phpAds_Error && OA_Auth::isLoggedIn() && OA_Permission::isAccount(OA_ACCOUNT_MANAGER) && !defined('phpAds_installing'));
         $this->oTpl->assign('displaySearch', $displaySearch);
         $this->oTpl->assign('searchUrl', MAX::constructURL(MAX_URL_ADMIN, 'admin-search.php'));
     }
