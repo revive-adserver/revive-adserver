@@ -2,6 +2,7 @@
 
 <!DOCTYPE project SYSTEM "../../../dtd/WebTest.dtd"[
 	<!ENTITY config  SYSTEM "../modules/config_openx.xml">
+	<!ENTITY connection  SYSTEM "../modules/connection.xml">
 	<!ENTITY init  SYSTEM "./common/openx.common.installation.init.xml">
 	<!ENTITY initdb  SYSTEM "./common/openx.common.installation.initdb.xml">
 
@@ -9,8 +10,7 @@
 	<!ENTITY terms  SYSTEM "./common/openx.common.installation.terms.xml">
 	<!ENTITY policy  SYSTEM "./2.4/openx.2.4.installation.policy.xml">
 	<!ENTITY systemCheck  SYSTEM "./common/openx.common.installation.systemCheck.xml">
-	<!ENTITY databaseSetupMysql SYSTEM "./common/openx.common.installation.databaseSetup.xml">
-	<!ENTITY databaseSetupPostgresql SYSTEM "./2.6/openx.2.6.installation.databaseSetupPostgresql.xml">
+	<!ENTITY databaseSetup SYSTEM "./common/openx.common.installation.databaseSetup.xml">
 	<!ENTITY configurationSetup SYSTEM "./common/openx.common.installation.configurationSetup.xml">
 	<!ENTITY adminSetup SYSTEM "./common/openx.common.installation.adminSetup.xml">
 	<!ENTITY sites SYSTEM "./2.6/openx.2.6.installation.sites.xml">
@@ -34,7 +34,7 @@
 				&policy;
 				&systemCheck;
 				&login;
-				&databaseSetupMysql;
+				&databaseSetup;
 				&configurationSetup;
 				&adminSetup;
 				&sites;

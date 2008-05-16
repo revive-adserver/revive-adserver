@@ -18,7 +18,12 @@
 
   <target name="canoo-test">
     <!-- remove any tracker impressions and tracker variable values before the test -->
-    &deleteRawTrackers;
+    <!-- &deleteRawTrackers; -->
+	<subant inheritall="true">
+		<fileset dir="${testcase.dir}/../sql/">
+			<filename name="sql_delete_raw_trackers.xml" />
+		</fileset>
+    </subant>
 
     <webtest name="${ant.project.name}">
       &config;

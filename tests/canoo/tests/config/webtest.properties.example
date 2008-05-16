@@ -3,10 +3,11 @@
 ################################################
 
 ### WebTests config
-wt.host=localhost
-wt.port=80
+wt.home=/usr/bin/canoo
+wt.host=85.221.229.114
+wt.port=1180
 wt.protocol=http
-wt.basepath=/oxp/
+wt.basepath=/canoo/www
 
 wt.failOnError=true
 wt.enableJS=true
@@ -15,7 +16,8 @@ wt.browser=Mozilla/5.0 (Windows; U; Windows NT 5.1; pl; rv:1.8.1.12) Gecko/20080
 
 ## General settings
 testcase.dir=./testcases
-testcase.level0.pattern=*mysql.xml
+# patterns for each level
+testcase.level0.pattern=*.xml
 testcase.level2.pattern=*.xml
 testcase.level3.pattern=*.xml
 screens=manual_results
@@ -27,36 +29,16 @@ test.level2=true
 #test.level3=true
 
 ## db settings
+db.type=mysql
 db.login=openx
-db.postgresql.login=postgres
 db.password=
-db.postgresql.password=openx
+db.port=3306
+
+#db.type=postgresql
+#db.login=postgres
+#db.password=openx
+#db.port=5432
+
+# set database name and host
 db.name=openx
 db.host=localhost
-db.port=3306
-db.postgresql.port=5432
-
-## Login settings
-admin.login=openx
-admin.pass=openx
-
-manager.login=
-manager.pass=
-
-advertiser.login=
-advertiser.pass=
-
-trafficer.login=
-trafficer.pass=
-
-page.login.title=OpenX
-
-## 1st Level tests settings
-page.title=OpenX - Home
-#page.text=Home
-page.text=Statistics
-
-#Cookies names
-viewerId=OAID
-
-webtest.home=/usr/bin/canoo

@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE project SYSTEM           "../../../../dtd/WebTest.dtd" [
+]
+>
+
+<project name="OpenX delivery - dbsetup" basedir="../.." default="main">
+	<target name="main">
+		<webtest name="dbsetup">
+			<steps>
+				<ifStep description="if mysql">
+			 		<condition>
+			 			<verifyProperty description="if mysql"
+			 								name="db.type"
+			 								propertyType="ant"
+			 								text="mysql"
+			 								regex="false" />
+			 		</condition>
+			 		<then>
+					 	<sql driver="com.mysql.jdbc.Driver" url="jdbc:mysql://${db.host}:${db.port}/${db.name}" userid="${db.login}" password="${db.password}">
+						   	<classpath>
+						    	<pathelement location="${basedir}/../lib/mysql-connector-java-3.1.13-bin.jar" />
+						    </classpath>
+							<transaction src="config/delivery_ox.sql"/>
+							<transaction> UPDATE ox_banners SET url = "${openx.example_url}" WHERE url = "http://www.example.com" </transaction>
+						</sql>	 			
+			 		</then>
+			 		<else>
+			 			<!-- support for pgsql -->
+						<sql driver="org.postgresql.Driver" url="jdbc:postgresql://${db.host}:${db.port}/${db.name}" userid="${db.login}" password="${db.password}">
+							<classpath>
+								<pathelement location="${basedir}/../lib/postgresql-8.3-603.jdbc4.jar" />
+							</classpath>
+							<transaction src="config/delivery_ox.sql"/>
+							<transaction> UPDATE ox_banners SET url = "${openx.example_url}" WHERE url = "http://www.example.com" </transaction>
+						</sql>
+			 		</else>
+			 	</ifStep>
+			</steps>
+    	</webtest>
+    </target>
+</project>

@@ -19,7 +19,7 @@ Do not edit it else you risk to lose your changes.
 		<property name="macroDefined" value="true"/>
 		<echo message="Defining project macros and custom steps (if any)"/>
 
- &definitions__fillParticipantData__xml; 
+ 		&definitions__fillParticipantData__xml; 
 
 	</target>
 	

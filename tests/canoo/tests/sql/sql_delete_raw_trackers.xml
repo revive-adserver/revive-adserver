@@ -1,3 +1,53 @@
+<?xml version="1.0"?>
+<!DOCTYPE project SYSTEM           "../../dtd/WebTest.dtd" [
+]
+>
+
+<project name="OpenX delivery - dbsetup" basedir="../.." default="main">
+	<target name="main">
+		<webtest name="delete raw trackers">
+			<steps>
+				<ifStep description="if mysql">
+			 		<condition>
+			 			<verifyProperty description="if mysql"
+			 								name="db.type"
+			 								propertyType="ant"
+			 								text="mysql"
+			 								regex="false" />
+			 		</condition>
+			 		<then>
+					 	<sql driver="com.mysql.jdbc.Driver" url="jdbc:mysql://${db.host}:${db.port}/${db.name}" userid="${db.login}" password="${db.password}">
+						   	<classpath>
+						    	<pathelement location="${basedir}/../lib/mysql-connector-java-3.1.13-bin.jar" />
+						    </classpath>
+							  <transaction>
+							    DELETE FROM ox_data_raw_tracker_impression
+							  </transaction>
+							  <transaction>
+							    DELETE FROM ox_data_raw_tracker_variable_value
+							  </transaction>
+  					</sql>	 			
+			 		</then>
+			 		<else>
+			 			<!-- support for pgsql -->
+						<sql driver="org.postgresql.Driver" url="jdbc:postgresql://${db.host}:${db.port}/${db.name}" userid="${db.login}" password="${db.password}">
+							<classpath>
+								<pathelement location="${basedir}/../lib/postgresql-8.3-603.jdbc4.jar" />
+							</classpath>
+								<transaction>
+							    	DELETE FROM ox_data_raw_tracker_impression
+							  	</transaction>
+							  	<transaction>
+							    	DELETE FROM ox_data_raw_tracker_variable_value
+							  	</transaction>
+						</sql>
+			 		</else>
+			 	</ifStep>
+			</steps>
+    	</webtest>
+    </target>
+</project>			 	
+			 	<!--
 <sql driver="com.mysql.jdbc.Driver" url="jdbc:mysql://${db.host}/${db.name}" userid="${db.login}"
 			password="${db.password}">
   <classpath>
@@ -13,3 +63,4 @@
     DELETE FROM ox_data_raw_tracker_variable_value
   </transaction>
 </sql>
+-->

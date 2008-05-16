@@ -4,10 +4,12 @@
 
 	<!-- Load configuration data from properties -->
 	<!-- <property file="./config/webtest.properties"/> -->
+	<!-- <property file="./config/webtest.properties"/> -->
+	<!-- <echo>${basedir}</echo> -->
 	
-<!--	<taskdef file="${webtest.home}/webtestTaskdefs.properties">
+<!--	<taskdef file="${wt.home}/webtestTaskdefs.properties">
 		<classpath>
-			<fileset dir="${webtest.home}" includes="**/lib/*.jar" />
+			<fileset dir="${wt.home}" includes="**/lib/*.jar" />
 		</classpath>
 	</taskdef>
 -->	
@@ -22,16 +24,16 @@
         	<fileset dir="${testcase.dir}/level0" includes="${testcase.level0.pattern}"/>
         </subant>
 		<echo>#################################</echo>		
-		<echo>#   0 level    tests - OK!  #</echo>
+		<echo># 0 level    tests - FINISHED!  #</echo>
 		<echo>#################################</echo>				
 	</target>
 	
 	<target name="Level1" if="test.level1" depends="Level0">
 		<echo>Starting smoke tests - 1st level...</echo>
 			<ant antfile="${testcase.dir}/level1/openads_smoke.xml" />
-		<echo>#################################</echo>		
-		<echo>#  1st level smoke tests - OK!  #</echo>
-		<echo>#################################</echo>				
+		<echo>###################################</echo>		
+		<echo># 1st level smoke test - FINISHED!#</echo>
+		<echo>###################################</echo>				
 	</target>
 	
     <target name="Level2" depends="Level1" if="test.level2">

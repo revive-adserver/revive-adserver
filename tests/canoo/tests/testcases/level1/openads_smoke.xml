@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE project [
-  <!ENTITY config  SYSTEM "file:../modules/config_openx.xml">
-  <!ENTITY login  SYSTEM "file:../modules/login_admin.xml">
-  <!ENTITY common_verification  SYSTEM "file:../modules/common_pages.xml">
+  <!ENTITY config  SYSTEM "../modules/config_openx.xml">
+  <!ENTITY login  SYSTEM "../modules/login_admin.xml">
+  <!ENTITY common_verification  SYSTEM "../modules/common_pages.xml">
 ]>
 
 <project name="Smoke test level1 - deploy test" basedir="."	default="main">

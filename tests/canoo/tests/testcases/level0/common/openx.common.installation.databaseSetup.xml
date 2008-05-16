@@ -1,7 +1,7 @@
 				&universal;
 				<verifyText description="Check text on page" 
 					text="Database Settings" />
-				<!-- TODO: Error&options support (ifstep) -->
+				<!-- TODO: Error&options support (ifstep for MyISAM/InnoDB) -->
 				<setinputfield description="set database username" 
 					name="aConfig[database][username]"
 					value="${db.login}" />
@@ -21,21 +21,27 @@
 				<setinputfield description="set database port" 
 					name="aConfig[database][port]"
 					value="${db.port}" />
-					
-				<!--
-				<verifyLinks description="Check Links" 
-				    depth="0" 
-				    onsiteonly="true"
-				    ignoreForeignJSErrors="true" />
-				-->
+				
+				<ifStep description="if mysql">
+					<condition>
+						<verifyProperty description="if mysql"
+											name="db.type"
+											propertyType="ant"
+											text="mysql"
+											regex="false" />
+					</condition>
+					<then>
+						<setSelectField name="aConfig[database][type]" text="MySQL"/>
+					</then>
+					<else>
+						<setSelectField name="aConfig[database][type]" text="PostgreSQL"/>
+					</else>
+				</ifStep>	
+				
 				<clickButton description="Click 'Continue »' button" 
 					label="Continue »"
 					save="dbsetup_" />
-
-				<!-- htmlId="btn_upgrade" -->
-
 				<verifyText description="Check text on page" 
 					text="The OpenX database has now been created" />
 				<clickButton description="Click 'Continue »' button"
 					name="btn_configsetup" />
-					<!--  label="Continue »" />  -->

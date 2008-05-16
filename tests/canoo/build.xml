@@ -1,15 +1,14 @@
 <?xml version="1.0"?>
-
+<!-- wt.full is defined in {wt.home}/webtest.xml -->
 <project name="openx" default="wt.full">
-	<!-- <property name="webtest.home" value="D:\qa\canoo\build"/> -->
-	<echo>${basedir}</echo>
 	<property file="${basedir}/tests/canoo/tests/config/webtest.properties"/>
+	<property file="${basedir}/tests/canoo/tests/config/tests.properties"/>
 	
 	<property name="wt.resultpath" location="results"/>
 	<property name="wt.resultfile" value="webtestResults.xml"/>
 
 	<import file="definitions.xml" description="Import custom definitions (if any)"/>
-	<import file="${webtest.home}/webtest.xml" description="Import all functionalities for a full build"/>
+	<import file="${wt.home}/webtest.xml" description="Import all functionalities for a full build"/>
 
 	<property name="wt.testInWork" value="tests/canoo/tests/test_suite"/>
 	<!-- <property name="wt.testInWork" value="tests/canoo/tests/test_suite"/> -->

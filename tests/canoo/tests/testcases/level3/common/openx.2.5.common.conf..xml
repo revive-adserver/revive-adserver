@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!DOCTYPE project SYSTEM "../../../dtd/WebTest.dtd"[
+<!DOCTYPE project SYSTEM "../../dtd/WebTest.dtd"[
 ]>
 
 <project name="OpenX" basedir="." default="main">
