@@ -10,7 +10,7 @@
 <!--
 			<sql driver="com.mysql.jdbc.Driver" url="jdbc:mysql://${db.host}:${db.port}/${db.name}" userid="${db.login}" password="${db.password}">
 			   	<classpath>
-			    	<pathelement location="${basedir}/../lib/mysql-connector-java-3.1.13-bin.jar" />
+			    	<pathelement location="${basedir}/../lib/mysql-connector-java-5.1.6-bin.jar" />
 			    </classpath>
 				<transaction src="config/delivery_ox.sql"/>
 				<transaction> UPDATE ox_banners SET url = "${openx.example_url}" WHERE url = "http://www.example.com" </transaction>

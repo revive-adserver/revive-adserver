@@ -4,7 +4,7 @@
     <url>jdbc:mysql://${db.host}/${db.name}</url>
     <user>${db.login}</user>
     <password>${db.password}</password>
-    <jarfile-url>${basedir}/../lib/mysql-connector-java-3.1.13-bin.jar</jarfile-url>
+    <jarfile-url>${basedir}/../lib/mysql-connector-java-5.1.6-bin.jar</jarfile-url>
 </connection>
 -->
 
@@ -18,7 +18,7 @@
 	    password="${db.password}"
 	    >
 	   	<classpath>
-	    	<pathelement location="${basedir}/../lib/mysql-connector-java-3.1.13-bin.jar" />
+	    	<pathelement location="${basedir}/../lib/mysql-connector-java-5.1.6-bin.jar" />
 	    </classpath>
 	    
 </ifStep>
@@ -55,7 +55,7 @@
     <ifStep description="if mysql" test="${mysql}">
         <driver>com.mysql.jdbc.Driver</driver>
     	<url>jdbc:mysql://${db.host}:${db.port}/${db.name}</url>
-    	<jarfile-url>${basedir}/../lib/mysql-connector-java-3.1.13-bin.jar</jarfile-url>
+    	<jarfile-url>${basedir}/../lib/mysql-connector-java-5.1.6-bin.jar</jarfile-url>
     </ifStep>
     <ifStep description="if postgresql" unless="${mysql}">
     	<driver>org.postgresql.Driver</driver>

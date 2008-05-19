@@ -37,7 +37,6 @@
     </webtest>
 
     <!-- test that ad requests and impressions are logged in database -->
-	  <echo>!!!!!!!!!!!!!!!!!! ${basedir}</echo>
     <!-- <sqlunit testFile="${basedir}/testcases/level2/sqlunit/data_raw_ad_impression.xml" haltOnFailure="true" debug="false"/> --> <!--  debug="false"@TODO ${debug} -->
   </target>
 

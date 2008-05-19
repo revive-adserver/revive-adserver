@@ -18,7 +18,7 @@
 			<arg value="-db"/>
 			<arg value="${db.name}"/>
 			<arg value="-cp"/>
-			<arg path="${basedir}/../canoo/lib/mysql-connector-java-3.1.13-bin.jar"/>
+			<arg path="${basedir}/../canoo/lib/mysql-connector-java-5.1.6-bin.jar"/>
 			<arg value="-u"/>
 			<arg value="${db.login}"/>
 			<arg value="-o"/>
