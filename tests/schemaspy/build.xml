@@ -10,25 +10,56 @@
 		<delete dir="target"/>
 		<mkdir dir="target"/>
 		
-		<java jar="${basedir}/lib/schemaSpy_3.1.1.jar" fork="true"  failonerror="true" maxmemory="256m" dir="${basedir}">
-			<arg value="-t"/>
-			<arg value="mysql"/>
-			<arg value="-host"/>
-			<arg value="${db.host}:${db.port}"/>
-			<arg value="-db"/>
-			<arg value="${db.name}"/>
-			<arg value="-cp"/>
-			<arg path="${basedir}/../canoo/lib/mysql-connector-java-5.1.6-bin.jar"/>
-			<arg value="-u"/>
-			<arg value="${db.login}"/>
-			<arg value="-o"/>
-			<arg path="${basedir}/target"/>
-			<arg value="-p"/>
-			<arg value="${db.password}"/>
-		</java>
-		
-		<echo>SchemaSpy finished</echo>
-		
+		<if>
+		 <equals arg1="${db.type}" arg2="mysql" />
+		 <then>
+		   <echo message="Generating schema for MySql" />
+			<java jar="${basedir}/lib/schemaSpy_3.1.1.jar" fork="true"  failonerror="true" maxmemory="256m" dir="${basedir}">
+				<arg value="-t"/>
+				<arg value="mysql"/>
+				<arg value="-host"/>
+				<arg value="${db.host}:${db.port}"/>
+				<arg value="-db"/>
+				<arg value="${db.name}"/>
+				<arg value="-cp"/>
+				<arg path="${basedir}/../canoo/lib/mysql-connector-java-5.1.6-bin.jar"/>
+				<arg value="-u"/>
+				<arg value="${db.login}"/>
+				<arg value="-o"/>
+				<arg path="${basedir}/target"/>
+				<arg value="-p"/>
+				<arg value="${db.password}"/>
+			</java>
+			<echo>SchemaSpy finished</echo>
+		 </then>
+		 <elseif>
+			 <equals arg1="${db.type}" arg2="postgresql" />
+		  <then>
+			   <echo message="Generating schema for PgSql" />
+			<java jar="${basedir}/lib/schemaSpy_3.1.1.jar" fork="true"  failonerror="true" maxmemory="256m" dir="${basedir}">
+				<arg value="-t"/>
+				<arg value="mysql"/>
+				<arg value="-host"/>
+				<arg value="${db.host}:${db.port}"/>
+				<arg value="-db"/>
+				<arg value="${db.name}"/>
+				<arg value="-cp"/>
+				<arg path="${basedir}/../canoo/lib/postgresql-8.3-603.jdbc4.jar"/>
+				<arg value="-u"/>
+				<arg value="${db.login}"/>
+				<arg value="-o"/>
+				<arg path="${basedir}/target"/>
+				<arg value="-p"/>
+				<arg value="${db.password}"/>
+			</java>
+			<echo>SchemaSpy finished</echo>
+		  </then>
+		 </elseif>
+
+		 <else>
+		   <echo message="DB type is not supported" />
+		 </else>
+		</if>
 	</target>
 
 </project>
