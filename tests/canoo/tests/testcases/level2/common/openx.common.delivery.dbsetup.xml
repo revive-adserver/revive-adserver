@@ -31,7 +31,7 @@
 								<pathelement location="${basedir}/../lib/postgresql-8.3-603.jdbc4.jar" />
 							</classpath>
 							<transaction src="config/delivery_ox.sql"/>
-							<transaction> UPDATE ox_banners SET url = "${openx.example_url}" WHERE url = "http://www.example.com" </transaction>
+							<transaction> UPDATE ox_banners SET url = '${openx.example_url}' WHERE url = 'http://www.example.com' </transaction>
 						</sql>
 			 		</else>
 			 	</ifStep>
