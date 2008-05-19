@@ -25,7 +25,7 @@
 	<else>
 		<sql
 		    driver="org.postgresql.Driver"
-		    url="jdbc:postgresql://${db.host}:${db.port}/"
+		    url="jdbc:postgresql://${db.host}:${db.port}/template0"
 		    userid="${db.login}"
 		    password="${db.password}"
 		    autocommit="true"
