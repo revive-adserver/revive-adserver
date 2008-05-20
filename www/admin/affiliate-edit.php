@@ -54,7 +54,7 @@ $oAdNetworks = new OA_Central_AdNetworks();
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
 /*-------------------------------------------------------*/
-
+ 
 if (isset($formId)) {
     // Setup a new publisher object and set the fields passed in from the form:
     $oPublisher = new OA_Dll_PublisherInfo();
@@ -103,6 +103,9 @@ if ($affiliateid != "") {
     MAX_displayWebsiteBreadcrumbs(null);
     phpAds_PageHeader("affiliate-edit_new");
     phpAds_ShowSections(array("4.2.1"));
+    
+    //set some default
+    $affiliate['website'] = 'http://';
 }
 
 /*-------------------------------------------------------*/
@@ -134,7 +137,8 @@ $oTpl->assign('fieldsTop', array(
         'fields'    => array(
             array(
                 'name'      => 'website',
-                'label'     => $strWebsite,
+                'id'      => 'website',
+                'label'     => $strWebsiteURL,
                 'value'     => $affiliate['website']
             ),
             array(
@@ -149,6 +153,7 @@ $oTpl->assign('fieldsTop', array(
             ),
             array(
                 'name'      => 'name',
+                'id'      => 'name',
                 'label'     => $strName,
                 'value'     => $affiliate['name']
             ),

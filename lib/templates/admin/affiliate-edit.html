@@ -48,25 +48,6 @@ $Id$
 
 {include file=edit-table/create.html from=$fieldsTop}
 
-<script language="javascript">
-<!--{literal}
-    $(document).ready(function() {
-    formStateStore($("#affiliateform").get(0));
-    $("#affiliateform").submit(function() {
-        if (max_formValidate(this)) {
-          if(formStateChanged(this)) {
-            $("#captcha-dialog-" + this.id).jqmShow();
-          }
-          else {
-            return true;
-          }
-        }
-        return false;
-      });
-    });
-//-->{/literal}
-</script>
-
 {include file=advertiser-signup-dialog.html formId=affiliateform}
 
 <br /><br />
@@ -81,3 +62,37 @@ $Id$
   <input value="{t str=SaveChanges}" type="submit" {tabindex}>
 </div>
 </form>
+
+<script language="javascript">
+<!--{literal}
+    $(document).ready(function() {
+	    formStateStore($("#affiliateform").get(0));
+	    $("#affiliateform").submit(function() {
+	        if (max_formValidate(this)) {
+	          if(formStateChanged(this)) {
+	            $("#captcha-dialog-" + this.id).jqmShow();
+	          }
+	          else {
+	            return true;
+	          }
+	        }
+	        return false;
+	      });
+	    });
+	{/literal}
+	{if !$affiliateid} 
+		{literal}    
+		    website = $("#website");
+		    name = $("#name");
+		    website.blur(function () {
+		       if ($.trim(name.val()) == "") {
+		          val = website.val();
+		          val = val.replace(/^http[s]?:\/\//, "");
+		          name.val(val);
+		       }
+		    });
+	    {/literal}
+	{/if}	    
+	//-->
+</script>
+
