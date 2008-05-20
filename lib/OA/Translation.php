@@ -127,7 +127,7 @@ class OA_Translation
             $eval .= implode(',', $aVals);
             $eval .= ');';
 
-            if (@eval($eval)) {
+            if (@eval($eval) !== false) {
                 $sReturn = $sSprintf;
             }
         }
