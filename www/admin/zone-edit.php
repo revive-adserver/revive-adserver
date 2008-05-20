@@ -425,6 +425,28 @@ echo "<input class='flat' size='35' type='text' name='description' style='width:
 echo "</tr><tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
+echo "<tr>"."\n";
+echo "\t"."<td width='30'>&nbsp;</td>"."\n";
+echo "\t"."<td width='200'>".$strCategory."</td>"."\n";
+echo "\t"."<td>";
+?>
+<select style="min-width: 25ex">
+    <option>Uncategorised</option>
+    <option>Category 1</option>
+    <option>Category 2</option>
+    <option>Category 3</option>
+    <option>Category 4</option>
+    <option>Category 5</option>
+</select>
+<?php 
+echo "\t"."</td>"; 
+echo "</tr>"."\n";
+
+echo "<tr>"."\n";
+echo "\t"."<td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>"."\n";
+echo "\t"."<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td>"."\n";
+echo "</tr>";
+
 echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'><br />".$strZoneType."</td><td><table>";
 echo "<tr><td><input type='radio' id='delivery-b' name='delivery' value='".phpAds_ZoneBanner."'".($zone['delivery'] == phpAds_ZoneBanner ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();' onChange='oa_hide(\"warning_change_zone_type\");' tabindex='".($tabindex++)."'>";
 echo "&nbsp;<img src='" . MAX::assetPath() . "/images/icon-zone.gif' align='absmiddle'>&nbsp;<label for='delivery-b'>".$strBannerButtonRectangle."</label></td></tr>";

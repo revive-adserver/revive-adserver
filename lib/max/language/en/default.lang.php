@@ -745,6 +745,8 @@ $GLOBALS['strUniqueUsersMonth']             = "Unique users/month";
 $GLOBALS['strUniqueViewsMonth']             = "Unique views/month";
 $GLOBALS['strPageRank']                     = "Page rank";
 $GLOBALS['strCategory']                     = "Category";
+$GLOBALS['strPrimaryCategory']              = "Primary category";
+$GLOBALS['strSecondaryCategory']            = "Secondary category";
 $GLOBALS['strHelpFile']                     = "Help file";
 $GLOBALS['strApprovedTandC']                = "Approved terms and conditions";
 

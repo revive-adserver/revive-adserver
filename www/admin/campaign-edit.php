@@ -867,8 +867,53 @@ echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
 echo "<tr>"."\n";
 echo "\t"."<td width='30'>&nbsp;</td>"."\n";
 echo "\t"."<td width='200'>".$strName."</td>"."\n";
-echo "\t"."<td><input onBlur='phpAds_formPriorityUpdate(this.form);' class='flat' type='text' name='campaignname' size='35' style='width:350px;' value='".phpAds_htmlQuotes($row['campaignname'])."' tabindex='".($tabindex++)."'></td>"."\n";
+echo "\t"."<td><input class='flat' type='text' name='campaignname' size='35' style='width:350px;' value='".phpAds_htmlQuotes($row['campaignname'])."' tabindex='".($tabindex++)."'></td>"."\n";
 echo "</tr>"."\n";
+
+echo "<tr>"."\n";
+echo "\t"."<td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>"."\n";
+echo "\t"."<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td>"."\n";
+echo "</tr>";
+
+echo "<tr>"."\n";
+echo "\t"."<td width='30'>&nbsp;</td>"."\n";
+echo "\t"."<td width='200'>".$strPrimaryCategory."</td>"."\n";
+echo "\t"."<td>";
+?>
+<select style="min-width: 25ex">
+    <option>Uncategorised</option>
+    <option>Category 1</option>
+    <option>Category 2</option>
+    <option>Category 3</option>
+    <option>Category 4</option>
+    <option>Category 5</option>
+</select>
+<?php 
+echo "\t"."</td>"; 
+echo "</tr>"."\n";
+
+echo "<tr>"."\n";
+echo "\t"."<td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>"."\n";
+echo "\t"."<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td>"."\n";
+echo "</tr>";
+
+echo "<tr>"."\n";
+echo "\t"."<td width='30'>&nbsp;</td>"."\n";
+echo "\t"."<td width='200'>".$strSecondaryCategory."</td>"."\n";
+echo "\t"."<td>";
+?>
+<select style="min-width: 25ex">
+    <option>Uncategorised</option>
+    <option>Category 1</option>
+    <option>Category 2</option>
+    <option>Category 3</option>
+    <option>Category 4</option>
+    <option>Category 5</option>
+</select>
+<?php 
+echo "\t"."</td>"; 
+echo "</tr>"."\n";
+
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
 echo "<tr><td height='25' colspan='3'><a name='inv-det' ></a><b>".$strInventoryDetails."</b></td></tr>"."\n";
 echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>"."\n";
