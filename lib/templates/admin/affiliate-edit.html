@@ -39,6 +39,11 @@ $Id$
     </div>
 {/if}
 
+{if $showAddZone}
+    <img src='{$assetPath}/images/icon-zone-new.gif' border='0' align='absmiddle'>&nbsp;<a href='zone-edit.php?affiliateid={$affiliateid}' accesskey='{$keyAddNew}'>{t str=AddNewZone_Key}</a>&nbsp;&nbsp;
+    {phpAds_ShowBreak}
+{/if}
+
 <br /><br />
 
 <form name='affiliateform' id='affiliateform' method='post' action='affiliate-edit.php'>

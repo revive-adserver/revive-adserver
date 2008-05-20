@@ -180,6 +180,13 @@ $tabindex = 1;
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
+if (!empty($clientid) && !OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+    echo "<img src='" . MAX::assetPath() . "/images/icon-campaign-new.gif' border='0' align='absmiddle'>&nbsp;";
+    echo "<a href='campaign-edit.php?clientid=".$clientid."' accesskey='".$keyAddNew."'>".$strAddCampaign_Key."</a>&nbsp;&nbsp;";
+    phpAds_ShowBreak();
+}
+
+
 echo "<br /><br />";
 echo "<form name='clientform' method='post' action='advertiser-edit.php' onSubmit='return max_formValidate(this);'>";
 echo "<input type='hidden' name='clientid' value='".(isset($clientid) && $clientid != '' ? $clientid : '')."'>";

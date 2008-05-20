@@ -77,11 +77,7 @@ $Id$
     		{if $showAdDirect}<td class="sts sts-awaiting">&nbsp;</td>{/if}
 
     		<td height='25' style="padding-right: 10px; width: 20%">
-          {if !$client.campaigns}
-    			 <a href='campaign-edit.php?clientid={$clientId}' title="{t str=AddCampaign}"><img src='{$assetPath|escape}/images/icon-campaign-new.gif' border='0' align='absmiddle' alt='{t str=AddCampaign}'>&nbsp;{t str=AddCampaign}</a>
-		      {else}
-		        &nbsp;
-		      {/if}
+    	       <a href='campaign-edit.php?clientid={$clientId}' title="{t str=AddCampaign}"><img src='{$assetPath|escape}/images/icon-campaign-new.gif' border='0' align='absmiddle' alt='{t str=AddCampaign}'>&nbsp;{t str=AddCampaign}</a>
     		</td>
 
     		<td height='25' style="padding-right: 10px;">
@@ -128,11 +124,7 @@ $Id$
         {/if}
 
         <td height='25' style="padding-right: 15px;">
-          {if !$campaign.banners}
             <img src='{$assetPath|escape}/images/icon-banner-new.gif' border='0' align='absmiddle' alt='{t str=AddBanner}'>&nbsp;<a href='banner-edit.php?clientid={$clientId}&campaignid={$campaignId}' title="{t str=AddBanner}">{t str=AddBanner}</a>
-          {else}
-            &nbsp;
-          {/if}
         </td>
 
         <td height='25' style="padding-right: 15px;">

@@ -683,8 +683,14 @@ function phpAds_showStatusRejected($reject_reason) {
 
     echo $strCampaignStatusRejected . ": " . $text;
 }
-
+$oTrans = new OA_Translation();
 $tabindex = 1;
+
+if (!empty($campaignid) && !OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+    echo "\t\t\t\t<img src='" . MAX::assetPath() . "/images/icon-banner-new.gif' align='absmiddle' alt=''>&nbsp;";
+    echo "<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaignid."' accesskey='".$keyAddNew."'>".$oTrans->translate('AddBanner_Key')."</a>&nbsp;&nbsp;&nbsp;&nbsp;\n";
+    phpAds_ShowBreak();
+}
 
 echo "<br /><br />";
 

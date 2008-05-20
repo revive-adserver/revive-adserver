@@ -191,6 +191,8 @@ $oTpl->assign('fieldsTop', array(
     )
 ));
 $oTpl->assign('showAdDirect', (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) ? true : false);
+$oTpl->assign('keyAddNew', $keyAddNew);
+$oTpl->assign('showAddZone', !empty($affiliateid) && (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_ADD)));
 
 //var_dump($oTpl);
 //die();
