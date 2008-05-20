@@ -836,6 +836,7 @@ $GLOBALS['strSelectZoneType']            = "Please choose what to link to this z
 $GLOBALS['strLinkedBanners']            = "Link individual banners";
 $GLOBALS['strCampaignDefaults']            = "Link banners by parent campaign";
 $GLOBALS['strLinkedCategories']         = "Link banners by category";
+$GLOBALS['strWithXBanners']                = "%d banner(s)";
 $GLOBALS['strInteractive']                = "Interactive";
 $GLOBALS['strRawQueryString']            = "Keyword";
 $GLOBALS['strIncludedBanners']            = "Linked Banners";

@@ -1281,7 +1281,6 @@ function _displayZoneEntitySelectionCell($entity, $entityId, $aOtherEntities, $e
             $aParams = array('placement_id' => $otherEntityId);
             $aParams += MAX_getLinkedAdParams($GLOBALS['zoneId']);
 
-            //$adsCount = "Z(" . count(Admin_DA::getAds($aParams)) . ")";
             $translation = new OA_Translation();
             $aStringParams["bannerCount"] = count(Admin_DA::getAds($aParams));
             $translated = $translation->translate($GLOBALS['strWithXBanners'], $aStringParams);
