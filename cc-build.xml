@@ -43,7 +43,7 @@
 	</target>
 	
 	<target name="test-canoo-schemaspy" depends="test-canoo">
-		<ant antfile="build.xml" dir="${basedir}/target/tests/schemaspy" output="schemaspy.log" target="schemaspy" />
+		<ant antfile="build.xml" dir="${basedir}/target/tests/schemaspy" output="schemaspy.log" target="schemaspy" inheritall="true"/>
 	</target>
 
 	<target name="make-release">

@@ -10,6 +10,7 @@
 		<delete dir="target"/>
 		<mkdir dir="target"/>
 		
+		<taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
 		<if>
 		 <equals arg1="${db.type}" arg2="mysql" />
 		 <then>
@@ -38,7 +39,7 @@
 			   <echo message="Generating schema for PgSql" />
 			<java jar="${basedir}/lib/schemaSpy_3.1.1.jar" fork="true"  failonerror="true" maxmemory="256m" dir="${basedir}">
 				<arg value="-t"/>
-				<arg value="mysql"/>
+				<arg value="pgsql"/>
 				<arg value="-host"/>
 				<arg value="${db.host}:${db.port}"/>
 				<arg value="-db"/>
@@ -51,6 +52,8 @@
 				<arg path="${basedir}/target"/>
 				<arg value="-p"/>
 				<arg value="${db.password}"/>
+				<arg value="-s"/>
+				<arg value="public"/>
 			</java>
 			<echo>SchemaSpy finished</echo>
 		  </then>
