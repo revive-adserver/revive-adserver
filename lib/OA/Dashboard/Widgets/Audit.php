@@ -73,7 +73,7 @@ class OA_Dashboard_Widget_Audit extends OA_Dashboard_Widget
             }
 
             $oAudit = new OA_Dll_Audit();
-            $aAuditData = $oAudit->getAuditLogForAuditWidget($aParam);
+            $aAuditData = $oAudit->getAuditLogForAuditWidget($aParams);
             if (count($aAuditData) > 0) {
                 foreach ($aAuditData as $key => $aValue) {
                     $aValue['action'] = $this->oTrans->translate($oAudit->getActionName($aValue['actionid']));
