@@ -31,6 +31,7 @@ require_once MAX_PATH . '/lib/OA/Permission.php';
 
 require_once 'DB/DataObject.php';
 
+define('OA_DATETIME_PEAR_FORMAT', '%Y-%m-%d %H:%M:%S');
 define('OA_DATETIME_FORMAT', '%Y-%m-%d %H:%M:%S');
 define('OA_DATAOBJECT_DEFAULT_NULL', 'NULL');
 
