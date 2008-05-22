@@ -1564,11 +1564,7 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     function formatDate($date, $format = OA_DATETIME_PEAR_FORMAT)
     {
-<<<<<<< .working
         return $date->format($format);
-=======
-        return $date->format(OA_DATETIME_PEAR_FORMAT);
->>>>>>> .merge-right.r18561
     }
 
     /**
