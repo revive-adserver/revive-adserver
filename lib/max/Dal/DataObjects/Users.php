@@ -56,6 +56,9 @@ class DataObjects_Users extends DB_DataObjectCommon
         if (empty($this->date_created)) {
             $this->date_created = $this->formatDate(new Date());
         }
+        if (empty($this->email_updated)) {
+            $this->email_updated = $this->formatDate(new Date());
+        }
         return parent::insert();
     }
 

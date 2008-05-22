@@ -1561,9 +1561,9 @@ class DB_DataObjectCommon extends DB_DataObject
      * @param Date $date
      * @return string
      */
-    function formatDate($date)
+    function formatDate($date, $format = OA_DATETIME_PEAR_FORMAT)
     {
-        return $date->format(OA_DATETIME_FORMAT);
+        return $date->format($format);
     }
 
     /**

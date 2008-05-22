@@ -26,6 +26,7 @@ $Id$
 
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/lib/max/Plugin/Common.php';
+require_once 'Date.php';
 
 /**
  * Plugins_Authentication is an abstract class for Authentication plugins
@@ -34,7 +35,7 @@ require_once MAX_PATH . '/lib/max/Plugin/Common.php';
  * @subpackage Authentication
  * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
-class Plugins_Authentication extends MAX_Plugin_Common 
+class Plugins_Authentication extends MAX_Plugin_Common
 {
     /**
      * Array to keep a reference to signup errors (if any)
@@ -174,7 +175,7 @@ class Plugins_Authentication extends MAX_Plugin_Common
             $this->addValidationError($GLOBALS['strInvalidEmail']);
         }
     }
-    
+
     /**
      * Returns true if email address is valid else false
      *
@@ -304,10 +305,11 @@ class Plugins_Authentication extends MAX_Plugin_Common
      */
     function changeEmail(&$doUsers, $emailAddress, $password)
     {
-        OA::debug('Cannot run abstract method');
-        exit();
+        $doUsers->email_address = $emailAddress;
+        $doUsers->email_updated = $doUsers->formatDate(new Date());
+        return true;
     }
-    
+
     /**
      * Delete unverified accounts. Used by cas
      *

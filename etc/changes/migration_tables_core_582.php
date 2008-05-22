@@ -36,9 +36,12 @@ class Migration_582 extends Migration
 
 		$this->aTaskList_constructive[] = 'beforeAddField__clients__advertiser_limitation';
 		$this->aTaskList_constructive[] = 'afterAddField__clients__advertiser_limitation';
+		$this->aTaskList_constructive[] = 'beforeAddField__users__email_updated';
+		$this->aTaskList_constructive[] = 'afterAddField__users__email_updated';
 
 
 		$this->aObjectMap['clients']['advertiser_limitation'] = array('fromTable'=>'clients', 'fromField'=>'advertiser_limitation');
+		$this->aObjectMap['users']['email_updated'] = array('fromTable'=>'users', 'fromField'=>'email_updated');
     }
 
 
@@ -51,6 +54,16 @@ class Migration_582 extends Migration
 	function afterAddField__clients__advertiser_limitation()
 	{
 		return $this->afterAddField('clients', 'advertiser_limitation');
+	}
+
+	function beforeAddField__users__email_updated()
+	{
+		return $this->beforeAddField('users', 'email_updated');
+	}
+
+	function afterAddField__users__email_updated()
+	{
+		return $this->afterAddField('users', 'email_updated');
 	}
 
 }

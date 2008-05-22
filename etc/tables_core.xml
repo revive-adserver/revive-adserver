@@ -5745,6 +5745,13 @@
     <default></default>
    </field>
 
+   <field>
+    <name>email_updated</name>
+    <type>openads_datetime</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
    <index>
     <name>users_pkey</name>
     <primary>true</primary>
