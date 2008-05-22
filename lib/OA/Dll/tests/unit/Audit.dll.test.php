@@ -617,7 +617,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
 
             $oDate = new Date($aResRow['updated']);
             $oDate->toUTC();
-            $this->assertEqual($oDate->getDate(),$aExpRow['updated']);
+            $this->assertEqual($oDate->getDate(), $aExpRow['updated']);
         }
         // Check that the account_id filter is working
         $aParams = array('account_id' => 2);

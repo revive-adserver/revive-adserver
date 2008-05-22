@@ -32,7 +32,7 @@ require_once MAX_PATH . '/lib/OA/Permission.php';
 require_once 'DB/DataObject.php';
 
 define('OA_DATETIME_PEAR_FORMAT', '%Y-%m-%d %H:%M:%S');
-define('OA_DATETIME_FORMAT', '%Y-%m-%d %H:%M:%S');
+define('OA_DATETIME_FORMAT', 'Y-m-d H:i:s');
 define('OA_DATAOBJECT_DEFAULT_NULL', 'NULL');
 
 /**
@@ -919,7 +919,7 @@ class DB_DataObjectCommon extends DB_DataObject
             $fields = $this->table();
             if (array_key_exists('updated', $fields))
             {
-                $this->updated = gmdate('Y-m-d H:i:s');
+                $this->updated = gmdate(OA_DATETIME_FORMAT);
             }
         }
     }
@@ -1564,7 +1564,11 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     function formatDate($date, $format = OA_DATETIME_PEAR_FORMAT)
     {
+<<<<<<< .working
         return $date->format($format);
+=======
+        return $date->format(OA_DATETIME_PEAR_FORMAT);
+>>>>>>> .merge-right.r18561
     }
 
     /**
