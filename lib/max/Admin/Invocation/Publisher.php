@@ -127,7 +127,7 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation {
             $code = $this->generateInvocationCode($invocationTag);
         }
 
-        $previewURL = 'http://' . $conf['webpath']['admin'] . "/affiliate-preview.php?affiliateid={$affiliateid}&codetype={$codetype}";
+        $previewURL = MAX::constructURL(MAX_URL_ADMIN, "affiliate-preview.php?affiliateid={$affiliateid}&codetype={$codetype}");
         foreach ($invocationTag->defaultOptionValues as $feature => $value) {
             if ($invocationTag->maxInvocation->$feature != $value) {
                 $previewURL .= "&{$feature}=" . rawurlencode($invocationTag->maxInvocation->$feature);

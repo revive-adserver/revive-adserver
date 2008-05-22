@@ -129,7 +129,7 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
 
         $this->varprefix = $conf['var']['prefix'];
         $this->appname = (!empty($GLOBALS['_MAX']['PREF']['name'])) ? $GLOBALS['_MAX']['PREF']['name'] : MAX_PRODUCT_NAME;
-        $this->uri = (!empty($mi->ssl)) ? MAX_commonConstructSecureDeliveryUrl() : MAX_commonConstructDeliveryUrl();
+        $this->uri = (!empty($mi->ssl)) ? MAX_commonConstructSecureDeliveryUrl('') : MAX_commonConstructDeliveryUrl('');
 
         $channel = (!empty($mi->source)) ? $mi->source : $affiliate['mnemonic'] . "/test/preview";
 
@@ -138,7 +138,7 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
 <head>
     <title>Tags for [id{$affiliate['affiliateid']}] {$affiliate['name']}</title>
         <link rel='stylesheet' type='text/css' href='" . MAX::assetPath() .  "/css/preview.css' />
-		<script type='text/javascript' src='" . MAX::assetPath() .  "/js/jquery-1.2.1.min.js'></script>
+		<script type='text/javascript' src='" . MAX::assetPath() .  "/js/jquery-1.2.3.js'></script>
 
         <script type='text/javascript'>
 		<!--

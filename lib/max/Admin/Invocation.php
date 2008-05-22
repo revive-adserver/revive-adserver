@@ -75,6 +75,7 @@ class MAX_Admin_Invocation {
             'left',
             'location',
             'menubar',
+            'noscript',
             'parameters',
             'popunder',
             'raw',
