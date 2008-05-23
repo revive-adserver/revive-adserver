@@ -42,9 +42,9 @@ function setupConstants()
     define('MAX_PRODUCT_NAME',      'OpenX');
     define('MAX_PRODUCT_URL',       'www.openx.org');
     if (preg_match('/^(\d+\.\d+)/', OA_VERSION, $aMatches)) {
-        define('OX_PRODUCT_DOCSURL',   "www.openx.org/help/{$aMatches[1]}");
+        define('OX_PRODUCT_DOCSURL',   "http://www.openx.org/help/{$aMatches[1]}");
     } else {
-        define('OX_PRODUCT_DOCSURL',   "www.openx.org/help");
+        define('OX_PRODUCT_DOCSURL',   "http://www.openx.org/help");
     }
     define('OX_PRODUCT_FORUMURL',  'forum.openx.org');
 

@@ -86,8 +86,8 @@ $GLOBALS['strInstallWelcome']               = "Welcome to ".MAX_PRODUCT_NAME;
 $GLOBALS['strInstallMessage']               = "Before you can use ".MAX_PRODUCT_NAME." it needs to be configured and <br /> the database needs to be created. Click <b>Proceed</b> to continue.";
 $GLOBALS['strInstallIntro']                 = "Thank you for choosing <a href='http://".MAX_PRODUCT_URL."' target='_blank'><strong>".MAX_PRODUCT_NAME."</strong></a>.
 <p>This wizard will guide you through the process of installing / upgrading the ".MAX_PRODUCT_NAME." ad server.</p>
-<p>To help you with the installation process we have created an <a href='http://".OX_PRODUCT_DOCSURL."/wizard/qsg-install' target='_blank'>Installation Quick Start Quide</a> to take you through the process of getting up and running.
-For a more detailed guide to installing and configuring ".MAX_PRODUCT_NAME." visit the <a href='http://".OX_PRODUCT_DOCSURL."/wizard/admin-guide' target='_blank'>Administrator Guide</a>.";
+<p>To help you with the installation process we have created an <a href='".OX_PRODUCT_DOCSURL."/wizard/qsg-install' target='_blank'>Installation Quick Start Quide</a> to take you through the process of getting up and running.
+For a more detailed guide to installing and configuring ".MAX_PRODUCT_NAME." visit the <a href='".OX_PRODUCT_DOCSURL."/wizard/admin-guide' target='_blank'>Administrator Guide</a>.";
 $GLOBALS['strRecoveryRequiredTitle']    = "Your previous upgrade attempt encountered an error";
 $GLOBALS['strRecoveryRequired']         = "There was an error while processing your previous upgrade and " . MAX_PRODUCT_NAME . " must attempt to recover the upgrade process. Please click the Recover button below.";
 $GLOBALS['strTermsTitle']               = "Terms and Conditions of Use, Privacy Policy";
@@ -106,19 +106,19 @@ $GLOBALS['strInstallSuccess']               = "Clicking 'Continue' will log you 
 <p><strong>What next?</strong></p>
 <div class='psub'>
   <p><b>Sign up for product updates</b><br>
-    <a href='http://".OX_PRODUCT_DOCSURL."/wizard/join' target='_blank'>Join the ".MAX_PRODUCT_NAME." mailing list</a> for product updates, security alerts and new product announcements.
+    <a href='".OX_PRODUCT_DOCSURL."/wizard/join' target='_blank'>Join the ".MAX_PRODUCT_NAME." mailing list</a> for product updates, security alerts and new product announcements.
   </p>
   <p><b>Serving your first ad campaign</b><br>
-    Use our <a href='http://".OX_PRODUCT_DOCSURL."/wizard/qsg-firstcampaign' target='_blank'>quick start guide to start serving your first ad campaign</a>.
+    Use our <a href='".OX_PRODUCT_DOCSURL."/wizard/qsg-firstcampaign' target='_blank'>quick start guide to start serving your first ad campaign</a>.
   </p>
 </div>
 <p><strong>Optional installation steps</strong></p>
 <div class='psub'>
   <p><b>Lock your configuration files</b><br>
-    This is a good extra security step to protect your ad server configuration settings from being altered.  <a href='http://".OX_PRODUCT_DOCSURL."/wizard/lock-config' target='_blank'>Find out more</a>.
+    This is a good extra security step to protect your ad server configuration settings from being altered.  <a href='".OX_PRODUCT_DOCSURL."/wizard/lock-config' target='_blank'>Find out more</a>.
   </p>
   <p><b>Set up a regular maintenance task</b><br>
-    A maintenance script is recommended to ensure timely reporting and the best possible ad delivery performance.  <a href='http://".OX_PRODUCT_DOCSURL."/wizard/setup-cron' target='_blank'>Find out more</a>
+    A maintenance script is recommended to ensure timely reporting and the best possible ad delivery performance.  <a href='".OX_PRODUCT_DOCSURL."/wizard/setup-cron' target='_blank'>Find out more</a>
   </p>
   <p><b>Review your system configuration settings</b><br>
     Before you start using ".MAX_PRODUCT_NAME." we suggest you review your settings within the 'Settings' tab.
@@ -143,7 +143,7 @@ $GLOBALS['strErrorInstallDbConnect']        = "It was not possible to open a con
 $GLOBALS['strErrorWritePermissions']        = "File permission errors have been detected, and must be fixed before you can continue.<br />To fix the errors on a Linux system, try typing in the following command(s):";
 $GLOBALS['strErrorFixPermissionsCommand']   = "<i>chmod a+w %s</i>";
 $GLOBALS['strErrorWritePermissionsWin']     = "File permission errors have been detected, and must be fixed before you can continue.";
-$GLOBALS['strCheckDocumentation']           = "For more help, please see the <a href=\"http://".OX_PRODUCT_DOCSURL."\">" . MAX_PRODUCT_NAME . " documentation<a/>.";
+$GLOBALS['strCheckDocumentation']           = "For more help, please see the <a href=\"".OX_PRODUCT_DOCSURL."\">" . MAX_PRODUCT_NAME . " documentation<a/>.";
 
 $GLOBALS['strAdminUrlPrefix']               = "Admin Interface URL";
 $GLOBALS['strDeliveryUrlPrefix']            = "Delivery Engine URL";

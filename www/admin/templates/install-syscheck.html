@@ -52,11 +52,11 @@
             {
                 if (version_compare($sysinfoarray['actual']['version'],'5.1', ">"))
                 {
-                    $docLink = "http://" . OX_PRODUCT_DOCSURL . "/install/timezone/php5/";
+                    $docLink = OX_PRODUCT_DOCSURL . "/install/timezone/php5/";
                 }
                 else
                 {
-                    $docLink = "http://" . OX_PRODUCT_DOCSURL . "/install/timezone/php4/";
+                    $docLink = OX_PRODUCT_DOCSURL . "/install/timezone/php4/";
                 }
                 $finalTimezoneDocs = str_replace(
                     '%DOCS%',

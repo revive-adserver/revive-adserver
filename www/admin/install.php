@@ -63,7 +63,7 @@ $oSystemMgr->getAllInfo();
 if (!$oSystemMgr->checkMemory()) {
     $memory = getMinimumRequiredMemory() / 1048576;
     echo '<link rel="stylesheet" type="text/css" href="' . MAX::assetPath() . '/css/install.css"/><br />';
-    echo '<div class="sysmessage sysinfoerror" style="text-align: center;">The minimum amount of memory <a href="http://' . OX_PRODUCT_DOCSURL . '/requirements" target="_blank" style="color: #990000">required</a> by OpenX is <b>'. $memory
+    echo '<div class="sysmessage sysinfoerror" style="text-align: center;">The minimum amount of memory <a href="' . OX_PRODUCT_DOCSURL . '/requirements" target="_blank" style="color: #990000">required</a> by OpenX is <b>'. $memory
         .' MB</b>. <br />Please <a href="http://www.openx.org/support/faq.html" target="_blank" style="color: #990000">increase</a> your PHP memory_limit before continuing.</div>';
     exit(1);
 }
@@ -492,15 +492,15 @@ foreach ($activeNav as $key=>$val) {
 
 // Setup array for navigation
 $aInstallerSections = array (
-    '10'     =>  new OA_Admin_Menu_Section('10',  'Welcome',           $navLinks[OA_UPGRADE_WELCOME]),
-    '20'     =>  new OA_Admin_Menu_Section('20',  'Terms',             $navLinks[OA_UPGRADE_TERMS]),
-    '25'     =>  new OA_Admin_Menu_Section('25',  'Policy',            $navLinks[OA_UPGRADE_POLICY]),
-    '30'     =>  new OA_Admin_Menu_Section('30',  'System Check',      $navLinks[OA_UPGRADE_SYSCHECK]),
-    '40'     =>  new OA_Admin_Menu_Section('40',  'Application Check', $navLinks[OA_UPGRADE_APPCHECK]),
-    '45'     =>  new OA_Admin_Menu_Section('45',  'Login',             $navLinks[OA_UPGRADE_LOGIN]),
-    '50'     =>  new OA_Admin_Menu_Section('50',  'Database',          $navLinks[OA_UPGRADE_DBSETUP]),
-    '60'     =>  new OA_Admin_Menu_Section('60',  'Configuration',     $navLinks[OA_UPGRADE_CONFIGSETUP]),
-    '70'     =>  new OA_Admin_Menu_Section('70',  'Admin',             $navLinks[OA_UPGRADE_ADMINSETUP]),
+    '10'     =>  new OA_Admin_Menu_Section('10',  'Welcome',           $navLinks[OA_UPGRADE_WELCOME], false, "qsg-install"),
+    '20'     =>  new OA_Admin_Menu_Section('20',  'Terms',             $navLinks[OA_UPGRADE_TERMS], false, "qsg-install"),
+    '25'     =>  new OA_Admin_Menu_Section('25',  'Policy',            $navLinks[OA_UPGRADE_POLICY], false, "qsg-install"),
+    '30'     =>  new OA_Admin_Menu_Section('30',  'System Check',      $navLinks[OA_UPGRADE_SYSCHECK], false, "qsg-install"),
+    '40'     =>  new OA_Admin_Menu_Section('40',  'Application Check', $navLinks[OA_UPGRADE_APPCHECK], false, "qsg-install"),
+    '45'     =>  new OA_Admin_Menu_Section('45',  'Login',             $navLinks[OA_UPGRADE_LOGIN], false, "qsg-install"),
+    '50'     =>  new OA_Admin_Menu_Section('50',  'Database',          $navLinks[OA_UPGRADE_DBSETUP], false, "qsg-install"),
+    '60'     =>  new OA_Admin_Menu_Section('60',  'Configuration',     $navLinks[OA_UPGRADE_CONFIGSETUP], false, "qsg-install"),
+    '70'     =>  new OA_Admin_Menu_Section('70',  'Admin',             $navLinks[OA_UPGRADE_ADMINSETUP], false, "qsg-install"),
     '100'    =>  new OA_Admin_Menu_Section('100', 'Finished',          '')
 );
 

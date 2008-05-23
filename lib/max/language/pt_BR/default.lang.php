@@ -952,12 +952,12 @@ $GLOBALS['strLinkUserHelp'] = "<br /> Digite o nome de usuário. Para vincular <
 $GLOBALS['strAuditNoData'] = "Nenhuma atividade dos usuários registrada do período escolhido.";
 $GLOBALS['strCampaignGoTo'] = "Ir para página de campanhas";
 $GLOBALS['strCampaignSetUp'] = "Configurar uma campanha hoje";
-$GLOBALS['strCampaignNoRecords'] = "<li>Campanhas permitem agrupar qualquer número de banner de diversos tamanhos que possuam necessidades de publicação em comum</li> \\n<li>Economize tempo agrupando banners dentro de campanhas e não defina mais configurações de entrega uma a uma</li>  \\n<li>Verifique a <a class=\"site-link\" href=\"http://".OX_PRODUCT_DOCSURL."/inventory/advertisersAndCampaigns/campaigns\">Documentação de Campanhas</a>!</li>";
+$GLOBALS['strCampaignNoRecords'] = "<li>Campanhas permitem agrupar qualquer número de banner de diversos tamanhos que possuam necessidades de publicação em comum</li> \\n<li>Economize tempo agrupando banners dentro de campanhas e não defina mais configurações de entrega uma a uma</li>  \\n<li>Verifique a <a class=\"site-link\" href=\"".OX_PRODUCT_DOCSURL."/inventory/advertisersAndCampaigns/campaigns\">Documentação de Campanhas</a>!</li>";
 $GLOBALS['strCampaignNoDataTimeSpan'] = "Nenhuma campanha começou ou terminou no prazo escolhido";
 $GLOBALS['strCampaignAuditNotActivated'] = "Para poder visualizar campanhas que iniciaram ou terminaram no prazo escolhido, os Rastros de Auditoria devem estar ligado";
 $GLOBALS['strAuditTrailSetup'] = "Configurar o Rastreamento de Auditoria hoje";
 $GLOBALS['strAuditTrailGoTo'] = "Ir para log de Auditoria";
-$GLOBALS['strAuditTrailNotEnabled'] = "<li>O Log de Auditoria permite verificar quem fez o que e quando. Ou, em outras palavras, ele aompanha todas mudanças de sistema do ".MAX_PRODUCT_NAME."</li> \n<li>Você esta vendo esta mensagem porque ativou o Log de Auditoria</li> \n<li>Quer saber mais detalhes? Leia a <a href='http://".OX_PRODUCT_DOCSURL."/settings/auditTrail' target='_blank'>Documentação de Log de Auditoria</a></li>";
+$GLOBALS['strAuditTrailNotEnabled'] = "<li>O Log de Auditoria permite verificar quem fez o que e quando. Ou, em outras palavras, ele aompanha todas mudanças de sistema do ".MAX_PRODUCT_NAME."</li> \n<li>Você esta vendo esta mensagem porque ativou o Log de Auditoria</li> \n<li>Quer saber mais detalhes? Leia a <a href='".OX_PRODUCT_DOCSURL."/settings/auditTrail' target='_blank'>Documentação de Log de Auditoria</a></li>";
 $GLOBALS['strAdminAccess'] = "Acesso de administrador";
 $GLOBALS['strOverallAdvertisers'] = "anunciante(s)";
 $GLOBALS['strAdvertiserSignup'] = "Registro de Anunciantes";

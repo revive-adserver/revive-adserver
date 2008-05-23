@@ -1020,12 +1020,12 @@ $GLOBALS['strLinkUserHelp'] = "<br />输入用户姓名。如需链接到<ul><li
 $GLOBALS['strAuditNoData'] = "在所选择的时间段内并没有用户活动被记录";
 $GLOBALS['strCampaignGoTo'] = "进入项目页";
 $GLOBALS['strCampaignSetUp'] = "现在就设置项目";
-$GLOBALS['strCampaignNoRecords'] = "<li>广告项目将具有相同广告需求、任意个数的任意尺寸广告并做一组来管理</li> \\n<li>将一个项目内的广告分组管理可以节省逐个定义这些广告的投放设置</li>  \\n<li>您可以阅读 <a class=\"site-link\" href=\"http://".OX_PRODUCT_DOCSURL."/inventory/advertisersAndCampaigns/campaigns\">项目文档</a>!</li>";
+$GLOBALS['strCampaignNoRecords'] = "<li>广告项目将具有相同广告需求、任意个数的任意尺寸广告并做一组来管理</li> \\n<li>将一个项目内的广告分组管理可以节省逐个定义这些广告的投放设置</li>  \\n<li>您可以阅读 <a class=\"site-link\" href=\"".OX_PRODUCT_DOCSURL."/inventory/advertisersAndCampaigns/campaigns\">项目文档</a>!</li>";
 $GLOBALS['strCampaignNoDataTimeSpan'] = "在所选时间段内没有项目启动和停止记录";
 $GLOBALS['strCampaignAuditNotActivated'] = "如需查看在选定时间段内的项目启动和停止记录，您需要激活审计跟踪";
 $GLOBALS['strAuditTrailSetup'] = "现在就设置审计跟踪";
 $GLOBALS['strAuditTrailGoTo'] = "进入跟踪审计页";
-$GLOBALS['strAuditTrailNotEnabled'] = "<li>跟踪审计功能能让您看到谁在何时何地做了什么。换言之，他跟踪".MAX_PRODUCT_NAME."中的系统性变化</li> \n<li>您看到这条消息是因为您还没有激活审计跟踪功能</li> \n<li>如需了解更多信息，请阅读 <a href='http://".OX_PRODUCT_DOCSURL."/settings/auditTrail' target='_blank'>审计跟踪文档</a></li>";
+$GLOBALS['strAuditTrailNotEnabled'] = "<li>跟踪审计功能能让您看到谁在何时何地做了什么。换言之，他跟踪".MAX_PRODUCT_NAME."中的系统性变化</li> \n<li>您看到这条消息是因为您还没有激活审计跟踪功能</li> \n<li>如需了解更多信息，请阅读 <a href='".OX_PRODUCT_DOCSURL."/settings/auditTrail' target='_blank'>审计跟踪文档</a></li>";
 $GLOBALS['strAdminAccess'] = "管理访问";
 $GLOBALS['strOverallAdvertisers'] = "广告主";
 $GLOBALS['strAdvertiserSignup'] = "广告主注册";

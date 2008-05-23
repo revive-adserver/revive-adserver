@@ -1137,14 +1137,14 @@ $GLOBALS['strAuditTrailSetup']          		= "本日の追跡記録を設定す�
 $GLOBALS['strAuditTrailGoTo']           		= "追跡記録ページに移動する";
 $GLOBALS['strAuditTrailNotEnabled']     		= "<li>追跡記録によって、あらゆる広告配信情報（いつ、誰が、何を）を入手できます。また、特別な手法によって、" . MAX_PRODUCT_NAME ."のシステム変更状況も追跡できます。</li>
         <li>このメッセージが表示される場合、追跡記録は非アクティブです。</li>
-        <li>より詳しい情報は、<a href='http://".OX_PRODUCT_DOCSURL."/settings/auditTrail' class='site-link' target='help' >Audit Trail documentation</a>を参照してください。</li>";
+        <li>より詳しい情報は、<a href='".OX_PRODUCT_DOCSURL."/settings/auditTrail' class='site-link' target='help' >Audit Trail documentation</a>を参照してください。</li>";
 
 // Widget - Campaign
 $GLOBALS['strCampaignGoTo']             		= 'キャンペーンページに移動する';
 $GLOBALS['strCampaignSetUp']            		= '本日のキャンペーンを設定する';
 $GLOBALS['strCampaignNoRecords']        		= '<li>キャンペーンによって、特定の広告条件に一致するバナーなどのグルーピングできます。</li>
         <li>１つのキャンペーンで多くのバナーをグルーピングすることによって時間が節約でき、配信先に応じて設定を個別に定義することはもはや不要となります。</li>
-        <li>より詳しい情報は、<a class="site-link" target="help" href="http://'.OX_PRODUCT_DOCSURL.'/inventory/advertisersAndCampaigns/campaigns">Campaign documentation</a>を参照してください。</li>
+        <li>より詳しい情報は、<a class="site-link" target="help" href="'.OX_PRODUCT_DOCSURL.'/inventory/advertisersAndCampaigns/campaigns">Campaign documentation</a>を参照してください。</li>
 ';
 $GLOBALS['strCampaignNoRecordsAdmin']   		= '<li>表示可能なキャンペーン活動記録はありません。</li>';
 

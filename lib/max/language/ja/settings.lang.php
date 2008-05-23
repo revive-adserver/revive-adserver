@@ -86,8 +86,8 @@ $GLOBALS['strInstallWelcome']               		= "ようこそ ".MAX_PRODUCT_NAME
 $GLOBALS['strInstallMessage']               		= MAX_PRODUCT_NAME."を使用するには、システム設定とデータベースの作成が必要です。<br />継続するには、<b>進む</b> をクリックしてください。";
 $GLOBALS['strInstallIntro']                 		= "<a href='http://".MAX_PRODUCT_URL."' target='_blank'><strong>".MAX_PRODUCT_NAME."</strong></a>を選んでいただきありがとうございます。
 <p>".MAX_PRODUCT_NAME."ADサーバのインストール／アップグレードプロセスの実行に、このウィザードがお手伝いします。</p>
-<p>インストールプロセスのお手伝いには、<a href='http://".OX_PRODUCT_DOCSURL."/wizard/qsg-install' target='_blank'>インストールクイックスタートガイド</a>がインストール開始から終了までお役に立ちます。
-".MAX_PRODUCT_NAME."のインストール作業とサーバ設定のためのより詳しい情報は、 <a href='http://".OX_PRODUCT_DOCSURL."/wizard/admin-guide' target='_blank'>管理者ガイド</a>を参照してください。</p>";
+<p>インストールプロセスのお手伝いには、<a href='".OX_PRODUCT_DOCSURL."/wizard/qsg-install' target='_blank'>インストールクイックスタートガイド</a>がインストール開始から終了までお役に立ちます。
+".MAX_PRODUCT_NAME."のインストール作業とサーバ設定のためのより詳しい情報は、 <a href='".OX_PRODUCT_DOCSURL."/wizard/admin-guide' target='_blank'>管理者ガイド</a>を参照してください。</p>";
 $GLOBALS['strRecoveryRequiredTitle']    			= "前回のアップデートでエラーが発生";
 $GLOBALS['strRecoveryRequired']         			= "前回のアップデートプロセスでエラーが発生しています。" . MAX_PRODUCT_NAME . "は、アップデートプロセスの回復を試みます。以下の'復旧する'ボタンをクリックしてください。";
 $GLOBALS['strTermsTitle']               			= "利用条件";
@@ -106,19 +106,19 @@ $GLOBALS['strInstallSuccess']               		= "'続行する'をクリック�
 <p><strong>次にすべきことは？</strong></p>
 <div class='psub'>
   <p><b>製品更新用サインアップ</b><br>
-        製品の更新、セキュリティ警告及び新規リリース情報を得るには、<a href='http://".OX_PRODUCT_DOCSURL."/wizard/join' target='_blank'>".MAX_PRODUCT_NAME."メーリングリスト</a>に参加してください。
+        製品の更新、セキュリティ警告及び新規リリース情報を得るには、<a href='".OX_PRODUCT_DOCSURL."/wizard/join' target='_blank'>".MAX_PRODUCT_NAME."メーリングリスト</a>に参加してください。
   </p>
   <p><b>最初の広告キャンペーン配信</b><br>
-    <a href='http://".OX_PRODUCT_DOCSURL."/wizard/qsg-firstcampaign' target='_blank'>クイックスタートガイド</a>を利用してください。
+    <a href='".OX_PRODUCT_DOCSURL."/wizard/qsg-firstcampaign' target='_blank'>クイックスタートガイド</a>を利用してください。
   </p>
 </div>
 <p><strong>インストールオプション概要</strong></p>
 <div class='psub'>
   <p><b>サーバ設定ファイルのロック</b><br>
-  　　　セキュリティ対策のため、サーバ設定ファイルのパーミッションを変更してください。詳しくは、<a href='http://".OX_PRODUCT_DOCSURL."/wizard/lock-config' target='_blank'>こちら</a>。
+  　　　セキュリティ対策のため、サーバ設定ファイルのパーミッションを変更してください。詳しくは、<a href='".OX_PRODUCT_DOCSURL."/wizard/lock-config' target='_blank'>こちら</a>。
   </p>
   <p><b>定期的メンテナンスタスクの設定</b><br>
-        定期的なレポート送信と広告配信パフォーマンスを最高に保つためにメンテナンススクリプトを実行してください。詳しくは、<a href='http://".OX_PRODUCT_DOCSURL."/wizard/setup-cron' target='_blank'>こちら</a>。
+        定期的なレポート送信と広告配信パフォーマンスを最高に保つためにメンテナンススクリプトを実行してください。詳しくは、<a href='".OX_PRODUCT_DOCSURL."/wizard/setup-cron' target='_blank'>こちら</a>。
   </p>
   <p><b>システム設定の再チェック</b><br>
     ".MAX_PRODUCT_NAME."で広告配信を開始する前に、'セッティング'タブをクリックしてシステム設定をチェックしてください。
@@ -143,7 +143,7 @@ $GLOBALS['strErrorInstallDbConnect']        		= "データベース接続を開�
 $GLOBALS['strErrorWritePermissions']        		= "ファイルのパーミッションエラーが検出されました。継続するには、指定ファイルのパーミッションを変更してください。<br />Linux系のシステムでは、以下のコマンドを入力してください。:";
 $GLOBALS['strErrorFixPermissionsCommand']   		= "<i>chmod a+w %s</i>";
 $GLOBALS['strErrorWritePermissionsWin']     		= "ファイルのパーミッションエラーが検出されました。継続するには、指定ファイルのパーミッションを変更してください。";
-$GLOBALS['strCheckDocumentation']           		= "詳しくは、<a href=\"http://".OX_PRODUCT_DOCSURL."\">" . MAX_PRODUCT_NAME . " ドキュメントa/>を参照してください。";
+$GLOBALS['strCheckDocumentation']           		= "詳しくは、<a href=\"".OX_PRODUCT_DOCSURL."\">" . MAX_PRODUCT_NAME . " ドキュメントa/>を参照してください。";
 
 $GLOBALS['strAdminUrlPrefix']               		= "管理者画面URL";
 $GLOBALS['strDeliveryUrlPrefix']            		= "配信エンジンURL";

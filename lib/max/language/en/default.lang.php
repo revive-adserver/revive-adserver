@@ -1310,14 +1310,14 @@ $GLOBALS['strAuditTrailSetup']          = "Setup the Audit Trail today";
 $GLOBALS['strAuditTrailGoTo']           = "Go to Audit Trail page";
 $GLOBALS['strAuditTrailNotEnabled']     = "<li>Audit Trail allows you to see who did what and when. Or to put it another way, it keeps track of system changes within " . MAX_PRODUCT_NAME ."</li>
         <li>You are seeing this message, because you have not activated the Audit Trail</li>
-        <li>Interested in learning more? Read the <a href='http://".OX_PRODUCT_DOCSURL."/settings/auditTrail' class='site-link' target='help' >Audit Trail documentation</a></li>";
+        <li>Interested in learning more? Read the <a href='".OX_PRODUCT_DOCSURL."/settings/auditTrail' class='site-link' target='help' >Audit Trail documentation</a></li>";
 
 // Widget - Campaign
 $GLOBALS['strCampaignGoTo']             = 'Go to Campaigns page';
 $GLOBALS['strCampaignSetUp']            = 'Set up a Campaign today';
 $GLOBALS['strCampaignNoRecords']        = '<li>Campaigns let you group together any number of banner ads, of any size, that share common advertising requirements</li>
         <li>Save time by grouping banners within a campaign and no longer define delivery settings for each ad separately</li>
-        <li>Check out the <a class="site-link" target="help" href="http://'.OX_PRODUCT_DOCSURL.'/inventory/advertisersAndCampaigns/campaigns">Campaign documentation</a>!</li>
+        <li>Check out the <a class="site-link" target="help" href="'.OX_PRODUCT_DOCSURL.'/inventory/advertisersAndCampaigns/campaigns">Campaign documentation</a>!</li>
 ';
 $GLOBALS['strCampaignNoRecordsAdmin']   = '<li>There is no campaign activity to display.</li>';
 

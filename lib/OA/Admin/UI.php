@@ -109,6 +109,7 @@ class OA_Admin_UI
 
         $pageTitle = !empty($conf['ui']['applicationName']) ? $conf['ui']['applicationName'] : MAX_PRODUCT_NAME;
 
+        $oCurrentSection = null;
         // Travel navigation
         if ($ID !== phpAds_Login && $ID !== phpAds_Error) {
 
@@ -197,7 +198,7 @@ class OA_Admin_UI
 
         $this->_assignSearch($ID);
 
-        $this->_assignUserAccountInfo();
+        $this->_assignUserAccountInfo($oCurrentSection);
 
         $this->oTpl->assign('showMainNav', $showMainNav);
         $this->oTpl->assign('showSidebar', $showSidebar);
@@ -405,12 +406,13 @@ class OA_Admin_UI
         $this->oTpl->assign('searchUrl', MAX::constructURL(MAX_URL_ADMIN, 'admin-search.php'));
     }
 
-    function _assignUserAccountInfo()
+    function _assignUserAccountInfo($oCurrentSection)
     {
         global $OA_Navigation_ID, $session;
         // Show currently logged on user and IP
         if (OA_Auth::isLoggedIn() || defined('phpAds_installing')) {
-            $this->oTpl->assign('helpLink', OA_Admin_Help::getDocLinkFromPhpAdsNavId($OA_Navigation_ID));
+            //$this->oTpl->assign('helpLink', OA_Admin_Help::getDocLinkFromPhpAdsNavId($OA_Navigation_ID));
+            $this->oTpl->assign('helpLink', OA_Admin_Help::getHelpLink($oCurrentSection));            
             if (!defined('phpAds_installing')) {
                 $this->oTpl->assign('infoUser', OA_Permission::getUsername());
                 $this->oTpl->assign('buttonLogout', true);

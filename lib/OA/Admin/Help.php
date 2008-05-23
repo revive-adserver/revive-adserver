@@ -41,36 +41,52 @@ $GLOBALS['OA_HELP_LINK_BUILD_TYPE'] = OA_HELP_LINK_BUILD_USING_LINK;
  */
 class OA_Admin_Help
 {
-
     /**
-     * A method to get the documentation help link, based on the navID.
+     * Creates a link documentation help link for a given menu section. If section has no help assigned or section is null 
+     * link to main help is returned 
      *
-     * @param  string $sNavId ID of navigation element in form {num}[.{num}[.{num}]]
-     * @return string URL to the documentation.
-     *
-     * @author Marek Bedkowski <marek@bedkowski.pl>
+     * @param OA_Admin_Menu_Section $menuSection menu section to find help for
+     * @return string url to documentation page
      */
-    function getDocLinkFromPhpAdsNavId($sNavId)
+    function getHelpLink($menuSection)
     {
-        $accountType = OA_Permission::getAccountType();
-        if (isset($GLOBALS['OA_NavigationHelp'][$accountType])) {
-            $aNavi2help = $GLOBALS['OA_NavigationHelp'][$accountType];
-        } else {
-            $aNavi2help = array();
+        if ($menuSection != null) {
+            $relativeHelpPath = $menuSection->getHelpLink();            
         }
-
-        // Return the help URL
-        if (empty($aNavi2help[$sNavId]))
+        else {
+            $relativeHelpPath = "";
+        }
+        
+        return OA_Admin_Help::buildHelpLink($relativeHelpPath);
+    }
+    
+    
+    /**
+     * Creates a link documentation help link for a given relative path.
+     *
+     * @param String $relativeHelpPath help path appened after main doc path and product version
+     * @return string url to documentation page
+     */
+    function buildHelpLink($relativeHelpPath)
+    {
+        // if empty the main help URL
+        if (empty($relativeHelpPath))
         {
             // Send the user to the main page
-            $sURL = 'http://' . OX_PRODUCT_DOCSURL;
-            return $sURL;
+            $sURL = OX_PRODUCT_DOCSURL;
         }
-        // Send the user to the correct page
-        $sURL = 'http://' . OX_PRODUCT_DOCSURL . '/' . $aNavi2help[$sNavId][0];
+        else {
+            // Send the user to the correct page
+            $prefix = "/";
+            if(strpos($relativeHelpPath, '/')=== 0) {
+                $prefix = ""; //if it starts with / already do not add
+            }
+            
+            $sURL = OX_PRODUCT_DOCSURL . $prefix .$relativeHelpPath;
+        }
+        
         return $sURL;
     }
-
 }
 
 ?>

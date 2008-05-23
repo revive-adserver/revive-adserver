@@ -189,7 +189,7 @@ class OA_phpAdsNew
         $message = "Warning: ";
         $postWarningMessage = " As a result, your geotargeting settings can not be migrated, and you will need to re-configure " .
                               "your geotargeting database(s) after upgrading. Please see the " .
-                              "<a href='http://" . OX_PRODUCT_DOCSURL . "/faq/no-geo'>FAQ</a> for more information.";
+                              "<a href='" . OX_PRODUCT_DOCSURL . "/faq/no-geo'>FAQ</a> for more information.";
         if (!empty($phpAds_config['geotracking_type'])) {
             // Test for errors in the PAN geotargeting configuration
             if ($phpAds_config['geotracking_type'] == 'geoip') {
@@ -216,7 +216,7 @@ class OA_phpAdsNew
             }
             // Warn about the fact that PAN region geotargeting cannot be upgraded
             $message = "Warning: Some Openads 2.0 geotargeting limitations may need to be modified on upgrade. " .
-                       "Please see the <a href='http://" . OX_PRODUCT_DOCSURL . "/faq/geo-limitations'>FAQ</a> for more information.";
+                       "Please see the <a href='" . OX_PRODUCT_DOCSURL . "/faq/geo-limitations'>FAQ</a> for more information.";
             $oUpgrader->oLogger->logWarning($message);
         }
 
