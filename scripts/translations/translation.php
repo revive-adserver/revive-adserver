@@ -1507,7 +1507,6 @@ msgstr ""
                     fwrite($fp, $val);
                     break;
                 case (substr($val, 0, 6) == 'msgstr'):
-                    DebugBreak();
                     if (!empty($aTransID)) {
                         foreach ($aTransID as $idx => $aVal) {
                             // check it translation exists in lang files and add to .PO
