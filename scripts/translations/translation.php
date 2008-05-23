@@ -27,6 +27,7 @@ class OA_TranslationMaintenance
         'Chinese Simplified'    => 'zh-s',
         'french'                => 'fr',
         'polish'                => 'pl',
+        'persian'               => 'fa',
     );
     var $_aLang     = array (
         'english'               => 'en',
@@ -41,7 +42,8 @@ class OA_TranslationMaintenance
         'persian'               => 'pr',
         'japanese'              => 'ja',
         'czech'                 => 'cs',
-        'turkish'               => 'tr'
+        'turkish'               => 'tr',
+        'persian'               => 'fa',
     );
     var $_lang;
     var $_var;
@@ -264,7 +266,7 @@ class OA_TranslationMaintenance
         return $aMasterLangKey;
     }
 
-    function loadTranslationFromDir($dir, $lang, $escapeNewline = false, $groupByFile = true)
+    function loadTranslationFromDir($dir, $lang, $escapeNewline = false, $groupByFile = true, $escapeEntities = true)
     {
         //  iterate lang files reading each file
         if (!$outputDir = opendir($dir .'/'. $lang)) {
@@ -313,7 +315,8 @@ class OA_TranslationMaintenance
                                     $trans = addslashes($trans);
                                 }
 
-                                $trans = htmlspecialchars_decode(htmlentities($trans, null, 'UTF-8'));
+                                $trans = ($escapeEntities) ? htmlspecialchars_decode(htmlentities($trans, null, 'UTF-8')) : $trans;
+
                                 //  replace new lines with \n
                                 if ($escapeNewline && ($delimiter == '"') && strstr($trans, "\n")) $trans = str_replace("\n", '\n', $trans);
 
@@ -384,7 +387,7 @@ class OA_TranslationMaintenance
                                     $delimiter = substr($value, 0, 1);
                                     $trans = substr($value, 1, strlen($value)-2);
 
-                                    $trans = htmlspecialchars_decode(htmlentities($trans, null, 'UTF-8'));
+                                    $trans = $trans = ($escapeEntities) ? htmlspecialchars_decode(htmlentities($trans, null, 'UTF-8')) : $trans;
                                     //  replace new lines with \n
                                     if ($delimiter == '"' && strstr($trans, "\n")) $trans = str_replace("\n", '\n', $trans);
 
@@ -1382,12 +1385,10 @@ msgstr ""
 
     function mergePOT() {
         if (empty($this->inputFile) || empty($this->potFile) || empty($this->lang)) { $this->displayHelpMsg(''); }
-
         if (is_dir($this->inputFile)) {
-            $this->aTran = $this->loadTranslationFromDir($this->inputFile, $this->lang, false, false);
+            $this->aTran = $this->loadTranslationFromDir($this->inputFile, $this->lang, false, false, false);
 
-            $msgID = false;
-            $msgstr = false;
+            $fp = fopen($this->potFile .'.'. $this->lang, 'w');
             $aFile = file($this->potFile);
             foreach ( $aFile as $line => $val) {
 
@@ -1398,23 +1399,68 @@ msgstr ""
                     if (substr($val, 3, 3) == 'str') {
                         $aTransID = explode(' ', $k);
                     }
+                    fwrite($fp, $val);
                     break;
                 case (substr($val, 0, 6) == 'msgstr'):
-                    foreach ($aTransID as $idx => $key) {
-                        // check it translation exists in lang files and add to .PO
-                        if (!empty($this->aTran[$key])) {
-                            $aFile[$line] = 'msgstr '. $this->aTran[$key] ."\n";
-                            $aTransIDTmp[] = $key;
+
+                    if (!empty($aTransID)) {
+                        foreach ($aTransID as $idx => $key) {
+                            // check it translation exists in lang files and add to .PO
+                            if (!empty($this->aTran[$key])) {
+                                $aPiece = array();
+                                $str = $this->aTran[$key];
+                                if (strstr($str, '\"')) $str = stripslashes($str);
+
+                                //  is it a multiline translation
+                                if (strstr($str, "\n")) {
+                                    $aPiece = explode("\n", $str);
+                                    $total = count($aPiece);
+
+                                    fwrite($fp, "msgstr \"\"\n");
+
+                                    for ($x = 0; $x < $total; $x++) {
+                                       $str = trim($aPiece[$x]);
+                                        //  remove prefixed or trailing double quotes
+                                        if (substr($str, 0, 1) == '"' && substr($str, -1, 1) !='"') { // begins with a "
+                                            $str = substr($str, 1);
+                                        }
+                                        if (substr($str, -1, 1) == '"' && substr($str, 0, 1) != '"') {// ends with a "
+                                            $str = substr($str, 0, -1);
+                                        }
+                                        if (substr($str, 0, 1) == '"' && substr($str, -1, 1) =='"') { // surrounded with "
+                                            $str = substr($str, 1, -1);
+                                        }
+                                        if (substr($str, -2, 2) == '".') { // ends with ".
+                                            $str = substr($str, 0, -2);
+                                        }
+
+                                        //  does line begin with constant?
+                                        if (in_array(substr($str, 0, strpos($str, ' ')), $this->aConstant)) {
+                                            fwrite($fp, "\"\".". addslashes($str) ."\\n\"\n");
+                                        } else {
+                                            fwrite($fp, "\"". addslashes($str) ."\\n\"\n");
+                                        }
+                                    }
+                                } else {
+                                    //  check if trans begins withs a var or constant
+                                    if (substr($str, 0, 1) != '"') {
+                                        fwrite($fp, 'msgstr "\"\".'. addslashes($str) ."\n");
+                                    } else {
+                                        fwrite($fp, 'msgstr "'. substr($str, 1, -1) ."\"\n");
+                                    }
+                                }
+                            } else {
+                              fwrite ($fp, "msgstr \"\"\n");
+                            }
+                            break;
                         }
+                        $aTransID = array();
                     }
                     break;
+                default;
+                    fwrite($fp, $val);
+                    break;
                 }
-            }
-
-            //  write modifications back to .PO file
-            $fp = fopen($this->potFile .'.'. $this->lang, 'w');
-            foreach ($aFile as $text) {
-                fwrite($fp, $text);
             }
         } else {
             $this->displayHelpMsg('Path to language files is not a directory');
@@ -1423,7 +1469,7 @@ msgstr ""
     }
 
     function mergePluginPOT() {
-        include realpath('../../init.php');
+        include realpath('/opt/local/apache2/htdocs/ox2711/init.php');
 
         if (empty($this->inputFile) || empty($this->potFile) || empty($this->lang)) { $this->displayHelpMsg(''); }
 
@@ -1447,6 +1493,7 @@ msgstr ""
             $msgID = false;
             $msgstr = false;
             $aFile = file($this->potFile);
+            $fp = fopen($this->potFile .'.'. $this->lang, 'w');
             foreach ($aFile as $line => $val) {
 
                 // check if new string
@@ -1457,26 +1504,40 @@ msgstr ""
                         'key'   => $aPiece[0],
                         'path'  => $aPiece[1]
                     );
+                    fwrite($fp, $val);
                     break;
                 case (substr($val, 0, 6) == 'msgstr'):
+                    DebugBreak();
                     if (!empty($aTransID)) {
                         foreach ($aTransID as $idx => $aVal) {
                             // check it translation exists in lang files and add to .PO
                             if (!empty($pluginWords[$this->lang][$aVal['path']][$aVal['key']])) {
                                 $str = $pluginWords[$this->lang][$aVal['path']][$aVal['key']];
-                                $str = str_replace("\n", '\\n'."\n", $str);
-                                $aFile[$line] = 'msgstr "'. $str ."\"\n";
+                                if (strstr($str, "\n")) {
+                                    $aPiece = explode("\n", $str);
+                                    fwrite($fp, "msgstr \"\"\n");
+                                    $total = count($aPiece);
+                                    for ($x = 0; $x < $total; $x++) {
+                                        $newlineClause = ($x+1 == $total) ? '' : "\n";
+                                        fwrite($fp, "\"{$aPiece[$x]}\\n\"$newlineClause");
+                                    }
+                                } else {
+                                    fwrite($fp, 'msgstr "'. $str ."\"\n");
+                                }
+                            } else {
+                                fwrite ($fp, "msgstr \"\"\n");
                             }
+                            break;
                         }
+                        $aTransID = array();
+                    } else {
+                       fwrite ($fp, "msgstr \"\"\n");
                     }
                     break;
+                default:
+                    fwrite($fp, $val);
+                    break;
                 }
-            }
-
-            //  write modifications back to .PO file
-            $fp = fopen($this->potFile .'.'. $this->lang, 'w');
-            foreach ($aFile as $text) {
-                fwrite($fp, $text);
             }
         } else {
             $this->displayHelpMsg('Path to language files is not a directory');
