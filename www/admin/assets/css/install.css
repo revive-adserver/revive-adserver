@@ -457,7 +457,30 @@ div.zone-title {
   margin-bottom: 1ex;
 }
 
-.terms-container {
+.terms-title {
+    margin-top: 1.5em;
+    margin-bottom: 0.2em;
+    font-size: 150%;
+}
+
+.terms-div {
+  height: 200px; 
+  border: 1px solid #808080;
+  /*margin-top: 1.5em;*/
+}
+
+.terms-frame {
+  height: 100%; 
+  width: 100%;
+  border: none;
+}
+
+.terms-note {
+	font-size: 0.9em; 
+}
+
+
+/*.terms-container {
   height: 200px; 
   overflow-y: scroll;
   overflow-x: none;
@@ -497,7 +520,7 @@ div.zone-title {
   margin-top: 1em;
   margin-bottom: 1em;
   font-size: 200%;
-}
+}*/
 
 .field-hint {
   color: #606060;
