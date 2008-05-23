@@ -469,7 +469,7 @@ class shmBucket
                     $data = shmop_read($this->id, 16, $aHeader['dataSize']);
                     $crcData = crc32($data);
                     $crcData = 0;
-                    if (crcData == $aHeader['crcData']) {
+                    if ($crcData == $aHeader['crcData']) {
                         $this->aBucket = unserialize($data);
                         return true;
                     }
