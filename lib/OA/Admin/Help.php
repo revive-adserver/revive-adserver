@@ -84,7 +84,7 @@ class OA_Admin_Help
             
             $sURL = OX_PRODUCT_DOCSURL . $prefix .$relativeHelpPath;
         }
-        
+
         return $sURL;
     }
 }
