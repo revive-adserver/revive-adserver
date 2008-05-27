@@ -77,8 +77,6 @@ function OA_SPCGetJavaScript($affiliateid)
     var {$varprefix}r=Math.floor(Math.random()*99999999);
     {$varprefix}output = new Array();";
 
-    $script .= MAX_marketplaceGetIdSpcGet($varprefix);
-
     // Add the FlashObject include to the SPC output
     $script .= MAX_javascriptToHTML(MAX_flashGetFlashObjectExternal(), $varprefix . 'fo');
 
@@ -97,10 +95,9 @@ function OA_SPCGetJavaScript($affiliateid)
     if (window.location) {$varprefix}spc+=\"&loc=\"+escape(window.location);
     if (document.referrer) {$varprefix}spc+=\"&referer=\"+escape(document.referrer);";
 
-    $script .= MAX_marketplaceGetIdSpcDisplay($varprefix);
+    $script .= MAX_marketplaceGetIdWithSpc($varprefix);
 
     $script .= "
-
     function {$varprefix}show(name) {
         if (typeof({$varprefix}output[name]) == 'undefined') {
             return;
