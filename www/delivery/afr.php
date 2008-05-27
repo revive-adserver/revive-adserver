@@ -2827,16 +2827,12 @@ $file = '/lib/OA/Delivery/marketplace.php';
 $GLOBALS['_MAX']['FILES'][$file] = true;
 function MAX_marketplaceNeedsId()
 {
-static $response;
-if (!isset($response)) {
 $aConf = $GLOBALS['_MAX']['CONF'];
 if (!empty($aConf['marketplace']['enabled'])) {
 $oxidOnly = $aConf['marketplace']['cacheTime'] == 0;
 $viewerId = MAX_cookieGetUniqueViewerId(false, $oxidOnly);
 }
-$response = !isset($viewerId);
-}
-return $response;
+return !isset($viewerId);
 }
 function MAX_marketplaceGetIdWithRedirect($scriptName = null)
 {
@@ -2854,7 +2850,7 @@ exit;
 }
 }
 }
-function MAX_marketplaceGetIdSpcGet($varPrefix)
+function MAX_marketplaceGetIdWithSpc($varPrefix)
 {
 $aConf = $GLOBALS['_MAX']['CONF'];
 $script = '';
@@ -2864,24 +2860,16 @@ $url .= $aConf['marketplace']['idHost'].'/jsox?n='.urlencode($varPrefix.'spc');
 $url .= '&pid=OpenXDemo';
 $url .= '&cb='.mt_rand(0, PHP_INT_MAX);
 $script .= "
-var {$varPrefix}spc=\"<\"+\"script type='text/javascript' \";
-{$varPrefix}spc+=\"src='".htmlspecialchars($url, ENT_QUOTES)."'><\"+\"/script>\";
-document.write({$varPrefix}spc);";
-}
-$script .= "
+{$varPrefix}spc+=\"&openxid=OPENX_ID'><\"+\"/script>\";
+var {$varPrefix}marketplace=\"<\"+\"script type='text/javascript' \";
+{$varPrefix}marketplace+=\"src='".htmlspecialchars($url, ENT_QUOTES)."'><\"+\"/script>\";
+document.write({$varPrefix}marketplace);
 ";
-return $script;
-}
-function MAX_marketplaceGetIdSpcDisplay($varPrefix)
-{
-$script = '';
-if (MAX_marketplaceNeedsId()) {
-$script .= "
-{$varPrefix}spc+=\"&openxid=OPENX_ID'><\"+\"/script>\";";
 } else {
 $script .= "
 {$varPrefix}spc+=\"'><\"+\"/script>\";
-document.write({$varPrefix}spc);";
+document.write({$varPrefix}spc);
+";
 }
 return $script;
 }
