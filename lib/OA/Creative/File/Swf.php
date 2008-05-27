@@ -39,7 +39,11 @@ class OA_Creative_File_Swf extends OA_Creative_File
 
     function loadFile($fileName)
     {
-        parent::loadFile($fileName);
+        $result = parent::loadFile($fileName);
+
+        if (PEAR::isError($result)) {
+            return $result;
+        }
 
         // Fix any wrong-case cli
         if (phpAds_SWFCompressed($this->content)) {
@@ -49,6 +53,8 @@ class OA_Creative_File_Swf extends OA_Creative_File
         } else {
             $this->content = preg_replace('/clickTAG/i', 'clickTAG', $this->content);
         }
+
+        return true;
     }
 
     function readCreativeDetails($fileName)
@@ -67,6 +73,8 @@ class OA_Creative_File_Swf extends OA_Creative_File
 
         $this->pluginVersion  = phpAds_SWFVersion($this->content);
         $this->hardcodedLinks = phpAds_SWFInfo($this->content);
+
+        return true;
     }
 
     function getFileDetails()

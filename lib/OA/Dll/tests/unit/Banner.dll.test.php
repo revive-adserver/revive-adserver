@@ -55,6 +55,7 @@ class OA_Dll_BannerTest extends DllUnitTestCase
      *
      */
     var $unknownIdError = 'Unknown bannerId Error';
+    var $unknownFormatError = 'Unrecognized image file format';
 
     var $binaryGif;
     var $binarySwf;
@@ -112,7 +113,7 @@ class OA_Dll_BannerTest extends DllUnitTestCase
         $dllCampaignPartialMock->expectCallCount('checkPermissions', 1);
 
         $dllBannerPartialMock->setReturnValue('checkPermissions', true);
-        $dllBannerPartialMock->expectCallCount('checkPermissions', 12);
+        $dllBannerPartialMock->expectCallCount('checkPermissions', 13);
 
         $oAdvertiserInfo = new OA_Dll_AdvertiserInfo();
         $oAdvertiserInfo->advertiserName = 'test Advertiser name';
@@ -305,6 +306,19 @@ class OA_Dll_BannerTest extends DllUnitTestCase
         $doImages = OA_Dal::staticGetDO('images', $doBanners->filename);
         $this->assertTrue($doImages->contents);
         $this->assertNotEqual($doImages->contents, $this->binarySwf);
+
+        // Add mangled banner
+        $oBannerInfo2 = new OA_Dll_BannerInfo();
+        $oBannerInfo2->campaignId = $oCampaignInfo->campaignId;
+        $oBannerInfo2->storageType = 'sql';
+        $oBannerInfo2->aImage = array(
+            'filename' => 'test.swf',
+            'content'  => 'foobar'
+        );
+
+        $this->assertTrue((!$dllBannerPartialMock->modify($oBannerInfo2) &&
+                          $dllBannerPartialMock->getLastError() == $this->unknownFormatError),
+            $this->_getMethodShouldReturnError($this->unknownFormatError));
 
         // Modify not existing id
         $this->assertTrue((!$dllBannerPartialMock->modify($oBannerInfo) &&

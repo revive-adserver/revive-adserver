@@ -91,6 +91,7 @@ class OA_Dll_Banner extends OA_Dll
         $oImage = OA_Creative_File::factoryString($aImage['filename'], $aImage['content']);
         if (PEAR::isError($oImage)) {
             $this->raiseError($oImage->getMessage());
+            return false;
         }
         return true;
     }

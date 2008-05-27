@@ -112,6 +112,10 @@ class Test_OA_Creative_File extends UnitTestCase
         // Fail with non recognised content or extension
         $oCreative = OA_Creative_File::factoryString('foo.someext', 'bar');
         $this->assertIsA($oCreative, 'PEAR_Error');
+
+        // Fail with non recognised content and image extension
+        $oCreative = OA_Creative_File::factoryString('foo.gif', 'bar');
+        $this->assertIsA($oCreative, 'PEAR_Error');
     }
 
     /**
@@ -146,6 +150,10 @@ class Test_OA_Creative_File extends UnitTestCase
                 $this->assertTrue(strpos($buffer, 'clickTAG') !== false);
             }
         }
+
+        // Fail with non recognised content and swf extension
+        $oCreative = OA_Creative_File::factoryString('foo.swf', 'bar');
+        $this->assertIsA($oCreative, 'PEAR_Error');
     }
 
     function testStaticGetContentTypeByExtension()
