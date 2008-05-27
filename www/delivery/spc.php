@@ -2829,7 +2829,7 @@ $jsLines = array();
 $search[] = "\\"; $replace[] = "\\\\";
 $search[] = "\r"; $replace[] = '';
 $search[] = '"'; $replace[] = '\"';
-$search[] = "'";  $replace[] = "\\'";
+//$search[] = "'";  $replace[] = "\\'";
 $search[] = '<';  $replace[] = '<"+"';
 $lines = explode("\n", $string);
 foreach ($lines AS $line) {
