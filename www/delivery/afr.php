@@ -2825,13 +2825,24 @@ return file_get_contents(MAX_PATH . '/www/delivery/' . $conf['file']['flash']);
 }
 $file = '/lib/OA/Delivery/marketplace.php';
 $GLOBALS['_MAX']['FILES'][$file] = true;
-function MAX_marketplaceGetIdWithRedirect($scriptName = null)
+function MAX_marketplaceNeedsId()
 {
+static $response;
+if (!isset($response)) {
 $aConf = $GLOBALS['_MAX']['CONF'];
 if (!empty($aConf['marketplace']['enabled'])) {
 $oxidOnly = $aConf['marketplace']['cacheTime'] == 0;
 $viewerId = MAX_cookieGetUniqueViewerId(false, $oxidOnly);
-if (!isset($viewerId) && !isset($_GET['openxid'])) {
+}
+$response = !isset($viewerId);
+}
+return $response;
+}
+function MAX_marketplaceGetIdWithRedirect($scriptName = null)
+{
+$aConf = $GLOBALS['_MAX']['CONF'];
+if (!empty($aConf['marketplace']['enabled'])) {
+if (MAX_marketplaceNeedsId() && !isset($_GET['openxid'])) {
 $scriptName = isset($scriptName) ? $scriptName : basename($_SERVER['SCRIPT_NAME']);
 $oxpUrl = MAX_commonGetDeliveryUrl($scriptName).'?'.$_SERVER['QUERY_STRING'].'&openxid=OPENX_ID';
 $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
@@ -2847,7 +2858,7 @@ function MAX_marketplaceGetIdSpcGet($varPrefix)
 {
 $aConf = $GLOBALS['_MAX']['CONF'];
 $script = '';
-if (!empty($aConf['marketplace']['enabled'])) {
+if (MAX_marketplaceNeedsId()) {
 $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
 $url .= $aConf['marketplace']['idHost'].'/jsox?n='.urlencode($varPrefix.'spc');
 $url .= '&pid=OpenXDemo';
@@ -2855,24 +2866,21 @@ $url .= '&cb='.mt_rand(0, PHP_INT_MAX);
 $script .= "
 var {$varPrefix}spc=\"<\"+\"script type='text/javascript' \";
 {$varPrefix}spc+=\"src='".htmlspecialchars($url, ENT_QUOTES)."'><\"+\"/script>\";
-document.write({$varPrefix}spc);
-";
+document.write({$varPrefix}spc);";
 }
+$script .= "
+";
 return $script;
 }
 function MAX_marketplaceGetIdSpcDisplay($varPrefix)
 {
-$aConf = $GLOBALS['_MAX']['CONF'];
 $script = '';
-if (!empty($aConf['marketplace']['enabled'])) {
+if (MAX_marketplaceNeedsId()) {
 $script .= "
 {$varPrefix}spc+=\"&openxid=OPENX_ID'><\"+\"/script>\";";
 } else {
 $script .= "
-{$varPrefix}spc+=\"<\"+\"/script>\";";
-}
-if (empty($aConf['marketplace']['enabled'])) {
-$script .= "
+{$varPrefix}spc+=\"'><\"+\"/script>\";
 document.write({$varPrefix}spc);";
 }
 return $script;
