@@ -334,7 +334,7 @@ class OA_Admin_Menu_Section
     			$aPairPermissions = array_make($elem[1]);
 
             for ($i = 0; $i <  count($aPairAccounts); $i++) {
-    			  $checkers[] = &new OA_Admin_Menu_Checker(
+    			  $checkers[] = &new OA_Admin_Menu_Compound_Checker(
     			    array(
     			      new OA_Admin_SectionAccountChecker($aPairAccounts[$i]),
     			      new OA_Admin_SectionPermissionChecker($aPairPermissions) //plese remember that this checker does OR check for permissions
@@ -352,7 +352,7 @@ class OA_Admin_Menu_Section
             $checkers[] = &new OA_Admin_SectionAccountChecker($justAccounts); //add checker for accounts only
     	}
 
-        return new OA_Admin_Menu_Checker($checkers, 'OR');
+        return new OA_Admin_Menu_Compound_Checker($checkers, 'OR');
     }
 
 }

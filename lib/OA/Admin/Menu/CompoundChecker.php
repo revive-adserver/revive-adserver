@@ -1,5 +1,4 @@
 <?php
-
 /*
 +---------------------------------------------------------------------------+
 | OpenX v${RELEASE_MAJOR_MINOR}                                                                |
@@ -27,46 +26,47 @@ $Id$
 require_once(MAX_PATH . '/lib/OA/Admin/Menu/IChecker.php');
 
 /**
- * An acceptor that takes into account permissions that are required to access the section.
- * - if the list of required permissions associated this acceptor is sempty, section gets accepted
- * - if the list is not empty current user must have at least one of the permissions required by this acceptor
- *
+ * Compound checker whose result is a logical OR / AND between the results of all the
+ * enclosed checkers. For OR mode, checking is stopped at first success so invocations should
+ * not assume that every checker will be invoked.
  */
-class OA_Admin_SectionPermissionChecker
+class OA_Admin_Menu_Compound_Checker
     implements OA_Admin_Menu_IChecker
 {
-    var $aPermissions; //list of permissions user must have for the checker to be satisfied (only on of the list is required)
+    var $aCheckers;
+    var $mode;
 
-    function OA_Admin_SectionPermissionChecker($aPermissions = array())
+    function OA_Admin_Menu_Compound_Checker($aCheckers = array(), $mode = 'AND')
     {
-        $this->aPermissions = $aPermissions;
+        $this->aCheckers = $aCheckers;
+        $this->mode = $mode;
     }
-
 
     function check($oSection)
     {
-        $aPermissions = $this->_getAcceptedPermissions();
+        $aCheckers = $this->_getCheckers();
 
-        //no required permissions, we can show the section
-        if (empty ($aPermissions)) {
+        if (empty($aCheckers)) {
             return true;
-		}
+        }
 
-        $hasRequiredPermission = false;
-        for($i = 0; $i < count ( $aPermissions ); $i ++) {
-            $hasRequiredPermission = OA_Permission::hasPermission ( $aPermissions [$i] );
-            if ($hasRequiredPermission) {
+        $checkOK = false;
+        for ($i = 0; $i < count($aCheckers); $i++) {
+            $checkOK = $aCheckers[$i]->check($oSection);
+            if ($this->mode == 'AND' && !$checkOK) {
+                break;
+            } elseif ($checkOK) {
                 break;
             }
         }
 
-        return $hasRequiredPermission;
-	}
+        return $checkOK;
+    }
 
-
-    function _getAcceptedPermissions()
+    function _getCheckers()
     {
-        return $this->aPermissions;
+        return $this->aCheckers;
     }
 }
+
 ?>

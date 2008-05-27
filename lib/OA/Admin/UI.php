@@ -29,7 +29,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/SmartyInserts.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/UI.php';
 require_once MAX_PATH . '/lib/OA/Admin/Menu.php';
-require_once MAX_PATH . '/lib/OA/Admin/Menu/Checker.php';
+require_once MAX_PATH . '/lib/OA/Admin/Menu/CompoundChecker.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 
 /**
@@ -44,6 +44,9 @@ class OA_Admin_UI
     var $oTpl;
 
     var $aLinkParams;
+    
+    /** holds the id of the page being currently displayed **/
+    var $currentSectionId;
 
     /**
      * Class constructor
@@ -72,6 +75,18 @@ class OA_Admin_UI
                                      'zoneid'       => $zoneid,
                                     );
     }
+    
+    function setCurrentId($ID)
+    {
+        $this->currentSectionId = $ID;
+    }
+    
+    
+    function getCurrentId()
+    {
+        return $this->currentSectionId;
+    }    
+    
 
     /**
      * Show page header
@@ -88,6 +103,7 @@ class OA_Admin_UI
     function showHeader($ID = null, $extra="", $imgPath="", $showSidebar=true, $showMainNav=true, $noBorder = false)
     {
         $ID = $this->getId($ID);
+        $this->setCurrentId($ID);
 
         global $phpAds_shortcuts;
         global $phpAds_breadcrumbs;
@@ -210,11 +226,14 @@ class OA_Admin_UI
 
     function getID($ID)
     {
+        $id = $ID;
+        
         if (is_null($ID) || (($ID !== phpAds_Login && $ID !== phpAds_Error && basename($_SERVER['SCRIPT_NAME']) != 'stats.php') && (preg_match('#^[0-9](\.[0-9])*$#', $ID)))) {
-            return basename(substr($_SERVER['SCRIPT_NAME'], 0, strrpos($_SERVER['SCRIPT_NAME'], '.')));
+            $id =  basename(substr($_SERVER['SCRIPT_NAME'], 0, strrpos($_SERVER['SCRIPT_NAME'], '.')));
         }
-        return $ID;
+        return $id;
     }
+    
 
     function getNextPage($sectionId = null)
     {

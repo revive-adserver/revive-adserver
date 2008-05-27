@@ -25,46 +25,18 @@ $Id$
 */
 
 /**
- * Compound checker whose result is a logical OR between the results of all the
- * enclosed checkers. Checking is stopped at first success so invocations should
- * not assume that every checker will be invoked.
+ * An object used to decide whether a section meets the criteria defined by checker  
  */
-class OA_Admin_Menu_Checker
+interface OA_Admin_Menu_IChecker
 {
-    var $aCheckers;
-    var $mode;
-
-    function OA_Admin_Menu_Checker($aCheckers = array(), $mode = 'AND')
-    {
-        $this->aCheckers = $aCheckers;
-        $this->mode = $mode;
-    }
-
-    function check($oSection)
-    {
-        $aCheckers = $this->_getCheckers();
-
-        if (empty($aCheckers)) {
-            return true;
-        }
-
-        $checkOK = false;
-        for ($i = 0; $i < count($aCheckers); $i++) {
-            $checkOK = $aCheckers[$i]->check($oSection);
-            if ($this->mode == 'AND' && !$checkOK) {
-                break;
-            } elseif ($checkOK) {
-                break;
-            }
-        }
-
-        return $checkOK;
-    }
-
-    function _getCheckers()
-    {
-        return $this->aCheckers;
-    }
+    /**
+     * Returns true if the given section meets the criteria defined in the checker.
+     * Eg. may be used to decide whether the section could be shown depending on
+     * the account type, permissions, or request values. 
+     *
+     * @param OA_Admin_Menu_Section $oSection
+     */
+    public function check($oSection);
 }
 
 ?>

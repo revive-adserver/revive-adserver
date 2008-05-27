@@ -24,6 +24,7 @@
 +---------------------------------------------------------------------------+
 $Id$
 */
+require_once(MAX_PATH . '/lib/OA/Admin/Menu/IChecker.php');
 
 /**
  * An acceptor that takes into account roles that are required to access the section.
@@ -31,6 +32,7 @@ $Id$
  * - if the list is not empty current user must be of one of the account types required by this acceptor
  */
 class OA_Admin_SectionAccountChecker
+    implements OA_Admin_Menu_IChecker 
 {
     var $aAccountTypes; //list of account types accepted by this acceptor
 
