@@ -563,7 +563,7 @@ function MAX_displayZoneStats($aParams, $pageName, $anonymous, $aNodes, $expand,
     }
 }
 
-function MAX_displayInventoryBreadcrumbs($aEntityNamesUrls, $entityClass, $newEntity)
+function MAX_displayInventoryBreadcrumbs($aEntityNamesUrls, $entityClass, $newEntity = false)
 {
     MAX_displayInventoryBreadcrumbsInternal($aEntityNamesUrls, MAX_buildBreadcrumbPath($entityClass), $newEntity);
 }
