@@ -58,6 +58,15 @@ foreach ($aTests as $concurrency) {
     ));
     test_update($oTest, $concurrency, $t, 'MEMORY');
 
+    $oTest = bucketDB::factory(array(
+        'type' => 'MySQL_Insertion',
+        'host' => 'localhost',
+        'user' => 'root',
+        'password' => 'password',
+        'dbname' => 'test_bucket',
+        'engine' => 'MEMORY'
+    ));
+    test_update($oTest, $concurrency, $t, 'MEMINS');
 
     $oTest = bucketDB::factory(array(
         'type' => 'PgSQL',

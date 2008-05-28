@@ -45,6 +45,11 @@ class BucketDb_MySQL extends BucketDB
         return mysql_fetch_assoc($result);
     }
 
+    function free($result)
+    {
+        return mysql_free_result($result);
+    }
+
     function affectedRows($result)
     {
         return mysql_affected_rows($this->db);
