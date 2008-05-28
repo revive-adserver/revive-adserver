@@ -5,6 +5,8 @@ declare(ticks=1);
 if (PHP_SAPI != 'cli') die('Hey, CLI only!');
 
 define('TEST_ITERATIONS', 100);
+define('TEST_CREATIVES', 10);
+define('TEST_ZONES', 10);
 
 require "Benchmark/Timer.php";
 
@@ -94,7 +96,7 @@ function test_update($oTest, $concurrency, $t, $text)
         if ($pid == 0) {
             $oTest->connect();
             for ($i = 0; $i < TEST_ITERATIONS; $i++) {
-                $oTest->updateTest('2008-05-16 16:00:00', mt_rand(1,2), mt_rand(1,2)) ? 1 : 0;
+                $oTest->updateTest('2008-05-16 16:00:00', mt_rand(1,TEST_CREATIVES), mt_rand(1,TEST_ZONES)) ? 1 : 0;
             }
             exit;
         }
@@ -375,13 +377,20 @@ class bucketDb_SHMSemaphore extends bucketDb_SHM
 {
     public $bucketClass = 'shmSemaphorBucket';
 
+    /**
+     * In shared memory case querying the memory is not very fast. One of the reasons
+     * is that the zone ids are not saved anywhere and this script is checking all possible
+     * zone-creative combinations
+     *
+     * @return unknown
+     */
     function updateResult()
     {
         $counter = 0;
         $oShm = new $this->bucketClass();
         $oShm->open();
-        foreach (array(1,2) as $id1) {
-            foreach (array(1,2) as $id2) {
+        foreach (range(1,TEST_CREATIVES) as $id1) {
+            foreach (range(1,TEST_ZONES) as $id2) {
                 $key = $oShm->getKey('', $id1, $id2);
                 $v = $oShm->read($key);
                 if (is_int($v)) {
@@ -615,7 +624,7 @@ class shmSemaphorBucket
     public function open()
     {
         $shmKey = ftok(__FILE__, $this->projectId);
-        $this->shmId = shm_attach($shmKey);
+        $this->shmId = shm_attach($shmKey); // TEST_CREATIVES * TEST_ZONES * 1024
         $ret = (bool)$this->shmId;
         if (!$ret) {
             echo __LINE__;
@@ -654,7 +663,9 @@ class shmSemaphorBucket
      */
     public function getKey($dateTime, $creativeId, $zoneId)
     {
-        return $creativeId * 13 + $zoneId;
+        static $keys = array();
+        $power = (int) ceil(log(TEST_ZONES, 10));
+        return $creativeId * pow(10, $power) + $zoneId;
     }
 
     public function log($dateTime, $creativeId, $zoneId)
