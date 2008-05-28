@@ -59,6 +59,30 @@ foreach ($aTests as $concurrency) {
     test_update($oTest, $concurrency, $t, 'MEMORY');
 
     $oTest = bucketDB::factory(array(
+        'type' => 'MySQL',
+        'host' => 'localhost',
+        'user' => 'root',
+        'password' => 'password',
+        'dbname' => 'test_bucket',
+        'engine' => 'MEMORY',
+        'additionalIndexes' => ', INDEX USING BTREE (date_time)'
+    ));
+    //Test using additional B-TREE index on date_time - slower than MEMORY
+    //test_update($oTest, $concurrency, $t, 'MEMBTR');
+
+    $oTest = bucketDB::factory(array(
+        'type' => 'MySQL',
+        'host' => 'localhost',
+        'user' => 'root',
+        'password' => 'password',
+        'dbname' => 'test_bucket',
+        'engine' => 'MEMORY',
+        'pkIndexType' => 'USING BTREE'
+    ));
+    //Test using Primay Key as B-TREE index
+    //test_update($oTest, $concurrency, $t, 'MEMPKB'); - slower than MEMORY
+
+    $oTest = bucketDB::factory(array(
         'type' => 'MySQL_Insertion',
         'host' => 'localhost',
         'user' => 'root',

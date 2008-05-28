@@ -55,15 +55,30 @@ class BucketDb_MySQL extends BucketDB
         return mysql_affected_rows($this->db);
     }
 
+    /**
+     * It is possible to pass additional configuration options to test following table with different
+     * indexes.
+     *
+     * 1) To use a different index in primary key use option: pkIndexType
+     *   for example: 'pkIndexType' => 'USING BTREE'
+     * 2) To add additional indexes use option: additionalIndexes
+     *   for example: 'additionalIndexes' => ', INDEX USING BTREE (date_time)'
+     *   In this case it is necessary to add any required commas so end SQL
+     *   will be well fomatted.
+     *
+     */
     function updateCreate()
     {
+        $pkIndexType = isset($this->aConf['pkIndexType']) ? $this->aConf['pkIndexType'] : '';
+        $additionalIndexes = isset($this->aConf['additionalIndexes']) ? $this->aConf['additionalIndexes'] : '';
         $sql = "
             CREATE TABLE {$this->tableName} (
                 date_time datetime NOT NULL,
                 creative_id int NOT NULL,
                 zone_id int NOT NULL,
                 counter int NOT NULL DEFAULT 1,
-                PRIMARY KEY (date_time, creative_id, zone_id)
+                PRIMARY KEY $pkIndexType (date_time, creative_id, zone_id)
+                $additionalIndexes
             ) ENGINE={$this->aConf['engine']}
         ";
         $this->query($sql) or die($this->error());
