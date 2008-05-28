@@ -188,6 +188,10 @@ enabled=0]]></replacevalue>
   	<copy todir="${delivery_test}">
   	  <fileset dir="${basedir}/tests/canoo/php"/>
   	</copy>
+  	<replace dir="${delivery_test}" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}/delivery/spcjs.php?id=2&amp;charset=UTF-8">
+  	  <include name="spcjs.html"/>
+  	  <replacetoken>@address</replacetoken>
+  	</replace>
   </target>
 
   <target name="clean-delivery">
