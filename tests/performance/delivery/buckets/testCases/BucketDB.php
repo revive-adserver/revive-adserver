@@ -68,11 +68,32 @@ abstract class BucketDB
         return (bool)$result;
     }
 
-    function updateResult()
+    /**
+     * This method simulates the deletion process which has to be carry on
+     * once the data is aggregated
+     *
+     */
+    function deleteResult($date_time)
     {
-        $result = $this->query("SELECT SUM(counter) AS cnt FROM {$this->tableName}");
-        $row = $this->fetch($result);
-        return (int)$row['cnt'];
+        return (bool) $this->query("DELETE FROM {$this->tableName} WHERE date_time <= '$date_time'");
+    }
+
+    /**
+     * This method simulates the aggregation process (and at the same time sum up all the records)
+     *
+     * @return int
+     */
+    function updateResult($date_time)
+    {
+        $result = $this->query("SELECT * FROM {$this->tableName}");
+        $counter = 0;
+        while($row = $this->fetch($result)) {
+            $counter += $row['counter'];
+        }
+        if (!$this->deleteResult($date_time)) {
+            return false;
+        }
+        return $counter;
     }
 }
 
