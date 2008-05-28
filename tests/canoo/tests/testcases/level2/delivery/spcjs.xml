@@ -16,22 +16,17 @@
     <webtest name="${ant.project.name}">
       &config;
       <steps>
-      	<ifStep>
-      		<condition>
-      				<verifyProperty 
-      					name="${marketplace.enabled}"
-      					propertyType="ant"
-      					value="true"/>
-      		</condition>	
-      		<then>
-		      	<invoke description="Invoke delivery file @{file}" url="/delivery_test/spcjs.html" />
-		        &checkForErrors;
+		<invoke description="Invoke delivery file @{file}" url="/delivery_test/spcjs.html" />
+		&checkForErrors;
 		
-		      	<verifyElement text="spcjs" type="BODY"/>
-		        <verifyText description="Check that it contains JavaScript" text="OA_output['1']" />
-		        <!--verifyText description="Check that JS prints: 'html test banner'" regex="true" text="html test banner" /-->
-      		</then>
-      	</ifStep>
+		<verifyElement text="spcjs" type="BODY"/>
+		<verifyXPath 
+			xpath="/html/body/div/a/text()"
+			text="html test banner" />
+		<verifyXPath 
+			xpath="/html/body/div[@id='2']/text()[2]"
+			text="Test HTML Banner!\n"
+			regex="true" />
       </steps>
     </webtest>
   </target>
