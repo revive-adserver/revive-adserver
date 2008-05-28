@@ -26,26 +26,26 @@ $t->setMarker('Script init');
 
 foreach ($aTests as $concurrency) {
 
-//    $oTest = bucketDB::factory(array(
-//        'type' => 'MySQL',
-//        'host' => 'localhost',
-//        'user' => 'root',
-//        'password' => 'password',
-//        'dbname' => 'test_bucket',
-//        'engine' => 'MyISAM'
-//    ));
-//    test_update($oTest, $concurrency, $t, 'MyISAM');
-//
-//
-//    $oTest = bucketDB::factory(array(
-//        'type' => 'MySQL',
-//        'host' => 'localhost',
-//        'user' => 'root',
-//        'password' => 'password',
-//        'dbname' => 'test_bucket',
-//        'engine' => 'InnoDB'
-//    ));
-//    test_update($oTest, $concurrency, $t, 'InnoDB');
+    $oTest = bucketDB::factory(array(
+        'type' => 'MySQL',
+        'host' => 'localhost',
+        'user' => 'root',
+        'password' => 'password',
+        'dbname' => 'test_bucket',
+        'engine' => 'MyISAM'
+    ));
+    test_update($oTest, $concurrency, $t, 'MyISAM');
+
+
+    $oTest = bucketDB::factory(array(
+        'type' => 'MySQL',
+        'host' => 'localhost',
+        'user' => 'root',
+        'password' => 'password',
+        'dbname' => 'test_bucket',
+        'engine' => 'InnoDB'
+    ));
+    test_update($oTest, $concurrency, $t, 'InnoDB');
 
 
     $oTest = bucketDB::factory(array(
@@ -68,25 +68,25 @@ foreach ($aTests as $concurrency) {
     ));
     test_update($oTest, $concurrency, $t, 'MEMINS');
 
-//    $oTest = bucketDB::factory(array(
-//        'type' => 'PgSQL',
-//        'port' => 5432,
-//        'host' => 'localhost',
-//        'user' => 'pgsql',
-//        'password' => 'password',
-//        'dbname' => 'test_bucket'
-//    ));
-//    test_update($oTest, $concurrency, $t, 'PgSQL ');
+    $oTest = bucketDB::factory(array(
+        'type' => 'PgSQL',
+        'port' => 5432,
+        'host' => 'localhost',
+        'user' => 'pgsql',
+        'password' => 'password',
+        'dbname' => 'test_bucket'
+    ));
+    test_update($oTest, $concurrency, $t, 'PgSQL ');
 
-//    $oTest = bucketDB::factory(array(
-//        'type' => 'SHM'
-//    ));
-//    test_update($oTest, $concurrency, $t, 'SHM   ');
-//
-//    $oTest = bucketDB::factory(array(
-//        'type' => 'SHMSemaphore'
-//    ));
-//    test_update($oTest, $concurrency, $t, 'SHMSEM');
+    $oTest = bucketDB::factory(array(
+        'type' => 'SHM'
+    ));
+    test_update($oTest, $concurrency, $t, 'SHM   ');
+
+    $oTest = bucketDB::factory(array(
+        'type' => 'SHMSemaphore'
+    ));
+    test_update($oTest, $concurrency, $t, 'SHMSEM');
 }
 
 
