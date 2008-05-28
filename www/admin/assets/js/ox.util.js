@@ -21,13 +21,13 @@ $(document).ready(function() {
 jQuery.fn.slideFadeOut = function(speed, callback)
 {
   return this.animate({height: 'hide', opacity: 'hide', marginTop: 'hide', marginBottom: 'hide'}, speed, callback);
-}
+};
 
 // Additional jQuery effect
 jQuery.fn.slideFadeIn = function(speed, callback)
 {
   return this.animate({height: 'show', opacity: 'show', marginTop: 'show', marginBottom: 'show'}, speed, callback);
-}
+};
 
 // Automatically installs validation on forms with the "validate" class
 // Also adds some custom validation rules
@@ -58,7 +58,7 @@ jQuery.fn.confirmedLink = function(triggerLinkClass, closeIdPrefix)
         hash.w.fadeIn("fast");
       }
   }).jqmAddClose("#" + closeIdPrefix + "cd-cancel");
-}
+};
 
 /**
  * Converts the provided links (pointing at legal documents) into
@@ -94,7 +94,7 @@ jQuery.terms = function(triggerLinksSelector, closeIdPrefix) {
         hash.w.fadeIn("fast");
       }
   }).jqmAddClose("#" + closeIdPrefix + "terms-cancel");
-}
+};
 
 /**
  * To the first selected checkbox attaches an event handler that shows/hides the
@@ -110,4 +110,4 @@ jQuery.fn.toggleContent = function(checkedContentSelector, uncheckedContentSelec
       $(uncheckedContentSelector).show();
     }
   }).end();
-}
+};
