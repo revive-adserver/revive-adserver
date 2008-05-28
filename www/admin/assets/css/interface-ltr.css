@@ -1,7 +1,7 @@
 
 /* Fonts */
 
-body, table, td, select, textarea, input  {
+body, table, td, select, textarea, input, button  {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 11px;
 }
@@ -1026,3 +1026,82 @@ div.terms iframe {
     margin-bottom: 0;
 }
 
+/** Zone-campaign linking */
+input.checkbox {
+	vertical-align: middle;
+}
+
+#campaign-zone #filters {
+  margin-top: 2ex;
+}
+
+#campaign-zone #zones {
+  margin-top: 3ex;
+  width: 100%;
+  table-layout: fixed;
+  margin-bottom: 3ex;
+}
+
+#campaign-zone #zones td {
+	text-align: center;
+}
+
+#campaign-zone #zones .name {
+	width: 15em;
+	overflow: hidden;
+	text-align: left;
+}
+
+#campaign-zone #zones .ctr,
+#campaign-zone #zones .cr,
+#campaign-zone #zones .ecpm {
+	width: 5em;
+}
+
+#campaign-zone #zones .category {
+	width: 10em;
+	overflow: hidden;
+}
+
+#campaign-zone #zones .description {
+  width: auto;
+	overflow: hidden;
+}
+
+#campaign-zone #zones tr.zone .name {
+  padding-left: 2em;
+}
+
+#campaign-zone #zones tr.linked {
+	background-color: #fff8b5;
+}
+
+#campaign-zone #zones tr.to-link
+{
+	background-color: #fffbd6;
+}
+
+#campaign-zone #zones tr.to-unlink
+{
+	background-color: #fffde9;
+}
+
+#campaign-zone #zones tbody tr {
+  cursor: pointer;
+}
+
+#campaign-zone #zones tr.header {
+  cursor: default;
+}
+
+#campaign-zone #zones tbody tr:hover {
+	background-color: #ffdcc3;
+}
+
+#campaign-zone #zones tr.header:hover {
+	background-color: transparent;
+}
+
+#campaign-zone #run-of-network-info {
+  margin: 2ex 0 2ex 0;
+}

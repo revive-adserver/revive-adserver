@@ -542,6 +542,7 @@ class OA_Admin_UI
             'js/ox.addirect.js',
             'js/ox.help.js',
             'js/ox.util.js',
+            'js/ox.multicheckbox.js',
             'js/formValidation.js'
         );
     }

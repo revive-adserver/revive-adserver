@@ -1,0 +1,115 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+|                                                                           |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+
+-->*}
+<div id="campaign-zone">
+
+	<label>
+	  <input id="run-of-network" type="checkbox" class="checkbox" {if $runOfNetwork} checked{/if} /> 
+	  Run of Network (links to all available zones)
+	</label>
+
+  <div id="run-of-network-info" {if !$runOfNetwork} class="hide"{/if}>
+    This campaign will run on all current and future websites and zones
+  </div>
+  	
+	<div id="select-zones" {if $runOfNetwork} class="hide"{/if}>
+		<div id="filters">
+			<label>
+			  Showing
+			  <select style="vertical-align: middle">
+			    <option>Linked</option>
+			    <option>Not linked</option>
+			    <option>All</option>
+			  </select>
+			</label>
+			
+			<label>
+			  zones from category
+			  <select style="vertical-align: middle">
+			    <option>Finance</option>
+			    <option>Sports</option>
+			    <option>Tourism</option>
+			  </select>
+			</label>
+		</div>
+		
+		<table id="zones">
+		  <tbody>
+			  <tr class="header">
+			    <th class="name" style="width: 20%"><label><input type="checkbox" class="checkbox" id="all-zones" /> Select / Unselect all</label></th>
+			    <th class="ctr">CTR</th>
+			    <th class="cr">CR</th>
+			    <th class="ecpm">eCPM</th>
+			    <th class="category">Category</th>
+			    <th class="description">Description</th>
+			  </tr>
+				{foreach from=$websites item=website}
+		    <tr class="website{if $website.linked} linked{/if}">
+		      <td class="name">
+		        <label><input id="w{$website.id}" type="checkbox" class="checkbox parent" {if $website.linked}checked{/if} /> {$website.name}</label>
+		      </td>
+		      <td>{$website.ctr|string_format:"%.3f"}%</td>
+		      <td>{$website.cr|string_format:"%.3f"}%</td>
+		      <td>${$website.ecpm|string_format:"%.3f"}</td>
+		      <td>{$website.category}</td>
+		      <td></td>
+		    </tr>
+		    
+		    {foreach from=$website.zones item=zone}
+		    <tr class="zone{if $zone.linked} linked{/if}">
+		      <td class="name">
+		        <label><input id="w{$website.id}_z{$zone.id}" type="checkbox" class="checkbox" {if $zone.linked}checked {/if}}/> {$zone.name}</label>
+		      </td>
+		      <td>{$zone.ctr|string_format:"%.3f"}%</td>
+		      <td>{$zone.cr|string_format:"%.3f"}%</td>
+		      <td>${$zone.ecpm|string_format:"%.3f"}</td>
+		      <td>{$zone.category}</td>
+		      <td></td>
+		    </tr>
+		    {/foreach}    
+		    
+				{/foreach}
+			</tbody>
+		</table>
+	</div>
+	
+	<input class="main-submit" value="Save changes" type="button" />
+	
+	<script type="text/javascript"><!--
+{literal}
+  $("#campaign-zone #zones").multicheckboxes({
+    selectedClass: "linked", 
+    unselectedClass: "", 
+    toSelectClass: "to-link", 
+    toUselectClass: "to-unlink",
+    selectAllSelector: "#all-zones"
+  });
+  
+  $("#run-of-network").toggleContent("#run-of-network-info", "#select-zones");
+{/literal}  
+  //--></script>
+
+</div>

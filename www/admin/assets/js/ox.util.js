@@ -95,3 +95,19 @@ jQuery.terms = function(triggerLinksSelector, closeIdPrefix) {
       }
   }).jqmAddClose("#" + closeIdPrefix + "terms-cancel");
 }
+
+/**
+ * To the first selected checkbox attaches an event handler that shows/hides the
+ * provided content depending on whether the checkbox is checked or not.
+ */
+jQuery.fn.toggleContent = function(checkedContentSelector, uncheckedContentSelector) {
+  return this.eq(0).click(function() {
+    if (this.checked) {
+      $(checkedContentSelector).show();
+      $(uncheckedContentSelector).hide();
+    } else {
+      $(checkedContentSelector).hide();
+      $(uncheckedContentSelector).show();
+    }
+  }).end();
+}
