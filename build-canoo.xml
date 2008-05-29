@@ -41,39 +41,31 @@
 	<import file="${wt.home}/webtest.xml" description="Import all functionalities for a full build"/>
 	<import file="${basedir}/tests/canoo/definitions.xml" description="Import all functionalities for a full build"/>
 
-
 	<macrodef name="enableMarketPlace" description="Enable or disable MarketPlace in delivery scripts before installation.">
-		<attribute name="enable" description="Should be MarketPlace enabled"/>
-		<sequential>
+	    <attribute name="enable" description="Should be MarketPlace enabled"/>
+	    <sequential>
 			<if>
-				<istrue value="@{enable}"/>
-				<then>
-					<replace file="${basedir}/etc/dist.conf.php">
-						<replacetoken>
-							<![CDATA[[marketplace]
-enabled=0]]>
-						</replacetoken>
-						<replacevalue>
-							<![CDATA[[marketplace]
-enabled=1]]>
-						</replacevalue>
-					</replace>
-				</then>
-				<else>
-					<replace file="${basedir}/etc/dist.conf.php">
-						<replacetoken>
-							<![CDATA[[marketplace]
-enabled=1]]>
-						</replacetoken>
-						<replacevalue>
-							<![CDATA[[marketplace]
-enabled=0]]>
-						</replacevalue>
-					</replace>
-				</else>
-			</if>
-		</sequential>
+	        <istrue value="@{enable}"/>
+	        <then>
+			<replace file="${basedir}/etc/dist.conf.php">
+				<replacetoken><![CDATA[[marketplace]
+enabled=0]]></replacetoken>
+				<replacevalue><![CDATA[[marketplace]
+enabled=1]]></replacevalue>
+			</replace>
+	        </then>
+	        <else>
+			<replace file="${basedir}/etc/dist.conf.php">
+				<replacetoken><![CDATA[[marketplace]
+enabled=1]]></replacetoken>
+				<replacevalue><![CDATA[[marketplace]
+enabled=0]]></replacevalue>
+			</replace>
+	        </else>
+	      </if>
+	    </sequential>
 	</macrodef>
+	        	
 	<macrodef name="canoo-ssh" description="Executes ssh command on the currently configured ec2 machine.">
 		<attribute name="command" description="Command to be executed."/>
 		<attribute name="username" default="admin"/>
@@ -224,8 +216,7 @@ enabled=0]]>
 
 	<target name="init.canoo.windows" depends="init.check.windows" if="is.windows">
 		<echo message="Canoo tests - init"/>
-		<echo message="Windows setup - nothing to do"/>
-		<echo message="This target is for further purposes"/>
+		<echo message="Windows setup"/>
 		<enableMarketPlace enable="${marketplace.enabled}"/>
 		<property name="maven.executable" value="mvn.bat"/>
 	</target>
