@@ -287,6 +287,9 @@ class OA_Dll extends OA_BaseObjectWithErrors
             default:
                 $tableId = $table;
                 break;
+            case 'accounts' :
+                $tableId = 'account';
+                break;
             case 'affiliates' :
                 $tableId = 'publisher';
                 break;

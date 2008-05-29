@@ -73,13 +73,6 @@ class OA_Dll_BannerInfo extends OA_Info
     var $storageType;
 
     /**
-     * The fileName variable is the name of a banner file in either SQL or web address format.
-     *
-     * @var string $fileName
-     */
-    var $fileName;
-
-    /**
      * The imageURL variable is the URL for an image file for network banners.
      *
      * @var string $imageURL
@@ -247,6 +240,7 @@ class OA_Dll_BannerInfo extends OA_Info
                     'url' => 'string',
                     'status' => 'integer',
                     'adserver' => 'string',
+                    'transparent' => 'integer',
                     'aImage' => 'custom',
                     'aBackupImage' => 'custom'
                 );

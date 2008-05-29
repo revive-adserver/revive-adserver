@@ -68,7 +68,6 @@ class OA_Dll_Banner extends OA_Dll
     {
         $bannerData['htmlTemplate'] = $bannerData['htmltemplate'];
         $bannerData['imageURL']     = $bannerData['imageurl'];
-        $bannerData['fileName']     = $bannerData['filename'];
         $bannerData['storageType']  = $bannerData['storagetype'];
         $bannerData['bannerName']   = $bannerData['description'];
         $bannerData['campaignId']   = $bannerData['campaignid'];
@@ -244,11 +243,11 @@ class OA_Dll_Banner extends OA_Dll
      * @param OA_Dll_BannerInfo &$oBanner <br />
      *          <b>For adding</b><br />
      *          <b>Required properties:</b> campaignId<br />
-     *          <b>Optional properties:</b> bannerName, storageType, fileName, imageURL, htmlTemplate, width, height, weight, url<br />
+     *          <b>Optional properties:</b> bannerName, storageType, imageURL, htmlTemplate, width, height, weight, url<br />
      *
      *          <b>For modify</b><br />
      *          <b>Required properties:</b> bannerId<br />
-     *          <b>Optional properties:</b> campaignId, bannerName, storageType, fileName, imageURL, htmlTemplate, width, height, weight, url<br />
+     *          <b>Optional properties:</b> campaignId, bannerName, storageType, imageURL, htmlTemplate, width, height, weight, url<br />
      *
      * @return boolean  True if the operation was successful
      *
@@ -279,7 +278,6 @@ class OA_Dll_Banner extends OA_Dll
         $bannerData['campaignid']   = $oBanner->campaignId;
         $bannerData['description']  = $oBanner->bannerName;
         $bannerData['storagetype']  = $oBanner->storageType;
-        $bannerData['filename']     = $oBanner->fileName;
         $bannerData['imageurl']     = $oBanner->imageURL;
         $bannerData['htmltemplate'] = $oBanner->htmlTemplate;
 
