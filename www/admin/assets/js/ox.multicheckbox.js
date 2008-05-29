@@ -68,9 +68,7 @@
       var options = $.extend({ }, defaults, settings); 
 
       var $container = $(this);
-      $container.find(":checkbox").each(function() {
-        $(this).data("state", this.checked);
-      });
+      $container.updatestate();
       
       $(options.selectAllSelector).eq(0).click(function() {
         var $checkboxes = $container.find(":checkbox");
@@ -116,6 +114,12 @@
       });
     });
   };
+  
+  $.fn.updatestate = function() {
+     return this.find(":checkbox").each(function() {
+       $(this).data("state", this.checked);
+     });
+  }; 
   
   /**
    * Returns children checkboxes for a parent checkbox. Currently, the

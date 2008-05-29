@@ -532,6 +532,7 @@ class OA_Admin_UI
             'js/jquery.jqmodal.js',
             'js/jquery.typewatch.js',
             'js/jquery.autocomplete.js',
+            'js/jquery.example.js',
             'js/jscalendar/calendar.js',
             'js/jscalendar/lang/calendar-en.js',
             'js/jscalendar/calendar-setup.js',

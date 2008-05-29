@@ -36,24 +36,38 @@ $Id$
   </div>
   	
 	<div id="select-zones" {if $runOfNetwork} class="hide"{/if}>
-		<div id="filters">
+    <div style="float: right">
+      <label>
+        Search
+        <input id="quick-search" type="text" title="Search zones and websites by name" />
+       </label>
+       <input id="advertiser-id" type="hidden" value="{$advertiserId}" />
+       <input id="campaign-id" type="hidden" value="{$campaignId}" />
+    </div>
+    
+		<form id="filters" class="filter-area">
 			<label>
 			  Showing
-			  <select style="vertical-align: middle">
-			    <option>Linked</option>
-			    <option>Not linked</option>
-			    <option>All</option>
+			  <select id="status" style="vertical-align: middle">
+			    <option value="linked">Linked</option> <!-- If there are any zones linked to this campaign, show Linked by default -->
+			    <option value="notlinked">Not linked</option>
+			    <option value="all">All</option> <!-- If there are no zones linked to this campaingn, show All by default -->
 			  </select>
 			</label>
 			
 			<label>
 			  zones from category
-			  <select style="vertical-align: middle">
-			    <option>Finance</option>
-			    <option>Sports</option>
-			    <option>Tourism</option>
+			  <select id="category" style="vertical-align: middle">
+			    <option value="10">Finance</option>
+			    <option value="20">Sports</option>
+			    <option value="30">Tourism</option>
 			  </select>
 			</label>
+		</form>
+		
+		<div id="filters-search" class="hide filter-area">
+			Showing zones and websites containing
+      <span id="search-phrase"></span> (<a id="show-filters" href="#">back to filters</a>)
 		</div>
 		
 		<table id="zones">
@@ -66,32 +80,11 @@ $Id$
 			    <th class="category">Category</th>
 			    <th class="description">Description</th>
 			  </tr>
-				{foreach from=$websites item=website}
-		    <tr class="website{if $website.linked} linked{/if}">
-		      <td class="name">
-		        <label><input id="w{$website.id}" type="checkbox" class="checkbox parent" {if $website.linked}checked{/if} /> {$website.name}</label>
-		      </td>
-		      <td>{$website.ctr|string_format:"%.3f"}%</td>
-		      <td>{$website.cr|string_format:"%.3f"}%</td>
-		      <td>${$website.ecpm|string_format:"%.3f"}</td>
-		      <td>{$website.category}</td>
-		      <td></td>
-		    </tr>
-		    
-		    {foreach from=$website.zones item=zone}
-		    <tr class="zone{if $zone.linked} linked{/if}">
-		      <td class="name">
-		        <label><input id="w{$website.id}_z{$zone.id}" type="checkbox" class="checkbox" {if $zone.linked}checked {/if}}/> {$zone.name}</label>
-		      </td>
-		      <td>{$zone.ctr|string_format:"%.3f"}%</td>
-		      <td>{$zone.cr|string_format:"%.3f"}%</td>
-		      <td>${$zone.ecpm|string_format:"%.3f"}</td>
-		      <td>{$zone.category}</td>
-		      <td></td>
-		    </tr>
-		    {/foreach}    
-		    
-				{/foreach}
+      </tbody>
+      
+      <tbody id="zones-rows">
+        {include file=campaign-zone-zones.html
+                 websites=$websites}
 			</tbody>
 		</table>
 	</div>
@@ -109,6 +102,50 @@ $Id$
   });
   
   $("#run-of-network").toggleContent("#run-of-network-info", "#select-zones");
+  $("#quick-search")
+    .example("zone name, website name", { class_name: 'example-search'})
+    .typeWatch({
+      callback: function() {
+        var value = $.trim(this.el.value);
+        if (value.length > 0) {
+          $("#filters").hide();
+          $("#filters-search").find("#search-phrase").text(value).end().show();
+          $.get("campaign-zone-zones.php", {
+            clientid: $("#advertiser-id").val(),
+            campaignid: $("#campaign-id").val(),
+            text: $("#quick-search").val(),
+          }, function(data) {
+            $("#zones-rows").html(data);
+            $("#campaign-zone #zones").updatestate();
+          });
+        } else {
+          showFilters();
+        }
+      },
+      wait: 300,
+      captureLength: 1
+    });
+    
+  $("#show-filters").click(function () {
+    $("#quick-search").val("").triggerHandler("blur");
+    showFilters();
+  });
+  
+  $("#category, #status").change(showFilters);
+  
+  function showFilters() {
+    $("#filters").show();
+    $("#filters-search").hide();
+    $.get("campaign-zone-zones.php", {
+      clientid: $("#advertiser-id").val(),
+      campaignid: $("#campaign-id").val(),
+      status: $("#status").val(),
+      category: $("#category").val()
+    }, function(data) {
+      $("#zones-rows").html(data);
+      $("#campaign-zone #zones").updatestate();
+    });
+  }
 {/literal}  
   //--></script>
 

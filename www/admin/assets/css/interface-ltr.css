@@ -1031,8 +1031,13 @@ input.checkbox {
 	vertical-align: middle;
 }
 
-#campaign-zone #filters {
+#campaign-zone .filter-area {
   margin-top: 2ex;
+  line-height: 170%;
+}
+
+#campaign-zone #filters-search #search-phrase {
+	font-weight: bold;
 }
 
 #campaign-zone #zones {
@@ -1104,4 +1109,8 @@ input.checkbox {
 
 #campaign-zone #run-of-network-info {
   margin: 2ex 0 2ex 0;
+}
+
+#quick-search.example-search {
+  color: #909090;
 }

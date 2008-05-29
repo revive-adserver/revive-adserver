@@ -30,22 +30,7 @@ require_once '../../init.php';
 
 // Required files
 require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/lib/max/other/html.php';
-require_once MAX_PATH . '/lib/max/other/proto.php';
 
-
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
-
-$advertiserId   = MAX_getValue('clientid');
-$campaignId     = MAX_getValue('campaignid');
-$agencyId = OA_Permission::getAgencyId();
-$aOtherAdvertisers = Admin_DA::getAdvertisers(array('agency_id' => $agencyId));
-$aOtherCampaigns = Admin_DA::getPlacements(array('advertiser_id' => $advertiserId));
-$pageName = basename($_SERVER['PHP_SELF']);
-$aEntities = array('clientid' => $advertiserId, 'campaignid' => $campaignId);
-MAX_displayNavigationCampaign($pageName, $aOtherAdvertisers, $aOtherCampaigns, $aEntities);
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
@@ -53,24 +38,63 @@ MAX_displayNavigationCampaign($pageName, $aOtherAdvertisers, $aOtherCampaigns, $
 
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
-$oTpl = new OA_Admin_Template('campaign-zone.html');
 
-$runOfNetwork = false;
+/** TODO: Generators -- remove in the final implementation */
+$websiteNameIndex = 0;
+$zoneNameIndex = 0;
 
-$websites = getWebsites($advertiserId, $campaignId, '');
+$websiteNames = array("www.test.com", "ebay.com", "openx.org", "my.blog.com", "computers.com");
+$zoneNames = array("Home page top", "Home page side", "Product page bottom", "Specials", "Tiny");
 
-$oTpl->assign('websites', $websites);
-$oTpl->assign('runOfNetwork', $runOfNetwork);
+function generateWebsiteName()
+{
+  global $websiteNameIndex, $websiteNames;
+  return $websiteNames[$websiteNameIndex++ % count($websiteNames)];
+}
 
-$oTpl->assign('advertiserId', $advertiserId);
-$oTpl->assign('campaignId', $campaignId);
+function generateZoneName()
+{
+  global $zoneNameIndex, $zoneNames;
+  return $zoneNames[$zoneNameIndex++ % count($zoneNames)];
+}
 
+function getWebsites($advertiserId, $campaignId, $searchPhrase, $status = 'all', $category = '') {
+	$websiteCount = 5;
+	$zoneCount = 4;
+
+	$websites = array();
+	for ($i = 0; $i < $websiteCount; $i++) {
+	  $zones = array();
+	  
+	  $websiteName = generateWebsiteName();
+	  $websiteNameHighlighted = str_replace($searchPhrase, "<b>" . $searchPhrase. "</b>", $websiteName);
+	
+	  $websiteMatched = strlen($websiteNameHighlighted) > strlen($websiteName) || empty($searchPhrase);
+	  $zonesMatched = false;
+	  
+	  for ($j = 0; $j < $zoneCount; $j++) {
+	    $zoneName = generateZoneName();
+	    $zoneNameHighlighted = str_replace($searchPhrase, "<b>" . $searchPhrase. "</b>", $zoneName);
+	    
+	    $zoneMatched = strlen($zoneNameHighlighted) > strlen($zoneName)|| empty($searchPhrase);
+	    $zonesMatched = $zonesMatched || $zoneMatched;
+	    
+	    if ($zoneMatched || $websiteMatched) {
+	      array_push($zones, array(id=> $j, linked => ($j % 3) == 0, name => $zoneNameHighlighted, ctr => 0.003, cr => 0.001, ecpm => 0.23, category => "Finance", description => ""));
+	    }
+	  }
+	  
+	  if ($websiteMatched || $zonesMatched) {
+	    array_push($websites, array(id => $i, linked => false, name => $websiteNameHighlighted, ctr => 0.08, cr => 0.02, ecpm => 3.45, category => "Finance", description => "", zones => $zones));
+	  }
+	}
+	
+	return $websites;
+}
+/** Generators end */
+
+$oTpl = new OA_Admin_Template('campaign-zone-zones.html');
+$oTpl->assign('websites', getWebsites($_GET["clientid"], $_GET["campaignid"], $_GET["text"]));
 $oTpl->display();
-
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
-
-phpAds_PageFooter();
 
 ?>

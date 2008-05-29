@@ -1,0 +1,52 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+|                                                                           |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+
+-->*}
+{foreach from=$websites item=website}
+<tr class="website{if $website.linked} linked{/if}">
+  <td class="name">
+    <label><input id="w{$website.id}" type="checkbox" class="checkbox parent" {if $website.linked}checked{/if} /> {$website.name}</label>
+  </td>
+  <td>{$website.ctr|string_format:"%.3f"}%</td>
+  <td>{$website.cr|string_format:"%.3f"}%</td>
+  <td>${$website.ecpm|string_format:"%.3f"}</td>
+  <td>{$website.category}</td>
+  <td></td>
+</tr>
+
+{foreach from=$website.zones item=zone}
+<tr class="zone{if $zone.linked} linked{/if}">
+  <td class="name">
+    <label><input id="w{$website.id}_z{$zone.id}" type="checkbox" class="checkbox" {if $zone.linked}checked {/if}}/> {$zone.name}</label>
+  </td>
+  <td>{$zone.ctr|string_format:"%.3f"}%</td>
+  <td>{$zone.cr|string_format:"%.3f"}%</td>
+  <td>${$zone.ecpm|string_format:"%.3f"}</td>
+  <td>{$zone.category}</td>
+  <td></td>
+</tr>
+{/foreach}    
+
+{/foreach}

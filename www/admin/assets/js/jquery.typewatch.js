@@ -1,98 +1,88 @@
 /*
- *	TypeWatch 1.1.1
- *	jQuery 1.1.3 +
- *	
- *	Examples/Docs: www.dennydotnet.com
- *	Copyright(c) 2007 Denny Ferrassoli
- * Dual licensed under the MIT and GPL licenses:
- * http://www.opensource.org/licenses/mit-license.php
- * http://www.gnu.org/licenses/gpl.html
+ *  TypeWatch 2.0 - Original by Denny Ferrassoli / Refactored by Charles Christolini
+ *
+ *  Examples/Docs: www.dennydotnet.com
+ *  
+ *  Copyright(c) 2007 Denny Ferrassoli - DennyDotNet.com
+ *  Coprright(c) 2008 Charles Christolini - BinaryPie.com
+ *  
+ *  Dual licensed under the MIT and GPL licenses:
+ *  http://www.opensource.org/licenses/mit-license.php
+ *  http://www.gnu.org/licenses/gpl.html
 */
 
-jQuery.fn.extend({
-	typeWatch:function(options) {
-		return waitTextbox(this, options);
-	}
-});
+(function(jQuery) {
+  jQuery.fn.typeWatch = function(o){
+    // Options
+    var options = jQuery.extend({
+      wait : 750,
+      callback : function() { },
+      highlight : true,
+      captureLength : 2
+    }, o);
+      
+    function checkElement(timer, override) {
+      var elTxt = jQuery(timer.el).val();
+    
+      if ((elTxt.length > options.captureLength || elTxt.length == 0 ) 
+      || (override && elTxt.length > options.captureLength)) {
+        timer.text = elTxt.toUpperCase();
+        timer.cb(elTxt);
+      }
+    };
+    
+    function watchElement(elem) {      
+      // Must be text or textarea
+      if (elem.type.toUpperCase() == "TEXT" || elem.nodeName.toUpperCase() == "TEXTAREA") {
 
-function waitTextbox(element, options) {
-	return element.each(
-	
-		function() {
-		
-			// Set to current element
-			thisEl = jQuery(this);
-			var winSaved = "typewatch_" + typewatch_uid++;
-			var objWatch = {timer:null, text:null, cb:null, el:null, wait:null};
+        // Allocate timer element
+        var timer = {
+          timer : null, 
+          text : jQuery(elem).val().toUpperCase(),
+          cb : options.callback, 
+          el : elem, 
+          wait : options.wait
+        };
 
-			// Create js prop
-			this.typewatchid = winSaved;
+        // Set focus action (highlight)
+        if (options.highlight) {
+          jQuery(elem).focus(
+            function() {
+              this.select();
+            });
+        }
 
-			// Must be text or textarea
-			if (this.type.toUpperCase() == "TEXT" 
-				|| this.nodeName.toUpperCase() == "TEXTAREA") {
+        // Key watcher / clear and reset the timer
+        var startWatch = function(evt) {
+          var timerWait = timer.wait;
+          var overrideBool = false;
+          
+          if (evt.keyCode == 13 && this.type.toUpperCase() == "TEXT") {
+            timerWait = 1;
+            overrideBool = true;
+          }
+          
+          var timerCallbackFx = function()
+          {
+            checkElement(timer, overrideBool)
+          }
+          
+          // Clear timer          
+          clearTimeout(timer.timer);
+          timer.timer = setTimeout(timerCallbackFx, timerWait);        
+                    
+        };
+        
+        jQuery(elem).keydown(startWatch);
+      }
+    };
+    
+    // Watch Each Element
+    return this.each(function(index){
+      watchElement(this);
+    });
+    
+  };
 
-				// Allocate timer element
-				window[winSaved] = objWatch;
-				var timer = window[winSaved];
-				
-				// Defaults
-				var _wait = 750;
-				var _callback = function() { };
-				var _highlight = true;
-				var _captureEnter = true;
+})(jQuery);
 
-				// Get options
-				if (options) {
-					if(options["wait"] != null) _wait = parseInt(options["wait"]);
-					if(options["callback"] != null) _callback = options["callback"];
-					if(options["highlight"] != null) _highlight = options["highlight"];
-					if(options["enterkey"] != null) _captureEnter = options["enterkey"];
-				}
-
-				// Set values
-				timer.text = thisEl.val().toUpperCase();
-				timer.cb = _callback;
-				timer.wait = _wait;
-				timer.el = this;
-
-				// Set focus action (highlight)
-				if (_highlight) {
-					thisEl.focus(
-						function() {
-							this.select();
-						});
-				}
-
-				// Key watcher / clear and reset the timer
-				thisEl.keydown(
-					function(evt) {
-						var thisWinSaved = this.typewatchid;
-						var timer = window[thisWinSaved];
-						
-						// Enter key only on INPUT controls
-						if (evt.keyCode == 13 && this.type.toUpperCase() == "TEXT") {
-							clearTimeout(timer.timer);
-							timer.timer = setTimeout('typewatchCheck("' + thisWinSaved + '", true)', 1);							
-							return false;
-						}
-						
-						clearTimeout(timer.timer);
-						timer.timer = setTimeout('typewatchCheck("' + thisWinSaved + '", false)', timer.wait);
-					});
-			}
-		});
-}
-
-function typewatchCheck( thisWinSaved, override ) {
-	var timer = window[thisWinSaved];
-	var elTxt = $(timer.el).val();
-
-	// Fire if text != saved txt OR if override 
-	if (elTxt.toUpperCase() != timer.text || override) {
-		timer.text = elTxt.toUpperCase();
-		timer.cb(elTxt, timer.el);
-	}
-}
-
-var typewatch_uid = 0; // unique counter
