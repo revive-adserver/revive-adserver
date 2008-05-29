@@ -7,20 +7,11 @@
 	<property name="openx.url" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}"/>
 	<property name="openx.example_url" value="${openx.url}/delivery_test/example.php"/>
 	<target name="main">
-<!--
-			<sql driver="com.mysql.jdbc.Driver" url="jdbc:mysql://${db.host}:${db.port}/${db.name}" userid="${db.login}" password="${db.password}">
-			   	<classpath>
-			    	<pathelement location="${basedir}/../lib/mysql-connector-java-5.1.6-bin.jar" />
-			    </classpath>
-				<transaction src="config/delivery_ox.sql"/>
-				<transaction> UPDATE ox_banners SET url = "${openx.example_url}" WHERE url = "http://www.example.com" </transaction>
-			</sql>
--->	
 		<subant inheritall="true">
-			<fileset dir="${testcase.dir}/level2/common/">
+			<fileset dir="${testcase.dir}/level3/common/">
 				<filename name="openx.common.delivery.dbsetup.xml" />
 			</fileset>
-        	<fileset dir="${testcase.dir}/level2/delivery/">
+        	<fileset dir="${testcase.dir}/level3/delivery/">
         		<include name="*.xml"/>
 			</fileset>
         </subant>
