@@ -39,9 +39,9 @@
 	</target>
 
 	<target name="test-canoo" depends="clean, clone">
-    	<ant antfile="build-canoo.xml" dir="${basedir}/target" output="build.log" target="run-test-canoo" />
+		<ant antfile="build-canoo.xml" dir="${basedir}/target" output="build.log" target="run-test" />
 	</target>
-	
+
 	<target name="test-canoo-schemaspy" depends="test-canoo">
 		<ant antfile="build.xml" dir="${basedir}/target/tests/schemaspy" output="schemaspy.log" target="schemaspy" inheritall="true"/>
 	</target>
@@ -52,6 +52,6 @@
 
 	<target name="cruise" depends="init, update, clean, build"/>
 
-    <target name="release" depends="init, clean, update, make-release"/>
+	<target name="release" depends="init, clean, update, make-release"/>
 
 </project>

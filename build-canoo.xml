@@ -15,233 +15,211 @@
       You have to put it into canoo lib directory
 -->
 <project name="canoo" default="run-test-canoo" basedir=".">
-  <property name="canoo.log" value="${basedir}/canoo.log"/>
-  <property name="timeout" value="60000"/>
-  <property name="delivery_test" value="${basedir}/www/delivery_test"/>
-	
+	<property name="canoo.log" value="${basedir}/canoo.log"/>
+	<property name="timeout" value="60000"/>
+	<property name="delivery_test" value="${basedir}/www/delivery_test"/>
+
 	<property file="${basedir}/tests/canoo/tests/config/webtest.properties"/>
 	<property file="${basedir}/tests/canoo/tests/config/tests.properties"/>
-	
+
 	<property name="wt.resultpath" location="results"/>
 	<property name="wt.resultfile" value="webtestResults.xml"/>
-	
+
 	<property name="wt.testInWork" value="tests/canoo/tests/test_suite"/>
-	
-  <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
 
-  <condition property="property_file" value="user.local.properties" else="user.remote.properties">
-    <istrue value="${run.local}"/>
-  </condition>
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
 
-  <property file="${basedir}/tests/canoo/properties/${property_file}" prefix="canoo"/>
-  <property file="${basedir}/ec2.properties"/>
-  <property name="ec2.openx.config" value="${canoo.host}.conf.php"/>
-  <property name="ec2.openx.database" value="openx"/>
+	<condition property="property_file" value="user.local.properties" else="user.remote.properties">
+		<istrue value="${run.local}"/>
+	</condition>
+
+	<property file="${basedir}/tests/canoo/properties/${property_file}" prefix="canoo"/>
+	<property file="${basedir}/ec2.properties"/>
+	<property name="ec2.openx.config" value="${canoo.host}.conf.php"/>
+	<property name="ec2.openx.database" value="openx"/>
 
 	<import file="${wt.home}/webtest.xml" description="Import all functionalities for a full build"/>
 	<import file="${basedir}/tests/canoo/definitions.xml" description="Import all functionalities for a full build"/>
 
-	
+
 	<macrodef name="enableMarketPlace" description="Enable or disable MarketPlace in delivery scripts before installation.">
-	    <attribute name="enable" description="Should be MarketPlace enabled"/>
-	    <sequential>
+		<attribute name="enable" description="Should be MarketPlace enabled"/>
+		<sequential>
 			<if>
-	        <istrue value="@{enable}"/>
-	        <then>
-			<replace file="${basedir}/etc/dist.conf.php">
-				<replacetoken><![CDATA[[marketplace]
-enabled=0]]></replacetoken>
-				<replacevalue><![CDATA[[marketplace]
-enabled=1]]></replacevalue>
-			</replace>
-	        </then>
-	        <else>
-			<replace file="${basedir}/etc/dist.conf.php">
-				<replacetoken><![CDATA[[marketplace]
-enabled=1]]></replacetoken>
-				<replacevalue><![CDATA[[marketplace]
-enabled=0]]></replacevalue>
-			</replace>
-	        </else>
-	      </if>
-	    </sequential>
+				<istrue value="@{enable}"/>
+				<then>
+					<replace file="${basedir}/etc/dist.conf.php">
+						<replacetoken>
+							<![CDATA[[marketplace]
+enabled=0]]>
+						</replacetoken>
+						<replacevalue>
+							<![CDATA[[marketplace]
+enabled=1]]>
+						</replacevalue>
+					</replace>
+				</then>
+				<else>
+					<replace file="${basedir}/etc/dist.conf.php">
+						<replacetoken>
+							<![CDATA[[marketplace]
+enabled=1]]>
+						</replacetoken>
+						<replacevalue>
+							<![CDATA[[marketplace]
+enabled=0]]>
+						</replacevalue>
+					</replace>
+				</else>
+			</if>
+		</sequential>
 	</macrodef>
-  <macrodef name="canoo-ssh" description="Executes ssh command on the currently configured ec2 machine.">
-    <attribute name="command" description="Command to be executed."/>
-    <attribute name="username" default="admin"/>
-    <attribute name="password" default="${ec2.admin.password}"/>
-    <sequential>
-      <sshexec host="${canoo.host}" username="admin" password="${ec2.admin.password}" trust="yes" output="${canoo.log}" append="true" timeout="${timeout}" command="@{command}"/>
-    </sequential>
-  </macrodef>
+	<macrodef name="canoo-ssh" description="Executes ssh command on the currently configured ec2 machine.">
+		<attribute name="command" description="Command to be executed."/>
+		<attribute name="username" default="admin"/>
+		<attribute name="password" default="${ec2.admin.password}"/>
+		<sequential>
+			<sshexec host="${canoo.host}" username="admin" password="${ec2.admin.password}" trust="yes" output="${canoo.log}" append="true" timeout="${timeout}" command="@{command}"/>
+		</sequential>
+	</macrodef>
 
-  <macrodef name="canoo-ssh-root" description="Executes ssh command on the currently configured ec2 machine.">
-    <attribute name="command" description="Command to be executed."/>
-    <sequential>
-      <canoo-ssh command="@{command}" username="root" password="${ec2.root.password}"/>
-    </sequential>
-  </macrodef>
+	<macrodef name="canoo-ssh-root" description="Executes ssh command on the currently configured ec2 machine.">
+		<attribute name="command" description="Command to be executed."/>
+		<sequential>
+			<canoo-ssh command="@{command}" username="root" password="${ec2.root.password}"/>
+		</sequential>
+	</macrodef>
 
-  <macrodef name="clean-delivery-cache-remote">
-    <sequential>
-      <canoo-ssh-root command="rm -f ${ec2.openx.dir}/var/cache/deliverycache_* ${ec2.openx.dir}/var/cache/cache_*"/>
-    </sequential>
-  </macrodef>
+	<macrodef name="clean-delivery-cache-remote">
+		<sequential>
+			<canoo-ssh-root command="rm -f ${ec2.openx.dir}/var/cache/deliverycache_* ${ec2.openx.dir}/var/cache/cache_*"/>
+		</sequential>
+	</macrodef>
 
-  <macrodef name="canoo-scp" description="Copies the specified file to the ec2 machine.">
-    <attribute name="dir" description="Directory to copy the file to." default=""/>
-    <element name="files" description="Fileset to be copied."/>
-    <sequential>
-      <scp todir="admin@@${canoo.host}:@{dir}" trust="yes" password="${ec2.admin.password}">
-        <files/>
-      </scp>
-    </sequential>
-  </macrodef>
+	<macrodef name="canoo-scp" description="Copies the specified file to the ec2 machine.">
+		<attribute name="dir" description="Directory to copy the file to." default=""/>
+		<element name="files" description="Fileset to be copied."/>
+		<sequential>
+			<scp todir="admin@@${canoo.host}:@{dir}" trust="yes" password="${ec2.admin.password}">
+				<files/>
+			</scp>
+		</sequential>
+	</macrodef>
 
-  <!-- Cleans up the old OpenX directory. -->
-  <target name="canoo-prepare-dir">
-    <property name="ec2.openx.dir" value="/var/www/html/${release}"/>
-    <echo message="Preparing directory: ${ec2.openx.dir}"/>
-    <canoo-ssh command="mkdir ${ec2.openx.dir}"/>
-  </target>
+	<!-- Cleans up the old OpenX directory. -->
+	<target name="canoo-prepare-dir">
+		<property name="ec2.openx.dir" value="/var/www/html/${release}"/>
+		<echo message="Preparing directory: ${ec2.openx.dir}"/>
+		<canoo-ssh command="mkdir ${ec2.openx.dir}"/>
+	</target>
 
-  <target name="canoo-copy-package">
-    <canoo-scp>
-      <files>
-        <fileset dir="${dir.test.results}" includes="${canoo.package}"/>
-      </files>
-    </canoo-scp>
-  </target>
+	<target name="canoo-copy-package">
+		<canoo-scp>
+			<files>
+				<fileset dir="${dir.test.results}" includes="${canoo.package}"/>
+			</files>
+		</canoo-scp>
+	</target>
 
-  <target name="canoo-unpack-package">
-    <canoo-ssh command="tar xzf ${canoo.package} -C ${ec2.openx.dir}"/>
-    <!-- <canoo-ssh command="touch ${ec2.openx.dir}/var/INSTALLED"/> -->
-    <canoo-ssh command="chmod -R a+w ${ec2.openx.dir}/var"/>
-    <canoo-ssh command="chmod -R a+w ${ec2.openx.dir}/www/images"/>
-    <canoo-scp dir="${ec2.openx.dir}/www">
-      <files>
-        <fileset dir="${basedir}/tests/canoo/php/" includes="*"/>
-      </files>
-    </canoo-scp>
-  </target>
+	<target name="canoo-unpack-package">
+		<canoo-ssh command="tar xzf ${canoo.package} -C ${ec2.openx.dir}"/>
+		<!-- <canoo-ssh command="touch ${ec2.openx.dir}/var/INSTALLED"/> -->
+		<canoo-ssh command="chmod -R a+w ${ec2.openx.dir}/var"/>
+		<canoo-ssh command="chmod -R a+w ${ec2.openx.dir}/www/images"/>
+		<canoo-scp dir="${ec2.openx.dir}/www">
+			<files>
+				<fileset dir="${basedir}/tests/canoo/php/" includes="*"/>
+			</files>
+		</canoo-scp>
+	</target>
 
 	<!-- should be less EC2 dependant -->
-  <target name="canoo-create-openx-configuration-remote">
-    <property name="openx.url" value="${canoo.host}/${release}/www"/>
-    <exec dir="${basedir}/tests" executable="php" failonerror="true">
-      <arg value="create-config-file.php" />
-      <arg value="${ec2.openx.config}" />
-      <arg value="database.host=${canoo.host}"/>
-      <arg value="database.username=${canoo.sql.user}"/>
-      <arg value="database.password=${canoo.sql.password}"/>
-      <arg value="database.name=${ec2.openx.database}"/>
-      <arg value="debug.production=0"/>
-      <arg value="webpath.admin=${openx.url}/admin"/>
-      <arg value="webpath.delivery=${openx.url}/delivery"/>
-      <arg value="webpath.deliverySSL=${openx.url}/delivery"/>
-      <arg value="webpath.images=${openx.url}/images"/>
-      <arg value="webpath.imagesSSL=${openx.url}/images"/>
-      <arg value="openads.installed=1"/>
-      <arg value="table.prefix=oa_"/>
-      <arg value="maintenance.autoMaintenance=0"/>
-    </exec>
-    <canoo-scp dir="${ec2.openx.dir}/var">
-      <files>
-        <fileset dir="tests" includes="${ec2.openx.config}"/>
-      </files>
-    </canoo-scp>
-    <canoo-ssh command="rm -f ${ec2.openx.dir}/var/UPGRADE"/>
-  </target>
-<!--
-  <target name="canoo-create-openx-configuration-local">
-  	<echo message="Creating local configuration"/>
-    <property name="openx.url" value="${canoo.host}/${canoo.basepath}"/>
-    <exec dir="${basedir}/tests" executable="php" failonerror="true">
-      <arg value="create-config-file.php" />
-      <arg value="${canoo.host}.conf.php" />
-      <arg value="database.host=${canoo.sql.host}"/>
-      <arg value="database.username=${canoo.sql.user}"/>
-      <arg value="database.password=${canoo.sql.password}"/>
-      <arg value="database.name=${canoo.sql.database}"/>
-      <arg value="debug.production=0"/>
-      <arg value="webpath.admin=${openx.url}/admin"/>
-      <arg value="webpath.delivery=${openx.url}/delivery"/>
-      <arg value="webpath.deliverySSL=${openx.url}/delivery"/>
-      <arg value="webpath.images=${openx.url}/images"/>
-      <arg value="webpath.imagesSSL=${openx.url}/images"/>
-      <arg value="openads.installed=1"/>
-      <arg value="table.prefix=oa_"/>
-      <arg value="maintenance.autoMaintenance=0"/>
-    </exec>
-  	<copy overwrite="true" todir="${basedir}/var" file="${basedir}/tests/${canoo.host}.conf.php"/>
-  	<!- <copy overwrite="true" tofile="${basedir}/var/INSTALLED" file="${basedir}/tests/${canoo.host}.conf.php"/> ->
-  	<delete file="${basedir}/var/UPGRADE"/>
-  	<chmod dir="${basedir}/var" perm="a+rwx" type="dir"/>
-  	<chmod dir="${basedir}/var" perm="a+rw" type="both" includes="**/*"/>
-  	<chmod dir="${basedir}/www" perm="a+rwx" type="dir"/>
-  	<chmod dir="${basedir}/www" perm="a+rw" type="both" includes="**/*" parallel="false"/>
-  </target>
--->
-	
+	<target name="canoo-create-openx-configuration-remote">
+		<property name="openx.url" value="${canoo.host}/${release}/www"/>
+		<exec dir="${basedir}/tests" executable="php" failonerror="true">
+			<arg value="create-config-file.php" />
+			<arg value="${ec2.openx.config}" />
+			<arg value="database.host=${canoo.host}"/>
+			<arg value="database.username=${canoo.sql.user}"/>
+			<arg value="database.password=${canoo.sql.password}"/>
+			<arg value="database.name=${ec2.openx.database}"/>
+			<arg value="debug.production=0"/>
+			<arg value="webpath.admin=${openx.url}/admin"/>
+			<arg value="webpath.delivery=${openx.url}/delivery"/>
+			<arg value="webpath.deliverySSL=${openx.url}/delivery"/>
+			<arg value="webpath.images=${openx.url}/images"/>
+			<arg value="webpath.imagesSSL=${openx.url}/images"/>
+			<arg value="openads.installed=1"/>
+			<arg value="table.prefix=oa_"/>
+			<arg value="maintenance.autoMaintenance=0"/>
+		</exec>
+		<canoo-scp dir="${ec2.openx.dir}/var">
+			<files>
+				<fileset dir="tests" includes="${ec2.openx.config}"/>
+			</files>
+		</canoo-scp>
+		<canoo-ssh command="rm -f ${ec2.openx.dir}/var/UPGRADE"/>
+	</target>
 
-  <target name="setup-delivery-files">
-  	<copy todir="${delivery_test}">
-  	  <fileset dir="${basedir}/tests/canoo/php"/>
-  	</copy>
-  	<replace dir="${delivery_test}" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}/delivery/spcjs.php?id=2&amp;charset=UTF-8">
-  	  <include name="spcjs.html"/>
-  	  <replacetoken>@address</replacetoken>
-  	</replace>
-  </target>
+	<target name="setup-delivery-files">
+		<copy todir="${delivery_test}">
+			<fileset dir="${basedir}/tests/canoo/php"/>
+		</copy>
+		<replace dir="${delivery_test}" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}/delivery/spcjs.php?id=2&amp;charset=UTF-8">
+			<include name="spcjs.html"/>
+			<replacetoken>@address</replacetoken>
+		</replace>
+	</target>
 
-  <target name="clean-delivery">
-  	<delete dir="${delivery_test}" />
-  </target>
+	<target name="clean-delivery">
+		<delete dir="${delivery_test}" />
+	</target>
 
-  <macrodef name="execute-webtest" description="Executes webtest with provided target and additional properties.">
-    <attribute name="target" description="Target to execute."/>
-    <attribute name="properties" default="" description="Additional properties."/>
-    <sequential>
-      <if>
-        <istrue value="${run.local}"/>
-        <then>
-          <!-- run locally -->
-          <exec executable="${canoo.webtest.exec}" failonerror="true">
-            <arg line="-f ${basedir}/tests/canoo/start.xml -Drun.local=${run.local} @{target} @{properties}"/>
-          </exec>
-        </then>
-        <else>
-          <!-- run remotely -->
-          <exec executable="${canoo.webtest.exec}" failonerror="true">
-            <arg line="-f ${basedir}/tests/canoo/start.xml -Drun.local=${run.local} @{target} -Dbasepath=${release}/www @{properties}"/>
-          </exec>
-        </else>
-      </if>
-    </sequential>
-  </macrodef>
+	<macrodef name="execute-webtest" description="Executes webtest with provided target and additional properties.">
+		<attribute name="target" description="Target to execute."/>
+		<attribute name="properties" default="" description="Additional properties."/>
+		<sequential>
+			<if>
+				<istrue value="${run.local}"/>
+				<then>
+					<!-- run locally -->
+					<exec executable="${canoo.webtest.exec}" failonerror="true">
+						<arg line="-f ${basedir}/tests/canoo/start.xml -Drun.local=${run.local} @{target} @{properties}"/>
+					</exec>
+				</then>
+				<else>
+					<!-- run remotely -->
+					<exec executable="${canoo.webtest.exec}" failonerror="true">
+						<arg line="-f ${basedir}/tests/canoo/start.xml -Drun.local=${run.local} @{target} -Dbasepath=${release}/www @{properties}"/>
+					</exec>
+				</else>
+			</if>
+		</sequential>
+	</macrodef>
 
 	<target name="init.check.unix">
 		<condition property="is.unix">
 			<os family="unix" />
-		</condition>	
+		</condition>
 	</target>
-	
+
 	<target name="init.check.windows">
 		<condition property="is.windows">
 			<os family="windows" />
-		</condition>	
+		</condition>
 	</target>
-	
+
 	<target name="init.canoo.unix" depends="init.check.unix" if="is.unix">
 		<echo message="Canoo tests - init" />
 		<echo message="Unix setup" />
 		<echo message="Chmod on var and www/images directory"/>
-		
-	  	<chmod dir="${basedir}/var" perm="a+rwx" type="dir"/>
-	  	<chmod dir="${basedir}/var" perm="a+rw" type="both" includes="**/*"/>
-	  	<chmod dir="${basedir}/www" perm="a+rwx" type="dir"/>
-	  	<chmod dir="${basedir}/www" perm="a+rw" type="both" includes="**/*" parallel="false"/>
+
+		<chmod dir="${basedir}/var" perm="a+rwx" type="dir"/>
+		<chmod dir="${basedir}/var" perm="a+rw" type="both" includes="**/*"/>
+		<chmod dir="${basedir}/www" perm="a+rwx" type="dir"/>
+		<chmod dir="${basedir}/www" perm="a+rw" type="both" includes="**/*" parallel="false"/>
 		<enableMarketPlace enable="${marketplace.enabled}"/>
+		<property name="maven.executable" value="mvn.sh"/>
 	</target>
 
 	<target name="init.canoo.windows" depends="init.check.windows" if="is.windows">
@@ -249,27 +227,29 @@ enabled=0]]></replacevalue>
 		<echo message="Windows setup - nothing to do"/>
 		<echo message="This target is for further purposes"/>
 		<enableMarketPlace enable="${marketplace.enabled}"/>
+		<property name="maven.executable" value="mvn.bat"/>
 	</target>
 
-	
-  <target name="run-test-canoo" depends="setup-delivery-files, init.canoo.unix, init.canoo.windows, wt.full">
-  	<echo message="Running Canoo tests" />
-    <!--<execute-webtest target="init-delivery-db" /> -->
-    <!-- <execute-webtest target="delivery" properties="-Dcanoo.host=${canoo.host} -Dec2.admin.password=${ec2.admin.password} -Dec2.openx.dir=${ec2.openx.dir}" />
-	<subant inheritall="true">
-		<filelist dir="${basedir}/tests/canoo/">
-			<file name="build.xml" />
-		</filelist>
-	</subant> -->
-  </target>
+	<target name="run-test" depends="test-unit-webService-API">
+		<echo message="Starting test automation framework ..." />
+	</target>
 
-  <target name="test-canoo-one">
-    <execute-webtest target="test-one" properties="-Dcanoo.host=${canoo.host} -Dec2.admin.password=${ec2.admin.password} -Dec2.openx.dir=${ec2.openx.dir} -Duc=${uc}" />
-  </target>
+	<target name="run-test-canoo" depends="setup-delivery-files, init.canoo.unix, init.canoo.windows, wt.full">
+		<echo message="Running Canoo tests" />
+	</target>
 
-  <target name="clean-ec2" description="Cleans the ec2 from all the files left.">
-    <canoo-ssh command="rm ${canoo.package}"/>
-    <canoo-ssh-root command="rm -rf ${ec2.openx.dir}"/>
-  </target>
+	<target name="test-canoo-one">
+		<execute-webtest target="test-one" properties="-Dcanoo.host=${canoo.host} -Dec2.admin.password=${ec2.admin.password} -Dec2.openx.dir=${ec2.openx.dir} -Duc=${uc}" />
+	</target>
+
+	<target name="test-unit-webService-API" if="test.unit.xmlrpc.api" depends="run-test-canoo">
+		<exec executable="${maven.executable}" searchpath="true" dir="${basedir}/www/api/v1/xmlrpc/tests/unit/">
+			<arg line="clean site" />
+		</exec>
+	</target>
+
+	<target name="clean-ec2" description="Cleans the ec2 from all the files left.">
+		<canoo-ssh command="rm ${canoo.package}"/>
+		<canoo-ssh-root command="rm -rf ${ec2.openx.dir}"/>
+	</target>
 </project>
-

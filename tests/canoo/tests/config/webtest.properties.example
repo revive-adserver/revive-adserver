@@ -46,3 +46,6 @@ db.host=localhost
 ## Marketplace
 marketplace.enabled=true
 #marketplace.enabled=false
+
+## XMLRPC API JUnit tests
+#test.unit.xmlrpc.api=true
