@@ -5,6 +5,7 @@
 
 <project name="OpenX" basedir="." default="main">
 	 <target name="main">
+		<echo>LEVEL2</echo>
 	<!--
 		<subant inheritall="true">
         	<filelist dir="${testcase.dir}/level2/common/">
