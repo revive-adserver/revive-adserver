@@ -168,7 +168,7 @@ class OA_Sync
         }
 
         $params = array(
-            new XML_RPC_Value('Openads', 'string'),
+            new XML_RPC_Value(MAX_PRODUCT_NAME, 'string'),
             new XML_RPC_Value($this->getConfigVersion(OA_Dal_ApplicationVariables::get('oa_version')), 'string'),
             new XML_RPC_Value($already_seen, 'string'),
             new XML_RPC_Value('', 'string'),
