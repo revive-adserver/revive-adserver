@@ -249,6 +249,7 @@ class OA_Dll_BannerInfo extends OA_Info
                     'url' => 'string',
                     'status' => 'integer',
                     'adserver' => 'string',
+                    'transparent' => 'integer',
                     'aImage' => 'custom',
                     'aBackupImage' => 'custom'
                 );
