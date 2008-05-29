@@ -5,10 +5,12 @@
 
 <project name="OpenX" basedir="." default="main">
 	 <target name="main">
+	<!--
 		<subant inheritall="true">
         	<filelist dir="${testcase.dir}/level2/common/">
 				<file name="*.xml" />
 			</filelist>
         </subant>
+    -->
 	</target>	
 </project>
