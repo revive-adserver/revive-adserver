@@ -233,19 +233,20 @@ enabled=0]]></replacevalue>
 
 	<target name="prepare-webService-API-test-config">
 		<echo message="Prepare configuration file for XMLRPC API unit tests" />
-		<copyfile src="${basedir}/www/api/v1/xmlrpc/tests/unit/src/test/resources/config.example.properties" dest="${basedir}/www/api/v1/xmlrpc/tests/unit/src/test/resources/config.properties"/>
-		<replace file="${basedir}/www/api/v1/xmlrpc/tests/unit/src/test/resources/config.properties">
+		<copy file="${basedir}/www/api/v1/xmlrpc/tests/unit/src/test/resources/config.example.properties" tofile="${basedir}/www/api/v1/xmlrpc/tests/unit/src/test/resources/config.properties"/>
+		<replace file="${basedir}/www/api/v1/xmlrpc/tests/unit/src/test/resources/config.properties" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}/api/v1/xmlrpc/">
 			<replacetoken>@serviceURL</replacetoken>
-			<replacevalue>${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}/api/v1/xmlrpc/</replacevalue>
-			<replacetoken>@username</replacetoken>
-			<replacevalue>${admin.login}</replacevalue>
+		</replace>
+		<replace file="${basedir}/www/api/v1/xmlrpc/tests/unit/src/test/resources/config.properties" value="${admin.pass}">
 			<replacetoken>@password</replacetoken>
-			<replacevalue>${admin.pass}</replacevalue>
+		</replace>
+		<replace file="${basedir}/www/api/v1/xmlrpc/tests/unit/src/test/resources/config.properties" value="${admin.login}">
+			<replacetoken>@username</replacetoken>
 		</replace>
 	</target>
 	
-	<target name="test-unit-webService-API" if="test.unit.xmlrpc.api" depends="run-test-canoo, prepare-webService-API-test-config">
-		<exec executable="${test.unit.xmlrpc.mvn.executable}" searchpath="true" dir="${basedir}/www/api/v1/xmlrpc/tests/unit/">
+	<target name="test-unit-webService-API" if="test.unit.xmlrpc.api" depends="prepare-webService-API-test-config">
+		<exec executable="${test.unit.xmlrpc.mvn.executable}" searchpath="true" failonerror="true" dir="${basedir}/www/api/v1/xmlrpc/tests/unit/">
 			<arg line="clean site" />
 		</exec>
 	</target>
