@@ -139,7 +139,8 @@ class OA_Dll_User extends OA_Dll
                 return false;
             }
 
-            if (!$this->checkStructureNotRequiredStringField($oUser, 'contactName', 255)) {
+            if (!$this->checkStructureNotRequiredStringField($oUser, 'contactName', 255) ||
+                !$this->checkStructureNotRequiredStringField($oUser, 'emailAddress', 64)) {
                 return false;
             }
 
