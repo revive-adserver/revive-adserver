@@ -211,14 +211,12 @@ enabled=0]]></replacevalue>
 		<chmod dir="${basedir}/www" perm="a+rwx" type="dir"/>
 		<chmod dir="${basedir}/www" perm="a+rw" type="both" includes="**/*" parallel="false"/>
 		<enableMarketPlace enable="${marketplace.enabled}"/>
-		<property name="maven.executable" value="mvn.sh"/>
 	</target>
 
 	<target name="init.canoo.windows" depends="init.check.windows" if="is.windows">
 		<echo message="Canoo tests - init"/>
 		<echo message="Windows setup"/>
 		<enableMarketPlace enable="${marketplace.enabled}"/>
-		<property name="maven.executable" value="mvn.bat"/>
 	</target>
 
 	<target name="run-test" depends="test-unit-webService-API">
@@ -233,8 +231,21 @@ enabled=0]]></replacevalue>
 		<execute-webtest target="test-one" properties="-Dcanoo.host=${canoo.host} -Dec2.admin.password=${ec2.admin.password} -Dec2.openx.dir=${ec2.openx.dir} -Duc=${uc}" />
 	</target>
 
-	<target name="test-unit-webService-API" if="test.unit.xmlrpc.api" depends="run-test-canoo">
-		<exec executable="${maven.executable}" searchpath="true" dir="${basedir}/www/api/v1/xmlrpc/tests/unit/">
+	<target name="prepare-webService-API-test-config">
+		<echo message="Prepare configuration file for XMLRPC API unit tests" />
+		<copyfile src="${basedir}/www/api/v1/xmlrpc/tests/unit/src/test/resources/config.example.properties" dest="${basedir}/www/api/v1/xmlrpc/tests/unit/src/test/resources/config.properties"/>
+		<replace file="${basedir}/www/api/v1/xmlrpc/tests/unit/src/test/resources/config.properties">
+			<replacetoken>@serviceURL</replacetoken>
+			<replacevalue>${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}/api/v1/xmlrpc/</replacevalue>
+			<replacetoken>@username</replacetoken>
+			<replacevalue>${admin.login}</replacevalue>
+			<replacetoken>@password</replacetoken>
+			<replacevalue>${admin.pass}</replacevalue>
+		</replace>
+	</target>
+	
+	<target name="test-unit-webService-API" if="test.unit.xmlrpc.api" depends="run-test-canoo, prepare-webService-API-test-config">
+		<exec executable="${test.unit.xmlrpc.mvn.executable}" searchpath="true" dir="${basedir}/www/api/v1/xmlrpc/tests/unit/">
 			<arg line="clean site" />
 		</exec>
 	</target>
