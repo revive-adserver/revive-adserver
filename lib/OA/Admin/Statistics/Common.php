@@ -514,7 +514,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
             // Add the day as a breadcrumb trail if looking at a day breakdown
             if (preg_match('/daily$/', $this->breakdown)) {
                 $oDate = new Date($this->aDates['day_begin']);
-                $this->_addBreadcrumb($oDate->format($GLOBALS['date_format']), 'images/icon-date.gif', 'day');
+                $this->_addBreadcrumb($oDate->format($GLOBALS['date_format']), MAX::assetPath() . '/images/icon-date.gif', 'day');
             }
 
             // Display the delivery history or targeting history stats
@@ -570,9 +570,9 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
 
             // Set the appopriate icon for the breakdown type
             if ($this->statsBreakdown == 'hour') {
-                $this->statsIcon = 'images/icon-time.gif';
+                $this->statsIcon = MAX::assetPath() . 'images/icon-time.gif';
             } else {
-                $this->statsIcon = 'images/icon-date.gif';
+                $this->statsIcon = MAX::assetPath() . 'images/icon-date.gif';
             }
 
             $aElements = array();
