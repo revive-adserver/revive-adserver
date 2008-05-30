@@ -1133,7 +1133,7 @@ $GLOBALS['strWorkingAs'] = "Trabajando como";
 $GLOBALS['strWorkingFor'] = "%s para&hellip;";
 $GLOBALS['strCantDeleteOneAdminUser'] = "No puede borrar el usuario. Almenos un usuario necesita estar asignado a la cuenta de admin.";
 $GLOBALS['strWarnChangeBannerSize'] = "Cambiar el tama&ntilde;o del banner lo desmarcar&aacute; de todas las zonas que no tengan el nuevo tama&ntilde;o, y si la <b>campa&ntilde;a</b> del banner est&aacute; enlazada con una zona del nuevo tama&ntilde;o, el banner se asignar&aacute; autom&aacute;ticamente";
-$GLOBALS['strLinkUserHelp'] = "Para asignar un <b>usuario existente</b>, escriba username y haga clic en \"\' . $GLOBALS[\'strLinkUser\'] . \'\". Para asignar un <b>nuevo usuario</b>, escriba el username deseado y haga clic en \"\' . $GLOBALS[\'strLinkUser\'] . \'\".";
+$GLOBALS['strLinkUserHelp'] = "Para asignar un <b>usuario existente</b>, escriba username y haga clic en " . $GLOBALS['strLinkUser'] . ". Para asignar un <b>nuevo usuario</b>, escriba el username deseado y haga clic en " . $GLOBALS['strLinkUser'] .".";
 $GLOBALS['strCampaignGoTo'] = "Ir a p&aacute;gina de campa&ntilde;as";
 $GLOBALS['strCampaignSetUp'] = "Registrar hoy una campa&ntilde;a";
 $GLOBALS['strCampaignNoRecords'] = "<li>Las campa&ntilde;as permiten agrupar cualquier n&uacute;mero de banners, de cualquier tama&ntilde;o, que comparten ciertos requisitos</li> \\n<li>Ahorre tiempo agrupando banners en una campa&ntilde;a y sin tener que definir opciones de entrega para cada uno por separado</li>  \\n<li>&iexcl;Lea la <a class=\"site-link\" target=\"help\" href=\"\'.OA_DOCUMENTATION_BASE_URL.\'/help/2.5/inventory/advertisersAndCampaigns/campaigns/\">documentaci&oacute;n sobre Campa&ntilde;as</a>!</li>";
@@ -1174,7 +1174,7 @@ $GLOBALS['strIab']['IAB Vertical Banner (120 x 240)'] = "IAB Banner Vertical (12
 $GLOBALS['strIab']['IAB Medium Rectangle (300 x 250) *'] = "IAB Robap&aacute;ginas (300 x 250) *";
 $GLOBALS['strIab']['IAB Large Rectangle (336 x 280)'] = "IAB Rect&aacute;ngulo Grande (336 x 280)";
 $GLOBALS['strIab']['IAB Vertical Rectangle (240 x 400)'] = "IAB Rect&aacute;ngulo Vertical (240 x 400)";
-$GLOBALS['strIab']['IAB Wide Skyscraper (160 x 600) *']'] = "IAB Rascacielos Ancho (160 x 600) *";
+$GLOBALS['strIab']['IAB Wide Skyscraper (160 x 600) *'] = "IAB Rascacielos Ancho (160 x 600) *";
 $GLOBALS['strDateLinked'] = "Fecha de enlace";
 $GLOBALS['strAdvertiserSignupLink'] = "Enlace de alta de anunciante";
 $GLOBALS['strAdvertiserSignupLinkDesc'] = "Para a&ntilde;adir un enlace de alta de anunciante a su p&aacute;gina, por favor copie el HTML a continuaci&oacute;n:";
