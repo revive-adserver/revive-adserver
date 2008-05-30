@@ -442,6 +442,9 @@ class OA_TranslationMaintenance
         while ($row = fgetcsv($fp, 8192, ',', '"')) {
             foreach ($row as $idx => $cell) {
                 if ($this->_addStrikeTags) {
+                    //  remove double quotes from str
+                    if (substr($cell, 0, 1) == '"') { $cell = substr($cell, 1); }
+                    if (substr($cell, -1, 1) == '"') { $cell = substr($cell, 0, -1); }
                     $cell = "<strike>-{$cell}-</strike>";
                 }
                 $lang[$header[$idx]][$row[0]] = $cell;
@@ -1133,10 +1136,14 @@ class OA_TranslationMaintenance
         }
 
         //  add remaining keys to default.lang.php
-        foreach ($this->aLang[$this->lang] as $key => $value) {
-            $aLang['default.lang.php'][$key] = $value;
+        if (!empty($this->aLang[$this->lang])) {
+            foreach ($this->aLang[$this->lang] as $key => $value) {
+                $aLang['default.lang.php'][$key] = $value;
+            }
         }
-        $this->aLang[$this->lang] = $aLang;
+        if (!empty($aLang)) {
+            $this->aLang[$this->lang] = $aLang;
+        }
     }
 
     function createCSV()
@@ -1408,7 +1415,7 @@ msgstr ""
                             // check it translation exists in lang files and add to .PO
                             if (!empty($this->aTran[$key])) {
                                 $aPiece = array();
-                                $str = $this->aTran[$key];
+                                $str = html_entity_decode($this->aTran[$key], ENT_QUOTES, 'UTF-8');
                                 if (strstr($str, '\"')) $str = stripslashes($str);
 
                                 //  is it a multiline translation
@@ -1511,7 +1518,7 @@ msgstr ""
                         foreach ($aTransID as $idx => $aVal) {
                             // check it translation exists in lang files and add to .PO
                             if (!empty($pluginWords[$this->lang][$aVal['path']][$aVal['key']])) {
-                                $str = $pluginWords[$this->lang][$aVal['path']][$aVal['key']];
+                                $str = html_entity_decode($pluginWords[$this->lang][$aVal['path']][$aVal['key']], ENT_QUOTES, 'UTF-8');
                                 if (strstr($str, "\n")) {
                                     $aPiece = explode("\n", $str);
                                     fwrite($fp, "msgstr \"\"\n");
