@@ -245,7 +245,7 @@ enabled=0]]></replacevalue>
 		</replace>
 	</target>
 	
-	<target name="test-unit-webService-API" if="test.unit.xmlrpc.api" depends="prepare-webService-API-test-config">
+	<target name="test-unit-webService-API" if="test.unit.xmlrpc.api" depends="run-test-canoo, prepare-webService-API-test-config">
 		<exec executable="${test.unit.xmlrpc.mvn.executable}" searchpath="true" failonerror="true" dir="${basedir}/www/api/v1/xmlrpc/tests/unit/">
 			<arg line="clean site" />
 		</exec>
