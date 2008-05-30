@@ -225,8 +225,8 @@ class OA_Email
         $doPlacements->orderBy('campaignid');
         $doPlacements->find();
         if ($doPlacements->getRowCount() > 0) {
-            while ($doPlacements->fetch()) {         	
-            	$aPlacement = $doPlacements->toArray();            	
+            while ($doPlacements->fetch()) {
+            	$aPlacement = $doPlacements->toArray();
             	if ($aPlacement['status'] == '0') {
             		// Add the name of the placement to the report
             		$emailBody .= "\n" . sprintf($strCampaignPrint, $strCampaign) . ' ';
@@ -299,7 +299,7 @@ class OA_Email
                     if ($adsWithDelivery != true) {
                         $emailBody .= $strNoStatsForCampaign . "\n\n\n";
                     }
-            	} 
+            	}
             }
         }
 
@@ -920,25 +920,6 @@ class OA_Email
         }
         $aAgency = $doAgency->toArray();
         return $aAgency;
-    }
-
-    /**
-     * A private method to load the admin user's preferences.
-     *
-     * @return false|array False if the preferences cannot be loaded, an array of the
-     *                     admin user's preferences from the database otherwise.
-     */
-    function _loadAdminPreferences()
-    {
-        $doPreference = OA_Dal::factoryDO('preference');
-        $doPreference->agencyid = 0;
-        $doPreference->find();
-        if (!$doPreference->fetch()) {
-            OA::debug('   - Error obtaining preferences for the admin user.', PEAR_LOG_ERR);
-            return false;
-        }
-        $aAdminPrefs = $doPreference->toArray();
-        return $aAdminPrefs;
     }
 
     /**
