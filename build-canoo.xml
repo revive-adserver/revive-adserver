@@ -253,10 +253,10 @@ enabled=0]]></replacevalue>
 		<condition property="should.have.failed">
 			<equals arg1="0" arg2="${test.unit.xmlrpc.mvn.result}" />
 		</condition>
-		<fail if="should.have.failed" message="[ERROR] There are test failures/errors in XMLRPC unit tests. Maven result code ${test.unit.xmlrpc.mvn.result}"/>
 		<exec executable="${test.unit.xmlrpc.mvn.executable}" searchpath="true" dir="${basedir}/www/api/v1/xmlrpc/tests/unit/">
 			<arg line="surefire-report:report-only" />
 		</exec>
+		<fail unless="should.have.failed" message="[ERROR] There are test failures/errors in XMLRPC unit tests. Maven result code ${test.unit.xmlrpc.mvn.result}"/>
 	</target>
 
 	<target name="clean-ec2" description="Cleans the ec2 from all the files left.">
