@@ -208,6 +208,7 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends Plugins_Reports
             // Get and store the placement name and the
             // owning advertiser ID
             $aPlacement = $doCampaigns->toArray();
+            $aPlacement['name'] = $aPlacement['campaignname'];
             $this->_placementName = MAX_getPlacementName($aPlacement);
             $this->_advertiserId  = $aPlacement['clientid'];
             if ($aPlacement['anonymous'] == 't') {
