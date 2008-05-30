@@ -1831,6 +1831,7 @@ function OA_SPCGetJavaScript($affiliateid)
 {
 $aConf = $GLOBALS['_MAX']['CONF'];
 $varprefix = $aConf['var']['prefix'];
+$charset = htmlspecialchars($_GET['charset']);
 $aZones = OA_cacheGetPublisherZones($affiliateid);
 foreach ($aZones as $zoneid => $aZone) {
 $zones[$aZone['type']][] = "            '" . addslashes($aZone['name']) . "' : {$zoneid}";
@@ -1838,7 +1839,7 @@ $zones[$aZone['type']][] = "            '" . addslashes($aZone['name']) . "' : {
 $additionalParams = '';
 foreach ($_GET as $key => $value) {
 if ($key == 'id') { continue; }
-$additionalParams .= "&amp;{$key}={$value}";
+$additionalParams .= "&amp;". htmlspecialchars($key) ."=". htmlspecialchars($value);
 }
 $script = "
 if (typeof({$varprefix}zones) != 'undefined') {
@@ -1860,8 +1861,8 @@ var {$varprefix}spc=\"<\"+\"script type='text/javascript' \";
 {$varprefix}spc+=\"&source=\"+{$varprefix}source+\"&r=\"+{$varprefix}r;" .
 ((!empty($additionalParams)) ? "\n    {$varprefix}spc+=\"{$additionalParams}\";" : '') . "
 ";
-if (!empty($_GET['charset'])) {
-$script .= "{$varprefix}spc+='&amp;charset=" . $_GET['charset'] . "';\n";
+if (!empty($charset)) {
+$script .= "{$varprefix}spc+='&amp;charset={$charset}';\n";
 } else {
 $script .= "{$varprefix}spc+=(document.charset ? '&amp;charset='+document.charset : (document.characterSet ? '&amp;charset='+document.characterSet : ''));\n";
 }
