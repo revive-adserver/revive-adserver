@@ -559,7 +559,7 @@ class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends Plugins_Report
         $delivered = $aCampaignData['campaign_impressions'];
         $target = $aCampaignData['campaign_booked_impressions'];
         if (($delivered > 0) && ($target > 0)) {
-            return ($delivered / $target) * 100;
+            return ($delivered / $target);
         }
         return false;
     }
