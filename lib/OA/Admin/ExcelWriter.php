@@ -71,8 +71,14 @@ class OA_Admin_ExcelWriter
 
     function getFormat($aFormat)
     {
+        if (!is_array($aFormat)) {
+            return null;
+        }
         sort($aFormat);
         $formatKey = implode('.',$aFormat);
+        if (empty($formatKey)) {
+            return null;
+        }
         if (empty($this->formats[$formatKey])) {
             $workbook =& $this->_getExcelWriter();
             $oFormat =&  $workbook->addFormat();
