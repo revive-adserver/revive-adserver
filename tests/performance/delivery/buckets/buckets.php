@@ -36,23 +36,44 @@ foreach ($aTests as $concurrency) {
     ));
     test_update($oTest, $concurrency, $t, 'MyISAM');
 
+    $oTest = bucketDB::factory(array(
+        'type' => 'MySQL',
+        'host' => 'localhost',
+        'user' => 'root',
+        'password' => '',
+        'dbname' => 'test_bucket',
+        'engine' => 'MyISAM',
+        'pkIndexType' => 'USING HASH'
+    ));
+    test_update($oTest, $concurrency, $t, 'MyISAMHashPk');
 
     $oTest = bucketDB::factory(array(
         'type' => 'MySQL',
         'host' => 'localhost',
         'user' => 'root',
-        'password' => 'password',
+        'password' => '',
         'dbname' => 'test_bucket',
         'engine' => 'InnoDB'
     ));
     test_update($oTest, $concurrency, $t, 'InnoDB');
+    
+    $oTest = bucketDB::factory(array(
+        'type' => 'MySQL',
+        'host' => 'localhost',
+        'user' => 'root',
+        'password' => '',
+        'dbname' => 'test_bucket',
+        'engine' => 'InnoDB',
+        'pkIndexType' => 'USING HASH'
+    ));
+    test_update($oTest, $concurrency, $t, 'InnoDBHashPk');
 
 
     $oTest = bucketDB::factory(array(
         'type' => 'MySQL',
         'host' => 'localhost',
         'user' => 'root',
-        'password' => 'password',
+        'password' => '',
         'dbname' => 'test_bucket',
         'engine' => 'MEMORY'
     ));
@@ -91,7 +112,6 @@ foreach ($aTests as $concurrency) {
         'engine' => 'MEMORY'
     ));
     test_update($oTest, $concurrency, $t, 'MEMINS');
-
     $oTest = bucketDB::factory(array(
         'type' => 'PgSQL',
         'port' => 5432,

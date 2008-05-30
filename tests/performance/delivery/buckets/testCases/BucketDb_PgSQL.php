@@ -61,6 +61,11 @@ class BucketDb_PgSQL extends bucketDB
         ";
         $this->query($sql) or die($this->error());
     }
+    
+    function updateTest($date_time, $creative_id, $zone_id) {
+        $this->query('SET SESSION synchronous_commit TO OFF');
+        parent::updateTest($date_time, $creative_id, $zone_id);
+    }
 }
 
 ?>
