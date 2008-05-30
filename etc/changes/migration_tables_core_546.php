@@ -726,7 +726,7 @@ class Migration_546 extends Migration
 	 */
 	function _insertAccountPreferencesAssoc($accountId, $preferenceId, $value)
 	{
-	    $value = $this->oDBH->quote($value);
+	    $value = $this->oDBH->quote($value, 'text');
 	    $query = "
             INSERT INTO
 	           {$this->tblAccPrefs}
