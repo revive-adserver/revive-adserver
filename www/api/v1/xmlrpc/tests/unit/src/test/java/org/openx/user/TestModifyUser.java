@@ -150,7 +150,7 @@ public class TestModifyUser extends UserTestCase {
 		modifyUserParameters.put(EMAIL_ADDRESS, emailGreaterThan64);
 		Object[] XMLMethodParameters = new Object[] { sessionId, modifyUserParameters };
 		executeModifyUserWithError(XMLMethodParameters, ErrorMessage.getMessage(
-				ErrorMessage.EXCEED_MAXIMUM_LENGTH_OF_FIELD, CONTACT_NAME));
+				ErrorMessage.EXCEED_MAXIMUM_LENGTH_OF_FIELD, EMAIL_ADDRESS));
 	}
 	
 	/**
