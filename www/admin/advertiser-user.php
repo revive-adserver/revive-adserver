@@ -67,31 +67,6 @@ function OA_headerNavigation()
 }
 $userAccess->setNavigationHeaderCallback('OA_headerNavigation');
 
-function OA_footerNavigation()
-{
-    echo "
-    <script language='JavaScript'>
-    <!--
-    ";
-    if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-        echo "function MMM_cascadePermissionsChange()
-        {
-            var e = findObj('permissions_".OA_PERM_ZONE_EDIT."');
-            var a = findObj('permissions_".OA_PERM_ZONE_ADD."');
-            var d = findObj('permissions_".OA_PERM_ZONE_DELETE."');
-
-            a.disabled = d.disabled = !e.checked;
-            if (!e.checked) {
-                a.checked = d.checked = false;
-            }
-        }
-        MMM_cascadePermissionsChange();
-        //-->";
-    }
-    echo "</script>";
-}
-$userAccess->setNavigationFooterCallback('OA_footerNavigation');
-
 $accountId = OA_Permission::getAccountIdForEntity('clients', $clientid);
 $userAccess->setAccountId($accountId);
 
