@@ -54,7 +54,7 @@ if ($zlibCompression) {
 
 // Build our paths
 $base = realpath(dirname(dirname(__FILE__)));
-$cacheFolder = realpath(dirname(dirname($base)) . '/var/cache');
+$cacheFolder = realpath(dirname(dirname(dirname($base))) . '/var/cache');
 
 // Check if files exist
 $elements = explode(',', $_GET['files']);
@@ -66,7 +66,7 @@ while (list(,$element) = each($elements)) {
 	$dirSep = preg_quote(DIRECTORY_SEPARATOR, '#');
 	if (preg_match("#^{$dirSep}(images|css|js){$dirSep}#", substr($path, strlen($base)))) {
 		$files[] = $path;
-	} 
+	}
 	else {
 	   header ("HTTP/1.0 403 Forbidden");
 	   exit;
@@ -121,14 +121,14 @@ if (_STRATEGY_ETAG_) {
 $cacheFile = $cacheFolder . '/combine_' . $hash;
 if (_STRATEGY_CACHE_ && file_exists($cacheFile)) {
 	$contents = file_get_contents($cacheFile);
-} 
+}
 else {
 	$contents = '';
 	reset ($files);
 	while (list(,$file) = each($files)) {
       if (preg_match("/\.js$/", $file)) {
          // Minify JS
-		   $contents .= "\n\n" . JSMin::minify(file_get_contents($file));
+		   $contents .= "\n\n" . JSMin::minify(file_get_contents($file), basename($file));
       } else {
 		   $contents .= "\n\n" . file_get_contents($file);
       }
