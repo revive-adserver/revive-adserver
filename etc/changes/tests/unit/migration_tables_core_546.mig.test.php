@@ -82,7 +82,12 @@ class Migration_546Test extends MigrationTest
                                                           maintenance_cron_timestamp, warn_limit_days) VALUES (0, 0.000, NULL, NULL, NULL, 'english', NULL, 'mysite.com', NULL, 1, 2, 't', 't', 'f', 't', 't', 't', 'admin', 'bdcf5fc18e4f01990300ed0d0a306428', 'Your Name', 'miguel.correa@openx.org', 't', 't', 't', 100, NULL, 't', 1, 1, NULL, NULL, 't', NULL, 't', NULL, 'f', 't', 't', 'f', 'f', 't', 't', 'f', 't', 'f', 'f', 50, NULL, NULL, NULL, NULL, '', 'f', 't', NULL, 0, NULL, 'f', 't', 't', 'f', 'f', 't', 't', 't', 't', 'f', 5, 'f', 5, 't', -1, 0, 't', '2008-05-02', 0, 1, 1, 'f', 'f', NULL, NULL, NULL, NULL, NULL, 'f', 'f', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1)");
 
         $this->oDbh->exec("INSERT INTO {$tblAgency} (agencyid, name, contact, email, logout_url, active, updated, account_id) VALUES (1, 'Default manager', NULL, '', NULL, 1, '2008-05-16 11:01:56', 2)");
-        $this->oDbh->exec("INSERT INTO {$tblApplicationVariable} (name, value) VALUES ('tables_core', '544'), ('oa_version', '2.5.46-dev'), ('platform_hash', '70fb56249cb15a78d4ed6aa81d068e74e07b8cc3'), ('sync_last_run', '2008-05-16 11:01:45'), ('sync_cache', 'b:0;'), ('sync_timestamp', '1210932105')");
+        $this->oDbh->exec("INSERT INTO {$tblApplicationVariable} (name, value) VALUES ('tables_core', '544')");
+        $this->oDbh->exec("INSERT INTO {$tblApplicationVariable} (name, value) VALUES ('oa_version', '2.5.46-dev')");
+        $this->oDbh->exec("INSERT INTO {$tblApplicationVariable} (name, value) VALUES ('platform_hash', '70fb56249cb15a78d4ed6aa81d068e74e07b8cc3')");
+        $this->oDbh->exec("INSERT INTO {$tblApplicationVariable} (name, value) VALUES ('sync_last_run', '2008-05-16 11:01:45')");
+        $this->oDbh->exec("INSERT INTO {$tblApplicationVariable} (name, value) VALUES ('sync_cache', 'b:0;')");
+        $this->oDbh->exec("INSERT INTO {$tblApplicationVariable} (name, value) VALUES ('sync_timestamp', '1210932105')");
         $this->oDbh->exec("INSERT INTO {$tblAccounts} (account_id, account_type, account_name) VALUES (1, 'ADMIN', 'Administrator account'), (2, 'MANAGER', 'Default manager'), (3, 'TRAFFICKER', 'localhost')");
 
         $migration = new Migration_546();
