@@ -37,23 +37,20 @@ class DataObjects_Trackers extends DB_DataObjectCommon
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
-    var $__table = 'trackers';                        // table name
-    var $trackerid;                       // int(9)  not_null primary_key auto_increment
-    var $trackername;                     // string(765)  not_null
-    var $description;                     // string(765)  not_null
-    var $clientid;                        // int(9)  not_null multiple_key
-    var $viewwindow;                      // int(9)  not_null
-    var $clickwindow;                     // int(9)  not_null
-    var $blockwindow;                     // int(9)  not_null
-    var $status;                          // int(1)  not_null unsigned
-    var $type;                            // int(1)  not_null unsigned
-    var $linkcampaigns;                   // string(3)  not_null enum
-    var $variablemethod;                  // string(21)  not_null enum
-    var $appendcode;                      // blob(65535)  not_null blob
-    var $updated;                         // datetime(19)  not_null binary
-
-    /* ZE2 compatibility trick*/
-    function __clone() { return $this;}
+    public $__table = 'trackers';                        // table name
+    public $trackerid;                       // int(9)  not_null primary_key auto_increment
+    public $trackername;                     // string(255)  not_null
+    public $description;                     // string(255)  not_null
+    public $clientid;                        // int(9)  not_null multiple_key
+    public $viewwindow;                      // int(9)  not_null
+    public $clickwindow;                     // int(9)  not_null
+    public $blockwindow;                     // int(9)  not_null
+    public $status;                          // int(1)  not_null unsigned
+    public $type;                            // int(1)  not_null unsigned
+    public $linkcampaigns;                   // string(1)  not_null enum
+    public $variablemethod;                  // string(7)  not_null enum
+    public $appendcode;                      // blob(65535)  not_null blob
+    public $updated;                         // datetime(19)  not_null binary
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Trackers',$k,$v); }

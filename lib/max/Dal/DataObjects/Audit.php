@@ -40,23 +40,20 @@ class DataObjects_Audit extends DB_DataObjectCommon
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
-    var $__table = 'audit';                           // table name
-    var $auditid;                         // int(9)  not_null primary_key auto_increment
-    var $actionid;                        // int(9)  not_null
-    var $context;                         // string(765)  not_null multiple_key
-    var $contextid;                       // int(9)
-    var $parentid;                        // int(9)  multiple_key
-    var $details;                         // blob(65535)  not_null blob
-    var $userid;                          // int(9)  not_null
-    var $username;                        // string(192)  multiple_key
-    var $usertype;                        // int(4)  not_null multiple_key
-    var $updated;                         // datetime(19)  multiple_key binary
-    var $account_id;                      // int(9)  not_null multiple_key
-    var $advertiser_account_id;           // int(9)  multiple_key
-    var $website_account_id;              // int(9)  multiple_key
-
-    /* ZE2 compatibility trick*/
-    function __clone() { return $this;}
+    public $__table = 'audit';                           // table name
+    public $auditid;                         // int(9)  not_null primary_key auto_increment
+    public $actionid;                        // int(9)  not_null
+    public $context;                         // string(255)  not_null multiple_key
+    public $contextid;                       // int(9)
+    public $parentid;                        // int(9)  multiple_key
+    public $details;                         // blob(65535)  not_null blob
+    public $userid;                          // int(9)  not_null
+    public $username;                        // string(64)  multiple_key
+    public $usertype;                        // int(4)  not_null multiple_key
+    public $updated;                         // datetime(19)  multiple_key binary
+    public $account_id;                      // int(9)  not_null multiple_key
+    public $advertiser_account_id;           // int(9)  multiple_key
+    public $website_account_id;              // int(9)  multiple_key
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Audit',$k,$v); }

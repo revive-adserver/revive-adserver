@@ -38,41 +38,38 @@ class DataObjects_Zones extends DB_DataObjectCommon
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
-    var $__table = 'zones';                           // table name
-    var $zoneid;                          // int(9)  not_null primary_key auto_increment
-    var $affiliateid;                     // int(9)  multiple_key
-    var $zonename;                        // string(735)  not_null multiple_key
-    var $description;                     // string(765)  not_null
-    var $delivery;                        // int(6)  not_null
-    var $zonetype;                        // int(6)  not_null
-    var $category;                        // blob(65535)  not_null blob
-    var $width;                           // int(6)  not_null
-    var $height;                          // int(6)  not_null
-    var $ad_selection;                    // blob(65535)  not_null blob
-    var $chain;                           // blob(65535)  not_null blob
-    var $prepend;                         // blob(65535)  not_null blob
-    var $append;                          // blob(65535)  not_null blob
-    var $appendtype;                      // int(4)  not_null
-    var $forceappend;                     // string(3)  enum
-    var $inventory_forecast_type;         // int(6)  not_null
-    var $comments;                        // blob(65535)  blob
-    var $cost;                            // unknown(12)
-    var $cost_type;                       // int(6)
-    var $cost_variable_id;                // string(765)
-    var $technology_cost;                 // unknown(12)
-    var $technology_cost_type;            // int(6)
-    var $updated;                         // datetime(19)  not_null binary
-    var $block;                           // int(11)  not_null
-    var $capping;                         // int(11)  not_null
-    var $session_capping;                 // int(11)  not_null
-    var $what;                            // blob(65535)  not_null blob
-    var $as_zone_id;                      // int(11)
-    var $is_in_ad_direct;                 // int(1)  not_null
-    var $rate;                            // unknown(21)
-    var $pricing;                         // string(150)  not_null
-
-    /* ZE2 compatibility trick*/
-    function __clone() { return $this;}
+    public $__table = 'zones';                           // table name
+    public $zoneid;                          // int(9)  not_null primary_key auto_increment
+    public $affiliateid;                     // int(9)  multiple_key
+    public $zonename;                        // string(245)  not_null multiple_key
+    public $description;                     // string(255)  not_null
+    public $delivery;                        // int(6)  not_null
+    public $zonetype;                        // int(6)  not_null
+    public $category;                        // blob(65535)  not_null blob
+    public $width;                           // int(6)  not_null
+    public $height;                          // int(6)  not_null
+    public $ad_selection;                    // blob(65535)  not_null blob
+    public $chain;                           // blob(65535)  not_null blob
+    public $prepend;                         // blob(65535)  not_null blob
+    public $append;                          // blob(65535)  not_null blob
+    public $appendtype;                      // int(4)  not_null
+    public $forceappend;                     // string(1)  enum
+    public $inventory_forecast_type;         // int(6)  not_null
+    public $comments;                        // blob(65535)  blob
+    public $cost;                            // real(12)  
+    public $cost_type;                       // int(6)  
+    public $cost_variable_id;                // string(255)  
+    public $technology_cost;                 // real(12)  
+    public $technology_cost_type;            // int(6)  
+    public $updated;                         // datetime(19)  not_null binary
+    public $block;                           // int(11)  not_null
+    public $capping;                         // int(11)  not_null
+    public $session_capping;                 // int(11)  not_null
+    public $what;                            // blob(65535)  not_null blob
+    public $as_zone_id;                      // int(11)  
+    public $is_in_ad_direct;                 // int(1)  not_null
+    public $rate;                            // real(21)  
+    public $pricing;                         // string(50)  not_null
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Zones',$k,$v); }

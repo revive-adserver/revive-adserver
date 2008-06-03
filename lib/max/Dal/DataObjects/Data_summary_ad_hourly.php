@@ -35,25 +35,22 @@ class DataObjects_Data_summary_ad_hourly extends DB_DataObjectCommon
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
-    var $__table = 'data_summary_ad_hourly';          // table name
-    var $data_summary_ad_hourly_id;       // int(20)  not_null primary_key auto_increment
-    var $date_time;                       // datetime(19)  not_null multiple_key binary
-    var $ad_id;                           // int(10)  not_null multiple_key unsigned
-    var $creative_id;                     // int(10)  not_null unsigned
-    var $zone_id;                         // int(10)  not_null multiple_key unsigned
-    var $requests;                        // int(10)  not_null unsigned
-    var $impressions;                     // int(10)  not_null unsigned
-    var $clicks;                          // int(10)  not_null unsigned
-    var $conversions;                     // int(10)  not_null unsigned
-    var $total_basket_value;              // unknown(12)  
-    var $total_num_items;                 // int(11)  
-    var $total_revenue;                   // unknown(12)  
-    var $total_cost;                      // unknown(12)  
-    var $total_techcost;                  // unknown(12)  
-    var $updated;                         // datetime(19)  not_null binary
-
-    /* ZE2 compatibility trick*/
-    function __clone() { return $this;}
+    public $__table = 'data_summary_ad_hourly';          // table name
+    public $data_summary_ad_hourly_id;       // int(20)  not_null primary_key auto_increment
+    public $date_time;                       // datetime(19)  not_null multiple_key binary
+    public $ad_id;                           // int(10)  not_null multiple_key unsigned
+    public $creative_id;                     // int(10)  not_null unsigned
+    public $zone_id;                         // int(10)  not_null multiple_key unsigned
+    public $requests;                        // int(10)  not_null unsigned
+    public $impressions;                     // int(10)  not_null unsigned
+    public $clicks;                          // int(10)  not_null unsigned
+    public $conversions;                     // int(10)  not_null unsigned
+    public $total_basket_value;              // real(12)  
+    public $total_num_items;                 // int(11)  
+    public $total_revenue;                   // real(12)  
+    public $total_cost;                      // real(12)  
+    public $total_techcost;                  // real(12)  
+    public $updated;                         // datetime(19)  not_null binary
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Data_summary_ad_hourly',$k,$v); }

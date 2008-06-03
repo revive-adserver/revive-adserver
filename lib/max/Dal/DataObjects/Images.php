@@ -35,13 +35,10 @@ class DataObjects_Images extends DB_DataObjectCommon
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
-    var $__table = 'images';                          // table name
-    var $filename;                        // string(384)  not_null primary_key
-    var $contents;                        // blob(16777215)  not_null blob binary
-    var $t_stamp;                         // datetime(19)  binary
-
-    /* ZE2 compatibility trick*/
-    function __clone() { return $this;}
+    public $__table = 'images';                          // table name
+    public $filename;                        // string(128)  not_null primary_key
+    public $contents;                        // blob(-1)  not_null blob binary
+    public $t_stamp;                         // datetime(19)  binary
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Images',$k,$v); }

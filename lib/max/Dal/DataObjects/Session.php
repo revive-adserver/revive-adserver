@@ -36,13 +36,10 @@ class DataObjects_Session extends DB_DataObjectCommon
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
-    var $__table = 'session';                         // table name
-    var $sessionid;                       // string(96)  not_null primary_key
-    var $sessiondata;                     // blob(65535)  not_null blob
-    var $lastused;                        // datetime(19)  binary
-
-    /* ZE2 compatibility trick*/
-    function __clone() { return $this;}
+    public $__table = 'session';                         // table name
+    public $sessionid;                       // string(32)  not_null primary_key
+    public $sessiondata;                     // blob(65535)  not_null blob
+    public $lastused;                        // datetime(19)  binary
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Session',$k,$v); }

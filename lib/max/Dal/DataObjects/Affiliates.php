@@ -45,25 +45,22 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
-    var $__table = 'affiliates';                      // table name
-    var $affiliateid;                     // int(9)  not_null primary_key auto_increment
-    var $agencyid;                        // int(9)  not_null multiple_key
-    var $name;                            // string(765)  not_null
-    var $mnemonic;                        // string(15)  not_null
-    var $comments;                        // blob(65535)  blob
-    var $contact;                         // string(765)
-    var $email;                           // string(192)  not_null
-    var $website;                         // string(765)
-    var $updated;                         // datetime(19)  not_null binary
-    var $an_website_id;                   // int(11)
-    var $oac_country_code;                // string(6)  not_null
-    var $oac_language_id;                 // int(11)
-    var $oac_category_id;                 // int(11)
-    var $as_website_id;                   // int(11)
-    var $account_id;                      // int(9)  unique_key
-
-    /* ZE2 compatibility trick*/
-    function __clone() { return $this;}
+    public $__table = 'affiliates';                      // table name
+    public $affiliateid;                     // int(9)  not_null primary_key auto_increment
+    public $agencyid;                        // int(9)  not_null multiple_key
+    public $name;                            // string(255)  not_null
+    public $mnemonic;                        // string(5)  not_null
+    public $comments;                        // blob(65535)  blob
+    public $contact;                         // string(255)  
+    public $email;                           // string(64)  not_null
+    public $website;                         // string(255)  
+    public $updated;                         // datetime(19)  not_null binary
+    public $an_website_id;                   // int(11)  
+    public $oac_country_code;                // string(2)  not_null
+    public $oac_language_id;                 // int(11)  
+    public $oac_category_id;                 // int(11)  
+    public $as_website_id;                   // int(11)  
+    public $account_id;                      // int(9)  unique_key
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Affiliates',$k,$v); }

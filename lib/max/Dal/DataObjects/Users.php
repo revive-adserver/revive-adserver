@@ -12,23 +12,20 @@ class DataObjects_Users extends DB_DataObjectCommon
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
-    var $__table = 'users';                           // table name
-    var $user_id;                         // int(9)  not_null primary_key auto_increment
-    var $contact_name;                    // string(765)  not_null
-    var $email_address;                   // string(192)  not_null
-    var $username;                        // string(192)  unique_key
-    var $password;                        // string(192)
-    var $language;                        // string(15)
-    var $default_account_id;              // int(9)
-    var $comments;                        // blob(65535)  blob
-    var $active;                          // int(1)  not_null
-    var $sso_user_id;                     // int(11)
-    var $date_created;                    // datetime(19)
-    var $date_last_login;                 // datetime(19)
-    var $email_updated;                   // datetime(19)
-
-    /* ZE2 compatibility trick*/
-    function __clone() { return $this;}
+    public $__table = 'users';                           // table name
+    public $user_id;                         // int(9)  not_null primary_key auto_increment
+    public $contact_name;                    // string(255)  not_null
+    public $email_address;                   // string(64)  not_null
+    public $username;                        // string(64)  unique_key
+    public $password;                        // string(64)
+    public $language;                        // string(5)
+    public $default_account_id;              // int(9)
+    public $comments;                        // blob(65535)  blob
+    public $active;                          // int(1)  not_null
+    public $sso_user_id;                     // int(11)  unique_key
+    public $date_created;                    // datetime(19)  binary
+    public $date_last_login;                 // datetime(19)  binary
+    public $email_updated;                   // datetime(19)  binary
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Users',$k,$v); }

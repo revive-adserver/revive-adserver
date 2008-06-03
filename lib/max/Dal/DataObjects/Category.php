@@ -36,12 +36,9 @@ class DataObjects_Category extends DB_DataObjectCommon
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
-    var $__table = 'category';                        // table name
-    var $category_id;                     // int(10)  not_null primary_key unsigned auto_increment
-    var $name;                            // string(765)  
-
-    /* ZE2 compatibility trick*/
-    function __clone() { return $this;}
+    public $__table = 'category';                        // table name
+    public $category_id;                     // int(10)  not_null primary_key unsigned auto_increment
+    public $name;                            // string(255)  
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Category',$k,$v); }

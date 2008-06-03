@@ -45,18 +45,15 @@ class DataObjects_Agency extends DB_DataObjectCommon
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
-    var $__table = 'agency';                          // table name
-    var $agencyid;                        // int(9)  not_null primary_key auto_increment
-    var $name;                            // string(765)  not_null
-    var $contact;                         // string(765)  
-    var $email;                           // string(192)  not_null
-    var $logout_url;                      // string(765)  
-    var $active;                          // int(1)  
-    var $updated;                         // datetime(19)  not_null binary
-    var $account_id;                      // int(9)  unique_key
-
-    /* ZE2 compatibility trick*/
-    function __clone() { return $this;}
+    public $__table = 'agency';                          // table name
+    public $agencyid;                        // int(9)  not_null primary_key auto_increment
+    public $name;                            // string(255)  not_null
+    public $contact;                         // string(255)  
+    public $email;                           // string(64)  not_null
+    public $logout_url;                      // string(255)  
+    public $active;                          // int(1)  
+    public $updated;                         // datetime(19)  not_null binary
+    public $account_id;                      // int(9)  unique_key
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Agency',$k,$v); }

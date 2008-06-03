@@ -14,15 +14,12 @@ class DataObjects_Accounts extends DB_DataObjectCommon
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
-    var $__table = 'accounts';                        // table name
-    var $account_id;                      // int(9)  not_null primary_key auto_increment
-    var $account_type;                    // string(48)  not_null multiple_key
-    var $account_name;                    // string(765)
-    var $m2m_password;                    // string(96)
-    var $m2m_ticket;                      // string(96)
-
-    /* ZE2 compatibility trick*/
-    function __clone() { return $this;}
+    public $__table = 'accounts';                        // table name
+    public $account_id;                      // int(9)  not_null primary_key auto_increment
+    public $account_type;                    // string(16)  not_null multiple_key
+    public $account_name;                    // string(255)  
+    public $m2m_password;                    // string(32)  
+    public $m2m_ticket;                      // string(32)  
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Accounts',$k,$v); }
