@@ -92,6 +92,7 @@ if (isset($submitbutton))
         $doZones->chain = $chain;
 
         if (!isset($prepend)) $prepend = '';
+        $prepend = MAX_commonGetValueUnslashed('prepend');
         $doZones->prepend = $prepend;
 
         // Do not save append until not finished with zone appending, if present
