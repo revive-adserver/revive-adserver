@@ -537,7 +537,7 @@ echo "  <option value='".MAX_FINANCE_ANYVAR."' ".(($zone['cost_type'] == MAX_FIN
 echo "  <option value='".MAX_FINANCE_VARSUM."' ".(($zone['cost_type'] == MAX_FINANCE_VARSUM) ? ' SELECTED ' : '').">$strPercentSumVariables</option>";
 echo "</select>";
 echo "&nbsp;&nbsp;";
-echo "<span id='cost_cpm_description' style='margin-left: 7px;'>per single impression<span>";
+echo "<span id='cost_cpm_description' style='margin-left: 7px;'>per single impression</span>";
 
 $dalVariables = OA_Dal::factoryDAL('variables');
 $rsVariables = $dalVariables->getTrackerVariables($zoneid, $affiliateid, OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER));
@@ -618,7 +618,7 @@ echo "  <option value='".MAX_FINANCE_CPC."' ".(($zone['technology_cost_type'] ==
 echo "  <option value='".MAX_FINANCE_RS."' ".(($zone['technology_cost_type'] == MAX_FINANCE_RS) ? ' SELECTED ' : '').">$strPercentRevenueSplit</option>";
 echo "</select>";
 echo "&nbsp;&nbsp;";
-echo "<span id='technology_cost_cpm_description' style='margin-left: 7px;'>per single impression<span>";
+echo "<span id='technology_cost_cpm_description' style='margin-left: 7px;'>per single impression</span>";
 
 echo "</td></tr>";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
