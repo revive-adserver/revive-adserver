@@ -44,7 +44,7 @@ class OA_Admin_UI
     var $oTpl;
 
     var $aLinkParams;
-    
+
     /** holds the id of the page being currently displayed **/
     var $currentSectionId;
 
@@ -75,18 +75,18 @@ class OA_Admin_UI
                                      'zoneid'       => $zoneid,
                                     );
     }
-    
+
     function setCurrentId($ID)
     {
         $this->currentSectionId = $ID;
     }
-    
-    
+
+
     function getCurrentId()
     {
         return $this->currentSectionId;
-    }    
-    
+    }
+
 
     /**
      * Show page header
@@ -151,7 +151,7 @@ class OA_Admin_UI
             if (count($phpAds_shortcuts)) {
                 $aSideShortcuts = $phpAds_shortcuts;
             }
-           
+
             // Include breadcrumbs
             $aBreadcrumbs = $phpAds_breadcrumbs;
         } else {
@@ -227,13 +227,13 @@ class OA_Admin_UI
     function getID($ID)
     {
         $id = $ID;
-        
+
         if (is_null($ID) || (($ID !== phpAds_Login && $ID !== phpAds_Error && basename($_SERVER['SCRIPT_NAME']) != 'stats.php') && (preg_match('#^[0-9](\.[0-9])*$#', $ID)))) {
             $id =  basename(substr($_SERVER['SCRIPT_NAME'], 0, strrpos($_SERVER['SCRIPT_NAME'], '.')));
         }
         return $id;
     }
-    
+
 
     function getNextPage($sectionId = null)
     {
@@ -264,7 +264,7 @@ class OA_Admin_UI
         global $xajax, $session;
         if (!empty($session['RUN_MPE']) && $session['RUN_MPE']) {
             require_once MAX_PATH . '/www/admin/lib-maintenance-priority.inc.php';
-            $this->oTpl->assign('jsMPE', $xajax->getJavascript('./', 'js/xajax.js'));
+            $this->oTpl->assign('jsMPE', $xajax->getJavascript(MAX::assetPath(), 'js/xajax.js'));
         }
     }
 
@@ -431,7 +431,7 @@ class OA_Admin_UI
         // Show currently logged on user and IP
         if (OA_Auth::isLoggedIn() || defined('phpAds_installing')) {
             //$this->oTpl->assign('helpLink', OA_Admin_Help::getDocLinkFromPhpAdsNavId($OA_Navigation_ID));
-            $this->oTpl->assign('helpLink', OA_Admin_Help::getHelpLink($oCurrentSection));            
+            $this->oTpl->assign('helpLink', OA_Admin_Help::getHelpLink($oCurrentSection));
             if (!defined('phpAds_installing')) {
                 $this->oTpl->assign('infoUser', OA_Permission::getUsername());
                 $this->oTpl->assign('buttonLogout', true);
