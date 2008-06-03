@@ -54,15 +54,15 @@ function OA_SPCGetJavaScript($affiliateid)
 {
     $aConf = $GLOBALS['_MAX']['CONF'];
     $varprefix = $aConf['var']['prefix'];
-    $charset = htmlspecialchars($_GET['charset']);
+    $charset = addcslashes(urlencode(htmlspecialchars($_GET['charset'], ENT_QUOTES)));
     $aZones = OA_cacheGetPublisherZones($affiliateid);
     foreach ($aZones as $zoneid => $aZone) {
         $zones[$aZone['type']][] = "            '" . addslashes($aZone['name']) . "' : {$zoneid}";
     }
     $additionalParams = '';
     foreach ($_GET as $key => $value) {
-        if ($key == 'id') { continue; }
-        $additionalParams .= "&amp;". htmlspecialchars($key) ."=". htmlspecialchars($value);
+        if ($key == 'id' || $key == 'charset') { continue; }
+        $additionalParams .= addcslashes(urlencode("&amp;". htmlspecialchars($key) ."=". htmlspecialchars($value)));
     }
     $script = "
     if (typeof({$varprefix}zones) != 'undefined') {
