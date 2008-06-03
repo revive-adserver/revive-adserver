@@ -49,6 +49,24 @@ if (!PEAR::isError($oDbh)) {
 OA_DB::createDatabase($conf['database']['name']);
 OA_DB::changeDatabase($conf['database']['name']);
 
+$phpVersion = phpversion();
+$mysqlClientVersion = mysql_get_client_info();
+$mysqlServerVersion = mysql_get_server_info();
+echo "\n";
+echo "PHP Version:          $phpVersion\n";
+echo "MySQL Client Version: $mysqlClientVersion\n";
+echo "MySQL Server Version: $mysqlServerVersion\n";
+
+$mysqlServerVersion = preg_replace('/-.*$/', '', $mysqlServerVersion);
+
+if (version_compare($mysqlClientVersion, $mysqlServerVersion) !== 0) {
+    echo "\n";
+    echo "  MySQL Server and Client Versions do not match\n";
+    echo "  See PHP bug report http://bugs.php.net/bug.php?id=35536 for more detail.\n";
+    echo "  ABORTING!\n\n";
+    exit;
+}
+
 $oTbl = new OA_DB_Table();
 $oTbl->init(MAX_PATH.'/etc/tables_core.xml');
 $oTbl->createAllTables();
