@@ -36,6 +36,7 @@ require_once MAX_PATH . '/lib/pear/Date.php';
 require_once 'Text/Password.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
+require_once MAX_PATH .'/www/admin/lib-zones.inc.php';
 
 /**
  * A class for testing the Admin_DA class.
@@ -879,6 +880,22 @@ class Admin_DaTest extends DalUnitTestCase
         $this->assertTrue($ret > 0);
     }
 
+    function testCheckBannerType()
+    {
+        $this->_generateStats();
+        $ret = Admin_DA::addAdZone(array('zone_id' => $this->zoneId, 'ad_id' => $this->bannerId));
+        $this->assertTrue(is_int($ret));
+        $this->assertTrue($ret > 0);
+
+        //  attempt to add a HTML banner to a text zone which should fail
+        $ret = Admin_DA::addAdZone(array('zone_id' => $this->zoneId, 'ad_id' => $this->bannerId2));
+        $this->assertTrue(PEAR::isError($ret));
+
+        //  attempt to add a Text banner to a Email/Newsletter zone which should fail
+        $ret = Admin_DA::addAdZone(array('zone_id' => $this->zoneId2, 'ad_id' => $this->bannerId));
+        $this->assertTrue(PEAR::isError($ret));
+    }
+
     function testdeleteAdZones()
     {
 
@@ -1132,8 +1149,10 @@ class Admin_DaTest extends DalUnitTestCase
         $this->clientId = $this->aIds['clients'][1];
         $this->campaignId = $this->aIds['campaigns'][1];
         $this->bannerId = $this->aIds['banners'][1];
+        $this->bannerId2 = $this->aIds['banners'][2];
         $this->affiliateId = $this->aIds['affiliates'][1];
         $this->zoneId = $this->aIds['zones'][1];
+        $this->zoneId2 = $this->aIds['zones'][2];
     }
 
 }

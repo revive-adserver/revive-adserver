@@ -149,7 +149,7 @@ class OA_Test_Data_DataObjects extends OA_Test_Data
         $aCampaign['conversions'] = 401;
         $this->aIds['campaigns'][1] = $this->_insertCampaigns($aCampaign);
 
-        // Add a banner
+        // Add a text banner
         $aBanners['campaignid'] = $this->aIds['campaigns'][1];
         $aBanners['contenttype'] = 'txt';
         $aBanners['storagetype'] = 'txt';
@@ -160,16 +160,39 @@ class OA_Test_Data_DataObjects extends OA_Test_Data
         $aBanners['compiledlimitation'] = 'phpAds_aclCheckDate(\'20050502\', \'!=\') and phpAds_aclCheckClientIP(\'2.22.22.2\', \'!=\') and phpAds_aclCheckLanguage(\'(sq)|(eu)|(fo)|(fi)\', \'!=\')';
         $this->aIds['banners'][1] = $this->_insertBanners($aBanners);
 
+        //  Add a HTML banner
+        $aBanners['campaignid'] = $this->aIds['campaigns'][1];
+        $aBanners['storagetype'] = 'html';
+        $aBanners['width'] = 468;
+        $aBanners['height'] = 60;
+        $aBanners['url'] = 'http://www.example.com';
+        $aBanners['description'] = 'Test HTML Banner';
+        $aBanners['htmltemplate'] = '<p>Hello OpenX!</p>';
+        $aBanners['htmlcache'] = '<a href="{clickurl}" target="{target}"><h1>Hello OpenX!</h1></a>';
+        $aBanners['autohtml'] = 't';
+        $this->aIds['banners'][2] = $this->_insertBanners($aBanners);
+
         // Add zone record
         $aZone['affiliateid'] = $this->aIds['affiliates'][1];
-        $aZone['zonename'] = 'Default Zone';
+        $aZone['zonename'] = 'Default Zone - Text';
         $aZone['description'] = '';
-        $aZone['delivery'] = 0;
-        $aZone['zonetype'] =3;
+        $aZone['delivery'] = 3;
+        $aZone['zonetype'] = 3;
         $aZone['category'] = '';
         $aZone['width'] = 468;
         $aZone['height'] = 60;
         $this->aIds['zones'][1] = $this->_insertZones($aZone);
+
+        // Add zone record
+        $aZone['affiliateid'] = $this->aIds['affiliates'][1];
+        $aZone['zonename'] = 'Default Zone - Email/Newsletter';
+        $aZone['description'] = '';
+        $aZone['delivery'] = 4;
+        $aZone['zonetype'] = 3;
+        $aZone['category'] = '';
+        $aZone['width'] = 468;
+        $aZone['height'] = 60;
+        $this->aIds['zones'][2] = $this->_insertZones($aZone);
 
         if ($linkAdZone)
         {
