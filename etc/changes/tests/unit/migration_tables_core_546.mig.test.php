@@ -88,7 +88,9 @@ class Migration_546Test extends MigrationTest
         $this->oDbh->exec("INSERT INTO {$tblApplicationVariable} (name, value) VALUES ('sync_last_run', '2008-05-16 11:01:45')");
         $this->oDbh->exec("INSERT INTO {$tblApplicationVariable} (name, value) VALUES ('sync_cache', 'b:0;')");
         $this->oDbh->exec("INSERT INTO {$tblApplicationVariable} (name, value) VALUES ('sync_timestamp', '1210932105')");
-        $this->oDbh->exec("INSERT INTO {$tblAccounts} (account_id, account_type, account_name) VALUES (1, 'ADMIN', 'Administrator account'), (2, 'MANAGER', 'Default manager'), (3, 'TRAFFICKER', 'localhost')");
+        $this->oDbh->exec("INSERT INTO {$tblAccounts} (account_id, account_type, account_name) VALUES (1, 'ADMIN', 'Administrator account')");
+        $this->oDbh->exec("INSERT INTO {$tblAccounts} (account_id, account_type, account_name) VALUES (2, 'MANAGER', 'Default manager')");
+        $this->oDbh->exec("INSERT INTO {$tblAccounts} (account_id, account_type, account_name) VALUES (3, 'TRAFFICKER', 'localhost')");
 
         $migration = new Migration_546();
         $migration->init($this->oDbh, MAX_PATH.'/var/DB_Upgrade.test.log');
