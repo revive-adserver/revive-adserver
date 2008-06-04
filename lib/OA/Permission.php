@@ -280,6 +280,11 @@ class OA_Permission
 
         // Force session save
         phpAds_SessionDataRegister('user', $oUser);
+        $translation = new OA_Translation();
+        $msg = $translation->translate($GLOBALS['strAccountSwitchedToX'], 
+            array($oUser->aAccount['account_name'])); 
+        
+        OA_Admin_UI::queueMessage($msg);
     }
 
     /**
