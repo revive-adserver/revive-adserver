@@ -197,11 +197,11 @@ function MAX_adRender(&$aBanner, $zoneId=0, $source='', $target='', $ct0='', $wi
         }
     }
 
-    preg_match_all('#{(.*?)}#', $code, $macros);
+    preg_match_all('#{(.*?)(_enc)?}#', $code, $macros);
     for ($i=0;$i<count($macros[1]);$i++) {
         if (!in_array($macros[0][$i], $search) && isset($_REQUEST[$macros[1][$i]])) {
             $search[] = $macros[0][$i];
-            $replace[] = urlencode($_REQUEST[$macros[1][$i]]);
+            $replace[] = (!empty($macros[2][$i])) ? urlencode($_REQUEST[$macros[1][$i]]) : $_REQUEST[$macros[1][$i]];
         }
     }
 
