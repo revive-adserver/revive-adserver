@@ -139,7 +139,7 @@ else {
 	}
 
 	if (_STRATEGY_CACHE_ && is_writable($cacheFolder)) {
-		if ($fp = fopen($cacheFile, 'wb')) {
+		if ($fp = fopen($cacheFile, 'w+b')) {
 			fwrite($fp, $contents);
 			fclose($fp);
 		}
