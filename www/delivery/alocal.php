@@ -1634,11 +1634,11 @@ $search[] = $arrivals[0][$i];
 $replace[] = strpos($arrivals[1][$i], '?') === false ? $arrivals[1][$i].'?'.$arrivalClick : $arrivals[1][$i].'&amp;'.$arrivalClick;
 }
 }
-preg_match_all('#{(.*?)}#', $code, $macros);
+preg_match_all('#{(.*?)(_enc)?}#', $code, $macros);
 for ($i=0;$i<count($macros[1]);$i++) {
 if (!in_array($macros[0][$i], $search) && isset($_REQUEST[$macros[1][$i]])) {
 $search[] = $macros[0][$i];
-$replace[] = urlencode($_REQUEST[$macros[1][$i]]);
+$replace[] = (!empty($macros[2][$i])) ? urlencode($_REQUEST[$macros[1][$i]]) : $_REQUEST[$macros[1][$i]];
 }
 }
 $code = str_replace($search, $replace, $code);
