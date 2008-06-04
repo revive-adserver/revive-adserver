@@ -2848,7 +2848,7 @@ document.write({$varPrefix}spc);
 return $script;
 }
 // Marketplace
-MAX_marketplaceGetIdWithRedirect();
+MAX_marketplaceGetIdWithRedirect(basename(__FILE__));
 // No Caching
 MAX_commonSetNoCacheHeaders();
 // Register any script specific input variables
