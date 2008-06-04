@@ -215,6 +215,8 @@ class OA_Admin_UI
         $this->_assignSearch($ID);
 
         $this->_assignUserAccountInfo($oCurrentSection);
+		
+		$this->_assignMessages();
 
         $this->oTpl->assign('showMainNav', $showMainNav);
         $this->oTpl->assign('showSidebar', $showSidebar);
@@ -471,6 +473,18 @@ class OA_Admin_UI
         }
     }
 
+	function _assignMessages() {
+		global $session;
+		
+		if (isset($session['messageQueue']) && is_array($session['messageQueue']) && count($session['messageQueue'])) {
+            $this->oTpl->assign('aMessageQueue', $session['messageQueue']);
+			$session['messageQueue'] = array();
+	
+			// Force session storage
+			phpAds_SessionDataStore();
+		}
+	}
+
     function _buildSideContext(&$aSideContext)
     {
         global $phpAds_context;
@@ -522,6 +536,28 @@ class OA_Admin_UI
         }
     }
 
+	function queueMessage($text, $local = false, $type = 'normal', $timeout = 5000) {
+		global $session;
+
+		if (!isset($session['messageId'])) {
+			$session['messageId'] = time();
+		} else {
+			$session['messageId']++;
+		}
+		
+		$session['messageQueue'][] = array(
+			'id' => $session['messageId'],
+			'text' => $text,
+			'local' => $local,
+			'type' => $type,
+			'timeout' => $timeout
+		);
+		
+		// Force session storage
+		phpAds_SessionDataStore();
+	}
+	
+
     function genericJavascript() {
         return array (
             'js/jquery-1.2.3.js',
@@ -539,6 +575,7 @@ class OA_Admin_UI
             'js/js-gui.js',
             'js/sorttable.js',
             'js/boxrow.js',
+            'js/ox.message.js',
             'js/ox.usernamecheck.js',
             'js/ox.addirect.js',
             'js/ox.help.js',
