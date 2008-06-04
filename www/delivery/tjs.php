@@ -1870,7 +1870,7 @@ $url .= $aConf['marketplace']['idHost'].'/jsox?n='.urlencode($varPrefix.'spc');
 $url .= '&pid=OpenXDemo';
 $url .= '&cb='.mt_rand(0, PHP_INT_MAX);
 $script .= "
-{$varPrefix}spc+=\"&openxid=OPENX_ID'><\"+\"/script>\";
+{$varPrefix}spc+=\"&amp;openxid=OPENX_ID'><\"+\"/script>\";
 var {$varPrefix}marketplace=\"<\"+\"script type='text/javascript' \";
 {$varPrefix}marketplace+=\"src='".htmlspecialchars($url, ENT_QUOTES)."'><\"+\"/script>\";
 document.write({$varPrefix}marketplace);

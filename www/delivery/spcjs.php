@@ -1803,7 +1803,7 @@ $url .= $aConf['marketplace']['idHost'].'/jsox?n='.urlencode($varPrefix.'spc');
 $url .= '&pid=OpenXDemo';
 $url .= '&cb='.mt_rand(0, PHP_INT_MAX);
 $script .= "
-{$varPrefix}spc+=\"&openxid=OPENX_ID'><\"+\"/script>\";
+{$varPrefix}spc+=\"&amp;openxid=OPENX_ID'><\"+\"/script>\";
 var {$varPrefix}marketplace=\"<\"+\"script type='text/javascript' \";
 {$varPrefix}marketplace+=\"src='".htmlspecialchars($url, ENT_QUOTES)."'><\"+\"/script>\";
 document.write({$varPrefix}marketplace);
@@ -1817,7 +1817,7 @@ document.write({$varPrefix}spc);
 return $script;
 }
 // Get the affiliateid from the querystring if present
-MAX_commonRegisterGlobalsArray(array('id'));
+MAX_commonRegisterGlobalsArray(array('id', 'charset'));
 // Get JS
 $output = OA_SPCGetJavaScript($id);
 // Output JS
@@ -1831,15 +1831,14 @@ function OA_SPCGetJavaScript($affiliateid)
 {
 $aConf = $GLOBALS['_MAX']['CONF'];
 $varprefix = $aConf['var']['prefix'];
-$charset = addcslashes(urlencode(htmlspecialchars($_GET['charset'], ENT_QUOTES)));
 $aZones = OA_cacheGetPublisherZones($affiliateid);
 foreach ($aZones as $zoneid => $aZone) {
 $zones[$aZone['type']][] = "            '" . addslashes($aZone['name']) . "' : {$zoneid}";
 }
 $additionalParams = '';
 foreach ($_GET as $key => $value) {
-if ($key == 'id' || $key == 'charset') { continue; }
-$additionalParams .= addcslashes(urlencode("&amp;". htmlspecialchars($key) ."=". htmlspecialchars($value)));
+if ($key == 'id') { continue; }
+$additionalParams .= htmlspecialchars('&'.urlencode($key).'='.urlencode($value), ENT_QUOTES);
 }
 $script = "
 if (typeof({$varprefix}zones) != 'undefined') {
@@ -1852,23 +1851,21 @@ var {$varprefix}zoneids = '" . implode('|', array_keys($aZones)) . "';
 if (typeof({$varprefix}source) == 'undefined') { {$varprefix}source = ''; }
 var {$varprefix}p=location.protocol=='https:'?'https:':'http:';
 var {$varprefix}r=Math.floor(Math.random()*99999999);
-{$varprefix}output = new Array();";
+{$varprefix}output = new Array();\n\n";
 // Add the FlashObject include to the SPC output
 $script .= MAX_javascriptToHTML(MAX_flashGetFlashObjectExternal(), $varprefix . 'fo');
 $script .= "
 var {$varprefix}spc=\"<\"+\"script type='text/javascript' \";
-{$varprefix}spc+=\"src='\"+{$varprefix}p+\"".MAX_commonConstructPartialDeliveryUrl($aConf['file']['singlepagecall'])."?zones=\"+{$varprefix}zoneids;
-{$varprefix}spc+=\"&source=\"+{$varprefix}source+\"&r=\"+{$varprefix}r;" .
+{$varprefix}spc+=\"src='\"+{$varprefix}p+\"".MAX_commonConstructPartialDeliveryUrl($aConf['file']['singlepagecall'])."?zones=\"+escape({$varprefix}zoneids);
+{$varprefix}spc+=\"&amp;source=\"+escape({$varprefix}source)+\"&amp;r=\"+{$varprefix}r;" .
 ((!empty($additionalParams)) ? "\n    {$varprefix}spc+=\"{$additionalParams}\";" : '') . "
 ";
-if (!empty($charset)) {
-$script .= "{$varprefix}spc+='&amp;charset={$charset}';\n";
-} else {
+if (empty($_GET['charset'])) {
 $script .= "{$varprefix}spc+=(document.charset ? '&amp;charset='+document.charset : (document.characterSet ? '&amp;charset='+document.characterSet : ''));\n";
 }
 $script .= "
-if (window.location) {$varprefix}spc+=\"&loc=\"+escape(window.location);
-if (document.referrer) {$varprefix}spc+=\"&referer=\"+escape(document.referrer);";
+if (window.location) {$varprefix}spc+=\"&amp;loc=\"+escape(window.location);
+if (document.referrer) {$varprefix}spc+=\"&amp;referer=\"+escape(document.referrer);";
 $script .= MAX_marketplaceGetIdWithSpc($varprefix);
 $script .= "
 function {$varprefix}show(name) {
@@ -1884,11 +1881,10 @@ return;
 }
 var {$varprefix}pop=\"<\"+\"script type='text/javascript' \";
 {$varprefix}pop+=\"src='\"+{$varprefix}p+\"".MAX_commonConstructPartialDeliveryUrl($aConf['file']['popup'])."?zoneid=\"+{$varprefix}popupZones[name];
-{$varprefix}pop+=\"&source=\"+{$varprefix}source+\"&r=\"+{$varprefix}r;" .
+{$varprefix}pop+=\"&amp;source=\"+escape({$varprefix}source)+\"&amp;r=\"+{$varprefix}r;" .
 ((!empty($additionalParams)) ? "\n        {$varprefix}spc+=\"{$additionalParams}\";" : '') . "
-{$varprefix}spc+=\"{$additionalParams}\";
-if (window.location) {$varprefix}pop+=\"&loc=\"+escape(window.location);
-if (document.referrer) {$varprefix}pop+=\"&referer=\"+escape(document.referrer);
+if (window.location) {$varprefix}pop+=\"&amp;loc=\"+escape(window.location);
+if (document.referrer) {$varprefix}pop+=\"&amp;referer=\"+escape(document.referrer);
 {$varprefix}pop+=\"'><\"+\"/script>\";
 document.write({$varprefix}pop);
 }
