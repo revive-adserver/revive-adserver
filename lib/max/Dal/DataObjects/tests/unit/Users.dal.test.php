@@ -51,6 +51,8 @@ class DataObjects_UsersTest extends DalUnitTestCase
         $doUsers = OA_Dal::factoryDO('users');
         $doUsers->contact_name = 'foo';
         $doUsers->username = 'Foo';
+        $oDate = new Date();
+        $doUsers->date_created = $doUsers->formatDate($oDate);
         $this->userId = DataGenerator::generateOne($doUsers);
         $this->assertTrue($this->userId);
     }
@@ -61,7 +63,7 @@ class DataObjects_UsersTest extends DalUnitTestCase
     }
 
     /**
-     * Creates user and set 
+     * Creates user and set
      *
      * @param DataObject $doUsers
      * @param integer $cUsers
@@ -86,7 +88,7 @@ class DataObjects_UsersTest extends DalUnitTestCase
         }
         return $aUsersIds;
     }
-    
+
     function testInsert()
     {
         $doUsers = OA_Dal::staticGetDO('users', $this->userId);
@@ -111,7 +113,7 @@ class DataObjects_UsersTest extends DalUnitTestCase
         $this->assertTrue($doUsers->userExists('Foo'));
         $this->assertTrue($doUsers->userExists('FOO'));
     }
-    
+
     function testLogDateLastLogIn()
     {
         $userId = DataGenerator::generateOne('users');
@@ -122,26 +124,26 @@ class DataObjects_UsersTest extends DalUnitTestCase
         $nowFormatted = $doUsers->formatDate($now);
         $this->assertEqual($doUsers->date_last_login, $nowFormatted);
     }
-    
+
     function testDeleteUnverifiedUsers()
     {
         $doUsers = OA_Dal::factoryDO('users');
         $cExistingUsers = $doUsers->count();
-        
+
         // this user was created recently
         $doUsers = OA_Dal::factoryDO('users');
         $date = new Date();
         $date->subtractSeconds(SECONDS_PER_DAY);
         $doUsers->date_created = $doUsers->formatDate($date);
         $this->createUser($doUsers);
-        
+
         // this user was created over a month ago - should be deleted
         $overMonthAgoSeconds = 31 * SECONDS_PER_DAY;
         $doUsers = OA_Dal::factoryDO('users');
         $date->subtractSeconds($overMonthAgoSeconds);
         $doUsers->date_created = $doUsers->formatDate($date);
         $this->createUser($doUsers);
-        
+
         // this was created over a month ago but is verified
         $doUsers = OA_Dal::factoryDO('users');
         $date = new Date();
@@ -149,18 +151,18 @@ class DataObjects_UsersTest extends DalUnitTestCase
         $doUsers->date_created = $doUsers->formatDate($date);
         $doUsers->sso_user_id = 123;
         $this->createUser($doUsers);
-        
+
         $doUsers = OA_Dal::factoryDO('users');
         $this->assertEqual($doUsers->count(), 3 + $cExistingUsers);
-        
+
         $doUsers = OA_Dal::factoryDO('users');
         $doUsers->deleteUnverifiedUsers(28 * SECONDS_PER_DAY);
-        
+
         // check if one record was deleted
         $doUsers = OA_Dal::factoryDO('users');
         $this->assertEqual($doUsers->count(), 2 + $cExistingUsers);
     }
-    
+
     function testRelinkAccounts()
     {
         $aExistingAccountPermissions = array(
@@ -176,16 +178,16 @@ class DataObjects_UsersTest extends DalUnitTestCase
         $this->_setAccountsAndPermissions($existingUserId, $aExistingAccountPermissions);
         $partialUserId = $this->createUser();
         $this->_setAccountsAndPermissions($partialUserId, $aPartialAccountPermissions);
-        
+
         $doUsers = OA_Dal::factoryDO('users');
         $ret = $doUsers->relinkAccounts($existingUserId, $partialUserId);
         $this->assertTrue($ret);
-        
+
         $aNewPermissions = $doUsers->getUsersPermissions($existingUserId);
         $this->_checkIfPermissionsExists($aExistingAccountPermissions, $aNewPermissions);
         $this->_checkIfPermissionsExists($aPartialAccountPermissions, $aNewPermissions);
     }
-    
+
     function _checkIfPermissionsExists($permissionsToCheck, $aNewPermissions)
     {
         foreach ($permissionsToCheck as $accountId => $aPermissions) {
@@ -195,7 +197,7 @@ class DataObjects_UsersTest extends DalUnitTestCase
             }
         }
     }
-    
+
     function _setAccountsAndPermissions($userId, $accountPermissions)
     {
         foreach ($accountPermissions as $accountId => $aPermissions) {
@@ -203,6 +205,6 @@ class DataObjects_UsersTest extends DalUnitTestCase
             OA_Permission::storeUserAccountsPermissions($aPermissions, $accountId, $userId);
         }
     }
-    
+
 }
 ?>
