@@ -386,6 +386,8 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
 function OA_Dal_Delivery_getPublisherZones($publisherid) {
     $conf = $GLOBALS['_MAX']['CONF'];
 
+    $publisherid = (int)$publisherid;
+
     $rZones = OA_Dal_Delivery_query("
     SELECT
         z.zoneid AS zone_id,
