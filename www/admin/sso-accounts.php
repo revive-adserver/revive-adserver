@@ -49,7 +49,7 @@ $oController->assignModelToView($oTpl);
 $oPlugin = &$oController->getCasPlugin();
 
 /**
- * In later refactoring phase following template related code should 
+ * In later refactoring phase following template related code should
  * be moved to external ModelView class as well.
  */
 $oTpl->assign('errorMessage', implode('<br />', $oController->getErrors()));
@@ -94,7 +94,7 @@ array(
             'label'     => $oPlugin->translate('Desired user name'),
             'title'     => $oPlugin->translate('Enter desired user name'),
             'value'     => $ssonewuser
-        ),           
+        ),
         array(
             'name'      => 'ssonewpassword',
             'id'         => 'ssonewpassword',
@@ -121,7 +121,7 @@ $oTpl->assign('ssoid', $ssoid);
 $oTpl->assign('email', $email);
 $oTpl->assign('vh', $vh);
 
-phpAds_PageHeader("1");
+phpAds_PageHeader(phpAds_login);
 $oTpl->display();
 phpAds_PageFooter();
 

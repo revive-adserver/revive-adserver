@@ -76,9 +76,7 @@ class Plugins_InvocationTags_adframe_adframe extends Plugins_InvocationTags
     function isAllowed($extra)
     {
         $isAllowed = parent::isAllowed($extra);
-        if ((is_array($extra) && $this->maxInvocation->server_same == false &&
-               ($extra['width'] == '-1' || $extra['height'] == '-1'))
-               || (is_array($extra) && $extra['delivery'] == phpAds_ZoneText)) {
+        if ((is_array($extra) && $extra['delivery'] == phpAds_ZoneText)) {
             return false;
         } else {
             return $isAllowed;
