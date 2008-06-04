@@ -85,19 +85,17 @@ $Id$
 	      });
 	    });
 	{/literal}
-	{if !$affiliateid} 
-		{literal}    
-		    website = $("#website");
-		    name = $("#name");
-		    website.blur(function () {
-		       if ($.trim(name.val()) == "") {
-		          val = website.val();
-		          val = val.replace(/^http[s]?:\/\//, "");
-		          name.val(val);
-		       }
-		    });
-	    {/literal}
-	{/if}	    
+	{literal}    
+	    website = $("#website");
+	    name = $("#name");
+	    website.blur(function () {
+	       if ($.trim(name.val()) == "") {
+	          val = website.val();
+	          val = val.replace(/^http[s]?:\/\//, "");
+	          name.val(val);
+	       }
+	    });
+    {/literal}
 	//-->
 </script>
 
