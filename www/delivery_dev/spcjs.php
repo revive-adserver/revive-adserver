@@ -35,7 +35,7 @@ require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 require_once MAX_PATH . '/lib/max/Delivery/marketplace.php';
 
 // Get the affiliateid from the querystring if present
-MAX_commonRegisterGlobalsArray(array('id', 'charset'));
+MAX_commonRegisterGlobalsArray(array('id'));
 
 // Get JS
 $output = OA_SPCGetJavaScript($id);
@@ -59,8 +59,11 @@ function OA_SPCGetJavaScript($affiliateid)
         $zones[$aZone['type']][] = "            '" . addslashes($aZone['name']) . "' : {$zoneid}";
     }
     $additionalParams = '';
+    $magic_quotes_gpc = ini_get('magic_quotes_gpc');
+
     foreach ($_GET as $key => $value) {
         if ($key == 'id') { continue; }
+        if ($magic_quotes_gpc) { $value = stripslashes($value); }
         $additionalParams .= htmlspecialchars('&'.urlencode($key).'='.urlencode($value), ENT_QUOTES);
     }
     $script = "
