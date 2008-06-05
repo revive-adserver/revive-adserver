@@ -173,9 +173,9 @@ if (isset($submit)) {
             $editSwf                     = $aFile['editswf'];
         }
     }
-    if (!empty($_FILES['uploadalt']) && $replacealtimage == 't') {
+    if (!empty($_FILES['uploadalt']) && $_FILES['uploadalt']['size'] > 0 && $replacealtimage == 't') {
         //TODO: Check image only? - Wasn't enforced before
-        $oFile = OA_Creative_File::factoryUploadedFile('upload');
+        $oFile = OA_Creative_File::factoryUploadedFile('uploadalt');
         if (PEAR::isError($oFile)) {
             phpAds_PageHeader(1);
             phpAds_Die($strErrorOccurred, $oFile->getMessage());
@@ -514,23 +514,23 @@ if(isset($session['htmlerrormsg']) && strlen($session['htmlerrormsg']) > 0) {
 
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
 	echo "<br /><table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-	
+
 	echo "<tr><td height='25' colspan='3' bgcolor='#FFFFFF'><b>".$strBasicInformation."</b></td></tr>";
 	echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
 	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-	
+
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strName."</td>";
 	if (!empty($bannerid)) {
 	   $bannerDescription = phpAds_htmlQuotes($row["description"]);
 	} else {
-	   $bannerDescription = $strUntitled;	
+	   $bannerDescription = $strUntitled;
 	}
 	echo "<td><input class='flat' size='35' type='text' name='description' style='width:350px;' value='".$bannerDescription."' tabindex='".($tabindex++)."'></td></tr>";
-	
+
 	echo "</table><br />";
 }
-	
+
 if ($type == 'sql') {
     echo "<br /><table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='#F6F6F6'>";
     echo "<tr><td height='25' colspan='3' bgcolor='#FFFFFF'><img src='" . MAX::assetPath() . "/images/icon-banner-stored.gif' align='absmiddle'>&nbsp;<b>".$strMySQLBanner."</b></td></tr>";
