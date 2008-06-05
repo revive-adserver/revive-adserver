@@ -1,4 +1,5 @@
 SELECT pg_catalog.setval('ox_ad_zone_assoc_ad_zone_assoc_id_seq', 147, true);
+SELECT pg_catalog.setval('ox_placement_zone_assoc_placement_zone_assoc_id_seq', 147, true);
 SELECT pg_catalog.setval('ox_affiliates_affiliateid_seq', 400, true);
 SELECT pg_catalog.setval('ox_agency_agencyid_seq', 1273, true);
 SELECT pg_catalog.setval('ox_audit_auditid_seq', 9208, true);
