@@ -1378,9 +1378,9 @@ $text = $iStatusCode . ' ' . $arr[$iStatusCode];
 // with CGI sapis, OpenX will use a "Status: NNN Reason" header, which seems to fix the behaviour
 // on the tested webserver (Apache 1.3, running php-cgi)
 if (!empty($aConf['delivery']['cgiForceStatusHeader']) && strpos(php_sapi_name(), 'cgi') !== 0) {
-header('Status: ' . $text);
+MAX_header('Status: ' . $text);
 } else {
-header($_SERVER["SERVER_PROTOCOL"] .' ' . $text);
+MAX_header($_SERVER["SERVER_PROTOCOL"] .' ' . $text);
 }
 }
 }
@@ -1732,25 +1732,7 @@ MAX_redirect($pref['default_banner_image_url']);
 }
 } else {
 // Filename found, dump contents to browser
-// Check if the browser sent a If-Modified-Since header and if the image was
-// modified since that date
-if (!isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ||
-$aCreative['t_stamp'] > strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
-header("Last-Modified: ".gmdate('D, d M Y H:i:s', $aCreative['t_stamp']).' GMT');
-if (isset($contenttype) && $contenttype != '') {
-switch ($contenttype) {
-case 'swf': MAX_header('Content-type: application/x-shockwave-flash; name='.$filename); break;
-case 'dcr': MAX_header('Content-type: application/x-director; name='.$filename); break;
-case 'rpm': MAX_header('Content-type: audio/x-pn-realaudio-plugin; name='.$filename); break;
-case 'mov': MAX_header('Content-type: video/quicktime; name='.$filename); break;
-default:	MAX_header('Content-type: image/'.$contenttype.'; name='.$filename); break;
-}
-}
-echo $aCreative['contents'];
-} else {
-// Send "Not Modified" status header
-MAX_sendStatusCode(304);
-}
+MAX_imageServe($aCreative, $filename, $contenttype);
 }
 } else {
 // Filename not specified, show the admin user's default banner

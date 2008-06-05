@@ -1377,9 +1377,9 @@ $text = $iStatusCode . ' ' . $arr[$iStatusCode];
 // with CGI sapis, OpenX will use a "Status: NNN Reason" header, which seems to fix the behaviour
 // on the tested webserver (Apache 1.3, running php-cgi)
 if (!empty($aConf['delivery']['cgiForceStatusHeader']) && strpos(php_sapi_name(), 'cgi') !== 0) {
-header('Status: ' . $text);
+MAX_header('Status: ' . $text);
 } else {
-header($_SERVER["SERVER_PROTOCOL"] .' ' . $text);
+MAX_header($_SERVER["SERVER_PROTOCOL"] .' ' . $text);
 }
 }
 }
