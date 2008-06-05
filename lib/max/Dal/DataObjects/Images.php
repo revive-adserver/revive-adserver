@@ -139,7 +139,7 @@ class DataObjects_Images extends DB_DataObjectCommon
      */
     function _refreshUpdated()
     {
-        $this->t_stamp = OA::getNow();
+        $this->t_stamp = OA::getNowUTC();
     }
 
     function _auditEnabled()

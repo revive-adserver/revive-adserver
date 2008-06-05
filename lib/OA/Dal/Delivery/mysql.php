@@ -818,7 +818,7 @@ function OA_Dal_Delivery_getCreative($filename)
     $rCreative = OA_Dal_Delivery_query("
         SELECT
             contents,
-            UNIX_TIMESTAMP(t_stamp) AS t_stamp
+            t_stamp
         FROM
             {$conf['table']['prefix']}{$conf['table']['images']}
         WHERE
@@ -831,7 +831,9 @@ function OA_Dal_Delivery_getCreative($filename)
             return null;
         }
     } else {
-        return (mysql_fetch_assoc($rCreative));
+        $aResult = mysql_fetch_assoc($rCreative);
+        $aResult['t_stamp'] = strtotime($aResult['t_stamp'] . ' GMT');
+        return ($aResult);
     }
 }
 

@@ -25,35 +25,44 @@
 $Id$
 */
 
-// Require the initialisation file
-require_once '../../init-delivery.php';
+$file = '/lib/OA/Delivery/image.php';
+###START_STRIP_DELIVERY
+if(isset($GLOBALS['_MAX']['FILES'][$file])) {
+    return;
+}
+###END_STRIP_DELIVERY
+$GLOBALS['_MAX']['FILES'][$file] = true;
 
-// Required files
-require_once MAX_PATH . '/lib/max/Delivery/cache.php';
+/**
+ * @package    MaxDelivery
+ * @subpackage image
+ * @author     Matteo Beccati <matteo.beccati@openx.org>
+ *
+ * This library defines functions that need to be available to
+ * the ai delivery script
+ *
+ */
 
-//Register any script specific input variables
-MAX_commonRegisterGlobalsArray(array('filename', 'contenttype'));
-
-if (!empty($filename)) {
-    $aCreative = MAX_cacheGetCreative($filename);
-
-	if (empty($aCreative)) {
-		// Filename not found, show the admin user's default banner
-		// (as the agency cannot be determined from a filename)
-		$pref = OA_Preferences::loadAdminAccountPreferences(true);
-		if ($pref['default_banner_image_url'] != "") {
-		    MAX_redirect($pref['default_banner_image_url']);
+function MAX_imageServe($aCreative, $filename, $contenttype)
+{
+	// Check if the browser sent a If-Modified-Since header and if the image was
+	// modified since that date
+	if (!isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ||
+		$aCreative['t_stamp'] > strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
+		MAX_header("Last-Modified: ".gmdate('D, d M Y H:i:s', $aCreative['t_stamp']).' GMT');
+		if (isset($contenttype) && $contenttype != '') {
+			switch ($contenttype) {
+				case 'swf': MAX_header('Content-type: application/x-shockwave-flash; name='.$filename); break;
+				case 'dcr': MAX_header('Content-type: application/x-director; name='.$filename); break;
+				case 'rpm': MAX_header('Content-type: audio/x-pn-realaudio-plugin; name='.$filename); break;
+				case 'mov': MAX_header('Content-type: video/quicktime; name='.$filename); break;
+				default:	MAX_header('Content-type: image/'.$contenttype.'; name='.$filename); break;
+			}
 		}
+		echo $aCreative['contents'];
 	} else {
-		// Filename found, dump contents to browser
-		MAX_imageServe($aCreative, $filename, $contenttype);
-	}
-} else {
-	// Filename not specified, show the admin user's default banner
-	// (as the agency cannot be determined from a filename)
-	$aPref = OA_Preferences::loadAdminAccountPreferences(true);
-	if ($aPref['default_banner_image_url'] != "") {
-	    MAX_redirect($aPref['default_banner_image_url']);
+		// Send "Not Modified" status header
+		MAX_sendStatusCode(304);
 	}
 }
 
