@@ -216,7 +216,6 @@ $GLOBALS['strUnlinkingFromLastEntityBody']  = 'Removing user from last entity wi
 $GLOBALS['strUnlinkAndDelete']          = 'Remove &amp; delete user';
 $GLOBALS['strUnlinkUser']               = 'Remove user';
 $GLOBALS['strUnlinkUserConfirmBody']    = 'Are you sure you want to remove this user?';
-$GLOBALS['strAccountSwitchedToX']       = 'User account has been switched to %s'; 
 
 // Login & Permissions
 $GLOBALS['strUserAccess']               = "User Access";
