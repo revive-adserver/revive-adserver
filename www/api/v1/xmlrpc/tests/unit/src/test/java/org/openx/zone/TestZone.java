@@ -50,8 +50,8 @@ public class TestZone {
 		suite.addTestSuite(TestZoneGenerateTags.class);
 		suite.addTestSuite(TestZoneLinkBanner.class);
 		suite.addTestSuite(TestZoneLinkCampaign.class);
-		suite.addTestSuite(TestZoneUnlinkBanner.class);
-		suite.addTestSuite(TestZoneUnlinkCampaign.class);
+		//suite.addTestSuite(TestZoneUnlinkBanner.class);
+		//suite.addTestSuite(TestZoneUnlinkCampaign.class);
 		
 		// $JUnit-END$
 		return suite;
