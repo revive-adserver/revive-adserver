@@ -162,7 +162,6 @@ public class TestAddAgency extends AgencyTestCase {
 			throws MalformedURLException, XmlRpcException {
 
 		final String strGreaterThan255 = TextUtils.getString(256);
-		final String strGreaterThan64 = TextUtils.getString(65);
 
 		Map<String, Object> struct = new HashMap<String, Object>();
 		Object[] params = new Object[] { sessionId, struct };

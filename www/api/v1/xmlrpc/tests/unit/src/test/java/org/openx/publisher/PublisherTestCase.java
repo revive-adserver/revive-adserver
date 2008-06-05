@@ -32,7 +32,7 @@ import java.util.Map;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
-import org.openx.agency.AgencyTestCase;
+import org.openx.banner.BannerTestCase;
 import org.openx.config.GlobalSettings;
 
 /**
@@ -40,7 +40,7 @@ import org.openx.config.GlobalSettings;
  *
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
-public class PublisherTestCase extends AgencyTestCase {
+public class PublisherTestCase extends BannerTestCase {
 	protected static final String GET_PUBLISHER_LIST_BY_AGENCY_ID_METHOD = "getPublisherListByAgencyId";
 	protected static final String GET_PUBLISHER_METHOD = "getPublisher";
 	protected static final String ADD_PUBLISHER_METHOD = "addPublisher";
@@ -55,12 +55,12 @@ public class PublisherTestCase extends AgencyTestCase {
 	protected static final String PUBLISHER_ID = "publisherId";
 	protected static final String EMAIL_ADDRESS = "emailAddress";
 
-	protected Integer agencyId = null;
+	//protected Integer agencyId = null;
 
 	protected void setUp() throws Exception {
 		super.setUp();
 
-		agencyId = createAgency();
+		//agencyId = createAgency();
 
 		((XmlRpcClientConfigImpl) client.getClientConfig())
 				.setServerURL(new URL(GlobalSettings.getPublisherServiceUrl()));
@@ -68,7 +68,7 @@ public class PublisherTestCase extends AgencyTestCase {
 
 	protected void tearDown() throws Exception {
 
-		deleteAgency(agencyId);
+		//deleteAgency(agencyId);
 
 		super.tearDown();
 	}

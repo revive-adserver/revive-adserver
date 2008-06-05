@@ -26,12 +26,9 @@ $Id$
 package org.openx.advertiser;
 
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.xmlrpc.XmlRpcException;
-import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
-import org.openx.config.GlobalSettings;
 import org.openx.utils.ErrorMessage;
 import org.openx.utils.TextUtils;
 

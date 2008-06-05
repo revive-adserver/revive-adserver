@@ -47,6 +47,12 @@ public class TestZone {
 		suite.addTestSuite(TestZoneCampaignStatistics.class);
 		suite.addTestSuite(TestGetZone.class);
 		suite.addTestSuite(TestGetZoneListByPublisherId.class);
+		suite.addTestSuite(TestZoneGenerateTags.class);
+		suite.addTestSuite(TestZoneLinkBanner.class);
+		suite.addTestSuite(TestZoneLinkCampaign.class);
+		suite.addTestSuite(TestZoneUnlinkBanner.class);
+		suite.addTestSuite(TestZoneUnlinkCampaign.class);
+		
 		// $JUnit-END$
 		return suite;
 	}

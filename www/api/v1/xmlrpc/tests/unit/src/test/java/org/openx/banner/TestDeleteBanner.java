@@ -56,7 +56,6 @@ public class TestDeleteBanner extends BannerTestCase {
 			assertEquals(ErrorMessage.WRONG_ERROR_MESSAGE, errorMsg, e
 					.getMessage());
 		}
-
 	}
 
 	/**
@@ -73,7 +72,6 @@ public class TestDeleteBanner extends BannerTestCase {
 		final Boolean result = (Boolean) execute(DELETE_BANNER_METHOD,
 				new Object[] { sessionId, bannerId });
 		assertTrue("Can't delete banner.", result);
-
 	}
 
 	/**

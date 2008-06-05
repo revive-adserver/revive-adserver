@@ -123,7 +123,7 @@ public class TestModifyPublisher extends PublisherTestCase {
 	 */
 	public void testModifyPublisherGreaterThanMaxFieldValueError()
 			throws MalformedURLException, XmlRpcException {
-		final String strGreaterThan64 = TextUtils.getString(65);
+
 		final String strGreaterThan255 = TextUtils.getString(256);
 
 		Map<String, Object> struct = new HashMap<String, Object>();

@@ -28,7 +28,6 @@ package org.openx.banner;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.xmlrpc.XmlRpcException;
 import org.openx.utils.ErrorMessage;
 import org.openx.utils.TextUtils;

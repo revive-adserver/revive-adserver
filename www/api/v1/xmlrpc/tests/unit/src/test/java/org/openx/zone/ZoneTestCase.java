@@ -46,19 +46,28 @@ public class ZoneTestCase extends PublisherTestCase {
 	protected static final String ADD_ZONE_METHOD = "addZone";
 	protected static final String MODIFY_ZONE_METHOD = "modifyZone";
 	protected static final String DELETE_ZONE_METHOD = "deleteZone";
-	protected final static String ZONE_ADVERTISER_STATISTICS_METHOD = "zoneAdvertiserStatistics";
+	protected static final String ZONE_ADVERTISER_STATISTICS_METHOD = "zoneAdvertiserStatistics";
 	protected static final String ZONE_DAILY_STATISTICS_METHOD = "zoneDailyStatistics";
-	protected final static String ZONE_CAMPAIGN_STATISTICS_METHOD = "zoneCampaignStatistics";
-	protected final static String ZONE_BANNER_STATISTICS_METHOD = "zoneBannerStatistics";
-
+	protected static final String ZONE_CAMPAIGN_STATISTICS_METHOD = "zoneCampaignStatistics";
+	protected static final String ZONE_BANNER_STATISTICS_METHOD = "zoneBannerStatistics";
+	protected static final String ZONE_LINK_BANNER_METHOD = "linkBanner";
+	protected static final String ZONE_LINK_CAMPAIGN_METHOD = "linkCampaign";
+	protected static final String ZONE_UNLINK_BANNER_METHOD = "unlinkBanner";
+	protected static final String ZONE_UNLINK_CAMPAIGN_METHOD = "unlinkCampaign";
+	protected static final String ZONE_GENERATE_TAGS_METHOD = "generateTags";
+	
 	protected static final String CAMPAIGN_ID = "campaignId";
 	protected static final String PUBLISHER_ID = "publisherId";
 	protected static final String ZONE_ID = "zoneId";
+	protected static final String BANNER_ID = "bannerId";
 	protected static final String ZONE_NAME = "zoneName";
 	protected static final String HEIGHT = "height";
 	protected static final String WIDTH = "width";
 	protected static final String TYPE = "type";
-
+	protected static final String CODE_TYPE = "codeType";
+	
+	protected static final String[] CODE_TYPES = {"adframe", "adjs", "adlayer", "adview", "adviewnocookies", "local", "popup", "spc", "xmlrpc"};
+	
 	protected Integer publisherId = null;
 
 	protected void setUp() throws Exception {
@@ -131,6 +140,21 @@ public class ZoneTestCase extends PublisherTestCase {
 	 * @return
 	 */
 	public Map<String, Object> getZoneParams(String prefix) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put(PUBLISHER_ID, publisherId);
+		params.put(ZONE_NAME, prefix + ZONE_NAME);
+		params.put(TYPE, 0);
+		params.put(WIDTH, 120);
+		params.put(HEIGHT, 120);
+
+		return params;
+	}
+	
+	/**
+	 * @param prefix
+	 * @return
+	 */
+	public Map<String, Object> getZoneWrongParams(String prefix) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put(PUBLISHER_ID, publisherId);
 		params.put(ZONE_NAME, prefix + ZONE_NAME);

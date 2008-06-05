@@ -56,6 +56,9 @@ public class ErrorMessage {
 	public static final String WEIGHT_COULD_NOT_BE_GREATER_THAN_ZERO = "The weight could not be greater than zero for high or medium priority campaigns";
 	public static final String METHOD_EXECUTED_SUCCESSFULLY_BUT_SHOULD_NOT_HAVE = "Method executed successfully but shouldn''t have";
 	public static final String USERNAME_SHOULD_BE_UNIQUE = "Username must be unique";
+	public static final String WORNG_BANNER_SIZE= "This banner is the wrong size for this zone";
+	public static final String WRONG_PARAMETER = "Parameter {0} wrong";
+	public static final String INVOCATION_TAG_PLUGIN_ERROR = "Error while factory invocationTag plugin";
 	
 	public static String getMessage(final String message,
 			final String... parameters) {

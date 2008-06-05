@@ -119,7 +119,6 @@ public class TestModifyAdvertiser extends AdvertiserTestCase {
 			throws MalformedURLException, XmlRpcException {
 
 		final String strGreaterThan255 = TextUtils.getString(256);
-		final String strGreaterThan64 = TextUtils.getString(65);
 
 		assertNotNull(advertiserId);
 
