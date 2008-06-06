@@ -29,25 +29,15 @@ if (!defined('MAX_PATH'))
 {
     require_once dirname(__FILE__) . '/../../init.php';
 }
-/*
-require_once MAX_PATH . '/lib/OA/DB.php';*/
-/*
-$conf = $GLOBALS['_MAX']['CONF'];
-
-if (!empty($conf['table']['prefix'])) {
-    die("Error: please remove prefix from database tables before regenerating DataObjects\n");
-}*/
-
 //  init DB_DataObject
 $MAX_ENT_DIR =  MAX_PATH . '/lib/max/Dal/DataObjects';
 $options = &PEAR::getStaticProperty('DB_DataObject', 'options');
 $options = array(
-    //'database'              => OA_DB::getDsn(),
     'schema_location'       => $MAX_ENT_DIR,
     'class_location'        => $MAX_ENT_DIR,
     'require_prefix'        => $MAX_ENT_DIR . '/',
     'class_prefix'          => 'DataObjects_',
-    'debug'                 => PEAR_LOG_DEBUG,
+    'debug'                 => 0,
     'extends'               => 'DB_DataObjectCommon',
     'extends_location'      => 'DB_DataObjectCommon.php',
     'production'            => 0,
@@ -57,17 +47,8 @@ $options = array(
 );
 
 require_once MAX_PATH . '/lib/OA/DB/DataObject/Generator.php';
-// remove original dbdo keys file as it is unable to update an existing file
-/*$schemaFile = $MAX_ENT_DIR . '/db_schema.ini';
-if (is_file($schemaFile)) {
-    unlink($schemaFile);
-}*/
 
 $generator = new OA_DB_DataObject_Generator();
 $generator->start();
-
-// rename schema ini file
-/*$newSchemaFile = $MAX_ENT_DIR . '/' . $conf['database']['name'] . '.ini';
-rename($newSchemaFile, $schemaFile);*/
 
 ?>

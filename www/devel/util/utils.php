@@ -14,6 +14,7 @@ if (array_key_exists('pkgarr',$_REQUEST))
 }
 else if (array_key_exists('dbogenr',$_REQUEST))
 {
+    $GLOBALS['_MAX']['CONF']['debug']['priority'] = PEAR_LOG_INFO;
     include MAX_PATH.'/scripts/db_dataobject/rebuild.php';
 }
 

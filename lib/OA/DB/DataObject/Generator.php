@@ -45,7 +45,7 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
     function start()
     {
         global $_DB_DATAOBJECT;
-        $_DB_DATAOBJECT['CONFIG']['debug'] = PEAR_LOG_INFO;
+        $_DB_DATAOBJECT['CONFIG']['debug'] = $GLOBALS['_MAX']['CONF']['debug']['priority'];
 
         $this->debug("START\n");
 
