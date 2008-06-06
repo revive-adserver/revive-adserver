@@ -80,6 +80,7 @@ class MAX_Dal_Admin_VariablesTest extends DalUnitTestCase
         $doVariablePublisher = OA_Dal::factoryDO('variable_publisher');
         $doVariablePublisher->variable_id = $variableId;
         $doVariablePublisher->publisher_id = 1;
+        $doVariablePublisher->visible = 0;
         DataGenerator::generateOne($doVariablePublisher);
 
         $rs = $dalVariables->getTrackerVariables($zoneId, 1, false);
