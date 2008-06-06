@@ -1520,6 +1520,8 @@ class Openads_Schema_Manager
 //            }
 //        }
 
+        include MAX_PATH.'/scripts/db_dataobject/rebuild.php';
+
         //create the temporary database
         $database_name = $this->aDB_definition['name'];
         $this->aDB_definition['name'] = $this->dbo_name;

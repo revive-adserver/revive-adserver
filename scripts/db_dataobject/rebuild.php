@@ -25,62 +25,29 @@
 $Id$
 */
 
-define('TEST_ENVIRONMENT_RUNNING', true);
-
-$argc = 2;
-$argv = array($argv[0], 'test');
-
-require_once dirname(__FILE__) . '/../../init.php';
-require_once MAX_PATH . '/lib/OA/DB.php';
-require_once MAX_PATH . '/lib/OA/DB/Table.php';
-
-$conf = &$GLOBALS['_MAX']['CONF'];
-$conf['table']['prefix'] = '';
-
-if ($conf['database']['type'] != 'mysql') {
-    die ("This script does currently work only with MySQL databases\n");
+if (!defined('MAX_PATH'))
+{
+    require_once dirname(__FILE__) . '/../../init.php';
 }
+/*
+require_once MAX_PATH . '/lib/OA/DB.php';*/
+/*
+$conf = $GLOBALS['_MAX']['CONF'];
 
-$oDbh = OA_DB::singleton();
-if (!PEAR::isError($oDbh)) {
-    $oDbh->disconnect();
-    OA_DB::dropDatabase($conf['database']['name']);
-}
-OA_DB::createDatabase($conf['database']['name']);
-OA_DB::changeDatabase($conf['database']['name']);
-
-$phpVersion = phpversion();
-$mysqlClientVersion = mysql_get_client_info();
-$mysqlServerVersion = mysql_get_server_info();
-echo "\n";
-echo "PHP Version:          $phpVersion\n";
-echo "MySQL Client Version: $mysqlClientVersion\n";
-echo "MySQL Server Version: $mysqlServerVersion\n";
-
-$mysqlServerVersion = preg_replace('/-.*$/', '', $mysqlServerVersion);
-
-if (version_compare($mysqlClientVersion, $mysqlServerVersion) !== 0) {
-    echo "\n";
-    echo "  MySQL Server and Client Versions do not match\n";
-    echo "  See PHP bug report http://bugs.php.net/bug.php?id=35536 for more detail.\n";
-    echo "  ABORTING!\n\n";
-    exit;
-}
-
-$oTbl = new OA_DB_Table();
-$oTbl->init(MAX_PATH.'/etc/tables_core.xml');
-$oTbl->createAllTables();
+if (!empty($conf['table']['prefix'])) {
+    die("Error: please remove prefix from database tables before regenerating DataObjects\n");
+}*/
 
 //  init DB_DataObject
 $MAX_ENT_DIR =  MAX_PATH . '/lib/max/Dal/DataObjects';
 $options = &PEAR::getStaticProperty('DB_DataObject', 'options');
 $options = array(
-    'database'              => OA_DB::getDsn(),
+    //'database'              => OA_DB::getDsn(),
     'schema_location'       => $MAX_ENT_DIR,
     'class_location'        => $MAX_ENT_DIR,
     'require_prefix'        => $MAX_ENT_DIR . '/',
     'class_prefix'          => 'DataObjects_',
-    'debug'                 => 0,
+    'debug'                 => PEAR_LOG_DEBUG,
     'extends'               => 'DB_DataObjectCommon',
     'extends_location'      => 'DB_DataObjectCommon.php',
     'production'            => 0,
@@ -91,16 +58,16 @@ $options = array(
 
 require_once MAX_PATH . '/lib/OA/DB/DataObject/Generator.php';
 // remove original dbdo keys file as it is unable to update an existing file
-$schemaFile = $MAX_ENT_DIR . '/db_schema.ini';
+/*$schemaFile = $MAX_ENT_DIR . '/db_schema.ini';
 if (is_file($schemaFile)) {
     unlink($schemaFile);
-}
+}*/
 
 $generator = new OA_DB_DataObject_Generator();
 $generator->start();
 
 // rename schema ini file
-$newSchemaFile = $MAX_ENT_DIR . '/' . $conf['database']['name'] . '.ini';
-rename($newSchemaFile, $schemaFile);
+/*$newSchemaFile = $MAX_ENT_DIR . '/' . $conf['database']['name'] . '.ini';
+rename($newSchemaFile, $schemaFile);*/
 
 ?>
