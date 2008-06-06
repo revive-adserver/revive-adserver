@@ -40,17 +40,17 @@ class DataObjects_Channel extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'channel';                         // table name
-    public $channelid;                       // int(9)  not_null primary_key auto_increment
-    public $agencyid;                        // int(9)  not_null
-    public $affiliateid;                     // int(9)  not_null
-    public $name;                            // string(255)  
-    public $description;                     // string(255)  
-    public $compiledlimitation;              // blob(65535)  not_null blob
-    public $acl_plugins;                     // blob(65535)  blob
-    public $active;                          // int(1)  
-    public $comments;                        // blob(65535)  blob
-    public $updated;                         // datetime(19)  not_null binary
-    public $acls_updated;                    // datetime(19)  not_null binary
+    public $channelid;                       // MEDIUMINT(9) => openads_mediumint => 129 
+    public $agencyid;                        // MEDIUMINT(9) => openads_mediumint => 129 
+    public $affiliateid;                     // MEDIUMINT(9) => openads_mediumint => 129 
+    public $name;                            // VARCHAR(255) => openads_varchar => 2 
+    public $description;                     // VARCHAR(255) => openads_varchar => 2 
+    public $compiledlimitation;              // TEXT() => openads_text => 162 
+    public $acl_plugins;                     // TEXT() => openads_text => 34 
+    public $active;                          // SMALLINT(1) => openads_smallint => 17 
+    public $comments;                        // TEXT() => openads_text => 34 
+    public $updated;                         // DATETIME() => openads_datetime => 142 
+    public $acls_updated;                    // DATETIME() => openads_datetime => 142 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Channel',$k,$v); }
@@ -58,6 +58,8 @@ class DataObjects_Channel extends DB_DataObjectCommon
     var $defaultValues = array(
                 'agencyid' => 0,
                 'affiliateid' => 0,
+                'compiledlimitation' => '',
+                'updated' => '%DATE_TIME%',
                 'acls_updated' => '%NO_DATE_TIME%',
                 );
 

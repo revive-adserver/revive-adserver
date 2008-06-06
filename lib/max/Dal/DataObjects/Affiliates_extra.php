@@ -36,23 +36,23 @@ class DataObjects_Affiliates_extra extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'affiliates_extra';                // table name
-    public $affiliateid;                     // int(9)  not_null primary_key
-    public $address;                         // blob(65535)  blob
-    public $city;                            // string(255)  
-    public $postcode;                        // string(64)  
-    public $country;                         // string(255)  
-    public $phone;                           // string(64)  
-    public $fax;                             // string(64)  
-    public $account_contact;                 // string(255)  
-    public $payee_name;                      // string(255)  
-    public $tax_id;                          // string(64)  
-    public $mode_of_payment;                 // string(64)  
-    public $currency;                        // string(64)  
-    public $unique_users;                    // int(11)  
-    public $unique_views;                    // int(11)  
-    public $page_rank;                       // int(11)  
-    public $category;                        // string(255)  
-    public $help_file;                       // string(255)  
+    public $affiliateid;                     // MEDIUMINT(9) => openads_mediumint => 129 
+    public $address;                         // TEXT() => openads_text => 34 
+    public $city;                            // VARCHAR(255) => openads_varchar => 2 
+    public $postcode;                        // VARCHAR(64) => openads_varchar => 2 
+    public $country;                         // VARCHAR(255) => openads_varchar => 2 
+    public $phone;                           // VARCHAR(64) => openads_varchar => 2 
+    public $fax;                             // VARCHAR(64) => openads_varchar => 2 
+    public $account_contact;                 // VARCHAR(255) => openads_varchar => 2 
+    public $payee_name;                      // VARCHAR(255) => openads_varchar => 2 
+    public $tax_id;                          // VARCHAR(64) => openads_varchar => 2 
+    public $mode_of_payment;                 // VARCHAR(64) => openads_varchar => 2 
+    public $currency;                        // VARCHAR(64) => openads_varchar => 2 
+    public $unique_users;                    // INT(11) => openads_int => 1 
+    public $unique_views;                    // INT(11) => openads_int => 1 
+    public $page_rank;                       // INT(11) => openads_int => 1 
+    public $category;                        // VARCHAR(255) => openads_varchar => 2 
+    public $help_file;                       // VARCHAR(255) => openads_varchar => 2 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Affiliates_extra',$k,$v); }

@@ -36,7 +36,7 @@ class DataObjects_Lb_local extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'lb_local';                        // table name
-    public $last_run;                        // int(11)  
+    public $last_run;                        // INT(11) => openads_int => 1 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Lb_local',$k,$v); }

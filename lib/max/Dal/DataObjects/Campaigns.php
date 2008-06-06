@@ -39,40 +39,41 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'campaigns';                       // table name
-    public $campaignid;                      // int(9)  not_null primary_key auto_increment
-    public $campaignname;                    // string(255)  not_null
-    public $clientid;                        // int(9)  not_null multiple_key
-    public $views;                           // int(11)  
-    public $clicks;                          // int(11)  
-    public $conversions;                     // int(11)  
-    public $expire;                          // date(10)  binary
-    public $activate;                        // date(10)  binary
-    public $priority;                        // int(11)  not_null
-    public $weight;                          // int(4)  not_null
-    public $target_impression;               // int(11)  not_null
-    public $target_click;                    // int(11)  not_null
-    public $target_conversion;               // int(11)  not_null
-    public $anonymous;                       // string(1)  not_null enum
-    public $companion;                       // int(1)  
-    public $comments;                        // blob(65535)  blob
-    public $revenue;                         // real(12)  
-    public $revenue_type;                    // int(6)  
-    public $updated;                         // datetime(19)  not_null binary
-    public $block;                           // int(11)  not_null
-    public $capping;                         // int(11)  not_null
-    public $session_capping;                 // int(11)  not_null
-    public $an_campaign_id;                  // int(11)  
-    public $as_campaign_id;                  // int(11)  
-    public $status;                          // int(11)  not_null
-    public $an_status;                       // int(11)  not_null
-    public $as_reject_reason;                // int(11)  not_null
-    public $hosted_views;                    // int(11)  not_null
-    public $hosted_clicks;                   // int(11)  not_null
+    public $campaignid;                      // MEDIUMINT(9) => openads_mediumint => 129 
+    public $campaignname;                    // VARCHAR(255) => openads_varchar => 130 
+    public $clientid;                        // MEDIUMINT(9) => openads_mediumint => 129 
+    public $views;                           // INT(11) => openads_int => 1 
+    public $clicks;                          // INT(11) => openads_int => 1 
+    public $conversions;                     // INT(11) => openads_int => 1 
+    public $expire;                          // DATE() => openads_date => 6 
+    public $activate;                        // DATE() => openads_date => 6 
+    public $priority;                        // INT(11) => openads_int => 129 
+    public $weight;                          // TINYINT(4) => openads_tinyint => 129 
+    public $target_impression;               // INT(11) => openads_int => 129 
+    public $target_click;                    // INT(11) => openads_int => 129 
+    public $target_conversion;               // INT(11) => openads_int => 129 
+    public $anonymous;                       // ENUM('t','f') => openads_enum => 130 
+    public $companion;                       // SMALLINT(1) => openads_smallint => 17 
+    public $comments;                        // TEXT() => openads_text => 34 
+    public $revenue;                         // DECIMAL(10,4) => openads_decimal => 1 
+    public $revenue_type;                    // SMALLINT(6) => openads_smallint => 1 
+    public $updated;                         // DATETIME() => openads_datetime => 142 
+    public $block;                           // INT(11) => openads_int => 129 
+    public $capping;                         // INT(11) => openads_int => 129 
+    public $session_capping;                 // INT(11) => openads_int => 129 
+    public $an_campaign_id;                  // INT(11) => openads_int => 1 
+    public $as_campaign_id;                  // INT(11) => openads_int => 1 
+    public $status;                          // INT(11) => openads_int => 129 
+    public $an_status;                       // INT(11) => openads_int => 129 
+    public $as_reject_reason;                // INT(11) => openads_int => 129 
+    public $hosted_views;                    // INT(11) => openads_int => 129 
+    public $hosted_clicks;                   // INT(11) => openads_int => 129 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Campaigns',$k,$v); }
 
     var $defaultValues = array(
+                'campaignname' => '',
                 'clientid' => 0,
                 'views' => -1,
                 'clicks' => -1,
@@ -86,6 +87,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
                 'target_conversion' => 0,
                 'anonymous' => 'f',
                 'companion' => 0,
+                'updated' => '%DATE_TIME%',
                 'block' => 0,
                 'capping' => 0,
                 'session_capping' => 0,

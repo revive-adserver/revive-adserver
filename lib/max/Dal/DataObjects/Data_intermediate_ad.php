@@ -36,33 +36,37 @@ class DataObjects_Data_intermediate_ad extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'data_intermediate_ad';            // table name
-    public $data_intermediate_ad_id;         // int(20)  not_null primary_key auto_increment
-    public $date_time;                       // datetime(19)  not_null multiple_key binary
-    public $operation_interval;              // int(10)  not_null unsigned
-    public $operation_interval_id;           // int(10)  not_null unsigned
-    public $interval_start;                  // datetime(19)  not_null multiple_key binary
-    public $interval_end;                    // datetime(19)  not_null binary
-    public $ad_id;                           // int(10)  not_null multiple_key unsigned
-    public $creative_id;                     // int(10)  not_null unsigned
-    public $zone_id;                         // int(10)  not_null multiple_key unsigned
-    public $requests;                        // int(10)  not_null unsigned
-    public $impressions;                     // int(10)  not_null unsigned
-    public $clicks;                          // int(10)  not_null unsigned
-    public $conversions;                     // int(10)  not_null unsigned
-    public $total_basket_value;              // real(12)  not_null
-    public $total_num_items;                 // int(11)  not_null
-    public $updated;                         // datetime(19)  not_null binary
+    public $data_intermediate_ad_id;         // BIGINT(20) => openads_bigint => 129 
+    public $date_time;                       // DATETIME() => openads_datetime => 142 
+    public $operation_interval;              // INT(10) => openads_int => 129 
+    public $operation_interval_id;           // INT(10) => openads_int => 129 
+    public $interval_start;                  // DATETIME() => openads_datetime => 142 
+    public $interval_end;                    // DATETIME() => openads_datetime => 142 
+    public $ad_id;                           // INT(10) => openads_int => 129 
+    public $creative_id;                     // INT(10) => openads_int => 129 
+    public $zone_id;                         // INT(10) => openads_int => 129 
+    public $requests;                        // INT(10) => openads_int => 129 
+    public $impressions;                     // INT(10) => openads_int => 129 
+    public $clicks;                          // INT(10) => openads_int => 129 
+    public $conversions;                     // INT(10) => openads_int => 129 
+    public $total_basket_value;              // DECIMAL(10,4) => openads_decimal => 129 
+    public $total_num_items;                 // INT(11) => openads_int => 129 
+    public $updated;                         // DATETIME() => openads_datetime => 142 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Data_intermediate_ad',$k,$v); }
 
     var $defaultValues = array(
+                'date_time' => '%NO_DATE_TIME%',
+                'interval_start' => '%NO_DATE_TIME%',
+                'interval_end' => '%NO_DATE_TIME%',
                 'requests' => 0,
                 'impressions' => 0,
                 'clicks' => 0,
                 'conversions' => 0,
                 'total_basket_value' => 0.0000,
                 'total_num_items' => 0,
+                'updated' => '%DATE_TIME%',
                 );
 
     /* the code above is auto generated do not remove the tag below */

@@ -38,29 +38,32 @@ class DataObjects_Variables extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'variables';                       // table name
-    public $variableid;                      // int(9)  not_null primary_key unsigned auto_increment
-    public $trackerid;                       // int(9)  not_null multiple_key
-    public $name;                            // string(250)  not_null
-    public $description;                     // string(250)  
-    public $datatype;                        // string(7)  not_null enum
-    public $purpose;                         // string(12)  enum
-    public $reject_if_empty;                 // int(1)  not_null unsigned
-    public $is_unique;                       // int(11)  not_null multiple_key
-    public $unique_window;                   // int(11)  not_null
-    public $variablecode;                    // string(255)  not_null
-    public $hidden;                          // string(1)  not_null enum
-    public $updated;                         // datetime(19)  not_null binary
+    public $variableid;                      // MEDIUMINT(9) => openads_mediumint => 129 
+    public $trackerid;                       // MEDIUMINT(9) => openads_mediumint => 129 
+    public $name;                            // VARCHAR(250) => openads_varchar => 130 
+    public $description;                     // VARCHAR(250) => openads_varchar => 2 
+    public $datatype;                        // ENUM('numeric','string','date') => openads_enum => 130 
+    public $purpose;                         // ENUM('basket_value','num_items','post_code') => openads_enum => 2 
+    public $reject_if_empty;                 // SMALLINT(1) => openads_smallint => 145 
+    public $is_unique;                       // INT(11) => openads_int => 129 
+    public $unique_window;                   // INT(11) => openads_int => 129 
+    public $variablecode;                    // VARCHAR(255) => openads_varchar => 130 
+    public $hidden;                          // ENUM('t','f') => openads_enum => 130 
+    public $updated;                         // DATETIME() => openads_datetime => 142 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Variables',$k,$v); }
 
     var $defaultValues = array(
                 'trackerid' => 0,
+                'name' => '',
                 'datatype' => 'numeric',
                 'reject_if_empty' => 0,
                 'is_unique' => 0,
                 'unique_window' => 0,
+                'variablecode' => '',
                 'hidden' => 'f',
+                'updated' => '%DATE_TIME%',
                 );
 
     /* the code above is auto generated do not remove the tag below */

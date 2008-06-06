@@ -36,16 +36,21 @@ class DataObjects_Log_maintenance_priority extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'log_maintenance_priority';        // table name
-    public $log_maintenance_priority_id;     // int(11)  not_null primary_key auto_increment
-    public $start_run;                       // datetime(19)  not_null binary
-    public $end_run;                         // datetime(19)  not_null binary
-    public $operation_interval;              // int(11)  not_null
-    public $duration;                        // int(11)  not_null
-    public $run_type;                        // int(3)  not_null unsigned
-    public $updated_to;                      // datetime(19)  binary
+    public $log_maintenance_priority_id;     // INT(11) => openads_int => 129 
+    public $start_run;                       // DATETIME() => openads_datetime => 142 
+    public $end_run;                         // DATETIME() => openads_datetime => 142 
+    public $operation_interval;              // INT(11) => openads_int => 129 
+    public $duration;                        // INT(11) => openads_int => 129 
+    public $run_type;                        // TINYINT(3) => openads_tinyint => 129 
+    public $updated_to;                      // DATETIME() => openads_datetime => 14 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Log_maintenance_priority',$k,$v); }
+
+    var $defaultValues = array(
+                'start_run' => '%NO_DATE_TIME%',
+                'end_run' => '%NO_DATE_TIME%',
+                );
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

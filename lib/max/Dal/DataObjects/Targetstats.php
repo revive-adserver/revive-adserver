@@ -36,11 +36,11 @@ class DataObjects_Targetstats extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'targetstats';                     // table name
-    public $day;                             // date(10)  not_null binary
-    public $campaignid;                      // int(9)  not_null
-    public $target;                          // int(11)  not_null
-    public $views;                           // int(11)  not_null
-    public $modified;                        // int(4)  not_null
+    public $day;                             // DATE() => openads_date => 134 
+    public $campaignid;                      // MEDIUMINT(9) => openads_mediumint => 129 
+    public $target;                          // INT(11) => openads_int => 129 
+    public $views;                           // INT(11) => openads_int => 129 
+    public $modified;                        // TINYINT(4) => openads_tinyint => 129 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Targetstats',$k,$v); }

@@ -36,10 +36,10 @@ class DataObjects_Data_intermediate_ad_variable_value extends DB_DataObjectCommo
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'data_intermediate_ad_variable_value';    // table name
-    public $data_intermediate_ad_variable_value_id;    // int(20)  not_null primary_key auto_increment
-    public $data_intermediate_ad_connection_id;    // int(20)  not_null multiple_key
-    public $tracker_variable_id;             // int(11)  not_null multiple_key
-    public $value;                           // string(50)  multiple_key
+    public $data_intermediate_ad_variable_value_id;    // BIGINT(20) => openads_bigint => 129 
+    public $data_intermediate_ad_connection_id;    // BIGINT(20) => openads_bigint => 129 
+    public $tracker_variable_id;             // INT(11) => openads_int => 129 
+    public $value;                           // VARCHAR(50) => openads_varchar => 2 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Data_intermediate_ad_variable_value',$k,$v); }

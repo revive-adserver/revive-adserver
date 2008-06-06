@@ -169,6 +169,7 @@ class Test_OA_Email extends UnitTestCase
         $doPlacements = OA_Dal::factoryDO('campaigns');
         $doPlacements->clientid = $advertiserId;
         $doPlacements->status = '0';
+        $doPlacements->campaignname = 'Default Campaign';
         $placementId1 = DataGenerator::generateOne($doPlacements);
 
         Language_Loader::load('default', $doUser->language);
@@ -181,7 +182,7 @@ class Test_OA_Email extends UnitTestCase
         $startDate = $oStartDate->format($date_format);
         $endDate   = $oEndDate->format($date_format);
         $expectedContents .= "This report includes statistics from $startDate up to $endDate.\n\n";
-        $expectedContents .= "\nCampaign [id$placementId1] 1\n";
+        $expectedContents .= "\nCampaign [id$placementId1] Default Campaign\n";
         $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId1\n";
         $expectedContents .= "=======================================================\n\n";
         $expectedContents .= "There are no statistics available for this campaign\n\n\n\n";
@@ -195,6 +196,7 @@ class Test_OA_Email extends UnitTestCase
         // that the correct report is generated
         $doPlacements = OA_Dal::factoryDO('campaigns');
         $doPlacements->clientid = $advertiserId;
+        $doPlacements->campaignname = 'Default Campaign';
         $placementId2 = DataGenerator::generateOne($doPlacements);
         $aResult = $oEmail->preparePlacementDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
         $expectedSubject = "Advertiser report: $clientName";
@@ -204,11 +206,11 @@ class Test_OA_Email extends UnitTestCase
         $startDate = $oStartDate->format($date_format);
         $endDate   = $oEndDate->format($date_format);
         $expectedContents .= "This report includes statistics from $startDate up to $endDate.\n\n";
-        $expectedContents .= "\nCampaign [id$placementId1] 1\n";
+        $expectedContents .= "\nCampaign [id$placementId1] Default Campaign\n";
         $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId1\n";
         $expectedContents .= "=======================================================\n\n";
         $expectedContents .= "There are no statistics available for this campaign\n\n\n";
-        $expectedContents .= "\nCampaign [id$placementId2] 1\n";
+        $expectedContents .= "\nCampaign [id$placementId2] Default Campaign\n";
         $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId2\n";
         $expectedContents .= "=======================================================\n\n";
         $expectedContents .= "There are no statistics available for this campaign\n\n\n\n";
@@ -222,6 +224,7 @@ class Test_OA_Email extends UnitTestCase
         // ensure the correct email is generated (no change to previous!)
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $placementId2;
+        $doPlacements->campaignname = 'Default Campaign';
         $adId1 = DataGenerator::generateOne($doBanners);
         $aResult = $oEmail->preparePlacementDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
         $this->assertTrue(is_array($aResult));
@@ -233,6 +236,7 @@ class Test_OA_Email extends UnitTestCase
         // the current date range, and ensure the correct email is generated
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $placementId2;
+        $doBanners->description = 'Test Banner';
         $adId2 = DataGenerator::generateOne($doBanners);
         $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
         $doDataSummaryAdHourly->date_time   = '2007-05-12 12:00:00';
@@ -249,14 +253,14 @@ class Test_OA_Email extends UnitTestCase
         $startDate = $oStartDate->format($date_format);
         $endDate   = $oEndDate->format($date_format);
         $expectedContents .= "This report includes statistics from $startDate up to $endDate.\n\n";
-        $expectedContents .= "\nCampaign [id$placementId1] 1\n";
+        $expectedContents .= "\nCampaign [id$placementId1] Default Campaign\n";
         $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId1\n";
         $expectedContents .= "=======================================================\n\n";
         $expectedContents .= "There are no statistics available for this campaign\n\n\n";
-        $expectedContents .= "\nCampaign [id$placementId2] 1\n";
+        $expectedContents .= "\nCampaign [id$placementId2] Default Campaign\n";
         $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId2\n";
         $expectedContents .= "=======================================================\n\n";
-        $expectedContents .= " Banner  [id$adId2] 1\n";
+        $expectedContents .= " Banner  [id$adId2] Test Banner\n";
         $expectedContents .= " ------------------------------------------------------\n";
         $expectedContents .= " Impressions (Total):           5,000\n";
         $expectedContents .= "  No Impressions were logged during the span of this report\n";
@@ -271,6 +275,7 @@ class Test_OA_Email extends UnitTestCase
         // report range, and ensure the correct email is generated
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $placementId2;
+        $doBanners->description = 'Test Banner';
         $adId3 = DataGenerator::generateOne($doBanners);
         $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
         $doDataSummaryAdHourly->date_time   = '2007-05-14 12:00:00';
@@ -299,19 +304,19 @@ class Test_OA_Email extends UnitTestCase
         $startDate = $oStartDate->format($date_format);
         $endDate   = $oEndDate->format($date_format);
         $expectedContents .= "This report includes statistics from $startDate up to $endDate.\n\n";
-        $expectedContents .= "\nCampaign [id$placementId1] 1\n";
+        $expectedContents .= "\nCampaign [id$placementId1] Default Campaign\n";
         $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId1\n";
         $expectedContents .= "=======================================================\n\n";
         $expectedContents .= "There are no statistics available for this campaign\n\n\n";
-        $expectedContents .= "\nCampaign [id$placementId2] 1\n";
+        $expectedContents .= "\nCampaign [id$placementId2] Default Campaign\n";
         $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId2\n";
         $expectedContents .= "=======================================================\n\n";
-        $expectedContents .= " Banner  [id$adId2] 1\n";
+        $expectedContents .= " Banner  [id$adId2] Test Banner\n";
         $expectedContents .= " ------------------------------------------------------\n";
         $expectedContents .= " Impressions (Total):           5,000\n";
         $expectedContents .= "  No Impressions were logged during the span of this report\n";
         $expectedContents .= "\n";
-        $expectedContents .= " Banner  [id$adId3] 1\n";
+        $expectedContents .= " Banner  [id$adId3] Test Banner\n";
         $expectedContents .= " ------------------------------------------------------\n";
         $expectedContents .= " Impressions (Total):          15,000\n";
         $expectedContents .= "          15-05-2007:           5,000\n";
@@ -342,9 +347,11 @@ class Test_OA_Email extends UnitTestCase
         $advertiserId = DataGenerator::generateOne($doClients);
         $doPlacements = OA_Dal::factoryDO('campaigns');
         $doPlacements->clientid = $advertiserId;
+        $doPlacements->campaignname = 'Default Campaign';
         $placementId1 = DataGenerator::generateOne($doPlacements);
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $placementId1;
+        $doBanners->description = 'Test Banner';
         $adId1= DataGenerator::generateOne($doBanners);
         $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
         $doDataSummaryAdHourly->date_time   = '2007-05-14 12:00:00';
@@ -373,10 +380,10 @@ class Test_OA_Email extends UnitTestCase
         $startDate = $oStartDate->format($date_format);
         $endDate   = $oEndDate->format($date_format);
         $expectedContents .= "This report includes all statistics up to $endDate.\n\n";
-        $expectedContents .= "\nCampaign [id$placementId1] 1\n";
+        $expectedContents .= "\nCampaign [id$placementId1] Default Campaign\n";
         $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId1\n";
         $expectedContents .= "=======================================================\n\n";
-        $expectedContents .= " Banner  [id$adId1] 1\n";
+        $expectedContents .= " Banner  [id$adId1] Test Banner\n";
         $expectedContents .= " ------------------------------------------------------\n";
         $expectedContents .= " Impressions (Total):          15,000\n";
         $expectedContents .= "          15-05-2007:           5,000\n";
@@ -388,7 +395,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertEqual(count($aResult), 3);
         $this->assertEqual($aResult['subject'], $expectedSubject);
         $this->assertEqual($aResult['contents'], $expectedContents);
-        DataGenerator::cleanUp(array('accounts'));
+        DataGenerator::cleanUp(array('accounts', 'account_user_assoc'));
 //        TestEnv::restoreEnv();
     }
 
@@ -470,7 +477,7 @@ class Test_OA_Email extends UnitTestCase
         // Create a banner
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $placementId;
-        $nammerId = DataGenerator::generateOne($doBanners);
+        $bannerId = DataGenerator::generateOne($doBanners);
 
         // With no stats, no email should be sent
         $result = $oEmail->sendPlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
@@ -505,7 +512,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertEqual($result, 2);
 
 //        TestEnv::restoreEnv();
-        DataGenerator::cleanUp();
+        DataGenerator::cleanUp(array('accounts', 'account_user_assoc'));
     }
 
     /**
@@ -638,6 +645,7 @@ class Test_OA_Email extends UnitTestCase
         // Create a campaign
         $doPlacements = OA_Dal::factoryDO('campaigns');
         $doPlacements->clientid = $advertiserId1;
+        $doPlacements->campaignname = 'Default Campaign';
         $doPlacements->views = 50;
         $doPlacements->expire = $oCampaignDate->format('%Y-%m-%d');
         $placementId = DataGenerator::generateOne($doPlacements);
@@ -791,7 +799,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "The campaign belonging to $advertiserName shown below is due to end on $dateValue.\n\n";
         $expectedContents .= "As a result, the campaign will soon be automatically disabled, and the\n";
         $expectedContents .= "following banners in the campaign will also be disabled:\n";
-        $expectedContents .= "\nCampaign [id$placementId] 1\n";
+        $expectedContents .= "\nCampaign [id$placementId] Default Campaign\n";
         $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId\n";
         $expectedContents .= "-------------------------------------------------------\n\n";
         $expectedContents .= " There are currently no banners defined\n\n";
@@ -814,7 +822,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "The campaign belonging to $advertiserName shown below is due to end on $dateValue.\n\n";
         $expectedContents .= "As a result, the campaign will soon be automatically disabled, and the\n";
         $expectedContents .= "following banners in the campaign will also be disabled:\n";
-        $expectedContents .= "\nCampaign [id$placementId] 1\n";
+        $expectedContents .= "\nCampaign [id$placementId] Default Campaign\n";
         $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId\n";
         $expectedContents .= "-------------------------------------------------------\n\n";
         $expectedContents .= " There are currently no banners defined\n\n";
@@ -837,7 +845,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "The campaign belonging to $advertiserName shown below has less than $impValue impressions remaining.\n\n";
         $expectedContents .= "As a result, the campaign will soon be automatically disabled, and the\n";
         $expectedContents .= "following banners in the campaign will also be disabled:\n";
-        $expectedContents .= "\nCampaign [id$placementId] 1\n";
+        $expectedContents .= "\nCampaign [id$placementId] Default Campaign\n";
         $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId\n";
         $expectedContents .= "-------------------------------------------------------\n\n";
         $expectedContents .= " There are currently no banners defined\n\n";
@@ -858,7 +866,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "The campaign belonging to $advertiserName shown below has less than $impValue impressions remaining.\n\n";
         $expectedContents .= "As a result, the campaign will soon be automatically disabled, and the\n";
         $expectedContents .= "following banners in the campaign will also be disabled:\n";
-        $expectedContents .= "\nCampaign [id$placementId] 1\n";
+        $expectedContents .= "\nCampaign [id$placementId] Default Campaign\n";
         $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId\n";
         $expectedContents .= "-------------------------------------------------------\n\n";
         $expectedContents .= " There are currently no banners defined\n\n";
@@ -877,11 +885,13 @@ class Test_OA_Email extends UnitTestCase
         // Add some banners and retest
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $placementId;
+        $doBanners->description = 'Test Banner';
         $doBanners->url        = '';
         $bannerId1 = DataGenerator::generateOne($doBanners);
 
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $placementId;
+        $doBanners->description = 'Test Banner';
         $doBanners->url        = 'http://www.fornax.net/';
         $bannerId2 = DataGenerator::generateOne($doBanners);
 
@@ -890,11 +900,11 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "The campaign belonging to $advertiserName shown below is due to end on $dateValue.\n\n";
         $expectedContents .= "As a result, the campaign will soon be automatically disabled, and the\n";
         $expectedContents .= "following banners in the campaign will also be disabled:\n";
-        $expectedContents .= "\nCampaign [id$placementId] 1\n";
+        $expectedContents .= "\nCampaign [id$placementId] Default Campaign\n";
         $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId\n";
         $expectedContents .= "-------------------------------------------------------\n\n";
-        $expectedContents .= " Banner [id$bannerId1] 1\n\n";
-        $expectedContents .= " Banner [id$bannerId2] 1\n";
+        $expectedContents .= " Banner [id$bannerId1] Test Banner\n\n";
+        $expectedContents .= " Banner [id$bannerId2] Test Banner\n";
         $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
         $expectedContents .= "-------------------------------------------------------\n\n\n";
         $expectedContents .= "Regards,\n   $adminName, $adminCompany";
@@ -913,11 +923,11 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "Your campaign shown below is due to end on $dateValue.\n\n";
         $expectedContents .= "As a result, the campaign will soon be automatically disabled, and the\n";
         $expectedContents .= "following banners in the campaign will also be disabled:\n";
-        $expectedContents .= "\nCampaign [id$placementId] 1\n";
+        $expectedContents .= "\nCampaign [id$placementId] Default Campaign\n";
         $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId\n";
         $expectedContents .= "-------------------------------------------------------\n\n";
-        $expectedContents .= " Banner [id$bannerId1] 1\n\n";
-        $expectedContents .= " Banner [id$bannerId2] 1\n";
+        $expectedContents .= " Banner [id$bannerId1] Test Banner\n\n";
+        $expectedContents .= " Banner [id$bannerId2] Test Banner\n";
         $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
         $expectedContents .= "-------------------------------------------------------\n\n\n";
         $expectedContents .= "Regards,\n   $agencyContact, $agencyName";
@@ -947,11 +957,11 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "The campaign belonging to $advertiserName shown below has less than $impValue impressions remaining.\n\n";
         $expectedContents .= "As a result, the campaign will soon be automatically disabled, and the\n";
         $expectedContents .= "following banners in the campaign will also be disabled:\n";
-        $expectedContents .= "\nCampaign [id$placementId] 1\n";
+        $expectedContents .= "\nCampaign [id$placementId] Default Campaign\n";
         $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId\n";
         $expectedContents .= "-------------------------------------------------------\n\n";
-        $expectedContents .= " Banner [id$bannerId1] 1\n\n";
-        $expectedContents .= " Banner [id$bannerId2] 1\n";
+        $expectedContents .= " Banner [id$bannerId1] Test Banner\n\n";
+        $expectedContents .= " Banner [id$bannerId2] Test Banner\n";
         $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
         $expectedContents .= "-------------------------------------------------------\n\n\n";
         $expectedContents .= "Regards,\n   $adminName, $adminCompany";
@@ -978,11 +988,11 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "Your campaign shown below has less than $impValue impressions remaining.\n\n";
         $expectedContents .= "As a result, the campaign will soon be automatically disabled, and the\n";
         $expectedContents .= "following banners in the campaign will also be disabled:\n";
-        $expectedContents .= "\nCampaign [id$placementId] 1\n";
+        $expectedContents .= "\nCampaign [id$placementId] Default Campaign\n";
         $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId\n";
         $expectedContents .= "-------------------------------------------------------\n\n";
-        $expectedContents .= " Banner [id$bannerId1] 1\n\n";
-        $expectedContents .= " Banner [id$bannerId2] 1\n";
+        $expectedContents .= " Banner [id$bannerId1] Test Banner\n\n";
+        $expectedContents .= " Banner [id$bannerId2] Test Banner\n";
         $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
         $expectedContents .= "-------------------------------------------------------\n\n\n";
         $expectedContents .= "Regards,\n   $agencyContact, $agencyName";
@@ -998,11 +1008,11 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents  = "Sehr geehrte(r) {$aAdvertiserUser2['contact_name']},\n\n";
         $expectedContents .= "Unten angegebene Ihre Kampagne hat weniger als {$impValue} Impressions �brig.\n\n";
         $expectedContents .= "Auf Grund dessen wird die Kampagne bald deaktiviert und weiter unten angegebene Banner aus dieser Kampagne werden deaktiviert.\n";
-        $expectedContents .= "\nKampagne [id$placementId] 1\n";
+        $expectedContents .= "\nKampagne [id$placementId] Default Campaign\n";
         $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId\n";
         $expectedContents .= "-------------------------------------------------------\n\n";
-        $expectedContents .= " Banner [id$bannerId1] 1\n\n";
-        $expectedContents .= " Banner [id$bannerId2] 1\n";
+        $expectedContents .= " Banner [id$bannerId1] Test Banner\n\n";
+        $expectedContents .= " Banner [id$bannerId2] Test Banner\n";
         $expectedContents .= "  verknüpft mit: http://www.fornax.net/\n\n";
         $expectedContents .= "-------------------------------------------------------\n\n\n";
         $expectedContents .= "Mit freundlichem Gruß\n   $agencyContact, $agencyName";
@@ -1012,7 +1022,8 @@ class Test_OA_Email extends UnitTestCase
         $this->assertEqual($aResult['subject'],   $expectedSubject);
         $this->assertEqual($aResult['contents'],  $expectedContents);
 
-        DataGenerator::cleanUp();
+        //DataGenerator::cleanUp();
+        DataGenerator::cleanUp(array('accounts','account_user_assoc'));
     }
 
     /**
@@ -1131,16 +1142,19 @@ class Test_OA_Email extends UnitTestCase
         // Create a campaign
         $doPlacements = OA_Dal::factoryDO('campaigns');
         $doPlacements->clientid = $advertiserId1;
+        $doPlacements->campaignname = 'Default Campaign';
         $placementId = DataGenerator::generateOne($doPlacements);
 
         // Prepare banners
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $placementId;
+        $doBanners->description = 'Test Banner';
         $doBanners->url        = '';
         $bannerId1 = DataGenerator::generateOne($doBanners);
 
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $placementId;
+        $doBanners->description = 'Test Banner';
         $doBanners->url        = 'http://www.fornax.net/';
         $bannerId2 = DataGenerator::generateOne($doBanners);
 
@@ -1155,11 +1169,11 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents  = "Dear {$aAdvertiserUser['contact_name']},\n\n";
         $expectedContents .= 'Your campaign shown below has been activated because'. "\n";
         $expectedContents .= 'the campaign activation date has been reached.' . "\n";
-        $expectedContents .= "\nCampaign [id$placementId] 1\n";
+        $expectedContents .= "\nCampaign [id$placementId] Default Campaign\n";
         $expectedContents .= "http://{$aConf['webpath']['admin']}/stats.php?clientid=$advertiserId1&campaignid={$placementId}&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=\n";
         $expectedContents .= "=======================================================\n\n";
-        $expectedContents .= " Banner  [id$bannerId1] 1\n\n";
-        $expectedContents .= " Banner  [id$bannerId2] 1\n";
+        $expectedContents .= " Banner  [id$bannerId1] Test Banner\n\n";
+        $expectedContents .= " Banner  [id$bannerId2] Test Banner\n";
         $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
         $expectedContents .= "\n";
         $expectedContents .= "Regards,\n   {$agencyContact}, {$agencyName}";
@@ -1173,11 +1187,11 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents  = "Dear {$aAdvertiserUser['contact_name']},\n\n";
         $expectedContents .= 'Your campaign shown below has been deactivated because:'. "\n";
         $expectedContents .= '  - there are no Impressions remaining.' . "\n";
-        $expectedContents .= "\nCampaign [id$placementId] 1\n";
+        $expectedContents .= "\nCampaign [id$placementId] Default Campaign\n";
         $expectedContents .= "http://{$aConf['webpath']['admin']}/stats.php?clientid=$advertiserId1&campaignid={$placementId}&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=\n";
         $expectedContents .= "=======================================================\n\n";
-        $expectedContents .= " Banner  [id$bannerId1] 1\n\n";
-        $expectedContents .= " Banner  [id$bannerId2] 1\n";
+        $expectedContents .= " Banner  [id$bannerId1] Test Banner\n\n";
+        $expectedContents .= " Banner  [id$bannerId2] Test Banner\n";
         $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
         $expectedContents .= "\n";
         $expectedContents .= "Regards,\n   {$agencyContact}, {$agencyName}";
@@ -1192,11 +1206,11 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents  = "Dear {$aAdvertiserUser['contact_name']},\n\n";
         $expectedContents .= 'Your campaign shown below has been deactivated because:'. "\n";
         $expectedContents .= '  - there are no Clicks remaining.' . "\n";
-        $expectedContents .= "\nCampaign [id$placementId] 1\n";
+        $expectedContents .= "\nCampaign [id$placementId] Default Campaign\n";
         $expectedContents .= "http://{$aConf['webpath']['admin']}/stats.php?clientid=$advertiserId1&campaignid={$placementId}&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=\n";
         $expectedContents .= "=======================================================\n\n";
-        $expectedContents .= " Banner  [id$bannerId1] 1\n\n";
-        $expectedContents .= " Banner  [id$bannerId2] 1\n";
+        $expectedContents .= " Banner  [id$bannerId1] Test Banner\n\n";
+        $expectedContents .= " Banner  [id$bannerId2] Test Banner\n";
         $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
         $expectedContents .= "\n";
         $expectedContents .= "Regards,\n   {$agencyContact}, {$agencyName}";
@@ -1210,11 +1224,11 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents  = "Dear {$aAdvertiserUser['contact_name']},\n\n";
         $expectedContents .= 'Your campaign shown below has been deactivated because:'. "\n";
         $expectedContents .= '  - there are no Sales remaining.' . "\n";
-        $expectedContents .= "\nCampaign [id$placementId] 1\n";
+        $expectedContents .= "\nCampaign [id$placementId] Default Campaign\n";
         $expectedContents .= "http://{$aConf['webpath']['admin']}/stats.php?clientid=$advertiserId1&campaignid={$placementId}&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=\n";
         $expectedContents .= "=======================================================\n\n";
-        $expectedContents .= " Banner  [id$bannerId1] 1\n\n";
-        $expectedContents .= " Banner  [id$bannerId2] 1\n";
+        $expectedContents .= " Banner  [id$bannerId1] Test Banner\n\n";
+        $expectedContents .= " Banner  [id$bannerId2] Test Banner\n";
         $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
         $expectedContents .= "\n";
         $expectedContents .= "Regards,\n   {$agencyContact}, {$agencyName}";
@@ -1228,11 +1242,11 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents  = "Dear {$aAdvertiserUser['contact_name']},\n\n";
         $expectedContents .= 'Your campaign shown below has been deactivated because:'. "\n";
         $expectedContents .= '  - the expiration date has been reached.' . "\n";
-        $expectedContents .= "\nCampaign [id$placementId] 1\n";
+        $expectedContents .= "\nCampaign [id$placementId] Default Campaign\n";
         $expectedContents .= "http://{$aConf['webpath']['admin']}/stats.php?clientid=$advertiserId1&campaignid={$placementId}&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=\n";
         $expectedContents .= "=======================================================\n\n";
-        $expectedContents .= " Banner  [id$bannerId1] 1\n\n";
-        $expectedContents .= " Banner  [id$bannerId2] 1\n";
+        $expectedContents .= " Banner  [id$bannerId1] Test Banner\n\n";
+        $expectedContents .= " Banner  [id$bannerId2] Test Banner\n";
         $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
         $expectedContents .= "\n";
         $expectedContents .= "Regards,\n   {$agencyContact}, {$agencyName}";
@@ -1249,11 +1263,11 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= '  - there are no Impressions remaining' . "\n";
         $expectedContents .= '  - there are no Clicks remaining' . "\n";
         $expectedContents .= '  - the expiration date has been reached.' . "\n";
-        $expectedContents .= "\nCampaign [id$placementId] 1\n";
+        $expectedContents .= "\nCampaign [id$placementId] Default Campaign\n";
         $expectedContents .= "http://{$aConf['webpath']['admin']}/stats.php?clientid=$advertiserId1&campaignid={$placementId}&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=\n";
         $expectedContents .= "=======================================================\n\n";
-        $expectedContents .= " Banner  [id$bannerId1] 1\n\n";
-        $expectedContents .= " Banner  [id$bannerId2] 1\n";
+        $expectedContents .= " Banner  [id$bannerId1] Test Banner\n\n";
+        $expectedContents .= " Banner  [id$bannerId2] Test Banner\n";
         $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
         $expectedContents .= "\n";
         $expectedContents .= "Regards,\n   {$agencyContact}, {$agencyName}";

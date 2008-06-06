@@ -39,52 +39,61 @@ class DataObjects_Zones extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'zones';                           // table name
-    public $zoneid;                          // int(9)  not_null primary_key auto_increment
-    public $affiliateid;                     // int(9)  multiple_key
-    public $zonename;                        // string(245)  not_null multiple_key
-    public $description;                     // string(255)  not_null
-    public $delivery;                        // int(6)  not_null
-    public $zonetype;                        // int(6)  not_null
-    public $category;                        // blob(65535)  not_null blob
-    public $width;                           // int(6)  not_null
-    public $height;                          // int(6)  not_null
-    public $ad_selection;                    // blob(65535)  not_null blob
-    public $chain;                           // blob(65535)  not_null blob
-    public $prepend;                         // blob(65535)  not_null blob
-    public $append;                          // blob(65535)  not_null blob
-    public $appendtype;                      // int(4)  not_null
-    public $forceappend;                     // string(1)  enum
-    public $inventory_forecast_type;         // int(6)  not_null
-    public $comments;                        // blob(65535)  blob
-    public $cost;                            // real(12)  
-    public $cost_type;                       // int(6)  
-    public $cost_variable_id;                // string(255)  
-    public $technology_cost;                 // real(12)  
-    public $technology_cost_type;            // int(6)  
-    public $updated;                         // datetime(19)  not_null binary
-    public $block;                           // int(11)  not_null
-    public $capping;                         // int(11)  not_null
-    public $session_capping;                 // int(11)  not_null
-    public $what;                            // blob(65535)  not_null blob
-    public $as_zone_id;                      // int(11)  
-    public $is_in_ad_direct;                 // int(1)  not_null
-    public $rate;                            // real(21)  
-    public $pricing;                         // string(50)  not_null
+    public $zoneid;                          // MEDIUMINT(9) => openads_mediumint => 129 
+    public $affiliateid;                     // MEDIUMINT(9) => openads_mediumint => 1 
+    public $zonename;                        // VARCHAR(245) => openads_varchar => 130 
+    public $description;                     // VARCHAR(255) => openads_varchar => 130 
+    public $delivery;                        // SMALLINT(6) => openads_smallint => 129 
+    public $zonetype;                        // SMALLINT(6) => openads_smallint => 129 
+    public $category;                        // TEXT() => openads_text => 162 
+    public $width;                           // SMALLINT(6) => openads_smallint => 129 
+    public $height;                          // SMALLINT(6) => openads_smallint => 129 
+    public $ad_selection;                    // TEXT() => openads_text => 162 
+    public $chain;                           // TEXT() => openads_text => 162 
+    public $prepend;                         // TEXT() => openads_text => 162 
+    public $append;                          // TEXT() => openads_text => 162 
+    public $appendtype;                      // TINYINT(4) => openads_tinyint => 129 
+    public $forceappend;                     // ENUM('t','f') => openads_enum => 2 
+    public $inventory_forecast_type;         // SMALLINT(6) => openads_smallint => 129 
+    public $comments;                        // TEXT() => openads_text => 34 
+    public $cost;                            // DECIMAL(10,4) => openads_decimal => 1 
+    public $cost_type;                       // SMALLINT(6) => openads_smallint => 1 
+    public $cost_variable_id;                // VARCHAR(255) => openads_varchar => 2 
+    public $technology_cost;                 // DECIMAL(10,4) => openads_decimal => 1 
+    public $technology_cost_type;            // SMALLINT(6) => openads_smallint => 1 
+    public $updated;                         // DATETIME() => openads_datetime => 142 
+    public $block;                           // INT(11) => openads_int => 129 
+    public $capping;                         // INT(11) => openads_int => 129 
+    public $session_capping;                 // INT(11) => openads_int => 129 
+    public $what;                            // TEXT() => openads_text => 162 
+    public $as_zone_id;                      // INT(11) => openads_int => 1 
+    public $is_in_ad_direct;                 // TINYINT(1) => openads_tinyint => 145 
+    public $rate;                            // DECIMAL(19,2) => openads_decimal => 1 
+    public $pricing;                         // VARCHAR(50) => openads_varchar => 130 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Zones',$k,$v); }
 
     var $defaultValues = array(
+                'zonename' => '',
+                'description' => '',
                 'delivery' => 0,
                 'zonetype' => 0,
+                'category' => '',
                 'width' => 0,
                 'height' => 0,
+                'ad_selection' => '',
+                'chain' => '',
+                'prepend' => '',
+                'append' => '',
                 'appendtype' => 0,
                 'forceappend' => 'f',
                 'inventory_forecast_type' => 0,
+                'updated' => '%DATE_TIME%',
                 'block' => 0,
                 'capping' => 0,
                 'session_capping' => 0,
+                'what' => '',
                 'is_in_ad_direct' => 0,
                 'pricing' => 'CPM',
                 );

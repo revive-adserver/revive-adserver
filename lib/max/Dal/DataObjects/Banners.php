@@ -40,49 +40,49 @@ class DataObjects_Banners extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'banners';                         // table name
-    public $bannerid;                        // int(9)  not_null primary_key auto_increment
-    public $campaignid;                      // int(9)  not_null multiple_key
-    public $contenttype;                     // string(4)  not_null enum
-    public $pluginversion;                   // int(9)  not_null
-    public $storagetype;                     // string(7)  not_null enum
-    public $filename;                        // string(255)  not_null
-    public $imageurl;                        // string(255)  not_null
-    public $htmltemplate;                    // blob(65535)  not_null blob
-    public $htmlcache;                       // blob(65535)  not_null blob
-    public $width;                           // int(6)  not_null
-    public $height;                          // int(6)  not_null
-    public $weight;                          // int(4)  not_null
-    public $seq;                             // int(4)  not_null
-    public $target;                          // string(16)  not_null
-    public $url;                             // blob(65535)  not_null blob
-    public $alt;                             // string(255)  not_null
-    public $statustext;                      // string(255)  not_null
-    public $bannertext;                      // blob(65535)  not_null blob
-    public $description;                     // string(255)  not_null
-    public $autohtml;                        // string(1)  not_null enum
-    public $adserver;                        // string(50)  not_null
-    public $block;                           // int(11)  not_null
-    public $capping;                         // int(11)  not_null
-    public $session_capping;                 // int(11)  not_null
-    public $compiledlimitation;              // blob(65535)  not_null blob
-    public $acl_plugins;                     // blob(65535)  blob
-    public $append;                          // blob(65535)  not_null blob
-    public $appendtype;                      // int(4)  not_null
-    public $bannertype;                      // int(4)  not_null
-    public $alt_filename;                    // string(255)  not_null
-    public $alt_imageurl;                    // string(255)  not_null
-    public $alt_contenttype;                 // string(4)  not_null enum
-    public $comments;                        // blob(65535)  blob
-    public $updated;                         // datetime(19)  not_null binary
-    public $acls_updated;                    // datetime(19)  not_null binary
-    public $keyword;                         // string(255)  not_null
-    public $transparent;                     // int(1)  not_null
-    public $parameters;                      // blob(65535)  blob
-    public $an_banner_id;                    // int(11)  
-    public $as_banner_id;                    // int(11)  
-    public $status;                          // int(11)  not_null
-    public $ad_direct_status;                // int(4)  not_null
-    public $ad_direct_rejection_reason_id;    // int(4)  not_null
+    public $bannerid;                        // MEDIUMINT(9) => openads_mediumint => 129 
+    public $campaignid;                      // MEDIUMINT(9) => openads_mediumint => 129 
+    public $contenttype;                     // ENUM('gif','jpeg','png','html','swf','dcr','rpm','mov','txt') => openads_enum => 130 
+    public $pluginversion;                   // MEDIUMINT(9) => openads_mediumint => 129 
+    public $storagetype;                     // ENUM('sql','web','url','html','network','txt') => openads_enum => 130 
+    public $filename;                        // VARCHAR(255) => openads_varchar => 130 
+    public $imageurl;                        // VARCHAR(255) => openads_varchar => 130 
+    public $htmltemplate;                    // TEXT() => openads_text => 162 
+    public $htmlcache;                       // TEXT() => openads_text => 162 
+    public $width;                           // SMALLINT(6) => openads_smallint => 129 
+    public $height;                          // SMALLINT(6) => openads_smallint => 129 
+    public $weight;                          // TINYINT(4) => openads_tinyint => 129 
+    public $seq;                             // TINYINT(4) => openads_tinyint => 129 
+    public $target;                          // VARCHAR(16) => openads_varchar => 130 
+    public $url;                             // TEXT() => openads_text => 162 
+    public $alt;                             // VARCHAR(255) => openads_varchar => 130 
+    public $statustext;                      // VARCHAR(255) => openads_varchar => 130 
+    public $bannertext;                      // TEXT() => openads_text => 162 
+    public $description;                     // VARCHAR(255) => openads_varchar => 130 
+    public $autohtml;                        // ENUM('t','f') => openads_enum => 130 
+    public $adserver;                        // VARCHAR(50) => openads_varchar => 130 
+    public $block;                           // INT(11) => openads_int => 129 
+    public $capping;                         // INT(11) => openads_int => 129 
+    public $session_capping;                 // INT(11) => openads_int => 129 
+    public $compiledlimitation;              // TEXT() => openads_text => 162 
+    public $acl_plugins;                     // TEXT() => openads_text => 34 
+    public $append;                          // TEXT() => openads_text => 162 
+    public $appendtype;                      // TINYINT(4) => openads_tinyint => 129 
+    public $bannertype;                      // TINYINT(4) => openads_tinyint => 129 
+    public $alt_filename;                    // VARCHAR(255) => openads_varchar => 130 
+    public $alt_imageurl;                    // VARCHAR(255) => openads_varchar => 130 
+    public $alt_contenttype;                 // ENUM('gif','jpeg','png') => openads_enum => 130 
+    public $comments;                        // TEXT() => openads_text => 34 
+    public $updated;                         // DATETIME() => openads_datetime => 142 
+    public $acls_updated;                    // DATETIME() => openads_datetime => 142 
+    public $keyword;                         // VARCHAR(255) => openads_varchar => 130 
+    public $transparent;                     // TINYINT(1) => openads_tinyint => 145 
+    public $parameters;                      // TEXT() => openads_text => 34 
+    public $an_banner_id;                    // INT(11) => openads_int => 1 
+    public $as_banner_id;                    // INT(11) => openads_int => 1 
+    public $status;                          // INT(11) => openads_int => 129 
+    public $ad_direct_status;                // TINYINT(4) => openads_tinyint => 129 
+    public $ad_direct_rejection_reason_id;    // TINYINT(4) => openads_tinyint => 129 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Banners',$k,$v); }
@@ -92,18 +92,35 @@ class DataObjects_Banners extends DB_DataObjectCommon
                 'contenttype' => 'gif',
                 'pluginversion' => 0,
                 'storagetype' => 'sql',
+                'filename' => '',
+                'imageurl' => '',
+                'htmltemplate' => '',
+                'htmlcache' => '',
                 'width' => 0,
                 'height' => 0,
                 'weight' => 1,
                 'seq' => 0,
+                'target' => '',
+                'url' => '',
+                'alt' => '',
+                'statustext' => '',
+                'bannertext' => '',
+                'description' => '',
                 'autohtml' => 't',
+                'adserver' => '',
                 'block' => 0,
                 'capping' => 0,
                 'session_capping' => 0,
+                'compiledlimitation' => '',
+                'append' => '',
                 'appendtype' => 0,
                 'bannertype' => 0,
+                'alt_filename' => '',
+                'alt_imageurl' => '',
                 'alt_contenttype' => 'gif',
+                'updated' => '%DATE_TIME%',
                 'acls_updated' => '%NO_DATE_TIME%',
+                'keyword' => '',
                 'transparent' => 0,
                 'status' => 0,
                 'ad_direct_status' => 0,

@@ -37,12 +37,17 @@ class DataObjects_Session extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'session';                         // table name
-    public $sessionid;                       // string(32)  not_null primary_key
-    public $sessiondata;                     // blob(65535)  not_null blob
-    public $lastused;                        // datetime(19)  binary
+    public $sessionid;                       // VARCHAR(32) => openads_varchar => 130 
+    public $sessiondata;                     // TEXT() => openads_text => 162 
+    public $lastused;                        // DATETIME() => openads_datetime => 14 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Session',$k,$v); }
+
+    var $defaultValues = array(
+                'sessionid' => '',
+                'sessiondata' => '',
+                );
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

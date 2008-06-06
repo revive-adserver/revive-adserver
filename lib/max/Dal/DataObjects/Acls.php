@@ -37,19 +37,23 @@ class DataObjects_Acls extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'acls';                            // table name
-    public $bannerid;                        // int(9)  not_null primary_key multiple_key
-    public $logical;                         // string(3)  not_null
-    public $type;                            // string(32)  not_null
-    public $comparison;                      // string(2)  not_null
-    public $data;                            // blob(65535)  not_null blob
-    public $executionorder;                  // int(10)  not_null primary_key unsigned
+    public $bannerid;                        // MEDIUMINT(9) => openads_mediumint => 129 
+    public $logical;                         // VARCHAR(3) => openads_varchar => 130 
+    public $type;                            // VARCHAR(32) => openads_varchar => 130 
+    public $comparison;                      // CHAR(2) => openads_char => 130 
+    public $data;                            // TEXT() => openads_text => 162 
+    public $executionorder;                  // INT(10) => openads_int => 129 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Acls',$k,$v); }
 
     var $defaultValues = array(
+                'bannerid' => 0,
                 'logical' => 'and',
+                'type' => '',
                 'comparison' => '==',
+                'data' => '',
+                'executionorder' => 0,
                 );
 
     /* the code above is auto generated do not remove the tag below */

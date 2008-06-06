@@ -36,13 +36,13 @@ class DataObjects_Ad_zone_assoc extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'ad_zone_assoc';                   // table name
-    public $ad_zone_assoc_id;                // int(9)  not_null primary_key auto_increment
-    public $zone_id;                         // int(9)  multiple_key
-    public $ad_id;                           // int(9)  multiple_key
-    public $priority;                        // real(22)  
-    public $link_type;                       // int(6)  not_null
-    public $priority_factor;                 // real(22)  
-    public $to_be_delivered;                 // int(1)  not_null
+    public $ad_zone_assoc_id;                // MEDIUMINT(9) => openads_mediumint => 129 
+    public $zone_id;                         // MEDIUMINT(9) => openads_mediumint => 1 
+    public $ad_id;                           // MEDIUMINT(9) => openads_mediumint => 1 
+    public $priority;                        // DOUBLE() => openads_double => 1 
+    public $link_type;                       // SMALLINT(6) => openads_smallint => 129 
+    public $priority_factor;                 // DOUBLE() => openads_double => 1 
+    public $to_be_delivered;                 // TINYINT(1) => openads_tinyint => 145 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Ad_zone_assoc',$k,$v); }

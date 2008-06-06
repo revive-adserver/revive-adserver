@@ -46,27 +46,32 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'affiliates';                      // table name
-    public $affiliateid;                     // int(9)  not_null primary_key auto_increment
-    public $agencyid;                        // int(9)  not_null multiple_key
-    public $name;                            // string(255)  not_null
-    public $mnemonic;                        // string(5)  not_null
-    public $comments;                        // blob(65535)  blob
-    public $contact;                         // string(255)  
-    public $email;                           // string(64)  not_null
-    public $website;                         // string(255)  
-    public $updated;                         // datetime(19)  not_null binary
-    public $an_website_id;                   // int(11)  
-    public $oac_country_code;                // string(2)  not_null
-    public $oac_language_id;                 // int(11)  
-    public $oac_category_id;                 // int(11)  
-    public $as_website_id;                   // int(11)  
-    public $account_id;                      // int(9)  unique_key
+    public $affiliateid;                     // MEDIUMINT(9) => openads_mediumint => 129 
+    public $agencyid;                        // MEDIUMINT(9) => openads_mediumint => 129 
+    public $name;                            // VARCHAR(255) => openads_varchar => 130 
+    public $mnemonic;                        // VARCHAR(5) => openads_varchar => 130 
+    public $comments;                        // TEXT() => openads_text => 34 
+    public $contact;                         // VARCHAR(255) => openads_varchar => 2 
+    public $email;                           // VARCHAR(64) => openads_varchar => 130 
+    public $website;                         // VARCHAR(255) => openads_varchar => 2 
+    public $updated;                         // DATETIME() => openads_datetime => 142 
+    public $an_website_id;                   // INT(11) => openads_int => 1 
+    public $oac_country_code;                // CHAR(2) => openads_char => 130 
+    public $oac_language_id;                 // INT(11) => openads_int => 1 
+    public $oac_category_id;                 // INT(11) => openads_int => 1 
+    public $as_website_id;                   // INT(11) => openads_int => 1 
+    public $account_id;                      // MEDIUMINT(9) => openads_mediumint => 1 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Affiliates',$k,$v); }
 
     var $defaultValues = array(
                 'agencyid' => 0,
+                'name' => '',
+                'mnemonic' => '',
+                'email' => '',
+                'updated' => '%DATE_TIME%',
+                'oac_country_code' => '',
                 );
 
     /* the code above is auto generated do not remove the tag below */

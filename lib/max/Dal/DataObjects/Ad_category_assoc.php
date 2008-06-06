@@ -36,9 +36,9 @@ class DataObjects_Ad_category_assoc extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'ad_category_assoc';               // table name
-    public $ad_category_assoc_id;            // int(10)  not_null primary_key unsigned auto_increment
-    public $category_id;                     // int(10)  not_null unsigned
-    public $ad_id;                           // int(10)  not_null unsigned
+    public $ad_category_assoc_id;            // INT(10) => openads_int => 129 
+    public $category_id;                     // INT(10) => openads_int => 129 
+    public $ad_id;                           // INT(10) => openads_int => 129 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Ad_category_assoc',$k,$v); }

@@ -36,12 +36,17 @@ class DataObjects_Images extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'images';                          // table name
-    public $filename;                        // string(128)  not_null primary_key
-    public $contents;                        // blob(-1)  not_null blob binary
-    public $t_stamp;                         // datetime(19)  binary
+    public $filename;                        // VARCHAR(128) => openads_varchar => 130 
+    public $contents;                        // blob() => blob => 194 
+    public $t_stamp;                         // DATETIME() => openads_datetime => 14 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Images',$k,$v); }
+
+    var $defaultValues = array(
+                'filename' => '',
+                'contents' => '',
+                );
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

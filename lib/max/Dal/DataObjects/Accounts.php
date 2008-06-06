@@ -15,14 +15,18 @@ class DataObjects_Accounts extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'accounts';                        // table name
-    public $account_id;                      // int(9)  not_null primary_key auto_increment
-    public $account_type;                    // string(16)  not_null multiple_key
-    public $account_name;                    // string(255)  
-    public $m2m_password;                    // string(32)  
-    public $m2m_ticket;                      // string(32)  
+    public $account_id;                      // MEDIUMINT(9) => openads_mediumint => 129 
+    public $account_type;                    // VARCHAR(16) => openads_varchar => 130 
+    public $account_name;                    // VARCHAR(255) => openads_varchar => 2 
+    public $m2m_password;                    // VARCHAR(32) => openads_varchar => 2 
+    public $m2m_ticket;                      // VARCHAR(32) => openads_varchar => 2 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Accounts',$k,$v); }
+
+    var $defaultValues = array(
+                'account_type' => '',
+                );
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

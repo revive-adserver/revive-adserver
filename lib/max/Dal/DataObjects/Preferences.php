@@ -10,12 +10,17 @@ class DataObjects_Preferences extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'preferences';                     // table name
-    public $preference_id;                   // int(9)  not_null primary_key auto_increment
-    public $preference_name;                 // string(64)  not_null unique_key
-    public $account_type;                    // string(16)  not_null multiple_key
+    public $preference_id;                   // MEDIUMINT(9) => openads_mediumint => 129 
+    public $preference_name;                 // VARCHAR(64) => openads_varchar => 130 
+    public $account_type;                    // VARCHAR(16) => openads_varchar => 130 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Preferences',$k,$v); }
+
+    var $defaultValues = array(
+                'preference_name' => '',
+                'account_type' => '',
+                );
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

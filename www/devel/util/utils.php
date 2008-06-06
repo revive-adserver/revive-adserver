@@ -12,7 +12,7 @@ if (array_key_exists('pkgarr',$_REQUEST))
     $aVersions = unserialize($array);
     var_dump($aVersions);
 }
-else if (array_key_exists('dbogen',$_REQUEST))
+else if (array_key_exists('dbogenr',$_REQUEST))
 {
     include MAX_PATH.'/scripts/db_dataobject/rebuild.php';
 }

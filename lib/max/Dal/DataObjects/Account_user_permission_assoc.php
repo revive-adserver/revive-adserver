@@ -10,10 +10,10 @@ class DataObjects_Account_user_permission_assoc extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'account_user_permission_assoc';    // table name
-    public $account_id;                      // int(9)  not_null primary_key
-    public $user_id;                         // int(9)  not_null primary_key
-    public $permission_id;                   // int(9)  not_null primary_key
-    public $is_allowed;                      // int(1)  not_null
+    public $account_id;                      // MEDIUMINT(9) => openads_mediumint => 129 
+    public $user_id;                         // MEDIUMINT(9) => openads_mediumint => 129 
+    public $permission_id;                   // MEDIUMINT(9) => openads_mediumint => 129 
+    public $is_allowed;                      // TINYINT(1) => openads_tinyint => 145 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Account_user_permission_assoc',$k,$v); }

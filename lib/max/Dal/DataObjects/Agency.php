@@ -46,20 +46,23 @@ class DataObjects_Agency extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'agency';                          // table name
-    public $agencyid;                        // int(9)  not_null primary_key auto_increment
-    public $name;                            // string(255)  not_null
-    public $contact;                         // string(255)  
-    public $email;                           // string(64)  not_null
-    public $logout_url;                      // string(255)  
-    public $active;                          // int(1)  
-    public $updated;                         // datetime(19)  not_null binary
-    public $account_id;                      // int(9)  unique_key
+    public $agencyid;                        // MEDIUMINT(9) => openads_mediumint => 129 
+    public $name;                            // VARCHAR(255) => openads_varchar => 130 
+    public $contact;                         // VARCHAR(255) => openads_varchar => 2 
+    public $email;                           // VARCHAR(64) => openads_varchar => 130 
+    public $logout_url;                      // VARCHAR(255) => openads_varchar => 2 
+    public $active;                          // SMALLINT(1) => openads_smallint => 17 
+    public $updated;                         // DATETIME() => openads_datetime => 142 
+    public $account_id;                      // MEDIUMINT(9) => openads_mediumint => 1 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Agency',$k,$v); }
 
     var $defaultValues = array(
+                'name' => '',
+                'email' => '',
                 'active' => 0,
+                'updated' => '%DATE_TIME%',
                 );
 
     /* the code above is auto generated do not remove the tag below */

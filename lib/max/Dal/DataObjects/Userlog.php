@@ -36,13 +36,13 @@ class DataObjects_Userlog extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'userlog';                         // table name
-    public $userlogid;                       // int(9)  not_null primary_key auto_increment
-    public $timestamp;                       // int(11)  not_null
-    public $usertype;                        // int(4)  not_null
-    public $userid;                          // int(9)  not_null
-    public $action;                          // int(9)  not_null
-    public $object;                          // int(9)  
-    public $details;                         // blob(16777215)  blob
+    public $userlogid;                       // MEDIUMINT(9) => openads_mediumint => 129 
+    public $timestamp;                       // INT(11) => openads_int => 129 
+    public $usertype;                        // TINYINT(4) => openads_tinyint => 129 
+    public $userid;                          // MEDIUMINT(9) => openads_mediumint => 129 
+    public $action;                          // MEDIUMINT(9) => openads_mediumint => 129 
+    public $object;                          // MEDIUMINT(9) => openads_mediumint => 1 
+    public $details;                         // MEDIUMTEXT() => openads_mediumtext => 34 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Userlog',$k,$v); }

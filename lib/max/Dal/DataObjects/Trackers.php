@@ -38,24 +38,26 @@ class DataObjects_Trackers extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'trackers';                        // table name
-    public $trackerid;                       // int(9)  not_null primary_key auto_increment
-    public $trackername;                     // string(255)  not_null
-    public $description;                     // string(255)  not_null
-    public $clientid;                        // int(9)  not_null multiple_key
-    public $viewwindow;                      // int(9)  not_null
-    public $clickwindow;                     // int(9)  not_null
-    public $blockwindow;                     // int(9)  not_null
-    public $status;                          // int(1)  not_null unsigned
-    public $type;                            // int(1)  not_null unsigned
-    public $linkcampaigns;                   // string(1)  not_null enum
-    public $variablemethod;                  // string(7)  not_null enum
-    public $appendcode;                      // blob(65535)  not_null blob
-    public $updated;                         // datetime(19)  not_null binary
+    public $trackerid;                       // MEDIUMINT(9) => openads_mediumint => 129 
+    public $trackername;                     // VARCHAR(255) => openads_varchar => 130 
+    public $description;                     // VARCHAR(255) => openads_varchar => 130 
+    public $clientid;                        // MEDIUMINT(9) => openads_mediumint => 129 
+    public $viewwindow;                      // MEDIUMINT(9) => openads_mediumint => 129 
+    public $clickwindow;                     // MEDIUMINT(9) => openads_mediumint => 129 
+    public $blockwindow;                     // MEDIUMINT(9) => openads_mediumint => 129 
+    public $status;                          // SMALLINT(1) => openads_smallint => 145 
+    public $type;                            // SMALLINT(1) => openads_smallint => 145 
+    public $linkcampaigns;                   // ENUM('t','f') => openads_enum => 130 
+    public $variablemethod;                  // ENUM('default','js','dom','custom') => openads_enum => 130 
+    public $appendcode;                      // TEXT() => openads_text => 162 
+    public $updated;                         // DATETIME() => openads_datetime => 142 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Trackers',$k,$v); }
 
     var $defaultValues = array(
+                'trackername' => '',
+                'description' => '',
                 'clientid' => 0,
                 'viewwindow' => 0,
                 'clickwindow' => 0,
@@ -64,6 +66,8 @@ class DataObjects_Trackers extends DB_DataObjectCommon
                 'type' => 1,
                 'linkcampaigns' => 'f',
                 'variablemethod' => 'default',
+                'appendcode' => '',
+                'updated' => '%DATE_TIME%',
                 );
 
     /* the code above is auto generated do not remove the tag below */

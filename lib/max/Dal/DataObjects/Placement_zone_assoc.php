@@ -36,9 +36,9 @@ class DataObjects_Placement_zone_assoc extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'placement_zone_assoc';            // table name
-    public $placement_zone_assoc_id;         // int(9)  not_null primary_key auto_increment
-    public $zone_id;                         // int(9)  multiple_key
-    public $placement_id;                    // int(9)  multiple_key
+    public $placement_zone_assoc_id;         // MEDIUMINT(9) => openads_mediumint => 129 
+    public $zone_id;                         // MEDIUMINT(9) => openads_mediumint => 1 
+    public $placement_id;                    // MEDIUMINT(9) => openads_mediumint => 1 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Placement_zone_assoc',$k,$v); }
