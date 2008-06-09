@@ -1031,86 +1031,139 @@ input.checkbox {
 	vertical-align: middle;
 }
 
-#campaign-zone .filter-area {
-  margin-top: 2ex;
+#campaign-zone {
+  margin-top: 4ex;
+}
+
+#select-zones {
+  clear: both;
+}
+
+#campaign-zone #select-zones {
+	text-align: center;
+}
+
+#campaign-zone #select-zones #linking-buttons {
+	width: 10%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#campaign-zone .button {
+	width: 100%;
+	margin-bottom: 3px;
+}
+
+#campaign-zone #filters {
   line-height: 170%;
+  height: 2ex;
+}
+
+#campaign-zone #available,
+#campaign-zone #linked,
+#campaign-zone #filters-linked,
+#campaign-zone #filters-available {
+  width: 44%;
+}
+
+#campaign-zone #available,
+#campaign-zone #linked {
+  height: 100%;
+  border: 1px solid #c0c0c0;
+}
+
+#campaign-zone .zones-container {
+  overflow: auto;
+  overflow-x: hidden;
+  height: 380px;
+}
+
+#campaign-zone #available,
+#campaign-zone #filters-available {
+	float: left;
+}
+
+#campaign-zone #linked,
+#campaign-zone #filters-linked {
+  float: right;
 }
 
 #campaign-zone #filters-search #search-phrase {
 	font-weight: bold;
 }
 
-#campaign-zone #zones {
-  margin-top: 3ex;
+#campaign-zone .zones {
   width: 100%;
   table-layout: fixed;
-  margin-bottom: 3ex;
+  text-align: center;
 }
 
-#campaign-zone #zones td {
+#campaign-zone .zones td {
 	text-align: center;
 }
 
-#campaign-zone #zones .name {
-	width: 15em;
+#campaign-zone .zones .name {
 	overflow: hidden;
 	text-align: left;
+  white-space: nowrap;
+  width: 25em;
 }
 
-#campaign-zone #zones .ctr,
-#campaign-zone #zones .cr,
-#campaign-zone #zones .ecpm {
-	width: 5em;
+#campaign-zone .zones .ctr,
+#campaign-zone .zones .cr,
+#campaign-zone .zones .ecpm,
+#campaign-zone .zones .category {
+	width: 0.1em;
+	padding: 0 0.1em 0 0.1em;
 }
 
-#campaign-zone #zones .category {
-	width: 10em;
-	overflow: hidden;
-}
-
-#campaign-zone #zones .description {
-  width: auto;
-	overflow: hidden;
-}
-
-#campaign-zone #zones tr.zone .name {
+#campaign-zone .zones tr.zone .name {
   padding-left: 2em;
 }
 
-#campaign-zone #zones tr.linked {
+#campaign-zone .zones tr.to-link {
 	background-color: #fff8b5;
 }
 
-#campaign-zone #zones tr.to-link
-{
-	background-color: #fffbd6;
-}
-
-#campaign-zone #zones tr.to-unlink
-{
-	background-color: #fffde9;
-}
-
-#campaign-zone #zones tbody tr {
+#campaign-zone .zones tbody tr {
   cursor: pointer;
 }
 
-#campaign-zone #zones tr.header {
+#campaign-zone .zones tr.header {
   cursor: default;
+  text-align: center;
 }
 
-#campaign-zone #zones tbody tr:hover {
+#campaign-zone .zones tbody tr:hover {
 	background-color: #ffdcc3;
 }
 
-#campaign-zone #zones tr.header:hover {
+#campaign-zone .zones tr.header:hover {
 	background-color: transparent;
 }
 
-#campaign-zone #run-of-network-info {
-  margin: 2ex 0 2ex 0;
+#campaign-zone .category {
+	width: 6em;
+	vertical-align: middle;
 }
+
+#campaign-zone .quick-search {
+	width: 6em;
+	vertical-align: middle;
+} 
 
 #quick-search.example-search {
   color: #909090;
+}
+
+span.ajax-loading {
+	background-image: url("../images/indicator.gif");
+	background-repeat: no-repeat;
+	padding-left: 20px;
+}
+
+span.ajax-error {
+	background-image: url("../images/icon-warning.gif");
+	background-repeat: no-repeat;
+	padding-left: 20px;
 }

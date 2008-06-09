@@ -25,33 +25,121 @@ $Id$
 
 -->*}
 <div id="campaign-zone">
+  <input id="advertiser-id" type="hidden" value="{$advertiserId}" />
+  <input id="campaign-id" type="hidden" value="{$campaignId}" />
 
-	<label>
-	  <input id="run-of-network" type="checkbox" class="checkbox" {if $runOfNetwork} checked{/if} /> 
-	  Run of Network (links to all available zones)
-	</label>
-
-  <div id="run-of-network-info" {if !$runOfNetwork} class="hide"{/if}>
-    This campaign will run on all current and future websites and zones
+  <div id="filters">
+    <div id="filters-available">
+      <div style="float: right">
+        <label>
+          Category
+          <select class="category">
+            <option value="10">Finance</option>
+            <option value="20">Sports</option>
+            <option value="30">Tourism</option>
+          </select>
+          <label>
+            Search
+            <input class="quick-search" type="text" title="Search zones and websites by name" />
+          </label>
+        </label>
+      </div>
+      <b>Available zones</b>
+    </div>
+    
+    <div id="filters-linked">
+      <div style="float: right">
+        <label>
+          Category
+          <select class="category">
+            <option value="10">Finance</option>
+            <option value="20">Sports</option>
+            <option value="30">Tourism</option>
+          </select>
+          <label>
+            Search
+            <input class="quick-search" type="text" title="Search zones and websites by name" />
+          </label>
+        </label>
+      </div>
+      <b>Linked zones</b>
+    </div>
   </div>
-  	
+
+  &nbsp;
+
+  <div id="select-zones">
+    <div id="available">
+      <div class="zones-container">
+        <table id="zones-available" class="zones">
+          <tbody>
+            <tr class="header">
+              <th class="name" style="width: 20%"><label><input type="checkbox" class="checkbox select-all" /> Select / Unselect all</label></th>
+              <th class="ctr">CTR</th>
+              <th class="cr">CR</th>
+              <th class="ecpm">eCPM</th>
+              <th class="category">Category</th>
+            </tr>
+          </tbody>
+          
+          <tbody id="zones-available-rows">
+            {include file=campaign-zone-zones.html
+                     websites=$availableWebsites
+                     checkboxPrefix=a}
+          </tbody>
+        </table>
+      </div>    
+    </div>
+  
+    <div id="linked">
+      <div class="zones-container">
+        <table id="zones-linked" class="zones">
+          <tbody>
+            <tr class="header">
+              <th class="name" style="width: 20%"><label><input type="checkbox" class="checkbox select-all" /> Select / Unselect all</label></th>
+              <th class="ctr">CTR</th>
+              <th class="cr">CR</th>
+              <th class="ecpm">eCPM</th>
+              <th class="category">Category</th>
+            </tr>
+          </tbody>
+          
+          <tbody id="zones-linked-rows">
+            {include file=campaign-zone-zones.html
+                     websites=$linkedWebsites
+                     checkboxPrefix=l}
+          </tbody>
+        </table>
+      </div>    
+    </div>
+    
+    <div id="linking-buttons">
+      <input type="button" id="link-button" value="Link &raquo;" class="flat button" /><br />
+      <input type="button" id="unlink-button" value="&laquo; Unlink" class="flat button" />
+      
+      <div style="margin-top: 3ex;">
+        <span id="linking-indicator" class="ajax-loading hide">Linking...</span>
+        <span id="error-indicator" class="ajax-error hide">Linking not successful, please try again</span>
+      </div>
+    </div>
+  </div>
+
+<!--   	
 	<div id="select-zones" {if $runOfNetwork} class="hide"{/if}>
     <div style="float: right">
       <label>
         Search
         <input id="quick-search" type="text" title="Search zones and websites by name" />
        </label>
-       <input id="advertiser-id" type="hidden" value="{$advertiserId}" />
-       <input id="campaign-id" type="hidden" value="{$campaignId}" />
     </div>
     
 		<form id="filters" class="filter-area">
 			<label>
 			  Showing
 			  <select id="status" style="vertical-align: middle">
-			    <option value="linked">Linked</option> <!-- If there are any zones linked to this campaign, show Linked by default -->
+			    <option value="linked">Linked</option> 
 			    <option value="notlinked">Not linked</option>
-			    <option value="all">All</option> <!-- If there are no zones linked to this campaingn, show All by default -->
+			    <option value="all">All</option>
 			  </select>
 			</label>
 			
@@ -90,18 +178,68 @@ $Id$
 	</div>
 	
 	<input class="main-submit" value="Save changes" type="button" />
-	
+-->
+ 	
 	<script type="text/javascript"><!--
 {literal}
-  $("#campaign-zone #zones").multicheckboxes({
-    selectedClass: "linked", 
+  $("#zones-available, #zones-linked").multicheckboxes({
+    selectedClass: "to-link", 
     unselectedClass: "", 
     toSelectClass: "to-link", 
-    toUselectClass: "to-unlink",
-    selectAllSelector: "#all-zones"
+    toUselectClass: "",
+    selectAllSelector: ".select-all"
   });
   
-  $("#run-of-network").toggleContent("#run-of-network-info", "#select-zones");
+  $("#link-button").click(function() {
+    sendLinkingRequest("link");
+  });
+  
+  $("#unlink-button").click(function() {
+    sendLinkingRequest("unlink");
+  });
+  
+  function sendLinkingRequest(action) {
+    var checkboxContainerSelector;
+    if (action == "link") {
+      checkboxContainerSelector = "#zones-available";
+    } else {
+      checkboxContainerSelector = "#zones-linked";
+    }
+  
+    var checkedNames = $.map($(checkboxContainerSelector).find(":checked").not(".select-all"), function(val) {
+      return val.name;
+    });
+    
+    // Data from all filters
+    var postData = { 
+      "clientid": $("#advertiser-id").val(),
+      "campaignid": $("#campaign-id").val(),
+      "action": action,
+      "ids": checkedNames
+    };
+
+    $.ajax({ 
+      url: "campaign-zone-link.php",
+      type: "GET",
+      data: postData,
+      complete: function() {
+        $("#linking-indicator").hide();
+      },
+      success: function(data) {
+        $data = $(data);
+        $("#zones-available-rows").html($data.eq(0).find("tr"));
+        $("#zones-linked-rows").html($data.eq(1).find("tr"));
+      },
+      error: function() {
+        $("#error-indicator").show();
+      } 
+    });
+    
+    $("#error-indicator").hide();
+    $("#linking-indicator").show();
+  }
+
+  /*
   $("#quick-search")
     .example("zone name, website name", { class_name: 'example-search'})
     .typeWatch({
@@ -146,6 +284,7 @@ $Id$
       $("#campaign-zone #zones").updatestate();
     });
   }
+    */
 {/literal}  
   //--></script>
 

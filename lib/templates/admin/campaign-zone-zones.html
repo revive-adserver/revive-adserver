@@ -25,27 +25,25 @@ $Id$
 
 -->*}
 {foreach from=$websites item=website}
-<tr class="website{if $website.linked} linked{/if}">
+<tr class="website">
   <td class="name">
-    <label><input id="w{$website.id}" type="checkbox" class="checkbox parent" {if $website.linked}checked{/if} /> {$website.name}</label>
+    <label><input id="{$checkboxPrefix}w{$website.id}" name="w{$website.id}" type="checkbox" class="checkbox parent" /> {$website.name}</label>
   </td>
   <td>{$website.ctr|string_format:"%.3f"}%</td>
   <td>{$website.cr|string_format:"%.3f"}%</td>
   <td>${$website.ecpm|string_format:"%.3f"}</td>
   <td>{$website.category}</td>
-  <td></td>
 </tr>
 
 {foreach from=$website.zones item=zone}
-<tr class="zone{if $zone.linked} linked{/if}">
+<tr class="zone">
   <td class="name">
-    <label><input id="w{$website.id}_z{$zone.id}" type="checkbox" class="checkbox" {if $zone.linked}checked {/if}}/> {$zone.name}</label>
+    <label><input id="{$checkboxPrefix}w{$website.id}_z{$zone.id}" name="z{$zone.id}" type="checkbox" class="checkbox"}/> {$zone.name}</label>
   </td>
   <td>{$zone.ctr|string_format:"%.3f"}%</td>
   <td>{$zone.cr|string_format:"%.3f"}%</td>
   <td>${$zone.ecpm|string_format:"%.3f"}</td>
   <td>{$zone.category}</td>
-  <td></td>
 </tr>
 {/foreach}    
 

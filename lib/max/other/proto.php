@@ -50,8 +50,8 @@ function generateZoneName()
 }
 
 function getWebsites($advertiserId, $campaignId, $searchPhrase, $status = 'all', $category = '') {
-  $websiteCount = 5;
-  $zoneCount = 4;
+  $websiteCount = $status == 'available' ? 5 : 2;
+  $zoneCount = $status == 'available' ? 4 : 2;
 
   $websites = array();
   for ($i = 0; $i < $websiteCount; $i++) {

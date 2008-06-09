@@ -30,6 +30,7 @@ require_once '../../init.php';
 
 // Required files
 require_once MAX_PATH . '/www/admin/config.php';
+require_once MAX_PATH . '/lib/max/other/proto.php';
 
 
 /*-------------------------------------------------------*/
@@ -37,61 +38,6 @@ require_once MAX_PATH . '/www/admin/config.php';
 /*-------------------------------------------------------*/
 
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
-
-
-/** TODO: Generators -- remove in the final implementation */
-$websiteNameIndex = 0;
-$zoneNameIndex = 0;
-
-$websiteNames = array("www.test.com", "ebay.com", "openx.org", "my.blog.com", "computers.com");
-$zoneNames = array("Home page top", "Home page side", "Product page bottom", "Specials", "Tiny");
-
-function generateWebsiteName()
-{
-  global $websiteNameIndex, $websiteNames;
-  return $websiteNames[$websiteNameIndex++ % count($websiteNames)];
-}
-
-function generateZoneName()
-{
-  global $zoneNameIndex, $zoneNames;
-  return $zoneNames[$zoneNameIndex++ % count($zoneNames)];
-}
-
-function getWebsites($advertiserId, $campaignId, $searchPhrase, $status = 'all', $category = '') {
-	$websiteCount = 5;
-	$zoneCount = 4;
-
-	$websites = array();
-	for ($i = 0; $i < $websiteCount; $i++) {
-	  $zones = array();
-	  
-	  $websiteName = generateWebsiteName();
-	  $websiteNameHighlighted = str_replace($searchPhrase, "<b>" . $searchPhrase. "</b>", $websiteName);
-	
-	  $websiteMatched = strlen($websiteNameHighlighted) > strlen($websiteName) || empty($searchPhrase);
-	  $zonesMatched = false;
-	  
-	  for ($j = 0; $j < $zoneCount; $j++) {
-	    $zoneName = generateZoneName();
-	    $zoneNameHighlighted = str_replace($searchPhrase, "<b>" . $searchPhrase. "</b>", $zoneName);
-	    
-	    $zoneMatched = strlen($zoneNameHighlighted) > strlen($zoneName)|| empty($searchPhrase);
-	    $zonesMatched = $zonesMatched || $zoneMatched;
-	    
-	    if ($zoneMatched || $websiteMatched) {
-	      array_push($zones, array(id=> $j, linked => ($j % 3) == 0, name => $zoneNameHighlighted, ctr => 0.003, cr => 0.001, ecpm => 0.23, category => "Finance", description => ""));
-	    }
-	  }
-	  
-	  if ($websiteMatched || $zonesMatched) {
-	    array_push($websites, array(id => $i, linked => false, name => $websiteNameHighlighted, ctr => 0.08, cr => 0.02, ecpm => 3.45, category => "Finance", description => "", zones => $zones));
-	  }
-	}
-	
-	return $websites;
-}
-/** Generators end */
 
 $oTpl = new OA_Admin_Template('campaign-zone-zones.html');
 $oTpl->assign('websites', getWebsites($_GET["clientid"], $_GET["campaignid"], $_GET["text"]));

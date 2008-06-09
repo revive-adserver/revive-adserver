@@ -25,51 +25,39 @@
 $Id$
 */
 
+
 // Require the initialisation file
 require_once '../../init.php';
 
 // Required files
 require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/lib/max/other/proto.php';
 
 
 /*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
-
-$advertiserId   = MAX_getValue('clientid');
-$campaignId     = MAX_getValue('campaignid');
-$agencyId = OA_Permission::getAgencyId();
-$aOtherAdvertisers = Admin_DA::getAdvertisers(array('agency_id' => $agencyId));
-$aOtherCampaigns = Admin_DA::getPlacements(array('advertiser_id' => $advertiserId));
-$pageName = basename($_SERVER['PHP_SELF']);
-$aEntities = array('clientid' => $advertiserId, 'campaignid' => $campaignId);
-MAX_displayNavigationCampaign($pageName, $aOtherAdvertisers, $aOtherCampaigns, $aEntities);
-
-/*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
-
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
-$oTpl = new OA_Admin_Template('campaign-zone.html');
+$action = $_GET["action"];
 
-$linkedWebsites = getWebsites($advertiserId, $campaignId, '', 'linked');
-$oTpl->assign('linkedWebsites', $linkedWebsites );
+$oTpl = new OA_Admin_Template('campaign-zone-zones.html');
 
-$availableWebsites = getWebsites($advertiserId, $campaignId, '', 'available');
-$oTpl->assign('availableWebsites', $availableWebsites );
-
-$oTpl->assign('advertiserId', $advertiserId);
-$oTpl->assign('campaignId', $campaignId);
-
+// Available zones go here
+echo "<tbody>";
+$linkedWebsites = getWebsites($_GET["clientid"], $_GET["campaignid"], $_GET["text"], $action == 'link' ? 'linked' : 'available');
+$oTpl->assign('websites', $linkedWebsites);
+$oTpl->assign('checkboxPrefix', "a");
 $oTpl->display();
+echo "</tbody>";
 
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
-
-phpAds_PageFooter();
+// Linked zones go here
+echo "<tbody>";
+$availableWebsites = getWebsites($_GET["clientid"], $_GET["campaignid"], $_GET["text"], $action != 'link' ? 'linked' : 'available');
+$oTpl->assign('websites', $availableWebsites);
+$oTpl->assign('checkboxPrefix', "l");
+$oTpl->display();
+echo "</tbody>";
 
 ?>
+

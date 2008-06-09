@@ -70,8 +70,8 @@
       var $container = $(this);
       $container.updatestate();
       
-      $(options.selectAllSelector).eq(0).click(function() {
-        var $checkboxes = $container.find(":checkbox");
+      $container.find(options.selectAllSelector).click(function() {
+        var $checkboxes = $container.find(":checkbox").not(options.selectAllSelector);
         $checkboxes.attr("checked", this.checked);
         updateTableRow($checkboxes, options);
       });
