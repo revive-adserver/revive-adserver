@@ -202,12 +202,12 @@ $Id$
       "category-linked": $("#category-linked").val(),
       "category-available": $("#category-available").val(),
       "action": action,
-      "ids": checkedNames
+      "ids[]": checkedNames
     };
 
     $.ajax({ 
       url: "campaign-zone-link.php",
-      type: "GET",
+      type: "POST",
       data: postData,
       complete: function() {
         $("#zones-available, #zones-linked").trigger("multichange");
