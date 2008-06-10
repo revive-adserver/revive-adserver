@@ -196,11 +196,15 @@ $Id$
     });
     
     // Data from all filters
+    $quickSearchLinked = $("#quick-search-linked");
+    $quickSearchAvailable = $("#quick-search-available");
     var postData = { 
       "clientid": $("#advertiser-id").val(),
       "campaignid": $("#campaign-id").val(),
       "category-linked": $("#category-linked").val(),
       "category-available": $("#category-available").val(),
+      "text-linked": $quickSearchLinked.is(".example-search") ? "" : $quickSearchLinked.val(),
+      "text-available": $quickSearchAvailable.is(".example-search") ? "" : $quickSearchAvailable.val(),
       "action": action,
       "ids[]": checkedNames
     };
