@@ -64,9 +64,6 @@ $Id$
           </tbody>
           
           <tbody id="zones-available-rows">
-            {include file=campaign-zone-zones.html
-                     websites=$availableWebsites
-                     checkboxPrefix=a}
           </tbody>
         </table>
       </div>    
@@ -87,9 +84,6 @@ $Id$
           </tbody>
           
           <tbody id="zones-linked-rows">
-            {include file=campaign-zone-zones.html
-                     websites=$linkedWebsites
-                     checkboxPrefix=l}
           </tbody>
         </table>
       </div>    
@@ -108,74 +102,96 @@ $Id$
 
 	<script type="text/javascript"><!--
 {literal}
-  // Multicheckbox selections, selection by row clicks
-  $("#zones-available, #zones-linked").multicheckboxes({
-    selectedClass: "to-link", 
-    unselectedClass: "", 
-    toSelectClass: "to-link", 
-    toUselectClass: "",
-    selectAllSelector: ".select-all"
-  });
-  
-  // Link/Unlink buttons
-  $("#link-button").bind("click", [ "link" ], sendLinkingRequest);
-  $("#unlink-button").bind("click", [ "unlink" ], sendLinkingRequest);
-  
-  // Category filters
-  $("#category-linked").bind("change", [ "linked" ], sendFiltersRequest);
-  $("#category-available").bind("change", [ "available" ], sendFiltersRequest);
-
-  // Quick search fields
-  $("#quick-search-available, #quick-search-linked")
-    .example("zone name, website name", { class_name: 'example-search'})
-    .typeWatch({
-      callback: function() {
-        var panelId = this.el.id.substring("quick-search-".length);
-        var value = $.trim(this.el.value);
-        if (value.length > 0) {
-          $("#filters-internal-" + panelId).hide();
-          $("#filters-show-" + panelId).show();
-          var postData = { 
-            "clientid": $("#advertiser-id").val(),
-            "campaignid": $("#campaign-id").val(),
-            "status": panelId,
-            "text": this.el.value
-          };
-          loadPanel(panelId, postData);
-        } else {
-          showFilters(panelId);
-        }
-      },
-      wait: 300,
-      captureLength: 1
+  $(document).ready(function() {
+    
+    // Multicheckbox selections, selection by row clicks
+    $("#zones-available, #zones-linked").multicheckboxes({
+      selectedClass: "to-link", 
+      unselectedClass: "", 
+      toSelectClass: "to-link", 
+      toUselectClass: "",
+      selectAllSelector: ".select-all"
+    });
+    
+    $("#zones-available").bind("multichange", function() {
+      $("#link-button").attr("disabled", $("#zones-available :checked").not(".select-all").size() == 0);
+    });
+    
+    $("#zones-linked").bind("multichange", function() {
+      $("#unlink-button").attr("disabled", $("#zones-linked :checked").not(".select-all").size() == 0);
+    });
+    
+    $("#zones-linked, #zones-available").bind("filter", function() {
+      var panel = this.id.substring("zones-".length);
+      
+      $quickSearch = $("#quick-search-" + panel);
+      var postData = { 
+        "clientid": $("#advertiser-id").val(),
+        "campaignid": $("#campaign-id").val(),
+        "status": panel,
+        "category": $("#category-" + panel).val(),
+        "text": $quickSearch.is(".example-search") ? "" : $quickSearch.val()
+      };
+      
+      $.ajax({ 
+        url: "campaign-zone-zones.php",
+        type: "GET",
+        data: postData,
+        complete: function() {
+          $("#zones-" + panel + "-loading").hide();
+        },
+        success: function(data) {
+          $("#zones-" + panel + "-rows").html(data);
+        },
+        error: function() {
+          $("#error-indicator").show();
+        } 
+      });
+      $("#error-indicator").hide();
+      $("#zones-" + panel + "-loading").show();
+    });
+    
+    // Link/Unlink buttons
+    $("#link-button").bind("click", [ "link" ], sendLinkingRequest);
+    $("#unlink-button").bind("click", [ "unlink" ], sendLinkingRequest);
+    
+    // Category filters
+    $("#category-linked").bind("change", function() {
+      $("#zones-linked").trigger("filter"); 
+    });
+    $("#category-available").bind("change", function() {
+      $("#zones-available").trigger("filter");
     });
   
-  // Show filters link
-  $(".show-filters").click(function() {
-    showFilters(this.id.substring("filters-show-".length));
-    return false;
+    // Quick search fields
+    $("#quick-search-available, #quick-search-linked")
+      .example("zone name, website name", { class_name: 'example-search'})
+      .typeWatch({
+        callback: function() {
+          var panelId = this.el.id.substring("quick-search-".length);
+          $("#zones-" + panelId).trigger("filter");
+        },
+        wait: 300,
+        captureLength: 1
+      });
+      
+    $("#zones-available, #zones-linked").trigger("filter").trigger("multichange");
   });
-
-  // Shows filters and load the data to the panel
-  function showFilters(panelId) {
-    $("#quick-search-" + panelId).val("").triggerHandler("blur");
-    $("#filters-internal-" + panelId).show();
-    $("#filters-show-" + panelId).hide();
-    sendFiltersRequest({ data: [ panelId ] });
-  }
   
   // Performs linking/unlinking and refreshes panels on completion
   function sendLinkingRequest(event) {
     var action = event.data[0];
     
-    var checkboxContainerSelector;
+    $("#link-button, #unlink-button").attr("disabled", true);
+    
+    var $checkboxContainer;
     if (action == "link") {
-      checkboxContainerSelector = "#zones-available";
+      checkboxContainer = $("#zones-available");
     } else {
-      checkboxContainerSelector = "#zones-linked";
+      checkboxContainer = $("#zones-linked");
     }
   
-    var checkedNames = $.map($(checkboxContainerSelector).find(":checked").not(".select-all"), function(val) {
+    var checkedNames = $.map($(checkboxContainer).find(":checked").not(".select-all"), function(val) {
       return val.name;
     });
     
@@ -194,6 +210,8 @@ $Id$
       type: "GET",
       data: postData,
       complete: function() {
+        $("#zones-available, #zones-linked").trigger("multichange");
+        $(".select-all").attr("checked", false);
         $("#linking-indicator").hide();
       },
       success: function(data) {
@@ -208,40 +226,6 @@ $Id$
     
     $("#error-indicator").hide();
     $("#linking-indicator").show();
-  }
-
-  // Refreshes a panel when filters change
-  function sendFiltersRequest(event) {
-    var panel = event.data[0];
-    
-    var postData = { 
-      "clientid": $("#advertiser-id").val(),
-      "campaignid": $("#campaign-id").val(),
-      "status": panel,
-      "category": $("#category-" + panel).val()
-    };
-    
-    loadPanel(panel, postData);
-  }
-  
-  // Common panel data loading code
-  function loadPanel(panel, postData) {
-    $.ajax({ 
-      url: "campaign-zone-zones.php",
-      type: "GET",
-      data: postData,
-      complete: function() {
-        $("#zones-" + panel + "-loading").hide();
-      },
-      success: function(data) {
-        $("#zones-" + panel + "-rows").html(data);
-      },
-      error: function() {
-        $("#error-indicator").show();
-      } 
-    });
-    $("#error-indicator").hide();
-    $("#zones-" + panel + "-loading").show();
   }
 {/literal}  
   //--></script>

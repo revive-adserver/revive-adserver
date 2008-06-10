@@ -74,6 +74,7 @@
         var $checkboxes = $container.find(":checkbox").not(options.selectAllSelector);
         $checkboxes.attr("checked", this.checked);
         updateTableRow($checkboxes, options);
+        $container.trigger("multichange");
       });
       
       $container.click(function(event) {
@@ -110,6 +111,7 @@
             updateTableRow($checkbox, options);
 	          updateTableRow($parent, options);
           }
+          $container.trigger("multichange");
         }
       });
     });
