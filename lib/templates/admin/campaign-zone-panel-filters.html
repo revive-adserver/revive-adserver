@@ -1,9 +1,8 @@
-<?php
+{*<!--
 
-/*
 +---------------------------------------------------------------------------+
-| OpenX  v${RELEASE_MAJOR_MINOR}                                                              |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -23,34 +22,21 @@
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
 $Id$
-*/
 
-// Require the initialisation file
-require_once '../../init.php';
-
-// Required files
-require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/lib/max/other/proto.php';
-
-
-/*-------------------------------------------------------*/
-/* Main code                                             */
-/*-------------------------------------------------------*/
-
-require_once MAX_PATH . '/lib/OA/Admin/Template.php';
-
-$oTpl = new OA_Admin_Template('campaign-zone-zones.html');
-
-$status = $_GET["status"];
-$oTpl->assign('websites', getWebsites($_GET["clientid"], $_GET["campaignid"], $_GET["text"], $status, $_GET["category"]));
-
-if ($status == 'linked') {
-  $oTpl->assign('checkboxPrefix', 'l');
-}
-else {
-  $oTpl->assign('checkboxPrefix', 'a');
-}
-
-$oTpl->display();
-
-?>
+-->*}
+<span id="filters-internal-{$panelId}">
+  <label>
+    Category
+    <select id="category-{$panelId}" class="category">
+      <option value="-1">-- all --</option>
+      <option value="10">Finance</option>
+      <option value="20">Sports</option>
+      <option value="30">Tourism</option>
+    </select>
+  </label>
+</span>
+<a class="show-filters hide" id="filters-show-{$panelId}" href="#">show filters</a>
+<label style="padding-left: 0.5em">
+  Search
+  <input id="quick-search-{$panelId}" class="quick-search" type="text" title="Search zones and websites by name" />
+</label>

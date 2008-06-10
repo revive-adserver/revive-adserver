@@ -49,7 +49,7 @@ function generateZoneName()
   return $zoneNames[$zoneNameIndex++ % count($zoneNames)];
 }
 
-function getWebsites($advertiserId, $campaignId, $searchPhrase, $status = 'all', $category = '') {
+function getWebsites($advertiserId, $campaignId, $searchPhrase, $status = 'all', $category = 'Finance') {
   $websiteCount = $status == 'available' ? 5 : 2;
   $zoneCount = $status == 'available' ? 4 : 2;
 
@@ -71,12 +71,12 @@ function getWebsites($advertiserId, $campaignId, $searchPhrase, $status = 'all',
       $zonesMatched = $zonesMatched || $zoneMatched;
       
       if ($zoneMatched || $websiteMatched) {
-        array_push($zones, array(id=> $j, linked => ($j % 3) == 0, name => $zoneNameHighlighted, ctr => 0.003, cr => 0.001, ecpm => 0.23, category => "Finance", description => ""));
+        array_push($zones, array(id=> $j, linked => ($j % 3) == 0, name => $zoneNameHighlighted, ctr => 0.003, cr => 0.001, ecpm => 0.23, category => $category, description => ""));
       }
     }
     
     if ($websiteMatched || $zonesMatched) {
-      array_push($websites, array(id => $i, linked => false, name => $websiteNameHighlighted, ctr => 0.08, cr => 0.02, ecpm => 3.45, category => "Finance", description => "", zones => $zones));
+      array_push($websites, array(id => $i, linked => false, name => $websiteNameHighlighted, ctr => 0.08, cr => 0.02, ecpm => 3.45, category => $category, description => "", zones => $zones));
     }
   }
   

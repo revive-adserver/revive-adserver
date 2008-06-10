@@ -1076,6 +1076,7 @@ input.checkbox {
   overflow: auto;
   overflow-x: hidden;
   height: 380px;
+  position: relative;
 }
 
 #campaign-zone #available,
@@ -1143,12 +1144,12 @@ input.checkbox {
 }
 
 #campaign-zone .category {
-	width: 6em;
+	width: 25%;
 	vertical-align: middle;
 }
 
 #campaign-zone .quick-search {
-	width: 6em;
+  width: 25%;
 	vertical-align: middle;
 } 
 
@@ -1156,13 +1157,30 @@ input.checkbox {
   color: #909090;
 }
 
-span.ajax-loading {
+#campaign-zone .panel-loading {
+	position: absolute;
+	padding-top: 2px;
+	padding-right: 2px;
+	padding-bottom: 2px;
+	background-color: #fffac7;
+	right: 0;
+}
+
+#campaign-zone .show-filters {
+	padding-right: 1.5em;
+}
+
+.example-search {
+	color: #b0b0b0;
+}
+
+.ajax-loading {
 	background-image: url("../images/indicator.gif");
 	background-repeat: no-repeat;
 	padding-left: 20px;
 }
 
-span.ajax-error {
+.ajax-error {
 	background-image: url("../images/icon-warning.gif");
 	background-repeat: no-repeat;
 	padding-left: 20px;

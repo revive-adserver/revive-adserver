@@ -30,37 +30,17 @@ $Id$
 
   <div id="filters">
     <div id="filters-available">
-      <div style="float: right">
-        <label>
-          Category
-          <select class="category">
-            <option value="10">Finance</option>
-            <option value="20">Sports</option>
-            <option value="30">Tourism</option>
-          </select>
-          <label>
-            Search
-            <input class="quick-search" type="text" title="Search zones and websites by name" />
-          </label>
-        </label>
+      <div style="float: right; width: 70%; text-align: right">
+        {include file=campaign-zone-panel-filters.html
+                 panelId=available}
       </div>
       <b>Available zones</b>
     </div>
     
     <div id="filters-linked">
-      <div style="float: right">
-        <label>
-          Category
-          <select class="category">
-            <option value="10">Finance</option>
-            <option value="20">Sports</option>
-            <option value="30">Tourism</option>
-          </select>
-          <label>
-            Search
-            <input class="quick-search" type="text" title="Search zones and websites by name" />
-          </label>
-        </label>
+      <div style="float: right; width: 70%; text-align: right">
+        {include file=campaign-zone-panel-filters.html
+                 panelId=linked}
       </div>
       <b>Linked zones</b>
     </div>
@@ -71,6 +51,7 @@ $Id$
   <div id="select-zones">
     <div id="available">
       <div class="zones-container">
+        <div id="zones-available-loading" class="ajax-loading panel-loading hide">Loading...</div>
         <table id="zones-available" class="zones">
           <tbody>
             <tr class="header">
@@ -93,6 +74,7 @@ $Id$
   
     <div id="linked">
       <div class="zones-container">
+        <div id="zones-linked-loading" class="ajax-loading panel-loading hide">Loading...</div>
         <table id="zones-linked" class="zones">
           <tbody>
             <tr class="header">
@@ -124,64 +106,9 @@ $Id$
     </div>
   </div>
 
-<!--   	
-	<div id="select-zones" {if $runOfNetwork} class="hide"{/if}>
-    <div style="float: right">
-      <label>
-        Search
-        <input id="quick-search" type="text" title="Search zones and websites by name" />
-       </label>
-    </div>
-    
-		<form id="filters" class="filter-area">
-			<label>
-			  Showing
-			  <select id="status" style="vertical-align: middle">
-			    <option value="linked">Linked</option> 
-			    <option value="notlinked">Not linked</option>
-			    <option value="all">All</option>
-			  </select>
-			</label>
-			
-			<label>
-			  zones from category
-			  <select id="category" style="vertical-align: middle">
-			    <option value="10">Finance</option>
-			    <option value="20">Sports</option>
-			    <option value="30">Tourism</option>
-			  </select>
-			</label>
-		</form>
-		
-		<div id="filters-search" class="hide filter-area">
-			Showing zones and websites containing
-      <span id="search-phrase"></span> (<a id="show-filters" href="#">back to filters</a>)
-		</div>
-		
-		<table id="zones">
-		  <tbody>
-			  <tr class="header">
-			    <th class="name" style="width: 20%"><label><input type="checkbox" class="checkbox" id="all-zones" /> Select / Unselect all</label></th>
-			    <th class="ctr">CTR</th>
-			    <th class="cr">CR</th>
-			    <th class="ecpm">eCPM</th>
-			    <th class="category">Category</th>
-			    <th class="description">Description</th>
-			  </tr>
-      </tbody>
-      
-      <tbody id="zones-rows">
-        {include file=campaign-zone-zones.html
-                 websites=$websites}
-			</tbody>
-		</table>
-	</div>
-	
-	<input class="main-submit" value="Save changes" type="button" />
--->
- 	
 	<script type="text/javascript"><!--
 {literal}
+  // Multicheckbox selections, selection by row clicks
   $("#zones-available, #zones-linked").multicheckboxes({
     selectedClass: "to-link", 
     unselectedClass: "", 
@@ -190,15 +117,57 @@ $Id$
     selectAllSelector: ".select-all"
   });
   
-  $("#link-button").click(function() {
-    sendLinkingRequest("link");
-  });
+  // Link/Unlink buttons
+  $("#link-button").bind("click", [ "link" ], sendLinkingRequest);
+  $("#unlink-button").bind("click", [ "unlink" ], sendLinkingRequest);
   
-  $("#unlink-button").click(function() {
-    sendLinkingRequest("unlink");
-  });
+  // Category filters
+  $("#category-linked").bind("change", [ "linked" ], sendFiltersRequest);
+  $("#category-available").bind("change", [ "available" ], sendFiltersRequest);
+
+  // Quick search fields
+  $("#quick-search-available, #quick-search-linked")
+    .example("zone name, website name", { class_name: 'example-search'})
+    .typeWatch({
+      callback: function() {
+        var panelId = this.el.id.substring("quick-search-".length);
+        var value = $.trim(this.el.value);
+        if (value.length > 0) {
+          $("#filters-internal-" + panelId).hide();
+          $("#filters-show-" + panelId).show();
+          var postData = { 
+            "clientid": $("#advertiser-id").val(),
+            "campaignid": $("#campaign-id").val(),
+            "status": panelId,
+            "text": this.el.value
+          };
+          loadPanel(panelId, postData);
+        } else {
+          showFilters(panelId);
+        }
+      },
+      wait: 300,
+      captureLength: 1
+    });
   
-  function sendLinkingRequest(action) {
+  // Show filters link
+  $(".show-filters").click(function() {
+    showFilters(this.id.substring("filters-show-".length));
+    return false;
+  });
+
+  // Shows filters and load the data to the panel
+  function showFilters(panelId) {
+    $("#quick-search-" + panelId).val("").triggerHandler("blur");
+    $("#filters-internal-" + panelId).show();
+    $("#filters-show-" + panelId).hide();
+    sendFiltersRequest({ data: [ panelId ] });
+  }
+  
+  // Performs linking/unlinking and refreshes panels on completion
+  function sendLinkingRequest(event) {
+    var action = event.data[0];
+    
     var checkboxContainerSelector;
     if (action == "link") {
       checkboxContainerSelector = "#zones-available";
@@ -214,6 +183,8 @@ $Id$
     var postData = { 
       "clientid": $("#advertiser-id").val(),
       "campaignid": $("#campaign-id").val(),
+      "category-linked": $("#category-linked").val(),
+      "category-available": $("#category-available").val(),
       "action": action,
       "ids": checkedNames
     };
@@ -239,52 +210,39 @@ $Id$
     $("#linking-indicator").show();
   }
 
-  /*
-  $("#quick-search")
-    .example("zone name, website name", { class_name: 'example-search'})
-    .typeWatch({
-      callback: function() {
-        var value = $.trim(this.el.value);
-        if (value.length > 0) {
-          $("#filters").hide();
-          $("#filters-search").find("#search-phrase").text(value).end().show();
-          $.get("campaign-zone-zones.php", {
-            clientid: $("#advertiser-id").val(),
-            campaignid: $("#campaign-id").val(),
-            text: $("#quick-search").val(),
-          }, function(data) {
-            $("#zones-rows").html(data);
-            $("#campaign-zone #zones").updatestate();
-          });
-        } else {
-          showFilters();
-        }
-      },
-      wait: 300,
-      captureLength: 1
-    });
+  // Refreshes a panel when filters change
+  function sendFiltersRequest(event) {
+    var panel = event.data[0];
     
-  $("#show-filters").click(function () {
-    $("#quick-search").val("").triggerHandler("blur");
-    showFilters();
-  });
-  
-  $("#category, #status").change(showFilters);
-  
-  function showFilters() {
-    $("#filters").show();
-    $("#filters-search").hide();
-    $.get("campaign-zone-zones.php", {
-      clientid: $("#advertiser-id").val(),
-      campaignid: $("#campaign-id").val(),
-      status: $("#status").val(),
-      category: $("#category").val()
-    }, function(data) {
-      $("#zones-rows").html(data);
-      $("#campaign-zone #zones").updatestate();
-    });
+    var postData = { 
+      "clientid": $("#advertiser-id").val(),
+      "campaignid": $("#campaign-id").val(),
+      "status": panel,
+      "category": $("#category-" + panel).val()
+    };
+    
+    loadPanel(panel, postData);
   }
-    */
+  
+  // Common panel data loading code
+  function loadPanel(panel, postData) {
+    $.ajax({ 
+      url: "campaign-zone-zones.php",
+      type: "GET",
+      data: postData,
+      complete: function() {
+        $("#zones-" + panel + "-loading").hide();
+      },
+      success: function(data) {
+        $("#zones-" + panel + "-rows").html(data);
+      },
+      error: function() {
+        $("#error-indicator").show();
+      } 
+    });
+    $("#error-indicator").hide();
+    $("#zones-" + panel + "-loading").show();
+  }
 {/literal}  
   //--></script>
 

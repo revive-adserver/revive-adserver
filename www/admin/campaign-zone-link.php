@@ -45,7 +45,7 @@ $oTpl = new OA_Admin_Template('campaign-zone-zones.html');
 
 // Available zones go here
 echo "<tbody>";
-$linkedWebsites = getWebsites($_GET["clientid"], $_GET["campaignid"], $_GET["text"], $action == 'link' ? 'linked' : 'available');
+$linkedWebsites = getWebsites($_GET["clientid"], $_GET["campaignid"], $_GET["text"], $action == 'link' ? 'linked' : 'available', $_GET["category-available"]);
 $oTpl->assign('websites', $linkedWebsites);
 $oTpl->assign('checkboxPrefix', "a");
 $oTpl->display();
@@ -53,7 +53,7 @@ echo "</tbody>";
 
 // Linked zones go here
 echo "<tbody>";
-$availableWebsites = getWebsites($_GET["clientid"], $_GET["campaignid"], $_GET["text"], $action != 'link' ? 'linked' : 'available');
+$availableWebsites = getWebsites($_GET["clientid"], $_GET["campaignid"], $_GET["text"], $action != 'link' ? 'linked' : 'available', $_GET["category-linked"]);
 $oTpl->assign('websites', $availableWebsites);
 $oTpl->assign('checkboxPrefix', "l");
 $oTpl->display();
