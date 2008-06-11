@@ -88,6 +88,7 @@ $Id$
 require_once MAX_PATH . '/lib/max/Delivery/limitations.php';
 require_once MAX_PATH . '/lib/max/Delivery/adRender.php';
 require_once MAX_PATH . '/lib/max/Delivery/cache.php';
+require_once MAX_PATH . '/lib/max/Delivery/marketplace.php';
 
 /**
  * This is the main ad selection and rendering function
@@ -152,7 +153,7 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
     }
     $userid = MAX_cookieGetUniqueViewerID();
     // marketplace
-    if (!empty($conf['marketplace']['enabled']) && !empty($conf['marketplace']['cacheTime'])) {
+    if (MAX_marketplaceEnabled() && !empty($conf['marketplace']['cacheTime'])) {
         $expiry = $conf['marketplace']['cacheTime'] < 0 ? null : MAX_commonGetTimeNow + $conf['marketplace']['cacheTime'];
     } else {
         $expiry = _getTimeYearFromNow();

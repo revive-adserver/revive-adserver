@@ -39,6 +39,10 @@ if(isset($GLOBALS['_MAX']['FILES'][$file])) {
 ###END_STRIP_DELIVERY
 $GLOBALS['_MAX']['FILES'][$file] = true;
 
+// Include required files
+require_once MAX_PATH . '/lib/max/delivery/marketplace.php';
+
+
 $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'] = array();
 
 // Include the cookie storage library
@@ -78,7 +82,7 @@ function MAX_cookieAdd($name, $value, $expire = 0)
 function MAX_cookieSetViewerIdAndRedirect($viewerId) {
     $aConf = $GLOBALS['_MAX']['CONF'];
 
-    if (!empty($aConf['marketplace']['enabled']) && !empty($aConf['marketplace']['cacheTime'])) {
+    if (MAX_marketplaceEnabled() && !empty($aConf['marketplace']['cacheTime'])) {
         $expiry = $aConf['marketplace']['cacheTime'] < 0 ? 0 : MAX_commonGetTimeNow + $aConf['marketplace']['cacheTime'];
     } else {
         $expiry = _getTimeYearFromNow();
@@ -209,7 +213,7 @@ function MAX_cookieGetUniqueViewerId($create = true, $oxidOnly = false)
     if (!$oxidOnly && empty($viewerId)) {
         if (isset($_COOKIE[$conf['var']['viewerId']])) {
             $viewerId = $_COOKIE[$conf['var']['viewerId']];
-            if (!empty($conf['marketplace']['enabled']) && !preg_match('/^'.$uuidRegex.'$/Di', $viewerId)) {
+            if (MAX_marketplaceEnabled() && !preg_match('/^'.$uuidRegex.'$/Di', $viewerId)) {
                 // Don't accept local cookies if ID service is enabled
                 $viewerId = null;
             }

@@ -43,6 +43,11 @@ $GLOBALS['_MAX']['FILES'][$file] = true;
  *
  */
 
+function MAX_marketplaceEnabled()
+{
+    return !empty($GLOBALS['_MAX']['CONF']['marketplace']['enabled']);
+}
+
 /**
  * A function to check if a ping to the ID service is needed
  *
@@ -51,7 +56,7 @@ $GLOBALS['_MAX']['FILES'][$file] = true;
 function MAX_marketplaceNeedsId()
 {
     $aConf = $GLOBALS['_MAX']['CONF'];
-    if (!empty($aConf['marketplace']['enabled'])) {
+    if (MAX_marketplaceEnabled()) {
         $oxidOnly = $aConf['marketplace']['cacheTime'] == 0;
         $viewerId = MAX_cookieGetUniqueViewerId(false, $oxidOnly);
     }
@@ -69,7 +74,7 @@ function MAX_marketplaceNeedsId()
 function MAX_marketplaceGetIdWithRedirect($scriptName = null)
 {
     $aConf = $GLOBALS['_MAX']['CONF'];
-    if (!empty($aConf['marketplace']['enabled'])) {
+    if (MAX_marketplaceEnabled()) {
         if (MAX_marketplaceNeedsId() && !isset($_GET['openxid'])) {
             $scriptName = isset($scriptName) ? $scriptName : basename($_SERVER['SCRIPT_NAME']);
             $oxpUrl = MAX_commonGetDeliveryUrl($scriptName).'?'.$_SERVER['QUERY_STRING'].'&openxid=OPENX_ID';
