@@ -10,23 +10,28 @@ List of prototypes:
 * protos_mysql - uses buckets and updates each of buckets on each request
 
 
-To create all buckets before running the performance tests use
-the GET parameter "createBuckets", eg:
+To create all buckets before running the performance tests use the GET parameter "createBuckets", for example:
 http://localhost/openx/trunk/www/delivery_dev/lg.php?bannerid=1&zoneid=1&createBuckets=1
 
-List of parameters:
-* createBuckets - creates required buckets (if they do not exists, do not drop existing buckets)
-* dropBuckets - can be used together with createBuckets only, drops buckets tables before
-                they are created and if they exist
-* engine - engine type used to create MySQL tables, default = MEMORY
+List of parameters (use to drop and create buckets and to log data into buckets):
+* createBuckets - creates required buckets (if they don't exist already)
+* dropBuckets - Use together with createBuckets, drops buckets tables before
+                new buckets are created (check if bucket exist before dropping it)
+* engine - engine type used to create MySQL tables, ignored if a database type is not mysql.
+           There is no need to set database type, the prototype reads the db type from
+           OpenX configuration file
+           default=memory
+* logMethod - indicates which method should be used to log new records. Possible values: "update" or "insert"
+           When used together with "createBuckets" the buckets for logMethod="insert" are created
+           without primary keys so buckets may be used safely for inserts.
+           default=update
 * buckets - (TODO - not implemented yet)
-            comma separated list of buckets to create or to log data into while in logging only mode,
-            default: data_bucket_impression,data_bucket_impression_country,data_bucket_frequency
-* rand - (TODO - not implemented yet, hardcoded 1000 atm)
-         maximum number of random zone to choose from, eg if rand = 1000 the logging will be done
-         for random 1-1000 ads and zones mt_rand(1,rand). This is to help randomize the distribution
-         of records in buckets so the tests will be more reliable.
-
+           comma separated list of buckets to create or to log data into while in logging only mode,
+           default=data_bucket_impression,data_bucket_impression_country,data_bucket_frequency
+* rand - maximum number of random zone to choose from, eg if rand = 1000 the logging will be done
+           for random 1-1000 ads and zones mt_rand(1,rand). This is to help randomize the distribution
+           of records in buckets so the tests will be more reliable.
+           default=1000
 
 == Requirements ==
 
@@ -35,7 +40,6 @@ http://pecl.php.net/package/runkit
 
 Documentation:
 http://uk2.php.net/runkit
-
 
 
 == Installation ==
@@ -51,12 +55,12 @@ Or manually:
 # ./configure
 # make
 # make install
+(see troubleshooting section if you experienced any problems)
 
-then add runkit.so to your php.ini file:
+add runkit.so to your php.ini file:
 extension=runkit.so
 
 Restart apache and check "runkit" secion in your phpinfo()
-
 
 
 == Troubleshooting ==
@@ -72,16 +76,18 @@ Restart apache and check "runkit" secion in your phpinfo()
 
 == Configuration ==
 
-To use one of prototype modules edit your var/{host}.conf.php file and set:
+To use a prototype module edit your var/{host}.conf.php file and set:
 [origin]
 type=../../../../tests/performance/delivery/buckets/prototype/{prototype}
 
-Where {prototype} is a name of prototype file (for example: protos_mysql).
+{prototype} is a name of prototype file (for example: protos_mysql).
+
 For a list of all prototypes see section "Prototypes"
 
 
-
 == Performance tests ==
+
+Make sure to create buckets first by doing a separate request to lg.php before executing the performance tests
 
 You may use apache ab to do performance tests of created prototypes.
 
@@ -89,7 +95,6 @@ Sample command:
 # ab -n1000 -c50 'http://localhost/openx/trunk/www/delivery_dev/lg.php?bannerid=1&zoneid=1'
 
 
-
 == Optimization ==
 
-Check url: https://developer.openx.org/wiki/display/COMM/Delivery+Optimization
+* https://developer.openx.org/wiki/display/COMM/Delivery+Optimization

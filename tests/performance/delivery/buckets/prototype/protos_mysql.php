@@ -92,7 +92,8 @@ function OA_log_data_bucket_impression($table, $viewerId, $adId, $creativeId, $z
         $buckets->createBuckets();
     }
 
-//    $buckets = isset($_GET['buckets']) ? explode($_GET['buckets']) : $GLOBALS['OA_DEFAULT_BUCKETS'];
+    $buckets = isset($_GET['buckets']) ? $_GET['buckets'] : $GLOBALS['OA_DEFAULT_BUCKETS'];
+    $aBuckets = explode(',', $buckets);
     // todo - take buckets into account
     $rand = isset($_GET['rand']) ? $_GET['rand'] : $GLOBALS['OA_DEFAULT_RAND'];
 
@@ -113,11 +114,61 @@ function OA_log_data_bucket_impression($table, $viewerId, $adId, $creativeId, $z
 
     $aQuery = array(
         'campaign_id' => mt_rand(1, $rand), // 1,
-        'frequency' => mt_rand(1, $rand), // 1,
+        'frequency' => mt_rand(1, $rand), // should also log -1 for "frequency - 1"
     );
     $result = OA_bucket_updateTable('data_bucket_frequency', $aQuery);
 
     return $result;
+}
+
+function OA_bucketInsertTable($tableName, $aQuery, $counter = 'count')
+{
+    $insertQuery = OA_bucket_buildInsertQuery($tableName, $aQuery, $counter);
+    $result = OA_Dal_Delivery_query(
+        $insertQuery,
+        'rawDatabase'
+    );
+    return $result;
+}
+
+function OA_bucket_updateTable($tableName, $aQuery, $counter = 'count')
+{
+    // just insert
+    if (!empty($_GET['logMethod']) && $_GET['logMethod'] == 'insert') {
+        return OA_bucketInsertTable($tableName, $aQuery, $counter);
+    }
+    // triple update/insert/update - for performance reasons
+    if ($counter) {
+        // first update
+        $updateQuery = OA_bucket_buildUpdateQuery($tableName, $aQuery, $counter);
+        $result = OA_Dal_Delivery_query(
+            $updateQuery,
+            'rawDatabase'
+        );
+    }
+    else {
+        $result = true;
+    }
+    if (!$counter || OA_bucket_affectedRows($result, 'rawDatabase') <= 0) {
+        if (!$result) {
+            OA_mysqlPrintError('rawDatabase');
+        }
+        // insert (in case update didn't update any records)
+        $insertQuery = OA_bucket_buildInsertQuery($tableName, $aQuery, $counter);
+        $result = OA_Dal_Delivery_query(
+            $insertQuery,
+            'rawDatabase'
+        );
+        if (!$result) {
+            OA_mysqlPrintError('rawDatabase');
+            // second update (in case insert failed because concurrent thread inserted a record)
+            $result = OA_Dal_Delivery_query(
+                $updateQuery,
+                'rawDatabase'
+            );
+        }
+    }
+    return (bool)$result;
 }
 
 function OA_bucket_buildUpdateQuery($tableName, $aQuery, $counter)
@@ -160,42 +211,6 @@ function OA_bucket_affectedRows($result, $database = 'database')
     $dbName = ($database == 'rawDatabase') ? 'RAW_DB_LINK' : 'ADMIN_DB_LINK';
     $result = mysql_affected_rows($GLOBALS['_MAX'][$dbName]);
     return $result;
-}
-
-function OA_bucket_updateTable($tableName, $aQuery, $counter = 'count')
-{
-    // triple update/insert/update - for performance reasons
-    if ($counter) {
-        // first update
-        $updateQuery = OA_bucket_buildUpdateQuery($tableName, $aQuery, $counter);
-        $result = OA_Dal_Delivery_query(
-            $updateQuery,
-            'rawDatabase'
-        );
-    }
-    else {
-        $result = true;
-    }
-    if (!$counter || OA_bucket_affectedRows($result, 'rawDatabase') <= 0) {
-        if (!$result) {
-            OA_mysqlPrintError('rawDatabase');
-        }
-        // insert (in case update didn't update any records)
-        $insertQuery = OA_bucket_buildInsertQuery($tableName, $aQuery, $counter);
-        $result = OA_Dal_Delivery_query(
-            $insertQuery,
-            'rawDatabase'
-        );
-        if (!$result) {
-            OA_mysqlPrintError('rawDatabase');
-            // second update (in case insert failed because concurrent thread inserted a record)
-            $result = OA_Dal_Delivery_query(
-                $updateQuery,
-                'rawDatabase'
-            );
-        }
-    }
-    return (bool)$result;
 }
 
 function OA_mysqlPrintError($database = 'database')
