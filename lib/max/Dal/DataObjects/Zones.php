@@ -70,6 +70,7 @@ class DataObjects_Zones extends DB_DataObjectCommon
     public $is_in_ad_direct;                 // TINYINT(1) => openads_tinyint => 145 
     public $rate;                            // DECIMAL(19,2) => openads_decimal => 1 
     public $pricing;                         // VARCHAR(50) => openads_varchar => 130 
+    public $oac_category_id;                 // INT(11) => openads_int => 1 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Zones',$k,$v); }
