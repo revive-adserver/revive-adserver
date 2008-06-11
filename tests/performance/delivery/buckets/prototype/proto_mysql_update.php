@@ -91,9 +91,10 @@ function OA_log_data_bucket_impression($table, $viewerId, $adId, $creativeId, $z
         $buckets->createBuckets();
     }
 
-    $buckets = isset($_GET['buckets']) ? explode($_GET['buckets']) : $GLOBALS['OA_DEFAULT_BUCKETS'];
-    $rand = isset($_GET['rand']) ? $_GET['rand'] : $GLOBALS['OA_DEFAULT_RAND'];
+//    $buckets = isset($_GET['buckets']) ? explode($_GET['buckets']) : $GLOBALS['OA_DEFAULT_BUCKETS'];
+//    $rand = isset($_GET['rand']) ? $_GET['rand'] : $GLOBALS['OA_DEFAULT_RAND'];
     // todo - take buckets into account
+    $rand = 1000;
 
     $aQuery = array(
         'interval_start' => gmdate('Y-m-d H:00:00'),

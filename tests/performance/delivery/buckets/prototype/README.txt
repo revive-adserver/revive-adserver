@@ -7,7 +7,7 @@ for testing a performance of log script (lg.php).
 Scripts are using "runkit" module to avoid code repetition.
 
 List of prototypes:
-* proto_mysql_update - uses buckets and updates each of them on each request
+* proto_mysql_update - uses buckets and updates each of buckets on each request
 
 
 To create all buckets before running the performance tests use
