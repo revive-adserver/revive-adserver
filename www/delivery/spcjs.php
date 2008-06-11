@@ -266,6 +266,8 @@ $file = '/lib/max/Delivery/common.php';
 $GLOBALS['_MAX']['FILES'][$file] = true;
 $file = '/lib/max/Delivery/cookie.php';
 $GLOBALS['_MAX']['FILES'][$file] = true;
+// Include required files
+require_once MAX_PATH . '/lib/max/delivery/marketplace.php';
 $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'] = array();
 // Include the cookie storage library
 if (!is_callable('MAX_cookieSet')) {
@@ -287,7 +289,7 @@ $GLOBALS['_MAX']['COOKIE']['CACHE'][$name] = array($value, $expire);
 }
 function MAX_cookieSetViewerIdAndRedirect($viewerId) {
 $aConf = $GLOBALS['_MAX']['CONF'];
-if (!empty($aConf['marketplace']['enabled']) && !empty($aConf['marketplace']['cacheTime'])) {
+if (MAX_marketplaceEnabled() && !empty($aConf['marketplace']['cacheTime'])) {
 $expiry = $aConf['marketplace']['cacheTime'] < 0 ? 0 : MAX_commonGetTimeNow + $aConf['marketplace']['cacheTime'];
 } else {
 $expiry = _getTimeYearFromNow();
@@ -379,7 +381,7 @@ $viewerId = null;
 if (!$oxidOnly && empty($viewerId)) {
 if (isset($_COOKIE[$conf['var']['viewerId']])) {
 $viewerId = $_COOKIE[$conf['var']['viewerId']];
-if (!empty($conf['marketplace']['enabled']) && !preg_match('/^'.$uuidRegex.'$/Di', $viewerId)) {
+if (MAX_marketplaceEnabled() && !preg_match('/^'.$uuidRegex.'$/Di', $viewerId)) {
 // Don't accept local cookies if ID service is enabled
 $viewerId = null;
 }
@@ -1768,10 +1770,14 @@ return file_get_contents(MAX_PATH . '/www/delivery/' . $conf['file']['flash']);
 }
 $file = '/lib/OA/Delivery/marketplace.php';
 $GLOBALS['_MAX']['FILES'][$file] = true;
+function MAX_marketplaceEnabled()
+{
+return !empty($GLOBALS['_MAX']['CONF']['marketplace']['enabled']);
+}
 function MAX_marketplaceNeedsId()
 {
 $aConf = $GLOBALS['_MAX']['CONF'];
-if (!empty($aConf['marketplace']['enabled'])) {
+if (MAX_marketplaceEnabled()) {
 $oxidOnly = $aConf['marketplace']['cacheTime'] == 0;
 $viewerId = MAX_cookieGetUniqueViewerId(false, $oxidOnly);
 }
@@ -1780,7 +1786,7 @@ return !isset($viewerId);
 function MAX_marketplaceGetIdWithRedirect($scriptName = null)
 {
 $aConf = $GLOBALS['_MAX']['CONF'];
-if (!empty($aConf['marketplace']['enabled'])) {
+if (MAX_marketplaceEnabled()) {
 if (MAX_marketplaceNeedsId() && !isset($_GET['openxid'])) {
 $scriptName = isset($scriptName) ? $scriptName : basename($_SERVER['SCRIPT_NAME']);
 $oxpUrl = MAX_commonGetDeliveryUrl($scriptName).'?'.$_SERVER['QUERY_STRING'].'&openxid=OPENX_ID';
