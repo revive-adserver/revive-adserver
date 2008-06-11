@@ -27,15 +27,17 @@ $Id$
 
 require MAX_PATH . '/lib/OA/Dal/Delivery/mysql.php';
 
+// default buckets to log data into
+$OA_DEFAULT_BUCKETS = 'data_bucket_impression,data_bucket_impression_country,data_bucket_frequency';
+$OA_DEFAULT_RAND = 1000;
+
 /**
- * The mysql bucket (experimental) data access layer code the delivery engine.
+ * The mysql bucket (experimental) data access layer for delivery engine.
  * This is a prototype designed to test updates and inserts in mysql in-memory buckets
  *
  * @package    OpenXDal
  * @subpackage Delivery
- * @author     Chris Nutting <chris.nutting@openx.org>
- * @author     Andrew Hill <andrew.hill@openx.org>
- * @author     Matteo Beccati <matteo.beccati@openx.org>
+ * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
 
 if(!extension_loaded("runkit") || !RUNKIT_FEATURE_MANIPULATION) {
@@ -43,9 +45,14 @@ if(!extension_loaded("runkit") || !RUNKIT_FEATURE_MANIPULATION) {
     exit();
 }
 
+if (!function_exists('OA_Dal_Delivery_logAction')) {
+    echo "Function doesn't exist!";
+    exit;
+}
+
 // replace logAction implementation with custom OA_Dal_Delivery_logAction_BucketUpdate
-runkit_function_remove('OA_Dal_Delivery_logAction');
-runkit_function_copy('OA_Dal_Delivery_logAction_BucketUpdate', 'OA_Dal_Delivery_logAction');
+runkit_function_remove('oa_dal_delivery_logaction');
+runkit_function_copy('oa_dal_delivery_logaction_bucketupdate', 'oa_dal_delivery_logaction');
 
 /**
  * A function to insert ad requests, ad impressions, ad clicks
@@ -78,12 +85,37 @@ function OA_log_data_bucket_impression($table, $viewerId, $adId, $creativeId, $z
     if ($table != '') {
         // ignore
     }
+    if (!empty($_GET['createBuckets'])) {
+        require 'mysql_buckets.php';
+        $buckets = new OA_Buckets();
+        $buckets->createBuckets();
+    }
+
+    $buckets = isset($_GET['buckets']) ? explode($_GET['buckets']) : $GLOBALS['OA_DEFAULT_BUCKETS'];
+    $rand = isset($_GET['rand']) ? $_GET['rand'] : $GLOBALS['OA_DEFAULT_RAND'];
+    // todo - take buckets into account
+
     $aQuery = array(
-        'interval_start' => gmdate('Y-m-d H:i:s'),
-        'creative_id' => $adId,
-        'zone_id' => $zoneId,
+        'interval_start' => gmdate('Y-m-d H:00:00'),
+        'creative_id' => mt_rand(1, $rand), //$adId,
+        'zone_id' => mt_rand(1, $rand), // $zoneId,
     );
     $result = OA_bucket_updateTable('data_bucket_impression', $aQuery);
+
+    $aQuery = array(
+        'interval_start' => gmdate('Y-m-d H:00:00'),
+        'creative_id' => mt_rand(1, $rand), // $adId,
+        'zone_id' => mt_rand(1, $rand), // $zoneId,
+        'country' => 'pl',
+    );
+    $result = OA_bucket_updateTable('data_bucket_impression_country', $aQuery);
+
+    $aQuery = array(
+        'campaign_id' => mt_rand(1, $rand), // 1,
+        'frequency' => mt_rand(1, $rand), // 1,
+    );
+    $result = OA_bucket_updateTable('data_bucket_frequency', $aQuery);
+
     return $result;
 }
 
@@ -103,53 +135,69 @@ function OA_bucket_buildUpdateQuery($tableName, $aQuery, $counter)
 
 function OA_bucket_buildInsertQuery($tableName, $aQuery, $counter)
 {
-    $insert = 'INSERT INTO {$tableName} (';
+    $insert = "INSERT INTO {$tableName} (";
     $values = 'VALUES (';
     $comma = '';
     foreach ($aQuery as $column => $value) {
         if (!is_integer($value)) {
             $value = "'" . $value . "'";
         }
-        $query .= $comma . $column . ', ';
+        $insert .= $comma . $column;
         $values .= $comma . $value;
         $comma = ', ';
     }
-    $query = $insert . $comma . $counter . ') ' . $values . ', 1)';
+    if ($counter) {
+        $query = $insert . $comma . $counter . ') ' . $values . ', 1)';
+    } else {
+        $query = $insert . ') ' . $values . ')';
+    }
     return $query;
 }
 
-function OA_bucket_affectedRows($result)
+function OA_bucket_affectedRows($result, $database = 'database')
 {
-    return mysql_affected_rows($GLOBALS['_MAX'][$dbName]);
+    $dbName = ($database == 'rawDatabase') ? 'RAW_DB_LINK' : 'ADMIN_DB_LINK';
+    $result = mysql_affected_rows($GLOBALS['_MAX'][$dbName]);
+    return $result;
 }
 
-function OA_bucket_updateTable($tableName, $aQuery, $counter = 'counter')
+function OA_bucket_updateTable($tableName, $aQuery, $counter = 'count')
 {
     // triple update/insert/update - for performance reasons
-    $updateQuery = OA_bucket_buildUpdateQuery($tableName, $aQuery, $counter);
-    $result = OA_Dal_Delivery_query(
-        $updateQuery,
-        'rawDatabase'
-    );
-    if (!OA_bucket_affectedRows($result)) {
+    if ($counter) {
+        $updateQuery = OA_bucket_buildUpdateQuery($tableName, $aQuery, $counter);
+        $result = OA_Dal_Delivery_query(
+            $updateQuery,
+            'rawDatabase'
+        );
+    }
+    else {
+        $result = true;
+    }
+    if (!$counter || OA_bucket_affectedRows($result, 'rawDatabase') <= 0) {
+        if (!$result) {
+            OA_mysqlPrintError('rawDatabase');
+        }
         $insertQuery = OA_bucket_buildInsertQuery($tableName, $aQuery, $counter);
         $result = OA_Dal_Delivery_query(
             $insertQuery,
             'rawDatabase'
         );
         if (!$result) {
+            OA_mysqlPrintError('rawDatabase');
             $result = OA_Dal_Delivery_query(
                 $updateQuery,
                 'rawDatabase'
             );
-            // create tables?
-            require 'mysql_buckets.php';
-            OA_createBuckets();
         }
     }
-
     return (bool)$result;
 }
 
+function OA_mysqlPrintError($database = 'database')
+{
+    $dbName = ($database == 'rawDatabase') ? 'RAW_DB_LINK' : 'ADMIN_DB_LINK';
+    echo mysql_error($GLOBALS['_MAX'][$dbName]);
+}
 
 ?>
