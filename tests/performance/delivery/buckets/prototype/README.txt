@@ -61,7 +61,7 @@ Restart apache and check "runkit" secion in your phpinfo()
 
 * If you get error on line 230 while building this module:
   http://sobolewscy.in5.pl/piotr/blog/show.php?f=1171433695
-    Edit file runkit_import.c line 230, add "strlen(key)" parametere:
+    Edit file runkit_import.c line 230, add "strlen(key)" parameter:
     zend_unmangle_property_name(key, strlen(key), &cname, &pname);
 * It seems that runkit do not recognize any upper cased (or camel cased)
   function names. Instead a "smallcased" names should be used in runkit
