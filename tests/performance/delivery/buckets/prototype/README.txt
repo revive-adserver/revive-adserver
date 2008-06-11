@@ -22,7 +22,8 @@ List of parameters:
 * buckets - (TODO - not implemented yet)
             comma separated list of buckets to create or to log data into while in logging only mode,
             default: data_bucket_impression,data_bucket_impression_country,data_bucket_frequency
-* rand - maximum number of random zone to choose from, eg if rand = 1000 the logging will be done
+* rand - (TODO - not implemented yet, hardcoded 1000 atm)
+         maximum number of random zone to choose from, eg if rand = 1000 the logging will be done
          for random 1-1000 ads and zones mt_rand(1,rand). This is to help randomize the distribution
          of records in buckets so the tests will be more reliable.
 
