@@ -9,7 +9,8 @@ class OA_Buckets
 
     function createBuckets()
     {
-        $buckets = isset($_GET['buckets']) ? explode($_GET['buckets']) : $GLOBALS['OA_DEFAULT_BUCKETS'];
+//        $buckets = isset($_GET['buckets']) ? explode($_GET['buckets']) : $GLOBALS['OA_DEFAULT_BUCKETS'];
+        $buckets = 'data_bucket_impression,data_bucket_impression_country,data_bucket_frequency';
         foreach ($buckets as $bucket) {
             if (method_exists($this, $bucket)) {
                 $methodName = 'create_' . $bucket;
