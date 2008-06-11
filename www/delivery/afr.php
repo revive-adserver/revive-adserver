@@ -267,7 +267,6 @@ $GLOBALS['_MAX']['FILES'][$file] = true;
 $file = '/lib/max/Delivery/cookie.php';
 $GLOBALS['_MAX']['FILES'][$file] = true;
 // Include required files
-require_once MAX_PATH . '/lib/max/delivery/marketplace.php';
 $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'] = array();
 // Include the cookie storage library
 if (!is_callable('MAX_cookieSet')) {

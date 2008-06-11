@@ -267,7 +267,60 @@ $GLOBALS['_MAX']['FILES'][$file] = true;
 $file = '/lib/max/Delivery/cookie.php';
 $GLOBALS['_MAX']['FILES'][$file] = true;
 // Include required files
-require_once MAX_PATH . '/lib/max/delivery/marketplace.php';
+$file = '/lib/OA/Delivery/marketplace.php';
+$GLOBALS['_MAX']['FILES'][$file] = true;
+function MAX_marketplaceEnabled()
+{
+return !empty($GLOBALS['_MAX']['CONF']['marketplace']['enabled']);
+}
+function MAX_marketplaceNeedsId()
+{
+$aConf = $GLOBALS['_MAX']['CONF'];
+if (MAX_marketplaceEnabled()) {
+$oxidOnly = $aConf['marketplace']['cacheTime'] == 0;
+$viewerId = MAX_cookieGetUniqueViewerId(false, $oxidOnly);
+}
+return !isset($viewerId);
+}
+function MAX_marketplaceGetIdWithRedirect($scriptName = null)
+{
+$aConf = $GLOBALS['_MAX']['CONF'];
+if (MAX_marketplaceEnabled()) {
+if (MAX_marketplaceNeedsId() && !isset($_GET['openxid'])) {
+$scriptName = isset($scriptName) ? $scriptName : basename($_SERVER['SCRIPT_NAME']);
+$oxpUrl = MAX_commonGetDeliveryUrl($scriptName).'?'.$_SERVER['QUERY_STRING'].'&openxid=OPENX_ID';
+$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
+$url .= $aConf['marketplace']['idHost'].'/redir?r='.urlencode($oxpUrl);
+$url .= '&pid=OpenXDemo';
+$url .= '&cb='.mt_rand(0, PHP_INT_MAX);
+header("Location: {$url}");
+exit;
+}
+}
+}
+function MAX_marketplaceGetIdWithSpc($varPrefix)
+{
+$aConf = $GLOBALS['_MAX']['CONF'];
+$script = '';
+if (MAX_marketplaceNeedsId()) {
+$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
+$url .= $aConf['marketplace']['idHost'].'/jsox?n='.urlencode($varPrefix.'spc');
+$url .= '&pid=OpenXDemo';
+$url .= '&cb='.mt_rand(0, PHP_INT_MAX);
+$script .= "
+{$varPrefix}spc+=\"&amp;openxid=OPENX_ID'><\"+\"/script>\";
+var {$varPrefix}marketplace=\"<\"+\"script type='text/javascript' \";
+{$varPrefix}marketplace+=\"src='".htmlspecialchars($url, ENT_QUOTES)."'><\"+\"/script>\";
+document.write({$varPrefix}marketplace);
+";
+} else {
+$script .= "
+{$varPrefix}spc+=\"'><\"+\"/script>\";
+document.write({$varPrefix}spc);
+";
+}
+return $script;
+}
 $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'] = array();
 // Include the cookie storage library
 if (!is_callable('MAX_cookieSet')) {
@@ -2056,60 +2109,6 @@ return $clickUrl;
 function _adRenderBuildStatusCode($aBanner)
 {
 return !empty($aBanner['status']) ? " onmouseover=\"self.status='" . addslashes($aBanner['status']) . "'; return true;\" onmouseout=\"self.status=''; return true;\"" : '';
-}
-$file = '/lib/OA/Delivery/marketplace.php';
-$GLOBALS['_MAX']['FILES'][$file] = true;
-function MAX_marketplaceEnabled()
-{
-return !empty($GLOBALS['_MAX']['CONF']['marketplace']['enabled']);
-}
-function MAX_marketplaceNeedsId()
-{
-$aConf = $GLOBALS['_MAX']['CONF'];
-if (MAX_marketplaceEnabled()) {
-$oxidOnly = $aConf['marketplace']['cacheTime'] == 0;
-$viewerId = MAX_cookieGetUniqueViewerId(false, $oxidOnly);
-}
-return !isset($viewerId);
-}
-function MAX_marketplaceGetIdWithRedirect($scriptName = null)
-{
-$aConf = $GLOBALS['_MAX']['CONF'];
-if (MAX_marketplaceEnabled()) {
-if (MAX_marketplaceNeedsId() && !isset($_GET['openxid'])) {
-$scriptName = isset($scriptName) ? $scriptName : basename($_SERVER['SCRIPT_NAME']);
-$oxpUrl = MAX_commonGetDeliveryUrl($scriptName).'?'.$_SERVER['QUERY_STRING'].'&openxid=OPENX_ID';
-$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
-$url .= $aConf['marketplace']['idHost'].'/redir?r='.urlencode($oxpUrl);
-$url .= '&pid=OpenXDemo';
-$url .= '&cb='.mt_rand(0, PHP_INT_MAX);
-header("Location: {$url}");
-exit;
-}
-}
-}
-function MAX_marketplaceGetIdWithSpc($varPrefix)
-{
-$aConf = $GLOBALS['_MAX']['CONF'];
-$script = '';
-if (MAX_marketplaceNeedsId()) {
-$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
-$url .= $aConf['marketplace']['idHost'].'/jsox?n='.urlencode($varPrefix.'spc');
-$url .= '&pid=OpenXDemo';
-$url .= '&cb='.mt_rand(0, PHP_INT_MAX);
-$script .= "
-{$varPrefix}spc+=\"&amp;openxid=OPENX_ID'><\"+\"/script>\";
-var {$varPrefix}marketplace=\"<\"+\"script type='text/javascript' \";
-{$varPrefix}marketplace+=\"src='".htmlspecialchars($url, ENT_QUOTES)."'><\"+\"/script>\";
-document.write({$varPrefix}marketplace);
-";
-} else {
-$script .= "
-{$varPrefix}spc+=\"'><\"+\"/script>\";
-document.write({$varPrefix}spc);
-";
-}
-return $script;
 }
 function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $withtext = 0, $charset = '', $context = array(), $richmedia = true, $ct0 = '', $loc = '', $referer = '')
 {
