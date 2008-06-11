@@ -28,8 +28,9 @@ $Id$
 require MAX_PATH . '/lib/OA/Dal/Delivery/mysql.php';
 
 // default buckets to log data into
-$OA_DEFAULT_BUCKETS = 'data_bucket_impression,data_bucket_impression_country,data_bucket_frequency';
-$OA_DEFAULT_RAND = 1000;
+// (use of globals instead of constants as they are faster in php)
+$GLOBALS['OA_DEFAULT_BUCKETS'] = 'data_bucket_impression,data_bucket_impression_country,data_bucket_frequency';
+$GLOBALS['OA_DEFAULT_RAND'] = 1000;
 
 /**
  * The mysql bucket (experimental) data access layer for delivery engine.
@@ -92,9 +93,8 @@ function OA_log_data_bucket_impression($table, $viewerId, $adId, $creativeId, $z
     }
 
 //    $buckets = isset($_GET['buckets']) ? explode($_GET['buckets']) : $GLOBALS['OA_DEFAULT_BUCKETS'];
-//    $rand = isset($_GET['rand']) ? $_GET['rand'] : $GLOBALS['OA_DEFAULT_RAND'];
     // todo - take buckets into account
-    $rand = 1000;
+    $rand = isset($_GET['rand']) ? $_GET['rand'] : $GLOBALS['OA_DEFAULT_RAND'];
 
     $aQuery = array(
         'interval_start' => gmdate('Y-m-d H:00:00'),
@@ -107,7 +107,7 @@ function OA_log_data_bucket_impression($table, $viewerId, $adId, $creativeId, $z
         'interval_start' => gmdate('Y-m-d H:00:00'),
         'creative_id' => mt_rand(1, $rand), // $adId,
         'zone_id' => mt_rand(1, $rand), // $zoneId,
-        'country' => 'pl',
+        'country' => 'uk',
     );
     $result = OA_bucket_updateTable('data_bucket_impression_country', $aQuery);
 
@@ -166,6 +166,7 @@ function OA_bucket_updateTable($tableName, $aQuery, $counter = 'count')
 {
     // triple update/insert/update - for performance reasons
     if ($counter) {
+        // first update
         $updateQuery = OA_bucket_buildUpdateQuery($tableName, $aQuery, $counter);
         $result = OA_Dal_Delivery_query(
             $updateQuery,
@@ -179,6 +180,7 @@ function OA_bucket_updateTable($tableName, $aQuery, $counter = 'count')
         if (!$result) {
             OA_mysqlPrintError('rawDatabase');
         }
+        // insert (in case update didn't update any records)
         $insertQuery = OA_bucket_buildInsertQuery($tableName, $aQuery, $counter);
         $result = OA_Dal_Delivery_query(
             $insertQuery,
@@ -186,6 +188,7 @@ function OA_bucket_updateTable($tableName, $aQuery, $counter = 'count')
         );
         if (!$result) {
             OA_mysqlPrintError('rawDatabase');
+            // second update (in case insert failed because concurrent thread inserted a record)
             $result = OA_Dal_Delivery_query(
                 $updateQuery,
                 'rawDatabase'
