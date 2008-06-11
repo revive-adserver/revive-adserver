@@ -7,7 +7,7 @@ for testing a performance of log script (lg.php).
 Scripts are using "runkit" module to avoid code repetition.
 
 List of prototypes:
-* proto_mysql_update - uses buckets and updates each of buckets on each request
+* protos_mysql - uses buckets and updates each of buckets on each request
 
 
 To create all buckets before running the performance tests use
@@ -76,7 +76,7 @@ To use one of prototype modules edit your var/{host}.conf.php file and set:
 [origin]
 type=../../../../tests/performance/delivery/buckets/prototype/{prototype}
 
-Where {prototype} is a name of prototype file (for example: proto_mysql_update).
+Where {prototype} is a name of prototype file (for example: protos_mysql).
 For a list of all prototypes see section "Prototypes"
 
 
