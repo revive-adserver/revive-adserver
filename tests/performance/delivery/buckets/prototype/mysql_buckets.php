@@ -4,6 +4,24 @@ class OA_Buckets
 {
     public $createPrimaryKeys = true;
 
+    public $dbType;
+    public $typeTimestamp;
+
+    public function __construct()
+    {
+        $this->dbType = $GLOBALS['_MAX']['CONF']['database']['type'];
+        switch ($this->dbType) {
+            case 'mysql':
+                $this->typeTimestamp = 'DATETIME';
+                break;
+            case 'postgresql':
+                $this->typeTimestamp = 'timestamp(0)';
+                break;
+            default:
+                die('Unknown database type');
+        }
+    }
+
     function createBuckets()
     {
         if (isset($_GET['logMethod']) && $_GET['logMethod'] == 'insert') {
@@ -20,11 +38,6 @@ class OA_Buckets
         }
     }
 
-    function getEngineType()
-    {
-        return isset($_GET['engine']) ? $_GET['engine'] : 'MEMORY';
-    }
-
     function createTableFromQuery($tableName, $query, $pk)
     {
         $this->dropTable($tableName);
@@ -34,7 +47,25 @@ class OA_Buckets
         } else {
             $query = str_replace('{pk}', '', $query);
         }
-        return $this->query($query . $this->getEngineType());
+        return $this->query($query);
+    }
+
+    function modifyQuery($query, $dbType)
+    {
+        $query = str_replace('DATETIME', $this->typeTimestamp, $query);
+        switch($dbType) {
+            case 'mysql':
+                $query .= ' ENGINE =' . $this->getEngineType();
+                break;
+            case 'postgresql':
+                break;
+        }
+        return $query;
+    }
+
+    function getEngineType()
+    {
+        return isset($_GET['engine']) ? $_GET['engine'] : 'MEMORY';
     }
 
     function query($sql)
@@ -67,7 +98,7 @@ class OA_Buckets
           zone_id        INT,
           count          INT
           {pk}
-        ) ENGINE =";
+        )";
         $pk = 'PRIMARY KEY (interval_start, creative_id, zone_id)';
         return $this->createTableFromQuery($tableName, $query, $pk);
     }
@@ -82,7 +113,7 @@ class OA_Buckets
           country        CHAR(3),
           count          INT
           {pk}
-        ) ENGINE =";
+        )";
         $pk = 'PRIMARY KEY (interval_start, creative_id, zone_id, country)';
         return $this->createTableFromQuery($tableName, $query, $pk);
     }
@@ -92,12 +123,12 @@ class OA_Buckets
         $tableName = 'data_bucket_fb_impression';
         $query = "CREATE TABLE IF NOT EXISTS $tableName (
           interval_start      DATETIME,
-          primary_creative_id INT, -- Currently bannerid or ad_id
-          creative_id         INT, -- Currently bannerid or ad_id
+          primary_creative_id INT,
+          creative_id         INT,
           zone_id             INT,
           count               INT
           {pk}
-        ) ENGINE =";
+        )";
         $pk = 'PRIMARY KEY (interval_start, primary_creative_id, creative_id, zone_id)';
         return $this->createTableFromQuery($tableName, $query, $pk);
     }
@@ -107,11 +138,11 @@ class OA_Buckets
         $tableName = 'data_bucket_oxm_impression';
         $query = "CREATE TABLE IF NOT EXISTS $tableName (
           interval_start      DATETIME,
-          primary_creative_id INT, -- Currently bannerid or ad_id
+          primary_creative_id INT,
           zone_id             INT,
           count               INT
           {pk}
-        ) ENGINE =";
+        )";
         $pk = 'PRIMARY KEY (interval_start, primary_creative_id, zone_id)';
         return $this->createTableFromQuery($tableName, $query, $pk);
     }
@@ -121,10 +152,10 @@ class OA_Buckets
         $tableName = 'data_bucket_unique_website';
         $query = "CREATE TABLE IF NOT EXISTS $tableName (
           month_start    DATETIME,
-          website_id     INT, -- Currently affiliate_id
+          website_id     INT,
           count          INT
           {pk}
-        ) ENGINE =";
+        )";
         $pk = 'PRIMARY KEY (month_start, website_id)';
         return $this->createTableFromQuery($tableName, $query, $pk);
     }
@@ -137,7 +168,7 @@ class OA_Buckets
           campaign_id    INT,
           count          INT
           {pk}
-        ) ENGINE =";
+        )";
         $pk = 'PRIMARY KEY (month_start, campaign_id)';
         return $this->createTableFromQuery($tableName, $query, $pk);
     }
@@ -150,7 +181,7 @@ class OA_Buckets
           frequency      INT,
           count          INT
           {pk}
-        ) ENGINE =";
+        )";
         $pk = 'PRIMARY KEY (campaign_id, frequency)';
         return $this->createTableFromQuery($tableName, $query, $pk);
     }
