@@ -95,6 +95,7 @@ $Id$
       
       <div style="margin-top: 3ex;">
         <span id="linking-indicator" class="ajax-loading hide">Linking...</span>
+        <span id="linking-status"></span>
         <span id="error-indicator" class="ajax-error hide">Linking not successful, please try again</span>
       </div>
     </div>
@@ -124,7 +125,7 @@ $Id$
     $("#zones-linked, #zones-available").bind("filter", function() {
       var panel = this.id.substring("zones-".length);
       
-      $quickSearch = $("#quick-search-" + panel);
+      var $quickSearch = $("#quick-search-" + panel);
       var postData = { 
         "clientid": $("#advertiser-id").val(),
         "campaignid": $("#campaign-id").val(),
@@ -196,15 +197,40 @@ $Id$
     });
     
     // Data from all filters
-    $quickSearchLinked = $("#quick-search-linked");
-    $quickSearchAvailable = $("#quick-search-available");
+    var $quickSearchLinked = $("#quick-search-linked").is(".example-search") ? "" : $("#quick-search-linked").val();
+    var $quickSearchAvailable = $("#quick-search-available").is(".example-search") ? "" : $("#quick-search-available").val();
+    var $categoryLinked = $("#category-linked").val();
+    var $categoryAvailable = $("#category-available").val();
+    
+    if (action == "link") {
+      if ($categoryLinked != "" && $categoryLinked != $categoryAvailable) {
+         $categoryLinked = "";
+         $("#category-linked").val("");
+	    }
+	    if ($quickSearchLinked  != "" && $quickSearchLinked != $quickSearchAvailable) {
+	       $quickSearchLinked = "";
+	       $("#quick-search-linked").val("");
+	    }
+    }
+    else {
+      if ($categoryAvailable != "" && $categoryLinked != $categoryAvailable) {
+        $categoryAvailable = "";
+        $("#category-available").val("");
+      }
+      if ($quickSearchAvailable  != "" && $quickSearchLinked != $quickSearchAvailable) {
+         $quickSearchAvailable = "";
+         $("#quick-search-available").val("");
+      }
+    }
+        
+    
     var postData = { 
       "clientid": $("#advertiser-id").val(),
       "campaignid": $("#campaign-id").val(),
-      "category-linked": $("#category-linked").val(),
-      "category-available": $("#category-available").val(),
-      "text-linked": $quickSearchLinked.is(".example-search") ? "" : $quickSearchLinked.val(),
-      "text-available": $quickSearchAvailable.is(".example-search") ? "" : $quickSearchAvailable.val(),
+      "category-linked": $categoryLinked,
+      "category-available": $categoryAvailable,
+      "text-linked": $quickSearchLinked,
+      "text-available": $quickSearchAvailable,
       "action": action,
       "ids[]": checkedNames
     };
@@ -220,8 +246,9 @@ $Id$
       },
       success: function(data) {
         $data = $(data);
-        $("#zones-available-rows").html($data.eq(0).find("tr"));
-        $("#zones-linked-rows").html($data.eq(1).find("tr"));
+        $("#zones-available-rows").html($data.eq(0).contents());
+        $("#zones-linked-rows").html($data.eq(1).contents());
+        $("#linking-status").html($data.eq(2).contents()).show().fadeOut(5000);
       },
       error: function() {
         $("#error-indicator").show();
@@ -230,6 +257,7 @@ $Id$
     
     $("#error-indicator").hide();
     $("#linking-indicator").show();
+    $("#linking-status").hide();
   }
 {/literal}  
   //--></script>

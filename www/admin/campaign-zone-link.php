@@ -59,5 +59,17 @@ $oTpl->assign('checkboxPrefix', "l");
 $oTpl->display();
 echo "</tbody>";
 
+// Status report
+echo "<div>";
+switch ($action) {
+    case "link" :
+            echo "2 zones linked";
+        break;
+    case "unlink" :
+            echo "2 zones unlinked";
+        break;
+};
+echo "</div>";
+
 ?>
 
