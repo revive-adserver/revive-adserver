@@ -19,7 +19,8 @@ List of parameters:
 * dropBuckets - can be used together with createBuckets only, drops buckets tables before
                 they are created and if they exist
 * engine - engine type used to create MySQL tables, default = MEMORY
-* buckets - comma separated list of buckets to create or to log data into while in logging only mode,
+* buckets - (TODO - not implemented yet)
+            comma separated list of buckets to create or to log data into while in logging only mode,
             default: data_bucket_impression,data_bucket_impression_country,data_bucket_frequency
 * rand - maximum number of random zone to choose from, eg if rand = 1000 the logging will be done
          for random 1-1000 ads and zones mt_rand(1,rand). This is to help randomize the distribution
