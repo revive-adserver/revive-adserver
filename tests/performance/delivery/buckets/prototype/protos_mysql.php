@@ -87,14 +87,14 @@ function OA_log_data_bucket_impression($table, $viewerId, $adId, $creativeId, $z
         // ignore
     }
     if (!empty($_GET['createBuckets'])) {
-        require 'mysql_buckets.php';
+        require 'db_buckets.php';
         $buckets = new OA_Buckets();
         $buckets->createBuckets();
     }
 
     $buckets = isset($_GET['buckets']) ? $_GET['buckets'] : $GLOBALS['OA_DEFAULT_BUCKETS'];
     $aBuckets = explode(',', $buckets);
-    // todo - take buckets into account
+    // todo - take list of passed buckets into account, for now it is hardcoded
     $rand = isset($_GET['rand']) ? $_GET['rand'] : $GLOBALS['OA_DEFAULT_RAND'];
 
     $aQuery = array(
