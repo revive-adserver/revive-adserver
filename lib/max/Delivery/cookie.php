@@ -40,7 +40,7 @@ if(isset($GLOBALS['_MAX']['FILES'][$file])) {
 $GLOBALS['_MAX']['FILES'][$file] = true;
 
 // Include required files
-require_once MAX_PATH . '/lib/max/delivery/marketplace.php';
+require_once MAX_PATH . '/lib/max/Delivery/marketplace.php';
 
 
 $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'] = array();
