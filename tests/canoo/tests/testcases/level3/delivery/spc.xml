@@ -18,7 +18,7 @@
     <webtest name="${ant.project.name}">
       &config;
       <steps>
-        <invoke description="Invoke delivery file @{file}" url="/delivery/spc.php?zones=1%7C&amp;source=/test/preview&amp;r=87082893&amp;loc=http%3A//dev.openx.org/admin/affiliate-preview.php%3Faffiliateid%3D1%26codetype%3Dspc&amp;referer=http%3A//dev.openx.org/admin/affiliate-invocation.php%3Faffiliateid%3D1" />
+        <invoke description="Invoke delivery file spc.php" url="/delivery/spc.php?zones=1%7C&amp;source=/test/preview&amp;r=87082893&amp;loc=http%3A//dev.openx.org/admin/affiliate-preview.php%3Faffiliateid%3D1%26codetype%3Dspc&amp;referer=http%3A//dev.openx.org/admin/affiliate-invocation.php%3Faffiliateid%3D1" />
         &checkForErrors;
         &verifyHeaders;
         <verifyText description="Check that it contains JavaScript" text="OA_output['1']" />

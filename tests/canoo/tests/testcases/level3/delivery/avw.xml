@@ -20,7 +20,7 @@
     <webtest name="${ant.project.name}">
       &config;
       <steps>
-        <invoke description="Invoke delivery file @{file}" url="/delivery/avw.php?bannerid=3" />
+        <invoke description="Invoke delivery file avw.php" url="/delivery/avw.php?bannerid=3" />
         &checkForErrors;
         &checkDeliveryCookies;
         <!-- Check that browser was redirected to ai.php file and that response contains gif -->
@@ -31,7 +31,7 @@
     <webtest name="${ant.project.name} without following redirects">
       &configNoFollow;
       <steps>
-		<invoke description="Invoke delivery file @{file}" url="/delivery/avw.php?bannerid=3" />
+		<invoke description="Invoke delivery file avw.php" url="/delivery/avw.php?bannerid=3" />
 			&verifyHeaders;
       </steps>
     </webtest>

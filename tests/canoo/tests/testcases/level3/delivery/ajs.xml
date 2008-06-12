@@ -18,7 +18,7 @@
     <webtest name="${ant.project.name}">
       &config;
       <steps>
-        <invoke description="Invoke delivery file @{file}" url="/delivery/ajs.php?what=bannerid:2" />
+        <invoke description="Invoke delivery file ajs.php" url="/delivery/ajs.php?what=bannerid:2" />
         &checkForErrors;
         &verifyHeaders;
         <verifyText description="Check that it contains JavaScript" text="document.write" />

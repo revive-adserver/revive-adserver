@@ -16,7 +16,7 @@
     <webtest name="${ant.project.name}">
       &config;
       <steps>
-		<invoke description="Invoke delivery file @{file}" url="/delivery_test/spcjs.html" />
+		<invoke description="Invoke delivery file spcjs.html" url="/delivery_test/spcjs.html" />
 		&checkForErrors;
 		
 		<verifyElement text="spcjs" type="BODY"/>

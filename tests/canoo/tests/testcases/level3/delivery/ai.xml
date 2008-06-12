@@ -17,7 +17,7 @@
     <webtest name="${ant.project.name}">
       &config;
       <steps>
-        <invoke description="Invoke delivery file @{file}" url="/delivery/ai.php?filename=468x60.gif&amp;contenttype=gif" />
+        <invoke description="Invoke delivery file ai.php" url="/delivery/ai.php?filename=468x60.gif&amp;contenttype=gif" />
         &checkForErrors;
         &checkForImageGif;
       </steps>

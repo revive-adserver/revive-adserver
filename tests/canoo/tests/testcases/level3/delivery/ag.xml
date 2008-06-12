@@ -16,7 +16,7 @@
     <webtest name="${ant.project.name}">
       &config;
       <steps>
-        <invoke description="Invoke delivery file @{file}" url="/delivery/ag.php" />
+        <invoke description="Invoke delivery file ag.php" url="/delivery/ag.php" />
         &checkForErrors;
       </steps>
     </webtest>

@@ -26,8 +26,8 @@
     <webtest name="${ant.project.name}">
       &config;
       <steps>
-        <!-- <invoke description="Invoke delivery file @{file}" url="/delivery/ck.php?oaparams=2__bannerid=3__zoneid=0__cb=5ec806661f__maxdest=${openx.example_url}" /> -->
-		<invoke description="Invoke delivery file @{file}" url="/delivery/ck.php?oaparams=2__bannerid=3__zoneid=0__cb=5ec806661f__maxdest=${openx.example_url}" /> 
+        <!-- <invoke description="Invoke delivery file ck.php" url="/delivery/ck.php?oaparams=2__bannerid=3__zoneid=0__cb=5ec806661f__maxdest=${openx.example_url}" /> -->
+		<invoke description="Invoke delivery file ck.php" url="/delivery/ck.php?oaparams=2__bannerid=3__zoneid=0__cb=5ec806661f__maxdest=${openx.example_url}" /> 
         &checkForErrors;
         <!-- &verifyHeaders; -->
         <verifyTitle description="Check that browser was redirected to example page" text="Example Web Page" />
@@ -37,7 +37,7 @@
       &configNoFollow;
       <steps>
         <!-- <not> -->
-		<invoke description="Invoke delivery file @{file}" url="/delivery/ck.php?oaparams=2__bannerid=3__zoneid=0__cb=5ec806661f__maxdest=${openx.example_url}" />
+		<invoke description="Invoke delivery file ck.php" url="/delivery/ck.php?oaparams=2__bannerid=3__zoneid=0__cb=5ec806661f__maxdest=${openx.example_url}" />
         <!-- </not> -->
         &verifyHeaders;
       </steps>
