@@ -80,7 +80,7 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
     // todo - take list of passed buckets into account, for now it is hardcoded
     $rand = isset($_GET['rand']) ? $_GET['rand'] : $GLOBALS['OA_DEFAULT_RAND'];
 
-    if (isset($aBuckets['data_bucket_impression'])) {
+    if (in_array('data_bucket_impression', $aBuckets)) {
         $aQuery = array(
             'interval_start' => gmdate('Y-m-d H:00:00'),
             'creative_id' => mt_rand(1, $rand), //$adId,
@@ -89,7 +89,7 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
         $result = OA_bucket_updateTable('data_bucket_impression', $aQuery);
     }
 
-    if (isset($aBuckets['data_bucket_impression_country'])) {
+    if (in_array('data_bucket_impression_country', $aBuckets)) {
         $aQuery = array(
             'interval_start' => gmdate('Y-m-d H:00:00'),
             'creative_id' => mt_rand(1, $rand), // $adId,
@@ -99,7 +99,7 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
         $result = OA_bucket_updateTable('data_bucket_impression_country', $aQuery);
     }
 
-    if (isset($aBuckets['data_bucket_frequency'])) {
+    if (in_array('data_bucket_frequency', $aBuckets)) {
         $aQuery = array(
             'campaign_id' => mt_rand(1, $rand), // 1,
             'frequency' => mt_rand(1, $rand), // should also log -1 for "frequency - 1"
