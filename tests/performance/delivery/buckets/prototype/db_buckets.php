@@ -14,7 +14,7 @@ class OA_Buckets
             case 'mysql':
                 $this->typeTimestamp = 'DATETIME';
                 break;
-            case 'postgresql':
+            case 'pgsql':
                 $this->typeTimestamp = 'timestamp(0)';
                 break;
             default:
@@ -57,7 +57,7 @@ class OA_Buckets
             case 'mysql':
                 $query .= ' ENGINE =' . $this->getEngineType();
                 break;
-            case 'postgresql':
+            case 'pgsql':
                 break;
         }
         return $query;
@@ -75,7 +75,7 @@ class OA_Buckets
             'rawDatabase'
         );
         if (!$ret) {
-            OA_mysqlPrintError('rawDatabase');
+            OA_bucketPrintError('rawDatabase');
         }
         return $ret;
     }

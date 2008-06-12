@@ -25,13 +25,6 @@
 $Id$
 */
 
-require MAX_PATH . '/lib/OA/Dal/Delivery/mysql.php';
-
-// default buckets to log data into
-// (use of globals instead of constants as they are faster in php)
-$GLOBALS['OA_DEFAULT_BUCKETS'] = 'data_bucket_impression,data_bucket_impression_country,data_bucket_frequency';
-$GLOBALS['OA_DEFAULT_RAND'] = 1000;
-
 /**
  * The mysql bucket (experimental) data access layer for delivery engine.
  * This is a prototype designed to test updates and inserts in mysql in-memory buckets
@@ -41,14 +34,21 @@ $GLOBALS['OA_DEFAULT_RAND'] = 1000;
  * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
 
+
+// default buckets to log data into
+// (use of globals instead of constants as they are faster in php)
+$GLOBALS['OA_DEFAULT_BUCKETS'] = 'data_bucket_impression,data_bucket_impression_country,data_bucket_frequency';
+$GLOBALS['OA_DEFAULT_RAND'] = 1000;
+
+if ($GLOBALS['_MAX']['CONF']['database']['type'] == 'mysql') {
+    require MAX_PATH . '/lib/OA/Dal/Delivery/mysql.php';
+} else {
+    require MAX_PATH . '/lib/OA/Dal/Delivery/pgsql.php';
+}
+
 if(!extension_loaded("runkit") || !RUNKIT_FEATURE_MANIPULATION) {
     echo "Error: runkit module is not loaded";
     exit();
-}
-
-if (!function_exists('OA_Dal_Delivery_logAction')) {
-    echo "Function doesn't exist!";
-    exit;
 }
 
 // replace logAction implementation with custom OA_Dal_Delivery_logAction_BucketUpdate
@@ -76,16 +76,6 @@ runkit_function_copy('oa_dal_delivery_logaction_bucketupdate', 'oa_dal_delivery_
 function OA_Dal_Delivery_logAction_BucketUpdate($table, $viewerId, $adId, $creativeId, $zoneId,
                         $geotargeting, $zoneInfo, $userAgentInfo, $maxHttps)
 {
-    return OA_log_data_bucket_impression($table, $viewerId, $adId, $creativeId, $zoneId,
-                        $geotargeting, $zoneInfo, $userAgentInfo, $maxHttps);
-}
-
-function OA_log_data_bucket_impression($table, $viewerId, $adId, $creativeId, $zoneId,
-                        $geotargeting, $zoneInfo, $userAgentInfo, $maxHttps)
-{
-    if ($table != '') {
-        // ignore
-    }
     if (!empty($_GET['createBuckets'])) {
         require 'db_buckets.php';
         $buckets = new OA_Buckets();
@@ -133,6 +123,7 @@ function OA_bucketInsertTable($tableName, $aQuery, $counter = 'count')
 
 function OA_bucket_updateTable($tableName, $aQuery, $counter = 'count')
 {
+    OA_bucketPrepareDb();
     // just insert
     if (!empty($_GET['logMethod']) && $_GET['logMethod'] == 'insert') {
         return OA_bucketInsertTable($tableName, $aQuery, $counter);
@@ -149,9 +140,9 @@ function OA_bucket_updateTable($tableName, $aQuery, $counter = 'count')
     else {
         $result = true;
     }
-    if (!$counter || OA_bucket_affectedRows($result, 'rawDatabase') <= 0) {
+    if (!$counter || OA_bucket_affectedRows($result) <= 0) {
         if (!$result) {
-            OA_mysqlPrintError('rawDatabase');
+            OA_bucketPrintError('rawDatabase');
         }
         // insert (in case update didn't update any records)
         $insertQuery = OA_bucket_buildInsertQuery($tableName, $aQuery, $counter);
@@ -160,7 +151,7 @@ function OA_bucket_updateTable($tableName, $aQuery, $counter = 'count')
             'rawDatabase'
         );
         if (!$result) {
-            OA_mysqlPrintError('rawDatabase');
+            OA_bucketPrintError('rawDatabase');
             // second update (in case insert failed because concurrent thread inserted a record)
             $result = OA_Dal_Delivery_query(
                 $updateQuery,
@@ -169,6 +160,18 @@ function OA_bucket_updateTable($tableName, $aQuery, $counter = 'count')
         }
     }
     return (bool)$result;
+}
+
+function OA_bucketPrepareDb()
+{
+    if ($GLOBALS['_MAX']['CONF']['database']['type'] == 'pgsql')
+    {
+        OA_Dal_Delivery_query(
+            'SET SESSION synchronous_commit TO OFF',
+            'rawDatabase'
+        );
+    }
+
 }
 
 function OA_bucket_buildUpdateQuery($tableName, $aQuery, $counter)
@@ -206,17 +209,27 @@ function OA_bucket_buildInsertQuery($tableName, $aQuery, $counter)
     return $query;
 }
 
-function OA_bucket_affectedRows($result, $database = 'database')
+function OA_bucket_affectedRows($resource)
 {
-    $dbName = ($database == 'rawDatabase') ? 'RAW_DB_LINK' : 'ADMIN_DB_LINK';
-    $result = mysql_affected_rows($GLOBALS['_MAX'][$dbName]);
+    if (!is_resource($resource)) {
+        return false;
+    }
+    if ($GLOBALS['_MAX']['CONF']['database']['type'] == 'mysql') {
+        $result = mysql_affected_rows($resource);
+    } else {
+        $result = mysql_affected_rows($resource);
+    }
     return $result;
 }
 
-function OA_mysqlPrintError($database = 'database')
+function OA_bucketPrintError($database = 'database')
 {
     $dbName = ($database == 'rawDatabase') ? 'RAW_DB_LINK' : 'ADMIN_DB_LINK';
-    echo mysql_error($GLOBALS['_MAX'][$dbName]);
+    if ($GLOBALS['_MAX']['CONF']['database']['type'] == 'mysql') {
+        echo mysql_error($GLOBALS['_MAX'][$dbName]);
+    } else {
+        echo pg_last_error($GLOBALS['_MAX'][$dbName]);
+    }
 }
 
 ?>
