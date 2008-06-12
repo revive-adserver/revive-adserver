@@ -47,6 +47,9 @@ class OA_Buckets
         } else {
             $query = str_replace('{pk}', '', $query);
         }
+        if ($this->dbType == 'mysql') {
+            $query .= ' ENGINE = '.$this->getEngineType();
+        }
         return $this->query($query);
     }
 
