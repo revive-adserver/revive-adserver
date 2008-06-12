@@ -41,9 +41,11 @@ $GLOBALS['OA_DEFAULT_BUCKETS'] = 'data_bucket_impression,data_bucket_impression_
 $GLOBALS['OA_DEFAULT_RAND'] = 1000;
 
 if ($GLOBALS['_MAX']['CONF']['database']['type'] == 'mysql') {
-    require MAX_PATH . '/lib/OA/Dal/Delivery/mysql.php';
+    require 'mysql.php';
+} else if ($GLOBALS['_MAX']['CONF']['database']['type'] == 'mysql') {
+    require 'pgsql.php';
 } else {
-    require MAX_PATH . '/lib/OA/Dal/Delivery/pgsql.php';
+    die('Database not supported');
 }
 
 if(!extension_loaded("runkit") || !RUNKIT_FEATURE_MANIPULATION) {
@@ -52,8 +54,8 @@ if(!extension_loaded("runkit") || !RUNKIT_FEATURE_MANIPULATION) {
 }
 
 // replace logAction implementation with custom OA_Dal_Delivery_logAction_BucketUpdate
-runkit_function_remove('oa_dal_delivery_logaction');
-runkit_function_copy('oa_dal_delivery_logaction_bucketupdate', 'oa_dal_delivery_logaction');
+//runkit_function_remove('oa_dal_delivery_logaction');
+//runkit_function_copy('oa_dal_delivery_logaction_bucketupdate', 'oa_dal_delivery_logaction');
 
 /**
  * A function to insert ad requests, ad impressions, ad clicks
@@ -73,7 +75,7 @@ runkit_function_copy('oa_dal_delivery_logaction_bucketupdate', 'oa_dal_delivery_
  * @param integer $maxHttps     An integer to store if the call to OpenXwas
  *                              performed using HTTPS or not.
  */
-function OA_Dal_Delivery_logAction_BucketUpdate($table, $viewerId, $adId, $creativeId, $zoneId,
+function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneId,
                         $geotargeting, $zoneInfo, $userAgentInfo, $maxHttps)
 {
     if (!empty($_GET['createBuckets'])) {
@@ -207,29 +209,6 @@ function OA_bucket_buildInsertQuery($tableName, $aQuery, $counter)
         $query = $insert . ') ' . $values . ')';
     }
     return $query;
-}
-
-function OA_bucket_affectedRows($resource)
-{
-    if (!is_resource($resource)) {
-        return false;
-    }
-    if ($GLOBALS['_MAX']['CONF']['database']['type'] == 'mysql') {
-        $result = mysql_affected_rows($resource);
-    } else {
-        $result = mysql_affected_rows($resource);
-    }
-    return $result;
-}
-
-function OA_bucketPrintError($database = 'database')
-{
-    $dbName = ($database == 'rawDatabase') ? 'RAW_DB_LINK' : 'ADMIN_DB_LINK';
-    if ($GLOBALS['_MAX']['CONF']['database']['type'] == 'mysql') {
-        echo mysql_error($GLOBALS['_MAX'][$dbName]);
-    } else {
-        echo pg_last_error($GLOBALS['_MAX'][$dbName]);
-    }
 }
 
 ?>
