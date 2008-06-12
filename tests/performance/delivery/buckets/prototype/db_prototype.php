@@ -71,8 +71,8 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
 {
     if (!empty($_GET['createBuckets'])) {
         require 'db_buckets.php';
-        $buckets = new OA_Buckets();
-        $buckets->createBuckets();
+        $oaBuckets = new OA_Buckets();
+        $oaBuckets->createBuckets();
     }
 
     $buckets = isset($_GET['buckets']) ? $_GET['buckets'] : $GLOBALS['OA_DEFAULT_BUCKETS'];
@@ -80,26 +80,32 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
     // todo - take list of passed buckets into account, for now it is hardcoded
     $rand = isset($_GET['rand']) ? $_GET['rand'] : $GLOBALS['OA_DEFAULT_RAND'];
 
-    $aQuery = array(
-        'interval_start' => gmdate('Y-m-d H:00:00'),
-        'creative_id' => mt_rand(1, $rand), //$adId,
-        'zone_id' => mt_rand(1, $rand), // $zoneId,
-    );
-    $result = OA_bucket_updateTable('data_bucket_impression', $aQuery);
+    if (isset($aBuckets['data_bucket_impression'])) {
+        $aQuery = array(
+            'interval_start' => gmdate('Y-m-d H:00:00'),
+            'creative_id' => mt_rand(1, $rand), //$adId,
+            'zone_id' => mt_rand(1, $rand), // $zoneId,
+        );
+        $result = OA_bucket_updateTable('data_bucket_impression', $aQuery);
+    }
 
-    $aQuery = array(
-        'interval_start' => gmdate('Y-m-d H:00:00'),
-        'creative_id' => mt_rand(1, $rand), // $adId,
-        'zone_id' => mt_rand(1, $rand), // $zoneId,
-        'country' => 'uk',
-    );
-    $result = OA_bucket_updateTable('data_bucket_impression_country', $aQuery);
+    if (isset($aBuckets['data_bucket_impression_country'])) {
+        $aQuery = array(
+            'interval_start' => gmdate('Y-m-d H:00:00'),
+            'creative_id' => mt_rand(1, $rand), // $adId,
+            'zone_id' => mt_rand(1, $rand), // $zoneId,
+            'country' => 'uk',
+        );
+        $result = OA_bucket_updateTable('data_bucket_impression_country', $aQuery);
+    }
 
-    $aQuery = array(
-        'campaign_id' => mt_rand(1, $rand), // 1,
-        'frequency' => mt_rand(1, $rand), // should also log -1 for "frequency - 1"
-    );
-    $result = OA_bucket_updateTable('data_bucket_frequency', $aQuery);
+    if (isset($aBuckets['data_bucket_frequency'])) {
+        $aQuery = array(
+            'campaign_id' => mt_rand(1, $rand), // 1,
+            'frequency' => mt_rand(1, $rand), // should also log -1 for "frequency - 1"
+        );
+        $result = OA_bucket_updateTable('data_bucket_frequency', $aQuery);
+    }
 
     return $result;
 }
