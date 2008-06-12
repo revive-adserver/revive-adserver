@@ -47,4 +47,4 @@ INSERT INTO ox_trackers VALUES (1,'Sample Tracker','',1,3,3,0,4,1,'f','js','','2
 
 INSERT INTO ox_variables VALUES (1,1,'boo','Sample number','numeric',NULL,0,0,0,'var boo = \\\'%%BOO_VALUE%%\\\'','f','2007-06-01 15:09:47'),(2,1,'foo','Sample string','string',NULL,0,0,0,'var foo = \\\'%%FOO_VALUE%%\\\'','f','2007-06-01 15:09:47');
 
-INSERT INTO ox_zones VALUES (1,2,'Publisher 1 - Default','',0,3,'',468,60,'','','','',0,'f',0,'',NULL,NULL,'',NULL,NULL,'2007-04-27 15:37:19',0,0,0,'',NULL,0,NULL,'CPM'),(2,2,'Agency Publisher 1 - Default','',0,3,'',468,60,'','','','',0,'f',0,'',NULL,NULL,'',NULL,NULL,'2007-05-15 13:41:44',0,0,0,'',NULL,0,NULL,'CPM');
+INSERT INTO ox_zones VALUES (1,2,'Publisher 1 - Default','',0,3,'',468,60,'','','','',0,'f',0,'',NULL,NULL,'',NULL,NULL,'2007-04-27 15:37:19',0,0,0,'',NULL,0,NULL,'CPM',1),(2,2,'Agency Publisher 1 - Default','',0,3,'',468,60,'','','','',0,'f',0,'',NULL,NULL,'',NULL,NULL,'2007-05-15 13:41:44',0,0,0,'',NULL,0,NULL,'CPM',1);
