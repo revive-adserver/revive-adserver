@@ -35,10 +35,15 @@ require_once MAX_PATH . '/lib/max/other/lib-acl.inc.php';
     // +---------------------------------------+
 
 
+function MAX_checkGenericId($id)
+{
+    return !empty($id) && preg_match('/^\d+$/D', $id);
+}
+
 function MAX_checkAd($advertiserId, $placementId, $adId)
 {
     $allowed = false;
-    if (is_numeric($advertiserId) && is_numeric($placementId) && is_numeric($adId)) {
+    if (MAX_checkGenericId($advertiserId) && MAX_checkGenericId($placementId) && MAX_checkGenericId($adId)) {
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
 
             //  determine if there are 1 or more ads
@@ -72,7 +77,7 @@ function MAX_checkAd($advertiserId, $placementId, $adId)
 function MAX_checkAdvertiser($advertiserId)
 {
     $allowed = false;
-    if (is_numeric($advertiserId) && $advertiserId > 0) {
+    if (MAX_checkGenericId($advertiserId)) {
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $allowed = count(Admin_DA::getAdvertisers(array('advertiser_id' => $advertiserId)));
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
@@ -90,7 +95,7 @@ function MAX_checkAdvertiser($advertiserId)
 function MAX_checkAgency($agencyId)
 {
     $allowed = false;
-    if (is_numeric($agencyId)) {
+    if (MAX_checkGenericId($agencyId)) {
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $allowed = count(Admin_DA::getAgencies(array('agency_id' => $agencyId)));
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
@@ -107,7 +112,7 @@ function MAX_checkAgency($agencyId)
 function MAX_checkPublisher($publisherId)
 {
     $allowed = false;
-    if (is_numeric($publisherId)) {
+    if (MAX_checkGenericId($publisherId)) {
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $allowed = count(Admin_DA::getPublishers(array('publisher_id' => $publisherId)));
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
@@ -125,7 +130,7 @@ function MAX_checkPublisher($publisherId)
 function MAX_checkPlacement($advertiserId, $placementId)
 {
     $allowed = false;
-    if (is_numeric($advertiserId) && is_numeric($placementId)) {
+    if (MAX_checkGenericId($advertiserId) && MAX_checkGenericId($placementId)) {
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $allowed = count(Admin_DA::getPlacements(
                 array(  'advertiser_id' => $advertiserId,
@@ -148,7 +153,7 @@ function MAX_checkPlacement($advertiserId, $placementId)
 function MAX_checkTracker($advertiserId, $trackerId)
 {
     $allowed = false;
-    if (is_numeric($advertiserId) && is_numeric($trackerId)) {
+    if (MAX_checkGenericId($advertiserId) && MAX_checkGenericId($trackerId)) {
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $allowed = count(Admin_DA::getTrackers(
                 array(  'advertiser_id' => $advertiserId,
@@ -171,7 +176,7 @@ function MAX_checkTracker($advertiserId, $trackerId)
 function MAX_checkZone($publisherId, $zoneId)
 {
     $allowed = false;
-    if (is_numeric($publisherId) && is_numeric($zoneId)) {
+    if (MAX_checkGenericId($publisherId) && MAX_checkGenericId($zoneId)) {
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $allowed = count(Admin_DA::getZones(
                 array(  'publisher_id' => $publisherId,
@@ -209,7 +214,7 @@ function MAX_checkAdZoneValid($aZone, $aAd)
 function MAX_checkChannel($agencyId, $channelId)
 {
     $allowed = false;
-    if (is_numeric($agencyId) && is_numeric($channelId)) {
+    if (MAX_checkGenericId($agencyId) && MAX_checkGenericId($channelId)) {
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $allowed = count(Admin_DA::getChannels(
                 array( 'channel_id' => $channelId,
