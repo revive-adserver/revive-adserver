@@ -74,13 +74,7 @@ function OA_Dal_Delivery_connect($database = 'database') {
 
 function OA_bucket_affectedRows($resource)
 {
-    if ($resource === true) {
-        return 1;
-    }
-    if (!is_resource($resource)) {
-        return false;
-    }
-    return mysql_affected_rows($resource);
+    return mysql_affected_rows();
 }
 
 function OA_bucketPrintError($database = 'database')
