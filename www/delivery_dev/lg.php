@@ -47,7 +47,7 @@ MAX_commonRemoveSpecialChars($_REQUEST);
 // from the request variables
 $viewerId     = MAX_cookieGetUniqueViewerId();
 // marketplace
-if (!empty($conf['marketplace']['enabled']) && !empty($conf['marketplace']['cacheTime'])) {
+if (MAX_marketplaceEnabled() && !empty($conf['marketplace']['cacheTime'])) {
     $expiry = $conf['marketplace']['cacheTime'] < 0 ? null : MAX_commonGetTimeNow + $conf['marketplace']['cacheTime'];
 } else {
     $expiry = _getTimeYearFromNow();
