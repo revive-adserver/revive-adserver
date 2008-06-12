@@ -48,15 +48,6 @@ if ($GLOBALS['_MAX']['CONF']['database']['type'] == 'mysql') {
     die('Database not supported');
 }
 
-if(!extension_loaded("runkit") || !RUNKIT_FEATURE_MANIPULATION) {
-    echo "Error: runkit module is not loaded";
-    exit();
-}
-
-// replace logAction implementation with custom OA_Dal_Delivery_logAction_BucketUpdate
-//runkit_function_remove('oa_dal_delivery_logaction');
-//runkit_function_copy('oa_dal_delivery_logaction_bucketupdate', 'oa_dal_delivery_logaction');
-
 /**
  * A function to insert ad requests, ad impressions, ad clicks
  * and tracker clicks into the raw tables. Does NOT work with
