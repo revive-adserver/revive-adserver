@@ -47,8 +47,7 @@ List of parameters (can be use to drop and create buckets and to customize loggi
            When used together with "createBuckets" the buckets for logMethod="insert" are created
            without primary keys so buckets may be used safely for inserts.
            default=update
-* buckets - (TODO - not fully implemented yet, default buckets are used)
-           comma separated list of buckets to create or to log data into while in logging only mode,
+* buckets - comma separated list of buckets to create or to log data into while in logging only mode,
            default=data_bucket_impression,data_bucket_impression_country,data_bucket_frequency
 * rand - maximum number of random zone to choose from, eg if rand = 1000 the logging will be done
            for random 1-1000 ads and zones mt_rand(1,rand). This is to help randomize the distribution
