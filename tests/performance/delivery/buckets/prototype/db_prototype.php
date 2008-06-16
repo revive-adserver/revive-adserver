@@ -42,7 +42,7 @@ $GLOBALS['OA_DEFAULT_RAND'] = 1000;
 
 if ($GLOBALS['_MAX']['CONF']['database']['type'] == 'mysql') {
     require 'mysql.php';
-} else if ($GLOBALS['_MAX']['CONF']['database']['type'] == 'mysql') {
+} else if ($GLOBALS['_MAX']['CONF']['database']['type'] == 'pgsql') {
     require 'pgsql.php';
 } else {
     die('Database not supported');
@@ -127,6 +127,18 @@ function OA_bucket_updateTable($tableName, $aQuery, $counter = 'count')
     if (!empty($_GET['logMethod']) && $_GET['logMethod'] == 'insert') {
         return OA_bucketInsertTable($tableName, $aQuery, $counter);
     }
+    if (!empty($_GET['logMethod']) && $_GET['logMethod'] == 'duplicate') {
+        $updateQuery = OA_bucket_buildUpdateQuery($tableName, $aQuery, $counter, true);
+        $result = OA_Dal_Delivery_query(
+            $updateQuery,
+            'rawDatabase'
+        );
+        if (!$result) {
+            OA_bucketPrintError('rawDatabase');
+        }
+        return (bool)$result;
+    }
+    
     // triple update/insert/update - for performance reasons
     if ($counter) {
         // first update
@@ -173,16 +185,21 @@ function OA_bucketPrepareDb()
 
 }
 
-function OA_bucket_buildUpdateQuery($tableName, $aQuery, $counter)
+function OA_bucket_buildUpdateQuery($tableName, $aQuery, $counter, $duplicate = false)
 {
-    $query = "UPDATE {$tableName} SET $counter = $counter + 1 WHERE ";
-    $and = '';
-    foreach ($aQuery as $column => $value) {
-        if (!is_integer($value)) {
-            $value = "'" . $value . "'";
+    if ($duplicate) {
+        $query = OA_bucket_buildInsertQuery($tableName, $aQuery, $counter);
+        $query .= " ON DUPLICATE KEY UPDATE $counter = $counter + 1";
+    } else {
+        $query = "UPDATE {$tableName} SET $counter = $counter + 1 WHERE ";
+        $and = '';
+        foreach ($aQuery as $column => $value) {
+            if (!is_integer($value)) {
+                $value = "'" . $value . "'";
+            }
+            $query .= $and . $column . ' = ' . $value;
+            $and = ' AND ';
         }
-        $query .= $and . $column . ' = ' . $value;
-        $and = ' AND ';
     }
     return $query;
 }
