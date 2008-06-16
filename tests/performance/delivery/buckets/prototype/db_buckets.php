@@ -15,7 +15,7 @@ class OA_Buckets
                 $this->typeTimestamp = 'DATETIME';
                 break;
             case 'pgsql':
-                $this->typeTimestamp = 'timestamp(0)';
+                $this->typeTimestamp = 'timestamp without time zone';
                 break;
             default:
                 die('Unknown database type');
@@ -34,6 +34,13 @@ class OA_Buckets
             $methodName = 'create_' . $bucket;
             if (method_exists($this, $methodName)) {
                 $this->$methodName();
+            }
+            if ($this->dbType == 'pgsql') {
+                // Create the custom plpgsql functions for each bucket.
+                $methodName .= '_proc';
+                if (method_exists($this, $methodName)) {
+                    $this->$methodName();
+                }
             }
         }
     }
@@ -106,6 +113,37 @@ class OA_Buckets
         $pk = 'PRIMARY KEY (interval_start, creative_id, zone_id)';
         return $this->createTableFromQuery($tableName, $query, $pk);
     }
+    
+    function create_data_bucket_impression_proc() 
+    {
+        $tableName = 'data_bucket_impression';
+        $query = 'CREATE OR REPLACE FUNCTION bucket_update_' . $tableName . '
+            (timestamp without time zone, integer, integer)
+            RETURNS void AS
+            $BODY$DECLARE
+              x int;
+            BEGIN
+              LOOP
+                -- first try to update
+                UPDATE ' . $tableName . ' SET count = count + 1 WHERE interval_start = $1 AND creative_id = $2 AND zone_id = $3;
+                GET DIAGNOSTICS x = ROW_COUNT;
+                IF x > 0 THEN
+                  RETURN;
+                END IF;
+                -- not there, so try to insert the key
+                -- if someone else inserts the same key concurrently,
+                -- we could get a unique-key failure
+                BEGIN
+                  INSERT INTO ' . $tableName . ' VALUES ($1, $2, $3, 1);
+                  RETURN;
+                EXCEPTION WHEN unique_violation THEN
+                  -- do nothing, and loop to try the UPDATE again
+                END;
+              END LOOP;
+            END$BODY$
+            LANGUAGE \'plpgsql\'';
+        return $this->query($query);
+    }
 
     function create_data_bucket_impression_country()
     {
@@ -120,6 +158,37 @@ class OA_Buckets
         )";
         $pk = 'PRIMARY KEY (interval_start, creative_id, zone_id, country)';
         return $this->createTableFromQuery($tableName, $query, $pk);
+    }
+    
+    function create_data_bucket_impression_country_proc() 
+    {
+        $tableName = 'data_bucket_impression_country';
+        $query = 'CREATE OR REPLACE FUNCTION bucket_update_' . $tableName . '
+            (timestamp without time zone, integer, integer, char)
+            RETURNS void AS
+            $BODY$DECLARE
+              x int;
+            BEGIN
+              LOOP
+                -- first try to update
+                UPDATE ' . $tableName . ' SET count = count + 1 WHERE interval_start = $1 AND creative_id = $2 AND zone_id = $3 AND country = $4;
+                GET DIAGNOSTICS x = ROW_COUNT;
+                IF x > 0 THEN
+                  RETURN;
+                END IF;
+                -- not there, so try to insert the key
+                -- if someone else inserts the same key concurrently,
+                -- we could get a unique-key failure
+                BEGIN
+                  INSERT INTO ' . $tableName . ' VALUES ($1, $2, $3, $4, 1);
+                  RETURN;
+                EXCEPTION WHEN unique_violation THEN
+                  -- do nothing, and loop to try the UPDATE again
+                END;
+              END LOOP;
+            END$BODY$
+            LANGUAGE \'plpgsql\'';
+        return $this->query($query);
     }
 
     function create_data_bucket_fb_impression()
@@ -176,7 +245,7 @@ class OA_Buckets
         $pk = 'PRIMARY KEY (month_start, campaign_id)';
         return $this->createTableFromQuery($tableName, $query, $pk);
     }
-
+    
     function create_data_bucket_frequency()
     {
         $tableName = 'data_bucket_frequency';
@@ -188,6 +257,37 @@ class OA_Buckets
         )";
         $pk = 'PRIMARY KEY (campaign_id, frequency)';
         return $this->createTableFromQuery($tableName, $query, $pk);
+    }
+    
+    function create_data_bucket_frequency_proc() 
+    {
+        $tableName = 'data_bucket_frequency';
+        $query = 'CREATE OR REPLACE FUNCTION bucket_update_' . $tableName . '
+            (integer, integer)
+            RETURNS void AS
+            $BODY$DECLARE
+              x int;
+            BEGIN
+              LOOP
+                -- first try to update
+                UPDATE ' . $tableName . ' SET count = count + 1 WHERE campaign_id = $1 AND frequency = $2;
+                GET DIAGNOSTICS x = ROW_COUNT;
+                IF x > 0 THEN
+                  RETURN;
+                END IF;
+                -- not there, so try to insert the key
+                -- if someone else inserts the same key concurrently,
+                -- we could get a unique-key failure
+                BEGIN
+                  INSERT INTO ' . $tableName . ' VALUES ($1, $2, 1);
+                  RETURN;
+                EXCEPTION WHEN unique_violation THEN
+                  -- do nothing, and loop to try the UPDATE again
+                END;
+              END LOOP;
+            END$BODY$
+            LANGUAGE \'plpgsql\'';
+        return $this->query($query);
     }
 }
 

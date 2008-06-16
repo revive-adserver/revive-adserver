@@ -43,10 +43,13 @@ List of parameters (can be use to drop and create buckets and to customize loggi
            There is no need to set database type, the prototype reads the db type from
            OpenX configuration file
            default=memory
-* logMethod - indicates which method should be used to log new records. Possible values: "update", "duplicate" or "insert"
+* logMethod - indicates which method should be used to log new records. 
+           Possible values: "update", "duplicate", "proc" or "insert"
            When used together with "createBuckets" the buckets for logMethod="insert" are created
            without primary keys so buckets may be used safely for inserts.
-           When using "duplicate" buckets should be created using "update" and "ON DUPLICATE UPDATE" is used.
+           When using "proc" or "duplicate", buckets should be created using "update".
+           "duplicate" is MySQL only and "ON DUPLICATE UPDATE" is used.
+           "proc" is PgSQL only and uses custom stored procedures for each bucket.
            default=update
 * buckets - comma separated list of buckets to create or to log data into while in logging only mode,
            default=data_bucket_impression,data_bucket_impression_country,data_bucket_frequency

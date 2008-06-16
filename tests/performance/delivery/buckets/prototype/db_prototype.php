@@ -123,10 +123,26 @@ function OA_bucketInsertTable($tableName, $aQuery, $counter = 'count')
 function OA_bucket_updateTable($tableName, $aQuery, $counter = 'count')
 {
     OA_bucketPrepareDb();
+    
     // just insert
     if (!empty($_GET['logMethod']) && $_GET['logMethod'] == 'insert') {
         return OA_bucketInsertTable($tableName, $aQuery, $counter);
     }
+    
+    // PgSQL stored procedures (update/insert/update)
+    if (!empty($_GET['logMethod']) && $_GET['logMethod'] == 'proc') {
+        $procQuery = OA_bucket_buildProcQuery($tableName, $aQuery, $counter);
+        $result = OA_Dal_Delivery_query(
+            $procQuery,
+            'rawDatabase'
+        );
+        if (!$result) {
+            OA_bucketPrintError('rawDatabase');
+        }
+        return (bool)$result;
+    }
+    
+    // MySQL ON DUPLICATE KEY UPDATE
     if (!empty($_GET['logMethod']) && $_GET['logMethod'] == 'duplicate') {
         $updateQuery = OA_bucket_buildUpdateQuery($tableName, $aQuery, $counter, true);
         $result = OA_Dal_Delivery_query(
@@ -139,7 +155,7 @@ function OA_bucket_updateTable($tableName, $aQuery, $counter = 'count')
         return (bool)$result;
     }
     
-    // triple update/insert/update - for performance reasons
+    // Else, triple update/insert/update - for performance reasons
     if ($counter) {
         // first update
         $updateQuery = OA_bucket_buildUpdateQuery($tableName, $aQuery, $counter);
@@ -223,6 +239,24 @@ function OA_bucket_buildInsertQuery($tableName, $aQuery, $counter)
         $query = $insert . ') ' . $values . ')';
     }
     return $query;
+}
+
+function OA_bucket_buildProcQuery($tableName, $aQuery, $counter) 
+{
+    $args = implode(',', OA_bucket_quoteArgs($aQuery));
+    $query = "SELECT bucket_update_{$tableName}({$args})";
+    return $query;
+}
+
+function OA_bucket_quoteArgs($aArgs) 
+{
+    $array = $aArgs;
+    foreach ($array as &$value) {
+        if (!is_integer($value)) {
+            $value = "'" . $value . "'";
+        }
+    }
+    return $array;
 }
 
 ?>
