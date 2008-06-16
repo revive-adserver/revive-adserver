@@ -50,7 +50,7 @@ class OA_Buckets
         if ($this->dbType == 'mysql') {
             $query .= ' ENGINE = '.$this->getEngineType();
         }
-        return $this->query($query);
+        return $this->query($this->modifyQuery($query, $this->dbType));
     }
 
     function modifyQuery($query, $dbType)
@@ -61,6 +61,7 @@ class OA_Buckets
                 $query .= ' ENGINE =' . $this->getEngineType();
                 break;
             case 'pgsql':
+                $query = str_replace('CREATE TABLE IF NOT EXISTS', 'CREATE TABLE', $query);
                 break;
         }
         return $query;
