@@ -1,8 +1,8 @@
-{*<!--
-
+<?php
+/*
 +---------------------------------------------------------------------------+
 | OpenX v${RELEASE_MAJOR_MINOR}                                             |
-| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -22,28 +22,34 @@
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
 $Id$
+*/
+require_once 'HTML/QuickForm/Rule.php';
 
--->*}
-<script type="text/javascript">
-<!--
-    var validatorPreferences = {literal}{{/literal}
-        'strFieldContainsErrors': "{$strFieldContainsErrors|escape:'javascript'}",
-        'strFieldFixBeforeContinue1': "{$strFieldFixBeforeContinue1|escape:'javascript'}",
-        'strFieldFixBeforeContinue2': "{$strFieldFixBeforeContinue2|escape:'javascript'}",
-        'strWarningMissing': "{$strWarningMissing|escape:'javascript'}",
-        'strWarningMissingOpening': "{$strWarningMissingOpening|escape:'javascript'}",
-        'strWarningMissingClosing': "{$strWarningMissingClosing|escape:'javascript'}",
-        'strSubmitAnyway': "{$strSubmitAnyway|escape:'javascript'}",
-        'thousandsSeperator': "{$thousandsSeperator}"
-    };
-//-->
-</script>
-{if $combineAssets}
-<script type="text/javascript" src="{$assetPath}/combine/combine.php?type=js&files={$genericJavascript}"></script>
-{else}
-  {foreach from=$aGenericJavascript item=javascript}
-<script type="text/javascript" src="{$assetPath}/{$javascript}"></script>
-  {/foreach}
-{/if}
- <!-- compliance patch for IE6 -->
- <!--[if lt IE 7]><script src="{$assetPath}/js/IE7.js" type="text/javascript"></script><![endif]-->
+/**
+ * Unique elements validation
+ */
+class OA_Admin_UI_Rule_Unique 
+    extends HTML_QuickForm_Rule
+{
+    /**
+     * Checks if an element value is unique
+     *
+     * @param     string    $value      Value to check
+     * @param     array     $otherValues List of values to check against
+     * @access    public
+     * @return    boolean   true if value is not in the list of otherValues
+     */
+    function validate($value, $otherValues = array())
+    {
+        return !in_array($value, $otherValues);
+    } 
+
+
+    function getValidationScript($options = null)
+    {
+        //return array('', "{jsVar} == ''");
+        return array('', ""); //return nothing, we use JQuery validate anyway
+    } 
+
+} 
+?>

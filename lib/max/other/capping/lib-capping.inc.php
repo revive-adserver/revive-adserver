@@ -35,13 +35,13 @@ phpAds_registerGlobal('cap', 'session_capping', 'time');
 /**
  * A function to initialise capping variables for ad, campaign or zone capping.
  *
- * After running, the global variables $block is set with the number of seconds
+ * After running, the result $block is set with the number of seconds
  * to prevent delivery again for, while $cap and $session_capping are set to
  * either 0 for no capping, or number number of times to cap the item to.
  */
-function _initCappingVariables() {
+function _initCappingVariables(&$time, &$cap, &$session_capping) {
 
-    global $time, $block, $cap, $session_capping;
+    //global $time, $block, $cap, $session_capping;
 
     // Initialize $block variable with time
     if (isset($time)) {
@@ -49,22 +49,27 @@ function _initCappingVariables() {
     	if ($time['second'] != '-') $block += (int)$time['second'];
     	if ($time['minute'] != '-') $block += (int)$time['minute'] * 60;
     	if ($time['hour'] != '-') 	$block += (int)$time['hour'] * 3600;
-    } else {
+    } 
+    else {
     	$block = 0;
     }
 
     // Initialize capping variables
     if (isset($cap) && $cap != '-') {
     	$cap = (int)$cap;
-    } else {
+    } 
+    else {
     	$cap = 0;
     }
 
     if (isset($session_capping) && $session_capping != '-') {
     	$session_capping = (int)$session_capping;
-    } else {
+    } 
+    else {
     	$session_capping = 0;
     }
+    
+    return $block;
 }
 
 /**
@@ -90,10 +95,175 @@ function _getTimeFromSec($secDuration)
 
 function _replaceTrailingZerosWithDash(&$time)
 {
-	if ($time['hour'] == 0 && $time['minute'] == 0 && $time['second'] == 0) $time['second'] = '-';
-	if ($time['hour'] == 0 && $time['minute'] == 0) $time['minute'] = '-';
-	if ($time['hour'] == 0) $time['hour'] = '-';
+	if ($time['hour'] == 0 && $time['minute'] == 0 && $time['second'] == 0) {
+	   $time['second'] = '-';
+	}
+	if ($time['hour'] == 0 && $time['minute'] == 0) {
+	   $time['minute'] = '-';
+	}
+	if ($time['hour'] == 0) {
+	   $time['hour'] = '-';
+	}
 }
+
+/**
+ * Gets values from $aCappedObject and uses them to output HTML form with
+ * them. Assumes values are stored in indexs "block", "capping" and
+ * "sessions" capping if $type is not supplied; otherwise it uses indexes
+ * "block_$type", "cap_$type" and "session_cap_$type".
+ *
+ * @param int $tabindex Current $tabindex in the page.
+ * @param array $aText The internationalized texts to be used.
+ * @param array $aCappedObject An array of the capping information.
+ * @param string $type Optional index name type. If not null, one of
+ *                     "Ad", "Campaign" or "Zone". When specified, the capping
+ *                      data from the $aCappedObject array is taken from the
+ *                      indicies "block_$type", "cap_$type" and "session_cap_$type";
+ *                      when not speficied, the indicies "block", "capping" and
+ *                      "session_capping" are used.
+ * @param array $aExtraDisplay Optional array of four or five indexes. The first
+ *                             index is "title" and is the title of the display
+ *                             of the extra information, the second is "titleLink"
+ *                             and is the URL to go to edit these extra items,
+ *                             the third is index is "aText", and is a second
+ *                             array of internationalized tests to be used; the fourth
+ *                             index is "aCappedObject" and is a second array of
+ *                             capping information; the fifth (optional) index
+ *                             is "type", and is an optional index name for the
+ *                             "aCappedObject" array.
+ */
+function buildDeliveryCappingFormSection(&$form, $aText, $aCappedObject, $type = null, $aExtraDisplay = array())
+{
+    // Extract the capping information to put into the form
+    if (is_null($type)) {
+        $time = _getTimeFromSec($aCappedObject['block']);
+        $capping = $aCappedObject['capping'];
+        $session_capping = $aCappedObject['session_capping'];
+    } 
+    else {
+        $time = _getTimeFromSec($aCappedObject['block_' . strtolower($type)]);
+        $capping = $aCappedObject['cap_' . strtolower($type)];
+        $session_capping = $aCappedObject['session_cap_' . strtolower($type)];
+    }
+    _replaceTrailingZerosWithDash($time);
+    if ($capping == 0) {
+        $capping = '-';
+    }
+    if ($session_capping == 0) {
+        $session_capping = '-';
+    }
+
+    
+    //build capping section    
+    $form->addElement('header', 's_capping', $aText['title']);
+    $viewsPerDayG['text'] = $form->createElement('text', 'capping', null, 
+        array('size' => 2, 'id' => 'cap'));
+    $viewsPerDayG['note'] = $form->createElement('html', $GLOBALS['strDeliveryCappingTotal']);        
+    $form->addGroup($viewsPerDayG, 'v_per_d', $aText['limit']);    
+    
+    $viewsPerSessG['text'] = $form->createElement('text', 'session_capping', null, 
+        array('size' => 2, 'id' => 'session_capping'));
+    $viewsPerSessG['note'] = $form->createElement('html', $GLOBALS['strDeliveryCappingSession']);        
+    $form->addGroup($viewsPerSessG, 'v_per_s', $aText['limit']);    
+    
+    $resetG['hour'] = $form->createElement('text', 'time[hour]', $GLOBALS['strHours'], 
+        array('id' => 'timehour', 'onKeyUp' => 'phpAds_formLimitUpdate(this);',
+        'size' => 2, "labelPlacement" => "after"));
+    $resetG['minute'] = $form->createElement('text', 'time[minute]', $GLOBALS['strMinutes'], 
+        array('id' => 'timeminute', 'onKeyUp' => 'phpAds_formLimitUpdate(this);',
+        'size' => 2, "labelPlacement" => "after"));
+    $resetG['second'] = $form->createElement('text', 'time[second]', $GLOBALS['strSeconds'], 
+        array('id' => 'timesecond', 'onBlur' => 'phpAds_formLimitBlur(this);',
+            'onKeyUp' => 'phpAds_formLimitUpdate(this);', 'size' => 2, 
+            "labelPlacement" => "after"));
+    if (($capping != '-' && $capping > 0) 
+        || ($session_capping != '-' && $session_capping > 0)) {
+        $timeDisabled = false;
+    } 
+    else {
+        $timeDisabled = true;
+    }
+    if ($timeDisabled) {
+        $resetG['hour']->setAttribute('disabled', 'disabled');                
+        $resetG['minute']->setAttribute('disabled', 'disabled');
+        $resetG['second']->setAttribute('disabled', 'disabled');
+    }
+    $form->addGroup($resetG, 'v_per_s', $GLOBALS['strDeliveryCappingReset'], "&nbsp;");
+    
+    //set values for capping section
+    $form->setDefaults(array('time[hour]' => $time['hour'], 
+        'time[minute]' => $time['minute'],
+        'time[second]' => $time['second']
+    ));    
+    
+    // Is there extra non-editable capping info to display?
+    $showExtra = false;
+    if ((!empty($aExtraDisplay)) && (!empty($aExtraDisplay['aText'])) && (!empty($aExtraDisplay['aCappedObject']))) {
+        $showExtra = true;
+        if (is_null($aExtraDisplay['type'])) {
+            $extra_time = _getTimeFromSec($aExtraDisplay['aCappedObject']['block']);
+            $extra_cap = $aExtraDisplay['aCappedObject']['capping'];
+            $extra_session_capping = $aExtraDisplay['aCappedObject']['session_capping'];
+        } 
+        else {
+            $extra_time = _getTimeFromSec($aExtraDisplay['aCappedObject']['block_' . strtolower($aExtraDisplay['type'])]);
+            $extra_cap = $aExtraDisplay['aCappedObject']['cap_' . strtolower($aExtraDisplay['type'])];
+            $extra_session_capping = $aExtraDisplay['aCappedObject']['session_cap_' . strtolower($aExtraDisplay['type'])];
+        }
+        _replaceTrailingZerosWithDash($extra_time);
+        
+        //if nothing to show
+        if ($extra_cap == '-' && $extra_session_capping == '-' &&
+            $extra_time['hour'] == '-' && $extra_time['minute'] == '-' && $extra_time['second'] == '-') {
+            $showExtra = false;
+        }
+        
+        if ($extra_cap == 0) {
+            $extra_cap = '-';
+        }
+        if ($extra_session_capping == 0) {
+            $extra_session_capping = '-';
+        }
+    }
+    
+    if ($showExtra) {
+        //build extra capping section
+        $form->addElement('header', 's_extra_capping', '<a href="'.$aExtraDisplay['titleLink'].'">'
+            .$aExtraDisplay['title'].' '.$aText['title'].'</a>');
+        
+        $eViewsPerDayG['text'] = $form->createElement('text', 'extra_cap', null, 
+            array('size' => 2, 'extra_cap' => 'cap', 'disabled' => '1'));
+        $eViewsPerDayG['note'] = $form->createElement('html', $GLOBALS['strDeliveryCappingTotal']);        
+        $form->addGroup($eViewsPerDayG, 'ev_per_d', $aExtraDisplay['aText']['limit']);    
+        
+        $eViewsPerSessG['text'] = $form->createElement('text', 'extra_session_capping', null, 
+            array('size' => 2, 'id' => 'extra_session_capping', 'disabled' => '1'));
+        $eViewsPerSessG['note'] = $form->createElement('html', $GLOBALS['strDeliveryCappingSession']);        
+        $form->addGroup($eViewsPerSessG, 'ev_per_s', $aExtraDisplay['aText']['limit']);    
+        
+        $eResetG['hour'] = $form->createElement('text', 'extra_time[hour]', 
+            $GLOBALS['strHours'], array('id' => 'extratimehour', 'size' => 2, 
+            'disabled' => '1', "labelPlacement" => "after"));
+        $eResetG['minute'] = $form->createElement('text', 'extra_time[minute]', 
+            $GLOBALS['strMinutes'], array('id' => 'extratimeminute', 'size' => 2, 
+            'disabled' => '1', "labelPlacement" => "after"));
+        $eResetG['second'] = $form->createElement('text', 'extra_time[second]', 
+            $GLOBALS['strSeconds'], array('id' => 'extratimesecond', 'size' => 2,
+            'disabled' => '1', "labelPlacement" => "after"));    
+        $form->addGroup($eResetG, 'v_per_s', $GLOBALS['strDeliveryCappingReset'], "&nbsp;");
+        
+        $form->setDefaults(array('extra_cap' => $extra_cap, 
+            'extra_session_capping' => $extra_session_capping,
+            'extra_time[hour]' => $extra_time['hour'],
+            'extra_time[minute]' => $extra_time['minute'],
+            'extra_time[second]' => $extra_time['second']
+        ));
+    }
+    
+    return $form;
+}
+
+
 
 /**
  * Gets values from $aCappedObject and uses them to output HTML form with

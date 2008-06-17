@@ -32,10 +32,11 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
+require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 
 // Register input variables
-phpAds_registerGlobal (
+phpAds_registerGlobalUnslashed (
      'clickwindow'
     ,'description'
     ,'move'
@@ -64,47 +65,257 @@ foreach($invocationPlugins as $pluginKey => $plugin) {
 }
 
 /*-------------------------------------------------------*/
+/* Initialise data                                       */
+/*-------------------------------------------------------*/
+if ($trackerid != "" || (isset($move) && $move == 't')) {
+    // Edit or Convert
+    // Fetch exisiting settings
+    // Parent setting for converting, tracker settings for editing
+    if ($trackerid != "") {
+        $ID = $trackerid;
+    }
+    if (isset($move) && $move == 't') {
+        if (isset($clientid) && $clientid != "") {
+            $ID = $clientid;
+        }
+    }
+    $doTrackers = OA_Dal::factoryDO('trackers');
+    $doTrackers->get($ID);
+    $tracker = $doTrackers->toArray();
+} else {
+    // New tracker
+    $doClients = OA_Dal::factoryDO('clients');
+    $doClients->clientid = $clientid;
+
+    if ($doClients->find() && $doClients->fetch() && $client = $doClients->toArray()) {
+        $tracker['trackername'] = $client['clientname'].' - ';
+    } else {
+        $tracker['trackername'] = '';
+    }
+
+    $tracker['trackername']  .= $strDefault." ".$strTracker;
+    $tracker['clickwindow']   = $conf['logging']['defaultImpressionConnectionWindow'];
+    $tracker['viewwindow']    = $conf['logging']['defaultClickConnectionWindow'];
+    $tracker['status']        = isset($pref['tracker_default_status']) ? $pref['tracker_default_status'] : MAX_CONNECTION_STATUS_APPROVED;
+    $tracker['type']          = isset($pref['tracker_default_type']) ? $pref['tracker_default_type'] : MAX_CONNECTION_TYPE_SALE;
+    $tracker['linkcampaigns'] = $pref['tracker_link_campaigns'] == true ? 't' : 'f';
+    $tracker['description'] = '';
+    
+    $tracker['clientid'] = $clientid;
+}
+
+/*-------------------------------------------------------*/
+/* MAIN REQUEST PROCESSING                               */
+/*-------------------------------------------------------*/
+//build form
+$trackerForm = buildTrackerForm($tracker, $plugins);
+
+if ($trackerForm->validate()) {
+    //process submitted values
+    processForm($trackerForm, $plugins);
+}
+else { //either validation failed or form was not submitted, display the form
+    displayPage($tracker, $trackerForm, $plugins);
+}
+
+/*-------------------------------------------------------*/
+/* Build form                                            */
+/*-------------------------------------------------------*/
+function buildTrackerForm($tracker, $plugins)
+{
+    $form = new OA_Admin_UI_Component_Form("trackerform", "POST", $_SERVER['PHP_SELF']);
+    $form->forceClientValidation(true);
+    $form->addElement('hidden', 'trackerid', $tracker['trackerid']);
+    $form->addElement('hidden', 'clientid', $tracker['clientid']);
+    $form->addElement('hidden', 'move', $tracker['move']);
+    
+    
+    $form->addElement('header', 'basic_info', $GLOBALS['strBasicInformation']);
+    $form->addElement('text', 'trackername', $GLOBALS['strName']);
+    $form->addElement('text', 'description', $GLOBALS['strDescription']);
+    
+    
+    $types = $GLOBALS['_MAX']['CONN_TYPES'];
+    foreach($types as $typeId => $typeName) {
+        $aTypes[$typeId] = $GLOBALS[$typeName];
+    }
+    $form->addElement('select', 'type', $GLOBALS['strConversionType'], $aTypes);
+    
+        
+    $form->addElement('header', 'conv_rules', $GLOBALS['strDefaultConversionRules']);
+    $clickG['day'] = $form->createElement('text', 'clickwindow[day]', $GLOBALS['strDays'], 
+        array("id" => "clickwindowday", "onKeyUp" => "phpAds_formLimitUpdate(this.form);", 
+        "labelPlacement" => "after"));
+    $clickG['day']->setSize(3);
+    $clickG['hour'] = $form->createElement('text', 'clickwindow[hour]', $GLOBALS['strHours'], 
+        array("id" => "clickwindowhour", "onKeyUp" => "phpAds_formLimitUpdate(this.form);", 
+        "labelPlacement" => "after"));
+    $clickG['hour']->setSize(3);
+    $clickG['minute'] = $form->createElement('text', 'clickwindow[minute]', $GLOBALS['strMinutes'], 
+        array("id" => "clickwindowminute", "onKeyUp" => "phpAds_formLimitUpdate(this.form);", 
+        "labelPlacement" => "after"));
+    $clickG['minute']->setSize(3);
+    $clickG['second'] = $form->createElement('text', 'clickwindow[second]', $GLOBALS['strSeconds'], 
+        array("id" => "clickwindowsecond", "onKeyUp" => "phpAds_formLimitUpdate(this.form);",
+            "onBlur" => "phpAds_formLimitBlur(this.form);", "labelPlacement" => "after"));
+    $clickG['second']->setSize(3);
+    $form->addGroup($clickG, 'size', $GLOBALS['strClickWindow'], "&nbsp;", false);
+    
+    $viewG['day'] = $form->createElement('text', 'viewwindow[day]', $GLOBALS['strDays'], 
+        array("id" => "viewwindowday", "onKeyUp" => "phpAds_formLimitUpdate(this.form);", 
+        "labelPlacement" => "after"));
+    $viewG['day']->setSize(3);
+    $viewG['hour'] = $form->createElement('text', 'viewwindow[hour]', $GLOBALS['strHours'], 
+        array("id" => "viewwindowhour", "onKeyUp" => "phpAds_formLimitUpdate(this.form);", 
+        "labelPlacement" => "after"));
+    $viewG['hour']->setSize(3);
+    $viewG['minute'] = $form->createElement('text', 'viewwindow[minute]', $GLOBALS['strMinutes'], 
+        array("id" => "viewwindowminute", "onKeyUp" => "phpAds_formLimitUpdate(this.form);", 
+        "labelPlacement" => "after"));
+    $viewG['minute']->setSize(3);
+    $viewG['second'] = $form->createElement('text', 'viewwindow[second]', $GLOBALS['strSeconds'], 
+        array("id" => "viewwindowsecond", "onKeyUp" => "phpAds_formLimitUpdate(this.form);",
+            "onBlur" => "phpAds_formLimitBlur(this.form);", "labelPlacement" => "after"));
+    $viewG['second']->setSize(3);
+    $form->addGroup($viewG, 'size', $GLOBALS['strViewWindow'], "&nbsp;", false);
+    
+    //plugin fields
+    foreach ($plugins as $plugin) {
+        $fieldName = strtolower($plugin->trackerEvent);
+        
+        
+        $pluginG['day'] = $form->createElement('text', '{$fieldName}window[day]', $GLOBALS['strDays'], 
+            array("id" => "{$fieldName}windowday", "onKeyUp" => "phpAds_formLimitUpdate(this.form);"));
+        $pluginG['day']->setSize(3);
+        $pluginG['hour'] = $form->createElement('text', '{$fieldName}window[hour]', $GLOBALS['strHours'], 
+            array("id" => "{$fieldName}windowhour", "onKeyUp" => "phpAds_formLimitUpdate(this.form);"));
+        $pluginG['hour']->setSize(3);
+        $pluginG['minute'] = $form->createElement('text', '{$fieldName}window[minute]', $GLOBALS['strMinutes'], 
+            array("id" => "{$fieldName}windowminute", "onKeyUp" => "phpAds_formLimitUpdate(this.form);"));
+        $pluginG['minute']->setSize(3);
+        $pluginG['second'] = $form->createElement('text', '{$fieldName}window[second]', $GLOBALS['strSeconds'], 
+            array("id" => "{$fieldName}windowsecond", "onKeyUp" => "phpAds_formLimitUpdate(this.form);",
+                "onBlur" => "phpAds_formLimitBlur(this.form);"));
+        $pluginG['second']->setSize(3);
+        $form->addGroup($pluginG, 'size', ucfirst($fieldName), "&nbsp;", false);   
+
+        //set plugin defaults
+        $pluginsCalendarItems = splitSecondsIntoCalendarItems($tracker[$fieldName . 'window']);
+        $form->setDefaults(array($fieldName."window[day]" => $clickCalendarItems['day'],
+            $fieldName."window[hour]" => $clickCalendarItems['hour'],
+            $fieldName."window[minute]" => $clickCalendarItems['minute'],
+            $fieldName."window[second]" => $clickCalendarItems['second']));
+    }    
+    
+    
+    $statuses = $GLOBALS['_MAX']['STATUSES'];
+    $startStatusesIds = array(1,2,4);
+    foreach($statuses as $statusId => $statusName) {
+        if(in_array($statusId, $startStatusesIds)) {
+            $activeStatuses[$statusId] = $GLOBALS[$statusName];
+        }
+    }
+    $form->addElement('select', 'status', $GLOBALS['strDefaultStatus'], 
+        $activeStatuses);
+    $form->addElement('advcheckbox', 'linkcampaigns', null, 
+        $GLOBALS['strLinkCampaignsByDefault'], null, array("f", "t"));        
+
+
+    $form->addElement('controls', 'form-controls');
+    $form->addElement('submit', 'submit', $GLOBALS['strSaveChanges']);
+        
+    //set form values 
+    $form->setDefaults($tracker);
+
+    // Parse the number of seconds in the conversion windows into days, hours, minutes, seconds..
+    $clickCalendarItems = splitSecondsIntoCalendarItems($tracker['clickwindow']);
+    $form->setDefaults(array("clickwindow[day]" => $clickCalendarItems['day'],
+        "clickwindow[hour]" => $clickCalendarItems['hour'],
+        "clickwindow[minute]" => $clickCalendarItems['minute'],
+        "clickwindow[second]" => $clickCalendarItems['second']));
+    
+    $clickclickCalendarItems = splitSecondsIntoCalendarItems($tracker['viewwindow']);
+    $form->setDefaults(array("viewwindow[day]" => $clickclickCalendarItems['day'],
+        "viewwindow[hour]" => $clickclickCalendarItems['hour'],
+        "viewwindow[minute]" => $clickclickCalendarItems['minute'],
+        "viewwindow[second]" => $clickclickCalendarItems['second']));
+    
+    //validation rules
+    $translation = new OA_Translation();
+    $nameRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strName'])); 
+    $form->addRule('trackername', $nameRequiredMsg, 'required');
+    
+    // Get unique trackers
+    $doTrackers = OA_Dal::factoryDO('trackers');
+    $doTrackers->clientid = $tracker['clientid'];
+    $aUnique_names = $doTrackers->getUniqueValuesFromColumn('trackername',
+         empty($tracker['trackerid'])? '': $tracker['trackername']);
+    $nameUniqueMsg = $translation->translate($GLOBALS['strXUniqueField'], 
+        array($GLOBALS['strTracker'], strtolower($GLOBALS['strName'])));
+    $form->addRule('trackername', $nameUniqueMsg, 'unique', $aUnique_names);
+         
+    
+    return $form;    
+}
+
+/*-------------------------------------------------------*/
 /* Process submitted form                                */
 /*-------------------------------------------------------*/
-
-if (isset($submit)) {
+function processForm($form, $plugins) 
+{
+    $aFields = $form->exportValues();
     // If ID is not set, it should be a null-value for the auto_increment
 
-    if (empty($trackerid)) {
-        $trackerid = "null";
+    if (empty($aFields['trackerid'])) {
+        $aFields['trackerid'] = "null";
     }
-
-    $new_tracker = $trackerid == 'null';
 
     // Set window delays
-    if (isset($clickwindow)) {
+    if (isset($aFields['clickwindow'])) {
         $clickwindow_seconds = 0;
-        if ($clickwindow['second'] != '-') $clickwindow_seconds += (int)$clickwindow['second'];
-        if ($clickwindow['minute'] != '-') $clickwindow_seconds += (int)$clickwindow['minute'] * 60;
-        if ($clickwindow['hour'] != '-')     $clickwindow_seconds += (int)$clickwindow['hour'] * 60*60;
-        if ($clickwindow['day'] != '-')     $clickwindow_seconds += (int)$clickwindow['day'] * 60*60*24;
-    } else {
+        if ($aFields['clickwindow']['second'] != '-') { 
+            $clickwindow_seconds += (int)$aFields['clickwindow']['second'];
+        }
+        if ($aFields['clickwindow']['minute'] != '-') {
+            $clickwindow_seconds += (int)$aFields['clickwindow']['minute'] * 60;
+        }
+        if ($aFields['clickwindow']['hour'] != '-') {
+            $clickwindow_seconds += (int)$aFields['clickwindow']['hour'] * 60*60;
+        }
+        if ($aFields['clickwindow']['day'] != '-') {
+            $clickwindow_seconds += (int)$aFields['clickwindow']['day'] * 60*60*24;
+        }
+    } 
+    else {
         $clickwindow_seconds = 0;
     }
-    if (isset($viewwindow)) {
+    if (isset($aFields['viewwindow'])) {
         $viewwindow_seconds = 0;
-        if ($viewwindow['second'] != '-') $viewwindow_seconds += (int)$viewwindow['second'];
-        if ($viewwindow['minute'] != '-') $viewwindow_seconds += (int)$viewwindow['minute'] * 60;
-        if ($viewwindow['hour'] != '-')     $viewwindow_seconds += (int)$viewwindow['hour'] * 60*60;
-        if ($viewwindow['day'] != '-')     $viewwindow_seconds += (int)$viewwindow['day'] * 60*60*24;
+        if ($aFields['viewwindow']['second'] != '-') { 
+            $viewwindow_seconds += (int)$aFields['viewwindow']['second'];
+        }
+        if ($aFields['viewwindow']['minute'] != '-') {  
+            $viewwindow_seconds += (int)$aFields['viewwindow']['minute'] * 60;
+        }
+        if ($aFields['viewwindow']['hour'] != '-') {
+            $viewwindow_seconds += (int)$aFields['viewwindow']['hour'] * 60*60;
+        }
+        if ($aFields['viewwindow']['day'] != '-') {
+            $viewwindow_seconds += (int)$aFields['viewwindow']['day'] * 60*60*24;
+        }
     } else {
         $viewwindow_seconds = 0;
     }
 
     $doTrackers = OA_Dal::factoryDO('trackers');
-    $doTrackers->trackername = MAX_commonGetValueUnslashed('trackername');
-    $doTrackers->description = MAX_commonGetValueUnslashed('description');
+    $doTrackers->trackername = $aFields['trackername'];
+    $doTrackers->description = $aFields['description'];
     $doTrackers->clickwindow = $clickwindow_seconds;
     $doTrackers->viewwindow = $viewwindow_seconds;
-    $doTrackers->status = $status;
-    $doTrackers->type = $type;
-    $doTrackers->linkcampaigns = isset($linkcampaigns) ? "t" : "f";
-    $doTrackers->clientid = $clientid;
+    $doTrackers->status = $aFields['status'];
+    $doTrackers->type = $aFields['type'];
+    $doTrackers->linkcampaigns = $aFields['linkcampaigns'] == "t" ? "t" : "f";
+    $doTrackers->clientid = $aFields['clientid'];
 
     foreach ($plugins as $plugin) {
         $dbField = strtolower($plugin->trackerEvent) . 'window';
@@ -112,376 +323,109 @@ if (isset($submit)) {
         $doTrackers->$dbField = $value;
     }
 
-    if (empty($trackerid) || $trackerid == "null") {
-        $trackerid = $doTrackers->insert();
-    } else {
-        $doTrackers->trackerid = $trackerid;
+    if (empty($aFields['trackerid']) || $aFields['trackerid'] == "null") {
+        $aFields['trackerid'] = $doTrackers->insert();
+    } 
+    else {
+        $doTrackers->trackerid = $aFields['trackerid'];
         $doTrackers->update();
     }
 
-    Header("Location: tracker-campaigns.php?clientid=".$clientid."&trackerid=".$trackerid);
+    Header("Location: tracker-campaigns.php?clientid=".$aFields['clientid']."&trackerid=".$aFields['trackerid']);
     exit;
 }
 
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
-
-if ($trackerid != "") {
-    // Get other trackers
-    $doTrackers = OA_Dal::factoryDO('trackers');
-    $doTrackers->clientid = $clientid;
-    $doTrackers->find();
-
-    while ($doTrackers->fetch() && $row = $doTrackers->toArray()) {
-        phpAds_PageContext(
-            MAX_buildName ($row['trackerid'], $row['trackername']),
-            "tracker-edit.php?clientid=".$clientid."&trackerid=".$row['trackerid'],
-            $trackerid == $row['trackerid']
-        );
-    }
-
-    phpAds_PageShortcut($strClientProperties, 'advertiser-edit.php?clientid='.$clientid, 'images/icon-advertiser.gif');
-    //phpAds_PageShortcut($strTrackerHistory, 'stats-tracker-history.php?clientid='.$clientid.'&trackerid='.$trackerid, 'images/icon-statistics.gif');
-
-    $extra  = "\t\t\t\t<form action='tracker-modify.php'>"."\n";
-    $extra .= "\t\t\t\t<input type='hidden' name='trackerid' value='$trackerid'>"."\n";
-    $extra .= "\t\t\t\t<input type='hidden' name='clientid' value='$clientid'>"."\n";
-    $extra .= "\t\t\t\t<input type='hidden' name='returnurl' value='tracker-edit.php'>"."\n";
-    $extra .= "\t\t\t\t<br /><br />"."\n";
-    $extra .= "\t\t\t\t<b>$strModifyTracker</b><br />"."\n";
-    $extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />"."\n";
-    $extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/icon-duplicate-tracker.gif' align='absmiddle'>&nbsp;<a href='tracker-modify.php?clientid=".$clientid."&trackerid=".$trackerid."&duplicate=true&returnurl=tracker-edit.php'>$strDuplicate</a><br />"."\n";
-    $extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />"."\n";
-    $extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/icon-move-tracker.gif' align='absmiddle'>&nbsp;$strMoveTo<br />"."\n";
-    $extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='160' vspace='2'><br />"."\n";
-    $extra .= "\t\t\t\t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"."\n";
-    $extra .= "\t\t\t\t<select name='moveto' style='width: 110;'>"."\n";
-
-    $doClients = OA_Dal::factoryDO('clients');
-    $doClients->whereAdd('clientid <>'.$clientid);
-    if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-        $doClients->agencyid = OA_Permission::getAgencyId();
-    }
-    $doClients->find();
-
-    while ($doClients->fetch() && $row = $doClients->toArray()) {
-        $extra .= "\t\t\t\t\t<option value='".$row['clientid']."'>".MAX_buildName($row['clientid'], $row['clientname'])."</option>\n";
-    }
-
-    $extra .= "\t\t\t\t</select>&nbsp;\n";
-    $extra .= "\t\t\t\t<input type='image' src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/go_blue.gif'><br />\n";
-    $extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />\n";
-    $extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/icon-recycle.gif' align='absmiddle'>\n";
-    $extra .= "\t\t\t\t<a href='tracker-delete.php?clientid=$clientid&trackerid=$trackerid&returnurl=advertiser-trackers.php'".phpAds_DelConfirm($strConfirmDeleteTracker).">$strDelete</a><br />\n";
-    $extra .= "\t\t\t\t</form>\n";
-
-    MAX_displayTrackerBreadcrumbs($trackerid);
-    phpAds_PageHeader(null, $extra);
-} else {
-    // New tracker
-    MAX_displayTrackerBreadcrumbs(null, $clientid);
-    phpAds_PageHeader("tracker-edit_new");
-}
-
-if ($trackerid != "" || (isset($move) && $move == 't')) {
-    // Edit or Convert
-    // Fetch exisiting settings
-    // Parent setting for converting, tracker settings for editing
-    if ($trackerid != "") $ID = $trackerid;
-    if (isset($move) && $move == 't') {
-        if (isset($clientid) && $clientid != "") $ID = $clientid;
-    }
-    $doTrackers = OA_Dal::factoryDO('trackers');
-    $doTrackers->get($ID);
-    $row = $doTrackers->toArray();
-} else {
-    // New tracker
-    $doClients = OA_Dal::factoryDO('clients');
-    $doClients->clientid = $clientid;
-
-    if ($doClients->find() && $doClients->fetch() && $client = $doClients->toArray()) {
-        $row['trackername'] = $client['clientname'].' - ';
-    } else {
-        $row['trackername'] = '';
-    }
-
-    $row['trackername']  .= $strDefault." ".$strTracker;
-    $row['clickwindow']   = $conf['logging']['defaultImpressionConnectionWindow'];
-    $row['viewwindow']    = $conf['logging']['defaultClickConnectionWindow'];
-    $row['status']        = isset($pref['tracker_default_status']) ? $pref['tracker_default_status'] : MAX_CONNECTION_STATUS_APPROVED;
-    $row['type']          = isset($pref['tracker_default_type']) ? $pref['tracker_default_type'] : MAX_CONNECTION_TYPE_SALE;
-    $row['linkcampaigns'] = $pref['tracker_link_campaigns'] == true ? 't' : 'f';
-
-    $row['description'] = '';
-}
-
-// Parse the number of seconds in the conversion windows into days, hours, minutes, seconds..
-$seconds_left = $row['clickwindow'];
-$clickwindow['day'] = floor($seconds_left / (60*60*24));
-$seconds_left = $seconds_left % (60*60*24);
-$clickwindow['hour'] = floor($seconds_left / (60*60));
-$seconds_left = $seconds_left % (60*60);
-$clickwindow['minute'] = floor($seconds_left / (60));
-$seconds_left = $seconds_left % (60);
-$clickwindow['second'] = $seconds_left;
-
-$seconds_left = $row['viewwindow'];
-$viewwindow['day'] = floor($seconds_left / (60*60*24));
-$seconds_left = $seconds_left % (60*60*24);
-$viewwindow['hour'] = floor($seconds_left / (60*60));
-$seconds_left = $seconds_left % (60*60);
-$viewwindow['minute'] = floor($seconds_left / (60));
-$seconds_left = $seconds_left % (60);
-$viewwindow['second'] = $seconds_left;
-
 
 /*-------------------------------------------------------*/
-/* Main code                                             */
+/* Display page                                          */
 /*-------------------------------------------------------*/
-
-$tabindex = 1;
-
-echo "<br /><br />";
-echo "<form name='clientform' method='post' action='tracker-edit.php' onSubmit='return max_formValidate(this);'>"."\n";
-echo "<input type='hidden' name='trackerid' value='".(isset($trackerid) ? $trackerid : '')."'>"."\n";
-echo "<input type='hidden' name='clientid' value='".(isset($clientid) ? $clientid : '')."'>"."\n";
-echo "<input type='hidden' name='move' value='".(isset($move) ? $move : '')."'>"."\n";
-
-echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>"."\n";
-echo "<tr><td height='25' colspan='3'><b>".$strBasicInformation."</b></td></tr>"."\n";
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>"."\n";
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
-
-echo "<tr>"."\n";
-echo "\t"."<td width='30'>&nbsp;</td>"."\n";
-echo "\t"."<td width='200'>".$strName."</td>"."\n";
-echo "\t"."<td><input class='flat' type='text' name='trackername' size='35' style='width:350px;' value='".phpAds_htmlQuotes($row['trackername'])."' tabindex='".($tabindex++)."'></td>"."\n";
-echo "</tr>"."\n";
-echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-
-echo "<tr>"."\n";
-echo "\t"."<td width='30'>&nbsp;</td>"."\n";
-echo "\t"."<td width='200'>".$strDescription."</td>"."\n";
-echo "\t"."<td><input class='flat' type='text' name='description' size='35' style='width:350px;' value='".phpAds_htmlQuotes($row['description'])."' tabindex='".($tabindex++)."'></td>"."\n";
-echo "</tr>"."\n";
-echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-
-echo "<tr><td width='30'>&nbsp;</td>";
-echo "<td width='200'>". 'Conversion type' ."</td>";
-echo "<td valign='top'>";
-
-$types = $GLOBALS['_MAX']['CONN_TYPES'];
-echo "<select name='type' tabindex='".($tabindex++)."'>\n";
-
-foreach($types as $typeId => $typeName) {
-    echo "<option value='$typeId' ". ($row['type'] == $typeId ? 'selected' : '')." >{$GLOBALS[$typeName]}&nbsp;</option>\n";
-}
-echo "</select>\n";
-echo "</td></tr>";
-
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>"."\n";
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
-
-echo "<tr><td height='25' colspan='3'><b>".$strDefaultConversionRules."</b></td></tr>"."\n";
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>"."\n";
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
-
-echo "<tr><td width='30'>&nbsp;</td>";
-echo "<td width='200'>".$strClickWindow."</td>";
-echo "<td valign='top'>";
-echo "<input id='clickwindowday' class='flat' type='text' size='3' name='clickwindow[day]' value='".$clickwindow['day']."' onKeyUp=\"phpAds_formLimitUpdate(this.form);\" tabindex='".($tabindex++)."'> ".$strDays." &nbsp;&nbsp;";
-echo "<input id='clickwindowhour' class='flat' type='text' size='3' name='clickwindow[hour]' value='".$clickwindow['hour']."' onKeyUp=\"phpAds_formLimitUpdate(this.form);\" tabindex='".($tabindex++)."'> ".$strHours." &nbsp;&nbsp;";
-echo "<input id='clickwindowminute' class='flat' type='text' size='3' name='clickwindow[minute]' value='".$clickwindow['minute']."' onKeyUp=\"phpAds_formLimitUpdate(this.form);\" tabindex='".($tabindex++)."'> ".$strMinutes." &nbsp;&nbsp;";
-echo "<input id='clickwindowsecond' class='flat' type='text' size='3' name='clickwindow[second]' value='".$clickwindow['second']."' onBlur=\"phpAds_formLimitBlur(this.form);\" onKeyUp=\"phpAds_formLimitUpdate(this.form);\" tabindex='".($tabindex++)."'> ".$strSeconds." &nbsp;&nbsp;";
-echo "</td></tr>";
-echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-
-echo "<tr><td width='30'>&nbsp;</td>";
-echo "<td width='200'>".$strViewWindow."</td>";
-echo "<td valign='top'>";
-echo "<input id='viewwindowday' class='flat' type='text' size='3' name='viewwindow[day]' value='".$viewwindow['day']."' onKeyUp=\"phpAds_formLimitUpdate(this.form);\" tabindex='".($tabindex++)."'> ".$strDays." &nbsp;&nbsp;";
-echo "<input id='viewwindowhour' class='flat' type='text' size='3' name='viewwindow[hour]' value='".$viewwindow['hour']."' onKeyUp=\"phpAds_formLimitUpdate(this.form);\" tabindex='".($tabindex++)."'> ".$strHours." &nbsp;&nbsp;";
-echo "<input id='viewwindowminute' class='flat' type='text' size='3' name='viewwindow[minute]' value='".$viewwindow['minute']."' onKeyUp=\"phpAds_formLimitUpdate(this.form);\" tabindex='".($tabindex++)."'> ".$strMinutes." &nbsp;&nbsp;";
-echo "<input id='viewwindowsecond' class='flat' type='text' size='3' name='viewwindow[second]' value='".$viewwindow['second']."' onBlur=\"phpAds_formLimitBlur(this.form);\" onKeyUp=\"phpAds_formLimitUpdate(this.form);\" tabindex='".($tabindex++)."'> ".$strSeconds." &nbsp;&nbsp;";
-echo "</td></tr>";
-echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-
-foreach ($plugins as $plugin) {
-    $fieldName = strtolower($plugin->trackerEvent);
-
-    $seconds_left = $row[$fieldName . 'window'];
-    $window['day'] = floor($seconds_left / (60*60*24));
-    $seconds_left = $seconds_left % (60*60*24);
-    $window['hour'] = floor($seconds_left / (60*60));
-    $seconds_left = $seconds_left % (60*60);
-    $window['minute'] = floor($seconds_left / (60));
-    $seconds_left = $seconds_left % (60);
-    $window['second'] = $seconds_left;
-
-    echo "<tr><td width='30'>&nbsp;</td>";
-    echo "<td width='200'>" . ucfirst($fieldName) . " window</td>";
-    echo "<td valign='top'>";
-    echo "<input id='{$fieldName}windowday' class='flat' type='text' size='3' name='{$fieldName}window[day]' value='{$window['day']}' onKeyUp=\"phpAds_formLimitUpdate(this.form);\" tabindex='".($tabindex++)."'> ".$strDays." &nbsp;&nbsp;";
-    echo "<input id='{$fieldName}windowhour' class='flat' type='text' size='3' name='{$fieldName}window[hour]' value='{$window['hour']}' onKeyUp=\"phpAds_formLimitUpdate(this.form);\" tabindex='".($tabindex++)."'> ".$strHours." &nbsp;&nbsp;";
-    echo "<input id='{$fieldName}windowminute' class='flat' type='text' size='3' name='{$fieldName}window[minute]' value='{$window['minute']}' onKeyUp=\"phpAds_formLimitUpdate(this.form);\" tabindex='".($tabindex++)."'> ".$strMinutes." &nbsp;&nbsp;";
-    echo "<input id='{$fieldName}windowsecond' class='flat' type='text' size='3' name='{$fieldName}window[second]' value='{$window['second']}' onBlur=\"phpAds_formLimitBlur(this.form);\" onKeyUp=\"phpAds_formLimitUpdate(this.form);\" tabindex='".($tabindex++)."'> ".$strSeconds." &nbsp;&nbsp;";
-    echo "</td></tr>";
-    echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
-    echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-}
-
-echo "<tr><td width='30'>&nbsp;</td>";
-echo "<td width='200'>".$strDefaultStatus."</td>";
-echo "<td valign='top'>";
-
-$statuses = $GLOBALS['_MAX']['STATUSES'];
-$startStatusesIds = array(1,2,4);
-echo "<select name='status' tabindex='".($tabindex++)."'>\n";
-
-foreach($statuses as $statusId => $statusName) {
-    if(in_array($statusId, $startStatusesIds)) {
-        echo "<option value='$statusId' ". ($row['status'] == $statusId ? 'selected' : '')." >{$GLOBALS[$statusName]}&nbsp;</option>\n";
-    }
-}
-echo "</select>\n";
-echo "</td></tr>";
-echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-
-echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-echo "<input type='checkbox' name='linkcampaigns' value='t'".($row['linkcampaigns'] == 't' ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
-echo $strLinkCampaignsByDefault;
-echo "</td></tr>";
-
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>"."\n";
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
-
-echo "</table>"."\n";
-
-echo "<br /><br />"."\n";
-echo "<input type='submit' name='submit' value='".$strSaveChanges."' tabindex='".($tabindex++)."'>"."\n";
-
-echo "</form>"."\n";
-
-
-/*-------------------------------------------------------*/
-/* Form requirements                                     */
-/*-------------------------------------------------------*/
-
-// Get unique affiliate
-$doTrackers = OA_Dal::factoryDO('trackers');
-$doTrackers->clientid = $clientid;
-$unique_names = $doTrackers->getUniqueValuesFromColumn('trackername');
-if ($trackerid) {
-    ArrayUtils::unsetIfKeyNumeric($unique_names, $row['trackername']);
-}
-?>
-
-<script language='JavaScript'>
-<!--
-    max_formSetRequirements('trackername', '<?php echo addslashes($strName); ?>', true, 'unique');
-    max_formSetUnique('trackername', '|<?php echo addslashes(implode('|', $unique_names)); ?>|');
-
-    function phpAds_formLimitBlur (f)
-    {
-        if (f.clickwindowday.value == '') f.clickwindowday.value = '0';
-        if (f.clickwindowhour.value == '') f.clickwindowhour.value = '0';
-        if (f.clickwindowminute.value == '') f.clickwindowminute.value = '0';
-        if (f.clickwindowsecond.value == '') f.clickwindowsecond.value = '0';
-
-        if (f.viewwindowday.value == '') f.viewwindowday.value = '0';
-        if (f.viewwindowhour.value == '') f.viewwindowhour.value = '0';
-        if (f.viewwindowminute.value == '') f.viewwindowminute.value = '0';
-        if (f.viewwindowsecond.value == '') f.viewwindowsecond.value = '0';
-
-        <?php
-        foreach ($plugins as $plugin) {
-            $fieldName = strtolower($plugin->trackerEvent);
-            echo "
-                if (f.{$fieldName}windowday.value == '') f.{$fieldName}windowday.value = '0';
-                if (f.{$fieldName}windowhour.value == '') f.{$fieldName}windowhour.value = '0';
-                if (f.{$fieldName}windowminute.value == '') f.{$fieldName}windowminute.value = '0';
-                if (f.{$fieldName}windowsecond.value == '') f.{$fieldName}windowsecond.value = '0';
-            ";
+function displayPage($tracker, $form, $plugins)
+{
+    //header and breadcrumbs
+    if ($tracker['trackerid'] != "") {
+        // Get other trackers
+        $doTrackers = OA_Dal::factoryDO('trackers');
+        $doTrackers->clientid = $tracker['clientid'];
+        $doTrackers->find();
+    
+        while ($doTrackers->fetch() && $row = $doTrackers->toArray()) {
+            phpAds_PageContext(
+                MAX_buildName ($row['trackerid'], $row['trackername']),
+                "tracker-edit.php?clientid=".$tracker['clientid']."&trackerid=".$row['trackerid'],
+                $tracker['trackerid'] == $row['trackerid']
+            );
         }
-        ?>
-        phpAds_formLimitUpdate (f);
-    }
+    
+        phpAds_PageShortcut($GLOBALS['strClientProperties'], 'advertiser-edit.php?clientid='.$tracker['clientid'], 'images/icon-advertiser.gif');
 
-    function phpAds_formLimitUpdate (f)
-    {
-        // Set -
-        if (f.clickwindowhour.value == '-' && f.clickwindowday.value != '-') f.clickwindowhour.value = '0';
-        if (f.clickwindowminute.value == '-' && f.clickwindowhour.value != '-') f.clickwindowminute.value = '0';
-        if (f.clickwindowsecond.value == '-' && f.clickwindowminute.value != '-') f.clickwindowsecond.value = '0';
-
-        // Set 0
-        if (f.clickwindowday.value == '0') f.clickwindowday.value = '-';
-        if (f.clickwindowday.value == '-' && f.clickwindowhour.value == '0') f.clickwindowhour.value = '-';
-        if (f.clickwindowhour.value == '-' && f.clickwindowminute.value == '0') f.clickwindowminute.value = '-';
-        if (f.clickwindowminute.value == '-' && f.clickwindowsecond.value == '0') f.clickwindowsecond.value = '-';
-
-        //  Set - if value negative
-        if (f.clickwindowday.value < 0) f.clickwindowday.value = 0;
-        if (f.clickwindowhour.value < 0) f.clickwindowhour.value = 0;
-        if (f.clickwindowminute.value < 0) f.clickwindowminute.value = 0;
-        if (f.clickwindowsecond.value < 0) f.clickwindowsecond.value = 0;
-
-        // Set -
-        if (f.viewwindowhour.value == '-' && f.viewwindowday.value != '-') f.viewwindowhour.value = '0';
-        if (f.viewwindowminute.value == '-' && f.viewwindowhour.value != '-') f.viewwindowminute.value = '0';
-        if (f.viewwindowsecond.value == '-' && f.viewwindowminute.value != '-') f.viewwindowsecond.value = '0';
-
-        // Set 0
-        if (f.viewwindowday.value == '0') f.viewwindowday.value = '-';
-        if (f.viewwindowday.value == '-' && f.viewwindowhour.value == '0') f.viewwindowhour.value = '-';
-        if (f.viewwindowhour.value == '-' && f.viewwindowminute.value == '0') f.viewwindowminute.value = '-';
-        if (f.viewwindowminute.value == '-' && f.viewwindowsecond.value == '0') f.viewwindowsecond.value = '-';
-
-        //  Set - if value negative
-        if (f.viewwindowday.value < 0) f.viewwindowday.value = 0;
-        if (f.viewwindowhour.value < 0) f.viewwindowhour.value = 0;
-        if (f.viewwindowminute.value < 0) f.viewwindowminute.value = 0;
-        if (f.viewwindowsecond.value < 0) f.viewwindowsecond.value = 0;
-
-
-        <?php
-        foreach ($plugins as $plugin) {
-            $fieldName = strtolower($plugin->trackerEvent);
-            echo "
-                // Set -
-                if (f.{$fieldName}windowhour.value == '-' && f.{$fieldName}windowday.value != '-') f.{$fieldName}windowhour.value = '0';
-                if (f.{$fieldName}windowminute.value == '-' && f.{$fieldName}windowhour.value != '-') f.{$fieldName}windowminute.value = '0';
-                if (f.{$fieldName}windowsecond.value == '-' && f.{$fieldName}windowminute.value != '-') f.{$fieldName}windowsecond.value = '0';
-
-                // Set 0
-                if (f.{$fieldName}windowday.value == '0') f.{$fieldName}windowday.value = '-';
-                if (f.{$fieldName}windowday.value == '-' && f.{$fieldName}windowhour.value == '0') f.{$fieldName}windowhour.value = '-';
-                if (f.{$fieldName}windowhour.value == '-' && f.{$fieldName}windowminute.value == '0') f.{$fieldName}windowminute.value = '-';
-                if (f.{$fieldName}windowminute.value == '-' && f.{$fieldName}windowsecond.value == '0') f.{$fieldName}windowsecond.value = '-';
-            ";
+        $extra  = "<form action='tracker-modify.php'>\n";
+        $extra .= "<input type='hidden' name='trackerid' value='".$tracker['trackerid'].">\n";
+        $extra .= "<input type='hidden' name='clientid' value='".$tracker['clientid'].">\n";
+        $extra .= "<input type='hidden' name='returnurl' value='tracker-edit.php'>\n";
+        $extra .= "<br /><br />"."\n";
+        $extra .= "<b>".$GLOBALS['strModifyTracker']."</b><br />"."\n";
+        $extra .= "<img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />"."\n";
+        $extra .= "<img src='" . MAX::assetPath() . "/images/icon-duplicate-tracker.gif' align='absmiddle'>&nbsp;<a href='tracker-modify.php?clientid=".$tracker['clientid']."&trackerid=".$tracker['trackerid']."&duplicate=true&returnurl=tracker-edit.php'>".$GLOBALS['strDuplicate']."</a><br />\n";
+        $extra .= "<img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />\n";
+        $extra .= "<img src='" . MAX::assetPath() . "/images/icon-move-tracker.gif' align='absmiddle'>&nbsp;".$GLOBALS['strMoveTo']."<br />\n";
+        $extra .= "<img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='160' vspace='2'><br />\n";
+        $extra .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"."\n";
+        $extra .= "<select name='moveto' style='width: 110;'>"."\n";
+    
+        $doClients = OA_Dal::factoryDO('clients');
+        $doClients->whereAdd('clientid <>'.$tracker['clientid']);
+        if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+            $doClients->agencyid = OA_Permission::getAgencyId();
         }
-        ?>
+        $doClients->find();
+    
+        while ($doClients->fetch() && $row = $doClients->toArray()) {
+            $extra .= "<option value='".$row['clientid']."'>".MAX_buildName($row['clientid'], $row['clientname'])."</option>\n";
+        }
+    
+        $extra .= "</select>&nbsp;\n";
+        $extra .= "<input type='image' src='" . MAX::assetPath() . "/images/".$GLOBALS['phpAds_TextDirection']."/go_blue.gif'><br />\n";
+        $extra .= "<img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />\n";
+        $extra .= "<img src='" . MAX::assetPath() . "/images/icon-recycle.gif' align='absmiddle'>\n";
+        $extra .= "<a href='tracker-delete.php?clientid=".$tracker['clientid']."&trackerid=".$tracker['trackerid']."&returnurl=advertiser-trackers.php'".phpAds_DelConfirm($GLOBALS['strConfirmDeleteTracker']).">".$GLOBALS['strDelete']."</a><br />\n";
+        $extra .= "</form>\n";
+    
+        MAX_displayTrackerBreadcrumbs($tracker['trackerid'], $tracker['clientid']);
+        phpAds_PageHeader(null, $extra);
+    } 
+    else {
+        // New tracker
+        MAX_displayTrackerBreadcrumbs(null, $tracker['clientid']);
+        phpAds_PageHeader("tracker-edit_new");
     }
+    
+    //get template and display form
+    $oTpl = new OA_Admin_Template('tracker-edit.html');
+    $oTpl->assign('form', $form->serialize());
+    $oTpl->assign('formId', $form->getId());
+    
+    foreach ($plugins as $plugin) {
+        $aPlugins[]['fieldName'] = strtolower($plugin->trackerEvent);
+    }
+    $oTpl->assign('aPlugins', $aPlugins);    
+    
+    $oTpl->display();
+    
+    //footer
+    phpAds_PageFooter();
+}
 
-    phpAds_formLimitUpdate(document.clientform);
-
-//-->
-</script>
-
-<?php
-
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
-
-phpAds_PageFooter();
+function splitSecondsIntoCalendarItems($seconds)
+{
+    $result['day'] = floor($seconds / (60*60*24));
+    $seconds = $seconds % (60*60*24);
+    $result['hour'] = floor($seconds / (60*60));
+    $seconds = $seconds % (60*60);
+    $result['minute'] = floor($seconds / (60));
+    $seconds = $seconds % (60);
+    $result['second'] = $seconds;
+    
+    return $result;
+}
 
 ?>

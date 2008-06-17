@@ -57,6 +57,11 @@ class OA_Admin_Template extends Smarty
 
     function OA_Admin_Template($templateName)
     {
+        $this->init($templateName);
+    }
+
+    function init($templateName)
+    {
         $this->template_dir = MAX_PATH . '/lib/templates/admin';
         $this->compile_dir  = MAX_PATH . '/var/templates_compiled';
         $this->cache_dir    = MAX_PATH . '/var/cache';
@@ -85,6 +90,7 @@ class OA_Admin_Template extends Smarty
         $this->register_function('showStatusText', array('OA_Admin_Template',  '_function_showStatusText'));
 
         $this->register_block('oa_edit', array('OA_Admin_Template',  '_block_edit'));
+        $this->register_block('oa_form_element', array('OA_Admin_Template',  '_block_form_element'));
 
         $this->templateName = $templateName;
 
@@ -340,6 +346,49 @@ class OA_Admin_Template extends Smarty
             return $result;
         }
     }
+
+
+   function _block_form_element($aParams, $content, &$smarty, &$repeat)
+    {
+        static $break = false;
+        
+        if ($repeat && $aParams['elem']['type'] == 'header') {
+            $break = false; //do not display breaks for first element in section
+        }
+        if (!$repeat) {
+            $aParams['content'] = $content;
+            if (isset($aParams['elem']) && is_array($aParams)) {
+                $aParams += $aParams['elem'];
+            }
+            if (!isset($aParams['break'])) {
+                $aParams['break'] = $break;
+            }
+            
+            //put some context for form elements (set parent)
+            if (is_array($smarty->_tag_stack) && count($smarty->_tag_stack) > 0) {
+                if (isset($smarty->_tag_stack[0][1]['elem']['type'])) {
+                    $aParams['parent_tag'] = $smarty->_tag_stack[0][1]['elem']['type'];    
+                }
+            }
+
+            $smarty->assign('_e', $aParams);
+            $result = $smarty->fetch(MAX_PATH . '/lib/templates/admin/form/elements.html');
+            $smarty->clear_assign('_e');
+
+            
+            //decorate result with decorators content
+            if (!empty($aParams['decorators']['list'])) {
+                foreach ($aParams['decorators']['list'] as $decorator) {
+                    $result = $decorator->render($result); 
+                }            
+            }
+
+            $break = ($aParams['type'] != 'header');
+            
+            return $result;
+        }
+    }
+        
 
     function _function_oa_is_admin($aParams, $smarty) {
         return OA_Permission::isAccount(OA_ACCOUNT_ADMIN);

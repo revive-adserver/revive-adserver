@@ -1,0 +1,188 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                             |
+|                                                                           |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+
+-->*}
+{if $showAddZone}
+    <img src='{$assetPath}/images/icon-zone-new.gif' border='0' align='absmiddle'>&nbsp;<a href='zone-edit.php?affiliateid={$affiliateid}' accesskey='{$keyAddNew}'>{t str=AddNewZone_Key}</a>&nbsp;&nbsp;
+    {phpAds_ShowBreak}
+{/if}
+<br /><br />
+
+{include file=form/general-errors.html errors=$zoneErrors title=ErrorEditingZone text=UnableToChangeZone}    
+
+{if $zoneid}
+    {*// Only display the notices when *changing* a zone, not for new zones*}
+    <div class='errormessage' id='warning_change_zone_type' style='display:none'> <img class='errormessage' src='{$assetPath}/images/errormessage.gif' align='absmiddle' />
+        <span class='tab-r'> {t str=Warning}:</span><br />
+        {t str=WarnChangeZoneType}
+    </div>
+
+    <div class='errormessage' id='warning_change_zone_size' style='display:none'> <img class='errormessage' src='{$assetPath}/images/warning.gif' align='absmiddle' />
+        <span class='tab-s'> {t str=Notice}:</span><br />
+        {t str=WarnChangeZoneSize}
+    </div>
+    
+    {if $errors}
+        <div class='errormessage'><img class='errormessage' src='{$assetPath}/images/errormessage.gif' align='absmiddle'>
+            <span class='tab-r'>{t str=ErrorEditingZone}</span><br><br>";
+            {t str=UnableToChangeZone}
+            {foreach from=$errors item=aError }            
+	            $aError->message<br>
+	        {/foreach}
+        </div>
+    {/if}
+{/if}
+
+
+{*zone form*}
+{include file=form/form.html form=$form}
+{*/zone form*}
+
+
+<script language='JavaScript'>
+<!--
+{if $zoneHeight != null && $zoneHeight != ''}
+    document.zoneHeight ={$zoneHeight};
+{/if}
+{if $zoneWidth != null && $zoneWidth != ''}
+    document.zoneWidth ={$zoneWidth};
+{/if}
+    document.MAX_FINANCE_ANYVAR = {$MAX_FINANCE_ANYVAR};
+    document.MAX_FINANCE_VARSUM = {$MAX_FINANCE_VARSUM};
+    document.MAX_FINANCE_CPM = {$MAX_FINANCE_CPM};
+
+
+{literal}
+    function phpAds_formSelectSize(o)
+    {
+        // Get size from select
+        size   = o.options[o.selectedIndex].value;
+
+        if (size != '-')
+        {
+            // Get width and height
+            sarray = size.split('x');
+            height = sarray.pop();
+            width  = sarray.pop();
+
+            // Set width and height
+            document.zoneform.width.value = width;
+            document.zoneform.height.value = height;
+
+            // Set radio
+            document.zoneform.sizetype[0].checked = true;
+            document.zoneform.sizetype[1].checked = false;
+        }
+        else
+        {
+            document.zoneform.sizetype[0].checked = false;
+            document.zoneform.sizetype[1].checked = true;
+        }
+    }
+
+    function phpAds_formEditSize()
+    {
+        document.zoneform.sizetype[0].checked = false;
+        document.zoneform.sizetype[1].checked = true;
+        document.zoneform.size.selectedIndex = document.zoneform.size.options.length - 1;
+    }
+
+    function phpAds_formDisableSize()
+    {
+        document.zoneform.sizetype[0].disabled = true;
+        document.zoneform.sizetype[1].disabled = true;
+        document.zoneform.width.disabled = true;
+        document.zoneform.height.disabled = true;
+        document.zoneform.size.disabled = true;
+    }
+
+    function phpAds_formEnableSize()
+    {
+        document.zoneform.sizetype[0].disabled = false;
+        document.zoneform.sizetype[1].disabled = false;
+        document.zoneform.width.disabled = false;
+        document.zoneform.height.disabled = false;
+        document.zoneform.size.disabled = false;
+    }
+
+    function m3_updateFinance()
+    {
+        var o = document.getElementById('cost_type');
+        var o2 = document.getElementById('technology_cost_type');
+        var p = document.getElementById('cost_variable_id');
+        var p2 = document.getElementById('cost_variable_id_mult');
+        var cost_cpm_desc = document.getElementById('cost_cpm_description');
+        var cost_cpm_desc2 = document.getElementById('technology_cost_cpm_description');
+
+        if ( o.options[o.selectedIndex].value == document.MAX_FINANCE_ANYVAR) {
+            p.style.display = '';
+            p2.style.display = 'none';
+        } else if (o.options[o.selectedIndex].value == document.MAX_FINANCE_VARSUM) {
+            p.style.display = 'none';
+            p2.style.display = '';
+        } else {
+            p.style.display = 'none';
+            p2.style.display = 'none';
+        }
+
+        if ( o.options[o.selectedIndex].value == document.MAX_FINANCE_CPM) {
+            cost_cpm_desc.style.display = 'block';
+        } else {
+            cost_cpm_desc.style.display = 'none';
+        }
+        if ( o2.options[o2.selectedIndex].value == document.MAX_FINANCE_CPM) {
+            cost_cpm_desc2.style.display = 'block';
+        } else {
+            cost_cpm_desc2.style.display = 'none';
+        }
+    }
+
+    function oa_sizeChangeUpdateMessage(id)
+    {
+        if (document.zoneWidth != document.zoneform.width.value ||
+            document.zoneHeight !=  document.zoneform.height.value) {
+                oa_show(id);
+
+        } else if (document.zoneWidth == document.zoneform.width.value &&
+                   document.zoneHeight ==  document.zoneform.height.value) {
+            oa_hide(id);
+        }
+    }
+
+    function oa_show(id)
+    {
+        var obj = findObj(id);
+        if (obj) { obj.style.display = 'block'; }
+    }
+    function oa_hide(id)
+    {
+        var obj = findObj(id);
+        if (obj) { obj.style.display = 'none'; }
+    }
+    
+    m3_updateFinance();
+{/literal}
+//-->
+</script>

@@ -1,5 +1,4 @@
 {*<!--
-
 +---------------------------------------------------------------------------+
 | OpenX v${RELEASE_MAJOR_MINOR}                                             |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                             |
@@ -24,26 +23,15 @@
 $Id$
 
 -->*}
-<script type="text/javascript">
-<!--
-    var validatorPreferences = {literal}{{/literal}
-        'strFieldContainsErrors': "{$strFieldContainsErrors|escape:'javascript'}",
-        'strFieldFixBeforeContinue1': "{$strFieldFixBeforeContinue1|escape:'javascript'}",
-        'strFieldFixBeforeContinue2': "{$strFieldFixBeforeContinue2|escape:'javascript'}",
-        'strWarningMissing': "{$strWarningMissing|escape:'javascript'}",
-        'strWarningMissingOpening': "{$strWarningMissingOpening|escape:'javascript'}",
-        'strWarningMissingClosing': "{$strWarningMissingClosing|escape:'javascript'}",
-        'strSubmitAnyway': "{$strSubmitAnyway|escape:'javascript'}",
-        'thousandsSeperator': "{$thousandsSeperator}"
-    };
-//-->
-</script>
-{if $combineAssets}
-<script type="text/javascript" src="{$assetPath}/combine/combine.php?type=js&files={$genericJavascript}"></script>
-{else}
-  {foreach from=$aGenericJavascript item=javascript}
-<script type="text/javascript" src="{$assetPath}/{$javascript}"></script>
-  {/foreach}
+
+{if $errors}
+    <div class='errormessage'><img class='errormessage' src='{$assetPath}/images/errormessage.gif' align='absmiddle'>
+        <span class='tab-r'>{t str=$title}</span><br>
+        {t str=$text}
+        <ul>
+        {foreach from=$errors item=aError}
+            <li>{$aError->message}</li>
+        {/foreach}
+        </ul>
+    </div>
 {/if}
- <!-- compliance patch for IE6 -->
- <!--[if lt IE 7]><script src="{$assetPath}/js/IE7.js" type="text/javascript"></script><![endif]-->

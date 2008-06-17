@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -36,6 +36,9 @@ require_once MAX_PATH . '/lib/OA/Admin/Menu.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
+require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
+require_once MAX_PATH . '/lib/OA/Admin/Template.php';
+
 
 // Register input variables
 phpAds_registerGlobalUnslashed(
@@ -44,12 +47,12 @@ phpAds_registerGlobalUnslashed(
     ,'contact'
     ,'comments'
     ,'email'
-    ,'clientreportlastdate'
-	,'advertiser_limitation'
-    ,'clientreportprevious'
-    ,'clientreportdeactivate'
-    ,'clientreport'
-    ,'clientreportinterval'
+    ,'reportlastdate'
+    ,'advertiser_limitation'
+    ,'reportprevious'
+    ,'reportdeactivate'
+    ,'report'
+    ,'reportinterval'
     ,'submit'
 );
 
@@ -58,287 +61,196 @@ phpAds_registerGlobalUnslashed(
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 OA_Permission::enforceAccessToObject('clients', $clientid, true);
 
+
+/*-------------------------------------------------------*/
+/* Initialise data                                    */
+/*-------------------------------------------------------*/
+if ($clientid != "") {
+    if (!isset($aAdvertiser)) {
+        $doClients = OA_Dal::factoryDO('clients');
+        if ($doClients->get($clientid)) {
+            $aAdvertiser = $doClients->toArray();
+        }
+    }
+} 
+else {
+    if (!isset($aAdvertiser)) {
+        $aAdvertiser['clientname']       = $strUntitled;
+        $aAdvertiser['contact']          = '';
+        $aAdvertiser['comments']         = '';
+        $aAdvertiser['email']            = '';
+        $aAdvertiser['reportdeactivate'] = 't';
+        $aAdvertiser['report']           = 'f';
+        $aAdvertiser['reportinterval']   = 7;
+    }
+}
+/*-------------------------------------------------------*/
+/* MAIN REQUEST PROCESSING                               */
+/*-------------------------------------------------------*/
+//build advertiser form
+$advertiserForm = buildAdvertiserForm($aAdvertiser);
+
+if ($advertiserForm->validate()) {
+    //process submitted values
+    processForm($aAdvertiser, $advertiserForm);
+}
+else { //either validation failed or form was not submitted, display the form
+    displayPage($aAdvertiser, $advertiserForm);
+}
+
+/*-------------------------------------------------------*/
+/* Build form                                            */
+/*-------------------------------------------------------*/
+function buildAdvertiserForm($aAdvertiser)
+{
+    $form = new OA_Admin_UI_Component_Form("clientform", "POST", $_SERVER['PHP_SELF']);
+    $form->forceClientValidation(true);
+    
+    $form->addElement('hidden', 'clientid', $aAdvertiser['clientid']);    
+    $form->addElement('header', 'header_basic', $GLOBALS['strBasicInformation']);
+
+    $nameElem = $form->createElement('text', 'clientname', $GLOBALS['strName']);
+    if (!OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+        $nameElem->freeze();    
+    }
+    $form->addElement($nameElem);
+    $form->addElement('text', 'contact', $GLOBALS['strContact']);
+    $form->addElement('text', 'email', $GLOBALS['strEMail']);
+    
+    $form->addElement('header', 'header_adv_report', $GLOBALS['strMailSubject']);
+    $form->addElement('hidden', 'reportlastdate', $aAdvertiser['reportlastdate']);
+    $form->addElement('hidden', 'reportprevious', $aAdvertiser['report']);
+    $form->addElement('advcheckbox', 'reportdeactivate', null, $GLOBALS['strSendDeactivationWarning'], null, array("f", "t"));
+    $form->addElement('advcheckbox', 'report', null, $GLOBALS['strSendAdvertisingReport'], null, array("f", "t"));
+    $form->addElement('text', 'reportinterval', $GLOBALS['strNoDaysBetweenReports']);
+    
+    $form->addElement('header', 'header_misc', $GLOBALS['strMiscellaneous']);
+    $form->addElement('advcheckbox', 'advertiser_limitation', null, $GLOBALS['strAdvertiserLimitation'], null, array("0", "1"));    
+    $form->addElement('textarea', 'comments', $GLOBALS['strComments']);
+
+    //we want submit to be the last element in its own separate section
+    $form->addElement('controls', 'form-controls');
+    $submitLabel = (!empty($aAdvertiser['clientid']))  ? $GLOBALS['strSaveChanges'] : $GLOBALS['strNext'].' >';    
+    $form->addElement('submit', 'submit', $submitLabel);
+
+    //Form validation rules
+    $translation = new OA_Translation();
+    if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+        $nameRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strName'])); 
+        $form->addRule('clientname', $nameRequiredMsg, 'required');
+        // Get unique clientname
+        $doClients = OA_Dal::factoryDO('clients');
+        $aUnique_names = $doClients->getUniqueValuesFromColumn('clientname', 
+            empty($aAdvertiser['clientid'])? '' : $aAdvertiser['clientname']);
+        $nameUniqueMsg = $translation->translate($GLOBALS['strXUniqueField'], 
+            array($GLOBALS['strClient'], strtolower($GLOBALS['strName'])));
+        $form->addRule('clientname', $nameUniqueMsg, 'unique', $unique_names);
+    }
+    
+
+    $contactRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strContact'])); 
+    $form->addRule('contact', $contactRequiredMsg, 'required');
+    $emailRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strEMail']));
+    $form->addRule('email', $emailRequiredMsg, 'required');
+    $form->addRule('email', $GLOBALS['strEmailField'], 'email');
+    $form->addRule('reportinterval', $GLOBALS['strNumericField'], 'numeric');
+    
+    //set form  values 
+    $form->setDefaults($aAdvertiser);
+    return $form;
+}    
+
+
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
 /*-------------------------------------------------------*/
-
-if (isset($submit)) {
-    $errormessage = array();
-    // Get previous values
-    if (!empty($clientid)) {
-        $doClients = OA_Dal::factoryDO('clients');
-        if ($doClients->get($clientid)) {
-            $aClient = $doClients->toArray();
-        }
-    }
+function processForm($aAdvertiser, $form) 
+{
+    $aFields = $form->exportValues();
+    
     // Name
     if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER) ) {
-        $aClient['clientname'] = trim($clientname);
+        $aAdvertiser['clientname'] = $aFields['clientname'];
     }
     // Default fields
-    $aClient['contact']  = trim($contact);
-    $aClient['email']    = trim($email);
-    $aClient['comments'] = trim($comments);
+    $aAdvertiser['contact']  = $aFields['contact'];
+    $aAdvertiser['email']    = $aFields['email'];
+    $aAdvertiser['comments'] = $aFields['comments'];
 
-	// Same advertiser limitation
-	$aClient['advertiser_limitation']  = isset($advertiser_limitation) ? 1 : 0;
+    // Same advertiser limitation
+    $aAdvertiser['advertiser_limitation']  = $aFields['advertiser_limitation'] == '1' ? 1 : 0;
 
     // Reports
-    $aClient['report'] = isset($clientreport) ? 't' : 'f';
-    $aClient['reportdeactivate'] = isset($clientreportdeactivate) ? 't' : 'f';
-    $aClient['reportinterval'] = (int)$clientreportinterval;
-    if ($clientreportlastdate == '' || $clientreportlastdate == '0000-00-00' ||  $clientreportprevious != $aClient['report']) {
-        $aClient['reportlastdate'] = date ("Y-m-d");
+    $aAdvertiser['report'] = $aFields['report'] == 't' ? 't' : 'f';
+    $aAdvertiser['reportdeactivate'] = $aFields['reportdeactivate'] == 't' ? 't' : 'f';
+    $aAdvertiser['reportinterval'] = (int)$aFields['reportinterval'];
+    if ($aFields['reportlastdate'] == '' || $aFields['reportlastdate'] == '0000-00-00' ||  $aFields['reportprevious'] != $aAdvertiser['report']) {
+        $aAdvertiser['reportlastdate'] = date ("Y-m-d");
     }
-    if (count($errormessage) == 0) {
-        if (empty($clientid)) {
-            // Set agency ID
-            $aClient['agencyid'] = OA_Permission::getAgencyId();
+    if (empty($aAdvertiser['clientid'])) {
+        // Set agency ID
+        $aAdvertiser['agencyid'] = OA_Permission::getAgencyId();
 
-            $doClients = OA_Dal::factoryDO('clients');
-            $doClients->setFrom($aClient);
-            $doClients->updated = OA::getNow();
-
-            // Insert
-            $clientid = $doClients->insert();
-
-            // Go to next page
-            MAX_Admin_Redirect::redirect("campaign-edit.php?clientid=$clientid");
-        } else {
-            $doClients = OA_Dal::factoryDO('clients');
-            $doClients->get($clientid);
-            $doClients->setFrom($aClient);
-            $doClients->updated = OA::getNow();
-            $doClients->update();
-
-            // Go to next page
-            if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-                MAX_Admin_Redirect::redirect('index.php');
-            } else {
-                MAX_Admin_Redirect::redirect("advertiser-campaigns.php?clientid=$clientid");
-            }
-        }
-        exit;
-    }
-}
-
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
-
-if ($clientid != "") {
-    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-        OA_Admin_Menu::setAdvertiserPageContext($clientid, 'advertiser-index.php');
-        phpAds_PageShortcut($strClientHistory, 'stats.php?entity=advertiser&breakdown=history&clientid='.$clientid, 'images/icon-statistics.gif');
-        MAX_displayAdvertiserBreadcrumbs($clientid);
-        phpAds_PageHeader("4.1.2");
-
-
-        $aTabSections = array("4.1.2", "4.1.3");
-        // Conditionally display conversion tracking values
-				if ($conf['logging']['trackerImpressions']) {
-				    $aTabSections[] = "4.1.4";
-				}
-        $aTabSections[] = "4.1.5";
-        phpAds_ShowSections($aTabSections);
-    } else {
-        phpAds_PageHeader("4");
-    }
-
-    // Do not get this information if the page
-    // is the result of an error message
-    if (!isset($aClient)) {
         $doClients = OA_Dal::factoryDO('clients');
-        if ($doClients->get($clientid)) {
-            $aClient = $doClients->toArray();
-        }
+        $doClients->setFrom($aAdvertiser);
+        $doClients->updated = OA::getNow();
 
-        // Set password to default value
-        if ($aClient['clientpassword'] != '') {
-            $aClient['clientpassword'] = '********';
+        // Insert
+        $aAdvertiser['clientid'] = $doClients->insert();
+
+        // Go to next page
+        MAX_Admin_Redirect::redirect("campaign-edit.php?clientid=".$aAdvertiser['clientid']);
+    } 
+    else {
+        $doClients = OA_Dal::factoryDO('clients');
+        $doClients->get($aAdvertiser['clientid']);
+        $doClients->setFrom($aAdvertiser);
+        $doClients->updated = OA::getNow();
+        $doClients->update();
+
+        // Go to next page
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+            MAX_Admin_Redirect::redirect('index.php');
+        } else {
+            MAX_Admin_Redirect::redirect("advertiser-campaigns.php?clientid=".$aAdvertiser['clientid']);
         }
     }
-} else {
-    MAX_displayAdvertiserBreadcrumbs($clientid);
-    phpAds_PageHeader('advertiser-edit_new');
-    //phpAds_ShowSections(array("4.1.1"));
-    // Do not set this information if the page
-    // is the result of an error message
-    if (!isset($aClient)) {
-        $aClient['clientname']       = $strUntitled;
-        $aClient['contact']          = '';
-        $aClient['comments']         = '';
-        $aClient['email']            = '';
-        $aClient['reportdeactivate'] = 't';
-        $aClient['report']           = 'f';
-        $aClient['reportinterval']   = 7;
-    }
-}
-$tabindex = 1;
-
-/*-------------------------------------------------------*/
-/* Main code                                             */
-/*-------------------------------------------------------*/
-
-if (!empty($clientid) && !OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-    echo "<img src='" . MAX::assetPath() . "/images/icon-campaign-new.gif' border='0' align='absmiddle'>&nbsp;";
-    echo "<a href='campaign-edit.php?clientid=".$clientid."' accesskey='".$keyAddNew."'>".$strAddCampaign_Key."</a>&nbsp;&nbsp;";
-    phpAds_ShowBreak();
+    exit;
 }
 
-
-echo "<br /><br />";
-echo "<form name='clientform' method='post' action='advertiser-edit.php' onSubmit='return max_formValidate(this);'>";
-echo "<input type='hidden' name='clientid' value='".(isset($clientid) && $clientid != '' ? $clientid : '')."'>";
-
-
-// Header
-echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-echo "<tr><td height='25' colspan='3'><b>".$strBasicInformation."</b></td></tr>";
-echo "<tr height='1'><td width='30'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='30'></td>";
-echo "<td width='200'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='200'></td>";
-echo "<td width='100%'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-
-// Clientname
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strName."</td>";
-
-if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-    echo "<td><input onBlur='max_formValidateElement(this);' class='flat' type='text' name='clientname' size='25' value='".phpAds_htmlQuotes($aClient['clientname'])."' style='width: 350px;' tabindex='".($tabindex++)."'></td>";
-} else {
-    echo "<td>".(isset($aClient['clientname']) ? $aClient['clientname'] : '')."</td>";
-}
-
-echo "</tr><tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-
-// Contact
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strContact."</td><td>";
-echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='contact' size='25' value='".phpAds_htmlQuotes($aClient['contact'])."' style='width: 350px;' tabindex='".($tabindex++)."'>";
-echo "</td></tr><tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-
-// Email
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strEMail."</td><td>";
-echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='email' size='25' value='".phpAds_htmlQuotes($aClient['email'])."' style='width: 350px;' tabindex='".($tabindex++)."'>";
-echo "</td></tr>";
-
-echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
-echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
-
-// Footer
-echo "</table>";
-
-// Header
-echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-echo "<tr><td height='25' colspan='3'><b>".$strMailSubject."</b></td></tr>";
-echo "<tr height='1'><td width='30'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='30'></td>";
-echo "<td width='200'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='200'></td>";
-echo "<td width='100%'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-
-// Reports
-echo "<input type='hidden' name='clientreportlastdate' value='".(isset($aClient['reportlastdate']) ? $aClient['reportlastdate'] : '')."'>";
-echo "<input type='hidden' name='clientreportprevious' value='".(isset($aClient['report']) ? $aClient['report'] : '')."'>";
-
-echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-echo "<input type='checkbox' id='clientreportdeactivate' name='clientreportdeactivate' value='t'".($aClient['reportdeactivate'] == 't' ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;<label for='clientreportdeactivate'>";
-echo $strSendDeactivationWarning;
-echo "</label></td></tr>";
-
-// Interval
-echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-echo "<input type='checkbox' id='clientreport' name='clientreport' value='t'".($aClient['report'] == 't' ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;<label for='clientreport'>";
-echo $strSendAdvertisingReport;
-echo "</label></td></tr>";
-
-echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strNoDaysBetweenReports."</td><td>";
-echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='clientreportinterval' size='25' value='".$aClient['reportinterval']."' tabindex='".($tabindex++)."'>";
-echo "</td></tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-
-// Footer
-echo "</table>";
-
-// Header
-echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-
-// Error message?
-if (isset($errormessage) && count($errormessage)) {
-    echo "<tr><td>&nbsp;</td><td height='10' colspan='2'>";
-    echo "<table cellpadding='0' cellspacing='0' border='0'><tr><td>";
-    echo "<img src='" . MAX::assetPath() . "/images/error.gif' align='absmiddle'>&nbsp;";
-    foreach ($errormessage as $k => $v)
-        echo "<font color='#AA0000'><b>".$v."</b></font><br />";
-
-    echo "</td></tr></table></td></tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-		$client['advertiser_limitation']= 'f';
-    echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
-    echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-}
-
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
-echo "<tr><td height='25' colspan='3'><b>".$strMiscellaneous."</b></td></tr>"."\n";
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>"."\n";
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
-
-echo "<tr>"."\n";
-
-// Enable advertiser exclusion
-echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-echo "<input type='checkbox' id='advertiser_limitation' name='advertiser_limitation' value='1'".($aClient['advertiser_limitation'] == '1' ? ' checked="checked"' : '')." tabindex='".($tabindex++)."'>&nbsp;<label for='advertiser_limitation'>";
-echo $strAdvertiserLimitation;
-echo "</label></td></tr>";
-
-echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-echo "<img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'>";
-echo "</td></tr>";
-
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-echo "<tr><td width='30'>&nbsp;</td>";
-echo "<td width='200'>".$strComments."</td>";
-
-echo "<td><textarea class='flat' cols='45' rows='6' name='comments' wrap='off' dir='ltr' style='width:350px;";
-echo "' tabindex='".($tabindex++)."'>".htmlspecialchars($aClient['comments'])."</textarea></td></tr>";
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-
-echo "<tr><td height='10' colspan='2'>&nbsp;</td></tr>";
-echo "</table>";
-
-echo "<br /><br />";
-echo "<input type='submit' name='submit' value='".(isset($clientid) && $clientid != '' ? $strSaveChanges : $strNext.' >')."' tabindex='".($tabindex++)."'>";
-echo "</form>";
-
 /*-------------------------------------------------------*/
-/* Form requirements                                     */
+/* Display page                                          */
 /*-------------------------------------------------------*/
+function displayPage($aAdvertiser, $form)
+{
+    //header and breadcrumbs
+    if ($aAdvertiser['clientid'] != "") {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+            OA_Admin_Menu::setAdvertiserPageContext($aAdvertiser['clientid'], 'advertiser-index.php');
+            phpAds_PageShortcut($GLOBALS['strClientHistory'], 'stats.php?entity=advertiser&breakdown=history&clientid='.$aAdvertiser['clientid'], 'images/icon-statistics.gif');
+            MAX_displayAdvertiserBreadcrumbs($aAdvertiser['clientid']);
+            phpAds_PageHeader("4.1.2");
+        } 
+        else {
+            phpAds_PageHeader("4");
+        }
+    } 
+    else { //new advertiser
+        MAX_displayAdvertiserBreadcrumbs($aAdvertiser['clientid']);
+        phpAds_PageHeader('advertiser-edit_new');
+    }    
+    
+    //get template and display form
+    $oTpl = new OA_Admin_Template('advertiser-edit.html');
 
-// Get unique clientname
-$doClients = OA_Dal::factoryDO('clients');
-$unique_names = $doClients->getUniqueValuesFromColumn('clientname', $aClient['clientname']);
+    $oTpl->assign('clientid',  $aAdvertiser['clientid']);
+    $oTpl->assign('form', $form->serialize());
+    $oTpl->assign('showAddCampaignLink', !empty($aAdvertiser['clientid']) 
+        && !OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER));
 
-?>
-
-<script language='JavaScript'>
-<!--
-    max_formSetRequirements('contact', '<?php echo addslashes($strContact); ?>', true);
-    max_formSetRequirements('email', '<?php echo addslashes($strEMail); ?>', true, 'email');
-    max_formSetRequirements('clientreportinterval', '<?php echo addslashes($strNoDaysBetweenReports); ?>', true, 'number+');
-<?php if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) { ?>
-    max_formSetRequirements('clientname', '<?php echo addslashes($strName); ?>', true, 'unique');
-
-    max_formSetUnique('clientname', '|<?php echo addslashes(implode('|', $unique_names)); ?>|');
-<?php } ?>
-//-->
-</script>
-
-<?php
-
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
-
-phpAds_PageFooter();
-
+    $oTpl->display();
+    
+    //footer
+    phpAds_PageFooter();
+}   
 ?>

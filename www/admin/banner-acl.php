@@ -60,7 +60,7 @@ if (!empty($action)) {
     $acl = (isset($acl)) ? $acl : array();
     MAX_AclSave($acl, $aEntities);
 
-    _initCappingVariables();
+    $block = _initCappingVariables($time, $cap, $session_capping);
 
     $values = array();
     $acls_updated = false;

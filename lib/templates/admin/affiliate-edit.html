@@ -46,56 +46,38 @@ $Id$
 
 <br /><br />
 
-<form name='affiliateform' id='affiliateform' method='post' action='affiliate-edit.php'>
-<input type="hidden" name="formId" value="affiliateform">
-<input type='hidden' name='affiliateid' value='{$affiliateid}'>
-<input type='hidden' name='move' value='{$move}'>
-
-{include file=edit-table/create.html from=$fieldsTop}
-
-{include file=advertiser-signup-dialog.html formId=affiliateform}
-
-<br /><br />
-
-<input type='hidden' name='affiliateid' value='{$affiliateid}'>
-
-{include file=edit-table/create.html from=$fieldsBottom}
-
-<div class="break" />
-
-<div class="controls">
-  <input value="{t str=SaveChanges}" type="submit" {tabindex}>
-</div>
-</form>
+{*website form*}
+{include file=form/form.html form=$form}
+{*/website form*}
 
 <script language="javascript">
 <!--{literal}
     $(document).ready(function() {
-	    formStateStore($("#affiliateform").get(0));
-	    $("#affiliateform").submit(function() {
-	        if (max_formValidate(this)) {
-	          if(formStateChanged(this)) {
-	            $("#captcha-dialog-" + this.id).jqmShow();
-	          }
-	          else {
-	            return true;
-	          }
-	        }
-	        return false;
-	      });
-	    });
-	{/literal}
-	{literal}    
-	    website = $("#website");
-	    name = $("#name");
-	    website.blur(function () {
-	       if ($.trim(name.val()) == "") {
-	          val = website.val();
-	          val = val.replace(/^http[s]?:\/\//, "");
-	          name.val(val);
-	       }
-	    });
+        formStateStore($("#affiliateform").get(0));
+        $("#affiliateform").submit(function() {
+            if (max_formValidate(this)) {
+              if(formStateChanged(this)) {
+                $("#captcha-dialog-" + this.id).jqmShow();
+              }
+              else {
+                return true;
+              }
+            }
+            return false;
+          });
+        });
     {/literal}
-	//-->
+    {literal}    
+		website = $("#website");
+		name = $("#name");
+		website.blur(function () {
+			if ($.trim(name.val()) == "") {
+			   val = website.val();
+			   val = val.replace(/^http[s]?:\/\//, "");
+			   name.val(val);
+			}
+		});
+     {/literal}
+    //-->
 </script>
 

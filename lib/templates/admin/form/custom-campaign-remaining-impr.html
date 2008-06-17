@@ -1,7 +1,7 @@
 {*<!--
 
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| OpenX  v${RELEASE_MAJOR_MINOR}                                            |
 | ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                             |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
@@ -23,27 +23,16 @@
 +---------------------------------------------------------------------------+
 $Id$
 
--->*}
-<script type="text/javascript">
-<!--
-    var validatorPreferences = {literal}{{/literal}
-        'strFieldContainsErrors': "{$strFieldContainsErrors|escape:'javascript'}",
-        'strFieldFixBeforeContinue1': "{$strFieldFixBeforeContinue1|escape:'javascript'}",
-        'strFieldFixBeforeContinue2': "{$strFieldFixBeforeContinue2|escape:'javascript'}",
-        'strWarningMissing': "{$strWarningMissing|escape:'javascript'}",
-        'strWarningMissingOpening': "{$strWarningMissingOpening|escape:'javascript'}",
-        'strWarningMissingClosing': "{$strWarningMissingClosing|escape:'javascript'}",
-        'strSubmitAnyway': "{$strSubmitAnyway|escape:'javascript'}",
-        'thousandsSeperator': "{$thousandsSeperator}"
-    };
-//-->
-</script>
-{if $combineAssets}
-<script type="text/javascript" src="{$assetPath}/combine/combine.php?type=js&files={$genericJavascript}"></script>
-{else}
-  {foreach from=$aGenericJavascript item=javascript}
-<script type="text/javascript" src="{$assetPath}/{$javascript}"></script>
-  {/foreach}
+-->
+*}
+<span id="remainingImpressionsSection">
+<span id='remainingImpressions' >{t str=ImpressionsRemaining}:<span id='remainingImpressionsCount'>{$_e.vars.impressionsRemaining}</span></span><br/>
+{if $adDirectEnabled}
+	<span id="openadsRemainingImpressions">{t str=OpenxImpressionsRemaining}: <span id='openadsRemainingImpressionsCount'>3000 *REAL DATA GOES HERE*</span>
+	    <span class="link hide" help="help-openads-remaining-impressions" id="openadsRemainingImpressionsHelpLink"><img style="border: none; position: relative; top:5px;" src="{$assetPath}/images/help-book.gif" /></span>
+	</span>
+	<div class="hide" id="help-openads-remaining-impressions" style="height: auto; width: 290px;">
+	    {t str=OpenxImpressionsRemainingHelp}
+	</div>
 {/if}
- <!-- compliance patch for IE6 -->
- <!--[if lt IE 7]><script src="{$assetPath}/js/IE7.js" type="text/javascript"></script><![endif]-->
+</span>

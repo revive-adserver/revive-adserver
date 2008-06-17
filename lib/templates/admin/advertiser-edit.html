@@ -22,28 +22,16 @@
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
 $Id$
-
 -->*}
-<script type="text/javascript">
-<!--
-    var validatorPreferences = {literal}{{/literal}
-        'strFieldContainsErrors': "{$strFieldContainsErrors|escape:'javascript'}",
-        'strFieldFixBeforeContinue1': "{$strFieldFixBeforeContinue1|escape:'javascript'}",
-        'strFieldFixBeforeContinue2': "{$strFieldFixBeforeContinue2|escape:'javascript'}",
-        'strWarningMissing': "{$strWarningMissing|escape:'javascript'}",
-        'strWarningMissingOpening': "{$strWarningMissingOpening|escape:'javascript'}",
-        'strWarningMissingClosing': "{$strWarningMissingClosing|escape:'javascript'}",
-        'strSubmitAnyway': "{$strSubmitAnyway|escape:'javascript'}",
-        'thousandsSeperator': "{$thousandsSeperator}"
-    };
-//-->
-</script>
-{if $combineAssets}
-<script type="text/javascript" src="{$assetPath}/combine/combine.php?type=js&files={$genericJavascript}"></script>
-{else}
-  {foreach from=$aGenericJavascript item=javascript}
-<script type="text/javascript" src="{$assetPath}/{$javascript}"></script>
-  {/foreach}
+
+{if $showAddCampaignLink}
+    <img src='{$assetPath}/images/icon-campaign-new.gif' border='0' align='absmiddle'>&nbsp;
+    <a href='campaign-edit.php?clientid={$clientid}' accesskey='{t str=keyAddNew}'>{t str=AddCampaign_Key}</a>
+    {phpAds_ShowBreak}
 {/if}
- <!-- compliance patch for IE6 -->
- <!--[if lt IE 7]><script src="{$assetPath}/js/IE7.js" type="text/javascript"></script><![endif]-->
+<br/><br/>
+{*advertiser form*}
+{include file=form/form.html form=$form}
+{*/advertiser form*}
+
+

@@ -1,0 +1,136 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                             |
+|                                                                           |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+-->*}
+{if !$bannerId}
+<form action='banner-edit.php' method='POST'>
+    <input type='hidden' name='clientid' value='{$clientId}'>
+    <input type='hidden' name='campaignid' value='{$campaignId}'>
+    <input type='hidden' name='bannerid' value='{$bannerId}'>
+
+    <table border='0' width='100%' cellpadding='0' cellspacing='0'>
+        <tr><td height='25' colspan='3'><b>{t str=ChooseBanner}</b></td></tr>
+        <tr><td height='25'>
+        <select name='type' onChange='this.form.action=this.form.action+"?clientid={$clientId}&campaignid={$campaignId}";this.form.submit();' {tabindex} >
+            {html_options options=$bannerTypes selected=$bannerType}
+        </select>
+        </td></tr>
+    </table>
+</form>
+{phpAds_ShowBreak}
+
+{else}
+    {* Only display the notices when *changing* a banner size, not for new banners *}
+<div class='errormessage' id='warning_change_zone_type' style='display:none'> <img class='errormessage' src='images/errormessage.gif' align='absmiddle' />
+<span class='tab-r'>{t str=Warning}:</span><br />
+{t str=WarnChangeZoneType}
+</div>
+
+<div class='errormessage' id='warning_change_banner_size' style='display:none'> <img class='errormessage' src='images/warning.gif' align='absmiddle' />
+<span class='tab-s'> {t str=Notice}</span><br />
+{t str=WarnChangeBannerSize}
+</div>
+{/if}
+
+{*banner form*}
+{*YZZZ*}
+{include file=form/form.html form=$form}
+{*YYZZZ*}
+{*/banner form*}
+
+
+<script language='JavaScript'>
+<!--
+
+{if $bannerId}
+    document.bannerHeight ={$bannerHeight};
+    document.bannerWidth ={$bannerWidth};
+{/if}
+
+{literal}
+    function selectFile(o, handleSWF)
+    {
+        var filename = o.value.toLowerCase();
+        var bannerForm = findObj ('bannerForm');
+
+        if (handleSWF) {
+            // Show SWF Layer
+            var swflayer = findObj ('swflayer');
+
+            if (swflayer) {
+                if (filename.indexOf('swf') + 3 == filename.length) {
+                    swflayer.style.display = '';
+                } else {
+                    swflayer.style.display = 'none';
+                }
+            }
+        }
+
+        // Check upload option
+        if (o.name == 'upload' && bannerForm.replaceimage[1] && o.value != '') {
+            bannerForm.replaceimage[1].checked = true;
+        }
+        if (o.name == 'uploadalt' && bannerForm.replacealtimage[1] && o.value != '') {
+            bannerForm.replacealtimage[1].checked = true;
+        }
+    }
+
+    function alterHtmlCheckbox() {
+
+        if (bannerForm.autohtml.checked) {
+            bannerForm.adserver.disabled = false;
+        } else {
+            bannerForm.adserver.disabled = true;
+        }
+    }
+
+    function oa_sizeChangeUpdateMessage(id)
+    {
+        if (document.bannerWidth != document.bannerForm.width.value ||
+            document.bannerHeight !=  document.bannerForm.height.value) {
+                oa_show(id);
+
+        } else if (document.bannerWidth == document.bannerForm.width.value &&
+                   document.bannerHeight ==  document.bannerForm.height.value) {
+            oa_hide(id);
+        }
+    }
+
+    function oa_show(id)
+    {
+        var obj = findObj(id);
+        if (obj) { obj.style.display = 'block'; }
+    }
+
+    function oa_hide(id)
+    {
+        var obj = findObj(id);
+        if (obj) { obj.style.display = 'none'; }
+    }
+{/literal}
+//-->
+</script>
+
+
+

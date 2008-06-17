@@ -21,29 +21,54 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id: create.html 16124 2008-02-11 18:16:06Z andrew.hill@openads.org $
 
--->*}
+-->
+*}
+{*debug*}
+
+<div class='errormessage' id="errors" {if $form.errors}{else}style="display:none"{/if}>
+<img class='errormessage' src='{$assetPath}/images/errormessage.gif' align='absmiddle'>
+    <span class='tab-r'>{t str=FormContainsErrors}</span><br><br>
+</div>
+
+
+<form {$form.attributes}>
+{$form.hidden}
+
+{if $form.hasRequiredFields and not $form.frozen}
+<div style="width: 580px; text-align:left; margin-bottom: 7px;">
+    <span style="font-size:80%; color: red">*</span> <span style="font-size:80%; color:#7f7f7f;">{t str=RequiredFieldLegend}</span>
+</div>
+{/if}
+
+{foreach from=$form.elements item=nonSecElem key=ei name=_e_elements}
+    {oa_form_element elem=$nonSecElem }{/oa_form_element}
+{/foreach}
+
+{foreach from=$form.sections item=sec key=i name=_e_outer}
+    {if !$smarty.foreach._e_outer.first}
+    {/if}
+    {oa_form_element elem=$sec}
+        {foreach from=$sec.elements item=element}
+            {oa_form_element elem=$element }{/oa_form_element}
+        {/foreach}
+    {/oa_form_element}
+{/foreach}
+</form>
+
 <script type="text/javascript">
 <!--
-    var validatorPreferences = {literal}{{/literal}
-        'strFieldContainsErrors': "{$strFieldContainsErrors|escape:'javascript'}",
-        'strFieldFixBeforeContinue1': "{$strFieldFixBeforeContinue1|escape:'javascript'}",
-        'strFieldFixBeforeContinue2': "{$strFieldFixBeforeContinue2|escape:'javascript'}",
-        'strWarningMissing': "{$strWarningMissing|escape:'javascript'}",
-        'strWarningMissingOpening': "{$strWarningMissingOpening|escape:'javascript'}",
-        'strWarningMissingClosing': "{$strWarningMissingClosing|escape:'javascript'}",
-        'strSubmitAnyway': "{$strSubmitAnyway|escape:'javascript'}",
-        'thousandsSeperator': "{$thousandsSeperator}"
-    };
+
+{$form.JQueryMethods}
+
+$(document).ready(function() {ldelim}
+    $("#{$form.id}").validate({ldelim}
+        event: "keyup",
+        errorContainer: '#errors', 
+        {$form.JQueryRules}
+    {rdelim});
+{rdelim});
 //-->
 </script>
-{if $combineAssets}
-<script type="text/javascript" src="{$assetPath}/combine/combine.php?type=js&files={$genericJavascript}"></script>
-{else}
-  {foreach from=$aGenericJavascript item=javascript}
-<script type="text/javascript" src="{$assetPath}/{$javascript}"></script>
-  {/foreach}
-{/if}
- <!-- compliance patch for IE6 -->
- <!--[if lt IE 7]><script src="{$assetPath}/js/IE7.js" type="text/javascript"></script><![endif]-->
+

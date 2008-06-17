@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -37,6 +37,7 @@ require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/www/admin/lib-size.inc.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
+require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
 require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
 require_once MAX_PATH . '/lib/OA/Admin/NumberFormat.php';
 
@@ -75,50 +76,332 @@ if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
     }
 }
 
+
+/*-------------------------------------------------------*/
+/* Initialise data                                       */
+/*-------------------------------------------------------*/
+if (!empty($zoneid)) {
+    $doZones = OA_Dal::factoryDO('zones');
+    $doZones->zoneid = $zoneid;
+    if ($doZones->find() && $doZones->fetch()) {
+        $zone = $doZones->toArray();
+    }
+
+    if ($zone['width'] == -1) $zone['width'] = '*';
+    if ($zone['height'] == -1) $zone['height'] = '*';
+
+    // Set the default financial information
+    if (!isset($zone['cost'])) {
+        $zone['cost'] = '0.0000';
+    } else {
+        $zone['cost'] = OA_Admin_NumberFormat::formatNumber($zone['cost'], 4);
+    }
+    if (isset($zone['technology_cost'])) {
+        $zone['technology_cost'] = OA_Admin_NumberFormat::formatNumber($zone['technology_cost'], 4);
+    }
+} 
+else {
+    $doAffiliates = OA_Dal::factoryDO('affiliates');
+    $doAffiliates->affiliateid = $affiliateid;
+
+    if ($doAffiliates->find() && $doAffiliates->fetch() && $affiliate = $doAffiliates->toArray())
+        $zone["zonename"] = $affiliate['name'].' - ';
+    else {
+        $zone["zonename"] = '';
+    }
+
+    $zone['zonename']        .= $GLOBALS['strDefault'];
+    $zone['description']     = '';
+    $zone['width']           = '468';
+    $zone['height']          = '60';
+    $zone['delivery']        = phpAds_ZoneBanner;
+    $zone['cost']            = OA_Admin_NumberFormat::formatNumber(0, 4);;
+    $zone['cost_type']       = null;
+    $zone['technology_cost'] = null;
+    $zone['technology_cost_type'] = null;
+    $zone['cost_variable_id'] = null;
+    $zone['comments'] = null;
+}
+$zone['affiliateid']     = $affiliateid;
+
+/*-------------------------------------------------------*/
+/* MAIN REQUEST PROCESSING                               */
+/*-------------------------------------------------------*/
+//build form
+$zoneForm = buildZoneForm($zone);
+
+if ($zoneForm->validate()) {
+    //process submitted values
+    $errors = processForm($zoneForm);
+    
+    if(!empty($errors)) {
+    }
+}
+//display the page - show any validation errors that may have occured
+displayPage($zone, $zoneForm, $errors);
+    
+
+/*-------------------------------------------------------*/
+/* Build form                                            */
+/*-------------------------------------------------------*/
+function buildZoneForm($zone)
+{
+    global $conf;    
+    
+    $form = new OA_Admin_UI_Component_Form("zoneform", "POST", $_SERVER['PHP_SELF']);
+    $form->forceClientValidation(true);
+    $form->addElement('hidden', 'zoneid', $zone['zoneid']);
+    $form->addElement('hidden', 'affiliateid', $zone['affiliateid']);    
+    
+    $form->addElement('header', 'zone_basic_info', $GLOBALS['strBasicInformation']);
+    $form->addElement('text', 'zonename', $GLOBALS['strName']);
+    $form->addElement('text', 'description', $GLOBALS['strDescription']);
+    $form->addElement('select', 'category', $GLOBALS['strCategory'], 
+        array('Uncategorised', 'Category 1', 'Category 2', 'Category 3',
+                'Category 4', 'Category 5'));
+    
+    //zone type group
+    $zoneTypes[] = $form->createElement('radio', 'delivery', '', 
+        "<img src='".MAX::assetPath()."/images/icon-zone.gif' align='absmiddle'>&nbsp;".$GLOBALS['strBannerButtonRectangle'], 
+        phpAds_ZoneBanner, array('id' => 'delivery-b', 
+            'onClick' => 'phpAds_formEnableSize();', 
+            'onChange' => 'oa_hide("warning_change_zone_type");'));
+    if ($conf['allowedTags']['adlayer'] || $zone['delivery'] == phpAds_ZoneInterstitial) {
+        $zoneTypes[] = $form->createElement('radio', 'delivery', '', 
+            "<img src='".MAX::assetPath()."/images/icon-interstitial.gif' align='absmiddle'>&nbsp;".$GLOBALS['strInterstitial'], 
+            phpAds_ZoneInterstitial, array('id' => 'delivery-i', 
+                'onClick' => 'phpAds_formEnableSize();', 
+                'onChange' => 'oa_hide("warning_change_zone_type");'));
+    }
+    if ($conf['allowedTags']['popup'] || $zone['delivery'] == phpAds_ZonePopup) {
+        $zoneTypes[] = $form->createElement('radio', 'delivery', '', 
+            "<img src='".MAX::assetPath()."/images/icon-popup.gif' align='absmiddle'>&nbsp;".$GLOBALS['strPopup'], 
+            phpAds_ZonePopup, array('id' => 'delivery-p', 
+                'onClick' => 'phpAds_formEnableSize();', 
+                'onChange' => 'oa_hide("warning_change_zone_type");'));
+    }
+    $zoneTypes[] = $form->createElement('radio', 'delivery', '', 
+        "<img src='".MAX::assetPath()."/images/icon-textzone.gif' align='absmiddle'>&nbsp;".$GLOBALS['strTextAdZone'], 
+        phpAds_ZoneText, array('id' => 'delivery-t', 'onClick' => 'phpAds_formEnableSize();', 
+            'onChange' => 'oa_hide("warning_change_zone_type");'));
+    $zoneTypes[] = $form->createElement('radio', 'delivery', '', 
+        "<img src='".MAX::assetPath()."/images/icon-zone-email.gif' align='absmiddle'>&nbsp;".$GLOBALS['strEmailAdZone'], 
+        MAX_ZoneEmail, array('id' => 'delivery-e', 'onClick' => 'phpAds_formEnableSize();', 
+            'onChange' => 'oa_hide("warning_change_zone_type");'));
+    $form->addGroup($zoneTypes, 'zone_types', $GLOBALS['strZoneType'], "<br/>");
+    
+    //size
+    global $phpAds_IAB;
+    if ($zone['delivery'] == phpAds_ZoneText) {
+        $sizeDisabled = true;
+        $zone['width'] = '*';
+        $zone['height'] = '*';
+    }
+    else {
+        $sizeDisabled = false;
+    }
+    $aDefaultSize['radio'] = $form->createElement('radio', 'sizetype', '', '', 
+        'default', array('id' => 'size-d'));
+    foreach (array_keys($phpAds_IAB) as $key)
+    {
+        $iabSizes[$phpAds_IAB[$key]['width']."x".$phpAds_IAB[$key]['height']] = 
+            $GLOBALS['strIab'][$key];
+    }
+    $iabSizes['-'] = $GLOBALS['strCustom'];
+    $aDefaultSize['select'] = $form->createElement('select', 'size', null, $iabSizes, 
+        array('onchange' => 'phpAds_formSelectSize(this); oa_sizeChangeUpdateMessage("warning_change_zone_size");'));
+        
+    
+    $aCustomSize['radio'] = $form->createElement('radio', 'sizetype', '', '', 'custom', 
+        array('id' => 'size-c'));
+    
+    $aCustomSize['width'] = $form->createElement('text', 'width', $GLOBALS['strWidth'].':', 
+        array('onkeydown' => 'phpAds_formEditSize();', 
+            'onChange' => 'oa_sizeChangeUpdateMessage("warning_change_zone_size");'));
+    $aCustomSize['width']->setSize(5);
+    $aCustomSize['height'] = $form->createElement('text', 'height', $GLOBALS['strHeight'].':',
+        array('onkeydown' => 'phpAds_formEditSize();', 
+            'onChange' => 'oa_sizeChangeUpdateMessage("warning_change_zone_size");'));
+    $aCustomSize['height']->setSize(5);
+    
+    $sizeTypes['default'] = $form->createElement('group', 'defaultSizeG', null, $aDefaultSize, null, false);
+    $sizeTypes['custom'] = $form->createElement('group', 'customSizeG', null, $aCustomSize, null, false);
+
+    //disable fields if necessary
+    if ($sizeDisabled) {
+        $aDefaultSize['radio']->setAttribute('disabled', $sizeDisabled);
+        $aDefaultSize['select']->setAttribute('disabled', $sizeDisabled);
+        $aCustomSize['radio']->setAttribute('disabled', $sizeDisabled);
+        $aCustomSize['width']->setAttribute('disabled', $sizeDisabled);
+        $aCustomSize['height']->setAttribute('disabled', $sizeDisabled);
+    }
+    
+    $form->addGroup($sizeTypes, 'size_types', $GLOBALS['strSize'], "<br/>");
+    
+    //media cost
+    $mediaCost['cost'] = $form->createElement('text', 'cost', '');
+    $mediaCost['cost']->setSize(10);
+    $mediaCostTypes = array(MAX_FINANCE_CPM => $GLOBALS['strFinanceCPM'], 
+                                MAX_FINANCE_CPC => $GLOBALS['strFinanceCPC'],
+                                MAX_FINANCE_CPA => $GLOBALS['strFinanceCPA'],
+                                MAX_FINANCE_MT => $GLOBALS['strFinanceMT'],
+                                MAX_FINANCE_RS => $GLOBALS['strPercentRevenueSplit'],
+                                MAX_FINANCE_BV => $GLOBALS['strPercentBasketValue'],
+                                MAX_FINANCE_AI => $GLOBALS['strAmountPerItem'],
+                                MAX_FINANCE_ANYVAR => $GLOBALS['strPercentCustomVariable'],
+                                MAX_FINANCE_VARSUM => $GLOBALS['strPercentSumVariables']);
+     
+    $mediaCost['cost_type'] = $form->createElement('select', 'cost_type', null, $mediaCostTypes, 
+        array('id' => 'cost_type', 'onchange' => 'm3_updateFinance();'));
+    
+
+    //tracker variables
+    $dalVariables = OA_Dal::factoryDAL('variables');
+    $rsVariables = $dalVariables->getTrackerVariables($zone['zoneid'], $zone['affiliateid'], OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER));
+    $rsVariables->find();
+    if (!$rsVariables->getRowCount()) {
+        $aTrackerVariables[''] = $GLOBALS['strNoLinkedTrackersDropdown'];
+    } 
+    else {
+        while ($rsVariables->fetch() && $row = $rsVariables->toArray()) {
+            $aTrackerVariables[$row['variable_id']] = "[id".$row['tracker_id']."] ".
+                htmlspecialchars(empty($row['tracker_description']) ? $row['tracker_name'] : $row['tracker_description']).
+                ": ".htmlspecialchars(empty($row['variable_description']) ? $row['variable_name'] : $row['variable_description']);
+        }
+    }
+    
+    //add tracker select and per single impression note
+    $mediaCost['cost_variable_id'] = $form->createElement('select', 'cost_variable_id', null, $aTrackerVariables, 
+        array('id' => 'cost_variable_id'));
+    $mediaCost['cost_variable_id_mult'] = $form->createElement('select', 'cost_variable_id_mult', null, $aTrackerVariables, 
+        array('id' => 'cost_variable_id_mult', 'multiple' => 'multiple', 'size' => '3'));    
+    $mediaCost['cost_info'] = $form->createElement('html', "<span id='cost_cpm_description'>".$GLOBALS['strPerSingleImpression']."</span>");        
+    $form->addGroup($mediaCost, 'g_media_cost', $GLOBALS['strCostInfo'], array('', '', '', '<BR>'), false);
+    
+
+    
+    //technology_cost_type
+    $technologyCost['cost'] = $form->createElement('text', 'technology_cost', '');
+    $technologyCost['cost']->setSize(10);
+    $technologyCostTypes = array(MAX_FINANCE_CPM => $GLOBALS['strFinanceCPM'], 
+                            MAX_FINANCE_CPC => $GLOBALS['strFinanceCPC'], 
+                            MAX_FINANCE_RS => $GLOBALS['strPercentRevenueSplit']); 
+    
+    $technologyCost['cost_type'] = $form->createElement('select', 'technology_cost_type', null, $technologyCostTypes,
+        array('id' => 'technology_cost_type', 'onchange' => 'm3_updateFinance();'));
+    $technologyCost['cost_note'] = $form->createElement('html', "<span id='technology_cost_cpm_description'>".$GLOBALS['strPerSingleImpression']."</span>");        
+    $form->addGroup($technologyCost, 'g_technology_cost', $GLOBALS['strTechnologyCost'], array('', '<BR>'), false);
+    
+    $form->addElement('textarea', 'comments', $GLOBALS['strComments']);
+    
+    $form->addElement('controls', 'form-controls');
+    $submitLabel = (!empty($zone['zoneid']))  ? $GLOBALS['strSaveChanges'] : $GLOBALS['strNext'].' >';    
+    $form->addElement('submit', 'submit', $submitLabel);
+    
+    
+    //validation rules
+    $translation = new OA_Translation();
+    $urlRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strName'])); 
+    $form->addRule('zonename', $urlRequiredMsg, 'required');
+    
+    // Get unique affiliate
+    $doZones = OA_Dal::factoryDO('zones');
+    $doZones->affiliateid = $zone['affiliateid'];
+    $aUnique_names = $doZones->getUniqueValuesFromColumn('zonename', 
+        empty($zone['zoneid'])? '': $zone['zonename']);
+    $nameUniqueMsg = $translation->translate($GLOBALS['strXUniqueField'], 
+        array($GLOBALS['strZone'], strtolower($GLOBALS['strName'])));
+    $form->addRule('zonename', $nameUniqueMsg, 'unique', $aUnique_names);
+        
+
+    /*
+    TODO
+    max_formSetRequirements('width', '<?php echo addslashes($strWidth); ?>', true, 'number*');
+    max_formSetRequirements('height', '<?php echo addslashes($strHeight); ?>', true, 'number*');
+    */
+    
+    //set form values 
+    $form->setDefaults($zone);
+    
+        //sizes radio
+    if (phpAds_sizeExists ($zone['width'], $zone['height'])) {
+        $size = $zone['width']."x".$zone['height'];
+        $sizeType = 'default';
+    }
+    else {
+        $size = "-";
+        $sizeType = 'custom';
+    }
+    $form->setDefaults(array('size' => $size, 'sizetype' => $sizeType));
+    
+        //tracker variables
+    if (strpos($zone['cost_variable_id'], ',')) {
+        $cost_variable_ids = explode(',', $zone['cost_variable_id']);
+    } 
+    else {
+        $cost_variable_ids = array($zone['cost_variable_id']);
+    }
+    $form->setDefaults(array('cost_variable_id_mult' => $cost_variable_ids)); 
+    
+    return $form;    
+}
+
+
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
 /*-------------------------------------------------------*/
-
-if (isset($submit))
+/**
+ * Processes submit values of zone form
+ *
+ * @param OA_Admin_UI_Component_Form $form form to process
+ * @return An array of Pear::Error objects if any
+ */
+function processForm($form) 
 {
-    if ($delivery == phpAds_ZoneText)
+    $aFields = $form->exportValues();
+    
+    if ($aFields['delivery'] == phpAds_ZoneText)
     {
-        $width = 0;
-        $height = 0;
+        $aFields['width'] = 0;
+        $aFields['height'] = 0;
     }
     else
     {
-        if ($sizetype == 'custom')
+        if ($aFields['sizetype'] == 'custom')
         {
-            if (isset($width) && $width == '*') $width = -1;
-            if (isset($height) && $height == '*') $height = -1;
+            if (isset($aFields['width']) && $aFields['width'] == '*') {  
+                $aFields['width'] = -1;
+            }
+            if (isset($aFields['height']) && $aFields['height'] == '*') {
+                $aFields['height'] = -1;
+            }
         }
         else
         {
-            list ($width, $height) = explode ('x', $size);
+            list ($aFields['width'], $aFields['height']) = explode ('x', $aFields['size']);
         }
     }
 
     //correction cost and technology_cost from other formats (23234,34 or 23 234,34 or 23.234,34)
     //to format acceptable by is_numeric (23234.34)
-    $corrected_cost = OA_Admin_NumberFormat::unformatNumber($cost);
+    $corrected_cost = OA_Admin_NumberFormat::unformatNumber($aFields['cost']);
     if ( $corrected_cost !== false ) {
-        $cost = $corrected_cost;
+        $aFields['cost'] = $corrected_cost;
         unset($corrected_cost);
     }
-    if (!empty($cost) && !(is_numeric($cost))) {
+    if (!empty($aFields['cost']) && !(is_numeric($aFields['cost']))) {
         // Suppress PEAR error handling to show this error only on top of HTML form
         PEAR::pushErrorHandling(null);
         $errors[] = PEAR::raiseError($GLOBALS['strErrorEditingZoneCost']);
         PEAR::popErrorHandling();
     }
     
-    $corrected_technology_cost = OA_Admin_NumberFormat::unformatNumber($technology_cost);
+    $corrected_technology_cost = OA_Admin_NumberFormat::unformatNumber($aFields['technology_cost']);
     if ( $corrected_technology_cost !== false ) {
-        $technology_cost = $corrected_technology_cost;
+        $aFields['technology_cost'] = $corrected_technology_cost;
         unset($corrected_technology_cost);
     }
-    if (!empty($technology_cost) && !(is_numeric($technology_cost))) {
+    if (!empty($aFields['technology_cost']) && !(is_numeric($aFields['technology_cost']))) {
         // Suppress PEAR error handling to show this error only on top of HTML form
         PEAR::pushErrorHandling(null);
         $errors[] = PEAR::raiseError($GLOBALS['strErrorEditingZoneTechnologyCost']);
@@ -127,67 +410,67 @@ if (isset($submit))
     
     if (empty($errors)) {
         
-        if (!(is_numeric($cost)) || ($cost <= 0)) {
+        if (!(is_numeric($aFields['cost'])) || ($aFields['cost'] <= 0)) {
             // No cost information, set to null
-            $cost = 'NULL';
-            $cost_type = 'NULL';
+            $aFields['cost'] = 'NULL';
+            $aFields['cost_type'] = 'NULL';
         }
     
-        if (!(is_numeric($technology_cost)) || ($technology_cost <= 0)) {
+        if (!(is_numeric($aFields['technology_cost'])) || ($aFields['technology_cost'] <= 0)) {
             // No cost information, set to null
-            $technology_cost = 'NULL';
-            $technology_cost_type = 'NULL';
+            $aFields['technology_cost'] = 'NULL';
+            $aFields['technology_cost_type'] = 'NULL';
         }
     
-        if ($cost_type == MAX_FINANCE_VARSUM && is_array($cost_variable_id_mult)) {
-            $cost_variable_id = 0;
-            foreach ($cost_variable_id_mult as $val) {
-                if ($cost_variable_id) {
-                    $cost_variable_id .= "," . $val;
+        if ($aFields['cost_type'] == MAX_FINANCE_VARSUM && is_array($aFields['cost_variable_id_mult'])) {
+            $aFields['cost_variable_id'] = 0;
+            foreach ($aFields['cost_variable_id_mult'] as $val) {
+                if ($aFields['cost_variable_id']) {
+                    $aFields['cost_variable_id'] .= "," . $val;
                 } else {
-                    $cost_variable_id = $val;
+                    $aFields['cost_variable_id'] = $val;
                 }
             }
         }
     
         // Edit
-        if (!empty($zoneid))
+        if (!empty($aFields['zoneid']))
         {
             // before we commit any changes to db, store whether the size has changed
-            $aZone = Admin_DA::getZone($zoneid);
-            $size_changed = ($width != $aZone['width'] || $height != $aZone['height']) ? true : false;
-            $type_changed = ($delivery != $aZone['delivery']) ? true : false;
+            $aZone = Admin_DA::getZone($aFields['zoneid']);
+            $size_changed = ($aFields['width'] != $aZone['width'] || $aFields['height'] != $aZone['height']) ? true : false;
+            $type_changed = ($aFields['delivery'] != $aZone['delivery']) ? true : false;
     
             $doZones = OA_Dal::factoryDO('zones');
-            $doZones->zonename = $zonename;
-            $doZones->description = $description;
-            $doZones->width = $width;
-            $doZones->height = $height;
-            $doZones->comments = $comments;
-            $doZones->cost = $cost;
-            $doZones->cost_type = $cost_type;
-            if ($cost_type == MAX_FINANCE_ANYVAR || $cost_type == MAX_FINANCE_VARSUM) {
-                $doZones->cost_variable_id = $cost_variable_id;
+            $doZones->zonename = $aFields['zonename'];
+            $doZones->description = $aFields['description'];
+            $doZones->width = $aFields['width'];
+            $doZones->height = $aFields['height'];
+            $doZones->comments = $aFields['comments'];
+            $doZones->cost = $aFields['cost'];
+            $doZones->cost_type = $aFields['cost_type'];
+            if ($aFields['cost_type'] == MAX_FINANCE_ANYVAR || $aFields['cost_type'] == MAX_FINANCE_VARSUM) {
+                $doZones->cost_variable_id = $aFields['cost_variable_id'];
             }
-            $doZones->technology_cost = $technology_cost;
-            $doZones->technology_cost_type = $technology_cost_type;
-            $doZones->delivery = $delivery;
-            if ($delivery != phpAds_ZoneText && $delivery != phpAds_ZoneBanner) {
+            $doZones->technology_cost = $aFields['technology_cost'];
+            $doZones->technology_cost_type = $aFields['technology_cost_type'];
+            $doZones->delivery = $aFields['delivery'];
+            if ($aFields['delivery'] != phpAds_ZoneText && $aFields['delivery'] != phpAds_ZoneBanner) {
                 $doZones->append = '';
             }
-            if ($delivery != phpAds_ZoneText) {
+            if ($aFields['delivery'] != phpAds_ZoneText) {
                 $doZones->prepend = '';
             }
-            $doZones->zoneid = $zoneid;
+            $doZones->zoneid = $aFields['zoneid'];
             $doZones->update();
     
             // Ad  Networks
             $doPublisher = OA_Dal::factoryDO('affiliates');
-            $doPublisher->get($affiliateid);
+            $doPublisher->get($aFields['affiliateid']);
             $anWebsiteId = $doPublisher->as_website_id;
             if ($anWebsiteId) {
             	$oAdNetworks = new OA_Central_AdNetworks();
-                $doZones->get($zoneid);
+                $doZones->get($aFields['zoneid']);
     			$oAdNetworks->updateZone($doZones, $anWebsiteId);
             }
     
@@ -209,7 +492,7 @@ if (isset($submit))
             {
                 $append = phpAds_ZoneParseAppendCode($row['append']);
     
-                if ($append[0]['zoneid'] == $zoneid)
+                if ($append[0]['zoneid'] == $aFields['zoneid'])
                 {
                     $doZonesClone = clone($doZones);
                     $doZonesClone->appendtype = phpAds_ZoneAppendRaw;
@@ -218,45 +501,46 @@ if (isset($submit))
                 }
             }
     
-            if ($type_changed && $delivery == MAX_ZoneEmail) {
+            if ($type_changed && $aFields['delivery'] == MAX_ZoneEmail) {
                 // Unlink all campaigns/banners linked to this zone
-                $aPlacementZones = Admin_DA::getPlacementZones(array('zone_id' => $zoneid), true, 'placement_id');
+                $aPlacementZones = Admin_DA::getPlacementZones(array('zone_id' => $aFields['zoneid']), true, 'placement_id');
                 if (!empty($aPlacementZones)) {
                     foreach ($aPlacementZones as $placementId => $aPlacementZone) {
-                        Admin_DA::deletePlacementZones(array('zone_id' => $zoneid, 'placement_id' => $placementId));
+                        Admin_DA::deletePlacementZones(array('zone_id' => $aFields['zoneid'], 'placement_id' => $placementId));
                     }
                 }
-                $aAdZones = Admin_DA::getAdZones(array('zone_id' => $zoneid), false, 'ad_id');
+                $aAdZones = Admin_DA::getAdZones(array('zone_id' => $aFields['zoneid']), false, 'ad_id');
                 if (!empty($aAdZones)) {
                     foreach ($aAdZones as $adId => $aAdZone) {
-                        Admin_DA::deleteAdZones(array('zone_id' => $zoneid, 'ad_id' => $adId));
+                        Admin_DA::deleteAdZones(array('zone_id' => $aFields['zoneid'], 'ad_id' => $adId));
                     }
                 }
-            } else if ($size_changed) {
-                $aZone = Admin_DA::getZone($zoneid);
+            } 
+            else if ($size_changed) {
+                $aZone = Admin_DA::getZone($aFields['zoneid']);
     
                 // Loop through all appended banners and make sure that they still fit...
-                $aAds = Admin_DA::getAdZones(array('zone_id' => $zoneid), false, 'ad_id');
+                $aAds = Admin_DA::getAdZones(array('zone_id' => $aFields['zoneid']), false, 'ad_id');
                 if (!empty($aAds)) {
                  foreach ($aAds as $adId => $aAd) {
                     $aAd = Admin_DA::getAd($adId);
                         if ( (($aZone['type'] == phpAds_ZoneText) && ($aAd['type'] != 'txt'))
                         || (($aAd['width'] != $aZone['width']) && ($aZone['width'] > -1))
                         || (($aAd['height'] != $aZone['height']) && ($aZone['height'] > -1)) ) {
-                            Admin_DA::deleteAdZones(array('zone_id' => $zoneid, 'ad_id' => $adId));
+                            Admin_DA::deleteAdZones(array('zone_id' => $aFields['zoneid'], 'ad_id' => $adId));
                         }
                     }
                 }
     
                 // Check if any campaigns linked to this zone have ads that now fit.
                 // If so, link them to the zone.
-                $aPlacementZones = Admin_DA::getPlacementZones(array('zone_id' => $zoneid), true);
+                $aPlacementZones = Admin_DA::getPlacementZones(array('zone_id' => $aFields['zoneid']), true);
                 if (!empty($aPlacementZones)) {
                     foreach($aPlacementZones as $aPlacementZone) {
                     // get ads in this campaign
                     $aAds = Admin_DA::getAds(array('placement_id' => $aPlacementZone['placement_id']), true);
                         foreach ($aAds as $adId => $aAd) {
-                            Admin_DA::addAdZone(array('zone_id' => $zoneid, 'ad_id' => $adId));
+                            Admin_DA::addAdZone(array('zone_id' => $aFields['zoneid'], 'ad_id' => $adId));
                         }
                     }
                 }
@@ -267,20 +551,21 @@ if (isset($submit))
         else
         {
             $doZones = OA_Dal::factoryDO('zones');
-            $doZones->affiliateid = $affiliateid;
-            $doZones->zonename = $zonename;
+            $doZones->affiliateid = $aFields['affiliateid'];
+            $doZones->zonename = $aFields['zonename'];
             $doZones->zonetype = phpAds_ZoneCampaign;
-            $doZones->description = $description;
-            $doZones->comments = $comments;
-            $doZones->width = $width;
-            $doZones->height = $height;
-            $doZones->delivery = $delivery;
-            $doZones->cost = $cost;
-            $doZones->cost_type = $cost_type;
-            $doZones->technology_cost = $technology_cost;
-            $doZones->technology_cost_type = $technology_cost_type;
-            if ($cost_type == MAX_FINANCE_ANYVAR || $cost_type == MAX_FINANCE_VARSUM) {
-                $doZones->cost_variable_id = $cost_variable_id;
+            $doZones->description = $aFields['description'];
+            $doZones->comments = $aFields['comments'];
+            $doZones->width = $aFields['width'];
+            $doZones->height = $aFields['height'];
+            $doZones->delivery = $aFields['delivery'];
+            $doZones->cost = $aFields['cost'];
+            $doZones->cost_type = $aFields['cost_type'];
+            $doZones->technology_cost = $aFields['technology_cost'];
+            $doZones->technology_cost_type = $aFields['technology_cost_type'];
+            if ($aFields['cost_type'] == MAX_FINANCE_ANYVAR 
+                || $aFields['cost_type'] == MAX_FINANCE_VARSUM) {
+                $doZones->cost_variable_id = $aFields['cost_variable_id'];
             }
     
             // The following fields are NOT NULL but do not get values set in the form.
@@ -291,11 +576,11 @@ if (isset($submit))
             $doZones->prepend = '';
             $doZones->append = '';
     
-            $zoneid = $doZones->insert();
+            $aFields['zoneid'] = $doZones->insert();
     
             // Ad  Networks
             $doPublisher = OA_Dal::factoryDO('affiliates');
-            $doPublisher->get($affiliateid);
+            $doPublisher->get($aFields['affiliateid']);
             $anWebsiteId = $doPublisher->as_website_id;
             if ($anWebsiteId) {
             	$oAdNetworks = new OA_Central_AdNetworks();
@@ -305,502 +590,50 @@ if (isset($submit))
     
         if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             if (OA_Permission::hasPermission(OA_PERM_ZONE_LINK)) {
-                MAX_Admin_Redirect::redirect("zone-include.php?affiliateid=$affiliateid&zoneid=$zoneid");
+                MAX_Admin_Redirect::redirect("zone-include.php?affiliateid=".$aFields['affiliateid']."&zoneid=".$aFields['zoneid']);
             } else {
-                MAX_Admin_Redirect::redirect("zone-probability.php?affiliateid=$affiliateid&zoneid=$zoneid");
+                MAX_Admin_Redirect::redirect("zone-probability.php?affiliateid=".$aFields['affiliateid']."&zoneid=".$aFields['zoneid']);
             }
         } else {
-            MAX_Admin_Redirect::redirect("zone-advanced.php?affiliateid=$affiliateid&zoneid=$zoneid");
+            MAX_Admin_Redirect::redirect("zone-advanced.php?affiliateid=".$aFields['affiliateid']."&zoneid=".$aFields['zoneid']);
         }
     }
+    
+    return $errors;
 }
 
 
 /*-------------------------------------------------------*/
-/* HTML framework                                        */
+/* Display page                                          */
 /*-------------------------------------------------------*/
-
+function displayPage($zone, $form, $zoneErrors = null)
+{
+    //header and breadcrumbs
     $pageName = basename($_SERVER['PHP_SELF']);
-    $tabIndex = 1;
     $agencyId = OA_Permission::getAgencyId();
-    $aEntities = array('affiliateid' => $affiliateid, 'zoneid' => $zoneid);
+    $aEntities = array('affiliateid' => $zone['affiliateid'], 'zoneid' => $zone['zoneid']);
 
     $aOtherPublishers = Admin_DA::getPublishers(array('agency_id' => $agencyId));
-    $aOtherZones = Admin_DA::getZones(array('publisher_id' => $affiliateid));
+    $aOtherZones = Admin_DA::getZones(array('publisher_id' => $zone['affiliateid']));
     MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $aEntities);
     
-    //show errors
-    if ($submit && !empty($errors)) {
-        // Message
-        echo "<br>";
-        echo "<div class='errormessage'><img class='errormessage' src='" . MAX::assetPath() . "/images/errormessage.gif' align='absmiddle'>";
-        echo "<span class='tab-r'>{$GLOBALS['strErrorEditingZone']}</span><br><br>";
-        foreach ($errors as $aError) {
-            echo "{$GLOBALS['strUnableToChangeZone']} - " . $aError->message . "<br>";
-        }
-        echo "</div>";
-    }
-
-
-/*-------------------------------------------------------*/
-/* Main code                                             */
-/*-------------------------------------------------------*/
-
-$zoneName = '';
-if (!empty($zoneid)) {
-    $doZones = OA_Dal::factoryDO('zones');
-    $doZones->zoneid = $zoneid;
-    if ($doZones->find() && $doZones->fetch()) {
-        $zone = $doZones->toArray();
-    }
-
-    if ($zone['width'] == -1) $zone['width'] = '*';
-    if ($zone['height'] == -1) $zone['height'] = '*';
-
-    // Set the default financial information
-    if (!isset($zone['cost'])) {
-        $zone['cost'] = '0.0000';
-    } else {
-        $zone['cost'] = OA_Admin_NumberFormat::formatNumber($zone['cost'], 4);
-    }
-    if (isset($zone['technology_cost'])) {
-        $zone['technology_cost'] = OA_Admin_NumberFormat::formatNumber($zone['technology_cost'], 4);
-    }
-
-    $zoneName = $zone['zonename'];
-} else {
-    $doAffiliates = OA_Dal::factoryDO('affiliates');
-    $doAffiliates->affiliateid = $affiliateid;
-
-    if ($doAffiliates->find() && $doAffiliates->fetch() && $affiliate = $doAffiliates->toArray())
-        $zone["zonename"] = $affiliate['name'].' - ';
-    else
-        $zone["zonename"] = '';
-
-    $zone['zonename']        .= $strDefault;
-    $zone['description']     = '';
-    $zone['width']             = '468';
-    $zone['height']         = '60';
-    $zone['delivery']        = phpAds_ZoneBanner;
-    $zone['cost']           = OA_Admin_NumberFormat::formatNumber(0, 4);;
-    $zone['cost_type']      = null;
-    $zone['technology_cost'] = null;
-    $zone['technology_cost_type'] = null;
-    $zone['cost_variable_id'] = null;
-    $zone['comments'] = null;
-    $cost_variable_id = null;
+    //get template and display form
+    $oTpl = new OA_Admin_Template('zone-edit.html');
+    $oTpl->assign('zoneid', $zone['zoneid']);
+    $oTpl->assign('zoneHeight', $zone["height"]);
+    $oTpl->assign('zoneWidth', $zone["width"]);
+    
+    $oTpl->assign('MAX_FINANCE_ANYVAR', MAX_FINANCE_ANYVAR);
+    $oTpl->assign('MAX_FINANCE_VARSUM', MAX_FINANCE_VARSUM);
+    $oTpl->assign('MAX_FINANCE_CPM', MAX_FINANCE_CPM);    
+    
+    $oTpl->assign('zoneErrors', $zoneErrors);    
+    $oTpl->assign('form', $form->serialize());
+    
+    $oTpl->display();
+    
+    //footer
+    phpAds_PageFooter();
 }
-
-$tabindex = 1;
-
-if (!empty($zoneid)) {
-    // Only display the notices when *changing* a zone, not for new zones
-    echo "<div class='errormessage' id='warning_change_zone_type' style='display:none'> <img class='errormessage' src='" . MAX::assetPath() . "/images/errormessage.gif' align='absmiddle' />";
-    echo "<span class='tab-r'> {$GLOBALS['strWarning']}:</span><br />";
-    echo "{$GLOBALS['strWarnChangeZoneType']}";
-    echo "</div>";
-
-    echo "<div class='errormessage' id='warning_change_zone_size' style='display:none'> <img class='errormessage' src='" . MAX::assetPath() . "/images/warning.gif' align='absmiddle' />";
-    echo "<span class='tab-s'> {$GLOBALS['strNotice']}:</span><br />";
-    echo "{$GLOBALS['strWarnChangeZoneSize']}";
-    echo "</div>";
-}
-
-echo "<form name='zoneform' method='post' action='zone-edit.php' onSubmit='return max_formValidate(this);'>";
-echo "<input type='hidden' name='zoneid' value='".(isset($zoneid) && $zoneid != '' ? $zoneid : '')."'>";
-echo "<input type='hidden' name='affiliateid' value='".(isset($affiliateid) && $affiliateid != '' ? $affiliateid : '')."'>";
-
-echo "<br /><table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-echo "<tr><td height='25' colspan='3'><b>".$strBasicInformation."</b></td></tr>";
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strName."</td><td>";
-echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='zonename' size='35' style='width:350px;' value='".phpAds_htmlQuotes($zone['zonename'])."' tabindex='".($tabindex++)."'></td>";
-echo "</tr><tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strDescription."</td><td>";
-echo "<input class='flat' size='35' type='text' name='description' style='width:350px;' value='".phpAds_htmlQuotes($zone["description"])."' tabindex='".($tabindex++)."'></td>";
-echo "</tr><tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-
-echo "<tr>"."\n";
-echo "\t"."<td width='30'>&nbsp;</td>"."\n";
-echo "\t"."<td width='200'>".$strCategory."</td>"."\n";
-echo "\t"."<td>";
-?>
-<select style="min-width: 25ex">
-    <option>Uncategorised</option>
-    <option>Category 1</option>
-    <option>Category 2</option>
-    <option>Category 3</option>
-    <option>Category 4</option>
-    <option>Category 5</option>
-</select>
-<?php 
-echo "\t"."</td>"; 
-echo "</tr>"."\n";
-
-echo "<tr>"."\n";
-echo "\t"."<td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>"."\n";
-echo "\t"."<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td>"."\n";
-echo "</tr>";
-
-echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'><br />".$strZoneType."</td><td><table>";
-echo "<tr><td><input type='radio' id='delivery-b' name='delivery' value='".phpAds_ZoneBanner."'".($zone['delivery'] == phpAds_ZoneBanner ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();' onChange='oa_hide(\"warning_change_zone_type\");' tabindex='".($tabindex++)."'>";
-echo "&nbsp;<img src='" . MAX::assetPath() . "/images/icon-zone.gif' align='absmiddle'>&nbsp;<label for='delivery-b'>".$strBannerButtonRectangle."</label></td></tr>";
-
-if ($conf['allowedTags']['adlayer'] || $zone['delivery'] == phpAds_ZoneInterstitial)
-{
-    echo "<tr><td><input type='radio' id='delivery-i' name='delivery' value='".phpAds_ZoneInterstitial."'".($zone['delivery'] == phpAds_ZoneInterstitial ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();' onChange='oa_hide(\"warning_change_zone_type\");' tabindex='".($tabindex++)."'>";
-    echo "&nbsp;<img src='" . MAX::assetPath() . "/images/icon-interstitial.gif' align='absmiddle'>&nbsp;<label for='delivery-i'>".$strInterstitial."</label></td></tr>";
-}
-
-if ($conf['allowedTags']['popup'] || $zone['delivery'] == phpAds_ZonePopup)
-{
-    echo "<tr><td><input type='radio' id='delivery-p' name='delivery' value='".phpAds_ZonePopup."'".($zone['delivery'] == phpAds_ZonePopup ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();' onChange='oa_hide(\"warning_change_zone_type\");' tabindex='".($tabindex++)."'>";
-    echo "&nbsp;<img src='" . MAX::assetPath() . "/images/icon-popup.gif' align='absmiddle'>&nbsp;<label for='delivery-p'>".$strPopup."</label></td></tr>";
-}
-
-echo "<tr><td><input type='radio' id='delivery-t' name='delivery' value='".phpAds_ZoneText."'".($zone['delivery'] == phpAds_ZoneText ? ' CHECKED' : '')." onClick='phpAds_formDisableSize();' " . (($zone['delivery'] != phpAds_ZoneText) ? "onChange='oa_show(\"warning_change_zone_type\");'" : "onChange='oa_hide(\"warning_change_zone_type\");'") . " tabindex='".($tabindex++)."'>";
-echo "&nbsp;<img src='" . MAX::assetPath() . "/images/icon-textzone.gif' align='absmiddle'>&nbsp;<label for='delivery-t'>".$strTextAdZone."</label></td></tr>";
-
-echo "<tr><td><input type='radio' id='delivery-e' name='delivery' value='".MAX_ZoneEmail."'".($zone['delivery'] == MAX_ZoneEmail ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();' " . (($zone['delivery'] != MAX_ZoneEmail) ? "onChange='oa_show(\"warning_change_zone_type\");'" : "onChange='oa_hide(\"warning_change_zone_type\");'") . " tabindex='".($tabindex++)."'>";
-echo "&nbsp;<img src='" . MAX::assetPath() . "/images/icon-zone-email.gif' align='absmiddle'>&nbsp;<label for='delivery-e'>".$strEmailAdZone."</label></td></tr>";
-
-//echo "<tr><td><input type='radio' name='delivery' value='".MAX_ZoneClick."'".($zone['delivery'] == MAX_ZoneClick ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();' tabindex='".($tabindex++)."'>";
-//echo "&nbsp;<img src='" . MAX::assetPath() . "/images/icon-zone-click.gif' align='absmiddle'>&nbsp;".$strZoneClick."</td></tr>";
-
-echo "</table></td></tr>";
-
-
-if ($zone['delivery'] == phpAds_ZoneText)
-{
-    $sizedisabled = ' disabled';
-    $zone['width'] = '*';
-    $zone['height'] = '*';
-}
-else
-    $sizedisabled = '';
-
-echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-
-echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'><br />".$strSize."</td><td>";
-
-$exists = phpAds_sizeExists ($zone['width'], $zone['height']);
-
-echo "<table><tr><td>";
-echo "<input type='radio' name='sizetype' value='default'".($exists ? ' CHECKED' : '').$sizedisabled." tabindex='".($tabindex++)."'>&nbsp;";
-echo "<select name='size' onchange='phpAds_formSelectSize(this); oa_sizeChangeUpdateMessage(\"warning_change_zone_size\");'".$sizedisabled." tabindex='".($tabindex++)."'>";
-
-foreach (array_keys($phpAds_IAB) as $key)
-{
-    if ($phpAds_IAB[$key]['width'] == $zone['width'] &&
-        $phpAds_IAB[$key]['height'] == $zone['height'])
-        echo "<option value='".$phpAds_IAB[$key]['width']."x".$phpAds_IAB[$key]['height']."' selected>".$GLOBALS['strIab'][$key]."</option>";
-    else
-        echo "<option value='".$phpAds_IAB[$key]['width']."x".$phpAds_IAB[$key]['height']."'>".$GLOBALS['strIab'][$key]."</option>";
-}
-
-echo "<option value='-'".(!$exists ? ' SELECTED' : '').">Custom</option>";
-echo "</select>";
-
-echo "</td></tr><tr><td>";
-
-echo "<input type='radio' name='sizetype' value='custom'".(!$exists ? ' CHECKED' : '').$sizedisabled." onclick='phpAds_formEditSize()'  tabindex='".($tabindex++)."'>&nbsp;";
-echo $strWidth.": <input class='flat' size='5' type='text' name='width' value='".(isset($zone["width"]) ? $zone["width"] : '')."'".$sizedisabled." onkeydown='phpAds_formEditSize()' onBlur='max_formValidateElement(this);' onChange='oa_sizeChangeUpdateMessage(\"warning_change_zone_size\");' tabindex='".($tabindex++)."'>";
-echo "&nbsp;&nbsp;&nbsp;";
-echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".(isset($zone["height"]) ? $zone["height"] : '')."'".$sizedisabled." onkeydown='phpAds_formEditSize()' onBlur='max_formValidateElement(this);' onChange='oa_sizeChangeUpdateMessage(\"warning_change_zone_size\");' tabindex='".($tabindex++)."'>";
-echo "</td></tr></table>";
-echo "</td></tr>";
-
-echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-echo "<tr><td width='30'>&nbsp;</td>";
-echo "<td width='200'>".$strCostInfo."</td>";
-echo "<td>";
-echo "&nbsp;&nbsp;<input type='text' name='cost' size='10' value='{$zone["cost"]}' tabindex='".($tabindex++)."'>&nbsp;";
-echo "&nbsp;&nbsp;";
-echo "<select name='cost_type' id='cost_type' onchange='m3_updateFinance()'>";
-echo "  <option value='".MAX_FINANCE_CPM."' ".(($zone['cost_type'] == MAX_FINANCE_CPM) ? ' SELECTED ' : '').">$strFinanceCPM</option>";
-echo "  <option value='".MAX_FINANCE_CPC."' ".(($zone['cost_type'] == MAX_FINANCE_CPC) ? ' SELECTED ' : '').">$strFinanceCPC</option>";
-echo "  <option value='".MAX_FINANCE_CPA."' ".(($zone['cost_type'] == MAX_FINANCE_CPA) ? ' SELECTED ' : '').">$strFinanceCPA</option>";
-echo "  <option value='".MAX_FINANCE_MT."' ".(($zone['cost_type'] == MAX_FINANCE_MT) ? ' SELECTED ' : '').">$strFinanceMT</option>";
-echo "  <option value='".MAX_FINANCE_RS."' ".(($zone['cost_type'] == MAX_FINANCE_RS) ? ' SELECTED ' : '').">$strPercentRevenueSplit</option>";
-echo "  <option value='".MAX_FINANCE_BV."' ".(($zone['cost_type'] == MAX_FINANCE_BV) ? ' SELECTED ' : '')."> $strPercentBasketValue</option>";
-echo "  <option value='".MAX_FINANCE_AI."' ".(($zone['cost_type'] == MAX_FINANCE_AI) ? ' SELECTED ' : '').">$strAmountPerItem</option>";
-echo "  <option value='".MAX_FINANCE_ANYVAR."' ".(($zone['cost_type'] == MAX_FINANCE_ANYVAR) ? ' SELECTED ' : '').">$strPercentCustomVariable</option>";
-echo "  <option value='".MAX_FINANCE_VARSUM."' ".(($zone['cost_type'] == MAX_FINANCE_VARSUM) ? ' SELECTED ' : '').">$strPercentSumVariables</option>";
-echo "</select>";
-echo "&nbsp;&nbsp;";
-echo "<span id='cost_cpm_description' style='margin-left: 7px;'>per single impression</span>";
-
-$dalVariables = OA_Dal::factoryDAL('variables');
-$rsVariables = $dalVariables->getTrackerVariables($zoneid, $affiliateid, OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER));
-$rsVariables->find();
-
-$res_tracker_variables = array();
-if (!$rsVariables->getRowCount()) {
-    $res_noresults = true;
-} else {
-    $res_noresults = false;
-    $i = 0;
-    while ($rsVariables->fetch() && $row = $rsVariables->toArray()) {
-        $res_tracker_variables[$i]['variable_id'] = $row['variable_id'];
-        $res_tracker_variables[$i]['tracker_name'] = $row['tracker_name'];
-        $res_tracker_variables[$i]['variable_name'] = $row['variable_name'];
-        $res_tracker_variables[$i]['tracker_description'] = $row['tracker_description'];
-        $res_tracker_variables[$i]['variable_description'] = $row['variable_description'];
-        $i++;
-    }
-}
-
-echo "<select name='cost_variable_id' id='cost_variable_id'>";
-
-if ($res_noresults) {
-    echo "<option value=''>-- No linked tracker --</option>";
-} else {
-    foreach ($res_tracker_variables as $k=>$v) {
-        echo "<option value='{$v['variable_id']}' ".(($zone['cost_variable_id'] == $v['variable_id']) ? ' SELECTED ' : '').">".
-            "[id".$v['tracker_id']."] ".
-            htmlspecialchars(empty($v['tracker_description']) ? $v['tracker_name'] : $v['tracker_description']).
-            ": ".
-            htmlspecialchars(empty($v['variable_description']) ? $v['variable_name'] : $v['variable_description']).
-        "</option>";
-    }
-}
-
-echo "</select>";
-
-if (strpos($zone['cost_variable_id'], ',')) {
-    $cost_variable_ids = explode(',', $zone['cost_variable_id']);
-} else {
-    $cost_variable_ids = array($zone['cost_variable_id']);
-}
-
-echo "<select name='cost_variable_id_mult[]' id='cost_variable_id_mult' multiple='multiple' size='3'>";
-
-if ($res_noresults) {
-    echo "<option value=''>-- No linked tracker --</option>";
-} else {
-    foreach ($res_tracker_variables as $k=>$v) {
-        echo "<option value='{$v['variable_id']}' ".(in_array($v['variable_id'], $cost_variable_ids) ? ' SELECTED ' : '').">".
-            "[id".$v['tracker_id']."] ".
-            htmlspecialchars(empty($v['tracker_description']) ? $v['tracker_name'] : $v['tracker_description']).
-            ": ".
-            htmlspecialchars(empty($v['variable_description']) ? $v['variable_name'] : $v['variable_description']).
-        "</option>";
-    }
-}
-
-echo "</select>";
-
-echo "</td></tr>";
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-
-echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-
-
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-echo "<tr><td width='30'>&nbsp;</td>";
-echo "<td width='200'>".$strTechnologyCost."</td>";
-echo "<td>";
-echo "&nbsp;&nbsp;<input type='text' name='technology_cost' size='10' value='{$zone["technology_cost"]}' tabindex='".($tabindex++)."'>&nbsp;";
-echo "&nbsp;&nbsp;";
-echo "<select name='technology_cost_type' id='technology_cost_type' onchange='m3_updateFinance()'>";
-echo "  <option value='".MAX_FINANCE_CPM."' ".(($zone['technology_cost_type'] == MAX_FINANCE_CPM) ? ' SELECTED ' : '').">$strFinanceCPM</option>";
-echo "  <option value='".MAX_FINANCE_CPC."' ".(($zone['technology_cost_type'] == MAX_FINANCE_CPC) ? ' SELECTED ' : '').">$strFinanceCPC</option>";
-echo "  <option value='".MAX_FINANCE_RS."' ".(($zone['technology_cost_type'] == MAX_FINANCE_RS) ? ' SELECTED ' : '').">$strPercentRevenueSplit</option>";
-echo "</select>";
-echo "&nbsp;&nbsp;";
-echo "<span id='technology_cost_cpm_description' style='margin-left: 7px;'>per single impression</span>";
-
-echo "</td></tr>";
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-
-echo "<tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-
-
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-echo "<tr><td width='30'>&nbsp;</td>";
-echo "<td width='200'>".$strComments."</td>";
-echo "<td><textarea class='flat' cols='45' rows='6' name='comments' wrap='off' dir='ltr' style='width:350px;";
-echo "' tabindex='".($tabindex++)."'>".htmlspecialchars($zone['comments'])."</textarea></td></tr>";
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
-echo "</table>";
-
-echo "<br /><br />";
-echo "<input type='submit' name='submit' value='".(isset($zoneid) && $zoneid != '' ? $strSaveChanges : $strNext.' >')."' tabindex='".($tabindex++)."'>";
-echo "</form>";
-
-
-
-/*-------------------------------------------------------*/
-/* Form requirements                                     */
-/*-------------------------------------------------------*/
-
-// Get unique affiliate
-$doZones = OA_Dal::factoryDO('zones');
-$doZones->affiliateid = $affiliateid;
-$unique_names = $doZones->getUniqueValuesFromColumn('zonename', $zoneName);
-
-//$unique_names = array();
-//
-//$res = phpAds_dbQuery("SELECT * FROM ".$conf['table']['prefix'].$conf['table']['zones']." WHERE affiliateid = '".$affiliateid."' AND zoneid != '".$zoneid."'");
-//while ($row = phpAds_dbFetchArray($res))
-//    $unique_names[] = $row['zonename'];
-
-?>
-
-<script language='JavaScript'>
-<!--
-    <?php
-
-    if (isset($zone["height"])) {
-        echo "document.zoneHeight ='" .$zone["height"]. "';\n";
-    }
-    if (isset($zone["width"])) {
-        echo "document.zoneWidth ='" .$zone["width"]. "';\n";
-    }
-
-    ?>
-
-
-    max_formSetRequirements('zonename', '<?php echo addslashes($strName); ?>', true, 'unique');
-    max_formSetRequirements('width', '<?php echo addslashes($strWidth); ?>', true, 'number*');
-    max_formSetRequirements('height', '<?php echo addslashes($strHeight); ?>', true, 'number*');
-
-    max_formSetUnique('zonename', '|<?php echo addslashes(implode('|', $unique_names)); ?>|');
-
-
-    function phpAds_formSelectSize(o)
-    {
-        // Get size from select
-        size   = o.options[o.selectedIndex].value;
-
-        if (size != '-')
-        {
-            // Get width and height
-            sarray = size.split('x');
-            height = sarray.pop();
-            width  = sarray.pop();
-
-            // Set width and height
-            document.zoneform.width.value = width;
-            document.zoneform.height.value = height;
-
-            // Set radio
-            document.zoneform.sizetype[0].checked = true;
-            document.zoneform.sizetype[1].checked = false;
-        }
-        else
-        {
-            document.zoneform.sizetype[0].checked = false;
-            document.zoneform.sizetype[1].checked = true;
-        }
-    }
-
-    function phpAds_formEditSize()
-    {
-        document.zoneform.sizetype[0].checked = false;
-        document.zoneform.sizetype[1].checked = true;
-        document.zoneform.size.selectedIndex = document.zoneform.size.options.length - 1;
-    }
-
-    function phpAds_formDisableSize()
-    {
-        document.zoneform.sizetype[0].disabled = true;
-        document.zoneform.sizetype[1].disabled = true;
-        document.zoneform.width.disabled = true;
-        document.zoneform.height.disabled = true;
-        document.zoneform.size.disabled = true;
-    }
-
-    function phpAds_formEnableSize()
-    {
-        document.zoneform.sizetype[0].disabled = false;
-        document.zoneform.sizetype[1].disabled = false;
-        document.zoneform.width.disabled = false;
-        document.zoneform.height.disabled = false;
-        document.zoneform.size.disabled = false;
-    }
-
-    function m3_updateFinance()
-    {
-        var o = document.getElementById('cost_type');
-        var o2 = document.getElementById('technology_cost_type');
-        var p = document.getElementById('cost_variable_id');
-        var p2 = document.getElementById('cost_variable_id_mult');
-        var cost_cpm_desc = document.getElementById('cost_cpm_description');
-        var cost_cpm_desc2 = document.getElementById('technology_cost_cpm_description');
-
-        if ( o.options[o.selectedIndex].value == <?php echo MAX_FINANCE_ANYVAR; ?>) {
-            p.style.display = '';
-            p2.style.display = 'none';
-        } else if (o.options[o.selectedIndex].value == <?php echo MAX_FINANCE_VARSUM; ?>) {
-            p.style.display = 'none';
-            p2.style.display = '';
-        } else {
-            p.style.display = 'none';
-            p2.style.display = 'none';
-        }
-
-        if ( o.options[o.selectedIndex].value == <?php echo MAX_FINANCE_CPM; ?>) {
-            cost_cpm_desc.style.display = 'block';
-        } else {
-            cost_cpm_desc.style.display = 'none';
-        }
-        if ( o2.options[o2.selectedIndex].value == <?php echo MAX_FINANCE_CPM; ?>) {
-            cost_cpm_desc2.style.display = 'block';
-        } else {
-            cost_cpm_desc2.style.display = 'none';
-        }
-    }
-
-    function oa_sizeChangeUpdateMessage(id)
-    {
-        if (document.zoneWidth != document.zoneform.width.value ||
-            document.zoneHeight !=  document.zoneform.height.value) {
-                oa_show(id);
-
-        } else if (document.zoneWidth == document.zoneform.width.value &&
-                   document.zoneHeight ==  document.zoneform.height.value) {
-            oa_hide(id);
-        }
-    }
-
-    function oa_show(id)
-    {
-        var obj = findObj(id);
-        if (obj) { obj.style.display = 'block'; }
-    }
-    function oa_hide(id)
-    {
-        var obj = findObj(id);
-        if (obj) { obj.style.display = 'none'; }
-    }
-    m3_updateFinance();
-
-//-->
-</script>
-
-<?php
-
-
-
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
-
-phpAds_PageFooter();
 
 ?>

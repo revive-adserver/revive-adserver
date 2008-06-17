@@ -1,8 +1,8 @@
-{*<!--
-
+<?php
+/*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -21,8 +21,27 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id:$
+*/
+require_once MAX_PATH.'/lib/OA/Admin/UI/component/rule/BaseQuickFormRuleToJQueryRuleAdaptor.php';
 
--->*}
 
-{include file=captcha-dialog.html formId="$formId" title='Signing up for Advertiser self service and Payment' message='Confirm signing up for Advertiser self service and Payment'}
+/**
+ * Wrapper rule for HTML_QuickForm "email" rule.
+ */
+class OA_Admin_UI_Rule_JQueryEmailRule
+    extends OA_Admin_UI_Rule_BaseQuickFormRuleToJQueryRuleAdaptor   
+{
+    /**
+     * Returns Jquery validation plugin "email" rule 
+     * "minLength": <intValue>
+     * @param array $rule
+     * @return string
+     */
+    public function getJQueryValidationRule($rule)
+    {
+        return "\"email\": true";    
+    }
+}
+
+?>

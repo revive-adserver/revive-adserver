@@ -144,7 +144,6 @@ $GLOBALS['strValue']                    = 'Value';
 $GLOBALS['strAdmin']                    = 'Admin';
 $GLOBALS['strWarning']                  = 'Warning';
 $GLOBALS['strNotice']                   = 'Notice';
-$GLOBALS['strRequiredField']            = 'Required field';
 
 // Dashboard
 $GLOBALS['strDashboardCommunity']       = 'Community';
@@ -512,7 +511,11 @@ $GLOBALS['strTrackerImprConnections']     = "Impression Connections";
 $GLOBALS['strTrackerClickConnections']    = "Click Connections";
 $GLOBALS['strTrackerImprConversions']     = "Impression Conversions";
 $GLOBALS['strTrackerClickConversions']    = "Click Conversions";
+$GLOBALS['strConversionType']             = "Conversion Type";
 $GLOBALS['strLinkCampaignsByDefault']     = "Link newly created campaigns by default";
+$GLOBALS['strNoLinkedTrackersDropdown']   = "-- No linked tracker --";
+$GLOBALS['strPerSingleImpression']        = "per single impression";
+
 
 // Banners (General)
 $GLOBALS['strBanner']                        = "Banner";
@@ -1026,6 +1029,16 @@ $GLOBALS['strEmailNoDates']                     = 'Email zone campaigns must hav
 $GLOBALS['strWarningInaccurateStats']           = "Some of these statistics were logged in a non-UTC timezone, and may not be displayed in the correct timezone.";
 $GLOBALS['strWarningInaccurateReadMore']        = "Read more about this";
 $GLOBALS['strWarningInaccurateReport']          = "Some of the statistics in this report were logged in a non-UTC timezone, and may not be displayed in the correct timezone";
+
+//Validation
+$GLOBALS['strRequiredFieldLegend']              = 'denotes required field';
+$GLOBALS['strFormContainsErrors']               = 'Form contains errors, please correct the marked fields below.';
+$GLOBALS['strRequiredField']                    = 'Required field';
+$GLOBALS['strXRequiredField']                   = "%s is required";
+$GLOBALS['strEmailField']                       = "Please enter a valid email";
+$GLOBALS['strNumericField']                     = "Please enter a number";
+$GLOBALS['strXUniqueField']                      = "%s with this %s already exists";
+
 
 // Email
 $GLOBALS['strSirMadam']                         = "Sir/Madam";

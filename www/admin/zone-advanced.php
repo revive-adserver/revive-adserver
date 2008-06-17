@@ -136,7 +136,7 @@ if (isset($submitbutton))
             $doZones->inventory_forecast_type = $inventory_forecast_type;
         }
 
-		_initCappingVariables();
+		$block = _initCappingVariables($time, $cap, $session_capping);
 
 		$doZones->block = $block;
 		$doZones->capping = $cap;

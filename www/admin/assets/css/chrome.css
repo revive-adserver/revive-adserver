@@ -658,3 +658,10 @@ td.required-explanation {
 #auditFilter {
 	margin-top: 12px;
 }
+
+/* Forms */
+form.flat select, form.flat textarea, form.flat input[type=text]
+{
+    border: 1px solid #888888;
+    padding-left: 3px;
+}

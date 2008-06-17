@@ -663,11 +663,15 @@ function MAX_buildBreadcrumbPath($entityClass)
 
 function MAX_displayAdvertiserBreadcrumbs($clientid)
 {
-	$clientdetails = phpAds_getClientDetails($clientid);
-    MAX_displayInventoryBreadcrumbs(array(array("name" => $clientdetails['clientname'])), "advertiser", $clientid == '');
+    if ($clientid) {
+	   $clientdetails = phpAds_getClientDetails($clientid);
+    }
+    MAX_displayInventoryBreadcrumbs(array(
+        array("name" => $clientdetails['clientname'])), 
+        "advertiser", $clientid == '');
 }
 
-function MAX_displayTrackerBreadcrumbs($trackerid, $clientid)
+function MAX_displayTrackerBreadcrumbs($trackerid, $clientid = null)
 {
 	if ($trackerid) {
         $parentClientId = phpAds_getTrackerParentClientID($trackerid);
