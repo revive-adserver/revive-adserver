@@ -29,6 +29,29 @@ jQuery.fn.slideFadeIn = function(speed, callback)
   return this.animate({height: 'show', opacity: 'show', marginTop: 'show', marginBottom: 'show'}, speed, callback);
 };
 
+// Shows or hides an element depending on the parameter
+jQuery.fn.visible = function(visible)
+{
+  return this.each(function() {
+    if (visible) {
+      $(this).show();
+    }
+    else {
+      $(this).hide();
+    }
+  });
+};
+
+// Shows or hides an element depending on the parameter
+jQuery.fn.selectedText = function(visible)
+{
+  if (this.size() == 0) {
+    return;
+  }
+  var select = this[0];
+  return select.options[select.selectedIndex].text; 
+};
+
 // Automatically installs validation on forms with the "validate" class
 // Also adds some custom validation rules
 $(document).ready(function () {

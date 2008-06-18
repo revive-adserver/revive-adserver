@@ -86,19 +86,28 @@ class OA_Central_AdNetworks extends OA_Central_Common
     }
 
     /**
-     * A method to retrieve the list of categories as for HTML select options
+     * A method to retrieve the list of categories as for HTML select options 
      *
+     * Output can be limited to given categories IDs and it's parents
+     * 
+     * @param mixed $aCategoriesIds Array of categories ID, if this is null all categories will be returned
+     * @param string $firstOption Name of first select's option. If false - there will be no first option in returned select. Otherwise first option is set to '- pick a category -' 
      * @return array
      */
-    function getCategoriesSelect()
+    function getCategoriesSelect($aCategoriesIds = null, $firstOption = null)
     {
-        $aCategories = $this->getCategories();
-
-        $aSelectCategories = array('' => '- pick a category -');
+        $aCategories = $this->getCategoriesByIds($aCategoriesIds);
+        
+        if (is_string($firstOption)) {
+            $aSelectCategories = array('' => $firstOption);
+        } else if ($firstOption===false) {
+            $aSelectCategories = array();
+        } else {
+            $aSelectCategories = array('' => '- pick a category -');            
+        }
         if ($aCategories) {
-            $size = count($aCategories);
-            for ($k = 1; $k <= $size; $k++) {
-                $v = $aCategories[$k];
+            ksort($aCategories);
+            foreach ($aCategories as $k => $v) {
                 $aSelectCategories[$k] = $v['name'];
                 $subcategories = $v['subcategories'];
                 asort($subcategories);
@@ -131,6 +140,103 @@ class OA_Central_AdNetworks extends OA_Central_Common
         }
 
         return $aFlatCategories;
+    }
+    
+    /**
+     * A method to retrieve a list of categories with parent category key in a flattened array  
+     *
+     * @return mixed The categories and subcategories flat array or false on error
+     */
+    function getCategoriesFlatWithParentInfo()
+    {
+        $aCategories = $this->getCategories();
+
+        $aFlatCategories = false;
+        if ($aCategories) {
+            $aFlatCategories = array();
+            foreach ($aCategories as $k => $v) {
+                $aFlatCategories[$k]['name'] = $v['name'];
+                $aFlatCategories[$k]['parent'] = null;
+                foreach ($v['subcategories'] as $kk => $vv) {
+                    $aFlatCategories[$kk]['name'] = $vv;
+                    $aFlatCategories[$kk]['parent'] = $k;
+                }
+            }
+        }
+
+        return $aFlatCategories;
+    }
+    
+    /**
+     * Method returns selected categories and parent categories for given categories IDs 
+     *
+     * @param mixed $aCategoriesIds array of categories ID, if this is null all categories will be returned
+     * @return array The categories and subcategories array or false on error
+     */
+    function getCategoriesByIds($aCategoriesIds = null) 
+    {
+        // Detect fast exits
+        if (is_null($aCategoriesIds)) {
+            return $this->getCategories();
+        } else {
+            if (!is_array($aCategoriesIds)) {
+                return false;
+            }
+            if (count($aCategoriesIds) == 0) {
+                return array();
+            }
+        }
+        
+        $aCategories = $this->getCategoriesFlatWithParentInfo();
+        if ($aCategories == false) {
+            return false;
+        }
+        
+        $aReturnCategories = array();
+        foreach ($aCategoriesIds as $categoryId) {
+            //detect if given category is on list
+            if (is_null($aCategories[$categoryId])) {
+                continue;
+            }
+            // detect if this is category or subcategory
+            if (is_null($aCategories[$categoryId]['parent'])) {
+                $aReturnCategories[$categoryId]['name'] = $aCategories[$categoryId]['name'];  
+            } else {
+                // If subcategory, get this subcategory and parent category
+                $parentId = $aCategories[$categoryId]['parent'];
+                $aReturnCategories[$parentId]['name']                       = $aCategories[$parentId]['name'];
+                $aReturnCategories[$parentId]['subcategories'][$categoryId] = $aCategories[$categoryId]['name'];
+                
+            }
+        }
+        return $aReturnCategories;
+    }
+    
+    /**
+     * Returns IDs of subcategories for given category ID 
+     *
+     * @param int $categoryId CategoryID
+     * @return array Array of ID of subcategories, if given ID was subcategory function returns empty array, false on errors 
+     */
+    function getSubCategoriesIds($categoryId) 
+    {
+        if (!is_numeric($categoryId)) {
+            return false;
+        }
+
+        $aResult = array();
+        
+        $aCategories = $this->getCategories();
+        if ($aCategories == false) {
+            return false;
+        }
+        if (array_key_exists($categoryId, $aCategories)) {
+            foreach ($aCategories[$categoryId]['subcategories'] as $subCategoryId => $aSubCategory ) {
+                $aResult[] = $subCategoryId; 
+            }
+        }
+        
+        return $aResult;
     }
 
     /**

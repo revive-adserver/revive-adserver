@@ -24,25 +24,38 @@
 $Id$
 
 -->*}
-<div id="campaign-zone">
+<div id="campaign-zone" class="new-form">
   <input id="advertiser-id" type="hidden" value="{$advertiserId}" />
   <input id="campaign-id" type="hidden" value="{$campaignId}" />
 
   <div id="filters">
     <div id="filters-available">
-      <div style="float: right; width: 70%; text-align: right">
-        {include file=campaign-zone-panel-filters.html
-                 panelId=available}
-      </div>
-      <b>Available zones</b>
+      <h3 class="filter-panel-title">Available zones</h3>
+      <div class="filter-panel">
+	      <div class="bg-left"></div>
+	      <div class="bg-right"></div>
+	      
+	      <div class="filter-content">
+          <div id="status-available">&nbsp;</div>
+	        {include file=campaign-zone-panel-filters.html
+	                 panelId=available categories=$aCategories}
+	      </div>
+	      &nbsp;
+	    </div>
     </div>
     
     <div id="filters-linked">
-      <div style="float: right; width: 70%; text-align: right">
-        {include file=campaign-zone-panel-filters.html
-                 panelId=linked}
-      </div>
-      <b>Linked zones</b>
+      <h3 class="filter-panel-title">Linked zones</h3>
+      <div class="filter-panel">
+        <div class="bg-left"></div>
+        <div class="bg-right"></div>
+
+        <div class="filter-content">
+          <div id="status-linked">&nbsp;</div>
+	        {include file=campaign-zone-panel-filters.html
+	                 panelId=linked categories=$aCategories}
+	      </div>
+	    </div>
     </div>
   </div>
 
@@ -50,36 +63,36 @@ $Id$
 
   <div id="select-zones">
     <div id="available">
-      <div class="zones-container">
-        <div id="zones-available-loading" class="ajax-loading panel-loading hide">Loading...</div>
-        <table id="zones-available" class="zones">
+      <div class="zones-container new-table-container">
+        <div id="zones-available-loading" class="ajax-loading panel-loading hide"></div>
+        <table id="zones-available" class="zones new-table">
           <tbody>
-            <tr class="header">
-              <th class="name" style="width: 20%"><label><input type="checkbox" class="checkbox select-all" /> Select / Unselect all</label></th>
+            <tr class="header hide">
+              <th class="name"><label><input type="checkbox" class="checkbox select-all" /> Select / Unselect all</label></th>
+              <th class="category">Category</th>
               <th class="ctr">CTR</th>
               <th class="cr">CR</th>
-              <th class="ecpm">eCPM</th>
-              <th class="category">Category</th>
+              <th class="ecpm last">eCPM</th>
             </tr>
           </tbody>
           
           <tbody id="zones-available-rows">
           </tbody>
         </table>
-      </div>    
+      </div>
     </div>
   
     <div id="linked">
-      <div class="zones-container">
-        <div id="zones-linked-loading" class="ajax-loading panel-loading hide">Loading...</div>
-        <table id="zones-linked" class="zones">
+      <div class="zones-container new-table-container">
+        <div id="zones-linked-loading" class="ajax-loading panel-loading hide"></div>
+        <table id="zones-linked" class="zones new-table">
           <tbody>
-            <tr class="header">
-              <th class="name" style="width: 20%"><label><input type="checkbox" class="checkbox select-all" /> Select / Unselect all</label></th>
+            <tr class="header hide">
+              <th class="name"><label><input type="checkbox" class="checkbox select-all" /> Select / Unselect all</label></th>
+              <th class="category">Category</th>
               <th class="ctr">CTR</th>
               <th class="cr">CR</th>
-              <th class="ecpm">eCPM</th>
-              <th class="category">Category</th>
+              <th class="ecpm last">eCPM</th>
             </tr>
           </tbody>
           
@@ -90,21 +103,22 @@ $Id$
     </div>
     
     <div id="linking-buttons">
-      <input type="button" id="link-button" value="Link &raquo;" class="flat button" /><br />
-      <input type="button" id="unlink-button" value="&laquo; Unlink" class="flat button" />
+      <button accesskey="l" id="link-button" class="flat button"><u>L</u>ink <span class="arrow-right"></span></button><br />
+      <button accesskey="u" id="unlink-button" class="flat button"><span class="arrow-left"></span> <u>U</u>nlink</button>
       
-      <div style="margin-top: 3ex;">
-        <span id="linking-indicator" class="ajax-loading hide">Linking...</span>
+      <div style="margin-top: 2ex; style="text-align: center">
+        <span id="linking-indicator" class="ajax-loading-big hide"></span>
         <span id="linking-status"></span>
         <span id="error-indicator" class="ajax-error hide">Linking not successful, please try again</span>
       </div>
     </div>
   </div>
+  
+  <div class="estim-info"><div class="estim-box"></div>Value calculated for all campaigns <a href="#" class="info">(what's this?)</a></div>    
 
 	<script type="text/javascript"><!--
 {literal}
   $(document).ready(function() {
-    
     // Multicheckbox selections, selection by row clicks
     $("#zones-available, #zones-linked").multicheckboxes({
       selectedClass: "to-link", 
@@ -126,11 +140,17 @@ $Id$
       var panel = this.id.substring("zones-".length);
       
       var $quickSearch = $("#quick-search-" + panel);
+      var category = $("#category-" + panel).val();
+      var categoryText = "";
+      if (category != "") {
+        categoryText = $("#category-" + panel).selectedText();
+      }
       var postData = { 
         "clientid": $("#advertiser-id").val(),
         "campaignid": $("#campaign-id").val(),
         "status": panel,
         "category": $("#category-" + panel).val(),
+        "category-text": categoryText,
         "text": $quickSearch.is(".example-search") ? "" : $quickSearch.val()
       };
       
@@ -138,11 +158,18 @@ $Id$
         url: "campaign-zone-zones.php",
         type: "GET",
         data: postData,
+        cache: false,
         complete: function() {
           $("#zones-" + panel + "-loading").hide();
         },
         success: function(data) {
-          $("#zones-" + panel + "-rows").html(data);
+          var $data = $(data);
+          if (!checkReload(data)) {
+            var $rows = $data.filter("table").find("tbody").contents();
+	          $("#zones-" + panel + "-rows").html($rows);
+	          $("#zones-" + panel + " tr.header").visible(!$rows.filter("tr").eq(0).is(".empty"));
+	          $("#status-" + panel).html($data.filter("div").contents());
+	        }
         },
         error: function() {
           $("#error-indicator").show();
@@ -172,7 +199,7 @@ $Id$
           var panelId = this.el.id.substring("quick-search-".length);
           $("#zones-" + panelId).trigger("filter");
         },
-        wait: 300,
+        wait: 500,
         captureLength: 1
       });
       
@@ -197,40 +224,50 @@ $Id$
     });
     
     // Data from all filters
-    var $quickSearchLinked = $("#quick-search-linked").is(".example-search") ? "" : $("#quick-search-linked").val();
-    var $quickSearchAvailable = $("#quick-search-available").is(".example-search") ? "" : $("#quick-search-available").val();
-    var $categoryLinked = $("#category-linked").val();
-    var $categoryAvailable = $("#category-available").val();
+    var quickSearchLinked = $("#quick-search-linked").is(".example-search") ? "" : $("#quick-search-linked").val();
+    var quickSearchAvailable = $("#quick-search-available").is(".example-search") ? "" : $("#quick-search-available").val();
+    var categoryLinked = $("#category-linked").val();
+    var categoryLinkedText = "";
+    var categoryAvailable = $("#category-available").val();
+    var categoryAvailableText = "";
     
     if (action == "link") {
-      if ($categoryLinked != "" && $categoryLinked != $categoryAvailable) {
-         $categoryLinked = "";
+      if (categoryLinked != "" && categoryLinked != categoryAvailable) {
+         categoryLinked = "";
          $("#category-linked").val("");
 	    }
-	    if ($quickSearchLinked  != "" && $quickSearchLinked != $quickSearchAvailable) {
-	       $quickSearchLinked = "";
+	    if (quickSearchLinked  != "" && quickSearchLinked != quickSearchAvailable) {
+	       quickSearchLinked = "";
 	       $("#quick-search-linked").val("");
 	    }
     }
     else {
-      if ($categoryAvailable != "" && $categoryLinked != $categoryAvailable) {
-        $categoryAvailable = "";
+      if (categoryAvailable != "" && categoryLinked != categoryAvailable) {
+        categoryAvailable = "";
         $("#category-available").val("");
       }
-      if ($quickSearchAvailable  != "" && $quickSearchLinked != $quickSearchAvailable) {
-         $quickSearchAvailable = "";
+      if (quickSearchAvailable  != "" && quickSearchLinked != quickSearchAvailable) {
+         quickSearchAvailable = "";
          $("#quick-search-available").val("");
       }
     }
-        
+    
+    if (categoryLinked != "") {
+      categoryLinkedText = $("#category-linked").selectedText(); 
+    }
+    if (categoryAvailable != "") {
+      categoryAvailableText = $("#category-available").selectedText(); 
+    }
     
     var postData = { 
       "clientid": $("#advertiser-id").val(),
       "campaignid": $("#campaign-id").val(),
-      "category-linked": $categoryLinked,
-      "category-available": $categoryAvailable,
-      "text-linked": $quickSearchLinked,
-      "text-available": $quickSearchAvailable,
+      "category-linked": categoryLinked,
+      "category-linked-text": categoryLinkedText,
+      "category-available": categoryAvailable,
+      "category-available-text": categoryAvailableText,
+      "text-linked": quickSearchLinked,
+      "text-available": quickSearchAvailable,
       "action": action,
       "ids[]": checkedNames
     };
@@ -239,16 +276,32 @@ $Id$
       url: "campaign-zone-link.php",
       type: "POST",
       data: postData,
+      cache: false,
       complete: function() {
         $("#zones-available, #zones-linked").trigger("multichange");
         $(".select-all").attr("checked", false);
         $("#linking-indicator").hide();
       },
       success: function(data) {
-        $data = $(data);
-        $("#zones-available-rows").html($data.eq(0).contents());
-        $("#zones-linked-rows").html($data.eq(1).contents());
-        $("#linking-status").html($data.eq(2).contents()).show().fadeOut(5000);
+        var $data = $(data);
+        if (!checkReload(data)) {
+	        var $availableRows = $data.filter(".rows-available").find("tbody").contents();
+	        var $linkedRows = $data.filter(".rows-linked").find("tbody").contents();
+	        $("#zones-available-rows").html($availableRows);
+	        $("#zones-linked-rows").html($linkedRows);
+	        $("#zones-available tr.header").visible(!$availableRows.filter("tr").eq(0).is(".empty"));
+	        $("#zones-linked tr.header").visible(!$linkedRows.filter("tr").eq(0).is(".empty"));
+          $("#status-available").html($data.filter("div.status-available").contents());
+          $("#status-linked").html($data.filter("div.status-linked").contents());
+	        $("#linking-status").html($data.filter(".result-info").contents()).stop().show().css("opacity", "1");
+	        if (window.linkingTimout) {
+	          window.linkingTimout.clearTimeout();
+	        }
+	        window.linkingTimeout = window.setTimeout(function() {
+	          $("#zones-available, #zones-linked").find("tr.just-linked").removeClass("just-linked", 5000);
+	          $("#linking-status").fadeOut(5000);
+	        }, 2000);
+	      }
       },
       error: function() {
         $("#error-indicator").show();
@@ -258,6 +311,14 @@ $Id$
     $("#error-indicator").hide();
     $("#linking-indicator").show();
     $("#linking-status").hide();
+  }
+  
+  function checkReload(data) {
+    if (data.indexOf("ajax-response-mark") < 0) {
+      document.location.reload();
+      return true;
+    }
+    return false;
   }
 {/literal}  
   //--></script>

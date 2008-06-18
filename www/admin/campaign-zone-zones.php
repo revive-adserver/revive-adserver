@@ -30,7 +30,7 @@ require_once '../../init.php';
 
 // Required files
 require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/lib/max/other/proto.php';
+
 
 
 /*-------------------------------------------------------*/
@@ -39,18 +39,29 @@ require_once MAX_PATH . '/lib/max/other/proto.php';
 
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
+$agencyId = OA_Permission::getAgencyId();
+$oDalZones = OA_Dal::factoryDAL('zones');
+$linked = ($_GET['status'] == "linked");
+$websites = $oDalZones->getWebsitesAndZonesListByCategory($agencyId, $_GET['category'], $_GET['campaignid'], $linked, $_GET['text']);
+$aZonesCounts = array (
+    'all'     => $oDalZones->countZones($agencyId, null, $_GET['campaignid'], $linked),
+    'showing' => $oDalZones->countZones($agencyId, $_REQUEST['category'], $_GET['campaignid'], $linked, $_REQUEST['text'])
+  );
+
 $oTpl = new OA_Admin_Template('campaign-zone-zones.html');
+$oTpl->assign('websites', $websites);
+$oTpl->assign('category', $_GET['category-text']);
+$oTpl->assign('text', $_GET['text']);
+$oTpl->assign('zonescounts', $aZonesCounts);
 
-$status = $_GET["status"];
-$oTpl->assign('websites', getWebsites($_GET["clientid"], $_GET["campaignid"], $_GET["text"], $status, $_GET["category"]));
-
-if ($status == 'linked') {
-  $oTpl->assign('checkboxPrefix', 'l');
+if ($linked) {
+  $oTpl->assign('status', 'linked');
 }
 else {
-  $oTpl->assign('checkboxPrefix', 'a');
+  $oTpl->assign('status', 'available');
 }
 
 $oTpl->display();
-
 ?>
+<!-- ajax-response-mark -->
+

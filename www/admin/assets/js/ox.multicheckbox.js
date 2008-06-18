@@ -81,11 +81,15 @@
         var $target = $(event.target);
         
         // Check the element to which the event applies
+        var ie6 = $.browser.msie && (parseInt($.browser.version) == 6);
         var $checkbox;
         if ($target.is(":checkbox")) {
           $checkbox = $target;
-        } else if (options.handleTableRowClicks && $target.is("td")) {
+        } else if (options.handleTableRowClicks && ($target.is("td") || (ie6 && $target.is("label")))) {
           $checkbox = $target.parent().find(":checkbox");
+          if (!$checkbox.get(0)) {
+            return;
+          }
           $checkbox.get(0).checked = !$checkbox.get(0).checked; 
         } else {
           return;

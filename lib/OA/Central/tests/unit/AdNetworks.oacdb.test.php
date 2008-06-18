@@ -61,6 +61,13 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
         );
 
         $this->oCache = new OA_PermanentCache();
+        
+        // PartialMock of OA_Central_AdNetworks
+        Mock::generatePartial(
+            'OA_Central_AdNetworks',
+            'PartialMockOA_Central_AdNetworks',
+            array('getCategories')
+        );
     }
 
     function _setUpAppVars()
@@ -143,6 +150,115 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
         $this->assertTrue($expected, 'Invalid cache file for getCategories');
         $this->assertEqual($result, $expected);
         DataGenerator::cleanUp($this->aCleanupTables);
+    }
+
+    /**
+     * A method to test the getCategoriesFlatWithParentInfo() method.
+     *
+     */
+    function testGetCategoriesFlatWithParentInfo() { 
+        $aCategories = array(
+            10 => array(
+                'name' => 'Music',
+                'subcategories' => array(
+                    21 => 'Pop',
+                    22 => 'Rock'
+                )
+            )
+        );
+        $aExpected = array (
+            10 => array( 'name' => 'Music', 'parent' => null),
+            21 => array( 'name' => 'Pop', 'parent' => 10),
+            22 => array( 'name' => 'Rock', 'parent' => 10)
+        );
+
+        $oAdNetworksPartialMock = new PartialMockOA_Central_AdNetworks($this);
+        $oAdNetworksPartialMock->setReturnValue('getCategories', $aCategories);
+        
+        $aResult = $oAdNetworksPartialMock->getCategoriesFlatWithParentInfo();
+        ksort($aExpected);
+        ksort($aResult);
+        $this->assertEqual($aResult, $aExpected);
+    }
+    
+    /**
+     * A method to test the getCategoriesByIds() method.
+     *
+     */
+    function testGetCategoriesByIds() {       
+        $aCategories = array(
+            10 => array(
+                'name' => 'Music',
+                'subcategories' => array(
+                    21 => 'Pop',
+                    22 => 'Rock'
+                )
+            ),
+            30 => array(
+                'name' => 'Sport',
+                'subcategories' => array(
+                    41 => 'Football',
+                    42 => 'Rugby'
+                )
+            )
+        );
+        $aCategoriesFlat = array (
+            10 => array( 'name' => 'Music', 'parent' => null),
+            21 => array( 'name' => 'Pop', 'parent' => 10),
+            22 => array( 'name' => 'Rock', 'parent' => 10),
+            30 => array( 'name' => 'Sport', 'parent' => null),
+            41 => array( 'name' => 'Football', 'parent' => 30),
+            42 => array( 'name' => 'Rugby', 'parent' => 30)
+        );
+        $aExpected = array (
+            10 => array(
+                'name' => 'Music',
+                'subcategories' => array(
+                    22 => 'Rock'
+                )
+            ),
+            30 => array(
+                'name' => 'Sport'
+            )
+        );
+
+        $oAdNetworksPartialMock = new PartialMockOA_Central_AdNetworks($this);
+        $oAdNetworksPartialMock->setReturnValue('getCategories', $aCategories);
+        
+        $aResult = $oAdNetworksPartialMock->getCategoriesByIds(array(22,30));
+        ksort($aExpected);
+        ksort($aResult);
+        $this->assertEqual($aResult, $aExpected);
+        
+        $aResult = $oAdNetworksPartialMock->getCategoriesByIds();
+        ksort($aResult);
+        $this->assertEqual($aResult, $aCategories);
+    }
+    
+    /**
+     * A method to test the getSubCategoriesIds() method.
+     *
+     */
+    function testGetSubCategoriesIds()
+    {
+        $aCategories = array(
+            10 => array(
+                'name' => 'Music',
+                'subcategories' => array(
+                    21 => 'Pop',
+                    22 => 'Rock'
+                )
+            )
+        );
+        $aExpected = array (21, 22);
+
+        $oAdNetworksPartialMock = new PartialMockOA_Central_AdNetworks($this);
+        $oAdNetworksPartialMock->setReturnValue('getCategories', $aCategories);
+        
+        $aResult = $oAdNetworksPartialMock->getSubCategoriesIds(10);
+        ksort($aExpected);
+        ksort($aResult);
+        $this->assertEqual($aResult, $aExpected);
     }
 
     /**

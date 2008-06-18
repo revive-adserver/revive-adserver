@@ -146,7 +146,9 @@ displayPage($zone, $zoneForm, $errors);
 /*-------------------------------------------------------*/
 function buildZoneForm($zone)
 {
-    global $conf;    
+    global $conf;
+    // Initialise Ad  Networks
+    $oAdNetworks = new OA_Central_AdNetworks();    
     
     $form = new OA_Admin_UI_Component_Form("zoneform", "POST", $_SERVER['PHP_SELF']);
     $form->forceClientValidation(true);
@@ -156,9 +158,7 @@ function buildZoneForm($zone)
     $form->addElement('header', 'zone_basic_info', $GLOBALS['strBasicInformation']);
     $form->addElement('text', 'zonename', $GLOBALS['strName']);
     $form->addElement('text', 'description', $GLOBALS['strDescription']);
-    $form->addElement('select', 'category', $GLOBALS['strCategory'], 
-        array('Uncategorised', 'Category 1', 'Category 2', 'Category 3',
-                'Category 4', 'Category 5'));
+    $form->addElement('select', 'oac_category_id', $GLOBALS['strCategory'], $oAdNetworks->getCategoriesSelect());
     
     //zone type group
     $zoneTypes[] = $form->createElement('radio', 'delivery', '', 
@@ -381,6 +381,10 @@ function processForm($form)
             list ($aFields['width'], $aFields['height']) = explode ('x', $aFields['size']);
         }
     }
+    
+    if (!(is_numeric($aFields['oac_category_id'])) || ($aFields['oac_category_id'] <= 0)) {
+            $aFields['oac_category_id'] = 'NULL';
+    }
 
     //correction cost and technology_cost from other formats (23234,34 or 23 234,34 or 23.234,34)
     //to format acceptable by is_numeric (23234.34)
@@ -461,6 +465,7 @@ function processForm($form)
             if ($aFields['delivery'] != phpAds_ZoneText) {
                 $doZones->prepend = '';
             }
+            $doZones->oac_category_id  = $aFields['oac_category_id'];
             $doZones->zoneid = $aFields['zoneid'];
             $doZones->update();
     
@@ -567,6 +572,7 @@ function processForm($form)
                 || $aFields['cost_type'] == MAX_FINANCE_VARSUM) {
                 $doZones->cost_variable_id = $aFields['cost_variable_id'];
             }
+            $doZones->oac_category_id  = $aFields['oac_category_id'];
     
             // The following fields are NOT NULL but do not get values set in the form.
             // Should these fields be changed to NULL in the schema or should they have a default value?

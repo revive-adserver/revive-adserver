@@ -159,6 +159,10 @@ function buildWebsiteForm($affiliate)
  function processForm($affiliateid, $form) 
 {
     $aFields = $form->exportValues();
+    
+    if (!(is_numeric($aFields['oac_category_id'])) || ($aFields['oac_category_id'] <= 0)) {
+            $aFields['oac_category_id'] = 'NULL';
+    }
 
     // Setup a new publisher object and set the fields passed in from the form:
     $oPublisher = new OA_Dll_PublisherInfo();

@@ -31,7 +31,6 @@ require_once '../../init.php';
 
 // Required files
 require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/lib/max/other/proto.php';
 
 
 /*-------------------------------------------------------*/
@@ -39,37 +38,77 @@ require_once MAX_PATH . '/lib/max/other/proto.php';
 /*-------------------------------------------------------*/
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
-$action = $_GET["action"];
+$agencyId   = OA_Permission::getAgencyId();
+$oDalZones  = OA_Dal::factoryDAL('zones');
+$action     = $_REQUEST["action"];
+$campaignId = $_REQUEST['campaignid'];
+
+$aZonesIds = array();
+$aZonesIdsHash = array();
+foreach ($_REQUEST['ids'] as $zone) {
+    if (substr($zone, 0, 1) == 'z') {
+        $aZonesIds[] = substr($zone, 1);
+        $aZonesIdsHash[substr($zone, 1)] = "x";
+    }
+}
+
+switch ($action) {
+    case "link" :
+            $result = $oDalZones->linkZonesToCampaign($aZonesIds, $campaignId);
+        break;
+    case "unlink" :
+            $result = $oDalZones->unlinkZonesFromCampaign($aZonesIds, $campaignId);
+        break;
+};
 
 $oTpl = new OA_Admin_Template('campaign-zone-zones.html');
 
 // Available zones go here
-echo "<tbody>";
-$linkedWebsites = getWebsites($_GET["clientid"], $_GET["campaignid"], $_GET["text"], $action == 'link' ? 'linked' : 'available', $_GET["category-available"]);
-$oTpl->assign('websites', $linkedWebsites);
-$oTpl->assign('checkboxPrefix', "a");
+$availableWebsites = $oDalZones->getWebsitesAndZonesListByCategory($agencyId, $_REQUEST['category-available'], $campaignId, false, $_REQUEST['text-available']);
+$aAvailableZones = array (
+    'all'     => $oDalZones->countZones($agencyId, null, $campaignId, false),
+    'showing' => $oDalZones->countZones($agencyId, $_REQUEST['category-available'], $campaignId, false, $_REQUEST['text-available'])
+);
+$oTpl->assign('websites', $availableWebsites);
+$oTpl->assign('zonescounts',  $aAvailableZones);
+$oTpl->assign('category', $_REQUEST['category-available-text']);
+$oTpl->assign('text', $_REQUEST['text-available']);
+$oTpl->assign('status', "available");
+$oTpl->assign('aZonesIdHash', $aZonesIdsHash);
 $oTpl->display();
-echo "</tbody>";
 
 // Linked zones go here
-echo "<tbody>";
-$availableWebsites = getWebsites($_GET["clientid"], $_GET["campaignid"], $_GET["text"], $action != 'link' ? 'linked' : 'available', $_GET["category-linked"]);
-$oTpl->assign('websites', $availableWebsites);
-$oTpl->assign('checkboxPrefix', "l");
+$linkedWebsites = $oDalZones->getWebsitesAndZonesListByCategory($agencyId, $_REQUEST['category-linked'], $campaignId, true, $_REQUEST['text-linked']);
+$aLinkedZones = array (
+    'all'     => $oDalZones->countZones($agencyId, null, $campaignId, true),
+    'showing' => $oDalZones->countZones($agencyId, $_REQUEST['category-linked'], $campaignId, true, $_REQUEST['text-linked'])
+);
+$oTpl->assign('websites', $linkedWebsites);
+$oTpl->assign('zonescounts',  $aLinkedZones);
+$oTpl->assign('category', $_REQUEST['category-linked-text']);
+$oTpl->assign('text', $_REQUEST['text-linked']);
+$oTpl->assign('status', "linked");
+$oTpl->assign('aZonesIdHash', $aZonesIdsHash);
 $oTpl->display();
-echo "</tbody>";
 
-// Status report
-echo "<div>";
+echo "<div class='result-info'>";
 switch ($action) {
     case "link" :
-            echo "2 zones linked";
+            if ($result == -1) {
+                echo "Problem occured when linking zones";
+            } else {
+                echo "$result zone(s) linked";
+            }
         break;
     case "unlink" :
-            echo "2 zones unlinked";
+            if ($result == -1) {
+                echo "Problem occured when unlinking zones";
+            } else {
+                echo "$result zone(s) unlinked";
+            }
         break;
 };
 echo "</div>";
 
 ?>
-
+<!-- ajax-response-mark -->

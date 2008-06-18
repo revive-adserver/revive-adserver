@@ -24,16 +24,14 @@
 $Id$
 
 -->*}
-<label>
-  Category
+
+<label class="filter category-filter">
+  Category<br />
   <select id="category-{$panelId}" class="category">
-    <option value="-1">-- all --</option>
-    <option value="10">Finance</option>
-    <option value="20">Sports</option>
-    <option value="30">Tourism</option>
+    {html_options options=$aCategories}
   </select>
 </label>
-<label style="padding-left: 0.5em">
-  Search
+<label class="filter search-filter">
+  Search<br />
   <input id="quick-search-{$panelId}" class="quick-search" type="text" title="Search zones and websites by name" />
 </label>

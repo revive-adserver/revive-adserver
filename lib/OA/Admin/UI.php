@@ -525,6 +525,7 @@ class OA_Admin_UI
     function genericJavascript() {
         return array (
             'js/jquery-1.2.3.js',
+            'js/effects.core.js',
             'js/jquery.bgiframe.js',
             'js/jquery.dimensions.js',
             'js/jquery.metadata.js',

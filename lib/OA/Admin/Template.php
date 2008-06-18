@@ -75,6 +75,8 @@ class OA_Admin_Template extends Smarty
 
         $this->register_function('oa_icon', array('OA_Admin_Template',  '_function_oa_icon'));
         $this->register_function('oa_title_sort', array('OA_Admin_Template',  '_function_oa_title_sort'));
+        
+        $this->register_function('boldSearchPhrase', array('OA_Admin_Template', '_function_boldSearchPhrase'));
 
         $this->register_function('oa_is_admin', array('OA_Admin_Template',  '_function_oa_is_admin'));
         $this->register_function('oa_is_manager', array('OA_Admin_Template',  '_function_oa_is_manager'));
@@ -314,6 +316,32 @@ class OA_Admin_Template extends Smarty
             }
         } else {
             $smarty->trigger_error("t: missing 'str'parameter");
+        }
+    }
+    
+    /**
+     * Smarty function to bold searched phrase in tekst
+     * use: {boldSearchPhrase text="some text" search="search phrase"}      
+     *
+     * @param array $aParams - $aParams['text'] - text to modify, $aParams['search'] - search phrase to bold  
+     * @param object &$smarty
+     * @return string           
+     */              
+    function _function_boldSearchPhrase($aParams, &$smarty)
+    {
+        if (!empty($aParams['text'])) {
+            if (!empty($aParams['search'])) {
+                $searchPhrase = $aParams['search'];
+                $text = $aParams['text'];
+                $strPos = stripos($text,$searchPhrase);
+                if ($strPos !== false ) {
+                    $strLen = strlen($searchPhrase);
+                    return  substr($text, 0, $strPos) . 
+                            "<b class='sr'>" . substr($text, $strPos, $strLen) . "</b>" . 
+                            substr($text, $strPos+$strLen);
+                    }
+            }
+            return $aParams['text'];
         }
     }
 

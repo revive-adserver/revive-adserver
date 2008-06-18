@@ -24,27 +24,72 @@
 $Id$
 
 -->*}
-{foreach from=$websites item=website}
+{if $status == 'linked'}
+  {assign var="checkboxPrefix" value="l"}
+{else}
+  {assign var="checkboxPrefix" value="a"}
+{/if}
+
+<table class="rows-{$status}">
+<tbody>
+{foreach from=$websites key=websiteid item=website}
 <tr class="website">
-  <td class="name">
-    <label><input id="{$checkboxPrefix}w{$website.id}" name="w{$website.id}" type="checkbox" class="checkbox parent" /> {$website.name}</label>
+  <td class="name" title="{$website.name}">
+    <label style="white-space: nowrap"><input id="{$checkboxPrefix}w{$websiteid}" name="w{$websiteid}" type="checkbox" class="checkbox parent" /> {boldSearchPhrase text=$website.name search=$text}</label>
   </td>
-  <td>{$website.ctr|string_format:"%.3f"}%</td>
-  <td>{$website.cr|string_format:"%.3f"}%</td>
-  <td>${$website.ecpm|string_format:"%.3f"}</td>
-  <td>{$website.category}</td>
+  <td class="category" title="{$website.category}">{$website.category}</td>
+  <td></td>
+  <td></td>
+  <td></td>
 </tr>
 
-{foreach from=$website.zones item=zone}
-<tr class="zone">
-  <td class="name">
-    <label><input id="{$checkboxPrefix}w{$website.id}_z{$zone.id}" name="z{$zone.id}" type="checkbox" class="checkbox"}/> {$zone.name}</label>
+{foreach from=$website.zones key=zoneid item=zone}
+<tr class="zone {if $aZonesIdHash[$zoneid]} just-linked{/if}">
+  <td class="name" title="{$zone.name}">
+    <label style="white-space: nowrap">
+      <input id="{$checkboxPrefix}w{$websiteid}_z{$zoneid}" 
+             name="z{$zoneid}" type="checkbox" class="checkbox" /> {boldSearchPhrase text=$zone.name search=$text}</label>
   </td>
-  <td>{$zone.ctr|string_format:"%.3f"}%</td>
-  <td>{$zone.cr|string_format:"%.3f"}%</td>
-  <td>${$zone.ecpm|string_format:"%.3f"}</td>
-  <td>{$zone.category}</td>
+  <td class="category" title="{$zone.category}">{$zone.category}</td>
+  {assign var="ctr" value="`$zone.ctr*100`"}
+  {assign var="cr" value="`$zone.cr*100`"}
+  <td {if $zone.campaign_stats}class="estim"{/if}>{$ctr|string_format:"%.3f"}%</td>
+  <td {if $zone.campaign_stats}class="estim"{/if}>{$cr|string_format:"%.3f"}%</td>
+  <td {if $zone.campaign_stats}class="estim"{/if}>${$zone.ecpm|string_format:"%.3f"}</td>
 </tr>
 {/foreach}    
 
+{foreachelse}
+<tr class="empty">
+  <td colspan="5">
+    No websites and zones
+    {if $category} 
+      in category {$category}
+    {/if}
+    {if $text}
+      with "{$text}" in name
+    {/if}
+    
+    {if $checkboxPrefix == 'a'}
+    to link
+    {else}
+    to unlink
+    {/if}
+  </td>
+</tr>
 {/foreach}
+</tbody>
+</table>
+
+<div class="status-{$status}">
+  {if $status == 'linked'}
+  Linked:
+  {else}
+  Available:
+  {/if}
+  <span class="status-value">{$zonescounts.all}</span><br />
+
+  {if $category or $text} 
+  Showing: <span class="status-value">{$zonescounts.showing}</span>
+  {/if}
+</div>

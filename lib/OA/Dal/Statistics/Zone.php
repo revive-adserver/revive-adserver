@@ -281,7 +281,339 @@ class OA_Dal_Statistics_Zone extends OA_Dal_Statistics
         return DBC::NewRecordSet($query);
     }
 
+    /**
+     * This method returns performance statistics for a given zones.
+     *
+     * @access public
+     *
+     * @param array $aZonesIds array of IDs of the zones to view statistics
+     * @param int $campaignId The ID of the campaing for which zones statistic are calculated (if null, then global zone statistic are calculated)
+     * @param PEAR::Date $oStartDate The date from which to get statistics (inclusive)
+     * @param PEAR::Date $oEndDate The date to which to get statistics (inclusive)
+     * @param int $impressionsThreshold  Minimum number of impressions needed to calculate performance statistics (eCPM, CR, CTR)
+     * @param int $daysIntervalThreshold  Minimum period of time (in days) needed to calculate performance statistics (eCPM, CR, CTR)
+     * @return array 
+     *   <ul>
+     *   <li><b>zone_id integer</b> key The ID of the zone
+     *   <li><b>array<b> with statistics
+     *      <ul>
+     *      <li><b>CTR decimal</b> CTR - Click Through Rate
+     *      <li><b>eCPM decimal</b> eCPM - effective cost per mille
+     *      <li><b>CR decimal</b> CR - Conversion Rate
+     *      </ul>
+     *   </li>
+     *   </ul>
+     */
+    function getZonesPerformanceStatistics( $aZonesIds,
+                                            $campaignId = null, 
+                                            $oStartDate = null, 
+                                            $oEndDate = null,  
+                                            $impressionsThreshold = null, 
+                                            $daysIntervalThreshold = null)
+    {
+        if (!is_array($aZonesIds) || count($aZonesIds)==0) {
+            return array();
+        }
+        if (is_null($oEndDate)) {
+            $oEndDate = new Date();
+        }
+        
+        if (is_null($oStartDate)) { 
+            $oStartDate = new Date($oEndDate);
+            $oStartDate->subtractSpan(new Date_Span("30, 0, 0, 0")); // Set start date to 30 days before end date is start date is null
+        }
+        // Initial setting of result array
+        $aZonesStatistics = array();
+        foreach ($aZonesIds as $zoneId) {
+            $aZonesStatistics[$zoneId] = array ('CTR' => null, 'eCPM' => null, 'CR' => null);
+        }
+        
+        // If time span for given dates is greater that daysIntervalThreshold there isn't any statistics to calculate
+        if ($this->_checkDaysIntervalThreshold($oStartDate, $oEndDate, $daysIntervalThreshold) == false) {
+            return $aZonesStatistics;
+        }
+        
+        // Query DB for all statistics and catch errors if any
+        $rsZonesConversionRateStatistics = $this->getZonesConversionRateStatistics($aZonesIds, $oStartDate, $oEndDate, $campaignId, $impressionsThreshold, $daysIntervalThreshold);
+        if (PEAR::isError($rsZonesConversionRateStatistics)) {
+            return $rsZonesConversionRateStatistics;
+        }
+        $rsZonesEcpmStatistics = $this->getZonesEcpmStatistics($aZonesIds, $oStartDate, $oEndDate, $campaignId, $impressionsThreshold, $daysIntervalThreshold);
+        if (PEAR::isError($rsZonesEcpmStatistics)) {
+            return $rsZonesEcpmStatistics;
+        }
+        $rsZonesCtrStatistics = $this->getZonesCtrStatistics($aZonesIds, $oStartDate, $oEndDate, $campaignId, $impressionsThreshold, $daysIntervalThreshold);
+        if (PEAR::isError($rsZonesCtrStatistics)) {
+            return $rsZonesCtrStatistics;
+        }
+        
+        // fill result array with statistics
+        $aZonesEcpmStatistics = $rsZonesEcpmStatistics->getAll();
+        foreach ($aZonesEcpmStatistics as $aZoneStatistics) {
+            $aZonesStatistics[$aZoneStatistics['zone_id']]['eCPM'] = $aZoneStatistics['ecpm'];
+        }
+        $aZonesConversionRateStatistics = $rsZonesConversionRateStatistics->getAll();
+        foreach ($aZonesConversionRateStatistics as $aZoneStatistics) {
+            $aZonesStatistics[$aZoneStatistics['zone_id']]['CR'] = $aZoneStatistics['cr'];
+        }
+        $aZonesCtrStatistics = $rsZonesCtrStatistics->getAll();
+        foreach ($aZonesCtrStatistics as $aZoneStatistics) {
+            $aZonesStatistics[$aZoneStatistics['zone_id']]['CTR'] = $aZoneStatistics['ctr'];
+        }
+        return $aZonesStatistics;
+    }
+    
+    /**
+     * This method returns Conversion Rate statistics for a given zones.
+     * 
+     * Click Rate is calculated using statistics related to campaigns with revenue type CPA
+     * Returned RecordSet contain only that zones for which statistics can be calculated.
+     * 
+     * @param array $aZonesIds array of IDs of the zones to view statistics
+     * @param PEAR::Date $oStartDate The date from which to get statistics (inclusive)
+     * @param PEAR::Date $oEndDate The date to which to get statistics (inclusive)
+     * @param int $campaignId The ID of the campaing for which zones statistic are calculated (if null, then global zone statistic are calculated)
+     * @param int $impressionsThreshold  Minimum number of impressions needed to calculate performance statistics (eCPM, CR, CTR)
+     * @param int $daysIntervalThreshold  Minimum period of time (in days) needed to calculate performance statistics (eCPM, CR, CTR)  
+     * @return RecordSet
+     *   <ul>
+     *   <li><b>zone_id integer</b> The ID of the zone
+     *   <li><b>cr decimal</b> CR - Conversion Rate
+     *   </ul>
+     */
+    function getZonesConversionRateStatistics( $aZonesIds, 
+                                               $oStartDate, 
+                                               $oEndDate, 
+                                               $campaignId = null, 
+                                               $impressionsThreshold = null, 
+                                               $daysIntervalThreshold = null)
+    {
+        $tableCampaigns = $this->quoteTableName('campaigns');
+        $tableBanners   = $this->quoteTableName('banners');
+        $tableSummary   = $this->quoteTableName('data_summary_ad_hourly');
 
+        $impressionsThreshold = $this->_setImpressionsThreshold($impressionsThreshold);
+
+        if ($this->_checkDaysIntervalThreshold($oStartDate, $oEndDate, $daysIntervalThreshold) == false) {
+            return $this->_emptyRecordSet();
+        }
+
+        $query = "
+            SELECT
+                s.zone_id AS zone_id,
+                SUM(s.conversions)/(SUM(s.impressions)+0.0) AS cr
+            FROM
+                $tableCampaigns AS c,
+                $tableBanners AS b,
+                $tableSummary AS s
+            WHERE
+                s.zone_id IN (" . implode(',', $aZonesIds) . ")
+                " . ((isset($campaignId)) ? ("AND b.campaignid = " . $this->oDbh->quote($campaignId, 'integer')) : ("")) . "
+
+                AND 
+                c.revenue_type = ". $this->oDbh->quote(MAX_FINANCE_CPA) . "
+                
+
+                AND
+                b.bannerid = s.ad_id
+                AND
+                b.campaignid = c.campaignid
+
+                " . $this->getWhereDate($oStartDate, $oEndDate) . "
+            GROUP BY
+                s.zone_id
+            HAVING
+                SUM(s.impressions) >= " . $impressionsThreshold . "
+        ";
+
+        return DBC::NewRecordSet($query);
+    }
+    
+    /**
+     * This method returns eCPM (efficient Cost Per Mille) statistics for a given zones.
+     * 
+     * Click Rate is calculated using statistics related to campaigns with revenue type different from Monthly Tennancy and null
+     * Returned RecordSet contain only that zones for which statistics can be calculated. 
+     * 
+     * @param array $aZonesIds array of IDs of the zones to view statistics
+     * @param PEAR::Date $oStartDate The date from which to get statistics (inclusive)
+     * @param PEAR::Date $oEndDate The date to which to get statistics (inclusive)
+     * @param int $campaignId The ID of the campaing for which zones statistic are calculated (if null, then global zone statistic are calculated)
+     * @param int $impressionsThreshold  Minimum number of impressions needed to calculate performance statistics (eCPM, CR, CTR)
+     * @param int $daysIntervalThreshold  Minimum period of time (in days) needed to calculate performance statistics (eCPM, CR, CTR)  
+     * @return RecordSet
+     *   <ul>
+     *   <li><b>zone_id integer</b> The ID of the zone
+     *   <li><b>ecpm decimal</b> eCPM - effective cost per mille
+     *   </ul>
+     */
+    function getZonesEcpmStatistics( $aZonesIds, 
+                                     $oStartDate, 
+                                     $oEndDate, 
+                                     $campaignId = null, 
+                                     $impressionsThreshold = null, 
+                                     $daysIntervalThreshold = null)
+    {
+        $tableCampaigns = $this->quoteTableName('campaigns');
+        $tableBanners   = $this->quoteTableName('banners');
+        $tableSummary   = $this->quoteTableName('data_summary_ad_hourly');
+
+        $impressionsThreshold = $this->_setImpressionsThreshold($impressionsThreshold);
+        if ($this->_checkDaysIntervalThreshold($oStartDate, $oEndDate, $daysIntervalThreshold) == false) {
+            return $this->_emptyRecordSet();
+        }
+        
+        $query = "
+            SELECT
+                s.zone_id AS zone_id,
+                SUM(s.total_revenue)*1000.0/SUM(s.impressions) AS ecpm
+            FROM
+                $tableCampaigns AS c,
+                $tableBanners AS b,
+                $tableSummary AS s
+            WHERE
+                s.zone_id IN (" . implode(',', $aZonesIds) . ")
+                " . ((isset($campaignId)) ? ("AND b.campaignid = " . $this->oDbh->quote($campaignId, 'integer')) : ("")) . "
+
+                AND 
+                c.revenue_type <> ". $this->oDbh->quote(MAX_FINANCE_MT) . "
+                AND
+                c.revenue_type is not null 
+
+                AND
+                b.bannerid = s.ad_id
+                AND
+                b.campaignid = c.campaignid
+
+                " . $this->getWhereDate($oStartDate, $oEndDate) . "
+            GROUP BY
+                s.zone_id
+            HAVING
+                SUM(s.impressions) >= " . $impressionsThreshold . "
+        ";
+        return DBC::NewRecordSet($query);
+    }
+
+     /**
+     * This method returns CTR (Click Through Rate) statistics for a given zones.
+     * Returned RecordSet contain only that zones for which statistics can be calculated.
+     * 
+     * Statistics threshold:
+     *  - 10.000 impressions in given 
+     * 
+     * @param array $aZonesIds array of IDs of the zones to view statistics
+     * @param PEAR::Date $oStartDate The date from which to get statistics (inclusive)
+     * @param PEAR::Date $oEndDate The date to which to get statistics (inclusive)
+     * @param int $campaignId The ID of the campaing for which zones statistic are calculated (if null, then global zone statistic are calculated)
+     * @param int $impressionsThreshold  Minimum number of impressions needed to calculate performance statistics (eCPM, CR, CTR)
+     * @param int $daysIntervalThreshold  Minimum period of time (in days) needed to calculate performance statistics (eCPM, CR, CTR)  
+     * @return RecordSet
+     *   <ul>
+     *   <li><b>zone_id integer</b> The ID of the zone
+     *   <li><b>ctr decimal</b> CTR - Click Through Rate
+     *   </ul>
+     */
+    function getZonesCtrStatistics( $aZonesIds, 
+                                    $oStartDate, 
+                                    $oEndDate, 
+                                    $campaignId = null, 
+                                    $impressionsThreshold = null, 
+                                    $daysIntervalThreshold = null)
+    {
+        $tableCampaigns = $this->quoteTableName('campaigns');
+        $tableBanners   = $this->quoteTableName('banners');
+        $tableSummary   = $this->quoteTableName('data_summary_ad_hourly');
+        
+        $impressionsThreshold = $this->_setImpressionsThreshold($impressionsThreshold);
+        if ($this->_checkDaysIntervalThreshold($oStartDate, $oEndDate, $daysIntervalThreshold) == false) {
+            return $this->_emptyRecordSet();
+        }
+        
+        if (isset($campaignId)) {
+            $query = "
+                SELECT
+                    s.zone_id AS zone_id,
+                    SUM(s.clicks)/(SUM(s.impressions)+0.0) AS ctr
+                FROM
+                    $tableBanners AS b,
+                    $tableSummary AS s
+                WHERE
+                    s.zone_id IN (" . implode(',', $aZonesIds) . ")
+                    AND 
+                    b.campaignid = " . $this->oDbh->quote($campaignId, 'integer') . "
+                    
+                    AND 
+                    b.bannerid = s.ad_id
+                    
+                    " . $this->getWhereDate($oStartDate, $oEndDate) . "
+                GROUP BY
+                    s.zone_id
+                HAVING
+                    SUM(s.impressions) >= " . $impressionsThreshold . "
+            ";
+        } else {
+            $query = "
+                SELECT
+                    s.zone_id AS zone_id,
+                    SUM(s.clicks)/(SUM(s.impressions)+0.0) AS CTR
+                FROM
+                    $tableSummary AS s
+                WHERE
+                    s.zone_id IN (" . implode(',', $aZonesIds) . ")
+                    
+                    " . $this->getWhereDate($oStartDate, $oEndDate) . "
+                GROUP BY
+                    s.zone_id
+                HAVING
+                    SUM(s.impressions) >= " . $impressionsThreshold . "
+            ";
+        }
+        return DBC::NewRecordSet($query);
+    }
+    
+    /**
+     * This method returns quoted impressionsThreshold value.
+     * If parametr is null or just isn't numeric the value for treshold is set from config file  
+     *
+     * @param int $impressionThreshold
+     * @return unknown
+     */
+    function _setImpressionsThreshold($impressionsThreshold = null) 
+    {
+        if (!is_numeric($impressionsThreshold)) {
+            $impressionsThreshold = $GLOBALS['_MAX']['CONF']['performanceStatistics']['defaultImpressionsThreshold'];
+        }
+        return $this->oDbh->quote($impressionsThreshold, 'integer');        
+    }
+    
+    /**
+     * This method check if time span for given dates is greater that daysIntervalThreshold
+     *
+     * @param PEAR:Date $oStartDate
+     * @param PEAR:Date $oEndDate
+     * @param int $daysIntervalThreshold
+     * @return boolean true if time span in days is greater or equal to daysIntervalThreshold, else false
+     */
+    function _checkDaysIntervalThreshold($oStartDate, $oEndDate, $daysIntervalThreshold = null)
+    {
+        if (!is_numeric($daysIntervalThreshold)) {
+            $daysIntervalThreshold = $GLOBALS['_MAX']['CONF']['performanceStatistics']['defaultDaysIntervalThreshold'];
+        }
+        $span = new Date_Span();
+        $span->setFromDateDiff($oStartDate, $oEndDate);
+
+        return ($span->toDays()>=$daysIntervalThreshold);
+    }
+    
+    /**
+     * Just generate empty RecordSet
+     *
+     * @return RecordSet always empty
+     */
+    function _emptyRecordSet() {
+        $tableCampaigns = $this->quoteTableName('campaigns');
+        return DBC::NewRecordSet("select * from $tableCampaigns where 1=0");
+    }
 }
 
 ?>
