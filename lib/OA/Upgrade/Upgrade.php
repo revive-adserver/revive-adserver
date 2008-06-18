@@ -1134,12 +1134,12 @@ class OA_Upgrade
         }
         return true;
     }
-    
+
     /**
      * Check database name according to specifications:
      *  Mysql specification: http://dev.mysql.com/doc/refman/5.0/en/identifiers.html
      *  PostgreSQL specification: http://www.postgresql.org/docs/8.3/interactive/tutorial-createdb.html
-     *  
+     *
      * @param $aConfig array of installer prameters. In this function $aConfig['database']['name'] and $aConfig['database']['type'] are needed.
      *
      * @return boolean
@@ -1147,7 +1147,7 @@ class OA_Upgrade
     function checkDatabaseName($aConfig)
     {
         switch ($aConfig['database']['type']) {
-            case ('mysql') : 
+            case ('mysql') :
                 // Test for starting and ending spaces
                 if ($aConfig['database']['name'] != trim($aConfig['database']['name'])) {
                     $this->oLogger->logError('Database names should not start or end with space characters');
@@ -1175,7 +1175,7 @@ class OA_Upgrade
                     $this->oLogger->logError('Database names are limited to 63 characters in length');
                     return false;
                 }
-                // Test for first character (is alfabetic?) 
+                // Test for first character (is alfabetic?)
                 if ( !preg_match( '/^([a-zA-z]).*/', $aConfig['database']['name']) ) {
                     $this->oLogger->logError('Database names must have an alphabetic first character');
                     return false;
@@ -2528,6 +2528,18 @@ class OA_Upgrade
                                 }
                             }
                         }
+                        if (array_key_exists('-dev', $aStatus))
+                        {
+                            $aDev = $aStatus['-dev'];
+                            foreach ($aDev as $key => $file)
+                            {
+                                $version = $release.'.'.$major.'.'.$minor.'-dev';
+                                if (version_compare($verPrev, $version)<0)
+                                {
+                                    $aFiles[] = $file;
+                                }
+                            }
+                        }
                         if (array_key_exists('-rc', $aStatus))
                         {
                             $aKeys = array_keys($aStatus['-rc']);
@@ -2538,6 +2550,19 @@ class OA_Upgrade
                                 if (version_compare($verPrev, $version)<0)
                                 {
                                     $aFiles[] = $aStatus['-rc'][$v]['file'];
+                                }
+                            }
+                        }
+                        if (array_key_exists('-RC', $aStatus))
+                        {
+                            $aKeys = array_keys($aStatus['-RC']);
+                            sort($aKeys, SORT_NUMERIC);
+                            foreach ($aKeys AS $k => $v)
+                            {
+                                $version = $release.'.'.$major.'.'.$minor.'-RC'.$v;
+                                if (version_compare($verPrev, $version)<0)
+                                {
+                                    $aFiles[] = $aStatus['-RC'][$v]['file'];
                                 }
                             }
                         }
@@ -2555,7 +2580,6 @@ class OA_Upgrade
         }
         return $aFiles;
     }
-
 }
 
 ?>
