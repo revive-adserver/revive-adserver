@@ -139,6 +139,16 @@ class Test_OA_OperationIntveral extends UnitTestCase
         $this->assertEqual($aDates['end'], new Date('2004-08-08 00:59:59'));
     }
 
+    function testAddOperationIntervalTimeSpan()
+    {
+        $date = new Date('2004-08-08 00:40:00');
+        $nextDate = OA_OperationInterval::addOperationIntervalTimeSpan($date, 60);
+        $this->assertEqual($nextDate, new Date('2004-08-08 01:40:00'));
+        // Test the same date, but with an operation interval of 30 minutes
+        $nextDate = OA_OperationInterval::addOperationIntervalTimeSpan($date, 30);
+        $this->assertEqual($nextDate, new Date('2004-08-08 01:10:00'));
+    }
+
     /**
      * A method to test the convertDateToPreviousOperationIntervalStartAndEndDates() method.
      */

@@ -318,19 +318,18 @@ class OA_Maintenance_Priority_DeliveryLimitation
         $oEndOfToday->setHour(23);
         $oEndOfToday->setMinute(59);
         $oEndOfToday->setSecond(59);
-        while ($aDates['start']->before($oEndOfToday)) {
+        $oStart = $aDates['start'];
+        while ($oStart->before($oEndOfToday)) {
             // Find the Operation Interval ID for this Operation Interval
-            $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
+            $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oStart);
             // As iteration over every OI is required anyway, test to see if
             // the ad is blocked in this OI; if not, add the ZIF values to the
             // running total
-            if (empty($this->aBlockedOperationIntervalDates[$aDates['start']->format('%Y-%m-%d %H:%M:%S')])) {
+            if (empty($this->aBlockedOperationIntervalDates[$oStart->format('%Y-%m-%d %H:%M:%S')])) {
                 $totalAdLifetimeZoneImpressionsRemaining += $aCumulativeZoneForecast[$operationIntervalID];
             }
             // Go to the next operation interval in "today"
-            $oTempDate = new Date();
-            $oTempDate->copy($aDates['start']);
-            $aDates = OA_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($oTempDate);
+            $oStart = OA_OperationInterval::addOperationIntervalTimeSpan($oStart);
         }
 
         // Step 2: Calculate how many times each day of the week occurs between the end of

@@ -140,6 +140,31 @@ class OA_OperationInterval
     }
 
     /**
+     * This method gets the start date for next operation, assumming that
+     * the operatio
+     *
+     * Simplicity and performance assumptions:
+     * $oDate is in UTC
+     *
+     * @static
+     * @param Date $oDate The date to convert
+     * @param integer $operation_interval Optional length of the operation interval
+     *                                    in minutes. If not given, will use the
+     *                                    currently defined operation interval.
+     * @param boolean $cacheResult  If true the data should be cached
+     * @param Date $oDate
+     */
+    function addOperationIntervalTimeSpan($oDate, $operationInterval = null)
+    {
+        $oDateCopy = new Date($oDate);
+        if (is_null($operationInterval)) {
+            $operationInterval = OA_OperationInterval::getOperationInterval();
+        }
+        $oDateCopy->addSeconds($operationInterval * 60);
+        return $oDateCopy;
+    }
+
+    /**
      * A method to convert a Date into an array containing the start
      * and end Dates of the operation interval that the date is in.
      *
@@ -148,16 +173,30 @@ class OA_OperationInterval
      * @param integer $operation_interval Optional length of the operation interval
      *                                    in minutes. If not given, will use the
      *                                    currently defined operation interval.
+     * @param boolean $cacheResult  If true the data should be cached
      * @return array An array of the start and end Dates of the operation interval.
      */
-    function convertDateToOperationIntervalStartAndEndDates($oDate, $operationInterval = 0)
+    function convertDateToOperationIntervalStartAndEndDates($oDate, $operationInterval = 0, $cacheResult = true)
     {
-        if ($operationInterval < 1) {
-            $operationInterval = OA_OperationInterval::getOperationInterval();
-        }
         // Convert to UTC
         $oDateCopy = new Date($oDate);
         $oDateCopy->toUTC();
+        // Check cache
+        static $aCache;
+        if ($cacheResult && isset($aCache[$oDateCopy->getDate()][$operationInterval])) {
+            $cachedDates = $aCache[$oDateCopy->getDate()][$operationInterval];
+            $oStart = new Date($cachedDates['start']);
+            $oStart->setTZbyID('UTC');
+            $oEnd = new Date($cachedDates['end']);
+            $oEnd->setTZbyID('UTC');
+            return array(
+                'start' => $oStart,
+                'end'   => $oEnd
+                );
+        }
+        if ($operationInterval < 1) {
+            $operationInterval = OA_OperationInterval::getOperationInterval();
+        }
         // Get the date representing the start of the week
         $oStartOfWeek = new Date(Date_Calc::beginOfWeek($oDateCopy->getDay(), $oDateCopy->getMonth(), $oDateCopy->getYear(), '%Y-%m-%d 00:00:00'));
         $oStartOfWeek->setTZbyID('UTC');
@@ -173,6 +212,13 @@ class OA_OperationInterval
         $oEnd = new Date();
         $oEnd->copy($oStart);
         $oEnd->addSeconds(($operationInterval * 60) - 1);
+        // Cache result - cache as string to save memory
+        if ($cacheResult) {
+            $aCache[$oDate->getDate()][$operationInterval] = array(
+                'start' => $oStart->getDate(),
+                'end'   => $oEnd->getDate(),
+            );
+        }
         // Return the result
         return array('start' => $oStart, 'end' => $oEnd);
     }
