@@ -234,6 +234,140 @@ class OA_Preferences
     }
 
     /**
+     * This method is a simplification of loadPreferences()
+     * It is created mostly because of the performance reasons.
+     * The method loads given preferences in given account only.
+     *
+     * It doesn't take into account any preferences cascading so
+     * before using this method be sure that the performance you are
+     * looking for can't cascade (this is often the case for the preferences
+     * which are available only in given accounts).
+     *
+     * This method uses by default static in-memory caching to improve
+     * the speed of reading in the preferences - this is helpful in maintenance
+     * where admin preferences can be read in many places and many times.
+     *
+     */
+    function loadPreferencesByNameAndAccount($accountId, $aPreferencesNames, $accountType, $useCache = true)
+    {
+        $aPrefs = OA_Preferences::cachePreferences($accountId, $aPreferencesNames);
+        if (count($aPrefs) == count($aPreferencesNames)) {
+            return $aPrefs;
+        }
+        $aPrefsIds = OA_Preferences::getCachedPreferencesIds($aPreferencesNames, $accountType);
+        $doAccount_preference_assoc = OA_Dal::factoryDO('account_preference_assoc');
+        $doAccount_preference_assoc->account_id = $accountId;
+        $doAccount_preference_assoc->whereInAdd('preference_id', $aPrefsIds);
+        $doAccount_preference_assoc->find();
+        $aPrefs = array();
+        $prefsIdsFlip = array_flip($aPrefsIds);
+        while($doAccount_preference_assoc->fetch()) {
+            $aPrefs[$prefsIdsFlip[$doAccount_preference_assoc->preference_id]] = $doAccount_preference_assoc->value;
+        }
+        OA_Preferences::cachePreferences($accountId, $aPrefs);
+        return $aPrefs;
+    }
+
+    /**
+     * Returns preferences ids for correspodnding preferences names.
+     * This method is handy when many requests to different accounts for
+     * the same preferences are made. Next time the same preferences for
+     * the same account are checked the cached preferences ids may be used.
+     *
+     * This is useful esepcially in MPE which checks various preferences
+     * for many accounts.
+     *
+     * @param array $aPrefNames  Array containing preference names
+     * @param string $accountType  Account type
+     * @return array  Array which contains preferences ids (preference_name => preference_id)
+     */
+    function getCachedPreferencesIds($aPrefNames, $accountType)
+    {
+        // keep preferences ids in static memory cache
+        static $aPrefIdsCache;
+        $aPrefFound = array();
+        $aPrefNotFound = array();
+        foreach ($aPrefNames as $prefName) {
+            if (isset($aPrefIdsCache[$accountType][$prefName])) {
+                $aPrefFound[$prefName] = $aPrefIdsCache[$accountType][$prefName];
+            } else {
+                $aPrefNotFound[$prefName] = $prefName;
+            }
+        }
+        if (!empty($aPrefNotFound)) {
+            // read in any leftover preferences ids, needs to be done in the same method due
+            // to static variables limitations
+            $aPrefs = OA_Preferences::getPreferenceIds($aPrefNotFound, $accountType);
+            if (is_array($aPrefs)) {
+                foreach ($aPrefs as $prefName => $prefId) {
+                    $aPrefIdsCache[$accountType][$prefName] = $prefId;
+                    $aPrefFound[$prefName] = $prefId;
+                }
+            }
+        }
+        return $aPrefFound;
+    }
+
+    /**
+     * Gets ids of preferences from database
+     *
+     * Returns array:
+     * preference_id => preference_name
+     *
+     * @param array $aPrefNames  Contains (as values) preferences names
+     * @param string $accountType  Account type
+     * @return array  Array which contains preference ids
+     */
+    function getPreferenceIds($aPrefNames, $accountType)
+    {
+        $doPreferences = OA_Dal::factoryDO('preferences');
+        $doPreferences->account_type = $accountType;
+        $doPreferences->whereInAdd('preference_name', $aPrefNames);
+        return $doPreferences->getAll(array('preference_id'), 'preference_name');
+    }
+
+    /**
+     * Caches preferences for given accountId in static variable.
+     * Useful especially in maintenance which reads often same preferences
+     * in various places
+     *
+     * Note that not all preferences which are requested in $aPreferences may be
+     * stored in cache. In that case only stored preferences are returned.
+     *
+     * @param int $accountId  Account id
+     * @param array $aPreferences  Array of preferences to look for (or sto store)
+     * @param boolean $readOnly  If true the existing preferences are returned, if false
+     *                           the method replaces cached preferences with $aPreferences
+     * @return array  Cached preferences
+     */
+    function cachePreferences($accountId, $aPreferences, $readOnly = true, $cleanCache = false)
+    {
+        static $aCache = array();
+        if ($cleanCache) {
+            $aCache = array();
+            return $aCache;
+        }
+
+        if ($readOnly) {
+            // Just read cache - read and write needs to be done in the same method due to
+            //                   static variables limitations
+            $prefsFound = array();
+            foreach ($aPreferences as $prefName) {
+                if (isset($aCache[$accountId][$prefName])) {
+                    $prefsFound[$prefName] = $aCache[$accountId][$prefName];
+                }
+            }
+            return $prefsFound;
+        } else {
+            // Set the cache
+            foreach ($aPreferences as $prefName => $prefValue) {
+                $aCache[$accountId][$prefName] = $prefValue;
+            }
+            return $aPreferences;
+        }
+    }
+
+    /**
      * A static method to load the admin account's preferences from the
      * database and store them in the global array $GLOBALS['_MAX']['PREF'].
      *

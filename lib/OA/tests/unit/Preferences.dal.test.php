@@ -46,6 +46,11 @@ class Test_OA_Preferences extends UnitTestCase
         $this->UnitTestCase();
     }
 
+    function tearDown()
+    {
+        DataGenerator::cleanUp();
+    }
+
     /**
      * A method to test the OA_Preferences::loadPreferences() method
      * when the preferences should be loaded in a one-dimensional
@@ -492,8 +497,6 @@ class Test_OA_Preferences extends UnitTestCase
         $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 4);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['language']);
         $this->assertEqual($GLOBALS['_MAX']['PREF']['language'], 'pt_BR');
-
-        DataGenerator::cleanUp();
     }
 
     /**
@@ -1014,10 +1017,112 @@ class Test_OA_Preferences extends UnitTestCase
         $this->assertEqual($GLOBALS['_MAX']['PREF']['preference_3']['account_type'], OA_ACCOUNT_ADVERTISER);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_3']['value']);
         $this->assertEqual($GLOBALS['_MAX']['PREF']['preference_3']['value'], 'Admin Preference for Preference 3');
-
-        DataGenerator::cleanUp();
     }
 
+    function _createPreferences($aPrefs)
+    {
+        foreach($aPrefs as $prefName => $prefId) {
+            $doPreferences = OA_Dal::factoryDO('preferences');
+            $doPreferences->preference_id = $prefId;
+            $doPreferences->preference_name = $prefName;
+            $doPreferences->account_type = 'ADMIN';
+            DataGenerator::generateOne($doPreferences);
+        }
+    }
+
+    function testCacheGetPreferenceIds()
+    {
+        $expectedPrefs = array(
+            'pref1' => 1,
+            'pref2' => 2,
+        );
+        $this->_createPreferences($expectedPrefs);
+
+        $prefs = OA_Preferences::getPreferenceIds(array(''), 'ADMIN');
+        $this->assertEqual($prefs, array());
+        $prefs = OA_Preferences::getCachedPreferencesIds(array(''), 'ADMIN');
+        $this->assertEqual($prefs, array());
+
+        $expectedPref1 = array('pref1' => 1);
+        $prefs = OA_Preferences::getPreferenceIds(array('pref1'), 'ADMIN');
+        $this->assertEqual($prefs, $expectedPref1);
+        $prefs = OA_Preferences::getCachedPreferencesIds(array('pref1'), 'ADMIN');
+        $this->assertEqual($prefs, $expectedPref1);
+
+        $prefs = OA_Preferences::getPreferenceIds(array('pref1', 'pref2'), 'ADMIN');
+        $this->assertEqual($prefs, $expectedPrefs);
+        $prefs = OA_Preferences::getCachedPreferencesIds(array('pref1', 'pref2'), 'ADMIN');
+        $this->assertEqual($prefs, $expectedPrefs);
+        // change one of the cached preferences and check that getCachedPreferencesIds() still returns
+        // old values
+        $doPreferences = OA_Dal::factoryDO('preferences');
+        $doPreferences->preference_id = 1;
+        $doPreferences->preference_name = 'test';
+        $doPreferences->update();
+        $prefs = OA_Preferences::getCachedPreferencesIds(array('pref1', 'pref2'), 'ADMIN');
+        $this->assertEqual($prefs, $expectedPrefs);
+        $prefs = OA_Preferences::getCachedPreferencesIds(array('test'), 'ADMIN');
+        $this->assertEqual($prefs, array('test' => 1));
+    }
+
+    function testCachePreferences()
+    {
+        $prefsNames = array('pref1', 'pref2');
+        $accountId = 1;
+
+        $prefs = OA_Preferences::cachePreferences($accountId, $prefsNames);
+        $this->assertEqual($prefs, array());
+
+        // cache preferences
+        $prefsValues = array(
+            'pref1' => 'val1',
+            'pref2' => 'val2',
+        );
+        OA_Preferences::cachePreferences($accountId, $prefsValues, false);
+
+        // check that preferences were cached
+        $prefs = OA_Preferences::cachePreferences($accountId, $prefsNames);
+        $this->assertEqual($prefs, $prefsValues);
+
+        // check that different account is not cached
+        $prefs = OA_Preferences::cachePreferences(2, $prefsNames);
+        $this->assertEqual($prefs, array());
+    }
+
+    function _addPrefsToAccount($prefs, $accountId)
+    {
+        foreach ($prefs as $prefId => $prefVal) {
+            $doAccount_preference_assoc = OA_Dal::factoryDO('account_preference_assoc');
+            $doAccount_preference_assoc->account_id = $accountId;
+            $doAccount_preference_assoc->preference_id = $prefId;
+            $doAccount_preference_assoc->value = $prefVal;
+            DataGenerator::generateOne($doAccount_preference_assoc);
+        }
+    }
+
+    function testLoadPreferencesByNameAndAccount()
+    {
+        // clean cache
+        OA_Preferences::cachePreferences(null, array(), null, true);
+        $prefs = OA_Preferences::loadPreferencesByNameAndAccount($accountId = 1, array('pref1'), 'ADMIN');
+        $this->assertEqual($prefs, array());
+        // add prefs
+        $prefsNamesIds = array(
+            'pref1' => 1,
+            'pref2' => 2,
+        );
+        $this->_createPreferences($prefsNamesIds);
+        $this->_addPrefsToAccount(array(1 => 'pref1val'), $accountId);
+        $prefs = OA_Preferences::loadPreferencesByNameAndAccount($accountId, array('pref1'), 'ADMIN');
+        $this->assertEqual($prefs, array('pref1' => 'pref1val'));
+
+        $this->_addPrefsToAccount(array(2 => 'pref2val'), $accountId);
+        $prefs = OA_Preferences::loadPreferencesByNameAndAccount($accountId, array('pref1', 'pref2'), 'ADMIN');
+        $this->assertEqual($prefs, array('pref1' => 'pref1val', 'pref2' => 'pref2val'));
+
+        $prefs = OA_Preferences::loadPreferencesByNameAndAccount(2, array('pref1'), 'ADMIN');
+        $this->assertEqual($prefs, array());
+    }
 }
 
 ?>

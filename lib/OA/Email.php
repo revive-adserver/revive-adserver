@@ -395,6 +395,15 @@ class OA_Email
         );
     }
 
+    function _createPrefsListPerAccount($accountType)
+    {
+        return array(
+            'warn_email_' . $accountType,
+            'warn_email_' . $accountType . '_impression_limit',
+            'warn_email_' . $accountType . '_day_limit',
+        );
+    }
+
     function sendPlacementImpendingExpiryEmail($oDate, $placementId) {
         $aConf = $GLOBALS['_MAX']['CONF'];
         global $date_format;
@@ -414,9 +423,18 @@ class OA_Email
 
         $oPreference = new OA_Preferences();
 
-        $aPrefs['advertiser'] = $oPreference->loadAccountPreferences($doClients->account_id, true);
-        $aPrefs['manager']    = $oPreference->loadAccountPreferences($doAgency->account_id, true);
-        $aPrefs['admin']    = $oPreference->loadPreferences(false, true, false, true);
+        $advertiserPrefsNames = $this->_createPrefsListPerAccount(OA_ACCOUNT_ADVERTISER);
+        $aPrefs['advertiser'] = $oPreference->loadPreferencesByNameAndAccount($doClients->account_id,
+            $advertiserPrefsNames, OA_ACCOUNT_ADVERTISER);
+
+        $managerPrefsNames = $this->_createPrefsListPerAccount(OA_ACCOUNT_MANAGER);
+        $aPrefs['manager'] = $oPreference->loadAccountPreferences($doAgency->account_id,
+            $managerPrefsNames, OA_ACCOUNT_MANAGER);
+
+        $adminAccountId = OA_Dal_ApplicationVariables::get('admin_account_id');
+        $adminPrefsNames = $this->_createPrefsListPerAccount(OA_ACCOUNT_ADMIN);
+        $aPrefs['admin'] = $oPreference->loadAccountPreferences($adminAccountId,
+            $adminPrefsNames, OA_ACCOUNT_ADMIN);
 
         $copiesSent = 0;
         foreach ($aLinkedUsers as $accountType => $aUsers) {
