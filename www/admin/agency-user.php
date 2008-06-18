@@ -46,15 +46,11 @@ $userAccess->init();
 function OA_HeaderNavigation()
 {
 	global $agencyid;
-	
+
+    phpAds_PageHeader("agency-access");
     if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
-        phpAds_PageHeader("4.1.3.2");
         $doAgency = OA_Dal::staticGetDO('agency', $agencyid);
         MAX_displayInventoryBreadcrumbs(array(array("name" => $doAgency->name)), "agency");
-        phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.3.2"));
-    } else {
-        phpAds_PageHeader('4.4.2');
-        phpAds_ShowSections(array("4.1", "4.2", "4.3", "4.4", "4.4.2"));
     }
 }
 $userAccess->setNavigationHeaderCallback('OA_HeaderNavigation');

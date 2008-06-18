@@ -47,7 +47,7 @@ OA_Permission::enforceAccessToObject('audit', $auditId);
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-phpAds_PageHeader("5.4");
+phpAds_PageHeader('userlog-index');
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     // Show all "My Account" sections
     phpAds_ShowSections(array("5.1", "5.2", "5.3", "5.5", "5.6", "5.4"));
