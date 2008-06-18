@@ -161,7 +161,12 @@ class OA_Admin_Template extends Smarty
         $oTrans = new OA_Translation();
 
         if (!empty($aParams['str'])) {
-            return $oTrans->translate($aParams['str']);
+            if (!empty($aParams['values'])) {
+                $aValues = explode('|', $aParams['values']);
+            } else {
+                $aValues = array();
+            }
+            return $oTrans->translate($aParams['str'], $aValues);
         } else 
         if (!empty($aParams['key'])) {
             return $oTrans->translate($aParams['key']);

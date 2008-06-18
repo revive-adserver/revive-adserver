@@ -55,25 +55,25 @@ $Id$
   {assign var="cr" value="`$zone.cr*100`"}
   <td {if $zone.campaign_stats}class="estim"{/if}>{$ctr|string_format:"%.3f"}%</td>
   <td {if $zone.campaign_stats}class="estim"{/if}>{$cr|string_format:"%.3f"}%</td>
-  <td {if $zone.campaign_stats}class="estim"{/if}>${$zone.ecpm|string_format:"%.3f"}</td>
+  <td {if $zone.campaign_stats}class="estim"{/if}>${$zone.ecpm|string_format:"%.2f"}</td>
 </tr>
 {/foreach}    
 
 {foreachelse}
 <tr class="empty">
   <td colspan="5">
-    No websites and zones
+    {t str=NoWebsitesAndZones}
     {if $category} 
-      in category {$category}
+      {t str=NoWebsitesAndZonesCategory} {$category}
     {/if}
     {if $text}
-      with "{$text}" in name
+      {t str=NoWebsitesAndZonesText values=$text}
     {/if}
     
     {if $checkboxPrefix == 'a'}
-    to link
+    {t str=ToLink}
     {else}
-    to unlink
+    {t str=ToUnlink}
     {/if}
   </td>
 </tr>
@@ -83,13 +83,13 @@ $Id$
 
 <div class="status-{$status}">
   {if $status == 'linked'}
-  Linked:
+  {t str=Linked}:
   {else}
-  Available:
+  {t str=Available}:
   {/if}
   <span class="status-value">{$zonescounts.all}</span><br />
 
   {if $category or $text} 
-  Showing: <span class="status-value">{$zonescounts.showing}</span>
+  {t str=Showing}: <span class="status-value">{$zonescounts.showing}</span>
   {/if}
 </div>

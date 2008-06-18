@@ -30,7 +30,7 @@ $Id$
 
   <div id="filters">
     <div id="filters-available">
-      <h3 class="filter-panel-title">Available zones</h3>
+      <h3 class="filter-panel-title">{t str=AvailableZones}</h3>
       <div class="filter-panel">
 	      <div class="bg-left"></div>
 	      <div class="bg-right"></div>
@@ -45,7 +45,7 @@ $Id$
     </div>
     
     <div id="filters-linked">
-      <h3 class="filter-panel-title">Linked zones</h3>
+      <h3 class="filter-panel-title">{t str=LinkedZones}</h3>
       <div class="filter-panel">
         <div class="bg-left"></div>
         <div class="bg-right"></div>
@@ -68,11 +68,11 @@ $Id$
         <table id="zones-available" class="zones new-table">
           <tbody>
             <tr class="header hide">
-              <th class="name"><label><input type="checkbox" class="checkbox select-all" /> Select / Unselect all</label></th>
-              <th class="category">Category</th>
-              <th class="ctr">CTR</th>
-              <th class="cr">CR</th>
-              <th class="ecpm last">eCPM</th>
+              <th class="name"><label><input type="checkbox" class="checkbox select-all" /> {t str=SelectUnselectAll}</label></th>
+              <th class="category">{t str=Category}</th>
+              <th class="ctr">{t str=FinanceCTR}</th>
+              <th class="cr">{t str=FinanceCR}</th>
+              <th class="ecpm last">{t str=FinanceCPM}</th>
             </tr>
           </tbody>
           
@@ -88,11 +88,11 @@ $Id$
         <table id="zones-linked" class="zones new-table">
           <tbody>
             <tr class="header hide">
-              <th class="name"><label><input type="checkbox" class="checkbox select-all" /> Select / Unselect all</label></th>
-              <th class="category">Category</th>
-              <th class="ctr">CTR</th>
-              <th class="cr">CR</th>
-              <th class="ecpm last">eCPM</th>
+              <th class="name"><label><input type="checkbox" class="checkbox select-all" /> {t str=SelectUnselectAll}</label></th>
+              <th class="category">{t str=Category}</th>
+              <th class="ctr">{t str=FinanceCTR}</th>
+              <th class="cr">{t str=FinanceCR}</th>
+              <th class="ecpm last">{t str=FinanceCPM}</th>
             </tr>
           </tbody>
           
@@ -109,12 +109,12 @@ $Id$
       <div style="margin-top: 2ex; style="text-align: center">
         <span id="linking-indicator" class="ajax-loading-big hide"></span>
         <span id="linking-status"></span>
-        <span id="error-indicator" class="ajax-error hide">Linking not successful, please try again</span>
+        <span id="error-indicator" class="ajax-error hide">{t str=LinkingNotSuccess}</span>
       </div>
     </div>
   </div>
   
-  <div class="estim-info"><div class="estim-box"></div>Value calculated for all campaigns <a href="#" class="info">(what's this?)</a></div>    
+  <div class="estim-info"><div class="estim-box"></div>{t str=ValueCalculatedInformation} <a href="#" class="info">(what's this?)</a></div>    
 
 	<script type="text/javascript"><!--
 {literal}

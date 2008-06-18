@@ -95,16 +95,16 @@ echo "<div class='result-info'>";
 switch ($action) {
     case "link" :
             if ($result == -1) {
-                echo "Problem occured when linking zones";
+                echo $GLOBALS['strLinkingZonesProblem'];
             } else {
-                echo "$result zone(s) linked";
+                echo $result." ".$GLOBALS['strZonesLinked'];
             }
         break;
     case "unlink" :
             if ($result == -1) {
-                echo "Problem occured when unlinking zones";
+                echo $GLOBALS['strUnlinkingZonesProblem'];
             } else {
-                echo "$result zone(s) unlinked";
+                echo $result." ".$GLOBALS['strZonesUnlinked'];
             }
         break;
 };

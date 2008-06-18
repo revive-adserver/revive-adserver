@@ -120,7 +120,7 @@ class OA_Translation
 
         // If substitution variables have been provided
         if (!empty($aValues)) {
-            $eval = '$sSprintf = sprintf($sString, ';
+            $eval = '$sSprintf = sprintf($GLOBALS[\'str\' . $sString], ';
             foreach ($aValues as $key => $value) {
                 $aVals[] = '$aValues[\'' . $key . '\']';
             }

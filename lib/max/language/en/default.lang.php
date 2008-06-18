@@ -291,6 +291,8 @@ $GLOBALS['strFinanceCPM']               = 'CPM';
 $GLOBALS['strFinanceCPC']               = 'CPC';
 $GLOBALS['strFinanceCPA']               = 'CPA';
 $GLOBALS['strFinanceMT']                = 'Monthly Tenancy';
+$GLOBALS['strFinanceCTR']               = 'CTR';
+$GLOBALS['strFinanceCR']                = 'CR';
 $GLOBALS['strPercentRevenueSplit']      = '% Revenue split';
 $GLOBALS['strPercentBasketValue']       = '% Basket value';
 $GLOBALS['strAmountPerItem']            = 'Amount per item';
@@ -410,6 +412,25 @@ $GLOBALS['strRemaining']                    = "Remaining";
 $GLOBALS['strCompanionPositioning']         = "Companion positioning";
 $GLOBALS['strSelectUnselectAll']            = "Select / Unselect All";
 $GLOBALS['strConfirmOverwrite']             = "Saving these changes will overwrite any individual banner-zone links. Are you sure?";
+// Campaign-zone linking page
+$GLOBALS['strValueCalculatedInformation']   = "Value calculated for all campaigns";
+$GLOBALS['strLinkingZonesProblem']          = "Problem occured when linking zones";
+$GLOBALS['strUnlinkingZonesProblem']        = "Problem occured when unlinking zones";
+$GLOBALS['strZonesLinked']                  = "zone(s) linked";
+$GLOBALS['strZonesUnlinked']                = "zone(s) unlinked";
+$GLOBALS['strZonesSearch']                  = "Search";
+$GLOBALS['strZonesSearchTitle']             = "Search zones and websites by name";
+$GLOBALS['strNoWebsitesAndZones']           = "No websites and zones";
+$GLOBALS['strNoWebsitesAndZonesCategory']   = "in category";
+$GLOBALS['strNoWebsitesAndZonesText']       = "with \"%s\" in name";
+$GLOBALS['strToLink']                       = "to link";
+$GLOBALS['strToUnlink']                     = "to unlink";
+$GLOBALS['strLinked']                       = "Linked";
+$GLOBALS['strAvailable']                    = "Available";
+$GLOBALS['strShowing']                      = "Showing";
+$GLOBALS['strAllCategories']                = "all categories";
+$GLOBALS['strUncategorized']                = "Uncategorized";
+
 
 // Campaign properties
 $GLOBALS['strDontExpire']                = "Don't expire this campaign on a specific date";
@@ -764,6 +785,8 @@ $GLOBALS['strAddZone']                      = "Create zone";
 $GLOBALS['strModifyZone']                   = "Modify zone";
 $GLOBALS['strZoneToWebsite']                = "to website";
 $GLOBALS['strLinkedZones']                  = "Linked Zones";
+$GLOBALS['strAvailableZones']               = "Available Zones";
+$GLOBALS['strLinkingNotSuccess']            = "Linking not successful, please try again";
 $GLOBALS['strZoneOverview']                 = "Zone Overview";
 $GLOBALS['strZoneProperties']               = "Zone Properties";
 $GLOBALS['strZoneHistory']                  = "Zone History";
@@ -793,6 +816,7 @@ $GLOBALS['strWarnChangeZoneType']           = 'Changing the zone type to text or
 $GLOBALS['strWarnChangeZoneSize']           = 'Changing the zone size will unlink any banners that are not the new size, and will add any banners from linked campaigns which are the new size';
 $GLOBALS['strWarnChangeBannerSize']         = 'Changing the banner size will unlink this banner from any zones that are not the new size, and if this banner\'s <strong>campaign</strong> is linked to a zone of the new size, this banner will be automatically linked';
 $GLOBALS['strInventoryForecasting']         = 'Inventory Forecasting';
+
 $GLOBALS['strIab']['IAB Full Banner (468 x 60)']    = 'IAB Full Banner (468 x 60)';
 $GLOBALS['strIab']['IAB Skyscraper (120 x 600)']    = 'IAB Skyscraper (120 x 600)';
 $GLOBALS['strIab']['IAB Leaderboard (728 x 90)']    = 'IAB Leaderboard (728 x 90)';

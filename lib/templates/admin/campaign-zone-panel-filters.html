@@ -26,12 +26,12 @@ $Id$
 -->*}
 
 <label class="filter category-filter">
-  Category<br />
+  {t str=Category}<br />
   <select id="category-{$panelId}" class="category">
     {html_options options=$aCategories}
   </select>
 </label>
 <label class="filter search-filter">
-  Search<br />
-  <input id="quick-search-{$panelId}" class="quick-search" type="text" title="Search zones and websites by name" />
+  {t str=ZonesSearch}<br />
+  <input id="quick-search-{$panelId}" class="quick-search" type="text" title="{t str=ZonesSearchTitle}" />
 </label>

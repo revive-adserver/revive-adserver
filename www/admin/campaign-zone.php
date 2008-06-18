@@ -65,7 +65,7 @@ $availableWebsites = $oDalZones->getWebsitesAndZonesListByCategory($agencyId, $c
 $aCategoriesIds2   = $oDalZones->getCategoriesIdsFromWebsitesAndZones($availableWebsites);
 
 $aCategoriesIds = array_merge($aCategoriesIds, $aCategoriesIds2);
-$aCategories    = array('' => '- all categories -', -1 => 'Uncategorized');
+$aCategories    = array('' => "- {$GLOBALS['strAllCategories']} -", -1 => $GLOBALS['strUncategorized']);
 $aCategories    = $aCategories + $oAdNetworks->getCategoriesSelect($aCategoriesIds, false);
  
 
