@@ -323,7 +323,9 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
         echo "
 
             document.getElementById('{$this->_name}_start').readOnly = !specific;
+            document.getElementById('{$this->_name}_start_button').disabled = !specific;
             document.getElementById('{$this->_name}_end').readOnly = !specific;
+            document.getElementById('{$this->_name}_end_button').disabled = !specific;
 
             if (!specific) {
                 document.getElementById('{$this->_name}_start').style.backgroundColor = '#CCCCCC';
