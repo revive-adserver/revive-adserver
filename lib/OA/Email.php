@@ -397,10 +397,11 @@ class OA_Email
 
     function _createPrefsListPerAccount($accountType)
     {
+        $type = strtolower($accountType);
         return array(
-            'warn_email_' . $accountType,
-            'warn_email_' . $accountType . '_impression_limit',
-            'warn_email_' . $accountType . '_day_limit',
+            'warn_email_' . $type,
+            'warn_email_' . $type . '_impression_limit',
+            'warn_email_' . $type . '_day_limit',
         );
     }
 
