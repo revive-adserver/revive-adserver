@@ -30,8 +30,8 @@ $Id$
   {assign var="checkboxPrefix" value="a"}
 {/if}
 
-<table class="rows-{$status}">
-<tbody>
+
+<!--rows-{$status}-start-->
 {foreach from=$websites key=websiteid item=website}
 <tr class="website">
   <td class="name" title="{$website.name}">
@@ -78,9 +78,9 @@ $Id$
   </td>
 </tr>
 {/foreach}
-</tbody>
-</table>
+<!--rows-{$status}-end-->
 
+<!--status-{$status}-start-->
 <div class="status-{$status}">
   {if $status == 'linked'}
   {t str=Linked}:
@@ -93,3 +93,4 @@ $Id$
   {t str=Showing}: <span class="status-value">{$zonescounts.showing}</span>
   {/if}
 </div>
+<!--status-{$status}-end-->
