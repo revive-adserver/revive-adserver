@@ -467,7 +467,7 @@ echo "&nbsp;&nbsp;</td></tr>"."\n";
 echo "</table>"."\n";
 echo "<br /><br /><br /><br />"."\n";
 
-echo "<input type='submit' name='submit' value='$strSaveChanges' tabindex='".($tabindex++)."'>"."\n";
+echo "<input type='submit' id='submit' name='submit' value='$strSaveChanges' tabindex='".($tabindex++)."'>"."\n";
 echo "</form>"."\n";
 
 ?>
