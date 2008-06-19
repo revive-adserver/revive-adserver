@@ -1241,7 +1241,7 @@ function _displayZoneEntitySelectionCell($entity, $entityId, $aOtherEntities, $e
     global $phpAds_TextDirection;
 
     $onChange = $autoSubmit ? " onChange='this.form.submit();'" : '';
-    $submitIcon = $autoSubmit ? '' : "&nbsp;<input type='hidden' name='action' value='set'><input type='image' src='" . MAX::assetPath() . "/images/$phpAds_TextDirection/go_blue.gif' border='0' tabindex='".($tabIndex++)."'>";
+    $submitIcon = $autoSubmit ? '' : "&nbsp;<input type='hidden' name='action' value='set'><input id='link_submit' type='image' src='" . MAX::assetPath() . "/images/$phpAds_TextDirection/go_blue.gif' border='0' tabindex='".($tabIndex++)."'>";
     $tabInfo = " tabindex='" . ($tabIndex++) . "'";
     $entityIcon = MAX_getEntityIcon($entity);
     echo "
@@ -1552,7 +1552,7 @@ function MAX_displayPlacementAdSelectionViewForm($publisherId, $zoneId, $view, $
         <!--option value='category'$categorySelected>{$GLOBALS['strLinkedCategories']}</option-->
         <option value='ad'$adSelected>{$GLOBALS['strLinkedBanners']}</option>
     </select>
-    &nbsp;<input type='image' src='" . MAX::assetPath() . "/images/$phpAds_TextDirection/go_blue.gif' border='0'>
+    &nbsp;<input type='image' id='link_type_submit' src='" . MAX::assetPath() . "/images/$phpAds_TextDirection/go_blue.gif' border='0'>
     $disabledHidden
 </td>
 </tr>
