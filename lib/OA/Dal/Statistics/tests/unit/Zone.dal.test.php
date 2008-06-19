@@ -514,12 +514,16 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $this->ensureRowSequence($aRow1, $aRow2, 'zone_id', $doZone1->zoneid);
         
         $this->assertFieldExists($aRow1, 'zone_id');
-        $this->assertFieldExists($aRow1, 'cr');
+        $this->assertFieldExists($aRow1, 'conversions');
+        $this->assertFieldExists($aRow1, 'impressions');
         $this->assertFieldExists($aRow2, 'zone_id');
-        $this->assertFieldExists($aRow2, 'cr');
+        $this->assertFieldExists($aRow2, 'conversions');
+        $this->assertFieldExists($aRow2, 'impressions');
         
-        $this->assertFieldEqual($aRow1, 'cr', round( ($doDataSummaryAdHourly1->conversions/$doDataSummaryAdHourly1->impressions), 4 ));
-        $this->assertFieldEqual($aRow2, 'cr', round( ($doDataSummaryAdHourly3->conversions/$doDataSummaryAdHourly3->impressions), 4 ));
+        $this->assertFieldEqual($aRow1, 'conversions', $doDataSummaryAdHourly1->conversions);
+        $this->assertFieldEqual($aRow1, 'impressions', $doDataSummaryAdHourly1->impressions);
+        $this->assertFieldEqual($aRow2, 'conversions', $doDataSummaryAdHourly3->conversions);
+        $this->assertFieldEqual($aRow2, 'impressions', $doDataSummaryAdHourly3->impressions);
         
         // Get statistics for 2 zones and campaign 2 (CPM)
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesConversionRateStatistics(
@@ -572,12 +576,16 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $this->ensureRowSequence($aRow1, $aRow2, 'zone_id', $doZone1->zoneid);
         
         $this->assertFieldExists($aRow1, 'zone_id');
-        $this->assertFieldExists($aRow1, 'ecpm');
+        $this->assertFieldExists($aRow1, 'total_revenue');
+        $this->assertFieldExists($aRow1, 'impressions');
         $this->assertFieldExists($aRow2, 'zone_id');
-        $this->assertFieldExists($aRow2, 'ecpm');
+        $this->assertFieldExists($aRow2, 'total_revenue');
+        $this->assertFieldExists($aRow2, 'impressions');
         
-        $this->assertFieldEqual($aRow1, 'ecpm', round( ($doDataSummaryAdHourly1->total_revenue*1000/$doDataSummaryAdHourly1->impressions), 4 ));
-        $this->assertFieldEqual($aRow2, 'ecpm', round( ($doDataSummaryAdHourly3->total_revenue*1000/$doDataSummaryAdHourly3->impressions), 4 ));
+        $this->assertFieldEqual($aRow1, 'total_revenue', $doDataSummaryAdHourly1->total_revenue);
+        $this->assertFieldEqual($aRow1, 'impressions', $doDataSummaryAdHourly1->impressions);
+        $this->assertFieldEqual($aRow2, 'total_revenue', $doDataSummaryAdHourly3->total_revenue);
+        $this->assertFieldEqual($aRow2, 'impressions', $doDataSummaryAdHourly3->impressions);
         
         // Get statistics for 2 zones and campaign 2 (MT)
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesEcpmStatistics(
@@ -595,10 +603,10 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
     }
 
     /**
-     * Test zones CTR and Revenue statistics.
+     * Test zones CTR statistics.
      *
      */
-    function testGetZonesCtrAndRevenueStatistics()
+    function testGetZonesCtrStatistics()
     {
         $doCampaign1                           = null;
         $doCampaign2                           = null;
@@ -641,16 +649,20 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $aRow2 = $rsZonesStatistics->toArray();
         
         $this->ensureRowSequence($aRow1, $aRow2, 'zone_id', $doZone1->zoneid);
-        
+
         $this->assertFieldExists($aRow1, 'zone_id');
-        $this->assertFieldExists($aRow1, 'ctr');
+        $this->assertFieldExists($aRow1, 'clicks');
+        $this->assertFieldExists($aRow1, 'impressions');
         $this->assertFieldExists($aRow2, 'zone_id');
-        $this->assertFieldExists($aRow2, 'ctr');
+        $this->assertFieldExists($aRow2, 'clicks');
+        $this->assertFieldExists($aRow2, 'impressions');
         
         $clicksZone1 = $doDataSummaryAdHourly1->clicks+$doDataSummaryAdHourly2->clicks;
         $impressionsZone1 = $doDataSummaryAdHourly1->impressions+$doDataSummaryAdHourly2->impressions;
-        $this->assertFieldEqual($aRow1, 'ctr', round( ($clicksZone1/$impressionsZone1), 4 ));
-        $this->assertFieldEqual($aRow2, 'ctr', round( ($doDataSummaryAdHourly3->clicks/$doDataSummaryAdHourly3->impressions), 4 ));
+        $this->assertFieldEqual($aRow1, 'clicks', $clicksZone1);
+        $this->assertFieldEqual($aRow1, 'impressions', $impressionsZone1);
+        $this->assertFieldEqual($aRow2, 'clicks', $doDataSummaryAdHourly3->clicks);
+        $this->assertFieldEqual($aRow2, 'impressions', $doDataSummaryAdHourly3->impressions);
                 
         // Get statistics for 2 zones for capmaign 1
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesCtrStatistics(
@@ -662,7 +674,8 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $rsZonesStatistics->fetch();
         $aRow1 = $rsZonesStatistics->toArray();
         
-        $this->assertFieldEqual($aRow1, 'ctr', round( ($doDataSummaryAdHourly3->clicks/$doDataSummaryAdHourly3->impressions), 4 ));
+        $this->assertFieldEqual($aRow1, 'clicks', $doDataSummaryAdHourly3->clicks);
+        $this->assertFieldEqual($aRow1, 'impressions', $doDataSummaryAdHourly3->impressions);
         
         // Get statistics for 2 zones for capmaign 2 
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesCtrStatistics(
@@ -682,7 +695,8 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $rsZonesStatistics->fetch();
         $aRow1 = $rsZonesStatistics->toArray();
         
-        $this->assertFieldEqual($aRow1, 'ctr', round( ($doDataSummaryAdHourly2->clicks/$doDataSummaryAdHourly2->impressions), 4 ));
+        $this->assertFieldEqual($aRow1, 'clicks', $doDataSummaryAdHourly2->clicks);
+        $this->assertFieldEqual($aRow1, 'impressions', $doDataSummaryAdHourly2->impressions);
         
         // Get statistics for zone 2, but start date didn't catch any stats for this zone 
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesCtrStatistics(

@@ -350,21 +350,36 @@ class OA_Dal_Statistics_Zone extends OA_Dal_Statistics
         // fill result array with statistics
         $aZonesEcpmStatistics = $rsZonesEcpmStatistics->getAll();
         foreach ($aZonesEcpmStatistics as $aZoneStatistics) {
-            $aZonesStatistics[$aZoneStatistics['zone_id']]['eCPM'] = $aZoneStatistics['ecpm'];
+            if (!is_null($aZoneStatistics['total_revenue']) && 
+                !is_null($aZoneStatistics['impressions']) && 
+                $aZoneStatistics['impressions']!=0) 
+            {
+                $aZonesStatistics[$aZoneStatistics['zone_id']]['eCPM'] = $aZoneStatistics['total_revenue']*1000/$aZoneStatistics['impressions'];
+            }
         }
         $aZonesConversionRateStatistics = $rsZonesConversionRateStatistics->getAll();
         foreach ($aZonesConversionRateStatistics as $aZoneStatistics) {
-            $aZonesStatistics[$aZoneStatistics['zone_id']]['CR'] = $aZoneStatistics['cr'];
+            if (!is_null($aZoneStatistics['conversions']) && 
+                !is_null($aZoneStatistics['impressions']) && 
+                $aZoneStatistics['impressions']!=0) 
+            {
+                $aZonesStatistics[$aZoneStatistics['zone_id']]['CR'] = $aZoneStatistics['conversions']/$aZoneStatistics['impressions'];
+            }
         }
         $aZonesCtrStatistics = $rsZonesCtrStatistics->getAll();
         foreach ($aZonesCtrStatistics as $aZoneStatistics) {
-            $aZonesStatistics[$aZoneStatistics['zone_id']]['CTR'] = $aZoneStatistics['ctr'];
+            if (!is_null($aZoneStatistics['clicks']) && 
+                !is_null($aZoneStatistics['impressions']) && 
+                $aZoneStatistics['impressions']!=0) 
+            {
+                $aZonesStatistics[$aZoneStatistics['zone_id']]['CTR'] = $aZoneStatistics['clicks']/$aZoneStatistics['impressions'];
+            }
         }
         return $aZonesStatistics;
     }
     
     /**
-     * This method returns Conversion Rate statistics for a given zones.
+     * This method returns data to calculate Conversion Rate statistics for a given zones.
      * 
      * Click Rate is calculated using statistics related to campaigns with revenue type CPA
      * Returned RecordSet contain only that zones for which statistics can be calculated.
@@ -378,7 +393,8 @@ class OA_Dal_Statistics_Zone extends OA_Dal_Statistics
      * @return RecordSet
      *   <ul>
      *   <li><b>zone_id integer</b> The ID of the zone
-     *   <li><b>cr decimal</b> CR - Conversion Rate
+     *   <li><b>conversions decimal</b> sum of conversions
+     *   <li><b>impressions decimal</b> sum of impressions
      *   </ul>
      */
     function getZonesConversionRateStatistics( $aZonesIds, 
@@ -399,9 +415,10 @@ class OA_Dal_Statistics_Zone extends OA_Dal_Statistics
         }
 
         $query = "
-            SELECT
+             SELECT
                 s.zone_id AS zone_id,
-                SUM(s.conversions)/(SUM(s.impressions)+0.0) AS cr
+                SUM(s.conversions) AS conversions, 
+                SUM(s.impressions) AS impressions
             FROM
                 $tableCampaigns AS c,
                 $tableBanners AS b,
@@ -430,7 +447,7 @@ class OA_Dal_Statistics_Zone extends OA_Dal_Statistics
     }
     
     /**
-     * This method returns eCPM (efficient Cost Per Mille) statistics for a given zones.
+     * This method returns data to calculate eCPM (efficient Cost Per Mille) statistics for a given zones.
      * 
      * Click Rate is calculated using statistics related to campaigns with revenue type different from Monthly Tennancy and null
      * Returned RecordSet contain only that zones for which statistics can be calculated. 
@@ -444,7 +461,8 @@ class OA_Dal_Statistics_Zone extends OA_Dal_Statistics
      * @return RecordSet
      *   <ul>
      *   <li><b>zone_id integer</b> The ID of the zone
-     *   <li><b>ecpm decimal</b> eCPM - effective cost per mille
+     *   <li><b>total_revenue decimal</b> sum of total_revenue
+     *   <li><b>impressions decimal</b> sum of impressions
      *   </ul>
      */
     function getZonesEcpmStatistics( $aZonesIds, 
@@ -466,7 +484,8 @@ class OA_Dal_Statistics_Zone extends OA_Dal_Statistics
         $query = "
             SELECT
                 s.zone_id AS zone_id,
-                SUM(s.total_revenue)*1000.0/SUM(s.impressions) AS ecpm
+                SUM(s.total_revenue) AS total_revenue,
+                SUM(s.impressions) AS impressions
             FROM
                 $tableCampaigns AS c,
                 $tableBanners AS b,
@@ -495,7 +514,7 @@ class OA_Dal_Statistics_Zone extends OA_Dal_Statistics
     }
 
      /**
-     * This method returns CTR (Click Through Rate) statistics for a given zones.
+     * This method returns data to calculate CTR (Click Through Rate) statistics for a given zones.
      * Returned RecordSet contain only that zones for which statistics can be calculated.
      * 
      * Statistics threshold:
@@ -510,7 +529,8 @@ class OA_Dal_Statistics_Zone extends OA_Dal_Statistics
      * @return RecordSet
      *   <ul>
      *   <li><b>zone_id integer</b> The ID of the zone
-     *   <li><b>ctr decimal</b> CTR - Click Through Rate
+     *   <li><b>clics decimal</b> sum of clics
+     *   <li><b>impressions decimal</b> sum of impressions
      *   </ul>
      */
     function getZonesCtrStatistics( $aZonesIds, 
@@ -533,7 +553,8 @@ class OA_Dal_Statistics_Zone extends OA_Dal_Statistics
             $query = "
                 SELECT
                     s.zone_id AS zone_id,
-                    SUM(s.clicks)/(SUM(s.impressions)+0.0) AS ctr
+                    SUM(s.clicks) AS clicks,
+                    SUM(s.impressions) AS impressions
                 FROM
                     $tableBanners AS b,
                     $tableSummary AS s
@@ -555,7 +576,8 @@ class OA_Dal_Statistics_Zone extends OA_Dal_Statistics
             $query = "
                 SELECT
                     s.zone_id AS zone_id,
-                    SUM(s.clicks)/(SUM(s.impressions)+0.0) AS CTR
+                    SUM(s.clicks) AS clicks,
+                    SUM(s.impressions) AS impressions
                 FROM
                     $tableSummary AS s
                 WHERE
