@@ -283,7 +283,7 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
         $aQuery['select'] = "
             Select 
                 count(z.zoneid) as zones";
-        $query = $aQuery['select'].$aQuery['from'].$aQuery['where'].$aQuery['order by'];
+        $query = $aQuery['select'].$aQuery['from'].$aQuery['where'];
         $rsZones = DBC::NewRecordSet($query);
         if (PEAR::isError($rsZones)) {
             return $rsZones;
@@ -519,8 +519,9 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
             INSERT INTO {$prefix}placement_zone_assoc (placement_id, zone_id) 
             SELECT c.campaignid, z.zoneid  
             FROM 
-                ({$prefix}campaigns AS c,
-                {$prefix}zones AS z)
+                {$prefix}campaigns AS c
+                CROSS JOIN
+                {$prefix}zones AS z
                 LEFT JOIN {$prefix}placement_zone_assoc AS pza ON (pza.zone_id = z.zoneid AND pza.placement_id = c.campaignid)
             WHERE
                 c.campaignid = " . DBC::makeLiteral($campaignId) . "
@@ -555,8 +556,9 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
             INSERT INTO {$prefix}ad_zone_assoc (zone_id, ad_id) 
             SELECT z.zoneid, b.bannerid  
             FROM 
-                ({$prefix}banners AS b,
-                {$prefix}zones AS z)
+                {$prefix}banners AS b
+                CROSS JOIN
+                {$prefix}zones AS z
                 LEFT JOIN {$prefix}ad_zone_assoc AS aza ON (aza.ad_id = b.bannerid AND aza.zone_id = z.zoneid)
             WHERE
                 b.campaignid = " . DBC::makeLiteral($campaignId) . "
