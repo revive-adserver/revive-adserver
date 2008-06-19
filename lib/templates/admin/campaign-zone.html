@@ -316,7 +316,7 @@ $Id$
   }
   
   function checkReload(data) {
-    if (data.indexOf("ajax-response-mark") < 0) {
+    if (data.indexOf("<!-- install -->") >= 0 || data.indexOf("<!-- login -->") >= 0) {
       document.location.reload();
       return true;
     }

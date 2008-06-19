@@ -111,4 +111,3 @@ switch ($action) {
 echo "</div>";
 
 ?>
-<!-- ajax-response-mark -->

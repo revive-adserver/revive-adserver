@@ -546,6 +546,10 @@ for($i = 0; $i < count($showSections); $i++) {
 // display main template
 include 'templates/install-index.html';
 
+// Do not remove. This is a marker that AJAX response parsers look for to
+// determine whether the response did not redirect to the installer.
+echo "<!-- install -->";
+
 // display footer
 phpAds_PageFooter($imgPath);
 

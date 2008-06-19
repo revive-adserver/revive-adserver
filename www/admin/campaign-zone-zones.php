@@ -63,5 +63,4 @@ else {
 
 $oTpl->display();
 ?>
-<!-- ajax-response-mark -->
 
