@@ -81,7 +81,6 @@ $Id$
 <!--rows-{$status}-end-->
 
 <!--status-{$status}-start-->
-<div class="status-{$status}">
   {if $status == 'linked'}
   {t str=Linked}:
   {else}
@@ -92,5 +91,4 @@ $Id$
   {if $category or $text} 
   {t str=Showing}: <span class="status-value">{$zonescounts.showing}</span>
   {/if}
-</div>
 <!--status-{$status}-end-->

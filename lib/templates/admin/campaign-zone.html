@@ -273,7 +273,7 @@ $Id$
       "ids[]": checkedNames
     };
 
-    $.ajax({ 
+    $.ajax({
       url: "campaign-zone-link.php",
       type: "POST",
       data: postData,
@@ -284,14 +284,11 @@ $Id$
         $("#linking-indicator").hide();
       },
       success: function(data) {
-        var $data = $(data);
         if (!checkReload(data)) {
           updatePanel(data, "available");
           updatePanel(data, "linked");
-	        var $availableRows = $data.filter(".rows-available").find("tbody").contents();
-	        var $linkedRows = $data.filter(".rows-linked").find("tbody").contents();
           
-	        $("#linking-status").html($data.filter(".result-info").contents()).stop().show().css("opacity", "1");
+	        $("#linking-status").html(extractPart(data, "info", "result")).stop().show().css("opacity", "1");
 	        if (window.linkingTimout) {
 	          window.linkingTimout.clearTimeout();
 	        }
@@ -315,7 +312,7 @@ $Id$
   function updatePanel(data, panel) {
     $("#zones-" + panel + "-rows").html(extractPart(data, panel, "rows"));
     $("#zones-" + panel + " tr.header").visible(!$("#zones-" + panel + "-rows tr:eq(0)").is(".empty"));
-    $("#status-" + panel).html($(extractPart(data, panel, "status")).contents());
+    $("#status-" + panel).html(extractPart(data, panel, "status"));
   }
   
   function checkReload(data) {

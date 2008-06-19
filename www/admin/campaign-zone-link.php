@@ -91,7 +91,8 @@ $oTpl->assign('status', "linked");
 $oTpl->assign('aZonesIdHash', $aZonesIdsHash);
 $oTpl->display();
 
-echo "<div class='result-info'>";
+// We need to
+echo "<!--result-info-start-->";
 switch ($action) {
     case "link" :
             if ($result == -1) {
@@ -108,6 +109,6 @@ switch ($action) {
             }
         break;
 };
-echo "</div>";
+echo "<!--result-info-end-->";
 
 ?>
