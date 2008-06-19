@@ -1125,6 +1125,10 @@ input.checkbox {
   text-align: center;
 }
 
+#campaign-zone .zones td label {
+	white-space: nowrap;
+}
+
 #campaign-zone table.zones tr th.name label {
   color: #0767a8;
   cursor: pointer;

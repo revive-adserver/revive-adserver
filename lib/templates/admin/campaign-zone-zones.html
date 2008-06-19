@@ -46,7 +46,7 @@ $Id$
 {foreach from=$website.zones key=zoneid item=zone}
 <tr class="zone {if $aZonesIdHash[$zoneid]} just-linked{/if}">
   <td class="name" title="{$zone.name}">
-    <label style="white-space: nowrap">
+    <label>
       <input id="{$checkboxPrefix}w{$websiteid}_z{$zoneid}" 
              name="z{$zoneid}" type="checkbox" class="checkbox" /> {boldSearchPhrase text=$zone.name search=$text}</label>
   </td>
