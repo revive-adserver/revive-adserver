@@ -210,7 +210,7 @@ class OA_Admin_UI
 
         $this->_assignInstalling();
 
-        $this->_assignBranding($conf['ui']['applicationName'], $conf['ui']['logoFilePath']);
+        $this->_assignBranding($conf['ui']);
 
         $this->_assignSearch($ID);
 
@@ -268,10 +268,27 @@ class OA_Admin_UI
         }
     }
 
-    function _assignBranding($appName, $logoPath)
+    function _assignBranding($aConf)
     {
-        $this->oTpl->assign('applicationName', $appName);
-        $this->oTpl->assign('logoFilePath', $logoPath);
+        $this->oTpl->assign('applicationName', $aConf['applicationName']);
+        $this->oTpl->assign('logoFilePath', $aConf['logoFilePath']);
+        if (!empty($aConf['headerForegroundColor'])) {
+            $this->oTpl->assign('headerForegroundColor', $aConf['headerForegroundColor']);
+        }
+        if (!empty($aConf['headerBackgroundColor'])) {
+            $this->oTpl->assign('headerBackgroundColor', $aConf['headerBackgroundColor']);
+        }
+        if (!empty($aConf['headerActiveTabColor'])) {
+            $this->oTpl->assign('headerActiveTabColor', $aConf['headerActiveTabColor']);
+        }
+        if (!empty($aConf['headerTextColor'])) {
+            $this->oTpl->assign('headerTextColor', $aConf['headerTextColor']);
+        }
+        if (!empty($aConf['headerForegroundColor']) || !empty($aConf['headerBackgroundColor'])
+            || !empty($aConf['headerActiveTabColor']) || !empty($aConf['headerTextColor']))
+        {
+            $this->oTpl->assign('customBranding', true);
+        }
         $this->oTpl->assign('productName', MAX_PRODUCT_NAME);
     }
 

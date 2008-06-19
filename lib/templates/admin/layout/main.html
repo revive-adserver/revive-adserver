@@ -36,6 +36,44 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 {include file=layout/styles.html}
 {include file=layout/scripts.html}
 
+{if $customBranding}
+{literal}
+<style type="text/css">
+{/literal}
+{if $headerForegroundColor}
+{literal}
+.brandingName {
+{/literal}
+    color: {$headerForegroundColor};
+{literal}
+}
+{/literal}
+{/if}
+
+{if $headerBackgroundColor}
+{literal}
+#oaHeader {
+{/literal}
+    background-color: {$headerBackgroundColor};
+{literal}
+}
+{/literal}
+{/if}
+
+{if $headerTextColor}
+{literal}
+#oaNavigationExtra, #oaNavigationExtraTop {
+{/literal}
+    color: {$headerTextColor}
+{literal}
+}
+{/literal}
+{/if}
+{literal}
+</style>
+{/literal}
+{/if}
+
 {$jsMPE}
 {$jsFlash}
 
