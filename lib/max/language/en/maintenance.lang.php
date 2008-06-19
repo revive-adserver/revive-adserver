@@ -234,6 +234,9 @@ $GLOBALS['strBannerCompiledLimitationsValid']   = "All banner compiled limitatio
 $GLOBALS['strErrorsFound']              = "Errors found";
 $GLOBALS['strRepairCompiledLimitations']        = "Some inconsistancies were found above, you can repair these using the button below, this will recompile the compiled limitation for every banner/channel in the system<br />";
 $GLOBALS['strRecompile']                = 'Recompile';
+$GLOBALS['strDeliveryEngineDisagreeNotice'] = "Under some circumstances the delivery engine can disagree with the stored ACLs for banners and channels, use the folowing link to validate the ACLs in the database";
+$GLOBALS['strCheckACLs'] = "Check ACLs";
+
 
 //  Append codes
 $GLOBALS['strAppendCodesDesc']          = "Under some circumstances the delivery engine can disagree with the stored append codes for trackers, use the folowing link to validate the append codes in the database";

@@ -45,8 +45,8 @@ phpAds_MaintenanceSelection("acls");
 
 echo "<br />";
 
-echo "<img src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>Under some circumstances the delivery engine can disagree with the stored ACLs for banners and channels, use the folowing link to validate the ACLs in the database<br /><br />";
-echo "&nbsp;<a href='maintenance-acl-check.php'>Check ACLs</a>&nbsp;&nbsp;";
+echo "<img src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>" . $GLOBALS['strDeliveryEngineDisagreeNotice'] . "<br /><br />";
+echo "&nbsp;<a href='maintenance-acl-check.php'>" . $GLOBALS['strCheckACLs'] . "</a>&nbsp;&nbsp;";
 echo "<br /><br />";
 phpAds_ShowBreak();
 
