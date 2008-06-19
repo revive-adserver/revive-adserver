@@ -167,9 +167,7 @@ $Id$
         },
         success: function(data) {
           if (!checkReload(data)) {
-	          $("#zones-" + panel + "-rows").html(extractPart(data, panel, "rows"));
-	          $("#zones-" + panel + " tr.header").visible(!$("#zones-" + panel + "-rows tr:eq(0)").is(".empty"));
-	          $("#status-" + panel).html($(extractPart(data, panel, "status")).contents());
+            updatePanel(data, panel);
 	        }
         },
         error: function() {
