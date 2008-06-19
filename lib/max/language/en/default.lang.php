@@ -413,7 +413,8 @@ $GLOBALS['strCompanionPositioning']         = "Companion positioning";
 $GLOBALS['strSelectUnselectAll']            = "Select / Unselect All";
 $GLOBALS['strConfirmOverwrite']             = "Saving these changes will overwrite any individual banner-zone links. Are you sure?";
 // Campaign-zone linking page
-$GLOBALS['strValueCalculatedInformation']   = "Value calculated for all campaigns";
+$GLOBALS['strCalculatedForAllCampaigns']    = "Calculated for all campaigns";
+$GLOBALS['strCalculatedForThisCampaign']    = "Calculated for this campaign";
 $GLOBALS['strLinkingZonesProblem']          = "Problem occured when linking zones";
 $GLOBALS['strUnlinkingZonesProblem']        = "Problem occured when unlinking zones";
 $GLOBALS['strZonesLinked']                  = "zone(s) linked";

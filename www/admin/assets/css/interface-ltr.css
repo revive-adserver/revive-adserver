@@ -1173,8 +1173,8 @@ input.checkbox {
 	color: #d09902;
 }
 
-#campaign-zone .estim-box {
-	background-color: #d09902;
+#campaign-zone .estim-box,
+#campaign-zone .accurate-box {
 	float: left;
 	width: 10px;
 	height: 10px;
@@ -1182,13 +1182,25 @@ input.checkbox {
 	margin-right: 3px;
 }
 
+#campaign-zone .accurate-box {
+	background-color: #d09902;
+}
+
+#campaign-zone .estim-box {
+	background-color: #000000;
+}
+
+#campaign-zone .accurate-info,
 #campaign-zone .estim-info {
 	position: relative;
 	top: 20px;
 	padding-top: 5px;
-	border-top: 1px solid #e6e6e6;
 	clear: both;
 	color: #707070;
+}
+
+#campaign-zone .accurate-info {
+	border-top: 1px solid #e6e6e6;
 }
 
 #campaign-zone .zones tbody tr {
@@ -1258,6 +1270,7 @@ input.checkbox {
 .new-form input,
 .new-form select {
 	border-width: 1px;
+	font-weight: normal;
 }
 
 .new-form input:focus {
