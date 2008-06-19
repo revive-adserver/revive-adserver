@@ -47,7 +47,6 @@ class MAX_Admin_Invocation {
     var $defaultOptionValues = array(
         'thirdPartyServer' => 0,
         'cacheBuster'      => 1,
-        'comments'         => 1,
     );
 
     function getAllowedVariables()
