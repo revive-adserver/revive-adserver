@@ -262,7 +262,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
                 $zone['name'] = $GLOBALS['strGenerateBannercode'];
                 $zone['prefix'] = 'x';
                 $zone['id'] = '-';
-                $zone['icon'] = 'images/icon-generatecode.gif';
+                $zone['icon'] =  MAX::assetPath().'/images/icon-generatecode.gif';
                 $zone['htmlclass'] = 'last';
 
                 if ($this->listOrderField != 'name' && $this->listOrderField != 'id') {
