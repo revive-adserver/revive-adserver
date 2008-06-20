@@ -653,24 +653,30 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
         }
         $prefix = $this->getTablePrefix();
         
-        // Delete ad_zone_assoc  
-        $query = " 
-            DELETE
-            FROM {$prefix}ad_zone_assoc  
-            WHERE
-                ad_id IN (
-                    SELECT bannerid
-                    FROM {$prefix}banners AS b 
-                    WHERE b.campaignid = " . DBC::makeLiteral($campaignId) . "    
-                )
-                AND
-                zone_id IN (" . implode(",",$aZonesIds) . ")
-        ";
-                    
-        $prepared = $this->oDbh->prepare($query,null,MDB2_PREPARE_MANIP);
-        $unlinkedBanners = $prepared->execute();
-        if (PEAR::isError($unlinkedBanners)) {
-                return $unlinkedBanners;
+        $doBanner = OA_Dal::factoryDO('banners');
+        $doBanner->campaignid=$campaignId;
+        $doBanner->find();
+        $aBannersIds = array();
+        while ($doBanner->fetch()) {
+            $aBannnersIds[] = $doBanner->bannerid;
+        }
+        
+        if (count($aBannnersIds)!=0) {
+            // Delete ad_zone_assoc  
+            $query = " 
+                DELETE
+                FROM {$prefix}ad_zone_assoc  
+                WHERE
+                    ad_id IN (" . implode(',', $aBannnersIds) . ")
+                    AND
+                    zone_id IN (" . implode(",",$aZonesIds) . ")
+            ";
+
+            $prepared = $this->oDbh->prepare($query,null,MDB2_PREPARE_MANIP);
+            $unlinkedBanners = $prepared->execute();
+            if (PEAR::isError($unlinkedBanners)) {
+                    return $unlinkedBanners;
+            }
         }
         
         // Delete placement_zone_assoc
