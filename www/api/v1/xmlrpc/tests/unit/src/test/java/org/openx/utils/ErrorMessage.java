@@ -33,6 +33,7 @@ import java.text.MessageFormat;
 public class ErrorMessage {
 	public static final String ACCESS_FORBIDDEN = "Access forbidden";
 
+	public static final String USERNAME_OR_PASSWORD_NOT_CORRECT = "The username and/or password were not correct. Please try again.";
 	public static final String WRONG_ERROR_MESSAGE = "Wrong error message";
 	public static final String EMAIL_IS_NOT_VALID = "Email is not valid";
 	public static final String USERNAME_IS_FEWER_THAN = "Username is fewer than {0} character";
@@ -46,6 +47,7 @@ public class ErrorMessage {
 	public static final String FIELD_IS_NOT_STRING = "Field ''{0}'' is not string";
 	public static final String FIELD_IS_NOT_INTEGER = "Field ''{0}'' is not integer";
 	public static final String INCORRECT_PARAMETERS_WANTED_INT_GOT_STRING = "Incorrect parameters passed to method: Wanted int, got string at param {0}";
+	public static final String INCORRECT_PARAMETERS_WANTED_STRING_GOT_INT = "Incorrect parameters passed to method: Wanted string, got int at param {0}";
 	public static final String INCORRECT_PARAMETERS_WANTED_DATE_GOT_STRING = "Incorrect parameters passed to method: Wanted dateTime.iso8601, got string at param {0}";
 	public static final String FIELD_MUST_NOT_BE_EMPTY = "Field ''{0}'' must not be empty";
 //	public static final String NULL_VALUES_ARE_NOT_SUPPORTED = "Null values aren''t supported, if isEnabledForExtensions() == false";
@@ -59,6 +61,7 @@ public class ErrorMessage {
 	public static final String WORNG_BANNER_SIZE= "This banner is the wrong size for this zone";
 	public static final String WRONG_PARAMETER = "Parameter {0} wrong";
 	public static final String INVOCATION_TAG_PLUGIN_ERROR = "Error while factory invocationTag plugin";
+	public static final String INVALID_SESSION_ID = "Session ID is invalid";
 	
 	public static String getMessage(final String message,
 			final String... parameters) {

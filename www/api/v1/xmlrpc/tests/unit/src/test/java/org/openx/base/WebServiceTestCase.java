@@ -45,8 +45,12 @@ import org.openx.proxy.ErrorLoggingXmlRpcSunHttpTransport;
  */
 public class WebServiceTestCase extends TestCase {
 
+	protected static final String LOGON_METHOD = "logon";
+	protected static final String LOGOFF_METHOD = "logoff";
+	
 	protected XmlRpcClient client;
 	protected String sessionId;
+	
 
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -71,7 +75,7 @@ public class WebServiceTestCase extends TestCase {
 		client.setConfig(config);
 
 		// logon and get session id
-		sessionId = (String) client.execute("logon", new Object[] {
+		sessionId = (String) client.execute(LOGON_METHOD, new Object[] {
 				GlobalSettings.getUserName(), GlobalSettings.getPassword() });
 	}
 
@@ -79,7 +83,7 @@ public class WebServiceTestCase extends TestCase {
 		// logoff
 		((XmlRpcClientConfigImpl) client.getClientConfig())
 				.setServerURL(new URL(GlobalSettings.getLogonServiceUrl()));
-		client.execute("logoff", new Object[] { sessionId });
+		client.execute(LOGOFF_METHOD, new Object[] { sessionId });
 
 		super.tearDown();
 	}
