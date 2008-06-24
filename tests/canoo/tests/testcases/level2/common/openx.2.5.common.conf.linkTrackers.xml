@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE project SYSTEM "../../../../dtd/WebTest.dtd"[
+	<!ENTITY config  SYSTEM "../../modules/config_openx.xml">
+	<!ENTITY login  SYSTEM "../../modules/login_admin.xml">
+]>
+
+<project name="OpenX" basedir="." default="main">
+	<property name="openx.url" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}"/>
+	<target name="main">
+		<webtest name="Level2 - configuration test: openx.2.5.common.conf.linkTrackers.xml">
+			&config;
+			<steps>
+				<enableJavaScript enable="${wt.enableJS}" />
+				&login;
+				
+				<enableJavaScript enable="false" />
+					<clickLink label="Inventory" />
+				<enableJavaScript enable="true" />
+				
+				<clickLink label="Advertiser 1"/>
+
+				<enableJavaScript enable="false" />
+					<clickLink label="Trackers"/>
+				<enableJavaScript enable="true" />
+				
+				<clickLink label="Sample Tracker"/>
+				
+				<enableJavaScript enable="false" />
+					<clickLink label="Linked Campaigns"/>
+				<enableJavaScript enable="true" />
+				
+				<setCheckbox name="campaignids[]" value="3"/>
+				<!-- <clickButton label="Save Changes"/> <clickElement 
+					xpath="/html/body/div[3]/div[2]/table[2]/tbody/tr/td[2]/input[4]" /> -->
+<!-- @TODO: report bug -->				
+				<clickElement htmlId="submit"/>
+				
+			</steps>
+	 	</webtest>
+	</target>	
+</project>

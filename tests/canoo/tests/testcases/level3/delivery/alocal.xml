@@ -8,7 +8,7 @@
 
 <!-- Test that included alocal.php file correctly prints the ad -->
 
-<project name="OpenX delivery - afr.php" basedir="../.." default="main">
+<project name="OpenX delivery - alocal.xml" basedir="../.." default="main">
   <import file="../../modules/init.xml"/>
   <!-- <import file="${webtest.home}/lib/taskdef.xml"/> -->
 

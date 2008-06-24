@@ -35,7 +35,7 @@
         <invoke-delivery-file file="afr.php" query="what=bannerid:2" />
         <verifyText description="Check that ad prints: 'html test banner'" regex="true" text="html test banner" />
         <verifyTitle description="Check that title contains 'Advertisement'" text="Advertisement" />
-       &verifyLinks;
+      	&verifyLinks;
 
         <!-- check the same file again but this time without deleting the cache -->
         <invoke-delivery-file file="afr.php" query="what=bannerid:2" />
@@ -46,9 +46,12 @@
         <!-- check image banner -->
         <invoke-delivery-file file="afr.php" query="what=bannerid:3" />
         <verifyTitle description="Check that title contains alt test 'alt text'" text="alt text" />
-        <verifyText description="Check that ad contains a gif" regex="true" text="ai.php\?filename=468x60.gif&amp;contenttype=gif" />
-        &verifyLinks;
-
+      	<verifyXPath description="Check that the gif is displayed"
+      		xpath="/html/body/a/img/@src"
+      		regex="true"
+      		text=".*contenttype=gif"/>
+      	&verifyLinks;
+      	
         <!-- check zone invocation -->
         <invoke-delivery-file file="afr.php" query="what=zone:1" />
         <verifyTitle description="Check that title contains 'Advertisement'" text="Advertisement" />

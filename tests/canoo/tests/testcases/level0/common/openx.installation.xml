@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE project [
-  <!ENTITY config  SYSTEM "file:../modules/config_openx.xml">
+  <!ENTITY config  SYSTEM "file:../../modules/config_openx.xml">
 ]>
 
 <project name="Setup tests level0" basedir="."	default="main">

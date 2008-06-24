@@ -7,13 +7,29 @@
 ]>
 
 <project name="OpenX" basedir="." default="main">
-	 <target name="main">
-	 	<!--
+	<target name="main">
+		<!-- ant properties can't be changed
+		<storeProperty description="do not fail on js errors" name="${wt.throwExceptionOnScriptError}" value="false" /> -->
 		<subant inheritall="true">
         	<filelist dir="${testcase.dir}/level2/common/">
-				<file name="openx.2.5.common.conf..xml" />
+        		
+        		<file name="openx.common.conf.dbsetup.xml" />	
+				<file name="openx.2.5.common.conf.addAdvertiser.xml" />
+        		<file name="openx.2.5.common.conf.addCampaigns.xml" />
+        	
+        		<file name="openx.2.5.common.conf.addBanners.xml" />
+        
+        		<file name="openx.2.5.common.conf.addWebsite.xml" />
+        		<file name="openx.2.5.common.conf.addZones.xml" />
+				<file name="openx.2.5.common.conf.linkBanners.xml" />
+        		<file name="openx.2.5.common.conf.linkZones.xml" />
+        		<file name="openx.2.5.common.conf.addTrackers.xml" />
+        		<file name="openx.2.5.common.conf.linkTrackers.xml" />	
+        		<file name="openx.2.5.common.conf.addChannel.xml" />
+        		<!---->
+        		<!-- !!!! <file name="openx.2.5.common.conf.addBannerGif.xml" /> -->
 			</filelist>
-        </subant>
-        -->
+		</subant>
+		<!-- <storeProperty description="turn back on failing on js errors" name="${wt.throwExceptionOnScriptError}" value="true" /> -->
 	</target>	
 </project>

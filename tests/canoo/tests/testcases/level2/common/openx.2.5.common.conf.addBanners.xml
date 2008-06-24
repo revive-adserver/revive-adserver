@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE project SYSTEM "../../../../dtd/WebTest.dtd"[
+	<!ENTITY config  SYSTEM "../../modules/config_openx.xml">
+	<!ENTITY login  SYSTEM "../../modules/login_admin.xml">
+]>
+
+<project name="OpenX" basedir="." default="main">
+	<property name="openx.url" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}"/>
+	<target name="main">
+		<webtest name="Level2 - configuration test: openx.2.5.common.conf.addBanners.xml">
+			&config;
+			<steps>
+				<enableJavaScript enable="${wt.enableJS}" />
+				&login;				
+				
+				<enableJavaScript enable="false" />
+					<clickLink label="Inventory" />
+				<enableJavaScript enable="true" />
+				<clickLink label="Advertisers &amp; Campaigns"/>
+				<enableJavaScript enable="false" />
+					<clickLink description="expand list of available campaigns"	
+						href="expand=client:1" saveResponse='true' />
+				<enableJavaScript enable="true" />
+
+				<enableJavaScript enable="false" />
+					<clickLink description="Advertiser 1 - Default Campaign: Add new banner"		
+						label="Add new banner"
+						href="campaignid=1" />
+				<enableJavaScript enable="true" />
+				
+				<setSelectField description="choose the type of the banner -> HTML banner"
+				    name="type"
+					value="html" />
+				<setInputField name="description" value="Test HTML Banner!"/>									
+				<setInputField name="width" value="468"/>
+				<setInputField name="height" value="60"/>
+
+<!--	disabled because this banner is inserted directly by sql query				
+				<enableJavaScript enable="false" />
+					<clickButton htmlid="submit"/>
+				<enableJavaScript enable="true" />
+-->
+
+<!-- disabled due to weird java exception occurrence:
+	D:\qa\eclipse-workspace\trunk\target\tests\canoo\tests\testcases\level2\common\openx.2.5.common.conf.addBanners.xml:11:
+	java.lang.NoSuchMethodError: org.apache.commons.io.FileUtils.writeStringToFile(Ljava/io/File;Ljava/lang/String;)V
+-->				
+	<!-- value="Test HTML Banner!"			
+				<enableJavaScript enable="false" />
+					<clickLink label="Inventory" />
+				<enableJavaScript enable="true" />		
+				<clickLink label="Advertisers &amp; Campaigns"/>		
+				<enableJavaScript enable="false" />
+					<clickLink description="expand available lists"	
+						href="expand=all" saveResponse='true' />
+				<enableJavaScript enable="true" />		
+				<clickLink label="Test HTML Banner!"/>
+					<setInputField name="htmltemplate" value="test" />				
+				<enableJavaScript enable="false" />
+					<clickButton htmlid="submit"/>
+				<enableJavaScript enable="true" />				
+	-->	
+				
+	<!--			
+				<enableJavaScript enable="false" />
+					<clickLink label="Inventory" />
+				<enableJavaScript enable="true" />
+				<clickLink label="Advertisers &amp; Campaigns"/>
+				<enableJavaScript enable="false" />
+					<clickLink description="expand all available lists of entities"	
+						href="expand=all" saveResponse='true' />
+				<enableJavaScript enable="true" />
+
+				<enableJavaScript enable="false" />
+					<clickLink description="test campaign: Add new banner"		
+						label="Add new banner"
+						href="campaignid=2" />
+				<enableJavaScript enable="true" />
+				
+				<setSelectField description="choose the type of the banner -> HTML banner"
+				    name="type"
+					value="html" />
+				<setInputField name="description" value="test banner"/>
+								
+				<setInputField name="width" value="468"/>
+				<setInputField name="height" value="60"/>
+				
+				<setInputField name="htmltemplate" value="html test banner"/>
+				<setInputField name="url" value="https://developer.openx.org/"/>
+				<enableJavaScript enable="false" />
+					<clickButton htmlid="submit"/>
+				<enableJavaScript enable="true" />	
+	-->			
+				
+				
+				<enableJavaScript enable="false" />
+					<clickLink label="Inventory" />
+				<enableJavaScript enable="true" />
+				
+				<clickLink label="Advertisers &amp; Campaigns"/>
+				
+				<enableJavaScript enable="false" />
+					<clickLink description="expand all available lists of entities"	
+						href="expand=all" saveResponse='true' />
+				<enableJavaScript enable="true" />
+				
+				<clickLink label="Add new banner" href="campaignid=3" saveResponse='true' />
+				<setSelectField name="type" text="Local banner (SQL)" saveResponse='true' />
+				<setInputField name="description" value="sample gif banner" saveResponse='true' />
+				<setFileField description="File upload" fileName="${testcase.dir}/level2/resources/468x60.gif" name="upload" saveResponse='true' />
+				<setInputField name="url" value="https://developer.openx.org/" saveResponse='true' />
+				<setInputField name="alt" value="alt text" saveResponse='true' />
+				<enableJavaScript enable="false" />
+					<!-- <clickButton label="Save Changes"/> -->
+					<clickButton htmlId="submit"/>
+				<enableJavaScript enable="true" />
+			</steps>
+	 	</webtest>
+	</target>
+</project>

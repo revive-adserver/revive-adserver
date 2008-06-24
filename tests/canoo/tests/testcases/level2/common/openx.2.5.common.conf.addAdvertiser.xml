@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE project SYSTEM "../../../../dtd/WebTest.dtd"[
+	<!ENTITY config  SYSTEM "../../modules/config_openx.xml">
+	<!ENTITY login  SYSTEM "../../modules/login_admin.xml">
+]>
+
+<project name="OpenX" basedir="." default="main">
+	<property name="openx.url" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}"/>
+	<target name="main">
+		<webtest name="Level2 - configuration test: openx.2.5.common.conf.addAdvertiser.xml">
+			&config;
+			<steps>
+				<enableJavaScript enable="${wt.enableJS}" />
+				&login;
+				<enableJavaScript enable="false" />
+				<clickLink label="Inventory" />
+				<enableJavaScript enable="true" />
+					<clickLink label="Add new advertiser" />
+				<setInputField name="clientname" value="Advertiser 1"/>
+				<setInputField name="contact" value="advertiser"/>
+				<setInputField name="email" value="example@example.com"/>
+				<enableJavaScript enable="false" />
+					<clickButton label="Next >"/>
+				<enableJavaScript enable="true" />
+			</steps>
+	 	</webtest>
+	</target>	
+</project>

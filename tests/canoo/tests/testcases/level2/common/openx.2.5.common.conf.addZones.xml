@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE project SYSTEM "../../../../dtd/WebTest.dtd"[
+	<!ENTITY config  SYSTEM "../../modules/config_openx.xml">
+	<!ENTITY login  SYSTEM "../../modules/login_admin.xml">
+]>
+
+<project name="OpenX" basedir="." default="main">
+	<property name="openx.url" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}"/>
+	<target name="main">
+		<webtest name="Level2 - configuration test: openx.2.5.common.conf.addZones.xml">
+			&config;
+			<steps>
+				<enableJavaScript enable="${wt.enableJS}" />
+				&login;
+				
+				<enableJavaScript enable="false" />
+					<clickLink label="Inventory" />
+				<enableJavaScript enable="true" />
+				
+				<clickLink label="Websites &amp; Zones"/>
+				
+				<enableJavaScript enable="false" />
+					<clickLink label="Add new zone"/>
+				<enableJavaScript enable="true" />
+				
+				<setInputField name="zonename" value="Publisher 1 - Default"/>
+				<clickButton label="Next >"/>
+				
+				<enableJavaScript enable="false" />
+					<clickButton label="Save Changes"/>
+				<enableJavaScript enable="true" />
+				
+				<clickLink label="Zones"/>
+				
+				<enableJavaScript enable="false" />
+					<clickLink label="Add new zone"/>
+				<enableJavaScript enable="true" />
+				
+				<setInputField name="zonename" value="Agency Publisher 1 - Default"/>
+				
+				<clickButton label="Next >"/>
+				
+				<!-- <clickButton label="Save Changes"/> -->
+				<enableJavaScript enable="false" />
+					<clickButton label="Save Changes"/>
+				<enableJavaScript enable="true" />
+			</steps>
+	 	</webtest>
+	</target>	
+</project>

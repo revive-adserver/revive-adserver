@@ -22,8 +22,23 @@
       <steps>
         <invoke description="Invoke delivery file" url="/${delivery_file}" />
         &checkForErrors;
-        <verifyText description="Check that ad prints: 'html test banner'" regex="true" text="html test banner" />
-        &verifyLoginBeacon;
+      	
+      	<ifStep description="only one of the two ads should be delivered at the same time">
+  	        <condition>
+  	        	<verifyText description="Check that ad prints: 'html test banner'" regex="true" text="html test banner" />
+  	        </condition>
+  	        <then>
+  	          <!-- ... do nothing ... -->
+  	        </then>
+  	        <else>
+  	        	<verifyXPath description="Check that the gif is displayed"
+  	        		xpath="/html/body/a/img/@src"
+  	        		regex="true"
+  	        		text=".*contenttype=gif"/>
+  	        </else>
+  	      </ifStep>
+      	
+      	&verifyLoginBeacon;
         &verifyLinks;
       </steps>
     </webtest>

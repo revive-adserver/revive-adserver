@@ -8,11 +8,11 @@
 	<property name="openx.example_url" value="${openx.url}/delivery_test/example.php"/>
 	<target name="main">
 		<subant inheritall="true">
-			<fileset dir="${testcase.dir}/level3/common/">
-				<filename name="openx.common.delivery.dbsetup.xml" />
-			</fileset>
+			
         	<fileset dir="${testcase.dir}/level3/delivery/">
         		<include name="*.xml"/>
+        		<!-- temporary disable because it takes too long to execute
+        		<exclude name="avw.xml"/> -->
 			</fileset>
         </subant>
 	</target>
