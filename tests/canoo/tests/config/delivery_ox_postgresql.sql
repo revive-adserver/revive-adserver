@@ -43,3 +43,4 @@ INSERT INTO ox_placement_zone_assoc VALUES (1,1,1),(2,1,2),(3,2,3);
 
 SELECT pg_catalog.setval('ox_banners_bannerid_seq', 2, true);
 SELECT pg_catalog.setval('ox_ad_zone_assoc_ad_zone_assoc_id_seq', 5, true);
+SELECT pg_catalog.setval('ox_placement_zone_assoc', 3, true);
