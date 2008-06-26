@@ -248,8 +248,8 @@ class Plugins_InvocationTagsOptions
         if (!$maxInvocation->zone_invocation || ($maxInvocation->width == -1 || $maxInvocation->height == -1)) {
             $option .= "<tr><td width='30'>&nbsp;</td>";
             $option .= "<td width='200'>".$GLOBALS['strFrameSize']."</td><td width='370'>";
-            $option .= $GLOBALS['strWidth'].": <input class='flat' type='text' name='width' size='3' value='".((isset($maxInvocation->width) && $maxInvocation->width > 0) ? $maxInvocation->width : '')."' tabindex='".($maxInvocation->tabindex++)."'>&nbsp;&nbsp;&nbsp;";
-            $option .= $GLOBALS['strHeight'].": <input class='flat' type='text' name='height' size='3' value='".((isset($maxInvocation->height) &&  $maxInvocation->height > 0) ? $maxInvocation->height : '')."' tabindex='".($maxInvocation->tabindex++)."'>";
+            $option .= $GLOBALS['strWidth'].": <input class='flat' type='text' name='frame_width' size='3' value='".((isset($maxInvocation->frame_width) && $maxInvocation->frame_width > 0) ? $maxInvocation->frame_width : '')."' tabindex='".($maxInvocation->tabindex++)."'>&nbsp;&nbsp;&nbsp;";
+            $option .= $GLOBALS['strHeight'].": <input class='flat' type='text' name='frame_height' size='3' value='".((isset($maxInvocation->frame_height) &&  $maxInvocation->frame_height > 0) ? $maxInvocation->frame_height : '')."' tabindex='".($maxInvocation->tabindex++)."'>";
             $option .= "</td></tr>";
             $option .= "<tr><td width='30'><img src='" . MAX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
         }

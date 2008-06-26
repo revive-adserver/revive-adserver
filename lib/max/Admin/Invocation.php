@@ -67,6 +67,8 @@ class MAX_Admin_Invocation {
             'delay_type',
             'domains_table',
             'extra',
+            'frame_width',
+            'frame_height',
             'height',
             'hostlanguage',
             'iframetracking',

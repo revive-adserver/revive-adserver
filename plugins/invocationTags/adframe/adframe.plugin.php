@@ -142,16 +142,18 @@ class Plugins_InvocationTags_adframe_adframe extends Plugins_InvocationTags
             }
         }
 
+        if (empty($mi->frame_width )) { $mi->frame_width  = $mi->width; }
+        if (empty($mi->frame_height)) { $mi->frame_height = $mi->height; }
         $buffer .= "<iframe id='{$uniqueid}' name='{$uniqueid}' src='".MAX_commonConstructDeliveryUrl($conf['file']['frame']);
         if (sizeof($mi->parameters) > 0) {
             $buffer .= "?".implode ("&amp;", $mi->parameters);
         }
         $buffer .= "' framespacing='0' frameborder='no' scrolling='no'";
-        if (isset($mi->width) && $mi->width != '' && $mi->width != '-1') {
-            $buffer .= " width='".$mi->width."'";
+        if (isset($mi->frame_width) && $mi->frame_width != '' && $mi->frame_width != '-1') {
+            $buffer .= " width='".$mi->frame_width."'";
         }
-        if (isset($mi->height) && $mi->height != '' && $mi->height != '-1') {
-            $buffer .= " height='".$mi->height."'";
+        if (isset($mi->frame_height) && $mi->frame_height != '' && $mi->frame_height != '-1') {
+            $buffer .= " height='".$mi->frame_height."'";
         }
         if (isset($mi->transparent) && $mi->transparent == '1') {
             $buffer .= " allowtransparency='true'";
@@ -164,13 +166,13 @@ class Plugins_InvocationTags_adframe_adframe extends Plugins_InvocationTags
             unset ($mi->parameters['resize']);
         }
 
-        if (isset($mi->ilayer) && $mi->ilayer == 1 &&  isset($mi->width) && $mi->width != '' && $mi->width != '-1' && isset($mi->height) && $mi->height != '' && $mi->height != '-1') {
+        if (isset($mi->ilayer) && $mi->ilayer == 1 &&  isset($mi->frame_width) && $mi->frame_width != '' && $mi->frame_width != '-1' && isset($mi->frame_height) && $mi->frame_height != '' && $mi->frame_height != '-1') {
             $buffer .= "<script type='text/javascript'>\n";
             $buffer .= "<!--// <![CDATA[\n";
             $buffer .= "   document.write (\"<nolayer>\");\n";
             $buffer .= "   document.write (\"{$mi->backupImage}\");\n";
             $buffer .= "   document.write (\"</nolayer>\");\n";
-            $buffer .= "   document.write (\"<ilayer id='layer".$uniqueid."' visibility='hidden' width='".$mi->width."' height='".$mi->height."'></ilayer>\");\n";
+            $buffer .= "   document.write (\"<ilayer id='layer".$uniqueid."' visibility='hidden' width='".$mi->frame_width."' height='".$mi->frame_height."'></ilayer>\");\n";
             $buffer .= "// ]]> -->\n";
             $buffer .= "</script>";
             $buffer .= "<noscript>\n  <a href='".MAX_commonConstructDeliveryUrl($conf['file']['click']);
@@ -192,7 +194,7 @@ class Plugins_InvocationTags_adframe_adframe extends Plugins_InvocationTags
         if (isset($mi->target) && $mi->target != '') {
             $mi->parameters['target'] = "target=".urlencode($mi->target);
         }
-        if (isset($mi->ilayer) && $mi->ilayer == 1 && isset($mi->width) && $mi->width != '' && $mi->width != '-1' && isset($mi->height) && $mi->height != '' && $mi->height != '-1') {
+        if (isset($mi->ilayer) && $mi->ilayer == 1 && isset($mi->frame_width) && $mi->frame_width != '' && $mi->frame_width != '-1' && isset($mi->frame_height) && $mi->frame_height != '' && $mi->frame_height != '-1') {
             // Do no rewrite target frames
             $mi->parameters['rewrite'] = 'rewrite=0';
             $buffer .= "\n\n";
@@ -202,7 +204,7 @@ class Plugins_InvocationTags_adframe_adframe extends Plugins_InvocationTags
             if (sizeof($mi->parameters) > 0) {
                 $buffer .= "&".implode ("&", $mi->parameters);
             }
-            $buffer .= "' width='".$mi->width."' height='".$mi->height."' visibility='hidden' onload=\"moveToAbsolute(layer".$uniqueid.".pageX,layer".$uniqueid.".pageY);clip.width=".$mi->width.";clip.height=".$mi->height.";visibility='show';\"></layer>";
+            $buffer .= "' width='".$mi->frame_width."' height='".$mi->frame_height."' visibility='hidden' onload=\"moveToAbsolute(layer".$uniqueid.".pageX,layer".$uniqueid.".pageY);clip.width=".$mi->frame_width.";clip.height=".$mi->frame_height.";visibility='show';\"></layer>";
         }
 
         if (!isset($mi->iframetracking) || $mi->iframetracking != 0) {
