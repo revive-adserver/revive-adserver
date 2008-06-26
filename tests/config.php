@@ -46,6 +46,7 @@ $GLOBALS['_MAX']['TEST']['directories'] =
         'etc/changes',
         'lib/max',
         'lib/OA',
+        'lib/OX',
         'lib/util',
         'plugins',
     	'lib/xmlrpc/php'

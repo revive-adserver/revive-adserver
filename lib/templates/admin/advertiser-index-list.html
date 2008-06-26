@@ -114,7 +114,12 @@ $Id$
 
             </div>
             <div>
-              <a href='campaign-edit.php?clientid={$clientId}&campaignid={$campaignId}'>{$campaign.campaignname|escape:html}</a>
+              <a href='campaign-edit.php?clientid={$clientId}&campaignid={$campaignId}'>{$campaign.campaignname|escape:html}    </a>
+              {if $campaign.type == OX_CAMPAIGN_TYPE_CONTRACT}
+                <span class="campaign-type campaign-contract"><span class="sep">|</span>{t str=ContractCampaign}</span>
+              {else}
+                <span class="campaign-type campaign-remnant"><span class="sep">|</span>{t str=RemnantCampaign}</span>
+              {/if}
             </div>
         </td>
         {if $showAdDirect}

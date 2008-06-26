@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                             |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -26,26 +26,35 @@ $Id$
 */
 
 /**
- * Various array utilities.
+ * A set of static utility methods 
+ * 
+ * @author bernard@openx.org
+ * $package OX.Util
  *
  */
-class ArrayUtils
+class OX_Util_Utils
 {
     /**
-     * Searches the $aValues for the first occurence of $oValue. If the value
-     * is found and its key is numeric, it is unset from the array. The array
-     * is passed as reference.
+     * Returns campaign type based on given priority
+     * Type => priorities mapping is as follows:
+     *  - Contract (OX_CAMPAIGN_TYPE_REMNANT): 
+     *      -1 (Exclusive) 
+     *      1-10 (High) 
+     *  - Remnant (OX_CAMPAIGN_TYPE_CONTRACT):
+     *      0 (Low) 
      *
-     * @param array $aValues
-     * @param object $value
+     * @param unknown_type $priority
+     * @return unknown
      */
-    function unsetIfKeyNumeric(&$aValues, $oValue)
-    {
-        $key = array_search($oValue, $aValues);
-        if (is_numeric($key)) {
-            unset($aValues[$key]);
-        }
-    }
+   static function getCampaignType($priority)
+   {
+       if ($priority == 0) { //Remnant - Low priority 
+           return OX_CAMPAIGN_TYPE_REMNANT;  
+       }
+       else {//Contract - ($priority = -1 (Exclusive) or from 1 to 10 (High)
+           return OX_CAMPAIGN_TYPE_CONTRACT;
+       }
+   }
 }
 
 ?>

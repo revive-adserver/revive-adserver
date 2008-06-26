@@ -32,8 +32,10 @@ require_once '../../init.php';
 require_once MAX_PATH . '/www/admin/lib-maintenance-priority.inc.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Dll.php';
+require_once MAX_PATH . '/lib/OX/Util/Utils.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
+
 
 function _isBannerAssignedToCampaign($aBannerData)
 {
@@ -118,7 +120,6 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     $banners = $dalBanners->getAllBannersUnderAgency($agency_id, $listorder, $orderdirection);
 }
 
-
 // Build Tree
 $clientshidden = 0;
 
@@ -146,6 +147,8 @@ if (!empty($campaigns)) {
         if (!isset($campaign['banners'])) {
             $campaign['banners'] = array();
         }
+        //add artificial type attribute
+        $campaign['type'] = OX_Util_Utils::getCampaignType($campaign['priority']);
         $clients[$campaign['clientid']]['campaigns'][$ckey] = $campaign;
     }
     unset ($campaigns);
@@ -235,7 +238,6 @@ foreach (array_keys($clients) as $clientid) {
     if (isset($client['campaigns'])) {
         foreach (array_keys($client['campaigns']) as $campaignid) {
             $campaign = &$client['campaigns'][$campaignid];
-    
             $aCount['campaigns']++;
             foreach (array_keys($campaign['banners']) as $bannerid) {
                 $banner = &$campaign['banners'][$bannerid];

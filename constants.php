@@ -53,6 +53,11 @@ function setupConstants()
     define('OA_INSTALLATION_STATUS_INSTALLED'    ,    1);
 
     define('OA_AD_DIRECT_ENABLED', false);
+    
+    //campaign types
+    define('OX_CAMPAIGN_TYPE_REMNANT', 1);
+    define('OX_CAMPAIGN_TYPE_CONTRACT', 2);
+    
 
     // This old PAN constant is used in a couple places but could well conflict with the configured DB
     // TODO: find any uses of this constant and re-think their place.

@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                             |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -25,27 +25,22 @@
 $Id$
 */
 
-/**
- * Various array utilities.
- *
- */
-class ArrayUtils
+require_once(MAX_PATH . '/lib/OX/Util/Utils.php');
+
+class OX_Util_UtilsTest 
+    extends UnitTestCase
 {
-    /**
-     * Searches the $aValues for the first occurence of $oValue. If the value
-     * is found and its key is numeric, it is unset from the array. The array
-     * is passed as reference.
-     *
-     * @param array $aValues
-     * @param object $value
-     */
-    function unsetIfKeyNumeric(&$aValues, $oValue)
+    function testGetCampaignType()
     {
-        $key = array_search($oValue, $aValues);
-        if (is_numeric($key)) {
-            unset($aValues[$key]);
+        $aTestValues = array(-1 => OX_CAMPAIGN_TYPE_CONTRACT, 0 => OX_CAMPAIGN_TYPE_REMNANT);
+        for ($i = 1; $i <= 10; $i++) {
+            $aTestValues[$i] = OX_CAMPAIGN_TYPE_CONTRACT; 
+        }
+        
+        foreach ($aTestValues as $priority => $expectedResult) {
+            $result = OX_Util_Utils::getCampaignType($priority);
+            $this->assertEqual($expectedResult, $result);            
         }
     }
 }
-
 ?>

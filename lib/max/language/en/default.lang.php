@@ -412,6 +412,12 @@ $GLOBALS['strRemaining']                    = "Remaining";
 $GLOBALS['strCompanionPositioning']         = "Companion positioning";
 $GLOBALS['strSelectUnselectAll']            = "Select / Unselect All";
 $GLOBALS['strConfirmOverwrite']             = "Saving these changes will overwrite any individual banner-zone links. Are you sure?";
+$GLOBALS['strContractCampaign']             = "Contract Campaign";
+$GLOBALS['strContract']                     = "Contract";
+$GLOBALS['strRemnantCampaign']              = "Remnant Campaign";
+$GLOBALS['strRemnant']                      = "Remnant";
+
+
 // Campaign-zone linking page
 $GLOBALS['strCalculatedForAllCampaigns']    = "Calculated for all campaigns";
 $GLOBALS['strCalculatedForThisCampaign']    = "Calculated for this campaign";

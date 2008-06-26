@@ -27,6 +27,7 @@ $Id$
 
 // Require the initialisation file
 require_once '../../init.php';
+require_once MAX_PATH . '/lib/OX/Util/Utils.php';
 
 // Required files
 require_once MAX_PATH . '/www/admin/lib-maintenance-priority.inc.php';
@@ -173,6 +174,8 @@ while ($doCampaigns->fetch() && $row_campaigns = $doCampaigns->toArray()) {
 	$campaigns[$row_campaigns['campaignid']]['count']  = 0;
 	$campaigns[$row_campaigns['campaignid']]['status'] = $row_campaigns['status'];
     $campaigns[$row_campaigns['campaignid']]['anonymous'] = $row_campaigns['anonymous'];
+    $campaigns[$row_campaigns['campaignid']]['type'] = 
+        OX_Util_Utils::getCampaignType($row_campaigns['priority']);
 }
 
 
@@ -259,6 +262,7 @@ echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 
 echo "<tr height='25'>";
 echo "<td height='25' width='40%'><b>&nbsp;&nbsp;<a href='advertiser-campaigns.php?clientid=".$clientid."&listorder=name'>".$GLOBALS['strName']."</a>";
+echo "<td height='25' width='40%'><b>&nbsp;&nbsp;<a href='advertiser-campaigns.php?clientid=".$clientid."&listorder=name'>".$GLOBALS['strName']."</a>";
 
 if (($listorder == "name") || ($listorder == "")) {
 	if  (($orderdirection == "") || ($orderdirection == "down")) {
@@ -337,13 +341,20 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 		}
 		if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
 		    if (OA_Permission::hasPermission(OA_PERM_BANNER_ACTIVATE) || OA_Permission::hasPermission(OA_PERM_BANNER_EDIT)) {
-        		echo "<a href='campaign-banners.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'>".$campaigns[$ckey]['campaignname']."</td>";
+        		echo "<a href='campaign-banners.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'>".$campaigns[$ckey]['campaignname'];
 		    } else {
 		        echo $campaigns[$ckey]['campaignname'];
 		    }
 		} else {
-    		echo "<a href='campaign-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'>".$campaigns[$ckey]['campaignname']."</td>";
+    		echo "<a href='campaign-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'>".$campaigns[$ckey]['campaignname'];
 		}
+
+        if ($campaigns[$ckey]['type'] == OX_CAMPAIGN_TYPE_CONTRACT) {
+            echo '<span class="campaign-type campaign-contract"><span class="sep">|</span>'.$GLOBALS['strContractCampaign'].'</span>';
+        }
+        else { //OX_CAMPAIGN_TYPE_REMNANT
+            echo '<span class="campaign-type campaign-remnant"><span class="sep">|</span>'.$GLOBALS['strRemnantCampaign'].'</span>';
+        }
 		echo "</td>";
 
     // status
