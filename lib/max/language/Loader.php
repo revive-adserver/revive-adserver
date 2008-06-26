@@ -24,6 +24,8 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/max/Admin/Languages.php';
+
 /**
  * @package    MaxUI
  * @subpackage Language
@@ -41,11 +43,11 @@ class Language_Loader {
 
     /**
      * The method to load the selected language file.
-     * 
+     *
      * Section should to be a name of requested language file excluding the .lang.php extension.
      * Lang is a name of directory with language files
      *
-     * @param string $section section of the system 
+     * @param string $section section of the system
      * @param string $lang  language symbol
      */
     function load($section = 'default', $lang = null) {
@@ -61,18 +63,23 @@ class Language_Loader {
         // Always load the English language, in case of incomplete translations
         if (file_exists (MAX_PATH . '/lib/max/language/en/' . $section . '.lang.php')) {
             include MAX_PATH . '/lib/max/language/en/' . $section . '.lang.php';
-        } else { 
+        } else {
             return; // Wrong section
+        }
+        // Check if using full language name (polish), if so then set to use two letter abbr (pl).
+        $oLang = new MAX_Admin_Languages();
+        if (in_array($aConf['max']['language'], array_keys($oLang->aLanguageMap))) {
+            $lang = $oLang->aLanguageMap[$aConf['max']['language']];
         }
         // Load the language from preferences, if possible, otherwise load
         // the global preference, if possible
-        if (!empty($lang) && 
-                file_exists(MAX_PATH . '/lib/max/language/' . $lang . '/' . $section . '.lang.php')) {
-            if ($lang != 'en') {
-                include MAX_PATH . '/lib/max/language/' . $lang . '/' . $section . '.lang.php';
-            }
-        } elseif (($aConf['max']['language'] != 'en') && file_exists(MAX_PATH .
-                '/lib/max/language/' . $aConf['max']['language'] . '/' . $section . '.lang.php')) {
+        if (!empty($lang) && $lang != 'en'
+            && file_exists(MAX_PATH . '/lib/max/language/' . $lang . '/' . $section . '.lang.php'))
+        {
+            include MAX_PATH . '/lib/max/language/' . $lang . '/' . $section . '.lang.php';
+        } elseif (!empty($lang) && $lang != 'en' && ($aConf['max']['language'] != 'en')
+            && file_exists(MAX_PATH . '/lib/max/language/' . $aConf['max']['language'] . '/' . $section . '.lang.php'))
+        {
             include MAX_PATH . '/lib/max/language/' . $aConf['max']['language'] .
                 '/' . $section . '.lang.php';
         }
