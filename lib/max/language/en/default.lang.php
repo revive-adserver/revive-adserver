@@ -416,6 +416,7 @@ $GLOBALS['strContractCampaign']             = "Contract Campaign";
 $GLOBALS['strContract']                     = "Contract";
 $GLOBALS['strRemnantCampaign']              = "Remnant Campaign";
 $GLOBALS['strRemnant']                      = "Remnant";
+$GLOBALS['strType']                         = "Type";
 
 
 // Campaign-zone linking page

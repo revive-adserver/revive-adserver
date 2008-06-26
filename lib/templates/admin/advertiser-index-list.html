@@ -31,9 +31,10 @@ $Id$
             <b>&nbsp;&nbsp;{oa_title_sort str=Name item=name order=down default=1 url=advertiser-index.php}</b>
         </th>
         {if $showAdDirect}<th width="26%">{t str=Status}</th>{/if}
+        <th width="26%">{t str=Type}</th>
         <th height='25' width="11%">&nbsp;</th>
         <th height='25' width="13%">&nbsp;</th>
-        <th height='25' width="10%">&nbsp;</th>
+        <th height='25' width="20%">&nbsp;</th>
     </tr>
     <tr class="break">
         <td colspan="6"></td>
@@ -75,6 +76,8 @@ $Id$
     		</td>
 
     		{if $showAdDirect}<td class="sts sts-awaiting">&nbsp;</td>{/if}
+    		
+    		<td height='25' style="padding-right: 10px; width: 20%">&nbsp;</td> {*campaign type*}
 
     		<td height='25' style="padding-right: 10px; width: 20%">
     	       <a href='campaign-edit.php?clientid={$clientId}' title="{t str=AddCampaign}"><img src='{$assetPath|escape}/images/icon-campaign-new.gif' border='0' align='absmiddle' alt='{t str=AddCampaign}'>&nbsp;{t str=AddCampaign}</a>
@@ -114,12 +117,7 @@ $Id$
 
             </div>
             <div>
-              <a href='campaign-edit.php?clientid={$clientId}&campaignid={$campaignId}'>{$campaign.campaignname|escape:html}    </a>
-              {if $campaign.type == OX_CAMPAIGN_TYPE_CONTRACT}
-                <span class="campaign-type campaign-contract"><span class="sep">|</span>{t str=ContractCampaign}</span>
-              {else}
-                <span class="campaign-type campaign-remnant"><span class="sep">|</span>{t str=RemnantCampaign}</span>
-              {/if}
+              <a href='campaign-edit.php?clientid={$clientId}&campaignid={$campaignId}'>{$campaign.campaignname|escape:html}</a>
             </div>
         </td>
         {if $showAdDirect}
@@ -127,6 +125,14 @@ $Id$
             {showStatusText status=$campaign.status an_status=$campaign.an_status clientid=$clientId campaignid=$campaignId}
         </td>
         {/if}
+        
+        <td height='25' style="padding-right: 10px;">
+	        {if $campaign.type == OX_CAMPAIGN_TYPE_CONTRACT}
+	          <span class="campaign-type campaign-contract">{t str=Contract}</span>
+	        {else}
+	          <span class="campaign-type campaign-remnant">{t str=Remnant}</span>
+	        {/if}
+        </td> {*campaign type*}
 
         <td height='25' style="padding-right: 15px;">
             <img src='{$assetPath|escape}/images/icon-banner-new.gif' border='0' align='absmiddle' alt='{t str=AddBanner}'>&nbsp;<a href='banner-edit.php?clientid={$clientId}&campaignid={$campaignId}' title="{t str=AddBanner}">{t str=AddBanner}</a>
@@ -160,6 +166,8 @@ $Id$
         {if $showAdDirect}
         <td height='25'></td>
         {/if}
+        <td>&nbsp;</td> {*campaign type*}
+        
         <td>&nbsp;</td>
         <td height='25'>
             <img src='{$assetPath|escape}/images/icon-acl.gif' border='0' align='absmiddle' alt='{t str=ACL}'>&nbsp;<a href='banner-acl.php?clientid={$clientId}&campaignid={$campaignId}&bannerid={$bannerId}'>{t str=ACL}</a>
