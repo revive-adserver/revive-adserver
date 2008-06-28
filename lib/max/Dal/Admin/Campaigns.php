@@ -481,7 +481,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                 an_campaign_id,
                 status,
                 an_status,
-                m.priority AS priority
+                priority AS priority
             FROM
                 {$tableM} " .
             $this->getSqlListOrder($listorder, $orderdirection)
@@ -512,7 +512,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                 m.clientid as clientid,
                 m.campaignname as campaignname,
                 m.status as status,
-                m.an_status as an_status, 
+                m.an_status as an_status,
                 m.priority AS priority
             FROM
                 {$tableM} AS m,
