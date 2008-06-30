@@ -25,7 +25,7 @@
 	<target name="main">
 		<!-- test -->
 		<!-- test2 -->
-		<webtest name="Level0 - Setup test - installation test">
+		<webtest name="Level1 - Setup test - installation test">
 			<!-- test3 -->
 			&config;
 			<steps>
