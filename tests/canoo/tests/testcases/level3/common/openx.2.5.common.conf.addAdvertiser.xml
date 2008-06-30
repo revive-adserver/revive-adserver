@@ -8,34 +8,21 @@
 <project name="OpenX" basedir="." default="main">
 	<property name="openx.url" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}"/>
 	<target name="main">
-		<webtest name="Level2 - configuration test: openx.2.5.common.conf.linkTrackers.xml">
+		<webtest name="Level3 - configuration test: openx.2.5.common.conf.addAdvertiser.xml">
 			&config;
 			<steps>
 				<enableJavaScript enable="${wt.enableJS}" />
 				&login;
-				
 				<enableJavaScript enable="false" />
-					<clickLink label="Inventory" />
+				<clickLink label="Inventory" />
 				<enableJavaScript enable="true" />
-				
-				<clickLink label="Advertiser 1"/>
-
+					<clickLink label="Add new advertiser" />
+				<setInputField name="clientname" value="Advertiser 1"/>
+				<setInputField name="contact" value="advertiser"/>
+				<setInputField name="email" value="example@example.com"/>
 				<enableJavaScript enable="false" />
-					<clickLink label="Trackers"/>
+					<clickButton label="Next >"/>
 				<enableJavaScript enable="true" />
-				
-				<clickLink label="Sample Tracker"/>
-				
-				<enableJavaScript enable="false" />
-					<clickLink label="Linked Campaigns"/>
-				<enableJavaScript enable="true" />
-				
-				<setCheckbox name="campaignids[]" value="3"/>
-				<!-- <clickButton label="Save Changes"/> <clickElement 
-					xpath="/html/body/div[3]/div[2]/table[2]/tbody/tr/td[2]/input[4]" /> -->
-<!-- @TODO: report bug -->				
-				<clickElement htmlId="submit"/>
-				
 			</steps>
 	 	</webtest>
 	</target>	

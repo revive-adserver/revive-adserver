@@ -8,21 +8,32 @@
 <project name="OpenX" basedir="." default="main">
 	<property name="openx.url" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}"/>
 	<target name="main">
-		<webtest name="Level2 - configuration test: openx.2.5.common.conf.addAdvertiser.xml">
+		<webtest name="Level3 - configuration test: openx.2.5.common.conf.addChannel.xml">
 			&config;
 			<steps>
 				<enableJavaScript enable="${wt.enableJS}" />
 				&login;
+				
 				<enableJavaScript enable="false" />
-				<clickLink label="Inventory" />
+					<clickLink label="Inventory" />
 				<enableJavaScript enable="true" />
-					<clickLink label="Add new advertiser" />
-				<setInputField name="clientname" value="Advertiser 1"/>
-				<setInputField name="contact" value="advertiser"/>
-				<setInputField name="email" value="example@example.com"/>
+				
+				<clickLink label="Websites &amp; Zones"/>
+				
 				<enableJavaScript enable="false" />
-					<clickButton label="Next >"/>
+					<clickLink label="Targeting Channels"/>
 				<enableJavaScript enable="true" />
+				
+				<enableJavaScript enable="false" />
+					<clickLink label="Add new Targeting Channel"/>
+				<enableJavaScript enable="true" />
+				
+				<setInputField name="name" value="Test Admin Channel 2"/>
+				<!-- <clickButton label="Save Changes"/> -->
+				<clickButton htmlId="submit"/>
+				
+				<!-- OX-2726 -->
+				
 			</steps>
 	 	</webtest>
 	</target>	

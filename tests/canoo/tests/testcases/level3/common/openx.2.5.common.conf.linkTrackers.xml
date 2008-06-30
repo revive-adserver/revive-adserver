@@ -8,28 +8,34 @@
 <project name="OpenX" basedir="." default="main">
 	<property name="openx.url" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}"/>
 	<target name="main">
-		<webtest name="Level2 - configuration test: openx.2.5.common.conf.linkZones.xml (DOES NOT WORK CORRECTLY YET!)">
+		<webtest name="Level3 - configuration test: openx.2.5.common.conf.linkTrackers.xml">
 			&config;
 			<steps>
 				<enableJavaScript enable="${wt.enableJS}" />
 				&login;
+				
 				<enableJavaScript enable="false" />
 					<clickLink label="Inventory" />
 				<enableJavaScript enable="true" />
-				<clickLink label="Advertisers &amp; Campaigns"/>
+				
+				<clickLink label="Advertiser 1"/>
+
 				<enableJavaScript enable="false" />
-					<clickLink description="expand list of available campaigns"	
-						href="expand=client:1" saveResponse='true' />
+					<clickLink label="Trackers"/>
 				<enableJavaScript enable="true" />
-				<clickLink label="Advertiser 1 - Default Campaign"/>
+				
+				<clickLink label="Sample Tracker"/>
+				
 				<enableJavaScript enable="false" />
-					<clickLink label="Linked Zones"/>
+					<clickLink label="Linked Campaigns"/>
 				<enableJavaScript enable="true" />
-				<setCheckbox description="Select Agency Publisher 1 zones"
-			        htmlid="available-select-all"
-			        checked="true" />
-				<clickButton htmlid="link-button"/>
-				<!-- <clickButton htmlid="aw1_z1"/> -->
+				
+				<setCheckbox name="campaignids[]" value="3"/>
+				<!-- <clickButton label="Save Changes"/> <clickElement 
+					xpath="/html/body/div[3]/div[2]/table[2]/tbody/tr/td[2]/input[4]" /> -->
+<!-- @TODO: report bug -->				
+				<clickElement htmlId="submit"/>
+				
 			</steps>
 	 	</webtest>
 	</target>	

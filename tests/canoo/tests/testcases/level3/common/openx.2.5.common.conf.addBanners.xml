@@ -8,7 +8,7 @@
 <project name="OpenX" basedir="." default="main">
 	<property name="openx.url" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}"/>
 	<target name="main">
-		<webtest name="Level2 - configuration test: openx.2.5.common.conf.addBanners.xml">
+		<webtest name="Level3 - configuration test: openx.2.5.common.conf.addBanners.xml">
 			&config;
 			<steps>
 				<enableJavaScript enable="${wt.enableJS}" />
@@ -108,7 +108,7 @@
 				<clickLink label="Add new banner" href="campaignid=3" saveResponse='true' />
 				<setSelectField name="type" text="Local banner (SQL)" saveResponse='true' />
 				<setInputField name="description" value="sample gif banner" saveResponse='true' />
-				<setFileField description="File upload" fileName="${testcase.dir}/level2/resources/468x60.gif" name="upload" saveResponse='true' />
+				<setFileField description="File upload" fileName="${testcase.dir}/level3/resources/468x60.gif" name="upload" saveResponse='true' />
 				<setInputField name="url" value="https://developer.openx.org/" saveResponse='true' />
 				<setInputField name="alt" value="alt text" saveResponse='true' />
 				<enableJavaScript enable="false" />

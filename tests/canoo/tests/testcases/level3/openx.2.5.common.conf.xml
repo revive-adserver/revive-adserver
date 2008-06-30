@@ -11,7 +11,7 @@
 		<!-- ant properties can't be changed
 		<storeProperty description="do not fail on js errors" name="${wt.throwExceptionOnScriptError}" value="false" /> -->
 		<subant inheritall="true">
-        	<filelist dir="${testcase.dir}/level2/common/">
+        	<filelist dir="${testcase.dir}/level3/common/">
         		
         		<file name="openx.common.conf.dbsetup.xml" />	
 				<file name="openx.2.5.common.conf.addAdvertiser.xml" />

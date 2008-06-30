@@ -8,32 +8,28 @@
 <project name="OpenX" basedir="." default="main">
 	<property name="openx.url" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}"/>
 	<target name="main">
-		<webtest name="Level2 - configuration test: openx.2.5.common.conf.addChannel.xml">
+		<webtest name="Level3 - configuration test: openx.2.5.common.conf.linkZones.xml (DOES NOT WORK CORRECTLY YET!)">
 			&config;
 			<steps>
 				<enableJavaScript enable="${wt.enableJS}" />
 				&login;
-				
 				<enableJavaScript enable="false" />
 					<clickLink label="Inventory" />
 				<enableJavaScript enable="true" />
-				
-				<clickLink label="Websites &amp; Zones"/>
-				
+				<clickLink label="Advertisers &amp; Campaigns"/>
 				<enableJavaScript enable="false" />
-					<clickLink label="Targeting Channels"/>
+					<clickLink description="expand list of available campaigns"	
+						href="expand=client:1" saveResponse='true' />
 				<enableJavaScript enable="true" />
-				
+				<clickLink label="Advertiser 1 - Default Campaign"/>
 				<enableJavaScript enable="false" />
-					<clickLink label="Add new Targeting Channel"/>
+					<clickLink label="Linked Zones"/>
 				<enableJavaScript enable="true" />
-				
-				<setInputField name="name" value="Test Admin Channel 2"/>
-				<!-- <clickButton label="Save Changes"/> -->
-				<clickButton htmlId="submit"/>
-				
-				<!-- OX-2726 -->
-				
+				<setCheckbox description="Select Agency Publisher 1 zones"
+			        htmlid="available-select-all"
+			        checked="true" />
+				<clickButton htmlid="link-button"/>
+				<!-- <clickButton htmlid="aw1_z1"/> -->
 			</steps>
 	 	</webtest>
 	</target>	

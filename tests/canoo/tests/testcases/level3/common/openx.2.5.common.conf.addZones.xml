@@ -8,7 +8,7 @@
 <project name="OpenX" basedir="." default="main">
 	<property name="openx.url" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}"/>
 	<target name="main">
-		<webtest name="Level2 - configuration test: openx.2.5.common.conf.addZones.xml">
+		<webtest name="Level3 - configuration test: openx.2.5.common.conf.addZones.xml">
 			&config;
 			<steps>
 				<enableJavaScript enable="${wt.enableJS}" />
