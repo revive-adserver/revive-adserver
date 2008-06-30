@@ -8,7 +8,7 @@
 
 <project name="OpenX" basedir="." default="main">
 	<target name="main">
-		<webtest name="Level2 - Inventory > Advertisers and Campaigns > ">
+		<webtest name="Level4 - Inventory > Advertisers and Campaigns > ">
 			&config;
 			<steps>
 				<enableJavaScript enable="true"/>

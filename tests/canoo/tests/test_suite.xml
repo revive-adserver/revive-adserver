@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="OpenX" default="Level3" basedir=".">
+<project name="OpenX" default="Level4" basedir=".">
 
 	<!-- Load configuration data from properties -->
 	<!-- <property file="./config/webtest.properties"/> -->
@@ -48,14 +48,14 @@
 		<echo>2nd level smoke tests finished - check for potential errors!</echo>
     </target>
 
-    <target name="Level3" depends="Level2" if="test.level3">
+    <target name="Level4" depends="Level2" if="test.level4">
 		<echo>Starting acceptance tests - 3rd level...</echo>
 		<echo>+-----------------------------------------+</echo>
 		<echo>| WARNING! 3rd Level tests are optional	 |</echo>
 		<echo>| and could fail without BUILD FAILED!	 |</echo>
 		<echo>+-----------------------------------------+</echo>
 		<subant failonerror="${wt.failOnError}" inheritall="true">
-        	<fileset dir="${testcase.dir}/level3" includes="${testcase.level3.pattern}"/>
+        	<fileset dir="${testcase.dir}/level4" includes="${testcase.level4.pattern}"/>
         </subant>
 		<echo>3rd level acceptance tests finished - check for potential errors!</echo>
     </target>
