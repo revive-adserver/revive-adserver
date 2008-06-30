@@ -28,15 +28,15 @@
 		<echo>#################################</echo>				
 	</target>
 	
-	<target name="Level1" if="test.level1" depends="Level0">
+	<target name="Level2" if="test.level2" depends="Level0">
 		<echo>Starting smoke tests - 1st level...</echo>
-			<ant antfile="${testcase.dir}/level1/openx.smoke.xml" />
+			<ant antfile="${testcase.dir}/level2/openx.smoke.xml" />
 		<echo>###################################</echo>		
 		<echo># 1st level smoke test - FINISHED!#</echo>
 		<echo>###################################</echo>				
 	</target>
 	
-    <target name="Level3" depends="Level1" if="test.level3">
+    <target name="Level3" depends="Level2" if="test.level3">
 		<echo>Starting smoke tests - 2nd level...</echo>
 		<echo>+-----------------------------------------+</echo>
 		<echo>| WARNING! 3rd Level tests are optional	 |</echo>

@@ -6,10 +6,10 @@
   <!ENTITY common_verification  SYSTEM "../modules/common_pages.xml">
 ]>
 
-<project name="Smoke test level1 - deploy test" basedir="."	default="main">
+<project name="Smoke test level2 - deploy test" basedir="."	default="main">
 
 	<target name="main">
-		<webtest name="Level1 - Smoke test - deploy test">
+		<webtest name="Level2 - Smoke test - deploy test">
 			&config;
 			<steps>
 			<enableJavaScript enable="${wt.enableJS}" />
