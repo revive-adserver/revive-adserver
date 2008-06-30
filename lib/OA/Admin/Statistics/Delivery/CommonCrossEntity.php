@@ -116,12 +116,16 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
      */
     function fixLinkParams(&$aEntitiesData)
     {
-        $linkparams = array();
-        $params = $this->_removeDuplicateParams('');
-        foreach ($params as $k => $v) {
-            $linkparams[] = $k.'='.urlencode($v);
+        foreach ($aEntitiesData as $entityId => $aEntity) {
+            $linkparams = array();
+            $params = $this->_removeDuplicateParams($aEntity['linkparams']);
+            foreach ($params as $k => $v) {
+                $linkparams[] = $k.'='.urlencode($v);
+            }
+            if (count($linkparams)) {
+                $aEntitiesData[$entityId]['linkparams'] .= '&'.join('&', $linkparams);
+            }
         }
-        $linkparams = join('&', $linkparams);
     }
 
     /**
