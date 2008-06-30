@@ -387,7 +387,7 @@ class OA_DB_Table
             OA::debug('Dropping the ' . $tableName . ' table', PEAR_LOG_DEBUG);
             $result = $this->dropTable($aConf['table']['prefix'].$tableName);
             if (PEAR::isError($result) || (!$result)) {
-                OA::debug('Unable to drop the table ' . $table, PEAR_LOG_ERR);
+                OA::debug('Unable to drop the table ' . $tableName, PEAR_LOG_ERR);
                 $allTablesDropped = false;
             }
         }
