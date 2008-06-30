@@ -36,22 +36,22 @@
 		<echo>###################################</echo>				
 	</target>
 	
-    <target name="Level2" depends="Level1" if="test.level2">
+    <target name="Level3" depends="Level1" if="test.level3">
 		<echo>Starting smoke tests - 2nd level...</echo>
 		<echo>+-----------------------------------------+</echo>
-		<echo>| WARNING! 2nd Level tests are optional	 |</echo>
+		<echo>| WARNING! 3rd Level tests are optional	 |</echo>
 		<echo>| and could fail without BUILD FAILED!	 |</echo>
 		<echo>+-----------------------------------------+</echo>
 		<subant failonerror="${wt.failOnError}" inheritall="true">
-        	<fileset dir="${testcase.dir}/level2" includes="${testcase.level2.pattern}"/>
+        	<fileset dir="${testcase.dir}/level3" includes="${testcase.level3.pattern}"/>
         </subant>
 		<echo>2nd level smoke tests finished - check for potential errors!</echo>
     </target>
 
-    <target name="Level4" depends="Level2" if="test.level4">
+    <target name="Level4" depends="Level3" if="test.level4">
 		<echo>Starting acceptance tests - 3rd level...</echo>
 		<echo>+-----------------------------------------+</echo>
-		<echo>| WARNING! 3rd Level tests are optional	 |</echo>
+		<echo>| WARNING! 4th Level tests are optional	 |</echo>
 		<echo>| and could fail without BUILD FAILED!	 |</echo>
 		<echo>+-----------------------------------------+</echo>
 		<subant failonerror="${wt.failOnError}" inheritall="true">
