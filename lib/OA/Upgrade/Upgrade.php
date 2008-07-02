@@ -1121,7 +1121,7 @@ class OA_Upgrade
             return false;
         }
 
-        $this->oAuditor->logAuditAction(array('description'=>'UPGRADE COMPLETE',
+        $this->oAuditor->logAuditAction(array('description'=>'UPGRADE_COMPLETE',
                                                 'action'=>UPGRADE_ACTION_UPGRADE_SUCCEEDED,
                                                )
                                          );
@@ -1188,7 +1188,7 @@ class OA_Upgrade
     function _auditInstallationFailure($msg)
     {
         $this->oLogger->logError($msg);
-        $this->oAuditor->logAuditAction(array('description'=>'UPGRADE FAILED',
+        $this->oAuditor->logAuditAction(array('description'=>'UPGRADE_FAILED',
                                                 'action'=>UPGRADE_ACTION_UPGRADE_FAILED,
                                                 )
                                          );
@@ -1443,7 +1443,7 @@ class OA_Upgrade
                 $this->versionInitialApplication = $this->oVersioner->getApplicationVersion();
                 $this->oLogger->log('Application version updated to '. $version);
             }
-            $this->oAuditor->updateAuditAction(array('description'=>'UPGRADE COMPLETE',
+            $this->oAuditor->updateAuditAction(array('description'=>'UPGRADE_COMPLETE',
                                                      'action'=>UPGRADE_ACTION_UPGRADE_SUCCEEDED,
                                                      'confbackup'=>$this->oConfiguration->getConfigBackupName()
                                                     )
@@ -1541,7 +1541,7 @@ class OA_Upgrade
             return false;
         }
         $this->versionInitialApplication = $this->aPackage['versionTo'];
-        $this->oAuditor->updateAuditAction(array('description'=>'UPGRADE COMPLETE',
+        $this->oAuditor->updateAuditAction(array('description'=>'UPGRADE_COMPLETE',
                                                  'action'=>UPGRADE_ACTION_UPGRADE_SUCCEEDED,
                                                  'confbackup'=>$this->oConfiguration->getConfigBackupName()
                                                 )

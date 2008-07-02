@@ -257,6 +257,14 @@ class OA_UpgradeAuditor extends OA_BaseUpgradeAuditor
         {
             return false;
         }
+        for ($i = 0; $i < count($aResult); $i++) {
+            if ($aResult[$i]['description'] == "UPGRADE COMPLETE") {
+                $aResult[$i]['description'] = "UPGRADE_COMPLETE";
+            }
+            elseif ($aResult[$i]['description'] == "UPGRADE FAILED") {
+                $aResult[$i]['description'] = 'UPGRADE_FAILED';
+            }
+        }
         return $aResult;
     }
 
