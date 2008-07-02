@@ -36,9 +36,9 @@ require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/max/other/lib-userlog.inc.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
+require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/OA/Dll/Audit.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/Field/AuditDaySpanField.php';
-require_once MAX_PATH . '/www/admin/config.php';
 require_once 'Pager/Pager.php';
 require_once MAX_PATH . '/lib/OA/Translation.php';
 
