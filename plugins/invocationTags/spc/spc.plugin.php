@@ -90,6 +90,18 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
     }
 
     /**
+     * Return the English name of the plugin. Used when
+     * generating translation keys based on the plugin
+     * name.
+     *
+     * @return string An English string describing the class.
+     */
+    function getNameEN()
+    {
+        return 'Publisher code - Single Page Call';
+    }
+
+    /**
      * Check if plugin is allowed
      *
      * @return boolean  True - allowed, false - not allowed

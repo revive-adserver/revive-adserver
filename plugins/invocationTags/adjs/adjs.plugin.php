@@ -54,6 +54,18 @@ class Plugins_InvocationTags_adjs_adjs extends Plugins_InvocationTags
     }
 
     /**
+     * Return the English name of the plugin. Used when
+     * generating translation keys based on the plugin
+     * name.
+     *
+     * @return string An English string describing the class.
+     */
+    function getNameEN()
+    {
+        return 'Javascript Tag';
+    }
+
+    /**
      * Return setting configuration file code - required for plugins
      * that store a value in the configuration file.
      *

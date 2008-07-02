@@ -64,6 +64,20 @@ class Plugins_InvocationTags extends MAX_Plugin_Common
     }
 
     /**
+     * Return the English name of the plugin. Used when
+     * generating translation keys based on the plugin
+     * name.
+     *
+     * @abstract
+     * @return string An English string describing the class.
+     */
+    function getNameEN()
+    {
+        OA::debug('Cannot run abstract method');
+        exit();
+    }
+
+    /**
      * Return setting configuration file code - required for plugins
      * that store a value in the configuration file.
      *
@@ -109,8 +123,9 @@ class Plugins_InvocationTags extends MAX_Plugin_Common
      */
     function getAllowInvocationTypeForSettings()
     {
+        $key = MAX_PLUGINS_INVOCATION_TAGS_ALLOW . $this->getNameEN() . 's';
         return MAX_Plugin_Translation::translate(
-            MAX_PLUGINS_INVOCATION_TAGS_ALLOW . $this->getName() . 's',
+            $key,
             $this->module,
             $this->package
     	);

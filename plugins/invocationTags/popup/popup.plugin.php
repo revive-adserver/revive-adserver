@@ -60,6 +60,18 @@ class Plugins_InvocationTags_popup_popup extends Plugins_InvocationTags
     }
 
     /**
+     * Return the English name of the plugin. Used when
+     * generating translation keys based on the plugin
+     * name.
+     *
+     * @return string An English string describing the class.
+     */
+    function getNameEN()
+    {
+        return 'Popup Tag';
+    }
+
+    /**
      * Return setting configuration file code - required for plugins
      * that store a value in the configuration file.
      *

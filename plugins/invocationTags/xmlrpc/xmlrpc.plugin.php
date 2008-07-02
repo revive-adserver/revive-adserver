@@ -55,6 +55,18 @@ class Plugins_InvocationTags_xmlrpc_xmlrpc extends Plugins_InvocationTags
     }
 
     /**
+     * Return the English name of the plugin. Used when
+     * generating translation keys based on the plugin
+     * name.
+     *
+     * @return string An English string describing the class.
+     */
+    function getNameEN()
+    {
+        return 'XML-RPC Tag';
+    }
+
+    /**
      * Return setting configuration file code - required for plugins
      * that store a value in the configuration file.
      *
