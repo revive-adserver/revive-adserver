@@ -39,6 +39,9 @@ define ('_STRATEGY_MODIFIED_', true);
 // Enable caching the combined files on the server
 define ('_STRATEGY_CACHE_', true);
 
+// Enable javascript optimisation
+define ('_ENABLE_JSMINIFY_', true);
+
 // Determine the type
 $type = $_GET['type'];
 if ($type != 'js' && $type != 'css') {
@@ -126,7 +129,7 @@ else {
 	$contents = '';
 	reset ($files);
 	while (list(,$file) = each($files)) {
-      if (preg_match("/\.js$/", $file)) {
+      if (_ENABLE_JSMINIFY_ && preg_match("/\.js$/", $file)) {
          // Minify JS
 		   $contents .= "\n\n" . JSMin::minify(file_get_contents($file), basename($file));
       } else {
