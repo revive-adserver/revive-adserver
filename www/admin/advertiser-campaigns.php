@@ -275,20 +275,19 @@ if (($listorder == "name") || ($listorder == "")) {
 }
 echo '</b></td>';
 
-if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) {
-    echo '<td height="25"><b><a href="advertiser-campaigns.php?clientid='.$clientid.'&listorder=status">Status</a>';
-    if ($listorder == "status") {
-        if  (($orderdirection == "") || ($orderdirection == "down")) {
-            echo ' <a href="advertiser-campaigns.php?clientid='.$clientid.'&orderdirection=up">';
-            echo '<img src="' . MAX::assetPath() . '/images/caret-ds.gif" border="0" alt="" title="">';
-        } else {
-            echo ' <a href="advertiser-campaigns.php?clientid='.$clientid.'&orderdirection=down">';
-            echo '<img src="' . MAX::assetPath() . '/images/caret-u.gif" border="0" alt="" title="">';
-        }
-        echo '</a>';
+echo '<td height="25"><b><a href="advertiser-campaigns.php?clientid='.$clientid.'&listorder=status">Status</a>';
+if ($listorder == "status") {
+	if  (($orderdirection == "") || ($orderdirection == "down")) {
+    	echo ' <a href="advertiser-campaigns.php?clientid='.$clientid.'&orderdirection=up">';
+        echo '<img src="' . MAX::assetPath() . '/images/caret-ds.gif" border="0" alt="" title="">';
+    } else {
+    	echo ' <a href="advertiser-campaigns.php?clientid='.$clientid.'&orderdirection=down">';
+        echo '<img src="' . MAX::assetPath() . '/images/caret-u.gif" border="0" alt="" title="">';
     }
-    echo "</td>";
+    echo '</a>';
 }
+echo "</td>";
+
 
 echo '<td height="25"><b>'.$GLOBALS['strType'].'</b></td>';
 echo '<td height="25"><b><a href="advertiser-campaigns.php?clientid='.$clientid.'&listorder=id">'.$GLOBALS['strID'].'</a>';
@@ -349,26 +348,24 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 		}
 		echo "</td>";
 
-    // status
-		if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) {    
-            if ($campaigns[$ckey]['status'] == -1) {
-                echo "<td class=\"sts sts-pending\">$strCampaignStatusPending</td>";
-            } elseif ($campaigns[$ckey]['status'] == 0) {
-                echo "<td class=\"sts sts-accepted\">$strCampaignStatusRunning</td>";
-            } elseif ($campaigns[$ckey]['status'] == 1) {
-                echo "<td class=\"sts sts-paused\">$strCampaignStatusPaused</td>";
-            } elseif ($campaigns[$ckey]['status'] == 2) {
-                echo "<td class=\"sts not-started\">$strCampaignStatusAwaiting</td>";
-            } elseif ($campaigns[$ckey]['status'] == 3) {
-                echo "<td class=\"sts sts-finished\">$strCampaignStatusExpired</td>";
-            } elseif ($campaigns[$ckey]['status'] == 21) {
-                echo "<td class=\"sts sts-awaiting\"><a href='campaign-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'>$strCampaignStatusApproval &raquo;</a></td>";
-            } elseif ($campaigns[$ckey]['status'] == 22) {
-                echo "<td class=\"sts sts-rejected\">$strCampaignStatusRejected</td>";
-            }
+    // status 
+		if ($campaigns[$ckey]['status'] == -1) {
+        	echo "<td class=\"sts sts-pending\">$strCampaignStatusPending</td>";
+        } elseif ($campaigns[$ckey]['status'] == 0) {
+        	echo "<td class=\"sts sts-accepted\">$strCampaignStatusRunning</td>";
+        } elseif ($campaigns[$ckey]['status'] == 1) {
+        	echo "<td class=\"sts sts-paused\">$strCampaignStatusPaused</td>";
+        } elseif ($campaigns[$ckey]['status'] == 2) {
+        	echo "<td class=\"sts not-started\">$strCampaignStatusAwaiting</td>";
+        } elseif ($campaigns[$ckey]['status'] == 3) {
+        	echo "<td class=\"sts sts-finished\">$strCampaignStatusExpired</td>";
+        } elseif ($campaigns[$ckey]['status'] == 21) {
+        	echo "<td class=\"sts sts-awaiting\"><a href='campaign-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'>$strCampaignStatusApproval &raquo;</a></td>";
+        } elseif ($campaigns[$ckey]['status'] == 22) {
+            echo "<td class=\"sts sts-rejected\">$strCampaignStatusRejected</td>";
+        }
     
             //echo "<td height='25'><span class='sts-awaiting'><a href='campaign-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'>Awaiting approval &raquo;</a></span></td>";
-		}
 		
         //type
         echo '<td height="25">';
@@ -453,9 +450,7 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 				}
 
                 //empty cell to match status
-                if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) {
-                    echo "<td height='25'>&nbsp;</td>";
-                }
+                echo "<td height='25'>&nbsp;</td>";
 
 				// ID
 				echo "<td height='25'>".$banners[$bkey]['bannerid']."</td>";
