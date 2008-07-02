@@ -1591,11 +1591,11 @@ function MAX_displayAcls($acls, $aParams) {
         // We are part way through making changes, show a message
         //echo "<br>";
         echo "<div class='errormessage'><img class='errormessage' src='" . MAX::assetPath() . "/images/warning.gif' align='absmiddle'>";
-        echo "<span class='tab-s'>$strUnsavedChanges</span><br>";
+        echo "<span class='tab-s'>{$GLOBALS['strUnsavedChanges']}</span><br>";
         echo "</div>";
     } elseif (!MAX_AclValidate($page, $aParams)) {
         echo "<div class='errormessage'><img class='errormessage' src='" . MAX::assetPath() . "/images/warning.gif' align='absmiddle'>";
-        echo "<span class='tab-r'>$strDeliveryLimitationsDisagree</span><br>";
+        echo "<span class='tab-r'>{$GLOBALS['strDeliveryLimitationsDisagree']}</span><br>";
         echo "</div>";
     }
 
