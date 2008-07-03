@@ -66,22 +66,32 @@ class Language_Loader {
         } else {
             return; // Wrong section
         }
-        // Check if using full language name (polish), if so then set to use two letter abbr (pl).
-        $oLang = new MAX_Admin_Languages();
-        if (in_array($aConf['max']['language'], array_keys($oLang->aLanguageMap))) {
-            $lang = $oLang->aLanguageMap[$aConf['max']['language']];
-        }
         // Load the language from preferences, if possible, otherwise load
         // the global preference, if possible
-        if (!empty($lang) && $lang != 'en'
+        // If language preference is set, do not load language from config file (common bug here is to check if prefereced language is 'en'!)
+        if (!empty($lang) 
             && file_exists(MAX_PATH . '/lib/max/language/' . $lang . '/' . $section . '.lang.php'))
         {
-            include MAX_PATH . '/lib/max/language/' . $lang . '/' . $section . '.lang.php';
-        } elseif (!empty($lang) && $lang != 'en' && ($aConf['max']['language'] != 'en')
-            && file_exists(MAX_PATH . '/lib/max/language/' . $aConf['max']['language'] . '/' . $section . '.lang.php'))
-        {
-            include MAX_PATH . '/lib/max/language/' . $aConf['max']['language'] .
-                '/' . $section . '.lang.php';
+            // Now check if is need to load language (english is loaded)
+            if ($lang != 'en') {
+                include MAX_PATH . '/lib/max/language/' . $lang . '/' . $section . '.lang.php';
+            }
+        } else{
+            // Check if using full language name (polish), if so then set to use two letter abbr (pl).
+            $oLang = new MAX_Admin_Languages();
+            if (!empty($aConf['max']['language'])) {
+                $confMaxLanguage = $aConf['max']['language'];
+                if (in_array($confMaxLanguage, array_keys($oLang->aLanguageMap))) {
+                    $confMaxLanguage = $oLang->aLanguageMap[$confMaxLanguage];
+                }
+            }
+            
+            if (!empty($confMaxLanguage) && $confMaxLanguage != 'en'
+                && file_exists(MAX_PATH . '/lib/max/language/' . $confMaxLanguage . '/' . $section . '.lang.php'))
+            {
+                include MAX_PATH . '/lib/max/language/' . $confMaxLanguage .
+                    '/' . $section . '.lang.php';
+            }
         }
     }
 
