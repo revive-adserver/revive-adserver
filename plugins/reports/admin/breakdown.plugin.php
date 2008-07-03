@@ -81,7 +81,7 @@ class Plugins_Reports_Admin_Breakdown extends Plugins_Reports
         // Prepare the array for displaying the generation page
         $aImport = array (
             'period' => array(
-                'title'   => MAX_Plugin_Translation::translate('Period', $this->module, $this->package),
+                'title'   => $GLOBALS['strPeriod'],
                 'type'    => 'date-month',
                 'default' => $default_period_preset
             ),
