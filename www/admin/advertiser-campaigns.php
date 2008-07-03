@@ -309,13 +309,13 @@ echo "<td height='25'>&nbsp;</td>";
 echo "<td height='25'>&nbsp;</td>";
 echo "</tr>";
 
-echo "<tr class='break'><td colspan='6' ></td></tr>";
+echo "<tr class='break'><td colspan='7' ></td></tr>";
 
 if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 	echo "<tr height='25' bgcolor='#F6F6F6'><td height='25' colspan='5'>";
 	echo "&nbsp;&nbsp;".$strNoCampaigns;
 	echo "</td></tr>";
-	echo "<tr class='break'><td colspan='6' ></td></tr>";
+	echo "<tr class='break'><td colspan='7' ></td></tr>";
 
 } else {
 	$i=0;
@@ -414,7 +414,7 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 				// Divider
 				echo "<tr height='1' bgcolor='#f6f6f6'>";
 				echo "<td></td>";
-				echo "<td colspan='5' bgcolor='#bbbbbb'></td>";
+				echo "<td colspan='6' bgcolor='#bbbbbb'></td>";
 				echo "</tr>";
 
 
@@ -449,7 +449,8 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
     				echo "<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."&bannerid=".$banners[$bkey]['bannerid']."'>".$name."</a></td>";
 				}
 
-                //empty cell to match status
+                //empty cells to match status and type
+                echo "<td height='25'>&nbsp;</td>";
                 echo "<td height='25'>&nbsp;</td>";
 
 				// ID
@@ -480,10 +481,10 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
             // Divider
             echo "<tr height='1' bgcolor='#f6f6f6'>";
             echo "<td></td>";
-            echo "<td colspan='5' bgcolor='#bbbbbb'></td>";
+            echo "<td colspan='6' bgcolor='#bbbbbb'></td>";
             echo "</tr>";
 
-			echo "<tr ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td>&nbsp;</td><td colspan='5'>";
+			echo "<tr ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td>&nbsp;</td><td colspan='6'>";
 			echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'>";
 			echo "<tr height='25'>";
 			echo "<td width='20%'>".$strImpressionsBooked.":</td>";
@@ -516,7 +517,7 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 			echo "<br /></td>";
 			echo "</tr>";
 		}
-		echo "<tr class='break'><td colspan='6' ></td></tr>";
+		echo "<tr class='break'><td colspan='7' ></td></tr>";
 
 		$i++;
 	}
@@ -534,7 +535,7 @@ if ($hideinactive == true) {
 }
 
 echo "</td>";
-echo "<td colspan='3' height='25' align='".$phpAds_TextAlignRight."' nowrap>";
+echo "<td colspan='4' height='25' align='".$phpAds_TextAlignRight."' nowrap>";
 echo "<img src='" . MAX::assetPath() . "/images/triangle-d.gif' align='absmiddle' border='0'>";
 echo "&nbsp;<a href='advertiser-campaigns.php?clientid=".$clientid."&expand=all' accesskey='".$keyExpandAll."'>".$strExpandAll."</a>";
 echo "&nbsp;&nbsp;|&nbsp;&nbsp;";
@@ -544,9 +545,9 @@ echo "</td>";
 echo "</tr>";
 
 if (!empty($campaigns) && !OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-    echo "<tr class=''><td colspan='6' ></td></tr>";
+    echo "<tr class=''><td colspan='7' ></td></tr>";
 	echo "<tr height='25'>";
-	echo "<td colspan='6' height='25' align='".$phpAds_TextAlignRight."'>";
+	echo "<td colspan='7' height='25' align='".$phpAds_TextAlignRight."'>";
 	echo "<img src='" . MAX::assetPath() . "/images/icon-recycle.gif' border='0' align='absmiddle'>&nbsp;<a href='campaign-delete.php?clientid=".$clientid."&returnurl=advertiser-campaigns.php'".phpAds_DelConfirm($strConfirmDeleteAllCampaigns).">$strDeleteAllCampaigns</a>&nbsp;&nbsp;";
 	echo "</td>";
 	echo "</tr>";
