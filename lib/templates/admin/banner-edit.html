@@ -97,7 +97,7 @@ $Id$
     }
 
     function alterHtmlCheckbox() {
-
+        var bannerForm = findObj ('bannerForm');
         if (bannerForm.autohtml.checked) {
             bannerForm.adserver.disabled = false;
         } else {
