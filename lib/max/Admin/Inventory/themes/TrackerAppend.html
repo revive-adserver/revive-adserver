@@ -22,7 +22,7 @@ function MMM_trackerAction(action, id)
 
 //-->
 </script>
-<div flexy:if="showReminder" class="errormessage"><img class="errormessage" src="images/warning.gif" align="absmiddle">
+<div flexy:if="showReminder" class="errormessage"><img class="errormessage" src="{assetPath}/images/warning.gif" align="absmiddle">
 <span class='tab-s'>You have unsaved changes on this page, make sure you press &quot;Save Changes&quot; when finished</span><br>
 </div>
 <form id="trackerAppendForm" class="section" method="post">
@@ -45,16 +45,16 @@ function MMM_trackerAction(action, id)
             </span>
         </div>
         <div class="link-buttons">
-            <a flexy:if="!v[paused]" href="#" onclick="return MMM_trackerAction('pause', '{k}')"><img src="images/icon-deactivate.gif" width="16" height="16" /> Pause</a>
-            <a flexy:if="v[paused]" href="#" onclick="return MMM_trackerAction('restart', '{k}')"><img src="images/icon-activate.gif" width="16" height="16" /> Restart</a>
-            <a flexy:if="v[move_up]" href="#" onclick="return MMM_trackerAction('up', '{k}')"><img src="images/triangle-u.gif" width="16" height="16" /> Move up</a>
-            <span flexy:if="!v[move_up]"><img src="images/triangle-u-d.gif" width="16" height="16" /> Move up</span>
-            <a flexy:if="v[move_down]" href="#" onclick="return MMM_trackerAction('down', '{k}')"><img src="images/triangle-d.gif" width="16" height="16" /> Move down</a>
-            <span flexy:if="!v[move_down]"><img src="images/triangle-d-d.gif" width="16" height="16" /> Move down</span>
-            <a href="#" onclick="return MMM_trackerAction('del', '{k}')"><img src="images/icon-recycle.gif" width="16" height="16" /> Delete</a>
+            <a flexy:if="!v[paused]" href="#" onclick="return MMM_trackerAction('pause', '{k}')"><img src="{assetPath}/images/icon-deactivate.gif" width="16" height="16" /> Pause</a>
+            <a flexy:if="v[paused]" href="#" onclick="return MMM_trackerAction('restart', '{k}')"><img src="{assetPath}/images/icon-activate.gif" width="16" height="16" /> Restart</a>
+            <a flexy:if="v[move_up]" href="#" onclick="return MMM_trackerAction('up', '{k}')"><img src="{assetPath}/images/triangle-u.gif" width="16" height="16" /> Move up</a>
+            <span flexy:if="!v[move_up]"><img src="{assetPath}/images/triangle-u-d.gif" width="16" height="16" /> Move up</span>
+            <a flexy:if="v[move_down]" href="#" onclick="return MMM_trackerAction('down', '{k}')"><img src="{assetPath}/images/triangle-d.gif" width="16" height="16" /> Move down</a>
+            <span flexy:if="!v[move_down]"><img src="{assetPath}/images/triangle-d-d.gif" width="16" height="16" /> Move down</span>
+            <a href="#" onclick="return MMM_trackerAction('del', '{k}')"><img src="{assetPath}/images/icon-recycle.gif" width="16" height="16" /> Delete</a>
         </div>
     </div>
-    <div class="row last"><img src="images/icon-acl-add.gif" width="16" height="16" alt="Append new tag" width="16" height="16" />&nbsp;<a href="#" onclick="return MMM_trackerAction('new', '')">Append new tag</a></div>
+    <div class="row last"><img src="{assetPath}/images/icon-acl-add.gif" width="16" height="16" alt="Append new tag" width="16" height="16" />&nbsp;<a href="#" onclick="return MMM_trackerAction('new', '')">Append new tag</a></div>
     <br />
     <br />
     <input name="save" type="submit" value="Save changes" />

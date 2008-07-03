@@ -49,7 +49,8 @@ class MAX_Admin_Inventory_TrackerAppend
     var $advertiser_id;
     var $tracker_id;
     var $codes;
-    var $showReminder = false;
+    var $showReminder;
+    var $assetPath;
 
     /**
      * PHP5-style constructor
@@ -60,6 +61,8 @@ class MAX_Admin_Inventory_TrackerAppend
 
         $this->advertiser_id = MAX_getValue('clientid', 0);
         $this->tracker_id    = MAX_getValue('trackerid', 0);
+        $this->assetPath 	 = MAX::assetPath();
+        $this->showReminder  = false;
         $this->codes = array();
     }
 
