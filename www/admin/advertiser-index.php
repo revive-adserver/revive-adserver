@@ -272,7 +272,7 @@ foreach (array_keys($clients) as $clientid) {
 
 $oTpl->assign('aAdvertisers', $clients);
 $oTpl->assign('aCount', $aCount);
-$oTpl->assign('showAdDirect', (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) ? true : false);
+$oTpl->assign('showAdDirect', true); // Always true OX-3481
 
 $oTpl->assign('hideinactive', $hideinactive);
 $oTpl->assign('listorder', $listorder);
