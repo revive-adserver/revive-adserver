@@ -82,7 +82,11 @@ $words = array(
     'Duplicate'                     => 'Duplicate',
     'Disapproved'                   => 'Disapproved',
     'On Hold'                       => 'On Hold',
-    'Ignored'                       => 'Ignored'
+    'Ignored'                       => 'Ignored',
+
+    // Errors
+    'Missing Sheets'                => "No worksheet was selected for report",
+    'Unknow error code'             => "Unknow error code #"
 );
 
 ?>

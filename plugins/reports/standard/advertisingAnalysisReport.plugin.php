@@ -171,6 +171,11 @@ class Plugins_Reports_Standard_AdvertisingAnalysisReport extends Plugins_Reports
      */
     function execute($oDaySpan, $oScope, $aSheets)
     {
+        $checkResult = $this->_checkParameters($oDaySpan, $oScope, $aSheets);
+        if ($checkResult !== true) {
+            return $checkResult;
+        }
+        
         // Save the scope for use later
         $this->_oScope = $oScope;
         // Prepare the range information for the report
@@ -191,6 +196,26 @@ class Plugins_Reports_Standard_AdvertisingAnalysisReport extends Plugins_Reports
         }
         // Close the report writer and send the report to the user
         $this->_oReportWriter->closeAndSend();
+    }
+    
+    /**
+     * Check input parameters
+     *
+     * @param OA_Admin_DaySpan $oDaySpan The OA_Admin_DaySpan object for the report.
+     * @param Admin_UI_OrganisationScope $oScope The advertiser/publisher scope limitation object.
+     * @param array $aSheets  An array of sheets that should be in the report.
+     *
+     * @return bool|int - True if no errors, error code otherwise 
+     */
+    function _checkParameters($oDaySpan, $oScope, $aSheets)
+    {
+        if (!isset($aSheets['daily_breakdown']) &&
+            !isset($aSheets['campaign_breakdown']) && 
+            !isset($aSheets['zone_breakdown']))
+        {
+            return PLUGINS_REPORTS_MISSING_SHEETS_ERROR; 
+        }
+        return true;
     }
 
     /**

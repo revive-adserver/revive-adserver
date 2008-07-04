@@ -221,6 +221,11 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
      */
     function execute($oDaySpan, $oScope, $aSheets)
     {
+        $checkResult = $this->_checkParameters($oDaySpan, $oScope, $aSheets);
+        if ($checkResult !== true) {
+            return $checkResult;
+        }
+        
         // Save the scope for use later
         $this->_oScope = $oScope;
         // Prepare the range information for the report
@@ -251,6 +256,28 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
         }
         // Close the report writer and send the report to the user
         $this->_oReportWriter->closeAndSend();
+    }
+    
+    /**
+     * Check input parameters
+     *
+     * @param OA_Admin_DaySpan $oDaySpan The OA_Admin_DaySpan object for the report.
+     * @param Admin_UI_OrganisationScope $oScope The advertiser/publisher scope limitation object.
+     * @param array $aSheets  An array of sheets that should be in the report.
+     *
+     * @return bool|int - True if no errors, error code otherwise 
+     */
+    function _checkParameters($oDaySpan, $oScope, $aSheets)
+    {
+        if (!isset($aSheets['performance_by_day']) &&
+            !isset($aSheets['connection_by_day']) && 
+            !isset($aSheets['variable_by_day']) &&
+            !isset($aSheets['variable_by_variable']) &&
+            !isset($aSheets['connection_detail']))
+        {
+            return PLUGINS_REPORTS_MISSING_SHEETS_ERROR; 
+        }
+        return true;
     }
 
     /**

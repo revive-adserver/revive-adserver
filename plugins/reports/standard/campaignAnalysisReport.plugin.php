@@ -191,6 +191,10 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends Plugins_Reports
      */
     function execute($oDaySpan, $placementId, $aSheets)
     {
+    	$checkResult = $this->_checkParameters($oDaySpan, $placementId, $aSheets);
+    	if ($checkResult !== true) {
+    		return $checkResult;
+    	}
         // Save the placement ID for use later
         $this->_placementId = $placementId;
         // Locate and save the placement's name & owning advertiser
@@ -247,6 +251,25 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends Plugins_Reports
         }
         // Close the report writer and send the report to the user
         $this->_oReportWriter->closeAndSend();
+    }
+    
+    /**
+     * Check input parameters
+     *
+     * @param OA_Admin_oDaySpan $oDaySpan    The OA_Admin_oDaySpan object for the report.
+     * @param integer          $placementId The ID of the placement the report is for.
+     * @param array            $aSheets     An array of sheets that should be in the report.
+     * @return bool|int - True if no errors, error code otherwise
+     */
+    function _checkParameters($oDaySpan, $placementId, $aSheets)
+    {
+        if (!isset($aSheets['daily_breakdown']) &&
+            !isset($aSheets['ad_breakdown']) && 
+            !isset($aSheets['zone_breakdown']))
+        {
+        	return PLUGINS_REPORTS_MISSING_SHEETS_ERROR; 
+        }
+        return true;
     }
 
     /**

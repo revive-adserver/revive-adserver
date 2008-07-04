@@ -98,7 +98,10 @@ class OA_Admin_Reports_Generate
         // Generate the report by calling the report plugin's
         // execute method with the required variables
         $aCallback = array(&$oPlugin, 'execute');
-        call_user_func_array($aCallback, $aVariables);
+        $result = call_user_func_array($aCallback, $aVariables);
+        if (!empty($result)) {
+        	MAX_Admin_Redirect::redirect('report-generation.php?selection='.$oPlugin->package.':'.$oPlugin->name.'&error='.$result);
+        }
     }
 
     /**

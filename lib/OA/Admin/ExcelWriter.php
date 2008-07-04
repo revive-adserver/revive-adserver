@@ -341,7 +341,7 @@ class OA_Admin_ExcelWriter
     function closeAndSend()
     {
         $workbook =& $this->_getExcelWriter();
-        if (!is_null($workbook)) {
+        if (!is_null($workbook) && count($workbook->worksheets())>0) {
         	$workbook->close();
     	}
     }

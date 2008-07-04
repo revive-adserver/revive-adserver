@@ -50,7 +50,7 @@ phpAds_PageHeader("report-index");
 /* Main code                                             */
 /*-------------------------------------------------------*/
 $oModule = new OA_Admin_Reports_Index();
-$oModule->displayReportGeneration($selection);
+$oModule->displayReportGeneration($selection, $_GET['error']);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */

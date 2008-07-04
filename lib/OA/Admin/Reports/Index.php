@@ -77,9 +77,11 @@ class OA_Admin_Reports_Index
      * A method to display a report's generation screen to the UI.
      *
      * @param string $report_identifier
+     * @param int $errorCode error code given by last report generation
      */
-    function displayReportGeneration($reportIdentifier)
+    function displayReportGeneration($reportIdentifier, $errorCode = null)
     {
+    	
         $aDisplayablePlugins = $this->_findDisplayableReports();
         $oPlugin = $aDisplayablePlugins[$reportIdentifier];
         if (is_null($oPlugin)) {
@@ -87,7 +89,7 @@ class OA_Admin_Reports_Index
             $this->displayReports();
             return;
         }
-        $this->_groupReportPluginGeneration($oPlugin, $reportIdentifier);
+        $this->_groupReportPluginGeneration($oPlugin, $reportIdentifier, $errorCode);
     }
 
     /**
@@ -205,12 +207,16 @@ class OA_Admin_Reports_Index
      * @access private
      * @param Plugins_Reports $oPlugin The plugin to display.
      * @param string $reportIdentifier The string identifying the report.
+     * @param int $errorCode error code given by last report generation
      */
-    function _groupReportPluginGeneration($oPlugin, $reportIdentifier)
+    function _groupReportPluginGeneration($oPlugin, $reportIdentifier, $errorCode = null)
     {
         $aInfo = $oPlugin->info();
+        if (!empty($errorCode)) {
+            $errorMessage = $oPlugin->getErrorMessage($errorCode);
+        }
         // Print the report introduction
-        $this->_displayReportIntroduction($aInfo['plugin-export'], $aInfo['plugin-name'], $aInfo['plugin-description']);
+        $this->_displayReportIntroduction($aInfo['plugin-export'], $aInfo['plugin-name'], $aInfo['plugin-description'], $errorMessage);
         // Get the plugins generation parameter details
         if ($aPluginInfo = $aInfo['plugin-import']) {
             // Print the start of the report execution submission form
@@ -256,8 +262,9 @@ class OA_Admin_Reports_Index
      * @param string $export The export type of the report (eg. "csv").
      * @param string $name   The name of the report.
      * @param string $desc   The report's description.
+     * @param string $errorMessage The error message of last report generation
      */
-    function _displayReportIntroduction($export, $name, $desc)
+    function _displayReportIntroduction($export, $name, $desc, $errorMessage)
     {
         echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
         echo "<tr><td height='25' colspan='3'>";
@@ -271,6 +278,13 @@ class OA_Admin_Reports_Index
         echo "<td height='25' colspan='2'>";
         echo nl2br($desc);
         echo "</td></tr>";
+        if (!empty($errorMessage)) {
+        	echo "<tr><td width='30'>&nbsp;</td>";
+	        echo "<td height='25' colspan='2'>";
+	        echo "<img src='".MAX::assetPath()."/images/error.gif' width='16' height='16'>&nbsp;";
+	        echo "<font color='#AA0000'><b>{$errorMessage}</b></font>";
+	        echo "</td></tr>";
+        }
         echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
     }
 

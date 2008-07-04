@@ -34,6 +34,12 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Factory.php';
 require_once MAX_PATH . '/lib/OA/Permission.php';
 
 /**
+ * Error codes used by report plugins
+ */
+define('PLUGINS_REPORTS_MISSING_SHEETS_ERROR' , 1);
+
+
+/**
  * Plugins_Reports is an abstract class that defines an interface for every
  * report plugin to implement.
  *
@@ -186,9 +192,25 @@ class Plugins_Reports extends MAX_Plugin_Common
      * the plugin, generating the required report.
      *
      * @abstract
+     * @return void|int - Return error code on errors 
      */
     function execute() {}
 
+    /**
+     * Return error message for given error code
+     *
+     * @param int $errorCode
+     * @return string
+     */
+    function getErrorMessage($errorCode) {
+        switch ($errorCode) {
+           case PLUGINS_REPORTS_MISSING_SHEETS_ERROR : 
+               return MAX_Plugin_Translation::translate('Missing Sheets', $this->module, $this->package);
+           default :
+               return MAX_Plugin_Translation::translate('Unknow error code', $this->module, $this->package).htmlentities($errorCode);
+        }
+    }
+    
     /**
      * An abstract method that MUST be implemented in every plugin, to return
      * an array of index/value strings to display as sub-headings in report
