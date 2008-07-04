@@ -86,7 +86,7 @@ $words = array(
 
     // Errors
     'Missing Sheets'                => "No worksheet was selected for report",
-    'Unknow error code'             => "Unknow error code #"
+    'Unknown error code'            => "Unknown error code #"
 );
 
 ?>

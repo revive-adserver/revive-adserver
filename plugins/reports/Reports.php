@@ -207,7 +207,7 @@ class Plugins_Reports extends MAX_Plugin_Common
            case PLUGINS_REPORTS_MISSING_SHEETS_ERROR : 
                return MAX_Plugin_Translation::translate('Missing Sheets', $this->module, $this->package);
            default :
-               return MAX_Plugin_Translation::translate('Unknow error code', $this->module, $this->package).htmlentities($errorCode);
+               return MAX_Plugin_Translation::translate('Unknown error code', $this->module, $this->package).htmlentities($errorCode);
         }
     }
     
