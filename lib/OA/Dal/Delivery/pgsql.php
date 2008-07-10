@@ -1080,7 +1080,7 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
                 '".(int)$zoneId."',";
     if (isset($_GET['source'])) {
         $query .= "
-                '".MAX_commonDecrypt($_GET['source'])."',";
+                '".pg_escape_string(MAX_commonDecrypt($_GET['source']))."',";
     }
     if (isset($zoneInfo['channel_ids'])) {
         $query .= "
@@ -1088,9 +1088,9 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
     }
     $httpLanguage = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '';
     $query .= "
-                '".substr($httpLanguage, 0, 32)."',
-                '{$_SERVER['REMOTE_ADDR']}',
-                '{$_SERVER['REMOTE_HOST']}',";
+                '".pg_escape_string(substr($httpLanguage, 0, 32))."',
+                '".pg_escape_string($_SERVER['REMOTE_ADDR'])."',
+                '".pg_escape_string($_SERVER['REMOTE_HOST'])."',";
     if (isset($geotargeting['country_code'])) {
         $query .= "
                 '{$geotargeting['country_code']}',";
@@ -1113,13 +1113,13 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
     }
     if ($GLOBALS['_MAX']['CONF']['logging']['referer'] && isset($_GET['referer'])) {
         $query .= "
-                '{$_GET['referer']}',";
+                '".pg_escape_string($_GET['referer'])."',";
     }
     $query .= "
                 '',";
     if ($GLOBALS['_MAX']['CONF']['logging']['useragent']) {
         $query .= "
-                '".substr($_SERVER['HTTP_USER_AGENT'], 0, 255)."',";
+                '".pg_escape_string(substr($_SERVER['HTTP_USER_AGENT'], 0, 255))."',";
     }
     if (isset($userAgentInfo['os'])) {
         $query .= "
@@ -1256,11 +1256,11 @@ function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
             '',
             '".gmdate('Y-m-d H:i:s')."',
             '".(int)$trackerId."',
-            '".MAX_commonDecrypt($source)."',
+            '".pg_escape_string(MAX_commonDecrypt($source))."',
             '{$zoneInfo['channel_ids']}',
-            '".substr($httpLanguage, 0, 32)."',
-            '{$_SERVER['REMOTE_ADDR']}',
-            '{$_SERVER['REMOTE_HOST']}',
+            '".pg_escape_string(substr($httpLanguage, 0, 32))."',
+            '".pg_escape_string($_SERVER['REMOTE_ADDR'])."',
+            '".pg_escape_string($_SERVER['REMOTE_HOST'])."',
             '{$geotargeting['country_code']}',
             '".intval($zoneInfo['scheme'])."',
             '{$zoneInfo['host']}',
@@ -1268,7 +1268,7 @@ function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
             '{$zoneInfo['query']}',
             '{$referer}',
             '',
-            '".substr($httpUserAgent, 0, 255)."',
+            '".pg_escape_string(substr($httpUserAgent, 0, 255))."',
             '{$userAgentInfo['os']}',
             '{$userAgentInfo['browser']}',
             '".intval($maxHttps)."',
@@ -1309,7 +1309,7 @@ function OA_Dal_Delivery_logVariableValues($variables, $serverRawTrackerImpressi
                         '{$serverRawTrackerImpressionId}',
                         '{$serverRawIp}',
                         '".gmdate('Y-m-d H:i:s')."',
-                        '{$variable['value']}'
+                        '".pg_escape_string($variable['value'])."'
                     )";
     }
     if (empty($aRows)) {
