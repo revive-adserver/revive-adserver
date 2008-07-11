@@ -47,10 +47,23 @@ function init()
     // Prevent _MAX from being read from the request string (if register globals is on)
     unset($GLOBALS['_MAX']);
 
+
     // Set up server variables
     setupServerVariables();
     // Set up the UI constants
     setupConstants();
+
+    // Quick PHP Check, as use of PHP 4 will result in parse errors
+    if (!function_exists('version_compare')) {
+        include MAX_PATH . '/php_error.html';
+        exit;
+    }
+    $result = version_compare(phpversion(), '5.0.0', '<');
+    if ($result) {
+        include MAX_PATH . '/php_error.html';
+        exit;
+    }
+
     // Set up the common configuration variables
     setupConfigVariables();
     // Disable all notices and warnings, as some PAN code still
