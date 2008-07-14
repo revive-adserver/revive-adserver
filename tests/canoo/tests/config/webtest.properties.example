@@ -50,3 +50,6 @@ marketplace.enabled=true
 ## XMLRPC API JUnit tests
 #test.unit.xmlrpc.api=true
 test.unit.xmlrpc.mvn.executable=/usr/local/maven/bin/mvn.sh
+
+## JMeter tests
+test.jmeter.home=
