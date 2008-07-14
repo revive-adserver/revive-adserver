@@ -3,7 +3,7 @@
 
 	<property file="${basedir}/../canoo/tests/config/webtest.properties"/>
 	
-	<taskdef name="jmeter" classname="org.programmerplanet.ant.taskdefs.jmeter.JMeterTask" classpath="${basedir}/lib/ant-jmeter*"/>
+	<taskdef name="jmeter" classname="org.programmerplanet.ant.taskdefs.jmeter.JMeterTask" classpath="${basedir}/lib/ant-jmeter-1.0.9.jar"/>
 	
 	<target name="prepare-jmx">
 		<replace dir="${basedir}/delivery">
