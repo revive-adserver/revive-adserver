@@ -42,10 +42,15 @@
 		<ant antfile="build-canoo.xml" dir="${basedir}/target" output="build.log" target="run-test" />
 	</target>
 
-	<target name="test-canoo-schemaspy" depends="test-canoo">
+	<target name="test-canoo-schemaspy" depends="test-jmeter">
 		<ant antfile="build.xml" dir="${basedir}/target/tests/schemaspy" output="schemaspy.log" target="schemaspy" inheritall="true"/>
 	</target>
 
+	<target name="test-jmeter" depends="test-canoo">
+		<ant antfile="build.xml" dir="${basedir}/target/tests/jmeter" output="jmeter.log" target="jmeter" inheritall="true"/>
+	</target>
+
+	
 	<target name="make-release">
 		<ant antfile="build.xml" dir="${basedir}" output="build.log" target="release" />
 	</target>
