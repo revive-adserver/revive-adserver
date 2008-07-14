@@ -201,7 +201,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $idBanner1 = $this->_insertBanner($aData);
-        $aResult = $oDal->getAdsByCampaignId($placementId);
+        $aResult = $oDal->getAdsByCampaignId($campaignId);
         $aExpectedResult = array(
             $idBanner1 => array(
                 'ad_id'  => $idBanner1,
@@ -229,7 +229,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $idBanner3 = $this->_insertBanner($aData);
-        $aResult = $oDal->getAdsByCampaignId($placementId);
+        $aResult = $oDal->getAdsByCampaignId($campaignId);
         $aExpectedResult = array(
             $idBanner1 => array(
                 'ad_id'  => $idBanner1,
