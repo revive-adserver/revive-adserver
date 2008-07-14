@@ -27,24 +27,24 @@ $Id$
 
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/AdServer/mysql.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Statistics/AdServer.php';
-require_once MAX_PATH . '/lib/OA/Maintenance/Statistics/AdServer/Task/ManagePlacements.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Statistics/AdServer/Task/ManageCampaigns.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
- * A class for testing the OA_Maintenance_Statistics_AdServer_Task_ManagePlacements class.
+ * A class for testing the OA_Maintenance_Statistics_AdServer_Task_ManageCampaigns class.
  *
  * @package    OpenXMaintenance
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew.hill@openx.org>
  */
-class Test_OA_Maintenance_Statistics_AdServer_Task_ManagePlacements extends UnitTestCase
+class Test_OA_Maintenance_Statistics_AdServer_Task_ManageCampaigns extends UnitTestCase
 {
 
     /**
      * The constructor method.
      */
-    function Test_OA_Maintenance_Statistics_AdServer_Task_ManagePlacements()
+    function Test_OA_Maintenance_Statistics_AdServer_Task_ManageCampaigns()
     {
         $this->UnitTestCase();
     }
@@ -54,8 +54,8 @@ class Test_OA_Maintenance_Statistics_AdServer_Task_ManagePlacements extends Unit
      */
     function testCreate()
     {
-        $oManagePlacements = new OA_Maintenance_Statistics_AdServer_Task_ManagePlacements();
-        $this->assertTrue(is_a($oManagePlacements, 'OA_Maintenance_Statistics_AdServer_Task_ManagePlacements'));
+        $oManageCampaigns = new OA_Maintenance_Statistics_AdServer_Task_ManageCampaigns();
+        $this->assertTrue(is_a($oManageCampaigns, 'OA_Maintenance_Statistics_AdServer_Task_ManageCampaigns'));
     }
 
     /**
@@ -71,15 +71,15 @@ class Test_OA_Maintenance_Statistics_AdServer_Task_ManagePlacements extends Unit
         // Mock the DAL, and set expectations
         Mock::generate('OA_Dal_Maintenance_Statistics_AdServer_mysql');
         $oDal = new MockOA_Dal_Maintenance_Statistics_AdServer_mysql($this);
-        $oDal->expectNever('managePlacements');
+        $oDal->expectNever('manageCampaigns');
         $oServiceLocator->register('OA_Dal_Maintenance_Statistics_AdServer', $oDal);
         // Set the controller class
         $oMaintenanceStatistics = new OA_Maintenance_Statistics_AdServer();
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Test
-        $oManagePlacements = new OA_Maintenance_Statistics_AdServer_Task_ManagePlacements();
-        $oManagePlacements->oController->updateIntermediate = false;
-        $oManagePlacements->run();
+        $oManageCampaigns = new OA_Maintenance_Statistics_AdServer_Task_ManageCampaigns();
+        $oManageCampaigns->oController->updateIntermediate = false;
+        $oManageCampaigns->run();
         $oDal->tally();
 
         // Register the current date/time
@@ -88,15 +88,15 @@ class Test_OA_Maintenance_Statistics_AdServer_Task_ManagePlacements extends Unit
         // Mock the DAL, and set expectations
         Mock::generate('OA_Dal_Maintenance_Statistics_AdServer_mysql');
         $oDal = new MockOA_Dal_Maintenance_Statistics_AdServer_mysql($this);
-        $oDal->expectOnce('managePlacements', array($oDateNow));
+        $oDal->expectOnce('manageCampaigns', array($oDateNow));
         $oServiceLocator->register('OA_Dal_Maintenance_Statistics_AdServer', $oDal);
         // Set the controller class
         $oMaintenanceStatistics = new OA_Maintenance_Statistics_AdServer();
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Test
-        $oManagePlacements = new OA_Maintenance_Statistics_AdServer_Task_ManagePlacements();
-        $oManagePlacements->oController->updateIntermediate = true;
-        $oManagePlacements->run();
+        $oManageCampaigns = new OA_Maintenance_Statistics_AdServer_Task_ManageCampaigns();
+        $oManageCampaigns->oController->updateIntermediate = true;
+        $oManageCampaigns->run();
         $oDal->tally();
     }
 

@@ -53,11 +53,11 @@ function setupConstants()
     define('OA_INSTALLATION_STATUS_INSTALLED'    ,    1);
 
     define('OA_AD_DIRECT_ENABLED', false);
-    
+
     //campaign types
     define('OX_CAMPAIGN_TYPE_REMNANT', 1);
     define('OX_CAMPAIGN_TYPE_CONTRACT', 2);
-    
+
 
     // This old PAN constant is used in a couple places but could well conflict with the configured DB
     // TODO: find any uses of this constant and re-think their place.
@@ -120,10 +120,10 @@ function setupConstants()
 
     // Campaign deactivation reasons
     // Values must be x^2, as used as binary flags
-    define('OA_PLACEMENT_DISABLED_IMPRESSIONS',  2);
-    define('OA_PLACEMENT_DISABLED_CLICKS',       4);
-    define('OA_PLACEMENT_DISABLED_CONVERSIONS',  8);
-    define('OA_PLACEMENT_DISABLED_DATE',        16);
+    define('OX_CAMPAIGN_DISABLED_IMPRESSIONS',  2);
+    define('OX_CAMPAIGN_DISABLED_CLICKS',       4);
+    define('OX_CAMPAIGN_DISABLED_CONVERSIONS',  8);
+    define('OX_CAMPAIGN_DISABLED_DATE',        16);
 
     // Active, inactive agency values
     define('MAX_AGENCY_INACTIVE', 1);

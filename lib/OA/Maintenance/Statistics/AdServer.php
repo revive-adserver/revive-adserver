@@ -29,7 +29,7 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Statistics/Common.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Statistics/AdServer/Task/SetUpdateRequirements.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Statistics/AdServer/Task/SummariseIntermediate.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Statistics/AdServer/Task/SummariseFinal.php';
-require_once MAX_PATH . '/lib/OA/Maintenance/Statistics/AdServer/Task/ManagePlacements.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Statistics/AdServer/Task/ManageCampaigns.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Statistics/AdServer/Task/DeleteOldData.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Statistics/AdServer/Task/LogCompletion.php';
 
@@ -64,9 +64,9 @@ class OA_Maintenance_Statistics_AdServer extends OA_Maintenance_Statistics_Commo
         // Add a task to summarise the intermediate statistics into final form
         $oSummariseFinal = new OA_Maintenance_Statistics_AdServer_Task_SummariseFinal();
         $this->oTaskRunner->addTask($oSummariseFinal);
-        // Add a task to manage the placements (enable/disable)
-        $oManagePlacements = new OA_Maintenance_Statistics_AdServer_Task_ManagePlacements();
-        $this->oTaskRunner->addTask($oManagePlacements);
+        // Add a task to manage the campaigns (enable/disable)
+        $oManageCampaigns = new OA_Maintenance_Statistics_AdServer_Task_ManageCampaigns();
+        $this->oTaskRunner->addTask($oManageCampaigns);
         // Add a task to delete old data
         $oDeleteOldData = new OA_Maintenance_Statistics_AdServer_Task_DeleteOldData();
         $this->oTaskRunner->addTask($oDeleteOldData);

@@ -41,7 +41,7 @@ require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew.hill@openx.org>
  */
-class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitTestCase
+class Test_OA_Dal_Maintenance_Statistics_AdServer_ManageCampaigns extends UnitTestCase
 {
     var $doCampaigns = null;
     var $doBanners   = null;
@@ -53,7 +53,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
     /**
      * The constructor method.
      */
-    function Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements()
+    function Test_OA_Dal_Maintenance_Statistics_AdServer_ManageCampaigns()
     {
         $this->UnitTestCase();
         $this->doCampaigns =  OA_Dal::factoryDO('campaigns');
@@ -69,9 +69,9 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
 
     /**
      * A method to test the activation and deactivation of campaigns within
-     * the managePlacements() method.
+     * the manageCampaigns() method.
      */
-    function testManagePlacements()
+    function testManageCampaigns()
     {
         $oServiceLocator = &OA_ServiceLocator::instance();
         $oServiceLocator->register('now', new Date('2004-06-05 09:00:00'));
@@ -241,7 +241,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
 
         /******************************************************************************/
 
-        // Test 1: Prepare a date for the managePlacements() method to run at in UTC;
+        // Test 1: Prepare a date for the manageCampaigns() method to run at in UTC;
         //         2004-06-05 13:01:00 UTC is 2004-06-05 23:01:00 Australia/Sydney
         $oDate = new Date();
         $oDate->toUTC();
@@ -250,7 +250,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         // Test 1: Run the method with no summarised data, and a UTC date/time
         //         that is before the start/end dates that are set in
         //         Campaign 6 and Campaign 7
-        $report = $oDsa->managePlacements($oDate);
+        $report = $oDsa->manageCampaigns($oDate);
 
         // Test 1: Campaign 1 is orphaned, test that default values are unchanged
         $this->_testCampaignByCampaignId($idCampaign1, -1, -1, -1, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
@@ -272,18 +272,18 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         $this->_testCampaignByCampaignId($idCampaign5, 10, 10, 10, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
 
         // Test 1: Campaign 6 is owned, and has a campaign end date, but given the
-        //         advertiser's manager timezone and the time that the managePlacements()
+        //         advertiser's manager timezone and the time that the manageCampaigns()
         //         method was run, the campaign should still be running
         $this->_testCampaignByCampaignId($idCampaign6, -1, -1, -1, $this->noDateValue, '2004-06-06', OA_ENTITY_STATUS_RUNNING);
 
         // Test 1: Campaign 7 is owned, and has a campaign start date, but given the
-        //         advertiser's manager timezone and the time that the managePlacements()
+        //         advertiser's manager timezone and the time that the manageCampaigns()
         //         method was run, the campaign should still not be running
         $this->_testCampaignByCampaignId($idCampaign7, -1, -1, -1, '2004-06-06', $this->noDateValue, OA_ENTITY_STATUS_AWAITING);
 
         /******************************************************************************/
 
-        // Test 2: Prepare a date for the managePlacements() method to run at in UTC;
+        // Test 2: Prepare a date for the manageCampaigns() method to run at in UTC;
         //         2004-06-05 14:01:00 UTC is 2004-06-06 00:01:00 Australia/Sydney
         $oDate = new Date();
         $oDate->toUTC();
@@ -293,7 +293,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         //         that is before the end date of Campaign 6 (as campaigns end at
         //         the end of the day), but after the start date of Campaign 7
         //         (as campaigns start at the start of the day)
-        $report = $oDsa->managePlacements($oDate);
+        $report = $oDsa->manageCampaigns($oDate);
 
         // Test 2: Campaign 1 is orphaned, test that default values are unchanged
         $this->_testCampaignByCampaignId($idCampaign1, -1, -1, -1, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
@@ -315,18 +315,18 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         $this->_testCampaignByCampaignId($idCampaign5, 10, 10, 10, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
 
         // Test 2: Campaign 6 is owned, and has a campaign end date, but given the
-        //         advertiser's manager timezone and the time that the managePlacements()
+        //         advertiser's manager timezone and the time that the manageCampaigns()
         //         method was run, the campaign should still be running
         $this->_testCampaignByCampaignId($idCampaign6, -1, -1, -1, $this->noDateValue, '2004-06-06', OA_ENTITY_STATUS_RUNNING);
 
         // Test 2: Campaign 7 is owned, and has a campaign start date, and given the
-        //         advertiser's manager timezone and the time that the managePlacements()
+        //         advertiser's manager timezone and the time that the manageCampaigns()
         //         method was run, the campaign should now be running
         $this->_testCampaignByCampaignId($idCampaign7, -1, -1, -1, '2004-06-06', $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
 
         /******************************************************************************/
 
-        // Test 3: Prepare a date for the managePlacements() method to run at in UTC;
+        // Test 3: Prepare a date for the manageCampaigns() method to run at in UTC;
         //         2004-06-06 13:01:00 UTC is 2004-06-06 23:01:00 Australia/Sydney
         $oDate = new Date();
         $oDate->toUTC();
@@ -336,7 +336,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         //         that is (still) before the end date of Campaign 6 (as campaigns
         //         end at the end of the day), but (still) after the start date of
         //         Campaign 7 (as campaigns start at the start of the day)
-        $report = $oDsa->managePlacements($oDate);
+        $report = $oDsa->manageCampaigns($oDate);
 
         // Test 3: Campaign 1 is orphaned, test that default values are unchanged
         $this->_testCampaignByCampaignId($idCampaign1, -1, -1, -1, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
@@ -358,18 +358,18 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         $this->_testCampaignByCampaignId($idCampaign5, 10, 10, 10, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
 
         // Test 3: Campaign 6 is owned, and has a campaign end date, but given the
-        //         advertiser's manager timezone and the time that the managePlacements()
+        //         advertiser's manager timezone and the time that the manageCampaigns()
         //         method was run, the campaign should still be running
         $this->_testCampaignByCampaignId($idCampaign6, -1, -1, -1, $this->noDateValue, '2004-06-06', OA_ENTITY_STATUS_RUNNING);
 
         // Test 3: Campaign 7 is owned, and has a campaign start date, and given the
-        //         advertiser's manager timezone and the time that the managePlacements()
+        //         advertiser's manager timezone and the time that the manageCampaigns()
         //         method was run, the campaign should now be running
         $this->_testCampaignByCampaignId($idCampaign7, -1, -1, -1, '2004-06-06', $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
 
         /******************************************************************************/
 
-        // Test 4: Prepare a date for the managePlacements() method to run at in UTC;
+        // Test 4: Prepare a date for the manageCampaigns() method to run at in UTC;
         //         2004-06-06 14:01:00 UTC is 2004-06-07 00:01:00 Australia/Sydney
         $oDate = new Date();
         $oDate->toUTC();
@@ -379,7 +379,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         //         that is now after the end date of Campaign 6 (as campaigns
         //         end at the end of the day), and (still) after the start date of
         //         Campaign 7 (as campaigns start at the start of the day)
-        $report = $oDsa->managePlacements($oDate);
+        $report = $oDsa->manageCampaigns($oDate);
 
         // Test 4: Campaign 1 is orphaned, test that default values are unchanged
         $this->_testCampaignByCampaignId($idCampaign1, -1, -1, -1, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
@@ -401,12 +401,12 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         $this->_testCampaignByCampaignId($idCampaign5, 10, 10, 10, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
 
         // Test 4: Campaign 6 is owned, and has a campaign end date, but given the
-        //         advertiser's manager timezone and the time that the managePlacements()
+        //         advertiser's manager timezone and the time that the manageCampaigns()
         //         method was run, the campaign should no longer still be running
         $this->_testCampaignByCampaignId($idCampaign6, -1, -1, -1, $this->noDateValue, '2004-06-06', OA_ENTITY_STATUS_EXPIRED);
 
         // Test 4: Campaign 7 is owned, and has a campaign start date, and given the
-        //         advertiser's manager timezone and the time that the managePlacements()
+        //         advertiser's manager timezone and the time that the manageCampaigns()
         //         method was run, the campaign should now be running
         $this->_testCampaignByCampaignId($idCampaign7, -1, -1, -1, '2004-06-06', $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
 
@@ -510,7 +510,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         // Test 5: Now that impressions, clicks and conversions have been
         //         delivered, re-run with the same date as Test 4 and make
         //         sure that campaigns are deactivated as required
-        $report = $oDsa->managePlacements($oDate);
+        $report = $oDsa->manageCampaigns($oDate);
 
         // Test 5: Campaign 1 is orphaned, test that default values are unchanged
         $this->_testCampaignByCampaignId($idCampaign1, -1, -1, -1, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
@@ -535,12 +535,12 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         $this->_testCampaignByCampaignId($idCampaign5, 10, 10, 10, $this->noDateValue, $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
 
         // Test 5: Campaign 6 is owned, and has a campaign end date, but given the
-        //         advertiser's manager timezone and the time that the managePlacements()
+        //         advertiser's manager timezone and the time that the manageCampaigns()
         //         method was run, the campaign should no longer still be running
         $this->_testCampaignByCampaignId($idCampaign6, -1, -1, -1, $this->noDateValue, '2004-06-06', OA_ENTITY_STATUS_EXPIRED);
 
         // Test 5: Campaign 7 is owned, and has a campaign start date, and given the
-        //         advertiser's manager timezone and the time that the managePlacements()
+        //         advertiser's manager timezone and the time that the manageCampaigns()
         //         method was run, the campaign should now be running
         $this->_testCampaignByCampaignId($idCampaign7, -1, -1, -1, '2004-06-06', $this->noDateValue, OA_ENTITY_STATUS_RUNNING);
 
@@ -552,9 +552,9 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
     /**
      * A method to test the activation of campaigns does NOT occur in the
      * event that the campaigns have previously been deactivated within
-     * the managePlacements() method.
+     * the manageCampaigns() method.
      */
-    function testManagePlacementsNoRestart()
+    function testManageCampaignsNoRestart()
     {
         $oServiceLocator = &OA_ServiceLocator::instance();
         $oServiceLocator->register('now', new Date('2005-12-07 10:01:00'));
@@ -629,7 +629,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
 
         /******************************************************************************/
 
-        // Test 1: Prepare a date for the managePlacements() method to run at in UTC;
+        // Test 1: Prepare a date for the manageCampaigns() method to run at in UTC;
         //         2005-12-07 11:01:00 UTC is 2005-12-07 22:01:00 Australia/Sydney
         $oDate = new Date();
         $oDate->toUTC();
@@ -639,7 +639,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         //         is after the start date of Campaign 1 and before the end
         //         date of Campaign 1, the campaign is NOT enabled, due to
         //         past expiration of the campaign
-        $report = $oDsa->managePlacements($oDate);
+        $report = $oDsa->manageCampaigns($oDate);
 
         $this->_testCampaignByCampaignId($idCampaign1, 10, -1, -1, '2005-12-07', '2005-12-09', OA_ENTITY_STATUS_EXPIRED);
 
@@ -650,10 +650,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
 
     /**
      * A method to test the sending of emails from the
-     * managePlacements() method - tests the sending of
-     * the "placement activated" emails.
+     * manageCampaigns() method - tests the sending of
+     * the "campaign activated" emails.
      */
-    function testManagePlacementsEmailsPlacementActivated()
+    function testManageCampaignsEmailsPlacementActivated()
     {
         // Set now as 1 week before
         $oDateNow = new Date();
@@ -698,18 +698,18 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         // based on the above
         Mock::generate('OA_Email');
         $oEmailMock = new MockOA_Email($this);
-        $oEmailMock->expectOnce('sendPlacementActivatedDeactivatedEmail', array("$campaignId"));
+        $oEmailMock->expectOnce('sendCampaignActivatedDeactivatedEmail', array("$campaignId"));
 
         // Register the mocked OA_Email class in the service locator
         $oServiceLocator = &OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Email', $oEmailMock);
 
-        // Run the managePlacements() method and ensure that the correct
+        // Run the manageCampaigns() method and ensure that the correct
         // calls to OA_Email were made
         $oDate = new Date();
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $oDsa = $oMDMSF->factory("AdServer");
-        $report = $oDsa->managePlacements($oDate);
+        $report = $oDsa->manageCampaigns($oDate);
         $oEmailMock->tally();
 
         // Clean up
@@ -718,10 +718,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
 
     /**
      * A method to test the sending of emails from the
-     * managePlacements() method - tests the sending of
-     * the "placement deactivated" emails.
+     * manageCampaigns() method - tests the sending of
+     * the "campaign deactivated" emails.
      */
-    function testManagePlacementsEmailsPlacementDeactivated()
+    function testManageCampaignsEmailsPlacementDeactivated()
     {
         // Prepare a single placement that is active, and has a lifetime
         // impression target that has been met (so that it will need to
@@ -759,18 +759,18 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         // based on the above
         Mock::generate('OA_Email');
         $oEmailMock = new MockOA_Email($this);
-        $oEmailMock->expectOnce('sendPlacementActivatedDeactivatedEmail', array("$campaignId", 2));
+        $oEmailMock->expectOnce('sendCampaignActivatedDeactivatedEmail', array("$campaignId", 2));
 
         // Register the mocked OA_Email class in the service locator
         $oServiceLocator = &OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Email', $oEmailMock);
 
-        // Run the managePlacements() method and ensure that the correct
+        // Run the manageCampaigns() method and ensure that the correct
         // calls to OA_Email were made
         $oDate = new Date();
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $oDsa = $oMDMSF->factory("AdServer");
-        $report = $oDsa->managePlacements($oDate);
+        $report = $oDsa->manageCampaigns($oDate);
         $oEmailMock->tally();
 
         // Clean up
@@ -779,10 +779,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
 
     /**
      * A method to test the sending of emails from the
-     * managePlacements() method - tests the sending of
-     * the "placement about to expire" emails.
+     * manageCampaigns() method - tests the sending of
+     * the "campaign about to expire" emails.
      */
-    function testManagePlacementsEmailsPlacementToExpire()
+    function testManageCampaignsEmailsPlacementToExpire()
     {
         // Set the date format
         global $date_format;
@@ -835,18 +835,18 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         // based on the above
         Mock::generate('OA_Email');
         $oEmailMock = new MockOA_Email($this);
-        $oEmailMock->expectOnce('sendPlacementImpendingExpiryEmail');
+        $oEmailMock->expectOnce('sendCampaignImpendingExpiryEmail');
 
         // Register the mocked OA_Email class in the service locator
         $oServiceLocator = &OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Email', $oEmailMock);
 
-        // Run the managePlacements() method and ensure that the correct
+        // Run the manageCampaigns() method and ensure that the correct
         // calls to OA_Email were made
         $oDate = new Date('2008-01-11 23:00:01');
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $oDsa = $oMDMSF->factory("AdServer");
-        $report = $oDsa->managePlacements($oDate);
+        $report = $oDsa->manageCampaigns($oDate);
         $oEmailMock->tally();
 
         // Now set the preference that states that the admin account
@@ -857,18 +857,18 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         // expectations on how the class' methods should be called
         // based on the above
         $oEmailMock = new MockOA_Email($this);
-        $oEmailMock->expectOnce('sendPlacementImpendingExpiryEmail');
+        $oEmailMock->expectOnce('sendCampaignImpendingExpiryEmail');
 
         // Register the mocked OA_Email class in the service locator
         $oServiceLocator = &OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Email', $oEmailMock);
 
-        // Run the managePlacements() method and ensure that the correct
+        // Run the manageCampaigns() method and ensure that the correct
         // calls to OA_Email were made
         $oDate = new Date('2008-01-11 23:00:01');
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $oDsa = $oMDMSF->factory("AdServer");
-        $report = $oDsa->managePlacements($oDate);
+        $report = $oDsa->manageCampaigns($oDate);
         $oEmailMock->tally();
 
         // Now set the preference that states that the admin account
@@ -880,18 +880,18 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         // expectations on how the class' methods should be called
         // based on the above
         $oEmailMock = new MockOA_Email($this);
-        $oEmailMock->expectOnce('sendPlacementImpendingExpiryEmail');
+        $oEmailMock->expectOnce('sendCampaignImpendingExpiryEmail');
 
         // Register the mocked OA_Email class in the service locator
         $oServiceLocator = &OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Email', $oEmailMock);
 
-        // Run the managePlacements() method and ensure that the correct
+        // Run the manageCampaigns() method and ensure that the correct
         // calls to OA_Email were made
         $oDate = new Date('2008-01-11 23:00:01');
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $oDsa = $oMDMSF->factory("AdServer");
-        $report = $oDsa->managePlacements($oDate);
+        $report = $oDsa->manageCampaigns($oDate);
         $oEmailMock->tally();
 
         // Delivery 60 impressions out of the 100, so that only 40 remain
@@ -910,18 +910,18 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         // expectations on how the class' methods should be called
         // based on the above
         $oEmailMock = new MockOA_Email($this);
-        $oEmailMock->expectOnce('sendPlacementImpendingExpiryEmail', array($oDate, "$campaignId"));
+        $oEmailMock->expectOnce('sendCampaignImpendingExpiryEmail', array($oDate, "$campaignId"));
 
         // Register the mocked OA_Email class in the service locator
         $oServiceLocator = &OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Email', $oEmailMock);
 
-        // Run the managePlacements() method and ensure that the correct
+        // Run the manageCampaigns() method and ensure that the correct
         // calls to OA_Email were made
         $oDate = new Date('2008-01-11 23:00:01');
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $oDsa = $oMDMSF->factory("AdServer");
-        $report = $oDsa->managePlacements($oDate);
+        $report = $oDsa->manageCampaigns($oDate);
         $oEmailMock->tally();
 
         // Clean up

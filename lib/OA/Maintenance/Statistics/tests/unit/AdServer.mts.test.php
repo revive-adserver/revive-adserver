@@ -68,7 +68,7 @@ class Test_OA_Maintenance_Statistics_AdServer extends UnitTestCase
         $this->assertTrue(is_a($oMaintenanceStatistics->oTaskRunner->aTasks[0], 'OA_Maintenance_Statistics_AdServer_Task_SetUpdateRequirements'));
         $this->assertTrue(is_a($oMaintenanceStatistics->oTaskRunner->aTasks[1], 'OA_Maintenance_Statistics_AdServer_Task_SummariseIntermediate'));
         $this->assertTrue(is_a($oMaintenanceStatistics->oTaskRunner->aTasks[2], 'OA_Maintenance_Statistics_AdServer_Task_SummariseFinal'));
-        $this->assertTrue(is_a($oMaintenanceStatistics->oTaskRunner->aTasks[3], 'OA_Maintenance_Statistics_AdServer_Task_ManagePlacements'));
+        $this->assertTrue(is_a($oMaintenanceStatistics->oTaskRunner->aTasks[3], 'OA_Maintenance_Statistics_AdServer_Task_ManageCampaigns'));
         $this->assertTrue(is_a($oMaintenanceStatistics->oTaskRunner->aTasks[4], 'OA_Maintenance_Statistics_AdServer_Task_DeleteOldData'));
         $this->assertTrue(is_a($oMaintenanceStatistics->oTaskRunner->aTasks[5], 'OA_Maintenance_Statistics_AdServer_Task_LogCompletion'));
     }

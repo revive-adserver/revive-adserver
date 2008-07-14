@@ -46,8 +46,37 @@ require_once MAX_PATH . '/lib/pear/Date.php';
 class OA_Email
 {
 
+    function sendCampaignDeliveryEmail($advertiserId, $oStartDate, $oEndDate) {
+
+        $aLinkedUsers = $this->getUsersLinkedToAccount('clients', $advertiserId);
+        $copiesSent = 0;
+        if (!empty($aLinkedUsers) && is_array($aLinkedUsers)) {
+            foreach ($aLinkedUsers as $aUser) {
+                $aEmail = $this->prepareCampaignDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
+                if ($aEmail !== false) {
+                    if (!isset($aEmail['hasAdviews']) || $aEmail['hasAdviews'] !== false) {
+                        if ($this->sendMail($aEmail['subject'], $aEmail['contents'], $aUser['email_address'], $aUser['contact_name'])) {
+                            $copiesSent++;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Only update the last sent date if we actually sent out at least one copy of the email
+        if ($copiesSent) {
+            // Update the last run date to "today"
+            OA::debug('   - Updating the date the report was last sent for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
+            $doUpdateClients = OA_Dal::factoryDO('clients');
+            $doUpdateClients->clientid = $advertiserId;
+            $doUpdateClients->reportlastdate = OA::getNow();
+            $doUpdateClients->update();
+        }
+        return $copiesSent;
+    }
+
     /**
-     * A method for preparing an advertiser's "placement delivery" report
+     * A method for preparing an advertiser's "campaign delivery" report
      * email.
      *
      * @param integer    $advertiserId The advertiser's ID.
@@ -60,12 +89,12 @@ class OA_Email
      *                          'userEmail' => The email address to send the report to.
      *                          'userName'  => The real name of the email address, or null.
      */
-    function preparePlacementDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate)
+    function prepareCampaignDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate)
     {
 
         Language_Loader::load('default',$aUser['language']);
 
-        OA::debug('   - Preparing "placement delivery" report for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
+        OA::debug('   - Preparing "campaign delivery" report for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
 
         /**
          * @doing: Need to update this to load the correct language for the owning advertiser - which
@@ -102,11 +131,11 @@ class OA_Email
         }
 
         // Prepare the email body
-        $aEmailBody = $this->_preparePlacementDeliveryEmailBody($advertiserId, $oStartDate, $oEndDate);
+        $aEmailBody = $this->_prepareCampaignDeliveryEmailBody($advertiserId, $oStartDate, $oEndDate);
 
         // Was anything found?
         if ($aEmailBody['body'] == '') {
-            OA::debug('   - No placements with delivery for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
+            OA::debug('   - No campaigns with delivery for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
             return false;
         }
 
@@ -150,37 +179,8 @@ class OA_Email
         return $aResult;
     }
 
-    function sendPlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate) {
-
-        $aLinkedUsers = $this->getUsersLinkedToAccount('clients', $advertiserId);
-        $copiesSent = 0;
-        if (!empty($aLinkedUsers) && is_array($aLinkedUsers)) {
-            foreach ($aLinkedUsers as $aUser) {
-                $aEmail = $this->preparePlacementDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
-                if ($aEmail !== false) {
-                    if (!isset($aEmail['hasAdviews']) || $aEmail['hasAdviews'] !== false) {
-                        if ($this->sendMail($aEmail['subject'], $aEmail['contents'], $aUser['email_address'], $aUser['contact_name'])) {
-                            $copiesSent++;
-                        }
-                    }
-                }
-            }
-        }
-
-        // Only update the last sent date if we actually sent out at least one copy of the email
-        if ($copiesSent) {
-            // Update the last run date to "today"
-            OA::debug('   - Updating the date the report was last sent for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
-            $doUpdateClients = OA_Dal::factoryDO('clients');
-            $doUpdateClients->clientid = $advertiserId;
-            $doUpdateClients->reportlastdate = OA::getNow();
-            $doUpdateClients->update();
-        }
-        return $copiesSent;
-    }
-
     /**
-     * A private method to prepare the body of an advertiser's "placement delivery"
+     * A private method to prepare the body of an advertiser's "campaign delivery"
      * report email.
      *
      * @access private
@@ -188,7 +188,7 @@ class OA_Email
      * @param PEAR::Date $oStartDate   The start date of the report, inclusive.
      * @param PEAR::Date $oEndDate     The end date of the report, inclusive.
      */
-    function _preparePlacementDeliveryEmailBody($advertiserId, $oStartDate, $oEndDate)
+    function _prepareCampaignDeliveryEmailBody($advertiserId, $oStartDate, $oEndDate)
     {
         // Load the "Campaign" and "Banner" strings, and prepare formatting strings
         global $strCampaign, $strBanner;
@@ -219,26 +219,26 @@ class OA_Email
         $emailBody = '';
         $totalAdviewsInPeriod = 0;
 
-        // Fetch all the advertiser's placements
-        $doPlacements = OA_Dal::factoryDO('campaigns');
-        $doPlacements->clientid = $advertiserId;
-        $doPlacements->orderBy('campaignid');
-        $doPlacements->find();
-        if ($doPlacements->getRowCount() > 0) {
-            while ($doPlacements->fetch()) {
-            	$aPlacement = $doPlacements->toArray();
-            	if ($aPlacement['status'] == '0') {
-            		// Add the name of the placement to the report
+        // Fetch all the advertiser's campaigns
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->clientid = $advertiserId;
+        $doCampaigns->orderBy('campaignid');
+        $doCampaigns->find();
+        if ($doCampaigns->getRowCount() > 0) {
+            while ($doCampaigns->fetch()) {
+            	$aCampaign = $doCampaigns->toArray();
+            	if ($aCampaign['status'] == '0') {
+            		// Add the name of the campaign to the report
             		$emailBody .= "\n" . sprintf($strCampaignPrint, $strCampaign) . ' ';
-                    $emailBody .= strip_tags(phpAds_buildName($aPlacement['campaignid'], $aPlacement['campaignname'])) . "\n";
-                    // Add a URL link to the placement
-                    $page = 'campaign-edit.php?clientid=' . $advertiserId . '&campaignid=' . $aPlacement['campaignid'];
+                    $emailBody .= strip_tags(phpAds_buildName($aCampaign['campaignid'], $aCampaign['campaignname'])) . "\n";
+                    // Add a URL link to the campaign
+                    $page = 'campaign-edit.php?clientid=' . $advertiserId . '&campaignid=' . $aCampaign['campaignid'];
                     $emailBody .= MAX::constructURL(MAX_URL_ADMIN, $page) . "\n";
                     // Add a nice divider
                     $emailBody .= "=======================================================\n\n";
-                    // Fetch all ads in the placement
+                    // Fetch all ads in the campaign
                     $doBanners = OA_Dal::factoryDO('banners');
-                    $doBanners->campaignid = $aPlacement['campaignid'];
+                    $doBanners->campaignid = $aCampaign['campaignid'];
                     $doBanners->orderBy('bannerid');
                     $doBanners->find();
                     if ($doBanners->getRowCount() > 0) {
@@ -267,7 +267,7 @@ class OA_Email
                                     $emailBody .= sprintf($adTextPrint, $strTotalImpressions) . ': ';
                                     $emailBody .= sprintf('%15s', phpAds_formatNumber($adImpressions)) . "\n";
                                     // Fetch the ad's impressions for the report period, grouped by day
-                                    $aEmailBody = $this->_preparePlacementDeliveryEmailBodyStats($aAd['bannerid'], $oStartDate, $oEndDate, 'impressions', $adTextPrint);
+                                    $aEmailBody = $this->_prepareCampaignDeliveryEmailBodyStats($aAd['bannerid'], $oStartDate, $oEndDate, 'impressions', $adTextPrint);
                                     $emailBody .= $aEmailBody['body'];
                                     $totalAdviewsInPeriod += $aEmailBody['adviews'];
                                 }
@@ -277,7 +277,7 @@ class OA_Email
                                     $emailBody .= "\n" . sprintf($adTextPrint, $strTotalClicks) . ': ';
                                     $emailBody .= sprintf('%15s', phpAds_formatNumber($adClicks)) . "\n";
                                     // Fetch the ad's clicks for the report period, grouped by day
-                                    $aEmailBody = $this->_preparePlacementDeliveryEmailBodyStats($aAd['bannerid'], $oStartDate, $oEndDate, 'clicks', $adTextPrint);
+                                    $aEmailBody = $this->_prepareCampaignDeliveryEmailBodyStats($aAd['bannerid'], $oStartDate, $oEndDate, 'clicks', $adTextPrint);
                                     $emailBody .= $aEmailBody['body'];
                                     $totalAdviewsInPeriod += $aEmailBody['adviews'];
                                 }
@@ -287,7 +287,7 @@ class OA_Email
                                     $emailBody .= "\n" . sprintf($adTextPrint, $strTotalConversions) . ': ';
                                     $emailBody .= sprintf('%15s', phpAds_formatNumber($adConversions)) . "\n";
                                     // Fetch the ad's conversions for the report period, grouped by day
-                                    $aEmailBody = $this->_preparePlacementDeliveryEmailBodyStats($aAd['bannerid'], $oStartDate, $oEndDate, 'conversions', $adTextPrint);
+                                    $aEmailBody = $this->_prepareCampaignDeliveryEmailBodyStats($aAd['bannerid'], $oStartDate, $oEndDate, 'conversions', $adTextPrint);
                                     $emailBody .= $aEmailBody['body'];
                                     $totalAdviewsInPeriod += $aEmailBody['adviews'];
                                 }
@@ -295,7 +295,7 @@ class OA_Email
                             }
                         }
                     }
-                    // Did the placement have any stats?
+                    // Did the campaign have any stats?
                     if ($adsWithDelivery != true) {
                         $emailBody .= $strNoStatsForCampaign . "\n\n\n";
                     }
@@ -312,7 +312,7 @@ class OA_Email
 
     /**
      * A private method to prepare the statistics part of the body of an
-     * advertiser's "placement delivery" report email.
+     * advertiser's "campaign delivery" report email.
      *
      * @access private
      * @param integer    $advertiserId The advertiser's ID.
@@ -325,7 +325,7 @@ class OA_Email
      *      'body'      => string The ad statistics part of the report.
      *      'adviews'   => int    Adviews in this period
      */
-    function _preparePlacementDeliveryEmailBodyStats($adId, $oStartDate, $oEndDate, $type, $adTextPrint)
+    function _prepareCampaignDeliveryEmailBodyStats($adId, $oStartDate, $oEndDate, $type, $adTextPrint)
     {
         $oDbh =& OA_DB::singleton();
 
@@ -395,28 +395,18 @@ class OA_Email
         );
     }
 
-    function _createPrefsListPerAccount($accountType)
-    {
-        $type = strtolower($accountType);
-        return array(
-            'warn_email_' . $type,
-            'warn_email_' . $type . '_impression_limit',
-            'warn_email_' . $type . '_day_limit',
-        );
-    }
-
-    function sendPlacementImpendingExpiryEmail($oDate, $placementId) {
+    function sendCampaignImpendingExpiryEmail($oDate, $campaignId) {
         $aConf = $GLOBALS['_MAX']['CONF'];
         global $date_format;
 
-        $doPlacement = OA_Dal::staticGetDO('campaigns', $placementId);
-        $aPlacement = $doPlacement->toArray();
+        $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
+        $aCampaign = $doCampaigns->toArray();
 
         $aPreviousOIDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
 
-        $aLinkedUsers['advertiser'] = $this->getUsersLinkedToAccount('clients', $aPlacement['clientid']);
+        $aLinkedUsers['advertiser'] = $this->getUsersLinkedToAccount('clients', $aCampaign['clientid']);
 
-        $doClients = OA_Dal::staticGetDO('clients', $aPlacement['clientid']);
+        $doClients = OA_Dal::staticGetDO('clients', $aCampaign['clientid']);
         $doAgency = OA_Dal::staticGetDO('agency', $doClients->agencyid);
 
         $aLinkedUsers['manager']    = $this->getUsersLinkedToAccount('agency',  $doClients->agencyid);
@@ -441,24 +431,24 @@ class OA_Email
         foreach ($aLinkedUsers as $accountType => $aUsers) {
             if ($aPrefs[$accountType]['warn_email_' . $accountType]) {
                 // Does the account type want warnings when the impressions are low?
-                if ($aPrefs[$accountType]['warn_email_' . $accountType . '_impression_limit'] > 0 && $aPlacement['views'] > 0) {
+                if ($aPrefs[$accountType]['warn_email_' . $accountType . '_impression_limit'] > 0 && $aCampaign['views'] > 0) {
                     // Test to see if the placements impressions remaining are less than the limit
                     $dalCampaigns = OA_Dal::factoryDAL('campaigns');
-                    $remainingImpressions = $dalCampaigns->getAdImpressionsLeft($aPlacement['campaignid']);
+                    $remainingImpressions = $dalCampaigns->getAdImpressionsLeft($aCampaign['campaignid']);
                     if ($remainingImpressions < $aPrefs[$accountType]['warn_email_' . $accountType . '_impression_limit']) {
                         // Yes, the placement will expire soon! But did the placement just reach
                         // the point where it is about to expire, or did it happen a while ago?
                         $previousRemainingImpressions =
-                            $dalCampaigns->getAdImpressionsLeft($aPlacement['campaignid'], $aPreviousOIDates['end']);
+                            $dalCampaigns->getAdImpressionsLeft($aCampaign['campaignid'], $aPreviousOIDates['end']);
                         if ($previousRemainingImpressions >= $aPrefs[$accountType]['warn_email_' . $accountType . '_impression_limit']) {
                             // Yes! This is the operation interval that the boundary
                             // was crossed to the point where it's about to expire,
                             // so send that email, baby!
                             foreach ($aUsers as $aUser) {
-                                $aEmail = $this->preparePlacementImpendingExpiryEmail(
+                                $aEmail = $this->prepareCampaignImpendingExpiryEmail(
                                     $aUser,
-                                    $aPlacement['clientid'],
-                                    $aPlacement['campaignid'],
+                                    $aCampaign['clientid'],
+                                    $aCampaign['campaignid'],
                                     'impressions',
                                     $aPrefs[$accountType]['warn_email_' . $accountType . '_impression_limit'],
                                     $accountType
@@ -474,10 +464,10 @@ class OA_Email
                     }
                 }
                 // Does the account type want warnings when the days are low?
-                if ($aPrefs[$accountType]['warn_email_' . $accountType . '_day_limit'] > 0 && $aPlacement['expire'] != OA_Dal::noDateValue()) {
+                if ($aPrefs[$accountType]['warn_email_' . $accountType . '_day_limit'] > 0 && $aCampaign['expire'] != OA_Dal::noDateValue()) {
                     // Calculate the date that should be used to see if the warning needs to be sent
                     $warnSeconds = (int) ($aPrefs[$accountType]['warn_email_' . $accountType . '_day_limit'] + 1) * SECONDS_PER_DAY;
-                    $oEndDate = new Date($aPlacement['expire'] . ' 23:59:59');  // Convert day to end of Date
+                    $oEndDate = new Date($aCampaign['expire'] . ' 23:59:59');  // Convert day to end of Date
                     $oTestDate = new Date();
                     $oTestDate->copy($oDate);
                     $oTestDate->addSeconds($warnSeconds);
@@ -492,10 +482,10 @@ class OA_Email
                             // was crossed to the point where it's about to expire,
                             // so send those emails, baby!
                             foreach ($aUsers as $aUser) {
-                                $aEmail = $this->preparePlacementImpendingExpiryEmail(
+                                $aEmail = $this->prepareCampaignImpendingExpiryEmail(
                                     $aUser,
-                                    $aPlacement['clientid'],
-                                    $aPlacement['campaignid'],
+                                    $aCampaign['clientid'],
+                                    $aCampaign['campaignid'],
                                     'date',
                                     $oEndDate->format($date_format),
                                     $accountType
@@ -536,7 +526,7 @@ class OA_Email
      *                          'userEmail' => The email address to send the report to.
      *                          'userName'  => The real name of the email address, or null.
      */
-    function preparePlacementImpendingExpiryEmail($aUser, $advertiserId, $placementId, $reason, $value, $type)
+    function prepareCampaignImpendingExpiryEmail($aUser, $advertiserId, $placementId, $reason, $value, $type)
     {
         OA::debug('   - Preparing "impending expiry" report for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
 
@@ -569,13 +559,13 @@ class OA_Email
         if (!$doCampaigns->fetch()) {
             return false;
         }
-        $aPlacement = $doCampaigns->toArray();
-        if ($aPlacement['clientid'] != $advertiserId) {
+        $aCampaign = $doCampaigns->toArray();
+        if ($aCampaign['clientid'] != $advertiserId) {
             return false;
         }
 
         // Prepare the email body
-        $emailBody  = $this->_preparePlacementImpendingExpiryEmailBody($advertiserId, $aPlacement);
+        $emailBody  = $this->_prepareCampaignImpendingExpiryEmailBody($advertiserId, $aCampaign);
 
         // Was anything found?
         if ($emailBody == '') {
@@ -638,9 +628,9 @@ class OA_Email
      *
      * @access private
      * @param integer $advertiserId The advertiser's ID.
-     * @param array   $aPlacement   The placement details.
+     * @param array   $aCampaign   The placement details.
      */
-    function _preparePlacementImpendingExpiryEmailBody($advertiserId, $aPlacement)
+    function _prepareCampaignImpendingExpiryEmailBody($advertiserId, $aCampaign)
     {
         // Load required strings
         global $strCampaign, $strBanner, $strLinkedTo, $strNoBanners;
@@ -650,15 +640,15 @@ class OA_Email
 
         // Add the name of the placement to the report
         $emailBody .= $strCampaign . ' ';
-        $emailBody .= strip_tags(phpAds_buildName($aPlacement['campaignid'], $aPlacement['campaignname'])) . "\n";
+        $emailBody .= strip_tags(phpAds_buildName($aCampaign['campaignid'], $aCampaign['campaignname'])) . "\n";
         // Add a URL link to the placement
-        $page = 'campaign-edit.php?clientid=' . $advertiserId . '&campaignid=' . $aPlacement['campaignid'];
+        $page = 'campaign-edit.php?clientid=' . $advertiserId . '&campaignid=' . $aCampaign['campaignid'];
         $emailBody .= MAX::constructURL(MAX_URL_ADMIN, $page) . "\n";
         // Add a separator after the placement and before the ads
         $emailBody .= "-------------------------------------------------------\n\n";
         // Get the ads in the placement
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->campaignid = $aPlacement['campaignid'];
+        $doBanners->campaignid = $aCampaign['campaignid'];
         $doBanners->orderBy('bannerid');
         $doBanners->find();
         if ($doBanners->getRowCount() > 0) {
@@ -674,7 +664,7 @@ class OA_Email
                 $emailBody .= "\n";
             }
         } else {
-            // No ads in the placement!
+            // No ads in the campaign!
             $emailBody .= ' ' . $strNoBanners . "\n\n";
         }
         // Add closing divider
@@ -684,18 +674,42 @@ class OA_Email
         return $emailBody;
     }
 
+    function sendCampaignActivatedDeactivatedEmail($campaignId, $reason = null)
+    {
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doClient = OA_Dal::factoryDO('clients');
+        $doCampaigns->joinAdd($doClient);
+        $doCampaigns->get('campaignid', $campaignId);
+        $aLinkedUsers = $this->getUsersLinkedToAccount('clients', $doCampaigns->clientid);
+        $copiesSent = 0;
+
+        if (!empty($aLinkedUsers) && is_array($aLinkedUsers)) {
+            foreach ($aLinkedUsers as $aUser) {
+                $aEmail = $this->prepareCampaignActivatedDeactivatedEmail($aUser, $doCampaigns->campaignid, $reason);
+                if ($aEmail !== false) {
+                    if ($this->sendMail($aEmail['subject'], $aEmail['contents'], $aUser['email_address'], $aUser['contact_name'])) {
+                        $copiesSent++;
+                    }
+                }
+            }
+            // Restore the default language strings
+            Language_Loader::load('default');
+        }
+        return $copiesSent;
+    }
+
     /**
-     * A method for preparing an advertiser's "placement activated" or
-     * "placement deactivated" report.
+     * A method for preparing an advertiser's "campaign activated" or
+     * "campaign deactivated" report.
      *
-     * @param string  $placementId The ID of the activated placement.
+     * @param string  $campaignId The ID of the activated campaign.
      * @param integer $reason      An optional binary flag field containting the
-     *                             representation of the reason(s) the placement
+     *                             representation of the reason(s) the campaign
      *                             was deactivated:
      *                                   2  - No more impressions
      *                                   4  - No more clicks
      *                                   8  - No more conversions
-     *                                   16 - Placement ended (due to date)
+     *                                   16 - Campaign ended (due to date)
      * @return boolean|array False, if the report could not be created, otherwise
      *                       an array of four elements:
      *                          'subject'   => The email subject line.
@@ -703,14 +717,14 @@ class OA_Email
      *                          'userEmail' => The email address to send the report to.
      *                          'userName'  => The real name of the email address, or null.
      */
-    function preparePlacementActivatedDeactivatedEmail($aUser, $placementId, $reason = null)
+    function prepareCampaignActivatedDeactivatedEmail($aUser, $campaignId, $reason = null)
     {
         Language_Loader::load('default',$aUser['language']);
 
         if (is_null($reason)) {
-            OA::debug('   - Preparing "placement activated" email for placement ID ' . $placementId. '.', PEAR_LOG_DEBUG);
+            OA::debug('   - Preparing "campaign activated" email for campaign ID ' . $campaignId. '.', PEAR_LOG_DEBUG);
         } else {
-            OA::debug('   - Preparing "placement deactivated" email for placement ID ' . $placementId. '.', PEAR_LOG_DEBUG);
+            OA::debug('   - Preparing "campaign deactivated" email for campaign ID ' . $campaignId. '.', PEAR_LOG_DEBUG);
         }
 
         // Load the required strings
@@ -720,20 +734,20 @@ class OA_Email
                $strNoMoreImpressions, $strNoMoreClicks, $strNoMoreConversions,
                $strAfterExpire;
 
-        // Fetch the placement
-        $aPlacement = $this->_loadPlacement($placementId);
-        if ($aPlacement === false) {
+        // Fetch the campaign
+        $aCampaign = $this->_loadCampaign($campaignId);
+        if ($aCampaign === false) {
             return false;
         }
 
-        // Fetch the placement's owning advertiser
-        $aAdvertiser = $this->_loadAdvertiser($aPlacement['clientid']);
+        // Fetch the campaign's owning advertiser
+        $aAdvertiser = $this->_loadAdvertiser($aCampaign['clientid']);
         if ($aAdvertiser === false) {
             return false;
         }
 
         // Prepare the email body
-        $emailBody = $this->_preparePlacementActivatedDeactivatedEmailBody($aPlacement);
+        $emailBody = $this->_prepareCampaignActivatedDeactivatedEmailBody($aCampaign);
 
         // Prepare the final email - add the greeting to the advertiser
         $email = "$strMailHeader\n";
@@ -754,16 +768,16 @@ class OA_Email
             $email .= "$strMailBannerActivated\n";
         } else {
             $email .= "$strMailBannerDeactivated:";
-            if ($reason & OA_PLACEMENT_DISABLED_IMPRESSIONS) {
+            if ($reason & OX_CAMPAIGN_DISABLED_IMPRESSIONS) {
                 $email .= "\n  - " . $strNoMoreImpressions;
             }
-            if ($reason & OA_PLACEMENT_DISABLED_CLICKS) {
+            if ($reason & OX_CAMPAIGN_DISABLED_CLICKS) {
                 $email .= "\n  - " . $strNoMoreClicks;
             }
-            if ($reason & OA_PLACEMENT_DISABLED_CONVERSIONS) {
+            if ($reason & OX_CAMPAIGN_DISABLED_CONVERSIONS) {
                 $email .= "\n  - " . $strNoMoreConversions;
             }
-            if ($reason & OA_PLACEMENT_DISABLED_DATE) {
+            if ($reason & OX_CAMPAIGN_DISABLED_DATE) {
                 $email .= "\n  - " . $strAfterExpire;
             }
             $email .= ".\n";
@@ -785,39 +799,15 @@ class OA_Email
         return $aResult;
     }
 
-    function sendPlacementActivatedDeactivatedEmail($placementId, $reason = null)
-    {
-        $doPlacement = OA_Dal::factoryDO('campaigns');
-        $doClient = OA_Dal::factoryDO('clients');
-        $doPlacement->joinAdd($doClient);
-        $doPlacement->get('campaignid', $placementId);
-        $aLinkedUsers = $this->getUsersLinkedToAccount('clients', $doPlacement->clientid);
-        $copiesSent = 0;
-
-        if (!empty($aLinkedUsers) && is_array($aLinkedUsers)) {
-            foreach ($aLinkedUsers as $aUser) {
-                $aEmail = $this->preparePlacementActivatedDeactivatedEmail($aUser, $doPlacement->campaignid, $reason);
-                if ($aEmail !== false) {
-                    if ($this->sendMail($aEmail['subject'], $aEmail['contents'], $aUser['email_address'], $aUser['contact_name'])) {
-                        $copiesSent++;
-                    }
-                }
-            }
-            // Restore the default language strings
-            Language_Loader::load('default');
-        }
-        return $copiesSent;
-    }
-
     /**
-     * A private method to prepare the body of an advertiser's "placement activated"
-     * or "placement deactivated" report email.
+     * A private method to prepare the body of an advertiser's "campaign activated"
+     * or "campaign deactivated" report email.
      *
      * @access private
      * @param integer $advertiserId The advertiser's ID.
-     * @param array   $aPlacement   The placement details.
+     * @param array   $acampaign    The campaign details.
      */
-    function _preparePlacementActivatedDeactivatedEmailBody($aPlacement)
+    function _prepareCampaignActivatedDeactivatedEmailBody($aCampaign)
     {
         // Load the "Campaign" and "Banner" strings, and prepare formatting strings
         global $strCampaign, $strBanner;
@@ -833,18 +823,18 @@ class OA_Email
         // Prepare the result
         $emailBody = '';
 
-        // Add the name of the placement to the report
+        // Add the name of the campaign to the report
         $emailBody .= "\n" . sprintf($strCampaignPrint, $strCampaign) . ' ';
-        $emailBody .= strip_tags(phpAds_buildName($aPlacement['campaignid'], $aPlacement['campaignname'])) . "\n";
+        $emailBody .= strip_tags(phpAds_buildName($aCampaign['campaignid'], $aCampaign['campaignname'])) . "\n";
 
         // Add a URL link to the stats page of the campaign
-        $page = 'stats.php?clientid='. $aPlacement['clientid'] . '&campaignid=' . $aPlacement['campaignid'] .'&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=';
+        $page = 'stats.php?clientid='. $aCampaign['clientid'] . '&campaignid=' . $aCampaign['campaignid'] .'&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=';
         $emailBody .= MAX::constructURL(MAX_URL_ADMIN, $page) . "\n";
         // Add a nice divider
         $emailBody .= "=======================================================\n\n";
-        // Fetch all ads in the placement
+        // Fetch all ads in the campaign
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->campaignid = $aPlacement['campaignid'];
+        $doBanners->campaignid = $aCampaign['campaignid'];
         $doBanners->orderBy('bannerid');
         $doBanners->find();
         if ($doBanners->getRowCount() > 0) {
@@ -863,6 +853,16 @@ class OA_Email
         return $emailBody;
     }
 
+    function _createPrefsListPerAccount($accountType)
+    {
+        $type = strtolower($accountType);
+        return array(
+            'warn_email_' . $type,
+            'warn_email_' . $type . '_impression_limit',
+            'warn_email_' . $type . '_day_limit',
+        );
+    }
+
     /**
      * A private method to load the preferences required when generating reports.
      *
@@ -879,24 +879,24 @@ class OA_Email
     }
 
     /**
-     * A private method to load the details of an placement from the database.
+     * A private method to load the details of a campaign from the database.
      *
-     * @param integer $placementId The ID of the placement to load.
-     * @return false|array False if the placement cannot be loaded, an array of the
-     *                     placement's details from the database otherwise.
+     * @param integer $campaignId The ID of the campaign to load.
+     * @return false|array False if the campaign cannot be loaded, an array of the
+     *                     campaign's details from the database otherwise.
      */
-    function _loadPlacement($placementId)
+    function _loadCampaign($campaignId)
     {
-        // Get the placement's details
-        $doPlacements = OA_Dal::factoryDO('campaigns');
-        $doPlacements->campaignid = $placementId;
-        $doPlacements->find();
-        if (!$doPlacements->fetch()) {
-            OA::debug('   - Error obtaining details for placement ID ' . $placementId . '.', PEAR_LOG_ERR);
+        // Get the campaign's details
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->campaignid = $campaignId;
+        $doCampaigns->find();
+        if (!$doCampaigns->fetch()) {
+            OA::debug('   - Error obtaining details for campaign ID ' . $campaignId . '.', PEAR_LOG_ERR);
             return false;
         }
-        $aPlacement = $doPlacements->toArray();
-        return $aPlacement;
+        $aCampaign = $doCampaigns->toArray();
+        return $aCampaign;
     }
 
     /**

@@ -30,21 +30,21 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Statistics/Common/Task.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 
 /**
- * A class for managing (enabling/disabling) placements, for the AdServer module.
+ * A class for managing (enabling/disabling) campaigns, for the AdServer module.
  *
  * @package    OpenXMaintenance
  * @subpackage Statistics
  * @author     Andrew Hill <andrew.hill@openx.org>
  */
-class OA_Maintenance_Statistics_AdServer_Task_ManagePlacements extends OA_Maintenance_Statistics_Common_Task
+class OA_Maintenance_Statistics_AdServer_Task_ManageCampaigns extends OA_Maintenance_Statistics_Common_Task
 {
 
     /**
      * The constructor method.
      *
-     * @return OA_Maintenance_Statistics_AdServer_Task_ManagePlacements
+     * @return OA_Maintenance_Statistics_AdServer_Task_ManageCampaigns
      */
-    function OA_Maintenance_Statistics_AdServer_Task_ManagePlacements()
+    function OA_Maintenance_Statistics_AdServer_Task_ManageCampaigns()
     {
         parent::OA_Maintenance_Statistics_Common_Task();
     }
@@ -59,10 +59,10 @@ class OA_Maintenance_Statistics_AdServer_Task_ManagePlacements extends OA_Mainte
             $oServiceLocator =& OA_ServiceLocator::instance();
             $oDate =& $oServiceLocator->get('now');
             $oDal =& $oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
-            $message = 'Managing (activating/deactivating) placements';
+            $message = 'Managing (activating/deactivating) campaigns';
             $this->oController->report .= "$message.\n";
             OA::debug($message);
-            $this->report .= $oDal->managePlacements($oDate);
+            $this->report .= $oDal->manageCampaigns($oDate);
         }
     }
 

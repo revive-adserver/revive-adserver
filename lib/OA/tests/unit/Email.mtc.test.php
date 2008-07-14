@@ -74,7 +74,7 @@ class Test_OA_Email extends UnitTestCase
      * Tests that an e-mail reporting on placement delivery is able to be
      * generated correctly.
      */
-    function testPreparePlacementDeliveryEmail()
+    function testPrepareCampaignDeliveryEmail()
     {
         $aConf =& $GLOBALS['_MAX']['CONF'];
         $aConf['webpath']['admin'] = 'example.com';
@@ -105,7 +105,7 @@ class Test_OA_Email extends UnitTestCase
 
         // Test with no advertiser data in the database, and ensure that
         // false is returned
-        $result = $oEmail->preparePlacementDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
+        $result = $oEmail->prepareCampaignDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
         $this->assertFalse($result);
 
         // Generate an advertiser with reports disabled and test, ensuring
@@ -116,7 +116,7 @@ class Test_OA_Email extends UnitTestCase
         $doClients->contact    = '';
         $doClients->report     = 'f';
         $advertiserId = DataGenerator::generateOne($doClients);
-        $result = $oEmail->preparePlacementDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
+        $result = $oEmail->prepareCampaignDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
         $this->assertFalse($result);
 
         // Generate an advertiser with reports enabled, but no other data,
@@ -127,7 +127,7 @@ class Test_OA_Email extends UnitTestCase
         $doClients->contact    = '';
         $doClients->report     = 't';
         $advertiserId = DataGenerator::generateOne($doClients);
-        $result = $oEmail->preparePlacementDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
+        $result = $oEmail->prepareCampaignDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
         $this->assertFalse($result);
 
         // Generate an advertiser with reports enabled, and a sigle placement,
@@ -141,7 +141,7 @@ class Test_OA_Email extends UnitTestCase
         $doPlacements = OA_Dal::factoryDO('campaigns');
         $doPlacements->clientid = $advertiserId;
         $placementId = DataGenerator::generateOne($doPlacements);
-        $result = $oEmail->preparePlacementDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
+        $result = $oEmail->prepareCampaignDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
         $this->assertFalse($result);
 
         // Generate an advertiser with reports enabled & an email address,
@@ -173,7 +173,7 @@ class Test_OA_Email extends UnitTestCase
         $placementId1 = DataGenerator::generateOne($doPlacements);
 
         Language_Loader::load('default', $doUser->language);
-        $aResult = $oEmail->preparePlacementDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
+        $aResult = $oEmail->prepareCampaignDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
 
         $expectedSubject = "Advertiser report: $clientName";
         $expectedContents  = "Dear $user_name,\n\n";
@@ -198,7 +198,7 @@ class Test_OA_Email extends UnitTestCase
         $doPlacements->clientid = $advertiserId;
         $doPlacements->campaignname = 'Default Campaign';
         $placementId2 = DataGenerator::generateOne($doPlacements);
-        $aResult = $oEmail->preparePlacementDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
+        $aResult = $oEmail->prepareCampaignDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
         $expectedSubject = "Advertiser report: $clientName";
         $expectedContents  = "Dear $user_name,\n\n";
         $expectedContents .= "Below you will find the banner statistics for $clientName:\n";
@@ -226,7 +226,7 @@ class Test_OA_Email extends UnitTestCase
         $doBanners->campaignid = $placementId2;
         $doPlacements->campaignname = 'Default Campaign';
         $adId1 = DataGenerator::generateOne($doBanners);
-        $aResult = $oEmail->preparePlacementDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
+        $aResult = $oEmail->prepareCampaignDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 3);
         $this->assertEqual($aResult['subject'], $expectedSubject);
@@ -245,7 +245,7 @@ class Test_OA_Email extends UnitTestCase
         $doDataSummaryAdHourly->clicks      = 0;
         $doDataSummaryAdHourly->conversions = 0;
         DataGenerator::generateOne($doDataSummaryAdHourly);
-        $aResult = $oEmail->preparePlacementDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
+        $aResult = $oEmail->prepareCampaignDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
         $expectedSubject = "Advertiser report: $clientName";
         $expectedContents  = "Dear $user_name,\n\n";
         $expectedContents .= "Below you will find the banner statistics for $clientName:\n";
@@ -296,7 +296,7 @@ class Test_OA_Email extends UnitTestCase
         $doDataSummaryAdHourly->clicks      = 0;
         $doDataSummaryAdHourly->conversions = 0;
         DataGenerator::generateOne($doDataSummaryAdHourly);
-        $aResult = $oEmail->preparePlacementDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
+        $aResult = $oEmail->prepareCampaignDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate);
         $expectedSubject = "Advertiser report: $clientName";
         $expectedContents  = "Dear $user_name,\n\n";
         $expectedContents .= "Below you will find the banner statistics for $clientName:\n";
@@ -329,10 +329,8 @@ class Test_OA_Email extends UnitTestCase
         $this->assertEqual($aResult['subject'], $expectedSubject);
         $this->assertEqual($aResult['contents'], $expectedContents);
 
-//        TestEnv::restoreConfig();
         DataGenerator::cleanUp();
 
-//        $aConf =& $GLOBALS['_MAX']['CONF'];
         $aConf['webpath']['admin'] = 'example.com';
         $aConf['email']['fromAddress'] = 'send@example.com';
         $aConf['email']['fromName'] = 'Andrew Hill';
@@ -372,7 +370,7 @@ class Test_OA_Email extends UnitTestCase
         $doDataSummaryAdHourly->clicks      = 0;
         $doDataSummaryAdHourly->conversions = 0;
         DataGenerator::generateOne($doDataSummaryAdHourly);
-        $aResult = $oEmail->preparePlacementDeliveryEmail($aUser, $advertiserId, null, $oEndDate);
+        $aResult = $oEmail->prepareCampaignDeliveryEmail($aUser, $advertiserId, null, $oEndDate);
         $expectedSubject = "Advertiser report: $clientName";
         $expectedContents  = "Dear $user_name,\n\n";
         $expectedContents .= "Below you will find the banner statistics for $clientName:\n";
@@ -396,10 +394,9 @@ class Test_OA_Email extends UnitTestCase
         $this->assertEqual($aResult['subject'], $expectedSubject);
         $this->assertEqual($aResult['contents'], $expectedContents);
         DataGenerator::cleanUp(array('accounts', 'account_user_assoc'));
-//        TestEnv::restoreEnv();
     }
 
-    function testSendPlacementDeliveryEmail()
+    function testSendCampaignDeliveryEmail()
     {
         $aConf =& $GLOBALS['_MAX']['CONF'];
         $aConf['webpath']['admin'] = 'example.com';
@@ -427,7 +424,7 @@ class Test_OA_Email extends UnitTestCase
 
         // Test with no advertiser data in the database, and ensure that
         // false is returned
-        $result = $oEmail->sendPlacementDeliveryEmail(1, $oStartDate, $oEndDate);
+        $result = $oEmail->sendCampaignDeliveryEmail(1, $oStartDate, $oEndDate);
         $this->assertFalse($result);
 
         // Create a user to link to this account (but don't link it yet)
@@ -446,7 +443,7 @@ class Test_OA_Email extends UnitTestCase
         $doClients->contact    = '';
         $doClients->report     = 'f';
         $advertiserId = DataGenerator::generateOne($doClients);
-        $result = $oEmail->sendPlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
+        $result = $oEmail->sendCampaignDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
         $this->assertFalse($result);
 
         $doClients = OA_Dal::factoryDO('clients');
@@ -456,14 +453,14 @@ class Test_OA_Email extends UnitTestCase
         // and test, ensuring that false is returned
         $doClients->report     = 't';
         $doClients->update();
-        $result = $oEmail->sendPlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
+        $result = $oEmail->sendCampaignDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
         $this->assertFalse($result);
 
         $doPlacements = OA_Dal::factoryDO('campaigns');
         $doPlacements->clientid = $advertiserId;
         $placementId = DataGenerator::generateOne($doPlacements);
 
-        $result = $oEmail->sendPlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
+        $result = $oEmail->sendCampaignDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
         $this->assertFalse($result);
 
         // Link the user
@@ -471,7 +468,7 @@ class Test_OA_Email extends UnitTestCase
         $oUserAccess->linkUserToAccount($userId, $advertiserId, array(), array());
 
         // With no stats, no email should be sent
-        $result = $oEmail->sendPlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
+        $result = $oEmail->sendCampaignDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
         $this->assertEqual($result, 0);
 
         // Create a banner
@@ -480,7 +477,7 @@ class Test_OA_Email extends UnitTestCase
         $bannerId = DataGenerator::generateOne($doBanners);
 
         // With no stats, no email should be sent
-        $result = $oEmail->sendPlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
+        $result = $oEmail->sendCampaignDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
         $this->assertEqual($result, 0);
 
         // Load up some stats
@@ -493,7 +490,7 @@ class Test_OA_Email extends UnitTestCase
         DataGenerator::generateOne($doDataSummaryAdHourly);
 
         // With some stats and a linked user, one email should be sent
-        $result = $oEmail->sendPlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
+        $result = $oEmail->sendCampaignDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
         $this->assertEqual($result, 1);
 
         // Link another user to this account and ensure that two email are sent (may as well use a different language
@@ -508,18 +505,17 @@ class Test_OA_Email extends UnitTestCase
         $oUserAccess = new OA_Admin_UI_UserAccess();
         $oUserAccess->linkUserToAccount($userId2, $advertiserId, array(), array());
 
-        $result = $oEmail->sendPlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
+        $result = $oEmail->sendCampaignDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
         $this->assertEqual($result, 2);
 
-//        TestEnv::restoreEnv();
         DataGenerator::cleanUp(array('accounts', 'account_user_assoc'));
     }
 
     /**
-     * Tests that an e-mail reporting on impending placement expiration
+     * Tests that an e-mail reporting on impending campaign expiration
      * is able to be generated correctly.
      */
-    function testSendAndPrepareplacementImpendingExpiryEmail()
+    function testSendAndPrepareCampaignImpendingExpiryEmail()
     {
         $adminContact  = 'Andrew Hill';
         $adminName     = 'OpenX Limited';
@@ -650,9 +646,9 @@ class Test_OA_Email extends UnitTestCase
         $doPlacements->expire = $oCampaignDate->format('%Y-%m-%d');
         $placementId = DataGenerator::generateOne($doPlacements);
         $doPlacements = OA_Dal::staticGetDO('campaigns', $placementId);
-        $aPlacement = $doPlacements->toArray();
+        $aCampaign = $doPlacements->toArray();
 
-        $result = $oEmail->sendPlacementImpendingExpiryEmail($oNowDate, $placementId);
+        $result = $oEmail->sendCampaignImpendingExpiryEmail($oNowDate, $placementId);
         // No emails should be sent yet because the preferences weren't set
         $this->assertEqual($result, 0);
 
@@ -807,8 +803,8 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "Regards,\n   $adminName, $adminCompany";
 
         Language_Loader::load('default', $aAdminUser['language']);
-        $numSent = $oEmail->sendPlacementImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
-        $aResult = $oEmail->preparePlacementImpendingExpiryEmail($aAdminUser, $advertiserId1, $placementId, $dateReason, $dateValue, 'admin');
+        $numSent = $oEmail->sendCampaignImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
+        $aResult = $oEmail->prepareCampaignImpendingExpiryEmail($aAdminUser, $advertiserId1, $placementId, $dateReason, $dateValue, 'admin');
 
         $this->assertEqual($numSent, 1);
         $this->assertTrue(is_array($aResult));
@@ -830,8 +826,8 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "Regards,\n   $agencyContact, $agencyName";
 
         Language_Loader::load('default', $aAgencyUser['language']);
-        $numSent = $oEmail->sendPlacementImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
-        $aResult = $oEmail->preparePlacementImpendingExpiryEmail($aAgencyUser, $advertiserId1, $placementId, $dateReason, $dateValue, 'manager');
+        $numSent = $oEmail->sendCampaignImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
+        $aResult = $oEmail->prepareCampaignImpendingExpiryEmail($aAgencyUser, $advertiserId1, $placementId, $dateReason, $dateValue, 'manager');
 
         $this->assertEqual($numSent, 1);
         $this->assertTrue(is_array($aResult));
@@ -853,8 +849,8 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "Regards,\n   $adminName, $adminCompany";
 
         Language_Loader::load('default', $aAdminUser['language']);
-        $numSent = $oEmail->sendPlacementImpendingExpiryEmail($oNowDate, $placementId);
-        $aResult = $oEmail->preparePlacementImpendingExpiryEmail($aAdminUser, $advertiserId1, $placementId, $impReason, $impValue, 'admin');
+        $numSent = $oEmail->sendCampaignImpendingExpiryEmail($oNowDate, $placementId);
+        $aResult = $oEmail->prepareCampaignImpendingExpiryEmail($aAdminUser, $advertiserId1, $placementId, $impReason, $impValue, 'admin');
         $this->assertEqual($numSent, 0);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
@@ -874,8 +870,8 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "Regards,\n   $agencyContact, $agencyName";
 
         Language_Loader::load('default', $aAgencyUser['language']);
-        $numSent = $oEmail->sendPlacementImpendingExpiryEmail($oNowDate, $placementId);
-        $aResult = $oEmail->preparePlacementImpendingExpiryEmail($aAgencyUser, $advertiserId1, $placementId, $impReason, $impValue, 'manager');
+        $numSent = $oEmail->sendCampaignImpendingExpiryEmail($oNowDate, $placementId);
+        $aResult = $oEmail->prepareCampaignImpendingExpiryEmail($aAgencyUser, $advertiserId1, $placementId, $impReason, $impValue, 'manager');
         $this->assertEqual($numSent, 0);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
@@ -910,8 +906,8 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "Regards,\n   $adminName, $adminCompany";
 
         Language_Loader::load('default', $aAdminUser['language']);
-        $numSent = $oEmail->sendPlacementImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
-        $aResult = $oEmail->preparePlacementImpendingExpiryEmail($aAdminUser, $advertiserId1, $placementId1, $dateReason, $dateValue, 'admin');
+        $numSent = $oEmail->sendCampaignImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
+        $aResult = $oEmail->prepareCampaignImpendingExpiryEmail($aAdminUser, $advertiserId1, $placementId1, $dateReason, $dateValue, 'admin');
         $this->assertEqual($numSent, 1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
@@ -933,8 +929,8 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "Regards,\n   $agencyContact, $agencyName";
 
         Language_Loader::load('default', $aAdvertiserUser['language']);
-        $numSent = $oEmail->sendPlacementImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
-        $aResult = $oEmail->preparePlacementImpendingExpiryEmail($aAdvertiserUser, $advertiserId1, $placementId, $dateReason, $dateValue, 'advertiser');
+        $numSent = $oEmail->sendCampaignImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
+        $aResult = $oEmail->prepareCampaignImpendingExpiryEmail($aAdvertiserUser, $advertiserId1, $placementId, $dateReason, $dateValue, 'advertiser');
         $this->assertEqual($numSent, 1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
@@ -949,7 +945,7 @@ class Test_OA_Email extends UnitTestCase
         $doAccount_Preference_Assoc->update();
 
         // So should now send 1 admin and 2 advertiser emails
-        $numSent = $oEmail->sendPlacementImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
+        $numSent = $oEmail->sendCampaignImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
         $this->assertEqual($numSent, 3);
 
         $expectedSubject = "Impending campaign expiration: $advertiserName";
@@ -966,8 +962,8 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "-------------------------------------------------------\n\n\n";
         $expectedContents .= "Regards,\n   $adminName, $adminCompany";
 
-        $aResult = $oEmail->preparePlacementImpendingExpiryEmail($aAdminUser, $advertiserId1, $placementId, $impReason, $impValue, 'admin');
-        $numSent = $oEmail->sendPlacementImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
+        $aResult = $oEmail->prepareCampaignImpendingExpiryEmail($aAdminUser, $advertiserId1, $placementId, $impReason, $impValue, 'admin');
+        $numSent = $oEmail->sendCampaignImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
         $this->assertEqual($numSent, 3);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
@@ -980,7 +976,7 @@ class Test_OA_Email extends UnitTestCase
         $doAccount_Preference_Assoc->preference_id = $warnEmailManagerPreferenceId;
         $doAccount_Preference_Assoc->value = 1;
         $doAccount_Preference_Assoc->update();
-        $numSent = $oEmail->sendPlacementImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
+        $numSent = $oEmail->sendCampaignImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
         $this->assertEqual($numSent, 4);
 
         $expectedSubject = "Impending campaign expiration: $advertiserName";
@@ -997,7 +993,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "-------------------------------------------------------\n\n\n";
         $expectedContents .= "Regards,\n   $agencyContact, $agencyName";
 
-        $aResult = $oEmail->preparePlacementImpendingExpiryEmail($aAdvertiserUser, $advertiserId1, $placementId, $impReason, $impValue, 'advertiser');
+        $aResult = $oEmail->prepareCampaignImpendingExpiryEmail($aAdvertiserUser, $advertiserId1, $placementId, $impReason, $impValue, 'advertiser');
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult['subject'],   $expectedSubject);
@@ -1016,13 +1012,12 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "  verknüpft mit: http://www.fornax.net/\n\n";
         $expectedContents .= "-------------------------------------------------------\n\n\n";
         $expectedContents .= "Mit freundlichem Gruß\n   $agencyContact, $agencyName";
-        $aResult = $oEmail->preparePlacementImpendingExpiryEmail($aAdvertiserUser2, $advertiserId1, $placementId, $impReason, $impValue, 'advertiser');
+        $aResult = $oEmail->prepareCampaignImpendingExpiryEmail($aAdvertiserUser2, $advertiserId1, $placementId, $impReason, $impValue, 'advertiser');
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult['subject'],   $expectedSubject);
         $this->assertEqual($aResult['contents'],  $expectedContents);
 
-        //DataGenerator::cleanUp();
         DataGenerator::cleanUp(array('accounts','account_user_assoc'));
     }
 
@@ -1159,10 +1154,10 @@ class Test_OA_Email extends UnitTestCase
         $bannerId2 = DataGenerator::generateOne($doBanners);
 
         // One copy should be sent
-        $result = $oEmail->sendPlacementActivatedDeactivatedEmail($placementId);
+        $result = $oEmail->sendCampaignActivatedDeactivatedEmail($placementId);
         $this->assertEqual($result, 1);
 
-        $aResult = $oEmail->preparePlacementActivatedDeactivatedEmail($aAdvertiserUser, $placementId);
+        $aResult = $oEmail->prepareCampaignActivatedDeactivatedEmail($aAdvertiserUser, $placementId);
 
         // Check the contents of the generated email are correct
         $expectedSubject = 'Campaign activated: Foo Client';
@@ -1195,13 +1190,13 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
         $expectedContents .= "\n";
         $expectedContents .= "Regards,\n   {$agencyContact}, {$agencyName}";
-        $aResult = $oEmail->preparePlacementActivatedDeactivatedEmail($aAdvertiserUser, $placementId, OA_PLACEMENT_DISABLED_IMPRESSIONS);
+        $aResult = $oEmail->prepareCampaignActivatedDeactivatedEmail($aAdvertiserUser, $placementId, OX_CAMPAIGN_DISABLED_IMPRESSIONS);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult['subject'],   $expectedSubject);
         $this->assertEqual($aResult['contents'],  $expectedContents);
 
-        $aResult = $oEmail->preparePlacementActivatedDeactivatedEmail($aAdvertiserUser, $placementId, OA_PLACEMENT_DISABLED_CLICKS);
+        $aResult = $oEmail->prepareCampaignActivatedDeactivatedEmail($aAdvertiserUser, $placementId, OX_CAMPAIGN_DISABLED_CLICKS);
         $expectedSubject = 'Campaign deactivated: Foo Client';
         $expectedContents  = "Dear {$aAdvertiserUser['contact_name']},\n\n";
         $expectedContents .= 'Your campaign shown below has been deactivated because:'. "\n";
@@ -1219,7 +1214,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertEqual($aResult['subject'],   $expectedSubject);
         $this->assertEqual($aResult['contents'],  $expectedContents);
 
-        $aResult = $oEmail->preparePlacementActivatedDeactivatedEmail($aAdvertiserUser, $placementId, OA_PLACEMENT_DISABLED_CONVERSIONS);
+        $aResult = $oEmail->prepareCampaignActivatedDeactivatedEmail($aAdvertiserUser, $placementId, OX_CAMPAIGN_DISABLED_CONVERSIONS);
         $expectedSubject = 'Campaign deactivated: Foo Client';
         $expectedContents  = "Dear {$aAdvertiserUser['contact_name']},\n\n";
         $expectedContents .= 'Your campaign shown below has been deactivated because:'. "\n";
@@ -1237,7 +1232,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertEqual($aResult['subject'],   $expectedSubject);
         $this->assertEqual($aResult['contents'],  $expectedContents);
 
-        $aResult = $oEmail->preparePlacementActivatedDeactivatedEmail($aAdvertiserUser, $placementId, OA_PLACEMENT_DISABLED_DATE);
+        $aResult = $oEmail->prepareCampaignActivatedDeactivatedEmail($aAdvertiserUser, $placementId, OX_CAMPAIGN_DISABLED_DATE);
         $expectedSubject = 'Campaign deactivated: Foo Client';
         $expectedContents  = "Dear {$aAdvertiserUser['contact_name']},\n\n";
         $expectedContents .= 'Your campaign shown below has been deactivated because:'. "\n";
@@ -1255,8 +1250,8 @@ class Test_OA_Email extends UnitTestCase
         $this->assertEqual($aResult['subject'],   $expectedSubject);
         $this->assertEqual($aResult['contents'],  $expectedContents);
 
-        $reason = 0 | OA_PLACEMENT_DISABLED_IMPRESSIONS | OA_PLACEMENT_DISABLED_CLICKS | OA_PLACEMENT_DISABLED_DATE;
-        $aResult = $oEmail->preparePlacementActivatedDeactivatedEmail($aAdvertiserUser, $placementId, $reason);
+        $reason = 0 | OX_CAMPAIGN_DISABLED_IMPRESSIONS | OX_CAMPAIGN_DISABLED_CLICKS | OX_CAMPAIGN_DISABLED_DATE;
+        $aResult = $oEmail->prepareCampaignActivatedDeactivatedEmail($aAdvertiserUser, $placementId, $reason);
         $expectedSubject = 'Campaign deactivated: Foo Client';
         $expectedContents  = "Dear {$aAdvertiserUser['contact_name']},\n\n";
         $expectedContents .= 'Your campaign shown below has been deactivated because:'. "\n";
