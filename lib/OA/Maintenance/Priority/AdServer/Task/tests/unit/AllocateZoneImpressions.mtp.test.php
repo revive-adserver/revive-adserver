@@ -138,12 +138,12 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
     }
 
     /**
-     * A method to test the _getAllPlacements() method.
+     * A method to test the _getAllCampaigns() method.
      *
-     * Test 1: Test with no placements returned from the DAL.
-     * Test 2: Test with placements in the DAL.
+     * Test 1: Test with no campaigns returned from the DAL.
+     * Test 2: Test with campaigns in the DAL.
      */
-    function test_getAllPlacements()
+    function test_getAllCampaigns()
     {
         // Prepare the DAL return values for the tests
         $oServiceLocator =& OA_ServiceLocator::instance();
@@ -182,33 +182,33 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
         $oAllocateZoneImpressions = new OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions();
 
         // Test 1
-        $aPlacements = $oAllocateZoneImpressions->_getAllPlacements();
-        $this->assertTrue(is_array($aPlacements));
-        $this->assertTrue(empty($aPlacements));
+        $aCampaigns = $oAllocateZoneImpressions->_getAllCampaigns();
+        $this->assertTrue(is_array($aCampaigns));
+        $this->assertTrue(empty($aCampaigns));
 
         // Test 2
-        $aPlacements = $oAllocateZoneImpressions->_getAllPlacements();
-        $this->assertTrue(is_array($aPlacements));
-        $this->assertTrue(!empty($aPlacements));
-        $this->assertEqual(count($aPlacements), 2);
-        $this->assertIsA($aPlacements[0], 'OA_Maintenance_Priority_Placement');
-        $this->assertEqual($aPlacements[0]->id, 1);
-        $this->assertEqual($aPlacements[0]->impressionTargetTotal, 1000);
-        $this->assertEqual($aPlacements[0]->clickTargetTotal, 0);
-        $this->assertEqual($aPlacements[0]->conversionTargetTotal, 0);
-        $this->assertEqual($aPlacements[0]->impressionTargetDaily, 0);
-        $this->assertEqual($aPlacements[0]->clickTargetDaily, 0);
-        $this->assertEqual($aPlacements[0]->conversionTargetDaily, 0);
-        $this->assertEqual($aPlacements[0]->priority, 5);
-        $this->assertIsA($aPlacements[1], 'OA_Maintenance_Priority_Placement');
-        $this->assertEqual($aPlacements[1]->id, 2);
-        $this->assertEqual($aPlacements[1]->impressionTargetTotal, 0);
-        $this->assertEqual($aPlacements[1]->clickTargetTotal, 0);
-        $this->assertEqual($aPlacements[1]->conversionTargetTotal, 0);
-        $this->assertEqual($aPlacements[1]->impressionTargetDaily, 1000);
-        $this->assertEqual($aPlacements[1]->clickTargetDaily, 0);
-        $this->assertEqual($aPlacements[1]->conversionTargetDaily, 0);
-        $this->assertEqual($aPlacements[1]->priority, 4);
+        $aCampaigns = $oAllocateZoneImpressions->_getAllCampaigns();
+        $this->assertTrue(is_array($aCampaigns));
+        $this->assertTrue(!empty($aCampaigns));
+        $this->assertEqual(count($aCampaigns), 2);
+        $this->assertIsA($aCampaigns[0], 'OX_Maintenance_Priority_Campaign');
+        $this->assertEqual($aCampaigns[0]->id, 1);
+        $this->assertEqual($aCampaigns[0]->impressionTargetTotal, 1000);
+        $this->assertEqual($aCampaigns[0]->clickTargetTotal, 0);
+        $this->assertEqual($aCampaigns[0]->conversionTargetTotal, 0);
+        $this->assertEqual($aCampaigns[0]->impressionTargetDaily, 0);
+        $this->assertEqual($aCampaigns[0]->clickTargetDaily, 0);
+        $this->assertEqual($aCampaigns[0]->conversionTargetDaily, 0);
+        $this->assertEqual($aCampaigns[0]->priority, 5);
+        $this->assertIsA($aCampaigns[1], 'OX_Maintenance_Priority_Campaign');
+        $this->assertEqual($aCampaigns[1]->id, 2);
+        $this->assertEqual($aCampaigns[1]->impressionTargetTotal, 0);
+        $this->assertEqual($aCampaigns[1]->clickTargetTotal, 0);
+        $this->assertEqual($aCampaigns[1]->conversionTargetTotal, 0);
+        $this->assertEqual($aCampaigns[1]->impressionTargetDaily, 1000);
+        $this->assertEqual($aCampaigns[1]->clickTargetDaily, 0);
+        $this->assertEqual($aCampaigns[1]->conversionTargetDaily, 0);
+        $this->assertEqual($aCampaigns[1]->priority, 4);
     }
 
     /**
@@ -302,14 +302,14 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
     }
 
     /**
-     * A method to test the _setPlacements() method.
+     * A method to test the _setCampaigns() method.
      *
      * Test 1: Run a combination test of the tests used in testing the
-     *         _getAllPlacements() and _setRequiredImpressions() method
+     *         _getAllCampaigns() and _setRequiredImpressions() method
      *         tests above, and ensure that the methods work when used
      *         together.
      */
-    function test_setPlacements()
+    function test_setCampaigns()
     {
         // Prepare the DAL return values for the tests
         $oServiceLocator =& OA_ServiceLocator::instance();
@@ -347,7 +347,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oMaxDalMaintenancePriority);
 
         $oMaxDalEntities = $oServiceLocator->get('MAX_Dal_Entities');
-        $oMaxDalEntities->setReturnValue('getAdsByPlacementId',
+        $oMaxDalEntities->setReturnValue('getAdsByCampaignId',
             array(
                 array(
                     'ad_id'  => 1,
@@ -364,7 +364,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
             ),
             array(1)
         );
-        $oMaxDalEntities->setReturnValue('getAdsByPlacementId',
+        $oMaxDalEntities->setReturnValue('getAdsByCampaignId',
             array(
                 array(
                     'ad_id'  => 3,
@@ -381,69 +381,69 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
             ),
             array(2)
         );
-        $oMaxDalEntities->expectCallCount('getAdsByPlacementId', 2);
+        $oMaxDalEntities->expectCallCount('getAdsByCampaignId', 2);
         $oServiceLocator->register('MAX_Dal_Entities', $oMaxDalEntities);
 
         // Prepare the OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions object for testing
         $oAllocateZoneImpressions = new OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions();
 
         // Test 1
-        $oAllocateZoneImpressions->_setPlacements();
-        $this->assertTrue(is_array($oAllocateZoneImpressions->aPlacements));
-        $this->assertTrue(!empty($oAllocateZoneImpressions->aPlacements));
-        $this->assertEqual(count($oAllocateZoneImpressions->aPlacements), 2);
-        $this->assertIsA($oAllocateZoneImpressions->aPlacements[0], 'OA_Maintenance_Priority_Placement');
-        $this->assertEqual($oAllocateZoneImpressions->aPlacements[0]->id, 1);
-        $this->assertEqual($oAllocateZoneImpressions->aPlacements[0]->impressionTargetTotal, 1000);
-        $this->assertEqual($oAllocateZoneImpressions->aPlacements[0]->clickTargetTotal, 0);
-        $this->assertEqual($oAllocateZoneImpressions->aPlacements[0]->conversionTargetTotal, 0);
-        $this->assertEqual($oAllocateZoneImpressions->aPlacements[0]->impressionTargetDaily, 0);
-        $this->assertEqual($oAllocateZoneImpressions->aPlacements[0]->clickTargetDaily, 0);
-        $this->assertEqual($oAllocateZoneImpressions->aPlacements[0]->conversionTargetDaily, 0);
-        $this->assertEqual($oAllocateZoneImpressions->aPlacements[0]->priority, 5);
+        $oAllocateZoneImpressions->_setCampaigns();
+        $this->assertTrue(is_array($oAllocateZoneImpressions->aCampaigns));
+        $this->assertTrue(!empty($oAllocateZoneImpressions->aCampaigns));
+        $this->assertEqual(count($oAllocateZoneImpressions->aCampaigns), 2);
+        $this->assertIsA($oAllocateZoneImpressions->aCampaigns[0], 'OX_Maintenance_Priority_Campaign');
+        $this->assertEqual($oAllocateZoneImpressions->aCampaigns[0]->id, 1);
+        $this->assertEqual($oAllocateZoneImpressions->aCampaigns[0]->impressionTargetTotal, 1000);
+        $this->assertEqual($oAllocateZoneImpressions->aCampaigns[0]->clickTargetTotal, 0);
+        $this->assertEqual($oAllocateZoneImpressions->aCampaigns[0]->conversionTargetTotal, 0);
+        $this->assertEqual($oAllocateZoneImpressions->aCampaigns[0]->impressionTargetDaily, 0);
+        $this->assertEqual($oAllocateZoneImpressions->aCampaigns[0]->clickTargetDaily, 0);
+        $this->assertEqual($oAllocateZoneImpressions->aCampaigns[0]->conversionTargetDaily, 0);
+        $this->assertEqual($oAllocateZoneImpressions->aCampaigns[0]->priority, 5);
 
-        $this->assertTrue(is_array($oAllocateZoneImpressions->aPlacements[0]->aAds));
-        $this->assertTrue(!empty($oAllocateZoneImpressions->aPlacements[0]->aAds));
-        $this->assertEqual(count($oAllocateZoneImpressions->aPlacements[0]->aAds), 2);
-        $this->assertTrue(isset($oAllocateZoneImpressions->aPlacements[0]->aAds[0]));
-        $this->assertIsA($oAllocateZoneImpressions->aPlacements[0]->aAds[0], 'OA_Maintenance_Priority_Ad');
-        $this->assertEqual($oAllocateZoneImpressions->aPlacements[0]->aAds[0]->id, 1);
-        $this->assertEqual($oAllocateZoneImpressions->aPlacements[0]->aAds[0]->requiredImpressions, 1);
-        $this->assertTrue(isset($oAllocateZoneImpressions->aPlacements[0]->aAds[1]));
-        $this->assertIsA($oAllocateZoneImpressions->aPlacements[0]->aAds[1], 'OA_Maintenance_Priority_Ad');
-        $this->assertEqual($oAllocateZoneImpressions->aPlacements[0]->aAds[1]->id, 2);
-        $this->assertEqual($oAllocateZoneImpressions->aPlacements[0]->aAds[1]->requiredImpressions, 9);
+        $this->assertTrue(is_array($oAllocateZoneImpressions->aCampaigns[0]->aAds));
+        $this->assertTrue(!empty($oAllocateZoneImpressions->aCampaigns[0]->aAds));
+        $this->assertEqual(count($oAllocateZoneImpressions->aCampaigns[0]->aAds), 2);
+        $this->assertTrue(isset($oAllocateZoneImpressions->aCampaigns[0]->aAds[0]));
+        $this->assertIsA($oAllocateZoneImpressions->aCampaigns[0]->aAds[0], 'OA_Maintenance_Priority_Ad');
+        $this->assertEqual($oAllocateZoneImpressions->aCampaigns[0]->aAds[0]->id, 1);
+        $this->assertEqual($oAllocateZoneImpressions->aCampaigns[0]->aAds[0]->requiredImpressions, 1);
+        $this->assertTrue(isset($oAllocateZoneImpressions->aCampaigns[0]->aAds[1]));
+        $this->assertIsA($oAllocateZoneImpressions->aCampaigns[0]->aAds[1], 'OA_Maintenance_Priority_Ad');
+        $this->assertEqual($oAllocateZoneImpressions->aCampaigns[0]->aAds[1]->id, 2);
+        $this->assertEqual($oAllocateZoneImpressions->aCampaigns[0]->aAds[1]->requiredImpressions, 9);
 
-        $this->assertIsA($oAllocateZoneImpressions->aPlacements[1], 'OA_Maintenance_Priority_Placement');
-        $this->assertEqual($oAllocateZoneImpressions->aPlacements[1]->id, 2);
-        $this->assertEqual($oAllocateZoneImpressions->aPlacements[1]->impressionTargetTotal, 0);
-        $this->assertEqual($oAllocateZoneImpressions->aPlacements[1]->clickTargetTotal, 0);
-        $this->assertEqual($oAllocateZoneImpressions->aPlacements[1]->conversionTargetTotal, 0);
-        $this->assertEqual($oAllocateZoneImpressions->aPlacements[1]->impressionTargetDaily, 1000);
-        $this->assertEqual($oAllocateZoneImpressions->aPlacements[1]->clickTargetDaily, 0);
-        $this->assertEqual($oAllocateZoneImpressions->aPlacements[1]->conversionTargetDaily, 0);
-        $this->assertEqual($oAllocateZoneImpressions->aPlacements[1]->priority, 4);
+        $this->assertIsA($oAllocateZoneImpressions->aCampaigns[1], 'OX_Maintenance_Priority_Campaign');
+        $this->assertEqual($oAllocateZoneImpressions->aCampaigns[1]->id, 2);
+        $this->assertEqual($oAllocateZoneImpressions->aCampaigns[1]->impressionTargetTotal, 0);
+        $this->assertEqual($oAllocateZoneImpressions->aCampaigns[1]->clickTargetTotal, 0);
+        $this->assertEqual($oAllocateZoneImpressions->aCampaigns[1]->conversionTargetTotal, 0);
+        $this->assertEqual($oAllocateZoneImpressions->aCampaigns[1]->impressionTargetDaily, 1000);
+        $this->assertEqual($oAllocateZoneImpressions->aCampaigns[1]->clickTargetDaily, 0);
+        $this->assertEqual($oAllocateZoneImpressions->aCampaigns[1]->conversionTargetDaily, 0);
+        $this->assertEqual($oAllocateZoneImpressions->aCampaigns[1]->priority, 4);
 
-        $this->assertTrue(is_array($oAllocateZoneImpressions->aPlacements[1]->aAds));
-        $this->assertTrue(!empty($oAllocateZoneImpressions->aPlacements[1]->aAds));
-        $this->assertEqual(count($oAllocateZoneImpressions->aPlacements[1]->aAds), 2);
-        $this->assertTrue(isset($oAllocateZoneImpressions->aPlacements[1]->aAds[0]));
-        $this->assertIsA($oAllocateZoneImpressions->aPlacements[1]->aAds[0], 'OA_Maintenance_Priority_Ad');
-        $this->assertEqual($oAllocateZoneImpressions->aPlacements[1]->aAds[0]->id, 3);
-        $this->assertEqual($oAllocateZoneImpressions->aPlacements[1]->aAds[0]->requiredImpressions, 5);
-        $this->assertTrue(isset($oAllocateZoneImpressions->aPlacements[1]->aAds[1]));
-        $this->assertIsA($oAllocateZoneImpressions->aPlacements[1]->aAds[1], 'OA_Maintenance_Priority_Ad');
-        $this->assertEqual($oAllocateZoneImpressions->aPlacements[1]->aAds[1]->id, 4);
-        $this->assertEqual($oAllocateZoneImpressions->aPlacements[1]->aAds[1]->requiredImpressions, 0);
+        $this->assertTrue(is_array($oAllocateZoneImpressions->aCampaigns[1]->aAds));
+        $this->assertTrue(!empty($oAllocateZoneImpressions->aCampaigns[1]->aAds));
+        $this->assertEqual(count($oAllocateZoneImpressions->aCampaigns[1]->aAds), 2);
+        $this->assertTrue(isset($oAllocateZoneImpressions->aCampaigns[1]->aAds[0]));
+        $this->assertIsA($oAllocateZoneImpressions->aCampaigns[1]->aAds[0], 'OA_Maintenance_Priority_Ad');
+        $this->assertEqual($oAllocateZoneImpressions->aCampaigns[1]->aAds[0]->id, 3);
+        $this->assertEqual($oAllocateZoneImpressions->aCampaigns[1]->aAds[0]->requiredImpressions, 5);
+        $this->assertTrue(isset($oAllocateZoneImpressions->aCampaigns[1]->aAds[1]));
+        $this->assertIsA($oAllocateZoneImpressions->aCampaigns[1]->aAds[1], 'OA_Maintenance_Priority_Ad');
+        $this->assertEqual($oAllocateZoneImpressions->aCampaigns[1]->aAds[1]->id, 4);
+        $this->assertEqual($oAllocateZoneImpressions->aCampaigns[1]->aAds[1]->requiredImpressions, 0);
     }
 
     /**
      * A method to test the _setAdZoneAssociations() method.
      *
-     * Test 1: Test with no Placements set in the OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions object.
-     * Test 2: Test with a Placement, but no Advert objects.
-     * Test 3: Test with a Placement and Advert objects, but no ad/zone associations.
-     * Test 4: Test with a Placement and Advert objects, and ad/zone associations.
+     * Test 1: Test with no Campaigns set in the OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions object.
+     * Test 2: Test with a Campaign, but no Advert objects.
+     * Test 3: Test with a Campaign and Advert objects, but no ad/zone associations.
+     * Test 4: Test with a Campaign and Advert objects, and ad/zone associations.
      */
     function test_setAdZoneAssociations()
     {
@@ -475,7 +475,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
         $this->assertTrue(empty($oAllocateZoneImpressions->aAdZoneAssociations));
 
         // Test 2
-        $oPlacement = new OA_Maintenance_Priority_Placement(
+        $oCampaign = new OX_Maintenance_Priority_Campaign(
             array(
                 'campaignid'        => 1,
                 'views'             => 1000,
@@ -488,7 +488,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
                 'priority'          => 5
             )
         );
-        $oAllocateZoneImpressions->aPlacements[] = $oPlacement;
+        $oAllocateZoneImpressions->aCampaigns[] = $oCampaign;
         $oAllocateZoneImpressions->_setAdZoneAssociations();
         $this->assertTrue(is_array($oAllocateZoneImpressions->aAdZoneAssociations));
         $this->assertTrue(empty($oAllocateZoneImpressions->aAdZoneAssociations));
@@ -499,7 +499,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
         $aAdverts[] = $oAd;
         $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 2));
         $aAdverts[] = $oAd;
-        $oAllocateZoneImpressions->aPlacements[0]->aAds = $aAdverts;
+        $oAllocateZoneImpressions->aCampaigns[0]->aAds = $aAdverts;
         $oAllocateZoneImpressions->_setAdZoneAssociations();
         $this->assertTrue(is_array($oAllocateZoneImpressions->aAdZoneAssociations));
         $this->assertTrue(empty($oAllocateZoneImpressions->aAdZoneAssociations));

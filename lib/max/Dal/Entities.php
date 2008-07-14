@@ -54,7 +54,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
      * A method to get the details of all ads (active or not) by their
      * parent placement ID.
      *
-     * @param integer $placementId The parent placement ID.
+     * @param integer $campaignId The parent campaign ID.
      * @return mixed PEAR_Error on error, null on no values found, or an
      *               array, indexed by ad ID, of arrays containing the ad
      *               details, for example:
@@ -70,10 +70,10 @@ class MAX_Dal_Entities extends MAX_Dal_Common
      *                      .
      *                  )
      */
-    function getAdsByPlacementId($placementId)
+    function getAdsByCampaignId($campaignId)
     {
         // Test the input values
-        if (!is_numeric($placementId)) {
+        if (!is_numeric($campaignId)) {
             return null;
         }
         // Get the required data
@@ -88,7 +88,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
             FROM
                 $table
             WHERE
-                campaignid = ". $this->oDbh->quote($placementId, 'integer') ."
+                campaignid = ". $this->oDbh->quote($campaignId, 'integer') ."
             ORDER BY
                 ad_id";
         $rc = $this->oDbh->query($query);

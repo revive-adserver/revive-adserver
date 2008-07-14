@@ -25,29 +25,29 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/OA/Maintenance/Priority/Placement.php';
+require_once MAX_PATH . '/lib/OX/Maintenance/Priority/Campaign.php';
 
 /**
- * A class for testing the OA_Maintenance_Priority_Placement class.
+ * A class for testing the OX_Maintenance_Priority_Campaign class.
  *
  * @package    OpenXMaintenance
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew.hill@openx.org>
  */
-class Test_OA_Maintenance_Priority_Placement extends UnitTestCase
+class Test_OX_Maintenance_Priority_Campaign extends UnitTestCase
 {
 
     /**
      * The class constructor method.
      */
-    function  Test_OA_Maintenance_Priority_Placement()
+    function  Test_OX_Maintenance_Priority_Campaign()
     {
         $this->UnitTestCase();
         Mock::generate('MAX_Dal_Entities');
         Mock::generate('OA_Dal_Maintenance_Priority');
         Mock::generatePartial(
-            'OA_Maintenance_Priority_Placement',
-            'MockPartialOA_Maintenance_Priority_Placement',
+            'OX_Maintenance_Priority_Campaign',
+            'MockPartialOX_Maintenance_Priority_Campaign',
             array('_abort')
         );
     }
@@ -78,39 +78,39 @@ class Test_OA_Maintenance_Priority_Placement extends UnitTestCase
     }
 
     /**
-     * A method to test the OA_Maintenance_Priority_Placement() method.
+     * A method to test the OX_Maintenance_Priority_Campaign() method.
      *
      * Requirements:
      * Test 1: Test with invalid input and ensure the _abort() method is called.
      * Test 2: Test with the "old" values, and ensure they are correctly set.
      * Test 3: Test with the "new" values, and ensure they are correctly set.
      */
-    function testOA_Maintenance_Priority_Placement()
+    function testOX_Maintenance_Priority_Campaign()
     {
         // Test 1
         $aParams = 'foo';
-        $oMaxEntityPlacement = new MockPartialOA_Maintenance_Priority_Placement($this);
-        $oMaxEntityPlacement->expectCallCount('_abort', 1);
-        $oMaxEntityPlacement->OA_Maintenance_Priority_Placement($aParams);
-        $oMaxEntityPlacement->tally();
+        $oCampaign = new MockPartialOX_Maintenance_Priority_Campaign($this);
+        $oCampaign->expectCallCount('_abort', 1);
+        $oCampaign->OX_Maintenance_Priority_Campaign($aParams);
+        $oCampaign->tally();
 
         $aParams = array();
-        $oMaxEntityPlacement = new MockPartialOA_Maintenance_Priority_Placement($this);
-        $oMaxEntityPlacement->expectCallCount('_abort', 1);
-        $oMaxEntityPlacement->OA_Maintenance_Priority_Placement($aParams);
-        $oMaxEntityPlacement->tally();
+        $oCampaign = new MockPartialOX_Maintenance_Priority_Campaign($this);
+        $oCampaign->expectCallCount('_abort', 1);
+        $oCampaign->OX_Maintenance_Priority_Campaign($aParams);
+        $oCampaign->tally();
 
-        $aParams = array('placement_id' => 'foo');
-        $oMaxEntityPlacement = new MockPartialOA_Maintenance_Priority_Placement($this);
-        $oMaxEntityPlacement->expectCallCount('_abort', 1);
-        $oMaxEntityPlacement->OA_Maintenance_Priority_Placement($aParams);
-        $oMaxEntityPlacement->tally();
+        $aParams = array('campaign_id' => 'foo');
+        $oCampaign = new MockPartialOX_Maintenance_Priority_Campaign($this);
+        $oCampaign->expectCallCount('_abort', 1);
+        $oCampaign->OX_Maintenance_Priority_Campaign($aParams);
+        $oCampaign->tally();
 
         $aParams = array('priority' => 5);
-        $oMaxEntityPlacement = new MockPartialOA_Maintenance_Priority_Placement($this);
-        $oMaxEntityPlacement->expectCallCount('_abort', 1);
-        $oMaxEntityPlacement->OA_Maintenance_Priority_Placement($aParams);
-        $oMaxEntityPlacement->tally();
+        $oCampaign = new MockPartialOX_Maintenance_Priority_Campaign($this);
+        $oCampaign->expectCallCount('_abort', 1);
+        $oCampaign->OX_Maintenance_Priority_Campaign($aParams);
+        $oCampaign->tally();
 
         // Test 2
         $aParams = array(
@@ -125,17 +125,17 @@ class Test_OA_Maintenance_Priority_Placement extends UnitTestCase
             'target_conversion' => 4,
             'priority'          => 5
         );
-        $oMaxEntityPlacement = new OA_Maintenance_Priority_Placement($aParams);
-        $this->assertEqual($oMaxEntityPlacement->id, 1);
-        $this->assertEqual($oMaxEntityPlacement->activate, '2005-01-01');
-        $this->assertEqual($oMaxEntityPlacement->expire, '2005-01-31');
-        $this->assertEqual($oMaxEntityPlacement->impressionTargetTotal, 1000000);
-        $this->assertEqual($oMaxEntityPlacement->clickTargetTotal, 100000);
-        $this->assertEqual($oMaxEntityPlacement->conversionTargetTotal, 1000);
-        $this->assertEqual($oMaxEntityPlacement->impressionTargetDaily, 2);
-        $this->assertEqual($oMaxEntityPlacement->clickTargetDaily, 3);
-        $this->assertEqual($oMaxEntityPlacement->conversionTargetDaily, 4);
-        $this->assertEqual($oMaxEntityPlacement->priority, 5);
+        $oCampaign = new OX_Maintenance_Priority_Campaign($aParams);
+        $this->assertEqual($oCampaign->id, 1);
+        $this->assertEqual($oCampaign->activate, '2005-01-01');
+        $this->assertEqual($oCampaign->expire, '2005-01-31');
+        $this->assertEqual($oCampaign->impressionTargetTotal, 1000000);
+        $this->assertEqual($oCampaign->clickTargetTotal, 100000);
+        $this->assertEqual($oCampaign->conversionTargetTotal, 1000);
+        $this->assertEqual($oCampaign->impressionTargetDaily, 2);
+        $this->assertEqual($oCampaign->clickTargetDaily, 3);
+        $this->assertEqual($oCampaign->conversionTargetDaily, 4);
+        $this->assertEqual($oCampaign->priority, 5);
 
         // Test 3
         $aParams = array(
@@ -150,17 +150,17 @@ class Test_OA_Maintenance_Priority_Placement extends UnitTestCase
             'conversion_target_daily' => 4,
             'priority'                => 5
         );
-        $oMaxEntityPlacement = new OA_Maintenance_Priority_Placement($aParams);
-        $this->assertEqual($oMaxEntityPlacement->id, 1);
-        $this->assertEqual($oMaxEntityPlacement->activate, '2005-01-01');
-        $this->assertEqual($oMaxEntityPlacement->expire, '2005-01-31');
-        $this->assertEqual($oMaxEntityPlacement->impressionTargetTotal, 1000000);
-        $this->assertEqual($oMaxEntityPlacement->clickTargetTotal, 100000);
-        $this->assertEqual($oMaxEntityPlacement->conversionTargetTotal, 1000);
-        $this->assertEqual($oMaxEntityPlacement->impressionTargetDaily, 2);
-        $this->assertEqual($oMaxEntityPlacement->clickTargetDaily, 3);
-        $this->assertEqual($oMaxEntityPlacement->conversionTargetDaily, 4);
-        $this->assertEqual($oMaxEntityPlacement->priority, 5);
+        $oCampaign = new OX_Maintenance_Priority_Campaign($aParams);
+        $this->assertEqual($oCampaign->id, 1);
+        $this->assertEqual($oCampaign->activate, '2005-01-01');
+        $this->assertEqual($oCampaign->expire, '2005-01-31');
+        $this->assertEqual($oCampaign->impressionTargetTotal, 1000000);
+        $this->assertEqual($oCampaign->clickTargetTotal, 100000);
+        $this->assertEqual($oCampaign->conversionTargetTotal, 1000);
+        $this->assertEqual($oCampaign->impressionTargetDaily, 2);
+        $this->assertEqual($oCampaign->clickTargetDaily, 3);
+        $this->assertEqual($oCampaign->conversionTargetDaily, 4);
+        $this->assertEqual($oCampaign->priority, 5);
     }
 
     /**
@@ -171,7 +171,7 @@ class Test_OA_Maintenance_Priority_Placement extends UnitTestCase
      *         ensure the aAds array remains empty.
      * Test 2: Test with no children ads in the database, and ensure
      *         the aAds array remains empty.
-     * Test 3: Test tiwh children ads in the database, and ensure that
+     * Test 3: Test with children ads in the database, and ensure that
      *         the correct entities are created for these ads in the
      *         aAds array.
      */
@@ -186,42 +186,42 @@ class Test_OA_Maintenance_Priority_Placement extends UnitTestCase
         );
         $oServiceLocator =& OA_ServiceLocator::instance();
         $oMaxDalEntities =& $oServiceLocator->get('MAX_Dal_Entities');
-        $oMaxDalEntities->setReturnValueAt(0, 'getAdsByPlacementId', $oError);
-        $oMaxDalEntities->setReturnValueAt(1, 'getAdsByPlacementId', null);
-        $oMaxDalEntities->setReturnValueAt(2, 'getAdsByPlacementId', $aAds);
-        $oMaxDalEntities->expectArgumentsAt(0, 'getAdsByPlacementId', array(1));
-        $oMaxDalEntities->expectArgumentsAt(1, 'getAdsByPlacementId', array(1));
-        $oMaxDalEntities->expectArgumentsAt(2, 'getAdsByPlacementId', array(1));
-        $oMaxDalEntities->expectCallCount('getAdsByPlacementId', 3);
+        $oMaxDalEntities->setReturnValueAt(0, 'getAdsByCampaignId', $oError);
+        $oMaxDalEntities->setReturnValueAt(1, 'getAdsByCampaignId', null);
+        $oMaxDalEntities->setReturnValueAt(2, 'getAdsByCampaignId', $aAds);
+        $oMaxDalEntities->expectArgumentsAt(0, 'getAdsByCampaignId', array(1));
+        $oMaxDalEntities->expectArgumentsAt(1, 'getAdsByCampaignId', array(1));
+        $oMaxDalEntities->expectArgumentsAt(2, 'getAdsByCampaignId', array(1));
+        $oMaxDalEntities->expectCallCount('getAdsByCampaignId', 3);
 
         // Test 1
         $aParams = array('campaignid' => 1);
-        $oMaxEntityPlacement = new OA_Maintenance_Priority_Placement($aParams);
-        $this->assertTrue(is_array($oMaxEntityPlacement->aAds));
-        $this->assertEqual(count($oMaxEntityPlacement->aAds), 0);
-        $oMaxEntityPlacement->setAdverts();
-        $this->assertTrue(is_array($oMaxEntityPlacement->aAds));
-        $this->assertEqual(count($oMaxEntityPlacement->aAds), 0);
+        $oCampaign = new OX_Maintenance_Priority_Campaign($aParams);
+        $this->assertTrue(is_array($oCampaign->aAds));
+        $this->assertEqual(count($oCampaign->aAds), 0);
+        $oCampaign->setAdverts();
+        $this->assertTrue(is_array($oCampaign->aAds));
+        $this->assertEqual(count($oCampaign->aAds), 0);
 
         // Test 2
         $aParams = array('campaignid' => 1);
-        $oMaxEntityPlacement = new OA_Maintenance_Priority_Placement($aParams);
-        $this->assertTrue(is_array($oMaxEntityPlacement->aAds));
-        $this->assertEqual(count($oMaxEntityPlacement->aAds), 0);
-        $oMaxEntityPlacement->setAdverts();
-        $this->assertTrue(is_array($oMaxEntityPlacement->aAds));
-        $this->assertEqual(count($oMaxEntityPlacement->aAds), 0);
+        $oCampaign = new OX_Maintenance_Priority_Campaign($aParams);
+        $this->assertTrue(is_array($oCampaign->aAds));
+        $this->assertEqual(count($oCampaign->aAds), 0);
+        $oCampaign->setAdverts();
+        $this->assertTrue(is_array($oCampaign->aAds));
+        $this->assertEqual(count($oCampaign->aAds), 0);
 
-        // Test 2
-        $this->assertTrue(is_array($oMaxEntityPlacement->aAds));
-        $this->assertEqual(count($oMaxEntityPlacement->aAds), 0);
-        $oMaxEntityPlacement->setAdverts();
-        $this->assertTrue(is_array($oMaxEntityPlacement->aAds));
-        $this->assertEqual(count($oMaxEntityPlacement->aAds), 4);
-        $this->assertTrue(is_a($oMaxEntityPlacement->aAds[1], 'OA_Maintenance_Priority_Ad'));
-        $this->assertTrue(is_a($oMaxEntityPlacement->aAds[2], 'OA_Maintenance_Priority_Ad'));
-        $this->assertTrue(is_a($oMaxEntityPlacement->aAds[3], 'OA_Maintenance_Priority_Ad'));
-        $this->assertTrue(is_a($oMaxEntityPlacement->aAds[5], 'OA_Maintenance_Priority_Ad'));
+        // Test 3
+        $this->assertTrue(is_array($oCampaign->aAds));
+        $this->assertEqual(count($oCampaign->aAds), 0);
+        $oCampaign->setAdverts();
+        $this->assertTrue(is_array($oCampaign->aAds));
+        $this->assertEqual(count($oCampaign->aAds), 4);
+        $this->assertTrue(is_a($oCampaign->aAds[1], 'OA_Maintenance_Priority_Ad'));
+        $this->assertTrue(is_a($oCampaign->aAds[2], 'OA_Maintenance_Priority_Ad'));
+        $this->assertTrue(is_a($oCampaign->aAds[3], 'OA_Maintenance_Priority_Ad'));
+        $this->assertTrue(is_a($oCampaign->aAds[5], 'OA_Maintenance_Priority_Ad'));
 
         $oMaxDalEntities->tally();
     }
@@ -237,10 +237,10 @@ class Test_OA_Maintenance_Priority_Placement extends UnitTestCase
      */
     function testSetSummaryStatisticsToDate()
     {
-        $aPlacementStats = array(
+        $aCampaignStats = array(
             'advertiser_id'   => 1,
-            'placement_id'    => 1,
-            'name'            => 'Placement name',
+            'campaign_id'     => 1,
+            'name'            => 'Campaign name',
             'active'          => 't',
             'num_children'    => 1,
             'sum_requests'    => 100,
@@ -251,30 +251,30 @@ class Test_OA_Maintenance_Priority_Placement extends UnitTestCase
         $oServiceLocator =& OA_ServiceLocator::instance();
         $oMaxDalMaintenancePriority =& $oServiceLocator->get('OA_Dal_Maintenance_Priority');
         $oMaxDalMaintenancePriority->setReturnValueAt(0, 'getPlacementStats', null);
-        $oMaxDalMaintenancePriority->setReturnValueAt(1, 'getPlacementStats', $aPlacementStats);
+        $oMaxDalMaintenancePriority->setReturnValueAt(1, 'getPlacementStats', $aCampaignStats);
         $oMaxDalMaintenancePriority->expectArgumentsAt(0, 'getPlacementStats', array(1, false));
         $oMaxDalMaintenancePriority->expectArgumentsAt(1, 'getPlacementStats', array(1, false));
         $oMaxDalMaintenancePriority->expectCallCount('getPlacementStats', 2);
 
         // Test 1
         $aParams = array('campaignid' => 1);
-        $oMaxEntityPlacement = new OA_Maintenance_Priority_Placement($aParams);
-        $this->assertNull($oMaxEntityPlacement->deliveredRequests);
-        $this->assertNull($oMaxEntityPlacement->deliveredImpressions);
-        $this->assertNull($oMaxEntityPlacement->deliveredClicks);
-        $this->assertNull($oMaxEntityPlacement->deliveredConversions);
-        $oMaxEntityPlacement->setSummaryStatisticsToDate();
-        $this->assertEqual($oMaxEntityPlacement->deliveredRequests, 0);
-        $this->assertEqual($oMaxEntityPlacement->deliveredImpressions, 0);
-        $this->assertEqual($oMaxEntityPlacement->deliveredClicks, 0);
-        $this->assertEqual($oMaxEntityPlacement->deliveredConversions, 0);
+        $oCampaign = new OX_Maintenance_Priority_Campaign($aParams);
+        $this->assertNull($oCampaign->deliveredRequests);
+        $this->assertNull($oCampaign->deliveredImpressions);
+        $this->assertNull($oCampaign->deliveredClicks);
+        $this->assertNull($oCampaign->deliveredConversions);
+        $oCampaign->setSummaryStatisticsToDate();
+        $this->assertEqual($oCampaign->deliveredRequests, 0);
+        $this->assertEqual($oCampaign->deliveredImpressions, 0);
+        $this->assertEqual($oCampaign->deliveredClicks, 0);
+        $this->assertEqual($oCampaign->deliveredConversions, 0);
 
         // Test 2
-        $oMaxEntityPlacement->setSummaryStatisticsToDate();
-        $this->assertEqual($oMaxEntityPlacement->deliveredRequests, 100);
-        $this->assertEqual($oMaxEntityPlacement->deliveredImpressions, 99);
-        $this->assertEqual($oMaxEntityPlacement->deliveredClicks, 5);
-        $this->assertEqual($oMaxEntityPlacement->deliveredConversions, 1);
+        $oCampaign->setSummaryStatisticsToDate();
+        $this->assertEqual($oCampaign->deliveredRequests, 100);
+        $this->assertEqual($oCampaign->deliveredImpressions, 99);
+        $this->assertEqual($oCampaign->deliveredClicks, 5);
+        $this->assertEqual($oCampaign->deliveredConversions, 1);
 
         $oMaxDalMaintenancePriority->tally();
     }
@@ -290,10 +290,10 @@ class Test_OA_Maintenance_Priority_Placement extends UnitTestCase
      */
     function testSetSummaryStatisticsToday()
     {
-        $aPlacementStats = array(
+        $aCampaignStats = array(
             'advertiser_id'   => 1,
-            'placement_id'    => 1,
-            'name'            => 'Placement name',
+            'campaign_id'     => 1,
+            'name'            => 'Campaign Name',
             'active'          => 't',
             'num_children'    => 1,
             'sum_requests'    => 100,
@@ -304,30 +304,30 @@ class Test_OA_Maintenance_Priority_Placement extends UnitTestCase
         $oServiceLocator =& OA_ServiceLocator::instance();
         $oMaxDalMaintenancePriority =& $oServiceLocator->get('OA_Dal_Maintenance_Priority');
         $oMaxDalMaintenancePriority->setReturnValueAt(0, 'getPlacementStats', null);
-        $oMaxDalMaintenancePriority->setReturnValueAt(1, 'getPlacementStats', $aPlacementStats);
+        $oMaxDalMaintenancePriority->setReturnValueAt(1, 'getPlacementStats', $aCampaignStats);
         $oMaxDalMaintenancePriority->expectArgumentsAt(0, 'getPlacementStats', array(1, true, '2006-11-10'));
         $oMaxDalMaintenancePriority->expectArgumentsAt(1, 'getPlacementStats', array(1, true, '2006-11-10'));
         $oMaxDalMaintenancePriority->expectCallCount('getPlacementStats', 2);
 
         // Test 1
         $aParams = array('campaignid' => 1);
-        $oMaxEntityPlacement = new OA_Maintenance_Priority_Placement($aParams);
-        $this->assertNull($oMaxEntityPlacement->deliveredRequests);
-        $this->assertNull($oMaxEntityPlacement->deliveredImpressions);
-        $this->assertNull($oMaxEntityPlacement->deliveredClicks);
-        $this->assertNull($oMaxEntityPlacement->deliveredConversions);
-        $oMaxEntityPlacement->setSummaryStatisticsToday('2006-11-10');
-        $this->assertEqual($oMaxEntityPlacement->deliveredRequests, 0);
-        $this->assertEqual($oMaxEntityPlacement->deliveredImpressions, 0);
-        $this->assertEqual($oMaxEntityPlacement->deliveredClicks, 0);
-        $this->assertEqual($oMaxEntityPlacement->deliveredConversions, 0);
+        $oCampaign = new OX_Maintenance_Priority_Campaign($aParams);
+        $this->assertNull($oCampaign->deliveredRequests);
+        $this->assertNull($oCampaign->deliveredImpressions);
+        $this->assertNull($oCampaign->deliveredClicks);
+        $this->assertNull($oCampaign->deliveredConversions);
+        $oCampaign->setSummaryStatisticsToday('2006-11-10');
+        $this->assertEqual($oCampaign->deliveredRequests, 0);
+        $this->assertEqual($oCampaign->deliveredImpressions, 0);
+        $this->assertEqual($oCampaign->deliveredClicks, 0);
+        $this->assertEqual($oCampaign->deliveredConversions, 0);
 
         // Test 2
-        $oMaxEntityPlacement->setSummaryStatisticsToday('2006-11-10');
-        $this->assertEqual($oMaxEntityPlacement->deliveredRequests, 100);
-        $this->assertEqual($oMaxEntityPlacement->deliveredImpressions, 99);
-        $this->assertEqual($oMaxEntityPlacement->deliveredClicks, 5);
-        $this->assertEqual($oMaxEntityPlacement->deliveredConversions, 1);
+        $oCampaign->setSummaryStatisticsToday('2006-11-10');
+        $this->assertEqual($oCampaign->deliveredRequests, 100);
+        $this->assertEqual($oCampaign->deliveredImpressions, 99);
+        $this->assertEqual($oCampaign->deliveredClicks, 5);
+        $this->assertEqual($oCampaign->deliveredConversions, 1);
 
         $oMaxDalMaintenancePriority->tally();
     }

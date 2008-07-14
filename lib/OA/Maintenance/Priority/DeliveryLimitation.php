@@ -192,30 +192,30 @@ class OA_Maintenance_Priority_DeliveryLimitation
 
     /**
      * A method to calculate the number of operation intervals, from a given
-     * date to the end date of the placement, an advertisement will be blocked
+     * date to the end date of the campaign, an advertisement will be blocked
      * from delivering in.
      *
      * @param PEAR::Date $oStartDate A Date object representing the start of the
      *                               current operation interval.
      * @param PEAR::Date $oEndDate A Date object representing the end date of the
-     *                             placement the advertisement is in.
+     *                             campaign the advertisement is in.
      * @return integer The number of operation intervals in which the advertisement
      *                 will be blocked from delivering in.
      */
     function getBlockedOperationIntervalCount($oStartDate, $oEndDate)
     {
-        // Ensure the placement end date is at the END of the day
-        $oPlacementEndDate = new Date();
-        $oPlacementEndDate->copy($oEndDate);
-        $oPlacementEndDate->setHour(23);
-        $oPlacementEndDate->setMinute(59);
-        $oPlacementEndDate->setSecond(59);
+        // Ensure the campaign end date is at the END of the day
+        $oCampaignEndDate = new Date();
+        $oCampaignEndDate->copy($oEndDate);
+        $oCampaignEndDate->setHour(23);
+        $oCampaignEndDate->setMinute(59);
+        $oCampaignEndDate->setSecond(59);
         // Copy the starting date to use in a loop
         $oLoopDate = new Date();
         $oLoopDate->copy($oStartDate);
         // Count the number of blocked operation intervals
         $blockedIntervals = 0;
-        while (!$oLoopDate->after($oPlacementEndDate)) {
+        while (!$oLoopDate->after($oCampaignEndDate)) {
             if ($this->deliveryBlocked($oLoopDate)) {
                 // Update the count of blocked intervals, but
                 // also store the start/end dates of the blocked
@@ -231,49 +231,49 @@ class OA_Maintenance_Priority_DeliveryLimitation
 
     /**
      * A method to determine how many of the remaining operation intervals
-     * (based on the current date, and the placement end date) the advertisement
+     * (based on the current date, and the campaign end date) the advertisement
      * will be able to deliver in.
      *
-     * @param integer $placementRemainingIntervals The number of remaining operation intervals
-     *                                             until the placement expiration date.
+     * @param integer $campaignRemainingIntervals The number of remaining operation intervals
+     *                                            until the campaign expiration date.
      * @param PEAR::Date $oDate A Date object, set in the current operation interval.
-     * @param PEAR::Date $oPlacementEndDate The end date of the placement.
+     * @param PEAR::Date $oCampaignEndDate The end date of the campaign.
      * @return integer The number of operation intervals in which the advertisement
      *                 will deliver.
      */
-    function getActiveAdOperationIntervals($placementRemainingIntervals, $oDate, $oPlacementEndDate)
+    function getActiveAdOperationIntervals($campaignRemainingIntervals, $oDate, $oCampaignEndDate)
 	{
 	    $aConf = $GLOBALS['_MAX']['CONF'];
-	    $this->remainingOperationIntervalCount = $placementRemainingIntervals;
+	    $this->remainingOperationIntervalCount = $campaignRemainingIntervals;
         // Are delivery limitations activated in the configuration? If not, return
-        // the complete count of remaining placement operation intervals
+        // the complete count of remaining campaign operation intervals
         if (!$aConf['delivery']['acls']) {
             $this->blockedOperationIntervalCount = 0;
-            return $placementRemainingIntervals;
+            return $campaignRemainingIntervals;
         }
         // Are there any possible blocking operation groups? If not, return the
-        // complete count of remaining placement operation intervals
+        // complete count of remaining campaign operation intervals
         if ($this->_getOperationGroupCount() == 0) {
             $this->blockedOperationIntervalCount = 0;
-            return $placementRemainingIntervals;
+            return $campaignRemainingIntervals;
         }
         // Determine in how many of the remaining operation intervals the
         // advertisement will be blocked
-        $blockedIntervals = $this->getBlockedOperationIntervalCount($oDate, $oPlacementEndDate);
+        $blockedIntervals = $this->getBlockedOperationIntervalCount($oDate, $oCampaignEndDate);
         $this->blockedOperationIntervalCount = $blockedIntervals;
-        return ($placementRemainingIntervals - $blockedIntervals);
+        return ($campaignRemainingIntervals - $blockedIntervals);
 	}
 
 	/**
 	 * A method to obtain the sum of the zone forecast impression value, for all the zones
 	 * an advertisement is linked to, cloned out over the advertisement's entire remaining
-	 * lifetime in the placement, with any blocked operation intervals removed.
+	 * lifetime in the campaign, with any blocked operation intervals removed.
 	 *
 	 * Requires that the getActiveAdOperationIntervals() method have previously been
 	 * called to function correctly.
 	 *
 	 * @param PEAR::Date $oNowDate The current date.
-	 * @param PEAR::Date $oEndDate The end date of the placement. Note that if the end
+	 * @param PEAR::Date $oEndDate The end date of the campaign. Note that if the end
 	 *                             date supplied is not at the end of a day, it will be
 	 *                             converted to be treated as such.
 	 * @param array $aCumulativeZoneForecast The cumulative forecast impressions, indexed
@@ -299,7 +299,7 @@ class OA_Maintenance_Priority_DeliveryLimitation
             return $totalAdLifetimeZoneImpressionsRemaining;
         }
 
-        // Ensure that the end of placement date is at the end of the day
+        // Ensure that the end of campaign date is at the end of the day
         $oEndDateCopy = new Date();
         $oEndDateCopy->copy($oEndDate);
         $oEndDateCopy->setHour(23);

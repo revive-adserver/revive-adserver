@@ -39,7 +39,7 @@ require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
  * @subpackage Priority
  * @author     Andrew Hill <andrew.hill@openx.org>
  */
-class OA_Maintenance_Priority_Placement
+class OX_Maintenance_Priority_Campaign
 {
 
     /**
@@ -210,7 +210,7 @@ class OA_Maintenance_Priority_Placement
      *      'target_conversion' or 'conversion_target_daily' -> The daily conversion target
      *      'priority'                                       -> The placement priority
      */
-    function OA_Maintenance_Priority_Placement($aParams)
+    function OX_Maintenance_Priority_Campaign($aParams)
     {
         // Convert "old" input value names to "new", if required
         foreach ($this->aNewOldTypes as $newName => $oldName) {
@@ -236,7 +236,7 @@ class OA_Maintenance_Priority_Placement
         // Store the required supplied values
         $this->id                         = (int)$aParams['placement_id'];
 
-        // Store the optional required values        
+        // Store the optional required values
         $this->activate                   = (!empty($aParams['activate']) && $aParams['activate'] != OA_Dal::noDateString()) ? $aParams['activate'] : OA_Dal::noDateValue();
         $this->expire                     = (!empty($aParams['expire']) && $aParams['expire'] != OA_Dal::noDateString()) ? $aParams['expire'] : OA_Dal::noDateValue();
         $this->impressionTargetTotal      = isset($aParams['impression_target_total']) ? (int)$aParams['impression_target_total'] : 0;
@@ -293,7 +293,7 @@ class OA_Maintenance_Priority_Placement
      */
     function setAdverts()
     {
-        $aAds = $this->oMaxDalEntities->getAdsByPlacementId($this->id);
+        $aAds = $this->oMaxDalEntities->getAdsByCampaignId($this->id);
         if (is_array($aAds) && (count($aAds) > 0)) {
             reset($aAds);
             while (list($adId, $aAdDetails) = each($aAds)) {

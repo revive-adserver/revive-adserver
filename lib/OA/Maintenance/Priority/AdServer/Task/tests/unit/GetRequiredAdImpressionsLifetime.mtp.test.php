@@ -123,22 +123,22 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
     }
 
     /**
-     * A method to test the _getAllPlacements() method.
+     * A method to test the _getAllCampaigns() method.
      *
      * For each test, sets the return value of the mocked DAL object's
      * getPlacements() method, and then ensure that the returned value
-     * from a call to the getAllPlacements() method is correct.
+     * from a call to the getAllCampaigns() method is correct.
      *
      * Test 1: Tests when no data is returned from the DAL.
      * Test 2: Tests where data is returned from the DAL.
      */
-    function test_getAllPlacements()
+    function test_getAllCampaigns()
     {
         $oGetRequiredAdImpressionsLifetime =& $this->_getCurrentTask();
 
         // Test 1
         $oGetRequiredAdImpressionsLifetime->oDal->setReturnValueAt(0, 'getPlacements', array());
-        $oResult = $oGetRequiredAdImpressionsLifetime->_getAllPlacements();
+        $oResult = $oGetRequiredAdImpressionsLifetime->_getAllCampaigns();
         $this->assertTrue(is_array($oResult));
         $this->assertEqual(count($oResult), 0);
 
@@ -171,10 +171,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
                 )
             )
         );
-        $oResult = $oGetRequiredAdImpressionsLifetime->_getAllPlacements();
+        $oResult = $oGetRequiredAdImpressionsLifetime->_getAllCampaigns();
         $this->assertTrue(is_array($oResult));
         $this->assertEqual(count($oResult), 2);
-        $this->assertTrue(is_a($oResult[0], 'OA_Maintenance_Priority_Placement'));
+        $this->assertTrue(is_a($oResult[0], 'OX_Maintenance_Priority_Campaign'));
         $this->assertEqual($oResult[0]->id, 1);
         $this->assertEqual($oResult[0]->expire, '2005-12-08 13:55:00');
         $this->assertEqual($oResult[0]->impressionTargetTotal, 10);
@@ -184,7 +184,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         $this->assertEqual($oResult[0]->clickTargetDaily, 6);
         $this->assertEqual($oResult[0]->conversionTargetDaily, 7);
         $this->assertEqual($oResult[0]->priority, 3);
-        $this->assertTrue(is_a($oResult[1], 'OA_Maintenance_Priority_Placement'));
+        $this->assertTrue(is_a($oResult[1], 'OX_Maintenance_Priority_Campaign'));
         $this->assertEqual($oResult[1]->id, 2);
         $this->assertEqual($oResult[1]->expire, '2005-12-08 13:55:01');
         $this->assertEqual($oResult[1]->impressionTargetTotal, 11);
@@ -197,15 +197,15 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
     }
 
     /**
-     * A method to test the _getValidPlacements() method.
+     * A method to test the _getValidCampaigns() method.
      *
      * Test 1: Sets the "current" time in the OA_ServiceLocator, and then
      *         uses a the mocked DAL class to ensure that the
-     *         _getValidPlacements() method forms the correct "where"
+     *         _getValidCampaigns() method forms the correct "where"
      *         statements, and that these are passed in via the
-     *         getAllPlacements() method.
+     *         getAllCampaigns() method.
      */
-    function test_getValidPlacements()
+    function test_getValidCampaigns()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $table = $aConf['table']['prefix'] . $aConf['table']['campaigns'];
@@ -231,7 +231,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
                 )
             )
         );
-        $oResult = $oGetRequiredAdImpressionsLifetime->_getValidPlacements();
+        $oResult = $oGetRequiredAdImpressionsLifetime->_getValidCampaigns();
         $this->assertTrue(is_array($oResult));
         $this->assertEqual(count($oResult), 0);
     }
@@ -304,40 +304,40 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
     }
 
     /**
-     * A method to test the getPlacementImpressionInventoryRequirement() method.
+     * A method to test the getCampaignImpressionInventoryRequirement() method.
      */
-    function testGetPlacementImpressionInventoryRequirement()
+    function testGetCampaignImpressionInventoryRequirement()
     {
-        // Generate a partial mock of the Placement class, and override
+        // Generate a partial mock of the Campaign class, and override
         // the setSummaryStatisticsToDate() method, so that it doesn't
         // actually call the DAL when the
-        // getPlacementImpressionInventoryRequirement() is called
+        // getCampaignImpressionInventoryRequirement() is called
         Mock::generatePartial(
-            'OA_Maintenance_Priority_Placement',
-            'MockPartialOA_Maintenance_Priority_Placement_GetRequiredAdImpressions',
+            'OX_Maintenance_Priority_Campaign',
+            'MockPartialOX_Maintenance_Priority_Campaign_GetRequiredAdImpressions',
             array('setSummaryStatisticsToDate')
         );
-        $oPlacement = new MockPartialOA_Maintenance_Priority_Placement_GetRequiredAdImpressions($this);
-        $oPlacement->OA_Maintenance_Priority_Placement(array('placement_id' => 1));
+        $oCampaign = new MockPartialOX_Maintenance_Priority_Campaign_GetRequiredAdImpressions($this);
+        $oCampaign->OX_Maintenance_Priority_Campaign(array('placement_id' => 1));
 
         // Manually set the remaining inventory that would normally be
         // set by the mocked setSummaryStatisticsToDate() method above
-        $oPlacement->deliveredImpressions = 10000;
-        $oPlacement->deliveredClicks      = 100;
-        $oPlacement->deliveredConversions = 10;
+        $oCampaign->deliveredImpressions = 10000;
+        $oCampaign->deliveredClicks      = 100;
+        $oCampaign->deliveredConversions = 10;
 
         // Set the target impressions, clicks and conversions
-        $oPlacement->clickTargetTotal      = 10;
-        $oPlacement->conversionTargetTotal = 0;
+        $oCampaign->clickTargetTotal      = 10;
+        $oCampaign->conversionTargetTotal = 0;
 
         // Test the method
         $oGetRequiredAdImpressionsLifetime =& $this->_getCurrentTask();
-        $oGetRequiredAdImpressionsLifetime->getPlacementImpressionInventoryRequirement($oPlacement);
-        $this->assertEqual(1000, $oPlacement->requiredImpressions);
+        $oGetRequiredAdImpressionsLifetime->getCampaignImpressionInventoryRequirement($oCampaign);
+        $this->assertEqual(1000, $oCampaign->requiredImpressions);
     }
 
     /**
-     * A method to test the distributePlacementImpressions() method.
+     * A method to test the distributeCampaignImpressions() method.
      *
      * The test is carried out by ensuring that the correct values for the required
      * impressions are sent to the DAL's saveRequiredAdImpressions() method.
@@ -346,13 +346,13 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
      * and the advertisements are not delivery limited, so that the expected
      * required impression results are the same as those in the test above.
      */
-    function testDistributePlacementImpressions()
+    function testDistributeCampaignImpressions()
     {
         $aConf =& $GLOBALS['_MAX']['CONF'];
         $aConf['maintenance']['operationInterval'] = 60;
 
         $oGetRequiredAdImpressionsLifetime =& $this->_getCurrentTask();
-        $aPlacements = array();
+        $aCampaigns = array();
 
         // Set the current date/time
         $oServiceLocator =& OA_ServiceLocator::instance();
@@ -361,37 +361,37 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         $oServiceLocator->register('now', $oDate);
 
         // Create a "normal" placement to test with
-        $oPlacement = new OA_Maintenance_Priority_Placement(
+        $oCampaign = new OX_Maintenance_Priority_Campaign(
             array(
                 'campaignid' => 1,
                 'activate'   => '2006-01-12',
                 'expire'     => '2006-02-12'
             )
         );
-        $oPlacement->impressionTargetTotal = 5000;
-        $oPlacement->requiredImpressions = 24;
+        $oCampaign->impressionTargetTotal = 5000;
+        $oCampaign->requiredImpressions = 24;
         $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 1, 'weight' => 1, 'status' => OA_ENTITY_STATUS_RUNNING, 'type' => 'sql'));
-        $oPlacement->aAds[] = $oAd;
+        $oCampaign->aAds[] = $oAd;
         $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 2, 'weight' => 1, 'status' => OA_ENTITY_STATUS_RUNNING, 'type' => 'sql'));
-        $oPlacement->aAds[] = $oAd;
+        $oCampaign->aAds[] = $oAd;
         $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 3, 'weight' => 1, 'status' => OA_ENTITY_STATUS_AWAITING, 'type' => 'sql'));
-        $oPlacement->aAds[] = $oAd;
-        $aPlacements[] = $oPlacement;
+        $oCampaign->aAds[] = $oAd;
+        $aCampaigns[] = $oCampaign;
 
         // Create a "daily limit" placement to test with
-        $oPlacement = new OA_Maintenance_Priority_Placement(
+        $oCampaign = new OX_Maintenance_Priority_Campaign(
             array(
                 'campaignid' => 2,
                 'expire'     => OA_Dal::noDateValue()
             )
         );
-        $oPlacement->impressionTargetDaily = 24;
-        $oPlacement->requiredImpressions = 24;
+        $oCampaign->impressionTargetDaily = 24;
+        $oCampaign->requiredImpressions = 24;
         $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 4, 'weight' => 1, 'status' => OA_ENTITY_STATUS_RUNNING, 'type' => 'sql'));
-        $oPlacement->aAds[] = $oAd;
+        $oCampaign->aAds[] = $oAd;
         $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 5, 'weight' => 1, 'status' => OA_ENTITY_STATUS_AWAITING, 'type' => 'sql'));
-        $oPlacement->aAds[] = $oAd;
-        $aPlacements[] = $oPlacement;
+        $oCampaign->aAds[] = $oAd;
+        $aCampaigns[] = $oCampaign;
 
         // Set the zones that each ad is linked to
         for ($i = 1; $i <= 5; $i++) {
@@ -429,7 +429,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         }
 
         // Set the DAL saveRequiredAdImpressions() method to expect the
-        // desired input from the distributePlacementImpressions() method.
+        // desired input from the distributeCampaignImpressions() method.
         $oGetRequiredAdImpressionsLifetime->oDal->expectOnce(
             'saveRequiredAdImpressions',
             array(
@@ -451,7 +451,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         );
 
         // Test
-        $oGetRequiredAdImpressionsLifetime->distributePlacementImpressions($aPlacements);
+        $oGetRequiredAdImpressionsLifetime->distributeCampaignImpressions($aCampaigns);
 
         TestEnv::restoreConfig();
     }
@@ -496,7 +496,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 1, 'weight' => 1, 'status' => OA_ENTITY_STATUS_RUNNING, 'type' => 'sql'));
         $totalRequiredAdImpressions = 10;
         $oDate = new Date();
-        $oPlacementExpiryDate = new Date();
+        $oCampaignExpiryDate = new Date();
         $oGetRequiredAdImpressionsLifetime =& $this->_getCurrentTask();
         $oDeliveryLimitaions = new OA_Maintenance_Priority_DeliveryLimitation(null);
         $aAdZones = array();
@@ -504,7 +504,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
             'foo',
             $totalRequiredAdImpressions,
             $oDate,
-            $oPlacementExpiryDate,
+            $oCampaignExpiryDate,
             $oDeliveryLimitaions,
             $aAdZones
         );
@@ -513,7 +513,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
             $oAd,
             'foo',
             $oDate,
-            $oPlacementExpiryDate,
+            $oCampaignExpiryDate,
             $oDeliveryLimitaions,
             $aAdZones
         );
@@ -522,7 +522,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
             $oAd,
             $totalRequiredAdImpressions,
             'foo',
-            $oPlacementExpiryDate,
+            $oCampaignExpiryDate,
             $oDeliveryLimitaions,
             $aAdZones
         );
@@ -540,7 +540,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
             $oAd,
             $totalRequiredAdImpressions,
             $oDate,
-            $oPlacementExpiryDate,
+            $oCampaignExpiryDate,
             'foo',
             $aAdZones
         );
@@ -549,7 +549,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
             $oAd,
             $totalRequiredAdImpressions,
             $oDate,
-            $oPlacementExpiryDate,
+            $oCampaignExpiryDate,
             $oDeliveryLimitaions,
             'foo'
         );
@@ -574,7 +574,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         $oAd->OA_Maintenance_Priority_Ad($aParam);
         $totalRequiredAdImpressions = 120;
         $oDate = new Date('2006-02-15 12:07:01');
-        $oPlacementExpiryDate = new Date('2006-12-15 23:59:59');
+        $oCampaignExpiryDate = new Date('2006-12-15 23:59:59');
         $oGetRequiredAdImpressionsLifetime =& $this->_getCurrentTask();
         $oDeliveryLimitaions = new OA_Maintenance_Priority_DeliveryLimitation($oAd->getDeliveryLimitations());
         $aAdZones = array(array('zone_id' => 1));
@@ -582,7 +582,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
             $oAd,
             $totalRequiredAdImpressions,
             $oDate,
-            $oPlacementExpiryDate,
+            $oCampaignExpiryDate,
             $oDeliveryLimitaions,
             $aAdZones
         );
@@ -607,7 +607,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         $oAd->OA_Maintenance_Priority_Ad($aParam);
         $totalRequiredAdImpressions = 110;
         $oDate = new Date('2006-02-15 12:07:01');
-        $oPlacementExpiryDate = new Date('2006-02-15 23:59:59');
+        $oCampaignExpiryDate = new Date('2006-02-15 23:59:59');
         $oGetRequiredAdImpressionsLifetime = new PartialMockOA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime($this);
         $oGetRequiredAdImpressionsLifetime->setReturnValue(
             '_getCumulativeZoneForecast',
@@ -620,7 +620,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
             $oAd,
             $totalRequiredAdImpressions,
             $oDate,
-            $oPlacementExpiryDate,
+            $oCampaignExpiryDate,
             $oDeliveryLimitaions,
             $aAdZones
         );
@@ -645,7 +645,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         $oAd->OA_Maintenance_Priority_Ad($aParam);
         $totalRequiredAdImpressions = 110;
         $oDate = new Date('2006-02-15 12:07:01');
-        $oPlacementExpiryDate = new Date('2006-02-15 23:59:59');
+        $oCampaignExpiryDate = new Date('2006-02-15 23:59:59');
         $oGetRequiredAdImpressionsLifetime = new PartialMockOA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime($this);
         $aCumulativeZoneForecast = array();
         $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 12:00:01'));
@@ -657,14 +657,14 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         );
         $oGetRequiredAdImpressionsLifetime->OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime();
         $oDeliveryLimitaions = new OA_Maintenance_Priority_DeliveryLimitation($oAd->getDeliveryLimitations());
-        $remainingOIs = OA_OperationInterval::getIntervalsRemaining($oDate, $oPlacementExpiryDate);
-        $oDeliveryLimitaions->getActiveAdOperationIntervals($remainingOIs, $oDate, $oPlacementExpiryDate);
+        $remainingOIs = OA_OperationInterval::getIntervalsRemaining($oDate, $oCampaignExpiryDate);
+        $oDeliveryLimitaions->getActiveAdOperationIntervals($remainingOIs, $oDate, $oCampaignExpiryDate);
         $aAdZones = array(array('zone_id' => 1));
         $result = $oGetRequiredAdImpressionsLifetime->_getAdImpressions(
             $oAd,
             $totalRequiredAdImpressions,
             $oDate,
-            $oPlacementExpiryDate,
+            $oCampaignExpiryDate,
             $oDeliveryLimitaions,
             $aAdZones
         );
@@ -689,7 +689,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         $oAd->OA_Maintenance_Priority_Ad($aParam);
         $totalRequiredAdImpressions = 110;
         $oDate = new Date('2006-02-15 12:07:01');
-        $oPlacementExpiryDate = new Date('2006-02-15 23:59:59');
+        $oCampaignExpiryDate = new Date('2006-02-15 23:59:59');
         $oGetRequiredAdImpressionsLifetime = new PartialMockOA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime($this);
         $aCumulativeZoneForecast = array();
         $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 12:00:01'));
@@ -723,14 +723,14 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         );
         $oGetRequiredAdImpressionsLifetime->OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime();
         $oDeliveryLimitaions = new OA_Maintenance_Priority_DeliveryLimitation($oAd->getDeliveryLimitations());
-        $remainingOIs = OA_OperationInterval::getIntervalsRemaining($oDate, $oPlacementExpiryDate);
-        $oDeliveryLimitaions->getActiveAdOperationIntervals($remainingOIs, $oDate, $oPlacementExpiryDate);
+        $remainingOIs = OA_OperationInterval::getIntervalsRemaining($oDate, $oCampaignExpiryDate);
+        $oDeliveryLimitaions->getActiveAdOperationIntervals($remainingOIs, $oDate, $oCampaignExpiryDate);
         $aAdZones = array(array('zone_id' => 1));
         $result = $oGetRequiredAdImpressionsLifetime->_getAdImpressions(
             $oAd,
             $totalRequiredAdImpressions,
             $oDate,
-            $oPlacementExpiryDate,
+            $oCampaignExpiryDate,
             $oDeliveryLimitaions,
             $aAdZones
         );
@@ -755,7 +755,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         $oAd->OA_Maintenance_Priority_Ad($aParam);
         $totalRequiredAdImpressions = 110;
         $oDate = new Date('2006-02-15 12:07:01');
-        $oPlacementExpiryDate = new Date('2006-02-15 23:59:59');
+        $oCampaignExpiryDate = new Date('2006-02-15 23:59:59');
         $oGetRequiredAdImpressionsLifetime = new PartialMockOA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime($this);
         $aCumulativeZoneForecast = array();
         $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 12:00:01'));
@@ -789,14 +789,14 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         );
         $oGetRequiredAdImpressionsLifetime->OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime();
         $oDeliveryLimitaions = new OA_Maintenance_Priority_DeliveryLimitation($oAd->getDeliveryLimitations());
-        $remainingOIs = OA_OperationInterval::getIntervalsRemaining($oDate, $oPlacementExpiryDate);
-        $oDeliveryLimitaions->getActiveAdOperationIntervals($remainingOIs, $oDate, $oPlacementExpiryDate);
+        $remainingOIs = OA_OperationInterval::getIntervalsRemaining($oDate, $oCampaignExpiryDate);
+        $oDeliveryLimitaions->getActiveAdOperationIntervals($remainingOIs, $oDate, $oCampaignExpiryDate);
         $aAdZones = array(array('zone_id' => 1));
         $result = $oGetRequiredAdImpressionsLifetime->_getAdImpressions(
             $oAd,
             $totalRequiredAdImpressions,
             $oDate,
-            $oPlacementExpiryDate,
+            $oCampaignExpiryDate,
             $oDeliveryLimitaions,
             $aAdZones
         );

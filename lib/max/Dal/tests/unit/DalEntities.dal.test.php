@@ -138,7 +138,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
     function _insertCampaign($aData)
     {
-        $this->doCampaigns->campaignname = 'Test Placement';
+        $this->doCampaigns->campaignname = 'Test Campaign';
         $this->doCampaigns->weight = 1;
         $this->doCampaigns->priority = -1;
         $this->doCampaigns->views = -1;
@@ -165,7 +165,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     }
 
     /**
-     * A method to test the getAdsByPlacementId() method.
+     * A method to test the getAdsByCampaignId() method.
      *
      * Requirements:
      * Test 1: Test with invalid input, and ensure nothing returned
@@ -174,34 +174,34 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
      * Test 4: Test with multiple ads in the database, and ensure only the
      *         required ads are returned
      */
-    function testGetAdsByPlacementId()
+    function testGetAdsByCampaignId()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh =& OA_DB::singleton();
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
-        $placementId = 'foo';
-        $aResult = $oDal->getAdsByPlacementId($placementId);
+        $campaignId = 'foo';
+        $aResult = $oDal->getAdsByCampaignId($campaignId);
         $this->assertNull($aResult);
 
         // Test 2
-        $placementId = 1;
+        $campaignId = 1;
 
-        $aResult = $oDal->getAdsByPlacementId($placementId);
+        $aResult = $oDal->getAdsByCampaignId($campaignId);
         $this->assertNull($aResult);
 
         // Test 3
         $oNow = new Date();
         $aData = array(
-            'campaignid'=>$placementId,
+            'campaignid'=>$campaignId,
             'status'=>OA_ENTITY_STATUS_RUNNING,
             'weight'=>1,
             'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
             'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $idBanner1 = $this->_insertBanner($aData);
-        $aResult = $oDal->getAdsByPlacementId($placementId);
+        $aResult = $oDal->getAdsByCampaignId($placementId);
         $aExpectedResult = array(
             $idBanner1 => array(
                 'ad_id'  => $idBanner1,
@@ -214,7 +214,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 4
         $aData = array(
-            'campaignid'=>$placementId,
+            'campaignid'=>$campaignId,
             'status'=>OA_ENTITY_STATUS_PAUSED,
             'weight'=>5,
             'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
@@ -229,7 +229,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $idBanner3 = $this->_insertBanner($aData);
-        $aResult = $oDal->getAdsByPlacementId($placementId);
+        $aResult = $oDal->getAdsByCampaignId($placementId);
         $aExpectedResult = array(
             $idBanner1 => array(
                 'ad_id'  => $idBanner1,

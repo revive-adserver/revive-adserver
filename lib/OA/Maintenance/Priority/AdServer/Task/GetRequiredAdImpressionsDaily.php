@@ -72,16 +72,16 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsDaily extend
     }
 
     /**
-     * A method that uses the getAllPlacements() method to obtain all placements
+     * A method that uses the getAllCampaigns() method to obtain all campaigns
      * that meet the requirements of this class. That is:
      *
-     * - The placement is active, and has a priority of at least 1; and
-     * - The placement has daily inventory requirements.
+     * - The campaign is active, and has a priority of at least 1; and
+     * - The campaign has daily inventory requirements.
      *
      * @access private
-     * @return array An array of {@link OA_Maintenance_Priority_Placement} objects.
+     * @return array An array of {@link OX_Maintenance_Priority_Campaign} objects.
      */
-    function _getValidPlacements()
+    function _getValidCampaigns()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = OA_DB::singleton();
@@ -91,24 +91,24 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsDaily extend
             array("$table.priority >= 1", 'AND'),
             array("$table.status = ".OA_ENTITY_STATUS_RUNNING, 'AND')
         );
-        return $this->_getAllPlacements(array(), $aWheres);
+        return $this->_getAllCampaigns(array(), $aWheres);
     }
 
     /**
      * Method to estimate the impressions required to fulfill a given
-     * placement daily impression, click, or conversion requirement. If more
+     * campaign daily impression, click, or conversion requirement. If more
      * than one requirement exists the smallest calculated impression
      * requirement will be returned.
      *
-     * The $oPlacement parameter is passed by reference and will have
+     * The $oCampaign parameter is passed by reference and will have
      * the calculated impression requirement added to it in the position
-     * $oPlacement->requiredImpressions
+     * $oCampaign->requiredImpressions
      *
-     * @param OA_Maintenance_Priority_Placement $oPlacement
+     * @param OX_Maintenance_Priority_Campaign $oCampaign
      */
-    function getPlacementImpressionInventoryRequirement(&$oPlacement)
+    function getCampaignImpressionInventoryRequirement(&$oCampaign)
     {
-        parent::getPlacementImpressionInventoryRequirement($oPlacement, 'daily');
+        parent::getCampaignImpressionInventoryRequirement($oCampaign, 'daily');
     }
 
 }

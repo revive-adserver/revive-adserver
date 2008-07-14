@@ -27,9 +27,9 @@ $Id$
 
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task.php';
-require_once MAX_PATH . '/lib/OA/Maintenance/Priority/Placement.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/Zone.php';
 require_once MAX_PATH . '/lib/OA/DB/Table/Priority.php';
+require_once MAX_PATH . '/lib/OX/Maintenance/Priority/Campaign.php';
 
 /**
  * A class to allocate the required impressions for each advertisement to
@@ -49,7 +49,7 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
 {
     var $aAvailableForecastZoneImpressions;
     var $aOverSubscribedZones;
-    var $aPlacements;
+    var $aCampaigns;
     var $aAdZoneAssociations;
     var $aAdZoneImpressionAllocations;
 
@@ -71,8 +71,8 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
         OA::debug('Running Maintenance Priority Engine: Allocate Zone Impressions', PEAR_LOG_DEBUG);
         // Set the zone forecast information
         $this->_setZoneForecasts();
-        // Set the placement information
-        $this->_setPlacements();
+        // Set the campaign information
+        $this->_setCampaigns();
         // Set the ad/zone linkage information
         $this->_setAdZoneAssociations();
         // Set the required impressions for each ad/zone pair
@@ -120,58 +120,59 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
     }
 
     /**
-     * A private method to set the placement information. Gets all of the active
-     * placements in the system, sets the ads associated with the placements,
+     * A private method to set the campaign information. Gets all of the active
+     * campaigns in the system, sets the ads associated with the campaigns,
      * retrieves the number of impressions that have been allocated to each ad,
-     * and finally orders the advertisements in each placement in order of
+     * and finally orders the advertisements in each campaign in order of
      * importance, from highest to lowest.
      *
      * @access private
      */
-    function _setPlacements()
+    function _setCampaigns()
     {
-        // Get all placements in the system
-        $this->aPlacements = $this->_getAllPlacements();
-        // Set the information required for each placement
-        if (is_array($this->aPlacements) && !empty($this->aPlacements)) {
-            foreach ($this->aPlacements as $placementKey => $oPlacement) {
-                // Set the advertisements in the placement
-                $this->aPlacements[$placementKey]->setAdverts();
+        // Get all campaigns in the system
+        $this->aCampaigns = $this->_getAllCampaigns();
+        // Set the information required for each campaign
+        if (is_array($this->aCampaigns) && !empty($this->aCampaigns)) {
+            foreach ($this->aCampaigns as $campaignKey => $oCampaign) {
+                // Set the advertisements in the campaign
+                $this->aCampaigns[$campaignKey]->setAdverts();
                 // Populate the ads with data from the
                 // OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime
                 // and OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsDaily
                 // task jobs previously run
-                $this->_setRequiredImpressions($this->aPlacements[$placementKey]->aAds);
+                $this->_setRequiredImpressions($this->aCampaigns[$campaignKey]->aAds);
             }
         }
     }
 
     /**
-     * A private method to return an array of Placement objects, in the following
-     * array order:
+     * A private method to return an array of OX_Maintenance_Priority_Campaign
+     * objects, in the following array order:
      *
-     * - Placement priority from highest (user defined value > 1) to lowest (1).
-     * - Within the same priority level, placements with expiry dates first.
-     * - Within placements with expiry dates, placements with sooner expiry dates first.
+     * - Campaign priority from highest (user defined value > 1) to lowest (1).
+     * - Within the same priority level, campaigns with expiry dates first.
+     * - Within campaigns with expiry dates, campaigns with sooner expiry dates first.
      *
      * @access private
-     * @return array An array of Placement objects, in the above order.
+     * @return array An array of OX_Maintenance_Priority_Campaign objects, in the
+     *               above order.
      *
-     * @TODO It is no longer necessary for the Placements to be ordered as described
+     * @TODO It is no longer necessary for the campaigns to be ordered as described
      *       above, so this ordering can be removed, if desired.
      */
-    function _getAllPlacements()
+    function _getAllCampaigns()
     {
         $orderBys[] = array('priority','DESC');
         $orderBys[] = array('expire','ASC');
-        $aPlacements = $this->oDal->getPlacements(array(), array(), array(), $orderBys);
-        $aPlacementObjects = array();
-        if (is_array($aPlacements) && !empty($aPlacements)) {
-            foreach ($aPlacements as $aPlacementData) {
-                $aPlacementObjects[] = new OA_Maintenance_Priority_Placement($aPlacementData);
+        $aCampaigns = $this->oDal->getPlacements(array(), array(), array(), $orderBys);
+        $aCampaignObjects = array();
+        if (is_array($aCampaigns) && !empty($aCampaigns)) {
+            foreach ($aCampaigns as $aCampaignData) {
+                $aCampaignObjects[] = new OX_Maintenance_Priority_Campaign($aCampaignData);
             }
         }
-        return $aPlacementObjects;
+        return $aCampaignObjects;
     }
 
     /**
@@ -213,17 +214,17 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
     function _setAdZoneAssociations()
     {
         $this->aAdZoneAssociations = array();
-        if (is_array($this->aPlacements) && !empty($this->aPlacements)) {
-            foreach ($this->aPlacements as $k => $oPlacement) {
-                if (is_array($oPlacement->aAds) && !empty($oPlacement->aAds)) {
+        if (is_array($this->aCampaigns) && !empty($this->aCampaigns)) {
+            foreach ($this->aCampaigns as $k => $oCampaign) {
+                if (is_array($oCampaign->aAds) && !empty($oCampaign->aAds)) {
                     $aAdvertIds = array();
-                    reset($oPlacement->aAds);
-                    while (list($key, $oAd) = each($oPlacement->aAds)) {
+                    reset($oCampaign->aAds);
+                    while (list($key, $oAd) = each($oCampaign->aAds)) {
                         $aAdvertIds[] = $oAd->id;
                     }
                     $aResult = $this->oDal->getAdZoneAssociationsByAds($aAdvertIds);
                     if (is_array($aResult) && (count($aResult) > 0)) {
-                        $this->aAdZoneAssociations[$oPlacement->id] = $aResult;
+                        $this->aAdZoneAssociations[$oCampaign->id] = $aResult;
                     }
                 }
             }
@@ -231,23 +232,23 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
     }
 
     /**
-     * A private method to iterate over the placements, and allocate the required
-     * impression of the advertisements in the placements between the zones the
+     * A private method to iterate over the campaigns, and allocate the required
+     * impression of the advertisements in the campaigns between the zones the
      * advertisements are linked to, relative to the forecast zone impression
      * volumes. Results of allocation are stored in the$aAdZoneImpressionAllocations
      * array.
      */
     function _allocateRequiredImpressions()
     {
-        // If placements exist
-        if (!empty($this->aPlacements)) {
-            // Iterate over all the placements
-            foreach ($this->aPlacements as $placementKey => $oPlacement) {
-                // If the placement has advertisements
-                if (is_array($oPlacement->aAds) && !empty($oPlacement->aAds)) {
-                    // Iterate over all the advertisements in the placement
-                    reset($oPlacement->aAds);
-                    while (list($advertKey, $oAd) = each($oPlacement->aAds)) {
+        // If campaigns exist
+        if (!empty($this->aCampaigns)) {
+            // Iterate over all the campaigns
+            foreach ($this->aCampaigns as $campaignKey => $oCampaign) {
+                // If the campaign has advertisements
+                if (is_array($oCampaign->aAds) && !empty($oCampaign->aAds)) {
+                    // Iterate over all the advertisements in the campaign
+                    reset($oCampaign->aAds);
+                    while (list($advertKey, $oAd) = each($oCampaign->aAds)) {
                         // Allocate *all* impressions the ad requires to the Direct Selection zone,
                         // so that direct selection of HPC ads will be based on a system-wide
                         // weighting of the number of impressions each HPC ad requires
@@ -255,27 +256,27 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
                             'ad_id'                => $oAd->id,
                             'zone_id'              => 0,
                             'required_impressions' => $oAd->requiredImpressions,
-                            'campaign_priority'    => $oPlacement->priority
+                            'campaign_priority'    => $oCampaign->priority
                         );
                         // Set the ad/zone association information for the advertisement
-                        if (!isset($this->aAdZoneAssociations[$oPlacement->id][$oPlacement->aAds[$advertKey]->id])) {
+                        if (!isset($this->aAdZoneAssociations[$oCampaign->id][$oCampaign->aAds[$advertKey]->id])) {
                             continue;
                         }
-                        $oPlacement->aAds[$advertKey]->zones =
-                            $this->aAdZoneAssociations[$oPlacement->id][$oPlacement->aAds[$advertKey]->id];
+                        $oCampaign->aAds[$advertKey]->zones =
+                            $this->aAdZoneAssociations[$oCampaign->id][$oCampaign->aAds[$advertKey]->id];
                         // If the advertisement is linked to at least one "real" zone
-                        if (is_array($oPlacement->aAds[$advertKey]->zones) && !empty($oPlacement->aAds[$advertKey]->zones)) {
+                        if (is_array($oCampaign->aAds[$advertKey]->zones) && !empty($oCampaign->aAds[$advertKey]->zones)) {
                             // Calculate the total volume of forecast zone impressions
                             // for all zones linked to the advertisement
                             $totalAvaiableImpressions = 0;
-                            foreach ($oPlacement->aAds[$advertKey]->zones as $zoneKey => $zone) {
-                                $oPlacement->aAds[$advertKey]->zones[$zoneKey]['availableImpressions'] =
+                            foreach ($oCampaign->aAds[$advertKey]->zones as $zoneKey => $zone) {
+                                $oCampaign->aAds[$advertKey]->zones[$zoneKey]['availableImpressions'] =
                                     $this->aAvailableForecastZoneImpressions[$zone['zone_id']];
                                 $totalAvaiableImpressions +=
-                                    $oPlacement->aAds[$advertKey]->zones[$zoneKey]['availableImpressions'];
+                                    $oCampaign->aAds[$advertKey]->zones[$zoneKey]['availableImpressions'];
                             }
                             // Iterate over each of the zones the advertisement is linked to
-                            foreach ($oPlacement->aAds[$advertKey]->zones as $zone) {
+                            foreach ($oCampaign->aAds[$advertKey]->zones as $zone) {
                                 // If there are impressions available to the advertisement
                                 if ($totalAvaiableImpressions > 0) {
                                     // Calculate the number of impressions to allocate to this zone
@@ -286,18 +287,18 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
                                         'ad_id'                => $oAd->id,
                                         'zone_id'              => $zone['zone_id'],
                                         'required_impressions' => $requiredImpressions,
-                                        'campaign_priority'    => $oPlacement->priority
+                                        'campaign_priority'    => $oCampaign->priority
                                     );
                                     $this->aOverSubscribedZones[$zone['zone_id']]['desiredImpressions'] +=
                                         $requiredImpressions;
-                                    if ($oPlacement->priority > 0) {
+                                    if ($oCampaign->priority > 0) {
                                         if (empty($this->aOverSubscribedZones[$zone['zone_id']])) {
                                             $this->aOverSubscribedZones[$zone['zone_id']] = array();
                                         }
                                         if (empty($this->aOverSubscribedZones[$zone['zone_id']]['desiredImpressionsByCP'])) {
                                             $this->aOverSubscribedZones[$zone['zone_id']]['desiredImpressionsByCP'] = array();
                                         }
-                                        $this->aOverSubscribedZones[$zone['zone_id']]['desiredImpressionsByCP'][$oPlacement->priority] +=
+                                        $this->aOverSubscribedZones[$zone['zone_id']]['desiredImpressionsByCP'][$oCampaign->priority] +=
                                             $requiredImpressions;
                                     }
                                 }
@@ -366,7 +367,7 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
     }
 
     /**
-     * A private method to iterate over the placements, and allocate the required
+     * A private method to iterate over the campaigns, and allocate the required
      * ad/zone impression calculated earlier, sclaing where required to ensure that
      * the requested volume of ads in each zone does not exceed the zone impression
      * forecast. Results of allocation are stored in the $aAdZoneImpressionAllocations

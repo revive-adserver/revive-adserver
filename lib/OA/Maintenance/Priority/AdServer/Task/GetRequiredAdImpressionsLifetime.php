@@ -73,19 +73,19 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime ext
     }
 
     /**
-     * A method that uses the getAllPlacements() method to obtain all placements
+     * A method that uses the getAllCampaigns() method to obtain all campaigns
      * that meet the requirements of this class. That is:
      *
-     * - The placement has an expiration date (that is not already passed); and
-     * - As a result of the above, the placement must have an activation date that has
+     * - The campaign has an expiration date (that is not already passed); and
+     * - As a result of the above, the campaign must have an activation date that has
      *   passed, or has the default fake activation date; and
-     * - The placement is active, and has a priority of at least 1; and
-     * - The placement has inventory requirements for the duration of its activation.
+     * - The campaign is active, and has a priority of at least 1; and
+     * - The campaign has inventory requirements for the duration of its activation.
      *
      * @access private
-     * @return array An array of {@link OA_Maintenance_Priority_Placement} objects.
+     * @return array An array of {@link OX_Maintenance_Priority_Campaign} objects.
      */
-    function _getValidPlacements()
+    function _getValidCampaigns()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         // Get current date
@@ -101,24 +101,24 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime ext
             array("$table.status = ".OA_ENTITY_STATUS_RUNNING, 'AND'),
             array("($table.views > 0 OR $table.clicks > 0 OR $table.conversions > 0)", 'AND')
         );
-        return $this->_getAllPlacements(array(), $aWheres);
+        return $this->_getAllCampaigns(array(), $aWheres);
     }
 
     /**
      * Method to estimate the impressions required to fulfill a given
-     * placement lifetime impression, click, or conversion requirement. If
+     * campaign lifetime impression, click, or conversion requirement. If
      * more than one requirement exists the smallest calculated impression
      * requirement will be returned.
      *
-     * The $oPlacement parameter is passed by reference and will have
+     * The $oCampaign parameter is passed by reference and will have
      * the calculated impression requirement added to it in the position
-     * $oPlacement->requiredImpressions
+     * $oCampaign->requiredImpressions
      *
-     * @param OA_Maintenance_Priority_Placement $oPlacement
+     * @param OX_Maintenance_Priority_Campaign $oCampaign
      */
-    function getPlacementImpressionInventoryRequirement(&$oPlacement)
+    function getCampaignImpressionInventoryRequirement(&$oCampaign)
     {
-        parent::getPlacementImpressionInventoryRequirement($oPlacement, 'total');
+        parent::getCampaignImpressionInventoryRequirement($oCampaign, 'total');
     }
 
 }
