@@ -49,16 +49,20 @@ class OA_Maintenance_Statistics
     function run()
     {
         OA::switchLogFile('maintenance');
+
         // Get the configuration
         $aConf = $GLOBALS['_MAX']['CONF'];
+
         // Log the start of the process
         OA::debug('Running Maintenance Statistics Engine', PEAR_LOG_INFO);
+
         // Set longer time out, and ignore user abort
         if (!ini_get('safe_mode')) {
             @set_time_limit($aConf['maintenance']['timeLimitScripts']);
             @ignore_user_abort(true);
         }
 
+        // Run the following code as the "Maintenance" user
         OA_Permission::switchToSystemProcessUser('Maintenance');
 
         // Ensure the the current time is registered with the OA_ServiceLocator
@@ -69,12 +73,14 @@ class OA_Maintenance_Statistics
             $oDate = new Date();
             $oServiceLocator->register('now', $oDate);
         }
+
         // Run the MSE process for the AdServer and Tracker modules
         $oMaintenanceStatistics = new OA_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->updateStatistics();
         $oMaintenanceStatistics = new OA_Maintenance_Statistics_Tracker();
         $oMaintenanceStatistics->updateStatistics();
 
+        // Return to the "normal" user
         OA_Permission::switchToSystemProcessUser();
 
         // Log the end of the process

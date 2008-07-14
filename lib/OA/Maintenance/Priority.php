@@ -55,12 +55,14 @@ class OA_Maintenance_Priority
     function run($alwaysRun = false)
     {
         OA::switchLogFile('maintenance');
+
         // Get the configuration
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
+
         // Should the MPE process run?
         if (!$alwaysRun) {
             // Is instant update for priority set?
-            if (!$conf['priority']['instantUpdate']) {
+            if (!$aConf['priority']['instantUpdate']) {
                 OA::debug('Instant update of priorities disabled, not running MPE', PEAR_LOG_INFO);
                 return false;
             }
@@ -69,24 +71,29 @@ class OA_Maintenance_Priority
 
         // Log the start of the process
         OA::debug('Running Maintenance Priority Engine', PEAR_LOG_INFO);
+
         // Set longer time out, and ignore user abort
         if (!ini_get('safe_mode')) {
-            @set_time_limit($conf['maintenance']['timeLimitScripts']);
+            @set_time_limit($aConf['maintenance']['timeLimitScripts']);
             @ignore_user_abort(true);
         }
+
         // Attempt to increase PHP memory
         increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
 
+        // Run the following code as the "Maintenance" user
         OA_Permission::switchToSystemProcessUser('Maintenance');
 
         // Create a Maintenance DAL object
         $oDal = new OA_Dal_Maintenance_Priority();
+
         // Try to get the MPE database-level lock
         $lock = $oDal->obtainPriorityLock();
         if (!$lock) {
             OA::debug('Unable to obtain database-level lock, not running MPE', PEAR_LOG_ERR);
             return false;
         }
+
         // Ensure the the current time is registered with the OA_ServiceLocator
         $oServiceLocator =& OA_ServiceLocator::instance();
         $oDate =& $oServiceLocator->get('now');
@@ -95,7 +102,8 @@ class OA_Maintenance_Priority
             $oDate = new Date();
             $oServiceLocator->register('now', $oDate);
         }
-        // Run the MPE process for the AdServer module ONLY (at this stage :-)
+
+        // Run the MPE process for the AdServer module
         require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer.php';
         $oMaintenancePriority = new OA_Maintenance_Priority_AdServer();
         $result = $oMaintenancePriority->updatePriorities();
@@ -111,6 +119,7 @@ class OA_Maintenance_Priority
             return false;
         }
 
+        // Return to the "normal" user
         OA_Permission::switchToSystemProcessUser();
 
         // Log the end of the process
