@@ -80,7 +80,11 @@ if (($aErrs = $oaSchema->checkPermissions()) !== true)
 {
     setcookie('schemaFile', '');
     setcookie('schemaPath', '');
-    die(join("<br />\n", $aErrs));
+    $errorMessage =
+        join("<br />\n", $aErrs['errors']) . "<br /><br ><hr /><br />\n" .
+        'To fix, please execute the following commands:' . "<br /><br >\n" .
+        join("<br />\n", $aErrs['fixes']);
+    die($errorMessage);
 }
 
 require_once MAX_DEV.'/lib/xajax.inc.php';

@@ -1247,10 +1247,10 @@ class Openads_Schema_Manager
     }
 
     /**
-     * check access to an array of requried files/folders
+     * Check access to an array of requried files/folders
      *
-     *
-     * @return array of error messages
+     * @return array An array or arrays of error messages, and
+     *               commands to address the errors, if possible.
      */
     function checkPermissions()
     {
@@ -1264,11 +1264,12 @@ class Openads_Schema_Manager
             }
             if (!file_exists($file))
             {
-                $aErrors[] = sprintf("The file '%s' does not exists", $file);
+                $aErrors['errors'][] = sprintf("The file '%s' does not exists", $file);
             }
             elseif (!is_writable($file))
             {
-                $aErrors[] = sprintf("The file '%s' is not writable", $file);
+                $aErrors['errors'][] = sprintf("The file '%s' is not writable", $file);
+                $aErrors['fixes'][]  = sprintf("chmod a+w %s", $file);
             }
         }
 
