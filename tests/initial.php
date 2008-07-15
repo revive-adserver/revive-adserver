@@ -42,16 +42,15 @@
     <p>
       You will also need to give your web server user permission to write
       to the <?php echo MAX_PRODUCT_NAME; ?> /tests/results directory if
-      you want to run the visualisation
-      tests.
+      you want to run the visualisation tests.
     </p>
+    <hr />
     <p>
       PEAR PHPUnit tests require that an appropriate version of
-      <a href="http://phpunit.de/" target="_blank">PHPUnit</a> be installed
-      (e.g. PHPUnit 3.0 for using with PHP5, or PHPUnit 1.3.2 for PHP4) using PEAR,
-      and each test may require additional configuration to run. See the appropriate
-      PEAR library directory inside the <?php echo MAX_PRODUCT_NAME; ?> install
-      for details.
+      <a href="http://phpunit.de/" target="_blank">PHPUnit</a> be installed via PEAR
+      (i.e. PHPUnit 3.0 for use with PHP5), and each test may require additional
+      configuration to run. See the appropriate PEAR library directory inside the
+      <?php echo MAX_PRODUCT_NAME; ?> install for details.
     </p>
     <p>
       The Pear 'tests' directories should be writeable.
@@ -59,16 +58,16 @@
     <p>
       For Pear::MDB2 and Pear::MDB2_Schema you should do the following:
     </p>
-    <p>
-      Copy test_setup.php.dist to test_setup.php in the Pear tests directory.
-    </p>
+    <ul>
+      <li>Copy test_setup.php.dist to test_setup.php in the Pear tests directory.</li>
+    </ul>
     <p>
       For Pear::MDB2_Schema you should do the following:
     </p>
-    <p>
-      Open the test_setup.php for editing and enter your database user details
+    <ul>
+      <li>Open the test_setup.php for editing and enter your database user details
       for each installed DBMS that you have and uncomment the appropriate "#$dbarray[] = " lines.
-      Also uncomment the section that requires MDB2_Schema and sets up the test datase.
-    </p>
+      Also uncomment the section that requires MDB2_Schema and sets up the test datase.</li>
+    </ul>
   </body>
 </html>
