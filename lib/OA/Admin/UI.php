@@ -104,7 +104,7 @@ class OA_Admin_UI
     {
         $ID = $this->getId($ID);
         $this->setCurrentId($ID);
-
+        
         global $phpAds_shortcuts;
         global $phpAds_breadcrumbs;
         global $phpAds_breadcrumbs_extra;
@@ -562,6 +562,8 @@ class OA_Admin_UI
             'js/ox.help.js',
             'js/ox.util.js',
             'js/ox.multicheckbox.js',
+            'js/jquery.tablesorter.js',
+            'js/ox.tablesorter.extensions.js',
             'js/formValidation.js'
         );
     }
