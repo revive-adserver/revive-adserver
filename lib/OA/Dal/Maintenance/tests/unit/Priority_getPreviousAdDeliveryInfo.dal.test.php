@@ -28,7 +28,7 @@ $Id$
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/Ad.php';
-require_once MAX_PATH . '/lib/OA/Maintenance/Priority/Zone.php';
+require_once MAX_PATH . '/lib/OX/Maintenance/Priority/Zone.php';
 
 /**
  * A class for testing the getPreviousAdDeliveryInfo() method of the non-DB
