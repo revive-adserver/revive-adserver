@@ -124,7 +124,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             ${$dataSetName}->setName('Ad ' . $adKey .': Priority');
         }
         // Prepare the zone/ads for the initial iterations
-        $oZone = new OA_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
         $oZone->availableImpressions = $initialZoneImpressions;
         $zoneTotalRequired = 0;
         foreach ($aAds as $adKey => $aAdData) {
@@ -169,7 +169,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
                 ${$dataSetName}->addPoint($iteration, $result['ads'][$adKey]['priority']);
             }
             // Prepare the ads/zone for the next iteration
-            $oZone = new OA_Maintenance_Priority_Zone(array('zoneid' => 1));
+            $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
             $oZone->availableImpressions = $zoneImpressions;
             $oZone->pastActualImpressions = $zoneImpressions;
             $zoneTotalRequired = 0;
@@ -237,7 +237,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
                 ${$dataSetName}->addPoint($iteration, $result['ads'][$adKey]['priority']);
             }
             // Prepare the ads/zone for the next iteration
-            $oZone = new OA_Maintenance_Priority_Zone(array('zoneid' => 1));
+            $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
             $oZone->availableImpressions = $zoneImpressions;
             $oZone->pastActualImpressions = $zoneImpressions;
             $zoneTotalRequired = 0;
@@ -435,7 +435,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             ${$dataSetName}->setName('Ad ' . $adKey .': Priority');
         }
         // Prepare the zone/ads for the initial iterations
-        $oZone = new OA_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
         $oZone->availableImpressions = $initialZoneImpressions;
         $zoneTotalRequired = 0;
         foreach ($aAds as $adKey => $aAdData) {
@@ -480,7 +480,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
                 ${$dataSetName}->addPoint($iteration, $result['ads'][$adKey]['priority']);
             }
             // Prepare the ads/zone for the next iteration
-            $oZone = new OA_Maintenance_Priority_Zone(array('zoneid' => 1));
+            $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
             $oZone->availableImpressions = $zoneImpressions;
             $oZone->pastActualImpressions = $zoneImpressions;
             $zoneTotalRequired = 0;
@@ -548,7 +548,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
                 ${$dataSetName}->addPoint($iteration, $result['ads'][$adKey]['priority']);
             }
             // Prepare the ads/zone for the next iteration
-            $oZone = new OA_Maintenance_Priority_Zone(array('zoneid' => 1));
+            $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
             $oZone->availableImpressions = $zoneImpressions;
             $oZone->pastActualImpressions = $zoneImpressions;
             $zoneTotalRequired = 0;
@@ -863,7 +863,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             ${$dataSetName}->setName('Ad ' . $adKey .': Priority');
         }
         // Prepare the zone/ads for the initial iterations
-        $oZone = new OA_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
         $oZone->availableImpressions = $initialZoneImpressions;
         $zoneTotalRequired = 0;
         foreach ($aAds as $adKey => $aAdData) {
@@ -908,7 +908,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
                 ${$dataSetName}->addPoint($iteration, $result['ads'][$adKey]['priority']);
             }
             // Prepare the ads/zone for the next iteration
-            $oZone = new OA_Maintenance_Priority_Zone(array('zoneid' => 1));
+            $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
             $oZone->availableImpressions = $zoneImpressions;
             $oZone->pastActualImpressions = $zoneImpressions;
             $zoneTotalRequired = 0;
@@ -976,7 +976,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
                 ${$dataSetName}->addPoint($iteration, $result['ads'][$adKey]['priority']);
             }
             // Prepare the ads/zone for the next iteration
-            $oZone = new OA_Maintenance_Priority_Zone(array('zoneid' => 1));
+            $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
             $oZone->availableImpressions = $zoneImpressions;
             $oZone->pastActualImpressions = $zoneImpressions;
             $zoneTotalRequired = 0;

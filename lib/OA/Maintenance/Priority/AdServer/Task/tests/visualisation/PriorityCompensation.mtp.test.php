@@ -120,7 +120,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $oDataSetTotalError =& Image_Graph::factory('dataset');
         $oDataSetTotalError->setName('Total Error In Delivery');
         // Prepare the ads/zone for the initial iteration
-        $oZone = new OA_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
         $oZone->availableImpressions = $zoneImpressions;
         foreach ($aAds as $adKey => $aAdData) {
             $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => $adKey));
@@ -158,7 +158,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
             $oDataSetBestError->addPoint($iteration, $bestError);
             $oDataSetTotalError->addPoint($iteration, $totalError);
             // Prepare the ads/zone for the next iteration
-            $oZone = new OA_Maintenance_Priority_Zone(array('zoneid' => 1));
+            $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
             $oZone->availableImpressions = $zoneImpressions;
             $oZone->pastActualImpressions = $zoneImpressions;
             foreach ($aAds as $adKey => $aAdData) {
@@ -299,7 +299,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $oDataSetTotalError->setName('Total Error In Delivery');
         // Prepare the ads/zone for the initial iteration
         $thisZoneImpressions = $minZoneImpressions;
-        $oZone = new OA_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
         $oZone->availableImpressions = $thisZoneImpressions;
         foreach ($aAds as $adKey => $aAdData) {
             $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => $adKey));
@@ -345,7 +345,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
                 $thisZoneImpressions =
                     $this->_predictSmoothZoneInventory($minZoneImpressions, $maxZoneImpressions, $zoneImpressionPeriod, $iteration);
             }
-            $oZone = new OA_Maintenance_Priority_Zone(array('zoneid' => 1));
+            $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
             $oZone->availableImpressions = $thisZoneImpressions;
             $oZone->pastActualImpressions = $previousZoneImpressions;
             foreach ($aAds as $adKey => $aAdData) {
@@ -486,7 +486,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $oDataSetTotalError->setName('Total Error In Delivery');
         // Prepare the ads/zone for the initial iteration
         $thisZoneImpressions = $minZoneImpressions;
-        $oZone = new OA_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
         $oZone->availableImpressions = $thisZoneImpressions;
         foreach ($aAds as $adKey => $aAdData) {
             $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => $adKey));
@@ -532,7 +532,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
                 $thisZoneImpressions =
                     $this->_predictSharpZoneInventory($minZoneImpressions, $maxZoneImpressions, $zoneImpressionPeriod, $iteration);
             }
-            $oZone = new OA_Maintenance_Priority_Zone(array('zoneid' => 1));
+            $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
             $oZone->availableImpressions = $thisZoneImpressions;
             $oZone->pastActualImpressions = $previousZoneImpressions;
             foreach ($aAds as $adKey => $aAdData) {

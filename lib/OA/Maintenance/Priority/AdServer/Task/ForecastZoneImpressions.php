@@ -25,11 +25,10 @@
 $Id$
 */
 
-require_once MAX_PATH . '//lib/OA/Maintenance/Priority/Zone.php';
-
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
+require_once MAX_PATH . '/lib/OX/Maintenance/Priority/Zone.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 
 // Number of weeks to average actual impressions

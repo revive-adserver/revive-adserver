@@ -36,7 +36,7 @@ require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
  * @author     Demain Turner <demian@m3.net>
  * @author     James Floyd <james@m3.net>
  */
-class OA_Maintenance_Priority_Zone
+class OX_Maintenance_Priority_Zone
 {
 
     var $id;
@@ -52,7 +52,7 @@ class OA_Maintenance_Priority_Zone
      * @param array $aZone associative array of values to be assigned to
      *              object, array keys reflect database field names
      */
-    function OA_Maintenance_Priority_Zone($aZone = array())
+    function OX_Maintenance_Priority_Zone($aZone = array())
     {
         $this->id = (int)$aZone['zoneid'];
     }

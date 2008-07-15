@@ -28,8 +28,8 @@ $Id$
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/Ad.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task.php';
-require_once MAX_PATH . '/lib/OA/Maintenance/Priority/Zone.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
+require_once MAX_PATH . '/lib/OX/Maintenance/Priority/Zone.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
@@ -148,7 +148,7 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
         if (is_array($aZoneImpInvs) && !empty($aZoneImpInvs)) {
             foreach ($aZoneImpInvs as $aZoneImpInv) {
                 // Create and store the Zone object
-                $aZones[$aZoneImpInv['zone_id']] = new OA_Maintenance_Priority_Zone(array('zoneid' => $aZoneImpInv['zone_id']));
+                $aZones[$aZoneImpInv['zone_id']] = new OX_Maintenance_Priority_Zone(array('zoneid' => $aZoneImpInv['zone_id']));
                 // Record the zone's forecast impression inventory
                 $aZones[$aZoneImpInv['zone_id']]->availableImpressions = $aZoneImpInv['forecast_impressions'];
                 // Record the zone's previous operation interval actual impressions

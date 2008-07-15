@@ -191,7 +191,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             'weight' => 1
         );
         $oAd = new OA_Maintenance_Priority_Ad($aAdParams);
-        $oZone = new OA_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
         $oZone->addAdvert($oAd);
         $aZoneAdArray = array($oZone->id => $oZone);
 
@@ -1218,7 +1218,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $oServiceLocator->register('now', $oDate);
 
         // Test 18a
-        $oZone = new OA_Maintenance_Priority_Zone(array('zoneid' => 4));
+        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 4));
         $aAdParams = array(
             'ad_id'  => 10,
             'active' => 't',
