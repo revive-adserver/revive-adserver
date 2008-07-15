@@ -2,7 +2,7 @@ body {
 	margin: 0;
 	padding: 0;
 	background: #fff;
-	color: #000;
+	color: #444444;
 }
 body.hasSidebar {
 	background: #fff url(../images/ltr/background.gif) top left repeat-y;
@@ -660,20 +660,439 @@ td.required-explanation {
 }
 
 /* Forms */
-form.flat select, form.flat textarea, form.flat input[type=text]
-{
+form.flat select, form.flat textarea, form.flat input[type=text] {
     border: 1px solid #888888;
     padding-left: 3px;
 }
 
+/* standard control sizes */
+form.flat .x-small {
+	width: 60px;
+}
+
+form.flat .small {
+    width: 100px;	
+} 
+
+form.flat .medium {
+	width: 200px;
+}
+
+form.flat .large {
+    width: 350px;	
+}
+
+
 /** Campaigns **/
 .campaign-type .sep {
-padding: 0px 10px;	
+padding: 0px 10px;
 }
 
 .campaign-remnant, .campaign-contract {
-    color: #848484;	
+    color: #848484;
+}
+
+/** campaign edit **/
+#impressions_remaining_span, #clicks_remaining_span, #conversions_remaining_span {
+	margin-left:5px;
+    padding: 2px 7px;
+	background-color: #feffa7;
+}
+
+#impressions_remaining_count, #clicks_remaining_count, #conversions_remaining_count {
+	margin-left:5px;
 }
 
 
+
+/* Plugins Page */
+.section-switcher
+{
+    height: 53px;
+    border-bottom: 1px #dddddd solid;
+}
+
+/** section tools **/
+.control-panel {
+    /*overflow:auto;*/
+    overflow: hidden;
+
+    margin-bottom: 30px;
+}
+
+.control-panel .left {
+    margin-right: 25px;
+}
+
+.control-panel .right {
+    margin-right: 0px;
+}
+
+.control-set {
+    float: left;
+    color: #666666;
+    margin-top: 10px;
+    padding: 15px 15px 10px 15px;
+    border-top: none;
+    border-left: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
+    border-bottom: 1px solid #dddddd;
+}
+
+.control-set {
+    float: left;
+    color: #666666;
+
+    margin-right: 10px;
+    padding: 15px 15px 10px 15px;
+    border-top: none;
+    border-left: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
+    border-bottom: 1px solid #dddddd;
+
+    position: relative;
+    background: url("../images/control-background.png") bottom left repeat-x;
+}
+
+.control-set .corner {
+    position: absolute;
+    overflow: hidden;
+    font-size: 0;
+
+    top: 0;
+    -top: auto;
+
+    bottom: -1px;
+    -bottom: -2px;
+
+    width: 8px;
+    height: expression((this.offsetParent.scrollHeight + 1) + 'px');
+
+    background-image: url("../images/control-corners.png");
+    background-repeat: no-repeat;
+}
+
+.control-set .bottom-left {
+    left: -1px;
+    background-position: bottom left;
+}
+
+.control-set .bottom-right {
+    right: -1px;
+    background-position: bottom right;
+}
+
+.control-set h2 {
+    font-weight: bold;
+    font-size: 1.4em;
+    margin: 0px 0px 5px 0px;
+}
+
+.control-set input {
+	margin-right: 5px;
+}
+
+/* rounded panel */
+.panel {
+    padding: 15px;
+    border: 1px solid #ddd;
+
+    position: relative;
+    top:0;
+    left:0;
+    background: url("../images/panel-background.png") bottom left repeat-x;
+
+    -zoom: 1;
+
+    margin: 10px 0px 15px 0px;
+}
+
+.panel .corner {
+    position: absolute;
+    overflow: hidden;
+    font-size: 0;
+
+    height: 8px;
+    width: 8px;
+
+    background-image: url("../images/panel-corners.png");
+    background-repeat: no-repeat;
+}
+
+.panel .bottom-left {
+    left: -1px;
+    bottom: -1px;
+    -bottom: -2px;
+    background-position: bottom left;
+}
+
+.panel .bottom-right {
+    right: -1px;
+    -right: -2px;
+    bottom: -1px;
+    -bottom: -2px;
+    background-position: bottom right;
+}
+
+.panel .top-left {
+    left: -1px;
+    top: -1px;
+    background-position: top left;
+}
+
+.panel .top-right {
+    right: -1px;
+    -right: -2px;
+    top: -1px;
+    background-position: top right;
+}
+
+/*
+.panel .split-left {
+	float: left;
+	width: 40%;
+	height: 100%;
+    border-right: 1px solid #dddddd;
+}
+
+.panel .split-right {
+	padding-left: 40%;
+	height: 100%;
+}
+*/
+
+.panel .split-left {
+    /*padding-right: 60%;*/
+    width: 39%;
+    float: left;
+}
+
+.panel .split-right {
+    float: right;
+    width: 60%;
+    height: 100%;
+    border-left: 1px solid #dddddd;
+
+}
+
+.panel .vertical {
+    padding: 15px 0px;
+}
+
+.panel .first-vertical {
+    padding-top: 0px;
+}
+
+.panel .last-vertical {
+    padding-bottom: 0px;
+}
+
+.panel .top-split {
+	border-top: 1px solid #dddddd;
+}
+
+
+/* table */
+/* COMPONENT: TABLE *************************************************************************** */
+
+table.global {
+    width: 100%;
+    empty-cells: show;
+    border-collapse: collapse;
+}
+table.global td, table.global th {
+    font-size: 11px;
+    text-align: left;
+    
+    line-height: 26px;
+    height: 26px;
+    
+    padding: 0 6px 0 6px;
+    white-space: nowrap;
+}
+table.global thead th {
+    border-bottom: 1px solid #aaa;
+    text-align: left;
+}
+table.global thead th.number {
+    text-align: right;
+}
+table.global tbody a {
+    color: #039;
+    text-decoration: none;
+}
+table.global tbody a:hover {
+    text-decoration: underline; 
+}
+table.global tbody td, table.global tbody th {
+    border-bottom: 1px solid #e6e6e6;
+    font-weight: normal;
+    width: 20%;
+}
+table.global tbody td {
+    text-align: left;
+    width: 15%;
+}
+
+table.global tbody td.number {
+    text-align: right;
+}
+
+table.global .odd td, 
+table.global .odd th {
+    background-color: #f6f6f6;
+}
+table.global th.first {
+    text-align: left;
+}
+
+
+table.global caption, table.data caption {
+	text-align: left;
+	font-weight: bold;
+	font-size: 13px;
+	line-height: 2em;
+} 
+
+table.data, .detail-table  {
+	width: 100%;
+}
+
+.detail-table td, .detail-table th  {
+    padding: 0px 15px;
+    height: 1.5em;
+}
+
+table.data thead th, table.data thead td {
+    border-bottom: 1px solid #aaaaaa;
+    padding-left: 5px;
+    padding-right: 5px;
+    height: 25px;
+}
+
+table.data thead.no-header th {
+    height: 1px;     
+}
+
+table.data {
+    margin-top: 15px;
+}
+
+table.data td {
+    text-align: left;
+}
+
+table.data tr.even  {
+    background-color: #f6f6f6;
+}
+
+table.data tbody td, table.data .header {
+   padding: 10px 5px;
+   border-bottom: 1px solid #e6e6e6;
+}
+
+table.data .header {
+	text-align: left;
+}
+
+
+table.data td.label {
+    text-align: right;
+    width: 1%;
+}
+table.data td.graph {
+	 width: 10%;
+	 border-left: 1px solid #ccc;
+	 text-align: left;
+	 padding-left: 0;
+}
+
+table.data td.graph div {
+	 height: 6px;
+	 font-size: 1px;
+}
+table.data td.graph .impression {
+     color: #b9d669;
+}
+
+table.data td.graph .clicks {
+    background-color: #006699;
+}
+
+table.data td.graph .percentage {
+	background-color: #00B1E3;
+}
+
+.detail-table th {
+    text-align: left;
+    font-weight: bold;
+    padding-right: 5px;
+    white-space: nowrap;
+    width: 10%;
+}
+
+
+/** table actions **/
+.action {
+    padding-left: 20px;
+    line-height: 20px;
+    background-repeat: no-repeat;
+    display: block;
+    float: left;
+    background-position: left center;
+}
+
+.details {
+    background-image: url("../images/information.gif");
+}
+
+.enable {
+    background-image: url("../images/tick.gif");
+}
+
+.disable {
+    background-image: url("../images/cross.gif");
+}
+
+.uninstall {
+    background-image: url("../images/plugin_delete.gif");
+}
+
+.settings {
+    background-image: url("../images/wrench.gif");
+}
+
+.preferences {
+    background-image: url("../images/pencil.gif");
+}
+
+/* package /plugin */
+.item-info .name {
+    font-weight: bold;
+    font-size: 1.4em;
+    color: #666666;
+    margin-right: 10px;
+}
+
+.item-info .version {
+    color: #666666;
+}
+
+.item-info p {#impressions_remaining_span, #clicks_remaining_span, #conversions_remaining_span {
+	margin-left:5px;
+    padding: 2px 7px;
+	background-color: #feffa7;
+}
+
+#impressions_remaining_count, #clicks_remaining_count, #conversions_remaining_count {
+	margin-left:5px;
+}
+
+   margin: 0px 0px 5px 10px;
+}
+
+.checkdb {
+    float: right;
++	margin-top: 12px;
+ }
 

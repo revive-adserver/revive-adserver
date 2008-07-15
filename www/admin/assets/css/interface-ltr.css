@@ -403,7 +403,7 @@ a.time:before
 .table .toolbar {
     text-align: right;
 }
-.table .acenter {
+.table .acenter, table td.acenter, table th.acenter {
     text-align: center;
 }
 .table td.light {
@@ -482,10 +482,18 @@ a.time:before
 
 .section {
       margin-bottom: 3em;
+      clear: both;
 }
 .section img {
     border: none;
 }
+
+.section h2 {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 2em 0 0;
+}
+
 .section h3 {
     font-size: 11px;
     font-weight: bold;
@@ -509,7 +517,7 @@ a.time:before
 .section .last {
     border-bottom: none;
 }
-.section .label {
+.section div.label {
     float: left;
     width: 29%;
 }
@@ -554,8 +562,10 @@ label.error {
 /** Extra CSS adde for Ad Direct integration */
 .section .title {
     font-weight: bold;
-    padding: 5px 0px;
-    border-bottom: 1px solid #CFCFCF;
+    padding: 5px 0px 8px 0px;
+    border-bottom: 1px solid #E6E6E6;
+    margin-bottom: 20px;
+    color: #444444;
 }
 
 .section .content {

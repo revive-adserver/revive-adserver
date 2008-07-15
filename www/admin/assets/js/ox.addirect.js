@@ -397,27 +397,6 @@ function initRejectedOARows()
 }
 
 
-function initCampaignStatus()
-{
-    var statusRows = $("[@id^='rsn_row']");
-    statusRows.hide();
-
-    if ($("#sts_reject").attr("checked") == true ) {
-        statusRows.show();
-    }
-
-
-
-    $("input[name='status']").click(function(){
-        if (this.value == "22") {
-            statusRows.show();
-        }
-        else {
-            statusRows.hide();
-        }
-    });
-}
-
 function copyValidationConstraints(fromObj, toObj)
 {
   toObj.validateCheck = fromObj.validateCheck;
@@ -469,5 +448,97 @@ function initAccoutSwitcher()
   });
 }
 
+
+// Campaign screen
+function initCampaignStatus()
+{
+    var statusRows = $("[@id^='rsn_row']");
+    statusRows.hide();
+
+    if ($("#sts_reject").attr("checked") == true ) {
+        statusRows.show();
+    }
+
+
+
+    $("input[name='status']").click(function(){
+        if (this.value == "22") {
+            statusRows.show();
+        }
+        else {
+            statusRows.hide();
+        }
+    });
+}
+
+function initCampaignForm()
+{
+    $("#campaign_type").change(function() {
+        var value = this.value; 
+        //alert(value);
+         updateCampaignForm(value);
+    });
+        
+    $("#pricing_revenue_type").change(function() {
+        var value = this.value; 
+        //alert(value);
+        updatePricingSection(value);
+     });
+        
+}
+
+function updatePricingSection(pricing)
+{
+    var revenueRows = $("[@id^='pricing_revenue_row']");
+    var cpmRows = $("[@id^='pricing_cpm']");
+    var cpcRows = $("[@id^='pricing_cpc']");
+    var cpaRows = $("[@id^='pricing_cpa']");
+
+    cpmRows.hide();
+    cpcRows.hide();
+    cpaRows.hide();
+     
+    if ('' == pricing) {
+        revenueRows.hide();
+    }
+    else if (MODEL_CPM == pricing) {
+        revenueRows.show();
+        cpmRows.show();
+    }
+    else if (MODEL_CPC == pricing) {
+        revenueRows.show();
+        cpcRows.show();
+    }
+    else if (MODEL_CPA == pricing) {
+        revenueRows.show();
+        cpaRows.show();
+    }
+    else if (MODEL_MT == pricing) {
+        revenueRows.show();
+    }    
+}
+
+
+function updateCampaignForm(campaignType)
+{
+    var allSectionsButPriority = $("#sect_date, #sect_pricing, #sect_cap, #sect_misc");
+
+    if (campaignType == CAMPAIGN_TYPE_REMNANT) {
+        allSectionsButPriority.show();
+        //hide priority section
+        $("#sect_priority").hide();                
+         //show others 
+    }
+    else if (campaignType == CAMPAIGN_TYPE_CONTRACT) {
+        allSectionsButPriority.show();
+         //showpriority section
+        $("#sect_priority").fadeIn();
+    }
+    else {
+        //hide all form
+        allSectionsButPriority.hide();
+        $("#sect_priority").hide();
+    }
+}
 
 
