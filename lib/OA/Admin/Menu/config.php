@@ -92,7 +92,7 @@ function _buildNavigation($accountType)
 
             $oMenu->add(new OA_Admin_Menu_Section("inventory", $GLOBALS['strAdminstration'], "agency-index.php", false, "inventory"));
                 $oMenu->addTo("inventory", new OA_Admin_Menu_Section("agency-index", $GLOBALS['strAgencyManagement'], "agency-index.php", false, "settings/agencyManagement"));
-                    $oMenu->addTo("agency-index", new OA_Admin_Menu_Section("agency-edit_new", $GLOBALS['strAddAgency'], "agency-index.php", true, false, "settings/agencyManagement/addagency"));
+                    $oMenu->addTo("agency-index", new OA_Admin_Menu_Section("agency-edit_new", $GLOBALS['strAddAgency'], "agency-edit.php", true, "settings/agencyManagement/addagency"));
                     $oMenu->addTo("agency-index", new OA_Admin_Menu_Section("agency-edit", $GLOBALS['strAgencyProperties'], "agency-edit.php?agencyid={agencyid}", false, "settings/agencyManagement/editagency"));
                     $oMenu->addTo("agency-index", new OA_Admin_Menu_Section("agency-access", $GLOBALS['strUserAccess'], "agency-access.php?agencyid={agencyid}", false, "inventory/directSelection"));
                 $oMenu->addTo("inventory", new OA_Admin_Menu_Section("admin-generate", $GLOBALS['strGenerateBannercode'], "admin-generate.php"));
@@ -178,7 +178,7 @@ function _buildNavigation($accountType)
                         $oMenu->addTo("campaign-banners", new OA_Admin_Menu_Section("banner-edit_new", $GLOBALS['strAddBanner'], "banner-edit.php?clientid={clientid}&campaignid={campaignid}", true, "inventory/advertisersAndCampaigns/campaigns/banners/addBanner"));
                         $oMenu->addTo("campaign-banners", new OA_Admin_Menu_Section("banner-edit", $GLOBALS['strBannerProperties'], "banner-edit.php?clientid={clientid}&campaignid={campaignid}&bannerid={bannerid}", false, "inventory/advertisersAndCampaigns/campaigns/banners/editBanner"));
                         $bannerSwfSection = new OA_Admin_Menu_Section("banner-swf", $GLOBALS['strConvertSWFLinks'], "banner-swf.php?clientid={clientid}&campaignid={campaignid}&bannerid={bannerid}");
-                        $bannerSwfSection->setChecker(new OA_Admin_Menu_CustomCheckerBannerSWF()); 
+                        $bannerSwfSection->setChecker(new OA_Admin_Menu_CustomCheckerBannerSWF());
                         $oMenu->addTo("campaign-banners", $bannerSwfSection);
                         $oMenu->addTo("campaign-banners", new OA_Admin_Menu_Section("banner-acl", $GLOBALS['strModifyBannerAcl'], "banner-acl.php?clientid={clientid}&campaignid={campaignid}&bannerid={bannerid}", false, "inventory/advertisersAndCampaigns/campaigns/banners/editBanner/deliveryOptions"));
                         $oMenu->addTo("campaign-banners", new OA_Admin_Menu_Section("banner-zone", $GLOBALS['strLinkedZones'], "banner-zone.php?clientid={clientid}&campaignid={campaignid}&bannerid={bannerid}", false, "inventory/advertisersAndCampaigns/campaigns/banners/editBanner/linkedZones"));
@@ -305,7 +305,7 @@ function _buildNavigation($accountType)
 
 //custom checker
 class OA_Admin_Menu_CustomCheckerBannerSWF
-    implements OA_Admin_Menu_IChecker 
+    implements OA_Admin_Menu_IChecker
 {
     function check($oSection)
     {
@@ -313,7 +313,7 @@ class OA_Admin_Menu_CustomCheckerBannerSWF
             return false;
         }
         $id = $GLOBALS['_MAX']['ADMIN_UI']->getCurrentId();
-        
+
         return $id === "banner-swf";
     }
 }
