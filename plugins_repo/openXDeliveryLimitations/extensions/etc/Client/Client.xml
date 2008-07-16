@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>Client</name>
+    <creationDate>2008-02-19</creationDate>
+    <author>Monique Szpak</author>
+    <authorEmail>monique.szpak@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>Client Delivery Limitiations for OpenX</description>
+    <version>1.0.0</version>
+    <oxversion>2.7.5-dev</oxversion>
+    <extends>deliveryLimitations</extends>
+
+    <install>
+        <files>
+            <file path="{MODULEPATH}deliveryLimitations/Client/">Browser.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/">Browser.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/">Domain.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/">Domain.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/">Ip.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/">Ip.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/">Language.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/">Language.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/">Language.res.inc.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/">Os.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/">Os.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/">Os.res.inc.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/">Useragent.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/">Useragent.delivery.php</file>
+        </files>
+    </install>
+
+</plugin>

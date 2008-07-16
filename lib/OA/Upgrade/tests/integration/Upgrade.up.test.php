@@ -49,6 +49,39 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->prefix  = $GLOBALS['_MAX']['CONF']['table']['prefix'];
     }
 
+
+    /**
+     * the installPlugins() method was moved to a post upgrade task
+     * see etc/changes/tasks/openads_upgrade_task_Install_Plugins.php
+     */
+    /*function test_installPlugins()
+    {
+        $oUpgrade  = new OA_Upgrade();
+        $oUpgrade->defaultPluginsFile = MAX_PATH.'/lib/OA/Upgrade/tests/data/default_plugins.php';
+
+        unset($GLOBALS['_MAX']['CONF']['plugins']['testPluginPackage']);
+        unset($GLOBALS['_MAX']['CONF']['pluginGroupComponents']['testPlugin']);
+
+        $oUpgrade->installPlugins();
+        $aErrors = $oUpgrade->getErrors();
+        if (count($aErrors))
+        {
+            foreach ($aErrors AS $error)
+            {
+                $this->fail($error);
+            }
+        }
+        $this->assertTrue(isset($GLOBALS['_MAX']['CONF']['plugins']['testPluginPackage']));
+        $this->assertTrue(isset($GLOBALS['_MAX']['CONF']['pluginGroupComponents']['testPlugin']));
+
+        //uninstall
+        $oPkgMgr = new OX_PluginManager();
+        $oPkgMgr->aErrors = array();
+        $this->assertTrue($oPkgMgr->uninstallPackage('testPluginPackage'));
+
+        TestEnv::restoreConfig();
+    }*/
+
     function test_constructor()
     {
         $oUpgrade = new OA_Upgrade();

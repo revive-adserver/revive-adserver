@@ -49,15 +49,16 @@ function MAX_limitationsCheckAcl($row, $source = '')
         }
         // Set to true in case of error in eval
         $result = true;
+        $aConf = $GLOBALS['_MAX']['CONF'];
 
         // Include required delivery files...
         if(strlen($row['acl_plugins'])) {
             $acl_plugins = explode(',', $row['acl_plugins']);
             foreach ($acl_plugins as $acl_plugin) {
                 list($package, $name) = explode(':', $acl_plugin);
-                $pluginName = MAX_PATH . "/plugins/deliveryLimitations/{$package}/{$name}.delivery.php";
+                $pluginName = MAX_PATH . $aConf['pluginPaths']['extensions'] . "deliveryLimitations/{$package}/{$name}.delivery.php";
                 if (!isset($GLOBALS['_MAX']['FILES']['aIncludedPlugins'][$pluginName])) {
-                    require($pluginName);
+                    include($pluginName);
                     $GLOBALS['_MAX']['FILES']['aIncludedPlugins'][$pluginName] = true;
                 }
             }

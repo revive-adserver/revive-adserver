@@ -36,6 +36,11 @@ define('UPGRADE_ACTION_UPGRADE_FAILED',                         0);
 define('UPGRADE_ACTION_ROLLBACK_SUCCEEDED',                     2);
 define('UPGRADE_ACTION_ROLLBACK_FAILED',                        3);
 
+define('UPGRADE_ACTION_INSTALL_SUCCEEDED',                      4);
+define('UPGRADE_ACTION_INSTALL_FAILED',                         5);
+
+define('UPGRADE_ACTION_UNINSTALL_SUCCEEDED',                    6);
+define('UPGRADE_ACTION_UNINSTALL_FAILED',                       7);
 
 require_once MAX_PATH.'/lib/OA/DB.php';
 require_once MAX_PATH.'/lib/OA/DB/Table.php';
@@ -78,24 +83,25 @@ class OA_UpgradeAuditor extends OA_BaseUpgradeAuditor
     	$this->OA_BaseUpgradeAuditor();
     }
 
-    function init(&$oDbh, $oLogger='')
+    function init(&$oDbh='', $oLogger='')
     {
-        $this->oDbh = $oDbh;
-        $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-        // so that this class can log to the caller's log
-        // and write it's own log if necessary (testing)
-        if ($oLogger)
-        {
-            $this->oLogger= $oLogger;
-        }
-        $this->oDBAuditor = new OA_DB_UpgradeAuditor();
-        $this->oDBAuditor->init($this->oDbh, $this->oLogger);
-        return $this->_checkCreateAuditTable();
+        $result = parent::init($oDbh, $oLogger);
+        return $this->_initDBAuditor();
     }
 
+    function _initDBAuditor()
+    {
+        if (is_null($this->oDBAuditor))
+        {
+            $this->oDBAuditor = new OA_DB_UpgradeAuditor();
+            return $this->oDBAuditor->init($this->oDbh, $this->oLogger);
+        }
+        return true;
+    }
 
     function getNextUpgradeActionId()
     {
+        $this->_initDBAuditor();
         $aAuditTableStatus = $this->oDBAuditor->getTableStatus($this->logTable);
         if ((!is_array($aAuditTableStatus) || (count($aAuditTableStatus)<1)) || (!isset($aAuditTableStatus[0]['auto_increment'])))
         {

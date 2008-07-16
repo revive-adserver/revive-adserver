@@ -6,9 +6,12 @@ require_once MAX_PATH . '/www/admin/lib-banner-cache.inc.php';
 // The individual banners will decide if this should actually be set.
 $GLOBALS['_MAX']['PREF']['auto_alter_html_banners_for_click_tracking'] = true;
 
-$upgradeTaskResult  = processBanners(true);
+
 $upgradeTaskMessage = '';
-$upgradeTaskError   = '';
+$upgradeTaskError[] = 'Recompiling Banner Cache';
+$upgradeTaskResult  = processBanners(true);
+$upgradeTaskError[] = ($upgradeTaskResult ? 'OK' : 'Failed');
+
 
 
 ?>

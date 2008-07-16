@@ -1,0 +1,68 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| OpenX  v${RELEASE_MAJOR_MINOR}                                                              |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+|                                                                           |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id: custom-country-language.html 16124 2008-02-11 18:16:06Z andrew.hill@openads.org $
+
+-->
+*}
+{if  $_e.vars.filename}
+    <tr>
+        <td width='30'>&nbsp;</td>
+        <td width='200' valign='top'>{$_e.label}</td>
+        <td>
+            <table cellpadding='0' cellspacing='0' border='0'>
+            <tr valign='top'><td><input type='radio' id="{$_e.vars.radioName}_keep" name='{$_e.vars.radioName}' value='f' checked {tabindex}></td>
+                <td>&nbsp;
+                    <label for="{$_e.vars.radioName}_keep">
+                    {if $_e.vars.typeIcon}<img src='images/{$_e.vars.typeIcon}' align='absmiddle'>{/if}
+                    {$_e.vars.filename}<i dir='{$phpAds_TextDirection}'>({$_e.vars.filesize})</i>
+                    </label>
+                </td>
+            </tr>
+            <tr valign='top'>
+                <td><input type='radio' id="{$_e.vars.radioName}_change" name='{$_e.vars.radioName}' value='t' {tabindex}></td>
+                <td>&nbsp;<input class='flat' size='26' type='file' name='{$_e.vars.uploadName}' style='width:250px;' onChange='selectFile(this, {if $_e.vars.handleSWF}true{else}false{/if});' {tabindex}>
+			    
+			    {if $_e.vars.handleSWF}
+				    <div id='swflayer' style='display:none;'>
+				    <input type='checkbox' id='checkswf' name='checkswf' value='t' checked {tabindex}>&nbsp;<label for='checkswf'>{t str=CheckSWF}
+				    </label></div>
+			    {/if}
+                </td>
+            </tr>
+            </table>
+        </td>
+    </tr>                
+{else}
+    <input type='hidden' name='{$_e.vars.radioName}' value='t'>
+    <tr><td width='30'>&nbsp;</td>
+    <td width='200' valign='top'>{$_e.vars.newLabel}</td>
+    <td><input class='flat' size='26' type='file' name='{$_e.vars.uploadName}' style='width:350px;' onChange='selectFile(this, {if $_e.vars.handleSWF}true{else}false{/if});' {tabindex}>
+
+    {if $_e.vars.handleSWF}
+	    <div id='swflayer' style='display:none;'>
+	    <input type='checkbox' id='checkswf' name='checkswf' value='t' checked {tabindex}>&nbsp;<label for='checkswf'>{t str=CheckSWF}
+	    </label></div>
+	{/if}
+    </td></tr>
+{/if}

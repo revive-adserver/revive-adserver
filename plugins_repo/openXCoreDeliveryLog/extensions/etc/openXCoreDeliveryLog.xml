@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>openXCoreDeliveryLog</name>
+    <creationDate>2008-06-10</creationDate>
+    <author>Radek Maciaszek</author>
+    <authorEmail>radek.maciaszek@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>Core Delivery Limitations Plugins for OpenX</description>
+    <version>1.0.0-dev</version>
+    <type>package</type>
+
+    <install>
+
+        <contents>
+            <group name="ox_core"              >1</group>
+            <group name="ox_geo"               >2</group>
+            <group name="ox_page_info"         >3</group>
+            <group name="ox_user_agent"        >4</group>
+
+            <group name="ox_click"             >5</group>
+            <group name="ox_fb_impression"     >6</group>
+            <group name="ox_impression"        >7</group>
+            <group name="ox_impression_country">8</group>
+            <group name="ox_request"           >9</group>
+        </contents>
+
+        <register>
+            <extension type='deliveryDataPrepare' group='ox_core'>Prepare Core Data</extension>
+            <extension type='deliveryDataPrepare' group='ox_geo'>Prepare Geotargeting Data</extension>
+            <extension type='deliveryDataPrepare' group='ox_page_info'>Prepare Page Info Data</extension>
+            <extension type='deliveryDataPrepare' group='ox_user_agent'>Prepare User Agent Data</extension>
+
+            <extension type='deliveryLog' group='ox_click'>Logs clicks</extension>
+            <extension type='deliveryLog' group='ox_fb_impression'>Logs flash fallback impressions</extension>
+            <extension type='deliveryLog' group='ox_impression'>Logs impressions</extension>
+            <extension type='deliveryLog' group='ox_impression_country'>Logs impressions per country</extension>
+            <extension type='deliveryLog' group='ox_request'>Logs requests</extension>
+        </register>
+
+    </install>
+
+    <readme>
+
+    </readme>
+
+</plugin>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>openXIndium</name>
+    <creationDate>2008-07-11</creationDate>
+    <author>Chris Nutting</author>
+    <authorEmail>chris.nutting@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>OpenX Indium beacon service</description>
+    <version>1.0.0-dev</version>
+    <oxversion>2.7.5-dev</oxversion>
+    <extends>deliveryLimitations</extends>
+
+    <install>
+        <files>
+            <file path="{MODULEPATH}deliveryAdRender/openXIndium/">beaconService.delivery.php</file>
+        </files>
+    </install>
+
+</plugin>

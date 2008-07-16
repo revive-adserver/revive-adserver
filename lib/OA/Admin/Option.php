@@ -184,6 +184,11 @@ class OA_Admin_Option
                     'name' => $GLOBALS['strUserInterfacePreferences'],
                     'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
                 );
+            $aSections['plugin'] =
+                array(
+                    'name' => $GLOBALS['strPluginPreferences'],
+                    'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
+                );
         } elseif ($this->_optionType == 'account-user') {
         	$aSections = array();
             $aSections['name-language'] =
@@ -465,6 +470,9 @@ class OA_Admin_Option
                         case 'statscolumns':
                             $this->_showStatsColumns($aItem, $value);
                             break;
+                        case 'hiddenfield':
+                            $this->_showHiddenField($aItem, $value);
+                            break;
                         case 'hiddencheckbox':
                             $this->_showHiddenCheckbox($aItem, $value);
                             break;
@@ -716,6 +724,14 @@ class OA_Admin_Option
         $value = !empty($value) && (bool)strcasecmp($value, 'f');
         $aItem['value'] = $value;
 
+        $this->aOption[] = array('hiddencheckbox.html' => $aItem);
+    }
+
+    function _showHiddenField($aItem, $value)
+    {
+        global $tabindex;
+
+        $aItem['tabindex'] = $tabindex++;
         $this->aOption[] = array('hiddencheckbox.html' => $aItem);
     }
 

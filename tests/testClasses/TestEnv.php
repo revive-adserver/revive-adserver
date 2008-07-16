@@ -34,7 +34,7 @@ require_once MAX_PATH . '/lib/OA/DB/Table/Priority.php';
 require_once MAX_PATH . '/lib/OA/DB/Table/Statistics.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/wact/db/db.inc.php';
-
+require_once MAX_PATH . '/lib/OA/Plugin/PluginManager.php';
 require_once MAX_PATH . '/tests/data/DefaultData.php';
 
 /**
@@ -88,6 +88,94 @@ class TestEnv
     function setupDefaultData()
     {
         DefaultData::insertDefaultData();
+    }
+
+    function getPluginPackageManager($mock)
+    {
+        if ($mock)
+        {
+            Mock::generatePartial(  'OX_PluginManager',
+                                    $mockPkgMgrClass = 'MOX_PluginManager'.rand(),
+                                    array(
+                                            '_auditInit',
+                                            '_auditSetKeys',
+                                            '_auditStart',
+                                            '_auditUpdate',
+                                            '_auditSetID',
+                                            '_checkDatabaseEnvironment',
+                                            '_registerSchema',
+                                            '_registerPreferences',
+                                            '_registerPluginVersion',
+                                            '_unregisterSchema',
+                                            '_unregisterPreferences',
+                                            '_unregisterPluginVersion',
+                                         )
+                                 );
+            $oPkgMgr = new $mockPkgMgrClass();
+            // install tasks
+            $oPkgMgr->setReturnValue('_auditInit', true);
+            $oPkgMgr->setReturnValue('_auditSetKeys', true);
+            $oPkgMgr->setReturnValue('_auditStart', true);
+            $oPkgMgr->setReturnValue('_auditUpdate', true);
+            $oPkgMgr->setReturnValue('_checkDatabaseEnvironment', true);
+            //$oPkgMgr->setReturnValue('_runScript', true);
+            //$oPkgMgr->setReturnValue('_checkDependenciesForInstallOrEnable', true);
+            //$oPkgMgr->setReturnValue('_checkFiles', true);
+            //$oPkgMgr->setReturnValue('_checkMenus', true);
+            $oPkgMgr->setReturnValue('_registerSchema', true);
+            $oPkgMgr->setReturnValue('_registerPreferences', true);
+            //$oPkgMgr->setReturnValue('_registerSettings', true);
+            $oPkgMgr->setReturnValue('_registerPluginVersion', true);
+
+            // uninstall tasks
+            //$oPkgMgr->setReturnValue('_checkDependenciesForUninstallOrDisable', true);
+            $oPkgMgr->setReturnValue('_unregisterPluginVersion', true);
+            $oPkgMgr->setReturnValue('_unregisterPreferences', true);
+            //$oPkgMgr->setReturnValue('_unregisterSettings', true);
+            $oPkgMgr->setReturnValue('_unregisterSchema', true);
+            //$oPkgMgr->setReturnValue('_removeFiles', true);
+        }
+        else
+        {
+            $oPkgMgr = new OX_PluginManager();
+        }
+        $oPkgMgr->init();
+        return $oPkgMgr;
+    }
+
+    function installPluginPackage($pkgName, $zipName, $zipPath, $noDb = true)
+    {
+        $oPkgMgr = & TestEnv::getPluginPackageManager($noDb);
+        $result = $oPkgMgr->installPackage(array('tmp_name' => MAX_PATH . $zipPath.$zipName.'.zip', 'name'=>$zipName.'.zip'));
+        if (!$result)
+        {
+            $errormsg = 'TestEnv unable to install plugins in '.MAX_PATH . $zipPath.$zipName.'.zip';
+            foreach ($oPkgMgr->aErrors AS $i => $msg)
+            {
+                $errormsg.= '</br>'.$msg;
+            }
+            PEAR::raiseError($errormsg, PEAR_LOG_ERR);
+            die(1);
+        }
+        $oPkgMgr->enablePackage($pkgName);
+        return $result;
+    }
+
+    function uninstallPluginPackage($pkgName, $noDb= true)
+    {
+        $oPkgMgr = & TestEnv::getPluginPackageManager($noDb);
+
+        $result = $oPkgMgr->uninstallPackage($pkgName);
+        /*if (!$result)
+        {
+            $errormsg = 'TestEnv unable to uninstall plugins in '.$pkgName;
+            foreach ($oPkgMgr->aErrors AS $i => $msg)
+            {
+                $errormsg.= '</br>'.$msg;
+            }
+            PEAR::raiseError($errormsg, PEAR_LOG_WARNING);
+        }*/
+        return true;
     }
 
     /**
@@ -295,7 +383,7 @@ class TestEnv
 
         // Backup user's original config file
         if (file_exists($configFile)) {
-            return (copy($configFile, $backupConfigFilename));
+            return (@copy($configFile, $backupConfigFilename));
         }
         return false;
     }

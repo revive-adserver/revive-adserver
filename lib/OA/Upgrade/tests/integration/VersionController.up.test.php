@@ -98,7 +98,7 @@ class Test_VersionController extends UnitTestCase
         $this->_deleteTestRecord('oa_version');
     }
 
-    function test_getPluginVersion()
+    function test_getComponentGroupVersion()
     {
         $this->_createTestRecord('plugin_test', 1001);
         $oVerCtrl = new OA_Version_Controller();
@@ -107,13 +107,13 @@ class Test_VersionController extends UnitTestCase
         $this->_deleteTestRecord('plugin_test');
     }
 
-    function test_putPluginVersion()
+    function test_putComponentGroupVersion()
     {
         $oVerCtrl = new OA_Version_Controller();
         $oVerCtrl->init(OA_DB::singleton(OA_DB::getDsn()));
-        $this->assertEqual($oVerCtrl->putPluginVersion('plugin_test',1001),1001,'error inserting plugin version');
-        $this->assertEqual($oVerCtrl->putPluginVersion('plugin_test',1002),1002,'error updating plugin version');
-        $this->assertNotEqual($oVerCtrl->getPluginVersion('plugin_test'),1001,'wrong plugin version retrieved');
+        $this->assertEqual($oVerCtrl->putComponentGroupVersion('plugin_test',1001),1001,'error inserting plugin version');
+        $this->assertEqual($oVerCtrl->putComponentGroupVersion('plugin_test',1002),1002,'error updating plugin version');
+        $this->assertNotEqual($oVerCtrl->getComponentGroupVersion('plugin_test'),1001,'wrong plugin version retrieved');
         $this->_deleteTestRecord('plugin_test');
     }
 

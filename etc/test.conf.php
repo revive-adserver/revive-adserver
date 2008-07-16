@@ -263,9 +263,6 @@ log_maintenance_priority                 = log_maintenance_priority
 log_maintenance_statistics               = log_maintenance_statistics
 password_recovery                        = password_recovery
 placement_zone_assoc                     = placement_zone_assoc
-plugins_channel_delivery_assoc           = plugins_channel_delivery_assoc
-plugins_channel_delivery_domains         = plugins_channel_delivery_domains
-plugins_channel_delivery_rules           = plugins_channel_delivery_rules
 preferences                              = preferences
 session                                  = session
 targetstats                              = targetstats
@@ -423,11 +420,6 @@ forgot      = /account/forgotPassword
 type=internal
 deleteUnverifiedUsersAfter = 2419200   ; 28 days (in seconds)
 
-[channelDerivation]
-cacheExpire=86400
-cachePath=/var/plugins/cache/channelDerivation/
-xmlrpcScript=/www/delivery/delivery-xmlrpc.php
-
 [geotargeting]
 type="none"
 saveStats=false
@@ -440,6 +432,23 @@ geoipOrgLocation=
 geoipIspLocation=
 geoipNetspeedLocation=
 showUnavailable=false
+
+[pluginPaths]
+packages   = /extensions/etc/
+extensions = /extensions/
+admin      = /www/admin/plugins/
+var        = /var/plugins/
+
+[pluginUpdatesServer]
+protocol=http
+host=localhost
+path=/plugins_repo/server
+httpPort=80
+
+[plugins]
+
+[pluginGroupComponents]
+
 
 ;------------------------------------------------------------------------------------------;
 ; Audit Settings                                                                           ;

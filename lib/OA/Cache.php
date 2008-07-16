@@ -61,8 +61,8 @@ class OA_Cache
             'cacheDir'                      => MAX_PATH . '/var/cache/',
             'lifeTime'                      => null,
             'readControlType'               => 'md5',
-            //'dontCacheWhenTheResultIsFalse' => true, - this property does not exist
             'automaticSerialization'        => true
+            //'dontCacheWhenTheResultIsFalse' => true, - this property does not exist
         ));
 
         $this->id    = $id;
@@ -93,6 +93,11 @@ class OA_Cache
     function clear()
     {
         return $this->oCache->remove($this->id, $this->group);
+    }
+
+    function setFileNameProtection($value=true)
+    {
+        $this->oCache->_fileNameProtection = $value;
     }
 
 }

@@ -126,7 +126,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 
 {if $displaySearch}
     <div id="oaSearch">
-        <form name="search" action="admin-search.php" target="SearchWindow" onsubmit="search_window(document.search.keyword.value,'{$searchUrl|escape:js}'); return false;">
+        <form name="search" action="{$adminWebPath}admin-search.php" target="SearchWindow" onsubmit="search_window(document.search.keyword.value,'{$searchUrl|escape:js}'); return false;">
             <input type="text" name="keyword" class="search" accesskey="{t key=Search}"><input class="submit" type="submit" value="&nbsp" >
         </form>
     </div>
@@ -151,14 +151,14 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 	                <div class="selection" style="display:none" ></div>
 	                <div class="result">
 	                  <ul id="accounts">
-											{foreach from=$aAdminAccounts  key=accountId item=account}
-											    <li><a href="account-switch.php?account_id={$accountId|escape}">{$account}</a></li>
-											{/foreach}
+						  {foreach from=$aAdminAccounts  key=accountId item=account}
+						    <li><a href="{$adminWebPath}account-switch.php?account_id={$accountId|escape}">{$account}</a></li>
+						  {/foreach}
 
 		                  {foreach from=$aAccounts  key=groupName item=group}
 		                      <li class="opt">{$groupName|escape}</li>
 		                      {foreach from=$group key=accountId item=account}
-		                        <li class="inopt"><a href="account-switch.php?account_id={$accountId|escape}">{$account}</a></li>
+		                        <li class="inopt"><a href="{$adminWebPath}account-switch.php?account_id={$accountId|escape}">{$account}</a></li>
 		                      {/foreach}
 		                  {/foreach}
 	                  </ul>
@@ -245,7 +245,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 <script type='text/javascript'>
 <!--
     alert('{t str=MaintenanceNotActive}');
-    location.replace('maintenance-maintenance.php');
+    location.replace('{$adminWebPath}maintenance-maintenance.php');
 //-->
 </script>
 {/if}

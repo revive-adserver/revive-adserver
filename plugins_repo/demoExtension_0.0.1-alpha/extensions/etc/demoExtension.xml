@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>demoExtension</name>
+    <creationDate>2008-05-30</creationDate>
+    <author>Monique Szpak</author>
+    <authorEmail>monique.szpak@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>Demo Extension for OpenX</description>
+    <version>0.0.1-alpha</version>
+    <type>extension</type>
+
+    <install>
+
+        <files>
+            <file path="{PLUGINPATH}">demoExtension.readme.txt</file>
+        </files>
+
+        <contents>
+            <group name="demoDeliveryLimitation"   >1</group>
+            <group name="demoBannerTypeHtml"       >2</group>
+            <group name="demoUserInterface"        >3</group>
+        </contents>
+
+        <register>
+            <extension type='bannerTypeHtml' group='demoBannerTypeHtml'>demoHtml</extension>
+            <extension type='deliveryLimitations' group='demoDeliveryLimitation'>demoLimitation</extension>
+        </register>
+
+    </install>
+
+    <readme>
+
+    </readme>
+
+</plugin>

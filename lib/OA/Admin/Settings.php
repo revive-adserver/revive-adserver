@@ -265,7 +265,7 @@ class OA_Admin_Settings
                 return false;
             }
         } else {
-            OA::debug('Did not create a default.conf.php file due to the presence of:' . implode(', ', $aOtherConfigFiles), PEAR_LOG_INFO);
+            //OA::debug('Did not create a default.conf.php file due to the presence of:' . implode(', ', $aOtherConfigFiles), PEAR_LOG_INFO);
         }
         // Re-parse the config file?
         if ($reParse) {

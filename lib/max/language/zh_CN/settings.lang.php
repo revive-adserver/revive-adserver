@@ -380,6 +380,7 @@ $GLOBALS['strDbSuccessIntro'] = "The ".MAX_PRODUCT_NAME." 数据已经创建，�
 $GLOBALS['strDbSuccessIntroUpgrade'] = "".MAX_PRODUCT_NAME." 数据库已经更新。请点击“继续”按钮进入管理员与发布设定。";
 $GLOBALS['strErrorWritePermissions'] = "文件权限错误。\n<br />在Linux下修正这个错误，请输入以下命令:";
 $GLOBALS['strErrorFixPermissionsCommand'] = "<i>chmod a+w %s</i>";
+$GLOBALS['strErrorFixPermissionsRCommand']  = "<i>chmod -R a+w %s</i>";
 $GLOBALS['strErrorWritePermissionsWin'] = "文件权限错误。您必须先修正这个错误才可继续下一步。";
 $GLOBALS['strCheckDocumentation'] = "需要帮助，请参阅 <a href=\"".OX_PRODUCT_DOCSURL."\">" . MAX_PRODUCT_NAME . " 文档<a/>.";
 $GLOBALS['strAdminUrlPrefix'] = "管理员界面路径";

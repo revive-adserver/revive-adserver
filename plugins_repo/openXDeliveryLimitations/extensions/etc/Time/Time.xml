@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>Time</name>
+    <creationDate>2008-02-19</creationDate>
+    <author>Monique Szpak</author>
+    <authorEmail>monique.szpak@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>Time Delivery Limitiations for OpenX</description>
+    <version>1.0.0</version>
+    <oxversion>2.7.5-dev</oxversion>
+    <extends>deliveryLimitations</extends>
+
+    <install>
+        <files>
+            <file path="{MODULEPATH}deliveryLimitations/Time/">AbstractTimePlugin.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Time/">Date.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Time/">Date.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Time/">Day.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Time/">Day.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Time/">Day.res.inc.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Time/">Hour.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Time/">Hour.delivery.php</file>
+        </files>
+    </install>
+
+</plugin>

@@ -95,19 +95,6 @@ class OA_DB_UpgradeAuditor extends OA_BaseUpgradeAuditor
         //this->__construct();
     }
 
-    function init(&$oDbh, $oLogger='')
-    {
-        $this->oDbh = $oDbh;
-        $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-        // so that this class can log to the caller's log
-        // and write it's own log if necessary (testing)
-        if ($oLogger)
-        {
-            $this->oLogger= $oLogger;
-        }
-        return $this->_checkCreateAuditTable();
-    }
-
     function setKeyParams($aParams='')
     {
         $aParams['upgrade_action_id'] = $this->auditId;

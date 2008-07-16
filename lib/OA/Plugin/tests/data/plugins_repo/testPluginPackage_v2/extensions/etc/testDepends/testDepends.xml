@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>testDepends</name>
+    <creationDate>2008-04-01</creationDate>
+    <author>Test Author</author>
+    <authorEmail>test@example.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>Test Dependency Plugin</description>
+    <version>0.0.1-test</version>
+    <extends>admin</extends>
+
+    <install>
+        <syscheck>
+            <depends>
+                <plugin version="0.0.1" enabled="0">testPlugin</plugin>
+            </depends>
+        </syscheck>
+    </install>
+
+</plugin>

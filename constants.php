@@ -38,7 +38,7 @@ $Id$
 function setupConstants()
 {
     // Define this version of Openads's constants
-    define('OA_VERSION', '2.7.7-dev');
+    define('OA_VERSION', '2.7.8-dev');
     define('MAX_PRODUCT_NAME',      'OpenX');
     define('MAX_PRODUCT_URL',       'www.openx.org');
     if (preg_match('/^(\d+\.\d+)/', OA_VERSION, $aMatches)) {
@@ -272,18 +272,9 @@ function setupConstants()
         // Parse the OpenX configuration file
         $GLOBALS['_MAX']['CONF'] = parseIniFile();
         // Define the OpenX Cache File location path (required trailing slash)
-        if (empty($GLOBALS['_MAX']['CONF']['delivery']['cachePath'])) {
-            define('MAX_CACHE', MAX_PATH . '/var/cache/');
-        } else {
-            define('MAX_CACHE', $GLOBALS['_MAX']['CONF']['delivery']['cachePath']);
-        }
-        // Define the OpenX Plugins Cache File location path (required trailing slash)
-        if (empty($GLOBALS['_MAX']['CONF']['delivery']['pluginsCachePath'])) {
-            define('MAX_PLUGINS_CACHE', MAX_PATH . '/var/plugins/');
-        } else {
-            define('MAX_PLUGINS_CACHE', $GLOBALS['_MAX']['CONF']['delivery']['pluginsCachePath']);
-        }
-        // Set the URL access mechanism
+        define('MAX_CACHE', MAX_PATH . '/var/cache/');
+
+       // Set the URL access mechanism
         if (!empty($GLOBALS['_MAX']['CONF']['openads']['requireSSL'])) {
             $GLOBALS['_MAX']['HTTP'] = 'https://';
         } else {

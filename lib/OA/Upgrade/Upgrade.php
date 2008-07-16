@@ -84,6 +84,7 @@ class OA_Upgrade
 {
     var $upgradePath = '';
 
+    //var $defaultPluginsFile = '';
     var $message = '';
 
     /**
@@ -121,12 +122,13 @@ class OA_Upgrade
     var $upgrading_from_milestone_version = false;
     var $aToDoList = array();
 
-    function OA_Upgrade()
+    function __construct()
     {
         $this->upgradePath  = MAX_PATH.'/etc/changes/';
         $this->recoveryFile = MAX_PATH.'/var/RECOVER';
         $this->nobackupsFile = MAX_PATH.'/var/NOBACKUPS';
         $this->postTaskFile = MAX_PATH.'/var/TASKS.php';
+        //$this->defaultPluginsFile = MAX_PATH.'/etc/default_plugins.php';
 
         $this->oLogger      = new OA_UpgradeLogger();
         $this->oParser      = new OA_UpgradePackageParser();
@@ -155,6 +157,11 @@ class OA_Upgrade
         $this->aDsn['database']['name']     = '';
         $this->aDsn['table']['type']        = 'InnoDB';
         $this->aDsn['table']['prefix']      = 'ox_';
+    }
+
+    function OA_Upgrade()
+    {
+        $this->__construct();
     }
 
     /**
@@ -883,18 +890,25 @@ class OA_Upgrade
      * @param string $version
      * @return boolean
      */
-    function _checkDBIntegrity($version)
+    function _checkDBIntegrity($version, $aSchema='')
     {
-        $path_schema = $this->oDBUpgrader->path_schema;
-        $file_schema = $this->oDBUpgrader->file_schema;
+        if (empty($aSchema))
+        {
+            $path_schema = $this->oDBUpgrader->path_schema;
+            $file_schema = $this->oDBUpgrader->file_schema;
+            $aSchema['name'] = 'tables_core';
+        }
         $path_changes = $this->oDBUpgrader->path_changes;
         $file_changes = $this->oDBUpgrader->file_changes;
 
         $this->oIntegrity->oUpgrader = $this;
-        $result =$this->oIntegrity->checkIntegrityQuick($version);
+        $result =$this->oIntegrity->checkIntegrityQuick($version, $aSchema);
 
-        $this->oDBUpgrader->path_schema     = $path_schema;
-        $this->oDBUpgrader->file_schema     = $file_schema;
+        if (empty($schema))
+        {
+            $this->oDBUpgrader->path_schema     = $path_schema;
+            $this->oDBUpgrader->file_schema     = $file_schema;
+        }
         $this->oDBUpgrader->path_changes    = $path_changes;
         $this->oDBUpgrader->file_changes    = $file_changes;
 
@@ -1125,6 +1139,11 @@ class OA_Upgrade
                                                 'action'=>UPGRADE_ACTION_UPGRADE_SUCCEEDED,
                                                )
                                          );
+
+        //$this->installPlugins();
+        $this->addPostUpgradeTask('Install_Plugins');
+        $this->_writePostUpgradeTasksFile();
+
         if ($this->upgrading_from_milestone_version)
         {
             if ( ! $this->removeUpgradeTriggerFile())
@@ -1132,8 +1151,108 @@ class OA_Upgrade
                 $this->oLogger->log('failed to remove the UPGRADE trigger file');
             }
         }
+
         return true;
     }
+
+    /**
+     * before core upgrade, all plugins should be disabled
+     * flatten the caches - no menus, extensions or dependencies
+     * after core upgrade, check all plugins and rebuild caches
+     *
+     * @param array $aPackages
+     * @return boolean
+     */
+    function disableAllPlugins($aPackages='')
+    {
+        if (!$aPackages)
+        {
+            $aPackages = & $GLOBALS['_MAX']['CONF']['plugins'];
+            $aPlugins  = & $GLOBALS['_MAX']['CONF']['pluginGroupComponents'];
+        }
+        if (!$this->oPkgMgr)
+        {
+            require_once MAX_PATH.'/lib/OA/Plugin/PluginManager.php';
+            $this->oPkgMgr = new OX_PluginManager();
+        }
+        foreach ($aPackages AS $name => $enabled)
+        {
+            if (!$this->oPkgMgr->disablePackage($name))
+            {
+                $aPackages[$name] = 0;
+                foreach ($this->oPkgMgr->aErrors AS $error)
+                {
+                    $this->oLogger->logWarning($error);
+                }
+                $this->oPkgMgr->clearErrors();
+            }
+        }
+        foreach ($aPlugins AS $name => $enabled)
+        {
+            if (!$this->oPkgMgr->disableComponentGroup($name))
+            {
+                $aPlugins[$name] = 0;
+                foreach ($this->oPkgMgr->aErrors AS $error)
+                {
+                    $this->oLogger->logWarning($error);
+                }
+                $this->oPkgMgr->clearErrors();
+            }
+        }
+        $this->oPkgMgr->cacheComponentGroups();
+        $this->oPkgMgr->cachePackages();
+        return true;
+    }
+
+    /**
+     * look at the list of bundled plugin packages
+     * install each
+     * return error messages but don't fail on error
+     *
+     * the package manager class handles plugin install auditing
+     *
+     * @param array $aDefaultPlugins
+     * @return true
+     */
+/*    function installPlugins($aDefaultPlugins='')
+    {
+        if (!$aDefaultPlugins)
+        {
+            include $this->defaultPluginsFile;
+        }
+        if (!$aDefaultPlugins)
+        {
+            return true;
+        }
+        if (!$this->oPkgMgr)
+        {
+            require_once MAX_PATH.'/lib/OA/Plugin/PluginManager.php';
+            $this->oPkgMgr = new OX_PluginManager();
+        }
+        foreach ($aDefaultPlugins AS $idx => $aPackage)
+        {
+            $filename = $aPackage['name'].'.'.$aPackage['ext'];
+            $filepath = $aPackage['path'].$filename;
+            // TODO: refactor for remote paths?
+            if(!$this->oPkgMgr->installPackage(array('tmp_name'=>$filepath, 'name'=>$filename)))
+            {
+                foreach ($this->oPkgMgr->aErrors AS $error)
+                {
+                    $this->oLogger->logError($error);
+                }
+            }
+            if (!$this->oPkgMgr->enablePackage($aPackage['name']))
+            {
+                foreach ($this->oPkgMgr->aErrors AS $error)
+                {
+                    $this->oLogger->logError($error);
+                }
+            }
+            $this->oPkgMgr->cacheComponentGroups();
+            $this->oPkgMgr->cachePackages();
+        }
+        return true;
+    }*/
 
     /**
      * Check database name according to specifications:
@@ -1352,6 +1471,13 @@ class OA_Upgrade
      */
     function upgrade($input_file='', $timing='constructive')
     {
+        // only need to disable plugins once
+        static $plugins_disabled;
+        if (!$plugins_disabled)
+        {
+            $this->disableAllPlugins();
+            $plugins_disabled = true;
+        }
         // initialise database connection if necessary
         if (is_null($this->oDbh))
         {
@@ -1451,6 +1577,7 @@ class OA_Upgrade
             $this->_writeRecoveryFile();
             $this->_pickupNoBackupsFile();
         }
+        $this->addPostUpgradeTask('Check_Plugins');
         $this->_pickupRecoveryFile();
         $this->_writePostUpgradeTasksFile();
         return true;
@@ -1534,10 +1661,10 @@ class OA_Upgrade
             $this->oLogger->logError('Failure in upgrade postscript '.$this->aPackage['postscript']);
             return false;
         }
-        if (!$this->oVersioner->putApplicationVersion($this->aPackage['versionTo']))
+        if (!$this->oVersioner->putApplicationVersion($this->aPackage['versionTo'], $this->aPackage['product']))
         {
-            $this->oLogger->logError('Failed to update application version to '.$this->aPackage['versionTo']);
-            $this->message = 'Failed to update application version to '.$this->aPackage['versionTo'];
+            $this->oLogger->logError('Failed to update '.$this->aPackage['product'].' version to '.$this->aPackage['versionTo']);
+            $this->message = 'Failed to update '.$this->aPackage['product'].' version to '.$this->aPackage['versionTo'];
             return false;
         }
         $this->versionInitialApplication = $this->aPackage['versionTo'];

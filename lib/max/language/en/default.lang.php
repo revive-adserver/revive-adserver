@@ -332,7 +332,7 @@ $GLOBALS['strAddClient_Key']                = "Add <u>n</u>ew advertiser";
 $GLOBALS['strTotalClients']                 = "Total advertisers";
 $GLOBALS['strClientProperties']             = "Advertiser Properties";
 $GLOBALS['strClientHistory']                = "Advertiser History";
-$GLOBALS['strNoClients']                    = "There are currently no advertisers defined. To create a campaign, <a href='advertiser-edit.php'>add a new advertiser</a> first.";
+$GLOBALS['strNoClients']                    = "There are currently no advertisers defined";
 $GLOBALS['strConfirmDeleteClient']          = "Do you really want to delete this advertiser?";
 $GLOBALS['strConfirmResetClientStats']      = "Do you really want to delete all existing statistics for this advertiser?";
 $GLOBALS['strSite']                         = 'Site';
@@ -606,11 +606,11 @@ $GLOBALS['strTypeHtmlPhp']                           = 'Allow PHP expressions to
 
 // Banner (Properties)
 $GLOBALS['strChooseBanner']         = "Please choose the type of the banner";
-$GLOBALS['strMySQLBanner']             = "Local banner (SQL)";
-$GLOBALS['strWebBanner']             = "Local banner (Webserver)";
-$GLOBALS['strURLBanner']             = "External banner";
-$GLOBALS['strHTMLBanner']             = "HTML banner";
-$GLOBALS['strTextBanner']             = "Text ad";
+$GLOBALS['strMySQLBanner']             = "Upload a local banner to the database";
+$GLOBALS['strWebBanner']             = "Upload a local banner to the webserver";
+$GLOBALS['strURLBanner']             = "Link an external banner";
+$GLOBALS['strHTMLBanner']             = "Create an HTML banner";
+$GLOBALS['strTextBanner']             = "Creat a Text banner";
 $GLOBALS['strAutoChangeHTML']        = "Alter HTML to enable tracking of Clicks";
 $GLOBALS['strUploadOrKeep']            = "Do you wish to keep your <br />existing image, or do you <br />want to upload another?";
 $GLOBALS['strUploadOrKeepAlt']        = "Do you wish to keep your <br />existing backup image, or do you <br />want to upload another?";
@@ -735,7 +735,7 @@ $GLOBALS['strAffiliateOverview']        = "Website Overview";
 $GLOBALS['strAffiliateHistory']            = "Website History";
 $GLOBALS['strZonesWithoutAffiliate']    = "Zones without website";
 $GLOBALS['strMoveToNewAffiliate']        = "Move to new website";
-$GLOBALS['strNoAffiliates']                = "There are currently no websites defined. To create a zone, <a href='affiliate-edit.php'>add a new website</a> first.";
+$GLOBALS['strNoAffiliates']                = "There are currently no websites defined";
 $GLOBALS['strConfirmDeleteAffiliate']    = "Do you really want to delete this website?";
 $GLOBALS['strMakePublisherPublic']        = "Make the zones owned by this website publically available";
 $GLOBALS['strAffiliateInvocation']      = 'Invocation Code';
@@ -825,6 +825,7 @@ $GLOBALS['strWarnChangeZoneType']           = 'Changing the zone type to text or
                                                 </ul>';
 $GLOBALS['strWarnChangeZoneSize']           = 'Changing the zone size will unlink any banners that are not the new size, and will add any banners from linked campaigns which are the new size';
 $GLOBALS['strWarnChangeBannerSize']         = 'Changing the banner size will unlink this banner from any zones that are not the new size, and if this banner\'s <strong>campaign</strong> is linked to a zone of the new size, this banner will be automatically linked';
+$GLOBALS['strWarnBannerReadonly']           = 'This banner is read-only because an extension has been disabled.  Contact your Administrator for more information.';
 $GLOBALS['strInventoryForecasting']         = 'Inventory Forecasting';
 
 $GLOBALS['strIab']['IAB Full Banner (468 x 60)']    = 'IAB Full Banner (468 x 60)';
@@ -1133,6 +1134,7 @@ $GLOBALS['strUserDetails']                      = "User Details";
 $GLOBALS['strLanguageTimezone']                 = "Language & Timezone";
 $GLOBALS['strLanguageTimezonePreferences']      = "Language and Timezone Preferences";
 $GLOBALS['strUserInterfacePreferences']         = 'User Interface Preferences';
+$GLOBALS['strPluginPreferences']                = 'Plugin Preferences';
 $GLOBALS['strInvocationPreferences']            = 'Invocation Preferences';
 $GLOBALS['strColumnName']                       = 'Column Name';
 $GLOBALS['strShowColumn']                       = 'Show Column';

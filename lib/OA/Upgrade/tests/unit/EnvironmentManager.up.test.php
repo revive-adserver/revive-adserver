@@ -90,14 +90,80 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_NOERROR,'magic_quotes_runtime off');
     }
 
+    function test_buildFilePermArrayItem()
+    {
+        $oEnvMgr =&  $this->_getEnvMgrObj();
+        $aResult = $oEnvMgr->buildFilePermArrayItem('test.file', $recurse=false, $result='OK', $error = false, $string='');
+        $this->assertIsA($aResult,'array');
+        $this->assertEqual(count($aResult),5);
+        $this->assertEqual($aResult['file'],'test.file');
+        $this->assertEqual($aResult['result'],'OK');
+        $this->assertEqual($aResult['string'],'');
+        $this->assertFalse($aResult['recurse']);
+        $this->assertFalse($aResult['error']);
+    }
+
+    function test_getFilePermissionErrors()
+    {
+           Mock::generatePartial(
+                                'OA_Environment_Manager',
+                                $mockEnvMgr = 'OA_Environment_Manager'.rand(),
+                                array(
+                                      'checkFilePermission'
+                                     )
+                                );
+
+        $oEnvMgr = new $mockEnvMgr;
+        $oEnvMgr->aInfo['PERMS']['expected'][] = $oEnvMgr->buildFilePermArrayItem(MAX_PATH.'/var', true);
+        $oEnvMgr->aInfo['PERMS']['expected'][] = $oEnvMgr->buildFilePermArrayItem(MAX_PATH.'/var/test.conf.php', false);
+
+        $oEnvMgr->setReturnValueAt(0,'checkFilePermission', true);
+        $oEnvMgr->setReturnValueAt(1,'checkFilePermission', true);
+        $aErrors = $oEnvMgr->getFilePermissionErrors();
+
+        $this->assertIsA($aErrors,'array');
+        $this->assertEqual(count($aErrors),2);
+        $this->assertFalse($aErrors[0]['error']);
+        $this->assertFalse($aErrors[1]['error']);
+
+
+
+        $oEnvMgr->setReturnValueAt(2,'checkFilePermission', true);
+        $oEnvMgr->setReturnValueAt(3,'checkFilePermission', false);
+        $aErrors = $oEnvMgr->getFilePermissionErrors();
+
+        $this->assertIsA($aErrors,'array');
+        $this->assertEqual(count($aErrors),2);
+        $this->assertFalse($aErrors[0]['error']);
+        $this->assertTrue($aErrors[1]['error']);
+
+        $oEnvMgr->expectCallCount('checkFilePermission',4);
+
+        $oEnvMgr->tally();
+    }
+
     function test_checkCriticalFilePermissions()
     {
         $oEnvMgr =&  $this->_getEnvMgrObj();
 
-        $oEnvMgr->aInfo['PERMS']['actual'] = array('/var'=>'OK');
+        $oEnvMgr->aInfo['PERMS']['actual'][0] = array(
+                                                    'file'      => 'var',
+                                                    'recurse'   => true,
+                                                    'result'    => 'OK',
+                                                    'error'     => false,
+                                                    'string'    => '',
+                                                  );
+
         $this->assertTrue($oEnvMgr->_checkCriticalFilePermissions(),'');
 
-        $oEnvMgr->aInfo['PERMS']['actual'] = array('/var'=>'NOT writeable');
+        $oEnvMgr->aInfo['PERMS']['actual'][0] = array(
+                                                    'file'      => 'var',
+                                                    'recurse'   => true,
+                                                    'result'    => 'NOT writeable',
+                                                    'error'     => true,
+                                                    'string'    => '',
+                                                  );
+
         $this->assertFalse($oEnvMgr->_checkCriticalFilePermissions(),'');
     }
 

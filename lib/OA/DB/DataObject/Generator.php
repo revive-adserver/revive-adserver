@@ -42,14 +42,14 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
      * New() methods work-in-progress
      * refactoring to use mdb2 schema files
      */
-    function start()
+    function start($schema)
     {
         global $_DB_DATAOBJECT;
         $_DB_DATAOBJECT['CONFIG']['debug'] = $GLOBALS['_MAX']['CONF']['debug']['priority'];
 
         $this->debug("START\n");
 
-        $this->_createTableList();
+        $this->_createTableList($schema);
 
         /**
          * generate the db_schema.ini
@@ -77,11 +77,12 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
      * and stores the db_dataobject datatype
      *
      */
-    function _createTableList()
+    function _createTableList($schema='')
     {
         $options = &PEAR::getStaticProperty('DB_DataObject','options');
 
-        $oTable = OA_DB_Table_Core::singleton();
+        $oTable = new OA_DB_Table();
+        $oTable->init($schema);
         $aDefinition = $oTable->aDefinition['tables'];
 
         if (isset($options['generator_exclude_regex']))
@@ -327,7 +328,7 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
         $foot = "";
         $head = "<?php{$n}/**{$n} * Table Definition for {$this->table}{$n} */{$n}";
         // requires
-        $head .= "require_once '{$this->_extendsFile}';{$n}{$n}";
+        $head .= "require_once MAX_PATH.'{$this->_extendsFile}';{$n}{$n}";
         // add dummy class header in...
         // class
         $head .= "class {$this->classname} extends {$this->_extends} {$n}{";
@@ -416,7 +417,7 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
             }
         }
 
-        $foot .= "}{$n}";
+        $foot .= "}{$n}?>";
         $full = $head . $body . $foot;
 
         if (!$input) {

@@ -1678,7 +1678,7 @@ class DB_DataObject extends DB_DataObject_Overload
      * @return true or PEAR:error on wrong paramenters.. or false if no file exists..
      *              or the array(tablename => array(column_name=>type)) if called with 1 argument.. (databasename)
      */
-    function databaseStructure()
+/*    function databaseStructure()
     {
 
         global $_DB_DATAOBJECT;
@@ -1754,38 +1754,8 @@ class DB_DataObject extends DB_DataObject_Overload
             DB_DataObject::_loadConfig();
         }
 
-        // if you supply this with arguments, then it will take those
-        // as the database and links array...
 
-        $schemas = isset($_DB_DATAOBJECT['CONFIG']['schema_location']) ?
-            array("{$_DB_DATAOBJECT['CONFIG']['schema_location']}/{$this->_database}.ini") :
-            array() ;
-
-        if (isset($_DB_DATAOBJECT['CONFIG']["ini_{$this->_database}"])) {
-            $schemas = is_array($_DB_DATAOBJECT['CONFIG']["ini_{$this->_database}"]) ?
-                $_DB_DATAOBJECT['CONFIG']["ini_{$this->_database}"] :
-                explode(PATH_SEPARATOR,$_DB_DATAOBJECT['CONFIG']["ini_{$this->_database}"]);
-        }
-
-
-
-        foreach ($schemas as $ini) {
-             if (file_exists($ini) && is_file($ini)) {
-                $_DB_DATAOBJECT['INI'][$this->_database] = parse_ini_file($ini, true);
-                if (!empty($_DB_DATAOBJECT['CONFIG']['debug'])) {
-                    if (!is_readable ($ini)) {
-                        $this->debug("ini file is not readable: $ini","databaseStructure",1);
-                    } else {
-                        $this->debug("Loaded ini file: $ini","databaseStructure",1);
-                    }
-                }
-            } else {
-                if (!empty($_DB_DATAOBJECT['CONFIG']['debug'])) {
-                    $this->debug("Missing ini file: $ini","databaseStructure",1);
-                }
-            }
-
-        }
+        $this->getAllSchemas();
         // now have we loaded the structure..
 
         if (!empty($_DB_DATAOBJECT['INI'][$this->_database][$this->__table])) {
@@ -1808,9 +1778,50 @@ class DB_DataObject extends DB_DataObject_Overload
         return false;
 
 
-    }
+    }*/
 
+    /*function getAllSchemas()
+    {
+        global $_DB_DATAOBJECT;
 
+        // if you supply this with arguments, then it will take those
+        // as the database and links array...
+
+        $schemas = isset($_DB_DATAOBJECT['CONFIG']['schema_location']) ?
+                        array("{$_DB_DATAOBJECT['CONFIG']['schema_location']}/{$this->_database}.ini") :
+                        array();
+
+        if (isset($_DB_DATAOBJECT['CONFIG']["ini_{$this->_database}"])) {
+            $schemas = is_array($_DB_DATAOBJECT['CONFIG']["ini_{$this->_database}"]) ?
+                $_DB_DATAOBJECT['CONFIG']["ini_{$this->_database}"] :
+                explode(PATH_SEPARATOR,$_DB_DATAOBJECT['CONFIG']["ini_{$this->_database}"]);
+        }
+
+        if (!is_array($_DB_DATAOBJECT['INI'][$this->_database]))
+        {
+            $_DB_DATAOBJECT['INI'][$this->_database] = array();
+        }
+
+        foreach ($schemas as $ini) {
+             if (file_exists($ini) && is_file($ini)) {
+                $aIni = parse_ini_file($ini, true);
+                $aMerged = array_merge($_DB_DATAOBJECT['INI'][$this->_database], $aIni);
+                $_DB_DATAOBJECT['INI'][$this->_database] = $aMerged;
+                if (!empty($_DB_DATAOBJECT['CONFIG']['debug'])) {
+                    if (!is_readable ($ini)) {
+                        $this->debug("ini file is not readable: $ini","databaseStructure",1);
+                    } else {
+                        $this->debug("Loaded ini file: $ini","databaseStructure",1);
+                    }
+                }
+            } else {
+                if (!empty($_DB_DATAOBJECT['CONFIG']['debug'])) {
+                    $this->debug("Missing ini file: $ini","databaseStructure",1);
+                }
+            }
+
+        }
+    }*/
 
 
     /**
@@ -2607,32 +2618,33 @@ class DB_DataObject extends DB_DataObject_Overload
             return false;
         }
 
-
-        if (strpos($_DB_DATAOBJECT['CONFIG']['class_location'],'%s') !== false) {
-            $file = sprintf($_DB_DATAOBJECT['CONFIG']['class_location'], preg_replace('/[^A-Z0-9]/i','_',ucfirst($table)));
-        } else {
-            $file = $_DB_DATAOBJECT['CONFIG']['class_location'].'/'.preg_replace('/[^A-Z0-9]/i','_',ucfirst($table)).".php";
+        // CHANGED FOR PLUGINS
+        // array of plugin class locations
+        // see DAL _setupDataObjectOptions
+        if (!is_array($_DB_DATAOBJECT['CONFIG']['class_location']))
+        {
+            $location = $_DB_DATAOBJECT['CONFIG']['class_location'];
+            $file = DB_DataObject::findTableFile($location, $table);
         }
-
-        if (!file_exists($file)) {
-            $found = false;
-            foreach(explode(PATH_SEPARATOR, ini_get('include_path')) as $p) {
-                if (file_exists("$p/$file")) {
-                    $file = "$p/$file";
-                    $found = true;
+        else
+        {
+            foreach ($_DB_DATAOBJECT['CONFIG']['class_location'] as $k => $location)
+            {
+                $file = DB_DataObject::findTableFile($location, $table);
+                if ($file)
+                {
                     break;
                 }
             }
-            if (!$found) {
-                DB_DataObject::raiseError(
-                    "autoload:Could not find class {$class} using class_location value",
-                    DB_DATAOBJECT_ERROR_INVALIDCONFIG);
-                return false;
-            }
+        }
+        if (!$file) {
+            DB_DataObject::raiseError(
+                "autoload:Could not find class {$class} using class_location value",
+                DB_DATAOBJECT_ERROR_INVALIDCONFIG);
+            return false;
         }
 
         include_once $file;
-
 
         $ce = substr(phpversion(),0,1) > 4 ? class_exists($class,false) : class_exists($class);
 
@@ -2643,6 +2655,35 @@ class DB_DataObject extends DB_DataObject_Overload
             return false;
         }
         return $class;
+    }
+
+    // NEW METHOD FOR PLUGINS
+    function findTableFile($location, $table)
+    {
+        if (strpos($location,'%s') !== false)
+        {
+            $file = sprintf($location, preg_replace('/[^A-Z0-9]/i','_',ucfirst($table)));
+        }
+        else
+        {
+            $file = $location.'/'.preg_replace('/[^A-Z0-9]/i','_',ucfirst($table)).".php";
+        }
+        if (file_exists($file))
+        {
+            return $file;
+        }
+        else
+        {
+            foreach(explode(PATH_SEPARATOR, ini_get('include_path')) as $p)
+            {
+                if (file_exists("$p/$file"))
+                {
+                    $file = "$p/$file";
+                    return $file;
+                }
+            }
+        }
+        return false;
     }
 
 

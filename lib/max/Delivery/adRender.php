@@ -116,46 +116,17 @@ function MAX_adRender(&$aBanner, $zoneId=0, $source='', $target='', $ct0='', $wi
     }
     $target = htmlspecialchars($target, ENT_QUOTES);
     $source = htmlspecialchars($source, ENT_QUOTES);
-	$bannerContent = "";
-    $code = '';
-    switch ($aBanner['contenttype']) {
-        case 'gif'  :
-        case 'jpeg' :
-        case 'png'  :
-            $code = _adRenderImage($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, false, $richMedia, $loc, $referer);
-            $bannerContent = _adRenderBuildFileUrl($aBanner);
-            break;
-        case 'swf'  :
-            if ($richMedia) {
-                $code = _adRenderFlash($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $loc, $referer);
-            } else {
-                $code = _adRenderImage($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, true, $richMedia, $loc, $referer);
-                $bannerContent =_adRenderBuildFileUrl($aBanner, true);
-            }
-            break;
-        case 'txt'  :
-            $code = _adRenderText($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, false, $loc, $referer);
-            $bannerContent = $aBanner['bannertext'];
-            break;
-        case 'mov'  :
-            $code = _adRenderQuicktime($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $loc, $referer);
-            break;
-        default :
-            switch ($aBanner['type']) {
-                case 'html' :
-                    $code = _adRenderHtml($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, false, $loc, $referer);
-                    $bannerContent = $aBanner['htmltemplate'];
-                    break;
-                case 'url' : // External banner without a recognised content type - assume image...
-                    $code = _adRenderImage($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, false, $richMedia, $loc, $referer);
-                    $bannerContent = _adRenderBuildFileUrl($aBanner);
-                    break;
-                case 'txt' :
-                    $code = _adRenderText($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, false, $loc, $referer);
-                    $bannerContent = $aBanner['bannertext'];
-            }
-            break;
-    }
+	$aBanner['bannerContent'] = "";
+
+	// Pre adRender hook
+	OX_Delivery_Common_hook('preAdRender', array(&$aBanner, &$zoneId, &$source, &$ct0, &$withText, &$logClick, &$logView, null, &$richMedia, &$loc, &$referer));
+
+	$functionName = _getAdRenderFunction($aBanner);
+    $code = $functionName($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, null, $richMedia, $loc, $referer);
+
+	// post adRender hook
+	OX_Delivery_Common_hook('postAdRender', array(&$code));
+
     // Transform any code
 
     // Get a timestamp
@@ -187,16 +158,6 @@ function MAX_adRender(&$aBanner, $zoneId=0, $source='', $target='', $ct0='', $wi
     $locReplace = isset($GLOBALS['loc']) ? $GLOBALS['loc'] : '';
     $replace = array($time, $random, $target, $urlPrefix, $aBanner['ad_id'], $zoneId, $source, urlencode($locReplace), $aBanner['width'], $aBanner['height']);
 
-    // Arrival URLs
-    if (preg_match('#^\?(m3_data=[a-z0-9]+)#i', $logClick, $arrivalClick)) {
-        $arrivalClick = $arrivalClick[1];
-        preg_match_all('#{arrivalurl:(.*?)}#', $code, $arrivals);
-        for ($i=0;$i<count($arrivals[1]);$i++) {
-            $search[] = $arrivals[0][$i];
-            $replace[] = strpos($arrivals[1][$i], '?') === false ? $arrivals[1][$i].'?'.$arrivalClick : $arrivals[1][$i].'&amp;'.$arrivalClick;
-        }
-    }
-
     preg_match_all('#{(.*?)(_enc)?}#', $code, $macros);
     for ($i=0;$i<count($macros[1]);$i++) {
         if (!in_array($macros[0][$i], $search) && isset($_REQUEST[$macros[1][$i]])) {
@@ -214,8 +175,6 @@ function MAX_adRender(&$aBanner, $zoneId=0, $source='', $target='', $ct0='', $wi
     $logUrl = str_replace($search, $replace, $logUrl);
     $aBanner['logUrl'] = $logUrl;
 
-    $aBanner['bannerContent'] = $bannerContent;
-
 //    return $code;
     return MAX_commonConvertEncoding($code, $charset);
 }
@@ -224,16 +183,17 @@ function MAX_adRender(&$aBanner, $zoneId=0, $source='', $target='', $ct0='', $wi
  * This function builds the HTML to display a 1x1 logging beacon
  *
  * @param string $logUrl    The log URL
+ * @param string $beaconId  The ID of the HTML beacon tag, an underscore plus a random string will be appended
  * @param array  $userAgent The optional user agent, if null $_SERVER[HTTP_USER_AGENT]
  *                          will be used
  * @return string The HTML to show the 1x1 logging beacon
  */
-function MAX_adRenderImageBeacon($logUrl, $userAgent = null)
+function MAX_adRenderImageBeacon($logUrl, $beaconId = 'beacon', $userAgent = null)
 {
     if (!isset($userAgent) && isset($_SERVER['HTTP_USER_AGENT'])) {
         $userAgent = $_SERVER['HTTP_USER_AGENT'];
     }
-    $beaconId = 'beacon_{random}';
+    $beaconId .= '_{random}';
     // Add beacon image for logging
     if (isset($userAgent) && preg_match("#Mozilla/(1|2|3|4)#", $userAgent)
         && !preg_match("#compatible#", $userAgent)) {
@@ -269,14 +229,17 @@ function MAX_adRenderImageBeacon($logUrl, $userAgent = null)
  *
  * @return string               The HTML to display this ad
  */
-function _adRenderImage($aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $richMedia=true, $loc, $referer, $useAppend=true)
+function _adRenderImage(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $richMedia=true, $loc, $referer, $useAppend=true)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
+    $aBanner['bannerContent'] = $imageUrl = _adRenderBuildFileUrl($aBanner, $useAlt);
+
     if (!$richMedia) {
         return _adRenderBuildFileUrl($aBanner, $useAlt);
     }
     $prepend = (!empty($aBanner['prepend']) && $useAppend) ? $aBanner['prepend'] : '';
     $append = (!empty($aBanner['append']) && $useAppend) ? $aBanner['append'] : '';
+
     // Create the anchor tag..
     $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
     if (!empty($clickUrl)) {  // There is a link
@@ -289,7 +252,6 @@ function _adRenderImage($aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
         $clickTagEnd = '';
     }
     // Create the image tag..
-    $imageUrl = _adRenderBuildFileUrl($aBanner, $useAlt);
     if (!empty($imageUrl)) {
         $imgStatus = empty($clickTag) ? $status : '';
         $width = !empty($aBanner['width']) ? $aBanner['width'] : 0;
@@ -322,7 +284,7 @@ function _adRenderImage($aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
  *
  * @return string               The HTML to display this ad
  */
-function _adRenderFlash($aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $loc, $referer)
+function _adRenderFlash(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $loc, $referer)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     $prepend = !empty($aBanner['prepend']) ? $aBanner['prepend'] : '';
@@ -408,7 +370,7 @@ function _adRenderFlash($aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
  *
  * @return string               The HTML to display this ad
  */
-function _adRenderQuicktime($aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $loc, $referer)
+function _adRenderQuicktime(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $loc, $referer)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     $prepend = !empty($aBanner['prepend']) ? $aBanner['prepend'] : '';
@@ -465,49 +427,14 @@ function _adRenderQuicktime($aBanner, $zoneId=0, $source='', $ct0='', $withText=
  *
  * @return string               The HTML to display this ad
  */
-function _adRenderHtml($aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $loc, $referer)
+function _adRenderHtml(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $loc, $referer)
 {
-    $conf = $GLOBALS['_MAX']['CONF'];
-    $prepend = !empty($aBanner['prepend']) ? $aBanner['prepend'] : '';
-    $append = !empty($aBanner['append']) ? $aBanner['append'] : '';
-    $code = !empty($aBanner['htmlcache']) ? $aBanner['htmlcache'] : '';
-
-    // Parse PHP code
-    if ($conf['delivery']['execPhp'])
-    {
-        if (preg_match ("#(\<\?php(.*)\?\>)#isU", $code, $parser_regs))
-        {
-            // Extract PHP script
-            $parser_php     = $parser_regs[2];
-            $parser_result     = '';
-
-            // Replace output function
-            $parser_php = preg_replace ("#echo([^;]*);#i", '$parser_result .=\\1;', $parser_php);
-            $parser_php = preg_replace ("#print([^;]*);#i", '$parser_result .=\\1;', $parser_php);
-            $parser_php = preg_replace ("#printf([^;]*);#i", '$parser_result .= sprintf\\1;', $parser_php);
-
-            // Split the PHP script into lines
-            $parser_lines = explode (";", $parser_php);
-            for ($parser_i = 0; $parser_i < sizeof($parser_lines); $parser_i++)
-            {
-                if (trim ($parser_lines[$parser_i]) != '')
-                    eval (trim ($parser_lines[$parser_i]).';');
-            }
-
-            // Replace the script with the result
-            $code = str_replace ($parser_regs[1], $parser_result, $code);
-        }
+    // This is a wrapper to the "parent" bannerTypeHtml function
+    $aConf = $GLOBALS['_MAX']['CONF'];
+    if (!function_exists('Plugins_BannerTypeHtml_delivery_adRender')) {
+        @include MAX_PATH . $aConf['pluginPaths']['extensions'] . '/bannerTypeHtml/bannerTypeHtmlDelivery.php';
     }
-
-    // Get the text below the banner
-    $bannerText = !empty($aBanner['bannertext']) ? "$clickTag{$aBanner['bannertext']}$clickTagEnd" : '';
-    // Get the image beacon...
-    if ((strpos($code, '{logurl}') === false) && (strpos($code, '{logurl_enc}') === false)) {
-        $beaconTag = ($logView && $conf['logging']['adImpressions']) ? _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer) : '';
-    } else {
-        $beaconTag = '';
-    }
-    return $prepend . $code . $bannerText . $beaconTag . $append;
+    return Plugins_BannerTypeHtml_delivery_adRender($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);
 }
 
 /**
@@ -527,28 +454,14 @@ function _adRenderHtml($aBanner, $zoneId=0, $source='', $ct0='', $withText=false
  *
  * @return string               The HTML to display this ad
  */
-function _adRenderText($aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $loc, $referer)
+function _adRenderText(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $loc, $referer)
 {
-    $conf = $GLOBALS['_MAX']['CONF'];
-    $prepend = !empty($aBanner['prepend']) ? $aBanner['prepend'] : '';
-    $append = !empty($aBanner['append']) ? $aBanner['append'] : '';
-    // Create the anchor tag..
-    $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
-    if (!empty($clickUrl)) {  // There is a link
-        $status = _adRenderBuildStatusCode($aBanner);
-        $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
-        $clickTag = "<a href='$clickUrl' target='$target'$status>";
-        $clickTagEnd = '</a>';
-    } else {
-        $clickTag = '';
-        $clickTagEnd = '';
+    // This is a wrapper to the "parent" bannerTypeHtml function
+    $aConf = $GLOBALS['_MAX']['CONF'];
+    if (!function_exists('Plugins_BannerTypeText_delivery_adRender')) {
+        @include MAX_PATH . $aConf['pluginPaths']['extensions'] . '/bannerTypeText/bannerTypeTextDelivery.php';
     }
-    // Get the text below the banner
-    $bannerText = !empty($aBanner['bannertext']) ? "$clickTag{$aBanner['bannertext']}$clickTagEnd" : '';
-    // Get the image beacon...
-    $beaconTag = ($logView && $conf['logging']['adImpressions']) ? _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer) : '';
-    return $prepend . $bannerText . $beaconTag . $append;
-
+    return Plugins_BannerTypeText_delivery_adRender($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);
 }
 
 /**
@@ -569,7 +482,7 @@ function _adRenderText($aBanner, $zoneId=0, $source='', $ct0='', $withText=false
  *
  * @return string               The HTML to display this ad
  */
-function _adRenderReal($aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $loc, $referer)
+function _adRenderReal(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $loc, $referer)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     $prepend = !empty($aBanner['prepend']) ? $aBanner['prepend'] : '';
@@ -835,6 +748,52 @@ function _adRenderBuildStatusCode($aBanner)
 {
     return !empty($aBanner['status']) ? " onmouseover=\"self.status='" . addslashes($aBanner['status']) . "'; return true;\" onmouseout=\"self.status=''; return true;\"" : '';
 
+}
+
+function _getAdRenderFunction($aBanner)
+{
+    $functionName = false;
+    if (!empty($aBanner['ext_bannertype'])) {
+        return OX_Delivery_Common_getFunctionFromPluginIdentifier($aBanner['ext_bannertype'], 'adRender');
+    } else {
+        switch ($aBanner['contenttype']) {
+            case 'gif'  :
+            case 'jpeg' :
+            case 'png'  :
+                $functionName = '_adRenderImage';
+                break;
+            case 'swf'  :
+                if ($richMedia) {
+                    $functionName = '_adRenderFlash';
+                } else {
+                    $functionName = '_adRenderImage';
+                }
+                break;
+            case 'txt'  :
+                    $functionName = '_adRenderText';
+                break;
+            case 'mov'  :
+                    $functionName = '_adRenderQuicktime';
+                break;
+            default :
+                switch ($aBanner['type']) {
+                    case 'html' :
+                        $functionName = '_adRenderHtml';
+                        break;
+                    case 'url' : // External banner without a recognised content type - assume image...
+                        $functionName = '_adRenderImage';
+                        break;
+                    case 'txt' :
+                        $functionName = '_adRenderText';
+                        break;
+                    default:
+                        $functionName = '_adRenderHtml';
+                        break;
+                }
+                break;
+        }
+    }
+    return $functionName;
 }
 
 ?>

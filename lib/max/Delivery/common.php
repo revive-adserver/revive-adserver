@@ -598,4 +598,53 @@ function _convertContextArray($key, $array)
     return $unpacked;
 }
 
+function OX_Delivery_Common_hook($hookName, $aParams = array())
+{
+    $aConf = $GLOBALS['_MAX']['CONF'];
+    if (!empty($aConf['deliveryHooks'][$hookName])) {
+        $hooks = explode('|', $aConf['deliveryHooks'][$hookName]);
+        foreach ($hooks as $identifier) {
+            $functionName = OX_Delivery_Common_getFunctionFromPluginIdentifier($identifier, $hookName);
+            if (function_exists($functionName)) {
+                call_user_func_array($functionName, $aParams);
+            }
+        }
+    }
+    return true;
+}
+
+function OX_Delivery_Common_getFunctionFromPluginIdentifier($identifier, $hook = null)
+{
+    $aInfo = explode(':', $identifier);
+    $functionName = 'Plugin_' . implode('_', $aInfo) . '_Delivery';
+    if (!empty($hook)) {
+        $functionName .= '_' . $hook;
+    }
+    if (!function_exists($functionName)) {
+        // Function doesn't exist, include the relevant plugin file
+        $fileName = $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] . '/' . implode('/', $aInfo) . '.delivery.php';
+        if (!in_array($fileName, array_keys($GLOBALS['_MAX']['FILES']))) {
+            $GLOBALS['_MAX']['FILES'][$fileName] = true;
+            if (file_exists(MAX_PATH . $fileName)) {
+                include MAX_PATH . $fileName;
+            }
+        }
+        if (!function_exists($functionName)) {
+            // Function or function file doesn't exist, use the "parent" function
+            $parentFileName = $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] . '/' . $aInfo[0] .  '/' . $aInfo[0] . 'Delivery.php';
+            if (!in_array($parentFileName, array_keys($GLOBALS['_MAX']['FILES']))) {
+                $GLOBALS['_MAX']['FILES'][$parentFileName] = true;
+                if (file_exists(MAX_PATH . $parentFileName)) {
+                    @include MAX_PATH . $parentFileName;
+                    $functionName = 'Plugins_' . $aInfo[0] . '_delivery';
+                    if (!empty($hook)) {
+                        $functionName .= '_' . $hook;
+                    }
+                }
+            }
+        }
+    }
+    return $functionName;
+}
+
 ?>

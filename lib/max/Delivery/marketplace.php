@@ -77,7 +77,11 @@ function MAX_marketplaceGetIdWithRedirect($scriptName = null)
     if (MAX_marketplaceEnabled()) {
         if (MAX_marketplaceNeedsId() && !isset($_GET['openxid'])) {
             $scriptName = isset($scriptName) ? $scriptName : basename($_SERVER['SCRIPT_NAME']);
-            $oxpUrl = MAX_commonGetDeliveryUrl($scriptName).'?'.$_SERVER['QUERY_STRING'].'&openxid=OPENX_ID';
+            $oxpUrl = MAX_commonGetDeliveryUrl($scriptName).'?';
+            if (!empty($_SERVER['QUERY_STRING'])) {
+                $oxpUrl .= $_SERVER['QUERY_STRING'].'&';
+            }
+            $oxpUrl .= 'openxid=OPENX_ID';
             $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
             $url .= $aConf['marketplace']['idHost'].'/redir?r='.urlencode($oxpUrl);
             $url .= '&pid=OpenXDemo';

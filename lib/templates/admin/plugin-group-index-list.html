@@ -1,0 +1,73 @@
+{*<!--
+
+---------------------------------------------------------------------------+
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+
+-->*}
+<table class="data plugins-table" >
+     <thead>
+        <tr>
+            <td>Group</td>
+            <td>Version</td>
+            <td>Author</td>
+            <td>Extends</td>
+            <td>Status</td>
+            <td colspan="3">Actions</td>
+        </tr>
+     </thead>
+
+    <tbody>
+      {if !$aPlugins|@count}
+        <tr class="even">
+            <td colspan="6">
+             <p>No component groups.</p>
+            </td>
+        </tr>
+      {else}
+        {cycle name=bgclass values="odd,even" assign=bgClass reset=1}
+        {foreach from=$aPlugins key=name item=aPlugin}
+        {cycle name=bgclass assign=bgClass}
+            <tr class="{$bgClass}">
+                <td>{$aPlugin.name}</td>
+                <td>{$aPlugin.version}</td>
+                <td>{if {$aPlugin.authoremail}<a href="mailto:{$aPlugin.authoremail}">{/if}{$aPlugin.author}{if {$aPlugin.authoremail}</a>{/if}</td>
+                <td>{$aPlugin.extends}</td>
+                <td>
+                    {if $aPlugin.installed}
+                        {if $aPlugin.enabled}Enabled
+                        {else}Disabled
+                        {/if}
+                    {else}Not installed
+                    {/if}
+                </td>
+                <td><a href='plugin-index.php?action=info&group={$aPlugin.name}&parent={$aPackage.name}' ><span class="action icon details">Details</span></a></td>
+                <td>{if $aPlugin.settings}<a href='plugin-index.php?action=settings&group={$aPlugin.name}&parent={$aPackage.name}' ><span class="action icon settings">Settings</span></a>{/if}</td>
+                <td>{if $aPlugin.preferences}<a href='plugin-index.php?action=preferences&group={$aPlugin.name}&parent={$aPackage.name}' ><span class="action icon preferences">Preferences</span></a>{/if}</td>
+            </tr>
+        {/foreach}
+       {/if}
+    </tbody>
+</table>

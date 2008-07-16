@@ -173,13 +173,54 @@ class OA_Dal
         return $GLOBALS['_MAX']['CONF']['table']['prefix'];
     }
 
+
     /**
      * Set up the required DB_DataObject options.
+     * this method will add one location for all data-aware plugins
      *
      * @static
      * @access private
      */
     function _setupDataObjectOptions()
+    {
+        static $needsSetup;
+        if (isset($needsSetup)) {
+            return;
+        }
+        $needsSetup = false;
+
+        $aConf = $GLOBALS['_MAX']['CONF'];
+
+        // Set DB_DataObject options
+
+        // core dataobjects and schema
+        $pathDataObjectsCore   = MAX_PATH . '/lib/max/Dal/DataObjects';
+        $aIniLocations[0] = $pathDataObjectsCore.'/db_schema.ini';
+        $aLnkLocations[0] = $pathDataObjectsCore.'/db_schema.links.ini';
+        $aDboLocations[0] = $pathDataObjectsCore;
+
+        // plugin dataobjects and schemas
+        $pathDataObjectsPlugin = MAX_PATH . $aConf['pluginPaths']['var'] . 'DataObjects';
+        $aIniLocations[1] = $pathDataObjectsPlugin.'/db_schema.ini';
+        $aLnkLocations[1] = $pathDataObjectsPlugin.'/db_schema.links.ini';
+        $aDboLocations[1] = $pathDataObjectsPlugin;
+
+        $dbname = $GLOBALS['_MAX']['CONF']['database']['name'];
+        $options =& PEAR::getStaticProperty('DB_DataObject', 'options');
+        $options = array(
+            'database'              => OA_DB::getDsn(),
+            'ini_'.$dbname          => $aIniLocations,
+            'links_'.$dbname        => $aLnkLocations,
+            'schema_location'       => $pathDataObjectsCore, // only used by generator?
+            'class_location'        => $aDboLocations,
+            'require_prefix'        => $pathDataObjectsCore . '/', // only used by generator?
+            'class_prefix'          => 'DataObjects_',
+            'debug'                 => 0,
+            'production'            => 0,
+        );
+    }
+
+    function _setupDataObjectOptionsOLD()
     {
         static $needsSetup;
         if (isset($needsSetup)) {
@@ -371,7 +412,7 @@ class OA_Dal
     function to2digitFormat($value)
     {
         if ($value < 10) {
-            return "0$value";
+            return "0" . $value;
         }
         return $value;
     }

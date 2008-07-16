@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>ox_core</name>
+    <creationDate>2008-02-19</creationDate>
+    <author>Radek Maciaszek</author>
+    <authorEmail>radek.maciaszek@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>Plugin prepares data for buckets logging</description>
+    <version>1.0.0-dev</version>
+    <oxversion>2.7.5-dev</oxversion>
+    <extends>deliveryDataPrepare</extends>
+
+    <install>
+        <files>
+            <file path="{MODULEPATH}deliveryDataPrepare/ox_core/">ox_core.delivery.php</file>
+        </files>
+    </install>
+
+    <register>
+        <hook type='delivery' hook="preLog">Plugin_deliverydataPrepare_ox_core_ox_core_Delivery_preLog</hook>
+    </register>
+</plugin>

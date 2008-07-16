@@ -26,6 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Plugin.php';
+require_once MAX_PATH . '/lib/OA/Plugin/Component.php';
 require_once MAX_PATH . '/plugins/Maintenance/Maintenance.php';
 
 /**
@@ -347,13 +348,20 @@ class TestOfMAX_Plugin extends UnitTestCase {
         // Unset the error handler
         PEAR::popErrorHandling();
 
+        unset($GLOBALS['_MAX']['CONF']['plugins']['openXTests']);
+        unset($GLOBALS['_MAX']['CONF']['pluginGroupComponents']['Dummy']);
+
+        TestEnv::installPluginPackage('openXTests', 'openXTests', '/plugins_repo/');
+
         // Test with a real method, no parameters
-        $return = MAX_Plugin::callStaticMethod('deliveryLimitations', 'Time', 'Date', 'isAllowed');
+        $return = OX_Component::callStaticMethod('deliveryLimitations', 'Dummy', 'Dummy', 'isAllowed');
         $this->assertTrue($return);
 
         // Test with a real method, with parameters
-        $return = MAX_Plugin::callStaticMethod('deliveryLimitations', 'Time', 'Date', 'isAllowed', array('channel-acl.php'));
+        $return = OX_Component::callStaticMethod('deliveryLimitations', 'Dummy', 'Dummy', 'isAllowed', 'disallow');
         $this->assertFalse($return);
+
+        TestEnv::uninstallPluginPackage('openXTests');
     }
 
     /**
@@ -592,11 +600,12 @@ class TestOfMAX_Plugin extends UnitTestCase {
      */
     function test_mkDirRecursive()
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
         // Try to create a folder
-        $result = MAX_Plugin::_mkDirRecursive(MAX_PLUGINS_VAR . '/test');
+        $result = MAX_Plugin::_mkDirRecursive($aConf['pluginPaths']['var'] . 'test');
         $this->assertTrue($result);
         // Remove the created directory
-        $this->_delDir(MAX_PLUGINS_VAR . '/test');
+        $this->_delDir($aConf['pluginPaths']['var'] . 'test');
     }
 
     /**
@@ -604,25 +613,26 @@ class TestOfMAX_Plugin extends UnitTestCase {
      */
     function testPrepareCacheOptions()
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
         // Set the error handling class' handleErrors() method as
         // the error handler for PHP for this test.
         $oTestErrorHandler = new TestErrorHandler();
         // Test with directory that should be creatable
-        $result = MAX_Plugin::prepareCacheOptions('Maintenance', 'Fake', MAX_PLUGINS_VAR . '/cache/test/');
+        $result = MAX_Plugin::prepareCacheOptions('Maintenance', 'Fake', $aConf['pluginPaths']['var'] . 'cache/test/');
         $this->assertTrue(is_array($result));
-        $this->assertEqual($result['cacheDir'], MAX_PLUGINS_VAR . '/cache/test/');
+        $this->assertEqual($result['cacheDir'], $aConf['pluginPaths']['var'] . 'cache/test/');
         $this->assertEqual($result['lifeTime'], 3600);
         $this->assertTrue($result['automaticSerialization']);
         // Remove the created directory
-        $this->_delDir(MAX_PLUGINS_VAR . '/cache/test');
+        $this->_delDir($aConf['pluginPaths']['var'] . 'cache/test');
         // Re-test without a set cache directory, but a set cache time
         $result = MAX_Plugin::prepareCacheOptions('Maintenance', 'Fake', null, 500);
         $this->assertTrue(is_array($result));
-        $this->assertEqual($result['cacheDir'], MAX_PLUGINS_VAR . '/cache/Maintenance/Fake/');
+        $this->assertEqual($result['cacheDir'], MAX_PATH . $aConf['pluginPaths']['var'] . 'cache/Maintenance/Fake/');
         $this->assertEqual($result['lifeTime'], 500);
         $this->assertTrue($result['automaticSerialization']);
         // Remove the created directory
-        $this->_delDir(MAX_PLUGINS_VAR . '/cache/Maintenance');
+        $this->_delDir($aConf['pluginPaths']['var'] . 'cache/Maintenance');
     }
 
     /**
@@ -630,6 +640,8 @@ class TestOfMAX_Plugin extends UnitTestCase {
      */
     function testCacheMethods()
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+
         // Test reading when no data cached
         $result = MAX_Plugin::getCacheForPluginById('foo', 'Maintenance', 'Fake');
         $this->assertFalse($result);
@@ -659,7 +671,7 @@ class TestOfMAX_Plugin extends UnitTestCase {
         $result = MAX_Plugin::getCacheForPluginById('foo', 'Maintenance', 'Fake', null, true, $aOptions);
         $this->assertFalse($result);
         // Remove the created directory
-        $this->_delDir(MAX_PLUGINS_VAR . '/cache/Maintenance');
+        $this->_delDir(MAX_PATH . $aConf['pluginPaths']['var'] . '/cache/Maintenance');
     }
 
     /**
@@ -670,6 +682,9 @@ class TestOfMAX_Plugin extends UnitTestCase {
     function _delDir($dirName) {
        if (empty($dirName)) {
            return true;
+       }
+       if (substr($dirName, 0, strlen(MAX_PATH)) != MAX_PATH) {
+           $dirName = MAX_PATH . $dirName;
        }
        if (file_exists($dirName)) {
            $dir = dir($dirName);

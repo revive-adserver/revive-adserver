@@ -15,6 +15,87 @@
  */
 (function($) {
   /**
+   * Treats each of the selected checkboxes as master checkboxes and installs
+   * the master-slave handler for both the master and its dependants. 
+   * - Dependent checkboxes can be selected using built in parent-child id-based
+   * selector or using given childSelector.
+   * - parent state can affect only particular slaves by usage of condition statement.
+   * eg. if parent is selected some of them are selected.
+   *
+   * Please note that in order to select parent all slaves must be selected.
+   * You can also disable changing parent state when all children are selected using
+   * childAffectParent attribute 
+   *
+   * Not suitable for large numbers of checkboxes, use multicheckboxes() instead. 
+   */
+  $.fn.multicheckboxcondition = function(settings) {
+    return this.each(function() {
+      var defaults = {
+        childSelector: "[@id^='" + this.id + "_']", // by default children share id prefix with parent
+        childAffectParent: true, 
+        condition: function(checkbox, parentChecked) {
+            return true;
+        }
+      };
+      
+      var options = $.extend({ }, defaults, settings); 
+
+      var $parent = $(this);
+
+      $(options.childSelector)
+         .click(function (event) {
+	        if (options.childAffectParent) {
+	            // Check if all checkboxes in the group are checked
+                var allChecked = true;
+	        
+		        $(options.childSelector).each(function() {
+		          if (!this.checked) {
+		            allChecked = false;
+		            return false;
+		          }
+		        });
+		        $parent.attr("checked", allChecked);
+		    }
+	        event.stopPropagation();
+	      })
+        .bind('stateUpdate', function(event, parentId) {
+            if (parentId != $parent.attr('id')) { //ignore changes for my parent
+                // Check if all checkboxes in the group are checked
+                var allChecked = true;
+            
+	            if (options.childAffectParent) {
+	                $(options.childSelector).each(function() {
+	                  if (!this.checked) {
+	                    allChecked = false;
+	                    return false;
+	                  }
+	                });
+	                $parent.attr("checked", allChecked);
+	            }            
+            }
+        });
+
+      $parent.click(function(event) {
+        var parent = this;
+        $(options.childSelector).each(function() {
+            if (options.condition(this, parent.checked) == true) {
+                $(this).attr("checked", parent.checked);
+                $(this).trigger('stateUpdate', [parent.id]); //inform other multichexboxes of state change
+            }        
+        });
+        event.stopPropagation();
+      });
+    });
+    
+    function updateParent()
+    {
+        alert('updateParent');
+    }
+  };
+
+
+
+  /**
    * Treats each of the selected checkboxes as parent checkboxes and installs
    * the parent-child handler for both the parent and its children.
    *

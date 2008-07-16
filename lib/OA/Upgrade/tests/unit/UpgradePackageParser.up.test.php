@@ -70,6 +70,7 @@ class Test_OA_UpgradePackageParser extends UnitTestCase
         $this->assertEqual($aPackage['description'],'Openads Upgrade Test 1 to 2','wrong value: description');
         $this->assertEqual($aPackage['versionFrom'],'1','wrong value: versionFrom');
         $this->assertEqual($aPackage['versionTo'],'2','wrong value: versionTo');
+        $this->assertEqual($aPackage['product'],'oa','wrong value: product');
 
         $this->assertEqual($aPackage['prescript'],'prescript_openads_upgrade_1_to_2.php','wrong value: prescript');
         $this->assertEqual($aPackage['postscript'],'postscript_openads_upgrade_1_to_2.php','wrong value: postscript');

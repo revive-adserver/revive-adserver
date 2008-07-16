@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>testPlugin</name>
+    <creationDate>2008-02-19</creationDate>
+    <author>Monique Szpak</author>
+    <authorEmail>monique.szpak@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>testPlugin Base Admin Interface Component for OpenX</description>
+    <version>0.0.2</version>
+    <extends>admin</extends>
+
+    <install>
+
+        <syscheck>
+            <dbms>
+                <name>mysql</name>
+                <supported>true</supported>
+                <version>4.0.18</version>
+                <engine>myisam</engine>
+                <engine>innodb</engine>
+                <grant>ALTER</grant>
+            </dbms>
+            <dbms>
+                <name>pgsql</name>
+                <supported>true</supported>
+                <version>8.0.12</version>
+                <grant>SUPER</grant>
+            </dbms>
+
+            <php>
+                <setting name='version'>2.5.2</setting>;
+            </php>
+
+        </syscheck>
+
+        <files>
+            <file path="{ADMINPATH}/templates/">testPlugin.html</file>
+            <file path="{ADMINPATH}/images/">testPlugin1.jpg</file>
+            <file path="{ADMINPATH}/images/">testPlugin2.jpg</file>
+            <file path="{ADMINPATH}/">menu.php</file>
+            <file path="{ADMINPATH}/">testPlugin-common.php</file>
+            <file path="{ADMINPATH}/">testPlugin-index.php</file>
+            <file path="{ADMINPATH}/">testPlugin-page.php</file>
+        </files>
+
+        <navigation>
+            <menu permission="ADMIN|MANAGER" insertafter="3" index="test-plugin"   link="plugins/testPlugin/testPlugin-index.php">Test Plugin</menu>
+            <menu permission="ADMIN|MANAGER" addto="test-plugin" index="test-plugin-0" link="plugins/testPlugin/testPlugin-index.php">Test Plugin index</menu>
+            <menu permission="ADMIN|MANAGER" addto="test-plugin" index="test-plugin-1" link="plugins/testPlugin/testPlugin-page.php?action=english">Test Plugin Page 1</menu>
+            <menu permission="ADMIN|MANAGER" addto="test-plugin" index="test-plugin-2" link="plugins/testPlugin/testPlugin-page.php?action=spanish">Test Plugin Page 2</menu>
+            <menu permission="ADMIN|MANAGER" addto="test-plugin" index="test-plugin-3" link="plugins/testPlugin/testPlugin-page.php?action=russian">Test Plugin Page 3</menu>
+
+        </navigation>
+
+        <configuration>
+            <setting section="testPlugin" key="setting1">0</setting>
+            <setting section="testPlugin" key="setting2">0</setting>
+            <setting section="testPlugin" key="setting3">0</setting>
+
+            <!--preference></preference-->
+        </configuration>
+
+        <schema>
+                <mdb2schema>tables_testPlugin</mdb2schema>
+                <dboschema>db_schema</dboschema>
+                <dbolinks>db_schema.links</dbolinks>
+                <dataobject>Testplugin_table.php</dataobject>
+        </schema>
+
+        <!-- Custom Install Scripts to execute -->
+        <postscript>postscript_install_testPlugin.php</postscript>
+
+    </install>
+
+    <!--uninstall>
+        <script>uninstall_testPlugin.php</script>
+    </uninstall-->
+
+</plugin>

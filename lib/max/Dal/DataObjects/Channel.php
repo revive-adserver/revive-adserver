@@ -103,9 +103,12 @@ class DataObjects_Channel extends DB_DataObjectCommon
                 $aData = $doAcls->toArray();
                 list($package, $name) = explode(':', $aData['type']);
                 $deliveryLimitationPlugin = MAX_Plugin::factory('deliveryLimitations', ucfirst($package), ucfirst($name));
-                $deliveryLimitationPlugin->init($aData);
-                if ($deliveryLimitationPlugin->isAllowed($page)) {
-                    $aAcls[$aData['executionorder']] = $aData;
+                if ($deliveryLimitationPlugin)
+                {
+                    $deliveryLimitationPlugin->init($aData);
+                    if ($deliveryLimitationPlugin->isAllowed($page)) {
+                        $aAcls[$aData['executionorder']] = $aData;
+                    }
                 }
             }
             $sLimitation = MAX_AclGetCompiled($aAcls, $page);

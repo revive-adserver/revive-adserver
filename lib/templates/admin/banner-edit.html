@@ -53,6 +53,13 @@ $Id$
 </div>
 {/if}
 
+{if $disabled}
+<div class='errormessage' id='warning_banner_readonly' style='display:none'> <img class='errormessage' src='images/warning.gif' align='absmiddle' />
+<span class='tab-s'> {t str=Notice}</span><br />
+{t str=WarnBannerReadonly}
+</div>
+{/if}
+
 {*banner form*}
 {*YZZZ*}
 {include file=form/form.html form=$form}
@@ -97,7 +104,7 @@ $Id$
     }
 
     function alterHtmlCheckbox() {
-        var bannerForm = findObj ('bannerForm');
+
         if (bannerForm.autohtml.checked) {
             bannerForm.adserver.disabled = false;
         } else {

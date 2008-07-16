@@ -134,6 +134,7 @@ class MigrationTest extends DbTestCase
         // execute all database upgrade actions for a given schema version
         // constructive first
         $this->oDBUpgrader->init('constructive', 'tables_core', $version);
+        $this->oDBUpgrader->doBackups = false;
         $this->assertTrue($this->oDBUpgrader->upgrade(),'constructive');
         // use same changeset, switch timing only to execute destructive
         $this->oDBUpgrader->init('destructive', 'tables_core', $version, true);

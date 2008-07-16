@@ -584,13 +584,6 @@ class DB_DataObjectCommon extends DB_DataObject
         if ($ret !== true) {
             return $ret;
         }
-        global $_DB_DATAOBJECT;
-        $_DB_DATAOBJECT['CONFIG']["ini_{$this->_database}"] = array(
-            "{$_DB_DATAOBJECT['CONFIG']['schema_location']}/db_schema.ini",
-        );
-        $_DB_DATAOBJECT['CONFIG']["links_{$this->_database}"] =
-            "{$_DB_DATAOBJECT['CONFIG']['schema_location']}/db_schema.links.ini";
-
         $this->databaseStructure();
         $this->_addPrefixToTableName();
     }
@@ -872,21 +865,67 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     function databaseStructure()
     {
-        if (!parent::databaseStructure() && empty($_DB_DATAOBJECT['INI'][$this->_database])) {
+        global $_DB_DATAOBJECT;
+
+        if (empty($_DB_DATAOBJECT['CONFIG'])) {
+            DB_DataObject::_loadConfig();
+        }
+
+        $_DB_DATAOBJECT['INI'][$this->_database]    = $this->_mergeIniFiles($_DB_DATAOBJECT['CONFIG']["ini_{$this->_database}"]);
+        if (empty($_DB_DATAOBJECT['INI'][$this->_database]))
+        {
+            return false;
+        }
+        $_DB_DATAOBJECT['LINKS'][$this->_database]  = $this->_mergeIniFiles($_DB_DATAOBJECT['CONFIG']["links_{$this->_database}"]);
+        if (empty($_DB_DATAOBJECT['LINKS'][$this->_database]))
+        {
             return false;
         }
 
-        global $_DB_DATAOBJECT;
         $configDatabase = &$_DB_DATAOBJECT['INI'][$this->_database];
 
         // databaseStructure() is cached in memory so we have to add prefix to all definitions on first run
-        if (!empty($this->_prefix)) {
+        if (!empty($this->_prefix))
+        {
             $oldConfig = $configDatabase;
-            foreach ($oldConfig as $tableName => $config) {
+            foreach ($oldConfig as $tableName => $config)
+            {
                 $configDatabase[$this->_prefix.$tableName] = $configDatabase[$tableName];
             }
         }
         return true;
+    }
+
+    function _mergeIniFiles($aFiles)
+    {
+        $aResult = array();
+        foreach ($aFiles as $ini)
+        {
+            if (file_exists($ini) && is_file($ini) && is_readable($ini))
+            {
+                $aIni = parse_ini_file($ini, true);
+                $aResult = array_merge($aResult, $aIni);
+                if (!empty($_DB_DATAOBJECT['CONFIG']['debug']))
+                {
+                    $this->debug("Loaded ini file: $ini","databaseStructure",1);
+                }
+            }
+            else
+            {
+                if (!empty($_DB_DATAOBJECT['CONFIG']['debug']))
+                {
+                    if (!file_exists($ini))
+                    {
+                        $this->debug("Missing ini file: $ini","databaseStructure",1);
+                    }
+                    if ((!is_file($ini)) || (!is_readable ($ini)))
+                    {
+                        $this->debug("ini file is not readable: $ini","databaseStructure",1);
+                    }
+                }
+            }
+        }
+        return $aResult;
     }
 
     /**

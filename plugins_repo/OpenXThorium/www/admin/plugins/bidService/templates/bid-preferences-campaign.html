@@ -1,0 +1,176 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+
+-->*}
+
+<link rel='stylesheet' type='text/css' href='css/bid.css'>
+
+<div class="section">
+  <div class="content">
+    
+    <form method="POST">
+    <ul class="form">
+      <li class="line">
+        <p>You can earn more on 4 websites if this campaign takes part in MarkePlace and is linked to one of website zones.</p>
+        <input type="checkbox" value="t" id="enable_mkt"><label for="enable_mkt">{t str='Yes, allow this campaign to be challenged by MarketPlace' }</li>
+      </li>
+    
+      <li class="line">
+        <p>If you are going to link this campaign to more than one website you can select on which websites this campaign can be challenged by MarketPlace.</p>
+      
+        <table id="sites-cpm-comparison" class='data sortable'>
+            <caption>Select websites for which marketplace is enabled for this campaign</caption>
+        <thead>
+          <tr>
+            <th class="checkbox acenter"><input type="checkbox" name="all" id="site_av" value="t"></th>
+            <th class="name"><span>Website</span></th>
+            <th class="category"><span>Category</span></th>
+            <th class="m-cpm number"><span>Estimated Marketplace CPM</span></th>
+            <th class="c-cpm number"><span>Campaign CPM</span></th>
+            <th class="diff number"><span>Difference</span></th>
+            <th class="linked acenter"><span>Linked via Zone</span></th>
+          </tr>
+        </thead>
+        
+        <tbody>
+          <tr class='odd'>
+            <!--  DEVELOPE: LOOP TRS, fill in data, note that checkboxes' id and name must be appended with website id -->
+            <!-- td class="acenter"><input type="checkbox" id="site_av_{$website.id|escape:html}" name="site_av_{$website.id|escape:html}" value="t"></td-->
+            <td class="acenter"><input type="checkbox" id="site_av_2" name="site_av_2" value="t"></td>            
+            <td><a href="www.todo.com" target="_blank">www.yahoo.com</a></td>
+            <td>Sport / Football</td>
+            <td class="number more">$10.0</td>
+            <td class="number">$6.0</td>
+            <td class="number more">+$4.0</td>
+            <td class="acenter"><a href="{$adminWebPath}campaign-zone.php?clientid={$clientid}&campaignid={$campaignid}">linked</a></td>
+          </tr>
+                      
+          <tr class='even'>
+            <td class="acenter"><input type="checkbox" id="site_av_1" name="site_av_1" value="t"></td>
+            <td><a href="www.cisco.com" target="_blank">Cisco.com</a></td>
+            <td>Technologu / Hardware</td>
+            <td class="number more">$7.5</td>
+            <td class="number">$6.0</td>
+            <td class="number more">+$1.0</td>
+            <td class="acenter"><a href="{$adminWebPath}campaign-zone.php?clientid={$clientid}&campaignid={$campaignid}">not linked</a></td>
+          </tr>            
+          
+          <tr class='odd'>
+            <td class="acenter"><input type="checkbox" id="site_av_5" name="site_av_5" value="t"></td>          
+            <td><a href="www.interia.pl" target="_blank">Interia.pl</a></td>
+            <td>News / Portal</td>
+            <td class="number less">$3.0</td>
+            <td class="number">$6.0</td>
+            <td class="number less">-$3.01</td>
+            <td class="acenter"><a href="{$adminWebPath}campaign-zone.php?clientid={$clientid}&campaignid={$campaignid}">linked</a></td>
+          </tr>            
+            
+          <tr class='even'>            
+            <td class="acenter"><input type="checkbox" id="site_av_3" name="site_av_3" value="t"></td>
+            <td><a href="www.ebay.com" target="_blank">Ebay.com</a></td>
+            <td>Shopping / Auction</td>
+            <td class="number more">$8</td>
+            <td class="number">$6.0</td>
+            <td class="number more">+$2.0</td>
+            <td class="acenter"><a href="{$adminWebPath}campaign-zone.php?clientid={$clientid}&campaignid={$campaignid}">linked</a></td>
+          </tr>            
+            
+          <tr class='odd'>            
+            <td class="acenter"><input type="checkbox" id="site_av_6" name="site_av_6" value="t"></td>
+            <td><a href="www.allegro.pl" target="_blank">Allegro.pl</a></td>
+            <td>Shopping / Auction</td>
+            <td class="number more">$6.5</td>
+            <td class="number">$6.0</td>
+            <td class="number more">+$0.5</td>
+            <td class="acenter"><a href="{$adminWebPath}campaign-zone.php?clientid={$clientid}&campaignid={$campaignid}">not linked</a></td>
+          </tr>            
+            
+          <tr class='even'>
+            <td class="acenter"><input type="checkbox" id="site_av_4" name="site_av_4" value="t"></td>            
+            <td><a href="www.todo.com" target="_blank">TODO.COM</a></td>
+            <td>Technology / Software</td>
+            <td class="number less">$6</td>
+            <td class="number">$6.0</td>
+            <td class="number less">-$1.0</td>
+            <td class="acenter"><a href="{$adminWebPath}campaign-zone.php?clientid={$clientid}&campaignid={$campaignid}">linked</a></td>
+          </tr>            
+            
+        </tbody>
+      </table>
+      </li>
+    
+      <li class="line ctr-buttons">
+        <input type="submit" value="{t str=Update}" name="enabled_websites"></li>
+      </li>
+    </ul>
+    </form>
+  </div>
+</div>
+
+<script type="text/javascript" src="js/bidservice.js" ></script>
+<script type="text/javascript">
+<!--
+{literal}   
+    $(document).ready(function() {
+        $("#sites-cpm-comparison").tablesorter({
+            cssAsc: ' sort-down',   //bug in plugin need to swap classes - should ne sort-up
+            cssDesc: ' sort-up',
+            cssHeader: 'sort',
+            sortList: [[5,1]],
+            textExtraction: 'complex',          
+            headers: {
+              0: { //do not sort checkboxes 
+                sorter: false
+              },
+              4: { //campaign CMP is constant 
+                sorter: false
+              },
+              6: { //do not sort links 
+                sorter: false
+              }
+            },
+            widgets: ['zebra']
+        });
+        
+        $("#site_av").multicheckboxcondition();
+        
+        $("#enable_mkt").multicheckboxcondition({
+              childSelector: "[@id^='site_av_']",
+              childAffectParent: false,
+              condition: function(checkbox, parentChecked) {
+                if (!parentChecked) {
+                    return true; //always deselect all if not signed up to mplace
+                }
+                var count = $(checkbox).parents('tr').eq(0).children('td.more').length;
+                return count > 0;
+              }              
+        });
+     });
+{/literal}            
+//-->
+</script>

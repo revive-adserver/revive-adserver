@@ -95,7 +95,7 @@ function loadChangeset()
 	return $objResponse;
 }
 
-function loadSchema()
+function loadSchemaOld()
 {
     $objResponse = new xajaxResponse();
     $schemaFile = $_COOKIE['schemaFile'];
@@ -120,6 +120,58 @@ function loadSchema()
         closedir($dh);
         $objResponse->addAssign('xml_file',"innerHTML", $opts);
     }
+	return $objResponse;
+}
+
+function loadSchema()
+{
+    $objResponse = new xajaxResponse();
+    $schemaFile = $_COOKIE['schemaFile'];
+    $schemaPath = $_COOKIE['schemaPath'];
+    $opts = '';
+    $dh = opendir(MAX_PATH.OX_CORE);
+    if ($dh) {
+        while (false !== ($file = readdir($dh)))
+        {
+            if (strpos($file, '.xml')>0)
+            {
+                if ($file!=$schemaFile)
+                {
+                    $opts.= '<option value="'.OX_CORE.$file.'">'.$file.'</option>';
+                }
+                else
+                {
+                    $opts.= '<option value="'.OX_CORE.$file.'" selected="selected">'.$file.'</option>';
+                }
+            }
+        }
+        closedir($dh);
+    }
+
+    $aPlugins = $GLOBALS['_MAX']['CONF']['pluginGroupComponents'];
+    foreach ($aPlugins as $name => $enabled)
+    {
+        $path = sprintf(OX_PLUG, $name);
+        $dh = opendir(MAX_PATH.$path);
+        if ($dh) {
+            while (false !== ($file = readdir($dh)))
+            {
+                if (strpos($file, '.xml')>0)
+                {
+                    if ($file!=$schemaFile)
+                    {
+                        $opts.= '<option value="'.$path.$file.'">'.$file.'</option>';
+                    }
+                    else
+                    {
+                        $opts.= '<option value="'.$path.$file.'" selected="selected">'.$file.'</option>';
+                    }
+                }
+            }
+            closedir($dh);
+        }
+    }
+    $objResponse->addAssign('xml_file',"innerHTML", $opts);
 	return $objResponse;
 }
 

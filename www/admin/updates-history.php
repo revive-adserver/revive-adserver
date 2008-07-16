@@ -170,10 +170,10 @@ if (count($aMessages)>0)
                 <br /><br />
                 <table border='0' width='90%' cellpadding='0' cellspacing='0'>
                 <tr height='25'>
-                    <td height='25'>&nbsp;</td>
                     <td height='25'>
-                        <b style="color: #003399;">&nbsp;&nbsp;<?php echo $strDate ?></b>
+                        <b style="color: #003399;"><?php echo $strName; ?></b>
                     </td>
+                    <td height='25'>&nbsp;</td>
                     <td height="25">
                         <b style="color: #003399;"><?php echo $strFromVersion ?></b>
                     </td>
@@ -183,12 +183,15 @@ if (count($aMessages)>0)
                     <td height="25">
                         <b style="color: #003399;"><?php echo $strStatus ?></b>
                     </td>
+                    <td height='25'>
+                        <b style="color: #003399;">Date</b>
+                    </td>
                     <td height='25' width='70'>
                         <b style="color: #003399;">&nbsp;</b>
                     </td>
                 </tr>
                 <tr height='1'>
-                    <td colspan='6' bgcolor='#888888'><img src='<?php echo MAX::assetPath() ?>/images/break.gif' height='1' width='100%'></td>
+                    <td colspan='7' bgcolor='#888888'><img src='<?php echo MAX::assetPath() ?>/images/break.gif' height='1' width='100%'></td>
                 </tr>
                 <?php
                 $i=0;
@@ -213,30 +216,31 @@ if (count($aMessages)>0)
                         <?php
                             } else {
                         ?>
-                            <td colspan="2"><b style="color: #003399;">&nbsp;<?php echo $v['updated']; ?></a></b></td>
+                            <td colspan="2"><b style="color: #003399;">&nbsp;<?php echo $v['upgrade_name']; ?></a></b></td>
                         <?php
                             }
                         ?>
                         </td>
                         <td height='25'>
-                            <?php echo ($v['version_from']) ? $v['version_from'] : '<b>'. $strInstallation .'</b>'; ?>
+                            <?php echo ($v['version_from']) ? $v['version_from'] : '<b>---</b>'; ?>
                         </td>
                         <td height='25'>
-                            <?php echo $v['version_to']; ?>
+                            <?php echo ($v['version_to']) ? $v['version_to'] : '<b>---</b>'; ?>
                         </td>
                         <td height='25'>
                             <span style="text-transform:lowercase;"><?php  echo ($v['upgrade_name'] == 'version stamp') ? $strUpdatedDbVersionStamp : $aProductStatus[$v['description']]; ?></span>
                         </td>
+                        <td><b style="color: #003399;">&nbsp;<?php echo $v['updated']; ?></a></b></td>
                         <td height='25' align='right'>
                         </td>
                 </tr>
-                <tr height='1'><td colspan='2' bgcolor='#F6F6F6'><img src='<?php echo MAX::assetPath() ?>/images/spacer.gif' width='1' height='1'></td><td colspan='4' bgcolor='#888888'><img src='<?php echo MAX::assetPath() ?>/images/break-l.gif' height='1' width='100%'></td></tr>
+                <tr height='1'><td colspan='2' bgcolor='#F6F6F6'><img src='<?php echo MAX::assetPath() ?>/images/spacer.gif' width='1' height='1'></td><td colspan='5' bgcolor='#888888'><img src='<?php echo MAX::assetPath() ?>/images/break-l.gif' height='1' width='100%'></td></tr>
                 <tr style="display:table-row;" <?php echo ($i%2==0?"bgcolor='#F6F6F6'":""); ?>>
                     <td colspan='2'>&nbsp;</td>
-                    <td colspan='4'>
+                    <td colspan='5'>
                         <table width='100%' cellpadding='5' cellspacing='0' border='0' style='border: 0px solid #ccc; margin: 10px 0 10px 0; '>
                         <tr height='20'>
-                            <td width="235" style="border-bottom: 1px solid #ccc;">
+                            <td width="275" style="border-bottom: 1px solid #ccc;">
                             <?php echo $strArtifacts ?>:
                             </td>
                             <td width="100" style="border-bottom: 1px solid #ccc;">
@@ -248,7 +252,9 @@ if (count($aMessages)>0)
                             ?>
                                 <img src='<?php echo MAX::assetPath() ?>/images/icon-recycle.gif' border='0' align='absmiddle' alt='<?php echo $strDelete ?>'><input type="submit" name="btn_clean_audit" onClick="return confirm('<?php echo $strBackupDeleteConfirm ?>')" style="cursor: pointer; border: 0; background: 0; color: #003399;font-size: 13px;" value="<?php echo $strDeleteArtifacts ?>">
                             <?php
-                            } else {
+                            }
+                            else
+                            {
                             ?>
                                 &nbsp;
                             <?php
@@ -256,46 +262,43 @@ if (count($aMessages)>0)
                             ?>
                             </td>
                         </tr>
+                        <?php
+                        if ($v['backups'])
+                        {
+                        ?>
                         <tr>
-                            <?php
-                            if ($v['backupsExist']) {
-                            ?>
                             <td width="235">
                             <?php echo $strBackupDbTables ?>:
                             </td>
                             <td width="100" colspan="2">
-                            <?php echo $v['backups'];
-                            if ($v['backups']) {
-                            ?>
+                            <?php echo $v['backups'];?>
                             <a href="#" onclick="return false;" title="<?php echo $strToggleDataBackupDetails ?>"><img id="info_expand_<?php echo $v['upgrade_action_id']; ?>" src="<?php echo MAX::assetPath() ?>/images/info.gif" alt="<?php echo $strClickViewBackupDetails ?>" onclick="xajax_expandOSURow('<?php echo $v['upgrade_action_id']; ?>');" border="0" /><img id="info_collapse_<?php echo $v['upgrade_action_id']; ?>" src="<?php echo MAX::assetPath() ?>/images/info.gif" style="display:none" alt="<?php echo $strClickHideBackupDetails ?>" onclick="xajax_collapseOSURow('<?php echo $v['upgrade_action_id']; ?>');" border="0" /></a>
-                            <?php
-                            }
-                            ?>
                             </td>
                         </tr>
+                        <?php
+                        }
+                        if ($v['logfile'])
+                        {
+                        ?>
                         <tr height='20'>
                             <td><?php echo $strLogFiles ?>:</td>
                             <td colspan="2">
-                            <?php echo ($v['logfile']) ? '1' : '0'; ?>
+                            <?php echo $v['logfile']; ?>
                             </td>
                         </tr>
+                        <?php
+                        }
+                        if ($v['confbackup'])
+                        {
+                        ?>
                         <tr height='20'>
                             <td><?php echo $strConfigBackups ?>:</td>
                             <td colspan="2">
-                            <?php echo ($v['confbackup']) ? '1' : '0'; ?>
+                            <?php echo $v['confbackup']; ?>
                             </td>
-                            <?php
-                            } else {
-                            ?>
-                            <td>&nbsp;</td>
-                            <?php
-                            }
-                            ?>
-            <?php
-            if ($v['logfile'] || $v['confbackup'])
-            {
-            }
-            ?>
+                        <?php
+                        }
+                        ?>
                         </tr>
                         <tr>
                             <td colspan='3'>
@@ -307,13 +310,13 @@ if (count($aMessages)>0)
                     <input type="hidden" name="upgrade_action_id" value="<?php echo $v['upgrade_action_id']; ?>" />
                 </tr>
               </form>
-                <tr height='1'><td colspan='6' bgcolor='#888888'><img src='<?php echo MAX::assetPath() ?>/images/break.gif' height='1' width='100%'></td></tr>
+                <tr height='1'><td colspan='7' bgcolor='#888888'><img src='<?php echo MAX::assetPath() ?>/images/break.gif' height='1' width='100%'></td></tr>
                 <?php
                     $i++;
                 }
                 ?>
                 <tr height='25'>
-                    <td colspan='6' height='25' align='right'>
+                    <td colspan='7' height='25' align='right'>
                     </td>
                 </tr>
                 </table>

@@ -130,14 +130,8 @@ if ($errMessage) {
     </table>
     <?php
     }
+    $value = ($errMessage ? $strBtnRetry : $strBtnContinue);
+    $id = ($_COOKIE['oat'] == OA_UPGRADE_INSTALL ? 'btn_adminsetup' : 'btn_plugins');
+    ?>
+    <input type="submit" class="button" id="<?php echo $id; ?>" name="<?php echo $id; ?>" value="<?php echo $value; ?>" tabindex="<?php echo ($tabindex++); ?>" />
 
-if ($errMessage) {
-?>
-                <input type="submit" class="button" id="btn_adminsetup" name="btn_adminsetup" value="<?php echo $strBtnRetry; ?>" tabindex="<?php echo ($tabindex++); ?>" />
-<?php
-} else {
-?>
-                <input type="submit" class="button" id="btn_adminsetup" name="btn_adminsetup" value="<?php echo $strBtnContinue; ?>" tabindex="<?php echo ($tabindex++); ?>" />
-<?php
-}
-?>

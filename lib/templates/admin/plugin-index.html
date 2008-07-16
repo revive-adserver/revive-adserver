@@ -1,0 +1,126 @@
+{*<!--
+
+---------------------------------------------------------------------------+
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+
+-->*}
+{include file=plugin-group-switcher.html}
+
+<form name="packageform" id="packageform" method="post" action="plugin-index.php" enctype="multipart/form-data">
+        <div class="control-panel">
+            <div class="control-set left">
+		        <span class='corner bottom-left'></span>
+		        <span class='corner bottom-right'></span>
+
+	            <h2>Install new plugin</h2>
+	            Select file <input name="package" value="1" type="hidden">
+	            <input name="filename" tabindex="3" type="file">
+	            <input value="Install" name="install" tabindex="1" type="submit">
+            </div>
+        </div>
+</form>
+
+
+{if $formError && $formError.id > 0 && $formError.message}
+<div class="error-box" style="margin-bottom: 10px">
+    {$formError.message|escape}
+</div>
+{/if}
+
+{if $aWarnings}
+    <div class="error-box" style="margin-bottom: 10px">
+        {foreach from=$aWarnings key=idx item=warning}
+            {$warning}
+            <br />
+        {/foreach}
+    </div>
+{/if}
+{if $aErrors}
+    <div class="error-box" style="margin-bottom: 10px">
+        {foreach from=$aErrors key=idx item=error}
+            {$error}
+            <br />
+        {/foreach}
+    </div>
+{/if}
+{if $aMessages}
+    <div class="infomessage" style="margin-bottom: 10px">
+        {foreach from=$aMessages key=idx item=message}
+            {$message}
+            <br />
+        {/foreach}
+    </div>
+{/if}
+
+<div style="min-width: 750px">
+    <table class="data" >
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Author</td>
+                <td>Status</td>
+                <td colspan="3">Actions</td>
+            </tr>
+        </thead>
+
+        <tbody>
+          {if !$aPackages|@count}
+            <tr class="even">
+                <td colspan="6">
+                 <p>No plugins installed.</p>
+                </td>
+            </tr>
+          {else}
+	        {cycle name=bgclass values="odd,even" assign=bgClass reset=1}
+	        {foreach from=$aPackages key=name item=aitem}
+	        {cycle name=bgclass assign=bgClass}
+	            <tr class="{$bgClass}">
+	                <td width="40%">
+	                   <span class="item-info">
+	                       <p><span class="name">{$name}</span><span class="version">{$aitem.version}</span></p>
+	                       <p>{$aitem.description}</p>
+	                   </span>
+	                </td>
+	                <td>{if {$aitem.authoremail}<a href="mailto:{$aitem.authoremail}">{/if}{$aitem.author}{if {$aitem.authoremail}</a>{/if}</td>
+	                <td>{if $aitem.enabled > 0}Enabled{else}Disabled{/if}</td>
+	                <td><a href='plugin-index.php?action=info&package={$name}' ><span class="action icon details">Details</span></a></td>
+	                <td>
+		                {if $aitem.enabled > 0}
+		                   <a href='plugin-index.php?action=disable&package={$name}' ><span class="action icon disable">Disable</span></a>
+		                {else}
+		                   <a href='plugin-index.php?action=enable&package={$name}' ><span class="action icon enable">Enable</span></a>
+		                {/if}
+	                </td>
+	                <td><a href='plugin-index.php?action=uninstall&package={$name}' ><span class="action icon uninstall">Uninstall</span></a></td>
+	            </tr>
+            {/foreach}
+           {/if}
+        </tbody>
+    </table>
+</div>
+
+
+

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>oxHtml</name>
+    <creationDate>2008-02-19</creationDate>
+    <author>Monique Szpak</author>
+    <authorEmail>monique.szpak@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>HTML Banner Type extensions for OpenX</description>
+    <version>1.0.0-dev</version>
+    <oxversion>2.7.5-dev</oxversion>
+    <extends>bannerTypeHtml</extends>
+
+    <install>
+        <files>
+            <file path="{MODULEPATH}bannerTypeHtml/oxHtml/">genericHtml.class.php</file>
+            <file path="{MODULEPATH}bannerTypeHtml/oxHtml/">genericHtml.delivery.php</file>
+        </files>
+
+    </install>
+
+</plugin>

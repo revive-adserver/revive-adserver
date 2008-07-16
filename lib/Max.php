@@ -176,10 +176,11 @@ EOF;
      */
     function assetPath($asset = null)
     {
+        global $installing;
         $conf = $GLOBALS['_MAX']['CONF'];
         $assetsVersion = $conf['webpath']['adminAssetsVersion'];
-        
-    	$pathWithSuffix = "assets";
+        $prefix = $installing ? '' : MAX::constructURL(MAX_URL_ADMIN, '');
+    	$pathWithSuffix = $prefix."assets";
         if (strlen($assetsVersion)) 
         {
         	$pathWithSuffix .= "/" . $assetsVersion;

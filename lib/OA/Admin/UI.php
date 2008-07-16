@@ -555,7 +555,6 @@ class OA_Admin_UI
             'js/jscalendar/lang/calendar-en.js',
             'js/jscalendar/calendar-setup.js',
             'js/js-gui.js',
-            'js/sorttable.js',
             'js/boxrow.js',
             'js/ox.usernamecheck.js',
             'js/ox.addirect.js',

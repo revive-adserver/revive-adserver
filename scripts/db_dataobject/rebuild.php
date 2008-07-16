@@ -31,6 +31,12 @@ if (!defined('MAX_PATH'))
 }
 //  init DB_DataObject
 $MAX_ENT_DIR =  MAX_PATH . '/lib/max/Dal/DataObjects';
+global $pathdbo;
+if ($pathdbo)
+{
+    $MAX_ENT_DIR =  $pathdbo;
+}
+
 $options = &PEAR::getStaticProperty('DB_DataObject', 'options');
 $options = array(
     'schema_location'       => $MAX_ENT_DIR,
@@ -39,7 +45,7 @@ $options = array(
     'class_prefix'          => 'DataObjects_',
     'debug'                 => 0,
     'extends'               => 'DB_DataObjectCommon',
-    'extends_location'      => 'DB_DataObjectCommon.php',
+    'extends_location'      => '/lib/max/Dal/DataObjects/DB_DataObjectCommon.php',
     'production'            => 0,
     'ignore_sequence_keys'  => 'ALL',
     'generator_strip_schema'=> 1,
@@ -49,6 +55,6 @@ $options = array(
 require_once MAX_PATH . '/lib/OA/DB/DataObject/Generator.php';
 
 $generator = new OA_DB_DataObject_Generator();
-$generator->start();
+$generator->start($schema);
 
 ?>

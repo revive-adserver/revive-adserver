@@ -100,6 +100,7 @@ class OA_Admin_Template extends Smarty
         $this->assign('phpAds_TextAlignLeft',  $GLOBALS['phpAds_TextAlignLeft']);
         $this->assign('phpAds_TextAlignRight', $GLOBALS['phpAds_TextAlignRight']);
         $this->assign('assetPath', MAX::assetPath());
+        $this->assign("adminWebPath", MAX::constructURL(MAX_URL_ADMIN, ''));
     }
 
     /**

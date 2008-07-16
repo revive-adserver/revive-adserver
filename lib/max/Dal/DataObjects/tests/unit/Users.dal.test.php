@@ -127,6 +127,7 @@ class DataObjects_UsersTest extends DalUnitTestCase
 
     function testDeleteUnverifiedUsers()
     {
+        DataGenerator::cleanUp();
         $doUsers = OA_Dal::factoryDO('users');
         $cExistingUsers = $doUsers->count();
 

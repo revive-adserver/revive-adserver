@@ -49,8 +49,19 @@ class test_DeliveryLimitations extends UnitTestCase
         $this->UnitTestCase();
     }
 
+    /**
+     * This setUp method is being used to install a package which contains (at the moment only one)
+     * test (Dummy) plugins which are then used by the test scripts to test the extension point integrations.
+     *
+     */
     function setUp()
     {
+        //install the package of test (dummy) plugins for testing the extension points
+        unset($GLOBALS['_MAX']['CONF']['plugins']['openXTests']);
+        unset($GLOBALS['_MAX']['CONF']['pluginGroupComponents']['Dummy']);
+
+        TestEnv::installPluginPackage('openXTests', 'openXTests', '/plugins_repo/');
+
         MAX_commonInitVariables();
         $this->tmpCookie = $_COOKIE;
         $_COOKIE = array();
@@ -59,7 +70,10 @@ class test_DeliveryLimitations extends UnitTestCase
     function tearDown()
     {
         $_COOKIE = $this->tmpCookie;
+        // Uninstall
+        TestEnv::uninstallPluginPackage('openXTests');
     }
+
 
     /**
      * A method test the MAX_limitationsCheckAcl function.
@@ -78,24 +92,11 @@ class test_DeliveryLimitations extends UnitTestCase
         $return = MAX_limitationsCheckAcl($row, $source);
         $this->assertTrue($return);
 
-        // test for site channel limitation
-        // both channels should be logged in global
-        $row['compiledlimitation']  = '(MAX_checkSite_Channel(\'1\', \'==\')) and (MAX_checkSite_Channel(\'2\', \'==\'))';
-        $row['acl_plugins']         = 'Site:Channel';
+        // Test of dummy deliveryLimitation plugin
+        $row['compiledlimitation']  = '(MAX_checkDummy_Dummy(\'1\', \'==\')) and (MAX_checkDummy_Dummy(\'2\', \'==\'))';
+        $row['acl_plugins']         = 'Dummy:Dummy';
         $return = MAX_limitationsCheckAcl($row, $source);
         $this->assertTrue($return);
-        $delimiter = $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'];
-        $expect = $delimiter.'1'.$delimiter.'2'.$delimiter;
-        $this->assertEqual($GLOBALS['_MAX']['CHANNELS'], $expect);
-
-        // test for site channel limitation
-        // first channel should be logged in global
-        $row['compiledlimitation']  = '(MAX_checkSite_Channel(\'1\', \'==\')) or (MAX_checkSite_Channel(\'2\', \'==\'))';
-        $row['acl_plugins']         = 'Site:Channel';
-        $return = MAX_limitationsCheckAcl($row, $source);
-        $this->assertTrue($return);
-        $expect = $delimiter.'1'.$delimiter;
-        $this->assertEqual($GLOBALS['_MAX']['CHANNELS'], $expect);
     }
 
     /**

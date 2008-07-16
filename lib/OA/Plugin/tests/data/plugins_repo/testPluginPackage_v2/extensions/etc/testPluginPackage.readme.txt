@@ -1,0 +1,8 @@
+testPlugin 0.0.2 in testPluginPackage 0.0.2
+
+To regenerate the upgrade array for testPlugin v2:
+
+cd path_to_openx/lib/OA/Plugins/tests/data/plugins_dev/packages/testPluginPackage_v2/plugins/packages/testPlugin/etc/changes
+
+php path_to_openx/scripts/upgrade/buildPackagesArray.php ./ ./testPlugin_upgrade_array.txt
+

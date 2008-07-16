@@ -38,6 +38,7 @@ define('OA_UPGRADE_UPGRADE',                   35);
 define('OA_UPGRADE_INSTALL',                   36);
 define('OA_UPGRADE_CONFIGSETUP',               37);
 define('OA_UPGRADE_ADMINSETUP',                40);
+define('OA_UPGRADE_PLUGINS',                   60);
 define('OA_UPGRADE_FINISH',                    70);
 
 global $installing, $tabindex;
@@ -312,8 +313,9 @@ else if (array_key_exists('btn_configsetup', $_POST))
     else
     {
         $aConfig = $oUpgrader->getConfig();
-        $action = OA_UPGRADE_CONFIGSETUP;
     }
+    //$action = ($_COOKIE['oat'] == OA_UPGRADE_INSTALL ? OA_UPGRADE_CONFIGSETUP : OA_UPGRADE_PLUGINS);
+    $action = OA_UPGRADE_CONFIGSETUP;
 }
 else if (array_key_exists('btn_adminsetup', $_POST))
 {
@@ -353,7 +355,7 @@ else if (array_key_exists('btn_adminsetup', $_POST))
                 {
                     $message = $strUpgradeComplete;
                     //$oUpgrader->setOpenadsInstalledOn();
-                    $action = OA_UPGRADE_FINISH;
+                    $action = OA_UPGRADE_PLUGINS;;
                 }
             }
         }
@@ -385,7 +387,7 @@ else if (array_key_exists('btn_terms', $_POST))
 {
     $action = OA_UPGRADE_TERMS;
 }
-else if (array_key_exists('btn_finish', $_POST))
+else if (array_key_exists('btn_plugins', $_POST))
 {
     if (!OA_Upgrade_Login::checkLogin()) {
         $message = $strUsernameOrPasswordWrong;
@@ -393,6 +395,7 @@ else if (array_key_exists('btn_finish', $_POST))
     }
     else
     {
+        // deal with data from previous page
         if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
         {
             OA_Permission::switchToSystemProcessUser('Installer');
@@ -402,12 +405,25 @@ else if (array_key_exists('btn_finish', $_POST))
 
             // Save admim account preference for timezone
             $oUpgrader->putTimezoneAccountPreference($_POST['aPrefs']);
-            $message = $strInstallComplete;
         }
-        else
+        $result = $oUpgrader->executePostUpgradeTasks();
+        if (is_array($result))
         {
-            $message = $strUpgradeComplete;
+            $aPostTasks = $result;
         }
+        $message = $strPluginsDefault;
+        $action = OA_UPGRADE_PLUGINS;
+    }
+}
+else if (array_key_exists('btn_finish', $_POST))
+{
+    if (!OA_Upgrade_Login::checkLogin()) {
+        $message = $strUsernameOrPasswordWrong;
+        $action = OA_UPGRADE_LOGIN;
+    }
+    else
+    {
+        $message = $strUpgradeComplete;
     }
     //$oUpgrader->setOpenadsInstalledOn();
     $action = OA_UPGRADE_FINISH;
@@ -433,10 +449,6 @@ if ($action == OA_UPGRADE_FINISH)
 {
     OA_Upgrade_Login::autoLogin();
 
-    if ($_COOKIE['oat'] == OA_UPGRADE_UPGRADE)
-    {
-        $aResult = $oUpgrader->executePostUpgradeTasks();
-    }
     // Delete the cookie
     setcookie('oat', '');
     $oUpgrader->setOpenadsInstalledOn();
@@ -469,6 +481,7 @@ $activeNav = array (
                     OA_UPGRADE_UPGRADE        =>      '50',
                     OA_UPGRADE_INSTALL        =>      '50',
                     OA_UPGRADE_CONFIGSETUP    =>      '60',
+                    OA_UPGRADE_PLUGINS        =>      '80',
                     OA_UPGRADE_FINISH         =>      '100'
                   );
 if (!empty($_COOKIE['oat']) && $_COOKIE['oat'] != OA_UPGRADE_UPGRADE) {
@@ -501,6 +514,7 @@ $aInstallerSections = array (
     '50'     =>  new OA_Admin_Menu_Section('50',  'Database',          $navLinks[OA_UPGRADE_DBSETUP], false, "qsg-install"),
     '60'     =>  new OA_Admin_Menu_Section('60',  'Configuration',     $navLinks[OA_UPGRADE_CONFIGSETUP], false, "qsg-install"),
     '70'     =>  new OA_Admin_Menu_Section('70',  'Admin',             $navLinks[OA_UPGRADE_ADMINSETUP], false, "qsg-install"),
+    '80'     =>  new OA_Admin_Menu_Section('80',  'Plugins',           $navLinks[OA_UPGRADE_PLUGINS], false, "qsg-install"),
     '100'    =>  new OA_Admin_Menu_Section('100', 'Finished',          '')
 );
 

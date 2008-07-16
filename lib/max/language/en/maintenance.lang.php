@@ -245,4 +245,14 @@ $GLOBALS['strAppendCodesRecompiled']    = "All compiled append codes values have
 $GLOBALS['strAppendCodesResult']        = "Here are the results of the compiled append codes validation";
 $GLOBALS['strAppendCodesValid']         = "All tracker compiled appendcodes are valid";
 $GLOBALS['strRepairAppenedCodes']       = "Some inconsistancies were found above, you can repair these using the button below, this will recompile the append codes for every tracker in the system";
+
+$GLOBALS['strPlugins']                  = "Plugins";
+$GLOBALS['strPluginsPrecis']            = "Diagnose and repair problems with OpenX plugins";
+$GLOBALS['strPluginsOk']                = "No problems found";
+
+$GLOBALS['strMenus']                    = "Menus";
+$GLOBALS['strMenusPrecis']              = "Rebuild the menu cache";
+$GLOBALS['strMenusCachedOk']            = "Menu cache has been rebuilt";
+$GLOBALS['strMenusCachedErr']           = "Errors while rebuilding Menu cache";
+
 ?>

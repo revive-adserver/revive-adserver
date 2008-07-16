@@ -108,7 +108,7 @@ class OA_Version_Controller
     {
         if ($this->_execQuery($this->_getQueryUpdate($product.'_version', $version)))
         {
-            return $this->getApplicationVersion();
+            return $this->getApplicationVersion($product);
         }
         return false;
     }
@@ -125,37 +125,37 @@ class OA_Version_Controller
         }
     }
 
-    function getPluginVersion($plugin)
+    function getComponentGroupVersion($group)
     {
-        return $this->_runQuery($this->_getQuerySelect($plugin));
+        return $this->_runQuery($this->_getQuerySelect($group));
     }
 
-    function putPluginVersion($plugin, $version)
+    function putComponentGroupVersion($group, $version)
     {
-        if ($this->getPluginVersion($plugin))
+        if ($this->getComponentGroupVersion($group))
         {
-            return $this->_updatePluginVersion($plugin, $version);
+            return $this->_updateComponentGroupVersion($group, $version);
         }
         else
         {
-            return $this->_insertPluginVersion($plugin, $version);
+            return $this->_insertComponentGroupVersion($group, $version);
         }
     }
 
-    function _insertPluginVersion($plugin, $version)
+    function _insertComponentGroupVersion($group, $version)
     {
-        if ($this->_execQuery($this->_getQueryInsert($plugin, $version)))
+        if ($this->_execQuery($this->_getQueryInsert($group, $version)))
         {
-            return $this->getPluginVersion($plugin);
+            return $this->getComponentGroupVersion($group);
         }
         return false;
     }
 
-    function _updatePluginVersion($plugin, $version)
+    function _updateComponentGroupVersion($group, $version)
     {
-        if ($this->_execQuery($this->_getQueryUpdate($plugin, $version)))
+        if ($this->_execQuery($this->_getQueryUpdate($group, $version)))
         {
-            return $this->getPluginVersion($plugin);
+            return $this->getComponentGroupVersion($group);
         }
         return false;
     }
@@ -200,12 +200,12 @@ class OA_Version_Controller
         return $result;
     }
 
-    function removeMaxVersion()
+    function removeVariable($name)
     {
-        $query = "SELECT value FROM {$this->versionTablename} WHERE name = 'max_version'";
-        if ($this->_execQuery($query))
+        $query = "SELECT value FROM {$this->versionTablename} WHERE name = '{$name}'";
+        if ($this->_runQuery($query))
         {
-            $query = "DELETE FROM {$this->versionTablename} WHERE name = 'max_version'";
+            $query = "DELETE FROM {$this->versionTablename} WHERE name = '{$name}'";
             return $this->_execQuery($query);
         }
         else
@@ -214,11 +214,20 @@ class OA_Version_Controller
         }
     }
 
+    function removeVersion($name)
+    {
+        return $this->removeVariable($name.'_version');
+    }
+
+    function removeMaxVersion()
+    {
+        return $this->removeVersion('max');
+    }
+
     // when rolling back to max
     function removeOpenadsVersion()
     {
-        $query = "DELETE FROM {$this->versionTablename} WHERE name = 'oa_version'";
-        return $this->_execQuery($query);
+        return $this->removeVersion('oa');
     }
 }
 

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<upgrade>
+    <name>testPlugin</name>
+    <creationDate>2007-05-31</creationDate>
+    <author>Openads Devs</author>
+    <authorEmail>support@openads.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>LICENSE.txt</license>
+    <description>Upgrade for testPlugin for OpenX</description>
+    <versionFrom>0.0.2-beta-rc1</versionFrom>
+    <versionTo>0.0.2-beta-rc2</versionTo>
+    <type>plugin</type>
+
+    <!-- Database Packages -->
+    <database>
+    </database>
+
+    <prescript>prescript_upgrade_testPlugin_0_0_2-beta-rc2.php</prescript>
+    <postcript>postcript_upgrade_testPlugin_0_0_2-beta-rc2.php</postscript>
+
+
+</upgrade>

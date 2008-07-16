@@ -6,6 +6,7 @@ require_once 'DB_DataObjectCommon.php';
 
 class DataObjects_Preferences extends DB_DataObjectCommon
 {
+    var $onDeleteCascade = true;
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 

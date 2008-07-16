@@ -47,7 +47,7 @@ class DataObjects_BannersTest extends DalUnitTestCase
 
     function tearDown()
     {
-        DataGenerator::cleanUp();
+        DataGenerator::cleanUp(array('ad_zone_assoc'));
     }
 
     function testDuplicate()

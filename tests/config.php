@@ -49,6 +49,7 @@ $GLOBALS['_MAX']['TEST']['directories'] =
         'lib/OX',
         'lib/util',
         'plugins',
+        'plugins_repo',
     	'lib/xmlrpc/php'
     );
 
@@ -88,7 +89,6 @@ $GLOBALS['_MAX']['TEST'][$type . '_layers'] =
         'dal'   => array('Data Abstraction Layer (DB)',         DB_WITH_TABLES),
         'dll'   => array('Domain Logic Layer (DB)',             DB_WITH_TABLES),
         'del'   => array('Delivery Engine',                     NO_DB),
-        'dl'    => array('Delivery Limitations',                NO_DB),
         'mtc'   => array('Maintenance Engine (DB)',             DB_WITH_TABLES),
         'mts'   => array('Maintenance Statistics Engine',       NO_DB),
         'mtsdb' => array('Maintenance Statistics Engine (DB)',  DB_NO_TABLES),
@@ -122,6 +122,7 @@ define($type . '_TEST_STORE', 'tests/integration');
 // requirements for the test(s) in that layer
 $GLOBALS['_MAX']['TEST'][$type . '_layers'] =
     array(
+        'cor' => array('Core',                                      NO_DB),
         'mts' => array('Maintenance Statistics Engine (DB)',        DB_NO_TABLES),
         'mtp' => array('Maintenance Priority Engine (DB)',          DB_WITH_DATA),
         'mpe' => array('Maintenance Priority Engine (DB, No Data)', DB_WITH_TABLES),
@@ -129,6 +130,7 @@ $GLOBALS['_MAX']['TEST'][$type . '_layers'] =
         'mig' => array('Upgrade Migration Classes',                 DB_NO_TABLES),
         'zif' => array('Zone Impression Forecasting (DB)',          DB_WITH_TABLES),
         'del' => array('Delivery Engine (DB)',                      DB_WITH_TABLES),
+        'plg' => array('Plugins',                                   DB_WITH_TABLES),
         'api' => array('Webservices API',                           DB_WITH_TABLES)
     );
 

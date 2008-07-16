@@ -168,7 +168,6 @@ function MAX_limitationsMatchStringValue($value, $limitation, $op)
     }
 }
 
-
 /**
  * An utility function which checks if the value in the array matches
  * the limitation specified in the $limitation and $op arguments.
@@ -186,7 +185,6 @@ function MAX_limitationsMatchArrayClientGeo($paramName, $limitation, $op, $aPara
 {
     return MAX_limitationsMatchArray($paramName, $limitation, $op, $aParams, 'CLIENT_GEO');
 }
-
 
 /**
  * An utility function which checks if the value in $aParams[$paramName]
@@ -265,7 +263,6 @@ function MAX_limitationsIsOperatorSimple($op)
     return $op == '==' || $op == '!=';
 }
 
-
 /**
  * Returns true if $op is one of the contains operators: either '=~' or '!~',
  * false otherwise.
@@ -294,7 +291,6 @@ function MAX_limitationsIsOperatorRegexp($op)
 {
     return $op == '=x' || $op == '!x';
 }
-
 
 /**
  * Returns true if $op is one of the positive operators: '==', '=~' or '=x',
@@ -345,198 +341,7 @@ function MAX_limitationsGetAOperationsForString($oPlugin)
     );
 }
 
-
-/**
- * An utility function to use in delivery limitation plugins
- * based on array. It creates a condition to be used as a part
- * of SQL query to select these impressions which match the
- * limitation.
- *
- * @param string $op The operator to be used in the limitation.
- * @param array $aData The limitation data in the form of array.
- * @param string $columnName The database column to check the limitation
- *        against. Usually a column from data_raw_ad_impression table.
- * @return string A SQL condition.
- */
-function MAX_limitationsGetSqlForArray($op, $aData, $columnName)
-{
-    if (!is_array($aData) || empty($aData)) {
-        return !MAX_limitationsIsOperatorPositive($op);
-    }
-
-    if ($op == '==') {
-        return _getSqlForArrayIsEqualTo($aData, $columnName);
-    } elseif ($op == '=~') {
-        return _getWhereComponentForArray('IN', $aData, $columnName);
-    } else {
-        return _getWhereComponentForArray('NOT IN', $aData, $columnName);
-    }
-}
-
-/**
- * An utility function to get SQL condition for array for the
- * operator '=='. It returns a proper condition iff the array
- * contains a single element. Otherwise it return false since
- * a single value can not equal many different values at the
- * same time.
- *
- * @param array $aData The limitation data in the form of array.
- * @param string $columnName The table column to be used in SQL query.
- * @return mixed SQL condition if possible or false otherwise.
- */
-function _getSqlForArrayIsEqualTo($aData, $columnName)
-{
-    if (count($aData) == 1) {
-        return _getWhereComponentForArray('IN', $aData, $columnName);
-    } else {
-        return false;
-    }
-}
-
-/**
- * Creates a proper SQL condition for an array value given
- * a SQL operator. Quotes every string if necessary.
- *
- * @param string $sqlOp SQL operator.
- * @param array $aData The limitation data in the form of an array.
- * @param string $columnName The name of table column to use in the condition.
- * @return string SQL condition for the delivery limitation.
- */
-function _getWhereComponentForArray($sqlOp, $aData, $columnName)
-{
-    $aData = MAX_limitationsGetAQuotedStrings($aData);
-    $sData = MAX_limitationsGetSFromA($aData);
-    return _getWhereComponent($sqlOp, $sData, $columnName);
-}
-
-/**
- * Returns 'LOWER($columnName) $sqlOp ($sData)'.
- *
- * @param string $sqlOp
- * @param string $sData
- * @param string $columnName
- * @return string
- */
-function _getWhereComponent($sqlOp, $sData, $columnName)
-{
-    return "LOWER($columnName) $sqlOp ($sData)";
-}
-
-/**
- * An utility function which prepares a SQL condition for the string-based
- * limitation. It is used by delivery limitation plugins to create their
- * SQL limitation condition. The returned condition is fully quoted and
- * prepared to be used as a part of SQL statement.
- *
- * @param string $op The operator to be used.
- * @param string $sData The limitation data.
- * @param unknown_type $columnName The table column name to be used.
- * @return mixed The SQL condition for the limitation or boolean
- * if the limitation always yields the same kind of result (true or false).
- */
-function MAX_limitationsGetSqlForString($op, $sData, $columnName)
-{
-    $aConf = $GLOBALS['_MAX']['CONF'];
-    if (empty($sData)) {
-        return !MAX_limitationsIsOperatorPositive($op);
-    }
-    if ($op == '==') {
-        return _getWhereComponent('=', "'$sData'", $columnName);
-    } elseif ($op == '!=') {
-        return _getWhereComponent('!=', "'$sData'", $columnName);
-    } elseif ($op == '=~') {
-        return _getWhereComponent('LIKE', "'%$sData%'", $columnName);
-    } elseif ($op == '!~') {
-        return _getWhereComponent('NOT LIKE', "'%$sData%'", $columnName);
-    } elseif ($op == '=x') {
-        $operator = '~';
-        if (strcasecmp($aConf['database']['type'], 'mysql') === 0) {
-            $operator = 'REGEXP';
-        }
-        return _getWhereComponent($operator, "'$sData'", $columnName);
-    } else {
-        $operator = '!~';
-        if (strcasecmp($aConf['database']['type'], 'mysql') === 0) {
-            $operator = 'NOT REGEXP';
-        }
-        return _getWhereComponent($operator, "'$sData'", $columnName);
-    }
-}
-
-/**
- * Checks if the string limitations overlaps according to the selected
- * operators.
- *
- * @param string $op1
- * @param string $sData1
- * @param string $op2
- * @param string $sData2
- * @return boolean
- * @see Plugins_DeliveryLimitations#overlap
- *
- * @TODO Implementation was postponed for the following pairs of
- * operators because of its complexity:
- * <ul>
- *   <li>!=, !x False if !x specifies exactly the space !x does not specify</li>
- *   <li>=~, =x True iff =~ matches a part of =x</li>
- *   <li>=~, !x Negation of the above</li>
- *   <li>!~, =x Similar to above</li>
- *   <li>!~, !x Similar to above</li>
- *   <li>=x, =x Normalize regexp and see if they are equal</li>
- *   <li>=x, !x As above</li>
- *   <li>!x, !x As above</li>
- * </ul>
- */
-function MAX_limitationsGetOverlapForStrings($op1, $sData1, $op2, $sData2)
-{
-    if ($op1 == '==' && $op2 == '==') {
-        return $sData1 == $sData2;
-    } elseif (($op1 == '==' && $op2 == '!=') || ($op1 == '!=' && $op2 == '==')) {
-        return $sData1 != $sData2;
-    } elseif ($op1 == '==' && $op2 == '=~') {
-        return MAX_stringContains($sData1, $sData2);
-    } elseif ($op1 == '=~' && $op2 == '==') {
-        return MAX_stringContains($sData2, $sData1);
-    } elseif ($op1 == '==' && $op2 == '=x') {
-        return preg_match(_getSRegexpDelimited($sData2), $sData1);
-    } elseif ($op1 == '=x' && $op2 == '==') {
-        return preg_match(_getSRegexpDelimited($sData1), $sData2);
-    } elseif ($op1 == '==' && $op2 == '!x') {
-        return !preg_match(_getSRegexpDelimited($sData2), $sData1);
-    } elseif ($op1 == '!x' && $op2 == '==') {
-        return !preg_match(_getSRegexpDelimited($sData1), $sData2);
-    } elseif ($op1 == '!=' && $op2 == '=x') {
-        return "^$sData1$" != $sData2;
-    } elseif ($op1 == '=x' && $op2 == '!=') {
-        return $sData1 != "^$sData2$";
-    } elseif ($op1 == '=~' && $op2 == '=~') {
-        return MAX_stringContains($sData1, $sData2) || MAX_stringContains($sData2, $sData1);
-    } elseif ($op1 == '=~' && $op2 == '!~') {
-        return !MAX_stringContains($sData1, $sData2);
-    } elseif ($op1 == '!~' && $op2 == '=~') {
-        return !MAX_stringContains($sData2, $sData1);
-    }
-    return true;
-}
-
-
-/**
- * Returns true if $aArray1 and $aArray2 have at least one common value,
- * false otherwise.
- *
- * @param array $aArray1
- * @param array $aArray2
- * @return boolean
- */
-function MAX_limitationsDoArraysOverlap($aArray1, $aArray2)
-{
-    return count(array_intersect($aArray1, $aArray2)) != 0;
-}
-
-/*
- ***** STRING UTILITY FUNCTIONS *****
-*/
-
+// STRING UTILITY FUNCTIONS
 
 /**
  * Returns true if $sString contains $sToken, false otherwise.
@@ -550,7 +355,6 @@ function MAX_stringContains($sString, $sToken)
     return strpos($sString, $sToken) !== false;
 }
 
-
 /**
  * Returns an array created by exploding string via ','
  * or empty array if the string is empty.
@@ -562,7 +366,6 @@ function MAX_limitationsGetAFromS($sString)
 {
     return strlen($sString) ? explode(',', $sString) : array();
 }
-
 
 /**
  * Returns a string created by imploding string via ','
@@ -576,9 +379,7 @@ function MAX_limitationsGetSFromA($aArray)
     return is_array($aArray) ? implode(',', $aArray) : '';
 }
 
-/*
- ***** SQL UTILITY FUNCTIONS *****
-*/
+// SQL UTILITY FUNCTIONS
 
 /**
  * Returns a string preprocessed to be used properly in the
@@ -625,7 +426,6 @@ function MAX_limitationsGetAQuotedStrings($aArray)
     return $aResult;
 }
 
-
 /**
  * Returns an array of preprocessed strings. Each string
  * is preprocessed with {@link MAX_limitationsGetPreprocessedString}
@@ -642,9 +442,7 @@ function MAX_limitationsGetPreprocessedArray($aArray) {
     return $aItems;
 }
 
-/* *****
-   COUNTRY DELIVERY LIMITATION PLUGIN functions
-   *****/
+// COUNTRY DELIVERY LIMITATION PLUGIN functions
 
 /**
  * Returns an element of the array which represents country.
@@ -669,303 +467,6 @@ function MAX_limitationsSetCountry(&$aData, $sCountry)
 {
     $aData[0] = $sCountry;
 }
-
-/* *****
-   UPGRADE/DOWNGRADE functions
-   ***** */
-
-/**
- * Returns an array with upgraded format of operator and data
- * for string-based delivery limitations.
- * The new operator is stored in ['op'] field,
- * the data in ['data'] field.
- *
- * @param string $op An old operator.
- * @param string $sData An old data specification.
- * @return array An array which contains a new operator in the ['op'] field
- * and the new data in ['data'] field.
- */
-function MAX_limitationsGetAUpgradeForString($op, $sData)
-{
-    $sData = preg_replace('#[\\*]+#', '*', $sData);
-    $aResult = array();
-    if ($sData == '*'
-        || preg_match('#^\\*[^\\*]+$#', $sData)
-        || preg_match('#^[^\\*]+\\*$#', $sData)
-        || preg_match('#[^\\*]+\\*[^\\**]+#', $sData)
-        ) {
-        $sData = str_replace('(', '\\(', $sData);
-        $sData = str_replace(')', '\\)', $sData);
-        $sData = str_replace('.', '\\.', $sData);
-        $sData = str_replace('*', '.*', $sData);
-        $sData = "^$sData$";
-        $aResult['op'] = MAX_limitationsIsOperatorPositive($op) ? '=x' : '!x';
-        $aResult['data'] = $sData;
-        return $aResult;
-    } elseif (preg_match('#^\\*[^\\*]*\\*$#', $sData)) {
-        $aResult['op'] = MAX_limitationsIsOperatorPositive($op) ? '=~' : '!~';
-        $aResult['data'] = str_replace('*', '', $sData);
-        return $aResult;
-    } else {
-        $aResult['op'] = $op;
-        $aResult['data'] = $sData;
-        return $aResult;
-    }
-}
-
-
-/**
- * Returns an array with upgraded format of operator and data
- * for array-based delivery limitations.
- * The new operator is stored in ['op'] field,
- * the data in ['data'] field.
- *
- * @param string $op An old operator.
- * @param string $sData An old data specification.
- * @return array An array which contains a new operator in the ['op'] field
- * and the new data in ['data'] field.
- */
-function MAX_limitationsGetAUpgradeForArray($op, $sData)
-{
-    $aResult = array('data' => $sData);
-    if (MAX_limitationsIsOperatorPositive($op)) {
-        $aResult['op'] = '=~';
-    } else {
-        $aResult['op'] = '!~';
-    }
-    return $aResult;
-}
-
-
-/**
- * Returns an array with upgraded format of operator and data
- * for {@link Plugins_DeliveryLimitations_Client_Language}.
- * The new operator is stored in ['op'] field,
- * the data in ['data'] field.
- *
- * @param string $op An old operator.
- * @param string $sData An old data specification.
- * @return array An array which contains a new operator in the ['op'] field
- * and the new data in ['data'] field.
- */
-function MAX_limitationsGetAUpgradeForLanguage($op, $sData)
-{
-    $sData = substr($sData, 1, strlen($sData) - 2);
-    $sData = str_replace(')|(', ',', $sData);
-    return MAX_limitationsGetAUpgradeForArray($op, $sData);
-}
-
-function MAX_limitationsGetAUpgradeForVariable($op, $sData)
-{
-    $idxBreak = strpos($sData, ',');
-    $varName = substr($sData, 0, $idxBreak);
-    $varValue = substr($sData, $idxBreak + 1);
-    $aResult = MAX_limitationsGetAUpgradeForString($op, $varValue);
-    $aResult['data'] = $varName . ',' . $aResult['data'];
-    return $aResult;
-}
-
-/**
- * This function should be used for the following delivery limitations:
- *   * browser,
- *   * operating system,
- *   * useragent.
- *
- * @param string $op
- * @param string $sData
- */
-function OA_limitationsGetAUpgradeFor20Regexp($op, $sData)
-{
-    $aResult = array();
-    $aResult['op'] = MAX_limitationsIsOperatorPositive($op) ? '=x' : '!x';
-    $aResult['data'] = $sData;
-    return $aResult;
-}
-
-
-/**
- * This function should be used for the 'referer' delivery limitation and other "==" to "=~" based limitations
- *
- * @param string $op
- * @param string $sData
- * @return array
- */
-function OA_limitationsGetUpgradeForContains($op, $sData)
-{
-    $aResult = array();
-    $aResult['op'] = MAX_limitationsIsOperatorPositive($op) ? '=~' : '!~';
-    $aResult['data'] = $sData;
-    return $aResult;
-}
-
-/**
- * This function should be used for the 'city' delivery limitation
- *
- * @param string $op
- * @param string $sData
- * @return array
- */
-function OA_limitationsGetUpgradeForGeoCity($op, $sData)
-{
-    $aResult = array();
-    $aResult['op'] = MAX_limitationsIsOperatorPositive($op) ? '=~' : '!~';
-    $aResult['data'] = '|'.$sData;
-    return $aResult;
-}
-
-/**
- * This function should be used for the 'region' delivery limitation
- *
- * @param string $op
- * @param string $sData
- * @return array
- */
-function OA_limitationsGetUpgradeForGeoRegion($op, $sData)
-{
-    $aData = array();
-    foreach (explode(',', $sData) as $v) {
-        $country = substr($v, 0, 2);
-        $region  = substr($v, 2);
-        if (!isset($aData[$country])) {
-            $aData[$country] = array();
-            $aCount[$country] = 0;
-        }
-        $aData[$country][] = $region;
-    }
-
-    ksort($aData);
-
-    $country = key($aData);
-    $sData = $country.'|'.join(',', $aData[$country]);
-    unset($aData[$country]);
-
-    $aResult = array();
-    $aResult['op'] = MAX_limitationsIsOperatorPositive($op) ? '=~' : '!~';
-    $aResult['data'] = $sData;
-
-    if (count($aData)) {
-        $aResult['add'] = array();
-        foreach ($aData as $country => $aRegions) {
-            $aResult['add'][] = array(
-                'type'       => 'Geo:Region',
-                'logical'    => MAX_limitationsIsOperatorPositive($op) ? 'or' : 'and',
-                'comparison' => MAX_limitationsIsOperatorPositive($op) ? '=~' : '!~',
-                'data'       => $country.'|'.join(',', $aRegions)
-            );
-        }
-    }
-
-    return $aResult;
-}
-
-/**
- * This function should be used for the 'netspeed' delivery limitation
- *
- * @param string $op
- * @param string $sData
- * @return array
- */
-function OA_limitationsGetUpgradeForGeoNetspeed($op, $sData)
-{
-    $aTrans = array('unknown','dialup','cabledsl', 'corporate');
-    $aData = explode(',', $sData);
-    foreach ($aData as $k => $v) {
-        $aData[$k] = $aTrans[$v];
-    }
-    $sData = join(',', $aData);
-
-    $aResult = array();
-    $aResult['op'] = MAX_limitationsIsOperatorPositive($op) ? '=~' : '!~';
-    $aResult['data'] = $sData;
-    return $aResult;
-}
-
-
-/**
- * Returns an array with downgraded format of operator and data
- * for string-based delivery limitations.
- * The old operator is stored in ['op'] field,
- * the data in ['data'] field.
- *
- * @param string $op A new operator.
- * @param string $sData A new data specification.
- * @return array An array which contains an old operator in the ['op'] field
- * and an old data in ['data'] field.
- */
-function MAX_limitationsGetADowngradeForString($op, $sData)
-{
-    $aResult['op'] = MAX_limitationsIsOperatorPositive($op) ? '==' : '!=';
-    if (MAX_limitationsIsOperatorRegexp($op)) {
-        if (substr($sData, 0, 1) == '^') {
-            $sData = substr($sData, 1);
-        }
-        if (substr($sData, strlen($sData) - 1) == '$') {
-            $sData = substr($sData, 0, strlen($sData) - 1);
-        }
-        $sData = str_replace('.*', '*', $sData);
-        $sData = str_replace('\\(', '(', $sData);
-        $sData = str_replace('\\)', ')', $sData);
-        $sData = str_replace('\\.', '.', $sData);
-        $aResult['data'] = $sData;
-    } elseif (MAX_limitationsIsOperatorContains($op)) {
-        $aResult['data'] = "*$sData*";
-    } else {
-        $aResult['data'] = $sData;
-    }
-    return $aResult;
-}
-
-
-/**
- * Returns an array with downgraded format of operator and data
- * for array-based delivery limitations.
- * The old operator is stored in ['op'] field,
- * the data in ['data'] field.
- *
- * @param string $op A new operator.
- * @param string $sData A new data specification.
- * @return array An array which contains an old operator in the ['op'] field
- * and an old data in ['data'] field.
- */
-function MAX_limitationsGetADowngradeForArray($op, $sData)
-{
-    $aResult = array('data' => $sData);
-    if (MAX_limitationsIsOperatorPositive($op)) {
-        $aResult['op'] = '==';
-    } else {
-        $aResult['op'] = '!=';
-    }
-    return $aResult;
-}
-
-/**
- * Returns an array with downgraded format of operator and data
- * for {@link Plugins_DeliveryLimitations_Client_Language}.
- * The old operator is stored in ['op'] field,
- * the data in ['data'] field.
- *
- * @param string $op A new operator.
- * @param string $sData A new data specification.
- * @return array An array which contains an old operator in the ['op'] field
- * and an old data in ['data'] field.
- */
-function MAX_limitationsGetADowngradeForLanguage($op, $sData)
-{
-    $sData = '(' . str_replace(',', ')|(', $sData) . ')';
-    return MAX_limitationsGetADowngradeForArray($op, $sData);
-}
-
-
-function MAX_limitationsGetADowngradeForVariable($op, $sData)
-{
-    $idxBreak = strpos($sData, ',');
-    $varName = substr($sData, 0, $idxBreak);
-    $varValue = substr($sData, $idxBreak + 1);
-    $aResult = MAX_limitationsGetADowngradeForString($op, $varValue);
-    $aResult['data'] = $varName . ',' . $aResult['data'];
-    return $aResult;
-}
-
 
 /**
  * Returns the string delimited with '#' character.

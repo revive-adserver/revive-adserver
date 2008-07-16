@@ -32,10 +32,6 @@ require_once '../../init-delivery.php';
 require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
 require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 require_once MAX_PATH . '/lib/max/Delivery/javascript.php';
-require_once MAX_PATH . '/lib/max/Delivery/marketplace.php';
-
-// Marketplace
-MAX_marketplaceGetIdWithRedirect(basename(__FILE__));
 
 // No Caching
 MAX_commonSetNoCacheHeaders();

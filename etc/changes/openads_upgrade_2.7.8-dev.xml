@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<upgrade>
+    <name>Openads</name>
+    <creationDate>2008-05-22</creationDate>
+    <author>Openads Devs</author>
+    <authorEmail>support@openads.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>LICENSE.txt</license>
+    <description>Openads Upgrade 2.7.8-dev</description>
+    <versionFrom></versionFrom>
+    <versionTo>2.7.8-dev</versionTo>
+
+    <!-- Database Packages -->
+    <database>
+        <package>
+            <version>600</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_600.xml</file>
+            <file>changes_tables_core_600.xml</file>
+            <file>migration_tables_core_600.php</file>
+        </package>
+    </database>
+
+</upgrade>

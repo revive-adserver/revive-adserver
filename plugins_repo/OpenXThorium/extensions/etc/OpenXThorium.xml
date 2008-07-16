@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>OpenXThorium</name>
+    <creationDate>2008-07-04</creationDate>
+    <author>Monique Szpak</author>
+    <authorEmail>monique.szpak@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>OpenX Project Thorium</description>
+    <version>1.0.0-dev</version>
+    <type>extension</type>
+
+    <install>
+
+        <files>
+            <file path="{PLUGINPATH}">OpenXThorium.readme.txt</file>
+        </files>
+
+        <contents>
+            <group name="bidService">1</group>
+            <group name="openXIndium">2</group>
+        </contents>
+
+        <register>
+        </register>
+
+    </install>
+
+    <readme>
+
+    </readme>
+
+</plugin>

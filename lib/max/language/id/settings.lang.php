@@ -131,7 +131,7 @@ $GLOBALS['strErrorUpgrade']                 	= "Instalasi dari database yang sud
 $GLOBALS['strErrorInstallDbConnect']        	= "Gagal membuka koneksi ke database.";
 
 $GLOBALS['strErrorWritePermissions']        	= "Error pada File permission terdeteksi. Masalah ini harus diperbaiki terlebih dahulu sebelum melanjut.<br />To fix the errors on a Linux system, try typing in the following command(s):";
-$GLOBALS['strErrorFixPermissionsCommand']   	= "<i>chmod a+w %s</i>";
+$GLOBALS['strErrorFixPermissionsCommand']   	= "<i>chmod -R a+w %s</i>";
 $GLOBALS['strErrorWritePermissionsWin']     	= "Error pada File permission terdeteksi. Masalah ini harus diperbaiki terlebih dahulu sebelum melanjut.";
 $GLOBALS['strCheckDocumentation']           	= "Pertolongan untuk mengatasi masalah ini dapat ditemukan pada <a href=\"http://".MAX_PRODUCT_DOCSURL."\">Dokumentasi Openads/>.";
 

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>testParsePackage</name>
+    <creationDate>2008-02-19</creationDate>
+    <author>Monique Szpak</author>
+    <authorEmail>monique.szpak@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>testParse Package for OpenX</description>
+    <version>0.0.1-test</version>
+    <type>package</type>
+
+    <install>
+
+        <contents>
+            <group name="testPlugin1">1</group>
+            <group name="testPlugin2">2</group>
+        </contents>
+
+        <register>
+            <extension type='deliveryLimitations' group='testPlugin1'>myDeliveryLimitation</extension>
+            <extension type='invocationTags' group='testPlugin2'>myInvocationTag</extension>
+        </register>
+
+    </install>
+
+</plugin>

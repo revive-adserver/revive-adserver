@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>testParse</name>
+    <creationDate>2008-04-01</creationDate>
+    <author>Test Author</author>
+    <authorEmail>test@example.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>Test Parse Partial</description>
+    <version>0.0.1-test</version>
+    <oxversion>2.7</oxversion>
+    <extends>admin</extends>
+
+    <install>
+
+        <syscheck>
+            <depends>
+                <plugin version="1.0" enabled="0">testPlugin</plugin>
+            </depends>
+        </syscheck>
+
+        <files>
+            <file path="{ADMINPATH}/templates/">testFile1.html</file>
+            <file path="{ADMINPATH}/images/">testFile2.jpg</file>
+            <file path="{ADMINPATH}/">testFile3.php</file>
+        </files>
+
+        <navigation>
+            <admin>
+                <menu insertafter="main-menu" index="test-menu"   link="path_to_test_plugin/index.php">Test Menu Index</menu>
+                <menu addto="test-menu" index="test-menu-1" link="path_to_test_plugin/page.php?action=1">Test Page 1</menu>
+                <menu addto="test-menu" index="test-menu-2" link="path_to_test_plugin/page.php?action=2">Test Page 2</menu>
+            </admin>
+        </navigation>
+
+        <prescript>prescript_testParse.php</prescript>
+        <postscript>postscript_testParse.php</postscript>
+
+    </install>
+
+</plugin>

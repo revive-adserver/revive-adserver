@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>testPluginPackage</name>
+    <creationDate>2008-02-19</creationDate>
+    <author>Monique Szpak</author>
+    <authorEmail>monique.szpak@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>testPlugin Package for OpenX</description>
+    <version>0.0.2</version>
+    <type>package</type>
+
+    <install>
+
+        <files>
+            <file path="{PLUGINPATH}">testPluginPackage.readme.txt</file>
+        </files>
+
+        <contents>
+            <group name="testPlugin">1</group>
+            <group name="testDepends">2</group>
+        </contents>
+
+        <register>
+            <extension type='testExtension1' group='testPlugin'>testPluginExtension</extension>
+            <extension type='testExtension2' group='testDepends'>testDependsExtension</extension>
+        </register>
+    </install>
+
+</plugin>

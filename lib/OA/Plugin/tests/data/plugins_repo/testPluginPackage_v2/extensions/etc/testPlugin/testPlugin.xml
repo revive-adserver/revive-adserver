@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>testPlugin</name>
+    <creationDate>2008-02-19</creationDate>
+    <author>Monique Szpak</author>
+    <authorEmail>monique.szpak@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>testPlugin Base Admin Interface Component for OpenX</description>
+    <version>0.0.2</version>
+    <oxversion>2.7.5-dev</oxversion>
+    <extends>admin</extends>
+
+    <install>
+
+        <syscheck>
+            <dbms>
+                <name>mysql</name>
+                <supported>1</supported>
+            </dbms>
+            <dbms>
+                <name>pgsql</name>
+                <supported>1</supported>
+            </dbms>
+
+            <php>
+                <setting name='version'>4.0.11</setting>;
+            </php>
+
+        </syscheck>
+
+        <files>
+            <file path="{ADMINPATH}/templates/">testPlugin.html</file>
+            <file path="{ADMINPATH}/images/">testPlugin.jpg</file>
+            <file path="{ADMINPATH}/">testPlugin-common.php</file>
+            <file path="{ADMINPATH}/">testPlugin-index.php</file>
+        </files>
+
+        <navigation>
+            <admin>
+                <menu add="test-plugin" link="plugins/testPlugin/testPlugin-index.php">Test Plugin Root</menu>
+                <menu addto="test-plugin" index="test-plugin-0" link="plugins/testPlugin/testPlugin-index.php">Test Plugin Index</menu>
+            </admin>
+        </navigation>
+
+        <configuration>
+            <setting key="setting1" type="text" label="Setting 1" required="1" size="16" visible="1">setval1</setting>
+            <setting key="setting2" type="text" label="Setting 2" required="1" size="16" visible="1">setval2</setting>
+            <setting key="setting3" type="text" label="Setting 3" required="0" size="16" visible="1">setval3</setting>
+
+            <preference name="preference1" type="text" label="Pref 1" required="1" size="16" visible="1" permission="MANAGER">prefval1</preference>
+            <preference name="preference2" type="text" label="Pref 2" required="0" size="16" visible="0" permission="ADMIN">prefval2</preference>
+        </configuration>
+
+        <schema>
+            <mdb2schema>tables_testplugin</mdb2schema>
+            <dboschema>db_schema</dboschema>
+            <dbolinks>db_schema.links</dbolinks>
+            <dataobject>Testplugin_table.php</dataobject>
+            <prescript>postscript_testPlugin_002.php</prescript>
+            <postscript>postscript_testPlugin_002.php</postscript>
+        </schema>
+
+        <prescript>prescript_install_testPlugin.php</prescript>
+        <postscript>postscript_install_testPlugin.php</postscript>
+
+    </install>
+
+</plugin>

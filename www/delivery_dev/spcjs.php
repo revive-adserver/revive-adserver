@@ -96,8 +96,6 @@ function OA_SPCGetJavaScript($affiliateid)
     if (window.location) {$varprefix}spc+=\"&amp;loc=\"+escape(window.location);
     if (document.referrer) {$varprefix}spc+=\"&amp;referer=\"+escape(document.referrer);";
 
-    $script .= MAX_marketplaceGetIdWithSpc($varprefix);
-
     $script .= "
     function {$varprefix}show(name) {
         if (typeof({$varprefix}output[name]) == 'undefined') {

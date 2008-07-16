@@ -1,0 +1,10 @@
+For more information about the work being done to enhance the OpenX plugin framework visit
+
+https://developer.openx.org/wiki/display/COMM/Plugins+for+2.8
+
+
+For a walk-through tutorial on making a data-aware plugin visit
+
+https://developer.openx.org/wiki/display/COMM/Plugins+2.8+-+How+to+create+a+schema+for+the+demoBannerTypeHTML+plugin
+
+

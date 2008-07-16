@@ -107,11 +107,11 @@
             include MAX_PATH . '/www/admin/templates/install-sysinfosection.html';
 
             $sysinfoarray = $aSysInfo['PERMS'];
-            foreach ($sysinfoarray['actual'] as $key => $val) {
-                if ($val != 'OK') {
-                    $sysinfoarray['actual'][$key] = $val.' '.$errorImage;
+            foreach ($sysinfoarray['actual'] as $idx => $aVal) {
+                if ($aVal['error']) {
+                    $sysinfoarray['actual'][$aVal['file']] = $aVal['result'].' '.$errorImage;
                 } else {
-                    $sysinfoarray['actual'][$key] = $val.' '.$passImage;
+                    $sysinfoarray['actual'][$aVal['file']] = $aVal['result'].' '.$passImage;
                 }
             }
 

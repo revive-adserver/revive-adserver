@@ -28,11 +28,11 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 <div id="oaSidebar">
     <h3>{t str=Navigation}</h3>
     <ul id="oaSidebarNavigation">
-{foreach item=s from=$aSide}
+    {foreach item=s from=$aSide}
         <li class="{if $s.top}top{elseif $s.first}first{/if}{if $s.current} current{elseif $s.up} up{/if}">
             <a href="{$s.filename|escape}"{if $s.up} accesskey="{t key=Up}"{/if}>{$s.title|escape}</a>
         </li>
-{/foreach}
+    {/foreach}
     </ul>
 
 {if $aSideContext|@count}

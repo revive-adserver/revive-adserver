@@ -1,0 +1,221 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+
+-->*}
+
+<link rel='stylesheet' type='text/css' href='css/bid.css'>
+
+<div class="section">
+  <div class="title"><h2>{t str='Select which banner types and categories from Marketplace this website do not accept'}</h2></div>
+  <div class="content">
+    <form method="POST">
+    <ul class="form">
+  
+      {include file=creative-preferences-table.html}
+    
+      <li class="line ctr-buttons">
+        <input type="submit" value="{t str=Update}" name="update_allowed"></li>
+      </li>
+    </ul>
+    </form>
+  </div>
+</div>
+
+<div class="section">
+    <div class="title"><h2>Site statistics</h2></div>
+    <div class="content">
+        <table id="site-stats" class='data'>
+        <thead class="no-header">
+          <tr>
+            <th colspan="2"></th>
+          </tr>
+        </thead>
+        
+        <tbody>
+          <tr class='odd'>
+            <th class="header">Name</th>
+            <td><a href="http://www.todo.com" target="_blank">www.todo.com</a></td>
+          </tr>
+                      
+          <tr class='even'>
+            <th class="header">Monthly Unique users</th>
+            <td>12,342 (TBD)</td>
+          </tr>            
+          
+          <tr class='odd'>          
+            <th class="header">Frequency</th>
+            <td>4 (TBD)</td>
+          </tr>            
+            
+          <tr class='even'>            
+            <th class="header">Alexa Rank</th>
+            <td>2 (TBD)</td>
+          </tr>            
+            
+          <tr class='odd'>            
+            <th class="header">Google Page Rank</th>
+            <td>5 (TBD)</td>
+          </tr>            
+            
+          <tr class='even'>            
+            <th class="header">Site Category</th>
+            <td>technology - Software (TBD)</td>
+          </tr>            
+            
+          <tr class='odd'>            
+            <th class="header">Keywords Analysis</th>
+            <td>Ad Server, Ad Serving, Online Advertising, Advertiserment (TBD)</td>
+          </tr>            
+            
+          <tr class='even'>            
+            <th class="header">Usage By Country</th>
+            <td>
+              <table id="stats-by-country" class="data sortable" summary="{t str='Usage by Country'}">
+                  <thead>
+                      <tr>
+                          <th class='country'><span>Name</span></th>
+                          <th colspan="2"><span>Percentage</span></th>
+                          <th></th>
+                      </tr>
+                  </thead>
+                  
+                  <tbody>
+                     <tr>
+                          <td>Tahiti - test long bar</td>
+                          <td class="label">90%</td>
+                          <td class="graph"><div class='percentage' style='width: 90%'></div></td>
+                          <td></td>
+                      </tr>
+                      
+                     <tr>
+                          <td>Tahiti - test middle bar</td>
+                          <td class="label">60%</td>
+                          <td class="graph"><div class='percentage' style='width: 60%'></div></td>
+                          <td></td>
+                      </tr>
+                      
+                  
+                      <tr>
+                          <td>Tahiti</td>
+                          <td class="label">10%</td>
+                          <td class="graph"><div class='percentage' style='width: 10%'></div></td>
+                          <td></td>
+                      </tr>
+                      
+                      <tr>
+                          <td>Norfolk</td>
+                          <td class="label">25%</td>
+                          <td class='graph'><div class='percentage' style='width: 25%'></div></td>
+                          <td></td>
+                      </tr>
+                      
+                      <tr>
+                          <td>Bermuda</td>
+                          <td class="label">15%</td>
+                          <td class='graph'><div class='percentage' style='width: 15%'></div></td>
+                          <td></td>
+                      </tr>
+                      
+                      <tr>
+                          <td>Pitcrain</td>
+                          <td class="label">17%</td>
+                          <td class='graph'><div class='percentage' style='width: 17%'></div></td>
+                          <td></td>
+                      </tr>
+                      
+                      <tr>
+                          <td>Tubuai</td>
+                          <td class="label">17%</td>
+                          <td class='graph'><div class='percentage' style='width: 17%'></div></td>
+                          <td></td>
+                      </tr>
+                      
+                      <tr>
+                          <td>Salomon</td>
+                          <td class="label">17%</td>
+                          <td class='graph'><div class='percentage' style='width: 17%'></div></td>
+                          <td></td>
+                      </tr>
+                      
+                      <tr>
+                          <td>Cuba</td>
+                          <td class="label">13.5%</td>
+                          <td class='graph'><div class='percentage' style='width: 13.5%'></div></td>
+                          <td></td>
+                      </tr>                      
+                      
+                      <tr>
+                          <td>Other</td>
+                          <td class="label">4.5%</td>
+                          <td class='graph'><div class='percentage' style='width: 4.5%'></div></td>
+                          <td></td>
+                      </tr>                                                                  
+                  </tbody>
+              </table>
+            </td>
+          </tr>            
+        </tbody>
+    </table>
+    
+    <p><a href="">Click to unregister</a> this website from Marketplace stats</p>
+    </div>
+</div>
+
+<div class="section">
+    <div class="title"><h2>Site statistics</h2></div>
+    <form method="POST">
+    <ul class="form">
+      <li class="line">
+        Your website is not registered to Marketplace statistics.
+      </li>
+  
+      <li class="line ctr-buttons">
+        <input type="submit" value="{t str='Register this site for statistics'}" name="stats_register"></li>
+      </li>
+    </ul>
+    </form>    
+    <div class="content">
+    </div>
+</div>
+
+<script type="text/javascript" src="js/bidservice.js" ></script>
+<script type="text/javascript">
+<!--
+{literal}    
+    initBidPreferences();
+    
+    $(document).ready(function() {
+        $("#stats-by-country").tablesorter({
+            cssAsc: ' sort-down',   //bug in plugin need to swap classes - should ne sort-up
+            cssDesc: ' sort-up',
+            cssHeader: 'sort',
+            sortList: [[1,1]]
+        });
+     });{/literal}            
+//-->
+</script>

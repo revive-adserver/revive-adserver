@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>600</version>
+  <comments>New banners.ext_bannertype column for banner type plugins</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>600</version>
+      <change>
+        <table>
+          <name>banners</name>
+          <add>
+            <field>
+              <name>ext_bannertype</name>
+              <type>openads_varchar</type>
+              <length>255</length>
+              <notnull>0</notnull>
+              <was>ext_bannertype</was>
+              <default></default>
+            </field>
+          </add>
+        </table>
+      </change>
+    </changeset>
+  </constructive>
+  <destructive>
+    <changeset>
+      <name>openads</name>
+      <version>600</version>
+      <remove>
+        <table>plugins_channel_delivery_assoc</table>
+        <table>plugins_channel_delivery_domains</table>
+        <table>plugins_channel_delivery_rules</table>
+      </remove>
+    </changeset>
+  </destructive>
+</instructionset>

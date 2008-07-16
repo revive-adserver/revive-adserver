@@ -39,22 +39,8 @@ require_once MAX_PATH . '/www/admin/lib-banner.inc.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/lib/max/Admin/Invocation.php';
 
-// Load plugins
-$invPlugins = &MAX_Plugin::getPlugins('inventoryProperties');
-foreach($invPlugins as $pluginKey => $plugin) {
-    if ($plugin->getType() != 'banner-advanced') {
-        unset($invPlugins[$pluginKey]);
-    }
-}
-
 // Register input variables
 phpAds_registerGlobalUnslashed('append', 'submitbutton', 'appendtype', 'appendid', 'appenddelivery', 'appendsave');
-
-// Register input variables for plugins
-foreach ($invPlugins as $plugin) {
-    call_user_func_array('phpAds_registerGlobal', $plugin->getGlobalVars());
-}
-
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
@@ -96,13 +82,6 @@ if (isset($submitbutton)) {
             // Update banner
             $sqlupdate['append'] = $append;
             $sqlupdate['appendtype'] = $appendtype;
-
-            // Add variables from plugins
-            foreach ($invPlugins as $plugin) {
-                foreach ($plugin->prepareVariables() as $k => $v) {
-                    $sqlupdate[$k] = $v;
-                }
-            }
 
             $doBanners = OA_Dal::factoryDO('banners');
             $doBanners->get($bannerid);
@@ -146,7 +125,7 @@ if ($doBanners->find(true)) {
 
 $tabindex = 1;
 
-if ($banner['type'] != 'txt' || count($invPlugins)){
+if ($banner['type'] != 'txt'){
     // Header
     echo "<form name='appendform' method='post' action='banner-advanced.php' onSubmit='return phpAds_formSubmit() && max_formValidate(this);'>";
     echo "<input type='hidden' name='clientid' value='".(isset($clientid) && $clientid != '' ? $clientid : '')."'>";
@@ -332,12 +311,7 @@ if ($banner['type'] != 'txt') {
     echo "<input type='hidden' name='appendsave' value='1'>";
 }
 
-// Display plugin properties
-foreach ($invPlugins as $plugin) {
-    $plugin->display($tabindex, $banner);
-}
-
-if ($banner['type'] != 'txt' || count($invPlugins)){
+if ($banner['type'] != 'txt'){
     echo "<br /><input type='submit' name='submitbutton' value='".$strSaveChanges."' tabindex='".($tabindex++)."'>";
     echo "</form>";
 }

@@ -275,4 +275,124 @@ EOF
         }
         $this->assertFalse($rsAcls->fetch());
     }
+
+    // Tests for the various limitation upgrade methods
+
+    function testMAX_limitationsGetAUpgradeForString()
+    {
+        $this->checkUpgradeForString('==', 'blabla', '==', 'blabla');
+        $this->checkUpgradeForString('=x', '^.*$', '==', '*');
+        $this->checkUpgradeForString('!=', 'blabla', '!=', 'blabla');
+        $this->checkUpgradeForString('=x', '^.*blabla$', '==', '*blabla');
+        $this->checkUpgradeForString('=x', '^blabla.*$', '==', 'blabla*');
+        $this->checkUpgradeForString('=~', 'blabla', '==', '*blabla*');
+        $this->checkUpgradeForString('=~', 'blabla', '==', '*blabla****');
+        $this->checkUpgradeForString('!~', 'blabla', '!=', '*blabla*');
+        $this->checkUpgradeForString('=x', '^bla.*bla$', '==', 'bla*bla');
+        $this->checkUpgradeForString('=x', '^.*bla.*bla.*$', '==', '*bla*bla*');
+        $this->checkUpgradeForString('=x', '^bl.*ab.*la$', '==', 'bl*ab*la');
+        $this->checkUpgradeForString('=x', '^bl.*ab.*la$', '==', 'bl*ab**la');
+        $this->checkUpgradeForString('=x', '^bl.*ab.*la$', '==', 'bl*ab*****la');
+        $this->checkUpgradeForString('!x', '^bl.*ab.*la$', '!=', 'bl*ab*la');
+        $this->checkUpgradeForString('=x', '^bl.*a\\(b.*\\.l\\)a$', '==', 'bl*a(b*.l)a');
+        $this->checkUpgradeForString('=~', 'blabla', '=~', 'blabla');
+        $this->checkUpgradeForString('!~', 'blabla', '!~', 'blabla');
+        $this->checkUpgradeForString('=x', '^http://victory\.com/index/blady/.*#strach$', '==', 'http://victory.com/index/blady/*#strach');
+        $this->checkUpgradeForString('=x', '^\\(other\\)/business\\.scotsman\\.com/axappp.*$', '==', '(other)/business.scotsman.com/axappp*');
+    }
+
+    function testMAX_limitationsGetAUpgradeForArray()
+    {
+        $sData = 'blabla,a';
+        $aResult = MAX_limitationsGetAUpgradeForArray('==', $sData);
+        $this->assertEqual('=~', $aResult['op']);
+        $this->assertEqual($sData, $aResult['data']);
+        $aResult = MAX_limitationsGetAUpgradeForArray('!=', $sData);
+        $this->assertEqual('!~', $aResult['op']);
+        $this->assertEqual($sData, $aResult['data']);
+        $aResult = MAX_limitationsGetAUpgradeForArray('=~', $sData);
+        $this->assertEqual('=~', $aResult['op']);
+        $this->assertEqual($sData, $aResult['data']);
+    }
+
+    function testMAX_limitationsGetAUpgradeForLanguage()
+    {
+        $this->checkUpgradeForLanguage('=~', 'pl', '==', '(pl)');
+        $this->checkUpgradeForLanguage('=~', 'pl,en,fr', '==', '(pl)|(en)|(fr)');
+        $this->checkUpgradeForLanguage('!~', 'pl,en,fr', '!=', '(pl)|(en)|(fr)');
+    }
+
+    function checkUpgradeForLanguage($opExpected, $sDataExpected, $opOriginal, $sDataOriginal)
+    {
+        $this->checkUpgrade('MAX_limitationsGetAUpgradeForLanguage', $opExpected, $sDataExpected, $opOriginal, $sDataOriginal);
+    }
+
+    function checkUpgradeForString($opExpected, $sDataExpected, $opOriginal, $sDataOriginal)
+    {
+        $this->checkUpgrade('MAX_limitationsGetAUpgradeForString', $opExpected, $sDataExpected, $opOriginal, $sDataOriginal);
+    }
+
+    function testMAX_limitationsGetADowngradeForString()
+    {
+        $this->checkDowngradeForString('==', 'blabla', '==', 'blabla');
+        $this->checkDowngradeForString('==', '*', '=x', '^.*$');
+        $this->checkDowngradeForString('!=', 'blabla', '!=', 'blabla');
+        $this->checkDowngradeForString('==', '*blabla', '=x', '^.*blabla$');
+        $this->checkDowngradeForString('==', 'blabla*', '=x', '^blabla.*$');
+        $this->checkDowngradeForString('==', '*blabla*', '=~', 'blabla');
+        $this->checkDowngradeForString('!=', '*blabla*', '!~', 'blabla');
+        $this->checkDowngradeForString('==', 'bla*bla', '=x', '^bla.*bla$');
+        $this->checkDowngradeForString('==', '*bla*bla*', '=x', '^.*bla.*bla.*$');
+        $this->checkDowngradeForString('==', 'bl*ab*la', '=x', '^bl.*ab.*la$');
+        $this->checkDowngradeForString('!=', 'bl*ab*la', '!x', '^bl.*ab.*la$');
+        $this->checkDowngradeForString('==', 'bl*a(b*.l)a', '=x', '^bl.*a\\(b.*\\.l\\)a$');
+        $this->checkDowngradeForString('==', '*blabla*', '=~', 'blabla');
+        $this->checkDowngradeForString('!=', '*blabla*', '!~', 'blabla');
+        $this->checkDowngradeForString('==', 'http://victory.com/index/blady/*#strach', '=x', '^http://victory\.com/index/blady/.*#strach$');
+        $this->checkDowngradeForString('==', '(other)/business.scotsman.com/axappp*', '=x', '^\\(other\\)/business\\.scotsman\\.com/axappp.*$');
+    }
+
+    function testMAX_limitationsGetADowngradeForArray()
+    {
+        $sData = 'blabla,a';
+        $this->checkDowngradeForArray('==', $sData, '=~', $sData);
+        $this->checkDowngradeForArray('!=', $sData, '!~', $sData);
+    }
+
+    function testMAX_limitationsGetADowngradeForLanguage()
+    {
+        $this->checkDowngradeForLanguage('==', '(pl)', '=~', 'pl');
+        $this->checkDowngradeForLanguage('==', '(pl)|(en)|(fr)', '=~', 'pl,en,fr');
+        $this->checkDowngradeForLanguage('!=', '(pl)|(en)|(fr)', '!~', 'pl,en,fr');
+    }
+
+    function checkDowngradeForArray($opExpected, $sDataExpected, $opOriginal, $sDataOriginal)
+    {
+        $this->checkUpgrade('MAX_limitationsGetADowngradeForArray', $opExpected, $sDataExpected, $opOriginal, $sDataOriginal);
+    }
+
+    function checkDowngradeForVariable($opExpected, $sDataExpected, $opOriginal, $sDataOriginal)
+    {
+        $this->checkUpgrade('MAX_limitationsGetADowngradeForVariable', $opExpected, $sDataExpected, $opOriginal, $sDataOriginal);
+    }
+
+    function checkDowngradeForLanguage($opExpected, $sDataExpected, $opOriginal, $sDataOriginal)
+    {
+        $this->checkUpgrade('MAX_limitationsGetADowngradeForLanguage', $opExpected, $sDataExpected, $opOriginal, $sDataOriginal);
+    }
+
+    function checkDowngradeForString($opExpected, $sDataExpected, $opOriginal, $sDataOriginal)
+    {
+        $this->checkUpgrade('MAX_limitationsGetADowngradeForString', $opExpected, $sDataExpected, $opOriginal, $sDataOriginal);
+    }
+
+    function checkUpgrade($function, $opExpected, $sDataExpected, $opOriginal, $sDataOriginal)
+    {
+        $aResult = $function($opOriginal, $sDataOriginal);
+        $opActual = $aResult['op'];
+        $sDataActual = $aResult['data'];
+        $this->assertEqual($opExpected, $opActual, "The value of operator for: '$opOriginal|$sDataOriginal' is $opActual.");
+        $this->assertEqual($sDataExpected, $sDataActual, "The value of data for: '$opOriginal|$sDataOriginal' is $sDataActual instead of: $sDataExpected.");
+    }
+
 }

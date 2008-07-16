@@ -60,7 +60,7 @@ global $readPath, $writeFile;
     {
         while (false !== ($file = readdir($dh)))
         {
-            if (preg_match('/openads_upgrade_[\w\W]+\.xml/', $file, $aMatches))
+            if (preg_match('/_upgrade_[\w\W]+\.xml/', $file, $aMatches))
             {
                 preg_match('/(?P<release>[\d]+)\.(?P<major>[\d]+)\.(?P<minor>[\d]+)(?P<beta>\-beta)?(?P<rc>\-rc)?(?P<build>[\d]+)?(?P<toversion>_to_)?/', $file, $aParsed);
 

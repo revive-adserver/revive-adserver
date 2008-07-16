@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<releases>
+
+<!-- to use a local updates server -->
+<!-- cd <host folder> && ln -s <path from host folder to openx folder>/plugins_repo plugins_repo -->
+
+<!-- to use a local downloadUrl -->
+<!-- cd <host folder> && ln -s <path from host folder to openx folder>/plugins_repo download -->
+
+    <package>
+        <name>openXBannerTypes</name>
+        <creationDate>2008-02-19</creationDate>
+        <author>Monique Szpak</author>
+        <authorEmail>monique.szpak@openx.org</authorEmail>
+        <authorUrl>http://www.openx.org</authorUrl>
+        <license>license.txt</license>
+        <description>Basic Banner Type Plugins for OpenX</description>
+        <version>0.0.1-alpha</version>
+        <oxminver>2.7.5-dev</oxminver>
+        <oxmaxver>2.7.8-dev</oxmaxver>
+        <!--downloadUrl>http://plugins.openx.org/download/openXBannerTypes</downloadUrl-->
+        <downloadUrl>{local}/download/openXBannerTypes.zip</downloadUrl>
+    </package>
+
+    <package>
+        <name>openXDeliveryLimitations</name>
+        <creationDate>2008-02-19</creationDate>
+        <author>Monique Szpak</author>
+        <authorEmail>monique.szpak@openx.org</authorEmail>
+        <authorUrl>http://www.openx.org</authorUrl>
+        <license>license.txt</license>
+        <description>Core Delivery Limitations Plugins for OpenX</description>
+        <version>0.0.1-alpha</version>
+        <oxminver>2.7.5-dev</oxminver>
+        <oxmaxver>2.7.8-dev</oxmaxver>
+        <!--downloadUrl>http://plugins.openx.org/download/openXDeliveryLimitations</downloadUrl-->
+        <downloadUrl>{local}/download/openXDeliveryLimitations.zip</downloadUrl>
+    </package>
+
+    <package>
+        <name>demoExtension</name>
+        <creationDate>2008-05-30</creationDate>
+        <author>Monique Szpak</author>
+        <authorEmail>monique.szpak@openx.org</authorEmail>
+        <authorUrl>http://www.openx.org</authorUrl>
+        <license>license.txt</license>
+        <description>Demo Extension for OpenX</description>
+        <version>0.0.1-beta</version>
+        <oxminver>2.7.5-dev</oxminver>
+        <oxmaxver>2.7.8-dev</oxmaxver>
+        <downloadUrl>{local}/download/demoExtension_0.0.1-beta.zip</downloadUrl>
+    </package>
+
+    <package>
+        <name>OpenXThorium</name>
+        <creationDate>2008-07-04</creationDate>
+        <author>Monique Szpak</author>
+        <authorEmail>monique.szpak@openx.org</authorEmail>
+        <authorUrl>http://www.openx.org</authorUrl>
+        <license>license.txt</license>
+        <description>OpenX Project Thorium</description>
+        <version>0.0.1-alpha</version>
+        <oxminver>2.7.8-dev</oxminver>
+        <oxmaxver>2.7.8-dev</oxmaxver>
+        <downloadUrl>{local}/download/demoExtension_0.0.1-beta.zip</downloadUrl>
+    </package>
+
+</releases>

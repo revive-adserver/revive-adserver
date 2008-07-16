@@ -86,7 +86,7 @@ $GLOBALS['strInstallWelcome']               = "Welcome to ".MAX_PRODUCT_NAME;
 $GLOBALS['strInstallMessage']               = "Before you can use ".MAX_PRODUCT_NAME." it needs to be configured and <br /> the database needs to be created. Click <b>Proceed</b> to continue.";
 $GLOBALS['strInstallIntro']                 = "Thank you for choosing <a href='http://".MAX_PRODUCT_URL."' target='_blank'><strong>".MAX_PRODUCT_NAME."</strong></a>.
 <p>This wizard will guide you through the process of installing / upgrading the ".MAX_PRODUCT_NAME." ad server.</p>
-<p>To help you with the installation process we have created an <a href='".OX_PRODUCT_DOCSURL."/wizard/qsg-install' target='_blank'>Installation Quick Start Quide</a> to take you through the process of getting up and running.
+<p>To help you with the installation process we have created an <a href='".OX_PRODUCT_DOCSURL."/wizard/qsg-install' target='_blank'>Installation Quick Start Guide</a> to take you through the process of getting up and running.
 For a more detailed guide to installing and configuring ".MAX_PRODUCT_NAME." visit the <a href='".OX_PRODUCT_DOCSURL."/wizard/admin-guide' target='_blank'>Administrator Guide</a>.";
 $GLOBALS['strRecoveryRequiredTitle']    = "Your previous upgrade attempt encountered an error";
 $GLOBALS['strRecoveryRequired']         = "There was an error while processing your previous upgrade and " . MAX_PRODUCT_NAME . " must attempt to recover the upgrade process. Please click the Recover button below.";
@@ -142,6 +142,7 @@ $GLOBALS['strErrorInstallDbConnect']        = "It was not possible to open a con
 
 $GLOBALS['strErrorWritePermissions']        = "File permission errors have been detected, and must be fixed before you can continue.<br />To fix the errors on a Linux system, try typing in the following command(s):";
 $GLOBALS['strErrorFixPermissionsCommand']   = "<i>chmod a+w %s</i>";
+$GLOBALS['strErrorFixPermissionsRCommand']  = "<i>chmod -R a+w %s</i>";
 $GLOBALS['strErrorWritePermissionsWin']     = "File permission errors have been detected, and must be fixed before you can continue.";
 $GLOBALS['strCheckDocumentation']           = "For more help, please see the <a href=\"".OX_PRODUCT_DOCSURL."\">" . MAX_PRODUCT_NAME . " documentation<a/>.";
 

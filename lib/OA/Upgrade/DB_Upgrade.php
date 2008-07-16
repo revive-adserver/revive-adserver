@@ -255,7 +255,7 @@ class OA_DB_Upgrade
         // Load definitions from cache
         $this->oTable->init($this->file_schema, true);
 
-        $this->oLogger->logOnly('schema definition from cache '. ($this->oTable->cached_definition ? 'TRUE':'FALSE'));
+        $this->_logOnly('schema definition from cache '. ($this->oTable->cached_definition ? 'TRUE':'FALSE'));
 
         if (!is_array($this->oTable->aDefinition))
         {

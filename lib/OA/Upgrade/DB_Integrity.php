@@ -176,6 +176,11 @@ class OA_DB_Integrity
 
     function loadData($aVariables='')
     {
+        if (!$this->oDBUpgrader)
+        {
+            $this->oDBUpgrader  = new OA_DB_Upgrade();
+            $this->oDBUpgrader->initMDB2Schema();
+        }
         $aResult = array();
         if (!$aVariables['directory'])
         {
@@ -185,6 +190,12 @@ class OA_DB_Integrity
         {
             $aResult[] = 'no filename supplied';
         }
+        /*else
+        {
+            $aDefinition = $this->oDBUpgrader->oSchema->parseDatabaseContentFile($aVariables['directory'].$aVariables['datafile'], array(), false, false, $this->oUpgrader->oTable->aDefinition);
+            $aVariables['schema'] = $aDefinition['version'];
+            $aVariables['appver'] = $aDefinition['application'];
+        }*/
         if (!$aVariables['schema'])
         {
             if (!preg_match('/(?P<appver>[\w\W]+)_data_tables_core_(?P<schema>[\d]+)_(?P<dbname>[\w\W]+)\.xml/',$aVariables['datafile'],$aVariables))
@@ -279,12 +290,12 @@ class OA_DB_Integrity
     // this one is called from within OA_Upgrade during detectMax
     // OA_Upgrade assigns itself after instantiation
     // compiles constructive tasks but does not prune or execute
-    function checkIntegrityQuick($version)
+    function checkIntegrityQuick($version, $aSchema='')
     {
         $this->_clearProperties();
         $this->version                      = $version;
         $this->oDBUpgrader                  =&  $this->oUpgrader->oDBUpgrader;
-        $this->_initDBUpgrader();
+        $this->_initDBUpgrader($aSchema['schemaOld']);
         if (!$this->oDBUpgrader->buildSchemaDefinition())
         {
             return false;
@@ -297,7 +308,7 @@ class OA_DB_Integrity
         {
             return false;
         }
-        if (!$this->oDBUpgrader->init('constructive', 'tables_core', $this->version, 'switchTiming'))
+        if (!$this->oDBUpgrader->init('constructive', $aSchema['name'], $this->version, 'switchTiming'))
         {
             return false;
         }
@@ -586,12 +597,21 @@ class OA_DB_Integrity
         $this->version                      = '';
     }
 
-    function _initDBUpgrader()
+    function _initDBUpgrader($schema='')
     {
         $this->oDBUpgrader->prefix          = $GLOBALS['_MAX']['CONF']['table']['prefix'];
         $this->oDBUpgrader->database        = $GLOBALS['_MAX']['CONF']['database']['name'];
-        $this->oDBUpgrader->path_schema     = MAX_PATH.'/etc/changes/';
-        $this->oDBUpgrader->file_schema     = $this->oDBUpgrader->path_schema.$this->_getXMLFilename();
+        if (empty($schema))
+        {
+            $this->oDBUpgrader->path_schema     = MAX_PATH.'/etc/changes/';
+            $this->oDBUpgrader->file_schema     = $this->oDBUpgrader->path_schema.$this->_getXMLFilename();
+        }
+        else
+        {
+            $this->oDBUpgrader->path_schema     = dirname($schema);
+            $this->oDBUpgrader->file_schema     = $schema;
+        }
+
         $this->oDBUpgrader->path_changes    = MAX_PATH.'/var/';
         $this->oDBUpgrader->file_changes    = $this->oDBUpgrader->path_changes.$this->_getXMLFilename('changes');
     }

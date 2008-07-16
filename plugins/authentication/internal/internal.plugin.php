@@ -154,8 +154,20 @@ class Plugins_Authentication_Internal_Internal extends Plugins_Authentication
             $errDetails = '';
             if (is_array($vals['error'])) {
                 $errDetails = '<ul>';
-                foreach ($vals['actual'] as $key => $val) {
-                    $errDetails .= '<li>' . $key . ' &nbsp; => &nbsp; ' . $val . '</li>';
+                if ($env == 'PERMS')
+                {
+                    foreach ($vals['actual'] as $key => $val) {
+                        if ($val['error'])
+                        {
+                            $errDetails .= '<li>' . $val['file'] . '  ' . $val['result'].'</li>';
+                        }
+                    }
+                }
+                else
+                {
+                    foreach ($vals['actual'] as $key => $val) {
+                        $errDetails .= '<li>' . $key . ' &nbsp; => &nbsp; ' . $val . '</li>';
+                    }
                 }
                 $errDetails .= '</ul>';
                 foreach ($vals['error'] as $key => $err) {

@@ -37,7 +37,7 @@ require_once 'XML/Parser.php';
  */
 class OA_UpgradePackageParser extends XML_Parser
 {
-    var $aPackage       = array('db_pkgs' => array());
+    var $aPackage       = array('db_pkgs' => array(), 'product'=>'oa');
     var $DBPkg_version  = '';
     var $DBPkg_stamp    = '';
     var $DBPkg_schema   = '';
@@ -171,6 +171,12 @@ class OA_UpgradePackageParser extends XML_Parser
                 break;
             case 'upgrade-name':
                 $this->aPackage['name'] = $data;
+                break;
+            case 'upgrade-type':
+                if ($data=='plugin')
+                {
+                    $this->aPackage['product'] = $this->aPackage['name'];
+                }
                 break;
             case 'upgrade-creationdate':
                 $this->aPackage['creationDate'] = $data;

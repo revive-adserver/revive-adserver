@@ -32,13 +32,13 @@
     <exclude name="lib/simpletest/**"/>
     <include name="maintenance/**"/>
     <include name="plugins/**"/>
+    <include name="extensions/**"/>
     <include name="scripts/maintenance/**"/>
     <include name="scripts/.htaccess"/>
     <include name="var/cache/README.txt"/>
     <include name="var/plugins/config"/>
     <include name="var/plugins/README.txt"/>
     <include name="var/plugins/cache"/>
-    <include name="var/plugins/config"/>
     <include name="var/templates_compiled"/>
     <include name="var/.htaccess"/>
     <include name="var/UPGRADE"/>
@@ -46,8 +46,6 @@
 
     <exclude name="www/devel**"/>
     <exclude name="www/delivery_dev**"/>
-    <exclude name="www/upgrade_dev**"/>
-    <exclude name="www/upgrade**"/>
 
     <!-- Build-wide rules -->
     <exclude name="**/tests"/>
@@ -86,8 +84,7 @@
     <include name="var/plugins/config/**"/>
     <include name="www/devel/**"/>
     <include name="www/delivery_dev/**"/>
-    <include name="www/upgrade_dev/**"/>
-    <include name="www/upgrade/**"/>
+    <include name="plugins_repo/**"/>
 
     <!-- Build-wide rules -->
     <include name="**/tests"/>
@@ -101,10 +98,12 @@
   <patternset id="dist.writable">
     <include name="var"/>
     <include name="var/cache"/>
-    <include name="var/plugins/cache"/>
-    <include name="var/plugins/config"/>
+    <include name="var/tmp"/>
+    <include name="var/plugins/**"/>
     <include name="var/templates_compiled"/>
     <include name="www/images"/>
+    <include name="www/admin/plugins"/>
+    <include name="extensions/**"/>
   </patternset>
 
 </project>

@@ -292,6 +292,7 @@ $GLOBALS['strDbSuccessIntro'] = "Была создана БД для ".MAX_PRODU
 $GLOBALS['strDbSuccessIntroUpgrade'] = "БД для ".MAX_PRODUCT_NAME." была обновлена. Нажмите кнопку \"Продолжить\" для Ñ настроек Éя и доставки баннеров.";
 $GLOBALS['strErrorWritePermissions'] = "Прежде, чем вы сможете продолжить, необходимо исправить ошибки прав доступа к файлам.<br />þтобы исправить ошибки в ОС Linux попробуйте выполнить следующие команды:";
 $GLOBALS['strErrorFixPermissionsCommand'] = "<i>chmod a+w %s</i>";
+$GLOBALS['strErrorFixPermissionsRCommand']  = "<i>chmod -R a+w %s</i>";
 $GLOBALS['strErrorWritePermissionsWin'] = "Прежде, чем вы сможете продолжить, необходимо исправить ошибки прав доступа к файлам.";
 $GLOBALS['strCheckDocumentation'] = "Для вызова справки, откройте <a href=\"http://MAX_PRODUCT_DOCSURL\">Документацию ".MAX_PRODUCT_NAME."<a/>.";
 $GLOBALS['strAdminUrlPrefix'] = "URL Çо интерфейса";

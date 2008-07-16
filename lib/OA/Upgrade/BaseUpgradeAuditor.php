@@ -27,7 +27,7 @@
  *
  * @author     Matthieu Aubry <matthieu.aubry@openx.org>
  *
- * $Id $
+ * $Id$
  *
  */
 
@@ -41,6 +41,26 @@ class OA_BaseUpgradeAuditor
 
 	function OA_BaseUpgradeAuditor()
 	{
+	}
+
+	function init(&$oDbh='', $oLogger='')
+	{
+	    if ($oDbh)
+	    {
+            $this->oDbh = $oDbh;
+	    }
+	    else
+	    {
+            $this->oDbh = OA_DB::singleton();
+	    }
+        $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+        // so that this class can log to the caller's log
+        // and write it's own log if necessary (testing)
+        if ($oLogger)
+        {
+            $this->oLogger= $oLogger;
+        }
+        return $this->_checkCreateAuditTable();
 	}
 
 	function getLogTableName()
@@ -61,18 +81,19 @@ class OA_BaseUpgradeAuditor
         $values  = implode(",", array_values($this->aParams)).','.implode(",", array_values($aParams));
         $table = $this->getLogTableName();
         $query = "INSERT INTO {$table} ({$columns}, updated) VALUES ({$values}, '". OA::getNow() ."')";
+        $auditId = $this->getNextUpgradeActionId();
         $result = $this->oDbh->exec($query);
-
         if ($this->isPearError($result, "error inserting {$this->prefix}{$this->logTable}"))
         {
             return false;
         }
-        return true;
+        return $auditId;
     }
 
     function updateAuditAction($aParams=array())
     {
-        $id = $this->getUpgradeActionId();
+        $id = (isset($aParams['id']) ? $aParams['id'] : $this->getUpgradeActionId());
+        unset($aParams['id']);
         if (!$id)
         {
             $this->logError('upgrade_action_id is empty');
@@ -100,6 +121,11 @@ class OA_BaseUpgradeAuditor
     function setKeyParams($aParams='')
     {
         $this->aParams = $this->_escapeParams($aParams);
+    }
+
+    function getNextUpgradeActionId()
+    {
+        return true;
     }
 
     /**

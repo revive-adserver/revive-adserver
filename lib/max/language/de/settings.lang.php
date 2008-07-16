@@ -130,6 +130,7 @@ $GLOBALS['strErrorUpgrade'] = 'Das Upgrade der Datenbank der bestehenden Install
 $GLOBALS['strErrorInstallDbConnect']		= "Eine Verbindung zur Datenbank konnte nicht geöffnet werden.";
 $GLOBALS['strErrorWritePermissions']        = "Um diese(n) Fehler auf Ihrem Linux Server zu beheben, müssen Sie folgende(n) Befehl(e) eingeben:";
 $GLOBALS['strErrorFixPermissionsCommand']   = "<i>chmod a+w %s</i>";
+$GLOBALS['strErrorFixPermissionsRCommand']  = "<i>chmod -R a+w %s</i>";
 $GLOBALS['strCheckDocumentation']           = "Für weitere Hilfe sehen Sie bitte in das Handbuch unter http://".OA_DOCUMENTATION_BASE_URL;
 
 $GLOBALS['strAdminUrlPrefix']               = "URL der Admin-Oberfläche";

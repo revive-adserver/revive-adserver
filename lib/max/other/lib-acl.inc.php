@@ -27,7 +27,7 @@ $Id$
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/lib-banner.inc.php';
-require_once MAX_PATH . '/lib/max/Plugin.php';
+require_once MAX_PATH . '/lib/OA/Plugin/Component.php';
 require_once MAX_PATH . '/lib/max/Dal/Admin/Acls.php';
 if(!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/remotehost.php'])) {
     // Required by PHP5.1.2
@@ -66,7 +66,7 @@ function MAX_AclAdjust($acl, $action)
     if (!empty($action['new']) && !empty($_REQUEST['type'])) {
         // Initialise this plugin to see if there is a default comparison
         list($package, $name) = explode(':', $_REQUEST['type']);
-        $deliveryLimitationPlugin = MAX_Plugin::factory('deliveryLimitations', ucfirst($package), ucfirst($name));
+        $deliveryLimitationPlugin = OX_Component::factory('deliveryLimitations', ucfirst($package), ucfirst($name));
         $defaultComparison = $deliveryLimitationPlugin->defaultComparison;
 
         $acl[$count] = array(
@@ -174,7 +174,7 @@ function MAX_AclSave($acls, $aEntities, $page = false)
     {
         foreach ($acls as $acl)
         {
-            $deliveryLimitationPlugin =& OA_aclGetPluginFromRow($acl);
+            $deliveryLimitationPlugin =& OA_aclGetComponentFromRow($acl);
 
             $doAcls = OA_Dal::factoryDO($aclsTable);
             $doAcls->$fieldId   = $aclsObjectId;
@@ -231,7 +231,7 @@ function MAX_AclGetCompiled($aAcls) {
     } else {
         ksort($aAcls);
         foreach ($aAcls as $acl) {
-            $deliveryLimitationPlugin =& OA_aclGetPluginFromRow($acl);
+            $deliveryLimitationPlugin =& OA_aclGetComponentFromRow($acl);
             $compiled = $deliveryLimitationPlugin->compile();
             if (!empty($compiledAcls)) {
                 $compiledAcls[] = $acl['logical'];
@@ -304,10 +304,11 @@ function MAX_AclValidate($page, $aParams) {
     while ($doAclTable->fetch()) {
         $aData = $doAclTable->toArray();
         list($package, $name) = explode(':', $aData['type']);
-        $deliveryLimitationPlugin = MAX_Plugin::factory('deliveryLimitations', ucfirst($package), ucfirst($name));
-        $deliveryLimitationPlugin->init($aData);
-        if ($deliveryLimitationPlugin->isAllowed($page)) {
-            $aAcls[$aData['executionorder']] = $aData;
+        if ($deliveryLimitationPlugin = OX_Component::factory('deliveryLimitations', ucfirst($package), ucfirst($name))) {
+            $deliveryLimitationPlugin->init($aData);
+            if ($deliveryLimitationPlugin->isAllowed($page)) {
+                $aAcls[$aData['executionorder']] = $aData;
+            }
         }
     }
 
@@ -379,10 +380,10 @@ function MAX_AclCopy($page, $from, $to) {
  * @param string $type
  * @return Plugins_DeliveryLimitations
  */
-function &OA_aclGetPluginFromType($type)
+function &OA_aclGetComponentFromType($type)
 {
     list($package, $name) = explode(':', $type);
-    return MAX_Plugin::factory('deliveryLimitations', ucfirst($package), ucfirst($name));
+    return OX_Component::factory('deliveryLimitations', ucfirst($package), ucfirst($name));
 }
 
 /**
@@ -391,9 +392,9 @@ function &OA_aclGetPluginFromType($type)
  *
  * @param array $row
  */
-function &OA_aclGetPluginFromRow($row)
+function &OA_aclGetComponentFromRow($row)
 {
-    $plugin =& OA_aclGetPluginFromType($row['type']);
+    $plugin =& OA_aclGetComponentFromType($row['type']);
     $plugin->init($row);
     return $plugin;
 }
@@ -431,7 +432,7 @@ function OA_aclRecompileAclsForTable($aclsTable, $idColumn, $page, $objectTable,
     $aAcls = array();
     while ($rsAcls->fetch()) {
         $row = $rsAcls->toArray();
-        $deliveryLimitationPlugin =& OA_aclGetPluginFromRow($row);
+        $deliveryLimitationPlugin =& OA_aclGetComponentFromRow($row);
         if ($upgrade || $deliveryLimitationPlugin->isAllowed($page)) {
             $aAcls[$row[$idColumn]][$row['executionorder']] = $row;
         }

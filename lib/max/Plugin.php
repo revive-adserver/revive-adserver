@@ -31,11 +31,6 @@ require_once 'Cache/Lite.php';
 require_once 'Config.php';
 
 /**
- * The default directory to store plugin configution and cache files.
- */
-define('MAX_PLUGINS_VAR', MAX_PATH . '/var/plugins');
-
-/**
  * The default write mode for directories inside MAX_PLUGINS_VAR.
  */
 define('MAX_PLUGINS_VAR_WRITE_MODE', 0755);
@@ -45,7 +40,7 @@ define('MAX_PLUGINS_VAR_WRITE_MODE', 0755);
  */
 define('MAX_PLUGINS_EXTENSION', '.plugin.php');
 define('MAX_PLUGINS_EXTENSION_ESC', '\.plugin\.php');
-define('MAX_PLUGINS_FILE_MASK', '^.*/plugins/([a-zA-Z0-9\-_]*)/?([a-zA-Z0-9\-_]*)?/([a-zA-Z0-9\-_]*)'.MAX_PLUGINS_EXTENSION_ESC.'$');
+define('MAX_PLUGINS_PATH', '/plugins/');
 
 /**
  * MAX_Plugin is a static helper class for dealing with plugins. It
@@ -75,15 +70,23 @@ class MAX_Plugin
      * @param string $name Optional name of the PHP file which contains the plugin,
      *                     otherwise the plugin with the same name as the package
      *                     is assumed.
+     * @todo There is currently a mechanism in place to not include plugins from packages which
+     *       haven't been enabled in the configuration file, as more modules are refactored,
+     *       they should be added to the refactoredModules until this whole section can be removed
      * @return mixed The instantiated plugin object, or false on error.
      */
     function &factory($module, $package, $name = null)
     {
-        if (!MAX_Plugin::_includePluginFile($module, $package, $name)) {
-            return false;
-        }
         if ($name === null) {
             $name = $package;
+        }
+        if (!MAX_Plugin::_isEnabledPlugin($module, $package, $name))
+        {
+            return false;
+        }
+        if (!MAX_Plugin::_includePluginFile($module, $package, $name))
+        {
+            return false;
         }
         $className = MAX_Plugin::_getPluginClassName($module, $package, $name);
         $obj = new $className($module, $package, $name);
@@ -91,6 +94,24 @@ class MAX_Plugin
         $obj->package = $package;
         $obj->name    = $name;
         return $obj;
+    }
+
+    function _isEnabledPlugin($module, $package, $name)
+    {
+        $aRefactoredModules = array('deliveryLimitations', 'bannerTypeHtml', 'bannerTypeText');
+        if (in_array($module, $aRefactoredModules))
+        {
+            $aConf = $GLOBALS['_MAX']['CONF'];
+            if (empty($aConf['pluginGroupComponents'][$package]))
+            {
+                return false;
+            }
+            if (!$aConf['pluginGroupComponents'][$package])
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -109,12 +130,13 @@ class MAX_Plugin
      */
     function _includePluginFile($module, $package, $name = null)
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
         if ($name === null) {
             $name = $package;
         }
         $packagePath = empty($package) ? "" : $package."/";
 
-        $fileName = MAX_PATH . "/plugins/$module/". $packagePath ."$name".MAX_PLUGINS_EXTENSION;
+        $fileName = MAX_PATH . MAX_PLUGINS_PATH . $module . "/". $packagePath . $name . MAX_PLUGINS_EXTENSION;
         if (!file_exists($fileName)) {
             MAX::raiseError("Unable to include the file $fileName.");
             return false;
@@ -215,7 +237,9 @@ class MAX_Plugin
      */
     function _getPluginsFiles($module, $package = null, $recursive = 1)
     {
-        $pluginsDir = MAX_PATH . '/plugins';
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $pluginsDir = MAX_PATH . MAX_PLUGINS_PATH;
+
         if (!empty($package)) {
             $dir = $pluginsDir . '/' . $module . '/' . $package;
         } else {
@@ -246,14 +270,20 @@ class MAX_Plugin
     function _getPluginsFilesFromDirectory($directory, $recursive = 1)
     {
         if (is_readable($directory)) {
+            $fileMask = MAX_Plugin::_getFileMask();
             $oFileScanner = new MAX_FileScanner();
             $oFileScanner->addFileTypes(array('php','inc'));
-            $oFileScanner->setFileMask(MAX_PLUGINS_FILE_MASK);
+            $oFileScanner->setFileMask($fileMask);
             $oFileScanner->addDir($directory, $recursive);
             return $oFileScanner->getAllFiles();
         } else {
             return array();
         }
+    }
+
+    function _getFileMask()
+    {
+        return '^.*' . MAX_PLUGINS_PATH . '/?([a-zA-Z0-9\-_]*)/?([a-zA-Z0-9\-_]*)?/([a-zA-Z0-9\-_]*)'.MAX_PLUGINS_EXTENSION_ESC.'$';
     }
 
     /**
@@ -275,6 +305,10 @@ class MAX_Plugin
     {
         if ($name === null) {
             $name = $package;
+        }
+        if (!MAX_Plugin::_isEnabledPlugin($module, $package, $name))
+        {
+            return false;
         }
         if (!MAX_Plugin::_includePluginFile($module, $package, $name)) {
             return false;
@@ -482,7 +516,7 @@ class MAX_Plugin
             $defaultConfigFileName = MAX_Plugin::getConfigFileName($module, $package, $name, true);
             return MAX_Plugin::getConfigByFileName($defaultConfigFileName, $processSections, false);
         }
-        MAX::raiseError("Config for $package/$module/$name does not exist.", MAX_ERROR_NOFILE);
+        OA::debug("Config for $package/$module/$name does not exist.", MAX_ERROR_NOFILE);
         return false;
     }
 
@@ -508,6 +542,7 @@ class MAX_Plugin
      */
     function getConfigFileName($module, $package = null, $name = null, $defaultConfig = false, $host = null)
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
         if ($defaultConfig) {
             if (is_null($host)) {
                 $host = 'default';
@@ -517,7 +552,7 @@ class MAX_Plugin
             if (is_null($host)) {
                 $host = getHostName();
             }
-            $startPath  = MAX_PLUGINS_VAR . '/config/';
+            $startPath  = MAX_PATH . $aConf['pluginPaths']['var'] . 'config/';
         }
         $configName = $host.'.plugin.conf.php';
         if ($package === null) {
@@ -679,6 +714,10 @@ class MAX_Plugin
      */
     function _mkDirRecursive($directory, $mode = null)
     {
+        // Sanity check that the folder to be created is under MAX_PATH
+        if (substr($directory, 0, strlen(MAX_PATH)) != MAX_PATH) {
+            $directory = MAX_PATH . $directory;
+        }
         if (is_dir($directory)) {
             return true;
         } else {
@@ -709,9 +748,10 @@ class MAX_Plugin
      */
     function prepareCacheOptions($module, $package, $cacheDir = null, $cacheExpire = 3600)
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
         // Prepare the options for PEAR::Cache_Lite
         if (is_null($cacheDir)) {
-            $cacheDir = MAX_PLUGINS_CACHE . 'cache/' . $module . '/' . $package . '/';
+            $cacheDir = MAX_PATH . $aConf['pluginPaths']['var'] . 'cache/' . $module . '/' . $package . '/';
         }
         $aOptions = array(
             'cacheDir' => $cacheDir,
@@ -720,7 +760,7 @@ class MAX_Plugin
         );
         if (!is_dir($aOptions['cacheDir'])) {
             if (!MAX_Plugin::_mkDirRecursive($aOptions['cacheDir'], MAX_PLUGINS_VAR_WRITE_MODE)) {
-                Max::raiseError('Folder: "' . $aOptions['cacheDir'] . '" is not writeable.');
+                MAX::raiseError('Folder: "' . $aOptions['cacheDir'] . '" is not writeable.', PEAR_LOG_ERR);
                 return false;
             }
         }

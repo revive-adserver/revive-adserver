@@ -481,14 +481,15 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                 an_campaign_id,
                 status,
                 an_status,
-                priority AS priority
+                priority AS priority,
+                revenue AS revenue
             FROM
                 {$tableM} " .
             $this->getSqlListOrder($listorder, $orderdirection)
         ;
 
         $rsCampaigns = DBC::NewRecordSet($query);
-        $aCampaigns = $rsCampaigns->getAll(array('campaignid', 'clientid', 'campaignname', 'an_campaign_id', 'status', 'an_status', 'priority'));
+        $aCampaigns = $rsCampaigns->getAll(array('campaignid', 'clientid', 'campaignname', 'an_campaign_id', 'status', 'an_status', 'priority', 'revenue'));
         $aCampaigns = $this->_rekeyCampaignsArray($aCampaigns);
         return $aCampaigns;
     }
@@ -513,7 +514,8 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                 m.campaignname as campaignname,
                 m.status as status,
                 m.an_status as an_status,
-                m.priority AS priority
+                m.priority AS priority,
+                revenue AS revenue
             FROM
                 {$tableM} AS m,
                 {$tableC} AS c
@@ -524,7 +526,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         ;
 
         $rsCampaigns = DBC::NewRecordSet($query);
-        $aCampaigns = $rsCampaigns->getAll(array('campaignid', 'clientid', 'campaignname', 'status', 'an_status', 'priority'));
+        $aCampaigns = $rsCampaigns->getAll(array('campaignid', 'clientid', 'campaignname', 'status', 'an_status', 'priority', 'revenue'));
         $aCampaigns = $this->_rekeyCampaignsArray($aCampaigns);
         return $aCampaigns;
     }

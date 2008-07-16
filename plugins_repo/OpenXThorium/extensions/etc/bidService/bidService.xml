@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>bidService</name>
+    <creationDate>2008-07-04</creationDate>
+    <author>Bernard Lange</author>
+    <authorEmail>bernard@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>Bid Service Interface for OpenX</description>
+    <version>1.0.0-dev</version>
+    <oxversion>2.7.8-dev</oxversion>
+    <extends>admin</extends>
+
+    <install>
+
+        <syscheck>
+            <php>
+                <setting name='version'>4.3.11</setting>;
+            </php>
+        </syscheck>
+
+        <files>
+            <file path="{ADMINPATH}/css/">bid.css</file>
+            <file path="{ADMINPATH}/js/">bidservice.js</file>
+            <file path="{ADMINPATH}/images/">bid.jpg</file>
+            <file path="{ADMINPATH}/images/">sort-up.gif</file>
+            <file path="{ADMINPATH}/images/">sort-down.gif</file>
+            <file path="{ADMINPATH}/templates/">bid-account-edit.html</file>
+            <file path="{ADMINPATH}/templates/">bid-preferences.html</file>
+            <file path="{ADMINPATH}/templates/">bid-preferences-campaign.html</file>
+            <file path="{ADMINPATH}/templates/">bid-preferences-website.html</file>
+            <file path="{ADMINPATH}/templates/">creative-preferences-table.html</file>
+            <file path="{ADMINPATH}/">bid-account-edit.php</file>
+            <file path="{ADMINPATH}/">bid-common.php</file>
+            <file path="{ADMINPATH}/">bid-preferences.php</file>
+            <file path="{ADMINPATH}/">bid-preferences-campaign.php</file>
+            <file path="{ADMINPATH}/">bid-preferences-website.php</file>
+        </files>
+
+        <navigation>
+
+            <admin>
+                <menu addto="inventory" index="bid-preferences" link="plugins/bidService/bid-preferences.php">Marketplace</menu>
+            </admin>
+
+            <manager>
+                <menu addto="inventory" index="bid-preferences" link="plugins/bidService/bid-preferences.php">Marketplace</menu>
+                <menu addto="inventory" index="bid-account-edit" link="plugins/bidService/bid-account-edit.php">Marketplace Account</menu>
+                <menu addto="affiliate-index" index="bid-preferences-website"   link="plugins/bidService/bid-preferences-website.php?affiliateid={affiliateid}">Marketplace</menu>
+                <menu addto="advertiser-campaigns" index="bid-preferences-campaign"   link="plugins/bidService/bid-preferences-campaign.php?clientid={clientid}&amp;campaignid={campaignid}">Marketplace</menu>
+            </manager>
+
+            <advertiser>
+                <menu addto="inventory" index="bid-preferences" link="plugins/bidService/bid-preferences.php">Marketplace</menu>
+            </advertiser>
+
+            <trafficker>
+                <menu addto="inventory" index="bid-preferences" link="plugins/bidService/bid-preferences.php">Marketplace</menu>
+            </trafficker>
+
+        </navigation>
+
+        <configuration>
+            <setting key="message1" type="text" label="Message" required="1" size="32" visible="1">Default String All Accounts</setting>
+            <setting key="message2" type="text" label="Mgr/Admin Message" required="1" size="32" visible="1">Default String Mgr/Admin</setting>
+            <setting key="message3" type="text" label="Manager Message" required="1" size="32" visible="1">Default String Mgr</setting>
+            <setting key="message4" type="text" label="Admin Message" required="1" size="32" visible="1">Default String Admin</setting>
+
+            <preference name="bidpref_Admin" type="text" label="Admin Colour" required="1" size="7" visible="1" permission="ADMIN" >#000000</preference>
+            <preference name="bidpref_Manager" type="text" label="Manager Colour" required="1" size="7" visible="1" permission="MANAGER" >#000000</preference>
+            <preference name="bidpref_Advertiser" type="text" label="Advertiser Colour" required="1" size="7" visible="1" permission="ADVERTISER" >#000000</preference>
+            <preference name="bidpref_Trafficker" type="text" label="Trafficker Colour" required="1" size="7" visible="1" permission="TRAFFICKER" >#000000</preference>
+
+        </configuration>
+
+    </install>
+
+</plugin>

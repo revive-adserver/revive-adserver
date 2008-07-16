@@ -123,6 +123,7 @@ $GLOBALS['strErrorInstallDbConnect']        = "It was not possible to open a con
 
 $GLOBALS['strErrorWritePermissions']        = "File permission errors have been detected, and must be fixed before you can continue.<br />To fix the errors on a Linux system, try typing in the following command(s):";
 $GLOBALS['strErrorFixPermissionsCommand']   = "<i>chmod a+w %s</i>";
+$GLOBALS['strErrorFixPermissionsRCommand']  = "<i>chmod -R a+w %s</i>";
 $GLOBALS['strErrorWritePermissionsWin']     = "File permission errors have been detected, and must be fixed before you can continue.";
 $GLOBALS['strCheckDocumentation']           = "For more help, please see the <a href=\"http://".MAX_PRODUCT_DOCSURL."\">Openads documentation<a/>.";
 

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>testParse</name>
+    <creationDate>2008-04-01</creationDate>
+    <author>Test Author</author>
+    <authorEmail>test@example.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>Test Parse Full</description>
+    <oxversion>2.7</oxversion>
+    <version>0.0.1-test</version>
+    <extends>admin</extends>
+
+    <install>
+
+        <syscheck>
+            <dbms>
+                <name>mysql</name>
+                <supported>1</supported>
+            </dbms>
+            <dbms>
+                <name>pgsql</name>
+                <supported>0</supported>
+            </dbms>
+
+            <php>
+                <setting name='phpini1'>phpval1</setting>;
+                <setting name='phpini2'>phpval2</setting>;
+            </php>
+
+            <depends>
+                <plugin version="1.0" enabled="0">testPlugin</plugin>
+            </depends>
+
+        </syscheck>
+
+        <files>
+            <file path="{ADMINPATH}/templates/">testFile1.html</file>
+            <file path="{ADMINPATH}/images/">testFile2.jpg</file>
+            <file path="{ADMINPATH}/">testFile3.php</file>
+        </files>
+
+        <navigation>
+
+            <admin>
+                <menu insertafter="main-menu" index="test-menu" link="path_to_test_plugin/index.php">Test Menu Index Admin</menu>
+                <menu addto="test-menu" index="test-menu-1" link="path_to_test_plugin/page.php?action=1">Test Page 1 Admin</menu>
+                <menu addto="test-menu" index="test-menu-2" link="path_to_test_plugin/page.php?action=2">Test Page 2 Admin</menu>
+            </admin>
+
+            <manager>
+                <menu insertafter="main-menu" index="test-menu" link="path_to_test_plugin/index.php">Test Menu Index Manager</menu>
+                <menu addto="test-menu" index="test-menu-1" link="path_to_test_plugin/page.php?action=1">Test Page 1 Manager</menu>
+            </manager>
+
+            <advertiser>
+                <menu insertafter="main-menu" index="test-menu" link="path_to_test_plugin/index.php">Test Menu Advertiser</menu>
+            </advertiser>
+
+            <trafficker>
+                <menu insertafter="main-menu" index="test-menu" link="path_to_test_plugin/index.php">Test Menu Trafficker</menu>
+            </trafficker>
+
+        </navigation>
+
+        <configuration>
+            <setting key="setting1" type="boolean" label="Setting 1" required="1" size="1" visible="1">setval1</setting>
+            <setting key="setting2" type="integer" label="Setting 2" required="1" size="2" visible="1">setval2</setting>
+            <setting key="setting3" type="text" label="Setting 3" required="0" size="3" visible="1">setval3</setting>
+
+            <preference name="preference1" type="date" label="Pref 1" required="1" size="10" visible="1" permission="MANAGER">prefval1</preference>
+            <preference name="preference2" type="text" label="Pref 2" required="0" size="12" visible="0" permission="ADMIN">prefval2</preference>
+        </configuration>
+
+        <schema>
+            <mdb2schema>tables_test</mdb2schema>
+            <dboschema>db_schema</dboschema>
+            <dbolinks>db_schema_links</dbolinks>
+            <dataobject>Testplugin_table.php</dataobject>
+        </schema>
+
+        <prescript>prescript_testParse.php</prescript>
+        <postscript>postscript_testParse.php</postscript>
+
+    </install>
+
+    <uninstall>
+        <prescript>prescript_testParse.php</prescript>
+        <postscript>postscript_testParse.php</postscript>
+    </uninstall>
+
+</plugin>

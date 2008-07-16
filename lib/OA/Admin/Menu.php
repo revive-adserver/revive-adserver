@@ -76,21 +76,24 @@ class OA_Admin_Menu
         $this->aAllSections = array();
     }
 
-    function _loadFromCache()
+    function _loadFromCache($accountType)
     {
-        $oCache = new OA_Cache('OX', 'Menu');
+        $oCache = new OA_Cache('Menu', $accountType);
+        $oCache->setFileNameProtection(false);
         return $oCache->load(true);
     }
 
-    function _saveToCache()
+    function _saveToCache($accountType)
     {
-        $oCache = new OA_Cache('OX', 'Menu');
+        $oCache = new OA_Cache('Menu', $accountType);
+        $oCache->setFileNameProtection(false);
         return $oCache->save($this);
     }
 
-    function _clearCache()
+    function _clearCache($accountType)
     {
-        $oCache = new OA_Cache('OX', 'Menu');
+        $oCache = new OA_Cache('Menu', $accountType);
+        $oCache->setFileNameProtection(false);
         return $oCache->clear();
     }
 

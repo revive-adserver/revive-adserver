@@ -1,0 +1,139 @@
+{*<!--
+
+---------------------------------------------------------------------------+
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+
+-->*}
+{include file=plugin-group-switcher.html}
+
+{if $formError && $formError.id > 0 && $formError.message}
+<div class="error-box" style="margin-bottom: 10px">
+        {$formError.message|escape}
+      </div>
+</div>
+{/if}
+<div style="min-width: 750px">
+    <form name="packageform" id="packageform" method="post" action="plugin-index.php" enctype="multipart/form-data">
+            <div class="control-panel">
+                <div class="control-set left">
+    		        <span class='corner bottom-left'></span>
+    		        <span class='corner bottom-right'></span>
+
+    	            <h2>Upgrade this plugin</h2>
+    	            Select file
+    	            <input name="package" value="{$aPackage.name}" type="hidden">
+    	            <input name="filename" tabindex="1" type="file">
+    	            <input value="Upgrade" name="upgrade" tabindex="1" type="submit">
+                </div>
+                <div class="control-set left">
+    		        <span class='corner bottom-left'></span>
+    		        <span class='corner bottom-right'></span>
+
+    	            <h2>Check for updates</h2>
+    	            <input name="package" value="{$aPackage.name}" type="hidden">
+    	            <input value="Check" name="check" tabindex="2" type="submit">
+                    {if $downloadurl}
+                        <input name="downloadurl" value="{$downloadurl}" type="hidden">
+        	            <input value="Fetch & Upgrade" name="getupgrade" tabindex="1" type="submit">
+                    {/if}
+    	        </div>
+                <div class="control-set left">
+    		        <span class='corner bottom-left'></span>
+    		        <span class='corner bottom-right'></span>
+
+    	            <h2>Look for problems</h2>
+    	            <input name="package" value="{$aPackage.name}" type="hidden">
+    	            <input value="Diagnose" name="diagnose" tabindex="3" type="submit">
+    	        </div>
+            </div>
+    </form>
+</div>
+{if $aWarnings}
+    <div class="error-box" style="margin-bottom: 10px">
+        {foreach from=$aWarnings key=idx item=warning}
+            {$warning}
+            <br />
+        {/foreach}
+    </div>
+{/if}
+{if $aErrors}
+    <div class="error-box" style="margin-bottom: 10px">
+        {foreach from=$aErrors key=idx item=error}
+            {$error}
+            <br />
+        {/foreach}
+    </div>
+{/if}
+{if $aMessages}
+    <div class="infomessage" style="margin-bottom: 10px">
+        {foreach from=$aMessages key=idx item=message}
+            {$message}
+            <br />
+        {/foreach}
+    </div>
+{/if}
+<div style="min-width: 750px">
+    <p class="backlink"><a href="{$backURL}">&laquo; Back to plugins list</a></p>
+
+    <div class='panel'>
+        <span class='corner top-left'></span>
+        <span class='corner top-right'></span>
+        <span class='corner bottom-left'></span>
+        <span class='corner bottom-right'></span>
+
+        <div style="overflow: hidden;">
+	        <div class="split-right">
+		        <table class="detail-table">
+		            <tr><th>Version</td><td>{$aPackage.version}</td><th>Author</td><td>{$aPackage.author}</td></tr>
+		            <tr><th>Creation Date</td><td>{$aPackage.creationdate}</td><th>Email</th><td>{if {$aPackage.authoremail}<a href="mailto:{$aPackage.authoremail}">{/if}{$aPackage.authoremail}{if {$aPackage.authoremail}</a>{/if}</td></tr>
+		            <tr><th>License</td><td>{$aPackage.license}</td><th>URL</td><td>{if {$aPackage.authorurl}<a href="{$aPackage.authorurl}">{/if}{$aPackage.authorurl}{if {$aPackage.authorurl}</a>{/if}</td></tr>
+				</table>
+	        </div>
+
+	        <div class="split-left">
+                <span class="item-info">
+                    <p><span class="name">{$aPackage.name}</span></p>
+                    <p>{$aPackage.description}</p>
+                </span>
+            </div>
+
+	      </div>
+    </div>
+
+    {include file=plugin-index-list.html aPlugins=$aPlugins}
+
+    <div class='panel'>
+        <span class='corner top-left'></span>
+        <span class='corner top-right'></span>
+        <span class='corner bottom-left'></span>
+        <span class='corner bottom-right'></span>
+
+        <div style="overflow: hidden;">
+           <pre class='item-info'>{$readme}</pre>
+	      </div>
+    </div>
+
+</div>

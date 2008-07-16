@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>openXHtmlAdsense</name>
+    <creationDate>2008-02-19</creationDate>
+    <author>Chris Nutting</author>
+    <authorEmail>chris.nutting@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>AdSense HTML Banner Type plugin for OpenX</description>
+    <version>1.0.0-dev</version>
+    <oxversion>2.7.5-dev</oxversion>
+    <extends>bannerTypeHtml</extends>
+
+    <install>
+        <files>
+            <file path="{MODULEPATH}bannerTypeHtml/openXHtmlAdsense/">adsense.class.php</file>
+        </files>
+
+        <schema>
+            <mdb2schema>tables_ox_adsense</mdb2schema>
+            <dboschema>db_schema</dboschema>
+            <dbolinks>db_schema.links</dbolinks>
+            <dataobject>Banners_ox_adsense.php</dataobject>
+        </schema>
+
+    </install>
+
+</plugin>

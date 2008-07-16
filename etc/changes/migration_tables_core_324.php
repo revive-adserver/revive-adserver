@@ -177,15 +177,14 @@ class Migration_324 extends Migration
      */
     function _getDeliveryLimitationPlugin($sType)
     {
-        $oPlugin = null;
         if (isset($this->aPlugins[$sType])) {
-            $oPlugin = $this->aPlugins[$sType];
+            return $this->aPlugins[$sType];
         }
-        if (is_null($oPlugin)) {
-            $oPlugin = OA_aclGetPluginFromType($sType);
-            $this->aPlugins[$sType] = $oPlugin;
-        }
-        return $oPlugin;
+
+        list($package, $name) = explode(':', $sType);
+        $className = 'Upgrade_DeliveryLimitations_' . ucfirst($package) . '_' . ucfirst($name);
+        $this->aPlugins[$sType] = new $className();
+        return $this->aPlugins[$sType];
     }
 
 }

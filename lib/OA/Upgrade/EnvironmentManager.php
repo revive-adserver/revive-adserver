@@ -58,31 +58,40 @@ class OA_Environment_Manager
     function OA_Environment_Manager()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-
-        $this->aInfo['PERMS']['expected'] = array(
-                                                  MAX_PATH.'/var',
-                                                  MAX_PATH.'/var/cache',
-                                                  MAX_PATH.'/var/plugins',
-                                                  MAX_PATH.'/var/plugins/cache',
-                                                  MAX_PATH.'/var/plugins/config',
-                                                  MAX_PATH.'/var/templates_compiled'
-                                                 );
+        global $installing;
+        if (!$installing)
+        {
+            $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH.'/var');
+        }
+        else
+        {
+            $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH.'/var',true);
+        }
+        $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH.'/var/plugins', true);
+        $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH.'/extensions', true);
+        $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH.'/www/admin/plugins', true);
 
         // if CONF file hasn't been created yet, use the default images folder
-        if (!empty($conf['store']['webDir'])) {
-            $this->aInfo['PERMS']['expected'][] = $conf['store']['webDir'];
-        } else {
-            $this->aInfo['PERMS']['expected'][] = MAX_PATH.'/www/images';
+        if (!empty($conf['store']['webDir']))
+        {
+            $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem($conf['store']['webDir']);
+        }
+        else
+        {
+            $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH.'/www/images');
         }
 
-        if (!empty($conf['delivery']['cachePath'])) {
-            $this->aInfo['PERMS']['expected'][] = $conf['delivery']['cachePath'];
+        if (!empty($conf['delivery']['cachePath']))
+        {
+            $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem($conf['delivery']['cachePath']);
         }
 
         // Fix directory separator
-        if (DIRECTORY_SEPARATOR != '/') {
-            foreach ($this->aInfo['PERMS']['expected'] as $key => $value) {
-                $this->aInfo['PERMS']['expected'][$key] = str_replace('/', DIRECTORY_SEPARATOR, $value);
+        if (DIRECTORY_SEPARATOR != '/')
+        {
+            foreach ($this->aInfo['PERMS']['expected'] as $idx => $aValue)
+            {
+                $this->aInfo['PERMS']['expected'][$idx]['file'] = str_replace('/', DIRECTORY_SEPARATOR, $aValue['file']);
             }
         }
 
@@ -160,8 +169,47 @@ class OA_Environment_Manager
         return false;
     }
 
+    function buildFilePermArrayItem($file, $recurse=false, $result='OK', $error = false, $string='')
+    {
+        return array(
+                    'file'      => $file,
+                    'recurse'   => $recurse,
+                    'result'    => $result,
+                    'error'     => $error,
+                    'string'    => $string,
+                    );
+    }
+
+    function checkFilePermission($file, $recurse)
+    {
+        if ( (!file_exists($file)) || (!$this->isWritable($file)) )
+        {
+            return false;
+        }
+        if ($recurse)
+        {
+            $dh = @opendir($file);
+            if ($dh)
+            {
+                while (false !== ($f = readdir($dh)))
+                {
+                    if ( ($f == '.') || ($f == '..') || ($f == '.svn') )
+                    {
+                        continue;
+                    }
+                    if (!$this->checkFilePermission($file.'/'.$f, $recurse))
+                    {
+                        return false;
+                    }
+                }
+                closedir($dh);
+            }
+        }
+        return true;
+    }
+
     /**
-     * Check access to an array of requried files/folders
+     * Check access to an array of required files/folders
      *
      * @return array of error messages
      */
@@ -171,21 +219,19 @@ class OA_Environment_Manager
 
         // Test that all of the required files/directories can
         // be written to by the webserver
-        foreach ($this->aInfo['PERMS']['expected'] as $file)
+        foreach ($this->aInfo['PERMS']['expected'] as $idx => $aFile)
         {
-            if (empty($file))
+            if (empty($aFile['file']))
             {
                 continue;
             }
-            $aErrors[$file] = 'OK';
-            if (!file_exists($file))
+            if (!$this->checkFilePermission($aFile['file'], $aFile['recurse']))
             {
-                $aErrors[$file] = 'NOT writeable';
+                $aFile['result'] = 'NOT writeable';
+                $aFile['error']  = true;
+                $aFile['string'] = ($aFile['recurse'] ? 'strErrorFixPermissionsRCommand' : 'strErrorFixPermissionsRCommand');
             }
-            elseif (!$this->isWritable($file))
-            {
-                $aErrors[$file] = 'NOT writeable';
-            }
+            $aErrors[] = $aFile;
         }
 
         // If upgrading, must also be able to write to:
@@ -196,15 +242,18 @@ class OA_Environment_Manager
         //    be able to be written to by the web server also.
         //  - The INSTALLED file needs to be able to be "touched",
         //    as this is done for all upgrades/installs.
-        if (OA_INSTALLATION_STATUS != OA_INSTALLATION_STATUS_INSTALLED) {
+
+
+        // IS ANY OF THIS NECESSARY NOW THAT WE EXPECT VAR RECURSIVELY WRITEABLE?
+        /*if (OA_INSTALLATION_STATUS != OA_INSTALLATION_STATUS_INSTALLED) {
             $configFile = MAX_PATH . '/var/' . getHostName() . '.conf.php';
             if (file_exists($configFile)) {
                 // Test if *this* config file can be written to, as the
                 // installer might need to do this later
                 if (!OA_Admin_Settings::isConfigWritable($configFile)) {
-                    $aErrors[$configFile] = 'NOT writeable';
+                    $aErrors[] = $this->buildFilePermArrayItem($configFile, false, 'NOT writeable', true, 'strErrorFixPermissionsCommand');
                 } else {
-                    $this->aInfo['PERMS']['expected'][] = $configFile;
+                    $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem($configFile);
                 }
                 // Test if this configuration file is the real one or not
                 // by looking for a realConfig value
@@ -234,9 +283,9 @@ class OA_Environment_Manager
                 if (!empty($aPossibleConfigFiles)) {
                     foreach ($aPossibleConfigFiles as $configFile) {
                         if (!OA_Admin_Settings::isConfigWritable($configFile)) {
-                            $aErrors[$configFile] = 'NOT writeable';
+                            $aErrors[] = $this->buildFilePermArrayItem($configFile, false, 'NOT writeable', true, 'strErrorFixPermissionsCommand');
                         } else {
-                            $this->aInfo['PERMS']['expected'][] = $configFile;
+                            $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem($configFile);
                         }
                     }
                 }
@@ -245,48 +294,51 @@ class OA_Environment_Manager
             $configFile = MAX_PATH . '/var/default.conf.php';
             if (file_exists($configFile)) {
                 if (!OA_Admin_Settings::isConfigWritable($configFile)) {
-                    $aErrors[$configFile] = 'NOT writeable';
+                    $aErrors[] = $this->buildFilePermArrayItem($configFile, false, 'NOT writeable', true, 'strErrorFixPermissionsCommand');
                 } else {
-                    $this->aInfo['PERMS']['expected'][] = $configFile;
+                    $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem($configFile);
                 }
             }
             $installerFile = MAX_PATH . '/var/INSTALLED';
             if (file_exists($installerFile)) {
                 if (!$this->isWritable($installerFile)) {
-                    $aErrors[$installerFile] = 'NOT writeable';
+                    $aErrors[] = $this->buildFilePermArrayItem($installerFile, false, 'NOT writeable', true, 'strErrorFixPermissionsCommand');
                 }
             }
-        }
+        }*/
 
-        if (count($aErrors))
-        {
-            return $aErrors;
-        }
-        return false;
+        return $aErrors;
     }
 
     function isWritable($file)
     {
-        if (DIRECTORY_SEPARATOR == '\\') {
+        if (DIRECTORY_SEPARATOR == '\\')
+        {
             // Windows hack - is_writable returns bogus results
             // see http://bugs.php.net/bug.php?id=27609
-            if (@is_dir($file)) {
+            if (@is_dir($file))
+            {
                 $file = preg_replace('/\\\\$/', '', $file).DIRECTORY_SEPARATOR.md5(uniqid('', true));
                 $unlink = true;
-            } else {
+            }
+            else
+            {
                 $unlink = !file_exists($file);
             }
-            if ($fp = @fopen($file, 'ab')) {
+            if ($fp = @fopen($file, 'ab'))
+            {
                 @fclose($fp);
-                if ($unlink) {
+                if ($unlink)
+                {
                     @unlink($file);
                 }
                 return true;
-            } else {
+            }
+            else
+            {
                 return false;
             }
         }
-
         return is_writable($file);
     }
 
@@ -454,9 +506,9 @@ class OA_Environment_Manager
     {
         // Test to see if there were any file/directory permission errors
         unset($this->aInfo['PERMS']['error']['filePerms']);
-        foreach ($this->aInfo['PERMS']['actual'] AS $k => $v)
+        foreach ($this->aInfo['PERMS']['actual'] AS $idx => $aFile)
         {
-            if ($v != 'OK')
+            if ($aFile['error'])
             {
                 if (is_null($this->aInfo['PERMS']['error']['filePerms']))
                 {
@@ -467,7 +519,7 @@ class OA_Environment_Manager
                     }
                 }
                 if (DIRECTORY_SEPARATOR != '\\') {
-                    $this->aInfo['PERMS']['error']['filePerms'] .= "<br />" . sprintf($GLOBALS['strErrorFixPermissionsCommand'], $k);
+                    $this->aInfo['PERMS']['error']['filePerms'] .= "<br />" . sprintf($GLOBALS[$aFile['string']], $aFile['file']);
                 }
             }
         }

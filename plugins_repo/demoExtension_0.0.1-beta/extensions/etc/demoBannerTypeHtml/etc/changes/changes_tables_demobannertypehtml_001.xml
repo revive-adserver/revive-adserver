@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>demobannertypehtml</name>
+  <version>001</version>
+  <comments></comments>
+  <constructive>
+    <changeset>
+      <name>demobannertypehtml</name>
+      <version>001</version>
+      <add>
+        <table>
+        <name>banners_demo</name>
+        <was>banners_demo</was>
+      </table>
+    </add>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>demobannertypehtml</name>
+    <version>001</version>
+  </changeset>
+</destructive>
+</instructionset>

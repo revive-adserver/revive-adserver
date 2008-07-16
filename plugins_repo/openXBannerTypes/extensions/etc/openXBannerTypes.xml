@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>openXBannerTypes</name>
+    <creationDate>2008-02-19</creationDate>
+    <author>Monique Szpak</author>
+    <authorEmail>monique.szpak@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>Basic Banner Type Plugins for OpenX</description>
+    <version>1.0.0-dev</version>
+    <type>package</type>
+
+    <install>
+
+        <contents>
+            <group name="oxHtml">1</group>
+            <group name="oxText">2</group>
+        </contents>
+
+        <register>
+            <extension type='bannerTypeHtml' group='oxHtml'>genericHtml</extension>
+            <extension type='bannerTypeText' group='oxText'>genericText</extension>
+        </register>
+
+    </install>
+
+</plugin>

@@ -142,6 +142,7 @@ $GLOBALS['strErrorInstallDbConnect']        		= "データベース接続を開�
 
 $GLOBALS['strErrorWritePermissions']        		= "ファイルのパーミッションエラーが検出されました。継続するには、指定ファイルのパーミッションを変更してください。<br />Linux系のシステムでは、以下のコマンドを入力してください。:";
 $GLOBALS['strErrorFixPermissionsCommand']   		= "<i>chmod a+w %s</i>";
+$GLOBALS['strErrorFixPermissionsRCommand']          = "<i>chmod -R a+w %s</i>";
 $GLOBALS['strErrorWritePermissionsWin']     		= "ファイルのパーミッションエラーが検出されました。継続するには、指定ファイルのパーミッションを変更してください。";
 $GLOBALS['strCheckDocumentation']           		= "詳しくは、<a href=\"".OX_PRODUCT_DOCSURL."\">" . MAX_PRODUCT_NAME . " ドキュメントa/>を参照してください。";
 
