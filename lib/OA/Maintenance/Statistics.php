@@ -74,6 +74,13 @@ class OA_Maintenance_Statistics
             $oServiceLocator->register('now', $oDate);
         }
 
+        // Prepare the array of Manager Account IDs
+        $doAgency = OA_Dal::factoryDO('agency');
+        $doAgency->find();
+        while ($doAgency->fetch()) {
+
+        }
+
         // Run the MSE process for the AdServer and Tracker modules
         $oMaintenanceStatistics = new OA_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->updateStatistics();
