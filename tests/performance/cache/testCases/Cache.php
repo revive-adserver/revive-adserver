@@ -5,15 +5,13 @@ abstract class Cache
     protected $aConf;
     protected $connected = false;
     public $counterKey = 'counter';
-    public $numberOfRecords = 1000;
+    protected $numberOfRecords;
+    protected $concurrency;
+    protected $iterations;
 
     function __construct($aConf)
     {
         $this->aConf = $aConf;
-    }
-
-    function __destruct()
-    {
     }
 
     static function factory($aConf)
@@ -21,6 +19,13 @@ abstract class Cache
         $className = 'Cache_'.$aConf['type'];
         require_once $className . '.php';
         return new $className($aConf);
+    }
+
+    function init($concurrency, $iterations)
+    {
+        $this->connect();
+        $this->concurrency = $concurrency;
+        $this->iterations = $iterations;
     }
 
     abstract function connect();
@@ -33,48 +38,56 @@ abstract class Cache
 
     abstract function delete($key);
 
-    abstract function invalidateAll();
-
-    function updateTest($key, $val)
+    function invalidateAll()
     {
-//        if (!$this->update($key, $val)) {
-//            if (!$this->set($key, $val)) {
-//                return false;
-//            }
-//        }
-        return $this->updateCounter();
-        return true;
+        for ($c = 0; $c < $this->concurrency; $c++) {
+            for ($i = 0; $i < $this->iterations; $i++) {
+                $key = $this->getKey($i, $c);
+                if (!$this->delete($key)) {
+                    return false;
+                }
+            }
+        }
+    }
+
+    function getKey($postfix, $prefix)
+    {
+        return $prefix . 666 . $postfix;
+    }
+
+    function updateTest($c, $i)
+    {
+        $val = 'val'.$c.'-'.$i;
+        $key = $this->getKey($i, $c);
+//        echo "--$key";
+        if (!$this->set($key, $val)) {
+            return false;
+        }
+
+        if (!$this->update($key, $val)) {
+            return false;
+        }
 
         $check = $this->get($key);
         if ($check != $val) {
             return false;
         }
-        if (!$this->delete($key)) {
-            return false;
-        }
-        return $this->updateCounter();
-    }
-
-    function updateCounter()
-    {
-        $check = $this->get($this->counterKey);
-        if ($check) {
-            return $this->update($this->counterKey, ++$check);
-        } else {
-            return $this->set($this->counterKey, 1);
-        }
+        return true;
     }
 
     function updateResult()
     {
         $this->connect();
-        return $this->get($this->counterKey);
-    }
-
-    function init()
-    {
-        $this->connect();
-        return $this->set($this->counterKey, 0);
+        $results = 0;
+        for ($c = 0; $c < $this->concurrency; $c++) {
+            for ($i = 0; $i < $this->iterations; $i++) {
+                $key = $this->getKey($i, $c);
+                if ($this->get($key)) {
+                    $results++;
+                }
+            }
+        }
+        return $results;
     }
 }
 

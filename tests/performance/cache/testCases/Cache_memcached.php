@@ -2,14 +2,19 @@
 
 class Cache_memcached extends Cache
 {
-    private $memcache;
+    /**
+     * Memcache class
+     *
+     * @var Memcache
+     */
+    private $cache;
     public $defaultExpire = 1;
     static $counter = 0;
 
     function __construct($aConf)
     {
         parent::__construct($aConf);
-        $this->memcache = new Memcache();
+        $this->cache = new Memcache();
     }
 
     function __destruct()
@@ -20,14 +25,14 @@ class Cache_memcached extends Cache
     function invalidateAll()
     {
         $this->connect();
-        return $this->memcache->flush();
+        return $this->cache->flush();
     }
 
     function disconnect()
     {
         if ($this->connected) {
             $this->connected = false;
-            return $this->memcache->close();
+            return $this->cache->close();
         }
         return true;
     }
@@ -35,36 +40,30 @@ class Cache_memcached extends Cache
     function connect()
     {
         if (!$this->connected) {
-            $this->memcache->connect($this->aConf['host'], $this->aConf['port']) or die ("Could not connect");
+            $this->cache->connect($this->aConf['host'], $this->aConf['port'])
+                or die ("Could not connect");
         }
         return $this->connected;
     }
 
     function set($key, $val)
     {
-        return $this->memcache->set($key, $val);
+        return $this->cache->set($key, $val);
     }
 
     function update($key, $val)
     {
-        return $this->memcache->replace($key, $val);
+        return $this->cache->replace($key, $val);
     }
 
     function get($key)
     {
-        return $this->memcache->get($key);
+        return $this->cache->get($key);
     }
 
     function delete($key)
     {
-        return $this->memcache->delete($key);
-    }
-
-    function updateCounter()
-    {
-        echo "-- increment " . self::$counter . "\n";
-        self::$counter++;
-        return $this->memcache->increment($this->counterKey);
+        return $this->cache->delete($key);
     }
 }
 
