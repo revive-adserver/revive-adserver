@@ -1,7 +1,0 @@
-			<enableJavaScript description="Disable JS verification for external resources" enable="false" />
-				<not>
-					<verifyText description="Check text is not present on page" text="Openads" />
-				</not>
-				<verifyLinks />
-				<!--  <verifyImages />   -->
-			<enableJavaScript description="Turn back JS verification for further testing" enable="true" />

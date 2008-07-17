@@ -1,5 +1,0 @@
-				&universal;
-				<verifyText description="Check text on page" 
-					text="Welcome to OpenX" />
-				<clickButton description="Click 'Continue »' button" 
-					name="btn_terms" />

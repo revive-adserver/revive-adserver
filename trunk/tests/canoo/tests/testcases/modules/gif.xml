@@ -1,5 +1,0 @@
-<storeHeader description="store content-type"
-    name="Content-Type" property="contentType" />
-<verifyProperty description="should be a gif image"
-    name="contentType" regex="true" text="image/gif"/>
-<verifyText description="Check that content actually contains GIF" regex="true" text="GIF89a" />
