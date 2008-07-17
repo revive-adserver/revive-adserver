@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v2.7                                                                |
+| ==========                                                                |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -38,7 +38,7 @@ $Id$
 function setupConstants()
 {
     // Define this version of Openads's constants
-    define('OA_VERSION', '2.7.8-dev');
+    define('OA_VERSION', '2.7.9-dev');
     define('MAX_PRODUCT_NAME',      'OpenX');
     define('MAX_PRODUCT_URL',       'www.openx.org');
     if (preg_match('/^(\d+\.\d+)/', OA_VERSION, $aMatches)) {
