@@ -46,13 +46,13 @@ class Plugins_TestOfPlugins_demoBannerTypeHtml extends UnitTestCase
         $this->pkgVersion = '_0.0.1-beta';
 
         $oPkgMgr = new OX_PluginManager();
-        TestEnv::uninstallPluginPackage($this->pkgName);
+        TestEnv::uninstallPluginPackage($this->pkgName, false);
         TestEnv::installPluginPackage($this->pkgName, $this->pkgName.$this->pkgVersion, '/plugins_repo/', false);
     }
 
     function tearDown()
     {
-        TestEnv::uninstallPluginPackage('demoExtension');
+        TestEnv::uninstallPluginPackage('demoExtension', false);
     }
 
     function test_genericHtml_class()
