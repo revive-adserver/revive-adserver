@@ -57,7 +57,7 @@ abstract class Cache
 
     function updateTest($c, $i)
     {
-        $val = 'val'.$c.'-'.$i;
+        $val = serialize('val'.$c.'-'.$i);
         $key = $this->getKey($i, $c);
 //        echo "--$key";
         if (!$this->set($key, $val)) {
@@ -69,7 +69,7 @@ abstract class Cache
         }
 
         $check = $this->get($key);
-        if ($check != $val) {
+        if ($check != unserialize($val)) {
             return false;
         }
         return true;
