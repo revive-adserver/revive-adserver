@@ -1,7 +1,5 @@
 <?php
 
-//declare(ticks=1);
-
 if (PHP_SAPI != 'cli') die('CLI only!');
 
 //define('CACHE_DEBUG', true);
@@ -9,8 +7,10 @@ define('CACHE_EXIT_ON_ERROR', true);
 
 error_reporting(E_ALL);
 
-define('TEST_ITERATIONS', 1);
-define('TEST_RECORDS', 1000);
+// number of iterations
+define('TEST_ITERATIONS', 100);
+// how many reads should be performed per each set/update
+define('TEST_READS', 1);
 
 require "Benchmark/Timer.php";
 
@@ -20,7 +20,6 @@ $t = new Benchmark_Timer();
 $t->start();
 
 $aTests = array(
-//    10,
     25,
     50,
     75,

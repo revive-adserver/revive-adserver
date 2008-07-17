@@ -59,7 +59,6 @@ abstract class Cache
     {
         $val = serialize('val'.$c.'-'.$i);
         $key = $this->getKey($i, $c);
-//        echo "--$key";
         if (!$this->set($key, $val)) {
             return false;
         }
@@ -68,9 +67,11 @@ abstract class Cache
             return false;
         }
 
-        $check = $this->get($key);
-        if ($check != unserialize($val)) {
-            return false;
+        for($i = 0; $i < TEST_READS; $i++) {
+            $check = $this->get($key);
+            if ($check != unserialize($val)) {
+                return false;
+            }
         }
         return true;
     }
