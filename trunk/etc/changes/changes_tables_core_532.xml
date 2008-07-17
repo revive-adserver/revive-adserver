@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>532</version>
+  <comments>Added oac_adnetwork_id to clients table</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>532</version>
+      <change>
+        <table>
+          <name>clients</name>
+          <add>
+            <field>
+              <name>oac_adnetwork_id</name>
+              <type>openads_int</type>
+              <length>11</length>
+              <notnull></notnull>
+              <was>oac_adnetwork_id</was>
+              <default></default>
+            </field>
+          </add>
+        </table>
+      </change>
+    </changeset>
+  </constructive>
+  <destructive>
+    <changeset>
+      <name>openads</name>
+      <version>532</version>
+    </changeset>
+  </destructive>
+</instructionset>

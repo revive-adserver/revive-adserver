@@ -1,0 +1,551 @@
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+|                                                                           |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+
+
+
+OpenX Coding Standards
+----------------------------------
+
+Original source: The Horde project
+Authors:         Jon Parise, Chuck Hagenbuch
+Modified for Seagull, Adapted for Openads
+
+
+
+Indenting
+---------
+
+Use an indent of 4 spaces, with no tabs.
+
+
+
+Control Structures
+------------------
+
+These include "if", "for", "while", "switch", etc.  Here is an example
+"if" statement, since it is the most complicated of them:
+
+    if ((condition1) || (condition2)) {
+        action1;
+    } elseif ((condition3) && (condition4)) {
+        action2;
+    } else {
+        defaultaction;
+    }
+
+Multi-line if conditions are braced this way::
+
+    if ((condition1) || (condition2) || (condition3) ||
+        (condition4)) {
+        action1;
+    }
+
+Control statements should have one space between the control keyword and
+opening parenthesis, to distinguish them from function calls.
+
+Do not omit the curly braces under any circumstance.
+
+For switch statements:
+
+    switch (condition) {
+    case 1:
+        action1;
+        break;
+    case 2:
+        action2;
+        break;
+    default:
+        defaultaction;
+        break;
+    }
+
+
+
+Function Calls
+--------------
+
+Functions should be called with no spaces between the function name, the
+opening parenthesis, and the first parameter; spaces between commas and each
+parameter, and no space between the last parameter, the closing parenthesis,
+and the semicolon.  Here's an example:
+
+    $var = foo($bar, $baz, $quux);
+
+As displayed above, there should be one space on either side of an equals sign
+used to assign the return value of a function to a variable.  In the case of a
+block of related assignments, more space may be inserted to promote
+readability:
+
+    $short         = foo($bar);
+    $longvariable  = foo($baz);
+
+If assigning a reference to a variable, place the ampersand next to the
+referenced object, not the equal sign:
+
+    $reference = &$foo;
+    $reference = &foo();
+
+
+
+Function Definitions
+--------------------
+
+Function declaractions follow the "one true brace" convention:
+
+    function fooFunction($arg1, $arg2 = '')
+    {
+        if (condition) {
+            statement;
+        }
+        return $val;
+    }
+
+Arguments with default values go at the end of the argument list.  Always
+attempt to return a meaningful value from a function if one is appropriate.
+
+Functions used only in the current script/class (e.g. private member methods)
+should begin with a "_" character (e.g. "_exampleLibrary").  This helps
+distinguish these private function calls from other, public function calls.
+
+
+
+Comments
+--------
+
+Inline documentation for classes should be done with phpDocumentor code.
+
+Quick example for private variable definition:
+
+    /**
+     * Variable description.
+     *
+     * @var datatype $variable name
+     */
+
+Quick example function definition::
+
+    /**
+     * The description of the function goes here.
+     *
+     * @access [public | private]
+     *
+     * @param datatype $variablename   Description of variable.
+     * @param datatype $variable2name  Description of variable2.
+     * ...
+     * [Insert 2 spaces after the longest $variable definition, and then line
+     *  up all descriptions with this description]
+     *
+     * @return datatype  Description of return value.
+     * [Once again, insert 2 spaces after the datatype, and line up all
+     *  subsequent lines, if any, with this character.]
+     *
+     * @abstract [Only if necessary]
+     */
+
+
+
+Including Code
+--------------
+
+If you are including a class, function library, or anything else which would
+cause a parse error if included twice, always use "include_once".  This will
+ensure that no matter how many factory methods we use or how much dynamic
+inclusion we do, the library will only be included once.
+
+If you are including a static filename, such as a conf file or a template that
+is *always* used, use "require", or "require_once".
+
+If you are dynamically including a filename, or want the code to only be used
+conditionally (an optional template), use "include".
+
+.. include_once: http://www.php.net/manual/en/function.include-once.php
+.. require: http://www.php.net/manual/en/function.require.php
+.. include: http://www.php.net/manual/en/function.include.php
+
+
+
+PHP Code Tags
+-------------
+
+Always use "<?php ?>" to delimit PHP code, not the "<? ?>" shorthand.
+This is required for PEAR compliance and is also the most portable way to
+include PHP code on differing operating systems and setups.
+
+In templates, make sure to use this as well ("<?php echo $varname ?>"), as
+the shortcut version ("<?= $var ?>") does not work with "short_open_tag"
+turned off.
+
+.. short_open_tag: http://www.php.net/manual/en/configuration.directives.php#ini.short-open-tag
+
+
+
+Header Comment Blocks
+---------------------
+
+There's no hard rule to determine when a new code contributer should be added
+to the list of authors for a given source file.  In general, their changes
+should fall into the "substantial" category (meaning somewhere around 10% to
+20% of code changes).  Exceptions could be made for rewriting functions or
+contributing new logic.
+
+Simple code reorganization or bug fixes would not justify the addition of a
+new individual to the list of authors.
+
+
+
+Example URLs
+------------
+
+Use "example.com" for all example URLs, per RFC 2606.
+
+.. RFC 2606: http://www.faqs.org/rfcs/rfc2606.html
+
+
+
+php.ini settings
+----------------
+
+All OpenX code should work with "register_globals" disabled.  This means
+using "$COOKIE", "$SESSION", "$SERVER" and "$ENV" to access all cookie,
+session, server and environment data, respectively.
+
+All OpenX code should work with "errorreporting" = E_ALL. Failure to do so
+would result in ugly output, error logs getting filled with lots of warning
+messages, or even downright broken scripts.
+
+
+
+XHTML 1.0 Compliance
+--------------------
+
+All tag names and parameters must be lower case including javascript event
+handlers:
+
+    <font color="#FFFFFF">...</font>
+    <a href="http://example.com" onmouseover="status=''" onmouseout="status=''">...</a>
+
+All tag parameters must be of a valid parameter="value" form (numeric values
+must also be surrounded by quotes).  For parameters that had no value in HTML,
+the parameter name is the value.  For example:
+
+    <input type="checkbox" checked="checked">
+    <select name="example">
+        <option selected="selected" value="1">Example</option>
+    </select>
+    <td nowrap="nowrap">Example</td>
+
+All tags must be properly closed.  Tags where closing is forbidden must end
+with a space and a slash:
+
+    <br />
+    <hr />
+    <img src="example.gif" alt="Example" />
+    <input type="submit" value="Example" />
+
+All form definitions must be on their own line and either fully defined within
+a "<td></td>" pair or be outside table tags.  Forms must also always have an
+action parameter:
+
+    <form method="post" action="http://example.com/example.cgi">
+    <table>
+        <tr><td>example</td></tr>
+    </table>
+    </form>
+
+    <table>
+        <tr><td>
+            <form action="javascript:void(0)" onsubmit="return false;">
+            </form>
+        </td></tr>
+    </table>
+
+All JavaScript tags must have a valid language and type parameters:
+
+    <script language="JavaScript" type="text/javascript">
+    <!--
+    ...
+    // -->
+    </script>
+
+Nothing may appear after "</html>", therefore include any common footers
+after all other output.
+
+All images must have an "alt" attribute:
+
+    <img src="example.gif" alt="<?php echo ("Example") ?>" />
+
+
+
+Database Naming Conventions
+---------------------------
+
+All database tables used by OpenX need to make sure that their table and field
+names work in all databases.  Many databases reserve words like 'uid',
+'user', etc. for internal use, and forbid words that are SQL keywords (select,
+where, etc.).  Also, all names should be lowercase, with underscores ('_')
+to separate words, to avoid case sensitivity issues.
+
+Other general guidelines: Table names should be singular (faq); field names
+should be also be singular (username).
+
+
+
+SQL Standards
+-------------
+
+Ensure that only single quotes (') are used to delimit strings inside SQL
+statements.
+
+
+
+File Naming Conventions
+-----------------------
+
+Use the PEAR naming standard which observes the following rules:
+
+    MyClass.php //  any file with a class definition
+    file.php    //  any file with procedural code
+
+Follow the Java one-class-per-file convention unless it is considerably
+inconvient to do so, ie, for performance reasons.
+
+Note the psuedo name-spacing convention to ensure class name uniqueness,
+unless this becomes impractical (ie. very deep directory paths):
+
+    Foo/Bar/Baz.php         // filename
+    class Foo_Bar_Baz  {}   // classname
+
+This convention is especially important for all files in your lib directory.
+
+See the PEAR repository for many examples.
+
+
+
+Regular Expression Use
+----------------------
+
+Always use the "preg" functions if possible instead of "ereg" (and
+"preg_split()" instead of "split()"); they are included in PHP by default
+and much more efficient and much faster than "ereg".
+
+**NEVER** use a regular expression to match or replace a static string.
+"explode()" (in place of "split()"), "str_replace()", "strpos()", or
+"strtr()" do the job much more efficiently.
+
+.. preg: http://www.php.net/manual/en/ref.pcre.php
+.. ereg: http://www.php.net/manual/en/ref.regex.php
+.. pregsplit(): http://www.php.net/manual/en/function.preg-split.php
+.. split(): http://www.php.net/manual/en/function.split.php
+.. explode(): http://www.php.net/manual/en/function.explode.php
+.. strreplace(): http://www.php.net/manual/en/function.str-replace.php
+.. strpos(): http://www.php.net/manual/en/function.strpos.php
+.. strtr(): http://www.php.net/manual/en/function.strtr.php
+
+
+
+Parameter Passing
+-----------------
+
+Objects should be passed by reference.  Everything else, including arrays,
+should be passed by value wherever semantically possible.
+
+This practice takes full advantage of reference counting.
+
+However, where performance is important (ie. the delivery engine) avoid
+references wherever possible, as passing by value is almost always faster.
+
+
+
+Long Lines
+----------
+
+Wrap lines at 80 characters, including comments, unless this severely impacts
+the clarity of the code.  Always wrap comments.
+
+
+
+Line Breaks
+-----------
+
+Only use UNIX style of linebreak ("\n"), not Windows/DOS/Mac style
+("\r\n").
+
+Using vim, to convert from DOS style type::
+
+    :set ff=unix
+
+Using vi, to convert from DOS style type::
+
+    :g/^M/s///g
+
+(Note that the "^M" is a control character, and to reproduce it when you
+type in the vi command you have to pad it first using the special "^V"
+character.)
+
+
+
+Private Variables
+-----------------
+
+Variables used exclusively within a class should begin with a underscore ('_')
+character.  An example class variable definition:  "var $_variablename;"
+
+
+
+Array Definitions
+-----------------
+
+When defining arrays, or nested arrays, use the following format, where
+indentation is noted via the closing parenthesis characters:
+
+    $arrayname['index'] = array(
+        'name1' => 'value1',
+        'name2' => array(
+            'subname1' => 'subvalue1',
+            'subname2' => 'subvalue2'
+        )
+    );
+
+The only exception should be for empty arrays, which may be written on a
+single line such as:
+
+    $arrayname['index'] = array();
+
+
+
+Existence checking
+------------------
+
+Often you'll need to check whether or not a variable or property exists.
+There are several cases here:
+
+a. If you need to know if a variable exists at all and is not "null", use
+   "isset()":
+
+    // Check to see if $param is defined.
+    if (isset($param)) {
+        // $param may be false, but it's there.
+    }
+
+b. If you need to know if a variable exists AND has a non-empty value (not
+   "null", 0, "false", empty string or undefined), use "!empty()":
+
+    // Make sure that $answer exists, is not an empty string, and is
+    // not 0:
+    if (!empty($answer)) {
+        // $answer has some non-false content.
+    } else {
+        // (bool)$answer would be false.
+    }
+
+As pointed out in the comment of the else clause, "empty()" essentially does
+the same check as "isset()" -- is this variable defined in the current scope?
+-- and then, if it is, returns what the variable would evaluate to as a
+boolean. This means that 0, while potentially valid input, is "empty" - so if
+0 is valid data for your case, don't use "!empty()".
+
+c. If you know you are working with a mixed variable then using just
+"isset()" and "empty()" could cause unexpected results, for example if
+testing for a key and the variable is actually a string:
+
+    $foo = 'bar';
+    if (isset($foo['somekey'])) {
+        // This will evaluate to TRUE!
+    }
+
+If you know that there is a possibility of a mixed type variable the solution
+in this case would be to add an "is_array()" check in the "if ()" statement.
+
+d. Use "array_key_exists()" when you want to check if an array key is defined
+even if it has a value of "null":
+
+    // Make sure we have a charset parameter. Value could also be null.
+    if (!array_key_exists('charset', $params)) {
+        // ...
+    }
+
+Please note that "array_key_exists()" is a performance hit (25%-100%) and
+should only be used when necessary. Instead try to use "!empty()" or
+"isset()" instead.
+
+.. isset(): http://www.php.net/manual/en/function.isset.php
+.. empty(): http://www.php.net/manual/en/function.empty.php
+.. isarray(): http://www.php.net/manual/en/function.is-array.php
+.. array_key_exists(): http://www.php.net/manual/en/function.array-key-exists.php
+
+
+
+Quotes
+------
+
+You should always use single quote (') characters around strings, except where
+double quote (") characters are required.  All literal strings should be in
+single quotes.  A comparison of single and double quote usage follows:
+
+Single Quotes:
+  * Variables in the string are not parsed or expanded.
+  * New line symbols can be included as literal line ends (not recommended).
+  * To include a single quote character, escape it with a "\" (backslash)
+    character, as in: "echo 'Here\'s an example';"
+  * To specify a "\" (backslash) character, double it: "echo 'c:\\temp';"
+
+Double Quotes:
+  * Parses and expands variables in the string.
+  * Uses advanced ("sprintf"-style) escape sequences like "\n", "\$",
+    "\t", etc.
+  * Should be used in the gettext shortcut "("")" format.
+  * Use with care, as many correct looking strings are really invalid.
+
+The following are all incorrect::
+
+    echo "Today is the $date['day'] of $date['month']"
+    $SESSION[index] = $SESSION["oldindex"];
+
+.. sprintf: http://www.php.net/sprintf
+
+
+
+define()
+--------
+
+Surprisingly enough, "define()" is a somewhat slow function in PHP (as of PHP
+4.3.x) so excessive use is discouraged.
+
+Using "define()" in classes should be OK - we will sacrifice a tiny bit of
+speed for readability of code.  For anything else, use your best judgment.
+
+Additionally, every constant should be prefixed with "MAX", its package
+name, or the application name.
+
+.. define(): http://www.php.net/manual/en/function.define.php
+
+
+
+Optimizations
+-------------
+
+The following optimizations should be used, if possible:
+
+Loops
+-----
+Make sure that you do not continue to define the same variable within a
+loop. Instead, declare the variable a single time before the loop is run.

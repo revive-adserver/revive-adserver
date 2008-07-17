@@ -1,0 +1,74 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                             |
+|                                                                           |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id: create.html 16124 2008-02-11 18:16:06Z andrew.hill@openads.org $
+
+-->
+*}
+{*debug*}
+
+<div class='errormessage' id="errors" {if $form.errors}{else}style="display:none"{/if}>
+<img class='errormessage' src='{$assetPath}/images/errormessage.gif' align='absmiddle'>
+    <span class='tab-r'>{t str=FormContainsErrors}</span><br><br>
+</div>
+
+
+<form {$form.attributes}>
+{$form.hidden}
+
+{if $form.hasRequiredFields and not $form.frozen}
+<div style="width: 580px; text-align:left; margin-bottom: 7px;">
+    <span style="font-size:80%; color: red">*</span> <span style="font-size:80%; color:#7f7f7f;">{t str=RequiredFieldLegend}</span>
+</div>
+{/if}
+
+{foreach from=$form.elements item=nonSecElem key=ei name=_e_elements}
+    {oa_form_element elem=$nonSecElem }{/oa_form_element}
+{/foreach}
+
+{foreach from=$form.sections item=sec key=i name=_e_outer}
+    {if !$smarty.foreach._e_outer.first}
+    {/if}
+    {oa_form_element elem=$sec}
+        {foreach from=$sec.elements item=element}
+            {oa_form_element elem=$element }{/oa_form_element}
+        {/foreach}
+    {/oa_form_element}
+{/foreach}
+</form>
+
+<script type="text/javascript">
+<!--
+
+{$form.JQueryMethods}
+
+$(document).ready(function() {ldelim}
+    $("#{$form.id}").validate({ldelim}
+        event: "keyup",
+        errorContainer: '#errors', 
+        {$form.JQueryRules}
+    {rdelim});
+{rdelim});
+//-->
+</script>
+

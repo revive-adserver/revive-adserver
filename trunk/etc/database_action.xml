@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_schema.xsl"?>
+<database>
+
+ <name>openads</name>
+ <create>true</create>
+ <overwrite>false</overwrite>
+ <version>2</version>
+ <status>final</status>
+
+ <table>
+
+  <name>database_action</name>
+
+  <declaration>
+
+   <field>
+    <name>database_action_id</name>
+    <type>openads_int</type>
+    <unsigned>true</unsigned>
+    <length>10</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>upgrade_action_id</name>
+    <type>openads_int</type>
+    <unsigned>true</unsigned>
+    <length>10</length>
+    <notnull>false</notnull>
+    <default>0</default>
+    <autoincrement></autoincrement>
+   </field>
+
+   <field>
+    <name>schema_name</name>
+    <type>openads_varchar</type>
+    <length>64</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>version</name>
+    <type>openads_int</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>timing</name>
+    <type>openads_int</type>
+    <length>2</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>action</name>
+    <type>openads_int</type>
+    <length>2</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>info1</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>info2</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>tablename</name>
+    <type>openads_varchar</type>
+    <length>64</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>tablename_backup</name>
+    <type>openads_varchar</type>
+    <length>64</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>table_backup_schema</name>
+    <type>openads_text</type>
+    <length></length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>updated</name>
+    <type>openads_datetime</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <index>
+    <name>database_action_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>database_action_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>database_action_upgrade_action_id</name>
+    <field>
+     <name>upgrade_action_id</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>database_action_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>database_action_schema_version_timing_action</name>
+    <field>
+     <name>schema_name</name>
+     <sorting>descending</sorting>
+    </field>
+    <field>
+     <name>version</name>
+     <sorting>descending</sorting>
+    </field>
+    <field>
+     <name>timing</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>action</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>database_action_updated</name>
+    <field>
+     <name>updated</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+</database>

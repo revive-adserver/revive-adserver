@@ -1,0 +1,110 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+|                                                                           |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+
+-->
+
+<table border='0' width='100%' cellpadding='0' cellspacing='0'>
+*}
+
+  <tr>
+    <td width='100%' colspan="3">
+<div class="table-content">
+<table id="user-access-table" width="100%" cellspacing="0" cellpadding="0" border="0">
+  <thead>
+    <tr height="25">
+    {if $sso}
+      <td class="first" style="width: 25%">{t str=EMail}</td>
+    {else}
+      <td class="first" style="width: 10%">{t str=Username}</td>
+      <td style="width: 25%">{t str=EMail}</td>
+    {/if}
+      <td style="width: 20%">{t str=ContactName}</td>
+    {if $sso}
+      <td style="width: 15%">{t str=LastLoggedIn}</td>
+    {else}
+      <td style="width: 15%">{t str=DateLinked}</td>
+    {/if}
+      <td style="width: 25%"></td>
+    </tr>
+
+    <tr class="break">
+      <td colspan="5" />
+    </tr>
+  </thead>
+
+  {cycle name=row values="even,odd" assign=rowType}
+  {foreach from=$users.aUsers item=user}
+    {cycle name=row assign=rowType}
+    <tbody class="{$rowType}">
+      <tr height="25" {if $user.justModified}class="hl"{/if}>
+      {if $sso}
+        <td class="first"><a href="{$editPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}">{$user.email_address}</a></td>
+      {else}
+        <td class="first"><a href="{$editPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}">{$user.username}</a></td>
+        <td><a href="{$editPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}">{$user.email_address}</a></td>
+      {/if}
+        <td>{$user.contact_name}</td>
+        <td>{$user.date_last_login}</td>
+        <td class="last">
+          <a href="{$editPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}" class="permissions" style="padding-right: 10px">{t str=Permissions}</a>
+          <a href="{$unlinkPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}" class="unlink{if $user.toDelete} unlink-last{else} unlink-normal{/if}">{t str=Remove}</a>
+        </td>
+      </tr>
+
+      <tr class="break">
+        <td colspan="5" />
+      </tr>
+    </tbody>
+  {foreachelse}
+    <tbody class="odd">
+      <tr height="25" {if $user.justModified}class="hl"{/if}>
+        <td class="norows" colspan="5">No users added to this entity{if $linkUrl}, you can <a href="{$linkUrl}">add an existing or a new user here</a>{/if}</td>
+      </tr>
+
+      <tr class="break">
+        <td colspan="5" />
+      </tr>
+    </tbody>
+  {/foreach}
+</table>
+</div>
+
+{include file=confirmation-dialog.html
+         id="unlink-last" linkToConfirmClass="unlink-last"
+         title="Removing user from last entity"
+         message="Removing user from last entity will cause the user to be deleted. Would you like to remove this user?"
+         confirmLabel="Remove &amp; delete user"}
+
+{include file=confirmation-dialog.html
+         id="unlink-normal" linkToConfirmClass="unlink-normal"
+         title="Removing user"
+         message="Are you sure you want to remove this user?"
+         confirmLabel="Remove user"}
+
+    </td>
+  </tr>
+{*
+</table>
+*}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>546</version>
+  <comments>Removal of the old preference table</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>546</version>
+    </changeset>
+  </constructive>
+  <destructive>
+    <changeset>
+      <name>openads</name>
+      <version>546</version>
+      <remove>
+        <table>preference</table>
+        <table>preference_advertiser</table>
+        <table>preference_publisher</table>
+      </remove>
+    </changeset>
+  </destructive>
+</instructionset>

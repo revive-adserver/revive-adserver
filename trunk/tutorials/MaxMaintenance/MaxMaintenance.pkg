@@ -1,0 +1,17 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>Maintenance</refname>
+  <refpurpose>Describes how the Maintenance Engine works</refpurpose>
+ </refnamediv>
+ <para>
+  The complete Maintenance Engine process consists of the following steps:
+  <orderedlist>
+   <listitem>{@tutorial MaxMaintenance/StatisticsAdServer.pkg The Maintenance
+   Statistics Engine process for the AdServer module}.</listitem>
+   <listitem>{@tutorial MaxMaintenance/StatisticsTracker.pkg The Maintenance
+   Statistics Engine process for the Tracker module}.</listitem>
+   <listitem>A number of undocumented once-per-day processes that are left over
+   from PAN (e.g. reports, campaign optimisation).</listitem>
+  </orderedlist>
+ </para>
+</refentry>

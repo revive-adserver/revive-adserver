@@ -1,0 +1,21 @@
+<!DOCTYPE sqlunit SYSTEM "sqlunit.dtd" [
+  <!ENTITY connection SYSTEM "tests/canoo/tests/testcases/modules/connection.xml">
+]>
+<sqlunit>
+
+  &connection;
+  
+  <test name="Looking up for clicks" assert="resultset-values-equal">
+    <sql>
+      <stmt>SELECT COUNT(*) FROM ox_data_raw_ad_click</stmt>
+    </sql>
+    <result>
+      <resultset id="1">
+        <row id="1">
+          <col id="1" type="INTEGER">1</col>
+        </row>
+      </resultset>
+    </result>
+  </test>
+
+</sqlunit>

@@ -1,0 +1,107 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+|                                                                           |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+
+-->
+
+<table border='0' width='100%' cellpadding='0' cellspacing='0'>
+*}
+
+<br/>
+<br/>
+
+{if !$errorNoMatchingAccount}
+
+<div class="infomessage" id="intro" style="margin-top: 0; {if !$hideCreate || !$hideLink}display:none{/if}">
+  <p>
+    {t str="Welcome"} {$userName},<br />
+  </p>
+
+  <p>
+    {t str="You have been invited to use OpenX. To accept this invitation,"} <a id="use-existing-account" href="#">{t str="enter user name and password of your existing OpenX account"}</a> ({t str="the one you use for e.g. OpenX Forum) or"} <a id="create-new-account" href="#">{t str="create a new OpenX account"}</a>.
+  </p>
+</div>
+
+<div style="font-weight: bold; margin-bottom: 2ex">
+  {t str="Do you already have an OpenX account?"}
+</div>
+
+<div style="margin-bottom: 4ex">
+  <input id="haveaccount-yes" type="radio" name="haveaccount" value="yes" style="margin-left: 0"{if !$hideLink} checked="checked"{/if} {tabindex}><label for="haveaccount-yes" class="cb" style="padding-right: 1em">{t str="Yes, I want to use my existing account"}</label>
+  <input id="haveaccount-no" type="radio" name="haveaccount" value="no"{if !$hideCreate} checked="checked"{/if}><label for="haveaccount-no" class="cb" {tabindex}>{t str="No, I want to create a new account"}</label>
+</div>
+
+{include file=sso-link.html fields=$fieldsLink hide=$hideLink"}
+{include file=sso-create.html fields=$fieldsCreate hide=$hideCreate"}
+
+<script>
+{literal}
+  $(document).ready(function() {
+    var switchForm = function() {
+      var selected = $("#haveaccount-yes").attr("checked") || $("#haveaccount-no").attr("checked") || false;
+      var haveAccount = $("#haveaccount-yes").attr("checked") || !$("#haveaccount-no").attr("checked");
+
+      if (!selected) {
+        $("#intro").slideFadeIn(500);
+      }
+      else {
+        if (haveAccount) {
+          $("#sso-create-form").slideFadeOut(500);
+          $("#sso-link-form").slideFadeIn(500);
+        }
+        else {
+          $("#sso-link-form").slideFadeOut(500);
+          $("#sso-create-form").slideFadeIn(500);
+        }
+
+        $(":input:visible:eq(0)").focus();
+      }
+    }
+
+    $("#haveaccount-yes, #haveaccount-no").click(switchForm);
+    $("#use-existing-account").click(function() {
+      $("#haveaccount-yes").attr("checked", true);
+      switchForm();
+    });
+    $("#create-new-account").click(function() {
+      $("#haveaccount-no").attr("checked", true);
+      switchForm();
+    });
+    switchForm();
+  });
+{/literal}
+</script>
+
+{elseif $errorMessage}
+  <div class="errormessageicon">
+    {$errorMessage}
+  </div>
+  <p>
+  <a href="index.php">{t str="Click here"}</a> {t str="to sign-in as a different user."}
+  </p>
+{/if}
+
+{*
+</table>
+*}

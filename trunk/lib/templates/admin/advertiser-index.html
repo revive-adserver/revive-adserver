@@ -1,0 +1,58 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+|                                                                           |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+
+-->*}
+<img src="{$assetPath|escape}/images/icon-advertiser-new.gif" border="0" align="absmiddle">&nbsp;
+<a href="advertiser-edit.php" accesskey="{t key=AddNew}">{t str='AddClient_Key'}</a>&nbsp;&nbsp;
+
+{phpAds_ShowBreak}
+
+<br>
+<br>
+
+<div class="section">
+<div class="title">&nbsp;{t str=Clients}</div>
+<div class="content">
+
+{include file=advertiser-index-list.html from=$aAdvertisers aCount=$aCount}
+
+</div>
+</div>
+
+<div class="section">
+<div class="title">&nbsp;{t str=Overall}</div>
+<div class="content">
+<table width="100%" border="0" align="center" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="25"><b>{$aCount.advertisers}</b> {t str=OverallAdvertisers}</td>
+    <td height="25"><b>{$aCount.campaigns}</b> {t str=OverallCampaigns} (<i>{$aCount.campaigns_active} {t str=Active}</i>)</td>
+    <td height="25"><b>{$aCount.banners}</b> {t str=OverallBanners} (<i>{$aCount.banners_active} {t str=Active}</i>)</td>
+  </tr>
+  <tr class="break">
+      <td colspan="3"></td>
+  </tr>
+</table>
+</div>
+</div>

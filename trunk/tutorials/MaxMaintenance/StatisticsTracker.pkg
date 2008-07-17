@@ -1,0 +1,103 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>Maintenance Statistics: Tracker</refname>
+  <refpurpose>Describes how the Maintenance Statistics Engine works for the
+  Tracker Module</refpurpose>
+ </refnamediv>
+ <para>
+  The purpose of the Maintenance Statistics Engine (MSE) is to summarise the
+  request, impression, click and connection data that are stored in the
+  raw database tables into the intermediate and summary tables.
+ </para>
+ <para>
+  The intermediate tables store the complete details of all connections
+  (including conversions), and an operation interval/day/hour based breakdown
+  of the ad impressions, clicks and conversions.
+ </para>
+ <para>
+  The MSE process for the Tracker module is carried out via the following steps:
+  <orderedlist>
+   <listitem>{@tutorial StatisticsTracker.pkg#create}.</listitem>
+   <listitem>{@tutorial StatisticsTracker.pkg#sir}.</listitem>
+   <listitem>{@tutorial StatisticsTracker.pkg#sicci}.</listitem>
+   <listitem>{@tutorial StatisticsTracker.pkg#siccf}.</listitem>
+   <listitem>{@tutorial StatisticsTracker.pkg#dod}.</listitem>
+   <listitem>{@tutorial StatisticsTracker.pkg#lc}.</listitem>
+  </orderedlist>
+ </para>
+ <para>
+  Each of these steps is outlined in more detail below.
+ </para>
+ <refsect1 id="{@id create}">
+  <title>Creation of a MAX_Maintenance_Statistics_Tracker class object</title>
+  <para>
+   The {@link MAX_Maintenance_Statistics::run()} method is used to iterate over all
+   of the installed modules in the system, and when the Tracker module is installed,
+   it creates an instance of the {@link MAX_Maintenance_Statistics_Tracker} class,
+   which in turn creates all of the required tasks (see {@link MAX_Core_Task}) below,
+   and stores them in a {@link MAX_Core_Task_Runner}.
+  </para>
+  <para>
+   The {@link MAX_Maintenance_Statistics_Tracker::updateStatistics()} method is then
+   used to run the tasks, in order, as listed below.
+  </para>
+ </refsect1>
+ <refsect1 id="{@id sir}">
+  <title>Setting the Update Requirements</title>
+  <para>
+   Carried out via the {@link MAX_Maintenance_Statistics_Tracker_Task_SetUpdateRequirements} class.
+  </para>
+  <para>
+   A check is made of the current time against the details of the most recent Maintenance
+   Statistics Engine run for the Tracker module (stored in the "log_maintenance_statistics"
+   table) to determine if there is a need perform the tasks listed below.
+  </para>
+  <para>
+   The details of these tests are then stored in the
+   {@link MAX_Maintenance_Statistics_Tracker_Task_SetUpdateRequirements} class'
+   {@link MAX_Maintenance_Statistics_Common_Task::$oController} object.
+  </para>
+ </refsect1>
+ <refsect1 id="{@id sicci}">
+  <title>Summarising the Impressions, Clicks and Connections (Intermediate)</title>
+  <para>
+   At present, the Tracker module does not have support for summarising this information
+   - that is, tracker impressions, clicks, and tracker to tracker connections are not
+   summarised.
+  </para>
+ </refsect1>
+ <refsect1 id="{@id siccf}">
+  <title>Summarising the Impressions, Clicks and Connections (Final)</title>
+  <para>
+   At present, the Tracker module does not have support for this feature.
+  </para>
+ </refsect1>
+ <refsect1 id="{@id dod}">
+  <title>Deleting Summarised Raw Data</title>
+  <para>
+   Carried out via the {@link MAX_Maintenance_Statistics_Tracker_Task_DeleteOldData} class.
+  </para>
+  <para>
+   If the option for deleting raw statistics after summarising is enabled, then any
+   "old" tracker impressions, variable values and/or clicks are deleted (or, if split
+   table mode is also enabled, then any "old" raw tracker data tables no longer required
+   are dropped). The process of takes into account any connection windows as well as the
+   "Grace Period" to determine if old data that <emphasis>has</emphasis> already been
+   summarised should still be kept (i.e. not deleted).
+  </para>
+ </refsect1>
+ <refsect1 id="{@id lc}">
+  <title>Logging the Completion of the MSE (Tracker) Process</title>
+  <para>
+   Carried out via the {@link MAX_Maintenance_Statistics_Tracker_Task_LogCompletion} class.
+  </para>
+  <para>
+   The completion of the MSE Tracker tasks is logged to the
+   "log_maintenance_statistics" table so that the next time the engine is run, the
+   required actions can be determined.
+  </para>
+  <para>
+   A report of the process is also logged to the "userlog" table.
+  </para>
+ </refsect1>
+</refentry>

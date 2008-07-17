@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE project SYSTEM "../../../../dtd/WebTest.dtd"[
+	<!ENTITY config  SYSTEM "../../modules/config_openx.xml">
+	<!ENTITY login  SYSTEM "../../modules/login_admin.xml">
+]>
+
+<project name="OpenX" basedir="." default="main">
+	<property name="openx.url" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}"/>
+	<target name="main">
+		<webtest name="Level3 - configuration test: openx.2.5.common.conf.linkBanners.xml">
+			&config;
+			<steps>
+				<enableJavaScript enable="${wt.enableJS}" />
+				&login;
+
+				<enableJavaScript enable="false" />
+					<clickLink label="Inventory" />
+				<enableJavaScript enable="true" />
+				
+				<clickLink label="Websites &amp; Zones"/>
+				
+				<enableJavaScript enable="false" />
+					<clickLink description="expand list"
+					      label=""
+					      href="expand=1"/>
+				<enableJavaScript enable="true" />
+				
+				<clickLink label="Agency Publisher 1 - Default"/>
+				
+				<enableJavaScript enable="false" />
+					<clickLink label="Linked Banners"/>
+				<enableJavaScript enable="true" />
+				
+				<setSelectField name="view" text="Link banners by parent campaign"/>
+				<clickButton htmlid="link_type_submit" /> 
+					<!--
+					xpath="/html/body/div[3]/div[2]/table[2]/tbody/tr/td[2]/form/table/tbody/tr[2]/td/input"
+					label=""/>
+					-->
+				<!-- <clickButton label=""/> -->				
+				<setSelectField name="clientid" text="Advertiser 1"/>
+				
+<!-- modified!!! <setSelectField name="campaignid" text="Advertiser 1 - Default Campaign (1 banner(s))"/> -->
+				<!-- <setSelectField name="campaignid" text="campaign 2 (gif) (1 banner(s))"/> -->
+				<setSelectField name="campaignid" text="campaign 2 (gif) ()"/>
+				
+				
+				<enableJavaScript enable="false" />
+					<clickButton htmlid="link_submit"/>
+				<enableJavaScript enable="true" />
+				
+				<!-- xpath="/html/body/div[3]/div[2]/table[3]/tbody/tr/td[2]/table/tbody/tr/td[2]/input[2]"/>
+					xpath="/html/body/div[3]/div[2]/table[3]/tbody/tr/td[2]/table/tbody/tr/td[2]/input[2]"/>  /html/body/div[3]/div[2]/table[3]/tbody/tr/td[2]/table/tbody/tr/td[2]/input -->
+					
+				<!-- <setSelectField name="bannerid" text="Test HTML Banner!"/> -->
+				<!-- <clickButton label=""/> 
+				<clickButton 
+					xpath="/html/body/div[3]/div[2]/table[3]/tbody/tr/td[2]/table/tbody/tr/td[3]/input[2]" />-->
+				
+				<!-- /html/body/div[3]/div[2]/table[3]/tbody/tr/td[2]/table/tbody/tr/td[2]/input				
+				/html/body/div[3]/div[2]/table[3]/tbody/tr/td[2]/table/tbody/tr/td[2]/input[2]
+						   /html/body/div[3]/div[2]/table[3]/tbody/tr/td[2]/table/tbody/tr/td[2]/input[2] -->
+			</steps>
+	 	</webtest>
+	</target>	
+</project>

@@ -1,0 +1,32 @@
+<html>
+<head><title>{title}</title></head>
+<body>
+This is the template for targeting statistics.
+<div flexy:start="here">
+<h4>Ads used for Placement {placement_id}</h4>
+<div flexy:foreach="summariseIntervalByZone(),zone_id,zone">
+<h5>Zone {zone_id}</h5>
+<table title="Summary for Zone {zone[zone_id]}" class="targeting">
+	<thead>
+		<tr>
+			<td scope="col" id="ad">Ad</td>
+			<td scope="col" id="target">Target</td>
+			<td scope="col" id="priority">Priority</td>
+			<td scope="col" id="delivered">Delivered</td>
+			<td scope="col" id="ratio">Ratio</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr flexy:foreach="zone,ad" class="{ad[htmlclass]}">
+			<td><a href="{ad[link]}" class="ad">Ad {ad[ad_id]}</a></td>
+			<td class="numeric"><abbr title="{ad[impressions_requested]}">{roundDecimals(ad[impressions_requested])}</abbr></td>
+			<td class="numeric"><abbr title="{ad[priority]}">{roundDecimals(ad[priority])}</abbr></td>
+			<td class="numeric">{ad[actual_impressions]}</td>
+			<td class="percentage">{ad[ratio]}</td>
+		</tr>
+	</tbody>
+</table>
+</div>
+</div>
+This isn't here at all.
+</body></html>

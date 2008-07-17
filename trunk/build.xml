@@ -1,0 +1,219 @@
+<project name="openx" default="package" basedir=".">
+  <property name="test.conf.xml" value="devel.xml"/>
+  <property name="dir.test.results" location="build/test-results"/>
+  <property name="dir.test.reports" location="build/test-results"/>
+  <property file="devel.properties"/>
+  <property file="etc/version.properties"/>
+
+  <!-- Import the include/exclude filelist -->
+  <import file="build-filelist.xml"/>
+  <!-- Import the svn commands -->
+  <import file="build-svn.xml"/>
+  <!-- Import the canoo scripts -->
+  <!-- <import file="build-canoo.xml"/> -->
+
+  <!-- OpenX Package Integrity Plugin -->
+  <taskdef name="checkdistribution" classname="org.openads.ant.CheckDistributionTask"/>
+  <!-- OpenX Delivery Generation Plugin -->
+  <taskdef name="generatedelivery" classname="org.openads.ant.GenerateDeliveryTask"/>
+  <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+
+  <macrodef name="oa-version" description="Sets a value of the OA_VERSION constant in the constants.php file.">
+    <attribute name="versionstring" description="A version to be set."/>
+    <sequential>
+      <replaceregexp file="constants.php"
+        match="^ *define\('OA_VERSION.*$"
+        replace="    define('OA_VERSION', '@{versionstring}');"
+        byline="true"/>
+    </sequential>
+  </macrodef>
+
+  <target name="clean" description="Cleans all the files generated during the build.">
+    <delete file="var/test.log" />
+    <delete dir="build" />
+    <delete file="tests.xml" />
+  </target>
+
+  <!-- ******************************************************************** -->
+  <!-- DELIVERY AND XML CACHE GENERATION TARGETS                            -->
+  <!-- ******************************************************************** -->
+
+  <target name="generate-delivery"
+    description="Merge delivery files into /www/delivery folder to optimize their speed.">
+    <generatedelivery outputdir="${basedir}/www/delivery" max_path="${basedir}" template="${basedir}/www/delivery_dev/template.php">
+      <deliveryfiles dir="${basedir}/www/delivery_dev">
+        <include name="*.php"/>
+        <exclude name="template.php"/>
+      </deliveryfiles>
+    </generatedelivery>
+  </target>
+
+  <target name="delivery-commit"
+    description="Merge delivery files into /www/delivery folder to optimize their speed and commit the generated files to the SVN."
+    depends="generate-delivery"
+  >
+    <svn-commit file="www/delivery" notes="Commit of auto-generated delivery files."/>
+  </target>
+
+  <target name="generate-xml-cache" description="Generate XML Cache from MDB2 Schema XML files">
+    <exec dir="${basedir}/scripts/upgrade" executable="php" failonerror="true">
+      <arg value="buildXmlCache.php" />
+    </exec>
+  </target>
+
+  <target name="generate-adnetworks-cache" description="Generate Adnetworks Cache (countries, categories and languages)">
+    <exec dir="${basedir}/scripts/upgrade" executable="php" failonerror="true">
+      <arg value="buildAdNetworksCache.php" />
+    </exec>
+  </target>
+
+  <!-- ******************************************************************** -->
+  <!-- INITIALIZATION TARGETS                                               -->
+  <!-- ******************************************************************** -->
+
+  <target name="init">
+    <touch file="should_not_exist"/>
+    <mkdir dir="build/test-results"/>
+    <mkdir dir="build/test-reports"/>
+  </target>
+
+  <target name="init-timestamp" unless="cctimestamp">
+    <tstamp/>
+    <property name="cctimestamp" value="${DSTAMP}${TSTAMP}"/>
+  </target>
+
+  <target name="init-label" unless="label">
+    <property name="label" value="trunk"/>
+  </target>
+
+  <target name="init-revision" unless="svnrevision">
+    <property name="svnrevision" value="na"/>
+  </target>
+
+  <target name="init-version" unless="version" depends="init-timestamp, init-label, init-revision">
+    <property name="version" value="${label}-${cctimestamp}-rev-${svnrevision}"/>
+  </target>
+
+  <target name="init-release" unless="release" depends="init,init-version">
+    <property name="release" value="openx-${version}"/>
+    <echo message="Initialized release: ${release}."/>
+  </target>
+
+  <target name="prepare-version-info" if="version" depends="init-release">
+    <echo message="Setting OA_VERSION to '${version}'."/>
+    <oa-version versionstring="${version}"/>
+  </target>
+
+  <!-- ******************************************************************** -->
+  <!-- PACKAGE TARGETS                                                      -->
+  <!-- ******************************************************************** -->
+
+  <target name="checkconsistency"
+    description="Checks whether all the files in the working directory are specified in the included or excluded lists of files.">
+    <checkdistribution>
+      <includeset dir="${basedir}">
+        <patternset refid="dist.included"/>
+        <patternset refid="dist.writable"/>
+      </includeset>
+      <excludeset dir="${basedir}">
+        <patternset refid="dist.excluded"/>
+      </excludeset>
+    </checkdistribution>
+  </target>
+
+  <target name="package-bzip2-canoo" depends="prepare-version-info">
+    <property name="canoo.package" value="openx-canoo-${version}.tar.gz"/>
+    <property name="canoo.package.file" value="${dir.test.results}/${canoo.package}"/>
+    <tar destfile="${canoo.package.file}" basedir="." compression="gzip" longfile="gnu">
+      <patternset refid="dist.included"/>
+    </tar>
+  </target>
+
+  <target name="prepare-distribution" depends="prepare-version-info">
+    <property name="release.dir" value="${dir.test.results}/${release}"/>
+    <mkdir dir="${release.dir}"/>
+    <copy todir="${release.dir}" includeEmptyDirs="true">
+      <fileset dir=".">
+        <patternset refid="dist.included"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="clear-distribution" depends="prepare-version-info">
+    <property name="release.dir" value="${dir.test.results}/${release}"/>
+    <delete dir="${release.dir}" failonerror="false"/>
+  </target>
+
+  <target name="package-bzip2" depends="prepare-distribution">
+    <tar destfile="${dir.test.results}/${release}.tar.bz2" basedir="${dir.test.results}" includes="${release}/**" compression="bzip2" longfile="gnu"/>
+  </target>
+
+  <target name="package-gz" depends="prepare-distribution">
+    <tar destfile="${dir.test.results}/${release}.tar.gz" includes="${release}/**" basedir="${dir.test.results}" compression="gzip" longfile="gnu"/>
+  </target>
+
+  <target name="package-zip" depends="prepare-distribution">
+    <zip destfile="${dir.test.results}/${release}.zip" basedir="${dir.test.results}"  includes="${release}/**"/>
+  </target>
+
+  <target name="package" depends="generate-delivery, generate-xml-cache, generate-adnetworks-cache, checkconsistency, package-bzip2, package-gz, package-zip, clear-distribution"/>
+
+  <target name="build" depends="package, revert-after-packaging" description="Run this if you want your own release files built."/>
+
+  <!-- ******************************************************************** -->
+  <!-- RELEASE TARGETS                                                      -->
+  <!-- ******************************************************************** -->
+
+  <target name="revert-after-packaging">
+    <svn-revert file="constants.php"/>
+  </target>
+
+  <target name="release" depends="oa-save-version, package" if="version"/>
+
+  <target name="oa-save-version" if="version">
+    <oa-version versionstring="${version}"/>
+  </target>
+
+  <!-- ******************************************************************** -->
+  <!-- TEST TARGETS                                                         -->
+  <!-- ******************************************************************** -->
+
+  <target name="test-prepare">
+    <xslt style="tests.xsl" in="${test.conf.xml}" out="tests.xml"/>
+  </target>
+
+  <target name="test-all" depends="init, test-prepare">
+    <ant antfile="tests.xml"/>
+  </target>
+
+<!--
+  <target name="test-canoo" description="Test canoo remotely or if -Drun.local=true switch exist tests it locally">
+  	<echo>test-canoo started</echo>
+    <if>
+      <istrue value="${run.local}"/>
+      <then>
+      	<echo message="running locally"/>
+        <antcall target="test-canoo-local" />
+      </then>
+      <else>
+      	<echo message="running remotely"/>
+        <antcall target="test-canoo-remote" />
+      </else>
+    </if>
+  	<echo>test-canoo finished</echo>
+  </target> -->
+
+  <!-- <target name="test-canoo-local" depends="canoo-create-openx-configuration-local, setup-delivery-files, run-test-canoo"> -->
+  <!--
+	<target name="test-canoo-local" depends="setup-delivery-files, run-test-canoo">
+    <property name="run.local" value="true" />
+  	<antcall target="clean-delivery"></antcall>
+  </target>
+
+  <target name="test-canoo-remote" depends="test-canoo-prepare, run-test-canoo, clean-ec2"/>
+
+  <target name="test-canoo-prepare" depends="clean, checkconsistency, init-version, package-bzip2-canoo, canoo-prepare-dir, canoo-copy-package, canoo-unpack-package, canoo-create-openx-configuration-remote"/>
+
+  <target name="simpletest" depends="clean, init, test-all, package" />
+-->
+</project>

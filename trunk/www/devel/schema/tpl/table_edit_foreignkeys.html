@@ -1,0 +1,64 @@
+                <table class="tablemain">
+                    <tr>
+                        <td class="tableheader" colspan="8"><span class="titlemini">foreign keys</span></td>
+                    </tr>
+                    <tr>
+                        <td class="tableheader"></td>
+                        <td class="tableheader">field</td>
+                        <td class="tableheader">target table</td>
+                        <td class="tableheader">target field</td>
+                    </tr>
+                    <?php
+                    $i = 0;
+                    foreach ($tbl_links AS $name => $link_def)
+                    {
+                        $i++;
+                        $form_name = 'frm_link_'.$i;
+                    ?>
+                    <tr>
+                    <form name="<?php echo $form_name; ?>" id="<?php echo $form_name; ?>" action="index.php" method="POST">
+                    <input type="hidden" name="table_edit" value="<?php echo $table; ?>"/>
+                    <input type="hidden" name="link_name" value="<?php echo $name; ?>" />
+                        <!--td class="tablebody"><input type="checkbox" name="chklnk[]" value="<?php echo $name; ?>" ></td-->
+                        <td class="tablebody"><button name="btn_link_del" type="submit">delete</button></td>
+                        <td class="tablebody"><?php echo $name; ?></td>
+                        <td class="tablebody"><?php echo ($link_def['table']?$link_def['table']:'&nbsp;'); ?></td>
+                        <td class="tablebody"><?php echo ($link_def['field']?$link_def['field']:'&nbsp;'); ?></td>
+                    </tr>
+                    </form>
+                    <?php
+                    }
+                   ?>
+                    <tr>
+                        <td class="tableheader" colspan="4">
+                            <form name="frm_index" action="index.php" method="POST">
+                                <input type="hidden" name="xml_file" value="<?php echo $current_dile; ?>"/>
+                                <input type="hidden" name="table_edit" value="<?php echo $table; ?>"/>
+                                <span class="titlemini">
+                                    <button name="btn_link_add" type="submit">new foreign key</button>
+                                </span>
+                                <span class="textmini" id="span_link_add" style="display:inline;">
+                                    <select name="link_add" >
+                                    <?php
+                                    foreach ($aTbl_definition['fields'] AS $field => $field_def )
+                                    {
+                                        if (isset($tbl_links[$field])) {
+                                            continue;
+                                        }
+                                        echo "<option value=\"{$field}\">{$field}</option>";
+                                    }
+                                    ?>
+                                    </select>
+                                    <select name="link_add_target" >
+                                    <?php
+                                    foreach ($aLink_targets AS $link => $link_def )
+                                    {
+                                        echo "<option value=\"{$link}\">{$link_def}</option>";
+                                    }
+                                    ?>
+                                    </select>
+                                </span>
+                            </form>
+                        </td>
+                    </tr>
+                </table>

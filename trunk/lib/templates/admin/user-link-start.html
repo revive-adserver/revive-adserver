@@ -1,0 +1,91 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+|                                                                           |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+
+--> *}
+<script language="javascript">
+<!--
+var returnEmail = {if $returnEmail}true{else}false{/if};
+{literal}
+  $(document).ready(function() {
+    $("#user-key").keyup(function() {
+      updateHint();
+    });
+
+    $("#user-key").autocomplete("user-search.php", {
+      width: 500,
+      formatItem: function(row) {
+        if (row[1] && row[1].length > 0) {
+          return row[2] + " [" + row[1] + "]";
+        } else {
+          return row[2];
+        }
+      },
+      formatResult: function(row) {
+        if (returnEmail) {
+          return row[1];
+        } else {
+          return row[2];
+        }
+      },
+      selectFirst: false,
+      mustMatch: false,
+      scroll: false
+    }).result(function() {
+      updateHint();
+      $("#link-user-button").focus();
+    }).focus();
+
+    updateHint();
+  });
+
+  function updateHint()
+  {
+    var key = $("#user-key").val();
+    if (key && key.length > 0) {
+      $("#link-user-hint").fadeOut(400);
+      $("#link-user-button").attr("disabled", false);
+    }
+    else {
+      $("#link-user-hint").fadeIn(400);
+      $("#link-user-button").attr("disabled", true);
+    }
+  }
+//-->{/literal}
+</script>
+
+<br>
+{$strLinkUserHelp}
+
+<form action="{$action}">
+  {include file=edit-table/create.html from=$fields}
+
+  <input type="hidden" name="{$entityIdName}" value="{$entityIdValue}" />
+  <input type="hidden" name="link" value="1" />
+
+  <div class="controls">
+    <input id="link-user-button" value="{t str=LinkUser}" type="submit" {tabindex}>
+    <span id="link-user-hint" class="hint">{if $sso}{t str=ToLinkProvideEmail}{else}{t str=ToLinkProvideUsername}{/if}</span>
+  </div>
+</form>

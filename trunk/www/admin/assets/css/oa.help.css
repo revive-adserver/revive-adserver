@@ -1,0 +1,84 @@
+/* HELP */
+.popup-help {
+  position: absolute;
+  color: black;
+  z-index: 1;
+  border: 1px solid #666666;
+  background-color: #ffffcc;
+  padding: 7px;
+  -moz-border-radius: 8px;
+  font-weight: normal;
+}
+
+.popup-help-link {
+  padding-left: 5px;
+  position: relative;
+  top: -2px;
+  font-weight: normal;
+}
+
+.popup-help .help-content {
+  min-height: 30px;
+  height: auto; 
+  width: 190px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.popup-help .close {
+  text-align: right;
+  padding-bottom: 3px;
+}
+
+.long-help-text {
+  overflow: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 5px;
+}
+
+.long-help-text li, ol {
+  margin: 0;
+  padding: 0;
+}
+
+.long-help-text ol {
+  margin-left: 2em;
+}
+
+.long-help-text li {
+  margin-bottom: 1ex;
+} 
+
+.ac_results {
+	padding: 0px;
+	border: 1px solid WindowFrame;
+	background-color: Window;
+	overflow: hidden;
+}
+
+.ac_results ul {
+	width: 100%;
+	list-style-position: outside;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.ac_results li {
+	margin: 0px;
+	padding: 2px 5px;
+	cursor: default;
+	display: block;
+	width: 100%;
+	overflow: hidden;
+}
+
+.ac_loading {
+	background : Window url('../images/indicator.gif') right center no-repeat;
+}
+
+.ac_over {
+	background-color: Highlight;
+	color: HighlightText;
+}

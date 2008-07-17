@@ -1,0 +1,1860 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_schema.xsl"?>
+<database>
+
+ <name>openads</name>
+ <create>true</create>
+ <overwrite>false</overwrite>
+ <version>100</version>
+ <status>final</status>
+
+ <table>
+
+  <name>acls</name>
+
+  <declaration>
+
+   <field>
+    <name>bannerid</name>
+    <type>openads_mediumint</type>
+    <length>9</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>logical</name>
+    <type>openads_set</type>
+    <length>'and','or'</length>
+    <notnull>true</notnull>
+    <default>and</default>
+   </field>
+
+   <field>
+    <name>type</name>
+    <type>openads_varchar</type>
+    <length>16</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>comparison</name>
+    <type>openads_char</type>
+    <length>2</length>
+    <notnull>true</notnull>
+    <default>==</default>
+   </field>
+
+   <field>
+    <name>data</name>
+    <type>openads_text</type>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>executionorder</name>
+    <type>openads_int</type>
+    <unsigned>true</unsigned>
+    <length>10</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <index>
+    <name>bannerid</name>
+    <field>
+     <name>bannerid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>bannerid_executionorder</name>
+    <unique>true</unique>
+    <field>
+     <name>bannerid</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>executionorder</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>adclicks</name>
+
+  <declaration>
+
+   <field>
+    <name>bannerid</name>
+    <type>openads_mediumint</type>
+    <length>9</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>zoneid</name>
+    <type>openads_mediumint</type>
+    <length>9</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>t_stamp</name>
+    <type>openads_timestamp</type>
+    <notnull>true</notnull>
+    <default>CURRENT_TIMESTAMP</default>
+   </field>
+
+   <field>
+    <name>host</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>source</name>
+    <type>openads_varchar</type>
+    <length>50</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>country</name>
+    <type>openads_char</type>
+    <length>2</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <index>
+    <name>bannerid_date</name>
+    <field>
+     <name>bannerid</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>t_stamp</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>date</name>
+    <field>
+     <name>t_stamp</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>zoneid</name>
+    <field>
+     <name>zoneid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>adstats</name>
+
+  <declaration>
+
+   <field>
+    <name>views</name>
+    <type>openads_int</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>clicks</name>
+    <type>openads_int</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>day</name>
+    <type>openads_date</type>
+    <notnull>true</notnull>
+    <default>0000-00-00</default>
+   </field>
+
+   <field>
+    <name>hour</name>
+    <type>openads_tinyint</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>bannerid</name>
+    <type>openads_smallint</type>
+    <length>6</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>zoneid</name>
+    <type>openads_smallint</type>
+    <length>6</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>source</name>
+    <type>openads_varchar</type>
+    <length>50</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <index>
+    <name>bannerid_day</name>
+    <field>
+     <name>bannerid</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>day</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>zoneid</name>
+    <field>
+     <name>zoneid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>adstats_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>day</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>hour</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>bannerid</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>zoneid</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>source</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>adviews</name>
+
+  <declaration>
+
+   <field>
+    <name>bannerid</name>
+    <type>openads_mediumint</type>
+    <length>9</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>zoneid</name>
+    <type>openads_mediumint</type>
+    <length>9</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>t_stamp</name>
+    <type>openads_timestamp</type>
+    <notnull>true</notnull>
+    <default>CURRENT_TIMESTAMP</default>
+   </field>
+
+   <field>
+    <name>host</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>source</name>
+    <type>openads_varchar</type>
+    <length>50</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>country</name>
+    <type>openads_char</type>
+    <length>2</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <index>
+    <name>bannerid_date</name>
+    <field>
+     <name>bannerid</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>t_stamp</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>date</name>
+    <field>
+     <name>t_stamp</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>zoneid</name>
+    <field>
+     <name>zoneid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>affiliates</name>
+
+  <declaration>
+
+   <field>
+    <name>affiliateid</name>
+    <type>openads_mediumint</type>
+    <length>9</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>name</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>contact</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>email</name>
+    <type>openads_varchar</type>
+    <length>64</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>website</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>username</name>
+    <type>openads_varchar</type>
+    <length>64</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>password</name>
+    <type>openads_varchar</type>
+    <length>64</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>permissions</name>
+    <type>openads_mediumint</type>
+    <length>9</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>language</name>
+    <type>openads_varchar</type>
+    <length>64</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>publiczones</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>f</default>
+   </field>
+
+   <index>
+    <name>affiliates_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>affiliateid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>banners</name>
+
+  <declaration>
+
+   <field>
+    <name>bannerid</name>
+    <type>openads_mediumint</type>
+    <length>9</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>clientid</name>
+    <type>openads_mediumint</type>
+    <length>9</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>active</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>priority</name>
+    <type>openads_int</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>contenttype</name>
+    <type>openads_enum</type>
+    <length>'gif','jpeg','png','html','swf','dcr','rpm','mov','txt'</length>
+    <notnull>true</notnull>
+    <default>gif</default>
+   </field>
+
+   <field>
+    <name>pluginversion</name>
+    <type>openads_mediumint</type>
+    <length>9</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>storagetype</name>
+    <type>openads_enum</type>
+    <length>'sql','web','url','html','network','txt'</length>
+    <notnull>true</notnull>
+    <default>sql</default>
+   </field>
+
+   <field>
+    <name>filename</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>imageurl</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>htmltemplate</name>
+    <type>blob</type>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>htmlcache</name>
+    <type>blob</type>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>width</name>
+    <type>openads_smallint</type>
+    <length>6</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>height</name>
+    <type>openads_smallint</type>
+    <length>6</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>weight</name>
+    <type>openads_tinyint</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>1</default>
+   </field>
+
+   <field>
+    <name>seq</name>
+    <type>openads_tinyint</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>target</name>
+    <type>openads_varchar</type>
+    <length>24</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>url</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>alt</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>status</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>keyword</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>bannertext</name>
+    <type>blob</type>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>description</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>autohtml</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>block</name>
+    <type>openads_int</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>capping</name>
+    <type>openads_int</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>compiledlimitation</name>
+    <type>blob</type>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>append</name>
+    <type>blob</type>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>appendtype</name>
+    <type>openads_tinyint</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>bannertype</name>
+    <type>openads_tinyint</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>transparent</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>f</default>
+   </field>
+
+   <index>
+    <name>banners_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>bannerid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>cache</name>
+
+  <declaration>
+
+   <field>
+    <name>cacheid</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>content</name>
+    <type>blob</type>
+    <notnull>true</notnull>
+   </field>
+
+   <index>
+    <name>cache_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>cacheid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>clients</name>
+
+  <declaration>
+
+   <field>
+    <name>clientid</name>
+    <type>openads_mediumint</type>
+    <length>9</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>clientname</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>contact</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>email</name>
+    <type>openads_varchar</type>
+    <length>64</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>views</name>
+    <type>openads_int</type>
+    <length>11</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>clicks</name>
+    <type>openads_int</type>
+    <length>11</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>clientusername</name>
+    <type>openads_varchar</type>
+    <length>64</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>clientpassword</name>
+    <type>openads_varchar</type>
+    <length>64</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>expire</name>
+    <type>openads_date</type>
+    <notnull>false</notnull>
+    <default>0000-00-00</default>
+   </field>
+
+   <field>
+    <name>activate</name>
+    <type>openads_date</type>
+    <notnull>false</notnull>
+    <default>0000-00-00</default>
+   </field>
+
+   <field>
+    <name>permissions</name>
+    <type>openads_mediumint</type>
+    <length>9</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>language</name>
+    <type>openads_varchar</type>
+    <length>64</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>active</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>weight</name>
+    <type>openads_tinyint</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>1</default>
+   </field>
+
+   <field>
+    <name>target</name>
+    <type>openads_int</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>parent</name>
+    <type>openads_mediumint</type>
+    <length>9</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>report</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>reportinterval</name>
+    <type>openads_mediumint</type>
+    <length>9</length>
+    <notnull>true</notnull>
+    <default>7</default>
+   </field>
+
+   <field>
+    <name>reportlastdate</name>
+    <type>openads_date</type>
+    <notnull>true</notnull>
+    <default>0000-00-00</default>
+   </field>
+
+   <field>
+    <name>reportdeactivate</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>lb_reporting</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>f</default>
+   </field>
+
+   <index>
+    <name>clients_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>clientid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>config</name>
+
+  <declaration>
+
+   <field>
+    <name>configid</name>
+    <type>openads_tinyint</type>
+    <length>2</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>config_version</name>
+    <type>openads_decimal</type>
+    <length>7,3</length>
+    <notnull>true</notnull>
+    <default>0.000</default>
+   </field>
+
+   <field>
+    <name>instance_id</name>
+    <type>openads_varchar</type>
+    <length>64</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>table_border_color</name>
+    <type>openads_varchar</type>
+    <length>7</length>
+    <notnull>true</notnull>
+    <default>#000099</default>
+   </field>
+
+   <field>
+    <name>table_back_color</name>
+    <type>openads_varchar</type>
+    <length>7</length>
+    <notnull>true</notnull>
+    <default>#CCCCCC</default>
+   </field>
+
+   <field>
+    <name>table_back_color_alternative</name>
+    <type>openads_varchar</type>
+    <length>7</length>
+    <notnull>true</notnull>
+    <default>#F7F7F7</default>
+   </field>
+
+   <field>
+    <name>main_back_color</name>
+    <type>openads_varchar</type>
+    <length>7</length>
+    <notnull>true</notnull>
+    <default>#FFFFFF</default>
+   </field>
+
+   <field>
+    <name>my_header</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>my_footer</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>language</name>
+    <type>openads_varchar</type>
+    <length>32</length>
+    <notnull>true</notnull>
+    <default>english</default>
+   </field>
+
+   <field>
+    <name>name</name>
+    <type>openads_varchar</type>
+    <length>32</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>company_name</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default>mysite.com</default>
+   </field>
+
+   <field>
+    <name>override_gd_imageformat</name>
+    <type>openads_varchar</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>begin_of_week</name>
+    <type>openads_tinyint</type>
+    <length>2</length>
+    <notnull>true</notnull>
+    <default>1</default>
+   </field>
+
+   <field>
+    <name>percentage_decimals</name>
+    <type>openads_tinyint</type>
+    <length>2</length>
+    <notnull>true</notnull>
+    <default>2</default>
+   </field>
+
+   <field>
+    <name>type_sql_allow</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>type_url_allow</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>type_web_allow</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>f</default>
+   </field>
+
+   <field>
+    <name>type_html_allow</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>type_txt_allow</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>type_web_mode</name>
+    <type>openads_tinyint</type>
+    <length>2</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>type_web_dir</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>type_web_ftp</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>type_web_url</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>admin</name>
+    <type>openads_varchar</type>
+    <length>64</length>
+    <notnull>true</notnull>
+    <default>phpadsuser</default>
+   </field>
+
+   <field>
+    <name>admin_pw</name>
+    <type>openads_varchar</type>
+    <length>64</length>
+    <notnull>true</notnull>
+    <default>phpadspass</default>
+   </field>
+
+   <field>
+    <name>admin_fullname</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default>Your Name</default>
+   </field>
+
+   <field>
+    <name>admin_email</name>
+    <type>openads_varchar</type>
+    <length>64</length>
+    <notnull>true</notnull>
+    <default>your@email.com</default>
+   </field>
+
+   <field>
+    <name>admin_email_headers</name>
+    <type>openads_varchar</type>
+    <length>64</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>admin_novice</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>default_banner_weight</name>
+    <type>openads_tinyint</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>1</default>
+   </field>
+
+   <field>
+    <name>default_campaign_weight</name>
+    <type>openads_tinyint</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>1</default>
+   </field>
+
+   <field>
+    <name>client_welcome</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>client_welcome_msg</name>
+    <type>openads_text</type>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>content_gzip_compression</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>f</default>
+   </field>
+
+   <field>
+    <name>userlog_email</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>userlog_priority</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>userlog_autoclean</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>gui_show_campaign_info</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>gui_show_campaign_preview</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>f</default>
+   </field>
+
+   <field>
+    <name>gui_show_banner_info</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>gui_show_banner_preview</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>gui_show_banner_html</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>f</default>
+   </field>
+
+   <field>
+    <name>gui_show_matching</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>gui_show_parents</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>f</default>
+   </field>
+
+   <field>
+    <name>gui_hide_inactive</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>f</default>
+   </field>
+
+   <field>
+    <name>gui_link_compact_limit</name>
+    <type>openads_int</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default>50</default>
+   </field>
+
+   <field>
+    <name>qmail_patch</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>f</default>
+   </field>
+
+   <field>
+    <name>updates_enabled</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>updates_last_seen</name>
+    <type>openads_decimal</type>
+    <length>7,3</length>
+    <notnull>true</notnull>
+    <default>0.000</default>
+   </field>
+
+   <field>
+    <name>updates_cache</name>
+    <type>openads_text</type>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>updates_timestamp</name>
+    <type>openads_int</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>updates_dev_builds</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>f</default>
+   </field>
+
+   <field>
+    <name>allow_invocation_plain</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>f</default>
+   </field>
+
+   <field>
+    <name>allow_invocation_js</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>allow_invocation_frame</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>f</default>
+   </field>
+
+   <field>
+    <name>allow_invocation_xmlrpc</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>f</default>
+   </field>
+
+   <field>
+    <name>allow_invocation_local</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>allow_invocation_interstitial</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>allow_invocation_popup</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>auto_clean_tables</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>f</default>
+   </field>
+
+   <field>
+    <name>auto_clean_tables_interval</name>
+    <type>openads_tinyint</type>
+    <length>2</length>
+    <notnull>true</notnull>
+    <default>5</default>
+   </field>
+
+   <field>
+    <name>auto_clean_userlog</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>f</default>
+   </field>
+
+   <field>
+    <name>auto_clean_userlog_interval</name>
+    <type>openads_tinyint</type>
+    <length>2</length>
+    <notnull>true</notnull>
+    <default>5</default>
+   </field>
+
+   <field>
+    <name>auto_clean_tables_vacuum</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>autotarget_factor</name>
+    <type>openads_float</type>
+    <notnull>true</notnull>
+    <default>-1</default>
+   </field>
+
+   <field>
+    <name>maintenance_timestamp</name>
+    <type>openads_int</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>maintenance_cron_timestamp</name>
+    <type>openads_int</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <index>
+    <name>config_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>configid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>images</name>
+
+  <declaration>
+
+   <field>
+    <name>filename</name>
+    <type>openads_varchar</type>
+    <length>128</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>contents</name>
+    <type>blob</type>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>t_stamp</name>
+    <type>openads_timestamp</type>
+    <notnull>true</notnull>
+    <default>CURRENT_TIMESTAMP</default>
+   </field>
+
+   <index>
+    <name>images_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>filename</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>lb_local</name>
+
+  <declaration>
+
+   <field>
+    <name>last_run</name>
+    <type>openads_int</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>session</name>
+
+  <declaration>
+
+   <field>
+    <name>sessionid</name>
+    <type>openads_varchar</type>
+    <length>32</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>sessiondata</name>
+    <type>blob</type>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>lastused</name>
+    <type>openads_timestamp</type>
+    <notnull>true</notnull>
+    <default>CURRENT_TIMESTAMP</default>
+   </field>
+
+   <index>
+    <name>session_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>sessionid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>targetstats</name>
+
+  <declaration>
+
+   <field>
+    <name>day</name>
+    <type>openads_date</type>
+    <notnull>true</notnull>
+    <default>0000-00-00</default>
+   </field>
+
+   <field>
+    <name>clientid</name>
+    <type>openads_smallint</type>
+    <length>6</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>target</name>
+    <type>openads_int</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>views</name>
+    <type>openads_int</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>modified</name>
+    <type>openads_tinyint</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <index>
+    <name>targetstats_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>day</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>clientid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>userlog</name>
+
+  <declaration>
+
+   <field>
+    <name>userlogid</name>
+    <type>openads_mediumint</type>
+    <length>9</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>timestamp</name>
+    <type>openads_int</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>usertype</name>
+    <type>openads_tinyint</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>userid</name>
+    <type>openads_mediumint</type>
+    <length>9</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>action</name>
+    <type>openads_mediumint</type>
+    <length>9</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>object</name>
+    <type>openads_mediumint</type>
+    <length>9</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>details</name>
+    <type>blob</type>
+    <notnull>false</notnull>
+   </field>
+
+   <index>
+    <name>userlog_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>userlogid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>zones</name>
+
+  <declaration>
+
+   <field>
+    <name>zoneid</name>
+    <type>openads_mediumint</type>
+    <length>9</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>affiliateid</name>
+    <type>openads_mediumint</type>
+    <length>9</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>zonename</name>
+    <type>openads_varchar</type>
+    <length>245</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>description</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>delivery</name>
+    <type>openads_smallint</type>
+    <length>6</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>zonetype</name>
+    <type>openads_smallint</type>
+    <length>6</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>what</name>
+    <type>blob</type>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>width</name>
+    <type>openads_smallint</type>
+    <length>6</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>height</name>
+    <type>openads_smallint</type>
+    <length>6</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>chain</name>
+    <type>blob</type>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>prepend</name>
+    <type>blob</type>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>append</name>
+    <type>blob</type>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>appendtype</name>
+    <type>openads_tinyint</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <index>
+    <name>zonenameid</name>
+    <field>
+     <name>zonename</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>zoneid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>zones_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>zoneid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+</database>

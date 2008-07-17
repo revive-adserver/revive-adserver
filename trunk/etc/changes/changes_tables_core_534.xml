@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>534</version>
+  <comments>Added field to note if a ZIF value is based on the default value or not.</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>534</version>
+      <change>
+        <table>
+          <name>data_summary_zone_impression_history</name>
+          <add>
+            <field>
+              <name>est</name>
+              <type>openads_smallint</type>
+              <length>6</length>
+              <notnull></notnull>
+              <was>est</was>
+              <default></default>
+            </field>
+          </add>
+        </table>
+      </change>
+    </changeset>
+  </constructive>
+  <destructive>
+    <changeset>
+      <name>openads</name>
+      <version>534</version>
+    </changeset>
+  </destructive>
+</instructionset>

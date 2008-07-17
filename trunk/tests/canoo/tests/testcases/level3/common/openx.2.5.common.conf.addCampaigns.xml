@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE project SYSTEM "../../../../dtd/WebTest.dtd"[
+	<!ENTITY config  SYSTEM "../../modules/config_openx.xml">
+	<!ENTITY login  SYSTEM "../../modules/login_admin.xml">
+]>
+
+<project name="OpenX" basedir="." default="main">
+	<property name="openx.url" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}"/>
+	<target name="main">
+		<webtest name="Level3 - configuration test: openx.2.5.common.conf.addCampaigns.xml">
+			&config;
+			<steps>
+				<enableJavaScript enable="${wt.enableJS}" />
+				&login;
+				<enableJavaScript enable="false" />
+				<clickLink label="Inventory" />
+				<clickLink label="Add new campaign"/>
+				<setInputField name="end" value="2007-07-01"/>
+				<clickButton label="Save Changes"/>
+				<clickLink label="Advertisers &amp; Campaigns"/>
+				<clickLink label="Add new campaign"/>
+				<setInputField name="campaignname" value="test campaign"/>
+				<clickButton label="Save Changes"/>
+				<clickLink label="Advertisers &amp; Campaigns"/>
+				<clickLink label="Add new campaign"/>
+				<setInputField name="campaignname" value="campaign 2 (gif)"/>
+				<clickButton label="Save Changes"/>
+			</steps>
+	 	</webtest>
+	</target>	
+</project>

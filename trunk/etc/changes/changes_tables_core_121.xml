@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>121</version>
+  <comments>Changed the length of the column to 32.</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>121</version>
+      <change>
+        <table>
+          <name>acls</name>
+        <change>
+          <field>
+            <name>type</name>
+            <length>32</length>
+          </field>
+        </change>
+      </table>
+    </change>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>openads</name>
+    <version>121</version>
+  </changeset>
+</destructive>
+</instructionset>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>530</version>
+  <comments>Added primary key to application_variable</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>530</version>
+      <change>
+        <table>
+          <name>application_variable</name>
+        <index>
+          <add>
+            <name>application_variable_pkey</name>
+            <was>application_variable_pkey</was>
+            <primary>true</primary>
+            <indexfield>
+              <name>name</name>
+              <sorting>ascending</sorting>
+            </indexfield>
+          </add>
+        </index>
+      </table>
+    </change>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>openads</name>
+    <version>530</version>
+  </changeset>
+</destructive>
+</instructionset>

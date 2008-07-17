@@ -1,0 +1,104 @@
+<?php if (!defined('MAX_PATH')) { exit; } ?>
+            <?php
+                $aMessages = $oUpgrader->getMessages();
+                $errorOpen = false;
+
+                if (count($aMessages)>0)
+                {
+                    if ($displayError != true) {
+            ?>
+                <table border='0' width='100%' cellpadding='0' cellspacing='0' class='sysinfotable' style='margin-top: 0; margin-left:auto; margin-right: auto;'>
+                    <tr>
+                        <td style='text-align: center;'>
+            <?php
+                    }
+                    foreach ($aMessages AS $k => $msg)
+                    {
+                        $sErr  = '#! ';
+                        $sWarn = '#> ';
+                        if (substr($msg,0,3)==$sErr)
+                        {
+                            $msg = str_replace($sErr, '', $msg);
+                            if ($errorOpen == false) {
+                                echo '<div class="sysmessage sysinfoerror"><ul>';
+                                $errorOpen = true;
+                            }
+                            echo '<li>'.$msg . '</li>';
+
+                        }
+                        else if (substr($msg,0,3)==$sWarn)
+                        {
+                            $msg = str_replace($sWarn, '', $msg);
+                            if ($errorOpen == false) {
+                                echo '<div class="sysmessage sysinfowarning"><ul>';
+                                $errorOpen = true;
+                            }
+                            echo '<li>'.$msg . '</li>';
+
+                        }
+                        else
+                        {
+                            if ($displayError != true) {
+                                if ($errorOpen == true) {
+                                    echo '</ul></div><br />';
+                                    $errorOpen = false;
+                                }
+                                echo '<span class="sysmessage">'.$msg.'</span><br />';
+                            }
+                        }
+                    }
+                    if ($oUpgrader->isRecoveryRequired() && array_key_exists('btn_upgrade', $_POST))
+                    {
+                        $disableButton = 'disabled="disabled="';
+                        echo $strRecoveryRequired;
+                        ?>
+                        <br>
+                        <form id="frmOpenadsRecovery" name="frmOpenadsRecovery" method="POST" action="install.php">
+                        <input type="submit"  class="button" id="btn_recovery" name="btn_recovery" value="<?php echo $strBtnRecover; ?>" tabindex="1" />
+                        </form>
+                        <br>
+                        <?php
+                    }
+                    if ($errorOpen == true)
+                    {
+                        echo '</div><br />';
+                        $errorOpen = false;
+                    }
+                    if ($displayError != true)
+                    {
+                        if ($oUpgrader->oLogger->errorExists)
+                        {
+                ?>
+                        <table style="margin: auto;"><tr><td class="sysinfoerror">
+                            <b>Errors were found during the install proccess.</b> Please resolve these errors before continuing.
+                <?php
+                            if ($oUpgrader->existing_installation_status == OA_STATUS_MAX_DBINTEG_FAILED) {
+                ?>
+                            <p>
+                            We have detected integrity issues with your database. This means that the layout of your database differs from what we expect it to be. This could be due to customization of your database.
+                            </p>
+                <?php
+                            }
+                ?>
+                            <p>
+                            For help, please see our <a href="<?php echo OX_PRODUCT_DOCSURL; ?>">documentation</a>, <a href="http://<?php echo OX_PRODUCT_DOCSURL; ?>/faq">FAQs</a> and <a href="http://<?php echo OX_PRODUCT_FORUMURL; ?>">forum</a>.</p>
+                        </td></tr></table>
+                <?php
+                        }
+                ?>
+                        </td>
+                    </tr>
+                </table>
+                <?php
+                    }
+                }
+                if(array_key_exists('btn_recovery', $_POST))
+                {
+                    ?>
+                    <br>
+                    <form id="frmOpenadsRestart" name="frmOpenadsRestart" method="POST" action="install.php">
+                    <input type="submit"  class="button" id="btn_startagain" name="btn_startagain" value="<?php echo $strBtnStartAgain; ?>" tabindex="1" />
+                    </form>
+                    <?php
+                }
+            ?>

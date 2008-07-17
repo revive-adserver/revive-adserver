@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE project SYSTEM               "../../../../dtd/WebTest.dtd" [
+  <!ENTITY config SYSTEM           "../../modules/config_openx.xml">
+  <!ENTITY checkForErrors SYSTEM   "../../modules/errors.xml">
+  <!ENTITY verifyHeaders SYSTEM    "../../modules/headers.xml">
+]
+>
+
+<!--
+  Test that page generate the JavaScript which contains the ad
+  @TODO Check that returned JavaScript is valid
+-->
+<project name="OpenX delivery - spcjs.php" basedir="../.." default="main">
+  <import file="../../modules/init.xml"/>
+  <target name="canoo-test">
+    <webtest name="${ant.project.name}">
+      &config;
+      <steps>
+		<invoke description="Invoke delivery file spcjs.html" url="/delivery_test/spcjs.html" />
+		&checkForErrors;
+		
+		<verifyElement text="spcjs" type="BODY"/>
+      	
+      	<!--
+      	description="check that gif and/or html banner is displayed"
+			<verifyXPath 
+				description="html test banner"
+				xpath="/html/body/div/a/text()"
+				text="html test banner" />
+	    -->
+      	<verifyXPath description="Check that the gif is displayed"
+      		xpath="/html/body/div[@id='2']/a/img/@src"
+      		regex="true"
+      		text=".*contenttype=gif"/>
+      	
+      	<!--	this banner shouldn't be displayed	-->
+      	<not>
+			<verifyXPath
+				description="Test HTML Banner!\n" 
+				xpath="/html/body/div[@id='2']/text()[2]"
+				text="Test HTML Banner!\n"
+				regex="true" />
+		</not>
+      </steps>
+    </webtest>
+  </target>
+
+  <!-- clean cache, run a canoo test (without cache), and then run again (with cache) -->
+  <target name="main" depends="test-cache" />
+
+</project>

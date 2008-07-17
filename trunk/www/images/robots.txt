@@ -1,0 +1,7 @@
+# This robots.txt file requests that search engines and other
+# automated web-agents don't try to index the files in this
+# directory (/www/images/). This file is required in the
+# event that you use OpenX with virtual domains, and have one
+# set up for the default image store.
+User-agent: *
+Disallow: /

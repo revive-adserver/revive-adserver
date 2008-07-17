@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<upgrade>
+    <name>Openads</name>
+    <creationDate>2007-08-20</creationDate>
+    <author>Openads Devs</author>
+    <authorEmail>support@openads.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>LICENSE.txt</license>
+    <description>Openads Upgrade 2.3.34-beta to 2.3.38-beta</description>
+    <versionFrom>2.3.34-beta</versionFrom>
+    <versionTo>2.3.38-beta</versionTo>
+
+    <!-- Database Packages -->
+    <database>
+        <package>
+            <version>12934a</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_12934a.xml</file>
+            <file>changes_tables_core_12934a.xml</file>
+            <file>migration_tables_core_12934a.php</file>
+        </package>
+        <package>
+            <version>130</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_130.xml</file>
+            <file>changes_tables_core_130.xml</file>
+            <file>migration_tables_core_130.php</file>
+        </package>
+        <package>
+            <version>199</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_199.xml</file>
+            <file>changes_tables_core_199.xml</file>
+            <file>migration_tables_core_199.php</file>
+        </package>
+        <package>
+            <version>515</version>
+            <stamp>515</stamp>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_515.xml</file>
+            <file>changes_tables_core_515.xml</file>
+            <file>migration_tables_core_515.php</file>
+        </package>
+    </database>
+
+    <!-- Custom Install Scripts to execute -->
+    <!--prescript></prescript-->
+    <!--postscript></postscript-->
+
+
+</upgrade>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>515</version>
+  <comments>altered type preference.gui_invocation_3rdparty_default</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>515</version>
+      <change>
+        <table>
+          <name>preference</name>
+        <change>
+          <field>
+            <name>gui_invocation_3rdparty_default</name>
+            <length>50</length>
+          </field>
+        </change>
+      </table>
+    </change>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>openads</name>
+    <version>515</version>
+  </changeset>
+</destructive>
+</instructionset>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+-
+- phpMyAdmin XML Dump
+- version 2.8.0.3-Debian-1
+- http://www.phpmyadmin.net
+-
+- Host: localhost
+- Generation Time: Nov 14, 2006 at 02:07 PM
+- Server version: 5.0.22
+- PHP Version: 5.1.6
+-->
+
+<!--
+- Database: `max03trunk`
+-->
+<max03trunk>
+  <!-- Table acls -->
+  <!-- Table acls_channel -->
+  <!-- Table ad_category_assoc -->
+  <!-- Table ad_zone_assoc -->
+  <!-- Table affiliates -->
+  <!-- Table affiliates_extra -->
+  <!-- Table agency -->
+  <!-- Table application_variable -->
+    <application_variable>
+        <name>max_version</name>
+        <value>v0.3.30-alpha</value>
+    </application_variable>
+  <!-- Table banners -->
+  <!-- Table campaigns -->
+  <!-- Table campaigns_trackers -->
+  <!-- Table category -->
+  <!-- Table channel -->
+  <!-- Table clients -->
+  <!-- Table data_intermediate_ad -->
+  <!-- Table data_intermediate_ad_connection -->
+  <!-- Table data_intermediate_ad_variable_value -->
+  <!-- Table data_raw_ad_click -->
+  <!-- Table data_raw_ad_impression -->
+  <!-- Table data_raw_ad_request -->
+  <!-- Table data_raw_tracker_click -->
+  <!-- Table data_raw_tracker_impression -->
+  <!-- Table data_raw_tracker_variable_value -->
+  <!-- Table data_summary_ad_hourly -->
+  <!-- Table data_summary_ad_zone_assoc -->
+  <!-- Table data_summary_channel_hourly -->
+  <!-- Table data_summary_zone_country_daily -->
+  <!-- Table data_summary_zone_country_forecast -->
+  <!-- Table data_summary_zone_country_monthly -->
+  <!-- Table data_summary_zone_domain_page_daily -->
+  <!-- Table data_summary_zone_domain_page_forecast -->
+  <!-- Table data_summary_zone_domain_page_monthly -->
+  <!-- Table data_summary_zone_impression_history -->
+  <!-- Table data_summary_zone_site_keyword_daily -->
+  <!-- Table data_summary_zone_site_keyword_forecast -->
+  <!-- Table data_summary_zone_site_keyword_monthly -->
+  <!-- Table data_summary_zone_source_daily -->
+  <!-- Table data_summary_zone_source_forecast -->
+  <!-- Table data_summary_zone_source_monthly -->
+  <!-- Table images -->
+  <!-- Table log_maintenance -->
+  <!-- Table log_maintenance_forecasting -->
+  <!-- Table log_maintenance_priority -->
+  <!-- Table log_maintenance_statistics -->
+  <!-- Table password_recovery -->
+  <!-- Table placement_zone_assoc -->
+  <!-- Table plugins_channel_delivery_assoc -->
+  <!-- Table plugins_channel_delivery_domains -->
+  <!-- Table plugins_channel_delivery_rules -->
+  <!-- Table preference -->
+    <preference>
+        <agencyid>0</agencyid>
+        <config_version>0.300</config_version>
+        <language>english</language>
+        <company_name>mysite.com</company_name>
+        <begin_of_week>1</begin_of_week>
+        <percentage_decimals>2</percentage_decimals>
+        <type_sql_allow>t</type_sql_allow>
+        <type_url_allow>t</type_url_allow>
+        <type_web_allow>f</type_web_allow>
+        <type_html_allow>t</type_html_allow>
+        <type_txt_allow>t</type_txt_allow>
+        <banner_html_auto>t</banner_html_auto>
+        <admin>admin</admin>
+        <admin_pw>21232f297a57a5a743894a0e4a801fc3</admin_pw>
+        <admin_fullname>Your Name</admin_fullname>
+        <admin_email>your@email.com</admin_email>
+        <warn_admin>t</warn_admin>
+        <warn_agency>t</warn_agency>
+        <warn_client>t</warn_client>
+        <warn_limit>100</warn_limit>
+        <admin_novice>t</admin_novice>
+        <default_banner_weight>1</default_banner_weight>
+        <default_campaign_weight>1</default_campaign_weight>
+        <client_welcome>t</client_welcome>
+        <publisher_welcome>t</publisher_welcome>
+        <content_gzip_compression>f</content_gzip_compression>
+        <userlog_email>t</userlog_email>
+        <gui_show_campaign_info>t</gui_show_campaign_info>
+        <gui_show_campaign_preview>f</gui_show_campaign_preview>
+        <gui_campaign_anonymous>f</gui_campaign_anonymous>
+        <gui_show_banner_info>t</gui_show_banner_info>
+        <gui_show_banner_preview>t</gui_show_banner_preview>
+        <gui_show_banner_html>f</gui_show_banner_html>
+        <gui_show_matching>t</gui_show_matching>
+        <gui_show_parents>f</gui_show_parents>
+        <gui_hide_inactive>f</gui_hide_inactive>
+        <gui_link_compact_limit>50</gui_link_compact_limit>
+        <gui_header_background_color></gui_header_background_color>
+        <gui_header_foreground_color></gui_header_foreground_color>
+        <gui_header_active_tab_color></gui_header_active_tab_color>
+        <gui_header_text_color></gui_header_text_color>
+        <gui_invocation_3rdparty_default>0</gui_invocation_3rdparty_default>
+        <qmail_patch>f</qmail_patch>
+        <updates_timestamp>0</updates_timestamp>
+        <allow_invocation_plain>f</allow_invocation_plain>
+        <allow_invocation_plain_nocookies>t</allow_invocation_plain_nocookies>
+        <allow_invocation_js>t</allow_invocation_js>
+        <allow_invocation_frame>f</allow_invocation_frame>
+        <allow_invocation_xmlrpc>f</allow_invocation_xmlrpc>
+        <allow_invocation_local>t</allow_invocation_local>
+        <allow_invocation_interstitial>t</allow_invocation_interstitial>
+        <allow_invocation_popup>t</allow_invocation_popup>
+        <allow_invocation_clickonly>t</allow_invocation_clickonly>
+        <auto_clean_tables>f</auto_clean_tables>
+        <auto_clean_tables_interval>5</auto_clean_tables_interval>
+        <auto_clean_userlog>f</auto_clean_userlog>
+        <auto_clean_userlog_interval>5</auto_clean_userlog_interval>
+        <auto_clean_tables_vacuum>t</auto_clean_tables_vacuum>
+        <autotarget_factor>-1</autotarget_factor>
+        <maintenance_timestamp>NOW()</maintenance_timestamp>
+        <compact_stats>t</compact_stats>
+        <statslastday>0000-00-00</statslastday>
+        <statslasthour>0</statslasthour>
+        <default_tracker_status>1</default_tracker_status>
+        <default_tracker_type>1</default_tracker_type>
+        <default_tracker_linkcampaigns>f</default_tracker_linkcampaigns>
+        <publisher_agreement>f</publisher_agreement>
+        <publisher_default_tax_id>f</publisher_default_tax_id>
+        <publisher_default_approved>f</publisher_default_approved>
+    </preference>
+  <!-- Table preference_advertiser -->
+  <!-- Table preference_publisher -->
+  <!-- Table session -->
+  <!-- Table targetstats -->
+  <!-- Table tracker_append -->
+  <!-- Table trackers -->
+  <!-- Table userlog -->
+  <!-- Table variable_publisher -->
+  <!-- Table variables -->
+  <!-- Table zones -->
+</max03trunk>
+

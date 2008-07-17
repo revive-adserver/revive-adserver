@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>{title}</title>
+</head>
+
+<body>
+<div flexy:start="here">
+<script type="text/javascript">
+<!--
+
+function MMM_trackerAction(action, id)
+{
+    var f = document.getElementById('trackerAppendForm');
+    
+    f.t_action.value = action;
+    f.t_id.value = id;
+    f.submit();
+    return false;
+}
+
+//-->
+</script>
+<div flexy:if="showReminder" class="errormessage"><img class="errormessage" src="{assetPath}/images/warning.gif" align="absmiddle">
+<span class='tab-s'>You have unsaved changes on this page, make sure you press &quot;Save Changes&quot; when finished</span><br>
+</div>
+<form id="trackerAppendForm" class="section" method="post">
+    <input type="hidden" name="clientid" value="{advertiser_id}" />
+    <input type="hidden" name="trackerid" value="{tracker_id}" />
+    <input type="hidden" name="t_action" />
+    <input type="hidden" name="t_id"  />
+    <input type="hidden" name="t_paused" value="{getPausedCodes()}" />
+    <h3>Append tracker code</h3>
+    <div flexy:foreach="codes,k,v" class="{cycleRow(#row#)}">
+        <div class="label">
+            <label for="{v[id]}">{v[rank]}. Tracker code{if:v[paused]} (Paused){end:}</label>
+        </div>
+        <div class="element">
+            <textarea name="{v[name]}" id="{v[id]}" rows="3">{v[tagcode]}</textarea><br />
+            <span>
+                {if:v[autotrack]}<input type="checkbox" name="{v[autotrackname]}" id="{v[autotrackname]}" checked="checked" />
+                {else:}<input type="checkbox" name="{v[autotrackname]}" id="{v[autotrackname]}" />
+                {end:} Automatically change the HTML code to track the same variables
+            </span>
+        </div>
+        <div class="link-buttons">
+            <a flexy:if="!v[paused]" href="#" onclick="return MMM_trackerAction('pause', '{k}')"><img src="{assetPath}/images/icon-deactivate.gif" width="16" height="16" /> Pause</a>
+            <a flexy:if="v[paused]" href="#" onclick="return MMM_trackerAction('restart', '{k}')"><img src="{assetPath}/images/icon-activate.gif" width="16" height="16" /> Restart</a>
+            <a flexy:if="v[move_up]" href="#" onclick="return MMM_trackerAction('up', '{k}')"><img src="{assetPath}/images/triangle-u.gif" width="16" height="16" /> Move up</a>
+            <span flexy:if="!v[move_up]"><img src="{assetPath}/images/triangle-u-d.gif" width="16" height="16" /> Move up</span>
+            <a flexy:if="v[move_down]" href="#" onclick="return MMM_trackerAction('down', '{k}')"><img src="{assetPath}/images/triangle-d.gif" width="16" height="16" /> Move down</a>
+            <span flexy:if="!v[move_down]"><img src="{assetPath}/images/triangle-d-d.gif" width="16" height="16" /> Move down</span>
+            <a href="#" onclick="return MMM_trackerAction('del', '{k}')"><img src="{assetPath}/images/icon-recycle.gif" width="16" height="16" /> Delete</a>
+        </div>
+    </div>
+    <div class="row last"><img src="{assetPath}/images/icon-acl-add.gif" width="16" height="16" alt="Append new tag" width="16" height="16" />&nbsp;<a href="#" onclick="return MMM_trackerAction('new', '')">Append new tag</a></div>
+    <br />
+    <br />
+    <input name="save" type="submit" value="Save changes" />
+</form>
+</td></tr></table>
+</div>
+</body>
+This isn't here at all.
+</html>

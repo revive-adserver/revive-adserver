@@ -1,0 +1,10 @@
+/**
+ * Widgets
+ */
+div.widgetContainer {
+    height:125px;
+}
+
+ul.widgetList {
+    padding-left: 16px;
+}

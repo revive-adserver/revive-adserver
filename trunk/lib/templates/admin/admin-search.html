@@ -1,0 +1,380 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+|                                                                           |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
+
+-->*}
+
+<!-- Top -->
+<br />
+
+<!-- Search selection -->
+<table width='100%' cellpadding='0' cellspacing='0' border='0'>
+    <tr><td width='20'>&nbsp;</td><td>
+
+    <table width='100%' border='0' cellspacing='0' cellpadding='0'>
+        <form name='searchselection' action='admin-search.php'>
+        <input type='hidden' name='keyword' value="{$keyword|escape}">
+        <tr>
+            <td nowrap><input type='checkbox' id='client' name='client' value='t'{if $client} checked="checked"{/if} onClick='this.form.submit()'>
+                <label for='client'>{t str=Clients}</label>&nbsp;&nbsp;&nbsp;</td>
+            <td nowrap><input type='checkbox' id='campaign' name='campaign' value='t'{if $campaign} checked="checked"{/if} onClick='this.form.submit()'>
+                <label for='campaign'>{t str=Campaign}</label>&nbsp;&nbsp;&nbsp;</td>
+            <td nowrap><input type='checkbox' id='banner' name='banner' value='t'{if $banner} checked="checked"{/if} onClick='this.form.submit()'>
+                <label for='banner'>{t str=Banners}</label>&nbsp;&nbsp;&nbsp;</td>
+        </tr>
+        <tr>
+            <td nowrap><input type='checkbox' id='affiliate' name='affiliate' value='t'{if $affiliate} checked="checked"{/if} onClick='this.form.submit()'>
+                <label for='affiliate'>{t str=Affiliates}</label>&nbsp;&nbsp;&nbsp;</td>
+            <td nowrap><input type='checkbox' id='zone' name='zone' value='t'{if $zone} checked="checked"{/if} onClick='this.form.submit()'>
+                <label for='zone'>{t str=Zones}</label>&nbsp;&nbsp;&nbsp;</td>
+            <td width='100%'>&nbsp;</td>
+            <td nowrap align='right'><input type='checkbox' id='compact' name='compact' value='t'{if $compact} checked="checked"{/if} onClick='this.form.submit()'>
+                <label for='compact'>{t str=Compact}</label>&nbsp;&nbsp;&nbsp;</td>
+        </tr>
+        </form>
+    </table>
+
+    </td><td width='20'>&nbsp;</td></tr>
+</table>
+
+<!-- Seperator -->
+<img src='{$assetPath|escape}/images/break-el.gif' height='1' width='100%' vspace='5'>
+<br /><br />
+
+<!-- Search Results -->
+<table width='100%' cellpadding='0' cellspacing='0' border='0'>
+<tr><td width='20'>&nbsp;</td><td>
+
+{if $matchesFound}
+<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>
+    <tr height='25'>
+        <td height='25'><b>&nbsp;&nbsp;{t str=Name}</b></td>
+        <td height='25'><b>{t str=ID}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        <td height='25'>&nbsp;</td>
+        <td height='25'>&nbsp;</td>
+        <td height='25'>&nbsp;</td>
+    </tr>
+
+    <tr height='1'><td colspan='6' bgcolor='#888888'><img src='{$assetPath|escape}/images/break.gif' height='1' width='100%'></td></tr>
+{/if}
+
+{cycle name=bgcolor values="#FFFFFF,#F6F6F6" assign=bgColor}
+{assign var=addSeparator value=0}
+{foreach item=row_clients from=$aClients}
+{if $addSeparator}
+    <tr height='1'><td colspan='6' bgcolor='#888888'><img src='{$assetPath|escape}/images/break-l.gif' height='1' width='100%'></td></tr>
+{else}
+    {assign var=addSeparator value=1}
+{/if}
+    <tr height='25' bgcolor="{cycle name=bgcolor}">
+
+        <td height='25'>
+            &nbsp;&nbsp;
+            <img src='{$assetPath|escape}/images/icon-advertiser.gif' align='absmiddle'>&nbsp;
+            <a href='JavaScript:GoOpener("advertiser-edit.php?clientid={$row_clients.clientid|escape:js}")'>{$row_clients.clientname|escape}</a>
+        </td>
+
+        <td height='25'>{$row_clients.clientid|escape}</td>
+
+        <td>&nbsp;</td>
+
+        <td height='25'>
+            <img src='{$assetPath|escape}/images/icon-overview.gif' border='0' align='absmiddle' alt='{t str=Overview}'>&nbsp;<a href='JavaScript:GoOpener("advertiser-campaigns.php?clientid={$row_clients.clientid|escape:js}")'>{t str=Overview}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        </td>
+
+        <td height='25'>
+            <img src='{$assetPath|escape}/images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;<a href='JavaScript:GoOpener("advertiser-delete.php?clientid={$row_clients.clientid|escape:js}", true)'{phpAds_DelConfirm str=ConfirmDeleteClient}>{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        </td>
+
+        <td height='25'>
+            <a href='JavaScript:GoOpener("stats.php?entity=advertiser&breakdown=history&clientid={$row_clients.clientid|escape:js}")'><img src='{$assetPath|escape}/images/icon-statistics.gif' border='0' align='absmiddle' alt='{t str=Stats}'>&nbsp;{t str=Stats}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        </td>
+    </tr>
+
+{foreach item=row_c_expand from=$row_clients.campaigns}
+            <tr height='1'><td colspan='6' bgcolor='#888888'><img src='{$assetPath|escape}/images/break-el.gif' height='1' width='100%'></td></tr>
+
+            <tr height='25' bgcolor="{cycle name=bgcolor}">
+
+        <td height='25'>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <img src='{$assetPath|escape}/images/icon-campaign.gif' align='absmiddle'>&nbsp;
+            <a href='JavaScript:GoOpener("campaign-edit.php?clientid={$row_clients.clientid|escape}&campaignid={$row_c_expand.campaignid|escape:js}")'>{$row_c_expand.campaignname|escape}</a>
+        </td>
+
+        <td height='25'>{$row_c_expand.campaignid|escape}</td>
+
+        <td>&nbsp;</td>
+
+        <td height='25'>
+            <img src='{$assetPath|escape}/images/icon-overview.gif' border='0' align='absmiddle' alt='{t str=Overview}'>&nbsp;<a href='JavaScript:GoOpener("campaign-banners.php?clientid={$row_clients.clientid|escape}&campaignid={$row_c_expand.campaignid|escape:js}")'>{t str=Overview}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        </td>
+
+        <td height='25'>
+            <img src='{$assetPath|escape}/images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;<a href='JavaScript:GoOpener("campaign-delete.php?clientid={$row_clients.clientid|escape}&campaignid={$row_c_expand.campaignid|escape:js}", true)'{phpAds_DelConfirm str=ConfirmDeleteCampaign}>{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        </td>
+
+        <td height='25'>
+            <a href='JavaScript:GoOpener("stats.php?entity=campaign&breakdown=history&clientid={$row_clients.clientid|escape}&campaignid={$row_c_expand.campaignid|escape:js}")'><img src='{$assetPath|escape}/images/icon-statistics.gif' border='0' align='absmiddle' alt='{t str=Stats}'>&nbsp;{t str=Stats}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        </td>
+    </tr>
+
+{foreach item=row_b_expand from=$row_c_expand.banners}
+    <tr height='1'><td colspan='6' bgcolor='#888888'><img src='{$assetPath|escape}/images/break-el.gif' height='1' width='100%'></td></tr>
+
+    <tr height='25' bgcolor="{cycle name=bgcolor}">
+
+        <td height='25'>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <img src="{oa_icon banner=$row_b_expand}" align="absmiddle" />
+            <a href='JavaScript:GoOpener("banner-edit.php?clientid={$row_clients.clientid|escape}&campaignid={$row_b_expand.campaignid|escape}&bannerid={$row_b_expand.bannerid|escape:js}")'>{$row_b_expand.name|escape}</a>
+        </td>
+
+        <td height='25'>{$row_b_expand.bannerid|escape}</td>
+
+        <td>&nbsp;</td>
+
+        <td height='25'>
+            <a href='JavaScript:GoOpener("banner-acl.php?clientid={$row_clients.clientid|escape}&campaignid={$row_b_expand.campaignid|escape}&bannerid={$row_b_expand.bannerid|escape:js}")'><img src='{$assetPath|escape}/images/icon-acl.gif' border='0' align='absmiddle' alt='{t str=ACL}'>&nbsp;{t str=ACL}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        </td>
+
+        <td height='25'>
+            <img src='{$assetPath|escape}/images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;<a href='JavaScript:GoOpener("banner-delete.php?clientid={$row_clients.clientid|escape}&campaignid={$row_b_expand.campaignid|escape}&bannerid={$row_b_expand.bannerid|escape:js}", true)'{phpAds_DelConfirm str=ConfirmDeleteBanner}>{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        </td>
+
+        <td height='25'>
+            <a href='JavaScript:GoOpener("stats.php?entity=banner&breakdown=history&clientid={$row_clients.clientid|escape}&campaignid={$row_b_expand.campaignid|escape}&bannerid={$row_b_expand.bannerid|escape:js}")'><img src='{$assetPath|escape}/images/icon-statistics.gif' border='0' align='absmiddle' alt='{t str=Stats}'>&nbsp;{t str=Stats}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        </td>
+    </tr>
+
+{/foreach}
+{/foreach}
+{/foreach}
+
+
+{foreach item=row_campaigns from=$aCampaigns}
+{if $addSeparator}
+    <tr height='1'><td colspan='6' bgcolor='#888888'><img src='{$assetPath|escape}/images/break-l.gif' height='1' width='100%'></td></tr>
+{else}
+    {assign var=addSeparator value=1}
+{/if}
+
+    <tr height='25' bgcolor="{cycle name=bgcolor}">
+
+        <td height='25'>
+            &nbsp;&nbsp;
+            <img src='{$assetPath|escape}/images/icon-campaign.gif' align='absmiddle'>&nbsp;
+            <a href='JavaScript:GoOpener("campaign-edit.php?clientid={$row_campaigns.clientid|escape}&campaignid={$row_campaigns.campaignid|escape:js}")'>{$row_campaigns.campaignname|escape}</a>
+        </td>
+
+        <td height='25'>{$row_campaigns.campaignid|escape}</td>
+
+        <td>&nbsp;</td>
+
+        <td height='25'>
+            <img src='{$assetPath|escape}/images/icon-overview.gif' border='0' align='absmiddle' alt='{t str=Overview}'>&nbsp;<a href='JavaScript:GoOpener("campaign-banners.php?clientid={$row_campaigns.clientid|escape}&campaignid={$row_campaigns.campaignid|escape:js}")'>{t str=Overview}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        </td>
+
+        <td height='25'>
+            <img src='{$assetPath|escape}/images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;<a href='JavaScript:GoOpener("campaign-delete.php?clientid={$row_campaigns.clientid|escape}&campaignid={$row_campaigns.campaignid|escape:js}", true)'{phpAds_DelConfirm str=ConfirmDeleteCampaign}>{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        </td>
+
+        <td height='25'>
+            <img src='{$assetPath|escape}/images/icon-statistics.gif' border='0' align='absmiddle' alt='{t str=Stats}'>&nbsp;<a href='JavaScript:GoOpener("stats.php?entity=campaign&breakdown=history&clientid={$row_campaigns.clientid|escape}&campaignid={$row_campaigns.campaignid|escape:js}")'>{t str=Stats}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        </td>
+    </tr>
+
+{foreach item=row_b_expand from=$row_campaigns.banners}
+    <tr height='1'><td colspan='6' bgcolor='#888888'><img src='{$assetPath|escape}/images/break-el.gif' height='1' width='100%'></td></tr>
+
+    <tr height='25' bgcolor="{cycle name=bgcolor}">
+
+        <td height='25'>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <img src="{oa_icon banner=$row_b_expand}" align="absmiddle" />
+            <a href='JavaScript:GoOpener("banner-edit.php?clientid={$row_campaigns.clientid|escape}&campaignid={$row_campaigns.campaignid|escape}&bannerid={$row_b_expand.bannerid|escape:js}")'>{$row_b_expand.name|escape}</a>
+        </td>
+
+        <td height='25'>{$row_b_expand.bannerid|escape}</td>
+
+        <td>&nbsp;</td>
+
+        <td height='25'>
+            <img src='{$assetPath|escape}/images/icon-acl.gif' border='0' align='absmiddle' alt='{t str=ACL}'>&nbsp;<a href='JavaScript:GoOpener("banner-acl.php?clientid={$row_campaigns.clientid|escape}&campaignid={$row_b_expand.campaignid|escape}&bannerid={$row_b_expand.bannerid|escape:js}")'>{t str=ACL}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        </td>
+
+        <td height='25'>
+            <img src='{$assetPath|escape}/images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;<a href='JavaScript:GoOpener("banner-delete.php?clientid={$row_campaigns.clientid|escape}&campaignid={$row_b_expand.campaignid|escape}&bannerid={$row_b_expand.bannerid|escape:js}", true)'{phpAds_DelConfirm str=ConfirmDeleteBanner}>{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        </td>
+
+        <td height='25'>
+            <img src='{$assetPath|escape}/images/icon-statistics.gif' border='0' align='absmiddle' alt='{t str=Stats}'>&nbsp;<a href='JavaScript:GoOpener("stats.php?entity=banner&breakdown=history&clientid={$row_campaigns.clientid|escape}&campaignid={$row_b_expand.campaignid|escape}&bannerid={$row_b_expand.bannerid|escape:js}")'>{t str=Stats}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        </td></tr>
+
+{/foreach}
+{/foreach}
+
+
+{foreach item=row_banners from=$aBanners}
+{if $addSeparator}
+    <tr height='1'><td colspan='6' bgcolor='#888888'><img src='{$assetPath|escape}/images/break-l.gif' height='1' width='100%'></td></tr>
+{else}
+    {assign var=addSeparator value=1}
+{/if}
+
+    <tr height='25' bgcolor="{cycle name=bgcolor}">
+
+        <td height='25'>
+            &nbsp;&nbsp;
+            <img src="{oa_icon banner=$row_banners}" align="absmiddle" />
+            <a href='JavaScript:GoOpener("banner-edit.php?clientid={$row_banners.clientid|escape}&campaignid={$row_banners.campaignid|escape}&bannerid={$row_banners.bannerid|escape:js}")'>{$row_banners.name|escape}</a>
+        </td>
+
+        <td height='25'>{$row_banners.bannerid|escape}</td>
+
+        <td>&nbsp;</td>
+
+        <td height='25'>
+            <a href='JavaScript:GoOpener("banner-acl.php?clientid={$row_banners.clientid|escape}&campaignid={$row_banners.campaignid|escape}&bannerid={$row_banners.bannerid|escape:js}")'><img src='{$assetPath|escape}/images/icon-acl.gif' border='0' align='absmiddle' alt='{t str=ACL}'>&nbsp;{t str=ACL}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        </td>
+
+        <td height='25'>
+            <img src='{$assetPath|escape}/images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;<a href='JavaScript:GoOpener("banner-delete.php?clientid={$row_banners.clientid|escape}&campaignid={$row_banners.campaignid|escape}&bannerid={$row_banners.bannerid|escape:js}", true)'{phpAds_DelConfirm str=ConfirmDeleteBanner}>{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        </td>
+
+        <td height='25'>
+            <a href='JavaScript:GoOpener("stats.php?entity=banner&breakdown=history&clientid={$row_banners.clientid|escape}&campaignid={$row_banners.campaignid|escape}&bannerid={$row_banners.bannerid|escape:js}")'><img src='{$assetPath|escape}/images/icon-statistics.gif' border='0' align='absmiddle' alt='{t str=Stats}'>&nbsp;{t str=Stats}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        </td></tr>
+
+{/foreach}
+
+
+{foreach item=row_affiliates from=$aAffiliates}
+{if $addSeparator}
+    <tr height='1'><td colspan='6' bgcolor='#888888'><img src='{$assetPath|escape}/images/break-l.gif' height='1' width='100%'></td></tr>
+{else}
+    {assign var=addSeparator value=1}
+{/if}
+
+    <tr height='25' bgcolor="{cycle name=bgcolor}">
+
+        <td height='25'>
+            &nbsp;&nbsp;
+            <img src='{$assetPath|escape}/images/icon-affiliate.gif' align='absmiddle'>&nbsp;
+            <a href='JavaScript:GoOpener("affiliate-edit.php?affiliateid={$row_affiliates.affiliateid|escape:js}")'>{$row_affiliates.name|escape}</a>
+        </td>
+
+        <td height='25'>{$row_affiliates.affiliateid|escape}</td>
+
+        <td>&nbsp;</td>
+
+        <td height='25'>
+            <img src='{$assetPath|escape}/images/icon-overview.gif' border='0' align='absmiddle' alt='{t str=Overview}'>&nbsp;<a href='JavaScript:GoOpener("affiliate-zones.php?affiliateid={$row_affiliates.affiliateid|escape:js}")'>{t str=Overview}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        </td>
+
+        <td height='25'>
+            <img src='{$assetPath|escape}/images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;<a href='JavaScript:GoOpener("affiliate-delete.php?affiliateid={$row_affiliates.affiliateid|escape:js}", true)'{phpAds_DelConfirm str=ConfirmDeleteAffiliate}>{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        </td>
+
+        <td height='25'>
+            <img src='{$assetPath|escape}/images/icon-statistics.gif' border='0' align='absmiddle' alt='{t str=Stats}'>&nbsp;<a href='JavaScript:GoOpener("stats.php?entity=affiliate&breakdown=history&affiliateid={$row_affiliates.affiliateid|escape:js}")'>{t str=Stats}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        </td>
+    </tr>
+
+{foreach item=row_z_expand from=$row_affiliates.zones}
+    <tr height='1'><td colspan='6' bgcolor='#888888'><img src='{$assetPath|escape}/images/break-el.gif' height='1' width='100%'></td></tr>
+
+    <tr height='25' bgcolor="{cycle name=bgcolor}">
+
+        <td height='25'>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <img src='{$assetPath|escape}/images/icon-zone.gif' align='absmiddle'>&nbsp;
+            <a href='JavaScript:GoOpener("zone-edit.php?affiliateid={$row_z_expand.affiliateid|escape}&zoneid={$row_z_expand.zoneid|escape:js}")'>{$row_z_expand.zonename|escape}</a>
+        </td>
+
+        <td height='25'>{$row_z_expand.zoneid|escape}</td>
+
+        <td>&nbsp;</td>
+
+        <td height='25'>
+            <img src='{$assetPath|escape}/images/icon-zone-linked.gif' border='0' align='absmiddle' alt='{t str=IncludedBanners}'>&nbsp;<a href='JavaScript:GoOpener("zone-include.php?affiliateid={$row_z_expand.affiliateid|escape}&zoneid={$row_z_expand.zoneid|escape:js}")'>{t str=IncludedBanners}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        </td>
+
+        <td height='25'>
+            <img src='{$assetPath|escape}/images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;<a href='JavaScript:GoOpener("zone-delete.php?affiliateid={$row_z_expand.affiliateid|escape}&zoneid={$row_z_expand.zoneid|escape:js}", true)'{phpAds_DelConfirm str=ConfirmDeleteZone}>{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        </td>
+
+        <td height='25'>
+            <a href='JavaScript:GoOpener("stats.php?entity=zone&breakdown=history&affiliateid={$row_affiliates.affiliateid|escape}&zoneid={$row_z_expand.zoneid|escape:js}")'><img src='{$assetPath|escape}/images/icon-statistics.gif' border='0' align='absmiddle' alt='{t str=Stats}'>&nbsp;{t str=Stats}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        </td></tr>
+
+{/foreach}
+{/foreach}
+
+
+{foreach item=row_zones from=$aZones}
+{if $addSeparator}
+    <tr height='1'><td colspan='6' bgcolor='#888888'><img src='{$assetPath|escape}/images/break-l.gif' height='1' width='100%'></td></tr>
+{else}
+    {assign var=addSeparator value=1}
+{/if}
+
+    <tr height='25' bgcolor="{cycle name=bgcolor}">
+
+        <td height='25'>
+            &nbsp;&nbsp;
+            <img src='{$assetPath|escape}/images/icon-zone.gif' align='absmiddle'>&nbsp;
+            <a href='JavaScript:GoOpener("zone-edit.php?affiliateid={$row_zones.affiliateid|escape}&zoneid={$row_zones.zoneid|escape:js}")'>{$row_zones.zonename|escape}</a>
+        </td>
+
+        <td height='25'>{$row_zones.zoneid|escape}</td>
+
+        <td>&nbsp;</td>
+
+        <td height='25'>
+            <img src='{$assetPath|escape}/images/icon-zone-linked.gif' border='0' align='absmiddle' alt='{t str=IncludedBanners}'>&nbsp;<a href='JavaScript:GoOpener("zone-include.php?affiliateid={$row_zones.affiliateid|escape}&zoneid={$row_zones.zoneid|escape:js}")'>{t str=IncludedBanners}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        </td>
+
+        <td height='25'>
+            <img src='{$assetPath|escape}/images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;<a href='JavaScript:GoOpener("zone-delete.php?affiliateid={$row_zones.affiliateid|escape}&zoneid={$row_zones.zoneid|escape:js}", true)'{phpAds_DelConfirm str=ConfirmDeleteZone}>{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        </td>
+
+        <td height='25'>
+            <a href='JavaScript:GoOpener("stats.php?entity=zone&breakdown=history&affiliateid={$row_zones.affiliateid|escape}&zoneid={$row_zones.zoneid|escape:js}")'><img src='{$assetPath|escape}/images/icon-statistics.gif' border='0' align='absmiddle' alt='{t str=Stats}'>&nbsp;{t str=Stats}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        </td>
+    </tr>
+
+{/foreach}
+
+{if $matchesFound}
+    <tr height='1'><td colspan='6' bgcolor='#888888'><img src='{$assetPath|escape}/images/break.gif' height='1' width='100%'></td></tr>
+{else}
+    {t str=NoMatchesFound}
+{/if}
+</table>
+
+</td><td width='20'>&nbsp;</td></tr>
+</table>
+
+<br /><br />

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>537</version>
+  <comments>new audit table</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>537</version>
+      <add>
+        <table>
+        <name>audit</name>
+        <was>audit</was>
+      </table>
+    </add>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>openads</name>
+    <version>537</version>
+  </changeset>
+</destructive>
+</instructionset>

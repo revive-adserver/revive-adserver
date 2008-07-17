@@ -1,0 +1,63 @@
+{if isset($aItem.rows)}
+<tr>
+  <td>
+    &nbsp;
+  </td>
+  <td colspan='3'>
+    <table>
+      <tr>
+        <td>
+          <b>{t str=ColumnName}</b>
+        </td>
+        <td>
+          &nbsp;
+        </td>
+        <td>
+          <b>{t str=ShowColumn}</b>
+        </td>
+        <td>
+          &nbsp;
+        </td>
+        <td>
+          <b>{t str=CustomColumnName}</b>
+        </td>
+        <td>
+          &nbsp;
+        </td>
+        <td>
+          <b>{t str=ColumnRank}</b>
+        </td>
+      </tr>
+      {foreach from=$aItem key=row item=aColumnArrays}
+        {if $row eq 'rows'}
+          {foreach from=$aColumnArrays item=aColumnArray}
+          <tr>
+            <td>
+              <label for='{$aColumnArray.name}'>{$aColumnArray.text}</label>
+            </td>
+            <td>
+              &nbsp;
+            </td>
+            <td id='cell_{$aColumnArray.name}'>
+              <input type='checkbox' name='{$aColumnArray.name}' id='{$aColumnArray.name}' value='true' {if $aColumnArray.value}checked='checked'{/if} {if $aColumnArray.disabled}disabled='disabled' {else} onClick='phpAds_refreshEnabled();' {/if}  tabindex='{$aItem.tabindex++}'>
+            </td>
+            <td>
+              &nbsp;
+            </td>
+            <td id='cell_{$aColumnArray.name}_label'>
+              <input type='text' size='10' name='{$aColumnArray.name}_label' value="{$aColumnArray.label_value|escape}" {if $aColumnArray.disabled}disabled='disabled'{/if} tabindex='{$aItem.tabindex++}'>
+            </td>
+            <td>
+              &nbsp;
+            </td>
+            <td id='cell_{$aColumnArray.name}_rank'>
+              <input onBlur='max_formValidateElement(this);' type='text' size='10' name='{$aColumnArray.name}_rank' value="{$aColumnArray.rank_value|escape}" {if $aColumnArray.disabled}disabled='disabled'{/if} tabindex='{$aItem.tabindex++}'>
+            </td>
+          </tr>
+          {/foreach}
+        {/if}
+      {/foreach}
+    </table>
+  </td>
+</tr>
+{/if}

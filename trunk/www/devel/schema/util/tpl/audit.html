@@ -1,0 +1,92 @@
+<html>
+<head>
+    <title>OpenX Audit Demonstration</title>
+    <link rel="stylesheet" type="text/css" href="css/upgrade.css"/>
+
+    <script type="text/javascript" src="schema.js"></script>
+    <script type="text/javascript" src="../../lib/xajax/xajax_js/xajax.js"></script>
+    <script type="text/javascript">
+        window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Javascript file could not be included. Perhaps the URL is incorrect?\nURL: ../lib/xajax/xajax_js/xajax.js'); } }, 6000);
+    </script>
+
+</head>
+<body>
+<div class="tablediv" style="background: #FFFFFF;">
+    <h2>OpenX Audit Demonstration</h2>
+    <form action="audit.php" method="POST">
+    <table class="tablemain" style="border:1px black double;margin-top:10px;">
+        <tr>
+            <td><button name="agency">Agency</td>
+            <td><button name="client">Client</td>
+            <td><button name="campaign">Campaign</td>
+            <td><button name="banner">Ad</td>
+            <td><button name="zone">Zone</td>
+            <td><button name="adzone">AdZoneAssoc</td>
+            <td><button name="dummy">Dummy Dataset</td>
+        </tr>
+    </table>
+    </form>
+</div>
+
+<div class="tablediv" style="background: #FFFFFF;">
+    <table class="tablemain" style="border:1px black double;margin-top:10px;">
+
+        <tr>
+        <th>id</th>
+        <th>event</th>
+        <th>record id</th>
+        <th>parent id</th>
+        <th>ident</th>
+        <th>data</th>
+        </tr>
+
+    <?php
+        $aFormats = array(
+                            OA_AUDIT_ACTION_INSERT => '%s created by %s on %s',
+                            OA_AUDIT_ACTION_UPDATE => '%s changed by %s on %s',
+                            OA_AUDIT_ACTION_DELETE => '%s removed by %s on %s',
+                         );
+        foreach ($aData AS $auditId => $aRow)
+        {
+            switch ($aRow['actionid'])
+            {
+                case OA_AUDIT_ACTION_INSERT: $bg = 'lightblue'; break;
+                case OA_AUDIT_ACTION_UPDATE: $bg = 'lightyellow'; break;
+                case OA_AUDIT_ACTION_DELETE: $bg = 'pink'; break;
+            }
+            echo '<tr style="border:1px solid;background-color:'.$bg.'">';
+            echo '<td>['.$auditId.']</td>';
+
+            echo '<td>'.sprintf($aFormats[$aRow['actionid']],$aRow['context'],$aRow['username'],$aRow['updated']).'</td>';
+            echo '<td>'.$aRow['contextid'].'</td>';
+            echo '<td>'.$aRow['parentid'].'</td>';
+            echo '<td>'.$aRow['key_desc'].'</td>';
+
+    ?>
+                <td style="text-wrap:none">
+                <img id="img_expand_<?php echo $auditId; ?>" src="../../img/triangle-d.gif" alt="click to view table" onclick="xajax_expandRow('<?php echo $auditId; ?>');"/>
+                <img id="img_collapse_<?php echo $auditId; ?>" src="../../img/triangle-u.gif" style="display:none" alt="click to hide details" onclick="xajax_collapseRow('<?php echo $auditId; ?>');"/>
+                </td>
+                </tr>
+                <tr id="row_<?php echo $auditId; ?>" style="border:1px solid;background-color:<?php echo $bg; ?>;display:none">
+                <td colspan="5" id="col_<?php echo $auditId; ?>"></td>
+                </tr>
+    <?php
+        }
+    ?>
+    </table>
+
+</div>
+
+<div class="tablediv" style="background: #FFFFFF;">
+    <form action="audit.php" method="POST">
+    <table class="tablemain" style="border:1px black double;margin-top:10px;">
+        <tr style="text-align:center">
+            <td><button name="clean">Clean Up</td>
+            <td><button name="view">View Current Audit Trail</td>
+        </tr>
+    </table>
+    </form>
+</div>
+</body>
+</html>

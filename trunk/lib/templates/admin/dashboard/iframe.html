@@ -1,0 +1,107 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+|                                                                           |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+
+-->*}<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Test remote Login using JS</title>
+<script type="text/javascript">
+<!--{literal}
+
+function prepareLoginForm() {
+    if (error) {
+        location.href = '{/literal}{$errorURL|escape:javascript}{literal}' + encodeURIComponent(error);
+    } else {
+    	$('casLoginForm').action = casLoginURL;
+    	$("lt").value = loginTicket;
+    	if ($("lt").value != 'undefined') {
+    	   $('casLoginForm').submit();
+    	}
+    }
+}
+
+function checkForLoginTicket() {
+	var loginTicketProvided = false;
+	var query	= '';
+	casLoginURL = '{/literal}{$casLoginURL|escape:javascript}{literal}';
+	casLoginURL += '?login-at=' + encodeURIComponent ('{/literal}{$dashboardURL|escape:javascript}&url={$serviceURL|escape:url|escape:javascript}{literal}');
+
+	query	= window.location.search;
+	query	= query.substr (1, query.length - 1);
+
+
+	var param	= new Array();
+	var temp	= new Array();
+	param	= query.split ('&');
+
+	i = 0;
+	while (param[i]) {
+		temp		= param[i].split ('=');
+		if (temp[0] == 'lt') {
+			loginTicket = temp[1];
+			loginTicketProvided = true;
+		}
+		if (temp[0] == 'error_message') {
+        	    error = temp[1];
+        	}
+		i++;
+	}
+	if (!loginTicketProvided) {
+		location.href = casLoginURL + '&get-lt=true';
+	}
+}
+
+function $(id) {
+	return document.getElementById(id);
+}
+
+var loginTicket;
+var error;
+var casLoginURL;
+var thisPageURL;
+
+//-->{/literal}
+</script>
+</head>
+<body onload="checkForLoginTicket(); prepareLoginForm();">
+&nbsp;Loading...
+<script type="text/javascript" language="javascript">
+<!--{literal}
+if ( error ) {
+	error = decodeURIComponent (error);
+	document.write (error);
+}
+//-->{/literal}
+</script>
+<form id="casLoginForm" action="" method="post">
+<input type="hidden" name="_eventId" value="submit"/>
+<input type="hidden" name="username" value="{$ssoAdmin|escape}" >
+<input type="hidden" name="password" value="{$ssoPasswd|escape}" >
+<input type="hidden" name="lt" id="lt" value="">
+<input type="hidden" name="service" value="{$serviceURL|escape}">
+</form>
+</body>
+</html>

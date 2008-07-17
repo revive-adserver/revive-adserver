@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>329</version>
+  <comments>Add fields required by campaigns_trackers table</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>329</version>
+      <change>
+        <table>
+          <name>campaigns_trackers</name>
+          <add>
+            <field>
+              <name>status</name>
+              <type>openads_smallint</type>
+              <unsigned>1</unsigned>
+              <length>1</length>
+              <notnull>1</notnull>
+              <default>4</default>
+              <was>status</was>
+            </field>
+          </add>
+        </table>
+          </change>
+        </changeset>
+      </constructive>
+      <destructive>
+        <changeset>
+          <name>openads</name>
+          <version>329</version>
+        </changeset>
+      </destructive>
+    </instructionset>

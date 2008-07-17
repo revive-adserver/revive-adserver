@@ -1,0 +1,6 @@
+{foreach item=v key=k from=$aOtherNetworks name=othernetworks}
+    {if $smarty.foreach.iteration && !($smarty.foreach.iteration % 3)}<div style="clear: both">&nbsp;</div>{/if}
+    <a href="{$v.url}" target="_blank" class="adv-list-entry">{$k}</a>
+{foreachelse}
+    <span>No ad networks matching your selection were found</span>
+{/foreach}

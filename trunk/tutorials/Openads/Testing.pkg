@@ -1,0 +1,39 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>Testing</refname>
+  <refpurpose>Describes how to write Unit Tests</refpurpose>
+ </refnamediv>
+ <para>
+  When writing unit tests for OpenX (in
+  {@link http://www.lastcraft.com/simple_test.php Simple Test}),
+  please keep in mind that only classes and functions that actually access
+  the database directly (or exist in the data access later to provide a
+  convienient wrapper for such classes) should use a connection to the
+  database as part of the testing process - all other classes should use
+  Mock Objects or Partial Mocks if database data is required.
+ </para>
+ <para>
+  (Obviously, Mocks and Partial Mocks can and should also be used for
+  dealing with other interactions between domain layers in the
+  application, when performing unit testing.)
+ </para>
+ <para>
+  Please also keep in mind that tests need to be able to be run in 3
+  different ways:
+  <orderedlist>
+   <listitem>Individually;</listitem>
+   <listitem>As past of a group of tests; and</listitem>
+   <listitem>As past of the group of all tests.</listitem>
+  </orderedlist>
+ </para>
+ <para>
+  In order to achieve this, the {@link TestRunner} class provides
+  an easy way of running classes, in combination with the HTML pages
+  and menu system located in the "/tests" directory.
+ </para>
+ <para>
+  However, you will need to adhere to a strict naming convention
+  in order to have your test files appear in the testing menu.
+  The "config.php" file in "/tests" contains the details.
+ </para>
+</refentry>

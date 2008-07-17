@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<upgrade>
+    <name>Openads</name>
+    <creationDate>2007-11-12</creationDate>
+    <author>Openads Devs</author>
+    <authorEmail>support@openads.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>LICENSE.txt</license>
+    <description>Openads Upgrade 2.5.42</description>
+    <versionFrom></versionFrom>
+    <versionTo>2.5.42</versionTo>
+
+    <!-- Database Packages -->
+    <database>
+        <package>
+            <version>538</version>
+            <stamp>538</stamp>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_538.xml</file>
+            <file>changes_tables_core_538.xml</file>
+            <file>migration_tables_core_538.php</file>
+        </package>
+    </database>
+
+    <!-- Custom Install Scripts to execute -->
+    <!--prescript>prescript_openads_upgrade_2.5.42.php</prescript-->
+    <!--postscript>postscript_openads_upgrade_2.5.42.php</postscript-->
+
+
+</upgrade>

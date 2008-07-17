@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>535</version>
+  <comments>Remove data_raw_tracker_click</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>535</version>
+    </changeset>
+  </constructive>
+  <destructive>
+    <changeset>
+      <name>openads</name>
+      <version>535</version>
+      <remove>
+        <table>data_raw_tracker_click</table>
+      </remove>
+    </changeset>
+  </destructive>
+</instructionset>

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE project SYSTEM               "../../../../dtd/WebTest.dtd" [
+  <!ENTITY config SYSTEM           "../../modules/config_openx.xml">
+  <!ENTITY checkForErrors SYSTEM  "../../modules/errors.xml">
+  <!ENTITY verifyHeaders SYSTEM   "../../modules/headers.xml">
+]
+>
+
+<!--
+  Test that page generate the JavaScript which contains the ad
+  @TODO Check that returned JavaScript is valid
+-->
+<project name="OpenX delivery - al.php" basedir="../.." default="main">
+  <import file="../../modules/init.xml"/>
+  <!-- <import file="${webtest.home}/lib/taskdef.xml"/> -->
+
+  <target name="canoo-test">
+    <webtest name="${ant.project.name}">
+      &config;
+      <steps>
+        <invoke description="Invoke delivery file al.php" url="/delivery/al.php?what=bannerid:2" />
+        &checkForErrors;
+        &verifyHeaders;
+        <verifyText description="Check that it contains JavaScript" text="document.write" />
+        <verifyText description="Check that JS prints: 'html test banner'" regex="true" text="html test banner" />
+      </steps>
+    </webtest>
+  </target>
+
+  <!-- clean cache, run a canoo test (without cache), and then run again (with cache) -->
+  <target name="main" depends="test-cache" />
+
+</project>

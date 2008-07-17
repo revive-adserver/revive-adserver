@@ -1,0 +1,23 @@
+<tr><td>&nbsp;</td>
+    <td id='cell_{$aItem.name}' class='{if $aItem.disabled}celldisabled{else}cellenabled{/if}' valign='top'>{$aItem.text}</td>
+    <td width='100%' valign='top'>
+        <table>
+            <tr>
+                <td width='60' align='right' nowrap>
+			    {if $aItem.type == 'n'}
+			        http://
+			    {elseif $aItem.type == 's'}
+			        https://
+			    {else}
+			        http(s)://
+			    {/if}
+                </td>
+                <td>
+                    <input onBlur='phpAds_refreshEnabled(); max_formValidateElement(this);' class='flat' type='text' name='{$aItem.name}' id='{$aItem.name}' {if $aItem.disabled}disabled='disabled'{/if}
+                            size='{$aItem.size}' value="{$aItem.value|escape}" tabindex='{$aItem.tabindex++}'>
+                </td>
+           </tr>
+       </table>
+    </td>
+    <td>{$this->_showPadLock($aItem)}</td>
+</tr>

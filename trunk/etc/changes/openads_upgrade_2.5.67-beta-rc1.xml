@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<upgrade>
+    <name>Openads</name>
+    <creationDate>2008-03-28</creationDate>
+    <author>Openads Devs</author>
+    <authorEmail>support@openads.org</authorEmail>
+    <authorUrl>http://www.openads.org</authorUrl>
+    <license>LICENSE.txt</license>
+    <description>Openads Upgrade 2.5.67-beta-rc1</description>
+    <versionFrom></versionFrom>
+    <versionTo>2.5.67-beta-rc1</versionTo>
+
+    <!-- Database Packages -->
+    <database>
+        <package>
+            <version>581</version>
+            <stamp>581</stamp>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_581.xml</file>
+            <file>changes_tables_core_581.xml</file>
+            <file>migration_tables_core_581.php</file>
+        </package>
+    </database>
+
+    <!-- Custom Install Scripts to execute -->
+    <!--prescript>prescript_openads_upgrade_2.5.67-beta-rc1.php</prescript-->
+    <!--postscript>postscript_openads_upgrade_2.5.67-beta-rc1.php</postscript-->
+
+</upgrade>

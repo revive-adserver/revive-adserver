@@ -1,0 +1,94 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+|                                                                           |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+
+-->*}
+{if $status == 'linked'}
+  {assign var="checkboxPrefix" value="l"}
+{else}
+  {assign var="checkboxPrefix" value="a"}
+{/if}
+
+
+<!--rows-{$status}-start-->
+{foreach from=$websites key=websiteid item=website}
+<tr class="website">
+  <td class="name" title="{$website.name}">
+    <label style="white-space: nowrap"><input id="{$checkboxPrefix}w{$websiteid}" name="w{$websiteid}" type="checkbox" class="checkbox parent" /> {boldSearchPhrase text=$website.name search=$text}</label>
+  </td>
+  <td class="category" title="{$website.category}">{$website.category}</td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+
+{foreach from=$website.zones key=zoneid item=zone}
+<tr class="zone {if $aZonesIdHash[$zoneid]} just-linked{/if}">
+  <td class="name" title="{$zone.name}">
+    <label>
+      <input id="{$checkboxPrefix}w{$websiteid}_z{$zoneid}" 
+             name="z{$zoneid}" type="checkbox" class="checkbox" /> {boldSearchPhrase text=$zone.name search=$text}</label>
+  </td>
+  <td class="category" title="{$zone.category}">{$zone.category}</td>
+  {assign var="ctr" value="`$zone.ctr*100`"}
+  {assign var="cr" value="`$zone.cr*100`"}
+  <td {if $zone.campaign_stats}class="estim"{/if}>{$ctr|string_format:"%.3f"}%</td>
+  <td {if $zone.campaign_stats}class="estim"{/if}>{$cr|string_format:"%.3f"}%</td>
+  <td {if $zone.campaign_stats}class="estim"{/if}>${$zone.ecpm|string_format:"%.2f"}</td>
+</tr>
+{/foreach}    
+
+{foreachelse}
+<tr class="empty">
+  <td colspan="5">
+    {t str=NoWebsitesAndZones}
+    {if $category} 
+      {t str=NoWebsitesAndZonesCategory} {$category}
+    {/if}
+    {if $text}
+      {t str=NoWebsitesAndZonesText values=$text}
+    {/if}
+    
+    {if $checkboxPrefix == 'a'}
+    {t str=ToLink}
+    {else}
+    {t str=ToUnlink}
+    {/if}
+  </td>
+</tr>
+{/foreach}
+<!--rows-{$status}-end-->
+
+<!--status-{$status}-start-->
+  {if $status == 'linked'}
+  {t str=Linked}:
+  {else}
+  {t str=Available}:
+  {/if}
+  <span class="status-value">{$zonescounts.all}</span><br />
+
+  {if $category or $text} 
+  {t str=Showing}: <span class="status-value">{$zonescounts.showing}</span>
+  {/if}
+<!--status-{$status}-end-->

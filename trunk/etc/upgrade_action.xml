@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_schema.xsl"?>
+<database>
+
+ <name>openads</name>
+ <create>true</create>
+ <overwrite>false</overwrite>
+ <version>1</version>
+ <status>final</status>
+
+ <table>
+
+  <name>upgrade_action</name>
+
+  <declaration>
+
+   <field>
+    <name>upgrade_action_id</name>
+    <type>openads_int</type>
+    <unsigned>true</unsigned>
+    <length>10</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>upgrade_name</name>
+    <type>openads_varchar</type>
+    <length>128</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>version_to</name>
+    <type>openads_varchar</type>
+    <length>64</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>version_from</name>
+    <type>openads_varchar</type>
+    <length>64</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>action</name>
+    <type>openads_int</type>
+    <length>2</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>description</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>logfile</name>
+    <type>openads_varchar</type>
+    <length>128</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>confbackup</name>
+    <type>openads_varchar</type>
+    <length>128</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>updated</name>
+    <type>openads_datetime</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <index>
+    <name>upgrade_action_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>upgrade_action_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>upgrade_action_updated</name>
+    <field>
+     <name>updated</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+</database>

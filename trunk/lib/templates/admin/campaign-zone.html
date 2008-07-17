@@ -1,0 +1,334 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+|                                                                           |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+
+-->*}
+<form id="zoneLinkingForm">
+<div id="campaign-zone" class="new-form">
+  <input id="advertiser-id" type="hidden" value="{$advertiserId}" />
+  <input id="campaign-id" type="hidden" value="{$campaignId}" />
+
+  <div id="filters">
+    <div id="filters-available">
+      <h3 class="filter-panel-title">{t str=AvailableZones}</h3>
+      <div class="filter-panel">
+	      <div class="bg-left"></div>
+	      <div class="bg-right"></div>
+	      
+	      <div class="filter-content">
+          <div id="status-available">&nbsp;</div>
+	        {include file=campaign-zone-panel-filters.html
+	                 panelId=available categories=$aCategories}
+	      </div>
+	      &nbsp;
+	    </div>
+    </div>
+    
+    <div id="filters-linked">
+      <h3 class="filter-panel-title">{t str=LinkedZones}</h3>
+      <div class="filter-panel">
+        <div class="bg-left"></div>
+        <div class="bg-right"></div>
+
+        <div class="filter-content">
+          <div id="status-linked">&nbsp;</div>
+	        {include file=campaign-zone-panel-filters.html
+	                 panelId=linked categories=$aCategories}
+	      </div>
+	    </div>
+    </div>
+  </div>
+
+  &nbsp;
+
+  <div id="select-zones">
+    <div id="available">
+      <div class="zones-container new-table-container">
+        <div id="zones-available-loading" class="ajax-loading panel-loading hide"></div>
+        <table id="zones-available" class="zones new-table">
+          <tbody>
+            <tr class="header hide">
+              <th class="name"><label><input type="checkbox" id="available-select-all" class="checkbox select-all" /> {t str=SelectUnselectAll}</label></th>
+              <th class="category">{t str=Category}</th>
+              <th class="ctr">{t str=FinanceCTR}</th>
+              <th class="cr">{t str=FinanceCR}</th>
+              <th class="ecpm last">{t str=FinanceCPM}</th>
+            </tr>
+          </tbody>
+          
+          <tbody id="zones-available-rows">
+            <tr class="hide"><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  
+    <div id="linked">
+      <div class="zones-container new-table-container">
+        <div id="zones-linked-loading" class="ajax-loading panel-loading hide"></div>
+        <table id="zones-linked" class="zones new-table">
+          <tbody>
+            <tr class="header hide">
+              <th class="name"><label><input type="checkbox" id="linked-select-all" class="checkbox select-all" /> {t str=SelectUnselectAll}</label></th>
+              <th class="category">{t str=Category}</th>
+              <th class="ctr">{t str=FinanceCTR}</th>
+              <th class="cr">{t str=FinanceCR}</th>
+              <th class="ecpm last">{t str=FinanceCPM}</th>
+            </tr>
+          </tbody>
+          
+          <tbody id="zones-linked-rows">
+            <tr class="hide"><td></td></tr>
+          </tbody>
+        </table>
+      </div>    
+    </div>
+    
+    <div id="linking-buttons">
+      <button accesskey="l" id="link-button" class="flat button"><u>L</u>ink <span class="arrow-right"></span></button><br />
+      <button accesskey="u" id="unlink-button" class="flat button"><span class="arrow-left"></span> <u>U</u>nlink</button>
+      
+      <div style="margin-top: 2ex; text-align: center">
+        <span id="linking-indicator" class="ajax-loading-big hide"></span>
+        <span id="linking-status"></span>
+        <span id="error-indicator" class="ajax-error hide">{t str=LinkingNotSuccess}</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="accurate-info"><div class="accurate-box"></div>{t str=CalculatedForThisCampaign} <a href="#" class="info">(what's this?)</a></div>    
+  <div class="estim-info"><div class="estim-box"></div>{t str=CalculatedForAllCampaigns} <a href="#" class="info">(what's this?)</a></div>    
+
+	<script type="text/javascript"><!--
+{literal}
+  $(document).ready(function() {
+    // Multicheckbox selections, selection by row clicks
+    $("#zones-available, #zones-linked").multicheckboxes({
+      selectedClass: "to-link", 
+      unselectedClass: "", 
+      toSelectClass: "to-link", 
+      toUselectClass: "",
+      selectAllSelector: ".select-all"
+    });
+    
+    $("#zones-available").bind("multichange", function() {
+      $("#link-button").attr("disabled", $("#zones-available :checked").not(".select-all").size() == 0);
+    });
+    
+    $("#zones-linked").bind("multichange", function() {
+      $("#unlink-button").attr("disabled", $("#zones-linked :checked").not(".select-all").size() == 0);
+    });
+    
+    $("#zones-linked, #zones-available").bind("filter", function() {
+      var panel = this.id.substring("zones-".length);
+      
+      var $quickSearch = $("#quick-search-" + panel);
+      var category = $("#category-" + panel).val();
+      var categoryText = "";
+      if (category != "") {
+        categoryText = $("#category-" + panel).selectedText();
+      }
+      var postData = { 
+        "clientid": $("#advertiser-id").val(),
+        "campaignid": $("#campaign-id").val(),
+        "status": panel,
+        "category": $("#category-" + panel).val(),
+        "category-text": categoryText,
+        "text": $quickSearch.is(".example-search") ? "" : $quickSearch.val()
+      };
+      
+      $.ajax({ 
+        url: "campaign-zone-zones.php",
+        type: "GET",
+        data: postData,
+        cache: false,
+        complete: function() {
+          $("#zones-" + panel + "-loading").hide();
+        },
+        success: function(data) {
+          if (!checkReload(data)) {
+            updatePanel(data, panel);
+	        }
+        },
+        error: function() {
+          $("#error-indicator").show();
+        } 
+      });
+      $("#error-indicator").hide();
+      $("#zones-" + panel + "-loading").show();
+    });
+    
+    // Link/Unlink buttons
+    $("#link-button").bind("click", [ "link" ], sendLinkingRequest);
+    $("#unlink-button").bind("click", [ "unlink" ], sendLinkingRequest);
+    
+    // Category filters
+    $("#category-linked").bind("change", function() {
+      $("#zones-linked").trigger("filter"); 
+    });
+    $("#category-available").bind("change", function() {
+      $("#zones-available").trigger("filter");
+    });
+  
+    // Quick search fields
+    $("#quick-search-available, #quick-search-linked")
+      .example("zone name, website name", { class_name: 'example-search'})
+      .typeWatch({
+        callback: function() {
+          var panelId = this.el.id.substring("quick-search-".length);
+          $("#zones-" + panelId).trigger("filter");
+        },
+        wait: 500,
+        captureLength: 1
+      });
+      
+    $("#zones-available, #zones-linked").trigger("filter").trigger("multichange");
+  });
+  
+  // Performs linking/unlinking and refreshes panels on completion
+  function sendLinkingRequest(event) {
+    var action = event.data[0];
+    
+    $("#link-button, #unlink-button").attr("disabled", true);
+    
+    var $checkboxContainer;
+    if (action == "link") {
+      checkboxContainer = $("#zones-available");
+    } else {
+      checkboxContainer = $("#zones-linked");
+    }
+  
+    var checkedNames = $.map($(checkboxContainer).find(":checked").not(".select-all"), function(val) {
+      return val.name;
+    });
+    
+    // Data from all filters
+    var quickSearchLinked = $("#quick-search-linked").is(".example-search") ? "" : $("#quick-search-linked").val();
+    var quickSearchAvailable = $("#quick-search-available").is(".example-search") ? "" : $("#quick-search-available").val();
+    var categoryLinked = $("#category-linked").val();
+    var categoryLinkedText = "";
+    var categoryAvailable = $("#category-available").val();
+    var categoryAvailableText = "";
+    
+    if (action == "link") {
+      if (categoryLinked != "" && categoryLinked != categoryAvailable) {
+         categoryLinked = "";
+         $("#category-linked").val("");
+	    }
+	    if (quickSearchLinked  != "" && quickSearchLinked != quickSearchAvailable) {
+	       quickSearchLinked = "";
+	       $("#quick-search-linked").val("");
+	    }
+    }
+    else {
+      if (categoryAvailable != "" && categoryLinked != categoryAvailable) {
+        categoryAvailable = "";
+        $("#category-available").val("");
+      }
+      if (quickSearchAvailable  != "" && quickSearchLinked != quickSearchAvailable) {
+         quickSearchAvailable = "";
+         $("#quick-search-available").val("");
+      }
+    }
+    
+    if (categoryLinked != "") {
+      categoryLinkedText = $("#category-linked").selectedText(); 
+    }
+    if (categoryAvailable != "") {
+      categoryAvailableText = $("#category-available").selectedText(); 
+    }
+    
+    var postData = { 
+      "clientid": $("#advertiser-id").val(),
+      "campaignid": $("#campaign-id").val(),
+      "category-linked": categoryLinked,
+      "category-linked-text": categoryLinkedText,
+      "category-available": categoryAvailable,
+      "category-available-text": categoryAvailableText,
+      "text-linked": quickSearchLinked,
+      "text-available": quickSearchAvailable,
+      "action": action,
+      "ids[]": checkedNames
+    };
+
+    $.ajax({
+      url: "campaign-zone-link.php",
+      type: "POST",
+      data: postData,
+      cache: false,
+      complete: function() {
+        $("#zones-available, #zones-linked").trigger("multichange");
+        $(".select-all").attr("checked", false);
+        $("#linking-indicator").hide();
+      },
+      success: function(data) {
+        if (!checkReload(data)) {
+          updatePanel(data, "available");
+          updatePanel(data, "linked");
+          
+	        $("#linking-status").html(extractPart(data, "info", "result")).stop().show().css("opacity", "1");
+	        if (window.linkingTimout) {
+	          window.linkingTimout.clearTimeout();
+	        }
+	        window.linkingTimeout = window.setTimeout(function() {
+	          $("#zones-available").find("tr.just-linked").removeClass("just-linked", $("#zones-available-rows tr").size() <= 100 ? 5000 : 0);
+	          $("#zones-linked").find("tr.just-linked").removeClass("just-linked",  $("#zones-linked-rows tr").size() <= 100 ? 5000 : 0);
+	          $("#linking-status").fadeOut(5000);
+	        }, 2000);
+	      }
+      },
+      error: function() {
+        $("#error-indicator").show();
+      } 
+    });
+    
+    $("#error-indicator").hide();
+    $("#linking-indicator").show();
+    $("#linking-status").hide();
+  }
+  
+  function updatePanel(data, panel) {
+    $("#zones-" + panel + "-rows").html(extractPart(data, panel, "rows"));
+    $("#zones-" + panel + " tr.header").visible(!$("#zones-" + panel + "-rows tr:eq(0)").is(".empty"));
+    $("#status-" + panel).html(extractPart(data, panel, "status"));
+  }
+  
+  function checkReload(data) {
+    if (data.indexOf("<!-- install -->") >= 0 || data.indexOf("<!-- login -->") >= 0) {
+      document.location.reload();
+      return true;
+    }
+    return false;
+  }
+  
+  function extractPart(data, status, part) {
+    var startMarker = "<!--" + part + "-" + status + "-start-->";
+    var endMarker = "<!--" + part + "-" + status + "-end-->";
+    return data.substring(data.indexOf(startMarker) + startMarker.length, data.indexOf(endMarker));
+  }
+{/literal}  
+  //--></script>
+
+</div>
+</form>

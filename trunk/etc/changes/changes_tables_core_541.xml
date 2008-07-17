@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>541</version>
+  <comments>Affiliates</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>541</version>
+      <change>
+        <table>
+          <name>affiliates</name>
+          <add>
+            <field>
+              <name>an_website_id</name>
+              <type>openads_int</type>
+              <length>11</length>
+              <notnull></notnull>
+              <default></default>
+              <was>oac_website_id</was>
+            </field>
+              <field>
+                <name>as_website_id</name>
+                <type>openads_int</type>
+                <length>11</length>
+                <notnull></notnull>
+                <default></default>
+                <was>as_website_id</was>
+              </field>
+            </add>
+          </table>
+        </change>
+      </changeset>
+    </constructive>
+    <destructive>
+      <changeset>
+        <name>openads</name>
+        <version>541</version>
+        <change>
+          <table>
+            <name>affiliates</name>
+          <remove>
+            <field>
+              <name>oac_website_id</name>
+            </field>
+          </remove>
+        </table>
+      </change>
+    </changeset>
+  </destructive>
+</instructionset>

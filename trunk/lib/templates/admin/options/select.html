@@ -1,0 +1,26 @@
+{if $aItem.items}
+    <tr><td>&nbsp;</td>
+        <td id='cell_{$aItem.name}' class='{if $aItem.disabled}celldisabled{else}cellenabled{/if}'>{$aItem.text}
+        {if $aItem.req}<span class="required">*</span>{/if}
+        </td>
+        <td width='100%'>
+            <select name='{$aItem.name}' id='{$aItem.name}'
+		    {if $aItem.reload == 'yes'}
+		         onChange="this.form.field_changed.value=name;this.form.submit();phpAds_refreshEnabled();"
+		    {else}
+                onChange="phpAds_refreshEnabled();
+		        {if isset($aItem.onchange)}
+		          {$aItem.onchange}
+		        {/if}
+		        "
+            {/if}
+            {if $aItem.disabled} disabled='disabled'{/if} tabindex='{$aItem.tabindex++}'>
+            {html_options options=$aItem.items selected=$aItem.value}
+            </select>
+		    {if $aItem.showSubmitButton}
+		        &nbsp;<a href="javascript:void(0)" onClick="document.forms['settingsform'].submit();"><img src="{$assetPath|escape}/images/ltr/go_blue.gif" border="0"></a>
+		    {/if}
+        </td>
+        <td>{$this->_showPadLock($aItem)}</td>
+    </tr>
+{/if}

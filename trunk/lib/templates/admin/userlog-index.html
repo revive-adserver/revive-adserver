@@ -1,0 +1,197 @@
+<form id="auditForm" name="auditForm" method="POST">
+<input type='hidden' name='listorder' value='{$listorder}'>
+<input type='hidden' name='orderdirection' value='{$orderdirection}'>
+<input type='hidden' name='origAdvertiserId' value='{$advertiserId}'>
+<input type='hidden' name='origPublisherId' value='{$publisherId}'>
+
+<fieldset id="auditFilter">
+    <legend>{t str=Filters}</legend>
+
+    {if $showAdvertisers}
+	<div class="filterWrapper">
+	    <label class="filterLabel" for="advertiserId">{t str=Advertiser}</label>
+	    <span>
+	        <select style="width:25%" id="advertiserId" name="advertiserId" onchange="submitForm();">
+	            {html_options options=$aAdvertiser selected=$advertiserId}
+	        </select>
+	        {if count($aCampaign) gt 0}
+	        <select style="width:25%" id="campaignId" name="campaignId" onchange="submitForm();">
+	            {html_options options=$aCampaign selected=$campaignId}
+	        </select>
+            {/if}
+	    </span>
+	</div>
+   {/if}
+	
+    {if $showPublishers}
+	<div class="filterWrapper">
+	    <label class="filterLabel" for="publisherId">{t str=Publisher}</label>
+	    <span>
+	        <select style="width:25%" id="publisherId" name="publisherId" onchange="submitForm();">
+	            {html_options options=$aPublisher selected=$publisherId}
+	        </select>
+	        {if count($aZone) gt 0}
+	        <select style="width:25%" id="zoneId" name="zoneId" onchange="submitForm();">
+	            {html_options options=$aZone selected=$zoneId}
+	        </select>
+	        {/if}
+	    </span>
+	</div>
+	{/if}
+	
+	<div class="filterWrapper">
+	    <span class="filterLabel">{t str=Date}</span>
+	    {$daySpan->display()}
+	       <a href='#' onclick='return periodFormSubmit()'>
+	           <img src='{$assetPath|escape}/images/ltr/go_blue.gif' border='0' tabindex='6' />
+	       </a>
+    </div>
+    <div>
+        <input type="button" value="{t str=Clear}" onclick="resetFilter();" />
+    </div>
+</fieldset>
+
+{if !$aAuditEnabled}
+	<div class='errormessage'><img class='errormessage' src='{$assetPath|escape}/images/info.gif' width='16' height='16' border='0' align='absmiddle'>
+	    {t str=AuditTrailDisabled} 
+	</div>
+{/if}
+    
+
+
+<div>
+    <table class="data-grid table">
+        <tbody>
+            <tr class="header">
+                <th width="15%"><a href="userlog-index.php?{$urlParam}">{t str='Timestamp'}</a>
+                    <a href="userlog-index.php?{$urlParam}">
+                        {if $orderdirection == 'up'}
+                        <img src="{$assetPath|escape}/images/caret-u.gif" />
+                        {else}
+                        <img src="{$assetPath|escape}/images/caret-ds.gif" />
+                        {/if}
+                    </a>
+                </th>
+                <th>{t str='Event'}</th>
+                <th width="10%">&nbsp;</th>
+            </tr>
+            {if count($aAuditData) > 0}
+            {foreach from=$aAuditData key=key item=aValue name=info}
+            {cycle values='odd,even' assign=rowClass}
+            <tr class="{$rowClass}">
+                <td>{$aValue.updated}</td>
+                <td>
+                    {$aValue.username} {t str=$aValue.action} {$aValue.contextDescription} "{$aValue.details.key_desc}" {if !empty($aValue.contextid)}(#{$aValue.contextid}){/if}
+                    {if !empty($aValue.parentcontext)}
+                        in {$aValue.parentcontext} (#{$aValue.parentcontextid})
+                    {/if}
+                    {if !empty($aValue.hasChildren)}
+                        {t str=AdditionalItems}
+                    {/if}
+                </td>
+                <td><img src="{$assetPath|escape}/images/icon-zoom.gif" />&nbsp;<a href="userlog-audit-detailed.php?auditId={$aValue.auditid}">{t str=View}</a></td>
+            </tr>
+            {/foreach}
+            {else}
+            <tr class="{$rowClass}">
+                <td colspan="3">
+                    {t str=AuditResultsNotFound}
+                </td>
+            </tr>
+            {/if}
+        </tbody>
+    </table>
+</div>
+<div class="filters">
+    {t str=ItemsPerPage}: {$pager->pagerSelect}&nbsp;{if !empty($pager->links)}{$pager->links}{/if}
+</div>
+</form>
+{literal}
+<script type='text/javascript'>
+<!--
+    function submitForm() {
+        var form = document.getElementById('auditForm');
+        var url  = 'userlog-index.php';
+        var aUrl = [];
+
+        if (form.advertiserId && form.advertiserId.options[form.advertiserId.selectedIndex].value != '') {
+	        var advertiserId = form.advertiserId.options[form.advertiserId.selectedIndex].value;
+	        aUrl.push('advertiserId=' + advertiserId);
+	        if (form.origAdvertiserId.value == advertiserId && form.elements['campaignId'] && form.campaignId.disabled == false) {
+	            var campaignId = form.campaignId.options[form.campaignId.selectedIndex].value;
+	            aUrl.push('campaignId=' + campaignId);
+	        }
+	    }
+        if (form.publisherId && form.publisherId.options[form.publisherId.selectedIndex].value != '') {
+            var publisherId = form.publisherId.options[form.publisherId.selectedIndex].value;
+            aUrl.push('publisherId=' + publisherId);
+	        if (form.origPublisherId.value == publisherId && form.elements['zoneId'] && form.zoneId.disabled == false) {
+	            var zoneId = form.zoneId.options[form.zoneId.selectedIndex].value;
+	            aUrl.push('zoneId=' + zoneId);
+	        }
+        }
+
+        if (form.period_preset.options[form.period_preset.selectedIndex].value != ''
+            && form.elements['period_start'] && form.elements['period_end'])
+        {
+            var periodPreset = form.period_preset.options[form.period_preset.selectedIndex].value;
+            var periodStart  = form.period_start.value;
+            var periodEnd    = form.period_end.value;
+
+            aUrl.push('period_preset=' + periodPreset);
+            aUrl.push('period_start=' + periodStart);
+            aUrl.push('period_end=' + periodEnd);
+        }
+        var setPerPage = form.setPerPage.options[form.setPerPage.selectedIndex].value;
+        aUrl.push('setPerPage=' + setPerPage);
+
+        var params = aUrl.join('&');
+        if (aUrl.length > 0) {
+            url = url + '?' + params;
+        }
+        document.location.href = url;
+        return false;
+    }
+
+    function toggleForm() {
+        var form = document.getElementById('auditForm');
+
+        if (form.publisherId && form.advertiserId && form.advertiserId.options[form.advertiserId.selectedIndex].value > 0) {
+            //  disable publisher widget
+            form.publisherId.disabled = true;
+        } else if (form.advertiserId && form.publisherId && form.publisherId.options[form.publisherId.selectedIndex].value > 0) {
+            // disable advertiser widget
+            form.advertiserId.disabled = true;
+        }
+
+        return false;
+    }
+
+    function resetFilter() {
+        var form = document.getElementById('auditForm');
+        //  reset advertiser filter
+        if (form.advertiserId && form.advertiserId.options[form.advertiserId.selectedIndex].value != '') {
+            form.advertiserId.selectedIndex = 0;
+            if (form.elements['campaignId'] && form.campaignId.disabled == false) {
+                form.campaignId.selectedIndex = 0;
+            }
+        }
+        //  reset website filter
+        if (form.publisherId && form.publisherId.options[form.publisherId.selectedIndex].value != '') {
+            form.publisherId.selectedIndex = 0;
+            if (form.elements['zoneId'] && form.zoneId.disabled == false) {
+                form.zoneId.selectedIndex = 0;
+            }
+        }
+        //  reset date filter
+        form.period_preset.selectedIndex = 0;
+        form.period_start.value = '';
+        form.period_end.value   = '';
+
+        submitForm();
+    }
+
+    toggleForm();
+//-->
+</script>
+{/literal}

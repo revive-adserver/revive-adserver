@@ -1,0 +1,39 @@
+<?php
+
+$aIterations[1]['request_objects'][1]   = new SimulationRequest(
+                                            conf[request][what],
+                                            conf[request][target],
+                                            conf[request][source],
+                                            conf[request][referer],
+                                            conf[request][loc],
+                                            conf[request][ct0],
+                                            conf[request][withText],
+                                            conf[request][context],
+                                            conf[request][richMedia]);
+$aIterations[1]['shuffle_requests']     = false;
+$aIterations[1]['max_requests']         = conf[request][maxrequests];
+
+$iterations = conf[scenario][iterations];
+
+for($i=2;$i<($iterations+1);$i++)
+{
+    $aIterations[$i] = $aIterations[1];
+}
+
+$precis=    '<pre>'.conf[scenario][precis].'</pre>';
+
+$precis.=    '-- from database: '.conf[database][name].'<br />'
+            .'-- openads version: '.conf[simdb][version].'<br />'
+            .'-- iterations: '.$iterations.'<br />'
+            .'-- startdate: '.conf[scenario][startdate].'<br />'
+            .print_r($oRequest, true);
+
+$GLOBALS['_MAX']['CONF']['sim']['precis']       = $precis;
+$GLOBALS['_MAX']['CONF']['sim']['iterations']   = $iterations;
+$GLOBALS['_MAX']['CONF']['sim']['oRequest']     = $oRequest;
+$GLOBALS['_MAX']['CONF']['sim']['aIterations']  = $aIterations;
+$GLOBALS['_MAX']['CONF']['sim']['startdate']    = conf[scenario][startdate];
+$GLOBALS['_MAX']['CONF']['sim']['startday']     = conf[scenario][day];
+$GLOBALS['_MAX']['CONF']['sim']['starthour']    = conf[scenario][hour];
+
+?>

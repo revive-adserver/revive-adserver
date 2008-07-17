@@ -1,0 +1,266 @@
+<!--
+  This script contains the targets required to set up and run canoo web tests
+  on the EC2 machine.
+
+  Dependencies:
+    * The directory '/var/www/html/openx' on the remote EC2 machine.
+      Moreover, it is owned and writable by the 'admin' user.
+    * The '/tests/canoo/properties/user.properties' file contains a proper
+      EC2 configuration for canoo testing.
+    * The 'ec2.properties' contains the proper ec2 connection properties.
+    * The ssh/scp required jsch-0.1.33.jar from http://www.jcraft.com/jsch/index.html
+      is available for ant (e.g. in the ant's lib directory)
+    * For the canoo tests to work ant-contrib is required:
+      http://ant-contrib.sourceforge.net/
+      You have to put it into canoo lib directory
+-->
+<project name="canoo" default="run-test-canoo" basedir=".">
+	<property name="canoo.log" value="${basedir}/canoo.log"/>
+	<property name="timeout" value="60000"/>
+	<property name="delivery_test" value="${basedir}/www/delivery_test"/>
+
+	<property file="${basedir}/tests/canoo/tests/config/webtest.properties"/>
+	<property file="${basedir}/tests/canoo/tests/config/tests.properties"/>
+
+	<property name="wt.resultpath" location="results"/>
+	<property name="wt.resultfile" value="webtestResults.xml"/>
+
+	<property name="wt.testInWork" value="tests/canoo/tests/test_suite"/>
+
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+
+	<condition property="property_file" value="user.local.properties" else="user.remote.properties">
+		<istrue value="${run.local}"/>
+	</condition>
+
+	<property file="${basedir}/tests/canoo/properties/${property_file}" prefix="canoo"/>
+	<property file="${basedir}/ec2.properties"/>
+	<property name="ec2.openx.config" value="${canoo.host}.conf.php"/>
+	<property name="ec2.openx.database" value="openx"/>
+
+	<import file="${wt.home}/webtest.xml" description="Import all functionalities for a full build"/>
+	<import file="${basedir}/tests/canoo/definitions.xml" description="Import all functionalities for a full build"/>
+
+	<macrodef name="enableMarketPlace" description="Enable or disable MarketPlace in delivery scripts before installation.">
+	    <attribute name="enable" description="Should be MarketPlace enabled"/>
+	    <sequential>
+			<if>
+	        <istrue value="@{enable}"/>
+	        <then>
+			<replace file="${basedir}/etc/dist.conf.php">
+				<replacetoken><![CDATA[[marketplace]
+enabled=0]]></replacetoken>
+				<replacevalue><![CDATA[[marketplace]
+enabled=1]]></replacevalue>
+			</replace>
+	        </then>
+	        <else>
+			<replace file="${basedir}/etc/dist.conf.php">
+				<replacetoken><![CDATA[[marketplace]
+enabled=1]]></replacetoken>
+				<replacevalue><![CDATA[[marketplace]
+enabled=0]]></replacevalue>
+			</replace>
+	        </else>
+	      </if>
+	    </sequential>
+	</macrodef>
+	        	
+	<macrodef name="canoo-ssh" description="Executes ssh command on the currently configured ec2 machine.">
+		<attribute name="command" description="Command to be executed."/>
+		<attribute name="username" default="admin"/>
+		<attribute name="password" default="${ec2.admin.password}"/>
+		<sequential>
+			<sshexec host="${canoo.host}" username="admin" password="${ec2.admin.password}" trust="yes" output="${canoo.log}" append="true" timeout="${timeout}" command="@{command}"/>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="canoo-ssh-root" description="Executes ssh command on the currently configured ec2 machine.">
+		<attribute name="command" description="Command to be executed."/>
+		<sequential>
+			<canoo-ssh command="@{command}" username="root" password="${ec2.root.password}"/>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="clean-delivery-cache-remote">
+		<sequential>
+			<canoo-ssh-root command="rm -f ${ec2.openx.dir}/var/cache/deliverycache_* ${ec2.openx.dir}/var/cache/cache_*"/>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="canoo-scp" description="Copies the specified file to the ec2 machine.">
+		<attribute name="dir" description="Directory to copy the file to." default=""/>
+		<element name="files" description="Fileset to be copied."/>
+		<sequential>
+			<scp todir="admin@@${canoo.host}:@{dir}" trust="yes" password="${ec2.admin.password}">
+				<files/>
+			</scp>
+		</sequential>
+	</macrodef>
+
+	<!-- Cleans up the old OpenX directory. -->
+	<target name="canoo-prepare-dir">
+		<property name="ec2.openx.dir" value="/var/www/html/${release}"/>
+		<echo message="Preparing directory: ${ec2.openx.dir}"/>
+		<canoo-ssh command="mkdir ${ec2.openx.dir}"/>
+	</target>
+
+	<target name="canoo-copy-package">
+		<canoo-scp>
+			<files>
+				<fileset dir="${dir.test.results}" includes="${canoo.package}"/>
+			</files>
+		</canoo-scp>
+	</target>
+
+	<target name="canoo-unpack-package">
+		<canoo-ssh command="tar xzf ${canoo.package} -C ${ec2.openx.dir}"/>
+		<!-- <canoo-ssh command="touch ${ec2.openx.dir}/var/INSTALLED"/> -->
+		<canoo-ssh command="chmod -R a+w ${ec2.openx.dir}/var"/>
+		<canoo-ssh command="chmod -R a+w ${ec2.openx.dir}/www/images"/>
+		<canoo-scp dir="${ec2.openx.dir}/www">
+			<files>
+				<fileset dir="${basedir}/tests/canoo/php/" includes="*"/>
+			</files>
+		</canoo-scp>
+	</target>
+
+	<!-- should be less EC2 dependant -->
+	<target name="canoo-create-openx-configuration-remote">
+		<property name="openx.url" value="${canoo.host}/${release}/www"/>
+		<exec dir="${basedir}/tests" executable="php" failonerror="true">
+			<arg value="create-config-file.php" />
+			<arg value="${ec2.openx.config}" />
+			<arg value="database.host=${canoo.host}"/>
+			<arg value="database.username=${canoo.sql.user}"/>
+			<arg value="database.password=${canoo.sql.password}"/>
+			<arg value="database.name=${ec2.openx.database}"/>
+			<arg value="debug.production=0"/>
+			<arg value="webpath.admin=${openx.url}/admin"/>
+			<arg value="webpath.delivery=${openx.url}/delivery"/>
+			<arg value="webpath.deliverySSL=${openx.url}/delivery"/>
+			<arg value="webpath.images=${openx.url}/images"/>
+			<arg value="webpath.imagesSSL=${openx.url}/images"/>
+			<arg value="openads.installed=1"/>
+			<arg value="table.prefix=oa_"/>
+			<arg value="maintenance.autoMaintenance=0"/>
+		</exec>
+		<canoo-scp dir="${ec2.openx.dir}/var">
+			<files>
+				<fileset dir="tests" includes="${ec2.openx.config}"/>
+			</files>
+		</canoo-scp>
+		<canoo-ssh command="rm -f ${ec2.openx.dir}/var/UPGRADE"/>
+	</target>
+
+	<target name="setup-delivery-files">
+		<copy todir="${delivery_test}">
+			<fileset dir="${basedir}/tests/canoo/php"/>
+		</copy>
+		<replace dir="${delivery_test}" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}/delivery/spcjs.php?id=1&amp;charset=UTF-8">
+			<include name="spcjs.html"/>
+			<replacetoken>@address</replacetoken>
+		</replace>
+	</target>
+
+	<target name="clean-delivery">
+		<delete dir="${delivery_test}" />
+	</target>
+
+	<macrodef name="execute-webtest" description="Executes webtest with provided target and additional properties.">
+		<attribute name="target" description="Target to execute."/>
+		<attribute name="properties" default="" description="Additional properties."/>
+		<sequential>
+			<if>
+				<istrue value="${run.local}"/>
+				<then>
+					<!-- run locally -->
+					<exec executable="${canoo.webtest.exec}" failonerror="true">
+						<arg line="-f ${basedir}/tests/canoo/start.xml -Drun.local=${run.local} @{target} @{properties}"/>
+					</exec>
+				</then>
+				<else>
+					<!-- run remotely -->
+					<exec executable="${canoo.webtest.exec}" failonerror="true">
+						<arg line="-f ${basedir}/tests/canoo/start.xml -Drun.local=${run.local} @{target} -Dbasepath=${release}/www @{properties}"/>
+					</exec>
+				</else>
+			</if>
+		</sequential>
+	</macrodef>
+
+	<target name="init.check.unix">
+		<condition property="is.unix">
+			<os family="unix" />
+		</condition>
+	</target>
+
+	<target name="init.check.windows">
+		<condition property="is.windows">
+			<os family="windows" />
+		</condition>
+	</target>
+
+	<target name="init.canoo.unix" depends="init.check.unix" if="is.unix">
+		<echo message="Canoo tests - init" />
+		<echo message="Unix setup" />
+		<echo message="Chmod on var and www/images directory"/>
+
+		<chmod dir="${basedir}/var" perm="a+rwx" type="dir"/>
+		<chmod dir="${basedir}/var" perm="a+rw" type="both" includes="**/*"/>
+		<chmod dir="${basedir}/www" perm="a+rwx" type="dir"/>
+		<chmod dir="${basedir}/www" perm="a+rw" type="both" includes="**/*" parallel="false"/>
+		<enableMarketPlace enable="${marketplace.enabled}"/>
+	</target>
+
+	<target name="init.canoo.windows" depends="init.check.windows" if="is.windows">
+		<echo message="Canoo tests - init"/>
+		<echo message="Windows setup"/>
+		<enableMarketPlace enable="${marketplace.enabled}"/>
+	</target>
+
+	<target name="run-test" depends="test-unit-webService-API">
+		<echo message="Starting test automation framework ..." />
+	</target>
+
+	<target name="run-test-canoo" depends="setup-delivery-files, init.canoo.unix, init.canoo.windows, wt.full">
+		<echo message="Running Canoo tests" />
+	</target>
+
+	<target name="test-canoo-one">
+		<execute-webtest target="test-one" properties="-Dcanoo.host=${canoo.host} -Dec2.admin.password=${ec2.admin.password} -Dec2.openx.dir=${ec2.openx.dir} -Duc=${uc}" />
+	</target>
+
+	<target name="prepare-webService-API-test-config">
+		<echo message="Prepare configuration file for XMLRPC API unit tests" />
+		<copy file="${basedir}/www/api/v1/xmlrpc/tests/unit/src/test/resources/config.example.properties" tofile="${basedir}/www/api/v1/xmlrpc/tests/unit/src/test/resources/config.properties"/>
+		<replace file="${basedir}/www/api/v1/xmlrpc/tests/unit/src/test/resources/config.properties" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}/api/v1/xmlrpc/">
+			<replacetoken>@serviceURL</replacetoken>
+		</replace>
+		<replace file="${basedir}/www/api/v1/xmlrpc/tests/unit/src/test/resources/config.properties" value="${admin.pass}">
+			<replacetoken>@password</replacetoken>
+		</replace>
+		<replace file="${basedir}/www/api/v1/xmlrpc/tests/unit/src/test/resources/config.properties" value="${admin.login}">
+			<replacetoken>@username</replacetoken>
+		</replace>
+	</target>
+	
+	<target name="test-unit-webService-API" if="test.unit.xmlrpc.api" depends="run-test-canoo, prepare-webService-API-test-config">
+		<exec executable="${test.unit.xmlrpc.mvn.executable}" searchpath="true" failonerror="false" resultproperty="test.unit.xmlrpc.mvn.result" dir="${basedir}/www/api/v1/xmlrpc/tests/unit/">
+			<env key="MAVEN_TERMINATE_CMD" value="on" />
+			<arg line="clean test" />
+		</exec>
+		<condition property="should.have.failed">
+			<equals arg1="0" arg2="${test.unit.xmlrpc.mvn.result}" />
+		</condition>
+		<exec executable="${test.unit.xmlrpc.mvn.executable}" searchpath="true" dir="${basedir}/www/api/v1/xmlrpc/tests/unit/">
+			<arg line="surefire-report:report-only" />
+		</exec>
+		<fail unless="should.have.failed" message="[ERROR] There are test failures/errors in XMLRPC unit tests. Maven result code ${test.unit.xmlrpc.mvn.result}"/>
+	</target>
+
+	<target name="clean-ec2" description="Cleans the ec2 from all the files left.">
+		<canoo-ssh command="rm ${canoo.package}"/>
+		<canoo-ssh-root command="rm -rf ${ec2.openx.dir}"/>
+	</target>
+</project>

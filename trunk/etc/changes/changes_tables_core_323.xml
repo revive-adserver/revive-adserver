@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>323</version>
+  <comments>Add fields requried by table affiliates</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>323</version>
+      <change>
+        <table>
+          <name>affiliates</name>
+              <add>
+                <field>
+                  <name>comments</name>
+                  <type>openads_text</type>
+                  <notnull></notnull>
+                  <default></default>
+                  <was>comments</was>
+                </field>
+                  <field>
+                    <name>last_accepted_agency_agreement</name>
+                    <type>openads_datetime</type>
+                    <notnull></notnull>
+                    <default></default>
+                    <was>last_accepted_agency_agreement</was>
+                  </field>
+                    <field>
+                      <name>updated</name>
+                      <type>openads_datetime</type>
+                      <notnull></notnull>
+                      <was>updated</was>
+                      <default></default>
+                    </field>
+                  </add>
+                </table>
+              </change>
+            </changeset>
+          </constructive>
+          <destructive>
+            <changeset>
+              <name>openads</name>
+              <version>323</version>
+            </changeset>
+          </destructive>
+        </instructionset>

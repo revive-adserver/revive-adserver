@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>536</version>
+  <comments>Removed redundant geotargeting columns from data_raw_ad_request</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>536</version>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>openads</name>
+    <version>536</version>
+    <change>
+      <table>
+        <name>data_raw_ad_request</name>
+      <remove>
+        <field>
+          <name>country</name>
+        </field>
+          <field>
+            <name>geo_region</name>
+          </field>
+            <field>
+              <name>geo_city</name>
+            </field>
+              <field>
+                <name>geo_postal_code</name>
+              </field>
+                <field>
+                  <name>geo_latitude</name>
+                </field>
+                  <field>
+                    <name>geo_longitude</name>
+                  </field>
+                    <field>
+                      <name>geo_dma_code</name>
+                    </field>
+                      <field>
+                        <name>geo_area_code</name>
+                      </field>
+                        <field>
+                          <name>geo_organisation</name>
+                        </field>
+                          <field>
+                            <name>geo_netspeed</name>
+                          </field>
+                            <field>
+                              <name>geo_continent</name>
+                            </field>
+                          </remove>
+                        </table>
+                      </change>
+                    </changeset>
+                  </destructive>
+                </instructionset>

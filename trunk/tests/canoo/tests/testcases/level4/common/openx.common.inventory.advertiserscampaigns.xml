@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE project SYSTEM "../../../../dtd/WebTest.dtd"[
+  <!ENTITY config  SYSTEM "file:../../modules/config_openx.xml">
+  <!ENTITY login  SYSTEM "file:../../modules/login_admin.xml">
+  <!ENTITY common_verification  SYSTEM "file:../../modules/common_pages.xml">
+]>
+
+<project name="OpenX" basedir="." default="main">
+	<target name="main">
+		<webtest name="Level4 - Inventory > Advertisers and Campaigns > ">
+			&config;
+			<steps>
+				<enableJavaScript enable="true"/>
+				<!-- <enableJavaScript enable="false" /> -->
+				&login;
+				<invoke description="Go to page" url="www/admin/advertiser-index.php" save="${screens}\inventory-advertaisers_"/>
+				<verifyTitle description="Page title" text="OpenX - Advertisers &#38; Campaigns"/>
+				&common_verification;
+				<clickLink label="Expand all"/>
+				<clickLink label="Collapse all"/>
+				<clickLink label="Add new advertiser"/>
+				<clickButton label="Next >"/>
+				<expectDialog description="Field validation made by js function"
+					dialogType="confirm" response="false" saveProperty="initialDialog"/>
+
+			</steps>
+		</webtest>
+	</target>
+</project>

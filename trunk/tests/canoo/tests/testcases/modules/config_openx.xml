@@ -1,0 +1,17 @@
+<config 
+	host="${wt.host}" 
+	port="${wt.port}" 
+	protocol="${wt.protocol}" 
+	basepath="${wt.basepath}"
+	summary="true" 
+	saveresponse="true" 
+	resultfile="${wt.resultfile}" 
+	resultpath="${wt.resultpath}" 
+	haltonfailure="false" 
+	haltonerror="false">
+	
+	<header name="User-Agent" value="${wt.browser}"/>
+    <option name="JavaScriptEnabled" value="${wt.enableJS}"/>
+    <option name="ThrowExceptionOnScriptError" value="${wt.throwExceptionOnScriptError}"/>
+	
+</config>

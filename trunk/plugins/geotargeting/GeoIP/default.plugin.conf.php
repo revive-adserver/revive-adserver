@@ -1,0 +1,11 @@
+[geotargeting]
+type=GeoIP
+geoipCountryLocation=
+geoipRegionLocation=
+geoipCityLocation=
+geoipAreaLocation=
+geoipDmaLocation=
+geoipOrgLocation=
+geoipIspLocation=
+geoipNetspeedLocation=
+saveStats=

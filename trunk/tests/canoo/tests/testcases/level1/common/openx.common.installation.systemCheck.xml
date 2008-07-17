@@ -1,0 +1,19 @@
+				&universal;
+				<verifyText description="Check text on page" 
+					text="System check" />
+				<verifyText description="'timezone' string check"
+					text="timezone" /> 
+				<!-- TODO: Error support -->
+
+				<clickButton description="Click 'Continue »' button"
+					label="Continue »" />
+					
+					
+				<!--  
+				<clickElement description="Click 'Continue »' button"
+				htmlId="btn_dbsetup" />
+				<clickElement description="click on Continue button" 
+					xpath="//input[1]"/>
+				<verifyText description="'timezone' string check"
+					text="Database Type" /> 
+				-->

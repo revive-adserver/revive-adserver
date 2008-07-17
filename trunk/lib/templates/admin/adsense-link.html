@@ -1,0 +1,87 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+|                                                                           |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id: custom-adnetworks.html 12771 2007-11-23 15:29:03Z matteo.beccati@openads.org $
+
+-->
+
+<table border='0' width='100%' cellpadding='0' cellspacing='0'>
+*}
+
+<div id="adsense-link-form" {if $hide}style="display: none"{/if}>
+  {*
+    Information message, do not display when the error messages below are displayed.
+  *}
+  {if true}
+  <div class="infomessage">
+    To link your AdSense account to OpenX, enter the email address, zipcode/
+    postal code and the last 5 digits of the phone number that you gave to Google
+    when you signed up for your AdSense account. Also, provide a name for
+    this account within OpenX.
+  </div>
+  {/if}
+
+  {*
+    Error message to be shown when there is no AdSense account associated
+    with the email the user provided.
+  *}
+  {if false}
+  <div class="errormessageicon">
+    There is no Google AdSense account associated with email: <b>test@test.com</b>. Please
+    correct the email you provided or <a href="adsense-create.php?email=test@test.com">create a new Google AdSense account</a>.
+    {*
+      TODO: It would be good to prefill the Email field on the adsense-create screen reachable
+      from the link above with the Email address the user has typed.
+    *}
+  </div>
+  {/if}
+
+  {*
+    Error message to be shown when phone digits or zipcode don't match.
+  *}
+  {if false}
+  <div class="errormessageicon">
+  Digits of the phone number or zipcode/ post code do not match the data
+  associated with the AdSense acccount registered for the email address:
+  <b>test@test.com</b>. Please correct the phone number and zipcode/ post code or
+  <a href="adsense-create.php?email=test@test.com">create a new Google AdSense account</a>.
+    <!--
+      TODO: It would be good to prefill the Email field on the adsense-create screen reachable
+      from the link above with the Email address the user has typed.
+    -->
+  </div>
+  {/if}
+
+  <form id="adsense-link" class="validate" action="adsense-accounts.php">
+    <input type="hidden" name="info" value="linked" />
+    {include file=edit-table/create.html from=$fields}
+
+    <div class="controls">
+      <input value="Link OpenX to AdSense" class="main-submit" type="submit" {tabindex}>
+    </div>
+  </form>
+</div>
+
+{*
+</table>
+*}

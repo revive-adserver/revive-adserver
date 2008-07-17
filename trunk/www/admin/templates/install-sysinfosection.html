@@ -1,0 +1,53 @@
+<?php if (!defined('MAX_PATH')) { exit; } ?>
+    <tr>
+        <td>&nbsp;</td>
+        <td height='25' colspan='2' class='underline'><b><?php echo $sysinfoheading; ?></b></td>
+    </tr>
+    <?php
+        if ($sysinfoarray && (is_array($sysinfoarray['actual']) || is_array($sysinfoarray['error'])) && (count($sysinfoarray)>0))
+        {
+            echo "
+                        <tr>
+                              <td>&nbsp;</td>
+                              <td colspan='2' align=center>
+                                 <table border='0' width='100%' cellpadding='0' cellspacing='0' class='sysinfotable'>";
+            foreach ($sysinfoarray['actual'] AS $k => $v)
+            {
+                if (!is_array($v))
+                {
+                    echo "
+                                    <tr>
+                                        <td class='check'>{$k}</td>
+                                        <td class='check-res'>{$v}</td>
+                                    </tr>
+                          ";
+                }
+            }
+            if ($sysinfoarray['error'])
+            {
+                foreach ($sysinfoarray['error'] AS $k => $v)
+                {
+                    echo "<tr><td class=\"sysinfoerror errContainer\" colspan='2'><table><tr><td class=\"sysinfoerror\" width=\"100\">Error:</td><td class=\"sysinfoerror\" colspan='2'>".$v."</td></tr></table></td></tr>";
+                }
+            }
+            if ($sysinfoarray['warning'])
+            {
+                foreach ($sysinfoarray['warning'] AS $k => $v)
+                {
+                    echo "<tr><td class=\"sysinfowarning errContainer\" colspan='2'><table><tr><td class=\"sysinfowarning\" width=\"100\">Warning:</td><td class=\"sysinfowarning\" colspan='2'>".$v."</td></tr></table></td></tr>";
+                }
+            }
+
+            echo "
+                              </table>
+                          </td>
+                      </tr>";
+        }
+        else
+        {
+            echo "<tr>
+                      <td class=\"tablebody\" colspan=\"2\">&nbsp;</td>
+                  </tr>";
+        }
+    ?>
+

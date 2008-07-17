@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>507</version>
+  <comments></comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>507</version>
+      <change>
+          <table>
+            <name>data_summary_zone_impression_history</name>
+          <index>
+            <add>
+              <name>data_summary_zone_impression_history_zone_id</name>
+              <was>data_summary_zone_impression_history_zone_id</was>
+              <indexfield>
+                <name>zone_id</name>
+                <sorting>ascending</sorting>
+              </indexfield>
+            </add>
+          </index>
+        </table>
+        </change>
+      </changeset>
+    </constructive>
+    <destructive>
+      <changeset>
+        <name>openads</name>
+        <version>507</version>
+      </changeset>
+    </destructive>
+  </instructionset>

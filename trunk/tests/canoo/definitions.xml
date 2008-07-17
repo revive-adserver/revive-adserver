@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<!--
+This file is generated automatically from the information contained in the folder definitions.
+Do not edit it else you risk to lose your changes.
+-->
+
+<!DOCTYPE project SYSTEM "dtd/Project.dtd"
+[
+ <!ENTITY definitions__fillParticipantData__xml SYSTEM "definitions/fillParticipantData.xml">
+
+]
+>
+
+<project name="WebTest-projectDefinitions" basedir="." default="wt.nothing">
+
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<target name="wt.defineMacros" description="Defines macros and project specific Steps" unless="macroDefined">
+		<property name="macroDefined" value="true"/>
+		<echo message="Defining project macros and custom steps (if any)"/>
+
+ 		&definitions__fillParticipantData__xml; 
+
+	</target>
+	
+	<target name="wt.nothing">
+		
+	</target>
+
+	
+</project>

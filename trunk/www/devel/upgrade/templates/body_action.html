@@ -1,0 +1,67 @@
+  <body>
+
+    <?php
+    if (count($aErrors)>0)
+    {
+    ?>
+    <div class="tablediv">
+        <table id="debugdiv">
+            <tr><th>debug info</th></tr>
+            <?php
+                foreach ($aErrors AS $k => $msg)
+                {
+                    echo '<tr><td>'.$msg.'</td></tr>';
+                }
+            ?>
+        </table>
+    </div>
+    <?php
+    }
+    else
+    {
+    ?>
+      <div>
+        <form method="POST" action="action.php">
+            <table class="input">
+                <?php
+                if ($aFile)
+                {
+                ?>
+                <tr><td><?php echo ucfirst($type).' Package '.$file; ?></td></tr>
+                <tr><td><?php echo 'Schema Version: '.$id; ?></td></tr>
+                <tr><td><?php echo 'Registered By: '. $aFile[$schema]['user']; ?></td></tr>
+                <tr><td><?php echo 'Registered On: '. $aFile[$schema]['registered']; ?></td></tr>
+                <tr><td><?php echo 'Comments: '.$aFile[$schema]['comments']; ?></td></tr>
+                <?php
+                }
+                else if ($aNew)
+                {
+                ?>
+                <tr><td><?php echo 'Registered Schema Version: '.$id; ?></td></tr>
+                <tr><td><?php echo 'Registered By: '.$aNew[$schema]['user']; ?></td></tr>
+                <tr><td><?php echo 'Registered On: '. $aNew[$schema]['registered']; ?></td></tr>
+                <tr><td><?php echo 'Comments: '.$aNew[$schema]['comments']; ?></td></tr>
+                <?php
+                }
+                else if ($id)
+                {
+                ?>
+                <tr><td><?php echo 'Next Available Schema Version: '.$id; ?></td></tr>
+                <?php
+                }
+                else
+                {
+                ?>
+                <tr><td><?php echo 'Not Yet Implemented'; ?></td></tr>
+                <?php
+                }
+                ?>
+            </table>
+        </form>
+      </div>
+    <?php
+    }
+    ?>
+
+  </body>
+</html>

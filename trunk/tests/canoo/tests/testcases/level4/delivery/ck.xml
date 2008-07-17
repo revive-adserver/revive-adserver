@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!DOCTYPE project SYSTEM             "../../../../dtd/WebTest.dtd" [
+	<!ENTITY config SYSTEM           "../../modules/config_openx.xml">
+	<!ENTITY configNoFollow SYSTEM   "../../modules/configNoFollow.xml">
+	<!ENTITY checkForErrors SYSTEM   "../../modules/errors.xml">
+	<!ENTITY deleteRawData SYSTEM    "../../../sql/sql_delete_raw_data.xml">
+	<!ENTITY verifyHeaders SYSTEM    "../../modules/headers.xml">
+]
+>
+
+<!--
+  Test that user is redirected after clicking on a destination page
+-->
+<project name="OpenX delivery - ck.php" basedir="../.." default="main">
+  <import file="../../modules/init.xml"/>
+  <!-- <import file="${webtest.home}/lib/taskdef.xml"/> -->
+
+  <target name="canoo-test">
+    <!-- &deleteRawData; -->
+	<subant inheritall="true">
+		<fileset dir="${testcase.dir}/../sql/">
+			<filename name="sql_delete_raw_data.xml" />
+		</fileset>
+    </subant>
+
+    <webtest name="${ant.project.name}">
+      &config;
+      <steps>
+        <!-- <invoke description="Invoke delivery file ck.php" url="/delivery/ck.php?oaparams=2__bannerid=3__zoneid=0__cb=5ec806661f__maxdest=${openx.example_url}" /> -->
+		<invoke description="Invoke delivery file ck.php" url="/delivery/ck.php?oaparams=2__bannerid=3__zoneid=0__cb=5ec806661f__maxdest=${openx.example_url}" /> 
+        &checkForErrors;
+        <!-- &verifyHeaders; -->
+        <verifyTitle description="Check that browser was redirected to example page" text="Example Web Page" />
+      </steps>
+    </webtest>
+    <webtest name="Run Delivery without following redirects">
+      &configNoFollow;
+      <steps>
+        <!-- <not> -->
+		<invoke description="Invoke delivery file ck.php" url="/delivery/ck.php?oaparams=2__bannerid=3__zoneid=0__cb=5ec806661f__maxdest=${openx.example_url}" />
+        <!-- </not> -->
+        &verifyHeaders;
+      </steps>
+    </webtest>
+
+    <!-- test that ad clicks are logged in database -->
+    <!-- <sqlunit testFile="${basedir}/usecases/sqlunit/data_raw_ad_click.xml" haltOnFailure="true" debug="${debug}" /> -->
+  </target>
+
+  <!-- clean cache, run a canoo test (without cache), and then run again (with cache) -->
+  <target name="main" depends="test-cache" />
+
+</project>

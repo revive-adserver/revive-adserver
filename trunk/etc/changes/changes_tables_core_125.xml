@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>125</version>
+  <comments>Added the maintenance_cron_timestamp column to bring schema up to version 2.3.</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>125</version>
+      <change>
+        <table>
+          <name>preference</name>
+          <add>
+            <field>
+              <name>maintenance_cron_timestamp</name>
+              <type>openads_int</type>
+              <length>11</length>
+              <notnull></notnull>
+              <was>maintenance_cron_timestamp</was>
+              <default></default>
+            </field>
+          </add>
+        </table>
+      </change>
+    </changeset>
+  </constructive>
+  <destructive>
+    <changeset>
+      <name>openads</name>
+      <version>125</version>
+    </changeset>
+  </destructive>
+</instructionset>

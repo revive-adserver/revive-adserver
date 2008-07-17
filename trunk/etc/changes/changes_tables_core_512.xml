@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>512</version>
+  <comments>Added &apos;parameters&apos; field to the banners for SWF feature porting from 2.0.</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>512</version>
+      <change>
+        <table>
+          <name>banners</name>
+          <add>
+            <field>
+              <name>parameters</name>
+              <type>openads_text</type>
+              <notnull></notnull>
+              <was>parameters</was>
+              <default></default>
+            </field>
+          </add>
+        </table>
+      </change>
+    </changeset>
+  </constructive>
+  <destructive>
+    <changeset>
+      <name>openads</name>
+      <version>512</version>
+    </changeset>
+  </destructive>
+</instructionset>

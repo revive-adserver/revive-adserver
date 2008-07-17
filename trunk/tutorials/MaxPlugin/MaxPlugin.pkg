@@ -1,0 +1,218 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>Plugins</refname>
+  <refpurpose>Describes how the Plugin Architecture works</refpurpose>
+ </refnamediv>
+ <para>
+  This is the documentation for the OpenX Plugin API. If you're
+  interested writing a plugin for Openads, this document will explain how to do it!
+ </para>
+ <refsect1 id="{@id terminology}">
+  <title>Terminology</title>
+  <para>
+   Plugins in OpenX are grouped together in modules, where each module is group
+   containing related plugins. Within a plugin module, plugins are grouped into
+   packages. A package may contain one or more plugins. As an example, the
+   "3rdPartyServers" module contains plugins relating to 3rd Party Ad Server
+   Services that OpenX can interface with. Within this module, there is a package
+   for each 3rd Party Ad Server Service (e.g. Atlas, DoubleClick, etc.). Each
+   package contains one plugin. As another example, the "deliveryLimitations"
+   module contains plugins relating to -- obviously -- delivery limitations.
+   Within this module, there are a number of packages relating to different
+   types of delivery limitations (e.g. GeoTargeting limitations, Time
+   limitations, etc.). In this module, however, each package contains more than
+   one plugin (e.g. The GeoTargeting package contains plugins for the Country,
+   City, Region, etc. limitations).
+  </para>
+ </refsect1>
+ <refsect1 id="{@id supported}">
+  <title>Supported Plugin Modules</title>
+  <para>
+   The following plugin modules are supported in Max:
+   <itemizedlist>
+    <listitem>{@tutorial MaxPlugins/ThirdPartyServers.pkg 3rd Party Servers}</listitem>
+    <para>
+     Plugins for integrating with other (i.e. 3rd party) Ad Servers.
+    </para>
+    <listitem>Channel Derivation</listitem>
+    <para>
+     A plugin type that will probably be deprecated. Not recommended to be used.
+    </para>
+    <listitem>{@tutorial MaxPlugins/DeliveryLimitations.pkg Delivery Limitations}</listitem>
+    <para>
+     Plugins for defining and evaulating delivery limitations.
+    </para>
+    <listitem>{@tutorial MaxPlugins/Geotargeting.pkg Geotargeting}</listitem>
+    <para>
+     Plugins for obtaining geotargeting information from Max Mind databases.
+    </para>
+    <listitem>{@tutorial MaxPlugins/InvocationTags.pkg Invocation Tags}</listitem>
+    <para>
+     Plugins for generating invocation tags.
+    </para>
+    <listitem>{@tutorial MaxPlugins/Maintenance.pkg Maintenance}</listitem>
+    <para>
+     Plugins for performing custom maintenance tasks.
+    </para>
+    <listitem>{@tutorial MaxPlugins/Reports.pkg Reports}</listitem>
+    <para>
+     Plugins for generating reports.
+    </para>
+   </itemizedlist>
+   It is possible to write
+   {@tutorial MaxPlugins.pkg#module new plugin modules}, if you have a need
+   for a plugin that does not fit into the above categories; however, this
+   generally requires substantial changes to OpenX itself, and is not an easy
+   task. Writing a {@tutorial MaxPlugins.pkg#plugin new plugin for an existing
+   module/package} is far easier.
+  </para>
+ </refsect1>
+ <refsect1 id="{@id module}">
+  <title>Creating a New Plugin Module</title>
+  <para>
+   To create a new type of plugin module, you will need to create a new directory
+   in /lib/max/Plugin, where you will create a new abstract class, of the same name
+   as the plugin module, that extends the {@link MAX_Plugin_Common} class. This class
+   is the base class of your new plugin module, that all of your plugins will extend,
+   and as such, will contain any methods that are common to all of the plugins in your
+   module.
+  </para>
+  <para>
+   You should also put any support libraries that are specific to your plugin module
+   in this directory.
+  </para>
+  <para>
+   You will also need to create a new directory in /plugins, to store the plugin files.
+  </para>
+  <para>
+   Should you so wish, your new plugin module can divide its plugins into packages.
+   If this is the case, you should {@tutorial MaxPlugins.pkg#package create the
+   required packages} for your new plugin module.
+  </para>
+ </refsect1>
+ <refsect1 id="{@id package}">
+  <title>Creating a New Plugin Package</title>
+  <para>
+   To create a new plugin package, you will need to create a new directory in
+   the appropriate module directory in /plugins. That's all there is to it -
+   other than creating the plugin(s) that go into the package, of course!
+  </para>
+ </refsect1>
+ <refsect1 id="{@id plugin}">
+  <title>Creating a New Plugin</title>
+  <para>
+   To create a new plugin, you will need to select the appropriate module and
+   package to put the plugin into. Once you have done this, create a new class
+   in the appropriate module/package directory inside /plugins. The class will
+   (generally) extend the abstract class defined at the module level (although
+   it can direcetly extend the {@link MAX_Plugin_Common} class if this is more
+   appropriate). However, your plugin must be a descendent of the
+   {@link MAX_Plugin_Common} class.
+  </para>
+  <para>
+   The plugin class name must be of the form Plugins_Module_Package_Name. If
+   the package contains only one plugin, the plugin name will generally be the
+   same as the package, resulting in a class of the form
+   Plugins_Module_Package_Package. (This will allow for
+   {@tutorial MaxPlugins.pkg#using.inst easier instantiation} of your plugin
+   later.)
+  </para>
+  <para>
+   The filename of your plugin needs to end in ".plugin.php", if the
+   {@tutorial MaxPlugins.pkg#using.finding automated process of locating
+   plugins} is to work.
+  </para>
+  <para>
+   The methods that your plugin will need to implement will obviously depend on
+   what the plugin is supposed to do. Normally, this will be made clear by the
+   abstract methods defined in the module level class that your method extends.
+  </para>
+ </refsect1>
+ <refsect1 id="{@id using}">
+  <title>Using Plugins in Max</title>
+  <para>
+   If you're just writing a new plugin in a module that's already supported by
+   Openads, you generally won't need to know about this -- simply write your plugin,
+   and it will work. However, if you're writing a plugin in a new module, you
+   will need to modify OpenX so that it can use your plugin. How to modify OpenX for
+   this is beyond the scope of this tutorial, however, the following information
+   should help.
+  </para>
+  <refsect2 id="{@id including}">
+   <title>Inlcuding and Instantiating Available Plugins</title>
+   <para>
+    The {@link MAX_Plugin::factory()} method can be used easily include a
+    specific plugin, and then instantiate and return a new plugin object.
+   </para>
+   <para>
+    The {@link MAX_Plugin::getPlugins()} method can be used to return an array
+    of plugins objects from a given module, or a specific module/package. The
+    objects are {@tutorial MaxPlugins.pkg#using.inst instantiated} using the
+    {@link MAX_Plugin::factory()} method.
+   </para>
+   <para>
+    The {@link MAX_Plugin::factoryPluginByModuleConfig()} method can also
+    be used to easily include and instantiate a plugin, in the case where
+    a plugin module has a number of packages, but only one package is used
+    at a time, and this package is defined in the module's configuration
+    file. The Geotargeting plugins are an example of this - OpenX comes with
+    two {@link http://www.maxmind.com/ MaxMind} geotargeting plugins (one
+    for obtaining the MaxMind data from withing PHP, the other for when the
+    MaxMind Apache module is used), however, only one geotargeting plugin
+    is used at a time (if at all). Which plugin (if any) and how the plugin
+    is configured is stored in the plugin's configuration file(s), and so
+    the geotargeting plugin is instantiated via the
+    {@link MAX_Plugin::factoryPluginByModuleConfig()} method.
+   </para>
+  </refsect2>
+  <refsect2 id="{@id calling}">
+   <title>Calling Plugin Methods</title>
+   <para>
+    There are two convenience methods provided by {@link MAX_Plugin} that are
+    generally used for calling plugin methods. The first is
+    {@link MAX_Plugin::callStaticMethod()}, which can be used to statically
+    call a specific method from a plugin. The second is
+    {@link MAX_Plugin::callOnPlugins()}, which can be used to call a method
+    on each plugin object in an array of plugins. This second method is
+    particularly useful for, for example, getting the name of each plugin
+    (via a getName() method implemented by each plugin, for example) in an
+    array of plugins, for displaying in a user interface.
+   </para>
+   <para>
+    A third convenience method, {@link MAX_Plugin::callOnPluginsByHook()},
+    does almost the same thing as {@link MAX_Plugin::callOnPlugins()},
+    however, it allows for running the method only on those plugins that
+    match a given plugin hook point in the maintenance engine. See the
+    tutorial on {@tutorial MaxPlugins/Maintenance.pkg maintenance plugins}
+    for more details.
+   </para>
+  </refsect2>
+  <refsect2 id="{@id config}">
+   <title>Plugin Configuration Methods</title>
+   <para>
+    Some plugins need to store information about how they have configured.
+    The {@link MAX_Plugin} class provides a number of methods for dealing with
+    reading and writing configuration files for plugins. See
+    {@link MAX_Plugin::getConfig()}, {@link MAX_Plugin::getConfigFileName()},
+    {@link MAX_Plugin::getConfigByFileName()} and
+    {@link MAX_Plugin::copyDefaultConfig()} for details on reading plugin
+    configuration files, and {@link MAX_Plugin::writePluginConfig()} for
+    details on writing configuration files.
+   </para>
+  </refsect2>
+  <refsect2 id="{@id cache}">
+   <title>Plugin Cache Methods</title>
+   <para>
+    Some plugins need to cache operational information. The
+    {@link MAX_Plugin::saveCacheForPlugin()} method can be used to save
+    data for a plugin module/package, while the
+    {@link MAX_Plugin::getCacheForPluginById()} method can be used to
+    retrieve the cached data.
+   </para>
+   <para>
+    The {@link MAX_Plugin::cleanPluginCache()} method can be used to delete
+    all cached data for a plugin module/package.
+   </para>
+  </refsect2>
+ </refsect1>
+</refentry>

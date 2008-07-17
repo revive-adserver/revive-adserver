@@ -1,0 +1,67 @@
+{*<!--
+
+---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+|                                                                           |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+
+-->*}
+
+<img src='{$assetPath|escape}/images/icon-affiliate-new.gif' border='0' align='absmiddle'>&nbsp;
+<a href='affiliate-edit.php' accesskey=".$keyAddNew.">{t str=AddNewAffiliate_Key}</a>&nbsp;&nbsp;
+{phpAds_ShowBreak}
+
+{if $error!=''}
+    <div class='errormessage' id='errors'>
+        <img class='errormessage' src='{$assetPath|escape}/images/errormessage.gif' align='absmiddle' />
+        <span class='tab-r'>The following errors were found:</span><br />
+        {$error}
+    </div>
+{/if}
+
+<br>
+<br>
+
+{include file=affiliate-index-list.html from=$affiliates}
+
+<br /><br /><br /><br />
+
+{* Total number of clients *}
+<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>
+<tr>
+    <td height='25' colspan='2'>&nbsp;&nbsp;<b>{t str=Overall}</b></td>
+
+</tr>
+<tr height='1'>
+    <td colspan='2' bgcolor='#888888'><img src='{$assetPath|escape}/images/break.gif' height='1' width='100%'></td>
+</tr>
+
+<tr>
+    <td height='25'>&nbsp;&nbsp;{t str=TotalZones}: <b>{$countZone}</b></td>
+    <td height='25'>{t str=TotalAffiliates}: <b>{$countAffiliate}</b></td>
+</tr>
+
+<tr height='1'>
+    <td colspan='2' bgcolor='#888888'><img src='{$assetPath|escape}/images/break.gif' height='1' width='100%'></td>
+</tr>
+
+</table>
+<br /><br />

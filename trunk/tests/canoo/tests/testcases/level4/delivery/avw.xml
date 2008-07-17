@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE project SYSTEM               "../../../../dtd/WebTest.dtd" [
+  <!ENTITY config SYSTEM           "../../modules/config_openx.xml">
+  <!ENTITY configNoFollow SYSTEM       "../../modules/configNoFollow.xml">
+  <!ENTITY checkForErrors SYSTEM       "../../modules/errors.xml">
+  <!ENTITY checkDeliveryCookies SYSTEM "../../modules/cookies.xml">
+  <!ENTITY checkForImageGif SYSTEM     "../../modules/gif.xml">
+  <!ENTITY verifyHeaders SYSTEM        "../../modules/headers.xml">
+]
+>
+
+<!--
+  Test that avw.php redirects user to ai.php which sends a banner image
+-->
+<project name="OpenX delivery - avw.php" basedir="../.." default="main">
+  <import file="../../modules/init.xml"/>
+  <!-- <import file="${webtest.home}/lib/taskdef.xml"/> -->
+
+  <target name="canoo-test">
+    <webtest name="${ant.project.name}">
+      &config;
+      <steps>
+        <invoke description="Invoke delivery file avw.php" url="/delivery/avw.php?bannerid=3" />
+        &checkForErrors;
+        &checkDeliveryCookies;
+        <!-- Check that browser was redirected to ai.php file and that response contains gif -->
+        &checkForImageGif;
+      </steps>
+
+    </webtest>
+    <webtest name="${ant.project.name} without following redirects">
+      &configNoFollow;
+      <steps>
+		<invoke description="Invoke delivery file avw.php" url="/delivery/avw.php?bannerid=3" />
+			&verifyHeaders;
+      </steps>
+    </webtest>
+  </target>
+
+  <!-- clean cache, run a canoo test (without cache), and then run again (with cache) -->
+  <target name="main" depends="test-cache" />
+
+</project>

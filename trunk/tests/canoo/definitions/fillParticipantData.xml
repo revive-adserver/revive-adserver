@@ -1,0 +1,24 @@
+<!-- 
+Like all files of this folder, this content will be executed in target wt.defineMacros
+and therefore made be available for the tests (here the macro <fillParticipantData .../>)
+-->
+<macrodef name="fillParticipantData" description="fill the conference formular for one person">
+	<attribute name="firstName"/>
+	<attribute name="lastName"/>
+	<attribute name="index" default="1" description="the index in the sequence"/>
+
+	<sequential>
+		<verifyText text="Please enter information for participant @{index}"
+			description="Verify that we are on the right screen"/>
+		<setInputField forLabel="Last name" value="@{lastName}"/>
+		<setInputField forLabel="First name" value="@{firstName}"/>
+		<setInputField forLabel="Street" value="Main street, 123"/>
+		<setInputField forLabel="Zip" value="12345"/>
+		<setInputField forLabel="City" value="Basel"/>
+		<setSelectField forLabel="Country" text="Switzerland"/>
+		<clickButton label="Confirm"/>
+		<not description="verify that we're not on the formular screen for this participant anymore">
+			<verifyText text="Please enter information for participant @{index}"/>
+		</not>
+	</sequential>
+</macrodef>

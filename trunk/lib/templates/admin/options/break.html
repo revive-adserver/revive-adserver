@@ -1,0 +1,24 @@
+{if !isset($aItem.size) || $aItem.size == '' || $aItem.size == 'small'}
+<tr>
+    <td><img src='{$assetPath}/images/spacer.gif' height='1' width='100%'></td>
+    <td><img src='{$assetPath}/images/break-l.gif' height='1' width='250' vspace='10'></td>
+    <td>&nbsp;</td>
+    <td><img src='{$assetPath}/images/spacer.gif' height='1' width='100%'></td>
+</tr>
+{elseif $aItem.size == 'large'}
+<tr>
+    <td><img src='{$assetPath}/images/spacer.gif' height='1' width='100%'></td>
+    <td colspan='3'><img src='{$assetPath}/images/break-l.gif' height='1' width='100%' vspace='10'></td>
+</tr>
+{elseif $aItem.size == 'full'}
+<tr>
+    <td colspan='4'><img src='{$assetPath}/images/break.gif' height='1' width='100%' vspace='16'></td>
+</tr>
+{elseif $aItem.size == 'empty'}
+<tr>
+    <td><img src='{$assetPath}/images/spacer.gif' height='1' width='100%'></td>
+    <td><img src='{$assetPath}/images/spacer.gif' height='1' width='250' vspace='10'></td>
+    <td>&nbsp;</td>
+    <td><img src='{$assetPath}/images/spacer.gif' height='1' width='100%'></td>
+</tr>
+{/if}

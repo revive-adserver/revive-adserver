@@ -1,0 +1,86 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+|                                                                           |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id: custom-adnetworks.html 12771 2007-11-23 15:29:03Z matteo.beccati@openads.org $
+
+-->
+
+<table border='0' width='100%' cellpadding='0' cellspacing='0'>
+*}
+
+<div class="infomessage" id="intro">
+  There are no Google AdSense accounts linked to OpenX yet. We can sign you
+  up for a new AdSense account or we can link your existing AdSense account to
+  your OpenX installation. This allows you to manage Google AdSense in the
+  same way as other advertisers and view your revenue statistics within the
+  OpenX interface.
+</div>
+
+<div style="font-weight: bold; margin-bottom: 2ex">
+  Do you already have a Google AdSense account?
+</div>
+
+<div style="margin-bottom: 4ex">
+  <input id="haveaccount-yes" type="radio" name="haveaccount" value="yes" style="margin-left: 0"><label for="haveaccount-yes" class="cb" style="padding-right: 1em">Yes</label>
+  <input id="haveaccount-no" type="radio" name="haveaccount" value="no"><label for="haveaccount-no" class="cb">No</label>
+</div>
+
+{include file=adsense-link.html fields=$fieldsLink hide="true"}
+
+{include file=adsense-create.html fields=$fieldsCreate hide="true"}
+
+<script>
+{literal}
+  $(document).ready(function() {
+    var switchForm = function() {
+      var selected = $("#haveaccount-yes").attr("checked") || $("#haveaccount-no").attr("checked") || false;
+      var haveAccount = $("#haveaccount-yes").attr("checked") || !$("#haveaccount-no").attr("checked");
+
+      if (!selected) {
+        $("#intro").slideFadeIn(500);
+        $("#adsense-link-form, #adsense-create-form").slideFadeOut(500);
+      }
+      else {
+        $("#intro").slideFadeOut();
+        if (haveAccount) {
+          $("#adsense-create-form").slideFadeOut(500);
+          $("#adsense-link-form").slideFadeIn(500);
+        }
+        else {
+          $("#adsense-link-form").slideFadeOut(500);
+          $("#adsense-create-form").slideFadeIn(500);
+        }
+
+        $(":input:visible:eq(0)").focus();
+      }
+    }
+
+    $("#haveaccount-yes, #haveaccount-no").click(switchForm);
+    switchForm();
+  });
+{/literal}
+</script>
+
+{*
+</table>
+*}

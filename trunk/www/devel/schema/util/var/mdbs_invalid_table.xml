@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="/upgrade_dev/xsl/mdb2_schema.xsl"?>
+<database>
+
+ <name>mdbs_invalid_table</name>
+ <create>true</create>
+ <overwrite>false</overwrite>
+
+ <table>
+
+  <name>ad_zone_assoc</name>
+
+  <declaration>
+
+   <index>
+    <name>zone_id</name>
+    <field>
+     <name>zone_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>ad_id</name>
+    <field>
+     <name>ad_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>ad_zone_assoc_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+
+</database>

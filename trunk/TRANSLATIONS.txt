@@ -1,0 +1,53 @@
++---------------------------------------------------------------------------+
+| OpenX  v${RELEASE_MAJOR_MINOR}                                                              |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+|                                                                           |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+
+Help us translate OpenX
+=======================
+
+
+Introduction
+------------
+
+We want to internationalise OpenX including the product, forums and
+documentation but we need your help! There are many different tasks involved
+in the localisation of the OpenX product ranging from translating, reviewing
+and supporting publishers in their native language. Translations are a key
+part of this work.
+
+How we manage translations
+--------------------------
+
+We use a web portal called Pootle to manage our translation work. This is the
+same system used by many Open Source projects like Mozilla Firefox and
+OpenOffice.
+
+Pootle provides a simple web based interface for translators to contribute.
+We then generate the language files (.mo files) which are included in the
+ad server distribution.
+
+Register to help
+----------------
+
+Find out more and register to help us with localisation work on our website:
+http://www.openx.org/community/localisation
+
+-- The OpenX Team

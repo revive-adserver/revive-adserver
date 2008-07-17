@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE project SYSTEM "../../../../dtd/WebTest.dtd"[
+	<!ENTITY config  SYSTEM "../../modules/config_openx.xml">
+	<!ENTITY login  SYSTEM "../../modules/login_admin.xml">
+]>
+
+<project name="OpenX" basedir="." default="main">
+	<property name="openx.url" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}"/>
+	<target name="main">
+		<webtest name="Level3 - configuration test: openx.2.5.common.conf.addTrackers.xml">
+			&config;
+			<steps>
+				<enableJavaScript enable="${wt.enableJS}" />
+				&login;
+				
+				<enableJavaScript enable="false" />
+					<clickLink label="Inventory" />
+				<enableJavaScript enable="true" />
+				
+				<clickLink label="Advertiser 1"/>
+				
+				<enableJavaScript enable="false" />
+					<clickLink label="Trackers"/>
+				<enableJavaScript enable="true" />
+				
+				<clickLink label="Add new tracker"/>
+				<setInputField name="trackername" value="Sample Tracker"/>
+				<setInputField name="clickwindow[second]" value="3"/>
+				<setInputField name="viewwindow[second]" value="3"/>
+				
+				<enableJavaScript enable="false" />
+					<clickButton label="Save Changes" name="submit"/>
+				<enableJavaScript enable="true" />
+				
+				<clickLink label="Linked Campaigns"/>
+				<setCheckbox name="campaignids[]" value="3"/>
+				
+				<!-- 
+				<clickButton
+					name="submit"/>					
+					xpath="/html/body/div[@id='oaMain']/div[@id='oaContents']/table[2]/tbody/tr[1]/td[2]/input[4]" />
+				-->
+				
+				<enableJavaScript enable="false" />
+					<clickLink label="Variables"/>					
+<!-- ToDO: investigate js error (it's non-casting issue) -->
+					<clickButton label="Save"/>
+				<enableJavaScript enable="true" />
+				
+				<!-- <clickButton name="action[new]"/> -->
+
+<!-- ToDO: investigate js error (it's non-casting issue) -->				
+				<enableJavaScript enable="false" />
+					<setSelectField name="variablemethod" text="Track JavaScript variables"/>
+				<enableJavaScript enable="true" />
+				
+				<setInputField name="name0" value="boo"/>
+				<setInputField name="description0" value="Sample number"/>
+				<setSelectField name="datatype0" text="Number"/>
+				
+<!-- ToDO: investigate js error (it's non-casting issue) -->				
+				<enableJavaScript enable="false" />
+					<clickButton label="Save"/>
+				<enableJavaScript enable="true" />
+				
+				<!-- <clickButton name="action[new]"/> -->
+				<setSelectField name="variablemethod" text="Track JavaScript variables"/>
+				<setInputField name="name1" value="foo"/>
+				<setInputField name="description1" value="Sample string"/>
+				
+				<!-- <clickButton label="Save Changes"/> -->
+				
+				<enableJavaScript enable="false" />
+					<clickButton name="action[save]"/>
+				<enableJavaScript enable="true" />
+				
+			</steps>
+	 	</webtest>
+	</target>	
+</project>

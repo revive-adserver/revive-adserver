@@ -1,0 +1,39 @@
+<ifStep description="if mysql">
+	<condition>
+		<verifyProperty description="if mysql"
+							name="db.type"
+							propertyType="ant"
+							text="mysql"
+							regex="false" />
+	</condition>
+	<then>
+		<sql
+		    driver="com.mysql.jdbc.Driver"
+		    url="jdbc:mysql://${db.host}:${db.port}/"
+		    userid="${db.login}"
+		    password="${db.password}"
+		    >
+		   	<classpath>
+		    	<pathelement location="${basedir}/../lib/mysql-connector-java-5.1.6-bin.jar" />
+		    </classpath>
+		    
+				<transaction>
+					drop database if exists ${db.name};
+				</transaction>
+		</sql>
+	</then>
+	<else>
+		<sql
+		    driver="org.postgresql.Driver"
+		    url="jdbc:postgresql://${db.host}:${db.port}/template1"
+		    userid="${db.login}"
+		    password="${db.password}"
+		    autocommit="true"
+		    >
+	    <classpath>
+	    	<pathelement location="${basedir}/../lib/postgresql-8.3-603.jdbc4.jar" />
+	    </classpath>
+				drop database if exists ${db.name};
+		</sql>
+	</else>
+</ifStep>

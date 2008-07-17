@@ -1,0 +1,15 @@
+<tr>
+    <td>&nbsp;</td>
+    <td id='cell_{$aItem.name}' class='{if $aItem.disabled}celldisabled{else}cellenabled{/if}' valign='top'>{$aItem.text}
+    {if $aItem.req}<span class="required">*</span>{/if}
+    </td>
+    <td width='100%' valign='top'>
+    {if $aItem.freeze}
+        <strong>{$aItem.value|escape}</strong>
+    {else}
+        <input onBlur='phpAds_refreshEnabled(); max_formValidateElement(this);' class='flat' type='text' name='{$aItem.name}' id='{$aItem.name}' {if $aItem.disabled}disabled="disabled"{/if} size='{$aItem.size}' {if $aItem.maxlength > 0}maxlength='{$aItem.maxlength}' {/if}value="{$aItem.value|escape}" tabindex='{$aItem.tabindex++}' {if $aItem.autooff}autocomplete="off"{/if}>
+        <span class='field-hint'>{$aItem.hint}</span>
+    {/if}
+    </td>
+    <td>{$this->_showPadLock($aItem)}</td>
+</tr>

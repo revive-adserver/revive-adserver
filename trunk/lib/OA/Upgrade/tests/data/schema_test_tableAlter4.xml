@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<database>
+
+ <name>test</name>
+ <create>true</create>
+ <overwrite>true</overwrite>
+
+ <table>
+
+  <name>table1</name>
+
+  <declaration>
+
+   <field>
+    <name>b_id_field_renamed</name>
+    <type>openads_int</type>
+    <length>9</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement></autoincrement>
+   </field>
+
+   <field>
+    <name>a_text_field</name>
+    <type>openads_varchar</type>
+    <length>32</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <index>
+    <name>table1_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>b_id_field_renamed</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>index2</name>
+    <unique>true</unique>
+    <field>
+     <name>a_text_field</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+  <table>
+
+  <name>table2</name>
+
+  <declaration>
+
+  <field>
+    <name>b_id_field2</name>
+    <type>openads_int</type>
+    <length>9</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement></autoincrement>
+   </field>
+
+   <field>
+    <name>a_text_field2</name>
+    <type>openads_varchar</type>
+    <length>32</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+
+</database>

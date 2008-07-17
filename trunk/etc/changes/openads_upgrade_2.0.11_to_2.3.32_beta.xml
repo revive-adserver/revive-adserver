@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<upgrade>
+    <name>Openads</name>
+    <creationDate>2007-05-24</creationDate>
+    <author>Openads Devs</author>
+    <authorEmail>support@openads.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>LICENSE.txt</license>
+    <description>Openads Upgrade 2.0.11-pr1 to 2.3.32-beta</description>
+    <versionFrom>2.0.11-pr1</versionFrom>
+    <versionTo>2.3.32-beta</versionTo>
+
+    <!-- Database Packages -->
+    <database>
+        <package>
+            <version>100</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_100.xml</file>
+            <file>changes_tables_core_100.xml</file>
+            <file>migration_tables_core_100.php</file>
+        </package>
+        <package>
+            <version>108</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_108.xml</file>
+            <file>changes_tables_core_108.xml</file>
+            <file>migration_tables_core_108.php</file>
+        </package>
+        <package>
+            <version>121</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_121.xml</file>
+            <file>changes_tables_core_121.xml</file>
+            <file>migration_tables_core_121.php</file>
+        </package>
+        <package>
+            <version>122</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_122.xml</file>
+            <file>changes_tables_core_122.xml</file>
+            <file>migration_tables_core_122.php</file>
+        </package>
+        <package>
+            <version>123</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_123.xml</file>
+            <file>changes_tables_core_123.xml</file>
+            <file>migration_tables_core_123.php</file>
+        </package>
+        <package>
+            <version>124</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_124.xml</file>
+            <file>changes_tables_core_124.xml</file>
+            <file>migration_tables_core_124.php</file>
+        </package>
+        <package>
+            <version>125</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_125.xml</file>
+            <file>changes_tables_core_125.xml</file>
+            <file>migration_tables_core_125.php</file>
+        </package>
+        <package>
+            <version>126</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_126.xml</file>
+            <file>changes_tables_core_126.xml</file>
+            <file>migration_tables_core_126.php</file>
+        </package>
+        <package>
+            <version>127</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_127.xml</file>
+            <file>changes_tables_core_127.xml</file>
+            <file>migration_tables_core_127.php</file>
+        </package>
+        <package>
+            <version>128</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_128.xml</file>
+            <file>changes_tables_core_128.xml</file>
+            <file>migration_tables_core_128.php</file>
+        </package>
+        <package>
+            <version>129</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_129.xml</file>
+            <file>changes_tables_core_129.xml</file>
+            <file>migration_tables_core_129.php</file>
+        </package>
+        <package>
+            <version>130</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_130.xml</file>
+            <file>changes_tables_core_130.xml</file>
+            <file>migration_tables_core_130.php</file>
+        </package>
+        <package>
+            <version>131</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_131.xml</file>
+            <file>changes_tables_core_131.xml</file>
+            <file>migration_tables_core_131.php</file>
+        </package>
+        <package>
+            <version>199</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_199.xml</file>
+            <file>changes_tables_core_199.xml</file>
+            <file>migration_tables_core_199.php</file>
+        </package>
+        <package>
+            <version>505</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_505.xml</file>
+            <file>changes_tables_core_505.xml</file>
+            <file>migration_tables_core_505.php</file>
+        </package>
+        <package>
+            <version>515</version>
+            <stamp>515</stamp>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_515.xml</file>
+            <file>changes_tables_core_515.xml</file>
+            <file>migration_tables_core_515.php</file>
+        </package>
+    </database>
+
+    <!-- Custom Install Scripts to execute -->
+    <prescript>prescript_openads_upgrade_2.0.11_to_2.3.32_beta.php</prescript>
+    <postscript>postscript_openads_upgrade_2.0.11_to_2.3.32_beta.php</postscript>
+
+
+</upgrade>

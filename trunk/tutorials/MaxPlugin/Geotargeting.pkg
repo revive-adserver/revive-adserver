@@ -1,0 +1,14 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>Geotargeting</refname>
+  <refpurpose>Describes how the Geotargeting Plugins work</refpurpose>
+ </refnamediv>
+ <para>
+  This is the documentation for the OpenX Geotargeting Plugin API.
+  If you're interested writing a geotargeting plugin for Openads, this document will
+  explain how to do it!
+ </para>
+ <para>
+  To be written...
+ </para>
+</refentry>

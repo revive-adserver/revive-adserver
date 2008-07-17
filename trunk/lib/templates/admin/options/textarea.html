@@ -1,0 +1,10 @@
+<tr><td>&nbsp;</td>
+    <td id='cell_{$aItem.name}' class='{if $aItem.disabled}celldisabled{else}cellenabled{/if}' valign='top'>{$aItem.text}
+    {if $aItem.req}<span class="required">*</span>{/if}
+    </td>
+    <td width='100%' valign='top'>
+        <textarea onBlur='phpAds_refreshEnabled(); max_formValidateElement(this);' class='flat' name='{$aItem.name}' id='{$aItem.name}' rows='{$aItem.rows}' {if $aItem.disabled}disabled='disabled'{/if}
+            style='width: 350px;' tabindex='{$aItem.tabindex++}'>{$aItem.value|escape}</textarea>
+    </td>
+    <td>{$this->_showPadLock($aItem)}</td>
+</tr>

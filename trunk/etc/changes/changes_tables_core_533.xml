@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>533</version>
+  <comments>Added OAC fields to the affiliate table</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>533</version>
+      <change>
+        <table>
+          <name>affiliates</name>
+          <add>
+            <field>
+              <name>oac_country_code</name>
+              <type>openads_char</type>
+              <length>2</length>
+              <notnull>1</notnull>
+              <default></default>
+              <was>oac_country_code</was>
+            </field>
+              <field>
+                <name>oac_language_id</name>
+                <type>openads_int</type>
+                <length>11</length>
+                <notnull></notnull>
+                <default></default>
+                <was>oac_language_id</was>
+              </field>
+                <field>
+                  <name>oac_category_id</name>
+                  <type>openads_int</type>
+                  <length>11</length>
+                  <notnull></notnull>
+                  <default></default>
+                  <was>oac_category_id</was>
+                </field>
+              </add>
+            </table>
+          </change>
+        </changeset>
+      </constructive>
+      <destructive>
+        <changeset>
+          <name>openads</name>
+          <version>533</version>
+        </changeset>
+      </destructive>
+    </instructionset>

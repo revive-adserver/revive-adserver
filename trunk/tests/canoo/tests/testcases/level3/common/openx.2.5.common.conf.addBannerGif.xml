@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE project SYSTEM "../../../../dtd/WebTest.dtd"[
+	<!ENTITY config  SYSTEM "../../modules/config_openx.xml">
+	<!ENTITY login  SYSTEM "../../modules/login_admin.xml">
+]>
+
+<project name="OpenX" basedir="." default="main">
+	<property name="openx.url" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}"/>
+	<target name="main">
+		<webtest name="Level3 - configuration test: openx.2.5.common.conf.addBannerGif.xml">
+			&config;
+			<steps>
+				<enableJavaScript enable="${wt.enableJS}" />
+				&login;
+				
+				<!-- <config><option name="ThrowExceptionOnScriptError" value="false" /></config>
+				<groovy>
+					step.context.webClient.throwExceptionOnFailingStatusCode = false
+				</groovy>
+				<clickLink label="Inventory" />
+				<groovy description="set it back">
+				step.context.webClient.throwExceptionOnFailingStatusCode = true
+				</groovy> -->
+				
+				<enableJavaScript enable="false" />
+					<clickLink label="Inventory" />
+				<enableJavaScript enable="true" />
+				
+				<clickLink label="Advertisers &amp; Campaigns"/>
+				
+				<enableJavaScript enable="false" />
+					<clickLink description="expand a list of available campaigns"
+						href="expand=client:1"/>
+					<clickLink description="expand list of available banners in campaign 3"
+						href="campaign:1-3" saveResponse='true' />
+				<enableJavaScript enable="true" />
+				
+				<clickLink label="sample gif banner"/>
+				<setRadioButton description="Check radio button replaceimage: t" name="replaceimage" value="t"/>
+<!-- TODO: modify path!!! -->
+				<setFileField description="Set upload file upload" fileName="C:\Documents and Settings\lukasz\My Documents\temp\468x60.gif" name="upload"/> <!--  value="C:\Documents and Settings\lukasz\My Documents\temp\468x60.gif" -->
+				<clickButton label="Save Changes"/>
+			</steps>
+	 	</webtest>
+	</target>	
+</project>

@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>{title}</title>
+</head>
+
+<body>
+<div flexy:start="here">
+	<table width='100%' border='0' cellspacing='0' cellpadding='0'>
+	<tr>
+	<td style="background-color: #f6f6f6; padding-left: 40px; width: 100%; border-bottom: 1px solid #999999;">
+	 <br />
+
+    <div flexy:if="showDaySpanSelector">
+    {showDaySpanSelector()}
+    </div>
+
+    <div flexy:if="displayInaccurateStatsWarning" class="stats-tz-warning">
+        {showInaccurateStatsWarning()}
+    </div>
+
+    <table width='100%' border='0' cellspacing='0' cellpadding='0'>
+	<tr>
+        {if:!disableGraph}
+    		<td style="padding-bottom:5px; white-space: nowrap;">
+    			<br />
+    			<a href="stats.php?{aGraphData[queryString]}&plugin=advertiser:statshistory" accesskey="e">
+                <img src="{assetPath}/images/excel.gif" border="0" alt="" /> {strExportStatisticsToExcel:h}
+                </a>
+    		</td>
+    		<td width="90%">&nbsp;</td>
+    	{else:}
+    		<td style="padding-bottom:5px; white-space: nowrap;">
+    			<br />
+    			<span style="color: #999999;">
+                <img src="{assetPath}/images/excel.gif" border="0" alt="" /> {strExportStatisticsToExcel:h}</span>
+    		</td>
+    		<td width="90%">&nbsp;</td>
+    	{end:}
+	</tr>
+	</table>
+    </td>
+  </tr>
+  <tr>
+	<td style="padding-left: 40px;">
+    {if:noStatsAvailable}
+    <div class='errormessage' style='margin-top: 2em'><img class='errormessage' src='{assetPath}/images/info.gif' width='16' height='16' border='0' align='absmiddle'>{showNoStatsString()}</div>
+    {else:}
+    <table width="100%" class="table">
+        <thead>
+            <tr>
+                <th scope="col" class="aleft"><a href="{listOrderHrefRev(statsBreakdown)}">{statsKey}<img flexy:if="listOrderImage(statsBreakdown)" src="{listOrderImage(statsBreakdown)}" border="0" /></a></th>
+                {foreach:aColumns,ck,cv}
+                <th scope="col" class="aright" flexy:if="showColumn(ck)"><a href="{listOrderHrefRev(ck)}">{cv}<img flexy:if="listOrderImage(ck)" src="{listOrderImage(ck)}" border="0" /></a></th>
+                {end:}
+            </tr>
+        </thead>
+        <tbody>
+            <tr flexy:foreach="aStatsData,h" class="{h[htmlclass]}">
+                <td class="{h[htmlclass]}" nowrap="nowrap">
+                    <img src="{assetPath}/{statsIcon}" width="16" height="16" align="absmiddle" />
+                    <a href="{h[link]}" flexy:if="h[link]">{h[date_f]}</a>
+                    <span flexy:if="!h[link]">{h[date_f]}</span>
+                </td>
+                {foreach:aColumns,ck,cv}
+                <td class="aright {h[htmlclass]}" flexy:if="showColumn(ck)">
+                    {if:showColumnLink(h,ck)}
+                    <a href="{showColumnLink(h,ck)}{h[convlinkparams]}">{showValue(h,ck)}</a>
+                    {else:}
+                    {showValue(h,ck)}
+                    {end:}
+                </td>
+                {end:}
+            </tr>
+            <tr>
+                <td colspan="{getColSpan()}" class="nblight" style="padding-bottom: 3em">
+                    <div style="float: left">
+                        <form method="get">
+                            {foreach:aPageParams,pk,pv}
+                            <input type="hidden" name="{pk}" value="{pv}" />
+                            {end:}
+                            {if:showDaySpanSelector}
+                            {tr(#strViewBreakdown#)}:
+                            <select name="statsBreakdown"></select>
+                            {end:}
+                            {if:pagerSelect}
+                            &nbsp;&nbsp;
+                            {tr(#strItemsPerPage#)}:
+                            {pagerSelect:h}
+                            {end:}
+                        </form>
+                    </div>
+                    <div style="float: right">
+                            {if:pagerLinks}
+                            &nbsp;&nbsp;
+                            {pagerLinks:h}
+                            {end:}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th scope="col" class="aleft">&nbsp;</th>
+                {foreach:aColumns,ck,cv}
+                <th scope="col" class="aright" flexy:if="showColumn(ck)">{cv}</th>
+                {end:}
+            </tr>
+            <tr flexy:if="showAverage">
+                <td><b>{tr(#strTotal#)}</b></td>
+                {foreach:aColumns,ck,cv}
+                <td class="aright" flexy:if="showColumn(ck)">{showValue(aTotal,ck)}</td>
+                {end:}
+            </tr>
+            <tr flexy:if="!showAverage">
+                <td class="last"><b>{tr(#strTotal#)}</b></td>
+                {foreach:aColumns,ck,cv}
+                <td class="aright last" flexy:if="showColumn(ck)">{showValue(aTotal,ck)}</td>
+                {end:}
+            </tr>
+            <tr flexy:if="showAverage">
+                <td class="last">{tr(#strAverage#)} ({averageSpan} {averageDesc})</td>
+                {foreach:aColumns,ck,cv}
+                <td class="aright last" flexy:if="showColumn(ck)">{showValue(average,ck)}</td>
+                {end:}
+            </tr>
+        </tbody>
+    </table>
+    {end:}
+</div>
+</body>
+This isn't here at all.
+</html>

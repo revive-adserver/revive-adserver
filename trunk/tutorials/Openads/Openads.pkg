@@ -1,0 +1,16 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>OpenX API</refname>
+ </refnamediv>
+ <para>
+  This is the documentation for the OpenX API. If you're interested
+  in patching/extending OpenX, or you just want to know more about how OpenX works, this
+  is the place for you to look.
+ </para>
+ <para>
+  Please note that, as much of the OpenX code is original or extended phpAdsNew code, there
+  will be many functions in the API that are not currently documented. As OpenX is
+  re-written to incorporate new features, these functions will be documented in the
+  code, and thus added to the API documentation. Please be patient!
+ </para>
+</refentry>

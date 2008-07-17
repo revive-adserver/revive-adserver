@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE project SYSTEM "../../../../dtd/WebTest.dtd"[
+	<!ENTITY config  SYSTEM "../../modules/config_openx.xml">
+	<!ENTITY login  SYSTEM "../../modules/login_admin.xml">
+]>
+
+<project name="OpenX" basedir="." default="main">
+	<property name="openx.url" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}"/>
+	<target name="main">
+		<webtest name="Level3 - configuration test: openx.2.5.common.conf.addChannel.xml">
+			&config;
+			<steps>
+				<enableJavaScript enable="${wt.enableJS}" />
+				&login;
+				
+				<enableJavaScript enable="false" />
+					<clickLink label="Inventory" />
+				<enableJavaScript enable="true" />
+				
+				<clickLink label="Websites &amp; Zones"/>
+				
+				<enableJavaScript enable="false" />
+					<clickLink label="Targeting Channels"/>
+				<enableJavaScript enable="true" />
+				
+				<enableJavaScript enable="false" />
+					<clickLink label="Add new Targeting Channel"/>
+				<enableJavaScript enable="true" />
+				
+				<setInputField name="name" value="Test Admin Channel 2"/>
+				<!-- <clickButton label="Save Changes"/> -->
+				<clickButton htmlId="submit"/>
+				
+				<!-- OX-2726 -->
+				
+			</steps>
+	 	</webtest>
+	</target>	
+</project>

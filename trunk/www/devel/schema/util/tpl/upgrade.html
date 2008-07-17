@@ -1,0 +1,308 @@
+<html>
+<head>
+    <title>OpenX Schema Upgrade Utilities</title>
+    <link rel="stylesheet" type="text/css" href="css/upgrade.css"/>
+
+    <script type="text/javascript" src="schema.js"></script>
+    <script type="text/javascript" src="../../lib/xajax/xajax_js/xajax.js"></script>
+    <script type="text/javascript">
+        window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Javascript file could not be included. Perhaps the URL is incorrect?\nURL: ../lib/xajax/xajax_js/xajax.js'); } }, 6000);
+    </script>
+
+</head>
+<!--body onload="xajax_testAjax(''); return false"-->
+<body>
+<?php
+if ($welcome)
+{
+?>
+<div class="tablediv">
+    <h2>OpenX Schema Upgrade Utilities</h2>
+    <form name="frmUpgrade" method="POST" action="upgrade.php">
+        <!--button name="btn_initialise">hey! i see you need an upgrade, would you like me to help you with that?</button-->
+        <button name="btn_view_audit">view the upgrade audit trail</button>
+        <button name="btn_view_available">view a list of available database upgrades</button>
+        <button name="btn_view_changesets">view previous database upgrades</button>
+        <button name="btn_view_logs">view a list of database upgrade log files</button>
+        <button name="btn_view_dbaudit">view the database upgrade audit trail</button>
+        <button name="btn_view_backups">view a list of backup tables</button>
+        <button name="btn_view_environment">view system info</button>
+    </form>
+</div>
+<?php
+}
+if ($backup)
+{
+?>
+<div class="tablediv">
+    <form name="frmUpgrade" method="POST" action="upgrade.php">
+        <button name="btn_backup">i guess you should backup your database, yeah?</button>
+    </form>
+</div>
+<?php
+}
+$aErrors = $oUpgrader->getErrors();
+if (count($aErrors)>0)
+{
+?>
+<div class="tablediv" style="background-color:pink;">
+    <?php
+        foreach ($aErrors AS $k => $err)
+        {
+            echo $err.'<br />';
+        }
+    ?>
+</div>
+<?php
+}
+$aMessages = $oUpgrader->getMessages();
+if (count($aMessages)>0)
+{
+?>
+<div class="tablediv">
+    <?php
+        foreach ($aMessages AS $k => $msg)
+        {
+            echo $msg.'<br />';
+        }
+    ?>
+</div>
+<?php
+}
+if (count($aLogfiles)>0)
+{
+?>
+<div class="tablediv">
+    <form name="frmUpgrade" method="POST" action="upgrade.php">
+    <table class="tablemain">
+    <tr>
+        <th class="tableheader">upgrade log files in /var folder</th>
+        <th class="tableheader" colspan="2">gwan</th>
+    </tr>
+    <?php
+        foreach ($aLogfiles AS $k => $v)
+        {
+            echo "<tr>
+                      <td class=\"tablebody\">{$v}</td>
+                      <td class=\"tablebody\"><button name=\"btn_logfile_view\" value=\"{$v}\">open</button></td>
+                      <td class=\"tablebody\"><button name=\"btn_logfile_drop\" value=\"{$v}\">remove</button></td>
+                  </tr>";
+        }
+    ?>
+    </table>
+    </form>
+</div>
+<?php
+}
+if (count($aBackups)>0)
+{
+?>
+<div class="tablediv">
+    <form name="frmUpgrade" method="POST" action="upgrade.php">
+    <table class="tablemain">
+    <tr>
+        <th class="tableheader" colspan="6">backup tables in database</th>
+    </tr>
+    <tr>
+        <th class="tableheader">backup table</th>
+        <th class="tableheader">copied from</th>
+        <th class="tableheader">date</th>
+        <th class="tableheader">rows</th>
+        <th class="tableheader">size (KB)</th>
+        <th class="tableheader">remove the backup table</th>
+    </tr>
+    <?php
+        $total_data_size = 0;
+        $total_tables = 0;
+        foreach ($aBackups AS $k => $v)
+        {
+            $total_data_size = $total_data_size + $v['data_length'];
+            $total_tables++;
+            echo "<tr>
+                      <td class=\"tablebody\">{$v['backup_table']}</td>
+                      <td class=\"tablebody\">{$v['copied_table']}</td>
+                      <td class=\"tablebody\">{$v['copied_date']}</td>
+                      <td class=\"tablebody\">{$v['rows']}</td>
+                      <td class=\"tablebody\">{$v['data_length']}</td>
+                      <td class=\"tablebody\"><button name=\"btn_backup_drop\" value=\"{$v['backup_table']}\">drop</button></td>
+                  </tr>";
+        }
+        echo "<tr>
+                  <th class=\"tableheader\" colspan=\"3\">{$total_tables} tables</th>
+                  <th class=\"tableheader\" colspan=\"3\">{$total_data_size} KB</th>
+              </tr>";
+    ?>
+    </table>
+    </form>
+</div>
+<?php
+}
+if (count($aPackagesAvail)>0)
+{
+?>
+<div class="tablediv">
+    <form name="frmUpgrade" method="POST" action="upgrade.php">
+    <table class="tablemain">
+    <tr><th class="tableheader" colspan="4">available upgrade packages</th></tr>
+    <tr><th class="tableheader">package name</th>
+        <th class="tableheader">gwan</th>
+    </tr>
+    <?php
+        foreach ($aPackagesAvail AS $k => $v)
+        {
+            echo "<tr>
+                      <td class=\"tablebody\">{$v}</td>
+                      <td class=\"tablebody\"><button name=\"btn_parse_pkg\" value=\"{$v}\">parse me baby i dare ya!</button></td>
+                  </tr>";
+        }
+    ?>
+    </table>
+    </form>
+</div>
+<?php
+}
+if (count($aPkgParsed)>0)
+{
+?>
+<div class="tablediv">
+    <form name="frmUpgrade" method="POST" action="upgrade.php">
+    <button name="btn_upgrade" value="<?php echo $input_file; ?>">upgrade me baby i dare ya!</button>
+    <table class="tablemain">
+    <tr>
+        <th class="tableheader" colspan="2"><?php echo $input_file; ?></th>
+    <tr>
+    <tr>
+        <th class="tableheader">variable</th>
+        <th class="tableheader">value</th>
+    </tr>
+    <?php
+        foreach ($aPkgParsed AS $k => $v)
+        {
+            if (!is_array($v))
+            {
+                echo "<tr>
+                          <td class=\"tablebody\">{$k}</td>
+                          <td class=\"tablebody\">{$v}</td>
+                      </tr>";
+            }
+        }
+        foreach ($aPkgParsed['db_pkgs'] AS $k => $v)
+        {
+            echo "<tr>
+                      <td class=\"tablebody\">db upgrade pkg</td>
+                      <td class=\"tablebody\">{$v['version']}</td>
+                  </tr>";
+            foreach ($v['files'] AS $k1 => $v1)
+            {
+                echo "<tr>
+                          <td class=\"tablebody\">{$k1}</td>
+                          <td class=\"tablebody\">{$v1}</td>
+                      </tr>";
+            }
+        }
+    ?>
+    </table>
+    </form>
+</div>
+<?php
+}
+if (count($aSysInfo)>0)
+{
+?>
+<div class="tablediv">
+    <form name="frmUpgrade" method="POST" action="upgrade.php">
+    <table class="tablemain">
+    <tr>
+        <th class="tableheader" colspan="2">System Info</th>
+    <tr>
+    <?php
+        $sysinfoarray = $aSysInfo['PHP'];
+        $sysinfoheading = 'PHP';
+        include 'tpl/sysinfosection.html';
+
+        $sysinfoarray = $aSysInfo['PERMS'];
+        $sysinfoheading = 'Permission Errors';
+        include 'tpl/sysinfosection.html';
+
+//        $sysinfoarray = $aSysInfo['FILES'];
+//        $sysinfoheading = 'File Integrity Problems';
+//        include 'tpl/sysinfosection.html';
+    ?>
+    </table>
+    </form>
+</div>
+<?php
+}
+if (count($aAudit)>0)
+{
+    include 'tpl/upgradeauditajax.html';
+}
+if (count($aDBAudit)>0)
+{
+?>
+<div class="tablediv">
+    <table class="tablemain">
+    <tr><th class="tableheader" colspan="8">database action table</th></tr>
+    <tr>
+        <th class="tableheader">version</th>
+        <th class="tableheader">timing</th>
+        <th class="tableheader">action</th>
+        <th class="tableheader">info1</th>
+        <th class="tableheader">info2</th>
+        <--th class="tableheader">schema_backup</th-->
+        <th class="tableheader">tablename</th>
+        <th class="tableheader">tablename_backup</th>
+        <th class="tableheader">updated</th>
+    </tr>
+    <?php
+        foreach ($aDBAudit AS $k => $v)
+        {
+            $timing = ($v['timing'] ? 'destructive' : 'constructive');
+            echo "<tr>
+                      <td class=\"tablebody\">{$v['version']}</td>
+                      <td class=\"tablebody\">{$timing}</td>
+                      <td class=\"tablebody\">{$v['action']}</td>
+                      <td class=\"tablebody\">{$v['info1']}</td>
+                      <td class=\"tablebody\">{$v['info2']}</td>
+                      <!--td class=\"tablebody\">{$v['schema_backup']}</td-->
+                      <td class=\"tablebody\">{$v['tablename']}</td>
+                      <td class=\"tablebody\">{$v['tablename_backup']}</td>
+                      <td class=\"tablebody\">{$v['updated']}</td>
+                  </tr>";
+        }
+    ?>
+    </table>
+</div>
+<?php
+}
+if ($upgrade)
+{
+?>
+<div class="tablediv" style="background-color:yellow;text-align:center;">
+    <form name="frmUpgrade" method="POST" action="upgrade.php">
+        <button name="btn_upgrade">upgrade me baby i dare ya!</button>
+    </form>
+</div>
+<?php
+}
+if (isset($logcontent))
+{
+?>
+<div class="tablediv">
+    <table class="tablemain">
+    <tr>
+        <th class="tableheader"><?php echo $logfile; ?></th>
+    </tr>
+    <tr>
+        <td><textarea cols="160" rows="160" ><?php echo $logcontent; ?></textarea></td>
+    </tr>
+    </table>
+</div>
+<?php
+}
+?>
+
+
+</body>
+</html>
+
