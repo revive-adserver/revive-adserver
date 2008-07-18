@@ -43,6 +43,35 @@ $Id$
  *
  */
 
+// Require the timezone getting function file, and get the system
+// timezone, storing in a global variable
+global $aServerTimezone;
+function OA_Admin_TimezonesDelivery_getTimezone()
+{
+$calculated = false;
+if (version_compare(phpversion(), '5.1.0', '>=')) {
+// Great! The PHP version is >= 5.1.0, so simply
+// use the built in date_default_timezone_get()
+// function, and know it's all good
+$tz = date_default_timezone_get();
+} else {
+// Boo, we have to rely on the dodgy old TZ
+// environment variable stuff
+$tz = getenv('TZ');
+}
+if ($tz === false || $tz === '') {
+// Could not calculate, return an empty array
+$aReturn = array();
+return $aReturn;
+}
+// Return the found timezone information
+$aReturn = array(
+'tz'         => $tz,
+'calculated' => $calculated
+);
+return $aReturn;
+}
+$aServerTimezone = OA_Admin_TimezonesDelivery_getTimezone();
 // Require the initialisation file
 function parseDeliveryIniFile($configPath = null, $configFile = null, $sections = true)
 {
