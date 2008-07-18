@@ -4437,7 +4437,7 @@ $varname = $zoneid = $zone;
 }
 // Get the banner
 $output = MAX_adSelect('zone:'.$zoneid, '', $target, $source, $withtext, '', $context, $richmedia, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
-$spc_output[$varname] = $output['html'];
+$spc_output[$varname] = $output;
 // Block this banner for next invocation
 if (!empty($block) && !empty($output['bannerid'])) {
 $output['context'][] = array('!=' => 'bannerid:' . $output['bannerid']);
