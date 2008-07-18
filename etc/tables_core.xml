@@ -6,6 +6,7 @@
  <create>true</create>
  <overwrite>false</overwrite>
  <version>600</version>
+ <status>final</status>
 
  <table>
 
