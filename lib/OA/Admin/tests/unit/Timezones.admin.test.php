@@ -74,7 +74,7 @@ class Test_OA_Admin_Timezones extends UnitTestCase
             $this->assertTrue(is_array($aTimezone));
             $this->assertEqual(count($aTimezone), 2);
             $this->assertEqual('America/Detroit', $aTimezone['tz']);
-            $this->assertEqual(false, $aTimezone['generated']);
+            $this->assertEqual(false, $aTimezone['calculated']);
         } else {
             //  this test is dependant upon the system clock
             // Clear any TZ env
@@ -122,13 +122,13 @@ class Test_OA_Admin_Timezones extends UnitTestCase
         $aConfigTimezone = array(
             'America/Detroit' => array(
                     'tz'        => 'Europe/London',
-                    'generated' => false),
+                    'calculated' => false),
             'Europe/London' => array(
                     'tz'        => 'Europe/London',
-                    'generated' => true),
+                    'calculated' => true),
             'America/Chicago' => array(
                     'tz'        => 'America/Chicago',
-                    'generated' => false),
+                    'calculated' => false),
         );
 
         $aResult = array(
