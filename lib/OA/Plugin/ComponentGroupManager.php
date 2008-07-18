@@ -60,6 +60,8 @@ class OX_Plugin_ComponentGroupManager
     var $oAuditor;
     var $oUpgrader;
 
+    var $aMenuObjects;
+
     var $aWarnings;
     var $aErrors;
 
@@ -1317,7 +1319,14 @@ class OX_Plugin_ComponentGroupManager
         }
         foreach ($aMenus AS $accountType => $aMenu)
         {
-            $oMenu = $this->_getMenuObject($accountType);
+            if (!$this->aMenuObjects[$accountType])
+            {
+                $oMenu = $this->_getMenuObject($accountType);
+            }
+            else
+            {
+                $oMenu = $this->aMenuObjects[$accountType];
+            }
             foreach ($aMenu as $idx => $aMenu)
             {
                 if (!$this->_addMenuSection($oMenu, $aMenu))
@@ -1325,6 +1334,7 @@ class OX_Plugin_ComponentGroupManager
                     return false;
                 }
             }
+            $this->aMenuObjects[$accountType] = $oMenu;
             return $oMenu;
         }
     }
