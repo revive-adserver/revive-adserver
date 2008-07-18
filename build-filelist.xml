@@ -8,6 +8,7 @@
   <patternset id="dist.included">
     <!-- Files in the main directory -->
     <include name="CHANGELOG.txt"/>
+    <include name="COPYRIGHT.txt"/>
     <include name="INSTALL.txt"/>
     <include name="LICENSE.txt"/>
     <include name="README.txt"/>
