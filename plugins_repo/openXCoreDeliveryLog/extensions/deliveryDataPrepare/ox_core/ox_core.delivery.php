@@ -26,7 +26,7 @@ $Id$
 
 // Dependencies
 ###START_STRIP_DELIVERY
-$GLOBALS['_MAX']['pluginsDependencies']['deliveryDataPrepare:ox_core:ox_core'] = array();
+$GLOBALS['_MAX']['pluginsDependencies']['deliveryDataPrepare']['ox_core']['deliveryDataPrepare:ox_core:ox_core'] = array();
 ###END_STRIP_DELIVERY
 
 function OA_Plugins_deliveryDataPrepare_ox_core(&$data)

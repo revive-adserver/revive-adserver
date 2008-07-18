@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS ox_data_bucket_request (
 
 // Dependencies
 ###START_STRIP_DELIVERY
-$GLOBALS['_MAX']['pluginsDependencies']['deliveryLog:ox_requesty:ox_requesty'] = array(
+$GLOBALS['_MAX']['pluginsDependencies']['deliveryLog:ox_request:ox_request'] = array(
     'deliveryDataPrepare:ox_core:ox_core',
 );
 ###END_STRIP_DELIVERY

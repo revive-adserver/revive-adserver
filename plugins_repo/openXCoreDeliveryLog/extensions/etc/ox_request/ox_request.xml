@@ -19,8 +19,11 @@
         </files>
     </install>
 
-    <register>
-        <hook type='delivery' hook="logRequest"></hook>
-    </register>
+    <components>
+       <component>
+            <name>ox_request</name>
+            <hook>logRequest</hook>
+       </component>
+    </components>
 
 </plugin>

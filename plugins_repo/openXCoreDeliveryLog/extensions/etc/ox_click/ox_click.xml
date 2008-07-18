@@ -19,8 +19,11 @@
         </files>
     </install>
 
-    <register>
-        <hook type='delivery' hook="logClick">Plugin_deliveryLog_ox_click_ox_click_Delivery_logClick</hook>
-    </register>
+    <components>
+       <component>
+            <name>ox_click</name>
+            <hook>logClick</hook>
+       </component>
+    </components>
 
 </plugin>

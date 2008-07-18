@@ -19,7 +19,11 @@
         </files>
     </install>
 
-    <register>
-        <hook type='delivery' hook="preLog">Plugin_deliverydataPrepare_ox_core_ox_core_Delivery_preLog</hook>
-    </register>
+    <components>
+       <component>
+            <name>ox_core</name>
+            <hook>preLog</hook>
+       </component>
+    </components>
+
 </plugin>

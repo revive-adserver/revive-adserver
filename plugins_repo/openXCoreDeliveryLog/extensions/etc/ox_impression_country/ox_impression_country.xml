@@ -19,8 +19,11 @@
         </files>
     </install>
 
-    <register>
-        <hook type='delivery' hook="logImpression"></hook>
-    </register>
+    <components>
+       <component>
+            <name>ox_impression_country</name>
+            <hook>logImpression</hook>
+       </component>
+    </components>
 
 </plugin>

@@ -28,12 +28,14 @@ $Id$
 define('OX_BUCKETS_COMPILED_FILE', MAX_PATH.'/var/cache/deliveryAdLog.php');
 
 require_once MAX_PATH . '/lib/OA/Plugin/Component.php';
-require_once MAX_PATH . '/lib/OA/Plugin/ComponentManager.php';
+require_once MAX_PATH . '/lib/OA/Plugin/ComponentGroupManager.php';
 require_once MAX_PATH . '/lib/OA/Util/CodeMunger.php';
 require_once MAX_PATH . '/lib/OA/Algorithm/Dependency/Ordered.php';
 require_once MAX_PATH . '/lib/OA/Algorithm/Dependency/Source/HoA.php';
 
 /**
+ * Generates delivery log plugins cache and order the dependencies
+ * between components per each delivery log hook.
  *
  * @package    OpenXPlugin
  * @subpackage Plugins_LogCodeGenerator
@@ -41,47 +43,99 @@ require_once MAX_PATH . '/lib/OA/Algorithm/Dependency/Source/HoA.php';
  */
 class OX_Plugins_DeliveryLog_CodeGenerator extends OX_Component
 {
-    private $extensionTypes = array(
-        'deliveryDataPrepare',
-        'deliveryLog',
-    );
-
-    private $extensionsPoints = array(
-        'preLog',
-        'logRequest',
-        'logImpression',
-        'logClick',
-        'logConversion',
-    );
-
-    private $codeMunger;
+    const DATA_EXTENSION = 'deliveryDataPrepare';
+    const LOG_EXTENSION  = 'deliveryLog';
 
     /**
-     * Should we use the template with GNU license header here?
+     * Delivery logging related extension types
+     *
+     * @var array
+     */
+    private $extensionTypes = array(
+        self::DATA_EXTENSION,
+        self::LOG_EXTENSION
+    );
+
+    /**
+     * @todo - get this template from external template file
      *
      * @var string
      */
     public $header = "<?php\n\n{TEMPLATE}\n\n?>";
 
+    /**
+     * Code generator
+     *
+     * @var OX_Util_CodeMunger
+     */
+    private $codeMunger;
+
+    /**
+     * Regenerate delivery plugins code cache and calculate dependencies
+     *
+     * @return boolean  True on success, otherwise false
+     */
     function generateDelivery()
     {
-        $plugins = $this->getActivePluginsHooks($this->extensionTypes);
-        if (!$this->mergeDeliveryPlugins($plugins)) {
+        $plugins = $this->getActivePluginsByExtensions($this->extensionTypes);
+        if (!$this->regenerateDeliveryPluginsCodeCache($plugins)) {
             return false;
         }
-        if (!$this->orderPluginsByDependency($plugins)) {
+        $pluginsByHooks = $this->groupPluginsByHooks($plugins);
+        if (!$this->orderPluginsByDependency($plugins, $pluginsByHooks)) {
             return false;
         }
+        return true;
     }
 
-    function orderPluginsByDependency(array $plugins)
+    /**
+     * Get list of deliveryLog hooks from deliveryLog plugins
+     *
+     * @param array $plugins
+     * @return array  Array of hooks ['extension name']['hook'] = array of plugins code-names
+     *                where a code name is extensionType:group:component
+     */
+    function groupPluginsByHooks(array $plugins)
     {
-        // @todo - these files should be ordered by hook type - currently they are ordered globally
-        $orderedPlugins = $this->getDpendencyOrderedPlugins($plugins);
-        // @TODO - save them in config file?
+        $hooks = array();
+        foreach ($plugins as $extension => $extPlugins) {
+            foreach ($extPlugins as $pluginName => $aPluginData) {
+                foreach ($aPluginData['register']['delivery'] as $hookName => $aHook) {
+                    // should this be more flexible?
+                    $hooks[$extension][$hookName][] = $extension.':'.$pluginName.':'.$pluginName;
+                }
+            }
+        }
+        return $hooks;
     }
 
-    function getDpendencyOrderedPlugins(array $plugins)
+    /**
+     * Orders plugins by its dependency in which of hooks categories
+     *
+     * @param array $plugins
+     * @param array $hooks
+     * @return
+     */
+    function orderPluginsByDependency(array $plugins, array $hooks)
+    {
+        $orderedDependencies = $this->getDpendencyOrderedPlugins($plugins, $hooks);
+        // @TODO - save them in config file?
+        foreach ($orderedDependencies as $hook => $aComponents) {
+            $oConfigWriter['deliveryHooks'] = implode('|', $orderedDependencie);
+        }
+    }
+
+    /**
+     * Check the dependencies for active delivery log components and
+     * order them per hook
+     *
+     * @param array $plugins
+     * @param array $hooks
+     * @param string $extensionType
+     * @return array
+     */
+    function getDpendencyOrderedPlugins(array $plugins, array $hooks,
+        $extensionType = self::LOG_EXTENSION)
     {
         $pluginsDependencies = $this->getPluginsDependencies($plugins);
         if (!$pluginsDependencies) {
@@ -89,7 +143,12 @@ class OX_Plugins_DeliveryLog_CodeGenerator extends OX_Component
         }
         $source = new OA_Algorithm_Dependency_Source_HoA($pluginsDependencies);
         $dep = new OA_Algorithm_Dependency_Ordered($source);
-        return array_values($dep->scheduleAll());
+
+        $orderedDependencies = array();
+        foreach ($hooks[$extensionType] as $hookName => $hookPlugins) {
+            $orderedDependencies[$hookName] = array_values($dep->schedule($hookPlugins));
+        }
+        return $orderedDependencies;
     }
 
     /**
@@ -108,13 +167,13 @@ class OX_Plugins_DeliveryLog_CodeGenerator extends OX_Component
      */
     function getPluginsDependencies(array $plugins)
     {
-        if (!$this->includePluginsFiles($plugins)) {
+        if (!$this->includePlugins($plugins)) {
             return false;
         }
         return $GLOBALS['_MAX']['pluginsDependencies'];
     }
 
-    function includePluginsFiles(array $plugins)
+    function includePlugins(array $plugins)
     {
         foreach ($plugins as $pluginExtension => $extensionPlugins) {
             foreach ($extensionPlugins as $pluginName => $plugin) {
@@ -128,7 +187,7 @@ class OX_Plugins_DeliveryLog_CodeGenerator extends OX_Component
         return true;
     }
 
-    function mergeDeliveryPlugins($plugins)
+    function regenerateDeliveryPluginsCodeCache($plugins)
     {
         $pluginsFiles = array();
         $mergedDelivery = '';
@@ -242,7 +301,7 @@ class OX_Plugins_DeliveryLog_CodeGenerator extends OX_Component
      * @param array $extensionTypes
      * @return array
      */
-    function getActivePluginsHooks($extensionTypes)
+    function getActivePluginsByExtensions($extensionTypes)
     {
         $oPluginMgr = $this->_getComponentGroupManager();
         $plugins = $oPluginMgr->getComponentGroupsList();

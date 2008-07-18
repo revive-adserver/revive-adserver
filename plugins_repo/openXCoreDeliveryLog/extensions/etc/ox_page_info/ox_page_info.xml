@@ -19,8 +19,11 @@
         </files>
     </install>
 
-    <register>
-        <hook type='delivery' hook="preLog"></hook>
-    </register>
+    <components>
+       <component>
+            <name>ox_page_info</name>
+            <hook>preLog</hook>
+       </component>
+    </components>
 
 </plugin>
