@@ -157,8 +157,6 @@ function buildAdvertiserForm($aAdvertiser)
     
     //set form  values 
     $form->setDefaults($aAdvertiser);
-    
-    $form->freeze();
     return $form;
 }    
 
