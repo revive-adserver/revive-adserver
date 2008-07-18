@@ -42,19 +42,19 @@ $Id$
 
 {else}
     {* Only display the notices when *changing* a banner size, not for new banners *}
-<div class='errormessage' id='warning_change_zone_type' style='display:none'> <img class='errormessage' src='images/errormessage.gif' align='absmiddle' />
+<div class='errormessage' id='warning_change_zone_type' style='display:none'> <img class='errormessage' src='{$assetPath}/images/errormessage.gif' align='absmiddle' />
 <span class='tab-r'>{t str=Warning}:</span><br />
 {t str=WarnChangeZoneType}
 </div>
 
-<div class='errormessage' id='warning_change_banner_size' style='display:none'> <img class='errormessage' src='images/warning.gif' align='absmiddle' />
+<div class='errormessage' id='warning_change_banner_size' style='display:none'> <img class='errormessage' src='{$assetPath}/images/warning.gif' align='absmiddle' />
 <span class='tab-s'> {t str=Notice}</span><br />
 {t str=WarnChangeBannerSize}
 </div>
 {/if}
 
 {if $disabled}
-<div class='errormessage' id='warning_banner_readonly' style='display:none'> <img class='errormessage' src='images/warning.gif' align='absmiddle' />
+<div class='errormessage' id='warning_banner_readonly'> <img class='errormessage' src='{$assetPath}/images/warning.gif' align='absmiddle' />
 <span class='tab-s'> {t str=Notice}</span><br />
 {t str=WarnBannerReadonly}
 </div>
