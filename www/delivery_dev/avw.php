@@ -25,6 +25,18 @@
 $Id$
 */
 
+/**
+ * @package    OpenXDelivery
+ * @author     Scott Switzer <scott@switzer.org>
+ * @author     Andrew Hill <andrew.hill@openx.org>
+ */
+
+// Require the timezone getting function file, and get the system
+// timezone, storing in a global variable
+global $aServerTimezone;
+require_once '../../lib/OA/Admin/TimezonesDelivery.php';
+$aServerTimezone = OA_Admin_TimezonesDelivery_getTimezone();
+
 // Require the initialisation file
 require_once '../../init-delivery.php';
 
