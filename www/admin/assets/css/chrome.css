@@ -665,9 +665,14 @@ form.flat select, form.flat textarea, form.flat input[type=text] {
     padding-left: 3px;
 }
 
+form.flat select.frozen, form.flat textarea.frozen, form.flat input[type=text].frozen {
+	color: #6F6F6F;
+}
+
+
 /* standard control sizes */
 form.flat .x-small {
-	width: 60px;
+	width: 50px;
 }
 
 form.flat .small {
@@ -682,6 +687,21 @@ form.flat .large {
     width: 350px;	
 }
 
+form.flat textarea.x-small-h {
+	height: 50px;
+}
+
+form.flat textarea.small-h {
+	height: 100px;
+}
+
+form.flat textarea.h-medium-h {
+    height: 160px;
+}
+
+form.flat textarea.h-large-h {
+    height: 260px;	
+}
 
 /** Campaigns **/
 .campaign-type .sep {

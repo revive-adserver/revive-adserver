@@ -33,6 +33,7 @@ require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/max/Admin/Inventory/TrackerAppend.php';
+require_once MAX_PATH . '/lib/max/other/html.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
@@ -110,10 +111,7 @@ $extra .= "\t\t\t\t<a href='tracker-delete.php?clientid=$clientid&trackerid=$tra
 $extra .= "\t\t\t\t</form>\n";
 
 phpAds_PageHeader("4.1.4.6", $extra);
-echo "\t\t\t\t<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;".phpAds_getClientName($clientid)."\n";
-echo "\t\t\t\t<img src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/caret-rs.gif'>\n";
-echo "\t\t\t\t<img src='" . MAX::assetPath() . "/images/icon-tracker.gif' align='absmiddle'>\n";
-echo "\t\t\t\t<b>".phpAds_getTrackerName($trackerid)."</b><br /><br /><br />\n";
+MAX_displayTrackerBreadcrumbs($trackerid);
 phpAds_ShowSections(array("4.1.4.2", "4.1.4.3", "4.1.4.5", "4.1.4.6", "4.1.4.4"));
 
 

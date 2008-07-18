@@ -1,8 +1,8 @@
-{*<!--
-
+<?php
+/*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -21,42 +21,56 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
+$Id$
+*/
 
--->*}
-{if $aSide|@count}
-<div id="oaSidebar">
-    <h3>{t str=Navigation}</h3>
-    <ul id="oaSidebarNavigation">
-{foreach item=s from=$aSide}
-        <li class="{if $s.top}top{elseif $s.first}first{/if}{if $s.current} current{elseif $s.up} up{/if}">
-            <a href="{$s.filename|escape}"{if $s.up} accesskey="{t key=Up}"{/if}>{$s.title|escape}</a>
-        </li>
-{/foreach}
-    </ul>
+/**
+ * HTML class for static data
+ */
+require_once MAX_PATH.'/lib/pear/HTML/QuickForm/static.php';
 
-{if $aSideContext|@count}
-    <ul id="oaSidebarContext">
-{foreach item=s from=$aSideContext}
-        <li class="{if $s.selected}selected{/if}"><a href="{$s.link|escape}"{if $s.accesskey}accesskey="{$s.accesskey}"{/if} title="{$s.name_full}">{$s.name}</a></li>
-{/foreach}
-    </ul>
-{/if}
+/**
+ * A pseudo-element used for adding raw HTML to form
+ * 
+ * Intended for use with the default renderer only, template-based
+ * ones may (and probably will) completely ignore this
+ * 
+ * Adds name to element to allow hiding stuff
+ */
+class OA_Admin_UI_Component_Html extends HTML_QuickForm_static
+{
+    // {{{ constructor
 
-{if $sidebarExtra}
-    <div id="oaSidebarCustom">{$sidebarExtra}</div>
-{/if}
+   /**
+    * Class constructor
+    * 
+    * @param string $name   element name
+    * @param string $text   raw HTML to add
+    * @access public
+    * @return void
+    */
+    function OA_Admin_UI_Component_Html($name = null, $text = null)
+    {
+        $this->HTML_QuickForm_static($name, null, $text);
+        $this->_type = 'html';
+    }
 
-{if $aSideShortcuts|@count}
-    <h3>{t str=Shortcuts}</h3>
-    <ul id="oaSidebarShortcuts">
-{foreach item=s from=$aSideShortcuts}
-        <li style="background-image: url({$s.icon|escape});"><a href="{$s.link|escape}">{$s.name}</a></li>
-{/foreach}
-    </ul>
-{/if}
+    // }}}
+    // {{{ accept()
 
-</div>
-{else}
-&nbsp;
-{/if}
+   /**
+    * Accepts a renderer
+    *
+    * @param HTML_QuickForm_Renderer    renderer object (only works with Default renderer!)
+    * @access public
+    * @return void 
+    */
+    function accept(&$renderer)
+    {
+        $renderer->renderHtml($this);
+    } // end func accept
+
+    // }}}
+
+} //end class HTML_QuickForm_html
+?>

@@ -26,33 +26,33 @@ $Id: main.html 17781 2008-03-18 10:54:53Z bernard.lange@openx.org $
 
 {if $_e.type == 'header'}
 {* open section *}
-<table class="section" border='0' width='100%' cellpadding='0' cellspacing='0'>
-<tr><td height='25' colspan='3'>{if $_e.icon}<img src='{$assetPath}/images/{$_e.icon}' align='absmiddle'>&nbsp;{/if}<b>{$_e.header}</b></td></tr>
-<tr height='1'><td width='30'><img src='{$assetPath}/images/break.gif' height='1' width='30'></td>
-<td width='200'><img src='{$assetPath}/images/break.gif' height='1' width='200'></td>
-<td width='100%'><img src='{$assetPath}/images/break.gif' height='1' width='100%'></td></tr>
-<tr><td height='10' colspan='3'>&nbsp;</td></tr>
-    {if $_e.errors}
-    {* section errors *}
-    <tr><td>&nbsp;</td><td height='10' colspan='2'>
-    <table cellpadding='0' cellspacing='0' border='0'><tr><td>
-    <img src='{$assetPath}/images/error.gif' align='absmiddle'>&nbsp;
-    {foreach item=_eErr from=$_e.errors}
-        <font color='#AA0000'><b>{$_eErr}</b></font><br />
-    {/foreach}
-    </td></tr></table></td></tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>
-    <tr><td><img src='{$assetPath}/images/spacer.gif' height='1' width='100%'></td>
-    <td colspan='2'><img src='{$assetPath}/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>
-    {/if}
-
-    {* display section content *}
-    {$_e.content}
-    
-    {* close section *}    
-    <tr>
-        <td height='10' colspan='3'>&nbsp;</td>
-    </tr>
-</table>
+  <table class="section" border='0' width='100%' cellpadding='0' cellspacing='0'>
+  <tr><td height='25' colspan='3'>{if $_e.icon}<img src='{$assetPath}/images/{$_e.icon}' align='absmiddle'>&nbsp;{/if}<b>{$_e.header}</b></td></tr>
+  <tr height='1'><td width='30'><img src='{$assetPath}/images/break.gif' height='1' width='30'></td>
+  <td width='170'><img src='{$assetPath}/images/break.gif' height='1' width='170'></td>
+  <td width='100%'><img src='{$assetPath}/images/break.gif' height='1' width='100%'></td></tr>
+  <tr><td height='10' colspan='3'>&nbsp;</td></tr>
+      {if $_e.errors}
+      {* section errors *}
+      <tr><td>&nbsp;</td><td height='10' colspan='2'>
+      <table cellpadding='0' cellspacing='0' border='0'><tr><td>
+      <img src='{$assetPath}/images/error.gif' align='absmiddle'>&nbsp;
+      {foreach item=_eErr from=$_e.errors}
+          <font color='#AA0000'><b>{$_eErr}</b></font><br />
+      {/foreach}
+      </td></tr></table></td></tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>
+      <tr><td><img src='{$assetPath}/images/spacer.gif' height='1' width='100%'></td>
+      <td colspan='2'><img src='{$assetPath}/images/break-l.gif' height='1' width='170' vspace='6'></td></tr>
+      {/if}
+  
+      {* display section content *}
+      {$_e.content}
+      
+      {* close section *}    
+      {*<tr>
+          <td height='10' colspan='3'>&nbsp;</td>
+      </tr>*}
+  </table>
 {/if}
 
 {if $_e.type == 'controls'}
@@ -66,42 +66,23 @@ $Id: main.html 17781 2008-03-18 10:54:53Z bernard.lange@openx.org $
 
 {*break*}
 {if $_e.type != 'header' && $_e.type != 'controls' && $_e.type != 'hidden' && $_e.type != 'script' && $_e.type != 'plugin-script' && $_e.break}
-    <tr>
-        <td><img src='{$assetPath}/images/spacer.gif' height='1' width='30'></td>
-        <td colspan='1'><img src='{$assetPath}/images/break-l.gif' height='1' width='200' vspace='6'></td>
-        <td><img src='{$assetPath}/images/spacer.gif' height='1' width='100%'>
-    </tr>
+    <tr><td height='1' colspan='3'>&nbsp;</td></tr>
 {/if}
 
+
 {if $_e.type == "group"}
-    <tr> {* TODO? refactor to use fetch recursively, would have to discover if parent set and do not render additional markup *}
+    {if !$_e.parent}
+    <tr>
         <td width='30'>&nbsp;</td>
         {if $_e.label}
-            <td width='200'>{$_e.label} {if $_e.required}<font color="red">*</font>{/if}</td>
+            <td width='170'>{$_e.label} {if $_e.required}<font color="red">*</font>{/if}</td>
         {/if}
         <td {if $_e.label}width='100%'{else}colspan='2'{/if}>
-            {*cycle name=gsep reset=true values=$_e.separator*}
+    {/if}  
+            {cycle name=gsep advance=false values=$_e.separator reset=true print=false}
             {foreach key=gkey item=groupItem from=$_e.elements}
                 {if $groupItem.type == "group"}
-                    {*cycle name=sgsep reset=true values=$subGroupItem.separator*}
-                    {foreach key=sgkey item=subGroupItem from=$groupItem.elements}
-	                    {if $subGroupItem.type == 'custom'}
-	                        {include file=$oaTemplateDir|cat:'form/custom-'|cat:$subGroupItem.name|cat:'.html'}
-	                    {else}
-	                        {if $groupItem.decorators}
-	                             {$groupItem.decorators.prepend}
-	                        {/if}
-	                        {if $subGroupItem.labelPlacement == "after"}
-	                            {$subGroupItem.html} {$subGroupItem.label}
-	                        {else}
-	                            {$subGroupItem.label} {$subGroupItem.html}
-	                        {/if}
-	                        {if $groupItem.decorators}
-	                            {$groupItem.decorators.append}
-	                        {/if}
-	                    {/if}
-                        {if $subGroupItem.separator}{cycle name=sgsep values=$subGroupItem.separator}{/if}
-                    {/foreach}
+                    {oa_form_element elem=$groupItem parent=$_e}{/oa_form_element}
                 {else}
                     {if $groupItem.type == 'custom'}
                         {include file=$oaTemplateDir|cat:'form/custom-'|cat:$groupItem.name|cat:'.html'}
@@ -110,9 +91,9 @@ $Id: main.html 17781 2008-03-18 10:54:53Z bernard.lange@openx.org $
                              {$groupItem.decorators.prepend}
                          {/if}
 	                    {if $groupItem.labelPlacement == "after"}
-	                       {$groupItem.html} {$groupItem.label}
+	                       {*$groupItem.html*}{include file=form/element-raw.html elem=$groupItem parent=$_e} {$groupItem.label}
 	                    {else}
-	                        {$groupItem.label} {$groupItem.html}
+	                        {$groupItem.label} {*$groupItem.html*}{include file=form/element-raw.html elem=$groupItem parent=$_e}
 	                    {/if}
                         {if $groupItem.decorators}
                             {$groupItem.decorators.append}
@@ -122,73 +103,18 @@ $Id: main.html 17781 2008-03-18 10:54:53Z bernard.lange@openx.org $
                 {if $_e.separator}{cycle name=gsep values=$_e.separator}
                 {/if}
             {/foreach}
+    {if !$_e.parent}
         </td>
     </tr>
-
+    {/if}
+    
 {/if}
 
-{if $_e.type == 'static'}
+{if $_e.type == 'text' || $_e.type == 'password' || $_e.type == 'textarea' || $_e.type == 'select' || !$_e.type}
     <tr>
-        <td width='30'>&nbsp;</td><td width='200'>{$_e.label}</td>
+        <td width='30'>&nbsp;</td><td width='170'><label for="{$_e.id|default:$_e.name|escape}">{$_e.label} {if $_e.required}<font color="red">*</font>{/if}</label></td>
         <td width='100%'>
-            {$_e.html}
-        </td>
-    </tr>
-{/if}
-
-{if $_e.type == 'html'}
-    <tr>
-        <td width='30'>&nbsp;</td><td width='200'></td>
-        <td width='100%'>
-            {$_e.html}
-        </td>
-    </tr>
-{/if}
-
-{if $_e.type == 'hidden'}
-    <input type='hidden' id="{$_e.name|escape}" name="{$_e.name|escape}" value="{$_e.value|escape}">
-{/if}
-
-{if $_e.type == 'text' || $_e.type == 'password' || !$_e.type}
-    <tr>
-        <td width='30'>&nbsp;</td><td width='200'><label for="{$_e.id|default:$_e.name|escape}">{$_e.label} {if $_e.required}<font color="red">*</font>{/if}</label></td>
-        <td width='100%'>
-        {if $_e.frozen}
-            {$_e.value|escape}
-        {else}
-            <input id="{$_e.id|default:$_e.name|escape}" class="{if $_e.clientValid} {ldelim}{$_e.clientValid}{rdelim}{/if}" type="{$_e.type|default:'text'}"
-                name="{$_e.name|escape}" value="{$_e.value|escape}"
-                {if $_e.id != ''}id="{$_e.id|escape}"{/if}
-                {if $_e.style == 'small'}size="25"{else} size="35" style="width:350px;"{/if}
-                {if $_e.disabled} disabled="disabled"{/if}
-                {if $_e.maxlength} maxlength="{$_e.maxlength}"{/if}
-                {if $_e.title} title="{$_e.title}"{/if}>
-                
-                {if $_e.error}<font color="red">{$_e.error}</font>{/if}                
-        {/if}
-        </td>
-    </tr>
-{/if}
-
-{if $_e.type == 'textarea'}
-    <tr>
-        <td width='30'>&nbsp;</td><td width='200'>{$_e.label} {if $_e.required}<font color="red">*</font>{/if}</td>
-        <td width='100%'>
-            <textarea cols='45' rows='6' name='{$_e.name|escape}' wrap='off' dir='ltr' style='width:350px;'{if $_e.disabled} disabled="disabled"{/if}>{$_e.value|escape}</textarea>
-        </td>
-    </tr>
-{/if}
-
-{if $_e.type == 'select'}
-    <tr>
-        <td width='30'>&nbsp;</td><td width='200'>{$_e.label} {if $_e.required}<font color="red">*</font>{/if}</td>
-        <td width='100%'>
-            {*
-            <select name="{$_e.name|escape}"{if $_e.style == 'big'} style="width:350px;"{elseif $_e.style} style="{$_e.style}"{/if}{if $_e.disabled} disabled="disabled"{/if}>
-            {html_options options=$_e.options selected=$_e.value}
-            </select>
-            *}
-            {$_e.html}            
+           {include file=form/element-raw.html elem=$_e}
         </td>
     </tr>
 {/if}
@@ -197,13 +123,13 @@ $Id: main.html 17781 2008-03-18 10:54:53Z bernard.lange@openx.org $
     <tr>
         <td width='30'>&nbsp;</td>
         {if $_e.label != ''}
-            <td width='200'>{$_e.label} {if $_e.required}<font color="red">*</font>{/if}</td>
+            <td width='170'>{$_e.label} {if $_e.required}<font color="red">*</font>{/if}</td>
 	        <td width='100%'>
-	            {$_e.html}
+	            {include file=form/element-raw.html elem=$_e}
 	        </td>
         {else}
             <td colspan="2">
-                {$_e.html}
+                {include file=form/element-raw.html elem=$_e}
             </td>
         {/if}
         
@@ -214,18 +140,37 @@ $Id: main.html 17781 2008-03-18 10:54:53Z bernard.lange@openx.org $
 
 {if $_e.type == 'submit'}
     {if $_e.parent_tag == 'controls'}
-        <input type='submit' name="{$_e.name|escape}" id="{$_e.name|escape}" value="{$_e.value|escape}"  {if $_e.disabled} disabled="disabled"{/if} />
-    
+       {include file=form/element-raw.html elem=$_e}
     {else}
     <tr>
         <td width='30'>&nbsp;</td>
         <td colspan='2'>
-            <input type='submit' name="{$_e.name|escape}" id="{$_e.name|escape}" value="{$_e.value|escape}"  {if $_e.disabled} disabled="disabled"{/if} />
+            {include file=form/element-raw.html elem=$_e}
         </td>
     </tr>
     {/if}
     
 {/if}
+
+
+{if $_e.type == 'static'}
+    <tr>
+        <td width='30'>&nbsp;</td><td width='170'>{$_e.label}</td>
+        <td width='100%'>
+            {$_e.html}
+        </td>
+    </tr>
+{/if}
+
+{if $_e.type == 'html'}
+    <tr>
+        <td width='30'>&nbsp;</td><td width='170'></td>
+        <td width='100%'>
+            {$_e.html}
+        </td>
+    </tr>
+{/if}
+
 
 {if $_e.type == 'custom'}
     {include file=$oaTemplateDir|cat:'form/custom-'|cat:$_e.name|cat:'.html'}

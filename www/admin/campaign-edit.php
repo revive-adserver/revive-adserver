@@ -424,7 +424,7 @@ function buildInventoryDetailsFormSection(&$form, $campaign)
     //impr booked
     $imprCount['radio'] = $form->createElement('radio', 'rd_impr_bkd', null, null, 
         'no', array('id' => 'limitedimpressions'));
-    $imprCount['impressions'] = $form->createElement('text', 'impressions');
+    $imprCount['impressions'] = $form->createElement('text', 'impressions', null, array('class'=>'small'));
     $imprCount['note'] = $form->createElement('custom', 'campaign-remaining-impr', null, 
         array('impressionsRemaining' => $campaign['impressionsRemaining']), false);
         
@@ -438,7 +438,7 @@ function buildInventoryDetailsFormSection(&$form, $campaign)
     //clicks booked
     $clickCount['radio'] = $form->createElement('radio', 'rd_click_bkd', null, null, 
         'no', array('id' => 'limitedclicks'));
-    $clickCount['clicks'] = $form->createElement('text', 'clicks');
+    $clickCount['clicks'] = $form->createElement('text', 'clicks', null, array('class'=>'small'));
     $clickCount['note'] = $form->createElement('custom', 'campaign-remaining-click', null, 
         array('clicksRemaining' => $campaign['clicksRemaining']), false);
     $clickBookedGroup['count'] = $form->createElement('group', 'click_booked', null, $clickCount, null, false);        
@@ -453,8 +453,8 @@ function buildInventoryDetailsFormSection(&$form, $campaign)
         //conversions booked
         $convCount['radio'] = $form->createElement('radio', 'rd_conv_bkd', null, null, 
             'no', array('id' => 'limitedconv'));
-        $convCount['conversions'] = $form->createElement('text', 'conversions');
-        $convCount['note'] = $form->createElement('html',  
+        $convCount['conversions'] = $form->createElement('text', 'conversions', null, array('class'=>'small'));
+        $convCount['note'] = $form->createElement('html', null,  
             '<span  id="remainingConversions" >'.$GLOBALS['strConversionsRemaining']
             .':<span id="remainingConversionsCount">'
             .$campaign['conversionsRemaining'].'</span></span>');        
@@ -485,7 +485,7 @@ function buildContractDetailsFormSection(&$form, $campaign)
     $setActDate['cal_img'] = $form->createElement('image', 'start_button',
         MAX::assetPath() . "/images/icon-calendar.gif", 
         array('id' => 'start_button', 'align' => 'absmiddle'));
-    $setActDate['note'] = $form->createElement('html',  $GLOBALS['strActivationDateComment']); 
+    $setActDate['note'] = $form->createElement('html', null, $GLOBALS['strActivationDateComment']); 
 
     $actDateGroup['setDate'] = $form->createElement('group', 'setDate', null, $setActDate, null, false);        
     $form->addGroup($actDateGroup, 'act_date', $GLOBALS['strActivationDate'], "<br/>");    
@@ -502,7 +502,7 @@ function buildContractDetailsFormSection(&$form, $campaign)
     $expActDate['cal_img'] = $form->createElement('image', 'end_button',
         MAX::assetPath() . "/images/icon-calendar.gif", 
         array('id' => 'end_button', 'align' => 'absmiddle'));
-    $expActDate['note'] = $form->createElement('html',  $GLOBALS['strExpirationDateComment']); 
+    $expActDate['note'] = $form->createElement('html', null, $GLOBALS['strExpirationDateComment']); 
 
     $expDateGroup['setDate'] = $form->createElement('group', 'setDate', null, $expActDate, null, false);        
     $form->addGroup($expDateGroup, 'act_date', $GLOBALS['strExpirationDate'], "<br/>");    
@@ -552,7 +552,7 @@ function buildPriorityFormSection(&$form, $campaign)
     }
     $highP['select'] = $form->createElement('select', 'high_priority_value', 
         null, $aHighPriorities);
-    $highP['note'] = $form->createElement('html',$GLOBALS['strPriorityHigh']);
+    $highP['note'] = $form->createElement('html', null, $GLOBALS['strPriorityHigh']);
     $prioritiesG['high'] = $form->createElement('group', 'high_p', null, $highP, null, false);        
     $prioritiesG['low'] = $form->createElement('radio', 'priority', null, 
         $GLOBALS['strLow']." ".$GLOBALS['strPriorityLow'], 0, 
@@ -577,7 +577,7 @@ function buildPriorityFormSection(&$form, $campaign)
         $aTargetTypes);
     $aManualDel['text'] = $form->createElement('text', 'target_value', $GLOBALS['strTo'], 
         array('size' => 7, 'onBlur' => 'phpAds_formPriorityUpdate(this.form);'));
-    $aManualDel['perDayNote'] = $form->createElement('html',$GLOBALS['strTargetPerDay']);        
+    $aManualDel['perDayNote'] = $form->createElement('html', null, $GLOBALS['strTargetPerDay']);        
     $distributionG['man'] = $form->createElement('group', 'd_man', null, $aManualDel, null, false);
     
     $aNoneDel['radio'] = $form->createElement('radio', 'delivery', null, 

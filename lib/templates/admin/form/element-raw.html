@@ -1,8 +1,7 @@
 {*<!--
-
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                             |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -21,42 +20,23 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
+$Id: main.html 17781 2008-03-18 10:54:53Z bernard.lange@openx.org $
 
 -->*}
-{if $aSide|@count}
-<div id="oaSidebar">
-    <h3>{t str=Navigation}</h3>
-    <ul id="oaSidebarNavigation">
-{foreach item=s from=$aSide}
-        <li class="{if $s.top}top{elseif $s.first}first{/if}{if $s.current} current{elseif $s.up} up{/if}">
-            <a href="{$s.filename|escape}"{if $s.up} accesskey="{t key=Up}"{/if}>{$s.title|escape}</a>
-        </li>
-{/foreach}
-    </ul>
 
-{if $aSideContext|@count}
-    <ul id="oaSidebarContext">
-{foreach item=s from=$aSideContext}
-        <li class="{if $s.selected}selected{/if}"><a href="{$s.link|escape}"{if $s.accesskey}accesskey="{$s.accesskey}"{/if} title="{$s.name_full}">{$s.name}</a></li>
-{/foreach}
-    </ul>
-{/if}
+{if $elem.type == 'text' || $elem.type == 'password' || $elem.type == 'submit' || !$elem.type}
+  <input {oa_form_input_attributes elem=$elem parent=$parent} />
 
-{if $sidebarExtra}
-    <div id="oaSidebarCustom">{$sidebarExtra}</div>
-{/if}
+{elseif $elem.type == 'checkbox' || $elem.type == 'radio'}
+  {$elem.html}
 
-{if $aSideShortcuts|@count}
-    <h3>{t str=Shortcuts}</h3>
-    <ul id="oaSidebarShortcuts">
-{foreach item=s from=$aSideShortcuts}
-        <li style="background-image: url({$s.icon|escape});"><a href="{$s.link|escape}">{$s.name}</a></li>
-{/foreach}
-    </ul>
-{/if}
+{elseif $elem.type == 'textarea'}
+  <textarea {oa_form_input_attributes elem=$elem parent=$parent}>{$elem.value|escape}</textarea>
 
-</div>
+{elseif $elem.type == 'select'}
+  <select {oa_form_input_attributes elem=$elem parent=$parent} >
+  {html_options options=$elem.options selected=$elem.value}
+  </select>
 {else}
-&nbsp;
+  {$elem.html}
 {/if}

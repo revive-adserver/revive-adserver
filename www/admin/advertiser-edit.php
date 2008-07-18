@@ -122,7 +122,7 @@ function buildAdvertiserForm($aAdvertiser)
     $form->addElement('hidden', 'reportprevious', $aAdvertiser['report']);
     $form->addElement('advcheckbox', 'reportdeactivate', null, $GLOBALS['strSendDeactivationWarning'], null, array("f", "t"));
     $form->addElement('advcheckbox', 'report', null, $GLOBALS['strSendAdvertisingReport'], null, array("f", "t"));
-    $form->addElement('text', 'reportinterval', $GLOBALS['strNoDaysBetweenReports']);
+    $form->addElement('text', 'reportinterval', $GLOBALS['strNoDaysBetweenReports'], array('class' => 'x-small'));
     
     $form->addElement('header', 'header_misc', $GLOBALS['strMiscellaneous']);
     $form->addElement('advcheckbox', 'advertiser_limitation', null, $GLOBALS['strAdvertiserLimitation'], null, array("0", "1"));    
@@ -157,6 +157,8 @@ function buildAdvertiserForm($aAdvertiser)
     
     //set form  values 
     $form->setDefaults($aAdvertiser);
+    
+    $form->freeze();
     return $form;
 }    
 

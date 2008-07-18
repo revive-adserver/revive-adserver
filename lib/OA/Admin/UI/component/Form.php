@@ -47,6 +47,10 @@ class OA_Admin_UI_Component_Form
         $this->hasRequiredFields = false;
         
         //register custom fields
+        parent::registerElementType('html', 
+            MAX_PATH.'/lib/OA/Admin/UI/component/Html.php', 
+            'OA_Admin_UI_Component_Html');
+        
         parent::registerElementType('controls', 
             MAX_PATH.'/lib/OA/Admin/UI/component/FormControls.php', 
             'OA_Admin_UI_Component_FormControls');

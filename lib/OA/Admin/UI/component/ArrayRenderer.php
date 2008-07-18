@@ -124,6 +124,7 @@ class OA_Admin_UI_Component_ArrayRenderer
     public function renderHtml(&$html)
     {
         $elAry = array(
+            'name'     => $html->getName(),
             'type'     => $html->getType(),
             'html'     => $html->toHtml()
         );
@@ -145,8 +146,17 @@ class OA_Admin_UI_Component_ArrayRenderer
     {
         $ret = parent::_elementToArray($element, $required, $error);
         
-        //add vars to array for custom
         $type = $ret['type'];
+        //add options from select
+        if('select' == $type) {
+            $ret['selected'] = is_array($this->_values)? array_map('strval', $this->_values): array();
+            foreach ($element->_options as $option) {
+                $options[$option['attr']['value']] = $option['text'];
+            }            
+            $ret['options'] =  $options;
+        }
+        
+        //add vars to array for custom
         if('custom' == $type || 'plugin-custom' == $type 
             || 'script' == $type || 'plugin-script' == $type) {
             $ret['vars'] = $element->getVars(); 
@@ -170,6 +180,9 @@ class OA_Admin_UI_Component_ArrayRenderer
             $ret['labelPlacement'] = $labelPlacement;
             $element->removeAttribute("labelPlacement");
         }
+        
+        //store all attributes so we can use them to generate html
+        $ret['attributes'] = $element->getAttributes();
         
         return $ret;
     }

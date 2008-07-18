@@ -275,7 +275,8 @@ function buildZoneForm($zone)
         array('id' => 'cost_variable_id'));
     $mediaCost['cost_variable_id_mult'] = $form->createElement('select', 'cost_variable_id_mult', null, $aTrackerVariables, 
         array('id' => 'cost_variable_id_mult', 'multiple' => 'multiple', 'size' => '3'));    
-    $mediaCost['cost_info'] = $form->createElement('html', "<span id='cost_cpm_description'>".$GLOBALS['strPerSingleImpression']."</span>");        
+    $mediaCost['cost_info'] = $form->createElement('html', null, 
+        "<span id='cost_cpm_description'>".$GLOBALS['strPerSingleImpression']."</span>");        
     $form->addGroup($mediaCost, 'g_media_cost', $GLOBALS['strCostInfo'], array('', '', '', '<BR>'), false);
     
 
@@ -289,7 +290,8 @@ function buildZoneForm($zone)
     
     $technologyCost['cost_type'] = $form->createElement('select', 'technology_cost_type', null, $technologyCostTypes,
         array('id' => 'technology_cost_type', 'onchange' => 'm3_updateFinance();'));
-    $technologyCost['cost_note'] = $form->createElement('html', "<span id='technology_cost_cpm_description'>".$GLOBALS['strPerSingleImpression']."</span>");        
+    $technologyCost['cost_note'] = $form->createElement('html', null, 
+        "<span id='technology_cost_cpm_description'>".$GLOBALS['strPerSingleImpression']."</span>");        
     $form->addGroup($technologyCost, 'g_technology_cost', $GLOBALS['strTechnologyCost'], array('', '<BR>'), false);
     
     $form->addElement('textarea', 'comments', $GLOBALS['strComments']);

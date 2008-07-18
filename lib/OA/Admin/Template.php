@@ -91,6 +91,7 @@ class OA_Admin_Template extends Smarty
 
         $this->register_function('showStatusText', array('OA_Admin_Template',  '_function_showStatusText'));
 
+        $this->register_function('oa_form_input_attributes', array('OA_Admin_Template',  '_function_form_input_attributes'));
         $this->register_block('oa_edit', array('OA_Admin_Template',  '_block_edit'));
         $this->register_block('oa_form_element', array('OA_Admin_Template',  '_block_form_element'));
 
@@ -398,17 +399,28 @@ class OA_Admin_Template extends Smarty
                 $aParams['break'] = $break;
             }
             
+            //if macro invoked with parent parameter do not add break
+            if(isset($aParams['parent'])) {
+                $aParams['break'] = false;
+            }
+            
             //put some context for form elements (set parent)
             if (is_array($smarty->_tag_stack) && count($smarty->_tag_stack) > 0) {
                 if (isset($smarty->_tag_stack[0][1]['elem']['type'])) {
-                    $aParams['parent_tag'] = $smarty->_tag_stack[0][1]['elem']['type'];    
+                    $aParams['parent_tag'] = $smarty->_tag_stack[0][1]['elem']['type'];
                 }
             }
-
+            
+            //store old _e if recursion happens
+            $old_e = $smarty->get_template_vars('_e'); 
             $smarty->assign('_e', $aParams);
             $result = $smarty->fetch(MAX_PATH . '/lib/templates/admin/form/elements.html');
             $smarty->clear_assign('_e');
-
+            
+            //restore old _e (if any)
+            if (isset($old_e)) {
+                $smarty->assign('_e', $old_e);
+            }
             
             //decorate result with decorators content
             if (!empty($aParams['decorators']['list'])) {
@@ -422,7 +434,72 @@ class OA_Admin_Template extends Smarty
             return $result;
         }
     }
+
+    
+    function _function_form_input_attributes($aParams, $smarty)
+    {
+        $elem = $aParams['elem'];
+        $parent = $aParams['parent'];
+        $attributes = &$elem['attributes']; 
         
+        //default id to name if not set
+        if (empty($attributes['id'])) {
+            $attributes['id'] = $attributes['name'];
+        }
+        
+        //if frozen disable //TODO append 'frozen' class here or to form??
+        if ($elem['frozen'] == true) {
+            $attributes['disabled'] = 'disabled';
+            $attributes['class'] .= ' frozen';
+        }
+    
+        //set default type to text if not given
+        if (empty($elem['type'])) {
+            $elem['type'] = 'text';
+        }
+        
+        //default class to 'large' for different inputs (apart from submits, buttons, selects, checkboxes)
+        if ($elem['type'] == 'text' || $elem['type'] == 'password') {
+            if (empty($attributes['class'])) {
+                 if (!empty($parent)) {  //if parent is set it means it is in group
+                    $attributes['class'] = 'x-small'; //mulitelement lines needs smaller elements
+                 }
+                 else {
+                     $attributes['class'] = 'large'; //first level elems get big
+                 }
+            }
+        }
+        
+        if ($elem['type'] == 'select') {
+            if (empty($attributes['class'])) {
+                 if (!empty($parent)) {  //if parent is set it means it is in group
+                    $attributes['class'] = 'small'; //mulitelement lines needs smaller elements
+                 }
+                 else {
+                     $attributes['class'] = 'medium'; //first level elems get big
+                 }
+            }
+        }
+        
+        //custom textarea styles
+        if ($elem['type'] == 'textarea') {
+            if (empty($attributes['class'])) {
+                $attributes['class'] = 'large';
+            }
+            
+            $attributes['class'].=" small-h"; //set height
+            $attributes['wrap']="off";
+            $attributes['dir']="ltr";
+        }
+        
+        $attrString = "";
+        foreach ($attributes as $attribute => $value) {
+            $attrString .= "$attribute=\"".smarty_modifier_escape($value)."\" ";    
+        }
+        
+        return $attrString;        
+    }
+    
 
     function _function_oa_is_admin($aParams, $smarty) {
         return OA_Permission::isAccount(OA_ACCOUNT_ADMIN);
