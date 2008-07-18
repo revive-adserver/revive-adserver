@@ -218,7 +218,7 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
             // environment timezone, so, must write the user
             // selected value to the config file
             $return = $tz;
-        } else if (($tz === $aTimezone['tz']) && ($aTimezone['calculated'] === true)) {
+        } else if (($tz === $aTimezone['tz']) && ($aTimezone['generated'] === true)) {
             // The user selected timezone is the same as the
             // environment timezone, however, the environment
             // timezone has been generated, so must write the

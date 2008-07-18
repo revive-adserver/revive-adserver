@@ -66,7 +66,7 @@ class Test_OA_Admin_Timezones extends UnitTestCase
     function testGetTimezone()
     {
         if (version_compare(phpversion(), '5.1.0', '>=')) {
-            // Set & test environment variable
+            //  set environment variable
             date_default_timezone_set('America/Detroit');
 
             $aTimezone = OA_Admin_Timezones::getTimezone();
@@ -74,9 +74,9 @@ class Test_OA_Admin_Timezones extends UnitTestCase
             $this->assertTrue(is_array($aTimezone));
             $this->assertEqual(count($aTimezone), 2);
             $this->assertEqual('America/Detroit', $aTimezone['tz']);
-            $this->assertEqual(false, $aTimezone['calculated']);
+            $this->assertEqual(false, $aTimezone['generated']);
         } else {
-            // This test is dependant upon the system clock
+            //  this test is dependant upon the system clock
             // Clear any TZ env
             putenv("TZ=");
             if (is_callable('apache_setenv')) {
@@ -122,13 +122,13 @@ class Test_OA_Admin_Timezones extends UnitTestCase
         $aConfigTimezone = array(
             'America/Detroit' => array(
                     'tz'        => 'Europe/London',
-                    'calculated' => false),
+                    'generated' => false),
             'Europe/London' => array(
                     'tz'        => 'Europe/London',
-                    'calculated' => true),
+                    'generated' => true),
             'America/Chicago' => array(
                     'tz'        => 'America/Chicago',
-                    'calculated' => false),
+                    'generated' => false),
         );
 
         $aResult = array(
@@ -155,7 +155,6 @@ class Test_OA_Admin_Timezones extends UnitTestCase
             $this->assertEqual(OA_Admin_Timezones::_convertOffset($offset), $result);
         }
     }
-
 }
 
 ?>

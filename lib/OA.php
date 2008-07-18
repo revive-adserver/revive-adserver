@@ -180,13 +180,6 @@ class OA
         // Log messages in the local server timezone, if possible
         global $aServerTimezone;
         if (!empty($aServerTimezone)) {
-            // Ensure that class exists, we may be running from the
-            // delivery engine, when it is running-auto maintenance
-            // (inclusion of class okay, as will now be in
-            // post-delivery mode)
-            if (!class_exists('OA_Admin_Timezones')) {
-                require_once MAX_PATH . '/lib/OA/Admin/Timezones.php';
-            }
             $aCurrentTimezone = OA_Admin_Timezones::getTimezone();
             OA_setTimeZone($aServerTimezone['tz']);
         }
@@ -333,7 +326,7 @@ class OA
             PEAR::popErrorHandling();
         }
     }
-
+    
     /**
      * Returns the option from config or the default value if that option
      * do not exist.
