@@ -1,0 +1,54 @@
+<html>
+<head>
+    <!--title>OpenX Schema Integrity Utilities</title-->
+    <link rel="stylesheet" type="text/css" href="assets/css/upgrade.css"/>
+
+    <script type="text/javascript" src="schema.js"></script>
+    <script type="text/javascript" src="lib/xajax/xajax_js/xajax.js"></script>
+    <script type="text/javascript">
+        window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Javascript file could not be included. Perhaps the URL is incorrect?\nURL: ../lib/xajax/xajax_js/xajax.js'); } }, 6000);
+    </script>
+
+</head>
+<body onload="xajax_loadDatasetList()">
+<form name="frmInteg" method="POST" action="dataload.php">
+    <div class="tablediv">
+        <h2>Load Data</h2>
+<?php
+if (count($aAppInfo)>0)
+{
+    echo $aAppInfo['versionApp'].' == '.$GLOBALS['_MAX']['CONF']['database']['name'].' == schema_tables_core_'.$aAppInfo['versionSchema'].' == '.($aAppInfo['canUpgrade']? 'upgradeable' : 'not upgradeable');
+}
+?>
+    </div>
+    <div class="tablediv">
+            <button name="btn_data_load_dryrun">dry run</button>
+            <button name="btn_data_load">load data from =></button>
+            <select name="datafile" id="datafile"">
+            </select>
+    </div>
+
+<?php
+if (count($aMessages)>0)
+{
+?>
+<div class="tablediv">
+        <!--img id="img_expand_debugdiv" src="../../img/triangle-d.gif" alt="click to view debug info" onclick="xajax_expandTable('debugdiv');"/>
+        <img id="img_collapse_debugdiv" src="../../img/triangle-u.gif" style="display:none" alt="click to hide debug info" onclick="xajax_collapseTable('debugdiv');"/-->
+<table id="debugdiv">
+<tr><th>debug info
+</th></tr>
+<?php
+    foreach ($aMessages AS $k => $msg)
+    {
+        echo '<tr><td>'.$msg.'</td></tr>';
+    }
+?>
+</table>
+</div>
+<?php
+}
+?>
+</form>
+</body>
+</html>

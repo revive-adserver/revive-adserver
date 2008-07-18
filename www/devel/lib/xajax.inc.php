@@ -129,10 +129,72 @@ function loadSchema()
 	return $objResponse;
 }
 
+function loadSchemaList()
+{
+    global $oaSchema, $pluginPath;
+    $objResponse = new xajaxResponse();
+    $schemaFile = basename($oaSchema->schema_final);
+    $opts = '';
+    $oaSchema->oLogger->log('xajax: '.$oaSchema->path_schema_final.$schemaFile);
+    $relPath = '/etc/';
+    $dhCore = opendir(MAX_PATH.$relPath);
+    if ($dhCore)
+    {
+        while (false !== ($file = readdir($dhCore)))
+        {
+            if (strpos($file, '.xml')>0)
+            {
+                if ($file!=$schemaFile)
+                {
+                    $opts.= '<option value="'.$relPath.$file.'">'.$file.'</option>';
+                }
+                else
+                {
+                    $opts.= '<option value="'.$relPath.$file.'" selected="selected">'.$file.'</option>';
+                }
+            }
+        }
+        closedir($dhCore);
+    }
+    $dhPkgs = opendir(MAX_PATH.$pluginPath);
+    if ($dhPkgs)
+    {
+        while (false !== ($folder = readdir($dhPkgs)))
+        {
+            if (($folder=='.') || ($folder=='..') || ($folder=='.svn'))
+            {
+                continue;
+            }
+            $relPath = $pluginPath.$folder.'/etc/';
+            $dhPlgs = opendir(MAX_PATH.$relPath);
+            if ($dhPlgs)
+            {
+                while (false !== ($file = readdir($dhPlgs)))
+                {
+                    if (strpos($file, '.xml')>0)
+                    {
+                        if ($file!=$schemaFile)
+                        {
+                            $opts.= '<option value="'.$relPath.$file.'">'.$file.'</option>';
+                        }
+                        else
+                        {
+                            $opts.= '<option value="'.$relPath.$file.'" selected="selected">'.$file.'</option>';
+                        }
+                    }
+                }
+            }
+        }
+        closedir($dhPkgs);
+    }
+    $objResponse->addAssign('xml_file',"innerHTML", $opts);
+	return $objResponse;
+}
+
 function loadDatasetList()
 {
     $objResponse = new xajaxResponse();
-    $dh = opendir(MAX_PATH.'/tests/data/mdb2');
+    $dh = opendir(MAX_PATH.'/tests/datasets/mdb2schema');
     if ($dh)
     {
         while (false !== ($file = readdir($dh)))
@@ -359,7 +421,7 @@ function collapseRow($id)
 
 
 
-require_once MAX_DEV.'/lib/xajax/xajax.inc.php';
+require_once PATH_DEV.'/lib/xajax/xajax.inc.php';
 
 $xajax = new xajax();
 //$xajax->debugOn(); // Uncomment this line to turn debugging on
@@ -367,6 +429,7 @@ $xajax->debugOff(); // Uncomment this line to turn debugging on
 $xajax->registerFunction("testAjax");
 $xajax->registerFunction('loadChangeset');
 $xajax->registerFunction('loadSchema');
+$xajax->registerFunction('loadSchemaList');
 $xajax->registerFunction('loadSchemaFile');
 $xajax->registerFunction('loadDatasetList');
 $xajax->registerFunction('expandTable');

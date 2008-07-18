@@ -1,0 +1,31 @@
+  <body>
+
+    <?php
+    if (count($aErrors)>0)
+    {
+    ?>
+    <div class="tablediv">
+        <table id="debugdiv">
+            <tr><th>debug info</th></tr>
+            <?php
+                foreach ($aErrors AS $k => $msg)
+                {
+                    echo '<tr><td>'.$msg.'</td></tr>';
+                }
+            ?>
+        </table>
+    </div>
+    <?php
+    }
+    else
+    {
+    ?>
+      <div>
+        <?php echo $info; ?>
+      </div>
+    <?php
+    }
+    ?>
+
+  </body>
+</html>

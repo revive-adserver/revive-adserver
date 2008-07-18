@@ -1,0 +1,86 @@
+<html>
+<head>
+    <title>Edit OpenX Table</title>
+
+    <link rel="stylesheet" type="text/css" href="assets/css/mdb2_xsl.css"/>
+
+    <script type="text/javascript" src="schema.js"></script>
+    <script type="text/javascript" src="lib/xajax/xajax_js/xajax.js"></script>
+    <script type="text/javascript">
+        window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Javascript file could not be included. Perhaps the URL is incorrect?\nURL: ../lib/xajax/xajax_js/xajax.js'); } }, 6000);
+    </script>
+
+</head>
+<body onload="xajax_loadSchema()">
+    <?php //echo getcwd();
+        $dd_options = '';
+        foreach ($aDD_definition['options'] AS $k => $option )
+        {
+            $dd_options.= $option;
+        }
+        $dd_list = '<ul id="dd_flds" class="boxy">';
+        foreach ($aDD_definition['list'] AS $k => $item )
+        {
+            $dd_list.= $item;
+        }
+        $dd_list.= '</ul>';
+    ?>
+  <div class="bodydiv">
+    <div>
+        <?php
+            if ($error_message)
+            {
+                echo '<pre style="color:red;">'.$error_message.'</pre>';
+            }
+        ?>
+    </div>
+        <form name="frm_table" action="schema.php" method="POST">
+        <input type="hidden" name="table_edit" value="<?php echo $table; ?>"/>
+        <table class="tablemain">
+                <tr>
+                    <td class="tableheader" style="text-align:center;width:20%;">
+                        <form name="frm_table" action="schema.php" method="POST">
+                            <button name="btn_table_delete" type="submit">delete this table</button>
+                            <input type="hidden" name="table_edit" value="<?php echo $table; ?>"/>
+                        </form>
+                    </td>
+                    <td class="tableheader" style="text-align:center;font-size:20px;">
+
+                            <span id="tbl_old_name" name="fld_old_name" style="cursor: pointer;display:inline;" ondblclick="xajax_editTableProperty(xajax.getFormValues('frm_table'),'name');" ><?php echo $table; ?></span>
+
+                            <input type="text" id="tbl_new_name" name="tbl_new_name" ondblclick="xajax_editTableProperty(xajax.getFormValues('frm_table'),'name'); return false" style="display:none" value="<?php echo $table; ?>"/>
+
+                            <!--input type="submit" id="btn_tbl_save_name" name="btn_table_save" style="display:none" value="save"/-->
+                            <button type="submit" id="btn_table_save_name" name="btn_table_save" style="display:none">save</button>
+
+                            <!--input type="submit" id="btn_table_exit_name" name="btn_table_exit" onclick="xajax_exitTableProperty(xajax.getFormValues('frm_table'),'name'); return false" style="display:none" value="exit"/-->
+                            <button type="submit" id="btn_table_exit_name" name="btn_table_exit" onclick="xajax_exitTableProperty(xajax.getFormValues('frm_table'),'name'); return false" style="display:none">exit</button>
+
+                    </td>
+                    <td class="tableheader" style="text-align:center;width:20%;">
+                        <form name="frm_xml" action="schema.php" method="POST">
+                            Currently working on: <?php echo $schema_path.$schemaFile; ?>
+                            <!--select id="xml_file" name="xml_file" onchange="frm_xml.submit()"></select-->
+                            <!--br />
+                            <button name="btn_table_cancel" type="submit">go back to the schema page</button-->
+                        </form>
+                    </td>
+                </tr>
+            </table>
+            </form>
+        <table class="tablemain">
+            <tr>
+                <td style="vertical-align:top">
+                    <?php include 'templates/table_edit_fields.html'; ?>
+                    <?php include 'templates/table_edit_index.html'; ?>
+                    <?php if ($oaSchema->use_links) { include 'templates/table_edit_foreignkeys.html'; } ?>
+                    <?php //include 'templates/table_edit_menu.html'; ?>
+                </td>
+                <!--td style="vertical-align:top"-->
+                    <?php //include 'templates/table_data_dictionary.html'; ?>
+                <!--/td-->
+            </tr>
+        </table>
+  </div>
+</body>
+</html>
