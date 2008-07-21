@@ -130,34 +130,6 @@ class Test_OX_PluginManager extends UnitTestCase
         @unlink(MAX_PATH.'/var/ziptest');
     }
 
-    function test_getExtensionsList()
-    {
-        $oPackageManager                    = new OX_PluginManager();
-        $oPackageManager->pathPackages      = $this->testpathPackages;
-
-        $aConf = array('testPluginPackage'=>0);
-        $GLOBALS['_MAX']['CONF']['plugins'] = &$aConf;
-
-        $aResult = $oPackageManager->getExtensionsList(true);
-        $this->assertIsA($aResult,'array');
-        $this->assertEqual(count($aResult),0);
-
-        $aConf = array('testPluginPackage'=>1);
-        $aResult = $oPackageManager->getExtensionsList();
-        $this->assertIsA($aResult,'array');
-        $this->assertEqual(count($aResult),2);
-        $this->assertEqual($aResult['testExtension1']['testPluginExtension'],'testPlugin');
-        $this->assertEqual($aResult['testExtension2']['testDependsExtension'],'testDepends');
-
-        $oPackageManager->_saveRegisteredExtensions();
-        $aResult = $oPackageManager->_loadRegisteredExtensions();
-        $this->assertIsA($aResult,'array');
-        $this->assertEqual(count($aResult),2);
-        $this->assertEqual($aResult['testExtension1']['testPluginExtension'],'testPlugin');
-        $this->assertEqual($aResult['testExtension2']['testDependsExtension'],'testDepends');
-
-    }
-
     function test_installPackage()
     {
         $oPkgMgr = new OX_PluginManager();

@@ -17,11 +17,6 @@
             <group name="testPlugin">1</group>
             <group name="testDepends">2</group>
         </contents>
-
-        <register>
-            <extension type='testExtension1' group='testPlugin'>testPluginExtension</extension>
-            <extension type='testExtension2' group='testDepends'>testDependsExtension</extension>
-        </register>
     </install>
 
 </plugin>

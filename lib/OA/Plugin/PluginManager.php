@@ -790,42 +790,10 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
     }
 
     /**
-     * get a list of extensions registered by each package
-     * including info on each component contained
+     * This method gets an array of hook->componentIdentifiers of any registered (stackable) hooks
      *
-     * @param string $name
-     * @return array
+     * @return array e.g. array('preAdRender' => array('component1', 'component2'), 'postAdRender' => array('component3')),
      */
-    public function getExtensionsList()
-    {
-        $aPackages = $GLOBALS['_MAX']['CONF']['plugins'];
-        $aResult = array();
-        foreach ($aPackages AS $name => $enabled)
-        {
-            if ($enabled)
-            {
-                $aPkgInfo = $this->getPackageInfo($name);
-                foreach ($aPkgInfo['contents'] AS $componentGroup)
-                {
-                    if (!isset($aResult[$extension]))
-                    {
-                        $aResult[$extension] = array();
-                    }
-                    $aResult[$extension] = array_merge($aPkgInfo['extensions'][$extension], $aResult[$extension]);
-                }
-            }
-        }
-        return $aResult;
-    }
-
-    function _saveRegisteredExtensions()
-    {
-        $aExtensions = $this->getExtensionsList();
-        $oCache = $this->_instantiateClass('OA_Cache',array('Plugins', 'Extensions'));
-        $oCache->setFileNameProtection(false);
-        return $oCache->save($aExtensions);
-    }
-
     function getComponentHooks()
     {
         $aPackages = $GLOBALS['_MAX']['CONF']['plugins'];
@@ -848,6 +816,11 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         return $aResult;
     }
 
+    /**
+     * This method takes the array of registered hooks from the plugin/component group's XML files and saves a structured list in the config file
+     *
+     * @return boolean True if writing the config file change was sucessful false otherwise
+     */
     function _saveComponentHooks()
     {
         $aHooks = $this->getComponentHooks();
@@ -865,16 +838,8 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         return $oSettings->writeConfigChange();
     }
 
-    function _loadRegisteredExtensions()
-    {
-        $oCache = $this->_instantiateClass('OA_Cache', array('Plugins', 'Extensions'));
-        $oCache->setFileNameProtection(false);
-        return $oCache->load(true);
-    }
-
     public function cachePackages()
     {
-        $this->_saveRegisteredExtensions();
         $this->_saveComponentHooks();
     }
 

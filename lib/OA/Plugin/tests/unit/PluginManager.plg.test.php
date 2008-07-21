@@ -751,51 +751,6 @@ class Test_OX_PluginManager extends UnitTestCase
         $oManager->tally();
     }
 
-    function test_getExtensionsList()
-    {
-        Mock::generatePartial(
-                                'OX_PluginManager',
-                                $oMockManager = 'OX_PluginManager'.rand(),
-                                array('getPackageInfo')
-                             );
-        $oManager = new $oMockManager($this);
-        $aPkgInfo['extensions'] = array();
-        $oManager->setReturnValueAt(0,'getPackageInfo', $aPkgInfo);
-        $aPkgInfo['extensions']['extension1']['foo'] = 'plugin1';
-        $oManager->setReturnValueAt(1,'getPackageInfo', $aPkgInfo);
-        $aPkgInfo['extensions']['extension1']['bar'] = 'plugin1';
-        $oManager->setReturnValueAt(2,'getPackageInfo', $aPkgInfo);
-        $aPkgInfo['extensions']['extension2']['foobar'] = 'plugin2';
-        $oManager->setReturnValueAt(3,'getPackageInfo', $aPkgInfo);
-        $oManager->expectCallCount('getPackageInfo',4);
-
-        $GLOBALS['_MAX']['CONF']['plugins'] = array('foo' => 1,'bar' => 0);
-
-        $aResult = $oManager->getExtensionsList();
-        $this->assertIsA($aResult,'array');
-        $this->assertEqual(count($aResult),0);
-
-        $aResult = $oManager->getExtensionsList();
-        $this->assertIsA($aResult,'array');
-        $this->assertEqual(count($aResult),1);
-        $this->assertEqual($aResult['extension1']['foo'],'plugin1');
-
-        $aResult = $oManager->getExtensionsList();
-        $this->assertIsA($aResult,'array');
-        $this->assertEqual(count($aResult),1);
-        $this->assertEqual($aResult['extension1']['foo'],'plugin1');
-        $this->assertEqual($aResult['extension1']['bar'],'plugin1');
-
-        $aResult = $oManager->getExtensionsList();
-        $this->assertIsA($aResult,'array');
-        $this->assertEqual(count($aResult),2);
-        $this->assertEqual($aResult['extension1']['foo'],'plugin1');
-        $this->assertEqual($aResult['extension1']['bar'],'plugin1');
-        $this->assertEqual($aResult['extension2']['foobar'],'plugin2');
-
-        $oManager->tally();
-    }
-
     function test_canUpgradeComponentGroups()
     {
         Mock::generatePartial(

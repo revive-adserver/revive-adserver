@@ -746,7 +746,7 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
 
         $aResult = $oManager->getComponentGroupInfo('testPlugin');
         $this->assertIsA($aResult, 'array');
-        $this->assertEqual(count($aResult),8);
+        $this->assertEqual(count($aResult),9);
         $this->assertEqual($aResult[1],'foo');
         $this->assertEqual($aResult[2],'bar');
         $this->assertEqual($aResult['schema_name'],'fooschema');
@@ -762,7 +762,7 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
 
         $aResult = $oManager->getComponentGroupInfo('testPlugin');
         $this->assertIsA($aResult, 'array');
-        $this->assertEqual(count($aResult),6);
+        $this->assertEqual(count($aResult),7);
         $this->assertEqual($aResult[1],'foo');
         $this->assertEqual($aResult[2],'bar');
         $this->assertNull($aResult['schema_name']);

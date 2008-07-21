@@ -227,10 +227,6 @@ if (isset($type) && $type == "url")      $show_url     = true;
 if (isset($type) && $type == "html")     $show_html    = true;
 if (isset($type) && $type == "txt")      $show_txt     = true;
 
-$oCache = new OA_Cache('Plugins', 'Extensions');
-$oCache->setFileNameProtection(false);
-$aExtensions = $oCache->load(true);
-
 $bannerTypes = array();
 if ($show_web) {
     $bannerTypes['web']['web'] = $GLOBALS['strWebBanner'];
@@ -246,7 +242,7 @@ if ($show_html) {
     foreach ($aBannerTypeHtml AS $tmpComponent)
     {
         $componentIdentifier = $tmpComponent->getComponentIdentifier();
-        $bannerTypes['html'][$componentIdentifier] = OX_Component::callStaticMethod($tmpComponent->extension, $tmpComponent->group, $tmpComponent->component, 'getOptionDescription');
+        $bannerTypes['html'][$componentIdentifier] = $tmpComponent->getOptionDescription();
     }
 }
 if ($show_txt) {
@@ -254,7 +250,7 @@ if ($show_txt) {
     foreach ($aBannerTypeText AS $tmpComponent)
     {
         $componentIdentifier = $tmpComponent->getComponentIdentifier();
-        $bannerTypes['text'][$componentIdentifier] = OX_Component::callStaticMethod($tmpComponent->extension, $tmpComponent->group, $tmpComponent->component, 'getOptionDescription');
+        $bannerTypes['text'][$componentIdentifier] = $tmpComponent->getOptionDescription();
     }
 }
 
