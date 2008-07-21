@@ -50,6 +50,7 @@ $GLOBALS['_MAX']['TEST']['directories'] =
         'lib/util',
         'plugins',
         'plugins_repo',
+        'extensions',
     	'lib/xmlrpc/php'
     );
 
