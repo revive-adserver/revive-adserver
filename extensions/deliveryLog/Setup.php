@@ -38,10 +38,10 @@ require_once MAX_PATH . '/lib/OA/Algorithm/Dependency/Source/HoA.php';
  * between components per each delivery log hook.
  *
  * @package    OpenXPlugin
- * @subpackage Plugins_LogCodeGenerator
+ * @subpackage Plugins_Log_Setup
  * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
-class OX_Plugins_DeliveryLog_CodeGenerator extends OX_Component
+class OX_Plugins_DeliveryLog_Setup extends OX_Component
 {
     const DATA_EXTENSION = 'deliveryDataPrepare';
     const LOG_EXTENSION  = 'deliveryLog';
