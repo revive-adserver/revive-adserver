@@ -900,8 +900,10 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->_logError('File not found '.$zipFile);
             return false;
         }
+        $this->_logMessage('starting _checkPackageContents '.$pkgFileUploaded);
         $aExpectedPackage = $this->_parsePackageFilename($pkgFileUploaded);
         $pkgFile = $aExpectedPackage['name'].'.xml';
+        $this->_logMessage('expecting definition '.$pkgFile);
 		require_once( MAX_PATH . '/lib/pclzip/pclzip.lib.php' );
 		$oZip = new PclZip( $zipFile );
 		$aContents = $oZip->listContent();
@@ -914,6 +916,8 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 
 		$pattPluginDefFile = '/'.preg_quote($aConf['pluginPaths']['packages'],'/').'[\w\d]+\.xml/';
 		$pattGroupDefFile = '/'.preg_quote($aConf['pluginPaths']['packages'],'/').'[\w\d]+\/[\w\d]+\.xml/';
+		$this->_logMessage('pattPluginDefFile = '.$pattPluginDefFile);
+		$this->_logMessage('pattGroupDefFile = '.$pattGroupDefFile);
 		foreach ($aContents AS $i => $aItem)
 		{
 	        $aPath = pathinfo($aItem['filename']);
@@ -924,12 +928,14 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 	        }
 	        if ((!$aPkgFile) && preg_match($pattPluginDefFile, $file, $aMatches)) // its an OpenXtra definition file
 	        {
+	            $this->_logMessage('detected plugin definition file '.$file);
 	            $aPkgFile['pathinfo']   = $aPath;
                 $aPkgFile['storedinfo'] = $aItem;
                 continue;
 	        }
             if (preg_match($pattGroupDefFile, $file, $aMatches)) // its a group definition file
             {
+                $this->_logMessage('detected group definition file '.$file);
     		    $aXMLFiles[$aPath['basename']]['pathinfo'] = $aPath;
     		    $aXMLFiles[$aPath['basename']]['storedinfo'] = $aItem;
     		    continue;
