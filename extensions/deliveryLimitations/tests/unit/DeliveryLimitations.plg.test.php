@@ -26,7 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Plugin.php';
-require_once MAX_PATH . '/plugins/deliveryLimitations/DeliveryLimitations.php';
+require_once OX_EXTENSIONS_PATH . '/deliveryLimitations/DeliveryLimitations.php';
 
 class Dummy_Plugins_DeliveryLimitations extends Plugins_DeliveryLimitations
 {
@@ -56,13 +56,13 @@ class Plugins_DeliveryLimitations_Test extends UnitTestCase
 
         $oPlugin = new Dummy_Plugins_DeliveryLimitations();
         set_magic_quotes_runtime(1);
-        $oPlugin->init(array('data' => 'Mozil\\la', 'package' => 'Pkg', 'comparison' => '==', 'name' => 'bla'));
-        $this->assertEqual('MAX_checkPkg_bla(\'Mozil\\la\', \'==\')', $oPlugin->compile());
+        $oPlugin->init(array('data' => 'Mozil\\la', 'comparison' => '==', 'group' => 'group', 'component' => 'component'));
+        $this->assertEqual('MAX_checkGroup_component(\'Mozil\\la\', \'==\')', $oPlugin->compile());
         set_magic_quotes_runtime(0);
-        $oPlugin->init(array('data' => 'Mozilla', 'package' => 'Pkg', 'comparison' => '==', 'name' => 'bla'));
-        $this->assertEqual('MAX_checkPkg_bla(\\\'Mozilla\\\', \\\'==\\\')', $oPlugin->compile());
-        $oPlugin->init(array('data' => 'Mozil\\la', 'package' => 'Pkg', 'comparison' => '==', 'name' => 'bla'));
-        $this->assertEqual('MAX_checkPkg_bla(\\\'Mozil\\\\la\\\', \\\'==\\\')', $oPlugin->compile());
+        $oPlugin->init(array('data' => 'Mozilla', 'comparison' => '==', 'group' => 'group', 'component' => 'component'));
+        $this->assertEqual('MAX_checkGroup_component(\\\'Mozilla\\\', \\\'==\\\')', $oPlugin->compile());
+        $oPlugin->init(array('data' => 'Mozil\\la', 'comparison' => '==', 'group' => 'group', 'component' => 'component'));
+        $this->assertEqual('MAX_checkGroup_component(\\\'Mozil\\\\la\\\', \\\'==\\\')', $oPlugin->compile());
 
         set_magic_quotes_runtime($current_quotes_runtime);
     }
