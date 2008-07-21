@@ -4,12 +4,12 @@ import java.io.IOException;
 
 public class OapSqlMaintenance {
 
-	private static final int HOW_MANY_CLICKS = 70000;
+	private static final int HOW_MANY_CLICKS = 1000;
 	private static final int IMPRESSIONS_PER_CLICK = 100;
 	private static final int ZONE_RANGE = 5;
 	private static final int BANNER_RANGE_IN_ZONE = 5;
-	private static final String TRAFFIC_TIMESTAMP = "2007-11-28 15:09:13";
-	private static final String FILE_NAME = "main_oa_l_tests_"+HOW_MANY_CLICKS+".sql";
+	private static final String TRAFFIC_TIMESTAMP = "2008-06-17 10:32:13";
+	private static final String FILE_NAME = "main_ox_l_tests_"+HOW_MANY_CLICKS+".sql";
 	private int impression = 0;
 	private int click = 0;
 	
@@ -42,7 +42,7 @@ public class OapSqlMaintenance {
 	
 	private String getImpression(int iBannerIndex, int iZoneIndex) {
 		impression++;
-		return "INSERT INTO `oa_data_raw_ad_impression` (`viewer_id`, `viewer_session_id`, `date_time`," +
+		return "INSERT INTO `ox_data_raw_ad_impression` (`viewer_id`, `viewer_session_id`, `date_time`," +
 				" `ad_id`, `creative_id`, `zone_id`, `channel`, `channel_ids`, `language`, `ip_address`," +
 				" `host_name`, `country`, `https`, `domain`, `page`, `query`, `referer`, `search_term`," +
 				" `user_agent`, `os`, `browser`, `max_https`, `geo_region`, `geo_city`, `geo_postal_code`," +
@@ -59,7 +59,7 @@ public class OapSqlMaintenance {
 	
 	private String getClick(int iBannerIndex, int iZoneIndex) {
 		click++;
-		return "INSERT INTO `oa_data_raw_ad_click` (`viewer_id`, `viewer_session_id`, `date_time`," +
+		return "INSERT INTO `ox_data_raw_ad_click` (`viewer_id`, `viewer_session_id`, `date_time`," +
 				" `ad_id`, `creative_id`, `zone_id`, `channel`, `channel_ids`, `language`, `ip_address`," +
 				" `host_name`, `country`, `https`, `domain`, `page`, `query`, `referer`, `search_term`," +
 				" `user_agent`, `os`, `browser`, `max_https`, `geo_region`, `geo_city`, `geo_postal_code`," +
