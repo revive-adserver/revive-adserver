@@ -1217,7 +1217,7 @@ $aConf = $GLOBALS['_MAX']['CONF'];
 if (!empty($aConf['deliveryHooks'][$hookName])) {
 $hooks = explode('|', $aConf['deliveryHooks'][$hookName]);
 foreach ($hooks as $identifier) {
-$functionName = OX_Delivery_Common_getFunctionFromPluginIdentifier($identifier, $hookName);
+$functionName = OX_Delivery_Common_getFunctionFromComponentIdentifier($identifier, $hookName);
 if (function_exists($functionName)) {
 call_user_func_array($functionName, $aParams);
 }
@@ -1225,7 +1225,7 @@ call_user_func_array($functionName, $aParams);
 }
 return true;
 }
-function OX_Delivery_Common_getFunctionFromPluginIdentifier($identifier, $hook = null)
+function OX_Delivery_Common_getFunctionFromComponentIdentifier($identifier, $hook = null)
 {
 $aInfo = explode(':', $identifier);
 $functionName = 'Plugin_' . implode('_', $aInfo) . '_Delivery';
@@ -1248,7 +1248,7 @@ if (!in_array($parentFileName, array_keys($GLOBALS['_MAX']['FILES']))) {
 $GLOBALS['_MAX']['FILES'][$parentFileName] = true;
 if (file_exists(MAX_PATH . $parentFileName)) {
 @include MAX_PATH . $parentFileName;
-$functionName = 'Plugins_' . $aInfo[0] . '_delivery';
+$functionName = 'Plugin_' . $aInfo[0] . '_delivery';
 if (!empty($hook)) {
 $functionName .= '_' . $hook;
 }
