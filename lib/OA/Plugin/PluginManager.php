@@ -83,6 +83,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
     {
         if (substr($file,0,strlen($name))!=$name)
         {
+            $this->_logError('Filename mismatch: name/file'. $name.' / '.$file);
             return false;
         }
         return $this->_parsePackageFilename($file);
@@ -93,6 +94,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         $pattern = '(?P<name>[\w\d]+)_?(?P<version>[\d]+\.[\d]+\.[\d]+[-\w\d]+)?\.(?P<ext>[\w]{3,4})';
         if (!preg_match('/'.$pattern.'/U',$file,$aMatch))
         {
+            $this->_logError('Filename not parsed '.$file);
             return false;
         }
         return array('version'=>$aMatch['version'],'name'=>$aMatch['name'],'ext'=>$aMatch['ext']);
@@ -579,6 +581,11 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
      */
     function _parsePackage($name)
     {
+        if (!$name)
+        {
+            $this->_logError('Null package definition file name');
+            return false;
+        }
         $file = $name;
         if (!@file_exists($file))
         {
