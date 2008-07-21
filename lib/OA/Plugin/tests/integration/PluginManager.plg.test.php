@@ -138,7 +138,7 @@ class Test_OX_PluginManager extends UnitTestCase
         $aConf = array('testPluginPackage'=>0);
         $GLOBALS['_MAX']['CONF']['plugins'] = &$aConf;
 
-        $aResult = $oPackageManager->getExtensionsList();
+        $aResult = $oPackageManager->getExtensionsList(true);
         $this->assertIsA($aResult,'array');
         $this->assertEqual(count($aResult),0);
 

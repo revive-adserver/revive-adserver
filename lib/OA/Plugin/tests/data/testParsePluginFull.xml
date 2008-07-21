@@ -19,11 +19,6 @@
             <group name="testPlugin2">2</group>
         </contents>
 
-        <register>
-            <extension type='deliveryLimitations' group='testPlugin1'>myDeliveryLimitation</extension>
-            <extension type='invocationTags' group='testPlugin2'>myInvocationTag</extension>
-        </register>
-
     </install>
 
 </plugin>

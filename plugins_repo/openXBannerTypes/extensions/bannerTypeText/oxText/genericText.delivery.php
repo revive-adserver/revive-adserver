@@ -49,7 +49,7 @@ $Id$
  *
  * @return string               The HTML to display this ad
  */
-function Plugins_BannerTypeText_oxText_genericText_delivery(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $loc, $referer)
+function Plugin_BannerTypeText_oxText_genericText_delivery(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $loc, $referer)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     $prepend = !empty($aBanner['prepend']) ? $aBanner['prepend'] : '';

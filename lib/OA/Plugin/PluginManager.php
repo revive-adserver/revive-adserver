@@ -709,7 +709,6 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             }
             else if ($k == 'install')
             {
-                $aPkgInfo['extensions'] = $v['extensions'];
                 foreach ($v['contents'] AS $i =>$aPlugin)
                 {
                     $aPlugins[] = $aPlugin['name'];
@@ -717,6 +716,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                 if ($getComponentGroupInfo)
                 {
                     $aPkgInfo['contents'] = $this->getComponentGroupsList($aPlugins);
+                    $aPkgInfo['extensions'] = $v['components'];
                 }
             }
             unset($aPkgInfo['extends']);
@@ -791,7 +791,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 
     /**
      * get a list of extensions registered by each package
-     * including info on each plugin contained
+     * including info on each component contained
      *
      * @param string $name
      * @return array
@@ -804,8 +804,8 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         {
             if ($enabled)
             {
-                $aPkgInfo = $this->getPackageInfo($name, false);
-                foreach ($aPkgInfo['extensions'] AS $extension => $plugin)
+                $aPkgInfo = $this->getPackageInfo($name);
+                foreach ($aPkgInfo['contents'] AS $componentGroup)
                 {
                     if (!isset($aResult[$extension]))
                     {
@@ -826,6 +826,45 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         return $oCache->save($aExtensions);
     }
 
+    function getComponentHooks()
+    {
+        $aPackages = $GLOBALS['_MAX']['CONF']['plugins'];
+        $aResult = array();
+        foreach ($aPackages AS $name => $enabled)
+        {
+            if ($enabled)
+            {
+                $aPkgInfo = $this->getPackageInfo($name);
+                foreach ($aPkgInfo['contents'] AS $componentGroup)
+                {
+                    foreach ($componentGroup['components'] as $componentName => $aComponent) {
+                        foreach ($aComponent['hooks'] as $hook) {
+                            $aResult[$hook][] = $componentGroup['extends'] . ':' . $componentGroup['name'] . ':' . $componentName;
+                        }
+                    }
+                }
+            }
+        }
+        return $aResult;
+    }
+
+    function _saveComponentHooks()
+    {
+        $aHooks = $this->getComponentHooks();
+
+        $oSettings = $this->_instantiateClass('OA_Admin_Settings');
+        if (!$oSettings)
+        {
+            return false;
+        }
+        // Clear out any existing hooks
+        $oSettings->aConf['deliveryHooks'] = array();
+        foreach ($aHooks as $hookName => $aComponentIdentifiers) {
+            $oSettings->settingChange('deliveryHooks', $hookName, implode('|', $aComponentIdentifiers));
+        }
+        return $oSettings->writeConfigChange();
+    }
+
     function _loadRegisteredExtensions()
     {
         $oCache = $this->_instantiateClass('OA_Cache', array('Plugins', 'Extensions'));
@@ -836,6 +875,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
     public function cachePackages()
     {
         $this->_saveRegisteredExtensions();
+        $this->_saveComponentHooks();
     }
 
     /**

@@ -24,7 +24,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-// $Id: ParserPackage.plg.test.php 22654 2008-07-15 08:15:04Z monique.szpak@openx.org $
+// $Id$
 */
 
 require_once MAX_PATH.'/lib/OA/Plugin/ParserPlugin.php';
@@ -93,11 +93,6 @@ class Test_OX_ParserPlugin extends UnitTestCase
             $this->assertEqual($aPlugin['install']['contents'][1]['name'],'testPlugin1');
             $this->assertEqual($aPlugin['install']['contents'][2]['name'],'testPlugin2');
 
-            $this->assertEqual(count($aPlugin['install']['extensions']),2);
-            $this->assertEqual(count($aPlugin['install']['extensions']['deliveryLimitations']),1);
-            $this->assertEqual(count($aPlugin['install']['extensions']['invocationTags']),1);
-            $this->assertEqual($aPlugin['install']['extensions']['deliveryLimitations']['myDeliveryLimitation'],'testPlugin1');
-            $this->assertEqual($aPlugin['install']['extensions']['invocationTags']['myInvocationTag'],'testPlugin2');
 
         }
     }
@@ -105,7 +100,6 @@ class Test_OX_ParserPlugin extends UnitTestCase
     function _assertStructure($aPlugin)
     {
         $this->assertTrue(array_key_exists('contents', $aPlugin['install']),'array key not found [install][contents]');
-        $this->assertTrue(array_key_exists('extensions', $aPlugin['install']),'array key not found [install][extensions]');
     }
 }
 

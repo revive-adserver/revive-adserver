@@ -24,11 +24,6 @@
             <group name="demoUserInterface"        >3</group>
         </contents>
 
-        <register>
-            <extension type='bannerTypeHtml' group='demoBannerTypeHtml'>demoHtml</extension>
-            <extension type='deliveryLimitations' group='demoDeliveryLimitation'>demoLimitation</extension>
-        </register>
-
     </install>
 
     <readme>

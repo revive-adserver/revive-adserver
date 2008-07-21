@@ -32,7 +32,12 @@ $Id$
  * @author     Monique Szpak <monique.szpak@openx.org>
  * @abstract
  */
-function Plugins_BannerTypeHTML_demoBannerTypeHtml_demoHtml_delivery()
+function Plugin_BannerTypeHTML_demoBannerTypeHtml_demoHtml_delivery()
+{
+    return true;
+}
+
+function Plugin_BannerTypeHTML_demoBannerTypeHtml_demoHtml_delivery_postAdRender()
 {
     return true;
 }

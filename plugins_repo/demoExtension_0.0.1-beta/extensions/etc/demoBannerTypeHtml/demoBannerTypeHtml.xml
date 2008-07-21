@@ -17,6 +17,9 @@
         <files>
             <file path="{MODULEPATH}bannerTypeHtml/demoBannerTypeHtml/">demoHtml.class.php</file>
             <file path="{MODULEPATH}bannerTypeHtml/demoBannerTypeHtml/">demoHtml.delivery.php</file>
+
+            <file path="{MODULEPATH}bannerTypeHtml/demoBannerTypeHtml/_lang/">en.mo</file>
+            <file path="{MODULEPATH}bannerTypeHtml/demoBannerTypeHtml/_lang/po/">en.po</file>
         </files>
 
         <schema>
@@ -25,6 +28,14 @@
             <dbolinks>db_schema.links</dbolinks>
             <dataobject>Banners_demo.php</dataobject>
         </schema>
+
+        <components>
+           <component>
+                <name>demoHtml</name>
+                <translations>{MODULEPATH}bannerTypeHtml/demoBannerTypeHtml/_lang/</translations>
+                <hook>postAdRender</hook>
+           </component>
+        </components>
 
     </install>
 

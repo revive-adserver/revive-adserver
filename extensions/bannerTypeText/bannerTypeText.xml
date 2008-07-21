@@ -15,9 +15,12 @@
         <implements hook="banner-edit">preprocessForm</implements>
         <implements hook="banner-edit">processForm</implements>
         <implements hook="banner-edit">validateForm</implements>
+        <implements hook="delivery">preAdRender</implements>
+        <implements hook="delivery">postAdRender</implements>
+        <implements hook="delivery">preAdLog</implements>
     </api>
 
-    <filemask type="banner-edit">.plugin.php</filemask>
+    <filemask type="banner-edit">.class.php</filemask>
     <filemask type="delivery">.delivery.php</filemask>
 
     <readme>

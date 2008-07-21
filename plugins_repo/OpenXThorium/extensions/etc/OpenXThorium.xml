@@ -23,9 +23,6 @@
             <group name="openXIndium">2</group>
         </contents>
 
-        <register>
-        </register>
-
     </install>
 
     <readme>

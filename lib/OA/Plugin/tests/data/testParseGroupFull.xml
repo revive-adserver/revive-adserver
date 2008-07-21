@@ -81,6 +81,15 @@
             <dataobject>Testplugin_table.php</dataobject>
         </schema>
 
+        <components>
+           <component>
+                <name>testComponent</name>
+                <translations>{MODULEPATH}/pathToTest/_lang/</translations>
+                <hook>testPreHook</hook>
+                <hook>testPostHook</hook>
+           </component>
+        </components>
+
         <prescript>prescript_testParse.php</prescript>
         <postscript>postscript_testParse.php</postscript>
 

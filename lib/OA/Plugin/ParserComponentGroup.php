@@ -50,6 +50,7 @@ class OX_ParserComponentGroup extends OX_ParserBase
                           'dataobjects' => '',
                            );
     var $aData;
+    var $aComponents = array();
 
     function startHandler($xp, $element, $attribs)
     {
@@ -120,6 +121,9 @@ class OX_ParserComponentGroup extends OX_ParserBase
                     $this->aData[strtolower($k)] = $v;
                 }
                 break;
+            case 'plugin-install-components':
+                $this->aData = array();
+                break;
         }
     }
 
@@ -143,6 +147,7 @@ class OX_ParserComponentGroup extends OX_ParserBase
             case 'plugin':
                 $this->aInstall['navigation'] = $this->aNav;
                 $this->aInstall['schema']     = $this->aSchema;
+                $this->aInstall['components'] = $this->aComponents;
                 break;
             case 'plugin-install-configuration-setting':
                 $this->aSettings[] = $this->aData;
@@ -150,6 +155,10 @@ class OX_ParserComponentGroup extends OX_ParserBase
             case 'plugin-install-configuration-preference':
                 $this->aPrefs[] = $this->aData;
                 break;
+            case 'plugin-install-components':
+                $this->aComponents[$this->aData['name']] = $this->aData;
+                break;
+
         }
 
         parent::endHandler($xp, $element);
@@ -185,10 +194,18 @@ class OX_ParserComponentGroup extends OX_ParserBase
             case 'plugin-install-configuration-preference':
                 $this->aData['value'] = $data;
                 break;
+            case 'plugin-install-components-component-name':
+                $this->aData['name'] = $data;
+                break;
+            case 'plugin-install-components-component-translations':
+                $this->aData['translations'] = $data;
+                break;
+            case 'plugin-install-components-component-hook':
+                $this->aData['hooks'][] = $data;
+                break;
         }
 
     }
-
 }
 
 ?>

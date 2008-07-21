@@ -11,12 +11,20 @@
     <description>OpenX Indium beacon service</description>
     <version>1.0.0-dev</version>
     <oxversion>2.7.5-dev</oxversion>
-    <extends>deliveryLimitations</extends>
+    <extends>deliveryAdRender</extends>
 
     <install>
         <files>
             <file path="{MODULEPATH}deliveryAdRender/openXIndium/">beaconService.delivery.php</file>
         </files>
+
+        <components>
+            <component>
+                <name>beaconService</name>
+                <hook>postAdRender</hook>
+           </component>
+        </components>
+
     </install>
 
 </plugin>

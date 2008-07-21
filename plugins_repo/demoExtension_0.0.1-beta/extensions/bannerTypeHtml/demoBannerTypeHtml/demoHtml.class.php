@@ -28,7 +28,6 @@ $Id$
 require_once MAX_PATH . '/lib/OA.php';
 require_once OX_EXTENSIONS_PATH . '/bannerTypeHtml/bannerTypeHtml.php';
 require_once MAX_PATH . '/lib/max/Plugin/Common.php';
-require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 
 /**
  *
@@ -47,7 +46,7 @@ class Plugins_BannerTypeHTML_demoBannerTypeHtml_demoHtml extends Plugins_BannerT
      */
     function getOptionDescription()
     {
-        return 'Demonstration Plugin HTML Banner Type';
+        return $this->oTrans->translate('Demonstration Plugin HTML Banner Type');
     }
 
     /**
@@ -60,7 +59,7 @@ class Plugins_BannerTypeHTML_demoBannerTypeHtml_demoHtml extends Plugins_BannerT
     {
         parent::buildForm($form, $bannerId);
         $form->addElement('text', 'demofield', 'Demo Field');
-        $form->addRule("demofield", 'Please enter http://www.openx.org', 'regex', '/^http:\/\/www\.openx\.org$/');
+        $form->addRule("demofield", $this->oTrans->translate('Please enter http://www.openx.org'), 'regex', '/^http:\/\/www\.openx\.org$/');
 
     }
 
@@ -91,7 +90,7 @@ class Plugins_BannerTypeHTML_demoBannerTypeHtml_demoHtml extends Plugins_BannerT
     function preprocessForm($insert, $bannerid, &$aFields, &$aVariables)
     {
         $aVariables['htmltemplate'] = $this->_buildHtmlTemplate($aVariables);
-        $aVariables['comments']     = 'Demonstration OpenX Banner Type ID '.$aFields['bannerid'];
+        $aVariables['comments']     = $this->oTrans->translate('Demonstration OpenX Banner Type ID %s', array($aFields['bannerid']));
         return true;
     }
 
@@ -136,7 +135,7 @@ class Plugins_BannerTypeHTML_demoBannerTypeHtml_demoHtml extends Plugins_BannerT
      */
     function _buildHtmlTemplate($aFields)
     {
-        $result = '<div>Demonstration OpenX Banner Type ID '.$aFields['bannerid'].'</div>';
+        $result = '<div>' . $this->oTrans->translate('Demonstration OpenX Banner Type ID %s', array($aFields['bannerid'])) . '</div>';
         return $result;
     }
 

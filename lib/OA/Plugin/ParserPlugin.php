@@ -24,7 +24,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: ParserPackage.php 22653 2008-07-15 08:13:50Z monique.szpak@openx.org $
+$Id$
 */
 
 
@@ -41,9 +41,6 @@ class OX_ParserPlugin extends OX_ParserBase
 {
 
     var $aContents = array();
-    var $aExtensions = array();
-    var $aComponents;
-    var $aModules;
 
     function startHandler($xp, $element, $attribs)
     {
@@ -58,18 +55,8 @@ class OX_ParserPlugin extends OX_ParserBase
                     $this->aData[strtolower($k)] = $v;
                 }
                 break;
-            case 'plugin-install-register-extension':
-                $this->aData = array();
-                foreach ($attribs AS $k => $v)
-                {
-                    $this->aData[strtolower($k)] = $v;
-                }
-                break;
             case 'plugin-install-contents':
                 $this->aContents = array();
-                break;
-            case 'plugin-install-register':
-                $this->aExtensions = array();
                 break;
         }
     }
@@ -81,7 +68,6 @@ class OX_ParserPlugin extends OX_ParserBase
         {
             case 'plugin':
                 $this->aInstall['contents']   = $this->aContents;
-                $this->aInstall['extensions'] = $this->aExtensions;
                 break;
             /*case 'plugin-install-register-extension':
                 $this->aExtensions[$this->aData['type']][] = $this->aData['name'];
@@ -99,10 +85,6 @@ class OX_ParserPlugin extends OX_ParserBase
         {
             case 'plugin-install-contents-group':
                 $this->aContents[$data] = $this->aData;
-                break;
-            case 'plugin-install-register-extension':
-                $this->aExtensions[$this->aData['type']][$data] = $this->aData['group'];
-                //$this->aData['name'] = $data;
                 break;
         }
     }

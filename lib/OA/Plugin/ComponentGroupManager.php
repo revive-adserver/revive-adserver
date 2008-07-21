@@ -2019,6 +2019,8 @@ class OX_Plugin_ComponentGroupManager
             $aGroup['schema_name']     = $aParse['install']['schema']['mdb2schema'];
             $aGroup['schema_version']  = $schema_version;
         }
+        $aGroup['components'] = $aParse['install']['components'];
+
         unset($aGroup['upgrade']);
         return $aGroup;
     }

@@ -32,7 +32,7 @@ $Id$
  * @author     Monique Szpak <monique.szpak@openx.org>
  * @abstract
  */
-function Plugins_BannerTypeHTML_xHtml_genericHtml_delivery(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $loc, $referer)
+function Plugin_BannerTypeHTML_xHtml_genericHtml_delivery(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $loc, $referer)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     $prepend = !empty($aBanner['prepend']) ? $aBanner['prepend'] : '';
