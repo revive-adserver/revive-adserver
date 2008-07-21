@@ -100,8 +100,7 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
         $hooks = array();
         foreach ($plugins as $extension => $extPlugins) {
             foreach ($extPlugins as $pluginName => $aPluginData) {
-                foreach ($aPluginData['register']['delivery'] as $hookName => $aHook) {
-                    // should this be more flexible?
+                foreach ($aPluginData as $hookName => $aHook) {
                     $hooks[$extension][$hookName][] = $extension.':'.$pluginName.':'.$pluginName;
                 }
             }
@@ -119,9 +118,9 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
     function orderPluginsByDependency(array $plugins, array $hooks)
     {
         $orderedDependencies = $this->getDpendencyOrderedPlugins($plugins, $hooks);
-        // @TODO - save them in config file?
         foreach ($orderedDependencies as $hook => $aComponents) {
             $oConfigWriter['deliveryHooks'] = implode('|', $orderedDependencie);
+            // @TODO - write it to config file
         }
     }
 
@@ -271,11 +270,10 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
             return false;
         }
         $hooks = array();
-        foreach ($simpleXml->xpath("register/hook") as $hook) {
-            $hookAttributes = $hook->attributes();
-            $hookName = (string) $hookAttributes['hook'];
-            $hookType = (string) $hookAttributes['type'];
-            $hooks[$hookType][$hookName][] = (string) $hook;
+        foreach ($simpleXml->xpath("components/component") as $component) {
+            $hookName = (string) $component->hook;
+            $componentName = (string) $component->name;
+            $hooks[$hookName][] = (string) $componentName;
         }
         return $hooks;
     }
@@ -312,7 +310,7 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
             if (isset($extensionKeys[$plugin['extends']])
                 && $plugin['installed'] && $plugin['enabled'])
             {
-                $activePlugins[$plugin['extends']][$plugin['name']]['register'] =
+                $activePlugins[$plugin['extends']][$plugin['name']] =
                     $this->getPluginRegisteredHooks($plugin['name']);
             }
         }
