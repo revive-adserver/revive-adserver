@@ -17,6 +17,18 @@
         <files>
             <file path="{MODULEPATH}deliveryDataPrepare/ox_core/">ox_core.delivery.php</file>
         </files>
+
+        <schema>
+            <mdb2schema>tables_ox_core</mdb2schema>
+            <dboschema>db_schema</dboschema>
+            <dbolinks>db_schema.links</dbolinks>
+            <dataobject>Data_bucket_click.php</dataobject>
+            <dataobject>Data_bucket_fb_impression.php</dataobject>
+            <dataobject>Data_bucket_impression.php</dataobject>
+            <dataobject>Data_bucket_impression_country.php</dataobject>
+            <dataobject>Data_bucket_request.php</dataobject>
+        </schema>
+
     </install>
 
     <components>

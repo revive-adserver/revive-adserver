@@ -8,11 +8,15 @@
     <authorEmail>radek.maciaszek@openx.org</authorEmail>
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
-    <description>Core Delivery Limitations Plugins for OpenX</description>
+    <description>Core Delivery Logging Plugins for OpenX</description>
     <version>1.0.0-dev</version>
-    <type>package</type>
+    <type>extension</type>
 
     <install>
+
+        <!--files>
+            <file path="{PLUGINPATH}">openXCoreDeliveryLog.readme.txt</file>
+        </files-->
 
         <contents>
             <group name="ox_core"              >1</group>

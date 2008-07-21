@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_schema.xsl"?>
+<database>
+
+ <name>ox_core</name>
+ <create>false</create>
+ <overwrite>false</overwrite>
+ <version>001</version>
+ <status>final</status>
+
+ <table>
+
+  <name>data_bucket_click</name>
+
+  <declaration>
+
+   <field>
+    <name>interval_start</name>
+    <type>openads_datetime</type>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>creative_id</name>
+    <type>openads_bigint</type>
+    <length>20</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>zone_id</name>
+    <type>openads_bigint</type>
+    <length>20</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>count</name>
+    <type>openads_int</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <index>
+    <name>data_bucket_click_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>interval_start</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>creative_id</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>zone_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>data_bucket_fb_impression</name>
+
+  <declaration>
+
+   <field>
+    <name>interval_start</name>
+    <type>openads_datetime</type>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>primary_creative_id</name>
+    <type>openads_bigint</type>
+    <length>20</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>creative_id</name>
+    <type>openads_bigint</type>
+    <length>20</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>zone_id</name>
+    <type>openads_bigint</type>
+    <length>20</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>count</name>
+    <type>openads_int</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <index>
+    <name>data_bucket_fb_impression_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>interval_start</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>primary_creative_id</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>creative_id</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>zone_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>data_bucket_impression</name>
+
+  <declaration>
+
+   <field>
+    <name>interval_start</name>
+    <type>openads_datetime</type>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>creative_id</name>
+    <type>openads_bigint</type>
+    <length>20</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>zone_id</name>
+    <type>openads_bigint</type>
+    <length>20</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>count</name>
+    <type>openads_int</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <index>
+    <name>data_bucket_impression_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>interval_start</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>creative_id</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>zone_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>data_bucket_impression_country</name>
+
+  <declaration>
+
+   <field>
+    <name>interval_start</name>
+    <type>openads_datetime</type>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>creative_id</name>
+    <type>openads_bigint</type>
+    <length>20</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>zone_id</name>
+    <type>openads_bigint</type>
+    <length>20</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>country</name>
+    <type>openads_char</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>count</name>
+    <type>openads_int</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <index>
+    <name>data_bucket_impression_country_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>interval_start</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>creative_id</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>zone_id</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>country</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>data_bucket_request</name>
+
+  <declaration>
+
+   <field>
+    <name>interval_start</name>
+    <type>openads_datetime</type>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>creative_id</name>
+    <type>openads_bigint</type>
+    <length>20</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>zone_id</name>
+    <type>openads_bigint</type>
+    <length>20</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>count</name>
+    <type>openads_int</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <index>
+    <name>data_bucket_request_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>interval_start</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>creative_id</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>zone_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+</database>
