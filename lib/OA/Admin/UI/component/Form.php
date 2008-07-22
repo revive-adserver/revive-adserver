@@ -191,7 +191,7 @@ class OA_Admin_UI_Component_Form
     }
     
     
-    public function addElements(array $elements)
+    public function addElements($elements = array())
     {
         foreach ($elements as $element) {
             $this->addElement($element);

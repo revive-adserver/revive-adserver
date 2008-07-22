@@ -52,7 +52,7 @@ class OA_Algorithm_Dependency_Ordered extends OA_Algorithm_Dependency
      * @param array $items
      * @return array
      */
-    function schedule(array $items)
+    function schedule($items = array())
     {
         if (!$items) {
             return false;

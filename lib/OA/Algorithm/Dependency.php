@@ -75,7 +75,7 @@ class OA_Algorithm_Dependency
      *                                doesn't exist, or has been deleted.
      * @return returns a new Algorithm::Dependency
      */
-    function __construct(OA_Algorithm_Dependency_Source $source, array $selected = array(), $ignoreOrphans = false)
+    function __construct(OA_Algorithm_Dependency_Source $source, $selected = array(), $ignoreOrphans = false)
     {
         $this->source = $source;
         $this->ignoreOrphans = $ignoreOrphans;
@@ -105,7 +105,7 @@ class OA_Algorithm_Dependency
      *                reference to an empty array if no other items are needed, or false
      *                on error.
      */
-    function depends(array $items)
+    function depends($items = array())
     {
         $checked = array();
         $depends = array();
@@ -154,7 +154,7 @@ class OA_Algorithm_Dependency
      *                an empty array if no items need to be acted upon, or false
      *                on error.
      */
-    function schedule(array $items)
+    function schedule($items = array())
     {
         $depends = $this->depends($items);
         if (!is_array($depends)) {

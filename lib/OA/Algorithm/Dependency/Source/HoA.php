@@ -58,7 +58,7 @@ class OA_Algorithm_Dependency_Source_HoA extends OA_Algorithm_Dependency_Source
 {
     private $hash = array();
 
-    function __construct(array $deps = array())
+    function __construct($deps = array())
     {
         $this->hash = $deps;
     }

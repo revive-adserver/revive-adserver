@@ -35,7 +35,7 @@ class OA_Algorithm_Dependency_Item
     protected $id;
     protected $depends;
 
-    function __construct($id, array $depends)
+    function __construct($id, $depends = array())
     {
         $this->id = $id;
         $this->depends = $depends;
