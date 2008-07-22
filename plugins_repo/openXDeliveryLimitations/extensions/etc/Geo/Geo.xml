@@ -47,6 +47,21 @@
             <file path="{MODULEPATH}deliveryLimitations/Geo/data/">res-iso3166.inc.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Geo/data/">res-iso3166-2.inc.php</file>
         </files>
+
+
+        <components>
+            <component><name>Areacode</name></component>
+            <component><name>City</name></component>
+            <component><name>Continent</name></component>
+            <component><name>Country</name></component>
+            <component><name>Dma</name></component>
+            <component><name>Latlong</name></component>
+            <component><name>Netspeed</name></component>
+            <component><name>Organisation</name></component>
+            <component><name>Postalcode</name></component>
+            <component><name>Region</name></component>
+        </components>
+
     </install>
 
 </plugin>

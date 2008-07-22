@@ -25,6 +25,12 @@
             <dataobject>Banners_ox_adsense.php</dataobject>
         </schema>
 
+        <components>
+           <component>
+                <name>adsense</name>
+           </component>
+        </components>
+
     </install>
 
 </plugin>

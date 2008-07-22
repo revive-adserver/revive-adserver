@@ -24,6 +24,13 @@
             <file path="{MODULEPATH}deliveryLimitations/Time/">Hour.class.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Time/">Hour.delivery.php</file>
         </files>
+
+        <components>
+            <component><name>Date</name></component>
+            <component><name>Day</name></component>
+            <component><name>Hour</name></component>
+        </components>
+
     </install>
 
 </plugin>

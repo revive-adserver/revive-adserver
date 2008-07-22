@@ -19,11 +19,6 @@
             <group name="oxText">2</group>
         </contents>
 
-        <register>
-            <extension type='bannerTypeHtml' group='oxHtml'>genericHtml</extension>
-            <extension type='bannerTypeText' group='oxText'>genericText</extension>
-        </register>
-
     </install>
 
 </plugin>

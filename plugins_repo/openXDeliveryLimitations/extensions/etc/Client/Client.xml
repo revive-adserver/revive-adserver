@@ -30,6 +30,16 @@
             <file path="{MODULEPATH}deliveryLimitations/Client/">Useragent.class.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Client/">Useragent.delivery.php</file>
         </files>
+
+        <components>
+            <component><name>Browser</name></component>
+            <component><name>Domain</name></component>
+            <component><name>Ip</name></component>
+            <component><name>Language</name></component>
+            <component><name>Os</name></component>
+            <component><name>Useragent</name></component>
+        </components>
+
     </install>
 
 </plugin>

@@ -18,10 +18,6 @@
             <group name="openXHtmlAdsense">1</group>
         </contents>
 
-        <register>
-            <extension type='bannerTypeHtml' group='openXHtmlAdsense'>adsense</extension>
-        </register>
-
     </install>
 
 </plugin>

@@ -18,6 +18,13 @@
             <file path="{MODULEPATH}bannerTypeText/oxText/">genericText.class.php</file>
             <file path="{MODULEPATH}bannerTypeText/oxText/">genericText.delivery.php</file>
         </files>
+
+        <components>
+           <component>
+                <name>genericText</name>
+           </component>
+        </components>
+
     </install>
 
 </plugin>

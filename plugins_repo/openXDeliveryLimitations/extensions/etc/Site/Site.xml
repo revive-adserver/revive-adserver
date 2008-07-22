@@ -26,6 +26,14 @@
             <file path="{MODULEPATH}deliveryLimitations/Site/">Variable.class.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Site/">Variable.delivery.php</file>
         </files>
+
+        <components>
+            <component><name>Channel</name></component>
+            <component><name>Pageurl</name></component>
+            <component><name>Referingpage</name></component>
+            <component><name>Source</name></component>
+            <component><name>Variable</name></component>
+        </components>
     </install>
 
 </plugin>

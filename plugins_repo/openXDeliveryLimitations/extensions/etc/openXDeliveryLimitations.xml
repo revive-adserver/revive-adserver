@@ -21,35 +21,6 @@
             <group name="Time"         >4</group>
         </contents>
 
-        <register>
-            <extension type='deliveryLimitations' group='Site'>Channel</extension>
-            <extension type='deliveryLimitations' group='Site'>Pageurl</extension>
-            <extension type='deliveryLimitations' group='Site'>Referingpage</extension>
-            <extension type='deliveryLimitations' group='Site'>Source</extension>
-            <extension type='deliveryLimitations' group='Site'>Variable</extension>
-
-            <extension type='deliveryLimitations' group='Client'>Browser</extension>
-            <extension type='deliveryLimitations' group='Client'>Domain</extension>
-            <extension type='deliveryLimitations' group='Client'>Ip</extension>
-            <extension type='deliveryLimitations' group='Client'>Language</extension>
-            <extension type='deliveryLimitations' group='Client'>Os</extension>
-            <extension type='deliveryLimitations' group='Client'>Useragent</extension>
-
-            <extension type='deliveryLimitations' group='Geo'>Areacode</extension>
-            <extension type='deliveryLimitations' group='Geo'>City</extension>
-            <extension type='deliveryLimitations' group='Geo'>Continent</extension>
-            <extension type='deliveryLimitations' group='Geo'>Country</extension>
-            <extension type='deliveryLimitations' group='Geo'>Dma</extension>
-            <extension type='deliveryLimitations' group='Geo'>Latlong</extension>
-            <extension type='deliveryLimitations' group='Geo'>Netspeed</extension>
-            <extension type='deliveryLimitations' group='Geo'>Organisation</extension>
-            <extension type='deliveryLimitations' group='Geo'>Postalcode</extension>
-            <extension type='deliveryLimitations' group='Geo'>Region</extension>
-
-            <extension type='deliveryLimitations' group='Time'>Date</extension>
-            <extension type='deliveryLimitations' group='Time'>Day</extension>
-            <extension type='deliveryLimitations' group='Time'>Hour</extension>
-        </register>
 
     </install>
 
