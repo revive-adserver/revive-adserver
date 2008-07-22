@@ -32,6 +32,7 @@ $Id$
 // Required files
 require_once(MAX_PATH.'/lib/OA/Plugin/ComponentGroupManager.php');
 require_once(MAX_PATH.'/lib/OA/Plugin/ParserPlugin.php');
+require_once(MAX_PATH.'/extensions/deliveryLog/Setup.php');
 
 define('OX_PLUGIN_ERROR_PACKAGE_OK', 1);
 define('OX_PLUGIN_ERROR_PACKAGE_NAME_EXISTS'            ,    0);
@@ -821,10 +822,8 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
      *
      * @return boolean True if writing the config file change was sucessful false otherwise
      */
-    function _saveComponentHooks()
+    function _saveComponentHooks(array $aHooks)
     {
-        $aHooks = $this->getComponentHooks();
-
         $oSettings = $this->_instantiateClass('OA_Admin_Settings');
         if (!$oSettings)
         {
@@ -833,14 +832,53 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         // Clear out any existing hooks
         $oSettings->aConf['deliveryHooks'] = array();
         foreach ($aHooks as $hookName => $aComponentIdentifiers) {
+            $aComponentIdentifiers = $this->orderDependencyComponents($hookName, $aComponentIdentifiers, $aHooks);
             $oSettings->settingChange('deliveryHooks', $hookName, implode('|', $aComponentIdentifiers));
         }
         return $oSettings->writeConfigChange();
     }
 
+    /**
+     * This method allows to set the components in the order of their dependency
+     * between each other.
+     *
+     * @param string $hookName  Hook name
+     * @param array $aComponentIdentifiers  Array of components assigned to sorted hook
+     * @param array $aHooks  Array with all hooks and all components in the system
+     * @return unknown
+     */
+    function orderDependencyComponents($hookName, array $aComponentIdentifiers, array $aHooks)
+    {
+        switch ($hookName) {
+            case 'logClick':
+            case 'logImpression':
+            case 'logRequest':
+                $deliveryLogSetup = new OX_Plugins_DeliveryLog_Setup();
+                return $deliveryLogSetup->getDpendencyOrderedPlugins($aComponentIdentifiers, $aHooks);
+                break;
+            default:
+                return $aComponentIdentifiers;
+        }
+    }
+
     public function cachePackages()
     {
-        $this->_saveComponentHooks();
+        $aHooks = $this->getComponentHooks();
+        $this->_saveComponentHooks($aHooks);
+        $this->_generateDeliveryHooksCacheFile($aHooks);
+    }
+
+    /**
+     * This method takes the array of registered hooks from the plugin/component
+     * group's XML files, merge the delivery plugins files into one file
+     * and save such cache in var folder.
+     *
+     * @return boolean True if writing the config file change was sucessful false otherwise
+     */
+    function _generateDeliveryHooksCacheFile(array $aHooks)
+    {
+        $deliveryLogSetup = new OX_Plugins_DeliveryLog_Setup();
+        return $deliveryLogSetup->regenerateDeliveryPluginsCodeCache($aHooks);
     }
 
     /**

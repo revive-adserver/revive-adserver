@@ -25,13 +25,16 @@
 $Id$
 */
 
-define('OX_BUCKETS_COMPILED_FILE', MAX_PATH.'/var/cache/deliveryAdLog.php');
-
 require_once MAX_PATH . '/lib/OA/Plugin/Component.php';
 require_once MAX_PATH . '/lib/OA/Plugin/ComponentGroupManager.php';
 require_once MAX_PATH . '/lib/OA/Util/CodeMunger.php';
 require_once MAX_PATH . '/lib/OA/Algorithm/Dependency/Ordered.php';
 require_once MAX_PATH . '/lib/OA/Algorithm/Dependency/Source/HoA.php';
+
+/**
+ * Global location for storing merged plugins files code
+ */
+define('OX_BUCKETS_COMPILED_FILE', MAX_PATH.'/var/plugins/cache/mergedDeliveryFunctions.php');
 
 /**
  * Generates delivery log plugins cache and order the dependencies
@@ -71,24 +74,6 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
     private $codeMunger;
 
     /**
-     * Regenerate delivery plugins code cache and calculate dependencies
-     *
-     * @return boolean  True on success, otherwise false
-     */
-    function generateDelivery()
-    {
-        $plugins = $this->getActivePluginsByExtensions($this->extensionTypes);
-        if (!$this->regenerateDeliveryPluginsCodeCache($plugins)) {
-            return false;
-        }
-        $pluginsByHooks = $this->groupPluginsByHooks($plugins);
-        if (!$this->orderPluginsByDependency($plugins, $pluginsByHooks)) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
      * Get list of deliveryLog hooks from deliveryLog plugins
      *
      * @param array $plugins
@@ -126,28 +111,21 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
 
     /**
      * Check the dependencies for active delivery log components and
-     * order them per hook
+     * sort the in the correct order so each dependency is resolved.
      *
      * @param array $plugins
      * @param array $hooks
-     * @param string $extensionType
      * @return array
      */
-    function getDpendencyOrderedPlugins(array $plugins, array $hooks,
-        $extensionType = self::LOG_EXTENSION)
+    function getDpendencyOrderedPlugins(array $aHooks, array $aComponentIdentifiers)
     {
-        $pluginsDependencies = $this->getPluginsDependencies($plugins);
+        $pluginsDependencies = $this->getPluginsDependencies($aComponentIdentifiers);
         if (!$pluginsDependencies) {
             return false;
         }
         $source = new OA_Algorithm_Dependency_Source_HoA($pluginsDependencies);
         $dep = new OA_Algorithm_Dependency_Ordered($source);
-
-        $orderedDependencies = array();
-        foreach ($hooks[$extensionType] as $hookName => $hookPlugins) {
-            $orderedDependencies[$hookName] = array_values($dep->schedule($hookPlugins));
-        }
-        return $orderedDependencies;
+        return array_values($dep->schedule($aHooks));
     }
 
     /**
@@ -172,54 +150,103 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
         return $GLOBALS['_MAX']['pluginsDependencies'];
     }
 
+    /**
+     * Include components files
+     *
+     * @param array $plugins  Array of components
+     * @return boolean  True on success, false if any error occured
+     */
     function includePlugins(array $plugins)
     {
-        foreach ($plugins as $pluginExtension => $extensionPlugins) {
-            foreach ($extensionPlugins as $pluginName => $plugin) {
-                $pluginFile = $this->getFilePathToPlugin($pluginExtension, $pluginName);
-                if (!file_exists($pluginFile)) {
+        static $aCacheComponents = array();
+        foreach ($plugins as $hook => $hookComponents) {
+            foreach ($hookComponents as $componentId) {
+                if (isset($aCacheComponents[$componentId])) {
+                    continue;
+                }
+                list($extension, $group, $componentName)
+                    = $this->getExtensionGroupComponentFromId($componentId);
+                $pluginFile = $this->getFilePathToPlugin($extension, $componentName);
+                if (!$pluginFile) {
                     return false;
                 }
                 include($pluginFile);
+                $aCacheComponents[$componentId] = true;
             }
         }
         return true;
     }
 
-    function regenerateDeliveryPluginsCodeCache($plugins)
+    /**
+     * Change the component id code into array:
+     * input: extension:group:component name
+     * returns: array('extension', 'group', 'component name')
+     *
+     * @param string $componentId
+     * @return array
+     */
+    function getExtensionGroupComponentFromId($componentId)
     {
-        $pluginsFiles = array();
+        return explode(':', $componentId);
+    }
+
+    /**
+     * Generated delivery component cache
+     *
+     * @param array $aHooks
+     * @return unknown
+     */
+    function regenerateDeliveryPluginsCodeCache(array $aHooks)
+    {
+        $componentsFiles = array();
         $mergedDelivery = '';
-        foreach ($plugins as $pluginExtension => $extensionPlugins) {
-            foreach ($extensionPlugins as $pluginName => $plugin) {
-                $pluginFile = $this->getFilePathToPlugin($pluginExtension, $pluginName);
-                if (!$pluginFile) {
+        foreach ($aHooks as $hookName => $hookComponents) {
+            foreach ($hookComponents as $componentId) {
+                list($extension, $group, $componentName) = $this->getExtensionGroupComponentFromId($componentId);
+                $componentFile = $this->getFilePathToPlugin($extension, $componentName);
+                if (!$componentFile) {
                     // error message - logging
                     return false;
                 }
-                $pluginsFiles[$pluginExtension][$plugin] = $pluginFile;
-                $mungedPlugin = $this->mungeFile($pluginFile);
-                if (!$mungedPlugin) {
-                    // error message - logging
+                $mungedComponent = $this->mungeFile($componentFile);
+                if (!$mungedComponent) {
                     return false;
                 }
-                $mergedDelivery .= $mungedPlugin;
+                $mergedDelivery .= $mungedComponent;
             }
         }
-        $mergedDelivery = $this->cleanUpCode($mergedDelivery);
+        $mergedDelivery = $this->templateCode($mergedDelivery);
         return $this->saveMergedDelivery($mergedDelivery);
     }
 
+    /**
+     * Saves merged source code into output merged delivery cache
+     *
+     * @param string $mergedDelivery
+     * @return boolean  True on success, else false
+     */
     function saveMergedDelivery($mergedDelivery)
     {
         return file_put_contents(OX_BUCKETS_COMPILED_FILE, $mergedDelivery);
     }
 
-    function cleanUpCode($sourceCode)
+    /**
+     * Replaces the {TEMPLATE} mark with generated code
+     *
+     * @param string $sourceCode
+     * @return string
+     */
+    function templateCode($sourceCode)
     {
         return str_replace('{TEMPLATE}', $sourceCode, $this->header);
     }
 
+    /**
+     * Cleans up (munge) the delivery file. For more info see OX_Util_CodeMunger
+     *
+     * @param string $file  Delivery file path
+     * @return string  Generated source code
+     */
     function mungeFile($file)
     {
         $codeMunger = $this->_getCodeMunger();
@@ -242,6 +269,15 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
         return $this->codeMunger;
     }
 
+    /**
+     * Returns the file path to generate component based on its extension,
+     * group and plugin names.
+     *
+     * @param string $extensionType
+     * @param string $plugin
+     * @param string $postfix
+     * @return string   File name or false if such file do not exist
+     */
     function getFilePathToPlugin($extensionType, $plugin, $postfix = '.delivery.php')
     {
         $oPluginMgr = $this->_getComponentGroupManager();
