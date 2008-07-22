@@ -187,7 +187,7 @@ class OX_Plugin_ComponentGroupManager
 
     function _canUpgradeComponentGroup(&$aGroup)
     {
-        $this->oUpgrader = $this->_getOX_Plugin_UpgradeComponentGroup('OX_Plugin_UpgradeComponentGroup', $aGroup, $this);
+        $this->oUpgrader = $this->_getOX_Plugin_UpgradeComponentGroup($aGroup, $this);
         $this->oUpgrader->canUpgrade();
         $aGroup['status'] = $this->oUpgrader->existing_installation_status;
         switch ($aGroup['status'])
@@ -218,8 +218,7 @@ class OX_Plugin_ComponentGroupManager
 
     public function upgradeComponentGroup($aGroup)
     {
-        //$this->oUpgrader = $this->_instantiateClass('OX_Plugin_UpgradeComponentGroup', array($aGroup, $this));
-        $this->oUpgrader = $this->_getOX_Plugin_UpgradeComponentGroup('OX_Plugin_UpgradeComponentGroup', $aGroup, $this);
+        $this->oUpgrader = $this->_getOX_Plugin_UpgradeComponentGroup($aGroup, $this);
         if ($this->oUpgrader->canUpgrade())
         {
             if (!$this->oUpgrader->upgrade())
