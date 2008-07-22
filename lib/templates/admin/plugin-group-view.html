@@ -88,13 +88,13 @@ $Id$
 </div>
 
 <div style="min-width: 750px">
-    {if count($aPlugin.plugins) > 0}
+    {if count($aPlugin.pluginGroupComponents) > 0}
         <table border='0' width='100%' cellpadding='0' cellspacing='0'>
 
             <tr height='1'><td colspan='7' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
         	<tr height='25' bgcolor="{$bgColor}" style="font-weight:bold;">
         		<td>
-                    Plugin
+                    Extension
         		</td>
         		<td>
                     Group
@@ -105,7 +105,7 @@ $Id$
             </tr>
 
         {cycle name=bgcolor values="#FFFFFF,#F6F6F6" assign=bgColor reset=1}
-        {foreach from=$aPlugin.plugins key=name item=aItem}
+        {foreach from=$aPlugin.pluginGroupComponents key=name item=aItem}
         	<tr height='25' bgcolor="{$bgColor}">
         		<td>
                     {$aItem.extension}
@@ -114,7 +114,7 @@ $Id$
                     {$aItem.group}
         		</td>
         		<td>
-                    {$aItem.plugin}
+                    {$aItem.component}
         		</td>
             </tr>
         {/foreach}
