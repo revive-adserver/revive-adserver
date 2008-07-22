@@ -1448,26 +1448,16 @@ return true;
 function OX_Delivery_Common_getFunctionFromComponentIdentifier($identifier, $hook = null)
 {
 $aInfo = explode(':', $identifier);
-$functionName = 'Plugin_' . implode('_', $aInfo) . '_Delivery';
-if (!empty($hook)) {
-$functionName .= '_' . $hook;
-}
+$functionName = 'Plugin_' . implode('_', $aInfo) . '_Delivery' . (!empty($hook) ? '_' . $hook : '');
+if (!function_exists($functionName)) {
+// Function doesn't exist, include the generic merged delivery file
+_includeDeliveryPluginFile('/var/plugins/cache/mergedDeliveryFunctions.php');
 if (!function_exists($functionName)) {
 // Function doesn't exist, include the relevant plugin file
-$fileName = $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] . '/' . implode('/', $aInfo) . '.delivery.php';
-if (!in_array($fileName, array_keys($GLOBALS['_MAX']['FILES']))) {
-$GLOBALS['_MAX']['FILES'][$fileName] = true;
-if (file_exists(MAX_PATH . $fileName)) {
-include MAX_PATH . $fileName;
-}
-}
+_includeDeliveryPluginFile($GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] . '/' . implode('/', $aInfo) . '.delivery.php');
 if (!function_exists($functionName)) {
 // Function or function file doesn't exist, use the "parent" function
-$parentFileName = $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] . '/' . $aInfo[0] .  '/' . $aInfo[0] . 'Delivery.php';
-if (!in_array($parentFileName, array_keys($GLOBALS['_MAX']['FILES']))) {
-$GLOBALS['_MAX']['FILES'][$parentFileName] = true;
-if (file_exists(MAX_PATH . $parentFileName)) {
-@include MAX_PATH . $parentFileName;
+_includeDeliveryPluginFile($GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] . '/' . $aInfo[0] .  '/' . $aInfo[0] . 'Delivery.php');
 $functionName = 'Plugin_' . $aInfo[0] . '_delivery';
 if (!empty($hook)) {
 $functionName .= '_' . $hook;
@@ -1475,8 +1465,16 @@ $functionName .= '_' . $hook;
 }
 }
 }
-}
 return $functionName;
+}
+function _includeDeliveryPluginFile($fileName)
+{
+if (!in_array($fileName, array_keys($GLOBALS['_MAX']['FILES']))) {
+$GLOBALS['_MAX']['FILES'][$fileName] = true;
+if (file_exists(MAX_PATH . $fileName)) {
+include MAX_PATH . $fileName;
+}
+}
 }
 // Set the viewer's remote information used in logging
 // and delivery limitation evaluation
