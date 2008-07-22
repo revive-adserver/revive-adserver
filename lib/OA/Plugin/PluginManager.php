@@ -854,7 +854,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             case 'logImpression':
             case 'logRequest':
                 $deliveryLogSetup = new OX_Plugins_DeliveryLog_Setup();
-                return $deliveryLogSetup->getDpendencyOrderedPlugins($aComponentIdentifiers, $aHooks);
+                return $deliveryLogSetup->getDependencyOrderedPlugins($aComponentIdentifiers, $aHooks);
                 break;
             default:
                 return $aComponentIdentifiers;

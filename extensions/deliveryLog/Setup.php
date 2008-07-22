@@ -94,22 +94,6 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
     }
 
     /**
-     * Orders plugins by its dependency in which of hooks categories
-     *
-     * @param array $plugins
-     * @param array $hooks
-     * @return
-     */
-    function orderPluginsByDependency($plugins, $hooks)
-    {
-        $orderedDependencies = $this->getDpendencyOrderedPlugins($plugins, $hooks);
-        foreach ($orderedDependencies as $hook => $aComponents) {
-            $oConfigWriter['deliveryHooks'] = implode('|', $orderedDependencie);
-            // @TODO - write it to config file
-        }
-    }
-
-    /**
      * Check the dependencies for active delivery log components and
      * sort the in the correct order so each dependency is resolved.
      *
@@ -117,7 +101,7 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
      * @param array $hooks
      * @return array
      */
-    function getDpendencyOrderedPlugins($aHooks, $aComponentIdentifiers)
+    function getDependencyOrderedPlugins($aHooks, $aComponentIdentifiers)
     {
         $pluginsDependencies = $this->getPluginsDependencies($aComponentIdentifiers);
         if (!$pluginsDependencies) {
@@ -194,7 +178,7 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
      * Generated delivery component cache
      *
      * @param array $aHooks
-     * @return unknown
+     * @return boolean  True on success, else false
      */
     function regenerateDeliveryPluginsCodeCache($aHooks)
     {
