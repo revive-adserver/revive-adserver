@@ -17,13 +17,15 @@
         <files>
             <file path="{MODULEPATH}deliveryLog/ox_click/">ox_click.delivery.php</file>
         </files>
+
+        <components>
+           <component>
+                <name>ox_click</name>
+                <hook>logClick</hook>
+           </component>
+        </components>
+
     </install>
 
-    <components>
-       <component>
-            <name>ox_click</name>
-            <hook>logClick</hook>
-       </component>
-    </components>
 
 </plugin>

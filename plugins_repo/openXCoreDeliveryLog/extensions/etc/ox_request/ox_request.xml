@@ -17,13 +17,14 @@
         <files>
             <file path="{MODULEPATH}deliveryLog/ox_request/">ox_request.delivery.php</file>
         </files>
+        <components>
+           <component>
+                <name>ox_request</name>
+                <hook>logRequest</hook>
+           </component>
+        </components>
+
     </install>
 
-    <components>
-       <component>
-            <name>ox_request</name>
-            <hook>logRequest</hook>
-       </component>
-    </components>
 
 </plugin>

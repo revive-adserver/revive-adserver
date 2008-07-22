@@ -17,13 +17,14 @@
         <files>
             <file path="{MODULEPATH}deliveryDataPrepare/ox_page_info/">ox_page_info.delivery.php</file>
         </files>
+        <components>
+           <component>
+                <name>ox_page_info</name>
+                <hook>preLog</hook>
+           </component>
+        </components>
+
     </install>
 
-    <components>
-       <component>
-            <name>ox_page_info</name>
-            <hook>preLog</hook>
-       </component>
-    </components>
 
 </plugin>

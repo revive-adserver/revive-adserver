@@ -17,13 +17,13 @@
         <files>
             <file path="{MODULEPATH}deliveryDataPrepare/ox_geo/">ox_geo.delivery.php</file>
         </files>
+        <components>
+           <component>
+                <name>ox_geo</name>
+                <hook>preLog</hook>
+           </component>
+        </components>
     </install>
 
-    <components>
-       <component>
-            <name>ox_geo</name>
-            <hook>preLog</hook>
-       </component>
-    </components>
 
 </plugin>

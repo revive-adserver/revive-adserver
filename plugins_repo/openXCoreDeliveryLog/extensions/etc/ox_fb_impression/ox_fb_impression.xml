@@ -17,13 +17,14 @@
         <files>
             <file path="{MODULEPATH}deliveryLog/ox_fb_impression/">ox_fb_impression.delivery.php</file>
         </files>
+
+        <components>
+           <component>
+                <name>ox_fb_impression</name>
+                <hook>logImpression</hook>
+           </component>
+        </components>
     </install>
 
-    <components>
-       <component>
-            <name>ox_fb_impression</name>
-            <hook>logImpression</hook>
-       </component>
-    </components>
 
 </plugin>

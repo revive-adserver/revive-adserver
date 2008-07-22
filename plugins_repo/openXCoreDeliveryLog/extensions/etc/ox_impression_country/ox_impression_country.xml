@@ -17,13 +17,13 @@
         <files>
             <file path="{MODULEPATH}deliveryLog/ox_impression_country/">ox_impression_country.delivery.php</file>
         </files>
+        <components>
+           <component>
+                <name>ox_impression_country</name>
+                <hook>logImpression</hook>
+           </component>
+        </components>
     </install>
 
-    <components>
-       <component>
-            <name>ox_impression_country</name>
-            <hook>logImpression</hook>
-       </component>
-    </components>
 
 </plugin>

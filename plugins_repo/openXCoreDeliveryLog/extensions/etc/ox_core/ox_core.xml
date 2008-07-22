@@ -29,13 +29,13 @@
             <dataobject>Data_bucket_request.php</dataobject>
         </schema>
 
-    </install>
+        <components>
+           <component>
+                <name>ox_core</name>
+                <hook>preLog</hook>
+           </component>
+        </components>
 
-    <components>
-       <component>
-            <name>ox_core</name>
-            <hook>preLog</hook>
-       </component>
-    </components>
+    </install>
 
 </plugin>

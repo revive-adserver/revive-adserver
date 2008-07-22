@@ -17,13 +17,14 @@
         <files>
             <file path="{MODULEPATH}deliveryDataPrepare/ox_user_agent/">ox_user_agent.delivery.php</file>
         </files>
-    </install>
 
-    <components>
-       <component>
-            <name>ox_user_agent</name>
-            <hook>preLog</hook>
-       </component>
-    </components>
+        <components>
+           <component>
+                <name>ox_user_agent</name>
+                <hook>preLog</hook>
+           </component>
+        </components>
+
+    </install>
 
 </plugin>

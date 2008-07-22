@@ -17,13 +17,15 @@
         <files>
             <file path="{MODULEPATH}deliveryLog/ox_impression/">ox_impression.delivery.php</file>
         </files>
+
+        <components>
+           <component>
+                <name>ox_impression</name>
+                <hook>logImpression</hook>
+           </component>
+        </components>
+
     </install>
 
-    <components>
-       <component>
-            <name>ox_impression</name>
-            <hook>logImpression</hook>
-       </component>
-    </components>
 
 </plugin>
