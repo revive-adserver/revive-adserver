@@ -80,7 +80,7 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
      * @return array  Array of hooks ['extension name']['hook'] = array of plugins code-names
      *                where a code name is extensionType:group:component
      */
-    function groupPluginsByHooks(array $plugins)
+    function groupPluginsByHooks($plugins)
     {
         $hooks = array();
         foreach ($plugins as $extension => $extPlugins) {
@@ -100,7 +100,7 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
      * @param array $hooks
      * @return
      */
-    function orderPluginsByDependency(array $plugins, array $hooks)
+    function orderPluginsByDependency($plugins, $hooks)
     {
         $orderedDependencies = $this->getDpendencyOrderedPlugins($plugins, $hooks);
         foreach ($orderedDependencies as $hook => $aComponents) {
@@ -117,7 +117,7 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
      * @param array $hooks
      * @return array
      */
-    function getDpendencyOrderedPlugins(array $aHooks, array $aComponentIdentifiers)
+    function getDpendencyOrderedPlugins($aHooks, $aComponentIdentifiers)
     {
         $pluginsDependencies = $this->getPluginsDependencies($aComponentIdentifiers);
         if (!$pluginsDependencies) {
@@ -142,7 +142,7 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
      *                      'extensionType:group:plugin',
      *                  );
      */
-    function getPluginsDependencies(array $plugins)
+    function getPluginsDependencies($plugins)
     {
         if (!$this->includePlugins($plugins)) {
             return false;
@@ -156,7 +156,7 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
      * @param array $plugins  Array of components
      * @return boolean  True on success, false if any error occured
      */
-    function includePlugins(array $plugins)
+    function includePlugins($plugins)
     {
         static $aCacheComponents = array();
         foreach ($plugins as $hook => $hookComponents) {
@@ -196,7 +196,7 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
      * @param array $aHooks
      * @return unknown
      */
-    function regenerateDeliveryPluginsCodeCache(array $aHooks)
+    function regenerateDeliveryPluginsCodeCache($aHooks)
     {
         $componentsFiles = array();
         $mergedDelivery = '';
