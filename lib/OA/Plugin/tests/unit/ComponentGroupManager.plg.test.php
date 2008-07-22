@@ -78,11 +78,17 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
         $this->assertTrue($oManager->_instantiateClass('stdClass'));
 
         $classname = 'testFoo';
+        eval('class testFoo { function testFoo() { $this->hello = "world"; } }');
+        $oFoo = $oManager->_instantiateClass('testFoo',array('foo','bar'));
+        $this->assertIsA($oFoo, 'testFoo');
+        $this->assertEqual($oFoo->hello, 'world');
+
+        /*$classname = 'testFoo';
         eval('class testFoo { function testFoo($arg1, $arg2) { $this->arg1 = $arg1; $this->arg2 = $arg2; } }');
         $oFoo = $oManager->_instantiateClass('testFoo',array('foo','bar'));
         $this->assertIsA($oFoo, 'testFoo');
         $this->assertEqual($oFoo->arg1, 'foo');
-        $this->assertEqual($oFoo->arg2, 'bar');
+        $this->assertEqual($oFoo->arg2, 'bar');*/
     }
 
     function test_buildDependencyArray()
@@ -210,12 +216,12 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
                                 'OX_Plugin_ComponentGroupManager',
                                 $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
                                 array(
-                                      '_instantiateClass'
+                                      '_getOA_Cache'
                                      )
                              );
         $oManager = new $oMockManager($this);
-        $oManager->setReturnValue('_instantiateClass', $oCache);
-        $oManager->expectCallCount('_instantiateClass',2);
+        $oManager->setReturnValue('_getOA_Cache', $oCache);
+        $oManager->expectCallCount('_getOA_Cache',2);
 
         $aTest = array('dependsOn'=>array('foo'=>array('bar'=>array('installed'=>1,'enabled'=>0))));
         $this->assertFalse($oManager->_saveDependencyArray($aTest));
@@ -245,12 +251,12 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
                                 'OX_Plugin_ComponentGroupManager',
                                 $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
                                 array(
-                                      '_instantiateClass'
+                                      '_getOA_Cache'
                                      )
                              );
         $oManager = new $oMockManager($this);
-        $oManager->setReturnValue('_instantiateClass', $oCache);
-        $oManager->expectCallCount('_instantiateClass',2);
+        $oManager->setReturnValue('_getOA_Cache', $oCache);
+        $oManager->expectCallCount('_getOA_Cache',2);
 
         $this->assertFalse($oManager->_loadDependencyArray($aTest));
         $aResult = $oManager->_loadDependencyArray();
@@ -1445,12 +1451,12 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
                                 'OX_Plugin_ComponentGroupManager',
                                 $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
                                 array(
-                                      '_instantiateClass',
+                                      '_getOX_Plugin_UpgradeComponentGroup',
                                      )
                              );
         $oManager = new $oMockManager($this);
 
-        $oManager->setReturnValue('_instantiateClass', &$oUpgrade);
+        $oManager->setReturnValue('_getOX_Plugin_UpgradeComponentGroup', &$oUpgrade);
 
         $aComponentGroup = array('name'=>'foo',
                          'version'=>'1.0.0',
@@ -1502,12 +1508,12 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
                                 'OX_Plugin_ComponentGroupManager',
                                 $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
                                 array(
-                                      '_instantiateClass',
+                                      '_getOX_Plugin_UpgradeComponentGroup',
                                      )
                              );
         $oManager = new $oMockManager($this);
 
-        $oManager->setReturnValue('_instantiateClass', &$oUpgrade);
+        $oManager->setReturnValue('_getOX_Plugin_UpgradeComponentGroup', &$oUpgrade);
 
         $aComponentGroup = array('name'=>'foo',
                          'version'=>'1.0.0',

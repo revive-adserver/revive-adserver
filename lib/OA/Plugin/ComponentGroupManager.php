@@ -179,9 +179,15 @@ class OX_Plugin_ComponentGroupManager
         return ($GLOBALS['_MAX']['CONF']['pluginGroupComponents'][$name] ? true : false);
     }
 
+    function &_getOX_Plugin_UpgradeComponentGroup($aGroup, $oSender)
+    {
+
+        return new OX_Plugin_UpgradeComponentGroup($aGroup, $this);
+    }
+
     function _canUpgradeComponentGroup(&$aGroup)
     {
-        $this->oUpgrader = $this->_instantiateClass('OX_Plugin_UpgradeComponentGroup', array($aGroup, $this));
+        $this->oUpgrader = $this->_getOX_Plugin_UpgradeComponentGroup('OX_Plugin_UpgradeComponentGroup', $aGroup, $this);
         $this->oUpgrader->canUpgrade();
         $aGroup['status'] = $this->oUpgrader->existing_installation_status;
         switch ($aGroup['status'])
@@ -212,7 +218,8 @@ class OX_Plugin_ComponentGroupManager
 
     public function upgradeComponentGroup($aGroup)
     {
-        $this->oUpgrader = $this->_instantiateClass('OX_Plugin_UpgradeComponentGroup', array($aGroup, $this));
+        //$this->oUpgrader = $this->_instantiateClass('OX_Plugin_UpgradeComponentGroup', array($aGroup, $this));
+        $this->oUpgrader = $this->_getOX_Plugin_UpgradeComponentGroup('OX_Plugin_UpgradeComponentGroup', $aGroup, $this);
         if ($this->oUpgrader->canUpgrade())
         {
             if (!$this->oUpgrader->upgrade())
@@ -511,10 +518,12 @@ class OX_Plugin_ComponentGroupManager
     /**
      * return an object of type given in param
      *
+     * r
+     *
      * @param string $classname
      * @return object
      */
-    function &_instantiateClass($classname, $aParams=null)
+    function &_instantiateClass($classname) // cannot take params //, $aParams=null)
     {
         if (!$classname)
         {
@@ -526,17 +535,18 @@ class OX_Plugin_ComponentGroupManager
             $this->_logError('Class not found '.$classname);
             return false;
         }
+        $oResult = new $classname();
+/*      newInstanceArgs() method not implemented until php 5.1.3
         if (!$aParams)
         {
             $oResult = new $classname();
         }
         else
         {
-            $oReflection = new ReflectionClass($classname);
-
             // use Reflection to create a new instance, using the $args
+            $oReflection = new ReflectionClass($classname);
             $oResult = $oReflection->newInstanceArgs($aParams);
-        }
+        }*/
         if (!is_a($oResult,$classname))
         {
             $this->_logError('Failed to instantiate class '.$classname);
@@ -1576,6 +1586,11 @@ class OX_Plugin_ComponentGroupManager
         return $aResult;
     }
 
+    function &_getOA_Cache($group, $id)
+    {
+        return new OA_Cache($group, $id);
+    }
+
     /**
      * save an array of dependency information in a cache file
      *
@@ -1584,7 +1599,7 @@ class OX_Plugin_ComponentGroupManager
      */
     function _saveDependencyArray($aDepends)
     {
-        $oCache = $this->_instantiateClass('OA_Cache',array('Plugins', 'Dependencies'));
+        $oCache = $this->_getOA_Cache('Plugins', 'Dependencies');
         $oCache->setFileNameProtection(false);
         return $oCache->save($aDepends);
     }
@@ -1596,7 +1611,7 @@ class OX_Plugin_ComponentGroupManager
      */
     function _loadDependencyArray()
     {
-        $oCache = $this->_instantiateClass('OA_Cache', array('Plugins', 'Dependencies'));
+        $oCache = $this->_getOA_Cache('Plugins', 'Dependencies');
         $oCache->setFileNameProtection(false);
         return $oCache->load(true);
     }
@@ -1608,7 +1623,7 @@ class OX_Plugin_ComponentGroupManager
      */
     function _clearDependencyCache()
     {
-        $oCache = $this->_instantiateClass('OA_Cache', array('Plugins', 'Dependencies'));
+        $oCache = $this->_getOA_Cache('Plugins', 'Dependencies');
         $oCache->setFileNameProtection(false);
         return $oCache->clear();
     }
@@ -1928,6 +1943,11 @@ class OX_Plugin_ComponentGroupManager
         return true;
     }
 
+    function &_getOA_Admin_Menu($accountType)
+    {
+        return new OA_Admin_Menu($accountType);
+    }
+
     /**
      * return a menu object for a given account type
      * note: we want a *clean* object, not the global one
@@ -1936,7 +1956,7 @@ class OX_Plugin_ComponentGroupManager
      */
     function _getMenuObject($accountType)
     {
-        $oMenu = $this->_instantiateClass('OA_Admin_Menu', array($accountType));
+        $oMenu = $this->_getOA_Admin_Menu($accountType);
         if (empty($oMenu->aAllSections))
         {
             include_once MAX_PATH. '/lib/OA/Admin/Menu/config.php';
@@ -2076,6 +2096,32 @@ class OX_Plugin_ComponentGroupManager
         return $aResult;
         //$aGroupInfo['pluginGroupComponents'] = OX_Component::_getComponentFiles($aGroupInfo['extends'], $plugin);
     }
+
+    /* possible replacement for _instantiateClass() with params
+      function Generator() {
+
+       $numargs = func_num_args();
+
+       $classname = func_get_arg(0);
+       $argstring='';
+       if ($numargs > 1) {
+          $arg_list = func_get_args();
+
+          for ($x=1; $x<$numargs; $x++) {
+             $argstring .= '$arg_list['.$x.']';
+             if ($x != $numargs-1) $argstring .= ',';
+          }
+       }
+
+       if (class_exists("Custom{$classname}")) {
+          $classname = "Custom{$classname}";
+          if ($argstring) return eval("return new $classname($argstring);");
+          return new $classname;
+       }
+
+       if ($argstring) return eval("return new $classname($argstring);");
+       return new $classname;
+    } */
 
 }
 
