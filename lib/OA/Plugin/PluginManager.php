@@ -854,6 +854,10 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
     function _unpack($aFile, $overwrite=false)
     {
         $aPath = pathinfo($aFile['name']);
+        if (!isset($aPath['filename']))
+        {
+            $aPath['filename'] = substr($aPath['basename'],0,strrpos($aPath['basename'],'.'));
+        }
         if (!isset($aPath['extension']))
         {
             return false;
