@@ -754,7 +754,7 @@ function _getAdRenderFunction($aBanner)
 {
     $functionName = false;
     if (!empty($aBanner['ext_bannertype'])) {
-        return OX_Delivery_Common_getFunctionFromPluginIdentifier($aBanner['ext_bannertype'], 'adRender');
+        return OX_Delivery_Common_getFunctionFromComponentIdentifier($aBanner['ext_bannertype'], 'adRender');
     } else {
         switch ($aBanner['contenttype']) {
             case 'gif'  :
