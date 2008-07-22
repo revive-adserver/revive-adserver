@@ -822,7 +822,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
      *
      * @return boolean True if writing the config file change was sucessful false otherwise
      */
-    function _saveComponentHooks(array $aHooks)
+    function _saveComponentHooks($aHooks = array())
     {
         $oSettings = $this->_instantiateClass('OA_Admin_Settings');
         if (!$oSettings)
@@ -847,7 +847,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
      * @param array $aHooks  Array with all hooks and all components in the system
      * @return unknown
      */
-    function orderDependencyComponents($hookName, array $aComponentIdentifiers, array $aHooks)
+    function orderDependencyComponents($hookName, $aComponentIdentifiers = array(), $aHooks = array())
     {
         switch ($hookName) {
             case 'logClick':
@@ -875,7 +875,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
      *
      * @return boolean True if writing the config file change was sucessful false otherwise
      */
-    function _generateDeliveryHooksCacheFile(array $aHooks)
+    function _generateDeliveryHooksCacheFile($aHooks = array())
     {
         $deliveryLogSetup = new OX_Plugins_DeliveryLog_Setup();
         return $deliveryLogSetup->regenerateDeliveryPluginsCodeCache($aHooks);
