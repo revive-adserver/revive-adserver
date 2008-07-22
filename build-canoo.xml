@@ -210,6 +210,18 @@ enabled=0]]></replacevalue>
 		<chmod dir="${basedir}/var" perm="a+rw" type="both" includes="**/*"/>
 		<chmod dir="${basedir}/www" perm="a+rwx" type="dir"/>
 		<chmod dir="${basedir}/www" perm="a+rw" type="both" includes="**/*" parallel="false"/>
+		<chmod dir="${basedir}/extensions" perm="a+rwx" type="dir"/>
+		<chmod dir="${basedir}/extensions" perm="a+rw" type="both" includes="**/*" parallel="true" verbose="true"/>		
+	<!-- 
+	<chmod perm="a+rw" verbose="true">	  type="both" 
+			<dirset dir="${basedir}/extensions/*">
+				<include name="**"/>
+			</dirset>
+			<fileset dir="${basedir}/extensions/*">
+				<include name="**/*"/>
+			</fileset>
+		</chmod>
+		-->
 		<enableMarketPlace enable="${marketplace.enabled}"/>
 	</target>
 

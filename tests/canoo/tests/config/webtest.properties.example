@@ -1,0 +1,52 @@
+################################################
+# Test suite configuration file
+################################################
+
+### WebTests config
+wt.home=/usr/bin/canoo
+wt.host=85.221.229.114
+wt.port=1180
+wt.protocol=http
+wt.basepath=/canoo/www
+
+wt.failOnError=true
+wt.enableJS=true
+wt.throwExceptionOnScriptError=true
+wt.browser=Mozilla/5.0 (Windows; U; Windows NT 5.1; pl; rv:1.8.1.12) Gecko/20080201 Firefox/2.0.0.12
+
+## General settings
+testcase.dir=./testcases
+# patterns for each level
+testcase.level0.pattern=*.xml
+testcase.level2.pattern=*.xml
+testcase.level3.pattern=*.xml
+screens=manual_results
+
+## To turn on/off specific level of tests just uncomment/comment appropriate line below
+test.level0=true
+test.level1=true
+test.level2=true
+#test.level3=true
+
+## db settings
+db.type=mysql
+db.login=openx
+db.password=
+db.port=3306
+
+#db.type=postgresql
+#db.login=postgres
+#db.password=openx
+#db.port=5432
+
+# set database name and host
+db.name=openx
+db.host=localhost
+
+## Marketplace
+marketplace.enabled=true
+#marketplace.enabled=false
+
+## XMLRPC API JUnit tests
+#test.unit.xmlrpc.api=true
+test.unit.xmlrpc.mvn.executable=/usr/local/maven/bin/mvn.sh

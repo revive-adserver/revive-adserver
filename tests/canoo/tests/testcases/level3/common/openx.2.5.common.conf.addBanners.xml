@@ -31,7 +31,7 @@
 				
 				<setSelectField description="choose the type of the banner -> HTML banner"
 				    name="type"
-					value="html" />
+					value="bannerTypeHtml:oxHtml:genericHtml" />
 				<setInputField name="description" value="Test HTML Banner!"/>									
 				<setInputField name="width" value="468"/>
 				<setInputField name="height" value="60"/>
@@ -106,7 +106,7 @@
 				<enableJavaScript enable="true" />
 				
 				<clickLink label="Add new banner" href="campaignid=3" saveResponse='true' />
-				<setSelectField name="type" text="Local banner (SQL)" saveResponse='true' />
+				<setSelectField name="type" value="sql" saveResponse='true' />
 				<setInputField name="description" value="sample gif banner" saveResponse='true' />
 				<setFileField description="File upload" fileName="${testcase.dir}/level3/resources/468x60.gif" name="upload" saveResponse='true' />
 				<setInputField name="url" value="https://developer.openx.org/" saveResponse='true' />
