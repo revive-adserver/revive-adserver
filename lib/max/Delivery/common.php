@@ -598,20 +598,47 @@ function _convertContextArray($key, $array)
     return $unpacked;
 }
 
-function OX_Delivery_Common_hook($hookName, $aParams = array())
+/**
+ * This function implements the hook mechanism in the delivery engine
+ * It allows for a series of registered (stackable) hooks to be executed sequentially
+ * Or it allows a single 
+ *
+ * @param string $hookName      The name of the hook to be executed
+ * @param array $aParams        An (optional) array of parameters to be passed to the component-hook(s)
+ * @param string $functionName  Optional functionName to execute, if this is not passed in, then all components
+ *                              which are registered at this hook will be executed sequentially
+ * @return mixed                If a functionName was passed in, then the return value from executing the
+ *                              function gets returned, otherwise (stackable hooks) true
+ */
+function OX_Delivery_Common_hook($hookName, $aParams = array(), $functionName = '')
 {
-    if (!empty($GLOBALS['_MAX']['CONF']['deliveryHooks'][$hookName])) {
-        $hooks = explode('|', $GLOBALS['_MAX']['CONF']['deliveryHooks'][$hookName]);
-        foreach ($hooks as $identifier) {
-            $functionName = OX_Delivery_Common_getFunctionFromComponentIdentifier($identifier, $hookName);
-            if (function_exists($functionName)) {
-                call_user_func_array($functionName, $aParams);
+    $return = true;
+    if (!empty($functionName)) {
+        if (function_exists($functionName)) {
+            $return = call_user_func_array($functionName, $aParams);
+        }
+    } else {
+        if (!empty($GLOBALS['_MAX']['CONF']['deliveryHooks'][$hookName])) {
+            $hooks = explode('|', $GLOBALS['_MAX']['CONF']['deliveryHooks'][$hookName]);
+            foreach ($hooks as $identifier) {
+                $functionName = OX_Delivery_Common_getFunctionFromComponentIdentifier($identifier, $hookName);
+                if (function_exists($functionName)) {
+                    call_user_func_array($functionName, $aParams);
+                }
             }
         }
     }
-    return true;
+    return $return;
 }
 
+/**
+ * This function get both the expected function name for a component-identifier/hook combination
+ * It will also include the appropriate library file so that the function will be available (if possible)
+ *
+ * @param string $identifier    The component identifer string
+ * @param string $hook          The hook being called
+ * @return string               The name of the (now included) function to be executed
+ */
 function OX_Delivery_Common_getFunctionFromComponentIdentifier($identifier, $hook = null)
 {
     $aInfo = explode(':', $identifier);
@@ -636,6 +663,11 @@ function OX_Delivery_Common_getFunctionFromComponentIdentifier($identifier, $hoo
     return $functionName;
 }
 
+/**
+ * This function includes a file relative to MAX_PATH, and ensures that it won't be included more than once
+ *
+ * @param string $fileName  The path/to/file to be included (relative to MAX_PATH)
+ */
 function _includeDeliveryPluginFile($fileName)
 {
     if (!in_array($fileName, array_keys($GLOBALS['_MAX']['FILES']))) {
@@ -645,4 +677,5 @@ function _includeDeliveryPluginFile($fileName)
         }
     }
 }
+
 ?>
