@@ -15,12 +15,12 @@
 
     <install>
         <files>
-            <file path="{MODULEPATH}deliveryLog/ox_request/">ox_request.delivery.php</file>
-            <file path="{MODULEPATH}deliveryLog/ox_request/">ox_request.class.php</file>
+            <file path="{MODULEPATH}deliveryLog/oxLogRequest/">logRequest.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLog/oxLogRequest/">logRequest.class.php</file>
         </files>
         <components>
            <component>
-                <name>ox_request</name>
+                <name>logRequest</name>
                 <hook>logRequest</hook>
            </component>
         </components>

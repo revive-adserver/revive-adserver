@@ -15,13 +15,25 @@
 
     <install>
         <files>
-            <file path="{MODULEPATH}deliveryLog/ox_impression/">ox_impression.delivery.php</file>
-            <file path="{MODULEPATH}deliveryLog/ox_impression/">ox_impression.class.php</file>
+            <file path="{MODULEPATH}deliveryLog/oxLogImpression/">logImpression.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLog/oxLogImpression/">logImpression.class.php</file>
+            <file path="{MODULEPATH}deliveryLog/oxLogImpression/">logImpressionBackup.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLog/oxLogImpression/">logImpressionBackup.class.php</file>
+            <file path="{MODULEPATH}deliveryLog/oxLogImpression/">logImpressionCountry.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLog/oxLogImpression/">logImpressionCountry.class.php</file>
         </files>
 
         <components>
            <component>
-                <name>ox_impression</name>
+                <name>logImpression</name>
+                <hook>logImpression</hook>
+           </component>
+           <component>
+                <name>logImpressionBackup</name>
+                <hook>logImpression</hook>
+           </component>
+           <component>
+                <name>logImpressionCountry</name>
                 <hook>logImpression</hook>
            </component>
         </components>

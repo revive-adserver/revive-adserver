@@ -15,13 +15,13 @@
 
     <install>
         <files>
-            <file path="{MODULEPATH}deliveryLog/ox_click/">ox_click.delivery.php</file>
-            <file path="{MODULEPATH}deliveryLog/ox_click/">ox_click.class.php</file>
+            <file path="{MODULEPATH}deliveryLog/oxLogClick/">logClick.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLog/oxLogClick/">logClick.class.php</file>
         </files>
 
         <components>
            <component>
-                <name>ox_click</name>
+                <name>logClick</name>
                 <hook>logClick</hook>
            </component>
         </components>
