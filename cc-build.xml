@@ -38,7 +38,16 @@
 		<ant antfile="build.xml" dir="${basedir}/target" output="build.log" target="simpletest" />
 	</target>
 
-	<target name="test-canoo" depends="clean, clone">
+	<target name="chmod">
+		<exec executable="php">
+			<!-- <arg value="${basedir}/target/tests/canoo/tests/config/chmod.php"/> -->
+			<arg value="${basedir}/tests/canoo/tests/config/chmod.php"/>
+			<arg value="${basedir}/target/extension"/>
+		</exec>
+		<echo>chmod!!!</echo>
+	</target>
+	
+	<target name="test-canoo" depends="clean, chmod, clone">
 		<ant antfile="build-canoo.xml" dir="${basedir}/target" output="build.log" target="run-test" />
 	</target>
 
