@@ -62,7 +62,7 @@ if (empty($GLOBALS['_MDB2_Schema_Reserved'])) {
  */
 class MDB2_Dictionary_Parser extends XML_Parser
 {
-    var $dictionary_definition = array('fields' => array(), 'options'=>array(), 'list'=>array());
+    var $dictionary_definition = array();
     var $elements = array();
     var $element = '';
     var $count = 0;
@@ -121,9 +121,9 @@ class MDB2_Dictionary_Parser extends XML_Parser
             if (PEAR::isError($result)) {
                 $this->raiseError($result->getUserinfo(), 0, $xp, $result->getCode());
             } else {
-                $this->dictionary_definition['fields'][$this->field_name] = $this->field;
-                $this->dictionary_definition['options'][] = "<option value=\"{$this->field_name}\">{$this->field_name}</option>";
-                $this->dictionary_definition['list'][] = "<li value=\"{$this->field_name}s\">{$this->field_name}</li>";
+                $this->dictionary_definition[$this->field_name] = $this->field;
+                //$this->dictionary_definition['options'][] = "<option value=\"{$this->field_name}\">{$this->field_name}</option>";
+                //$this->dictionary_definition['list'][] = "<li value=\"{$this->field_name}s\">{$this->field_name}</li>";
             }
             break;
         }

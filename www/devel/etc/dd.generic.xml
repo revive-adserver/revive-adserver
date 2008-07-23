@@ -4,35 +4,35 @@
 <dictionary>
 
 	<field>
-		<name>openads_acls_type</name>
+		<name>ox_acls_type</name>
         <type>openads_varchar</type>
         <length>32</length>
         <notnull>true</notnull>
         <default></default>
 	</field>
 	<field>
-		<name>openads_generic_id</name>
+		<name>ox_generic_id</name>
 		<type>openads_mediumint</type>
 		<length>9</length>
 		<notnull>true</notnull>
 		<default></default>
 	</field>
 	<field>
-		<name>openads_generic_id_null_permitted</name>
+		<name>ox_generic_id_null_permitted</name>
 		<type>openads_mediumint</type>
 		<length>9</length>
 		<notnull>false</notnull>
 		<default></default>
 	</field>
 	<field>
-		<name>openads_generic_id_default0</name>
+		<name>ox_generic_id_default0</name>
 		<type>openads_mediumint</type>
 		<length>9</length>
 		<notnull>true</notnull>
 		<default>0</default>
 	</field>
 	<field>
-		<name>openads_generic_id_inc</name>
+		<name>ox_generic_id_inc</name>
 		<type>openads_mediumint</type>
 		<length>9</length>
 		<notnull>true</notnull>
@@ -40,301 +40,301 @@
 		<autoincrement>1</autoincrement>
 	</field>
 	<field>
-		<name>openads_generic_integer</name>
+		<name>ox_generic_integer</name>
 		<type>openads_int</type>
 		<length>11</length>
 		<notnull>false</notnull>
 		<default></default>
 	</field>
 	<field>
-		<name>openads_generic_smallint</name>
+		<name>ox_generic_smallint</name>
 		<type>openads_smallint</type>
 		<length>6</length>
 		<notnull>false</notnull>
 		<default></default>
 	</field>
 	<field>
-		<name>openads_generic_smallint_notnull</name>
+		<name>ox_generic_smallint_notnull</name>
 		<type>openads_smallint</type>
 		<length>6</length>
 		<notnull>true</notnull>
 		<default>0</default>
 	</field>
 	<field>
-		<name>openads_generic_timestamp</name>
+		<name>ox_generic_timestamp</name>
 		<type>openads_datetime</type>
 		<notnull>false</notnull>
 		<default></default>
 	</field>
 	<field>
-		<name>openads_generic_tinyint</name>
+		<name>ox_generic_tinyint</name>
 		<type>openads_tinyint</type>
 		<length>4</length>
 		<notnull>true</notnull>
 		<default>0</default>
 	</field>
 	<field>
-		<name>openads_generic_description</name>
+		<name>ox_generic_description</name>
         <type>openads_varchar</type>
         <length>255</length>
         <notnull>true</notnull>
         <default></default>
 	</field>
 	<field>
-		<name>openads_generic_varchar_255</name>
+		<name>ox_generic_varchar_255</name>
         <type>openads_varchar</type>
         <length>255</length>
         <notnull>true</notnull>
         <default></default>
 	</field>
 	<field>
-		<name>openads_generic_varchar_64</name>
+		<name>ox_generic_varchar_64</name>
         <type>openads_varchar</type>
         <length>64</length>
         <notnull>true</notnull>
         <default></default>
 	</field>
 	<field>
-		<name>openads_generic_varchar_50</name>
-    <type>openads_varchar</type>
-    <length>50</length>
-    <notnull>true</notnull>
-    <default></default>
+		<name>ox_generic_varchar_50</name>
+        <type>openads_varchar</type>
+        <length>50</length>
+        <notnull>true</notnull>
+        <default></default>
   </field>
   <field>
-		<name>openads_generic_varchar_32</name>
+		<name>ox_generic_varchar_32</name>
         <type>openads_varchar</type>
         <length>32</length>
         <notnull>true</notnull>
         <default></default>
 	</field>
   <field>
-		<name>openads_generic_varchar_16</name>
+		<name>ox_generic_varchar_16</name>
         <type>openads_varchar</type>
         <length>16</length>
         <notnull>true</notnull>
         <default></default>
 	</field>
 	<field>
-		<name>openads_generic_text</name>
+		<name>ox_generic_text</name>
 		<type>openads_text</type>
 		<notnull>true</notnull>
 		<default></default>
 	</field>
 	<field>
-		<name>openads_capping</name>
+		<name>ox_capping</name>
 		<type>openads_int</type>
 		<length>11</length>
 		<notnull>true</notnull>
 		<default>0</default>
 	</field>
 	<field>
-		<name>openads_contenttype</name>
+		<name>ox_contenttype</name>
 		<type>openads_enum</type>
         <length>'gif','jpg','png'</length>
 		<notnull>true</notnull>
 		<default>gif</default>
 	</field>
 	<field>
-		<name>openads_cost</name>
+		<name>ox_cost</name>
 		<type>openads_decimal</type>
 		<length>10,4</length>
 		<notnull>false</notnull>
 		<default></default>
 	</field>
 	<field>
-		<name>openads_name</name>
+		<name>ox_name</name>
         <type>openads_varchar</type>
         <length>255</length>
         <notnull>true</notnull>
         <default></default>
 	</field>
 	<field>
-		<name>openads_mnemonic</name>
+		<name>ox_mnemonic</name>
 		<type>openads_varchar</type>
 		<length>5</length>
 		<notnull>true</notnull>
 		<default></default>
 	</field>
 	<field>
-		<name>openads_comments</name>
+		<name>ox_comments</name>
 		<type>openads_text</type>
 		<notnull>false</notnull>
 		<default></default>
 	</field>
 	<field>
-		<name>openads_contact</name>
+		<name>ox_contact</name>
         <type>openads_varchar</type>
         <length>255</length>
         <notnull>true</notnull>
         <default></default>
 	</field>
 	<field>
-		<name>openads_email</name>
+		<name>ox_email</name>
 		<type>openads_varchar</type>
 		<length>64</length>
 		<notnull>true</notnull>
 		<default></default>
 	</field>
 	<field>
-		<name>openads_url</name>
+		<name>ox_url</name>
 		<type>openads_varchar</type>
 		<length>64</length>
 		<notnull>true</notnull>
 		<default></default>
 	</field>
 	<field>
-		<name>openads_username</name>
+		<name>ox_username</name>
 		<type>openads_varchar</type>
 		<length>64</length>
 		<notnull>false</notnull>
 	</field>
 	<field>
-		<name>openads_password</name>
+		<name>ox_password</name>
 		<type>openads_varchar</type>
 		<length>64</length>
 		<notnull>false</notnull>
 	</field>
 	<field>
-		<name>openads_permission_bitfield</name>
+		<name>ox_permission_bitfield</name>
 		<type>openads_mediumint</type>
 		<length>11</length>
 		<notnull>true</notnull>
 		<default>0</default>
 	</field>
 	<field>
-		<name>openads_language</name>
+		<name>ox_language</name>
 		<type>openads_varchar</type>
         <length>64</length>
 		<notnull>false</notnull>
 		<default></default>
 	</field>
 	<field>
-		<name>openads_boolean_enum_true</name>
+		<name>ox_boolean_enum_true</name>
 		<type>openads_enum</type>
         <length>'t','f'</length>
 		<notnull>false</notnull>
 		<default>t</default>
 	</field>
 	<field>
-		<name>openads_boolean_enum_false</name>
+		<name>ox_boolean_enum_false</name>
 		<type>openads_enum</type>
         <length>'t','f'</length>
 		<notnull>false</notnull>
 		<default>f</default>
 	</field>
 	<field>
-		<name>openads_boolean_true</name>
+		<name>ox_boolean_true</name>
 		<type>openads_tinyint</type>
 		<length>1</length>
 		<notnull>true</notnull>
 		<default>1</default>
 	</field>
 	<field>
-		<name>openads_boolean_false</name>
+		<name>ox_boolean_false</name>
 		<type>openads_tinyint</type>
 		<length>1</length>
 		<notnull>true</notnull>
 		<default>0</default>
 	</field>
 	<field>
-		<name>openads_updated</name>
+		<name>ox_updated</name>
 		<type>openads_datetime</type>
 		<notnull>false</notnull>
 		<default></default>
 	</field>
 	<field>
-		<name>openads_address</name>
+		<name>ox_address</name>
         <type>openads_text</type>
 		<notnull>false</notnull>
 		<default></default>
 	</field>
 	<field>
-		<name>openads_city</name>
+		<name>ox_city</name>
         <type>openads_varchar</type>
         <length>255</length>
 		<notnull>false</notnull>
 		<default></default>
 	</field>
 	<field>
-		<name>openads_postcode</name>
+		<name>ox_postcode</name>
 		<type>openads_varchar</type>
 		<length>64</length>
 		<notnull>false</notnull>
 		<default></default>
 	</field>
 	<field>
-		<name>openads_country</name>
+		<name>ox_country</name>
 		<type>openads_varchar</type>
 		<length>255</length>
 		<notnull>false</notnull>
 		<default></default>
 	</field>
 	<field>
-		<name>openads_phone</name>
+		<name>ox_phone</name>
 		<type>openads_varchar</type>
 		<length>64</length>
 		<notnull>false</notnull>
 		<default></default>
 	</field>
 	<field>
-		<name>openads_tax_id</name>
+		<name>ox_tax_id</name>
 		<type>openads_varchar</type>
 		<length>64</length>
 		<notnull>false</notnull>
 		<default></default>
 	</field>
 	<field>
-		<name>openads_mode_of_payment</name>
+		<name>ox_mode_of_payment</name>
 		<type>openads_varchar</type>
 		<length>64</length>
 		<notnull>false</notnull>
 		<default></default>
 	</field>
 	<field>
-		<name>openads_currency_symbol</name>
+		<name>ox_currency_symbol</name>
 		<type>openads_varchar</type>
 		<length>64</length>
 		<notnull>false</notnull>
 		<default></default>
 	</field>
 	<field>
-		<name>openads_currency_value</name>
+		<name>ox_currency_value</name>
 		<type>openads_decimal</type>
 		<length>10,4</length>
 		<notnull>false</notnull>
         <default>0.0000</default>
 	</field>
 	<field>
-		<name>openads_ip_address</name>
+		<name>ox_ip_address</name>
 		<type>openads_varchar</type>
 		<length>16</length>
 		<notnull>false</notnull>
 		<default></default>
 	</field>
 	<field>
-		<name>openads_host_name</name>
+		<name>ox_host_name</name>
 		<type>openads_varchar</type>
 		<length>255</length>
 		<notnull>false</notnull>
 		<default></default>
 	</field>
 	<field>
-		<name>openads_country_code</name>
+		<name>ox_country_code</name>
 		<type>openads_varchar</type>
 		<length>2</length>
 		<notnull>false</notnull>
 		<default></default>
 	</field>
 	<field>
-		<name>openads_source</name>
+		<name>ox_source</name>
 		<type>openads_varchar</type>
 		<length>255</length>
 		<notnull>false</notnull>
 		<default></default>
 	</field>
 	<field>
-		<name>openads_binary</name>
+		<name>ox_binary</name>
 		<type>blob</type>
 		<notnull>false</notnull>
 		<default></default>

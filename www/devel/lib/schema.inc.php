@@ -192,6 +192,7 @@ class Openads_Schema_Manager
 
         $this->dd_file = PATH_DEV.'/etc/dd.generic.xml';
         $this->aDD_definition = $this->oSchema->parseDictionaryDefinitionFile($this->dd_file);
+        ksort($this->aDD_definition);
 
         //$this->aXMLRPCServer = array('path'=>'/upms/xmlrpc.php', 'host'=>'localhost','port'=>'80');
     }

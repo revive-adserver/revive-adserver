@@ -14,16 +14,16 @@
 <body onload="xajax_loadSchema()">
     <?php //echo getcwd();
         $dd_options = '';
-        foreach ($aDD_definition['options'] AS $k => $option )
+        foreach ($aDD_definition AS $name => $v )
         {
-            $dd_options.= $option;
+            $dd_options.= "<option value=\"{$name}\">{$name}</option>";
         }
-        $dd_list = '<ul id="dd_flds" class="boxy">';
-        foreach ($aDD_definition['list'] AS $k => $item )
+        /*$dd_list = '<ul id="dd_flds" class="boxy">';
+        foreach ($aDD_definition AS $name => $k )
         {
-            $dd_list.= $item;
+            $dd_list.= "<li value=\"{$name}s\">{$name}</li>";
         }
-        $dd_list.= '</ul>';
+        $dd_list.= '</ul>';*/
     ?>
   <div class="bodydiv">
     <div>
