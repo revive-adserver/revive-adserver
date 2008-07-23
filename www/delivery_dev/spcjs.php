@@ -32,7 +32,6 @@ require_once '../../init-delivery.php';
 require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 require_once MAX_PATH . '/lib/max/Delivery/javascript.php';
 require_once MAX_PATH . '/lib/max/Delivery/flash.php';
-require_once MAX_PATH . '/lib/max/Delivery/marketplace.php';
 
 // Get the affiliateid from the querystring if present
 MAX_commonRegisterGlobalsArray(array('id'));
@@ -64,13 +63,13 @@ function OA_SPCGetJavaScript($affiliateid)
     foreach ($_GET as $key => $value) {
         if ($key == 'id') { continue; }
         if ($magic_quotes_gpc) { $value = stripslashes($value); }
-        $additionalParams .= htmlspecialchars('&'.urlencode($key).'='.urlencode($value), ENT_QUOTES);
+        $additionalParams .= htmlspecialchars('&amp;'.urlencode($key).'='.urlencode($value), ENT_QUOTES);
     }
     $script = "
     if (typeof({$varprefix}zones) != 'undefined') {
         var {$varprefix}zoneids = '';
         for (var zonename in {$varprefix}zones) {$varprefix}zoneids += escape(zonename+'=' + {$varprefix}zones[zonename] + \"|\");
-        {$varprefix}zoneids += '&nz=1';
+        {$varprefix}zoneids += '&amp;nz=1';
     } else {
         var {$varprefix}zoneids = '" . implode('|', array_keys($aZones)) . "';
     }
@@ -78,12 +77,8 @@ function OA_SPCGetJavaScript($affiliateid)
     if (typeof({$varprefix}source) == 'undefined') { {$varprefix}source = ''; }
     var {$varprefix}p=location.protocol=='https:'?'https:':'http:';
     var {$varprefix}r=Math.floor(Math.random()*99999999);
-    {$varprefix}output = new Array();\n\n";
+    {$varprefix}output = new Array();
 
-    // Add the FlashObject include to the SPC output
-    $script .= MAX_javascriptToHTML(MAX_flashGetFlashObjectExternal(), $varprefix . 'fo');
-
-    $script .= "
     var {$varprefix}spc=\"<\"+\"script type='text/javascript' \";
     {$varprefix}spc+=\"src='\"+{$varprefix}p+\"".MAX_commonConstructPartialDeliveryUrl($aConf['file']['singlepagecall'])."?zones=\"+escape({$varprefix}zoneids);
     {$varprefix}spc+=\"&amp;source=\"+escape({$varprefix}source)+\"&amp;r=\"+{$varprefix}r;" .
@@ -94,9 +89,10 @@ function OA_SPCGetJavaScript($affiliateid)
     }
     $script .= "
     if (window.location) {$varprefix}spc+=\"&amp;loc=\"+escape(window.location);
-    if (document.referrer) {$varprefix}spc+=\"&amp;referer=\"+escape(document.referrer);";
+    if (document.referrer) {$varprefix}spc+=\"&amp;referer=\"+escape(document.referrer);
+    {$varprefix}spc+=\"'><\"+\"/script>\";
+    document.write({$varprefix}spc);
 
-    $script .= "
     function {$varprefix}show(name) {
         if (typeof({$varprefix}output[name]) == 'undefined') {
             return;
@@ -121,6 +117,9 @@ function OA_SPCGetJavaScript($affiliateid)
         document.write({$varprefix}pop);
     }
 ";
+
+    // Add the FlashObject include to the SPC output
+    $script .= MAX_javascriptToHTML(MAX_flashGetFlashObjectExternal(), $varprefix . 'fo');
 
     return $script;
 }
