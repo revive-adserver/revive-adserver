@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="openx" default="cruise">
-
+	<property name="php.path" value="/usr/local/php-5.2/bin/php"/>
+	
 	<macrodef name="svn-update">
 		<attribute name="workDir"/>
 		<attribute name="username"/>
@@ -39,12 +40,11 @@
 	</target>
 
 	<target name="chmod">
-		<exec executable="php5">
+		<exec executable="${php.path}">
 			<!-- <arg value="${basedir}/target/tests/canoo/tests/config/chmod.php"/> -->
 			<arg value="${basedir}/tests/canoo/tests/config/chmod.php"/>
-			<arg value="${basedir}/target/extension"/>
+			<arg value="${basedir}/target/extensions"/>
 		</exec>
-		<echo>chmod!!!</echo>
 	</target>
 	
 	<target name="test-canoo" depends="clean, chmod, clone">
