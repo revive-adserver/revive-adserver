@@ -1902,14 +1902,14 @@ var {$varprefix}zoneids = '';
 for (var zonename in {$varprefix}zones) {$varprefix}zoneids += escape(zonename+'=' + {$varprefix}zones[zonename] + \"|\");
 {$varprefix}zoneids += '&amp;nz=1';
 } else {
-var {$varprefix}zoneids = '" . implode('|', array_keys($aZones)) . "';
+var {$varprefix}zoneids = escape('" . implode('|', array_keys($aZones)) . "');
 }
 if (typeof({$varprefix}source) == 'undefined') { {$varprefix}source = ''; }
 var {$varprefix}p=location.protocol=='https:'?'https:':'http:';
 var {$varprefix}r=Math.floor(Math.random()*99999999);
 {$varprefix}output = new Array();
 var {$varprefix}spc=\"<\"+\"script type='text/javascript' \";
-{$varprefix}spc+=\"src='\"+{$varprefix}p+\"".MAX_commonConstructPartialDeliveryUrl($aConf['file']['singlepagecall'])."?zones=\"+escape({$varprefix}zoneids);
+{$varprefix}spc+=\"src='\"+{$varprefix}p+\"".MAX_commonConstructPartialDeliveryUrl($aConf['file']['singlepagecall'])."?zones=\"+{$varprefix}zoneids;
 {$varprefix}spc+=\"&amp;source=\"+escape({$varprefix}source)+\"&amp;r=\"+{$varprefix}r;" .
 ((!empty($additionalParams)) ? "\n    {$varprefix}spc+=\"{$additionalParams}\";" : '') . "
 ";
