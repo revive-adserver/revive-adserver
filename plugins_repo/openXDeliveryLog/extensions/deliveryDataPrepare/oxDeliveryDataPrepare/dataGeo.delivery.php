@@ -37,7 +37,7 @@ $GLOBALS['_MAX']['pluginsDependencies']['deliveryDataPrepare:ox_geo:ox_geo'] = a
 ###END_STRIP_DELIVERY
 
 // @todo - move geotargeting into here - it seems to be included by delivery right now, should it be moved in here?
-function Plugins_deliveryDataPrepare_ox_geo_ox_geo()
+function Plugins_deliveryDataPrepare_oxDeliveryDataPrepare_dataGeo()
 {
     if (!empty($GLOBALS['_MAX']['CLIENT_GEO'])) {
         $GLOBALS['_MAX']['deliveryData']['geo'] = $GLOBALS['_MAX']['CLIENT_GEO'];
@@ -58,19 +58,19 @@ function Plugins_deliveryDataPrepare_ox_geo_ox_geo()
     }
 }
 
-function Plugins_deliveryDataPrepare_ox_geo_ox_geo_Delivery_logRequest()
+function Plugins_deliveryDataPrepare_dataGeo_Delivery_logRequest()
 {
-    Plugins_deliveryDataPrepare_ox_geo_ox_geo();
+    Plugins_deliveryDataPrepare_dataGeo();
 }
 
-function Plugin_deliveryDataPrepare_ox_geo_ox_geo_Delivery_logImpression()
+function Plugin_deliveryDataPrepare_dataGeo_Delivery_logImpression()
 {
-    Plugins_deliveryDataPrepare_ox_geo_ox_geo();
+    Plugins_deliveryDataPrepare_dataGeo();
 }
 
-function Plugins_deliveryDataPrepare_ox_geo_ox_geo_Delivery_logClick()
+function Plugins_deliveryDataPrepare_dataGeo_Delivery_logClick()
 {
-    Plugins_deliveryDataPrepare_ox_geo_ox_geo();
+    Plugins_deliveryDataPrepare_dataGeo();
 }
 
 ?>

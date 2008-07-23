@@ -35,7 +35,7 @@ $GLOBALS['_MAX']['pluginsDependencies']['deliveryLog:ox_impression_country:ox_im
 );
 ###END_STRIP_DELIVERY
 
-function Plugin_deliveryLog_ox_impression_country_ox_impression_country_Delivery_logImpression()
+function Plugin_deliveryLog_oxLogImpression_logImpressionCountry_Delivery_logImpression()
 {
     $data = $GLOBALS['_MAX']['deliveryData'];
     $aQuery = array(

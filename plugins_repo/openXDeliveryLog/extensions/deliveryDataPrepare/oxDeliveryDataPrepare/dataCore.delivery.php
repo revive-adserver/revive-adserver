@@ -42,7 +42,7 @@ MAX_Dal_Delivery_Include();
  *
  * @param unknown_type $data
  */
-function Plugin_deliveryDataPrepare_ox_core_ox_core($viewerId, $adId, $creativeId, $zoneId)
+function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCore($viewerId, $adId, $creativeId, $zoneId)
 {
     // no need to set the same data twice
     static $executed;
@@ -58,19 +58,19 @@ function Plugin_deliveryDataPrepare_ox_core_ox_core($viewerId, $adId, $creativeI
     $GLOBALS['_MAX']['deliveryData']['interval_start'] = gmdate('Y-m-d H:i:s', $time - $time % ($oi * 60));
 }
 
-function Plugin_deliveryDataPrepare_ox_core_ox_core_Delivery_logImpression($viewerId, $adId, $creativeId, $zoneId)
+function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCore_Delivery_logImpression($viewerId, $adId, $creativeId, $zoneId)
 {
-    Plugin_deliveryDataPrepare_ox_core_ox_core($viewerId, $adId, $creativeId, $zoneId);
+    Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCore($viewerId, $adId, $creativeId, $zoneId);
 }
 
-function Plugin_deliveryDataPrepare_ox_core_ox_core_Delivery_logRequest($viewerId, $adId, $creativeId, $zoneId)
+function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCore_Delivery_logRequest($viewerId, $adId, $creativeId, $zoneId)
 {
-    Plugin_deliveryDataPrepare_ox_core_ox_core($viewerId, $adId, $creativeId, $zoneId);
+    Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCore($viewerId, $adId, $creativeId, $zoneId);
 }
 
-function Plugin_deliveryDataPrepare_ox_core_ox_core_Delivery_logClick($viewerId, $adId, $creativeId, $zoneId)
+function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCore_Delivery_logClick($viewerId, $adId, $creativeId, $zoneId)
 {
-    Plugin_deliveryDataPrepare_ox_core_ox_core($viewerId, $adId, $creativeId, $zoneId);
+    Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCore($viewerId, $adId, $creativeId, $zoneId);
 }
 
 ?>

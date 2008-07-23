@@ -19,7 +19,7 @@
         </files-->
 
         <contents>
-            <group name="ox_core"              >1</group>
+            <group name="oxDeliveryDataPrepare">1</group>
             <group name="ox_geo"               >2</group>
             <group name="ox_page_info"         >3</group>
             <group name="ox_user_agent"        >4</group>

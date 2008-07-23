@@ -34,7 +34,7 @@ $GLOBALS['_MAX']['pluginsDependencies']['deliveryDataPrepare:ox_page_info:ox_pag
 );
 ###END_STRIP_DELIVERY
 
-function Plugins_deliveryDataPrepare_ox_page_info_ox_page_info()
+function Plugins_deliveryDataPrepare_oxDeliveryDataPrepare_dataPageInfo()
 {
     if (!empty($_GET['loc'])) {
         $pageInfo = parse_url($_GET['loc']);
@@ -52,19 +52,19 @@ function Plugins_deliveryDataPrepare_ox_page_info_ox_page_info()
     $GLOBALS['_MAX']['deliveryData']['pageInfo'] = $pageInfo;
 }
 
-function Plugins_deliveryDataPrepare_ox_page_info_ox_page_info_Delivery_logRequest()
+function Plugins_deliveryDataPrepare_dataPageInfo_Delivery_logRequest()
 {
-    Plugins_deliveryDataPrepare_ox_page_info_ox_page_info();
+    Plugins_deliveryDataPrepare_dataPageInfo();
 }
 
-function Plugins_deliveryDataPrepare_ox_page_info_ox_page_info_Delivery_logImpression()
+function Plugins_deliveryDataPrepare_dataPageInfo_Delivery_logImpression()
 {
-    Plugins_deliveryDataPrepare_ox_page_info_ox_page_info();
+    Plugins_deliveryDataPrepare_dataPageInfo();
 }
 
-function Plugins_deliveryDataPrepare_ox_page_info_ox_page_info_Delivery_logClick()
+function Plugins_deliveryDataPrepare_dataPageInfo_Delivery_logClick()
 {
-    Plugins_deliveryDataPrepare_ox_page_info_ox_page_info();
+    Plugins_deliveryDataPrepare_dataPageInfo();
 }
 
 ?>

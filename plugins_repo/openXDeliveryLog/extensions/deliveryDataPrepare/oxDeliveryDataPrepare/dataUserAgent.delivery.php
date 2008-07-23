@@ -37,7 +37,7 @@ $GLOBALS['_MAX']['pluginsDependencies']['deliveryDataPrepare:ox_user_agent:ox_us
 );
 ###END_STRIP_DELIVERY
 
-function Plugins_deliveryDataPrepare_ox_user_agent_ox_user_agent()
+function Plugins_deliveryDataPrepare_oxDeliveryDataPrepare_dataUserAgent()
 {
     $userAgentInfo = array(
         'os'        => $GLOBALS['_MAX']['CLIENT']['os'],
@@ -47,19 +47,19 @@ function Plugins_deliveryDataPrepare_ox_user_agent_ox_user_agent()
     $GLOBALS['_MAX']['deliveryData']['userAgentInfo'] = $userAgentInfo;
 }
 
-function Plugins_deliveryDataPrepare_ox_user_agent_ox_user_agent_logRequest()
+function Plugins_deliveryDataPrepare_dataUserAgent_logRequest()
 {
-    Plugins_deliveryDataPrepare_ox_user_agent_ox_user_agent();
+    Plugins_deliveryDataPrepare_dataUserAgent();
 }
 
-function Plugins_deliveryDataPrepare_ox_user_agent_ox_user_agent_logImpression()
+function Plugins_deliveryDataPrepare_dataUserAgent_logImpression()
 {
-    Plugins_deliveryDataPrepare_ox_user_agent_ox_user_agent();
+    Plugins_deliveryDataPrepare_dataUserAgent();
 }
 
-function Plugins_deliveryDataPrepare_ox_user_agent_ox_user_agent_logClick()
+function Plugins_deliveryDataPrepare_dataUserAgent_logClick()
 {
-    Plugins_deliveryDataPrepare_ox_user_agent_ox_user_agent();
+    Plugins_deliveryDataPrepare_dataUserAgent();
 }
 
 ?>

@@ -34,7 +34,7 @@ $GLOBALS['_MAX']['pluginsDependencies']['deliveryLog:ox_click:ox_click'] = array
 );
 ###END_STRIP_DELIVERY
 
-function Plugins_deliveryLog_ox_click_ox_click_Delivery_logClick()
+function Plugins_deliveryLog_oxLogClick_logClick_Delivery_logClick()
 {
     $data = $GLOBALS['_MAX']['deliveryData'];
     $aQuery = array(
