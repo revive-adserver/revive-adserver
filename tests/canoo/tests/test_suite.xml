@@ -17,8 +17,18 @@
 	<target name="setup">
 		<mkdir dir="${screens}" />
 	</target>
+
+	<target name="Level0" if="upgrade.isOn" depends="setup">	<!-- if="upgrade.isOn" -->
+		<echo>Starting upgrade tests...</echo>
+		<subant failonerror="${wt.failOnError}" inheritall="true">
+        	<fileset dir="${testcase.dir}/level0" includes="${testcase.level0.pattern}"/>
+        </subant>
+		<echo>#################################</echo>		
+		<echo># 0 level    tests - FINISHED!  #</echo>
+		<echo>#################################</echo>				
+	</target>
 	
-	<target name="Level1" if="test.level1" depends="setup">
+	<target name="Level1" if="test.level1" unless="upgrade.isOn" depends="setup">
 		<echo>Starting setup tests...</echo>
 		<subant failonerror="${wt.failOnError}" inheritall="true">
         	<fileset dir="${testcase.dir}/level1" includes="${testcase.level1.pattern}"/>
@@ -28,7 +38,7 @@
 		<echo>#################################</echo>				
 	</target>
 	
-	<target name="Level2" if="test.level2" depends="Level1">
+	<target name="Level2" if="test.level2" depends="Level1">	<!-- Level1 -->
 		<echo>Starting smoke tests - 1st level...</echo>
 			<ant antfile="${testcase.dir}/level2/openx.smoke.xml" />
 		<echo>###################################</echo>		
@@ -36,8 +46,8 @@
 		<echo>###################################</echo>				
 	</target>
 	
-    <target name="Level3" if="test.level3" depends="Level2">
-		<echo>Starting smoke tests - 2nd level...</echo>
+    <target name="Level3" if="test.level3" unless="upgrade.isOn" depends="Level2">
+		<echo>Starting UI tests - 3rd level...</echo>
 		<echo>+-----------------------------------------+</echo>
 		<echo>| WARNING! 3rd Level tests are optional	 |</echo>
 		<echo>| and could fail without BUILD FAILED!	 |</echo>
@@ -49,7 +59,7 @@
     </target>
 
     <target name="Level4" if="test.level4" depends="Level3">
-		<echo>Starting acceptance tests - 3rd level...</echo>
+		<echo>Starting acceptance tests - 4th level...</echo>
 		<echo>+-----------------------------------------+</echo>
 		<echo>| WARNING! 4th Level tests are optional	 |</echo>
 		<echo>| and could fail without BUILD FAILED!	 |</echo>

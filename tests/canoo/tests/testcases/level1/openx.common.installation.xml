@@ -23,16 +23,11 @@
 
 <project name="OpenX" basedir="." default="main">
 	<target name="main">
-		<!-- test -->
-		<!-- test2 -->
 		<webtest name="Level1 - Setup test - installation test">
-			<!-- test3 -->
 			&config;
 			<steps>
 				<!-- <invoke description="First page:  installation start" url="/" save="start_" /> -->
-				<!-- test4 -->
 				<invoke url="/" />
-				<!-- test5 -->
 				<verifyText  description="Welcome text must be present" text="Welcome to OpenX" />
 				&initdb;
 				&init;
