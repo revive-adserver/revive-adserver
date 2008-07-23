@@ -14,8 +14,8 @@
         <was>data_bucket_click</was>
       </table>
         <table>
-        <name>data_bucket_fb_impression</name>
-        <was>data_bucket_fb_impression</was>
+        <name>data_bucket_impression_backup</name>
+        <was>data_bucket_impression_backup</was>
       </table>
         <table>
         <name>data_bucket_impression</name>

@@ -11,8 +11,8 @@ class Migration_001 extends Migration
 
 		$this->aTaskList_constructive[] = 'beforeAddTable__data_bucket_click';
 		$this->aTaskList_constructive[] = 'afterAddTable__data_bucket_click';
-		$this->aTaskList_constructive[] = 'beforeAddTable__data_bucket_fb_impression';
-		$this->aTaskList_constructive[] = 'afterAddTable__data_bucket_fb_impression';
+		$this->aTaskList_constructive[] = 'beforeAddTable__data_bucket_impression_backup';
+		$this->aTaskList_constructive[] = 'afterAddTable__data_bucket_impression_backup';
 		$this->aTaskList_constructive[] = 'beforeAddTable__data_bucket_impression';
 		$this->aTaskList_constructive[] = 'afterAddTable__data_bucket_impression';
 		$this->aTaskList_constructive[] = 'beforeAddTable__data_bucket_impression_country';
@@ -35,14 +35,14 @@ class Migration_001 extends Migration
 		return $this->afterAddTable('data_bucket_click');
 	}
 
-	function beforeAddTable__data_bucket_fb_impression()
+	function beforeAddTable__data_bucket_impression_backup()
 	{
-		return $this->beforeAddTable('data_bucket_fb_impression');
+		return $this->beforeAddTable('data_bucket_impression_backup');
 	}
 
-	function afterAddTable__data_bucket_fb_impression()
+	function afterAddTable__data_bucket_impression_backup()
 	{
-		return $this->afterAddTable('data_bucket_fb_impression');
+		return $this->afterAddTable('data_bucket_impression_backup');
 	}
 
 	function beforeAddTable__data_bucket_impression()
