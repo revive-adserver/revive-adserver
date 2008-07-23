@@ -398,9 +398,9 @@ function buildBasicInformationFormSection(&$form, $campaign)
 //EX.	$form->addRule('test', 'Weight must be positive number', 'formattednumber');
     
     
-//EX.    $form->addDecorator('basic_info', 'HtmlTag', 
+//EX.    $form->addDecorator('basic_info', 'tag', 
 //        array('attributes' => array('id' => 'test', 'style' => 'display:none')));
-//EX.    $form->addDecorator('basic_info', 'HtmlTag', array('tag' => 'div', 
+//EX.    $form->addDecorator('basic_info', 'tag', array('tag' => 'div', 
 //        'attributes' => array('id' => 'innerdiv', 'style' => 'display:none')));
     
     
@@ -414,9 +414,9 @@ function buildInventoryDetailsFormSection(&$form, $campaign)
     
     $form->addElement('header', 'h_inv_details', $GLOBALS['strInventoryDetails']);
 
-//EX.    $form->addDecorator('inv_details', 'HtmlTag', array('tag' => 'span', 
+//EX.    $form->addDecorator('inv_details', 'tag', array('tag' => 'span', 
 //        'mode' => 'wrap', 'attributes' => array('id' => 'test', 'style' => 'display:none')));
-//EX.    $form->addDecorator('basic_info', 'HtmlTag', array('tag' => 'div', 
+//EX.    $form->addDecorator('basic_info', 'tag', array('tag' => 'div', 
 //        'attributes' => array('id' => 'innerdiv', 'style' => 'display:none')));
     
     
@@ -522,7 +522,7 @@ function buildContractDetailsFormSection(&$form, $campaign)
     $form->addGroup($revInfGroup, 'revenue_g', $GLOBALS['strRevenueInfo']);
     
     
-//EX.    $form->addDecorator('revenue_type', 'HtmlTag', array('tag' => 'span', 
+//EX.    $form->addDecorator('revenue_type', 'tag', array('tag' => 'span', 
 //        'attributes' => array('id' => 'revTypeSel', 'style' => 'display:none')));
     
     

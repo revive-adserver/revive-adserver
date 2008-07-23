@@ -97,7 +97,7 @@ class OA_Admin_UI_Component_Form
             'OA_Admin_UI_Rule_JQueryUniqueRule');
         
         //register element decorators
-        $this->registerElementDecorator('HtmlTag', MAX_PATH.'/lib/OA/Admin/UI/component/decorator/HTMLTagDecorator.php', 
+        $this->registerElementDecorator('tag', MAX_PATH.'/lib/OA/Admin/UI/component/decorator/HTMLTagDecorator.php', 
             'OA_Admin_UI_HTMLTagDecorator');
         $this->registerElementDecorator('process', MAX_PATH.'/lib/OA/Admin/UI/component/decorator/ProcessingDecorator.php', 
             'OA_Admin_UI_ProcessingDecorator');

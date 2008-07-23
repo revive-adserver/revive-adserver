@@ -1051,15 +1051,23 @@ table.data td.graph .percentage {
     width: 10%;
 }
 
-
-/** table actions **/
-.action {
+/** icons **/ 
+.icon {
     padding-left: 20px;
     line-height: 20px;
     background-repeat: no-repeat;
+    background-position: left center;
+}
+
+.info {
+    background-image: url("../images/information.gif");
+}
+
+
+/** table actions **/
+.action {
     display: block;
     float: left;
-    background-position: left center;
 }
 
 .details {

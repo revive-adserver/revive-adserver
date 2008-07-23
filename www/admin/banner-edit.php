@@ -559,7 +559,7 @@ function addUploadGroup($form, $row, $vars)
             $uploadG['upload'] = $form->createElement('file', $vars['uploadName'], null, array("onchange" => "selectFile(this, ".($vars['handleSWF'] ? 'true' : 'false').")", "style" => "width: 250px;"));
             if ($vars['handleSWF']) {
                 $uploadG['checkSWF'] = $form->createElement("checkbox", "checkswf", null, $GLOBALS['strCheckSWF']);
-                $form->addDecorator('checkswf', 'HtmlTag',
+                $form->addDecorator('checkswf', 'tag',
                     array('attributes' =>
                         array('id' => 'swflayer', 'style' => 'display:none')));
             }
@@ -571,7 +571,7 @@ function addUploadGroup($form, $row, $vars)
             $uploadG['upload'] = $form->createElement('file', $vars['uploadName'], null, array("onchange" => "selectFile(this, ".($vars['handleSWF'] ? 'true' : 'false').")", "size" => 26, "style" => "width: 250px"));
             if ($vars['handleSWF']) {
                 $uploadG['checkSWF'] = $form->createElement("checkbox", "checkswf", null, $GLOBALS['strCheckSWF']);
-                $form->addDecorator('checkswf', 'HtmlTag',
+                $form->addDecorator('checkswf', 'tag',
                     array('attributes' =>
                         array('id' => 'swflayer', 'style' => 'display:none')));
             }
