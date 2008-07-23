@@ -368,6 +368,61 @@ class TestEnv
 
     }
 
+    function backupPluginSchemaFiles()
+    {
+        $schemaFilename = MAX_PATH . '/var/plugins/DataObjects/db_schema.ini';
+        $linksFilename  = MAX_PATH . '/var/plugins/DataObjects/db_schema.links.ini';
+
+        $backupSchemaFilename = $schemaFilename.'.bak';
+        $backupLinksFilename  = $linksFilename.'.bak';
+
+        if (file_exists($backupSchemaFilename))
+        {
+            @unlink($backupSchemaFilename);
+        }
+        if (file_exists($backupLinksFilename))
+        {
+            @unlink($backupLinksFilename);
+        }
+        if (file_exists($schemaFilename))
+        {
+            @copy($schemaFilename, $backupSchemaFilename);
+            if (!($fp = fopen($schemaFilename, 'w')))
+            {
+                return false;
+            }
+            fclose($fp);
+        }
+        if (file_exists($linksFilename))
+        {
+            @copy($linksFilename, $backupLinksFilename);
+            if (!($fp = fopen($linksFilename, 'w')))
+            {
+                return false;
+            }
+            fclose($fp);
+        }
+        return true;
+    }
+
+    function restorePluginSchemaFiles()
+    {
+        $schemaFilename = MAX_PATH . '/var/plugins/DataObjects/db_schema.ini';
+        $linksFilename  = MAX_PATH . '/var/plugins/DataObjects/db_schema.links.ini';
+
+        $backupSchemaFilename = $schemaFilename.'.bak';
+        $backupLinksFilename  = $linksFilename.'.bak';
+
+        if (file_exists($backupSchemaFilename))
+        {
+            @copy($backupSchemaFilename, $schemaFilename);
+        }
+        if (file_exists($backupLinksFilename))
+        {
+            @copy($backupLinksFilename, $linksFilename);
+        }
+        return true;
+    }
     /**
      * This function makes a backup copy of the config file to ensure that tests which write change
      * to the config file are able to roll-back their changes by calling restoreConfig

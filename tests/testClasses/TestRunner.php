@@ -277,6 +277,7 @@ class TestRunner
         if (!$keepDatabase) {
             TestEnv::teardownDB();
         }
+        TestEnv::backupPluginSchemaFiles();
         // Setup the database, if needed
         if ($envType == DB_NO_TABLES) {
             TestEnv::setupDB($keepDatabase);
@@ -307,6 +308,7 @@ class TestRunner
         if ($envType != NO_DB) {
             // Don't tear down the DB, it will be dropped at the next test execution
             //TestEnv::teardownDB();
+            TestEnv::restorePluginSchemaFiles();
         }
     }
 
