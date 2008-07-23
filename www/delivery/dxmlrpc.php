@@ -801,6 +801,8 @@ require(MAX_PATH . '/lib/OA/Dal/Delivery/' . strtolower($conf['origin']['type'])
 function MAX_Delivery_log_logAdRequest($viewerId, $adId, $creativeId, $zoneId)
 {
 if (_viewersHostOkayToLog()) {
+OX_Delivery_Common_hook('logRequest', array($viewerId, $adId, $creativeId, $zoneId));
+// @todo - remove following code once buckets will be finished
 $aConf = $GLOBALS['_MAX']['CONF'];
 list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
 $geotargeting = array();
@@ -822,6 +824,8 @@ $maxHttps
 function MAX_Delivery_log_logAdImpression($viewerId, $adId, $creativeId, $zoneId)
 {
 if (_viewersHostOkayToLog()) {
+OX_Delivery_Common_hook('logImpression', array($viewerId, $adId, $creativeId, $zoneId));
+// @todo - remove following code once buckets will be finished
 $aConf = $GLOBALS['_MAX']['CONF'];
 list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
 $table = $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_impression'];
@@ -842,6 +846,8 @@ $maxHttps
 function MAX_Delivery_log_logAdClick($viewerId, $adId, $creativeId, $zoneId)
 {
 if (_viewersHostOkayToLog()) {
+OX_Delivery_Common_hook('logClick', array($viewerId, $adId, $creativeId, $zoneId));
+// @todo - remove following code once buckets will be finished
 $aConf = $GLOBALS['_MAX']['CONF'];
 list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
 $table = $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_click'];
@@ -1097,6 +1103,33 @@ $aCaps['block'][$index],
 $aCaps['capping'][$index],
 $aCaps['session_capping'][$index]
 );
+}
+function MAX_bucket_updateTable($tableName, $aQuery, $counter = 'count')
+{
+$prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+$query = MAX_bucket_prepareUpdateQuery($prefix . $tableName, $aQuery, $counter);
+$result = OA_Dal_Delivery_query(
+$query,
+'rawDatabase'
+);
+return $result;
+}
+function MAX_bucket_prepareUpdateQuery($tableName, $aQuery, $counter = 'count')
+{
+$insert = "INSERT INTO {$tableName} (";
+$values = 'VALUES (';
+$comma = '';
+foreach ($aQuery as $column => $value) {
+if (!is_integer($value)) {
+$value = "'" . $value . "'";
+}
+$insert .= $comma . $column;
+$values .= $comma . $value;
+$comma = ', ';
+}
+$query = $insert . $comma . $counter . ') ' . $values . ', 1)';
+$query .= " ON DUPLICATE KEY UPDATE $counter = $counter + 1";
+return $query;
 }
 function MAX_commonGetDeliveryUrl($file = null)
 {
@@ -1487,9 +1520,8 @@ return $unpacked;
 }
 function OX_Delivery_Common_hook($hookName, $aParams = array())
 {
-$aConf = $GLOBALS['_MAX']['CONF'];
-if (!empty($aConf['deliveryHooks'][$hookName])) {
-$hooks = explode('|', $aConf['deliveryHooks'][$hookName]);
+if (!empty($GLOBALS['_MAX']['CONF']['deliveryHooks'][$hookName])) {
+$hooks = explode('|', $GLOBALS['_MAX']['CONF']['deliveryHooks'][$hookName]);
 foreach ($hooks as $identifier) {
 $functionName = OX_Delivery_Common_getFunctionFromComponentIdentifier($identifier, $hookName);
 if (function_exists($functionName)) {
