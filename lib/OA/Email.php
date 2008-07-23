@@ -31,6 +31,7 @@ require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once MAX_PATH . '/lib/OA/Preferences.php';
+require_once MAX_PATH . '/lib/max/other/lib-userlog.inc.php';
 
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 
@@ -47,6 +48,7 @@ class OA_Email
 {
 
     function sendCampaignDeliveryEmail($advertiserId, $oStartDate, $oEndDate) {
+        $aConf = $GLOBALS['_MAX']['CONF'];
 
         $aLinkedUsers = $this->getUsersLinkedToAccount('clients', $advertiserId);
         $copiesSent = 0;
@@ -57,6 +59,14 @@ class OA_Email
                     if (!isset($aEmail['hasAdviews']) || $aEmail['hasAdviews'] !== false) {
                         if ($this->sendMail($aEmail['subject'], $aEmail['contents'], $aUser['email_address'], $aUser['contact_name'])) {
                             $copiesSent++;
+                            if ($aConf['email']['logOutgoing']) {
+                                phpAds_userlogSetUser(phpAds_userMaintenance);
+                                phpAds_userlogAdd(phpAds_actionAdvertiserReportMailed, $advertiserId,
+                                    "{$aEmail['subject']}\n\n
+                                     {$aUser['contact_name']}({$aUser['email_address']})\n\n
+                                     {$aEmail['contents']}"
+                                );
+                            }
                         }
                     }
                 }
@@ -457,6 +467,14 @@ class OA_Email
                                 if ($aEmail !== false) {
                                     if ($this->sendMail($aEmail['subject'], $aEmail['contents'], $aUser['email_address'], $aUser['contact_name'])) {
                                         $copiesSent++;
+                                        if ($aConf['email']['logOutgoing']) {
+                                            phpAds_userlogSetUser(phpAds_userMaintenance);
+                                            phpAds_userlogAdd(phpAds_actionWarningMailed, $aPlacement['campaignid'],
+                                                "{$aEmail['subject']}\n\n
+                                                 {$aUser['contact_name']}({$aUser['email_address']})\n\n
+                                                 {$aEmail['contents']}"
+                                            );
+                                        }
                                     }
                                 }
                             }
@@ -493,6 +511,14 @@ class OA_Email
                                 if ($aEmail !== false) {
                                     if ($this->sendMail($aEmail['subject'], $aEmail['contents'], $aUser['email_address'], $aUser['contact_name'])) {
                                         $copiesSent++;
+                                        if ($aConf['email']['logOutgoing']) {
+                                            phpAds_userlogSetUser(phpAds_userMaintenance);
+                                            phpAds_userlogAdd(phpAds_actionWarningMailed, $aPlacement['campaignid'],
+                                                "{$aEmail['subject']}\n\n
+                                                 {$aUser['contact_name']}({$aUser['email_address']})\n\n
+                                                 {$aEmail['contents']}"
+                                            );
+                                        }
                                     }
                                 }
                             }
@@ -676,6 +702,7 @@ class OA_Email
 
     function sendCampaignActivatedDeactivatedEmail($campaignId, $reason = null)
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doClient = OA_Dal::factoryDO('clients');
         $doCampaigns->joinAdd($doClient);
@@ -689,6 +716,16 @@ class OA_Email
                 if ($aEmail !== false) {
                     if ($this->sendMail($aEmail['subject'], $aEmail['contents'], $aUser['email_address'], $aUser['contact_name'])) {
                         $copiesSent++;
+                        if ($aConf['email']['logOutgoing']) {
+                            phpAds_userlogSetUser(phpAds_userMaintenance);
+                            phpAds_userlogAdd(
+                                ((is_null($reason)) ? phpAds_actionActivationMailed : phpAds_actionDeactivationMailed),
+                                $doPlacement->campaignid,
+                                "{$aEmail['subject']}\n\n
+                                 {$aUser['contact_name']}({$aUser['email_address']})\n\n
+                                 {$aEmail['contents']}"
+                            );
+                        }
                     }
                 }
             }

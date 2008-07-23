@@ -68,6 +68,10 @@ class Test_OA_Email extends UnitTestCase
     {
         // Restore the original value of $GLOBALS['_MAX']['HTTP']
         $GLOBALS['_MAX']['HTTP'] = $this->http;
+        // Clean up userlog
+        $doUserLog = OA_Dal::factoryDO('userlog');
+        $doUserLog->whereAdd('1=1');
+        $doUserLog->delete(DB_DATAOBJECT_WHEREADD_ONLY);
     }
 
     /**
@@ -403,6 +407,7 @@ class Test_OA_Email extends UnitTestCase
         $aConf['email']['fromAddress'] = 'send@example.com';
         $aConf['email']['fromName'] = 'Andrew Hill';
         $aConf['email']['fromCompany'] = 'OpenX Limited';
+        $aConf['email']['logOutgoing'] = true;
 
         $mockName = uniqid('PartialMockOA_Email_');
         Mock::generatePartial(
@@ -413,7 +418,7 @@ class Test_OA_Email extends UnitTestCase
 
         $oEmail = new $mockName();
         $oEmail->setReturnValue('sendMail', true);
-        $oEmail->expectCallCount('sendMail', 3);
+        $oEmail->expectCallCount('sendMail', 4);
 
         // Prepare valid test data
         $oStartDate   = new Date('2007-05-13 23:59:59');
@@ -463,6 +468,11 @@ class Test_OA_Email extends UnitTestCase
         $result = $oEmail->sendCampaignDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
         $this->assertFalse($result);
 
+        // No entries in userlog
+        $doUserLog = OA_Dal::factoryDO('userlog');
+        $doUserLog->find();
+        $this->assertFalse($doUserLog->fetch());
+
         // Link the user
         $oUserAccess = new OA_Admin_UI_UserAccess();
         $oUserAccess->linkUserToAccount($userId, $advertiserId, array(), array());
@@ -470,6 +480,11 @@ class Test_OA_Email extends UnitTestCase
         // With no stats, no email should be sent
         $result = $oEmail->sendCampaignDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
         $this->assertEqual($result, 0);
+
+        // Still no entries in userlog
+        $doUserLog = OA_Dal::factoryDO('userlog');
+        $doUserLog->find();
+        $this->assertFalse($doUserLog->fetch());
 
         // Create a banner
         $doBanners = OA_Dal::factoryDO('banners');
@@ -479,6 +494,11 @@ class Test_OA_Email extends UnitTestCase
         // With no stats, no email should be sent
         $result = $oEmail->sendCampaignDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
         $this->assertEqual($result, 0);
+
+        // No entries in userlog
+        $doUserLog = OA_Dal::factoryDO('userlog');
+        $doUserLog->find();
+        $this->assertFalse($doUserLog->fetch());
 
         // Load up some stats
         $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
@@ -492,6 +512,32 @@ class Test_OA_Email extends UnitTestCase
         // With some stats and a linked user, one email should be sent
         $result = $oEmail->sendCampaignDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
         $this->assertEqual($result, 1);
+
+        // Now email should be stored in userlog
+        $doUserLog = OA_Dal::factoryDO('userlog');
+        $doUserLog->find();
+        $this->assertTrue($doUserLog->fetch());
+        $userLogRow = $doUserLog->toArray();
+        $this->assertEqual($userLogRow['action'], phpAds_actionAdvertiserReportMailed);
+        $this->assertTrue((strpos($userLogRow['details'], $clientName)!==false));
+        $this->assertTrue((strpos($userLogRow['details'], $email)!==false));
+        // Clear userlog table
+        $doUserLog = OA_Dal::factoryDO('userlog');
+        $doUserLog->userlogid = $userLogRow['userlogid'];
+        $doUserLog->delete();
+
+        // Turn off email logging and send mail again
+        $aConf['email']['logOutgoing'] = false;
+        $result = $oEmail->sendPlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
+        $this->assertEqual($result, 1);
+
+        // No entries in userlog
+        $doUserLog = OA_Dal::factoryDO('userlog');
+        $doUserLog->find();
+        $this->assertFalse($doUserLog->fetch());
+
+        // Set email logging back to true
+        $aConf['email']['logOutgoing'] = true;
 
         // Link another user to this account and ensure that two email are sent (may as well use a different language
         $doUser = OA_Dal::factoryDO('users');
@@ -507,6 +553,14 @@ class Test_OA_Email extends UnitTestCase
 
         $result = $oEmail->sendCampaignDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
         $this->assertEqual($result, 2);
+
+        // Check if there are two entries in userlog
+        $doUserLog = OA_Dal::factoryDO('userlog');
+        $aUserLog = $doUserLog->getAll();
+        $this->assertEqual(count($aUserLog), 2);
+        $this->assertEqual($aUserLog[0]['action'], phpAds_actionAdvertiserReportMailed);
+        $this->assertEqual($aUserLog[1]['action'], phpAds_actionAdvertiserReportMailed);
+
 
         DataGenerator::cleanUp(array('accounts', 'account_user_assoc'));
     }
@@ -536,6 +590,7 @@ class Test_OA_Email extends UnitTestCase
         $aConf['email']['fromAddress']  = $adminMail;
         $aConf['email']['fromName']     = $adminName;
         $aConf['email']['fromCompany']  = $adminCompany;
+        $aConf['email']['logOutgoing']  = true;
 
         $mockName = uniqid('PartialMockOA_Email_');
         Mock::generatePartial(
@@ -651,6 +706,11 @@ class Test_OA_Email extends UnitTestCase
         $result = $oEmail->sendCampaignImpendingExpiryEmail($oNowDate, $placementId);
         // No emails should be sent yet because the preferences weren't set
         $this->assertEqual($result, 0);
+
+        // No entries in userlog
+        $doUserLog = OA_Dal::factoryDO('userlog');
+        $doUserLog->find();
+        $this->assertFalse($doUserLog->fetch());
 
         // Create the preference
         $doPreferences = OA_Dal::factoryDO('preferences');
@@ -812,6 +872,25 @@ class Test_OA_Email extends UnitTestCase
         $this->assertEqual($aResult['subject'],   $expectedSubject);
         $this->assertEqual($aResult['contents'],  $expectedContents);
 
+        // One entry in userlog
+        $doUserLog = OA_Dal::factoryDO('userlog');
+        $aUserLog = $doUserLog->getAll();
+        $this->assertEqual(count($aUserLog), 1);
+        $this->assertEqual($aUserLog[0]['action'], phpAds_actionWarningMailed);
+
+         // Turn off email logging and send mail again
+        $aConf['email']['logOutgoing'] = false;
+        $numSent = $oEmail->sendPlacementImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
+        $this->assertEqual($numSent, 1);
+
+        // Still one entry in userlog
+        $doUserLog = OA_Dal::factoryDO('userlog');
+        $aUserLog = $doUserLog->getAll();
+        $this->assertEqual(count($aUserLog), 1);
+
+        // Set email logging back to true
+        $aConf['email']['logOutgoing'] = true;
+
         // Manager user
         $expectedSubject = "Impending campaign expiration: $advertiserName";
         $expectedContents  = "Dear {$aAgencyUser['contact_name']},\n\n";
@@ -834,6 +913,12 @@ class Test_OA_Email extends UnitTestCase
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult['subject'],   $expectedSubject);
         $this->assertEqual($aResult['contents'],  $expectedContents);
+
+        // Should create another entry in userlog
+        $doUserLog = OA_Dal::factoryDO('userlog');
+        $doUserLog->action = phpAds_actionWarningMailed;
+        $aUserLog = $doUserLog->getAll();
+        $this->assertEqual(count($aUserLog), 2);
 
         // The following should never be sent because a campaign without banners should never deliver (and therefore never reach the "remaining" threshold)
         $expectedSubject = "Impending campaign expiration: $advertiserName";
@@ -878,6 +963,12 @@ class Test_OA_Email extends UnitTestCase
         $this->assertEqual($aResult['subject'],   $expectedSubject);
         $this->assertEqual($aResult['contents'],  $expectedContents);
 
+        // Emails not sent, nothing new in userlog
+        $doUserLog = OA_Dal::factoryDO('userlog');
+        $doUserLog->action = phpAds_actionWarningMailed;
+        $aUserLog = $doUserLog->getAll();
+        $this->assertEqual(count($aUserLog), 2);
+
         // Add some banners and retest
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $placementId;
@@ -914,6 +1005,11 @@ class Test_OA_Email extends UnitTestCase
         $this->assertEqual($aResult['subject'],   $expectedSubject);
         $this->assertEqual($aResult['contents'],  $expectedContents);
 
+        $doUserLog = OA_Dal::factoryDO('userlog');
+        $doUserLog->action = phpAds_actionWarningMailed;
+        $aUserLog = $doUserLog->getAll();
+        $this->assertEqual(count($aUserLog), 3);
+
         $expectedSubject = "Impending campaign expiration: $advertiserName";
         $expectedContents  = "Dear {$aAdvertiserUser['contact_name']},\n\n";
         $expectedContents .= "Your campaign shown below is due to end on $dateValue.\n\n";
@@ -937,6 +1033,16 @@ class Test_OA_Email extends UnitTestCase
         $this->assertEqual($aResult['subject'],   $expectedSubject);
         $this->assertEqual($aResult['contents'],  $expectedContents);
 
+        $doUserLog = OA_Dal::factoryDO('userlog');
+        $doUserLog->action = phpAds_actionWarningMailed;
+        $aUserLog = $doUserLog->getAll();
+        $this->assertEqual(count($aUserLog), 4);
+
+        // Clear userlog table
+        $doUserLog = OA_Dal::factoryDO('userlog');
+        $doUserLog->whereAdd('1=1');
+        $doUserLog->delete(DB_DATAOBJECT_WHEREADD_ONLY);
+
         // Enable the warn_email_advertiser preference and retest
         $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');
         $doAccount_Preference_Assoc->account_id = $advertiserAccountId;
@@ -947,6 +1053,11 @@ class Test_OA_Email extends UnitTestCase
         // So should now send 1 admin and 2 advertiser emails
         $numSent = $oEmail->sendCampaignImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
         $this->assertEqual($numSent, 3);
+
+        $doUserLog = OA_Dal::factoryDO('userlog');
+        $doUserLog->action = phpAds_actionWarningMailed;
+        $aUserLog = $doUserLog->getAll();
+        $this->assertEqual(count($aUserLog), 3);
 
         $expectedSubject = "Impending campaign expiration: $advertiserName";
         $expectedContents  = "Dear $adminContact,\n\n";
@@ -970,6 +1081,11 @@ class Test_OA_Email extends UnitTestCase
         $this->assertEqual($aResult['subject'],   $expectedSubject);
         $this->assertEqual($aResult['contents'],  $expectedContents);
 
+        $doUserLog = OA_Dal::factoryDO('userlog');
+        $doUserLog->action = phpAds_actionWarningMailed;
+        $aUserLog = $doUserLog->getAll();
+        $this->assertEqual(count($aUserLog), 6);
+
         // Enable the warn_email_manager preference and retest
         $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');
         $doAccount_Preference_Assoc->account_id = $agencyAccountId;
@@ -978,6 +1094,25 @@ class Test_OA_Email extends UnitTestCase
         $doAccount_Preference_Assoc->update();
         $numSent = $oEmail->sendCampaignImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
         $this->assertEqual($numSent, 4);
+
+        $doUserLog = OA_Dal::factoryDO('userlog');
+        $doUserLog->action = phpAds_actionWarningMailed;
+        $aUserLog = $doUserLog->getAll();
+        $this->assertEqual(count($aUserLog), 10);
+
+        // Turn off email logging and send mail again
+        $aConf['email']['logOutgoing'] = false;
+        $numSent = $oEmail->sendPlacementImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
+        $this->assertEqual($numSent, 4);
+
+        // No new entries in user log
+        $doUserLog = OA_Dal::factoryDO('userlog');
+        $doUserLog->action = phpAds_actionWarningMailed;
+        $aUserLog = $doUserLog->getAll();
+        $this->assertEqual(count($aUserLog), 10);
+
+        // Set email logging back to true
+        $aConf['email']['logOutgoing'] = true;
 
         $expectedSubject = "Impending campaign expiration: $advertiserName";
         $expectedContents  = "Dear {$aAdvertiserUser['contact_name']},\n\n";
@@ -1047,6 +1182,7 @@ class Test_OA_Email extends UnitTestCase
         $aConf['email']['fromAddress']  = $adminMail;
         $aConf['email']['fromName']     = $adminName;
         $aConf['email']['fromCompany']  = $adminCompany;
+        $aConf['email']['logOutgoing']  = true;
 
         Mock::generatePartial(
             'OA_Email',
@@ -1156,6 +1292,24 @@ class Test_OA_Email extends UnitTestCase
         // One copy should be sent
         $result = $oEmail->sendCampaignActivatedDeactivatedEmail($placementId);
         $this->assertEqual($result, 1);
+
+        $doUserLog = OA_Dal::factoryDO('userlog');
+        $aUserLog = $doUserLog->getAll();
+        $this->assertEqual(count($aUserLog), 1);
+        $this->assertEqual($aUserLog[0]['action'], phpAds_actionActivationMailed);
+
+        // Turn off email logging and send mail again
+        $aConf['email']['logOutgoing'] = false;
+        $result = $oEmail->sendPlacementActivatedDeactivatedEmail($placementId);
+        $this->assertEqual($result, 1);
+
+        // No new entries in user log
+        $doUserLog = OA_Dal::factoryDO('userlog');
+        $aUserLog = $doUserLog->getAll();
+        $this->assertEqual(count($aUserLog), 1);
+
+        // Set email logging back to true
+        $aConf['email']['logOutgoing'] = true;
 
         $aResult = $oEmail->prepareCampaignActivatedDeactivatedEmail($aAdvertiserUser, $placementId);
 
