@@ -939,6 +939,30 @@ class OA_Admin_Option
         }
     }
 
-}
+    /**
+     * Returns the constrant name of a PEAR_LOG_* integer value.
+     *
+     * @param int $priority     A PEAR_LOG_* integer constant value.
+     * @return string|mixed     The constrant name of $priority if value match to PEAR log levels otherwise returns given value without changes.
+     */
+    function pearLogPriorityToConstrantName($priority){
+        $levels = array(
+            PEAR_LOG_EMERG   => 'PEAR_LOG_EMERG',
+            PEAR_LOG_ALERT   => 'PEAR_LOG_ALERT',
+            PEAR_LOG_CRIT    => 'PEAR_LOG_CRIT',
+            PEAR_LOG_ERR     => 'PEAR_LOG_ERR',
+            PEAR_LOG_WARNING => 'PEAR_LOG_WARNING',
+            PEAR_LOG_NOTICE  => 'PEAR_LOG_NOTICE',
+            PEAR_LOG_INFO    => 'PEAR_LOG_INFO',
+            PEAR_LOG_DEBUG   => 'PEAR_LOG_DEBUG'
+        );
+        
+        if (array_key_exists($priority, $levels)) {
+            return $levels[$priority];
+        } else {
+            return $priority;
+        }
+    }
 
+}
 ?>

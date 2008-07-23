@@ -99,6 +99,9 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 // Display the settings page's header and sections
 phpAds_PageHeader('account-settings-index');
 
+// Set the correct value of Debug Priority Level
+$GLOBALS['_MAX']['CONF']['log']['priority'] = $oOptions->pearLogPriorityToConstrantName($GLOBALS['_MAX']['CONF']['log']['priority']); 
+
 // Set the correct section of the settings pages and display the drop-down menu
 $oOptions->selection('debug');
 

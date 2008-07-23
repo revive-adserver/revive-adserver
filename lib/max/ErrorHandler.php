@@ -155,7 +155,10 @@ EOF;
 
             //  email the error to admin if threshold reached
             //  never send email if error occured in test
-            if ($conf['debug']['sendErrorEmails'] && !defined('TEST_ENVIRONMENT_RUNNING') && $this->errorType[$errNo][1] <= constant($conf['debug']['emailAdminThreshold'])) {
+            // 
+            $emailAdminThreshold = is_numeric($conf['debug']['emailAdminThreshold']) ? $conf['debug']['emailAdminThreshold'] :
+                @constant($conf['debug']['emailAdminThreshold']);
+            if ($conf['debug']['sendErrorEmails'] && !defined('TEST_ENVIRONMENT_RUNNING') && $this->errorType[$errNo][1] <= $emailAdminThreshold) {
                 //  get extra info
                 $oDbh =& OA_DB::singleton();
                 $lastQuery = $oDbh->last_query;

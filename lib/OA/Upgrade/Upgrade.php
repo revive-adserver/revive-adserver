@@ -1402,7 +1402,8 @@ class OA_Upgrade
         $this->oConfiguration->setupConfigTable($aConfig['table']);
         $this->oConfiguration->setupConfigStore($aConfig['store']);
         $this->oConfiguration->setupConfigPriority('');
-        return $this->oConfiguration->writeConfig();
+        // Don't reparse the config file to prevent constants being parsed.
+        return $this->oConfiguration->writeConfig(false);
     }
 
     /**
