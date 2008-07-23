@@ -528,7 +528,7 @@ class Test_OA_Email extends UnitTestCase
 
         // Turn off email logging and send mail again
         $aConf['email']['logOutgoing'] = false;
-        $result = $oEmail->sendPlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
+        $result = $oEmail->sendCampaignDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
         $this->assertEqual($result, 1);
 
         // No entries in userlog
@@ -880,7 +880,7 @@ class Test_OA_Email extends UnitTestCase
 
          // Turn off email logging and send mail again
         $aConf['email']['logOutgoing'] = false;
-        $numSent = $oEmail->sendPlacementImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
+        $numSent = $oEmail->sendCampaignImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
         $this->assertEqual($numSent, 1);
 
         // Still one entry in userlog
@@ -1102,7 +1102,7 @@ class Test_OA_Email extends UnitTestCase
 
         // Turn off email logging and send mail again
         $aConf['email']['logOutgoing'] = false;
-        $numSent = $oEmail->sendPlacementImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
+        $numSent = $oEmail->sendCampaignImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
         $this->assertEqual($numSent, 4);
 
         // No new entries in user log
@@ -1300,7 +1300,7 @@ class Test_OA_Email extends UnitTestCase
 
         // Turn off email logging and send mail again
         $aConf['email']['logOutgoing'] = false;
-        $result = $oEmail->sendPlacementActivatedDeactivatedEmail($placementId);
+        $result = $oEmail->sendCampaignActivatedDeactivatedEmail($placementId);
         $this->assertEqual($result, 1);
 
         // No new entries in user log
