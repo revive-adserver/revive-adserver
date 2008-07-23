@@ -136,101 +136,91 @@ else if (array_key_exists('btn_generate_dbo_trans', $_POST))
 
 $oaSchema->setWorkingFiles();
 
+if (array_key_exists('table_edit', $_POST) && $_POST['table_edit'])
+{
+    $table = $_POST['table_edit'];
 
-if (array_key_exists('btn_field_save', $_POST))
-{
-    $table = $_POST['table_edit'];
-    $field_name_old = $_POST['field_name'];
-    $field_name_new = $_POST['fld_new_name'];
-    $field_type_old = $_POST['field_type'];
-    $field_type_new = $_POST['fld_new_type'];
-    $oaSchema->fieldSave($table, $field_name_old, $field_name_new, $field_type_old, $field_type_new);
-}
-else if (array_key_exists('btn_field_add', $_POST))
-{
-    $table = $_POST['table_edit'];
-    $field_name = $_POST['field_add'];
-    $dd_field_name = $_POST['sel_field_add'];
-    $oaSchema->fieldAdd($table, $field_name, $dd_field_name);
-}
-else if (array_key_exists('btn_field_del', $_POST))
-{
-    $table = $_POST['table_edit'];
-    $field = $_POST['field_name'];
-    $oaSchema->fieldDelete($table, $field);
-}
-else if (array_key_exists('btn_index_del', $_POST))
-{
-    $table = $_POST['table_edit'];
-    $index = $_POST['index_name'];
-    $oaSchema->indexDelete($table, $index);
-}
-else if (array_key_exists('btn_index_add', $_POST))
-{
-    $table = $_POST['table_edit'];
-    $index_name = $_POST['index_add'];
-    $index_fields = $_POST['idx_fld_add'];
-    $sort_desc = $_POST['idx_fld_desc'];
-    $unique = $_POST['idx_unique'];
-    $primary = $_POST['idx_primary'];
-    $oaSchema->indexAdd($table, $index_name, $index_fields, $primary, $unique, $sort_desc);
-}
-else if (array_key_exists('btn_index_save', $_POST))
-{
-    $table = $_POST['table_edit'];
-    $index_name = $_POST['index_name'];
-    $index_no = $_POST['index_no'];
-    $index_def = $_POST['idx'][$index_no];
-    $oaSchema->indexSave($table, $index_name, $index_def);
-}
-else if (array_key_exists('btn_link_del', $_POST))
-{
-    $table = $_POST['table_edit'];
-    $link_name = $_POST['link_name'];
-    $oaSchema->linkDelete($table, $link_name);
-}
-else if (array_key_exists('btn_link_add', $_POST))
-{
-    $table = $_POST['table_edit'];
-    $link_add = $_POST['link_add'];
-    $link_add_target = $_POST['link_add_target'];
-    $oaSchema->linkAdd($table, $link_add, $link_add_target);
-}
-else if (array_key_exists('btn_table_save', $_POST))
-{
-    $table = $_POST['table_edit'];
-    $table_name_new = $_POST['tbl_new_name'];
-    $ok = $oaSchema->tableSave($table, $table_name_new);
-    if ($ok) {
-        $table = $table_name_new;
+    if (array_key_exists('btn_field_save', $_POST) && $_POST['field_name'])
+    {
+        $field_name_old = $_POST['field_name'];
+        $field_name_new = $_POST['fld_new_name'];
+        $field_type_old = $_POST['field_type'];
+        $field_type_new = $_POST['fld_new_type'];
+        $oaSchema->fieldSave($table, $field_name_old, $field_name_new, $field_type_old, $field_type_new);
+    }
+    else if (array_key_exists('btn_field_add', $_POST) && $_POST['field_add'])
+    {
+        $field_name = $_POST['field_add'];
+        $dd_field_name = $_POST['sel_field_add'];
+        $oaSchema->fieldAdd($table, $field_name, $dd_field_name);
+    }
+    else if (array_key_exists('btn_field_del', $_POST) && $_POST['field_name'])
+    {
+        $field = $_POST['field_name'];
+        $oaSchema->fieldDelete($table, $field);
+    }
+    else if (array_key_exists('btn_index_del', $_POST) && $_POST['index_name'])
+    {
+        $index = $_POST['index_name'];
+        $oaSchema->indexDelete($table, $index);
+    }
+    else if (array_key_exists('btn_index_add', $_POST) && $_POST['idx_fld_add'] && $_POST['index_add'])
+    {
+        $index_fields = $_POST['idx_fld_add'];
+        $index_name = $_POST['index_add'];
+        $sort_desc = $_POST['idx_fld_desc'];
+        $unique = $_POST['idx_unique'];
+        $primary = $_POST['idx_primary'];
+        $oaSchema->indexAdd($table, $index_name, $index_fields, $primary, $unique, $sort_desc);
+    }
+    else if (array_key_exists('btn_index_save', $_POST) && $_POST['index_name'])
+    {
+        $index_name = $_POST['index_name'];
+        $index_no = $_POST['index_no'];
+        $index_def = $_POST['idx'][$index_no];
+        $oaSchema->indexSave($table, $index_name, $index_def);
+    }
+    else if (array_key_exists('btn_link_del', $_POST) && $_POST['link_name'])
+    {
+        $link_name = $_POST['link_name'];
+        $oaSchema->linkDelete($table, $link_name);
+    }
+    else if (array_key_exists('btn_link_add', $_POST) && $_POST['link_add'] && $_POST['link_add_target'])
+    {
+        $link_add = $_POST['link_add'];
+        $link_add_target = $_POST['link_add_target'];
+        $oaSchema->linkAdd($table, $link_add, $link_add_target);
+    }
+    else if (array_key_exists('btn_table_save', $_POST) && $_POST['tbl_new_name'])
+    {
+        $table_name_new = $_POST['tbl_new_name'];
+        $ok = $oaSchema->tableSave($table, $table_name_new);
+        if ($ok) {
+            $table = $table_name_new;
+        }
+    }
+    else if (array_key_exists('btn_table_delete', $_POST))
+    {
+        $oaSchema->tableDelete($table);
+        unset($table);
+    }
+    else if (array_key_exists('btn_table_cancel', $_POST))
+    {
+        $table = '';
+    }
+    else if (array_key_exists('btn_table_new', $_POST) && $_POST['new_table_name'])
+    {
+        if (array_key_exists('new_table_name', $_POST))
+        {
+            $table = $_POST['new_table_name'];
+            $oaSchema->tableNew($table);
+            unset($table);
+        }
     }
 }
 else if (array_key_exists('btn_table_edit', $_POST))
 {
     $table = $_POST['btn_table_edit'];
-}
-else if (array_key_exists('btn_table_delete', $_POST))
-{
-    $table = $_POST['table_edit'];
-    $oaSchema->tableDelete($table);
-    unset($table);
-}
-else if (array_key_exists('btn_table_cancel', $_POST))
-{
-    $table = '';
-}
-else if (array_key_exists('btn_table_new', $_POST))
-{
-    if (array_key_exists('new_table_name', $_POST))
-    {
-        $table = $_POST['new_table_name'];
-        $oaSchema->tableNew($table);
-        unset($table);
-    }
-}
-else if (array_key_exists('table_edit', $_POST))
-{
-    $table = $_POST['table_edit'];
 }
 
 if (!$table)
