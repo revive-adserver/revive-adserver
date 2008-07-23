@@ -604,7 +604,7 @@ class Openads_Schema_Manager
         }
         else if ($field_type_new && ($field_type_new != $field_type_old))
         {
-            $aFld_definition = $this->aDD_definition['fields'][$field_type_new];
+            $aFld_definition = $this->aDD_definition[$field_type_new];
             $aTbl_definition['fields'][$field_name_old] = $aFld_definition;
             $valid = true;
         }
@@ -633,7 +633,7 @@ class Openads_Schema_Manager
     function fieldAdd($table_name, $field_name, $dd_field_name)
     {
         $this->parseWorkingDefinitionFile();
-        $aFld_definition = $this->aDD_definition['fields'][$dd_field_name];
+        $aFld_definition = $this->aDD_definition[$dd_field_name];
         $valid = $this->validate_field($table_name, $aFld_definition, $field_name);
         if ($valid)
         {
