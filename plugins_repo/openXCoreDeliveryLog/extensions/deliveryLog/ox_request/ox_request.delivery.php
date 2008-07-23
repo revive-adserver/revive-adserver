@@ -24,16 +24,6 @@
 $Id$
 */
 
-/*
-CREATE TABLE IF NOT EXISTS ox_data_bucket_request (
-    interval_start DATETIME,
-    creative_id    INT,
-    zone_id        INT,
-    count          INT,
-    PRIMARY KEY (interval_start, creative_id, zone_id)
-) ENGINE = MEMORY;
-*/
-
 // Dependencies
 ###START_STRIP_DELIVERY
 $GLOBALS['_MAX']['pluginsDependencies']['deliveryLog:ox_request:ox_request'] = array(
@@ -41,7 +31,7 @@ $GLOBALS['_MAX']['pluginsDependencies']['deliveryLog:ox_request:ox_request'] = a
 );
 ###END_STRIP_DELIVERY
 
-function OA_Plugins_deliveryBuckets_ox_request($data)
+function Plugin_deliveryLog_ox_request_ox_request_Delivery_logRequest($data)
 {
     $aQuery = array(
         'interval_start' => $data['interval_start'],

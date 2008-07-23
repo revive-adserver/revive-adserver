@@ -600,9 +600,8 @@ function _convertContextArray($key, $array)
 
 function OX_Delivery_Common_hook($hookName, $aParams = array())
 {
-    $aConf = $GLOBALS['_MAX']['CONF'];
-    if (!empty($aConf['deliveryHooks'][$hookName])) {
-        $hooks = explode('|', $aConf['deliveryHooks'][$hookName]);
+    if (!empty($GLOBALS['_MAX']['CONF']['deliveryHooks'][$hookName])) {
+        $hooks = explode('|', $GLOBALS['_MAX']['CONF']['deliveryHooks'][$hookName]);
         foreach ($hooks as $identifier) {
             $functionName = OX_Delivery_Common_getFunctionFromComponentIdentifier($identifier, $hookName);
             if (function_exists($functionName)) {

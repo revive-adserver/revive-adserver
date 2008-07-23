@@ -24,20 +24,53 @@
 $Id$
 */
 
-// Dependencies
 ###START_STRIP_DELIVERY
+/**
+ * Dependencies between the plugins - used to set the order in which the components
+ * are executed by delivery engine when calling components to log the data.
+ */
 $GLOBALS['_MAX']['pluginsDependencies']['deliveryDataPrepare:ox_core:ox_core'] = array();
 ###END_STRIP_DELIVERY
 
-function OA_Plugins_deliveryDataPrepare_ox_core(&$data)
+// This code should be automatically compiled by code generator
+MAX_Dal_Delivery_Include();
+
+/**
+ * Component prepares data which may be used by deliveryLog extensions
+ * or other deliveryDataPrepare components as a base for their data preparations.
+ * All data is stored in $GLOBALS['_MAX']['deliveryData']
+ *
+ * @param unknown_type $data
+ */
+function Plugin_deliveryDataPrepare_ox_core_ox_core($viewerId, $adId, $creativeId, $zoneId)
 {
+    // no need to set the same data twice
+    static $executed;
+    if ($executed) return;
+    $executed = true;
+
+    $GLOBALS['_MAX']['deliveryData']['creative_id'] = $adId;
+    $GLOBALS['_MAX']['deliveryData']['zone_id'] = $zoneId;
+
     // calculate start date of current Operation Interval
-    $time = $GLOBALS['_MAX']['NOW'];
-    if (empty($time)) {
-        $time = time();
-    }
+    $time = !empty($GLOBALS['_MAX']['NOW']) ? $GLOBALS['_MAX']['NOW'] : time();
     $oi = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'];
-    $data['interval_start'] = gmdate('Y-m-d H:i:s', $time - $time % ($oi * 60));
+    $GLOBALS['_MAX']['deliveryData']['interval_start'] = gmdate('Y-m-d H:i:s', $time - $time % ($oi * 60));
+}
+
+function Plugin_deliveryDataPrepare_ox_core_ox_core_Delivery_logImpression($viewerId, $adId, $creativeId, $zoneId)
+{
+    Plugin_deliveryDataPrepare_ox_core_ox_core($viewerId, $adId, $creativeId, $zoneId);
+}
+
+function Plugin_deliveryDataPrepare_ox_core_ox_core_Delivery_logRequest($viewerId, $adId, $creativeId, $zoneId)
+{
+    Plugin_deliveryDataPrepare_ox_core_ox_core($viewerId, $adId, $creativeId, $zoneId);
+}
+
+function Plugin_deliveryDataPrepare_ox_core_ox_core_Delivery_logClick($viewerId, $adId, $creativeId, $zoneId)
+{
+    Plugin_deliveryDataPrepare_ox_core_ox_core($viewerId, $adId, $creativeId, $zoneId);
 }
 
 ?>

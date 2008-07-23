@@ -24,25 +24,19 @@
 $Id$
 */
 
-/*
-CREATE TABLE IF NOT EXISTS ox_data_bucket_click (
-    interval_start DATETIME,
-    creative_id    INT,
-    zone_id        INT,
-    count          INT,
-    PRIMARY KEY (interval_start, creative_id, zone_id)
-) ENGINE = MEMORY;
-*/
-
-// Dependencies (should it be moved later to external plugin configuration XML file?)
 ###START_STRIP_DELIVERY
+/**
+ * Dependencies between the plugins - used to set the order in which the components
+ * are executed by delivery engine when calling components to log the data.
+ */
 $GLOBALS['_MAX']['pluginsDependencies']['deliveryLog:ox_click:ox_click'] = array(
     'deliveryDataPrepare:ox_core:ox_core',
 );
 ###END_STRIP_DELIVERY
 
-function OA_Plugins_deliveryBuckets_ox_click($data)
+function Plugins_deliveryLog_ox_click_ox_click_Delivery_logClick()
 {
+    $data = $GLOBALS['_MAX']['deliveryData'];
     $aQuery = array(
         'interval_start' => $data['interval_start'],
         'creative_id'    => $data['creative_id'],

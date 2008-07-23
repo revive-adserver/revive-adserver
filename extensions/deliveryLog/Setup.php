@@ -275,69 +275,6 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
     }
 
     /**
-     * Reads in registered hooks from the plugin XML
-     *
-     * @param string $pluginName  Plugin name (should be same for both plugin group
-     *                            and a plugin itself)
-     * @return array
-     */
-    function getPluginRegisteredHooks($pluginName)
-    {
-        $oPluginMgr = $this->_getComponentGroupManager();
-        $pluginFile = $oPluginMgr->getFilePathToXMLInstall($pluginName);
-        $simpleXml = $this->_getSimpleXmlElement($pluginFile);
-        if (!$simpleXml) {
-            return false;
-        }
-        $hooks = array();
-        foreach ($simpleXml->xpath("components/component") as $component) {
-            $hookName = (string) $component->hook;
-            $componentName = (string) $component->name;
-            $hooks[$hookName][] = (string) $componentName;
-        }
-        return $hooks;
-    }
-
-    /**
-     * Createas a new SimpleXMlElement object from given XML file
-     *
-     * @param string $pluginFile
-     * @return SimpleXmlElement
-     */
-    function _getSimpleXmlElement($pluginFile)
-    {
-        if (!file_exists($pluginFile)) {
-            return false;
-        }
-        return new SimpleXMLElement(file_get_contents($pluginFile));
-    }
-
-    /**
-     * Use plugin manager to retreive the list of installed
-     * and enabled plugins which extends given extension types.
-     *
-     * @param array $extensionTypes
-     * @return array
-     */
-    function getActivePluginsByExtensions($extensionTypes)
-    {
-        $oPluginMgr = $this->_getComponentGroupManager();
-        $plugins = $oPluginMgr->getComponentGroupsList();
-
-        $extensionKeys = array_flip($extensionTypes);
-        $activePlugins = array();
-        foreach ($plugins as $plugin) {
-            if (isset($extensionKeys[$plugin['extends']])
-                && $plugin['installed'] && $plugin['enabled'])
-            {
-                $activePlugins[$plugin['extends']][$plugin['name']] =
-                    $this->getPluginRegisteredHooks($plugin['name']);
-            }
-        }
-        return $activePlugins;
-    }
-
-    /**
      * Required for mocking OX_ManagerPlugin
      *
      * @return OX_ManagerPlugin

@@ -27,21 +27,39 @@ $Id$
 // if ($aConf['logging']['sniff'] && isset($GLOBALS['_MAX']['CLIENT']))
 // @todo - should use the browser sniffer
 
-// Dependencies
 ###START_STRIP_DELIVERY
+/**
+ * Dependencies between the plugins - used to set the order in which the components
+ * are executed by delivery engine when calling components to log the data.
+ */
 $GLOBALS['_MAX']['pluginsDependencies']['deliveryDataPrepare:ox_user_agent:ox_user_agent'] = array(
     'deliveryDataPrepare:ox_core:ox_core',
 );
 ###END_STRIP_DELIVERY
 
-function OA_Plugins_deliveryDataPrepare_ox_userAgent(&$data)
+function Plugins_deliveryDataPrepare_ox_user_agent_ox_user_agent()
 {
     $userAgentInfo = array(
         'os'        => $GLOBALS['_MAX']['CLIENT']['os'],
         'long_name' => $GLOBALS['_MAX']['CLIENT']['long_name'],
         'browser'   => $GLOBALS['_MAX']['CLIENT']['browser'],
     );
-    $data['userAgentInfo'] = $userAgentInfo;
+    $GLOBALS['_MAX']['deliveryData']['userAgentInfo'] = $userAgentInfo;
+}
+
+function Plugins_deliveryDataPrepare_ox_user_agent_ox_user_agent_logRequest()
+{
+    Plugins_deliveryDataPrepare_ox_user_agent_ox_user_agent();
+}
+
+function Plugins_deliveryDataPrepare_ox_user_agent_ox_user_agent_logImpression()
+{
+    Plugins_deliveryDataPrepare_ox_user_agent_ox_user_agent();
+}
+
+function Plugins_deliveryDataPrepare_ox_user_agent_ox_user_agent_logClick()
+{
+    Plugins_deliveryDataPrepare_ox_user_agent_ox_user_agent();
 }
 
 ?>

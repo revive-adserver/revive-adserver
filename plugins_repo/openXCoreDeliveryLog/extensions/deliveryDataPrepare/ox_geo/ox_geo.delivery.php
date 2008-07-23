@@ -26,20 +26,23 @@ $Id$
 
 // if (isset($aConf['geotargeting']['saveStats'])
 
-// Dependencies
 ###START_STRIP_DELIVERY
+/**
+ * Dependencies between the plugins - used to set the order in which the components
+ * are executed by delivery engine when calling components to log the data.
+ */
 $GLOBALS['_MAX']['pluginsDependencies']['deliveryDataPrepare:ox_geo:ox_geo'] = array(
     'deliveryDataPrepare:ox_core:ox_core',
 );
 ###END_STRIP_DELIVERY
 
 // @todo - move geotargeting into here - it seems to be included by delivery right now, should it be moved in here?
-function OA_Plugins_deliveryDataPrepare_ox_geo(&$data)
+function Plugins_deliveryDataPrepare_ox_geo_ox_geo()
 {
     if (!empty($GLOBALS['_MAX']['CLIENT_GEO'])) {
-        $data['geo'] = $GLOBALS['_MAX']['CLIENT_GEO'];
+        $GLOBALS['_MAX']['deliveryData']['geo'] = $GLOBALS['_MAX']['CLIENT_GEO'];
     } else {
-        $data['geo'] = array(
+        $GLOBALS['_MAX']['deliveryData']['geo'] = array(
             'country_code'  => null,
             'region'        => null,
             'city'          => null,
@@ -53,6 +56,21 @@ function OA_Plugins_deliveryDataPrepare_ox_geo(&$data)
             'continent'     => null
         );
     }
+}
+
+function Plugins_deliveryDataPrepare_ox_geo_ox_geo_Delivery_logRequest()
+{
+    Plugins_deliveryDataPrepare_ox_geo_ox_geo();
+}
+
+function Plugin_deliveryDataPrepare_ox_geo_ox_geo_Delivery_logImpression()
+{
+    Plugins_deliveryDataPrepare_ox_geo_ox_geo();
+}
+
+function Plugins_deliveryDataPrepare_ox_geo_ox_geo_Delivery_logClick()
+{
+    Plugins_deliveryDataPrepare_ox_geo_ox_geo();
 }
 
 ?>

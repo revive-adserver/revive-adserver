@@ -24,27 +24,19 @@
 $Id$
 */
 
-// has dependency on: ox_core
-
-/*
-CREATE TABLE IF NOT EXISTS ox_data_bucket_impression (
-    interval_start DATETIME,
-    creative_id    INT,
-    zone_id        INT,
-    count          INT,
-    PRIMARY KEY (interval_start, creative_id, zone_id)
-) ENGINE = MEMORY;
-*/
-
-// Dependencies
 ###START_STRIP_DELIVERY
+/**
+ * Dependencies between the plugins - used to set the order in which the components
+ * are executed by delivery engine when calling components to log the data.
+ */
 $GLOBALS['_MAX']['pluginsDependencies']['deliveryLog:ox_impression:ox_impression'] = array(
     'deliveryDataPrepare:ox_core:ox_core',
 );
 ###END_STRIP_DELIVERY
 
-function OA_Plugins_deliveryBuckets_ox_impression($data)
+function Plugin_deliveryLog_ox_impression_ox_impression_Delivery_logImpression()
 {
+    $data = $GLOBALS['_MAX']['deliveryData'];
     $aQuery = array(
         'interval_start' => $data['interval_start'],
         'creative_id'    => $data['creative_id'],

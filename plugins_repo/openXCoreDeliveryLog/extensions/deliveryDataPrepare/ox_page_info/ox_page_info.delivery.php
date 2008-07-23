@@ -24,17 +24,17 @@
 $Id$
 */
 
-// if ($aConf['logging']['pageInfo']) {
-// this is self contained so should be ok
-
-// Dependencies
 ###START_STRIP_DELIVERY
-$GLOBALS['_MAX']['pluginsDependencies']['deliveryDataPrepare:ox_pageInfo:ox_pageInfo'] = array(
+/**
+ * Dependencies between the plugins - used to set the order in which the components
+ * are executed by delivery engine when calling components to log the data.
+ */
+$GLOBALS['_MAX']['pluginsDependencies']['deliveryDataPrepare:ox_page_info:ox_page_info'] = array(
     'deliveryDataPrepare:ox_core:ox_core',
 );
 ###END_STRIP_DELIVERY
 
-function OA_Plugins_deliveryDataPrepare_ox_pageInfo(&$data)
+function Plugins_deliveryDataPrepare_ox_page_info_ox_page_info()
 {
     if (!empty($_GET['loc'])) {
         $pageInfo = parse_url($_GET['loc']);
@@ -49,7 +49,22 @@ function OA_Plugins_deliveryDataPrepare_ox_pageInfo(&$data)
     if (isset($GLOBALS['_MAX']['CHANNELS'])) {
         $pageInfo['channel_ids'] = $GLOBALS['_MAX']['CHANNELS'];
     }
-    $data['pageInfo'] = $pageInfo;
+    $GLOBALS['_MAX']['deliveryData']['pageInfo'] = $pageInfo;
+}
+
+function Plugins_deliveryDataPrepare_ox_page_info_ox_page_info_Delivery_logRequest()
+{
+    Plugins_deliveryDataPrepare_ox_page_info_ox_page_info();
+}
+
+function Plugins_deliveryDataPrepare_ox_page_info_ox_page_info_Delivery_logImpression()
+{
+    Plugins_deliveryDataPrepare_ox_page_info_ox_page_info();
+}
+
+function Plugins_deliveryDataPrepare_ox_page_info_ox_page_info_Delivery_logClick()
+{
+    Plugins_deliveryDataPrepare_ox_page_info_ox_page_info();
 }
 
 ?>
