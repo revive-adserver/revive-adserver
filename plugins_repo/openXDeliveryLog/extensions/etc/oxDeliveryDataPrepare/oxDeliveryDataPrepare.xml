@@ -15,7 +15,10 @@
 
     <install>
         <files>
-            <file path="{MODULEPATH}deliveryDataPrepare/ox_core/">ox_core.delivery.php</file>
+            <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryDataPrepare/">dataCommon.delivery.php</file>
+            <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryDataPrepare/">dataGeo.delivery.php</file>
+            <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryDataPrepare/">dataPageInfo.delivery.php</file>
+            <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryDataPrepare/">dataUserAgent.delivery.php</file>
         </files>
 
         <schema>
@@ -23,7 +26,7 @@
             <dboschema>db_schema</dboschema>
             <dbolinks>db_schema.links</dbolinks>
             <dataobject>Data_bucket_click.php</dataobject>
-            <dataobject>Data_bucket_fb_impression.php</dataobject>
+            <dataobject>Data_bucket_impression_backup.php</dataobject>
             <dataobject>Data_bucket_impression.php</dataobject>
             <dataobject>Data_bucket_impression_country.php</dataobject>
             <dataobject>Data_bucket_request.php</dataobject>
@@ -31,7 +34,19 @@
 
         <components>
            <component>
-                <name>ox_core</name>
+                <name>dataCommon</name>
+                <hook>preLog</hook>
+           </component>
+           <component>
+                <name>dataGeo</name>
+                <hook>preLog</hook>
+           </component>
+           <component>
+                <name>dataPageInfo</name>
+                <hook>preLog</hook>
+           </component>
+           <component>
+                <name>dataUserAgent</name>
                 <hook>preLog</hook>
            </component>
         </components>
