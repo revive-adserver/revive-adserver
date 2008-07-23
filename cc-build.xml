@@ -39,7 +39,7 @@
 	</target>
 
 	<target name="chmod">
-		<exec executable="php">
+		<exec executable="php5">
 			<!-- <arg value="${basedir}/target/tests/canoo/tests/config/chmod.php"/> -->
 			<arg value="${basedir}/tests/canoo/tests/config/chmod.php"/>
 			<arg value="${basedir}/target/extension"/>
