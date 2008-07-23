@@ -1244,8 +1244,14 @@ case 'p': $unpacked[] = array($key => 'companionid:'.$id); break;
 }
 return $unpacked;
 }
-function OX_Delivery_Common_hook($hookName, $aParams = array())
+function OX_Delivery_Common_hook($hookName, $aParams = array(), $functionName = '')
 {
+$return = true;
+if (!empty($functionName)) {
+if (function_exists($functionName)) {
+$return = call_user_func_array($functionName, $aParams);
+}
+} else {
 if (!empty($GLOBALS['_MAX']['CONF']['deliveryHooks'][$hookName])) {
 $hooks = explode('|', $GLOBALS['_MAX']['CONF']['deliveryHooks'][$hookName]);
 foreach ($hooks as $identifier) {
@@ -1255,7 +1261,8 @@ call_user_func_array($functionName, $aParams);
 }
 }
 }
-return true;
+}
+return $return;
 }
 function OX_Delivery_Common_getFunctionFromComponentIdentifier($identifier, $hook = null)
 {

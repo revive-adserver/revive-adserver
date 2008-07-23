@@ -1519,8 +1519,14 @@ case 'p': $unpacked[] = array($key => 'companionid:'.$id); break;
 }
 return $unpacked;
 }
-function OX_Delivery_Common_hook($hookName, $aParams = array())
+function OX_Delivery_Common_hook($hookName, $aParams = array(), $functionName = '')
 {
+$return = true;
+if (!empty($functionName)) {
+if (function_exists($functionName)) {
+$return = call_user_func_array($functionName, $aParams);
+}
+} else {
 if (!empty($GLOBALS['_MAX']['CONF']['deliveryHooks'][$hookName])) {
 $hooks = explode('|', $GLOBALS['_MAX']['CONF']['deliveryHooks'][$hookName]);
 foreach ($hooks as $identifier) {
@@ -1530,7 +1536,8 @@ call_user_func_array($functionName, $aParams);
 }
 }
 }
-return true;
+}
+return $return;
 }
 function OX_Delivery_Common_getFunctionFromComponentIdentifier($identifier, $hook = null)
 {
@@ -1979,7 +1986,7 @@ $aBanner['bannerContent'] = "";
 // Pre adRender hook
 OX_Delivery_Common_hook('preAdRender', array(&$aBanner, &$zoneId, &$source, &$ct0, &$withText, &$logClick, &$logView, null, &$richMedia, &$loc, &$referer));
 $functionName = _getAdRenderFunction($aBanner);
-$code = $functionName($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, null, $richMedia, $loc, $referer);
+$code = OX_Delivery_Common_hook('adRender', array(&$aBanner, &$zoneId, &$source, &$ct0, &$withText, &$logClick, &$logView, null, &$richMedia, &$loc, &$referer), $functionName);
 // post adRender hook
 OX_Delivery_Common_hook('postAdRender', array(&$code));
 // Transform any code
