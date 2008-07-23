@@ -898,5 +898,27 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
 
         return $oid;
     }
+    
+    /**
+     * New OPENX method to check database name according to specifications:
+     *  PostgreSQL specification: http://www.postgresql.org/docs/8.3/interactive/tutorial-createdb.html
+     *
+     * @param string $name database name to check  
+     * @return true in name is correct and PEAR error on failure
+     */
+    function validateDatabaseName($name)
+    {
+        // Test for length
+        if (strlen($name)>63 ) {
+            return PEAR::raiseError(
+                'Database names are limited to 63 characters in length');
+        }
+        // Test for first character (is alfabetic?) 
+        if ( !preg_match( '/^([a-zA-z]).*/', $name) ) {
+            return PEAR::raiseError(
+                'Database names must have an alphabetic first character');
+        }
+        return true;
+    }
 }
 ?>

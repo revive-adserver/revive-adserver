@@ -1039,6 +1039,37 @@ class MDB2_Driver_Manager_mysqli extends MDB2_Driver_Manager_Common
         }
         return $result;
     }
-
+    
+    /**
+     * New OPENX method to check database name according to specifications:
+     *  Mysql specification: http://dev.mysql.com/doc/refman/5.0/en/identifiers.html
+     *
+     * @param string $name database name to check  
+     * @return true in name is correct and PEAR error on failure
+     */
+    function validateDatabaseName($name)
+    {
+        // Test for starting and ending spaces
+        if ($name != trim($name)) {
+            return PEAR::raiseError(
+                'Database names should not start or end with space characters');
+        }
+        // Test for length
+        if (strlen($name)>64) {
+            return PEAR::raiseError(
+               'Database names are limited to 64 characters in length');
+        }
+        // Test for special characters ASCII 0 and 255
+        if (preg_match( '/([\\x00|\\xff])/', $name)) {
+            return PEAR::raiseError(
+               'Database names cannot contain ASCII 0 (0x00) or a byte with a value of 255');
+        }
+        // Test for special characters ASCII 0 and 255
+        if (preg_match( '/(\\\\|\/|\.|\-|\"|\\\'| |\\(|\\)|\\:|\\;)/', $name)) {
+            return PEAR::raiseError(
+                'Database names cannot contain "/", "\\", ".", or characters that are not allowed in filenames');
+        }
+        return true;
+    }
 }
 ?>

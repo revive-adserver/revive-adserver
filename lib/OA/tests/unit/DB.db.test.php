@@ -193,6 +193,37 @@ class Test_OA_DB extends UnitTestCase
 
         TestEnv::restoreConfig();
     }
+    
+    /**
+     *  Method to tests function validateDatabaseName in MDB2 Manager modules
+     */
+    function testValidateDatabaseName()
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $oDbh  = &OA_DB::singleton();
+        
+        OA::disableErrorHandling();
+        if ($aConf['database']['type'] == 'mysql') {
+            $result = $oDbh->manager->validateDatabaseName('test white space ');
+            $this->assertTrue(PEAR::isError($result));
+            $result = $oDbh->manager->validateDatabaseName('special'.chr(255).'char');
+            $this->assertTrue(PEAR::isError($result));
+            $result = $oDbh->manager->validateDatabaseName('characters/that are not allowed in filenames.');
+            $this->assertTrue(PEAR::isError($result));
+            $result = $oDbh->manager->validateDatabaseName('abcdefghij1234567890123456789012345678901234567890123456789012345'); //65 chars
+            $this->assertTrue(PEAR::isError($result)); 
+            $this->assertTrue ($oDbh->manager->validateDatabaseName('abcdefghij123456789012345678901234567890123456789012345678901234')); //64 chars
+        }
+        if ($aConf['database']['type'] == 'pgsql') {
+            $result = $oDbh->manager->validateDatabaseName('abcdefghij123456789012345678901234567890123456789012345678901234'); //64 chars
+            $this->assertTrue(PEAR::isError($result));
+            $this->assertTrue($oDbh->manager->validateDatabaseName('abcdefghij12345678901234567890123456789012345678901234567890123')); //63 chars
+            $result = $oDbh->manager->validateDatabaseName('1 is first character alfabetic'); 
+            $this->assertTrue(PEAR::isError($result));
+            $this->assertTrue($oDbh->manager->validateDatabaseName('properName'));
+        }
+        OA::enableErrorHandling();
+    }
 }
 
 

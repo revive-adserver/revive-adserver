@@ -1043,10 +1043,6 @@ class OA_Upgrade
 
         // Always use lower case prefixes for new installs
         $aConfig['table']['prefix'] = strtolower($aConfig['table']['prefix']);
-        // Check database name
-        if ( !$this->checkDatabaseName($aConfig) ) {
-            return false;
-        }
 
         if ($aConfig['database']['localsocket'] == true) {
             $aConfig['database']['protocol'] = 'unix';
@@ -1254,56 +1250,6 @@ class OA_Upgrade
         return true;
     }*/
 
-    /**
-     * Check database name according to specifications:
-     *  Mysql specification: http://dev.mysql.com/doc/refman/5.0/en/identifiers.html
-     *  PostgreSQL specification: http://www.postgresql.org/docs/8.3/interactive/tutorial-createdb.html
-     *
-     * @param $aConfig array of installer prameters. In this function $aConfig['database']['name'] and $aConfig['database']['type'] are needed.
-     *
-     * @return boolean
-     */
-    function checkDatabaseName($aConfig)
-    {
-        switch ($aConfig['database']['type']) {
-            case ('mysql') :
-                // Test for starting and ending spaces
-                if ($aConfig['database']['name'] != trim($aConfig['database']['name'])) {
-                    $this->oLogger->logError('Database names should not start or end with space characters');
-                    return false;
-                }
-                // Test for length
-                if (strlen($aConfig['database']['name'])>64) {
-                    $this->oLogger->logError('Database names are limited to 64 characters in length');
-                    return false;
-                }
-                // Test for special characters ASCII 0 and 255
-                if (preg_match( '/([\\x00|\\xff])/', $aConfig['database']['name'])) {
-                    $this->oLogger->logError('Database names cannot contain ASCII 0 (0x00) or a byte with a value of 255');
-                    return false;
-                }
-                // Test for special characters ASCII 0 and 255
-                if (preg_match( '/(\\\\|\/|\.|\-|\"|\\\'| |\\(|\\)|\\:|\\;)/', $aConfig['database']['name'])) {
-                    $this->oLogger->logError('Database names cannot contain "/", "\\", ".", or characters that are not allowed in filenames');
-                    return false;
-                }
-                break;
-            case ('pgsql') :
-                // Test for length
-                if (strlen($aConfig['database']['name'])>63 ) {
-                    $this->oLogger->logError('Database names are limited to 63 characters in length');
-                    return false;
-                }
-                // Test for first character (is alfabetic?)
-                if ( !preg_match( '/^([a-zA-z]).*/', $aConfig['database']['name']) ) {
-                    $this->oLogger->logError('Database names must have an alphabetic first character');
-                    return false;
-                }
-                break;
-        }
-        return true;
-    }
-
     function _auditInstallationFailure($msg)
     {
         $this->oLogger->logError($msg);
@@ -1369,14 +1315,14 @@ class OA_Upgrade
             if (PEAR::isError($result))
             {
                 $this->oLogger->logError($result->getMessage());
-                $this->oLogger->logError($result->getUserInfo());
+                $this->oLogger->logErrorUnlessEmpty($result->getUserInfo());
                 return false;
             }
             $this->oDbh = OA_DB::changeDatabase($this->aDsn['database']['name']);
             if (PEAR::isError($this->oDbh))
             {
                 $this->oLogger->logError($this->oDbh->getMessage());
-                $this->oLogger->logError($this->getUserInfo());
+                $this->oLogger->logErrorUnlessEmpty($this->getUserInfo());
                 $this->oDbh = null;
                 return false;
             }

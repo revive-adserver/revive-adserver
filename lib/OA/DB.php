@@ -319,6 +319,12 @@ class OA_DB
             return $oDbh;
         }
         OA::disableErrorHandling();
+        $result = $oDbh->manager->validateDatabaseName($name);
+        OA::enableErrorHandling();
+        if (PEAR::isError($result)) {
+            return $result;
+        }
+        OA::disableErrorHandling();
         $result = $oDbh->manager->createDatabase($name);
         OA::enableErrorHandling();
         if (PEAR::isError($result)) {

@@ -132,12 +132,22 @@ class OA_UpgradeLogger
      */
     function logError($message)
     {
-        $this->aMessages[] = "#! {$message}";
-        $this->_logWrite("#! {$message}");
+        $this->log("#! {$message}");
         $this->errorExists = true;
     }
 
-
+    /**
+     * Writes an error message to the log file if $message is not empty.
+     * 
+     * @param string $message
+     */
+    function logErrorUnlessEmpty($message)
+    {
+        if (!empty($message)) {
+            $this->logError($message);
+        }
+    }
+    
     function _logWrite($message)
     {
         if (empty($this->logFile))
