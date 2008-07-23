@@ -1236,5 +1236,47 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         sort($aResult);
         $this->assertEqual($aResult, array (6502, 6510, 6581)); 
     }
+    
+   function testCheckZoneLinkedToActiveCampaign()
+    {
+        $dllZonePartialMock = new PartialMockOA_Dll_Zone();
+        $dllZonePartialMock->setReturnValue('checkPermissions', true);     
+        
+        $doZones = OA_Dal::factoryDO('zones');
+        $doZones->width  = '468';
+        $doZones->height = '60';
+        $zoneId  = DataGenerator::generateOne($doZones);
+        $zoneId2 = DataGenerator::generateOne($doZones);
+        
+        $doCampaigns = OA_Dal::factoryDo('campaigns');
+        $campaignId1 = DataGenerator::generateOne($doCampaigns);
+        
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->width  = '468';
+        $doBanners->height = '60';
+        $doBanners->campaignid=$campaignId1;
+        $bannerId = DataGenerator::generateOne($doBanners);
+        
+        $doCampaigns = OA_Dal::factoryDo('campaigns');
+        $campaignId2 = DataGenerator::generateOne($doCampaigns);
+        
+        // Test zone without banners or campaigns
+        $this->assertFalse($this->dalZones->checkZoneLinkedToActiveCampaign($zoneId));
+        
+        $dllZonePartialMock->linkBanner($zoneId, $bannerId);
+        $dllZonePartialMock->linkCampaign($zoneId2, $campaignId2);
+        
+        // Test one zone with banner and one with empty campaign
+        $this->assertTrue($this->dalZones->checkZoneLinkedToActiveCampaign($zoneId));
+        $this->assertTrue($this->dalZones->checkZoneLinkedToActiveCampaign($zoneId2));
+        
+        $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId2);                
+        $doCampaigns->active = 'f';
+        $doCampaigns->expire = '1970-01-01'; // This date expires campaign
+        $doCampaigns->update();
+        
+        // Test zone with expired campaign
+        $this->assertFalse($this->dalZones->checkZoneLinkedToActiveCampaign($zoneId2));
+    }
 }
 ?>

@@ -37,8 +37,6 @@ require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 
-require_once MAX_PATH . '/lib/OA/Dll/Zone.php';
-
 // Register input variables
 phpAds_registerGlobal ('listorder', 'orderdirection');
 
@@ -201,11 +199,6 @@ if ($doZones->getRowCount() == 0)
 $i=0;
 while ($doZones->fetch() && $row_zones = $doZones->toArray())
 {
-    $doZoneDll = new OA_Dll_Zone();
-    $strConfirmDeleteZoneIfIsLinked = ($doZoneDll->checkZoneLinkedToActiveCampaign($row_zones['zoneid'])) ?
-        $strConfirmDeleteZoneLinkActive . '\n' . $strConfirmDeleteZone
-        : $strConfirmDeleteZone;
-
     if ($i > 0) echo "<td colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>";
     echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
 
@@ -294,7 +287,7 @@ while ($doZones->fetch() && $row_zones = $doZones->toArray())
     if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_LINK)) echo "<img src='" . MAX::assetPath() . "/images/icon-zone-linked.gif' border='0' align='absmiddle' alt='$strIncludedBanners'>&nbsp;<a href='zone-include.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'>$strIncludedBanners</a>&nbsp;&nbsp;&nbsp;&nbsp;";
     echo "<img src='" . MAX::assetPath() . "/images/icon-zone-probability.gif' border='0' align='absmiddle' alt='$strProbability'>&nbsp;<a href='zone-probability.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'>$strProbability</a>&nbsp;&nbsp;&nbsp;&nbsp;";
     if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_INVOCATION)) echo "<img src='" . MAX::assetPath() . "/images/icon-generatecode.gif' border='0' align='absmiddle' alt='$strInvocationcode'>&nbsp;<a href='zone-invocation.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'>$strInvocationcode</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_DELETE)) echo "<img src='" . MAX::assetPath() . "/images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;<a href='zone-delete.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."&returnurl=affiliate-zones.php'".phpAds_DelConfirm($strConfirmDeleteZone).">$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_DELETE)) echo "<img src='" . MAX::assetPath() . "/images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;<a href='zone-delete.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."&returnurl=affiliate-zones.php'".MAX_zoneDelConfirm($row_zones['zoneid']).">$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
     echo "</td></tr>";
 
     $i++;

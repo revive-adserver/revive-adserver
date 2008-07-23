@@ -769,6 +769,40 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
         }
         return $aCategoriesIds;
     }
+
+    /**
+     * Method checked if zone linked to active campaign
+     *
+     * @param int $zoneId
+     * @return boolean  true if zone is connect to active campaign, false otherwise
+     */
+    function checkZoneLinkedToActiveCampaign($zoneId)
+    {
+        $doAdZone   = OA_Dal::factoryDO('ad_zone_assoc');
+        $doBanner   = OA_Dal::factoryDO('banners');
+        $doCampaign = OA_Dal::factoryDO('campaigns');
+        $doCampaign->whereAdd($doCampaign->tableName() . ".status <> ".OA_ENTITY_STATUS_EXPIRED);
+        $doCampaign->whereAdd($doCampaign->tableName() . ".status <> ".OA_ENTITY_STATUS_REJECTED);
+        $doAdZone->zone_id = $zoneId;
+        $doBanner->joinAdd($doCampaign);
+        $doAdZone->joinAdd($doBanner);
+
+        $result = $doAdZone->count();
+
+        $doPlacementZone = OA_Dal::factoryDO('placement_zone_assoc');
+        $doCampaign      = OA_Dal::factoryDO('campaigns');
+        $doCampaign->whereAdd("status <> ".OA_ENTITY_STATUS_EXPIRED);
+        $doCampaign->whereAdd("status <> ".OA_ENTITY_STATUS_REJECTED);
+        $doPlacementZone->zone_id = $zoneId;
+        $doPlacementZone->joinAdd($doCampaign);
+        
+        $result += $doPlacementZone->count();
+        
+        if ($result > 0) {
+            return true;
+        }
+        return false;
+    }
 }
 
 ?>

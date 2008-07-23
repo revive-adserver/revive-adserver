@@ -1041,8 +1041,8 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
                     }
                 }
         }
-        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_DELETE)) {
-            $deleteConfirm = phpAds_DelConfirm($GLOBALS['strConfirmDeleteZone']);
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_DELETE)) { 
+            $deleteConfirm = MAX_zoneDelConfirm($zoneId);
             $extra .= "
                 </select>
                 <input type='image' src='" . MAX::assetPath() . "/images/$phpAds_TextDirection/go_blue.gif'><br />
@@ -1723,6 +1723,22 @@ function MAX_displayChannels($channels, $aParams) {
         }
     }
     echo "</table>";
+}
+
+/**
+ * Show a confirm message for zone delete
+ *
+ * @param int $zoneId Zone ID
+ * @return string
+ */
+function MAX_zoneDelConfirm($zoneId)
+{
+    $dalZones = OA_Dal::factoryDAL('zones');
+    return phpAds_DelConfirm(
+                ($dalZones->checkZoneLinkedToActiveCampaign($zoneId)) ?
+                    $GLOBALS['strConfirmDeleteZoneLinkActive'] . '\n' . $GLOBALS['strConfirmDeleteZone']
+                    : $GLOBALS['strConfirmDeleteZone']
+           );
 }
 
 // Determine whether an advertiser has an active placement/ad running under it...

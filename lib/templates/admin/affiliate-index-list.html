@@ -210,7 +210,7 @@ $Id$
 
 			{* Button 4 *}
 			<td height='25'>
-			<img src='{$assetPath|escape}/images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;<a href='zone-delete.php?affiliateid={$affiliate.affiliateid}&zoneid={$zone.zoneid}&returnurl=affiliate-index.php' {phpAds_DelConfirm str=ConfirmDeleteZone}>{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<img src='{$assetPath|escape}/images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;<a href='zone-delete.php?affiliateid={$affiliate.affiliateid}&zoneid={$zone.zoneid}&returnurl=affiliate-index.php'{MAX_zoneDelConfirm zoneid=$zone.zoneid}>{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
 			</td></tr>
 
 

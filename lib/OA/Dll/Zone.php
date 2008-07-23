@@ -502,47 +502,6 @@ class OA_Dll_Zone extends OA_Dll
     }
 
     /**
-     * Method checked if zone linked to active campaign
-     *
-     * @param int $zoneId
-     * @return boolean  true if zone is connect to active campaign
-     */
-    function checkZoneLinkedToActiveCampaign($zoneId)
-    {
-        $doAdZone = OA_Dal::factoryDO('ad_zone_assoc');
-        $doAdZone->zone_id = $zoneId;
-        $doAdZone->find();
-        $linkBanners = array();
-        $linkCampaigns = array();
-
-        while ($doAdZone->fetch()) {
-            if (!in_array($doAdZone->ad_id, $linkBanners)) {
-                $linkBanners[] = $doAdZone->ad_id;
-            }
-        }
-
-        foreach ($linkBanners as $bannerId) {
-            $doBanner = OA_Dal::factoryDO('banners');
-            $doBanner->get($bannerId);
-            if (!in_array($doBanner->campaignid, $linkCampaigns)) {
-                $linkCampaigns[] = $doBanner->campaignid;
-            }
-        }
-
-        foreach ($linkCampaigns as $campaignId) {
-            $doCampaign = OA_Dal::factoryDO('campaigns');
-            $doCampaign->get($campaignId);
-            if ($doCampaign->status != OA_ENTITY_STATUS_EXPIRED ||
-                    $doCampaign->status != OA_ENTITY_STATUS_REJECTED) {
-
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * A method to link a banner to a zone
      *
      * @param int $zoneId

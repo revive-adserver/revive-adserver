@@ -31,6 +31,7 @@ require_once MAX_PATH . '/lib/smarty/Smarty.class.php';
 require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 require_once MAX_PATH . '/lib/OA/Translation.php';
+require_once MAX_PATH . '/lib/max/other/html.php';
 
 /**
  * A UI templating class.
@@ -88,6 +89,7 @@ class OA_Admin_Template extends Smarty
 
         $this->register_function('phpAds_ShowBreak', array('OA_Admin_Template',  '_function_phpAds_ShowBreak'));
         $this->register_function('phpAds_DelConfirm', array('OA_Admin_Template',  '_function_phpAds_DelConfirm'));
+        $this->register_function('MAX_zoneDelConfirm', array('OA_Admin_Template',  '_function_MAX_zoneDelConfirm'));
 
         $this->register_function('showStatusText', array('OA_Admin_Template',  '_function_showStatusText'));
 
@@ -522,6 +524,11 @@ class OA_Admin_Template extends Smarty
     function _function_phpAds_DelConfirm($aParams, &$smarty)
     {
         return phpAds_DelConfirm($this->_function_t($aParams, $smarty));
+    }
+    
+    function _function_MAX_zoneDelConfirm($aParams, &$smarty)
+    {
+        return MAX_zoneDelConfirm($aParams['zoneid']);
     }
 
     function _function_phpAds_ShowBreak()

@@ -30,6 +30,7 @@ require_once MAX_PATH . '/lib/OA/Dll/PublisherInfo.php';
 require_once MAX_PATH . '/lib/OA/Dll/Zone.php';
 require_once MAX_PATH . '/lib/OA/Dll/ZoneInfo.php';
 require_once MAX_PATH . '/lib/OA/Dll/tests/util/DllUnitTestCase.php';
+require_once MAX_PATH . '/lib/max/Dal/DataObjects/Campaigns.php';
 
 /**
  * A class for testing DLL Zone methods
@@ -416,6 +417,7 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
         $this->assertTrue($tag2);
         $this->assertNotEqual($tag1, $tag2);
     }
+
 }
 
 ?>
