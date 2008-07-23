@@ -795,19 +795,47 @@ class Openads_Schema_Manager
      */
     function indexAdd($table_name, $index_name, $aIndex_fields, $primary='', $unique='', $idx_fld_sort)
     {
+        if ($primary)
+        {
+            $index_name = $table_name.'_pkey';
+        }
+        if ($primary && $unique)
+        {
+            $this->oLogger->logError('Index cannot be both primary and unique');
+            return false;
+        }
         $this->parseWorkingDefinitionFile();
-        $this->aDB_definition['tables'][$table_name]['indexes'][$index_name] = array();
-        $this->aDB_definition['tables'][$table_name]['indexes'][$index_name]['fields'] = array();
-        $this->aDB_definition['tables'][$table_name]['indexes'][$index_name]['primary'] = $primary;
-        $this->aDB_definition['tables'][$table_name]['indexes'][$index_name]['unique'] = $unique;
+        $aTable = $this->aDB_definition['tables'][$table_name];
+        foreach ($aTable['indexes'] AS $name=>$aDef)
+        {
+            if ($name == $index_name)
+            {
+                $this->oLogger->logError('Index with this name already exists for this table');
+                return false;
+            }
+            if ($primary && $aDef['primary'])
+            {
+                $this->oLogger->logError('Table can have only one primary constraint');
+                return false;
+            }
+        }
+        $aNewIndex['fields']    = array();
+        $aNewIndex['primary']   = $primary;
+        $aNewIndex['unique']    = $unique;
         foreach ($aIndex_fields AS $fld_name=>$null)
         {
-            $this->aDB_definition['tables'][$table_name]['indexes'][$index_name]['fields'][$fld_name] = array('sorting'=>'ascending');
+            if ($primary || $unique)
+            {
+                if (!$aTable['fields'][$fld_name]['notnull'])
+                {
+                    $this->oLogger->logError('Primary key fields must be not null');
+                    return false;
+                }
+            }
+            $aNewIndex['fields'][$fld_name] = array('sorting'=>'ascending');
+            //$aNewIndex['fields'][$fld_name]['sorting'] = $idx_fld_sort[$fld_name]; //'descending';
         }
-        foreach ($idx_fld_sort AS $fld_name=>$sorting)
-        {
-            $this->aDB_definition['tables'][$table_name]['indexes'][$index_name]['fields'][$fld_name]['sorting'] = 'descending';
-        }
+        $this->aDB_definition['tables'][$table_name]['indexes'][$index_name] = $aNewIndex;
         return $this->writeWorkingDefinitionFile();
     }
 
