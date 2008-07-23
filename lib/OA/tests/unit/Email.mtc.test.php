@@ -187,7 +187,7 @@ class Test_OA_Email extends UnitTestCase
         $endDate   = $oEndDate->format($date_format);
         $expectedContents .= "This report includes statistics from $startDate up to $endDate.\n\n";
         $expectedContents .= "\nCampaign [id$placementId1] Default Campaign\n";
-        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId1\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/stats.php?clientid=$advertiserId&campaignid=$placementId1&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=\n";
         $expectedContents .= "=======================================================\n\n";
         $expectedContents .= "There are no statistics available for this campaign\n\n\n\n";
         $expectedContents .= "Regards,\n   Andrew Hill, OpenX Limited";
@@ -211,11 +211,11 @@ class Test_OA_Email extends UnitTestCase
         $endDate   = $oEndDate->format($date_format);
         $expectedContents .= "This report includes statistics from $startDate up to $endDate.\n\n";
         $expectedContents .= "\nCampaign [id$placementId1] Default Campaign\n";
-        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId1\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/stats.php?clientid=$advertiserId&campaignid=$placementId1&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=\n";
         $expectedContents .= "=======================================================\n\n";
         $expectedContents .= "There are no statistics available for this campaign\n\n\n";
         $expectedContents .= "\nCampaign [id$placementId2] Default Campaign\n";
-        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId2\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/stats.php?clientid=$advertiserId&campaignid=$placementId2&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=\n";
         $expectedContents .= "=======================================================\n\n";
         $expectedContents .= "There are no statistics available for this campaign\n\n\n\n";
         $expectedContents .= "Regards,\n   Andrew Hill, OpenX Limited";
@@ -258,11 +258,11 @@ class Test_OA_Email extends UnitTestCase
         $endDate   = $oEndDate->format($date_format);
         $expectedContents .= "This report includes statistics from $startDate up to $endDate.\n\n";
         $expectedContents .= "\nCampaign [id$placementId1] Default Campaign\n";
-        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId1\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/stats.php?clientid=$advertiserId&campaignid=$placementId1&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=\n";
         $expectedContents .= "=======================================================\n\n";
         $expectedContents .= "There are no statistics available for this campaign\n\n\n";
         $expectedContents .= "\nCampaign [id$placementId2] Default Campaign\n";
-        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId2\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/stats.php?clientid=$advertiserId&campaignid=$placementId2&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=\n";
         $expectedContents .= "=======================================================\n\n";
         $expectedContents .= " Banner  [id$adId2] Test Banner\n";
         $expectedContents .= " ------------------------------------------------------\n";
@@ -309,11 +309,11 @@ class Test_OA_Email extends UnitTestCase
         $endDate   = $oEndDate->format($date_format);
         $expectedContents .= "This report includes statistics from $startDate up to $endDate.\n\n";
         $expectedContents .= "\nCampaign [id$placementId1] Default Campaign\n";
-        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId1\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/stats.php?clientid=$advertiserId&campaignid=$placementId1&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=\n";
         $expectedContents .= "=======================================================\n\n";
         $expectedContents .= "There are no statistics available for this campaign\n\n\n";
         $expectedContents .= "\nCampaign [id$placementId2] Default Campaign\n";
-        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId2\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/stats.php?clientid=$advertiserId&campaignid=$placementId2&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=\n";
         $expectedContents .= "=======================================================\n\n";
         $expectedContents .= " Banner  [id$adId2] Test Banner\n";
         $expectedContents .= " ------------------------------------------------------\n";
@@ -383,7 +383,7 @@ class Test_OA_Email extends UnitTestCase
         $endDate   = $oEndDate->format($date_format);
         $expectedContents .= "This report includes all statistics up to $endDate.\n\n";
         $expectedContents .= "\nCampaign [id$placementId1] Default Campaign\n";
-        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId1\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/stats.php?clientid=$advertiserId&campaignid=$placementId1&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=\n";
         $expectedContents .= "=======================================================\n\n";
         $expectedContents .= " Banner  [id$adId1] Test Banner\n";
         $expectedContents .= " ------------------------------------------------------\n";
@@ -856,7 +856,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "As a result, the campaign will soon be automatically disabled, and the\n";
         $expectedContents .= "following banners in the campaign will also be disabled:\n";
         $expectedContents .= "\nCampaign [id$placementId] Default Campaign\n";
-        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/stats.php?clientid=$advertiserId1&campaignid=$placementId&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=\n";
         $expectedContents .= "-------------------------------------------------------\n\n";
         $expectedContents .= " There are currently no banners defined\n\n";
         $expectedContents .= "-------------------------------------------------------\n\n\n";
@@ -898,7 +898,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "As a result, the campaign will soon be automatically disabled, and the\n";
         $expectedContents .= "following banners in the campaign will also be disabled:\n";
         $expectedContents .= "\nCampaign [id$placementId] Default Campaign\n";
-        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/stats.php?clientid=$advertiserId1&campaignid=$placementId&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=\n";
         $expectedContents .= "-------------------------------------------------------\n\n";
         $expectedContents .= " There are currently no banners defined\n\n";
         $expectedContents .= "-------------------------------------------------------\n\n\n";
@@ -927,7 +927,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "As a result, the campaign will soon be automatically disabled, and the\n";
         $expectedContents .= "following banners in the campaign will also be disabled:\n";
         $expectedContents .= "\nCampaign [id$placementId] Default Campaign\n";
-        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/stats.php?clientid=$advertiserId1&campaignid=$placementId&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=\n";
         $expectedContents .= "-------------------------------------------------------\n\n";
         $expectedContents .= " There are currently no banners defined\n\n";
         $expectedContents .= "-------------------------------------------------------\n\n\n";
@@ -948,7 +948,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "As a result, the campaign will soon be automatically disabled, and the\n";
         $expectedContents .= "following banners in the campaign will also be disabled:\n";
         $expectedContents .= "\nCampaign [id$placementId] Default Campaign\n";
-        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/stats.php?clientid=$advertiserId1&campaignid=$placementId&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=\n";
         $expectedContents .= "-------------------------------------------------------\n\n";
         $expectedContents .= " There are currently no banners defined\n\n";
         $expectedContents .= "-------------------------------------------------------\n\n\n";
@@ -988,7 +988,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "As a result, the campaign will soon be automatically disabled, and the\n";
         $expectedContents .= "following banners in the campaign will also be disabled:\n";
         $expectedContents .= "\nCampaign [id$placementId] Default Campaign\n";
-        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/stats.php?clientid=$advertiserId1&campaignid=$placementId&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=\n";
         $expectedContents .= "-------------------------------------------------------\n\n";
         $expectedContents .= " Banner [id$bannerId1] Test Banner\n\n";
         $expectedContents .= " Banner [id$bannerId2] Test Banner\n";
@@ -1016,7 +1016,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "As a result, the campaign will soon be automatically disabled, and the\n";
         $expectedContents .= "following banners in the campaign will also be disabled:\n";
         $expectedContents .= "\nCampaign [id$placementId] Default Campaign\n";
-        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/stats.php?clientid=$advertiserId1&campaignid=$placementId&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=\n";
         $expectedContents .= "-------------------------------------------------------\n\n";
         $expectedContents .= " Banner [id$bannerId1] Test Banner\n\n";
         $expectedContents .= " Banner [id$bannerId2] Test Banner\n";
@@ -1065,7 +1065,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "As a result, the campaign will soon be automatically disabled, and the\n";
         $expectedContents .= "following banners in the campaign will also be disabled:\n";
         $expectedContents .= "\nCampaign [id$placementId] Default Campaign\n";
-        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/stats.php?clientid=$advertiserId1&campaignid=$placementId&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=\n";
         $expectedContents .= "-------------------------------------------------------\n\n";
         $expectedContents .= " Banner [id$bannerId1] Test Banner\n\n";
         $expectedContents .= " Banner [id$bannerId2] Test Banner\n";
@@ -1120,7 +1120,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "As a result, the campaign will soon be automatically disabled, and the\n";
         $expectedContents .= "following banners in the campaign will also be disabled:\n";
         $expectedContents .= "\nCampaign [id$placementId] Default Campaign\n";
-        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/stats.php?clientid=$advertiserId1&campaignid=$placementId&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=\n";
         $expectedContents .= "-------------------------------------------------------\n\n";
         $expectedContents .= " Banner [id$bannerId1] Test Banner\n\n";
         $expectedContents .= " Banner [id$bannerId2] Test Banner\n";
@@ -1140,7 +1140,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "Unten angegebene Ihre Kampagne hat weniger als {$impValue} Impressions �brig.\n\n";
         $expectedContents .= "Auf Grund dessen wird die Kampagne bald deaktiviert und weiter unten angegebene Banner aus dieser Kampagne werden deaktiviert.\n";
         $expectedContents .= "\nKampagne [id$placementId] Default Campaign\n";
-        $expectedContents .= "http://{$aConf['webpath']['admin']}/campaign-edit.php?clientid=$advertiserId1&campaignid=$placementId\n";
+        $expectedContents .= "http://{$aConf['webpath']['admin']}/stats.php?clientid=$advertiserId1&campaignid=$placementId&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=\n";
         $expectedContents .= "-------------------------------------------------------\n\n";
         $expectedContents .= " Banner [id$bannerId1] Test Banner\n\n";
         $expectedContents .= " Banner [id$bannerId2] Test Banner\n";

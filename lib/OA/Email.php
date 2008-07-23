@@ -241,8 +241,8 @@ class OA_Email
             		// Add the name of the campaign to the report
             		$emailBody .= "\n" . sprintf($strCampaignPrint, $strCampaign) . ' ';
                     $emailBody .= strip_tags(phpAds_buildName($aCampaign['campaignid'], $aCampaign['campaignname'])) . "\n";
-                    // Add a URL link to the campaign
-                    $page = 'campaign-edit.php?clientid=' . $advertiserId . '&campaignid=' . $aCampaign['campaignid'];
+                    // Add a URL link to the stats page of the campaign
+                    $page = 'stats.php?clientid='. $advertiserId . '&campaignid=' . $aCampaign['campaignid'] .'&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=';
                     $emailBody .= MAX::constructURL(MAX_URL_ADMIN, $page) . "\n";
                     // Add a nice divider
                     $emailBody .= "=======================================================\n\n";
@@ -667,8 +667,8 @@ class OA_Email
         // Add the name of the placement to the report
         $emailBody .= $strCampaign . ' ';
         $emailBody .= strip_tags(phpAds_buildName($aCampaign['campaignid'], $aCampaign['campaignname'])) . "\n";
-        // Add a URL link to the placement
-        $page = 'campaign-edit.php?clientid=' . $advertiserId . '&campaignid=' . $aCampaign['campaignid'];
+        // Add a URL link to the stats page of the campaign
+        $page = 'stats.php?clientid='. $advertiserId . '&campaignid=' . $aCampaign['campaignid'] .'&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=';
         $emailBody .= MAX::constructURL(MAX_URL_ADMIN, $page) . "\n";
         // Add a separator after the placement and before the ads
         $emailBody .= "-------------------------------------------------------\n\n";
