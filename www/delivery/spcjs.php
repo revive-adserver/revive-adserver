@@ -267,6 +267,64 @@ $GLOBALS['_MAX']['FILES'][$file] = true;
 $file = '/lib/max/Delivery/cookie.php';
 $GLOBALS['_MAX']['FILES'][$file] = true;
 // Include required files
+$file = '/lib/OA/Delivery/marketplace.php';
+$GLOBALS['_MAX']['FILES'][$file] = true;
+function MAX_marketplaceEnabled()
+{
+return !empty($GLOBALS['_MAX']['CONF']['marketplace']['enabled']);
+}
+function MAX_marketplaceNeedsId()
+{
+$aConf = $GLOBALS['_MAX']['CONF'];
+if (MAX_marketplaceEnabled()) {
+$oxidOnly = $aConf['marketplace']['cacheTime'] == 0;
+$viewerId = MAX_cookieGetUniqueViewerId(false, $oxidOnly);
+}
+return !isset($viewerId);
+}
+function MAX_marketplaceGetIdWithRedirect($scriptName = null)
+{
+$aConf = $GLOBALS['_MAX']['CONF'];
+if (MAX_marketplaceEnabled()) {
+if (MAX_marketplaceNeedsId() && !isset($_GET['openxid'])) {
+$scriptName = isset($scriptName) ? $scriptName : basename($_SERVER['SCRIPT_NAME']);
+$oxpUrl = MAX_commonGetDeliveryUrl($scriptName).'?';
+if (!empty($_SERVER['QUERY_STRING'])) {
+$oxpUrl .= $_SERVER['QUERY_STRING'].'&';
+}
+$oxpUrl .= 'openxid=OPENX_ID';
+$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
+$url .= $aConf['marketplace']['idHost'].'/redir?r='.urlencode($oxpUrl);
+$url .= '&pid=OpenXDemo';
+$url .= '&cb='.mt_rand(0, PHP_INT_MAX);
+header("Location: {$url}");
+exit;
+}
+}
+}
+function MAX_marketplaceGetIdWithSpc($varPrefix)
+{
+$aConf = $GLOBALS['_MAX']['CONF'];
+$script = '';
+if (MAX_marketplaceNeedsId()) {
+$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
+$url .= $aConf['marketplace']['idHost'].'/jsox?n='.urlencode($varPrefix.'spc');
+$url .= '&pid=OpenXDemo';
+$url .= '&cb='.mt_rand(0, PHP_INT_MAX);
+$script .= "
+{$varPrefix}spc+=\"&amp;openxid=OPENX_ID'><\"+\"/script>\";
+var {$varPrefix}marketplace=\"<\"+\"script type='text/javascript' \";
+{$varPrefix}marketplace+=\"src='".htmlspecialchars($url, ENT_QUOTES)."'><\"+\"/script>\";
+document.write({$varPrefix}marketplace);
+";
+} else {
+$script .= "
+{$varPrefix}spc+=\"'><\"+\"/script>\";
+document.write({$varPrefix}spc);
+";
+}
+return $script;
+}
 $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'] = array();
 // Include the cookie storage library
 if (!is_callable('MAX_cookieSet')) {
@@ -1812,64 +1870,6 @@ return @file_get_contents($conf['file']['flash']);
 return file_get_contents(MAX_PATH . '/www/delivery/' . $conf['file']['flash']);
 }
 }
-$file = '/lib/OA/Delivery/marketplace.php';
-$GLOBALS['_MAX']['FILES'][$file] = true;
-function MAX_marketplaceEnabled()
-{
-return !empty($GLOBALS['_MAX']['CONF']['marketplace']['enabled']);
-}
-function MAX_marketplaceNeedsId()
-{
-$aConf = $GLOBALS['_MAX']['CONF'];
-if (MAX_marketplaceEnabled()) {
-$oxidOnly = $aConf['marketplace']['cacheTime'] == 0;
-$viewerId = MAX_cookieGetUniqueViewerId(false, $oxidOnly);
-}
-return !isset($viewerId);
-}
-function MAX_marketplaceGetIdWithRedirect($scriptName = null)
-{
-$aConf = $GLOBALS['_MAX']['CONF'];
-if (MAX_marketplaceEnabled()) {
-if (MAX_marketplaceNeedsId() && !isset($_GET['openxid'])) {
-$scriptName = isset($scriptName) ? $scriptName : basename($_SERVER['SCRIPT_NAME']);
-$oxpUrl = MAX_commonGetDeliveryUrl($scriptName).'?';
-if (!empty($_SERVER['QUERY_STRING'])) {
-$oxpUrl .= $_SERVER['QUERY_STRING'].'&';
-}
-$oxpUrl .= 'openxid=OPENX_ID';
-$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
-$url .= $aConf['marketplace']['idHost'].'/redir?r='.urlencode($oxpUrl);
-$url .= '&pid=OpenXDemo';
-$url .= '&cb='.mt_rand(0, PHP_INT_MAX);
-header("Location: {$url}");
-exit;
-}
-}
-}
-function MAX_marketplaceGetIdWithSpc($varPrefix)
-{
-$aConf = $GLOBALS['_MAX']['CONF'];
-$script = '';
-if (MAX_marketplaceNeedsId()) {
-$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
-$url .= $aConf['marketplace']['idHost'].'/jsox?n='.urlencode($varPrefix.'spc');
-$url .= '&pid=OpenXDemo';
-$url .= '&cb='.mt_rand(0, PHP_INT_MAX);
-$script .= "
-{$varPrefix}spc+=\"&amp;openxid=OPENX_ID'><\"+\"/script>\";
-var {$varPrefix}marketplace=\"<\"+\"script type='text/javascript' \";
-{$varPrefix}marketplace+=\"src='".htmlspecialchars($url, ENT_QUOTES)."'><\"+\"/script>\";
-document.write({$varPrefix}marketplace);
-";
-} else {
-$script .= "
-{$varPrefix}spc+=\"'><\"+\"/script>\";
-document.write({$varPrefix}spc);
-";
-}
-return $script;
-}
 // Get the affiliateid from the querystring if present
 MAX_commonRegisterGlobalsArray(array('id'));
 // Get JS
@@ -1894,23 +1894,20 @@ $magic_quotes_gpc = ini_get('magic_quotes_gpc');
 foreach ($_GET as $key => $value) {
 if ($key == 'id') { continue; }
 if ($magic_quotes_gpc) { $value = stripslashes($value); }
-$additionalParams .= htmlspecialchars('&'.urlencode($key).'='.urlencode($value), ENT_QUOTES);
+$additionalParams .= htmlspecialchars('&amp;'.urlencode($key).'='.urlencode($value), ENT_QUOTES);
 }
 $script = "
 if (typeof({$varprefix}zones) != 'undefined') {
 var {$varprefix}zoneids = '';
 for (var zonename in {$varprefix}zones) {$varprefix}zoneids += escape(zonename+'=' + {$varprefix}zones[zonename] + \"|\");
-{$varprefix}zoneids += '&nz=1';
+{$varprefix}zoneids += '&amp;nz=1';
 } else {
 var {$varprefix}zoneids = '" . implode('|', array_keys($aZones)) . "';
 }
 if (typeof({$varprefix}source) == 'undefined') { {$varprefix}source = ''; }
 var {$varprefix}p=location.protocol=='https:'?'https:':'http:';
 var {$varprefix}r=Math.floor(Math.random()*99999999);
-{$varprefix}output = new Array();\n\n";
-// Add the FlashObject include to the SPC output
-$script .= MAX_javascriptToHTML(MAX_flashGetFlashObjectExternal(), $varprefix . 'fo');
-$script .= "
+{$varprefix}output = new Array();
 var {$varprefix}spc=\"<\"+\"script type='text/javascript' \";
 {$varprefix}spc+=\"src='\"+{$varprefix}p+\"".MAX_commonConstructPartialDeliveryUrl($aConf['file']['singlepagecall'])."?zones=\"+escape({$varprefix}zoneids);
 {$varprefix}spc+=\"&amp;source=\"+escape({$varprefix}source)+\"&amp;r=\"+{$varprefix}r;" .
@@ -1921,8 +1918,9 @@ $script .= "{$varprefix}spc+=(document.charset ? '&amp;charset='+document.charse
 }
 $script .= "
 if (window.location) {$varprefix}spc+=\"&amp;loc=\"+escape(window.location);
-if (document.referrer) {$varprefix}spc+=\"&amp;referer=\"+escape(document.referrer);";
-$script .= "
+if (document.referrer) {$varprefix}spc+=\"&amp;referer=\"+escape(document.referrer);
+{$varprefix}spc+=\"'><\"+\"/script>\";
+document.write({$varprefix}spc);
 function {$varprefix}show(name) {
 if (typeof({$varprefix}output[name]) == 'undefined') {
 return;
@@ -1944,6 +1942,8 @@ if (document.referrer) {$varprefix}pop+=\"&amp;referer=\"+escape(document.referr
 document.write({$varprefix}pop);
 }
 ";
+// Add the FlashObject include to the SPC output
+$script .= MAX_javascriptToHTML(MAX_flashGetFlashObjectExternal(), $varprefix . 'fo');
 return $script;
 }
 
