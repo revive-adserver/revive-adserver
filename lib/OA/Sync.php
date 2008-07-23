@@ -182,25 +182,27 @@ class OA_Sync
         }
 
         // Prepare software data
-        $params[] = XML_RPC_Encode(array(
-            'os_type'                   => php_uname('s'),
-            'os_version'                => php_uname('r'),
+        $params[] = XML_RPC_Encode(
+            array(
+                'os_type'                   => php_uname('s'),
+                'os_version'                => php_uname('r'),
 
-            'webserver_type'            => isset($_SERVER['SERVER_SOFTWARE']) ? preg_replace('#^(.*?)/.*$#', '$1', $_SERVER['SERVER_SOFTWARE']) : '',
-            'webserver_version'            => isset($_SERVER['SERVER_SOFTWARE']) ? preg_replace('#^.*?/(.*?)(?: .*)?$#', '$1', $_SERVER['SERVER_SOFTWARE']) : '',
+                'webserver_type'            => isset($_SERVER['SERVER_SOFTWARE']) ? preg_replace('#^(.*?)/.*$#', '$1', $_SERVER['SERVER_SOFTWARE']) : '',
+                'webserver_version'            => isset($_SERVER['SERVER_SOFTWARE']) ? preg_replace('#^.*?/(.*?)(?: .*)?$#', '$1', $_SERVER['SERVER_SOFTWARE']) : '',
 
-            'db_type'                   => $dbms,
-            'db_version'                => $this->oDbh->queryOne("SELECT VERSION()"),
+                'db_type'                   => $dbms,
+                'db_version'                => $this->oDbh->queryOne("SELECT VERSION()"),
 
-            'php_version'               => phpversion(),
-            'php_sapi'                  => ucfirst(php_sapi_name()),
-            'php_extensions'            => get_loaded_extensions(),
-            'php_register_globals'      => (bool)ini_get('register_globals'),
-            'php_magic_quotes_gpc'      => (bool)ini_get('magic_quotes_gpc'),
-            'php_safe_mode'             => (bool)ini_get('safe_mode'),
-            'php_open_basedir'          => (bool)strlen(ini_get('open_basedir')),
-            'php_upload_tmp_readable'   => (bool)is_readable(ini_get('upload_tmp_dir').DIRECTORY_SEPARATOR),
-        ));
+                'php_version'               => phpversion(),
+                'php_sapi'                  => ucfirst(php_sapi_name()),
+                'php_extensions'            => get_loaded_extensions(),
+                'php_register_globals'      => (bool)ini_get('register_globals'),
+                'php_magic_quotes_gpc'      => (bool)ini_get('magic_quotes_gpc'),
+                'php_safe_mode'             => (bool)ini_get('safe_mode'),
+                'php_open_basedir'          => (bool)strlen(ini_get('open_basedir')),
+                'php_upload_tmp_readable'   => (bool)is_readable(ini_get('upload_tmp_dir').DIRECTORY_SEPARATOR)
+            )
+        );
 
         // Add statistics
         $aStats = array();
@@ -210,6 +212,21 @@ class OA_Sync
             }
         }
         $params[] = new XML_RPC_Value($aStats, 'struct');
+
+        // Add package origin ID, if appropriate
+        $originID = '';
+        $originFile = MAX_PATH . '/etc/origin.txt';
+        if (file_exists($originFile) && is_readable($originFile)) {
+            $rOriginFile = @fopen($originFile, 'r');
+            if ($rOriginFile !== false) {
+                $originID = fread($rOriginFile, 32);
+                fclose($rOriginFile);
+            }
+            if ($originID === false) {
+                $originID = '';
+            }
+        }
+        $params[] = new XML_RPC_Value($originID, 'string');
 
         // Create XML-RPC request message
         $msg = new XML_RPC_Message("Openads.Sync", $params);
