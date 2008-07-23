@@ -16,6 +16,7 @@
     <install>
         <files>
             <file path="{MODULEPATH}deliveryLog/ox_impression_country/">ox_impression_country.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLog/ox_impression_country/">ox_impression_country.class.php</file>
         </files>
         <components>
            <component>

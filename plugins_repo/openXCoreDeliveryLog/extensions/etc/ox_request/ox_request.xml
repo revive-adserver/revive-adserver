@@ -16,6 +16,7 @@
     <install>
         <files>
             <file path="{MODULEPATH}deliveryLog/ox_request/">ox_request.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLog/ox_request/">ox_request.class.php</file>
         </files>
         <components>
            <component>

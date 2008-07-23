@@ -16,6 +16,7 @@
     <install>
         <files>
             <file path="{MODULEPATH}deliveryLog/ox_fb_impression/">ox_fb_impression.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLog/ox_fb_impression/">ox_fb_impression.class.php</file>
         </files>
 
         <components>
