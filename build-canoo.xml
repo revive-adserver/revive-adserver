@@ -97,7 +97,28 @@ enabled=0]]></replacevalue>
 			</scp>
 		</sequential>
 	</macrodef>
+	
 
+	<!-- changes file permissions on plugins (located in extensions/) created during the installation -->
+	<target name="canoo-chmod">	
+		<available property="fileFound" file="${basedir}/target/www/delivery_test/chmod.php" />
+		<echo>${delivery_test}</echo>
+		<echo>${fileFound}</echo>
+		<if>
+			<istrue value="${fileFound}"/>
+			<then>
+				<replace dir="${basedir}/target/www/delivery_test" value="${basedir}/target"> <!-- /extensions -->
+					<include name="chmod.php"/>
+					<replacetoken>@path</replacetoken>
+				</replace>
+				<exec executable="wget">
+					<arg value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}/delivery_test/chmod.php"/>
+					<arg value="--output-document=-" />
+				</exec>
+			</then>
+		</if>
+	</target>
+	
 	<!-- Cleans up the old OpenX directory. -->
 	<target name="canoo-prepare-dir">
 		<property name="ec2.openx.dir" value="/var/www/html/${release}"/>
@@ -154,7 +175,9 @@ enabled=0]]></replacevalue>
 	</target>
 
 	<target name="setup-delivery-files">
-		<copy todir="${delivery_test}">
+		<echo>'${basedir}: ' ${basedir}</echo>
+		<echo>${delivery_test}</echo>
+		<copy todir="${delivery_test}" verbose="true">
 			<fileset dir="${basedir}/tests/canoo/php"/>
 		</copy>
 		<replace dir="${delivery_test}" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}/delivery/spcjs.php?id=1&amp;charset=UTF-8">

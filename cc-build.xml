@@ -38,7 +38,7 @@
 	</target>
 
 	<target name="chmod">
-		<!-- chmod -->
+		<ant antfile="build-canoo.xml" dir="${basedir}" target="canoo-chmod" inheritall="false"/>
 	</target>
 	
 	<target name="test-canoo" depends="clean, chmod, clone">
