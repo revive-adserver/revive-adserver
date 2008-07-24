@@ -13,6 +13,11 @@ class Plugins_DeliveryLog_OxLogImpression_LogImpressionCountry extends Plugins_D
             )
         );
     }
+    
+    function getBucketName()
+    {
+        return 'data_bucket_impression_country';
+    }
 }
 
 ?>

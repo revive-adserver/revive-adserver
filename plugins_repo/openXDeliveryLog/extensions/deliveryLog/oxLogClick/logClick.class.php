@@ -12,6 +12,11 @@ class Plugins_DeliveryLog_OxLogClick_LogClick extends Plugins_DeliveryLog_LogCom
             )
         );
     }
+    
+    function getBucketName()
+    {
+        return 'data_bucket_click';
+    }
 }
 
 ?>

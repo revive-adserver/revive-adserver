@@ -16,6 +16,8 @@ abstract class Plugins_DeliveryLog_LogCommon extends OX_Component
     {
         return true;
     }
+    
+    abstract function getBucketName();
 }
 
 ?>

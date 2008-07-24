@@ -12,6 +12,11 @@ class Plugins_DeliveryLog_OxLogImpression_logImpressionBackup extends Plugins_De
             )
         );
     }
+    
+    function getBucketName()
+    {
+        return 'data_bucket_impression_backup';
+    }
 }
 
 ?>

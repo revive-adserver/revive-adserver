@@ -12,6 +12,11 @@ class Plugins_DeliveryLog_OxLogRequest_LogRequest extends Plugins_DeliveryLog_Lo
             )
         );
     }
+    
+    function getBucketName()
+    {
+        return 'data_bucket_request';
+    }
 }
 
 ?>
