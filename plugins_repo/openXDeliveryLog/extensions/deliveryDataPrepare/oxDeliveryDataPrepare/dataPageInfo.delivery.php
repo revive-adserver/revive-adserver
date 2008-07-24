@@ -24,16 +24,6 @@
 $Id$
 */
 
-###START_STRIP_DELIVERY
-/**
- * Dependencies between the plugins - used to set the order in which the components
- * are executed by delivery engine when calling components to log the data.
- */
-$GLOBALS['_MAX']['pluginsDependencies']['deliveryDataPrepare:ox_page_info:ox_page_info'] = array(
-    'deliveryDataPrepare:ox_core:ox_core',
-);
-###END_STRIP_DELIVERY
-
 function Plugins_deliveryDataPrepare_oxDeliveryDataPrepare_dataPageInfo()
 {
     if (!empty($_GET['loc'])) {

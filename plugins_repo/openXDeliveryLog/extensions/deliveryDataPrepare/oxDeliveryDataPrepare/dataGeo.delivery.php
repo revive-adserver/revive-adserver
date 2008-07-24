@@ -26,17 +26,7 @@ $Id$
 
 // if (isset($aConf['geotargeting']['saveStats'])
 
-###START_STRIP_DELIVERY
-/**
- * Dependencies between the plugins - used to set the order in which the components
- * are executed by delivery engine when calling components to log the data.
- */
-$GLOBALS['_MAX']['pluginsDependencies']['deliveryDataPrepare:ox_geo:ox_geo'] = array(
-    'deliveryDataPrepare:ox_core:ox_core',
-);
-###END_STRIP_DELIVERY
-
-// @todo - move geotargeting into here - it seems to be included by delivery right now, should it be moved in here?
+// decide if entire geotargeting should be moved in here
 function Plugins_deliveryDataPrepare_oxDeliveryDataPrepare_dataGeo()
 {
     if (!empty($GLOBALS['_MAX']['CLIENT_GEO'])) {

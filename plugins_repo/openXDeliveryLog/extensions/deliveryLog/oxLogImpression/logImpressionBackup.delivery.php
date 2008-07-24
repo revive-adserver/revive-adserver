@@ -24,16 +24,6 @@
 $Id$
 */
 
-###START_STRIP_DELIVERY
-/**
- * Dependencies between the plugins - used to set the order in which the components
- * are executed by delivery engine when calling components to log the data.
- */
-$GLOBALS['_MAX']['pluginsDependencies']['deliveryLog:ox_fb_impression:ox_fb_impression'] = array(
-    'deliveryDataPrepare:ox_core:ox_core',
-);
-###END_STRIP_DELIVERY
-
 function Plugin_deliveryLog_oxLogImpression_logImpressionBackup_Delivery_logImpression()
 {
     $data = $GLOBALS['_MAX']['deliveryData'];
