@@ -2,13 +2,13 @@
 <?xml-stylesheet type="text/xsl" href=""?>
 
 <plugin>
-    <name>openXCoreDeliveryLog</name>
+    <name>openXDeliveryLog</name>
     <creationDate>2008-06-10</creationDate>
     <author>Radek Maciaszek</author>
     <authorEmail>radek.maciaszek@openx.org</authorEmail>
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
-    <description>Core Delivery Logging Plugins for OpenX</description>
+    <description>OpenX Delivery Logging Plugins for OpenX</description>
     <version>1.0.0-dev</version>
     <type>extension</type>
 

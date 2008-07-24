@@ -2,7 +2,7 @@
 <?xml-stylesheet type="text/xsl" href=""?>
 
 <plugin>
-    <name>ox_core</name>
+    <name>oxDeliveryDataPrepare</name>
     <creationDate>2008-02-19</creationDate>
     <author>Radek Maciaszek</author>
     <authorEmail>radek.maciaszek@openx.org</authorEmail>
@@ -16,13 +16,17 @@
     <install>
         <files>
             <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryDataPrepare/">dataCommon.delivery.php</file>
+            <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryDataPrepare/">dataCommon.class.php</file>
             <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryDataPrepare/">dataGeo.delivery.php</file>
+            <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryDataPrepare/">dataGeo.class.php</file>
             <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryDataPrepare/">dataPageInfo.delivery.php</file>
+            <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryDataPrepare/">dataPageInfo.class.php</file>
             <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryDataPrepare/">dataUserAgent.delivery.php</file>
+            <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryDataPrepare/">dataUserAgent.class.php</file>
         </files>
 
         <schema>
-            <mdb2schema>tables_ox_core</mdb2schema>
+            <mdb2schema>tables_oxDeliveryDataPrepare</mdb2schema>
             <dboschema>db_schema</dboschema>
             <dbolinks>db_schema.links</dbolinks>
             <dataobject>Data_bucket_click.php</dataobject>

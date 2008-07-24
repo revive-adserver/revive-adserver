@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
 <instructionset>
-  <name>deliveryDataPrepare</name>
+  <name>oxDeliveryDataPrepare</name>
   <version>001</version>
   <comments></comments>
   <constructive>

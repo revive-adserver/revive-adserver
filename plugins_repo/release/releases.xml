@@ -31,7 +31,7 @@
         <authorEmail>monique.szpak@openx.org</authorEmail>
         <authorUrl>http://www.openx.org</authorUrl>
         <license>license.txt</license>
-        <description>Core Delivery Limitations Plugins for OpenX</description>
+        <description>OpenX Delivery Limitations Plugins for OpenX</description>
         <version>0.0.1-alpha</version>
         <oxminver>2.7.5-dev</oxminver>
         <oxmaxver>2.7.8-dev</oxmaxver>

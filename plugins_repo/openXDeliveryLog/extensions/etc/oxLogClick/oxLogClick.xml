@@ -2,7 +2,7 @@
 <?xml-stylesheet type="text/xsl" href=""?>
 
 <plugin>
-    <name>ox_click</name>
+    <name>oxLogClick</name>
     <creationDate>2008-02-19</creationDate>
     <author>Radek Maciaszek</author>
     <authorEmail>radek.maciaszek@openx.org</authorEmail>

@@ -24,13 +24,6 @@
 $Id$
 */
 
-// Dependencies
-###START_STRIP_DELIVERY
-$GLOBALS['_MAX']['pluginsDependencies']['deliveryLog:ox_request:ox_request'] = array(
-    'deliveryDataPrepare:ox_core:ox_core',
-);
-###END_STRIP_DELIVERY
-
 function Plugin_deliveryLog_oxLogRequest_logRequest_Delivery_logRequest($data)
 {
     $aQuery = array(

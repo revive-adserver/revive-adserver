@@ -2,7 +2,7 @@
 <?xml-stylesheet type="text/xsl" href="xsl/mdb2_schema.xsl"?>
 <database>
 
- <name>ox_core</name>
+ <name>oxDeliveryDataPrepare</name>
  <create>false</create>
  <overwrite>false</overwrite>
  <version>001</version>
