@@ -105,6 +105,7 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
     {
         $pluginsDependencies = $this->getPluginsDependencies($aComponentIdentifiers);
         if (!$pluginsDependencies) {
+            $this->_logError('No dependencies are defined');
             return false;
         }
         $source = new OA_Algorithm_Dependency_Source_HoA($pluginsDependencies);
@@ -164,21 +165,28 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
         $mergedDelivery = '';
         foreach ($aHooks as $hookName => $hookComponents) {
             foreach ($hookComponents as $componentId) {
-                list($extension, $group, $componentName) = $this->getExtensionGroupComponentFromId($componentId);
+                list($extension, $group, $componentName)
+                    = $this->getExtensionGroupComponentFromId($componentId);
                 $componentFile = $this->getFilePathToPlugin($extension, $componentName);
                 if (!$componentFile) {
-                    // error message - logging
+                    $this->_logError('Error while generating delivery cache, file doesn\'t exist: '
+                        .$componentFile);
                     return false;
                 }
                 $mungedComponent = $this->mungeFile($componentFile);
                 if (!$mungedComponent) {
+                    $this->_logError('Error while generating delivery cache, file: '.$componentFile);
                     return false;
                 }
                 $mergedDelivery .= $mungedComponent;
             }
         }
         $mergedDelivery = $this->templateCode($mergedDelivery);
-        return $this->saveMergedDelivery($mergedDelivery);
+        if(!$this->saveMergedDelivery($mergedDelivery)) {
+            $this->_logError('Error when saving delivery cache, file: '.OX_BUCKETS_COMPILED_FILE);
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -189,7 +197,7 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
      */
     function saveMergedDelivery($mergedDelivery)
     {
-        return file_put_contents(OX_BUCKETS_COMPILED_FILE, $mergedDelivery);
+        return @file_put_contents(OX_BUCKETS_COMPILED_FILE, $mergedDelivery);
     }
 
     /**
@@ -260,6 +268,23 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
     function _getComponentGroupManager()
     {
         return new OX_Plugin_ComponentGroupManager();
+    }
+
+    function _logMessage($msg, $err=PEAR_LOG_INFO)
+    {
+        OA::debug($msg, $err);
+    }
+
+    function _logWarning($msg)
+    {
+        $this->aWarnings[] = $msg;
+        $this->_logMessage($msg, PEAR_LOG_WARNING);
+    }
+
+    function _logError($msg)
+    {
+        $this->aErrors[] = $msg;
+        $this->_logMessage($msg, PEAR_LOG_ERR);
     }
 
 }
