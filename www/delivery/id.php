@@ -1247,11 +1247,19 @@ return $unpacked;
 function OX_Delivery_Common_hook($hookName, $aParams = array(), $functionName = '')
 {
 $return = true;
+// When a $functionname is passed in we use that function/component-identifier and execute the hook
 if (!empty($functionName)) {
+// Right now, we're allowing either a plain function to be executed, or a component-identifier
+// we may remove the ability to pass a plain function in the future
+$aParts = explode(':', $functionName);
+if (count($aParts) === 3) {
+$functionName = OX_Delivery_Common_getFunctionFromComponentIdentifier($functionName, $hookName);
+}
 if (function_exists($functionName)) {
 $return = call_user_func_array($functionName, $aParams);
 }
 } else {
+// When no $functionName is passed in, we execute all components which are registered for this hook
 if (!empty($GLOBALS['_MAX']['CONF']['deliveryHooks'][$hookName])) {
 $hooks = explode('|', $GLOBALS['_MAX']['CONF']['deliveryHooks'][$hookName]);
 foreach ($hooks as $identifier) {
@@ -1278,7 +1286,7 @@ if (!function_exists($functionName)) {
 // Function or function file doesn't exist, use the "parent" function
 _includeDeliveryPluginFile($GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'] . '/' . $aInfo[0] .  '/' . $aInfo[0] . 'Delivery.php');
 $functionName = 'Plugin_' . $aInfo[0] . '_delivery';
-if (!empty($hook)) {
+if (!empty($hook) && function_exists($functionName . '_' . $hook)) {
 $functionName .= '_' . $hook;
 }
 }
