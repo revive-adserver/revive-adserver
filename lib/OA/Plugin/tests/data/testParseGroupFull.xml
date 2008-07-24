@@ -88,6 +88,12 @@
                 <hook>testPreHook</hook>
                 <hook>testPostHook</hook>
            </component>
+           <component>
+               <name>testComponent2</name>
+                <translations>{MODULEPATH}/pathToTest2/_lang/</translations>
+                <hook>testPreHook</hook>
+                <hook>testDifferentPostHook</hook>
+           </component>
         </components>
 
         <prescript>prescript_testParse.php</prescript>

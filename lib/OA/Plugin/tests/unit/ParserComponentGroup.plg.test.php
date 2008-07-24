@@ -247,12 +247,17 @@ class Test_OX_ParserComponentGroup extends UnitTestCase
             $this->assertEqual(count($aPlugin['install']['schema']['dataobjects']),1);
             $this->assertEqual($aPlugin['install']['schema']['dataobjects'][0],'Testplugin_table.php');
 
-            $this->assertEqual(count($aPlugin['install']['components']),1);
+            $this->assertEqual(count($aPlugin['install']['components']),2);
             $this->assertTrue(isset($aPlugin['install']['components']['testComponent']));
             $this->assertEqual($aPlugin['install']['components']['testComponent']['name'], 'testComponent');
-
             $this->assertTrue(isset($aPlugin['install']['components']['testComponent']['translations']));
             $this->assertEqual($aPlugin['install']['components']['testComponent']['translations'],'{MODULEPATH}/pathToTest/_lang/');
+            
+            $this->assertTrue(isset($aPlugin['install']['components']['testComponent2']));
+            $this->assertEqual($aPlugin['install']['components']['testComponent2']['name'], 'testComponent2');
+            $this->assertTrue(isset($aPlugin['install']['components']['testComponent2']['translations']));
+            $this->assertEqual($aPlugin['install']['components']['testComponent2']['translations'],'{MODULEPATH}/pathToTest2/_lang/');
+
 
             $this->assertEqual(count($aPlugin['install']['components']['testComponent']['hooks']), 2);
             $this->assertEqual($aPlugin['install']['components']['testComponent']['hooks'][0],'testPreHook');

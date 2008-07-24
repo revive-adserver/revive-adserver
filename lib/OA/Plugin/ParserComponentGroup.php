@@ -51,6 +51,7 @@ class OX_ParserComponentGroup extends OX_ParserBase
                            );
     var $aData;
     var $aComponents = array();
+    var $aComponent = array();
 
     function startHandler($xp, $element, $attribs)
     {
@@ -121,8 +122,12 @@ class OX_ParserComponentGroup extends OX_ParserBase
                     $this->aData[strtolower($k)] = $v;
                 }
                 break;
-            case 'plugin-install-components':
+            case 'plugin-install-components-component':
                 $this->aData = array();
+                $this->aComponent = array();
+                break;
+            case 'plugin-install-components':
+                $this->aComponents = array();
                 break;
         }
     }
@@ -155,7 +160,7 @@ class OX_ParserComponentGroup extends OX_ParserBase
             case 'plugin-install-configuration-preference':
                 $this->aPrefs[] = $this->aData;
                 break;
-            case 'plugin-install-components':
+            case 'plugin-install-components-component':
                 $this->aComponents[$this->aData['name']] = $this->aData;
                 break;
 
