@@ -2,9 +2,9 @@
 
 require_once MAX_PATH . '/lib/OA/Plugin/Component.php';
 
-class Plugins_DeliveryLog_LogCommon extends OX_Component
+abstract class Plugins_DeliveryLog_LogCommon extends OX_Component
 {
-    abstract function getDependencies() {}
+    abstract function getDependencies();
 
     /**
      * Can carry on any additional post-installs actions
