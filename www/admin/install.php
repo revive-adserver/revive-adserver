@@ -411,7 +411,7 @@ else if (array_key_exists('btn_plugins', $_POST))
         {
             $aPostTasks = $result;
         }
-        $message = $strPluginsDefault;
+        $message = $strPostUpgradeTasks;
         $action = OA_UPGRADE_PLUGINS;
     }
 }
@@ -514,7 +514,7 @@ $aInstallerSections = array (
     '50'     =>  new OA_Admin_Menu_Section('50',  'Database',          $navLinks[OA_UPGRADE_DBSETUP], false, "qsg-install"),
     '60'     =>  new OA_Admin_Menu_Section('60',  'Configuration',     $navLinks[OA_UPGRADE_CONFIGSETUP], false, "qsg-install"),
     '70'     =>  new OA_Admin_Menu_Section('70',  'Admin',             $navLinks[OA_UPGRADE_ADMINSETUP], false, "qsg-install"),
-    '80'     =>  new OA_Admin_Menu_Section('80',  'Plugins',           $navLinks[OA_UPGRADE_PLUGINS], false, "qsg-install"),
+    '80'     =>  new OA_Admin_Menu_Section('80',  'Tasks',             $navLinks[OA_UPGRADE_PLUGINS], false, "qsg-install"),
     '100'    =>  new OA_Admin_Menu_Section('100', 'Finished',          '')
 );
 

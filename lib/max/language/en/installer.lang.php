@@ -29,6 +29,7 @@ $GLOBALS['strContinue']                         = 'Continue';
 $GLOBALS['strUpgradeCompleted']                 = 'Upgrade completed';
 $GLOBALS['strDBCreatedSuccessful']              = 'Your database has successfully been created for '. MAX_PRODUCT_NAME;
 $GLOBALS['strPluginsDefault']                   = 'OpenX Plugins.';
+$GLOBALS['strPostUpgradeTasks']                 = 'OpenX Post-Upgrade Tasks';
 $GLOBALS['strInstallComplete']                  = 'Your OpenX installation is now complete.';
 $GLOBALS['strUpgradeComplete']                  = 'Congratulations, you have finished upgrading '. MAX_PRODUCT_NAME;
 $GLOBALS['strUnableCreateConfFile']             = 'We are unable to create your configuration file. Please re-check the permissions of the '. MAX_PRODUCT_NAME .' var folder.';
