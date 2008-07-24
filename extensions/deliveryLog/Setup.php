@@ -113,13 +113,10 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
     }
 
     /**
-     * Includes all plugins, read their dependencies and order plugins according
-     * to their required dependency
-     *
      * Returns array of dependencies - name of each plugin from requested plugins array
      * with corresponding array of plugins names this plugin depends on.
      *
-     * @param array $plugins
+     * @param array $plugins array(hook name => array(hook components names))
      * @return array  Dependencies array:
      *                  ['extensionType:group:plugin'] = array(
      *                      'extensionType:group:plugin',
@@ -128,37 +125,18 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
      */
     function getPluginsDependencies($plugins)
     {
-        if (!$this->includePlugins($plugins)) {
-            return false;
-        }
-        return $GLOBALS['_MAX']['pluginsDependencies'];
-    }
-
-    /**
-     * Include components files
-     *
-     * @param array $plugins  Array of components
-     * @return boolean  True on success, false if any error occured
-     */
-    function includePlugins($plugins)
-    {
+        $dependencies = array();
         static $aCacheComponents = array();
         foreach ($plugins as $hook => $hookComponents) {
             foreach ($hookComponents as $componentId) {
-                if (isset($aCacheComponents[$componentId])) {
-                    continue;
+                if (!isset($aCacheComponents[$componentId])) {
+                    $component = OX_Component::factoryByComponentIdentifier($componentId);
+                    $aCacheComponents[$componentId] = $component->getDependencies();
                 }
-                list($extension, $group, $componentName)
-                    = $this->getExtensionGroupComponentFromId($componentId);
-                $pluginFile = $this->getFilePathToPlugin($extension, $componentName);
-                if (!$pluginFile) {
-                    return false;
-                }
-                include($pluginFile);
-                $aCacheComponents[$componentId] = true;
+                $dependencies = array_merge($dependencies, $aCacheComponents[$componentId]);
             }
         }
-        return true;
+        return $dependencies;
     }
 
     /**
