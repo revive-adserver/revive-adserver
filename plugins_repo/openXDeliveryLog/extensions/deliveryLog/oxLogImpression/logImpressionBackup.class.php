@@ -8,7 +8,7 @@ class Plugins_DeliveryLog_OxLogImpression_logImpressionBackup extends OX_Compone
     {
         return array(
             'deliveryLog:oxLogClick:logImpressionBackup' => array(
-                'deliveryDataPrepare:oxLogCommon:dataCommon',
+                'deliveryDataPrepare:oxDeliveryDataPrepare:dataCommon',
             )
         );
     }

@@ -8,7 +8,7 @@ class Plugins_DeliveryLog_OxLogImpression_LogImpression extends OX_Component
     {
         return array(
             'deliveryLog:oxLogClick:logImpression' => array(
-                'deliveryDataPrepare:oxLogCommon:dataCommon',
+                'deliveryDataPrepare:oxDeliveryDataPrepare:dataCommon',
             )
         );
     }

@@ -8,8 +8,8 @@ class Plugins_DeliveryLog_OxLogImpression_LogImpressionCountry extends OX_Compon
     {
         return array(
             'deliveryLog:oxLogClick:logImpressionCountry' => array(
-                'deliveryDataPrepare:oxLogCommon:dataCommon',
-                'deliveryDataPrepare:oxLogCommon:dataGeo',
+                'deliveryDataPrepare:oxDeliveryDataPrepare:dataCommon',
+                'deliveryDataPrepare:oxDeliveryDataPrepare:dataGeo',
             )
         );
     }

@@ -8,7 +8,7 @@ class Plugins_DeliveryLog_OxLogClick_LogClick extends OX_Component
     {
         return array(
             'deliveryLog:oxLogClick:logClick' => array(
-                'deliveryDataPrepare:oxLogCommon:dataCommon',
+                'deliveryDataPrepare:oxDeliveryDataPrepare:dataCommon',
             )
         );
     }
