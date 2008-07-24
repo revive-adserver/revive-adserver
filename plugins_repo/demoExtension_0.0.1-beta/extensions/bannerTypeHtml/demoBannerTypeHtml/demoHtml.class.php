@@ -160,7 +160,7 @@ class Plugins_BannerTypeHTML_demoBannerTypeHtml_demoHtml extends Plugins_BannerT
 
         $tblSrc = $aConf['prefix'].'banners_demo';
         $tblTgt = $aConf['prefix'].$identity.$tblSrc;
-        $where  = "WHERE TRUE";
+        $where  = "WHERE 1=1";
         $query  = sprintf($sql, $tblTgt, $tblSrc, $where);
         $result1 = $oDbh->exec($query);
 
