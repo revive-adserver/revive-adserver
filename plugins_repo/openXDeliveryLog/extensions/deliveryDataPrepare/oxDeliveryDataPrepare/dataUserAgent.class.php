@@ -7,7 +7,7 @@ class Plugins_DeliveryDataPrepare_OxDeliveryDataPrepare_DataUserAgent extends OX
     function getDependencies()
     {
         return array(
-            'deliveryDataPrepare:oxDeliveryDataPrepare:dataPageInfo' => array(
+            'deliveryDataPrepare:oxDeliveryDataPrepare:dataUserAgent' => array(
                 'deliveryDataPrepare:oxDeliveryDataPrepare:dataCommon'
             )
         );

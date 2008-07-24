@@ -1,13 +1,13 @@
 <?php
 
-require_once MAX_PATH . '/lib/OA/Plugin/Component.php';
+require_once MAX_PATH . '/extensions/deliveryLog/logCommon.php';
 
-class Plugins_DeliveryLog_OxLogImpression_LogImpressionCountry extends OX_Component
+class Plugins_DeliveryLog_OxLogImpression_LogImpressionCountry extends Plugins_DeliveryLog_LogCommon
 {
     function getDependencies()
     {
         return array(
-            'deliveryLog:oxLogClick:logImpressionCountry' => array(
+            'deliveryLog:oxLogImpression:logImpressionCountry' => array(
                 'deliveryDataPrepare:oxDeliveryDataPrepare:dataCommon',
                 'deliveryDataPrepare:oxDeliveryDataPrepare:dataGeo',
             )
