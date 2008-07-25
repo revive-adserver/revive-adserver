@@ -1105,33 +1105,6 @@ $aCaps['capping'][$index],
 $aCaps['session_capping'][$index]
 );
 }
-function MAX_bucket_updateTable($tableName, $aQuery, $counter = 'count')
-{
-$prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-$query = MAX_bucket_prepareUpdateQuery($prefix . $tableName, $aQuery, $counter);
-$result = OA_Dal_Delivery_query(
-$query,
-'rawDatabase'
-);
-return $result;
-}
-function MAX_bucket_prepareUpdateQuery($tableName, $aQuery, $counter = 'count')
-{
-$insert = "INSERT INTO {$tableName} (";
-$values = 'VALUES (';
-$comma = '';
-foreach ($aQuery as $column => $value) {
-if (!is_integer($value)) {
-$value = "'" . $value . "'";
-}
-$insert .= $comma . $column;
-$values .= $comma . $value;
-$comma = ', ';
-}
-$query = $insert . $comma . $counter . ') ' . $values . ', 1)';
-$query .= " ON DUPLICATE KEY UPDATE $counter = $counter + 1";
-return $query;
-}
 function MAX_commonGetDeliveryUrl($file = null)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
