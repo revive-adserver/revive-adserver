@@ -1,6 +1,6 @@
 <?php
 
-require_once MAX_PATH . '/extensions/deliveryLog/logCommon.php';
+require_once MAX_PATH . '/extensions/deliveryLog/LogCommon.php';
 
 class Plugins_DeliveryLog_OxLogImpression_LogImpression extends Plugins_DeliveryLog_LogCommon
 {

@@ -26,6 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/extensions/deliveryLog/DB_Common.php';
+require_once MAX_PATH . '/extensions/deliveryLog/LogCommon.php';
 
 /**
  * DataBase PostgreSQL specific methods
@@ -93,7 +94,8 @@ class Plugins_DeliveryLog_DB_Pgsql extends Plugins_DeliveryLog_DB_Common
     public function install(Plugins_DeliveryLog_LogCommon $component)
     {
         $query = $this->getCreateStoredProcedureQuery($component);
-        return $this->createStoredProceduresFunction($query);
+        return true;
+//        return $this->createStoredProceduresFunction($query);
     }
 
     /**
@@ -126,7 +128,7 @@ class Plugins_DeliveryLog_DB_Pgsql extends Plugins_DeliveryLog_DB_Common
     {
         $tableName = $component->getBucketName();
         $query = 'CREATE OR REPLACE FUNCTION ' . $this->getStoredProcedureName($component) . '
-            ('.$this->_getColumnTypesList().')
+            ('.$this->_getColumnTypesList($component).')
             RETURNS void AS
             $BODY$DECLARE
               x int;
@@ -160,7 +162,7 @@ class Plugins_DeliveryLog_DB_Pgsql extends Plugins_DeliveryLog_DB_Common
      * @return string  Comma separated ordered list of columns
      */
     protected function _getColumnTypesList(Plugins_DeliveryLog_LogCommon $component,
-        $aIgnore = array(self::COUNT_COLUMN))
+        $aIgnore = array(Plugins_DeliveryLog_LogCommon::COUNT_COLUMN))
     {
         $str = '';
         $aColumns = $component->getTableBucketColumns();
@@ -180,7 +182,7 @@ class Plugins_DeliveryLog_DB_Pgsql extends Plugins_DeliveryLog_DB_Common
      * @return string  WHERE clause
      */
     protected function _getSPWhere(Plugins_DeliveryLog_LogCommon $component,
-        $aIgnore = array(self::COUNT_COLUMN))
+        $aIgnore = array(Plugins_DeliveryLog_LogCommon::COUNT_COLUMN))
     {
         $where = '';
         $c = 1;
@@ -203,7 +205,7 @@ class Plugins_DeliveryLog_DB_Pgsql extends Plugins_DeliveryLog_DB_Common
      * @return string  Comma separated VALUES list
      */
     protected function _getSPValuesList(Plugins_DeliveryLog_LogCommon $component,
-        $aIgnore = array(self::COUNT_COLUMN))
+        $aIgnore = array(Plugins_DeliveryLog_LogCommon::COUNT_COLUMN))
     {
         $values = '';
         $c = 1;
