@@ -48,6 +48,10 @@ class OX_Util_Utils
      */
    static function getCampaignType($priority)
    {
+       if (priority == null || priority == "") {
+           return null;
+       }
+       
        if ($priority == 0) { //Remnant - Low priority 
            return OX_CAMPAIGN_TYPE_REMNANT;  
        }
@@ -76,15 +80,18 @@ class OX_Util_Utils
      */
    static function getCampaignTypeTranslationKey($priority)
    {
-       if ($priority == 0) { //Remnant - Low priority 
+       $type = OX_Util_Utils::getCampaignType($priority);
+        
+       if ($type == OX_CAMPAIGN_TYPE_REMNANT) { //Remnant - Low priority 
            return 'strRemnant';  
        }
-       else if ($priority == -1) { //Contract - ($priority = -1 (Exclusive)
+       else if ($type == OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE) { //Contract - ($priority = -1 (Exclusive)
            return 'strExclusiveContract';
        }
-       else if ($priority > 0) { //Contract - from 1 to 10 (High/Normal)
+       else if ($type == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL) { //Contract - from 1 to 10 (High/Normal)
            return 'strStandardContract';
        }
+       
        //no type yet no key, sorry
        return null;
    }
@@ -105,15 +112,18 @@ class OX_Util_Utils
      */
    static function getCampaignTypeDescriptionTranslationKey($priority)
    {
-       if ($priority == 0) { //Remnant - Low priority 
+       $type = OX_Util_Utils::getCampaignType($priority);
+        
+       if ($type == OX_CAMPAIGN_TYPE_REMNANT) { //Remnant - Low priority 
            return 'strRemnantInfo';  
        }
-       else if ($priority == -1) { //Contract - ($priority = -1 (Exclusive)
+       else if ($type == OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE) { //Contract - ($priority = -1 (Exclusive)
            return 'strExclusiveContractInfo';
        }
-       else if ($priority > 0) { //Contract - from 1 to 10 (High/Normal)
+       else if ($type == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL) { //Contract - from 1 to 10 (High/Normal)
            return 'strStandardContractInfo';
        }
+       
        //no type yet no key, sorry
        return null;
    }   

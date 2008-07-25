@@ -27,6 +27,7 @@ $Id$
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once LIB_PATH . '/Plugin/Component.php';
+require_once MAX_PATH . '/lib/OX/Util/Utils.php';
 
 function MAX_getDisplayName($name, $length = 60, $append = '...')
 {
@@ -1404,11 +1405,12 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
     <table id='linked-campaigns' width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>
     <tr height='25'>
         <td width='40%'><b>&nbsp;&nbsp;{$GLOBALS['strName']}</b></td>
+        <td width='20%'><b>&nbsp;&nbsp;{$GLOBALS['strType']}</b></td>
         <td><b>{$GLOBALS['strID']}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>
         <td>&nbsp;</td>
     </tr>
     <tr height='1'>
-        <td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>
+        <td colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>
     </tr>";
 
         $i = 0;
@@ -1444,12 +1446,13 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
                 $placementIcon = MAX_getEntityIcon('placement', $placementActive);
                 $placementName = MAX_getDisplayName($aPlacement['name']);
                 $placementLink = (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) ? "<a href='campaign-edit.php?clientid={$aPlacement['advertiser_id']}&campaignid=$placementId'>$placementName</a>" : $placementName;
+                $placementTypeName = OX_Util_Utils::getCampaignTypeName($aPlacement['priority']);
                 $adCount = empty($aAds) ? 0 : count($aAds);
                 $placementDescription = $showMatchingAds ? '&nbsp;' : str_replace('{count}', $adCount, $GLOBALS['strMatchingBanners']);
                 if ($i > 0) {
                     echo "
     <tr height='1'>
-        <td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td>
+        <td colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td>
     </tr>";
                 }
                 echo "
@@ -1457,8 +1460,9 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
         <td>
             &nbsp;&nbsp;<a href='$pageName?affiliateid=$publisherId&zoneid=$zoneId&campaignid=$placementId&action=remove'><img src='" . MAX::assetPath() . "/images/caret-l.gif' border='0' align='absmiddle'></a>
             &nbsp;&nbsp;<img src='$placementIcon' align='absmiddle'>
-            &nbsp;$placementLink
+            &nbsp;$placementLink 
         </td>
+        <td><span class='campaign-type'>$placementTypeName</span></td>
         <td>$placementId</td>
         <td>$placementDescription</td>
     </tr>";
@@ -1474,10 +1478,11 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
                             echo "
     <tr height='1'>
         <td$bgcolor><img src='" . MAX::assetPath() . "/images/spacer.gif' width='1' height='1'></td>
-        <td colspan='2' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-el.gif' height='1' width='100%'></td>
+        <td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-el.gif' height='1' width='100%'></td>
     </tr>
     <tr height='25'$bgcolor>
         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='$adIcon' align='absmiddle'>&nbsp;$adLink</td>
+        <td></td>
         <td>$adId</td>
         <td align=".$GLOBALS['phpAds_TextAlignRight'].">
             <img src='" . MAX::assetPath() . "/images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;<a href='banner-htmlpreview.php?bannerid=$adId' target='_new' onClick=\"return openWindow('banner-htmlpreview.php?bannerid=$adId', '', 'status=no,scrollbars=no,resizable=no,width=$adWidth,height=$adHeight');\">{$GLOBALS['strShowBanner']}</a>&nbsp;&nbsp;
@@ -1501,10 +1506,10 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
         $hideInactiveIcon = MAX::assetPath($hideInactive ? 'images/icon-activate.gif' : 'images/icon-hideinactivate.gif');
         echo "
     <tr height='1'>
-        <td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>
+        <td colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>
     </tr>
     <tr height='25'>
-        <td colspan='2'>
+        <td colspan='3'>
             <img src='$hideInactiveIcon' align='absmiddle' border='0'>
             <a href='$pageName?affiliateid=$publisherId&zoneid=$zoneId&hideinactive=$hideInactiveValue'>$hideInactiveText</a>$hideInactiveStats
         </td>
