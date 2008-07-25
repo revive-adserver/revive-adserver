@@ -1765,7 +1765,7 @@ function _mysqlGetTotalPrioritiesByCP($aAdsByCP)
 function OX_bucket_updateTable($tableName, $aQuery, $counter = 'count')
 {
     $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-    $query = MAX_bucket_prepareUpdateQuery($prefix . $tableName, $aQuery, $counter);
+    $query = OX_bucket_prepareUpdateQuery($prefix . $tableName, $aQuery, $counter);
     $result = OA_Dal_Delivery_query(
         $query,
         'rawDatabase'

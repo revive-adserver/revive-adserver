@@ -33,7 +33,7 @@ function Plugin_deliveryLog_oxLogImpression_logImpressionBackup_Delivery_logImpr
         'zone_id'             => $data['zone_id'],
         'primary_creative_id' => 1, // @todo
     );
-    return OX_bucket_updateTable('data_bucket_fb_impression', $aQuery);
+    return OX_bucket_updateTable('data_bucket_impression_backup', $aQuery);
 }
 
 ?>
