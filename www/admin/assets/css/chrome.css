@@ -1164,18 +1164,13 @@ table.data td.graph .percentage {
     color: #666666;
 }
 
-.item-info p {#impressions_remaining_span, #clicks_remaining_span, #conversions_remaining_span {
-	margin-left:5px;
-    padding: 2px 7px;
-	background-color: #feffa7;
+.item-info p {
+   margin: 0px 0px 5px 10px;
 }
 
-#impressions_remaining_count, #clicks_remaining_count, #conversions_remaining_count {
-	margin-left:5px;
-}
 
 .checkdb {
     float: right;
-+	margin-top: 12px;
+	margin-top: 12px;
  }
 
