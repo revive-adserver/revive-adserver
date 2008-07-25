@@ -36,7 +36,6 @@
             <dataobject>Data_bucket_request.php</dataobject>
         </schema>
 
-        <prescript>prescript_install_oxDeliveryDataPrepare.php</prescript>
         <postscript>postscript_install_oxDeliveryDataPrepare.php</postscript>
 
         <components>
