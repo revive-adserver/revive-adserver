@@ -27,259 +27,1504 @@
 // $Id$
 */
 
-require_once LIB_PATH.'/Plugin/ParserComponentGroup.php';
+require_once LIB_PATH.'/Plugin/ComponentGroupManager.php';
+
+/*class testFoo
+{
+    function testFoo($arg1, $arg2)
+    {
+        $this->arg1 = $arg1;
+        $this->arg2 = $arg2;
+    }
+}*/
 
 /**
- * A class for testing the OX_ParserComponentGroup class.
+ * A class for testing the OX_Plugin_ComponentGroupManager class.
  *
  * @package Plugins
  * @author  Monique Szpak <monique.szpak@openx.org>
  * @subpackage TestSuite
  */
-class Test_OX_ParserComponentGroup extends UnitTestCase
+class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
 {
+    var $testpathData           = '/lib/OX/Plugin/tests/data/';
+    var $testpathPackages       = '/lib/OX/Plugin/tests/data/plugins/etc/';
+    var $testpathPluginsAdmin   = '/lib/OX/Plugin/tests/data/www/admin/plugins/';
+
 
     /**
      * The constructor method.
      */
-    function Test_OX_ParserComponentGroup()
+    function Test_OX_Plugin_ComponentGroupManager()
     {
         $this->UnitTestCase();
     }
 
-    function test_ParseEmpty()
+    function test_init()
     {
-        $file = LIB_PATH.'/Plugin/tests/data/testParseGroupEmpty.xml';
-        $this->assertTrue(file_exists($file),'file not found '.$file);
-        if (file_exists($file))
+        $oManager = new OX_Plugin_ComponentGroupManager();
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $this->assertEqual($aConf['pluginPaths']['packages'],   $oManager->pathPackages);
+        $this->assertEqual($aConf['pluginPaths']['extensions'], $oManager->pathExtensions);
+        $this->assertEqual($aConf['pluginPaths']['admin'],      $oManager->pathPluginsAdmin);
+        $this->assertEqual($aConf['pluginPaths']['var'] . 'DataObjects/',$oManager->pathDataObjects);
+    }
+
+    function test_instantiateClass()
+    {
+        $oManager = new OX_Plugin_ComponentGroupManager();
+        $this->assertFalse($oManager->_instantiateClass(''));
+        $this->assertFalse($oManager->_instantiateClass('foo'));
+        $this->assertTrue($oManager->_instantiateClass('stdClass'));
+
+        $classname = 'testFoo';
+        eval('class testFoo { function testFoo() { $this->hello = "world"; } }');
+        $oFoo = $oManager->_instantiateClass('testFoo',array('foo','bar'));
+        $this->assertIsA($oFoo, 'testFoo');
+        $this->assertEqual($oFoo->hello, 'world');
+
+        /*$classname = 'testFoo';
+        eval('class testFoo { function testFoo($arg1, $arg2) { $this->arg1 = $arg1; $this->arg2 = $arg2; } }');
+        $oFoo = $oManager->_instantiateClass('testFoo',array('foo','bar'));
+        $this->assertIsA($oFoo, 'testFoo');
+        $this->assertEqual($oFoo->arg1, 'foo');
+        $this->assertEqual($oFoo->arg2, 'bar');*/
+    }
+
+    function test_buildDependencyArray()
+    {
+        Mock::generatePartial(
+                                'OX_Plugin_ComponentGroupManager',
+                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
+                                array(
+                                      'getFilePathToXMLInstall',
+                                      'parseXML',
+                                      'getComponentGroupVersion'
+                                     )
+                             );
+        $oManager = new $oMockManager($this);
+
+        $aComponentGroup['foo'] = array(
+                                'name'=>'foo',
+                                'install'=>array('syscheck'=>array('depends'=>array())),
+                                );
+        $aComponentGroup['bar'] = array(
+                                'name'=>'bar',
+                                'install'=>array('syscheck'=>array('depends'=>array(0=>array('name'=>'foo','version'=>'1.0.0')))),
+                                );
+        $aComponentGroup['bar1'] = array(
+                                'name'=>'bar1',
+                                'install'=>array('syscheck'=>array('depends'=>array(0=>array('name'=>'foo','version'=>'1.0.0')))),
+                                );
+        $oManager->setReturnValueAt(0,'parseXML', $aComponentGroup['bar']);
+        $oManager->setReturnValueAt(1,'parseXML', $aComponentGroup['foo']);
+        $oManager->setReturnValueAt(2,'parseXML', $aComponentGroup['bar']);
+        $oManager->setReturnValueAt(3,'parseXML', $aComponentGroup['foo']);
+        $oManager->setReturnValueAt(4,'parseXML', $aComponentGroup['bar']);
+        $oManager->setReturnValueAt(5,'parseXML', $aComponentGroup['bar1']);
+        $oManager->expectCallCount('parseXML', 6);
+
+        $fileBar = MAX_PATH.$this->testpathData.'bar.xml';
+        $fileBar1= MAX_PATH.$this->testpathData.'bar1.xml';
+        $fileFoo = MAX_PATH.$this->testpathData.'foo.xml';
+
+        // Test 1 - missing xml file
+        $aConf = array('bar'=>0);
+        $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] = $aConf;
+        $oManager->setReturnValueAt(0,'getFilePathToXMLInstall', '');
+        $oManager->aErrors = array();
+        $aResult = $oManager->_buildDependencyArray();
+        $this->assertIsA($aResult, 'array');
+        $this->assertEqual(count($aResult),0);
+        $this->assertEqual(count($oManager->aErrors),1);
+
+        // Test 2 - missing dependency : bar depends on foo but foo is not installed
+        $aConf = array('bar'=>0);
+        $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] = $aConf;
+
+        $oManager->setReturnValueAt(1,'getFilePathToXMLInstall', $fileBar);
+        $oManager->aErrors = array();
+        $aResult = $oManager->_buildDependencyArray();
+        $this->assertIsA($aResult, 'array');
+        $this->assertEqual(count($aResult),2);
+        $this->assertEqual(count($oManager->aErrors),1);
+
+        $this->assertEqual($aResult['bar']['dependsOn']['foo'],OX_PLUGIN_DEPENDENCY_NOTFOUND);
+        $this->assertEqual($aResult['foo']['isDependedOnBy'][0],'bar');
+
+        // Test 3 - missing dependency : bar depends on foo but foo is the wrong version
+        $aConf = array('foo'=>1,'bar'=>0);
+        $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] = $aConf;
+
+        $oManager->setReturnValueAt(0,'getComponentGroupVersion', '0.1.1-alpha');
+        $oManager->setReturnValueAt(2,'getFilePathToXMLInstall', $fileBar);
+        $oManager->setReturnValueAt(3,'getFilePathToXMLInstall', $fileFoo);
+        $oManager->aErrors = array();
+        $aResult = $oManager->_buildDependencyArray();
+        $this->assertIsA($aResult, 'array');
+        $this->assertEqual(count($aResult),2);
+        $this->assertEqual(count($oManager->aErrors),1);
+
+        $this->assertEqual($aResult['bar']['dependsOn']['foo'],OX_PLUGIN_DEPENDENCY_BADVERSION);
+        $this->assertEqual($aResult['foo']['isDependedOnBy'][0],'bar');
+
+        // Test 4 - dependencies ok
+        $aConf = array('foo'=>1,'bar'=>0,'bar1'=>0);
+        $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] = $aConf;
+
+        $oManager->setReturnValueAt(1,'getComponentGroupVersion', '1.0.0');
+        $oManager->setReturnValueAt(2,'getComponentGroupVersion', '1.0.0');
+        $oManager->setReturnValueAt(4,'getFilePathToXMLInstall', $fileBar);
+        $oManager->setReturnValueAt(5,'getFilePathToXMLInstall', $fileFoo);
+        $oManager->setReturnValueAt(6,'getFilePathToXMLInstall', $fileBar1);
+        $oManager->aErrors = array();
+        $aResult = $oManager->_buildDependencyArray();
+        $this->assertIsA($aResult, 'array');
+        $this->assertEqual(count($aResult),3);
+        $this->assertEqual(count($oManager->aErrors),0);
+
+        $this->assertEqual($aResult['bar']['dependsOn']['foo'],'1.0.0');
+        $this->assertEqual($aResult['foo']['isDependedOnBy'][0],'bar');
+
+        $this->assertEqual($aResult['bar1']['dependsOn']['foo'],'1.0.0');
+        $this->assertEqual($aResult['foo']['isDependedOnBy'][1],'bar1');
+
+
+        $oManager->expectCallCount('getComponentGroupVersion',3);
+        $oManager->expectCallCount('getFilePathToXMLInstall',7);
+
+        $oManager->tally();
+        unset($GLOBALS['_MAX']['CONF']['pluginGroupComponents']['foo']);
+        unset($GLOBALS['_MAX']['CONF']['pluginGroupComponents']['bar']);
+    }
+
+    function test_saveDependencyArray()
+    {
+        Mock::generatePartial(
+                                'OA_Cache',
+                                $oMockCache = 'OA_Cache'.rand(),
+                                array(
+                                      'save'
+                                     )
+                             );
+        $oCache = new $oMockCache($this);
+        $oCache->setReturnValueAt(0,'save', false);
+        $oCache->setReturnValueAt(1,'save', true);
+        $oCache->expectCallCount('save',2);
+
+        Mock::generatePartial(
+                                'OX_Plugin_ComponentGroupManager',
+                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
+                                array(
+                                      '_getOA_Cache'
+                                     )
+                             );
+        $oManager = new $oMockManager($this);
+        $oManager->setReturnValue('_getOA_Cache', $oCache);
+        $oManager->expectCallCount('_getOA_Cache',2);
+
+        $aTest = array('dependsOn'=>array('foo'=>array('bar'=>array('installed'=>1,'enabled'=>0))));
+        $this->assertFalse($oManager->_saveDependencyArray($aTest));
+        $this->assertTrue($oManager->_saveDependencyArray($aTest));
+
+        $oCache->tally();
+        $oManager->tally();
+    }
+
+    function test_loadDependencyArray()
+    {
+        Mock::generatePartial(
+                                'OA_Cache',
+                                $oMockCache = 'OA_Cache'.rand(),
+                                array(
+                                      'load'
+                                      )
+                             );
+        $oCache = new $oMockCache($this);
+        $aTest['isDependedOnBy'] = array('foo'=>array('bar'=>array('installed'=>true,'enabled'=>false)));
+        $aTest['dependsOn'] = array('bar'=>array('foo'=>array('installed'=>true,'enabled'=>true)));
+        $oCache->setReturnValueAt(0,'load', false);
+        $oCache->setReturnValueAt(1,'load', $aTest);
+        $oCache->expectCallCount('load',2);
+
+        Mock::generatePartial(
+                                'OX_Plugin_ComponentGroupManager',
+                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
+                                array(
+                                      '_getOA_Cache'
+                                     )
+                             );
+        $oManager = new $oMockManager($this);
+        $oManager->setReturnValue('_getOA_Cache', $oCache);
+        $oManager->expectCallCount('_getOA_Cache',2);
+
+        $this->assertFalse($oManager->_loadDependencyArray($aTest));
+        $aResult = $oManager->_loadDependencyArray();
+        $this->assertIsA($aResult, 'array');
+        $this->assertEqual(count($aResult),2);
+        $this->assertEqual(count($aResult['dependsOn']),1);
+        $this->assertEqual(count($aResult['isDependedOnBy']),1);
+        $this->assertTrue(isset($aResult['isDependedOnBy']['foo']['bar']));
+        $this->assertTrue(isset($aResult['dependsOn']['bar']['foo']));
+        $this->assertEqual($aResult['isDependedOnBy']['foo']['bar']['installed'],true);
+        $this->assertEqual($aResult['dependsOn']['bar']['foo']['installed'],true);
+        $this->assertEqual($aResult['isDependedOnBy']['foo']['bar']['enabled'],false);
+        $this->assertEqual($aResult['dependsOn']['bar']['foo']['enabled'],true);
+
+        $oCache->tally();
+        $oManager->tally();
+    }
+
+    function test_isEnabled()
+    {
+        $oManager = new OX_Plugin_ComponentGroupManager();
+        $GLOBALS['_MAX']['CONF']['pluginGroupComponents']['foo'] = 0;
+        $this->assertFalse($oManager->isEnabled('foo'));
+        $GLOBALS['_MAX']['CONF']['pluginGroupComponents']['foo'] = 1;
+        $this->assertTrue($oManager->isEnabled('foo'));
+        unset($GLOBALS['_MAX']['CONF']['pluginGroupComponents']['foo']);
+    }
+
+    function test_getPathToComponentGroup()
+    {
+        $oManager = new OX_Plugin_ComponentGroupManager();
+        $path = $oManager->getPathToComponentGroup('testplugin');
+        $confpath = $GLOBALS['_MAX']['CONF']['pluginPaths']['packages'];
+        $this->assertEqual($path,MAX_PATH.$confpath.'testplugin/');
+    }
+
+    function test_getFilePathToMDB2Schema()
+    {
+        $oManager = new OX_Plugin_ComponentGroupManager();
+        $path = $oManager->getFilePathToMDB2Schema('testplugin', 'testschema');
+        $confpath = $GLOBALS['_MAX']['CONF']['pluginPaths']['packages'];
+        $this->assertEqual($path,MAX_PATH.$confpath.'testplugin/etc/testschema.xml');
+    }
+
+    function test_getFilePathToXMLInstall()
+    {
+        $oManager = new OX_Plugin_ComponentGroupManager();
+        $path = $oManager->getFilePathToXMLInstall('testplugin');
+        $confpath = $GLOBALS['_MAX']['CONF']['pluginPaths']['packages'];
+        $this->assertEqual($path,MAX_PATH.$confpath.'testplugin/testplugin.xml');
+    }
+
+    function test_checkFiles()
+    {
+        $name = 'testPlugin';
+        $aFiles[] = array('path'=>OX_PLUGIN_ADMINPATH.'/templates/','name'=>'testPlugin.html');
+        $aFiles[] = array('path'=>OX_PLUGIN_ADMINPATH.'/images/','name'=>'testPlugin2.jpg');
+        $aFiles[] = array('path'=>OX_PLUGIN_ADMINPATH.'/','name'=>'testPlugin-index.php');
+        $aFiles[] = array('path'=>OX_PLUGIN_PLUGINPATH.'/etc/','name'=>'tables_testplugin.xml');
+        $aFiles[] = array('path'=>OX_PLUGIN_PLUGINPATH.'/etc/DataObjects/','name'=>'Testplugin_table.php');
+
+        $oManager = new OX_Plugin_ComponentGroupManager();
+        $this->assertFalse($oManager->_checkFiles($name, $aFiles));
+        $oManager->aErrors = array();
+        $oManager->pathPackages       = $this->testpathPackages;
+        $oManager->pathPluginsAdmin   = $this->testpathPluginsAdmin;
+        $this->assertTrue($oManager->_checkFiles($name, $aFiles));
+        if ($oManager->countErrors())
         {
-            $oParser = new OX_ParserComponentGroup();
-            $this->assertIsA($oParser,'OX_ParserComponentGroup');
-            $result = $oParser->setInputFile($file);
-            $this->assertFalse(PEAR::isError($result));
-            $result = $oParser->parse();
-            $this->assertFalse(PEAR::isError($result));
-            $this->assertFalse(PEAR::isError($oParser->error));
-            $this->assertTrue(is_array($oParser->aPlugin));
-
-            $aPlugin = $oParser->aPlugin;
-
-            $this->_assertStructure($aPlugin);
-
-            $this->assertEqual(count($aPlugin['install']['conf']['settings']),0);
-            $this->assertEqual(count($aPlugin['install']['conf']['preferences']),0);
-            $this->assertEqual(count($aPlugin['install']['schema']),4);
-            $this->assertEqual($aPlugin['install']['schema']['mdb2schema'],'');
-            $this->assertEqual($aPlugin['install']['schema']['dboschema'],'');
-            $this->assertEqual($aPlugin['install']['schema']['dbolinks'],'');
-            $this->assertEqual(count($aPlugin['install']['schema']['dataobjects']),0);
+            foreach ($oManager->aErrors as $msg)
+            {
+                $this->assertTrue(false, $msg);
+            }
         }
     }
 
-    function test_ParsePartial()
+    function test_getVersionController()
     {
-        $file = LIB_PATH.'/Plugin/tests/data/testParseGroupPartial.xml';
-        $this->assertTrue(file_exists($file),'file not found '.$file);
-        if (file_exists($file))
-        {
-            $oParser = new OX_ParserComponentGroup();
-            $this->assertIsA($oParser,'OX_ParserComponentGroup');
-            $result = $oParser->setInputFile($file);
-            $this->assertFalse(PEAR::isError($result));
-            $result = $oParser->parse();
-            $this->assertFalse(PEAR::isError($result));
-            $this->assertFalse(PEAR::isError($oParser->error));
-            $this->assertTrue(is_array($oParser->aPlugin));
-
-            $aPlugin = $oParser->aPlugin;
-
-            $this->_assertStructure($aPlugin);
-
-            $this->assertEqual(count($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][0]),4);
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][0]['insertafter'],'main-menu');
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][0]['index'],'test-menu');
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][0]['link'],'path_to_test_plugin/index.php');
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][0]['value'],'Test Menu Index');
-
-            $this->assertEqual(count($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][1]),4);
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][1]['addto'],'test-menu');
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][1]['index'],'test-menu-1');
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][1]['link'],'path_to_test_plugin/page.php?action=1');
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][1]['value'],'Test Page 1');
-
-            $this->assertEqual(count($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][2]),4);
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][2]['addto'],'test-menu');
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][2]['index'],'test-menu-2');
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][2]['link'],'path_to_test_plugin/page.php?action=2');
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][2]['value'],'Test Page 2');
-
-            $this->assertEqual(count($aPlugin['install']['conf']['settings']),0);
-            $this->assertEqual(count($aPlugin['install']['conf']['preferences']),0);
-
-            $this->assertEqual(count($aPlugin['install']['schema']),4);
-            $this->assertEqual($aPlugin['install']['schema']['mdb2schema'],'');
-            $this->assertEqual($aPlugin['install']['schema']['dboschema'],'');
-            $this->assertEqual($aPlugin['install']['schema']['dbolinks'],'');
-            $this->assertEqual(count($aPlugin['install']['schema']['dataobjects']),0);
-
-        }
+        $oManager = new OX_Plugin_ComponentGroupManager();
+        $oVerControl = $oManager->_getVersionController();
+        $this->assertIsA($oVerControl,'OA_Version_Controller');
+        $this->assertIsA($oVerControl->oDbh, 'MDB2_Driver_Common');
     }
 
-    function test_ParseFull()
+    function test_runScript()
     {
-        $file = LIB_PATH.'/Plugin/tests/data/testParseGroupFull.xml';
-        $this->assertTrue(file_exists($file),'file not found '.$file);
-        if (file_exists($file))
-        {
-            $oParser = new OX_ParserComponentGroup();
-            $this->assertIsA($oParser,'OX_ParserComponentGroup');
-            $result = $oParser->setInputFile($file);
-            $this->assertFalse(PEAR::isError($result));
-            $result = $oParser->parse();
-            $this->assertFalse(PEAR::isError($result));
-            $this->assertFalse(PEAR::isError($oParser->error));
-            $this->assertTrue(is_array($oParser->aPlugin));
-
-            $aPlugin = $oParser->aPlugin;
-
-            $this->_assertStructure($aPlugin);
-            $this->assertEqual(count($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN]),3);
-
-            $this->assertEqual(count($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][0]),4);
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][0]['insertafter'],'main-menu');
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][0]['index'],'test-menu');
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][0]['link'],'path_to_test_plugin/index.php');
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][0]['value'],'Test Menu Index Admin');
-
-            $this->assertEqual(count($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][1]),4);
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][1]['addto'],'test-menu');
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][1]['index'],'test-menu-1');
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][1]['link'],'path_to_test_plugin/page.php?action=1');
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][1]['value'],'Test Page 1 Admin');
-
-            $this->assertEqual(count($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][2]),4);
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][2]['addto'],'test-menu');
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][2]['index'],'test-menu-2');
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][2]['link'],'path_to_test_plugin/page.php?action=2');
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][2]['value'],'Test Page 2 Admin');
-
-            $this->assertEqual(count($aPlugin['install']['navigation'][OA_ACCOUNT_MANAGER]),2);
-
-            $this->assertEqual(count($aPlugin['install']['navigation'][OA_ACCOUNT_MANAGER][0]),4);
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_MANAGER][0]['insertafter'],'main-menu');
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_MANAGER][0]['index'],'test-menu');
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_MANAGER][0]['link'],'path_to_test_plugin/index.php');
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_MANAGER][0]['value'],'Test Menu Index Manager');
-
-            $this->assertEqual(count($aPlugin['install']['navigation'][OA_ACCOUNT_MANAGER][1]),4);
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_MANAGER][1]['addto'],'test-menu');
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_MANAGER][1]['index'],'test-menu-1');
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_MANAGER][1]['link'],'path_to_test_plugin/page.php?action=1');
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_MANAGER][1]['value'],'Test Page 1 Manager');
-
-            $this->assertEqual(count($aPlugin['install']['navigation'][OA_ACCOUNT_ADVERTISER]),1);
-
-            $this->assertEqual(count($aPlugin['install']['navigation'][OA_ACCOUNT_ADVERTISER][0]),4);
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_ADVERTISER][0]['insertafter'],'main-menu');
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_ADVERTISER][0]['index'],'test-menu');
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_ADVERTISER][0]['link'],'path_to_test_plugin/index.php');
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_ADVERTISER][0]['value'],'Test Menu Advertiser');
-
-
-            $this->assertEqual(count($aPlugin['install']['navigation'][OA_ACCOUNT_TRAFFICKER]),1);
-
-            $this->assertEqual(count($aPlugin['install']['navigation'][OA_ACCOUNT_TRAFFICKER][0]),4);
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_TRAFFICKER][0]['insertafter'],'main-menu');
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_TRAFFICKER][0]['index'],'test-menu');
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_TRAFFICKER][0]['link'],'path_to_test_plugin/index.php');
-            $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_TRAFFICKER][0]['value'],'Test Menu Trafficker');
-
-            $this->assertEqual(count($aPlugin['install']['conf']['settings']),3);
-
-            $this->assertEqual($aPlugin['install']['conf']['settings'][0]['key'],'setting1');
-            $this->assertEqual($aPlugin['install']['conf']['settings'][0]['value'],'setval1');
-            $this->assertEqual($aPlugin['install']['conf']['settings'][0]['type'],'boolean');
-            $this->assertEqual($aPlugin['install']['conf']['settings'][0]['label'],'Setting 1');
-            $this->assertEqual($aPlugin['install']['conf']['settings'][0]['size'],'1');
-            $this->assertEqual($aPlugin['install']['conf']['settings'][0]['required'],'1');
-            $this->assertEqual($aPlugin['install']['conf']['settings'][0]['visible'],'1');
-
-            $this->assertEqual($aPlugin['install']['conf']['settings'][1]['key'],'setting2');
-            $this->assertEqual($aPlugin['install']['conf']['settings'][1]['value'],'setval2');
-            $this->assertEqual($aPlugin['install']['conf']['settings'][1]['type'],'integer');
-            $this->assertEqual($aPlugin['install']['conf']['settings'][1]['label'],'Setting 2');
-            $this->assertEqual($aPlugin['install']['conf']['settings'][1]['size'],'2');
-            $this->assertEqual($aPlugin['install']['conf']['settings'][1]['required'],'1');
-            $this->assertEqual($aPlugin['install']['conf']['settings'][1]['visible'],'1');
-
-            $this->assertEqual($aPlugin['install']['conf']['settings'][2]['key'],'setting3');
-            $this->assertEqual($aPlugin['install']['conf']['settings'][2]['value'],'setval3');
-            $this->assertEqual($aPlugin['install']['conf']['settings'][2]['type'],'text');
-            $this->assertEqual($aPlugin['install']['conf']['settings'][2]['label'],'Setting 3');
-            $this->assertEqual($aPlugin['install']['conf']['settings'][2]['size'],'3');
-            $this->assertEqual($aPlugin['install']['conf']['settings'][2]['required'],'0');
-            $this->assertEqual($aPlugin['install']['conf']['settings'][2]['visible'],'1');
-
-            $this->assertEqual(count($aPlugin['install']['conf']['preferences']),2);
-
-            $this->assertEqual($aPlugin['install']['conf']['preferences'][0]['name'],'preference1');
-            $this->assertEqual($aPlugin['install']['conf']['preferences'][0]['value'],'prefval1');
-            $this->assertEqual($aPlugin['install']['conf']['preferences'][0]['type'],'date');
-            $this->assertEqual($aPlugin['install']['conf']['preferences'][0]['label'],'Pref 1');
-            $this->assertEqual($aPlugin['install']['conf']['preferences'][0]['size'],'10');
-            $this->assertEqual($aPlugin['install']['conf']['preferences'][0]['required'],'1');
-            $this->assertEqual($aPlugin['install']['conf']['preferences'][0]['visible'],'1');
-            $this->assertEqual($aPlugin['install']['conf']['preferences'][0]['permission'],'MANAGER');
-
-            $this->assertEqual($aPlugin['install']['conf']['preferences'][1]['name'],'preference2');
-            $this->assertEqual($aPlugin['install']['conf']['preferences'][1]['value'],'prefval2');
-            $this->assertEqual($aPlugin['install']['conf']['preferences'][1]['type'],'text');
-            $this->assertEqual($aPlugin['install']['conf']['preferences'][1]['label'],'Pref 2');
-            $this->assertEqual($aPlugin['install']['conf']['preferences'][1]['size'],'12');
-            $this->assertEqual($aPlugin['install']['conf']['preferences'][1]['required'],'0');
-            $this->assertEqual($aPlugin['install']['conf']['preferences'][1]['visible'],'0');
-            $this->assertEqual($aPlugin['install']['conf']['preferences'][1]['permission'],'ADMIN');
-
-            $this->assertEqual(count($aPlugin['install']['schema']),4);
-            $this->assertEqual($aPlugin['install']['schema']['mdb2schema'],'tables_test');
-            $this->assertEqual($aPlugin['install']['schema']['dboschema'],'db_schema');
-            $this->assertEqual($aPlugin['install']['schema']['dbolinks'],'db_schema_links');
-            $this->assertEqual(count($aPlugin['install']['schema']['dataobjects']),1);
-            $this->assertEqual($aPlugin['install']['schema']['dataobjects'][0],'Testplugin_table.php');
-
-            $this->assertEqual(count($aPlugin['install']['components']),1);
-            $this->assertTrue(isset($aPlugin['install']['components']['testComponent']));
-            $this->assertEqual($aPlugin['install']['components']['testComponent']['name'], 'testComponent');
-
-            $this->assertTrue(isset($aPlugin['install']['components']['testComponent']['translations']));
-            $this->assertEqual($aPlugin['install']['components']['testComponent']['translations'],'{MODULEPATH}/pathToTest/_lang/');
-
-            $this->assertEqual(count($aPlugin['install']['components']['testComponent']['hooks']), 2);
-            $this->assertEqual($aPlugin['install']['components']['testComponent']['hooks'][0],'testPreHook');
-            $this->assertEqual($aPlugin['install']['components']['testComponent']['hooks'][1],'testPostHook');
-        }
+        $oManager = new OX_Plugin_ComponentGroupManager();
+        $oManager->pathPackages = $this->testpathPackages;
+        global $testScriptResult;
+        $this->assertNull($testScriptResult);
+        $this->assertTrue($oManager->_runScript('testPlugin', 'testScript.php'));
+        $this->assertTrue($testScriptResult);
     }
 
-    function _assertStructure($aPlugin)
+    function test_runTasks_Pass()
     {
-        $this->assertTrue(array_key_exists('install', $aPlugin),'array key not found [version]');
+        Mock::generatePartial(
+                                'OX_Plugin_ComponentGroupManager',
+                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
+                                array(
+                                      'task1',
+                                      'task2'
+                                     )
+                             );
+        $oManager = new $oMockManager($this);
 
-        $this->assertTrue(array_key_exists('navigation', $aPlugin['install']),'array key not found [install][navigation]');
-        $this->assertTrue(array_key_exists(OA_ACCOUNT_ADMIN, $aPlugin['install']['navigation']),'array key not found [install][navigation][ADMIN]');
-        $this->assertTrue(array_key_exists(OA_ACCOUNT_MANAGER, $aPlugin['install']['navigation']),'array key not found [install][navigation][MANAGER]');
-        $this->assertTrue(array_key_exists(OA_ACCOUNT_ADVERTISER, $aPlugin['install']['navigation']),'array key not found [install][navigation][ADVERTISER]');
-        $this->assertTrue(array_key_exists(OA_ACCOUNT_TRAFFICKER, $aPlugin['install']['navigation']),'array key not found [install][navigation][TRAFFICKER]');
-        $this->assertTrue(array_key_exists('schema', $aPlugin['install']),'array key not found [install][schema]');
-        $this->assertTrue(array_key_exists('settings', $aPlugin['install']['conf']),'array key not found [install][conf][settings]');
-        $this->assertTrue(array_key_exists('preferences', $aPlugin['install']['conf']),'array key not found [install][conf][preferences]');
-        $this->assertTrue(array_key_exists('mdb2schema', $aPlugin['install']['schema']),'array key not found [install][schema][mdb2schema]');
-        $this->assertTrue(array_key_exists('dboschema', $aPlugin['install']['schema']),'array key not found [install][schema][dboschema]');
-        $this->assertTrue(array_key_exists('dbolinks', $aPlugin['install']['schema']),'array key not found [install][schema][dbolinks]');
-        $this->assertTrue(array_key_exists('dataobjects', $aPlugin['install']['schema']),'array key not found [install][schema][dataobjects]');
-        $this->assertIsA($aPlugin['install']['schema']['dataobjects'],'array','array key is not an array [install][schema][dataobjects]');
-        $this->assertTrue(array_key_exists('components', $aPlugin['install']),'array key not found [install][components]');
+        $oManager->setReturnValueAt(0,'task1', true, 'foo');
+        $oManager->expectCallCount('task1',1);
+        $oManager->setReturnValueAt(0,'task2', true, 'bar');
+        $oManager->expectCallCount('task2',1);
+
+        $aTaskList[] = array(
+                            'method' =>'task1',
+                            'params' => array('foo'),
+                            );
+        $aTaskList[] = array(
+                            'method' =>'task2',
+                            'params' => array('bar'),
+                            );
+
+        $this->assertTrue($oManager->_runTasks('testPlugin', $aTaskList));
+        $oManager->tally();
     }
+
+    function test_runTasks_Fail()
+    {
+        Mock::generatePartial(
+                                'OX_Plugin_ComponentGroupManager',
+                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
+                                array(
+                                      'task1',
+                                      'task2'
+                                     )
+                             );
+        $oManager = new $oMockManager($this);
+
+        $oManager->setReturnValueAt(0,'task1', false, 'foo');
+        $oManager->expectCallCount('task1',1);
+        $oManager->setReturnValueAt(0,'task2', true, 'bar');
+        $oManager->expectCallCount('task2',0);
+
+        $aTaskList[] = array(
+                            'method' =>'task1',
+                            'params' => array('foo'),
+                            );
+        $aTaskList[] = array(
+                            'method' =>'task2',
+                            'params' => array('bar'),
+                            );
+
+        $this->assertFalse($oManager->_runTasks('testPlugin', $aTaskList));
+        $oManager->tally();
+
+    }
+
+    function test_runTasks_FailRollback()
+    {
+        Mock::generatePartial(
+                                'OX_Plugin_ComponentGroupManager',
+                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
+                                array(
+                                      'task1',
+                                      'task2',
+                                      'untask1',
+                                      'untask2'
+                                     )
+                             );
+        $oManager = new $oMockManager($this);
+
+        $oManager->setReturnValueAt(0,'task1', true, 'foo');
+        $oManager->expectCallCount('task1',1);
+        $oManager->setReturnValueAt(0,'task2', false, 'bar');
+        $oManager->expectCallCount('task2',1);
+
+        $oManager->setReturnValueAt(0,'untask1', true, 'foo');
+        $oManager->expectCallCount('untask1',1);
+        $oManager->setReturnValueAt(0,'untask2', true, 'bar');
+        $oManager->expectCallCount('untask2',1);
+
+
+        $aTaskList[] = array(
+                            'method' =>'task1',
+                            'params' => array('foo'),
+                            );
+        $aTaskList[] = array(
+                            'method' =>'task2',
+                            'params' => array('bar'),
+                            );
+        $aUndoList[] = array(
+                            'method' =>'untask2',
+                            'params' => array('bar'),
+                            );
+        $aUndoList[] = array(
+                            'method' =>'untask1',
+                            'params' => array('foo'),
+                            );
+
+        $this->assertFalse($oManager->_runTasks('testPlugin', $aTaskList, $aUndoList));
+        $oManager->tally();
+
+    }
+
+    function test_runTasks_FailRollbackFail()
+    {
+        Mock::generatePartial(
+                                'OX_Plugin_ComponentGroupManager',
+                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
+                                array(
+                                      'task1',
+                                      'task2',
+                                      'untask1',
+                                      'untask2'
+                                     )
+                             );
+        $oManager = new $oMockManager($this);
+
+        $oManager->setReturnValueAt(0,'task1', true, 'foo');
+        $oManager->expectCallCount('task1',1);
+        $oManager->setReturnValueAt(0,'task2', false, 'bar');
+        $oManager->expectCallCount('task2',1);
+
+        $oManager->setReturnValueAt(0,'untask1', true, 'foo');
+        $oManager->expectCallCount('untask1',0);
+        $oManager->setReturnValueAt(0,'untask2', false, 'bar');
+        $oManager->expectCallCount('untask2',1);
+
+
+        $aTaskList[] = array(
+                            'method' =>'task1',
+                            'params' => array('foo'),
+                            );
+        $aTaskList[] = array(
+                            'method' =>'task2',
+                            'params' => array('bar'),
+                            );
+        $aUndoList[] = array(
+                            'method' =>'untask2',
+                            'params' => array('bar'),
+                            );
+        $aUndoList[] = array(
+                            'method' =>'untask1',
+                            'params' => array('foo'),
+                            );
+
+        $this->assertFalse($oManager->_runTasks('testPlugin', $aTaskList, $aUndoList));
+        $oManager->tally();
+
+    }
+
+    function test_parseXML()
+    {
+        Mock::generatePartial(
+                                'stdClass',
+                                $oMockParser = 'stdClass'.rand(),
+                                array(
+                                      'setInputFile',
+                                      'parse'
+                                     )
+                             );
+        $oParser = new $oMockParser($this);
+        $oParser->setReturnValue('setInputFile', true);
+        $oParser->expectOnce('setInputFile');
+        $oParser->setReturnValue('parse', true);
+        $oParser->expectOnce('parse');
+        $oParser->aPlugin = array(
+                                  1=>'test1',
+                                  2=>'test2',
+                                 );
+
+        Mock::generatePartial(
+                                'OX_Plugin_ComponentGroupManager',
+                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
+                                array(
+                                      '_instantiateClass'
+                                     )
+                             );
+        $oManager = new $oMockManager($this);
+        $oManager->setReturnValue('_instantiateClass', $oParser);
+        $oManager->expectOnce('_instantiateClass');
+
+        // Test 1 - missing xml file
+        $this->assertFalse($oManager->parseXML('test.xml', ''));
+
+        // Test 2 - success
+        $fileFoo = MAX_PATH.$this->testpathData.'foo.xml';
+        $result = $oManager->parseXML($fileFoo, '');
+        $this->assertIsA($result,'array');
+        $this->assertEqual(count($result),2);
+        $this->assertEqual($result[1],'test1');
+        $this->assertEqual($result[2],'test2');
+
+        $oManager->tally();
+        $oParser->tally();
+    }
+
+    function test_getComponentGroupSettingsArray()
+    {
+        $oManager = new OX_Plugin_ComponentGroupManager();
+
+        $GLOBALS['_MAX']['CONF']['test'] = array(
+                                                  'foo'=>1,
+                                                  'bar'=>0,
+                                                 );
+        $aComponentGroups = $oManager->getComponentGroupSettingsArray('test');
+        $this->assertIsA($aComponentGroups,'array');
+        $this->assertEqual(count($aComponentGroups),2);
+        $this->assertEqual($aComponentGroups['foo'],1);
+        $this->assertEqual($aComponentGroups['bar'],0);
+        unset($GLOBALS['_MAX']['CONF']['test']);
+        $aComponentGroups = $oManager->getComponentGroupSettingsArray('test');
+        $this->assertIsA($aComponentGroups,'array');
+        $this->assertEqual(count($aComponentGroups),0);
+    }
+
+    function test_getComponentGroupVersion()
+    {
+        Mock::generatePartial(
+                                'stdClass',
+                                $mockVerCtrl = 'stdClass'.rand(),
+                                array(
+                                      'getApplicationVersion'
+                                     )
+                             );
+        $oVerCtrl = new $mockVerCtrl($this);
+        $oVerCtrl->setReturnValueAt(0,'getApplicationVersion', '0.1','foo');
+        $oVerCtrl->expectCallCount('getApplicationVersion',1);
+
+        Mock::generatePartial(
+                                'OX_Plugin_ComponentGroupManager',
+                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
+                                array(
+                                      '_getVersionController'
+                                     )
+                             );
+        $oManager = new $oMockManager($this);
+
+        $oManager->setReturnValue('_getVersionController', $oVerCtrl);
+        $oManager->expectOnce('_getVersionController');
+
+        $result = $oManager->getComponentGroupVersion('foo');
+        $this->assertEqual($result,'0.1');
+
+        $oManager->tally();
+        $oVerCtrl->tally();
+    }
+
+/*    function test_getPluginsArray()
+    {
+        Mock::generatePartial(
+                                'OX_Plugin_ComponentGroupManager',
+                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
+                                array('getComponentGroupVersion')
+                             );
+        $oManager = new $oMockManager($this);
+
+        $oManager->setReturnValueAt(0,'getComponentGroupVersion', '0.1', 'foo');
+        $oManager->setReturnValueAt(1,'getComponentGroupVersion', '0.2', 'bar');
+        $oManager->expectCallCount('getComponentGroupVersion',2);
+
+        $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] = array('foo'=>1,'bar'=>0);
+        $aComponentGroups = $oManager->getPluginsArray();
+        $this->assertIsA($aComponentGroups,'array');
+        $this->assertEqual(count($aComponentGroups),2);
+        $this->assertEqual($aComponentGroups['foo']['enabled'],1);
+        $this->assertEqual($aComponentGroups['foo']['version'],'0.1');
+        $this->assertEqual($aComponentGroups['bar']['enabled'],0);
+        $this->assertEqual($aComponentGroups['bar']['version'],'0.2');
+
+        $oManager->tally();
+    }*/
+
+    function test_setPlugin()
+    {
+        Mock::generatePartial(
+                                'OA_Admin_Settings',
+                                $oMockConfig = 'OA_Admin_Settings'.rand(),
+                                array(
+                                      'settingChange',
+                                      'writeConfigChange'
+                                     )
+                             );
+        $oConfig = new $oMockConfig($this);
+        $oConfig->setReturnValue('settingChange', true);
+        $oConfig->expectOnce('settingChange');
+        $oConfig->setReturnValue('writeConfigChange', true);
+        $oConfig->expectOnce('writeConfigChange');
+
+        Mock::generatePartial(
+                                'OX_Plugin_ComponentGroupManager',
+                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
+                                array(
+                                      '_instantiateClass'
+                                     )
+                             );
+        $oManager = new $oMockManager($this);
+        $oManager->setReturnValue('_instantiateClass', $oConfig);
+        $oManager->expectOnce('_instantiateClass');
+
+        $oManager->_setPlugin('test');
+        $oManager->tally();
+    }
+
+    function test_enableComponentGroup()
+    {
+        Mock::generatePartial(
+                                'OX_Plugin_ComponentGroupManager',
+                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
+                                array(
+                                      '_setPlugin'
+                                     )
+                             );
+        $oManager = new $oMockManager($this);
+        $oManager->setReturnValueAt(0,'_setPlugin', true);
+        $oManager->setReturnValueAt(1,'_setPlugin', false);
+        $oManager->expectCallCount('_setPlugin',2);
+
+        $this->assertTrue($oManager->enableComponentGroup('test'));
+        $this->assertFalse($oManager->enableComponentGroup('test'));
+        $oManager->tally();
+    }
+
+    function test_disableComponentGroup()
+    {
+        Mock::generatePartial(
+                                'OX_Plugin_ComponentGroupManager',
+                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
+                                array(
+                                      '_setPlugin'
+                                     )
+                             );
+        $oManager = new $oMockManager($this);
+        $oManager->setReturnValueAt(0,'_setPlugin', true);
+        $oManager->setReturnValueAt(1,'_setPlugin', false);
+        $oManager->expectCallCount('_setPlugin',2);
+
+        $this->assertTrue($oManager->disableComponentGroup('test'));
+        $this->assertFalse($oManager->disableComponentGroup('test'));
+        $oManager->tally();
+    }
+
+    function test_getSchemaInfo()
+    {
+        Mock::generatePartial(
+                                'stdClass',
+                                $mockVerCtrl = 'stdClass'.rand(),
+                                array(
+                                      'getSchemaVersion'
+                                     )
+                             );
+        $oVerCtrl = new $mockVerCtrl($this);
+        $oVerCtrl->setReturnValueAt(0,'getSchemaVersion', '999','foo');
+        $oVerCtrl->expectCallCount('getSchemaVersion',1);
+
+        Mock::generatePartial(
+                                'OX_Plugin_ComponentGroupManager',
+                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
+                                array(
+                                      '_getVersionController'
+                                     )
+                             );
+        $oManager = new $oMockManager($this);
+
+        $oManager->setReturnValue('_getVersionController', $oVerCtrl);
+        $oManager->expectOnce('_getVersionController');
+
+        $this->assertEqual($oManager->getSchemaInfo('foo'),'999');
+        $oVerCtrl->tally();
+        $oManager->tally();
+
+    }
+
+    function test_getComponentGroupInfo()
+    {
+        Mock::generatePartial(
+                                'OX_Plugin_ComponentGroupManager',
+                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
+                                array(
+                                      'getSchemaInfo',
+                                      'parseXML'
+                                     )
+                             );
+        $oManager = new $oMockManager($this);
+        $oManager->pathPackages      = $this->testpathPackages;
+        $oManager->pathPluginsAdmin = $this->testpathPluginsAdmin;
+
+        $aComponentGroup1 = array(
+                        '1'=>'foo',
+                        '2'=>'bar',
+                        'install'=>array('schema'=>array('mdb2schema'=>'fooschema')),
+                        );
+        $oManager->setReturnValueAt(0,'parseXML', $aComponentGroup1);
+        $oManager->setReturnValueAt(0,'getSchemaInfo', '999','foo');
+
+        $aResult = $oManager->getComponentGroupInfo('testPlugin');
+        $this->assertIsA($aResult, 'array');
+        $this->assertEqual(count($aResult),9);
+        $this->assertEqual($aResult[1],'foo');
+        $this->assertEqual($aResult[2],'bar');
+        $this->assertEqual($aResult['schema_name'],'fooschema');
+        $this->assertEqual($aResult['schema_version'],'999');
+
+        $aComponentGroup2 = array(
+                        '1'=>'foo',
+                        '2'=>'bar',
+                        'install'=>array('conf'=>array('settings'=>array(0,1,2),'preferences'=>array(0,1,2))),
+                        );
+        $oManager->setReturnValueAt(1,'parseXML', $aComponentGroup2);
+        $oManager->setReturnValueAt(1,'getSchemaInfo', false);
+
+        $aResult = $oManager->getComponentGroupInfo('testPlugin');
+        $this->assertIsA($aResult, 'array');
+        $this->assertEqual(count($aResult),7);
+        $this->assertEqual($aResult[1],'foo');
+        $this->assertEqual($aResult[2],'bar');
+        $this->assertNull($aResult['schema_name']);
+        $this->assertNull($aResult['schema_version']);
+        $this->assertTrue($aResult['settings']);
+        $this->assertTrue($aResult['preferences']);
+
+        $oManager->expectCallCount('parseXML', 2);
+        $oManager->expectCallCount('getSchemaInfo',2);
+
+        $oManager->tally();
+    }
+
+    function test_registerPluginVersion()
+    {
+        Mock::generatePartial(
+                                'stdClass',
+                                $mockVerCtrl = 'stdClass'.rand(),
+                                array(
+                                      'putApplicationVersion'
+                                     )
+                             );
+        $oVerCtrl = new $mockVerCtrl($this);
+        $oVerCtrl->setReturnValueAt(0,'putApplicationVersion', '0.1', array('0.1','test'));
+        $oVerCtrl->setReturnValueAt(1,'putApplicationVersion', 0.1, array('0.1','test'));
+        $oVerCtrl->expectCallCount('putApplicationVersion',2);
+
+        Mock::generatePartial(
+                                'OX_Plugin_ComponentGroupManager',
+                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
+                                array(
+                                      '_getVersionController'
+                                     )
+                             );
+        $oManager = new $oMockManager($this);
+
+        $oManager->setReturnValue('_getVersionController', $oVerCtrl);
+        $oManager->expectCallCount('_getVersionController',2);
+
+        $this->assertTrue($oManager->_registerPluginVersion('test', '0.1'));
+        $this->assertFalse($oManager->_registerPluginVersion('test', '0.1'));
+
+        $oVerCtrl->tally();
+        $oManager->tally();
+    }
+
+    function test_registerSchemaVersion()
+    {
+        Mock::generatePartial(
+                                'stdClass',
+                                $mockVerCtrl = 'stdClass'.rand(),
+                                array(
+                                      'putSchemaVersion'
+                                     )
+                             );
+        $oVerCtrl = new $mockVerCtrl($this);
+        $oVerCtrl->setReturnValueAt(0,'putSchemaVersion', '999', array('test','999'));
+        $oVerCtrl->setReturnValueAt(1,'putSchemaVersion', true, array('test','999'));
+        $oVerCtrl->expectCallCount('putSchemaVersion',2);
+
+        Mock::generatePartial(
+                                'OX_Plugin_ComponentGroupManager',
+                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
+                                array(
+                                      '_getVersionController'
+                                     )
+                             );
+        $oManager = new $oMockManager($this);
+
+        $oManager->setReturnValue('_getVersionController', $oVerCtrl);
+        $oManager->expectCallCount('_getVersionController',2);
+
+        $this->assertTrue($oManager->_registerSchemaVersion('test', '999'));
+        $this->assertFalse($oManager->_registerSchemaVersion('test', '999'));
+
+        $oVerCtrl->tally();
+        $oManager->tally();
+    }
+
+    function test_unregisterSchemaVersion()
+    {
+        Mock::generatePartial(
+                                'stdClass',
+                                $mockVerCtrl = 'stdClass'.rand(),
+                                array(
+                                      'removeVariable'
+                                     )
+                             );
+        $oVerCtrl = new $mockVerCtrl($this);
+        $oVerCtrl->setReturnValueAt(0,'removeVariable', true, 'test');
+        $oVerCtrl->setReturnValueAt(0,'removeVariable', false, 'test');
+        $oVerCtrl->expectCallCount('removeVariable',2);
+
+        Mock::generatePartial(
+                                'OX_Plugin_ComponentGroupManager',
+                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
+                                array(
+                                      '_getVersionController'
+                                     )
+                             );
+        $oManager = new $oMockManager($this);
+
+        $oManager->setReturnValue('_getVersionController', $oVerCtrl);
+        $oManager->expectCallCount('_getVersionController',2);
+
+        $this->assertTrue($oManager->_unregisterSchemaVersion('test'));
+        $this->assertFalse($oManager->_unregisterSchemaVersion('test'));
+
+        $oVerCtrl->tally();
+        $oManager->tally();
+    }
+
+    function test_unregisterPluginVersion()
+    {
+        Mock::generatePartial(
+                                'stdClass',
+                                $mockVerCtrl = 'stdClass'.rand(),
+                                array(
+                                      'removeVersion'
+                                     )
+                             );
+        $oVerCtrl = new $mockVerCtrl($this);
+        $oVerCtrl->setReturnValueAt(0,'removeVersion', true, 'test');
+        $oVerCtrl->setReturnValueAt(1,'removeVersion', false, 'test');
+        $oVerCtrl->expectCallCount('removeVersion',2);
+
+        Mock::generatePartial(
+                                'OX_Plugin_ComponentGroupManager',
+                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
+                                array(
+                                      '_getVersionController'
+                                     )
+                             );
+        $oManager = new $oMockManager($this);
+
+        $oManager->setReturnValue('_getVersionController', $oVerCtrl);
+        $oManager->expectCallCount('_getVersionController',2);
+
+        $this->assertTrue($oManager->_unregisterPluginVersion('test'));
+        $this->assertFalse($oManager->_unregisterPluginVersion('test'));
+
+        $oVerCtrl->tally();
+        $oManager->tally();
+    }
+
+    function test_registerSettings()
+    {
+        Mock::generatePartial(
+                                'OA_Admin_Settings',
+                                $oMockConfig = 'OA_Admin_Settings'.rand(),
+                                array(
+                                      'settingChange',
+                                      'writeConfigChange'
+                                     )
+                             );
+        $oConfig = new $oMockConfig($this);
+        $oConfig->setReturnValue('settingChange', true);
+        $oConfig->expectCallCount('settingChange',4);
+        $oConfig->setReturnValueAt(0,'writeConfigChange', true);
+        $oConfig->setReturnValueAt(1,'writeConfigChange', false);
+        $oConfig->expectCallCount('writeConfigChange',2);
+
+        Mock::generatePartial(
+                                'OX_Plugin_ComponentGroupManager',
+                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
+                                array(
+                                      '_instantiateClass'
+                                     )
+                             );
+        $oManager = new $oMockManager($this);
+        $oManager->setReturnValue('_instantiateClass', $oConfig);
+
+        $aSettings[] = array(
+                             'section'=>'foo',
+                             'key'=>'foo1',
+                             'data'=>'bar1',
+                            );
+        $aSettings[] = array(
+                             'section'=>'foo',
+                             'key'=>'foo2',
+                             'data'=>'bar2',
+                            );
+        $this->assertTrue($oManager->_registerSettings('testPlugin',$aSettings));
+        $this->assertFalse($oManager->_registerSettings('testPlugin',$aSettings));
+
+        $oManager->expectCallCount('_instantiateClass',2);
+        $oConfig->tally();
+        $oManager->tally();
+    }
+
+    function test_unregisterSettings()
+    {
+        Mock::generatePartial(
+                                'OA_Admin_Settings',
+                                $oMockConfig = 'OA_Admin_Settings'.rand(),
+                                array(
+                                      'writeConfigChange'
+                                     )
+                             );
+        $oConfig = new $oMockConfig($this);
+        $oConfig->setReturnValueAt(0,'writeConfigChange', true);
+        $oConfig->setReturnValueAt(1,'writeConfigChange', false);
+        $oConfig->expectCallCount('writeConfigChange',2);
+        $oConfig->aConf['pluginGroupComponents'] = array('test'=>1);
+        $oConfig->aConf['test']    = array('key'=>'val');
+
+        Mock::generatePartial(
+                                'OX_Plugin_ComponentGroupManager',
+                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
+                                array(
+                                      '_instantiateClass'
+                                     )
+                             );
+        $oManager = new $oMockManager($this);
+        $oManager->setReturnValue('_instantiateClass', $oConfig);
+        $oManager->expectCallCount('_instantiateClass',2);
+
+        $aSettings[] = array(
+                             'section'=>'foo',
+                             'key'=>'foo1',
+                             'data'=>'bar1',
+                            );
+        $aSettings[] = array(
+                             'section'=>'foo',
+                             'key'=>'foo2',
+                             'data'=>'bar2',
+                            );
+        $this->assertEqual(count($oConfig->aConf['pluginGroupComponents']),1);
+        $this->assertEqual(count($oConfig->aConf['test']),1);
+        $this->assertTrue($oManager->_unregisterSettings('test'));
+        $this->assertEqual(count($oConfig->aConf['pluginGroupComponents']),0);
+        $this->assertFalse(isset($oConfig->aConf['test']));
+        $this->assertFalse($oManager->_unregisterSettings('test'));
+        $oConfig->tally();
+        $oManager->tally();
+    }
+
+    function test_checkSystemEnvironment()
+    {
+        Mock::generatePartial(
+                                'OA_Environment_Manager',
+                                $oMockEnvMgr = 'OA_Environment_Manager'.rand(),
+                                array(
+                                      'getPHPInfo',
+                                      '_checkCriticalPHP',
+                                     )
+                             );
+        $oEnvMgr = new $oMockEnvMgr($this);
+        $oEnvMgr->setReturnValueAt(0,'getPHPInfo', array('version'=>'4.3.12'));
+        $oEnvMgr->setReturnValueAt(1,'getPHPInfo', array('version'=>'4.3.10'));
+        $oEnvMgr->setReturnValueAt(0,'_checkCriticalPHP', OA_ENV_ERROR_PHP_NOERROR);
+        $oEnvMgr->setReturnValueAt(1,'_checkCriticalPHP', OA_ENV_ERROR_PHP_NOERROR+10);
+
+        Mock::generatePartial(
+                                'OX_Plugin_ComponentGroupManager',
+                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
+                                array(
+                                      '_instantiateClass'
+                                     )
+                             );
+        $oManager = new $oMockManager($this);
+        $oManager->setReturnValue('_instantiateClass', $oEnvMgr);
+
+        $aPhp[] = array(
+                        'name'=>'version',
+                        'value'=>'4.3.11',
+                       );
+        $this->assertTrue($oManager->_checkSystemEnvironment('testPlugin',$aPhp));
+        $this->assertFalse($oManager->_checkSystemEnvironment('testPlugin',$aPhp));
+
+        $oManager->expectCallCount('_instantiateClass',2);
+        $oEnvMgr->expectCallCount('getPHPInfo',2);
+        $oEnvMgr->expectCallCount('_checkCriticalPHP',2);
+
+        $oEnvMgr->tally();
+        $oManager->tally();
+    }
+
+    function test_checkDatabaseEnvironment()
+    {
+        // make sure that there is a global database connection object
+        $oDbh = OA_DB::singleton();
+        $phptype = $oDbh->phptype;
+
+        Mock::generatePartial(
+                                'OX_Plugin_ComponentGroupManager',
+                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
+                                array(
+                                     )
+                             );
+        $oManager = new $oMockManager($this);
+
+        // Test 1 - plugin has no specific database requirements
+        $aDbms = array();
+        $this->assertTrue($oManager->_checkDatabaseEnvironment('testPlugin', $aDbms));
+
+        // Test 2 - plugin does not support user database
+        $aDbms[0] = array(
+                         'name'=>$phptype,
+                         'supported'=>0,
+                         );
+        $this->assertFalse($oManager->_checkDatabaseEnvironment('testPlugin', $aDbms));
+
+        // Test 3 - plugin does support user database
+        $aDbms[0] = array(
+                         'name'=>$phptype,
+                         'supported'=>1,
+                         );
+        $this->assertTrue($oManager->_checkDatabaseEnvironment('testPlugin', $aDbms));
+    }
+
+    function test_checkDependenciesForInstallOrEnable()
+    {
+        Mock::generatePartial(
+                                'OX_Plugin_ComponentGroupManager',
+                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
+                                array(
+                                        'getComponentGroupVersion',
+                                     )
+                             );
+        $oManager = new $oMockManager($this);
+
+
+        $oManager->setReturnValueAt(0,'getComponentGroupVersion', '0.1');
+        $oManager->setReturnValueAt(0,'getComponentGroupVersion', '2.0');
+
+
+        // Test 1 - fails because testPlugin depends on foo which is not installed
+        unset($GLOBALS['_MAX']['CONF']['pluginGroupComponents']['foo']);
+        $aDepends[0] = array('name'=>'foo','version'=>'1.0','enabled'=>0);
+        $this->assertFalse($oManager->_checkDependenciesForInstallOrEnable('testPlugin',$aDepends, false));
+
+        // Test 2 - fails because testPlugin depends although foo which is installed it is an earlier version
+        $GLOBALS['_MAX']['CONF']['pluginGroupComponents']['foo'] = 0;
+        $aDepends[0] = array('name'=>'foo','version'=>'1.0','enabled'=>0);
+        $oManager->setReturnValueAt(0,'getComponentGroupVersion', '0.1');
+        $this->assertFalse($oManager->_checkDependenciesForInstallOrEnable('testPlugin',$aDepends, false));
+
+        // Test 3 - success
+        $GLOBALS['_MAX']['CONF']['pluginGroupComponents']['foo'] = 0;
+        $aDepends[0] = array('name'=>'foo','version'=>'1.0','enabled'=>0);
+        $oManager->setReturnValueAt(1,'getComponentGroupVersion', '1.0');
+        $this->assertTrue($oManager->_checkDependenciesForInstallOrEnable('test',$aDepends, false));
+
+        $oManager->expectCallCount('getComponentGroupVersion',2);
+        $oManager->tally();
+        unset($GLOBALS['_MAX']['CONF']['pluginGroupComponents']['foo']);
+    }
+
+
+    function test_checkDependenciesForUninstallOrDisable()
+    {
+        Mock::generatePartial(
+                                'OX_Plugin_ComponentGroupManager',
+                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
+                                array(
+                                      '_loadDependencyArray'
+                                     )
+                             );
+        $oManager = new $oMockManager($this);
+
+        // user wants to disable or uninstall plugin foo
+        // foo needs to find out if other plugins rely on it being installed
+
+        // Test 1 - no plugins are dependent on foo
+        $oManager->setReturnValueAt(0,'_loadDependencyArray', array());
+        $this->assertTrue($oManager->_checkDependenciesForUninstallOrDisable('foo'));
+
+        // Test 2 - bar relies on foo being installed; bar is not installed
+        $aDepends['isDependedOnBy'] = array('foo'=>array('bar'=>array('installed'=>true,'enabled'=>false)));
+        $oManager->setReturnValueAt(1,'_loadDependencyArray', $aDepends);
+        $this->assertTrue($oManager->_checkDependenciesForUninstallOrDisable('foo'));
+
+        // Test 3 - bar relies on foo being installed; bar is actually installed
+        $GLOBALS['_MAX']['CONF']['pluginGroupComponents']['bar'] = 1;
+        $aDepends['isDependedOnBy'] = array('foo'=>array('bar'=>array('installed'=>true,'enabled'=>true)));
+        $oManager->setReturnValueAt(2,'_loadDependencyArray', $aDepends);
+        $this->assertFalse($oManager->_checkDependenciesForUninstallOrDisable('foo', false));
+
+        $oManager->expectCallCount('_loadDependencyArray',3);
+        $oManager->tally();
+
+        unset($GLOBALS['_MAX']['CONF']['pluginGroupComponents']['bar']);
+    }
+
+    /**
+     * see integration test
+     */
+    /*function test_checkMenus()
+    {
+        $oManager = new OX_Plugin_ComponentGroupManager();
+        $this->assertTrue($oManager->_checkMenus('test'));
+    }*/
+
+    function test_registerSchema()
+    {
+        Mock::generatePartial(
+                                'OX_Plugin_ComponentGroupManager',
+                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
+                                array(
+                                      '_createTables',
+                                      '_dropTables',
+                                       '_registerSchemaVersion',
+                                       '_putDataObjects',
+                                      '_cacheDataObjects',
+                                      '_verifyDataObjects'
+                                     )
+                             );
+        $oManager = new $oMockManager($this);
+        $oManager->setReturnValue('_dropTables', true);
+
+        // Test 1 - no tables to create
+        $this->assertTrue($oManager->_registerSchema('test',array('mdb2schema'=>false)));
+
+        // Test 2 - failure to create tables
+        $oManager->setReturnValueAt(0,'_createTables', false);
+        $this->assertFalse($oManager->_registerSchema('test',array('mdb2schema'=>true)));
+
+        // Test 3 - success creating tables, schema registration fails
+        $oManager->setReturnValueAt(1,'_createTables', true);
+        $oManager->setReturnValueAt(0,'_registerSchemaVersion', false);
+        $this->assertFalse($oManager->_registerSchema('test',array('mdb2schema'=>true)));
+
+        // Test 4 - success creating tables, failed to copy dataobjects
+        $oManager->setReturnValueAt(2,'_createTables', true);
+        $oManager->setReturnValueAt(1,'_registerSchemaVersion', true);
+        $oManager->setReturnValueAt(0,'_putDataObjects', false);
+        $this->assertFalse($oManager->_registerSchema('test',array('mdb2schema'=>true)));
+
+        // Test 5 - success copying dataobjects, failed to cache dataobjects
+        $oManager->setReturnValueAt(3,'_createTables', true);
+        $oManager->setReturnValueAt(2,'_registerSchemaVersion', true);
+        $oManager->setReturnValueAt(1,'_putDataObjects', true);
+        $oManager->setReturnValueAt(0,'_cacheDataObjects', false);
+        $this->assertFalse($oManager->_registerSchema('test',array('mdb2schema'=>true)));
+
+        // Test 6 - success caching dataobjects, failed to verify dataobjects
+        $oManager->setReturnValueAt(4,'_createTables', true);
+        $oManager->setReturnValueAt(3,'_registerSchemaVersion', true);
+        $oManager->setReturnValueAt(2,'_putDataObjects', true);
+        $oManager->setReturnValueAt(1,'_cacheDataObjects', true);
+        $oManager->setReturnValueAt(0,'_verifyDataObjects', false);
+        $this->assertFalse($oManager->_registerSchema('test',array('mdb2schema'=>true)));
+
+        // Test 5 - success
+        $oManager->setReturnValueAt(5,'_createTables', true);
+        $oManager->setReturnValueAt(4,'_registerSchemaVersion', true);
+        $oManager->setReturnValueAt(3,'_putDataObjects', true);
+        $oManager->setReturnValueAt(2,'_cacheDataObjects', true);
+        $oManager->setReturnValueAt(1,'_verifyDataObjects', true);
+        $this->assertTrue($oManager->_registerSchema('test',array('mdb2schema'=>true)));
+
+        $oManager->expectCallCount('_createTables',6);
+        $oManager->expectCallCount('_dropTables',5);
+        $oManager->expectCallCount('_registerSchemaVersion',5);
+        $oManager->expectCallCount('_putDataObjects',4);
+        $oManager->expectCallCount('_cacheDataObjects',3);
+        $oManager->expectCallCount('_verifyDataObjects',2);
+
+        $oManager->tally();
+    }
+
+    function test_unregisterSchema()
+    {
+        Mock::generatePartial(
+                                'OX_Plugin_ComponentGroupManager',
+                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
+                                array(
+                                      '_dropTables',
+                                      '_unregisterSchemaVersion',
+                                     )
+                             );
+        $oManager = new $oMockManager($this);
+
+        $this->assertTrue($oManager->_unregisterSchema('test',array('mdb2schema'=>false)));
+
+        $oManager->setReturnValueAt(0,'_dropTables', false);
+        $this->assertFalse($oManager->_unregisterSchema('test',array('mdb2schema'=>true)));
+
+        $oManager->setReturnValueAt(1,'_dropTables', true);
+        $oManager->setReturnValueAt(0,'_unregisterSchemaVersion', false);
+        $this->assertFalse($oManager->_unregisterSchema('test',array('mdb2schema'=>true)));
+
+        $oManager->setReturnValueAt(2,'_dropTables', true);
+        $oManager->setReturnValueAt(1,'_unregisterSchemaVersion', true);
+        $this->assertTrue($oManager->_unregisterSchema('test',array('mdb2schema'=>true)));
+
+        $oManager->expectCallCount('_dropTables',3);
+        $oManager->expectCallCount('_unregisterSchemaVersion',2);
+        $oManager->tally();
+    }
+
+    function test_createTables()
+    {
+        Mock::generatePartial(
+                                'OA_DB_Table',
+                                $oMockTable = 'OA_DB_Table'.rand(),
+                                array(
+                                      'init',
+                                      'createTable',
+                                      'dropAllTables',
+                                     )
+                             );
+        $oTable = new $oMockTable($this);
+        $oTable->aDefinition = array(
+                                     'name'    => 'testPlugin',
+                                     'version' => 001,
+                                     'tables'  => array('testplugin_table' => array()),
+                                     );
+        Mock::generatePartial(
+                                'OX_Plugin_ComponentGroupManager',
+                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
+                                array(
+                                        '_instantiateClass',
+                                        '_dropTables',
+                                        '_auditInit',
+                                        '_auditSetKeys',
+                                        '_auditStart',
+                                     )
+                             );
+;
+        $oManager = new $oMockManager($this);
+
+        $oManager->setReturnValue('_instantiateClass', $oTable);
+/*        $oManager->setReturnValue('_auditSetKeys', true);
+        $oManager->setReturnValue('_auditStart', true);*/
+        $oManager->setReturnValue('_dropTables', true);
+
+        // Test 1 - initialise schema fails
+        $oTable->setReturnValueAt(0,'init', false);
+        $this->assertFalse($oManager->_createTables('test',$aSchema));
+
+        // Test 2 - table creation fails
+        $oTable->setReturnValueAt(1,'init', true);
+        $oTable->setReturnValueAt(0,'createTable', false);
+        $oManager->setReturnValueAt(0,'_dropTables', true);
+        $this->assertFalse($oManager->_createTables('test',$aSchema));
+
+        // Test 3 - success
+        $oTable->setReturnValueAt(2,'init', true);
+        $oTable->setReturnValueAt(1,'createTable', true);
+        $this->assertTrue($oManager->_createTables('test',$aSchema));
+
+        $oTable->expectCallCount('init',3);
+        $oTable->expectCallCount('createTable',2);
+
+        $oManager->expectCallCount('_instantiateClass',3);
+        $oManager->expectCallCount('_dropTables',1);
+        //$oManager->expectCallCount('_auditDatabaseAction',4);
+
+        $oTable->tally();
+        $oManager->tally();
+    }
+
+    function test_dropTables()
+    {
+        Mock::generatePartial(
+                                'OA_DB_Table',
+                                $oMockTable = 'OA_DB_Table'.rand(),
+                                array(
+                                      'init',
+                                      'dropTable',
+                                     )
+                             );
+        $oTable = new $oMockTable($this);
+        $oTable->aDefinition = array(
+                                     'name'    => 'testPlugin',
+                                     'version' => 001,
+                                     'tables'  => array('testplugin_table' => array())
+                                     );
+        Mock::generatePartial(
+                                'OX_Plugin_ComponentGroupManager',
+                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
+                                array(
+                                        '_instantiateClass',
+                                        '_auditInit',
+                                        '_auditSetKeys',
+                                        '_auditStart',
+                                        '_tableExists',
+                                     )
+                             );
+;
+        $oManager = new $oMockManager($this);
+
+        $oManager->setReturnValue('_instantiateClass', $oTable);
+        //$oManager->setReturnValue('_auditDatabaseAction', true);
+
+        // Test 1 - initialise schema fails
+        $oTable->setReturnValueAt(0,'init', false);
+
+        $this->assertFalse($oManager->_dropTables('test',$aSchema));
+
+        // Test 2 - table drop fails and table still exists
+        $oTable->setReturnValueAt(1,'init', true);
+        $oTable->setReturnValueAt(0,'dropTable', false);
+        $oManager->setReturnValueAt(0,'_tableExists', true);
+
+        $this->assertFalse($oManager->_dropTables('test',$aSchema));
+
+        // Test 3 - table drop fails because table did not exist, so thats ok :)
+        $oTable->setReturnValueAt(2,'init', true);
+        $oTable->setReturnValueAt(1,'dropTable', false);
+        $oManager->setReturnValueAt(1,'_tableExists', false);
+
+        $this->assertTrue($oManager->_dropTables('test',$aSchema));
+
+        // Test 3 - success
+        $oTable->setReturnValueAt(3,'init', true);
+        $oTable->setReturnValueAt(2,'dropTable', true);
+
+        $this->assertTrue($oManager->_dropTables('test',$aSchema));
+
+        $oTable->expectCallCount('init',4);
+        $oTable->expectCallCount('dropTable',3);
+        $oManager->expectCallCount('_tableExists',2);
+        //$oManager->expectCallCount('_auditDatabaseAction',6);
+        $oManager->expectCallCount('_instantiateClass',4);
+
+        $oTable->tally();
+        $oManager->tally();
+    }
+
+    function test_auditInit()
+    {
+        Mock::generatePartial(
+                                'OA_UpgradeAuditor',
+                                $oMockAuditor = 'OA_UpgradeAuditor'.rand(),
+                                array(
+                                        'init',
+                                     )
+                             );
+        $oAuditor = new $oMockAuditor($this);
+        $oAuditor->setReturnValue('init', true);
+
+        Mock::generatePartial(
+                                'OX_Plugin_ComponentGroupManager',
+                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
+                                array(
+                                        '_instantiateClass',
+                                     )
+                             );
+;
+        $oManager = new $oMockManager($this);
+        $oManager->setReturnValue('_instantiateClass', $oAuditor);
+        $oManager->expectCallCount('_instantiateClass',1);
+
+        $oManager->_auditInit();
+        $this->assertIsA($oManager->oAuditor, get_class($oAuditor));
+
+        $oManager->_auditInit();
+
+        $oAuditor->expectCallCount('init',1);
+
+        $oAuditor->tally();
+        $oManager->tally();
+    }
+
+    function test_checkDatabase()
+    {
+        /**
+         * NOT YET IMPLEMENTED
+         *
+         * method is a demo utility only
+         */
+    }
+
+    function test_canUpgradeComponentGroup()
+    {
+        Mock::generatePartial(
+                                'OX_Plugin_UpgradeComponentGroup',
+                                $oMockUpgrade = 'OX_Plugin_UpgradeComponentGroup'.rand(),
+                                array(
+                                      'canUpgrade'
+                                     )
+                             );
+        $oUpgrade = new $oMockUpgrade($this);
+        $oUpgrade->expectCallCount('canUpgrade', 5);
+
+        Mock::generatePartial(
+                                'OX_Plugin_ComponentGroupManager',
+                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
+                                array(
+                                      '_getOX_Plugin_UpgradeComponentGroup',
+                                     )
+                             );
+        $oManager = new $oMockManager($this);
+
+        $oManager->setReturnValue('_getOX_Plugin_UpgradeComponentGroup', &$oUpgrade);
+
+        $aComponentGroup = array('name'=>'foo',
+                         'version'=>'1.0.0',
+                        );
+
+        // Test 1 - can upgrade
+        $oUpgrade->existing_installation_status = OA_STATUS_PLUGIN_CAN_UPGRADE;
+        $this->assertTrue($oManager->_canUpgradeComponentGroup($aComponentGroup));
+        $this->assertEqual($aComponentGroup['status'], OA_STATUS_PLUGIN_CAN_UPGRADE);
+
+        // Test 2 - current version, returns true as it is not technically a potential failure to upgrade
+        $oUpgrade->existing_installation_status = OA_STATUS_PLUGIN_CURRENT_VERSION;
+        $this->assertTrue($oManager->_canUpgradeComponentGroup($aComponentGroup));
+        $this->assertEqual($aComponentGroup['status'], OA_STATUS_PLUGIN_CURRENT_VERSION);
+
+        // Test 3 - not installed, returns true as it is not technically a potential failure to upgrade
+        $oUpgrade->existing_installation_status = OA_STATUS_PLUGIN_NOT_INSTALLED;
+        $this->assertTrue($oManager->_canUpgradeComponentGroup($aComponentGroup));
+        $this->assertEqual($aComponentGroup['status'], OA_STATUS_PLUGIN_NOT_INSTALLED);
+
+        // Test 4 - bad version (version lower than current or current version not obtained)
+        $oUpgrade->existing_installation_status = OA_STATUS_PLUGIN_VERSION_FAILED;
+        $this->assertFalse($oManager->_canUpgradeComponentGroup($aComponentGroup));
+        $this->assertEqual($aComponentGroup['status'], OA_STATUS_PLUGIN_VERSION_FAILED);
+
+        // Test 5 - database integrity check failed
+        $oUpgrade->existing_installation_status = OA_STATUS_PLUGIN_DBINTEG_FAILED;
+        $this->assertFalse($oManager->_canUpgradeComponentGroup($aComponentGroup));
+        $this->assertEqual($aComponentGroup['status'], OA_STATUS_PLUGIN_DBINTEG_FAILED);
+    }
+
+    function test_upgradeComponentGroup()
+    {
+        Mock::generatePartial(
+                                'OX_Plugin_UpgradeComponentGroup',
+                                $oMockUpgrade = 'OX_Plugin_UpgradeComponentGroup'.rand(),
+                                array(
+                                      'canUpgrade',
+                                      'upgrade',
+                                     )
+                             );
+        $oUpgrade = new $oMockUpgrade($this);
+        $oUpgrade->setReturnValue('canUpgrade', true);
+        $oUpgrade->setReturnValueAt(0,'upgrade', false);
+        $oUpgrade->setReturnValueAt(1,'upgrade', true);
+        $oUpgrade->expectCallCount('upgrade', 2);
+
+        Mock::generatePartial(
+                                'OX_Plugin_ComponentGroupManager',
+                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
+                                array(
+                                      '_getOX_Plugin_UpgradeComponentGroup',
+                                     )
+                             );
+        $oManager = new $oMockManager($this);
+
+        $oManager->setReturnValue('_getOX_Plugin_UpgradeComponentGroup', &$oUpgrade);
+
+        $aComponentGroup = array('name'=>'foo',
+                         'version'=>'1.0.0',
+                        );
+
+        $this->assertEqual($oManager->upgradeComponentGroup($aComponentGroup), UPGRADE_ACTION_UPGRADE_FAILED);
+
+        $this->assertEqual($oManager->upgradeComponentGroup($aComponentGroup), UPGRADE_ACTION_UPGRADE_SUCCEEDED);
+
+    }
+
 }
-
 
 ?>
