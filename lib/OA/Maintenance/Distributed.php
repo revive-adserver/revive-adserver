@@ -70,30 +70,19 @@ class OA_Maintenance_Distributed
 
             $oDal = new $className();
 
-            // Get the last time distributed maintenance ran.
-            $oLastRunDate = $oDal->getMaintenanceDistributedLastRunInfo();
-
-            if ($oLastRunDate) {
-                // Ensure the the current time is registered with the OA_ServiceLocator
-                $oServiceLocator =& OA_ServiceLocator::instance();
-                $oNow =& $oServiceLocator->get('now');
-                if (!$oNow) {
-                    // Record the current time, and register with the OA_ServiceLocator
-                    $oNow = new Date();
-                    $oServiceLocator->register('now', $oNow);
-                }
-
-                // Copy statistics up to the previous OI.
-                $aPreviousOperationIntervalDates = 
-                    OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oNow);
-
-                // Copy buckets' records with interval_start up to previous OI start.
-                $oDal->processBuckets($aPreviousOperationIntervalDates['start']);
-
-                $oDal->setMaintenanceDistributedLastRunInfo($oNow);
-            } else {
-                OA::debug(' - No data to copy over', PEAR_LOG_INFO);
+            // Ensure the the current time is registered with the OA_ServiceLocator
+            $oServiceLocator =& OA_ServiceLocator::instance();
+            $oNow =& $oServiceLocator->get('now');
+            if (!$oNow) {
+                // Record the current time, and register with the OA_ServiceLocator
+                $oNow = new Date();
+                $oServiceLocator->register('now', $oNow);
             }
+
+            // Copy buckets' records with interval_start up to and including previous OI start.
+            $aPreviousOperationIntervalDates = 
+                OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oNow);
+            $oDal->processBuckets($aPreviousOperationIntervalDates['start']);
 
             $oLock->release();
 

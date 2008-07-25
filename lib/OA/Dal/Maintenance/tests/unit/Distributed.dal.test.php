@@ -61,35 +61,6 @@ class Test_OA_Dal_Maintenance_Distributed extends UnitTestCase
         TestEnv::uninstallPluginPackage('openXDeliveryLog', false);
     }
 
-    function test_setMaintenanceDistributedLastRunInfo()
-    {
-        $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-        $oDal = new OA_Dal_Maintenance_Distributed();
-        $oDate = & new Date();
-        $oDal->setMaintenanceDistributedLastRunInfo($oDate);
-
-        $doLbLocal = OA_Dal::factoryDO('lb_local');
-        $doLbLocal->whereAdd("last_run = '".$oDate->getTime()."'",'AND');
-        $this->assertTrue($doLbLocal->find(true));
-    }
-
-    function test_getMaintenanceDistributedLastRunInfo()
-    {
-        // Empty raw tables and maintenance never run.
-        $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-        $oTable =& OA_DB_Table_Core::singleton();
-        $oTable->truncateTable($prefix . 'lb_local');
-
-        $oDal = new OA_Dal_Maintenance_Distributed();
-        $this->assertFalse($oDal->getMaintenanceDistributedLastRunInfo());
-        
-        // With last_run timestamp
-        $oDate = & new Date();
-        $oDal->setMaintenanceDistributedLastRunInfo($oDate);
-        $oActual = $oDal->getMaintenanceDistributedLastRunInfo();
-        $this->assertEqual($oDate, $oActual);
-    }
-
     function test_processBuckets()
     {
     }
@@ -123,34 +94,6 @@ class Test_OA_Dal_Maintenance_Distributed extends UnitTestCase
         $result = $oDal->_pruneBucket('data_bucket_impression', $oPreviousIntervalStart);
         $this->assertEqual($result,3);
 
-    }
-
-    function test__getFirstRecordTimestamp()
-    {
-        // Empty table
-        $oDal = new OA_Dal_Maintenance_Distributed();
-        $this->assertFalse($oDal->_getFirstRecordTimestamp('data_bucket_impression'));
-        
-        // With some records
-        $oNow = new Date();
-        $oExpected = new Date();
-        $oExpected->copy($oNow);
-        
-        $prefix = $oDal->getTablePrefix();
-        for ($i = 1; $i <= 4; $i++) {
-            $date_time = $oNow->getDate();
-            $query = "
-                      INSERT INTO
-                        {$prefix}data_bucket_impression
-                      (interval_start, creative_id, zone_id, count)
-                      VALUES ('{$date_time}',{$i},{$i},{$i})";
-            $oDal->oDbh->exec($query);
-            $oNow->addSeconds(3600);
-        }
-        
-        $oActual = $oDal->_getFirstRecordTimestamp('data_bucket_impression');
-        $this->assertEqual($oExpected, $oActual);
-        
     }
 
     function test__getBucketTableContent()

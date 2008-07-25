@@ -62,49 +62,6 @@ class OA_Dal_Maintenance_Distributed extends OA_Dal_Maintenance_Common
     }
 
     /**
-     * A method to store details on the last time that the distributed maintenance
-     * process ran.
-     *
-     * @param Date $oDate a PEAR_Date instance
-     */
-    function setMaintenanceDistributedLastRunInfo($oDate)
-    {
-        $doLbLocal = OA_Dal::factoryDO('lb_local');
-        $doLbLocal->whereAdd('1=1');
-        $doLbLocal->last_run = $oDate->getTime();
-        $iRows = $doLbLocal->update(DB_DATAOBJECT_WHEREADD_ONLY);
-        if (!$iRows) {
-            $doLbLocal->insert();
-        }
-    }
-
-    /**
-     * A method to retrieve details on the last time that the distributed maintenance
-     * process ran.
-     *
-     * @return mixed A PEAR_Date instance or false if there is no need to run distributed maintenance
-     */
-    function getMaintenanceDistributedLastRunInfo()
-    {
-        $doLbLocal = OA_Dal::factoryDO('lb_local');
-        $doLbLocal->find();
-
-        if ($doLbLocal->fetch()) {
-            return new Date((int)$doLbLocal->last_run);
-        } else {
-            $oDate = false;
-            foreach ($this->aBuckets as $sTableName) {
-                $oTableDate = $this->_getFirstRecordTimestamp($sTableName);
-                if ($oTableDate && (!$oDate || $oDate->after(new Date($oTableDate)))) {
-                    $oDate = new Date($oTableDate);
-                }
-            }
-
-            return $oDate;
-        }
-    }
-
-    /**
      * A method to process all the buckets and copy data to the main database.
      *
      * @param Date $oStart A PEAR_Date instance, starting timestamp
@@ -157,31 +114,7 @@ class OA_Dal_Maintenance_Distributed extends OA_Dal_Maintenance_Common
         return $this->oDbh->exec($query);
     }
 
-    /**
-     * A method to get the timestamp of the first record, if any.
-     *
-     * @param string $sTableName The table to check for
-     * @return mixed a PEAR_Date object or false if the table is empty
-     */
-    function _getFirstRecordTimestamp($sTableName)
-    {
-        $sTableName = $this->_getTablename($sTableName);
-        $query = "
-              SELECT
-                MIN(interval_start) AS date_time
-              FROM
-                {$sTableName}
-            ";
-
-        $sTimestamp = $this->oDbh->getOne($query);
-
-        if (PEAR::isError($sTimestamp) || empty($sTimestamp)) {
-            return false;
-        }
-
-        return new Date($sTimestamp);
-    }
-
+    
     /**
      * A method to retrieve the table content as a recordset.
      *

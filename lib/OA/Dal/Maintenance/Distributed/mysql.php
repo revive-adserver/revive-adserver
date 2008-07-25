@@ -93,6 +93,7 @@ class OA_Dal_Maintenance_Distributed_mysql extends OA_Dal_Maintenance_Distribute
 
                 if (count($aExecQueries)) {
                     // Disable the binlog for the inserts
+                    // TODO: Force this requirement.
                     if ($aConf['lb']['hasSuper']) {
                         $result = $oMainDbh->exec('SET SQL_LOG_BIN = 0');
                         if (PEAR::isError($result)) {
