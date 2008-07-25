@@ -525,7 +525,7 @@ function initCampaignForm(formId)
     
     $("#pricing_revenue_type").change(function() {
         updateCampaignPricingSection();
-        showHideLimitDisabledNotes();
+        updateCampaignDateAndLimitsAndType();
     });
     
 	
@@ -602,7 +602,7 @@ function updateCampaignDateAndLimitsAndType()
 	if (campaignType == CAMPAIGN_TYPE_REMNANT || campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE) {
 	     $("#excl-limit-date-both-set, #low-limit-date-both-set").hide();
 	     
-	     if (dateSet) {
+	     if (dateSet == true) {
 			$limitFields.val("").attr("disabled", "true");
 			$unlimitedCheckboxes.attr({ 
 			  checked: true,
