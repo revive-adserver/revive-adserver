@@ -56,7 +56,9 @@ function setupConstants()
 
     //campaign types
     define('OX_CAMPAIGN_TYPE_REMNANT', 1);
-    define('OX_CAMPAIGN_TYPE_CONTRACT', 2);
+    define('OX_CAMPAIGN_TYPE_CONTRACT_NORMAL', 2);
+    define('OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE', 3);
+
 
 
     // This old PAN constant is used in a couple places but could well conflict with the configured DB

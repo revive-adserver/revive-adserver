@@ -395,7 +395,7 @@ $GLOBALS['strInactiveCampaignsHidden']      = "inactive campaign(s) hidden";
 $GLOBALS['strContractDetails']              = "Contract details";
 $GLOBALS['strInventoryDetails']             = "Inventory details";
 $GLOBALS['strPriorityInformation']          = "Priority in relation to other campaigns";
-$GLOBALS['strPriorityExclusive']            = "- Overrides other linked campaigns";
+$GLOBALS['strPriorityExclusive']            = "Overrides other non-exclusive campaigns";
 $GLOBALS['strPriorityHigh']                 = "- Paid campaigns";
 $GLOBALS['strPriorityLow']                  = "- House and unpaid campaigns";
 $GLOBALS['strPriorityHighShort']            = "High";
@@ -404,7 +404,7 @@ $GLOBALS['strHiddenCampaign']               = "Campaign";
 $GLOBALS['strHiddenAd']                     = "Advertisement";
 $GLOBALS['strHiddenAdvertiser']             = "Advertiser";
 $GLOBALS['strHiddenTracker']                = "Tracker";
-$GLOBALS['strHiddenWebsite']              = "Website";
+$GLOBALS['strHiddenWebsite']                = "Website";
 $GLOBALS['strHiddenZone']                   = "Zone";
 $GLOBALS['strUnderdeliveringCampaigns']     = "Underdelivering Campaigns";
 $GLOBALS['strCampaignDelivery']             = "Campaign delivery";
@@ -414,11 +414,6 @@ $GLOBALS['strRemaining']                    = "Remaining";
 $GLOBALS['strCompanionPositioning']         = "Companion positioning";
 $GLOBALS['strSelectUnselectAll']            = "Select / Unselect All";
 $GLOBALS['strConfirmOverwrite']             = "Saving these changes will overwrite any individual banner-zone links. Are you sure?";
-$GLOBALS['strContractCampaign']             = "Contract Campaign";
-$GLOBALS['strContract']                     = "Contract";
-$GLOBALS['strRemnantCampaign']              = "Remnant Campaign";
-$GLOBALS['strRemnant']                      = "Remnant";
-$GLOBALS['strType']                         = "Type";
 
 
 // Campaign-zone linking page
@@ -443,14 +438,15 @@ $GLOBALS['strUncategorized']                = "Uncategorized";
 
 
 // Campaign properties
-$GLOBALS['strDontExpire']                = "Don't expire this campaign on a specific date";
-$GLOBALS['strActivateNow']                 = "Activate this campaign immediately";
+$GLOBALS['strDontExpire']                = "Don't expire";
+$GLOBALS['strActivateNow']               = "Start immediately";
+$GLOBALS['strSetSpecificDate']           = "Set specific date";
 $GLOBALS['strLow']                        = "Low";
 $GLOBALS['strHigh']                        = "High";
 $GLOBALS['strExclusive']                = "Exclusive";
-$GLOBALS['strExpirationDate']            = "Expiration date";
+$GLOBALS['strExpirationDate']            = "End date";
 $GLOBALS['strExpirationDateComment']    = "Campaign will finish at the end of this day";
-$GLOBALS['strActivationDate']            = "Activation date";
+$GLOBALS['strActivationDate']            = "Start date";
 $GLOBALS['strActivationDateComment']    = "Campaign will commence at the start of this day";
 $GLOBALS['strRevenueInfo']              = 'Revenue Information';
 $GLOBALS['strTotalRevenue']             = 'Total Revenue';
@@ -465,7 +461,7 @@ $GLOBALS['strOpenxConversionsRemaining']     = "Openads conversions remaining";
 $GLOBALS['strImpressionsBooked']         = "Impressions Booked";
 $GLOBALS['strClicksBooked']             = "Clicks Booked";
 $GLOBALS['strConversionsBooked']         = "Conversions Booked";
-$GLOBALS['strCampaignWeight']            = "None - Set the campaign weight to";
+$GLOBALS['strCampaignWeight']            = "Set the campaign weight";
 $GLOBALS['strTargetLimitAdImpressions'] = "Target Limit Ad Impressions";
 $GLOBALS['strOptimise']                    = "Optimise delivery of this campaign.";
 $GLOBALS['strAnonymous']                = "Hide the advertiser and websites of this campaign.";
@@ -501,7 +497,26 @@ $GLOBALS['strReasonBadCreative']           = "Inappropriate creative";
 $GLOBALS['strReasonBadUrl']                = "Inappropriate destination url";
 $GLOBALS['strReasonBreakTerms']            = "Website againts terms and conditions";
 $GLOBALS['strChangeStatus']                = "Change status";
-
+$GLOBALS['strCampaignType']                 = "Campaign type";
+$GLOBALS['strType']                         = "Type";
+$GLOBALS['strContract']                     = "Contract";
+$GLOBALS['strRemnant']                      = "Remnant";
+$GLOBALS['strStandardContract']             = "Contract";
+$GLOBALS['strExclusiveContract']            = "Contract (Exclusive)";
+$GLOBALS['strRemnant']                      = "Remnant";
+$GLOBALS['strStandardContractInfo']         = "This campaign is limited per day and is going to be delivered evenly until the end date or specified limit is met";
+$GLOBALS['strExclusiveContractInfo']        = "This campaign is going to take all impressions and be delivered before other campaigns";
+$GLOBALS['strRemnantInfo']                  = "This is a standard campaign which can be constrained with either an end date or a specific limit";
+$GLOBALS['strContractCampaign']             = "Contract Campaign";
+$GLOBALS['strRemnantCampaign']              = "Remnant Campaign";
+$GLOBALS['strPricing']                      = "Pricing";
+$GLOBALS['strPricingModel']                 = "Pricing model";
+$GLOBALS['strSelectPricingModel']           = "-- select model --";
+$GLOBALS['strRatePrice']                    = "Rate / Price";
+$GLOBALS['strLimit']                        = "Limit";
+$GLOBALS['strLowExclusiveDisabled']         = "You cannot change this campaign to Remnant or Exclusive, since both an end date and either of impressions/clicks/conversions limit are set. <br>In order to change type, you need to set no expiry date or remove limits.";
+$GLOBALS['strCannotSetBothDateAndLimit']    = "You cannot set both an end date and limit for a Remnant or Exclusive campaign.<br>If you need to set both an end date and limit impressions/clicks/conversions please use a non-exclusive Contract campaign.";
+$GLOBALS['strWhyDisabled']                  = "why it is disabled?";
 
 // Tracker
 $GLOBALS['strTracker']                    = "Tracker";

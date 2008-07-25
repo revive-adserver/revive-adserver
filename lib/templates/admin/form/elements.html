@@ -75,7 +75,7 @@ $Id: main.html 17781 2008-03-18 10:54:53Z bernard.lange@openx.org $
     <tr>
         <td width='30'>&nbsp;</td>
         {if $_e.label}
-            <td width='170'>{$_e.label} {if $_e.required}<font color="red">*</font>{/if}</td>
+            <td width='170' valign="top" style="padding-top: 5px">{$_e.label} {if $_e.required}<font color="red">*</font>{/if}</td>
         {/if}
         <td {if $_e.label}width='100%'{else}colspan='2'{/if}>
     {/if}  
@@ -84,20 +84,21 @@ $Id: main.html 17781 2008-03-18 10:54:53Z bernard.lange@openx.org $
                 {if $groupItem.type == "group"}
                     {oa_form_element elem=$groupItem parent=$_e}{/oa_form_element}
                 {else}
+                    {if $groupItem.decorators}
+                       {$groupItem.decorators.prepend}
+                    {/if}
+                
                     {if $groupItem.type == 'custom'}
-                        {include file=$oaTemplateDir|cat:'form/custom-'|cat:$groupItem.name|cat:'.html'}
+                        {include file=$oaTemplateDir|cat:'form/custom-'|cat:$groupItem.templateId|cat:'.html' elem=$groupItem}
                     {else}
-                         {if $groupItem.decorators}
-                             {$groupItem.decorators.prepend}
-                         {/if}
 	                    {if $groupItem.labelPlacement == "after"}
 	                       {*$groupItem.html*}{include file=form/element-raw.html elem=$groupItem parent=$_e} {$groupItem.label}
 	                    {else}
 	                        {$groupItem.label} {*$groupItem.html*}{include file=form/element-raw.html elem=$groupItem parent=$_e}
 	                    {/if}
-                        {if $groupItem.decorators}
-                            {$groupItem.decorators.append}
-                        {/if}
+                    {/if}
+                    {if $groupItem.decorators}
+                        {$groupItem.decorators.append}
                     {/if}
                 {/if}
                 {if $_e.separator}{cycle name=gsep values=$_e.separator}
@@ -156,7 +157,7 @@ $Id: main.html 17781 2008-03-18 10:54:53Z bernard.lange@openx.org $
 {if $_e.type == 'static'}
     <tr>
         <td width='30'>&nbsp;</td><td width='170'>{$_e.label}</td>
-        <td width='100%'>
+        <td width='100%' class="static">
             {$_e.html}
         </td>
     </tr>
@@ -173,11 +174,11 @@ $Id: main.html 17781 2008-03-18 10:54:53Z bernard.lange@openx.org $
 
 
 {if $_e.type == 'custom'}
-    {include file=$oaTemplateDir|cat:'form/custom-'|cat:$_e.name|cat:'.html'}
+    {include file=$oaTemplateDir|cat:'form/custom-'|cat:$_e.templateId|cat:'.html' elem=$_e}
 {/if}
 
 {if $_e.type == 'plugin-custom'}
-    {include file=$pluginBaseDir|cat:$_e.plugin|cat:$pluginTemplateDir|cat:$_e.name|cat:'.html'}
+    {include file=$pluginBaseDir|cat:$_e.plugin|cat:$pluginTemplateDir|cat:$_e.templateId|cat:'.html'}
 {/if}
 
 {if $_e.type == 'script'}

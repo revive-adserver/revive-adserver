@@ -160,6 +160,7 @@ class OA_Admin_UI_Component_ArrayRenderer
         if('custom' == $type || 'plugin-custom' == $type 
             || 'script' == $type || 'plugin-script' == $type) {
             $ret['vars'] = $element->getVars(); 
+            $ret['templateId'] = $element->getTemplateId();
         }
         if('custom' == $type || 'plugin-custom' == $type) {
             $ret['break'] = $element->isVisible(); 

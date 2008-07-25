@@ -52,7 +52,7 @@
 	{
 	   var $wrapper = $help.wrap("<div class='popup-help'></div>").parent(); 
     $wrapper.attr("id", $help.get(0).id + "wrapper");
-    $wrapper.prepend("<div class='close'><span class='link'>Close</span></div>");
+    $wrapper.prepend("<div class='close'> <span class='link'>[x]</span> </div>");
     $wrapper.hide();
     $help.addClass("help-content").show();
     return $wrapper;	

@@ -32,9 +32,9 @@ class OX_Util_UtilsTest
 {
     function testGetCampaignType()
     {
-        $aTestValues = array(-1 => OX_CAMPAIGN_TYPE_CONTRACT, 0 => OX_CAMPAIGN_TYPE_REMNANT);
+        $aTestValues = array(-1 => OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE, 0 => OX_CAMPAIGN_TYPE_REMNANT);
         for ($i = 1; $i <= 10; $i++) {
-            $aTestValues[$i] = OX_CAMPAIGN_TYPE_CONTRACT; 
+            $aTestValues[$i] = OX_CAMPAIGN_TYPE_CONTRACT_NORMAL; 
         }
         
         foreach ($aTestValues as $priority => $expectedResult) {
@@ -42,5 +42,20 @@ class OX_Util_UtilsTest
             $this->assertEqual($expectedResult, $result);            
         }
     }
+    
+    
+    function testGetCampaignTranslationKey()
+    {
+        $aTestValues = array(-1 => 'strExclusiveContract', 0 => 'strRemnant');
+        for ($i = 1; $i <= 10; $i++) {
+            $aTestValues[$i] = 'strStandardContract'; 
+        }
+        
+        foreach ($aTestValues as $priority => $expectedResult) {
+            $result = OX_Util_Utils::getCampaignTypeTranslationKey($priority);
+            $this->assertEqual($expectedResult, $result);            
+        }
+    }
+    
 }
 ?>

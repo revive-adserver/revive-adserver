@@ -449,6 +449,14 @@ function initAccoutSwitcher()
 }
 
 
+function maskNonNumeric(event)
+{
+    if (event.charCode && (event.charCode < 48 || event.charCode > 57)) {
+        event.preventDefault();
+    }
+}
+
+
 // Campaign screen
 function initCampaignStatus()
 {
@@ -471,74 +479,553 @@ function initCampaignStatus()
     });
 }
 
-function initCampaignForm()
+
+// CAMPAIGN PROPERTIES FUNCTIONS
+function initCampaignForm(formId)
 {
-    $("#campaign_type").change(function() {
-        var value = this.value; 
-        //alert(value);
-         updateCampaignForm(value);
+    //setup calendars
+    Calendar.setup({
+        inputField : 'start',
+        ifFormat   : '%d %B %Y',
+        button     : 'start_button',
+        align      : 'Bl',
+        weekNumbers: false,
+        firstDay   : calendarBeginOfWeek,
+        electric   : false
+    });
+    
+    Calendar.setup({
+       inputField : 'end',
+       ifFormat : '%d %B %Y',
+       button : 'end_button',
+       align : 'Bl',
+       weekNumbers: false,
+       firstDay : calendarBeginOfWeek,
+       electric : false
+    });
+
+
+    //listeners
+    var $impressionsField = $("#impressions");
+    var $impressionsUnlimitedField = $("#impr_unlimited");
+    
+    var $clicksField = $("#clicks");
+    var $clicksUnlimitedField = $("#click_unlimited");
+    
+    var $conversionsField =  $("#conversions");
+    var $conversionsUnlimitedField = $("#conv_unlimited");
+    
+    $("#priority-h, #priority-e, #priority-l")
+        .click(function() {
+              var infoId = 'info-' + this.id;
+              $("div[id^='info-priority']").not('#' + infoId).slideFadeOut('slow');
+              $('#' + infoId).slideFadeIn('slow');
+              updateCampaignTypeForm();
+         });
+    
+    $("#pricing_revenue_type").change(function() {
+        updateCampaignPricingSection();
+        showHideLimitDisabledNotes();
+    });
+    
+	
+	initCampaignBookedInput($impressionsField, $impressionsUnlimitedField, 'openadsRemainingImpressions');
+	initCampaignBookedInput($clicksField, $clicksUnlimitedField,  'openadsRemainingClicks');
+	initCampaignBookedInput($conversionsField, $conversionsUnlimitedField);
+	
+    $("#priority-e, #endSet_immediate, #endSet_specific, #impr_unlimited, #click_unlimited, #conv_unlimited").click(function() {
+        updateCampaignDateAndLimitsAndType();
+        updateCampaignPrioritySection();
     });
         
-    $("#pricing_revenue_type").change(function() {
-        var value = this.value; 
-        //alert(value);
-        updatePricingSection(value);
+
+    $("#startSet_immediate, #startSet_specific, #endSet_immediate, #endSet_specific")
+        .click(updateCampaignDateSection);
+    
+    
+    $("#startSet_immediate").click(function() {
+        campaignFormDateReset('start');    
+    });
+    
+    $("#endSet_immediate").click(function() {
+        campaignFormDateReset('end');
+    });
+    
+    $("#start")
+        .change(function() {
+            campaignFormDateCheck('start');
+        });
+    
+    $("#end")
+        .change(function() {
+            campaignFormDateCheck('end');
+            updateCampaignPrioritySection();
+        });
+     
+     $("#" + formId).submit(function() {
+             formUnFormat(this.impressions);
+             formUnFormat(this.clicks);
+             formUnFormat(this.conversions);
+         
+             return campaignFormPriorityCheck(this) 
+                 &&  campaignFormDatesRangeCheck(this);
      });
-        
+     
+    //update fields states to reflect current values
+    formFormat($impressionsField.get(0));
+    formFormat($clicksField.get(0));
+    formFormat($conversionsField.get(0));
+
+    //show hide sections
+    updateCampaignTypeForm();
+    updateTypeNotes(true);
 }
 
-function updatePricingSection(pricing)
-{
-    var revenueRows = $("[@id^='pricing_revenue_row']");
-    var cpmRows = $("[@id^='pricing_cpm']");
-    var cpcRows = $("[@id^='pricing_cpc']");
-    var cpaRows = $("[@id^='pricing_cpa']");
 
-    cpmRows.hide();
-    cpcRows.hide();
-    cpaRows.hide();
+function updateCampaignDateAndLimitsAndType()
+{
+    var campaignType = getCampaignType();
+
+    var $limitFields = $("#impressions, #clicks, #conversions"); 
+    var $unlimitedCheckboxes = $("#impr_unlimited, #click_unlimited, #conv_unlimited");
+    
+    var dateSet = $("#endSet_specific").attr('checked');
+    var limitClicked = false;
+	
+	$unlimitedCheckboxes.each(function() {
+	   if (this.checked == false) {
+	       limitClicked = true;
+	       return false; //break the loop
+	   }
+	}); 
+
+	if (campaignType == CAMPAIGN_TYPE_REMNANT || campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE) {
+	     $("#excl-limit-date-both-set, #low-limit-date-both-set").hide();
+	     
+	     if (dateSet) {
+			$limitFields.val("").attr("disabled", "true");
+			$unlimitedCheckboxes.attr({ 
+			  checked: true,
+			  disabled : true
+			});
+	            
+	        showHideLimitDisabledNotes();    
+	     }
+	     else {
+	          $unlimitedCheckboxes.attr("disabled", false);
+	          $("#impr-disabled-note, #click-disabled-note, #conv-disabled-note").hide();
+	         
+		     if (limitClicked) {
+		        $("#endSet_specific").attr("disabled", true);
+		        $("#date-section-limit-date-set").show();
+		     }
+		     else {
+		        $("#endSet_specific").attr("disabled", false);
+		        $("#date-section-limit-date-set").hide();
+		     }
+	     }
+	}
+    else { //no type or high 
+        //clear all remnant/exclusive warnings
+        $unlimitedCheckboxes.attr("disabled", false);
+        $("#endSet_specific").attr("disabled", false);
+        $("#impr-disabled-note, #click-disabled-note, #conv-disabled-note").hide();
+        $("#date-section-limit-date-set").hide();
+        
+        //check if both date and limit is set and disable exclusive
+        if (campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL && dateSet && limitClicked) {
+            $("#excl-limit-date-both-set, #low-limit-date-both-set").show();
+            $("#priority-e, #priority-l").attr("disabled", true);
+        }
+        else {
+            $("#excl-limit-date-both-set, #low-limit-date-both-set").hide();
+            $("#priority-e, #priority-l").attr("disabled", false);
+        }
+    }
+    updateCampaignPricingSection();
+}
+
+function showHideLimitDisabledNotes()
+{
+	var pricing = $("#pricing_revenue_type").val();
+	if (MODEL_CPM == pricing) {
+	  $("#click-disabled-note, #conv-disabled-note").hide();
+	  $("#impr-disabled-note").show();
+	}
+	else if (MODEL_CPC == pricing) {
+	  $("#impr-disabled-note, #conv-disabled-note").hide();
+	  $("#click-disabled-note").show();
+	}
+	else if (MODEL_CPA == pricing) {
+	  $("#impr-disabled-note, #click-disabled-note").hide();
+	  $("#conv-disabled-note").show();
+	}
+	if (MODEL_MT == pricing) {
+	    $("#impr-disabled-note, #click-disabled-note, #conv-disabled-note").hide();
+	}
+}
+
+
+function initCampaignBookedInput($input, $unlimitedField, centralRemainingId)
+{
+    //set up listeners
+    $input
+	    .focus(function() {
+	        formUnFormat(this);
+	      })
+	    .keypress(maskNonNumeric)
+	    .keyup(function() {
+	      updateCampaignPricingSectionNotes(this);
+	      updateCampaignPrioritySection();
+	      })
+	    .blur(function() {
+	      formFormat(this);
+	      updateCampaignPricingSectionNotes(this);
+	      updateCampaignPrioritySection();
+	    });
+    
+    $unlimitedField.click(function() {
+        campaignFormUnlimitedUpdate(this, $input.get(0), true, centralRemainingId);
+        updateCampaignPricingSectionNotes($input.get(0), this);
+    });
+}
+
+
+function updateCampaignTypeForm()
+{
+    var $allSectionsButPriority = $("#sect_date, #sect_pricing, #sect_cap, #sect_misc");
+    var campaignType = getCampaignType();
+    
+    updateCampaignDateAndLimitsAndType();    
+
+    if (campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL || campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE) {
+        $allSectionsButPriority.show();
+        updateCampaignDateSection();
+        updateCampaignPricingSection();
+        updateCampaignPrioritySection();                     
+    }
+    else if (campaignType == CAMPAIGN_TYPE_REMNANT) {
+        $allSectionsButPriority.show();
+        updateCampaignDateSection();
+        updateCampaignPricingSection();
+        updateCampaignPrioritySection();                     
+    } 
+    else {
+        //hide all form sections
+        $allSectionsButPriority.hide();
+        $("#sect_priority_low_excl, #sect_priority_high").hide();
+    }
+}
+
+
+function updateTypeNotes(fast)
+{
+    var infoId = null;
+
+    $("#priority-h, #priority-e, #priority-l").each(function() {
+        if (this.checked == true) {
+            infoId = 'info-' + this.id;
+            return false; 
+        }
+    });
+    
+    if (infoId) {
+        if (fast == true) {
+		    $("div[id^='info-priority']").not('#' + infoId).hide();
+		    $('#' + infoId).show();
+        }
+        else {
+		    $("div[id^='info-priority']").not('#' + infoId).slideFadeOut('slow');
+		    $('#' + infoId).slideFadeIn('slow');
+        }
+    }
+}
+
+
+function updateCampaignDateSection()
+{
+    var $startDateSpan = $("#specificStartDateSpan");
+    var $endDateSpan = $("#specificEndDateSpan");
+    
+    if ($("#startSet_immediate").attr("checked") == true) {
+        $startDateSpan.hide();
+    }
+    else {
+        $startDateSpan.show();
+    }
+    
+    if ($("#endSet_immediate").attr("checked") == true) {
+        $endDateSpan.hide();
+    }
+    else {
+        $endDateSpan.show();
+    }
+}
+
+
+function updateCampaignPricingSection()
+{
+    var pricing = $("#pricing_revenue_type").val();
+
+    var revenueRows = $("[@id^='pricing_revenue_row']");
+    var imprRows = $("[@id^='pricing_impr_booked']");
+    var clickRows = $("[@id^='pricing_click_booked']");
+    var convRows = $("[@id^='pricing_conv_booked']");
+
+    imprRows.hide();
+    clickRows.hide();
+    convRows.hide();
      
     if ('' == pricing) {
         revenueRows.hide();
     }
     else if (MODEL_CPM == pricing) {
+        var impressionsField = $("#impressions").get(0);
+        var impressionsUnlimitedField = $("#impr_unlimited").get(0);
+    
+	    //now set proper state of booked fields
+	    campaignFormUnlimitedUpdate(impressionsUnlimitedField, impressionsField, false);    
+	    updateCampaignPricingSectionNotes(impressionsField, impressionsUnlimitedField);    
+        
         revenueRows.show();
-        cpmRows.show();
+        imprRows.show();
     }
     else if (MODEL_CPC == pricing) {
+	    var impressionsField = $("#impressions").get(0);
+	    var impressionsUnlimitedField = $("#impr_unlimited").get(0);
+	    var clicksField = $("#clicks").get(0);
+	    var clicksUnlimitedField = $("#click_unlimited").get(0);
+
+        campaignFormUnlimitedUpdate(impressionsUnlimitedField, impressionsField, false);    
+        campaignFormUnlimitedUpdate(clicksUnlimitedField, clicksField);
+        updateCampaignPricingSectionNotes(impressionsField, impressionsUnlimitedField);    
+        updateCampaignPricingSectionNotes(clicksField, clicksUnlimitedField);
+
         revenueRows.show();
-        cpcRows.show();
+        clickRows.show();
+        imprRows.show();
     }
     else if (MODEL_CPA == pricing) {
+        var impressionsField = $("#impressions").get(0);
+        var impressionsUnlimitedField = $("#impr_unlimited").get(0);
+        var clicksField = $("#clicks").get(0);
+        var clicksUnlimitedField = $("#click_unlimited").get(0);
+        var conversionsField =  $("#conversions").get(0);
+        var conversionsUnlimitedField = $("#conv_unlimited").get(0);        
+
+        campaignFormUnlimitedUpdate(impressionsUnlimitedField, impressionsField, false);    
+        campaignFormUnlimitedUpdate(clicksUnlimitedField, clicksField, false);
+        campaignFormUnlimitedUpdate(conversionsUnlimitedField, conversionsField, false);
+        updateCampaignPricingSectionNotes(impressionsField, impressionsUnlimitedField);    
+        updateCampaignPricingSectionNotes(clicksField, clicksUnlimitedField);
+        updateCampaignPricingSectionNotes(conversionsField, conversionsField);
+
         revenueRows.show();
-        cpaRows.show();
+        convRows.show();
+        clickRows.show();
+        imprRows.show();
     }
     else if (MODEL_MT == pricing) {
         revenueRows.show();
-    }    
+    }
 }
 
 
-function updateCampaignForm(campaignType)
+function updateCampaignPrioritySection()
 {
-    var allSectionsButPriority = $("#sect_date, #sect_pricing, #sect_cap, #sect_misc");
-
+    var $highPrioritySection = $("#sect_priority_high");
+    var $lowExclPrioritySection = $("#sect_priority_low_excl");
+    var campaignType = getCampaignType();
+    
     if (campaignType == CAMPAIGN_TYPE_REMNANT) {
-        allSectionsButPriority.show();
-        //hide priority section
-        $("#sect_priority").hide();                
-         //show others 
+        $highPrioritySection.hide();
+        $lowExclPrioritySection.show();
     }
-    else if (campaignType == CAMPAIGN_TYPE_CONTRACT) {
-        allSectionsButPriority.show();
-         //showpriority section
-        $("#sect_priority").fadeIn();
+    else if (campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL || campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE) {
+	   //if exclusive selected - show weight
+	   if (campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE) {
+	        $highPrioritySection.hide();
+	        $lowExclPrioritySection.show();
+	   }
+	   else { //high
+	        $lowExclPrioritySection.hide();
+	        // date and limit set distribution will be automatic
+	        if ($("#endSet_specific").attr("checked") == true 
+	           && campaignHasAnyLimitSet()) {
+                $("#high_distribution_span").hide();
+	        }
+	        else { //otherwise ask for limit per day
+                $("#high_distribution_span").show();
+	        }
+	        $highPrioritySection.show();
+	   }
+    }
+}
+
+
+function campaignHasAnyLimitSet()
+{
+    var pricing = $("#pricing_revenue_type").val();
+
+    if ('' == pricing) {
+        return false;
+    }
+    else if (MODEL_CPM == pricing) {
+        var impressionsField = $("#impressions").get(0);
+        var impressionsUnlimitedField = $("#impr_unlimited").get(0);
+        //not set to unlimited and impr value is fine
+        return campaignLimitIsSet(impressionsField, impressionsUnlimitedField);
+    }
+    else if (MODEL_CPC == pricing) {
+        var impressionsField = $("#impressions").get(0);
+        var impressionsUnlimitedField = $("#impr_unlimited").get(0);
+        var clicksField = $("#clicks").get(0);
+        var clicksUnlimitedField = $("#click_unlimited").get(0);
+        
+        return campaignLimitIsSet(impressionsField, impressionsUnlimitedField) 
+            || campaignLimitIsSet(clicksField, clicksUnlimitedField); 
+    }
+    else if (MODEL_CPA == pricing) {
+        var impressionsField = $("#impressions").get(0);
+        var impressionsUnlimitedField = $("#impr_unlimited").get(0);
+        var clicksField = $("#clicks").get(0);
+        var clicksUnlimitedField = $("#click_unlimited").get(0);
+        var conversionsField =  $("#conversions").get(0);
+        var conversionsUnlimitedField = $("#conv_unlimited").get(0);        
+
+        return campaignLimitIsSet(impressionsField, impressionsUnlimitedField) 
+            || campaignLimitIsSet(clicksField, clicksUnlimitedField) 
+            || campaignLimitIsSet(conversionsField, conversionsUnlimitedField);
+    }
+    else if (MODEL_MT == pricing) {
+        return false;
+    }
+}
+
+
+function campaignLimitIsSet(input, unlimitedInput)
+{
+    return unlimitedInput.checked == false 
+            && input.value != '' && input.value != '-'
+}
+
+
+function campaignFormPriorityCheck(form)
+{
+    var campaignType = getCampaignType();
+
+    if (campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL || campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE) {
+	    if (campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE && !parseInt($("#weight").val())) {  
+	        return confirm (strCampaignWarningNoWeightMessage);
+	    }
+	    else if (campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL 
+	       && $("#endSet_immediate").attr("checked") == true 
+            && !parseInt("#target_value").val()) {
+        return confirm (strCampaignWarningNoTargetMessage);	    
+	    }
     }
     else {
-        //hide all form
-        allSectionsButPriority.hide();
-        $("#sect_priority").hide();
+        if (!parseInt($("#weight").val())) {  
+            return confirm (strCampaignWarningNoWeightMessage);
+        }
     }
+    
+    return true;
 }
 
 
+function getCampaignType()
+{
+    //TODO get type from hidden if no checkboxes visible
+    if( $("#priority-h, #priority-e, #priority-l").length > 0) { 
+
+	    if ($("#priority-h").attr("checked") == true) {
+	        return CAMPAIGN_TYPE_CONTRACT_NORMAL; 
+	    }
+	    else if ($("#priority-e").attr("checked") == true) {
+	        return CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE;
+	    }
+	    else if ($("#priority-l").attr("checked") == true) {
+	        return CAMPAIGN_TYPE_REMNANT;
+	    }
+	    
+	    return null;
+	}
+	else {
+	   return $("#campaign_type").val();
+	}
+}
+
+
+function campaignFormDatesRangeCheck(form)
+{
+    var activeDate;
+    var expireDate;
+    var activation_enabled = isDateSetActive('start', form);
+    var expiry_enabled = isDateSetActive('end', form);
+    // No sense in comparing inactive values
+    if  (activation_enabled) {
+        activateDate = newDateFromNamedFields(document, form, 'start');
+        if (!activateDate) {
+            alert('The start date of this campaign is not a valid date');
+            return false;
+        }
+    }
+    if (expiry_enabled) {
+        expireDate = newDateFromNamedFields(document, form, 'end');
+        if (!expireDate) {
+            alert('The end date of this campaign is not a valid date');
+            return false;
+        }
+    }
+    if (activation_enabled && expiry_enabled) {
+        if  (!isDateEqual(activateDate, expireDate) && isDateBefore(expireDate, activateDate)) {
+            alert('The selected dates for this campaign are invalid\n(Campaign ends before it starts!).\n');
+            return false;
+        }
+    }
+    return true;
+}
+
+
+
+
+function campaignFormDateCheck(elemName)
+{
+    var date = $("#" + elemName).val();
+    if (date == '') {
+        $("[@name='" + elemName + "Set']").get(0).checked = true;
+    } 
+    else {
+        $("[@name='" + elemName + "Set']").get(1).checked = true;
+    }
+    updateCampaignDateSection();    
+}
+
+
+function campaignFormDateReset(elemToReset)
+{
+            $("#" + elemToReset).val('');
+}
+
+
+function formFormat(field)
+{
+        if ((field.value == '') || (field.value == 0)) {
+            field.value = '-';
+        }
+        if (field.value != '-') {
+            field.value = max_formatNumberIgnoreDecimals(field.value);
+        }
+}
+
+
+function formUnFormat(field)
+{
+	if (field.value != '-' && field.value != '') {
+	    field.value = max_formattedNumberStringToFloat(field.value);
+	} 
+	else {
+	    field.value = '';
+	}
+}

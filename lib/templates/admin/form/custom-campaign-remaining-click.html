@@ -27,7 +27,7 @@ $Id$
 *}
 
 <span id="remainingClicksSection">
-     <span  id='remainingClicks' >{t str=ClicksRemaining}:<span id='remainingClicksCount'>{$_e.vars.clicksRemaining}</span></span><br/>
+     <span id='clicks_remaining_span' class="hide">{t str=ClicksRemaining}:<span id='clicks_remaining_count'>{$_e.vars.clicksRemaining}</span></span><br/>
 {if $adDirectEnabled}
      <span id="openadsRemainingClicks">{t str=OpenxClicksRemaining}: <span id='openadsRemainingClicksCount'>600 *REAL DATA GOES HERE*</span>
        <span class="link hide" help="help-openads-remaining-clicks" id="openadsRemainingClicksHelpLink"><img style="border: none; position: relative; top:5px;" src="{$assetPath}/images/help-book.gif" /></span>

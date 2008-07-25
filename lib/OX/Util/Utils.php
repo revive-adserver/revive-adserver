@@ -37,13 +37,13 @@ class OX_Util_Utils
     /**
      * Returns campaign type based on given priority
      * Type => priorities mapping is as follows:
-     *  - Contract (OX_CAMPAIGN_TYPE_REMNANT): 
-     *      -1 (Exclusive) 
-     *      1-10 (High) 
-     *  - Remnant (OX_CAMPAIGN_TYPE_CONTRACT):
+     *  - Contract: 
+     *      -1 (Exclusive) OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE 
+     *      1-10 (High) OX_CAMPAIGN_TYPE_CONTRACT_NORMAL
+     *  - Remnant (OX_CAMPAIGN_TYPE_REMNANT):
      *      0 (Low) 
      *
-     * @param unknown_type $priority
+     * @param int $priority
      * @return unknown
      */
    static function getCampaignType($priority)
@@ -51,10 +51,91 @@ class OX_Util_Utils
        if ($priority == 0) { //Remnant - Low priority 
            return OX_CAMPAIGN_TYPE_REMNANT;  
        }
-       else {//Contract - ($priority = -1 (Exclusive) or from 1 to 10 (High)
-           return OX_CAMPAIGN_TYPE_CONTRACT;
+       else if ($priority == -1) { //Contract - ($priority = -1 (Exclusive)
+           return OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE;
        }
+       else if ($priority > 0) { //Contract - from 1 to 10 (High/Normal)
+           return OX_CAMPAIGN_TYPE_CONTRACT_NORMAL;
+       }
+       
+       return null;
    }
+   
+    /**
+     * Returns campaign translation key based on a given priority. Uses getCampaignType 
+     * to calculate the campaign type. 
+     * Type => labels map as follows:
+     *  - Contract: 
+     *      -1 (Exclusive) strExclusiveContract 
+     *      1-10 (High) strStandardContract
+     *  - Remnant 
+     *      0 (Low) strRemnant 
+     *
+     * @param int $priority
+     * @return translation key for a given campaign type
+     */
+   static function getCampaignTypeTranslationKey($priority)
+   {
+       if ($priority == 0) { //Remnant - Low priority 
+           return 'strRemnant';  
+       }
+       else if ($priority == -1) { //Contract - ($priority = -1 (Exclusive)
+           return 'strExclusiveContract';
+       }
+       else if ($priority > 0) { //Contract - from 1 to 10 (High/Normal)
+           return 'strStandardContract';
+       }
+       //no type yet no key, sorry
+       return null;
+   }
+
+
+    /**
+     * Returns campaign type description translation key based on a given priority. 
+     * Uses getCampaignType to calculate the campaign type. 
+     * Type => labels map as follows:
+     *  - Contract: 
+     *      -1 (Exclusive) strExclusiveContract 
+     *      1-10 (High) strStandardContract
+     *  - Remnant 
+     *      0 (Low) strRemnant 
+     *
+     * @param int $priority
+     * @return translation key for a given campaign type description
+     */
+   static function getCampaignTypeDescriptionTranslationKey($priority)
+   {
+       if ($priority == 0) { //Remnant - Low priority 
+           return 'strRemnantInfo';  
+       }
+       else if ($priority == -1) { //Contract - ($priority = -1 (Exclusive)
+           return 'strExclusiveContractInfo';
+       }
+       else if ($priority > 0) { //Contract - from 1 to 10 (High/Normal)
+           return 'strStandardContractInfo';
+       }
+       //no type yet no key, sorry
+       return null;
+   }   
+   
+   
+    /**
+     * Returns campaign type name based on given priority. 
+     * 
+     * @param int $priority
+     * @return name for given campaign type
+     */
+   static function getCampaignTypeName($priority)
+   {
+       $key = OX_Util_Utils::getCampaignTypeTranslationKey($priority);
+       
+       if ($key) {
+           $name = $GLOBALS[$key];
+       }
+       
+       return $name;
+   }      
+   
 }
 
 ?>

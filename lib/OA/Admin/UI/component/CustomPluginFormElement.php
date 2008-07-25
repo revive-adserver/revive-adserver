@@ -11,19 +11,44 @@ class OA_Admin_UI_Component_CustomPluginFormElement
 {
     private $vars;
     private $pluginName;
+    private $templateId;
+    
     
    /**
     * Class constructor
     * 
-    * @param string $elementName    custom element name
+    * @param mixed $elementName    custom element name or if its array then first element
+    * is element name and the second one is template name
     */
     function OA_Admin_UI_Component_CustomPluginFormElement($elementName = null, $pluginName = null, $elementLabel = null, $vars = null)
     {
-        $this->HTML_QuickForm_static($elementName, $elementLabel);
+        if (is_array($elementName)) {
+            $name = $elementName[0];
+            $templateId = $elementName[1]; 
+        }
+        else {
+            $name = $elementName;
+            $templateId = $elementName;
+        }
+        
+        $this->HTML_QuickForm_static($name, $elementLabel);
         $this->_type = 'plugin-custom';
         $this->pluginName = $pluginName;
+        $this->templateId = $templateId; 
         $this->vars = $vars;
     }
+    
+    
+    /**
+     * Returns custom variables and values assigned to this element. 
+     * This items are used during rendering phase of custom element
+     *
+     */
+    function getTemplateId()
+    {
+        return $this->templateId;
+    }    
+    
     
     /**
      * Returns custom variables and values assigned to this element. 

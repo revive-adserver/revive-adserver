@@ -369,7 +369,7 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 		
         //type
         echo '<td height="25">';
-        if ($campaigns[$ckey]['type'] == OX_CAMPAIGN_TYPE_CONTRACT) {
+        if ($campaigns[$ckey]['type'] == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL || $campaigns[$ckey]['type'] == OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE) {
             echo '<span class="campaign-type campaign-contract">'.$GLOBALS['strContract'].'</span>';
         }
         else { //OX_CAMPAIGN_TYPE_REMNANT

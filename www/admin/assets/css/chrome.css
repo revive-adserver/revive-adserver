@@ -669,6 +669,49 @@ form.flat select.frozen, form.flat textarea.frozen, form.flat input[type=text].f
 	color: #6F6F6F;
 }
 
+form.flat input[type=radio] {
+    position: relative;
+    //top: 2px;
+    margin-right: 5px;
+}
+
+/* standard control sizes */
+form.flat .x-small {
+	width: 50px;
+}
+
+form.flat .small {
+    width: 100px;	
+} 
+
+form.flat .medium {
+	width: 200px;
+}
+
+form.flat .large {
+    width: 350px;	
+}
+
+form.flat textarea.x-small-h {
+	height: 50px;
+}
+
+form.flat textarea.small-h {
+	height: 100px;
+}
+
+form.flat textarea.h-medium-h {
+    height: 160px;
+}
+
+form.flat textarea.h-large-h {
+    height: 260px;	
+}
+
+form.flat select.frozen, form.flat textarea.frozen, form.flat input[type=text].frozen {
+	color: #6F6F6F;
+}
+
 
 /* standard control sizes */
 form.flat .x-small {
@@ -713,6 +756,21 @@ padding: 0px 10px;
 }
 
 /** campaign edit **/
+#campaignform .type-name {
+	font-weight: bold;
+}
+
+#campaignform .type-desc {
+    width: 330px; 
+    margin: 2px 0px 4px 20px;
+}
+
+#campaignform .static {
+	padding-top: 5px;
+}
+
+
+
 #impressions_remaining_span, #clicks_remaining_span, #conversions_remaining_span {
 	margin-left:5px;
     padding: 2px 7px;
@@ -1114,9 +1172,6 @@ table.data td.graph .percentage {
 
 #impressions_remaining_count, #clicks_remaining_count, #conversions_remaining_count {
 	margin-left:5px;
-}
-
-   margin: 0px 0px 5px 10px;
 }
 
 .checkdb {

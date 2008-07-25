@@ -127,7 +127,7 @@ $Id$
         {/if}
         
         <td height='25' style="padding-right: 10px;">
-	        {if $campaign.type == OX_CAMPAIGN_TYPE_CONTRACT}
+	        {if $campaign.type == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL || $campaign.type == OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE}
 	          <span class="campaign-type campaign-contract">{t str=Contract}</span>
 	        {else}
 	          <span class="campaign-type campaign-remnant">{t str=Remnant}</span>

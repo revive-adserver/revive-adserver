@@ -92,6 +92,7 @@ class OA_Admin_Template extends Smarty
         $this->register_function('MAX_zoneDelConfirm', array('OA_Admin_Template',  '_function_MAX_zoneDelConfirm'));
 
         $this->register_function('showStatusText', array('OA_Admin_Template',  '_function_showStatusText'));
+        $this->register_function('showCampaignType', array('OA_Admin_Template',  '_function_showCampaignType'));
 
         $this->register_function('oa_form_input_attributes', array('OA_Admin_Template',  '_function_form_input_attributes'));
         $this->register_block('oa_edit', array('OA_Admin_Template',  '_block_edit'));
@@ -165,7 +166,7 @@ class OA_Admin_Template extends Smarty
         $oTrans = new OA_Translation();
 
         if (!empty($aParams['str'])) {
-			if (!empty($aParams['values'])) {
+            if (!empty($aParams['values'])) {
                 $aValues = explode('|', $aParams['values']);
             } else {
                 $aValues = array();
@@ -185,6 +186,14 @@ class OA_Admin_Template extends Smarty
         $smarty->trigger_error("t: missing 'str' or 'key' parameters: ".$aParams['str']);
     }
 
+    
+    function _function_showCampaignType($aParams, &$smarty)
+    {
+        $priority = $aParams['priority'];
+        return OX_Util_Utils::getCampaignTypeName($priority);
+    }
+    
+    
     function _function_showStatusText($aParams, &$smarty)
     {
         global $strCampaignStatusRunning, $strCampaignStatusPaused, $strCampaignStatusAwaiting,

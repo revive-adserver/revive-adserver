@@ -132,7 +132,7 @@ function _replaceTrailingZerosWithDash(&$time)
  *                             is "type", and is an optional index name for the
  *                             "aCappedObject" array.
  */
-function buildDeliveryCappingFormSection(&$form, $aText, $aCappedObject, $type = null, $aExtraDisplay = array())
+function buildDeliveryCappingFormSection(&$form, $aText, $aCappedObject, $type = null, $aExtraDisplay = array(), $showCounters = true, $hide = false)
 {
     // Extract the capping information to put into the form
     if (is_null($type)) {
@@ -155,40 +155,48 @@ function buildDeliveryCappingFormSection(&$form, $aText, $aCappedObject, $type =
 
     
     //build capping section    
-    $form->addElement('header', 's_capping', $aText['title']);
+    $form->addElement('header', 'h_capping', $aText['title']);
+    //section decorator to allow hiding of the section
+    $form->addDecorator('h_capping', 'tag', 
+        array('attributes' => array('id' => 'sect_cap', 'class' => $hide ? 'hide' : '')));
+    
+    
     $viewsPerDayG['text'] = $form->createElement('text', 'capping', null, 
         array('size' => 2, 'id' => 'cap'));
-    $viewsPerDayG['note'] = $form->createElement('html', $GLOBALS['strDeliveryCappingTotal']);        
-    $form->addGroup($viewsPerDayG, 'v_per_d', $aText['limit']);    
+    $viewsPerDayG['note'] = $form->createElement('html', null, $GLOBALS['strDeliveryCappingTotal']);        
+    $form->addGroup($viewsPerDayG, 'cap_per_d', $aText['limit']);    
     
     $viewsPerSessG['text'] = $form->createElement('text', 'session_capping', null, 
         array('size' => 2, 'id' => 'session_capping'));
-    $viewsPerSessG['note'] = $form->createElement('html', $GLOBALS['strDeliveryCappingSession']);        
-    $form->addGroup($viewsPerSessG, 'v_per_s', $aText['limit']);    
-    
-    $resetG['hour'] = $form->createElement('text', 'time[hour]', $GLOBALS['strHours'], 
-        array('id' => 'timehour', 'onKeyUp' => 'phpAds_formLimitUpdate(this);',
-        'size' => 2, "labelPlacement" => "after"));
-    $resetG['minute'] = $form->createElement('text', 'time[minute]', $GLOBALS['strMinutes'], 
-        array('id' => 'timeminute', 'onKeyUp' => 'phpAds_formLimitUpdate(this);',
-        'size' => 2, "labelPlacement" => "after"));
-    $resetG['second'] = $form->createElement('text', 'time[second]', $GLOBALS['strSeconds'], 
-        array('id' => 'timesecond', 'onBlur' => 'phpAds_formLimitBlur(this);',
-            'onKeyUp' => 'phpAds_formLimitUpdate(this);', 'size' => 2, 
-            "labelPlacement" => "after"));
-    if (($capping != '-' && $capping > 0) 
-        || ($session_capping != '-' && $session_capping > 0)) {
-        $timeDisabled = false;
-    } 
-    else {
-        $timeDisabled = true;
+    $viewsPerSessG['note'] = $form->createElement('html', null, $GLOBALS['strDeliveryCappingSession']);        
+    $form->addGroup($viewsPerSessG, 'cap_per_s', $aText['limit']);    
+
+    //reset counters
+    if ($showCounters) {    
+        $resetG['hour'] = $form->createElement('text', 'time[hour]', $GLOBALS['strHours'], 
+            array('id' => 'timehour', 'onKeyUp' => 'phpAds_formLimitUpdate(this);',
+            'size' => 2, "labelPlacement" => "after"));
+        $resetG['minute'] = $form->createElement('text', 'time[minute]', $GLOBALS['strMinutes'], 
+            array('id' => 'timeminute', 'onKeyUp' => 'phpAds_formLimitUpdate(this);',
+            'size' => 2, "labelPlacement" => "after"));
+        $resetG['second'] = $form->createElement('text', 'time[second]', $GLOBALS['strSeconds'], 
+            array('id' => 'timesecond', 'onBlur' => 'phpAds_formLimitBlur(this);',
+                'onKeyUp' => 'phpAds_formLimitUpdate(this);', 'size' => 2, 
+                "labelPlacement" => "after"));
+        if (($capping != '-' && $capping > 0) 
+            || ($session_capping != '-' && $session_capping > 0)) {
+            $timeDisabled = false;
+        } 
+        else {
+            $timeDisabled = true;
+        }
+        if ($timeDisabled) {
+            $resetG['hour']->setAttribute('disabled', 'disabled');                
+            $resetG['minute']->setAttribute('disabled', 'disabled');
+            $resetG['second']->setAttribute('disabled', 'disabled');
+        }
+        $form->addGroup($resetG, 'cap_reset', $GLOBALS['strDeliveryCappingReset'], "&nbsp;");
     }
-    if ($timeDisabled) {
-        $resetG['hour']->setAttribute('disabled', 'disabled');                
-        $resetG['minute']->setAttribute('disabled', 'disabled');
-        $resetG['second']->setAttribute('disabled', 'disabled');
-    }
-    $form->addGroup($resetG, 'v_per_s', $GLOBALS['strDeliveryCappingReset'], "&nbsp;");
     
     //set values for capping section
     $form->setDefaults(array('time[hour]' => $time['hour'], 
@@ -233,12 +241,12 @@ function buildDeliveryCappingFormSection(&$form, $aText, $aCappedObject, $type =
         
         $eViewsPerDayG['text'] = $form->createElement('text', 'extra_cap', null, 
             array('size' => 2, 'extra_cap' => 'cap', 'disabled' => '1'));
-        $eViewsPerDayG['note'] = $form->createElement('html', $GLOBALS['strDeliveryCappingTotal']);        
+        $eViewsPerDayG['note'] = $form->createElement('html', null, $GLOBALS['strDeliveryCappingTotal']);        
         $form->addGroup($eViewsPerDayG, 'ev_per_d', $aExtraDisplay['aText']['limit']);    
         
         $eViewsPerSessG['text'] = $form->createElement('text', 'extra_session_capping', null, 
             array('size' => 2, 'id' => 'extra_session_capping', 'disabled' => '1'));
-        $eViewsPerSessG['note'] = $form->createElement('html', $GLOBALS['strDeliveryCappingSession']);        
+        $eViewsPerSessG['note'] = $form->createElement('html', null, $GLOBALS['strDeliveryCappingSession']);        
         $form->addGroup($eViewsPerSessG, 'ev_per_s', $aExtraDisplay['aText']['limit']);    
         
         $eResetG['hour'] = $form->createElement('text', 'extra_time[hour]', 
@@ -483,14 +491,6 @@ echo "
       .blur(enableResetCounterConditionally);
   });
 
-  function maskNonNumeric(event)
-  {
-    if (event.charCode && (event.charCode < 48 || event.charCode > 57)) {
-      event.preventDefault();
-    }
-  }
-
-
   function prepareForText(event)
   {
     if (this.value == '-')  {
@@ -517,19 +517,31 @@ echo "
     }
   }
 
-
+  
   function isResetCounterEnabled(form)
   {
-    return !form.timehour.disabled;
+    var \$timeHourField = $(\"#timehour\");
+    
+    if (\$timeHourField.length == 0) {
+        return false;
+    }
+  
+    return !\$timeHourField.attr(\"disabled\");
   }
-
+  
 
   function setResetCounterEnabled(form, cappingSet)
   {
       var disable = !cappingSet;
-      form.timehour.disabled = disable;
-      form.timeminute.disabled = disable;
-      form.timesecond.disabled = disable;
+      if (form.timehour) {
+        form.timehour.disabled = disable;
+      }
+      if (form.timeminute) {
+        form.timeminute.disabled = disable;
+      }
+      if (form.timesecond) {
+        form.timesecond.disabled = disable;
+      }
   }
 
 

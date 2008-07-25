@@ -719,6 +719,11 @@ select.inline {
   background-color: transparent;
 }
 
+form .section
+{
+	margin-bottom: 2em;
+}	
+
 form.new-form div.line:after, .clearfix:after {
     content: ".";
     display: block;

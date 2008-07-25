@@ -25,15 +25,6 @@ $Id$
 
 -->
 *}
-<span id="remainingImpressionsSection">
-<span id='impressions_remaining_span' class="hide">{t str=ImpressionsRemaining}:<span id='impressions_remaining_count'>{$_e.vars.impressionsRemaining}</span></span><br/>
-
-{if $adDirectEnabled}
-	<span id="openadsRemainingImpressions">{t str=OpenxImpressionsRemaining}: <span id='openadsRemainingImpressionsCount'>3000 *REAL DATA GOES HERE*</span>
-	    <span class="link hide" help="help-openads-remaining-impressions" id="openadsRemainingImpressionsHelpLink"><img style="border: none; position: relative; top:5px;" src="{$assetPath}/images/help-book.gif" /></span>
-	</span>
-	<div class="hide" id="help-openads-remaining-impressions" style="height: auto; width: 290px;">
-	    {t str=OpenxImpressionsRemainingHelp}
-	</div>
-{/if}
+<span id="conversions_remaining_span" style="display: none">
+    {t str=ConversionsRemaining}:<span id='conversions_remaining_count'>{$_e.vars.conversionsRemaining}</span>
 </span>
