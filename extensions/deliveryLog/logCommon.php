@@ -38,19 +38,12 @@ require_once MAX_PATH . '/lib/OX/Plugin/Component.php';
  */
 abstract class Plugins_DeliveryLog_LogCommon extends OX_Component
 {
+    // @todo - add database specific mapping in db layer
     const TIMESTAMP_WITHOUT_ZONE = 'timestamp without time zone';
     const INTEGER = 'integer';
     const CHAR = 'char';
 
     const COUNT_COLUMN = 'count';
-
-    /**
-     * Prefix of PostgreSQL stored procedure name which is used
-     * to update the table bucket.
-     *
-     * @var string
-     */
-    protected $storedProcedurePrefix = 'bucket_update_';
 
     /**
      * Returns the dependencies between deliveryLog components.
@@ -63,6 +56,41 @@ abstract class Plugins_DeliveryLog_LogCommon extends OX_Component
     abstract function getDependencies();
 
     /**
+     * Factory methods which creates a specific db type layer for installing plugins.
+     *
+     * @param string $dbType  By default it reads the db type from default connection
+     * @return
+     */
+    function factoryDBLayer($dbType = null)
+    {
+        if (is_null($dbType)) {
+            $oDbh = OA_DB::singleton();
+            $dbType = $oDbh->dsn['phptype'];
+        }
+
+        if(!$this->_includeDbLayerFile($oDbh->dsn['phptype'])) {
+            $this->_logError('Error when including db layer: '.$dbType);
+            return false;
+        }
+        $className = 'DB_'.ucfirst($oDbh->dsn['phptype']);
+        if (!class_exists($className)) {
+            $this->_logError('Db layer class doesn\' exist: '.$className);
+            return false;
+        }
+        return new $className();
+    }
+
+    function _includeDbLayerFile($dbType)
+    {
+        $file = MAX_PATH . '/extensions/deliveryLog/DB_'.ucfirst($dbType).'.php';
+        if (!file_exists($file)) {
+            return false;
+        }
+        include $file;
+        return true;
+    }
+
+    /**
      * Carry on any additional post-installs actions
      * (for example install postgres specific stored procedures)
      *
@@ -70,6 +98,10 @@ abstract class Plugins_DeliveryLog_LogCommon extends OX_Component
      */
     public function onInstall()
     {
+        $dbLayer = $this->factoryDBLayer();
+        if (!$dbLayer || !$dbLayer->install($this)) {
+            return false;
+        }
         return true;
     }
 
@@ -99,111 +131,25 @@ abstract class Plugins_DeliveryLog_LogCommon extends OX_Component
     abstract public function getTableBucketColumns();
 
     /**
-     * Returns the bucket stored procedure name
+     * Debugging
      *
-     * @return string
+     * @param string $msg  Debugging message
+     * @param int $err  Type of message (PEAR_LOG_INFO, PEAR_LOG_ERR, PEAR_LOG_WARN)
      */
-    function getStoredProcedureName()
+    function _logMessage($msg, $err=PEAR_LOG_INFO)
     {
-        return $this->storedProcedurePrefix . $this->getBucketName();
+        OA::debug($msg, $err);
     }
 
     /**
-     * Returns the stored procedure query body. Used on install
-     * to create required procedures inside postgres database
+     * Debugging - error messages
      *
-     * @return string
+     * @param string $msg  Debugging message
      */
-    function getCreateStoredProcedureQuery()
+    function _logError($msg)
     {
-        $tableName = $this->getBucketName();
-        $query = 'CREATE OR REPLACE FUNCTION ' . $this->getStoredProcedureName() . '
-            ('.$this->_getColumnTypesList().')
-            RETURNS void AS
-            $BODY$DECLARE
-              x int;
-            BEGIN
-              LOOP
-                -- first try to update
-                UPDATE ' . $tableName . ' SET count = count + 1 WHERE '.$this->_getSPWhere().';
-                GET DIAGNOSTICS x = ROW_COUNT;
-                IF x > 0 THEN
-                  RETURN;
-                END IF;
-                -- not there, so try to insert the key
-                -- if someone else inserts the same key concurrently,
-                -- we could get a unique-key failure
-                BEGIN
-                  INSERT INTO ' . $tableName . ' VALUES ('.$this->_getSPValuesList().');
-                  RETURN;
-                EXCEPTION WHEN unique_violation THEN
-                  -- do nothing, and loop to try the UPDATE again
-                END;
-              END LOOP;
-            END$BODY$
-            LANGUAGE \'plpgsql\'';
-        return $query;
-    }
-
-    /**
-     * Prepares a list of columnt types. Used by PostgreSQL stored procedure
-     *
-     * @param array $aIgnore  List of column names to ignore (count is not included by default)
-     * @return string  Comma separated ordered list of columns
-     */
-    protected function _getColumnTypesList($aIgnore = array(self::COUNT_COLUMN))
-    {
-        $str = '';
-        foreach ($this->aTableBucketsColumns as $columnName => $columnType) {
-            if (in_array($columnName, $aIgnore)) {
-                continue;
-            }
-            $str .= $columnType . ', ';
-        }
-        return $str;
-    }
-
-    /**
-     * Prepares a WHERE query, required by PostgreSQL stored procedure
-     *
-     * @param array $aIgnore  List of columns to ignore (count is not included by default)
-     * @return string  WHERE clause
-     */
-    protected function _getSPWhere($aIgnore = array(self::COUNT_COLUMN))
-    {
-        $where = '';
-        $c = 1;
-        $and = '';
-        foreach ($this->aTableBucketsColumns as $columnName => $columnType) {
-            if (in_array($columnName, $aIgnore)) {
-                continue;
-            }
-            $where .= $and . $columnName . ' = $' . $c;
-            $c++;
-        }
-        return $where;
-    }
-
-    /**
-     * Prepares a VALUES part of PostgreSQL stored procedure.
-     *
-     * @param array $aIgnore  List of columns to ignore (count is not included by default)
-     * @return string  Comma separated VALUES list
-     */
-    protected function _getSPValuesList($aIgnore = array(self::COUNT_COLUMN))
-    {
-        $values = '';
-        $c = 1;
-        foreach ($this->aTableBucketsColumns as $column) {
-            if (in_array($columnName, $aIgnore)) {
-                continue;
-            }
-            $values .= '$'.$c.', ';
-            $comma = ', ';
-            $c++;
-        }
-        $values .= '1';
-        return $values;
+        $this->aErrors[] = $msg;
+        $this->_logMessage($msg, PEAR_LOG_ERR);
     }
 }
 
