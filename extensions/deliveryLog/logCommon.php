@@ -72,7 +72,7 @@ abstract class Plugins_DeliveryLog_LogCommon extends OX_Component
             $this->_logError('Error when including db layer: '.$dbType);
             return false;
         }
-        $className = 'DB_'.ucfirst($oDbh->dsn['phptype']);
+        $className = 'Plugins_DeliveryLog_DB_'.ucfirst($oDbh->dsn['phptype']);
         if (!class_exists($className)) {
             $this->_logError('Db layer class doesn\' exist: '.$className);
             return false;
@@ -86,7 +86,7 @@ abstract class Plugins_DeliveryLog_LogCommon extends OX_Component
         if (!file_exists($file)) {
             return false;
         }
-        include $file;
+        include_once $file;
         return true;
     }
 
