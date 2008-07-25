@@ -32,7 +32,7 @@ function Plugin_deliveryLog_OxLogImpression_LogImpression_Delivery_logImpression
         'creative_id'    => $data['creative_id'],
         'zone_id'        => $data['zone_id'],
     );
-    return MAX_bucket_updateTable('data_bucket_impression', $aQuery);
+    return OX_bucket_updateTable('data_bucket_impression', $aQuery);
 }
 
 ?>

@@ -26,6 +26,7 @@ class Plugins_DeliveryLog_OxLogImpression_LogImpression extends Plugins_Delivery
             'zone_id' => self::INTEGER,
             'count' => self::INTEGER
         );
+        return $columns;
     }
 }
 

@@ -33,7 +33,7 @@ function Plugin_deliveryLog_oxLogImpression_logImpressionCountry_Delivery_logImp
         'zone_id'        => $data['zone_id'],
         'country'        => $data['geo']['country_code'],
     );
-    return MAX_bucket_updateTable('data_bucket_impression_country', $aQuery);
+    return OX_bucket_updateTable('data_bucket_impression_country', $aQuery);
 }
 
 ?>

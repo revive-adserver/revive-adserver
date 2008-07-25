@@ -124,6 +124,16 @@ abstract class Plugins_DeliveryLog_LogCommon extends OX_Component
     abstract function getBucketName();
 
     /**
+     * Returns prefixed table bucket name
+     *
+     * @return string  Table bucket name with added prefix
+     */
+    public function getTableBucketName()
+    {
+        return OA_Dal::getTablePrefix() . $this->getBucketName();
+    }
+
+    /**
      * Returns the table bucket columns.
      *
      * @return array  Format: array(column name => column type, ...)

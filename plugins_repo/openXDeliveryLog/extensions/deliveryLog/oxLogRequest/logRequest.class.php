@@ -26,6 +26,7 @@ class Plugins_DeliveryLog_OxLogRequest_LogRequest extends Plugins_DeliveryLog_Lo
             'zone_id' => self::INTEGER,
             'count' => self::INTEGER
         );
+        return $columns;
     }
 }
 

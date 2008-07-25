@@ -28,6 +28,7 @@ class Plugins_DeliveryLog_OxLogImpression_LogImpressionCountry extends Plugins_D
             'country' => self::CHAR,
             'count' => self::INTEGER,
         );
+        return $columns;
     }
 }
 

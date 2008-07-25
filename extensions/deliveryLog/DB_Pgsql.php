@@ -67,7 +67,7 @@ class Plugins_DeliveryLog_DB_Pgsql extends Plugins_DeliveryLog_DB_Common
      *
      * @return mixed True on success, PEAR_Error otherwise.
      */
-    function createStoredProcedureFunction($function)
+    function createStoredProcedureFunction($query)
     {
         $oDbh =& OA_DB::singleton();
         if (PEAR::isError($oDbh)) {
@@ -79,7 +79,7 @@ class Plugins_DeliveryLog_DB_Pgsql extends Plugins_DeliveryLog_DB_Common
         }
 //        OA_DB::disconnectAll(); // is it required?
 //        $oDbh =& OA_DB::singleton();
-        $rows = $oDbh->exec($customFunction);
+        $rows = $oDbh->exec($query);
         if (PEAR::isError($rows)) {
             return $rows;
         }
@@ -94,8 +94,7 @@ class Plugins_DeliveryLog_DB_Pgsql extends Plugins_DeliveryLog_DB_Common
     public function install(Plugins_DeliveryLog_LogCommon $component)
     {
         $query = $this->getCreateStoredProcedureQuery($component);
-        return true;
-//        return $this->createStoredProceduresFunction($query);
+        return $this->createStoredProcedureFunction($query);
     }
 
     /**
@@ -105,6 +104,7 @@ class Plugins_DeliveryLog_DB_Pgsql extends Plugins_DeliveryLog_DB_Common
      */
     public function uninstall($component)
     {
+        // currently this operation can't be performed using existing plugin framework
         return true;
     }
 
@@ -115,7 +115,7 @@ class Plugins_DeliveryLog_DB_Pgsql extends Plugins_DeliveryLog_DB_Common
      */
     function getStoredProcedureName(Plugins_DeliveryLog_LogCommon $component)
     {
-        return $this->storedProcedurePrefix . $component->getBucketName();
+        return $this->storedProcedurePrefix . $component->getTableBucketName();
     }
 
     /**
@@ -126,7 +126,7 @@ class Plugins_DeliveryLog_DB_Pgsql extends Plugins_DeliveryLog_DB_Common
      */
     function getCreateStoredProcedureQuery(Plugins_DeliveryLog_LogCommon $component)
     {
-        $tableName = $component->getBucketName();
+        $tableName = $component->getTableBucketName();
         $query = 'CREATE OR REPLACE FUNCTION ' . $this->getStoredProcedureName($component) . '
             ('.$this->_getColumnTypesList($component).')
             RETURNS void AS
@@ -166,11 +166,13 @@ class Plugins_DeliveryLog_DB_Pgsql extends Plugins_DeliveryLog_DB_Common
     {
         $str = '';
         $aColumns = $component->getTableBucketColumns();
+        $comma = '';
         foreach ($aColumns as $columnName => $columnType) {
             if (in_array($columnName, $aIgnore)) {
                 continue;
             }
-            $str .= $columnType . ', ';
+            $str .= $comma . $columnType;
+            $comma = ', ';
         }
         return $str;
     }
@@ -193,6 +195,7 @@ class Plugins_DeliveryLog_DB_Pgsql extends Plugins_DeliveryLog_DB_Common
                 continue;
             }
             $where .= $and . $columnName . ' = $' . $c;
+            $and = ' AND ';
             $c++;
         }
         return $where;
