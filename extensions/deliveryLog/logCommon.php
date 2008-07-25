@@ -1,6 +1,6 @@
 <?php
 
-require_once MAX_PATH . '/lib/OA/Plugin/Component.php';
+require_once MAX_PATH . '/lib/OX/Plugin/Component.php';
 
 abstract class Plugins_DeliveryLog_LogCommon extends OX_Component
 {
