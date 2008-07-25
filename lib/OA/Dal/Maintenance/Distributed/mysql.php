@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -38,25 +38,24 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Distributed.php';
 class OA_Dal_Maintenance_Distributed_mysql extends OA_Dal_Maintenance_Distributed
 {
     /**
-     * A private DB-Specific method to process a table and copy data to the main database.
+     * A private DB-Specific method to process a bucket table and copy data to the main database.
      *
-     * @param string $sTableName The table to process
-     * @param Date $oStart A PEAR_Date instance, starting timestamp
-     * @param Date $oEnd A PEAR_Date instance, ending timestamp
+     * @param string $sBucketName The bucket to process
+     * @param Date $oEnd A PEAR_Date instance, interval_start to process up to (inclusive).
      */
-    function _processTable($sTableName, $oStart, $oEnd)
+    function _processBucket($sBucketName, $oEnd)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        OA::debug(' - Copying '.$sTableName.' from '.$oStart->format('%Y-%m-%d %H:%M:%S').' to '.$oEnd->format('%Y-%m-%d %H:%M:%S'), PEAR_LOG_INFO);
 
-        $sTableName = $this->_getTablename($sTableName);
+        $sTableName = $this->_getTablename($sBucketName);
         $oMainDbh =& OA_DB_Distributed::singleton();
 
         if (PEAR::isError($oMainDbh)) {
             MAX::raiseError($oMainDbh, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
 
-        $rsData =& $this->_getDataRawTableContent($sTableName, $oStart, $oEnd);
+        // Select all rows with interval_start <= previous OI start.
+        $rsData =& $this->_getBucketTableContent($sTableName, $oEnd);
         $count = $rsData->getRowCount();
 
         OA::debug('   '.$rsData->getRowCount().' records found', PEAR_LOG_INFO);
@@ -69,6 +68,7 @@ class OA_Dal_Maintenance_Distributed_mysql extends OA_Dal_Maintenance_Distribute
             while ($rsData->fetch()) {
                 $aRow = $rsData->toArray();
                 $sRow = '('.join(',', array_map(array(&$oMainDbh, 'quote'), $aRow)).')';
+                $sOnDuplicate = ' ON DUPLICATE KEY UPDATE count = count + ' . $aRow['count'];
 
                 if (!$i) {
                     $sInsert    = "INSERT INTO {$sTableName} (".join(',', array_keys($aRow)).") VALUES ";
@@ -82,12 +82,12 @@ class OA_Dal_Maintenance_Distributed_mysql extends OA_Dal_Maintenance_Distribute
                 } elseif (strlen($query) + strlen($sRow) + 4 < $packetSize) {
                     $query .= ','.$sRow;
                 } else {
-                    $aExecQueries[] = $query;
+                    $aExecQueries[] = $query . $sOnDuplicate;
                     $query = $sInsert.$sRow;
                 }
 
                 if (++$i >= $count || strlen($query) >= $packetSize) {
-                    $aExecQueries[] = $query;
+                    $aExecQueries[] = $query . $sOnDuplicate;
                     $query     = '';
                 }
 

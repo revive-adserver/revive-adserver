@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -70,25 +70,27 @@ class OA_Maintenance_Distributed
 
             $oDal = new $className();
 
-            $oStart = $oDal->getMaintenanceDistributedLastRunInfo();
+            // Get the last time distributed maintenance ran.
+            $oLastRunDate = $oDal->getMaintenanceDistributedLastRunInfo();
 
-            if ($oStart) {
+            if ($oLastRunDate) {
                 // Ensure the the current time is registered with the OA_ServiceLocator
                 $oServiceLocator =& OA_ServiceLocator::instance();
-                $oEnd =& $oServiceLocator->get('now');
-                if (!$oEnd) {
+                $oNow =& $oServiceLocator->get('now');
+                if (!$oNow) {
                     // Record the current time, and register with the OA_ServiceLocator
-                    $oEnd = new Date();
-                    $oServiceLocator->register('now', $oEnd);
+                    $oNow = new Date();
+                    $oServiceLocator->register('now', $oNow);
                 }
 
-                // Copy statistics up to the previous second
-                $oEnd->subtractSeconds(1);
+                // Copy statistics up to the previous OI.
+                $aPreviousOperationIntervalDates = 
+                    OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oNow);
 
-                // Copy tables
-                $oDal->processTables($oStart, $oEnd);
+                // Copy buckets' records with interval_start up to previous OI start.
+                $oDal->processBuckets($aPreviousOperationIntervalDates['start']);
 
-                $oDal->setMaintenanceDistributedLastRunInfo($oEnd);
+                $oDal->setMaintenanceDistributedLastRunInfo($oNow);
             } else {
                 OA::debug(' - No data to copy over', PEAR_LOG_INFO);
             }

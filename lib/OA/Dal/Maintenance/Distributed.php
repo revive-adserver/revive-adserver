@@ -31,6 +31,8 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Common.php';
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/DB/Distributed.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
+require_once MAX_PATH . '/lib/OA/OperationInterval.php';
+require_once MAX_PATH . '/lib/OX/Plugin/Component.php';
 
 /**
  * A non-DB specific base Data Abstraction Layer (DAL) class that provides
@@ -42,7 +44,7 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  */
 class OA_Dal_Maintenance_Distributed extends OA_Dal_Maintenance_Common
 {
-    var $aTables;
+    var $aBuckets;
 
     /**
      * The class constructor method.
@@ -52,14 +54,11 @@ class OA_Dal_Maintenance_Distributed extends OA_Dal_Maintenance_Common
         parent::MAX_Dal_Common();
 
         $aConf = $GLOBALS['_MAX']['CONF'];
-
-        $this->aTables = array(
-            $aConf['table']['data_raw_ad_request'],
-            $aConf['table']['data_raw_ad_impression'],
-            $aConf['table']['data_raw_ad_click'],
-            $aConf['table']['data_raw_tracker_impression'],
-            $aConf['table']['data_raw_tracker_variable_value'],
-        );
+        
+        $aDeliveryComponents = OX_Component::getComponents('deliveryLog');
+        foreach ($aDeliveryComponents as $oComponent) {
+            $this->aBuckets[] = $oComponent->getBucketName();
+        }
     }
 
     /**
@@ -94,7 +93,7 @@ class OA_Dal_Maintenance_Distributed extends OA_Dal_Maintenance_Common
             return new Date((int)$doLbLocal->last_run);
         } else {
             $oDate = false;
-            foreach ($this->aTables as $sTableName) {
+            foreach ($this->aBuckets as $sTableName) {
                 $oTableDate = $this->_getFirstRecordTimestamp($sTableName);
                 if ($oTableDate && (!$oDate || $oDate->after(new Date($oTableDate)))) {
                     $oDate = new Date($oTableDate);
@@ -106,16 +105,19 @@ class OA_Dal_Maintenance_Distributed extends OA_Dal_Maintenance_Common
     }
 
     /**
-     * A method to process all the tables and copy data to the main database.
+     * A method to process all the buckets and copy data to the main database.
      *
      * @param Date $oStart A PEAR_Date instance, starting timestamp
      * @param Date $oEnd A PEAR_Date instance, ending timestamp
      */
-    function processTables($oStart, $oEnd)
+    function processBuckets($oEnd)
     {
-        foreach ($this->aTables as $sTableName) {
-            $this->_processTable($sTableName, $oStart, $oEnd);
-            $this->_pruneTable($sTableName, $oStart);
+        foreach ($this->aBuckets as $sBucketName) {
+            $this->_processBucket($sBucketName, $oEnd);
+            
+            // TODO: We shouldn't do this if the previous method fails.
+            // Also we should check that it has successfully deleted.
+            $this->_pruneBucket($sBucketName, $oEnd);
         }
     }
 
@@ -126,38 +128,30 @@ class OA_Dal_Maintenance_Distributed extends OA_Dal_Maintenance_Common
      * @param Date $oStart A PEAR_Date instance, starting timestamp
      * @param Date $oEnd A PEAR_Date instance, ending timestamp
      */
-    function _processTable($sTableName, $oStart, $oEnd)
+    function _processBucket($sBucketName, $oEnd)
     {
         OA::debug("Base class cannot be called directly", PEAR_LOG_ERR);
         exit;
     }
 
     /**
-     * A method to prune a raw table, based on the config settings
+     * A method to prune a bucket of all records up to and
+     * including the timestamp given.
      *
-     * @param string $sTableName The table to prune
-     * @param Date   $oTimeStamp Prune until this timestamp
+     * @param string $sBucketName The bucket to prune
+     * @param Date   $oIntervalStart Prune until this interval_start (inclusive).
      */
-    function _pruneTable($sTableName, $oTimestamp)
+    function _pruneBucket($sBucketName, $oIntervalStart)
     {
-        $aConf = $GLOBALS['_MAX']['CONF'];
+        OA::debug(' - Pruning '.$sBucketName.' until '.$oIntervalStart->format('%Y-%m-%d %H:%M:%S'), PEAR_LOG_INFO);
 
-        if (empty($aConf['lb']['compactStats'])) {
-            return;
-        }
-
-        $oDate = new Date($oTimestamp);
-        $oDate->subtractSeconds((int)$aConf['lb']['compactStatsGrace']);
-
-        OA::debug(' - Pruning '.$sTableName.' until '.$oDate->format('%Y-%m-%d %H:%M:%S'), PEAR_LOG_INFO);
-
-        $sTableName = $this->_getTablename($sTableName);
+        $sTableName = $this->_getTablename($sBucketName);
         $query = "
               DELETE FROM
               {$sTableName}
               WHERE
-                date_time < ".
-                    DBC::makeLiteral($oDate->format('%Y-%m-%d %H:%M:%S'))."
+                interval_start <= ".
+                    DBC::makeLiteral($oIntervalStart->format('%Y-%m-%d %H:%M:%S'))."
             ";
 
         return $this->oDbh->exec($query);
@@ -174,7 +168,7 @@ class OA_Dal_Maintenance_Distributed extends OA_Dal_Maintenance_Common
         $sTableName = $this->_getTablename($sTableName);
         $query = "
               SELECT
-                MIN(date_time) AS date_time
+                MIN(interval_start) AS date_time
               FROM
                 {$sTableName}
             ";
@@ -191,27 +185,19 @@ class OA_Dal_Maintenance_Distributed extends OA_Dal_Maintenance_Common
     /**
      * A method to retrieve the table content as a recordset.
      *
-     * @param string $sTableName The table to process
-     * @param Date $oStart A PEAR_Date instance, starting timestamp
-     * @param Date $oEnd A PEAR_Date instance, ending timestamp
+     * @param string $sTableName The bucket table to process
+     * @param Date $oEnd A PEAR_Date instance, ending interval_start to process.
      * @return MySqlRecordSet A recordset of the results
      */
-    function _getDataRawTableContent($sTableName, $oStart, $oEnd)
+    function _getBucketTableContent($sTableName, $oEnd)
     {
-        $oDate = new Date($oEnd);
-        $oDate->subtractSeconds(1);
-
         $query = "
-              SELECT
-                *
-              FROM
-                {$sTableName}
-              WHERE
-                date_time BETWEEN ".
-                    DBC::makeLiteral($oStart->format('%Y-%m-%d %H:%M:%S'))." AND ".
-                    DBC::makeLiteral($oDate->format('%Y-%m-%d %H:%M:%S'))."
-            ";
-
+            SELECT
+             *
+            FROM
+             {$sTableName}
+            WHERE
+              interval_start <= " . DBC::makeLiteral($oEnd->format('%Y-%m-%d %H:%M:%S'));
         $rsDataRaw = DBC::NewRecordSet($query);
         $rsDataRaw->find();
 
