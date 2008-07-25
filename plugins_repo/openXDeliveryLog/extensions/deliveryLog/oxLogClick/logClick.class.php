@@ -12,10 +12,20 @@ class Plugins_DeliveryLog_OxLogClick_LogClick extends Plugins_DeliveryLog_LogCom
             )
         );
     }
-    
+
     function getBucketName()
     {
         return 'data_bucket_click';
+    }
+
+    public function getTableBucketColumns()
+    {
+        $columns = array(
+            'interval_start' => self::TIMESTAMP_WITHOUT_ZONE ,
+            'creative_id' => self::INTEGER,
+            'zone_id' => self::INTEGER,
+            'count' => self::INTEGER
+        );
     }
 }
 

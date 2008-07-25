@@ -12,10 +12,21 @@ class Plugins_DeliveryLog_OxLogImpression_logImpressionBackup extends Plugins_De
             )
         );
     }
-    
+
     function getBucketName()
     {
         return 'data_bucket_impression_backup';
+    }
+
+    public function getTableBucketColumns()
+    {
+        $columns = array(
+            'interval_start' => self::TIMESTAMP_WITHOUT_ZONE ,
+            'primary_creative_id' => self::INTEGER,
+            'creative_id' => self::INTEGER,
+            'zone_id' => self::INTEGER,
+            'count' => self::INTEGER
+        );
     }
 }
 

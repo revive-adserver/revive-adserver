@@ -12,10 +12,20 @@ class Plugins_DeliveryLog_OxLogRequest_LogRequest extends Plugins_DeliveryLog_Lo
             )
         );
     }
-    
+
     function getBucketName()
     {
         return 'data_bucket_request';
+    }
+
+    public function getTableBucketColumns()
+    {
+        $columns = array(
+            'interval_start' => self::TIMESTAMP_WITHOUT_ZONE ,
+            'creative_id' => self::INTEGER,
+            'zone_id' => self::INTEGER,
+            'count' => self::INTEGER
+        );
     }
 }
 

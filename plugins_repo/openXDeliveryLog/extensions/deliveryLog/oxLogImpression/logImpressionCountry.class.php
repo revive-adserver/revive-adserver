@@ -13,10 +13,21 @@ class Plugins_DeliveryLog_OxLogImpression_LogImpressionCountry extends Plugins_D
             )
         );
     }
-    
+
     function getBucketName()
     {
         return 'data_bucket_impression_country';
+    }
+
+    public function getTableBucketColumns()
+    {
+        $columns = array(
+            'interval_start' => self::TIMESTAMP_WITHOUT_ZONE ,
+            'creative_id' => self::INTEGER,
+            'zone_id' => self::INTEGER,
+            'country' => self::CHAR,
+            'count' => self::INTEGER,
+        );
     }
 }
 

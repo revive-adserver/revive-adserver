@@ -70,17 +70,17 @@ class OX_Component
         if ($component === null) {
             $component = $group;
         }
-        if (!OX_Component::_includeComponentFile($extension, $group, $component))
+        if (!self::_includeComponentFile($extension, $group, $component))
         {
             return false;
         }
-        $className = OX_Component::_getComponentClassName($extension, $group, $component);
+        $className = self::_getComponentClassName($extension, $group, $component);
         $obj = new $className($extension, $group, $component);
         $obj->extension = $extension;
         $obj->group     = $group;
         $obj->component = $component;
         $obj->enabled   = true;
-        if (!OX_Component::_isEnabledComponent($extension, $group, $component))
+        if (!self::_isEnabledComponent($extension, $group, $component))
         {
             $obj->enabled = false;
         }
@@ -89,8 +89,8 @@ class OX_Component
 
     function &factoryByComponentIdentifier($componentIdentifier)
     {
-        list($extension, $group, $component) = OX_Component::parseComponentIdentifier($componentIdentifier);
-        return OX_Component::factory($extension, $group, $component);
+        list($extension, $group, $component) = self::parseComponentIdentifier($componentIdentifier);
+        return self::factory($extension, $group, $component);
     }
 
     function _isEnabledComponent($extension, $group, $component)
@@ -138,7 +138,7 @@ class OX_Component
         } else {
             include_once $fileName;
         }
-        $className = OX_Component::_getComponentClassName($extension, $group, $component);
+        $className = self::_getComponentClassName($extension, $group, $component);
         if (!class_exists($className)) {
             MAX::raiseError("Component file included but class '$className' does not exist.");
             return false;
@@ -193,11 +193,11 @@ class OX_Component
     function &getComponents($extension, $group = null, $onlyComponentNameAsIndex = true, $recursive = 1, $enabledOnly = true)
     {
         $aComponents = array();
-        $aComponentFiles = OX_Component::_getComponentsFiles($extension, $group, $recursive);
+        $aComponentFiles = self::_getComponentsFiles($extension, $group, $recursive);
         foreach ($aComponentFiles as $key => $componentFile) {
             $aComponentInfo = explode(':', $key);
             if (count($aComponentInfo) > 1) {
-                $component = OX_Component::factory($extension, $aComponentInfo[0], $aComponentInfo[1]);
+                $component = self::factory($extension, $aComponentInfo[0], $aComponentInfo[1]);
                 if ($component !== false && (!$enabledOnly || $component->enabled == true)) {
                     if ($onlyComponentNameAsIndex) {
                         $aComponents[$aComponentInfo[1]] = $component;
@@ -240,7 +240,7 @@ class OX_Component
         } else {
             $dir = $pluginsDir . '/' . $extension;
         }
-        return OX_Component::_getComponentFilesFromDirectory($dir, $recursive);
+        return self::_getComponentFilesFromDirectory($dir, $recursive);
     }
 
     /**
@@ -265,7 +265,7 @@ class OX_Component
     function _getComponentFilesFromDirectory($directory, $recursive = 1)
     {
         if (is_readable($directory)) {
-            $fileMask = OX_Component::_getFileMask();
+            $fileMask = self::_getFileMask();
             $oFileScanner = new MAX_FileScanner();
             $oFileScanner->addFileTypes(array('php','inc'));
             $oFileScanner->setFileMask($fileMask);
@@ -301,14 +301,14 @@ class OX_Component
         if ($component === null) {
             $component = $group;
         }
-        if (!OX_Component::_isEnabledComponent($extension, $group, $component))
+        if (!self::_isEnabledComponent($extension, $group, $component))
         {
             return false;
         }
-        if (!OX_Component::_includeComponentFile($extension, $group, $component)) {
+        if (!self::_includeComponentFile($extension, $group, $component)) {
             return false;
         }
-        $className = OX_Component::_getComponentClassName($extension, $group, $component);
+        $className = self::_getComponentClassName($extension, $group, $component);
 
         // PHP4/5 compatibility for get_class_methods.
         $aClassMethods = array_map(strtolower, (get_class_methods($className)));
@@ -352,7 +352,7 @@ class OX_Component
             // Check that the method name can be called
             if (!is_callable(array($oComponent, $methodName))) {
                 $message = "Method '$methodName()' not defined in class '" .
-                            OX_Component::_getComponentClassName($oComponent->extension, $oComponent->group, $oComponent->component) . "'.";
+                            self::_getComponentClassName($oComponent->extension, $oComponent->group, $oComponent->component) . "'.";
                 MAX::raiseError($message, MAX_ERROR_INVALIDARGS);
                 return false;
             }
