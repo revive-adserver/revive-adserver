@@ -22,7 +22,7 @@ class Plugins_DeliveryLog_OxLogImpression_LogImpressionCountry extends Plugins_D
     public function getTableBucketColumns()
     {
         $columns = array(
-            'interval_start' => self::TIMESTAMP_WITHOUT_ZONE ,
+            'interval_start' => self::TIMESTAMP_WITHOUT_ZONE,
             'creative_id' => self::INTEGER,
             'zone_id' => self::INTEGER,
             'country' => self::CHAR,

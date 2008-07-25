@@ -21,7 +21,7 @@ class Plugins_DeliveryLog_OxLogRequest_LogRequest extends Plugins_DeliveryLog_Lo
     public function getTableBucketColumns()
     {
         $columns = array(
-            'interval_start' => self::TIMESTAMP_WITHOUT_ZONE ,
+            'interval_start' => self::TIMESTAMP_WITHOUT_ZONE,
             'creative_id' => self::INTEGER,
             'zone_id' => self::INTEGER,
             'count' => self::INTEGER
