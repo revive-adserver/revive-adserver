@@ -167,7 +167,7 @@ function phpAds_showZoneBanners ($zoneId)
         }
         // High-Priority Advertisements
         if (!empty($aZoneLinkedAds['ads'])) {
-            echo "<tr height='25'><th align='$phpAds_TextAlignLeft' colspan='6'><strong>$strHighAds</strong></th></tr>";
+            echo "<tr height='25'><th align='$phpAds_TextAlignLeft' colspan='6'><strong>$strHighAds:</strong></th></tr>";
             echo "<tr height='25'>";
             echo "<td height='25' width='40%'><b>&nbsp;&nbsp;".$strName."</b></td>";
             echo "<td height='25'><b>".$strID."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>";
