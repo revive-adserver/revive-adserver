@@ -25,8 +25,8 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/OA/Plugin/Component.php';
-require_once MAX_PATH . '/lib/OA/Plugin/ComponentGroupManager.php';
+require_once LIB_PATH . '/Plugin/Component.php';
+require_once LIB_PATH . '/Plugin/ComponentGroupManager.php';
 require_once MAX_PATH . '/lib/OA/Util/CodeMunger.php';
 require_once MAX_PATH . '/lib/OA/Algorithm/Dependency/Ordered.php';
 require_once MAX_PATH . '/lib/OA/Algorithm/Dependency/Source/HoA.php';

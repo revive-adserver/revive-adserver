@@ -34,7 +34,7 @@ require_once MAX_PATH . '/lib/OA/DB/Table/Priority.php';
 require_once MAX_PATH . '/lib/OA/DB/Table/Statistics.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/wact/db/db.inc.php';
-require_once MAX_PATH . '/lib/OA/Plugin/PluginManager.php';
+require_once LIB_PATH . '/Plugin/PluginManager.php';
 require_once MAX_PATH . '/tests/data/DefaultData.php';
 
 /**

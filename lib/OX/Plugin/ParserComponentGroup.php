@@ -27,7 +27,7 @@
 // $Id$
 */
 
-require_once MAX_PATH.'/lib/OA/Plugin/ParserBase.php';
+require_once LIB_PATH.'/Plugin/ParserBase.php';
 
 /**
  * Parses an XML plugin install file
@@ -51,7 +51,6 @@ class OX_ParserComponentGroup extends OX_ParserBase
                            );
     var $aData;
     var $aComponents = array();
-    var $aComponent = array();
 
     function startHandler($xp, $element, $attribs)
     {
@@ -122,12 +121,8 @@ class OX_ParserComponentGroup extends OX_ParserBase
                     $this->aData[strtolower($k)] = $v;
                 }
                 break;
-            case 'plugin-install-components-component':
-                $this->aData = array();
-                $this->aComponent = array();
-                break;
             case 'plugin-install-components':
-                $this->aComponents = array();
+                $this->aData = array();
                 break;
         }
     }
@@ -160,7 +155,7 @@ class OX_ParserComponentGroup extends OX_ParserBase
             case 'plugin-install-configuration-preference':
                 $this->aPrefs[] = $this->aData;
                 break;
-            case 'plugin-install-components-component':
+            case 'plugin-install-components':
                 $this->aComponents[$this->aData['name']] = $this->aData;
                 break;
 

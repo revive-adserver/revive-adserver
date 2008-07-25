@@ -259,6 +259,9 @@ function setupConstants()
                 define('PATH_SEPARATOR', ':');
             }
         }
+        if (!defined('LIB_PATH')) {
+            define('LIB_PATH', MAX_PATH. DIRECTORY_SEPARATOR. 'lib'. DIRECTORY_SEPARATOR. 'OX');
+        }
         // Define the PEAR installation path
         $existingPearPath = ini_get('include_path');
         $newPearPath = MAX_PATH . DIRECTORY_SEPARATOR.'lib' . DIRECTORY_SEPARATOR . 'pear';

@@ -36,7 +36,7 @@ require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/OA/Admin/TemplatePlugin.php';
-require_once MAX_PATH . '/lib/OA/Plugin/ComponentGroupManager.php';
+require_once LIB_PATH . '/Plugin/ComponentGroupManager.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);

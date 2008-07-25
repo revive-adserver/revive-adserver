@@ -42,13 +42,13 @@ define('OX_PLUGIN_ADMINPATH_REX' ,'/^\{ADMINPATH\}/' );
 
 
 // Required files
-require_once MAX_PATH.'/lib/OA/Plugin/ParserComponentGroup.php';
+require_once LIB_PATH.'/Plugin/ParserComponentGroup.php';
 require_once(MAX_PATH.'/lib/OA/Upgrade/VersionController.php');
 require_once(MAX_PATH.'/lib/OA/Upgrade/UpgradeAuditor.php');
 require_once(MAX_PATH.'/lib/OA/DB/Table.php');
 require_once(MAX_PATH.'/lib/OA/Dal.php');
 require_once(MAX_PATH.'/lib/OA/Cache.php');
-require_once MAX_PATH.'/lib/OA/Plugin/UpgradeComponentGroup.php';
+require_once LIB_PATH.'/Plugin/UpgradeComponentGroup.php';
 
 class OX_Plugin_ComponentGroupManager
 {
@@ -472,7 +472,7 @@ class OX_Plugin_ComponentGroupManager
 
     function upgrade()
     {
-        require_once MAX_PATH.'/lib/OA/Plugin/upgradeComponentGroup.php';
+        require_once LIB_PATH.'/Plugin/upgradeComponentGroup.php';
         //$oUpgrader =
     }
 
@@ -2086,7 +2086,7 @@ class OX_Plugin_ComponentGroupManager
 
     function getComponentGroupObjectsInfo($extends, $group)
     {
-        require_once MAX_PATH.'/lib/OA/Plugin/Component.php';
+        require_once LIB_PATH.'/Plugin/Component.php';
         $aComponents = OX_Component::getComponents($extends, $group, false, true, false);
         foreach ($aComponents as $obj)
         {

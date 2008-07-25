@@ -59,6 +59,16 @@ class Menu
                             )
                         );
         $aItems[] = array(
+                            'title' => 'Plugins',
+                            'action'=>'about_plugins',
+                            'children'=> array(
+                                               0 => array(
+                                                          'title'=>'New Plugin',
+                                                          'action'=>'create_plugin',
+                                                         ),
+                                              )
+                        );
+        $aItems[] = array(
                             'title' => 'Schemas',
                             'action'=>'about_schema',
                             'children'=> array(

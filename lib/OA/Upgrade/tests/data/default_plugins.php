@@ -1,5 +1,5 @@
 <?php
 
-$aDefaultPlugins[] = array('path'=>MAX_PATH.'/lib/OA/Plugin/tests/data/zipInstallTest/','name'=>'testPluginPackage','ext'=>'zip');
+$aDefaultPlugins[] = array('path'=>LIB_PATH.'/Plugin/tests/data/zipInstallTest/','name'=>'testPluginPackage','ext'=>'zip');
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 
-require_once MAX_PATH . '/lib/OA/Plugin/Component.php';
+require_once LIB_PATH . '/Plugin/Component.php';
 
 class Plugins_DeliveryDataPrepare_OxDeliveryDataPrepare_DataGeo extends OX_Component
 {

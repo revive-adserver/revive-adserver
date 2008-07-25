@@ -28,7 +28,7 @@ $Id$
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/other/lib-acl.inc.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
-require_once MAX_PATH . '/lib/OA/Plugin/PluginManager.php';
+require_once LIB_PATH . '/Plugin/PluginManager.php';
 
 /*
  * A class for testing the lib-geometry.

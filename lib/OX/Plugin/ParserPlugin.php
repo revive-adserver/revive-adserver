@@ -29,7 +29,7 @@ $Id$
 
 
 
-require_once MAX_PATH.'/lib/OA/Plugin/ParserBase.php';
+require_once LIB_PATH.'/Plugin/ParserBase.php';
 
 /**
  * Parses an XML plugin install file

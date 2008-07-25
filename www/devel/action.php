@@ -38,6 +38,9 @@ $action = $_REQUEST['action'];
 
 switch ($action)
 {
+    case 'create_plugin':
+        include 'plugin.php';
+        break;
     case 'schema_editor':
         include 'schema.php';
         break;

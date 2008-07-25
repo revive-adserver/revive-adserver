@@ -26,7 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA.php';
-require_once MAX_PATH . '/lib/OA/Plugin/Component.php';
+require_once LIB_PATH . '/Plugin/Component.php';
 
 /**
  *

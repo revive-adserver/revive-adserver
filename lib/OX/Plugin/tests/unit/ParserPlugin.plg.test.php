@@ -27,7 +27,7 @@
 // $Id$
 */
 
-require_once MAX_PATH.'/lib/OA/Plugin/ParserPlugin.php';
+require_once LIB_PATH.'/Plugin/ParserPlugin.php';
 
 /**
  * A class for testing the ParserPackage class.
@@ -49,7 +49,7 @@ class Test_OX_ParserPlugin extends UnitTestCase
 
     function test_ParseEmpty()
     {
-        $file = MAX_PATH.'/lib/OA/Plugin/tests/data/testParsePluginEmpty.xml';
+        $file = LIB_PATH.'/Plugin/tests/data/testParsePluginEmpty.xml';
         $this->assertTrue(file_exists($file),'file not found '.$file);
         if (file_exists($file))
         {
@@ -72,7 +72,7 @@ class Test_OX_ParserPlugin extends UnitTestCase
 
     function test_ParseFull()
     {
-        $file = MAX_PATH.'/lib/OA/Plugin/tests/data/testParsePluginFull.xml';
+        $file = LIB_PATH.'/Plugin/tests/data/testParsePluginFull.xml';
         $this->assertTrue(file_exists($file),'file not found '.$file);
         if (file_exists($file))
         {

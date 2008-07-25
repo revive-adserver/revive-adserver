@@ -30,13 +30,13 @@ $Id$
 
 
 // Required files
-require_once MAX_PATH.'/lib/OA/Plugin/PluginManager.php';
+require_once LIB_PATH.'/Plugin/PluginManager.php';
 
 class Test_OX_PluginManager extends UnitTestCase
 {
-    var $testpathData  = '/lib/OA/Plugin/tests/data/';
-    var $testpathPackages  = '/lib/OA/Plugin/tests/data/plugins/etc/';
-    var $testpathPluginsAdmin = '/lib/OA/Plugin/tests/data/www/admin/plugins/';
+    var $testpathData           = '/lib/OX/Plugin/tests/data/';
+    var $testpathPackages       = '/lib/OX/Plugin/tests/data/plugins/etc/';
+    var $testpathPluginsAdmin   = '/lib/OX/Plugin/tests/data/www/admin/plugins/';
 
     function Test_OX_PluginManager()
     {

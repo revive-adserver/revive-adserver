@@ -37,7 +37,7 @@ require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/component/Form.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 
-require_once MAX_PATH . '/lib/OA/Plugin/Component.php';
+require_once LIB_PATH . '/Plugin/Component.php';
 
 $htmltemplate = MAX_commonGetValueUnslashed('htmltemplate');
 

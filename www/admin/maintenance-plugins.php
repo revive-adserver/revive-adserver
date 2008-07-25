@@ -55,7 +55,7 @@ phpAds_registerGlobal('action', 'returnurl');
 
 if (!empty($action))
 {
-    require_once MAX_PATH . '/lib/OA/Plugin/PluginManager.php';
+    require_once LIB_PATH . '/Plugin/PluginManager.php';
     $oPluginManager = & new OX_PluginManager();
     switch ($action)
     {

@@ -4,7 +4,7 @@ $upgradeTaskMessage = array();
 $upgradeTaskError   = array();
 $upgradeTaskResult  = true;
 
-require_once MAX_PATH.'/lib/OA/Plugin/PluginManager.php';
+require_once LIB_PATH.'/Plugin/PluginManager.php';
 $oPluginManager = new OX_PluginManager();
 
 $aInstalledPlugins = $GLOBALS['_MAX']['CONF']['plugins'];

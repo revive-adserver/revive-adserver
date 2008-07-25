@@ -26,7 +26,7 @@ $Id$
 
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-require_once MAX_PATH . '/lib/OA/Plugin/Component.php';
+require_once LIB_PATH . '/Plugin/Component.php';
 
 function MAX_getDisplayName($name, $length = 60, $append = '...')
 {
@@ -1041,7 +1041,7 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
                     }
                 }
         }
-        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_DELETE)) { 
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_DELETE)) {
             $deleteConfirm = MAX_zoneDelConfirm($zoneId);
             $extra .= "
                 </select>

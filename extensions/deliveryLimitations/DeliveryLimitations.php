@@ -27,7 +27,7 @@ $Id$
 require_once MAX_PATH . '/lib/max/Plugin/Common.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
-require_once MAX_PATH . '/lib/OA/Plugin/Component.php';
+require_once LIB_PATH . '/Plugin/Component.php';
 
 /**
  * Plugins_DeliveryLimitations is an abstract class for every Delivery limitation plugin.  Note that

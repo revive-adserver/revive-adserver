@@ -27,7 +27,7 @@
 // $Id$
 */
 
-require_once MAX_PATH.'/lib/OA/Plugin/UpgradeComponentGroup.php';
+require_once LIB_PATH.'/Plugin/UpgradeComponentGroup.php';
 
 /**
  * A class for testing the Test_OX_Plugin_UpgradeComponentGroup class.
@@ -41,7 +41,7 @@ class Test_OX_Plugin_UpgradeComponentGroup extends UnitTestCase
     var $packageName   = 'testPluginPackage';
     var $aUpload       = array('name'=>'', 'tmp_name'=>'');
 
-    var $testpathData  = '/lib/OA/Plugin/tests/data/plugins_repo/';
+    var $testpathData  = '/lib/OX/Plugin/tests/data/plugins_repo/';
 
 
     /**

@@ -1168,7 +1168,7 @@ class OA_Upgrade
         }
         if (!$this->oPkgMgr)
         {
-            require_once MAX_PATH.'/lib/OA/Plugin/PluginManager.php';
+            require_once LIB_PATH.'/Plugin/PluginManager.php';
             $this->oPkgMgr = new OX_PluginManager();
         }
         foreach ($aPackages AS $name => $enabled)
@@ -1222,7 +1222,7 @@ class OA_Upgrade
         }
         if (!$this->oPkgMgr)
         {
-            require_once MAX_PATH.'/lib/OA/Plugin/PluginManager.php';
+            require_once LIB_PATH.'/Plugin/PluginManager.php';
             $this->oPkgMgr = new OX_PluginManager();
         }
         foreach ($aDefaultPlugins AS $idx => $aPackage)
