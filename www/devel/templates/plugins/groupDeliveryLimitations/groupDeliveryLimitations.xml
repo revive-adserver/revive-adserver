@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>{GROUP}</name>
+    <creationDate>{DATE}</creationDate>
+    <author>{AUTHOR}</author>
+    <authorEmail>{EMAIL}</authorEmail>
+    <authorUrl>{URL}</authorUrl>
+    <license>{LICENCE}</license>
+    <description>{DESCRIPTION}</description>
+    <version>{VERSION}</version>
+    <oxversion>{OXVERSION}</oxversion>
+    <extends>deliveryLimitations</extends>
+
+    <install>
+
+        <syscheck>
+            <!-- optional dbms compatibility declarations -->
+            <!-- if you know your components won't work with a dbms -->
+            <!-- set supported to 0 -->
+            <dbms>
+                <name>mysql</name>
+                <supported>1</supported>
+            </dbms>
+            <dbms>
+                <name>pgsql</name>
+                <supported>1</supported>
+            </dbms>
+
+            <!-- optional php setting requirement declarations -->
+            <php>
+                <setting name='phpini1'>phpval1</setting>;
+                <setting name='phpini2'>phpval2</setting>;
+            </php>
+
+            <!-- optional plugin group dependency declaration -->
+            <!-- if this group depends on another group (not plugin!) -->
+            <depends>
+                <plugin version="0.0.1" enabled="0">anotherPluginGroup</plugin>
+            </depends>
+        </syscheck>
+
+
+        <files>
+            <file path="{MODULEPATH}deliveryLimitations/{GROUP}/">{COMPONENT}.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/{GROUP}/">{COMPONENT}.delivery.php</file>
+            <!--file path="{MODULEPATH}bannerTypeHtml/{GROUP}/_lang">en.mo</file-->
+        </files>
+
+        <components>
+           <component>
+                <name>{COMPONENT}</name>
+                <!-- optional language file -->
+                <!--translations>{MODULEPATH}deliveryLimitations/{GROUP}/_lang/</translations-->
+                <!-- optional hooks -->
+                <!--hook></hook-->
+           </component>
+        </components>
+
+    </install>
+
+</plugin>

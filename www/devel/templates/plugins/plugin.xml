@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>{NAME}</name>
+    <creationDate>{DATE}</creationDate>
+    <author>{AUTHOR}</author>
+    <authorEmail>{EMAIL}</authorEmail>
+    <authorUrl>{URL}</authorUrl>
+    <license>{LICENCE}</license>
+    <description>{DESCRIPTION}</description>
+    <version>{VERSION}</version>
+    <type>package</type>
+
+    <install>
+
+        <files>
+            <file path="{PLUGINPATH}">{NAME}.readme.txt</file>
+        </files>
+
+        <!-- list the groups that are contained in this plugin -->
+        <!-- in the order they should be installed -->
+        <contents>
+            <group name="{GROUP}"   >1</group>
+        </contents>
+
+    </install>
+
+</plugin>

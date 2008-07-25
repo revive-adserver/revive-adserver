@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>{GROUP}</name>
+    <creationDate>{DATE}</creationDate>
+    <author>{AUTHOR}</author>
+    <authorEmail>{EMAIL}</authorEmail>
+    <authorUrl>{URL}</authorUrl>
+    <license>{LICENCE}</license>
+    <description>{DESCRIPTION}</description>
+    <version>{VERSION}</version>
+    <oxversion>{OXVERSION}</oxversion>
+    <extends>bannerTypeHtml</extends>
+
+    <install>
+
+        <syscheck>
+            <!-- optional dbms compatibility declarations -->
+            <!-- if you know your components won't work with a dbms -->
+            <!-- set supported to 0 -->
+            <dbms>
+                <name>mysql</name>
+                <supported>1</supported>
+            </dbms>
+            <dbms>
+                <name>pgsql</name>
+                <supported>1</supported>
+            </dbms>
+
+            <!-- optional php setting requirement declarations -->
+            <php>
+                <setting name='phpini1'>phpval1</setting>;
+                <setting name='phpini2'>phpval2</setting>;
+            </php>
+
+            <!-- optional plugin group dependency declaration -->
+            <!-- if this group depends on another group (not plugin!) -->
+            <depends>
+                <plugin version="0.0.1" enabled="0">anotherPluginGroup</plugin>
+            </depends>
+        </syscheck>
+
+        <!-- this extension requires a class and a delivery function -->
+        <files>
+            <file path="{MODULEPATH}bannerTypeHtml/{GROUP}/">{COMPONENT}.class.php</file>
+            <file path="{MODULEPATH}bannerTypeHtml/{GROUP}/">{COMPONENT}.delivery.php</file>
+            <!--file path="{MODULEPATH}bannerTypeHtml/{GROUP}/_lang">en.mo</file-->
+        </files>
+
+        <components>
+           <component>
+                <name>{COMPONENT}</name>
+                <!-- optional language file -->
+                <!--translations>{MODULEPATH}bannerTypeHtml/{GROUP}/_lang/</translations-->
+                <!-- optional hooks -->
+                <!--hook>postAdRender</hook-->
+           </component>
+        </components>
+
+        <!-- optional schema details -->
+        <!--schema>
+            <mdb2schema>{SCHEMA}</mdb2schema>
+            <dboschema>db_schema</dboschema>
+            <dbolinks>db_schema.links</dbolinks>
+            <dataobject></dataobject>
+        </schema-->
+
+    </install>
+
+</plugin>
