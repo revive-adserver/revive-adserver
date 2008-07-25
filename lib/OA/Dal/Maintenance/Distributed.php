@@ -41,24 +41,22 @@ require_once MAX_PATH . '/lib/OX/Plugin/Component.php';
  * @package    OpenXDal
  * @subpackage Maintenance
  * @author     Matteo Beccati <matteo.beccati@openx.org>
+ * @abstract 
  */
-class OA_Dal_Maintenance_Distributed extends OA_Dal_Maintenance_Common
+abstract class OA_Dal_Maintenance_Distributed extends OA_Dal_Maintenance_Common
 {
-    var $aBuckets;
+    private $aAggregateBuckets;
+    private $aNonAggregateBuckets;
 
     /**
      * The class constructor method.
      */
-    function OA_Dal_Maintenance_Distributed()
+    public function OA_Dal_Maintenance_Distributed()
     {
         parent::MAX_Dal_Common();
 
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        
-        $aDeliveryComponents = OX_Component::getComponents('deliveryLog');
-        foreach ($aDeliveryComponents as $oComponent) {
-            $this->aBuckets[] = $oComponent->getBucketName();
-        }
+        $this->aAggregateBuckets = $this->getAggregateBuckets();
+        $this->aNonAggregateBuckets = $this->getNonAggregateBuckets();
     }
 
     /**
@@ -67,29 +65,23 @@ class OA_Dal_Maintenance_Distributed extends OA_Dal_Maintenance_Common
      * @param Date $oStart A PEAR_Date instance, starting timestamp
      * @param Date $oEnd A PEAR_Date instance, ending timestamp
      */
-    function processBuckets($oEnd)
+    public function processBuckets($oEnd)
     {
-        foreach ($this->aBuckets as $sBucketName) {
-            $this->_processBucket($sBucketName, $oEnd);
+        foreach ($this->aAggregateBuckets as $sBucketName) {
+            $this->_processBucket($sBucketName, $oEnd, true);
             
             // TODO: We shouldn't do this if the previous method fails.
             // Also we should check that it has successfully deleted.
             $this->_pruneBucket($sBucketName, $oEnd);
         }
+        
+        foreach ($this->aNonAggregateBuckets as $sBucketName) {
+            $this->_processBucket($sBucketName, $oEnd, false);
+            $this->_pruneBucket($sBucketName, $oEnd);
+        }
     }
 
-    /**
-     * A private DB-Specific method to process a table and copy data to the main database.
-     *
-     * @param string $sTableName The table to process
-     * @param Date $oStart A PEAR_Date instance, starting timestamp
-     * @param Date $oEnd A PEAR_Date instance, ending timestamp
-     */
-    function _processBucket($sBucketName, $oEnd)
-    {
-        OA::debug("Base class cannot be called directly", PEAR_LOG_ERR);
-        exit;
-    }
+    abstract function _processBucket($sBucketName, $oEnd, $isAggregateBucket);
 
     /**
      * A method to prune a bucket of all records up to and
@@ -98,7 +90,7 @@ class OA_Dal_Maintenance_Distributed extends OA_Dal_Maintenance_Common
      * @param string $sBucketName The bucket to prune
      * @param Date   $oIntervalStart Prune until this interval_start (inclusive).
      */
-    function _pruneBucket($sBucketName, $oIntervalStart)
+    private function _pruneBucket($sBucketName, $oIntervalStart)
     {
         OA::debug(' - Pruning '.$sBucketName.' until '.$oIntervalStart->format('%Y-%m-%d %H:%M:%S'), PEAR_LOG_INFO);
 
@@ -122,7 +114,7 @@ class OA_Dal_Maintenance_Distributed extends OA_Dal_Maintenance_Common
      * @param Date $oEnd A PEAR_Date instance, ending interval_start to process.
      * @return MySqlRecordSet A recordset of the results
      */
-    function _getBucketTableContent($sTableName, $oEnd)
+    protected function _getBucketTableContent($sTableName, $oEnd)
     {
         $query = "
             SELECT
@@ -135,6 +127,20 @@ class OA_Dal_Maintenance_Distributed extends OA_Dal_Maintenance_Common
         $rsDataRaw->find();
 
         return $rsDataRaw;
+    }
+    
+    private function getAggregateBuckets()
+    {
+        $aDeliveryComponents = OX_Component::getComponents('deliveryLog');
+        foreach ($aDeliveryComponents as $oComponent) {
+            $aBuckets[] = $oComponent->getBucketName();
+        }
+        return $aBuckets;
+    }
+    
+    private function getNonAggregateBuckets()
+    {
+        return array();
     }
 
 }

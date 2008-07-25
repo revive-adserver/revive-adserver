@@ -42,8 +42,9 @@ class OA_Dal_Maintenance_Distributed_mysql extends OA_Dal_Maintenance_Distribute
      *
      * @param string $sBucketName The bucket to process
      * @param Date $oEnd A PEAR_Date instance, interval_start to process up to (inclusive).
+     * @param Bool $isAggregateBucket true if the bucket is an aggregate bucket
      */
-    function _processBucket($sBucketName, $oEnd)
+    function _processBucket($sBucketName, $oEnd, $isAggregateBucket)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
@@ -92,13 +93,11 @@ class OA_Dal_Maintenance_Distributed_mysql extends OA_Dal_Maintenance_Distribute
                 }
 
                 if (count($aExecQueries)) {
-                    // Disable the binlog for the inserts
-                    // TODO: Force this requirement.
-                    if ($aConf['lb']['hasSuper']) {
-                        $result = $oMainDbh->exec('SET SQL_LOG_BIN = 0');
-                        if (PEAR::isError($result)) {
-                            OA::debug(' - Unable to disable the bin log', PEAR_LOG_DEBUG);
-                        }
+                    // Disable the binlog for the inserts so we don't 
+                    // replicate back out over our logged data.
+                    $result = $oMainDbh->exec('SET SQL_LOG_BIN = 0');
+                    if (PEAR::isError($result)) {
+                        MAX::raiseError('Unable to disable the bin log - will not insert stats.', MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                     }
                     foreach ($aExecQueries as $execQuery) {
                         $result = $oMainDbh->exec($execQuery);

@@ -40,7 +40,7 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  * @package    OpenXMaintenance
  * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
-class OA_Maintenance_Distributed
+class OX_Maintenance_Distributed
 {
     /**
      * A method to run distributed maintenance.
@@ -63,11 +63,12 @@ class OA_Maintenance_Distributed
 
             $oDbh      = OA_DB::singleton();
             $dbType    = strtolower($oDbh->dbsyntax);
+            
+            // Do we even support postgresql in a distributed stats setup?
             $fileName  = MAX_PATH . '/lib/OA/Dal/Maintenance/Distributed/'.$dbType.'.php';
-            $className = "OA_Dal_Maintenance_Distributed_{$dbType}";
-
             require $fileName;
 
+            $className = "OA_Dal_Maintenance_Distributed_{$dbType}";
             $oDal = new $className();
 
             // Ensure the the current time is registered with the OA_ServiceLocator

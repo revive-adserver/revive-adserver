@@ -37,8 +37,8 @@ require_once $path . '/../../init.php';
 
 // Required files
 require_once MAX_PATH . '/lib/Max.php';
-require_once MAX_PATH . '/lib/OA/Maintenance/Distributed.php';
+require_once MAX_PATH . '/lib/OX/Maintenance/Distributed.php';
 
-OA_Maintenance_Distributed::run();
+OX_Maintenance_Distributed::run();
 
 ?>
