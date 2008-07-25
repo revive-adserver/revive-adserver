@@ -213,7 +213,7 @@ class Plugins_DeliveryLog_DB_Pgsql extends Plugins_DeliveryLog_DB_Common
         $values = '';
         $c = 1;
         $aColumns = $component->getTableBucketColumns();
-        foreach ($aColumns as $column) {
+        foreach ($aColumns as $columnName => $columnType) {
             if (in_array($columnName, $aIgnore)) {
                 continue;
             }

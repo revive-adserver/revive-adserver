@@ -1774,4 +1774,33 @@ function _pgsqlGetTotalPrioritiesByCP($aAdsByCP)
     return $totals;
 }
 
+function OX_bucket_updateTable($tableName, $aQuery, $counter = 'count')
+{
+    $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+    $query = OX_bucket_prepareUpdateQuery($prefix . $tableName, $aQuery, $counter);
+    $result = OA_Dal_Delivery_query(
+        $query,
+        'rawDatabase'
+    );
+    return $result;
+}
+
+function OX_bucket_prepareUpdateQuery($tableName, $aQuery, $counter = 'count')
+{
+    $args = implode(',', OX_bucket_quoteArgs($aQuery));
+    $query = "SELECT bucket_update_{$tableName}({$args})";
+    return $query;
+}
+
+function OX_bucket_quoteArgs($aArgs)
+{
+    $array = $aArgs;
+    foreach ($array as &$value) {
+        if (!is_integer($value)) {
+            $value = "'" . $value . "'";
+        }
+    }
+    return $array;
+}
+
 ?>
