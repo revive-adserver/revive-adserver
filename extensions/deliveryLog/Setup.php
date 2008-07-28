@@ -74,6 +74,14 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
     private $codeMunger;
 
     /**
+     * Keeps the reference to already installed components, so it
+     * can perform uninstall in case of any error.
+     *
+     * @var array
+     */
+    private $aInstalledComponents = array();
+
+    /**
      * Get list of deliveryLog hooks from deliveryLog plugins
      *
      * @param array $plugins
@@ -132,7 +140,11 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
             foreach ($hookComponents as $componentId) {
                 if (!isset($aCacheComponents[$componentId])) {
                     $component = OX_Component::factoryByComponentIdentifier($componentId);
-                    $aCacheComponents[$componentId] = $component->getDependencies();
+                    if (!$component) {
+                        $this->_logError('Error when creating component: '.$componentId);
+                    } else {
+                        $aCacheComponents[$componentId] = $component->getDependencies();
+                    }
                 }
                 $dependencies = array_merge($dependencies, $aCacheComponents[$componentId]);
             }
@@ -222,6 +234,61 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
         $codeMunger = $this->_getCodeMunger();
         $code = $codeMunger->flattenFile($file);
         return preg_replace(array('/^<\?php/', '/\?>$/'), array('', ''), $code);
+    }
+
+    /**
+     * Calls onInstall method on every component which is installed groups.
+     * If for any reason the installation failed it uninstall already installed
+     * components.
+     *
+     * @param string $extension  Extension in which we are gonna to install components
+     * @param array $aComponentGroups  Component groups - component groups to install
+     * @return boolean  True on success, else false
+     */
+    function installComponents($extension, $aComponentGroups)
+    {
+        $component = new OX_Component();
+        foreach ($aComponentGroups as $group) {
+            $aComponents = $component->getComponents($extension, $group, true, 1, $enabled = false);
+            foreach ($aComponents as $component) {
+                if (!$component->onInstall()) {
+                    $this->_logError('Error when installing component: '.get_class($component));
+                    $this->recoverUninstallComponents();
+                    return false;
+                }
+                $this->markComponentAsInstalled($component);
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Recovery on failed installation. Calls onUninstall method
+     * on every component from components groups.
+     */
+    function recoverUninstallComponents()
+    {
+        foreach ($this->aInstalledComponents as $componentId) {
+            $component = OX_Component::factoryByComponentIdentifier($componentId);
+            if(!$component) {
+                $this->_logError('Error when creating component: '.$componentId);
+                continue;
+            }
+            if (!$component->onUninstall()) {
+                $this->_logError('Error when uninstalling component: '.$componentId);
+            }
+        }
+    }
+
+    /**
+     * Keeps the reference of already installed components. In case
+     * a recovery uninstall will need to be performed.
+     *
+     * @param Plugins_DeliveryLog_LogCommon $component
+     */
+    function markComponentAsInstalled(Plugins_DeliveryLog_LogCommon $component)
+    {
+        $this->aInstalledComponents[] = $component->getComponentIdentifier();
     }
 
     /**

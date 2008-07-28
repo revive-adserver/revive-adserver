@@ -41,10 +41,6 @@
                 <hook>preLog</hook>
            </component>
            <component>
-                <name>dataGeo</name>
-                <hook>preLog</hook>
-           </component>
-           <component>
                 <name>dataPageInfo</name>
                 <hook>preLog</hook>
            </component>
