@@ -36,6 +36,9 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/OA/Admin/Menu.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
+require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
+require_once MAX_PATH . '/lib/OA/Admin/Template.php';
+
 
 // Register input variables
 phpAds_registerGlobalUnslashed (
@@ -51,144 +54,147 @@ phpAds_registerGlobalUnslashed (
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
+
+/*-------------------------------------------------------*/
+/* Initialise data                                    */
+/*-------------------------------------------------------*/
+if ($agencyid != '') {
+    $doAgency = OA_Dal::staticGetDO('agency', $agencyid);
+    // Do not get this information if the page
+    // is the result of an error message
+    if (!isset($agency)) {
+        $doAgency = OA_Dal::factoryDO('agency');
+        if ($doAgency->get($agencyid)) {
+            $aAgency = $doAgency->toArray();
+        }
+    }
+} 
+else {
+    // Do not set this information if the page
+    // is the result of an error message
+    if (!isset($agency)) {
+        $aAgency['name']         = $GLOBALS['strUntitled'];
+        $aAgency['contact']      = '';
+        $aAgency['email']        = '';
+        $aAgency['logout_url']   = '';
+    }
+}
+
+
+/*-------------------------------------------------------*/
+/* MAIN REQUEST PROCESSING                               */
+/*-------------------------------------------------------*/
+//build agency form
+$agencyForm = buildAgencyForm($aAgency);
+
+if ($agencyForm->validate()) {
+    //process submitted values
+    processForm($aAgency, $agencyForm);
+}
+else { //either validation failed or form was not submitted, display the form
+    displayPage($aAgency, $agencyForm);
+}
+
+/*-------------------------------------------------------*/
+/* Build form                                            */
+/*-------------------------------------------------------*/
+function buildAgencyForm($aAgency)
+{
+    $form = new OA_Admin_UI_Component_Form("agencyform", "POST", $_SERVER['PHP_SELF']);
+    $form->forceClientValidation(true);
+    
+    $form->addElement('hidden', 'agencyid', $aAgency['agencyid']);    
+    $form->addElement('header', 'header_basic', $GLOBALS['strBasicInformation']);
+
+    $form->addElement('text', 'name', $GLOBALS['strName']);
+    $form->addElement('text', 'contact', $GLOBALS['strContact']);
+    $form->addElement('text', 'email', $GLOBALS['strEMail']);
+
+    //we want submit to be the last element in its own separate section
+    $form->addElement('controls', 'form-controls');
+    $form->addElement('submit', 'submit', $GLOBALS['strSaveChanges']);
+    
+    
+    //Form validation rules
+    $translation = new OA_Translation();
+    $nameRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strName'])); 
+    $form->addRule('name', $nameRequiredMsg, 'required');
+    // Get unique agencyname
+    $doAgency = OA_Dal::factoryDO('agency');
+    $aUnique_names = $doAgency->getUniqueValuesFromColumn('name', $aAgency['name']);
+    $nameUniqueMsg = $translation->translate($GLOBALS['strXUniqueField'], 
+        array($GLOBALS['strAgency'], strtolower($GLOBALS['strName'])));
+    $form->addRule('name', $nameUniqueMsg, 'unique', $unique_names);
+    
+    $contactRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strContact'])); 
+    $form->addRule('contact', $contactRequiredMsg, 'required');
+    $emailRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strEMail']));
+    $form->addRule('email', $emailRequiredMsg, 'required');
+    $form->addRule('email', $GLOBALS['strEmailField'], 'email');
+    
+    
+    //set form  values 
+    $form->setDefaults($aAgency);
+    return $form;    
+}
+
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
 /*-------------------------------------------------------*/
-
-if (isset($submit)) {
-	$errormessage = array();
-	// Get previous values
-	if (!empty($agencyid)) {
-	    $doAgency = OA_Dal::factoryDO('agency');
-	    $doAgency->get($agencyid);
-	    $agency = $doAgency->toArray();
-	}
-	// Name
-	$agency['name']           = trim($name);
-	// Default fields
-	$agency['contact'] 	 	  = trim($contact);
-	$agency['email'] 	 	  = trim($email);
-	$agency['logout_url']     = trim($logout_url);
-	// Permissions
-	if (count($errormessage) == 0) {
-	    $doAgency = OA_Dal::factoryDO('agency');
-		if (empty($agencyid)) {
-		    $doAgency->setFrom($agency);
-		    $agencyid = $doAgency->insert();
-		} else {
-		    $doAgency->get($agencyid);
-		    $doAgency->setFrom($agency);
-		    $doAgency->update();
-		}
-		// Go to next page
-		MAX_Admin_Redirect::redirect('agency-index.php');
-	}
+function processForm($aAgency, $form) 
+{
+    $aFields = $form->exportValues();
+    
+    // Get previous values
+    if (!empty($aFields['agencyid'])) {
+        $doAgency = OA_Dal::factoryDO('agency');
+        $doAgency->get($aFields['agencyid']);
+        $agency = $doAgency->toArray();
+    }
+    // Name
+    $agency['name']           = $aFields['name'];
+    // Default fields
+    $agency['contact']        = $aFields['contact'];
+    $agency['email']          = $aFields['email'];
+    $agency['logout_url']     = $aFields['logout_url'];
+    
+    // Permissions
+    $doAgency = OA_Dal::factoryDO('agency');
+    if (empty($aFields['agencyid'])) {
+        $doAgency->setFrom($agency);
+        $agencyid = $doAgency->insert();
+    } else {
+        $doAgency->get($aFields['agencyid']);
+        $doAgency->setFrom($agency);
+        $doAgency->update();
+    }
+    // Go to next page
+    MAX_Admin_Redirect::redirect('agency-index.php');
 }
 
-/*-------------------------------------------------------*/
-/* Process submitted form  END                           */
-/*-------------------------------------------------------*/
 
 /*-------------------------------------------------------*/
-/* HTML framework                                        */
+/* Display page                                          */
 /*-------------------------------------------------------*/
-
-if ($agencyid != '') {
-	OA_Admin_Menu::setAgencyPageContext($agencyid, 'agency-edit.php');
-	$doAgency = OA_Dal::staticGetDO('agency', $agencyid);
-	MAX_displayInventoryBreadcrumbs(array(array("name" => $doAgency->name)), "agency");
-	phpAds_PageHeader();
-	// Do not get this information if the page
-	// is the result of an error message
-	if (!isset($agency)) {
-	    $doAgency = OA_Dal::factoryDO('agency');
-	    if ($doAgency->get($agencyid)) {
-	        $agency = $doAgency->toArray();
-	    }
-	}
-} else {
-    MAX_displayInventoryBreadcrumbs(array(array("name" => "")), "agency", true);
-	phpAds_PageHeader("agency-edit_new");
-	// Do not set this information if the page
-	// is the result of an error message
-	if (!isset($agency)) {
-		$agency['name']			= $strUntitled;
-		$agency['contact']		= '';
-		$agency['email']		= '';
-		$agency['logout_url']   = '';
-	}
+function displayPage($aAgency, $form)
+{
+    if ($aAgency['agencyid'] != '') {
+        OA_Admin_Menu::setAgencyPageContext($aAgency['agencyid'], 'agency-edit.php');
+        MAX_displayInventoryBreadcrumbs(array(array("name" => $aAgency['name'])), "agency");
+        phpAds_PageHeader();
+    } 
+    else {
+        MAX_displayInventoryBreadcrumbs(array(array("name" => "")), "agency", true);
+        phpAds_PageHeader("agency-edit_new");
+    }
+    
+    
+    //get template and display form
+    $oTpl = new OA_Admin_Template('agency-edit.html');
+    $oTpl->assign('form', $form->serialize());
+    $oTpl->display();
+    
+    //footer
+    phpAds_PageFooter();
 }
-$tabindex = 1;
-
-/*-------------------------------------------------------*/
-/* Main code                                             */
-/*-------------------------------------------------------*/
-
-echo "<br /><br />";
-echo "<form name='agencyform' method='post' action='agency-edit.php' onSubmit='return max_formValidate(this);'>";
-echo "<input type='hidden' name='agencyid' value='".(isset($agencyid) && $agencyid != '' ? $agencyid : '')."'>";
-
-// Header
-echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-echo "<tr><td height='25' colspan='3'><b>".$strBasicInformation."</b></td></tr>";
-echo "<tr height='1'><td width='30'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='30'></td>";
-echo "<td width='200'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='200'></td>";
-echo "<td width='100%'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-
-// Agency Name
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strName."</td>";
-echo "<td><input onBlur='max_formValidateElement(this);' class='flat' type='text' name='name' size='25' value='".phpAds_htmlQuotes($agency['name'])."' style='width: 350px;' tabindex='".($tabindex++)."'></td>";
-echo "</tr><tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-
-// Contact
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strContact."</td><td>";
-echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='contact' size='25' value='".phpAds_htmlQuotes($agency['contact'])."' style='width: 350px;' tabindex='".($tabindex++)."'>";
-echo "</td></tr><tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-
-// Email
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strEMail."</td><td>";
-echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='email' size='25' value='".phpAds_htmlQuotes($agency['email'])."' style='width: 350px;' tabindex='".($tabindex++)."'>";
-echo "</td></tr><tr><td><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
-echo "<td height='10' colspan='2'></td></tr>";
-
-// Footer
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
-echo "</table>";
-
-echo "<br /><br />";
-echo "<input type='submit' name='submit' value='".$strSaveChanges."' tabindex='".($tabindex++)."'>";
-echo "</form>";
-
-/*-------------------------------------------------------*/
-/* Form requirements                                     */
-/*-------------------------------------------------------*/
-
-// Get unique agencyname
-$doAgency = OA_Dal::factoryDO('agency');
-$unique_names = $doAgency->getUniqueValuesFromColumn('name', $agency['name']);
-
-?>
-
-<script language='JavaScript'>
-<!--
-	max_formSetRequirements('contact', '<?php echo addslashes($strContact); ?>', true);
-	max_formSetRequirements('email', '<?php echo addslashes($strEMail); ?>', true, 'email');
-<?php if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) { ?>
-    max_formSetRequirements('name', '<?php echo addslashes($strName); ?>', true, 'unique');
-    max_formSetUnique('name', '|<?php echo addslashes(implode('|', $unique_names)); ?>|');
-<?php } ?>
-//-->
-</script>
-
-<?php
-
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
-
-phpAds_PageFooter();
-
 ?>
