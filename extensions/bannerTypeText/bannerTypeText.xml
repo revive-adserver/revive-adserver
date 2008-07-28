@@ -20,6 +20,9 @@
         <implements hook="delivery">preAdLog</implements>
     </api>
 
+    <pre_enable>prescript_enable_bannerTypeHtml.php<pre_enable>
+    <post_enable>postscript_enable_bannerTypeHtml.php<post_enable>
+
     <filemask type="banner-edit">.class.php</filemask>
     <filemask type="delivery">.delivery.php</filemask>
 

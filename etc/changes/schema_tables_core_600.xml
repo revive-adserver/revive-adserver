@@ -5049,176 +5049,6 @@
 
  <table>
 
-  <name>plugins_channel_delivery_assoc</name>
-
-  <declaration>
-
-   <field>
-    <name>rule_id</name>
-    <type>openads_int</type>
-    <unsigned>true</unsigned>
-    <length>10</length>
-    <notnull>true</notnull>
-    <default>0</default>
-   </field>
-
-   <field>
-    <name>domain_id</name>
-    <type>openads_int</type>
-    <unsigned>true</unsigned>
-    <length>10</length>
-    <notnull>true</notnull>
-    <default>0</default>
-   </field>
-
-   <field>
-    <name>rule_order</name>
-    <type>openads_tinyint</type>
-    <length>4</length>
-    <notnull>true</notnull>
-    <default>0</default>
-   </field>
-
-   <index>
-    <name>domain_id</name>
-    <field>
-     <name>domain_id</name>
-     <sorting>ascending</sorting>
-    </field>
-   </index>
-
-   <index>
-    <name>rule_id</name>
-    <field>
-     <name>rule_id</name>
-     <sorting>ascending</sorting>
-    </field>
-   </index>
-
-   <index>
-    <name>rule_order</name>
-    <field>
-     <name>rule_order</name>
-     <sorting>ascending</sorting>
-    </field>
-   </index>
-
-   <index>
-    <name>plugins_channel_delivery_assoc_pkey</name>
-    <primary>true</primary>
-    <field>
-     <name>rule_id</name>
-     <sorting>ascending</sorting>
-    </field>
-    <field>
-     <name>domain_id</name>
-     <sorting>ascending</sorting>
-    </field>
-   </index>
-
-  </declaration>
-
- </table>
-
- <table>
-
-  <name>plugins_channel_delivery_domains</name>
-
-  <declaration>
-
-   <field>
-    <name>domain_id</name>
-    <type>openads_int</type>
-    <unsigned>true</unsigned>
-    <length>10</length>
-    <notnull>true</notnull>
-    <default>0</default>
-    <autoincrement>1</autoincrement>
-   </field>
-
-   <field>
-    <name>domain_name</name>
-    <type>openads_varchar</type>
-    <length>255</length>
-    <notnull>true</notnull>
-    <default></default>
-   </field>
-
-   <index>
-    <name>domain_name</name>
-    <field>
-     <name>domain_name</name>
-     <sorting>ascending</sorting>
-    </field>
-   </index>
-
-   <index>
-    <name>plugins_channel_delivery_domains_pkey</name>
-    <primary>true</primary>
-    <field>
-     <name>domain_id</name>
-     <sorting>ascending</sorting>
-    </field>
-   </index>
-
-  </declaration>
-
- </table>
-
- <table>
-
-  <name>plugins_channel_delivery_rules</name>
-
-  <declaration>
-
-   <field>
-    <name>rule_id</name>
-    <type>openads_int</type>
-    <unsigned>true</unsigned>
-    <length>10</length>
-    <notnull>true</notnull>
-    <default>0</default>
-    <autoincrement>1</autoincrement>
-   </field>
-
-   <field>
-    <name>modifier</name>
-    <type>openads_varchar</type>
-    <length>100</length>
-    <notnull>true</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>client</name>
-    <type>openads_varchar</type>
-    <length>100</length>
-    <notnull>true</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>rule</name>
-    <type>openads_text</type>
-    <notnull>true</notnull>
-    <default></default>
-   </field>
-
-   <index>
-    <name>plugins_channel_delivery_rules_pkey</name>
-    <primary>true</primary>
-    <field>
-     <name>rule_id</name>
-     <sorting>ascending</sorting>
-    </field>
-   </index>
-
-  </declaration>
-
- </table>
-
- <table>
-
   <name>preferences</name>
 
   <declaration>
@@ -5749,6 +5579,13 @@
 
    <field>
     <name>date_last_login</name>
+    <type>openads_datetime</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>email_updated</name>
     <type>openads_datetime</type>
     <notnull>false</notnull>
     <default></default>
