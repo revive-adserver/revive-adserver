@@ -324,12 +324,23 @@ class OA_DB
         if (PEAR::isError($result)) {
             return $result;
         }
-        //$name = $oDbh->quoteIdentifier($name, true);
         OA::disableErrorHandling();
+        // ideally this quote identifier would be global
+        // but there are problems with MAX_Dal_Common
+        if ($oDbh->dsn['phptype'] == 'mysql')
+        {
+            $quote = '`';
+            $oDbh->setOption('quote_identifier', $quote);
+        }
         $oDbh->setOption('quote_identifier',  true);
         $result = $oDbh->manager->createDatabase($name);
         $oDbh->setOption('quote_identifier',  false);
-        OA::enableErrorHandling();
+        // we need to remove this quote identifier now
+        if ($oDbh->dsn['phptype'] == 'mysql')
+        {
+            $quote = '';
+            $oDbh->setOption('quote_identifier', $quote);
+        }        OA::enableErrorHandling();
         if (PEAR::isError($result)) {
             return $result;
         }
@@ -605,10 +616,14 @@ class OA_DB
         if ($oDbh->dsn['phptype'] == 'pgsql') {
             $quote = '"';
         }
-        else if ($oDbh->dsn['phptype'] == 'mysql')
+/*      //we can't do this until we refactor out AdminDa / MAX_Dal_Common
+        // which does require_once 'DB/QueryTool.php';
+        // which breaks on the metadata method
+        // because of the backticked table name
+         else if ($oDbh->dsn['phptype'] == 'mysql')
         {
             $quote = '`';
-        }
+        }*/
         $oDbh->setOption('quote_identifier', $quote);
     }
 
