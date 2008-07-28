@@ -10,15 +10,15 @@
       <version>001</version>
       <add>
         <table>
-        <name>data_bucket_impression_country</name>
-        <was>data_bucket_impression_country</was>
+        <name>data_bkt_m_country</name>
+        <was>data_bkt_m_country</was>
       </table>
     </add>
   </changeset>
 </constructive>
 <destructive>
   <changeset>
-    <name>deliveryDataPrepare</name>
+    <name>deliveryGeo</name>
     <version>001</version>
   </changeset>
 </destructive>

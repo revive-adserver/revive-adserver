@@ -25,7 +25,7 @@
 $Id$
 */
 
-$className = 'postscript_install_oxDeliveryDataPrepare';
+$className = 'postscript_install_oxDeliveryGeo';
 
 require_once MAX_PATH . '/extensions/deliveryLog/Setup.php';
 

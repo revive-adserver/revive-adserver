@@ -7,9 +7,9 @@ class Plugins_DeliveryLog_OxLogCountry_LogImpressionCountry extends Plugins_Deli
     function getDependencies()
     {
         return array(
-            'deliveryLog:oxLogImpression:logImpressionCountry' => array(
+            'deliveryLog:oxLogCountry:logImpressionCountry' => array(
                 'deliveryDataPrepare:oxDeliveryDataPrepare:dataCommon',
-                'deliveryDataPrepare:oxDeliveryDataPrepare:dataGeo',
+                'deliveryDataPrepare:oxDeliveryGeo:dataGeo',
             )
         );
     }

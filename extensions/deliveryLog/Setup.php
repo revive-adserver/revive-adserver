@@ -117,7 +117,8 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
             return false;
         }
         $source = new OA_Algorithm_Dependency_Source_HoA($pluginsDependencies);
-        $dep = new OA_Algorithm_Dependency_Ordered($source);
+        // todo - should we update this value only if the result of sorting is positive?
+        $dep = new OA_Algorithm_Dependency_Ordered($source, array(), $ignoreOrphans = true);
         return array_values($dep->schedule($aHooks));
     }
 
