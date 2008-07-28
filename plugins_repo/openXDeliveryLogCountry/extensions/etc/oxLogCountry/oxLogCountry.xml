@@ -10,19 +10,25 @@
     <license>license.txt</license>
     <description>Bucket for tracking impressions and clicks per country</description>
     <version>1.0.0-dev</version>
-    <oxversion>2.7.5-dev</oxversion>
+    <oxversion>2.7.10-dev</oxversion>
     <extends>deliveryLog</extends>
 
     <install>
         <files>
             <file path="{MODULEPATH}deliveryLog/oxLogCountry/">logImpressionCountry.delivery.php</file>
             <file path="{MODULEPATH}deliveryLog/oxLogCountry/">logImpressionCountry.class.php</file>
+            <file path="{MODULEPATH}deliveryLog/oxLogCountry/">logClickCountry.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLog/oxLogCountry/">logClickCountry.class.php</file>
         </files>
 
         <components>
            <component>
                 <name>logImpressionCountry</name>
                 <hook>logImpression</hook>
+           </component>
+           <component>
+                <name>logClickCountry</name>
+                <hook>logClick</hook>
            </component>
         </components>
 
