@@ -23,10 +23,11 @@
             <mdb2schema>tables_oxDeliveryGeo</mdb2schema>
             <dboschema>db_schema</dboschema>
             <dbolinks>db_schema.links</dbolinks>
-            <dataobject>Data_bucket_impression_country.php</dataobject>
+            <dataobject>Data_bkt_m_country.php</dataobject>
+            <dataobject>Data_bkt_c_country.php</dataobject>
         </schema>
 
-        <postscript>postscript_install_oxDeliveryDataPrepare.php</postscript>
+        <postscript>postscript_install_oxDeliveryGeo.php</postscript>
 
         <components>
            <component>

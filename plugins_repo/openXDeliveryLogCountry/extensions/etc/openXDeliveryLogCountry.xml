@@ -2,7 +2,7 @@
 <?xml-stylesheet type="text/xsl" href=""?>
 
 <plugin>
-    <name>openXDeliveryLog</name>
+    <name>openXDeliveryLogCountry</name>
     <creationDate>2008-06-10</creationDate>
     <author>Radek Maciaszek</author>
     <authorEmail>radek.maciaszek@openx.org</authorEmail>
@@ -19,19 +19,15 @@
         </files-->
 
         <contents>
-            <group name="oxDeliveryDataPrepare">1</group>
+            <group name="oxDeliveryGeo">1</group>
 
-            <group name="oxLogClick"           >2</group>
-            <group name="oxLogImpression"      >3</group>
-            <group name="oxLogRequest"         >4</group>
+            <group name="oxLogCountry" >2</group>
         </contents>
 
         <register>
-            <extension type='deliveryDataPrepare' group='oxDeliveryDataPrepare'>Prepares data for delivery logging</extension>
+            <extension type='deliveryDataPrepare' group='oxDeliveryGeo'>Prepares data for geotargeting/country delivery logging</extension>
 
-            <extension type='deliveryLog' group='oxLogClick'>Logs clicks</extension>
-            <extension type='deliveryLog' group='oxLogImpression'>Logs impressions</extension>
-            <extension type='deliveryLog' group='oxLogRequest'>Logs requests</extension>
+            <extension type='deliveryLog' group='oxLogCountry'>Logs impresions and clicks per country</extension>
         </register>
 
     </install>
