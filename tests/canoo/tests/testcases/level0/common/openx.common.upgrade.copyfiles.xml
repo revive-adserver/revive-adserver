@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="OpenX upgrade - copyfiles" basedir="." default="main"> 
+	<target name="main" >
+		<dirname property="webDir" file="${basedir}/../.." />
+		<!-- <echo>webDir: ${webDir}</echo> -->
+		<copy file="${testcase.dir}/level0/2.6/2.6.0/mysql/@wt.host.conf.php" tofile="${basedir}/../../../var/${wt.host}.conf.php" overwrite="true" />
+		<replace file="${basedir}/../../../var/${wt.host}.conf.php" propertyFile="${basedir}/config/webtest.properties">
+			<replacefilter token="@db.type" property="db.type"/>
+			<replacefilter token="@db.name" property="db.name"/>
+			<replacefilter token="@db.port" property="db.port"/>
+			<replacefilter token="@db.login" property="db.login"/>			
+			<replacefilter token="@db.password" property="db.password"/>	
+			<replacefilter token="@db.host" property="db.host"/>	
+			<replacefilter token="@wt.protocol" property="wt.protocol"/>	
+			<replacefilter token="@wt.host" property="wt.host"/>	
+			<replacefilter token="@wt.port" property="wt.port"/>	
+			<replacefilter token="@wt.basepath" property="wt.basepath"/>
+			<replacefilter token="@webDir" value="${webDir}/www/images/" />
+		</replace>
+		<!-- @TODO copy images folder -->
+	</target>
+</project>

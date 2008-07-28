@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!DOCTYPE project SYSTEM "../../../dtd/WebTest.dtd"[
-	<!ENTITY config  SYSTEM "../modules/config_openx.xml">
-	<!ENTITY connection  SYSTEM "../modules/connection.xml">
-]>
-
+<!-- add images like in: http://www.openx.org/docs/upgrading-openx#OpenXupgradeguide-Step5%3ACopyovertheconfigfilesandbannerimages -->
 <project name="OpenX" basedir="." default="main">
 	<target name="main">
-		<webtest name="Level0 - Setup test - upgrade test">
-			&config;
-			<steps>
-				<invoke url="/" />
-
-				<verifyText  description="Welcome text must be present" text="Welcome to OpenX" />
-
-			</steps>
-		</webtest>
+		<subant inheritall="true">
+        	<filelist dir="${testcase.dir}/level0/">
+        		<file name="./common/openx.common.upgrade.dbsetup.xml" />
+        		<file name="./common/openx.common.upgrade.copyfiles.xml" />
+        		<file name="./2.8/openx.common.upgrade.from.2.6.0.xml" />
+			</filelist>
+		</subant>
 	</target>
 </project>

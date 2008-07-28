@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project SYSTEM "../../../../dtd/Project.dtd"[
+	<!ENTITY config  SYSTEM "../../modules/config_openx.xml">
+	<!ENTITY connection  SYSTEM "../modules/connection.xml">
+	<!ENTITY universal SYSTEM "../../level1/common/openx.common.installation.universal.xml">
+	<!ENTITY welcome  SYSTEM "../../level1/common/openx.common.installation.welcome.xml">
+	<!ENTITY terms  SYSTEM "../../level1/common/openx.common.installation.terms.xml">	
+	<!ENTITY systemCheck  SYSTEM "../../level1/common/openx.common.installation.systemCheck.xml">
+]>
+
+<project name="OpenX upgrade from 2.6.0" basedir="." default="main">
+	<target name="main">
+		<webtest name="Level0 - Setup test - upgrade test">
+			&config;
+			<steps>
+				<!-- <invoke description="First page:  uograde start" url="/" save="start_" /> -->
+				<invoke url="/" />
+					&welcome;
+					<echo>${basedir}/../../../var</echo>
+					<exec executable="chmod">
+					    <arg value="-R"/>
+					    <arg value="a+rw"/>
+					    <arg value="${basedir}/../../../var"/>
+				 	</exec>
+					&terms;
+					<verifyText description="Check text on page:OpenX 2.6.0 detected" text="OpenX 2.6.0 detected" />
+					<verifyText description="Check text on page: This version can be upgraded" text="This version can be upgraded" />
+					&systemCheck;
+					<setInputField name="username" value="${admin.login}"/>
+					<setInputField name="password" value="${admin.pass}"/>
+					<clickButton label="Continue »"/>
+					<clickButton label="Continue »"/>
+					<clickButton label="Continue »"/>
+					<clickButton label="Continue »"/>
+					<clickButton label="Continue »"/>
+					<clickButton label="Continue »"/>
+			</steps>
+		</webtest>
+	</target>
+</project>
