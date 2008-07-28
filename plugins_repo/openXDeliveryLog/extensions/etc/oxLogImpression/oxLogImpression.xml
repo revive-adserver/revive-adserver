@@ -19,8 +19,6 @@
             <file path="{MODULEPATH}deliveryLog/oxLogImpression/">logImpression.class.php</file>
             <file path="{MODULEPATH}deliveryLog/oxLogImpression/">logImpressionBackup.delivery.php</file>
             <file path="{MODULEPATH}deliveryLog/oxLogImpression/">logImpressionBackup.class.php</file>
-            <file path="{MODULEPATH}deliveryLog/oxLogImpression/">logImpressionCountry.delivery.php</file>
-            <file path="{MODULEPATH}deliveryLog/oxLogImpression/">logImpressionCountry.class.php</file>
         </files>
 
         <components>
@@ -30,10 +28,6 @@
            </component>
            <component>
                 <name>logImpressionBackup</name>
-                <hook>logImpression</hook>
-           </component>
-           <component>
-                <name>logImpressionCountry</name>
                 <hook>logImpression</hook>
            </component>
         </components>

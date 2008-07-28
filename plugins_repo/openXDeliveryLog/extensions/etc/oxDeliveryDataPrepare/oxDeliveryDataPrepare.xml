@@ -17,8 +17,6 @@
         <files>
             <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryDataPrepare/">dataCommon.delivery.php</file>
             <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryDataPrepare/">dataCommon.class.php</file>
-            <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryDataPrepare/">dataGeo.delivery.php</file>
-            <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryDataPrepare/">dataGeo.class.php</file>
             <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryDataPrepare/">dataPageInfo.delivery.php</file>
             <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryDataPrepare/">dataPageInfo.class.php</file>
             <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryDataPrepare/">dataUserAgent.delivery.php</file>
