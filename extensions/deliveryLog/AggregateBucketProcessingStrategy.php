@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -27,8 +27,14 @@ $Id$
 
 require_once MAX_PATH . '/extensions/deliveryLog/BucketProcessingStrategy.php';
 require_once MAX_PATH . '/lib/OA/DB/Distributed.php';
-//require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Distributed/mysql.php';
 
+/**
+ * A BucketProcessingStrategy class to migrate aggregate buckets.
+ * 
+ * @package    OpenXPlugin
+ * @subpackage Plugins_DeliveryLog
+ * @author     David Keen <david.keen@openx.org>
+ */
 class Plugins_DeliveryLog_AggregateBucketProcessingStrategy
     implements Plugins_DeliveryLog_BucketProcessingStrategy
 {
