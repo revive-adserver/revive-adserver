@@ -27,11 +27,10 @@
             <mdb2schema>tables_oxDeliveryDataPrepare</mdb2schema>
             <dboschema>db_schema</dboschema>
             <dbolinks>db_schema.links</dbolinks>
-            <dataobject>Data_bucket_click.php</dataobject>
+            <dataobject>Data_bkt_c.php</dataobject>
             <dataobject>Data_bucket_impression_backup.php</dataobject>
-            <dataobject>Data_bucket_impression.php</dataobject>
-            <dataobject>Data_bucket_impression_country.php</dataobject>
-            <dataobject>Data_bucket_request.php</dataobject>
+            <dataobject>Data_bkt_m.php</dataobject>
+            <dataobject>Data_bkt_r.php</dataobject>
         </schema>
 
         <postscript>postscript_install_oxDeliveryDataPrepare.php</postscript>

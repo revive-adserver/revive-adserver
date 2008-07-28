@@ -32,7 +32,7 @@ function Plugins_deliveryLog_oxLogClick_logClick_Delivery_logClick()
         'creative_id'    => $data['creative_id'],
         'zone_id'        => $data['zone_id'],
     );
-    return OX_bucket_updateTable('data_bucket_click', $aQuery);
+    return OX_bucket_updateTable('data_bkt_c', $aQuery);
 }
 
 ?>

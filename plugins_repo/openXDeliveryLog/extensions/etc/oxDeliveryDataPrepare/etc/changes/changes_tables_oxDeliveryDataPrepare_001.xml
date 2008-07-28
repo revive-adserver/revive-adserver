@@ -10,24 +10,20 @@
       <version>001</version>
       <add>
         <table>
-        <name>data_bucket_click</name>
-        <was>data_bucket_click</was>
+        <name>data_bkt_c</name>
+        <was>data_bkt_c</was>
       </table>
         <table>
         <name>data_bucket_impression_backup</name>
         <was>data_bucket_impression_backup</was>
       </table>
         <table>
-        <name>data_bucket_impression</name>
-        <was>data_bucket_impression</was>
+        <name>data_bkt_m</name>
+        <was>data_bkt_m</was>
       </table>
         <table>
-        <name>data_bucket_impression_country</name>
-        <was>data_bucket_impression_country</was>
-      </table>
-        <table>
-        <name>data_bucket_request</name>
-        <was>data_bucket_request</was>
+        <name>data_bk_r</name>
+        <was>data_bk_r</was>
       </table>
     </add>
   </changeset>

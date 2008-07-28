@@ -27,7 +27,7 @@ $Id$
 
 $className = 'postscript_install_oxDeliveryDataPrepare';
 
-require_once MAX_PATH . '/lib/OX/Plugin/Component.php';
+require_once MAX_PATH . '/extensions/deliveryLog/Setup.php';
 
 /**
  * Installs any additional data after the plugins are installed
@@ -51,86 +51,15 @@ class postscript_install_oxDeliveryDataPrepare
     );
 
     /**
-     * Keeps the reference to already installed components, so it
-     * can perform uninstall in case of any error.
-     *
-     * @var array
-     */
-    private $aInstalledComponents = array();
-
-    /**
-     * Calls onInstall method on every component which is installed groups.
-     * If for any reason the installation failed it uninstall already installed
+     * Calls onInstall method on every component from installed groups.
+     * If for any reason the installation failed perform uninstall of already installed
      * components.
      *
      * @return boolean  True on success, else false
      */
     function execute()
     {
-        $component = new OX_Component();
-        foreach ($this->aGroups as $group) {
-            $aComponents = $component->getComponents(self::DELIVERY_LOG_EXTENSION, $group, true, 1, $enabled = false);
-            foreach ($aComponents as $component) {
-                if (!$component->onInstall()) {
-                    $this->_logError('Error when installing component: '.get_class($component));
-                    $this->recoverUninstallComponents();
-                    return false;
-                }
-                $this->markComponentAsInstalled($component);
-            }
-        }
-        return true;
-        // write a special test which tests this behavior
-    }
-
-    /**
-     * Recovery on failed installation. Calls onUninstall method
-     * on every component from components groups.
-     */
-    function recoverUninstallComponents()
-    {
-        foreach ($this->aInstalledComponents as $componentId) {
-            $component = OX_Component::factoryByComponentIdentifier($componentId);
-            if(!$component) {
-                $this->_logError('Error when creating component: '.$componentId);
-                continue;
-            }
-            if (!$component->onUninstall()) {
-                $this->_logError('Error when uninstalling component: '.$componentId);
-            }
-        }
-    }
-
-    /**
-     * Keeps the reference of already installed components. In case
-     * a recovery uninstall will need to be performed.
-     *
-     * @param Plugins_DeliveryLog_LogCommon $component
-     */
-    function markComponentAsInstalled(Plugins_DeliveryLog_LogCommon $component)
-    {
-        $this->aInstalledComponents[] = $component->getComponentIdentifier();
-    }
-
-    /**
-     * Debugging
-     *
-     * @param string $msg  Debugging message
-     * @param int $err  Type of message (PEAR_LOG_INFO, PEAR_LOG_ERR, PEAR_LOG_WARN)
-     */
-    function _logMessage($msg, $err=PEAR_LOG_INFO)
-    {
-        OA::debug($msg, $err);
-    }
-
-    /**
-     * Debugging - error messages
-     *
-     * @param string $msg  Debugging message
-     */
-    function _logError($msg)
-    {
-        $this->aErrors[] = $msg;
-        $this->_logMessage($msg, PEAR_LOG_ERR);
+        $setup = new OX_Plugins_DeliveryLog_Setup();
+        return $setup->installComponents(self::DELIVERY_LOG_EXTENSION, $this->aGroups);
     }
 }

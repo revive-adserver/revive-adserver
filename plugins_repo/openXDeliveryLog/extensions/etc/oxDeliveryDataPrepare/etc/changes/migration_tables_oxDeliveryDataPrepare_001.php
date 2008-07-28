@@ -9,30 +9,28 @@ class Migration_001 extends Migration
     {
         //$this->__construct();
 
-		$this->aTaskList_constructive[] = 'beforeAddTable__data_bucket_click';
-		$this->aTaskList_constructive[] = 'afterAddTable__data_bucket_click';
+		$this->aTaskList_constructive[] = 'beforeAddTable__data_bkt_c';
+		$this->aTaskList_constructive[] = 'afterAddTable__data_bkt_c';
 		$this->aTaskList_constructive[] = 'beforeAddTable__data_bucket_impression_backup';
 		$this->aTaskList_constructive[] = 'afterAddTable__data_bucket_impression_backup';
-		$this->aTaskList_constructive[] = 'beforeAddTable__data_bucket_impression';
-		$this->aTaskList_constructive[] = 'afterAddTable__data_bucket_impression';
-		$this->aTaskList_constructive[] = 'beforeAddTable__data_bucket_impression_country';
-		$this->aTaskList_constructive[] = 'afterAddTable__data_bucket_impression_country';
-		$this->aTaskList_constructive[] = 'beforeAddTable__data_bucket_request';
-		$this->aTaskList_constructive[] = 'afterAddTable__data_bucket_request';
+		$this->aTaskList_constructive[] = 'beforeAddTable__data_bkt_m';
+		$this->aTaskList_constructive[] = 'afterAddTable__data_bkt_m';
+		$this->aTaskList_constructive[] = 'beforeAddTable__data_bk_r';
+		$this->aTaskList_constructive[] = 'afterAddTable__data_bk_r';
 
 
     }
 
 
 
-	function beforeAddTable__data_bucket_click()
+	function beforeAddTable__data_bkt_c()
 	{
-		return $this->beforeAddTable('data_bucket_click');
+		return $this->beforeAddTable('data_bkt_c');
 	}
 
-	function afterAddTable__data_bucket_click()
+	function afterAddTable__data_bkt_c()
 	{
-		return $this->afterAddTable('data_bucket_click');
+		return $this->afterAddTable('data_bkt_c');
 	}
 
 	function beforeAddTable__data_bucket_impression_backup()
@@ -45,34 +43,24 @@ class Migration_001 extends Migration
 		return $this->afterAddTable('data_bucket_impression_backup');
 	}
 
-	function beforeAddTable__data_bucket_impression()
+	function beforeAddTable__data_bkt_m()
 	{
-		return $this->beforeAddTable('data_bucket_impression');
+		return $this->beforeAddTable('data_bkt_m');
 	}
 
-	function afterAddTable__data_bucket_impression()
+	function afterAddTable__data_bkt_m()
 	{
-		return $this->afterAddTable('data_bucket_impression');
+		return $this->afterAddTable('data_bkt_m');
 	}
 
-	function beforeAddTable__data_bucket_impression_country()
+	function beforeAddTable__data_bk_r()
 	{
-		return $this->beforeAddTable('data_bucket_impression_country');
+		return $this->beforeAddTable('data_bk_r');
 	}
 
-	function afterAddTable__data_bucket_impression_country()
+	function afterAddTable__data_bk_r()
 	{
-		return $this->afterAddTable('data_bucket_impression_country');
-	}
-
-	function beforeAddTable__data_bucket_request()
-	{
-		return $this->beforeAddTable('data_bucket_request');
-	}
-
-	function afterAddTable__data_bucket_request()
-	{
-		return $this->afterAddTable('data_bucket_request');
+		return $this->afterAddTable('data_bk_r');
 	}
 
 }

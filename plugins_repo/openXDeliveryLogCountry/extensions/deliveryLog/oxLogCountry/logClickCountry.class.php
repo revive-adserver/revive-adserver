@@ -16,7 +16,7 @@ class Plugins_DeliveryLog_OxLogClick_LogClickCountry extends Plugins_DeliveryLog
 
     function getBucketName()
     {
-        return 'data_bucket_click_country';
+        return 'data_bkt_c_country';
     }
 
     public function getTableBucketColumns()

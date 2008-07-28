@@ -33,7 +33,7 @@ function Plugin_deliveryLog_oxLogCountry_logClickCountry_Delivery_logClick()
         'zone_id'        => $data['zone_id'],
         'country'        => $data['geo']['country_code'],
     );
-    return OX_bucket_updateTable('data_bucket_click_country', $aQuery);
+    return OX_bucket_updateTable('data_bkt_c_country', $aQuery);
 }
 
 ?>

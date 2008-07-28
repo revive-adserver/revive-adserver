@@ -10,7 +10,7 @@
 
  <table>
 
-  <name>data_bucket_click</name>
+  <name>data_bkt_c</name>
 
   <declaration>
 
@@ -47,7 +47,7 @@
    </field>
 
    <index>
-    <name>data_bucket_click_pkey</name>
+    <name>data_bkt_c_pkey</name>
     <primary>true</primary>
     <field>
      <name>interval_start</name>
@@ -140,7 +140,7 @@
 
  <table>
 
-  <name>data_bucket_impression</name>
+  <name>data_bkt_m</name>
 
   <declaration>
 
@@ -177,7 +177,7 @@
    </field>
 
    <index>
-    <name>data_bucket_impression_pkey</name>
+    <name>data_bkt_m_pkey</name>
     <primary>true</primary>
     <field>
      <name>interval_start</name>
@@ -199,78 +199,7 @@
 
  <table>
 
-  <name>data_bucket_impression_country</name>
-
-  <declaration>
-
-   <field>
-    <name>interval_start</name>
-    <type>openads_varchar</type>
-    <length>32</length>
-    <notnull>true</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>creative_id</name>
-    <type>openads_mediumint</type>
-    <length>9</length>
-    <notnull>true</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>zone_id</name>
-    <type>openads_mediumint</type>
-    <length>9</length>
-    <notnull>true</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>country</name>
-    <type>openads_varchar</type>
-    <length>32</length>
-    <notnull>true</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>count</name>
-    <type>openads_varchar</type>
-    <length>32</length>
-    <notnull>true</notnull>
-    <default></default>
-   </field>
-
-   <index>
-    <name>data_bucket_impression_country_pkey</name>
-    <primary>true</primary>
-    <field>
-     <name>interval_start</name>
-     <sorting>ascending</sorting>
-    </field>
-    <field>
-     <name>creative_id</name>
-     <sorting>ascending</sorting>
-    </field>
-    <field>
-     <name>zone_id</name>
-     <sorting>ascending</sorting>
-    </field>
-    <field>
-     <name>country</name>
-     <sorting>ascending</sorting>
-    </field>
-   </index>
-
-  </declaration>
-
- </table>
-
- <table>
-
-  <name>data_bucket_request</name>
+  <name>data_bk_r</name>
 
   <declaration>
 
@@ -307,7 +236,7 @@
    </field>
 
    <index>
-    <name>data_bucket_request_pkey</name>
+    <name>data_bk_r_pkey</name>
     <primary>true</primary>
     <field>
      <name>interval_start</name>

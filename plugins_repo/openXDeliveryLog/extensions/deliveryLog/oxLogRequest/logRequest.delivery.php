@@ -31,7 +31,7 @@ function Plugin_deliveryLog_oxLogRequest_logRequest_Delivery_logRequest($data)
         'creative_id'    => $data['creative_id'],
         'zone_id'        => $data['zone_id'],
     );
-    return OX_bucket_updateTable('data_bucket_request', $aQuery);
+    return OX_bucket_updateTable('data_bk_r', $aQuery);
 }
 
 ?>

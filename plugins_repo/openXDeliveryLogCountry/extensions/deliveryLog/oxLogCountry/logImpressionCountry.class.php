@@ -16,7 +16,7 @@ class Plugins_DeliveryLog_OxLogCountry_LogImpressionCountry extends Plugins_Deli
 
     function getBucketName()
     {
-        return 'data_bucket_impression_country';
+        return 'data_bkt_m_country';
     }
 
     public function getTableBucketColumns()
