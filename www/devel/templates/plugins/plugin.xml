@@ -21,7 +21,10 @@
         <!-- list the groups that are contained in this plugin -->
         <!-- in the order they should be installed -->
         <contents>
-            <group name="{GROUP}"   >1</group>
+            <!-- remove unused content declarations -->
+            <group name="{GROUP0}"   >1</group>
+            <group name="{GROUP1}"   >2</group>
+            <group name="{GROUP2}"   >3</group>
         </contents>
 
     </install>

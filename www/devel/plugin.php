@@ -47,6 +47,7 @@ if (array_key_exists('btn_create',$_POST) && array_key_exists('name',$_POST))
             $aVals['extension'] = $name;
             $aVals['component'] = $aVal['componentname'];
             $aVals['group'] = $aVal['groupname'];
+            $aPluginValues['grouporder'][] = $aVals['group'];
             putGroup($aVals);
         }
     }
@@ -69,6 +70,12 @@ function putPlugin($aVals)
     {
         fclose($fp);
     }
+    $data = file_get_contents($target);
+    foreach ($aVals['grouporder'] AS $i => $group)
+    {
+        $data = str_replace('{GROUP'.$i.'}', $group, $data);
+    }
+    $i = file_put_contents($target, $data);
 }
 
 function putGroup($aVals)
