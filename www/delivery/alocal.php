@@ -207,7 +207,7 @@ ini_set('include_path', $newPearPath);
 }
 function getMinimumRequiredMemory()
 {
-if (version_compare(phpversion(), '5.2.0', '>=')) {
+if (version_compare(phpversion(), '5.1.0', '>=')) {
 return $GLOBALS['_MAX']['REQUIRED_MEMORY']['PHP5'];
 }
 return $GLOBALS['_MAX']['REQUIRED_MEMORY']['PHP4'];
