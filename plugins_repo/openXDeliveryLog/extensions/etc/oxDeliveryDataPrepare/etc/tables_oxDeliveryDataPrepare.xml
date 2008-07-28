@@ -196,7 +196,7 @@
 
  <table>
 
-  <name>data_bk_r</name>
+  <name>data_bkt_r</name>
 
   <declaration>
 
@@ -232,7 +232,7 @@
    </field>
 
    <index>
-    <name>data_bk_r_pkey</name>
+    <name>data_bkt_r_pkey</name>
     <primary>true</primary>
     <field>
      <name>interval_start</name>

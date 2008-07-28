@@ -22,8 +22,8 @@
         <was>data_bkt_m</was>
       </table>
         <table>
-        <name>data_bk_r</name>
-        <was>data_bk_r</was>
+        <name>data_bkt_r</name>
+        <was>data_bkt_r</was>
       </table>
     </add>
   </changeset>
