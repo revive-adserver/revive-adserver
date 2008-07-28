@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<upgrade>
+    <name>Openads</name>
+    <creationDate>2008-07-25</creationDate>
+    <author>Openads Devs</author>
+    <authorEmail>support@openads.org</authorEmail>
+    <authorUrl>http://www.openads.org</authorUrl>
+    <license>LICENSE.txt</license>
+    <description>Openads Upgrade 2.7.11-dev</description>
+    <versionFrom></versionFrom>
+    <versionTo>2.7.11-dev</versionTo>
+
+    <!-- Database Packages -->
+    <!-- No database packages as this is only for existing campaigns update -->
+
+    <!-- Custom Install Scripts to execute -->
+    <postscript>postscript_openads_upgrade_2.7.11-dev.php</postscript>
+
+</upgrade>
