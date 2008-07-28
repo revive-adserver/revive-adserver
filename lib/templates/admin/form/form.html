@@ -27,9 +27,8 @@ $Id: create.html 16124 2008-02-11 18:16:06Z andrew.hill@openads.org $
 *}
 {*debug*}
 
-<div class='errormessage' id="errors" {if $form.errors}{else}style="display:none"{/if}>
-<img class='errormessage' src='{$assetPath}/images/errormessage.gif' align='absmiddle'>
-    <span class='tab-r'>{t str=FormContainsErrors}</span><br><br>
+<div class='message message-error' id="errors" {if $form.errors}{else}style="display:none"{/if}>
+    {t str=FormContainsErrors}
 </div>
 
 
