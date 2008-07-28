@@ -42,8 +42,9 @@
 				<setSelectField name="clientid" text="Advertiser 1"/>
 				
 <!-- modified!!! <setSelectField name="campaignid" text="Advertiser 1 - Default Campaign (1 banner(s))"/> -->
-				<!-- <setSelectField name="campaignid" text="campaign 2 (gif) (1 banner(s))"/> -->
-				<setSelectField name="campaignid" text="campaign 2 (gif) ()"/>
+				<!-- <setSelectField name="campaignid" text="campaign 2 (gif) (1 banner(s))"/>
+				<setSelectField name="campaignid" text="campaign 2 (gif) ()"/> -->
+				<setSelectField name="campaignid" value="3" />
 				
 				
 				<enableJavaScript enable="false" />
