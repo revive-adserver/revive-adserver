@@ -1,9 +1,15 @@
 <?php
 
 require_once MAX_PATH . '/extensions/deliveryLog/LogCommon.php';
+require_once MAX_PATH . '/extensions/deliveryLog/AggregateBucketProcessingStrategy.php';
 
 class Plugins_DeliveryLog_OxLogImpression_logImpressionBackup extends Plugins_DeliveryLog_LogCommon
 {
+    function __construct()
+    {
+        $this->processingStrategy = new Plugins_DeliveryLog_AggregateBucketProcessingStrategy();
+    }
+    
     function getDependencies()
     {
         return array(

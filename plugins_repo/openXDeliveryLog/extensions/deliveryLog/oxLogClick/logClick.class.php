@@ -1,9 +1,16 @@
 <?php
 
 require_once MAX_PATH . '/extensions/deliveryLog/LogCommon.php';
+require_once MAX_PATH . '/extensions/deliveryLog/AggregateBucketProcessingStrategy.php';
 
 class Plugins_DeliveryLog_OxLogClick_LogClick extends Plugins_DeliveryLog_LogCommon
 {
+    function __construct()
+    {
+        // Clicks are aggregate.
+        $this->processingStrategy = new Plugins_DeliveryLog_AggregateBucketProcessingStrategy();
+    }
+    
     function getDependencies()
     {
         return array(

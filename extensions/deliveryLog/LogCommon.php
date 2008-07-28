@@ -44,6 +44,8 @@ abstract class Plugins_DeliveryLog_LogCommon extends OX_Component
     const CHAR = 'char';
 
     const COUNT_COLUMN = 'count';
+    
+    protected $processingStrategy;
 
     /**
      * Returns the dependencies between deliveryLog components.
@@ -160,6 +162,16 @@ abstract class Plugins_DeliveryLog_LogCommon extends OX_Component
     {
         $this->aErrors[] = $msg;
         $this->_logMessage($msg, PEAR_LOG_ERR);
+    }
+    
+    /**
+     * Delegates processing of the bucket to the strategy object.
+     *
+     * @param PEAR_Date $intervalStart
+     */
+    public function processBucket($intervalStart)
+    {
+        $this->processingStrategy->processBucket($this, $intervalStart);
     }
 }
 

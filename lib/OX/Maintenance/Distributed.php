@@ -32,6 +32,7 @@ require_once MAX_PATH . '/lib/OA/DB/Distributed.php';
 require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Distributed.php';
 
 /**
  * A library class for providing automatic maintenance process methods.
@@ -61,17 +62,9 @@ class OX_Maintenance_Distributed
             // Attempt to increase PHP memory
             increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
 
-            $oDbh      = OA_DB::singleton();
-            $dbType    = strtolower($oDbh->dbsyntax);
-            
-            // Do we even support postgresql in a distributed stats setup?
-            $fileName  = MAX_PATH . '/lib/OA/Dal/Maintenance/Distributed/'.$dbType.'.php';
-            require $fileName;
+            $oDal = new OA_Dal_Maintenance_Distributed();
 
-            $className = "OA_Dal_Maintenance_Distributed_{$dbType}";
-            $oDal = new $className();
-
-            // Ensure the the current time is registered with the OA_ServiceLocator
+            // Ensure the current time is registered with the OA_ServiceLocator
             $oServiceLocator =& OA_ServiceLocator::instance();
             $oNow =& $oServiceLocator->get('now');
             if (!$oNow) {

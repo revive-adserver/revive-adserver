@@ -41,12 +41,11 @@ require_once MAX_PATH . '/lib/OX/Plugin/Component.php';
  * @package    OpenXDal
  * @subpackage Maintenance
  * @author     Matteo Beccati <matteo.beccati@openx.org>
- * @abstract 
  */
-abstract class OA_Dal_Maintenance_Distributed extends OA_Dal_Maintenance_Common
+class OA_Dal_Maintenance_Distributed extends OA_Dal_Maintenance_Common
 {
-    private $aAggregateBuckets;
-    private $aNonAggregateBuckets;
+    /** hash of component name => component object */
+    private $aBuckets;
 
     /**
      * The class constructor method.
@@ -55,8 +54,7 @@ abstract class OA_Dal_Maintenance_Distributed extends OA_Dal_Maintenance_Common
     {
         parent::MAX_Dal_Common();
 
-        $this->aAggregateBuckets = $this->getAggregateBuckets();
-        $this->aNonAggregateBuckets = $this->getNonAggregateBuckets();
+        $this->aBuckets = $this->getBuckets();
     }
 
     /**
@@ -67,37 +65,29 @@ abstract class OA_Dal_Maintenance_Distributed extends OA_Dal_Maintenance_Common
      */
     public function processBuckets($oEnd)
     {
-        foreach ($this->aAggregateBuckets as $sBucketName) {
-            $this->_processBucket($sBucketName, $oEnd, true);
+        foreach ($this->aBuckets as $sBucketName => $oBucketClass) {
+            $oBucketClass->processBucket($oEnd);
             
             // TODO: We shouldn't do this if the previous method fails.
             // Also we should check that it has successfully deleted.
-            $this->_pruneBucket($sBucketName, $oEnd);
-        }
-        
-        foreach ($this->aNonAggregateBuckets as $sBucketName) {
-            $this->_processBucket($sBucketName, $oEnd, false);
-            $this->_pruneBucket($sBucketName, $oEnd);
+            $this->pruneBucket($oBucketClass->getTableBucketName(), $oEnd);
         }
     }
-
-    abstract function _processBucket($sBucketName, $oEnd, $isAggregateBucket);
 
     /**
      * A method to prune a bucket of all records up to and
      * including the timestamp given.
      *
-     * @param string $sBucketName The bucket to prune
+     * @param string $sBucketName The bucket table name to prune
      * @param Date   $oIntervalStart Prune until this interval_start (inclusive).
      */
-    private function _pruneBucket($sBucketName, $oIntervalStart)
+    public function pruneBucket($sBucketName, $oIntervalStart)
     {
         OA::debug(' - Pruning '.$sBucketName.' until '.$oIntervalStart->format('%Y-%m-%d %H:%M:%S'), PEAR_LOG_INFO);
 
-        $sTableName = $this->_getTablename($sBucketName);
         $query = "
               DELETE FROM
-              {$sTableName}
+              {$sBucketName}
               WHERE
                 interval_start <= ".
                     DBC::makeLiteral($oIntervalStart->format('%Y-%m-%d %H:%M:%S'))."
@@ -108,39 +98,11 @@ abstract class OA_Dal_Maintenance_Distributed extends OA_Dal_Maintenance_Common
 
     
     /**
-     * A method to retrieve the table content as a recordset.
      *
-     * @param string $sTableName The bucket table to process
-     * @param Date $oEnd A PEAR_Date instance, ending interval_start to process.
-     * @return MySqlRecordSet A recordset of the results
+     * @return array
      */
-    protected function _getBucketTableContent($sTableName, $oEnd)
+    private function getBuckets()
     {
-        $query = "
-            SELECT
-             *
-            FROM
-             {$sTableName}
-            WHERE
-              interval_start <= " . DBC::makeLiteral($oEnd->format('%Y-%m-%d %H:%M:%S'));
-        $rsDataRaw = DBC::NewRecordSet($query);
-        $rsDataRaw->find();
-
-        return $rsDataRaw;
+        return OX_Component::getComponents('deliveryLog');
     }
-    
-    private function getAggregateBuckets()
-    {
-        $aDeliveryComponents = OX_Component::getComponents('deliveryLog');
-        foreach ($aDeliveryComponents as $oComponent) {
-            $aBuckets[] = $oComponent->getBucketName();
-        }
-        return $aBuckets;
-    }
-    
-    private function getNonAggregateBuckets()
-    {
-        return array();
-    }
-
 }

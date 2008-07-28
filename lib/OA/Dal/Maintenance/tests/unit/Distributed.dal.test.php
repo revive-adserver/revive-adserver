@@ -61,11 +61,7 @@ class Test_OA_Dal_Maintenance_Distributed extends UnitTestCase
         TestEnv::uninstallPluginPackage('openXDeliveryLog', false);
     }
 
-    function test_processBuckets()
-    {
-    }
-
-   function test__pruneBucket()
+    function test_pruneBucket()
     {
         $oDal = new OA_Dal_Maintenance_Distributed();
         $oCurrentIntervalStart = new Date();
@@ -91,50 +87,9 @@ class Test_OA_Dal_Maintenance_Distributed extends UnitTestCase
         $oPreviousIntervalStart = new Date();
         $oPreviousIntervalStart->copy($oCurrentIntervalStart);
         $oPreviousIntervalStart->subtractSeconds(3600);
-        $result = $oDal->_pruneBucket('data_bucket_impression', $oPreviousIntervalStart);
+        $result = $oDal->pruneBucket('data_bucket_impression', $oPreviousIntervalStart);
         $this->assertEqual($result,3);
-
     }
-
-    function test__getBucketTableContent()
-    {
-        $oDal = new OA_Dal_Maintenance_Distributed();
-        $tableName = $oDal->getTablePrefix() . 'data_bucket_impression';
-        
-        
-        // Empty table
-        $oCurrentIntervalStart = new Date();
-        $oCurrentIntervalStart->setDate('2008-05-25 11:00:00');
-        $result = $oDal->_getBucketTableContent($tableName, $oCurrentIntervalStart);
-        $this->assertEqual(0, $result->getRowCount(), "Found records that shouldn't be there.");
-        
-        // With some records
-        $oDateThen = new Date();
-        $oDateThen->copy($oCurrentIntervalStart);
-
-        $prefix = $oDal->getTablePrefix();
-        for ($i=1;$i<=4;$i++)
-        {
-            $date_time = $oDateThen->getDate(DATE_FORMAT_ISO_EXTENDED);
-            $query = "
-                  INSERT INTO
-                    {$prefix}data_bucket_impression
-                  (interval_start, creative_id, zone_id, count)
-                  VALUES ('{$date_time}',{$i},{$i},{$i})";
-            $oDal->oDbh->exec($query);
-            $oDateThen->subtractSeconds(3600);
-        }
-        
-        // Get content up to and including the previous interval_start
-        $oPreviousIntervalStart = new Date();
-        $oPreviousIntervalStart->copy($oCurrentIntervalStart);
-        $oPreviousIntervalStart->subtractSeconds(3600);
-        
-        $expectedRecords = 3;
-        $actualRecords = $oDal->_getBucketTableContent($tableName, $oPreviousIntervalStart)->getRowCount();
-        $this->assertEqual($expectedRecords, $actualRecords);
-    }
-
 }
 
 ?>

@@ -34,6 +34,7 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Distributed.php';
  * @package    OpenXDal
  * @subpackage Maintenance
  * @author     Matteo Beccati <matteo.beccati@openx.org>
+ * @deprecated 
  */
 class OA_Dal_Maintenance_Distributed_pgsql extends OA_Dal_Maintenance_Distributed
 {

@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                             |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -25,31 +25,24 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Distributed.php';
+require_once MAX_PATH . '/extensions/deliveryLog/BucketProcessingStrategy.php';
+require_once MAX_PATH . '/lib/OA/DB/Distributed.php';
+//require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Distributed/mysql.php';
 
-/**
- * A DB specific base Data Abstraction Layer (DAL) class that provides
- * functionality for the Distributed Maintenance.
- *
- * @package    OpenXDal
- * @subpackage Maintenance
- * @author     Matteo Beccati <matteo.beccati@openx.org>
- * @deprecated 
- */
-class OA_Dal_Maintenance_Distributed_mysql extends OA_Dal_Maintenance_Distributed
+class Plugins_DeliveryLog_AggregateBucketProcessingStrategy
+    implements Plugins_DeliveryLog_BucketProcessingStrategy
 {
     /**
-     * A private DB-Specific method to process a bucket table and copy data to the main database.
+     * Process an aggregate-type bucket.  This is MySQL specific.
      *
-     * @param string $sBucketName The bucket to process
+     * @param Plugins_DeliveryLog_LogCommon a reference to the using (context) object.
      * @param Date $oEnd A PEAR_Date instance, interval_start to process up to (inclusive).
-     * @param Bool $isAggregateBucket true if the bucket is an aggregate bucket
      */
-    function _processBucket($sBucketName, $oEnd)
+    public function processBucket($oBucket, $oEnd)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
-        $sTableName = $this->_getTablename($sBucketName);
+        $sTableName = $oBucket->getTableBucketName();
         $oMainDbh =& OA_DB_Distributed::singleton();
 
         if (PEAR::isError($oMainDbh)) {
@@ -57,7 +50,7 @@ class OA_Dal_Maintenance_Distributed_mysql extends OA_Dal_Maintenance_Distribute
         }
 
         // Select all rows with interval_start <= previous OI start.
-        $rsData =& $this->_getBucketTableContent($sTableName, $oEnd);
+        $rsData =& $this->getBucketTableContent($sTableName, $oEnd);
         $count = $rsData->getRowCount();
 
         OA::debug('   '.$rsData->getRowCount().' records found', PEAR_LOG_INFO);
@@ -113,6 +106,28 @@ class OA_Dal_Maintenance_Distributed_mysql extends OA_Dal_Maintenance_Distribute
                 }
             }
         }
+    }
+    
+    /**
+     * A method to retrieve the table content as a recordset.
+     *
+     * @param string $sTableName The bucket table to process
+     * @param Date $oEnd A PEAR_Date instance, ending interval_start to process.
+     * @return MySqlRecordSet A recordset of the results
+     */
+    private function getBucketTableContent($sTableName, $oEnd)
+    {
+        $query = "
+            SELECT
+             *
+            FROM
+             {$sTableName}
+            WHERE
+              interval_start <= " . DBC::makeLiteral($oEnd->format('%Y-%m-%d %H:%M:%S'));
+        $rsDataRaw = DBC::NewRecordSet($query);
+        $rsDataRaw->find();
+
+        return $rsDataRaw;
     }
 }
 
