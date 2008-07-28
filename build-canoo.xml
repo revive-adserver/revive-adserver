@@ -102,8 +102,6 @@ enabled=0]]></replacevalue>
 	<!-- changes file permissions on plugins (located in extensions/) created during the installation -->
 	<target name="canoo-chmod">	
 		<available property="fileFound" file="${basedir}/target/www/delivery_test/chmod.php" />
-		<echo>${delivery_test}</echo>
-		<echo>${fileFound}</echo>
 		<if>
 			<istrue value="${fileFound}"/>
 			<then>
@@ -175,8 +173,6 @@ enabled=0]]></replacevalue>
 	</target>
 
 	<target name="setup-delivery-files">
-		<echo>'${basedir}: ' ${basedir}</echo>
-		<echo>${delivery_test}</echo>
 		<copy todir="${delivery_test}" verbose="true">
 			<fileset dir="${basedir}/tests/canoo/php"/>
 		</copy>
