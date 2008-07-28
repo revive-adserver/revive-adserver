@@ -65,7 +65,7 @@ function putPlugin($aVals)
         exit(1);
     }
     $target = MAX_PATH.$GLOBALS['_MAX']['CONF']['pluginPaths']['packages'].$aVals['name'].'.readme.txt';
-    if ($fp = fopen($target, 'w')
+    if ($fp = fopen($target, 'w'))
     {
         fclose($fp);
     }
