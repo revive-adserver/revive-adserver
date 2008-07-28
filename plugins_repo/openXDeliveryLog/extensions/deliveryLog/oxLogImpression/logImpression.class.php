@@ -15,7 +15,7 @@ class Plugins_DeliveryLog_OxLogImpression_LogImpression extends Plugins_Delivery
 
     function getBucketName()
     {
-        return 'data_bucket_impression';
+        return 'data_bkt_m';
     }
 
     public function getTableBucketColumns()
