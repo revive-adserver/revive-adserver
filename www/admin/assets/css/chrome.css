@@ -1174,3 +1174,19 @@ table.data td.graph .percentage {
 	margin-top: 12px;
  }
 
+/** warnings **/
+.message {
+	width: 650px;
+    margin-bottom: 1em;
+    border: 1px solid red;
+    padding: .7em 1em 0.7em 30px;
+    color: black;
+    background-position: 5px center;
+    background-repeat: no-repeat;
+}
+
+.message-error {
+	background-color: pink;
+	background-image: url("../images/errormessage.gif");
+}
+
