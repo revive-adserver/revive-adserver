@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>oxLogCountry</name>
+    <creationDate>2008-07-28</creationDate>
+    <author>Radek Maciaszek</author>
+    <authorEmail>radek.maciaszek@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>Bucket for tracking impressions and clicks per country</description>
+    <version>1.0.0-dev</version>
+    <oxversion>2.7.5-dev</oxversion>
+    <extends>deliveryLog</extends>
+
+    <install>
+        <files>
+            <file path="{MODULEPATH}deliveryLog/oxLogCountry/">logImpressionCountry.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLog/oxLogCountry/">logImpressionCountry.class.php</file>
+        </files>
+
+        <components>
+           <component>
+                <name>logImpressionCountry</name>
+                <hook>logImpression</hook>
+           </component>
+        </components>
+
+    </install>
+
+
+</plugin>
