@@ -113,14 +113,14 @@ class OA_Translation
     {
         if (!empty($GLOBALS['str' . $sString])) { 
             $sReturn = $GLOBALS['str' . $sString];
-        } else {
-//            $sReturn = T_($sString);
+        } 
+        else {
             $sReturn = $sString;
         }
 
         // If substitution variables have been provided
         if (!empty($aValues)) {
-            $eval = '$sSprintf = sprintf($GLOBALS[\'str\' . $sString], ';
+            $eval = '$sSprintf = sprintf($sReturn, ';
             foreach ($aValues as $key => $value) {
                 $aVals[] = '$aValues[\'' . $key . '\']';
             }
