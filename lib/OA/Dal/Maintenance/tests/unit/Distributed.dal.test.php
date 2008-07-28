@@ -28,7 +28,6 @@ $Id$
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Distributed.php';
 require_once 'Date.php';
-
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 require_once MAX_PATH . '/lib/OX/Plugin/Component.php';
 
@@ -70,13 +69,14 @@ class Test_OA_Dal_Maintenance_Distributed extends UnitTestCase
         $oDateThen = new Date();
         $oDateThen->copy($oCurrentIntervalStart);
 
-        $prefix = $oDal->getTablePrefix();
+        $oComponent = OX_Component::factory('deliveryLog', 'oxLogImpression', 'logImpression');
+        $sTableName = $oComponent->getTableBucketName();
         for ($i=1;$i<=4;$i++)
         {
             $date_time = $oDateThen->getDate(DATE_FORMAT_ISO_EXTENDED);
             $query = "
                   INSERT INTO
-                    {$prefix}data_bkt_m
+                    {$sTableName}
                   (interval_start, creative_id, zone_id, count)
                   VALUES ('{$date_time}',{$i},{$i},{$i})";
             $oDal->oDbh->exec($query);
@@ -87,7 +87,7 @@ class Test_OA_Dal_Maintenance_Distributed extends UnitTestCase
         $oPreviousIntervalStart = new Date();
         $oPreviousIntervalStart->copy($oCurrentIntervalStart);
         $oPreviousIntervalStart->subtractSeconds(3600);
-        $result = $oDal->pruneBucket('oa_data_bkt_m', $oPreviousIntervalStart);
+        $result = $oDal->pruneBucket($sTableName, $oPreviousIntervalStart);
         $this->assertEqual($result,3);
     }
 }
