@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>oxDeliveryDataPrepare</name>
+  <version>001</version>
+  <comments></comments>
+  <constructive>
+    <changeset>
+      <name>deliveryDataPrepare</name>
+      <version>001</version>
+      <add>
+        <table>
+        <name>data_bucket_click</name>
+        <was>data_bucket_click</was>
+      </table>
+        <table>
+        <name>data_bucket_impression_backup</name>
+        <was>data_bucket_impression_backup</was>
+      </table>
+        <table>
+        <name>data_bucket_impression</name>
+        <was>data_bucket_impression</was>
+      </table>
+        <table>
+        <name>data_bucket_impression_country</name>
+        <was>data_bucket_impression_country</was>
+      </table>
+        <table>
+        <name>data_bucket_request</name>
+        <was>data_bucket_request</was>
+      </table>
+    </add>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>deliveryDataPrepare</name>
+    <version>001</version>
+  </changeset>
+</destructive>
+</instructionset>

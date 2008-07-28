@@ -27,7 +27,7 @@ $Id$
 // if (isset($aConf['geotargeting']['saveStats'])
 
 // decide if entire geotargeting should be moved in here
-function Plugins_deliveryDataPrepare_oxDeliveryDataPrepare_dataGeo()
+function Plugins_deliveryDataPrepare_oxDeliveryGeo_dataGeo()
 {
     if (!empty($GLOBALS['_MAX']['CLIENT_GEO'])) {
         $GLOBALS['_MAX']['deliveryData']['geo'] = $GLOBALS['_MAX']['CLIENT_GEO'];
