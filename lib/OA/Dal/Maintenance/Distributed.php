@@ -60,14 +60,13 @@ class OA_Dal_Maintenance_Distributed extends OA_Dal_Maintenance_Common
     /**
      * A method to process all the buckets and copy data to the main database.
      *
-     * @param Date $oStart A PEAR_Date instance, starting timestamp
      * @param Date $oEnd A PEAR_Date instance, ending timestamp
      */
     public function processBuckets($oEnd)
     {
         foreach ($this->aBuckets as $sBucketName => $oBucketClass) {
             $oBucketClass->processBucket($oEnd);
-            
+
             // TODO: We shouldn't do this if the previous method fails.
             // Also we should check that it has successfully deleted.
             $this->pruneBucket($oBucketClass->getTableBucketName(), $oEnd);
@@ -96,7 +95,7 @@ class OA_Dal_Maintenance_Distributed extends OA_Dal_Maintenance_Common
         return $this->oDbh->exec($query);
     }
 
-    
+
     /**
      *
      * @return array

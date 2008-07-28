@@ -127,7 +127,8 @@ class Plugins_DeliveryLog_DB_Pgsql extends Plugins_DeliveryLog_DB_Common
     function getCreateStoredProcedureQuery(Plugins_DeliveryLog_LogCommon $component)
     {
         $tableName = $component->getTableBucketName();
-        $query = 'CREATE OR REPLACE FUNCTION ' . $this->getStoredProcedureName($component) . '
+        $query = 'CREATE OR REPLACE FUNCTION '
+            . $this->getStoredProcedureName($component) . '
             ('.$this->_getColumnTypesList($component).')
             RETURNS void AS
             $BODY$DECLARE
@@ -135,7 +136,8 @@ class Plugins_DeliveryLog_DB_Pgsql extends Plugins_DeliveryLog_DB_Common
             BEGIN
               LOOP
                 -- first try to update
-                UPDATE ' . $tableName . ' SET count = count + 1 WHERE '.$this->_getSPWhere($component).';
+                UPDATE ' . $tableName . ' SET count = count + 1 WHERE '
+                    .$this->_getSPWhere($component).';
                 GET DIAGNOSTICS x = ROW_COUNT;
                 IF x > 0 THEN
                   RETURN;
@@ -144,7 +146,8 @@ class Plugins_DeliveryLog_DB_Pgsql extends Plugins_DeliveryLog_DB_Common
                 -- if someone else inserts the same key concurrently,
                 -- we could get a unique-key failure
                 BEGIN
-                  INSERT INTO ' . $tableName . ' VALUES ('.$this->_getSPValuesList($component).');
+                  INSERT INTO ' . $tableName . ' VALUES ('
+                        .$this->_getSPValuesList($component).');
                   RETURN;
                 EXCEPTION WHEN unique_violation THEN
                   -- do nothing, and loop to try the UPDATE again

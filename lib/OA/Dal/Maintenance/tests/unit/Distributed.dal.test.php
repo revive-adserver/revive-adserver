@@ -49,13 +49,13 @@ class Test_OA_Dal_Maintenance_Distributed extends UnitTestCase
     {
         $this->UnitTestCase();
     }
-    
+
     function setUp()
     {
         TestEnv::uninstallPluginPackage('openXDeliveryLog', false);
         TestEnv::installPluginPackage('openXDeliveryLog', 'openXDeliveryLog', '/plugins_repo/', false);
     }
-    
+
     function tearDown()
     {
         TestEnv::uninstallPluginPackage('openXDeliveryLog', false);
@@ -66,7 +66,7 @@ class Test_OA_Dal_Maintenance_Distributed extends UnitTestCase
         $oDal = new OA_Dal_Maintenance_Distributed();
         $oCurrentIntervalStart = new Date();
         $oCurrentIntervalStart->setDate('2008-05-25 11:00:00');
-        
+
         $oDateThen = new Date();
         $oDateThen->copy($oCurrentIntervalStart);
 
@@ -76,18 +76,18 @@ class Test_OA_Dal_Maintenance_Distributed extends UnitTestCase
             $date_time = $oDateThen->getDate(DATE_FORMAT_ISO_EXTENDED);
             $query = "
                   INSERT INTO
-                    {$prefix}data_bucket_impression
+                    {$prefix}data_bkt_m
                   (interval_start, creative_id, zone_id, count)
                   VALUES ('{$date_time}',{$i},{$i},{$i})";
             $oDal->oDbh->exec($query);
             $oDateThen->subtractSeconds(3600);
         }
-        
+
         // Prune up to and including the previous interval_start
         $oPreviousIntervalStart = new Date();
         $oPreviousIntervalStart->copy($oCurrentIntervalStart);
         $oPreviousIntervalStart->subtractSeconds(3600);
-        $result = $oDal->pruneBucket('data_bucket_impression', $oPreviousIntervalStart);
+        $result = $oDal->pruneBucket('oa_data_bkt_m', $oPreviousIntervalStart);
         $this->assertEqual($result,3);
     }
 }
