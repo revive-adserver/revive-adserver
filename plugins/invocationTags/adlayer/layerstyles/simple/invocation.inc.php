@@ -70,7 +70,7 @@ class Plugins_InvocationTags_Adlayer_Layerstyles_Simple_Invocation
     	$buffer = '';
 
     	$buffer .= "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-    	$buffer .= "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-el.gif' height='1' width='100%'></td></tr>";
+    	$buffer .= "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break-el.gif' height='1' width='100%'></td></tr>";
     	$buffer .= "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
@@ -81,7 +81,7 @@ class Plugins_InvocationTags_Adlayer_Layerstyles_Simple_Invocation
     		$buffer .= "<option value='right'".($align == 'right' ? ' selected' : '').">".MAX_Plugin_Translation::translate('Right', 'invocationTags')."</option>";
     	$buffer .= "</select>";
     	$buffer .= "</td></tr>";
-    	$buffer .= "<tr><td width='30'><img src='" . MAX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
+    	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
     	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Vertical alignment', 'invocationTags')."</td><td width='370'>";
@@ -91,7 +91,7 @@ class Plugins_InvocationTags_Adlayer_Layerstyles_Simple_Invocation
     		$buffer .= "<option value='bottom'".($valign == 'bottom' ? ' selected' : '').">".MAX_Plugin_Translation::translate('Bottom', 'invocationTags')."</option>";
     	$buffer .= "</select>";
     	$buffer .= "</td></tr>";
-    	$buffer .= "<tr><td width='30'><img src='" . MAX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
+    	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
     	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Show close button', 'invocationTags')."</td><td width='370'>";
@@ -99,31 +99,31 @@ class Plugins_InvocationTags_Adlayer_Layerstyles_Simple_Invocation
     		$buffer .= "<option value='t'".($closebutton == 't' ? ' selected' : '').">".$GLOBALS['strYes']."</option>";
     		$buffer .= "<option value='f'".($closebutton == 'f' ? ' selected' : '').">".$GLOBALS['strNo']."</option>";
     	$buffer .= "</select>";
-    	$buffer .= "<tr><td width='30'><img src='" . MAX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
+    	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
     	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Automatically close after', 'invocationTags')."</td><td width='370'>";
     		$buffer .= "<input class='flat' type='text' name='closetime' size='' value='".(isset($closetime) ? $closetime : '-')."' style='width:60px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrSeconds']."</td></tr>";
-    	$buffer .= "<tr><td width='30'><img src='" . MAX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
+    	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	$buffer .= "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-    	$buffer .= "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-el.gif' height='1' width='100%'></td></tr>";
+    	$buffer .= "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break-el.gif' height='1' width='100%'></td></tr>";
     	$buffer .= "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
     	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Banner padding', 'invocationTags')."</td><td width='370'>";
     		$buffer .= "<input class='flat' type='text' name='padding' size='' value='".$padding."' style='width:60px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
-    	$buffer .= "<tr><td width='30'><img src='" . MAX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
+    	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
     	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Horizontal shift', 'invocationTags')."</td><td width='370'>";
     		$buffer .= "<input class='flat' type='text' name='shifth' size='' value='".$shifth."' style='width:60px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
-    	$buffer .= "<tr><td width='30'><img src='" . MAX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
+    	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
     	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Vertical shift', 'invocationTags')."</td><td width='370'>";
     		$buffer .= "<input class='flat' type='text' name='shiftv' size='' value='".$shiftv."' style='width:60px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
-    	$buffer .= "<tr><td width='30'><img src='" . MAX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
+    	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	$this->settings_cp_map();
 
@@ -132,26 +132,26 @@ class Plugins_InvocationTags_Adlayer_Layerstyles_Simple_Invocation
     		$buffer .= "<table border='0' cellspacing='0' cellpadding='0'>";
     		$buffer .= "<tr><td width='22'>";
     		$buffer .= "<table border='0' cellspacing='1' cellpadding='0' bgcolor='#000000'><tr>";
-    		$buffer .= "<td id='backcolor_box' bgcolor='".$backcolor."'><img src='" . MAX::assetPath() . "/images/spacer.gif' width='16' height='16'></td>";
+    		$buffer .= "<td id='backcolor_box' bgcolor='".$backcolor."'><img src='" . OX::assetPath() . "/images/spacer.gif' width='16' height='16'></td>";
     		$buffer .= "</tr></table></td><td>";
     		$buffer .= "<input type='text' class='flat' name='backcolor' size='10' maxlength='7' tabindex='".($tabindex++)."' value='".$backcolor."' onFocus='current_cp = this; current_cp_oldval = this.value; current_box = backcolor_box' onChange='c_update()'".($nobg == 't' ? ' disabled' : '').">";
     		$buffer .= "</td><td align='right' width='218'>";
-    		$buffer .= "<div id='backDiv'".($nobg == 't' ? " style='display: none'" : '')." onMouseOver='current_cp = backcolor; current_box = backcolor_box' onMouseOut='current_cp = null'><img src='" . MAX::assetPath() . "/images/colorpicker.png' width='193' height='18' align='absmiddle' usemap='#colorpicker' border='0'><img src='" . MAX::assetPath() . "/images/spacer.gif' width='22' height='1'></div>";
+    		$buffer .= "<div id='backDiv'".($nobg == 't' ? " style='display: none'" : '')." onMouseOver='current_cp = backcolor; current_box = backcolor_box' onMouseOut='current_cp = null'><img src='" . OX::assetPath() . "/images/colorpicker.png' width='193' height='18' align='absmiddle' usemap='#colorpicker' border='0'><img src='" . OX::assetPath() . "/images/spacer.gif' width='22' height='1'></div>";
     		$buffer .= "</td></tr></table>";
-    	$buffer .= "<tr><td width='30'><img src='" . MAX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
+    	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
     	$buffer .= "<td width='200'>".MAX_Plugin_Translation::translate('Border color', 'invocationTags')."</td><td width='370'>";
     		$buffer .= "<table border='0' cellspacing='0' cellpadding='0'>";
     		$buffer .= "<tr><td width='22'>";
     		$buffer .= "<table border='0' cellspacing='1' cellpadding='0' bgcolor='#000000'><tr>";
-    		$buffer .= "<td id='bordercolor_box' bgcolor='".$bordercolor."'><img src='" . MAX::assetPath() . "/images/spacer.gif' width='16' height='16'></td>";
+    		$buffer .= "<td id='bordercolor_box' bgcolor='".$bordercolor."'><img src='" . OX::assetPath() . "/images/spacer.gif' width='16' height='16'></td>";
     		$buffer .= "</tr></table></td><td>";
     		$buffer .= "<input type='text' class='flat' name='bordercolor' size='10' maxlength='7' tabindex='".($tabindex++)."' value='".$bordercolor."' onFocus='current_cp = this; current_cp_oldval = this.value; current_box = bordercolor_box' onChange='c_update()'".($noborder == 't' ? ' disabled' : '').">";
     		$buffer .= "</td><td align='right' width='218'>";
-    		$buffer .= "<div id='borderDiv'".($noborder == 't' ? " style='display: none'" : '')." onMouseOver='current_cp = bordercolor; current_box = bordercolor_box' onMouseOut='current_cp = null'><img src='" . MAX::assetPath() . "/images/colorpicker.png' width='193' height='18' align='absmiddle' usemap='#colorpicker' border='0'><img src='" . MAX::assetPath() . "/images/spacer.gif' width='22' height='1'></div>";
+    		$buffer .= "<div id='borderDiv'".($noborder == 't' ? " style='display: none'" : '')." onMouseOver='current_cp = bordercolor; current_box = bordercolor_box' onMouseOut='current_cp = null'><img src='" . OX::assetPath() . "/images/colorpicker.png' width='193' height='18' align='absmiddle' usemap='#colorpicker' border='0'><img src='" . OX::assetPath() . "/images/spacer.gif' width='22' height='1'></div>";
             $buffer .= "</td></tr></table>";
-    	$buffer .= "<tr><td width='30'><img src='" . MAX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
+    	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
     	$buffer .= "<td colspan='2'>";
@@ -163,7 +163,7 @@ class Plugins_InvocationTags_Adlayer_Layerstyles_Simple_Invocation
     	$buffer .= "<input type='checkbox' name='noborder' value='t' tabindex='".($tabindex++)."' onClick='this.form.bordercolor.disabled=this.checked;borderDiv.style.display=this.checked?\"none\":\"\"'".($noborder == 't' ? ' checked' : '').">&nbsp;";
     	$buffer .= 'No border';
     	$buffer .= "</td></tr>";
-    	$buffer .= "<tr><td width='30'><img src='" . MAX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
+    	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	return $buffer;
     }

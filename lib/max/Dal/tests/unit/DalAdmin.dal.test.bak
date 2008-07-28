@@ -30,6 +30,8 @@ require_once MAX_PATH.'/lib/Max.php';
 require_once MAX_PATH.'/lib/max/DB.php';
 require_once MAX_PATH.'/lib/max/Dal/Admin.php';
 
+require_once OX_PATH . '/lib/OX.php';
+
 Mock::generate('TargetingStatistics');
 
 /**

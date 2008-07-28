@@ -35,6 +35,7 @@ require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
 require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 
+require_once OX_PATH . '/lib/OX.php';
 require_once 'XML/RPC/Server.php';
 
 // Set a global variable to let the other functions know

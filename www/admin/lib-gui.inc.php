@@ -34,6 +34,8 @@ require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 require_once MAX_PATH . '/lib/OA/Permission.php';
 require_once MAX_PATH . '/lib/OA/Auth.php';
 
+require_once OX_PATH . '/lib/OX.php';
+
 // Define defaults
 $OA_Navigation_ID  = '';
 $phpAds_GUIDone    = false;
@@ -70,7 +72,7 @@ function phpAds_PageShortcut($name, $link, $icon)
     $phpAds_shortcuts[] = array(
         'name' => $name,
         'link' => $link,
-        'icon' => MAX::assetPath() . "/" . $icon
+        'icon' => OX::assetPath() . "/" . $icon
     );
 }
 
@@ -308,7 +310,7 @@ function phpAds_Die($title="Error", $message="Unknown error")
     }
     // Message
     echo "<br>";
-    echo "<div class='errormessage'><img class='errormessage' src='". MAX::assetPath() ."/images/errormessage.gif' align='absmiddle'>";
+    echo "<div class='errormessage'><img class='errormessage' src='". OX::assetPath() ."/images/errormessage.gif' align='absmiddle'>";
     echo "<span class='tab-r'>".$title."</span><br><br>".$message."</div><br>";
     // Die
     if ($header == phpAds_Login) {

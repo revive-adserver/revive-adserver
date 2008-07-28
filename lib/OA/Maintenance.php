@@ -26,6 +26,9 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/Max.php';
+
+require_once OX_PATH . '/lib/OX.php';
+
 require_once MAX_PATH . '/scripts/maintenance/translationStrings.php';
 
 if (!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/cache.php']) && !is_callable('MAX_commonGetDeliveryUrl')) {

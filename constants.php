@@ -241,6 +241,9 @@ function setupConstants()
         if (!defined('MAX_PATH')) {
             define('MAX_PATH', dirname(__FILE__));
         }
+        if (!defined('OX_PATH')) {
+            define('OX_PATH', dirname(__FILE__));
+        }
         // Ensure that the DIRECTORY_SEPARATOR and PATH_SEPARATOR
         // constants are correctly defined
         if (!defined('DIRECTORY_SEPARATOR')) {

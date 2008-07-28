@@ -308,11 +308,11 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_AC
     $extra .= "\t\t\t\t<input type='hidden' name='returnurl' value='tracker-variables.php'>"."\n";
     $extra .= "\t\t\t\t<br /><br />"."\n";
     $extra .= "\t\t\t\t<b>$strModifyTracker</b><br />"."\n";
-    $extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />"."\n";
-    $extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/icon-duplicate-tracker.gif' align='absmiddle'>&nbsp;<a href='tracker-modify.php?clientid=".$clientid."&trackerid=".$trackerid."&duplicate=true&returnurl=tracker-campaigns.php'>$strDuplicate</a><br />"."\n";
-    $extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />"."\n";
-    $extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/icon-move-tracker.gif' align='absmiddle'>&nbsp;$strMoveTo<br />"."\n";
-    $extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='160' vspace='2'><br />"."\n";
+    $extra .= "\t\t\t\t<img src='" . OX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />"."\n";
+    $extra .= "\t\t\t\t<img src='" . OX::assetPath() . "/images/icon-duplicate-tracker.gif' align='absmiddle'>&nbsp;<a href='tracker-modify.php?clientid=".$clientid."&trackerid=".$trackerid."&duplicate=true&returnurl=tracker-campaigns.php'>$strDuplicate</a><br />"."\n";
+    $extra .= "\t\t\t\t<img src='" . OX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />"."\n";
+    $extra .= "\t\t\t\t<img src='" . OX::assetPath() . "/images/icon-move-tracker.gif' align='absmiddle'>&nbsp;$strMoveTo<br />"."\n";
+    $extra .= "\t\t\t\t<img src='" . OX::assetPath() . "/images/spacer.gif' height='1' width='160' vspace='2'><br />"."\n";
     $extra .= "\t\t\t\t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"."\n";
     $extra .= "\t\t\t\t<select name='moveto' style='width: 110;'>"."\n";
 
@@ -328,9 +328,9 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_AC
     }
 
     $extra .= "\t\t\t\t</select>&nbsp;\n";
-    $extra .= "\t\t\t\t<input type='image' src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/go_blue.gif'><br />\n";
-    $extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />\n";
-    $extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/icon-recycle.gif' align='absmiddle'>\n";
+    $extra .= "\t\t\t\t<input type='image' src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/go_blue.gif'><br />\n";
+    $extra .= "\t\t\t\t<img src='" . OX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />\n";
+    $extra .= "\t\t\t\t<img src='" . OX::assetPath() . "/images/icon-recycle.gif' align='absmiddle'>\n";
     $extra .= "\t\t\t\t<a href='tracker-delete.php?clientid=$clientid&trackerid=$trackerid&returnurl=advertiser-trackers.php'".phpAds_DelConfirm($strConfirmDeleteTracker).">$strDelete</a><br />\n";
     $extra .= "\t\t\t\t</form>\n";
 
@@ -348,12 +348,12 @@ if (isset($trackerid) && $trackerid != '')
 {
             echo "<form action='".$_SERVER['PHP_SELF']."?clientid=$clientid&trackerid=$trackerid' method='post' onsubmit='return m3_hideShowSubmit()'>\n";
                 echo "<input type='hidden' name='submit' value='true'>";
-                echo "<input type='image' name='dummy' src='" . MAX::assetPath() . "/images/spacer.gif' border='0' width='1' height='1'>\n";
+                echo "<input type='image' name='dummy' src='" . OX::assetPath() . "/images/spacer.gif' border='0' width='1' height='1'>\n";
                 echo "<br /><br />\n";
 
                 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>"."\n";
                 echo "<tr><td height='25' colspan='3'><b>".$strTrackingSettings."</b></td></tr>"."\n";
-                echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>"."\n";
+                echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>"."\n";
                 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
 
                 echo "<tr>"."\n";
@@ -367,13 +367,13 @@ if (isset($trackerid) && $trackerid != '')
                 echo "</select></td>"."\n";
                 echo "</tr>"."\n";
                 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
-                echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>"."\n";
+                echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>"."\n";
                 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
                 echo "</table>";
 
                 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>\n";
                     echo "<tr><td height='25' colspan='4' bgcolor='#FFFFFF'><b>".$strVariables."</b></td></tr>\n";
-                    echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>\n";
+                    echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>\n";
 
         if ($variables)
         {
@@ -391,11 +391,11 @@ if (isset($trackerid) && $trackerid != '')
 
                             // variable area
                             echo "<tr><td height='25' colspan='4' bgcolor='#F6F6F6'>&nbsp;&nbsp;".$strTrackFollowingVars."</td></tr>\n";
-                            echo "<tr><td colspan='4'><img src='" . MAX::assetPath() . "/images/break-el.gif' width='100%' height='1'></td></tr>\n";
+                            echo "<tr><td colspan='4'><img src='" . OX::assetPath() . "/images/break-el.gif' width='100%' height='1'></td></tr>\n";
                             echo "<tr><td colspan='4' bgcolor='#F6F6F6'><br /></td></tr>\n";
                             echo "<tr height='35' bgcolor='#F6F6F6' valign='top'>\n";
                                 echo "<td width='100'></td>\n";
-                                echo "<td width='130'><img src='" . MAX::assetPath() . "/images/icon-acl.gif' align='absmiddle'>&nbsp;Variable</td>\n";
+                                echo "<td width='130'><img src='" . OX::assetPath() . "/images/icon-acl.gif' align='absmiddle'>&nbsp;Variable</td>\n";
                                 echo "<td>\n";
                                     echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>\n";
                                         echo "<tr>\n";
@@ -526,7 +526,7 @@ if (isset($trackerid) && $trackerid != '')
                                         echo "</tr>\n";
                                     echo "</table>\n";
                                 echo"</td>\n";
-                                echo "<td align='right'><input type='image' name='action[del][".$k."]' src='" . MAX::assetPath() . "/images/icon-recycle.gif' border='0' align='absmiddle' alt='Delete'>&nbsp;&nbsp;</td>";
+                                echo "<td align='right'><input type='image' name='action[del][".$k."]' src='" . OX::assetPath() . "/images/icon-recycle.gif' border='0' align='absmiddle' alt='Delete'>&nbsp;&nbsp;</td>";
                             echo "</tr>";
                             echo "<tr bgcolor='#F6F6F6'>\n";
                                 echo "<td>&nbsp;</td>\n";
@@ -534,7 +534,7 @@ if (isset($trackerid) && $trackerid != '')
                                 echo "<td colspan='2'></td>\n";
                             echo "</tr>\n";
                             echo "<tr>";
-                                echo "<td height='1' colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>";
+                                echo "<td height='1' colspan='4' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td>";
                             echo "</tr>";
 
                         }
@@ -542,17 +542,17 @@ if (isset($trackerid) && $trackerid != '')
                     }
 
                     echo "<tr>";
-                        echo "<td colspan='4'><img src='" . MAX::assetPath() . "/images/spacer.gif' width='1' height='10' /></td>";
+                        echo "<td colspan='4'><img src='" . OX::assetPath() . "/images/spacer.gif' width='1' height='10' /></td>";
                     echo "</tr>";
 
                     echo "<tr>";
                         echo "<td colspan='4' align='right'>";
-                            echo "<img src='" . MAX::assetPath() . "/images/icon-acl-add.gif' align='absmiddle'>&nbsp;&nbsp;".$strAddVariable."&nbsp;&nbsp;";
-                            echo "<input type='image' name='action[new]' src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/go_blue.gif' border='0' align='absmiddle' alt='$strSave'>";
+                            echo "<img src='" . OX::assetPath() . "/images/icon-acl-add.gif' align='absmiddle'>&nbsp;&nbsp;".$strAddVariable."&nbsp;&nbsp;";
+                            echo "<input type='image' name='action[new]' src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/go_blue.gif' border='0' align='absmiddle' alt='$strSave'>";
                         echo "</td>";
                     echo "</tr>";
                     echo "<tr>";
-                        echo "<td colspan='4'><img src='" . MAX::assetPath() . "/images/spacer.gif' width='1' height='10' /></td>\n";
+                        echo "<td colspan='4'><img src='" . OX::assetPath() . "/images/spacer.gif' width='1' height='10' /></td>\n";
                     echo "</tr>";
                     echo "<tr>";
                         echo "<td colspan='4'>";
@@ -568,20 +568,20 @@ if (isset($trackerid) && $trackerid != '')
         else
         {
             echo "<tr><td height='25' colspan='4' bgcolor='#F6F6F6'>&nbsp;&nbsp;".$strNoVarsToTrack."</td></tr>\n";
-            echo "<tr><td colspan='4'><img src='" . MAX::assetPath() . "/images/break-el.gif' width='100%' height='1'></td></tr>\n";
+            echo "<tr><td colspan='4'><img src='" . OX::assetPath() . "/images/break-el.gif' width='100%' height='1'></td></tr>\n";
 
                     echo "<tr>";
-                        echo "<td colspan='4'><img src='" . MAX::assetPath() . "/images/spacer.gif' width='1' height='10' /></td>";
+                        echo "<td colspan='4'><img src='" . OX::assetPath() . "/images/spacer.gif' width='1' height='10' /></td>";
                     echo "</tr>";
 
                     echo "<tr>";
                         echo "<td colspan='4' align='right'>";
-                            echo "<img src='" . MAX::assetPath() . "/images/icon-acl-add.gif' align='absmiddle'>&nbsp;&nbsp;".$strAddVariable."&nbsp;&nbsp;";
-                            echo "<input type='image' name='action[new]' src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/go_blue.gif' border='0' align='absmiddle' alt='$strSave'>";
+                            echo "<img src='" . OX::assetPath() . "/images/icon-acl-add.gif' align='absmiddle'>&nbsp;&nbsp;".$strAddVariable."&nbsp;&nbsp;";
+                            echo "<input type='image' name='action[new]' src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/go_blue.gif' border='0' align='absmiddle' alt='$strSave'>";
                         echo "</td>";
                     echo "</tr>";
                     echo "<tr>";
-                        echo "<td colspan='4'><img src='" . MAX::assetPath() . "/images/spacer.gif' width='1' height='10' /></td>\n";
+                        echo "<td colspan='4'><img src='" . OX::assetPath() . "/images/spacer.gif' width='1' height='10' /></td>\n";
                     echo "</tr>";
                     echo "<tr>";
                         echo "<td colspan='4'>";

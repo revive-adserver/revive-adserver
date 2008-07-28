@@ -64,9 +64,9 @@ if ($doUserLog->get($userlogid))
 	echo "<tr height='20'><td><b>".$strUser."</b>:&nbsp;&nbsp;</td><td>";
 	switch ($row['usertype'])
 	{
-		case phpAds_userDeliveryEngine:	echo "<img src='" . MAX::assetPath() . "/images/icon-generatecode.gif' align='absmiddle'>&nbsp;".$strDeliveryEngine; break;
-		case phpAds_userMaintenance:	echo "<img src='" . MAX::assetPath() . "/images/icon-time.gif' align='absmiddle'>&nbsp;".$strMaintenance; break;
-		case phpAds_userAdministrator:	echo "<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;".$strAdministrator; break;
+		case phpAds_userDeliveryEngine:	echo "<img src='" . OX::assetPath() . "/images/icon-generatecode.gif' align='absmiddle'>&nbsp;".$strDeliveryEngine; break;
+		case phpAds_userMaintenance:	echo "<img src='" . OX::assetPath() . "/images/icon-time.gif' align='absmiddle'>&nbsp;".$strMaintenance; break;
+		case phpAds_userAdministrator:	echo "<img src='" . OX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;".$strAdministrator; break;
 	}
 	echo "</td></tr>";
 

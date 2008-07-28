@@ -83,11 +83,11 @@ $extra .= "\t\t\t\t<input type='hidden' name='clientid' value='$clientid'>"."\n"
 $extra .= "\t\t\t\t<input type='hidden' name='returnurl' value='tracker-append.php'>"."\n";
 $extra .= "\t\t\t\t<br /><br />"."\n";
 $extra .= "\t\t\t\t<b>$strModifyTracker</b><br />"."\n";
-$extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />"."\n";
-$extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/icon-duplicate-tracker.gif' align='absmiddle'>&nbsp;<a href='tracker-modify.php?clientid=".$clientid."&trackerid=".$trackerid."&duplicate=true&returnurl=tracker-campaigns.php'>$strDuplicate</a><br />"."\n";
-$extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />"."\n";
-$extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/icon-move-tracker.gif' align='absmiddle'>&nbsp;$strMoveTo<br />"."\n";
-$extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='160' vspace='2'><br />"."\n";
+$extra .= "\t\t\t\t<img src='" . OX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />"."\n";
+$extra .= "\t\t\t\t<img src='" . OX::assetPath() . "/images/icon-duplicate-tracker.gif' align='absmiddle'>&nbsp;<a href='tracker-modify.php?clientid=".$clientid."&trackerid=".$trackerid."&duplicate=true&returnurl=tracker-campaigns.php'>$strDuplicate</a><br />"."\n";
+$extra .= "\t\t\t\t<img src='" . OX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />"."\n";
+$extra .= "\t\t\t\t<img src='" . OX::assetPath() . "/images/icon-move-tracker.gif' align='absmiddle'>&nbsp;$strMoveTo<br />"."\n";
+$extra .= "\t\t\t\t<img src='" . OX::assetPath() . "/images/spacer.gif' height='1' width='160' vspace='2'><br />"."\n";
 $extra .= "\t\t\t\t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"."\n";
 $extra .= "\t\t\t\t<select name='moveto' style='width: 110;'>"."\n";
 
@@ -104,9 +104,9 @@ while ($doClients->fetch() && $row = $doClients->toArray()) {
 }
 
 $extra .= "\t\t\t\t</select>&nbsp;\n";
-$extra .= "\t\t\t\t<input type='image' src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/go_blue.gif'><br />\n";
-$extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />\n";
-$extra .= "\t\t\t\t<img src='" . MAX::assetPath() . "/images/icon-recycle.gif' align='absmiddle'>\n";
+$extra .= "\t\t\t\t<input type='image' src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/go_blue.gif'><br />\n";
+$extra .= "\t\t\t\t<img src='" . OX::assetPath() . "/images/break.gif' height='1' width='160' vspace='4'><br />\n";
+$extra .= "\t\t\t\t<img src='" . OX::assetPath() . "/images/icon-recycle.gif' align='absmiddle'>\n";
 $extra .= "\t\t\t\t<a href='tracker-delete.php?clientid=$clientid&trackerid=$trackerid&returnurl=advertiser-trackers.php'".phpAds_DelConfirm($strConfirmDeleteTracker).">$strDelete</a><br />\n";
 $extra .= "\t\t\t\t</form>\n";
 

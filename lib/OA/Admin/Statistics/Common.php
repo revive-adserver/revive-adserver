@@ -514,7 +514,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
             // Add the day as a breadcrumb trail if looking at a day breakdown
             if (preg_match('/daily$/', $this->breakdown)) {
                 $oDate = new Date($this->aDates['day_begin']);
-                $this->_addBreadcrumb($oDate->format($GLOBALS['date_format']), MAX::assetPath() . '/images/icon-date.gif', 'day');
+                $this->_addBreadcrumb($oDate->format($GLOBALS['date_format']), OX::assetPath() . '/images/icon-date.gif', 'day');
             }
 
             // Display the delivery history or targeting history stats
@@ -570,9 +570,9 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
 
             // Set the appopriate icon for the breakdown type
             if ($this->statsBreakdown == 'hour') {
-                $this->statsIcon = MAX::assetPath() . 'images/icon-time.gif';
+                $this->statsIcon = 'images/icon-time.gif';
             } else {
-                $this->statsIcon = MAX::assetPath() . 'images/icon-date.gif';
+                $this->statsIcon = 'images/icon-date.gif';
             }
 
             $aElements = array();
@@ -627,7 +627,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
 
         // Generate URI used to add other parameters
         $this->_generatePageURI();
-        $this->assetPath = MAX::assetPath();
+        $this->assetPath = OX::assetPath();
 
         // Add context links, if any
         if (!is_null($this->aPageContext) && is_array($this->aPageContext)) {
@@ -739,7 +739,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
 
         // Generate URI used to add other parameters
         $this->_generatePageURI();
-        $this->assetPath = MAX::assetPath();
+        $this->assetPath = OX::assetPath();
 
         // Add context links, if any
         if (is_array($this->aPageContext))
@@ -1518,7 +1518,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
             foreach ($this->aPageBreadcrumbs as $bc) {
             	array_push($breadcrumbPath, $bc['type']);
             }
-        	
+
             MAX_displayInventoryBreadcrumbsInternal($this->aPageBreadcrumbs, $breadcrumbPath);
         }
     }

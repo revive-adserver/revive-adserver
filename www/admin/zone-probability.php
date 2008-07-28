@@ -94,24 +94,24 @@ function phpAds_showZoneBanners ($zoneId)
             echo "<td height='25'><b>$strLimitations</b></td>";
             echo "<td height='25' align='".$phpAds_TextAlignRight."'>&nbsp;</td>";
             echo "</tr>";
-            echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
+            echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
             $i = -1;
             foreach($aZoneLinkedAds['xAds'] as $adId => $aLinkedAd) {
                 $i++;
                 $name = phpAds_getBannerName ($adId, 60, false);
-                echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td></tr>";
+                echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td></tr>";
                 echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
                 echo "<td height='25'>";
                 echo "&nbsp;&nbsp;";
                 // Banner icon
                 if ($aLinkedAd['type'] == 'html') {
-                    echo "<img src='" . MAX::assetPath() . "/images/icon-banner-html.gif' align='absmiddle'>&nbsp;";
+                    echo "<img src='" . OX::assetPath() . "/images/icon-banner-html.gif' align='absmiddle'>&nbsp;";
                 } elseif ($aLinkedAd['type'] == 'txt') {
-                    echo "<img src='" . MAX::assetPath() . "/images/icon-banner-text.gif' align='absmiddle'>&nbsp;";
+                    echo "<img src='" . OX::assetPath() . "/images/icon-banner-text.gif' align='absmiddle'>&nbsp;";
                 } elseif ($aLinkedAd['type'] == 'url') {
-                    echo "<img src='" . MAX::assetPath() . "/images/icon-banner-url.gif' align='absmiddle'>&nbsp;";
+                    echo "<img src='" . OX::assetPath() . "/images/icon-banner-url.gif' align='absmiddle'>&nbsp;";
                 } else {
-                    echo "<img src='" . MAX::assetPath() . "/images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
+                    echo "<img src='" . OX::assetPath() . "/images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
                 }
                 // Name
                 if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
@@ -136,13 +136,13 @@ function phpAds_showZoneBanners ($zoneId)
                     $linkEnd = '';
                 }
                 if (!$capping && !$limitations) {
-                    echo "<img src='" . MAX::assetPath() . "/images/icon-no-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;{$linkStart}<strong>$strNoLimitations</strong>{$linkEnd}";
+                    echo "<img src='" . OX::assetPath() . "/images/icon-no-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;{$linkStart}<strong>$strNoLimitations</strong>{$linkEnd}";
                 } elseif ($limitations && $capping) {
-                    echo "<img src='" . MAX::assetPath() . "/images/icon-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;{$linkStart}$strLimitations &amp; $strCapping{$linkEnd}";
+                    echo "<img src='" . OX::assetPath() . "/images/icon-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;{$linkStart}$strLimitations &amp; $strCapping{$linkEnd}";
                 } elseif ($limitations) {
-                    echo "<img src='" . MAX::assetPath() . "/images/icon-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;{$linkStart}$strLimitations{$linkEnd}";
+                    echo "<img src='" . OX::assetPath() . "/images/icon-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;{$linkStart}$strLimitations{$linkEnd}";
                 } elseif ($capping) {
-                    echo "<img src='" . MAX::assetPath() . "/images/icon-acl.gif' alt='Capping' align='middle' border='0'>&nbsp;{$linkStart}$strCapping{$linkEnd}";
+                    echo "<img src='" . OX::assetPath() . "/images/icon-acl.gif' alt='Capping' align='middle' border='0'>&nbsp;{$linkStart}$strCapping{$linkEnd}";
                 }
                 echo "</td>";
 
@@ -155,14 +155,14 @@ function phpAds_showZoneBanners ($zoneId)
                     $height = $aLinkedAd['bannertext'] ? $aLinkedAd['height'] + 90 : $aLinkedAd['height'] + 64;
                 }
                 echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
-                echo "<img src='" . MAX::assetPath() . "/images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;";
+                echo "<img src='" . OX::assetPath() . "/images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;";
                 echo "<a href='banner-htmlpreview.php?bannerid=".$adId."' target='_new' ";
                 echo "onClick=\"return openWindow('banner-htmlpreview.php?bannerid=".$adId."', '', 'status=no,scrollbars=no,resizable=no,width=".$width.",height=".$height."');\">";
                 echo $strShowBanner."</a>&nbsp;&nbsp;";
                 echo "</td>";
                 echo "</tr>";
             }
-            echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
+            echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
             echo "<tr><td colspan='6'><br /><br /></td></tr>";
         }
         // High-Priority Advertisements
@@ -176,24 +176,24 @@ function phpAds_showZoneBanners ($zoneId)
             echo "<td height='25'><b>$strLimitations</b></td>";
             echo "<td height='25' align='".$phpAds_TextAlignRight."'>&nbsp;</td>";
             echo "</tr>";
-            echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
+            echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
             for ($i=10;$i>0;$i--) {
                 if (empty($aZoneLinkedAds['ads'][$i])) { continue; }
                 foreach($aZoneLinkedAds['ads'][$i] as $adId => $aLinkedAd) {
                 $name = phpAds_getBannerName ($adId, 60, false);
-                echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td></tr>";
+                echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td></tr>";
                 echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
                 echo "<td height='25'>";
                 echo "&nbsp;&nbsp;";
                 // Banner icon
                 if ($aLinkedAd['type'] == 'html') {
-                    echo "<img src='" . MAX::assetPath() . "/images/icon-banner-html.gif' align='absmiddle'>&nbsp;";
+                    echo "<img src='" . OX::assetPath() . "/images/icon-banner-html.gif' align='absmiddle'>&nbsp;";
                 } elseif ($aLinkedAd['type'] == 'txt') {
-                    echo "<img src='" . MAX::assetPath() . "/images/icon-banner-text.gif' align='absmiddle'>&nbsp;";
+                    echo "<img src='" . OX::assetPath() . "/images/icon-banner-text.gif' align='absmiddle'>&nbsp;";
                 } elseif ($aLinkedAd['type'] == 'url') {
-                    echo "<img src='" . MAX::assetPath() . "/images/icon-banner-url.gif' align='absmiddle'>&nbsp;";
+                    echo "<img src='" . OX::assetPath() . "/images/icon-banner-url.gif' align='absmiddle'>&nbsp;";
                 } else {
-                    echo "<img src='" . MAX::assetPath() . "/images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
+                    echo "<img src='" . OX::assetPath() . "/images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
                 }
                 // Name
                 if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
@@ -225,13 +225,13 @@ function phpAds_showZoneBanners ($zoneId)
 
                 echo "<td height='25'>";
                 if (!$capping && !$limitations) {
-                    echo "<img src='" . MAX::assetPath() . "/images/icon-no-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;{$linkStart}$strNoLimitations{$linkEnd}";
+                    echo "<img src='" . OX::assetPath() . "/images/icon-no-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;{$linkStart}$strNoLimitations{$linkEnd}";
                 } elseif ($limitations && $capping) {
-                    echo "<img src='" . MAX::assetPath() . "/images/icon-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;{$linkStart}$strLimitations &amp; $strCapping{$linkEnd}";
+                    echo "<img src='" . OX::assetPath() . "/images/icon-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;{$linkStart}$strLimitations &amp; $strCapping{$linkEnd}";
                 } elseif ($limitations) {
-                    echo "<img src='" . MAX::assetPath() . "/images/icon-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;{$linkStart}$strLimitations{$linkEnd}";
+                    echo "<img src='" . OX::assetPath() . "/images/icon-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;{$linkStart}$strLimitations{$linkEnd}";
                 } elseif ($capping) {
-                    echo "<img src='" . MAX::assetPath() . "/images/icon-acl.gif' alt='Capping' align='middle' border='0'>&nbsp;{$linkStart}$strCapping{$linkEnd}";
+                    echo "<img src='" . OX::assetPath() . "/images/icon-acl.gif' alt='Capping' align='middle' border='0'>&nbsp;{$linkStart}$strCapping{$linkEnd}";
                 }
                 echo "</td>";
 
@@ -244,7 +244,7 @@ function phpAds_showZoneBanners ($zoneId)
                     $height = $aLinkedAd['bannertext'] ? $aLinkedAd['height'] + 90 : $aLinkedAd['height'] + 64;
                 }
                 echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
-                echo "<img src='" . MAX::assetPath() . "/images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;";
+                echo "<img src='" . OX::assetPath() . "/images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;";
                 echo "<a href='banner-htmlpreview.php?bannerid=".$adId."' target='_new' ";
                 echo "onClick=\"return openWindow('banner-htmlpreview.php?bannerid=".$adId."', '', 'status=no,scrollbars=no,resizable=no,width=".$width.",height=".$height."');\">";
                 echo $strShowBanner."</a>&nbsp;&nbsp;";
@@ -252,7 +252,7 @@ function phpAds_showZoneBanners ($zoneId)
                 echo "</tr>";
                 }
             }
-            echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
+            echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
             echo "<tr><td colspan='6'><br /><br /></td></tr>";
         }
         // Low-Priority Advertisements
@@ -266,25 +266,25 @@ function phpAds_showZoneBanners ($zoneId)
             echo "<td height='25'><b>$strLimitations</b></td>";
             echo "<td height='25' align='".$phpAds_TextAlignRight."'>&nbsp;</td>";
             echo "</tr>";
-            echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
+            echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
             $ofPriority = (1 - $usedHighProbability) * 100;
             if ($ofPriority < 0) $ofPriority = 0;
 
             foreach($aZoneLinkedAds['lAds'] as $adId => $aLinkedAd) {
                 $name = phpAds_getBannerName ($adId, 60, false);
-                echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td></tr>";
+                echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td></tr>";
                 echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
                 echo "<td height='25'>";
                 echo "&nbsp;&nbsp;";
                 // Banner icon
                 if ($aLinkedAd['type'] == 'html') {
-                    echo "<img src='" . MAX::assetPath() . "/images/icon-banner-html.gif' align='absmiddle'>&nbsp;";
+                    echo "<img src='" . OX::assetPath() . "/images/icon-banner-html.gif' align='absmiddle'>&nbsp;";
                 } elseif ($aLinkedAd['type'] == 'txt') {
-                    echo "<img src='" . MAX::assetPath() . "/images/icon-banner-text.gif' align='absmiddle'>&nbsp;";
+                    echo "<img src='" . OX::assetPath() . "/images/icon-banner-text.gif' align='absmiddle'>&nbsp;";
                 } elseif ($aLinkedAd['type'] == 'url') {
-                    echo "<img src='" . MAX::assetPath() . "/images/icon-banner-url.gif' align='absmiddle'>&nbsp;";
+                    echo "<img src='" . OX::assetPath() . "/images/icon-banner-url.gif' align='absmiddle'>&nbsp;";
                 } else {
-                    echo "<img src='" . MAX::assetPath() . "/images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
+                    echo "<img src='" . OX::assetPath() . "/images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
                 }
                 // Name
                 if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
@@ -318,13 +318,13 @@ function phpAds_showZoneBanners ($zoneId)
 
                 echo "<td height='25'>";
                 if (!$capping && !$limitations) {
-                    echo "<img src='" . MAX::assetPath() . "/images/icon-no-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;{$linkStart}$strNoLimitations{$linkEnd}";
+                    echo "<img src='" . OX::assetPath() . "/images/icon-no-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;{$linkStart}$strNoLimitations{$linkEnd}";
                 } elseif ($limitations && $capping) {
-                    echo "<img src='" . MAX::assetPath() . "/images/icon-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;{$linkStart}$strLimitations &amp; $strCapping{$linkEnd}";
+                    echo "<img src='" . OX::assetPath() . "/images/icon-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;{$linkStart}$strLimitations &amp; $strCapping{$linkEnd}";
                 } elseif ($limitations) {
-                    echo "<img src='" . MAX::assetPath() . "/images/icon-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;{$linkStart}$strLimitations{$linkEnd}";
+                    echo "<img src='" . OX::assetPath() . "/images/icon-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;{$linkStart}$strLimitations{$linkEnd}";
                 } elseif ($capping) {
-                    echo "<img src='" . MAX::assetPath() . "/images/icon-acl.gif' alt='Capping' align='middle' border='0'>&nbsp;{$linkStart}$strCapping{$linkEnd}";
+                    echo "<img src='" . OX::assetPath() . "/images/icon-acl.gif' alt='Capping' align='middle' border='0'>&nbsp;{$linkStart}$strCapping{$linkEnd}";
                 }
                 echo "</td>";
 
@@ -337,14 +337,14 @@ function phpAds_showZoneBanners ($zoneId)
                     $height = $aLinkedAd['bannertext'] ? $aLinkedAd['height'] + 90 : $aLinkedAd['height'] + 64;
                 }
                 echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
-                echo "<img src='" . MAX::assetPath() . "/images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;";
+                echo "<img src='" . OX::assetPath() . "/images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;";
                 echo "<a href='banner-htmlpreview.php?bannerid=".$adId."' target='_new' ";
                 echo "onClick=\"return openWindow('banner-htmlpreview.php?bannerid=".$adId."', '', 'status=no,scrollbars=no,resizable=no,width=".$width.",height=".$height."');\">";
                 echo $strShowBanner."</a>&nbsp;&nbsp;";
                 echo "</td>";
                 echo "</tr>";
             }
-            echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
+            echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
         }
         echo "</table>";
         echo "<br /><br />";

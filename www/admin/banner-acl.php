@@ -143,7 +143,7 @@ $tabindex = _echoDeliveryCappingHtml($tabindex, $GLOBALS['strCappingBanner'], $a
 
 echo "
 <tr><td height='1' colspan='6' bgcolor='#888888'>
-<img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>
+<img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>
 
 </table>
 <br /><br /><br />

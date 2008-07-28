@@ -66,7 +66,7 @@ class OA_Admin_Statistics_Flexy
 
         echo "
         <a href='#' onclick='return periodFormSubmit()'>
-        <img src='" . MAX::assetPath() . "/images/{$GLOBALS['phpAds_TextDirection']}/go_blue.gif' border='0' tabindex='".$this->tabindex++."' /></a>
+        <img src='" . OX::assetPath() . "/images/{$GLOBALS['phpAds_TextDirection']}/go_blue.gif' border='0' tabindex='".$this->tabindex++."' /></a>
         </form>";
     }
 

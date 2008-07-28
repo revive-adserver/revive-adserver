@@ -85,9 +85,9 @@ if (!empty($action))
 }
 
 phpAds_ShowBreak();
-echo "<img src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-plugins.php?action=dep'>Check Dependencies</a>&nbsp;&nbsp;";
+echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-plugins.php?action=dep'>Check Dependencies</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
-echo "<img src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-plugins.php?action=reg'>Rebuild Registration Cache</a>&nbsp;&nbsp;";
+echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-plugins.php?action=reg'>Rebuild Registration Cache</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
 
 

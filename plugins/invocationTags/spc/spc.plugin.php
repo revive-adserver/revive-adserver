@@ -37,6 +37,8 @@ require_once MAX_PATH . '/plugins/invocationTags/InvocationTags.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/lib/max/Delivery/common.php';
 
+require_once OX_PATH . '/lib/OX.php';
+
 /**
  *
  * Invocation tag plugin.
@@ -149,8 +151,8 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
 <html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
 <head>
     <title>Tags for [id{$affiliate['affiliateid']}] {$affiliate['name']}</title>
-        <link rel='stylesheet' type='text/css' href='" . MAX::assetPath() .  "/css/preview.css' />
-		<script type='text/javascript' src='" . MAX::assetPath() .  "/js/jquery-1.2.3.js'></script>
+        <link rel='stylesheet' type='text/css' href='" . OX::assetPath() .  "/css/preview.css' />
+		<script type='text/javascript' src='" . OX::assetPath() .  "/js/jquery-1.2.3.js'></script>
 
         <script type='text/javascript'>
 		<!--
@@ -331,7 +333,7 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
             </p>
 
             <div class='sizePreview " . (count($customClass) ? ' ' . implode(' ', $customClass) : '') . "' style='width: {$width}px; height: {$height}px;'>
-                <img src='" . MAX::assetPath() . "/images/watermark.png' alt='' />
+                <img src='" . OX::assetPath() . "/images/watermark.png' alt='' />
 				<span>{$widthLabel} x {$heightLabel}</span>
             </div>
 
@@ -351,7 +353,7 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
             	Banners should now appear on your website
             </p>
 
-        	<button id='closeWindow'><img src='" . MAX::assetPath() . "/images/cross.png' alt='' />Close this window</button>
+        	<button id='closeWindow'><img src='" . OX::assetPath() . "/images/cross.png' alt='' />Close this window</button>
         </div>
 
         <div class='generated'>
@@ -410,7 +412,7 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
         $option .= "<td width='370'><input type='radio' id='noscript-y' name='noscript' value='1'".($noscript == 1 ? " checked='checked'" : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;<label for='noscript-y'>".$GLOBALS['strYes']."</label><br />";
         $option .= "<input type='radio' id='noscript-n' name='noscript' value='0'".($noscript == 0 ? " checked='checked'" : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;<label for='noscript-n'>".$GLOBALS['strNo']."</label></td>";
         $option .= "</tr>";
-        $option .= "<tr><td width='30'><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+        $option .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
         return $option;
     }
 
@@ -425,7 +427,7 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
         $option .= "<td width='370'><input type='radio' id='ssl-y' name='ssl' value='1'".($ssl == 1 ? " checked='checked'" : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;<label for='ssl-y'>".$GLOBALS['strYes']."</label><br />";
         $option .= "<input type='radio' name='ssl' id='ssl-y' value='0'".($ssl == 0 ? " checked='checked'" : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;<label for='ssl-n'>".$GLOBALS['strNo']."</label></td>";
         $option .= "</tr>";
-        $option .= "<tr><td width='30'><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+        $option .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
         return $option;
     }
 

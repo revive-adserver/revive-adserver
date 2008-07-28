@@ -32,6 +32,8 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/Common.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Statistics/Common/Task.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 
+require_once OX_PATH . '/lib/OX.php';
+
 /**
  * A abstract class, definine a common method for logging the completion
  * of the maintenance statistics process of maintenance statistics module

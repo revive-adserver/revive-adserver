@@ -217,7 +217,7 @@ class OA_Admin_Option
             }
         }
         echo "</select>&nbsp;<a href='#' onClick='options_goto_section();'>";
-        echo "<img src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/go_blue.gif' border='0'></a>";
+        echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/go_blue.gif' border='0'></a>";
         echo "</td></form></tr></table>";
         phpAds_ShowBreak();
     }
@@ -879,7 +879,7 @@ class OA_Admin_Option
     function _showPadLock($aItem)
     {
         if ($aItem['disabled']) {
-            return '<img src="' . MAX::assetPath() . '/images/padlock-closed.gif">';
+            return '<img src="' . OX::assetPath() . '/images/padlock-closed.gif">';
         } else {
             return '&nbsp;';
         }
@@ -956,7 +956,7 @@ class OA_Admin_Option
             PEAR_LOG_INFO    => 'PEAR_LOG_INFO',
             PEAR_LOG_DEBUG   => 'PEAR_LOG_DEBUG'
         );
-        
+
         if (array_key_exists($priority, $levels)) {
             return $levels[$priority];
         } else {

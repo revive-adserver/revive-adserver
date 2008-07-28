@@ -81,7 +81,7 @@ class OA_Admin_Reports_Index
      */
     function displayReportGeneration($reportIdentifier, $errorCode = null)
     {
-    	
+
         $aDisplayablePlugins = $this->_findDisplayableReports();
         $oPlugin = $aDisplayablePlugins[$reportIdentifier];
         if (is_null($oPlugin)) {
@@ -175,9 +175,9 @@ class OA_Admin_Reports_Index
     {
         echo "<tr><td height='25' colspan='3'><b>{$groupName}</b></td></tr>
               <tr height='1'>
-                <td width='30'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='30'></td>
-                <td width='200'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='200'></td>
-                <td width='100%'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>
+                <td width='30'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='30'></td>
+                <td width='200'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='200'></td>
+                <td width='100%'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td>
               </tr>";
     }
 
@@ -269,10 +269,10 @@ class OA_Admin_Reports_Index
         echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
         echo "<tr><td height='25' colspan='3'>";
         if ($export == 'xls') {
-            echo "<img src='" . MAX::assetPath() . "/images/excel.gif' align='absmiddle'>&nbsp;&nbsp;";
+            echo "<img src='" . OX::assetPath() . "/images/excel.gif' align='absmiddle'>&nbsp;&nbsp;";
         }
         echo "<b>".$name."</b></td></tr>";
-        echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
+        echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
         echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
         echo "<tr><td width='30'>&nbsp;</td>";
         echo "<td height='25' colspan='2'>";
@@ -281,7 +281,7 @@ class OA_Admin_Reports_Index
         if (!empty($errorMessage)) {
         	echo "<tr><td width='30'>&nbsp;</td>";
 	        echo "<td height='25' colspan='2'>";
-	        echo "<img src='".MAX::assetPath()."/images/error.gif' width='16' height='16'>&nbsp;";
+	        echo "<img src='".OX::assetPath()."/images/error.gif' width='16' height='16'>&nbsp;";
 	        echo "<font color='#AA0000'><b>{$errorMessage}</b></font>";
 	        echo "</td></tr>";
         }
@@ -343,8 +343,8 @@ class OA_Admin_Reports_Index
     {
         echo "
         <tr height='10'>
-            <td width='30'><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>
-            <td><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td>
+            <td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>
+            <td><img src='" . OX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td>
         </tr>";
     }
 

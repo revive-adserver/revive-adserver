@@ -72,7 +72,7 @@ if (!isset($session['maint_update'])) {
         // Show wait please text with rotating logo
         echo "<br />";
         echo "<table border='0' cellspacing='1' cellpadding='2'><tr><td>";
-        echo "<img src='" . MAX::assetPath() . "/images/install-busy.gif' width='16' height='16'>";
+        echo "<img src='" . OX::assetPath() . "/images/install-busy.gif' width='16' height='16'>";
         echo "</td><td class='install'>".$strSearchingUpdates."</td></tr></table>";
         // Send the output to the browser
         flush();
@@ -92,7 +92,7 @@ if (!isset($session['maint_update'])) {
     } else {
         echo "<br />".$strNotAbleToCheck."<br /><br />";
         echo "<br /><br />".$strForUpdatesLookOnWebsite."<br /><br />";
-        echo "<b><img src='" . MAX::assetPath() . "/images/caret-r.gif'>&nbsp;<a href='http://".$phpAds_producturl."' target='_blank'>".$strClickToVisitWebsite."</a></b>";
+        echo "<b><img src='" . OX::assetPath() . "/images/caret-r.gif'>&nbsp;<a href='http://".$phpAds_producturl."' target='_blank'>".$strClickToVisitWebsite."</a></b>";
     }
 } else {
     $maint_update = $session['maint_update'];
@@ -105,17 +105,17 @@ if (!isset($session['maint_update'])) {
     echo "<br /><br />";
     if ($maint_update[0] == 800) {
         echo "<table border='0' cellspacing='0' cellpadding='0'><tr><td width='24' valign='top'>";
-        echo "<img src='" . MAX::assetPath() . "/images/info.gif'>&nbsp;&nbsp;";
+        echo "<img src='" . OX::assetPath() . "/images/info.gif'>&nbsp;&nbsp;";
         echo "</td><td valign='top'><b>".$strNoNewVersionAvailable."</b>";
         echo "</td></tr></table><br />";
         phpAds_ShowBreak();
     } elseif (is_array($maint_update[1])) {
         echo "<table border='0' cellspacing='0' cellpadding='0'><tr><td width='24' valign='top'>";
         if ($maint_update[1]['security_fix'] == 1) {
-            echo "<img src='" . MAX::assetPath() . "/images/error.gif'>&nbsp;&nbsp;";
+            echo "<img src='" . OX::assetPath() . "/images/error.gif'>&nbsp;&nbsp;";
             echo "</td><td valign='top'>".$strSecurityUpdate;
         } else {
-            echo "<img src='" . MAX::assetPath() . "/images/info.gif'>&nbsp;&nbsp;";
+            echo "<img src='" . OX::assetPath() . "/images/info.gif'>&nbsp;&nbsp;";
             echo "</td><td valign='top'>".$strNewVersionAvailable;
         }
         echo "</td></tr></table>";
@@ -124,9 +124,9 @@ if (!isset($session['maint_update'])) {
         echo "<br /><br />";
         echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
         echo "<tr height='25'><td height='25'>&nbsp;&nbsp;<b>".$strAvailableUpdates."</b></td></tr>";
-        echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
+        echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
         echo "<tr height='25' bgcolor='#F6F6F6'><td height='25' valign='top' nowrap>";
-        echo "<br />&nbsp;&nbsp;<img src='" . MAX::assetPath() . "/images/icon-setup.gif' align='absmiddle'>&nbsp;";
+        echo "<br />&nbsp;&nbsp;<img src='" . OX::assetPath() . "/images/icon-setup.gif' align='absmiddle'>&nbsp;";
         echo $maint_update[1]['product_name']." ".$maint_update[1]['config_readable']."</td>";
         echo "<td width='32'>&nbsp;</td>";
         echo "<td><br />".$maint_update[1]['description']."<br /><br />";
@@ -134,23 +134,23 @@ if (!isset($session['maint_update'])) {
         echo "<td width='32'>&nbsp;</td>";
         echo "</tr>";
         if ($maint_update[1]['url_zip'] != '' || $maint_update[1]['url_tgz'] != '') {
-            echo "<tr height='1'><td colspan='2' bgcolor='#F6F6F6'><img src='" . MAX::assetPath() . "/images/spacer.gif' height='1' width='100%'>";
-            echo "<td colspan='2' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-el.gif' height='1' width='100%'></td></tr>";
+            echo "<tr height='1'><td colspan='2' bgcolor='#F6F6F6'><img src='" . OX::assetPath() . "/images/spacer.gif' height='1' width='100%'>";
+            echo "<td colspan='2' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break-el.gif' height='1' width='100%'></td></tr>";
             echo "<tr height='25' bgcolor='#F6F6F6'><td height='25' colspan='2'>&nbsp;&nbsp;</td><td>";
             if ($maint_update[1]['url_zip'] != '') {
-                echo "<img src='" . MAX::assetPath() . "/images/icon-filetype-zip.gif' align='absmiddle'>&nbsp;";
+                echo "<img src='" . OX::assetPath() . "/images/icon-filetype-zip.gif' align='absmiddle'>&nbsp;";
                 echo "<a href='".$maint_update[1]['url_zip']."'>".$strDownloadZip."</a>";
                 if ($maint_update[1]['url_tgz'] != '') {
                     echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
                 }
             }
             if ($maint_update[1]['url_tgz'] != '') {
-                echo "<img src='" . MAX::assetPath() . "/images/icon-filetype-zip.gif' align='absmiddle'>&nbsp;";
+                echo "<img src='" . OX::assetPath() . "/images/icon-filetype-zip.gif' align='absmiddle'>&nbsp;";
                 echo "<a href='".$maint_update[1]['url_tgz']."'>".$strDownloadGZip."</a>";
             }
             echo "</td><td>&nbsp;</td></tr>";
         }
-        echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
+        echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
         echo "</table>";
     } else {
         phpAds_Die($strErrorOccurred, $strUpdateServerDown);

@@ -104,7 +104,7 @@ class OA_Admin_UI
     {
         $ID = $this->getId($ID);
         $this->setCurrentId($ID);
-        
+
         global $phpAds_shortcuts;
         global $phpAds_breadcrumbs;
         global $phpAds_breadcrumbs_extra;
@@ -264,7 +264,7 @@ class OA_Admin_UI
         global $xajax, $session;
         if (!empty($session['RUN_MPE']) && $session['RUN_MPE']) {
             require_once MAX_PATH . '/www/admin/lib-maintenance-priority.inc.php';
-            $this->oTpl->assign('jsMPE', $xajax->getJavascript(MAX::assetPath(), 'js/xajax.js'));
+            $this->oTpl->assign('jsMPE', $xajax->getJavascript(OX::assetPath(), 'js/xajax.js'));
         }
     }
 

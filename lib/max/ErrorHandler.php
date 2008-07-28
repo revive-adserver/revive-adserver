@@ -29,6 +29,8 @@ $Id$
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/Max.php';
 
+require_once OX_PATH . '/lib/OX.php';
+
 /**
  * Global error handler class, modifies behaviour for PHP errors, not PEAR.
  *
@@ -155,7 +157,7 @@ EOF;
 
             //  email the error to admin if threshold reached
             //  never send email if error occured in test
-            // 
+            //
             $emailAdminThreshold = is_numeric($conf['debug']['emailAdminThreshold']) ? $conf['debug']['emailAdminThreshold'] :
                 @constant($conf['debug']['emailAdminThreshold']);
             if ($conf['debug']['sendErrorEmails'] && !defined('TEST_ENVIRONMENT_RUNNING') && $this->errorType[$errNo][1] <= $emailAdminThreshold) {

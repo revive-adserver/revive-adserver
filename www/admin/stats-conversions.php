@@ -300,12 +300,12 @@ if (!empty($aConversions)) {
 
     echo "
         <tr height='1'>
-            <td><img src='" . MAX::assetPath() . "/images/spacer.gif' width='150' height='1' border='0' alt='' title=''></td>
-            <td><img src='" . MAX::assetPath() . "/images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
-            <td><img src='" . MAX::assetPath() . "/images/spacer.gif' width='60' height='1' border='0' alt='' title=''></td>
-            <td><img src='" . MAX::assetPath() . "/images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
-            <td><img src='" . MAX::assetPath() . "/images/spacer.gif' width='60' height='1' border='0' alt='' title=''></td>
-            <td><img src='" . MAX::assetPath() . "/images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
+            <td><img src='" . OX::assetPath() . "/images/spacer.gif' width='150' height='1' border='0' alt='' title=''></td>
+            <td><img src='" . OX::assetPath() . "/images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
+            <td><img src='" . OX::assetPath() . "/images/spacer.gif' width='60' height='1' border='0' alt='' title=''></td>
+            <td><img src='" . OX::assetPath() . "/images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
+            <td><img src='" . OX::assetPath() . "/images/spacer.gif' width='60' height='1' border='0' alt='' title=''></td>
+            <td><img src='" . OX::assetPath() . "/images/spacer.gif' width='80' height='1' border='0' alt='' title=''></td>
         </tr>
         <tr height='25'>
             <td width='150' style='padding-left: 16px'>&nbsp;&nbsp;$column1</td>
@@ -315,7 +315,7 @@ if (!empty($aConversions)) {
             <td align='$phpAds_TextAlignLeft' style='padding: 0 4px'>$column5</td>
             <td align='$phpAds_TextAlignLeft' style='padding: 0 4px'>$column6</td>
         </tr>
-        <tr height='1'><td colspan='6' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
+        <tr height='1'><td colspan='6' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
 
     // Variable to determine if the row should be grey or white...
     $i=0;
@@ -348,9 +348,9 @@ if (!empty($aConversions)) {
         <tr height='25'$bgcolor>
             <td>";
             if ($conversionExpanded) {
-                echo "&nbsp;<a href='$pageName?collapse=a$conversionId&$addUrl'><img src='" . MAX::assetPath() . "/images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
+                echo "&nbsp;<a href='$pageName?collapse=a$conversionId&$addUrl'><img src='" . OX::assetPath() . "/images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
             } else {
-                echo "&nbsp;<a href='$pageName?expand=a$conversionId&$addUrl'><img src='" . MAX::assetPath() . "/images/$phpAds_TextDirection/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
+                echo "&nbsp;<a href='$pageName?expand=a$conversionId&$addUrl'><img src='" . OX::assetPath() . "/images/$phpAds_TextDirection/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
             }
 
             $aConversionStatuses = array(
@@ -428,8 +428,8 @@ if (!empty($aConversions)) {
 
             echo "
             <tr height='1'>
-                <td$bgcolor><img src='" . MAX::assetPath() . "/images/spacer.gif' width='1' height='1'></td>
-                <td colspan='5' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td>
+                <td$bgcolor><img src='" . OX::assetPath() . "/images/spacer.gif' width='1' height='1'></td>
+                <td colspan='5' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td>
             </tr>";
 
             switch ($conversion['connection_action']) {
@@ -497,7 +497,7 @@ if (!empty($aConversions)) {
             </tr>";
         }
         echo "
-        <tr height='1'><td colspan='6' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
+        <tr height='1'><td colspan='6' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
     }
 
     echo "
@@ -505,7 +505,7 @@ if (!empty($aConversions)) {
             <td colspan='4' align='$phpAds_TextAlignLeft' nowrap>";
     echo "
             </td>
-            <td colspan='2' align='$phpAds_TextAlignRight' nowrap><img src='" . MAX::assetPath() . "/images/triangle-d.gif' align='absmiddle' border='0'>&nbsp;<a href='$pageName?$addUrl&amp;expand=all' accesskey='$keyExpandAll'>$strExpandAll</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src='" . MAX::assetPath() . "/images/$phpAds_TextDirection/triangle-l.gif' align='absmiddle' border='0'>&nbsp;<a href='$pageName?$addUrl&amp;expand=none' accesskey='$keyCollapseAll'>$strCollapseAll</a>&nbsp;&nbsp;</td>
+            <td colspan='2' align='$phpAds_TextAlignRight' nowrap><img src='" . OX::assetPath() . "/images/triangle-d.gif' align='absmiddle' border='0'>&nbsp;<a href='$pageName?$addUrl&amp;expand=all' accesskey='$keyExpandAll'>$strExpandAll</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src='" . OX::assetPath() . "/images/$phpAds_TextDirection/triangle-l.gif' align='absmiddle' border='0'>&nbsp;<a href='$pageName?$addUrl&amp;expand=none' accesskey='$keyCollapseAll'>$strCollapseAll</a>&nbsp;&nbsp;</td>
 
         </tr>";
 
@@ -546,7 +546,7 @@ if (!empty($aConversions)) {
     }
 } else {
     echo "
-        <br /><br /><div class='errormessage'><img class='errormessage' src='" . MAX::assetPath() . "/images/info.gif' width='16' height='16' border='0' align='absmiddle'>$strNoStats</div>";
+        <br /><br /><div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/info.gif' width='16' height='16' border='0' align='absmiddle'>$strNoStats</div>";
 }
 
 // Store preferences

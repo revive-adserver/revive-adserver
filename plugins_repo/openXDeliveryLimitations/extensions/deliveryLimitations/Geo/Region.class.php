@@ -105,7 +105,7 @@ class Plugins_DeliveryLimitations_Geo_Region extends Plugins_DeliveryLimitations
                         }
                         echo "
                         </select>
-                    &nbsp;<input type='image' name='action[none]' src='" . MAX::assetPath() . "/images/{$GLOBALS['phpAds_TextDirection']}/go_blue.gif' border='0' align='absmiddle' alt='{$GLOBALS['strSave']}'></td>
+                    &nbsp;<input type='image' name='action[none]' src='" . OX::assetPath() . "/images/{$GLOBALS['phpAds_TextDirection']}/go_blue.gif' border='0' align='absmiddle' alt='{$GLOBALS['strSave']}'></td>
                 </tr>";
 
         if (!empty($this->data[0])) {

@@ -60,7 +60,7 @@ MAX_displayNavigationPublisher($pageName, $aOtherPublishers, $aEntities);
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-echo "<img src='" . MAX::assetPath() . "/images/icon-channel-add.gif' border='0' align='absmiddle'>&nbsp;";
+echo "<img src='" . OX::assetPath() . "/images/icon-channel-add.gif' border='0' align='absmiddle'>&nbsp;";
 echo "<a href='channel-edit.php?affiliateid=".$affiliateid."' accesskey='".$keyAddNew."'>{$GLOBALS['strAddNewChannel_Key']}</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
 

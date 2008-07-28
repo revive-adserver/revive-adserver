@@ -53,7 +53,7 @@ echo $strStorageExplaination;
 echo "<br /><br />";
 
 phpAds_ShowBreak();
-echo "<img src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-storage-move.php'>$strMoveToDirectory</a>&nbsp;&nbsp;";
+echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-storage-move.php'>$strMoveToDirectory</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
 
 

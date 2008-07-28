@@ -27,6 +27,8 @@ $Id$
 
 require_once MAX_PATH . '/lib/Max.php';
 
+require_once OX_PATH . '/lib/OX.php';
+
 /**
  * A class for managing easy redirecton in the administration interface.
  *

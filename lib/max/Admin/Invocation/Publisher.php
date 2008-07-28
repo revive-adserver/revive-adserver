@@ -107,7 +107,7 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation {
             }
 
             echo "</select>";
-            echo "&nbsp;<input type='image' src='" . MAX::assetPath() . "/images/".$GLOBALS['phpAds_TextDirection']."/go_blue.gif' border='0'>";
+            echo "&nbsp;<input type='image' src='" . OX::assetPath() . "/images/".$GLOBALS['phpAds_TextDirection']."/go_blue.gif' border='0'>";
             echo "</td></tr></table>";
 
 			echo "</form>";
@@ -144,15 +144,15 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation {
 
         // Show parameters for the publisher invocation list
         echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-        echo "<tr><td height='25' colspan='3'><img src='" . MAX::assetPath() . "/images/icon-overview.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strParameters']."</b></td></tr>";
-        echo "<tr height='1'><td width='30'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='30'></td>";
-        echo "<td width='200'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='200'></td>";
-        echo "<td width='100%'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
+        echo "<tr><td height='25' colspan='3'><img src='" . OX::assetPath() . "/images/icon-overview.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strParameters']."</b></td></tr>";
+        echo "<tr height='1'><td width='30'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='30'></td>";
+        echo "<td width='200'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='200'></td>";
+        echo "<td width='100%'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
 
         echo $invocationTag->generateOptions($this);
 
         echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-        //echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
+        //echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
         echo "</table>";
         // Pass in current values
 

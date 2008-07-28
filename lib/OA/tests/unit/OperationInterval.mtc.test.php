@@ -29,7 +29,9 @@ require_once MAX_PATH . '/lib/Max.php';
 
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/OperationInterval.php';
-require_once MAX_PATH . '/lib/pear/Date.php';
+
+require_once OX_PATH . '/lib/OX.php';
+require_once OX_PATH . '/lib/pear/Date.php';
 
 /**
  * A class for testing the OA_OperationInterval class.

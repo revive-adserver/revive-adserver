@@ -127,7 +127,7 @@ $aErrors = $oUpgrader->getErrors();
 if (count($aErrors)>0)
 {
 ?>
-<div class='errormessage'><img class='errormessage' src='<?php echo MAX::assetPath() ?>/images/errormessage.gif' width='16' height='16' border='0' align='absmiddle'>
+<div class='errormessage'><img class='errormessage' src='<?php echo OX::assetPath() ?>/images/errormessage.gif' width='16' height='16' border='0' align='absmiddle'>
     <?php
         foreach ($aErrors AS $k => $err)
         {
@@ -141,7 +141,7 @@ $aMessages = $oUpgrader->getMessages();
 if (count($aMessages)>0)
 {
 ?>
-<div class='errormessage' style='background-color: #eee;'><img class='errormessage' src='<?php echo MAX::assetPath() ?>/images/info.gif' width='16' height='16' border='0' align='absmiddle'>
+<div class='errormessage' style='background-color: #eee;'><img class='errormessage' src='<?php echo OX::assetPath() ?>/images/info.gif' width='16' height='16' border='0' align='absmiddle'>
     <?php
         foreach ($aMessages AS $k => $msg)
         {
@@ -156,7 +156,7 @@ if (count($aMessages)>0)
 /* Display                                               */
 /*-------------------------------------------------------*/
 ?>
-        <script type="text/javascript" src="<?php echo MAX::assetPath() ?>/js/xajax.js"></script>
+        <script type="text/javascript" src="<?php echo OX::assetPath() ?>/js/xajax.js"></script>
         <script type="text/javascript">
         <?php
         include MAX_PATH . '/var/templates_compiled/schema.js';
@@ -191,7 +191,7 @@ if (count($aMessages)>0)
                     </td>
                 </tr>
                 <tr height='1'>
-                    <td colspan='7' bgcolor='#888888'><img src='<?php echo MAX::assetPath() ?>/images/break.gif' height='1' width='100%'></td>
+                    <td colspan='7' bgcolor='#888888'><img src='<?php echo OX::assetPath() ?>/images/break.gif' height='1' width='100%'></td>
                 </tr>
                 <?php
                 $i=0;
@@ -209,7 +209,7 @@ if (count($aMessages)>0)
                             if ($v['backups']) {
                         ?>
                         <td height='25' width='25'>
-                            &nbsp;<a href="#" onclick="return false;" title="<?php echo $strToggleDataBackupDetails ?>"><img id="img_expand_<?php echo $v['upgrade_action_id']; ?>" src="<?php echo MAX::assetPath() ?>/images/<?php echo $phpAds_TextDirection; ?>/triangle-l.gif" alt="<?php echo $GLOBALS['strClickViewBackupDetails'] ?>" onclick="xajax_expandOSURow('<?php echo $v['upgrade_action_id']; ?>');" border="0" /><img id="img_collapse_<?php echo $v['upgrade_action_id']; ?>" src="<?php echo MAX::assetPath() ?>/images/triangle-d.gif" style="display:none" alt="<?php echo $GLOBALS['strClickHideBackupDetails'] ?>" onclick="xajax_collapseOSURow('<?php echo $v['upgrade_action_id']; ?>');" border="0" /></a>
+                            &nbsp;<a href="#" onclick="return false;" title="<?php echo $strToggleDataBackupDetails ?>"><img id="img_expand_<?php echo $v['upgrade_action_id']; ?>" src="<?php echo OX::assetPath() ?>/images/<?php echo $phpAds_TextDirection; ?>/triangle-l.gif" alt="<?php echo $GLOBALS['strClickViewBackupDetails'] ?>" onclick="xajax_expandOSURow('<?php echo $v['upgrade_action_id']; ?>');" border="0" /><img id="img_collapse_<?php echo $v['upgrade_action_id']; ?>" src="<?php echo OX::assetPath() ?>/images/triangle-d.gif" style="display:none" alt="<?php echo $GLOBALS['strClickHideBackupDetails'] ?>" onclick="xajax_collapseOSURow('<?php echo $v['upgrade_action_id']; ?>');" border="0" /></a>
                         </td>
                         <td height='25'>
                             <b>&nbsp;<a href="#" title="<?php echo $strShowBackupDetails ?>" id="text_expand_<?php echo $v['upgrade_action_id']; ?>" onclick="xajax_expandOSURow('<?php echo $v['upgrade_action_id']; ?>');return false;"><?php echo $v['updated']; ?></a><a href="#" title="<?php echo $GLOBALS['strHideBackupDetails'] ?>" id="text_collapse_<?php echo $v['upgrade_action_id']; ?>" style="display:none" onclick="xajax_collapseOSURow('<?php echo $v['upgrade_action_id']; ?>');return false;"><?php echo $v['updated']; ?></a></b>
@@ -234,7 +234,7 @@ if (count($aMessages)>0)
                         <td height='25' align='right'>
                         </td>
                 </tr>
-                <tr height='1'><td colspan='2' bgcolor='#F6F6F6'><img src='<?php echo MAX::assetPath() ?>/images/spacer.gif' width='1' height='1'></td><td colspan='5' bgcolor='#888888'><img src='<?php echo MAX::assetPath() ?>/images/break-l.gif' height='1' width='100%'></td></tr>
+                <tr height='1'><td colspan='2' bgcolor='#F6F6F6'><img src='<?php echo OX::assetPath() ?>/images/spacer.gif' width='1' height='1'></td><td colspan='5' bgcolor='#888888'><img src='<?php echo OX::assetPath() ?>/images/break-l.gif' height='1' width='100%'></td></tr>
                 <tr style="display:table-row;" <?php echo ($i%2==0?"bgcolor='#F6F6F6'":""); ?>>
                     <td colspan='2'>&nbsp;</td>
                     <td colspan='5'>
@@ -250,7 +250,7 @@ if (count($aMessages)>0)
                             <?php
                             if ($v['backupsExist']) {
                             ?>
-                                <img src='<?php echo MAX::assetPath() ?>/images/icon-recycle.gif' border='0' align='absmiddle' alt='<?php echo $strDelete ?>'><input type="submit" name="btn_clean_audit" onClick="return confirm('<?php echo $strBackupDeleteConfirm ?>')" style="cursor: pointer; border: 0; background: 0; color: #003399;font-size: 13px;" value="<?php echo $strDeleteArtifacts ?>">
+                                <img src='<?php echo OX::assetPath() ?>/images/icon-recycle.gif' border='0' align='absmiddle' alt='<?php echo $strDelete ?>'><input type="submit" name="btn_clean_audit" onClick="return confirm('<?php echo $strBackupDeleteConfirm ?>')" style="cursor: pointer; border: 0; background: 0; color: #003399;font-size: 13px;" value="<?php echo $strDeleteArtifacts ?>">
                             <?php
                             }
                             else
@@ -272,7 +272,7 @@ if (count($aMessages)>0)
                             </td>
                             <td width="100" colspan="2">
                             <?php echo $v['backups'];?>
-                            <a href="#" onclick="return false;" title="<?php echo $strToggleDataBackupDetails ?>"><img id="info_expand_<?php echo $v['upgrade_action_id']; ?>" src="<?php echo MAX::assetPath() ?>/images/info.gif" alt="<?php echo $strClickViewBackupDetails ?>" onclick="xajax_expandOSURow('<?php echo $v['upgrade_action_id']; ?>');" border="0" /><img id="info_collapse_<?php echo $v['upgrade_action_id']; ?>" src="<?php echo MAX::assetPath() ?>/images/info.gif" style="display:none" alt="<?php echo $strClickHideBackupDetails ?>" onclick="xajax_collapseOSURow('<?php echo $v['upgrade_action_id']; ?>');" border="0" /></a>
+                            <a href="#" onclick="return false;" title="<?php echo $strToggleDataBackupDetails ?>"><img id="info_expand_<?php echo $v['upgrade_action_id']; ?>" src="<?php echo OX::assetPath() ?>/images/info.gif" alt="<?php echo $strClickViewBackupDetails ?>" onclick="xajax_expandOSURow('<?php echo $v['upgrade_action_id']; ?>');" border="0" /><img id="info_collapse_<?php echo $v['upgrade_action_id']; ?>" src="<?php echo OX::assetPath() ?>/images/info.gif" style="display:none" alt="<?php echo $strClickHideBackupDetails ?>" onclick="xajax_collapseOSURow('<?php echo $v['upgrade_action_id']; ?>');" border="0" /></a>
                             </td>
                         </tr>
                         <?php
@@ -310,7 +310,7 @@ if (count($aMessages)>0)
                     <input type="hidden" name="upgrade_action_id" value="<?php echo $v['upgrade_action_id']; ?>" />
                 </tr>
               </form>
-                <tr height='1'><td colspan='7' bgcolor='#888888'><img src='<?php echo MAX::assetPath() ?>/images/break.gif' height='1' width='100%'></td></tr>
+                <tr height='1'><td colspan='7' bgcolor='#888888'><img src='<?php echo OX::assetPath() ?>/images/break.gif' height='1' width='100%'></td></tr>
                 <?php
                     $i++;
                 }

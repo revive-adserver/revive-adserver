@@ -25,10 +25,13 @@
 $Id$
 */
 
-require_once 'MDB2.php';
+
 require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/DB/Charset.php';
+
+require_once OX_PATH . '/lib/OX.php';
+require_once OX_PATH . '/lib/pear/MDB2.php';
 
 define('OA_DB_MDB2_DEFAULT_OPTIONS', MDB2_PORTABILITY_ALL ^ MDB2_PORTABILITY_EMPTY_TO_NULL);
 

@@ -31,7 +31,9 @@ require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Statistics/AdServer.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
-require_once MAX_PATH . '/lib/pear/Date.php';
+
+require_once OX_PATH . '/lib/OX.php';
+require_once OX_PATH . '/lib/pear/Date.php';
 
 /**
  * A class for performing integration testing the OA_Maintenance_Statistics_AdServer class.

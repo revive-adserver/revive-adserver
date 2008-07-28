@@ -56,7 +56,7 @@ phpAds_PageHeader("5.7");
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-echo "<img src='" . MAX::assetPath() . "/images/icon-channel-add.gif' border='0' align='absmiddle'>&nbsp;";
+echo "<img src='" . OX::assetPath() . "/images/icon-channel-add.gif' border='0' align='absmiddle'>&nbsp;";
 echo "<a href='channel-edit.php?agencyid={$agencyId}' accesskey='".$keyAddNew."'>{$GLOBALS['strAddNewChannel_Key']}</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
 

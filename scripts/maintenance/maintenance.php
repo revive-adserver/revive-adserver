@@ -58,6 +58,8 @@ if (!ini_get('safe_mode')) {
 require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/OA/Maintenance.php';
 
+require_once OX_PATH . '/lib/OX.php';
+
 $oMaint = new OA_Maintenance();
 $oMaint->run();
 

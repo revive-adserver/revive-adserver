@@ -32,6 +32,8 @@ require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
 require_once MAX_PATH . '/lib/OA/Preferences.php';
 
+require_once OX_PATH . '/lib/OX.php';
+
 /**
  * A library class for providing automatic maintenance process methods.
  *

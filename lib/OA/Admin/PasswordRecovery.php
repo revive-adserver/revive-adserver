@@ -154,9 +154,9 @@ class OA_Admin_PasswordRecovery
      */
     function displayMessage($message)
     {
-        phpAds_showBreak();       
-        
-        echo "<br /><span class='install'>{$message}</span><br /><br />";  
+        phpAds_showBreak();
+
+        echo "<br /><span class='install'>{$message}</span><br /><br />";
 
         phpAds_showBreak();
     }
@@ -169,7 +169,7 @@ class OA_Admin_PasswordRecovery
     function displayRecoveryRequestForm($errormessage = '')
     {
         if (!empty($errormessage)) {
-            echo "<div class='errormessage' style='width: 400px;'><img class='errormessage' src='" . MAX::assetPath() . "/images/errormessage.gif' align='absmiddle'>";
+            echo "<div class='errormessage' style='width: 400px;'><img class='errormessage' src='" . OX::assetPath() . "/images/errormessage.gif' align='absmiddle'>";
             echo "<span class='tab-r'>{$errormessage}</span></div>";
         }
 
@@ -177,10 +177,10 @@ class OA_Admin_PasswordRecovery
 
         echo "<div class='install'>".$GLOBALS['strPwdRecEnterEmail']."</div>";
         echo "<table cellpadding='0' cellspacing='0' border='0'>";
-        echo "<tr><td colspan='2'><img src='" . MAX::assetPath() . "/images/break-el.gif' width='400' height='1' vspace='8'></td></tr>";
+        echo "<tr><td colspan='2'><img src='" . OX::assetPath() . "/images/break-el.gif' width='400' height='1' vspace='8'></td></tr>";
         echo "<tr height='24'><td>".$GLOBALS['strEMail'].":&nbsp;</td><td><input type='text' name='email' /></td></tr>";
         echo "<tr height='24'><td>&nbsp;</td><td><input type='submit' value='".$GLOBALS['strProceed']."' /></td></tr>";
-        echo "<tr><td colspan='2'><img src='" . MAX::assetPath() . "/images/break-el.gif' width='400' height='1' vspace='8'></td></tr>";
+        echo "<tr><td colspan='2'><img src='" . OX::assetPath() . "/images/break-el.gif' width='400' height='1' vspace='8'></td></tr>";
         echo "</table>";
 
         echo "</form>\n";
@@ -194,7 +194,7 @@ class OA_Admin_PasswordRecovery
     function displayRecoveryResetForm($id, $errormessage = '')
     {
         if (!empty($errormessage)) {
-            echo "<div class='errormessage' style='width: 400px;'><img class='errormessage' src='" . MAX::assetPath() . "/images/errormessage.gif' align='absmiddle'>";
+            echo "<div class='errormessage' style='width: 400px;'><img class='errormessage' src='" . OX::assetPath() . "/images/errormessage.gif' align='absmiddle'>";
             echo "<span class='tab-r'>{$errormessage}</span></div>";
         }
 
@@ -203,11 +203,11 @@ class OA_Admin_PasswordRecovery
 
         echo "<div class='install'>".$GLOBALS['strPwdRecEnterPassword']."</div>";
         echo "<table cellpadding='0' cellspacing='0' border='0'>";
-        echo "<tr><td colspan='2'><img src='" . MAX::assetPath() . "/images/break-el.gif' width='400' height='1' vspace='8'></td></tr>";
+        echo "<tr><td colspan='2'><img src='" . OX::assetPath() . "/images/break-el.gif' width='400' height='1' vspace='8'></td></tr>";
         echo "<tr height='24'><td>".$GLOBALS['strPassword'].":&nbsp;</td><td><input type='password' name='newpassword' /></td></tr>";
         echo "<tr height='24'><td>".$GLOBALS['strRepeatPassword'].":&nbsp;</td><td><input type='password' name='newpassword2' /></td></tr>";
         echo "<tr height='24'><td>&nbsp;</td><td><input type='submit' value='".$GLOBALS['strProceed']."' /></td></tr>";
-        echo "<tr><td colspan='2'><img src='" . MAX::assetPath() . "/images/break-el.gif' width='400' height='1' vspace='8'></td></tr>";
+        echo "<tr><td colspan='2'><img src='" . OX::assetPath() . "/images/break-el.gif' width='400' height='1' vspace='8'></td></tr>";
         echo "</table>";
 
         echo "</form>\n";

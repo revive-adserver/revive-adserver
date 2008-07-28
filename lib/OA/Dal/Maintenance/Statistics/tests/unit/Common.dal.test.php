@@ -28,7 +28,9 @@ $Id$
 require_once MAX_PATH . '/lib/Max.php';
 
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/Common.php';
-require_once MAX_PATH . '/lib/pear/Date.php';
+
+require_once OX_PATH . '/lib/OX.php';
+require_once OX_PATH . '/lib/pear/Date.php';
 
 /**
  * A class for testing the OA_Dal_Maintenance_Statistics_Common class.

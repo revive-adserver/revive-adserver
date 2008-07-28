@@ -29,7 +29,9 @@ require_once MAX_PATH . '/lib/max/Dal/Inventory/Trackers.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
-require_once MAX_PATH . '/lib/pear/HTML/Template/Flexy.php';
+
+require_once OX_PATH . '/lib/OX.php';
+require_once OX_PATH . '/lib/pear/HTML/Template/Flexy.php';
 
 
 
@@ -61,7 +63,7 @@ class MAX_Admin_Inventory_TrackerAppend
 
         $this->advertiser_id = MAX_getValue('clientid', 0);
         $this->tracker_id    = MAX_getValue('trackerid', 0);
-        $this->assetPath 	 = MAX::assetPath();
+        $this->assetPath 	 = OX::assetPath();
         $this->showReminder  = false;
         $this->codes = array();
     }

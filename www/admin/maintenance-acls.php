@@ -45,7 +45,7 @@ phpAds_MaintenanceSelection("acls");
 
 echo "<br />";
 
-echo "<img src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>" . $GLOBALS['strDeliveryEngineDisagreeNotice'] . "<br /><br />";
+echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>" . $GLOBALS['strDeliveryEngineDisagreeNotice'] . "<br /><br />";
 echo "&nbsp;<a href='maintenance-acl-check.php'>" . $GLOBALS['strCheckACLs'] . "</a>&nbsp;&nbsp;";
 echo "<br /><br />";
 phpAds_ShowBreak();

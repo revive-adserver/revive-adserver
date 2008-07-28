@@ -29,7 +29,9 @@ require_once MAX_PATH . '/lib/Max.php';
 
 require_once MAX_PATH . '/lib/OA/DB/Table/Core.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Statistics/Tracker.php';
-require_once MAX_PATH . '/lib/pear/Date.php';
+
+require_once OX_PATH . '/lib/OX.php';
+require_once OX_PATH . '/lib/pear/Date.php';
 
 // pgsql execution time before refactor: s
 // pgsql execution time after refactor: 3.9714s

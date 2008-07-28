@@ -79,7 +79,7 @@ if (!empty($action))
 }
 
 phpAds_ShowBreak();
-echo "<img src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-menus.php?action=build'>Rebuild Menu Cache</a>&nbsp;&nbsp;";
+echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-menus.php?action=build'>Rebuild Menu Cache</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
 
 

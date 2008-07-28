@@ -104,7 +104,7 @@ foreach ($aManagers as $k => $v) {
 
 
 // using same icons and images for agencies as we do for advertisers...
-echo "\t\t\t\t<img src='" . MAX::assetPath() . "/images/icon-advertiser-new.gif' border='0' align='absmiddle'>&nbsp;\n";
+echo "\t\t\t\t<img src='" . OX::assetPath() . "/images/icon-advertiser-new.gif' border='0' align='absmiddle'>&nbsp;\n";
 echo "\t\t\t\t<a href='agency-edit.php' accesskey='".$keyAddNew."'>".$strAddAgency_Key."</a>&nbsp;&nbsp;\n";
 phpAds_ShowBreak();
 
@@ -122,12 +122,12 @@ if (($listorder == "name") || ($listorder == ""))
     if  (($orderdirection == "") || ($orderdirection == "down"))
     {
         echo " <a href='agency-index.php?orderdirection=up'>";
-        echo "<img src='" . MAX::assetPath() . "/images/caret-ds.gif' border='0' alt='' title=''>";
+        echo "<img src='" . OX::assetPath() . "/images/caret-ds.gif' border='0' alt='' title=''>";
     }
     else
     {
         echo " <a href='agency-index.php?orderdirection=down'>";
-        echo "<img src='" . MAX::assetPath() . "/images/caret-u.gif' border='0' alt='' title=''>";
+        echo "<img src='" . OX::assetPath() . "/images/caret-u.gif' border='0' alt='' title=''>";
     }
     echo "</a>";
 }
@@ -142,12 +142,12 @@ if ($listorder == "id")
     if  (($orderdirection == "") || ($orderdirection == "down"))
     {
         echo " <a href='agency-index.php?orderdirection=up'>";
-        echo "<img src='" . MAX::assetPath() . "/images/caret-ds.gif' border='0' alt='' title=''>";
+        echo "<img src='" . OX::assetPath() . "/images/caret-ds.gif' border='0' alt='' title=''>";
     }
     else
     {
         echo " <a href='agency-index.php?orderdirection=down'>";
-        echo "<img src='" . MAX::assetPath() . "/images/caret-u.gif' border='0' alt='' title=''>";
+        echo "<img src='" . OX::assetPath() . "/images/caret-u.gif' border='0' alt='' title=''>";
     }
     echo "</a>";
 }
@@ -161,7 +161,7 @@ echo "\t\t\t\t\t<td height='25'>&nbsp;</td>\n";
 echo "\t\t\t\t</tr>\n";
 
 echo "\t\t\t\t<tr height='1'>\n";
-echo "\t\t\t\t\t<td colspan='6' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>\n";
+echo "\t\t\t\t\t<td colspan='6' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td>\n";
 echo "\t\t\t\t</tr>\n";
 
 
@@ -172,7 +172,7 @@ if (!isset($aManagers) || !is_array($aManagers) || count($aManagers) == 0)
     echo "\t\t\t\t</tr>\n";
 
     echo "\t\t\t\t<tr>\n";
-    echo "\t\t\t\t\t<td colspan='6' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>\n";
+    echo "\t\t\t\t\t<td colspan='6' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td>\n";
     echo "\t\t\t\t<tr>\n";
 }
 else
@@ -186,9 +186,9 @@ else
 
         // Icon & name
         echo "\t\t\t\t\t<td height='25'>\n";
-        echo "\t\t\t\t\t\t<img src='" . MAX::assetPath() . "/images/spacer.gif' height='16' width='16' align='absmiddle'>\n";
+        echo "\t\t\t\t\t\t<img src='" . OX::assetPath() . "/images/spacer.gif' height='16' width='16' align='absmiddle'>\n";
 
-        echo "\t\t\t\t\t\t<img src='" . MAX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>\n";
+        echo "\t\t\t\t\t\t<img src='" . OX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>\n";
         echo "\t\t\t\t\t\t<a href='agency-edit.php?agencyid=".$agency['agencyid']."'>".$agency['name']."</a>\n";
         echo "\t\t\t\t\t</td>\n";
 
@@ -211,13 +211,13 @@ else
 
         // Delete
         echo "\t\t\t\t\t<td height='25'>";
-        echo "<img src='" . MAX::assetPath() . "/images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;<a href='agency-delete.php?agencyid=".$agency['agencyid']."&returnurl=agency-index.php'".phpAds_DelConfirm($strConfirmDeleteAgency).">$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+        echo "<img src='" . OX::assetPath() . "/images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;<a href='agency-delete.php?agencyid=".$agency['agencyid']."&returnurl=agency-index.php'".phpAds_DelConfirm($strConfirmDeleteAgency).">$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
         echo "</td>\n";
 
         echo "\t\t\t\t</tr>\n";
 
         echo "\t\t\t\t<tr height='1'>\n";
-        echo "\t\t\t\t\t<td colspan='6' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>\n";
+        echo "\t\t\t\t\t<td colspan='6' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td>\n";
         echo "\t\t\t\t</tr>\n";
         $i++;
     }
@@ -228,13 +228,13 @@ echo "\t\t\t\t\t<td height='25' colspan='4' align='".$phpAds_TextAlignLeft."' no
 
 if ($hideinactive == true)
 {
-    echo "&nbsp;&nbsp;<img src='" . MAX::assetPath() . "/images/icon-activate.gif' align='absmiddle' border='0'>";
+    echo "&nbsp;&nbsp;<img src='" . OX::assetPath() . "/images/icon-activate.gif' align='absmiddle' border='0'>";
     echo "&nbsp;<a href='agency-index.php?hideinactive=0'>".$strShowAll."</a>";
     echo "&nbsp;&nbsp;|&nbsp;&nbsp;" . $strInactiveAgenciesHidden;
 }
 else
 {
-    echo "&nbsp;&nbsp;<img src='" . MAX::assetPath() . "/images/icon-hideinactivate.gif' align='absmiddle' border='0'>";
+    echo "&nbsp;&nbsp;<img src='" . OX::assetPath() . "/images/icon-hideinactivate.gif' align='absmiddle' border='0'>";
     echo "&nbsp;<a href='agency-index.php?hideinactive=1'>".$strHideInactiveAgencies."</a>";
 }
 
@@ -255,7 +255,7 @@ echo "\t\t\t\t<tr>\n";
 echo "\t\t\t\t\t<td height='25' colspan='3'>&nbsp;&nbsp;<b>".$strOverall."</b></td>\n";
 echo "\t\t\t\t</tr>\n";
 echo "\t\t\t\t<tr height='1'>\n";
-echo "\t\t\t\t\t<td colspan='4' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>\n";
+echo "\t\t\t\t\t<td colspan='4' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td>\n";
 echo "\t\t\t\t</tr>\n";
 
 echo "\t\t\t\t<tr>\n";
@@ -264,7 +264,7 @@ echo "\t\t\t\t\t<td height='25' colspan='2'></td>\n";
 echo "\t\t\t\t</tr>\n";
 
 echo "\t\t\t\t<tr height='1'>\n";
-echo "\t\t\t\t\t<td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>\n";
+echo "\t\t\t\t\t<td colspan='3' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td>\n";
 echo "\t\t\t\t</tr>\n";
 
 echo "\t\t\t\t</table>\n";

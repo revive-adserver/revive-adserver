@@ -30,6 +30,8 @@ require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Statistics/Common/Task.php';
 
+require_once OX_PATH . '/lib/OX.php';
+
 /**
  * A abstract class, definine a common method for deleting old data for
  * maintenance statistics module classes.

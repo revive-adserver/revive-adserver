@@ -76,7 +76,7 @@ class OA_Admin_Template extends Smarty
 
         $this->register_function('oa_icon', array('OA_Admin_Template',  '_function_oa_icon'));
         $this->register_function('oa_title_sort', array('OA_Admin_Template',  '_function_oa_title_sort'));
-        
+
         $this->register_function('boldSearchPhrase', array('OA_Admin_Template', '_function_boldSearchPhrase'));
 
         $this->register_function('oa_is_admin', array('OA_Admin_Template',  '_function_oa_is_admin'));
@@ -103,7 +103,7 @@ class OA_Admin_Template extends Smarty
         $this->assign('phpAds_TextDirection',  $GLOBALS['phpAds_TextDirection']);
         $this->assign('phpAds_TextAlignLeft',  $GLOBALS['phpAds_TextAlignLeft']);
         $this->assign('phpAds_TextAlignRight', $GLOBALS['phpAds_TextAlignRight']);
-        $this->assign('assetPath', MAX::assetPath());
+        $this->assign('assetPath', OX::assetPath());
         $this->assign("adminWebPath", MAX::constructURL(MAX_URL_ADMIN, ''));
     }
 
@@ -172,7 +172,7 @@ class OA_Admin_Template extends Smarty
                 $aValues = array();
             }
             return $oTrans->translate($aParams['str'], $aValues);
-        } else 
+        } else
         if (!empty($aParams['key'])) {
             return $oTrans->translate($aParams['key']);
         }
@@ -186,14 +186,14 @@ class OA_Admin_Template extends Smarty
         $smarty->trigger_error("t: missing 'str' or 'key' parameters: ".$aParams['str']);
     }
 
-    
+
     function _function_showCampaignType($aParams, &$smarty)
     {
         $priority = $aParams['priority'];
         return OX_Util_Utils::getCampaignTypeName($priority);
     }
-    
-    
+
+
     function _function_showStatusText($aParams, &$smarty)
     {
         global $strCampaignStatusRunning, $strCampaignStatusPaused, $strCampaignStatusAwaiting,
@@ -324,7 +324,7 @@ class OA_Admin_Template extends Smarty
                     $caret = $orderdirection == 'down' ? 'ds'  : 'u';
 
                     $buffer .= ' <a href="'.htmlspecialchars($url.'orderdirection='.$order).'">';
-                    $buffer .= '<img src="' . MAX::assetPath() . '/images/caret-'.$caret.'.gif" border="0" alt="" title="">';
+                    $buffer .= '<img src="' . OX::assetPath() . '/images/caret-'.$caret.'.gif" border="0" alt="" title="">';
                     $buffer .= '</a>';
                 }
 
@@ -336,15 +336,15 @@ class OA_Admin_Template extends Smarty
             $smarty->trigger_error("t: missing 'str'parameter");
         }
     }
-    
+
     /**
      * Smarty function to bold searched phrase in tekst
-     * use: {boldSearchPhrase text="some text" search="search phrase"}      
+     * use: {boldSearchPhrase text="some text" search="search phrase"}
      *
-     * @param array $aParams - $aParams['text'] - text to modify, $aParams['search'] - search phrase to bold  
+     * @param array $aParams - $aParams['text'] - text to modify, $aParams['search'] - search phrase to bold
      * @param object &$smarty
-     * @return string           
-     */              
+     * @return string
+     */
     function _function_boldSearchPhrase($aParams, &$smarty)
     {
         if (!empty($aParams['text'])) {
@@ -354,8 +354,8 @@ class OA_Admin_Template extends Smarty
                 $strPos = stripos($text,$searchPhrase);
                 if ($strPos !== false ) {
                     $strLen = strlen($searchPhrase);
-                    return  substr($text, 0, $strPos) . 
-                            "<b class='sr'>" . substr($text, $strPos, $strLen) . "</b>" . 
+                    return  substr($text, 0, $strPos) .
+                            "<b class='sr'>" . substr($text, $strPos, $strLen) . "</b>" .
                             substr($text, $strPos+$strLen);
                     }
             }
@@ -397,7 +397,7 @@ class OA_Admin_Template extends Smarty
    function _block_form_element($aParams, $content, &$smarty, &$repeat)
     {
         static $break = false;
-        
+
         if ($repeat && $aParams['elem']['type'] == 'header') {
             $break = false; //do not display breaks for first element in section
         }
@@ -409,66 +409,66 @@ class OA_Admin_Template extends Smarty
             if (!isset($aParams['break'])) {
                 $aParams['break'] = $break;
             }
-            
+
             //if macro invoked with parent parameter do not add break
             if(isset($aParams['parent'])) {
                 $aParams['break'] = false;
             }
-            
+
             //put some context for form elements (set parent)
             if (is_array($smarty->_tag_stack) && count($smarty->_tag_stack) > 0) {
                 if (isset($smarty->_tag_stack[0][1]['elem']['type'])) {
                     $aParams['parent_tag'] = $smarty->_tag_stack[0][1]['elem']['type'];
                 }
             }
-            
+
             //store old _e if recursion happens
-            $old_e = $smarty->get_template_vars('_e'); 
+            $old_e = $smarty->get_template_vars('_e');
             $smarty->assign('_e', $aParams);
             $result = $smarty->fetch(MAX_PATH . '/lib/templates/admin/form/elements.html');
             $smarty->clear_assign('_e');
-            
+
             //restore old _e (if any)
             if (isset($old_e)) {
                 $smarty->assign('_e', $old_e);
             }
-            
+
             //decorate result with decorators content
             if (!empty($aParams['decorators']['list'])) {
                 foreach ($aParams['decorators']['list'] as $decorator) {
-                    $result = $decorator->render($result); 
-                }            
+                    $result = $decorator->render($result);
+                }
             }
 
             $break = ($aParams['type'] != 'header');
-            
+
             return $result;
         }
     }
 
-    
+
     function _function_form_input_attributes($aParams, $smarty)
     {
         $elem = $aParams['elem'];
         $parent = $aParams['parent'];
-        $attributes = &$elem['attributes']; 
-        
+        $attributes = &$elem['attributes'];
+
         //default id to name if not set
         if (empty($attributes['id'])) {
             $attributes['id'] = $attributes['name'];
         }
-        
+
         //if frozen disable //TODO append 'frozen' class here or to form??
         if ($elem['frozen'] == true) {
             $attributes['disabled'] = 'disabled';
             $attributes['class'] .= ' frozen';
         }
-    
+
         //set default type to text if not given
         if (empty($elem['type'])) {
             $elem['type'] = 'text';
         }
-        
+
         //default class to 'large' for different inputs (apart from submits, buttons, selects, checkboxes)
         if ($elem['type'] == 'text' || $elem['type'] == 'password') {
             if (empty($attributes['class'])) {
@@ -480,7 +480,7 @@ class OA_Admin_Template extends Smarty
                  }
             }
         }
-        
+
         if ($elem['type'] == 'select') {
             if (empty($attributes['class'])) {
                  if (!empty($parent)) {  //if parent is set it means it is in group
@@ -491,26 +491,26 @@ class OA_Admin_Template extends Smarty
                  }
             }
         }
-        
+
         //custom textarea styles
         if ($elem['type'] == 'textarea') {
             if (empty($attributes['class'])) {
                 $attributes['class'] = 'large';
             }
-            
+
             $attributes['class'].=" small-h"; //set height
             $attributes['wrap']="off";
             $attributes['dir']="ltr";
         }
-        
+
         $attrString = "";
         foreach ($attributes as $attribute => $value) {
-            $attrString .= "$attribute=\"".smarty_modifier_escape($value)."\" ";    
+            $attrString .= "$attribute=\"".smarty_modifier_escape($value)."\" ";
         }
-        
-        return $attrString;        
+
+        return $attrString;
     }
-    
+
 
     function _function_oa_is_admin($aParams, $smarty) {
         return OA_Permission::isAccount(OA_ACCOUNT_ADMIN);
@@ -534,7 +534,7 @@ class OA_Admin_Template extends Smarty
     {
         return phpAds_DelConfirm($this->_function_t($aParams, $smarty));
     }
-    
+
     function _function_MAX_zoneDelConfirm($aParams, &$smarty)
     {
         return MAX_zoneDelConfirm($aParams['zoneid']);

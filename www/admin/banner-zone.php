@@ -138,7 +138,7 @@ OA_Permission::enforceAccessToObject('banners',   $bannerid);
     if (!empty($errors)) {
         // Message
         echo "<br>";
-        echo "<div class='errormessage'><img class='errormessage' src='" . MAX::assetPath() . "/images/errormessage.gif' align='absmiddle'>";
+        echo "<div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/errormessage.gif' align='absmiddle'>";
         echo "<span class='tab-r'>{$GLOBALS['strUnableToLinkBanner']}</span><br><br>";
         foreach ($errors as $aError) {
             echo "{$GLOBALS['strErrorLinkingBanner']} <br />" . $aError->message . "<br>";
@@ -181,7 +181,7 @@ OA_Permission::enforceAccessToObject('banners',   $bannerid);
                 $checked = $allchecked ? ' checked' : '';
                 if ($i > 0) echo "
 <tr height='1'>
-    <td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td>
+    <td colspan='3' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td>
 </tr>";
                 echo "
 <tr height='25'$bgcolor>
@@ -190,7 +190,7 @@ OA_Permission::enforceAccessToObject('banners',   $bannerid);
             <tr>
                 <td>&nbsp;</td>
                 <td valign='top'><input id='affiliate$publisherId' name='affiliate[$publisherId]' type='checkbox' value='t'$checked onClick='toggleZones($publisherId);' tabindex='$tabindex'>&nbsp;&nbsp;</td>
-                <td valign='top'><img src='" . MAX::assetPath() . "/images/icon-affiliate.gif' align='absmiddle'>&nbsp;</td>
+                <td valign='top'><img src='" . OX::assetPath() . "/images/icon-affiliate.gif' align='absmiddle'>&nbsp;</td>
                 <td><a href='affiliate-edit.php?affiliateid=$publisherId'>$publisherName</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
             </tr>
         </table>
@@ -231,14 +231,14 @@ OA_Permission::enforceAccessToObject('banners',   $bannerid);
             }
         }
         echo "
-<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
+<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
     }
     if (!$zoneToSelect) {
         echo "
 <tr height='25' bgcolor='#F6F6F6'>
     <td colspan='4'>&nbsp;&nbsp;{$GLOBALS['strNoZonesToLinkToCampaign']}</td>
 </tr>
-<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
+<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
     }
 
     echo "

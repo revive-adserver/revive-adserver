@@ -165,36 +165,8 @@ EOF;
         // Return the URL
         return $GLOBALS['_MAX']['HTTP'] . $path . $file;
     }
-    
-    /**
-     * A method to construct URLs for static assets, such as images, CSS and JavaScripts
-     * based on OpenX installation and configuration details.
-     *
-     * @param string $asset a relative path to the asset, optional
-     * @return the URL to the asset. If asset was not provided, 
-     * 			the path does not contain a trailing slash.
-     */
-    function assetPath($asset = null)
-    {
-        global $installing;
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $assetsVersion = $conf['webpath']['adminAssetsVersion'];
-        $prefix = $installing ? '' : MAX::constructURL(MAX_URL_ADMIN, '');
-    	$pathWithSuffix = $prefix."assets";
-        if (strlen($assetsVersion)) 
-        {
-        	$pathWithSuffix .= "/" . $assetsVersion;
-        }
-    	
-    	if ($asset != null)
-    	{
-    		return $pathWithSuffix . "/" . $asset;
-    	}
-    	else
-    	{
-	    	return $pathWithSuffix;
-    	}
-    }
+
+
 }
 
 /**

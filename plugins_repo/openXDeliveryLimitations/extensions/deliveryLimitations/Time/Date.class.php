@@ -114,7 +114,7 @@ class Plugins_DeliveryLimitations_Time_Date extends Plugins_DeliveryLimitations
 
         echo "
         <input class='date' name='acl[{$this->executionorder}][data][date]' id='acl[{$this->executionorder}][data][day]' type='text' value='$dateStr' tabindex='".$tabindex++."' />
-        <input type='image' src='" . MAX::assetPath() . "/images/icon-calendar.gif' id='{$this->executionorder}_button' align='absmiddle' border='0' tabindex='".$tabindex++."' />
+        <input type='image' src='" . OX::assetPath() . "/images/icon-calendar.gif' id='{$this->executionorder}_button' align='absmiddle' border='0' tabindex='".$tabindex++."' />
         <script type='text/javascript'>
         <!--
         Calendar.setup({

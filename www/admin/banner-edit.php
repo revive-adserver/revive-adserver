@@ -554,7 +554,7 @@ function addUploadGroup($form, $row, $vars)
 {
         $uploadG = array();
         if (isset($vars['fileName']) && $vars['fileName'] != '') {
-            $uploadG['radio1'] = $form->createElement('radio', $vars['radioName'], null, (empty($vars['imageName']) ? '' : "<img src='".MAX::assetPath()."/images/".$vars['imageName']."' align='absmiddle'> ").$vars['fileName']."<i dir=".$GLOBALS['phpAds_TextDirection'].">(".$vars['fileSize'].")</i>", 'f');
+            $uploadG['radio1'] = $form->createElement('radio', $vars['radioName'], null, (empty($vars['imageName']) ? '' : "<img src='".OX::assetPath()."/images/".$vars['imageName']."' align='absmiddle'> ").$vars['fileName']."<i dir=".$GLOBALS['phpAds_TextDirection'].">(".$vars['fileSize'].")</i>", 'f');
             $uploadG['radio2'] = $form->createElement('radio', $vars['radioName'], null, null, 't');
             $uploadG['upload'] = $form->createElement('file', $vars['uploadName'], null, array("onchange" => "selectFile(this, ".($vars['handleSWF'] ? 'true' : 'false').")", "style" => "width: 250px;"));
             if ($vars['handleSWF']) {

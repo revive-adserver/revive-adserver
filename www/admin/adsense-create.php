@@ -49,7 +49,7 @@ phpAds_PageHeader("4.1.3.4.7.2");
 // TODO: The path here should probably start with the advertiser's data
 // Not sure if we need to include the campaign and banner in the path though.
 // We'll need to clarify this with the Product team.
-echo "<img src='" . MAX::assetPath() . "/images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>Create AdSense Account</b><br /><br /><br />";
+echo "<img src='" . OX::assetPath() . "/images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>Create AdSense Account</b><br /><br /><br />";
 phpAds_ShowSections(array("4.1.3.4.7.2"));
 
 

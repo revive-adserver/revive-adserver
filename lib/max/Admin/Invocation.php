@@ -324,7 +324,7 @@ class MAX_Admin_Invocation {
                 $buffer .= "<option value='".$pluginKey."'".($codetype == $pluginKey ? ' selected' : '').">".$invocationTagName."</option>";
             }
             $buffer .= "</select>";
-            $buffer .= "&nbsp;<input type='image' src='" . MAX::assetPath() . "/images/".$phpAds_TextDirection."/go_blue.gif' border='0'></td>";
+            $buffer .= "&nbsp;<input type='image' src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/go_blue.gif' border='0'></td>";
         } else {
             $invocationTags =& MAX_Plugin::getPlugins('invocationTags');
             foreach($invocationTags as $invocationCode => $invocationTag) {
@@ -365,24 +365,24 @@ class MAX_Admin_Invocation {
                     }
                 } elseif ($codetype == 'local' && !$server_same) {
                     $buffer .= "
-                        <div class='errormessage'><img class='errormessage' src='" . MAX::assetPath() . "/images/warning.gif' align='absmiddle'>
+                        <div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>
                             $strWarningLocalInvocation
                         </div>";
                 }
 
                 // Supress the textarea if required by this plugin
                 if (empty($invocationTag->suppressTextarea)) {
-                    $buffer .= "<img src='" . MAX::assetPath() . "/images/icon-generatecode.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strBannercode']."</b></td>";
+                    $buffer .= "<img src='" . OX::assetPath() . "/images/icon-generatecode.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strBannercode']."</b></td>";
 
                     // Show clipboard button only on IE
                     if (strpos ($_SERVER['HTTP_USER_AGENT'], 'MSIE') > 0 &&
                         strpos ($_SERVER['HTTP_USER_AGENT'], 'Opera') < 1) {
-                        $buffer .= "<td height='25' align='right'><img src='" . MAX::assetPath() . "/images/icon-clipboard.gif' align='absmiddle'>&nbsp;";
+                        $buffer .= "<td height='25' align='right'><img src='" . OX::assetPath() . "/images/icon-clipboard.gif' align='absmiddle'>&nbsp;";
                         $buffer .= "<a href='javascript:max_CopyClipboard(\"bannercode\");'>".$GLOBALS['strCopyToClipboard']."</a></td></tr>";
                     } else {
                         $buffer .= "<td>&nbsp;</td>";
                     }
-                    $buffer .= "<tr height='1'><td colspan='2' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
+                    $buffer .= "<tr height='1'><td colspan='2' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
                     $buffer .= "<tr><td colspan='2'>";
 
                     $buffer .= "<textarea id='bannercode' name='bannercode' class='code-gray' rows='15' cols='80' style='width:95%; border: 1px solid black' readonly>";
@@ -403,10 +403,10 @@ class MAX_Admin_Invocation {
                 // Header
                 // Parameters Section
                 $buffer .= "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-                $buffer .= "<tr><td height='25' colspan='3'><img src='" . MAX::assetPath() . "/images/icon-overview.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strParameters']."</b></td></tr>";
-                $buffer .= "<tr height='1'><td width='30'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='30'></td>";
-                $buffer .= "<td width='200'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='200'></td>";
-                $buffer .= "<td width='100%'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
+                $buffer .= "<tr><td height='25' colspan='3'><img src='" . OX::assetPath() . "/images/icon-overview.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strParameters']."</b></td></tr>";
+                $buffer .= "<tr height='1'><td width='30'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='30'></td>";
+                $buffer .= "<td width='200'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='200'></td>";
+                $buffer .= "<td width='100%'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
             }
 
             $buffer .= $invocationTag->generateOptions($this);
@@ -415,7 +415,7 @@ class MAX_Admin_Invocation {
             if (!(is_array($extra) && isset($extra['zoneadvanced']) && $extra['zoneadvanced'])) {
                 // Footer
                 $buffer .= "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-                $buffer .= "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . MAX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
+                $buffer .= "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
                 $buffer .= "</table>";
                 $buffer .= "<br /><br />";
                 $buffer .= "<input type='hidden' value='".($generated ? 1 : 0)."' name='generate'>";
