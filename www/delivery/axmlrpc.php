@@ -2688,26 +2688,6 @@ $path = preg_replace('#/#', ':' . $conf['openads']['sslPort'] . '/', $path);
 // Return the URL
 return $GLOBALS['_MAX']['HTTP'] . $path . $file;
 }
-function assetPath($asset = null)
-{
-global $installing;
-$conf = $GLOBALS['_MAX']['CONF'];
-$assetsVersion = $conf['webpath']['adminAssetsVersion'];
-$prefix = $installing ? '' : MAX::constructURL(MAX_URL_ADMIN, '');
-$pathWithSuffix = $prefix."assets";
-if (strlen($assetsVersion))
-{
-$pathWithSuffix .= "/" . $assetsVersion;
-}
-if ($asset != null)
-{
-return $pathWithSuffix . "/" . $asset;
-}
-else
-{
-return $pathWithSuffix;
-}
-}
 }
 function pearErrorHandler($oError)
 {
@@ -4158,6 +4138,7 @@ return @file_get_contents($conf['file']['flash']);
 return file_get_contents(MAX_PATH . '/www/delivery/' . $conf['file']['flash']);
 }
 }
+require_once OX_PATH . '/lib/OX.php';
 require_once 'XML/RPC/Server.php';
 // Set a global variable to let the other functions know
 // they are serving an XML-RPC request. Needed for capping
