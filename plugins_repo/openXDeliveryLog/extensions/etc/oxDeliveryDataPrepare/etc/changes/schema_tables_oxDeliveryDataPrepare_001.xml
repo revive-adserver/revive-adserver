@@ -69,7 +69,7 @@
 
  <table>
 
-  <name>data_bucket_impression_backup</name>
+  <name>data_bkt_m_backup</name>
 
   <declaration>
 
@@ -114,7 +114,7 @@
    </field>
 
    <index>
-    <name>data_bucket_impression_backup_pkey</name>
+    <name>data_bkt_m_backup_pkey</name>
     <primary>true</primary>
     <field>
      <name>interval_start</name>

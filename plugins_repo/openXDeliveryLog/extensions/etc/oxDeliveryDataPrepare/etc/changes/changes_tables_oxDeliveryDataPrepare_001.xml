@@ -14,8 +14,8 @@
         <was>data_bkt_c</was>
       </table>
         <table>
-        <name>data_bucket_impression_backup</name>
-        <was>data_bucket_impression_backup</was>
+        <name>data_bkt_m_backup</name>
+        <was>data_bkt_m_backup</was>
       </table>
         <table>
         <name>data_bkt_m</name>

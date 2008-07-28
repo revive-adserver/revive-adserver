@@ -11,8 +11,8 @@ class Migration_001 extends Migration
 
 		$this->aTaskList_constructive[] = 'beforeAddTable__data_bkt_c';
 		$this->aTaskList_constructive[] = 'afterAddTable__data_bkt_c';
-		$this->aTaskList_constructive[] = 'beforeAddTable__data_bucket_impression_backup';
-		$this->aTaskList_constructive[] = 'afterAddTable__data_bucket_impression_backup';
+		$this->aTaskList_constructive[] = 'beforeAddTable__data_bkt_m_backup';
+		$this->aTaskList_constructive[] = 'afterAddTable__data_bkt_m_backup';
 		$this->aTaskList_constructive[] = 'beforeAddTable__data_bkt_m';
 		$this->aTaskList_constructive[] = 'afterAddTable__data_bkt_m';
 		$this->aTaskList_constructive[] = 'beforeAddTable__data_bk_r';
@@ -33,14 +33,14 @@ class Migration_001 extends Migration
 		return $this->afterAddTable('data_bkt_c');
 	}
 
-	function beforeAddTable__data_bucket_impression_backup()
+	function beforeAddTable__data_bkt_m_backup()
 	{
-		return $this->beforeAddTable('data_bucket_impression_backup');
+		return $this->beforeAddTable('data_bkt_m_backup');
 	}
 
-	function afterAddTable__data_bucket_impression_backup()
+	function afterAddTable__data_bkt_m_backup()
 	{
-		return $this->afterAddTable('data_bucket_impression_backup');
+		return $this->afterAddTable('data_bkt_m_backup');
 	}
 
 	function beforeAddTable__data_bkt_m()

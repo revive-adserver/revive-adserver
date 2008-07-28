@@ -28,7 +28,7 @@
             <dboschema>db_schema</dboschema>
             <dbolinks>db_schema.links</dbolinks>
             <dataobject>Data_bkt_c.php</dataobject>
-            <dataobject>Data_bucket_impression_backup.php</dataobject>
+            <dataobject>Data_bkt_m_backup.php</dataobject>
             <dataobject>Data_bkt_m.php</dataobject>
             <dataobject>Data_bkt_r.php</dataobject>
         </schema>
