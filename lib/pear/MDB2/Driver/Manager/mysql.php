@@ -949,12 +949,12 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
         }
         return $result;
     }
-    
+
     /**
      * New OPENX method to check database name according to specifications:
      *  Mysql specification: http://dev.mysql.com/doc/refman/5.0/en/identifiers.html
      *
-     * @param string $name database name to check  
+     * @param string $name database name to check
      * @return true in name is correct and PEAR error on failure
      */
     function validateDatabaseName($name)
@@ -975,7 +975,7 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
                'Database names cannot contain ASCII 0 (0x00) or a byte with a value of 255');
         }
         // Test for special characters ASCII 0 and 255
-        if (preg_match( '/(\\\\|\/|\.|\-|\"|\\\'| |\\(|\\)|\\:|\\;)/', $name)) {
+        if (preg_match( '/(\\\\|\/|\.|\"|\\\'| |\\(|\\)|\\:|\\;)/', $name)) {
             return PEAR::raiseError(
                 'Database names cannot contain "/", "\\", ".", or characters that are not allowed in filenames');
         }

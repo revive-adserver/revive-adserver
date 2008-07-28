@@ -324,8 +324,11 @@ class OA_DB
         if (PEAR::isError($result)) {
             return $result;
         }
+        //$name = $oDbh->quoteIdentifier($name, true);
         OA::disableErrorHandling();
+        $oDbh->setOption('quote_identifier',  true);
         $result = $oDbh->manager->createDatabase($name);
+        $oDbh->setOption('quote_identifier',  false);
         OA::enableErrorHandling();
         if (PEAR::isError($result)) {
             return $result;
@@ -601,6 +604,10 @@ class OA_DB
         $quote = false;
         if ($oDbh->dsn['phptype'] == 'pgsql') {
             $quote = '"';
+        }
+        else if ($oDbh->dsn['phptype'] == 'mysql')
+        {
+            $quote = '`';
         }
         $oDbh->setOption('quote_identifier', $quote);
     }

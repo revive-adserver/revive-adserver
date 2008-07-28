@@ -2011,14 +2011,14 @@ class OA_Upgrade
             $this->oLogger->logError('Failed to DROP TABLE - check your database permissions');
             return false;
         }
-        $tblTmp = $prefix.'tmp_tmp_dbpriviligecheck';
-        $result = $this->oDbh->exec("CREATE TEMPORARY TABLE {$tblTmp} (tmp int)");
+        //$tblTmp = $prefix.'tmp_tmp_dbpriviligecheck';
+        $result = $this->oDbh->exec("CREATE TEMPORARY TABLE {$tblTmpQuoted} (tmp int)");
         if (PEAR::isError($result))
         {
             $this->oLogger->logError('Failed to CREATE TEMPORARY TABLE - check your database permissions');
             return false;
         }
-        $result = $this->oDbh->exec("DROP TABLE {$tblTmp}");
+        $result = $this->oDbh->exec("DROP TABLE {$tblTmpQuoted}");
         if (PEAR::isError($result))
         {
             $this->oLogger->logError('Failed to DROP TEMPORARY TABLE - check your database permissions');
