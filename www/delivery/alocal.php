@@ -809,8 +809,6 @@ $maxHttps
 function MAX_Delivery_log_logTrackerImpression($viewerId, $trackerId)
 {
 if (_viewersHostOkayToLog()) {
-$rawTrackerImpressionId = OX_Delivery_Common_hook('logClick', array($viewerId, $trackerId));
-// @todo - remove following code once buckets will be finished
 $aConf = $GLOBALS['_MAX']['CONF'];
 if (empty($aConf['rawDatabase']['host'])) {
 if (!empty($aConf['lb']['enabled'])) {
@@ -844,7 +842,8 @@ return false;
 function MAX_Delivery_log_logTrackerConnection($viewerId, $trackerId, $aTrackerImpression, $aConnection)
 {
 if (_viewersHostOkayToLog()) {
-$aConf = $GLOBALS['_MAX']['CONF'];
+OX_Delivery_Common_hook('logConversion', array($viewerId, $trackerId, $aTrackerImpression, $aConnection));
+// @todo - remove following code once buckets will be finished
 MAX_Dal_Delivery_Include();
 if (OA_Dal_Delivery_logTrackerConnection(
 $viewerId,
