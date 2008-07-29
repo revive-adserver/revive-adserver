@@ -2670,7 +2670,7 @@ $conf = $GLOBALS['_MAX']['CONF'];
 if ($type == MAX_URL_ADMIN) {
 $path = $conf['webpath']['admin'];
 } elseif ($type == MAX_URL_IMAGE) {
-$path = $conf['webpath']['admin'] . "/" . MAX::assetPath("/images");
+$path = $conf['webpath']['admin'] . "/" . OX::assetPath("/images");
 } else {
 return null;
 }
