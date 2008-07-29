@@ -413,16 +413,13 @@ MAX_cookieUnset("_{$cookieName}[{$adId}]");
 }
 function _isBlockCookie($cookieName)
 {
-if ($cookieName == $GLOBALS['_MAX']['CONF']['var']['blockAd']) {
-return true;
-}
-if ($cookieName == $GLOBALS['_MAX']['CONF']['var']['blockCampaign']) {
-return true;
-}
-if ($cookieName == $GLOBALS['_MAX']['CONF']['var']['blockZone']) {
-return true;
-}
-return false;
+return in_array($cookieName, array(
+$GLOBALS['_MAX']['CONF']['var']['blockAd'],
+$GLOBALS['_MAX']['CONF']['var']['blockCampaign'],
+$GLOBALS['_MAX']['CONF']['var']['blockZone'],
+$GLOBALS['_MAX']['CONF']['var']['lastView'],
+$GLOBALS['_MAX']['CONF']['var']['lastClick'],
+));
 }
 function MAX_cookieGetUniqueViewerId($create = true, $oxidOnly = false)
 {
@@ -558,14 +555,14 @@ if (empty($_COOKIE["_{$cookieName}"])) {
 continue;
 }
 switch ($cookieName) {
-case $conf['var']['blockAd']            : $expire = _getTimeThirtyDaysFromNow(); break;
-case $conf['var']['capAd']              : $expire = _getTimeYearFromNow(); break;
-case $conf['var']['sessionCapAd']       : $expire = 0; break;
-case $conf['var']['blockCampaign']      : $expire = _getTimeThirtyDaysFromNow(); break;
-case $conf['var']['capCampaign']        : $expire = _getTimeYearFromNow(); break;
-case $conf['var']['sessionCapCampaign'] : $expire = 0; break;
+case $conf['var']['blockAd']            :
+case $conf['var']['blockCampaign']      :
 case $conf['var']['blockZone']          : $expire = _getTimeThirtyDaysFromNow(); break;
+case $conf['var']['capAd']              :
+case $conf['var']['capCampaign']        :
 case $conf['var']['capZone']            : $expire = _getTimeYearFromNow(); break;
+case $conf['var']['sessionCapCampaign'] :
+case $conf['var']['sessionCapAd']       :
 case $conf['var']['sessionCapZone']     : $expire = 0; break;
 }
 if (!empty($_COOKIE[$cookieName]) && is_array($_COOKIE[$cookieName])) {
@@ -899,6 +896,23 @@ return array('server_raw_tracker_impression_id' => $rawTrackerImpressionId, 'ser
 }
 return false;
 }
+function MAX_Delivery_log_logTrackerConnection($viewerId, $trackerId, $aTrackerImpression, $aConnection)
+{
+if (_viewersHostOkayToLog()) {
+$aConf = $GLOBALS['_MAX']['CONF'];
+MAX_Dal_Delivery_Include();
+if (OA_Dal_Delivery_logTrackerConnection(
+$viewerId,
+$trackerId,
+$aTrackerImpression,
+$aConnection
+)) {
+// Log of the connection was sucessful, if this was a "sale" type conversion, then clear the cookie data
+MAX_trackerDeleteActionFromCookie($aConnection);
+}
+}
+return false;
+}
 function MAX_Delivery_log_logVariableValues($variables, $trackerId, $serverRawTrackerImpressionId, $serverRawIp)
 {
 $aConf = $GLOBALS['_MAX']['CONF'];
@@ -1089,6 +1103,13 @@ _setLimitations('Campaign', $index, $aCampaigns, $aCaps);
 function MAX_Delivery_log_setZoneLimitations($index, $aZones, $aCaps)
 {
 _setLimitations('Zone', $index, $aZones, $aCaps);
+}
+function MAX_Delivery_log_setLastAction($index, $aAdIds, $aZoneIds, $aSetLastSeen, $action = 'view')
+{
+$aConf = $GLOBALS['_MAX']['CONF'];
+if (!empty($aSetLastSeen[$index])) {
+MAX_cookieAdd("_{$aConf['var']['last' . ucfirst($action)]}[{$aAdIds[$index]}]", MAX_commonCompressInt(MAX_commonGetTimeNow()) . "-" . $aZoneIds[$index], _getTimeThirtyDaysFromNow());
+}
 }
 function _setLimitations($type, $index, $aItems, $aCaps)
 {
@@ -1363,7 +1384,9 @@ $GLOBALS['_MAX']['CONF']['var']['capCampaign'],
 $GLOBALS['_MAX']['CONF']['var']['sessionCapCampaign'],
 $GLOBALS['_MAX']['CONF']['var']['blockZone'],
 $GLOBALS['_MAX']['CONF']['var']['capZone'],
-$GLOBALS['_MAX']['CONF']['var']['sessionCapZone']
+$GLOBALS['_MAX']['CONF']['var']['sessionCapZone'],
+$GLOBALS['_MAX']['CONF']['var']['lastClick'],
+$GLOBALS['_MAX']['CONF']['var']['lastView'],
 );
 }
 function MAX_commonDisplay1x1()
@@ -1476,6 +1499,14 @@ function MAX_commonUnpackContext($context = '')
 //return unserialize(base64_decode($context));
 list($exclude,$include) = explode('|', base64_decode($context));
 return array_merge(_convertContextArray('!=', explode('#', $exclude)), _convertContextArray('==', explode('#', $include)));
+}
+function MAX_commonCompressInt($int)
+{
+return base_convert($int, 10, 36);
+}
+function MAX_commonUnCompressInt($string)
+{
+return base_convert($string, 36, 10);
 }
 function _convertContextArray($key, $array)
 {
@@ -1771,6 +1802,16 @@ $aTracker = OA_Delivery_Cache_store_return($sName, $aTracker, $isHash = true);
 }
 return $aTracker;
 }
+function MAX_cacheGetTrackerLinkedCreatives($trackerid = null, $cached = true)
+{
+$sName  = OA_Delivery_Cache_getName(__FUNCTION__, $trackerid);
+if (!$cached || ($aTracker = OA_Delivery_Cache_fetch($sName)) === false) {
+MAX_Dal_Delivery_Include();
+$aTracker = OA_Dal_Delivery_getTrackerLinkedCreatives($trackerid);
+$aTracker = OA_Delivery_Cache_store_return($sName, $aTracker, $isHash = true);
+}
+return $aTracker;
+}
 function MAX_cacheGetTrackerVariables($trackerid, $cached = true)
 {
 $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $trackerid);
@@ -1957,6 +1998,78 @@ $buffer = "document.write(\"\");";
 }
 return $buffer;
 }
+function MAX_trackerCheckForValidAction($trackerid)
+{
+// Get all creatives that are linked to this tracker
+$aTrackerLinkedAds = MAX_cacheGetTrackerLinkedCreatives($trackerid);
+// This tracker is not linked to any creatives
+if (empty($aTrackerLinkedAds)) {
+return false;
+}
+// Note: Constants are not included n the delivery engine, the values below map to the values defined in constants.php
+$aPossibleActions = _getActionTypes();
+$now = MAX_commonGetTimeNow();
+$aConf = $GLOBALS['_MAX']['CONF'];
+$aMatchingActions = array();
+// Iterate over all creatives linked to this tracker...
+foreach ($aTrackerLinkedAds as $creativeId => $aLinkedInfo) {
+// Iterate over all possible actions (currently only "view" and "click")
+foreach ($aPossibleActions as $actionId => $action) {
+// If there is both a connection window set, and this creative has been actioned
+if (!empty($aLinkedInfo[$action . '_window']) && !empty($_COOKIE[$aConf['var']['last' . ucfirst($action)]][$creativeId])) {
+list($lastAction, $zoneId) = explode('-', $_COOKIE[$aConf['var']['last' . ucfirst($action)]][$creativeId]);
+// Decode the base32 timestamp
+$lastAction = MAX_commonUnCompressInt($lastAction);
+// Calculate how long ago this action occured
+$lastSeenSecondsAgo = $now - $lastAction;
+// If the action occured within the window (and sanity check that it's > 0), record this as a matching action
+if ($lastSeenSecondsAgo <= $aLinkedInfo[$action . '_window'] && $lastSeenSecondsAgo > 0) {
+// Index the matching array against the # seconds ago that the action occured
+$aMatchingActions[$lastSeenSecondsAgo] = array(
+'action_type'   => $actionId,
+'tracker_type'  => $aLinkedInfo['tracker_type'],
+'status'        => $aLinkedInfo['status'],
+'cid'           => $creativeId,
+'zid'           => $zoneId,
+'dt'            => $lastAction,
+'window'        => $aLinkedInfo[$action . '_window'],
+);
+}
+}
+}
+}
+// If no actions matched, return false
+if (empty($aMatchingActions)) {
+return false;
+}
+// Sort by ascending #seconds since action
+ksort($aMatchingActions);
+// Return the first matching action
+return array_shift($aMatchingActions);
+}
+function MAX_trackerDeleteActionFromCookie($aConnection)
+{
+$trackerTypes = _getTrackerTypes();
+if ($trackerTypes[$aConnection['tracker_type']] != 'sale') {
+// We only clear the cookie information for "sale" trackers
+return;
+}
+// Haven't planned how this will be achieved yet...
+// The cookie packing mechanism wasn't built to allow deleting items from the compacted array
+// I'm guessing something like set _cookieName[adId] = "false", then unset from packed when recompacting
+$actionTypes = _getActionTypes();
+$aConf = $GLOBALS['_MAX']['CONF'];
+$cookieName = '_' . $aConf['var']['last' . ucfirst($actionTypes[$aConnection['action_type']])] . "[{$aConnection['cid']}]";
+MAX_cookieAdd($cookieName, 'false', _getTimeThirtyDaysFromNow());
+}
+function _getActionTypes()
+{
+return array(0 => 'view', 1 => 'click');
+}
+function _getTrackerTypes()
+{
+return array(1 => 'sale', 2 => 'lead', 3 => 'signup');
+}
 // No Caching
 MAX_commonSetNoCacheHeaders();
 //Register any script specific input variables
@@ -1969,15 +2082,20 @@ $variables_script = '';
 MAX_commonSendContentTypeHeader("application/x-javascript", $charset);
 // Log the tracker impression
 $logVars = false;
-if ($conf['logging']['trackerImpressions']) {
-$conversionInfo = MAX_Delivery_log_logTrackerImpression($userid, $trackerid);
+if (($conf['logging']['trackerImpressions'])) {
+// Only log and gather variable data if this conversion connects back
+$aConnection = MAX_trackerCheckForValidAction($trackerid);
+if (!empty($aConnection)) {
+$aTrackerImpression = MAX_Delivery_log_logTrackerImpression($userid, $trackerid);
+MAX_Delivery_log_logTrackerConnection($userid, $trackerid, $aTrackerImpression, $aConnection);
 // Generate code required to send variable values to the {$conf['file']['conversionvars']} script
 if (isset($inherit)) {
-$variablesScript = MAX_trackerbuildJSVariablesScript($trackerid, $conversionInfo, $inherit);
+$variablesScript = MAX_trackerbuildJSVariablesScript($trackerid, $aTrackerImpression, $inherit);
 } else {
-$variablesScript = MAX_trackerbuildJSVariablesScript($trackerid, $conversionInfo);
+$variablesScript = MAX_trackerbuildJSVariablesScript($trackerid, $aTrackerImpression);
 }
 $logVars = true;
+}
 }
 MAX_cookieFlush();
 // Write the code for seding the variable values
