@@ -68,4 +68,9 @@ function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_Conversion_Delivery_lo
     Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_Conversion($viewerId, $trackerId);
 }
 
+function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_Conversion_Delivery_logConversion($viewerId, $trackerId)
+{
+    Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_Conversion($viewerId, $trackerId);
+}
+
 ?>

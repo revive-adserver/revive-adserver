@@ -3,7 +3,7 @@
 require_once MAX_PATH . '/extensions/deliveryLog/LogCommon.php';
 require_once MAX_PATH . '/extensions/deliveryLog/BucketProcessingStrategyFactory.php';
 
-class Plugins_DeliveryLog_OxLogConversion_LogConversion extends Plugins_DeliveryLog_LogCommon
+class Plugins_DeliveryLog_OxLogConversion_LogConversionVariable extends Plugins_DeliveryLog_LogCommon
 {
     function __construct()
     {
@@ -22,16 +22,14 @@ class Plugins_DeliveryLog_OxLogConversion_LogConversion extends Plugins_Delivery
     function getDependencies()
     {
         return array(
-            'deliveryLog:oxLogConversion:logConversion' => array(
-//                'deliveryDataPrepare:oxDeliveryDataPrepare:dataCommon',
-//                'deliveryDataPrepare:oxDeliveryDataPrepare:dataConversion',
+            'deliveryLog:oxLogConversion:logConversionVariable' => array(
             )
         );
     }
 
     function getBucketName()
     {
-        return 'data_bkt_a';
+        return 'data_bkt_a_var';
     }
 
     public function getTableBucketColumns()
