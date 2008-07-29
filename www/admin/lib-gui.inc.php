@@ -174,7 +174,7 @@ function phpAds_ShowSections($sections, $params=false, $openNewTable=true, $imgP
 			echo "<div class='right'><div class='left'>";
             if (!empty($sectionUrl)) {
 				echo "<a href='" . $sectionUrl . ($params ? showParams($params) : '') . "'";
-	            echo "' accesskey='".($i+1)."'>{$sectionStr}</a>";
+	            echo " accesskey='".($i+1)."'>{$sectionStr}</a>";
             } else {
 				echo "<span>{$sectionStr}</span>";
             }
@@ -185,7 +185,7 @@ function phpAds_ShowSections($sections, $params=false, $openNewTable=true, $imgP
 			echo "<div class='right'><div class='left'>";
             if (!empty($sectionUrl)) {
 				echo "<a href='" . $sectionUrl . ($params ? showParams($params) : '') . "'";
-	            echo "' accesskey='".($i+1)."'>{$sectionStr}</a>";
+	            echo " accesskey='".($i+1)."'>{$sectionStr}</a>";
             } else {
 				echo "<span>{$sectionStr}</span>";
             }

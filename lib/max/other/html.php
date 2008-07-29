@@ -1241,17 +1241,17 @@ function _displayZoneEntitySelectionCell($entity, $entityId, $aOtherEntities, $e
     global $phpAds_TextDirection;
 
     $onChange = $autoSubmit ? " onChange='this.form.submit();'" : '';
-    $submitIcon = $autoSubmit ? '' : "&nbsp;<input type='hidden' name='action' value='set'><input id='link_submit' type='image' src='" . OX::assetPath() . "/images/$phpAds_TextDirection/go_blue.gif' border='0' tabindex='".($tabIndex++)."'>";
+    $submitIcon = $autoSubmit ? '' : "&nbsp;<input type='hidden' name='action' value='set'><input id='link_submit' name='submitimage' id='submitimage' type='image' src='" . OX::assetPath() . "/images/$phpAds_TextDirection/go_blue.gif' border='0' tabindex='".($tabIndex++)."'>";
     $tabInfo = " tabindex='" . ($tabIndex++) . "'";
     $entityIcon = MAX_getEntityIcon($entity);
     echo "
+<td>
 <form name='zonetypeselection' method='get' action='$pageName'>";
     foreach($aSavedEntities as $savedEntityName => $savedEntityId) {
         echo "
 <input type='hidden' name='$savedEntityName' value='$savedEntityId'>";
     }
     echo "
-<td>
     &nbsp;&nbsp;<img src='$entityIcon' align='absmiddle'>&nbsp;
     <select name='$entityIdName'{$onChange}{$tabInfo}>";
     // Show an empty value in the dropdown if none is selected
@@ -1300,8 +1300,8 @@ function _displayZoneEntitySelectionCell($entity, $entityId, $aOtherEntities, $e
     echo "
     </select>
     $submitIcon
-</td>
-</form>";
+</form>
+</td>";
 }
 
 function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideInactive, $showParentPlacements, $pageName, &$tabIndex)
@@ -1560,10 +1560,10 @@ function MAX_displayPlacementAdSelectionViewForm($publisherId, $zoneId, $view, $
     $disabledHidden
 </td>
 </tr>
-</table>";
+</table>
+</form>";
     phpAds_ShowBreak();
     echo "
-</form>
 <br />";
 }
 
