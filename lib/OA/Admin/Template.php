@@ -289,7 +289,7 @@ class OA_Admin_Template extends Smarty
         }
 
         if (!empty($type)) {
-            return MAX::assetPath('images/icon-'.$type.$flavour.($active ? '' : '-d').'.gif');
+            return OX::assetPath('images/icon-'.$type.$flavour.($active ? '' : '-d').'.gif');
         }
 
         $smarty->trigger_error("t: missing parameter(s)");
