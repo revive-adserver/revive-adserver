@@ -866,6 +866,8 @@ $maxHttps
 function MAX_Delivery_log_logTrackerImpression($viewerId, $trackerId)
 {
 if (_viewersHostOkayToLog()) {
+$rawTrackerImpressionId = OX_Delivery_Common_hook('logClick', array($viewerId, $trackerId));
+// @todo - remove following code once buckets will be finished
 $aConf = $GLOBALS['_MAX']['CONF'];
 if (empty($aConf['rawDatabase']['host'])) {
 if (!empty($aConf['lb']['enabled'])) {
@@ -1525,7 +1527,7 @@ return $unpacked;
 }
 function OX_Delivery_Common_hook($hookName, $aParams = array(), $functionName = '')
 {
-$return = true;
+$return = null;
 // When a $functionname is passed in we use that function/component-identifier and execute the hook
 if (!empty($functionName)) {
 // Right now, we're allowing either a plain function to be executed, or a component-identifier
@@ -1540,11 +1542,12 @@ $return = call_user_func_array($functionName, $aParams);
 } else {
 // When no $functionName is passed in, we execute all components which are registered for this hook
 if (!empty($GLOBALS['_MAX']['CONF']['deliveryHooks'][$hookName])) {
+$return = array();
 $hooks = explode('|', $GLOBALS['_MAX']['CONF']['deliveryHooks'][$hookName]);
 foreach ($hooks as $identifier) {
 $functionName = OX_Delivery_Common_getFunctionFromComponentIdentifier($identifier, $hookName);
 if (function_exists($functionName)) {
-call_user_func_array($functionName, $aParams);
+$return[$identifier] = call_user_func_array($functionName, $aParams);
 }
 }
 }
