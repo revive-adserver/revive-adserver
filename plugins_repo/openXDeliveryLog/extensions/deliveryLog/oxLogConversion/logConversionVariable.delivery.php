@@ -28,6 +28,7 @@ $Id$
  * This function logs the variable data passed in to a tracker impression
  *
  * @param array  $variables                     An array of the variable name=value data to be logged
+ * @param int    $trackerId                     The tracker ID
  * @param int    $serverRawTrackerImpressionId  The associated tracker-impression ID for these values
  * @param string $serverRawIp                   The IP address of the raw database that logged the
  *                                              initial tracker-impression

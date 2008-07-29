@@ -21,8 +21,6 @@
             <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryDataPrepare/">dataPageInfo.class.php</file>
             <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryDataPrepare/">dataUserAgent.delivery.php</file>
             <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryDataPrepare/">dataUserAgent.class.php</file>
-            <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryDataPrepare/">dataConversion.delivery.php</file>
-            <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryDataPrepare/">dataConversion.class.php</file>
         </files>
 
         <schema>
@@ -50,10 +48,6 @@
            </component>
            <component>
                 <name>dataUserAgent</name>
-                <hook>preLog</hook>
-           </component>
-           <component>
-                <name>dataConversion</name>
                 <hook>preLog</hook>
            </component>
         </components>

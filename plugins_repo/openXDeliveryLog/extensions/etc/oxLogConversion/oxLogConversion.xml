@@ -17,12 +17,18 @@
         <files>
             <file path="{MODULEPATH}deliveryLog/oxLogConversion/">logConversion.delivery.php</file>
             <file path="{MODULEPATH}deliveryLog/oxLogConversion/">logConversion.class.php</file>
+            <file path="{MODULEPATH}deliveryLog/oxLogConversion/">logConversionVariable.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLog/oxLogConversion/">logConversionVariable.class.php</file>
         </files>
 
         <components>
            <component>
                 <name>logConversion</name>
                 <hook>logConversion</hook>
+           </component>
+           <component>
+                <name>logConversionVariable</name>
+                <hook>logConversionVariable</hook>
            </component>
         </components>
 
