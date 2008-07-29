@@ -29,6 +29,11 @@ $Id$
 // decide if entire geotargeting should be moved in here
 function Plugins_deliveryDataPrepare_oxDeliveryGeo_dataGeo()
 {
+    // prevent from running twice
+    static $executed;
+    if ($executed) return;
+    $executed = true;
+
     if (!empty($GLOBALS['_MAX']['CLIENT_GEO'])) {
         $GLOBALS['_MAX']['deliveryData']['geo'] = $GLOBALS['_MAX']['CLIENT_GEO'];
     } else {

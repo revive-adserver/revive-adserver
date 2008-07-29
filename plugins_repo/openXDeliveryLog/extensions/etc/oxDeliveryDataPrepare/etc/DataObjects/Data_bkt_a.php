@@ -10,7 +10,7 @@ class DataObjects_Data_bkt_a extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'data_bkt_a';             // table name
-    public $server_conv_id;                  // MEDIUMINT(9) => openads_mediumint => 129
+    public $server_conv_id;                  // BIGINT(20) => openads_mediumint => 129
     public $server_ip;                       // VARCHAR(16) => openads_varchar => 130
     public $tracker_id;                      // MEDIUMINT(9) => openads_mediumint => 129
     public $date_time;                       // DATETIME() => openads_datetime => 142

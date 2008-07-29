@@ -26,6 +26,11 @@ $Id$
 
 function Plugins_deliveryDataPrepare_oxDeliveryDataPrepare_dataPageInfo()
 {
+    // prevent from running twice
+    static $executed;
+    if ($executed) return;
+    $executed = true;
+
     if (!empty($_GET['loc'])) {
         $pageInfo = parse_url($_GET['loc']);
     } elseif (!empty($_SERVER['HTTP_REFERER'])) {

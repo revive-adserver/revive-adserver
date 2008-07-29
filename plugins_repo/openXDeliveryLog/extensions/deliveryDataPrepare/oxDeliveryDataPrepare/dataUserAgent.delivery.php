@@ -29,6 +29,11 @@ $Id$
 
 function Plugins_deliveryDataPrepare_oxDeliveryDataPrepare_dataUserAgent()
 {
+    // prevent from running twice
+    static $executed;
+    if ($executed) return;
+    $executed = true;
+
     $userAgentInfo = array(
         'os'        => $GLOBALS['_MAX']['CLIENT']['os'],
         'long_name' => $GLOBALS['_MAX']['CLIENT']['long_name'],

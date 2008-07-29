@@ -47,9 +47,13 @@ function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCommon($viewerId, 
     $GLOBALS['_MAX']['deliveryData']['zone_id'] = $zoneId;
 
     // calculate start date of current Operation Interval
-    $time = !empty($GLOBALS['_MAX']['NOW']) ? $GLOBALS['_MAX']['NOW'] : time();
+    if (empty($GLOBALS['_MAX']['NOW'])) {
+        $GLOBALS['_MAX']['deliveryData']['date_time_now'] = $GLOBALS['_MAX']['NOW'] = time();
+    }
+    $time = $GLOBALS['_MAX']['NOW'];
     $oi = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'];
     $GLOBALS['_MAX']['deliveryData']['interval_start'] = gmdate('Y-m-d H:i:s', $time - $time % ($oi * 60));
+    $GLOBALS['_MAX']['deliveryData']['ip_address'] = $_SERVER['REMOTE_ADDR'];
 }
 
 // Followig methods are required due to functions names limitations

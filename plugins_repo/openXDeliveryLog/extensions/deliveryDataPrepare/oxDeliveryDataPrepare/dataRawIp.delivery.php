@@ -32,40 +32,40 @@ MAX_Dal_Delivery_Include();
  * All data is stored in $GLOBALS['_MAX']['deliveryData']
  *
  * @param int $viewerId
- * @param int $adId
- * @param int $creativeId  Not in use
- * @param int $zoneId
+ * @param int $trackerId
  */
-function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_RawIp($viewerId, $adId, $creativeId, $zoneId)
+function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_RawIp($viewerId, $trackerId)
 {
     // prevent from running twice
     static $executed;
     if ($executed) return;
     $executed = true;
 
-    $GLOBALS['_MAX']['deliveryData']['creative_id'] = $adId;
-    $GLOBALS['_MAX']['deliveryData']['zone_id'] = $zoneId;
+    $GLOBALS['_MAX']['deliveryData']['tracker_ip'] = $trackerId;
+    $GLOBALS['_MAX']['deliveryData']['viewer_ip'] = $viewerId;
 
-    // calculate start date of current Operation Interval
-    $time = !empty($GLOBALS['_MAX']['NOW']) ? $GLOBALS['_MAX']['NOW'] : time();
-    $oi = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'];
-    $GLOBALS['_MAX']['deliveryData']['interval_start'] = gmdate('Y-m-d H:i:s', $time - $time % ($oi * 60));
+    if (isset($aConf['rawDatabase']['serverRawIp'])) {
+        $serverRawIp = $GLOBALS['_MAX']['CONF']['rawDatabase']['serverRawIp'];
+    } else {
+        $serverRawIp = $GLOBALS['_MAX']['CONF']['rawDatabase']['host'];
+    }
+    $GLOBALS['_MAX']['deliveryData']['server_ip'] = $serverRawIp;
 }
 
 // Followig methods are required due to functions names limitations
-function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_RawIp_Delivery_logImpression($viewerId, $adId, $creativeId, $zoneId)
+function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_RawIp_Delivery_logImpression($viewerId, $trackerId)
 {
-    Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_RawIp($viewerId, $adId, $creativeId, $zoneId);
+    Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_RawIp($viewerId, $trackerId);
 }
 
-function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_RawIp_Delivery_logRequest($viewerId, $adId, $creativeId, $zoneId)
+function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_RawIp_Delivery_logRequest($viewerId, $trackerId)
 {
-    Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_RawIp($viewerId, $adId, $creativeId, $zoneId);
+    Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_RawIp($viewerId, $trackerId);
 }
 
-function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_RawIp_Delivery_logClick($viewerId, $adId, $creativeId, $zoneId)
+function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_RawIp_Delivery_logClick($viewerId, $trackerId)
 {
-    Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_RawIp($viewerId, $adId, $creativeId, $zoneId);
+    Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_RawIp($viewerId, $trackerId);
 }
 
 ?>

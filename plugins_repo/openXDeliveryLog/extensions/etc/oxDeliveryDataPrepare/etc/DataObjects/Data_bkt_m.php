@@ -11,8 +11,8 @@ class DataObjects_Data_bkt_m extends DB_DataObjectCommon
 
     public $__table = 'data_bkt_m';          // table name
     public $interval_start;                  // DATETIME() => openads_datetime => 142
-    public $creative_id;                     // BIGINT(20) => openads_mediumint => 129
-    public $zone_id;                         // BIGINT(20) => openads_mediumint => 129
+    public $creative_id;                     // MEDIUMINT(9) => openads_mediumint => 129
+    public $zone_id;                         // MEDIUMINT(9) => openads_mediumint => 129
     public $count;                           // INTEGER(11) => openads_int => 1
 
     /* Static get */
