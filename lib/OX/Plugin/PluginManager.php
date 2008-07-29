@@ -877,8 +877,15 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
      */
     function _generateDeliveryHooksCacheFile($aHooks = array())
     {
+        $aDeliveryHooksComponents = array();
+        $aDeliveryHooks = array('logClick', 'logImpression', 'logRequest');
+        foreach ($aHooks as $hook => $aComponents) {
+            if (in_array($hook, $aDeliveryHooks)) {
+                $aDeliveryHooksComponents[$hook] = $aComponents;
+            }
+        }
         $deliveryLogSetup = new OX_Plugins_DeliveryLog_Setup();
-        return $deliveryLogSetup->regenerateDeliveryPluginsCodeCache($aHooks);
+        return $deliveryLogSetup->regenerateDeliveryPluginsCodeCache($aDeliveryHooksComponents);
     }
 
     /**

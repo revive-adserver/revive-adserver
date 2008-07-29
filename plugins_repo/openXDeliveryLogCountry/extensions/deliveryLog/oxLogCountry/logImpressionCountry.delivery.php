@@ -24,7 +24,7 @@
 $Id$
 */
 
-function Plugin_deliveryLog_oxLogImpression_logImpressionCountry_Delivery_logImpression()
+function Plugin_deliveryLog_oxLogCountry_logImpressionCountry_Delivery_logImpression()
 {
     $data = $GLOBALS['_MAX']['deliveryData'];
     $aQuery = array(

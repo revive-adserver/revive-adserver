@@ -20,15 +20,8 @@
 
         <contents>
             <group name="oxDeliveryGeo">1</group>
-
             <group name="oxLogCountry" >2</group>
         </contents>
-
-        <register>
-            <extension type='deliveryDataPrepare' group='oxDeliveryGeo'>Prepares data for geotargeting/country delivery logging</extension>
-
-            <extension type='deliveryLog' group='oxLogCountry'>Logs impresions and clicks per country</extension>
-        </register>
 
     </install>
 

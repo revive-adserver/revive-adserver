@@ -14,6 +14,12 @@
     <extends>deliveryLog</extends>
 
     <install>
+        <syscheck>
+            <depends>
+                <plugin version="1.0.0-dev" enabled="0">deliveryDataPrepare</plugin>
+            </depends>
+        </syscheck>
+
         <files>
             <file path="{MODULEPATH}deliveryLog/oxLogCountry/">logImpressionCountry.delivery.php</file>
             <file path="{MODULEPATH}deliveryLog/oxLogCountry/">logImpressionCountry.class.php</file>
