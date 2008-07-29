@@ -553,6 +553,10 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
         $this->assertIsA($aDepends, 'array');
         $this->assertEqual(count($aDepends),2);
 
+        $this->assertTrue($oPluginManager->_hasDependencies('testPlugin'));
+        $this->assertFalse($oPluginManager->_hasDependencies('testDepends'));
+
+
         $this->assertEqual($aDepends['testPlugin']['isDependedOnBy'][0],'testDepends');
         $this->assertEqual($aDepends['testDepends']['dependsOn']['testPlugin'],'0.0.1');
 
@@ -575,7 +579,6 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
 
         unset($GLOBALS['_MAX']['CONF']['pluginGroupComponents']);
     }
-
 }
 
 ?>

@@ -1119,7 +1119,7 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
     }
 
 
-    function test_checkDependenciesForUninstallOrDisable()
+    function test_hasDependencies()
     {
         Mock::generatePartial(
                                 'OX_Plugin_ComponentGroupManager',
@@ -1129,24 +1129,21 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
                                      )
                              );
         $oManager = new $oMockManager($this);
+        $aDepends['foo']['isDependedOnBy'][0] = 'bar';
+        $oManager->setReturnValue('_loadDependencyArray', $aDepends);
 
         // user wants to disable or uninstall plugin foo
         // foo needs to find out if other plugins rely on it being installed
 
-        // Test 1 - no plugins are dependent on foo
-        $oManager->setReturnValueAt(0,'_loadDependencyArray', array());
-        $this->assertTrue($oManager->_checkDependenciesForUninstallOrDisable('foo'));
+        // Test 1 - no plugins are dependent on bar
+        $this->assertFalse($oManager->_hasDependencies('bar'));
 
         // Test 2 - bar relies on foo being installed; bar is not installed
-        $aDepends['isDependedOnBy'] = array('foo'=>array('bar'=>array('installed'=>true,'enabled'=>false)));
-        $oManager->setReturnValueAt(1,'_loadDependencyArray', $aDepends);
-        $this->assertTrue($oManager->_checkDependenciesForUninstallOrDisable('foo'));
+        $this->assertFalse($oManager->_hasDependencies('foo'));
 
         // Test 3 - bar relies on foo being installed; bar is actually installed
         $GLOBALS['_MAX']['CONF']['pluginGroupComponents']['bar'] = 1;
-        $aDepends['isDependedOnBy'] = array('foo'=>array('bar'=>array('installed'=>true,'enabled'=>true)));
-        $oManager->setReturnValueAt(2,'_loadDependencyArray', $aDepends);
-        $this->assertFalse($oManager->_checkDependenciesForUninstallOrDisable('foo', false));
+        $this->assertTrue($oManager->_hasDependencies('foo', false));
 
         $oManager->expectCallCount('_loadDependencyArray',3);
         $oManager->tally();

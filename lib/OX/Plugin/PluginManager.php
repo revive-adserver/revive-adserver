@@ -238,6 +238,14 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         }
         $aPlugins = $this->_parseComponentGroups($aPackage['install']['contents']);
 
+        foreach ($aPlugins AS $i => $aPlugin)
+        {
+            if ($this->_hasDependencies($aPlugin['name']))
+            {
+                $this->_logError('You may not uninstall this plugin at this time');
+                return false;
+            }
+        }
         $this->_auditSetKeys( array('upgrade_name'=>'uninstall_'.$aPackage['name'],
                                     'version_to'=>0,
                                     'version_from'=>$aPackage['version'],

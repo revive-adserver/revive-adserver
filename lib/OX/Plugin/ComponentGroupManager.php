@@ -427,12 +427,12 @@ class OX_Plugin_ComponentGroupManager
      */
     function getRollbackTasks($aGroup)
     {
-        $aTaskList[] = array(
+        /*$aTaskList[] = array(
                             'method' =>'_checkDependenciesForUninstallOrDisable',
                             'params' => array(
                                               $aGroup['name']
                                              ),
-                            );
+                            );*/
         $aTaskList[] = array(
                             'method' =>'_unregisterPluginVersion',
                             'params' => array(
@@ -1166,23 +1166,23 @@ class OX_Plugin_ComponentGroupManager
     }
 
     /**
-     * look for installed plugins that depend on $name
+     * look for installed groups that depend on $name
      *
      * @param string $name
      * @return boolean
      */
-    function _checkDependenciesForUninstallOrDisable($name)
+    function _hasDependencies($name)
     {
         $aDepends = $this->_loadDependencyArray();
-        if ($aDepends && isset($aDepends['isDependedOnBy'][$name]))
+        if ($aDepends && isset($aDepends[$name]) && isset($aDepends[$name]['isDependedOnBy']) )
         {
             $aConf = $GLOBALS['_MAX']['CONF']['pluginGroupComponents'];
-            foreach ($aDepends['isDependedOnBy'][$name] AS $plugin => $aStatus)
+            foreach ($aDepends[$name]['isDependedOnBy'] AS $i => $group)
             {
-                if (isset($aConf[$plugin]))
+                if (isset($aConf[$group]))
                 {
-                    $this->_logError('Dependency failure: '.$plugin.' depends on '.$name);
-                    return false;
+                    $this->_logError('This group has dependencies: '.$group.' depends on '.$name);
+                    return true;
                 }
                 else
                 {
@@ -1191,7 +1191,7 @@ class OX_Plugin_ComponentGroupManager
                 }
             }
         }
-        return true;
+        return false;
     }
 
     /**
