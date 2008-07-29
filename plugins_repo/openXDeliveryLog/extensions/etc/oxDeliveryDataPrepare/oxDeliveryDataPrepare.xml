@@ -21,8 +21,8 @@
             <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryDataPrepare/">dataPageInfo.class.php</file>
             <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryDataPrepare/">dataUserAgent.delivery.php</file>
             <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryDataPrepare/">dataUserAgent.class.php</file>
-            <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryDataPrepare/">dataRawIp.delivery.php</file>
-            <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryDataPrepare/">dataRawIp.class.php</file>
+            <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryDataPrepare/">dataConversion.delivery.php</file>
+            <file path="{MODULEPATH}deliveryDataPrepare/oxDeliveryDataPrepare/">dataConversion.class.php</file>
         </files>
 
         <schema>
@@ -53,7 +53,7 @@
                 <hook>preLog</hook>
            </component>
            <component>
-                <name>dataRawIp</name>
+                <name>dataConversion</name>
                 <hook>preLog</hook>
            </component>
         </components>

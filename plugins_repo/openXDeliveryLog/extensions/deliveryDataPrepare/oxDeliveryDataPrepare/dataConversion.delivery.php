@@ -34,7 +34,7 @@ MAX_Dal_Delivery_Include();
  * @param int $viewerId
  * @param int $trackerId
  */
-function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_RawIp($viewerId, $trackerId)
+function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_Conversion($viewerId, $trackerId)
 {
     // prevent from running twice
     static $executed;
@@ -44,28 +44,28 @@ function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_RawIp($viewerId, $trac
     $GLOBALS['_MAX']['deliveryData']['tracker_ip'] = $trackerId;
     $GLOBALS['_MAX']['deliveryData']['viewer_ip'] = $viewerId;
 
-    if (isset($aConf['rawDatabase']['serverRawIp'])) {
-        $serverRawIp = $GLOBALS['_MAX']['CONF']['rawDatabase']['serverRawIp'];
+    if (isset($aConf['rawDatabase']['serverConversion'])) {
+        $serverConversion = $GLOBALS['_MAX']['CONF']['rawDatabase']['serverConversion'];
     } else {
-        $serverRawIp = $GLOBALS['_MAX']['CONF']['rawDatabase']['host'];
+        $serverConversion = $GLOBALS['_MAX']['CONF']['rawDatabase']['host'];
     }
-    $GLOBALS['_MAX']['deliveryData']['server_ip'] = $serverRawIp;
+    $GLOBALS['_MAX']['deliveryData']['server_ip'] = $serverConversion;
 }
 
 // Followig methods are required due to functions names limitations
-function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_RawIp_Delivery_logImpression($viewerId, $trackerId)
+function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_Conversion_Delivery_logImpression($viewerId, $trackerId)
 {
-    Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_RawIp($viewerId, $trackerId);
+    Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_Conversion($viewerId, $trackerId);
 }
 
-function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_RawIp_Delivery_logRequest($viewerId, $trackerId)
+function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_Conversion_Delivery_logRequest($viewerId, $trackerId)
 {
-    Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_RawIp($viewerId, $trackerId);
+    Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_Conversion($viewerId, $trackerId);
 }
 
-function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_RawIp_Delivery_logClick($viewerId, $trackerId)
+function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_Conversion_Delivery_logClick($viewerId, $trackerId)
 {
-    Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_RawIp($viewerId, $trackerId);
+    Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_Conversion($viewerId, $trackerId);
 }
 
 ?>

@@ -24,7 +24,7 @@ class Plugins_DeliveryLog_OxLogConversion_LogConversion extends Plugins_Delivery
         return array(
             'deliveryLog:oxLogConversion:logConversion' => array(
                 'deliveryDataPrepare:oxDeliveryDataPrepare:dataCommon',
-                'deliveryDataPrepare:oxDeliveryDataPrepare:dataRawIp',
+                'deliveryDataPrepare:oxDeliveryDataPrepare:dataConversion',
             )
         );
     }
