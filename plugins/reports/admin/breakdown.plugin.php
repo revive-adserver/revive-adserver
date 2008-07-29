@@ -162,6 +162,9 @@ class Plugins_Reports_Admin_Breakdown extends Plugins_Reports
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
+        // Save the date before convert it to UTC times to display it on the report
+        $oStartDateToDisplay = new Date($this->_oDaySpan->oStartDate);
+        $oEndDateToDisplay = new Date($this->_oDaySpan->oEndDate);
         // Ensure data is retrieved using UTC times
         $this->_oDaySpan->toUTC();
 		// Get the manager account data
@@ -195,6 +198,9 @@ class Plugins_Reports_Admin_Breakdown extends Plugins_Reports
         if (PEAR::isError($aData)) {
             $aData = array();;
         }
+        // Revert the date from UTC to the user selected value
+        $this->_oDaySpan->oStartDate = $oStartDateToDisplay;
+        $this->_oDaySpan->oEndDate = $oEndDateToDisplay;
         return $aData;
     }
 }
