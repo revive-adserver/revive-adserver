@@ -237,7 +237,11 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             return false;
         }
         $aPlugins = $this->_parseComponentGroups($aPackage['install']['contents']);
-
+        if (!$aPlugins)
+        {
+            $this->_logError('Failed to parse the plugin definitions contained in package '.$name);
+            return false;
+        }
         foreach ($aPlugins AS $i => $aPlugin)
         {
             if ($this->_hasDependencies($aPlugin['name']))
@@ -256,11 +260,6 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                                             'action'=>UPGRADE_ACTION_UNINSTALL_FAILED,
                                            )
                                      );
-        if (!$aPlugins)
-        {
-            $this->_logError('Failed to parse the plugin definitions contained in package '.$name);
-            return false;
-        }
         // just in case anything goes wrong, e.g. half uninstall - don't want app trying to use half a package
         $this->disablePackage($name);
         if (!$this->_uninstallComponentGroups($aPlugins))

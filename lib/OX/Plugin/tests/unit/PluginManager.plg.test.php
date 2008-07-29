@@ -222,6 +222,7 @@ class Test_OX_PluginManager extends UnitTestCase
                                 array(
                                         '_parsePackage',
                                         '_parseComponentGroups',
+                                        '_hasDependencies',
                                         '_uninstallComponentGroups',
                                         'disablePackage',
                                         '_unregisterPackage',
@@ -248,32 +249,43 @@ class Test_OX_PluginManager extends UnitTestCase
 
         $this->assertFalse($oManager->uninstallPackage('test'));
 
-        // Test 3 - plugin uninstallation error
+        // Test 3 - plugin dependency error
         $oManager->setReturnValueAt(2,'_parsePackage', true);
-        $oManager->setReturnValueAt(1,'_parseComponentGroups', true);
+        $oManager->setReturnValueAt(1,'_parseComponentGroups', array('foo'));
+        $oManager->setReturnValueAt(0,'_hasDependencies', true);
+
+        $this->assertFalse($oManager->uninstallPackage('test'));
+
+        // Test 4 - plugin uninstallation error
+        $oManager->setReturnValueAt(3,'_parsePackage', true);
+        $oManager->setReturnValueAt(2,'_parseComponentGroups', array('foo'));
+        $oManager->setReturnValueAt(1,'_hasDependencies', false);
         $oManager->setReturnValueAt(0,'_uninstallComponentGroups', false);
 
         $this->assertFalse($oManager->uninstallPackage('test'));
 
-        // Test 4 - package/plugin settings remove error
-        $oManager->setReturnValueAt(3,'_parsePackage', true);
-        $oManager->setReturnValueAt(2,'_parseComponentGroups', true);
+        // Test 5 - package/plugin settings remove error
+        $oManager->setReturnValueAt(4,'_parsePackage', true);
+        $oManager->setReturnValueAt(3,'_parseComponentGroups', array('foo'));
+        $oManager->setReturnValueAt(2,'_hasDependencies', false);
         $oManager->setReturnValueAt(1,'_uninstallComponentGroups', true);
         $oManager->setReturnValueAt(0,'_unregisterPackage', false);
 
         $this->assertFalse($oManager->uninstallPackage('test'));
 
-        // Test 5 - success
-        $oManager->setReturnValueAt(4,'_parsePackage', true);
-        $oManager->setReturnValueAt(3,'_parseComponentGroups', true);
+        // Test 6 - success
+        $oManager->setReturnValueAt(5,'_parsePackage', true);
+        $oManager->setReturnValueAt(4,'_parseComponentGroups', array('foo'));
+        $oManager->setReturnValueAt(3,'_hasDependencies', false);
         $oManager->setReturnValueAt(2,'_uninstallComponentGroups', true);
         $oManager->setReturnValueAt(1,'_unregisterPackage', true);
         $oManager->setReturnValueAt(0,'_removeFiles', true);
 
         $this->assertTrue($oManager->uninstallPackage('test'));
 
-        $oManager->expectCallCount('_parsePackage',5);
-        $oManager->expectCallCount('_parseComponentGroups',4);
+        $oManager->expectCallCount('_parsePackage',6);
+        $oManager->expectCallCount('_parseComponentGroups',5);
+        $oManager->expectCallCount('_hasDependencies',4);
         $oManager->expectCallCount('_uninstallComponentGroups',3);
         $oManager->expectCallCount('disablePackage',3);
         $oManager->expectCallCount('_unregisterPackage',2);
