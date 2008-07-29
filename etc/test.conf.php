@@ -352,7 +352,8 @@ sessionCapZone      = OASZCAP       ; Used for passing session zone capping cook
 vars                = OAVARS        ; Used for passing variables
 trackonly           = trackonly     ; Used to avoid redirecting after a click
 openads             = openads       ; Used as identifier for the adsense click tracking comments
-
+lastView            = OXLIA         ; Used to track the last time an ad was viewed
+lastClick           = OXLCA         ; Used to track the last time an ad was clicked
 
 ;------------------------------------------------------------------------------------------;
 ; Load Balancing / Distributed Statistics                                                  ;

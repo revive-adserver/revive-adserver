@@ -590,6 +590,9 @@ function _adRenderBuildLogURL($aBanner, $zoneId = 0, $source = '', $loc = '', $r
     $conf = $GLOBALS['_MAX']['CONF'];
     // If there is an OpenX->OpenX internal redirect, log both zones information
     $delimiter = $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'];
+
+    $logLastAction = (!empty($aBanner['viewwindow']) && !empty($aBanner['tracker_status'])) ? '1' : '';
+
     if (!empty($GLOBALS['_MAX']['adChain'])) {
         foreach ($GLOBALS['_MAX']['adChain'] as $index => $ad) {
             $aBanner['ad_id'] .= $delimiter . $ad['ad_id'];
@@ -604,6 +607,7 @@ function _adRenderBuildLogURL($aBanner, $zoneId = 0, $source = '', $loc = '', $r
             $aBanner['block_zone'] .= $delimiter . $ad['block_zone'];
             $aBanner['cap_zone'] .= $delimiter . $ad['cap_zone'];
             $aBanner['session_cap_zone'] .= $delimiter . $ad['session_cap_zone'];
+            $logLastAction .= $delimiter . (!empty($ad['viewwindow']) && !empty($ad['tracker_status'])) ? '1' : '0';
         }
     }
     $url = MAX_commonGetDeliveryUrl($conf['file']['log']);
@@ -623,6 +627,7 @@ function _adRenderBuildLogURL($aBanner, $zoneId = 0, $source = '', $loc = '', $r
     if (!empty($aBanner['block_zone'])) $url .= $amp . $conf['var']['blockZone'] . "=" . $aBanner['block_zone'];
     if (!empty($aBanner['cap_zone'])) $url .= $amp . $conf['var']['capZone'] . "=" . $aBanner['cap_zone'];
     if (!empty($aBanner['session_cap_zone'])) $url .= $amp . $conf['var']['sessionCapZone'] . "=" . $aBanner['session_cap_zone'];
+    if (!empty($logLastAction)) $url .= $amp . $conf['var']['lastView'] . "=" . $logLastAction;
     if (!empty($loc)) $url .= $amp . "loc=" . urlencode($loc);
     if (!empty($referer)) $url .= $amp . "referer=" . urlencode($referer);
     $url .= $amp . "cb={random}";
@@ -673,12 +678,14 @@ function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClic
     $conf = $GLOBALS['_MAX']['CONF'];
     $delimiter = $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'];
 
+    $logLastClick = (!empty($aBanner['clickwindow'])) ? '1' : '';
     // If there is an OpenX->OpenX internal redirect, log both zones information
     if (!empty($GLOBALS['_MAX']['adChain'])) {
         foreach ($GLOBALS['_MAX']['adChain'] as $index => $ad) {
             $aBanner['bannerid'] .= $delimiter . $ad['bannerid'];
             $aBanner['placement_id'] .= $delimiter . $ad['placement_id'];
             $zoneId .= $delimiter . $ad['zoneid'];
+            $logLastClick .= (!empty($aBanner['clickwindow'])) ? '1' : '0';
         }
     }
 
@@ -707,6 +714,7 @@ function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClic
         } else {
             $channelIds = '';
         }
+        $log .= (!empty($logLastClick)) ? $del . $conf['var']['lastClick'] . '=' . $logLastClick : '';
         $maxparams = "{$delnum}{$bannerId}{$del}zoneid={$zoneId}{$channelIds}{$source}{$log}{$random}{$maxdest}";
 // hmmm... 2__bannerid=1__zoneid=1__cb={random}__maxdest=__channel_ids=__1__1__
     }

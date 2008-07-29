@@ -447,6 +447,27 @@ function MAX_cacheGetTracker($trackerid, $cached = true)
 }
 
 /**
+ * Cache-wrapper for OA_Dal_Delivery_getTrackerLinkedCreatives
+ *
+ * This function gets a list of creatives which are linked to the specified tracker
+ *
+ * @param int $trackerid    The ID of the tracker to get
+ * @param boolean $cached   Should a cache lookup be performed?
+ * @return array            The array of creatives
+ */
+function MAX_cacheGetTrackerLinkedCreatives($trackerid = null, $cached = true)
+{
+    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $trackerid);
+    if (!$cached || ($aTracker = OA_Delivery_Cache_fetch($sName)) === false) {
+        MAX_Dal_Delivery_Include();
+        $aTracker = OA_Dal_Delivery_getTrackerLinkedCreatives($trackerid);
+        $aTracker = OA_Delivery_Cache_store_return($sName, $aTracker, $isHash = true);
+    }
+
+    return $aTracker;
+}
+
+/**
  * Cache-wrapper for OA_Dal_Delivery_getTrackerVariables
  *
  * This function gets all variables linked to a tracker

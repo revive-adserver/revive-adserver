@@ -29,7 +29,7 @@ $Id$
 require_once '../../init-delivery.php';
 
 // Required files
-require(MAX_PATH . '/lib/max/Delivery/cache.php');
+require_once(MAX_PATH . '/lib/max/Delivery/cache.php');
 // Register input variables
 if (!empty($_GET['server_raw_tracker_impression_id']) && !empty($_GET['trackerid'])) {
     $serverRawTrackerImpressionId = $_GET['server_raw_tracker_impression_id'];

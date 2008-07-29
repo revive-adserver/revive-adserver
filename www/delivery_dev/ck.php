@@ -56,6 +56,7 @@ if (!empty($GLOBALS['_MAX']['COOKIE']['newViewerId']) && empty($_GET[$conf['var'
 $adId       = isset($_REQUEST[$conf['var']['adId']]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST[$conf['var']['adId']]) : array();
 $zoneId     = isset($_REQUEST[$conf['var']['zoneId']]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST[$conf['var']['zoneId']]) : array();
 $creativeId = isset($_REQUEST[$conf['var']['creativeId']]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST[$conf['var']['creativeId']]) : array();
+$lastClick  = isset($_REQUEST[$conf['var']['lastClick']]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST[$conf['var']['lastClick']]) : array();
 
 if (empty($adId) && !empty($zoneId)) {
     foreach ($zoneId as $index => $zone) {
@@ -76,6 +77,7 @@ for ($i = 0; $i < count($adId); $i++) {
             $GLOBALS['_MAX']['CHANNELS'] = str_replace($conf['delivery']['chDelimiter'], $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST['channel_ids']);
         }
         MAX_Delivery_log_logAdClick($viewerId, $adId[$i], $creativeId[$i], $zoneId[$i]);
+        MAX_Delivery_log_setLastAction($i, $adId, $zoneId, $lastClick, 'click');
     }
 }
 

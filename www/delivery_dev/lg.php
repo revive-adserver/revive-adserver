@@ -62,6 +62,7 @@ $aCapCampaign['session_capping'] = MAX_Delivery_log_getArrGetVariable('sessionCa
 $aCapZone['block']               = MAX_Delivery_log_getArrGetVariable('blockZone');
 $aCapZone['capping']             = MAX_Delivery_log_getArrGetVariable('capZone');
 $aCapZone['session_capping']     = MAX_Delivery_log_getArrGetVariable('sessionCapZone');
+$aSetLastSeen                    = MAX_Delivery_log_getArrGetVariable('lastView');
 
 if (isset($_REQUEST['channel_ids'])) {
     $GLOBALS['_MAX']['CHANNELS'] = str_replace(
@@ -72,7 +73,7 @@ if (isset($_REQUEST['channel_ids'])) {
 }
 
 // Loop over the ads to be logged (there may be more than one due to internal re-directs)
-// and log each ad, and then set any capping cookies required
+// and log each ad, and th  en set any capping cookies required
 $countAdIds = count($aAdIds);
 for ($index = 0; $index < $countAdIds; $index++) {
     // Ensure that each ad to be logged has capaign, creative and zone
@@ -89,6 +90,7 @@ for ($index = 0; $index < $countAdIds; $index++) {
         // Set the capping cookies, if required
         MAX_Delivery_log_setAdLimitations($index, $aAdIds, $aCapAd);
         MAX_Delivery_log_setCampaignLimitations($index, $aCampaignIds, $aCapCampaign);
+        MAX_Delivery_log_setLastAction($index, $aAdIds, $aZoneIds, $aSetLastSeen);
         if ($aZoneIds[$index] != 0) {
             MAX_Delivery_log_setZoneLimitations($index, $aZoneIds, $aCapZone);
         }

@@ -185,6 +185,24 @@ function MAX_Delivery_log_logTrackerImpression($viewerId, $trackerId)
     return false;
 }
 
+function MAX_Delivery_log_logTrackerConnection($viewerId, $trackerId, $aTrackerImpression, $aConnection)
+{
+    if (_viewersHostOkayToLog()) {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        MAX_Dal_Delivery_Include();
+        if (OA_Dal_Delivery_logTrackerConnection(
+            $viewerId,
+            $trackerId,
+            $aTrackerImpression,
+            $aConnection
+        )) {
+            // Log of the connection was sucessful, if this was a "sale" type conversion, then clear the cookie data
+            MAX_trackerDeleteActionFromCookie($aConnection);
+        }
+    }
+    return false;
+}
+
 /**
  * A function to log tracker impression variable values.
  *
@@ -483,6 +501,24 @@ function MAX_Delivery_log_setCampaignLimitations($index, $aCampaigns, $aCaps)
 function MAX_Delivery_log_setZoneLimitations($index, $aZones, $aCaps)
 {
     _setLimitations('Zone', $index, $aZones, $aCaps);
+}
+
+/**
+ * This function sets or updates the last action (cookie) record
+ * This value is used to track conversions for a
+ *
+ * @param integer $index
+ * @param array $aAdIds
+ * @param array $aZoneIds
+ * @param array $aSetLastSeen
+ * @param integer $action
+ */
+function MAX_Delivery_log_setLastAction($index, $aAdIds, $aZoneIds, $aSetLastSeen, $action = 'view')
+{
+    $aConf = $GLOBALS['_MAX']['CONF'];
+    if (!empty($aSetLastSeen[$index])) {
+        MAX_cookieAdd("_{$aConf['var']['last' . ucfirst($action)]}[{$aAdIds[$index]}]", MAX_commonCompressInt(MAX_commonGetTimeNow()) . "-" . $aZoneIds[$index], _getTimeThirtyDaysFromNow());
+    }
 }
 
 /**
