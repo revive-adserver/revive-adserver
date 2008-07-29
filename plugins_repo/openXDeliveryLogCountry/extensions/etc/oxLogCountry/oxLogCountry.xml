@@ -16,7 +16,7 @@
     <install>
         <syscheck>
             <depends>
-                <plugin version="1.0.0-dev" enabled="0">deliveryDataPrepare</plugin>
+                <plugin version="1.0.0-dev" enabled="0">oxDeliveryDataPrepare</plugin>
             </depends>
         </syscheck>
 
