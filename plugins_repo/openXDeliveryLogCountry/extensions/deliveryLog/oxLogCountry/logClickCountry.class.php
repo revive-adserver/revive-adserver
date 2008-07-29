@@ -1,9 +1,18 @@
 <?php
 
 require_once MAX_PATH . '/extensions/deliveryLog/LogCommon.php';
+require_once MAX_PATH . '/extensions/deliveryLog/BucketProcessingStrategyFactory.php';
 
 class Plugins_DeliveryLog_OxLogCountry_LogClickCountry extends Plugins_DeliveryLog_LogCommon
 {
+    function __construct()
+    {
+        // Clicks are aggregate.
+        $dbType = $GLOBALS['_MAX']['CONF']['database']['type'];    
+        $this->processingStrategy = 
+            Plugins_DeliveryLog_BucketProcessingStrategyFactory::getAggregateBucketProcessingStrategy($dbType);
+    }
+    
     function getDependencies()
     {
         return array(
