@@ -180,7 +180,7 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
             foreach ($hookComponents as $componentId) {
                 list($extension, $group, $componentName)
                     = $this->getExtensionGroupComponentFromId($componentId);
-                $componentFile = $this->getFilePathToPlugin($extension, $componentName);
+                $componentFile = $this->getFilePathToPlugin($extension, $group, $componentName);
                 if (!$componentFile) {
                     $this->_logError('Error while generating delivery cache, file doesn\'t exist: '
                         .$componentFile);
@@ -316,12 +316,12 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
      * @param string $postfix
      * @return string   File name or false if such file do not exist
      */
-    function getFilePathToPlugin($extensionType, $plugin, $postfix = '.delivery.php')
+    function getFilePathToPlugin($extensionType, $group, $component, $postfix = '.delivery.php')
     {
         $oPluginMgr = $this->_getComponentGroupManager();
         $dirPath = MAX_PATH . $oPluginMgr->pathExtensions .
-            $extensionType . '/' . $plugin.'/';
-        $file = $dirPath . $plugin . $postfix;
+            $extensionType . '/' . $group.'/';
+        $file = $dirPath . $component . $postfix;
         if (!file_exists($file)) {
             return false;
         }
