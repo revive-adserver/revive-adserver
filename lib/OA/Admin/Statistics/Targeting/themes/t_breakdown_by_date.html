@@ -67,16 +67,6 @@
     <table width='100%' border='0' cellspacing='0' cellpadding='0'>
 	<tr>
         {if:!disableGraph}
-            {if:!aGraphData[noGraph]}
-        		  <td style="padding-bottom:5px; padding-right: 30px;white-space: nowrap;">
-        			  <br />
-        			  <a href="javascript:showGraph();" accesskey="g"><img id="grapharrow" src="{aGraphData[imgPath]}/ltr/triangle-l.gif" border="0" />{strShowGraphOfStatistics:h}</a>
-        		  </td>
-        		<td width='40' style="padding-right: 30px;">
-        			<br />
-        			<span style="color: #999999;">&nbsp;|&nbsp;</span>
-        	    </td>
-        	{end:}
     		<td style="padding-bottom:5px; white-space: nowrap;">
     			<br />
     			<a href="stats.php?{aGraphData[queryString]}&plugin=advertiser:statshistory" accesskey="e">
@@ -85,17 +75,6 @@
     		</td>
     		<td width="90%">&nbsp;</td>
     	{else:}
-            {if:!aGraphData[noGraph]}
-        		<td style="padding-bottom:5px; padding-right: 30px;white-space: nowrap;">
-        		    <br />
-        		    <span style="color: #999999;"><img id="grapharrow" src="{aGraphData[imgPath]}/ltr/triangle-l.gif" border="0" />{strShowGraphOfStatistics:h}</span>
-        		</td>
-
-        		<td width='40' style="padding-right: 30px;">
-        			<br />
-        			<span style="color: #999999;">&nbsp;|&nbsp;</span>
-        	    </td>
-        	{end:}
     		<td style="padding-bottom:5px; white-space: nowrap;">
     			<br />
     			<span style="color: #999999;">
