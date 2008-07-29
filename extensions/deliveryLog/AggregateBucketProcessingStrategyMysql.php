@@ -35,7 +35,7 @@ require_once MAX_PATH . '/lib/OA/DB/Distributed.php';
  * @subpackage Plugins_DeliveryLog
  * @author     David Keen <david.keen@openx.org>
  */
-class Plugins_DeliveryLog_AggregateBucketProcessingStrategy
+class Plugins_DeliveryLog_AggregateBucketProcessingStrategyMysql
     implements Plugins_DeliveryLog_BucketProcessingStrategy
 {
     /**

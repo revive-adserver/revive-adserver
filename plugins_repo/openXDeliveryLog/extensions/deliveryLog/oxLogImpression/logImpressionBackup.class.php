@@ -1,13 +1,15 @@
 <?php
 
 require_once MAX_PATH . '/extensions/deliveryLog/LogCommon.php';
-require_once MAX_PATH . '/extensions/deliveryLog/AggregateBucketProcessingStrategy.php';
+require_once MAX_PATH . '/extensions/deliveryLog/BucketProcessingStrategyFactory.php';
 
 class Plugins_DeliveryLog_OxLogImpression_logImpressionBackup extends Plugins_DeliveryLog_LogCommon
 {
     function __construct()
     {
-        $this->processingStrategy = new Plugins_DeliveryLog_AggregateBucketProcessingStrategy();
+        $dbType = $GLOBALS['_MAX']['CONF']['database']['type'];
+        $this->processingStrategy = 
+            Plugins_DeliveryLog_BucketProcessingStrategyFactory::getAggregateBucketProcessingStrategy($dbType);
     }
     
     function getDependencies()
