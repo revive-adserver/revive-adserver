@@ -148,7 +148,9 @@ class OA_Dal_Central_Rpc
             $aHeader['accountId'] = (int)$this->oCentral->accountId;
             $aHeader['m2mPassword'] = OA_Dal_Central_M2M::getM2MPassword($this->oCentral->accountId);
 
-            if (empty($aHeader['m2mPassword'])) {
+            if (empty($aHeader['m2mPassword']) || 
+                isset($GLOBALS['OX_CLEAR_M2M_PASSWORD'][$this->oCentral->accountId]) &&
+                $GLOBALS['OX_CLEAR_M2M_PASSWORD'][$this->oCentral->accountId] == true) {
                 // No password stored, connect!
                 $result = $this->oCentral->connectM2M();
 
@@ -205,9 +207,9 @@ class OA_Dal_Central_Rpc
 
                     case OA_CENTRAL_ERROR_M2M_PASSWORD_INVALID:
                         // OAP was asked to connect the account to get a password
-                        // Clear the password and retry
-                        OA_Dal_Central_M2M::setM2MPassword($this->oCentral->accountId, '');
-                        return $this->call($methodName, $authType, $aParams, ++$recursionLevel);
+                        // Set clear the password and retry (old password is in DB in case of problems with receiving new one)  
+                        $GLOBALS['OX_CLEAR_M2M_PASSWORD'][$this->oCentral->accountId] = true;
+                        return $this->call($methodName, $authType, $aParams, ++$recursionLevel, true);
 
                     case OA_CENTRAL_ERROR_M2M_PASSWORD_EXPIRED:
                         $result = $this->_reconnectM2M();

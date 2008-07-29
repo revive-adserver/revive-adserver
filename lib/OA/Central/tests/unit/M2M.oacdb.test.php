@@ -224,10 +224,11 @@ class Test_OA_Central_M2M extends UnitTestCase
 
         $this->assertIsA($oM2M->getM2MTicket(), 'PEAR_Error');
 
-        $this->assertEqual(OA_Dal_Central_M2M::getM2MPassword($this->adminAccountId),   '');
-        $this->assertEqual(OA_Dal_Central_M2M::getM2MTicket($this->adminAccountId),     '');
+        $this->assertEqual(OA_Dal_Central_M2M::getM2MPassword($this->adminAccountId),   'bar');
+        $this->assertFalse(OA_Dal_Central_M2M::getM2MTicket($this->adminAccountId));
         $this->assertEqual(OA_Dal_Central_M2M::getM2MPassword($this->managerAccountId), '');
         $this->assertEqual(OA_Dal_Central_M2M::getM2MTicket($this->managerAccountId),   '');
+        unset($GLOBALS['OX_CLEAR_M2M_PASSWORD']);
     }
 
     function testManagerWithWrongPwdRequestingTicket()

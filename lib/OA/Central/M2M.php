@@ -107,6 +107,9 @@ class OA_Central_M2M extends OA_Central_Common
 
         // Store M2M password
         OA_Dal_Central_M2M::setM2MPassword($this->accountId, $result);
+        if (isset($GLOBALS['OX_CLEAR_M2M_PASSWORD'][$this->accountId])) {
+            unset($GLOBALS['OX_CLEAR_M2M_PASSWORD'][$this->accountId]);
+        }
 
         return $result;
     }
