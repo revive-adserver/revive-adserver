@@ -125,6 +125,25 @@ class Menu
 
                         );
 
+        // Upgrade Packages
+        $aPackages[] =  array(
+                              'title'=>'New Core Upgrade Package',
+                              'action'=>'upgrade_package&name=OpenXCore',
+                             );
+        foreach ($GLOBALS['_MAX']['CONF']['pluginGroupComponents'] AS $name => $enabled)
+        {
+            $aPackages[] =  array(
+                                  'title'=>$name,
+                                  'action'=>'upgrade_package&name='.$name,
+                                 );
+        }
+        $aItems[] = array(
+                            'title' => 'Upgrade Packages',
+                            'action'=>'',
+                            'children'=> $aPackages,
+
+                        );
+
 
         // Upgrade Packages Array
         $aUpgrades[] =  array(

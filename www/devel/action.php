@@ -38,6 +38,9 @@ $action = $_REQUEST['action'];
 
 switch ($action)
 {
+    case 'upgrade_package': //&name=".$name,
+        include 'uppkg.php';
+        break;
     case 'create_plugin':
         include 'plugin.php';
         break;

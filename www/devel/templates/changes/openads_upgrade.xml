@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<upgrade>
+    <name>OpenX</name>
+    <creationDate>{DATE}</creationDate>
+    <author>OpenX Devs</author>
+    <authorEmail>support@openads.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>LICENSE.txt</license>
+    <description>OpenX Upgrade {VERSION}</description>
+    <versionFrom></versionFrom>
+    <versionTo>{VERSION}</versionTo>
+
+    <!-- Database Packages -->
+    <database>
+        <!--package>
+            <version>nnn</version>
+            <stamp>nnn</stamp>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_nnn.xml</file>
+            <file>changes_tables_core_nnn.xml</file>
+            <file>migration_tables_core_nnn.php</file>
+        </package-->
+    </database>
+
+    <!-- Custom Install Scripts to execute -->
+    <!--prescript>prescript_openads_upgrade_{VERSION}.php</prescript-->
+    <!--postscript>postscript_openads_upgrade_{VERSION}.php</postscript-->
+
+
+</upgrade>
