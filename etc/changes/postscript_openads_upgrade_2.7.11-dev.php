@@ -124,7 +124,7 @@ class OA_UpgradePostscript_2_7_11_dev
 
         if ($cpmCount > 0)
         {
-            $query = sprintf($this->queryUpdateTemplate, implode(',', $aCPMCampaigns), MAX_FINANCE_CPM);
+            $query = sprintf($this->queryUpdateTemplate, MAX_FINANCE_CPM, implode(',', $aCPMCampaigns));
             $result = $this->oDbh->exec($query);
             if (PEAR::isError($result))
             {
@@ -138,7 +138,7 @@ class OA_UpgradePostscript_2_7_11_dev
         }
         if ($cpcCount > 0)
         {
-            $query = sprintf($this->queryUpdateTemplate, implode(',', $aCPCCampaigns), MAX_FINANCE_CPC);
+            $query = sprintf($this->queryUpdateTemplate, MAX_FINANCE_CPC, implode(',', $aCPCCampaigns));
             $result = $this->oDbh->exec($query);
             if (PEAR::isError($result))
             {
@@ -153,7 +153,7 @@ class OA_UpgradePostscript_2_7_11_dev
 
         if ($cpaCount > 0)
         {
-            $query = sprintf($this->queryUpdateTemplate, implode(',', $aCPACampaigns), MAX_FINANCE_CPA);
+            $query = sprintf($this->queryUpdateTemplate, MAX_FINANCE_CPA, implode(',', $aCPACampaigns));
             $result = $this->oDbh->exec($query);
             if (PEAR::isError($result))
             {
