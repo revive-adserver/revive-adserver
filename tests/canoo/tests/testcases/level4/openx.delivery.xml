@@ -11,8 +11,6 @@
 			
         	<fileset dir="${testcase.dir}/level4/delivery/">
         		<include name="*.xml"/>
-        		<!-- temporary disable because it takes too long to execute
-        		<exclude name="avw.xml"/> -->
 			</fileset>
         </subant>
 	</target>
