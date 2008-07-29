@@ -1,5 +1,4 @@
 <?php
-
 /*
 +---------------------------------------------------------------------------+
 | OpenX v${RELEASE_MAJOR_MINOR}                                                                |
@@ -25,42 +24,16 @@
 $Id$
 */
 
-$className = 'postscript_install_oxDeliveryDataPrepare';
-
-require_once MAX_PATH . '/extensions/deliveryLog/Setup.php';
-
-/**
- * Installs any additional data after the plugins are installed
- * (before they are enabled)
- *
- */
-class postscript_install_oxDeliveryDataPrepare
+function Plugins_deliveryLog_oxLogClick_logClick_Delivery_logClick()
 {
-    const DELIVERY_LOG_EXTENSION = 'deliveryLog';
-
-    /**
-     * Names of component groups which performs additional actions
-     * on installing.
-     *
-     * @var array
-     */
-    private $aGroups = array(
-        'oxLogClick',
-        'oxLogImpression',
-        'oxLogRequest',
-        'oxLogConversion',
+    $data = $GLOBALS['_MAX']['deliveryData'];
+    $aQuery = array(
+        'interval_start' => $data['interval_start'],
+        'creative_id'    => $data['creative_id'],
+        'zone_id'        => $data['zone_id'],
     );
-
-    /**
-     * Calls onInstall method on every component from installed groups.
-     * If for any reason the installation failed perform uninstall of already installed
-     * components.
-     *
-     * @return boolean  True on success, else false
-     */
-    function execute()
-    {
-        $setup = new OX_Plugins_DeliveryLog_Setup();
-        return $setup->installComponents(self::DELIVERY_LOG_EXTENSION, $this->aGroups);
-    }
+    // @todo - log data
+    //return OX_bucket_updateTable('data_bkt_c', $aQuery);
 }
+
+?>

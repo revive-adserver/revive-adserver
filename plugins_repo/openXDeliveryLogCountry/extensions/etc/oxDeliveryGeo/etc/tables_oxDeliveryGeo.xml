@@ -23,7 +23,7 @@
 
    <field>
     <name>creative_id</name>
-    <type>openads_bigint</type>
+    <type>openads_mediumint</type>
     <length>20</length>
     <notnull>true</notnull>
     <default></default>
@@ -31,7 +31,7 @@
 
    <field>
     <name>zone_id</name>
-    <type>openads_bigint</type>
+    <type>openads_mediumint</type>
     <length>20</length>
     <notnull>true</notnull>
     <default></default>
@@ -93,7 +93,7 @@
 
    <field>
     <name>creative_id</name>
-    <type>openads_bigint</type>
+    <type>openads_mediumint</type>
     <length>20</length>
     <notnull>true</notnull>
     <default></default>
@@ -101,7 +101,7 @@
 
    <field>
     <name>zone_id</name>
-    <type>openads_bigint</type>
+    <type>openads_mediumint</type>
     <length>20</length>
     <notnull>true</notnull>
     <default></default>

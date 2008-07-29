@@ -25,6 +25,14 @@
         <name>data_bkt_r</name>
         <was>data_bkt_r</was>
       </table>
+        <table>
+        <name>data_bkt_a</name>
+        <was>data_bkt_a</was>
+      </table>
+        <table>
+        <name>data_bkt_a_var</name>
+        <was>data_bkt_a_var</was>
+      </table>
     </add>
   </changeset>
 </constructive>

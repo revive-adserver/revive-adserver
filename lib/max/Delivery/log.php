@@ -154,6 +154,8 @@ function MAX_Delivery_log_logAdClick($viewerId, $adId, $creativeId, $zoneId)
 function MAX_Delivery_log_logTrackerImpression($viewerId, $trackerId)
 {
     if (_viewersHostOkayToLog()) {
+        $rawTrackerImpressionId = OX_Delivery_Common_hook('logClick', array($viewerId, $trackerId));
+        // @todo - remove following code once buckets will be finished
         $aConf = $GLOBALS['_MAX']['CONF'];
         if (empty($aConf['rawDatabase']['host'])) {
             if (!empty($aConf['lb']['enabled'])) {

@@ -60,7 +60,7 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
     );
 
     /**
-     * @todo - get this template from external template file
+     * Template for generating delivery cache
      *
      * @var string
      */

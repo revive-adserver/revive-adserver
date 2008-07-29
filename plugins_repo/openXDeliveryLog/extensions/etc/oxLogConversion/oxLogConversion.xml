@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>oxLogConversion</name>
+    <creationDate>2008-07-29</creationDate>
+    <author>Radek Maciaszek</author>
+    <authorEmail>radek.maciaszek@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>Bucket for tracking conversions</description>
+    <version>1.0.0-dev</version>
+    <oxversion>2.7.11-dev</oxversion>
+    <extends>deliveryLog</extends>
+
+    <install>
+        <files>
+            <file path="{MODULEPATH}deliveryLog/oxLogConversion/">logConversion.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLog/oxLogConversion/">logConversion.class.php</file>
+        </files>
+
+        <components>
+           <component>
+                <name>logConversion</name>
+                <hook>logConversion</hook>
+           </component>
+        </components>
+
+    </install>
+
+
+</plugin>

@@ -22,8 +22,9 @@
             <group name="oxDeliveryDataPrepare">1</group>
 
             <group name="oxLogClick"           >2</group>
-            <group name="oxLogImpression"      >3</group>
-            <group name="oxLogRequest"         >4</group>
+            <group name="oxLogConversion"      >3</group>
+            <group name="oxLogImpression"      >4</group>
+            <group name="oxLogRequest"         >5</group>
         </contents>
 
     </install>

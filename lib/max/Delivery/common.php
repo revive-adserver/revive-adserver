@@ -614,7 +614,7 @@ function _convertContextArray($key, $array)
 /**
  * This function implements the hook mechanism in the delivery engine
  * It allows for a series of registered (stackable) hooks to be executed sequentially
- * Or it allows a single 
+ * Or it allows a single
  *
  * @param string $hookName      The name of the hook to be executed
  * @param array $aParams        An (optional) array of parameters to be passed to the component-hook(s)
@@ -625,7 +625,7 @@ function _convertContextArray($key, $array)
  */
 function OX_Delivery_Common_hook($hookName, $aParams = array(), $functionName = '')
 {
-    $return = true;
+    $return = null;
     // When a $functionname is passed in we use that function/component-identifier and execute the hook
     if (!empty($functionName)) {
         // Right now, we're allowing either a plain function to be executed, or a component-identifier
@@ -640,11 +640,12 @@ function OX_Delivery_Common_hook($hookName, $aParams = array(), $functionName = 
     } else {
         // When no $functionName is passed in, we execute all components which are registered for this hook
         if (!empty($GLOBALS['_MAX']['CONF']['deliveryHooks'][$hookName])) {
+            $return = array();
             $hooks = explode('|', $GLOBALS['_MAX']['CONF']['deliveryHooks'][$hookName]);
             foreach ($hooks as $identifier) {
                 $functionName = OX_Delivery_Common_getFunctionFromComponentIdentifier($identifier, $hookName);
                 if (function_exists($functionName)) {
-                    call_user_func_array($functionName, $aParams);
+                    $return[$identifier] = call_user_func_array($functionName, $aParams);
                 }
             }
         }

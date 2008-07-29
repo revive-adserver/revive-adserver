@@ -17,6 +17,10 @@ class Migration_001 extends Migration
 		$this->aTaskList_constructive[] = 'afterAddTable__data_bkt_m';
 		$this->aTaskList_constructive[] = 'beforeAddTable__data_bkt_r';
 		$this->aTaskList_constructive[] = 'afterAddTable__data_bkt_r';
+		$this->aTaskList_constructive[] = 'beforeAddTable__data_bkt_a';
+		$this->aTaskList_constructive[] = 'afterAddTable__data_bkt_a';
+		$this->aTaskList_constructive[] = 'beforeAddTable__data_bkt_a_var';
+		$this->aTaskList_constructive[] = 'afterAddTable__data_bkt_a_var';
 
 
     }
@@ -61,6 +65,26 @@ class Migration_001 extends Migration
 	function afterAddTable__data_bkt_r()
 	{
 		return $this->afterAddTable('data_bkt_r');
+	}
+
+	function beforeAddTable__data_bkt_a()
+	{
+		return $this->beforeAddTable('data_bkt_a');
+	}
+
+	function afterAddTable__data_bkt_a()
+	{
+		return $this->afterAddTable('data_bkt_a');
+	}
+
+	function beforeAddTable__data_bkt_a_var()
+	{
+		return $this->beforeAddTable('data_bkt_a_var');
+	}
+
+	function afterAddTable__data_bkt_a_var()
+	{
+		return $this->afterAddTable('data_bkt_a_var');
 	}
 
 }
