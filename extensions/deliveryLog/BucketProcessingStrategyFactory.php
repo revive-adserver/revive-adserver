@@ -26,6 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/extensions/deliveryLog/AggregateBucketProcessingStrategyMysql.php';
+require_once MAX_PATH . '/extensions/deliveryLog/RawBucketProcessingStrategyMysql.php';
 require_once MAX_PATH . '/lib/OA/DB/Distributed.php';
 
 /**
@@ -67,6 +68,17 @@ class Plugins_DeliveryLog_BucketProcessingStrategyFactory
      */
     public static function getRawBucketProcessingStrategy($dbType)
     {
-        
+        switch ($dbType) {
+            case 'mysql':
+                return new Plugins_DeliveryLog_RawBucketProcessingStrategyMysql();
+                break;
+            case 'pgsql':
+                MAX::raiseError('Unsupported DB type for distributed statistics.',
+                    MAX_ERROR_INVALIDARGS, PEAR_ERROR_DIE);
+                break;
+            default:
+                MAX::raiseError('Unsupported DB type for distributed statistics.',
+                    MAX_ERROR_INVALIDARGS, PEAR_ERROR_DIE);
+        }
     }
 }

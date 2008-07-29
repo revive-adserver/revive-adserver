@@ -29,17 +29,17 @@ require_once MAX_PATH . '/extensions/deliveryLog/BucketProcessingStrategy.php';
 require_once MAX_PATH . '/lib/OA/DB/Distributed.php';
 
 /**
- * A MySQL specific BucketProcessingStrategy class to migrate aggregate buckets.
+ * A MySQL specific BucketProcessingStrategy class to migrate raw buckets.
  * 
  * @package    OpenXPlugin
  * @subpackage Plugins_DeliveryLog
  * @author     David Keen <david.keen@openx.org>
  */
-class Plugins_DeliveryLog_AggregateBucketProcessingStrategyMysql
+class Plugins_DeliveryLog_RawBucketProcessingStrategyMysql
     implements Plugins_DeliveryLog_BucketProcessingStrategy
 {
     /**
-     * Process an aggregate-type bucket.  This is MySQL specific.
+     * Process a raw-type bucket.
      *
      * @param Plugins_DeliveryLog_LogCommon a reference to the using (context) object.
      * @param Date $oEnd A PEAR_Date instance, interval_start to process up to (inclusive).
@@ -57,38 +57,57 @@ class Plugins_DeliveryLog_AggregateBucketProcessingStrategyMysql
 
         // Select all rows with interval_start <= previous OI start.
         $rsData =& $this->getBucketTableContent($sTableName, $oEnd);
-        $rowCount = $rsData->getRowCount();
+        $count = $rsData->getRowCount();
 
         OA::debug('   '.$rsData->getRowCount().' records found', PEAR_LOG_INFO);
 
-        if ($rowCount) {
-            // We can't do bulk inserts with ON DUPLICATE.
-            $sInsert    = "INSERT INTO {$sTableName} (".join(',', array_keys($aRow)).") VALUES ";
-            $query      = '';
-            $aExecQueries = array();
-            
+        if ($count) {
+            $aRow = $oMainDbh->queryRow("SHOW VARIABLES LIKE 'max_allowed_packet'");
+            $packetSize = !empty($aRow['value']) ? $aRow['value'] : 0;
+
+            $i = 0;
             while ($rsData->fetch()) {
                 $aRow = $rsData->toArray();
                 $sRow = '('.join(',', array_map(array(&$oMainDbh, 'quote'), $aRow)).')';
-                $sOnDuplicate = ' ON DUPLICATE KEY UPDATE count = count + ' . $aRow['count'];
 
-                $aExecQueries[] = $sInsert . $sRow . $sOnDuplicate;
-            }
-
-            if (count($aExecQueries)) {
-                // Disable the binlog for the inserts so we don't 
-                // replicate back out over our logged data.
-                $result = $oMainDbh->exec('SET SQL_LOG_BIN = 0');
-                if (PEAR::isError($result)) {
-                    MAX::raiseError('Unable to disable the bin log - will not insert stats.', MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                if (!$i) {
+                    $sInsert    = "INSERT INTO {$sTableName} (".join(',', array_keys($aRow)).") VALUES ";
+                    $query      = '';
+                    $aExecQueries = array();
                 }
-                foreach ($aExecQueries as $execQuery) {
-                    $result = $oMainDbh->exec($execQuery);
+
+                if (!$query) {
+                    $query = $sInsert.$sRow;
+                // Leave 4 bytes headroom for max_allowed_packet
+                } elseif (strlen($query) + strlen($sRow) + 4 < $packetSize) {
+                    $query .= ','.$sRow;
+                } else {
+                    $aExecQueries[] = $query;
+                    $query = $sInsert.$sRow;
+                }
+
+                if (++$i >= $count || strlen($query) >= $packetSize) {
+                    $aExecQueries[] = $query;
+                    $query     = '';
+                }
+
+                if (count($aExecQueries)) {
+                    // Disable the binlog for the inserts so we don't 
+                    // replicate back out over our logged data.
+                    $result = $oMainDbh->exec('SET SQL_LOG_BIN = 0');
                     if (PEAR::isError($result)) {
+                        MAX::raiseError('Unable to disable the bin log - will not insert stats.', MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                    }
+                    foreach ($aExecQueries as $execQuery) {
+                        $result = $oMainDbh->exec($execQuery);
                         if (PEAR::isError($result)) {
-                            MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                            if (PEAR::isError($result)) {
+                                MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                            }
                         }
                     }
+
+                    $aExecQueries = array();
                 }
             }
         }
