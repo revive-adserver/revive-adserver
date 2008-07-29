@@ -8,15 +8,15 @@
 <project name="OpenX" basedir="." default="main">
 	<property name="openx.url" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}"/>
 	<target name="main">
-		<webtest name="Level3 - configuration test: openx.2.5.common.conf.addAdvertiser.xml">
+		<webtest name="Level3 - configuration test: openx.common.conf.addAdvertiser.xml {ant.file}: ${ant.file}">
 			&config;
 			<steps>
 				<enableJavaScript enable="${wt.enableJS}" />
 				&login;
 				<enableJavaScript enable="false" />
-				<clickLink label="Inventory" />
+					<clickLink label="Inventory" />
 				<enableJavaScript enable="true" />
-					<clickLink label="Add new advertiser" />
+				<clickLink label="Add new advertiser" />
 				<setInputField name="clientname" value="Advertiser 1"/>
 				<setInputField name="contact" value="advertiser"/>
 				<setInputField name="email" value="example@example.com"/>

@@ -14,18 +14,18 @@
         	<filelist dir="${testcase.dir}/level3/common/">
         		
         		<file name="openx.common.conf.dbsetup.xml" />	
-				<file name="openx.2.5.common.conf.addAdvertiser.xml" />
-        		<file name="openx.2.5.common.conf.addCampaigns.xml" />
+				<file name="openx.common.conf.addAdvertiser.xml" />
+        		<file name="openx.common.conf.addCampaigns.xml" />
         	
-        		<file name="openx.2.5.common.conf.addBanners.xml" />
+        		<file name="openx.common.conf.addBanners.xml" />
         
-        		<file name="openx.2.5.common.conf.addWebsite.xml" />
-        		<file name="openx.2.5.common.conf.addZones.xml" />
-				<file name="openx.2.5.common.conf.linkBanners.xml" />
-        		<file name="openx.2.5.common.conf.linkZones.xml" />
-        		<file name="openx.2.5.common.conf.addTrackers.xml" />
-        		<file name="openx.2.5.common.conf.linkTrackers.xml" />	
-        		<file name="openx.2.5.common.conf.addChannel.xml" />
+        		<file name="openx.common.conf.addWebsite.xml" />
+        		<file name="openx.common.conf.addZones.xml" />
+				<file name="openx.common.conf.linkBanners.xml" />
+        		<file name="openx.common.conf.linkZones.xml" />
+        		<file name="openx.common.conf.addTrackers.xml" />
+        		<file name="openx.common.conf.linkTrackers.xml" />	
+        		<file name="openx.common.conf.addChannel.xml" />
         		<!---->
         		<!-- !!!! <file name="openx.2.5.common.conf.addBannerGif.xml" /> -->
 			</filelist>

@@ -8,7 +8,7 @@
 <project name="OpenX" basedir="." default="main">
 	<property name="openx.url" value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}"/>
 	<target name="main">
-		<webtest name="Level3 - configuration test: openx.2.5.common.conf.addBanners.xml">
+		<webtest name="Level3 configuration test openx.2.5.common.conf.addBanners.xml">
 			&config;
 			<steps>
 				<enableJavaScript enable="${wt.enableJS}" />
@@ -35,12 +35,19 @@
 				<setInputField name="description" value="Test HTML Banner!"/>									
 				<setInputField name="width" value="468"/>
 				<setInputField name="height" value="60"/>
-
-<!--	disabled because this banner is inserted directly by sql query				
+			<!-- 
+				disabled because of following error: 
+				openx.common.conf.addBanners.xml:11: java.lang.NoSuchMethodError: org.apache.commons.io.FileUtils.writeStringToFile(Ljava/io/File;Ljava/lang/String;)V
+				<setInputField name="htmltemplate" value="Test HTML Banner!"/> 
+			-->
+				
+<!--	
+		this banner is inserted directly by sql query due to 
+		Fatal error: Call to a member function getOwningAccountIds() on a non-object in /home/lukasz/workspace/trunk/target/lib/max/Dal/DataObjects/DB_DataObjectCommon.php on line 1449
 				<enableJavaScript enable="false" />
 					<clickButton htmlid="submit"/>
 				<enableJavaScript enable="true" />
--->
+ -->
 
 <!-- disabled due to weird java exception occurrence:
 	D:\qa\eclipse-workspace\trunk\target\tests\canoo\tests\testcases\level2\common\openx.2.5.common.conf.addBanners.xml:11:
