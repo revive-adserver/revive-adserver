@@ -145,7 +145,7 @@ function buildChainSettingsFormSection($form, $aZone)
     $chainGroup[] = $form->createElement('radio', 'chaintype', null, 
         $GLOBALS['strZoneOtherZone'], 1, array('id' => 'chaintype-z'));
     $chainGroup[] =$form->createElement('select', 'chainzone', _getChainZonesImage($aZone), 
-        _getChainZones($aZone), array('class' => 'medium', 'onchange' => 'phpAds_formSelectZone()'));
+        _getChainZones($aZone), array('id'=> 'chainzone', 'class' => 'medium'));
     $form->addDecorator('chainzone', 'tag', array('attributes' => array('id' => 'chain-zone-select', 
             'class' => $zone['chain']=='' ? 'hide' : '')));
     

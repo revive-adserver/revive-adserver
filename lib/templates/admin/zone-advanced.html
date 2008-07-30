@@ -61,67 +61,6 @@ $Id$
       $('#append-interstitial').show();
    }
  });
- 
-function phpAds_formSelectZone()
-{
-    document.zoneform.chaintype[0].checked = false;
-    document.zoneform.chaintype[1].checked = true;
-    document.zoneform.chaintype[2].checked = false;
-}
-
-function phpAds_formEditWhat()
-{
-    if (event.keyCode != 9)
-    {
-        document.zoneform.chaintype[0].checked = false;
-        document.zoneform.chaintype[1].checked = false;
-        document.zoneform.chaintype[2].checked = true;
-    }
-}
-
-function phpAds_formSelectAppendType()
-{
-    if (document.zoneform.appendid)
-        document.zoneform.appendid.value = '-1';
-    document.zoneform.appendsave.value = '0';
-    document.zoneform.submit();
-}
-
-function phpAds_formSelectAppendDelivery(type)
-{
-    document.zoneform.appendid.value = '-1';
-    document.zoneform.appendsave.value = '0';
-    document.zoneform.submit();
-}
-
-
-function phpAds_formSelectAppendZone(type)
-{
-    var x;
-
-    if (document.zoneform.appenddelivery[type] &&
-        !document.zoneform.appenddelivery[type].checked)
-    {
-        document.zoneform.appendid.value = '-1';
-        document.zoneform.appendsave.value = '0';
-        document.zoneform.submit();
-    }
-}
-
-function phpAds_formZoneAdvSubmit()
-{
-    if (document.zoneform.appenddelivery)
-    {
-        if (document.zoneform.appenddelivery[0].checked)
-            x = document.zoneform.appendpopup;
-        else
-            x = document.zoneform.appendinterstitial;
-
-        document.zoneform.appendid.value = x.options[x.selectedIndex].value;
-    }
-
-    return true;
-}
 {/literal} 
 //-->
 </script>
