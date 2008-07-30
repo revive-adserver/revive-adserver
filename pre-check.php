@@ -76,7 +76,7 @@ body {
 }
 h1 {
     width:80%;
-    font: 27px Arial;
+    font: 26px Arial;
     color:#000; 
 }
 h2 {
@@ -137,7 +137,7 @@ li {
             ";
         } else {
             $message .= "
-                <h1>Sorry, but the OpenX installer system cannot currently be started.</h1>
+                <h1>Sorry, but the OpenX installer system cannot currently be started</h1>
             ";
         }
         $message .= '
