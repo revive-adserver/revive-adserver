@@ -54,13 +54,13 @@ class Menu
                             array(
                                 'text' => 'OpenX Developer Toolbox',
                                 'icon' => '',
-                                'link' => 'action.php?action=about_index',
+                                'link' => 'action.php?action=index',
                                 'linkTarget' => 'right'
                             )
                         );
         $aItems[] = array(
                             'title' => 'Plugins',
-                            'action'=>'about_plugins',
+                            'action'=>'about&item=plugins',
                             'children'=> array(
                                                0 => array(
                                                           'title'=>'New Plugin',
@@ -70,7 +70,7 @@ class Menu
                         );
         $aItems[] = array(
                             'title' => 'Schemas',
-                            'action'=>'about_schema',
+                            'action'=>'about&item=schema',
                             'children'=> array(
                                                0 => array(
                                                           'title'=>'Schema Editor',
@@ -84,7 +84,7 @@ class Menu
                         );
         $aItems[] = array(
                             'title' => 'Core Schema Utilities',
-                            'action'=>'about_integ',
+                            'action'=>'about&item=core_utils',
                             'children'=> array(
                                                0 => array(
                                                           'title'=>'Integrity Check',
@@ -120,7 +120,7 @@ class Menu
         }
         $aItems[] = array(
                             'title' => 'Generate DataObjects',
-                            'action'=>'',
+                            'action'=>'about&item=dataobjects',
                             'children'=> $aDataObjects,
 
                         );
@@ -139,7 +139,7 @@ class Menu
         }
         $aItems[] = array(
                             'title' => 'Upgrade Packages',
-                            'action'=>'',
+                            'action'=>'about&item=upgrade_packages',
                             'children'=> $aPackages,
 
                         );
@@ -159,7 +159,7 @@ class Menu
         }
         $aItems[] = array(
                             'title' => 'Upgrade Packages Array',
-                            'action'=>'',
+                            'action'=>'about&item=upgrade_array',
                             'children'=> $aUpgrades,
 
                         );

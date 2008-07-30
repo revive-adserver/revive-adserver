@@ -53,6 +53,31 @@ $action = $_REQUEST['action'];
 
 switch ($action)
 {
+    case 'about':
+        $item = $_REQUEST['item'];
+        include 'templates/frameheader.html';
+        switch ($item)
+        {
+            case 'upgrade_packages':
+                include 'templates/about_uppkg.html';
+                break;
+            case 'plugins':
+                include 'templates/about_plugins.html';
+                break;
+            case 'schema':
+                include 'templates/about_schema.html';
+                break;
+            case 'dataobjects':
+                include 'templates/about_dataobjects.html';
+                break;
+            case 'core_utils':
+                include 'templates/about_core_utils.html';
+                break;
+            case 'upgrade_array':
+                include 'templates/about_uparray.html';
+                break;
+        }
+        break;
     case 'upgrade_package':
         checkPermissions(array(MAX_PATH.'/etc/changes'));
         include 'uppkg.php';
@@ -62,18 +87,6 @@ switch ($action)
         break;
     case 'schema_editor':
         include 'schema.php';
-        break;
-    case 'about_index':
-        include 'templates/frameheader.html';
-        include 'templates/index.html';
-        break;
-    case 'about_schema':
-        include 'templates/frameheader.html';
-        include 'templates/schema_about.html';
-        break;
-    case 'about_integ':
-        include 'templates/frameheader.html';
-        include 'templates/schema_about.html';
         break;
     case 'schema_changesets':
         include 'archive.php';
@@ -109,6 +122,7 @@ switch ($action)
         include MAX_PATH.'/scripts/db_dataobject/rebuild.php';
         break;
     default:
+        include 'templates/index.html';
         break;
 }
 
