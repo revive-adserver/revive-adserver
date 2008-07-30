@@ -43,7 +43,8 @@ function Plugins_deliveryLog_oxLogConversion_logConversion_Delivery_logConversio
                         '{$serverRawTrackerImpressionId}',
                         '{$serverRawIp}',
                         '{$variable['variable_id']}',
-                        '".OX_escapeString($variable['value'])."'
+                        '".OX_escapeString($variable['value'])."',
+                        'date_time' => gmdate('Y-m-d H:i:s'),
                     )";
     }
     if (empty($aRows)) {
@@ -56,7 +57,8 @@ function Plugins_deliveryLog_oxLogConversion_logConversion_Delivery_logConversio
                 server_conv_id,
                 server_ip,
                 tracker_variable_id,
-                value
+                value,
+                date_time
             )
         VALUES " . implode(',', $aRows);
 
