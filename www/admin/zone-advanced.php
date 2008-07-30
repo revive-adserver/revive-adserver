@@ -39,6 +39,9 @@ require_once MAX_PATH . '/www/admin/lib-append.inc.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-size.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
+require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
+require_once MAX_PATH . '/lib/OA/Admin/Template.php';
+
 
 // Register input variables
 phpAds_registerGlobal (
@@ -51,15 +54,13 @@ phpAds_registerGlobal (
     ,'appendsave'
     ,'appendtype'
     ,'chaintype'
-    ,'chainwhat'
     ,'chainzone'
     ,'prepend'
-    ,'submitbutton'
 );
 
 
 /*-------------------------------------------------------*/
-/* Affiliate interface security                          */
+/* Security check                                        */
 /*-------------------------------------------------------*/
 
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
@@ -71,612 +72,440 @@ if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
 }
 
 /*-------------------------------------------------------*/
+/* Initialise data                                    */
+/*-------------------------------------------------------*/
+$doZones = OA_Dal::factoryDO('zones');
+if ($doZones->get($zoneid)) {
+    $aZone = $doZones->toArray();
+}
+// Determine appendtype
+if (isset($appendtype)) {
+    $aZone['appendtype'] = $appendtype;
+}
+else {
+    $aZone['appendtype'] = phpAds_ZoneAppendRaw;
+}
+
+/*-------------------------------------------------------*/
+/* MAIN REQUEST PROCESSING                               */
+/*-------------------------------------------------------*/
+//build zone adv form
+$zoneForm = buildZoneForm($aZone);
+
+if ($zoneForm->validate()) {
+    //process submitted values
+    processForm($aZone, $zoneForm);
+}
+else { //either validation failed or form was not submitted, display the form
+    displayPage($aZone, $zoneForm);
+}
+
+/*-------------------------------------------------------*/
+/* Build form                                            */
+/*-------------------------------------------------------*/
+function buildZoneForm($aZone)
+{
+    $form = new OA_Admin_UI_Component_Form("zoneform", "POST", $_SERVER['PHP_SELF']);
+    $form->forceClientValidation(true);
+    
+    $form->addElement('hidden', 'zoneid', $aZone['zoneid']);
+    $form->addElement('hidden', 'affiliateid', $aZone['affiliateid']);
+    
+    buildChainSettingsFormSection($form, $aZone);
+    buildDeliveryCappingFormSection($form, $GLOBALS['strCappingZone'], $aZone);
+    buildZoneForecastingFormSection($form, $aZone);
+    buildAppendFormSection($form, $aZone);
+    
+    //we want submit to be the last element in its own separate section
+    $form->addElement('controls', 'form-controls');
+    $form->addElement('submit', 'submit', $GLOBALS['strSaveChanges']);
+    
+
+    //set form  values 
+    $form->setDefaults($aZone);
+    $form->setDefaults(array('chaintype' => ($aZone['chain'] == '' ? 0 : 1),
+        'inventory_forecast_type_channel' => ($aZone['inventory_forecast_type'] & 8 ? 8 : '')));
+
+    //appendinterstitial i appendpopup
+    if ($appendid == $k)
+    
+    return $form;    
+}
+
+
+function buildChainSettingsFormSection($form, $aZone)
+{
+    $form->addElement('header', 'header_chain', $GLOBALS['strChainSettings']);
+    
+    $chainGroup[] = $form->createElement('radio', 'chaintype', null, 
+        $GLOBALS['strZoneStopDelivery'], 0, array('id' => 'chaintype-s'));
+    $chainGroup[] = $form->createElement('radio', 'chaintype', null, 
+        $GLOBALS['strZoneOtherZone'], 1, array('id' => 'chaintype-z'));
+    $chainGroup[] =$form->createElement('select', 'chainzone', _getChainZonesImage($aZone), 
+        _getChainZones($aZone), array('class' => 'medium', 'onchange' => 'phpAds_formSelectZone()'));
+    $form->addDecorator('chainzone', 'tag', array('attributes' => array('id' => 'chain-zone-select', 
+            'class' => $zone['chain']=='' ? 'hide' : '')));
+    
+    $form->addGroup($chainGroup, 'g_chain', $GLOBALS['strZoneNoDelivery'], array("<BR>", '', ''));            
+}
+
+
+function buildZoneForecastingFormSection($form, $aZone)
+{
+    $form->addElement('header', 'header_forecast', $GLOBALS['strZoneForecasting']);
+    $form->addElement('advcheckbox', 'inventory_forecast_type_channel', $GLOBALS['strInventoryForecasting'], 
+        $GLOBALS['strChannel'], array('id' => 'inventory_forecast_type_channel'), array("", "8"));
+    
+}
+
+
+function buildAppendFormSection($form, $aZone)
+{
+    if ($aZone['delivery'] == phpAds_ZoneBanner || $aZone['delivery'] == phpAds_ZoneText) {
+        $form->addElement('header', 'header_append', $GLOBALS['strAppendSettings']);
+        $form->addElement('advcheckbox', 'forceappend', null, 
+            $GLOBALS['strZoneAppendNoBanner'], null, array("f", "t"));
+    }
+            
+    if ($aZone['delivery'] == phpAds_ZoneBanner) { //NOTE seems like this is never reached and does not seem to be working since 2.4 anyway
+        $form->addElement('select', 'appendtype', $GLOBALS['strZoneAppendType'], 
+            _getAppendTypes($aZone), 
+            array('class' => 'small', 'onchange' => 'formSelectAppendType()()'));
+            
+        if ($zone['appendtype'] == phpAds_ZoneAppendZone) {
+            // Read info from invocaton code
+            if (!isset($appendid) || empty($appendid))
+            {
+                $appendvars = phpAds_ParseAppendCode($zone['append']);
+            
+                $appendid         = $appendvars[0]['zoneid'];
+                $appenddelivery = $appendvars[0]['delivery'];
+            
+                if ($appenddelivery == phpAds_ZonePopup &&
+                    !count($available[phpAds_ZonePopup])) {
+                    $appenddelivery = phpAds_ZoneInterstitial;
+                }
+                elseif ($appenddelivery == phpAds_ZoneInterstitial &&
+                        !count($available[phpAds_ZoneInterstitial])) {
+                    $appenddelivery = phpAds_ZonePopup;
+                }
+                else {
+                    // Add globals for lib-invocation
+                    foreach ($appendvars[1] as $k => $v) {
+                        if ($k != 'n' && $k != 'what')
+                            $GLOBALS[$k] = addslashes($v);
+                    }
+                }
+            }
+          
+          
+            // Append zones
+            $form->addElement('hidden', 'appendsave', 1);
+            $form->addElement('hidden', 'appendid', $aZone['appendid']);
+            
+            $available = _getAppendZones($aZone);
+            
+            $appendGroup['rp'] = $form->createElement('radio', 'appenddelivery', null, 
+                $GLOBALS['strPopup'], phpAds_ZonePopup, array('id' => 'append-delivery-popup'));
+            $appendGroup['sp'] = $form->createElement('select', 'appendpopup', 
+                "<img src='".MAX::assetPath().(count($available[phpAds_ZonePopup]) ? "/images/icon-popup.gif" : "/images/icon-popup-d.gif")."' align='absmiddle'>", 
+                $available[phpAds_ZonePopup], array('class' => 'medium', 'onchange' => 'phpAds_formSelectAppendZone(0)'));
+            if (count($available[phpAds_ZonePopup]) == 0) { //disable if nothing to select
+                $appendGroup['rp']->setAttribute('disabled', '1');
+                $appendGroup['sp']->setAttribute('disabled', '1');
+            }
+            $form->addDecorator('appendpopup', 'tag', 
+                array('attributes' => array('id' => 'append-popup', 'class' => 'hide')));
+                
+            $appendGroup['ri'] = $form->createElement('radio', 'appenddelivery', null, 
+                $GLOBALS['strInterstitial'], phpAds_ZoneInterstitial, array('id' => 'append-delivery-interstitial'));
+            $appendGroup['si'] = $form->createElement('select', 'appendinterstitial',
+                "<img src='".MAX::assetPath().(count($available[phpAds_ZoneInterstitial]) ? "/images/icon-interstitial.gif" : "/images/icon-interstitial-d.gif")."' align='absmiddle'>", 
+                $available[phpAds_ZoneInterstitial], array('class' => 'medium', 'onchange' => 'phpAds_formSelectAppendZone(1)'));
+            if (count($available[phpAds_ZoneInterstitial]) == 0) { //disable if nothing to select
+                $appendGroup['ri']->setAttribute('disabled', '1');
+                $appendGroup['si']->setAttribute('disabled', '1');
+            }
+            $form->addDecorator('appendinterstitial', 'tag', 
+                array('attributes' => array('id' => 'append-interstitial', 'class' => 'hide')));
+                
+            $form->addGroup($appendGroup, 'g_append', $GLOBALS['strZoneAppendSelectZone'], array('', '<BR>', ''));            
+            
+            // It shouldn't be necessary to load zone attributes from db
+            $extra = array('what' => '',
+                           //'width' => $zone['width'],
+                           //'height' => $zone['height'],
+                           'delivery' => $appenddelivery,
+                           //'website' => $affiliate['website'],
+                           'zoneadvanced' => true
+            );
+    
+            // Set codetype
+            $codetype = $appenddelivery == 'popup' ? 'popup' : 'adlayer';
+            $maxInvocation = new MAX_Admin_Invocation();
+            //echo $maxInvocation->buildInvocationForm($extra, true); //NOTE in order to append zones we need to refactor whole invocation code screen and related classes first
+        }
+        else {
+            $form->addElement('hidden', 'appendsave', 1);
+            $form->addElement('textarea', 'append', $GLOBALS['strZoneAppend'],
+                array('class' => 'code x-large'));
+        }
+    }
+    elseif ($aZone['delivery'] == phpAds_ZoneText ) {
+        // It isn't possible to append other banners to text zones, but
+        // it is possible to prepend and append regular HTML code for
+        // determining the layout of the text ad zone
+        $form->addElement('textarea', 'prepend', $GLOBALS['strZonePrependHTML'],
+                array('class' => 'code x-large'));
+        
+        
+        $form->addElement('hidden', 'appendsave', 1);
+        $form->addElement('hidden', 'appendtype', phpAds_ZoneAppendRaw);
+        $form->addElement('textarea', 'append', $GLOBALS['strZoneAppend'],
+                array('class' => 'code x-large'));
+    }
+}
+
+
+/*-------------------------------------------------------*/
 /* Process submitted form                                */
 /*-------------------------------------------------------*/
-
-if (isset($submitbutton))
+function processForm($aZone, $form) 
 {
-    if (!empty($zoneid))
+    $aFields = $form->exportValues();
+    
+    if (empty($aFields['zoneid'])) {
+        return;
+    }
+    
+    $doZones = OA_Dal::factoryDO('zones');
+    $doZones->get($aFields['zoneid']);
+
+    // Determine chain
+    if ($aFields['chaintype'] == '1' && $aFields['chainzone'] != '') {
+        $chain = 'zone:'.$aFields['chainzone'];
+    } 
+    else {
+        $chain = '';
+    }
+    $doZones->chain = $chain;
+
+    if (!isset($aFields['prepend'])) {
+        $aFields['prepend'] = '';
+    }
+    $aFields['prepend'] = MAX_commonGetValueUnslashed('prepend');
+    $doZones->prepend = $aFields['prepend'];
+
+    // Do not save append until not finished with zone appending, if present
+    if (!empty($aFields['appendsave']))
     {
-        $doZones = OA_Dal::factoryDO('zones');
-        $doZones->get($zoneid);
-
-        // Determine chain
-        if ($chaintype == '1' && $chainzone != '') {
-            $chain = 'zone:'.$chainzone;
-        } elseif ($chaintype == '2' && $chainwhat != '') {
-            $chain = $chainwhat;
-        } else {
-            $chain = '';
+        if (!isset($aFields['append'])) {
+            $aFields['append'] = '';
         }
-        $doZones->chain = $chain;
+        if (!isset($aFields['appendtype'])) {
+            $aFields['appendtype'] = phpAds_ZoneAppendZone;
+        }
+        if (!isset($aFields['appenddelivery'])) {
+            $aFields['appenddelivery'] = phpAds_ZonePopup;
+        }
+        if ($aFields['appendtype'] == phpAds_ZoneAppendZone) {
+            $what = 'zone:'.(isset($aFields['appendid']) ? $aFields['appendid'] : 0);
 
-        if (!isset($prepend)) $prepend = '';
-        $prepend = MAX_commonGetValueUnslashed('prepend');
-        $doZones->prepend = $prepend;
-
-        // Do not save append until not finished with zone appending, if present
-        if (!empty($appendsave))
-        {
-            if (!isset($append)) $append = '';
-            if (!isset($appendtype)) $appendtype = phpAds_ZoneAppendZone;
-            if (!isset($appenddelivery)) $appenddelivery = phpAds_ZonePopup;
-            if ($appendtype == phpAds_ZoneAppendZone)
-            {
-                $what = 'zone:'.(isset($appendid) ? $appendid : 0);
-
-                if ($appenddelivery == phpAds_ZonePopup)
-                    $codetype = 'popup';
-                else
-                {
-                    $codetype = 'adlayer';
-                    if (!isset($layerstyle)) $layerstyle = 'geocities';
-                    include ('../libraries/layerstyles/'.$layerstyle.'/invocation.inc.php');
-                }
-                $maxInvocation = new MAX_Admin_Invocation();
-                $invocationCode = $maxInvocation->generateInvocationCode($invocationTag = null);
-                $append = $invocationCode;
-                //Temporary fix - allow {source} for popup tags...
-                $append = str_replace('%7Bsource%7D', '{source}', $append);
-            } else {
-                $append = MAX_commonGetValueUnslashed('append');
+            if ($aFields['appenddelivery'] == phpAds_ZonePopup) {
+                $codetype = 'popup';
             }
-
-            $doZones->append = $append;
-            $doZones->appendtype = $appendtype;
-        }
-
-        if (isset($forceappend)) {
-            $doZones->forceappend = $forceappend;
-        }
-
-        $inventory_forecast_type = 0;
-        if (isset($inventory_forecast_type_channel)) $inventory_forecast_type += $inventory_forecast_type_channel;
-        if (isset($inventory_forecast_type)) {
-            $doZones->inventory_forecast_type = $inventory_forecast_type;
-        }
-
-		$block = _initCappingVariables($time, $cap, $session_capping);
-
-		$doZones->block = $block;
-		$doZones->capping = $cap;
-		$doZones->session_capping = $session_capping;
-		$doZones->update();
-
-        // Rebuild Cache
-        // require_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';
-        // phpAds_cacheDelete('what=zone:'.$zoneid);
-
-        // Do not redirect until not finished with zone appending, if present
-        if (!empty($appendsave)) {
-            if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-                if (OA_Permission::hasPermission(OA_PERM_ZONE_LINK)) {
-                    MAX_Admin_Redirect::redirect('zone-include.php?affiliateid='.$affiliateid.'&zoneid='.$zoneid);
-                } else {
-                    MAX_Admin_Redirect::redirect('zone-probability.php?affiliateid='.$affiliateid.'&zoneid='.$zoneid);
+            else {
+                $codetype = 'adlayer';
+                if (!isset($aFields['layerstyle'])) {
+                    $aFields['layerstyle'] = 'geocities';
                 }
-            } else {
-                MAX_Admin_Redirect::redirect('zone-include.php?affiliateid='.$affiliateid.'&zoneid='.$zoneid);
+                include ('../libraries/layerstyles/'.$aFields['layerstyle'].'/invocation.inc.php');
             }
+            $maxInvocation = new MAX_Admin_Invocation();
+            $invocationCode = $maxInvocation->generateInvocationCode($invocationTag = null);
+            $aFields['append'] = $invocationCode;
+            //Temporary fix - allow {source} for popup tags...
+            $aFields['append'] = str_replace('%7Bsource%7D', '{source}', $aFields['append']);
+        } 
+        else {
+            $aFields['append'] = MAX_commonGetValueUnslashed('append');
+        }
+
+        $doZones->append = $aFields['append'];
+        $doZones->appendtype = $aFields['appendtype'];
+    }
+
+    if (isset($aFields['forceappend'])) {
+        $doZones->forceappend = $aFields['forceappend'];
+    }
+
+    $inventory_forecast_type = 0;
+    if (isset($aFields['inventory_forecast_type_channel'])) { 
+        $inventory_forecast_type += $aFields['inventory_forecast_type_channel'];
+    }
+    if (isset($inventory_forecast_type)) {
+        $doZones->inventory_forecast_type = $inventory_forecast_type;
+    }
+
+    $block = _initCappingVariables($aFields['time'], $aFields['capping'], $aFields['session_capping']);
+
+    $doZones->block = $block;
+    $doZones->capping = $aFields['capping'];
+    $doZones->session_capping = $aFields['session_capping'];
+    $doZones->update();
+
+    // Rebuild Cache
+    // require_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';
+    // phpAds_cacheDelete('what=zone:'.$zoneid);
+
+    // Do not redirect until not finished with zone appending, if present
+    if (!empty($aFields['appendsave'])) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+            if (OA_Permission::hasPermission(OA_PERM_ZONE_LINK)) {
+                MAX_Admin_Redirect::redirect('zone-include.php?affiliateid='.$aFields['affiliateid'].'&zoneid='.$aFields['zoneid']);
+            } 
+            else {
+                MAX_Admin_Redirect::redirect('zone-probability.php?affiliateid='.$aFields['affiliateid'].'&zoneid='.$aFields['zoneid']);
+            }
+        } 
+        else {
+            MAX_Admin_Redirect::redirect('zone-include.php?affiliateid='.$aFields['affiliateid'].'&zoneid='.$aFields['zoneid']);
         }
     }
 }
 
 
 /*-------------------------------------------------------*/
-/* HTML framework                                        */
+/* Display page                                          */
 /*-------------------------------------------------------*/
-
-// Initialise some parameters
-$pageName = basename($_SERVER['PHP_SELF']);
-$tabIndex = 1;
-$agencyId = OA_Permission::getAgencyId();
-$aEntities = array('affiliateid' => $affiliateid, 'zoneid' => $zoneid);
-
-$aOtherPublishers = Admin_DA::getPublishers(array('agency_id' => $agencyId));
-$aOtherZones = Admin_DA::getZones(array('publisher_id' => $affiliateid));
-MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $aEntities);
-
-
-/*-------------------------------------------------------*/
-/* Main code                                             */
-/*-------------------------------------------------------*/
-
-$doZones = OA_Dal::factoryDO('zones');
-if ($doZones->get($zoneid)) {
-    $zone = $doZones->toArray();
+function displayPage($aZone, $form)
+{
+    $pageName = basename($_SERVER['PHP_SELF']);
+    $agencyId = OA_Permission::getAgencyId();
+    $aEntities = array('affiliateid' => $aZone['affiliateid'], 'zoneid' => $aZone['zoneid']);
+    
+    $aOtherPublishers = Admin_DA::getPublishers(array('agency_id' => $agencyId));
+    $aOtherZones = Admin_DA::getZones(array('publisher_id' => $aZone['affiliateid']));
+    MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $aEntities);
+    
+    
+    //get template and display form
+    $oTpl = new OA_Admin_Template('zone-advanced.html');
+    $oTpl->assign('form', $form->serialize());
+    $oTpl->display();
+    
+    
+    _echoDeliveryCappingJs();
+    //footer
+    phpAds_PageFooter();
 }
 
-$tabindex = 1;
 
-if (ereg("^zone:([0-9]+)$", $zone['chain'], $regs))
-    $chainzone = $regs[1];
-else
-    $chainzone = '';
-
-
-echo "
-<form name='zoneform' method='post' action='zone-advanced.php' onSubmit='return phpAds_formZoneAdvSubmit() && max_formValidate(this);'>
-<input type='hidden' name='zoneid' value='".(isset($zoneid) && $zoneid != '' ? $zoneid : '')."'>
-<input type='hidden' name='affiliateid' value='".(isset($affiliateid) && $affiliateid != '' ? $affiliateid : '')."'>
-<br />
-<table border='0' width='100%' cellpadding='0' cellspacing='0'>
-<tr>
-    <td>
-        <table cellpadding='0' cellspacing='0' border='0' width='100%'>
-        <tr height='25'>
-            <td colspan='3'><b>$strChainSettings</b></td>
-        </tr>
-        <tr height='1'>
-            <td width='30'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='30'></td>
-            <td width='200'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='200'></td>
-            <td width='100%'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td>
-        </tr>
-        <tr height='10'>
-            <td colspan='3'>&nbsp;</td>
-        </tr>
-        <tr>
-            <td width='30' valign='top'>&nbsp;</td>
-            <td width='200' valign='top'>$strZoneNoDelivery</td>
-            <td width='370'><input type='radio' id='chaintype-s' name='chaintype' value='0'".($zone['chain'] == '' ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;<label for='chaintype-s'>$strZoneStopDelivery</label><br /><input type='radio' id='chaintype-z' name='chaintype' value='1'".($zone['chain'] != '' && $chainzone != '' ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;<label for='chaintype-z'>$strZoneOtherZone</label><br /><br />";
-
-if ($zone['delivery'] == phpAds_ZoneBanner) echo "<img src='" . OX::assetPath() . "/images/icon-zone.gif' align='top'>";
-if ($zone['delivery'] == phpAds_ZoneInterstitial) echo "<img src='" . OX::assetPath() . "/images/icon-interstitial.gif' align='top'>";
-if ($zone['delivery'] == phpAds_ZonePopup) echo "<img src='" . OX::assetPath() . "/images/icon-popup.gif' align='top'>";
-if ($zone['delivery'] == phpAds_ZoneText) echo "<img src='" . OX::assetPath() . "/images/icon-textzone.gif' align='top'>";
-
-echo "&nbsp;&nbsp;<select name='chainzone' style='width: 200;' onchange='phpAds_formSelectZone()' tabindex='".($tabindex++)."'>";
-
+function _getChainZones($aZone)
+{
     // Get list of zones to link to
     $doZones = OA_Dal::factoryDO('zones');
 
-    $allowothersizes = $zone['delivery'] == phpAds_ZoneInterstitial || $zone['delivery'] == phpAds_ZonePopup;
-    if ($zone['width'] != -1 && !$allowothersizes) {
-        $doZones->width = $zone['width'];
+    $allowothersizes = $aZone['delivery'] == phpAds_ZoneInterstitial 
+        || $aZone['delivery'] == phpAds_ZonePopup;
+    if ($aZone['width'] != -1 && !$allowothersizes) {
+        $doZones->width = $aZone['width'];
     }
-    if ($zone['height'] != -1 && !$allowothersizes) {
-        $doZones->height = $zone['height'];
+    if ($aZone['height'] != -1 && !$allowothersizes) {
+        $doZones->height = $aZone['height'];
     }
-    $doZones->delivery = $zone['delivery'];
-    $doZones->whereAdd('zoneid <> '.$zoneid);
+    $doZones->delivery = $aZone['delivery'];
+    $doZones->whereAdd('zoneid <> '.$aZone['zoneid']);
     // Limit the list of zones to the appropriate list
     if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
         $doAffiliates = OA_Dal::factoryDO('affiliates');
         $doAffiliates->agencyid = OA_Permission::getAgencyId();
         $doZones->joinAdd($doAffiliates);
-    } else {
-        $doZones->whereAdd('affiliateid = ' . $affiliateid);
+    } 
+    else {
+        $doZones->whereAdd('affiliateid = ' . $aZone['affiliateid']);
     }
     $doZones->find();
 
-    while ($doZones->fetch() && $row = $doZones->toArray())
-        if ($chainzone == $row['zoneid'])
-            echo "<option value='".$row['zoneid']."' selected>".phpAds_buildZoneName($row['zoneid'], $row['zonename'])."</option>";
-        else
-            echo "<option value='".$row['zoneid']."'>".phpAds_buildZoneName($row['zoneid'], $row['zonename'])."</option>";
+    $aChainZones = array();
+    while ($doZones->fetch() && $row = $doZones->toArray()) {
+        $aChainZones[$row['zoneid']] = $row['zonename'];
+    }
+    
+    return $aChainZones;
+}
 
-echo "</select></td>
-        </tr>
-        <tr>
-            <td height='10' colspan='3'>&nbsp;</td>
-        </tr>
-        </table>
-    </td>
-</tr>";
 
-echo "
-<tr>
-<td>
-<table cellpadding='0' cellspacing='0' border='0' width='100%'>";
-$tabindex = _echoDeliveryCappingHtml($tabindex, $GLOBALS['strCappingZone'], $zone);
-echo "</table>
-    </td>
-</tr>";
-
-echo "
-<tr>
-    <td>
-        <table border='0' width='100%' cellpadding='0' cellspacing='0'>
-        <tr height='25'>
-            <td colspan='3'><b>$strZoneForecasting</b></td>
-        </tr>
-        <tr height='1'>
-            <td width='30'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='30'></td>
-            <td width='200'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='200'></td>
-            <td width='100%'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td>
-        </tr>
-        <tr height='10'>
-            <td colspan='3'>&nbsp;</td>
-        </tr>
-        <tr>
-            <td width='30'>&nbsp;</td>
-            <td width='200'>$strInventoryForecasting</td>
-            <td width='100%'>
-                <input type='checkbox' id='inventory_forecast_type_channel' name='inventory_forecast_type_channel' value='8'".($zone['inventory_forecast_type'] & 8 ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;$strChannel<br />
-            </td>
-        </tr>
-        <tr>
-            <td height='10' colspan='3'>&nbsp;</td>
-        </tr>
-        <tr>
-            <td height='10' colspan='3'>&nbsp;</td>
-        </tr>
-        </table>
-    </td>
-</tr>
-";
-if ($zone['delivery'] == phpAds_ZoneBanner)
+function _getChainZonesImage($aZone)
 {
-    echo "
-<tr>
-    <td>
-        <table border='0' width='100%' cellpadding='0' cellspacing='0'>
-        <tr height='25'>
-            <td colspan='3'><b>$strAppendSettings</b></td>
-        </tr>
-        <tr height='1'>
-            <td width='30'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='30'></td>
-            <td width='200'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='200'></td>
-            <td width='100%'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td>
-        </tr>
-        <tr height='10'>
-            <td colspan='3'>&nbsp;</td>
-        </tr>
-        <tr>
-            <td width='30'>&nbsp;</td>
-            <td width='200'>$strZoneAppendNoBanner</td>
-            <td width='100%'><input type='radio' id='forceappend-y' name='forceappend' value='t'".($zone['forceappend'] == 't' ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;<label for='forceappend-y'>{$GLOBALS['strYes']}</label><br /><input type='radio' id='forceappend-n' name='forceappend' value='f'".((!isset($zone['forceappend']) || $zone['forceappend'] == 'f') ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;<label for='forceappend-n'>{$GLOBALS['strNo']}</label></td>
-        </tr>
-        <tr>
-            <td height='10' colspan='3'>&nbsp;</td>
-        </tr>
-        <tr>
-            <td height='10' colspan='3'>&nbsp;</td>
-        </tr>";
-
-        // Get available zones
-        $available = array();
-
-        // Get list of zones to link to
-        $doZones = OA_Dal::factoryDO('zones');
-
-        $allowothersizes = $zone['delivery'] == phpAds_ZoneInterstitial || $zone['delivery'] == phpAds_ZonePopup;
-        if ($zone['width'] != -1 && !$allowothersizes) {
-            $doZones->width = $zone['width'];
+    switch ($aZone['delivery']) {
+        case phpAds_ZoneBanner : {
+            $imageName = '/images/icon-zone.gif';
+            break;
         }
-        if ($zone['height'] != -1 && !$allowothersizes) {
-            $doZones->height = $zone['height'];
+        
+        case phpAds_ZoneInterstitial : {
+            $imageName = '/images/icon-interstitial.gif';
+            break;
         }
-        $doZones->delivery = $zone['delivery'];
-        $doZones->whereAdd('zoneid <> '.$zoneid);
-        $doZones->find();
+        
+        case phpAds_ZonePopup : {
+            $imageName = '/images/icon-popup.gif';
+            break;
+        }
+        
+        case phpAds_ZoneText : {
+            $imageName = '/images/icon-textzone.gif';
+            break;
+        }
+        
+        default: $imageName = '';
+    }
+    
+    if ($imageName) {
+        $image = "<img src='".MAX::assetPath()."$imageName' align='absmiddle'>";
+    }
+    
+    return $image;
+}
 
-        $available = array(phpAds_ZonePopup => array(), phpAds_ZoneInterstitial => array());
-        while ($doZones->fetch() && $row = $doZones->toArray())
-            $available[$row['delivery']][$row['zoneid']] = phpAds_buildZoneName($row['zoneid'], $row['zonename']);
+
+function _getAppendZones($aZone)
+{
+    // Get list of zones to link to
+    $doZones = OA_Dal::factoryDO('zones');
+    
+    $allowothersizes = $aZone['delivery'] == phpAds_ZoneInterstitial || $aZone['delivery'] == phpAds_ZonePopup;
+    if ($zone['width'] != -1 && !$allowothersizes) {
+        $doZones->width = $aZone['width'];
+    }
+    if ($aZone['height'] != -1 && !$allowothersizes) {
+        $doZones->height = $aZone['height'];
+    }
+    $doZones->delivery = $aZone['delivery'];
+    $doZones->whereAdd('zoneid <> '.$aZone['zoneid']);
+    $doZones->find();
+    
+    $available = array(phpAds_ZonePopup => array(), phpAds_ZoneInterstitial => array());
+    while ($doZones->fetch() && $row = $doZones->toArray()) {
+        $available[$row['delivery']][$row['zoneid']] = $row['zonename'];
+    }
+
+    return $available;
+}
 
 
-        // Determine appendtype
-        if (isset($appendtype)) $zone['appendtype'] = $appendtype;
+function _getAppendTypes($aZone)
+{
+    $aTypes = array();
+    $available = _getAppendZones($aZone);
 
     // Appendtype choices
-    echo "
-        <tr>
-            <td width='30'>&nbsp;</td>
-            <td width='200' valign='top'> {$GLOBALS['strZoneAppendType']}</td>
-            <td>
-                <select name='appendtype' style='width: 200;' onchange='phpAds_formSelectAppendType()' tabindex='".($tabindex++)."'>
-                <option value='".phpAds_ZoneAppendRaw."'".($zone['appendtype'] == phpAds_ZoneAppendRaw ? ' selected' : '').">{$GLOBALS['strZoneAppendHTMLCode']}</option>";
-
-        if (count($available[phpAds_ZonePopup]) || count($available[phpAds_ZoneInterstitial]))
-            echo "
-                <option value='".phpAds_ZoneAppendZone."'".($zone['appendtype'] == phpAds_ZoneAppendZone ? ' selected' : '').">{$GLOBALS['strZoneAppendZoneSelection']}</option>";
-        else
-            $zone['appendtype'] = phpAds_ZoneAppendRaw;
-
-    echo "
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td height='10' colspan='3'>&nbsp;</td>
-        </tr>
-        <tr height='1'>
-            <td colspan='3' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td>
-        </tr>
-        <tr>
-            <td height='10' colspan='3'>&nbsp;</td>
-        </tr>";
-
-    if ($zone['appendtype'] == phpAds_ZoneAppendZone)
-    {
-        // Append zones
-
-        // Read info from invocaton code
-        if (!isset($appendid) || empty($appendid))
-        {
-            $appendvars = phpAds_ParseAppendCode($zone['append']);
-
-            $appendid         = $appendvars[0]['zoneid'];
-            $appenddelivery = $appendvars[0]['delivery'];
-
-            if ($appenddelivery == phpAds_ZonePopup &&
-                !count($available[phpAds_ZonePopup]))
-            {
-                $appenddelivery = phpAds_ZoneInterstitial;
-            }
-            elseif ($appenddelivery == phpAds_ZoneInterstitial &&
-                    !count($available[phpAds_ZoneInterstitial]))
-            {
-                $appenddelivery = phpAds_ZonePopup;
-            }
-            else
-            {
-                // Add globals for lib-invocation
-                foreach ($appendvars[1] as $k => $v)
-                {
-                    if ($k != 'n' && $k != 'what')
-                        $GLOBALS[$k] = addslashes($v);
-                }
-            }
-        }
-
-
-
-        // Header
-        echo "
-        <tr>
-            <td width='30'>&nbsp;</td>
-            <td width='200' valign='top'>{$GLOBALS['strZoneAppendSelectZone']}</td>
-            <td>
-                <input type='hidden' name='appendsave' value='1'>
-                <input type='hidden' name='appendid' value='$appendid'>
-                <table cellpadding='0' cellspacing='0' border='0' width='100%'>
-                <tr>
-                    <td><input type='radio' name='appenddelivery' value='".phpAds_ZonePopup."'" . (count($available[phpAds_ZonePopup]) ? " onClick=\"phpAds_formSelectAppendDelivery(0)\"" : ' DISABLED') . ($appenddelivery == phpAds_ZonePopup ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;</td>
-                    <td>{$GLOBALS['strPopup']}:</td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                    <td width='100%'><img src='" . OX::assetPath() . "/images/spacer.gif' height='1' width='100%' align='absmiddle' vspace='1'>";
-
-        if (count($available[phpAds_ZonePopup]))
-            echo "<img src='" . OX::assetPath() . "/images/icon-popup.gif' align='top'>";
-        else
-            echo "<img src='" . OX::assetPath() . "/images/icon-popup-d.gif' align='top'>";
-
-        echo "&nbsp;&nbsp;<select name='appendpopup' style='width: 200;' onchange='phpAds_formSelectAppendZone(0)'" . (count($available[phpAds_ZonePopup]) ? '' : ' DISABLED')." tabindex='".($tabindex++)."'>";
-
-        while (list($k, $v) = each($available[phpAds_ZonePopup]))
-        {
-            if ($appendid == $k)
-                echo "<option value='".$k."' selected>".$v."</option>";
-            else
-                echo "<option value='".$k."'>".$v."</option>";
-        }
-
-        echo "</select></td>
-                </tr>
-                <tr>
-                    <td><input type='radio' name='appenddelivery' value='".phpAds_ZoneInterstitial."'" . (count($available[phpAds_ZoneInterstitial]) ? ' onClick="phpAds_formSelectAppendDelivery(1)"' : ' DISABLED') . ($appenddelivery == phpAds_ZoneInterstitial ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;</td>
-                    <td>{$GLOBALS['strInterstitial']}:</td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                    <td width='100%'><img src='" . OX::assetPath() . "/images/spacer.gif' height='1' width='100%' align='absmiddle' vspace='1'>";
-
-        if (count($available[phpAds_ZoneInterstitial]))
-            echo "<img src='" . OX::assetPath() . "/images/icon-interstitial.gif' align='top'>";
-        else
-            echo "<img src='" . OX::assetPath() . "/images/icon-interstitial-d.gif' align='top'>";
-
-        echo "&nbsp;&nbsp;<select name='appendinterstitial' style='width: 200;' ";
-        echo "onchange='phpAds_formSelectAppendZone(1)'";
-        echo (count($available[phpAds_ZoneInterstitial]) ? '' : ' DISABLED')." tabindex='".($tabindex++)."'>";
-
-        while (list($k, $v) = each($available[phpAds_ZoneInterstitial]))
-        {
-            if ($appendid == $k)
-                echo "<option value='".$k."' selected>".$v."</option>";
-            else
-                echo "<option value='".$k."'>".$v."</option>";
-        }
-
-        echo "</select></td>
-                </tr>
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td height='10' colspan='3'>&nbsp;</td>
-        </tr>
-        <tr height='1'>
-            <td colspan='3' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td>
-        </tr>
-        <tr>
-            <td height='10' colspan='3'>&nbsp;</td>
-        </tr>";
-
-
-
-        // It shouldn't be necessary to load zone attributes from db
-        $extra = array('what' => '',
-                       //'width' => $zone['width'],
-                       //'height' => $zone['height'],
-                       'delivery' => $appenddelivery,
-                       //'website' => $affiliate['website'],
-                       'zoneadvanced' => true
-        );
-
-        // Set codetype
-        $codetype = $appenddelivery == 'popup' ? 'popup' : 'adlayer';
-        $maxInvocation = new MAX_Admin_Invocation();
-        echo $maxInvocation->placeInvocationForm($extra, true);
-
-        echo "</td></tr>";
+    $aTypes[phpAds_ZoneAppendRaw] = $GLOBALS['strZoneAppendHTMLCode'];
+    if (count($available[phpAds_ZonePopup]) || count($available[phpAds_ZoneInterstitial])) {
+        $aTypes[phpAds_ZoneAppendZone] = $GLOBALS['strZoneAppendZoneSelection']; 
     }
-
-    else
-    {
-        echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>".$strZoneAppend."</td><td>";
-        echo "<input type='hidden' name='appendsave' value='1'>";
-        echo "<textarea class='code' name='append' rows='6' cols='55' style='width: 100%;' tabindex='".($tabindex++)."'>".htmlspecialchars($zone['append'])."</textarea>";
-        echo "</td></tr>";
-    }
-
-    echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-    echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
-    echo "</table>";
+    
+    return $aTypes; 
 }
-
-
-// It isn't possible to append other banners to text zones, but
-// it is possible to prepend and append regular HTML code for
-// determining the layout of the text ad zone
-
-elseif ($zone['delivery'] == phpAds_ZoneText )
-{
-    echo "
-<br /><br /><br />
-<table border='0' width='100%' cellpadding='0' cellspacing='0'>
-<tr height='25'>
-    <td colspan='3'><b>$strAppendSettings</b></td>
-</tr>
-<tr height='1'>
-    <td colspan='3' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td>
-</tr>
-<tr>
-    <td height='10' colspan='3'>&nbsp;</td>
-</tr>
-<tr>
-    <td width='30'>&nbsp;</td>
-    <td width='200'>Append even if no banner delivered</td>
-    <td width='370'>
-        <input type='radio' name='forceappend' value='t'".($zone['forceappend'] == 't' ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;{$GLOBALS['strYes']}<br />
-        <input type='radio' name='forceappend' value='f'".((!isset($zone['forceappend']) || $zone['forceappend'] == 'f') ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;{$GLOBALS['strNo']}
-    </td>
-</tr>
-<tr>
-    <td height='10' colspan='3'>&nbsp;</td>
-</tr>
-<tr>
-    <td width='30'>&nbsp;</td>
-    <td width='200' valign='top'>$strZonePrependHTML</td>
-    <td><textarea name='prepend' rows='6' cols='55' style='width: 100%;' tabindex='".($tabindex++)."'>".htmlspecialchars($zone['prepend'])."</textarea></td>
-</tr>
-<tr>
-    <td><img src='" . OX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>
-    <td colspan='2'><img src='" . OX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td>
-</tr>
-<tr>
-    <td width='30'>&nbsp;</td><td width='200' valign='top'>$strZoneAppendHTML</td>
-    <td>
-        <input type='hidden' name='appendsave' value='1'>
-        <input type='hidden' name='appendtype' value='".phpAds_ZoneAppendRaw."'>
-        <textarea name='append' rows='6' cols='55' style='width: 100%;' tabindex='".($tabindex++)."'>".htmlspecialchars($zone['append'])."</textarea>
-    </td>
-</tr>
-<tr>
-    <td height='10' colspan='3'>&nbsp;</td>
-</tr>
-<tr height='1'>
-    <td colspan='3' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td>
-</tr>
-</table>";
-} else {
-    echo "
-</table>";
-}
-
-echo "
-<br /><br />
-<input type='submit' name='submitbutton' value='$strSaveChanges' tabindex='".($tabindex++)."'>
-</form>";
-
-
-
-/*-------------------------------------------------------*/
-/* Form requirements                                     */
-/*-------------------------------------------------------*/
-
-
-
-?>
-
-<script language='JavaScript'>
-<!--
-    function phpAds_formSelectZone()
-    {
-        document.zoneform.chaintype[0].checked = false;
-        document.zoneform.chaintype[1].checked = true;
-        document.zoneform.chaintype[2].checked = false;
-    }
-
-    function phpAds_formEditWhat()
-    {
-        if (event.keyCode != 9)
-        {
-            document.zoneform.chaintype[0].checked = false;
-            document.zoneform.chaintype[1].checked = false;
-            document.zoneform.chaintype[2].checked = true;
-        }
-    }
-
-    function phpAds_formSelectAppendType()
-    {
-        if (document.zoneform.appendid)
-            document.zoneform.appendid.value = '-1';
-        document.zoneform.appendsave.value = '0';
-        document.zoneform.submit();
-    }
-
-    function phpAds_formSelectAppendDelivery(type)
-    {
-        document.zoneform.appendid.value = '-1';
-        document.zoneform.appendsave.value = '0';
-        document.zoneform.submit();
-    }
-
-
-    function phpAds_formSelectAppendZone(type)
-    {
-        var x;
-
-        if (document.zoneform.appenddelivery[type] &&
-            !document.zoneform.appenddelivery[type].checked)
-        {
-            document.zoneform.appendid.value = '-1';
-            document.zoneform.appendsave.value = '0';
-            document.zoneform.submit();
-        }
-    }
-
-    function phpAds_formZoneAdvSubmit()
-    {
-        if (document.zoneform.appenddelivery)
-        {
-            if (document.zoneform.appenddelivery[0].checked)
-                x = document.zoneform.appendpopup;
-            else
-                x = document.zoneform.appendinterstitial;
-
-            document.zoneform.appendid.value = x.options[x.selectedIndex].value;
-        }
-
-        return true;
-    }
-
-//-->
-</script>
-
-<?php
-
-_echoDeliveryCappingJs();
-
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
-
-phpAds_PageFooter();
-
 ?>
