@@ -184,6 +184,7 @@ function _isBlockCookie($cookieName)
         $GLOBALS['_MAX']['CONF']['var']['blockZone'],
         $GLOBALS['_MAX']['CONF']['var']['lastView'],
         $GLOBALS['_MAX']['CONF']['var']['lastClick'],
+        $GLOBALS['_MAX']['CONF']['var']['blockLoggingClick'],
     ));
 }
 

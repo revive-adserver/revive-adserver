@@ -90,6 +90,13 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
               'bool'                  => 'true'
          )
     );
+    // Block Banner Logging Window Settings
+    $aElements += array(
+         'logging_blockAdClicksWindow'=> array(
+             'logging'                => 'blockAdClicksWindow'
+         )
+     );
+
     // Block Banner Logging Settings
     $aElements += array(
         'logging_ignoreHosts' => array(
@@ -202,6 +209,15 @@ $aSettings = array (
     array (
         'text'  => $strPreventLogging,
         'items' => array (
+            array (
+                'type'    => 'text',
+                'name'    => 'logging_blockAdClicksWindow',
+                'text'    => $strBlockAdClicksWindow,
+                'check'   => 'wholeNumber',
+            ),
+            array (
+                'type'    => 'break'
+            ),
             array (
                 'type'      => 'textarea',
                 'name'      => 'logging_ignoreHosts',

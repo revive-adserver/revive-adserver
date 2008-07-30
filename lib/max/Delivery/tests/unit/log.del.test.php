@@ -776,6 +776,64 @@ class Delivery_TestOfLog extends UnitTestCase
         $this->assertEqual($aArray[5], 0);
     }
 
+    /**
+     * A method to test the MAX_Delivery_log_isClickBlocked() function.
+     *
+     * Requirements:
+     * Test 1: Test with a 0 seconds click block looging window (block logging no active)
+     *         and ensure that false is returned.
+     * Test 2: Test with a click block looging window bigger than 0 seconds and an add
+     *         not clicked yet, and ensure that false is returned.
+     * Test 3: Test with a click block looging window bigger than 0 seconds and an add
+     *         clicked that still in the click block logging window, and ensure that
+     *         true is returned.
+     * Test 4: Test with a click block looging window bigger than 0 seconds and an add
+     *         clicked the same time ago that the click block logging window's lenght,
+     *         and ensure that true is returned.
+     * Test 5: Test with a click block looging window bigger than 0 seconds and an add
+     *         clicked with the click block logging window expired, and ensure that
+     *         false is returned.
+     */
+    function test_MAX_Delivery_log_isClickBlocked()
+    {
+        $timeNow = MAX_commonGetTimeNow();
+
+        $add1ClickTime = MAX_commonCompressInt($timeNow - 60);
+        $add3ClickTime = MAX_commonCompressInt($timeNow - 30);
+        $add9ClickTime = MAX_commonCompressInt($timeNow - 15);
+
+        $aBlockLoggingClick = array(
+                                  1 => $add1ClickTime,
+                                  3 => $add3ClickTime,
+                                  9 => $add9ClickTime
+                              );
+
+        // Test 1
+        $GLOBALS['conf']['logging']['blockAdClicksWindow'] = 0;
+        $aReturn = MAX_Delivery_log_isClickBlocked(1, $aBlockLoggingClick);
+        $this->assertTrue(!$aReturn);
+
+        // Test 2
+        $GLOBALS['conf']['logging']['blockAdClicksWindow'] = 30;
+        $aReturn = MAX_Delivery_log_isClickBlocked(2, $aBlockLoggingClick);
+        $this->assertTrue(!$aReturn);
+
+        // Test 3
+        $GLOBALS['conf']['logging']['blockAdClicksWindow'] = 30;
+        $aReturn = MAX_Delivery_log_isClickBlocked(9, $aBlockLoggingClick);
+        $this->assertTrue($aReturn);
+
+        // Test 4
+        $GLOBALS['conf']['logging']['blockAdClicksWindow'] = 30;
+        $aReturn = MAX_Delivery_log_isClickBlocked(3, $aBlockLoggingClick);
+        $this->assertTrue($aReturn);
+
+        // Test 5
+        $GLOBALS['conf']['logging']['blockAdClicksWindow'] = 30;
+        $aReturn = MAX_Delivery_log_isClickBlocked(1, $aBlockLoggingClick);
+        $this->assertTrue(!$aReturn);
+    }
+
 }
 
 ?>

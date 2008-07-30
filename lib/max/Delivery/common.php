@@ -431,6 +431,7 @@ function MAX_commonInitVariables()
         $GLOBALS['_MAX']['CONF']['var']['sessionCapZone'],
         $GLOBALS['_MAX']['CONF']['var']['lastClick'],
         $GLOBALS['_MAX']['CONF']['var']['lastView'],
+        $GLOBALS['_MAX']['CONF']['var']['blockLoggingClick'],
     );
 }
 

@@ -523,6 +523,46 @@ function MAX_Delivery_log_setLastAction($index, $aAdIds, $aZoneIds, $aSetLastSee
 }
 
 /**
+ * This fuction set or updates the click blocked (cookie) record
+ * This value is used to block clicks
+ *
+ * @param integer $index The index to the addId array that correspond
+ *                       with the add that has been clicked
+ * @param array $aAdIds  An array of add's id, indexed by integers that
+ *                       coincides with the add's id
+ *
+ */
+function MAX_Delivery_log_setClickBlocked($index, $aAdIds)
+{
+    $aConf = $GLOBALS['_MAX']['CONF'];
+    MAX_cookieAdd("_{$aConf['var']['blockLoggingClick']}[{$aAdIds[$index]}]", MAX_commonCompressInt(MAX_commonGetTimeNow()), _getTimeThirtyDaysFromNow());
+}
+
+/**
+ * This function check if the click logging for an add is blocked
+ * when the block logging is active
+ *
+ * @param integer $adId              The add's id of the add that the function checks
+ *                                   if is blocked for click logging
+ * @param array $aBlockLoggingClick  And array with the timestamps of the last click logged
+ *                                   for every add that has been clicked
+ * @return boolean                   Returns true when the click block logging window for
+ *                                   and add hasn't expired yet
+ */
+function MAX_Delivery_log_isClickBlocked($adId, $aBlockLoggingClick)
+{
+    if (isset($GLOBALS['conf']['logging']['blockAdClicksWindow']) && $GLOBALS['conf']['logging']['blockAdClicksWindow'] != 0) {
+        if (isset($aBlockLoggingClick[$adId])) {
+            $endBlock = MAX_commonUnCompressInt($aBlockLoggingClick[$adId]) + $GLOBALS['conf']['logging']['blockAdClicksWindow'];
+            if ($endBlock >= MAX_commonGetTimeNow()) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+/**
  * A "private" function to set delivery blocking and/or capping cookies.
  *
  * @param string $type The type of blocking/capping cookies to set. One of
