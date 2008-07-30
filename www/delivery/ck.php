@@ -419,6 +419,7 @@ $GLOBALS['_MAX']['CONF']['var']['blockCampaign'],
 $GLOBALS['_MAX']['CONF']['var']['blockZone'],
 $GLOBALS['_MAX']['CONF']['var']['lastView'],
 $GLOBALS['_MAX']['CONF']['var']['lastClick'],
+$GLOBALS['_MAX']['CONF']['var']['blockLoggingClick'],
 ));
 }
 function MAX_cookieGetUniqueViewerId($create = true, $oxidOnly = false)
@@ -1112,6 +1113,23 @@ if (!empty($aSetLastSeen[$index])) {
 MAX_cookieAdd("_{$aConf['var']['last' . ucfirst($action)]}[{$aAdIds[$index]}]", MAX_commonCompressInt(MAX_commonGetTimeNow()) . "-" . $aZoneIds[$index], _getTimeThirtyDaysFromNow());
 }
 }
+function MAX_Delivery_log_setClickBlocked($index, $aAdIds)
+{
+$aConf = $GLOBALS['_MAX']['CONF'];
+MAX_cookieAdd("_{$aConf['var']['blockLoggingClick']}[{$aAdIds[$index]}]", MAX_commonCompressInt(MAX_commonGetTimeNow()), _getTimeThirtyDaysFromNow());
+}
+function MAX_Delivery_log_isClickBlocked($adId, $aBlockLoggingClick)
+{
+if (isset($GLOBALS['conf']['logging']['blockAdClicksWindow']) && $GLOBALS['conf']['logging']['blockAdClicksWindow'] != 0) {
+if (isset($aBlockLoggingClick[$adId])) {
+$endBlock = MAX_commonUnCompressInt($aBlockLoggingClick[$adId]) + $GLOBALS['conf']['logging']['blockAdClicksWindow'];
+if ($endBlock >= MAX_commonGetTimeNow()) {
+return true;
+}
+}
+}
+return false;
+}
 function _setLimitations($type, $index, $aItems, $aCaps)
 {
 // Ensure that the capping values for this item are set
@@ -1388,6 +1406,7 @@ $GLOBALS['_MAX']['CONF']['var']['capZone'],
 $GLOBALS['_MAX']['CONF']['var']['sessionCapZone'],
 $GLOBALS['_MAX']['CONF']['var']['lastClick'],
 $GLOBALS['_MAX']['CONF']['var']['lastView'],
+$GLOBALS['_MAX']['CONF']['var']['blockLoggingClick'],
 );
 }
 function MAX_commonDisplay1x1()
@@ -2033,6 +2052,7 @@ $adId       = isset($_REQUEST[$conf['var']['adId']]) ? explode($GLOBALS['_MAX'][
 $zoneId     = isset($_REQUEST[$conf['var']['zoneId']]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST[$conf['var']['zoneId']]) : array();
 $creativeId = isset($_REQUEST[$conf['var']['creativeId']]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST[$conf['var']['creativeId']]) : array();
 $lastClick  = isset($_REQUEST[$conf['var']['lastClick']]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST[$conf['var']['lastClick']]) : array();
+$aBlockLoggingClick = isset($_REQUEST[$conf['var']['blockLoggingClick']]) ? $_REQUEST[$conf['var']['blockLoggingClick']] : array();
 if (empty($adId) && !empty($zoneId)) {
 foreach ($zoneId as $index => $zone) {
 $adId[$index] = _getZoneAd($zone);
@@ -2051,8 +2071,13 @@ if (($adId[$i] > 0 || $adId[$i] == -1) && ($conf['logging']['adClicks']) && !(is
 if (isset($_REQUEST['channel_ids'])) {
 $GLOBALS['_MAX']['CHANNELS'] = str_replace($conf['delivery']['chDelimiter'], $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST['channel_ids']);
 }
+if (!MAX_Delivery_log_isClickBlocked($adId[$i], $aBlockLoggingClick)) {
+if (isset($GLOBALS['conf']['logging']['blockAdClicksWindow']) && $GLOBALS['conf']['logging']['blockAdClicksWindow'] != 0) {
+MAX_Delivery_log_setClickBlocked($i, $adId);
+}
 MAX_Delivery_log_logAdClick($viewerId, $adId[$i], $creativeId[$i], $zoneId[$i]);
 MAX_Delivery_log_setLastAction($i, $adId, $zoneId, $lastClick, 'click');
+}
 }
 }
 // Set the userid cookie

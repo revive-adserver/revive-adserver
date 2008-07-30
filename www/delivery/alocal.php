@@ -362,6 +362,7 @@ $GLOBALS['_MAX']['CONF']['var']['blockCampaign'],
 $GLOBALS['_MAX']['CONF']['var']['blockZone'],
 $GLOBALS['_MAX']['CONF']['var']['lastView'],
 $GLOBALS['_MAX']['CONF']['var']['lastClick'],
+$GLOBALS['_MAX']['CONF']['var']['blockLoggingClick'],
 ));
 }
 function MAX_cookieGetUniqueViewerId($create = true, $oxidOnly = false)
@@ -1055,6 +1056,23 @@ if (!empty($aSetLastSeen[$index])) {
 MAX_cookieAdd("_{$aConf['var']['last' . ucfirst($action)]}[{$aAdIds[$index]}]", MAX_commonCompressInt(MAX_commonGetTimeNow()) . "-" . $aZoneIds[$index], _getTimeThirtyDaysFromNow());
 }
 }
+function MAX_Delivery_log_setClickBlocked($index, $aAdIds)
+{
+$aConf = $GLOBALS['_MAX']['CONF'];
+MAX_cookieAdd("_{$aConf['var']['blockLoggingClick']}[{$aAdIds[$index]}]", MAX_commonCompressInt(MAX_commonGetTimeNow()), _getTimeThirtyDaysFromNow());
+}
+function MAX_Delivery_log_isClickBlocked($adId, $aBlockLoggingClick)
+{
+if (isset($GLOBALS['conf']['logging']['blockAdClicksWindow']) && $GLOBALS['conf']['logging']['blockAdClicksWindow'] != 0) {
+if (isset($aBlockLoggingClick[$adId])) {
+$endBlock = MAX_commonUnCompressInt($aBlockLoggingClick[$adId]) + $GLOBALS['conf']['logging']['blockAdClicksWindow'];
+if ($endBlock >= MAX_commonGetTimeNow()) {
+return true;
+}
+}
+}
+return false;
+}
 function _setLimitations($type, $index, $aItems, $aCaps)
 {
 // Ensure that the capping values for this item are set
@@ -1331,6 +1349,7 @@ $GLOBALS['_MAX']['CONF']['var']['capZone'],
 $GLOBALS['_MAX']['CONF']['var']['sessionCapZone'],
 $GLOBALS['_MAX']['CONF']['var']['lastClick'],
 $GLOBALS['_MAX']['CONF']['var']['lastView'],
+$GLOBALS['_MAX']['CONF']['var']['blockLoggingClick'],
 );
 }
 function MAX_commonDisplay1x1()
