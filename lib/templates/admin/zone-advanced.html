@@ -1,0 +1,127 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                             |
+|                                                                           |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+-->*}
+
+<br/><br/>
+{*zone advanced form*}
+{include file=form/form.html form=$form}
+{*/zone advanced form*}
+
+<script type="text/javascript">
+<!--
+{literal}
+ $(document).ready(function() {
+   $('#chaintype-s').click(function() {
+      $('#chain-zone-select').hide();
+   });
+   $('#chaintype-z').click(function() {
+      $('#chain-zone-select').show();
+   });
+   $('#append-delivery-popup').click(function() {
+      $('#append-interstitial').hide();
+      $('#append-popup').show();
+   });
+   $('#append-delivery-interstitial').click(function() {
+      $('#append-popup').hide();
+      $('#append-interstitial').show();
+   });
+   
+    //initial state
+   if ($('#chaintype-z').attr('checked') == true) {
+     $('#chain-zone-select').show();
+   }
+   if ($('#append-delivery-popup').attr('checked') == true) {
+      $('#append-interstitial').hide();
+      $('#append-popup').show();
+   }
+   if ($('#append-delivery-interstitial').attr('checked') == true) {
+      $('#append-popup').hide();
+      $('#append-interstitial').show();
+   }
+ });
+ 
+function phpAds_formSelectZone()
+{
+    document.zoneform.chaintype[0].checked = false;
+    document.zoneform.chaintype[1].checked = true;
+    document.zoneform.chaintype[2].checked = false;
+}
+
+function phpAds_formEditWhat()
+{
+    if (event.keyCode != 9)
+    {
+        document.zoneform.chaintype[0].checked = false;
+        document.zoneform.chaintype[1].checked = false;
+        document.zoneform.chaintype[2].checked = true;
+    }
+}
+
+function phpAds_formSelectAppendType()
+{
+    if (document.zoneform.appendid)
+        document.zoneform.appendid.value = '-1';
+    document.zoneform.appendsave.value = '0';
+    document.zoneform.submit();
+}
+
+function phpAds_formSelectAppendDelivery(type)
+{
+    document.zoneform.appendid.value = '-1';
+    document.zoneform.appendsave.value = '0';
+    document.zoneform.submit();
+}
+
+
+function phpAds_formSelectAppendZone(type)
+{
+    var x;
+
+    if (document.zoneform.appenddelivery[type] &&
+        !document.zoneform.appenddelivery[type].checked)
+    {
+        document.zoneform.appendid.value = '-1';
+        document.zoneform.appendsave.value = '0';
+        document.zoneform.submit();
+    }
+}
+
+function phpAds_formZoneAdvSubmit()
+{
+    if (document.zoneform.appenddelivery)
+    {
+        if (document.zoneform.appenddelivery[0].checked)
+            x = document.zoneform.appendpopup;
+        else
+            x = document.zoneform.appendinterstitial;
+
+        document.zoneform.appendid.value = x.options[x.selectedIndex].value;
+    }
+
+    return true;
+}
+{/literal} 
+//-->
+</script>
