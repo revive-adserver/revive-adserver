@@ -39,28 +39,110 @@ function OX_initialSystemCheck(){
     $errorUrl = 'http://www.openx.org/help/2.8/pre-init-error/';
     $installed = OX_checkSystemInstalled();
     $aErrors = array();
-    if (OX_checkSystemInitialRequirements($aErrors)===false) {
-        $message = "
-            <html>
+    $erorCode = OX_checkSystemInitialRequirements($aErrors);
+    if ($erorCode!==true) {
+        $imageRelativePath = "./www/admin/precheck/";
+        if ($erorCode != -3) { //strpos & parse_url aren't missing
+            // try to guess proper relative Path 
+            // cecking if url include www or admin in path
+            if (strpos($_SERVER['REQUEST_URI'], '/www/admin/') !== false) {
+                $imageRelativePath = "./precheck/"; 
+            } else if (strpos($_SERVER['REQUEST_URI'], '/www/') !== false) {
+                $imageRelativePath = "./admin/precheck/"; 
+            }
+        }
+        
+        // We always trying show images in css
+        $bodyBackground = "url('{$imageRelativePath}body_piksel.gif') repeat-x";
+        $liBackground = "background: url('{$imageRelativePath}list_element.gif') no-repeat;";
+        $openXLogo = "background: url('{$imageRelativePath}openx_logo.gif') no-repeat;";
+
+        $message = '
+            <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+            "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+            <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
             <head>
-            <title>OpenX</title>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="Keywords" content="" />
+            <meta name="Description" content="" />
+            <title>php Error page</title>
+<style type="text/css">
+body {
+    margin: 0;
+    background: #fff '. $bodyBackground .';
+    font-family: Arial, Helvetica, sans-serif;
+    font: 12px Arial;
+    color: #747474;
+}
+h1 {
+    width:80%;
+    font: 27px Arial;
+    color:#000; 
+}
+h2 {
+    width:80%;
+    font:12px Arial;
+    color:#747474;
+    margin-top:20px;
+}
+.error_container {
+    margin-top: 80px;
+    margin-left: 93px;
+}
+.error_list {
+    width: 80%;
+    padding-left: 33px;
+    padding-top: 15px;
+    padding-bottom:15px;
+    line-height:18px;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+ul {
+    list-style-type: none;
+    list-style-position: outside;
+    padding:0px;
+    padding-top:10px;
+    margin:0px;
+    margin-left:15px;
+    
+}
+li {
+    '.$liBackground.'
+    padding-left:10px;
+}
+.help_link:active, .help_link:link, .help_link:visited  {
+    color: #0767a8;
+    text-decoration:none;
+}
+.help_link:hover {
+    color: #0767a8;
+    text-decoration:underline;
+}
+.logo_image {
+    '.$openXLogo.'
+    width:  173px;
+    height: 60px;
+}
+
+</style>
             </head>
             <body>
-            <p>
-        ";
+                <div class="logo_image">&nbsp;</div>
+                    <div class="error_container">
+        ';
         if ($installed) {
             $message .= "
-                Sorry, but OpenX is not able to be run.
+                <h1>Sorry, but OpenX cannot currently run on your machine</h1>
             ";
         } else {
             $message .= "
-                Sorry, but the OpenX installer system cannot be started.
+                <h1>Sorry, but the OpenX installer system cannot currently be started.</h1>
             ";
         }
-        $message .= "
-            </p>
-            <p>
-            Detected problem";
+        $message .= '
+            <div class="error_list">
+            Detected problem';
         if (count($aErrors) > 1) {
             $message .= "s";
         }
@@ -71,17 +153,17 @@ function OX_initialSystemCheck(){
         foreach ($aErrors as $errorMessage) {
             echo "<li>{$errorMessage}</li>";
         }
-        $message = "
+        $message = '
             </ul>
-            </p>
-            <p>
-            Please see our <a href='$errorUrl'>documentation</a> for help
-            with the above error";
+            </div>
+            <h2>Please see our <a href="'.$errorUrl.'" class="help_link" >documentation</a> for help
+            with the above error';
         if (count($aErrors) > 1) {
             $message .= "s";
         }
         $message .= ".
-            </p>
+            </h2>
+            </div>
             </body>
             </html>
         ";
@@ -118,7 +200,10 @@ function OX_checkSystemInstalled()
  * configuration.
  *
  * @param &$aErrors Array of error mesages.
- * @return bool True on system check OK, False on detected problems.
+ * @return bool|int True on system check OK, negative int value on detected problems.
+ *                         -1 => function_exists doesn't exists
+ *                         -2 => detected more missing functions
+ *                         -3 => strpos or parse_url are missing
  */
 function OX_checkSystemInitialRequirements(&$aErrors){
     // List of functions required to run OpenX, exlcuding
@@ -139,27 +224,43 @@ function OX_checkSystemInitialRequirements(&$aErrors){
     // for testing what is in the "disabled_functions" list
     if (!function_exists('function_exists')) {
         $aErrors[] = $errorString1 . 'function_exists' . $errorString2;
-        return false;
+        return -1;
     }
     // Test for existence of "ini_get", "explode", "trim" and
     // "array_intersect", which are all required as part of
     // testing what is in the "disabled_functions" list
     $isSystemOK = true;
+    $errorCode = -2;
+    // Tests parse_url and strpos in first place, to get knowlege how to display error message
+    if (!function_exists('parse_url')) {
+        $aErrors[] = $errorString1 . 'parse_url' . $errorString2;
+        $isSystemOK = false;
+    }
+    if (!function_exists('strpos')) {
+        $aErrors[] = $errorString1 . 'strpos' . $errorString2;
+        $isSystemOK = false;
+    }
+    if (!$isSystemOK) {
+        $errorCode = -3;
+    }
     if (!function_exists('ini_get')) {
         $aErrors[] = $errorString1 . 'ini_get' . $errorString2;
         $isSystemOK = false;
-    } else if (!function_exists('explode')) {
+    } 
+    if (!function_exists('explode')) {
         $aErrors[] = $errorString1 . 'explode' . $errorString2;
         $isSystemOK = false;
-    } else if (!function_exists('trim')) {
+    } 
+    if (!function_exists('trim')) {
         $aErrors[] = $errorString1 . 'trim' . $errorString2;
         $isSystemOK = false;
-    } else if (!function_exists('array_intersect')) {
+    } 
+    if (!function_exists('array_intersect')) {
         $aErrors[] = $errorString1 . 'array_intersect' . $errorString2;
         $isSystemOK = false;
     }
     if (!$isSystemOK) {
-        return $isSystemOK;
+        return $errorCode;
     }
     // Test the disabled functons list with required functions list
     // defined above in $aRequiredFunctions
@@ -174,6 +275,7 @@ function OX_checkSystemInitialRequirements(&$aErrors){
             $aErrors[] = $errorString1 . $functionName . $errorString2;
         }
     }
+
     // Check PHP version, as use of PHP 4 will result in parse errors
     $errorMessage = "PHP version 5.0.0, or greater, was not detected.";
     if (function_exists('version_compare')) {
@@ -183,7 +285,11 @@ function OX_checkSystemInitialRequirements(&$aErrors){
             $isSystemOK = false;
         }
     }
-    return $isSystemOK;
+
+    if (!$isSystemOK) {
+        return $errorCode;
+    }
+    return true;
 }
 
 OX_initialSystemCheck();
