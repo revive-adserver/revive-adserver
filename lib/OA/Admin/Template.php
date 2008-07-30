@@ -494,7 +494,7 @@ class OA_Admin_Template extends Smarty
 
         //custom textarea styles
         if ($elem['type'] == 'textarea') {
-            if (empty($attributes['class'])) {
+            if (!$this->_hasSizeClass($attributes['class'])) {
                 $attributes['class'] = 'large';
             }
 
@@ -511,6 +511,20 @@ class OA_Admin_Template extends Smarty
         return $attrString;
     }
 
+    function _hasSizeClass($className)
+    {
+        if (empty($className)) {
+            return false;
+        }
+        //this is simplified - we should check for spaces and line start/end
+        //but is it worth the performance penalty?
+        $result = preg_match('/x-large|large|medium|small|x-small/', $className) == 0 
+            ? false : true;
+        
+        return $result;
+    }
+    
+    
 
     function _function_oa_is_admin($aParams, $smarty) {
         return OA_Permission::isAccount(OA_ACCOUNT_ADMIN);

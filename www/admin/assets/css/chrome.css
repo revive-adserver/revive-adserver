@@ -669,7 +669,7 @@ form.flat select.frozen, form.flat textarea.frozen, form.flat input[type=text].f
 	color: #6F6F6F;
 }
 
-form.flat input[type=radio] {
+form.flat input[type=radio], form.flat input[type=checkbox] {
     position: relative;
     //top: 2px;
     margin-right: 5px;
@@ -691,6 +691,11 @@ form.flat .medium {
 form.flat .large {
     width: 350px;	
 }
+
+form.flat .x-large {
+    width: 550px;   
+}
+
 
 form.flat textarea.x-small-h {
 	height: 50px;
