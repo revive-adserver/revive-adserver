@@ -34,6 +34,7 @@ $Id$
  */
 interface Plugins_DeliveryLog_BucketProcessingStrategy {
     public function processBucket($oBucket, $oEnd);
+    public function pruneBucket($oBucket, $oEnd);
 }
 
 ?>

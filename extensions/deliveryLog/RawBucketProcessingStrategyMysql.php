@@ -100,17 +100,39 @@ class Plugins_DeliveryLog_RawBucketProcessingStrategyMysql
                     }
                     foreach ($aExecQueries as $execQuery) {
                         $result = $oMainDbh->exec($execQuery);
-                        if (PEAR::isError($result)) {
                             if (PEAR::isError($result)) {
                                 MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                             }
-                        }
                     }
 
                     $aExecQueries = array();
                 }
             }
         }
+    }
+    
+     /**
+     * A method to prune a bucket of all records up to and
+     * including the time given.
+     *
+     * @param Date $oEnd prune until this interval_start (inclusive).
+     */
+    public function pruneBucket($oBucket, $oEnd)
+    {
+        $sTableName = $oBucket->getTableBucketName();
+        OA::debug(' - Pruning ' . $sTableName . ' until ' . 
+            $oEnd->format('%Y-%m-%d %H:%M:%S'));
+
+        $query = "
+              DELETE FROM
+              {$sTableName}
+              WHERE
+                date_time <= ".
+                    DBC::makeLiteral($oEnd->format('%Y-%m-%d %H:%M:%S'))."
+            ";
+        
+        $oDbh = OA_DB::singleton();
+        return $oDbh->exec($query);
     }
     
     /**
@@ -128,7 +150,7 @@ class Plugins_DeliveryLog_RawBucketProcessingStrategyMysql
             FROM
              {$sTableName}
             WHERE
-              interval_start <= " . DBC::makeLiteral($oEnd->format('%Y-%m-%d %H:%M:%S'));
+              date_time <= " . DBC::makeLiteral($oEnd->format('%Y-%m-%d %H:%M:%S'));
         $rsDataRaw = DBC::NewRecordSet($query);
         $rsDataRaw->find();
 

@@ -25,13 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/OA.php';
-require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Common.php';
-require_once MAX_PATH . '/lib/OA/DB.php';
-require_once MAX_PATH . '/lib/OA/DB/Distributed.php';
-require_once MAX_PATH . '/lib/pear/Date.php';
-require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once MAX_PATH . '/lib/OX/Plugin/Component.php';
 
 /**
@@ -66,35 +60,9 @@ class OA_Dal_Maintenance_Distributed extends OA_Dal_Maintenance_Common
     {
         foreach ($this->aBuckets as $sBucketName => $oBucketClass) {
             $oBucketClass->processBucket($oEnd);
-
-            // TODO: We shouldn't do this if the previous method fails.
-            // Also we should check that it has successfully deleted.
-            $this->pruneBucket($oBucketClass->getTableBucketName(), $oEnd);
+            $oBucketClass->pruneBucket($oEnd);
         }
     }
-
-    /**
-     * A method to prune a bucket of all records up to and
-     * including the timestamp given.
-     *
-     * @param string $sBucketName The bucket table name to prune
-     * @param Date   $oIntervalStart Prune until this interval_start (inclusive).
-     */
-    public function pruneBucket($sBucketName, $oIntervalStart)
-    {
-        OA::debug(' - Pruning '.$sBucketName.' until '.$oIntervalStart->format('%Y-%m-%d %H:%M:%S'), PEAR_LOG_INFO);
-
-        $query = "
-              DELETE FROM
-              {$sBucketName}
-              WHERE
-                interval_start <= ".
-                    DBC::makeLiteral($oIntervalStart->format('%Y-%m-%d %H:%M:%S'))."
-            ";
-
-        return $this->oDbh->exec($query);
-    }
-
 
     /**
      *

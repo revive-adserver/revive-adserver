@@ -41,13 +41,11 @@ class Plugins_DeliveryLog_AggregateBucketProcessingStrategyMysql
     /**
      * Process an aggregate-type bucket.  This is MySQL specific.
      *
-     * @param Plugins_DeliveryLog_LogCommon a reference to the using (context) object.
+     * @param Plugins_DeliveryLog_LogCommon $oBucket a reference to the using (context) object.
      * @param Date $oEnd A PEAR_Date instance, interval_start to process up to (inclusive).
      */
     public function processBucket($oBucket, $oEnd)
     {
-        $aConf = $GLOBALS['_MAX']['CONF'];
-
         $sTableName = $oBucket->getTableBucketName();
         $oMainDbh =& OA_DB_Distributed::singleton();
 
@@ -85,13 +83,35 @@ class Plugins_DeliveryLog_AggregateBucketProcessingStrategyMysql
                 foreach ($aExecQueries as $execQuery) {
                     $result = $oMainDbh->exec($execQuery);
                     if (PEAR::isError($result)) {
-                        if (PEAR::isError($result)) {
-                            MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
-                        }
+                        MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                     }
                 }
             }
         }
+    }
+    
+    /**
+     * A method to prune a bucket of all records up to and
+     * including the timestamp given.
+     *
+     * @param Date   $oEnd Prune until this interval_start (inclusive).
+     */
+    public function pruneBucket($oBucket, $oEnd)
+    {
+        $sTableName = $oBucket->getTableBucketName();
+        OA::debug(' - Pruning ' . $sTableName . ' until ' . 
+            $oEnd->format('%Y-%m-%d %H:%M:%S'));
+
+        $query = "
+              DELETE FROM
+              {$sTableName}
+              WHERE
+                interval_start <= ".
+                    DBC::makeLiteral($oEnd->format('%Y-%m-%d %H:%M:%S'))."
+            ";
+        
+        $oDbh = OA_DB::singleton();
+        return $oDbh->exec($query);
     }
     
     /**

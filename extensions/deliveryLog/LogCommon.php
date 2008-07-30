@@ -47,6 +47,7 @@ abstract class Plugins_DeliveryLog_LogCommon extends OX_Component
     
     protected $processingStrategy;
 
+        
     /**
      * Returns the dependencies between deliveryLog components.
      * Used to schedule the delivery log components so the required
@@ -167,11 +168,21 @@ abstract class Plugins_DeliveryLog_LogCommon extends OX_Component
     /**
      * Delegates processing of the bucket to the strategy object.
      *
-     * @param PEAR_Date $intervalStart
+     * @param Date $intervalStart process up to this interval_start (inclusive).
      */
-    public function processBucket($intervalStart)
+    public function processBucket($oEnd)
     {
-        $this->processingStrategy->processBucket($this, $intervalStart);
+        $this->processingStrategy->processBucket($this, $oEnd);
+    }
+    
+    /**
+     * Delegates pruning of the bucket to the strategy object.
+     *
+     * @param Date   $intervalStart prune to this interval_start (inclusive).
+     */
+    public function pruneBucket($oEnd)
+    {
+        $this->processingStrategy->pruneBucket($this, $oEnd);
     }
 }
 
