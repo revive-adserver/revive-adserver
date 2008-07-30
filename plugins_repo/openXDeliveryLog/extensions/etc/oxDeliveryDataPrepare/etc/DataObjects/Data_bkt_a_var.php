@@ -14,6 +14,7 @@ class DataObjects_Data_bkt_a_var extends DB_DataObjectCommon
     public $server_ip;                       // VARCHAR(16) => openads_varchar => 130
     public $tracker_variable_id;             // MEDIUMINT(9) => openads_mediumint => 129
     public $value;                           // TEXT() => openads_text => 34
+    public $date_time;                       // DATETIME() => openads_datetime => 142
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Data_bkt_a_var',$k,$v); }

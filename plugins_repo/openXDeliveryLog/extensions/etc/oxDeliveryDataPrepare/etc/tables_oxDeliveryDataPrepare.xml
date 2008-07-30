@@ -400,6 +400,13 @@
     <default></default>
    </field>
 
+   <field>
+    <name>date_time</name>
+    <type>openads_datetime</type>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
    <index>
     <name>data_bkt_a_var_pkey</name>
     <primary>true</primary>
