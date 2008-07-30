@@ -1317,7 +1317,7 @@ class Openads_Schema_Manager
      *
      * @return array of error messages
      */
-    function checkPermissions()
+    /*function checkPermissions()
     {
         $aErrors = array();
 
@@ -1352,7 +1352,7 @@ class Openads_Schema_Manager
         }
 
         return true;
-    }
+    }*/
 
     /**
      * build and write a data migration class

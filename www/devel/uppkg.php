@@ -46,7 +46,13 @@ if (array_key_exists('name',$_REQUEST) && ($_REQUEST['name']=='OpenXCore'))
 
     $aValues['date'] = date('Y-d-m');
     $aValues['version'] = $version;
-    putPackage($aValues);
+    $file = putPackage($aValues);
+    if ($file)
+    {
+        header('Content-Type: application/xhtml+xml; charset=ISO-8859-1');
+        readfile(putPackage($aValues));
+        exit();
+    }
 }
 
 function putPackage($aVals)
@@ -56,13 +62,14 @@ function putPackage($aVals)
 
     if (_fileExists($target))
     {
-        unlink($target);
+        return $target;
     }
     if (!_putFile($source, $target, $aVals) ||
         _fileMissing($target))
     {
         exit(1);
     }
+    return $target;
 }
 
 function _putFile($source, $target, $aVals)
@@ -85,7 +92,7 @@ function _fileExists($file)
 {
     if (file_exists($file))
     {
-        echo 'File exists '.$file;
+        //echo 'File exists '.$file;
         return true;
     }
     return false;

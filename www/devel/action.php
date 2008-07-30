@@ -32,13 +32,29 @@ $Id$
  * @author
  */
 
+
+function checkPermissions($aFiles)
+{
+    if (($aErrs = OX_DevToolbox::checkFilePermissions($aFiles)) !== true)
+    {
+        setcookie('schemaFile', '');
+        setcookie('schemaPath', '');
+        $errorMessage =
+            join("<br />\n", $aErrs['errors']) . "<br /><br ><hr /><br />\n" .
+            'To fix, please execute the following commands:' . "<br /><br >\n" .
+            join("<br />\n", $aErrs['fixes']);
+        die($errorMessage);
+    }
+}
+
 require_once './init.php';
 
 $action = $_REQUEST['action'];
 
 switch ($action)
 {
-    case 'upgrade_package': //&name=".$name,
+    case 'upgrade_package':
+        checkPermissions(array(MAX_PATH.'/etc/changes'));
         include 'uppkg.php';
         break;
     case 'create_plugin':
@@ -78,7 +94,7 @@ switch ($action)
         global $readPath, $writeFile;
         $readPath  = (array_key_exists('read' ,$_REQUEST) ? MAX_PATH.$_REQUEST['read']  : MAX_PATH.'/etc/changes');
         $writeFile = (array_key_exists('write',$_REQUEST) ? MAX_PATH.$_REQUEST['write'] : MAX_PATH.'/etc/changes/openads_upgrade_array.txt');
-
+        checkPermissions(array($writeFile));
         include MAX_PATH.'/scripts/upgrade/buildPackagesArray.php';
         $array = file_get_contents($writeFile);
         $aVersions = unserialize($array);
@@ -89,7 +105,7 @@ switch ($action)
         $GLOBALS['_MAX']['CONF']['debug']['priority'] = PEAR_LOG_INFO;
         $schema  = (array_key_exists('schema' ,$_REQUEST)  ? MAX_PATH.$_REQUEST['schema']  : MAX_PATH . '/etc/tables_core.xml');
         $pathdbo = (array_key_exists('dbopath' ,$_REQUEST) ? MAX_PATH.$_REQUEST['dbopath'] : MAX_PATH . '/lib/max/Dal/DataObjects');
-
+        checkPermissions(array($pathdbo));
         include MAX_PATH.'/scripts/db_dataobject/rebuild.php';
         break;
     default:
