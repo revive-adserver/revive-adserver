@@ -1890,4 +1890,9 @@ function OX_bucket_quoteArgs($aArgs)
     return $array;
 }
 
+function OX_escapeString($string)
+{
+    return pg_escape_string($string);
+}
+
 ?>

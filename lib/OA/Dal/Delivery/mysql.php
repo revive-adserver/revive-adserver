@@ -1862,20 +1862,20 @@ function OX_bucket_updateTable($tableName, $aQuery, $counter = 'count')
 
 function OX_bucket_prepareUpdateQuery($tableName, $aQuery, $counter = 'count')
 {
-    $insert = "INSERT INTO {$tableName} (";
-    $values = 'VALUES (';
-    $comma = '';
-    foreach ($aQuery as $column => $value) {
-        if (!is_integer($value)) {
-            $value = "'" . $value . "'";
-        }
-        $insert .= $comma . $column;
-        $values .= $comma . $value;
-        $comma = ', ';
-    }
-    $query = $insert . $comma . $counter . ') ' . $values . ', 1)';
+    array_walk($aQuery, 'mysql_escape_string');
+    $aQuery[$counter] = 1;
+    $query = "
+        INSERT INTO {$tableName}
+            (" . implode(', ', array_keys($aQuery)) . ")
+            VALUES ('" . implode("', '", $aQuery) . "')
+    ";
     $query .= " ON DUPLICATE KEY UPDATE $counter = $counter + 1";
     return $query;
+}
+
+function OX_escapeString($string)
+{
+    return mysql_escape_string($string);
 }
 
 ?>
