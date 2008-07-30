@@ -675,6 +675,8 @@ continue;
 $variables[$variable['variable_id']]['value'] = $value;
 }
 if (count($variables)) {
+OX_Delivery_Common_hook('logConversionVariable', array($variables, $trackerId, $serverRawTrackerImpressionId, $serverRawIp));
+// @todo - remove following code once buckets will be finished
 MAX_Dal_Delivery_Include();
 OA_Dal_Delivery_logVariableValues($variables, $serverRawTrackerImpressionId, $serverRawIp);
 }
