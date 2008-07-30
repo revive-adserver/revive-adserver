@@ -63,7 +63,11 @@ class OA_Admin_Menu
                 include_once MAX_PATH. '/lib/OA/Admin/Menu/config.php';
                 $oMenu = _buildNavigation(OA_Permission::getAccountType());
             }
+            require_once LIB_PATH . '/Plugin/ComponentGroupManager.php';
+            $oPluginManager = & new OX_Plugin_ComponentGroupManager();
+            $oPluginManager->mergeMenu($oMenu, $accountType);
             $GLOBALS['_MAX']['MENU_OBJECT'][$accountType] = &$oMenu;
+            $oMenu->_saveToCache($accountType);
         }
         // Filter against user-account-preferences...
         return $oMenu;

@@ -1856,6 +1856,23 @@ class OX_Plugin_ComponentGroupManager
         $aGroups = $GLOBALS['_MAX']['CONF']['pluginGroupComponents'];
         $oMenu = $this->_getMenuObject($accountType);
 
+        if (!$this->mergeMenu($oMenu, $accountType))
+        {
+            $this->_logError('Failed to merge menu for '.$accountType);
+            return false;
+        }
+        if (!$oMenu->_saveToCache($accountType))
+        {
+            $this->_logError('Failed to cache menu for '.$accountType);
+            return false;
+        }
+        return true;
+    }
+
+    function mergeMenu(&$oMenu, $accountType)
+    {
+        $aGroups = $GLOBALS['_MAX']['CONF']['pluginGroupComponents'];
+
         foreach ($aGroups as $name => $enabled)
         {
             if ($enabled)
@@ -1877,11 +1894,6 @@ class OX_Plugin_ComponentGroupManager
                     }
                 }
             }
-        }
-        if (!$oMenu->_saveToCache($accountType))
-        {
-            $this->_logError('Failed to cache menu for '.$accountType);
-            return false;
         }
         return true;
     }
