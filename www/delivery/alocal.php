@@ -356,14 +356,16 @@ MAX_cookieUnset("_{$cookieName}[{$adId}]");
 }
 function _isBlockCookie($cookieName)
 {
-return in_array($cookieName, array(
-$GLOBALS['_MAX']['CONF']['var']['blockAd'],
-$GLOBALS['_MAX']['CONF']['var']['blockCampaign'],
-$GLOBALS['_MAX']['CONF']['var']['blockZone'],
-$GLOBALS['_MAX']['CONF']['var']['lastView'],
-$GLOBALS['_MAX']['CONF']['var']['lastClick'],
-$GLOBALS['_MAX']['CONF']['var']['blockLoggingClick'],
-));
+if ($cookieName == $GLOBALS['_MAX']['CONF']['var']['blockAd']) {
+return true;
+}
+if ($cookieName == $GLOBALS['_MAX']['CONF']['var']['blockCampaign']) {
+return true;
+}
+if ($cookieName == $GLOBALS['_MAX']['CONF']['var']['blockZone']) {
+return true;
+}
+return false;
 }
 function MAX_cookieGetUniqueViewerId($create = true, $oxidOnly = false)
 {
@@ -499,14 +501,14 @@ if (empty($_COOKIE["_{$cookieName}"])) {
 continue;
 }
 switch ($cookieName) {
-case $conf['var']['blockAd']            :
-case $conf['var']['blockCampaign']      :
+case $conf['var']['blockAd']            : $expire = _getTimeThirtyDaysFromNow(); break;
+case $conf['var']['capAd']              : $expire = _getTimeYearFromNow(); break;
+case $conf['var']['sessionCapAd']       : $expire = 0; break;
+case $conf['var']['blockCampaign']      : $expire = _getTimeThirtyDaysFromNow(); break;
+case $conf['var']['capCampaign']        : $expire = _getTimeYearFromNow(); break;
+case $conf['var']['sessionCapCampaign'] : $expire = 0; break;
 case $conf['var']['blockZone']          : $expire = _getTimeThirtyDaysFromNow(); break;
-case $conf['var']['capAd']              :
-case $conf['var']['capCampaign']        :
 case $conf['var']['capZone']            : $expire = _getTimeYearFromNow(); break;
-case $conf['var']['sessionCapCampaign'] :
-case $conf['var']['sessionCapAd']       :
 case $conf['var']['sessionCapZone']     : $expire = 0; break;
 }
 if (!empty($_COOKIE[$cookieName]) && is_array($_COOKIE[$cookieName])) {
@@ -840,24 +842,6 @@ return array('server_raw_tracker_impression_id' => $rawTrackerImpressionId, 'ser
 }
 return false;
 }
-function MAX_Delivery_log_logTrackerConnection($viewerId, $trackerId, $aTrackerImpression, $aConnection)
-{
-if (_viewersHostOkayToLog()) {
-OX_Delivery_Common_hook('logConversion', array($viewerId, $trackerId, $aTrackerImpression, $aConnection));
-// @todo - remove following code once buckets will be finished
-MAX_Dal_Delivery_Include();
-if (OA_Dal_Delivery_logTrackerConnection(
-$viewerId,
-$trackerId,
-$aTrackerImpression,
-$aConnection
-)) {
-// Log of the connection was sucessful, if this was a "sale" type conversion, then clear the cookie data
-MAX_trackerDeleteActionFromCookie($aConnection);
-}
-}
-return false;
-}
 function MAX_Delivery_log_logVariableValues($variables, $trackerId, $serverRawTrackerImpressionId, $serverRawIp)
 {
 $aConf = $GLOBALS['_MAX']['CONF'];
@@ -1050,30 +1034,6 @@ _setLimitations('Campaign', $index, $aCampaigns, $aCaps);
 function MAX_Delivery_log_setZoneLimitations($index, $aZones, $aCaps)
 {
 _setLimitations('Zone', $index, $aZones, $aCaps);
-}
-function MAX_Delivery_log_setLastAction($index, $aAdIds, $aZoneIds, $aSetLastSeen, $action = 'view')
-{
-$aConf = $GLOBALS['_MAX']['CONF'];
-if (!empty($aSetLastSeen[$index])) {
-MAX_cookieAdd("_{$aConf['var']['last' . ucfirst($action)]}[{$aAdIds[$index]}]", MAX_commonCompressInt(MAX_commonGetTimeNow()) . "-" . $aZoneIds[$index], _getTimeThirtyDaysFromNow());
-}
-}
-function MAX_Delivery_log_setClickBlocked($index, $aAdIds)
-{
-$aConf = $GLOBALS['_MAX']['CONF'];
-MAX_cookieAdd("_{$aConf['var']['blockLoggingClick']}[{$aAdIds[$index]}]", MAX_commonCompressInt(MAX_commonGetTimeNow()), _getTimeThirtyDaysFromNow());
-}
-function MAX_Delivery_log_isClickBlocked($adId, $aBlockLoggingClick)
-{
-if (isset($GLOBALS['conf']['logging']['blockAdClicksWindow']) && $GLOBALS['conf']['logging']['blockAdClicksWindow'] != 0) {
-if (isset($aBlockLoggingClick[$adId])) {
-$endBlock = MAX_commonUnCompressInt($aBlockLoggingClick[$adId]) + $GLOBALS['conf']['logging']['blockAdClicksWindow'];
-if ($endBlock >= MAX_commonGetTimeNow()) {
-return true;
-}
-}
-}
-return false;
 }
 function _setLimitations($type, $index, $aItems, $aCaps)
 {
@@ -1348,10 +1308,7 @@ $GLOBALS['_MAX']['CONF']['var']['capCampaign'],
 $GLOBALS['_MAX']['CONF']['var']['sessionCapCampaign'],
 $GLOBALS['_MAX']['CONF']['var']['blockZone'],
 $GLOBALS['_MAX']['CONF']['var']['capZone'],
-$GLOBALS['_MAX']['CONF']['var']['sessionCapZone'],
-$GLOBALS['_MAX']['CONF']['var']['lastClick'],
-$GLOBALS['_MAX']['CONF']['var']['lastView'],
-$GLOBALS['_MAX']['CONF']['var']['blockLoggingClick'],
+$GLOBALS['_MAX']['CONF']['var']['sessionCapZone']
 );
 }
 function MAX_commonDisplay1x1()
@@ -1464,14 +1421,6 @@ function MAX_commonUnpackContext($context = '')
 //return unserialize(base64_decode($context));
 list($exclude,$include) = explode('|', base64_decode($context));
 return array_merge(_convertContextArray('!=', explode('#', $exclude)), _convertContextArray('==', explode('#', $include)));
-}
-function MAX_commonCompressInt($int)
-{
-return base_convert($int, 10, 36);
-}
-function MAX_commonUnCompressInt($string)
-{
-return base_convert($string, 36, 10);
 }
 function _convertContextArray($key, $array)
 {
@@ -1984,7 +1933,6 @@ function _adRenderBuildLogURL($aBanner, $zoneId = 0, $source = '', $loc = '', $r
 $conf = $GLOBALS['_MAX']['CONF'];
 // If there is an OpenX->OpenX internal redirect, log both zones information
 $delimiter = $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'];
-$logLastAction = (!empty($aBanner['viewwindow']) && !empty($aBanner['tracker_status'])) ? '1' : '';
 if (!empty($GLOBALS['_MAX']['adChain'])) {
 foreach ($GLOBALS['_MAX']['adChain'] as $index => $ad) {
 $aBanner['ad_id'] .= $delimiter . $ad['ad_id'];
@@ -1999,7 +1947,6 @@ $aBanner['session_cap_campaign'] .= $delimiter . $ad['session_cap_campaign'];
 $aBanner['block_zone'] .= $delimiter . $ad['block_zone'];
 $aBanner['cap_zone'] .= $delimiter . $ad['cap_zone'];
 $aBanner['session_cap_zone'] .= $delimiter . $ad['session_cap_zone'];
-$logLastAction .= $delimiter . (!empty($ad['viewwindow']) && !empty($ad['tracker_status'])) ? '1' : '0';
 }
 }
 $url = MAX_commonGetDeliveryUrl($conf['file']['log']);
@@ -2019,7 +1966,6 @@ if (!empty($aBanner['session_cap_campaign'])) $url .= $amp . $conf['var']['sessi
 if (!empty($aBanner['block_zone'])) $url .= $amp . $conf['var']['blockZone'] . "=" . $aBanner['block_zone'];
 if (!empty($aBanner['cap_zone'])) $url .= $amp . $conf['var']['capZone'] . "=" . $aBanner['cap_zone'];
 if (!empty($aBanner['session_cap_zone'])) $url .= $amp . $conf['var']['sessionCapZone'] . "=" . $aBanner['session_cap_zone'];
-if (!empty($logLastAction)) $url .= $amp . $conf['var']['lastView'] . "=" . $logLastAction;
 if (!empty($loc)) $url .= $amp . "loc=" . urlencode($loc);
 if (!empty($referer)) $url .= $amp . "referer=" . urlencode($referer);
 $url .= $amp . "cb={random}";
@@ -2041,14 +1987,12 @@ $aBanner['bannerid'] = $aBanner['ad_id'];
 }
 $conf = $GLOBALS['_MAX']['CONF'];
 $delimiter = $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'];
-$logLastClick = (!empty($aBanner['clickwindow'])) ? '1' : '';
 // If there is an OpenX->OpenX internal redirect, log both zones information
 if (!empty($GLOBALS['_MAX']['adChain'])) {
 foreach ($GLOBALS['_MAX']['adChain'] as $index => $ad) {
 $aBanner['bannerid'] .= $delimiter . $ad['bannerid'];
 $aBanner['placement_id'] .= $delimiter . $ad['placement_id'];
 $zoneId .= $delimiter . $ad['zoneid'];
-$logLastClick .= (!empty($aBanner['clickwindow'])) ? '1' : '0';
 }
 }
 $maxparams = '';
@@ -2076,7 +2020,6 @@ $channelIds = $del. "channel_ids=" . str_replace($delimiter, $conf['delivery']['
 } else {
 $channelIds = '';
 }
-$log .= (!empty($logLastClick)) ? $del . $conf['var']['lastClick'] . '=' . $logLastClick : '';
 $maxparams = "{$delnum}{$bannerId}{$del}zoneid={$zoneId}{$channelIds}{$source}{$log}{$random}{$maxdest}";
 // hmmm... 2__bannerid=1__zoneid=1__cb={random}__maxdest=__channel_ids=__1__1__
 }
@@ -2348,16 +2291,6 @@ $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $trackerid);
 if (!$cached || ($aTracker = OA_Delivery_Cache_fetch($sName)) === false) {
 MAX_Dal_Delivery_Include();
 $aTracker = OA_Dal_Delivery_getTracker($trackerid);
-$aTracker = OA_Delivery_Cache_store_return($sName, $aTracker, $isHash = true);
-}
-return $aTracker;
-}
-function MAX_cacheGetTrackerLinkedCreatives($trackerid = null, $cached = true)
-{
-$sName  = OA_Delivery_Cache_getName(__FUNCTION__, $trackerid);
-if (!$cached || ($aTracker = OA_Delivery_Cache_fetch($sName)) === false) {
-MAX_Dal_Delivery_Include();
-$aTracker = OA_Dal_Delivery_getTrackerLinkedCreatives($trackerid);
 $aTracker = OA_Delivery_Cache_store_return($sName, $aTracker, $isHash = true);
 }
 return $aTracker;
