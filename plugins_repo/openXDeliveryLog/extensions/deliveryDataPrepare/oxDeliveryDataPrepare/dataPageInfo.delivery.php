@@ -24,7 +24,7 @@
 $Id$
 */
 
-function Plugins_deliveryDataPrepare_oxDeliveryDataPrepare_dataPageInfo()
+function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataPageInfo()
 {
     // prevent from running twice
     static $executed;
@@ -47,19 +47,19 @@ function Plugins_deliveryDataPrepare_oxDeliveryDataPrepare_dataPageInfo()
     $GLOBALS['_MAX']['deliveryData']['pageInfo'] = $pageInfo;
 }
 
-function Plugins_deliveryDataPrepare_dataPageInfo_Delivery_logRequest()
+function Plugin_deliveryDataPrepare_dataPageInfo_Delivery_logRequest()
 {
-    Plugins_deliveryDataPrepare_dataPageInfo();
+    Plugin_deliveryDataPrepare_dataPageInfo();
 }
 
-function Plugins_deliveryDataPrepare_dataPageInfo_Delivery_logImpression()
+function Plugin_deliveryDataPrepare_dataPageInfo_Delivery_logImpression()
 {
-    Plugins_deliveryDataPrepare_dataPageInfo();
+    Plugin_deliveryDataPrepare_dataPageInfo();
 }
 
-function Plugins_deliveryDataPrepare_dataPageInfo_Delivery_logClick()
+function Plugin_deliveryDataPrepare_dataPageInfo_Delivery_logClick()
 {
-    Plugins_deliveryDataPrepare_dataPageInfo();
+    Plugin_deliveryDataPrepare_dataPageInfo();
 }
 
 ?>

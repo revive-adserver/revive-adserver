@@ -24,6 +24,8 @@
 $Id$
 */
 
+MAX_Dal_Delivery_Include();
+
 /**
  * This function logs the variable data passed in to a tracker impression
  *
@@ -34,7 +36,7 @@ $Id$
  *                                              initial tracker-impression
  * @return bool True on success
  */
-function Plugins_deliveryLog_oxLogConversion_logConversion_Delivery_logConversionVariable($variables, $trackerId, $serverRawTrackerImpressionId, $serverRawIp)
+function Plugin_deliveryLog_oxLogConversion_logConversion_Delivery_logConversionVariable($variables, $trackerId, $serverRawTrackerImpressionId, $serverRawIp)
 {
     $table = $GLOBALS['_MAX']['CONF']['table']['prefix'] . 'data_bkt_a_var';
     $aRows = array();

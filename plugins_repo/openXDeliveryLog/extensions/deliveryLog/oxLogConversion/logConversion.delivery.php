@@ -24,7 +24,9 @@
 $Id$
 */
 
-function Plugins_deliveryLog_oxLogConversion_logConversion_Delivery_logConversion($viewerId, $trackerId,
+MAX_Dal_Delivery_Include();
+
+function Plugin_deliveryLog_oxLogConversion_logConversion_Delivery_logConversion($viewerId, $trackerId,
     $aTrackerImpression, $aConnection)
 {
     $aConf = $GLOBALS['_MAX']['CONF'];

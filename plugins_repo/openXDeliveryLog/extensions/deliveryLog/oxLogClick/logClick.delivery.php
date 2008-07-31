@@ -24,7 +24,9 @@
 $Id$
 */
 
-function Plugins_deliveryLog_oxLogClick_logClick_Delivery_logClick()
+MAX_Dal_Delivery_Include();
+
+function Plugin_deliveryLog_oxLogClick_logClick_Delivery_logClick()
 {
     $data = $GLOBALS['_MAX']['deliveryData'];
     $aQuery = array(

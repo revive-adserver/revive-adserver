@@ -27,7 +27,7 @@ $Id$
 // if ($aConf['logging']['sniff'] && isset($GLOBALS['_MAX']['CLIENT']))
 // @todo should the call to browser sniffer library be moved in here?
 
-function Plugins_deliveryDataPrepare_oxDeliveryDataPrepare_dataUserAgent()
+function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataUserAgent()
 {
     // prevent from running twice
     static $executed;
@@ -42,19 +42,19 @@ function Plugins_deliveryDataPrepare_oxDeliveryDataPrepare_dataUserAgent()
     $GLOBALS['_MAX']['deliveryData']['userAgentInfo'] = $userAgentInfo;
 }
 
-function Plugins_deliveryDataPrepare_dataUserAgent_logRequest()
+function Plugin_deliveryDataPrepare_dataUserAgent_logRequest()
 {
-    Plugins_deliveryDataPrepare_dataUserAgent();
+    Plugin_deliveryDataPrepare_dataUserAgent();
 }
 
-function Plugins_deliveryDataPrepare_dataUserAgent_logImpression()
+function Plugin_deliveryDataPrepare_dataUserAgent_logImpression()
 {
-    Plugins_deliveryDataPrepare_dataUserAgent();
+    Plugin_deliveryDataPrepare_dataUserAgent();
 }
 
-function Plugins_deliveryDataPrepare_dataUserAgent_logClick()
+function Plugin_deliveryDataPrepare_dataUserAgent_logClick()
 {
-    Plugins_deliveryDataPrepare_dataUserAgent();
+    Plugin_deliveryDataPrepare_dataUserAgent();
 }
 
 ?>

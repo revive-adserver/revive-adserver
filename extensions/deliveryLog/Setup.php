@@ -50,6 +50,7 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
     const LOG_EXTENSION  = 'deliveryLog';
 
     public $aDeliveryLogHooks = array(
+        'preLog',
         'logRequest',
         'logImpression',
         'logClick',
