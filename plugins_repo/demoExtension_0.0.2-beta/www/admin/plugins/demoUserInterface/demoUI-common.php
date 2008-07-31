@@ -1,6 +1,6 @@
-{*<!--
-
----------------------------------------------------------------------------+
+<?php
+/*
++---------------------------------------------------------------------------+
 | Openads v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
@@ -25,20 +25,11 @@
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
 $Id$
+*/
 
--->*}
-{include file=plugin-group-switcher.html}
-<p class="backlink"><a href="{$backURL}">&laquo; Back {if $plugin} to {$plugin} {else} to list {/if}</a></p>
+require_once '../../../../init.php';
+require_once '../../config.php';
 
-<div class="panel">
-       <span class='corner top-left'></span>
-       <span class='corner top-right'></span>
-       <span class='corner bottom-left'></span>
-       <span class='corner bottom-right'></span>
+require_once MAX_PATH . '/lib/OA/Admin/TemplatePlugin.php';
 
-    <div>
-        <span class="item-info">
-            <span class="name">Component Group Settings: {$group}</span>
-        </span>
-    </div>
-</div>
+?>

@@ -1,6 +1,6 @@
 {*<!--
 
----------------------------------------------------------------------------+
++---------------------------------------------------------------------------+
 | Openads v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
@@ -27,18 +27,12 @@
 $Id$
 
 -->*}
-{include file=plugin-group-switcher.html}
-<p class="backlink"><a href="{$backURL}">&laquo; Back {if $plugin} to {$plugin} {else} to list {/if}</a></p>
-
-<div class="panel">
-       <span class='corner top-left'></span>
-       <span class='corner top-right'></span>
-       <span class='corner bottom-left'></span>
-       <span class='corner bottom-right'></span>
-
-    <div>
-        <span class="item-info">
-            <span class="name">Component Group Settings: {$group}</span>
-        </span>
+<link rel='stylesheet' type='text/css' href='css/demoUI.css'>
+<br />
+<form name="demoUI" method="post" action="{$formAction|escape}">
+    <div class="div-demo" >
+        <img class="img-demo" src="images/demoUI.jpg"/>
+        <br />
+        <span class="span-demo" style="color:{$colour};">{$message}</span>
     </div>
-</div>
+</form>

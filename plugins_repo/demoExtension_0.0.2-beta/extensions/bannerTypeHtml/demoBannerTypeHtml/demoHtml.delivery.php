@@ -1,14 +1,12 @@
-{*<!--
+<?php
 
----------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
+/*
++---------------------------------------------------------------------------+
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -25,20 +23,23 @@
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
 $Id$
+*/
 
--->*}
-{include file=plugin-group-switcher.html}
-<p class="backlink"><a href="{$backURL}">&laquo; Back {if $plugin} to {$plugin} {else} to list {/if}</a></p>
+/**
+ *
+ * @package    OpenXPlugin
+ * @subpackage Plugins_BannerTypes
+ * @author     Monique Szpak <monique.szpak@openx.org>
+ * @abstract
+ */
+function Plugin_BannerTypeHTML_demoBannerTypeHtml_demoHtml_delivery()
+{
+    return true;
+}
 
-<div class="panel">
-       <span class='corner top-left'></span>
-       <span class='corner top-right'></span>
-       <span class='corner bottom-left'></span>
-       <span class='corner bottom-right'></span>
+function Plugin_BannerTypeHTML_demoBannerTypeHtml_demoHtml_delivery_postAdRender()
+{
+    return true;
+}
 
-    <div>
-        <span class="item-info">
-            <span class="name">Component Group Settings: {$group}</span>
-        </span>
-    </div>
-</div>
+?>

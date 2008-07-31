@@ -47,23 +47,9 @@
         <authorUrl>http://www.openx.org</authorUrl>
         <license>license.txt</license>
         <description>Demo Extension for OpenX</description>
-        <version>0.0.1-beta</version>
+        <version>0.0.2-beta</version>
         <oxminver>2.7.5-dev</oxminver>
-        <oxmaxver>2.7.8-dev</oxmaxver>
-        <downloadUrl>{local}/download/demoExtension_0.0.1-beta.zip</downloadUrl>
-    </package>
-
-    <package>
-        <name>OpenXThorium</name>
-        <creationDate>2008-07-04</creationDate>
-        <author>Monique Szpak</author>
-        <authorEmail>monique.szpak@openx.org</authorEmail>
-        <authorUrl>http://www.openx.org</authorUrl>
-        <license>license.txt</license>
-        <description>OpenX Project Thorium</description>
-        <version>0.0.1-alpha</version>
-        <oxminver>2.7.8-dev</oxminver>
-        <oxmaxver>2.7.8-dev</oxmaxver>
+        <oxmaxver>2.7.13-dev</oxmaxver>
         <downloadUrl>{local}/download/demoExtension_0.0.1-beta.zip</downloadUrl>
     </package>
 

@@ -47,11 +47,11 @@ $oOptions = new OA_Admin_Option('settings');
 // Prepare an array for storing error messages
 $aErrormessage = array();
 
-$name   = $_REQUEST['group'];
-$parent = $_REQUEST['parent'];
+$group   = $_REQUEST['group'];
+$plugin = $_REQUEST['plugin'];
 
-if ($parent) {
-    $backURL =  "plugin-index.php?action=info&package=$parent";
+if ($plugin) {
+    $backURL =  "plugin-index.php?action=info&package=$plugin";
 }
 else {
     $backURL = "plugin-index.php?selection=plugins";
@@ -59,7 +59,7 @@ else {
 
 // get the settings for this plugin
 $oManager   = & new OX_Plugin_ComponentGroupManager();
-$aConfig    = $oManager->_getComponentGroupConfiguration($name);
+$aConfig    = $oManager->_getComponentGroupConfiguration($group);
 
 // If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true')
@@ -71,31 +71,49 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true')
     foreach ($aConfig['settings'] as $k => $v)
     {
         $aElements += array(
-                            $name.'_'.$v['key'] => array($name => $v['key'])
+                            $group.'_'.$v['key'] => array($group => $v['key'])
                             );
     }
 
-
-    // Create a new settings object, and save the settings!
-    $oSettings = new OA_Admin_Settings();
-    $result = $oSettings->processSettingsFromForm($aElements);
-    if ($result)
+    $valid = true;
+    $validationFile = MAX_PATH.$GLOBALS['_MAX']['CONF']['pluginPaths']['packages'].$group.'/processSettings.php';
+    if (file_exists($validationFile))
     {
-        // The settings configuration file was written correctly,
-        // go back to the plugins main page from here
-        require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-        MAX_Admin_Redirect::redirect($backURL);
+        $className = $group.'_processSettings';
+        include($validationFile);
+        if (class_exists($className))
+        {
+            $oPlugin = new $className;
+            if (method_exists($oPlugin, 'validate'))
+            {
+                $valid = $oPlugin->validate($aErrormessage);
+            }
+        }
     }
-    // Could not write the settings configuration file, store this
-    // error message and continue
-    $aErrormessage[0][] = $strUnableToWriteConfig;
+
+    if ($valid)
+    {
+        // Create a new settings object, and save the settings!
+        $oSettings = new OA_Admin_Settings();
+        $result = $oSettings->processSettingsFromForm($aElements);
+        if ($result)
+        {
+            // The settings configuration file was written correctly,
+            // go back to the plugins main page from here
+            require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
+            MAX_Admin_Redirect::redirect($backURL);
+        }
+        // Could not write the settings configuration file, store this
+        // error message and continue
+        $aErrormessage[0][] = $strUnableToWriteConfig;
+    }
 }
 // Set the correct section of the settings pages and display the drop-down menu
 //$oOptions->selection('email');
 
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
-$aSettings[0]['text'] = $name.' '.$strConfigurationSettings;
+$aSettings[0]['text'] = $group.' '.$strConfigurationSettings;
 
 $count = count($aConfig['settings']);
 $i = 0;
@@ -103,7 +121,7 @@ foreach ($aConfig['settings'] as $k => $v)
 {
     $aSettings[0]['items'][] = array(
                                      'type'    => $v['type'],
-                                     'name'    => $name.'_'.$v['key'],
+                                     'name'    => $group.'_'.$v['key'],
                                      'text'    => $v['label'],
                                      'req'     => $v['required'],
                                      'size'    => $v['size'],
@@ -122,13 +140,13 @@ foreach ($aConfig['settings'] as $k => $v)
 
 $aSettings[0]['items'][] = array(
                                  'type'    => 'hiddenfield',
-                                 'name'    => 'plugin',
-                                 'value'   => $name,
+                                 'name'    => 'group',
+                                 'value'   => $group,
                                  );
 $aSettings[0]['items'][] = array(
                                  'type'    => 'hiddenfield',
-                                 'name'    => 'parent',
-                                 'value'   => $parent,
+                                 'name'    => 'plugin',
+                                 'value'   => $plugin,
                                  );
 
 
@@ -144,8 +162,8 @@ phpAds_PageHeader("plugin-index");
 //display back link
 $oTpl = new OA_Admin_Template('plugin-group-settings.html');
 $oTpl->assign('backURL', MAX::constructURL(MAX_URL_ADMIN, $backURL));
-$oTpl->assign('parent', $parent);
-$oTpl->assign('name', $name);
+$oTpl->assign('plugin', $plugin);
+$oTpl->assign('group', $group);
 $oTpl->display();
 
 //display options form
