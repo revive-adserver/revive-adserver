@@ -108,7 +108,7 @@ function buildWebsiteForm($affiliate)
     $form->addElement('text', 'contact', $GLOBALS['strContact']);
     $form->addElement('text', 'email', $GLOBALS['strEMail']);
     
-    $form->addElement('select', 'category', $GLOBALS['strCategory'], $oAdNetworks->getCategoriesSelect());
+    $form->addElement('select', 'category', $GLOBALS['strCategory'], $oAdNetworks->getCategoriesSelect(), array('style'=>'width: 16em;'));
     $catLangGroup['country'] = $form->createElement('select', 'country', null, $oAdNetworks->getCountriesSelect());
     $catLangGroup['country']->setAttribute('style', 'width: 16em;');
     $catLangGroup['lang'] = $form->createElement('select', 'language', null, $oAdNetworks->getLanguagesSelect());
