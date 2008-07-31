@@ -36,7 +36,7 @@ require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
 
 
 // Register input variables
-phpAds_registerGlobalUnslashed('name', 'description', 'comments', 'submit', 
+phpAds_registerGlobalUnslashed('name', 'description', 'comments',  
     'affiliateid','agencyid', 'channelid');
 
 /*-------------------------------------------------------*/
@@ -117,7 +117,7 @@ function processForm($form)
     if (empty($aFields['affiliateid'])) {
         $aFields['affiliateid'] = 0;
     }
-    if ($aFields['$channelid']) {
+    if ($aFields['channelid']) {
         $doChannel = OA_Dal::factoryDO('channel');
         $doChannel->get($aFields['channelid']);
         $doChannel->name = $aFields['name'];
