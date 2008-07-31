@@ -1382,7 +1382,7 @@ function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideIn
     $hideInactiveText = $hideInactive ? $GLOBALS['strShowAll'] : $GLOBALS['strHideInactiveBanners'];
     $hideInactiveStats = $hideInactive ? "&nbsp;&nbsp;|&nbsp;&nbsp;$inactive {$GLOBALS['strInactiveBannersHidden']}" : '';
     $hideInactiveValue = $hideInactive ? '0' : '1';
-    $hideInactiveIcon = OX::assetPath($hideInactive ? 'images/icon-activate.gif' : 'images/icon-hideinactivate.gif');
+    $hideInactiveIcon = MAX::assetPath($hideInactive ? 'images/icon-activate.gif' : 'images/icon-hideinactivate.gif');
     echo "
 <tr height='1'>
 <td colspan='3' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td>
@@ -1503,7 +1503,7 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
         $hideInactiveText = $hideInactive ? $GLOBALS['strShowAll'] : $GLOBALS['strHideInactiveCampaigns'];
         $hideInactiveStats = $hideInactive ? "&nbsp;&nbsp;|&nbsp;&nbsp;$inactive {$GLOBALS['strInactiveCampaignsHidden']}" : '';
         $hideInactiveValue = $hideInactive ? '0' : '1';
-        $hideInactiveIcon = OX::assetPath($hideInactive ? 'images/icon-activate.gif' : 'images/icon-hideinactivate.gif');
+        $hideInactiveIcon = MAX::assetPath($hideInactive ? 'images/icon-activate.gif' : 'images/icon-hideinactivate.gif');
         echo "
     <tr height='1'>
         <td colspan='4' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td>
@@ -1746,17 +1746,6 @@ function MAX_zoneDelConfirm($zoneId)
            );
 }
 
-function OX_Display_ConversionWindowHTML($varName, $windowSeconds, &$tabindex, $enabled = true)
-{
-    $window = _secondsToWindowArray($windowSeconds);
-    echo "
-        <input " . ((!$enabled) ? "disabled='disabled'" : '') . "id='{$varName}daytrk' class='flat' type='text' size='3' name='{$varName}day' value='{$window['days']}' onKeyUp=\"phpAds_formLimitUpdate();\" tabindex='".($tabindex++)."' /> {$GLOBALS['strDays']} &nbsp;&nbsp;
-        <input " . ((!$enabled) ? "disabled='disabled'" : '') . "id='{$varName}hourtrk' class='flat' type='text' size='3' name='{$varName}hour' value='{$window['hours']}' onKeyUp=\"phpAds_formLimitUpdate();\" tabindex='".($tabindex++)."' /> {$GLOBALS['strHours']} &nbsp;&nbsp;
-        <input " . ((!$enabled) ? "disabled='disabled'" : '') . "id='{$varName}minutetrk' class='flat' type='text' size='3' name='{$varName}minute' value='{$window['minutes']}' onKeyUp=\"phpAds_formLimitUpdate();\" tabindex='".($tabindex++)."' /> {$GLOBALS['strMinutes']} &nbsp;&nbsp;
-        <input " . ((!$enabled) ? "disabled='disabled'" : '') . "id='{$varName}secondtrk' class='flat' type='text' size='3' name='{$varName}second' value='{$window['seconds']}' onBlur=\"phpAds_formLimitBlur();\" onKeyUp=\"phpAds_formLimitUpdate();\" tabindex='".($tabindex++)."' /> {$GLOBALS['strSeconds']} &nbsp;&nbsp;
-    ";
-}
-
 // Determine whether an advertiser has an active placement/ad running under it...
 function _isAdvertiserActive($aAdvertiserPlacementAd)
 {
@@ -1799,27 +1788,6 @@ function _isPublisherActive($aPublisherZone)
 function _isZoneActive($aZone)
 {
     return true;  // for now, all zones are active.
-}
-
-function _secondsToWindowArray($seconds)
-{
-    $return['days'] = floor($seconds / (60*60*24));
-    $seconds = $seconds % (60*60*24);
-    $return['hours'] = floor($seconds / (60*60));
-    $seconds = $seconds % (60*60);
-    $return['minutes'] = floor($seconds / (60));
-    $seconds = $seconds % (60);
-    $return['seconds'] = $seconds;
-    return $return;
-}
-
-function _windowValuesToseconds($days, $hours, $minutes, $seconds)
-{
-    $days =    ($days > 0)    ? $days    : 0;
-    $hours =   ($hours > 0)   ? $hours   : 0;
-    $minutes = ($minutes > 0) ? $minutes : 0;
-    $seconds = ($seconds > 0) ? $seconds : 0;
-    return $days * (24*60*60) + $hours * (60*60) + $minutes * (60) + $seconds;
 }
 
 function _multiSort($array, $arg1, $arg2){

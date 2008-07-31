@@ -24,7 +24,6 @@ if (count($aAppInfo)>0)
     <form name="frmInteg" method="POST" action="integ.php">
             <button name="btn_integ_check">run an integrity check on schema against application version =></button>
             <select name="version">
-                <option value="600" <?php echo ($version==600 ? 'selected' : '')?>>schema 600 (OpenX 2.7.10-dev)</option>
                 <option value="584" <?php echo ($version==584 ? 'selected' : '')?>>schema 584 (OpenX 2.7.5-dev)</option>
 
                 <option value="583" <?php echo ($version==583 ? 'selected' : '')?>>schema 583 (2.5.69-beta-rc5)</option>
@@ -61,7 +60,6 @@ if (count($aAppInfo)>0)
 if (count($aTasks)>0)
 {
 ?>
-
     <div class="tablediv">
         <button name="btn_integ_exec" value="<?php echo $file_changes; ?>">execute the selected tasks using <?php echo $file_changes; ?></button>
         <input name="changes_version" type="hidden" value="<?php echo $version; ?>" />

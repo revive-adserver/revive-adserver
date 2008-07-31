@@ -45,15 +45,11 @@ $userid = MAX_cookieGetUniqueViewerID(false);
 
 // Log the tracker impression
 if ($conf['logging']['trackerImpressions']) {
-    $aConnection = MAX_trackerCheckForValidAction($trackerid);
-    if (!empty($aConnection)) {
-        $aTrackerImpression = MAX_Delivery_log_logTrackerImpression($userid, $trackerid);
-        MAX_Delivery_log_logTrackerConnection($userid, $trackerid, $aTrackerImpression, $aConnection);
-        if (isset($aTrackerImpression['server_raw_tracker_impression_id'])) {
-    	    // Store tracker impression variable values
-    	    MAX_Delivery_log_logVariableValues(MAX_cacheGetTrackerVariables($trackerid), $trackerid, $aTrackerImpression['server_raw_tracker_impression_id'], $aTrackerImpression['server_raw_ip']);
-    	}
-    }
+	$conversionInfo = MAX_Delivery_log_logTrackerImpression($userid, $trackerid);
+	if (isset($conversionInfo['server_raw_tracker_impression_id'])) {
+	    // Store tracker impression variable values
+	    MAX_Delivery_log_logVariableValues(MAX_cacheGetTrackerVariables($trackerid), $trackerid, $conversionInfo['server_raw_tracker_impression_id'], $conversionInfo['server_raw_ip']);
+	}
 }
 MAX_cookieFlush();
 // Send a 1 x 1 gif

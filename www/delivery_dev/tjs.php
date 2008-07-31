@@ -49,21 +49,15 @@ MAX_commonSendContentTypeHeader("application/x-javascript", $charset);
 
 // Log the tracker impression
 $logVars = false;
-if (($conf['logging']['trackerImpressions'])) {
-    // Only log and gather variable data if this conversion connects back
-    $aConnection = MAX_trackerCheckForValidAction($trackerid);
-    if (!empty($aConnection)) {
-        $aTrackerImpression = MAX_Delivery_log_logTrackerImpression($userid, $trackerid);
-        MAX_Delivery_log_logTrackerConnection($userid, $trackerid, $aTrackerImpression, $aConnection);
-
-        // Generate code required to send variable values to the {$conf['file']['conversionvars']} script
-        if (isset($inherit)) {
-            $variablesScript = MAX_trackerbuildJSVariablesScript($trackerid, $aTrackerImpression, $inherit);
-        } else {
-            $variablesScript = MAX_trackerbuildJSVariablesScript($trackerid, $aTrackerImpression);
-        }
-        $logVars = true;
+if ($conf['logging']['trackerImpressions']) {
+    $conversionInfo = MAX_Delivery_log_logTrackerImpression($userid, $trackerid);
+    // Generate code required to send variable values to the {$conf['file']['conversionvars']} script
+    if (isset($inherit)) {
+        $variablesScript = MAX_trackerbuildJSVariablesScript($trackerid, $conversionInfo, $inherit);
+    } else {
+        $variablesScript = MAX_trackerbuildJSVariablesScript($trackerid, $conversionInfo);
     }
+    $logVars = true;
 }
 
 MAX_cookieFlush();

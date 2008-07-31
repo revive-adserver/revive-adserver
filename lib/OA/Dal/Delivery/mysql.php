@@ -416,8 +416,6 @@ function OA_Dal_Delivery_getPublisherZones($publisherid) {
  * The function to get and return the ads linked to a zone
  *
  * @param  int   $zoneid The id of the zone to get linked ads for
- *
- * @todo   Refactor this query (and others) to use OA_Dal_Delivery_buildQuery()
  * @return array|false
  *               The array containg zone information with nested arrays of linked ads
  *               or false on failure. Note that:
@@ -501,16 +499,14 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
             c.capping AS cap_campaign,
             c.session_capping AS session_cap_campaign,
             c.clientid AS client_id,
-            c.clickwindow AS clickwindow,
-            c.viewwindow AS viewwindow,
             m.advertiser_limitation AS advertiser_limitation,
             a.account_id AS account_id
         FROM
-            {$conf['table']['prefix']}{$conf['table']['banners']} AS d
-            JOIN {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']} AS az ON (d.bannerid = az.ad_id)
-            JOIN {$conf['table']['prefix']}{$conf['table']['campaigns']} AS c ON (c.campaignid = d.campaignid)
-            LEFT JOIN {$conf['table']['prefix']}{$conf['table']['clients']} AS m ON (m.clientid = c.clientid)
-            LEFT JOIN {$conf['table']['prefix']}{$conf['table']['agency']} AS a ON (a.agencyid = m.agencyid)
+            {$conf['table']['prefix']}{$conf['table']['banners']} AS d JOIN
+            {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']} AS az ON (d.bannerid = az.ad_id) JOIN
+            {$conf['table']['prefix']}{$conf['table']['campaigns']} AS c ON (c.campaignid = d.campaignid) LEFT JOIN
+            {$conf['table']['prefix']}{$conf['table']['clients']} AS m ON (m.clientid = c.clientid) LEFT JOIN
+            {$conf['table']['prefix']}{$conf['table']['agency']} AS a ON (a.agencyid = m.agencyid)
         WHERE
             az.zone_id = {$zoneid}
           AND
@@ -519,7 +515,6 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
             c.status <= 0
     ";
 
-//    $query = OA_Dal_Delivery_buildQuery('', '', '');
     $rAds = OA_Dal_Delivery_query($query);
 
     if (!is_resource($rAds)) {
@@ -532,7 +527,6 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
 
     // Get timezone data
     $aTimezones = MAX_cacheGetAccountTZs();
-    $aConversionLinkedCreatives = MAX_cacheGetTrackerLinkedCreatives();
 
     while ($aAd = mysql_fetch_assoc($rAds)) {
         // Add timezone
@@ -541,8 +535,6 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
         } else {
             $aAd['timezone'] = $aTimezones['default'];
         }
-
-        $aAd['tracker_status'] = (!empty($aConversionLinkedCreatives[$aAd['ad_id']]['status'])) ? $aConversionLinkedCreatives[$aAd['ad_id']]['status'] : null;
         // Is the ad Exclusive, Low, or Normal Priority?
         if ($aAd['campaign_priority'] == -1) {
             // Ad is in an exclusive placement
@@ -717,7 +709,6 @@ function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = tru
  *
  * @param  string       $ad_id     The ad id for the specified ad
  *
- * @todo   Refactor this query (and others) to use OA_Dal_Delivery_buildQuery()
  * @return array|null   $ad        An array containing the ad data or null if nothing found
  */
 function OA_Dal_Delivery_getAd($ad_id) {
@@ -881,43 +872,6 @@ function OA_Dal_Delivery_getTracker($trackerid)
         }
     } else {
         return (mysql_fetch_assoc($rTracker));
-    }
-}
-
-function OA_Dal_Delivery_getTrackerLinkedCreatives($trackerid = null)
-{
-    $aConf = $GLOBALS['_MAX']['CONF'];
-    $rCreatives = OA_Dal_Delivery_query("
-        SELECT
-            b.bannerid AS ad_id,
-            b.campaignid AS placement_id,
-            c.viewwindow AS view_window,
-            c.clickwindow AS click_window,
-            ct.status AS status,
-            t.type AS tracker_type
-        FROM
-            {$aConf['table']['prefix']}{$aConf['table']['banners']} AS b,
-            {$aConf['table']['prefix']}{$aConf['table']['campaigns_trackers']} AS ct,
-            {$aConf['table']['prefix']}{$aConf['table']['campaigns']} AS c,
-            {$aConf['table']['prefix']}{$aConf['table']['trackers']} AS t
-        WHERE
-          ct.trackerid=t.trackerid
-          AND c.campaignid=b.campaignid
-          AND b.campaignid = ct.campaignid
-          " . ((!empty($trackerid)) ? ' AND t.trackerid='.$trackerid : '') . "
-    ");
-    if (!is_resource($rCreatives)) {
-        if (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) {
-            return OA_DELIVERY_CACHE_FUNCTION_ERROR;
-        } else {
-            return null;
-        }
-    } else {
-        $output = array();
-        while ($aRow = mysql_fetch_assoc($rCreatives)) {
-            $output[$aRow['ad_id']] = $aRow;
-        }
-        return $output;
     }
 }
 
@@ -1340,47 +1294,6 @@ function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
             '{$aGeotargeting['continent']}'
     )", 'rawDatabase');
     return OA_Dal_Delivery_insertId('rawDatabase');
-}
-
-function OA_Dal_Delivery_logTrackerConnection($viewerId, $trackerId, $aTrackerImpression, $aConnection)
-{
-    $aConf = $GLOBALS['_MAX']['CONF'];
-    $table = $aConf['table']['data_intermediate_ad_connection'];
-
-    $fields = array(
-        'server_raw_ip' => $aTrackerImpression['server_raw_ip'],
-        'server_raw_tracker_impression_id' => $aTrackerImpression['server_raw_tracker_impression_id'],
-        'viewer_id' => str_replace('-', '', $viewerId),
-        'tracker_date_time' => gmdate('Y-m-d H:i:s'),
-        'connection_date_time' => gmdate('Y-m-d H:i:s', $aConnection['dt']),
-        'tracker_id' => $trackerId,
-        'ad_id' => $aConnection['cid'],
-        'zone_id' => $aConnection['zid'],
-        'tracker_ip_address' => $_SERVER['REMOTE_ADDR'],
-        'connection_action' => $aConnection['action_type'],
-        'connection_window' => $aConnection['window'],
-        'connection_status' => $aConnection['status'],
-    );
-
-    // These values are being hard-coded, they may be deprecated when we refactor the table out
-    $staticFields = array(
-        'inside_window' => 1,
-    );
-
-    $otherFields = array(
-        'tracker_language' => isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 32) : '',
-        'tracker_user_agent' => substr($_SERVER['HTTP_USER_AGENT'], 0, 255),
-    );
-
-    $fields = array_merge($fields, $staticFields, $otherFields);
-    array_walk($fields, 'mysql_escape_string');
-
-    $query = "
-        INSERT INTO {$table}
-            (" . implode(', ', array_keys($fields)) . ")
-            VALUES ('" . implode("', '", $fields) . "')
-    ";
-    return OA_Dal_Delivery_query($query, 'rawDatabase');
 }
 
 /**

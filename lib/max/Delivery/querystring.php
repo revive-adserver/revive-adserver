@@ -153,8 +153,6 @@ function MAX_querystringGetDestinationUrl($adId = null)
         $conf['var']['zoneId'],
         $conf['var']['params'],
         $conf['var']['cookieTest'],
-        $conf['var']['lastClick'],
-
         /**
          * @todo This variable below needs to be config-file driven, all occurences need to be changed to $conf['var']['channel_ids']
          */

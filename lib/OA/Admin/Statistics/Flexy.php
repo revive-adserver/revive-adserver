@@ -136,7 +136,7 @@ class OA_Admin_Statistics_Flexy
     function listOrderImage($fieldname)
     {
         if ($this->listOrderField == $fieldname) {
-            return OX::assetPath("images/caret-".($this->listOrderDirection == 'up' ? 'u': 'ds').".gif");
+            return MAX::assetPath("images/caret-".($this->listOrderDirection == 'up' ? 'u': 'ds').".gif");
         } else {
             return false;
         }

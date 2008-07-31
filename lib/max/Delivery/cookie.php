@@ -178,14 +178,16 @@ function MAX_cookieUnpackCapping()
  */
 function _isBlockCookie($cookieName)
 {
-    return in_array($cookieName, array(
-        $GLOBALS['_MAX']['CONF']['var']['blockAd'],
-        $GLOBALS['_MAX']['CONF']['var']['blockCampaign'],
-        $GLOBALS['_MAX']['CONF']['var']['blockZone'],
-        $GLOBALS['_MAX']['CONF']['var']['lastView'],
-        $GLOBALS['_MAX']['CONF']['var']['lastClick'],
-        $GLOBALS['_MAX']['CONF']['var']['blockLoggingClick'],
-    ));
+	if ($cookieName == $GLOBALS['_MAX']['CONF']['var']['blockAd']) {
+	    return true;
+	}
+	if ($cookieName == $GLOBALS['_MAX']['CONF']['var']['blockCampaign']) {
+	    return true;
+	}
+	if ($cookieName == $GLOBALS['_MAX']['CONF']['var']['blockZone']) {
+	    return true;
+	}
+	return false;
 }
 
 /**
@@ -390,14 +392,14 @@ function MAX_cookieClientCookieFlush()
             continue;
         }
         switch ($cookieName) {
-            case $conf['var']['blockAd']            :
-            case $conf['var']['blockCampaign']      :
+            case $conf['var']['blockAd']            : $expire = _getTimeThirtyDaysFromNow(); break;
+            case $conf['var']['capAd']              : $expire = _getTimeYearFromNow(); break;
+            case $conf['var']['sessionCapAd']       : $expire = 0; break;
+            case $conf['var']['blockCampaign']      : $expire = _getTimeThirtyDaysFromNow(); break;
+            case $conf['var']['capCampaign']        : $expire = _getTimeYearFromNow(); break;
+            case $conf['var']['sessionCapCampaign'] : $expire = 0; break;
             case $conf['var']['blockZone']          : $expire = _getTimeThirtyDaysFromNow(); break;
-            case $conf['var']['capAd']              :
-            case $conf['var']['capCampaign']        :
             case $conf['var']['capZone']            : $expire = _getTimeYearFromNow(); break;
-            case $conf['var']['sessionCapCampaign'] :
-            case $conf['var']['sessionCapAd']       :
             case $conf['var']['sessionCapZone']     : $expire = 0; break;
         }
         if (!empty($_COOKIE[$cookieName]) && is_array($_COOKIE[$cookieName])) {
