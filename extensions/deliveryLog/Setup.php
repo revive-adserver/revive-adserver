@@ -49,6 +49,14 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
     const DATA_EXTENSION = 'deliveryDataPrepare';
     const LOG_EXTENSION  = 'deliveryLog';
 
+    public $aDeliveryLogHooks = array(
+        'logRequest',
+        'logImpression',
+        'logClick',
+        'logConversion',
+        'logConversionVariable',
+    );
+
     /**
      * Delivery logging related extension types
      *
@@ -335,6 +343,11 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
         return $file;
     }
 
+    /**
+     * Required for mocking OX_Component::getComponents
+     *
+     * @return array  Array of components in chosen extension, group
+     */
     function _getComponents($extension, $group, $onlyComponentNameAsIndex = true,
         $recursive = 1, $enabled = false)
     {

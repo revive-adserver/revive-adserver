@@ -858,6 +858,8 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
     {
         switch ($hookName) {
             case 'logClick':
+            case 'logConversion':
+            case 'logConversionVariable':
             case 'logImpression':
             case 'logRequest':
                 $deliveryLogSetup = new OX_Plugins_DeliveryLog_Setup();
@@ -885,13 +887,12 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
     function _generateDeliveryHooksCacheFile($aHooks = array())
     {
         $aDeliveryHooksComponents = array();
-        $aDeliveryHooks = array('logClick', 'logImpression', 'logRequest');
+        $deliveryLogSetup = new OX_Plugins_DeliveryLog_Setup();
         foreach ($aHooks as $hook => $aComponents) {
-            if (in_array($hook, $aDeliveryHooks)) {
+            if (in_array($hook, $deliveryLogSetup->aDeliveryLogHooks)) {
                 $aDeliveryHooksComponents[$hook] = $aComponents;
             }
         }
-        $deliveryLogSetup = new OX_Plugins_DeliveryLog_Setup();
         return $deliveryLogSetup->regenerateDeliveryPluginsCodeCache($aDeliveryHooksComponents);
     }
 
