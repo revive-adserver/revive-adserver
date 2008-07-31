@@ -814,6 +814,8 @@ $maxHttps
 function MAX_Delivery_log_logTrackerImpression($viewerId, $trackerId)
 {
 if (_viewersHostOkayToLog()) {
+OX_Delivery_Common_hook('logConversion', array($viewerId, $trackerId));
+// @todo - remove following code once buckets will be finished
 $aConf = $GLOBALS['_MAX']['CONF'];
 if (empty($aConf['rawDatabase']['host'])) {
 if (!empty($aConf['lb']['enabled'])) {
