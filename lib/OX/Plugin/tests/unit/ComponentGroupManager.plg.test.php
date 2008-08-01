@@ -311,19 +311,26 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
 
     function test_checkFiles()
     {
-        $name = 'testPlugin';
         $aFiles[] = array('path'=>OX_PLUGIN_ADMINPATH.'/templates/','name'=>'testPlugin.html');
         $aFiles[] = array('path'=>OX_PLUGIN_ADMINPATH.'/images/','name'=>'testPlugin2.jpg');
         $aFiles[] = array('path'=>OX_PLUGIN_ADMINPATH.'/','name'=>'testPlugin-index.php');
-        $aFiles[] = array('path'=>OX_PLUGIN_PLUGINPATH.'/etc/','name'=>'tables_testplugin.xml');
-        $aFiles[] = array('path'=>OX_PLUGIN_PLUGINPATH.'/etc/DataObjects/','name'=>'Testplugin_table.php');
 
+        $aFiles[] = array('path'=>OX_PLUGIN_PLUGINPATH,'name'=>'testPluginPackage.readme.txt');
+
+        $aFiles[] = array('path'=>OX_PLUGIN_GROUPPATH.'/','name'=>'processPreferences.php');
+        $aFiles[] = array('path'=>OX_PLUGIN_GROUPPATH.'/etc/','name'=>'tables_testplugin.xml');
+        $aFiles[] = array('path'=>OX_PLUGIN_GROUPPATH.'/etc/DataObjects/','name'=>'Testplugin_table.php');
+
+        $name = 'testPlugin';
         $oManager = new OX_Plugin_ComponentGroupManager();
+
         $this->assertFalse($oManager->_checkFiles($name, $aFiles));
-        $oManager->aErrors = array();
+
+        $oManager->aErrors            = array();
         $oManager->pathPackages       = $this->testpathPackages;
         $oManager->pathPluginsAdmin   = $this->testpathPluginsAdmin;
         $this->assertTrue($oManager->_checkFiles($name, $aFiles));
+
         if ($oManager->countErrors())
         {
             foreach ($oManager->aErrors as $msg)

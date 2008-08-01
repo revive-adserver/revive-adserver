@@ -32,6 +32,7 @@
         </syscheck>
 
         <files>
+            <file path="{GROUPPATH}/">processPreferences.php</file>
             <file path="{ADMINPATH}/templates/">testPlugin.html</file>
             <file path="{ADMINPATH}/images/">testPlugin1.jpg</file>
             <file path="{ADMINPATH}/images/">testPlugin2.jpg</file>

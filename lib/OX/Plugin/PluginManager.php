@@ -54,6 +54,8 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 {
     var $errcode;
 
+    var $aExtensionsAffected = array();
+
     function __construct()
     {
         $this->init();
@@ -405,6 +407,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             else
             {
                 $aResult[$idx] = $aParsed;
+                $this->aExtensionsAffected[] = $aParsed['extends'];
             }
         }
         return $aResult;
@@ -1100,7 +1103,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $aFilesExpected[$aPlugin['name']] = $aPlugin['install']['files'];
             $nFilesExpected+= count($aPlugin['install']['files']);
 
-            $pluginPath = OX_PLUGIN_PLUGINPATH.$aPlugin['name'].'/etc/';
+            $pluginPath = OX_PLUGIN_GROUPPATH.'/etc/';
 
             if ($aPlugin['install']['prescript'])
             {
@@ -1145,9 +1148,9 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             foreach ($aPlugin['install']['schema']['dataobjects'] as $k => $v)
             {
                 $aFilesExpected[$aPlugin['name']][] = array(
-                                                    'path'=>$pluginPath.'DataObjects/',
-                                                    'name'=>$v,
-                                                   );
+                                                            'path'=>$pluginPath.'DataObjects/',
+                                                            'name'=>$v,
+                                                           );
                 $nFilesExpected++;
             }
         }
@@ -1163,31 +1166,27 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             foreach ($aPluginFilesExpected AS $i => $aFileExpected)
             {
                 $fileExpected = $aFileExpected['path'].$aFileExpected['name'];
-                $aPattern     = array(
-                                        OX_PLUGIN_PLUGINPATH_REX,
-                                        OX_PLUGIN_MODULEPATH_REX,
-                                        OX_PLUGIN_ADMINPATH_REX,
-                                     );
-
-                $aReplace     = array($this->pathPackages, $this->pathExtensions, $this->pathPluginsAdmin.$pluginName);
-                $fileExpected = preg_replace(
-                                             $aPattern,
-                                             $aReplace,
-                                             $aFileExpected['path'].$aFileExpected['name']
-                                            );
+                $fileExpected = $this->_expandFilePath($aFileExpected['path'], $aFileExpected['name'], $pluginName);
                 if ($fileExpected == $aFileExpected['path'].$aFileExpected['name'])
                 {
                     $this->_logError('Illegal file location found :'.$fileExpected);
                     $this->errcode = OX_PLUGIN_ERROR_ILLEGAL_FILE;
                     return false;
                 }
+                $found = false;
                 foreach ($aFilesStored AS $n => $fileStored)
                 {
                     if ($fileStored == $fileExpected)
                     {
                         unset($aFilesStored[$n]);
+                        $found = true;
                         break;
                     }
+                    //$this->_logMessage($fileStored.' != '.$fileExpected);
+                }
+                if (!$found)
+                {
+                    $aFilesNotFound[] = $fileExpected;
                 }
             }
         }
@@ -1196,9 +1195,21 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->_logError(count($aFilesStored).' unexpected files found');
             foreach ($aFilesStored as $file)
             {
-                $this->_logWarning($file);
+                $this->_logError($file);
             }
             $this->errcode = OX_PLUGIN_ERROR_PLUGIN_DECLARATION_MISMATCH;
+        }
+        if (count($aFilesNotFound) > 0)
+        {
+            $this->_logError(count($aFilesNotFound).' expected files not found');
+            foreach ($aFilesNotFound as $file)
+            {
+                $this->_logError($file);
+            }
+            $this->errcode = OX_PLUGIN_ERROR_PLUGIN_DECLARATION_MISMATCH;
+        }
+        if ($this->errcode == OX_PLUGIN_ERROR_PLUGIN_DECLARATION_MISMATCH)
+        {
             return false;
         }
         $this->errcode = OX_PLUGIN_ERROR_PACKAGE_OK;

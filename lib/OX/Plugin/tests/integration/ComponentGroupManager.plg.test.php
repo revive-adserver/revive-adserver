@@ -362,24 +362,42 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
     function test_removeFiles()
     {
         $name = 'testPlugin';
-        $varPath = '/var/tmp/';
+        $varPath = '/var/tmp';
         if (!file_exists(MAX_PATH.$varPath))
         {
             mkdir(MAX_PATH.$varPath);
         }
-
         // set up some package folders and files
         $aConf = $GLOBALS['_MAX']['CONF']['pluginPaths'];
-        $varPathExtensions = $varPath.$aConf['modules'].'/';
-        if (!file_exists(MAX_PATH.$varPathPackages))
+
+        $aPathExtensions = explode('/',$aConf['extensions']);
+        $varPathExtensions = $varPath;
+        foreach ($aPathExtensions as $sub)
         {
-            mkdir(MAX_PATH.$varPathPackages);
+            if (trim($sub))
+            {
+                $varPathExtensions.= '/'.$sub;
+                if (!file_exists(MAX_PATH.$varPathExtensions))
+                {
+                    mkdir(MAX_PATH.$varPathExtensions);
+                }
+            }
         }
-        $varPathPackages = $varPath.$aConf['packages'].'/';
-        if (!file_exists(MAX_PATH.$varPathPackages))
+        $varPathExtensions.= '/';
+        $aPathPackages = explode('/',$aConf['packages']);
+        $varPathPackages = $varPath;
+        foreach ($aPathPackages as $sub)
         {
-            mkdir(MAX_PATH.$varPathPackages);
+            if (trim($sub))
+            {
+                $varPathPackages.= '/'.$sub;
+                if (!file_exists(MAX_PATH.$varPathPackages))
+                {
+                    mkdir(MAX_PATH.$varPathPackages);
+                }
+            }
         }
+        $varPathPackages.= '/';
         if (!file_exists(MAX_PATH.$varPathPackages.$name))
         {
             mkdir(MAX_PATH.$varPathPackages.$name);
@@ -393,26 +411,33 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
         copy(MAX_PATH.$this->testpathPackages.$file, MAX_PATH.$varPathPackages.$file);
         $this->assertTrue(file_exists(MAX_PATH.$varPathPackages.$file), 'not found '.$file);
 
+        $file = $name.'/processPreferences.php';
+        copy(MAX_PATH.$this->testpathPackages.$file, MAX_PATH.$varPathPackages.$file);
+        $this->assertTrue(file_exists(MAX_PATH.$varPathPackages.$file), 'not found '.$file);
+
+        $file = 'testPluginPackage.readme.txt';
+        copy(MAX_PATH.$this->testpathPackages.$file, MAX_PATH.$varPathPackages.$file);
+        $this->assertTrue(file_exists(MAX_PATH.$varPathPackages.$file), 'not found '.$file);
+
         $file = $name.'/etc/tables_testplugin.xml';
         copy(MAX_PATH.$this->testpathPackages.$file, MAX_PATH.$varPathPackages.$file);
         $this->assertTrue(file_exists(MAX_PATH.$varPathPackages.$file), 'not found '.$file);
 
         // set up some admin folders and files
-        $varPathAdmin = $varPath.'www/';
-        if (!file_exists(MAX_PATH.$varPathAdmin))
+        $aPathAdmin = explode('/',$aConf['admin']);
+        $varPathAdmin = $varPath;
+        foreach ($aPathAdmin as $sub)
         {
-            mkdir(MAX_PATH.$varPathAdmin);
+            if (trim($sub))
+            {
+                $varPathAdmin.= '/'.$sub;
+                if (!file_exists(MAX_PATH.$varPathAdmin))
+                {
+                    mkdir(MAX_PATH.$varPathAdmin);
+                }
+            }
         }
-        $varPathAdmin = $varPathAdmin.'admin/';
-        if (!file_exists(MAX_PATH.$varPathAdmin))
-        {
-            mkdir(MAX_PATH.$varPathAdmin);
-        }
-        $varPathAdmin = $varPathAdmin.'plugins/';
-        if (!file_exists(MAX_PATH.$varPathAdmin))
-        {
-            mkdir(MAX_PATH.$varPathAdmin);
-        }
+        $varPathAdmin.= '/';
         if (!file_exists(MAX_PATH.$varPathAdmin.$name))
         {
             mkdir(MAX_PATH.$varPathAdmin.$name);
@@ -467,9 +492,15 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
         $aFiles = array();
         $aFiles[] = array('path'=>OX_PLUGIN_ADMINPATH.'/templates/','name'=>'testPlugin.html');
         $aFiles[] = array('path'=>OX_PLUGIN_ADMINPATH.'/','name'=>'testPlugin-index.php');
-        $aFiles[] = array('path'=>OX_PLUGIN_PLUGINPATH.'/etc/','name'=>'tables_testplugin.xml');
-        $aFiles[] = array('path'=>OX_PLUGIN_PLUGINPATH.'/','name'=>'testPlugin.xml');
+        $aFiles[] = array('path'=>OX_PLUGIN_GROUPPATH.'/etc/','name'=>'tables_testplugin.xml');
+        $aFiles[] = array('path'=>OX_PLUGIN_GROUPPATH.'/','name'=>'testPlugin.xml');
+        $aFiles[] = array('path'=>OX_PLUGIN_GROUPPATH.'/','name'=>'processPreferences.php');
+        $aFiles[] = array('path'=>OX_PLUGIN_GROUPPATH.'/etc/','name'=>'tables_testplugin.xml');
+        $aFiles[] = array('path'=>OX_PLUGIN_PLUGINPATH.'/','name'=>'testPluginPackage.readme.txt');
+
         $this->assertTrue($oPluginManager->_checkFiles($name, $aFiles));
+
+
         if ($oPluginManager->countErrors())
         {
             foreach ($oPluginManager->aErrors as $msg)

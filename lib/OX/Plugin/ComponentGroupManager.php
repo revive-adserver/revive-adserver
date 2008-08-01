@@ -33,10 +33,12 @@ define('OX_PLUGIN_DEPENDENCY_NOTFOUND', -1);
 define('OX_PLUGIN_DEPENDENCY_BADVERSION', -2);
 
 define('OX_PLUGIN_PLUGINPATH','{PLUGINPATH}');
+define('OX_PLUGIN_GROUPPATH','{GROUPPATH}');
 define('OX_PLUGIN_MODULEPATH','{MODULEPATH}');
 define('OX_PLUGIN_ADMINPATH' ,'{ADMINPATH}' );
 
 define('OX_PLUGIN_PLUGINPATH_REX','/^\{PLUGINPATH\}/');
+define('OX_PLUGIN_GROUPPATH_REX','/^\{GROUPPATH\}/');
 define('OX_PLUGIN_MODULEPATH_REX','/^\{MODULEPATH\}/');
 define('OX_PLUGIN_ADMINPATH_REX' ,'/^\{ADMINPATH\}/' );
 
@@ -1202,20 +1204,9 @@ class OX_Plugin_ComponentGroupManager
      */
     function _checkFiles($name, $aFiles=array())
     {
-        $aPattern     = array(
-                                OX_PLUGIN_PLUGINPATH_REX,
-                                OX_PLUGIN_MODULEPATH_REX,
-                                OX_PLUGIN_ADMINPATH_REX,
-                             );
         foreach ($aFiles AS $aFile)
         {
-            $aReplace     = array(
-                                    addcslashes(MAX_PATH.$this->pathPackages.$name.'/', '$\\'),
-                                    addcslashes(MAX_PATH.$this->pathExtensions, '$\\'),
-                                    addcslashes(MAX_PATH.$this->pathPluginsAdmin.$name, '$\\')
-                                 );
-            $file = preg_replace($aPattern, $aReplace, $aFile['path']).$aFile['name'];
-
+            $file = MAX_PATH.$this->_expandFilePath($aFile['path'], $aFile['name'], $name);
             if (!file_exists($file))
             {
                 $this->_logError('File check failed to find '.$file);
@@ -1225,40 +1216,29 @@ class OX_Plugin_ComponentGroupManager
         return true;
     }
 
-    function _removeFiles($name, $aGroup=array(),$extends='')
+    function _removeFiles($name, $aGroup=array())
     {
         foreach ($aGroup['files'] AS $aFile)
         {
-            if (substr_count($aFile['path'],'{PLUGINPATH}'))
-            {
-                $file = str_replace('{PLUGINPATH}',MAX_PATH.$this->pathPackages.$name,$aFile['path']).$aFile['name'];
-            }
-            else if (substr_count($aFile['path'],'{MODULEPATH}'))
-            {
-                $file = str_replace('{MODULEPATH}',MAX_PATH.$this->pathExtensions,$aFile['path']).$aFile['name'];
-            }
-            else if (substr_count($aFile['path'],'{ADMINPATH}'))
-            {
-                $file = str_replace('{ADMINPATH}',MAX_PATH.$this->pathPluginsAdmin.$name,$aFile['path']).$aFile['name'];
-            }
+            $file = MAX_PATH.$this->_expandFilePath($aFile['path'], $aFile['name'], $name);
             if (file_exists($file))
             {
                 @unlink($file);
                 $folder = dirname($file);
                 if ($name) // its a plugin (no name = package)
                 {
-                    @rmdir($folder);
+                    if ( ($folder !=  MAX_PATH.rtrim($this->pathPackages,'/')) &&
+                         ($folder !=  MAX_PATH.rtrim($this->pathExtensions,'/')) &&
+                         ($folder !=  MAX_PATH.rtrim($this->pathPluginsAdmin,'/')) )
+                     {
+                        @rmdir($folder);
+                     }
                 }
             }
         }
         if (!$name) // its a package, won't have files outside the packages folder)
         {
             return true;
-        }
-        $pathModule = MAX_PATH.$this->pathExtensions.$extends.'/'.$name;
-        if (file_exists($pathModule))
-        {
-            @rmdir($pathModule);
         }
         $pathAdmin = MAX_PATH.$this->pathPluginsAdmin.$name;
         if (file_exists($pathAdmin))
@@ -2106,6 +2086,15 @@ class OX_Plugin_ComponentGroupManager
         }
         return $aResult;
         //$aGroupInfo['pluginGroupComponents'] = OX_Component::_getComponentFiles($aGroupInfo['extends'], $plugin);
+    }
+
+
+    function _expandFilePath($path, $file, $groupname='', $pluginname='')
+    {
+        $aPattern   = array(OX_PLUGIN_PLUGINPATH_REX, OX_PLUGIN_GROUPPATH_REX, OX_PLUGIN_MODULEPATH_REX, OX_PLUGIN_ADMINPATH_REX);
+        $aReplace   = array($this->pathPackages, $this->pathPackages.$groupname, $this->pathExtensions, $this->pathPluginsAdmin.$groupname);
+        $result     = preg_replace($aPattern,$aReplace,$path.$file);
+        return $result;
     }
 
     /* possible replacement for _instantiateClass() with params

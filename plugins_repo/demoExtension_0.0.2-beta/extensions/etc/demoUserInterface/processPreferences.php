@@ -1,6 +1,6 @@
-{*<!--
+<?php
 
----------------------------------------------------------------------------+
+/*---------------------------------------------------------------------------+
 | Openads v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
@@ -25,20 +25,42 @@
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
 $Id$
+*/
 
--->*}
-{include file=plugin-group-switcher.html}
-<p class="backlink"><a href="{$backURL}">&laquo; Back {if $plugin} to {$plugin} {else} to list {/if}</a></p>
+/**
+ * A class that deals with configuration settings for this group of components
+ *
+ */
+class demoUserInterface_processPreferences
+{
 
-<div class="panel">
-       <span class='corner top-left'></span>
-       <span class='corner top-right'></span>
-       <span class='corner bottom-left'></span>
-       <span class='corner bottom-right'></span>
+    /**
+     * Method that is called on settings form submission
+     * Error messages are appended to the 0 index of the array
+     *
+     * @return boolean
+     */
+    function validate(&$aErrorMessage)
+    {
+        if (isset($GLOBALS['demopref_Admin']))
+        {
+            if (!$GLOBALS['demopref_Admin'])
+            {
+               $myErrorCondition = true;
+               $strMyErrorMessage = 'Error';
+            }
+        }
+        // test
+        /*$myErrorCondition = true;
+        $strMyErrorMessage = 'Error';*/
+        if ($myErrorCondition)
+        {
+            $aErrorMessage[0][] = $strMyErrorMessage;
+            return false;
+        }
+        return true;
+    }
+}
 
-    <div>
-        <span class="item-info">
-            <span class="name">Component Group Preferences: {$group}</span>
-        </span>
-    </div>
-</div>
+
+?>
