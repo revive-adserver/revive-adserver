@@ -483,7 +483,8 @@ class OA_Preferences
             // Was the HTML element value set?
             if (isset($GLOBALS[$preferenceName])) {
                 // Is the preference value different from the parent value?
-                if ($GLOBALS[$preferenceName] != $aParentPreferences[$preferenceName]) {
+                if (!isset($aParentPreferences[$preferenceName]) ||
+                           $GLOBALS[$preferenceName] != $aParentPreferences[$preferenceName]) {
                     // The preference value is different from the parent, so it
                     // needs to be stored
                     $aSavePreferences[$preferenceName] = $GLOBALS[$preferenceName];
