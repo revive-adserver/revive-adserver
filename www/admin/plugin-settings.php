@@ -86,6 +86,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true')
             $oPlugin = new $className;
             if (method_exists($oPlugin, 'validate'))
             {
+                $aErrormessage = array();
                 $valid = $oPlugin->validate($aErrormessage);
             }
         }
@@ -93,6 +94,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true')
 
     if ($valid)
     {
+        $aErrormessage = null;
         // Create a new settings object, and save the settings!
         $oSettings = new OA_Admin_Settings();
         $result = $oSettings->processSettingsFromForm($aElements);
