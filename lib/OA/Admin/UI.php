@@ -127,7 +127,7 @@ class OA_Admin_UI
 
         $oCurrentSection = null;
         // Travel navigation
-        if ($ID !== phpAds_Login && $ID !== phpAds_Error) {
+        if ($ID !== phpAds_Login && $ID !== phpAds_Error && $ID !== phpAds_PasswordRecovery) {
 
             //get system navigation
             $oMenu = OA_Admin_Menu::singleton();
@@ -165,6 +165,12 @@ class OA_Admin_UI
             } elseif ($ID == phpAds_Error) {
                 $aMainNav[] = array(
                     'title'    => $GLOBALS['strErrorOccurred'],
+                    'filename' => 'index.php',
+                    'selected' => true
+                );
+            } elseif ($ID == phpAds_PasswordRecovery) {
+                $aMainNav[] = array (
+                    'title'    => $GLOBALS['strPasswordRecovery'],
                     'filename' => 'index.php',
                     'selected' => true
                 );
@@ -228,7 +234,7 @@ class OA_Admin_UI
     {
         $id = $ID;
 
-        if (is_null($ID) || (($ID !== phpAds_Login && $ID !== phpAds_Error && basename($_SERVER['SCRIPT_NAME']) != 'stats.php') && (preg_match('#^[0-9](\.[0-9])*$#', $ID)))) {
+        if (is_null($ID) || (($ID !== phpAds_Login && $ID !== phpAds_Error && $ID !== phpAds_PasswordRecovery && basename($_SERVER['SCRIPT_NAME']) != 'stats.php') && (preg_match('#^[0-9](\.[0-9])*$#', $ID)))) {
             $id =  basename(substr($_SERVER['SCRIPT_NAME'], 0, strrpos($_SERVER['SCRIPT_NAME'], '.')));
         }
         return $id;

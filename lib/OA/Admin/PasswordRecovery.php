@@ -68,17 +68,7 @@ class OA_Admin_PasswordRecovery
      */
     function pageHeader()
     {
-        // Setup navigation
-        $nav = array ("1" => array("password-recovery.php" => $GLOBALS['strPasswordRecovery']));
-
-        $GLOBALS['OA_Navigation'] = array(
-            OA_ACCOUNT_ADMIN      => $nav,
-            OA_ACCOUNT_MANAGER    => $nav,
-            OA_ACCOUNT_ADVERTISER => $nav,
-            OA_ACCOUNT_TRAFFICKER => $nav
-        );
-
-        phpAds_PageHeader("1");
+        phpAds_PageHeader(phpAds_PasswordRecovery);
 
         echo "<br><br>";
     }

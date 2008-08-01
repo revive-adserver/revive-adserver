@@ -46,6 +46,7 @@ $phpAds_breadcrumbs_extra  = '';
 
 define("phpAds_Login", 0);
 define("phpAds_Error", -1);
+define("phpAds_PasswordRecovery", -2);
 
 /*-------------------------------------------------------*/
 /* Add breadcrumb context to left menubar                */
