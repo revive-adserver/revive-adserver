@@ -1071,63 +1071,66 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
         }
         // Prepare the query to select the required tracker variable values
         $trackerIds = implode(',', array_keys($aConnections));
-        $query = "
-            SELECT
-                t.trackerid AS tracker_id,
-                t.trackername AS tracker_name,
-                v.variableid AS tracker_variable_id,
-                v.name AS tracker_variable_name,
-                v.description AS tracker_variable_description,
-                v.datatype AS tracker_variable_data_type,
-                v.purpose AS tracker_variable_purpose,
-                v.is_unique AS tracker_variable_is_unique,
-                v.hidden AS tracker_variable_hidden,
-                vp.visible AS tracker_variable_visible
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['trackers']} AS t
-            LEFT JOIN
-                {$aConf['table']['prefix']}{$aConf['table']['variables']} AS v
-            ON
-                (
-                    t.trackerid = v.trackerid
-                )
-            LEFT JOIN
-                {$aConf['table']['prefix']}{$aConf['table']['variable_publisher']} AS vp
-            ON
-                (
-                    v.variableid = vp.variable_id
-                    AND
-                    vp.publisher_id = $publisherId
-                )
-            WHERE
-                t.trackerid IN ( " . DBC::makeLiteral($trackerIds, 'string') . ")
-            ORDER BY
-                tracker_id";
-        // Select the tracker variables needed for the report
-        $rsTrackerVariables = DBC::NewRecordSet($query);
-        $rsTrackerVariables->find();
-        while ($rsTrackerVariables->fetch()) {
-            $aTrackerVariable = $rsTrackerVariables->toArray();
-            $trackerId = $aTrackerVariable['tracker_id'];
-            // Is the tracker already set in the array?
-            // It might be, in the case of a tracker having multiple variables...
-            if (!isset($aTrackerVariables[$trackerId])) {
-                // It's not set, store the tracker ID and name
-                $aTrackerVariables[$trackerId]['tracker_id']   = $trackerId;
-                $aTrackerVariables[$trackerId]['tracker_name'] = $aTrackerVariable['tracker_name'];
-            }
-            // Store the variable associated with this tracker, if one exists
-            $trackerVariableId = $aTrackerVariable['tracker_variable_id'];
-            if (!empty($trackerVariableId)) {
-                $aTrackerVariables[$trackerId]['variables'][$trackerVariableId]['tracker_variable_id']          = $trackerVariableId;
-                $aTrackerVariables[$trackerId]['variables'][$trackerVariableId]['tracker_variable_name']        = $aTrackerVariable['tracker_variable_name'];
-                $aTrackerVariables[$trackerId]['variables'][$trackerVariableId]['tracker_variable_description'] = $aTrackerVariable['tracker_variable_description'];
-                $aTrackerVariables[$trackerId]['variables'][$trackerVariableId]['tracker_variable_data_type']   = $aTrackerVariable['tracker_variable_data_type'];
-                $aTrackerVariables[$trackerId]['variables'][$trackerVariableId]['tracker_variable_purpose']     = $aTrackerVariable['tracker_variable_purpose'];
-                $aTrackerVariables[$trackerId]['variables'][$trackerVariableId]['tracker_variable_is_unique']   = $aTrackerVariable['tracker_variable_is_unique'];
-                $aTrackerVariables[$trackerId]['variables'][$trackerVariableId]['tracker_variable_hidden']      = $aTrackerVariable['tracker_variable_hidden'];
-                if (!is_null($aTrackerVariable['tracker_variable_visible'])) {
-                    $aTrackerVariables[$trackerId]['variables'][$trackerVariableId]['tracker_variable_hidden']  = $aTrackerVariable['tracker_variable_visible'] ? 'f' : 't';
+        // Query Data Base only if there are connections
+        if (!empty($trackerIds)) {
+            $query = "
+                SELECT
+                    t.trackerid AS tracker_id,
+                    t.trackername AS tracker_name,
+                    v.variableid AS tracker_variable_id,
+                    v.name AS tracker_variable_name,
+                    v.description AS tracker_variable_description,
+                    v.datatype AS tracker_variable_data_type,
+                    v.purpose AS tracker_variable_purpose,
+                    v.is_unique AS tracker_variable_is_unique,
+                    v.hidden AS tracker_variable_hidden,
+                    vp.visible AS tracker_variable_visible
+                FROM
+                    {$aConf['table']['prefix']}{$aConf['table']['trackers']} AS t
+                LEFT JOIN
+                    {$aConf['table']['prefix']}{$aConf['table']['variables']} AS v
+                ON
+                    (
+                        t.trackerid = v.trackerid
+                    )
+                LEFT JOIN
+                    {$aConf['table']['prefix']}{$aConf['table']['variable_publisher']} AS vp
+                ON
+                    (
+                        v.variableid = vp.variable_id
+                        AND
+                        vp.publisher_id = $publisherId
+                    )
+                WHERE
+                    t.trackerid IN ( " . $trackerIds . ")
+                ORDER BY
+                    tracker_id";
+            // Select the tracker variables needed for the report
+            $rsTrackerVariables = DBC::NewRecordSet($query);
+            $rsTrackerVariables->find();
+            while ($rsTrackerVariables->fetch()) {
+                $aTrackerVariable = $rsTrackerVariables->toArray();
+                $trackerId = $aTrackerVariable['tracker_id'];
+                // Is the tracker already set in the array?
+                // It might be, in the case of a tracker having multiple variables...
+                if (!isset($aTrackerVariables[$trackerId])) {
+                    // It's not set, store the tracker ID and name
+                    $aTrackerVariables[$trackerId]['tracker_id']   = $trackerId;
+                    $aTrackerVariables[$trackerId]['tracker_name'] = $aTrackerVariable['tracker_name'];
+                }
+                // Store the variable associated with this tracker, if one exists
+                $trackerVariableId = $aTrackerVariable['tracker_variable_id'];
+                if (!empty($trackerVariableId)) {
+                    $aTrackerVariables[$trackerId]['variables'][$trackerVariableId]['tracker_variable_id']          = $trackerVariableId;
+                    $aTrackerVariables[$trackerId]['variables'][$trackerVariableId]['tracker_variable_name']        = $aTrackerVariable['tracker_variable_name'];
+                    $aTrackerVariables[$trackerId]['variables'][$trackerVariableId]['tracker_variable_description'] = $aTrackerVariable['tracker_variable_description'];
+                    $aTrackerVariables[$trackerId]['variables'][$trackerVariableId]['tracker_variable_data_type']   = $aTrackerVariable['tracker_variable_data_type'];
+                    $aTrackerVariables[$trackerId]['variables'][$trackerVariableId]['tracker_variable_purpose']     = $aTrackerVariable['tracker_variable_purpose'];
+                    $aTrackerVariables[$trackerId]['variables'][$trackerVariableId]['tracker_variable_is_unique']   = $aTrackerVariable['tracker_variable_is_unique'];
+                    $aTrackerVariables[$trackerId]['variables'][$trackerVariableId]['tracker_variable_hidden']      = $aTrackerVariable['tracker_variable_hidden'];
+                    if (!is_null($aTrackerVariable['tracker_variable_visible'])) {
+                        $aTrackerVariables[$trackerId]['variables'][$trackerVariableId]['tracker_variable_hidden']  = $aTrackerVariable['tracker_variable_visible'] ? 'f' : 't';
+                    }
                 }
             }
         }
