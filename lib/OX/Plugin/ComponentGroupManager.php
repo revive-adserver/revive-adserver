@@ -80,7 +80,6 @@ class OX_Plugin_ComponentGroupManager
         $this->pathExtensions   = $aConf['pluginPaths']['extensions'];
         $this->pathPluginsAdmin = $aConf['pluginPaths']['admin'];
         $this->pathDataObjects  = $aConf['pluginPaths']['var'] . 'DataObjects/';
-        $this->_auditInit();
     }
 
     function countErrors()
@@ -135,6 +134,7 @@ class OX_Plugin_ComponentGroupManager
 
     function _auditSetKeys($aParams, $dbAuditor=false)
     {
+        $this->_auditInit();
         if (!$dbAuditor)
         {
             $this->oAuditor->setKeyParams($aParams);
