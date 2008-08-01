@@ -23,6 +23,7 @@
 
         <files>
             <file path="{PLUGINPATH}demoUserInterface/">processSettings.php</file>
+            <file path="{PLUGINPATH}demoUserInterface/">processPreferences.php</file>
             <file path="{ADMINPATH}/templates/">demoUI.html</file>
             <file path="{ADMINPATH}/css/">demoUI.css</file>
             <file path="{ADMINPATH}/images/">demoUI.jpg</file>
