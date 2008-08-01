@@ -31,7 +31,7 @@ $Id$
             <b>&nbsp;&nbsp;{oa_title_sort str=Name item=name order=down default=1 url=advertiser-index.php}</b>
         </th>
         {if $showAdDirect}<th>{t str=Status}</th>{/if}
-        <th>{t str=Type}</th>
+        {if $expandUsed}<th>{t str=Type}</th>{/if}
         <th height='25' width="20%">&nbsp;</th>
         <th height='25' width="13%">&nbsp;</th>
         <th height='25' width="13%">&nbsp;</th>
@@ -77,7 +77,7 @@ $Id$
 
     		{if $showAdDirect}<td class="sts sts-awaiting">&nbsp;</td>{/if}
     		
-    		<td height='25' style="padding-right: 10px;">&nbsp;</td> {*campaign type*}
+    		{if $expandUsed}<td height='25' style="padding-right: 10px;">&nbsp;</td>{/if} {*campaign type*}
 
     		<td height='25' style="padding-right: 10px;">
     	       <a href='campaign-edit.php?clientid={$clientId}' title="{t str=AddCampaign}"><img src='{$assetPath|escape}/images/icon-campaign-new.gif' border='0' align='absmiddle' alt='{t str=AddCampaign}'>&nbsp;{t str=AddCampaign}</a>
@@ -125,14 +125,15 @@ $Id$
             {showStatusText status=$campaign.status an_status=$campaign.an_status clientid=$clientId campaignid=$campaignId}
         </td>
         {/if}
-        
+        {if $expandUsed}  {*campaign type*}
         <td height='25' style="padding-right: 10px;">
 	        {if $campaign.type == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL || $campaign.type == OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE}
 	          <span class="campaign-type campaign-contract">{t str=Contract}</span>
 	        {else}
 	          <span class="campaign-type campaign-remnant">{t str=Remnant}</span>
 	        {/if}
-        </td> {*campaign type*}
+        </td>
+        {/if}
 
         <td height='25' style="padding-right: 10px;">
             <img src='{$assetPath|escape}/images/icon-banner-new.gif' border='0' align='absmiddle' alt='{t str=AddBanner}'>&nbsp;<a href='banner-edit.php?clientid={$clientId}&campaignid={$campaignId}' title="{t str=AddBanner}">{t str=AddBanner}</a>
@@ -166,7 +167,7 @@ $Id$
         {if $showAdDirect}
         <td height='25'></td>
         {/if}
-        <td>&nbsp;</td> {*campaign type*}
+        {if $expandUsed}<td>&nbsp;</td>{/if} {*campaign type*}
         
         <td>&nbsp;</td>
         <td height='25'>

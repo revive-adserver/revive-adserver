@@ -207,11 +207,16 @@ if (!empty($expand)) {
     }
 
 }
-
+$expandUsed = false;
 if (isset($node_array['clients'])) {
     foreach($node_array['clients'] as $cid=>$client) {
         if (!empty($clients[$cid])) {
             $clients[$cid]['expand'] = (!empty($client['expand']) ? TRUE : FALSE);
+            
+            if (!$expandUsed && $clients[$cid]['expand'] == true) {
+                $expandUsed = true;
+            }
+            
             if(!empty($client['campaigns'])) {
                 foreach($client['campaigns'] as $campaignid=>$campaign) {
                     $clients[$cid]['campaigns'][$campaignid]['expand'] = (!empty($campaign['expand']) ? TRUE : FALSE);
@@ -273,6 +278,7 @@ foreach (array_keys($clients) as $clientid) {
 $oTpl->assign('aAdvertisers', $clients);
 $oTpl->assign('aCount', $aCount);
 $oTpl->assign('showAdDirect', true); // Always true OX-3481
+$oTpl->assign('expandUsed', $expandUsed);
 
 $oTpl->assign('hideinactive', $hideinactive);
 $oTpl->assign('listorder', $listorder);
