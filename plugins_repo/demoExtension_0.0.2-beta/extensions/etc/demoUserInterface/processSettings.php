@@ -42,9 +42,11 @@ class demoUserInterface_processSettings
      */
     function validate(&$aErrorMessage)
     {
+        $myErrorCondition = true;
+        $strMyErrorMessage = 'Invalid Data Entered';
         if ($myErrorCondition)
         {
-            $aErrormessage[0][] = $strMyErrorMessage;
+            $aErrorMessage[0][] = $strMyErrorMessage;
             return false;
         }
         return true;
