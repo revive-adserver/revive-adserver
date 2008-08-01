@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id:$
+$Id$
 */
 
 require_once MAX_PATH . '/lib/max/Plugin.php';
@@ -41,7 +41,7 @@ class Plugins_TestOfPlugins_Reports_Standard_ConversionTrackingReport extends Un
      * @var Plugins_Reports_Standard_ConversionTrackingReport
      */
     var $oPlugin;
-    
+
     /**
      * The constructor method.
      */
@@ -57,7 +57,7 @@ class Plugins_TestOfPlugins_Reports_Standard_ConversionTrackingReport extends Un
 
     function setUp()
     {
-        $this->oPlugin = &MAX_Plugin::factory('Reports', 'Standard', 'ConversionTrackingReport');
+        $this->oPlugin = &MAX_Plugin::factory('reports', 'standard', 'conversionTrackingReport');
     }
 
     function tearDown()
@@ -82,8 +82,8 @@ class Plugins_TestOfPlugins_Reports_Standard_ConversionTrackingReport extends Un
         $doVariablePublisher->variable_id = $trackerId;
         $doVariablePublisher->publisher_id = $publisherId;
         $variablepublisherId = DataGenerator::generateOne($doVariablePublisher);
-        
-        // Tests with empty connections table 
+
+        // Tests with empty connections table
         $result = $this->oPlugin->_prepareTrackerVariables(array());
         $this->assertEqual(count($result),0);
         // Tests with one existing tracker in connections table
