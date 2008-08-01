@@ -27,7 +27,6 @@ $Id$
 
 require_once MAX_PATH . '/lib/max/Plugin.php';
 require_once LIB_PATH . '/Plugin/Component.php';
-require_once MAX_PATH . '/plugins/Maintenance/Maintenance.php';
 
 /**
  * A class for dealing with raised errors, so that they don't
@@ -66,29 +65,6 @@ class TestErrorHandler {
     {
         $this->aErrors = array();
     }
-
-}
-
-/**
- * A fake maintenance plugin class for testing.
- *
- */
-class Plugins_Maintenance_Fake_Fake extends Plugins_Maintenance
-{
-
-    function getHookType()
-    {
-        return MAINTENANCE_PLUGIN_POST;
-    }
-
-    function getHook()
-    {
-        return MSE_PLUGIN_HOOK_summariseIntermediateRequests;
-    }
-
-    function test() {}
-
-    function testParams($foo, $bar, $baz) {}
 
 }
 
