@@ -81,6 +81,7 @@ class Plugins_TestOfPlugins_Reports_Standard_ConversionTrackingReport extends Un
         $doVariablePublisher = OA_Dal::factoryDO('variable_publisher');
         $doVariablePublisher->variable_id = $trackerId;
         $doVariablePublisher->publisher_id = $publisherId;
+        $doVariablePublisher->visible = 1;
         $variablepublisherId = DataGenerator::generateOne($doVariablePublisher);
 
         // Tests with empty connections table
