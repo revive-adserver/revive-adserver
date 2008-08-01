@@ -84,27 +84,8 @@ class OA_Maintenance_Statistics_Common_Task_DeleteOldData extends OA_Maintenance
             // Statistics were not summarised, don't delete
             return;
         }
-        // Prepare any maintenance plugins that may be installed
-        $aPlugins = MAX_Plugin::getPlugins('Maintenance');
-        // MSE PLUGIN HOOK: PRE- MSE_PLUGIN_HOOK_AdServer_deleteOldData
-        $return = MAX_Plugin::callOnPluginsByHook(
-            $aPlugins,
-            'run',
-            MAINTENANCE_PLUGIN_PRE,
-            constant('MSE_PLUGIN_HOOK_' . $this->oController->module . '_deleteOldData'),
-            array($oSummarisedToDate)
-        );
-        if ($return !== false) {
-            $this->_deleteOldData($oSummarisedToDate);
-        }
-       // MSE PLUGIN HOOK: POST- MSE_PLUGIN_HOOK_AdServer_deleteOldData
-        $return = MAX_Plugin::callOnPluginsByHook(
-            $aPlugins,
-            'run',
-            MAINTENANCE_PLUGIN_POST,
-            constant('MSE_PLUGIN_HOOK_' . $this->oController->module . '_deleteOldData'),
-            array($oSummarisedToDate)
-        );
+
+        $this->_deleteOldData($oSummarisedToDate);        
     }
 
     /**

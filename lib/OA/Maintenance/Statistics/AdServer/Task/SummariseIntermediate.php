@@ -70,106 +70,18 @@ class OA_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends OA_M
                 $oEndDate = new Date();
                 $oEndDate->copy($oStartDate);
                 $oEndDate->addSeconds(SECONDS_PER_HOUR - 1); // Plus one hour
-                // MSE PLUGIN HOOK: PRE- MSE_PLUGIN_HOOK_AdServer_summariseIntermediateRequests
-                $return = MAX_Plugin::callOnPluginsByHook(
-                    $aPlugins,
-                    'run',
-                    MAINTENANCE_PLUGIN_PRE,
-                    MSE_PLUGIN_HOOK_AdServer_summariseIntermediateRequests,
-                    array($oStartDate, $oEndDate)
-                );
-                if ($return !== false) {
-                    // Summarise the requests
-                    $this->_summariseIntermediateRequests($oStartDate, $oEndDate);
-                }
-                // MSE PLUGIN HOOK: POST- MSE_PLUGIN_HOOK_AdServer_summariseIntermediateRequests
-                MAX_Plugin::callOnPluginsByHook(
-                    $aPlugins,
-                    'run',
-                    MAINTENANCE_PLUGIN_POST,
-                    MSE_PLUGIN_HOOK_AdServer_summariseIntermediateRequests,
-                    array($oStartDate, $oEndDate)
-                );
-                // MSE PLUGIN HOOK: PRE- MSE_PLUGIN_HOOK_AdServer_summariseIntermediateImpressions
-                $return = MAX_Plugin::callOnPluginsByHook(
-                    $aPlugins,
-                    'run',
-                    MAINTENANCE_PLUGIN_PRE,
-                    MSE_PLUGIN_HOOK_AdServer_summariseIntermediateImpressions,
-                    array($oStartDate, $oEndDate)
-                );
-                if ($return !== false) {
-                    // Summarise the impressions
-                    $this->_summariseIntermediateImpressions($oStartDate, $oEndDate);
-                }
-                // MSE PLUGIN HOOK: POST- MSE_PLUGIN_HOOK_AdServer_summariseIntermediateImpressions
-                MAX_Plugin::callOnPluginsByHook(
-                    $aPlugins,
-                    'run',
-                    MAINTENANCE_PLUGIN_POST,
-                    MSE_PLUGIN_HOOK_AdServer_summariseIntermediateImpressions,
-                    array($oStartDate, $oEndDate)
-                );
-                // MSE PLUGIN HOOK: PRE- MSE_PLUGIN_HOOK_AdServer_summariseIntermediateClicks
-                $return = MAX_Plugin::callOnPluginsByHook(
-                    $aPlugins,
-                    'run',
-                    MAINTENANCE_PLUGIN_PRE,
-                    MSE_PLUGIN_HOOK_AdServer_summariseIntermediateClicks,
-                    array($oStartDate, $oEndDate)
-                );
-                if ($return !== false) {
-                    // Summarise the clicks
-                    $this->_summariseIntermediateClicks($oStartDate, $oEndDate);
-                }
-                // MSE PLUGIN HOOK: POST- MSE_PLUGIN_HOOK_AdServer_summariseIntermediateClicks
-                MAX_Plugin::callOnPluginsByHook(
-                    $aPlugins,
-                    'run',
-                    MAINTENANCE_PLUGIN_POST,
-                    MSE_PLUGIN_HOOK_AdServer_summariseIntermediateClicks,
-                    array($oStartDate, $oEndDate)
-                );
-                // MSE PLUGIN HOOK: PRE- MSE_PLUGIN_HOOK_AdServer_summariseIntermediateConnections
-                $return = MAX_Plugin::callOnPluginsByHook(
-                    $aPlugins,
-                    'run',
-                    MAINTENANCE_PLUGIN_PRE,
-                    MSE_PLUGIN_HOOK_AdServer_summariseIntermediateConnections,
-                    array($oStartDate, $oEndDate)
-                );
-                if ($return !== false) {
-                    // Summarise the connections
-                    $this->_summariseIntermediateConnections($oStartDate, $oEndDate);
-                }
-                // MSE PLUGIN HOOK: POST- MSE_PLUGIN_HOOK_AdServer_summariseIntermediateConnections
-                MAX_Plugin::callOnPluginsByHook(
-                    $aPlugins,
-                    'run',
-                    MAINTENANCE_PLUGIN_POST,
-                    MSE_PLUGIN_HOOK_AdServer_summariseIntermediateConnections,
-                    array($oStartDate, $oEndDate)
-                );
-                // MSE PLUGIN HOOK: PRE- MSE_PLUGIN_HOOK_AdServer_saveIntermediateSummaries
-                $return = MAX_Plugin::callOnPluginsByHook(
-                    $aPlugins,
-                    'run',
-                    MAINTENANCE_PLUGIN_PRE,
-                    MSE_PLUGIN_HOOK_AdServer_saveIntermediateSummaries,
-                    array($oStartDate, $oEndDate)
-                );
-                if ($return !== false) {
-                    // Save the impressions/clicks/connections
-                    $this->_saveIntermediateSummaries($oStartDate, $oEndDate);
-                }
-                // MSE PLUGIN HOOK: POST- MSE_PLUGIN_HOOK_AdServer_saveIntermediateSummaries
-                MAX_Plugin::callOnPluginsByHook(
-                    $aPlugins,
-                    'run',
-                    MAINTENANCE_PLUGIN_POST,
-                    MSE_PLUGIN_HOOK_AdServer_saveIntermediateSummaries,
-                    array($oStartDate, $oEndDate)
-                );
+
+                // Summarise the requests
+                $this->_summariseIntermediateRequests($oStartDate, $oEndDate);
+                // Summarise the impressions
+                $this->_summariseIntermediateImpressions($oStartDate, $oEndDate);
+                // Summarise the clicks
+                $this->_summariseIntermediateClicks($oStartDate, $oEndDate);
+                // Summarise the connections
+                $this->_summariseIntermediateConnections($oStartDate, $oEndDate);
+                // Save the impressions/clicks/connections
+                $this->_saveIntermediateSummaries($oStartDate, $oEndDate);
+
                 // Go to the next hour
                 $oStartDate->addSeconds(3600);
             }
@@ -191,106 +103,18 @@ class OA_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends OA_M
                 $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStartDate);
                 $oEndDate = new Date();
                 $oEndDate->copy($aDates['end']);
-                // MSE PLUGIN HOOK: PRE- MSE_PLUGIN_HOOK_AdServer_summariseIntermediateRequests
-                $return = MAX_Plugin::callOnPluginsByHook(
-                    $aPlugins,
-                    'run',
-                    MAINTENANCE_PLUGIN_PRE,
-                    MSE_PLUGIN_HOOK_AdServer_summariseIntermediateRequests,
-                    array($oStartDate, $oEndDate)
-                );
-                if ($return !== false) {
-                    // Summarise the requests
-                    $this->_summariseIntermediateRequests($oStartDate, $oEndDate);
-                }
-                // MSE PLUGIN HOOK: POST- MSE_PLUGIN_HOOK_AdServer_summariseIntermediateRequests
-                MAX_Plugin::callOnPluginsByHook(
-                    $aPlugins,
-                    'run',
-                    MAINTENANCE_PLUGIN_POST,
-                    MSE_PLUGIN_HOOK_AdServer_summariseIntermediateRequests,
-                    array($oStartDate, $oEndDate)
-                );
-                // MSE PLUGIN HOOK: PRE- MSE_PLUGIN_HOOK_AdServer_summariseIntermediateImpressions
-                $return = MAX_Plugin::callOnPluginsByHook(
-                    $aPlugins,
-                    'run',
-                    MAINTENANCE_PLUGIN_PRE,
-                    MSE_PLUGIN_HOOK_AdServer_summariseIntermediateImpressions,
-                    array($oStartDate, $oEndDate)
-                );
-                if ($return !== false) {
-                    // Summarise the impressions
-                    $this->_summariseIntermediateImpressions($oStartDate, $oEndDate);
-                }
-                // MSE PLUGIN HOOK: POST- MSE_PLUGIN_HOOK_AdServer_summariseIntermediateImpressions
-                MAX_Plugin::callOnPluginsByHook(
-                    $aPlugins,
-                    'run',
-                    MAINTENANCE_PLUGIN_POST,
-                    MSE_PLUGIN_HOOK_AdServer_summariseIntermediateImpressions,
-                    array($oStartDate, $oEndDate)
-                );
-                // MSE PLUGIN HOOK: PRE- MSE_PLUGIN_HOOK_AdServer_summariseIntermediateClicks
-                $return = MAX_Plugin::callOnPluginsByHook(
-                    $aPlugins,
-                    'run',
-                    MAINTENANCE_PLUGIN_PRE,
-                    MSE_PLUGIN_HOOK_AdServer_summariseIntermediateClicks,
-                    array($oStartDate, $oEndDate)
-                );
-                if ($return !== false) {
-                    // Summarise the clicks
-                    $this->_summariseIntermediateClicks($oStartDate, $oEndDate);
-                }
-                // MSE PLUGIN HOOK: POST- MSE_PLUGIN_HOOK_AdServer_summariseIntermediateClicks
-                MAX_Plugin::callOnPluginsByHook(
-                    $aPlugins,
-                    'run',
-                    MAINTENANCE_PLUGIN_POST,
-                    MSE_PLUGIN_HOOK_AdServer_summariseIntermediateClicks,
-                    array($oStartDate, $oEndDate)
-                );
-                // MSE PLUGIN HOOK: PRE- MSE_PLUGIN_HOOK_AdServer_summariseIntermediateConnections
-                $return = MAX_Plugin::callOnPluginsByHook(
-                    $aPlugins,
-                    'run',
-                    MAINTENANCE_PLUGIN_PRE,
-                    MSE_PLUGIN_HOOK_AdServer_summariseIntermediateConnections,
-                    array($oStartDate, $oEndDate)
-                );
-                if ($return !== false) {
-                    // Summarise the connections
-                    $this->_summariseIntermediateConnections($oStartDate, $oEndDate);
-                }
-                // MSE PLUGIN HOOK: POST- MSE_PLUGIN_HOOK_AdServer_summariseIntermediateConnections
-                MAX_Plugin::callOnPluginsByHook(
-                    $aPlugins,
-                    'run',
-                    MAINTENANCE_PLUGIN_POST,
-                    MSE_PLUGIN_HOOK_AdServer_summariseIntermediateConnections,
-                    array($oStartDate, $oEndDate)
-                );
-                // MSE PLUGIN HOOK: PRE- MSE_PLUGIN_HOOK_AdServer_saveIntermediateSummaries
-                $return = MAX_Plugin::callOnPluginsByHook(
-                    $aPlugins,
-                    'run',
-                    MAINTENANCE_PLUGIN_PRE,
-                    MSE_PLUGIN_HOOK_AdServer_saveIntermediateSummaries,
-                    array($oStartDate, $oEndDate)
-                );
-                if ($return !== false) {
-                    // Save the impressions/clicks/connections
-                    $this->_saveIntermediateSummaries($oStartDate, $oEndDate);
-                }
-                // MSE PLUGIN HOOK: POST- MSE_PLUGIN_HOOK_AdServer_saveIntermediateSummaries
-                MAX_Plugin::callOnPluginsByHook(
-                    $aPlugins,
-                    'run',
-                    MAINTENANCE_PLUGIN_POST,
-                    MSE_PLUGIN_HOOK_AdServer_saveIntermediateSummaries,
-                    array($oStartDate, $oEndDate)
-                );
+
+                // Summarise the requests
+                $this->_summariseIntermediateRequests($oStartDate, $oEndDate);
+                // Summarise the impressions
+                $this->_summariseIntermediateImpressions($oStartDate, $oEndDate);
+                // Summarise the clicks
+                $this->_summariseIntermediateClicks($oStartDate, $oEndDate);
+                // Summarise the connections
+                $this->_summariseIntermediateConnections($oStartDate, $oEndDate);
+                // Save the impressions/clicks/connections
+                $this->_saveIntermediateSummaries($oStartDate, $oEndDate);
+
                 // Go to the next operation interval (done via the operation interval end
                 // date to ensure that this works when using a non-standard range)
                 $oStartDate->copy($oEndDate);

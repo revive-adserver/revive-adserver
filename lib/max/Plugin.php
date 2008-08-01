@@ -373,62 +373,6 @@ class MAX_Plugin
     }
 
     /**
-     * A method to run one method on all the plugins in a group where the plugin
-     * has the specified type and plugin hook point. For use with Maintenance
-     * plugins only.
-     *
-     * @static
-     * @param array $aPlugins An array of plugin objects.
-     * @param string $methodName The name of the method to executed for every plugin
-     *                           that should be run.
-     * @param integer $type Either MAINTENANCE_PLUGIN_PRE or MAINTENANCE_PLUGIN_POST.
-     * @param integer $hook A maintenance plugin hook point. For example,
-     *                      MSE_PLUGIN_HOOK_summariseIntermediateRequests.
-     * @param array $aParams An optional array of parameters to pass to the method
-     *                       called for every plugin that should be run.
-     * @return boolean True, except when $type is MAINTENANCE_PLUGIN_PRE, and at least
-     *                 one of the plugins is a replacement plugin for a standard
-     *                 maintenance engine task (that is, at least one of the plugins
-     *                 had a run() method that returned false).
-     */
-    function &callOnPluginsByHook(&$aPlugins, $methodName, $type, $hook, $aParams = null)
-    {
-        if (!is_array($aPlugins)) {
-            MAX::raiseError('Bad argument: Not an array of plugins.', MAX_ERROR_INVALIDARGS);
-            return false;
-        }
-        foreach ($aPlugins as $key => $oPlugin) {
-            if (!is_a($oPlugin, 'MAX_Plugin_Common')) {
-                MAX::raiseError('Bad argument: Not an array of plugins.', MAX_ERROR_INVALIDARGS);
-                return false;
-            }
-        }
-        $return = true;
-        foreach ($aPlugins as $key => $oPlugin) {
-            // Ensure the plugin is a maintenance plugin
-            if (is_a($oPlugin, 'Plugins_Maintenance')) {
-                // Check that the method name can be called
-                if (!is_callable(array($oPlugin, $methodName))) {
-                    MAX::raiseError("Method '$methodName()' not defined in class '".get_class($oPlugin)."'.", MAX_ERROR_INVALIDARGS);
-                    return false;
-                }
-                // Check that the the plugin's type and hook match
-                if (($oPlugin->getHookType() == $type) && ($oPlugin->getHook() == $hook)) {
-                    if (is_null($aParams)) {
-                        $methodReturn = call_user_func(array($aPlugins[$key], $methodName));
-                    } else {
-                        $methodReturn = call_user_func_array(array($aPlugins[$key], $methodName), $aParams);
-                    }
-                    if ($methodReturn === false) {
-                        $return = false;
-                    }
-                }
-            }
-        }
-        return $return;
-    }
-
-    /**
      * A factory method, for including and instantiating a plugin, based on the
      * information in that plugin's configuration file(s), given a module (and
      * optional information about the plugin's configuration options).

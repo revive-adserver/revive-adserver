@@ -196,21 +196,6 @@ function setupConstants()
     // data, before pruning, where a fixed retention value is appriopriate
     define('OA_MAINTENANCE_FIXED_PRUNING', 30);
 
-    // Maintenance Engine Plugin Types
-    define('MAINTENANCE_PLUGIN_PRE',  0);
-    define('MAINTENANCE_PLUGIN_POST', 1);
-
-    // Maintenance Engine Plugin Hooks Points
-    define('MSE_PLUGIN_HOOK_AdServer_summariseIntermediateRequests',    0);
-    define('MSE_PLUGIN_HOOK_AdServer_summariseIntermediateImpressions', 1);
-    define('MSE_PLUGIN_HOOK_AdServer_summariseIntermediateClicks',      2);
-    define('MSE_PLUGIN_HOOK_AdServer_summariseIntermediateConnections', 3);
-    define('MSE_PLUGIN_HOOK_AdServer_saveIntermediateSummaries',        4);
-    define('MSE_PLUGIN_HOOK_AdServer_saveHistory',                      5);
-    define('MSE_PLUGIN_HOOK_AdServer_saveSummary',                      6);
-    define('MSE_PLUGIN_HOOK_AdServer_deleteOldData',                    7);
-    define('MSE_PLUGIN_HOOK_Tracker_deleteOldData',                     8);
-
     // LegalAgreement Plugin Types
     define('LEGALAGREEMENT_PLUGIN_PRE',         0);
     define('LEGALAGREEMENT_PLUGIN_POST_DENY',   1);

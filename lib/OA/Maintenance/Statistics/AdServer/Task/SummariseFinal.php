@@ -68,50 +68,15 @@ class OA_Maintenance_Statistics_AdServer_Task_SummariseFinal extends OA_Maintena
             $oStartDate = new Date();
             $oStartDate->copy($this->oController->oLastDateIntermediate);
             $oStartDate->addSeconds(1);
-            // MSE PLUGIN HOOK: PRE- MSE_PLUGIN_HOOK_AdServer_saveHistory
-            $return = MAX_Plugin::callOnPluginsByHook(
-                $aPlugins,
-                'run',
-                MAINTENANCE_PLUGIN_PRE,
-                MSE_PLUGIN_HOOK_AdServer_saveHistory,
-                array($oStartDate, $this->oController->oUpdateIntermediateToDate)
-            );
-            if ($return !== false) {
-                $this->_saveHistory($oStartDate, $this->oController->oUpdateIntermediateToDate);
-            }
-            // MSE PLUGIN HOOK: POST- MSE_PLUGIN_HOOK_AdServer_saveHistory
-            MAX_Plugin::callOnPluginsByHook(
-                $aPlugins,
-                'run',
-                MAINTENANCE_PLUGIN_POST,
-                MSE_PLUGIN_HOOK_AdServer_saveHistory,
-                array($oStartDate, $this->oController->oUpdateIntermediateToDate)
-            );
+
+            $this->_saveHistory($oStartDate, $this->oController->oUpdateIntermediateToDate);
         }
         if ($this->oController->updateFinal) {
             // Update the hourly summary table
             $oStartDate = new Date();
             $oStartDate->copy($this->oController->oLastDateFinal);
             $oStartDate->addSeconds(1);
-            // MSE PLUGIN HOOK: PRE- MSE_PLUGIN_HOOK_AdServer_saveSummary
-            $return = MAX_Plugin::callOnPluginsByHook(
-                $aPlugins,
-                'run',
-                MAINTENANCE_PLUGIN_PRE,
-                MSE_PLUGIN_HOOK_AdServer_saveSummary,
-                array($oStartDate, $this->oController->oUpdateFinalToDate)
-            );
-            if ($return !== false) {
-                $this->_saveSummary($oStartDate, $this->oController->oUpdateFinalToDate);
-            }
-            // MSE PLUGIN HOOK: POST- MSE_PLUGIN_HOOK_AdServer_saveSummary
-            MAX_Plugin::callOnPluginsByHook(
-                $aPlugins,
-                'run',
-                MAINTENANCE_PLUGIN_POST,
-                MSE_PLUGIN_HOOK_AdServer_saveSummary,
-                array($oStartDate, $this->oController->oUpdateFinalToDate)
-            );
+            $this->_saveSummary($oStartDate, $this->oController->oUpdateFinalToDate);
         }
     }
 
