@@ -73,6 +73,9 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true')
         $aElements += array(
                             $group.'_'.$v['key'] => array($group => $v['key'])
                             );
+
+            // Register the HTML element value
+            MAX_commonRegisterGlobalsArray(array($group.'_'.$v['key']));
     }
 
     $valid = true;
