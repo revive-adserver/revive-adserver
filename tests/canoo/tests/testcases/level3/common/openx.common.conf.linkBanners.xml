@@ -48,7 +48,8 @@
 				
 				
 				<enableJavaScript enable="false" />
-					<clickButton htmlid="link_submit"/>
+					<clickElement htmlid="link_submit"/>
+					<!-- <clickButton htmlid="link_submit"/> -->
 				<enableJavaScript enable="true" />
 				
 				<!-- xpath="/html/body/div[3]/div[2]/table[3]/tbody/tr/td[2]/table/tbody/tr/td[2]/input[2]"/>
