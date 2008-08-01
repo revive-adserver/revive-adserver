@@ -42,8 +42,17 @@ class demoUserInterface_processSettings
      */
     function validate(&$aErrorMessage)
     {
-        $myErrorCondition = true;
-        $strMyErrorMessage = 'Invalid Data Entered';
+        if (isset($GLOBALS['demoUserInterface_message1']))
+        {
+            if (!$GLOBALS['demoUserInterface_message1'])
+            {
+               $myErrorCondition = true;
+               $strMyErrorMessage = 'Error';
+            }
+        }
+        // test
+        /*$myErrorCondition = true;
+        $strMyErrorMessage = 'Error';*/
         if ($myErrorCondition)
         {
             $aErrorMessage[0][] = $strMyErrorMessage;
