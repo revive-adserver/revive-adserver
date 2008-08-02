@@ -561,15 +561,16 @@ class Plugins_statisticsFieldsDelivery_statisticsFieldsDelivery extends MAX_Plug
         {
             // if there is an error?
         }
-        else
+        elseif ($method != 'getEntitiesStats')
         {
-            foreach ($aResult AS $k => $row) {
+           foreach ($aResult AS $k => $row) {
                 unset($aResult[$k]);
                 $aResult[$row['day_and_hour']] = $row;
             }
-            $aResult = Admin_DA::_convertStatsArrayToTz($aResult, $aParams, $tzMethod, $tzArgs);
-            foreach ($aResult AS $k => $row)
-            {
+            if ($method != 'getEntitiesStats') {
+                $aResult = Admin_DA::_convertStatsArrayToTz($aResult, $aParams, null, $tzMethod, $tzArgs);
+            }
+            foreach ($aResult AS $k => $row) {
                 if (!isset($aRows[$k])) {
                     $aRows[$k] = $emptyRow;
                 }
