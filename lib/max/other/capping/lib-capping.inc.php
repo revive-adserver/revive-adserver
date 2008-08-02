@@ -502,7 +502,7 @@ echo "
   function enableResetCounterConditionally()
   {
     var cappingSet = false;
-    $(\"#session_capping,#cap\", $(this.form)).each(function()
+    $('#session_capping,#cap').each(function()
     {
       if (this.value == '-' || this.value == '' || this.value == '0') {
         this.value = '-';
