@@ -63,8 +63,14 @@ class OA_Dal_PasswordRecovery extends OA_Dal
      */
     function generateRecoveryId($userId)
     {
-        $recoveryId = strtoupper(md5(uniqid('', true)));
-        $recoveryId = substr(chunk_split($recoveryId, 8, '-'), -23, 22);
+        $doPwdRecovery = OA_Dal::factoryDO('password_recovery');
+        
+        // Make sure that recoveryId is unique in password_recovery table
+        do {
+            $recoveryId = strtoupper(md5(uniqid('', true)));
+            $recoveryId = substr(chunk_split($recoveryId, 8, '-'), -23, 22);
+            $doPwdRecovery->recovery_id = $recoveryId;
+        } while ($doPwdRecovery->find()>0);
 
         $doPwdRecovery = OA_Dal::factoryDO('password_recovery');
         $doPwdRecovery->whereAdd('user_id = '.DBC::makeLiteral($userId));
