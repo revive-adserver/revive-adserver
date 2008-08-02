@@ -527,6 +527,9 @@ class OA_Dll_Zone extends OA_Dll
                     }
 
                     return true;
+                } else {
+                    // Already linked
+                    return true;
                 }
             }
         }
@@ -560,6 +563,9 @@ class OA_Dll_Zone extends OA_Dll
                     }
 
                     MAX_addLinkedAdsToZone($zoneId, $campaignId);
+                    return true;
+                } else {
+                    // Already linked
                     return true;
                 }
             }
