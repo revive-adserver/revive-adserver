@@ -51,7 +51,7 @@ class XmlRpcUtils
      */
     function getEntityWithNotNullFields(&$oInfoObject)
     {
-        $aInfoData = (array) $oInfoObject;
+        $aInfoData = $oInfoObject->toArray();
         $aReturnData = array();
 
         foreach ($aInfoData as $fieldName => $fieldValue) {

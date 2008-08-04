@@ -222,6 +222,7 @@ class OA_Dll_BannerInfo extends OA_Info
         if (isset($this->aBackupImage)) {
             $aInfo['aBackupImage'] = $this->encodeImage($this->aBackupImage);
         }
+        return $aInfo;
     }
 
     function getFieldsTypes()
