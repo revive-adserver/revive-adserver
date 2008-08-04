@@ -131,6 +131,7 @@ class OA_XmlRpc
         $aRemoteInfo['cookies'] = $_COOKIE;
 
         // Encode the context:
+        XML_RPC_Client::setAutoBase64(true);
         $xmlContext = array();
         foreach ($context as $contextValue) {
             $xmlContext[] = XML_RPC_encode($contextValue);
@@ -219,6 +220,7 @@ class OA_XmlRpc
         if (is_array($what)) {
             $what = serialize($what);
         }
+        XML_RPC_Client::setAutoBase64(true);
         // Create the XML-RPC message
         $message = new XML_RPC_Message('openads.spc', array(
             XML_RPC_encode($aRemoteInfo),

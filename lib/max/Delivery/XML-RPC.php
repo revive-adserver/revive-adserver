@@ -48,6 +48,9 @@ if (empty($GLOBALS['HTTP_RAW_POST_DATA'])) {
     $GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents('php://input');
 }
 
+// Set automatic Base64 encoding in XML-RPC response  
+XML_RPC_Client::setAutoBase64(true);
+
 /**
  * New OpenX signature / docs
  *
