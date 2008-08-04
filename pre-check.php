@@ -43,15 +43,15 @@ function OX_initialSystemCheck(){
     if ($erorCode!==true) {
         $imageRelativePath = "./www/admin/precheck/";
         if ($erorCode != -3) { //strpos & parse_url aren't missing
-            // try to guess proper relative Path 
+            // try to guess proper relative Path
             // cecking if url include www or admin in path
             if (strpos($_SERVER['REQUEST_URI'], '/www/admin/') !== false) {
-                $imageRelativePath = "./precheck/"; 
+                $imageRelativePath = "./precheck/";
             } else if (strpos($_SERVER['REQUEST_URI'], '/www/') !== false) {
-                $imageRelativePath = "./admin/precheck/"; 
+                $imageRelativePath = "./admin/precheck/";
             }
         }
-        
+
         // We always trying show images in css
         $bodyBackground = "url('{$imageRelativePath}body_piksel.gif') repeat-x";
         $liBackground = "background: url('{$imageRelativePath}list_element.gif') no-repeat;";
@@ -77,7 +77,7 @@ body {
 h1 {
     width:80%;
     font: 26px Arial;
-    color:#000; 
+    color:#000;
 }
 h2 {
     width:80%;
@@ -105,7 +105,7 @@ ul {
     padding-top:10px;
     margin:0px;
     margin-left:15px;
-    
+
 }
 li {
     '.$liBackground.'
@@ -246,15 +246,15 @@ function OX_checkSystemInitialRequirements(&$aErrors){
     if (!function_exists('ini_get')) {
         $aErrors[] = $errorString1 . 'ini_get' . $errorString2;
         $isSystemOK = false;
-    } 
+    }
     if (!function_exists('explode')) {
         $aErrors[] = $errorString1 . 'explode' . $errorString2;
         $isSystemOK = false;
-    } 
+    }
     if (!function_exists('trim')) {
         $aErrors[] = $errorString1 . 'trim' . $errorString2;
         $isSystemOK = false;
-    } 
+    }
     if (!function_exists('array_intersect')) {
         $aErrors[] = $errorString1 . 'array_intersect' . $errorString2;
         $isSystemOK = false;
@@ -276,10 +276,10 @@ function OX_checkSystemInitialRequirements(&$aErrors){
         }
     }
 
-    // Check PHP version, as use of PHP 4 will result in parse errors
-    $errorMessage = "PHP version 5.0.0, or greater, was not detected.";
+    // Check PHP version, as use of PHP < 5.1.4 will result in parse errors
+    $errorMessage = "PHP version 5.1.4, or greater, was not detected.";
     if (function_exists('version_compare')) {
-        $result = version_compare(phpversion(), '5.0.0', '<');
+        $result = version_compare(phpversion(), '5.1.4', '<');
         if ($result) {
             $aErrors[] = $errorMessage;
             $isSystemOK = false;
