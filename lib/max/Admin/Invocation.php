@@ -197,7 +197,7 @@ class MAX_Admin_Invocation {
         $variablesComment = '';
         $variablesQuerystring = '';
 
-        $variables = Admin_DA::getVariables(array('tracker_id' => $trackerId), true);
+        $variables = Admin_DA::getVariables(array('trackerid' => $trackerId), true);
 
         $buffer = "
 <!--/*
@@ -479,7 +479,7 @@ class MAX_Admin_Invocation {
             $variablemethod = $trackers[$trackerId]['variablemethod'];
         }
 
-        $variables = Admin_DA::getVariables(array('tracker_id' => $trackerId), true);
+        $variables = Admin_DA::getVariables(array('trackerid' => $trackerId), true);
         $variablesQuerystring = '';
 
         $buffer = "<!--/*
@@ -555,7 +555,7 @@ class MAX_Admin_Invocation {
     {
         $conf = $GLOBALS['_MAX']['CONF'];
 
-        $variables = Admin_DA::getVariables(array('tracker_id' => $trackerId), true);
+        $variables = Admin_DA::getVariables(array('trackerid' => $trackerId), true);
         $beacon  = "<div id='m3_tracker_{$trackerId}' style='position: absolute; left: 0px; top: 0px; visibility: hidden;'>";
         $beacon .= "<img src='" . MAX_commonConstructDeliveryUrl($conf['file']['conversion']) . "?trackerid={$trackerId}";
         foreach ($variables as $variable) {
