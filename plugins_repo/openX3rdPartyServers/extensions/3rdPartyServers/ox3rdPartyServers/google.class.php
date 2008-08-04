@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| OpenX  v${RELEASE_MAJOR_MINOR}                                                              |
 | =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
@@ -28,11 +28,11 @@ $Id$
 /**
  * @package    OpenXPlugin
  * @subpackage 3rdPartyServers
- * @author     Radek Maciaszek <radek@m3.net>
+ * @author     Matteo Beccati <matteo.beccati@openx.org>
  *
  */
 
-require_once MAX_PATH . '/plugins/3rdPartyServers/3rdPartyServers.php';
+require_once OX_EXTENSIONS_PATH . '/3rdPartyServers/3rdPartyServers.php';
 
 /**
  *
@@ -40,11 +40,8 @@ require_once MAX_PATH . '/plugins/3rdPartyServers/3rdPartyServers.php';
  *
  * @static
  */
-class Plugins_3rdPartyServers_max_max extends Plugins_3rdPartyServers
+class Plugins_3rdPartyServers_ox3rdPartyServers_google extends Plugins_3rdPartyServers
 {
-    var $hasOutputMacros = true;
-    var $clickurlMacro = '{clickurl}';
-    var $cachebusterMacro = '{random}';
 
     /**
      * Return the name of plugin
@@ -56,7 +53,7 @@ class Plugins_3rdPartyServers_max_max extends Plugins_3rdPartyServers
         include_once MAX_PATH . '/lib/max/Plugin/Translation.php';
         MAX_Plugin_Translation::init($this->module, $this->package);
 
-        return MAX_Plugin_Translation::translate('Rich Media - OpenX', $this->module, $this->package);
+        return MAX_Plugin_Translation::translate('Rich Media - Google AdSense', $this->module, $this->package);
     }
 
     /**
@@ -66,11 +63,17 @@ class Plugins_3rdPartyServers_max_max extends Plugins_3rdPartyServers
      */
     function getBannerCache($buffer, &$noScript)
     {
-        $search  = array("/insert_random_number_here/i", "/insert_click_?(track_|_)?url_here/i");
-        $replace = array("{random}", "{clickurl}");
-
-        $buffer = preg_replace($search, $replace, $buffer);
-        $noScript[0] = preg_replace($search, $replace, $noScript[0]);
+        $conf = $GLOBALS['_MAX']['CONF'];
+        if (preg_match('/<script.*?src=".*?googlesyndication\.com/is', $buffer))
+        {
+            $buffer = "<span>".
+                      "<script type='text/javascript'><!--// <![CDATA[\n".
+                      "/* {$conf['var']['openads']}={url_prefix} {$conf['var']['adId']}={bannerid} {$conf['var']['zoneId']}={zoneid} {$conf['var']['channel']}={source} */\n".
+                      "// ]]> --></script>".
+                      $buffer.
+                      "<script type='text/javascript' src='{url_prefix}/".$conf['file']['google']."'></script>".
+                      "</span>";
+        }
 
         return $buffer;
     }

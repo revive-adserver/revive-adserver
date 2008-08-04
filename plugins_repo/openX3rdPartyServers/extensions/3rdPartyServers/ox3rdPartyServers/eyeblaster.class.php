@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX  v${RELEASE_MAJOR_MINOR}                                                              |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
 | =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
@@ -28,11 +28,11 @@ $Id$
 /**
  * @package    OpenXPlugin
  * @subpackage 3rdPartyServers
- * @author     Matteo Beccati <matteo.beccati@openx.org>
+ * @author     Radek Maciaszek <radek@m3.net>
  *
  */
 
-require_once MAX_PATH . '/plugins/3rdPartyServers/3rdPartyServers.php';
+require_once OX_EXTENSIONS_PATH . '/3rdPartyServers/3rdPartyServers.php';
 
 /**
  *
@@ -40,7 +40,7 @@ require_once MAX_PATH . '/plugins/3rdPartyServers/3rdPartyServers.php';
  *
  * @static
  */
-class Plugins_3rdPartyServers_google_google extends Plugins_3rdPartyServers
+class Plugins_3rdPartyServers_ox3rdPartyServers_eyeblaster extends Plugins_3rdPartyServers
 {
 
     /**
@@ -53,7 +53,7 @@ class Plugins_3rdPartyServers_google_google extends Plugins_3rdPartyServers
         include_once MAX_PATH . '/lib/max/Plugin/Translation.php';
         MAX_Plugin_Translation::init($this->module, $this->package);
 
-        return MAX_Plugin_Translation::translate('Rich Media - Google AdSense', $this->module, $this->package);
+        return MAX_Plugin_Translation::translate('Rich Media - Eyeblaster', $this->module, $this->package);
     }
 
     /**
@@ -63,17 +63,10 @@ class Plugins_3rdPartyServers_google_google extends Plugins_3rdPartyServers
      */
     function getBannerCache($buffer, &$noScript)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        if (preg_match('/<script.*?src=".*?googlesyndication\.com/is', $buffer))
-        {
-            $buffer = "<span>".
-                      "<script type='text/javascript'><!--// <![CDATA[\n".
-                      "/* {$conf['var']['openads']}={url_prefix} {$conf['var']['adId']}={bannerid} {$conf['var']['zoneId']}={zoneid} {$conf['var']['channel']}={source} */\n".
-                      "// ]]> --></script>".
-                      $buffer.
-                      "<script type='text/javascript' src='{url_prefix}/".$conf['file']['google']."'></script>".
-                      "</span>";
-        }
+        $search = "#([a-zA-Z]+)\.nFlightID\s*=\s*(\d+);#";
+        $replace = "$1.nFlightID = $2;\r\n//Interactions\n$1.interactions = new Object();\r\n\$1.interactions[\"_eyeblaster\"] = \"ebN={clickurl}\";\r\n";
+
+        $buffer = preg_replace ($search, $replace, $buffer);
 
         return $buffer;
     }

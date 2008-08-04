@@ -40,6 +40,20 @@
     </package>
 
     <package>
+        <name>openX3rdPartyServers</name>
+        <creationDate>2008-08-01</creationDate>
+        <author>Chris Nutting</author>
+        <authorEmail>chris.nutting@openx.org</authorEmail>
+        <authorUrl>http://www.openx.org</authorUrl>
+        <license>license.txt</license>
+        <description>3rd Party Server plugins for OpenX</description>
+        <version>1.0.0-dev</version>
+        <oxminver>2.7.5-dev</oxminver>
+        <!--downloadUrl>http://plugins.openx.org/download/openX3rdPartyServers</downloadUrl-->
+        <downloadUrl>{local}/download/openX3rdPartyServers.zip</downloadUrl>
+    </package>
+
+    <package>
         <name>demoExtension</name>
         <creationDate>2008-05-30</creationDate>
         <author>Monique Szpak</author>

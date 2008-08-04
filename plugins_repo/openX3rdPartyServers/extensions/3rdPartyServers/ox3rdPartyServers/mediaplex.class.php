@@ -32,7 +32,7 @@ $Id$
  *
  */
 
-require_once MAX_PATH . '/plugins/3rdPartyServers/3rdPartyServers.php';
+require_once OX_EXTENSIONS_PATH . '/3rdPartyServers/3rdPartyServers.php';
 
 /**
  *
@@ -40,7 +40,7 @@ require_once MAX_PATH . '/plugins/3rdPartyServers/3rdPartyServers.php';
  *
  * @static
  */
-class Plugins_3rdPartyServers_eyeblaster_eyeblaster extends Plugins_3rdPartyServers
+class Plugins_3rdPartyServers_ox3rdPartyServers_mediaplex extends Plugins_3rdPartyServers
 {
 
     /**
@@ -53,7 +53,7 @@ class Plugins_3rdPartyServers_eyeblaster_eyeblaster extends Plugins_3rdPartyServ
         include_once MAX_PATH . '/lib/max/Plugin/Translation.php';
         MAX_Plugin_Translation::init($this->module, $this->package);
 
-        return MAX_Plugin_Translation::translate('Rich Media - Eyeblaster', $this->module, $this->package);
+        return MAX_Plugin_Translation::translate('Rich Media - Mediaplex', $this->module, $this->package);
     }
 
     /**
@@ -63,10 +63,30 @@ class Plugins_3rdPartyServers_eyeblaster_eyeblaster extends Plugins_3rdPartyServ
      */
     function getBannerCache($buffer, &$noScript)
     {
-        $search = "#([a-zA-Z]+)\.nFlightID\s*=\s*(\d+);#";
-        $replace = "$1.nFlightID = $2;\r\n//Interactions\n$1.interactions = new Object();\r\n\$1.interactions[\"_eyeblaster\"] = \"ebN={clickurl}\";\r\n";
+        $search = array(
+            '#mpt=(ADD_RANDOM_NUMBER_HERE|\[CACHEBUSTER\])#',
+            '#mpvc=(.*?)([\'"\\\\])(.*)#',
+        );
+		$replace = array(
+		    'mpt={random}',
+		    'mpvc={clickurl}$2$3',
+		);
 
-        $buffer = preg_replace ($search, $replace, $buffer);
+        $buffer = preg_replace($search, $replace, $buffer);
+
+		// Target gets broken from the default REGEX's..
+		$search = array(
+		    'mpt=\"+cb',
+		    'target=\\\'{target}\\\'',
+		);
+		$replace = array(
+		    'mpt=\\\'+cb',
+		    'target=\\"{target}\\"',
+		);
+
+        $buffer = str_replace($search, $replace, $buffer);
+
+        $noScript[0] = preg_replace($search[0], $replace[0], $noScript[0]);
 
         return $buffer;
     }

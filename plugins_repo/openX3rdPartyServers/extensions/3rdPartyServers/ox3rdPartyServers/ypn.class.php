@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2008 OpenX Limited                                     |
+| For contact details, see: http://www.openx.org/                           |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -26,13 +26,13 @@ $Id$
 */
 
 /**
- * @package    MaxPlugins
+ * @package    OpenXPlugin
  * @subpackage 3rdPartyServers
- * @author     Heiko Weber <heiko@wecos.de>
+ * @author     Matteo Beccati <matteo.beccati@openx.org>
  *
  */
 
-require_once MAX_PATH . '/plugins/3rdPartyServers/3rdPartyServers.php';
+require_once OX_EXTENSIONS_PATH . '/3rdPartyServers/3rdPartyServers.php';
 
 /**
  *
@@ -40,9 +40,9 @@ require_once MAX_PATH . '/plugins/3rdPartyServers/3rdPartyServers.php';
  *
  * @static
  */
-class Plugins_3rdPartyServers_adtech_adtech extends Plugins_3rdPartyServers 
+class Plugins_3rdPartyServers_ox3rdPartyServers_ypn extends Plugins_3rdPartyServers
 {
-    
+
     /**
      * Return the name of plugin
      *
@@ -52,10 +52,10 @@ class Plugins_3rdPartyServers_adtech_adtech extends Plugins_3rdPartyServers
     {
         include_once MAX_PATH . '/lib/max/Plugin/Translation.php';
         MAX_Plugin_Translation::init($this->module, $this->package);
-        
-        return MAX_Plugin_Translation::translate('Rich Media - adtech', $this->module, $this->package);
+
+        return MAX_Plugin_Translation::translate('Rich Media - Yahoo! Publisher Network', $this->module, $this->package);
     }
-    
+
     /**
      * Return plugin cache
      *
@@ -63,12 +63,18 @@ class Plugins_3rdPartyServers_adtech_adtech extends Plugins_3rdPartyServers
      */
     function getBannerCache($buffer, &$noScript)
     {
-        $search  = array("/\[timestamp\]/i", "/(rdclick=)([^\";]*)/i");
-        $replace = array("{timestamp}",      "$1{clickurl}");
-        
-        $buffer = preg_replace ($search, $replace, $buffer);
-        $noScript[0] = preg_replace($search[0], $replace[0], $noScript[0]);
-        
+        $conf = $GLOBALS['_MAX']['CONF'];
+        if (preg_match('/<script.*?src=".*?ypn-js\.overture\.com/is', $buffer))
+        {
+            $buffer = "<span>".
+                      "<script type='text/javascript'><!--// <![CDATA[\n".
+                      "/* {$conf['var']['openads']}={url_prefix} {$conf['var']['adId']}={bannerid} {$conf['var']['zoneId']}={zoneid} {$conf['var']['channel']}={source} */\n".
+                      "// ]]> --></script>".
+                      $buffer.
+                      "<script type='text/javascript' src='{url_prefix}/".$conf['file']['google']."'></script>".
+                      "</span>";
+        }
+
         return $buffer;
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 /*
 +---------------------------------------------------------------------------+
 | OpenX v${RELEASE_MAJOR_MINOR}                                                                |
@@ -24,42 +25,55 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/OA.php';
-require_once MAX_PATH . '/lib/max/Plugin/Common.php';
-
 /**
- * Plugins_3rdPartyServers is an abstract class for every 3rdPartyServers plugin
- *
  * @package    OpenXPlugin
  * @subpackage 3rdPartyServers
  * @author     Radek Maciaszek <radek@m3.net>
- * @abstract
+ *
  */
-class Plugins_3rdPartyServers extends MAX_Plugin_Common
+
+require_once OX_EXTENSIONS_PATH . '/3rdPartyServers/3rdPartyServers.php';
+
+/**
+ *
+ * 3rdPartyServer plugin. Allow for generating different banner html cache
+ *
+ * @static
+ */
+class Plugins_3rdPartyServers_ox3rdPartyServers_kontera extends Plugins_3rdPartyServers
 {
 
     /**
      * Return the name of plugin
      *
-     * @abstract
      * @return string
      */
     function getName()
     {
-        OA::debug('Cannot run abstract method');
-        exit();
+        include_once MAX_PATH . '/lib/max/Plugin/Translation.php';
+        MAX_Plugin_Translation::init($this->module, $this->package);
+
+        return MAX_Plugin_Translation::translate('Rich Media - Kontera', $this->module, $this->package);
     }
 
     /**
      * Return plugin cache
      *
-     * @abstract
      * @return string
      */
-    function getBannerCache($bannerHtml, &$noScript)
+    function getBannerCache($buffer, &$noScript)
     {
-        OA::debug('Cannot run abstract method');
-        exit();
+        if (!stristr($buffer, 'kontera.com')) {
+            // This does not appear to be a kontera tag, leave unchanged
+            return $buffer;
+        }
+
+        $search = "#var dc_adprod\s*=\s*[\'\\\"]([a-zA-Z]+)[\'\\\"];#";
+        $replace = "var dc_adprod='$1';\nvar dc_redirect3PartyUrl='{clickurl}';\n";
+
+        $buffer = preg_replace ($search, $replace, $buffer);
+
+        return $buffer;
     }
 
 }

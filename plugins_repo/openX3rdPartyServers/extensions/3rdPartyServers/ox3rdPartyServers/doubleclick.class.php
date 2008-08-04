@@ -32,7 +32,7 @@ $Id$
  *
  */
 
-require_once MAX_PATH . '/plugins/3rdPartyServers/3rdPartyServers.php';
+require_once OX_EXTENSIONS_PATH . '/3rdPartyServers/3rdPartyServers.php';
 
 /**
  *
@@ -40,7 +40,7 @@ require_once MAX_PATH . '/plugins/3rdPartyServers/3rdPartyServers.php';
  *
  * @static
  */
-class Plugins_3rdPartyServers_doubleclick_doubleclick extends Plugins_3rdPartyServers
+class Plugins_3rdPartyServers_ox3rdPartyServers_doubleclick extends Plugins_3rdPartyServers
 {
     var $hasOutputMacros = true;
     var $clickurlMacro = '%c';

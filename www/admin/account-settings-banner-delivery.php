@@ -55,7 +55,7 @@ foreach ($aInvocationSettings as $invocationSettingKey => $invocationSettingVal)
 
 // This page depends on 3rdPartyServers plugins, so get the required
 // information about all such plugins installed in this installation]
-$a3rdPartyServers = &MAX_Plugin::getPlugins('3rdPartyServers');
+$a3rdPartyServers = &OX_Component::getComponents('3rdPartyServers');
 
 // Prepare an array for storing error messages
 $aErrormessage = array();

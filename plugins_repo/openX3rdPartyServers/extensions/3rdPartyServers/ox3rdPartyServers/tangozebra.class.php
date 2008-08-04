@@ -32,7 +32,7 @@ $Id$
  *
  */
 
-require_once MAX_PATH . '/plugins/3rdPartyServers/3rdPartyServers.php';
+require_once OX_EXTENSIONS_PATH . '/3rdPartyServers/3rdPartyServers.php';
 
 /**
  *
@@ -40,7 +40,7 @@ require_once MAX_PATH . '/plugins/3rdPartyServers/3rdPartyServers.php';
  *
  * @static
  */
-class Plugins_3rdPartyServers_bluestreak_bluestreak extends Plugins_3rdPartyServers
+class Plugins_3rdPartyServers_ox3rdPartyServers_tangozebra extends Plugins_3rdPartyServers
 {
 
     /**
@@ -53,7 +53,7 @@ class Plugins_3rdPartyServers_bluestreak_bluestreak extends Plugins_3rdPartyServ
         include_once MAX_PATH . '/lib/max/Plugin/Translation.php';
         MAX_Plugin_Translation::init($this->module, $this->package);
 
-        return MAX_Plugin_Translation::translate('Rich Media - Bluestreak', $this->module, $this->package);
+        return MAX_Plugin_Translation::translate('Rich Media - Tango Zebra', $this->module, $this->package);
     }
 
     /**
@@ -63,11 +63,16 @@ class Plugins_3rdPartyServers_bluestreak_bluestreak extends Plugins_3rdPartyServ
      */
     function getBannerCache($buffer, &$noScript)
     {
-        $search = array("/n=Insert_Time_Stamp_Here/i","/cltk=Insert_Click_Track_URL_Here/i");
-        $replace = array("n={random}","cltk={clickurl}");
+        $search = array(
+            "/tz_redirector_(\d+)\s*=\s*[\\\\]?\"[\\\\]?\"/",
+            "/tz_pv_(\d+)\s*=\s*[\\\\]?\"[\\\\]?\"/",
+        );
+        $replace = array(
+            "tz_redirector_$1=\"{clickurl}\"",
+            "tz_pv_$1=\"{logurl}\"",
+        );
 
-        $buffer = preg_replace($search, $replace, $buffer);
-        $noScript[0] = preg_replace($search[0], $replace[0], $noScript[0]);
+        $buffer = preg_replace ($search, $replace, $buffer);
 
         return $buffer;
     }

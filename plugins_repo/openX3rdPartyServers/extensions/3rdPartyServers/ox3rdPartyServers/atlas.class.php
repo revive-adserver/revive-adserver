@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: doubleclick.plugin.php 9049 2007-08-16 11:52:56Z chris.nutting@openads.org $
+$Id$
 */
 
 /**
@@ -32,7 +32,7 @@ $Id: doubleclick.plugin.php 9049 2007-08-16 11:52:56Z chris.nutting@openads.org 
  *
  */
 
-require_once MAX_PATH . '/plugins/3rdPartyServers/3rdPartyServers.php';
+require_once OX_EXTENSIONS_PATH . '/3rdPartyServers/3rdPartyServers.php';
 
 /**
  *
@@ -40,7 +40,7 @@ require_once MAX_PATH . '/plugins/3rdPartyServers/3rdPartyServers.php';
  *
  * @static
  */
-class Plugins_3rdPartyServers_cpx_cpx extends Plugins_3rdPartyServers
+class Plugins_3rdPartyServers_ox3rdPartyServers_atlas extends Plugins_3rdPartyServers
 {
 
     /**
@@ -53,7 +53,7 @@ class Plugins_3rdPartyServers_cpx_cpx extends Plugins_3rdPartyServers
         include_once MAX_PATH . '/lib/max/Plugin/Translation.php';
         MAX_Plugin_Translation::init($this->module, $this->package);
 
-        return MAX_Plugin_Translation::translate('Rich Media - CPX', $this->module, $this->package);
+        return MAX_Plugin_Translation::translate('Rich Media - Atlas', $this->module, $this->package);
     }
 
     /**
@@ -63,21 +63,8 @@ class Plugins_3rdPartyServers_cpx_cpx extends Plugins_3rdPartyServers
      */
     function getBannerCache($buffer, &$noScript)
     {
-        //http://adserving.cpxinteractive.com/st?ad_type=iframe&ad_size=728x90&entity=33841&site_code=4567345&section_code=0001P
-
-        // Make no changes if cpxinteractive is not present in the buffer
-        if (!stristr($buffer, 'cpxinteractive')) {
-            return $buffer;
-        }
-        if (stristr($buffer, 'pub_redirect')) {
-            // This code already has the pub_redirect code, just add {clickurl} to it
-            $search = array('#cpxinteractive\.com/([^\"\']*?)&pub_redirect[^\"\']*([\"\'])#i');
-            $replace = array('cpxinteractive.com/$1&pub_redirect_unencoded=1&pub_redirect={clickurl}$2');
-        } else {
-            // This code does not have the pub_redirect code that they
-            $search  = array("#cpxinteractive\.com/([^\"\']*?)([\"\'])#i");
-            $replace = array("cpxinteractive.com/$1&pub_redirect_unencoded=1&pub_redirect={clickurl}$2");
-        }
+        $search  = array("/\[timestamp\]/i","/(http:.*?direct\/01)?click=(.*?)/i");
+        $replace = array("{random}",     "$1click={clickurl}$2");
 
         $buffer = preg_replace ($search, $replace, $buffer);
         $noScript[0] = preg_replace($search[0], $replace[0], $noScript[0]);

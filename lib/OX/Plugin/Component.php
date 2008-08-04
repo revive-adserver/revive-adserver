@@ -342,7 +342,7 @@ class OX_Component
             return false;
         }
         foreach ($aComponents as $key => $oComponent) {
-            if (!is_a($oComponent, 'OX_Component_Common')) {
+            if (!is_a($oComponent, 'OX_Component')) {
                 MAX::raiseError('Bad argument: Not an array of components.', MAX_ERROR_INVALIDARGS);
                 return false;
             }

@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id: doubleclick.plugin.php 9558 2007-09-11 06:50:55Z aj.tarachanowicz@openads.org $
 */
 
 /**
@@ -32,7 +32,7 @@ $Id$
  *
  */
 
-require_once MAX_PATH . '/plugins/3rdPartyServers/3rdPartyServers.php';
+require_once OX_EXTENSIONS_PATH . '/3rdPartyServers/3rdPartyServers.php';
 
 /**
  *
@@ -40,7 +40,7 @@ require_once MAX_PATH . '/plugins/3rdPartyServers/3rdPartyServers.php';
  *
  * @static
  */
-class Plugins_3rdPartyServers_kontera_kontera extends Plugins_3rdPartyServers
+class Plugins_3rdPartyServers_ox3rdPartyServers_tradedoubler extends Plugins_3rdPartyServers
 {
 
     /**
@@ -53,7 +53,7 @@ class Plugins_3rdPartyServers_kontera_kontera extends Plugins_3rdPartyServers
         include_once MAX_PATH . '/lib/max/Plugin/Translation.php';
         MAX_Plugin_Translation::init($this->module, $this->package);
 
-        return MAX_Plugin_Translation::translate('Rich Media - Kontera', $this->module, $this->package);
+        return MAX_Plugin_Translation::translate('Rich Media - Trade Doubler', $this->module, $this->package);
     }
 
     /**
@@ -63,15 +63,7 @@ class Plugins_3rdPartyServers_kontera_kontera extends Plugins_3rdPartyServers
      */
     function getBannerCache($buffer, &$noScript)
     {
-        if (!stristr($buffer, 'kontera.com')) {
-            // This does not appear to be a kontera tag, leave unchanged
-            return $buffer;
-        }
-
-        $search = "#var dc_adprod\s*=\s*[\'\\\"]([a-zA-Z]+)[\'\\\"];#";
-        $replace = "var dc_adprod='$1';\nvar dc_redirect3PartyUrl='{clickurl}';\n";
-
-        $buffer = preg_replace ($search, $replace, $buffer);
+        $buffer = preg_replace ("/(http.*tradedoubler.*)(['\"])/i", "$1preurl({clickurl})$2", $buffer);
 
         return $buffer;
     }

@@ -1,5 +1,4 @@
 <?php
-
 /*
 +---------------------------------------------------------------------------+
 | OpenX v${RELEASE_MAJOR_MINOR}                                                                |
@@ -22,50 +21,44 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: doubleclick.plugin.php 9558 2007-09-11 06:50:55Z aj.tarachanowicz@openads.org $
+$Id$
 */
 
+require_once LIB_PATH . '/Plugin/Component.php';
+
 /**
+ * Plugins_3rdPartyServers is an abstract class for every 3rdPartyServers plugin
+ *
  * @package    OpenXPlugin
  * @subpackage 3rdPartyServers
  * @author     Radek Maciaszek <radek@m3.net>
- *
+ * @abstract
  */
-
-require_once MAX_PATH . '/plugins/3rdPartyServers/3rdPartyServers.php';
-
-/**
- *
- * 3rdPartyServer plugin. Allow for generating different banner html cache
- *
- * @static
- */
-class Plugins_3rdPartyServers_tradedoubler_tradedoubler extends Plugins_3rdPartyServers
+class Plugins_3rdPartyServers extends OX_Component 
 {
 
     /**
      * Return the name of plugin
      *
+     * @abstract
      * @return string
      */
     function getName()
     {
-        include_once MAX_PATH . '/lib/max/Plugin/Translation.php';
-        MAX_Plugin_Translation::init($this->module, $this->package);
-
-        return MAX_Plugin_Translation::translate('Rich Media - Trade Doubler', $this->module, $this->package);
+        OA::debug('Cannot run abstract method');
+        exit();
     }
 
     /**
      * Return plugin cache
      *
+     * @abstract
      * @return string
      */
-    function getBannerCache($buffer, &$noScript)
+    function getBannerCache($bannerHtml, &$noScript)
     {
-        $buffer = preg_replace ("/(http.*tradedoubler.*)(['\"])/i", "$1preurl({clickurl})$2", $buffer);
-
-        return $buffer;
+        OA::debug('Cannot run abstract method');
+        exit();
     }
 
 }

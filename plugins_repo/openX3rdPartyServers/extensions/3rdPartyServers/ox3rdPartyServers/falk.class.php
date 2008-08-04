@@ -32,8 +32,7 @@ $Id$
  *
  */
 
-require_once MAX_PATH . '/plugins/3rdPartyServers/3rdPartyServers.php';
-require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
+require_once OX_EXTENSIONS_PATH . '/3rdPartyServers/3rdPartyServers.php';
 
 /**
  *
@@ -41,7 +40,7 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  *
  * @static
  */
-class Plugins_3rdPartyServers_atlas_atlas extends Plugins_3rdPartyServers
+class Plugins_3rdPartyServers_ox3rdPartyServers_falk extends Plugins_3rdPartyServers
 {
 
     /**
@@ -54,7 +53,7 @@ class Plugins_3rdPartyServers_atlas_atlas extends Plugins_3rdPartyServers
         include_once MAX_PATH . '/lib/max/Plugin/Translation.php';
         MAX_Plugin_Translation::init($this->module, $this->package);
 
-        return MAX_Plugin_Translation::translate('Rich Media - Atlas', $this->module, $this->package);
+        return MAX_Plugin_Translation::translate('Rich Media - Falk', $this->module, $this->package);
     }
 
     /**
@@ -64,8 +63,8 @@ class Plugins_3rdPartyServers_atlas_atlas extends Plugins_3rdPartyServers
      */
     function getBannerCache($buffer, &$noScript)
     {
-        $search  = array("/\[timestamp\]/i","/(http:.*?direct\/01)?click=(.*?)/i");
-        $replace = array("{random}",     "$1click={clickurl}$2");
+        $search = array('#&cntadd=1#', '#&cnturl=[^&]*#', '#rdm=(\\\\\'\+rdm\+\\\\\'|\[timestamp\])#');
+        $replace = array('', '', 'rdm={random}&cntadd=1&cnturl={clickurl}');
 
         $buffer = preg_replace ($search, $replace, $buffer);
         $noScript[0] = preg_replace($search[0], $replace[0], $noScript[0]);

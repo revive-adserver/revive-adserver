@@ -32,7 +32,7 @@ $Id$
  *
  */
 
-require_once MAX_PATH . '/plugins/3rdPartyServers/3rdPartyServers.php';
+require_once OX_EXTENSIONS_PATH . '/3rdPartyServers/3rdPartyServers.php';
 
 /**
  *
@@ -40,7 +40,7 @@ require_once MAX_PATH . '/plugins/3rdPartyServers/3rdPartyServers.php';
  *
  * @static
  */
-class Plugins_3rdPartyServers_mediaplex_mediaplex extends Plugins_3rdPartyServers
+class Plugins_3rdPartyServers_ox3rdPartyServers_bluestreak extends Plugins_3rdPartyServers
 {
 
     /**
@@ -53,7 +53,7 @@ class Plugins_3rdPartyServers_mediaplex_mediaplex extends Plugins_3rdPartyServer
         include_once MAX_PATH . '/lib/max/Plugin/Translation.php';
         MAX_Plugin_Translation::init($this->module, $this->package);
 
-        return MAX_Plugin_Translation::translate('Rich Media - Mediaplex', $this->module, $this->package);
+        return MAX_Plugin_Translation::translate('Rich Media - Bluestreak', $this->module, $this->package);
     }
 
     /**
@@ -63,29 +63,10 @@ class Plugins_3rdPartyServers_mediaplex_mediaplex extends Plugins_3rdPartyServer
      */
     function getBannerCache($buffer, &$noScript)
     {
-        $search = array(
-            '#mpt=(ADD_RANDOM_NUMBER_HERE|\[CACHEBUSTER\])#',
-            '#mpvc=(.*?)([\'"\\\\])(.*)#',
-        );
-		$replace = array(
-		    'mpt={random}',
-		    'mpvc={clickurl}$2$3',
-		);
+        $search = array("/n=Insert_Time_Stamp_Here/i","/cltk=Insert_Click_Track_URL_Here/i");
+        $replace = array("n={random}","cltk={clickurl}");
 
         $buffer = preg_replace($search, $replace, $buffer);
-
-		// Target gets broken from the default REGEX's..
-		$search = array(
-		    'mpt=\"+cb',
-		    'target=\\\'{target}\\\'',
-		);
-		$replace = array(
-		    'mpt=\\\'+cb',
-		    'target=\\"{target}\\"',
-		);
-
-        $buffer = str_replace($search, $replace, $buffer);
-
         $noScript[0] = preg_replace($search[0], $replace[0], $noScript[0]);
 
         return $buffer;

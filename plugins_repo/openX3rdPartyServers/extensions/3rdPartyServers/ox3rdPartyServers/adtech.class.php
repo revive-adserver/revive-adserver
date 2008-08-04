@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Max Media Manager v0.3                                                    |
+| =================                                                         |
 |                                                                           |
-| Copyright (c) 2003-2008 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
+| Copyright (c) 2003-2006 m3 Media Services Limited                         |
+| For contact details, see: http://www.m3.net/                              |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -26,13 +26,13 @@ $Id$
 */
 
 /**
- * @package    OpenXPlugin
+ * @package    MaxPlugins
  * @subpackage 3rdPartyServers
- * @author     Radek Maciaszek <radek@m3.net>
+ * @author     Heiko Weber <heiko@wecos.de>
  *
  */
 
-require_once MAX_PATH . '/plugins/3rdPartyServers/3rdPartyServers.php';
+require_once OX_EXTENSIONS_PATH . '/3rdPartyServers/3rdPartyServers.php';
 
 /**
  *
@@ -40,9 +40,9 @@ require_once MAX_PATH . '/plugins/3rdPartyServers/3rdPartyServers.php';
  *
  * @static
  */
-class Plugins_3rdPartyServers_falk_falk extends Plugins_3rdPartyServers
+class Plugins_3rdPartyServers_ox3rdPartyServers_adtech extends Plugins_3rdPartyServers 
 {
-
+    
     /**
      * Return the name of plugin
      *
@@ -52,10 +52,10 @@ class Plugins_3rdPartyServers_falk_falk extends Plugins_3rdPartyServers
     {
         include_once MAX_PATH . '/lib/max/Plugin/Translation.php';
         MAX_Plugin_Translation::init($this->module, $this->package);
-
-        return MAX_Plugin_Translation::translate('Rich Media - Falk', $this->module, $this->package);
+        
+        return MAX_Plugin_Translation::translate('Rich Media - adtech', $this->module, $this->package);
     }
-
+    
     /**
      * Return plugin cache
      *
@@ -63,12 +63,12 @@ class Plugins_3rdPartyServers_falk_falk extends Plugins_3rdPartyServers
      */
     function getBannerCache($buffer, &$noScript)
     {
-        $search = array('#&cntadd=1#', '#&cnturl=[^&]*#', '#rdm=(\\\\\'\+rdm\+\\\\\'|\[timestamp\])#');
-        $replace = array('', '', 'rdm={random}&cntadd=1&cnturl={clickurl}');
-
+        $search  = array("/\[timestamp\]/i", "/(rdclick=)([^\";]*)/i");
+        $replace = array("{timestamp}",      "$1{clickurl}");
+        
         $buffer = preg_replace ($search, $replace, $buffer);
         $noScript[0] = preg_replace($search[0], $replace[0], $noScript[0]);
-
+        
         return $buffer;
     }
 

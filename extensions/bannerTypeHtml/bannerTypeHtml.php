@@ -74,9 +74,8 @@ class Plugins_BannerTypeHTML extends OX_Component
         $header->setAttribute('icon', 'icon-banner-html.gif');
         $form->addElement($header);
 
-        include_once MAX_PATH . '/lib/max/Plugin.php';
-        $adPlugins = MAX_Plugin::getPlugins('3rdPartyServers');
-        $adPluginsNames = MAX_Plugin::callOnPlugins($adPlugins, 'getName');
+        $adPlugins = OX_Component::getComponents('3rdPartyServers');
+        $adPluginsNames = OX_Component::callOnComponents($adPlugins, 'getName');
 
         $adPluginsList = array();
         $adPluginsList[''] = $GLOBALS['strAdserverTypeGeneric'];

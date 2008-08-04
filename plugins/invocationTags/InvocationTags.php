@@ -190,7 +190,7 @@ class Plugins_InvocationTags extends MAX_Plugin_Common
             'clickurl'  => 'INSERT_CLICKURL_HERE',
         );
         if (!empty($mi->thirdpartytrack) && ($mi->thirdpartytrack != 'generic')) {
-            $thirdpartyserver = MAX_Plugin::factory('3rdPartyServers', $mi->thirdpartytrack);
+            $thirdpartyserver = OX_Component::factory('3rdPartyServers', $mi->thirdpartytrack);
             $thirdpartyname = $thirdpartyserver->getName();
             if (!empty($thirdpartyserver->clickurlMacro)) {
                 $mi->macros['clickurl'] = $thirdpartyserver->clickurlMacro;
