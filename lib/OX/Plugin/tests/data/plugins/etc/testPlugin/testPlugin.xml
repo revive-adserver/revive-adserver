@@ -42,16 +42,24 @@
         </files>
 
         <navigation>
-            <menu permission="ADMIN" add="test-plugin" link="plugins/testPlugin/testPlugin-index.php">Test Plugin Root</menu>
-            <menu permission="ADMIN" addto="test-plugin" index="test-plugin-0" link="plugins/testPlugin/testPlugin-index.php">Test Plugin Index</menu>
-            <menu permission="ADMIN" insertafter="test-plugin-0" index="test-plugin-1" link="plugins/testPlugin/testPlugin-page.php?action=1">Test Plugin Page 1</menu>
-            <menu permission="ADMIN" insertafter="test-plugin-1" index="test-plugin-3" link="plugins/testPlugin/testPlugin-page.php?action=3">Test Plugin Page 3</menu>
-            <menu permission="ADMIN" insertbefore="test-plugin-3" index="test-plugin-2" link="plugins/testPlugin/testPlugin-page.php?action=2">Test Plugin Page 2</menu>
+            <admin>
+                <menu add="test-menu-admin" index="test-menu-admin" link="path_to_test_plugin/index.php">Test Menu Index Admin</menu>
+                <menu addto="test-menu-admin" index="test-menu-admin-1" link="path_to_test_plugin/page.php?action=1">Test Page 1 Admin</menu>
+                <menu addto="test-menu-admin" index="test-menu-admin-2" link="path_to_test_plugin/page.php?action=2">Test Page 2 Admin</menu>
+            </admin>
 
-            <menu permission="MANAGER" add="test-plugin" link="plugins/testPlugin/testPlugin-index.php">Test Plugin Root</menu>
-            <menu permission="MANAGER" addto="test-plugin" index="test-plugin-0" link="plugins/testPlugin/testPlugin-index.php">Test Plugin Index</menu>
-            <menu permission="MANAGER" insertafter="test-plugin-0" index="test-plugin-1" link="plugins/testPlugin/testPlugin-page.php?action=1">Test Plugin Page 1</menu>
-            <menu permission="MANAGER" insertafter="test-plugin-1" index="test-plugin-2" link="plugins/testPlugin/testPlugin-page.php?action=2">Test Plugin Page 2</menu>
+            <manager>
+                <menu add="test-menu-mgr" index="test-menu-mgr" link="path_to_test_plugin/index.php">Test Menu Index Manager</menu>
+                <menu addto="test-menu-mgr" index="test-menu-mgr-1" link="path_to_test_plugin/page.php?action=1">Test Page 1 Manager</menu>
+            </manager>
+
+            <advertiser>
+                <menu add="main-menu" index="test-menu-advertiser" link="path_to_test_plugin/index.php">Test Menu Advertiser</menu>
+            </advertiser>
+
+            <trafficker>
+                <menu add="main-menu" index="test-menu-trafficker" link="path_to_test_plugin/index.php">Test Menu Trafficker</menu>
+            </trafficker>
 
         </navigation>
 

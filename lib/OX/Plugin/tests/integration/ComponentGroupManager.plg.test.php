@@ -141,7 +141,7 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
 
     function test_checkMenus()
     {
-        OA_Admin_Menu::_clearCache('ADMIN');
+        OA_Admin_Menu::_clearCache(OA_ACCOUNT_ADMIN);
         $oPluginManager = new OX_Plugin_ComponentGroupManager();
 
         $aMenus[OA_ACCOUNT_ADMIN] = array(
@@ -234,19 +234,28 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
         $oSection3 = $oMenu->get('test-plugin-3', false);
         $this->assertIsA($oSection3, 'OA_Admin_Menu_Section');
         $this->assertEqual($oSection->aSections[2]->id, $oSection3->id);
+    }
 
-        OA_Admin_Menu::_clearCache(OA_ACCOUNT_ADMIN);
+    function test_mergeMenu()
+    {
+        $oPluginManager                 = new OX_Plugin_ComponentGroupManager();
+        $oPluginManager->pathPackages   = $this->testpathPackages;
+        $oMenu                          = new OA_Admin_Menu();
 
-        $this->assertTrue($oPluginManager->_cacheMergedMenu(OA_ACCOUNT_ADMIN));
+        $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] = array('testPlugin' => 1);
 
-        $oMenu = $oMenu->_loadFromCache(OA_ACCOUNT_ADMIN);
+        $oPluginManager->mergeMenu($oMenu, OA_ACCOUNT_ADMIN);
+        $this->assertEqual(count($oMenu->aAllSections),3);
+        $this->assertTrue(array_key_exists('test-menu-admin',$oMenu->aAllSections));
+        $this->assertTrue(array_key_exists('test-menu-admin-1',$oMenu->aAllSections));
+        $this->assertTrue(array_key_exists('test-menu-admin-2',$oMenu->aAllSections));
 
-        $this->assertFalse($oMenu->get('test-plugin-root', false));
-        $this->assertFalse($oMenu->get('test-plugin-1', false));
-        $this->assertFalse($oMenu->get('test-plugin-2', false));
-        $this->assertFalse($oMenu->get('test-plugin-3', false));
+        $oPluginManager->mergeMenu($oMenu, OA_ACCOUNT_MANAGER);
+        $this->assertEqual(count($oMenu->aAllSections),5);
+        $this->assertTrue(array_key_exists('test-menu-mgr',$oMenu->aAllSections));
+        $this->assertTrue(array_key_exists('test-menu-mgr-1',$oMenu->aAllSections));
 
-        OA_Admin_Menu::_clearCache('ADMIN');
+        TestEnv::restoreConfig();
     }
 
     function test_Tables()

@@ -1161,94 +1161,9 @@ class OA_Upgrade
      */
     function disableAllPlugins($aPackages='')
     {
-        if (!$aPackages)
-        {
-            $aPackages = & $GLOBALS['_MAX']['CONF']['plugins'];
-            $aPlugins  = & $GLOBALS['_MAX']['CONF']['pluginGroupComponents'];
-        }
-        if (!$this->oPkgMgr)
-        {
-            require_once LIB_PATH.'/Plugin/PluginManager.php';
-            $this->oPkgMgr = new OX_PluginManager();
-        }
-        foreach ($aPackages AS $name => $enabled)
-        {
-            if (!$this->oPkgMgr->disablePackage($name))
-            {
-                $aPackages[$name] = 0;
-                foreach ($this->oPkgMgr->aErrors AS $error)
-                {
-                    $this->oLogger->logWarning($error);
-                }
-                $this->oPkgMgr->clearErrors();
-            }
-        }
-        foreach ($aPlugins AS $name => $enabled)
-        {
-            if (!$this->oPkgMgr->disableComponentGroup($name))
-            {
-                $aPlugins[$name] = 0;
-                foreach ($this->oPkgMgr->aErrors AS $error)
-                {
-                    $this->oLogger->logWarning($error);
-                }
-                $this->oPkgMgr->clearErrors();
-            }
-        }
-        $this->oPkgMgr->cacheComponentGroups();
-        $this->oPkgMgr->cachePackages();
+        $this->oConfiguration->setPluginsDisabled();
         return true;
     }
-
-    /**
-     * look at the list of bundled plugin packages
-     * install each
-     * return error messages but don't fail on error
-     *
-     * the package manager class handles plugin install auditing
-     *
-     * @param array $aDefaultPlugins
-     * @return true
-     */
-/*    function installPlugins($aDefaultPlugins='')
-    {
-        if (!$aDefaultPlugins)
-        {
-            include $this->defaultPluginsFile;
-        }
-        if (!$aDefaultPlugins)
-        {
-            return true;
-        }
-        if (!$this->oPkgMgr)
-        {
-            require_once LIB_PATH.'/Plugin/PluginManager.php';
-            $this->oPkgMgr = new OX_PluginManager();
-        }
-        foreach ($aDefaultPlugins AS $idx => $aPackage)
-        {
-            $filename = $aPackage['name'].'.'.$aPackage['ext'];
-            $filepath = $aPackage['path'].$filename;
-            // TODO: refactor for remote paths?
-            if(!$this->oPkgMgr->installPackage(array('tmp_name'=>$filepath, 'name'=>$filename)))
-            {
-                foreach ($this->oPkgMgr->aErrors AS $error)
-                {
-                    $this->oLogger->logError($error);
-                }
-            }
-            if (!$this->oPkgMgr->enablePackage($aPackage['name']))
-            {
-                foreach ($this->oPkgMgr->aErrors AS $error)
-                {
-                    $this->oLogger->logError($error);
-                }
-            }
-            $this->oPkgMgr->cacheComponentGroups();
-            $this->oPkgMgr->cachePackages();
-        }
-        return true;
-    }*/
 
     function _auditInstallationFailure($msg)
     {

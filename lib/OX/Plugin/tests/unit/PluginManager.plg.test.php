@@ -31,6 +31,7 @@ $Id$
 
 // Required files
 require_once LIB_PATH.'/Plugin/PluginManager.php';
+require_once(LIB_PATH.'/Extension.php');
 
 class Test_OX_PluginManager extends UnitTestCase
 {
@@ -144,9 +145,21 @@ class Test_OX_PluginManager extends UnitTestCase
     function test_installPackage()
     {
         Mock::generatePartial(
+                                'OX_Extension',
+                                $oMockExtension = 'OX_Extension'.rand(),
+                                array(
+                                      '_instantiateClass',
+                                      'runTasksPluginPostInstallation',
+                                      'runTasksPluginPreInstallation',
+                                     )
+                             );
+        $oExtension = new $oMockExtension($this);
+
+        Mock::generatePartial(
                                 'OX_PluginManager',
                                 $oMockManager = 'OX_PluginManager'.rand(),
                                 array(
+                                      '_instantiateClass',
                                       '_unpack',
                                       '_installComponentGroups',
                                       '_registerPackage',
@@ -162,6 +175,10 @@ class Test_OX_PluginManager extends UnitTestCase
 
         $oManager->setReturnValue('_auditStart', true);
         $oManager->setReturnValue('_uninstallComponentGroups', true);
+
+        $oManager->setReturnValue('_instantiateClass', $oExtension);
+        $oManager->expectCallCount('_instantiateClass',1);
+
 
         // Test 1 - package file not found
         $aFile = array('tmp_name'=>MAX_PATH.$this->testpathData.'testNonExistantPackage.xml',
@@ -212,6 +229,7 @@ class Test_OX_PluginManager extends UnitTestCase
 
 
         $oManager->tally();
+
     }
 
     function test_uninstallPackage()
@@ -301,12 +319,15 @@ class Test_OX_PluginManager extends UnitTestCase
                                 $oMockManager = 'OX_PluginManager'.rand(),
                                 array(
                                       '_parsePackage',
+                                      '_parseComponentGroups',
+                                      '_runExtensionTasks',
                                       'enableComponentGroup',
                                       '_setPackage',
                                       'disablePackage'
                                      )
                              );
         $oManager = new $oMockManager($this);
+        $oManager->setReturnValue('_parseComponentGroups', true);
 
         // Test 1 - plugin file parse error
         $oManager->setReturnValueAt(0,'_parsePackage', false);
@@ -348,6 +369,7 @@ class Test_OX_PluginManager extends UnitTestCase
         $oManager->expectCallCount('_parsePackage',5);
         $oManager->expectCallCount('enableComponentGroup',7);
         $oManager->expectCallCount('_setPackage',2);
+
         $oManager->expectCallCount('disablePackage',3);
 
         $oManager->tally();
@@ -361,10 +383,13 @@ class Test_OX_PluginManager extends UnitTestCase
                                 array(
                                       '_parsePackage',
                                       'disableComponentGroup',
+                                      '_parseComponentGroups',
+                                      '_runExtensionTasks',
                                       '_setPackage'
                                      )
                              );
         $oManager = new $oMockManager($this);
+        $oManager->setReturnValue('_parseComponentGroups', true);
 
         // Test 1 - plugin file parse error
         $oManager->setReturnValueAt(0,'_parsePackage', false);

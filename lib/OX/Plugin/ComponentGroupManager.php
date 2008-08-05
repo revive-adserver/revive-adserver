@@ -238,6 +238,7 @@ class OX_Plugin_ComponentGroupManager
 
         return $this->_runTasks($aGroup['name'], $aTaskList, array(), true);
     }
+
     /**
      * run a series of tasks that installs a single plugin
      *
@@ -1608,26 +1609,6 @@ class OX_Plugin_ComponentGroupManager
     }
 
     /**
-     * execute each of the global plugin caching methods
-     *
-     * @todo The _cacheMergedMenu method has been disabled becuase of changes to the menu system from trunk
-     */
-    public function cacheComponentGroups()
-    {
-        $this->_cacheDependencies();
-        //$this->_cacheDataObjects();
-        $this->cacheAllMenus();
-    }
-
-    public function cacheAllMenus()
-    {
-        $this->_cacheMergedMenu(OA_ACCOUNT_ADMIN);
-        $this->_cacheMergedMenu(OA_ACCOUNT_MANAGER);
-        $this->_cacheMergedMenu(OA_ACCOUNT_ADVERTISER);
-        $this->_cacheMergedMenu(OA_ACCOUNT_TRAFFICKER);
-    }
-
-    /**
      * merge the plugin dataojbect schema and links ini files and cache them
      *
      * @param string $newPluginName
@@ -1819,32 +1800,6 @@ class OX_Plugin_ComponentGroupManager
                     $this->_logError('Failed to remove dataobject '.$pathTarget.$file.' for '.$name, PEAR_LOG_ERR);
                 }
             }
-        }
-        return true;
-    }
-
-    /**
-     * this will move to menu class singleton method
-     *
-     * get the global menu object
-     * add menu sections belonging to any enabled plugins
-     *
-     * @return boolean
-     */
-    function _cacheMergedMenu($accountType)
-    {
-        $aGroups = $GLOBALS['_MAX']['CONF']['pluginGroupComponents'];
-        $oMenu = $this->_getMenuObject($accountType);
-
-        if (!$this->mergeMenu($oMenu, $accountType))
-        {
-            $this->_logError('Failed to merge menu for '.$accountType);
-            return false;
-        }
-        if (!$oMenu->_saveToCache($accountType))
-        {
-            $this->_logError('Failed to cache menu for '.$accountType);
-            return false;
         }
         return true;
     }

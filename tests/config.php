@@ -51,6 +51,7 @@ $GLOBALS['_MAX']['TEST']['directories'] =
         'plugins',
         'plugins_repo',
         'extensions',
+        'www/admin/plugins',
     	'lib/xmlrpc/php'
     );
 
@@ -90,6 +91,7 @@ $GLOBALS['_MAX']['TEST'][$type . '_layers'] =
         'dal'   => array('Data Abstraction Layer (DB)',         DB_WITH_TABLES),
         'dll'   => array('Domain Logic Layer (DB)',             DB_WITH_TABLES),
         'del'   => array('Delivery Engine',                     NO_DB),
+        'ext'   => array('Extensions',                          NO_DB),
         'mtc'   => array('Maintenance Engine (DB)',             DB_WITH_TABLES),
         'mts'   => array('Maintenance Statistics Engine',       NO_DB),
         'mtsdb' => array('Maintenance Statistics Engine (DB)',  DB_NO_TABLES),
@@ -131,6 +133,7 @@ $GLOBALS['_MAX']['TEST'][$type . '_layers'] =
         'mig' => array('Upgrade Migration Classes',                 DB_NO_TABLES),
         'zif' => array('Zone Impression Forecasting (DB)',          DB_WITH_TABLES),
         'del' => array('Delivery Engine (DB)',                      DB_WITH_TABLES),
+        'ext'   => array('Extensions',                              DB_WITH_TABLES),
         'plg' => array('Plugins',                                   DB_WITH_TABLES),
         'api' => array('Webservices API',                           DB_WITH_TABLES)
     );

@@ -55,14 +55,16 @@ phpAds_registerGlobal('action', 'returnurl');
 
 if (!empty($action))
 {
-    require_once LIB_PATH . '/Plugin/PluginManager.php';
-    $oPluginManager = & new OX_PluginManager();
     switch ($action)
     {
         case 'reg':
-            $oPluginManager->cachePackages();
+            require_once(LIB_PATH.'/Extension/ExtensionDelivery.php');
+            $oExtensionManager = new OX_Extension_Delivery();
+            $oExtensionManager->runTasksOnDemand();
             break;
         case 'dep':
+            require_once LIB_PATH . '/Plugin/PluginManager.php';
+            $oPluginManager = & new OX_PluginManager();
             $oPluginManager->_cacheDependencies();
             if (empty($oPluginManager->aErrors))
             {
@@ -87,7 +89,7 @@ if (!empty($action))
 phpAds_ShowBreak();
 echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-plugins.php?action=dep'>Check Dependencies</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
-echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-plugins.php?action=reg'>Rebuild Registration Cache</a>&nbsp;&nbsp;";
+echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-plugins.php?action=reg'>Rebuild Delivery Hooks Cache</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
 
 

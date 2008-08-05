@@ -39,7 +39,5 @@ if ($aDefaultPlugins)
         }
     }
 }
-$oPluginManager->cacheComponentGroups();
-$oPluginManager->cachePackages();
 
 ?>

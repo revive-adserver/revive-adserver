@@ -55,6 +55,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
     var $errcode;
 
     var $aExtensionsAffected = array();
+    var $oExtensionManager;
 
     function __construct()
     {
@@ -82,25 +83,30 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         return ($GLOBALS['_MAX']['CONF']['plugins'][$name] ? true : false);
     }
 
-    function _matchPackageFilename($name, $file)
+    /**
+     * An extension may need to run tasks when plugins change
+     * It can provide a class with methods that hook onto some plugin manager events
+     *
+     * BeforePluginInstall
+     * AfterPluginInstall
+     * BeforePluginUninstall
+     * AfterPluginInstall
+     * BeforePluginEnable
+     * AfterPluginEnable
+     * BeforePluginDisable
+     * AfterPluginDisable
+     *
+     * @param unknown_type $event
+     */
+    function _runExtensionTasks($event)
     {
-        if (substr($file,0,strlen($name))!=$name)
+        if (!$this->oExtensionManager)
         {
-            $this->_logError('Filename mismatch: name/file'. $name.' / '.$file);
-            return false;
+            require_once(LIB_PATH.'/Extension.php');
+            $this->oExtensionManager = $this->_instantiateClass('OX_Extension');
         }
-        return $this->_parsePackageFilename($file);
-    }
-
-    function _parsePackageFilename($file)
-    {
-        $pattern = '(?P<name>[\w\d]+)_?(?P<version>[\d]+\.[\d]+\.[\d]+[-\w\d]+)?\.(?P<ext>[\w]{3,4})';
-        if (!preg_match('/'.$pattern.'/U',$file,$aMatch))
-        {
-            $this->_logError('Filename not parsed '.$file);
-            return false;
-        }
-        return array('version'=>$aMatch['version'],'name'=>$aMatch['name'],'ext'=>$aMatch['ext']);
+        $this->oExtensionManager->aExtensions = $this->aExtensionsAffected;
+        $this->oExtensionManager->runTasksForEvent($event);
     }
 
     function upgradePackage($aFile, $name)
@@ -136,10 +142,11 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             return false;
         }
         $aPluginsNew = $aParsed['pluginGroupComponents'];
+        $this->_runExtensionTasks('BeforePluginInstall');
         $this->_auditSetKeys( array('upgrade_name'=>'upgrade_'.$name,
                                     'version_to'=>$aPackageNew['version'],
                                     'version_from'=>$aPackageOld['version'],
-                                    'logfile'=>basename($this->oLogger->logFile)
+                                    'logfile'=>'plugins.log'
                                     )
                              );
         $auditId = $this->_auditStart(array('description'=>'PACKAGE UPGRADE FAILED',
@@ -163,6 +170,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                                   'id' => $auditId,
                                  )
                            );
+        $this->_runExtensionTasks('AfterPluginInstall');
         return true;
     }
 
@@ -190,10 +198,11 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         }
         $aPackage = $aParsed['package'];
         $aPlugins = $aParsed['plugins'];
+        $this->_runExtensionTasks('BeforePluginInstall');
         $this->_auditSetKeys( array('upgrade_name'=>'install_'.$aPackage['name'],
                                     'version_to'=>$aPackage['version'],
                                     'version_from'=>0,
-                                    'logfile'=>basename($this->oLogger->logFile)
+                                    'logfile'=>'plugins.log'
                                     )
                              );
         $auditId = $this->_auditStart(array('description'=>'PACKAGE INSTALL FAILED',
@@ -206,8 +215,6 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->_uninstallComponentGroups($aPlugins);
             return false;
         }
-        $this->cacheComponentGroups();
-        $this->cachePackages();
         // this sets up conf but leaves package disabled
         if (!$this->_registerPackage($aPackage['name']))
         {
@@ -218,6 +225,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                                   'id' => $auditId,
                                  )
                            );
+        $this->_runExtensionTasks('AfterPluginInstall');
         return true;
     }
 
@@ -252,10 +260,11 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                 return false;
             }
         }
+        $this->_runExtensionTasks('BeforePluginUninstall');
         $this->_auditSetKeys( array('upgrade_name'=>'uninstall_'.$aPackage['name'],
                                     'version_to'=>0,
                                     'version_from'=>$aPackage['version'],
-                                    'logfile'=>basename($this->oLogger->logFile)
+                                    'logfile'=>'plugins.log'
                                     )
                              );
         $auditId = $this->_auditStart(array('description'=>'PACKAGE UNINSTALL FAILED',
@@ -288,12 +297,15 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                                   'id' => $auditId,
                                  )
                            );
+        $this->_runExtensionTasks('AfterPluginUninstall');
         return true;
     }
 
     /**
      * set the conf enabled value to true for the package
      * and for each of the plugins belonging to the package
+     *
+     * parsing the package will retrieve extensions to be handled before and after enable
      *
      * @param array string
      * @return boolean
@@ -305,6 +317,13 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         {
             return false;
         }
+        $aPlugins = $this->_parseComponentGroups($aPackage['install']['contents']);
+        if (!$aPlugins)
+        {
+            $this->_logError('Failed to parse the plugin definitions contained in package '.$name);
+            return false;
+        }
+        $this->_runExtensionTasks('BeforePluginEnable');
         foreach ($aPackage['install']['contents'] AS $k => $plugin)
         {
             if (!$this->enableComponentGroup($plugin['name']))
@@ -320,12 +339,15 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->disablePackage($name);
             return false;
         }
+        $this->_runExtensionTasks('AfterPluginEnable');
         return true;
     }
 
     /**
      * set the conf enabled value to false for the package
      * and for each of the plugins belonging to the package
+     *
+     * parsing the package will retrieve extensions to be handled before and after disable
      *
      * @param string $name
      * @return boolean
@@ -345,6 +367,13 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             }
             return false;
         }
+        $aPlugins = $this->_parseComponentGroups($aPackage['install']['contents']);
+        if (!$aPlugins)
+        {
+            $this->_logError('Failed to parse the plugin definitions contained in package '.$name);
+            return false;
+        }
+        $this->_runExtensionTasks('BeforePluginDisable');
         foreach ($aPackage['install']['contents'] AS $k => $plugin)
         {
             if (!$this->disableComponentGroup($plugin['name']))
@@ -358,7 +387,29 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->_logError('Failed to disable package '.$name);
             return false;
         }
+        $this->_runExtensionTasks('AfterPluginDisable');
         return true;
+    }
+
+    function _matchPackageFilename($name, $file)
+    {
+        if (substr($file,0,strlen($name))!=$name)
+        {
+            $this->_logError('Filename mismatch: name/file'. $name.' / '.$file);
+            return false;
+        }
+        return $this->_parsePackageFilename($file);
+    }
+
+    function _parsePackageFilename($file)
+    {
+        $pattern = '(?P<name>[\w\d]+)_?(?P<version>[\d]+\.[\d]+\.[\d]+[-\w\d]+)?\.(?P<ext>[\w]{3,4})';
+        if (!preg_match('/'.$pattern.'/U',$file,$aMatch))
+        {
+            $this->_logError('Filename not parsed '.$file);
+            return false;
+        }
+        return array('version'=>$aMatch['version'],'name'=>$aMatch['name'],'ext'=>$aMatch['ext']);
     }
 
     /**
@@ -501,7 +552,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->_auditSetKeys( array('upgrade_name'=>'install_'.$aGroup['name'],
                                         'version_to'=>$aGroup['version'],
                                         'version_from'=>0,
-                                        'logfile'=>basename($this->oLogger->logFile)
+                                        'logfile'=>'plugins.log'
                                         )
                                  );
             $auditId = $this->_auditStart(array('description'=>'PLUGIN INSTALL FAILED',
@@ -543,7 +594,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->_auditSetKeys(array('upgrade_name'=>'uninstall_'.$aGroup['name'],
                                             'version_to'=>0,
                                             'version_from'=>$aGroup['version'],
-                                            'logfile'=>basename($this->oLogger->logFile)
+                                            'logfile'=>'plugins.log'
                                             )
                                      );
             $auditId = $this->_auditStart(array('description'=>'PLUGIN UNINSTALL FAILED',
@@ -825,78 +876,6 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             }
         }
         return $aResult;
-    }
-
-    /**
-     * This method takes the array of registered hooks from the plugin/component group's XML files and saves a structured list in the config file
-     *
-     * @return boolean True if writing the config file change was sucessful false otherwise
-     */
-    function _saveComponentHooks($aHooks = array())
-    {
-        $oSettings = $this->_instantiateClass('OA_Admin_Settings');
-        if (!$oSettings)
-        {
-            return false;
-        }
-        // Clear out any existing hooks
-        $oSettings->aConf['deliveryHooks'] = array();
-        foreach ($aHooks as $hookName => $aComponentIdentifiers) {
-            $aComponentIdentifiers = $this->orderDependencyComponents($hookName, $aComponentIdentifiers, $aHooks);
-            $oSettings->settingChange('deliveryHooks', $hookName, implode('|', $aComponentIdentifiers));
-        }
-        return $oSettings->writeConfigChange();
-    }
-
-    /**
-     * This method allows to set the components in the order of their dependency
-     * between each other.
-     *
-     * @param string $hookName  Hook name
-     * @param array $aComponentIdentifiers  Array of components assigned to sorted hook
-     * @param array $aHooks  Array with all hooks and all components in the system
-     * @return unknown
-     */
-    function orderDependencyComponents($hookName, $aComponentIdentifiers = array(), $aHooks = array())
-    {
-        switch ($hookName) {
-            case 'logClick':
-            case 'logConversion':
-            case 'logConversionVariable':
-            case 'logImpression':
-            case 'logRequest':
-                $deliveryLogSetup = new OX_Plugins_DeliveryLog_Setup();
-                return $deliveryLogSetup->getDependencyOrderedPlugins($aComponentIdentifiers, $aHooks);
-                break;
-            default:
-                return $aComponentIdentifiers;
-        }
-    }
-
-    public function cachePackages()
-    {
-        $aHooks = $this->getComponentHooks();
-        $this->_saveComponentHooks($aHooks);
-        $this->_generateDeliveryHooksCacheFile($aHooks);
-    }
-
-    /**
-     * This method takes the array of registered hooks from the plugin/component
-     * group's XML files, merge the delivery plugins files into one file
-     * and save such cache in var folder.
-     *
-     * @return boolean True if writing the config file change was sucessful false otherwise
-     */
-    function _generateDeliveryHooksCacheFile($aHooks = array())
-    {
-        $aDeliveryHooksComponents = array();
-        $deliveryLogSetup = new OX_Plugins_DeliveryLog_Setup();
-        foreach ($aHooks as $hook => $aComponents) {
-            if (in_array($hook, $deliveryLogSetup->aDeliveryLogHooks)) {
-                $aDeliveryHooksComponents[$hook] = $aComponents;
-            }
-        }
-        return $deliveryLogSetup->regenerateDeliveryPluginsCodeCache($aDeliveryHooksComponents);
     }
 
     /**
@@ -1310,6 +1289,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             return false;
         }
     }
+
 }
 
 ?>

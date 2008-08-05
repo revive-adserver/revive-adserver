@@ -83,8 +83,6 @@ else if (array_key_exists('getupgrade',$_POST))
         $oTpl->assign('aWarnings',$oPluginManager->aWarnings);
         $oTpl->assign('aErrors',$oPluginManager->aErrors);
         $oTpl->assign('aMessages',$oPluginManager->aMessages);
-        $oComponentGroupManager->cacheComponentGroups();
-        $oPluginManager->cachePackages();
     }
 }
 else if (array_key_exists('check',$_POST))
@@ -157,8 +155,6 @@ else if (array_key_exists('upgrade',$_POST))
         $oTpl->assign('aWarnings',$oPluginManager->aWarnings);
         $oTpl->assign('aErrors',$oPluginManager->aErrors);
         $oTpl->assign('aMessages',$oPluginManager->aMessages);
-        $oComponentGroupManager->cacheComponentGroups();
-        $oPluginManager->cachePackages();
     }
 }
 else if (array_key_exists('diagnose',$_POST))
@@ -181,15 +177,11 @@ else if (array_key_exists('diagnose',$_POST))
     $oPluginManager->getPackageDiagnostics($plugin);
     $oTpl->assign('aErrors',$oPluginManager->aErrors);
     $oTpl->assign('aMessages',$oPluginManager->aMessages);
-    $oComponentGroupManager->cacheComponentGroups();
-    $oPluginManager->cachePackages();
 }
 //actions
 else if ('uninstall' == $action)
 {
     $oPluginManager->uninstallPackage($plugin);
-    $oComponentGroupManager->cacheComponentGroups();
-    $oPluginManager->cachePackages();
     if (!($oPluginManager->countErrors() || $oPluginManager->countWarnings()))
     {
         require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
@@ -202,12 +194,6 @@ else if ('enable' == $action)
     {
         $oPluginManager->enablePackage($plugin);
     }
-    else if ($group)
-    {
-        $oComponentGroupManager->enableComponentGroup($group);
-    }
-    $oComponentGroupManager->cacheComponentGroups();
-    $oPluginManager->cachePackages();
     if (!($oPluginManager->countErrors() || $oPluginManager->countWarnings()))
     {
         require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
@@ -224,8 +210,6 @@ else if ('disable' == $action)
     {
         $oComponentGroupManager->disableComponentGroup($group);
     }
-    $oComponentGroupManager->cacheComponentGroups();
-    $oPluginManager->cachePackages();
     if (!($oPluginManager->countErrors() || $oPluginManager->countWarnings()))
     {
         require_once MAX_PATH . '/lib/max/Admin/Redirect.php';

@@ -250,6 +250,12 @@ class OA_Upgrade_Config
         $this->setValue('table', 'type', $aConfig['type']);
     }
 
+    function setPluginsDisabled()
+    {
+        $this->setBulkValue('plugins', 0);
+        $this->setBulkValue('pluginGroupComponents', 0);
+    }
+
     function setValue($section, $name, $value)
     {
         $this->oSettings->settingChange($section, $name, $value);
