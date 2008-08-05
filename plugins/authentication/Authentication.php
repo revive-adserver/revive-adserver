@@ -171,7 +171,7 @@ class Plugins_Authentication extends MAX_Plugin_Common
      */
     function validateUsersEmail($email)
     {
-        if (!$this->isValidaEmail($email)) {
+        if (!$this->isValidEmail($email)) {
             $this->addValidationError($GLOBALS['strInvalidEmail']);
         }
     }
@@ -182,10 +182,10 @@ class Plugins_Authentication extends MAX_Plugin_Common
      * @param string $email
      * @return boolean
      */
-    function isValidaEmail($email)
+    function isValidEmail($email)
     {
         return eregi("^[a-zA-Z0-9]+[_a-zA-Z0-9-]*(\.[_a-z0-9-]+)*@[a-z??????0-9]+"
-                ."(-[a-z??????0-9]+)*(\.[a-z??????0-9-]+)*(\.[a-z]{2,4})$", $email);
+                ."(-[a-z??????0-9]+)*(\.[a-z??????0-9-]+)*(\.[a-z]{2,6})$", $email);
     }
 
     /**

@@ -406,7 +406,7 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
     {
         $valid = true;
         if (!empty($userData['email_address'])) {
-            $valid = $this->isValidaEmail($userData['email_address']);
+            $valid = $this->isValidEmail($userData['email_address']);
         }
         return $userExists || ($valid && $link);
     }
