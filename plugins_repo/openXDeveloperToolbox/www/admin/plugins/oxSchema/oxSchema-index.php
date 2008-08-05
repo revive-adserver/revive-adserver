@@ -43,7 +43,7 @@ if (array_key_exists('btn_changeset_archive', $_POST))
     exit;
 }
 
-require_once 'lib/schema.inc.php';
+require_once 'lib/oxSchema.inc.php';
 if (array_key_exists('clear_cookies', $_POST))
 {
     setcookie('schemaPath', '');
