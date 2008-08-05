@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>oxPlugin</name>
+    <creationDate>2008-08-05</creationDate>
+    <author>Monique Szpak</author>
+    <authorEmail>monique.szpak@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>Plugin Builder Plugin for OpenX</description>
+    <version>0.0.1-dev</version>
+    <oxversion>2.7.13-dev</oxversion>
+    <extends>admin</extends>
+
+    <install>
+
+        <syscheck>
+            <depends>
+                <plugin version="0.0.1-dev" enabled="0">oxToolbox</plugin>
+            </depends>
+        </syscheck>
+
+        <files>
+            <file path="{ADMINPATH}/templates/">oxPlugin.html</file>
+            <file path="{ADMINPATH}/lib/">oxPlugin.inc.php</file>
+            <file path="{ADMINPATH}/">oxPlugin-common.php</file>
+            <file path="{ADMINPATH}/">oxPlugin-index.php</file>
+        </files>
+
+        <navigation>
+
+            <admin>
+                <menu addto="devtools-main" index="devtools-plugins" link="plugins/oxPlugin/oxPlugin-index.php">Plugin Builder</menu>
+            </admin>
+
+        </navigation>
+
+        <configuration>
+
+        </configuration>
+
+    </install>
+
+</plugin>
