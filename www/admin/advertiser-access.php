@@ -36,6 +36,8 @@ require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/OA/Session.php';
 require_once MAX_PATH . '/lib/OA/Admin/Menu.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
+require_once MAX_PATH . '/lib/OA/Auth.php';
+require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
@@ -70,7 +72,7 @@ if (!empty($clientid)) {
     	phpAds_ShowSections($sections);
 	}
 } else {
-    MAX_displayInventoryBreadcrumbs(array(array("name" => phpAds_getClientName($clientid))), 
+    MAX_displayInventoryBreadcrumbs(array(array("name" => phpAds_getClientName($clientid))),
                                     "advertiser");
     phpAds_PageHeader("4.1.1");
 	phpAds_ShowSections(array("4.1.1"));
@@ -85,6 +87,10 @@ $tabindex = 1;
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
 $oTpl = new OA_Admin_Template('advertiser-access.html');
+
+// Ensure that any template variables for the authentication plugin are set
+$oPlugin = OA_Auth::staticGetAuthPlugin();
+$oPlugin->setTemplateVariables($oTpl);
 
 $oTpl->assign('infomessage', OA_Session::getMessage());
 

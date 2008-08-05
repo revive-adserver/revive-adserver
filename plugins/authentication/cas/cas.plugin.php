@@ -384,8 +384,8 @@ class Plugins_Authentication_Cas_Cas extends Plugins_Authentication
      */
     function setTemplateVariables(&$oTpl)
     {
+        $oTpl->assign('sso', true);
         if (preg_match('/-user-start\.html$/', $oTpl->templateName)) {
-            $oTpl->assign('sso', true);
             $oTpl->assign('returnEmail', true);
             $oTpl->assign('fields', array(
                array(
