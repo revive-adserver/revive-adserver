@@ -104,6 +104,19 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertIsA($oUpgrade->oDbh,'MDB2_driver_Common','class mismatch: MDB2_driver_Common');
     }
 
+    function test_disableAllPlugins()
+    {
+        $aPlugins   = & $GLOBALS['_MAX']['CONF']['plugins'];
+        $aGroups    = & $GLOBALS['_MAX']['CONF']['pluginGroupComponents'];
+        $aPlugins['testPlugin'] = 1;
+        $aGroups['testGroup1'] = 1;
+        $aGroups['testGroup2'] = 1;
+        $aGroups['testGroup3'] = 1;
+        $oUpgrade = new OA_Upgrade();
+        $oUpgrade->oConfiguration->setPluginsDisabled();
+        TestEnv::restoreConfig();
+    }
+
     function test_install()
     {
 //        $oUpgrade = new OA_Upgrade();
@@ -545,7 +558,15 @@ class Test_OA_Upgrade extends UnitTestCase
         Mock::generatePartial(
                                 'OA_Upgrade_Config',
                                 $mockConfig = 'OA_Upgrade_Config'.rand(),
-                                array('mergeConfig','setupConfigDatabase','setupConfigTable','setValue','writeConfig','getConfigBackupName')
+                                array(
+                                        'mergeConfig',
+                                        'setupConfigDatabase',
+                                        'setupConfigTable',
+                                        'setValue',
+                                        'writeConfig',
+                                        'getConfigBackupName',
+                                        'setBulkValue',
+                                    )
                              );
         $oUpgrade->oConfiguration = new $mockConfig($this);
 

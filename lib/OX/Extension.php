@@ -89,7 +89,7 @@ class OX_Extension
         $dh = opendir(MAX_PATH.$aConf['extensions']);
         while (false !== ($file = readdir($dh)))
         {
-            if ( ($file != '.') &&
+            if ( (substr($file,0,1) != '.') &&
                  ($file != '..') &&
                  (rtrim(MAX_PATH.$aConf['extensions'].$file,DIRECTORY_SEPARATOR) != $pkgPath))
             {
