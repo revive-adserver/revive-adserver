@@ -427,7 +427,7 @@ function buildDateFormSection(&$form, $campaign, $newCampaign)
     
     $actDateGroup ['radioSpecific'] = $form->createElement ( 'radio', 'startSet', null, $GLOBALS ['strSetSpecificDate'], 't', array ('id' => 'startSet_specific' ) );
     
-    $specificStartDateGroup ['date'] = $form->createElement ( 'text', 'start', null, array ('id' => 'start', 'size' => '15', 'class' => 'small' ) );
+    $specificStartDateGroup ['date'] = $form->createElement ( 'text', 'start', null, array ('id' => 'start', 'class' => 'small' ) );
     $specificStartDateGroup ['cal_img'] = $form->createElement ( 'image', 'start_button', OX::assetPath () . "/images/icon-calendar.gif", array ('id' => 'start_button', 'align' => 'absmiddle' ) );
     $specificStartDateGroup ['note'] = $form->createElement ( 'html', 'activation_note', $GLOBALS ['strActivationDateComment'] );
     $actDateGroup ['specificDate'] = $form->createElement ( 'group', 'g_specificStartDate', null, $specificStartDateGroup, null, false );
@@ -443,7 +443,7 @@ function buildDateFormSection(&$form, $campaign, $newCampaign)
     $expDateGroup ['disablednote'] = $form->createElement ( 'custom', 'date-campaign-date-limit-set-note', null, null, false );
     $form->addDecorator ( 'date-campaign-date-limit-set-note', 'tag', array ('attributes' => array ('id' => 'date-section-limit-date-set', 'class' => 'hide' ) ) );
     
-    $specificEndDateGroup ['date'] = $form->createElement ( 'text', 'end', null, array ('id' => 'end', 'size' => '15', 'class' => 'small' ) );
+    $specificEndDateGroup ['date'] = $form->createElement ( 'text', 'end', null, array ('id' => 'end', 'class' => 'small' ) );
     $specificEndDateGroup ['cal_img'] = $form->createElement ( 'image', 'end_button', OX::assetPath () . "/images/icon-calendar.gif", array ('id' => 'end_button', 'align' => 'absmiddle' ) );
     $specificEndDateGroup ['note'] = $form->createElement ( 'html', 'expiration_note', $GLOBALS ['strExpirationDateComment'] );
     $expDateGroup ['specificDate'] = $form->createElement ( 'group', 'g_specificEndDate', null, $specificEndDateGroup, null, false );
@@ -476,14 +476,14 @@ function buildPricingFormSection(&$form, $campaign, $newCampaign)
     
     //pricing model groups
     //rate price - common
-    $ratePriceG ['field'] = $form->createElement ( 'text', 'revenue', null, array ('size' => 8 ) );
+    $ratePriceG ['field'] = $form->createElement ( 'text', 'revenue', null);
     $form->addGroup ( $ratePriceG, 'g_revenue', $GLOBALS ['strRatePrice'] );
     //decorator - to allow hiding until model is set
     $form->addDecorator ( 'g_revenue', 'process', array ('tag' => 'tr', 'addAttributes' => array ('id' => 'pricing_revenue_row{numCall}', 'class' => 'hide' ) ) );
     
     // Conditionally display conversions
     if ($conf ['logging'] ['trackerImpressions']) {
-        $convCount ['conversions'] = $form->createElement ( 'text', 'conversions', null, array ('id' => 'conversions', 'size' => '8', 'class' => 'small' ) );
+        $convCount ['conversions'] = $form->createElement ( 'text', 'conversions', null, array ('id' => 'conversions', 'class' => 'small' ) );
         $convCount ['checkbox'] = $form->createElement ( 'advcheckbox', 'conv_unlimited', null, $GLOBALS ['strUnlimited'], array ('id' => 'conv_unlimited' ), array ("f", "t" ) );
         $convCount ['disablednote'] = $form->createElement ( 'custom', array ('conv-campaign-date-limit-set-note', 'pricing-campaign-date-limit-set-note' ), null, array ('type' => 'conv' ), false );
         $form->addDecorator ( 'conv-campaign-date-limit-set-note', 'tag', array ('tag' => 'span', 'attributes' => array ('id' => 'conv-disabled-note', 'class' => 'hide' ) ) );
@@ -538,7 +538,7 @@ function buildHighPriorityFormSection(&$form, $campaign, $newCampaign)
         $aTargetTypes ['target_conversion'] = $GLOBALS ['strConversions'];
     }
     $aManualDel ['select'] = $form->createElement ( 'select', 'target_type', " - " . $GLOBALS ['strLimit'], $aTargetTypes );
-    $aManualDel ['text'] = $form->createElement ( 'text', 'target_value', $GLOBALS ['strTo'], array ('id' => 'target_value', 'size' => 8, 'oonBlur' => 'phpAds_formPriorityUpdate(this.form);' ) );
+    $aManualDel ['text'] = $form->createElement ( 'text', 'target_value', $GLOBALS ['strTo'], array ('id' => 'target_value') );
     $aManualDel ['perDayNote'] = $form->createElement ( 'html', null, $GLOBALS ['strTargetPerDay'] );
     
     $highPriorityGroup ['high-distr'] = $form->createElement ( 'group', 'high_distribution_man', null, $aManualDel, null, false );
@@ -558,7 +558,7 @@ function buildLowAndExclusivePriorityFormSection(&$form, $campaign, $newCampaign
     
     //exclusive and low - weight only (this group is artificial - there's one field only, 
     //but I want it to get proper size)
-    $weightGroup ['weight'] = $form->createElement ( 'text', 'weight', null, array ('id' => 'weight', 'size' => 8 ) );
+    $weightGroup ['weight'] = $form->createElement ( 'text', 'weight', null, array ('id' => 'weight') );
     $form->addGroup ( $weightGroup, 'weight_group', $GLOBALS ['strCampaignWeight'], null, false );
 }
 
