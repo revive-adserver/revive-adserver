@@ -1174,8 +1174,9 @@ class OX_Plugin_ComponentGroupManager
      * @param string $name
      * @return boolean
      */
-    function _hasDependencies($name)
+    function _hasDependencies($name, $aExcludes=null)
     {
+        $hasDependencies = false;
         $aDepends = $this->_loadDependencyArray();
         if ($aDepends && isset($aDepends[$name]) && isset($aDepends[$name]['isDependedOnBy']) )
         {
@@ -1184,8 +1185,7 @@ class OX_Plugin_ComponentGroupManager
             {
                 if (isset($aConf[$group]))
                 {
-                    $this->_logError('This group has dependencies: '.$group.' depends on '.$name);
-                    return true;
+                    $hasDependencies[] = $group;
                 }
                 else
                 {
@@ -1194,7 +1194,11 @@ class OX_Plugin_ComponentGroupManager
                 }
             }
         }
-        return false;
+        if ($hasDependencies && $aExcludes)
+        {
+            $hasDependencies = array_diff($hasDependencies, $aExcludes);
+        }
+        return $hasDependencies;
     }
 
     /**

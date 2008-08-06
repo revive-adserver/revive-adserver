@@ -246,19 +246,17 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         {
             return false;
         }
-        $aPlugins = $this->_parseComponentGroups($aPackage['install']['contents']);
-        if (!$aPlugins)
+        $aGroups = $this->_parseComponentGroups($aPackage['install']['contents']);
+        if (!$aGroups)
         {
             $this->_logError('Failed to parse the plugin definitions contained in package '.$name);
             return false;
         }
-        foreach ($aPlugins AS $i => $aPlugin)
+        krsort($aGroups);
+        if (!$this->_canUninstallPlugin($aGroups))
         {
-            if ($this->_hasDependencies($aPlugin['name']))
-            {
-                $this->_logError('You may not uninstall this plugin at this time');
-                return false;
-            }
+            $this->_logError('You may not uninstall this plugin at this time');
+            return false;
         }
         $this->_runExtensionTasks('BeforePluginUninstall');
         $this->_auditSetKeys( array('upgrade_name'=>'uninstall_'.$aPackage['name'],
@@ -273,7 +271,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                                      );
         // just in case anything goes wrong, e.g. half uninstall - don't want app trying to use half a package
         $this->disablePackage($name);
-        if (!$this->_uninstallComponentGroups($aPlugins))
+        if (!$this->_uninstallComponentGroups($aGroups))
         {
             $this->_logError('Failed to uninstall package '.$name);
             return false;
@@ -299,6 +297,26 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                            );
         $this->_runExtensionTasks('AfterPluginUninstall');
         return true;
+    }
+
+    function _canUninstallPlugin($aGroups)
+    {
+        $result = true;
+        $aDepends = $this->_loadDependencyArray();
+        foreach ($aGroups AS $i => $aGroup)
+        {
+            $aGroups[$i] = $aGroup['name'];
+        }
+        foreach ($aGroups AS $i => $group)
+        {
+            $aDependencies = $this->_hasDependencies($group, $aGroups);
+            if ($aDependencies)
+            {
+                $this->_logError($group.' has dependencies'); //.$group.' depends on '.$name);
+                $result = false;
+            }
+        }
+        return $result;
     }
 
     /**
@@ -588,7 +606,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->_logError('Failed to find any contents in the package');
             return false;
         }
-        krsort($aGroups);
+        //krsort($aGroups);
         foreach ($aGroups as $idx => $aGroup)
         {
             $this->_auditSetKeys(array('upgrade_name'=>'uninstall_'.$aGroup['name'],
