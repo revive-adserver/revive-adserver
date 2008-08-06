@@ -123,7 +123,5 @@ function _fileMissing($file)
     return false;
 }
 
-include 'templates/plugin.html';
-
 
 ?>
