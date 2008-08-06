@@ -295,7 +295,7 @@ function MAX_AclValidate($page, $aParams) {
     $doEntityTable->find();
     $doEntityTable->fetch();
     $aData = $doEntityTable->toArray();
-    $compiledLimitation = stripslashes($aData['compiledlimitation']);
+    $compiledLimitation = $aData['compiledlimitation'];
     $acl_plugins        = $aData['acl_plugins'];
 
     $aAcls = array();
