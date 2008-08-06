@@ -68,7 +68,7 @@ displayPage($form);
 
 function &buildForm()
 {
-    $form = new OA_Admin_UI_Component_Form("toolboxForm", "POST", $_SERVER['PHP_SELF'], null, array("enctype"=>"multipart/form-data"));
+    $form = new OA_Admin_UI_Component_Form("oxToolBoxForm", "POST", $_SERVER['PHP_SELF'], null, array("enctype"=>"multipart/form-data"));
     $form->forceClientValidation(true);
 
     $form->addElement('header', 'header', "New Plugin");
