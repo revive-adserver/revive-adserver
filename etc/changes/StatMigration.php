@@ -38,12 +38,16 @@ class StatMigration extends Migration
 
     function StatMigration()
     {
-        $this->oDBH = &OA_DB::singleton();
+
     }
 
 
     function migrateData()
     {
+        if (!$this->init(OA_DB::singleton()))
+        {
+            return false;
+        }
         if ($this->statsCompacted()) {
             return $this->migrateCompactStats();
         }
@@ -110,11 +114,14 @@ class StatMigration extends Migration
                FROM $tableAdClicks
                GROUP BY bannerid, zoneid, date_format(t_stamp, '%Y-%m-%d'), date_format(t_stamp, '%H')";
 
+        $this->_log('Starting creating temporary table for adclicks data migration');
+
 	    $result = $this->oDBH->exec($sql);
 
 	    if (PEAR::isError($result)) {
 	        return $this->_logErrorAndReturnFalse('Error migrating raw stats: '.$result->getUserInfo());
 	    }
+	    $this->_log('Completed creating temporary table for adclicks data migration');
 
 	    $sql = "
            INSERT INTO $tableDataIntermediateAd
@@ -144,6 +151,7 @@ class StatMigration extends Migration
 
     function migrateStats($sql)
     {
+        $this->_log('Starting migration of adstats data into data_intermediate_ad table');
 	    $tableDataIntermediateAd  = $this->_modifyTableName('data_intermediate_ad');
 	    $tableDataSummaryAdHourly = $this->_modifyTableName('data_summary_ad_hourly');
 
@@ -154,6 +162,7 @@ class StatMigration extends Migration
 	    }
         $this->_log('Successfully migrated adstats data into data_intermediate table');
 
+        $this->_log('Starting migration of adstats data into data_summary_ad_hourly table');
 	    $sql = "
 	       INSERT INTO $tableDataSummaryAdHourly
 	           (ad_id, zone_id, creative_id, day, hour, impressions, clicks, updated)
@@ -164,7 +173,7 @@ class StatMigration extends Migration
 	    if (PEAR::isError($result)) {
 	        return $this->_logErrorAndReturnFalse('Error migrating stats: '.$result->getUserInfo());
 	    }
-        $this->_log('Successfully migrated adstats data into data_summary table');
+        $this->_log('Successfully migrated adstats data into data_summary_ad_hourly table');
 
 	    return true;
     }
@@ -189,7 +198,7 @@ class StatMigration extends Migration
 
     function _modifyTableName($table)
     {
-	    return $this->oDBH->quoteIdentifier($this->getPrefix().$table, true);
+        return $this->_getQuotedTableName($table);
 
     }
 
@@ -253,7 +262,7 @@ class StatMigration extends Migration
 	            return $this->_logErrorAndReturnFalse('Error getting stats data during migration 127: '.$rsCampaigns->getUserInfo());
 	        }
             if (!empty($stats[$rowCampaign['campaignid']]['sum_views']) || !empty($stats[$rowCampaign['campaignid']]['sum_clicks']) || !empty($stats[$rowCampaign['campaignid']]['sum_conversions'])) {
-                $this->oDBH->exec("
+                $result = $this->oDBH->exec("
                     UPDATE
                         {$tblCampaigns}
                     SET
@@ -263,10 +272,15 @@ class StatMigration extends Migration
                     WHERE
                         campaignid = {$rowCampaign['campaignid']}
                 ");
+                if (PEAR::isError($result))
+                {
+                    return $this->_logErrorAndReturnFalse('Error updating campaigns table: '.$result->getUserInfo());
+                }
             }
 	    }
         return true;
     }
 }
+
 
 ?>

@@ -163,7 +163,11 @@ class EncodingMigration extends Migration
 
     function convertEncoding()
     {
-        $this->oDBH = OA_DB::singleton();
+        if (!$this->init(OA_DB::singleton()))
+        {
+            return false;
+        }
+        $this->_log("Starting convertEncoding");
 
         $upgradingFrom = $this->getOriginalApplicationVersion();
         if (!empty($upgradingFrom)) {
@@ -190,6 +194,11 @@ class EncodingMigration extends Migration
         ";
 
         $adminLang = $this->oDBH->getAssoc($query);
+        if (PEAR::isError($adminLang))
+        {
+            $this->_logError("Error while retrieving admin language: ".$adminLang->getUserInfo());
+            return false;
+        }
 
         // Get agency languages
         $query = "
@@ -199,6 +208,11 @@ class EncodingMigration extends Migration
             FROM
                 " . $this->_getQuotedTableName('agency');
         $agencyLang = $this->oDBH->getAssoc($query);
+        if (PEAR::isError($agencyLang))
+        {
+            $this->_logError("Error while retrieving admin language: ".$agencyLang->getUserInfo());
+            return false;
+        }
 
         // Set the admin's language for id 0, then set each agencies language as specified, using admins if unset
         $this->aEncodingByAgency[0] = !empty($adminLang[0]) ? $this->_getEncodingForLanguage($adminLang[0]) : 'UTF-8';
@@ -263,7 +277,12 @@ class EncodingMigration extends Migration
 
             $rows = $this->oDBH->queryAll($query);
 
-            if (!PEAR::isError($rows)) {
+            if (PEAR::isError($rows))
+            {
+                $this->_log("Chris Nutting says this is a non-fatal error while retrieving data: ".$rows->getUserInfo());
+            }
+            else
+            {
                 // For each row
                 foreach ($rows as $idx => $rowFields) {
                     // Set the agency id (to zero by default for admin language)
@@ -301,9 +320,14 @@ class EncodingMigration extends Migration
                     }
                     $updateQuery .= implode(' AND ', $uFields);
                     $this->oDBH->exec($updateQuery);
+                    if (PEAR::isError($rows))
+                    {
+                        $this->_log("Chris Nutting says this is a non-fatal error while updating data: ".$rows->getUserInfo());
+                    }
                 }
             }
         }
+        $this->_log("Completed convertEncoding");
         // Do we want fail the upgrade on encoding issues? I think not...
         return true;
     }

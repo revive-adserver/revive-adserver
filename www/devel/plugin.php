@@ -33,6 +33,12 @@ require_once './init.php';
 
 if (array_key_exists('btn_create',$_POST) && array_key_exists('name',$_POST))
 {
+    global $pathPluginsTmp;
+    $pathPluginsTmp = MAX_PATH.'/var/tmp'.$GLOBALS['_MAX']['CONF']['pluginPaths']['packages'];
+    if (_fileMissing($pathPluginsTmp))
+    {
+        return false;
+    }
     $aPluginValues = $_POST;
     $aPluginValues['date'] = date('Y-d-m');
     $aPluginValues['oxversion'] = OA_VERSION;
@@ -56,8 +62,9 @@ if (array_key_exists('btn_create',$_POST) && array_key_exists('name',$_POST))
 
 function putPlugin($aVals)
 {
+    global $pathPluginsTmp;
+    $target = $pathPluginsTmp.$aVals['name'].'.xml';
     $source = 'templates/plugins/plugin.xml';
-    $target = MAX_PATH.$GLOBALS['_MAX']['CONF']['pluginPaths']['packages'].$aVals['name'].'.xml';
 
     if (_fileExists($target) ||
         (!_putFile($source, $target, $aVals)) ||
@@ -65,7 +72,7 @@ function putPlugin($aVals)
     {
         exit(1);
     }
-    $target = MAX_PATH.$GLOBALS['_MAX']['CONF']['pluginPaths']['packages'].$aVals['name'].'.readme.txt';
+    $target = MAX_PATH.'/var'.$GLOBALS['_MAX']['CONF']['pluginPaths']['packages'].$aVals['name'].'.readme.txt';
     if ($fp = fopen($target, 'w'))
     {
         fclose($fp);
@@ -80,7 +87,8 @@ function putPlugin($aVals)
 
 function putGroup($aVals)
 {
-    $path = MAX_PATH.$GLOBALS['_MAX']['CONF']['pluginPaths']['packages'].$aVals['group'];
+    global $pathPluginsTmp;
+    $path = $pathPluginsTmp.$aVals['group'];
     $source = 'templates/plugins/group'.ucfirst($aVals['extension']).'/group'.ucfirst($aVals['extension']).'.xml';
     $target  = $path.'/'.$aVals['group'].'.xml';
 

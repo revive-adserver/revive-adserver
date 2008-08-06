@@ -64,6 +64,8 @@ class Migration
      */
     var $oDBH;
 
+    var $prefix;
+
     function Migration()
     {
         $this->_setupSQLStatements();
@@ -76,16 +78,29 @@ class Migration
 
     function init(&$oDbh, $logfile='')
     {
-        $this->oDBH = $oDbh;
+        if ($oDbh)
+        {
+            $this->oDBH = $oDbh;
+        }
+        if (!$this->oDBH)
+        {
+            $this->oDBH = OA_DB::singleton();
+            if (PEAR::isError($this->oDBH))
+            {
+                return false;
+            }
+        }
         if ($logfile)
         {
             $this->logFile = $logfile;
         }
-        else
+        elseif (!$this->logfile)
         {
             $this->logFile = MAX_PATH.'/var/migration.log';
         }
         $this->_setupSQLStatements();
+        $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+        return true;
     }
 
     /**
@@ -163,9 +178,14 @@ class Migration
 
 	function _getQuotedTableName($table)
 	{
-	    $table = ($GLOBALS['_MAX']['CONF']['table'][$table] ? $GLOBALS['_MAX']['CONF']['table'][$table] : $table);
-	    return $this->oDBH->quoteIdentifier($this->getPrefix().$table,true);
-
+	    $table = $this->getPrefix().($GLOBALS['_MAX']['CONF']['table'][$table] ? $GLOBALS['_MAX']['CONF']['table'][$table] : $table);
+	    $quoted = $this->oDBH->quoteIdentifier($table,true);
+	    if (PEAR::isError($quoted))
+	    {
+	        $this->_logError('Error quoting identifier: '.$quoted->getUserInfo());
+	        return $table;
+	    }
+	    return $quoted;
 	}
 
 	/**

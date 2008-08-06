@@ -100,7 +100,7 @@ function displayPage($form)
     phpAds_PageHeader('devtools-plugins','','../../');
 
     $oTpl = new OA_Plugin_Template('oxPlugin.html', 'oxPlugin');
-    $oTpl->debugging = true;
+    //$oTpl->debugging = true;
     $oTpl->assign('form', $form->serialize());
 
     $oTpl->display();
