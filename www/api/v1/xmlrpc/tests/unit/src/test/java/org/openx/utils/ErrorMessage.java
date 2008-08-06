@@ -55,6 +55,7 @@ public class ErrorMessage {
 	public static final String YEAR_SHOULD_BE_IN_RANGE_1970_2038 = "Year should be in range 1970-2038";
 	public static final String UNKNOWN_ID_ERROR = "Unknown {0} Error";
 	public static final String UNKNOWN_ADVERTISER_ID_ERROR = "Unknown advertiserId Error";
+	public static final String UNKNOWN_LINK_ERROR = "Unknown link for {0} and {1} Error";
 	public static final String WEIGHT_COULD_NOT_BE_GREATER_THAN_ZERO = "The weight could not be greater than zero for high or medium priority campaigns";
 	public static final String METHOD_EXECUTED_SUCCESSFULLY_BUT_SHOULD_NOT_HAVE = "Method executed successfully but shouldn''t have";
 	public static final String USERNAME_SHOULD_BE_UNIQUE = "Username must be unique";
