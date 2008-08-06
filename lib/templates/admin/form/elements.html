@@ -92,9 +92,9 @@ $Id: main.html 17781 2008-03-18 10:54:53Z bernard.lange@openx.org $
                         {include file=$oaTemplateDir|cat:'form/custom-'|cat:$groupItem.templateId|cat:'.html' elem=$groupItem}
                     {else}
 	                    {if $groupItem.labelPlacement == "after"}
-	                       {*$groupItem.html*}{include file=form/element-raw.html elem=$groupItem parent=$_e} {$groupItem.label}
+	                       {*$groupItem.html*}{include file=$oaTemplateDir|cat:'form/element-raw.html' elem=$groupItem parent=$_e} {$groupItem.label}
 	                    {else}
-	                        {$groupItem.label} {*$groupItem.html*}{include file=form/element-raw.html elem=$groupItem parent=$_e}
+	                        {$groupItem.label} {*$groupItem.html*}{include file=$oaTemplateDir|cat:'form/element-raw.html' elem=$groupItem parent=$_e}
 	                    {/if}
                     {/if}
                     {if $groupItem.decorators}
@@ -115,7 +115,7 @@ $Id: main.html 17781 2008-03-18 10:54:53Z bernard.lange@openx.org $
     <tr>
         <td width='30'>&nbsp;</td><td width='170'><label for="{$_e.id|default:$_e.name|escape}">{$_e.label} {if $_e.required}<font color="red">*</font>{/if}</label></td>
         <td width='100%'>
-           {include file=form/element-raw.html elem=$_e}
+           {include file=$oaTemplateDir|cat:'form/element-raw.html' elem=$_e}
         </td>
     </tr>
 {/if}
@@ -126,11 +126,11 @@ $Id: main.html 17781 2008-03-18 10:54:53Z bernard.lange@openx.org $
         {if $_e.label != ''}
             <td width='170'>{$_e.label} {if $_e.required}<font color="red">*</font>{/if}</td>
 	        <td width='100%'>
-	            {include file=form/element-raw.html elem=$_e}
+	            {include file=$oaTemplateDir|cat:'form/element-raw.html' elem=$_e}
 	        </td>
         {else}
             <td colspan="2">
-                {include file=form/element-raw.html elem=$_e}
+                {include file=$oaTemplateDir|cat:'form/element-raw.html' elem=$_e}
             </td>
         {/if}
         
@@ -141,12 +141,12 @@ $Id: main.html 17781 2008-03-18 10:54:53Z bernard.lange@openx.org $
 
 {if $_e.type == 'submit'}
     {if $_e.parent_tag == 'controls'}
-       {include file=form/element-raw.html elem=$_e}
+       {include file=$oaTemplateDir|cat:'form/element-raw.html' elem=$_e}
     {else}
     <tr>
         <td width='30'>&nbsp;</td>
         <td colspan='2'>
-            {include file=form/element-raw.html elem=$_e}
+            {include file=$oaTemplateDir|cat:'form/element-raw.html' elem=$_e}
         </td>
     </tr>
     {/if}
