@@ -44,7 +44,7 @@ if (!isset($refresh))   $refresh = 0;
 if (!isset($resize))    $resize = 0;
 
 // Get the banner
-$banner = MAX_adSelect($what, $campaignid, $target, $source, $withtext, '', $context, true, $ct0, $loc, $referer);
+$banner = MAX_adSelect($what, $campaignid, $target, $source, $withtext, $charset, $context, true, $ct0, $loc, $referer);
 
 // Send cookie if needed
 if (!empty($banner['html']) && !empty($n)) {
@@ -65,7 +65,7 @@ if (!empty($banner['html']) && !empty($n)) {
 
 MAX_cookieFlush();
 
-MAX_commonSendContentTypeHeader('text/html');
+MAX_commonSendContentTypeHeader('text/html', $charset);
 
 // Rewrite targets in HTML code to make sure they are
 // local to the parent and not local to the iframe
