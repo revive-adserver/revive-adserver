@@ -46,26 +46,19 @@
 
         if (localSocketObj.obj.checked == true) {
             setInputDisabled(hostObj.obj, true);
-            if (dbTypeObj.obj.value == 'mysql') {
-                setInputDisabled(socketObj.obj, false);
-                setInputDisabled(portObj.obj, true);
-            } else {
-                setInputDisabled(socketObj.obj, true);
-                setInputDisabled(portObj.obj, false);
-            }
+            setInputDisabled(portObj.obj, true);
+            setInputDisabled(socketObj.obj, false);
         } else {
-            setInputDisabled(socketObj.obj, true);
             setInputDisabled(hostObj.obj, false);
-            if (dbTypeObj.obj.value == 'mysql') {
-                setInputDisabled(portObj.obj, false);
-            }
+            setInputDisabled(portObj.obj, false);
+            setInputDisabled(socketObj.obj, true);
         }
     }
-    
+
     function setInputDisabled(input, disabled)
     {
       input.disabled = disabled;
-      
+
       if (disabled) {
         $(input).parent().prev().find(".required").hide();
       } else {
