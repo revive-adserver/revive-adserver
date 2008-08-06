@@ -607,6 +607,7 @@ class Plugins_InvocationTagsOptions
         $option .= "<option value='generic' ".($maxInvocation->thirdpartytrack == 'generic' ? " selected='selected'" : '').">{$GLOBALS['strGenericOutputAdServer']}</option>";
 
         $outputAdServers = &OX_Component::getComponents('3rdPartyServers');
+        $availableOutputAdServerNames = array();
         foreach ($outputAdServers as $pluginKey => $outputAdServer) {
             if (!empty($outputAdServer->hasOutputMacros)) {
                 $availableOutputAdServers[$pluginKey] = $outputAdServer;

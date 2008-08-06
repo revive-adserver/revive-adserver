@@ -199,6 +199,7 @@ usort($aInvocations['items'], 'MAX_sortSetting');
 // This page depends on 3rdPartyServers plugins, so use the plugin
 // information from earlier to generate the elements for the plugins
 // which is required in the next section
+$availableOutputAdServerNames = array();
 foreach ($a3rdPartyServers as $pluginKey => $outputAdServer) {
     if ($outputAdServer->hasOutputMacros) {
         $availableOutputAdServers[$pluginKey] = $outputAdServer;
