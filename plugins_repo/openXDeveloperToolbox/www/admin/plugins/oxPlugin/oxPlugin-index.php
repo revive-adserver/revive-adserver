@@ -101,7 +101,6 @@ function displayPage($form)
 
     $oTpl = new OA_Plugin_Template('oxPlugin.html', 'oxPlugin');
     $oTpl->debugging = true;
-    $oTpl->assign('formtemplate', MAX_PATH.'/lib/templates/admin/form/form.html');
     $oTpl->assign('form', $form->serialize());
 
     $oTpl->display();
