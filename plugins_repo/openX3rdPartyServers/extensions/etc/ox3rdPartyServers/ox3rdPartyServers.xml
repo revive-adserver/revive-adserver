@@ -29,6 +29,8 @@
             <file path="{MODULEPATH}3rdPartyServers/ox3rdPartyServers/">tangozebra.class.php</file>
             <file path="{MODULEPATH}3rdPartyServers/ox3rdPartyServers/">tradedoubler.class.php</file>
             <file path="{MODULEPATH}3rdPartyServers/ox3rdPartyServers/">ypn.class.php</file>
+            <file path="{PLUGINPATH}ox3rdPartyServers/_lang/">en.mo</file>
+            <file path="{PLUGINPATH}ox3rdPartyServers/_lang/po/">en.pot</file>
         </files>
 
         <components>
