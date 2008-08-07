@@ -42,29 +42,6 @@ class Test_OX_ExtensionCommon extends UnitTestCase
 
     function test_cachePreferenceOptions()
     {
-/*        Mock::generatePartial(
-                                'OX_Plugin_ComponentGroupManager',
-                                $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
-                                array(
-                                      'getFilePathToXMLInstall',
-                                      'parseXML',
-                                      'getComponentGroupVersion'
-                                     )
-                             );*/
-
-/*        Mock::generatePartial(
-                                'OX_ExtensionCommon',
-                                $oMockExtension = 'OX_ExtensionCommon'.rand(),
-                                array(
-                                      '_getComponentGroupManager',
-                                     )
-                             );
-
-        $oManager = new OX_Plugin_ComponentGroupManager();
-        //$oManager->path
-
-        $oExtension->setReturnValueAt(0,'_getComponentGroupManager', $aComponentGroup['bar']);*/
-
         $oExtension = new OX_Extension_Common();
         $GLOBALS['_MAX']['CONF']['pluginPaths']['packages'] = '/lib/OX/Extension/tests/data/';
         $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] = array('testPlugin'=>1);
@@ -86,15 +63,19 @@ class Test_OX_ExtensionCommon extends UnitTestCase
 
         $this->assertIsA($aPrefOptions, 'array');
         $this->assertEqual(count($aPrefOptions),1);
-        $this->assertEqual($aPrefOptions['name'],'testPlugin');
-        $this->assertEqual(count($aPrefOptions['perm']),4);
+        $this->assertTrue(isset($aPrefOptions['testPlugin']));
+        $this->assertTrue(isset($aPrefOptions['testPlugin']['value']));
+        $this->assertTrue(isset($aPrefOptions['testPlugin']['name']));
+        $this->assertTrue(isset($aPrefOptions['testPlugin']['perm']));
+        $this->assertEqual($aPrefOptions['testPlugin']['name'],'testPlugin');
+        $this->assertEqual($aPrefOptions['testPlugin']['value'],'account-preferences-plugin.php?group=testPlugin');
+        $this->assertEqual(count($aPrefOptions['testPlugin']['perm']),4);
 
         if (file_exists(MAX_PATH.'/var/cache/cache_PrefOptions_Plugin.bak'))
         {
             @unlink(MAX_PATH.'/var/cache/cache_PrefOptions_Plugin');
             copy(MAX_PATH.'/var/cache/cache_PrefOptions_Plugin.bak', MAX_PATH.'/var/cache/cache_PrefOptions_Plugin');
         }
-
         TestEnv::restoreConfig();
     }
 
