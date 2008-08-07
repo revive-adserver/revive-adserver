@@ -201,7 +201,7 @@ class OA_Dll_BannerInfo extends OA_Info
         }
 
         if (!isset($this->transparent)) {
-            $this->status = false;
+            $this->transparent = false;
         }
     }
 
