@@ -1,11 +1,14 @@
-{*<!--
-
+<?php
+/*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                             |
-| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                             |
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2008 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -22,17 +25,16 @@
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
 $Id$
--->*}
+*
+* @author {AUTHOR} {EMAIL}
+*/
 
-{*oxToolBoxForm form*}
-{include file=$oaTemplateDir|cat:'form/form.html' form=$form}
+require_once '../../../../init.php';
+require_once '../../config.php';
 
-{*/oxToolBoxForm form*}
+require_once MAX_PATH . '/lib/OA/Admin/TemplatePlugin.php';
+require_once MAX_PATH . '/lib/OA/Admin/UI/component/Form.php';
 
+require_once('lib/{GROUP}.inc.php')
 
-{phpAds_ShowBreak}
-
-
-
-
-
+?>

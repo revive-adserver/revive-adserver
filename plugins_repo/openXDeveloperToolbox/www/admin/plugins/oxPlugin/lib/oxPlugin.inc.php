@@ -37,43 +37,114 @@ function getExtensionList()
 
 function putPlugin($aVals)
 {
-    global $pathPluginsTmp;
-    $target = $pathPluginsTmp.$aVals['name'].'.xml';
-    $source = 'templates/plugins/plugin.xml';
+    global $pathPluginTmp;
+    $target = $pathPluginTmp.'extensions/etc/plugin.xml';
+    $source = 'etc/elements/header.xml.tpl';
 
-    if (_fileExists($target) ||
-        (!_putFile($source, $target, $aVals)) ||
-        _fileMissing($target))
+    $dataSource = file_get_contents($source);
+    foreach ($aVals AS $k => $v)
     {
-        exit(1);
+        $dataSource = str_replace('{'.strtoupper($k).'}', $v, $dataSource);
     }
-    $target = MAX_PATH.'/var'.$GLOBALS['_MAX']['CONF']['pluginPaths']['packages'].$aVals['name'].'.readme.txt';
-    if ($fp = fopen($target, 'w'))
-    {
-        fclose($fp);
-    }
-    $data = file_get_contents($target);
+    $section    = '{HEADER}';
+    $dataTarget = file_get_contents($target);
+    $dataTarget = str_replace($section, $dataSource, $dataTarget);
     foreach ($aVals['grouporder'] AS $i => $group)
     {
-        $data = str_replace('{GROUP'.$i.'}', $group, $data);
+        $dataTarget = str_replace('{GROUP'.$i.'}', $group, $dataTarget);
     }
-    $i = file_put_contents($target, $data);
+    $i = file_put_contents($target, $dataTarget);
+
+    copy($target, str_replace('plugin',$aVals['name'], $target));
+    unlink($target);
+
+    $target = $pathPluginTmp.'extensions/etc/plugin.readme.txt';
+    copy($target, str_replace('plugin',$aVals['name'], $target));
+    unlink($target);
 }
 
 function putGroup($aVals)
 {
-    global $pathPluginsTmp;
-    $path = $pathPluginsTmp.$aVals['group'];
-    $source = 'templates/plugins/group'.ucfirst($aVals['extension']).'/group'.ucfirst($aVals['extension']).'.xml';
-    $target  = $path.'/'.$aVals['group'].'.xml';
+    global $pathPluginTmp, $pathAdminTmp;
+    $pathGroupTmp = $pathPluginTmp.'extensions/etc/'.$aVals['group'].'/';
 
-    if (_fileExists($path)  ||
-        _fileExists($target) ||
-        (!_makeDir($path)) ||
-        (!_putFile($source, $target, $aVals)) ||
-        _fileMissing($target))
+    $target = $pathGroupTmp.'group.xml';
+    $dataTarget = file_get_contents($target);
+
+    $fileSource = 'etc/elements/header.xml.tpl';
+    $dataSource = file_get_contents($fileSource);
+    $dataTarget = str_replace('{HEADER}', $dataSource, $dataTarget);
+
+    $fileSource = 'etc/elements/group-files-'.$aVals['extension'].'.xml.tpl';
+    if (!file_exists($source))
     {
-        exit(1);
+        $fileSource = 'etc/elements/group-files-generic.xml.tpl';
+    }
+    $dataSource = file_get_contents($fileSource);
+    $dataTarget = str_replace('{FILES}', $dataSource, $dataTarget);
+
+    if ($aVals['extension']=='admin')
+    {
+        $fileSource = 'etc/elements/group-navigation.xml.tpl';
+        $dataSource = file_get_contents($fileSource);
+        $dataTarget = str_replace('{NAVIGATION}', $dataSource, $dataTarget);
+    }
+    else
+    {
+        $dataTarget = str_replace('{NAVIGATION}', '', $dataTarget);
+    }
+
+    foreach ($aVals AS $k => $v)
+    {
+        $dataSource = str_replace('{'.strtoupper($k).'}', $v, $dataSource);
+    }
+    $i = file_put_contents($target, $dataTarget);
+
+    copy($target, str_replace('group',$aVals['name'], $target));
+    unlink($target);
+
+    $target = $pathGroupTmp.'processSettings.php';
+    $dataTarget = file_get_contents($target);
+    $dataTarget = str_replace('{GROUP}', $aVals['group'], $dataTarget);
+    $i = file_put_contents($target, $dataTarget);
+
+    $target = $pathGroupTmp.'processPreferences.php';
+    $dataTarget = file_get_contents($target);
+    $dataTarget = str_replace('{GROUP}', $aVals['group'], $dataTarget);
+    $i = file_put_contents($target, $dataTarget);
+
+    $target = $pathGroupTmp.'etc/postscript_install_group.php';
+    $dataTarget = file_get_contents($target);
+    $dataTarget = str_replace('{GROUP}', $aVals['group'], $dataTarget);
+    $i = file_put_contents($target, $dataTarget);
+    copy($target, str_replace('group',$aVals['name'], $target));
+    unlink($target);
+
+    $target = $pathGroupTmp.'etc/prescript_install_group.php';
+    $dataTarget = file_get_contents($target);
+    $dataTarget = str_replace('{GROUP}', $aVals['group'], $dataTarget);
+    $i = file_put_contents($target, $dataTarget);
+    copy($target, str_replace('group',$aVals['name'], $target));
+    unlink($target);
+
+    if ($aVals['extension']=='admin')
+    {
+        $aAdminFiles[] = $pathAdminTmp.'lib/group.inc.php';
+        $aAdminFiles[] = $pathAdminTmp.'templates/group.html';
+        $aAdminFiles[] = $pathAdminTmp.'group-common.php';
+        $aAdminFiles[] = $pathAdminTmp.'group-index.php';
+
+        foreach ($aAdminFiles as $target)
+        {
+            $dataTarget = file_get_contents($target);
+            foreach ($aVals AS $k => $v)
+            {
+                $dataTarget = str_replace('{'.strtoupper($k).'}', $v, $dataTarget);
+            }
+            $i = file_put_contents($target, $dataTarget);
+            copy($target, str_replace('group',$aVals['group'], $target));
+            unlink($target);
+        }
     }
 }
 
@@ -122,6 +193,5 @@ function _fileMissing($file)
     }
     return false;
 }
-
 
 ?>

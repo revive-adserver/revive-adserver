@@ -44,15 +44,18 @@ phpAds_registerGlobalUnslashed(
                               );
 
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
-
+$aVersion['major'] = 0;
+$aVersion['minor'] = 0;
+$aVersion['build'] = 1;
+$aVersion['status'] = '-dev';
 $aValues['name']          = ($name        ? $name        : 'myPlugin');
 $aValues['email']         = ($email       ? $email       : 'me@mydomain.org');
 $aValues['author']        = ($author      ? $author      : 'me');
 $aValues['url']           = ($url         ? $url         : 'www.mydomain.org');
-$aValues['version']       = ($version     ? $version     : '0.0.1-dev');
 $aValues['licence']       = ($licence     ? $licence     : 'GPL');
 $aValues['description']   = ($description ? $description : 'My New Plugin');
-$aValues['group']         = ($group       ? $group       : '');
+$aValues['group']         = ($group       ? $group       : array());
+$aValues['version']       = ($version     ? $version     : $aVersion);
 
 $form = buildForm();
 if ($form->validate())
@@ -73,24 +76,33 @@ function &buildForm()
 
     $form->addElement('header', 'header', "New Plugin");
 
-    $form->addElement('text', 'name'        , 'Plugin Name');
+    $form->addElement('text', 'name'        , 'Plugin Name', array('class'=>'medium'));
     $form->addElement('text', 'email'       , 'Author Email');
     $form->addElement('text', 'author'      , 'Author Name');
     $form->addElement('text', 'url'         , 'Author URL');
     $form->addElement('text', 'licence'     , 'Licence Info');
     $form->addElement('text', 'description' , 'Description');
-    $form->addElement('text', 'version'     , 'Version');
+    $version['major']  = $form->createElement('text', 'version[major]', 'Major');
+    $version['minor']  = $form->createElement('text', 'version[minor]', 'Minor');
+    $version['build']  = $form->createElement('text', 'version[build]', 'Build');
+    // for new plugins status is -dev only
+    //$aStatus = array('-dev','-beta','-beta-rc');
+    $aStatus = array('-dev'=>'-dev');
+    $version['status'] = $form->createElement( 'select', 'version[status]', 'Status', $aStatus);
+    //$version['rc']     = $form->createElement('text', 'version[rc]', 'rc#');
+    $form->addGroup($version, 'version', 'Version', "", false);
 
-    $form->addElement('controls', 'form-controls');
-    $form->addElement('submit'  , 'submit', 'Submit');
+    //$form->addElement('text', 'versionMajor', 'Version',  array('class'=>'small'));
 
-    /*$aGroups = getExtensionList();
+    $aGroups = getExtensionList();
     foreach ($aGroups as $extension)
     {
-        $group['check']  = $form->createElement('checkbox', 'group['.$extension.']', null, '');
-        $group['name']   = $form->createElement('text'    , 'group['.$extension.'][groupname]', null, 'Group Name');
+        //$group['check']  = $form->createElement('checkbox', 'group['.$extension.']');
+        $group['name']   = $form->createElement('text'    , 'group['.$extension.'][groupname]', 'Group Name ', array('class'=>'medium'));
         $form->addGroup($group, 'group_'.$extension, 'Extends '.$extension, "", false);
-    }*/
+    }
+    $form->addElement('controls', 'form-controls');
+    $form->addElement('submit'  , 'submit', 'Submit');
 
     return $form;
 }
@@ -108,29 +120,49 @@ function displayPage($form)
     phpAds_PageFooter();
 }
 
-function processForm(&$form, $aValues)
+function processForm(&$form, $aPluginValues)
 {
-    global $pathPluginsTmp;
-    $pathPluginsTmp = MAX_PATH.'/var/tmp'.$GLOBALS['_MAX']['CONF']['pluginPaths']['packages'];
-    if (_fileMissing($pathPluginsTmp))
+    global $pathPluginTmp, $pathAdminTmp;
+    $varTmp = MAX_PATH.'/var/tmp/';
+    if (!file_exists($varTmp))
     {
-        return false;
+        mkdir($varTmp);
     }
-    $aPluginValues = $aValues;
-    $aPluginValues['date'] = date('Y-d-m');
+    $pathPluginTmp = $varTmp.$aPluginValues['name'].'/';
+    if (!file_exists($pathPluginTmp))
+    {
+        mkdir($pathPluginTmp);
+    }
+
+    require_once(LIB_PATH.'/Plugin/PluginManager.php');
+    $oPluginManager = new OX_PluginManager();
+    $oPluginManager->_decompressFile('etc/plugin.zip', $pathPluginTmp);
+
+    $aVersion                   = $aPluginValues['version'];
+    $aPluginValues['date']      = date('Y-d-m');
     $aPluginValues['oxversion'] = OA_VERSION;
-    $aGroupValues = $aPluginValues['group'];
+    $aPluginValues['version']   = $aVersion['major'].'.'.$aVersion['minor'].'.'.$aVersion['build'].$aVersion['status'];
+    $aGroupValues               = $aPluginValues['group'];
     unset($aPluginValues['group']);
 
-    if ($aGroupValues)
+    foreach ($aGroupValues as $extension => $aGroup)
     {
-        foreach ($aGroupValues as $name => $aVal)
+        if ($aGroup['groupname'])
         {
-            $aVals = $aPluginValues;
-            $aVals['extension'] = $name;
-            $aVals['component'] = $aVal['componentname'];
-            $aVals['group']     = $aVal['groupname'];
-            $aPluginValues['grouporder'][] = $aVals['group'];
+            $aVals                          = $aPluginValues;
+            $aVals['extension']             = $extension;
+            $aVals['name']                  = $aGroup['groupname'];
+            $aVals['group']                 = $aGroup['groupname'];
+            $aPluginValues['grouporder'][]  = $aGroup['groupname'];
+            $oPluginManager->_decompressFile('etc/group.zip', $pathPluginTmp);
+            rename($pathPluginTmp.'extensions/etc/group', $pathPluginTmp.'extensions/etc/'.$aGroup['groupname']);
+            if ($extension=='admin')
+            {
+                $oPluginManager->_decompressFile('etc/admin.zip', $pathPluginTmp);
+                $pathAdminTmp = $pathPluginTmp.'www/admin/plugins/';
+                rename($pathAdminTmp.'group', $pathAdminTmp.$aGroup['groupname']);
+                $pathAdminTmp = $pathAdminTmp.$aGroup['groupname'].'/';
+            }
             putGroup($aVals);
         }
     }
