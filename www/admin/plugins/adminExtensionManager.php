@@ -79,21 +79,25 @@ class OX_Extension_admin extends OX_Extension_Common
 
     function runTasksAfterPluginInstall()
     {
+        parent::runTasksAfterPluginInstall();
         $this->_cacheAllMenus();
     }
 
     function runTasksAfterPluginUninstall()
     {
+        parent::runTasksAfterPluginUninstall();
         $this->_cacheAllMenus();
     }
 
     function runTasksAfterPluginEnable()
     {
+        parent::runTasksAfterPluginEnable();
         $this->_cacheAllMenus();
     }
 
     function runTasksAfterPluginDisable()
     {
+        parent::runTasksAfterPluginDisable();
         $this->_cacheAllMenus();
     }
 

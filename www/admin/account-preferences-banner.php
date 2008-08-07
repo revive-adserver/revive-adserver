@@ -68,7 +68,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     if ($result) {
         // The preferences were written correctly saved to the database,
         // go to the "next" preferences page from here
-        MAX_Admin_Redirect::redirect('account-preferences-campaign-email-reports.php');
+        MAX_Admin_Redirect::redirect('account-preferences-banner.php');
     }
     // Could not write the preferences to the database, store this
     // error message and continue

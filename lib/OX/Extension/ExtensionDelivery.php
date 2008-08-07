@@ -37,21 +37,25 @@ class OX_Extension_Delivery extends OX_Extension_Common
 
     function runTasksAfterPluginInstall()
     {
+        parent::runTasksAfterPluginInstall();
         return $this->_cacheDeliveryHooks();
     }
 
     function runTasksAfterPluginUninstall()
     {
+        parent::runTasksAfterPluginUninstall();
         return $this->_cacheDeliveryHooks();
     }
 
     function runTasksAfterPluginEnable()
     {
+        parent::runTasksAfterPluginEnable();
         return $this->_cacheDeliveryHooks();
     }
 
     function runTasksAfterPluginDisable()
     {
+        parent::runTasksAfterPluginDisable();
         return $this->_cacheDeliveryHooks();
     }
 

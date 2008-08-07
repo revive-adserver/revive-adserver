@@ -40,6 +40,8 @@ require_once LIB_PATH . '/Plugin/ComponentGroupManager.php';
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
 
+phpAds_registerGlobal('group');
+
 // Load the account's preferences, with additional information, into a specially named array
 $GLOBALS['_MAX']['PREF_EXTRA'] = OA_Preferences::loadPreferences(true, true);
 
@@ -50,27 +52,18 @@ $oOptions = new OA_Admin_Option('preferences');
 $aErrormessage = array();
 
 $oComponentGroupManager  = & new OX_Plugin_ComponentGroupManager();
-$aComponentGroups = ($GLOBALS['_MAX']['CONF']['pluginGroupComponents'] ? $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] : array());
-$aConfig = array();
-foreach ($aComponentGroups AS $name => $enabled)
-{
-    if ($enabled || OA_Permission::getAccountType()==OA_ACCOUNT_ADMIN)
-    {
-        $aConfig[$name] = $oComponentGroupManager->_getComponentGroupConfiguration($name);
-    }
-}
+$aGroup     = $oComponentGroupManager->_getComponentGroupConfiguration($group);
+$enabled    = $GLOBALS['_MAX']['CONF']['pluginGroupComponents'][$group];
+$disabled   = ((!$enabled) && (OA_Permission::getAccountType()!=OA_ACCOUNT_ADMIN));
 
 // If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Prepare an array of the HTML elements to process, and which
     // of the preferences are checkboxes
     $aElements = array();
-    foreach ($aConfig as $name => $aGroup)
+    foreach ($aGroup['preferences'] as $k => $v)
     {
-        foreach ($aGroup['preferences'] as $k => $v)
-        {
-            $aElements[] = $name.'_'.$v['name'];
-        }
+        $aElements[] = $group.'_'.$v['name'];
     }
     $aCheckboxes = array();
 
@@ -78,10 +71,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $result = OA_Preferences::processPreferencesFromForm($aElements, $aCheckboxes);
     if ($result)
     {
-        // The settings configuration file was written correctly,
-        // go back to the plugins main page from here
-        require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-        MAX_Admin_Redirect::redirect('account-preferences-plugin.php');
+        MAX_Admin_Redirect::redirect('account-preferences-plugin.php?group='.$group);
     }
     // Could not write the settings configuration file, store this
     // error message and continue
@@ -92,29 +82,29 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 phpAds_PageHeader("account-preferences-index");
 
 // Set the correct section of the preference pages and display the drop-down menu
-$oOptions->selection("plugin");
+$oOptions->selection($group);
 
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
-$i = 0;
-foreach ($aConfig as $name => $aGroup)
+foreach ($aGroup['preferences'] as $k => $v)
 {
-    $aPreferences[$i] = array();
-    foreach ($aGroup['preferences'] as $k => $v)
-    {
-        $aPreferences[$i]['text'] = $name.' '.$strPreferences;
-        $aPreferences[$i]['items'][] = array(
-                                             'type'    => $v['type'],
-                                             'name'    => $name.'_'.$v['name'],
-                                             'text'    => $v['label'],
-                                             'req'     => $v['required'],
-                                             'size'    => $v['size'],
-                                             'value'   => $v['value'],
-                                             'visible' => $v['visible'],
-                                             );
-    }
-    $i++;
+    $aPreferences[0]['text'] = $group.($disabled ? ' - the Administrator has disabled this plugin, you may only change preferences when it is enabled.' : '');
+    $aPreferences[0]['items'][] = array(
+                                         'type'    => $v['type'],
+                                         'name'    => $group.'_'.$v['name'],
+                                         'text'    => $v['label'],
+                                         'req'     => $v['required'],
+                                         'size'    => $v['size'],
+                                         'value'   => $v['value'],
+                                         'visible' => $v['visible'],
+                                         'disabled'=> $disabled,
+                                         );
 }
+$aPreferences[0]['items'][] = array(
+                                     'type'    => 'hiddenfield',
+                                     'name'    => 'group',
+                                     'value'   => $group,
+                                     );
 
 $oOptions->show($aPreferences, $aErrormessage);
 

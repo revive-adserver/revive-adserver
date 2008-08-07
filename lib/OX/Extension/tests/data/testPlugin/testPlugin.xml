@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>testPlugin</name>
+    <creationDate>2008-02-19</creationDate>
+    <author>Monique Szpak</author>
+    <authorEmail>monique.szpak@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>testPlugin Base Admin Interface Component for OpenX</description>
+    <version>0.0.1</version>
+    <oxversion>2.7.5-dev</oxversion>
+    <extends>admin</extends>
+
+    <install>
+
+        <syscheck>
+            <dbms>
+                <name>mysql</name>
+                <supported>1</supported>
+            </dbms>
+            <dbms>
+                <name>pgsql</name>
+                <supported>1</supported>
+            </dbms>
+
+            <php>
+                <setting name='version'>4.0.11</setting>;
+            </php>
+
+        </syscheck>
+
+        <files>
+            <file path="{GROUPPATH}/">processPreferences.php</file>
+            <file path="{ADMINPATH}/templates/">testPlugin.html</file>
+            <file path="{ADMINPATH}/images/">testPlugin1.jpg</file>
+            <file path="{ADMINPATH}/images/">testPlugin2.jpg</file>
+            <file path="{ADMINPATH}/">testPlugin-common.php</file>
+            <file path="{ADMINPATH}/">testPlugin-index.php</file>
+            <file path="{ADMINPATH}/">testPlugin-page.php</file>
+        </files>
+
+        <navigation>
+            <admin>
+                <menu add="test-menu-admin" index="test-menu-admin" link="path_to_test_plugin/index.php">Test Menu Index Admin</menu>
+                <menu addto="test-menu-admin" index="test-menu-admin-1" link="path_to_test_plugin/page.php?action=1">Test Page 1 Admin</menu>
+                <menu addto="test-menu-admin" index="test-menu-admin-2" link="path_to_test_plugin/page.php?action=2">Test Page 2 Admin</menu>
+            </admin>
+
+            <manager>
+                <menu add="test-menu-mgr" index="test-menu-mgr" link="path_to_test_plugin/index.php">Test Menu Index Manager</menu>
+                <menu addto="test-menu-mgr" index="test-menu-mgr-1" link="path_to_test_plugin/page.php?action=1">Test Page 1 Manager</menu>
+            </manager>
+
+            <advertiser>
+                <menu add="main-menu" index="test-menu-advertiser" link="path_to_test_plugin/index.php">Test Menu Advertiser</menu>
+            </advertiser>
+
+            <trafficker>
+                <menu add="main-menu" index="test-menu-trafficker" link="path_to_test_plugin/index.php">Test Menu Trafficker</menu>
+            </trafficker>
+
+        </navigation>
+
+        <configuration>
+            <setting key="setting1" type="boolean" label="Setting 1" required="1" size="1" visible="1">setval1</setting>
+            <setting key="setting2" type="integer" label="Setting 2" required="1" size="2" visible="1">setval2</setting>
+            <setting key="setting3" type="text" label="Setting 3" required="0" size="3" visible="1">setval3</setting>
+
+            <preference name="preference1" type="date" label="Pref 1" required="1" size="10" visible="1" permission="MANAGER">prefval1</preference>
+            <preference name="preference2" type="text" label="Pref 2" required="0" size="12" visible="0" permission="ADMIN">prefval2</preference>
+        </configuration>
+
+        <schema>
+                <mdb2schema>tables_testplugin</mdb2schema>
+                <dboschema>db_schema</dboschema>
+                <dbolinks>db_schema.links</dbolinks>
+                <dataobject>Testplugin_table.php</dataobject>
+        </schema>
+
+        <!-- Custom Install Scripts to execute -->
+        <postscript>postscript_testPlugin.php</postscript>
+
+    </install>
+
+    <!--uninstall>
+        <script>uninstall_testPlugin.php</script>
+    </uninstall-->
+
+</plugin>

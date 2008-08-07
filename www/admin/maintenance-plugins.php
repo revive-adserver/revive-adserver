@@ -57,6 +57,11 @@ if (!empty($action))
 {
     switch ($action)
     {
+        case 'pref':
+            require_once(LIB_PATH.'/Extension/ExtensionCommon.php');
+            $oExtensionManager = new OX_Extension_Common();
+            $oExtensionManager->runTasksOnDemand();
+            break;
         case 'reg':
             require_once(LIB_PATH.'/Extension/ExtensionDelivery.php');
             $oExtensionManager = new OX_Extension_Delivery();
@@ -73,7 +78,7 @@ if (!empty($action))
             break;
         default:
     }
-    if ($oPluginManager->countErrors())
+    if ($oPluginManager && $oPluginManager->countErrors())
     {
         foreach ($oPluginManager->aErrrors as $idx => $msg)
         {
@@ -86,6 +91,8 @@ if (!empty($action))
     }
 }
 
+phpAds_ShowBreak();
+echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-plugins.php?action=pref'>Rebuild Preferences List</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
 echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-plugins.php?action=dep'>Check Dependencies</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();

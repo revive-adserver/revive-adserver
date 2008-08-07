@@ -72,14 +72,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Save the preferences
     $result = OA_Preferences::processPreferencesFromForm($aElements, $aCheckboxes);
     if ($result) {
-        // The preferences were written correctly saved to the database,
-        // go to the "next" preferences page from here
-        if ($conf['logging']['trackerImpressions'] && (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)
-             || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))) {
-            MAX_Admin_Redirect::redirect('account-preferences-tracker.php');
-        } else {
-        	MAX_Admin_Redirect::redirect('account-preferences-timezone.php');
-        }
+        MAX_Admin_Redirect::redirect('account-preferences-campaign-email-reports.php');
     }
     // Could not write the preferences to the database, store this
     // error message and continue

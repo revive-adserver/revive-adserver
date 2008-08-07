@@ -39,11 +39,13 @@ class OX_Extension_Common
 
     function runTasksAfterPluginInstall()
     {
+        $this->cachePreferenceOptions();
         return true;
     }
 
     function runTasksAfterPluginUninstall()
     {
+        $this->cachePreferenceOptions();
         return true;
     }
 
@@ -75,6 +77,38 @@ class OX_Extension_Common
     function runTasksAfterPluginDisable()
     {
         return true;
+    }
+
+    function cachePreferenceOptions()
+    {
+        require_once LIB_PATH.'/Plugin/ComponentGroupManager.php';
+        $oComponentGroupManager = new OX_Plugin_ComponentGroupManager();
+        $aComponentGroups = ($GLOBALS['_MAX']['CONF']['pluginGroupComponents'] ? $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] : array());
+        $aOptions = array();
+
+        foreach ($aComponentGroups AS $name => $enabled)
+        {
+            if ($enabled || OA_Permission::getAccountType()==OA_ACCOUNT_ADMIN)
+            {
+                $aConfig[$name] = $oComponentGroupManager->_getComponentGroupConfiguration($name);
+                if (count($aConfig[$name]['preferences']))
+                {
+                    $aOptions[$name] =  array(
+                                                'name' => $name,
+                                                'value' => 'account-preferences-plugin.php?group='.$name,
+                                                'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
+                                             );
+                }
+            }
+        }
+        $oCache = $oComponentGroupManager->_getOA_Cache('Plugins', 'PrefOptions');
+        $oCache->setFileNameProtection(false);
+        return $oCache->save($aOptions);
+    }
+
+    function runTasksOnDemand()
+    {
+        $this->cachePreferenceOptions();
     }
 }
 

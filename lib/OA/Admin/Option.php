@@ -29,6 +29,7 @@ $Id: lib-settings.inc.php 12449 2007-11-15 13:40:06Z miguel.correa@openads.org $
 require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 require_once MAX_PATH . '/lib/max/language/Loader.php';
+require_once(MAX_PATH.'/lib/OA/Cache.php');
 
 /**
  * A class to deal with the display of settings and preferences
@@ -87,7 +88,8 @@ class OA_Admin_Option
         echo"    s = document.settings_selection.section.selectedIndex;\n";
         echo"    s = document.settings_selection.section.options[s].value;\n\n";
 
-        echo"    document.location = '".$this->_optionType."-' + s + '.php';\n";
+        //echo"    document.location = '".$this->_optionType."-' + s + '.php';\n";
+        echo"    document.location = s;\n";
         echo"}\n\n";
 
         echo"function phpAds_UsertypeChange(o)\n";
@@ -160,35 +162,36 @@ class OA_Admin_Option
             $aSections['banner'] =
                 array(
                     'name' => $GLOBALS['strBannerPreferences'],
+                    'value' => $this->_optionType.'-banner.php',
                     'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
                 );
             $aSections['campaign-email-reports'] =
                 array(
                     'name' => $GLOBALS['strCampaignEmailReportsPreferences'],
+                    'value' => $this->_optionType.'-campaign-email-reports.php',
                     'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
                 );
             if ($aConf['logging']['trackerImpressions']) {
                 $aSections['tracker'] =
                     array(
                         'name' => $GLOBALS['strTrackerPreferences'],
+                        'value' => $this->_optionType.'-tracker.php',
                         'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER)
                     );
             }
             $aSections['timezone'] =
                 array(
                     'name' => $GLOBALS['strTimezone'],
+                    'value' => $this->_optionType.'-timezone.php',
                     'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
                 );
             $aSections['user-interface'] =
                 array(
                     'name' => $GLOBALS['strUserInterfacePreferences'],
+                    'value' => $this->_optionType.'-user-interface.php',
                     'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
                 );
-            $aSections['plugin'] =
-                array(
-                    'name' => $GLOBALS['strPluginPreferences'],
-                    'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
-                );
+            $this->_mergePluginOptions($aSections);
         } elseif ($this->_optionType == 'account-user') {
         	$aSections = array();
             $aSections['name-language'] =
@@ -207,19 +210,30 @@ class OA_Admin_Option
                     'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
                 );
         }
-
         echo "<td><form name='settings_selection'><td height='35'><b>";
         echo $GLOBALS['strChooseSection'].":&nbsp;</b>";
         echo "<select name='section' onChange='options_goto_section();' tabindex='".($tabindex++)."'>";
-        foreach ($aSections as $k => $v) {
-            if (OA_Permission::isAccount($v['perm'])) {
-                echo "<option value='{$k}'".($section == $k ? ' selected' : '').">{$v['name']}</option>";
+        foreach ($aSections as $k => $v)
+        {
+            if (OA_Permission::isAccount($v['perm']))
+            {
+                $value = ($this->_optionType == 'account-preferences' ? $v['value'] : $this->_optionType.'-'.$k.'.php');
+                echo "<option value='{$value}'".($section == $k ? ' selected' : '').">{$v['name']}</option>";
             }
         }
         echo "</select>&nbsp;<a href='#' onClick='options_goto_section();'>";
         echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/go_blue.gif' border='0'></a>";
         echo "</td></form></tr></table>";
         phpAds_ShowBreak();
+    }
+
+    function _mergePluginOptions(&$aSections)
+    {
+
+        $oCache = new OA_Cache('Plugins', 'PrefOptions');
+        $oCache->setFileNameProtection(false);
+        $aPrefOptions = $oCache->load(true);
+        $aSections = array_merge($aSections, $aPrefOptions);
     }
 
     /**
