@@ -46,7 +46,7 @@ class OA_Dashboard_Widget_Index extends OA_Dashboard_Widget
 
         $oTpl = new OA_Admin_Template('dashboard/main.html');
 
-        if (!$aConf['sync']['checkForUpdates'] || !OA::getAvailableSSLExtensions()) {
+        if (!$aConf['ui']['dashboardEnabled'] || !$aConf['sync']['checkForUpdates'] || !OA::getAvailableSSLExtensions()) {
             $dashboardUrl = MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php?widget=Disabled');
         } else {
             $m2mTicket = OA_Dal_Central_M2M::getM2MTicket(OA_Permission::getAccountId());

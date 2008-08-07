@@ -78,6 +78,13 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         ),
         'openads_sslPort' => array('openads' => 'sslPort')
     );
+    // Dashboard Settings
+    $aElements += array(
+        'ui_dashboardEnabled' => array(
+        'ui' => 'dashboardEnabled',
+        'bool'    => true
+        )
+    );
     // Create a new settings object, and save the settings!
     $oSettings = new OA_Admin_Settings();
     $result = $oSettings->processSettingsFromForm($aElements);
@@ -89,6 +96,9 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     		 $doSession->whereAdd('1=1');
     		 $doSession->delete(DB_DATAOBJECT_WHEREADD_ONLY);
     	}
+    	// Rebuild the menu because the Enable Dashboard setting could been changed
+    	OA_Admin_Menu::_clearCache(OA_ACCOUNT_ADMIN);
+    	OA_Admin_Menu::_clearCache(OA_ACCOUNT_MANAGER);
         // The settings configuration file was written correctly,
         // go to the "next" settings page from here
         MAX_Admin_Redirect::redirect('account-settings-user-interface.php');
@@ -214,6 +224,17 @@ $aSettings = array (
                 'text'  => $sslPort,
                 'check' => 'wholeNumber'
             ),
+        ),
+     ),
+     array (
+         'text'  => $strDashboardSettings,
+         'items' => array (
+             array (
+                 'type'  => 'checkbox',
+                 'name'  => 'ui_dashboardEnabled',
+                 'text'  => ($GLOBALS['_MAX']['CONF']['sync']['checkForUpdates'] ? $strEnableDashboard : $strEnableDashboardSyncNotice),
+                 'disabled' => !$GLOBALS['_MAX']['CONF']['sync']['checkForUpdates']
+             )
         )
     )
 );

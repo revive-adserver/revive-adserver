@@ -47,7 +47,7 @@ headerActiveTabColor                =
 headerTextColor                     =
 gzipCompression                     = true
 combineAssets                       = true
-
+dashboardEnabled                    = true
 ;------------------------------------------------------------------------------------------;
 ; Database Settings                                                                        ;
 ;------------------------------------------------------------------------------------------;

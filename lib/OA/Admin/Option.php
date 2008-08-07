@@ -390,6 +390,14 @@ class OA_Admin_Option
                             if ($aSettingSection == 'database' && $aItem['name'] == 'database_localsocket') {
                                 $value = ($aConf[$aSettingSection]['protocol'] == 'unix') ? true : false;
                             }
+                            // toggle the checkbox if checkForUpdates (sync section) is disabled
+                            if ($aSettingSection == 'ui' && $aItem['name'] == 'ui_dashboardEnabled') {
+                                if(isset($aConf['sync']['checkForUpdates']) && $aConf['sync']['checkForUpdates']==true) {
+                                    $value = $aConf[$aSettingSection][$aSettingKey];
+                                } else {
+                                    $value = false;
+                                }
+                            }
             				// If that did not work, and the item is a preference, try to load the
             				// item value from the preferences values in the database
             				if (is_null($value) && $this->_optionType == 'account-preferences') {

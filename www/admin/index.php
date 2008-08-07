@@ -41,8 +41,8 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_A
 /*-------------------------------------------------------*/
 
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
-    // Show dashboard if Sync is enabled
-    if ($GLOBALS['_MAX']['CONF']['sync']['checkForUpdates']) {
+    // Show Dashboard if Dashboard is enabled
+    if ($GLOBALS['_MAX']['CONF']['ui']['dashboardEnabled']) {
         MAX_Admin_Redirect::redirect('dashboard.php');
     } else {
         MAX_Admin_Redirect::redirect('agency-index.php');
@@ -50,8 +50,8 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
 }
 
 if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-    // Show dashboard if Sync is enabled and PHP is SSL enabled
-    if ($GLOBALS['_MAX']['CONF']['sync']['checkForUpdates'] && OA::getAvailableSSLExtensions()) {
+    // Show Dashboard if Dashboard is enabled, Sync is enabled and PHP is SSL enabled
+    if ($GLOBALS['_MAX']['CONF']['ui']['dashboardEnabled'] && $GLOBALS['_MAX']['CONF']['sync']['checkForUpdates'] && OA::getAvailableSSLExtensions()) {
         MAX_Admin_Redirect::redirect('dashboard.php');
     } else {
         MAX_Admin_Redirect::redirect('advertiser-index.php');

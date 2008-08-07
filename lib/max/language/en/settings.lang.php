@@ -200,6 +200,7 @@ $GLOBALS['strAdminCheckNever']                       = 'Never';
 $GLOBALS['strNovice']                                = 'Delete actions require confirmation for safety';
 $GLOBALS['strUserlogEmail']                          = 'Log all outgoing email messages';
 $GLOBALS['strEnableDashboard']                       = "Enable dashboard";
+$GLOBALS['strEnableDashboardSyncNotice']             = "The Dashboard requires the <a href='account-settings-synchronisation.php'>Check for Updates</a> setting. Please enable <a href='account-settings-synchronisation.php'>Check for Updates</a> if you would like to use the Dashboard.";
 $GLOBALS['strTimezone']                              = "Timezone";
 $GLOBALS['strTimezoneEstimated']                     = "Estimated Timezone";
 $GLOBALS['strTimezoneGuessedValue']                  = "Server timezone not correctly set in PHP";
@@ -491,6 +492,7 @@ $GLOBALS['strDefaultTrackerType']                    = 'Default tracker type';
 $GLOBALS['strSSLSettings']                           = 'SSL Settings';
 $GLOBALS['requireSSL']                               = 'Force SSL Access on User Interface';
 $GLOBALS['sslPort']                                  = 'SSL Port Used by Web Server';
+$GLOBALS['strDashboardSettings']                     = "Dashboard Settings";
 
 $GLOBALS['strMyLogo']                                = 'Name of custom logo file';
 $GLOBALS['strMyLogoError']                           = 'The logo file does not exist in the admin/images directory';

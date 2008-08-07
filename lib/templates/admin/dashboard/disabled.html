@@ -42,22 +42,15 @@ $Id: login.html 10822 2007-10-03 14:47:48Z bernard.lange@openads.org $
         <div class="widgetOverlayRight">&nbsp;</div>
         <div class="widgetOverlayBody">
             <div class="widgetOverlayContent" style="text-align: center">
-                <h1 style="margin-top: 70px">{t str=HomePageDisabled}</h1>
-
-{if !$isAdmin}
-                 <p style="margin-top: 70px">This page has been disabled by the Admin user.</p>
-                 <p>Please contact them for permission to see this page.</p>
-{else}
+                <h1 style="margin-top: 70px">{t str=DashboardCantBeDisplayed}</h1>
   {if $noSSL}
                 <p style="color: red">{t str=NoSslSupport}</p>
                 <p>{t str=SslAccessCentralSys}</p>
                 <p>{t str=InstallSslExtension}</p>
   {else}
-                <p style="margin-top: 70px">{t str=ChoosenDisableHomePage}</p>
-                <div><a href="{$settingsUrl}" target="_top">{t str=AccessHomePage}</a></div>
-                <p style="margin-top: 0px">{t str=EditSyncSettings}</p>
+                <p style="color: red">{t str=NoCheckForUpdates}</p>
+                <p>{t str=EnableCheckForUpdates}</p>
   {/if}
-{/if}
             </div>
         </div>
         <div class="widgetOverlayLeft">&nbsp;</div>

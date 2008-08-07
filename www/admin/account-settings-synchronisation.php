@@ -62,6 +62,9 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $oSettings = new OA_Admin_Settings();
     $result = $oSettings->processSettingsFromForm($aElements);
     if ($result) {
+        // Rebuild the menu because if the Check for Updates setting has been changed
+        // the Dashboard has to be disable for managers
+    	OA_Admin_Menu::_clearCache(OA_ACCOUNT_MANAGER);
         // The settings configuration file was written correctly,
         // go to the "next" settings page from here
         MAX_Admin_Redirect::redirect('account-settings-user-interface.php');

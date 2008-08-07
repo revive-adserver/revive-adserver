@@ -36,7 +36,9 @@ function _buildNavigation($accountType)
 
     switch ($accountType) {
         case OA_ACCOUNT_ADMIN:
-            $oMenu->add(new OA_Admin_Menu_Section("dashboard", $GLOBALS['strHome'], "dashboard.php", false, ""));
+            if ($GLOBALS['_MAX']['CONF']['ui']['dashboardEnabled']) {
+                $oMenu->add(new OA_Admin_Menu_Section("dashboard", $GLOBALS['strHome'], "dashboard.php", false, ""));
+            }
 
             // Note: The stats screens haven't been updated to use the new menuing names...
             $oMenu->add(new OA_Admin_Menu_Section("2", $GLOBALS['strStats'], "stats.php", false, "statistics"));
@@ -112,7 +114,9 @@ function _buildNavigation($accountType)
 
         break;
         case OA_ACCOUNT_MANAGER:
-            $oMenu->add(new OA_Admin_Menu_Section("dashboard", $GLOBALS['strHome'], "dashboard.php", false, "dashboard"));
+            if ($GLOBALS['_MAX']['CONF']['ui']['dashboardEnabled'] && $aConf['sync']['checkForUpdates'] && OA::getAvailableSSLExtensions()) {
+                $oMenu->add(new OA_Admin_Menu_Section("dashboard", $GLOBALS['strHome'], "dashboard.php", false, "dashboard"));
+            }
 
             // Note: The stats screens haven't been updated to use the new menuing names...
             $oMenu->add(new OA_Admin_Menu_Section("2", $GLOBALS['strStats'], "stats.php", false, "statistics"));

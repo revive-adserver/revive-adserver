@@ -150,9 +150,11 @@ $GLOBALS['strDashboardCommunity']       = 'Community';
 $GLOBALS['strDashboardDashboard']       = 'Dashboard';
 $GLOBALS['strDashboardForum']           = 'OpenX Forum';
 $GLOBALS['strDashboardDocs']            = 'OpenX Docs';
-$GLOBALS['strHomePageDisabled']         = 'Your home page is disabled';
-$GLOBALS['strNoSslSupport']             = 'Your installation does not currently support SSL';
-$GLOBALS['strSslAccessCentralSys']      = 'To access the Home page, your ad server must be able to log on securely to our central
+$GLOBALS['strDashboardCantBeDisplayed'] = 'The dashboard can not be displayed';
+$GLOBALS['strNoSslSupport']             = 'The dashboard cannot currently be displayed because your installation does not support SSL.';
+$GLOBALS['strNoCheckForUpdates']        = 'The dashboard cannot currently be displayed because you have<br/>disabled the Check for Updates setting.';
+$GLOBALS['strEnableCheckForUpdates']    = "Please enable the <a href='account-settings-synchronisation.php'>Check for Updates</a> setting on the<br/><a href='account-settings-synchronisation.php'>Synchronisation Settings</a> page.";
+$GLOBALS['strSslAccessCentralSys']      = 'To access the dashboard, your ad server must be able to log on securely to our central
  system, using secure socket layer (SSL).';
 $GLOBALS['strInstallSslExtension']      = 'It is necessary to install a PHP extension to communicate with SSL, either openssl or
  SSL-enabled curl. For more information contact your system administrator.';
