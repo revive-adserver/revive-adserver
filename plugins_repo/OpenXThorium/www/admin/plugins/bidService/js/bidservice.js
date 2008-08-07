@@ -3,10 +3,10 @@ function initBidPreferences()
     $(document).ready(function() {
 	    $("#creative-types input[type=checkbox], #creative-attrs input[type=checkbox]").click(function() {
 	        if (this.checked) {
-	            $(this).parent().addClass('selected');    
+	            $(this).parent().addClass('rejected');    
 	        }
 	        else {
-	            $(this).parent().removeClass('selected');
+	            $(this).parent().removeClass('rejected');
 	        }
 	    });
      });
