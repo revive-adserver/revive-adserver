@@ -69,7 +69,7 @@ class CCConfigWriter
         $sectionAudit = &$configContainer->getItem('section', 'audit');
         $sectionAudit->setDirective('enabled', $auditEnabled);
 
-        $section_oxMemcached = &$configContainer->getItem('section', 'oxMemcached');
+        $section_oxMemcached = &$configContainer->createSection('oxMemcached');
         $section_oxMemcached->setDirective('memcachedServers', '127.0.0.1:11211');
 
         $config->writeConfig(CONFIG_PATH, 'inifile');
