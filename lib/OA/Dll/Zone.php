@@ -611,7 +611,9 @@ class OA_Dll_Zone extends OA_Dll
      */
     function unlinkCampaign($zoneId, $campaignId)
     {
-        if ($this->checkIdExistence('zones', $zoneId)) {
+        if ($this->checkIdExistence('zones', $zoneId) &&
+            $this->checkIdExistence('campaigns', $campaignId)) {
+
             $doZones = OA_Dal::staticGetDO('zones', $zoneId);
             if (!$this->checkPermissions(null, 'affiliates', $doZones->affiliateid, OA_PERM_ZONE_LINK)) {
                 return false;
