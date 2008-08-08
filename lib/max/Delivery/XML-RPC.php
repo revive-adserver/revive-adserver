@@ -35,7 +35,7 @@ require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
 require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 
-require_once OX_PATH . '/lib/OX.php';
+require_once MAX_PATH . '/lib/OX.php';
 require_once 'XML/RPC/Server.php';
 
 // Set a global variable to let the other functions know
@@ -48,7 +48,7 @@ if (empty($GLOBALS['HTTP_RAW_POST_DATA'])) {
     $GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents('php://input');
 }
 
-// Set automatic Base64 encoding in XML-RPC response  
+// Set automatic Base64 encoding in XML-RPC response
 XML_RPC_Client::setAutoBase64(true);
 
 /**
