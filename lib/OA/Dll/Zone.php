@@ -583,7 +583,9 @@ class OA_Dll_Zone extends OA_Dll
      */
     function unlinkBanner($zoneId, $bannerId)
     {
-        if ($this->checkIdExistence('zones', $zoneId)) {
+        if ($this->checkIdExistence('zones', $zoneId) &&
+            $this->checkIdExistence('banners', $bannerId)) {
+
             $doZones = OA_Dal::staticGetDO('zones', $zoneId);
             if (!$this->checkPermissions(null, 'affiliates', $doZones->affiliateid, OA_PERM_ZONE_LINK)) {
                 return false;
