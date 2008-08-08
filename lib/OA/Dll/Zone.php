@@ -591,10 +591,15 @@ class OA_Dll_Zone extends OA_Dll
                 return false;
             }
 
-            return Admin_DA::deleteAdZones(array('zone_id' => $zoneId, 'ad_id' => $bannerId));
+            // $result will be true on success, false on failure and 0 on no rows affected.
+            $result = Admin_DA::deleteAdZones(array('zone_id' => $zoneId, 'ad_id' => $bannerId));
+            if ($result === 0) {
+                $this->raiseError('Unknown link for zoneId and bannerId Error');
+                return false;
+            } else {
+                return $result;
+            }
         }
-
-        return false;
     }
 
     /**
