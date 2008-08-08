@@ -28,10 +28,11 @@ $Id$
 $words = array(
     'memcached'                     => "memcached",
     'strNoMemcacheModuleInPhp'      => "There is no support for memcached in your PHP installation",
+    'strEmptyServerList'            => "There are no memcached servers specified. Please <a href='%s'>configure the plugin</a> for memcached support first",
     'strMemcachedServers'           => "List of memcached servers (host:port, ...)",
-    'strInvalidServerAdress'        => "Invalid memcached server adress :",
+    'strInvalidServerAdress'        => "Invalid memcached server address(es):",
     'strMemcachedExpireTime'        => "Expire time for garbage collector in memcached (seconds)",
-    'strInvalidExpireTime'          => "expire time should be either 0 for never expire or greater than time of cache updates (eg. 432000 is equal to 5 days)",
-    'strCouldntConnectToMemcached'  => "couldn't connect to memcached servers"
+    'strInvalidExpireTime'          => "Expire time should be either 0 (for never expire) or greater than time of cache updates (e.g. 432000 is equal to 5 days)",
+    'strCouldntConnectToMemcached'  => "Couldn't connect to memcached server(s)"
 );
 ?>
