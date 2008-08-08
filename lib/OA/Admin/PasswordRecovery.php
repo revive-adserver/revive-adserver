@@ -34,7 +34,8 @@ require_once MAX_PATH . '/lib/OA/Dal/PasswordRecovery.php';
 require_once MAX_PATH . '/lib/OA/Auth.php';
 require_once MAX_PATH . '/lib/OA/Email.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
+
+require_once LIB_PATH . '/Admin/Redirect.php';
 
 
 class OA_Admin_PasswordRecovery
@@ -99,7 +100,7 @@ class OA_Admin_PasswordRecovery
         } elseif ($this->_dal->checkRecoveryId($vars['id'])) {
             $this->displayRecoveryResetForm($vars['id']);
         } else {
-            MAX_Admin_Redirect::redirect();
+            OX_Admin_Redirect::redirect();
         }
         $this->pageFooter();
     }
@@ -129,7 +130,7 @@ class OA_Admin_PasswordRecovery
                 $this->displayRecoveryResetForm($vars['id'], $GLOBALS['strNotSamePasswords']);
             } elseif ($this->_dal->checkRecoveryId($vars['id'])) {
                 $userId = $this->_dal->saveNewPasswordAndLogin($vars['id'], stripslashes($vars['newpassword']));
-                MAX_Admin_Redirect::redirect();
+                OX_Admin_Redirect::redirect();
             } else {
                 $this->displayRecoveryRequestForm($GLOBALS['strPwdRecWrongId']);
             }

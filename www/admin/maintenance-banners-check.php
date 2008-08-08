@@ -30,12 +30,13 @@ require_once '../../init.php';
 
 // Required files
 require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-banner.inc.php';
 require_once MAX_PATH . '/www/admin/lib-banner-cache.inc.php';
 require_once MAX_PATH . '/www/admin/lib-maintenance.inc.php';
 require_once MAX_PATH . '/www/admin/lib-banner.inc.php';
+
+require_once LIB_PATH . '/Admin/Redirect.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
@@ -50,7 +51,7 @@ if (!empty($action) && ($action == 'Rebuild')) {
     $result = processBanners(true);
     if (empty($result['errors'])) {
         if (empty($returnurl)) { $returnurl = 'maintenance-banners-check.php'; }
-        MAX_Admin_Redirect::redirect($returnurl);
+        OX_Admin_Redirect::redirect($returnurl);
     } else {
         _showPageHeader();
         echo $GLOBALS['strBannerCacheErrorsFound'];

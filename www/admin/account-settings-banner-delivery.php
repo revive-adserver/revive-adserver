@@ -32,13 +32,18 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/OA/Admin/Option.php';
 require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
 
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/max/Plugin.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
+require_once MAX_PATH . '/lib/OX/Plugin/Component.php';
 require_once MAX_PATH . '/www/admin/config.php';
+
+require_once LIB_PATH . '/Admin/Redirect.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
+
+// Load translation class
+$oTranslation = new OA_Translation();
 
 // Create a new option object for displaying the setting's page's HTML form
 $oOptions = new OA_Admin_Option('settings');
@@ -52,6 +57,10 @@ foreach ($aInvocationSettings as $invocationSettingKey => $invocationSettingVal)
         unset($aInvocationSettings[$invocationSettingKey]);
     }
 }
+
+// This page depends on deliveryCacheStore plugins, so get the required
+// information about all such plugins installed in this installation
+$aDeliveryCacheStores = OX_Component::getComponents('deliveryCacheStore', null, false);
 
 // This page depends on 3rdPartyServers plugins, so get the required
 // information about all such plugins installed in this installation]
@@ -75,8 +84,10 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     }
     // Banner Delivery Cache Settings
     $aElements += array(
-        'delivery_cacheExpire' => array('delivery' => 'cacheExpire')
+        'delivery_cacheExpire' => array('delivery' => 'cacheExpire'),
+        'delivery_cacheStorePlugin' => array('delivery' => 'cacheStorePlugin')
     );
+
     // Banner Delivery Settings
     $aElements += array(
         'delivery_acls' => array(
@@ -153,17 +164,36 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         'file_frontcontroller' => array('file' => 'frontcontroller'),
         'file_flash'           => array('file' => 'flash')
     );
-    // Create a new settings object, and save the settings!
-    $oSettings = new OA_Admin_Settings();
-    $result = $oSettings->processSettingsFromForm($aElements);
-    if ($result) {
-        // The settings configuration file was written correctly,
-        // go to the "next" settings page from here
-        MAX_Admin_Redirect::redirect('account-settings-banner-logging.php');
+    // Test the suitability of the cache store type, if required
+    MAX_commonRegisterGlobalsArray(array('delivery_cacheStorePlugin'));
+    if (isset($delivery_cacheStorePlugin)) {
+        // Check for problems in selected delivery store plugin
+        $oDeliveryCacheStore = &OX_Component::factoryByComponentIdentifier($delivery_cacheStorePlugin);
+        $result = $oDeliveryCacheStore->getStatus();
+        if ($result !== true) {
+            $aErrormessage[1][] = $oTranslation->translate(
+                'ErrorInCacheStorePlugin',
+                array($oDeliveryCacheStore->getName())
+            );
+            foreach ($result as $error) {
+                $aErrormessage[1][] = " - ".$error;
+            }
+        }
     }
-    // Could not write the settings configuration file, store this
-    // error message and continue
-    $aErrormessage[0][] = $strUnableToWriteConfig;
+    if (empty($aErrormessage)) {
+        // Create a new settings object, and save the settings!
+        $oSettings = new OA_Admin_Settings();
+        $result = $oSettings->processSettingsFromForm($aElements);
+        if ($result) {
+            // The settings configuration file was written correctly,
+            // go to the "next" settings page from here
+            OX_Admin_Redirect::redirect('account-settings-banner-logging.php');
+        }
+        // Could not write the settings configuration file, store this
+        // error message and continue
+        $aErrormessage[0][] = $strUnableToWriteConfig;
+
+    }
 }
 
 // Display the settings page's header and sections
@@ -196,6 +226,33 @@ function MAX_sortSetting($a, $b)
 }
 usort($aInvocations['items'], 'MAX_sortSetting');
 
+// This page depends on deliveryCacheStore plugins, so use the plugin
+// information from earlier to generate the elements for the plugins
+// which is required in the next section
+
+$aCacheStoresSelect = array();
+foreach ($aDeliveryCacheStores as $pluginKey => $oCacheStore) {
+    $aCacheStoresSelect[$oCacheStore->getComponentIdentifier()] = $oCacheStore->getName();
+}
+
+$aDeliveryCacheSettings = array (
+    array (
+            'type'    => 'text',
+            'name'    => 'delivery_cacheExpire',
+            'text'    => $strDeliveryCacheLimit,
+            'check'   => 'wholeNumber'
+        ),
+    array (
+            'type'    => 'break'
+        ),
+    array (
+            'type'  => 'select',
+            'name'  => 'delivery_cacheStorePlugin',
+            'text'  => $strDeliveryCacheStore,
+            'items' => $aCacheStoresSelect
+        )
+);
+
 // This page depends on 3rdPartyServers plugins, so use the plugin
 // information from earlier to generate the elements for the plugins
 // which is required in the next section
@@ -218,14 +275,7 @@ $aSettings = array(
     $aInvocations,
     array (
         'text'  => $strDeliveryCaching,
-        'items' => array (
-            array (
-                'type'    => 'text',
-                'name'    => 'delivery_cacheExpire',
-                'text'    => $strDeliveryCacheLimit,
-                'check'    => 'wholeNumber'
-            )
-        )
+        'items' => $aDeliveryCacheSettings
     ),
     array (
         'text'  => $strBannerDelivery,

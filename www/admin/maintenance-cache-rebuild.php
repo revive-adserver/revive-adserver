@@ -29,9 +29,10 @@ $Id$
 require_once '../../init.php';
 
 // Required files
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
+
+require_once LIB_PATH . '/Admin/Redirect.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
@@ -44,6 +45,6 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 // include_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';
 // phpAds_cacheDelete();
 
-MAX_Admin_Redirect::redirect('maintenance-cache.php');
+OX_Admin_Redirect::redirect('maintenance-cache.php');
 
 ?>

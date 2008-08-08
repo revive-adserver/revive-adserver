@@ -34,9 +34,10 @@ require_once MAX_PATH . '/lib/OA/Admin/Option.php';
 require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
 
 require_once MAX_PATH . '/lib/max/Admin/Geotargeting.php';
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/www/admin/config.php';
+
+require_once LIB_PATH . '/Admin/Redirect.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
@@ -170,7 +171,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             } else {
                 // The settings configuration files were written correctly,
                 // go to the "next" settings page from here
-                MAX_Admin_Redirect::redirect('account-settings-maintenance.php');
+                OX_Admin_Redirect::redirect('account-settings-maintenance.php');
             }
         }
     } else {

@@ -31,6 +31,14 @@ $Id$
  * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 
+$file = '/lib/max/Delivery/google.php';
+###START_STRIP_DELIVERY
+if(isset($GLOBALS['_MAX']['FILES'][$file])) {
+    return;
+}
+###END_STRIP_DELIVERY
+$GLOBALS['_MAX']['FILES'][$file] = true;
+
 /**
  * This function outputs the javascript code to track Google Adsense banners
  *

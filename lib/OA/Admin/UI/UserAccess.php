@@ -102,7 +102,7 @@ class OA_Admin_UI_UserAccess
                     OA_Admin_UI_UserAccess::linkUserToAccount(
                         $this->userid, $this->accountId, $this->aPermissions,
                         $this->aAllowedPermissions);
-                    MAX_Admin_Redirect::redirect($this->getRedirectUrl());
+                    OX_Admin_Redirect::redirect($this->getRedirectUrl());
                 } else {
                     $this->aErrors = $this->oPlugin->getSignupErrors();
                 }

@@ -26,10 +26,11 @@ $Id$
 */
 
 // Include required files
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/max/Admin/UI/FieldFactory.php';
 require_once MAX_PATH . '/lib/max/Plugin.php';
 require_once MAX_PATH . '/lib/OA/Admin/ExcelWriter.php';
+
+require_once LIB_PATH . '/Admin/Redirect.php';
 
 /**
  * A class for generating reports via the report plugins.
@@ -50,12 +51,12 @@ class OA_Admin_Reports_Generate
     {
         if (!(isset($reportIdentifier) && $reportIdentifier != '')) {
             // No report identified! Return to the main report page
-            MAX_Admin_Redirect::redirect('report-index.php');
+            OX_Admin_Redirect::redirect('report-index.php');
         }
         $oReportPlugin = $this->_newPluginByName($reportIdentifier);
         if (!$oReportPlugin) {
             // No report plugin created! Return to the main report page
-            MAX_Admin_Redirect::redirect('report-index.php');
+            OX_Admin_Redirect::redirect('report-index.php');
         }
         $this->_runReport($oReportPlugin);
     }
@@ -87,7 +88,7 @@ class OA_Admin_Reports_Generate
     {
         if (!$oPlugin->isAllowedToExecute()) {
             // User cannot execute this report
-            MAX_Admin_Redirect::redirect('report-index.php');
+            OX_Admin_Redirect::redirect('report-index.php');
         }
         $aInfo = $oPlugin->info();
         // Get the variables for running the report plugin
@@ -100,7 +101,7 @@ class OA_Admin_Reports_Generate
         $aCallback = array(&$oPlugin, 'execute');
         $result = call_user_func_array($aCallback, $aVariables);
         if (!empty($result)) {
-        	MAX_Admin_Redirect::redirect('report-generation.php?selection='.$oPlugin->package.':'.$oPlugin->name.'&error='.$result);
+        	OX_Admin_Redirect::redirect('report-generation.php?selection='.$oPlugin->package.':'.$oPlugin->name.'&error='.$result);
         }
     }
 

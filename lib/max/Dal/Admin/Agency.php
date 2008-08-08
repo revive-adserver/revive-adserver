@@ -27,7 +27,8 @@ $Id$
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Dal/Common.php';
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
+
+require_once LIB_PATH . '/Admin/Redirect.php';
 
 class MAX_Dal_Admin_Agency extends MAX_Dal_Common
 {

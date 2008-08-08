@@ -30,7 +30,6 @@ require_once '../../init.php';
 
 // Required files
 require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/max/Admin/Invocation.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/lib/max/other/capping/lib-capping.inc.php';
@@ -42,6 +41,7 @@ require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
+require_once LIB_PATH . '/Admin/Redirect.php';
 
 // Register input variables
 phpAds_registerGlobal (
@@ -112,44 +112,44 @@ function buildZoneForm($aZone)
 {
     $form = new OA_Admin_UI_Component_Form("zoneform", "POST", $_SERVER['PHP_SELF']);
     $form->forceClientValidation(true);
-    
+
     $form->addElement('hidden', 'zoneid', $aZone['zoneid']);
     $form->addElement('hidden', 'affiliateid', $aZone['affiliateid']);
-    
+
     buildChainSettingsFormSection($form, $aZone);
     buildDeliveryCappingFormSection($form, $GLOBALS['strCappingZone'], $aZone);
     buildAppendFormSection($form, $aZone);
-    
+
     //we want submit to be the last element in its own separate section
     $form->addElement('controls', 'form-controls');
     $form->addElement('submit', 'submit', $GLOBALS['strSaveChanges']);
-    
 
-    //set form  values 
+
+    //set form  values
     $form->setDefaults($aZone);
     $form->setDefaults(array('chaintype' => ($aZone['chain'] == '' ? 0 : 1)));
 
     //appendinterstitial i appendpopup
     if ($appendid == $k)
-    
-    return $form;    
+
+    return $form;
 }
 
 
 function buildChainSettingsFormSection($form, $aZone)
 {
     $form->addElement('header', 'header_chain', $GLOBALS['strChainSettings']);
-    
-    $chainGroup[] = $form->createElement('radio', 'chaintype', null, 
+
+    $chainGroup[] = $form->createElement('radio', 'chaintype', null,
         $GLOBALS['strZoneStopDelivery'], 0, array('id' => 'chaintype-s'));
-    $chainGroup[] = $form->createElement('radio', 'chaintype', null, 
+    $chainGroup[] = $form->createElement('radio', 'chaintype', null,
         $GLOBALS['strZoneOtherZone'], 1, array('id' => 'chaintype-z'));
-    $chainGroup[] =$form->createElement('select', 'chainzone', _getChainZonesImage($aZone), 
+    $chainGroup[] =$form->createElement('select', 'chainzone', _getChainZonesImage($aZone),
         _getChainZones($aZone), array('id'=> 'chainzone', 'class' => 'medium'));
-    $form->addDecorator('chainzone', 'tag', array('attributes' => array('id' => 'chain-zone-select', 
+    $form->addDecorator('chainzone', 'tag', array('attributes' => array('id' => 'chain-zone-select',
             'class' => $zone['chain']=='' ? 'hide' : '')));
-    
-    $form->addGroup($chainGroup, 'g_chain', $GLOBALS['strZoneNoDelivery'], array("<BR>", '', ''));            
+
+    $form->addGroup($chainGroup, 'g_chain', $GLOBALS['strZoneNoDelivery'], array("<BR>", '', ''));
 }
 
 
@@ -159,12 +159,12 @@ function buildAppendFormSection($form, $aZone)
         $form->addElement('header', 'header_append', $GLOBALS['strAppendSettings']);
         $form->addElement('hidden', 'appendsave', 1);
         $form->addElement('hidden', 'appendtype', phpAds_ZoneAppendRaw);
-        
-        $form->addElement('advcheckbox', 'forceappend', null, 
+
+        $form->addElement('advcheckbox', 'forceappend', null,
             $GLOBALS['strZoneAppendNoBanner'], null, array("f", "t"));
     }
-            
-    if ($aZone['delivery'] == phpAds_ZoneBanner) { 
+
+    if ($aZone['delivery'] == phpAds_ZoneBanner) {
         $form->addElement('textarea', 'append', $GLOBALS['strZoneAppend'],
             array('class' => 'code x-large'));
     }
@@ -174,7 +174,7 @@ function buildAppendFormSection($form, $aZone)
         // determining the layout of the text ad zone
         $form->addElement('textarea', 'prepend', $GLOBALS['strZonePrependHTML'],
                 array('class' => 'code x-large'));
-        
+
         $form->addElement('textarea', 'append', $GLOBALS['strZoneAppend'],
                 array('class' => 'code x-large'));
     }
@@ -184,21 +184,21 @@ function buildAppendFormSection($form, $aZone)
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
 /*-------------------------------------------------------*/
-function processForm($aZone, $form) 
+function processForm($aZone, $form)
 {
     $aFields = $form->exportValues();
-    
+
     if (empty($aFields['zoneid'])) {
         return;
     }
-    
+
     $doZones = OA_Dal::factoryDO('zones');
     $doZones->get($aFields['zoneid']);
 
     // Determine chain
     if ($aFields['chaintype'] == '1' && $aFields['chainzone'] != '') {
         $chain = 'zone:'.$aFields['chainzone'];
-    } 
+    }
     else {
         $chain = '';
     }
@@ -244,14 +244,14 @@ function processForm($aZone, $form)
     if (!empty($aFields['appendsave'])) {
         if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             if (OA_Permission::hasPermission(OA_PERM_ZONE_LINK)) {
-                MAX_Admin_Redirect::redirect('zone-include.php?affiliateid='.$aFields['affiliateid'].'&zoneid='.$aFields['zoneid']);
-            } 
-            else {
-                MAX_Admin_Redirect::redirect('zone-probability.php?affiliateid='.$aFields['affiliateid'].'&zoneid='.$aFields['zoneid']);
+                OX_Admin_Redirect::redirect('zone-include.php?affiliateid='.$aFields['affiliateid'].'&zoneid='.$aFields['zoneid']);
             }
-        } 
+            else {
+                OX_Admin_Redirect::redirect('zone-probability.php?affiliateid='.$aFields['affiliateid'].'&zoneid='.$aFields['zoneid']);
+            }
+        }
         else {
-            MAX_Admin_Redirect::redirect('zone-include.php?affiliateid='.$aFields['affiliateid'].'&zoneid='.$aFields['zoneid']);
+            OX_Admin_Redirect::redirect('zone-include.php?affiliateid='.$aFields['affiliateid'].'&zoneid='.$aFields['zoneid']);
         }
     }
 }
@@ -265,18 +265,18 @@ function displayPage($aZone, $form)
     $pageName = basename($_SERVER['PHP_SELF']);
     $agencyId = OA_Permission::getAgencyId();
     $aEntities = array('affiliateid' => $aZone['affiliateid'], 'zoneid' => $aZone['zoneid']);
-    
+
     $aOtherPublishers = Admin_DA::getPublishers(array('agency_id' => $agencyId));
     $aOtherZones = Admin_DA::getZones(array('publisher_id' => $aZone['affiliateid']));
     MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $aEntities);
-    
-    
+
+
     //get template and display form
     $oTpl = new OA_Admin_Template('zone-advanced.html');
     $oTpl->assign('form', $form->serialize());
     $oTpl->display();
-    
-    
+
+
     _echoDeliveryCappingJs();
     //footer
     phpAds_PageFooter();
@@ -288,7 +288,7 @@ function _getChainZones($aZone)
     // Get list of zones to link to
     $doZones = OA_Dal::factoryDO('zones');
 
-    $allowothersizes = $aZone['delivery'] == phpAds_ZoneInterstitial 
+    $allowothersizes = $aZone['delivery'] == phpAds_ZoneInterstitial
         || $aZone['delivery'] == phpAds_ZonePopup;
     if ($aZone['width'] != -1 && !$allowothersizes) {
         $doZones->width = $aZone['width'];
@@ -303,7 +303,7 @@ function _getChainZones($aZone)
         $doAffiliates = OA_Dal::factoryDO('affiliates');
         $doAffiliates->agencyid = OA_Permission::getAgencyId();
         $doZones->joinAdd($doAffiliates);
-    } 
+    }
     else {
         $doZones->whereAdd('affiliateid = ' . $aZone['affiliateid']);
     }
@@ -313,7 +313,7 @@ function _getChainZones($aZone)
     while ($doZones->fetch() && $row = $doZones->toArray()) {
         $aChainZones[$row['zoneid']] = $row['zonename'];
     }
-    
+
     return $aChainZones;
 }
 
@@ -325,29 +325,29 @@ function _getChainZonesImage($aZone)
             $imageName = '/images/icon-zone.gif';
             break;
         }
-        
+
         case phpAds_ZoneInterstitial : {
             $imageName = '/images/icon-interstitial.gif';
             break;
         }
-        
+
         case phpAds_ZonePopup : {
             $imageName = '/images/icon-popup.gif';
             break;
         }
-        
+
         case phpAds_ZoneText : {
             $imageName = '/images/icon-textzone.gif';
             break;
         }
-        
+
         default: $imageName = '';
     }
-    
+
     if ($imageName) {
         $image = "<img src='".OX::assetPath()."$imageName' align='absmiddle'>";
     }
-    
+
     return $image;
 }
 
@@ -356,7 +356,7 @@ function _getAppendZones($aZone)
 {
     // Get list of zones to link to
     $doZones = OA_Dal::factoryDO('zones');
-    
+
     $allowothersizes = $aZone['delivery'] == phpAds_ZoneInterstitial || $aZone['delivery'] == phpAds_ZonePopup;
     if ($zone['width'] != -1 && !$allowothersizes) {
         $doZones->width = $aZone['width'];
@@ -367,7 +367,7 @@ function _getAppendZones($aZone)
     $doZones->delivery = $aZone['delivery'];
     $doZones->whereAdd('zoneid <> '.$aZone['zoneid']);
     $doZones->find();
-    
+
     $available = array(phpAds_ZonePopup => array(), phpAds_ZoneInterstitial => array());
     while ($doZones->fetch() && $row = $doZones->toArray()) {
         $available[$row['delivery']][$row['zoneid']] = $row['zonename'];
@@ -385,9 +385,9 @@ function _getAppendTypes($aZone)
     // Appendtype choices
     $aTypes[phpAds_ZoneAppendRaw] = $GLOBALS['strZoneAppendHTMLCode'];
     if (count($available[phpAds_ZonePopup]) || count($available[phpAds_ZoneInterstitial])) {
-        $aTypes[phpAds_ZoneAppendZone] = $GLOBALS['strZoneAppendZoneSelection']; 
+        $aTypes[phpAds_ZoneAppendZone] = $GLOBALS['strZoneAppendZoneSelection'];
     }
-    
-    return $aTypes; 
+
+    return $aTypes;
 }
 ?>

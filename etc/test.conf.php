@@ -134,6 +134,7 @@ xmlrpc                              = false
 
 [delivery]
 cacheExpire                         = 1200
+cacheStorePlugin              	    = deliveryCacheStore:oxFile:oxFile
 cachePath                           =
 acls                                = true
 obfuscate                           = false
@@ -448,7 +449,6 @@ httpPort=80
 [plugins]
 
 [pluginGroupComponents]
-
 
 ;------------------------------------------------------------------------------------------;
 ; Audit Settings                                                                           ;

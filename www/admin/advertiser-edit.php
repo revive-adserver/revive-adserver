@@ -31,7 +31,6 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/OA/Admin/Menu.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
@@ -39,6 +38,7 @@ require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
+require_once LIB_PATH . '/Admin/Redirect.php';
 
 // Register input variables
 phpAds_registerGlobalUnslashed(
@@ -72,7 +72,7 @@ if ($clientid != "") {
             $aAdvertiser = $doClients->toArray();
         }
     }
-} 
+}
 else {
     if (!isset($aAdvertiser)) {
         $aAdvertiser['clientname']       = $strUntitled;
@@ -105,69 +105,69 @@ function buildAdvertiserForm($aAdvertiser)
 {
     $form = new OA_Admin_UI_Component_Form("clientform", "POST", $_SERVER['PHP_SELF']);
     $form->forceClientValidation(true);
-    
-    $form->addElement('hidden', 'clientid', $aAdvertiser['clientid']);    
+
+    $form->addElement('hidden', 'clientid', $aAdvertiser['clientid']);
     $form->addElement('header', 'header_basic', $GLOBALS['strBasicInformation']);
 
     $nameElem = $form->createElement('text', 'clientname', $GLOBALS['strName']);
     if (!OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-        $nameElem->freeze();    
+        $nameElem->freeze();
     }
     $form->addElement($nameElem);
     $form->addElement('text', 'contact', $GLOBALS['strContact']);
     $form->addElement('text', 'email', $GLOBALS['strEMail']);
-    
+
     $form->addElement('header', 'header_adv_report', $GLOBALS['strMailSubject']);
     $form->addElement('hidden', 'reportlastdate', $aAdvertiser['reportlastdate']);
     $form->addElement('hidden', 'reportprevious', $aAdvertiser['report']);
     $form->addElement('advcheckbox', 'reportdeactivate', null, $GLOBALS['strSendDeactivationWarning'], null, array("f", "t"));
     $form->addElement('advcheckbox', 'report', null, $GLOBALS['strSendAdvertisingReport'], null, array("f", "t"));
     $form->addElement('text', 'reportinterval', $GLOBALS['strNoDaysBetweenReports'], array('class' => 'x-small'));
-    
+
     $form->addElement('header', 'header_misc', $GLOBALS['strMiscellaneous']);
-    $form->addElement('advcheckbox', 'advertiser_limitation', null, $GLOBALS['strAdvertiserLimitation'], null, array("0", "1"));    
+    $form->addElement('advcheckbox', 'advertiser_limitation', null, $GLOBALS['strAdvertiserLimitation'], null, array("0", "1"));
     $form->addElement('textarea', 'comments', $GLOBALS['strComments']);
 
     //we want submit to be the last element in its own separate section
     $form->addElement('controls', 'form-controls');
-    $submitLabel = (!empty($aAdvertiser['clientid']))  ? $GLOBALS['strSaveChanges'] : $GLOBALS['strNext'].' >';    
+    $submitLabel = (!empty($aAdvertiser['clientid']))  ? $GLOBALS['strSaveChanges'] : $GLOBALS['strNext'].' >';
     $form->addElement('submit', 'submit', $submitLabel);
 
     //Form validation rules
     $translation = new OA_Translation();
     if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-        $nameRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strName'])); 
+        $nameRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strName']));
         $form->addRule('clientname', $nameRequiredMsg, 'required');
         // Get unique clientname
         $doClients = OA_Dal::factoryDO('clients');
-        $aUnique_names = $doClients->getUniqueValuesFromColumn('clientname', 
+        $aUnique_names = $doClients->getUniqueValuesFromColumn('clientname',
             empty($aAdvertiser['clientid'])? '' : $aAdvertiser['clientname']);
-        $nameUniqueMsg = $translation->translate($GLOBALS['strXUniqueField'], 
+        $nameUniqueMsg = $translation->translate($GLOBALS['strXUniqueField'],
             array($GLOBALS['strClient'], strtolower($GLOBALS['strName'])));
         $form->addRule('clientname', $nameUniqueMsg, 'unique', $unique_names);
     }
-    
 
-    $contactRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strContact'])); 
+
+    $contactRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strContact']));
     $form->addRule('contact', $contactRequiredMsg, 'required');
     $emailRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strEMail']));
     $form->addRule('email', $emailRequiredMsg, 'required');
     $form->addRule('email', $GLOBALS['strEmailField'], 'email');
     $form->addRule('reportinterval', $GLOBALS['strNumericField'], 'numeric');
-    
-    //set form  values 
+
+    //set form  values
     $form->setDefaults($aAdvertiser);
     return $form;
-}    
+}
 
 
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
 /*-------------------------------------------------------*/
-function processForm($aAdvertiser, $form) 
+function processForm($aAdvertiser, $form)
 {
     $aFields = $form->exportValues();
-    
+
     // Name
     if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER) ) {
         $aAdvertiser['clientname'] = $aFields['clientname'];
@@ -199,8 +199,8 @@ function processForm($aAdvertiser, $form)
         $aAdvertiser['clientid'] = $doClients->insert();
 
         // Go to next page
-        MAX_Admin_Redirect::redirect("campaign-edit.php?clientid=".$aAdvertiser['clientid']);
-    } 
+        OX_Admin_Redirect::redirect("campaign-edit.php?clientid=".$aAdvertiser['clientid']);
+    }
     else {
         $doClients = OA_Dal::factoryDO('clients');
         $doClients->get($aAdvertiser['clientid']);
@@ -210,9 +210,9 @@ function processForm($aAdvertiser, $form)
 
         // Go to next page
         if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-            MAX_Admin_Redirect::redirect('index.php');
+            OX_Admin_Redirect::redirect('index.php');
         } else {
-            MAX_Admin_Redirect::redirect("advertiser-campaigns.php?clientid=".$aAdvertiser['clientid']);
+            OX_Admin_Redirect::redirect("advertiser-campaigns.php?clientid=".$aAdvertiser['clientid']);
         }
     }
     exit;
@@ -230,27 +230,27 @@ function displayPage($aAdvertiser, $form)
             phpAds_PageShortcut($GLOBALS['strClientHistory'], 'stats.php?entity=advertiser&breakdown=history&clientid='.$aAdvertiser['clientid'], 'images/icon-statistics.gif');
             MAX_displayAdvertiserBreadcrumbs($aAdvertiser['clientid']);
             phpAds_PageHeader("4.1.2");
-        } 
+        }
         else {
             phpAds_PageHeader("4");
         }
-    } 
+    }
     else { //new advertiser
         MAX_displayAdvertiserBreadcrumbs($aAdvertiser['clientid']);
         phpAds_PageHeader('advertiser-edit_new');
-    }    
-    
+    }
+
     //get template and display form
     $oTpl = new OA_Admin_Template('advertiser-edit.html');
 
     $oTpl->assign('clientid',  $aAdvertiser['clientid']);
     $oTpl->assign('form', $form->serialize());
-    $oTpl->assign('showAddCampaignLink', !empty($aAdvertiser['clientid']) 
+    $oTpl->assign('showAddCampaignLink', !empty($aAdvertiser['clientid'])
         && !OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER));
 
     $oTpl->display();
-    
+
     //footer
     phpAds_PageFooter();
-}   
+}
 ?>

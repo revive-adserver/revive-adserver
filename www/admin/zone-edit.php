@@ -30,7 +30,6 @@ require_once '../../init.php';
 
 // Required files
 require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
@@ -40,6 +39,8 @@ require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
 require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
 require_once MAX_PATH . '/lib/OA/Admin/NumberFormat.php';
+
+require_once LIB_PATH . '/Admin/Redirect.php';
 
 // Register input variables
 phpAds_registerGlobalUnslashed(
@@ -598,12 +599,12 @@ function processForm($form)
 
         if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             if (OA_Permission::hasPermission(OA_PERM_ZONE_LINK)) {
-                MAX_Admin_Redirect::redirect("zone-include.php?affiliateid=".$aFields['affiliateid']."&zoneid=".$aFields['zoneid']);
+                OX_Admin_Redirect::redirect("zone-include.php?affiliateid=".$aFields['affiliateid']."&zoneid=".$aFields['zoneid']);
             } else {
-                MAX_Admin_Redirect::redirect("zone-probability.php?affiliateid=".$aFields['affiliateid']."&zoneid=".$aFields['zoneid']);
+                OX_Admin_Redirect::redirect("zone-probability.php?affiliateid=".$aFields['affiliateid']."&zoneid=".$aFields['zoneid']);
             }
         } else {
-            MAX_Admin_Redirect::redirect("zone-advanced.php?affiliateid=".$aFields['affiliateid']."&zoneid=".$aFields['zoneid']);
+            OX_Admin_Redirect::redirect("zone-advanced.php?affiliateid=".$aFields['affiliateid']."&zoneid=".$aFields['zoneid']);
         }
     }
 

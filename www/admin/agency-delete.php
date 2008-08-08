@@ -30,14 +30,16 @@ require_once '../../init.php';
 
 // Required files
 require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 //require_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-storage.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
-require_once 'DB/DataObject.php';
+
+require_once LIB_PATH . '/Admin/Redirect.php';
+
+require_once OX_PATH . '/lib/pear/DB/DataObject.php';
 
 // Register input variables
 phpAds_registerGlobal ('returnurl','agencyid');
@@ -66,6 +68,6 @@ if (!isset($returnurl) || $returnurl == '') {
 	$returnurl = 'advertiser-index.php';
 }
 
-MAX_Admin_Redirect::redirect($returnurl);
+OX_Admin_Redirect::redirect($returnurl);
 
 ?>

@@ -32,9 +32,10 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/OA/Admin/Option.php';
 require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
 
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/www/admin/config.php';
+
+require_once LIB_PATH . '/Admin/Redirect.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
@@ -89,7 +90,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     if ($result) {
         // The settings configuration file was written correctly,
         // go to the "next" settings page from here
-        MAX_Admin_Redirect::redirect('account-settings-email.php');
+        OX_Admin_Redirect::redirect('account-settings-email.php');
     }
     // Could not write the settings configuration file, store this
     // error message and continue
@@ -100,7 +101,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 phpAds_PageHeader('account-settings-index');
 
 // Set the correct value of Debug Priority Level
-$GLOBALS['_MAX']['CONF']['log']['priority'] = $oOptions->pearLogPriorityToConstrantName($GLOBALS['_MAX']['CONF']['log']['priority']); 
+$GLOBALS['_MAX']['CONF']['log']['priority'] = $oOptions->pearLogPriorityToConstrantName($GLOBALS['_MAX']['CONF']['log']['priority']);
 
 // Set the correct section of the settings pages and display the drop-down menu
 $oOptions->selection('debug');

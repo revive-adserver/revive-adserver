@@ -26,9 +26,9 @@ $Id: Login.php 10874 2007-10-04 15:53:10Z matteo.beccati@openads.org $
 */
 
 require_once MAX_PATH . '/lib/OA/Dashboard/Widget.php';
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/OA/Central/Dashboard.php';
 
+require_once LIB_PATH . '/Admin/Redirect.php';
 
 /**
  * A class to display the disabled dashboard iframe content

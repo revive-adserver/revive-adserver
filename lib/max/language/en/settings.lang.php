@@ -322,6 +322,10 @@ $GLOBALS['strDeliveryFilenamesFrontController']      = 'Front Controller';
 $GLOBALS['strDeliveryFilenamesFlash']                = 'Flash Include (Can be a full URL)';
 $GLOBALS['strDeliveryCaching']                       = 'Banner Delivery Cache Settings';
 $GLOBALS['strDeliveryCacheLimit']                    = 'Time Between Banner Cache Updates (seconds)';
+$GLOBALS['strDeliveryCacheStore']                    = 'Banner Delivery Cache Store Type';
+
+$GLOBALS['strErrorInCacheStorePlugin']               = 'Some errors were reported by the "%s" delivery store plugin:';
+$GLOBALS['strDeliveryCacheStorage']                  = 'Delivery cache storage type';
 
 $GLOBALS['strOrigin']                                = 'Use remote origin server';
 $GLOBALS['strOriginType']                            = 'Origin server type';

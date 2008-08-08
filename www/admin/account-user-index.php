@@ -29,9 +29,9 @@ $Id$
 require_once '../../init.php';
 
 // Required files
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
+require_once LIB_PATH . '/Admin/Redirect.php';
 
 // Redirect to the main "Preferences" page
-MAX_Admin_Redirect::redirect('account-user-name-language.php');
+OX_Admin_Redirect::redirect('account-user-name-language.php');
 
 ?>

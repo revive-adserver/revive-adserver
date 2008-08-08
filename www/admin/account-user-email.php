@@ -33,9 +33,10 @@ require_once MAX_PATH . '/lib/OA/Admin/Option.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
 
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/www/admin/config.php';
+
+require_once LIB_PATH . '/Admin/Redirect.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
@@ -91,7 +92,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 
             // The "preferences" were written correctly saved to the database,
             // go to the "next" preferences page from here
-            MAX_Admin_Redirect::redirect('account-user-password.php');
+            OX_Admin_Redirect::redirect('account-user-password.php');
         }
     }
 }

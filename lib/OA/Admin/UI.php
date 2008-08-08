@@ -30,7 +30,8 @@ require_once MAX_PATH . '/lib/OA/Admin/UI/SmartyInserts.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/UI.php';
 require_once MAX_PATH . '/lib/OA/Admin/Menu.php';
 require_once MAX_PATH . '/lib/OA/Admin/Menu/CompoundChecker.php';
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
+
+require_once LIB_PATH . '/Admin/Redirect.php';
 
 /**
  * A class to generate all the UI parts

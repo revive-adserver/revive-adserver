@@ -106,7 +106,7 @@ if (!empty($campaignid)) {
             }
         }
         $oUI = new OA_Admin_UI();
-        MAX_Admin_Redirect::redirect($oUI->getNextPage());
+        OX_Admin_Redirect::redirect($oUI->getNextPage());
     }
 }
 

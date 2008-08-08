@@ -32,10 +32,11 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/OA/Admin/Option.php';
 require_once MAX_PATH . '/lib/OA/Preferences.php';
 
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once LIB_PATH . '/Plugin/ComponentGroupManager.php';
+
+require_once LIB_PATH . '/Admin/Redirect.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
@@ -71,7 +72,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $result = OA_Preferences::processPreferencesFromForm($aElements, $aCheckboxes);
     if ($result)
     {
-        MAX_Admin_Redirect::redirect('account-preferences-plugin.php?group='.$group);
+        OX_Admin_Redirect::redirect('account-preferences-plugin.php?group='.$group);
     }
     // Could not write the settings configuration file, store this
     // error message and continue

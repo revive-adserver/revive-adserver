@@ -184,8 +184,8 @@ else if ('uninstall' == $action)
     $oPluginManager->uninstallPackage($plugin);
     if (!($oPluginManager->countErrors() || $oPluginManager->countWarnings()))
     {
-        require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-        MAX_Admin_Redirect::redirect('plugin-index.php');
+        require_once LIB_PATH . '/Admin/Redirect.php';
+        OX_Admin_Redirect::redirect('plugin-index.php');
     }
 }
 else if ('enable' == $action)
@@ -196,8 +196,8 @@ else if ('enable' == $action)
     }
     if (!($oPluginManager->countErrors() || $oPluginManager->countWarnings()))
     {
-        require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-        MAX_Admin_Redirect::redirect('plugin-index.php');
+        require_once LIB_PATH . '/Admin/Redirect.php';
+        OX_Admin_Redirect::redirect('plugin-index.php');
     }
 }
 else if ('disable' == $action)
@@ -212,8 +212,8 @@ else if ('disable' == $action)
     }
     if (!($oPluginManager->countErrors() || $oPluginManager->countWarnings()))
     {
-        require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-        MAX_Admin_Redirect::redirect('plugin-index.php');
+        require_once LIB_PATH . '/Admin/Redirect.php';
+        OX_Admin_Redirect::redirect('plugin-index.php');
     }
 }
 else if ('info' == $action)
@@ -246,13 +246,13 @@ else if ('info' == $action)
 }
 else if ('settings' == $action)
 {
-    require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-    MAX_Admin_Redirect::redirect("plugin-settings.php?group=$group&parent=$parent");
+    require_once LIB_PATH . '/Admin/Redirect.php';
+    OX_Admin_Redirect::redirect("plugin-settings.php?group=$group&parent=$parent");
 }
 else if ('preferences'== $action)
 {
-    require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-    MAX_Admin_Redirect::redirect("plugin-preferences.php?group=$group&parent=$parent");
+    require_once LIB_PATH . '/Admin/Redirect.php';
+    OX_Admin_Redirect::redirect("plugin-preferences.php?group=$group&parent=$parent");
 }
 
 else if (array_key_exists('checkdb',$_GET))

@@ -25,50 +25,9 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/Max.php';
-
-require_once OX_PATH . '/lib/OX.php';
-
-/**
- * A class for managing easy redirecton in the administration interface.
- *
- * @package    Max
- * @author     Andrew Hill <andrew@m3.net>
- * @static
- */
-class MAX_Admin_Redirect
-{
-
-    /**
-     * A method to perform redirects. Only suitable for use once OpenX is installed,
-     * as it required the max.conf.php file to be correctly set up.
-     *
-     * @param string $adminPage The administration interface page to redirect to
-     *                          (excluding a leading slash ("/")). Default is the
-     *                          index (i.e. login) page.
-     */
-    function redirect($adminPage = 'index.php')
-    {
-        if (!preg_match('/[\r\n]/', $adminPage)) {
-            header('Location: ' . MAX::constructURL(MAX_URL_ADMIN, $adminPage));
-        }
-        exit;
-    }
-
-    function redirectIfNecessary($adminPage)
-    {
-        $oDesiredUrl = new MAX_Url();
-        $oCurrentUrl = new MAX_Url();
-
-        $full_desired_url_string = MAX::constructURL(MAX_URL_ADMIN, $adminPage);
-        $oDesiredUrl->useValuesFromString($full_desired_url_string);
-        $oCurrentUrl->useValuesFromServerVariableArray($_SERVER);
-        if ($oDesiredUrl->equals($oCurrentUrl)) {
-            return;
-        }
-        $this->redirect($adminPage);
-    }
-
-}
-
+$words = array(
+    'File based cache'   => "File based cache",
+    'strUnableToWriteTo' => "unable to write to ",
+    'strCacheDirectory'  => "Custom cache directory path"
+);
 ?>

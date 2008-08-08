@@ -32,9 +32,10 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/OA/Admin/Option.php';
 require_once MAX_PATH . '/lib/OA/Preferences.php';
 
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/www/admin/config.php';
+
+require_once LIB_PATH . '/Admin/Redirect.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER, OA_ACCOUNT_ADVERTISER);
@@ -62,7 +63,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Save the preferences
     $result = OA_Preferences::processPreferencesFromForm($aElements, $aCheckboxes);
     if ($result) {
-        MAX_Admin_Redirect::redirect('account-preferences-tracker.php');
+        OX_Admin_Redirect::redirect('account-preferences-tracker.php');
     }
     // Could not write the preferences to the database, store this
     // error message and continue

@@ -46,15 +46,15 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
 // clear the menu cache and redirect this user to advertiser-index.php
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) && !$GLOBALS['_MAX']['CONF']['ui']['dashboardEnabled']) {
     OA_Admin_Menu::_clearCache(OA_ACCOUNT_ADMIN);
-    MAX_Admin_Redirect::redirect('agency-index.php');
+    OX_Admin_Redirect::redirect('agency-index.php');
 }
 if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER) && !$GLOBALS['_MAX']['CONF']['ui']['dashboardEnabled']) {
     OA_Admin_Menu::_clearCache(OA_ACCOUNT_MANAGER);
-    MAX_Admin_Redirect::redirect('advertiser-index.php');
+    OX_Admin_Redirect::redirect('advertiser-index.php');
 }
 if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER) && (!$GLOBALS['_MAX']['CONF']['sync']['checkForUpdates'] || !OA::getAvailableSSLExtensions())) {
     OA_Admin_Menu::_clearCache(OA_ACCOUNT_MANAGER);
-    MAX_Admin_Redirect::redirect('advertiser-index.php');
+    OX_Admin_Redirect::redirect('advertiser-index.php');
 }
 
 $widget = !empty($_REQUEST['widget']) ? $_REQUEST['widget'] : 'Index';

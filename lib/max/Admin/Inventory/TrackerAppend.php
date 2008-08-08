@@ -26,11 +26,11 @@ $Id$
 
 require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/Dal/Inventory/Trackers.php';
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 
 require_once OX_PATH . '/lib/OX.php';
+require_once LIB_PATH . '/Admin/Redirect.php';
 require_once OX_PATH . '/lib/pear/HTML/Template/Flexy.php';
 
 
@@ -161,7 +161,7 @@ class MAX_Admin_Inventory_TrackerAppend
 
         if (isset($vars['save'])) {
             $this->_dal->setAppendCodes($this->tracker_id, $codes);
-            MAX_Admin_Redirect::redirect("tracker-invocation.php?clientid={$this->advertiser_id}&trackerid={$this->tracker_id}");
+            OX_Admin_Redirect::redirect("tracker-invocation.php?clientid={$this->advertiser_id}&trackerid={$this->tracker_id}");
         } else {
             $this->codes = $codes;
             $this->showReminder = true;

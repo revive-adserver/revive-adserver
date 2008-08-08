@@ -366,11 +366,14 @@ class OA_Admin_Option
             			// Page is the result of an error message, get values from the input,
             			// not from the settings configuration file or preferences in the database
             			$value = '';
-            			if (isset($aItem['name']) && isset($GLOBALS[$aItem['name']])) {
-            				$value = $GLOBALS[$aItem['name']];
-            				if ($aErrors[0] != MAX_ERROR_YOU_HAVE_NO_TRACKERS && $aErrors[0] != MAX_ERROR_YOU_HAVE_NO_CAMPAIGNS) {
-            					if (isset($GLOBALS[$aItem['name'].'_defVal'])) {
-            						$value = $GLOBALS[$aItem['name'].'_defVal'];
+            			if (isset($aItem['name'])) {
+            			    MAX_commonRegisterGlobalsArray(array($aItem['name']));
+            			    if (isset($GLOBALS[$aItem['name']])) {
+                				$value = $GLOBALS[$aItem['name']];
+                				if ($aErrors[0] != MAX_ERROR_YOU_HAVE_NO_TRACKERS && $aErrors[0] != MAX_ERROR_YOU_HAVE_NO_CAMPAIGNS) {
+                					if (isset($GLOBALS[$aItem['name'].'_defVal'])) {
+                						$value = $GLOBALS[$aItem['name'].'_defVal'];
+                					}
             					}
             				}
             			}

@@ -29,16 +29,17 @@ $Id$
 require_once '../../init.php';
 
 // Required files
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/config.php';
+
+require_once LIB_PATH . '/Admin/Redirect.php';
 
 // Redirect to the appropriate "Settings" page
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
-    MAX_Admin_Redirect::redirect('account-settings-banner-delivery.php');
+    OX_Admin_Redirect::redirect('account-settings-banner-delivery.php');
 } else {
     // Only the admin user can change "Settings", so send to
     // the "Preferences" page instead
-    MAX_Admin_Redirect::redirect('account-preferences-index.php');
+    OX_Admin_Redirect::redirect('account-preferences-index.php');
 }
 
 ?>

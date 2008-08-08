@@ -1158,6 +1158,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->errcode = OX_PLUGIN_ERROR_FILE_COUNT_MISMATCH;
             return false;
         }
+
         foreach ($aFilesExpected AS $pluginName => $aPluginFilesExpected)
         {
             foreach ($aPluginFilesExpected AS $i => $aFileExpected)

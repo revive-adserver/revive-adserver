@@ -62,8 +62,8 @@ if (isset($_REQUEST['action']) && in_array($_REQUEST['action'],array('1','2','3'
 }
 else
 {
-    require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-    MAX_Admin_Redirect::redirect('plugins/demoUserInterface/demoUI-index.php');
+    require_once LIB_PATH . '/Admin/Redirect.php';
+    OX_Admin_Redirect::redirect('plugins/demoUserInterface/demoUI-index.php');
 }
 
 

@@ -30,13 +30,14 @@ require_once '../../init.php';
 
 // Required files
 require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
+
+require_once LIB_PATH . '/Admin/Redirect.php';
 
 // Redirect to the maintenance settings page
 //if ($conf['openads']['installed'])
 if (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED)
 {
-    MAX_Admin_Redirect::redirect('maintenance-maintenance.php');
+    OX_Admin_Redirect::redirect('maintenance-maintenance.php');
 }
 
 ?>

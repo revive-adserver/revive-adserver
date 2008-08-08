@@ -32,10 +32,11 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/OA/Admin/Option.php';
 require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
 
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/OA/Admin/TemplatePlugin.php';
+
+require_once LIB_PATH . '/Admin/Redirect.php';
 require_once LIB_PATH . '/Plugin/ComponentGroupManager.php';
 
 // Security check
@@ -105,8 +106,8 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true')
         {
             // The settings configuration file was written correctly,
             // go back to the plugins main page from here
-            require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-            MAX_Admin_Redirect::redirect($backURL);
+            require_once LIB_PATH . '/Admin/Redirect.php';
+            OX_Admin_Redirect::redirect($backURL);
         }
         // Could not write the settings configuration file, store this
         // error message and continue

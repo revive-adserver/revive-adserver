@@ -31,7 +31,6 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
@@ -42,6 +41,7 @@ require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
+require_once LIB_PATH . '/Admin/Redirect.php';
 
 // Register input variables
 phpAds_registerGlobalUnslashed ('move', 'name', 'website', 'contact', 'email', 'language', 'advsignup',
@@ -91,64 +91,64 @@ function buildWebsiteForm($affiliate)
 {
     // Initialise Ad  Networks
     $oAdNetworks = new OA_Central_AdNetworks();
-    
+
     $form = new OA_Admin_UI_Component_Form("affiliateform", "POST", $_SERVER['PHP_SELF']);
     $form->forceClientValidation(true);
-    $form->addElement('hidden', 'affiliateid', $affiliate['affiliateid']);    
-    
+    $form->addElement('hidden', 'affiliateid', $affiliate['affiliateid']);
+
     $form->addElement('header', 'basic_info', $GLOBALS['strBasicInformation']);
     $form->addElement('text', 'website', $GLOBALS['strWebsiteURL']);
     $form->addElement('text', 'name', $GLOBALS['strName']);
     if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) {
-        $form->addElement('checkbox', 'advsignup', $GLOBALS['strAdvertiserSignup'], $GLOBALS['strAdvertiserSignupDesc'], 
+        $form->addElement('checkbox', 'advsignup', $GLOBALS['strAdvertiserSignup'], $GLOBALS['strAdvertiserSignupDesc'],
             array('disabled' => !$GLOBALS['_MAX']['CONF']['sync']['checkForUpdates']));
-        $form->addElement('custom', 'advertiser-signup-dialog', null, 
+        $form->addElement('custom', 'advertiser-signup-dialog', null,
                          array('formId'  => $form->getId()), false);
     }
     $form->addElement('text', 'contact', $GLOBALS['strContact']);
     $form->addElement('text', 'email', $GLOBALS['strEMail']);
-    
+
     $form->addElement('select', 'category', $GLOBALS['strCategory'], $oAdNetworks->getCategoriesSelect(), array('style'=>'width: 16em;'));
     $catLangGroup['country'] = $form->createElement('select', 'country', null, $oAdNetworks->getCountriesSelect());
     $catLangGroup['country']->setAttribute('style', 'width: 16em;');
     $catLangGroup['lang'] = $form->createElement('select', 'language', null, $oAdNetworks->getLanguagesSelect());
     $catLangGroup['lang']->setAttribute('style', 'width: 16em;');
     $form->addGroup($catLangGroup, 'catlang_group', $GLOBALS['strCountry'].' / '.$GLOBALS['strLanguage'], array(" "), false);
-    
-    
+
+
     $form->addElement('controls', 'form-controls');
     $form->addElement('submit', 'save', 'Save changes');
-    
+
     //Form validation rules
     $translation = new OA_Translation();
-    $urlRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strWebsiteURL'])); 
+    $urlRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strWebsiteURL']));
     $form->addRule('website', $urlRequiredMsg, 'required');
-    $contactRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strContact'])); 
+    $contactRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strContact']));
     $form->addRule('contact', $contactRequiredMsg, 'required');
     $nameRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strName']));
     $form->addRule('name', $nameRequiredMsg, 'required');
     $emailRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strEMail']));
     $form->addRule('email', $emailRequiredMsg, 'required');
     $form->addRule('email', $GLOBALS['strEmailField'], 'email');
-    
+
     // Get unique affiliate
     // XXX: Although the JS suggests otherwise, this unique_name constraint isn't enforced.
     $doAffiliates = OA_Dal::factoryDO('affiliates');
     // TODO PERM - do we really want unique names here?
     $aUniqueNames = $doAffiliates->getUniqueValuesFromColumn('name', $affiliate['name']);
-    $nameUniqueMsg = $translation->translate($GLOBALS['strXUniqueField'], 
+    $nameUniqueMsg = $translation->translate($GLOBALS['strXUniqueField'],
         array($GLOBALS['strAffiliate'], strtolower($GLOBALS['strName'])));
     $form->addRule('name', $nameUniqueMsg, 'unique', $aUniqueNames);
-    
-    
-    
-    //set form  values 
+
+
+
+    //set form  values
     $form->setDefaults($affiliate);
     $form->setDefaults(
         array("category" => $affiliate['oac_category_id'],
               "country"  => $affiliate['oac_country_code'],
               "language" => $affiliate['oac_language_id'],
-              'advsignup' => !empty($affiliate['as_website_id'])        
+              'advsignup' => !empty($affiliate['as_website_id'])
         ));
     return $form;
 }
@@ -156,10 +156,10 @@ function buildWebsiteForm($affiliate)
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
 /*-------------------------------------------------------*/
- function processForm($affiliateid, $form) 
+ function processForm($affiliateid, $form)
 {
     $aFields = $form->exportValues();
-    
+
     if (!(is_numeric($aFields['oac_category_id'])) || ($aFields['oac_category_id'] <= 0)) {
             $aFields['oac_category_id'] = 'NULL';
     }
@@ -183,7 +183,7 @@ function buildWebsiteForm($affiliate)
     $oPublisherDll = new OA_Dll_Publisher();
     if ($oPublisherDll->modify($oPublisher) && !$oPublisherDll->_noticeMessage) {
         $redirect_url = "affiliate-zones.php?affiliateid={$oPublisher->publisherId}";
-        MAX_Admin_Redirect::redirect($redirect_url);
+        OX_Admin_Redirect::redirect($redirect_url);
         exit;
     }
 }
@@ -199,17 +199,17 @@ function displayPage($affiliateid, $form)
         phpAds_PageShortcut($strAffiliateHistory, 'stats.php?entity=affiliate&breakdown=history&affiliateid='.$affiliateid, 'images/icon-statistics.gif');
         MAX_displayWebsiteBreadcrumbs($affiliateid);
         phpAds_PageHeader();
-    } 
+    }
     else {
         MAX_displayWebsiteBreadcrumbs(null);
         phpAds_PageHeader("affiliate-edit_new");
     }
-    
+
     //get template and display form
     $oTpl = new OA_Admin_Template('affiliate-edit.html');
     $oTpl->assign('affiliateid', $affiliateid);
     $oTpl->assign('form', $form->serialize());
-    
+
     $oTpl->assign('error',  $oPublisherDll->_errorMessage);
     $oTpl->assign('notice', $oPublisherDll->_noticeMessage);
 

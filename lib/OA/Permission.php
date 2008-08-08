@@ -127,8 +127,8 @@ class OA_Permission
     function redirectIfManualAccountSwitch()
     {
         if (OA_Permission::isManualAccountSwitch()) {
-            require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-            MAX_Admin_Redirect::redirect();
+            require_once LIB_PATH . '/Admin/Redirect.php';
+            OX_Admin_Redirect::redirect();
         }
     }
 

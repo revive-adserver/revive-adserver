@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>oxFile</name>
+    <creationDate>2008-07-21</creationDate>
+    <author>Łukasz Wikierski</author>
+    <authorEmail>lukasz.wikierski@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>File based Cache Store plugins for OpenX</description>
+    <version>1.0.0</version>
+    <oxversion>2.7.10-dev</oxversion>
+    <extends>deliveryCacheStore</extends>
+
+    <install>
+        <files>
+            <file path="{MODULEPATH}deliveryCacheStore/oxFile/">oxFile.class.php</file>
+            <file path="{MODULEPATH}deliveryCacheStore/oxFile/">oxFile.delivery.php</file>
+            
+            <file path="{MODULEPATH}deliveryCacheStore/oxFile/_lang/">en.php</file>
+            
+            <file path="{PLUGINPATH}oxFile/">processSettings.php</file>
+        </files>
+        
+        <components>
+           <component>
+                <name>oxFile</name>
+                <translations>{MODULEPATH}deliveryCacheStore/oxFile/_lang/</translations>
+                <hook>cacheStore</hook>
+                <hook>cacheRetrieve</hook>
+           </component>
+        </components>
+
+	    <configuration>
+		    <setting key="cachePath" type="text" label="Custom cache directory path" required="0" size="32" visible="1"></setting>
+	    </configuration>
+	    
+    </install>
+    
+</plugin>
