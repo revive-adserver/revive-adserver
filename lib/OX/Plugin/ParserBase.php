@@ -79,6 +79,7 @@ class OX_ParserBase extends XML_Parser
         $this->aPhp       = array();
         $this->aDepends   = array();
         $this->aConf      = array(
+                              'option'      =>'',
                               'settings'    =>array(),
                               'preferences' =>array(),
                                );

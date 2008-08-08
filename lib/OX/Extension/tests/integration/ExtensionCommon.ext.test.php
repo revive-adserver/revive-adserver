@@ -68,6 +68,7 @@ class Test_OX_ExtensionCommon extends UnitTestCase
         $this->assertTrue(isset($aPrefOptions['testPlugin']['name']));
         $this->assertTrue(isset($aPrefOptions['testPlugin']['perm']));
         $this->assertEqual($aPrefOptions['testPlugin']['name'],'testPlugin');
+        $this->assertEqual($aPrefOptions['testPlugin']['text'],'Option Text');
         $this->assertEqual($aPrefOptions['testPlugin']['value'],'account-preferences-plugin.php?group=testPlugin');
         $this->assertEqual(count($aPrefOptions['testPlugin']['perm']),4);
 

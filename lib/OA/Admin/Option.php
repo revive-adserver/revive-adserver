@@ -218,7 +218,8 @@ class OA_Admin_Option
             if (OA_Permission::isAccount($v['perm']))
             {
                 $value = ($this->_optionType == 'account-preferences' ? $v['value'] : $this->_optionType.'-'.$k.'.php');
-                echo "<option value='{$value}'".($section == $k ? ' selected' : '').">{$v['name']}</option>";
+                $text  = (isset($v['text']) ? $v['text'] : $v['name']);
+                echo "<option value='{$value}'".($section == $k ? ' selected' : '').">{$text}</option>";
             }
         }
         echo "</select>&nbsp;<a href='#' onClick='options_goto_section();'>";

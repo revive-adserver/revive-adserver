@@ -79,7 +79,7 @@ setcookie('schemaFile', $schemaFile);
 global $oaSchema;
 $oaSchema = & new Openads_Schema_Manager($schemaFile, '', $schemaPath);
 
-if (($aErrs = $oaSchema->checkPermissions()) !== true)
+if (is_array(($aErrs = $oaSchema->checkPermissions())))
 {
     setcookie('schemaFile', '');
     setcookie('schemaPath', '');

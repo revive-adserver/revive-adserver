@@ -252,7 +252,7 @@ class Test_OX_ParserComponentGroup extends UnitTestCase
             $this->assertEqual($aPlugin['install']['components']['testComponent']['name'], 'testComponent');
             $this->assertTrue(isset($aPlugin['install']['components']['testComponent']['translations']));
             $this->assertEqual($aPlugin['install']['components']['testComponent']['translations'],'{MODULEPATH}/pathToTest/_lang/');
-            
+
             $this->assertTrue(isset($aPlugin['install']['components']['testComponent2']));
             $this->assertEqual($aPlugin['install']['components']['testComponent2']['name'], 'testComponent2');
             $this->assertTrue(isset($aPlugin['install']['components']['testComponent2']['translations']));
@@ -275,6 +275,8 @@ class Test_OX_ParserComponentGroup extends UnitTestCase
         $this->assertTrue(array_key_exists(OA_ACCOUNT_ADVERTISER, $aPlugin['install']['navigation']),'array key not found [install][navigation][ADVERTISER]');
         $this->assertTrue(array_key_exists(OA_ACCOUNT_TRAFFICKER, $aPlugin['install']['navigation']),'array key not found [install][navigation][TRAFFICKER]');
         $this->assertTrue(array_key_exists('schema', $aPlugin['install']),'array key not found [install][schema]');
+        $this->assertTrue(array_key_exists('conf', $aPlugin['install']),'array key not found [install][conf]');
+        $this->assertTrue(array_key_exists('option', $aPlugin['install']['conf']),'array key not found [install][conf][option]');
         $this->assertTrue(array_key_exists('settings', $aPlugin['install']['conf']),'array key not found [install][conf][settings]');
         $this->assertTrue(array_key_exists('preferences', $aPlugin['install']['conf']),'array key not found [install][conf][preferences]');
         $this->assertTrue(array_key_exists('mdb2schema', $aPlugin['install']['schema']),'array key not found [install][schema][mdb2schema]');

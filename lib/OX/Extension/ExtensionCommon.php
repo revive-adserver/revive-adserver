@@ -95,6 +95,7 @@ class OX_Extension_Common
                 {
                     $aOptions[$name] =  array(
                                                 'name' => $name,
+                                                'text' => ($aConfig[$name]['option'] ? $aConfig[$name]['option'] : $name),
                                                 'value' => 'account-preferences-plugin.php?group='.$name,
                                                 'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
                                              );

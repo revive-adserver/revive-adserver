@@ -107,6 +107,10 @@ class OX_ParserComponentGroup extends OX_ParserBase
             case 'plugin-install-configuration':
                 $this->aSettings = array();
                 $this->aPrefs = array();
+                if (isset($attribs[strtoupper('option')]))
+                {
+                    $this->aConf['option'] = $attribs[strtoupper('option')];
+                }
                 break;
             case 'plugin-install-configuration-setting':
                 $this->aData = array();

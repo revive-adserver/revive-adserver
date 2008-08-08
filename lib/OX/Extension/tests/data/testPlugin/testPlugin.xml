@@ -63,7 +63,7 @@
 
         </navigation>
 
-        <configuration>
+        <configuration option="Option Text">
             <setting key="setting1" type="boolean" label="Setting 1" required="1" size="1" visible="1">setval1</setting>
             <setting key="setting2" type="integer" label="Setting 2" required="1" size="2" visible="1">setval2</setting>
             <setting key="setting3" type="text" label="Setting 3" required="0" size="3" visible="1">setval3</setting>
