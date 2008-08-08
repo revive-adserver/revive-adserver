@@ -4009,7 +4009,31 @@ return @file_get_contents($conf['file']['flash']);
 return file_get_contents(MAX_PATH . '/www/delivery/' . $conf['file']['flash']);
 }
 }
-require_once OX_PATH . '/lib/OX.php';
+require_once OX_PATH . '/lib/pear/Log.php';
+require_once OX_PATH . '/lib/pear/PEAR.php';
+class OX
+{
+function assetPath($asset = null)
+{
+global $installing;
+$aConf = $GLOBALS['_MAX']['CONF'];
+$assetsVersion = $aConf['webpath']['adminAssetsVersion'];
+$prefix = $installing ? '' : MAX::constructURL(MAX_URL_ADMIN, '');
+$pathWithSuffix = $prefix . "assets";
+if (strlen($assetsVersion))
+{
+$pathWithSuffix .= "/" . $assetsVersion;
+}
+if ($asset != null)
+{
+return $pathWithSuffix . "/" . $asset;
+}
+else
+{
+return $pathWithSuffix;
+}
+}
+}
 require_once 'XML/RPC/Server.php';
 // Set a global variable to let the other functions know
 // they are serving an XML-RPC request. Needed for capping
