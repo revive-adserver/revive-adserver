@@ -27,6 +27,7 @@ $Id$
 
 $words = array(
     'memcached'                     => "memcached",
+    'strNoMemcacheModuleInPhp'      => "There is no support for memcached in your PHP installation",
     'strMemcachedServers'           => "List of memcached servers (host:port, ...)",
     'strInvalidServerAdress'        => "Invalid memcached server adress :",
     'strMemcachedExpireTime'        => "Expire time for garbage collector in memcached (seconds)",

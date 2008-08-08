@@ -16,13 +16,13 @@
     <install>
         <files>
             <file path="{PLUGINPATH}oxMemcached/">processSettings.php</file>
-            
+
             <file path="{MODULEPATH}deliveryCacheStore/oxMemcached/">oxMemcached.class.php</file>
             <file path="{MODULEPATH}deliveryCacheStore/oxMemcached/">oxMemcached.delivery.php</file>
-            
+
             <file path="{MODULEPATH}deliveryCacheStore/oxMemcached/_lang/">en.php</file>
         </files>
-        
+
         <components>
            <component>
                 <name>oxMemcached</name>
@@ -31,7 +31,7 @@
                 <hook>cacheRetrieve</hook>
            </component>
         </components>
-    
+
 	    <configuration>
 		    <setting key="memcachedServers" type="text" label="List of memcached servers (host:port, ...)" required="1" size="32" visible="1"></setting>
 		    <setting key="memcachedExpireTime" type="text" label="Expire time for garbage collector in Memcached (seconds)" required="0" size="32" visible="1"></setting>

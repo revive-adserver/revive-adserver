@@ -67,4 +67,18 @@
         <downloadUrl>{local}/download/demoExtension_0.0.1-beta.zip</downloadUrl>
     </package>
 
+    <package>
+        <name>openXDeliveryCacheStore</name>
+        <creationDate>2008-08-08</creationDate>
+        <author>Lukasz Wikierski</author>
+        <authorEmail>lukasz.wikierski@openx.org</authorEmail>
+        <authorUrl>http://www.openx.org</authorUrl>
+        <license>license.txt</license>
+        <description>Standard OpenX File and memcached Based Delivery Cache</description>
+        <version>1.0.1</version>
+        <oxminver>2.7.13-dev</oxminver>
+        <oxmaxver>2.7.13-dev</oxmaxver>
+        <downloadUrl>{local}/download/openXDeliveryCacheStore.zip</downloadUrl>
+    </package>
+
 </releases>

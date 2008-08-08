@@ -4,12 +4,12 @@
 <plugin>
     <name>openXDeliveryCacheStore</name>
     <creationDate>2008-07-21</creationDate>
-    <author>Łukasz Wikierski</author>
+    <author>Lukasz Wikierski</author>
     <authorEmail>lukasz.wikierski@openx.org</authorEmail>
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>Delivery Cache Store Plugins for OpenX</description>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <type>package</type>
 
     <install>
@@ -21,7 +21,7 @@
 
         <register>
             <extension type='deliveryCacheStore' group='oxFile'>oxFile</extension>
-			
+
             <extension type='deliveryCacheStore' group='oxMemcached'>oxMemcached</extension>
         </register>
 

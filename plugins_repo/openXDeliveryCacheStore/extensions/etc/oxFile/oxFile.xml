@@ -17,12 +17,12 @@
         <files>
             <file path="{MODULEPATH}deliveryCacheStore/oxFile/">oxFile.class.php</file>
             <file path="{MODULEPATH}deliveryCacheStore/oxFile/">oxFile.delivery.php</file>
-            
+
             <file path="{MODULEPATH}deliveryCacheStore/oxFile/_lang/">en.php</file>
-            
+
             <file path="{PLUGINPATH}oxFile/">processSettings.php</file>
         </files>
-        
+
         <components>
            <component>
                 <name>oxFile</name>
@@ -35,7 +35,7 @@
 	    <configuration>
 		    <setting key="cachePath" type="text" label="Custom cache directory path" required="0" size="32" visible="1"></setting>
 	    </configuration>
-	    
+
     </install>
-    
+
 </plugin>

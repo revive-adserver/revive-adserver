@@ -38,35 +38,35 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  */
 class Plugins_DeliveryCacheStore_oxMemcached_oxMemcached extends Plugins_DeliveryCacheStore
-{   
+{
     /**
      * Return the name of plugin
-     * 
+     *
      * @return string
      */
     function getName()
     {
         return MAX_Plugin_Translation::translate('memcached', $this->extension, $this->group);
     }
-    
+
     /**
-     * Return information about cache storage 
-     * 
+     * Return information about cache storage
+     *
      * @return bool|array True if there is no problems or array of string with error messages otherwise
      */
     function getStatus()
     {
         $aErrors = array();
-        
+
         // Check if memcached is enabled in php.ini
         if (!class_exists('Memcache')) {
             $strError = MAX_Plugin_Translation::translate('strNoMemcacheModuleInPhp', $this->extension, $this->group);
-            return array($strError.MAX_PATH.'/var/cache/');
+            return array($strError);
         }
         // Check servers list
         $aServers = (explode(',', $GLOBALS['_MAX']['CONF'][$this->group]['memcachedServers']));
         if(count($aServers) == 0){
-            $aErrors[] = MAX_Plugin_Translation::translate('strEmptyServerList', $this->extension, $this->group);        
+            $aErrors[] = MAX_Plugin_Translation::translate('strEmptyServerList', $this->extension, $this->group);
         }
         $oMemcache = new Memcache();
         foreach ($aServers as $server) {
@@ -77,12 +77,12 @@ class Plugins_DeliveryCacheStore_oxMemcached_oxMemcached extends Plugins_Deliver
             }
         }
         // Check expire time
-        if (!empty($GLOBALS['_MAX']['CONF'][$this->group]['memcachedExpireTime']) && 
+        if (!empty($GLOBALS['_MAX']['CONF'][$this->group]['memcachedExpireTime']) &&
             (
                 !is_numeric($GLOBALS['_MAX']['CONF'][$this->group]['memcachedExpireTime']) ||
                 $GLOBALS['_MAX']['CONF'][$this->group]['memcachedExpireTime'] <= $GLOBALS['_MAX']['CONF']['delivery']['cacheExpire']
             )
-           ) 
+           )
         {
             $aErrors[] = MAX_Plugin_Translation::translate('strInvalidExpireTime', $this->extension, $this->group);
         }
@@ -97,7 +97,7 @@ class Plugins_DeliveryCacheStore_oxMemcached_oxMemcached extends Plugins_Deliver
         }
         return true;
     }
-    
+
     /**
      * A function to delete a single cache entry
      *
@@ -108,9 +108,9 @@ class Plugins_DeliveryCacheStore_oxMemcached_oxMemcached extends Plugins_Deliver
     {
         $oMemcache = _oxMemcached_getMemcache();
         // @ - to catch memcached notices on errors
-        return @$oMemcache->delete($filename); 
+        return @$oMemcache->delete($filename);
     }
-    
+
     /**
      * A function to delete entire delivery cache
      *
