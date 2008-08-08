@@ -79,18 +79,8 @@ class Delivery_TestOfCookie extends UnitTestCase
     {
         $conf =& $GLOBALS['_MAX']['CONF'];
 
-        // Test that the value is pulled from the $_COOKIE array if set
-        // With marketplace disabled, anything should be ok
-        $conf['marketplace']['enabled'] = 0;
         $_COOKIE[$conf['var']['viewerId']] = 'TEST';
         $this->assertEqual(MAX_cookieGetUniqueViewerID(), 'TEST');
-
-        // Test that the value is pulled from the $_COOKIE array if set
-        // With marketplace enabled, only UUIDs are ok
-        $conf['marketplace']['enabled'] = 1;
-        $this->assertNull(MAX_cookieGetUniqueViewerID());
-        $_COOKIE[$conf['var']['viewerId']] = 'deadf00d-dead-f00d-dead-f00ddeadf00d';
-        $this->assertEqual(MAX_cookieGetUniqueViewerID(), 'deadf00d-dead-f00d-dead-f00ddeadf00d');
 
         // Test that the a value is not set if $create=false
         unset($_COOKIE[$conf['var']['viewerId']]);
