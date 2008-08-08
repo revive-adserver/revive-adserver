@@ -1032,4 +1032,3 @@ $GLOBALS['keyNext']		= 'n';
 $GLOBALS['keyPrevious']		= 'p';
 
 ?>
-
