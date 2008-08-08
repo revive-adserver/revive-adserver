@@ -35,14 +35,14 @@ require_once dirname(dirname(dirname(__FILE__))) . '/oxMemcached/oxMemcached.cla
 /**
  * A class for testing the Plugins_DeliveryCacheStore_oxMemcached_oxMemcached class.
  *
- * To run tests of memcached plugin you have to create [oxMemcached] section in test.conf 
- * and set memcachedServers parameter in this new section 
+ * To run tests of memcached plugin you have to create [oxMemcached] section in test.conf
+ * and set memcachedServers parameter in this new section
  * Don't forget to run memcached first!
- * 
+ *
  * e.g.
  * [oxMemcached]
  * memcachedServers = 127.0.0.1:11211  ; If you run memcached server on same host and default port
- * 
+ *
  * @package    OpenXPlugin
  * @subpackage TestSuite
  * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
@@ -72,21 +72,21 @@ class Plugins_TestOfPlugins_DeliveryCacheStore_oxMemcached_oxMemcached extends U
         // Skip tests if there is no Memcached connection
         $this->skipUnless(
             isset($this->oMemcached),
-            "There is no Memcached settings"
+            "There are no memcached settings"
         );
-        
+
         $this->skipIf(
             (@$this->oMemcached->getVersion()=== false),
-            "There is no connection to Memcached server(s)"
+            "There is no connection to the memcached server(s)"
         );
     }
-    
-    /** 
+
+    /**
      * Tests the delivery part of this plugin.
      */
 
     /**
-     * A method to test the Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheRetrieve 
+     * A method to test the Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheRetrieve
      */
     function Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheRetrieve() {
         $content = array( 'string' => 'teststring', 'num' => -1);
@@ -101,37 +101,37 @@ class Plugins_TestOfPlugins_DeliveryCacheStore_oxMemcached_oxMemcached extends U
         $oPlgOxMemcached= new Plugins_DeliveryCacheStore_oxMemcached_oxMemcached('deliveryCacheStore', 'oxMemcached', 'oxMemcached');
         $oPlgOxMemcached->deleteCacheFile($filename);
     }
-    
+
     /**
-     * A method to test the Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheStore 
+     * A method to test the Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheStore
      */
     function test_Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheStore() {
         $content = array( 'string' => 'teststring', 'num' => -1, 'file' => "\x02\x00\xff\xea\x01");
         $name = 'testname';
-        $filename = OA_Delivery_Cache_buildFileName($filename);        
-        
+        $filename = OA_Delivery_Cache_buildFileName($filename);
+
         Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheStore($filename, $content);
-        
-        $cacheContent = $this->oMemcached->get($filename);        
+
+        $cacheContent = $this->oMemcached->get($filename);
         $this->assertEqual($content, unserialize($cacheContent));
 
         // Test for new content (null)
         $content = null;
         $cacheContent = Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheStore($filename, $content);
-        
+
         $cacheContent = $this->oMemcached->get($filename);
         $this->assertEqual(serialize($content), $cacheContent);
 
         $oPlgOxMemcached= new Plugins_DeliveryCacheStore_oxMemcached_oxMemcached('deliveryCacheStore', 'oxMemcached', 'oxMemcached');
         $oPlgOxMemcached->deleteCacheFile($filename);
     }
-    
-    /** 
+
+    /**
      * Tests the class part of this plugin.
      */
-    
+
     /**
-     * A method to test the _deleteCacheFile method 
+     * A method to test the _deleteCacheFile method
      */
     function test__deleteCacheFile() {
         $oPlgOxMemcached= new Plugins_DeliveryCacheStore_oxMemcached_oxMemcached('deliveryCacheStore', 'oxMemcached', 'oxMemcached');
@@ -142,14 +142,14 @@ class Plugins_TestOfPlugins_DeliveryCacheStore_oxMemcached_oxMemcached extends U
         Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheStore($filename, $content);
         $cacheContent = $this->oMemcached->get($filename);
         $this->assertEqual(serialize($content), $cacheContent);
-        
+
         $oPlgOxMemcached->_deleteCacheFile($filename);
         $this->assertFalse(file_exists($cachefile));
         $this->assertFalse($this->oMemcached->get($filename));
     }
-    
+
     /**
-     * A method to test the _deleteAll mathod 
+     * A method to test the _deleteAll mathod
      */
     function test__deleteAll() {
         $oPlgOxMemcached= new Plugins_DeliveryCacheStore_oxMemcached_oxMemcached('deliveryCacheStore', 'oxMemcached', 'oxMemcached');
@@ -157,11 +157,11 @@ class Plugins_TestOfPlugins_DeliveryCacheStore_oxMemcached_oxMemcached extends U
         $name = 'test';
         $filename = OA_Delivery_Cache_buildFileName($name);
         $cachefile = $GLOBALS['OA_Delivery_Cache']['path'].$filename;
-        
+
         Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheStore($filename, $content);
         $cacheContent = $this->oMemcached->get($filename);
         $this->assertEqual(serialize($content), $cacheContent);
-        
+
         $oPlgOxMemcached->_deleteAll();
         $this->assertFalse(file_exists($cachefile));
         $this->assertFalse($this->oMemcached->get($filename));
