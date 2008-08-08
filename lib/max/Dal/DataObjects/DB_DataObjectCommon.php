@@ -623,7 +623,7 @@ class DB_DataObjectCommon extends DB_DataObject
      *                                With this parameter it's possible to turn off default behavior
      *                                @see DB_DataObjectCommon:onDeleteCascade
      * @param boolean $parentid The audit ID of the parent object causing the cascade.
-     * @return boolean
+     * @return mixed True on success, false on failure, 0 on no data affected
      * @access protected
      */
     function delete($useWhere = false, $cascadeDelete = true, $parentid = null)
@@ -662,7 +662,8 @@ class DB_DataObjectCommon extends DB_DataObject
                 }
             }
         }
-        if (parent::delete($useWhere))
+        $result = parent::delete($useWhere);
+        if ($result)
         {
             if (is_null($id))
             {
@@ -671,7 +672,7 @@ class DB_DataObjectCommon extends DB_DataObject
             }
             return true;
         }
-        return false;
+        return $result;
     }
 
     /**
