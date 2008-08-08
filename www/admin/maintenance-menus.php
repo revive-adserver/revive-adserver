@@ -55,12 +55,16 @@ echo "<br /><br />";
 
 if (!empty($action))
 {
-    require_once LIB_PATH . '/Plugin/PluginManager.php';
-    $oPluginManager = & new OX_PluginManager();
+/*    $webpath = $GLOBALS['_MAX']['CONF']['webpath']['admin'];
+    require_once($GLOBALS['_MAX']['CONF']['webpath']['admin'].'/plugins/adminExtensionManager.php');*/
+
+
     switch ($action)
     {
         case 'build':
-            $oPluginManager->cacheAllMenus();
+            require_once('plugins/adminExtensionManager.php');
+            $oExtensionManager = new OX_Extension_admin();
+            $oExtensionManager->runTasksOnDemand();
             break;
         default:
     }

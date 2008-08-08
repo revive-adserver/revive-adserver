@@ -34,6 +34,11 @@ class OX_Extension_admin extends OX_Extension_Common
 
     }
 
+    function runTasksOnDemand()
+    {
+        $this->_cacheAllMenus();
+    }
+
     function _cacheAllMenus()
     {
         require_once MAX_PATH. '/lib/OA/Admin/Menu.php';
