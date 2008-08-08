@@ -962,6 +962,8 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
     // we should log the cookieless ID
     if ((empty($viewerId) || !empty($GLOBALS['_MAX']['COOKIE']['newViewerId']))) {
         $log_viewerId = MAX_cookieGetCookielessViewerID();
+    } else {
+        $log_viewerId = substr($viewerId, 0, 32);
     }
     // Ensure that all geotargeting data is correctly escaped
     $aGeotargeting = array_map('pg_escape_string', $aGeotargeting);
@@ -1208,6 +1210,8 @@ function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
     // we should log the cookieless ID
     if ((empty($viewerId) || !empty($GLOBALS['_MAX']['COOKIE']['newViewerId']))) {
         $log_viewerId = MAX_cookieGetCookielessViewerID();
+    } else {
+        $log_viewerId = substr($viewerId, 0, 32);
     }
     $source = isset($_GET['source']) ? $_GET['source'] : '';
     $referer = isset($_GET['referer']) ? $_GET['referer'] : '';
