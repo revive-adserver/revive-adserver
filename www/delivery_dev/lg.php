@@ -46,6 +46,7 @@ MAX_commonRemoveSpecialChars($_REQUEST);
 // Get the viewer ID, and the ad, campaign, creative and zone variables to be logged
 // from the request variables
 $viewerId     = MAX_cookieGetUniqueViewerId();
+MAX_cookieAdd($conf['var']['viewerId'], $viewerId, _getTimeYearFromNow());
 
 $aAdIds       = MAX_Delivery_log_getArrGetVariable('adId');
 $aCampaignIds = MAX_Delivery_log_getArrGetVariable('campaignId');

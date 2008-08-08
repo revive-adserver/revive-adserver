@@ -39,10 +39,6 @@ if(isset($GLOBALS['_MAX']['FILES'][$file])) {
 ###END_STRIP_DELIVERY
 $GLOBALS['_MAX']['FILES'][$file] = true;
 
-// Include required files
-require_once MAX_PATH . '/lib/max/Delivery/marketplace.php';
-
-
 $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'] = array();
 
 // Include the cookie storage library
@@ -82,12 +78,7 @@ function MAX_cookieAdd($name, $value, $expire = 0)
 function MAX_cookieSetViewerIdAndRedirect($viewerId) {
     $aConf = $GLOBALS['_MAX']['CONF'];
 
-    if (MAX_marketplaceEnabled() && !empty($aConf['marketplace']['cacheTime'])) {
-        $expiry = $aConf['marketplace']['cacheTime'] < 0 ? 0 : MAX_commonGetTimeNow + $aConf['marketplace']['cacheTime'];
-    } else {
-        $expiry = _getTimeYearFromNow();
-    }
-    MAX_cookieAdd($aConf['var']['viewerId'], $viewerId, $expiry);
+    MAX_cookieAdd($aConf['var']['viewerId'], $viewerId, _getTimeYearFromNow());
     MAX_cookieFlush();
 
     // Determine if the access to OpenX was made using HTTPS
@@ -195,34 +186,19 @@ function _isBlockCookie($cookieName)
  * If a new viewerId was created, then a flag is set in $GLOBALS['_MAX']['COOKIE']['newViewerId']
  *
  * @param bool $create Should a viewer ID be created if not present in $_COOKIE ?
- * @param bool $oxidOnly Should a viewer ID be retrieved from the local cookie ?
  *
  * @return string The viewer ID
  */
-function MAX_cookieGetUniqueViewerId($create = true, $oxidOnly = false)
+function MAX_cookieGetUniqueViewerId($create = true)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    $uuidRegex = '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}';
-    if (isset($_GET['openxid'])) {
-        if (preg_match('/^(?:0|'.$uuidRegex.')$/Di', $_GET['openxid'])) {
-            $viewerId = $_GET['openxid'];
-        }
+    if (isset($_COOKIE[$conf['var']['viewerId']])) {
+        $viewerId = $_COOKIE[$conf['var']['viewerId']];
+    } elseif ($create) {
+        $viewerId = md5(uniqid('', true));  // Need to find a way to generate this...
+        $GLOBALS['_MAX']['COOKIE']['newViewerId'] = true;
     } else {
         $viewerId = null;
-    }
-    if (!$oxidOnly && empty($viewerId)) {
-        if (isset($_COOKIE[$conf['var']['viewerId']])) {
-            $viewerId = $_COOKIE[$conf['var']['viewerId']];
-            if (MAX_marketplaceEnabled() && !preg_match('/^'.$uuidRegex.'$/Di', $viewerId)) {
-                // Don't accept local cookies if ID service is enabled
-                $viewerId = null;
-            }
-        } elseif ($create) {
-            $viewerId = md5(uniqid('', true));  // Need to find a way to generate this...
-            $GLOBALS['_MAX']['COOKIE']['newViewerId'] = true;
-        } else {
-            $viewerId = null;
-        }
     }
 
     return $viewerId;

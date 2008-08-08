@@ -26,20 +26,35 @@ $Id$
 */
 
 // Require the initialisation file
-include_once '../../init-delivery.php';
+require_once '../../init-delivery.php';
 require_once MAX_PATH . '/lib/max/Delivery/common.php';
 require_once MAX_PATH . '/lib/max/Delivery/marketplace.php';
 
-// Marketplace
-MAX_marketplaceGetIdWithRedirect(basename(__FILE__));
 
-if ($viewerId = MAX_cookieGetUniqueViewerId()) {
-    if (MAX_marketplaceEnabled() && !empty($conf['marketplace']['cacheTime'])) {
-        $expiry = $conf['marketplace']['cacheTime'] < 0 ? null : MAX_commonGetTimeNow + $conf['marketplace']['cacheTime'];
+if (MAX_marketplaceEnabled()) {
+    if (isset($_GET['indium'])) {
+        if ($_GET['indium']) {
+            if (!empty($conf['marketplace']['cacheTime'])) {
+                $expiry = $conf['marketplace']['cacheTime'] < 0 ? null : MAX_commonGetTimeNow + $conf['marketplace']['cacheTime'];
+            } else {
+                $expiry = _getTimeYearFromNow();
+            }
+            MAX_cookieSet('In', '1', $expiry);
+        }
     } else {
-        $expiry = _getTimeYearFromNow();
+        $scriptName = basename(__FILE__);
+        $oxpUrl = MAX_commonGetDeliveryUrl($scriptName).'?';
+        if (!empty($_SERVER['QUERY_STRING'])) {
+            $oxpUrl .= $_SERVER['QUERY_STRING'].'&';
+        }
+        $oxpUrl .= 'indium=INDIUM_OK';
+        $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
+        $url .= $conf['marketplace']['indiumHost'].'/redir?r='.urlencode($oxpUrl);
+        $url .= '&pid=OpenXDemo';
+        $url .= '&cb='.mt_rand(0, PHP_INT_MAX);
+        header("Location: {$url}");
+        exit;
     }
-    MAX_cookieSet($conf['var']['viewerId'], $viewerId, $expiry);
 }
 
 MAX_commonDisplay1x1();

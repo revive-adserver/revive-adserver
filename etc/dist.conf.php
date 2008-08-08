@@ -453,9 +453,9 @@ enabled=1
 [marketplace]
 enabled=1
 cacheTime=-1
-idHost=id.openx.net
-bidHost=bid.openx.net
+indiumHost=indium.beccati.net
+thoriumHost=thorium.beccati.net
 defaultEnabled=1
-defaultCPM=0.5000
+defaultCPM=0.01
 
 ;------------------------------------------------------------------------------------------;

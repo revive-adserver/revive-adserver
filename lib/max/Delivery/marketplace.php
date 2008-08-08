@@ -51,79 +51,13 @@ function MAX_marketplaceEnabled()
 /**
  * A function to check if a ping to the ID service is needed
  *
+ * @todo Use a cookie
  * @return boolean
  */
-function MAX_marketplaceNeedsId()
+function MAX_marketplaceNeedsIndium()
 {
     $aConf = $GLOBALS['_MAX']['CONF'];
-    if (MAX_marketplaceEnabled()) {
-        $oxidOnly = $aConf['marketplace']['cacheTime'] == 0;
-        $viewerId = MAX_cookieGetUniqueViewerId(false, $oxidOnly);
-    }
-    return !isset($viewerId);
-}
-
-/**
- * A function to get the OpenX ID using a redirect
- *
- * The redirect will be issued only if the OpenX ID isn't already
- * present in the local cookie space and "Marketplace" is enabled
- *
- * @param string $scriptName
- */
-function MAX_marketplaceGetIdWithRedirect($scriptName = null)
-{
-    $aConf = $GLOBALS['_MAX']['CONF'];
-    if (MAX_marketplaceEnabled()) {
-        if (MAX_marketplaceNeedsId() && !isset($_GET['openxid'])) {
-            $scriptName = isset($scriptName) ? $scriptName : basename($_SERVER['SCRIPT_NAME']);
-            $oxpUrl = MAX_commonGetDeliveryUrl($scriptName).'?';
-            if (!empty($_SERVER['QUERY_STRING'])) {
-                $oxpUrl .= $_SERVER['QUERY_STRING'].'&';
-            }
-            $oxpUrl .= 'openxid=OPENX_ID';
-            $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
-            $url .= $aConf['marketplace']['idHost'].'/redir?r='.urlencode($oxpUrl);
-            $url .= '&pid=OpenXDemo';
-            $url .= '&cb='.mt_rand(0, PHP_INT_MAX);
-            header("Location: {$url}");
-            exit;
-        }
-    }
-}
-
-/**
- * A function which returns the JS code needed by SPC to display the ad
- *
- * @param string $varPrefix
- * @return string
- */
-function MAX_marketplaceGetIdWithSpc($varPrefix)
-{
-    $aConf = $GLOBALS['_MAX']['CONF'];
-    $script = '';
-    if (MAX_marketplaceNeedsId()) {
-        $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
-        $url .= $aConf['marketplace']['idHost'].'/jsox?n='.urlencode($varPrefix.'spc');
-        $url .= '&pid=OpenXDemo';
-        $url .= '&cb='.mt_rand(0, PHP_INT_MAX);
-
-        $script .= "
-    {$varPrefix}spc+=\"&amp;openxid=OPENX_ID'><\"+\"/script>\";
-
-    var {$varPrefix}marketplace=\"<\"+\"script type='text/javascript' \";
-    {$varPrefix}marketplace+=\"src='".htmlspecialchars($url, ENT_QUOTES)."'><\"+\"/script>\";
-    document.write({$varPrefix}marketplace);
-";
-    } else {
-        $script .= "
-    {$varPrefix}spc+=\"'><\"+\"/script>\";
-
-    document.write({$varPrefix}spc);
-";
-    }
-
-    return $script;
+    return MAX_marketplaceEnabled() && empty($_COOKIE['In']);
 }
 
 ?>
