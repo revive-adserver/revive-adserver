@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -618,8 +618,14 @@ class OA_Dll_Zone extends OA_Dll
             if (!$this->checkPermissions(null, 'affiliates', $doZones->affiliateid, OA_PERM_ZONE_LINK)) {
                 return false;
             }
-
-            return Admin_DA::deletePlacementZones(array('zone_id' => $zoneId, 'placement_id' => $campaignId));
+    
+            $result = Admin_DA::deletePlacementZones(array('zone_id' => $zoneId, 'placement_id' => $campaignId));
+            if ($result === 0) {
+	           $this->raiseError('Unknown link for zoneId and campaignId Error');
+               return false;
+            } else {
+	           return $result;
+            }
         }
 
         return false;

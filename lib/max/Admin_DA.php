@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -1350,19 +1350,22 @@ class Admin_DA
         return $pzaId;
     }
 
+    /**
+ 	 * @param array $aParams
+ 	 * @param bool $allFields
+ 	 * @return mixed 0 if no rows affected, true on success, false otherwise
+ 	 */
     function deletePlacementZones($aParams, $allFields = false)
     {
-        $sucess = true;
-        if (!SqlBuilder::_doDelete('placement_zone_assoc', $aParams))
-        {
-            $sucess = false;
-        }
+        $result = SqlBuilder::_doDelete('placement_zone_assoc', $aParams);
+        
+        // Unlink any ads in the campaign that are linked to the zone.
         $pAds = Admin_DA::getAds(array('placement_id' => $aParams['placement_id']));
         foreach ($pAds as $adId => $pAd)
         {
             SqlBuilder::_doDelete('ad_zone_assoc',array('zone_id' => $aParams['zone_id'], 'ad_id' => $adId));
         }
-        return $sucess;
+        return $result;
     }
 
 
