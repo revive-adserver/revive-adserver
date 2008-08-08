@@ -48,9 +48,9 @@ class CCConfigWriter
         $sectionDatabase->setDirective('username', $username);
         $sectionDatabase->setDirective('password', $password);
         $sectionDatabase->setDirective('name', $name);
-        
+
         $sectionLoadBalancing = &$configContainer->getItem('section', 'lb');
-        $sectionLoadBalancing->setDirective('enabled', $loadBalancingEnabled); 
+        $sectionLoadBalancing->setDirective('enabled', $loadBalancingEnabled);
         $sectionLoadBalancing->setDirective('type', $type);
         $sectionLoadBalancing->setDirective('host', $host);
         $sectionLoadBalancing->setDirective('port', $port);
@@ -65,9 +65,12 @@ class CCConfigWriter
         // Nightly builds can take a lot of time... use 30 minutes
         $sectionMaintenance = &$configContainer->getItem('section', 'maintenance');
         $sectionMaintenance->setDirective('timeLimitScripts', 60 * 30);
-        
+
         $sectionAudit = &$configContainer->getItem('section', 'audit');
         $sectionAudit->setDirective('enabled', $auditEnabled);
+
+        $section_oxMemcached = &$configContainer->getItem('section', 'oxMemcached');
+        $section_oxMemcached->setDirective('memcachedServers', '127.0.0.1:11211');
 
         $config->writeConfig(CONFIG_PATH, 'inifile');
     }
