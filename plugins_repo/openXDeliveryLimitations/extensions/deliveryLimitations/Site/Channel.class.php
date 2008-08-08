@@ -90,60 +90,44 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
         $this->bannerid = (isset($GLOBALS['bannerid'])) ? $GLOBALS['bannerid'] : 0;
         $tabindex =& $GLOBALS['tabindex'];
 
-        // Get list of all publishers (affiliates) which are linked to the banner
-        $aAffiliates = array();
-        $query = "
-            SELECT
-                z.affiliateid AS affiliateid
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']} AS aza,
-                {$conf['table']['prefix']}{$conf['table']['zones']} AS z
-            WHERE
-                aza.zone_id = z.zoneid
-                AND
-                aza.ad_id = " . DBC::makeLiteral($this->bannerid);
-        $rsAffiliates = DBC::NewRecordSet($query);
-        $rsAffiliates->find();
-        while ($rsAffiliates->fetch()) {
-            $aAffiliates[] = $rsAffiliates->get('affiliateid');
-        }
-
-        // Select the agency ID that owns this banner (it may be the admin ID, 0)
-        $query = "
-            SELECT
-                a.agencyid AS agencyid
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['banners']} AS b,
-                {$conf['table']['prefix']}{$conf['table']['campaigns']} AS m,
-                {$conf['table']['prefix']}{$conf['table']['clients']} AS a
-            WHERE
-                a.clientid = m.clientid
-                AND
-                m.campaignid = b.campaignid
-                AND
-                b.bannerid = " . DBC::makeLiteral($this->bannerid);
-        $rsAgency = DBC::NewRecordSet($query);
-        $rsAgency->find();
-        $rsAgency->fetch();
-        $this->agencyid = $rsAgency->get('agencyid');
-
-        if (PEAR::isError($this->agencyid)) {
-            phpAds_sqlDie();
-        }
-
-        $aChannels = array();
-
+        $aChannels = array();        
+        
         // Get all of the agency channels that could be used for this banner
-        $aAgencyChannels = Admin_DA::getChannels(array('agency_id' => $this->agencyid, 'channel_type' => 'agency'), true);
-        foreach ($aAgencyChannels as $aChannel) {
-            $channelId = $aChannel['channel_id'];
+        //  select the agency ID that owns this banner (it may be the admin ID, 0)
+        $doChannel = OA_Dal::factoryDO('channel');
+        $doAgency = OA_Dal::factoryDO('agency');
+        $doClients = OA_Dal::factoryDO('clients');
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->bannerid = $this->bannerid;
+        $doCampaigns->joinAdd($doBanners);
+        $doClients->joinAdd($doCampaigns);
+        $doAgency->joinAdd($doClients);
+        $doChannel->joinAdd($doAgency);
+        $doChannel->affiliateid = 0;
+        $doChannel->selectAdd("{$doChannel->tableName()}.name as channelname");
+        $doChannel->find();
+        while ($doChannel->fetch()) {
+            $aChannel = $doChannel->toArray();
+            $channelId = $aChannel['channelid'];
             $aChannels[$channelId] = $aChannel;
         }
 
         // Get all of the publisher channels that could be used for this banner
-        $aPublisherChannels = Admin_DA::getChannels(array('agency_id' => $this->agencyid, 'channel_type' => 'publisher'), true);
-        foreach ($aPublisherChannels as $aChannel) {
-            $channelId = $aChannel['channel_id'];
+        //  only publishers (affiliates) which are linked to the banner
+        $doChannel = OA_Dal::factoryDO('channel');
+        $doAffiliates = OA_Dal::factoryDO('affiliates');
+        $doZones = OA_Dal::factoryDO('zones');
+        $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
+        $doAdZoneAssoc->ad_id = $this->bannerid;
+        $doZones->joinAdd($doAdZoneAssoc);
+        $doAffiliates->joinAdd($doZones);
+        $doChannel->joinAdd($doAffiliates);
+        $doChannel->selectAdd("{$doChannel->tableName()}.name as channelname");
+        $doChannel->find();
+        while ($doChannel->fetch()) {
+            $aChannel = $doChannel->toArray();
+            $channelId = $aChannel['channelid'];
             $aChannels[$channelId] = $aChannel;
         }
 
@@ -151,7 +135,7 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
         // Sort the list, and move selected items to the top of the list
         usort($aChannels, '_sortByChannelName');
         foreach ($aChannels as $index => $aChannel) {
-            if (in_array($aChannel['channel_id'], $this->data)) {
+            if (in_array($aChannel['channelid'], $this->data)) {
                 $aSelectedChannels[$index] = $aChannel;
                 unset($aChannels[$index]);
             }
@@ -159,24 +143,20 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
         $aChannels = $aSelectedChannels + $aChannels;
         echo "<div class='box'>";
         foreach ($aChannels as $aChannel) {
-            if (!empty($aChannel['publisher_id']) && !in_array($aChannel['publisher_id'], $aAffiliates)) {
-                continue;
-            }
-            if (empty($aChannel['publisher_id'])) {
-                $editUrl = "channel-acl.php?agencyid={$this->agencyid}&channelid={$aChannel['channel_id']}";
+            if (empty($aChannel['affiliateid'])) {
+                $editUrl = "channel-acl.php?agencyid={$this->agencyid}&channelid={$aChannel['channelid']}";
             } else {
-                $editUrl = "channel-acl.php?affiliateid={$aChannel['publisher_id']}&channelid={$aChannel['channel_id']}";
-            }
+                $editUrl = "channel-acl.php?affiliateid={$aChannel['affiliateid']}&channelid={$aChannel['channelid']}";             }
             echo "
                 <div class='boxrow'>
                     <input
                         tabindex='".($tabindex++)."'
                         type='checkbox'
-                        id='c_{$this->executionorder}_{$aChannel['channel_id']}'
+                        id='c_{$this->executionorder}_{$aChannel['channelid']}'
                         name='acl[{$this->executionorder}][data][]'
-                        value='{$aChannel['channel_id']}'".(in_array($aChannel['channel_id'], $this->data) ? ' checked="checked"' : '')."
+                        value='{$aChannel['channelid']}'".(in_array($aChannel['channelid'], $this->data) ? ' checked="checked"' : '')."
                     />
-                    {$aChannel['name']}
+                    {$aChannel['channelname']}
                     <a href='{$editUrl}' target='_blank'><img src='" . OX::assetPath() . "/images/{$GLOBALS['phpAds_TextDirection']}/go_blue.gif' border='0' align='absmiddle' alt='{$GLOBALS['strView']}'></a>
                 </div>";
         }
