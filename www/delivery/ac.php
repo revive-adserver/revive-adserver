@@ -1648,9 +1648,12 @@ $replace[] = (!empty($macros[2][$i])) ? urlencode($_REQUEST[$macros[1][$i]]) : $
 $code = str_replace($search, $replace, $code);
 $clickUrl = str_replace($search, $replace, $clickUrl);
 $aBanner['clickUrl'] = $clickUrl;
-$logUrl = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&amp;');
+$logUrl = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&');
 $logUrl = str_replace($search, $replace, $logUrl);
 $aBanner['logUrl'] = $logUrl;
+// Pass over the search / replace patterns
+$aBanner['aSearch']  = $search;
+$aBanner['aReplace'] = $replace;
 //    return $code;
 return MAX_commonConvertEncoding($code, $charset);
 }
@@ -2164,8 +2167,10 @@ $output = array(
 'height'        => $row['height'],
 'url'           => $row['url'],
 'campaignid'    => $row['campaignid'],
-'clickUrl'	     => $row['clickUrl'],
+'clickUrl'      => $row['clickUrl'],
 'logUrl'        => $row['logUrl'],
+'aSearch'       => $row['aSearch'],
+'aReplace'      => $row['aReplace'],
 'bannerContent' => $row['bannerContent'],
 'context'       => _adSelectBuildContext($row, $context)
 );

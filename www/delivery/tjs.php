@@ -1733,6 +1733,10 @@ $buffer .= "\ndocument.write({$varName});\n";
 }
 return $buffer;
 }
+function MAX_javascriptEncodeJsonField($string)
+{
+return '"'.addcslashes($string, "\\/\"\f\n\r\t").'"';
+}
 function MAX_trackerbuildJSVariablesScript($trackerid, $conversionInfo, $trackerJsCode = null)
 {
 $conf = $GLOBALS['_MAX']['CONF'];

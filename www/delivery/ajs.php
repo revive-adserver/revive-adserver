@@ -1877,9 +1877,12 @@ $replace[] = (!empty($macros[2][$i])) ? urlencode($_REQUEST[$macros[1][$i]]) : $
 $code = str_replace($search, $replace, $code);
 $clickUrl = str_replace($search, $replace, $clickUrl);
 $aBanner['clickUrl'] = $clickUrl;
-$logUrl = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&amp;');
+$logUrl = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&');
 $logUrl = str_replace($search, $replace, $logUrl);
 $aBanner['logUrl'] = $logUrl;
+// Pass over the search / replace patterns
+$aBanner['aSearch']  = $search;
+$aBanner['aReplace'] = $replace;
 //    return $code;
 return MAX_commonConvertEncoding($code, $charset);
 }
@@ -2393,8 +2396,10 @@ $output = array(
 'height'        => $row['height'],
 'url'           => $row['url'],
 'campaignid'    => $row['campaignid'],
-'clickUrl'	     => $row['clickUrl'],
+'clickUrl'      => $row['clickUrl'],
 'logUrl'        => $row['logUrl'],
+'aSearch'       => $row['aSearch'],
+'aReplace'      => $row['aReplace'],
 'bannerContent' => $row['bannerContent'],
 'context'       => _adSelectBuildContext($row, $context)
 );
@@ -2770,6 +2775,8 @@ return @file_get_contents($conf['file']['flash']);
 return file_get_contents(MAX_PATH . '/www/delivery/' . $conf['file']['flash']);
 }
 }
+$file = '/lib/OA/Delivery/marketplace.php';
+$GLOBALS['_MAX']['FILES'][$file] = true;
 function MAX_javascriptToHTML($string, $varName, $output = true, $localScope = true)
 {
 $jsLines = array();
@@ -2790,6 +2797,87 @@ if ($output == true) {
 $buffer .= "\ndocument.write({$varName});\n";
 }
 return $buffer;
+}
+function MAX_javascriptEncodeJsonField($string)
+{
+return '"'.addcslashes($string, "\\/\"\f\n\r\t").'"';
+}
+function MAX_marketplaceEnabled()
+{
+return !empty($GLOBALS['_MAX']['CONF']['pluginGroupComponents']['bidService']);
+}
+function MAX_marketplaceNeedsIndium()
+{
+$aConf = $GLOBALS['_MAX']['CONF'];
+return MAX_marketplaceEnabled() && empty($_COOKIE['In']);
+}
+function MAX_marketplaceProcess($scriptFile, $aAd, $aZoneInfo = array(), $aParams = array())
+{
+$output = '';
+$aConf = $GLOBALS['_MAX']['CONF'];
+if (MAX_marketplaceEnabled()) { // Need also to check if marketplace is enabled at zone level
+if (!empty($aAd['html']) && !empty($aAd['width']) && !empty($aAd['height'])) {
+$cb = mt_rand(0, PHP_INT_MAX);
+$floorPrice = $aConf['bidService']['defaultFloorPrice'];
+$baseUrl = 'http://'.$aConf['bidService']['thoriumHost'];
+$urlParams = array(
+'pid=OpenXDemo',
+'tag_type=1',
+'f='.urlencode($floorPrice),
+'s='.urlencode($aAd['width'].'x'.$aAd['height']),
+);
+if ($aConf['logging']['adImpressions']) {
+$beaconHtml = MAX_adRenderImageBeacon($aAd['logUrl'].'&fromMarketplace=1');
+$beaconHtml = str_replace($aAd['aSearch'], $aAd['aReplace'], $beaconHtml);
+} else {
+$beaconHtml = '';
+}
+switch ($scriptFile) {
+case 'js':
+$uniqid = substr(md5(uniqid('', 1)), 0, 8);
+$ntVar  = 'OXT_'.$uniqid;
+$nfVar  = 'OXF_'.$uniqid;
+$mktVar = 'OXM_'.$uniqid;
+$output = "\n";
+$output .= MAX_javascriptToHTML($aAd['html'], $nfVar, false);
+$output .= "\n";
+$output .= MAX_javascriptToHTML($beaconHtml, $ntVar, false);
+$output .= "\n";
+$url = $baseUrl.'/jsox?'.join('&', $urlParams);
+$url .= '&nt='.urlencode($ntVar);
+$url .= '&nf='.urlencode($nfVar);
+$url .= '&cb'.$cb;
+$html = '<script type="text/javascript" src="'.htmlspecialchars($url).'"></script>';
+$output .= MAX_javascriptToHTML($html, $mktVar);
+break;
+case 'frame':
+case 'spc':
+$oVar = 'OXM_'.substr(md5(uniqid('', 1)), 0, 8);
+$output = '<script type="text/javascript">';
+$output .= "\n";
+$output .= "{$oVar} = {\"t\":".
+MAX_javascriptEncodeJsonField($beaconHtml).
+",\"f\":".
+MAX_javascriptEncodeJsonField($aAd['html']).
+"}\n";
+$output .= "</script>\n";
+$url = $baseUrl.'/json?'.join('&', $urlParams);
+$url .= '&o='.urlencode($oVar);
+$url .= '&cb'.$cb;
+$output .= '<script type="text/javascript" src="'.htmlspecialchars($url).'"></script>';
+break;
+}
+}
+}
+return $output;
+}
+function MAX_marketplaceLogGetIds()
+{
+$aAdIds = array();
+if (!empty($_GET['fromMarketplace'])) {
+$aAdIds[0] = -1;
+}
+return $aAdIds;
 }
 // No Caching
 MAX_commonSetNoCacheHeaders();
@@ -2847,8 +2935,13 @@ MAX_commonSendContentTypeHeader("text/javascript", $charset);
 if (isset($output['contenttype']) && $output['contenttype'] == 'swf' && !$mmm_fo) {
 echo MAX_flashGetFlashObjectInline();
 }
+$marketplaceOutput = MAX_marketplaceProcess('js', $output);
 // Output the code
+if ($marketplaceOutput) {
+echo $marketplaceOutput;
+} else {
 echo MAX_javascriptToHTML($output['html'], 'OX_'.substr(md5(uniqid('', 1)), 0, 8));
+}
 
 
 ?>
