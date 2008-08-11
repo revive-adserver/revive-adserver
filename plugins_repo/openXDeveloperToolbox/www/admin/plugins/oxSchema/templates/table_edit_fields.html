@@ -1,0 +1,104 @@
+                <table class="tablemain">
+                    <tr>
+                        <td class="tableheader" colspan="8"><span class="titlemini">fields</span></td>
+                    </tr>
+                    <tr>
+                        <td class="tableheader"></td>
+                        <td class="tableheader">name</td>
+                        <td class="tableheader">type</td>
+                        <td class="tableheader">length</td>
+                        <td class="tableheader">default</td>
+                        <td class="tableheader">autoincrement</td>
+                        <td class="tableheader">unsigned</td>
+                        <td class="tableheader">notnull</td>
+                    </tr>
+                    <?php
+                    $i = 0;
+                    foreach ($aTbl_definition['fields'] AS $field => $field_def )
+                    {
+                        $i++;
+                        $form_name = 'frm_field_'.$i;
+                    ?>
+                    <tr>
+                    <form name="<?php echo $form_name; ?>" id="<?php echo $form_name; ?>" action="oxSchema-frame.php" method="POST">
+                        <input type="hidden" name="xml_file" value="<?php echo $current_file; ?>"/>
+                        <input type="hidden" name="table_edit" value="<?php echo $table; ?>"/>
+                        <input type="hidden" name="field_name" value="<?php echo $field; ?>" />
+                        <input type="hidden" name="field_type" value="<?php echo $field_def['type']; ?>" />
+                        <!--input type="hidden" name="field_no"   value="<?php echo $i; ?>" /-->
+
+                        <td class="tablebody"><button name="btn_field_del" type="submit">delete</button></td>
+                        <td class="tablebody">
+
+                            <span class="titlemini" id="fld_old_name_<?php echo $i; ?>" name="fld_old_name" style="cursor: pointer;display:inline;" ondblclick="xajax_editFieldProperty(xajax.getFormValues('<?php echo $form_name; ?>'),'name','<?php echo $i; ?>');" ><?php echo $field; ?></span>
+
+                            <input type="text" id="fld_new_name_<?php echo $i; ?>" name="fld_new_name" ondblclick="xajax_editFieldProperty(xajax.getFormValues('<?php echo $form_name; ?>','name','<?php echo $i; ?>')" style="display:none" value="<?php echo $field; ?>"/>
+
+                            <input type="submit" id="btn_field_save_name_<?php echo $i; ?>" name="btn_field_save" style="display:none" value="save"/>
+
+                            <input type="submit" id="btn_exit_name_<?php echo $i; ?>" name="btn_exit_name" onclick="xajax_exitFieldProperty(xajax.getFormValues('<?php echo $form_name; ?>'),'name','<?php echo $i; ?>');" style="display:none" value="exit"/>
+
+                        </td>
+
+                        <td class="tablebody">
+                            <span class="titlemini" id="field_old_type_<?php echo $i; ?>" name="field_old_type_<?php echo $i; ?>" style="cursor: pointer;display:inline;" ondblclick="xajax_editFieldProperty(xajax.getFormValues('<?php echo $form_name; ?>'),'type','<?php echo $i; ?>');" ><?php echo $field_def['type']; ?></span>
+                            <select id="fld_new_type_<?php echo $i; ?>" name="fld_new_type" ondblclick="xajax_editFieldProperty(xajax.getFormValues('<?php echo $form_name; ?>'),'type','<?php echo $i; ?>');" style="display:none">
+                            <?php
+                                echo $dd_options;
+                            ?>
+
+                            <input type="submit" id="btn_field_save_type_<?php echo $i; ?>" name="btn_field_save" style="display:none" value="save"/>
+
+                            <input type="submit" id="btn_exit_type_<?php echo $i; ?>" name="btn_exit_type" onclick="xajax_exitFieldProperty(xajax.getFormValues('<?php echo $form_name; ?>'),'type','<?php echo $i; ?>');" style="display:none" value="exit"/>
+
+                            </select>
+                        </td>
+
+                        <td class="tablebody">
+                            <?php echo ($field_def['length']?$field_def['length']:'&nbsp;'); ?>
+                        </td>
+
+                        <td class="tablebody">
+                            <?php echo ($field_def['default']?$field_def['default']:'&nbsp;'); ?>
+                        </td>
+
+                        <td class="tablebody">
+                            <?php echo ($field_def['autoincrement']?$field_def['autoincrement']:'&nbsp;'); ?>
+                        </td>
+
+                        <td class="tablebody">
+                            <?php echo ($field_def['unsigned']?$field_def['unsigned']:'&nbsp;'); ?>
+                        </td>
+
+                        <td class="tablebody">
+                            <?php echo ($field_def['notnull']?$field_def['notnull']:'&nbsp;'); ?>
+                        </td>
+                    </form>
+                    </tr>
+                    <?php
+                    }
+                    ?>
+                    <tr>
+                        <td class="tableheader" colspan="8">
+                            <form name="frm_field" action="oxSchema-frame.php" method="POST">
+                                <input type="hidden" name="xml_file" value="<?php echo $current_file; ?>"/>
+                                <input type="hidden" name="table_edit" value="<?php echo $table; ?>"/>
+                                <span class="titlemini">
+                                    <button name="btn_field_add" type="submit">new field</button>
+                                    <span class="textmini" id="span_field_add" style="display:inline">
+                                        <input type="text" name="field_add" id="field_add" value="" style="display:inline"/>
+                                        <select name="sel_field_add">
+                                        <?php
+                                            echo $dd_options;
+                                        /*foreach ($aDD_definition['options'] AS $k => $option )
+                                        {
+                                            echo $option;
+                                        }*/
+                                        ?>
+                                        </select>
+                                    </span>
+                                </span>
+                            </form>
+                        </td>
+                    </tr>
+                </table>

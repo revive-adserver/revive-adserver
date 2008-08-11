@@ -1,0 +1,130 @@
+                <table class="tablemain">
+                    <tr>
+                        <td class="tableheader" colspan="8"><span class="titlemini">indexes</span></td>
+                    </tr>
+                    <tr>
+                        <td class="tableheader"></td>
+                        <td class="tableheader">name</td>
+                        <td class="tableheader">primary</td>
+                        <td class="tableheader">unique</td>
+                        <td class="tableheader" colspan="8">fields</td>
+                    </tr>
+                    <?php
+                    $i = 0;
+                    foreach ($aTbl_definition['indexes'] AS $name => $idx_def )
+                    {
+                        $i++;
+                        $form_name = 'frm_index_'.$i;
+                    ?>
+                    <tr>
+                    <form name="<?php echo $form_name; ?>" id="<?php echo $form_name; ?>" action="oxSchema-frame.php" method="POST">
+                    <input type="hidden" name="xml_file" value="<?php echo $current_file; ?>"/>
+                    <input type="hidden" name="table_edit" value="<?php echo $table; ?>"/>
+                    <input type="hidden" name="index_no" value="<?php echo $i; ?>"/>
+                    <input type="hidden" name="index_name" value="<?php echo $name; ?>" />
+                        <td class="tablebody" style="width:15%;">
+
+                            <button name="btn_index_del"  type="submit">delete</button>
+                            <!-- THIS BUTTON SWITCHES ON THE COMPLICATED EDIT INDEX STUFF :O  -->
+                            <!--button id="btn_idx_edit_<?php //echo $i; ?>" name="btn_idx_edit" type="submit" style="display:inline" onclick="xajax_editIndexProperty(xajax.getFormValues('<?php //echo $form_name; ?>')); return false">edit</button-->
+
+                            <button id="btn_idx_exit_<?php echo $i; ?>" name="btn_idx_exit" type="submit" style="display:none" onclick="xajax_exitIndexProperty(xajax.getFormValues('<?php echo $form_name; ?>')); return false">exit</button>
+
+                            <button id="btn_idx_save_<?php echo $i; ?>" name="btn_index_save" type="submit" style="display:none">save</button>
+                        </td>
+
+                        <td class="tablebody">
+                            <span id="idx[<?php echo $i; ?>][was]" name="idx[<?php echo $i; ?>][was]" style="display:inline;"><?php echo $name; ?></span>
+                            <input type="hidden" id="idx[<?php echo $i; ?>][was]" name="idx[<?php echo $i; ?>][was]" value="<?php echo $name; ?>"/>
+                            <input type="text" id="idx[<?php echo $i; ?>][name]" name="idx[<?php echo $i; ?>][name]" value="<?php echo $name; ?>" style="display:none;" />
+                        </td>
+
+                        <td class="tablebody">
+                            <span id="idx[<?php echo $i; ?>][was][primary]" name="idx[<?php echo $i; ?>][was][primary]" style="display:inline;"><?php echo ($idx_def['primary']?$idx_def['primary']:'&nbsp;'); ?></span>
+                            <input type="checkbox" id="idx[<?php echo $i; ?>][primary]" name="idx[<?php echo $i; ?>][primary]" value="true" <?php echo ($idx_def['primary']? 'checked': ''); ?> style="display:none;" />
+                        </td>
+
+                        <td class="tablebody">
+                            <span id="idx[<?php echo $i; ?>][was][unique]" name="idx[<?php echo $i; ?>][was][unique]" style="display:inline;"><?php echo ($idx_def['unique']?$idx_def['unique']:'&nbsp;'); ?></span>
+                            <input type="checkbox" id="idx[<?php echo $i; ?>][unique]" name="idx[<?php echo $i; ?>][unique]" value="true" <?php echo ($idx_def['unique']? 'checked': ''); ?> style="display:none;" />
+                        </td>
+
+                        <td class="tablebody" style="padding:5px;">
+
+                			<table class="tablemain">
+                            <?php
+                            $x = 0;
+                            foreach ($idx_def['fields'] AS $field => $fld_def )
+                            {
+                                $x++;
+                                $id = 'idx['.$i.'][fields]['.$field.']';
+                            ?>
+                                <tr>
+                                    <td class="tablebody">
+                                        <span id="edit_<?php echo $id; ?>" style="display:none">
+
+                                            <input type="text" id="<?php echo $id; ?>[order]" name="<?php echo $id; ?>[order]" value="<?php echo $x; ?>" style="display:none;" size="1" />
+
+                                            <?php echo $field.' '.$fld_def['sorting'] ; ?>
+
+                                            <input type="text" id="<?php echo $id; ?>[name]" name="[<?php echo $id; ?>][name]" value="<?php echo $field; ?>" style="display:none;"/>
+
+                                            <input type="checkbox" id="<?php echo $id; ?>[sorting]" name="<?php echo $id; ?>[sorting]" value="ascending" <?php echo $fld_def['sorting']; ?>" style="display:none;" <?php echo ($fld_def['sorting']=='ascending'? 'checked': ''); ?>/>
+
+                                        </span>
+                                        <span id="span_<?php echo $id; ?>" style="display:inline">
+                                            <?php echo $field.' ('.$fld_def['sorting'].')' ; ?>
+                                        </span>
+                                    </td>
+                                </tr>
+
+                            <?php
+                            }
+                            ?>
+                            </table>
+                        </td>
+                    </tr>
+                    </form>
+                    <?php
+                    }
+                   ?>
+                    <tr>
+                        <td class="tableheader" colspan="8">
+                            <form id="frm_index" name="frm_index" action="oxSchema-frame.php" method="POST">
+                                <input type="hidden" name="table_edit" value="<?php echo $table; ?>"/>
+                                <span class="titlemini">
+                                    <button name="btn_index_add" type="submit">new index</button>
+                                </span>
+                                <span class="textmini" id="span_index_add" style="display:inline;">
+                                    <input type="text" name="index_add" id="index_add" value="" style="display:inline"/>
+                                    primary<input type="checkbox" value="1" name="idx_primary"/>
+                                    unique<input type="checkbox" value="1" name="idx_unique"/>
+                                    <table class="tablemain">
+                                        <tr class="tableheader">
+                                            <td>double click to select</td>
+                                            <td>fields to add in order</td>
+                                        </tr>
+                                        <tr class="tableheader">
+                                            <td class="tablebody" style="border:1px solid;width:50%;">
+                                                <ul name="fld_list" name="fld_list" style="cursor:pointer;list-style-type: none;" >
+                                                <?php
+                                                $i = 0;
+                                                foreach ($aTbl_definition['fields'] AS $field => $field_def )
+                                                {
+                                                    $i++;
+                                                    echo "<li id=\"fld_{$i}\" value=\"{$field}\" ondblclick=\"xajax_addIndexField('{$field}'); return false\">{$field}</li>";
+                                                }
+                                                ?>
+                                                </ul>
+                                            </td>
+                                            <td class="tablebody" style="border:1px solid;vertical-align:top;width:50%;">
+                                                <ul id="idx_fields" name="idx_fields" style="list-style-type: none;">
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </span>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
