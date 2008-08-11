@@ -2463,8 +2463,7 @@ $userinfo = implode(', ', $userinfo);
 $message .= ' : ' . $userinfo;
 }
 }
-// Obtain backtrace information, if supported by PHP
-if (version_compare(phpversion(), '4.3.0') >= 0) {
+// Obtain backtrace information
 $aBacktrace = debug_backtrace();
 if ($aConf['log']['methodNames']) {
 // Show from four calls up the stack, to avoid the
@@ -2481,7 +2480,6 @@ foreach($aBacktrace as $aErrorBacktrace) {
 if (isset($aErrorBacktrace['file']) && isset($aErrorBacktrace['line'])) {
 $message .=  "\n" . str_repeat(' ', 20 + strlen($aConf['log']['ident']) + strlen($oLogger->priorityToString($priority)));
 $message .= 'on line ' . $aErrorBacktrace['line'] . ' of "' . $aErrorBacktrace['file'] . '"';
-}
 }
 }
 }
