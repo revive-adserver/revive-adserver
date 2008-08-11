@@ -36,6 +36,7 @@ require_once '../../init-delivery.php';
 
 // Required files
 require_once MAX_PATH . '/lib/max/Delivery/querystring.php';
+require_once MAX_PATH . '/lib/max/Delivery/marketplace.php';
 
 // Prevent the logging beacon from being cached by browsers
 MAX_commonSetNoCacheHeaders();
@@ -52,6 +53,8 @@ $aAdIds       = MAX_Delivery_log_getArrGetVariable('adId');
 $aCampaignIds = MAX_Delivery_log_getArrGetVariable('campaignId');
 $aCreativeIds = MAX_Delivery_log_getArrGetVariable('creativeId');
 $aZoneIds     = MAX_Delivery_log_getArrGetVariable('zoneId');
+
+$aOverrideAdIds = MAX_marketplaceLogGetIds();
 
 // Get any ad, campaign and zone capping information from the request variables
 $aCapAd['block']                 = MAX_Delivery_log_getArrGetVariable('blockAd');
@@ -76,22 +79,26 @@ if (isset($_REQUEST['channel_ids'])) {
 // and log each ad, and then set any capping cookies required
 $countAdIds = count($aAdIds);
 for ($index = 0; $index < $countAdIds; $index++) {
-    // Ensure that each ad to be logged has capaign, creative and zone
+    // Ensure that each ad to be logged has campaign, creative and zone
     // values set, and that all values are integers
     MAX_Delivery_log_ensureIntegerSet($aAdIds, $index);
     MAX_Delivery_log_ensureIntegerSet($aCampaignIds, $index);
     MAX_Delivery_log_ensureIntegerSet($aCreativeIds, $index);
     MAX_Delivery_log_ensureIntegerSet($aZoneIds, $index);
     if ($aAdIds[$index] > 0) {
+        // Override with marketplace ads, if any
+        $adId = isset($aOverrideAdIds[$index]) ? $aOverrideAdIds[$index] : $aAdIds[$index];
         // Log the ad impression, if required
         if ($GLOBALS['_MAX']['CONF']['logging']['adImpressions']) {
-            MAX_Delivery_log_logAdImpression($viewerId, $aAdIds[$index], $aCreativeIds[$index], $aZoneIds[$index]);
+            MAX_Delivery_log_logAdImpression($viewerId, $adId, $aCreativeIds[$index], $aZoneIds[$index]);
         }
-        // Set the capping cookies, if required
-        MAX_Delivery_log_setAdLimitations($index, $aAdIds, $aCapAd);
-        MAX_Delivery_log_setCampaignLimitations($index, $aCampaignIds, $aCapCampaign);
-        if ($aZoneIds[$index] != 0) {
-            MAX_Delivery_log_setZoneLimitations($index, $aZoneIds, $aCapZone);
+        if ($aAdIds[$index] == $adId) {
+            // Set the capping cookies, if required
+            MAX_Delivery_log_setAdLimitations($index, $aAdIds, $aCapAd);
+            MAX_Delivery_log_setCampaignLimitations($index, $aCampaignIds, $aCapCampaign);
+            if ($aZoneIds[$index] != 0) {
+                MAX_Delivery_log_setZoneLimitations($index, $aZoneIds, $aCapZone);
+            }
         }
     }
 }

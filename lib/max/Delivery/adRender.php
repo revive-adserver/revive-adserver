@@ -171,9 +171,13 @@ function MAX_adRender(&$aBanner, $zoneId=0, $source='', $target='', $ct0='', $wi
     $clickUrl = str_replace($search, $replace, $clickUrl);
     $aBanner['clickUrl'] = $clickUrl;
 
-    $logUrl = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&amp;');
+    $logUrl = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&');
     $logUrl = str_replace($search, $replace, $logUrl);
     $aBanner['logUrl'] = $logUrl;
+
+    // Pass over the search / replace patterns
+    $aBanner['aSearch']  = $search;
+    $aBanner['aReplace'] = $replace;
 
 //    return $code;
     return MAX_commonConvertEncoding($code, $charset);

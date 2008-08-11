@@ -32,6 +32,7 @@ require_once '../../init-delivery.php';
 require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
 require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 require_once MAX_PATH . '/lib/max/Delivery/javascript.php';
+require_once MAX_PATH . '/lib/max/Delivery/marketplace.php';
 
 MAX_commonSetNoCacheHeaders();
 
@@ -64,8 +65,16 @@ foreach ($zones as $thisZone) {
     // Get the banner
     $output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $charset, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
 
+    $marketplaceOutput = MAX_marketplaceProcess('spc', $output);
+
+    if ($marketplaceOutput) {
+        $outputHtml .= $marketplaceOutput;
+    } else {
+        $outputHtml .= $output['html'];
+    }
+
     // Store the html2js'd output for this ad
-    $spc_output .= MAX_javascriptToHTML($output['html'], $conf['var']['prefix'] . "output['{$varname}']", false, false) . "\n";
+    $spc_output .= MAX_javascriptToHTML($outputHtml, $conf['var']['prefix'] . "output['{$varname}']", false, false) . "\n";
 
     // Block this banner for next invocation
     if (!empty($block) && !empty($output['bannerid'])) {

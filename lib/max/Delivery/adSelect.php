@@ -240,8 +240,10 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
             'height'        => $row['height'],
             'url'           => $row['url'],
             'campaignid'    => $row['campaignid'],
-            'clickUrl'	     => $row['clickUrl'],
+            'clickUrl'      => $row['clickUrl'],
             'logUrl'        => $row['logUrl'],
+            'aSearch'       => $row['aSearch'],
+            'aReplace'      => $row['aReplace'],
             'bannerContent' => $row['bannerContent'],
             'context'       => _adSelectBuildContext($row, $context)
         );

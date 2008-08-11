@@ -31,6 +31,7 @@ require_once '../../init-delivery.php';
 // Required files
 require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
 require_once MAX_PATH . '/lib/max/Delivery/flash.php';
+require_once MAX_PATH . '/lib/max/Delivery/marketplace.php';
 
 // No Caching
 MAX_commonSetNoCacheHeaders();
@@ -123,7 +124,14 @@ if (isset($resize) && $resize == 1) {
 	$outputHtml .= "<body leftmargin='0' topmargin='0' marginwidth='0' marginheight='0' style='background-color:transparent; width: 100%; text-align: center;'>\n";
 }
 
-$outputHtml .= $banner['html'];
+$marketplaceOutput = MAX_marketplaceProcess('frame', $banner);
+
+if ($marketplaceOutput) {
+    $outputHtml .= $marketplaceOutput;
+} else {
+    $outputHtml .= $banner['html'];
+}
+
 $outputHtml .= "\n</body>\n";
 
 $outputHtml .= "</html>\n";

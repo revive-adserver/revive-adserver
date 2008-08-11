@@ -65,4 +65,15 @@ function MAX_javascriptToHTML($string, $varName, $output = true, $localScope = t
     return $buffer;
 }
 
+/**
+ * This function encodes a string to be quoted and safe for inclusion in a JSON output
+ *
+ * @param string $string
+ * @return string
+ */
+function MAX_javascriptEncodeJsonField($string)
+{
+    return '"'.addcslashes($string, "\\/\"\f\n\r\t").'"';
+}
+
 ?>
