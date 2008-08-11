@@ -8,7 +8,7 @@
     <authorEmail>radek.maciaszek@openx.org</authorEmail>
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
-    <description>Plugin prepares data for buckets logging</description>
+    <description>Delivery data preparation component of the standard logging plugin for OpenX</description>
     <version>1.0.0-dev</version>
     <oxversion>2.7.5-dev</oxversion>
     <extends>deliveryDataPrepare</extends>
