@@ -55,31 +55,16 @@ echo "<br /><br />";
 
 if (!empty($action))
 {
-/*    $webpath = $GLOBALS['_MAX']['CONF']['webpath']['admin'];
-    require_once($GLOBALS['_MAX']['CONF']['webpath']['admin'].'/plugins/adminExtensionManager.php');*/
-
-
     switch ($action)
     {
         case 'build':
-            require_once('plugins/adminExtensionManager.php');
+            require_once(LIB_PATH.'/Extension/admin.php');
             $oExtensionManager = new OX_Extension_admin();
             $oExtensionManager->runTasksOnDemand();
             break;
         default:
     }
-    if ($oPluginManager->countErrors())
-    {
-        echo $strMenusCachedErr.'</br>';
-        foreach ($oPluginManager->aErrrors as $idx => $msg)
-        {
-            echo $msg.'</br>';
-        }
-    }
-    else
-    {
-        echo $strMenusCachedOk.'</br>';
-    }
+    echo $strMenusCachedOk.'</br>';
 }
 
 phpAds_ShowBreak();

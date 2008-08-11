@@ -47,9 +47,10 @@ class OX_Extension
         array_unique($this->aExtensions);
         foreach ($this->aExtensions as $extension)
         {
-            $aConf = $GLOBALS['_MAX']['CONF']['pluginPaths'];
-            $path = MAX_PATH.(isset($aConf[$extension]) ? $aConf[$extension] : $aConf['extensions'].$extension.'/' );
-            $file = $extension.'ExtensionManager.php';
+            //$aConf = $GLOBALS['_MAX']['CONF']['pluginPaths'];
+//            $path = MAX_PATH.(isset($aConf[$extension]) ? $aConf[$extension] : $aConf['extensions'].$extension.'/' );
+            $path = LIB_PATH.'/Extension/';
+            $file = $extension.'.php';
             if (file_exists($path.$file))
             {
                 $class = 'OX_Extension_'.$extension;
@@ -78,6 +79,7 @@ class OX_Extension
 
     /**
      * a list of all known extensions
+     * compiled by scanning the plugins folder
      *
      * @return unknown
      */

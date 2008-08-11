@@ -58,6 +58,8 @@ if (!empty($action))
     switch ($action)
     {
         case 'rep':
+            // generates brief display and detailed log
+            // with debug info on plugin installations and status
             require_once(LIB_PATH.'/Extension/ExtensionCommon.php');
             $oExtensionManager = new OX_Extension_Common();
             $aPlugins = $oExtensionManager->getPluginsDiagnostics();
@@ -76,16 +78,19 @@ if (!empty($action))
             }
             break;
         case 'pref':
+            // this rebuilds the cached array that holds the text and links
+            // for the account-preferences drop-down list
             require_once(LIB_PATH.'/Extension/ExtensionCommon.php');
             $oExtensionManager = new OX_Extension_Common();
             $oExtensionManager->cachePreferenceOptions();
             break;
         case 'reg':
+            // currently rewrites delivery hooks to conf
             require_once(LIB_PATH.'/Extension/ExtensionDelivery.php');
             $oExtensionManager = new OX_Extension_Delivery();
             $oExtensionManager->runTasksOnDemand();
             break;
-        case 'dep':
+        /*case 'dep':
             require_once LIB_PATH . '/Plugin/PluginManager.php';
             $oPluginManager = & new OX_PluginManager();
             $oPluginManager->_cacheDependencies();
@@ -93,7 +98,7 @@ if (!empty($action))
             {
                 $oPluginManager->aMessages[] = 'No dependency problems detected';
             }
-            break;
+            break;*/
         default:
     }
 }
