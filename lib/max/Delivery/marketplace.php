@@ -45,7 +45,7 @@ $GLOBALS['_MAX']['FILES'][$file] = true;
 
 function MAX_marketplaceEnabled()
 {
-    return !empty($GLOBALS['_MAX']['CONF']['marketplace']['enabled']);
+    return !empty($GLOBALS['_MAX']['CONF']['pluginGroupComponents']['bidService']);
 }
 
 /**

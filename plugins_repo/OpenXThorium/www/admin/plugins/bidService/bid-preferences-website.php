@@ -27,6 +27,9 @@
 $Id$
 */
 
+// placeholder for alpha version
+die('Not implemented in Thorium Alpha');
+
 require_once 'bid-common.php';
 
 phpAds_PageHeader("bid-preferences-website",'','../../');

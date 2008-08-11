@@ -27,6 +27,9 @@
 $Id$
 */
 
+// placeholder for alpha version
+die('Not implemented in Thorium Alpha');
+
 require_once 'bid-common.php';
 
 phpAds_PageHeader("bid-preferences",'','../../');
@@ -90,7 +93,7 @@ foreach ($aCampaigns as $id => $campaign) {
     $aCampaigns[$id]['advertisername'] = $aAdvertisers[$campaign['clientid']]['clientname'];
 }
 
-//DEVELOPER: - please note that if element is selected its parent li receives 'rejected' class  
+//DEVELOPER: - please note that if element is selected its parent li receives 'rejected' class
 
 $oTpl->assign('aCreativeTypes', $aCreativeTypes);
 $oTpl->assign('aCreativeAttributes', $aAttrCols);

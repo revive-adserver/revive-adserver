@@ -31,7 +31,7 @@ require_once 'bid-common.php';
 
 phpAds_PageHeader("bid-preferences-campaign",'','../../');
 
-$oTpl    = new OA_Plugin_Template('bid-preferences-campaign.html','bidService');
+$oTpl = new OA_Plugin_Template('bid-preferences-campaign.html','bidService');
 
 //
 $oTpl->assign('clientid', $clientid);

@@ -41,24 +41,24 @@
 
         <navigation>
 
-            <admin>
+            <!--admin>
                 <menu addto="inventory" index="bid-preferences" link="plugins/bidService/bid-preferences.php">Marketplace</menu>
-            </admin>
+            </admin-->
 
             <manager>
-                <menu addto="inventory" index="bid-preferences" link="plugins/bidService/bid-preferences.php">Marketplace</menu>
-                <menu addto="inventory" index="bid-account-edit" link="plugins/bidService/bid-account-edit.php">Marketplace Account</menu>
-                <menu addto="affiliate-index" index="bid-preferences-website"   link="plugins/bidService/bid-preferences-website.php?affiliateid={affiliateid}">Marketplace</menu>
+                <!--menu addto="inventory" index="bid-preferences" link="plugins/bidService/bid-preferences.php">Marketplace</menu-->
+                <!--menu addto="inventory" index="bid-account-edit" link="plugins/bidService/bid-account-edit.php">Marketplace Account</menu-->
+                <!--menu addto="affiliate-index" index="bid-preferences-website"   link="plugins/bidService/bid-preferences-website.php?affiliateid={affiliateid}">Marketplace</menu-->
                 <menu addto="advertiser-campaigns" index="bid-preferences-campaign"   link="plugins/bidService/bid-preferences-campaign.php?clientid={clientid}&amp;campaignid={campaignid}">Marketplace</menu>
             </manager>
 
-            <advertiser>
+            <!--advertiser>
                 <menu addto="inventory" index="bid-preferences" link="plugins/bidService/bid-preferences.php">Marketplace</menu>
-            </advertiser>
+            </advertiser-->
 
-            <trafficker>
+            <!--trafficker>
                 <menu addto="inventory" index="bid-preferences" link="plugins/bidService/bid-preferences.php">Marketplace</menu>
-            </trafficker>
+            </trafficker-->
 
         </navigation>
 
@@ -67,6 +67,11 @@
             <setting key="message2" type="text" label="Mgr/Admin Message" required="1" size="32" visible="1">Default String Mgr/Admin</setting>
             <setting key="message3" type="text" label="Manager Message" required="1" size="32" visible="1">Default String Mgr</setting>
             <setting key="message4" type="text" label="Admin Message" required="1" size="32" visible="1">Default String Admin</setting>
+
+            <!-- todo - set proper hosts before final release and set visible ="0" -->
+		    <setting key="cacheTime" type="text" label="Cache time (todo - check in code)" required="1" size="32" visible="1">-1</setting>
+		    <setting key="thoriumHost" type="text" label="Thorium host" required="1" size="32" visible="1">thorium.beccati.net</setting>
+		    <setting key="defaultFloorPrice" type="text" label="Default Campaign Floor Price" required="1" size="32" visible="1">0.01</setting>
 
             <preference name="bidpref_Admin" type="text" label="Admin Colour" required="1" size="7" visible="1" permission="ADMIN" >#000000</preference>
             <preference name="bidpref_Manager" type="text" label="Manager Colour" required="1" size="7" visible="1" permission="MANAGER" >#000000</preference>

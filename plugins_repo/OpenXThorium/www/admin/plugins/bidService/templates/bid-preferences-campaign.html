@@ -32,17 +32,25 @@ $Id$
 
 <div class="section">
   <div class="content">
-    
+
     <form method="POST">
     <ul class="form">
       <li class="line">
         <p>You can earn more on 4 websites if this campaign takes part in MarkePlace and is linked to one of website zones.</p>
-        <input type="checkbox" value="t" id="enable_mkt"><label for="enable_mkt">{t str='Yes, allow this campaign to be challenged by MarketPlace' }</li>
+        <input type="checkbox" value="t" id="enable_mkt"><label for="enable_mkt">{t str='Yes, allow this campaign to be challenged by MarketPlace' }</label>
       </li>
-    
+
+      <li class="line">
+        <p>Define the minimum price (floor) to ensure that marketplace never delivers less profitable
+        ad than you would serve otherwise.</p>
+        <input name="floor_price" value="" id="floor_price" class="x-small" type="text">
+        <label for="floor_price">{t str='Campaign floor price' }</label>
+      </li>
+
+{*<!--
       <li class="line">
         <p>If you are going to link this campaign to more than one website you can select on which websites this campaign can be challenged by MarketPlace.</p>
-      
+
         <table id="sites-cpm-comparison" class='data sortable'>
             <caption>Select websites for which marketplace is enabled for this campaign</caption>
         <thead>
@@ -56,12 +64,12 @@ $Id$
             <th class="linked acenter"><span>Linked via Zone</span></th>
           </tr>
         </thead>
-        
+
         <tbody>
           <tr class='odd'>
             <!--  DEVELOPE: LOOP TRS, fill in data, note that checkboxes' id and name must be appended with website id -->
             <!-- td class="acenter"><input type="checkbox" id="site_av_{$website.id|escape:html}" name="site_av_{$website.id|escape:html}" value="t"></td-->
-            <td class="acenter"><input type="checkbox" id="site_av_2" name="site_av_2" value="t"></td>            
+            <td class="acenter"><input type="checkbox" id="site_av_2" name="site_av_2" value="t"></td>
             <td><a href="www.todo.com" target="_blank">www.yahoo.com</a></td>
             <td>Sport / Football</td>
             <td class="number more">$10.0</td>
@@ -69,7 +77,7 @@ $Id$
             <td class="number more">+$4.0</td>
             <td class="acenter"><a href="{$adminWebPath}campaign-zone.php?clientid={$clientid}&campaignid={$campaignid}">linked</a></td>
           </tr>
-                      
+
           <tr class='even'>
             <td class="acenter"><input type="checkbox" id="site_av_1" name="site_av_1" value="t"></td>
             <td><a href="www.cisco.com" target="_blank">Cisco.com</a></td>
@@ -78,19 +86,19 @@ $Id$
             <td class="number">$6.0</td>
             <td class="number more">+$1.0</td>
             <td class="acenter"><a href="{$adminWebPath}campaign-zone.php?clientid={$clientid}&campaignid={$campaignid}">not linked</a></td>
-          </tr>            
-          
+          </tr>
+
           <tr class='odd'>
-            <td class="acenter"><input type="checkbox" id="site_av_5" name="site_av_5" value="t"></td>          
+            <td class="acenter"><input type="checkbox" id="site_av_5" name="site_av_5" value="t"></td>
             <td><a href="www.interia.pl" target="_blank">Interia.pl</a></td>
             <td>News / Portal</td>
             <td class="number less">$3.0</td>
             <td class="number">$6.0</td>
             <td class="number less">-$3.01</td>
             <td class="acenter"><a href="{$adminWebPath}campaign-zone.php?clientid={$clientid}&campaignid={$campaignid}">linked</a></td>
-          </tr>            
-            
-          <tr class='even'>            
+          </tr>
+
+          <tr class='even'>
             <td class="acenter"><input type="checkbox" id="site_av_3" name="site_av_3" value="t"></td>
             <td><a href="www.ebay.com" target="_blank">Ebay.com</a></td>
             <td>Shopping / Auction</td>
@@ -98,9 +106,9 @@ $Id$
             <td class="number">$6.0</td>
             <td class="number more">+$2.0</td>
             <td class="acenter"><a href="{$adminWebPath}campaign-zone.php?clientid={$clientid}&campaignid={$campaignid}">linked</a></td>
-          </tr>            
-            
-          <tr class='odd'>            
+          </tr>
+
+          <tr class='odd'>
             <td class="acenter"><input type="checkbox" id="site_av_6" name="site_av_6" value="t"></td>
             <td><a href="www.allegro.pl" target="_blank">Allegro.pl</a></td>
             <td>Shopping / Auction</td>
@@ -108,24 +116,25 @@ $Id$
             <td class="number">$6.0</td>
             <td class="number more">+$0.5</td>
             <td class="acenter"><a href="{$adminWebPath}campaign-zone.php?clientid={$clientid}&campaignid={$campaignid}">not linked</a></td>
-          </tr>            
-            
+          </tr>
+
           <tr class='even'>
-            <td class="acenter"><input type="checkbox" id="site_av_4" name="site_av_4" value="t"></td>            
+            <td class="acenter"><input type="checkbox" id="site_av_4" name="site_av_4" value="t"></td>
             <td><a href="www.todo.com" target="_blank">TODO.COM</a></td>
             <td>Technology / Software</td>
             <td class="number less">$6</td>
             <td class="number">$6.0</td>
             <td class="number less">-$1.0</td>
             <td class="acenter"><a href="{$adminWebPath}campaign-zone.php?clientid={$clientid}&campaignid={$campaignid}">linked</a></td>
-          </tr>            
-            
+          </tr>
+
         </tbody>
       </table>
       </li>
-    
+-->*}
+
       <li class="line ctr-buttons">
-        <input type="submit" value="{t str=Update}" name="enabled_websites"></li>
+        <input type="submit" value="{t str=Update}" name="enabled_websites">
       </li>
     </ul>
     </form>
@@ -135,30 +144,30 @@ $Id$
 <script type="text/javascript" src="js/bidservice.js" ></script>
 <script type="text/javascript">
 <!--
-{literal}   
+{literal}
     $(document).ready(function() {
         $("#sites-cpm-comparison").tablesorter({
             cssAsc: ' sort-down',   //bug in plugin need to swap classes - should ne sort-up
             cssDesc: ' sort-up',
             cssHeader: 'sort',
             sortList: [[5,1]],
-            textExtraction: 'complex',          
+            textExtraction: 'complex',
             headers: {
-              0: { //do not sort checkboxes 
+              0: { //do not sort checkboxes
                 sorter: false
               },
-              4: { //campaign CMP is constant 
+              4: { //campaign CMP is constant
                 sorter: false
               },
-              6: { //do not sort links 
+              6: { //do not sort links
                 sorter: false
               }
             },
             widgets: ['zebra']
         });
-        
+
         $("#site_av").multicheckboxcondition();
-        
+
         $("#enable_mkt").multicheckboxcondition({
               childSelector: "[@id^='site_av_']",
               childAffectParent: false,
@@ -168,9 +177,9 @@ $Id$
                 }
                 var count = $(checkbox).parents('tr').eq(0).children('td.more').length;
                 return count > 0;
-              }              
+              }
         });
      });
-{/literal}            
+{/literal}
 //-->
 </script>

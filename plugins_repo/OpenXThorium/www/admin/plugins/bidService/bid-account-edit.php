@@ -27,6 +27,9 @@
 $Id$
 */
 
+// placeholder for alpha version
+die('Not implemented in Thorium Alpha');
+
 require_once 'bid-common.php';
 require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
 
@@ -52,19 +55,19 @@ function buildAccountForm($aAccount)
 {
     $form = new OA_Admin_UI_Component_Form("account_form", "POST", $_SERVER['PHP_SELF']);
     $form->forceClientValidation(true);
-    
+
     $form->addElement('hidden', 'accountid', $aAccount['accountid']);
 
     //section: company and contact
     $form->addElement('header', 'header_comp_cont', 'Company & Contacts');
     $form->addElement('text', 'company_name', 'Company name');
     $form->addElement('text', 'company_reg_no', 'Company reg. number');
-    
+
     $contact['name'] = $form->createElement('text', 'contact', "", array('class' => 'medium'));
     $contact['phone'] = $form->createElement('text', 'company_phone', 'Phone', array('class' => 'small'));
     $form->addGroup($contact, 'g_contact', $GLOBALS['strContact'], "&nbsp;");
     $form->addElement('text', 'email', $GLOBALS['strEMail']);
-    
+
     //section: address
     $form->addElement('header', 'header_address', $GLOBALS['strAddress']);
     $address['address1'] = $form->createElement('text', 'address1', "", array('id' => 'address1', 'class' => 'large'));
@@ -72,17 +75,17 @@ function buildAccountForm($aAccount)
     $address['address2'] = $form->createElement('text', 'address2', "", array('class' => 'large'));
     $address['address2']->setSize(35);
     $form->addGroup($address, 'g_address', 'Street address', "<br>");
-    
+
     $cityZip['city'] = $form->createElement('text', 'city', "", array('class' => 'medium'));
     $cityZip['phone'] = $form->createElement('text', 'zip', 'Postal Code', array('class' => 'x-small'));
     $form->addGroup($cityZip, 'g_zip', $GLOBALS['strCity'], "&nbsp;");
 
-    //TODO DEV: get countries here 
+    //TODO DEV: get countries here
     $countries = array();
     $countyCountry['county'] = $form->createElement('select', 'county', "", $countries, array('class' => 'medium'));
     $countyCountry['country'] = $form->createElement('text', 'county', 'County', array('class' => 'small'));
     $form->addGroup($countyCountry, 'g_country', $GLOBALS['strCountry'], "&nbsp;");
-    
+
     //TODO DEV: this section is not final yet - product does not know how we wil pay
     //probably should be hidden when implementation starts - created for future reference
     //section: payment
@@ -90,47 +93,47 @@ function buildAccountForm($aAccount)
     $payMethods = array('PayPal');
     $form->addElement('select', 'payment_method', "Payment Method", $payMethods, array('class' => 'small'));
     $form->addElement('text', 'pay_email', $GLOBALS['strEMail']);
-    $form->addElement('advcheckbox', 'vat_reg', 'Vat registered', 'Yes, I\'m VAT registered', null, array("t", "f"));    
+    $form->addElement('advcheckbox', 'vat_reg', 'Vat registered', 'Yes, I\'m VAT registered', null, array("t", "f"));
     $form->addElement('text', 'vat_no', 'VAT number', array('class' => 'small'));
-    
-    
-    
-    
+
+
+
+
     //we want submit to be the last element in its own separate section
     $form->addElement('controls', 'form-controls');
-    $submitLabel = (!empty($aAccount['account_id']))  ? 'Update account data' : 'Create account';    
+    $submitLabel = (!empty($aAccount['account_id']))  ? 'Update account data' : 'Create account';
     $form->addElement('submit', 'submit', $submitLabel);
 
     //Form validation rules
     $translation = new OA_Translation();
     $form->addRule('company_name', $translation->translate($GLOBALS['strXRequiredField'], array('Company name')),
         'required');
-    
+
     $form->addRule('company_reg_no', $translation->translate($GLOBALS['strXRequiredField'], array('Company reg. number')),
         'required');
 
-    //$contactRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strContact'])); 
+    //$contactRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strContact']));
     //$form->addRule('contact', $contactRequiredMsg, 'required');
     $emailRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strEMail']));
     $form->addRule('email', $emailRequiredMsg, 'required');
     $form->addRule('email', $GLOBALS['strEmailField'], 'email');
-    
-    //set form  values 
+
+    //set form  values
     $form->setDefaults($aAccount);
     return $form;
-}    
+}
 
 
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
 /*-------------------------------------------------------*/
-function processForm($aAccount, $form) 
+function processForm($aAccount, $form)
 {
     $aFields = $form->exportValues();
-    
+
     if (empty($aAccount['account_id'])) {
         //save new and regsiter
-    } 
+    }
     else {
         //update
     }
@@ -143,7 +146,7 @@ function displayPage($aAccount, $form)
 {
     //header
     phpAds_PageHeader("bid-account-edit",'','../../');
-        
+
     //get template and display form
     $oTpl = new OA_Plugin_Template('bid-account-edit.html','bidService');
 
@@ -151,10 +154,10 @@ function displayPage($aAccount, $form)
     $oTpl->assign('accountid',  $aAccount['accountid']);
     $oTpl->assign('form', $form->serialize());
     $oTpl->display();
-    
+
     //footer
     phpAds_PageFooter();
-}   
+}
 
 
 

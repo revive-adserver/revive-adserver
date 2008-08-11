@@ -34,8 +34,8 @@ require_once MAX_PATH . '/lib/max/Delivery/marketplace.php';
 if (MAX_marketplaceEnabled()) {
     if (isset($_GET['indium'])) {
         if ($_GET['indium']) {
-            if (!empty($conf['marketplace']['cacheTime'])) {
-                $expiry = $conf['marketplace']['cacheTime'] < 0 ? null : MAX_commonGetTimeNow + $conf['marketplace']['cacheTime'];
+            if (!empty($conf['bidService']['cacheTime'])) {
+                $expiry = $conf['bidService']['cacheTime'] < 0 ? null : MAX_commonGetTimeNow + $conf['bidService']['cacheTime'];
             } else {
                 $expiry = _getTimeYearFromNow();
             }
@@ -49,7 +49,7 @@ if (MAX_marketplaceEnabled()) {
         }
         $oxpUrl .= 'indium=INDIUM_OK';
         $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
-        $url .= $conf['marketplace']['indiumHost'].'/redir?r='.urlencode($oxpUrl);
+        $url .= $conf['openXIndium']['indiumHost'].'/redir?r='.urlencode($oxpUrl);
         $url .= '&pid=OpenXDemo';
         $url .= '&cb='.mt_rand(0, PHP_INT_MAX);
         header("Location: {$url}");
