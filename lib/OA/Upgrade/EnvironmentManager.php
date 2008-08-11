@@ -99,7 +99,7 @@ class OA_Environment_Manager
         $this->aInfo['PERMS']['actual']   = array();
         $this->aInfo['FILES']['actual']   = array();
 
-        $this->aInfo['PHP']['expected']['version']              = '4.3.11';
+        $this->aInfo['PHP']['expected']['version']              = '5.1.4';
         $this->aInfo['PHP']['expected']['magic_quotes_runtime'] = '0';
         $this->aInfo['PHP']['expected']['safe_mode']            = '0';
         $this->aInfo['PHP']['expected']['file_uploads']         = '1';
