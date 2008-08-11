@@ -50,17 +50,9 @@
             // If TZ was calculated, display a warning
             if ($aTimezone['calculated'])
             {
-                if (version_compare($sysinfoarray['actual']['version'],'5.1', ">"))
-                {
-                    $docLink = OX_PRODUCT_DOCSURL . "/install/timezone/php5/";
-                }
-                else
-                {
-                    $docLink = OX_PRODUCT_DOCSURL . "/install/timezone/php4/";
-                }
                 $finalTimezoneDocs = str_replace(
                     '%DOCS%',
-                    '<a href="' . $docLink . '" target="_blank">' . $strTimezoneDocumentation . '</a>',
+                    '<a href="' . OX_PRODUCT_DOCSURL . '/install/timezone/php5/' . '" target="_blank">' . $strTimezoneDocumentation . '</a>',
                     $strTimezoneSeeDocs
                 );
 
