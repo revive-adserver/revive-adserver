@@ -72,6 +72,7 @@ class OX_Extension_Delivery extends OX_Extension_Common
 
     function _cacheDeliveryHooks()
     {
+        require_once LIB_PATH . '/Plugin/PluginManager.php';
         $oPluginManager = new OX_PluginManager();
         $aHooks = $oPluginManager->getComponentHooks();
         $this->_saveComponentHooks($aHooks);
