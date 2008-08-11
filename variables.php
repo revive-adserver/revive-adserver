@@ -131,6 +131,7 @@ function setupDeliveryConfigVariables()
  */
 function OA_setTimeZone($timezone)
 {
+    // Set the new time zone
     date_default_timezone_set($timezone);
 
     // Set PEAR::Date_TimeZone default as well
