@@ -447,15 +447,3 @@ httpPort=80
 enabled=1
 
 ;------------------------------------------------------------------------------------------;
-; Pre-emprive Network Settings                                                             ;
-;------------------------------------------------------------------------------------------;
-
-[marketplace]
-enabled=1
-cacheTime=-1
-indiumHost=indium.beccati.net
-thoriumHost=thorium.beccati.net
-defaultEnabled=1
-defaultCPM=0.01
-
-;------------------------------------------------------------------------------------------;
