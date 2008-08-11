@@ -131,13 +131,7 @@ function setupDeliveryConfigVariables()
  */
 function OA_setTimeZone($timezone)
 {
-    if (version_compare(phpversion(), '5.1.0', '>=')) {
-        // Set new time zone
-        date_default_timezone_set($timezone);
-    } else {
-        // Set new time zone
-        putenv("TZ={$timezone}");
-    }
+    date_default_timezone_set($timezone);
 
     // Set PEAR::Date_TimeZone default as well
     //
