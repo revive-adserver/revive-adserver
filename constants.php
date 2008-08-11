@@ -127,9 +127,6 @@ function setupConstants()
     define('OX_CAMPAIGN_DISABLED_CONVERSIONS',  8);
     define('OX_CAMPAIGN_DISABLED_DATE',        16);
 
-    // Active, inactive agency values
-    define('MAX_AGENCY_INACTIVE', 1);
-    define('MAX_AGENCY_ACTIVE', 1);
 
     // Time contstants
     define('SECONDS_PER_WEEK', 604800);
