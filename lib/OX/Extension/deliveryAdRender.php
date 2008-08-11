@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once(MAX_PATH.'/lib/OX/Extension/ExtensionDelivery.php');
+require_once(LIB_PATH.'/Extension/ExtensionDelivery.php');
 
 class OX_Extension_deliveryAdRender extends OX_Extension_Delivery
 {

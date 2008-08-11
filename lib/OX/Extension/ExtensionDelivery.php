@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once(MAX_PATH.'/lib/OX/Extension/ExtensionCommon.php');
+require_once(LIB_PATH.'/Extension/ExtensionCommon.php');
 
 class OX_Extension_Delivery extends OX_Extension_Common
 {
