@@ -107,9 +107,60 @@ class OX_Extension_Common
         return $oCache->save($aOptions);
     }
 
-    function runTasksOnDemand()
+    function getPluginsDiagnostics()
     {
-        $this->cachePreferenceOptions();
+        require_once LIB_PATH.'/Plugin/PluginManager.php';
+        $oPluginManager = new OX_PluginManager();
+        $aPlugins = ($GLOBALS['_MAX']['CONF']['plugins'] ? $GLOBALS['_MAX']['CONF']['plugins'] : array());
+        $aComponentGroups = ($GLOBALS['_MAX']['CONF']['pluginGroupComponents'] ? $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] : array());
+
+        foreach ($aPlugins AS $name => $enabled)
+        {
+            $aPlugin = $oPluginManager->getPackageDiagnostics($name, true);
+            $aResult['detail'][] = $aPlugin;
+            $aGroups = $aPlugin['groups'];
+            $aPlugin = $aPlugin['plugin'];
+            if ($aPlugin['error'])
+            {
+                foreach ($aPlugin['errors'] AS $i => $msg)
+                {
+                    $aResult['errors'][] = $name.': '.$msg;
+                }
+            }
+            foreach ($aGroups as $i => $aGroup)
+            {
+                if (array_key_exists($aGroup['name'],$aComponentGroups))
+                {
+                    unset($aComponentGroups[$aGroup['name']]);
+                }
+                if ($aGroup['error'])
+                {
+                    foreach ($aGroup['errors'] AS $i => $msg)
+                    {
+                        $aResult['errors'][] = $aGroup['name'].': '.$msg;
+                    }
+                    $aPlugin['error'] = true;
+                }
+            }
+            $aResult['simple'][] = array('name'=>$aPlugin['name'], 'version'=>$aPlugin['version'], 'enabled'=>$enabled, 'error'=>$aPlugin['error']);
+        }
+        foreach ($aComponentGroups AS $name => $enabled)
+        {
+            $aResult['errors'][] = $name.': '.' is configured as installed but not found to exist';
+        }
+        return $aResult;
+    }
+
+    function runTasksOnDemand($task='')
+    {
+        if ($task)
+        {
+           if (method_exists($this, $task));
+           {
+               $this->$task();
+           }
+
+        }
     }
 }
 

@@ -57,10 +57,28 @@ if (!empty($action))
 {
     switch ($action)
     {
+        case 'rep':
+            require_once(LIB_PATH.'/Extension/ExtensionCommon.php');
+            $oExtensionManager = new OX_Extension_Common();
+            $aPlugins = $oExtensionManager->getPluginsDiagnostics();
+            $oTpl = new OA_Admin_Template('plugin-report.html');
+            $oTpl->assign('aPlugins', $aPlugins['simple']);
+            $oTpl->assign('aErrors', $aPlugins['errors']);
+            if ($fp = fopen(MAX_PATH.'/var/plugins-report.log','w'))
+            {
+                fwrite($fp, "********** Display array var_dump **********\n");
+                fwrite($fp, print_r($aPlugins['simple'],true));
+                fwrite($fp, "\n********** Errors array var_dump: **********\n");
+                fwrite($fp, print_r($aPlugins['errors'],true));
+                fwrite($fp, "\n********** getPluginsDiagnostics() var_dump: **********\n");
+                fwrite($fp, print_r($aPlugins['detail'],true));
+                fclose($fp);
+            }
+            break;
         case 'pref':
             require_once(LIB_PATH.'/Extension/ExtensionCommon.php');
             $oExtensionManager = new OX_Extension_Common();
-            $oExtensionManager->runTasksOnDemand();
+            $oExtensionManager->cachePreferenceOptions();
             break;
         case 'reg':
             require_once(LIB_PATH.'/Extension/ExtensionDelivery.php');
@@ -78,27 +96,22 @@ if (!empty($action))
             break;
         default:
     }
-    if ($oPluginManager && $oPluginManager->countErrors())
-    {
-        foreach ($oPluginManager->aErrrors as $idx => $msg)
-        {
-            echo $msg.'</br>';
-        }
-    }
-    else
-    {
-        echo $strPluginsOk.'</br>';
-    }
 }
 
 phpAds_ShowBreak();
 echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-plugins.php?action=pref'>Rebuild Preferences List</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
-echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-plugins.php?action=dep'>Check Dependencies</a>&nbsp;&nbsp;";
-phpAds_ShowBreak();
 echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-plugins.php?action=reg'>Rebuild Delivery Hooks Cache</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
+echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-plugins.php?action=rep'>Plugin Report</a>&nbsp;&nbsp;";
+phpAds_ShowBreak();
 
+/*echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-plugins.php?action=dep'>Check Dependencies</a>&nbsp;&nbsp;";
+phpAds_ShowBreak();*/
+if ($oTpl)
+{
+    $oTpl->display();
+}
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
