@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -99,6 +99,7 @@ function _buildNavigation($accountType)
                 $oMenu->addTo("agency-index", new OA_Admin_Menu_Section("agency-access", $GLOBALS['strUserAccess'], "agency-access.php?agencyid={agencyid}", false, "inventory/directSelection"));
                 $oMenu->addTo("inventory", new OA_Admin_Menu_Section("admin-generate", $GLOBALS['strGenerateBannercode'], "admin-generate.php"));
                 $oMenu->addTo("inventory", new OA_Admin_Menu_Section("admin-access", $GLOBALS['strAdminAccess'], "admin-access.php"));
+                $oMenu->addTo("inventory", new OA_Admin_Menu_Section("admin-user", $GLOBALS['strUserProperties'], "admin-user.php?userid={userid}", false, null, null, 1, true));
 
                 $oMenu->add(new OA_Admin_Menu_Section("account-index", $GLOBALS['strMyAccount'], "account-index.php", false, "settings/preferences"));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-user-index", $GLOBALS['strUserPreferences'], "account-user-index.php", false, ""));
@@ -219,6 +220,7 @@ function _buildNavigation($accountType)
 
             $oMenu->addTo("inventory", new OA_Admin_Menu_Section("admin-generate", $GLOBALS['strGenerateBannercode'], "admin-generate.php", false, ""));
             $oMenu->addTo("inventory", new OA_Admin_Menu_Section("agency-access", $GLOBALS['strUserAccess'], "agency-access.php?agencyid={agencyid}", false, ""));
+            $oMenu->addTo("inventory", new OA_Admin_Menu_Section("agency-user", $GLOBALS['strUserProperties'], "agency-user.php?userid={userid}&agencyid={agencyid}", false, null, null, 1, true));
 
             $oMenu->add(new OA_Admin_Menu_Section("account-index", $GLOBALS['strMyAccount'], "account-index.php", false, "settings"));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-user-index", $GLOBALS['strUserPreferences'], "account-user-index.php", false, ""));

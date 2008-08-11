@@ -48,7 +48,7 @@ function OA_HeaderNavigation()
 {
 	global $agencyid;
 
-    phpAds_PageHeader("agency-access");
+    phpAds_PageHeader("agency-user");
     if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
         $doAgency = OA_Dal::staticGetDO('agency', $agencyid);
         MAX_displayInventoryBreadcrumbs(array(array("name" => $doAgency->name)), "agency");

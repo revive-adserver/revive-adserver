@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -51,14 +51,14 @@ class OA_Admin_Menu_Section
     /**
      * Enter description here...
      *
-     * @param string $id
-     * @param string $name
-     * @param string $link
-     * @param string $helpLink
-     * @param array $aAccountPermissions
-     * @param float $rank
-     * @param boolean $exclusive
-     * @param boolean $affixed
+     * @param string $id eg campaign-edit
+     * @param string $name eg campaign-edit
+     * @param string $link link to script with params
+     * @param string $helpLink link to help page
+     * @param array $aAccountPermissions 
+     * @param float $rank float value used to resove conflicts between the sections, defaults to 1
+     * @param boolean $exclusive whether section should be shown exclusively (no sibling sections) when it's active
+     * @param boolean $affixed whether section should be shown affixed to sibling sections only when it's active
      * @return OA_Admin_Menu_Section
      */
     function OA_Admin_Menu_Section($id, $name, $link, $exclusive = false, $helpLink = null, $aAccountPermissions = array(), $rank = 1, $affixed = false)
