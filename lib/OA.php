@@ -155,25 +155,23 @@ class OA
             $message .= ' : ' . $userinfo;
             }
         }
-        // Obtain backtrace information, if supported by PHP
-        if (version_compare(phpversion(), '4.3.0') >= 0) {
-            $aBacktrace = debug_backtrace();
-            if ($aConf['log']['methodNames']) {
-                // Show from four calls up the stack, to avoid the
-                // showing the PEAR error call info itself
-                $aErrorBacktrace = $aBacktrace[4];
-                if (isset($aErrorBacktrace['class']) && $aErrorBacktrace['type'] && isset($aErrorBacktrace['function'])) {
-                    $callInfo = $aErrorBacktrace['class'] . $aErrorBacktrace['type'] . $aErrorBacktrace['function'] . ': ';
-                    $message = $callInfo . $message;
-                }
+        // Obtain backtrace information
+        $aBacktrace = debug_backtrace();
+        if ($aConf['log']['methodNames']) {
+            // Show from four calls up the stack, to avoid the
+            // showing the PEAR error call info itself
+            $aErrorBacktrace = $aBacktrace[4];
+            if (isset($aErrorBacktrace['class']) && $aErrorBacktrace['type'] && isset($aErrorBacktrace['function'])) {
+                $callInfo = $aErrorBacktrace['class'] . $aErrorBacktrace['type'] . $aErrorBacktrace['function'] . ': ';
+                $message = $callInfo . $message;
             }
-            // Show entire stack, line-by-line
-            if ($aConf['log']['lineNumbers']) {
-                foreach($aBacktrace as $aErrorBacktrace) {
-                    if (isset($aErrorBacktrace['file']) && isset($aErrorBacktrace['line'])) {
-                        $message .=  "\n" . str_repeat(' ', 20 + strlen($aConf['log']['ident']) + strlen($oLogger->priorityToString($priority)));
-                        $message .= 'on line ' . $aErrorBacktrace['line'] . ' of "' . $aErrorBacktrace['file'] . '"';
-                    }
+        }
+        // Show entire stack, line-by-line
+        if ($aConf['log']['lineNumbers']) {
+            foreach($aBacktrace as $aErrorBacktrace) {
+                if (isset($aErrorBacktrace['file']) && isset($aErrorBacktrace['line'])) {
+                    $message .=  "\n" . str_repeat(' ', 20 + strlen($aConf['log']['ident']) + strlen($oLogger->priorityToString($priority)));
+                    $message .= 'on line ' . $aErrorBacktrace['line'] . ' of "' . $aErrorBacktrace['file'] . '"';
                 }
             }
         }
@@ -326,7 +324,7 @@ class OA
             PEAR::popErrorHandling();
         }
     }
-    
+
     /**
      * Returns the option from config or the default value if that option
      * do not exist.
