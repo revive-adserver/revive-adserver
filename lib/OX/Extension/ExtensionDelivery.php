@@ -134,14 +134,8 @@ class OX_Extension_Delivery extends OX_Extension_Common
      */
     function _generateDeliveryHooksCacheFile($aHooks = array())
     {
-        $aDeliveryHooksComponents = array();
         $deliveryLogSetup = new OX_Plugins_DeliveryLog_Setup();
-        foreach ($aHooks as $hook => $aComponents) {
-            if (in_array($hook, $deliveryLogSetup->aDeliveryLogHooks)) {
-                $aDeliveryHooksComponents[$hook] = $aComponents;
-            }
-        }
-        return $deliveryLogSetup->regenerateDeliveryPluginsCodeCache($aDeliveryHooksComponents);
+        return $deliveryLogSetup->regenerateDeliveryPluginsCodeCache($aHooks);
     }
 
 }

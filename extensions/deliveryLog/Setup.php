@@ -101,7 +101,8 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
      */
     function getDependencyOrderedPlugins($aComponentsToSchedule, $aAllComponentIdsByHooks)
     {
-        $pluginsDependencies = $this->getComponentsDependencies($aAllComponentIdsByHooks);
+        $aDeliveryComponentsHooks = $this->filterDeliveryHooks($aAllComponentIdsByHooks);
+        $pluginsDependencies = $this->getComponentsDependencies($aDeliveryComponentsHooks);
         if (!$pluginsDependencies) {
             $this->_logError('No dependencies are defined');
             return false;
@@ -110,6 +111,23 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
         // should we update this value only if the result of sorting is positive?
         $dep = new OA_Algorithm_Dependency_Ordered($source, array(), $ignoreOrphans = true);
         return array_values($dep->schedule($aComponentsToSchedule));
+    }
+
+    /**
+     * Filter out components by delivery hooks
+     *
+     * @param array $aAllComponentsIds  Array of components per hooks keys
+     * @return array  Filtered array of components per delivery hooks keys
+     */
+    function filterDeliveryHooks($aAllComponentsIds)
+    {
+        $aDeliveryHooksComponents = array();
+        foreach ($aAllComponentsIds as $hook => $aComponents) {
+            if (in_array($hook, $this->aDeliveryLogHooks)) {
+                $aDeliveryHooksComponents[$hook] = $aComponents;
+            }
+        }
+        return $aDeliveryHooksComponents;
     }
 
     /**
@@ -177,7 +195,8 @@ class OX_Plugins_DeliveryLog_Setup extends OX_Component
      */
     function regenerateDeliveryPluginsCodeCache($aComponentsByHooks)
     {
-        $mergedDelivery = $this->generatePluginsCode($aComponentsByHooks);
+        $aDeliveryComponentsHooks = $this->filterDeliveryHooks($aComponentsByHooks);
+        $mergedDelivery = $this->generatePluginsCode($aDeliveryComponentsHooks);
         if (!$mergedDelivery) {
             return false;
         }
