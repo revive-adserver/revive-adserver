@@ -8,7 +8,7 @@
     <authorEmail>radek.maciaszek@openx.org</authorEmail>
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
-    <description>Bucket for tracking conversions</description>
+    <description>Conversion tracking component of the standard delivery logging plugin for OpenX</description>
     <version>1.0.0-dev</version>
     <oxversion>2.7.11-dev</oxversion>
     <extends>deliveryLog</extends>

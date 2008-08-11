@@ -8,7 +8,7 @@
     <authorEmail>radek.maciaszek@openx.org</authorEmail>
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
-    <description>OpenX Delivery Logging Plugins for OpenX</description>
+    <description>Standard delivery logging plugin for OpenX</description>
     <version>1.0.0-dev</version>
     <type>extension</type>
 
