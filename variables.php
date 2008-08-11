@@ -118,14 +118,7 @@ function setupDeliveryConfigVariables()
 }
 
 /**
- * Set a timezone location using the proper method for the user's PHP
- * version.
- *
- * Ensure that the TZ environment variable is set for PHP < 5.1.0, so
- * that PEAR::Date class knows which timezone we are in, and doesn't
- * screw up the dates after using the PEAR::compare() method; also,
- * ensure that an appropriate timezone is set, if required, to allow
- * the time zone to be other than the time zone of the server.
+ * Set a timezone
  *
  * @param string $timezone
  */
