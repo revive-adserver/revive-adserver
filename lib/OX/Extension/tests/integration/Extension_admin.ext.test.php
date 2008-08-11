@@ -30,7 +30,7 @@ $Id$
 
 
 // Required files
-require_once(MAX_PATH.'/www/admin/plugins/adminExtensionManager.php');
+require_once(LIB_PATH.'/Extension/admin.php');
 
 class Test_OX_Extension_admin extends UnitTestCase
 {
