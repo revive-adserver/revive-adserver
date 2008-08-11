@@ -428,10 +428,7 @@ class OA_Admin_Menu
     }
 }
 /**
-/* TODO refactor as util
- * in_array throws errors for PHP4 if object is passed as a needle...
- *
- * Uses some code from lib/simpletest/compatibility.php
+ * Checks if the needle object exists in the haystack array
  *
  * @param object $needle
  * @param array of objects $haystack
@@ -439,32 +436,8 @@ class OA_Admin_Menu
  */
 function object_in_array(&$needle  , &$haystack, $strict = false)
 {
-    if (version_compare(phpversion(), '5', '>=')) {
-        return in_array($needle, $haystack, $strict);
-    }
+    return in_array($needle, $haystack, $strict);
 
-	$equal = false;
-    for ($i = 0; $i < count($haystack); $i++) {
-    	$hayElem = &$haystack[$i];
-        if (is_object($needle) && is_object($hayElem)) {
-            $id = uniqid("test");
-            $needle->$id = true;
-            $equal = isset($hayElem->$id);
-            unset($needle->$id);
-        }
-        else {
-	        $temp = $needle;
-	        $needle = uniqid("test");
-	        $equal = ($needle === $hayElem);
-	        $needle = $temp;
-        }
-
-        if ($equal == true) {
-            break;
-        }
-    }
-
-    return $equal;
 }
 
 ?>
