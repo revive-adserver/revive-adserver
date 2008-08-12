@@ -168,6 +168,8 @@ function OA_Dal_Delivery_getAccountTZs()
 
     $res = OA_Dal_Delivery_query($query);
 
+    // TODOHOOK - add a publisher Id in here
+
     $aResult = array(
         'aAccounts' => array()
     );
@@ -516,6 +518,8 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
     ";
 
     $rAds = OA_Dal_Delivery_query($query);
+
+    // TODOHOOK - add info about floor price
 
     if (!is_resource($rAds)) {
         if (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) {

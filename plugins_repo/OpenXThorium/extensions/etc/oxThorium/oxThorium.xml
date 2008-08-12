@@ -2,7 +2,7 @@
 <?xml-stylesheet type="text/xsl" href=""?>
 
 <plugin>
-    <name>bidService</name>
+    <name>oxThorium</name>
     <creationDate>2008-07-04</creationDate>
     <author>Bernard Lange</author>
     <authorEmail>bernard@openx.org</authorEmail>
@@ -22,6 +22,7 @@
         </syscheck>
 
         <files>
+            <file path="{MODULEPATH}deliveryAdRender/oxThorium/">marketplace.php</file>
             <file path="{ADMINPATH}/css/">bid.css</file>
             <file path="{ADMINPATH}/js/">bidservice.js</file>
             <file path="{ADMINPATH}/images/">bid.jpg</file>
@@ -42,22 +43,22 @@
         <navigation>
 
             <!--admin>
-                <menu addto="inventory" index="bid-preferences" link="plugins/bidService/bid-preferences.php">Marketplace</menu>
+                <menu addto="inventory" index="bid-preferences" link="plugins/oxThorium/bid-preferences.php">Marketplace</menu>
             </admin-->
 
             <manager>
-                <!--menu addto="inventory" index="bid-preferences" link="plugins/bidService/bid-preferences.php">Marketplace</menu-->
-                <!--menu addto="inventory" index="bid-account-edit" link="plugins/bidService/bid-account-edit.php">Marketplace Account</menu-->
-                <!--menu addto="affiliate-index" index="bid-preferences-website"   link="plugins/bidService/bid-preferences-website.php?affiliateid={affiliateid}">Marketplace</menu-->
-                <menu addto="advertiser-campaigns" index="bid-preferences-campaign"   link="plugins/bidService/bid-preferences-campaign.php?clientid={clientid}&amp;campaignid={campaignid}">Marketplace</menu>
+                <!--menu addto="inventory" index="bid-preferences" link="plugins/oxThorium/bid-preferences.php">Marketplace</menu-->
+                <!--menu addto="inventory" index="bid-account-edit" link="plugins/oxThorium/bid-account-edit.php">Marketplace Account</menu-->
+                <!--menu addto="affiliate-index" index="bid-preferences-website"   link="plugins/oxThorium/bid-preferences-website.php?affiliateid={affiliateid}">Marketplace</menu-->
+                <menu addto="advertiser-campaigns" index="bid-preferences-campaign"   link="plugins/oxThorium/bid-preferences-campaign.php?clientid={clientid}&amp;campaignid={campaignid}">Marketplace</menu>
             </manager>
 
             <!--advertiser>
-                <menu addto="inventory" index="bid-preferences" link="plugins/bidService/bid-preferences.php">Marketplace</menu>
+                <menu addto="inventory" index="bid-preferences" link="plugins/oxThorium/bid-preferences.php">Marketplace</menu>
             </advertiser-->
 
             <!--trafficker>
-                <menu addto="inventory" index="bid-preferences" link="plugins/bidService/bid-preferences.php">Marketplace</menu>
+                <menu addto="inventory" index="bid-preferences" link="plugins/oxThorium/bid-preferences.php">Marketplace</menu>
             </trafficker-->
 
         </navigation>

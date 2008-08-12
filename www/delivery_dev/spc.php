@@ -32,7 +32,7 @@ require_once '../../init-delivery.php';
 require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
 require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 require_once MAX_PATH . '/lib/max/Delivery/javascript.php';
-require_once MAX_PATH . '/lib/max/Delivery/marketplace.php';
+//require_once MAX_PATH . '/lib/max/Delivery/marketplace.php';
 
 MAX_commonSetNoCacheHeaders();
 
@@ -65,9 +65,9 @@ foreach ($zones as $thisZone) {
     // Get the banner
     $output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $charset, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
 
-    $marketplaceOutput = MAX_marketplaceProcess('spc', $output);
+//    $marketplaceOutput = MAX_marketplaceProcess('spc', $output);
 
-    if ($marketplaceOutput) {
+    if (false && $marketplaceOutput) {
         $outputHtml .= $marketplaceOutput;
     } else {
         $outputHtml .= $output['html'];

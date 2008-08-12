@@ -32,7 +32,7 @@ require_once '../../init-delivery.php';
 require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
 require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 require_once MAX_PATH . '/lib/max/Delivery/javascript.php';
-require_once MAX_PATH . '/lib/max/Delivery/marketplace.php';
+//require_once MAX_PATH . '/lib/max/Delivery/marketplace.php';
 
 // No Caching
 MAX_commonSetNoCacheHeaders();
@@ -103,10 +103,10 @@ if (isset($output['contenttype']) && $output['contenttype'] == 'swf' && !$mmm_fo
     echo MAX_flashGetFlashObjectInline();
 }
 
-$marketplaceOutput = MAX_marketplaceProcess('js', $output);
+//$marketplaceOutput = MAX_marketplaceProcess('js', $output);
 
 // Output the code
-if ($marketplaceOutput) {
+if (false && $marketplaceOutput) {
     echo $marketplaceOutput;
 } else {
     echo MAX_javascriptToHTML($output['html'], 'OX_'.substr(md5(uniqid('', 1)), 0, 8));

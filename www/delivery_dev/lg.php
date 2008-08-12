@@ -36,7 +36,7 @@ require_once '../../init-delivery.php';
 
 // Required files
 require_once MAX_PATH . '/lib/max/Delivery/querystring.php';
-require_once MAX_PATH . '/lib/max/Delivery/marketplace.php';
+//require_once MAX_PATH . '/lib/max/Delivery/marketplace.php';
 
 // Prevent the logging beacon from being cached by browsers
 MAX_commonSetNoCacheHeaders();
@@ -54,7 +54,7 @@ $aCampaignIds = MAX_Delivery_log_getArrGetVariable('campaignId');
 $aCreativeIds = MAX_Delivery_log_getArrGetVariable('creativeId');
 $aZoneIds     = MAX_Delivery_log_getArrGetVariable('zoneId');
 
-$aOverrideAdIds = MAX_marketplaceLogGetIds();
+//$aOverrideAdIds = MAX_marketplaceLogGetIds();
 
 // Get any ad, campaign and zone capping information from the request variables
 $aCapAd['block']                 = MAX_Delivery_log_getArrGetVariable('blockAd');

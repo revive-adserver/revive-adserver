@@ -28,8 +28,7 @@ $Id$
 // Require the initialisation file
 require_once '../../init-delivery.php';
 require_once MAX_PATH . '/lib/max/Delivery/common.php';
-require_once MAX_PATH . '/lib/max/Delivery/marketplace.php';
-
+require_once OX_EXTENSIONS_PATH . '/deliveryAdRender/marketplace.php';
 
 if (MAX_marketplaceEnabled()) {
     if (isset($_GET['indium'])) {
