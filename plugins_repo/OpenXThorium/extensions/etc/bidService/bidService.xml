@@ -78,6 +78,8 @@
             <preference name="bidpref_Advertiser" type="text" label="Advertiser Colour" required="1" size="7" visible="1" permission="ADVERTISER" >#000000</preference>
             <preference name="bidpref_Trafficker" type="text" label="Trafficker Colour" required="1" size="7" visible="1" permission="TRAFFICKER" >#000000</preference>
 
+            <preference name="bidpref_PublisherId" type="text" label="Marketplace Publisher Id" required="1" size="7" visible="1" permission="MANAGER" ></preference>
+
         </configuration>
 
     </install>
