@@ -2,10 +2,10 @@
 <?xml-stylesheet type="text/xsl" href=""?>
 
 <plugin>
-    <name>OpenXThorium</name>
+    <name>openXThorium</name>
     <creationDate>2008-07-04</creationDate>
-    <author>Monique Szpak</author>
-    <authorEmail>monique.szpak@openx.org</authorEmail>
+    <author>Radek Maciaszek</author>
+    <authorEmail>radek.maciaszek@openx.org</authorEmail>
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>OpenX Project Thorium</description>
@@ -15,7 +15,7 @@
     <install>
 
         <files>
-            <file path="{PLUGINPATH}">OpenXThorium.readme.txt</file>
+            <file path="{PLUGINPATH}">openXThorium.readme.txt</file>
         </files>
 
         <contents>
