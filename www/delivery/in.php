@@ -1711,7 +1711,7 @@ include MAX_PATH . $fileName;
 }
 }
 }
-require_once OX_EXTENSIONS_PATH . '/deliveryAdRender/marketplace.php';
+require_once MAX_PATH . '/extensions/deliveryAdRender/marketplace.php';
 if (MAX_marketplaceEnabled()) {
 if (isset($_GET['indium'])) {
 if ($_GET['indium']) {
