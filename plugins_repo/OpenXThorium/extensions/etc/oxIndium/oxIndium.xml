@@ -2,7 +2,7 @@
 <?xml-stylesheet type="text/xsl" href=""?>
 
 <plugin>
-    <name>openXIndium</name>
+    <name>oxIndium</name>
     <creationDate>2008-07-11</creationDate>
     <author>Chris Nutting</author>
     <authorEmail>chris.nutting@openx.org</authorEmail>
@@ -15,7 +15,7 @@
 
     <install>
         <files>
-            <file path="{MODULEPATH}deliveryAdRender/openXIndium/">beaconService.delivery.php</file>
+            <file path="{MODULEPATH}deliveryAdRender/oxIndium/">beaconService.delivery.php</file>
         </files>
 
         <components>

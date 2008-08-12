@@ -20,7 +20,7 @@
 
         <contents>
             <group name="oxThorium">1</group>
-            <group name="openXIndium">2</group>
+            <group name="oxIndium">2</group>
         </contents>
 
     </install>
