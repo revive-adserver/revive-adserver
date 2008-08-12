@@ -54,10 +54,10 @@ class OA_Admin_Menu_Section
      * @param string $id eg campaign-edit
      * @param string $name eg campaign-edit
      * @param string $link link to script with params
+     * @param boolean $exclusive whether section should be shown exclusively (no sibling sections) when it's active
      * @param string $helpLink link to help page
      * @param array $aAccountPermissions 
      * @param float $rank float value used to resove conflicts between the sections, defaults to 1
-     * @param boolean $exclusive whether section should be shown exclusively (no sibling sections) when it's active
      * @param boolean $affixed whether section should be shown affixed to sibling sections only when it's active
      * @return OA_Admin_Menu_Section
      */
