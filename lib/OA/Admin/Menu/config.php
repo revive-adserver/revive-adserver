@@ -101,13 +101,13 @@ function _buildNavigation($accountType)
                 $oMenu->addTo("inventory", new OA_Admin_Menu_Section("admin-access", $GLOBALS['strAdminAccess'], "admin-access.php"));
                 $oMenu->addTo("inventory", new OA_Admin_Menu_Section("admin-user", $GLOBALS['strUserProperties'], "admin-user.php?userid={userid}", false, null, null, 1, true));
 
-                $oMenu->add(new OA_Admin_Menu_Section("account-index", $GLOBALS['strMyAccount'], "account-index.php", false, "settings/preferences"));
+            $oMenu->add(new OA_Admin_Menu_Section("account-index", $GLOBALS['strMyAccount'], "account-index.php", false, "settings/preferences"));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-user-index", $GLOBALS['strUserPreferences'], "account-user-index.php", false, ""));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-preferences-index", $GLOBALS['strPreferences'], "account-preferences-index.php", false, "settings/preferences"));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("userlog-index", $GLOBALS['strUserLog'], "userlog-index.php", false, "settings/userLog"));
                 $oMenu->addTo("userlog-index", new OA_Admin_Menu_Section("userlog-details", $GLOBALS['strUserLogDetails'], "userlog-audit-detailed.php", false, "settings/userLog/details"));
 
-                $oMenu->add(new OA_Admin_Menu_Section("configuration", $GLOBALS['strConfiguration'], "account-settings-index.php", false, "settings"));
+            $oMenu->add(new OA_Admin_Menu_Section("configuration", $GLOBALS['strConfiguration'], "account-settings-index.php", false, "settings"));
                 $oMenu->addTo("configuration", new OA_Admin_Menu_Section("account-settings-index", $GLOBALS['strGlobalSettings'], "account-settings-index.php", false, ""));
                 $oMenu->addTo("configuration", new OA_Admin_Menu_Section("maintenance-index", $GLOBALS['strMaintenance'], "maintenance-index.php", false, "settings/maintenance"));
                 $oMenu->addTo("configuration", new OA_Admin_Menu_Section("updates-index", $GLOBALS['strProductUpdates'], "updates-product.php", false, "settings/productUpdates"));
