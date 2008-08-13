@@ -344,8 +344,7 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
         $options = &PEAR::getStaticProperty('DB_DataObject','options');
 
 
-        $var = (substr(phpversion(),0,1) > 4) ? 'public' : 'var';
-        $var = !empty($options['generator_var_keyword']) ? $options['generator_var_keyword'] : $var;
+        $var = !empty($options['generator_var_keyword']) ? $options['generator_var_keyword'] : 'public';
 
 
         $body .= "    {$var} \$__table = '{$this->table}';  {$p}// table name{$n}";
@@ -372,18 +371,6 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
 
             $this->debug($fielddec);
             $body .= $fielddec;
-        }
-
-        // THIS IS TOTALLY BORKED old FC creation
-        // IT WILL BE REMOVED!!!!! in DataObjects 1.6
-        // grep -r __clone * to find all it's uses
-        // and replace them with $x = clone($y);
-        // due to the change in the PHP5 clone design.
-
-        if ( substr(phpversion(),0,1) < 5) {
-            $body .= "{$n}";
-            $body .= "    /* ZE2 compatibility trick*/{$n}";
-            $body .= "    function __clone() { return \$this;}{$n}";
         }
 
         // simple creation tools ! (static stuff!)
