@@ -29,8 +29,8 @@ require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/FileScanner.php';
 
 require_once OX_PATH . '/lib/OX.php';
-require_once 'Cache/Lite.php';
-require_once 'Config.php';
+require_once OX_PATH . '/lib/pear/Cache/Lite.php';
+require_once OX_PATH . '/lib/pear/Config.php';
 
 /**
  * The default write mode for directories inside MAX_PLUGINS_VAR.
