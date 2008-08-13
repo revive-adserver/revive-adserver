@@ -2481,10 +2481,10 @@ $message .= 'on line ' . $aErrorBacktrace['line'] . ' of "' . $aErrorBacktrace['
 }
 }
 // Log messages in the local server timezone, if possible
-global $aServerTimezone;
-if (!empty($aServerTimezone)) {
-$aCurrentTimezone = OA_Admin_Timezones::getTimezone();
-OA_setTimeZone($aServerTimezone['tz']);
+global $serverTimezone;
+if (!empty($serverTimezone)) {
+$currentTimezone = OA_Admin_Timezones::getTimezone();
+OA_setTimeZone($serverTimezone);
 }
 // Log the message
 if (is_null($message) && $aConf['log']['type'] == 'file') {
@@ -2494,8 +2494,8 @@ $message = $tempDebugPrefix . $message;
 }
 $result = $oLogger->log($message, $priority);
 // Restore the timezone
-if (!empty($aCurrentTimezone)) {
-OA_setTimeZone($aCurrentTimezone['tz']);
+if (!empty($currentTimezone)) {
+OA_setTimeZone($currentTimezone);
 }
 unset($GLOBALS['tempDebugPrefix']);
 return $result;
