@@ -45,8 +45,7 @@ phpAds_registerGlobal('action');
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-phpAds_PageHeader("5.5");
-phpAds_ShowSections(array("5.1", "5.2", "5.3", "5.5", "5.6", "5.4"));
+phpAds_PageHeader("maintenance-index");
 phpAds_MaintenanceSelection("appendcodes");
 
 /*-------------------------------------------------------*/
@@ -88,4 +87,12 @@ if (!$allTrackersValid) {
     echo "<input type='submit' name='action' value='$strRecompile' />";
     echo "</form>";
 }
+
+
+/*-------------------------------------------------------*/
+/* HTML framework                                        */
+/*-------------------------------------------------------*/
+
+phpAds_PageFooter();
+
 ?>

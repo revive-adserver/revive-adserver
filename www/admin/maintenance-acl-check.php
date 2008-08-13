@@ -113,4 +113,12 @@ if (!$allBannersValid || !$allChannelsValid) {
     echo "<input type='submit' name='action' value='$strRecompile' />";
     echo "</form>";
 }
+
+
+/*-------------------------------------------------------*/
+/* HTML framework                                        */
+/*-------------------------------------------------------*/
+
+phpAds_PageFooter();
+
 ?>

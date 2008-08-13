@@ -128,4 +128,11 @@ function _showPageHeader()
 //    return array('errors' => $errors, 'different' => $different, 'same' => $same);
 //}
 
+
+/*-------------------------------------------------------*/
+/* HTML framework                                        */
+/*-------------------------------------------------------*/
+
+phpAds_PageFooter();
+
 ?>
