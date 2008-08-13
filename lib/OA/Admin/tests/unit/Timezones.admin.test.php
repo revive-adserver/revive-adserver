@@ -65,76 +65,22 @@ class Test_OA_Admin_Timezones extends UnitTestCase
 
     function testGetTimezone()
     {
-        if (version_compare(phpversion(), '5.1.0', '>=')) {
-            //  set environment variable
-            date_default_timezone_set('America/Detroit');
-
-            $aTimezone = OA_Admin_Timezones::getTimezone();
-
-            $this->assertTrue(is_array($aTimezone));
-            $this->assertEqual(count($aTimezone), 2);
-            $this->assertEqual('America/Detroit', $aTimezone['tz']);
-            $this->assertEqual(false, $aTimezone['calculated']);
-        } else {
-            //  this test is dependant upon the system clock
-            // Clear any TZ env
-            putenv("TZ=");
-            if (is_callable('apache_setenv')) {
-                apache_setenv('TZ', null);
-            }
-
-            $aTimezone = OA_Admin_Timezones::getTimezone();
-            $diff = date('O');
-            $diffSign = substr($diff, 0, 1);
-            $diffHour = (int) substr($diff, 1, 2) + date('I'); // add 1 hour if date in DST
-            $diffMin  = (int) substr($diff, 3, 2);
-            $offset = (($diffHour * 60) + ($diffMin)) * 60 * 1000; // Milliseconds
-            $offset = $diffSign . $offset;
-
-            global $_DATE_TIMEZONE_DATA;
-            reset($_DATE_TIMEZONE_DATA);
-            foreach (array_keys($_DATE_TIMEZONE_DATA) as $key) {
-                if ($_DATE_TIMEZONE_DATA[$key]['offset'] == $offset) {
-                    $tz = $key;
-                    break;
-                }
-            }
-            $this->assertTrue(is_array($aTimezone));
-            $this->assertEqual(count($aTimezone), 2);
-            $this->assertEqual($aTimezone['tz'], $tz);
-            $this->assertEqual($aTimezone['calculated'], true);
-
-            putenv("TZ=America/Detroit");
-            if (is_callable('apache_setenv')) {
-                apache_setenv('TZ', 'America/Detroit');
-            }
-
-            $aTimezone = OA_Admin_Timezones::getTimezone();
-            $this->assertTrue(is_array($aTimezone));
-            $this->assertEqual(count($aTimezone), 2);
-            $this->assertEqual($aTimezone['tz'], 'America/Detroit');
-            $this->assertEqual($aTimezone['calculated'], false);
-        }
+        //  set environment variable
+        date_default_timezone_set('America/Detroit');
+        $timezone = OA_Admin_Timezones::getTimezone();
+        $this->assertEqual('America/Detroit', $timezone);
     }
 
     function testGetConfigTimezoneValue()
     {
         $aConfigTimezone = array(
-            'America/Detroit' => array(
-                    'tz'        => 'Europe/London',
-                    'calculated' => false),
-            'Europe/London' => array(
-                    'tz'        => 'Europe/London',
-                    'calculated' => true),
-            'America/Chicago' => array(
-                    'tz'        => 'America/Chicago',
-                    'calculated' => false),
+            'America/Detroit' => 'Europe/London',
+            'Europe/London' => 'Europe/London'
         );
 
         $aResult = array(
             'America/Detroit'   => 'America/Detroit',
-            'Europe/London'     => 'Europe/London',
-            'America/Chicago'   => ''
+            'Europe/London'     => ''
         );
 
         foreach ($aConfigTimezone as $tz => $aTimezone) {

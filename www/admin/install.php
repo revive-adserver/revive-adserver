@@ -335,8 +335,7 @@ else if (array_key_exists('btn_adminsetup', $_POST))
 
         // Store the detected timezone of the system, whatever that is
         require_once('../../lib/OA/Admin/Timezones.php');
-        $aTimezone = OA_Admin_Timezones::getTimezone();
-        $aTimezone['timezone'] = $aTimezone['tz'];
+        $timezone['timezone'] = OA_Admin_Timezones::getTimezone();
 
         if ($oUpgrader->saveConfig($_POST['aConfig']) && $oUpgrader->putSyncSettings($syncEnabled) && $oUpgrader->putTimezoneAccountPreference($aTimezone, true))
         {

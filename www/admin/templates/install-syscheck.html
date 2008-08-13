@@ -39,30 +39,15 @@
 
             // Setup list of all timezones, calculate selected timezone
             require_once('../../lib/OA/Admin/Timezones.php');
-            $aTimezone = OA_Admin_Timezones::getTimezone();
+            $timezone = OA_Admin_Timezones::getTimezone();
 
             $sysinfoarray = $aSysInfo['PHP'];
 
             // Remove date.timezone from the array, set the timezone as the detected TZ
             unset($sysinfoarray['actual']['date.timezone']);
-            $sysinfoarray['actual']['timezone'] = $aTimezone['tz'];
+            $sysinfoarray['actual']['timezone'] = $timezone;
 
-            // If TZ was calculated, display a warning
-            if ($aTimezone['calculated'])
-            {
-                $finalTimezoneDocs = str_replace(
-                    '%DOCS%',
-                    '<a href="' . OX_PRODUCT_DOCSURL . '/install/timezone/php5/' . '" target="_blank">' . $strTimezoneDocumentation . '</a>',
-                    $strTimezoneSeeDocs
-                );
-
-                $sysinfoarray['actual']['timezone'] .= ' ' . $warnImage;
-                $sysinfoarray['warning']['tz'] = $strTimezoneGuessedValue . '.<br>' . $finalTimezoneDocs;
-            }
-            else
-            {
-                $sysinfoarray['actual']['timezone'] .= ' ' . $passImage;
-            }
+            $sysinfoarray['actual']['timezone'] .= ' ' . $passImage;
 
             $sysinfoarray['actual']['version'] = ($sysinfoarray['warning'][OA_ENV_ERROR_PHP_VERSION] ? $sysinfoarray['actual']['version'].' '.$warnImage : $sysinfoarray['actual']['version'].' '.$passImage );
 

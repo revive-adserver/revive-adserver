@@ -30,7 +30,7 @@ $Id$
 // not affected by any calls to date_default_timezone_set() or
 // putenv("TZ=...") to set the timezone manually
 require_once '../../lib/OA/Admin/Timezones.php';
-$aTimezone = OA_Admin_Timezones::getTimezone();
+$timezone = OA_Admin_Timezones::getTimezone();
 
 // Require the initialisation file
 require_once '../../init.php';
@@ -89,18 +89,14 @@ if (empty($oConfigTimezone)) {
     // There is no value stored in the configuration file, as it
     // is not required (ie. the TZ comes from the environment) -
     // so set that environment value in the config file now
-    $GLOBALS['_MAX']['PREF']['timezone'] = $aTimezone['tz'];
+    $GLOBALS['_MAX']['PREF']['timezone'] = $timezone;
 }
 
 // What display string do we need to show for the timezone?
 if (!empty($oConfigTimezone)) {
 	$strTimezoneToDisplay = $oConfigTimezone;
 } else {
-	if ($aTimezone['calculated']) {
-        $strTimezoneToDisplay = $strTimezoneEstimated . '<br />' . $strTimezoneGuessedValue;
-    } else {
-        $strTimezoneToDisplay = $aTimezone['tz'];
-    }
+    $strTimezoneToDisplay = $timezone;
 }
 $strTimezoneToDisplay = $GLOBALS['_MAX']['PREF']['timezone'];
 

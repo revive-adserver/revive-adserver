@@ -77,8 +77,7 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
         $aTimezoneKey = Date_TimeZone::getAvailableIDs();
 
         if (!defined('MAX_PATH')) {
-            $aSysTimezone = OA_Admin_Timezones::getTimezone();
-            $tz = $aSysTimezone['tz'];
+            $tz = OA_Admin_Timezones::getTimezone();
         } else {
             $tz = $GLOBALS['_MAX']['PREF']['timezone'];
         }
@@ -149,53 +148,7 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
      */
     function getTimezone()
     {
-        $calculated = false;
-        if (version_compare(phpversion(), '5.1.0', '>=')) {
-            // Great! The PHP version is >= 5.1.0, so simply
-            // use the built in date_default_timezone_get()
-            // function, and know it's all good
-            $tz = date_default_timezone_get();
-        } else {
-            // Boo, we have to rely on the dodgy old TZ
-            // environment variable stuff
-            $tz = getenv('TZ');
-            if ($tz === false || $tz === '') {
-                // Even worse! The user doesn't have a TZ
-                // variable, so we have to try and calcuate
-                // the timezone for the user
-                $calculated = true;
-                unset($tz);
-                $diff = date('O');
-                $diffSign = substr($diff, 0, 1);
-                if ($diffSign == "+") {
-                    $diffHour = (int) substr($diff, 1, 2) - date('I'); // minus 1 hour if date in DST
-                } else {
-                    $diffHour = (int) substr($diff, 1, 2) + date('I'); // add 1 hour if date in DST
-                }
-                $diffMin  = (int) substr($diff, 3, 2);
-                $offset = (($diffHour * 60) + ($diffMin)) * 60 * 1000; // Milliseconds
-                $offset = $diffSign . $offset;
-
-                // Deliberately require via direct path, not using MAX_PATH,
-                // as this method should be called before the ini scripts!
-                global $_DATE_TIMEZONE_DATA;
-                if (!isset($_DATE_TIMEZONE_DATA)) {
-                    include(dirname(__FILE__).'/../../pear/Date/TimeZone.php');
-                }
-                reset($_DATE_TIMEZONE_DATA);
-                foreach (array_keys($_DATE_TIMEZONE_DATA) as $key) {
-                    if ($_DATE_TIMEZONE_DATA[$key]['offset'] == $offset) {
-                        $tz = $key;
-                        break;
-                    }
-                }
-            }
-        }
-        $aReturn = array(
-            'tz'         => $tz,
-            'calculated' => $calculated
-        );
-        return $aReturn;
+        return date_default_timezone_get();
     }
 
     /**
@@ -211,24 +164,16 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
      * @return string The timezone value to write to the
      *                configuration file.
      */
-    function getConfigTimezoneValue($tz, $aTimezone)
+    function getConfigTimezoneValue($tz, $timezone)
     {
-        if ($tz != $aTimezone['tz']) {
+        if ($tz != $timezone) {
             // The user selected timezone is not equal to the
             // environment timezone, so, must write the user
             // selected value to the config file
             $return = $tz;
-        } else if (($tz === $aTimezone['tz']) && ($aTimezone['calculated'] === true)) {
-            // The user selected timezone is the same as the
-            // environment timezone, however, the environment
-            // timezone has been generated, so must write the
-            // user selected value to the config file to avoid
-            // the getenv/putenv call every time we init
-            $return = $tz;
         } else {
             // The user selected timezone is the same as the
-            // environment timezone, and the enviroment timezone
-            // is not generated, so we don't have to write the
+            // environment timezone, so we don't have to write the
             // timezone to the config file - it will be set
             // automatically by PHP.
             $return = '';

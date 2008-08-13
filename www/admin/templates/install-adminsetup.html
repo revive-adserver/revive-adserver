@@ -23,17 +23,11 @@
             if ($_POST['aPrefs']['timezone']) {
                 $selTimezone = $_POST['aPrefs']['timezone'];
             } else {
-                $aTimezone = OA_Admin_Timezones::getTimezone();
-                $selTimezone = $aTimezone['tz'];
+                $selTimezone = OA_Admin_Timezones::getTimezone();
             }
 
-            // What display string do we need to show for the timezone?
-            if ($aTimezone['calculated']) {
-                $errorImage = "<img src='".$imgPath."images/icon-x.gif' width='10' height='9' />";
-                $strTimezoneToDisplay = $strTimezoneEstimated . '<br /><small class="red">' . $errorImage . $strTimezoneGuessedValue . '</small>';
-            } else {
-                $strTimezoneToDisplay = $strTimezone;
-            }
+            $strTimezoneToDisplay = $strTimezone;
+
             // For language, setup English as first choice
             $langVal = 'en';
             $oLanguage = new MAX_Admin_Languages();

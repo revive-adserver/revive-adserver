@@ -214,11 +214,11 @@ class Test_OA_Maintenance extends UnitTestCase
         $this->assertTrue($oMaintenance->isMidnightMaintenance($oLastRun));
 
         // Midnight did already pass in CET
-        $GLOBALS['aServerTimezone']['tz'] = 'CET';
+        $GLOBALS['serverTimezone'] = 'CET';
         $this->assertFalse($oMaintenance->isMidnightMaintenance($oLastRun));
 
         // Not midnight yet in New York, last run was at 17PM local time
-        $GLOBALS['aServerTimezone']['tz'] = 'EST';
+        $GLOBALS['serverTimezone'] = 'EST';
         $oLastRun = new Date('2008-01-27 12:00:04');
         $this->assertFalse($oMaintenance->isMidnightMaintenance($oLastRun));
     }

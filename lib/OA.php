@@ -80,7 +80,7 @@ class OA
     /**
      * A method to log debugging messages to the location configured by the user.
      *
-     * Note: If the global variable $aCurrentTimezone is set, where the array
+     * Note: If the global variable $currentTimezone is set, where the array
      * is the result of OA_Admin_Timezones::getTimezone(), called BEFORE any
      * timezone information has been set (i.e. before the init script has been
      * called), then this method will ensure that all debug messages are logged
@@ -176,10 +176,10 @@ class OA
             }
         }
         // Log messages in the local server timezone, if possible
-        global $aServerTimezone;
-        if (!empty($aServerTimezone)) {
-            $aCurrentTimezone = OA_Admin_Timezones::getTimezone();
-            OA_setTimeZone($aServerTimezone['tz']);
+        global $serverTimezone;
+        if (!empty($serverTimezone)) {
+            $currentTimezone = OA_Admin_Timezones::getTimezone();
+            OA_setTimeZone($serverTimezone);
         }
         // Log the message
         if (is_null($message) && $aConf['log']['type'] == 'file') {
@@ -189,8 +189,8 @@ class OA
         }
         $result = $oLogger->log($message, $priority);
         // Restore the timezone
-        if (!empty($aCurrentTimezone)) {
-            OA_setTimeZone($aCurrentTimezone['tz']);
+        if (!empty($currentTimezone)) {
+            OA_setTimeZone($currentTimezone);
         }
         unset($GLOBALS['tempDebugPrefix']);
         return $result;

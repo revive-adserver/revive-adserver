@@ -189,7 +189,7 @@ class OA_Maintenance
      */
     function isMidnightMaintenance($oLastRun)
     {
-        global $aServerTimezone;
+        global $serverTimezone;
 
         if (empty($oLastRun)) {
             return true;
@@ -197,8 +197,8 @@ class OA_Maintenance
 
         $oServiceLocator = &OA_ServiceLocator::instance();
         $lastMidnight = new Date($oServiceLocator->get('now'));
-        if (!empty($aServerTimezone['tz'])) {
-            $lastMidnight->convertTZbyID($aServerTimezone['tz']);
+        if (!empty($serverTimezone)) {
+            $lastMidnight->convertTZbyID($serverTimezone);
         }
         $lastMidnight->setHour(0);
         $lastMidnight->setMinute(0);
