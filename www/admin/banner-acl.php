@@ -116,7 +116,7 @@ MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners, $aEntit
 $aBanner = MAX_cacheGetAd($bannerid, false);
 
 if (isset($acl)) {
-    $acl = MAX_aclAStripslashed($acl);
+    $acl = $acl;
 } else {
     $acl = Admin_DA::getDeliveryLimitations(array('ad_id' => $bannerid));
     // This array needs to be sorted by executionorder, this should ideally be done in SQL
