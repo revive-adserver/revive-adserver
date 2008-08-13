@@ -245,6 +245,7 @@ return $size;
 setupServerVariables();
 setupDeliveryConfigVariables();
 $conf = $GLOBALS['_MAX']['CONF'];
+$GLOBALS['_OA']['invocationType'] = array_search(basename($_SERVER['SCRIPT_FILENAME']), $conf['file']);
 // Set the log file
 if (!empty($conf['debug']['logfile'])) {
 @ini_set('error_log', MAX_PATH . '/var/' . $conf['debug']['logfile']);
@@ -378,7 +379,10 @@ return $cookiePrefix . substr(md5($_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AG
 }
 function MAX_Delivery_cookie_cappingOnRequest()
 {
-if (isset($GLOBALS['_OA']['invocationType']) && $GLOBALS['_OA']['invocationType'] == 'xml-rpc') {
+// view and xmlrpc invocation types must set capping-on-request for technical reasons
+if (isset($GLOBALS['_OA']['invocationType']) &&
+($GLOBALS['_OA']['invocationType'] == 'xmlrpc' || $GLOBALS['_OA']['invocationType'] == 'view')
+) {
 return true;
 }
 return !$GLOBALS['_MAX']['CONF']['logging']['adImpressions'];
@@ -1608,8 +1612,6 @@ $aBanner['bannerContent'] = "";
 OX_Delivery_Common_hook('preAdRender', array(&$aBanner, &$zoneId, &$source, &$ct0, &$withText, &$logClick, &$logView, null, &$richMedia, &$loc, &$referer));
 $functionName = _getAdRenderFunction($aBanner);
 $code = OX_Delivery_Common_hook('adRender', array(&$aBanner, &$zoneId, &$source, &$ct0, &$withText, &$logClick, &$logView, null, &$richMedia, &$loc, &$referer), $functionName);
-// post adRender hook
-OX_Delivery_Common_hook('postAdRender', array(&$code));
 // Transform any code
 // Get a timestamp
 list($usec, $sec) = explode(' ', microtime());
@@ -1654,6 +1656,8 @@ $aBanner['logUrl'] = $logUrl;
 // Pass over the search / replace patterns
 $aBanner['aSearch']  = $search;
 $aBanner['aReplace'] = $replace;
+// post adRender hook
+OX_Delivery_Common_hook('postAdRender', array(&$code, $aBanner));
 //    return $code;
 return MAX_commonConvertEncoding($code, $charset);
 }
