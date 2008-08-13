@@ -39,9 +39,10 @@
     <include name="scripts/maintenance/**"/>
     <include name="scripts/.htaccess"/>
     <include name="var/cache/README.txt"/>
-    <include name="var/plugins/config"/>
-    <include name="var/plugins/README.txt"/>
     <include name="var/plugins/cache"/>
+    <include name="var/plugins/config"/>
+    <include name="var/plugins/DataObjects"/>
+    <include name="var/plugins/README.txt"/>
     <include name="var/templates_compiled"/>
     <include name="var/.htaccess"/>
     <include name="var/UPGRADE"/>
