@@ -225,7 +225,11 @@ function MAX_cookieGetCookielessViewerID()
  */
 function MAX_Delivery_cookie_cappingOnRequest()
 {
-    if (isset($GLOBALS['_OA']['invocationType']) && $GLOBALS['_OA']['invocationType'] == 'xml-rpc') {
+    // view and xmlrpc invocation types must set capping-on-request for technical reasons
+    if (isset($GLOBALS['_OA']['invocationType']) &&
+        ($GLOBALS['_OA']['invocationType'] == 'xmlrpc' || $GLOBALS['_OA']['invocationType'] == 'view')
+    ) {
+
         return true;
     }
 

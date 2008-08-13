@@ -124,9 +124,6 @@ function MAX_adRender(&$aBanner, $zoneId=0, $source='', $target='', $ct0='', $wi
 	$functionName = _getAdRenderFunction($aBanner);
 	$code = OX_Delivery_Common_hook('adRender', array(&$aBanner, &$zoneId, &$source, &$ct0, &$withText, &$logClick, &$logView, null, &$richMedia, &$loc, &$referer), $functionName);
 
-	// post adRender hook
-	OX_Delivery_Common_hook('postAdRender', array(&$code));
-
     // Transform any code
 
     // Get a timestamp
@@ -178,6 +175,9 @@ function MAX_adRender(&$aBanner, $zoneId=0, $source='', $target='', $ct0='', $wi
     // Pass over the search / replace patterns
     $aBanner['aSearch']  = $search;
     $aBanner['aReplace'] = $replace;
+
+	// post adRender hook
+	OX_Delivery_Common_hook('postAdRender', array(&$code, $aBanner));
 
 //    return $code;
     return MAX_commonConvertEncoding($code, $charset);

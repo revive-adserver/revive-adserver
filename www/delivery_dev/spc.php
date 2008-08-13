@@ -65,13 +65,7 @@ foreach ($zones as $thisZone) {
     // Get the banner
     $output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $charset, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
 
-//    $marketplaceOutput = MAX_marketplaceProcess('spc', $output);
-
-    if (false && $marketplaceOutput) {
-        $outputHtml .= $marketplaceOutput;
-    } else {
-        $outputHtml .= $output['html'];
-    }
+    $outputHtml .= $output['html'];
 
     // Store the html2js'd output for this ad
     $spc_output .= MAX_javascriptToHTML($outputHtml, $conf['var']['prefix'] . "output['{$varname}']", false, false) . "\n";

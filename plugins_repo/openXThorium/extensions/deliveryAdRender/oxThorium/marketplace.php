@@ -25,7 +25,7 @@
 $Id$
 */
 
-$file = '/lib/OA/Delivery/marketplace.php';
+$file = '/extensions/deliveryAdRenderer/oxThorium/marketplace.php';
 ###START_STRIP_DELIVERY
 if(isset($GLOBALS['_MAX']['FILES'][$file])) {
     return;
@@ -47,7 +47,7 @@ require_once MAX_PATH . '/lib/max/Delivery/javascript.php';
 
 function MAX_marketplaceEnabled()
 {
-    return !empty($GLOBALS['_MAX']['CONF']['pluginGroupComponents']['bidService']);
+    return !empty($GLOBALS['_MAX']['CONF']['pluginGroupComponents']['oxThorium']);
 }
 
 /**
@@ -62,18 +62,18 @@ function MAX_marketplaceNeedsIndium()
     return MAX_marketplaceEnabled() && empty($_COOKIE['In']);
 }
 
-function MAX_marketplaceProcess($scriptFile, $aAd, $aZoneInfo = array(), $aParams = array())
+function MAX_marketplaceProcess($scriptFile, $adHtml, $aAd, $aZoneInfo = array(), $aParams = array())
 {
     $output = '';
     $aConf = $GLOBALS['_MAX']['CONF'];
     if (MAX_marketplaceEnabled()) { // Need also to check if marketplace is enabled at zone level
-        if (!empty($aAd['html']) && !empty($aAd['width']) && !empty($aAd['height'])) {
+        if (!empty($adHtml) && !empty($aAd['width']) && !empty($aAd['height'])) {
 
             $cb = mt_rand(0, PHP_INT_MAX);
 
-            $floorPrice = $aConf['bidService']['defaultFloorPrice'];
+            $floorPrice = $aConf['oxThorium']['defaultFloorPrice'];
 
-            $baseUrl = 'http://'.$aConf['bidService']['thoriumHost'];
+            $baseUrl = 'http://'.$aConf['oxThorium']['thoriumHost'];
             $urlParams = array(
                 'pid=OpenXDemo',
                 'tag_type=1',
@@ -97,7 +97,7 @@ function MAX_marketplaceProcess($scriptFile, $aAd, $aZoneInfo = array(), $aParam
                     $mktVar = 'OXM_'.$uniqid;
 
                     $output = "\n";
-                    $output .= MAX_javascriptToHTML($aAd['html'], $nfVar, false);
+                    $output .= MAX_javascriptToHTML($adHtml, $nfVar, false);
                     $output .= "\n";
                     $output .= MAX_javascriptToHTML($beaconHtml, $ntVar, false);
                     $output .= "\n";
@@ -107,9 +107,7 @@ function MAX_marketplaceProcess($scriptFile, $aAd, $aZoneInfo = array(), $aParam
                     $url .= '&nf='.urlencode($nfVar);
                     $url .= '&cb'.$cb;
 
-                    $html = '<script type="text/javascript" src="'.htmlspecialchars($url).'"></script>';
-
-                    $output .= MAX_javascriptToHTML($html, $mktVar);
+                    $output = '<script type="text/javascript" src="'.htmlspecialchars($url).'"></script>';
                     break;
                 case 'frame':
                 case 'spc':
@@ -120,7 +118,7 @@ function MAX_marketplaceProcess($scriptFile, $aAd, $aZoneInfo = array(), $aParam
                     $output .= "{$oVar} = {\"t\":".
                         MAX_javascriptEncodeJsonField($beaconHtml).
                         ",\"f\":".
-                        MAX_javascriptEncodeJsonField($aAd['html']).
+                        MAX_javascriptEncodeJsonField($adHtml).
                         "}\n";
                     $output .= "</script>\n";
 
