@@ -126,7 +126,7 @@ $GLOBALS['phpAds_hlp_gui_header_text_color'] = "
 $GLOBALS['phpAds_hlp_content_gzip_compression'] = "
 		By enabling GZIP content compression you will get a big decrease of the data which
 		is sent to the browser each time a page of the administrator interface is opened.
-		To enable this feature you need to have at least PHP 4.0.5 with the GZIP extention installed.
+		To enable this feature you need to have the GZIP extention installed.
 		";
 
 $GLOBALS['phpAds_hlp_language'] = "
