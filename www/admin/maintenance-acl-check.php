@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -46,8 +46,7 @@ phpAds_registerGlobal('action');
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-phpAds_PageHeader("5.5");
-phpAds_ShowSections(array("5.1", "5.2", "5.3", "5.5", "5.6", "5.4"));
+phpAds_PageHeader("maintenance-index");
 phpAds_MaintenanceSelection("acls");
 
 /*-------------------------------------------------------*/
