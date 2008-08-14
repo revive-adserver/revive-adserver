@@ -676,23 +676,23 @@ form.flat input[type=radio], form.flat input[type=checkbox] {
 }
 
 /* standard control sizes */
-form.flat .x-small {
+form.flat .x-small, .x-small {
 	width: 50px;
 }
 
-form.flat .small {
+form.flat .small, .small {
     width: 100px;	
 } 
 
-form.flat .medium {
+form.flat .medium, .medium {
 	width: 200px;
 }
 
-form.flat .large {
+form.flat .large, .large {
     width: 350px;	
 }
 
-form.flat .x-large {
+form.flat .x-large, .x-large {
     width: 550px;   
 }
 
