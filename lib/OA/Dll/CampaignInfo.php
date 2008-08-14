@@ -112,16 +112,14 @@ class OA_Dll_CampaignInfo extends OA_Info
      *
      */
     function setDefaultForAdd() {
-        // TODO: This is invalid for pgsql
-        // It will set the date to today which is probably not what you want.
+        // Default to 'no date'
         if (is_null($this->startDate)) {
-            $this->startDate = new Date(OA_Dal::noDateValue());
+            // It's ok to be NULL.  Don't worry about it.
         }
 
-        // TODO: This is invalid for pgsql
-        // It will set the date to today which is probably not what you want.
+        // Default to 'no date'
         if (is_null($this->endDate)) {
-            $this->endDate = new Date(OA_Dal::noDateValue());
+            // Nothing to see here...
         }
 
         if (is_null($this->impressions)) {
