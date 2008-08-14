@@ -1535,6 +1535,10 @@ $GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin']
 }
 function OA_Delivery_Cache_store_return($name, $cache, $isHash = false, $expireAt = null)
 {
+OX_Delivery_Common_hook(
+'preCacheStore_'.OA_Delivery_Cache_getHookName($name),
+array($name, &$cache)
+);
 if (OA_Delivery_Cache_store($name, $cache, $isHash, $expireAt)) {
 return $cache;
 }
@@ -1544,6 +1548,11 @@ if ($currentCache === false) {
 return $cache;
 }
 return $currentCache;
+}
+function OA_Delivery_Cache_getHookName($name)
+{
+$pos = strpos($name, '^');
+return $pos ? substr($name, 0, $pos) : substr($name, 0, strpos($name, '@'));
 }
 function OA_Delivery_Cache_buildFileName($name, $isHash = false)
 {
@@ -1858,7 +1867,6 @@ $aAdIds       = MAX_Delivery_log_getArrGetVariable('adId');
 $aCampaignIds = MAX_Delivery_log_getArrGetVariable('campaignId');
 $aCreativeIds = MAX_Delivery_log_getArrGetVariable('creativeId');
 $aZoneIds     = MAX_Delivery_log_getArrGetVariable('zoneId');
-//$aOverrideAdIds = MAX_marketplaceLogGetIds();
 // Get any ad, campaign and zone capping information from the request variables
 $aCapAd['block']                 = MAX_Delivery_log_getArrGetVariable('blockAd');
 $aCapAd['capping']               = MAX_Delivery_log_getArrGetVariable('capAd');
@@ -1886,9 +1894,8 @@ MAX_Delivery_log_ensureIntegerSet($aAdIds, $index);
 MAX_Delivery_log_ensureIntegerSet($aCampaignIds, $index);
 MAX_Delivery_log_ensureIntegerSet($aCreativeIds, $index);
 MAX_Delivery_log_ensureIntegerSet($aZoneIds, $index);
-if ($aAdIds[$index] > 0) {
-// Override with marketplace ads, if any
-$adId = isset($aOverrideAdIds[$index]) ? $aOverrideAdIds[$index] : $aAdIds[$index];
+if ($aAdIds[$index] >= -1) {
+$adId = $aAdIds[$index];
 // Log the ad impression, if required
 if ($GLOBALS['_MAX']['CONF']['logging']['adImpressions']) {
 MAX_Delivery_log_logAdImpression($viewerId, $adId, $aCreativeIds[$index], $aZoneIds[$index]);

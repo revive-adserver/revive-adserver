@@ -3355,6 +3355,10 @@ $GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin']
 }
 function OA_Delivery_Cache_store_return($name, $cache, $isHash = false, $expireAt = null)
 {
+OX_Delivery_Common_hook(
+'preCacheStore_'.OA_Delivery_Cache_getHookName($name),
+array($name, &$cache)
+);
 if (OA_Delivery_Cache_store($name, $cache, $isHash, $expireAt)) {
 return $cache;
 }
@@ -3364,6 +3368,11 @@ if ($currentCache === false) {
 return $cache;
 }
 return $currentCache;
+}
+function OA_Delivery_Cache_getHookName($name)
+{
+$pos = strpos($name, '^');
+return $pos ? substr($name, 0, $pos) : substr($name, 0, strpos($name, '@'));
 }
 function OA_Delivery_Cache_buildFileName($name, $isHash = false)
 {
