@@ -92,16 +92,8 @@ class XmlRpcUtils
                     die('Value should be PEAR::Date type');
                 }
 
-                if ($variable->format('%Y-%m-%d') == '0000-00-00') {
-
-                    return new XML_RPC_Value(null, $GLOBALS['XML_RPC_DateTime']);
-
-                } else {
-
-                    $value = $variable->format('%Y%m%d') . 'T00:00:00';
-                    return new XML_RPC_Value($value, $GLOBALS['XML_RPC_DateTime']);
-
-                }
+                $value = $variable->format('%Y%m%d') . 'T00:00:00';
+                return new XML_RPC_Value($value, $GLOBALS['XML_RPC_DateTime']);
 
             case 'custom':
                 return $variable;
