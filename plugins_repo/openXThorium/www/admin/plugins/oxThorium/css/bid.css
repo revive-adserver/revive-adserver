@@ -39,6 +39,10 @@ ul.form li.line {
 	overflow: hidden;
 }
 
+ul.form li.line p {
+  margin: 0px 0px 6px 0px;
+}
+
 ul.form ctrl-buttons {
 	margin-top: 20px;
 }
@@ -132,7 +136,7 @@ table#stats-by-country .graph {
 
 /** websites cmp comparison **/
 table#sites-cpm-comparison {
-    margin-top: 0px;
+    margin-top: 20px;
 }
 
 table#sites-cpm-comparison .checkbox {

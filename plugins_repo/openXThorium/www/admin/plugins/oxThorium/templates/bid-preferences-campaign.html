@@ -27,32 +27,50 @@
 $Id$
 
 -->*}
-
+{debug}
 <link rel='stylesheet' type='text/css' href='css/bid.css'>
 
+<div class='message message-error' id="errors" {if $form.errors}{else}style="display:none"{/if}>
+    {t str=FormContainsErrors}<br>
+    {foreach item=_eErr from=$form.errors}
+    - <font color='#AA0000'>{$_eErr}</font><br>
+    {/foreach}
+</div>
+
+<form {$form.attributes}>
+{$form.hidden}
 <div class="section">
+  <div class="title">Enable marketplace</div>
   <div class="content">
-
-    <form method="POST">
-    <ul class="form">
+    <ul class="form flat">
       <li class="line">
-        <p>You can earn more on 4 websites if this campaign takes part in MarkePlace and is linked to one of website zones.</p>
-        <input type="checkbox" value="t" id="enable_mkt"><label for="enable_mkt">{t str='Yes, allow this campaign to be challenged by MarketPlace' }</label>
+        <p>{t str='You could possibly earn more if this campaign takes part in MarkePlace.'}</p>
+        {$form.elements[0].html}
+        {*<input type="checkbox" value="t" id="enable_mkt"><label for="enable_mkt">{t str='Yes, allow this campaign to be challenged by MarketPlace' }</label>*}
       </li>
-
+    </ul>
+  </div>      
+  <div class="title">{t str='Floor price' }</div>
+  <div class="content">
+    <ul class="form flat">
       <li class="line">
         <p>Define the minimum price (floor) to ensure that marketplace never delivers less profitable
         ad than you would serve otherwise.</p>
-        <input name="floor_price" value="" id="floor_price" class="x-small" type="text">
-        <label for="floor_price">{t str='Campaign floor price' }</label>
+        <label for="floor_price">{$form.elements[1].label} {if $form.elements[1].required}<font color="red">*</font>{/if}</label>{$form.elements[1].html}
+        {*<label for="floor_price">{t str='Campaign floor price' }</label><input name="floor_price" value="" id="floor_price" class="x-small" style="margin-left: 5px;" type="text">*}
       </li>
-
-{*<!--
+    </ul>
+  </div>
+  
+  
+  
+  {*<div class="title">Select websites for which marketplace is enabled for this campaign</div>
+  <div class="content">
+    <ul class="form flat">          
       <li class="line">
         <p>If you are going to link this campaign to more than one website you can select on which websites this campaign can be challenged by MarketPlace.</p>
 
         <table id="sites-cpm-comparison" class='data sortable'>
-            <caption>Select websites for which marketplace is enabled for this campaign</caption>
         <thead>
           <tr>
             <th class="checkbox acenter"><input type="checkbox" name="all" id="site_av" value="t"></th>
@@ -127,20 +145,22 @@ $Id$
             <td class="number less">-$1.0</td>
             <td class="acenter"><a href="{$adminWebPath}campaign-zone.php?clientid={$clientid}&campaignid={$campaignid}">linked</a></td>
           </tr>
-
         </tbody>
       </table>
       </li>
--->*}
-
-      <li class="line ctr-buttons">
-        <input type="submit" value="{t str=Update}" name="enabled_websites">
-      </li>
     </ul>
-    </form>
+  </div>*}
+        
+  <ul class="form flat">
+      <li class="line ctr-buttons">
+      <input type="submit" value="{t str=Update}" name="enabled_websites">
+      </li>
+  </ul>
   </div>
-</div>
+</form>
 
+
+{*
 <script type="text/javascript" src="js/bidservice.js" ></script>
 <script type="text/javascript">
 <!--
@@ -183,3 +203,6 @@ $Id$
 {/literal}
 //-->
 </script>
+*}
+
+

@@ -67,7 +67,6 @@ class OA_Plugin_Template
         $this->template_dir = 'templates';
         $this->assign("pluginBaseDir", MAX_PATH.'/www/admin/plugins/');
         $this->assign("pluginTemplateDir", '/templates/');
-        $this->assign("oaTemplateDir", MAX_PATH.'/lib/templates/admin/');
     }
 }
 

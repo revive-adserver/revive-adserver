@@ -28,19 +28,73 @@ $Id$
 */
 
 require_once 'bid-common.php';
+require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
 
-phpAds_PageHeader("bid-preferences-campaign",'','../../');
+/*-------------------------------------------------------*/
+/* MAIN REQUEST PROCESSING                               */
+/*-------------------------------------------------------*/
+//build form
+$marketplaceForm = buildForm($clientid, $campaignid);
 
-$oTpl = new OA_Plugin_Template('bid-preferences-campaign.html','bidService');
+if ($marketplaceForm->validate()) {
+    //process submitted values
+    processForm($marketplaceForm);
+}
+displayPage($clientId, $campaignId, $marketplaceForm);
 
-//
-$oTpl->assign('clientid', $clientid);
-$oTpl->assign('campaignid', $campaignid);
-$oTpl->assign('aCampaigns', $aCampaigns);
 
-$oTpl->display();
+/*-------------------------------------------------------*/
+/* Build form                                            */
+/*-------------------------------------------------------*/
+function buildForm($clientId, $campaignId)
+{
+    $form = new OA_Admin_UI_Component_Form("campaignmplaceform", "POST", $_SERVER['PHP_SELF']);
+    $form->forceClientValidation(true);
 
-phpAds_PageFooter();
+    $form->addElement('hidden', 'clientid', $clientId);
+    $form->addElement('hidden', 'campaignid', $campaignId);
+    $form->addElement('advcheckbox', 'enable_mplace', null, 'Yes, allow this campaign to be challenged by MarketPlace', null, array("f", "t"));
+    $form->addElement('text', 'floor_price', 'Campaign floor price', array('class' => 'x-small', 'style' => "margin-left: 5px;"));
+
+
+    //Form validation rules
+    $translation = new OA_Translation();
+    $requiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array('Campaign floor price'));
+    $form->addRule('floor_price', $requiredMsg, 'required');    
+    
+    $aDefaults = array('enable_mplace' => 't', 'floor_price' => '5.5');
+    //set form  values
+    $form->setDefaults($aDefaults); //here we set current values of floor price and if campaign is enabled for marketplace 
+    return $form;
+}
+
+
+/*-------------------------------------------------------*/
+/* Process submitted form                                */
+/*-------------------------------------------------------*/
+function processForm($form)
+{
+    $aFields = $form->exportValues(); //this contains submitted values
+    
+    //this function is invoked only if validation was successful    
+}
+
+
+/*-------------------------------------------------------*/
+/* Display page                                          */
+/*-------------------------------------------------------*/
+function displayPage($clientId, $campaignId, $form)
+{
+    phpAds_PageHeader("bid-preferences-campaign",'','../../');
+    $oTpl = new OA_Plugin_Template('bid-preferences-campaign.html','bidService');
+    $oTpl->assign('form', $form->serialize());
+    $oTpl->display();
+    phpAds_PageFooter();
+}
+
+
+
+
 
 
 
