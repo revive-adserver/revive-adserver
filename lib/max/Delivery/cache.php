@@ -70,8 +70,8 @@ function OA_Delivery_Cache_fetch($name, $isHash = false, $expiryTime = null)
     $filename = OA_Delivery_Cache_buildFileName($name, $isHash);
 
     $aCacheVar = OX_Delivery_Common_hook(
-        'cacheRetrieve', 
-        array($filename), 
+        'cacheRetrieve',
+        array($filename),
         $GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin']
     );
     if ($aCacheVar !== false) {
@@ -121,10 +121,10 @@ function OA_Delivery_Cache_store($name, $cache, $isHash = false, $expireAt = nul
     $aCacheVar['cache_name'] = $name;
     $aCacheVar['cache_time'] = MAX_commonGetTimeNow();
     $aCacheVar['cache_expire'] = $expireAt;
-    
+
     return OX_Delivery_Common_hook(
-        'cacheStore', 
-        array($filename, $aCacheVar), 
+        'cacheStore',
+        array($filename, $aCacheVar),
         $GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin']
     );
 }
@@ -142,6 +142,10 @@ function OA_Delivery_Cache_store($name, $cache, $isHash = false, $expireAt = nul
  */
 function OA_Delivery_Cache_store_return($name, $cache, $isHash = false, $expireAt = null)
 {
+    OX_Delivery_Common_hook(
+        'preCacheStore_'.OA_Delivery_Cache_getHookName($name),
+        array($name, &$cache)
+    );
     if (OA_Delivery_Cache_store($name, $cache, $isHash, $expireAt)) {
         return $cache;
     }
@@ -150,7 +154,19 @@ function OA_Delivery_Cache_store_return($name, $cache, $isHash = false, $expireA
     if ($currentCache === false) {
         return $cache;
     }
-    return $currentCache; 
+    return $currentCache;
+}
+
+/**
+ * Returns the function name which output is being stored in
+ *
+ * @param string $name
+ * @return string
+ */
+function OA_Delivery_Cache_getHookName($name)
+{
+    $pos = strpos($name, '^');
+    return $pos ? substr($name, 0, $pos) : substr($name, 0, strpos($name, '@'));
 }
 
 /**

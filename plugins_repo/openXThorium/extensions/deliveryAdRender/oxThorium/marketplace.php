@@ -82,7 +82,8 @@ function MAX_marketplaceProcess($scriptFile, $adHtml, $aAd, $aZoneInfo = array()
             );
 
             if ($aConf['logging']['adImpressions']) {
-                $beaconHtml = MAX_adRenderImageBeacon($aAd['logUrl'].'&fromMarketplace=1');
+                // overwrite the original banner Id
+                $beaconHtml = MAX_adRenderImageBeacon($aAd['logUrl'].'&bannerid=-1');
                 $beaconHtml = str_replace($aAd['aSearch'], $aAd['aReplace'], $beaconHtml);
             } else {
                 $beaconHtml = '';

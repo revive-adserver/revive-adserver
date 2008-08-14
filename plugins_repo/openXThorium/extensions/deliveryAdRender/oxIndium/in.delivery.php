@@ -2,7 +2,7 @@
 
 require_once MAX_PATH . '/extensions/deliveryAdRender/oxThorium/marketplace.php';
 
-function Plugin_deliveryAdRender_oxIndium_in_Delivery_universalHook($code)
+function Plugin_deliveryAdRender_oxIndium_in_Delivery_universalHook()
 {
     if (MAX_marketplaceEnabled()) {
         $conf = $GLOBALS['_MAX']['CONF'];

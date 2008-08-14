@@ -17,6 +17,7 @@
         <files>
             <file path="{MODULEPATH}deliveryAdRender/oxIndium/">beaconService.delivery.php</file>
             <file path="{MODULEPATH}deliveryAdRender/oxIndium/">in.delivery.php</file>
+            <file path="{MODULEPATH}deliveryAdRender/oxIndium/">addPublisherId.delivery.php</file>
         </files>
 
         <components>
@@ -27,6 +28,10 @@
             <component>
                 <name>in</name>
                 <hook>universalHook</hook>
+           </component>
+            <component>
+                <name>addPublisherId</name>
+                <hook>preCacheStore_accounttzs</hook>
            </component>
         </components>
 

@@ -53,8 +53,6 @@ $aCampaignIds = MAX_Delivery_log_getArrGetVariable('campaignId');
 $aCreativeIds = MAX_Delivery_log_getArrGetVariable('creativeId');
 $aZoneIds     = MAX_Delivery_log_getArrGetVariable('zoneId');
 
-//$aOverrideAdIds = MAX_marketplaceLogGetIds();
-
 // Get any ad, campaign and zone capping information from the request variables
 $aCapAd['block']                 = MAX_Delivery_log_getArrGetVariable('blockAd');
 $aCapAd['capping']               = MAX_Delivery_log_getArrGetVariable('capAd');
@@ -84,9 +82,8 @@ for ($index = 0; $index < $countAdIds; $index++) {
     MAX_Delivery_log_ensureIntegerSet($aCampaignIds, $index);
     MAX_Delivery_log_ensureIntegerSet($aCreativeIds, $index);
     MAX_Delivery_log_ensureIntegerSet($aZoneIds, $index);
-    if ($aAdIds[$index] > 0) {
-        // Override with marketplace ads, if any
-        $adId = isset($aOverrideAdIds[$index]) ? $aOverrideAdIds[$index] : $aAdIds[$index];
+    if ($aAdIds[$index] >= -1) {
+        $adId = $aAdIds[$index];
         // Log the ad impression, if required
         if ($GLOBALS['_MAX']['CONF']['logging']['adImpressions']) {
             MAX_Delivery_log_logAdImpression($viewerId, $adId, $aCreativeIds[$index], $aZoneIds[$index]);
