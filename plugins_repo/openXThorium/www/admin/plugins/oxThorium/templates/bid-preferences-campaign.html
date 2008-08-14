@@ -27,7 +27,6 @@
 $Id$
 
 -->*}
-{debug}
 <link rel='stylesheet' type='text/css' href='css/bid.css'>
 
 <div class='message message-error' id="errors" {if $form.errors}{else}style="display:none"{/if}>
@@ -49,7 +48,7 @@ $Id$
         {*<input type="checkbox" value="t" id="enable_mkt"><label for="enable_mkt">{t str='Yes, allow this campaign to be challenged by MarketPlace' }</label>*}
       </li>
     </ul>
-  </div>      
+  </div>
   <div class="title">{t str='Floor price' }</div>
   <div class="content">
     <ul class="form flat">
@@ -61,12 +60,12 @@ $Id$
       </li>
     </ul>
   </div>
-  
-  
-  
+
+
+
   {*<div class="title">Select websites for which marketplace is enabled for this campaign</div>
   <div class="content">
-    <ul class="form flat">          
+    <ul class="form flat">
       <li class="line">
         <p>If you are going to link this campaign to more than one website you can select on which websites this campaign can be challenged by MarketPlace.</p>
 
@@ -150,7 +149,7 @@ $Id$
       </li>
     </ul>
   </div>*}
-        
+
   <ul class="form flat">
       <li class="line ctr-buttons">
       <input type="submit" value="{t str=Update}" name="enabled_websites">
