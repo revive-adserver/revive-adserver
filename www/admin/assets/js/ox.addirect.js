@@ -920,7 +920,7 @@ function campaignFormPriorityCheck(form)
 	    }
 	    else if (campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL 
 	       && $("#endSet_immediate").attr("checked") == true 
-            && !parseInt("#target_value").val()) {
+            && !parseInt($("#target_value").val()) ) {
         return confirm (strCampaignWarningNoTargetMessage);	    
 	    }
     }
