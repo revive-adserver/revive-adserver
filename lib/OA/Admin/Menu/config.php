@@ -213,8 +213,8 @@ function _buildNavigation($accountType)
                     $oMenu->addTo('affiliate-zones', new OA_Admin_Menu_Section('zone-invocation', $GLOBALS['strInvocationcode'], 'zone-invocation.php?affiliateid={affiliateid}&zoneid={zoneid}', false, "inventory/publishersAndZones/zones/editZone/invocationCode"));
                 $oMenu->addTo('affiliate-index', new OA_Admin_Menu_Section('affiliate-channels', $GLOBALS['strChannels'], 'affiliate-channels.php?affiliateid={affiliateid}', false, "inventory/publishersAndZones/channels"));
                     $oMenu->addTo('affiliate-channels', new OA_Admin_Menu_Section('channel-edit-affiliate_new', $GLOBALS['strAddNewChannel'], 'channel-edit.php?affiliateid={affiliateid}', true, "inventory/publishersAndZones/channels/addChannel"));
-                    $oMenu->addTo('affiliate-channels', new OA_Admin_Menu_Section('channel-edit-affiliate', $GLOBALS['strAddNewChannel'], 'channel-edit.php?affiliateid={affiliateid}&channelid={channelid}', true, "inventory/publishersAndZones/channels/editChannel"));
-                    $oMenu->addTo('affiliate-channels', new OA_Admin_Menu_Section('channel-affiliate-acl', $GLOBALS['strAddNewChannel'], 'channel-acl.php?affiliateid={affiliateid}&channelid={channelid}', true, "inventory/publishersAndZones/channels/editChannel/deliveryOptions"));
+                    $oMenu->addTo('affiliate-channels', new OA_Admin_Menu_Section('channel-edit-affiliate', $GLOBALS['strChannelProperties'], 'channel-edit.php?affiliateid={affiliateid}&channelid={channelid}', false, "inventory/publishersAndZones/channels/editChannel"));
+                    $oMenu->addTo('affiliate-channels', new OA_Admin_Menu_Section('channel-affiliate-acl', $GLOBALS['strChannelLimitations'], 'channel-acl.php?affiliateid={affiliateid}&channelid={channelid}', false, "inventory/publishersAndZones/channels/editChannel/deliveryOptions"));
                 $oMenu->addTo('affiliate-index', new OA_Admin_Menu_Section('affiliate-invocation', $GLOBALS['strInvocationcode'], 'affiliate-invocation.php?affiliateid={affiliateid}', false, "inventory/affiliateInvocation"));
                 $oMenu->addTo('affiliate-index', new OA_Admin_Menu_Section('affiliate-access', $GLOBALS['strUserAccess'], 'affiliate-access.php?affiliateid={affiliateid}'));
 
@@ -229,7 +229,7 @@ function _buildNavigation($accountType)
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("channel-index", $GLOBALS['strChannelManagement'], "channel-index.php", false, "settings/channelManagement"));
                     $oMenu->addTo("channel-index", new OA_Admin_Menu_Section("channel-edit_new", $GLOBALS['strAddNewChannel'], "channel-edit.php?agencyid={agencyid}", true, "settings/channelManagement/addChannel"));
                     $oMenu->addTo("channel-index", new OA_Admin_Menu_Section("channel-edit", $GLOBALS['strChannelProperties'], "channel-edit.php?agencyid={agencyid}&channelid={channelid}", false, "settings/channelManagement/editChannel"));
-                        $oMenu->addTo("channel-edit", new OA_Admin_Menu_Section("channel-acl", $GLOBALS['strModifyBannerAcl'], "channel-acl.php?agencyid={agencyid}&channelid={channelid}", false, "settings/channelManagement/editChannel/deliveryOptions"));
+                    $oMenu->addTo("channel-index", new OA_Admin_Menu_Section("channel-acl", $GLOBALS['strChannelLimitations'], "channel-acl.php?agencyid={agencyid}&channelid={channelid}", false, "settings/channelManagement/editChannel/deliveryOptions"));
             break;
         case OA_ACCOUNT_TRAFFICKER:
             // Note: The stats screens haven't been updated to use the new menuing names...

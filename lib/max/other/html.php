@@ -1127,7 +1127,7 @@ function MAX_displayNavigationChannel($pageName, $aOtherChannels, $aEntities)
         // Determine which tab is highlighted
         switch ($pageName) {
             case 'channel-edit.php' : $tabValue = (!empty($channelId)) ? 'channel-edit-affiliate' : 'channel-edit-affiliate_new'; break;
-            case 'channel-acl.php' : $tabValue = '4.2.4.3'; break;
+            case 'channel-acl.php' : $tabValue = 'channel-affiliate-acl'; break;
         }
         $tabSections = (!empty($channelId)) ? array('4.2.4.2', '4.2.4.3') : array('4.2.4.1');
     } else {

@@ -158,12 +158,12 @@ function displayPage($channel, $form)
     
     // Obtain the needed data
     if (!empty($channel['affiliateid'])) {
-        $aEntities = array('agencyid' => $agencyid, 'affiliateid' => $channel['affiliateid'], 'channelid' => $channel['channelid']);
+        $aEntities = array('agencyid' => $agencyId, 'affiliateid' => $channel['affiliateid'], 'channelid' => $channel['channelid']);
         // Editing a channel at the publisher level; Only use the
         // channels at this publisher level for the navigation bar
         $aOtherChannels = Admin_DA::getChannels(array('publisher_id' => $channel['affiliateid']));
     } else {
-        $aEntities = array('agencyid' => $agencyid, 'channelid' => $channel['channelid']);
+        $aEntities = array('agencyid' => $agencyId, 'channelid' => $channel['channelid']);
         // Editing a channel at the agency level; Only use the
         // channels at this agency level for the navigation bar
         $aOtherChannels = Admin_DA::getChannels(array('agency_id' => $agencyId, 'channel_type' => 'agency'));
