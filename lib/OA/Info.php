@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -81,14 +81,13 @@ class OA_Info
         foreach($aFieldsTypes as $fieldName => $fieldType) {
             if (array_key_exists($fieldName, $aEntityData)) {
                 if ($fieldType == 'date') {
-                    // A date/time should only be passed to the Date constructor
-                    // if known to be a valid ISO 8601 string or a valid Unix timestamp.
-                    // In postgres the value for a NULL date will be the empty string here
-                    // (which is invalid) so we set it to a valid ISO 8601 string.
-                    if ($aEntityData[$fieldName] == '') {
-                        $aEntityData[$fieldName] = '0000-00-00';
-                    }
-                    $this->$fieldName = new Date($aEntityData[$fieldName]);
+                    // If the date is 'no date' then don't return this element in the response at all.
+                    if (empty($aEntityData[$fieldName]) ||
+                        $aEntityData[$fieldName] == OA_Dal::noDateValue()) {
+                        unset($this->$fieldName);
+                    } else {
+                        $this->$fieldName = new Date($aEntityData[$fieldName]);
+                    }                        
                 } else {
                     $this->$fieldName = $aEntityData[$fieldName];
                 }

@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -112,10 +112,14 @@ class OA_Dll_CampaignInfo extends OA_Info
      *
      */
     function setDefaultForAdd() {
+        // TODO: This is invalid for pgsql
+        // It will set the date to today which is probably not what you want.
         if (is_null($this->startDate)) {
             $this->startDate = new Date(OA_Dal::noDateValue());
         }
 
+        // TODO: This is invalid for pgsql
+        // It will set the date to today which is probably not what you want.
         if (is_null($this->endDate)) {
             $this->endDate = new Date(OA_Dal::noDateValue());
         }
