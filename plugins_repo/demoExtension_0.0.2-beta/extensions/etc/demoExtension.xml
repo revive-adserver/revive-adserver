@@ -22,6 +22,7 @@
             <group name="demoDeliveryLimitation"   >1</group>
             <group name="demoBannerTypeHtml"       >2</group>
             <group name="demoUserInterface"        >3</group>
+            <group name="demoXajax"                >4</group>
         </contents>
 
     </install>
