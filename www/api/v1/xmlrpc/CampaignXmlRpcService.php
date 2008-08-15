@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -85,7 +85,9 @@ class CampaignXmlRpcService extends BaseCampaignService
                 $oResponseWithError) ||
             !XmlRpcUtils::getStructureScalarFields($oCampaignInfo, $oParams,
                 1, array('advertiserId', 'campaignName', 'startDate', 'endDate',
-                       'impressions', 'clicks', 'priority', 'weight'),
+                         'impressions', 'clicks', 'priority', 'weight',
+                         'targetImpressions', 'targetClicks', 'targetConversions',
+                         'revenue', 'revenueType'),
                         $oResponseWithError)) {
 
             return $oResponseWithError;
@@ -119,7 +121,9 @@ class CampaignXmlRpcService extends BaseCampaignService
             !XmlRpcUtils::getStructureScalarFields($oCampaignInfo, $oParams,
                 1, array('advertiserId', 'campaignId', 'campaignName',
                         'startDate', 'endDate', 'impressions', 'clicks',
-                        'priority', 'weight'), $oResponseWithError)) {
+                        'priority', 'weight', 'targetImpressions', 'targetClicks',
+                        'targetConversions', 'revenue', 'revenueType'),
+                        $oResponseWithError)) {
 
             return $oResponseWithError;
         }

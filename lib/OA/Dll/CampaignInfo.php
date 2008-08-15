@@ -104,6 +104,39 @@ class OA_Dll_CampaignInfo extends OA_Info
      * @var integer $weight
      */
     var $weight;
+    
+    /**
+     *
+     * @var integer $targetImpressions
+     */
+    var $targetImpressions;
+
+    /**
+     *
+     * @var integer $targetClick
+     */
+    var $targetClicks;
+
+    /**
+     *
+     * @var integer $targetConversions
+     */
+    var $targetConversions;
+
+    /**
+     * Revenue amount, eg 1.55.
+     *
+     * @var double $revenue 
+     */
+    var $revenue;
+
+    /**
+     * Revenue type (CPM, CPA, etc) as defined in constants.php.
+     * Eg, define('MAX_FINANCE_CPM',    1);
+     * 
+     * @var integer $revenueType
+     */
+    var $revenueType;
 
     /**
      * This method sets all default values when adding a new campaign.
@@ -137,6 +170,26 @@ class OA_Dll_CampaignInfo extends OA_Info
         if (is_null($this->weight)) {
             $this->weight = 1;
         }
+        
+        if (is_null($this->targetImpressions)) {
+            $this->targetImpressions = 0;
+        }
+
+        if (is_null($this->targetClicks)) {
+            $this->targetClicks = 0;
+        }
+
+        if (is_null($this->targetConversions)) {
+            $this->targetConversions = 0;
+        }
+
+        if (is_null($this->revenue)) {
+            // Leave null
+        }
+
+        if (is_null($this->revenueType)) {
+            // Leave null
+        }
     }
 
     /**
@@ -157,7 +210,12 @@ class OA_Dll_CampaignInfo extends OA_Info
                     'impressions' => 'integer',
                     'clicks' => 'integer',
                     'priority' => 'integer',
-                    'weight' => 'integer'
+                    'weight' => 'integer',
+                    'targetImpressions' => 'integer',
+                    'targetClicks' => 'integer',
+                    'targetConversions' => 'integer',
+                    'revenue' => 'double',
+                    'revenueType' => 'integer'
                 );
     }
 }

@@ -81,6 +81,7 @@ class XmlRpcUtils
                 return new XML_RPC_Value($variable, $GLOBALS['XML_RPC_Int']);
 
             case 'float':
+            case 'double':
                 return new XML_RPC_Value($variable, $GLOBALS['XML_RPC_Double']);
 
             case 'boolean':

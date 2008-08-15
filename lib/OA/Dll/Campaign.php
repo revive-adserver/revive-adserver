@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -56,12 +56,16 @@ class OA_Dll_Campaign extends OA_Dll
      */
     function _setCampaignDataFromArray(&$oCampaign, $campaignData)
     {
-        $campaignData['campaignId']   = $campaignData['campaignid'];
-        $campaignData['campaignName'] = $campaignData['campaignname'];
-        $campaignData['advertiserId'] = $campaignData['clientid'];
-        $campaignData['startDate']    = $campaignData['activate'];
-        $campaignData['endDate']      = $campaignData['expire'];
-        $campaignData['impressions']  = $campaignData['views'];
+        $campaignData['campaignId']       = $campaignData['campaignid'];
+        $campaignData['campaignName']     = $campaignData['campaignname'];
+        $campaignData['advertiserId']     = $campaignData['clientid'];
+        $campaignData['startDate']        = $campaignData['activate'];
+        $campaignData['endDate']          = $campaignData['expire'];
+        $campaignData['impressions']      = $campaignData['views'];
+        $campaignData['targetImpressions'] = $campaignData['target_impression'];
+        $campaignData['targetClicks']      = $campaignData['target_click'];
+        $campaignData['targetConversions'] = $campaignData['target_conversion'];
+        $campaignData['revenueType']      = $campaignData['revenue_type'];
 
         $oCampaign->readDataFromArray($campaignData);
         return  true;
@@ -110,18 +114,14 @@ class OA_Dll_Campaign extends OA_Dll
                 return false;
             }
         }
-    /**
-     * @todo The error message is awkward - suggest changing to "High or medium priority
-     * campaigns cannot have a weight that is greater than zero."
-     */
-        // Check that the campaign priority and weight are consistent.
-        // High priority is between 1 and 10.
-        if (isset($oCampaign->priority) &&
-            (($oCampaign->priority >= 1) && ($oCampaign->priority <= 10)) &&
-            isset($oCampaign->weight) && ($oCampaign->weight > 0)) {
 
-            $this->raiseError('The weight could not be greater than zero for'.
-                                ' high or medium priority campaigns');
+        // Check that the campaign priority and weight are consistent.
+        if ($this->_isHighPriority($oCampaign) && $this->_hasWeight($oCampaign)) {
+            $this->raiseError('High or medium priority campaigns cannot have a weight' .
+                              ' that is greater than zero.');
+            return false;
+        } else if (!$this->_isHighPriority($oCampaign) && $this->_hasTargets($oCampaign)) {
+            $this->raiseError('Low or exclusive priority campaigns cannot have targets.');
             return false;
         }
 
@@ -129,15 +129,19 @@ class OA_Dll_Campaign extends OA_Dll
             !$this->checkStructureNotRequiredIntegerField($oCampaign, 'impressions') ||
             !$this->checkStructureNotRequiredIntegerField($oCampaign, 'clicks') ||
             !$this->checkStructureNotRequiredIntegerField($oCampaign, 'priority') ||
-            !$this->checkStructureNotRequiredIntegerField($oCampaign, 'weight')) {
-
+            !$this->checkStructureNotRequiredIntegerField($oCampaign, 'weight') ||
+            !$this->checkStructureNotRequiredIntegerField($oCampaign, 'targetImpressions') ||
+            !$this->checkStructureNotRequiredIntegerField($oCampaign, 'targetClicks') ||
+            !$this->checkStructureNotRequiredIntegerField($oCampaign, 'targetConversions') ||
+            !$this->checkStructureNotRequiredDoubleField($oCampaign, 'revenue') ||
+            !$this->checkStructureNotRequiredIntegerField($oCampaign, 'revenueType')) {
             return false;
         } else {
             return true;
         }
 
     }
-
+    
     /**
      * This method performs data validation for statistics methods (campaignId, date).
      *
@@ -234,6 +238,12 @@ class OA_Dll_Campaign extends OA_Dll
         }
 
         $campaignData['views']        = $oCampaign->impressions;
+
+        $campaignData['target_impression'] = $oCampaign->targetImpressions;
+        $campaignData['target_click']      = $oCampaign->targetClicks;
+        $campaignData['target_conversion'] = $oCampaign->targetConversions;
+
+        $campaignData['revenue_type'] = $oCampaign->revenueType;
 
         if ($this->_validate($oCampaign)) {
             $doCampaign = OA_Dal::factoryDO('campaigns');
@@ -513,6 +523,28 @@ class OA_Dll_Campaign extends OA_Dll
         } else {
             return false;
         }
+    }
+    
+    /**
+     * Checks if a campaign is high priority.
+     * High priority is between 1 and 10.
+     * 
+     * @param OA_Dll_CampaignInfo $oCampaign
+     * @return boolean true if campaign is a high priority campaign, false otherwise.
+     */
+    function _isHighPriority(&$oCampaign) {
+        return isset($oCampaign->priority) &&
+            ((1 <= $oCampaign->priority) && ($oCampaign->priority <= 10));
+    }
+    
+    function _hasWeight(&$oCampaign) {
+        return isset($oCampaign->weight) && ($oCampaign->weight > 0);
+    }
+
+    function _hasTargets(&$oCampaign) {
+        return ( (isset($oCampaign->targetImpressions) && $oCampaign->targetImpressions > 0) ||
+            (isset($oCampaign->targetClicks) && $oCampaign->targetClicks > 0) ||
+            (isset($oCampaign->targetConversions) && $oCampaign->targetConversions > 0) );
     }
 
 }

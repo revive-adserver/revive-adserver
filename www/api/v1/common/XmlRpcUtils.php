@@ -253,6 +253,7 @@ class XmlRpcUtils
                 return new XML_RPC_Value($variable, $GLOBALS['XML_RPC_Int']);
 
             case 'float':
+            case 'double':
                 if (is_null($variable)) {
                     $variable = 0.0;
                 }
@@ -299,6 +300,7 @@ class XmlRpcUtils
                 return new XML_RPC_Value($variable, $GLOBALS['XML_RPC_Int']);
 
             case 'float':
+            case 'double':
                 return new XML_RPC_Value($variable, $GLOBALS['XML_RPC_Double']);
 
             case 'date':
@@ -384,6 +386,9 @@ class XmlRpcUtils
                 $result, $oResponseWithError);
         } elseif ($oParam->scalartyp() == $GLOBALS['XML_RPC_Boolean']) {
             $result = (bool) $oParam->scalarval();
+            return true;
+        } elseif ($oParam->scalartyp() == $GLOBALS['XML_RPC_Double']) {
+            $result = (double) $oParam->scalarval();
             return true;
         } else {
             $result = $oParam->scalarval();

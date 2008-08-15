@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -196,6 +196,52 @@ class OA_Dll extends OA_BaseObjectWithErrors
         if (isset($oStructure->$fieldName)) {
             if (!is_integer($oStructure->$fieldName)) {
                 $this->raiseError('Field \''.$fieldName.'\' is not integer');
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * Checks required double field in structure.
+     *
+	 * @access public
+	 *
+     * @param structure &$oStructure  Structure to check
+     * @param string $fieldName       Field name in structure to check
+     *
+     * @return boolean  Returns true when field exists and is double, and false in other case.
+     */
+    function checkStructureRequiredDoubleField(&$oStructure, $fieldName)
+    {
+        if (!isset($oStructure->$fieldName)) {
+            $this->raiseError('Field \''. $fieldName .'\' in structure does not exists');
+            return false;
+        }
+
+        if (!$this->checkStructureNotRequiredDoubleField($oStructure, $fieldName)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Checks not required double field in structure.
+     *
+	 * @access public
+	 *
+     * @param structure &$oStructure  Structure to check
+     * @param string $fieldName       Field name in structure to check
+     *
+     * @return boolean  Returns true when field exists and is a double.
+     *                  Also returns true when field doesn't exist, and returns false in other case.
+     */
+    function checkStructureNotRequiredDoubleField(&$oStructure, $fieldName)
+    {
+        if (isset($oStructure->$fieldName)) {
+            if (!is_double($oStructure->$fieldName)) {
+                $this->raiseError('Field \''.$fieldName.'\' is not double ' . gettype($fieldName));
                 return false;
             }
         }
