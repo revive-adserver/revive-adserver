@@ -208,15 +208,12 @@ if (array_key_exists('table_edit', $_POST) && $_POST['table_edit'])
     {
         $table = '';
     }
-    else if (array_key_exists('btn_table_new', $_POST) && $_POST['new_table_name'])
-    {
-        if (array_key_exists('new_table_name', $_POST))
-        {
-            $table = $_POST['new_table_name'];
-            $oaSchema->tableNew($table);
-            unset($table);
-        }
-    }
+}
+else if (array_key_exists('btn_table_new', $_POST) && isset($_POST['new_table_name']))
+{
+    $table = $_POST['new_table_name'];
+    $oaSchema->tableNew($table);
+    unset($table);
 }
 else if (array_key_exists('btn_table_edit', $_POST))
 {
