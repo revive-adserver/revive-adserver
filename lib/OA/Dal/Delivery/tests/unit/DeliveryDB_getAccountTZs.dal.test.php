@@ -64,7 +64,8 @@ class Test_OA_Dal_Delivery_getAccountTZs extends UnitTestCase
 
         $aExpect = array(
             'default' => 'UTC',
-            'aAccounts' => array()
+            'aAccounts' => array(),
+            'adminAccountId' => 1
         );
 
         $aResult = OA_Dal_Delivery_getAccountTZs();
@@ -80,11 +81,6 @@ class Test_OA_Dal_Delivery_getAccountTZs extends UnitTestCase
         $doAPA->value = '';
         $doAPA->insert();
 
-        $aExpect = array(
-            'default' => 'UTC',
-            'aAccounts' => array()
-        );
-
         $aResult = OA_Dal_Delivery_getAccountTZs();
         $this->assertEqual($aResult, $aExpect);
 
@@ -96,7 +92,8 @@ class Test_OA_Dal_Delivery_getAccountTZs extends UnitTestCase
 
         $aExpect = array(
             'default' => 'Europe/Rome',
-            'aAccounts' => array()
+            'aAccounts' => array(),
+            'adminAccountId' => 1
         );
 
         $aResult = OA_Dal_Delivery_getAccountTZs();
@@ -130,7 +127,8 @@ class Test_OA_Dal_Delivery_getAccountTZs extends UnitTestCase
             'aAccounts' => array(
                 $managerAccountId1 => 'Europe/London',
                 $managerAccountId2 => 'CEST'
-            )
+            ),
+            'adminAccountId' => 1
         );
 
         $aResult = OA_Dal_Delivery_getAccountTZs();
