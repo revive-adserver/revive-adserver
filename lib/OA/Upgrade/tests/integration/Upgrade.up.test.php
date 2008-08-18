@@ -106,14 +106,27 @@ class Test_OA_Upgrade extends UnitTestCase
 
     function test_disableAllPlugins()
     {
-        $aPlugins   = & $GLOBALS['_MAX']['CONF']['plugins'];
-        $aGroups    = & $GLOBALS['_MAX']['CONF']['pluginGroupComponents'];
-        $aPlugins['testPlugin'] = 1;
-        $aGroups['testGroup1'] = 1;
-        $aGroups['testGroup2'] = 1;
-        $aGroups['testGroup3'] = 1;
+        $aConf   = & $GLOBALS['_MAX']['CONF'];
+        $aConf['plugins'] = array('testPlugin' => 1);
+        $aConf['pluginGroupComponents']['testGroup1'] = 1;
+        $aConf['pluginGroupComponents']['testGroup2'] = 1;
+        $aConf['pluginGroupComponents']['testGroup3'] = 1;
         $oUpgrade = new OA_Upgrade();
-        $oUpgrade->oConfiguration->setPluginsDisabled();
+
+        /*$file = MAX_PATH.'/var/plugins/recover/enabled.log';
+        if (file_exists($file))
+        {
+            @unlink($file);
+        }
+        if ($fh = fopen($file, 'w'))
+        {
+            foreach ($GLOBALS['_MAX']['CONF']['plugins'] as $name => $enabled)
+            {
+                fwrite($fh, "{$name}={$enabled};\r\n");
+            }
+            fclose($fh);
+        }*/
+        $oUpgrade->disableAllPlugins();
         TestEnv::restoreConfig();
     }
 
