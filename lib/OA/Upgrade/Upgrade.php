@@ -84,7 +84,6 @@ class OA_Upgrade
 {
     var $upgradePath = '';
 
-    //var $defaultPluginsFile = '';
     var $message = '';
 
     /**
@@ -128,7 +127,6 @@ class OA_Upgrade
         $this->recoveryFile = MAX_PATH.'/var/RECOVER';
         $this->nobackupsFile = MAX_PATH.'/var/NOBACKUPS';
         $this->postTaskFile = MAX_PATH.'/var/TASKS.php';
-        //$this->defaultPluginsFile = MAX_PATH.'/etc/default_plugins.php';
 
         $this->oLogger      = new OA_UpgradeLogger();
         $this->oParser      = new OA_UpgradePackageParser();
@@ -1136,7 +1134,6 @@ class OA_Upgrade
                                                )
                                          );
 
-        //$this->installPlugins();
         $this->addPostUpgradeTask('Install_Plugins');
         $this->_writePostUpgradeTasksFile();
 
@@ -1152,6 +1149,8 @@ class OA_Upgrade
     }
 
     /**
+     * first, record the status of plugins (enabled/disabled)
+     * so that enabled plugins can be re-enabled by post-upgrade task
      * before core upgrade, all plugins should be disabled
      * flatten the caches - no menus, extensions or dependencies
      * after core upgrade, check all plugins and rebuild caches
@@ -1161,6 +1160,19 @@ class OA_Upgrade
      */
     function disableAllPlugins($aPackages='')
     {
+        $file = MAX_PATH.'/var/plugins/recover/enabled.log';
+        if (file_exists($file))
+        {
+            @unlink($file);
+        }
+        if ($fh = fopen($file, 'w'))
+        {
+            foreach ($GLOBALS['_MAX']['CONF']['plugins'] as $name => $enabled)
+            {
+                fwrite($fh, "{$name}={$enabled};\r\n");
+            }
+            fclose($fh);
+        }
         $this->oConfiguration->setPluginsDisabled();
         return true;
     }
