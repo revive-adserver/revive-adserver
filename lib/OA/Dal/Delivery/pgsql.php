@@ -167,6 +167,7 @@ function OA_Dal_Delivery_getAccountTZs()
     $res = OA_Dal_Delivery_query($query);
 
     $aResult = array(
+        'adminAccountId' => $adminAccountId,
         'aAccounts' => array()
     );
     if (is_resource($res)) {

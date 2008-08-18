@@ -168,8 +168,6 @@ function OA_Dal_Delivery_getAccountTZs()
 
     $res = OA_Dal_Delivery_query($query);
 
-    // TODOHOOK - add a publisher Id in here
-
     $aResult = array(
         'adminAccountId' => $adminAccountId,
         'aAccounts' => array()
