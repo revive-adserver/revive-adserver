@@ -67,6 +67,7 @@ public class TestGetBanner extends BannerTestCase {
 			checkParameter(banner, HEIGHT, myBanner.get(HEIGHT));
 			checkParameter(banner, WEIGHT, myBanner.get(WEIGHT));
 			checkParameter(banner, URL, myBanner.get(URL));
+			checkParameter(banner, STATUS, myBanner.get(STATUS));
 		} finally {
 			deleteBanner(bannerId);
 		}

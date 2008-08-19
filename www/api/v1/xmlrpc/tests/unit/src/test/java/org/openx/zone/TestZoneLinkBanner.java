@@ -93,6 +93,24 @@ public class TestZoneLinkBanner extends ZoneTestCase {
 	}
 
 	/**
+	 * Test method for case when linking two times Banner with same id.
+	 *
+	 * @throws XmlRpcException
+	 * @throws MalformedURLException
+	 */
+	public void testLinkBannerOnceAgain()
+			throws XmlRpcException, MalformedURLException {
+		
+		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, bannerId };
+		client.execute(ZONE_LINK_BANNER_METHOD, XMLRPCMethodParameters);
+		//TODO: Add expected behavior from https://developer.openx.org/jira/browse/OX-3296
+		final Boolean result = (Boolean) client
+				.execute(ZONE_LINK_BANNER_METHOD, XMLRPCMethodParameters);
+		
+		assertTrue(result);
+	}
+	
+	/**
 	 * Test methods for Unknown ID Error, described in API
 	 *
 	 * @throws MalformedURLException
@@ -174,5 +192,21 @@ public class TestZoneLinkBanner extends ZoneTestCase {
 
 		executeLinkBannerWithError(XMLRPCMethodParameters, ErrorMessage.getMessage(
 				ErrorMessage.WORNG_BANNER_SIZE));
+	}
+	
+	/**
+	 * Test method with wrong sessionId.
+	 *
+	 * @throws MalformedURLException
+	 * @throws XmlRpcException
+	 */
+	public void testLinkBannerZoneWrongSessionIdError() throws MalformedURLException,
+			XmlRpcException {
+
+		String sessionId = "phpads11111111111111.11111111";
+		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, bannerId };
+
+		executeLinkBannerWithError(XMLRPCMethodParameters, ErrorMessage.getMessage(
+				ErrorMessage.INVALID_SESSION_ID));
 	}
 }

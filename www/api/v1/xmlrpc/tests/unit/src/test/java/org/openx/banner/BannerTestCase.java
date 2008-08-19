@@ -58,7 +58,9 @@ public class BannerTestCase extends CampaignTestCase {
 	protected static final String WEIGHT = "weight";
 	protected static final String HEIGHT = "height";
 	protected static final String WIDTH = "width";
+	protected static final String STATUS = "status";
 	protected static final String HTML_TEMPLATE = "htmlTemplate";
+	protected static final String BANNER_TEXT = "bannerText";
 	protected static final String STORAGE_TYPE = "storageType";
 	protected static final String BANNER_NAME = "bannerName";
 	protected static final String CAMPAIGN_ID = "campaignId";
@@ -67,6 +69,7 @@ public class BannerTestCase extends CampaignTestCase {
 	protected static final String IMAGE_FILENAME = "filename";
 	protected static final String IMAGE_CONTENT = "content";
 	protected static final String ALTERNATE_BACKUP_IMAGE = "aBackupImage";
+	protected static final String[] STORAGE_TYPES = {"sql", "web", "url", "html", "txt"};
 
 	protected Integer campaignId = null;
 
@@ -138,7 +141,7 @@ public class BannerTestCase extends CampaignTestCase {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put(CAMPAIGN_ID, campaignId);
 		params.put(BANNER_NAME, prefix + BANNER_NAME);
-		params.put(STORAGE_TYPE, "sql");
+		params.put(STORAGE_TYPE, STORAGE_TYPES[0]);
 		params.put(IMAGE_URL, "http://www." + prefix + ".com/images/testFile.bmp");
 		params.put(HTML_TEMPLATE, "<p>" + prefix + "</p>");
 		params.put(WIDTH, 120);
@@ -146,6 +149,7 @@ public class BannerTestCase extends CampaignTestCase {
 		params.put(WEIGHT, 3);
 		params.put(URL, "http://www." + prefix + ".com");
 		params.put(IMAGE, getBannerImage());
+		params.put(STATUS, 0);
 		return params;
 	}
 	

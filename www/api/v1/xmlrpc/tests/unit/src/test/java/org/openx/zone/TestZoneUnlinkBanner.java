@@ -31,25 +31,25 @@ import org.openx.utils.ErrorMessage;
 import org.openx.utils.TextUtils;
 
 /**
- * Verify Link Campaign method
+ * Verify Unlink Banner method
  *
  * @author     Pawel Dachterski <pawel.dachterski@openx.org>
  */
-public class TestZoneLinkCampaign extends ZoneTestCase {
+public class TestZoneUnlinkBanner extends ZoneTestCase {
 
 	protected Integer zoneId = null;
-	protected Integer campaignId = null;
+	protected Integer bannerId = null;
 	
 	protected void setUp() throws Exception {
 		super.setUp();
 
-		campaignId = createCampaign();
+		bannerId = createBanner();
 		zoneId = createZone();
 	}
 
 	protected void tearDown() throws Exception {
 
-		deleteCampaign(campaignId);
+		deleteBanner(bannerId);
 		deleteZone(zoneId);
 
 		super.tearDown();
@@ -64,11 +64,11 @@ public class TestZoneLinkCampaign extends ZoneTestCase {
 	 *            true error messages
 	 * @throws MalformedURLException
 	 */
-	private void executeLinkCampaignWithError(Object[] params, String errorMsg)
+	private void executeUnlinkBannerWithError(Object[] params, String errorMsg)
 		throws MalformedURLException {
 		
 		try {
-			execute(ZONE_LINK_CAMPAIGN_METHOD, params);
+			execute(ZONE_UNLINK_BANNER_METHOD, params);
 			fail(ErrorMessage.METHOD_EXECUTED_SUCCESSFULLY_BUT_SHOULD_NOT_HAVE);
 		} catch (XmlRpcException e) {
 			assertEquals(ErrorMessage.WRONG_ERROR_MESSAGE, errorMsg, e
@@ -82,51 +82,37 @@ public class TestZoneLinkCampaign extends ZoneTestCase {
 	 * @throws XmlRpcException
 	 * @throws MalformedURLException
 	 */
-	public void testLinkCampaignAllReqAndSomeOptionalFields()
+	public void testUnlinkBannerAllReqAndSomeOptionalFields()
 			throws XmlRpcException, MalformedURLException {
 		
-		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, campaignId };
-		final Boolean result = (Boolean) client
-				.execute(ZONE_LINK_CAMPAIGN_METHOD, XMLRPCMethodParameters);
+		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, bannerId };
+		final Boolean linkResult = (Boolean) client
+				.execute(ZONE_LINK_BANNER_METHOD, XMLRPCMethodParameters);
+	
+		assertTrue(linkResult);
+		final Boolean unlinkResult = (Boolean) client
+				.execute(ZONE_UNLINK_BANNER_METHOD, XMLRPCMethodParameters);
+
+		assertTrue(unlinkResult);
 		
-		assertTrue(result);
 	}
 
-	/**
-	 * Test method for case when linking campaign once again with same id.
-	 *
-	 * @throws XmlRpcException
-	 * @throws MalformedURLException
-	 */
-	public void testLinkCampaignOnceAgain()
-			throws XmlRpcException, MalformedURLException {
-		
-		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, campaignId };
-		client.execute(ZONE_LINK_CAMPAIGN_METHOD, XMLRPCMethodParameters);
-		
-		//TODO: Add expected behavior from https://developer.openx.org/jira/browse/OX-3296
-		final Boolean result = (Boolean) client
-				.execute(ZONE_LINK_CAMPAIGN_METHOD, XMLRPCMethodParameters);
-		
-		assertTrue(result);
-	}
-	
 	/**
 	 * Test methods for Unknown ID Error, described in API
 	 *
 	 * @throws MalformedURLException
 	 * @throws XmlRpcException
 	 */
-	public void testLinkCampaignUnknownZoneIdError() throws MalformedURLException,
+	public void testUnlinkBannerUnknownZoneIdError() throws MalformedURLException,
 			XmlRpcException {
 		
 		Integer zoneId = createZone();
 		assertNotNull(zoneId);
 		deleteZone(zoneId);
 
-		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, campaignId };
+		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, bannerId };
 
-		executeLinkCampaignWithError(XMLRPCMethodParameters, ErrorMessage.getMessage(
+		executeUnlinkBannerWithError(XMLRPCMethodParameters, ErrorMessage.getMessage(
 				ErrorMessage.UNKNOWN_ID_ERROR, ZONE_ID));
 	}
 
@@ -136,17 +122,17 @@ public class TestZoneLinkCampaign extends ZoneTestCase {
 	 * @throws MalformedURLException
 	 * @throws XmlRpcException
 	 */
-	public void testLinkCampaignUnknownCampaignIdError() throws MalformedURLException,
+	public void testUnlinkBannerUnknownBannerIdError() throws MalformedURLException,
 			XmlRpcException {
 		
-		Integer campaignId = createCampaign();
-		assertNotNull(campaignId);
-		deleteCampaign(campaignId);
+		Integer bannerId = createBanner();
+		assertNotNull(bannerId);
+		deleteBanner(bannerId);
 
-		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, campaignId };
+		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, bannerId };
 
-		executeLinkCampaignWithError(XMLRPCMethodParameters, ErrorMessage.getMessage(
-				ErrorMessage.UNKNOWN_ID_ERROR, CAMPAIGN_ID));
+		executeUnlinkBannerWithError(XMLRPCMethodParameters, ErrorMessage.getMessage(
+				ErrorMessage.UNKNOWN_ID_ERROR, BANNER_ID));
 	}
 	
 	/**
@@ -155,12 +141,12 @@ public class TestZoneLinkCampaign extends ZoneTestCase {
 	 * @throws MalformedURLException
 	 * @throws XmlRpcException
 	 */
-	public void testLinkCampaignCampaignIdWrongTypeError() throws MalformedURLException,
+	public void testUnlinkBannerBannerIdWrongTypeError() throws MalformedURLException,
 			XmlRpcException {
 		
 		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, TextUtils.NOT_INTEGER };
 
-		executeLinkCampaignWithError(XMLRPCMethodParameters, ErrorMessage.getMessage(
+		executeUnlinkBannerWithError(XMLRPCMethodParameters, ErrorMessage.getMessage(
 				ErrorMessage.INCORRECT_PARAMETERS_WANTED_INT_GOT_STRING, "3"));
 	}
 	
@@ -170,28 +156,30 @@ public class TestZoneLinkCampaign extends ZoneTestCase {
 	 * @throws MalformedURLException
 	 * @throws XmlRpcException
 	 */
-	public void testLinkCampaignZoneIdWrongTypeError() throws MalformedURLException,
+	public void testUnlinkBannerZoneIdWrongTypeError() throws MalformedURLException,
 			XmlRpcException {
 
-		Object[] XMLRPCMethodParameters = new Object[] { sessionId, TextUtils.NOT_INTEGER, campaignId };
+		Object[] XMLRPCMethodParameters = new Object[] { sessionId, TextUtils.NOT_INTEGER, bannerId };
 
-		executeLinkCampaignWithError(XMLRPCMethodParameters, ErrorMessage.getMessage(
+		executeUnlinkBannerWithError(XMLRPCMethodParameters, ErrorMessage.getMessage(
 				ErrorMessage.INCORRECT_PARAMETERS_WANTED_INT_GOT_STRING, "2"));
 	}
 	
 	/**
-	 * Test method with wrong sessionId.
+	 * Test method with not existing link.
 	 *
 	 * @throws MalformedURLException
 	 * @throws XmlRpcException
 	 */
-	public void testLinkCampaignZoneWrongSessionIdError() throws MalformedURLException,
+	public void testUnlinkBannerNotExistingLinkError() throws MalformedURLException,
 			XmlRpcException {
 
-		String sessionId = "phpads11111111111111.11111111";
-		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, campaignId };
+		Integer zoneId = createZone();
+		Integer bannerId = createBanner();
+		
+		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, bannerId };
 
-		executeLinkCampaignWithError(XMLRPCMethodParameters, ErrorMessage.getMessage(
-				ErrorMessage.INVALID_SESSION_ID));
+		executeUnlinkBannerWithError(XMLRPCMethodParameters, ErrorMessage.getMessage(
+				ErrorMessage.UNKNOWN_LINK_ERROR, ZONE_ID, BANNER_ID));
 	}
 }

@@ -93,16 +93,16 @@ public class WebServiceTestCase extends TestCase {
 
 		if (correctValue instanceof Integer) {
 			Integer value = (Integer) correctValue;
-			assertEquals(param + " fields should be equal", (Integer) params
-					.get(param), value);
+			assertEquals(param + " fields should be equal", value, 
+					(Integer) params.get(param));
 		} else if (correctValue instanceof String) {
 			String value = (String) correctValue;
-			assertEquals(param + " fields should be equal", (String) params
-					.get(param), value);
+			assertEquals(param + " fields should be equal", value, 
+					(String) params.get(param));
 		} else if (correctValue instanceof Date) {
 			String value = ((Date) correctValue).toString();
-			assertEquals(param + " fields should be equal", ((Date) params
-					.get(param)).toString(), value);
+			assertEquals(param + " fields should be equal", value,
+					((Date) params.get(param)).toString());
 		} else {
 			fail(param + " fields should be equal");
 		}

@@ -74,10 +74,11 @@ public class TestAddBanner extends BannerTestCase {
 		Map<String, Object> struct = new HashMap<String, Object>();
 		struct.put(CAMPAIGN_ID, campaignId);
 		struct.put(BANNER_NAME, "testBanner");
-		struct.put(STORAGE_TYPE, "web");
+		struct.put(STORAGE_TYPE, STORAGE_TYPES[1]);
 		struct.put(IMAGE_URL, "http://www.a.com/image.gif");
 		struct.put(HTML_TEMPLATE, "<p>I am banner</p>");
 		struct.put(WIDTH, 1);
+		struct.put(STATUS, 0);
 		struct.put(WEIGHT, 2);
 		struct.put(URL, "http://www.a.com/index.html");
 		struct.put(IMAGE, getBannerImage());
@@ -88,6 +89,97 @@ public class TestAddBanner extends BannerTestCase {
 		deleteBanner(result);
 	}
 
+	/**
+	 * Test method with banner not active status after creation.
+	 *
+	 * @throws XmlRpcException
+	 * @throws MalformedURLException
+	 */
+	@SuppressWarnings("unchecked")
+	public void testAddBannerWithNotActiveStatus()
+			throws XmlRpcException, MalformedURLException {
+		
+		assertNotNull(campaignId);
+		Map<String, Object> myBanner = getBannerParams("test1");
+		myBanner.put(STATUS, 1);
+
+		Object[] XMLRPCMethodParameters = new Object[] { sessionId, myBanner };
+		final Integer result = (Integer) execute(ADD_BANNER_METHOD, XMLRPCMethodParameters);
+		assertNotNull(result);
+
+		try {
+			XMLRPCMethodParameters = new Object[] { sessionId, result };
+			final Map<String, Object> banner = (Map<String, Object>) execute(
+					GET_BANNER_METHOD, XMLRPCMethodParameters);
+
+			checkParameter(banner, CAMPAIGN_ID, campaignId);
+			checkParameter(banner, BANNER_ID, result);
+			checkParameter(banner, BANNER_NAME, myBanner.get(BANNER_NAME));
+			checkParameter(banner, STORAGE_TYPE, myBanner.get(STORAGE_TYPE));
+			checkParameter(banner, IMAGE_URL, myBanner.get(IMAGE_URL));
+			checkParameter(banner, HTML_TEMPLATE, myBanner.get(HTML_TEMPLATE));
+			checkParameter(banner, WIDTH, myBanner.get(WIDTH));
+			checkParameter(banner, HEIGHT, myBanner.get(HEIGHT));
+			checkParameter(banner, WEIGHT, myBanner.get(WEIGHT));
+			checkParameter(banner, URL, myBanner.get(URL));
+			checkParameter(banner, STATUS, myBanner.get(STATUS));
+		} finally {
+			deleteBanner(result);
+		}
+	}
+	
+	/**
+	 * Test method with all required fields and some optional.
+	 *
+	 * @throws XmlRpcException
+	 * @throws MalformedURLException
+	 */
+	@SuppressWarnings("unchecked")
+	public void testAddBannerTxtTypeAllReqAndSomeOptionalFields()
+			throws XmlRpcException, MalformedURLException {
+		
+		assertNotNull(campaignId);
+		Map<String, Object> myBanner = new HashMap<String, Object>();
+		myBanner.put(CAMPAIGN_ID, campaignId);
+		myBanner.put(BANNER_NAME, "testBanner");
+		myBanner.put(STORAGE_TYPE, STORAGE_TYPES[4]);
+		myBanner.put(IMAGE_URL, "http://www.a.com/image.gif");
+		myBanner.put(HTML_TEMPLATE, "<p>I am banner</p>");
+		myBanner.put(BANNER_TEXT, "TextAd: asta");
+		myBanner.put(WIDTH, 0);
+		myBanner.put(HEIGHT, 0);
+		myBanner.put(WEIGHT, 2);
+		myBanner.put(STATUS, 0);
+		myBanner.put(URL, "http://www.a.com/index.html");
+
+		Object[] XMLRPCMethodParameters = new Object[] { sessionId, myBanner };
+		final Integer result = (Integer) execute(ADD_BANNER_METHOD, XMLRPCMethodParameters);
+		assertNotNull(result);
+		try {
+			XMLRPCMethodParameters = new Object[] { sessionId, result };
+			final Map<String, Object> banner = (Map<String, Object>) execute(
+					GET_BANNER_METHOD, XMLRPCMethodParameters);
+
+			checkParameter(banner, CAMPAIGN_ID, campaignId);
+			checkParameter(banner, BANNER_ID, result);
+			checkParameter(banner, BANNER_NAME, myBanner.get(BANNER_NAME));
+			checkParameter(banner, STORAGE_TYPE, myBanner.get(STORAGE_TYPE));
+			checkParameter(banner, IMAGE_URL, myBanner.get(IMAGE_URL));
+			checkParameter(banner, HTML_TEMPLATE, myBanner.get(HTML_TEMPLATE));
+			checkParameter(banner, WIDTH, myBanner.get(WIDTH));
+			checkParameter(banner, HEIGHT, myBanner.get(HEIGHT));
+			checkParameter(banner, WEIGHT, myBanner.get(WEIGHT));
+			checkParameter(banner, BANNER_TEXT, myBanner.get(BANNER_TEXT));
+			checkParameter(banner, HEIGHT, myBanner.get(HEIGHT));
+			checkParameter(banner, URL, myBanner.get(URL));
+			checkParameter(banner, STATUS, myBanner.get(STATUS));
+		} finally {
+			deleteBanner(result);
+		}
+	}
+
+	//TODO: Check addBanner method with other banner types
+	
 	/**
 	 * Test method without aImage required field.
 	 *
@@ -105,6 +197,8 @@ public class TestAddBanner extends BannerTestCase {
 		struct.put(WIDTH, 1);
 		struct.put(WEIGHT, 2);
 		struct.put(URL, "http://www.a.com/index.html");
+		struct.put(STATUS, 0);
+		//struct.put(IMAGE, getBannerImage());
 		
 		Object[] params = new Object[] { sessionId, struct };
 
