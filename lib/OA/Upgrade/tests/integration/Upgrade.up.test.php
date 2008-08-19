@@ -113,20 +113,32 @@ class Test_OA_Upgrade extends UnitTestCase
         $aConf['pluginGroupComponents']['testGroup3'] = 1;
         $oUpgrade = new OA_Upgrade();
 
-        /*$file = MAX_PATH.'/var/plugins/recover/enabled.log';
-        if (file_exists($file))
-        {
-            @unlink($file);
-        }
-        if ($fh = fopen($file, 'w'))
-        {
-            foreach ($GLOBALS['_MAX']['CONF']['plugins'] as $name => $enabled)
-            {
-                fwrite($fh, "{$name}={$enabled};\r\n");
-            }
-            fclose($fh);
-        }*/
         $oUpgrade->disableAllPlugins();
+
+        $file = MAX_PATH.'/var/plugins/recover/enabled.log';
+        $this->assertTrue(file_exists($file),$file.' not found');
+        $aContent = explode(';', file_get_contents($file));
+        $aSaved = array();
+        foreach ($aContent as $k => $v)
+        {
+            if (trim($v))
+            {
+                $aLine = explode('=', trim($v));
+                if (is_array($aLine) && (count($aLine)==2) && (is_numeric($aLine[1])))
+                {
+                    $aSaved[$aLine[0]] = $aLine[1];
+                }
+            }
+        }
+        $this->assertTrue(isset($aSaved['testPlugin']));
+        $this->assertEqual($aSaved['testPlugin'], 1);
+        $this->assertEqual($aConf['testPlugin'], 0);
+        $this->assertEqual($aConf['testGroup1'], 0);
+        $this->assertEqual($aConf['testGroup2'], 0);
+        $this->assertEqual($aConf['testGroup2'], 0);
+
+        @unlink($file);
+
         TestEnv::restoreConfig();
     }
 
