@@ -43,7 +43,7 @@ class Plugins_TestOfPlugins_demoBannerTypeHtml extends UnitTestCase
     function setUp()
     {
         $this->pkgName = 'demoExtension';
-        $this->pkgVersion = '_0.0.1-beta';
+        $this->pkgVersion = '_0.0.2-beta';
 
         $oPkgMgr = new OX_PluginManager();
         TestEnv::uninstallPluginPackage($this->pkgName, false);
