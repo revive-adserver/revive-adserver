@@ -90,6 +90,33 @@ if (!empty($action))
             $oExtensionManager = new OX_Extension_Delivery();
             $oExtensionManager->runTasksOnDemand();
             break;
+        case 'exp':
+            $oTpl = new OA_Admin_Template('plugin-export.html');
+            require_once LIB_PATH.'/Plugin/PluginExport.php';
+            $oExporter = new OX_PluginExport();
+            $aErrors = array();
+            foreach ($GLOBALS['_MAX']['CONF']['plugins'] as $name => $enabled)
+            {
+                $aPlugins[$name]['file'] = '';
+                $aPlugins[$name]['error'] = false;
+                if ($file = $oExporter->exportPlugin($name))
+                {
+                    $aPlugins[$name]['file'] = $file;
+                    $aSettings[$name] = $file;
+                }
+                else
+                {
+                    $aPlugins[$name]['error'] = true;
+                    $aErrors[] = $oExporter->aErrors;
+                }
+            }
+            $oSettings  = new OA_Admin_Settings();
+            $oSettings->bulkSettingChange('pluginsExported',$aSettings);
+            $oSettings->writeConfigChange();
+
+            $oTpl->assign('aPlugins', $aPlugins);
+            $oTpl->assign('aErrors', $aErrors);
+            break;
         /*case 'dep':
             require_once LIB_PATH . '/Plugin/PluginManager.php';
             $oPluginManager = & new OX_PluginManager();
@@ -109,6 +136,8 @@ phpAds_ShowBreak();
 echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-plugins.php?action=reg'>Rebuild Delivery Hooks Cache</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
 echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-plugins.php?action=rep'>Plugin Report</a>&nbsp;&nbsp;";
+phpAds_ShowBreak();
+echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-plugins.php?action=exp'>Export All Plugins</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
 
 /*echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-plugins.php?action=dep'>Check Dependencies</a>&nbsp;&nbsp;";

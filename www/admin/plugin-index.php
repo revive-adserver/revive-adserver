@@ -175,8 +175,37 @@ else if (array_key_exists('diagnose',$_POST))
     $oTpl->assign('aWarnings',$oPluginManager->aWarnings);
 
     $oPluginManager->getPackageDiagnostics($plugin);
+    if (!count($oPluginManager->aErrors))
+    {
+        $oPluginManager->aMessages[] = 'No problems detected';
+    }
     $oTpl->assign('aErrors',$oPluginManager->aErrors);
     $oTpl->assign('aMessages',$oPluginManager->aMessages);
+}
+else if (array_key_exists('export',$_POST))
+{
+    require_once LIB_PATH.'/Plugin/PluginExport.php';
+    $oExporter = new OX_PluginExport();
+    if ($file = $oExporter->exportPlugin($plugin))
+    {
+        $aMessages = 'Plugin exported to '.$file;
+    }
+    $oTpl = new OA_Admin_Template('plugin-view.html');
+    $aPackageInfo = $oPluginManager->getPackageInfo($plugin);
+    $aComponents = $aPackageInfo['contents'];
+    unset($aPackageInfo['contents']);
+    if ($aPackageInfo['readme'])
+    {
+        $readme = file_get_contents($aPackageInfo['readme']);
+    }
+    $aPackageInfo['package'] = true;
+    $oTpl->assign('aPackage',$aPackageInfo);
+    $oTpl->assign('aPlugins',$aComponents);
+    $oTpl->assign('readme',$readme);
+    $oTpl->assign('backURL', MAX::constructURL(MAX_URL_ADMIN, "plugin-index.php?selection=packages"));
+
+    $oTpl->assign('aMessages',$aMessages);
+    $oTpl->assign('aErrors',$oExporter->aErrors);
 }
 //actions
 else if ('uninstall' == $action)

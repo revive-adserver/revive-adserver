@@ -1,0 +1,85 @@
+{*<!--
+
+---------------------------------------------------------------------------+
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+
+-->*}
+
+
+<div style="min-width: 750px">
+
+    <table class="data" >
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>File</td>
+                <td>Errors</td>
+            </tr>
+        </thead>
+
+        <tbody>
+          {if !$aPlugins|@count}
+            <tr class="even">
+                <td colspan="3">
+                 <p>No plugins exported.</p>
+                </td>
+            </tr>
+          {else}
+	        {foreach from=$aPlugins key=name item=aitem}
+	            <tr class="{$bgClass}">
+	                <td width="20%">
+	                   {$name}
+	                </td>
+	                <td>
+	                   {$aitem.file}
+	                </td>
+	                <td>
+	                   {if !$aitem.error}
+	                   No&nbsp;
+	                   {/if}
+	                   Errors
+	               </td>
+	            </tr>
+            {/foreach}
+           {/if}
+        </tbody>
+    </table>
+</div>
+
+{if $aErrors}
+    <div class="error-box" style="margin-bottom: 10px">
+        {foreach from=$aErrors key=i item=aError}
+            {foreach from=$aError key=idx item=error}
+                {$error}
+                <br />
+            {/foreach}
+        {/foreach}
+    </div>
+{/if}
+
+
+
+
