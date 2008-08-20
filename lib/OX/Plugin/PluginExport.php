@@ -157,10 +157,10 @@ class OX_PluginExport
             {
                 case 'mysql':
                     $engine = $oDbh->getOption('default_table_type');
-                    $sql = "CREATE TABLE %s ENGINE={$engine} (SELECT * FROM %s %s)";
+                    $sql = "CREATE TABLE %s ENGINE={$engine} (SELECT * FROM %s)";
                     break;
                 case 'pgsql':
-                    $sql = 'CREATE TABLE "%1$s" (LIKE "%2$s" INCLUDING DEFAULTS); INSERT INTO "%1$s" SELECT * FROM "%2$s" "%3$s"';
+                    $sql = 'CREATE TABLE "%1$s" (LIKE "%2$s" INCLUDING DEFAULTS); INSERT INTO "%1$s" SELECT * FROM "%2$s"';
                     break;
             }
 
@@ -174,7 +174,7 @@ class OX_PluginExport
                     {
                         $tblSrc = $prefix.$table;
                         $tblTgt = $tblSrc.'_'.date('Ymd_His');
-                        $query  = sprintf($sql, $tblTgt, $tblSrc, '');
+                        $query  = sprintf($sql, $tblTgt, $tblSrc);
                         $result = $oDbh->exec($query);
                         if (PEAR::isError($result))
                         {
