@@ -468,7 +468,13 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
         }
         // Save the required impressions into the temporary database table
         OA::setTempDebugPrefix('- ');
-        $this->oTable->createTable('tmp_ad_required_impression', null, true);
+        // Check if table exists
+        if (!isset($GLOBALS['_OA']['DB_TABLES']['tmp_ad_required_impression'])) {    
+            if ($this->oTable->createTable('tmp_ad_required_impression', null, true) !== false) {
+                // Remember that table was created
+                $GLOBALS['_OA']['DB_TABLES']['tmp_ad_required_impression'] = true;
+            }
+        }
         $this->oDal->saveRequiredAdImpressions($aRequiredAdImpressions);
     }
 

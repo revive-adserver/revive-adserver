@@ -226,6 +226,7 @@ class Maintenance_TestOfMaintenancePriorityAdServerBannerLimitations extends Uni
             // Drop the temporary table that is used to store the
             // required impressions, so that it does not interfer
             // with the next test run in the loop
+            unset($GLOBALS['_OA']['DB_TABLES']['tmp_ad_required_impression']);
             $oTable = &OA_DB_Table_Priority::singleton();
             foreach ($oTable->aDefinition['tables'] as $tableName => $aTable) {
                 $oTable->truncateTable($tableName);

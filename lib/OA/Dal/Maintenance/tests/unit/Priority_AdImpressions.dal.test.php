@@ -56,6 +56,7 @@ class Test_OA_Dal_Maintenance_Priority_AdImpressions extends UnitTestCase
         $oDal = new OA_Dal_Maintenance_Priority();
         $oTable =& OA_DB_Table_Priority::singleton();
         $oTable->createTable('tmp_ad_required_impression');
+        $GLOBALS['_OA']['DB_TABLES']['tmp_ad_required_impression'] = true;
         $aData = array(
             array(
                 'ad_id'                => 23,
@@ -74,6 +75,7 @@ class Test_OA_Dal_Maintenance_Priority_AdImpressions extends UnitTestCase
         $this->assertTrue(array_key_exists('required_impressions', $aItem));
         $this->assertEqual($aItem['ad_id'], 23);
         $this->assertEqual($aItem['required_impressions'], 140);
+        unset($GLOBALS['_OA']['DB_TABLES']['tmp_ad_required_impression']);
         TestEnv::dropTempTables();
     }
 
@@ -85,6 +87,7 @@ class Test_OA_Dal_Maintenance_Priority_AdImpressions extends UnitTestCase
         $oDal = new OA_Dal_Maintenance_Priority();
         $oTable =& OA_DB_Table_Priority::singleton();
         $oTable->createTable('tmp_ad_required_impression');
+        $GLOBALS['_OA']['DB_TABLES']['tmp_ad_required_impression'] = true;
         $aData = array(
             array(
                 'ad_id'                => 23,
@@ -105,6 +108,7 @@ class Test_OA_Dal_Maintenance_Priority_AdImpressions extends UnitTestCase
         $this->assertEqual(count($aData), 1);
         $this->assertTrue(array_key_exists(29, $aData));
         $this->assertEqual($aData[29], 120);
+        unset($GLOBALS['_OA']['DB_TABLES']['tmp_ad_required_impression']);
         TestEnv::dropTempTables();
     }
 

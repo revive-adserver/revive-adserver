@@ -2206,6 +2206,14 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             return array();
         }
         $aConf = $GLOBALS['_MAX']['CONF'];
+
+        // Table tmp_ad_required_impression might not exist
+        // It happens if there isn't any campaign for which required impressions should be calculated
+        // This situation is equal to empty table, so just return empty array 
+        if ( !isset($GLOBALS['_OA']['DB_TABLES']['tmp_ad_required_impression'])) {    
+            return array();
+        }
+
         $tableTmp = $this->oDbh->quoteIdentifier('tmp_ad_required_impression');
         $query = "
             SELECT
