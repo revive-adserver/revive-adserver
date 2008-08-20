@@ -175,6 +175,30 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
     }
 
     /**
+     * check uploaded file
+     * check file contents
+     * unpack file contents
+     *
+     * @param array $aFile
+     * @return boolean
+     */
+    function unpackPlugin($aFile)
+    {
+        OA::switchLogFile('plugins');
+        if (!@file_exists ($aFile['tmp_name']))
+        {
+            $this->_logError('Failed to read the uploaded file');
+            return false;
+        }
+        if (!($aParsed = $this->_unpack($aFile, true)))
+        {
+            $this->_logError('The uploaded file '.$aFile['name'] .' was not unpacked');
+            return false;
+        }
+        return $aParsed;
+    }
+
+    /**
      * parse a package definition file
      * parse each of the plugins contained therein
      * install each of the plugins contained therein
@@ -185,15 +209,9 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
      */
     function installPackage($aFile)
     {
-        OA::switchLogFile('plugins');
-        if (!@file_exists ($aFile['tmp_name']))
+        $aParsed = $this->unpackPlugin($aFile);
+        if (!$aParsed)
         {
-            $this->_logError('Failed to read the uploaded file');
-            return false;
-        }
-        if (!($aParsed = $this->_unpack($aFile)))
-        {
-            $this->_logError('The uploaded file '.$aFile['name'] .' was not unpacked');
             return false;
         }
         $aPackage = $aParsed['package'];

@@ -55,6 +55,13 @@ if (array_key_exists('install',$_POST))
         $oPluginManager->installPackage($_FILES['filename']);
     }
 }
+else if (array_key_exists('import',$_POST))
+{
+    if (array_key_exists('filename',$_FILES))
+    {
+        $oPluginManager->unpackPlugin($_FILES['filename']);
+    }
+}
 else if (array_key_exists('getupgrade',$_POST))
 {
     $downloadurl = $_POST['downloadurl'];

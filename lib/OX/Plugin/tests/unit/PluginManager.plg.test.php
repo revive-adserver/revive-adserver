@@ -82,6 +82,37 @@ class Test_OX_PluginManager extends UnitTestCase
         unset($GLOBALS['_MAX']['CONF']['plugins']['foo']);
     }
 
+    function test_unpackPlugin()
+    {
+        Mock::generatePartial(
+                                'OX_PluginManager',
+                                $oMockManager = 'OX_PluginManager'.rand(),
+                                array(
+                                      '_unpack',
+                                     )
+                             );
+        $oManager = new $oMockManager($this);
+
+        // Test 1 - package file not found
+        $aFile = array('tmp_name'=>MAX_PATH.$this->testpathData.'testNonExistantPackage.xml',
+                       'name'=>'testParsePluginFull.xml'
+                      );
+        $this->assertFalse($oManager->unpackPlugin($aFile));
+
+        // Test 2 - package unpack error
+        $aFile = array('tmp_name'=>MAX_PATH.$this->testpathData.'testParsePluginFull.xml',
+                       'name'=>'testParsePluginFull.xml'
+                      );
+        $oManager->setReturnValueAt(0,'_unpack', false);
+        $this->assertFalse($oManager->unpackPlugin($aFile));
+
+        // Test 3 - package unpacked ok
+        $oManager->setReturnValueAt(1,'_unpack', true);
+        $this->assertTrue($oManager->unpackPlugin($aFile));
+
+        $oManager->expectCallCount('_unpack', 2);
+    }
+
     function test_unpack()
     {
         Mock::generatePartial(
@@ -160,7 +191,7 @@ class Test_OX_PluginManager extends UnitTestCase
                                 $oMockManager = 'OX_PluginManager'.rand(),
                                 array(
                                       '_instantiateClass',
-                                      '_unpack',
+                                      'unpackPlugin',
                                       '_installComponentGroups',
                                       '_registerPackage',
                                       '_uninstallComponentGroups',
@@ -180,22 +211,22 @@ class Test_OX_PluginManager extends UnitTestCase
         $oManager->expectCallCount('_instantiateClass',1);
 
 
-        // Test 1 - package file not found
+        /*// Test 1 - package file not found
         $aFile = array('tmp_name'=>MAX_PATH.$this->testpathData.'testNonExistantPackage.xml',
                        'name'=>'testParsePluginFull.xml'
                       );
-        $this->assertFalse($oManager->installPackage($aFile));
+        $this->assertFalse($oManager->installPackage($aFile));*/
 
-        // Test 2 - package unpack error
-        $oManager->setReturnValueAt(0,'_unpack', false);
+        // Test 1 - package unpack error
+        $oManager->setReturnValueAt(0,'unpackPlugin', false);
 
         $aFile = array('tmp_name'=>MAX_PATH.$this->testpathData.'testParsePluginFull.xml',
                        'name'=>'testParsePluginFull.xml'
                       );
         $this->assertFalse($oManager->installPackage($aFile));
 
-        // Test 3 - plugin installation error
-        $oManager->setReturnValueAt(1,'_unpack', true);
+        // Test 2 - plugin installation error
+        $oManager->setReturnValueAt(1,'unpackPlugin', true);
         $oManager->setReturnValueAt(0,'_installComponentGroups', false);
 
         $aFile = array('tmp_name'=>MAX_PATH.$this->testpathData.'testParsePluginFull.xml',
@@ -203,8 +234,8 @@ class Test_OX_PluginManager extends UnitTestCase
                        );
         $this->assertFalse($oManager->installPackage($aFile));
 
-        // Test 4 - register settings error
-        $oManager->setReturnValueAt(2,'_unpack', true);
+        // Test 3 - register settings error
+        $oManager->setReturnValueAt(2,'unpackPlugin', true);
         $oManager->setReturnValueAt(1,'_installComponentGroups', true);
         $oManager->setReturnValueAt(0,'_registerPackage', false);
 
@@ -213,8 +244,8 @@ class Test_OX_PluginManager extends UnitTestCase
                        );
         $this->assertFalse($oManager->installPackage($aFile));
 
-        // Test 5 - success
-        $oManager->setReturnValueAt(3,'_unpack', true);
+        // Test 4 - success
+        $oManager->setReturnValueAt(3,'unpackPlugin', true);
         $oManager->setReturnValueAt(2,'_installComponentGroups', true);
         $oManager->setReturnValueAt(1,'_registerPackage', true);
 
@@ -223,10 +254,9 @@ class Test_OX_PluginManager extends UnitTestCase
                        );
         $this->assertTrue($oManager->installPackage($aFile));
 
-        $oManager->expectCallCount('_unpack', 4);
+        $oManager->expectCallCount('unpackPlugin', 4);
         $oManager->expectCallCount('_installComponentGroups',3);
         $oManager->expectCallCount('_registerPackage',2);
-
 
         $oManager->tally();
 
