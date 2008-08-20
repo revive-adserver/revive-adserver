@@ -72,6 +72,7 @@ class OA_Dll_Banner extends OA_Dll
         $bannerData['bannerName']   = $bannerData['description'];
         $bannerData['campaignId']   = $bannerData['campaignid'];
         $bannerData['bannerId']     = $bannerData['bannerid'];
+        $bannerData['bannerText']   = $bannerData['bannertext'];
 
         $oBanner->readDataFromArray($bannerData);
         return  true;
@@ -133,11 +134,21 @@ class OA_Dll_Banner extends OA_Dll
             !$this->checkIdExistence('campaigns', $oBanner->campaignId)) {
             return false;
         }
-
+        
+        // Prepare list of allowed storage types from allowed banners list
+        $aAllowedBanners = $aConf['allowedBanners'];
+        $aAllowedBanners['txt'] = $aAllowedBanners['text'];
+        unset($aAllowedBanners['text']);
+        foreach($aAllowedBanners as $type => $allowed) {
+            if (!$allowed) {
+                unset($aAllowedBanners[$type]);
+            }
+        }
+        
         // Check that storage type is allowed
         if (!isset($oBanner->bannerId)) {
-            if (!isset($oBanner->storageType) || empty($aConf['allowedBanners'][$oBanner->storageType])) {
-                $storageTypes = array_keys($aConf['allowedBanners']);
+            if (!isset($oBanner->storageType) || empty($aAllowedBanners[$oBanner->storageType])) {
+                $storageTypes = array_keys($aAllowedBanners);
                 $this->raiseError('Field \'storageType\' must be one of the enum: '.join(', ', $storageTypes));
                 return false;
             }
@@ -183,6 +194,7 @@ class OA_Dll_Banner extends OA_Dll
             !$this->checkStructureNotRequiredIntegerField($oBanner, 'weight') ||
             !$this->checkStructureNotRequiredStringField($oBanner, 'target') ||
             !$this->checkStructureNotRequiredStringField($oBanner, 'url') ||
+            !$this->checkStructureNotRequiredStringField($oBanner, 'bannerText') ||
             !$this->checkStructureNotRequiredBooleanField($oBanner, 'active') ||
             !$this->checkStructureNotRequiredStringField($oBanner, 'adserver')
             ) {
@@ -287,6 +299,7 @@ class OA_Dll_Banner extends OA_Dll
                 case 'html':
                 case 'txt':
                     $bannerData['contenttype'] = $bannerData['storagetype'];
+                    $bannerData['bannertext']  = $oBanner->bannerText;
                     break;
                 case 'sql':
                 case 'web':

@@ -85,7 +85,7 @@ class BannerXmlRpcService extends BaseBannerService
             !XmlRpcUtils::getStructureScalarAndNotScalarFields($oBannerInfo, $oParams,
                 1, array('campaignId', 'bannerName', 'storageType', 'fileName',
                         'imageURL', 'htmlTemplate', 'width', 'height', 'weight',
-                        'target', 'url', 'status', 'adserver', 'transparent'),
+                        'target', 'url', 'bannerText', 'status', 'adserver', 'transparent'),
                    array('aImage', 'aBackupImage'), $oResponseWithError)) {
 
             return $oResponseWithError;
@@ -119,7 +119,7 @@ class BannerXmlRpcService extends BaseBannerService
             !XmlRpcUtils::getStructureScalarAndNotScalarFields($oBannerInfo, $oParams,
                 1, array('bannerId', 'campaignId', 'bannerName', 'storageType', 'fileName',
                         'imageURL', 'htmlTemplate', 'width', 'height', 'weight',
-                        'target', 'url', 'status', 'adserver', 'transparent'),
+                        'target', 'url', 'bannerText', 'status', 'adserver', 'transparent'),
                    array('aImage', 'aBackupImage'), $oResponseWithError)) {
 
             return $oResponseWithError;

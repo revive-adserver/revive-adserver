@@ -120,6 +120,13 @@ class OA_Dll_BannerInfo extends OA_Info
      * @var text $url
      */
     var $url;
+    
+    /**
+     * This field provides the Text value of the text banner.
+     *
+     * @var string $bannerText
+     */
+    var $bannerText;
 
     /**
      * A boolean field to indicate if the banner is active
@@ -239,6 +246,7 @@ class OA_Dll_BannerInfo extends OA_Info
                     'weight' => 'integer',
                     'target' => 'string',
                     'url' => 'string',
+                    'bannerText' => 'string',
                     'status' => 'integer',
                     'adserver' => 'string',
                     'transparent' => 'integer',
