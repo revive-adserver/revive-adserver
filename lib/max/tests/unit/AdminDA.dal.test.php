@@ -926,7 +926,9 @@ class Admin_DaTest extends DalUnitTestCase
         $aZone = array('type' => 4);
         $bannerType = 'html';
 
+        PEAR::pushErrorHandling(null);
         $ret = Admin_DA::_checkBannerZoneAdAssoc($aZone, $bannerType);
+        PEAR::popErrorHandling();
         $this->assertTrue(PEAR::isError($ret));
 
         // url banner (swf) with an email zone
@@ -934,7 +936,9 @@ class Admin_DaTest extends DalUnitTestCase
         $bannerType = 'url';
         $contentType = 'swf';
 
+        PEAR::pushErrorHandling(null);
         $ret = Admin_DA::_checkBannerZoneAdAssoc($aZone, $bannerType, $contentType);
+        PEAR::popErrorHandling();
         $this->assertTrue(PEAR::isError($ret));
 
     }

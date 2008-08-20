@@ -1057,7 +1057,9 @@ class Admin_DA
                     if (PEAR::isError($okToLink)) {
                         return $okToLink;
                     }
+                    PEAR::pushErrorHandling(null);
                     $okToLink = Admin_DA::_checkBannerZoneAdAssoc($aZone, $aAd['type'], $aAd['contenttype']);
+                    PEAR::popErrorHandling();
                     if (PEAR::isError($okToLink)) {
                         return $okToLink;
                     }
@@ -1360,7 +1362,7 @@ class Admin_DA
     function deletePlacementZones($aParams, $allFields = false)
     {
         $result = SqlBuilder::_doDelete('placement_zone_assoc', $aParams);
-        
+
         // Unlink any ads in the campaign that are linked to the zone.
         $pAds = Admin_DA::getAds(array('placement_id' => $aParams['placement_id']));
         foreach ($pAds as $adId => $pAd)
