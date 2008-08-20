@@ -1021,19 +1021,21 @@ class Admin_DA
         return true;
     }
 
-    function _checkBannerZoneAdAssoc($aZone, $bannerType)
+    function _checkBannerZoneAdAssoc($aZone, $bannerType, $contentType = null)
     {
-        $aAllowed = array();
+        $aAllowedBannerType = array();
         switch ($aZone['type']) {
         case MAX_ZoneEmail:
-            $aAllowed = array('sql', 'web');
+            $aAllowedBannerType = array('sql', 'web', 'url');
+            $aAllowedContentType = array('gif', 'jpeg', 'png');
             break;
         case phpAds_ZoneText:
-            $aAllowed = array('txt');
+            $aAllowedBannerType = array('txt');
             break;
         }
         //  return false if banner is not allowed to be linked to selected zone type
-        if (!in_array($bannerType, $aAllowed)) {
+        if((($aZone['type'] != MAX_ZoneEmail) && !in_array($bannerType, $aAllowedBannerType)) ||
+           (($aZone['type'] == MAX_ZoneEmail) && (!in_array($bannerType, $aAllowedBannerType) || !in_array($contentType, $aAllowedContentType)))) {
             return PEAR::raiseError('This banner is the wrong type for this zone - <a href="zone-edit.php?affiliateid='. $aZone['publisher_id'] .'&zoneid='. $aZone['zone_id'] .'">'. $aZone['name'] .'</a>', MAX_ERROR_INVALIDBANNERTYPE);
         }
         return true;
@@ -1055,7 +1057,7 @@ class Admin_DA
                     if (PEAR::isError($okToLink)) {
                         return $okToLink;
                     }
-                    $okToLink = Admin_DA::_checkBannerZoneAdAssoc($aZone, $aAd['type']);
+                    $okToLink = Admin_DA::_checkBannerZoneAdAssoc($aZone, $aAd['type'], $aAd['contenttype']);
                     if (PEAR::isError($okToLink)) {
                         return $okToLink;
                     }

@@ -896,6 +896,49 @@ class Admin_DaTest extends DalUnitTestCase
         $this->assertTrue(PEAR::isError($ret));
     }
 
+    function testCheckBannerZoneAdAssoc()
+    {
+        // sql banner with an email zone
+        $aZone = array('type' => 4);
+        $bannerType = 'sql';
+        $contentType = 'gif';
+
+        $ret = Admin_DA::_checkBannerZoneAdAssoc($aZone, $bannerType, $contentType);
+        $this->assertFalse(PEAR::isError($ret));
+
+        // web banner (png) with an email zone
+        $aZone = array('type' => 4);
+        $bannerType = 'web';
+        $contentType = 'png';
+
+        $ret = Admin_DA::_checkBannerZoneAdAssoc($aZone, $bannerType, $contentType);
+        $this->assertFalse(PEAR::isError($ret));
+
+        // url banner (jpg) with an email zone
+        $aZone = array('type' => 4);
+        $bannerType = 'url';
+        $contentType = 'jpeg';
+
+        $ret = Admin_DA::_checkBannerZoneAdAssoc($aZone, $bannerType, $contentType);
+        $this->assertFalse(PEAR::isError($ret));
+
+        // html banner (swf) with an email zone
+        $aZone = array('type' => 4);
+        $bannerType = 'html';
+
+        $ret = Admin_DA::_checkBannerZoneAdAssoc($aZone, $bannerType);
+        $this->assertTrue(PEAR::isError($ret));
+
+        // url banner (swf) with an email zone
+        $aZone = array('type' => 4);
+        $bannerType = 'url';
+        $contentType = 'swf';
+
+        $ret = Admin_DA::_checkBannerZoneAdAssoc($aZone, $bannerType, $contentType);
+        $this->assertTrue(PEAR::isError($ret));
+
+    }
+
     function testdeleteAdZones()
     {
 
