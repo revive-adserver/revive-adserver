@@ -53,6 +53,30 @@ class Test_OX_PluginExport extends UnitTestCase
         $this->UnitTestCase();
     }
 
+    function test_backupTables()
+    {
+        TestEnv::installPluginPackage('demoExtension', 'demoExtension_0.0.2-beta', '/plugins_repo/', false);
+
+        $prefix  = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+
+        $oExport    = new OX_PluginExport();
+        $oExport->init('demoExtension');
+
+        $aTables = OA_DB_Table::listOATablesCaseSensitive('banners_demo');
+        $this->assertEqual(count($aTables),1);
+        $this->assertEqual($aTables[0],$prefix.'banners_demo');
+
+        $this->assertTrue($oExport->backupTables('demoExtension'));
+
+        $aTables = OA_DB_Table::listOATablesCaseSensitive('banners_demo');
+        $this->assertEqual(count($aTables),2);
+        $this->assertEqual($aTables[0],$prefix.'banners_demo');
+        $this->assertPattern('/'.$prefix.'banners_demo_'.date('Ymd').'_[\d]{6}/',$aTables[1]);
+
+        TestEnv::uninstallPluginPackage('demoExtension', false);
+        TestEnv::restoreConfig();
+    }
+
     function test_makeDirectory()
     {
 
@@ -185,9 +209,10 @@ class Test_OX_PluginExport extends UnitTestCase
 
     function test_compressFiles()
     {
-        @unlink(MAX_PATH.'/var/test.zip');
+        $dirOut = MAX_PATH.'/var/';
+        @unlink($dirOut.'test.zip');
         $oExport = new OX_PluginExport();
-        $dirOut = $oExport->outputDir;
+        $oExport->outputDir = $dirOut;
         $oExport->_addToFileList($this->testpathData.'bar.xml');
         $oExport->_addToFileList($this->testpathPackages.'testPluginPackage.xml');
         $this->assertTrue($oExport->_compressFiles('test'));
@@ -216,6 +241,7 @@ class Test_OX_PluginExport extends UnitTestCase
         $pathAdmin        = $GLOBALS['_MAX']['CONF']['pluginPaths']['admin'];
 
         $oExport    = new OX_PluginExport();
+        $oExport->init('openXTests');
         $pathExport = $oExport->outputDir;
         @unlink($pathExport.'openXTests.zip');
 

@@ -30,7 +30,7 @@ class OX_PluginExport
 {
     var $oPluginManager;
 
-    var $baseDir;
+    //var $baseDir;
     var $outputDir;
     var $pathPackages;
     var $pathExtensions;
@@ -46,28 +46,49 @@ class OX_PluginExport
 
     function __construct()
     {
+    }
+
+    function init($name)
+    {
+        $this->clean();
+
         $this->oPluginManager   = new OX_PluginManager();
-        $this->pathPackages     = $GLOBALS['_MAX']['CONF']['pluginPaths']['packages'];
-        $this->pathExtensions   = $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'];
-        $this->pathAdmin        = $GLOBALS['_MAX']['CONF']['pluginPaths']['admin'];
+
         $this->outputDir        = MAX_PATH.'/var/plugins/export/';
         if (!file_exists($this->outputDir))
         {
-            $this->_makeDirectory($this->outputDir);
+            if (!$this->_makeDirectory($this->outputDir))
+            {
+                $this->aErrors[] = 'unable to create export directory '.$this->outputDir;
+                return false;
+            }
         }
+        $this->aPlugin = $this->oPluginManager->_parsePackage($name);
+        if (!$this->aPlugin)
+        {
+            $this->aErrors = $this->oPluginManager->aErrors;
+            return false;
+        }
+        $this->aGroups = $this->oPluginManager->_parseComponentGroups($this->aPlugin['install']['contents']);
+        if (!$this->aGroups)
+        {
+            $this->aErrors = $this->oPluginManager->aErrors;
+            return false;
+        }
+        return true;
     }
 
     function clean()
     {
-        $this->aErrors          = array();
+        //$this->baseDir          = '';
         //$this->aDirList         = array();
+        $this->aErrors          = array();
         $this->aFileList        = array();
         $this->aGroups          = array();
         $this->aPlugin          = array();
         $this->aSchemas         = array();
         $this->aSettings        = array();
         $this->aPreferences     = array();
-        $this->baseDir          = '';
         $this->pathPackages     = $GLOBALS['_MAX']['CONF']['pluginPaths']['packages'];
         $this->pathExtensions   = $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'];
         $this->pathAdmin        = $GLOBALS['_MAX']['CONF']['pluginPaths']['admin'];
@@ -75,11 +96,10 @@ class OX_PluginExport
 
     function _compileContents($name)
     {
-        $this->clean();
-
-        $this->aPlugin = $this->oPluginManager->_parsePackage($name);
-        $this->aGroups = $this->oPluginManager->_parseComponentGroups($this->aPlugin['install']['contents']);
-        $this->baseDir = MAX_PATH.'/var/tmp/'.$name;
+        if (!$this->init($name))
+        {
+            return false;
+        }
 
         // get the filelist
         foreach ($this->aGroups as $i => $aGroup)
@@ -120,42 +140,61 @@ class OX_PluginExport
         return $result;
     }
 
-    function exportData($identity='')
+    function backupTables($name)
     {
-        $oDbh   = OA_DB::singleton();
-        switch ($oDbh->dbsyntax)
+        foreach ($this->aGroups as $aGroup)
         {
-            case 'mysql':
-                $engine = $oDbh->getOption('default_table_type');
-                $sql = "CREATE TABLE %s ENGINE={$engine} (SELECT * FROM %s %s)";
-                break;
-            case 'pgsql':
-                $sql = 'CREATE TABLE "%1$s" (LIKE "%2$s" INCLUDING DEFAULTS); INSERT INTO "%1$s" SELECT * FROM "%2$s" "%3$s"';
-                break;
+            $path = $this->pathPackages.$aGroup['name'].'/etc/';
+            if ($aGroup['install']['schema']['mdb2schema'])
+            {
+                $aSchemas[$aGroup['name']] = $path.$aGroup['install']['schema']['mdb2schema'].'.xml';
+            }
         }
-        $aConf  = $GLOBALS['_MAX']['CONF']['table'];
-        if (!$identity)
+        if ($aSchemas)
         {
-            $identity  = 'z_'.$this->component.date('Ymd_His');
+            $oDbh   = OA_DB::singleton();
+            switch ($oDbh->dbsyntax)
+            {
+                case 'mysql':
+                    $engine = $oDbh->getOption('default_table_type');
+                    $sql = "CREATE TABLE %s ENGINE={$engine} (SELECT * FROM %s %s)";
+                    break;
+                case 'pgsql':
+                    $sql = 'CREATE TABLE "%1$s" (LIKE "%2$s" INCLUDING DEFAULTS); INSERT INTO "%1$s" SELECT * FROM "%2$s" "%3$s"';
+                    break;
+            }
+
+            $prefix  = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+            foreach ($aSchemas as $group => $file)
+            {
+                $oTable = new OA_DB_Table();
+                if ($oTable->init(MAX_PATH.$file, false))
+                {
+                    foreach ($oTable->aDefinition['tables'] as $table => $aTable)
+                    {
+                        $tblSrc = $prefix.$table;
+                        $tblTgt = $tblSrc.'_'.date('Ymd_His');
+                        $query  = sprintf($sql, $tblTgt, $tblSrc, '');
+                        $result = $oDbh->exec($query);
+                        if (PEAR::isError($result))
+                        {
+                            $aResult[] = $group.' : '.$tblSrc.' backup failed';
+                            $this->aErrors[] = 'error creating backup '.$tblSrc.' : '.$result->getUserInfo();
+                        }
+                        if (count(OA_DB_Table::listOATablesCaseSensitive($tblTgt) == 1))
+                        {
+                            $aResult[] = $group.' : '.$tblSrc.' copied to '.$tblTgt;
+                        }
+                    }
+                }
+                else
+                {
+                    $aResult = $group.' : no tables copied';
+                    $this->aErrors[] = 'error initialising '.$group.' schema '.$file;
+                }
+            }
         }
-
-        $tblSrc = $aConf['prefix'].'banners_demo';
-        $tblTgt = $aConf['prefix'].$identity.$tblSrc;
-        $where  = "WHERE 1=1";
-        $query  = sprintf($sql, $tblTgt, $tblSrc, $where);
-        $result1 = $oDbh->exec($query);
-
-        $tblSrc = $aConf['prefix'].'banners';
-        $tblTgt = $aConf['prefix'].$identity.$tblSrc;
-        $where  = "WHERE ext_bannertype = '".$this->getComponentIdentifier()."'";
-        $query  = sprintf($sql, $tblTgt, $tblSrc, $where);
-        $result2 = $oDbh->exec($query);
-
-        if ($result1 && $result2)
-        {
-            return OA_DB_Table::listOATablesCaseSensitive($identity);
-        }
-        return false;
+        return ($aResult ? $aResult : true);
     }
 
     function _compressFiles($name)
@@ -205,25 +244,12 @@ class OX_PluginExport
         return ($error ? false : $target);
     }
 
-    function fetchBannersJoined($fetchmode=MDB2_FETCHMODE_ORDERED)
-    {
-        $aConf  = $GLOBALS['_MAX']['CONF']['table'];
-        $oDbh   = OA_DB::singleton();
-        $tblB   = $oDbh->quoteIdentifier($aConf['prefix'].'banners',true);
-        $tblD   = $oDbh->quoteIdentifier($aConf['prefix'].'banners_demo');
-        $query  = "SELECT * FROM ".$tableB." b"
-                 ." LEFT JOIN ".$tableD." d ON b.bannerid = d.banners_demo_id"
-                 ." WHERE b.ext_bannertype = '".$this->getComponentIdentifier()."'";
-        return $oDbh->queryAll($query, null, $fetchmode);
-    }
-
     function _getSchemaFiles($aSchema, $name)
     {
         $path = $this->pathPackages.$name.'/etc/';
         if ($aSchema['mdb2schema'])
         {
             $this->_addToFileList($path.$aSchema['mdb2schema'].'.xml');
-            $this->aSchemas[$name] = aSchema;
         }
         if ($aSchema['dboschema'])
         {
@@ -362,6 +388,18 @@ class OX_PluginExport
         }
     }
     */
+
+    /*function fetchBannersJoined($fetchmode=MDB2_FETCHMODE_ORDERED)
+    {
+        $aConf  = $GLOBALS['_MAX']['CONF']['table'];
+        $oDbh   = OA_DB::singleton();
+        $tblB   = $oDbh->quoteIdentifier($aConf['prefix'].'banners',true);
+        $tblD   = $oDbh->quoteIdentifier($aConf['prefix'].'banners_demo');
+        $query  = "SELECT * FROM ".$tableB." b"
+                 ." LEFT JOIN ".$tableD." d ON b.bannerid = d.banners_demo_id"
+                 ." WHERE b.ext_bannertype = '".$this->getComponentIdentifier()."'";
+        return $oDbh->queryAll($query, null, $fetchmode);
+    }*/
 
 }
 ?>
