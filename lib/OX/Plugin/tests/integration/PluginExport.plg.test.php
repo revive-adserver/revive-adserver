@@ -55,7 +55,7 @@ class Test_OX_PluginExport extends UnitTestCase
 
     function test_backupTables()
     {
-        TestEnv::installPluginPackage('demoExtension', 'demoExtension_0.0.2-beta', '/plugins_repo/', false);
+        TestEnv::installPluginPackage('demoExtension', false);
 
         $prefix  = $GLOBALS['_MAX']['CONF']['table']['prefix'];
 
@@ -164,7 +164,7 @@ class Test_OX_PluginExport extends UnitTestCase
 
     function test_compileContents_extension_no_schema()
     {
-        TestEnv::installPluginPackage('openXTests', 'openXTests', '/plugins_repo/', false);
+        TestEnv::installPluginPackage('openXTests', false);
 
         $pathPackages     = MAX_PATH.$GLOBALS['_MAX']['CONF']['pluginPaths']['packages'];
         $pathExtensions   = MAX_PATH.$GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'];
@@ -185,7 +185,7 @@ class Test_OX_PluginExport extends UnitTestCase
 
     /*function test_compileDirectories_extension_no_schema()
     {
-        TestEnv::installPluginPackage('openXTests', 'openXTests', '/plugins_repo/', false);
+        TestEnv::installPluginPackage('openXTests', false);
 
         $pathPackages     = $GLOBALS['_MAX']['CONF']['pluginPaths']['packages'];
         $pathExtensions   = $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'];
@@ -234,7 +234,7 @@ class Test_OX_PluginExport extends UnitTestCase
 
 	function test_exportPlugin()
 	{
-        TestEnv::installPluginPackage('openXTests', 'openXTests', '/plugins_repo/', false);
+        TestEnv::installPluginPackage('openXTests', false);
 
         $pathPackages     = $GLOBALS['_MAX']['CONF']['pluginPaths']['packages'];
         $pathExtensions   = $GLOBALS['_MAX']['CONF']['pluginPaths']['extensions'];

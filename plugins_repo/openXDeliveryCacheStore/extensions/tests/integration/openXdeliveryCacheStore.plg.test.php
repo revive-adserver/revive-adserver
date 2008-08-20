@@ -40,7 +40,7 @@ class Plugins_TestOfPlugins_openXDeliveryCacheStore extends UnitTestCase
     {
         $oPkgMgr = new OX_PluginManager();
         TestEnv::uninstallPluginPackage('openXDeliveryCacheStore');
-        TestEnv::installPluginPackage('openXDeliveryCacheStore', 'openXDeliveryCacheStore', '/plugins_repo/');
+        TestEnv::installPluginPackage('openXDeliveryCacheStore');
     }
 
     function tearDown()

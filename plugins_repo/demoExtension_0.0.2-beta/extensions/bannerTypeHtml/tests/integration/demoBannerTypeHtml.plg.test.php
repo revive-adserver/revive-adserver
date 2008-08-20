@@ -37,17 +37,11 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  */
 class Plugins_TestOfPlugins_demoBannerTypeHtml extends UnitTestCase
 {
-    var $pkgName;
-    var $pkgVersion;
-
     function setUp()
     {
-        $this->pkgName = 'demoExtension';
-        $this->pkgVersion = '_0.0.2-beta';
-
         $oPkgMgr = new OX_PluginManager();
-        TestEnv::uninstallPluginPackage($this->pkgName, false);
-        TestEnv::installPluginPackage($this->pkgName, $this->pkgName.$this->pkgVersion, '/plugins_repo/', false);
+        TestEnv::uninstallPluginPackage('demoExtension', false);
+        TestEnv::installPluginPackage('demoExtension', false);
     }
 
     function tearDown()

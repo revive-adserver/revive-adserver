@@ -327,7 +327,7 @@ class TestOfMAX_Plugin extends UnitTestCase {
         unset($GLOBALS['_MAX']['CONF']['plugins']['openXTests']);
         unset($GLOBALS['_MAX']['CONF']['pluginGroupComponents']['Dummy']);
 
-        TestEnv::installPluginPackage('openXTests', 'openXTests', '/plugins_repo/');
+        TestEnv::installPluginPackage('openXTests');
 
         // Test with a real method, no parameters
         $return = OX_Component::callStaticMethod('deliveryLimitations', 'Dummy', 'Dummy', 'isAllowed');

@@ -59,7 +59,7 @@ class LibAclTest extends DalUnitTestCase
         unset($GLOBALS['_MAX']['CONF']['plugins']['openXTests']);
         unset($GLOBALS['_MAX']['CONF']['pluginGroupComponents']['Dummy']);
 
-        TestEnv::installPluginPackage('openXTests', 'openXTests', '/plugins_repo/');
+        TestEnv::installPluginPackage('openXTests');
     }
 
     function tearDown()

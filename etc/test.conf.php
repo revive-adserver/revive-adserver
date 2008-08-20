@@ -439,6 +439,7 @@ packages   = /extensions/etc/
 extensions = /extensions/
 admin      = /www/admin/plugins/
 var        = /var/plugins/
+repo       = ../plugins_repo/ ; http://your.test.server/path_to_plugins/
 
 [pluginUpdatesServer]
 protocol=http

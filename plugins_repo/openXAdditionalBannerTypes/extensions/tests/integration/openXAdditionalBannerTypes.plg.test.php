@@ -41,7 +41,7 @@ class Plugins_TestOfPlugins_openXAdditionalBannerTypes extends UnitTestCase
     {
         $oPkgMgr = new OX_PluginManager();
         TestEnv::uninstallPluginPackage('openXAdditionalBannerTypes');
-        TestEnv::installPluginPackage('openXAdditionalBannerTypes', 'openXAdditionalBannerTypes', '/plugins_repo/');
+        TestEnv::installPluginPackage('openXAdditionalBannerTypes');
     }
 
     function tearDown()

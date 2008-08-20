@@ -38,7 +38,7 @@ class Test_openads_upgrade_task_Check_Plugins extends UnitTestCase
 
     function setUp()
 	{
-	    TestEnv::installPluginPackage('openXTests', 'openXTests', '/plugins_repo/', false);
+	    TestEnv::installPluginPackage('openXTests', false);
 	}
 
 	function tearDown()

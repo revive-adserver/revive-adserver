@@ -60,7 +60,7 @@ class test_DeliveryLimitations extends UnitTestCase
         unset($GLOBALS['_MAX']['CONF']['plugins']['openXTests']);
         unset($GLOBALS['_MAX']['CONF']['pluginGroupComponents']['Dummy']);
 
-        TestEnv::installPluginPackage('openXTests', 'openXTests', '/plugins_repo/');
+        TestEnv::installPluginPackage('openXTests');
 
         MAX_commonInitVariables();
         $this->tmpCookie = $_COOKIE;

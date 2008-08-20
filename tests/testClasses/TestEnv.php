@@ -143,21 +143,29 @@ class TestEnv
         return $oPkgMgr;
     }
 
-    function installPluginPackage($pkgName, $zipName, $zipPath, $noDb = true)
+    function installPluginPackage($pkgName, $noDb = true)
     {
-        $oPkgMgr = & TestEnv::getPluginPackageManager($noDb);
-        $result = $oPkgMgr->installPackage(array('tmp_name' => MAX_PATH . $zipPath.$zipName.'.zip', 'name'=>$zipName.'.zip'));
-        if (!$result)
+        $result = false;
+        $aFile['name']      = $pkgName.'.zip';
+        $aFile['tmp_name']  = MAX_PATH.'/var/'.$aFile['name'];
+        file_put_contents($aFile['tmp_name'], file_get_contents($GLOBALS['_MAX']['CONF']['pluginPaths']['repo'].$aFile['name']));
+        if (file_exists($aFile['tmp_name']))
         {
-            $errormsg = 'TestEnv unable to install plugins in '.MAX_PATH . $zipPath.$zipName.'.zip';
-            foreach ($oPkgMgr->aErrors AS $i => $msg)
+            $oPkgMgr = & TestEnv::getPluginPackageManager($noDb);
+            $result = $oPkgMgr->installPackage($aFile);
+            if (!$result)
             {
-                $errormsg.= '</br>'.$msg;
+                $errormsg = 'TestEnv unable to install plugin from '.$aFile['name'];
+                foreach ($oPkgMgr->aErrors AS $i => $msg)
+                {
+                    $errormsg.= '</br>'.$msg;
+                }
+                PEAR::raiseError($errormsg, PEAR_LOG_ERR);
+                die(1);
             }
-            PEAR::raiseError($errormsg, PEAR_LOG_ERR);
-            die(1);
+            $oPkgMgr->enablePackage($pkgName);
+            @unlink($aFile['tmp_name']);
         }
-        $oPkgMgr->enablePackage($pkgName);
         return $result;
     }
 
