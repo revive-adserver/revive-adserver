@@ -20,7 +20,7 @@
 
   cd "$arg"
 
-  zip -r ../"$arg".zip . -x \*.svn/* \*/tests/* \*/packages/*
+  zip -D -r ../"$arg".zip . -x \*.svn/* \*/tests/* \*/packages/*
 
   cd ..
 
