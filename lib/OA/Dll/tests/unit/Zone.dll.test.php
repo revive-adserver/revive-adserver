@@ -397,7 +397,7 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
         $dllZonePartialMock = new PartialMockOA_Dll_Zone($this);
 
         $dllZonePartialMock->setReturnValue('checkPermissions', true);
-        $dllZonePartialMock->expectCallCount('checkPermissions', 3);
+        $dllZonePartialMock->expectCallCount('checkPermissions', 4);
 
         // Non existent zone
         $this->assertFalse($dllZonePartialMock->generateTags(1, 'foo'));
@@ -410,14 +410,44 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
         // Non existent code type
         $this->assertFalse($dllZonePartialMock->generateTags($zoneId, 'foo'));
 
+        // Not allowed code type
+        $isAllowedAdjsTags = $GLOBALS['_MAX']['CONF']['allowedTags']['adjs'];
+        $GLOBALS['_MAX']['CONF']['allowedTags']['adjs'] = false;
+        $this->assertFalse($dllZonePartialMock->generateTags($zoneId, 'adjs'));
+        
+        // Allowed code type
+        $GLOBALS['_MAX']['CONF']['allowedTags']['adjs'] = true;
         $tag1 = $dllZonePartialMock->generateTags($zoneId, 'adjs');
         $tag2 = $dllZonePartialMock->generateTags($zoneId, 'adjs', array('source' => 'x'));
 
         $this->assertTrue($tag1);
         $this->assertTrue($tag2);
         $this->assertNotEqual($tag1, $tag2);
+        $GLOBALS['_MAX']['CONF']['allowedTags']['adjs'] = $isAllowedAdjsTags;
     }
 
+    function testGetAllowedTags()
+    {
+        $dllZone = new OA_Dll_Zone();       
+        $aConfAllowedTags = $GLOBALS['_MAX']['CONF']['allowedTags'];
+        $aZoneAllowedTags = $dllZone->getAllowedTags();
+        // Test if only and all allowed tags are returned 
+        $count = 0;
+        foreach ($aConfAllowedTags as $tag => $value) {
+            if ($value) {
+                $count++;
+                $this->assertTrue(in_array($tag, $aZoneAllowedTags)); 
+            } else {
+                $this->assertFalse(in_array($tag, $aZoneAllowedTags));
+            }
+        }
+        $this->assertEqual($count, count($aZoneAllowedTags));
+        // tests if spc is disallowed anyway
+        $GLOBALS['_MAX']['CONF']['allowedTags']['spc'] = true;
+        $aZoneAllowedTags = $dllZone->getAllowedTags();
+        $this->assertFalse(in_array('spc',$aZoneAllowedTags));
+        unset ($GLOBALS['_MAX']['CONF']['allowedTags']['spc']);
+    }
 }
 
 ?>

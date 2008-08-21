@@ -638,6 +638,11 @@ class OA_Dll_Zone extends OA_Dll
             if (!$this->checkPermissions(null, 'affiliates', $doZones->affiliateid, OA_PERM_ZONE_INVOCATION)) {
                 return false;
             }
+            $aAllowedTags = $this->getAllowedTags();
+            if (!in_array($codeType, $aAllowedTags)) {
+                $this->raiseError('Field \'codeType\' must be one of the enum: '.join(', ', $aAllowedTags));
+                return false;
+            }
             if (!empty($codeType)) {
                 require_once MAX_PATH . '/lib/max/Admin/Invocation.php';
 
@@ -665,6 +670,25 @@ class OA_Dll_Zone extends OA_Dll
         }
 
         return false;
+    }
+    
+    /**
+     * Returns array of allowed invocation tags
+     *
+     * @return array of allowed invocation tags (strings)
+     */
+    function getAllowedTags() {
+        $aAllowedTags = $GLOBALS['_MAX']['CONF']['allowedTags'];
+        foreach ($aAllowedTags as $tag => $isAllowed) {
+            if (!$isAllowed) {
+                unset ($aAllowedTags[$tag]);
+            }
+        }
+        // Be sure that nobody add spc as allowed tag for zone
+        if (array_key_exists('spc', $aAllowedTags)) {
+            unset ($aAllowedTags['spc']);
+        }
+        return array_keys($aAllowedTags);
     }
 }
 
