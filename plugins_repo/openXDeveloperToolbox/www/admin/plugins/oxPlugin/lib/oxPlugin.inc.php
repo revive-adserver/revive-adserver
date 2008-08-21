@@ -75,17 +75,17 @@ function putGroup($aVals)
     $dataSource = file_get_contents($fileSource);
     $dataTarget = str_replace('{HEADER}', $dataSource, $dataTarget);
 
-    $fileSource = 'etc/elements/group-files-'.$aVals['extension'].'.xml.tpl';
+    $fileSource = 'etc/elements/files-'.$aVals['extension'].'.xml.tpl';
     if (!file_exists($source))
     {
-        $fileSource = 'etc/elements/group-files-generic.xml.tpl';
+        $fileSource = 'etc/elements/files-generic.xml.tpl';
     }
     $dataSource = file_get_contents($fileSource);
     $dataTarget = str_replace('{FILES}', $dataSource, $dataTarget);
 
     if ($aVals['extension']=='admin')
     {
-        $fileSource = 'etc/elements/group-navigation.xml.tpl';
+        $fileSource = 'etc/elements/navigation.xml.tpl';
         $dataSource = file_get_contents($fileSource);
         $dataTarget = str_replace('{NAVIGATION}', $dataSource, $dataTarget);
     }
@@ -96,7 +96,7 @@ function putGroup($aVals)
 
     foreach ($aVals AS $k => $v)
     {
-        $dataSource = str_replace('{'.strtoupper($k).'}', $v, $dataSource);
+        $dataTarget = str_replace('{'.strtoupper($k).'}', $v, $dataTarget);
     }
     $i = file_put_contents($target, $dataTarget);
 
