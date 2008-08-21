@@ -137,6 +137,10 @@ class OX_PluginExport
         {
             return false;
         }
+        require_once(MAX_PATH.'/lib/OA/Admin/Settings.php');
+        $oSettings  = new OA_Admin_Settings();
+        $oSettings->settingChange('pluginPaths','export',$this->outputDir);
+        $oSettings->writeConfigChange();
         return $result;
     }
 

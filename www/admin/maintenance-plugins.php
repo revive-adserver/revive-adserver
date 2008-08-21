@@ -102,7 +102,6 @@ if (!empty($action))
                 if ($file = $oExporter->exportPlugin($name))
                 {
                     $aPlugins[$name]['file'] = $file;
-                    $aSettings[$name] = $file;
                 }
                 else
                 {
@@ -110,10 +109,6 @@ if (!empty($action))
                     $aErrors[] = $oExporter->aErrors;
                 }
             }
-            $oSettings  = new OA_Admin_Settings();
-            $oSettings->bulkSettingChange('pluginsExported',$aSettings);
-            $oSettings->writeConfigChange();
-
             $oTpl->assign('aPlugins', $aPlugins);
             $oTpl->assign('aErrors', $aErrors);
             break;
