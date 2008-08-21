@@ -2870,6 +2870,22 @@ if (isset($output['contenttype']) && $output['contenttype'] == 'swf' && !$mmm_fo
 echo MAX_flashGetFlashObjectInline();
 }
 echo MAX_javascriptToHTML($output['html'], 'OX_'.substr(md5(uniqid('', 1)), 0, 8));
+// Backwards compatible block-banner JS variable (>2.4 tags do all this via document.context)
+if (!empty($block) && !empty($output['bannerid'])) {
+$varprefix = $GLOBALS['_MAX']['CONF']['var']['prefix'];
+echo "\nif (document.{$varprefix}used) document.{$varprefix}_used += 'bannerid:".$output['bannerid'].",';\n";
+// Provide backwards compatibility for the time-being
+echo "\nif (document.MAX_used) document.MAX_used += 'bannerid:".$output['bannerid'].",';\n";
+echo "\nif (document.phpAds_used) document.phpAds_used += 'bannerid:".$output['bannerid'].",';\n";
+}
+// Backwards compatible block-campaign JS variable (>2.4 tags do all this via document.context)
+if (!empty($blockcampaign) && !empty($output['campaignid'])) {
+$varprefix = $GLOBALS['_MAX']['CONF']['var']['prefix'];
+echo "\nif (document.{$varprefix}used) document.{$varprefix}used += 'campaignid:".$output['campaignid'].",';\n";
+// Provide backwards compatibility for the time-being
+echo "\nif (document.MAX_used) document.MAX_used += 'campaignid:".$output['campaignid'].",';\n";
+echo "\nif (document.phpAds_used) document.phpAds_used += 'campaignid:".$output['campaignid'].",';\n";
+}
 
 
 ?>
