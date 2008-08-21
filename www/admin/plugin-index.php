@@ -59,7 +59,7 @@ else if (array_key_exists('import',$_POST))
 {
     if (array_key_exists('filename',$_FILES))
     {
-        $oPluginManager->unpackPlugin($_FILES['filename']);
+        $oPluginManager->installPackageCodeOnly($_FILES['filename']);
     }
 }
 else if (array_key_exists('getupgrade',$_POST))

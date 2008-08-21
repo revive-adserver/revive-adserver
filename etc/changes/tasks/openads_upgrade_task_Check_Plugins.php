@@ -93,12 +93,10 @@ foreach ($GLOBALS['_MAX']['CONF']['plugins'] as $name => $enabled)
             {
                 $aFile['name'] = $file;
                 $aFile['tmp_name'] = $file;
-                $oPluginManager->unpackPlugin($aFile);
+                $oPluginManager->installPackageCodeOnly($aFile);
             }
         }
     }
-
-
     $aDiag   = $oPluginManager->getPackageDiagnostics($name);
     if ($aDiag['plugin']['error'])
     {

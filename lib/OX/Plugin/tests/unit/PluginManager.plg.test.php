@@ -113,6 +113,15 @@ class Test_OX_PluginManager extends UnitTestCase
         $oManager->expectCallCount('_unpack', 2);
     }
 
+    /**
+     * @todo write test for test_installPackageCodeOnly
+     *
+     */
+    function test_installPackageCodeOnly()
+    {
+
+    }
+
     function test_unpack()
     {
         Mock::generatePartial(
@@ -210,12 +219,6 @@ class Test_OX_PluginManager extends UnitTestCase
         $oManager->setReturnValue('_instantiateClass', $oExtension);
         $oManager->expectCallCount('_instantiateClass',1);
 
-
-        /*// Test 1 - package file not found
-        $aFile = array('tmp_name'=>MAX_PATH.$this->testpathData.'testNonExistantPackage.xml',
-                       'name'=>'testParsePluginFull.xml'
-                      );
-        $this->assertFalse($oManager->installPackage($aFile));*/
 
         // Test 1 - package unpack error
         $oManager->setReturnValueAt(0,'unpackPlugin', false);
