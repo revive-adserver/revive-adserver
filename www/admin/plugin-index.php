@@ -120,7 +120,7 @@ else if (array_key_exists('check',$_POST))
         switch ($response['status'])
         {
             case 1:
-                $aMessages[] = 'This package is up to date';
+                $aMessages[] = 'This plugin is up to date';
                 break;
             case 0:
                 $aMessages[] = 'Available from http://'.$response['downloadurl'];
@@ -132,9 +132,13 @@ else if (array_key_exists('check',$_POST))
             case -2:
                 $aErrors[] = 'YOU WILL NEED TO UPGRADE OPENX IN ORDER TO USE IT ';
                 break;
+            case 999:
+                $aMessages = array();
+                $aMessages[] = 'Plugin does not exist on the updates server';
+                break;
         }
         $oTpl->assign('aMessages',$aMessages);
-        $oTpl->assign('aErrors',$oPluginManager->aErrors);
+        $oTpl->assign('aErrors',$aErrors);
     }
     else
     {
