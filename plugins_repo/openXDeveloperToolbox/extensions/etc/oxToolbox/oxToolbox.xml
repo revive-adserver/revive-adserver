@@ -16,6 +16,7 @@
     <install>
 
         <files>
+            <file path="{ADMINPATH}/lib/">oxToolbox.inc.php</file>
             <file path="{ADMINPATH}/templates/">oxToolbox.html</file>
             <file path="{ADMINPATH}/">oxToolbox-common.php</file>
             <file path="{ADMINPATH}/">oxToolbox-index.php</file>

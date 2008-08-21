@@ -21,7 +21,7 @@
         <contents>
             <group name="oxToolbox">1</group>
             <group name="oxPlugin" >2</group>
-            <!--group name="oxSchema" >3</group-->
+            <group name="oxSchema" >3</group>
         </contents>
 
     </install>
