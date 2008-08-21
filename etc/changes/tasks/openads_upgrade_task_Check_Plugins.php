@@ -80,6 +80,25 @@ $aPluginSettings    = getPluginOriginalSettings();
 
 foreach ($GLOBALS['_MAX']['CONF']['plugins'] as $name => $enabled)
 {
+    /**
+     * import plugin code from the previous installation
+     *
+     */
+    if (!file_exists(MAX_PATH.$GLOBALS['_MAX']['CONF']['pluginPaths']['packages'].$name.'.xml'))
+    {
+        if (isset($GLOBALS['_MAX']['CONF']['pluginPaths']['export']))
+        {
+            $file = $GLOBALS['_MAX']['CONF']['pluginPaths']['export'].$name.'.zip';
+            if (file_exists($file))
+            {
+                $aFile['name'] = $file;
+                $aFile['tmp_name'] = $file;
+                $oPluginManager->unpackPlugin($aFile);
+            }
+        }
+    }
+
+
     $aDiag   = $oPluginManager->getPackageDiagnostics($name);
     if ($aDiag['plugin']['error'])
     {
