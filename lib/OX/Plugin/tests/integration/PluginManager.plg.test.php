@@ -53,6 +53,11 @@ class Test_OX_PluginManager extends UnitTestCase
         $this->UnitTestCase();
     }
 
+    function tearDown()
+    {
+        TestEnv::clearMenuCache();
+    }
+
     function test_checkPackageContents()
     {
         $oPackageManager                    = new OX_PluginManager();

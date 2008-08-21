@@ -53,6 +53,11 @@ class Test_OX_PluginExport extends UnitTestCase
         $this->UnitTestCase();
     }
 
+    function tearDown()
+    {
+        TestEnv::clearMenuCache();
+    }
+
     function test_backupTables()
     {
         TestEnv::installPluginPackage('demoExtension', false);

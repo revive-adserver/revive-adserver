@@ -40,12 +40,8 @@ class Test_OX_ExtensionCommon extends UnitTestCase
 
     }
 
-    function test_cachePreferenceOptions()
+    function setUp()
     {
-        $oExtension = new OX_Extension_Common();
-        $GLOBALS['_MAX']['CONF']['pluginPaths']['packages'] = '/lib/OX/Extension/tests/data/';
-        $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] = array('testPlugin'=>1);
-
         if (file_exists(MAX_PATH.'/var/cache/cache_PrefOptions_Plugin.bak'))
         {
             unlink(MAX_PATH.'/var/cache/cache_PrefOptions_Plugin.bak');
@@ -54,6 +50,22 @@ class Test_OX_ExtensionCommon extends UnitTestCase
         {
             copy(MAX_PATH.'/var/cache/cache_PrefOptions_Plugin', MAX_PATH.'/var/cache/cache_PrefOptions_Plugin.bak');
         }
+    }
+
+    function tearDown()
+    {
+        if (file_exists(MAX_PATH.'/var/cache/cache_PrefOptions_Plugin.bak'))
+        {
+            @unlink(MAX_PATH.'/var/cache/cache_PrefOptions_Plugin');
+            copy(MAX_PATH.'/var/cache/cache_PrefOptions_Plugin.bak', MAX_PATH.'/var/cache/cache_PrefOptions_Plugin');
+        }
+    }
+
+    function test_cachePreferenceOptions()
+    {
+        $oExtension = new OX_Extension_Common();
+        $GLOBALS['_MAX']['CONF']['pluginPaths']['packages'] = '/lib/OX/Extension/tests/data/';
+        $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] = array('testPlugin'=>1);
 
         $oExtension->cachePreferenceOptions();
 
@@ -72,11 +84,6 @@ class Test_OX_ExtensionCommon extends UnitTestCase
         $this->assertEqual($aPrefOptions['testPlugin']['value'],'account-preferences-plugin.php?group=testPlugin');
         $this->assertEqual(count($aPrefOptions['testPlugin']['perm']),4);
 
-        if (file_exists(MAX_PATH.'/var/cache/cache_PrefOptions_Plugin.bak'))
-        {
-            @unlink(MAX_PATH.'/var/cache/cache_PrefOptions_Plugin');
-            copy(MAX_PATH.'/var/cache/cache_PrefOptions_Plugin.bak', MAX_PATH.'/var/cache/cache_PrefOptions_Plugin');
-        }
         TestEnv::restoreConfig();
     }
 

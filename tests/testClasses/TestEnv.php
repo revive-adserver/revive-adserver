@@ -109,6 +109,7 @@ class TestEnv
                                             '_unregisterSchema',
                                             '_unregisterPreferences',
                                             '_unregisterPluginVersion',
+                                            '_runExtensionTasks',
                                          )
                                  );
             $oPkgMgr = new $mockPkgMgrClass();
@@ -184,6 +185,19 @@ class TestEnv
             PEAR::raiseError($errormsg, PEAR_LOG_WARNING);
         }*/
         return true;
+    }
+
+    /**
+     * remove menu cache files
+     * they will be rebuilt on next log in
+     *
+     */
+    function clearMenuCache()
+    {
+        @unlink(MAX_PATH.'/var/cache/cache_ADMIN_Menu');
+        @unlink(MAX_PATH.'/var/cache/cache_MANAGER_Menu');
+        @unlink(MAX_PATH.'/var/cache/cache_ADVERTISER_Menu');
+        @unlink(MAX_PATH.'/var/cache/cache_TRAFFICKER_Menu');
     }
 
     /**

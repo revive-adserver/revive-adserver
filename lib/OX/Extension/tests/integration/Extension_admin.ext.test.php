@@ -80,7 +80,6 @@ class Test_OX_Extension_admin extends UnitTestCase
         OA_Admin_Menu::_clearCache('TEST');
 
         TestEnv::restoreConfig();
-
     }
 }
 

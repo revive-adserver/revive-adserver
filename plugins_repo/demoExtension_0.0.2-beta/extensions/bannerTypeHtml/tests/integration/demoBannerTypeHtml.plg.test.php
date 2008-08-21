@@ -47,6 +47,7 @@ class Plugins_TestOfPlugins_demoBannerTypeHtml extends UnitTestCase
     function tearDown()
     {
         TestEnv::uninstallPluginPackage('demoExtension', false);
+        TestEnv::clearMenuCache();
     }
 
     function test_genericHtml_class()
