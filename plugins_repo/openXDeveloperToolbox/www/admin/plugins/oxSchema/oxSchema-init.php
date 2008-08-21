@@ -24,50 +24,61 @@
 /**
  * OpenX Schema Management Utility
  *
- * @author     Monique Szpak <monique.szpak@openx.org>
+ * @author  Monique Szpak <monique.szpak@openx.org>
  *
  * $Id$
  *
  */
 
+/**
+ * routing
+ * require libs
+ * determine the active schema
+ * pass xajax calls along
+ * handle cookies
+ */
 require_once 'oxSchema-common.php';
 
-require_once '../../config.php';
-
-require_once MAX_PATH . '/lib/OA/Admin/TemplatePlugin.php';
-
-require_once '../oxToolbox/lib/oxToolbox.inc.php';
-if (is_array($aErrs = OX_DevToolbox::checkFilePermissions(MAX_PATH.$GLOBALS['_MAX']['CONF']['pluginPaths']['packages'])))
+if (array_key_exists('btn_changeset_archive', $_POST))
 {
-    $errorMessage =
-        join("<br />\n", $aErrs['errors']) . "<br /><br ><hr /><br />\n" .
-        'To fix, please execute the following commands:' . "<br /><br >\n" .
-        join("<br />\n", $aErrs['fixes']);
-    die($errorMessage);
+    header('Location: archive.php');
+    exit;
 }
 
-phpAds_PageHeader("devtools-schema",'','../../');
+if (array_key_exists('clear_cookies', $_POST))
+{
+    setcookie('schemaPath', '');
+    setcookie('schemaFile', '');
+}
+else if ( array_key_exists('xml_file', $_REQUEST) && (!empty($_REQUEST['xml_file'])) )
+{
+    $schemaPath = dirname($_REQUEST['xml_file']);
+    if (!empty($schemaPath))
+    {
+        $schemaPath.= DIRECTORY_SEPARATOR;
+    }
+    $schemaFile = basename($_REQUEST['xml_file']);
+    if ($schemaFile==$_COOKIE['schemaFile'])
+    {
+        $schemaPath = $_COOKIE['schemaPath'];
+    }
+    $_POST['table_edit'] = '';
+}
+else if ( array_key_exists('schemaFile', $_COOKIE) && (!empty($_COOKIE['schemaFile'])))
+{
+    $schemaPath = $_COOKIE['schemaPath'];
+    $schemaFile = $_COOKIE['schemaFile'];
+}
+if (empty($schemaPath) || empty($schemaFile))
+{
+    $schemaPath = '';
+    $schemaFile = 'tables_core.xml';
+}
+setcookie('schemaPath', $schemaPath);
+setcookie('schemaFile', $schemaFile);
 
+require_once 'lib/oxSchema.inc.php';
+global $oSchema;
+$oSchema = & new openXSchemaEditor($schemaFile, '', $schemaPath);
 
-/*$oTpl = new OA_Plugin_Template('iframe.html','oxSchema');
-//$src = $_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/oxSchema-frame.php';
-$src = $_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/test-ajax.php';
-$oTpl->assign('src', $src);
-$oTpl->display();*/
-
-//require_once 'test-ajax.php';
-
-
-
-$oTpl = new OA_Plugin_Template('oxSchema.html','oxSchema');
-require_once 'oxSchema-frame-init.php';
-$oSchema->setWorkingFiles();
-$oSchema->parseWorkingDefinitionFile();
-$oTpl->assign('aSchema', $oSchema->aDB_definition);
-//$oTpl->debugging = true;
-$oTpl->display();
-
-
-
-phpAds_PageFooter();
 ?>

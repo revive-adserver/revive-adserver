@@ -80,7 +80,7 @@ function getSchemaFile($changesFile)
     return $schemaFile;
 }
 
-require_once './init.php';
+require_once 'oxSchema-common.php';
 
 if (array_key_exists('schemaPath', $_COOKIE) && ($_COOKIE['schemaPath']))
 {
@@ -123,14 +123,14 @@ else if (array_key_exists('btn_migration_create', $_POST))
     {
         $schemaFile = 'changes/'.str_replace('changes_', 'schema_', $changesFile);
 
-        require_once 'oaSchema.php';
-        $oaSchema = & new Openads_Schema_Manager($schemaFile, '', $schemaPath);
+        require_once 'oSchema.php';
+        $oSchema = & new Openads_Schema_Manager($schemaFile, '', $schemaPath);
 
-        if (($aErrs = $oaSchema->checkPermissions()) !== true) {
+        if (($aErrs = $oSchema->checkPermissions()) !== true) {
             die(join("<br />\n", $aErrs));
         }
 
-        $oaSchema->writeMigrationClass(MAX_CHG.$changesFile, MAX_CHG);
+        $oSchema->writeMigrationClass(MAX_CHG.$changesFile, MAX_CHG);
         $file = MAX_CHG.$changesFile;
     }
 }
@@ -159,17 +159,17 @@ else if (array_key_exists('btn_field_save', $_POST))
         $file = $changesPath.$changesFile;
     }
 
-    require_once 'oaSchema.php';
-    $oaSchema = & new Openads_Schema_Manager($schemaFile, $changesFile, $schemaPath);
+    require_once 'oSchema.php';
+    $oSchema = & new Openads_Schema_Manager($schemaFile, $changesFile, $schemaPath);
 
-    if (($aErrs = $oaSchema->checkPermissions()) !== true) {
+    if (($aErrs = $oSchema->checkPermissions()) !== true) {
         die(join("<br />\n", $aErrs));
     }
 
     $table_name = $_POST['table_name'];
     $field_name = $_POST['fld_old_name'];
     $field_name_was = $_POST['fld_new_name'];
-    $oaSchema->fieldWasSave($file, $table_name, $field_name, $field_name_was);
+    $oSchema->fieldWasSave($file, $table_name, $field_name, $field_name_was);
 }
 else if (array_key_exists('btn_table_save', $_POST))
 {
@@ -190,17 +190,17 @@ else if (array_key_exists('btn_table_save', $_POST))
 //        $schemaFile = MAX_PATH.'/etc/'.$schemaFile;
     }
 
-    require_once 'oaSchema.php';
-    $oaSchema = & new Openads_Schema_Manager($schemaFile, $changesFile, $schemaPath);
+    require_once 'oSchema.php';
+    $oSchema = & new Openads_Schema_Manager($schemaFile, $changesFile, $schemaPath);
 
-    if (($aErrs = $oaSchema->checkPermissions()) !== true) {
+    if (($aErrs = $oSchema->checkPermissions()) !== true) {
         die(join("<br />\n", $aErrs));
     }
 
     //$table_name = $_POST['table_name'];
     $table_name = $_POST['tbl_old_name'];
     $table_name_was = $_POST['tbl_new_name'];
-    $oaSchema->tableWasSave(MAX_CHG.$changesFile, $table_name, $table_name_was);
+    $oSchema->tableWasSave(MAX_CHG.$changesFile, $table_name, $table_name_was);
 
     $file = MAX_CHG.$changesFile;
 }
@@ -214,7 +214,7 @@ else
     }
 }
 
-require_once PATH_DEV.'/lib/xajax.inc.php';
+require_once 'lib/OXAjax.inc.php';
 
 if ($file && file_exists($file))
 {

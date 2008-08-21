@@ -30,19 +30,18 @@
  *
  */
 
-//require_once PATH_DEV.'/lib/upms.inc.php';
+//require_once 'lib/upms.inc.php';
 
-//require_once 'lib/pear.inc.php';
 require_once 'MDB2.php';
 require_once 'MDB2/Schema.php';
 require_once 'Config.php';
 
 require_once MAX_PATH.'/lib/OA/DB.php';
-require_once MAX_PATH.'/lib/OA/DB/Table.php';
+//require_once MAX_PATH.'/lib/OA/DB/Table.php';
 require_once MAX_PATH.'/lib/OA/Dal/Links.php';
 require_once MAX_PATH.'/lib/OA/Upgrade/UpgradeLogger.php';
 
-class Openads_Schema_Manager
+class openXSchemaEditor
 {
 
     var $oSchema;
@@ -189,24 +188,14 @@ class Openads_Schema_Manager
 
         $this->oSchema  = MDB2_Schema::factory(OA_DB::singleton(OA_DB::getDsn()), $this->aDump_options);
 
-        $this->dd_file = PATH_DEV.'/etc/dd.generic.xml';
+        $this->dd_file = 'etc/dd.generic.xml';
         $this->aDD_definition = $this->oSchema->parseDictionaryDefinitionFile($this->dd_file);
         ksort($this->aDD_definition);
 
         //$this->aXMLRPCServer = array('path'=>'/upms/xmlrpc.php', 'host'=>'localhost','port'=>'80');
     }
 
-    /**
-     * php4 class constructor
-     *
-     * @param string The XML schema file we are working on
-     */
-    function Openads_Schema_Manager($schema_file = 'tables_core.xml')
-    {
-        $this->__construct($schema_file);
-    }
-
-    function createNew($name)
+   function createNew($name)
     {
         $this->aDump_options['custom_tags']['version']  = '000';
         $this->aDump_options['custom_tags']['status']   = 'final';

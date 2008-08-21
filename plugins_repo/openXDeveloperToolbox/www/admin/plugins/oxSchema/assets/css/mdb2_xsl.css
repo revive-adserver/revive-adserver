@@ -5,7 +5,7 @@ body {
 }
 .heading {
  width: 100%;
- background: url(../../admin/images/grad-1.gif) #EEEEEE;
+ background: url(assets/admin/images/grad-1.gif) #EEEEEE;
  font-family: Arial, Helvetica, sans-serif;
  font-size: 20px;
  font-weight: bold;
@@ -57,7 +57,7 @@ width: 100%;
  padding: 3px;
  border: solid 0px;
  margin: 0px;
- background:  #EEEEEE url(../../admin/images/grad-1.gif) repeat;
+ background:  #EEEEEE url(assets/images/grad-1.gif) repeat;
  font-family: Arial, Helvetica, sans-serif;
  font-size: 11px;
  color: #333333;

@@ -1,0 +1,21 @@
+<table class="tablemain">
+    <tr>
+        <td class="tableheader">name</td>
+        <td class="tableheader">type</td>
+        <td class="tableheader">length</td>
+        <td class="tableheader">default</td>
+        <td class="tableheader">autoincrement</td>
+        <td class="tableheader">unsigned</td>
+        <td class="tableheader">notnull</td>
+        <td class="tableheader">comments</td>
+    </tr>
+
+{cycle name=bgclass values="odd,even" assign=bgClass reset=1}
+{foreach from=$aFields key=fieldname item=aField}
+{cycle name=bgclass assign=bgClass}
+    <tr class="{$bgClass}">
+        <td>
+        </td>
+    </tr>
+{/foreach}
+</table>
