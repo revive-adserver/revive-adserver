@@ -32,22 +32,14 @@ $Id$
 <form name="packageform" id="packageform" method="post" action="plugin-index.php" enctype="multipart/form-data">
         <div class="control-panel">
             <div class="control-set left">
+                <input name="package" value="1" type="hidden">
 		        <span class='corner bottom-left'></span>
 		        <span class='corner bottom-right'></span>
-
 	            <h2>Install new plugin</h2>
-	            Select file <input name="package" value="1" type="hidden">
-	            <input name="filename" tabindex="3" type="file">
-	            <input value="Install" name="install" tabindex="1" type="submit">
-            </div>
-            <div class="control-set right">
-		        <span class='corner bottom-left'></span>
-		        <span class='corner bottom-right'></span>
-
-	            <h2>Import plugin (code only)</h2>
-	            Select file <input name="package" value="1" type="hidden">
-	            <input name="filename" tabindex="3" type="file">
-	            <input value="Import" name="import" tabindex="1" type="submit">
+	            Select file
+	            <input name="filename" tabindex="1" type="file">
+	            <input value="Install" name="install" tabindex="2" type="submit">
+	            <input value="Import (code only)" name="import" tabindex="3" type="submit">
             </div>
         </div>
 </form>
