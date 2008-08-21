@@ -195,21 +195,6 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->_logError('The uploaded file '.$aFile['name'] .' was not unpacked');
             return false;
         }
-        foreach ($aParsed['plugins'] as $aGroup)
-        {
-            $aSchema = $aGroup['install']['schema'];
-            $name    = $aGroup['name'];
-            if (!$this->_putDataObjects($name, $aSchema))
-            {
-                $this->_logError('Failed to copy dataobject classes for '.$name);
-                return false;
-            }
-            if (!$this->_cacheDataObjects($name, $aSchema))
-            {
-                $this->_logError('Failed to merge dataobject schema for '.$name);
-                return false;
-            }
-        }
         return $aParsed;
     }
 
