@@ -97,8 +97,8 @@ function &buildForm()
     $aGroups = getExtensionList();
     foreach ($aGroups as $extension)
     {
-        //$group['check']  = $form->createElement('checkbox', 'group['.$extension.']');
         $group['name']   = $form->createElement('text'    , 'group['.$extension.'][groupname]', 'Group Name ', array('class'=>'medium'));
+        $group['schema']  = $form->createElement('checkbox', 'group['.$extension.'][schema]', 'Has Schema');
         $form->addGroup($group, 'group_'.$extension, 'Extends '.$extension, "", false);
     }
     $form->addElement('controls', 'form-controls');
@@ -122,21 +122,26 @@ function displayPage($form)
 
 function processForm(&$form, $aPluginValues)
 {
-    global $pathPluginTmp, $pathAdminTmp;
+    global $pathPlugin, $pathPackages, $pathAdmin;
+
+    $aPaths = $GLOBALS['_MAX']['CONF']['pluginPaths'];
+
     $varTmp = MAX_PATH.'/var/tmp/';
     if (!file_exists($varTmp))
     {
         mkdir($varTmp);
     }
-    $pathPluginTmp = $varTmp.$aPluginValues['name'].'/';
-    if (!file_exists($pathPluginTmp))
+    $pathPlugin = $varTmp.$aPluginValues['name'];
+    if (!file_exists($pathPlugin))
     {
-        mkdir($pathPluginTmp);
+        mkdir($pathPlugin);
     }
+    $pathPackages   = $pathPlugin.$aPaths['packages'];
+    $pathAdmin      = $pathPlugin.$aPaths['admin'];
 
     require_once(LIB_PATH.'/Plugin/PluginManager.php');
     $oPluginManager = new OX_PluginManager();
-    $oPluginManager->_decompressFile('etc/plugin.zip', $pathPluginTmp);
+    $oPluginManager->_decompressFile('etc/plugin.zip', $pathPackages);
 
     $aVersion                   = $aPluginValues['version'];
     $aPluginValues['date']      = date('Y-d-m');
@@ -154,19 +159,29 @@ function processForm(&$form, $aPluginValues)
             $aVals['name']                  = $aGroup['groupname'];
             $aVals['group']                 = $aGroup['groupname'];
             $aPluginValues['grouporder'][]  = $aGroup['groupname'];
-            $oPluginManager->_decompressFile('etc/group.zip', $pathPluginTmp);
-            rename($pathPluginTmp.'extensions/etc/group', $pathPluginTmp.'extensions/etc/'.$aGroup['groupname']);
+            $oPluginManager->_decompressFile('etc/group.zip', $pathPackages.$aGroup['groupname']);
+            if (isset($aGroup['schema']) && $aGroup['schema'])
+            {
+                $oPluginManager->_decompressFile('etc/schema.zip', $pathPackages.$aGroup['groupname']);
+            }
+            $oBuilder = new OX_PluginBuilder_Group();
+            if (isset($aGroup['schema']) && $aGroup['schema'])
+            {
+                $oBuilder->schema = true;
+                $oPluginManager->_decompressFile('etc/schema.zip', $pathPackages.$aGroup['groupname']);
+            }
             if ($extension=='admin')
             {
-                $oPluginManager->_decompressFile('etc/admin.zip', $pathPluginTmp);
-                $pathAdminTmp = $pathPluginTmp.'www/admin/plugins/';
-                rename($pathAdminTmp.'group', $pathAdminTmp.$aGroup['groupname']);
-                $pathAdminTmp = $pathAdminTmp.$aGroup['groupname'].'/';
+                $oPluginManager->_decompressFile('etc/admin.zip', $pathPlugin);
+                rename($pathAdmin.'group', $pathAdmin.$aGroup['groupname']);
             }
-            putGroup($aVals);
+            $oBuilder->init($aVals);
+            $oBuilder->putGroup();
         }
     }
-    return putPlugin($aPluginValues);
+    $oBuilder = new OX_PluginBuilder_Package();
+    $oBuilder->init($aPluginValues);
+    $oBuilder->putPlugin();
 }
 
 ?>

@@ -35,163 +35,181 @@ function getExtensionList()
     return OX_Extension::getAllExtensionsArray();
 }
 
-function putPlugin($aVals)
+class OX_PluginBuilder_Common
 {
-    global $pathPluginTmp;
-    $target = $pathPluginTmp.'extensions/etc/plugin.xml';
-    $source = 'etc/elements/header.xml.tpl';
 
-    $dataSource = file_get_contents($source);
-    foreach ($aVals AS $k => $v)
+    var $aTemplates;
+    var $aValues;
+
+    var $aRegPattern;
+    var $aRegReplace;
+
+    var $pathPlugin;
+
+    function init($aVals)
     {
-        $dataSource = str_replace('{'.strtoupper($k).'}', $v, $dataSource);
-    }
-    $section    = '{HEADER}';
-    $dataTarget = file_get_contents($target);
-    $dataTarget = str_replace($section, $dataSource, $dataTarget);
-    foreach ($aVals['grouporder'] AS $i => $group)
-    {
-        $dataTarget = str_replace('{GROUP'.$i.'}', $group, $dataTarget);
-    }
-    $i = file_put_contents($target, $dataTarget);
+        global $pathPlugin;
 
-    copy($target, str_replace('plugin',$aVals['name'], $target));
-    unlink($target);
+        $this->pathPlugin = $pathPlugin;
 
-    $target = $pathPluginTmp.'extensions/etc/plugin.readme.txt';
-    copy($target, str_replace('plugin',$aVals['name'], $target));
-    unlink($target);
-}
+        $this->aValues = $aVals;
 
-function putGroup($aVals)
-{
-    global $pathPluginTmp, $pathAdminTmp;
-    $pathGroupTmp = $pathPluginTmp.'extensions/etc/'.$aVals['group'].'/';
+        $this->aTemplates['HEADER']     = 'header.xml.tpl';
+        $this->aTemplates['FILES']      = 'files.xml.tpl';
 
-    $target = $pathGroupTmp.'group.xml';
-    $dataTarget = file_get_contents($target);
-
-    $fileSource = 'etc/elements/header.xml.tpl';
-    $dataSource = file_get_contents($fileSource);
-    $dataTarget = str_replace('{HEADER}', $dataSource, $dataTarget);
-
-    $fileSource = 'etc/elements/files-'.$aVals['extension'].'.xml.tpl';
-    if (!file_exists($source))
-    {
-        $fileSource = 'etc/elements/files-generic.xml.tpl';
-    }
-    $dataSource = file_get_contents($fileSource);
-    $dataTarget = str_replace('{FILES}', $dataSource, $dataTarget);
-
-    if ($aVals['extension']=='admin')
-    {
-        $fileSource = 'etc/elements/navigation.xml.tpl';
-        $dataSource = file_get_contents($fileSource);
-        $dataTarget = str_replace('{NAVIGATION}', $dataSource, $dataTarget);
-    }
-    else
-    {
-        $dataTarget = str_replace('{NAVIGATION}', '', $dataTarget);
-    }
-
-    foreach ($aVals AS $k => $v)
-    {
-        $dataTarget = str_replace('{'.strtoupper($k).'}', $v, $dataTarget);
-    }
-    $i = file_put_contents($target, $dataTarget);
-
-    copy($target, str_replace('group',$aVals['name'], $target));
-    unlink($target);
-
-    $target = $pathGroupTmp.'processSettings.php';
-    $dataTarget = file_get_contents($target);
-    $dataTarget = str_replace('{GROUP}', $aVals['group'], $dataTarget);
-    $i = file_put_contents($target, $dataTarget);
-
-    $target = $pathGroupTmp.'processPreferences.php';
-    $dataTarget = file_get_contents($target);
-    $dataTarget = str_replace('{GROUP}', $aVals['group'], $dataTarget);
-    $i = file_put_contents($target, $dataTarget);
-
-    $target = $pathGroupTmp.'etc/postscript_install_group.php';
-    $dataTarget = file_get_contents($target);
-    $dataTarget = str_replace('{GROUP}', $aVals['group'], $dataTarget);
-    $i = file_put_contents($target, $dataTarget);
-    copy($target, str_replace('group',$aVals['name'], $target));
-    unlink($target);
-
-    $target = $pathGroupTmp.'etc/prescript_install_group.php';
-    $dataTarget = file_get_contents($target);
-    $dataTarget = str_replace('{GROUP}', $aVals['group'], $dataTarget);
-    $i = file_put_contents($target, $dataTarget);
-    copy($target, str_replace('group',$aVals['name'], $target));
-    unlink($target);
-
-    if ($aVals['extension']=='admin')
-    {
-        $aAdminFiles[] = $pathAdminTmp.'lib/group.inc.php';
-        $aAdminFiles[] = $pathAdminTmp.'templates/group.html';
-        $aAdminFiles[] = $pathAdminTmp.'group-common.php';
-        $aAdminFiles[] = $pathAdminTmp.'group-index.php';
-
-        foreach ($aAdminFiles as $target)
+        foreach ($aVals AS $k => $v)
         {
-            $dataTarget = file_get_contents($target);
-            foreach ($aVals AS $k => $v)
-            {
-                $dataTarget = str_replace('{'.strtoupper($k).'}', $v, $dataTarget);
-            }
-            $i = file_put_contents($target, $dataTarget);
-            copy($target, str_replace('group',$aVals['group'], $target));
-            unlink($target);
+            $this->aRegPattern[] = '/\{'.strtoupper($k).'\}/';
+            $this->aRegReplace[] = $v;
         }
     }
+
+    function _compileTemplate($tag, &$data)
+    {
+        if (!array_key_exists($tag, $this->aTemplates))
+        {
+            $data = str_replace('{'.strtoupper($tag).'}', '', $data);
+            return;
+        }
+        if (!file_exists('etc/elements/'.$aTemplates[$tag]))
+        {
+            return;
+        }
+        $dataSource = file_get_contents('etc/elements/'.$this->aTemplates[$tag]);
+        if (!$dataSource)
+        {
+            return;
+        }
+        $this->_replaceTags($dataSource);
+        $data = str_replace('{'.strtoupper($tag).'}', $dataSource, $data);
+    }
+
+    function _replaceTags(&$subject)
+    {
+        $result = preg_replace(array_values($this->aRegPattern),array_values($this->aRegReplace), $subject);
+        $subject = ($result ? $result : $subject);
+        return;
+    }
+
+    function _renameFile($needle, $file)
+    {
+        if (substr_count($file, $needle))
+        {
+            copy($file, str_replace($needle, $this->aValues[$needle], $file));
+            unlink($file);
+        }
+    }
+
+    function _compileFiles($dir, $replace='')
+    {
+        $dh = opendir($dir);
+        if ($dh)
+        {
+            while (false !== ($file = readdir($dh)))
+            {
+                if (substr($file, 0, 1) != '.')
+                {
+                    if (is_dir($dir.'/'.$file))
+                    {
+                        $this->_compileFiles($dir.'/'.$file, $replace);
+                    }
+                    else
+                    {
+                        $contents = file_get_contents($dir.'/'.$file);
+                        $this->_replaceTags($contents);
+                        $i = file_put_contents($dir.'/'.$file, $contents);
+                        if ($replace)
+                        {
+                            $this->_renameFile($replace, $dir.'/'.$file);
+                        }
+                    }
+                }
+            }
+            closedir($dh);
+        }
+    }
+
 }
 
-function _putFile($source, $target, $aVals)
+class OX_PluginBuilder_Group extends OX_PluginBuilder_Common
 {
-    $data = file_get_contents($source);
-    foreach ($aVals AS $k => $v)
+    var $pathGroup;
+    var $schema = false;
+
+    function init($aVals)
     {
-        $data = str_replace('{'.strtoupper($k).'}', $v, $data);
+        parent::init($aVals);
+
+        $file = 'files-'.$this->aValues['extension'].'.xml.tpl';
+        if (file_exists('etc/elements/'.$file))
+        {
+            $this->aTemplates['FILES'] = $file;
+        }
+        if ($aVals['extension']=='admin')
+        {
+            $this->aTemplates['NAVIGATION'] = 'navigation.xml.tpl';
+        }
+        if ($this->schema)
+        {
+            $this->aTemplates['SCHEMA'] = 'schema.xml.tpl';
+        }
+
+        global $pathPackages;
+        $this->pathGroup = $pathPackages.$aVals['group'].'/';
+
     }
-    $i = file_put_contents($target, $data);
-    if (!$i)
+
+    function putGroup()
     {
-        echo 'Error writing file '.$target;
-        return false;
+        $groupDefinitionFile = $this->pathGroup.'group.xml';
+
+        $dataTarget = file_get_contents($groupDefinitionFile);
+
+        $this->_compileTemplate('HEADER', $dataTarget);
+        $this->_compileTemplate('FILES', $dataTarget);
+        $this->_compileTemplate('NAVIGATION', $dataTarget);
+        $this->_compileTemplate('SCHEMA', $dataTarget);
+        $i = file_put_contents($groupDefinitionFile, $dataTarget);
+
+        copy($groupDefinitionFile, str_replace('group',$this->aValues['name'], $groupDefinitionFile));
+        unlink($groupDefinitionFile);
+        $this->_compileFiles($this->pathPlugin, 'group');
     }
-    return true;
 }
 
-function _makeDir($path)
+class OX_PluginBuilder_Package extends OX_PluginBuilder_Common
 {
-    if (!mkdir($path))
-    {
-        echo 'Failed to create path '.$path;
-        return false;
-    }
-    return true;
-}
+    var $pathPackages;
 
-function _fileExists($file)
-{
-    if (file_exists($file))
+    function init($aVals)
     {
-        echo 'File exists '.$file;
-        return true;
-    }
-    return false;
-}
+        parent::init($aVals);
 
-function _fileMissing($file)
-{
-    if (!file_exists($file))
-    {
-        echo 'File not found '.$file;
-        return true;
+        global $pathPackages;
+        $this->pathPackages = $pathPackages;
     }
-    return false;
+
+    function putPlugin()
+    {
+        $pluginDefinitionFile = $this->pathPackages.'plugin.xml';
+        $data = file_get_contents($pluginDefinitionFile);
+        $this->_compileTemplate('HEADER', $data);
+
+        $groups ='';
+        foreach ($this->aValues['grouporder'] as $i => $group)
+        {
+            $groups.= "            <group name=\"{$group}\">{$i}</group>\n";
+        }
+        $data = str_replace('{GROUPS}', $groups, $data);
+        $i = file_put_contents($pluginDefinitionFile, $data);
+
+        copy($pluginDefinitionFile, str_replace('plugin',$this->aValues['name'], $pluginDefinitionFile));
+        unlink($pluginDefinitionFile);
+
+        $pluginReadmeFile = $this->pathPackages.'plugin.readme.txt';
+        copy($pluginReadmeFile, str_replace('plugin',$this->aValues['name'], $pluginReadmeFile));
+        unlink($pluginReadmeFile);
+    }
 }
 
 ?>

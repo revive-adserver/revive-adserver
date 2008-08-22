@@ -29,14 +29,16 @@
             <file path="{ADMINPATH}/etc/">admin.zip</file>
             <file path="{ADMINPATH}/etc/">plugin.zip</file>
             <file path="{ADMINPATH}/etc/">group.zip</file>
+            <file path="{ADMINPATH}/etc/">schema.zip</file>
             <file path="{ADMINPATH}/etc/">zipkg.sh</file>
             <file path="{ADMINPATH}/etc/elements/">files-admin.xml.tpl</file>
             <file path="{ADMINPATH}/etc/elements/">files-bannerTypeHtml.xml.tpl</file>
             <file path="{ADMINPATH}/etc/elements/">files-bannerTypeText.xml.tpl</file>
             <file path="{ADMINPATH}/etc/elements/">files-deliveryLimitations.xml.tpl</file>
-            <file path="{ADMINPATH}/etc/elements/">files-generic.xml.tpl</file>
+            <file path="{ADMINPATH}/etc/elements/">files.xml.tpl</file>
             <file path="{ADMINPATH}/etc/elements/">header.xml.tpl</file>
             <file path="{ADMINPATH}/etc/elements/">navigation.xml.tpl</file>
+            <file path="{ADMINPATH}/etc/elements/">schema.xml.tpl</file>
         </files>
 
         <navigation>
