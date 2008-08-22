@@ -4,11 +4,21 @@
 <project name="OpenX" basedir="." default="main">
 	<target name="main">
 		<subant inheritall="true">
-        	<filelist dir="${testcase.dir}/level0/">
-        		<file name="./common/openx.common.upgrade.dbsetup.xml" />
-        		<file name="./common/openx.common.upgrade.copyfiles.xml" />
-        		<file name="./2.8/openx.common.upgrade.from.2.6.0.xml" />
+        	<filelist dir="${testcase.dir}/level0/common">
+        		<file name="./openx.common.upgrade.dbsetup.xml" />
+        		<file name="./openx.common.upgrade.copyfiles.xml" />
+        		<!-- <file name="./${upgrade.version}/openx.common.upgrade.from.${upgrade.version}.xml" /> -->
+        		<file name="./openx.common.upgrade.from.previousVersion.xml" />
 			</filelist>
 		</subant>
+		<echo>basedir in level0: ${basedir}</echo>
+		<replace dir="${basedir}/../../../www/delivery_test" value="${basedir}/../../.."> <!-- /extensions -->
+			<include name="chmodgeo.php"/>
+			<replacetoken>@path</replacetoken>
+		</replace>
+		<exec executable="wget" osfamily="unix">
+			<arg value="${wt.protocol}://${wt.host}:${wt.port}/${wt.basepath}/delivery_test/chmodgeo.php"/>
+			<arg value="--output-document=-" />
+		</exec>
 	</target>
 </project>

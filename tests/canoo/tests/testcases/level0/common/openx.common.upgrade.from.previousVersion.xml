@@ -8,12 +8,12 @@
 	<!ENTITY systemCheck  SYSTEM "../../level1/common/openx.common.installation.systemCheck.xml">
 ]>
 
-<project name="OpenX upgrade from 2.6.0" basedir="." default="main">
+<project name="OpenX upgrade from ${upgrade.version}" basedir="." default="main">
 	<target name="main">
-		<webtest name="Level0 - Setup test - upgrade test">
+		<webtest name="Level0 - Setup test - upgrade test from ${upgrade.version}">
 			&config;
 			<steps>
-				<!-- <invoke description="First page:  uograde start" url="/" save="start_" /> -->
+				<!-- <invoke description="First page:  upgrade start" url="/" save="start_" /> -->
 				<invoke url="/" />
 					&welcome;
 					<echo>${basedir}/../../../var</echo>
@@ -23,7 +23,7 @@
 					    <arg value="${basedir}/../../../var"/>
 				 	</exec>
 					&terms;
-					<verifyText description="Check text on page:OpenX 2.6.0 detected" text="OpenX 2.6.0 detected" />
+					<verifyText description="Check text on page:${upgrade.version} detected" text=" ${upgrade.version} detected" />
 					<verifyText description="Check text on page: This version can be upgraded" text="This version can be upgraded" />
 					&systemCheck;
 					<setInputField name="username" value="${admin.login}"/>
@@ -33,6 +33,7 @@
 					<clickButton label="Continue »"/>
 					<clickButton label="Continue »"/>
 					<clickButton label="Continue »"/>
+					<verifyText description="Check text on page:100%" text="100%" />
 					<clickButton label="Continue »"/>
 			</steps>
 		</webtest>

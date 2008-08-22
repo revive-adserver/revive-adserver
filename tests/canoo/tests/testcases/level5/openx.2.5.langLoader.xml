@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE project SYSTEM               "../../../dtd/WebTest.dtd" [
+  <!ENTITY config SYSTEM           "../modules/config_openx.xml">
+  <!ENTITY checkForErrors SYSTEM  "../modules/errors.xml">
+  <!ENTITY login  SYSTEM "../modules/login_admin.xml">
+]
+>
+
+<project name="OpenX Level5 - langLoaderTest.php" basedir="../.." default="main">
+  <import file="../modules/init.xml"/>
+
+  <target name="main">
+    <webtest name="${ant.project.name}">
+      &config;
+      <steps>
+      	&login;
+      	<enableJavaScript enable="false" />
+	        <invoke description="Invoke language test script" url="/delivery_test/langLoaderTest.php" />
+	        &checkForErrors;
+      	<enableJavaScript enable="true" />
+     </steps>
+    </webtest>
+  </target>
+</project>

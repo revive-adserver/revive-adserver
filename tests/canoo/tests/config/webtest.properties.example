@@ -3,25 +3,27 @@
 ################################################
 
 ### WebTests config
-wt.home=/home/canoo/build
-wt.host=8.10.73.51
+wt.home=/etc/webtest/build
+wt.host=127.0.0.1
 wt.port=80
 wt.protocol=http
 wt.basepath=/canoo/www
+#wt.headless=true
 
 ## db settings
-#db.type=mysql
-#db.login=openx
-#db.password=
-#db.port=3306
+db.type=mysql
+db.login=openx.login
+db.password=openx.password
+db.port=3306
 
-db.type=postgresql
-db.login=postgres
-db.password=postgres
-db.port=5432
+#db.type=postgresql
+#db.login=openx.login
+#db.password=openx.password
+#db.port=5432
 
 # set database name and host
-db.name=openx
+# use different database names for installation and upgrade
+db.name=openx280canoo
 db.host=localhost
 
 ## Marketplace
@@ -29,8 +31,11 @@ marketplace.enabled=false
 
 ## XMLRPC API JUnit tests
 #test.unit.xmlrpc.api=true
-test.unit.xmlrpc.mvn.executable=/usr/local/maven/bin/mvn.sh
+#test.unit.xmlrpc.mvn.executable=/usr/local/maven/bin/mvn.sh
+
+## JMeter tests
+#test.jmeter.home=/usr/local/jmeter
 
 ## upgrade settings
 # To turn on/off upgrade mode uncomment/comment the line below
-upgrade.isOn=true
+# upgrade.version=2.6.0

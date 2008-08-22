@@ -1,47 +1,115 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<!DOCTYPE project SYSTEM "../../../../dtd/WebTest.dtd"[
+]>
+	
 <project name="OpenX upgrade - dbsetup" basedir="." default="main"> <!-- basedir="../.." -->
 	<target name="main">
 		<webtest name="dbsetup">
 			<steps>
 				<echo>${basedir}/../lib/mysql-connector-java-5.1.6-bin.jar</echo>
-				<sql driver="com.mysql.jdbc.Driver" url="jdbc:mysql://${db.host}:${db.port}/" userid="${db.login}" password="${db.password}">
-				   	<classpath>
-				    	<pathelement location="${basedir}/../lib/mysql-connector-java-5.1.6-bin.jar" />
-				    </classpath>
-					<transaction src="${testcase.dir}/level0/2.6/2.6.0/mysql/openx-2.6.0_mysql.sql"/>
-				</sql>	 			
-
-<!-- 			
+				<echo>OpenX upgrade - dbsetup: db.name: ${db.name}</echo>
 				<ifStep description="if mysql">
-			 		<condition>
-			 			<verifyProperty description="if mysql"
-			 								name="db.type"
-			 								propertyType="ant"
-			 								text="mysql"
-			 								regex="false" />
-			 		</condition>
-			 		<then>
-					 	<sql driver="com.mysql.jdbc.Driver" url="jdbc:mysql://${db.host}:${db.port}/${db.name}" userid="${db.login}" password="${db.password}">
+					<condition>
+						<verifyProperty description="if mysql"
+											name="db.type"
+											propertyType="ant"
+											text="mysql"
+											regex="false" />
+					</condition>
+					<then>
+						<sql
+						    driver="com.mysql.jdbc.Driver"
+						    url="jdbc:mysql://${db.host}:${db.port}/"
+						    userid="${db.login}"
+						    password="${db.password}"
+						    >
 						   	<classpath>
 						    	<pathelement location="${basedir}/../lib/mysql-connector-java-5.1.6-bin.jar" />
-						    </classpath>
-							<transaction src="config/delivery_ox_mysql.sql"/>
-							<transaction> UPDATE ox_banners SET url = "${openx.example_url}" WHERE url = "http://www.example.com" </transaction>
-						</sql>	 			
-			 		</then>
-			 		<else>
-			 			<!- support for pgsql ->
-						<sql driver="org.postgresql.Driver" url="jdbc:postgresql://${db.host}:${db.port}/${db.name}" userid="${db.login}" password="${db.password}">
-							<classpath>
-								<pathelement location="${basedir}/../lib/postgresql-8.3-603.jdbc4.jar" />
-							</classpath>
-							<transaction src="config/delivery_ox_postgresql.sql"/>
-							<transaction> UPDATE ox_banners SET url = '${openx.example_url}' WHERE url = 'http://www.example.com' </transaction>
+					    </classpath>		
+							<transaction>
+								drop database if exists ${db.name};
+							</transaction>
+							<transaction>
+								CREATE DATABASE IF NOT EXISTS ${db.name};
+							</transaction>
 						</sql>
-			 		</else>
-			 	</ifStep>
--->
+						<ifStep test="${db.dump}">
+							<then>
+								<sql
+								    driver="com.mysql.jdbc.Driver"
+								    url="jdbc:mysql://${db.host}:${db.port}/${db.name}"
+								    userid="${db.login}"
+								    password="${db.password}"
+								    >
+								   	<classpath>
+								    	<pathelement location="${basedir}/../lib/mysql-connector-java-5.1.6-bin.jar" />
+							    	</classpath>						
+									<transaction src="${db.dump}"/>
+								</sql>
+							</then>
+							<else>
+								<sql
+								    driver="com.mysql.jdbc.Driver"
+								    url="jdbc:mysql://${db.host}:${db.port}/${db.name}"
+								    userid="${db.login}"
+								    password="${db.password}"
+								    >
+								   	<classpath>
+								    	<pathelement location="${basedir}/../lib/mysql-connector-java-5.1.6-bin.jar" />
+							    	</classpath>						
+									<transaction src="${testcase.dir}/level0/${upgrade.version}/${upgrade.version}_${db.type}.sql"/>									
+								</sql>								
+							</else>						
+						</ifStep>
+					</then>
+					<else>
+						<echo>2 OpenX upgrade - dbsetup: db.name: ${db.name}</echo>
+						<sql
+						    driver="org.postgresql.Driver"
+						    url="jdbc:postgresql://${db.host}:${db.port}/template1"
+						    userid="${db.login}"
+						    password="${db.password}"
+						    autocommit="true"
+						    >
+						    <classpath>
+						    	<pathelement location="${basedir}/../lib/postgresql-8.3-603.jdbc4.jar" />
+						    </classpath>
+								<!-- <transaction></transaction>	<transaction></transaction> -->
+									drop database if exists ${db.name};
+									CREATE DATABASE ${db.name};
+						</sql>
+						<ifStep test="${db.dump}">
+							<then>
+								<sql
+								    driver="org.postgresql.Driver"
+								    url="jdbc:postgresql://${db.host}:${db.port}/${db.name}"
+								    userid="${db.login}"
+								    password="${db.password}"
+								    autocommit="true"
+								    >
+								    <classpath>
+								    	<pathelement location="${basedir}/../lib/postgresql-8.3-603.jdbc4.jar" />
+								    </classpath>	
+									<transaction src="${db.dump}"/>
+								</sql>
+							</then>
+							<else>
+								<sql
+								    driver="org.postgresql.Driver"
+								    url="jdbc:postgresql://${db.host}:${db.port}/${db.name}"
+								    userid="${db.login}"
+								    password="${db.password}"
+								    autocommit="true"
+								    >
+								    <classpath>
+								    	<pathelement location="${basedir}/../lib/postgresql-8.3-603.jdbc4.jar" />
+								    </classpath>					
+									<transaction src="${testcase.dir}/level0/${upgrade.version}/${upgrade.version}_${db.type}.sql"/>									
+								</sql>								
+							</else>						
+						</ifStep>						
+					</else>
+				</ifStep>	
 			</steps>
     	</webtest>
     </target>
