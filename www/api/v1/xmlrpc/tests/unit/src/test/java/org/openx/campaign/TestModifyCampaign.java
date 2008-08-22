@@ -77,25 +77,89 @@ public class TestModifyCampaign extends CampaignTestCase {
 	}
 
 	/**
+	 * Test method with all required fields.
+	 *
+	 * @throws XmlRpcException
+	 * @throws MalformedURLException
+	 */
+	@SuppressWarnings("unchecked")
+	public void testModifyCampaignAllReqFields()
+			throws XmlRpcException, MalformedURLException {
+		
+		assertNotNull(advertiserId);
+		
+		Map<String, Object> myCampaign = new HashMap<String, Object>();
+
+		myCampaign.put(CAMPAIGN_ID, campaignId);
+		myCampaign.put(CAMPAIGN_NAME, "test campaign");
+		myCampaign.put(START_DATE, DateUtils.MIN_DATE_VALUE);
+		myCampaign.put(END_DATE, DateUtils.MAX_DATE_VALUE);
+		myCampaign.put(PRIORITY, 7);
+		myCampaign.put(WEIGHT, -1);
+		
+		Object[] XMLRPCMethodParameters = new Object[] { sessionId, myCampaign };
+		final boolean result = (Boolean) execute(MODIFY_CAMPAIGN_METHOD, XMLRPCMethodParameters);
+		assertTrue(result);
+		
+		XMLRPCMethodParameters = new Object[] { sessionId, campaignId };
+		final Map<String, Object> campaign = (Map<String, Object>) execute(
+				GET_CAMPAIGN_METHOD, XMLRPCMethodParameters);
+
+		checkParameter(campaign, ADVERTISER_ID, advertiserId);
+		checkParameter(campaign, CAMPAIGN_ID, campaignId);
+		checkParameter(campaign, CAMPAIGN_NAME, myCampaign.get(CAMPAIGN_NAME));
+		checkParameter(campaign, START_DATE, myCampaign.get(START_DATE));
+		checkParameter(campaign, PRIORITY, myCampaign.get(PRIORITY));
+		checkParameter(campaign, WEIGHT, myCampaign.get(WEIGHT));
+	}
+
+	/**
 	 * Test method with all required fields and some optional.
 	 *
 	 * @throws XmlRpcException
 	 * @throws MalformedURLException
 	 */
-	public void testModifyCampaignAllReqAndSomeOptionalFields()
+	@SuppressWarnings("unchecked")
+	public void testModifyCampaignAllReqFieldsAndSomeOptional()
 			throws XmlRpcException, MalformedURLException {
+		
 		assertNotNull(advertiserId);
-		Map<String, Object> struct = new HashMap<String, Object>();
-		struct.put(CAMPAIGN_ID, campaignId);
-		struct.put(ADVERTISER_ID, advertiserId);
-		struct.put(CAMPAIGN_NAME, "testCampaign Modified");
-		struct.put(START_DATE, DateUtils.MIN_DATE_VALUE);
-		struct.put(END_DATE, DateUtils.MAX_DATE_VALUE);
-		Object[] params = new Object[] { sessionId, struct };
-		final boolean result = (Boolean) execute(MODIFY_CAMPAIGN_METHOD, params);
-		assertTrue(result);
-	}
+		
+		Map<String, Object> myCampaign = new HashMap<String, Object>();
 
+		myCampaign.put(CAMPAIGN_ID, campaignId);
+		myCampaign.put(CAMPAIGN_NAME, "test campaign");
+		myCampaign.put(START_DATE, DateUtils.MIN_DATE_VALUE);
+		myCampaign.put(END_DATE, DateUtils.MAX_DATE_VALUE);
+		myCampaign.put(PRIORITY, 7);
+		myCampaign.put(WEIGHT, -1);
+		myCampaign.put(TARGET_IMPRESSIONS, 1000);
+		myCampaign.put(TARGET_CLICKS, 100);
+		myCampaign.put(TARGET_CONVERSIONS, 10);
+		myCampaign.put(REVENUE, 2.33);
+		myCampaign.put(REVENUE_TYPE, 1);
+		
+		Object[] XMLRPCMethodParameters = new Object[] { sessionId, myCampaign };
+		final boolean result = (Boolean) execute(MODIFY_CAMPAIGN_METHOD, XMLRPCMethodParameters);
+		assertTrue(result);
+		
+		XMLRPCMethodParameters = new Object[] { sessionId, campaignId };
+		final Map<String, Object> campaign = (Map<String, Object>) execute(
+				GET_CAMPAIGN_METHOD, XMLRPCMethodParameters);
+
+		checkParameter(campaign, ADVERTISER_ID, advertiserId);
+		checkParameter(campaign, CAMPAIGN_ID, campaignId);
+		checkParameter(campaign, CAMPAIGN_NAME, myCampaign.get(CAMPAIGN_NAME));
+		checkParameter(campaign, START_DATE, myCampaign.get(START_DATE));
+		checkParameter(campaign, PRIORITY, myCampaign.get(PRIORITY));
+		checkParameter(campaign, WEIGHT, myCampaign.get(WEIGHT));
+		checkParameter(campaign, TARGET_IMPRESSIONS, myCampaign.get(TARGET_IMPRESSIONS));
+		checkParameter(campaign, TARGET_CLICKS, myCampaign.get(TARGET_CLICKS));
+		checkParameter(campaign, TARGET_CONVERSIONS, myCampaign.get(TARGET_CONVERSIONS));
+		checkParameter(campaign, REVENUE, myCampaign.get(REVENUE));
+		checkParameter(campaign, REVENUE_TYPE, myCampaign.get(REVENUE_TYPE));
+	}
+	
 	/**
 	 * Test method without some required fields.
 	 *

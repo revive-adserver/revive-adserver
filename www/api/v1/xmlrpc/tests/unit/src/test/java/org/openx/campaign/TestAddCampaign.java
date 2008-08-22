@@ -65,7 +65,7 @@ public class TestAddCampaign extends CampaignTestCase {
 	}
 
 	/**
-	 * Test method with all required fields and some optional.
+	 * Test method with all required fields.
 	 *
 	 * @throws XmlRpcException
 	 * @throws MalformedURLException
@@ -154,6 +154,47 @@ public class TestAddCampaign extends CampaignTestCase {
 		}
 	}
 
+	/**
+	 * Test method without date fields.
+	 *
+	 * @throws XmlRpcException
+	 * @throws MalformedURLException
+	 */
+	@SuppressWarnings("unchecked")
+	public void testAddCampaignWithoutDateFields()
+			throws XmlRpcException, MalformedURLException {
+		
+		assertNotNull(advertiserId);
+
+		Map<String, Object> myCampaign = new HashMap<String, Object>();
+
+		myCampaign.put(ADVERTISER_ID, advertiserId);
+		myCampaign.put(CAMPAIGN_NAME, "test campaign");
+		myCampaign.put(PRIORITY, 7);
+		myCampaign.put(WEIGHT, -1);
+
+		Object[] XMLRPCMethodParameters = new Object[] { sessionId, myCampaign };
+		final Integer result = (Integer) execute(ADD_CAMPAIGN_METHOD, XMLRPCMethodParameters);
+		assertNotNull(result);
+		
+		try {
+			XMLRPCMethodParameters = new Object[] { sessionId, result };
+			final Map<String, Object> campaign = (Map<String, Object>) execute(
+					GET_CAMPAIGN_METHOD, XMLRPCMethodParameters);
+
+			checkParameter(campaign, ADVERTISER_ID, advertiserId);
+			checkParameter(campaign, CAMPAIGN_ID, result);
+			checkParameter(campaign, CAMPAIGN_NAME, myCampaign.get(CAMPAIGN_NAME));
+			assertNull(campaign.get(START_DATE));
+			assertNull(campaign.get(END_DATE));
+			checkParameter(campaign, PRIORITY, myCampaign.get(PRIORITY));
+			checkParameter(campaign, WEIGHT, myCampaign.get(WEIGHT));
+		} finally {
+			deleteCampaign(result);
+		}
+	}
+
+	
 	/**
 	 * Test method without some required fields.
 	 *
