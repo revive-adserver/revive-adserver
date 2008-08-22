@@ -103,6 +103,10 @@ public class WebServiceTestCase extends TestCase {
 			String value = ((Date) correctValue).toString();
 			assertEquals(param + " fields should be equal", value,
 					((Date) params.get(param)).toString());
+		} else if (correctValue instanceof Double) {
+			Double value = (Double) correctValue;
+			assertEquals(param + " fields should be equal", value, 
+					(Double) params.get(param));			
 		} else {
 			fail(param + " fields should be equal");
 		}

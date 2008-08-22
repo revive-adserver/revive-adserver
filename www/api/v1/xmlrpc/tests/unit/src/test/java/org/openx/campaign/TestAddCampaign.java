@@ -70,22 +70,88 @@ public class TestAddCampaign extends CampaignTestCase {
 	 * @throws XmlRpcException
 	 * @throws MalformedURLException
 	 */
-	public void testAddCampaignAllReqAndSomeOptionalFields()
+	@SuppressWarnings("unchecked")
+	public void testAddCampaignAllReqFields()
 			throws XmlRpcException, MalformedURLException {
+		
 		assertNotNull(advertiserId);
 
-		Map<String, Object> struct = new HashMap<String, Object>();
+		Map<String, Object> myCampaign = new HashMap<String, Object>();
 
-		struct.put(ADVERTISER_ID, advertiserId);
-		struct.put(CAMPAIGN_NAME, "test campaign");
-		struct.put(START_DATE, DateUtils.MIN_DATE_VALUE);
-		struct.put(PRIORITY, 7);
-		struct.put(WEIGHT, -1);
+		myCampaign.put(ADVERTISER_ID, advertiserId);
+		myCampaign.put(CAMPAIGN_NAME, "test campaign");
+		myCampaign.put(START_DATE, DateUtils.MIN_DATE_VALUE);
+		myCampaign.put(PRIORITY, 7);
+		myCampaign.put(WEIGHT, -1);
 
-		Object[] params = new Object[] { sessionId, struct };
-		final Integer result = (Integer) execute(ADD_CAMPAIGN_METHOD, params);
+		Object[] XMLRPCMethodParameters = new Object[] { sessionId, myCampaign };
+		final Integer result = (Integer) execute(ADD_CAMPAIGN_METHOD, XMLRPCMethodParameters);
 		assertNotNull(result);
-		deleteCampaign(result);
+		
+		try {
+			XMLRPCMethodParameters = new Object[] { sessionId, result };
+			final Map<String, Object> campaign = (Map<String, Object>) execute(
+					GET_CAMPAIGN_METHOD, XMLRPCMethodParameters);
+
+			checkParameter(campaign, ADVERTISER_ID, advertiserId);
+			checkParameter(campaign, CAMPAIGN_ID, result);
+			checkParameter(campaign, CAMPAIGN_NAME, myCampaign.get(CAMPAIGN_NAME));
+			checkParameter(campaign, START_DATE, myCampaign.get(START_DATE));
+			checkParameter(campaign, PRIORITY, myCampaign.get(PRIORITY));
+			checkParameter(campaign, WEIGHT, myCampaign.get(WEIGHT));
+		} finally {
+			deleteCampaign(result);
+		}
+	}
+	
+	/**
+	 * Test method with all required fields and some optional.
+	 *
+	 * @throws XmlRpcException
+	 * @throws MalformedURLException
+	 */
+	@SuppressWarnings("unchecked")
+	public void testAddCampaignAllReqAndSomeOptionalFields()
+			throws XmlRpcException, MalformedURLException {
+		
+		assertNotNull(advertiserId);
+
+		Map<String, Object> myCampaign = new HashMap<String, Object>();
+
+		myCampaign.put(ADVERTISER_ID, advertiserId);
+		myCampaign.put(CAMPAIGN_NAME, "test campaign");
+		myCampaign.put(START_DATE, DateUtils.MIN_DATE_VALUE);
+		myCampaign.put(PRIORITY, 7);
+		myCampaign.put(WEIGHT, -1);
+		myCampaign.put(TARGET_IMPRESSIONS, 1000);
+		myCampaign.put(TARGET_CLICKS, 100);
+		myCampaign.put(TARGET_CONVERSIONS, 10);
+		myCampaign.put(REVENUE, 2.33);
+		myCampaign.put(REVENUE_TYPE, 1);
+
+		Object[] XMLRPCMethodParameters = new Object[] { sessionId, myCampaign };
+		final Integer result = (Integer) execute(ADD_CAMPAIGN_METHOD, XMLRPCMethodParameters);
+		assertNotNull(result);
+		
+		try {
+			XMLRPCMethodParameters = new Object[] { sessionId, result };
+			final Map<String, Object> campaign = (Map<String, Object>) execute(
+					GET_CAMPAIGN_METHOD, XMLRPCMethodParameters);
+
+			checkParameter(campaign, ADVERTISER_ID, advertiserId);
+			checkParameter(campaign, CAMPAIGN_ID, result);
+			checkParameter(campaign, CAMPAIGN_NAME, myCampaign.get(CAMPAIGN_NAME));
+			checkParameter(campaign, START_DATE, myCampaign.get(START_DATE));
+			checkParameter(campaign, PRIORITY, myCampaign.get(PRIORITY));
+			checkParameter(campaign, WEIGHT, myCampaign.get(WEIGHT));
+			checkParameter(campaign, TARGET_IMPRESSIONS, myCampaign.get(TARGET_IMPRESSIONS));
+			checkParameter(campaign, TARGET_CLICKS, myCampaign.get(TARGET_CLICKS));
+			checkParameter(campaign, TARGET_CONVERSIONS, myCampaign.get(TARGET_CONVERSIONS));
+			checkParameter(campaign, REVENUE, myCampaign.get(REVENUE));
+			checkParameter(campaign, REVENUE_TYPE, myCampaign.get(REVENUE_TYPE));
+		} finally {
+			deleteCampaign(result);
+		}
 	}
 
 	/**
@@ -110,25 +176,50 @@ public class TestAddCampaign extends CampaignTestCase {
 	 * @throws XmlRpcException
 	 * @throws MalformedURLException
 	 */
+	@SuppressWarnings("unchecked")
 	public void testAddCampaignAllReqAndAllOptionalFields()
 			throws XmlRpcException, MalformedURLException {
 		assertNotNull(advertiserId);
 
-		Map<String, Object> struct = new HashMap<String, Object>();
+		Map<String, Object> myCampaign = new HashMap<String, Object>();
 
-		struct.put(ADVERTISER_ID, advertiserId);
-		struct.put(CAMPAIGN_NAME, "test campaign");
-		struct.put(START_DATE, DateUtils.MIN_DATE_VALUE);
-		struct.put(END_DATE, DateUtils.MAX_DATE_VALUE);
-		struct.put(IMPRESSIONS, 100);
-		struct.put(CLICKS, 210);
-		struct.put(PRIORITY, -1);
-		struct.put(WEIGHT, 102);
-
-		Object[] params = new Object[] { sessionId, struct };
-		final Integer result = (Integer) execute(ADD_CAMPAIGN_METHOD, params);
+		myCampaign.put(ADVERTISER_ID, advertiserId);
+		myCampaign.put(CAMPAIGN_NAME, "test campaign");
+		myCampaign.put(START_DATE, DateUtils.MIN_DATE_VALUE);
+		myCampaign.put(END_DATE, DateUtils.MAX_DATE_VALUE);
+		myCampaign.put(IMPRESSIONS, 100);
+		myCampaign.put(CLICKS, 210);
+		myCampaign.put(PRIORITY, -1);
+		myCampaign.put(WEIGHT, 102);
+		myCampaign.put(TARGET_IMPRESSIONS, 0);
+		myCampaign.put(TARGET_CLICKS, 0);
+		myCampaign.put(TARGET_CONVERSIONS, -10);
+		myCampaign.put(REVENUE, 10.50);
+		myCampaign.put(REVENUE_TYPE, 2);
+		
+		Object[] XMLRPCMethodParameters = new Object[] { sessionId, myCampaign };
+		final Integer result = (Integer) execute(ADD_CAMPAIGN_METHOD, XMLRPCMethodParameters);
 		assertNotNull(result);
-		deleteCampaign(result);
+		
+		try {
+			XMLRPCMethodParameters = new Object[] { sessionId, result };
+			final Map<String, Object> campaign = (Map<String, Object>) execute(
+					GET_CAMPAIGN_METHOD, XMLRPCMethodParameters);
+
+			checkParameter(campaign, ADVERTISER_ID, advertiserId);
+			checkParameter(campaign, CAMPAIGN_ID, result);
+			checkParameter(campaign, CAMPAIGN_NAME, myCampaign.get(CAMPAIGN_NAME));
+			checkParameter(campaign, START_DATE, myCampaign.get(START_DATE));
+			checkParameter(campaign, PRIORITY, myCampaign.get(PRIORITY));
+			checkParameter(campaign, WEIGHT, myCampaign.get(WEIGHT));
+			checkParameter(campaign, TARGET_IMPRESSIONS, myCampaign.get(TARGET_IMPRESSIONS));
+			checkParameter(campaign, TARGET_CLICKS, myCampaign.get(TARGET_CLICKS));
+			checkParameter(campaign, TARGET_CONVERSIONS, myCampaign.get(TARGET_CONVERSIONS));
+			checkParameter(campaign, REVENUE, myCampaign.get(REVENUE));
+			checkParameter(campaign, REVENUE_TYPE, myCampaign.get(REVENUE_TYPE));
+		} finally {
+			deleteCampaign(result);
+		}
 	}
 
 	/**
