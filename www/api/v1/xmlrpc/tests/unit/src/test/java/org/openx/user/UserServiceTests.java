@@ -8,6 +8,7 @@ public class UserServiceTests {
 	public static Test suite() {
 		TestSuite suite = new TestSuite("Test for org.openx.user");
 		//$JUnit-BEGIN$
+		suite.addTestSuite(TestAuthUser.class);
 		suite.addTestSuite(TestGetUserListByAccountId.class);
 		suite.addTestSuite(TestGetUser.class);
 		suite.addTestSuite(TestAddUser.class);

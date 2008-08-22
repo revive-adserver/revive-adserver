@@ -56,12 +56,13 @@ public class ErrorMessage {
 	public static final String UNKNOWN_ID_ERROR = "Unknown {0} Error";
 	public static final String UNKNOWN_ADVERTISER_ID_ERROR = "Unknown advertiserId Error";
 	public static final String UNKNOWN_LINK_ERROR = "Unknown link for {0} and {1} Error";
-	public static final String WEIGHT_COULD_NOT_BE_GREATER_THAN_ZERO = "The weight could not be greater than zero for high or medium priority campaigns";
+	public static final String WEIGHT_COULD_NOT_BE_GREATER_THAN_ZERO = "High or medium priority campaigns cannot have a weight that is greater than zero.";
 	public static final String METHOD_EXECUTED_SUCCESSFULLY_BUT_SHOULD_NOT_HAVE = "Method executed successfully but shouldn''t have";
 	public static final String USERNAME_SHOULD_BE_UNIQUE = "Username must be unique";
 	public static final String WORNG_BANNER_SIZE= "This banner is the wrong size for this zone";
 	public static final String WRONG_PARAMETER = "Parameter {0} wrong";
 	public static final String INVOCATION_TAG_PLUGIN_ERROR = "Error while factory invocationTag plugin";
+	public static final String FIELD_MUST_BE_ONE_OF_ENUM = "Field ''{0}'' must be one of the enum: {1}";
 	public static final String INVALID_SESSION_ID = "Session ID is invalid";
 	
 	public static String getMessage(final String message,

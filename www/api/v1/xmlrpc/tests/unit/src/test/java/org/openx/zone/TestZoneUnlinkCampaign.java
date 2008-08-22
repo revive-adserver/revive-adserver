@@ -181,6 +181,6 @@ public class TestZoneUnlinkCampaign extends ZoneTestCase {
 		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, campaignId };
 
 		executeUnlinkCampaignWithError(XMLRPCMethodParameters, ErrorMessage.getMessage(
-				ErrorMessage.WRONG_ERROR_MESSAGE));
+				ErrorMessage.UNKNOWN_LINK_ERROR, ZONE_ID, CAMPAIGN_ID));
 	}
 }

@@ -238,7 +238,7 @@ public class TestZoneGenerateTags extends ZoneTestCase {
 		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, "clickonly", generateTagsParameters };
 
 		executeGenerateTagsWithError(XMLRPCMethodParameters, ErrorMessage.getMessage(
-				ErrorMessage.INVOCATION_TAG_PLUGIN_ERROR));
+				ErrorMessage.FIELD_MUST_BE_ONE_OF_ENUM, CODE_TYPE, "adjs, adlayer, adviewnocookies, local, adframe"));
 	}
 	
 	/**
@@ -256,7 +256,7 @@ public class TestZoneGenerateTags extends ZoneTestCase {
 		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, "", generateTagsParameters };
 
 		executeGenerateTagsWithError(XMLRPCMethodParameters, ErrorMessage.getMessage(
-				ErrorMessage.WRONG_PARAMETER, CODE_TYPE));
+				ErrorMessage.FIELD_MUST_BE_ONE_OF_ENUM, CODE_TYPE, "adjs, adlayer, adviewnocookies, local, adframe"));
 	}
 
 	

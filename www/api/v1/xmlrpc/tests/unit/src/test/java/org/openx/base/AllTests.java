@@ -33,6 +33,7 @@ import org.openx.agency.TestAgency;
 import org.openx.banner.TestBanner;
 import org.openx.campaign.TestCampaign;
 import org.openx.publisher.TestPublisher;
+import org.openx.user.UserServiceTests;
 import org.openx.zone.TestZone;
 
 /**
@@ -50,6 +51,7 @@ public class AllTests {
 		suite.addTest(TestBanner.suite());
 		suite.addTest(TestCampaign.suite());
 		suite.addTest(TestPublisher.suite());
+		suite.addTest(UserServiceTests.suite());
 		suite.addTest(TestZone.suite());
 
 		return suite;

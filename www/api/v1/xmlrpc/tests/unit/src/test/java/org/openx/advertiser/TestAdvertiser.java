@@ -36,7 +36,7 @@ import junit.framework.TestSuite;
 public class TestAdvertiser {
 
 	public static Test suite() {
-		TestSuite suite = new TestSuite("Test for org.openads.advertiser");
+		TestSuite suite = new TestSuite("Tests for org.openx.advertiser");
 		// $JUnit-BEGIN$
 		suite.addTestSuite(TestAdvertiserZoneStatistics.class);
 		suite.addTestSuite(TestModifyAdvertiser.class);
