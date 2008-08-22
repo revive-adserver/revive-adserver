@@ -65,8 +65,15 @@ class OA_Dll_Campaign extends OA_Dll
         $campaignData['targetImpressions'] = $campaignData['target_impression'];
         $campaignData['targetClicks']      = $campaignData['target_click'];
         $campaignData['targetConversions'] = $campaignData['target_conversion'];
-        $campaignData['revenueType']      = $campaignData['revenue_type'];
-
+        // Don't send revenue & revenueType if the are null values in DB
+        if (!is_numeric($campaignData['revenue'])) {
+            unset($campaignData['revenue']);
+            unset($oCampaign->revenue);
+            unset($oCampaign->revenueType);
+        } else {
+            $campaignData['revenueType']  = $campaignData['revenue_type'];
+        }
+        
         $oCampaign->readDataFromArray($campaignData);
         return  true;
     }
