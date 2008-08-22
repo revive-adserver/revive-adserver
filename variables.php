@@ -107,6 +107,9 @@ function setupDeliveryConfigVariables()
     if (!defined('OX_PATH')) {
         define('OX_PATH', dirname(__FILE__));
     }
+    if (!defined('LIB_PATH')) {
+        define('LIB_PATH', MAX_PATH. DIRECTORY_SEPARATOR. 'lib'. DIRECTORY_SEPARATOR. 'OX');
+    }    
     // Ensure that the initialisation has not been run before
     if ( !(isset($GLOBALS['_MAX']['CONF']))) {
         // Parse the Max configuration file

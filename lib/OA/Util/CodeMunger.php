@@ -374,6 +374,9 @@ class OX_Util_CodeMunger
                             if ($text === 'MAX_PATH') {
                                 $cur .= MAX_PATH;
                             }
+                            if ($text === 'OX_PATH') {
+                                $cur .= OX_PATH;
+                            }
                             $orig .= $text;
                         }
                         break;
