@@ -40,6 +40,9 @@ import org.openx.utils.TextUtils;
  */
 public class TestZoneGenerateTags extends ZoneTestCase {
 
+	//TODO: Make not allowed type error verification more flexible
+	//TODO: Manage the available ad types 
+	
 	protected Integer zoneId = null;
 	
 	protected void setUp() throws Exception {
@@ -203,7 +206,23 @@ public class TestZoneGenerateTags extends ZoneTestCase {
 		assertNotNull(result);
 	}
 	
-	//TODO: Add tests to check that SPC invocation code type is not allowed when OX-3159 will be fixed  
+	/**
+	 * Test method with SPC type which shouldn't be allowed in Zone Service(error).
+	 *
+	 * @throws MalformedURLException
+	 * @throws XmlRpcException
+	 */
+	public void testGenerateTagsNotAllowedSPCType() throws MalformedURLException,
+			XmlRpcException {
+
+		Map<String, Object> generateTagsParameters = new HashMap<String, Object>();
+		//generateTagsParameters.put("", "");
+
+		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, CODE_TYPES[7], generateTagsParameters };
+
+		executeGenerateTagsWithError(XMLRPCMethodParameters, ErrorMessage.getMessage(
+				ErrorMessage.FIELD_MUST_BE_ONE_OF_ENUM, CODE_TYPE, "adjs, adlayer, adviewnocookies, local, adframe"));
+	}  
 	
 	/**
 	 * Test method with all required fields for xmlrpc.
