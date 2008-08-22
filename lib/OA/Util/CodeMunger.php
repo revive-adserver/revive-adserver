@@ -179,6 +179,12 @@ class OX_Util_CodeMunger
         $code = preg_replace('/(define\(\'MAX_PATH\',\s*dirname\(__FILE__\))(\))/',
                               '${1}.\'/../..\'${2}',
                               $code);
+        // Modify the OX_PATH define due to dirname(__FILE__) point \www\delivery in delivery scripts
+        // from: define('OX_PATH', dirname(__FILE__));
+        // to:   define('OX_PATH', dirname(__FILE__).'/../..');
+        $code = preg_replace('/(define\(\'OX_PATH\',\s*dirname\(__FILE__\))(\))/',
+                              '${1}.\'/../..\'${2}',
+                              $code);
         return $code;
     }
 
