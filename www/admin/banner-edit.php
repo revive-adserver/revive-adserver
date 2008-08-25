@@ -341,10 +341,14 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
         $form->addElement('custom', 'banner-backup-note', null, null);
     }
 
+    $form->addElement('header', 'header_basic', $GLOBALS['strBasicInformation']);
     if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-        $form->addElement('header', 'header_basic', $GLOBALS['strBasicInformation']);
         $form->addElement('text', 'description', $GLOBALS['strName']);
     }
+    else {
+        $form->addElement('static', 'description', $GLOBALS['strName'], $row['description']);
+    }
+    
 
 
     //local banners
@@ -525,6 +529,7 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
         $urlRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strName']));
         $form->addRule('description', $urlRequiredMsg, 'required');
     }
+    
 
     //set banner values
     $form->setDefaults($row);
