@@ -4020,8 +4020,6 @@ return @file_get_contents($conf['file']['flash']);
 return file_get_contents(MAX_PATH . '/www/delivery/' . $conf['file']['flash']);
 }
 }
-require_once OX_PATH . '/lib/pear/Log.php';
-require_once OX_PATH . '/lib/pear/PEAR.php';
 class OX
 {
 function assetPath($asset = null)
