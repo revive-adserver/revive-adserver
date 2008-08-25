@@ -521,8 +521,10 @@ function buildBannerForm($type, $row, &$oComponent=null, $formDisabled=false)
 
     //validation rules
     $translation = new OA_Translation();
-    $urlRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strName']));
-    $form->addRule('description', $urlRequiredMsg, 'required');
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {    
+        $urlRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strName']));
+        $form->addRule('description', $urlRequiredMsg, 'required');
+    }
 
     //set banner values
     $form->setDefaults($row);
