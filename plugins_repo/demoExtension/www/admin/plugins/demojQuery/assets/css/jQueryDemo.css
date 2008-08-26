@@ -1,0 +1,11 @@
+@CHARSET "UTF-8";
+div.loading {
+    line-height: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: #444444;
+    padding: 5px 20px 5px 30px;
+    background: url(../images/loading.gif) 10px 7px no-repeat;
+    border: 1px solid #444444; 
+}

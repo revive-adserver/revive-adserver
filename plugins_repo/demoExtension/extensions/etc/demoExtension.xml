@@ -23,6 +23,7 @@
             <group name="demoBannerTypeHtml"       >2</group>
             <group name="demoUserInterface"        >3</group>
             <group name="demoXajax"                >4</group>
+            <group name="demojQuery"              >5</group>
         </contents>
 
     </install>

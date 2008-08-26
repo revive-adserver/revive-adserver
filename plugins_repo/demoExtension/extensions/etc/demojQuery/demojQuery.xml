@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>demojQuery</name>
+    <creationDate>2008-07-18</creationDate>
+    <author>Bernard Lange</author>
+    <authorEmail>bernard.lange@openx.org</authorEmail>
+    <authorUrl>http://www.openx.org</authorUrl>
+    <license>license.txt</license>
+    <description>jQuery Demo</description>
+    <version>0.0.1-dev</version>
+    <oxversion>2.7.14-dev</oxversion>
+    <extends>admin</extends>
+
+    <install>
+
+        <syscheck>
+            <depends>
+                <plugin version="0.0.1" enabled="0">demoUserInterface</plugin>
+            </depends>
+        </syscheck>
+
+        <files>
+            <file path="{ADMINPATH}/assets/css/">jQueryDemo.css</file>
+            <file path="{ADMINPATH}/assets/images/">loading.gif</file>
+            <file path="{ADMINPATH}/assets/js/">demojQuery.js</file>
+            <file path="{ADMINPATH}/templates/">content.html</file>
+            <file path="{ADMINPATH}/templates/">frame.html</file>
+            <file path="{ADMINPATH}/templates/">frame-smarty.html</file>
+            <file path="{ADMINPATH}/templates/">home.html</file>
+            <file path="{ADMINPATH}/lib/">JSON.php</file>
+            <file path="{ADMINPATH}/">ajaxHandler.php</file>
+            <file path="{ADMINPATH}/">demojQuery-index.php</file>
+            <file path="{ADMINPATH}/">demojQuery-frame.php</file>
+        </files>
+
+        <navigation>
+
+            <admin>
+                <menu add="demo-jquery-menu" index="demo-jquery-menu" link="plugins/demojQuery/demojQuery-index.php?show=home">jQuery</menu>
+                <menu addto="demo-jquery-menu" index="demo-jquery-home" link="plugins/demojQuery/demojQuery-index.php?show=home">jQuery</menu>
+                <menu addto="demo-jquery-menu" index="demo-jquery-frame" link="plugins/demojQuery/demojQuery-index.php?show=frame">Frame</menu>
+                <menu addto="demo-jquery-menu" index="demo-jquery-noframe" link="plugins/demojQuery/demojQuery-index.php?show=noframe">No Frame</menu>
+                <menu addto="demo-jquery-menu" index="demo-jquery-frame-smarty" link="plugins/demojQuery/demojQuery-index.php?show=frame-smarty">Smarty Frame</menu>
+                <menu addto="demo-jquery-menu" index="demo-jquery-noframe-smarty" link="plugins/demojQuery/demojQuery-index.php?show=noframe-smarty">Smarty No Frame</menu>
+            </admin>
+
+        </navigation>
+
+        <configuration>
+
+        </configuration>
+
+    </install>
+
+</plugin>
