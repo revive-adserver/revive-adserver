@@ -1,25 +1,21 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:template match="/">
-    <!--  -->
-    <html><head><title>OpenX Schema Changeset</title>
+<html>
+<head>
+    <title>OpenX Schema Changeset</title>
 
     <link rel="stylesheet" type="text/css" href="assets/css/mdb2_xsl.css"/>
 
-    <script type="text/javascript" src="schema.js"/>
-    <script type="text/javascript" src="lib/xajax/xajax_js/xajax.js"></script>
-    <script type="text/javascript">
-        window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Javascript file could not be included. Perhaps the URL is incorrect?\nURL: ../lib/xajax/xajax_js/xajax.js'); } }, 6000);
-    </script>
-
-    </head>
-    <body onload="xajax_loadChangeset();">
-    <!-- -->
+    <script type="text/javascript" src="../../../../var/plugins/cache/oxSchema.js"></script>
+    <script type="text/javascript" src="../../assets/js/xajax.js"></script>
+</head>
+<body onload="xajax_loadChangeset();">
 
     <div>
         <table class="tablemain">
             <tr>
                 <td class="tableheader" style="text-align:left;">
-                    <form name="frm_select" method="POST" action="archive.php">
+                    <form name="frm_select" method="POST" action="oxSchema-archive.php">
                         <xsl:text>archive :: </xsl:text>
                         <select id="select_changesets" name="select_changesets" onchange="frm_select.submit()">
                             <option value=""></option>
@@ -27,19 +23,19 @@
                     </form>
                 </td>
                 <!--td class="tableheader" style="text-align:right;">
-                    <form name="frm_test" method="POST" action="archive.php">
+                    <form name="frm_test" method="POST" action="oxSchema-archive.php">
                         <button id="btn_migration_create" name="btn_migration_create" type="submit" style="display:none;">create a migration class</button>
                     </form>
                 </td>
                 <td class="tableheader" style="text-align:right;">
-                    <form name="frm_admin" method="POST" action="schema.php">
+                    <form name="frm_admin" method="POST" action="oxSchema-frame.php">
                         <button name="btn_changeset_cancel" type="submit">go back to the schema page</button>
                     </form>
                 </td-->
             </tr>
             <tr id="trans_changeset" style="display:block;">
                 <td class="tableheader" colspan="10">
-                    <form name="frm_admin" method="POST" action="schema.php">
+                    <form name="frm_admin" method="POST" action="oxSchema-frame.php">
                         <span class="titlemini">
                             <xsl:text>comments</xsl:text>
                             <br />
@@ -57,8 +53,7 @@
             </tr>
         </table>
     </div>
-    <form name="frm_admin" method="POST" action="schema.php">
-    </form>
+    <form name="frm_admin" method="POST" action="oxSchema-archive.php">
 
     <xsl:choose>
         <xsl:when test="//instructionset">
@@ -87,9 +82,9 @@
         </xsl:when>
     </xsl:choose>
 
-    </body></html>
-    <!-- -->
-
+    </form>
+</body>
+</html>
 </xsl:template>
 
 <xsl:template name="showchangeset">

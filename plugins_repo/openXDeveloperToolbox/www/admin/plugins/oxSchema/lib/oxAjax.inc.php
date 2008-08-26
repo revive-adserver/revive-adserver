@@ -30,14 +30,108 @@
  *
  */
 
-function testAjax($param)
+function onclickUpOrDown($param)
 {
 	$objResponse = new xajaxResponse();
-	if (is_array($param))
+
+	if ($param=='up')
 	{
-	   $param = print_r($param,true);
+    	$objResponse->addAssign('img_up',"style.display", 'none');
+    	$objResponse->addAssign('img_down',"style.display", 'inline');
 	}
-	$objResponse->addAlert('testing ajax '.$param);
+	else
+	{
+    	$objResponse->addAssign('img_up',"style.display", 'inline');
+    	$objResponse->addAssign('img_down',"style.display", 'none');
+	}
+	return $objResponse;
+}
+
+function oxAlert($event)
+{
+	$objResponse = new xajaxResponse();
+	$objResponse->addAlert($event.' event detected');
+	return $objResponse;
+}
+
+function loadSchemaList()
+{
+    global $oSchema;
+    $objResponse = new xajaxResponse();
+    $schemaFile = basename($oSchema->schema_final);
+    $opts = '';
+    //$objResponse->addAlert('xajax: '.$oSchema->path_schema_final.$schemaFile);
+    $relPath = '/etc/';
+    $dhCore = opendir(MAX_PATH.$relPath);
+    if ($dhCore)
+    {
+        while (false !== ($file = readdir($dhCore)))
+        {
+            if (strpos($file, '.xml')>0)
+            {
+                if ($file!=$schemaFile)
+                {
+                    $opts.= '<option value="'.$relPath.$file.'">'.$file.'</option>';
+                }
+                else
+                {
+                    $opts.= '<option value="'.$relPath.$file.'" selected="selected">'.$file.'</option>';
+                }
+            }
+        }
+        closedir($dhCore);
+    }
+    $pluginPath = $GLOBALS['_MAX']['CONF']['pluginPaths']['packages'];
+    $dhPkgs = opendir(MAX_PATH.$pluginPath);
+    if ($dhPkgs)
+    {
+        while (false !== ($folder = readdir($dhPkgs)))
+        {
+            if (($folder=='.') || ($folder=='..') || ($folder=='.svn'))
+            {
+                continue;
+            }
+            $relPath = $pluginPath.$folder.'/etc/';
+            $dhPlgs = opendir(MAX_PATH.$relPath);
+            if ($dhPlgs)
+            {
+                while (false !== ($file = readdir($dhPlgs)))
+                {
+                    if (strpos($file, '.xml')>0)
+                    {
+                        if ($file!=$schemaFile)
+                        {
+                            $opts.= '<option value="'.$relPath.$file.'">'.$file.'</option>';
+                        }
+                        else
+                        {
+                            $opts.= '<option value="'.$relPath.$file.'" selected="selected">'.$file.'</option>';
+                        }
+                    }
+                }
+            }
+        }
+        closedir($dhPkgs);
+    }
+    $objResponse->addAssign('xml_file',"innerHTML", $opts);
+	return $objResponse;
+}
+
+function expandTable($table)
+{
+	$objResponse = new xajaxResponse();
+	$objResponse->addAssign($table,"style.display", 'block');
+	$objResponse->addAssign('img_expand_'.$table,"style.display", 'none');
+	$objResponse->addAssign('img_collapse_'.$table,"style.display", 'inline');
+	return $objResponse;
+}
+
+function collapseTable($table)
+{
+	$objResponse = new xajaxResponse();
+	$objResponse->addAssign($table,"style.display", 'none');
+	$objResponse->addAssign('img_expand_'.$table,"style.display", 'inline');
+	$objResponse->addAssign('img_collapse_'.$table,"style.display", 'none');
 	return $objResponse;
 }
 
@@ -108,7 +202,6 @@ function loadSchema()
     $objResponse = new xajaxResponse();
     $schemaFile = basename($oSchema->schema_final);
     $opts = '';
-    $oSchema->oLogger->log('xajax: '.$oSchema->path_schema_final.$schemaFile);
     $dh = opendir($oSchema->path_schema_final);
     if ($dh)
     {
@@ -132,69 +225,6 @@ function loadSchema()
 	return $objResponse;
 }
 
-function loadSchemaList()
-{
-    global $oSchema;
-    $objResponse = new xajaxResponse();
-    $schemaFile = basename($oSchema->schema_final);
-    $opts = '';
-    $oSchema->oLogger->log('xajax: '.$oSchema->path_schema_final.$schemaFile);
-    $relPath = '/etc/';
-    $dhCore = opendir(MAX_PATH.$relPath);
-    if ($dhCore)
-    {
-        while (false !== ($file = readdir($dhCore)))
-        {
-            if (strpos($file, '.xml')>0)
-            {
-                if ($file!=$schemaFile)
-                {
-                    $opts.= '<option value="'.$relPath.$file.'">'.$file.'</option>';
-                }
-                else
-                {
-                    $opts.= '<option value="'.$relPath.$file.'" selected="selected">'.$file.'</option>';
-                }
-            }
-        }
-        closedir($dhCore);
-    }
-    $pluginPath = $GLOBALS['_MAX']['CONF']['pluginPaths']['packages'];
-    $dhPkgs = opendir(MAX_PATH.$pluginPath);
-    if ($dhPkgs)
-    {
-        while (false !== ($folder = readdir($dhPkgs)))
-        {
-            if (($folder=='.') || ($folder=='..') || ($folder=='.svn'))
-            {
-                continue;
-            }
-            $relPath = $pluginPath.$folder.'/etc/';
-            $dhPlgs = opendir(MAX_PATH.$relPath);
-            if ($dhPlgs)
-            {
-                while (false !== ($file = readdir($dhPlgs)))
-                {
-                    if (strpos($file, '.xml')>0)
-                    {
-                        if ($file!=$schemaFile)
-                        {
-                            $opts.= '<option value="'.$relPath.$file.'">'.$file.'</option>';
-                        }
-                        else
-                        {
-                            $opts.= '<option value="'.$relPath.$file.'" selected="selected">'.$file.'</option>';
-                        }
-                    }
-                }
-            }
-        }
-        closedir($dhPkgs);
-    }
-    $objResponse->addAssign('xml_file',"innerHTML", $opts);
-	return $objResponse;
-}
-
 function loadDatasetList()
 {
     $objResponse = new xajaxResponse();
@@ -211,25 +241,6 @@ function loadDatasetList()
         closedir($dh);
         $objResponse->addAssign('datafile',"innerHTML", $opts);
     }
-	return $objResponse;
-}
-
-function expandTable($table)
-{
-	$objResponse = new xajaxResponse();
-	$objResponse->addAlert('expanding table '.$table);
-	$objResponse->addAssign($table,"style.display", 'block');
-	$objResponse->addAssign('img_expand_'.$table,"style.display", 'none');
-	$objResponse->addAssign('img_collapse_'.$table,"style.display", 'inline');
-	return $objResponse;
-}
-
-function collapseTable($table)
-{
-	$objResponse = new xajaxResponse();
-	$objResponse->addAssign($table,"style.display", 'none');
-	$objResponse->addAssign('img_expand_'.$table,"style.display", 'inline');
-	$objResponse->addAssign('img_collapse_'.$table,"style.display", 'none');
 	return $objResponse;
 }
 
@@ -424,21 +435,20 @@ function collapseRow($id)
 	return $objResponse;
 }
 
-
-
 require_once MAX_PATH.'/lib/xajax/xajax.inc.php';
 
 $xajax = new xajax();
 //$xajax->debugOn(); // Uncomment this line to turn debugging on
 $xajax->debugOff(); // Uncomment this line to turn debugging off
-$xajax->registerFunction("testAjax");
-$xajax->registerFunction('loadChangeset');
-$xajax->registerFunction('loadSchema');
-$xajax->registerFunction('loadSchemaList');
-$xajax->registerFunction('loadSchemaFile');
-$xajax->registerFunction('loadDatasetList');
+$xajax->registerFunction("onclickUpOrDown");
+$xajax->registerFunction("oxAlert");
+$xajax->registerFunction("loadSchemaList");
 $xajax->registerFunction('expandTable');
 $xajax->registerFunction('collapseTable');
+$xajax->registerFunction('loadChangeset');
+$xajax->registerFunction('loadSchema');
+$xajax->registerFunction('loadSchemaFile');
+$xajax->registerFunction('loadDatasetList');
 $xajax->registerFunction("editFieldProperty");
 $xajax->registerFunction("exitFieldProperty");
 $xajax->registerFunction("editTableProperty");

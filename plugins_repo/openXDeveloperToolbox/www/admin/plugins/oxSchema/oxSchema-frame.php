@@ -30,7 +30,50 @@
  *
  */
 
-require_once 'oxSchema-frame-init.php';
+require_once '../../../../init.php';
+require_once 'lib/oxAjax.inc.php';
+
+if (array_key_exists('btn_changeset_archive', $_POST))
+{
+    header('Location: oxSchema-archive.php');
+    exit;
+}
+
+if (array_key_exists('clear_cookies', $_POST))
+{
+    setcookie('schemaPath', '');
+    setcookie('schemaFile', '');
+}
+else if ( array_key_exists('xml_file', $_REQUEST) && (!empty($_REQUEST['xml_file'])) )
+{
+    $schemaPath = dirname($_REQUEST['xml_file']);
+    if (!empty($schemaPath))
+    {
+        $schemaPath.= DIRECTORY_SEPARATOR;
+    }
+    $schemaFile = basename($_REQUEST['xml_file']);
+    if ($schemaFile==$_COOKIE['schemaFile'])
+    {
+        $schemaPath = $_COOKIE['schemaPath'];
+    }
+    $_POST['table_edit'] = '';
+}
+else if ( array_key_exists('schemaFile', $_COOKIE) && (!empty($_COOKIE['schemaFile'])))
+{
+    $schemaPath = $_COOKIE['schemaPath'];
+    $schemaFile = $_COOKIE['schemaFile'];
+}
+if (empty($schemaPath) || empty($schemaFile))
+{
+    $schemaPath = '';
+    $schemaFile = 'tables_core.xml';
+}
+setcookie('schemaPath', $schemaPath);
+setcookie('schemaFile', $schemaFile);
+
+require_once 'lib/oxSchema.inc.php';
+global $oSchema;
+$oSchema = & new openXSchemaEditor($schemaFile, '', $schemaPath);
 
 if (array_key_exists('btn_copy_final', $_POST))
 {
@@ -62,7 +105,7 @@ else if (array_key_exists('btn_commit_final', $_POST))
 {
     $oSchema->commitFinal($_POST['comments'], $_POST['version']);
 }
-else if (array_key_exists('btn_generate_dbo_final', $_POST))
+/*else if (array_key_exists('btn_generate_dbo_final', $_POST))
 {
     $oSchema->setWorkingFiles();
     $oSchema->parseWorkingDefinitionFile();
@@ -73,7 +116,7 @@ else if (array_key_exists('btn_generate_dbo_trans', $_POST))
     $oSchema->setWorkingFiles();
     $oSchema->parseWorkingDefinitionFile();
     $oSchema->_generateDataObjects($oSchema->changes_trans,$oSchema->_getBasename());
-}
+}*/
 
 
 $oSchema->setWorkingFiles();

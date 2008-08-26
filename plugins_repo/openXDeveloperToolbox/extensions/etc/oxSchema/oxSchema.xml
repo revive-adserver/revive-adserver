@@ -26,17 +26,14 @@
             <file path="{ADMINPATH}/assets/images/">triangle-d.gif</file>
             <file path="{ADMINPATH}/assets/images/">triangle-u.gif</file>
             <file path="{ADMINPATH}/assets/css/">mdb2_xsl.css</file>
-            <file path="{ADMINPATH}/templates/">oxSchema.html</file>
+            <file path="{ADMINPATH}/templates/">class_migration.tpl</file>
             <file path="{ADMINPATH}/templates/">oxSchema-frame.html</file>
-            <file path="{ADMINPATH}/templates/">oxSchema-table.html</file>
-            <file path="{ADMINPATH}/templates/">oxSchema-fields.html</file>
+            <file path="{ADMINPATH}/templates/">schema_edit.html</file>
             <file path="{ADMINPATH}/templates/">table_data_dictionary.html</file>
             <file path="{ADMINPATH}/templates/">table_edit_fields.html</file>
             <file path="{ADMINPATH}/templates/">table_edit_foreignkeys.html</file>
             <file path="{ADMINPATH}/templates/">table_edit_index.html</file>
             <file path="{ADMINPATH}/templates/">table_edit_menu.html</file>
-            <file path="{ADMINPATH}/templates/">schema_edit.html</file>
-            <file path="{ADMINPATH}/templates/">class_migration.tpl</file>
             <file path="{ADMINPATH}/xsl/">mdb2_schema.xsl</file>
             <file path="{ADMINPATH}/xsl/">mdb2_dictionary.xsl</file>
             <file path="{ADMINPATH}/xsl/">mdb2_changeset.xsl</file>
@@ -44,11 +41,9 @@
             <file path="{ADMINPATH}/lib/">oxAjax.inc.php</file>
             <file path="{ADMINPATH}/etc/">dd.common.xml</file>
             <file path="{ADMINPATH}/etc/">dd.generic.xml</file>
-            <file path="{ADMINPATH}/">oxSchema-common.php</file>
             <file path="{ADMINPATH}/">oxSchema-index.php</file>
             <file path="{ADMINPATH}/">oxSchema-archive.php</file>
             <file path="{ADMINPATH}/">oxSchema-frame.php</file>
-            <file path="{ADMINPATH}/">oxSchema-init.php</file>
         </files>
 
         <navigation>

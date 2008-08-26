@@ -29,6 +29,8 @@
 * $Id$
 *
 */
+require_once '../../../../init.php';
+require_once 'lib/oxAjax.inc.php';
 
 function getLastChangeset()
 {
@@ -79,8 +81,6 @@ function getSchemaFile($changesFile)
     }
     return $schemaFile;
 }
-
-require_once 'oxSchema-common.php';
 
 if (array_key_exists('schemaPath', $_COOKIE) && ($_COOKIE['schemaPath']))
 {
@@ -214,8 +214,6 @@ else
     }
 }
 
-require_once 'lib/OXAjax.inc.php';
-
 if ($file && file_exists($file))
 {
     header('Content-Type: application/xhtml+xml; charset=ISO-8859-1');
@@ -232,7 +230,6 @@ else
     {
         echo '<h2 style="font-family: Arial, Helvetica, sans-serif;text-align:center;">no changesets in archive</h2>';
     }
-
 //    header('Location: oxSchema-frame.php');
 //    exit;
 }

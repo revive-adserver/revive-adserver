@@ -6,11 +6,13 @@
 
     <link rel="stylesheet" type="text/css" href="assets/css/mdb2_xsl.css"/>
 
-    <script type="text/javascript" src="../../../var/plugins/cache/oxSchema.js"/>
-    <script type="text/javascript" src="../../../lib/xajax/xajax_js/xajax.js"></script>
-    <script type="text/javascript">
-        window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Javascript file could not be included. Perhaps the URL is incorrect?\nURL: ../../../lib/xajax/xajax_js/xajax.js'); } }, 6000);
-    </script>
+    <script type="text/javascript" src="../../../../var/plugins/cache/oxSchema.js"></script>
+    <script type="text/javascript" src="../../assets/js/xajax.js"></script>
+    <!--script  type="text/javascript">xajax_oxAlert('template loaded')</script-->
+
+    <!--script type="text/javascript">
+        window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Javascript file could not be included. Perhaps the URL is incorrect?\nURL: ../../lib/xajax/xajax_js/xajax.js'); } }, 6000);
+    </script-->
 
 </head>
 <body onload="xajax_loadSchemaList()">
