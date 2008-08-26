@@ -278,7 +278,7 @@ class OA_Maintenance
                 $oReportEndDate->subtractSeconds(1);
                 // Send the advertiser's campaign delivery report
                 $oEmail = new OA_Email();
-                $oEmail->sendCampaignDeliveryEmail($aAdvertiser['clientid'], $oReportLastDate, $oReportEndDate);
+                $oEmail->sendCampaignDeliveryEmail($aAdvertiser, $oReportLastDate, $oReportEndDate);
             }
         }
         OA::debug('  Finished sending advertiser "campaign delivery" reports.', PEAR_LOG_DEBUG);

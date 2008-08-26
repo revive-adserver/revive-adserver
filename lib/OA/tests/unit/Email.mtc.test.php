@@ -418,7 +418,7 @@ class Test_OA_Email extends UnitTestCase
 
         $oEmail = new $mockName();
         $oEmail->setReturnValue('sendMail', true);
-        $oEmail->expectCallCount('sendMail', 4);
+        $oEmail->expectCallCount('sendMail', 7);
 
         // Prepare valid test data
         $oStartDate   = new Date('2007-05-13 23:59:59');
@@ -429,7 +429,14 @@ class Test_OA_Email extends UnitTestCase
 
         // Test with no advertiser data in the database, and ensure that
         // false is returned
-        $result = $oEmail->sendCampaignDeliveryEmail(1, $oStartDate, $oEndDate);
+        $doClients1 = OA_Dal::factoryDO('clients');
+        $doClients1->clientname = $clientName;
+        $doClients1->email      = 'advertiser_default@example.com';
+        $doClients1->contact    = 'Advertiser Default';
+        $doClients1->report     = 't';
+        $advertiserId = DataGenerator::generateOne($doClients1);
+        $aAdvertiser1 = $doClients1->toArray();
+        $result = $oEmail->sendCampaignDeliveryEmail($aAdvertiser1, $oStartDate, $oEndDate);
         $this->assertFalse($result);
 
         // Create a user to link to this account (but don't link it yet)
@@ -444,11 +451,12 @@ class Test_OA_Email extends UnitTestCase
         // that false is returned
         $doClients = OA_Dal::factoryDO('clients');
         $doClients->clientname = $clientName;
-        $doClients->email      = '';
+        $doClients->email      = 'miguel.correa@openx.org';
         $doClients->contact    = '';
         $doClients->report     = 'f';
         $advertiserId = DataGenerator::generateOne($doClients);
-        $result = $oEmail->sendCampaignDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
+        $aAdvertiser = $doClients->toArray();
+        $result = $oEmail->sendCampaignDeliveryEmail($aAdvertiser, $oStartDate, $oEndDate);
         $this->assertFalse($result);
 
         $doClients = OA_Dal::factoryDO('clients');
@@ -458,14 +466,15 @@ class Test_OA_Email extends UnitTestCase
         // and test, ensuring that false is returned
         $doClients->report     = 't';
         $doClients->update();
-        $result = $oEmail->sendCampaignDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
+        $aAdvertiser = $doClients->toArray();
+        $result = $oEmail->sendCampaignDeliveryEmail($aAdvertiser, $oStartDate, $oEndDate);
         $this->assertFalse($result);
 
         $doPlacements = OA_Dal::factoryDO('campaigns');
         $doPlacements->clientid = $advertiserId;
         $placementId = DataGenerator::generateOne($doPlacements);
 
-        $result = $oEmail->sendCampaignDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
+        $result = $oEmail->sendCampaignDeliveryEmail($aAdvertiser, $oStartDate, $oEndDate);
         $this->assertFalse($result);
 
         // No entries in userlog
@@ -478,7 +487,7 @@ class Test_OA_Email extends UnitTestCase
         $oUserAccess->linkUserToAccount($userId, $advertiserId, array(), array());
 
         // With no stats, no email should be sent
-        $result = $oEmail->sendCampaignDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
+        $result = $oEmail->sendCampaignDeliveryEmail($aAdvertiser, $oStartDate, $oEndDate);
         $this->assertEqual($result, 0);
 
         // Still no entries in userlog
@@ -492,7 +501,7 @@ class Test_OA_Email extends UnitTestCase
         $bannerId = DataGenerator::generateOne($doBanners);
 
         // With no stats, no email should be sent
-        $result = $oEmail->sendCampaignDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
+        $result = $oEmail->sendCampaignDeliveryEmail($aAdvertiser, $oStartDate, $oEndDate);
         $this->assertEqual($result, 0);
 
         // No entries in userlog
@@ -510,8 +519,8 @@ class Test_OA_Email extends UnitTestCase
         DataGenerator::generateOne($doDataSummaryAdHourly);
 
         // With some stats and a linked user, one email should be sent
-        $result = $oEmail->sendCampaignDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
-        $this->assertEqual($result, 1);
+        $result = $oEmail->sendCampaignDeliveryEmail($aAdvertiser, $oStartDate, $oEndDate);
+        $this->assertEqual($result, 2);
 
         // Now email should be stored in userlog
         $doUserLog = OA_Dal::factoryDO('userlog');
@@ -523,13 +532,13 @@ class Test_OA_Email extends UnitTestCase
         $this->assertTrue((strpos($userLogRow['details'], $email)!==false));
         // Clear userlog table
         $doUserLog = OA_Dal::factoryDO('userlog');
-        $doUserLog->userlogid = $userLogRow['userlogid'];
-        $doUserLog->delete();
+        $doUserLog->whereAdd('1=1');
+        $doUserLog->delete(DB_DATAOBJECT_WHEREADD_ONLY);
 
         // Turn off email logging and send mail again
         $aConf['email']['logOutgoing'] = false;
-        $result = $oEmail->sendCampaignDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
-        $this->assertEqual($result, 1);
+        $result = $oEmail->sendCampaignDeliveryEmail($aAdvertiser, $oStartDate, $oEndDate);
+        $this->assertEqual($result, 2);
 
         // No entries in userlog
         $doUserLog = OA_Dal::factoryDO('userlog');
@@ -551,13 +560,13 @@ class Test_OA_Email extends UnitTestCase
         $oUserAccess = new OA_Admin_UI_UserAccess();
         $oUserAccess->linkUserToAccount($userId2, $advertiserId, array(), array());
 
-        $result = $oEmail->sendCampaignDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
-        $this->assertEqual($result, 2);
+        $result = $oEmail->sendCampaignDeliveryEmail($aAdvertiser, $oStartDate, $oEndDate);
+        $this->assertEqual($result, 3);
 
         // Check if there are two entries in userlog
         $doUserLog = OA_Dal::factoryDO('userlog');
         $aUserLog = $doUserLog->getAll();
-        $this->assertEqual(count($aUserLog), 2);
+        $this->assertEqual(count($aUserLog), 3);
         $this->assertEqual($aUserLog[0]['action'], phpAds_actionAdvertiserReportMailed);
         $this->assertEqual($aUserLog[1]['action'], phpAds_actionAdvertiserReportMailed);
 
@@ -1252,7 +1261,7 @@ class Test_OA_Email extends UnitTestCase
         $doClients = OA_Dal::factoryDO('clients');
         $doClients->agencyid   = $agencyId;
         $doClients->clientname = $advertiserName;
-        $doClients->email      = '';
+        $doClients->email      = 'advertiser_default@example.com';
         $advertiserId1 = DataGenerator::generateOne($doClients);
         $doClients = OA_Dal::staticGetDO('clients', 'clientid', $advertiserId1);
         $advertiserAccountId = $doClients->account_id;
@@ -1289,24 +1298,25 @@ class Test_OA_Email extends UnitTestCase
         $doBanners->url        = 'http://www.fornax.net/';
         $bannerId2 = DataGenerator::generateOne($doBanners);
 
-        // One copy should be sent
+        // Two copy should be sent (different emails addresses)
+        // One copy to the user and another one to the Advertiser
         $result = $oEmail->sendCampaignActivatedDeactivatedEmail($placementId);
-        $this->assertEqual($result, 1);
+        $this->assertEqual($result, 2);
 
         $doUserLog = OA_Dal::factoryDO('userlog');
         $aUserLog = $doUserLog->getAll();
-        $this->assertEqual(count($aUserLog), 1);
+        $this->assertEqual(count($aUserLog), 2);
         $this->assertEqual($aUserLog[0]['action'], phpAds_actionActivationMailed);
 
         // Turn off email logging and send mail again
         $aConf['email']['logOutgoing'] = false;
         $result = $oEmail->sendCampaignActivatedDeactivatedEmail($placementId);
-        $this->assertEqual($result, 1);
+        $this->assertEqual($result, 2);
 
         // No new entries in user log
         $doUserLog = OA_Dal::factoryDO('userlog');
         $aUserLog = $doUserLog->getAll();
-        $this->assertEqual(count($aUserLog), 1);
+        $this->assertEqual(count($aUserLog), 2);
 
         // Set email logging back to true
         $aConf['email']['logOutgoing'] = true;

@@ -47,10 +47,12 @@ require_once MAX_PATH . '/lib/pear/Date.php';
 class OA_Email
 {
 
-    function sendCampaignDeliveryEmail($advertiserId, $oStartDate, $oEndDate) {
+    function sendCampaignDeliveryEmail($aAdvertiser, $oStartDate, $oEndDate) {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
-        $aLinkedUsers = $this->getUsersLinkedToAccount('clients', $advertiserId);
+        $aLinkedUsers = $this->getUsersLinkedToAccount('clients', $aAdvertiser['clientid']);
+        // Add the advertiser to the linked users if there isn't any linked user with the advertiser's email address
+        $aLinkedUsers = $this->_addAdvertiser($aAdvertiser, $aLinkedUsers);
         $copiesSent = 0;
         if (!empty($aLinkedUsers) && is_array($aLinkedUsers)) {
             foreach ($aLinkedUsers as $aUser) {
@@ -78,7 +80,7 @@ class OA_Email
             // Update the last run date to "today"
             OA::debug('   - Updating the date the report was last sent for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
             $doUpdateClients = OA_Dal::factoryDO('clients');
-            $doUpdateClients->clientid = $advertiserId;
+            $doUpdateClients->clientid = $aAdvertiser['clientid'];
             $doUpdateClients->reportlastdate = OA::getNow();
             $doUpdateClients->update();
         }
@@ -412,7 +414,7 @@ class OA_Email
         $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
         $aCampaign = $doCampaigns->toArray();
 
-        $aPreviousOIDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $aPreviousOIDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate, $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval']);
 
         $aLinkedUsers['advertiser'] = $this->getUsersLinkedToAccount('clients', $aCampaign['clientid']);
 
@@ -422,10 +424,21 @@ class OA_Email
         $aLinkedUsers['manager']    = $this->getUsersLinkedToAccount('agency',  $doClients->agencyid);
         $aLinkedUsers['admin']      = $this->getAdminUsersLinkedToAccount();
 
+        // Create a linked user 'special' for the advertiser that will take the admin preferences for advertiser
+        $aLinkedUsers['special']['advertiser'] = $doClients->toArray();
+        $aLinkedUsers['special']['advertiser']['contact_name']  = $aLinkedUsers['special']['advertiser']['contact'];
+        $aLinkedUsers['special']['advertiser']['email_address'] = $aLinkedUsers['special']['advertiser']['email'];
+        $aLinkedUsers['special']['advertiser']['language']      = '';
+        $aLinkedUsers['special']['advertiser']['user_id']       = 0;
+
+        // Check that every user is not going to receive more than one email if they
+        // are linked to more than one account
+        $aLinkedUsers = $this->_deleteDuplicatedUser($aLinkedUsers);
+
         $oPreference = new OA_Preferences();
 
         $advertiserPrefsNames = $this->_createPrefsListPerAccount(OA_ACCOUNT_ADVERTISER);
-        $aPrefs['advertiser'] = $oPreference->loadPreferencesByNameAndAccount($doClients->account_id,
+        $aPrefs['advertiser'] = $oPreference->loadAccountPreferences($doClients->account_id,
             $advertiserPrefsNames, OA_ACCOUNT_ADVERTISER);
 
         $managerPrefsNames = $this->_createPrefsListPerAccount(OA_ACCOUNT_MANAGER);
@@ -436,6 +449,12 @@ class OA_Email
         $adminPrefsNames = $this->_createPrefsListPerAccount(OA_ACCOUNT_ADMIN);
         $aPrefs['admin'] = $oPreference->loadAccountPreferences($adminAccountId,
             $adminPrefsNames, OA_ACCOUNT_ADMIN);
+
+        // Create the linked special user preferences from the admin preferences
+        $aPrefs['special'] = $aPrefs['admin'];
+        $aPrefs['special']['warn_email_special']                  = $aPrefs['special']['warn_email_advertiser'];
+        $aPrefs['special']['warn_email_special_day_limit']        = $aPrefs['special']['warn_email_advertiser_day_limit'];
+        $aPrefs['special']['warn_email_special_impression_limit'] = $aPrefs['special']['warn_email_advertiser_impression_limit'];
 
         $copiesSent = 0;
         foreach ($aLinkedUsers as $accountType => $aUsers) {
@@ -621,7 +640,7 @@ class OA_Email
         // Prepare the final email - add the report type description
         // and the name of the advertiser the report is about
         $email .= $reason . "\n\n";
-        if ($type == 'advertiser') {
+        if ($type == 'advertiser' || $type == 'special') {
             $campaignReplace = $strYourCampaign;
         } else {
             $campaignReplace = $strTheCampiaignBelongingTo . ' ' . trim($aAdvertiser['clientname']);
@@ -708,6 +727,9 @@ class OA_Email
         $doCampaigns->joinAdd($doClient);
         $doCampaigns->get('campaignid', $campaignId);
         $aLinkedUsers = $this->getUsersLinkedToAccount('clients', $doCampaigns->clientid);
+        $aAdvertiser = $this->_loadAdvertiser($doCampaigns->clientid);
+        // Add the advertiser to the linked users if there isn't any linked user with the advertiser's email address
+        $aLinkedUsers = $this->_addAdvertiser($aAdvertiser, $aLinkedUsers);
         $copiesSent = 0;
 
         if (!empty($aLinkedUsers) && is_array($aLinkedUsers)) {
@@ -1110,6 +1132,80 @@ class OA_Email
     	    OA::debug('Cannot send emails - mail() does not exist!', PEAR_LOG_ERR);
     	    return false;
     	}
+    }
+
+    /**
+     * A private method to add the advertiser in the mailing list. If advertiser's email address already
+     * exists as a linked user email address the advertiser will not be added again to the mailing list.
+     *
+     * @access private
+     * @param array $aAdvertiser   The Advertiser to be added in the mailing list.
+     * @param array $aLinkedUsers  The linked users to an account.
+     *
+     * @return array $aLinkedUsers  The linked users that are going to be mailed
+     */
+    function _addAdvertiser($aAdvertiser, $aLinkedUsers)
+    {
+        $duplicatedEmail = false;
+        if (!is_array($aLinkedUsers) || empty($aLinkedUsers)) {
+            $aLinkedUsers = array();
+        } else {
+            foreach ($aLinkedUsers as $aUser) {
+                if ($aUser['email_address'] == $aAdvertiser['email']) {
+                    $duplicatedEmail = true;
+                    break;
+                }
+            }
+        }
+        if (!$duplicatedEmail) {
+            $aLinkedUsers[] = array(
+                                  'email_address' => $aAdvertiser['email'],
+                                  'contact_name'  => $aAdvertiser['contact'],
+                                  'language'      => null,
+                                  'user_id'       => 0
+                                 );
+        }
+
+        return $aLinkedUsers;
+    }
+
+    /**
+     * Check if any of the email address that are going to be used to send the
+     * impending expiration emails are duplicated and remove the duplicated users
+     * that own the email address from the linked users list. The order for removing
+     * duplicated users is: Advertiser, linked users to advertiser, and Manager
+     *
+     * @param  array $aLinkedUsers         The linked user list that has to be checked
+     * @return array $aLinkedUsersToEmail  The linked user list that are going to be emailed
+     */
+    function _deleteDuplicatedUser($aLinkedUsers)
+    {
+        $aLinkedUsersToEmail = array();
+        $aEmailAddressUsed = array();
+
+        foreach ($aLinkedUsers['admin'] as $aUser) {
+            $aEmailAddressUsed[] = $aUser['email_address'];
+        }
+        $aLinkedUsersToEmail['admin'] = $aLinkedUsers['admin'];
+
+        foreach ($aLinkedUsers['manager'] as $aUser) {
+            if (!in_array($aUser['email_address'], $aEmailAddressUsed)) {
+                $aEmailAddressUsed[] = $aUser['email_address'];
+                $aLinkedUsersToEmail['manager'][] = $aUser;
+            }
+        }
+
+        foreach ($aLinkedUsers['advertiser'] as $aUser) {
+            if (!in_array($aUser['email_address'], $aEmailAddressUsed)) {
+                $aEmailAddressUsed[] = $aUser['email_address'];
+                $aLinkedUsersToEmail['advertiser'][] = $aUser;
+            }
+        }
+
+        if (!in_array($aLinkedUsers['special']['advertiser']['email_address'], $aEmailAddressUsed))
+            $aLinkedUsersToEmail['special']['advertiser'] = $aLinkedUsers['special']['advertiser'];
+
+        return $aLinkedUsersToEmail;
     }
 
 }
