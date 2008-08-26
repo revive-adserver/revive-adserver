@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -42,6 +42,7 @@ class OA_Task
      * which will be called when the task needs to be performed.
      *
      * @abstract
+     * @todo This method should really return a boolean.
      */
     function run()
     {

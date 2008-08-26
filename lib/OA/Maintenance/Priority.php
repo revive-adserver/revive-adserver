@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -106,10 +106,9 @@ class OA_Maintenance_Priority
         // Run the MPE process for the AdServer module
         require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer.php';
         $oMaintenancePriority = new OA_Maintenance_Priority_AdServer();
-        $result = $oMaintenancePriority->updatePriorities();
-        if ($result === false) {
-            return false;
-        }
+        // TODO: OA_Maintenance_Priority_AdServer::updatePriorities
+        //       should be refactored to return a boolean we can check here.
+        $oMaintenancePriority->updatePriorities();
 
         // Release the MPE database-level lock
         $result = $oDal->releasePriorityLock();

@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -78,8 +78,8 @@ class OA_Maintenance_Priority_AdServer
     function updatePriorities()
     {
         // Run the required tasks
-        $result = $this->oTaskRunner->runTasks();
-        return $result;
+        // TODO: OA_Task::run should really return a boolean we could check here.
+        $this->oTaskRunner->runTasks();
     }
 
 }

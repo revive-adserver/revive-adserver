@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -49,17 +49,13 @@ class OA_Task_Runner
      * A method to run the run() method of each task in the collection,
      * in the registered order.
      *
-     * @return boolean True if all tasks ran correctly, false otherwise.
+     * @todo We should really make OA_Task::run return a boolean we can check.
      */
     function runTasks()
     {
         foreach ($this->aTasks as $oTask) {
-            $return = $oTask->run();
-            if ($return === false || PEAR::isError($return)) {
-                return false;
-            }
+            $oTask->run();
         }
-        return true;
     }
 
     /**
