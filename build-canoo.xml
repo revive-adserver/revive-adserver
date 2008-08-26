@@ -242,6 +242,11 @@ enabled=0]]></replacevalue>
 		</chmod>
 		-->
 		<enableMarketPlace enable="${marketplace.enabled}"/>
+		<replace file="${basedir}/etc/dist.conf.php">
+			<replacefilter token="popup                               = false" value="popup                               = true"/>
+			<replacefilter token="adview                              = false" value="adview                              = true"/>
+			<replacefilter token="xmlrpc                              = false" value="xmlrpc                              = true"/>
+		</replace>
 	</target>
 
 	<target name="init.canoo.windows" depends="init.check.windows" if="is.windows">
