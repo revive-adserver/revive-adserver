@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -32,7 +32,7 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 // pgsql execution time after refactor: 22.053s
 
 /**
- * A class for testing the getPlacements() method of the non-DB specific
+ * A class for testing the getCampaigns() method of the non-DB specific
  * OA_Dal_Maintenance_Priority class.
  *
  * @package    OpenXDal
@@ -40,20 +40,20 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
  * @author     Monique Szpak <monique.szpak@openx.org>
  * @author     Andrew Hill <andrew.hill@openx.org>
  */
-class Test_OA_Dal_Maintenance_Priority_getPlacements extends UnitTestCase
+class Test_OA_Dal_Maintenance_Priority_getCampaigns extends UnitTestCase
 {
     /**
      * The constructor method.
      */
-    function Test_OA_Dal_Maintenance_Priority_getPlacements()
+    function Test_OA_Dal_Maintenance_Priority_getCampaigns()
     {
         $this->UnitTestCase();
     }
 
     /**
-     * A method to test the getPlacements method.
+     * A method to test the getCampaigns method.
      */
-    function testGetPlacements()
+    function testGetCampaigns()
     {
         /**
          * @TODO Locate where clean up doesn't happen before this test, and fix!
@@ -63,35 +63,33 @@ class Test_OA_Dal_Maintenance_Priority_getPlacements extends UnitTestCase
         $da = new OA_Dal_Maintenance_Priority();
         $this->_generateStatsOne();
 
-        // Test 1 getPlacements method.
-        $ret = $da->getPlacements();
+        // Test 1 getCampaigns method.
+        $ret = $da->getCampaigns();
         $this->assertTrue(is_array($ret));
         $this->assertTrue(count($ret) == 5);
         $campaign = $ret[0];
-        $this->assertTrue(array_key_exists('campaignid', $campaign));
-        $this->assertTrue(array_key_exists('views', $campaign));
-        $this->assertTrue(array_key_exists('clicks', $campaign));
-        $this->assertTrue(array_key_exists('conversions', $campaign));
-        $this->assertTrue(array_key_exists('activate', $campaign));
-        $this->assertTrue(array_key_exists('expire', $campaign));
-        $this->assertTrue(array_key_exists('target_impression', $campaign));
-        $this->assertTrue(array_key_exists('target_click', $campaign));
-        $this->assertTrue(array_key_exists('target_conversion', $campaign));
-        $this->assertTrue(array_key_exists('priority', $campaign));
+        $this->assertIsA($campaign, 'OX_Maintenance_Priority_Campaign');
+        $this->assertEqual($campaign->id, 1);
+        $this->assertEqual($campaign->impressionTargetTotal, 0);
+        $this->assertEqual($campaign->clickTargetTotal, 400);
+        $this->assertEqual($campaign->conversionTargetTotal, 0);
+        $this->assertEqual($campaign->impressionTargetDaily, 0);
+        $this->assertEqual($campaign->clickTargetDaily, 0);
+        $this->assertEqual($campaign->conversionTargetDaily, 0);
+        $this->assertEqual($campaign->priority, 3);
 
-        // Test 2 getPlacementData method.
-        $ret = $da->getPlacementData(1);
-        $this->assertTrue(is_array($ret));
-        $this->assertTrue(count($ret) == 1);
-        $campaign = $ret[0];
+        // Test 2 getCampaignData method.
+        $campaign = $da->getCampaignData(1);
+        $this->assertTrue(is_array($campaign));
+        $this->assertTrue(count($campaign) == 5);
         $this->assertTrue(array_key_exists('advertiser_id', $campaign));
         $this->assertTrue(array_key_exists('placement_id', $campaign));
         $this->assertTrue(array_key_exists('name', $campaign));
         $this->assertTrue(array_key_exists('status', $campaign));
         $this->assertTrue(array_key_exists('num_children', $campaign));
 
-        // Test 3 getPlacementStats method.
-        $ret = $da->getPlacementStats(1);
+        // Test 3 getCampaignStats method.
+        $ret = $da->getCampaignStats(1);
         $this->assertTrue(is_array($ret));
         $this->assertTrue(count($ret) == 9);
         $this->assertTrue(array_key_exists('advertiser_id', $ret));

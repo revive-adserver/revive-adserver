@@ -250,11 +250,11 @@ class Test_OX_Maintenance_Priority_Campaign extends UnitTestCase
         );
         $oServiceLocator =& OA_ServiceLocator::instance();
         $oMaxDalMaintenancePriority =& $oServiceLocator->get('OA_Dal_Maintenance_Priority');
-        $oMaxDalMaintenancePriority->setReturnValueAt(0, 'getPlacementStats', null);
-        $oMaxDalMaintenancePriority->setReturnValueAt(1, 'getPlacementStats', $aCampaignStats);
-        $oMaxDalMaintenancePriority->expectArgumentsAt(0, 'getPlacementStats', array(1, false));
-        $oMaxDalMaintenancePriority->expectArgumentsAt(1, 'getPlacementStats', array(1, false));
-        $oMaxDalMaintenancePriority->expectCallCount('getPlacementStats', 2);
+        $oMaxDalMaintenancePriority->setReturnValueAt(0, 'getCampaignStats', null);
+        $oMaxDalMaintenancePriority->setReturnValueAt(1, 'getCampaignStats', $aCampaignStats);
+        $oMaxDalMaintenancePriority->expectArgumentsAt(0, 'getCampaignStats', array(1, false));
+        $oMaxDalMaintenancePriority->expectArgumentsAt(1, 'getCampaignStats', array(1, false));
+        $oMaxDalMaintenancePriority->expectCallCount('getCampaignStats', 2);
 
         // Test 1
         $aParams = array('campaignid' => 1);
@@ -303,11 +303,11 @@ class Test_OX_Maintenance_Priority_Campaign extends UnitTestCase
         );
         $oServiceLocator =& OA_ServiceLocator::instance();
         $oMaxDalMaintenancePriority =& $oServiceLocator->get('OA_Dal_Maintenance_Priority');
-        $oMaxDalMaintenancePriority->setReturnValueAt(0, 'getPlacementStats', null);
-        $oMaxDalMaintenancePriority->setReturnValueAt(1, 'getPlacementStats', $aCampaignStats);
-        $oMaxDalMaintenancePriority->expectArgumentsAt(0, 'getPlacementStats', array(1, true, '2006-11-10'));
-        $oMaxDalMaintenancePriority->expectArgumentsAt(1, 'getPlacementStats', array(1, true, '2006-11-10'));
-        $oMaxDalMaintenancePriority->expectCallCount('getPlacementStats', 2);
+        $oMaxDalMaintenancePriority->setReturnValueAt(0, 'getCampaignStats', null);
+        $oMaxDalMaintenancePriority->setReturnValueAt(1, 'getCampaignStats', $aCampaignStats);
+        $oMaxDalMaintenancePriority->expectArgumentsAt(0, 'getCampaignStats', array(1, true, '2006-11-10'));
+        $oMaxDalMaintenancePriority->expectArgumentsAt(1, 'getCampaignStats', array(1, true, '2006-11-10'));
+        $oMaxDalMaintenancePriority->expectCallCount('getCampaignStats', 2);
 
         // Test 1
         $aParams = array('campaignid' => 1);

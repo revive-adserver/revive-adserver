@@ -29,7 +29,7 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 
 /**
- * A class for testing the getPlacementDeliveryToDate() method of the non-DB
+ * A class for testing the getCampaignDeliveryToDate() method of the non-DB
  * specific OA_Dal_Maintenance_Priority class.
  *
  * @package    OpenXDal
@@ -37,19 +37,19 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
  * @author     Monique Szpak <monique.szpak@openx.org>
  * @author     Andrew Hill <andrew.hill@openx.org>
  */
-class Test_OA_Dal_Maintenance_Priority_getPlacementDeliveryToDate extends UnitTestCase
+class Test_OA_Dal_Maintenance_Priority_getCampaignDeliveryToDate extends UnitTestCase
 {
     /**
      * The constructor method.
      */
-    function Test_OA_Dal_Maintenance_Priority_getPlacementDeliveryToDate()
+    function Test_OA_Dal_Maintenance_Priority_getCampaignDeliveryToDate()
     {
         $this->UnitTestCase();
     }
 
 
     /**
-     * Method to test the getPlacementDeliveryToDate method.
+     * Method to test the getCampaignDeliveryToDate method.
      *
      * Requirements:
      * Test 1: Test correct results are returned with no data.
@@ -58,7 +58,7 @@ class Test_OA_Dal_Maintenance_Priority_getPlacementDeliveryToDate extends UnitTe
      *
      * @TODO Incomplete test!
      */
-    function testGetPlacementDeliveryToDate()
+    function testGetCampaignDeliveryToDate()
     {
         /**
          * @TODO Locate where clean up doesn't happen before this test, and fix!
@@ -72,7 +72,7 @@ class Test_OA_Dal_Maintenance_Priority_getPlacementDeliveryToDate extends UnitTe
         $oNow = new Date();
 
         // Test 1
-        $result = $oMaxDalMaintenance->getPlacementDeliveryToDate(1);
+        $result = $oMaxDalMaintenance->getCampaignDeliveryToDate(1);
         $this->assertTrue(is_array($result));
         $this->assertEqual(count($result), 0);
 
@@ -117,7 +117,7 @@ class Test_OA_Dal_Maintenance_Priority_getPlacementDeliveryToDate extends UnitTe
         $doInterAd->hour = 11;
         $idInterAd = DataGenerator::generateOne($doInterAd);
 
-        $result = $oMaxDalMaintenance->getPlacementDeliveryToDate(1);
+        $result = $oMaxDalMaintenance->getCampaignDeliveryToDate(1);
         $this->assertTrue(is_array($result));
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[0]['placement_id'], 1);

@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX  v${RELEASE_MAJOR_MINOR}                                                              |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX  v${RELEASE_MAJOR_MINOR}                                            |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -91,7 +91,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsDaily extend
             array("$table.priority >= 1", 'AND'),
             array("$table.status = ".OA_ENTITY_STATUS_RUNNING, 'AND')
         );
-        return $this->_getAllCampaigns(array(), $aWheres);
+        return $this->_getAllCampaigns($aWheres);
     }
 
     /**

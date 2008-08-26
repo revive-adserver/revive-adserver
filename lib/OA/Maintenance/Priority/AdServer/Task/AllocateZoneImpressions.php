@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -148,31 +148,14 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
 
     /**
      * A private method to return an array of OX_Maintenance_Priority_Campaign
-     * objects, in the following array order:
-     *
-     * - Campaign priority from highest (user defined value > 1) to lowest (1).
-     * - Within the same priority level, campaigns with expiry dates first.
-     * - Within campaigns with expiry dates, campaigns with sooner expiry dates first.
+     * objects
      *
      * @access private
-     * @return array An array of OX_Maintenance_Priority_Campaign objects, in the
-     *               above order.
-     *
-     * @TODO It is no longer necessary for the campaigns to be ordered as described
-     *       above, so this ordering can be removed, if desired.
+     * @return array An array of OX_Maintenance_Priority_Campaign objects.
      */
     function _getAllCampaigns()
     {
-        $orderBys[] = array('priority','DESC');
-        $orderBys[] = array('expire','ASC');
-        $aCampaigns = $this->oDal->getPlacements(array(), array(), array(), $orderBys);
-        $aCampaignObjects = array();
-        if (is_array($aCampaigns) && !empty($aCampaigns)) {
-            foreach ($aCampaigns as $aCampaignData) {
-                $aCampaignObjects[] = new OX_Maintenance_Priority_Campaign($aCampaignData);
-            }
-        }
-        return $aCampaignObjects;
+        return $this->oDal->getCampaigns();
     }
 
     /**

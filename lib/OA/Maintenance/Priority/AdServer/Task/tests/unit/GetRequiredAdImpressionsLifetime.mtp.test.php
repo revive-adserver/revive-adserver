@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -126,7 +126,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
      * A method to test the _getAllCampaigns() method.
      *
      * For each test, sets the return value of the mocked DAL object's
-     * getPlacements() method, and then ensure that the returned value
+     * getCampaigns() method, and then ensure that the returned value
      * from a call to the getAllCampaigns() method is correct.
      *
      * Test 1: Tests when no data is returned from the DAL.
@@ -137,7 +137,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         $oGetRequiredAdImpressionsLifetime =& $this->_getCurrentTask();
 
         // Test 1
-        $oGetRequiredAdImpressionsLifetime->oDal->setReturnValueAt(0, 'getPlacements', array());
+        $oGetRequiredAdImpressionsLifetime->oDal->setReturnValueAt(0, 'getCampaigns', array());
         $oResult = $oGetRequiredAdImpressionsLifetime->_getAllCampaigns();
         $this->assertTrue(is_array($oResult));
         $this->assertEqual(count($oResult), 0);
@@ -145,9 +145,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         // Test 2
         $oGetRequiredAdImpressionsLifetime->oDal->setReturnValueAt(
             1,
-            'getPlacements',
+            'getCampaigns',
             array(
-                array(
+                new OX_Maintenance_Priority_Campaign(array(
                     'campaignid'        => 1,
                     'expire'            => '2005-12-08 13:55:00',
                     'views'             => 10,
@@ -157,8 +157,8 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
                     'target_click'      => 6,
                     'target_conversion' => 7,
                     'priority'          => 3
-                ),
-                array(
+                )),
+                new OX_Maintenance_Priority_Campaign(array(
                     'campaignid'        => 2,
                     'expire'            => '2005-12-08 13:55:01',
                     'views'             => 11,
@@ -168,7 +168,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
                     'target_click'      => 7,
                     'target_conversion' => 8,
                     'priority'          => 4
-                )
+                ))
             )
         );
         $oResult = $oGetRequiredAdImpressionsLifetime->_getAllCampaigns();
@@ -215,13 +215,12 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         $oServiceLocator =& OA_ServiceLocator::instance();
         $oDate = new Date('2005-12-08 13:55:00');
         $oServiceLocator->register('now', $oDate);
-        $oGetRequiredAdImpressionsLifetime->oDal->setReturnValue('getPlacements', array());
+        $oGetRequiredAdImpressionsLifetime->oDal->setReturnValue('getCampaigns', array());
         $oDbh = OA_DB::singleton();
         $table = $oDbh->quoteIdentifier($table, true);
         $oGetRequiredAdImpressionsLifetime->oDal->expectOnce(
-            'getPlacements',
+            'getCampaigns',
             array(
-                array(),
                 array(
                     array("($table.activate " . OA_Dal::equalNoDateString() . " OR $table.activate <= '" . $oDate->format('%Y-%m-%d') . "')", 'AND'),
                     array("$table.expire >= '" . $oDate->format('%Y-%m-%d') . "'", 'AND'),

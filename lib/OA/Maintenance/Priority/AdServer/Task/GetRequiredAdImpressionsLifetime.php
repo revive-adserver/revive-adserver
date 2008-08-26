@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX  v${RELEASE_MAJOR_MINOR}                                                              |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX  v${RELEASE_MAJOR_MINOR}                                            |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -101,7 +101,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime ext
             array("$table.status = ".OA_ENTITY_STATUS_RUNNING, 'AND'),
             array("($table.views > 0 OR $table.clicks > 0 OR $table.conversions > 0)", 'AND')
         );
-        return $this->_getAllCampaigns(array(), $aWheres);
+        return $this->_getAllCampaigns($aWheres);
     }
 
     /**

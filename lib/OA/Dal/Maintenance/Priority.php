@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -31,6 +31,7 @@ require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 require_once MAX_PATH . '/lib/OA/Dll.php';
+require_once MAX_PATH . '/lib/OX/Maintenance/Priority/Campaign.php';
 
 /**
  * Definition of how far back in time the DAL will look for
@@ -129,92 +130,66 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     }
 
     /**
-     * A method to get all placements.
+     * A method to return an array of Campaign objects.
      *
-     * @param $fields   array An array of extra fields to select, if required.
-     * @param $where    array An array of extra where statements to filter on, if required.
-     *                        This would almost always be set, to limit the placements returned
-     *                        to some sub-set of all the placements.
-     * @param $joins    array An array of extra join statements to join with, if required.
-     * @param $orderBy  array An array of extra order by statements to order with, if required.
-     * @return array
+     * @param $where array An array of arrays of WHERE statements to filter on.
+     *                     The format of each where array is: array(<condition>, <logic>).
+     *                     Eg, array('target_impression > 0', 'AND')
+     *                     This would almost always be set, to limit the campaigns returned
+     *                     to some sub-set of all the campaigns.
+     * @access protected
+     * @return array An array of Campaign objects.
      */
-    function getPlacements($fields = array(), $wheres = array(), $joins = array(), $orderBys = array())
+    function getCampaigns($where = array())
     {
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        $query = array();
-        $table             = $this->_getTablename('campaigns');
-        $query['table']    = $table;
-        $query['fields']   = array(
-                                "$table.campaignid",
-                                "$table.views",
-                                "$table.clicks",
-                                "$table.conversions",
-                                "$table.activate",
-                                "$table.expire",
-                                "$table.target_impression",
-                                "$table.target_click",
-                                "$table.target_conversion",
-                                "$table.priority"
-                             );
-        // Add the custom fields
-        if (is_array($fields) && (count($fields) > 0)) {
-            foreach ($fields as $field) {
-                $query['fields'][] = "$field";
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        if (!empty($where) && is_array($where)) {
+            foreach ($where as $condition) {
+            	$doCampaigns->whereAdd($condition[0], $condition[1]);
             }
         }
-        // Add the custom where statements
-        if (is_array($wheres) && (count($wheres) > 0)) {
-            foreach ($wheres as $where) {
-                $query['wheres'][] = $where;
-            }
+        $doCampaigns->find();
+        $aCampaignObjects = array();
+        while ($doCampaigns->fetch()) {
+            $aCampaignObjects[] = new OX_Maintenance_Priority_Campaign($doCampaigns->toArray());
         }
-        // Add the custom join statements
-        if (is_array($joins) && (count($joins) > 0)) {
-            foreach ($joins as $join) {
-                $query['joins'][] = $join;
-            }
-        }
-        // Add the custom order by statements
-        if (is_array($orderBys) && (count($orderBys) > 0)) {
-            foreach ($orderBys as $orderBy) {
-                $query['orderBys'][] = $orderBy;
-            }
-        }
-        return $this->_get($query);
+        
+        return $aCampaignObjects;
     }
 
     /**
-     * A method to get basic data about placements (previously campaigns).
+     * A method to get basic data about campaigns.
      *
-     * @param integer $id The placement ID.
+     * @param integer $id The campaign ID.
      * @return array An array containing the advertiser_id, placement_id,
-     *               and name of the placement, if the placement is "active"
+     *               and name of the campaign, if the campaign is "active"
      *               or not (true/false), and the "num_children" value (the
-     *               number of advertisements in the placement).
+     *               number of advertisements in the campaign).
      */
-    function getPlacementData($id)
+    function getCampaignData($id)
     {
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        $query = array();
-        $table             = $this->_getTablename('campaigns');
-        $joinTable         = $this->_getTablename('banners');
-        $query['table']    = $table;
-        $query['fields']   = array(
-                                "$table.clientid AS advertiser_id",
-                                "$table.campaignid AS placement_id",
-                                "$table.campaignname AS name",
-                                "$table.status AS status",
-                                "COUNT($joinTable.bannerid) AS num_children"
-                             );
-        $query['wheres']   = array(
-                                array("$table.campaignid = $id", 'AND')
-                             );
-        $query['joins']    = array(
-                                array($joinTable, "$table.campaignid = $joinTable.campaignid")
-                             );
-        $query['group']    = "advertiser_id, placement_id, name, status";
-        return $this->_get($query);
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doCampaigns->campaignid = $id;
+        $doCampaigns->joinAdd($doBanners);
+        
+        $doCampaigns->selectAdd();
+        $doCampaigns->selectAdd('clientid, ' . $doCampaigns->tableName() . '.campaignid, campaignname, ' . 
+            $doCampaigns->tableName() . '.status');
+        
+        $doCampaigns->groupBy('clientid, ' . $doCampaigns->tableName() . '.campaignid, campaignname, ' . 
+            $doCampaigns->tableName() . '.status');
+        
+        $doCampaigns->find(true);
+        
+        $aData = array(
+            'advertiser_id' => $doCampaigns->clientid,
+            'placement_id' => $doCampaigns->campaignid,
+            'name' => $doCampaigns->campaignname,
+            'status' => $doCampaigns->status,
+            'num_children' => $doBanners->count('bannerid'));
+        
+        return $aData;
     }
 
     /**
@@ -226,7 +201,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      *               "sum_requests", "sum_views", "sum_clicks" and "sum_conversions"
      *               for that placement.
      */
-    function getPlacementDeliveryToDate($id)
+    function getCampaignDeliveryToDate($id)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $query = array();
@@ -262,7 +237,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      *               "sum_requests", "sum_views", "sum_clicks" and "sum_conversions"
      *               for that placement.
      */
-    function getPlacementDeliveryToday($id, $today)
+    function getCampaignDeliveryToday($id, $today)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $query = array();
@@ -290,18 +265,18 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     }
 
     /**
-     * A convenience method that combines the results of the getPlacementData and
-     * (getPlacementDeliveryToDate or getPlacementDeliverToday) methods into one
+     * A convenience method that combines the results of the getCampaignData and
+     * (getCampaignDeliveryToDate or getCampaignDeliveryToday) methods into one
      * result set.
      *
-     * @param integer $id The placement ID.
+     * @param integer $id The campaign ID.
      * @param boolean $todayOnly If true, only look at what has been delivered today
-     *                           for the delivery statistics (ie. use getPlacementDeliverToday),
-     *                           otherwise use the delivery statistics for the entire placement
-     *                           lifetime (ie. use getPlacementDeliveryToDate).
+     *                           for the delivery statistics (ie. use getCampaignDeliveryToday),
+     *                           otherwise use the delivery statistics for the entire campaign
+     *                           lifetime (ie. use getCampaignDeliveryToDate).
      * @param string $today A "CCYY-MM-DD" formatted representation of today's date, only
      *                      required when $todayOnly is true.
-     * @return array An array of the placement's details, containing the following:
+     * @return array An array of the campaign's details, containing the following:
      *
      * Array
      *     (
@@ -316,16 +291,13 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      *         [sum_conversions] => 0
      *     )
      */
-    function getPlacementStats($id, $todayOnly = false, $today = '')
+    function getCampaignStats($id, $todayOnly = false, $today = '')
     {
-        $aTemp = $this->getPlacementData($id);
-        if ((!empty($aTemp[0]) && is_array($aTemp[0]))) {
-            $aPlacements = $aTemp[0];
-        }
+        $aPlacements = $this->getCampaignData($id);
         if ($todayOnly) {
-            $aPlacementsStats = $this->getPlacementDeliveryToday($id, $today);
+            $aPlacementsStats = $this->getCampaignDeliveryToday($id, $today);
         } else {
-            $aPlacementsStats = $this->getPlacementDeliveryToDate($id);
+            $aPlacementsStats = $this->getCampaignDeliveryToDate($id);
         }
         $items = array(
             'sum_requests',

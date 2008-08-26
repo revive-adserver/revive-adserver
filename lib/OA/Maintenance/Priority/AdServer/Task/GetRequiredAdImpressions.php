@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -139,31 +139,19 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
      * A private method that can be used by implementations of _getValidCampaigns()
      * in children classes to return an array of OX_Maintenance_Priority_Campaign objects.
      *
-     * Essentially a convenience method to convert the results of the
-     * {@link OA_Dal_Maintenance_Priority::getPlacements()} method from an array
-     * of database records into an array of OX_Maintenance_Priority_Campaign objects.
-     *
      * @access private
-     * @param array $aFields An optional array of extra fields to select from the database
-     *                       (see the {@link OA_Dal_Maintenance_Priority::getPlacements()}
-     *                       class.)
-     * @param array $aWheres An optional array of where statements to limit which campaigns
-     *                       are returned from the database (see the
-     *                       {@link MAX_Dal_Maintenance::getPlacements()} class.)
+     * @param array $where An optional array of where statements to limit which placements
+     *                     are returned from the database (see the
+     *                     {@link MAX_Dal_Maintenance::getCampaigns()} class.)
      * @return array An array of {@link OX_Maintenance_Priority_Campaign} objects, appropriate to the
-     *               $filter given.
+     *               $where given.
      */
-    function _getAllCampaigns($aFields = array(), $aWheres = array())
+    function _getAllCampaigns($where = array())
     {
-        $aCampaignObjects = array();
-        $aCampaigns = $this->oDal->getPlacements($aFields, $aWheres);
-        if (is_array($aCampaigns) && (count($aCampaigns) > 0)) {
-            foreach ($aCampaigns as $aCampaign) {
-                $aCampaignObjects[] = new OX_Maintenance_Priority_Campaign($aCampaign);
-            }
-        }
-        return $aCampaignObjects;
+        return $this->oDal->getCampaigns($where);
     }
+    
+
 
     /**
      * A method to estimate the impressions required to fulfill a campaign's

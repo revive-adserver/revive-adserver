@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX  v${RELEASE_MAJOR_MINOR}                                                              |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX  v${RELEASE_MAJOR_MINOR}                                            |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -180,6 +180,19 @@ class OA_Maintenance_Priority_Ad
 	{
 		return $this->oMaxDalMaintenancePriority->getAllDeliveryLimitationsByTypeId($this->id, 'ad');
 	}
+	
+	/**
+     * A private method to abort script execution when an attempt is made
+     * to instantiate the entity with incorrect parameters.
+     *
+     * @access private
+     */
+    function _abort()
+    {
+            $error = 'Unable to instantiate ' . __CLASS__ . ' object, aborting execution.';
+            OA::debug($error, PEAR_LOG_EMERG);
+            exit();
+    }
 
 }
 

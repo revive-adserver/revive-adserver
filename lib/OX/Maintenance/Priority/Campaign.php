@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| OpenX v${RELEASE_MAJOR_MINOR}                                             |
+| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
 |                                                                           |
 | Copyright (c) 2003-2008 OpenX Limited                                     |
 | For contact details, see: http://www.openx.org/                           |
@@ -308,7 +308,7 @@ class OX_Maintenance_Priority_Campaign
      */
     function setSummaryStatisticsToDate()
     {
-        $aStats = $this->oMaxDalMaintenancePriority->getPlacementStats($this->id, false);
+        $aStats = $this->oMaxDalMaintenancePriority->getCampaignStats($this->id, false);
         $this->deliveredRequests    = (int)$aStats['sum_requests'];
         $this->deliveredImpressions = (int)$aStats['sum_views'];
         $this->deliveredClicks      = (int)$aStats['sum_clicks'];
@@ -324,13 +324,25 @@ class OX_Maintenance_Priority_Campaign
      */
     function setSummaryStatisticsToday($today)
     {
-        $aStats = $this->oMaxDalMaintenancePriority->getPlacementStats($this->id, true, $today);
+        $aStats = $this->oMaxDalMaintenancePriority->getCampaignStats($this->id, true, $today);
         $this->deliveredRequests    = (int)$aStats['sum_requests'];
         $this->deliveredImpressions = (int)$aStats['sum_views'];
         $this->deliveredClicks      = (int)$aStats['sum_clicks'];
         $this->deliveredConversions = (int)$aStats['sum_conversions'];
     }
-
+    
+    /**
+     * A private method to abort script execution when an attempt is made
+     * to instantiate the entity with incorrect parameters.
+     *
+     * @access private
+     */
+    function _abort()
+    {
+            $error = 'Unable to instantiate ' . __CLASS__ . ' object, aborting execution.';
+            OA::debug($error, PEAR_LOG_EMERG);
+            exit();
+    }
 }
 
 ?>
