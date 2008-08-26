@@ -77,6 +77,12 @@ function phpAds_PageShortcut($name, $link, $icon)
     );
 }
 
+function registerStylesheetFile($filePath)
+{
+    $GLOBALS['_MAX']['ADMIN_UI'] = OA_Admin_UI::getInstance();
+    $GLOBALS['_MAX']['ADMIN_UI']->registerStylesheetFile($filePath);
+}
+
 
 /**
  * Show page header
@@ -93,7 +99,7 @@ function phpAds_PageShortcut($name, $link, $icon)
  */
 function phpAds_PageHeader($ID = null, $extra="", $imgPath="", $showSidebar=true, $showMainNav=true, $noBorder = false)
 {
-    $GLOBALS['_MAX']['ADMIN_UI'] = new OA_Admin_UI();
+    $GLOBALS['_MAX']['ADMIN_UI'] = OA_Admin_UI::getInstance();
     $GLOBALS['_MAX']['ADMIN_UI']->showHeader($ID, $extra, $imgPath, $showSidebar, $showMainNav, $noBorder);
     $GLOBALS['phpAds_GUIDone'] = true;
 }

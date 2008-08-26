@@ -31,3 +31,8 @@ $Id$
 <link rel="stylesheet" type="text/css" href="{$assetPath}/{$stylesheet}" />
   {/foreach}
 {/if}
+
+{foreach from=$aOtherStylesheets item=stylesheet}
+    <link rel="stylesheet" type="text/css" href="{$stylesheet}" />
+{/foreach}
+

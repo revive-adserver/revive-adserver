@@ -40,6 +40,12 @@ require_once LIB_PATH . '/Admin/Redirect.php';
 class OA_Admin_UI
 {
     /**
+      * Singleton instance.
+      * Holds the only one UI instance created per request
+      */
+    private static $_instance;
+        
+    /**
      * @var OA_Admin_Template
      */
     var $oTpl;
@@ -48,18 +54,43 @@ class OA_Admin_UI
 
     /** holds the id of the page being currently displayed **/
     var $currentSectionId;
+    
+    /**
+     * An array containing a list of CSS files to be included in HEAD section 
+     * when page header is rendered.
+     * @var array 
+     */
+    var $otherCSSFiles;
+    
 
     /**
-     * Class constructor
+     * Class constructor, private to force getInstance usage
      *
      * @return OA_Admin_UI
      */
-    function OA_Admin_UI()
+    private function __construct()
     {
         $this->oTpl = new OA_Admin_Template('layout/main.html');
+        $this->otherCSSFiles = array();        
         $this->setLinkParams();
     }
+    
 
+    /**
+     * Singleton instance
+     *
+     * @return OA_Admin_UI object
+     */
+    public static function getInstance()
+    {
+        if (null === self::$_instance) {
+            self::$_instance = new self();
+        }
+
+        return self::$_instance;
+    }
+        
+    
     function setLinkParams()
     {
         global $affiliateid, $agencyid, $bannerid, $campaignid, $channelid, $clientid, $day, $trackerid, $userlogid, $zoneid;
@@ -438,7 +469,10 @@ class OA_Admin_UI
         $this->oTpl->assign('genericStylesheets', urlencode(implode(',', $this->genericStylesheets())));
         $this->oTpl->assign('genericJavascript', urlencode(implode(',', $this->genericJavascript())));
         $this->oTpl->assign('aGenericStyleshets', $this->genericStylesheets());
+        $this->oTpl->assign('aOtherStylesheets', $this->otherCSSFiles);
+        
         $this->oTpl->assign('aGenericJavascript', $this->genericJavascript());
+        
         $this->oTpl->assign('combineAssets', $conf['ui']['combineAssets']);
     }
 
@@ -546,7 +580,8 @@ class OA_Admin_UI
         }
     }
 
-    function genericJavascript() {
+    function genericJavascript() 
+    {
         return array (
             'js/jquery-1.2.3.js',
             'js/effects.core.js',
@@ -574,7 +609,8 @@ class OA_Admin_UI
         );
     }
 
-    function genericStylesheets() {
+    function genericStylesheets() 
+    {
         global $phpAds_TextDirection;
 
         if ($phpAds_TextDirection == 'ltr') {
@@ -598,5 +634,13 @@ class OA_Admin_UI
             'css/interface-rtl.css'
         );
     }
+    
+    function registerStylesheetFile($filePath) 
+    {
+        if (!in_array($filePath, $this->otherCSSFiles)) {
+            $this->otherCSSFiles[] = $filePath;     
+        }
+    }
+    
 }
 ?>
