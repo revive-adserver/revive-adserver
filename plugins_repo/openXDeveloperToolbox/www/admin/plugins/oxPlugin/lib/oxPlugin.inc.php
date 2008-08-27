@@ -201,6 +201,7 @@ class OX_PluginBuilder_Package extends OX_PluginBuilder_Common
             $groups.= "            <group name=\"{$group}\">{$i}</group>\n";
         }
         $data = str_replace('{GROUPS}', $groups, $data);
+        $data = str_replace('{NAME}', $this->aValues['name'], $data);
         $i = file_put_contents($pluginDefinitionFile, $data);
 
         copy($pluginDefinitionFile, str_replace('plugin',$this->aValues['name'], $pluginDefinitionFile));

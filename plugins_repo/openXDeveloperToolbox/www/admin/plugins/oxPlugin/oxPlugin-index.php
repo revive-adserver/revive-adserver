@@ -44,14 +44,16 @@ phpAds_registerGlobalUnslashed(
                               );
 
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
+global $session;
+
 $aVersion['major'] = 0;
 $aVersion['minor'] = 0;
 $aVersion['build'] = 1;
 $aVersion['status'] = '-dev';
 $aValues['name']          = ($name        ? $name        : 'myPlugin');
-$aValues['email']         = ($email       ? $email       : 'me@mydomain.org');
-$aValues['author']        = ($author      ? $author      : 'me');
-$aValues['url']           = ($url         ? $url         : 'www.mydomain.org');
+$aValues['email']         = ($email       ? $email       : $session['user']->aUser['email_address']);
+$aValues['author']        = ($author      ? $author      : $session['user']->aUser['contact_name']);
+$aValues['url']           = ($url         ? $url         : $GLOBALS['HTTP_SERVER_VARS']['HTTP_HOST']);
 $aValues['licence']       = ($licence     ? $licence     : 'GPL');
 $aValues['description']   = ($description ? $description : 'My New Plugin');
 $aValues['group']         = ($group       ? $group       : array());
@@ -141,7 +143,6 @@ function processForm(&$form, $aPluginValues)
 
     require_once(LIB_PATH.'/Plugin/PluginManager.php');
     $oPluginManager = new OX_PluginManager();
-    $oPluginManager->_decompressFile('etc/plugin.zip', $pathPackages);
 
     $aVersion                   = $aPluginValues['version'];
     $aPluginValues['date']      = date('Y-d-m');
@@ -179,6 +180,7 @@ function processForm(&$form, $aPluginValues)
             $oBuilder->putGroup();
         }
     }
+    $oPluginManager->_decompressFile('etc/plugin.zip', $pathPackages);
     $oBuilder = new OX_PluginBuilder_Package();
     $oBuilder->init($aPluginValues);
     $oBuilder->putPlugin();
