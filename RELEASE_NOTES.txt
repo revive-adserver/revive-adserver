@@ -30,8 +30,7 @@ These release notes cover what's new, system requirements, download and
 installation instructions, known issues and frequently asked questions for
 OpenX ${RELEASE_VERSION}. Please read these notes before reporting any bugs.
 
-Please tell us what you think on the OpenX ${RELEASE_MAJOR_MINOR} forum
-[http://forum.openx.org/index.php?showforum=55].
+Please tell us what you think on the OpenX forum [http://forum.openx.org/].
 
 
 What's New in OpenX ${RELEASE_VERSION}
