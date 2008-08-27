@@ -145,7 +145,7 @@ function processForm(&$form, $aPluginValues)
     $oPluginManager = new OX_PluginManager();
 
     $aVersion                   = $aPluginValues['version'];
-    $aPluginValues['date']      = date('Y-d-m');
+    $aPluginValues['date']      = date('Y-m-d');
     $aPluginValues['oxversion'] = OA_VERSION;
     $aPluginValues['version']   = $aVersion['major'].'.'.$aVersion['minor'].'.'.$aVersion['build'].$aVersion['status'];
     $aGroupValues               = $aPluginValues['group'];
