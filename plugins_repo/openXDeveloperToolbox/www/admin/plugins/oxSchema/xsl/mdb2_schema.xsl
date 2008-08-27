@@ -41,11 +41,10 @@
                 <xsl:if test="$status='final'">
                     <xsl:call-template name="showadminmenufinal"/>
                 </xsl:if>
-            </form>
                 <xsl:if test="$status='transitional'">
-                    <!--xsl:call-template name="showadminmenutrans"/-->
-                    <a href="oxSchema-frame.php?btn_compare_schemas=asfhdksjdhf" target="_blank">inspect the changeset</a>
+                    <xsl:call-template name="showadminmenutrans"/>
                 </xsl:if>
+            </form>
         </td>
     </tr>
     <tr>
