@@ -38,10 +38,8 @@ class Plugins_TestOfPlugins_openXBannerTypes extends UnitTestCase
 {
     function setUp()
     {
-        $oPkgMgr = new OX_PluginManager();
         TestEnv::uninstallPluginPackage('openXBannerTypes');
         TestEnv::installPluginPackage('openXBannerTypes');
-
     }
 
     function tearDown()
@@ -66,7 +64,7 @@ class Plugins_TestOfPlugins_openXBannerTypes extends UnitTestCase
     {
         $sender = $group.'_'.$component;
         $this->assertIsA($oComponent, 'Plugins_'.$extension.'_'.$group.'_'.$component, $sender.' invalid class');
-        $this->assertIsA($oComponent, 'Plugins_'.$extension.'_'.$group.'_'.$component, $sender.' invalid parent class');
+        $this->assertIsA($oComponent, 'Plugins_'.$extension, $sender.' invalid parent class');
         $this->assertTrue(method_exists($oComponent, 'getStorageType'), $sender.' missing method getStorageType');
         $this->assertTrue(method_exists($oComponent, 'getContentType'), $sender.' missing method getContentType');
         $this->assertTrue(method_exists($oComponent, 'getOptionDescription'), $sender.' missing method getOptionDescription');
