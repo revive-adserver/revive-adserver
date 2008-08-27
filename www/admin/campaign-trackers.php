@@ -105,7 +105,7 @@ if (!empty($campaignid)) {
 
             }
         }
-        $oUI = new OA_Admin_UI();
+        $oUI = OA_Admin_UI::getInstance();
         OX_Admin_Redirect::redirect($oUI->getNextPage());
     }
 }
