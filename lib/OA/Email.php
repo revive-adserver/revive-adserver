@@ -414,7 +414,7 @@ class OA_Email
         $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
         $aCampaign = $doCampaigns->toArray();
 
-        $aPreviousOIDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate, $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval']);
+        $aPreviousOIDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
 
         $aLinkedUsers['advertiser'] = $this->getUsersLinkedToAccount('clients', $aCampaign['clientid']);
 
