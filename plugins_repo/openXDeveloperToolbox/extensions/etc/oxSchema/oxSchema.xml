@@ -42,7 +42,7 @@
             <file path="{ADMINPATH}/etc/">dd.common.xml</file>
             <file path="{ADMINPATH}/etc/">dd.generic.xml</file>
             <file path="{ADMINPATH}/">oxSchema-index.php</file>
-            <file path="{ADMINPATH}/">oxSchema-archive.php</file>
+            <file path="{ADMINPATH}/">oxSchema-changes.php</file>
             <file path="{ADMINPATH}/">oxSchema-frame.php</file>
         </files>
 

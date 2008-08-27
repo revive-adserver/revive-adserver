@@ -9,30 +9,9 @@
     <script type="text/javascript" src="../../../../var/plugins/cache/oxSchema.js"></script>
     <script type="text/javascript" src="../../assets/js/xajax.js"></script>
 </head>
-<body onload="xajax_loadChangeset();">
-
+<body>
     <div>
         <table class="tablemain">
-            <tr>
-                <td class="tableheader" style="text-align:left;">
-                    <form name="frm_select" method="POST" action="oxSchema-archive.php">
-                        <xsl:text>archive :: </xsl:text>
-                        <select id="select_changesets" name="select_changesets" onchange="frm_select.submit()">
-                            <option value=""></option>
-                        </select>
-                    </form>
-                </td>
-                <!--td class="tableheader" style="text-align:right;">
-                    <form name="frm_test" method="POST" action="oxSchema-archive.php">
-                        <button id="btn_migration_create" name="btn_migration_create" type="submit" style="display:none;">create a migration class</button>
-                    </form>
-                </td>
-                <td class="tableheader" style="text-align:right;">
-                    <form name="frm_admin" method="POST" action="oxSchema-frame.php">
-                        <button name="btn_changeset_cancel" type="submit">go back to the schema page</button>
-                    </form>
-                </td-->
-            </tr>
             <tr id="trans_changeset" style="display:block;">
                 <td class="tableheader" colspan="10">
                     <form name="frm_admin" method="POST" action="oxSchema-frame.php">
@@ -43,7 +22,8 @@
                             <br />
                             <xsl:text>version</xsl:text>
                             <br />
-                            <input type="text" id="version" name="version" value="" size="10" />
+                            <xsl:variable name="version"><xsl:value-of select="//instructionset/version"/></xsl:variable>
+                            <input type="text" id="version" name="version" value="{$version}" size="10" />
                         </span>
                         <span class="titlemini" style="text-align:right;vertical-align:top;">
                             <input name="btn_commit_final" type="submit" value="finalise this changeset"/>
@@ -53,7 +33,7 @@
             </tr>
         </table>
     </div>
-    <form name="frm_admin" method="POST" action="oxSchema-archive.php">
+    <form name="frm_admin" method="POST" action="oxSchema-frame.php">
 
     <xsl:choose>
         <xsl:when test="//instructionset">
@@ -97,42 +77,46 @@
     <br/><br/>
 
     <xsl:if test="$showconstructive='yes'">
-        <span class="titlemini">
-            <xsl:value-of select="name"/>
-            <xsl:text> :: version :: </xsl:text>
-            <xsl:value-of select="version"/>
-            <xsl:text> :: constructive changes</xsl:text>
-        </span>
+        <div>
+            <span class="titlemini">
+                <xsl:value-of select="name"/>
+                <xsl:text> :: version :: </xsl:text>
+                <xsl:value-of select="version"/>
+                <xsl:text> :: constructive changes</xsl:text>
+            </span>
+        </div>
         <xsl:if test="add">
-            <TABLE class="tablemain">
-                <tr>
-                    <th class="tableheader" style="text-align:left;">
-                        <span class="titlemini">
-                            <xsl:text>tables added to schema</xsl:text>
-                        </span>
-                    </th>
-                    <th class="tableheader" style="text-align:left;">was called</th>
-                </tr>
-                <xsl:for-each select="add/table">
+            <div>
+                <TABLE class="tablemain">
                     <tr>
-                        <td class="tablebody">
-                            <xsl:value-of select="name"/>
-                        </td>
-                        <td class="tablebody">
-                            <span id="was_edit_table" style="display:inline;">
-                                <xsl:call-template name="showwastable">
-                                    <xsl:with-param name="table">
-                                        <xsl:value-of select="name"/>
-                                    </xsl:with-param>
-                                </xsl:call-template>
+                        <th class="tableheader" style="text-align:left;">
+                            <span class="titlemini">
+                                <xsl:text>tables added to schema</xsl:text>
                             </span>
-                            <span id="was_show_table" style="display:none;">
-                                <xsl:value-of select="was"/>
-                            </span>
-                        </td>
+                        </th>
+                        <th class="tableheader" style="text-align:left;">was called</th>
                     </tr>
-                </xsl:for-each>
-            </TABLE>
+                    <xsl:for-each select="add/table">
+                        <tr>
+                            <td class="tablebody">
+                                <xsl:value-of select="name"/>
+                            </td>
+                            <td class="tablebody">
+                                <span id="was_edit_table" style="display:inline;">
+                                    <xsl:call-template name="showwastable">
+                                        <xsl:with-param name="table">
+                                            <xsl:value-of select="name"/>
+                                        </xsl:with-param>
+                                    </xsl:call-template>
+                                </span>
+                                <span id="was_show_table" style="display:none;">
+                                    <xsl:value-of select="was"/>
+                                </span>
+                            </td>
+                        </tr>
+                    </xsl:for-each>
+                </TABLE>
+            </div>
         </xsl:if>
         <xsl:if test="rename">
             <TABLE class="tablemain">
@@ -157,65 +141,69 @@
             </TABLE>
         </xsl:if>
         <xsl:if test="change/table">
-            <TABLE class="tablemain">
-                <xsl:for-each select="change/table">
-                    <xsl:variable name="tablename" select="name"/>
-                    <xsl:if test="add/field">
-                        <xsl:call-template name="showfieldheader">
-                            <xsl:with-param name="method" select="'add'"/>
-                        </xsl:call-template>
-                        <xsl:for-each select="add/field">
-                            <xsl:call-template name="showfield">
-                                <xsl:with-param name="table"><xsl:value-of select="$tablename"/></xsl:with-param>
-                                <xsl:with-param name="method"><xsl:value-of select="'add'"/></xsl:with-param>
+            <div>
+                <TABLE class="tablemain">
+                    <xsl:for-each select="change/table">
+                        <xsl:variable name="tablename" select="name"/>
+                        <xsl:if test="add/field">
+                            <xsl:call-template name="showfieldheader">
+                                <xsl:with-param name="method" select="'add'"/>
                             </xsl:call-template>
-                        </xsl:for-each>
-                    </xsl:if>
-                    <xsl:if test="rename/field">
-                        <xsl:call-template name="showfieldheader">
-                            <xsl:with-param name="method" select="'rename'"/>
-                        </xsl:call-template>
-                        <xsl:for-each select="rename/field">
-                            <xsl:call-template name="showfield">
-                                <xsl:with-param name="table"><xsl:value-of select="$tablename"/></xsl:with-param>
-                                <xsl:with-param name="method"><xsl:value-of select="'rename'"/></xsl:with-param>
+                            <xsl:for-each select="add/field">
+                                <xsl:call-template name="showfield">
+                                    <xsl:with-param name="table"><xsl:value-of select="$tablename"/></xsl:with-param>
+                                    <xsl:with-param name="method"><xsl:value-of select="'add'"/></xsl:with-param>
+                                </xsl:call-template>
+                            </xsl:for-each>
+                        </xsl:if>
+                        <xsl:if test="rename/field">
+                            <xsl:call-template name="showfieldheader">
+                                <xsl:with-param name="method" select="'rename'"/>
                             </xsl:call-template>
-                        </xsl:for-each>
-                    </xsl:if>
-                    <xsl:if test="change/field">
-                        <xsl:call-template name="showfieldheader">
-                            <xsl:with-param name="method" select="'change'"/>
-                        </xsl:call-template>
-                        <xsl:for-each select="change/field">
-                            <xsl:call-template name="showfield">
-                                <xsl:with-param name="table"><xsl:value-of select="$tablename"/></xsl:with-param>
-                                <xsl:with-param name="method"><xsl:value-of select="'change'"/></xsl:with-param>
+                            <xsl:for-each select="rename/field">
+                                <xsl:call-template name="showfield">
+                                    <xsl:with-param name="table"><xsl:value-of select="$tablename"/></xsl:with-param>
+                                    <xsl:with-param name="method"><xsl:value-of select="'rename'"/></xsl:with-param>
+                                </xsl:call-template>
+                            </xsl:for-each>
+                        </xsl:if>
+                        <xsl:if test="change/field">
+                            <xsl:call-template name="showfieldheader">
+                                <xsl:with-param name="method" select="'change'"/>
                             </xsl:call-template>
-                        </xsl:for-each>
-                    </xsl:if>
-                    <xsl:if test="index/add">
-                        <xsl:call-template name="showindexheader">
-                            <xsl:with-param name="method" select="'add'"/>
-                        </xsl:call-template>
-                        <xsl:for-each select="index/add">
-                            <xsl:call-template name="showindex">
-                                <xsl:with-param name="table"><xsl:value-of select="$tablename"/></xsl:with-param>
-                                <xsl:with-param name="method"><xsl:value-of select="'add'"/></xsl:with-param>
+                            <xsl:for-each select="change/field">
+                                <xsl:call-template name="showfield">
+                                    <xsl:with-param name="table"><xsl:value-of select="$tablename"/></xsl:with-param>
+                                    <xsl:with-param name="method"><xsl:value-of select="'change'"/></xsl:with-param>
+                                </xsl:call-template>
+                            </xsl:for-each>
+                        </xsl:if>
+                        <xsl:if test="index/add">
+                            <xsl:call-template name="showindexheader">
+                                <xsl:with-param name="method" select="'add'"/>
                             </xsl:call-template>
-                        </xsl:for-each>
-                    </xsl:if>
-                </xsl:for-each>
-            </TABLE>
+                            <xsl:for-each select="index/add">
+                                <xsl:call-template name="showindex">
+                                    <xsl:with-param name="table"><xsl:value-of select="$tablename"/></xsl:with-param>
+                                    <xsl:with-param name="method"><xsl:value-of select="'add'"/></xsl:with-param>
+                                </xsl:call-template>
+                            </xsl:for-each>
+                        </xsl:if>
+                    </xsl:for-each>
+                </TABLE>
+            </div>
         </xsl:if>
     </xsl:if>
 
     <xsl:if test="$showdestructive='yes'">
-        <span class="titlemini">
-            <xsl:value-of select="name"/>
-            <xsl:text> :: version :: </xsl:text>
-            <xsl:value-of select="version"/>
-            <xsl:text> :: destructive changes</xsl:text>
-        </span>
+        <div>
+            <span class="titlemini">
+                <xsl:value-of select="name"/>
+                <xsl:text> :: version :: </xsl:text>
+                <xsl:value-of select="version"/>
+                <xsl:text> :: destructive changes</xsl:text>
+            </span>
+            </div>
          <xsl:if test="remove">
             <TABLE class="tablemain">
                 <tr>
@@ -235,33 +223,35 @@
             </TABLE>
         </xsl:if>
         <xsl:if test="change/table">
-            <TABLE class="tablemain">
-                <xsl:for-each select="change/table">
-                    <xsl:variable name="tablename" select="name"/>
-                    <xsl:if test="remove/field">
-                        <xsl:call-template name="showfieldheader">
-                            <xsl:with-param name="method" select="'remove'"/>
-                        </xsl:call-template>
-                        <xsl:for-each select="remove/field">
-                            <xsl:call-template name="showfield">
-                                <xsl:with-param name="table"><xsl:value-of select="$tablename"/></xsl:with-param>
-                                <xsl:with-param name="method"><xsl:value-of select="'remove'"/></xsl:with-param>
+            <div>
+                <TABLE class="tablemain">
+                    <xsl:for-each select="change/table">
+                        <xsl:variable name="tablename" select="name"/>
+                        <xsl:if test="remove/field">
+                            <xsl:call-template name="showfieldheader">
+                                <xsl:with-param name="method" select="'remove'"/>
                             </xsl:call-template>
-                        </xsl:for-each>
-                    </xsl:if>
-                    <xsl:if test="index/remove">
-                        <xsl:call-template name="showindexheader">
-                            <xsl:with-param name="method" select="'remove'"/>
-                        </xsl:call-template>
-                        <xsl:for-each select="index/remove">
-                            <xsl:call-template name="showindex">
-                                <xsl:with-param name="table"><xsl:value-of select="$tablename"/></xsl:with-param>
-                                <xsl:with-param name="method"><xsl:value-of select="'remove'"/></xsl:with-param>
+                            <xsl:for-each select="remove/field">
+                                <xsl:call-template name="showfield">
+                                    <xsl:with-param name="table"><xsl:value-of select="$tablename"/></xsl:with-param>
+                                    <xsl:with-param name="method"><xsl:value-of select="'remove'"/></xsl:with-param>
+                                </xsl:call-template>
+                            </xsl:for-each>
+                        </xsl:if>
+                        <xsl:if test="index/remove">
+                            <xsl:call-template name="showindexheader">
+                                <xsl:with-param name="method" select="'remove'"/>
                             </xsl:call-template>
-                        </xsl:for-each>
-                    </xsl:if>
-                </xsl:for-each>
-            </TABLE>
+                            <xsl:for-each select="index/remove">
+                                <xsl:call-template name="showindex">
+                                    <xsl:with-param name="table"><xsl:value-of select="$tablename"/></xsl:with-param>
+                                    <xsl:with-param name="method"><xsl:value-of select="'remove'"/></xsl:with-param>
+                                </xsl:call-template>
+                            </xsl:for-each>
+                        </xsl:if>
+                    </xsl:for-each>
+                </TABLE>
+            </div>
         </xsl:if>
     </xsl:if>
     <!-- -->
@@ -417,7 +407,7 @@
     <xsl:variable name="form_name"><xsl:text>frm_</xsl:text><xsl:value-of select="$value"/></xsl:variable>
 
     <span id="was_edit_field_{$fieldname}" style="display:inline;">
-        <form id="{$form_name}" method="POST" action="archive.php">
+        <form id="{$form_name}" method="POST" action="oxSchema-changes.php">
 
             <span class="titlemini" id="fld_old_{$fieldname}" name="fld_old_name" style="cursor: pointer;display:inline;" ondblclick="xajax_editFieldProperty(xajax.getFormValues('{$form_name}'),'{$table}','{$field}');" ><xsl:value-of select="$value"/></span>
 
@@ -444,7 +434,7 @@
     <xsl:variable name="value"><xsl:value-of select="was"/></xsl:variable>
     <xsl:variable name="form_name"><xsl:text>frm_</xsl:text><xsl:value-of select="$value"/></xsl:variable>
 
-    <form id="{$form_name}" method="POST" action="archive.php">
+    <form id="{$form_name}" method="POST" action="oxSchema-changes.php">
 
         <span class="titlemini" id="tbl_old_{$fieldname}" name="tbl_old_name" style="cursor: pointer;display:inline;" ondblclick="xajax_editTableProperty(xajax.getFormValues('{$form_name}'),'{$table}');" ><xsl:value-of select="$value"/></span>
 
@@ -455,7 +445,7 @@
         <input type="submit" id="btn_table_exit_{$fieldname}" name="btn_exit_name" onclick="xajax_exitTableProperty(xajax.getFormValues('{$form_name}'),'{$table}');" style="display:none" value="exit"/>
 
         <input type="hidden" name="tbl_old_name" value="{$field}"/>
-        <!--input type="hidden" name="table_name" value="{$table}"/-->
+        <input type="hidden" name="table_name" value="{$table}"/>
 
     </form>
 </xsl:template>

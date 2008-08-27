@@ -93,6 +93,7 @@ else if (array_key_exists('btn_compare_schemas', $_REQUEST))
     setcookie('changesetFile', '');
     if ($oSchema->createChangeset($oSchema->changes_trans, $_POST['comments']))
     {
+        setcookie('changesetFile', $oSchema->changes_trans);
         header('Pragma: no-cache');
         header('Cache-Control: private, max-age=0, no-cache');
         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
