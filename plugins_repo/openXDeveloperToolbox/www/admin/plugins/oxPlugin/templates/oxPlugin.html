@@ -24,6 +24,17 @@
 $Id$
 -->*}
 
+
+{if $aMessages}
+    <div class="infomessage" style="margin-bottom: 10px">
+        {foreach from=$aMessages key=idx item=message}
+            {$message}
+            <br />
+        {/foreach}
+    </div>
+{/if}
+
+
 {*oxToolBoxForm form*}
 {include file=$oaTemplateDir|cat:'form/form.html' form=$form}
 

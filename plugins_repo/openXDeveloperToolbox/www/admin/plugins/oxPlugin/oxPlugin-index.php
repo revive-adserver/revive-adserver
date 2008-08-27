@@ -62,14 +62,14 @@ $aValues['version']       = ($version     ? $version     : $aVersion);
 $form = buildForm();
 if ($form->validate())
 {
-    processForm($form, $aValues);
+    $aMessages = processForm($form, $aValues);
 }
 else
 {
     $form->setDefaults($aValues);
 }
 
-displayPage($form);
+displayPage($form, $aMessages);
 
 function &buildForm()
 {
@@ -105,16 +105,16 @@ function &buildForm()
     }
     $form->addElement('controls', 'form-controls');
     $form->addElement('submit'  , 'submit', 'Submit');
-
     return $form;
 }
 
-function displayPage($form)
+function displayPage($form, $aMessages = '')
 {
     phpAds_PageHeader('devtools-plugins','','../../');
 
     $oTpl = new OA_Plugin_Template('oxPlugin.html', 'oxPlugin');
     //$oTpl->debugging = true;
+    $oTpl->assign('aMessages', $aMessages);
     $oTpl->assign('form', $form->serialize());
 
     $oTpl->display();
@@ -184,6 +184,8 @@ function processForm(&$form, $aPluginValues)
     $oBuilder = new OX_PluginBuilder_Package();
     $oBuilder->init($aPluginValues);
     $oBuilder->putPlugin();
+    $aMessages[] = $aPluginValues['name'].' created in '.$pathPlugin;
+    return $aMessages;
 }
 
 ?>
