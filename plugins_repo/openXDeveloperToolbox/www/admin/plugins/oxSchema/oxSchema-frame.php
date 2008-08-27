@@ -31,7 +31,6 @@
  */
 
 require_once '../../../../init.php';
-require_once 'lib/oxAjax.inc.php';
 
 if (array_key_exists('btn_changeset_archive', $_POST))
 {
@@ -75,6 +74,8 @@ require_once 'lib/oxSchema.inc.php';
 global $oSchema;
 $oSchema = & new openXSchemaEditor($schemaFile, '', $schemaPath);
 
+require_once 'lib/oxAjax.inc.php';
+
 if (array_key_exists('btn_copy_final', $_POST))
 {
     $oSchema->createTransitional();
@@ -87,11 +88,14 @@ else if (array_key_exists('btn_delete_trans', $_POST))
 {
     $oSchema->deleteTransitional();
 }
-else if (array_key_exists('btn_compare_schemas', $_POST))
+else if (array_key_exists('btn_compare_schemas', $_REQUEST))
 {
     setcookie('changesetFile', '');
     if ($oSchema->createChangeset($oSchema->changes_trans, $_POST['comments']))
     {
+        header('Pragma: no-cache');
+        header('Cache-Control: private, max-age=0, no-cache');
+        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
         header('Content-Type: application/xhtml+xml; charset=ISO-8859-1');
         readfile($oSchema->changes_trans);
         exit();
@@ -105,19 +109,6 @@ else if (array_key_exists('btn_commit_final', $_POST))
 {
     $oSchema->commitFinal($_POST['comments'], $_POST['version']);
 }
-/*else if (array_key_exists('btn_generate_dbo_final', $_POST))
-{
-    $oSchema->setWorkingFiles();
-    $oSchema->parseWorkingDefinitionFile();
-    $oSchema->_generateDataObjects($oSchema->changes_final,$oSchema->_getBasename());
-}
-else if (array_key_exists('btn_generate_dbo_trans', $_POST))
-{
-    $oSchema->setWorkingFiles();
-    $oSchema->parseWorkingDefinitionFile();
-    $oSchema->_generateDataObjects($oSchema->changes_trans,$oSchema->_getBasename());
-}*/
-
 
 $oSchema->setWorkingFiles();
 
@@ -193,14 +184,14 @@ if (array_key_exists('table_edit', $_POST) && $_POST['table_edit'])
     {
         $table = '';
     }
-    else if (array_key_exists('btn_table_new', $_POST) && $_POST['new_table_name'])
+}
+else if (array_key_exists('btn_table_new', $_POST) && $_POST['new_table_name'])
+{
+    if (array_key_exists('new_table_name', $_POST))
     {
-        if (array_key_exists('new_table_name', $_POST))
-        {
-            $table = $_POST['new_table_name'];
-            $oSchema->tableNew($table);
-            unset($table);
-        }
+        $table = $_POST['new_table_name'];
+        $oSchema->tableNew($table);
+        unset($table);
     }
 }
 else if (array_key_exists('btn_table_edit', $_POST))

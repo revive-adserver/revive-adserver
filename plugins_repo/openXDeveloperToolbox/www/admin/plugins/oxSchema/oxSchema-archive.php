@@ -30,7 +30,6 @@
 *
 */
 require_once '../../../../init.php';
-require_once 'lib/oxAjax.inc.php';
 
 function getLastChangeset()
 {
@@ -213,6 +212,8 @@ else
         $file = MAX_CHG.$file;
     }
 }
+
+require_once 'lib/oxAjax.inc.php';
 
 if ($file && file_exists($file))
 {

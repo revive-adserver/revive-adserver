@@ -31,36 +31,34 @@
             </xsl:otherwise>
         </xsl:choose>
     </div>
-    <!--span class="titlemini"><xsl:value-of select="//database/comments"/></span-->
-    <!--form name="frm_admin" method="POST" action="oxSchema-frame.php"-->
-        <TABLE class="tablemain">
-        <tr>
-            <td class="tableheader">
-                <xsl:variable name="status" select="//database/status"></xsl:variable>
-                <xsl:call-template name="showdropdown"/>
-                <form name="frm_admin" method="POST" action="oxSchema-frame.php">
-                    <xsl:call-template name="showadminmenu"/>
-                    <xsl:if test="$status='final'">
-                        <xsl:call-template name="showadminmenufinal"/>
-                    </xsl:if>
-                    <xsl:if test="$status='transitional'">
-                        <xsl:call-template name="showadminmenutrans"/>
-                    </xsl:if>
-                </form>
-            </td>
-        </tr>
-        <tr>
-            <td class="tableheader">
-                <xsl:variable name="status" select="//database/status"></xsl:variable>
-                <xsl:choose>
-                    <xsl:when test="$status='transitional'">
-                        <xsl:call-template name="showchangesetcomments"/>
-                    </xsl:when>
-                </xsl:choose>
-            </td>
-        </tr>
-        </TABLE>
-    <!--/form-->
+    <TABLE class="tablemain">
+    <tr>
+        <td class="tableheader">
+            <xsl:variable name="status" select="//database/status"></xsl:variable>
+            <xsl:call-template name="showdropdown"/>
+            <form name="frm_admin" method="POST" action="oxSchema-frame.php">
+                <xsl:call-template name="showadminmenu"/>
+                <xsl:if test="$status='final'">
+                    <xsl:call-template name="showadminmenufinal"/>
+                </xsl:if>
+            </form>
+                <xsl:if test="$status='transitional'">
+                    <!--xsl:call-template name="showadminmenutrans"/-->
+                    <a href="oxSchema-frame.php?btn_compare_schemas=asfhdksjdhf" target="_blank">inspect the changeset</a>
+                </xsl:if>
+        </td>
+    </tr>
+    <tr>
+        <td class="tableheader">
+            <xsl:variable name="status" select="//database/status"></xsl:variable>
+            <xsl:choose>
+                <xsl:when test="$status='transitional'">
+                    <xsl:call-template name="showchangesetcomments"/>
+                </xsl:when>
+            </xsl:choose>
+        </td>
+    </tr>
+    </TABLE>
     <TABLE class="tablemain">
     <tr>
         <td class="tableheader" style="text-align:left;">
@@ -137,7 +135,6 @@
             <td class="tableheader"><xsl:text>autoincrement</xsl:text></td>
             <td class="tableheader"><xsl:text>unsigned</xsl:text></td>
             <td class="tableheader"><xsl:text>notnull</xsl:text></td>
-            <td class="tableheader"><xsl:text>comments</xsl:text></td>
         </tr>
         <xsl:for-each select="descendant::declaration/field">
             <xsl:call-template name="showfield"/>
@@ -194,7 +191,6 @@
         <td class="tablebody"><span class="textmini"><xsl:value-of select="autoincrement"/></span></td>
         <td class="tablebody"><span class="textmini"><xsl:value-of select="unsigned"/></span></td>
         <td class="tablebody"><span class="textmini"><xsl:value-of select="notnull"/></span></td>
-        <td class="tablebody"><span class="textmini"><xsl:value-of select="comments"/></span></td>
     </tr>
 </xsl:template>
 
@@ -236,7 +232,7 @@
 </xsl:template>
 
 <xsl:template name="showtableadd">
-    <form id="frm_schema_add" method="POST" action="oxSchema-frame.php">
+    <form id="frm_table_add" method="POST" action="oxSchema-frame.php">
         <button name="btn_table_new" type="submit">new table</button>
         <xsl:text>   </xsl:text><input type="text" name="new_table_name"/>
     </form>
