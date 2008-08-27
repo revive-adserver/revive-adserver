@@ -866,7 +866,6 @@ function processCampaignForm($form)
         $group = 'campaign_' . $aFields ['campaignid'];
         $cache->clean ( $group );
 
-        $oUI = OA_Admin_UI::getInstance();
         OX_Admin_Redirect::redirect ( "campaign-zone.php?clientid=" . $aFields ['clientid'] . "&campaignid=" . $aFields ['campaignid'] );
     }
 
