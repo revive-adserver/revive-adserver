@@ -45,7 +45,7 @@ System Requirements
 -------------------
 
 Before installing, please make sure your server meets the system
-requirements [http://www.openx.org/docs/${RELEASE_MAJOR_MINOR}/adminguide/system-requirements].
+requirements [http://www.openx.org/help/${RELEASE_MAJOR_MINOR}/requirements].
 
 
 Downloading and Installing
@@ -53,23 +53,23 @@ Downloading and Installing
 
  * Downloading OpenX
 
-   You can get the latest version of OpenX ${RELEASE_MAJOR_MINOR} here
+   You can always find the latest version of OpenX here
    [http://www.openx.org/download].
+
+   Older and maintenance releases can be found here
+   [http://www.openx.org/support/release-archive].
 
  * Installing OpenX ${RELEASE_VERSION}
 
-   Installing OpenX ${RELEASE_VERSION} is a straightforward process. Follow
-   these steps
-   [http://www.openx.org/docs/${RELEASE_MAJOR_MINOR}/adminguide/install-and-upgrade]
-   and use the links to refer to detailed information on each step where
-   necessary.
+   Installing OpenX ${RELEASE_VERSION} is a straightforward process. Follow these steps
+   [http://www.openx.org/help/${RELEASE_MAJOR_MINOR}/install] and use the links to refer to
+   detailed information on each step where necessary.
 
  * Upgrading OpenX ${RELEASE_VERSION}
 
-   Upgrading to OpenX ${RELEASE_VERSION} is a straightforward process. Follow
-   these steps [http://www.openx.org/docs/${RELEASE_MAJOR_MINOR}/adminguide/install-and-upgrade]
-   and use the links to refer to detailed information on each step where
-   necessary.
+   Upgrading to OpenX ${RELEASE_VERSION} is a straightforward process. Follow these steps
+   [http://www.openx.org/help/${RELEASE_MAJOR_MINOR}/install] and use the links to refer to
+   detailed information on each step where necessary.
 
    Please note: The upgrade process will upgrade your OpenX database,
    and the database may no longer be compatible with your old code base.
@@ -80,6 +80,10 @@ Downloading and Installing
 
    ---------------------------------------------------------------
    | Product                             | Version(s)            |
+   ---------------------------------------------------------------
+   | OpenX 2.8                           | All previous versions |
+   ---------------------------------------------------------------
+   | OpenX 2.6                           | All versions          |
    ---------------------------------------------------------------
    | OpenX 2.4                           | All versions          |
    ---------------------------------------------------------------
@@ -115,31 +119,37 @@ Known Issues
 This list covers some of the known problems with OpenX ${RELEASE_VERSION}. Please
 read this before reporting any new bugs.
 
- * OpenX ${RELEASE_VERSION} does NOT work with MySQL 3.x. If you are running
-   Openads 2.0 on this very old version of MySQL, do NOT attempt to upgrade,
-   as your installation will no longer work correctly.
+ * The upgrade process may time out with very large databases. See the FAQ
+   [http://www.openx.org/help/${RELEASE_MAJOR_MINOR}/faq/large-db] for more information if you
+   have a large database.
 
- * The recovery process will not work when MySQL is configured to use
-   case-insensitive table names. For this reason, installation and upgrade
-   is currently prevented when MySQL is configured this way.
+ * Geotargeting based on a city name with non-latin character (e.g. Köln)
+   will result in no banner being delivered. See
+   [https://developer.openx.org/jira/browse/OX-3866].
 
-   If your version of MySQL has "lower_case_table_name != 0", please see
-   [https://developer.openx.org/ticket/901] for more information.
+ * PostgreSQL socket-based connections are not supported in this release,
+   please use TCP/IP based connections instead. See
+   [https://developer.openx.org/jira/browse/OX-3587].
+
+ * OpenX ${RELEASE_VERSION} does NOT work with MySQL 3.x or MySQL 4.0. If you
+   are running Openads 2.0 on one of these very old version of MySQL, do NOT
+   attempt to upgrade, as your installation will no longer work correctly.
+
+ * OpenX ${RELEASE_VERSION} does NOT work with PostgreSQL 8.0 or earlier. If you are
+   running Openads 2.0 for PostgreSQL on this very old version of
+   PostgreSQL, do NOT attempt to upgrade, as your installation will no
+   longer work correctly.
 
  * Some of the PEAR libraries used are not compatible with database prefix
    names with double "_" characters (e.g. "oa__"). You should NOT install
    OpenX with a prefix of this format.
 
- * The upgrade process may time out with very large databases. See the FAQ
-   [http://www.openx.org/support/faq.html] for more information if you have
-   a large database.
-
  * Some users have reported issues of being logged out when viewing
    statistics. This can be worked around by ensuring that the timezone is
    correctly set in PHP
-   [http://www.openx.org/docs/${RELEASE_MAJOR_MINOR}/adminguide/settings].
+   [http://www.openx.org/help/${RELEASE_MAJOR_MINOR}/timezone-settings].
 
- * See [https://developer.openx.org/] for the latest bug reports.
+ * See [https://developer.openx.org/jira/] for the latest bug reports.
 
 
 FAQ
@@ -147,10 +157,10 @@ FAQ
 
  1. What can I do to help?
 
-    We need help from both developers and users to provide as much feedback as
-    possible to make OpenX even better. Please read these notes on how to
-    report a bug [https://developer.openx.org/wiki/ReportingBugs]
-    before reporting any bugs. You can also give us your feedback through the
+    We need help from both developers and users to provide as much feedback
+    as possible to make OpenX even better. Please read these notes on how to
+    report a bug [http://www.openx.org/help/${RELEASE_MAJOR_MINOR}/reporting-bugs] before
+    reporting any bugs. You can also give us your feedback through the
     OpenX forum [http://forum.openx.org/].
 
  2. Can I upgrade from phpAdsNew?
@@ -166,7 +176,9 @@ FAQ
 
  4. Does OpenX ${RELEASE_VERSION} support PostgreSQL?
 
-    Yes.
+    Yes, OpenX ${RELEASE_MAJOR_MINOR} reintroduces support for PostgreSQL, although it is still
+    experimental support. Please help us improve it by reporting bugs
+    [http://www.openx.org/help/${RELEASE_MAJOR_MINOR}/reporting-bugs].
 
  5. Where do I go for support?
 
