@@ -234,7 +234,9 @@ class OA_Admin_Option
         $oCache = new OA_Cache('Plugins', 'PrefOptions');
         $oCache->setFileNameProtection(false);
         $aPrefOptions = $oCache->load(true);
-        $aSections = array_merge($aSections, $aPrefOptions);
+        if (!empty($aPrefOptions)) {
+            $aSections = array_merge($aSections, $aPrefOptions);
+        }
     }
 
     /**
